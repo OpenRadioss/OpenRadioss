@@ -27,12 +27,16 @@ Chd|        S16FORC3                      source/elements/thickshell/solide16/s1
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S20FINT3(NPE,SIG, PX, PY, PZ,SSP_EQ,
-     2                    FX,FY,FZ,VOL,QVIS,STIG,STIN,
-     3                    EINT,RHO,Q,EPLAS,EPSD,EPSDG,
-     4                    SIGG,EINTG,RHOG,QG,EPLASG,WI,VOLG,
-     5                    VOL0,VOL0G,G_PLA,NEL,CONDE,
-     6                    DELTAX,CONDEG)
+      SUBROUTINE S20FINT3(
+     1   NPE,     SIG,     PX,      PY,
+     2   PZ,      SSP_EQ,  FX,      FY,
+     3   FZ,      VOL,     QVIS,    STIG,
+     4   STIN,    EINT,    RHO,     Q,
+     5   EPLAS,   EPSD,    EPSDG,   SIGG,
+     6   EINTG,   RHOG,    QG,      EPLASG,
+     7   WI,      VOLG,    VOL0,    VOL0G,
+     8   G_PLA,   NEL,     CONDE,   DELTAX,
+     9   CONDEG,  ISRAT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,6 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISRAT
       INTEGER NPE,G_PLA,NEL
       my_real
      .  PX(MVSIZ,*),PY(MVSIZ,*),PZ(MVSIZ,*),SSP_EQ(*),
@@ -55,7 +60,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------

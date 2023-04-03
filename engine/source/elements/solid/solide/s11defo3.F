@@ -28,9 +28,13 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE S11DEFO3(PM,V,VEUL,X,IXS,ALE_CONNECT,
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .   WXX, WYY, WZZ,BUFMAT)
+      SUBROUTINE S11DEFO3(
+     1   PM,         V,          VEUL,       X,
+     2   IXS,        ALE_CONNECT,DXX,        DXY,
+     3   DXZ,        DYX,        DYY,        DYZ,
+     4   DZX,        DZY,        DZZ,        D4,
+     5   D5,         D6,         WXX,        WYY,
+     6   WZZ,        BUFMAT,     NEL,        NFT)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,10 +45,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
       INTEGER IXS(NIXS,*)
       my_real
      .   V(3,*), VEUL(LVEUL,*),X(3,*),PM(NPROPM,*),
@@ -78,7 +83,7 @@ C-----------------------------------------------
      . DETT
 C-----------------------------------------------
       DT1D2=HALF*DT1
-      DO I=LFT,LLT
+      DO I=1,NEL
        II=I+NFT
 c
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)

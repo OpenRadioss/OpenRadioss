@@ -26,7 +26,9 @@ Chd|-- called by -----------
 Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QROTA_GROUP(X, IXQ, KCVT, TENS, GAMA, NEL)
+      SUBROUTINE QROTA_GROUP(
+     1   X,       IXQ,     KCVT,    TENS,
+     2   GAMA,    NEL,     ISORTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -38,10 +40,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISORTH
 C     REAL
       my_real
      .   X(3,*),TENS(6,*),GAMA(6,*)

@@ -480,7 +480,7 @@ C           conditions multiples => la derniere condition rencontree impose ..
      .                  +WA(KK+1)*V(2,INOD)
      .                  +WA(KK+2)*V(3,INOD)
             NG=MOD(KXSP(2,N),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                 
+            CALL INITBUF(IPARG    ,NG      ,                 
      2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -510,7 +510,7 @@ C           conditions multiples => la derniere condition rencontree impose ..
      .                  +WA(KK+1)*V(2,INOD)
      .                  +WA(KK+2)*V(3,INOD)
             NG=MOD(KXSP(2,N),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                 
+            CALL INITBUF(IPARG    ,NG      ,                 
      2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -685,7 +685,7 @@ c            IN2B=IBUFSSG(IAD+1)
               XDP(3,INOD)=ZG
             END IF
             NG=MOD(ABS(KXSP(2,N)),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                 
+            CALL INITBUF(IPARG    ,NG      ,                 
      2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  

@@ -26,13 +26,17 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M17LAW(PM  ,OFF  ,SIG   ,EINT ,RHO,
-     2                  RK  ,RE   ,VORTI ,WXX  ,WYY,
-     3                  WZZ ,VOLN ,MAT   ,VIS  ,D1 ,
-     4                  D2  ,D3   ,D4    ,D5   ,D6 ,
-     5                  NEL ,ALOGEY, SSP, RHO0, TMU,
-     6                  AMU, AMU2, PSH, PC, ESPE,
-     7                  C1, C2, C3, C4, C5, C6, DF, DPDM)
+      SUBROUTINE M17LAW(
+     1   PM,      OFF,     SIG,     EINT,
+     2   RHO,     RK,      RE,      VORTI,
+     3   WXX,     WYY,     WZZ,     VOLN,
+     4   MAT,     VIS,     D1,      D2,
+     5   D3,      D4,      D5,      D6,
+     6   NEL,     ALOGEY,  SSP,     RHO0,
+     7   TMU,     AMU,     AMU2,    PSH,
+     8   PC,      ESPE,    C1,      C2,
+     9   C3,      C4,      C5,      C6,
+     A   DF,      DPDM,    JPOR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,12 +50,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JPOR
       INTEGER MAT(*),NEL
       my_real
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), RK(*), RE(*),

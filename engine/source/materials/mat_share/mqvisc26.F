@@ -26,12 +26,16 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MQVISC26(PM,OFF    ,RHO   ,RK    ,T      ,SSP   ,
-     2             RE      ,STI     ,DT2T  ,NELTST,ITYPTST,AIRE  ,
-     3             OFFG    ,GEO     ,PID   ,
-     4             VOL     ,VD2     ,DELTAX,VIS   ,  
-     5             D1      ,D2      ,D3    ,PNEW  ,PSH    ,MAT   ,
-     6             NGL     ,QVIS    ,SSP_EQ,XK    )
+      SUBROUTINE MQVISC26(
+     1   PM,      OFF,     RHO,     RK,
+     2   T,       SSP,     RE,      STI,
+     3   DT2T,    NELTST,  ITYPTST, AIRE,
+     4   OFFG,    GEO,     PID,     VOL,
+     5   VD2,     DELTAX,  VIS,     D1,
+     6   D2,      D3,      PNEW,    PSH,
+     7   MAT,     NGL,     QVIS,    SSP_EQ,
+     8   XK,      NEL,     ITY,     ISMSTR,
+     9   JTUR,    JTHE)
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,7 +48,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
@@ -59,6 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER NELTST,ITYPTST,PID(*),MAT(*), NGL(*)
       my_real  DT2T
       my_real
@@ -82,7 +90,7 @@ C     REAL
      .   TIDT,TVOL,TRHO,TAIRE
 C=======================================================================
       IF(IMPL == 0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
          DD(I)=-D1(I)-D2(I)-D3(I)
          AD(I)=ZERO
          AL(I)=ZERO
@@ -96,7 +104,7 @@ C=======================================================================
        FACQ=ONE
        ENDIF
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          DD(I)=-D1(I)-D2(I)-D3(I)
          AD(I)=ZERO
          AL(I)=ZERO
@@ -107,14 +115,14 @@ C=======================================================================
       ENDIF
 C
       IF(N2D>0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(OFF(I)==1.)THEN
            AL(I)=SQRT(AIRE(I))
            AD(I)= MAX(ZERO,DD(I))
          ENDIF
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(OFF(I)==1.)THEN
            AL(I)=VOL(I)**THIRD
            AD(I)= MAX(ZERO,DD(I))
@@ -123,12 +131,12 @@ C
       ENDIF
 C
       IF(INVSTR>=35)THEN
-        MT  = MAT(LFT)
-        MX = PID(LFT)
+        MT  = MAT(1)
+        MX = PID(1)
         QA =FACQ*GEO(14,MX)
         QB =FACQ*GEO(15,MX)
         CNS1=GEO(16,MX)
-        DO I=LFT,LLT
+        DO I=1,NEL
           CNS2=GEO(17,MX)*SSP(I)*AL(I)*RHO(I)
           PSH(I)=PM(88,MT)
           PNEW(I)=0.
@@ -138,11 +146,11 @@ C
           QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
         ENDDO
       ELSE
-        MT  = MAT(LFT)
+        MT  = MAT(1)
         QA =FACQ*PM(2,MT)
         QB =FACQ*PM(3,MT)
         CNS1=PM(93,MT)
-        DO I=LFT,LLT
+        DO I=1,NEL
           CNS2=PM(94,MT)*SSP(I)*AL(I)*RHO(I)
           PSH(I)=PM(88,MT)
           PNEW(I)=0.
@@ -154,20 +162,20 @@ C
       ENDIF
 C
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SSP_EQ(I) = MAX(EM20,QX(I)+SQRT(QX(I)*QX(I)+CX(I)*CX(I)))
         DTX(I) = DELTAX(I) / SSP_EQ(I)
       ENDDO
 C
       IF(JTHE==1)THEN
-        MT  = MAT(LFT)
+        MT  = MAT(1)
         SPH = PM(69,MT)
         AK1 = PM(75,MT)
         BK1 = PM(76,MT)
         AK2 = PM(77,MT)
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(T(I)<TLI)THEN
           AKK=AK1+BK1*T(I)
          ELSE
@@ -185,7 +193,7 @@ C
         ENDDO
       ENDIF
 C
-      DO 60 I=LFT,LLT
+      DO 60 I=1,NEL
        STI(I) = ZERO
       IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 60
       IF(N2D==0) THEN
@@ -204,7 +212,7 @@ C
   60  CONTINUE
 C
       IF(IDTMIN(ITY)==1)THEN
-        DO 70 I=LFT,LLT
+        DO 70 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
      .        OR.OFFG(I)<ZERO) GO TO 70
           TSTOP = TT
@@ -216,7 +224,7 @@ C
 #include "lockoff.inc"
    70   CONTINUE
       ELSEIF(IDTMIN(ITY)==2)THEN
-        DO 75 I=LFT,LLT
+        DO 75 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
      .    OR.OFFG(I)<ZERO) GO TO 75
           OFF(I) = 0.0
@@ -229,7 +237,7 @@ C
          IDEL7NOK = 1
    75   CONTINUE
       ELSEIF(IDTMIN(ITY)==3.AND.ISMSTR==2)THEN
-        DO 76 I=LFT,LLT
+        DO 76 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.
      .      OFF(I)<ONE.OR.OFFG(I)==TWO) GO TO 76
           OFFG(I) = TWO
@@ -241,7 +249,7 @@ C
 #include "lockoff.inc"
    76   CONTINUE
       ELSEIF(IDTMIN(ITY)==5)THEN
-        DO 570 I=LFT,LLT
+        DO 570 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
      .      OR.OFFG(I)<ZERO) GO TO 570
           MSTOP = 2
@@ -255,7 +263,7 @@ C
       ENDIF
 C
       IF(NODADT==0)THEN
-       DO 80 I=LFT,LLT
+       DO 80 I=1,NEL
         IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO)GOTO 80 
         DT2T    = DTX(I)
         NELTST =NGL(I)

@@ -30,18 +30,22 @@ Chd|        M14AMA                        source/materials/mat/mat014/m14ama.F
 Chd|        M14FTG                        source/materials/mat/mat014/m14ftg.F
 Chd|        M14GTF                        source/materials/mat/mat014/m14gtf.F
 Chd|====================================================================
-      SUBROUTINE M12LAW (PM   ,OFF  ,SIG   ,EINT ,PLA  ,
-     2                   SIGF ,EPSF ,DAM   ,EPE  ,EPC  ,
-     3                   A    ,VOL  ,RX    ,RY   ,RZ   ,
-     4                   SX   ,SY   ,SZ    ,MAT  ,VNEW ,
-     5                   DVOL ,SSP  ,D1    ,D2   ,D3   , 
-     6                   D4   ,D5   ,D6    ,SOLD1,SOLD2,
-     7                   SOLD3,SOLD4,SOLD5 ,SOLD6,SIGY ,
-     8                   DEFP ,NGL  ,SEQ_OUTPUT  ,NEL  ,EOSTYP,
-     9                   RHO0 ,AMU  ,AMU2  ,ESPE ,DF   ,
-     A                   PSH  ,PNEW ,DPDM  ,DPDE ,RHO  ,
-     B                   TEMP ,ECOLD,BUFMAT,NPC  ,TF   ,
-     C                   TSAIWU, VAREOS,NVAREOS)
+      SUBROUTINE M12LAW(
+     1   PM,        OFF,       SIG,       EINT,
+     2   PLA,       SIGF,      EPSF,      DAM,
+     3   EPE,       EPC,       A,         VOL,
+     4   RX,        RY,        RZ,        SX,
+     5   SY,        SZ,        MAT,       VNEW,
+     6   DVOL,      SSP,       D1,        D2,
+     7   D3,        D4,        D5,        D6,
+     8   SOLD1,     SOLD2,     SOLD3,     SOLD4,
+     9   SOLD5,     SOLD6,     SIGY,      DEFP,
+     A   NGL,       SEQ_OUTPUT,NEL,       EOSTYP,
+     B   RHO0,      AMU,       AMU2,      ESPE,
+     C   DF,        PSH,       PNEW,      DPDM,
+     D   DPDE,      RHO,       TEMP,      ECOLD,
+     E   BUFMAT,    NPC,       TF,        TSAIWU,
+     F   VAREOS,    NVAREOS,   JCVT,      JSPH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: JSPH
       INTEGER MAT(MVSIZ),NGL(MVSIZ),NEL,EOSTYP
       INTEGER,INTENT(IN) :: NVAREOS
       my_real
@@ -157,9 +163,12 @@ C
 C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
 C--------------------------------------------
-        CALL M14AMA(PM, A,  RX, RY, RZ, SX, 
-     2              SY, SZ, AX, AY, AZ, BX,
-     3              BY, BZ, CX, CY, CZ)
+        CALL M14AMA(
+     1   PM,      A,       RX,      RY,
+     2   RZ,      SX,      SY,      SZ,
+     3   AX,      AY,      AZ,      BX,
+     4   BY,      BZ,      CX,      CY,
+     5   CZ,      NEL,     JCVT,    JSPH)
         CALL M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,  
      2              BZ ,CX ,CY ,CZ ,D1 ,D2,
      3              D3 ,D4 ,D5 ,D6 ,T1 ,T2,

@@ -101,7 +101,7 @@ C---
 C
             OFFSET = NELEM - 1
 C
-           CALL INITBUF (IPARG    ,NG      ,
+           CALL INITBUF(IPARG    ,NG      ,
      2        MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
@@ -118,14 +118,16 @@ C
             LLT=MIN(NVSIZ,NEL-NELEM+1)
 C           Multi-purpose element Groups are constituted,
 C           but Multi-purpose element is not supposed to be vectorized ..
-             CALL XFORC3(NFT,NEL ,GEO    ,PM     ,ITAB  ,
-     2                   KXX    ,IXX  ,X     ,V      ,VR    ,
-     3                   A      ,AR   ,ELBUF(IAD),NPC    ,TF    ,
-     4                   SKEW   ,DT2T   ,NELTST ,ITYPTST ,
-     5                   STIFN  ,STIFR ,MS      ,IN     ,
-     6                   FSKYI ,ISKY   ,PARTSAV,IPARTX,
-     7                   BUFMAT ,BUFGEO ,
-     8                   GRESAV ,GRTH  ,IGRTH,ELBUF_TAB(NG))
+             CALL XFORC3(
+     1   NFT,          NEL,          GEO,          PM,
+     2   ITAB,         KXX,          IXX,          X,
+     3   V,            VR,           A,            AR,
+     4   ELBUF(IAD),   NPC,          TF,           SKEW,
+     5   DT2T,         NELTST,       ITYPTST,      STIFN,
+     6   STIFR,        MS,           IN,           FSKYI,
+     7   ISKY,         PARTSAV,      IPARTX,       BUFMAT,
+     8   BUFGEO,       GRESAV,       GRTH,         IGRTH,
+     9   ELBUF_TAB(NG),IGRE)
             IF (IDDW>0) CALL STOPTIMEG(NG)
          END DO
  240  CONTINUE

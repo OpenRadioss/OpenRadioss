@@ -378,12 +378,18 @@ C=======================================================================
       ENDDO
 !
       CALL S20COOR3(
-     1   X,IXS(1,NF1),IXS16(1,NF2),V,W, IPERM1,IPERM2,NPE,
-     2   XX, YY, ZZ, VX, VY, VZ,VDXX, VDYY, VDZZ, 
-     3   VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,
-     4   NC,NGL,MXT,NGEO,   FX,FY,FZ,STIG,
-     5   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
-     6   GBUF%EPSD,GBUF%G_PLA,GBUF%G_EPSD,NEL,CONDEG)
+     1   X,           IXS(1,NF1),  IXS16(1,NF2),V,
+     2   W,           IPERM1,      IPERM2,      NPE,
+     3   XX,          YY,          ZZ,          VX,
+     4   VY,          VZ,          VDXX,        VDYY,
+     5   VDZZ,        VDX,         VDY,         VDZ,
+     6   VD2,         VIS,         GBUF%OFF,    OFF,
+     7   GBUF%SMSTR,  NC,          NGL,         MXT,
+     8   NGEO,        FX,          FY,          FZ,
+     9   STIG,        GBUF%SIG,    GBUF%EINT,   GBUF%RHO,
+     A   GBUF%QVIS,   GBUF%PLA,    GBUF%EPSD,   GBUF%G_PLA,
+     B   GBUF%G_EPSD, NEL,         CONDEG,      JALE,
+     C   ISMSTR,      JEUL,        JLAG)
 
       DO N=1,NPE
         DO I=1,NEL
@@ -524,9 +530,11 @@ C
      2               FLUX(1,NF1), FLU1(NF1) ,VOLN     ,DVOL     , NGL, MXT, OFF,
      3               0          , GBUF%TAG22,VOLDP(1,IP),LBUF%VOL0DP,AMU  ,GBUF%OFF )
      
-         CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
-     .               S5      ,S6   ,WXX  ,WYY  ,WZZ,
-     .               NEL     )
+         CALL SROTA3(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
       !-----------------------------
       !     SMALL STRAIN
       !-----------------------------
@@ -583,11 +591,15 @@ c
 C
          L_PLA  = ELBUF_TAB(NG)%BUFLY(IL)%L_PLA
          CALL S20FINT3(
-     1    NPE,LBUF%SIG,PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),SSP_EQ,
-     2    FX,FY,FZ,VOLN,QVIS,STIG,STIN,
-     3    LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
-     4    GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,WI,VOLG,
-     5    LBUF%VOL,GBUF%VOL,L_PLA,NEL,CONDE,DELTAX,CONDEG)
+     1   NPE,       LBUF%SIG,  PX(1,1,IP),PY(1,1,IP),
+     2   PZ(1,1,IP),SSP_EQ,    FX,        FY,
+     3   FZ,        VOLN,      QVIS,      STIG,
+     4   STIN,      LBUF%EINT, LBUF%RHO,  LBUF%QVIS,
+     5   LBUF%PLA,  LBUF%EPSD, GBUF%EPSD, GBUF%SIG,
+     6   GBUF%EINT, GBUF%RHO,  GBUF%QVIS, GBUF%PLA,
+     7   WI,        VOLG,      LBUF%VOL,  GBUF%VOL,
+     8   L_PLA,     NEL,       CONDE,     DELTAX,
+     9   CONDEG,    ISRAT)
       !-------------------------
       !    finite element heat transfert  
       !--------------------------

@@ -33,21 +33,23 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE R23FORC3(ELBUF_STR,
-     1                  JFT      ,JLT      ,NEL      ,MTN     ,IGEO    ,
-     2                  GEO      ,IPM      ,IXR      ,X       ,TABLE   ,
-     3                  XDP      ,F        ,NPF     ,TF      ,SKEW    ,
-     4                  FLG_KJ2  ,VR       ,AR      ,V       ,DT2T    ,
-     5                  NELTST   ,ITYPTST  ,STIFN   ,STIFR   ,MS      ,
-     6                  IN       ,FSKY     ,IADR    ,SENSOR_TAB,
-     7                  OFFSET   ,ANIM     ,PARTSAV ,IPARTR  ,TANI    ,
-     8                  FR_WAVE  ,BUFMAT   ,BUFGEO  ,PM      ,RBY     ,
-     9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
-     A                  FZ2      ,MX1      ,MX2     ,MY1     ,MY2     ,
-     B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
-     C                  MSRT     ,DMELRT   ,
-     D                  FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     E                  H3D_DATA)
+      SUBROUTINE R23FORC3(
+     1   ELBUF_STR,            JFT,                  JLT,                  NEL,
+     2   MTN,                  IGEO,                 GEO,                  IPM,
+     3   IXR,                  X,                    TABLE,                XDP,
+     4   F,                    NPF,                  TF,                   SKEW,
+     5   FLG_KJ2,              VR,                   AR,                   V,
+     6   DT2T,                 NELTST,               ITYPTST,              STIFN,
+     7   STIFR,                MS,                   IN,                   FSKY,
+     8   IADR,                 SENSOR_TAB,           OFFSET,               ANIM,
+     9   PARTSAV,              IPARTR,               TANI,                 FR_WAVE,
+     A   BUFMAT,               BUFGEO,               PM,                   RBY,
+     B   FX1,                  FX2,                  FY1,                  FY2,
+     C   FZ1,                  FZ2,                  MX1,                  MX2,
+     D   MY1,                  MY2,                  MZ1,                  MZ2,
+     E   GRESAV,               GRTH,                 IGRTH,                MSRT,
+     F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
+     G   JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*),FLAG_SLIPRING_UPDATE,
@@ -98,53 +101,61 @@ C=======================================================================
 !
        IF(MTN  == 108) THEN
          ! Like type08 spring
-         CALL R23LAW108(ELBUF_STR,
-     1                  JFT      ,JLT      ,NEL      ,MTN     ,IGEO    ,
-     2                  GEO      ,IPM      ,IXR      ,X       ,TABLE   ,
-     3                  XDP      ,F        ,NPF     ,TF      ,SKEW    ,
-     4                  FLG_KJ2  ,VR       ,AR      ,V       ,DT2T    ,
-     5                  NELTST   ,ITYPTST  ,STIFN   ,STIFR   ,MS      ,
-     6                  IN       ,FSKY     ,IADR    ,SENSOR_TAB,
-     7                  OFFSET   ,ANIM     ,PARTSAV ,IPARTR  ,TANI    ,
-     8                  FR_WAVE  ,BUFMAT   ,BUFGEO  ,PM      ,RBY     ,
-     9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
-     A                  FZ2      ,MX1      ,MX2     ,MY1     ,MY2     ,
-     B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
-     C                  MSRT     ,DMELRT   , H3D_DATA)     
+         CALL R23LAW108(
+     1   ELBUF_STR, JFT,       JLT,       NEL,
+     2   MTN,       IGEO,      GEO,       IPM,
+     3   IXR,       X,         TABLE,     XDP,
+     4   F,         NPF,       TF,        SKEW,
+     5   FLG_KJ2,   VR,        AR,        V,
+     6   DT2T,      NELTST,    ITYPTST,   STIFN,
+     7   STIFR,     MS,        IN,        FSKY,
+     8   IADR,      SENSOR_TAB,OFFSET,    ANIM,
+     9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
+     A   BUFMAT,    BUFGEO,    PM,        RBY,
+     B   FX1,       FX2,       FY1,       FY2,
+     C   FZ1,       FZ2,       MX1,       MX2,
+     D   MY1,       MY2,       MZ1,       MZ2,
+     E   GRESAV,    GRTH,      IGRTH,     MSRT,
+     F   DMELRT,    H3D_DATA,  JSMS)
        
        ELSEIF(MTN == 113) THEN
          ! Like type13 spring
-         CALL R23LAW113(ELBUF_STR,
-     1                  JFT      ,JLT      ,NEL      ,MTN     ,IGEO    ,
-     2                  GEO      ,IPM      ,IXR      ,X       ,TABLE   ,
-     3                  XDP      ,F        ,NPF     ,TF      ,SKEW    ,
-     4                  FLG_KJ2  ,VR       ,AR      ,V       ,DT2T    ,
-     5                  NELTST   ,ITYPTST  ,STIFN   ,STIFR   ,MS      ,
-     6                  IN       ,FSKY     ,IADR    ,SENSOR_TAB,
-     7                  OFFSET   ,ANIM     ,PARTSAV ,IPARTR  ,TANI    ,
-     8                  FR_WAVE  ,BUFMAT   ,BUFGEO  ,PM      ,RBY     ,
-     9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
-     A                  FZ2      ,MX1      ,MX2     ,MY1     ,MY2     ,
-     B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
-     C                  MSRT     ,DMELRT   , H3D_DATA)
+         CALL R23LAW113(
+     1   ELBUF_STR, JFT,       JLT,       NEL,
+     2   MTN,       IGEO,      GEO,       IPM,
+     3   IXR,       X,         TABLE,     XDP,
+     4   F,         NPF,       TF,        SKEW,
+     5   FLG_KJ2,   VR,        AR,        V,
+     6   DT2T,      NELTST,    ITYPTST,   STIFN,
+     7   STIFR,     MS,        IN,        FSKY,
+     8   IADR,      SENSOR_TAB,OFFSET,    ANIM,
+     9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
+     A   BUFMAT,    BUFGEO,    PM,        RBY,
+     B   FX1,       FX2,       FY1,       FY2,
+     C   FZ1,       FZ2,       MX1,       MX2,
+     D   MY1,       MY2,       MZ1,       MZ2,
+     E   GRESAV,    GRTH,      IGRTH,     MSRT,
+     F   DMELRT,    H3D_DATA,  JSMS)
 
        ELSEIF(MTN == 114) THEN
          ! seatbelt_element
-         CALL R23LAW114(ELBUF_STR,
-     1                  JFT      ,JLT      ,NEL      ,MTN     ,IGEO    ,
-     2                  GEO      ,IPM      ,IXR      ,X       ,TABLE   ,
-     3                  XDP      ,F        ,NPF     ,TF      ,SKEW    ,
-     4                  FLG_KJ2  ,VR       ,AR      ,V       ,DT2T    ,
-     5                  NELTST   ,ITYPTST  ,STIFN   ,STIFR   ,MS      ,
-     6                  IN       ,FSKY     ,IADR    ,SENSOR_TAB,
-     7                  OFFSET   ,ANIM     ,PARTSAV ,IPARTR  ,TANI    ,
-     8                  FR_WAVE  ,BUFMAT   ,BUFGEO  ,PM      ,RBY     ,
-     9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
-     A                  FZ2      ,MX1      ,MX2     ,MY1     ,MY2     ,
-     B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
-     C                  MSRT     ,DMELRT   ,
-     D                  FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     E                  H3D_DATA ) 
+         CALL R23LAW114(
+     1   ELBUF_STR,            JFT,                  JLT,                  NEL,
+     2   MTN,                  IGEO,                 GEO,                  IPM,
+     3   IXR,                  X,                    TABLE,                XDP,
+     4   F,                    NPF,                  TF,                   SKEW,
+     5   FLG_KJ2,              VR,                   AR,                   V,
+     6   DT2T,                 NELTST,               ITYPTST,              STIFN,
+     7   STIFR,                MS,                   IN,                   FSKY,
+     8   IADR,                 SENSOR_TAB,           OFFSET,               ANIM,
+     9   PARTSAV,              IPARTR,               TANI,                 FR_WAVE,
+     A   BUFMAT,               BUFGEO,               PM,                   RBY,
+     B   FX1,                  FX2,                  FY1,                  FY2,
+     C   FZ1,                  FZ2,                  MX1,                  MX2,
+     D   MY1,                  MY2,                  MZ1,                  MZ2,
+     E   GRESAV,               GRTH,                 IGRTH,                MSRT,
+     F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
+     G   JSMS)
  
        ENDIF
 C-----------------------------------------------       

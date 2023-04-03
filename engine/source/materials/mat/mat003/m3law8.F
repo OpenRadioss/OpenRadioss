@@ -28,11 +28,13 @@ Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE M3LAW8(PM    ,OFF   ,SIG   ,EPSEQ ,EINT  ,
-     .                  RHO   ,D1    ,D2    ,D3    ,D4    ,
-     .                  D5    ,D6    ,VNEW  ,VOLGP ,DVOL  ,
-     .                  MAT   ,NGL   ,IPLA  ,DPLA  ,EPD   ,
-     .                  TSTAR ,BUFLY ,NEL   )
+      SUBROUTINE M3LAW8(
+     1   PM,      OFF,     SIG,     EPSEQ,
+     2   EINT,    RHO,     D1,      D2,
+     3   D3,      D4,      D5,      D6,
+     4   VNEW,    VOLGP,   DVOL,    MAT,
+     5   NGL,     IPLA,    DPLA,    EPD,
+     6   TSTAR,   BUFLY,   NEL,     NPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,13 +52,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPT
       INTEGER MAT(MVSIZ),NGL(MVSIZ),IPLA,NEL
 C     REAL
       my_real

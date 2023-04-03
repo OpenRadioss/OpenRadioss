@@ -27,12 +27,15 @@ Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3
 Chd|-- calls ---------------
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
-      SUBROUTINE CUPDT_PLY(JFT  ,JLT   ,NVC    ,OFFG   ,OFF  ,IADC ,
-     2                     IEL , INOD  ,IXC    ,MS     ,IN   ,MS_PLY ,
-     3                     ZI_PLY,ISTACK,POSLY,
-     4                     FLY11 ,FLY12 ,FLY13  ,FLY14 ,FLY21 ,FLY22,
-     5                     FLY23 ,FLY24 ,FLY31  ,FLY32 ,FLY33,FLY34 ,
-     6                     FAC   ,STI   ,MSZ2) 
+      SUBROUTINE CUPDT_PLY(
+     1   JFT,     JLT,     NVC,     OFFG,
+     2   OFF,     IADC,    IEL,     INOD,
+     3   IXC,     MS,      IN,      MS_PLY,
+     4   ZI_PLY,  ISTACK,  POSLY,   FLY11,
+     5   FLY12,   FLY13,   FLY14,   FLY21,
+     6   FLY22,   FLY23,   FLY24,   FLY31,
+     7   FLY32,   FLY33,   FLY34,   FAC,
+     8   STI,     MSZ2,    NFT,     NPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,7 +49,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include     "vect01_c.inc"
 #include     "parit_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -55,6 +57,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: NPT
       INTEGER JFT, JLT, NVC
       INTEGER IADC(4,*),IXC(NIXC,MVSIZ),ISTACK(MVSIZ,NPT),IEL(*),
      .        INOD(*)

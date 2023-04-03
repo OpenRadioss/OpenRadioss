@@ -30,10 +30,13 @@ Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MREPLOC(ANG ,R11,R12,R13,R21,R22    ,
-     2                   R23 ,R31,R32,R33,
-     3                   RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                   TX  ,TY ,TZ )
+      SUBROUTINE MREPLOC(
+     1   ANG,     R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,10 +49,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: JSPH
       my_real  ANG(MVSIZ,6),
      .R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -68,14 +72,14 @@ C
 
       IF(JSPH==0)THEN
         IF(N2D==0)THEN
-          DO 100 I=LFT,LLT
+          DO 100 I=1,NEL
              RR=MAX(SQRT(RX(I)**2+RY(I)**2+RZ(I)**2),EM20)
              RX(I)=RX(I)/RR
              RY(I)=RY(I)/RR
              RZ(I)=RZ(I)/RR
  100      CONTINUE
 C
-          DO 105 I=LFT,LLT
+          DO 105 I=1,NEL
             TX(I)=RY(I)*SZ(I)-RZ(I)*SY(I)
             TY(I)=RZ(I)*SX(I)-RX(I)*SZ(I)
             TZ(I)=RX(I)*SY(I)-RY(I)*SX(I)
@@ -85,7 +89,7 @@ C
             TZ(I)=TZ(I)/RR
  105      CONTINUE
 C
-          DO 110 I=LFT,LLT
+          DO 110 I=1,NEL
              SX(I)=TY(I)*RZ(I)-TZ(I)*RY(I)
              SY(I)=TZ(I)*RX(I)-TX(I)*RZ(I)
              SZ(I)=TX(I)*RY(I)-TY(I)*RX(I)
@@ -101,7 +105,7 @@ C     1=YY 2=ZZ 3=TT 4=YZ 5=0 6=0
 C     EN CONTRADICTION AVEC X=T
 C     ATTENTION DANGER!
 C---------------------------------------------
-          DO 120 I=LFT,LLT
+          DO 120 I=1,NEL
               RR= MAX(SQRT(SY(I)**2+SZ(I)**2),EM20)
               RX(I)= SY(I)/RR
               RY(I)= SZ(I)/RR
@@ -115,7 +119,7 @@ C---------------------------------------------
  120      CONTINUE
         ENDIF
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           S11=ANG(I,1)
           S21=ANG(I,2)
           S31=ANG(I,3)
@@ -141,7 +145,7 @@ C
 C
       ELSE
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
          R11(I)=ANG(I,1)
          R21(I)=ANG(I,2)
          R31(I)=ANG(I,3)

@@ -36,9 +36,11 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SROTA3(SIG ,S1  ,S2  ,S3  ,S4  ,
-     .                  S5  ,S6  ,WXX ,WYY ,WZZ ,
-     .                  NEL )
+      SUBROUTINE SROTA3(
+     1   SIG,     S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NEL
       my_real
      .   SIG(NEL,6),WXX(*), WYY(*), WZZ(*),
@@ -57,7 +61,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

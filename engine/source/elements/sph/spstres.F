@@ -180,9 +180,11 @@ C-----------
      4   WXX,     WYY,     WZZ,     NEL)
 C-----------
 C     when particle is sleeping, stresses (global system) do not rotate.
-      CALL SROTA3(GBUF%SIG,S1   ,S2   ,S3   ,S4   ,
-     .            S5      ,S6   ,WXX  ,WYY  ,WZZ  ,
-     .            NEL     )
+      CALL SROTA3(
+     1   GBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
       CALL SPREPLOC(GBUF%GAMA,WXX,WYY,WZZ,GAMA,
      .              NEL      )
 C-----------

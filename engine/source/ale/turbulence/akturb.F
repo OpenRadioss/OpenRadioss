@@ -79,7 +79,7 @@ C-----------------------------------------------
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
 c
-        CALL INITBUF (IPARG    ,NG      ,                  
+        CALL INITBUF(IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
@@ -145,7 +145,7 @@ C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
 c
-        CALL INITBUF (IPARG    ,NG      ,                  
+        CALL INITBUF(IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   

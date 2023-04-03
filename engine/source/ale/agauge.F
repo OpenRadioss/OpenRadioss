@@ -142,7 +142,7 @@ C-----------------------------
       IF(TT==ZERO)THEN
        DO NG=ITASK+1,NGROUP,NTHREAD
         IF(IPARG(5,NG) /= 1) CYCLE
-        CALL INITBUF (IPARG    ,NG      ,
+        CALL INITBUF(IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMUL    ,JHBE    ,JIVF    ,
@@ -187,7 +187,7 @@ C       Searching for new elements
 C-----------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
         IF(IPARG(5,NG) /= 1) CYCLE
-        CALL INITBUF (IPARG    ,NG      ,
+        CALL INITBUF(IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMUL    ,JHBE    ,JIVF    ,
@@ -240,7 +240,7 @@ C-----------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C-----------------------------
         IF(IPARG(5,NG) /= 1) CYCLE
-        CALL INITBUF (IPARG    ,NG      ,
+        CALL INITBUF(IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMUL    ,JHBE    ,JIVF    ,

@@ -27,10 +27,12 @@ Chd|        BFORC2                        source/ale/bimat/bforc2.F
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QFINT2(SIG,
-     .   PY1, PY2, PZ1, PZ2, AREA, VOL, QVIS,
-     .   F11, F12, F21, F22, AX1,AX2,
-     .   R22  ,R23    ,R32  ,R33  ,NEL)
+      SUBROUTINE QFINT2(
+     1   SIG,     PY1,     PY2,     PZ1,
+     2   PZ2,     AREA,    VOL,     QVIS,
+     3   F11,     F12,     F21,     F22,
+     4   AX1,     AX2,     R22,     R23,
+     5   R32,     R33,     NEL,     JCVT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,6 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JCVT
       INTEGER NEL
       my_real
      .   SIG(NEL,6),
@@ -52,7 +55,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

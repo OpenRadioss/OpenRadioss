@@ -28,22 +28,31 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE EMOMT3B(PM,RHO,VOLGP,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1,PX2,PX3,PX4,
-     .   PY1,PY2,PY3,PY4,
-     .   PZ1,PZ2,PZ3,PZ4,
-     .   PX5,PX6,PX7,PX8,
-     .   PY5,PY6,PY7,PY8,
-     .   PZ5,PZ6,PZ7,PZ8,
-     .   DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .   VDX,VDY,VDZ,
-     .   MAT,  QMV,BUFMAT,
-     .   VX1,VX2,VX3,VX4,VX5,VX6,VX7,VX8,
-     .   VY1,VY2,VY3,VY4,VY5,VY6,VY7,VY8,
-     .   VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
-     .   IPARG1)
+      SUBROUTINE EMOMT3B(
+     1   PM,      RHO,     VOLGP,   F11,
+     2   F21,     F31,     F12,     F22,
+     3   F32,     F13,     F23,     F33,
+     4   F14,     F24,     F34,     F15,
+     5   F25,     F35,     F16,     F26,
+     6   F36,     F17,     F27,     F37,
+     7   F18,     F28,     F38,     PX1,
+     8   PX2,     PX3,     PX4,     PY1,
+     9   PY2,     PY3,     PY4,     PZ1,
+     A   PZ2,     PZ3,     PZ4,     PX5,
+     B   PX6,     PX7,     PX8,     PY5,
+     C   PY6,     PY7,     PY8,     PZ5,
+     D   PZ6,     PZ7,     PZ8,     DXX,
+     E   DXY,     DXZ,     DYX,     DYY,
+     F   DYZ,     DZX,     DZY,     DZZ,
+     G   VDX,     VDY,     VDZ,     MAT,
+     H   QMV,     BUFMAT,  VX1,     VX2,
+     I   VX3,     VX4,     VX5,     VX6,
+     J   VX7,     VX8,     VY1,     VY2,
+     K   VY3,     VY4,     VY5,     VY6,
+     L   VY7,     VY8,     VZ1,     VZ2,
+     M   VZ3,     VZ4,     VZ5,     VZ6,
+     N   VZ7,     VZ8,     IPARG1,  NEL,
+     O   MTN)
 C-----------------------------------------------
 C   M o d u l e  s
 C-----------------------------------------------
@@ -59,12 +68,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: MTN
       my_real
      .   PM(NPROPM,NUMMAT), RHO(*),VOLGP(LVEUL,*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
@@ -113,17 +123,17 @@ C
         IF(IFLG>1)RETURN
 C
         IF(ALE%UPWIND%UPWM==0.)THEN
-         MX = MAT(LFT)
-         DO I=LFT,LLT
+         MX = MAT(1)
+         DO I=1,NEL
           GAM(I)= PM(15,MX)
          ENDDO
         ELSE
-         DO I=LFT,LLT
+         DO I=1,NEL
           GAM(I)= ALE%UPWIND%CUPWM
          ENDDO
         ENDIF
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)+QMV(5,I)+QMV(6,I)
           AAA = ONE_OVER_6 * AAA
 
@@ -215,11 +225,11 @@ C
 C 'REYNOLDS THEOREM' : TERM CALCULATED AT CENTROID
 C  STANDARD UPWIND WITH MATERIAL PARAMETERS
 C
-       MX = MAT(LFT) 
-       DO I=LFT,LLT
+       MX = MAT(1) 
+       DO I=1,NEL
         GAM(I)= PM(15,MX)
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
          A1(I) = PX1(I)*VDX(I)+PY1(I)*VDY(I)+PZ1(I)*VDZ(I)
          A2(I) = PX2(I)*VDX(I)+PY2(I)*VDY(I)+PZ2(I)*VDZ(I)
          A3(I) = PX3(I)*VDX(I)+PY3(I)*VDY(I)+PZ3(I)*VDZ(I)
@@ -237,13 +247,13 @@ C
          A7(I) = SIGN(GAM(I),A7(I))
          A8(I) = SIGN(GAM(I),A8(I))
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         FAC = RHO(I)
         F1(I) = (VDX(I)*DXX(I)+VDY(I)*DXY(I)+VDZ(I)*DXZ(I))*FAC
         F2(I) = (VDX(I)*DYX(I)+VDY(I)*DYY(I)+VDZ(I)*DYZ(I))*FAC
         F3(I) = (VDX(I)*DZX(I)+VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*FAC
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         F11(I) = F11(I) - (ONE+A1(I))*F1(I)*VOLGP(1,I)
         F12(I) = F12(I) - (ONE+A2(I))*F1(I)*VOLGP(2,I)
         F13(I) = F13(I) - (ONE+A3(I))*F1(I)*VOLGP(3,I)

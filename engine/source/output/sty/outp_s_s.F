@@ -104,7 +104,7 @@ C
           IF (ITY /= 1 .AND. ITY /= 2) CYCLE
            ISOLNOD = IABS(IPARG(28,NG))
            NUVAR = 0
-           CALL INITBUF (IPARG    ,NG      ,                    
+           CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  

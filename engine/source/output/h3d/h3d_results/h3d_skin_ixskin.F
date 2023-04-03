@@ -78,7 +78,7 @@ C-----------------------------------------------
        DO NG=1,NGROUP
         ISOLNOD = IPARG(28,NG)
         ICS     = IPARG(17,NG)                                        
-        CALL INITBUF (IPARG    ,NG      ,                      
+        CALL INITBUF(IPARG    ,NG      ,                      
      2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -345,7 +345,7 @@ C-----------------------------------------------
      .        NN,ICS,ISOLNOD
 C-----------------------------------------------
        DO NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                      
+        CALL INITBUF(IPARG    ,NG      ,                      
      2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -417,7 +417,7 @@ c              N4=N2           1 2 3 3
 c              N3=N2           1 4 4 2
 C-----------------------------------------------
        DO NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                      
+        CALL INITBUF(IPARG    ,NG      ,                      
      2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -842,7 +842,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        DO NG=1,NGROUP
         ISOLNOD = IPARG(28,NG)
-        CALL INITBUF (IPARG    ,NG      ,                      
+        CALL INITBUF(IPARG    ,NG      ,                      
      2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    

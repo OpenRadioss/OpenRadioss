@@ -470,31 +470,39 @@ C         Possible mix of elts computing DELTAX like in sdlen3 & sdlen8
      .      N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
         END IF   !IF (IDTHEPH == 1) THEN
       ELSEIF (JEUL /= 0) THEN
-        CALL EPXLE3(GBUF%VOL,VEUL,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   PX1H1, PX1H2, PX1H3,
-     .   PX2H1, PX2H2, PX2H3,
-     .   PX3H1, PX3H2, PX3H3,
-     .   PX4H1, PX4H2, PX4H3,
-     .   VOLN,DELTAX,
-     .   N1X, N2X, N3X, N4X, N5X, N6X,
-     .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
+        CALL EPXLE3(
+     1   GBUF%VOL,VEUL,    X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      PX1,     PX2,
+     8   PX3,     PX4,     PY1,     PY2,
+     9   PY3,     PY4,     PZ1,     PZ2,
+     A   PZ3,     PZ4,     PX5,     PX6,
+     B   PX7,     PX8,     PY5,     PY6,
+     C   PY7,     PY8,     PZ5,     PZ6,
+     D   PZ7,     PZ8,     PX1H1,   PX1H2,
+     E   PX1H3,   PX2H1,   PX2H2,   PX2H3,
+     F   PX3H1,   PX3H2,   PX3H3,   PX4H1,
+     G   PX4H2,   PX4H3,   VOLN,    DELTAX,
+     H   N1X,     N2X,     N3X,     N4X,
+     I   N5X,     N6X,     N1Y,     N2Y,
+     J   N3Y,     N4Y,     N5Y,     N6Y,
+     K   N1Z,     N2Z,     N3Z,     N4Z,
+     L   N5Z,     N6Z,     NEL,     NFT,
+     M   JHBE)
       ENDIF
 c
       IF (JALE+JEUL > 0 .AND. MTN == 11) THEN
-        CALL S11DEFO3( PM    ,V     ,VEUL   ,X       ,IXS    ,ALE_CONNECT  ,
-     .                 DXX   ,DXY   ,DXZ    ,DYX     ,DYY    ,DYZ    ,
-     .                 DZX   ,DZY   ,DZZ    ,D4      ,D5     ,D6     ,
-     .                 WXX   ,WYY   ,WZZ    ,BUFMAT)
+        CALL S11DEFO3(
+     1   PM,         V,          VEUL,       X,
+     2   IXS,        ALE_CONNECT,DXX,        DXY,
+     3   DXZ,        DYX,        DYY,        DYZ,
+     4   DZX,        DZY,        DZZ,        D4,
+     5   D5,         D6,         WXX,        WYY,
+     6   WZZ,        BUFMAT,     NEL,        NFT)
       ELSE
         CALL SDEFO3(
      .   PX1, PX2, PX3, PX4,
@@ -577,7 +585,9 @@ C Compute regularized non local variable in Gauss point
         ENDDO
       ENDIF
 C
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
+      IF(IBOLTP /= 0) CALL BOLTST(
+     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
+     2   TT,        NEL,       SENSOR_TAB,NPT)
 C
 C Compute stresses according to the material law
       CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO     ,FV      ,ALE_CONNECT,
@@ -779,22 +789,31 @@ C ALE or EULER : update momentum transport forces
       ELSEIF(JEUL == 1 .AND. INTEG8 == 1)THEN
 C
 C Does not include upwind SUPG or TG
-        CALL EMOMT3B(PM,GBUF%RHO,VEUL(LVEUL*NFT+44),
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1,PX2,PX3,PX4,
-     .   PY1,PY2,PY3,PY4,
-     .   PZ1,PZ2,PZ3,PZ4,
-     .   PX5,PX6,PX7,PX8,
-     .   PY5,PY6,PY7,PY8,
-     .   PZ5,PZ6,PZ7,PZ8,
-     .   DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .   VDX,VDY,VDZ,
-     .   MXT,QMV,BUFMAT,
-     .   VX1,VX2,VX3,VX4,VX5,VX6,VX7,VX8,
-     .   VY1,VY2,VY3,VY4,VY5,VY6,VY7,VY8,
-     .   VZ1        ,VZ2  ,VZ3    ,VZ4 ,VZ5 ,VZ6 ,VZ7 ,VZ8 , 
-     .   IPARG(1,NG) )
+        CALL EMOMT3B(
+     1   PM,                GBUF%RHO,          VEUL(LVEUL*NFT+44),F11,
+     2   F21,               F31,               F12,               F22,
+     3   F32,               F13,               F23,               F33,
+     4   F14,               F24,               F34,               F15,
+     5   F25,               F35,               F16,               F26,
+     6   F36,               F17,               F27,               F37,
+     7   F18,               F28,               F38,               PX1,
+     8   PX2,               PX3,               PX4,               PY1,
+     9   PY2,               PY3,               PY4,               PZ1,
+     A   PZ2,               PZ3,               PZ4,               PX5,
+     B   PX6,               PX7,               PX8,               PY5,
+     C   PY6,               PY7,               PY8,               PZ5,
+     D   PZ6,               PZ7,               PZ8,               DXX,
+     E   DXY,               DXZ,               DYX,               DYY,
+     F   DYZ,               DZX,               DZY,               DZZ,
+     G   VDX,               VDY,               VDZ,               MXT,
+     H   QMV,               BUFMAT,            VX1,               VX2,
+     I   VX3,               VX4,               VX5,               VX6,
+     J   VX7,               VX8,               VY1,               VY2,
+     K   VY3,               VY4,               VY5,               VY6,
+     L   VY7,               VY8,               VZ1,               VZ2,
+     M   VZ3,               VZ4,               VZ5,               VZ6,
+     N   VZ7,               VZ8,               IPARG(1,NG),       NEL,
+     O   MTN)
       ENDIF
 
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,
@@ -852,14 +871,15 @@ C
 C Virtual internal forces of regularized non local dof 
       IF (INLOC > 0) THEN  
         IMAT = MXT(LFT)  
-        CALL SFINT_REG(NLOC_DMG ,VAR_REG  ,    
-     .       NEL      ,OFF      ,VOLN     ,NC1      ,
-     .       NC2      ,NC3      ,NC4      ,NC5      ,
-     .       NC6      ,NC7      ,NC8      ,PX1      ,
-     .       PX2      ,PX3      ,PX4      ,PY1      ,
-     .       PY2      ,PY3      ,PY4      ,PZ1      ,
-     .       PZ2      ,PZ3      ,PZ4      ,IMAT     ,
-     .       ITASK    ,DT2T     ,GBUF%VOL )
+        CALL SFINT_REG(
+     1   NLOC_DMG,VAR_REG, NEL,     OFF,
+     2   VOLN,    NC1,     NC2,     NC3,
+     3   NC4,     NC5,     NC6,     NC7,
+     4   NC8,     PX1,     PX2,     PX3,
+     5   PX4,     PY1,     PY2,     PY3,
+     6   PY4,     PZ1,     PZ2,     PZ3,
+     7   PZ4,     IMAT,    ITASK,   DT2T,
+     8   GBUF%VOL,NFT)
       ENDIF      
 C
 C Finite element heat transfert

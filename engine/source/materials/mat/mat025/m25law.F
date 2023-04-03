@@ -142,9 +142,13 @@ C--------------------------------------------
           S6(I) = SIG(I,6)
         ENDDO
       IF(ISORTH > 0 .AND. JCVT == 0) THEN
-        CALL MREPLOC( GAMA,R11,R12,R13,R21,R22    ,
-     2                 R23,R31,R32 ,R33,RX ,RY  ,RZ, SX    ,
-     3                 SY ,SZ , TX  ,TY ,TZ )
+        CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
         DO I=1,NEL
          EP4(I) = HALF*EP4(I)
          EP5(I) = HALF*EP5(I)

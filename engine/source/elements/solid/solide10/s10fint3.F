@@ -26,12 +26,15 @@ Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S10FINT3(SIG, PX, PY, PZ,
-     .                    FX,FY,FZ,VOL,QVIS,STI,STIG,
-     .                    EINT,RHO,Q,EPLAS,EPSD,EPSDG,
-     .                    SIGG,EINTG,RHOG,QG,EPLASG,
-     .                    WIP ,G_PLA,NEL,CONDE,CONDEG,
-     .                    G_EPSD)
+      SUBROUTINE S10FINT3(
+     1   SIG,     PX,      PY,      PZ,
+     2   FX,      FY,      FZ,      VOL,
+     3   QVIS,    STI,     STIG,    EINT,
+     4   RHO,     Q,       EPLAS,   EPSD,
+     5   EPSDG,   SIGG,    EINTG,   RHOG,
+     6   QG,      EPLASG,  WIP,     G_PLA,
+     7   NEL,     CONDE,   CONDEG,  G_EPSD,
+     8   ISRAT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISRAT
       INTEGER, INTENT(IN) :: G_PLA,NEL,G_EPSD
 C     REAL
       my_real
@@ -54,7 +58,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------

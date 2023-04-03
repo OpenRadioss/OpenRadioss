@@ -116,14 +116,16 @@ C-----------------------------------------------
 C-----------
       NF1=NFT+1
 C-----------
-      CALL S4COORK(X,IXS(1,NF1),                                    
-     .X1, X2, X3, X4,                                               
-     .Y1, Y2, Y3, Y4,                                               
-     .Z1, Z2, Z3, Z4,                                               
-     .GBUF%OFF,OFF,GBUF%SMSTR,                                      
-     .NC1,NC2,NC3,NC4,NGL,MXT,NGEO,                                 
-     .K11,K12,K13,K14,K22,K23,                                      
-     .K24,K33,K34,K44,NEL)                                              
+      CALL S4COORK(
+     1   X,         IXS(1,NF1),X1,        X2,
+     2   X3,        X4,        Y1,        Y2,
+     3   Y3,        Y4,        Z1,        Z2,
+     4   Z3,        Z4,        GBUF%OFF,  OFF,
+     5   GBUF%SMSTR,NC1,       NC2,       NC3,
+     6   NC4,       NGL,       MXT,       NGEO,
+     7   K11,       K12,       K13,       K14,
+     8   K22,       K23,       K24,       K33,
+     9   K34,       K44,       NEL,       ISMSTR)
       CALL S4DERIT3(OFF,VOLN,NGL,DELTAX,MXT,                             
      . X1, X2, X3, X4, Y1, Y2, Y3, Y4,                              
      . Z1, Z2, Z3, Z4, PX1, PX2, PX3, PX4,                          

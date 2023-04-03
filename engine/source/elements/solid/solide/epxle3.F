@@ -29,24 +29,29 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE EPXLE3(VOL,VEUL,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   PX1H1, PX1H2, PX1H3,
-     .   PX2H1, PX2H2, PX2H3,
-     .   PX3H1, PX3H2, PX3H3,
-     .   PX4H1, PX4H2, PX4H3,
-     .   DET,DELTAX,
-     .   N1X, N2X, N3X, N4X, N5X, N6X,
-     .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
+      SUBROUTINE EPXLE3(
+     1   VOL,     VEUL,    X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      PX1,     PX2,
+     8   PX3,     PX4,     PY1,     PY2,
+     9   PY3,     PY4,     PZ1,     PZ2,
+     A   PZ3,     PZ4,     PX5,     PX6,
+     B   PX7,     PX8,     PY5,     PY6,
+     C   PY7,     PY8,     PZ5,     PZ6,
+     D   PZ7,     PZ8,     PX1H1,   PX1H2,
+     E   PX1H3,   PX2H1,   PX2H2,   PX2H3,
+     F   PX3H1,   PX3H2,   PX3H3,   PX4H1,
+     G   PX4H2,   PX4H3,   DET,     DELTAX,
+     H   N1X,     N2X,     N3X,     N4X,
+     I   N5X,     N6X,     N1Y,     N2Y,
+     J   N3Y,     N4Y,     N5Y,     N6Y,
+     K   N1Z,     N2Z,     N3Z,     N4Z,
+     L   N5Z,     N6Z,     NEL,     NFT,
+     M   JHBE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,11 +69,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: JHBE
       my_real
      .   VOL(*), VEUL(LVEUL,*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -102,7 +109,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(INTEG8==0)THEN
-       DO  I=LFT,LLT
+       DO  I=1,NEL
         II=I+NFT
         PX1(I)=VEUL(1,II)
         PX2(I)=VEUL(2,II)
@@ -120,7 +127,7 @@ C-----------------------------------------------
         PZ4(I)=VEUL(12,II)
        ENDDO
       ELSE
-       DO  I=LFT,LLT
+       DO  I=1,NEL
         II=I+NFT
         PX1(I)=VEUL(1,II)
         PX2(I)=VEUL(2,II)
@@ -151,14 +158,14 @@ C-----------------------------------------------
        ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        II=I+NFT
        DELTAX(I)=VEUL(13,II)
        DET(I)=VOL(I)
       ENDDO
       IF(JHBE/=0)THEN
        IF(INTEG8==0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          PMX1(I)=PX1(I)
          PMY1(I)=PY1(I)
          PMZ1(I)=PZ1(I)
@@ -173,7 +180,7 @@ C-----------------------------------------------
          PMZ4(I)=PZ4(I)
         ENDDO
        ELSE 
-        DO I=LFT,LLT
+        DO I=1,NEL
          PMX1(I)=HALF*(PX1(I)-PX7(I))
          PMY1(I)=HALF*(PY1(I)-PY7(I))
          PMZ1(I)=HALF*(PZ1(I)-PZ7(I))
@@ -188,7 +195,7 @@ C-----------------------------------------------
          PMZ4(I)=HALF*(PZ4(I)-PZ6(I))	 
         ENDDO
        ENDIF
-        DO I=LFT,LLT
+        DO I=1,NEL
          !  1 -1 1 -1 1 -1 1 -1
          HX=(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
@@ -199,7 +206,7 @@ C-----------------------------------------------
          PX4H1(I)=PMX4(I)*HX+ PMY4(I)*HY+PMZ4(I)*HZ
         ENDDO
         !  1 1 -1 -1 -1 -1 1 1
-        DO I=LFT,LLT
+        DO I=1,NEL
          HX=(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
          HY=(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
          HZ=(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))
@@ -209,7 +216,7 @@ C-----------------------------------------------
          PX4H2(I)=PMX4(I)*HX+ PMY4(I)*HY+PMZ4(I)*HZ
         ENDDO
         !  1 -1 -1 1 -1 1 1 -1
-        DO I=LFT,LLT
+        DO I=1,NEL
          HX=(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
          HY=(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
          HZ=(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))
@@ -221,7 +228,7 @@ C-----------------------------------------------
       ENDIF
 
       IF(ALE%GLOBAL%ICAA/=0 .OR. ALEFVM_Param%IENabled/=0 .OR. ALE%GLOBAL%ISFINT>=2)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           II=I+NFT
           N1X(I)=VEUL(14,II)
           N2X(I)=VEUL(15,II)

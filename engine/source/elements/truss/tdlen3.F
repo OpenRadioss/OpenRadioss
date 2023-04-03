@@ -26,10 +26,12 @@ Chd|-- called by -----------
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TDLEN3(JFT  ,JLT   ,PM     ,OFFG,OFF   ,
-     .                  DT2T ,NELTST,ITYPTST,MSTR,DMELTR,
-     .                  DTEL ,NEL   ,G_DT   ,MAT ,NGL   ,
-     .                  AL   )
+      SUBROUTINE TDLEN3(
+     1   JFT,     JLT,     PM,      OFFG,
+     2   OFF,     DT2T,    NELTST,  ITYPTST,
+     3   MSTR,    DMELTR,  DTEL,    NEL,
+     4   G_DT,    MAT,     NGL,     AL,
+     5   JSMS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,10 +52,10 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "sms_c.inc"
 #include      "units_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER MAT(MVSIZ),NGL(MVSIZ)
       INTEGER, INTENT(IN)    :: NEL
       my_real, INTENT(INOUT) :: DTEL(NEL)

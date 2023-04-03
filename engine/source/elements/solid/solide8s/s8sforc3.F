@@ -1101,11 +1101,17 @@ C
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------
-      CALL S8SFINT3(LBUF%SIG,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   DN_X, DN_Y, DN_Z, BB,
-     .   VOLN,QVIS,ICP,JFAC(1,IP),NEL ,ISELECT,IDEG) 
+      CALL S8SFINT3(
+     1   LBUF%SIG,  F11,       F21,       F31,
+     2   F12,       F22,       F32,       F13,
+     3   F23,       F33,       F14,       F24,
+     4   F34,       F15,       F25,       F35,
+     5   F16,       F26,       F36,       F17,
+     6   F27,       F37,       F18,       F28,
+     7   F38,       DN_X,      DN_Y,      DN_Z,
+     8   BB,        VOLN,      QVIS,      ICP,
+     9   JFAC(1,IP),NEL,       ISELECT,   IDEG,
+     A   ISMSTR)
       CALL S8EFMOY3(
      .         LBUF%SIG,
      .         VOLN   ,QVIS   ,PP     ,LBUF%EINT,LBUF%RHO,LBUF%QVIS,
@@ -1122,18 +1128,19 @@ c--------------------------
         ZS = A_GAUSS(IS,NPTS) 
         ZT = A_GAUSS(IT,NPTT)
         CALL BASIS8 (ZR,ZS,ZT,H,PR2,PS2,PT2)
-        CALL S8ZFINT_REG(NLOC_DMG ,    
-     .       VAR_REG(1,IP),NEL      ,GBUF%OFF ,VOLN     ,
-     .       NC1      ,NC2      ,NC3      ,NC4      ,
-     .       NC5      ,NC6      ,NC7      ,NC8      ,
-     .       PX1      ,PX2      ,PX3      ,PX4      ,
-     .       PX5      ,PX6      ,PX7      ,PX8      ,
-     .       PY1      ,PY2      ,PY3      ,PY4      ,
-     .       PY5      ,PY6      ,PY7      ,PY8      ,
-     .       PZ1      ,PZ2      ,PZ3      ,PZ4      ,
-     .       PZ5      ,PZ6      ,PZ7      ,PZ8      ,
-     .       IMAT     ,H        ,WI       ,IP       ,
-     .       ITASK    ,DT2T     ,GBUF%VOL )
+        CALL S8ZFINT_REG(
+     1   NLOC_DMG,     VAR_REG(1,IP),NEL,          GBUF%OFF,
+     2   VOLN,         NC1,          NC2,          NC3,
+     3   NC4,          NC5,          NC6,          NC7,
+     4   NC8,          PX1,          PX2,          PX3,
+     5   PX4,          PX5,          PX6,          PX7,
+     6   PX8,          PY1,          PY2,          PY3,
+     7   PY4,          PY5,          PY6,          PY7,
+     8   PY8,          PZ1,          PZ2,          PZ3,
+     9   PZ4,          PZ5,          PZ6,          PZ7,
+     A   PZ8,          IMAT,         H,            WI,
+     B   IP,           ITASK,        DT2T,         GBUF%VOL,
+     C   NFT)
        ENDIF
        DO I=1,NEL
         OFFG(I)=MIN(OFFG(I),OFF(I))

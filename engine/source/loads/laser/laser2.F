@@ -99,7 +99,7 @@ C------------------------------------------------------------
          GBUF => ELBUF_TAB(NG)%GBUF
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
 
-         CALL INITBUF (
+         CALL INITBUF(
      1     IPARG   ,NG      ,                  
      2     MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -317,7 +317,7 @@ C-------------------------------------------------------------
         NG   = LAS(1,IL)
         I    = LAS(2,IL)        
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                  
+        CALL INITBUF(IPARG    ,NG      ,                  
      2     MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   

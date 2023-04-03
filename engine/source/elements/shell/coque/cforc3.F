@@ -388,13 +388,20 @@ C       repere orthogonalise convecte
       ENDIF
 C
       IF (ISMSTR /= 3)THEN
-       CALL CDERI3(JFT ,JLT ,GBUF%SMSTR,GBUF%OFF,
-     1             STI ,STIR ,
-     2             AREA,PX1 ,PX2 ,PY1 ,PY2 ,X2  ,X3  ,X4  ,Y2  ,Y3  ,  
-     3             Y4  ,Z2  ,X1G ,X2G ,X3G ,X4G ,Y1G ,Y2G ,Y3G ,Y4G ,
-     4             Z1G ,Z2G ,Z3G ,Z4G ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,
-     5             E3X ,E3Y ,E3Z ,VHX ,VHY ,A_I ,UX1 ,UX2 ,UX3 ,UX4 ,
-     6             UY1 ,UY2 ,UY3 ,UY4 ,NEL )
+       CALL CDERI3(
+     1   JFT,       JLT,       GBUF%SMSTR,GBUF%OFF,
+     2   STI,       STIR,      AREA,      PX1,
+     3   PX2,       PY1,       PY2,       X2,
+     4   X3,        X4,        Y2,        Y3,
+     5   Y4,        Z2,        X1G,       X2G,
+     6   X3G,       X4G,       Y1G,       Y2G,
+     7   Y3G,       Y4G,       Z1G,       Z2G,
+     8   Z3G,       Z4G,       E1X,       E1Y,
+     9   E1Z,       E2X,       E2Y,       E2Z,
+     A   E3X,       E3Y,       E3Z,       VHX,
+     B   VHY,       A_I,       UX1,       UX2,
+     C   UX3,       UX4,       UY1,       UY2,
+     D   UY3,       UY4,       NEL,       ISMSTR)
       ELSE
        CALL CPXPY3(JFT       ,JLT     ,PM      ,STI     ,STIR    ,
      2             GBUF%SMSTR,PX1     ,PX2     ,PY1     ,PY2     ,
@@ -637,12 +644,13 @@ c     Virtual internal forces of regularized non local ddl
 c--------------------------
       IF (INLOC > 0) THEN
         ! Warning : Y24 = PX1
-        CALL CFINT_REG(NLOC_DMG,VAR_REG ,GBUF%THK,NEL     ,
-     .                 OFF     ,AREA    ,NC1     ,NC2     ,
-     .                 NC3     ,NC4     ,PX1     ,PY1     ,
-     .                 PX2     ,PY2     ,ELBUF_STR%NLOC(1,1), 
-     .                 IXC(1,JFT),NDDL  ,ITASK   ,DT2T    ,
-     .                 ALDT    ,GBUF%THK_I,GBUF%AREA)
+        CALL CFINT_REG(
+     1   NLOC_DMG,        VAR_REG,         GBUF%THK,        NEL,
+     2   OFF,             AREA,            NC1,             NC2,
+     3   NC3,             NC4,             PX1,             PY1,
+     4   PX2,             PY2,             ELBUF_STR%NLOC(1,1),
+     5   IXC(1,JFT),      NDDL,            ITASK,           DT2T,
+     6   ALDT,            GBUF%THK_I,      GBUF%AREA,       NFT)
       ENDIF 
 C--------------------------
       IF (ISUB /= 0) THEN

@@ -36,20 +36,24 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RGJOINT(
-     1           JFT    ,JLT    ,IPARTR  ,NEL    ,NUVAR   ,
-     2           IOUT   ,IPROP  ,IADR    ,FSKY   ,FSKYV   ,
-     3           OFF    ,FORX   ,FORY    ,FORZ   ,E       ,
-     4           DX     ,DY     ,DZ      ,RX     ,RY      ,
-     5           RZ     ,XMOM   ,YMOM    ,ZMOM   ,UVAR    ,
-     6           STIFN  ,STIFR  ,IXR     ,TANI   ,RBY     , 
-     7           X      ,VX     ,VR      ,STI    ,STIR    ,
-     8           MS     ,IN     ,PARTSAV ,DT1    ,DT2T    ,
-     9           F      ,AR     ,FX1     ,FX2    ,FY1     ,
-     A           FY2    ,FZ1    ,FZ2     ,MX1    ,MX2     ,
-     B           MY1    ,MY2    ,MZ1     ,MZ2    ,GRESAV  ,
-     C           GRTH   ,IGRTH  ,MSRT    ,DMELRT ,NELTST  ,
-     D           ITYPTST,IGTYP  ,SENSOR_TAB,NC1     ,
-     E           NC2    ,XDP    ,X0_ERR  ,H3D_DATA)
+     1   JFT,       JLT,       IPARTR,    NEL,
+     2   NUVAR,     IOUT,      IPROP,     IADR,
+     3   FSKY,      FSKYV,     OFF,       FORX,
+     4   FORY,      FORZ,      E,         DX,
+     5   DY,        DZ,        RX,        RY,
+     6   RZ,        XMOM,      YMOM,      ZMOM,
+     7   UVAR,      STIFN,     STIFR,     IXR,
+     8   TANI,      RBY,       X,         VX,
+     9   VR,        STI,       STIR,      MS,
+     A   IN,        PARTSAV,   DT1,       DT2T,
+     B   F,         AR,        FX1,       FX2,
+     C   FY1,       FY2,       FZ1,       FZ2,
+     D   MX1,       MX2,       MY1,       MY2,
+     E   MZ1,       MZ2,       GRESAV,    GRTH,
+     F   IGRTH,     MSRT,      DMELRT,    NELTST,
+     G   ITYPTST,   IGTYP,     SENSOR_TAB,NC1,
+     H   NC2,       XDP,       X0_ERR,    H3D_DATA,
+     I   JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +72,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER JFT,JLT,IOUT,NEL,NUVAR,IPROP,
      .        IPARTR(*),IXR(NIXR,*),IADR(3,*),GRTH(*),IGRTH(*),
      .        NELTST,ITYPTST,IGTYP,NC1(*),NC2(*)
@@ -111,12 +116,15 @@ C
      .             RX    ,RY     ,RZ     ,IGTYP   ,ISENS ,
      .             X0_ERR)
 C
-      CALL RDTIME33(JFT  ,JLT   ,DT2T   ,NELTST ,ITYPTST,
-     .             IXR   ,E     ,STI    ,STIR   ,OFF    ,
-     .             XKM   ,XKR   ,XCM    ,XCR    ,UMAS   ,
-     .             UINER ,FORX  ,FORY   ,FORZ   ,
-     .             XMOM  ,YMOM  ,ZMOM   ,ROT1   ,ROT2   ,
-     .             MSRT  ,DMELRT,NUVAR  ,UVAR   ,IGTYP)
+      CALL RDTIME33(
+     1   JFT,     JLT,     DT2T,    NELTST,
+     2   ITYPTST, IXR,     E,       STI,
+     3   STIR,    OFF,     XKM,     XKR,
+     4   XCM,     XCR,     UMAS,    UINER,
+     5   FORX,    FORY,    FORZ,    XMOM,
+     6   YMOM,    ZMOM,    ROT1,    ROT2,
+     7   MSRT,    DMELRT,  NUVAR,   UVAR,
+     8   IGTYP,   JSMS)
 C
       CALL RBILAN33(JFT  ,JLT    ,E      ,PARTSAV ,UMAS ,
      .              VX   ,IPARTR ,GRESAV ,GRTH    ,IGRTH,

@@ -447,10 +447,13 @@ C
 C---------------------------
 C GLOBAL NONSYMMETRIC ORTHOTROPIC TENSOR
 C---------------------------
-        CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2               R23 ,R31,R32,R33,
-     3               RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4               TX  ,TY ,TZ )
+        CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
         CALL MROTENSNS(1,NEL,
      .               EP1,DXY,DXZ,
      .               DYX,EP2,DYZ,
@@ -499,10 +502,13 @@ C---------------------------
 C---------------------------
 C       ORTHOTROPIC GLOBAL
 C---------------------------
-        CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2               R23 ,R31,R32,R33,
-     3               RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4               TX  ,TY ,TZ )
+        CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
         DO I=1,NEL
          EP4(I) = HALF*EP4(I)
          EP5(I) = HALF*EP5(I)
@@ -666,10 +672,13 @@ C       ORTHOTROPIC GLOBAL
 C---------------------------
           IF (JCVT <= 0 .AND. ISORTH /= 0) THEN
 c
-            CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                   R23 ,R31,R32,R33,
-     3                   RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                   TX  ,TY ,TZ )
+            CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
             CALL MROTENS(1,NEL,ES1,ES2,ES3,ES4,ES5,ES6,
      .                   R11,R12,R13,
      .                   R21,R22,R23,
@@ -701,10 +710,13 @@ C---------------------------
             ES5(I) = HALF*ES5(I)
             ES6(I) = HALF*ES6(I)
            ENDDO
-            CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                   R23 ,R31,R32,R33,
-     3                   RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                   TX  ,TY ,TZ )
+            CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
             CALL MROTENS(1,NEL,ES1,ES2,ES3,ES4,ES5,ES6,
      .                   R11,R12,R13,
      .                   R21,R22,R23,
@@ -1311,17 +1323,23 @@ C
      C                  MFZX ,MFZY,MFZZ,IHET,GBUF%OFF ,
      D                  EPSTH3,IEXPAN)     
       ELSEIF (MTN == 84) THEN
-          CALL SIGEPS84(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
-     .                  NPF ,TF  ,TT,DT1,UPARAM,
-     .                  RHO0,RHO ,VOLN,EINT,TEMPEL,NGL ,
-     .                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     .                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     .                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     .                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     .                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     .                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     .                  SSP ,VIS ,UVAR,OFF  ,SIGY ,DEFP,
-     .                  DPLA, ET ,IPM ,MAT  ) 
+          CALL SIGEPS84(
+     1   NEL,     NPAR,    NUVAR,   NFUNC,
+     2   IFUNC,   NPF,     TF,      TT,
+     3   DT1,     UPARAM,  RHO0,    RHO,
+     4   VOLN,    EINT,    TEMPEL,  NGL,
+     5   EP1,     EP2,     EP3,     EP4,
+     6   EP5,     EP6,     DE1,     DE2,
+     7   DE3,     DE4,     DE5,     DE6,
+     8   ES1,     ES2,     ES3,     ES4,
+     9   ES5,     ES6,     SO1,     SO2,
+     A   SO3,     SO4,     SO5,     SO6,
+     B   S1,      S2,      S3,      S4,
+     C   S5,      S6,      SV1,     SV2,
+     D   SV3,     SV4,     SV5,     SV6,
+     E   SSP,     VIS,     UVAR,    OFF,
+     F   SIGY,    DEFP,    DPLA,    ET,
+     G   IPM,     MAT,     JTHE)
       ELSEIF (MTN == 88) THEN 
           CALL SIGEPS88(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TT,DT1,UPARAM,
@@ -1491,10 +1509,13 @@ C structure loading
             FPSZX(1:MVSIZ) = MFZX(1:MVSIZ)    
 
             IF (ISORTH /= 0) THEN
-             CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                    R23 ,R31,R32,R33,
-     3                    RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                    TX  ,TY ,TZ )
+             CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
              CALL MROTENSNS(1,NEL,
      .               FPSXX,FPSXY,FPSXZ,
      .               FPSYX,FPSYY,FPSYZ,

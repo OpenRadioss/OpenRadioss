@@ -653,12 +653,13 @@ c     Virtual internal forces of regularized non local ddl
 c--------------------------
       IF (INLOC > 0) THEN
         ! Warning : Y24 = PX1
-        CALL CFINT_REG(NLOC_DMG,VAR_REG ,GBUF%THK,NEL     ,
-     .                 OFF     ,AREA    ,NC1     ,NC2     ,
-     .                 NC3     ,NC4     ,Y24     ,PY1     ,
-     .                 PX2     ,PY2     ,ELBUF_STR%NLOC(1,1), 
-     .                 IMAT    ,NDDL    ,ITASK   ,DT2T    ,
-     .                 LL      ,GBUF%THK_I,GBUF%AREA)
+        CALL CFINT_REG(
+     1   NLOC_DMG,        VAR_REG,         GBUF%THK,        NEL,
+     2   OFF,             AREA,            NC1,             NC2,
+     3   NC3,             NC4,             Y24,             PY1,
+     4   PX2,             PY2,             ELBUF_STR%NLOC(1,1), IMAT,
+     5   NDDL,            ITASK,           DT2T,            LL,
+     7   GBUF%THK_I,      GBUF%AREA,       NFT)
       ENDIF 
 c-------------------------------
         IF (NPTTOT == 1) THEN

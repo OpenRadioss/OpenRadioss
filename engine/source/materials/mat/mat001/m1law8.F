@@ -128,12 +128,16 @@ C------------------------------
 C--------------------------------------------------
 C     VISCOSITE VOLUMETRIQUE ET PAS DE TEMPS
 C--------------------------------------------------
-      CALL MQVISC8(PM,OFF,RHO,VIS,VIS,VIS,STIFN,EINT,
-     .                   D1,D2,D3,VNEW,DVOL,
-     .                   VD2,DELTAX,VIS,QOLD,SSP,
-     .                   MAT,NC,NGL,GEO,PID,
-     .                   DT2T ,NELTST,ITYPTST,OFFG,MSSA,
-     .                   DMELS,NEL)
+      CALL MQVISC8(
+     1   PM,      OFF,     RHO,     VIS,
+     2   VIS,     VIS,     STIFN,   EINT,
+     3   D1,      D2,      D3,      VNEW,
+     4   DVOL,    VD2,     DELTAX,  VIS,
+     5   QOLD,    SSP,     MAT,     NC,
+     6   NGL,     GEO,     PID,     DT2T,
+     7   NELTST,  ITYPTST, OFFG,    MSSA,
+     8   DMELS,   NEL,     ITY,     JTUR,
+     9   JTHE,    JSMS)
 C--------------------------------------------------
 C     NOUVELLE PRESSION
 C--------------------------------------------------

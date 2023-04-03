@@ -416,12 +416,13 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
       IF (INLOC > 0) THEN
-        CALL CDK6FINT_REG(NLOC_DMG,VAR_REG ,THK0    ,NEL     ,
-     .                    OFF     ,AREA    ,NC1     ,NC2     , 
-     .                    NC3     ,PX2     ,PY2     ,PX3     ,
-     .                    PY3     ,ELBUF_STR%NLOC(1,1),IXTG(1,JFT),
-     .                    NDDL    ,ITASK   ,DT2T    ,ALDT    ,
-     .                    GBUF%THK_I,GBUF%AREA)
+        CALL CDK6FINT_REG(
+     1   NLOC_DMG,        VAR_REG,         THK0,            NEL,
+     2   OFF,             AREA,            NC1,             NC2,
+     3   NC3,             PX2,             PY2,             PX3,
+     4   PY3,             ELBUF_STR%NLOC(1,1),               IXTG(1,JFT),
+     5   NDDL,            ITASK,           DT2T,            ALDT,
+     6   GBUF%THK_I,      GBUF%AREA,       NFT)
       ENDIF
 c-------------------------------
 C--------------------------

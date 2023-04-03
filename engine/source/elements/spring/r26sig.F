@@ -27,10 +27,13 @@ Chd|        R26DEF3                       source/elements/spring/r26def3.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-      SUBROUTINE R26SIG(FX     ,XK     ,DX     ,DXOLD  ,
-     .                  E      ,OFF    ,XL0    ,TF     ,NPF    , 
-     .                  ANIM   ,IANI   ,FR_WAVE,DMN    ,DMX    , 
-     .                  IGEO   ,GEO    ,PID    ,DV0    ,ALPHA  )                 
+      SUBROUTINE R26SIG(
+     1   FX,      XK,      DX,      DXOLD,
+     2   E,       OFF,     XL0,     TF,
+     3   NPF,     ANIM,    IANI,    FR_WAVE,
+     4   DMN,     DMX,     IGEO,    GEO,
+     5   PID,     DV0,     ALPHA,   NEL,
+     6   NFT,     IAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(INOUT) :: IAD
       INTEGER IANI
       INTEGER NPF(*),IGEO(NPROPGI,*),PID(*)
 C     REAL
@@ -54,7 +60,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -75,13 +80,13 @@ C-----------------------------------------------
 C=======================================================================
       DT11 = DT1
       IF (DT11 == ZERO) DT11 = EP30
-      DO I=LFT,LLT
+      DO I=1,NEL
         E(I)    =E(I)/XL0(I)
         DX(I)   =DX(I)/XL0(I)
         DXOLD(I)=DXOLD(I)/XL0(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         FOLD(I)=FX(I)
         DDX(I)= (DX(I)-DXOLD(I))
         DVX(I)= DDX(I)/ DT11
@@ -89,18 +94,18 @@ C
         DL(I) = ABS(DX(I))
       ENDDO
       IF (TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DV0(I) = DV(I)
         ENDDO
       ENDIF
 c     filtrage des vitesses
-      DO I=LFT,LLT
+      DO I=1,NEL
         DV(I)  = (ONE-ALPHA(I))*DV0(I) + ALPHA(I)*DV(I)
         DV0(I) =  DV(I)
       ENDDO
 C
       IF(IANI/=0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           J =I+NFT
           DAMP=DX(I)/MAX(DMX(I),EM15)
           DAMM=DX(I)/MIN(DMN(I),-EM15)
@@ -109,7 +114,7 @@ C
         ENDDO
       ENDIF
 C-------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) == ONE) THEN 
           IF (DX(I) >= ZERO) THEN
             FX(I) = XK(I)*DX(I)
@@ -120,10 +125,6 @@ C-------------------------------------
 C calcul du y_max
           NFUNC(I) = IGEO(20,PID(I))  
           XFAC(I) = GEO(5,PID(I))
-c          IGEO(IAD+I)     = IFUN                                  
-c          GEO(IAD+100+I) = VEL                                    
-c          GEO(IAD+200+I) = YSCALE                                 
-
           J1 = 1                                                   
           DO J=2,NFUNC(I)-1                                        
             VEL = GEO(IAD+100+J,PID(I))                            
@@ -184,7 +185,7 @@ C--------------
         ENDIF
       ENDDO
 C--------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (ABS(DDX(I)) > ZERO)  XK(I) = ABS(FX(I)-FOLD(I))/ABS(DDX(I))
         E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(I)) * HALF
         E(I) = E(I)*XL0(I)

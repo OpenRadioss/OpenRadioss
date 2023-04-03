@@ -384,7 +384,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
       !TAG22==0 means elem I is not in cut cell buffer.
       DO NG=ITASK+1,NGROUP,NTHREAD                              
          IF(IPARG(8,NG) /= 1) THEN                              
-          CALL INITBUF (
+          CALL INITBUF(
      1       IPARG    ,NG      ,                     
      2       MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,      
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,      
@@ -410,7 +410,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
       !------------------------------------------------------------!
       DO NG=ITASK+1,NGROUP,NTHREAD                              
          IF(IPARG(8,NG) /= 1) THEN                              
-          CALL INITBUF (
+          CALL INITBUF(
      1       IPARG    ,NG      ,                     
      2       MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,      
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,      

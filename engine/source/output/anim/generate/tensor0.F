@@ -85,7 +85,7 @@ C
       NN2 = NN1 + (NUMSPH+MAXPJET)
 C
        DO 490 NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
+          CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  

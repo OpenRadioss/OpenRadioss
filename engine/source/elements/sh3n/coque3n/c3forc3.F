@@ -564,12 +564,13 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
       IF (INLOC > 0) THEN
-        CALL C3FINT_REG(NLOC_DMG,VAR_REG ,GBUF%THK,NEL     ,
-     .                  OFF     ,AREA    ,NC1     ,NC2     , 
-     .                  NC3     ,PX1     ,PY1     ,PY2     ,
-     .                  ELBUF_STR%NLOC(1,1),IMAT  ,NDDL    ,
-     .                  ITASK   ,DT2T    ,ALDT    ,GBUF%THK_I,
-     .                  GBUF%AREA)
+        CALL C3FINT_REG(
+     1   NLOC_DMG,        VAR_REG,         GBUF%THK,        NEL,
+     2   OFF,             AREA,            NC1,             NC2,
+     3   NC3,             PX1,             PY1,             PY2,
+     4   ELBUF_STR%NLOC(1,1),               IMAT,            NDDL,
+     5   ITASK,           DT2T,            ALDT,            GBUF%THK_I,
+     6   GBUF%AREA,       NFT)
       ENDIF 
 c-------------------------------
 C-------------------------

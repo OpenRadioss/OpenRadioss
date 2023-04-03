@@ -38,14 +38,16 @@ Chd|        XFORC30                       source/elements/xelem/xforc30.F
 Chd|        XFORC31                       source/elements/xelem/xforc31.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE XFORC3( NFT   ,NEL   ,GEO    ,PM      ,ITAB  ,
-     2                   KXX   ,IXX   ,X      ,V       ,VR    ,
-     3                   F     ,AR    ,EV     ,NPC     ,PLD   ,
-     4                   SKEW  ,DT2T  ,NELTST ,ITYPTST ,
-     5                   STIFN ,STIFR ,MS     ,IN      ,
-     6                   FSKYI ,ISKY  ,PARTSAV,IPARTX  ,
-     7                   BUFMAT,BUFGEO,
-     8                   GRESAV ,GRTH  ,IGRTH,ELBUF_STR)
+      SUBROUTINE XFORC3(
+     1   NFT,      NEL,      GEO,      PM,
+     2   ITAB,     KXX,      IXX,      X,
+     3   V,        VR,       F,        AR,
+     4   EV,       NPC,      PLD,      SKEW,
+     5   DT2T,     NELTST,   ITYPTST,  STIFN,
+     6   STIFR,    MS,       IN,       FSKYI,
+     7   ISKY,     PARTSAV,  IPARTX,   BUFMAT,
+     8   BUFGEO,   GRESAV,   GRTH,     IGRTH,
+     9   ELBUF_STR,IGRE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER NFT,NEL,KXX(NIXX,*),IXX(*), NPC(*),ISKY(*),
      .        IPARTX(*),NELTST ,ITYPTST,
      .        ITAB(*),GRTH(*),IGRTH(*)
@@ -250,10 +253,12 @@ C       CALCUL DE DT ELEMENTAIRE.
           ENDDO
         ENDIF
 C-------
-        CALL XBILAN3(NX     ,KXX(1,J),IXX   ,X       ,V      ,
-     2               VR     ,UMASS   ,UINER ,UFORC   ,UMOMT  ,
-     3               KEUSR  ,EUSR    ,GBUF%EINT(I),PARTSAV,IPARTX(J),
-     4               GRESAV ,GRTH    ,IGRTH(J))
+        CALL XBILAN3(
+     1   NX,          KXX(1,J),    IXX,         X,
+     2   V,           VR,          UMASS,       UINER,
+     3   UFORC,       UMOMT,       KEUSR,       EUSR,
+     4   GBUF%EINT(I),PARTSAV,     IPARTX(J),   GRESAV,
+     5   GRTH,        IGRTH(J),    IGRE)
 C-------
         IF (IPARIT == 0) THEN
           CALL XCUM3(NX,KXX(1,J),IXX,UFORC ,USTIFM,

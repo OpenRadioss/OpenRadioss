@@ -88,7 +88,7 @@ C
       DO NG = 1,NGROUP
         IF(IPARG(8, NG)==1) CYCLE
         IF(IPARG(28,NG)/=4) CYCLE
-        CALL INITBUF (IPARG    ,NG      ,
+        CALL INITBUF(IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,

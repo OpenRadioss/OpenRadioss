@@ -366,11 +366,15 @@ C
        END IF !(ISMSTR /= 11) THEN
 C
       ELSEIF(JEUL/=0)THEN
-        CALL E4PXLE3(GBUF%VOL,VEUL,
-     .       X1, X2, X3, X4, Y1, Y2, Y3, Y4,
-     .       Z1, Z2, Z3, Z4, PX1, PX2, PX3, PX4,
-     .       PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,
-     .       VOLN,DELTAX)
+        CALL E4PXLE3(
+     1   GBUF%VOL,VEUL,    X1,      X2,
+     2   X3,      X4,      Y1,      Y2,
+     3   Y3,      Y4,      Z1,      Z2,
+     4   Z3,      Z4,      PX1,     PX2,
+     5   PX3,     PX4,     PY1,     PY2,
+     6   PY3,     PY4,     PZ1,     PZ2,
+     7   PZ3,     PZ4,     VOLN,    DELTAX,
+     8   NEL,     NFT)
       ENDIF
 C
       CALL S4DEFO3(
@@ -385,7 +389,10 @@ C
      .         E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z,OFFG0)
          ENDIF
 C
-      CALL S11FX3(PM,FLUX(1,NF1),ALE_CONNECT,IXS,IPM,BUFMAT)
+      CALL S11FX3(
+     1   PM,         FLUX(1,NF1),ALE_CONNECT,IXS,
+     2   IPM,        BUFMAT,     NEL,        NFT,
+     3   JALE,       JEUL)
 C-----------------------------------------------------
 C     SFEM
 C-----------------------------------------------------
@@ -423,13 +430,18 @@ C----for Eint compute----
       ENDIF
 
 
-      CALL SROTA3(GBUF%SIG,S1   ,S2   ,S3   ,S4 ,
-     .            S5      ,S6   ,WXX  ,WYY  ,WZZ,
-     .            NEL     )
+      CALL SROTA3(
+     1   GBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
 C-----------------------------
 C     SMALL STRAIN
 C-----------------------------
-      CALL S4MALLA3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,WZZ,NEL)
+      CALL S4MALLA3(
+     1   GBUF%SMSTR,GBUF%OFF,  OFF,       WXX,
+     2   WYY,       WZZ,       NEL,       ISMSTR,
+     3   JLAG)
 C--------------------------
 C- UPDATE REF CONFIGURATION (possible future change to small strain option)
 C- Total strain option doesn't change the Ref CONF.
@@ -479,10 +491,14 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
       IP = 1
 
       IF(IBOLTP /= 0) THEN
-        CALL SROTA3(BPRELD(3*NEL+1),B1   ,B2   ,B3   ,B4 ,
-     .            B5      ,B6   ,WXX  ,WYY  ,WZZ,
-     .            NEL     )
-        CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
+        CALL SROTA3(
+     1   BPRELD(3*NEL+1),B1,             B2,             B3,
+     2   B4,             B5,             B6,             WXX,
+     3   WYY,            WZZ,            NEL,            MTN,
+     4   ISMSTR)
+        CALL BOLTST(
+     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
+     2   TT,        NEL,       SENSOR_TAB,NPT)
       END IF
 
       CALL MMAIN(
@@ -637,13 +653,14 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
       IF (INLOC > 0) THEN   
-        CALL S4FINT_REG(NLOC_DMG ,VAR_REG  ,    
-     .        NEL      ,LBUF%OFF ,VOLN     ,NC1       ,
-     .        NC2      ,NC3      ,NC4      ,PX1       ,
-     .        PX2      ,PX3      ,PX4      ,PY1       ,
-     .        PY2      ,PY3      ,PY4      ,PZ1       ,
-     .        PZ2      ,PZ3      ,PZ4      ,MXT(LFT)  ,
-     .        ITASK    ,DT2T     ,GBUF%VOL )
+        CALL S4FINT_REG(
+     1   NLOC_DMG,VAR_REG, NEL,     LBUF%OFF,
+     2   VOLN,    NC1,     NC2,     NC3,
+     3   NC4,     PX1,     PX2,     PX3,
+     4   PX4,     PY1,     PY2,     PY3,
+     5   PY4,     PZ1,     PZ2,     PZ3,
+     6   PZ4,     MXT(LFT),ITASK,   DT2T,
+     7   GBUF%VOL,NFT)
       ENDIF 
 C --------------------------
       IF(NFILSOL/=0) CALL S4FILLOPT(

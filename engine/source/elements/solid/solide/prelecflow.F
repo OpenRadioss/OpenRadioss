@@ -93,7 +93,7 @@ C
 C MLW = 777 ---->cell open foam       
            IF (MLW /= 77 ) GOTO 150
 C           
-           CALL INITBUF (IPARG    ,NG      ,
+           CALL INITBUF(IPARG    ,NG      ,
      2        MLW     ,NEL     ,NFT     ,KAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,

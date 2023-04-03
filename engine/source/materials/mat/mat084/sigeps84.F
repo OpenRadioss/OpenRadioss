@@ -26,18 +26,23 @@ Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SIGEPS84 (
-     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,TEMPEL, NGL ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,YLD     ,PLA    ,
-     B     DEP    ,ETSE   ,IPM     ,MAT    )
+      SUBROUTINE SIGEPS84(
+     1   NEL,     NUPARAM, NUVAR,   NFUNC,
+     2   IFUNC,   NPF,     TF,      TIME,
+     3   TIMESTEP,UPARAM,  RHO0,    RHO,
+     4   VOLUME,  EINT,    TEMPEL,  NGL,
+     5   EPSPXX,  EPSPYY,  EPSPZZ,  EPSPXY,
+     6   EPSPYZ,  EPSPZX,  DEPSXX,  DEPSYY,
+     7   DEPSZZ,  DEPSXY,  DEPSYZ,  DEPSZX,
+     8   EPSXX,   EPSYY,   EPSZZ,   EPSXY,
+     9   EPSYZ,   EPSZX,   SIGOXX,  SIGOYY,
+     A   SIGOZZ,  SIGOXY,  SIGOYZ,  SIGOZX,
+     B   SIGNXX,  SIGNYY,  SIGNZZ,  SIGNXY,
+     C   SIGNYZ,  SIGNZX,  SIGVXX,  SIGVYY,
+     D   SIGVZZ,  SIGVXY,  SIGVYZ,  SIGVZX,
+     E   SOUNDSP, VISCMAX, UVAR,    OFF,
+     F   YLD,     PLA,     DEP,     ETSE,
+     G   IPM,     MAT,     JTHE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +52,6 @@ C   G L O B A L   P A R A M E T E R S
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
@@ -98,7 +102,7 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER NEL, NUPARAM, NUVAR,
      .        IPM(NPROPMI,*),MAT(NEL), NGL(NEL)
       my_real 

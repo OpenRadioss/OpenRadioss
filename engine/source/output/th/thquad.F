@@ -135,7 +135,7 @@ c
          NPTR = ELBUF_TAB(NG)%NPTR                 
          NPTS = ELBUF_TAB(NG)%NPTS 
 C------
-        CALL INITBUF (IPARG    ,NG      ,                    
+        CALL INITBUF(IPARG    ,NG      ,                    
      2          MTE     ,NEL     ,NFT     ,IAD     ,ITY    ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -243,7 +243,9 @@ C------------------------------------------------------------------------------
                 DO J=1,6
                   WWA(2+J-1)=EVAR(J)
                 ENDDO
-                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
+                IF(ITY == 2) CALL QROTA3(
+     1   X,       IXQ(1,N),JCVT,    EVAR,
+     2   GAMA,    ISORTH)
                 DO J=1,6               
                   WWA(35+J-1)=EVAR(J)
                 ENDDO
@@ -251,7 +253,9 @@ C------------------------------------------------------------------------------
                 DO J=1,6               
                   WWA(35+J-1)=EVAR(J)
                 ENDDO
-                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
+                IF(ITY == 2) CALL QROTA3(
+     1   X,       IXQ(1,N),JCVT,    EVAR,
+     2   GAMA,    ISORTH)
                 DO J=1,6
                   WWA(2+J-1)=EVAR(J)
                 ENDDO
@@ -408,7 +412,9 @@ C EPS IN THE GLOBAL SYSTEM
                 DO J=1,6
                  WWA(1619+J-1)=EVAR(J)
                 ENDDO 
-                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
+                IF(ITY == 2) CALL QROTA3(
+     1   X,       IXQ(1,N),JCVT,    EVAR,
+     2   GAMA,    ISORTH)
 C LEPS IN THE LOCAL SYSTEM
                 DO J=1,6
                  WWA(239030+J-1)=EVAR(J)
@@ -418,7 +424,9 @@ C LEPS IN THE LOCAL SYSTEM
                 DO J=1,6
                  WWA(239030+J-1)=EVAR(J)
                 ENDDO
-                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
+                IF(ITY == 2) CALL QROTA3(
+     1   X,       IXQ(1,N),JCVT,    EVAR,
+     2   GAMA,    ISORTH)
 C EPS IN THE GLOBAL SYSTEM
                 DO J=1,6
                  WWA(1619+J-1)=EVAR(J)
@@ -437,7 +445,9 @@ C EPS111, EPS121, EPS211, EPS221 IN THE GLOBAL SYSTEM
                      WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
                    ENDDO
                  ELSE
-                   IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
+                   IF(ITY == 2) CALL QROTA3(
+     1   X,       IXQ(1,N),JCVT,    EVAR,
+     2   GAMA,    ISORTH)
                    DO J=1,6      
                      WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
                    ENDDO

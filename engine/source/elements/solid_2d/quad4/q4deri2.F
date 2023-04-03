@@ -27,15 +27,18 @@ Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4DERI2(OFFG,OFF,KSI,ETA,WI,YAVG,
-     1                   Y12,Y34,Y13,Y24,Y14,Y23,
-     2                   Z12,Z34,Z13,Z24,Z14,Z23,
-     3                   PY1,PY2,PY3,PY4,
-     4                   PZ1,PZ2,PZ3,PZ4,
-     7                   PYC1,PYC2,PZC1,PZC2,
-     8                   BYZ1,BYZ2,BYZ3,BYZ4,
-     9                   BZY1,BZY2,BZY3,BZY4,
-     A                   AIRN,VOLN,NU )
+      SUBROUTINE Q4DERI2(
+     1   OFFG,    OFF,     KSI,     ETA,
+     2   WI,      YAVG,    Y12,     Y34,
+     3   Y13,     Y24,     Y14,     Y23,
+     4   Z12,     Z34,     Z13,     Z24,
+     5   Z14,     Z23,     PY1,     PY2,
+     6   PY3,     PY4,     PZ1,     PZ2,
+     7   PZ3,     PZ4,     PYC1,    PYC2,
+     8   PZC1,    PZC2,    BYZ1,    BYZ2,
+     9   BYZ3,    BYZ4,    BZY1,    BZY2,
+     A   BZY3,    BZY4,    AIRN,    VOLN,
+     B   NU,      NEL,     JHBE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,10 +51,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: JHBE
 C     REAL
       my_real
      .    OFFG(*),OFF(*),KSI,ETA,WI,YAVG(*),
@@ -101,7 +105,7 @@ C     4.*(dNi/dK, dNi/dE)
       DNDE2 = - DNDE3
       DNDE4 = - DNDE1
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
 C       4.*(dY/dK, dY/dE, dZ/dK, dZ/dE)
         DYDK(I) = (Y14(I)-Y23(I))*ETA-Y13(I)+Y24(I)
         DYDE(I) = (Y12(I)+Y34(I))*KSI-Y13(I)-Y24(I)
@@ -129,13 +133,13 @@ C------add something later for DET=~ zero-----
 C
       IF(N2D==1) THEN
         IF(JHBE==17) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
             VOLN(I) = FOURTH*YAVG(I)*VOLN(I)
          ENDDO
         ENDIF
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFF(I) = OFFG(I)
         IF(VOLN(I)<=ZERO .AND. OFF(I)/=ZERO) THEN
           VOLN(I) = EM20
@@ -143,7 +147,7 @@ C
         ENDIF
       ENDDO
 C----Assumed strain      
-      DO I=LFT,LLT
+      DO I=1,NEL
         BYZ1(I) = -NU(I)*(PZ1(I) - PZC1(I))
         BYZ2(I) = -NU(I)*(PZ2(I) - PZC2(I))
         BYZ3(I) = -NU(I)*(PZ3(I) + PZC1(I))
@@ -153,7 +157,7 @@ C----Assumed strain
         BZY3(I) = -NU(I)*(PY3(I) + PYC1(I))
         BZY4(I) = -NU(I)*(PY4(I) + PYC2(I))
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         NU1 = ONE-NU(I)
         PY1(I) = PYC1(I) + NU1*(PY1(I) - PYC1(I))
         PY2(I) = PYC2(I) + NU1*(PY2(I) - PYC2(I))

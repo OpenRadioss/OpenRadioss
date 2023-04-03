@@ -102,15 +102,19 @@ c
      .   HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))   
        ENDDO                                                        
 c
-      CALL CONC24(PM(1,IMAT),OFF     ,SIG      ,EINT     ,LBUF%SIGA,
-     2            LBUF%EPSA,GAMA     ,LBUF%DAM ,LBUF%ANG ,LBUF%SF  ,
-     3            LBUF%VK  ,LBUF%STRA,LBUF%CRAK,LBUF%DSUM,LBUF%ROB ,
-     4            LBUF%SIGC,LBUF%RK  ,LBUF%PLA ,NGL      ,D1       ,
-     5            D2       ,D3       ,D4       ,D5       ,D6       ,
-     6            RX       ,RY       ,RZ       ,SX       ,SY       ,
-     7            SZ       ,LBUF%SEQ ,RHO      ,LBUF%EPE ,NEL      ,
-     8            R11      ,R12      ,R13      ,R21      ,R22      ,
-     9            R23      ,R31      ,R32      ,R33      )
+      CALL CONC24(
+     1   PM(1,IMAT),OFF,       SIG,       EINT,
+     2   LBUF%SIGA, LBUF%EPSA, GAMA,      LBUF%DAM,
+     3   LBUF%ANG,  LBUF%SF,   LBUF%VK,   LBUF%STRA,
+     4   LBUF%CRAK, LBUF%DSUM, LBUF%ROB,  LBUF%SIGC,
+     5   LBUF%RK,   LBUF%PLA,  NGL,       D1,
+     6   D2,        D3,        D4,        D5,
+     7   D6,        RX,        RY,        RZ,
+     8   SX,        SY,        SZ,        LBUF%SEQ,
+     9   RHO,       LBUF%EPE,  NEL,       R11,
+     A   R12,       R13,       R21,       R22,
+     B   R23,       R31,       R32,       R33,
+     C   JCVT,      JSPH)
 C----------------------------------------
 C     CRACKS DANS REPERE GLOBAL POUR ANIM
 C----------------------------------------

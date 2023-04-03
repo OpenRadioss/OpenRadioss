@@ -975,9 +975,11 @@ C
 C
 C-----------------------------
         IF (JCVT == 0) THEN
-          CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
-     .                S5      ,S6   ,WXX  ,WYY  ,WZZ,
-     .                NEL     )
+          CALL SROTA3(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
       ELSE
 C-----
 C      EXTRACT STRESSES + SMALL STRAIN
@@ -1000,7 +1002,9 @@ C     TIME STEP EST CALCULE ICI DT2T
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
+      IF(IBOLTP /= 0) CALL BOLTST(
+     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
+     2   TT,        NEL,       SENSOR_TAB,NPT)
 C
       CALL MMAIN(
      1           ELBUF_TAB,NG     ,PM     ,GEO         ,FV	 ,ALE_CONNECT     ,
@@ -1098,18 +1102,19 @@ c--------------------------
       IF (INLOC > 0) THEN  
         IMAT = MXT(LFT)  
         CALL BASIS8 (ZR,ZS,ZT,H,PR,PS,PT)
-        CALL S8ZFINT_REG(NLOC_DMG ,   
-     .       VAR_REG(1,IP),NEL      ,GBUF%OFF ,
-     .       VOLN     ,NC1      ,NC2      ,NC3      ,
-     .       NC4      ,NC5      ,NC6      ,NC7      ,
-     .       NC8      ,PX1      ,PX2      ,PX3      ,
-     .       PX4      ,PX5      ,PX6      ,PX7      ,
-     .       PX8      ,PY1      ,PY2      ,PY3      ,
-     .       PY4      ,PY5      ,PY6      ,PY7      ,
-     .       PY8      ,PZ1      ,PZ2      ,PZ3      ,
-     .       PZ4      ,PZ5      ,PZ6      ,PZ7      ,
-     .       PZ8      ,IMAT     ,H        ,WI       ,
-     .       IP       ,ITASK    ,DT2T     ,GBUF%VOL )
+        CALL S8ZFINT_REG(
+     1   NLOC_DMG,     VAR_REG(1,IP),NEL,          GBUF%OFF,
+     2   VOLN,         NC1,          NC2,          NC3,
+     3   NC4,          NC5,          NC6,          NC7,
+     4   NC8,          PX1,          PX2,          PX3,
+     5   PX4,          PX5,          PX6,          PX7,
+     6   PX8,          PY1,          PY2,          PY3,
+     7   PY4,          PY5,          PY6,          PY7,
+     8   PY8,          PZ1,          PZ2,          PZ3,
+     9   PZ4,          PZ5,          PZ6,          PZ7,
+     A   PZ8,          IMAT,         H,            WI,
+     B   IP,           ITASK,        DT2T,         GBUF%VOL,
+     C   NFT)
       ENDIF       
 c
        DO I=LFT,LLT

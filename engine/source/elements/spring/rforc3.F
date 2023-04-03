@@ -91,7 +91,7 @@ Chd|====================================================================
      9                  FX2      ,FY1     ,FY2     ,FZ1       ,FZ2      ,
      A                  MX1      ,MX2     ,MY1     ,MY2       ,MZ1      ,
      B                  MZ2      ,GRESAV  ,GRTH    ,IGRTH     ,MSRT     ,
-     C                  DMELRT   ,ITASK   ,H3D_DATA)
+     C                  DMELRT   ,ITASK   ,H3D_DATA,JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -123,6 +123,7 @@ C-----------------------------------------------
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,ITASK
+      INTEGER, INTENT(IN) :: JSMS
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
@@ -241,10 +242,12 @@ C
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
-        CALL R1LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
-     2              ITYPTST   ,STI    ,MS      ,MSRT ,DMELRT ,
-     3              GBUF%G_DT ,GBUF%DT,NGL     ,XK   ,XM     ,
-     4              XC        ,AK     ,NC1     ,NC2  )
+        CALL R1LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      MS,
+     3   MSRT,     DMELRT,   GBUF%G_DT,GBUF%DT,
+     4   NGL,      XK,       XM,       XC,
+     5   AK,       NC1,      NC2,      JSMS)
         CALL RBILAN(GBUF%EINT ,PARTSAV           ,IXR    ,GEO  ,V    ,
      2              IPARTR    ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF  ,NC1               ,NC2    ,X    ,VR   ,ITASK)
@@ -282,21 +285,26 @@ C          spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R26DEF3(GBUF%FOR(II(1))  ,GBUF%EINT              ,GBUF%TOTDEPL(II(1)),GBUF%LENGTH(II(1)),GBUF%DV,
-     2               GBUF%FOREP(II(1)),GBUF%DEP_IN_COMP(II(1)),GBUF%POSX          ,GEO               ,IGEO   ,
-     3               NPF              ,TF                     ,V                  ,OFF               ,ANIM   ,
-     4               FR_WAVE          ,GBUF%LENGTH_ERR        ,X1DP               ,X2DP              ,NGL    ,
-     5               MGN              ,EX                     ,EY                 ,EZ                ,XK     ,
-     6               XM               ,XC                     ,AK                 )
+        CALL R26DEF3(
+     1   GBUF%FOR(II(1)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),    GBUF%LENGTH(II(1)),
+     2   GBUF%DV,                GBUF%FOREP(II(1)),      GBUF%DEP_IN_COMP(II(1)),GBUF%POSX,
+     3   GEO,                    IGEO,                   NPF,                    TF,
+     4   V,                      OFF,                    ANIM,                   FR_WAVE,
+     5   GBUF%LENGTH_ERR,        X1DP,                   X2DP,                   NGL,
+     6   MGN,                    EX,                     EY,                     EZ,
+     7   XK,                     XM,                     XC,                     AK,
+     8   NEL)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
-        CALL R1LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
-     2              ITYPTST   ,STI    ,MS      ,MSRT ,DMELRT ,
-     3              GBUF%G_DT ,GBUF%DT,NGL     ,XK   ,XM     ,
-     4              XC        ,AK     ,NC1     ,NC2  )
+        CALL R1LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      MS,
+     3   MSRT,     DMELRT,   GBUF%G_DT,GBUF%DT,
+     4   NGL,      XK,       XM,       XC,
+     5   AK,       NC1,      NC2,      JSMS)
         CALL RBILAN(GBUF%EINT,PARTSAV           ,IXR    ,GEO  ,V    ,
      2              IPARTR   ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF ,NC1               ,NC2    ,X    ,VR   ,ITASK)
@@ -344,10 +352,12 @@ C
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
-        CALL R1LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
-     2              ITYPTST   ,STI    ,MS      ,MSRT ,DMELRT ,
-     3              GBUF%G_DT ,GBUF%DT,NGL     ,XK   ,XM     ,
-     4              XC        ,AK     ,NC1     ,NC2  )
+        CALL R1LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      MS,
+     3   MSRT,     DMELRT,   GBUF%G_DT,GBUF%DT,
+     4   NGL,      XK,       XM,       XC,
+     5   AK,       NC1,      NC2,      JSMS)
         CALL RBILAN(GBUF%EINT ,PARTSAV           ,IXR    ,GEO  ,V    ,
      2              IPARTR    ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF  ,NC1               ,NC2    ,X    ,VR   ,ITASK)
@@ -416,11 +426,13 @@ C
         
         CALL RSENS_NIC(NEL   ,IXR    ,GBUF%FOR,GBUF%MOM,SKEW  ,SENSOR_TAB)
 C
-        CALL R2LEN3(JFT     ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
-     2              ITYPTST ,STI    ,STIR      ,MS     ,IN     ,
-     3              MSRT    ,DMELRT ,GBUF%G_DT ,GBUF%DT,NGL    ,
-     4              XCR     ,XIN    ,XM        ,XKM    ,XCM    ,
-     5              XKR     ,NC1    ,NC2       )
+        CALL R2LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      STIR,
+     3   MS,       IN,       MSRT,     DMELRT,
+     4   GBUF%G_DT,GBUF%DT,  NGL,      XCR,
+     5   XIN,      XM,       XKM,      XCM,
+     6   XKR,      NC1,      NC2,      JSMS)
         CALL RBILAN(GBUF%EINT,PARTSAV,IXR    ,GEO  ,V    ,
      2              IPARTR   ,BID    ,GRESAV ,GRTH ,IGRTH,
      3              GBUF%OFF ,NC1    ,NC2    ,X    ,VR   ,ITASK)
@@ -487,10 +499,13 @@ c
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
-        CALL R3LEN3(JFT       ,JLT    ,GBUF%OFF,DT2T ,NELTST ,
-     2              ITYPTST   ,STI    ,MS      ,MSRT ,DMELRT ,
-     3              GBUF%G_DT ,GBUF%DT,NGL     ,XK   ,XM     ,
-     4              XC        ,AK     ,NC1     ,NC2  ,NC3    )
+        CALL R3LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      MS,
+     3   MSRT,     DMELRT,   GBUF%G_DT,GBUF%DT,
+     4   NGL,      XK,       XM,       XC,
+     5   AK,       NC1,      NC2,      NC3,
+     6   JSMS)
         CALL R3BILAN(GBUF%EINT,PARTSAV           ,IXR    ,GEO  ,V    ,
      2               IPARTR   ,GBUF%LENGTH(II(1)),GRESAV ,GRTH ,IGRTH,
      3               NC1      ,NC2               ,NC3    ,X    ,VR,ITASK)
@@ -569,11 +584,13 @@ C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
-        CALL R2LEN3(JFT    ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
-     2              ITYPTST,STI    ,STIR      ,MS     ,IN     ,
-     3              MSRT   ,DMELRT ,GBUF%G_DT ,GBUF%DT,NGL    ,
-     4              XCR    ,XIN    ,XM        ,XKM    ,XCM    ,
-     5              XKR    ,NC1    ,NC2       )
+        CALL R2LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      STIR,
+     3   MS,       IN,       MSRT,     DMELRT,
+     4   GBUF%G_DT,GBUF%DT,  NGL,      XCR,
+     5   XIN,      XM,       XKM,      XCM,
+     6   XKR,      NC1,      NC2,      JSMS)
         CALL RBILAN(GBUF%EINT,PARTSAV           ,IXR   ,GEO ,V    ,
      2              IPARTR   ,GBUF%LENGTH(II(1)),GRESAV,GRTH,IGRTH,
      3              GBUF%OFF ,NC1               ,NC2   ,X   ,VR   ,ITASK)
@@ -663,11 +680,13 @@ C
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
-        CALL R2LEN3(JFT    ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
-     2              ITYPTST,STI    ,STIR      ,MS     ,IN     ,
-     3              MSRT   ,DMELRT ,GBUF%G_DT ,GBUF%DT,NGL    ,
-     4              XCR    ,XIN    ,XM        ,XKM    ,XCM    ,
-     5              XKR    ,NC1    ,NC2       )
+        CALL R2LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      STIR,
+     3   MS,       IN,       MSRT,     DMELRT,
+     4   GBUF%G_DT,GBUF%DT,  NGL,      XCR,
+     5   XIN,      XM,       XKM,      XCM,
+     6   XKR,      NC1,      NC2,      JSMS)
         CALL RBILAN(GBUF%EINT,PARTSAV           ,IXR   ,GEO ,V    ,
      2              IPARTR   ,GBUF%LENGTH(II(1)),GRESAV,GRTH,IGRTH,
      3              GBUF%OFF ,NC1               ,NC2   ,X   ,VR   ,ITASK)
@@ -975,20 +994,24 @@ C
 	       IF (IGTYP == 45) FLG_KJ2 = 1
 C
         CALL RGJOINT(
-     1     JFT                ,JLT                ,IPARTR             ,NEL               ,NUVAR             ,
-     2     IOUT               ,I0                 ,IADR               ,FSKY              ,FSKY              ,
-     3     GBUF%OFF           ,GBUF%FOR(II(1))    ,GBUF%FOR(II(2))    ,GBUF%FOR(II(3))   ,GBUF%EINT         ,
-     4     GBUF%TOTDEPL(II(1)),GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%TOTROT(II(1)),GBUF%TOTROT(II(2)),
-     5     GBUF%TOTROT(II(3)) ,GBUF%MOM(II(1))    ,GBUF%MOM(II(2))    ,GBUF%MOM(II(3))   ,GBUF%VAR          ,
-     6     STIFN              ,STIFR              ,IXR                ,TANI              ,RBY               ,
-     7     X                  ,V                  ,VR                 ,STI               ,STIR              ,
-     8     MS                 ,IN                 ,PARTSAV            ,DT1               ,DT2T              ,
-     9     F                  ,AR                 ,FX1                ,FX2               ,FY1               ,
-     A     FY2                ,FZ1                ,FZ2                ,MX1               ,MX2               ,
-     B     MY1                ,MY2                ,MZ1                ,MZ2               ,GRESAV            ,
-     C     GRTH               ,IGRTH              ,MSRT               ,DMELRT            ,NELTST            ,
-     D     ITYPTST            ,IGTYP              ,SENSOR_TAB         ,NC1               ,
-     E     NC2                ,XDP                ,GBUF%LENGTH_ERR    ,H3D_DATA)
+     1   JFT,                JLT,                IPARTR,             NEL,
+     2   NUVAR,              IOUT,               I0,                 IADR,
+     3   FSKY,               FSKY,               GBUF%OFF,           GBUF%FOR(II(1)),
+     4   GBUF%FOR(II(2)),    GBUF%FOR(II(3)),    GBUF%EINT,          GBUF%TOTDEPL(II(1)),
+     5   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)),
+     6   GBUF%TOTROT(II(3)), GBUF%MOM(II(1)),    GBUF%MOM(II(2)),    GBUF%MOM(II(3)),
+     7   GBUF%VAR,           STIFN,              STIFR,              IXR,
+     8   TANI,               RBY,                X,                  V,
+     9   VR,                 STI,                STIR,               MS,
+     A   IN,                 PARTSAV,            DT1,                DT2T,
+     B   F,                  AR,                 FX1,                FX2,
+     C   FY1,                FY2,                FZ1,                FZ2,
+     D   MX1,                MX2,                MY1,                MY2,
+     E   MZ1,                MZ2,                GRESAV,             GRTH,
+     F   IGRTH,              MSRT,               DMELRT,             NELTST,
+     G   ITYPTST,            IGTYP,              SENSOR_TAB,         NC1,
+     H   NC2,                XDP,                GBUF%LENGTH_ERR,    H3D_DATA,
+     I   JSMS)
 C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN
 C=======================================================================

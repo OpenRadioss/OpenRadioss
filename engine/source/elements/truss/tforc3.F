@@ -115,10 +115,12 @@ C-------     activation only in compression in laws
       DO I=1,NEL
        IF (GEO(2,PID(I))>ZERO .AND. GBUF%OFF(I)>ZERO) OFF(I)=ZERO
       ENDDO
-      CALL TDLEN3(JFT    , JLT   ,PM        ,GBUF%OFF,OFF   ,
-     .            DT2T   , NELTST,ITYPTST   ,MSTR    ,DMELTR,
-     .            GBUF%DT, NEL   ,GBUF%G_DT ,MAT     ,NGL   ,
-     .            AL     )
+      CALL TDLEN3(
+     1   JFT,      JLT,      PM,       GBUF%OFF,
+     2   OFF,      DT2T,     NELTST,   ITYPTST,
+     3   MSTR,     DMELTR,   GBUF%DT,  NEL,
+     4   GBUF%G_DT,MAT,      NGL,      AL,
+     5   JSMS)
 !
       IF (MTN == 1) THEN
         CALL M1LAWT(
@@ -186,10 +188,12 @@ C-------------------------
      4   NC1,     NC2,     EX,      EY,
      5   EZ,      NEL)
       ELSE
-        CALL TFCUM3P(GBUF%FOR,STI     ,FSKY ,FSKY ,IADT,
-     .               FX1     ,FX2     ,FY1  ,FY2  ,FZ1 ,
-     .               FZ2     ,GBUF%OFF,OFF  ,NC1  ,NC2 ,
-     .               EX      ,EY      ,EZ   )
+        CALL TFCUM3P(
+     1   GBUF%FOR,STI,     FSKY,    FSKY,
+     2   IADT,    FX1,     FX2,     FY1,
+     3   FY2,     FZ1,     FZ2,     GBUF%OFF,
+     4   OFF,     NC1,     NC2,     EX,
+     5   EY,      EZ,      NEL,     NFT)
       ENDIF
 C-----------------------------------------------
       RETURN

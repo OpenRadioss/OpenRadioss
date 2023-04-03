@@ -33,10 +33,13 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M3LAW(PM,OFF     ,SIG     ,EPSEQ   ,MAT     ,
-     2           NGL     ,SSP     ,D1      ,D2      ,D3      ,
-     3           D4      ,D5      ,D6      ,RHO0    ,DPDM    ,
-     4           IPLA    ,SIGY    ,DEFP    ,DPLA1   ,NEL     )
+      SUBROUTINE M3LAW(
+     1   PM,      OFF,     SIG,     EPSEQ,
+     2   MAT,     NGL,     SSP,     D1,
+     3   D2,      D3,      D4,      D5,
+     4   D6,      RHO0,    DPDM,    IPLA,
+     5   SIGY,    DEFP,    DPLA1,   NEL,
+     6   NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,13 +53,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER MAT(MVSIZ),NGL(MVSIZ),NEL
       my_real
      .   PM(NPROPM,*), OFF(MVSIZ), SIG(NEL,6), EPSEQ(MVSIZ),

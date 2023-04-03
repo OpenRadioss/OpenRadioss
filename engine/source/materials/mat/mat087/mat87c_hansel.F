@@ -27,15 +27,18 @@ Chd|        SIGEPS87C                     source/materials/mat/mat087/sigeps87c.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MAT87C_HANSEL(
-     1     NEL    ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP ,
-     3     UVAR   ,RHO0    ,THKLY   ,THK     ,OFF      ,
-     4     EPSPXX ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX   ,
-     5     DEPSXX ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
-     6     SIGOXX ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX   ,
-     8     SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
-     9     SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
-     B     ETSE   ,GS      ,ISRATE  ,FCUT    ,UPARAM   ,
-     C     TEMPEL ,SIGB    ,INLOC   ,DPLANL  ,SEQ      )
+     1   NEL,     NUPARAM, NUVAR,   TIME,
+     2   TIMESTEP,UVAR,    RHO0,    THKLY,
+     3   THK,     OFF,     EPSPXX,  EPSPYY,
+     4   EPSPXY,  EPSPYZ,  EPSPZX,  DEPSXX,
+     5   DEPSYY,  DEPSXY,  DEPSYZ,  DEPSZX,
+     6   SIGOXX,  SIGOYY,  SIGOXY,  SIGOYZ,
+     7   SIGOZX,  SIGNXX,  SIGNYY,  SIGNXY,
+     8   SIGNYZ,  SIGNZX,  SOUNDSP, PLA,
+     9   DPLA,    EPSP,    YLD,     ETSE,
+     A   GS,      ISRATE,  FCUT,    UPARAM,
+     B   TEMPEL,  SIGB,    INLOC,   DPLANL,
+     C   SEQ,     JTHE)
 C=======================================================================
 C   BARLAT YLD2000 material model
 C=======================================================================
@@ -86,11 +89,11 @@ C OFF     | NEL    | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,ISRATE,INLOC
+      INTEGER, INTENT(IN) :: JTHE
       my_real 
      .   TIME,TIMESTEP,FCUT,UPARAM(NUPARAM),
      .   RHO0(NEL),GS(NEL),
