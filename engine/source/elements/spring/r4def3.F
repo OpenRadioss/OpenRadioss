@@ -167,14 +167,14 @@ C
 C
       IF (TT == ZERO) THEN
         DO I=1,NEL
-          X0(I)= ALDP(I)                   ! cast double vers My_real
+          X0(I)= ALDP(I)                   ! cast double to My_real
         ENDDO
       ENDIF
 C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
           DO I=1,NEL
-            X0_ERR(I)= ALDP(I)-X0(I)         ! difference entre double et My_real
+            X0_ERR(I)= ALDP(I)-X0(I)         ! difference between double and my_real
           ENDDO
         ENDIF
       ENDIF
@@ -186,12 +186,12 @@ C
       ENDIF
 C
       DO I=1,NEL
-        X0DP(I)= X0(I)                     ! cast double vers My_real
+        X0DP(I)= X0(I)                     ! cast double to My_real
       ENDDO
 C
       IF (SCODVER >= 101) THEN
         DO I=1,NEL
-          X0DP(I)= X0(I) + X0_ERR(I)         ! difference entre double et My_real
+          X0DP(I)= X0(I) + X0_ERR(I)         ! difference between double and my_real
         ENDDO
       ENDIF
 C---------------------
@@ -732,7 +732,7 @@ C
         E(I) = E6(I,1)+E6(I,2)+E6(I,3)+E6(I,4)+E6(I,5)+E6(I,6)
       ENDDO
 C-------------------------------
-C     RUPTURE COUPLEE
+C     COUPLED FAILURE
 C-------------------------------
       DO I=1,NEL
         ISRATE = INT (GEO(127,MGN(I)))
@@ -740,6 +740,7 @@ C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
         ASRATE = (2*PI*GEO(128,MGN(I))*DT1)/(ONE+2*PI*GEO(128,MGN(I))*DT1)
         IF (ISRATE /= 0) THEN
           IF (CRIT_NEW(I) < ONE) THEN 
+            CRIT(I) = MIN(CRIT(I),ONE+EM3)
             CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRIT_NEW(I)
             CRIT_NEW(I) = MIN(CRIT(I),ONE)
           ELSE
@@ -770,7 +771,7 @@ C
 #include "lockoff.inc"
       ENDDO
 C-------------------------------
-C     PLASTICITE COUPLEE
+C     COUPLED PLASTICITY
 C-------------------------------
       CALL REPLA3(
      1   XK,      RPX,     TF,      NPF,

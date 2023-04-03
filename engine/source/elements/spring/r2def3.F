@@ -193,9 +193,9 @@ C
           X0DP(I)= X21DP(I)*EXX(I)+Y21DP(I)*EYX(I)+Z21DP(I)*EZX(I)
           Y0DP(I)= X21DP(I)*EXY(I)+Y21DP(I)*EYY(I)+Z21DP(I)*EZY(I)
           Z0DP(I)= X21DP(I)*EXZ(I)+Y21DP(I)*EYZ(I)+Z21DP(I)*EZZ(I)
-          X0(I)= X0DP(I)                 ! cast double vers My_real
-          Y0(I)= Y0DP(I)                 ! cast double vers My_real
-          Z0(I)= Z0DP(I)                 ! cast double vers My_real
+          X0(I)= X0DP(I)                 ! cast double to My_real
+          Y0(I)= Y0DP(I)                 ! cast double to My_real
+          Z0(I)= Z0DP(I)                 ! cast double to My_real
         ENDDO
 !
         IF (INISPRI /= 0) THEN
@@ -213,9 +213,9 @@ C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
           DO I=1,NEL
-            X0_ERR(1,I)= X0DP(I)-X0(I)   ! difference entre double et My_real
-            X0_ERR(2,I)= Y0DP(I)-Y0(I)   ! difference entre double et My_real
-            X0_ERR(3,I)= Z0DP(I)-Z0(I)   ! difference entre double et My_real
+            X0_ERR(1,I)= X0DP(I)-X0(I)   ! difference between double and my_real
+            X0_ERR(2,I)= Y0DP(I)-Y0(I)   ! difference between double and my_real
+            X0_ERR(3,I)= Z0DP(I)-Z0(I)   ! difference between double and my_real
           ENDDO
         ENDIF
       ENDIF
@@ -236,9 +236,9 @@ C
 C
       IF (SCODVER >= 101) THEN
         DO I=1,NEL
-          X0DP(I)= X0DP(I) + X0_ERR(1,I) ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
-          Y0DP(I)= Y0DP(I) + X0_ERR(2,I) ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
-          Z0DP(I)= Z0DP(I) + X0_ERR(3,I) ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
+          X0DP(I)= X0DP(I) + X0_ERR(1,I) ! AL_DP must be recomputed to be sure of absolute consistency between AL0_DP and AL_DP
+          Y0DP(I)= Y0DP(I) + X0_ERR(2,I) ! AL_DP must be recomputed to be sure of absolute consistency between AL0_DP and AL_DP
+          Z0DP(I)= Z0DP(I) + X0_ERR(3,I) ! AL_DP must be recomputed to be sure of absolute consistency between AL0_DP and AL_DP
         ENDDO
       ENDIF
 C
@@ -647,7 +647,7 @@ C-----------------------------------
       ENDDO
 C
 C-------------------------------
-C     RUPTURE COUPLEE
+C    COUPLED FAILURE
 C-------------------------------
       DO I=1,NEL
         ISRATE = NINT(GEO(96, MGN(I)))
@@ -655,6 +655,7 @@ C---- smoothing factor alpha = 2PI*fc*dt/(2PI*fc*dt+1) ---
         ASRATE = (2*PI*GEO(97,MGN(I))*DT1)/(ONE+2*PI*GEO(97,MGN(I))*DT1)
         IF (ISRATE /= 0) THEN
           IF (CRITNEW(I) < ONE) THEN 
+            CRIT(I) = MIN(CRIT(I),ONE+EM3)
             CRIT(I) = ASRATE*CRIT(I) + (ONE - ASRATE)*CRITNEW(I)
             CRITNEW(I) = MIN(CRIT(I),ONE)
           ELSE
@@ -683,7 +684,7 @@ C
 #include "lockoff.inc"
       ENDDO
 C-------------------------------
-C     PLASTICITE COUPLEE
+C     COUPLED PLASTICITY
 C-------------------------------
       CALL REPLA3(
      1   XK,      RPX,     TF,      NPF,
