@@ -26,11 +26,14 @@ Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S10LEN3(VOL,NGL,DELTAX,DELTAX2,
-     .   PX,  PY,  PZ,VOLG,VOLGO,
-     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   NC,NEL,MXT,PM,
-     .   TAGELEM_SMS,V_PITER)
+      SUBROUTINE S10LEN3(
+     1   VOL,        NGL,        DELTAX,     DELTAX2,
+     2   PX,         PY,         PZ,         VOLG,
+     3   VOLGO,      RX,         RY,         RZ,
+     4   SX,         SY,         SZ,         TX,
+     5   TY,         TZ,         NC,         NEL,
+     6   MXT,        PM,         TAGELEM_SMS,V_PITER,
+     7   NPT,        IINT,       ISROT,      IFORMDT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
@@ -51,6 +53,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPT
+      INTEGER, INTENT(IN) :: IINT
+      INTEGER, INTENT(IN) :: ISROT
+      INTEGER, INTENT(IN) :: IFORMDT
       INTEGER NGL(*), NC(MVSIZ,10), NEL, MXT(MVSIZ), TAGELEM_SMS(*)
 C     REAL
       my_real

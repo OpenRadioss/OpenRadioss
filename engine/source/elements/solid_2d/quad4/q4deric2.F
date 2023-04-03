@@ -27,12 +27,16 @@ Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4DERIC2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,  
-     2                    Y12,Y34,Y13,Y24,Y14,Y23,
-     3                    Z12,Z34,Z13,Z24,Z14,Z23,
-     4                    PYC1,PYC2,PZC1,PZC2,AIRE,
-     5                    VOLU,YAVG,RX , RY , RZ ,
-     6                    SX ,SY , SZ )
+      SUBROUTINE Q4DERIC2(
+     1   Y1,      Y2,      Y3,      Y4,
+     2   Z1,      Z2,      Z3,      Z4,
+     3   Y12,     Y34,     Y13,     Y24,
+     4   Y14,     Y23,     Z12,     Z34,
+     5   Z13,     Z24,     Z14,     Z23,
+     6   PYC1,    PYC2,    PZC1,    PZC2,
+     7   AIRE,    VOLU,    YAVG,    RX,
+     8   RY,      RZ,      SX,      SY,
+     9   SZ,      NEL,     JHBE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,10 +49,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: JHBE
 C     REAL
       my_real
      .    Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
@@ -76,7 +81,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         Y12(I) = Y1(I) - Y2(I)
         Y34(I) = Y3(I) - Y4(I)
         Y13(I) = Y1(I) - Y3(I)
@@ -91,7 +96,7 @@ C-----------------------------------------------
         Z23(I) = Z2(I) - Z3(I)
       END DO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
 C       dNi/dY, dNi/dZ, A=4.*|J|
         PYC1(I) = HALF*(Z2(I)-Z4(I))/AIRE(I)
         PYC2(I) = HALF*(Z3(I)-Z1(I))/AIRE(I)
@@ -100,11 +105,11 @@ C       dNi/dY, dNi/dZ, A=4.*|J|
       ENDDO
 C     COMPUTE VOLUME/(2*PI) FOR AXISYMMETRIC CASE 
       IF(N2D==1.AND.JHBE==17) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             VOLU(I) = FOURTH*YAVG(I)*AIRE(I)
           ENDDO
       ENDIF
-      DO I=LFT,LLT
+      DO I=1,NEL
         RX(I) = ONE
         RY(I) = ZERO
         RZ(I) = ZERO

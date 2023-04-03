@@ -26,13 +26,17 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M6LAW(PM   ,OFF  ,SIG  ,EINT ,RHO  ,RK   ,
-     2                 RE   ,VORTI,VNEW ,RHO0 ,VIS  ,PSH  ,
-     3                 D1   ,D2   ,D3   ,D4   ,D5   ,D6   ,
-     4                 C1   ,C2   ,C3   ,C4   ,C5   ,C6   , 
-     5                 PC   ,AMU  ,AMU2 ,ESPE ,SSP  ,DF   ,
-     6                 TMU  ,MAT  ,WXX  ,WYY  ,WZZ  ,NEL  ,
-     7                 DPDM)
+      SUBROUTINE M6LAW(
+     1   PM,      OFF,     SIG,     EINT,
+     2   RHO,     RK,      RE,      VORTI,
+     3   VNEW,    RHO0,    VIS,     PSH,
+     4   D1,      D2,      D3,      D4,
+     5   D5,      D6,      C1,      C2,
+     6   C3,      C4,      C5,      C6,
+     7   PC,      AMU,     AMU2,    ESPE,
+     8   SSP,     DF,      TMU,     MAT,
+     9   WXX,     WYY,     WZZ,     NEL,
+     A   DPDM,    JTUR,    JPOR)
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -40,12 +44,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JPOR
       INTEGER MAT(*),NEL
       my_real
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), RK(*), RE(*),

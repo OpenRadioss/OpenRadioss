@@ -27,16 +27,28 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE SHVIS3(PM,RHO,OFF,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1H1, PX1H2, PX1H3, PX2H1, PX2H2, PX2H3,
-     .   PX3H1, PX3H2, PX3H3, PX4H1, PX4H2, PX4H3,
-     .   VOL,MAT,CXX,VIS,VD2,DELTAX,EANI,PID,GEO,PARTSAV,IPARTS,
-     .   OFFG,VOL0, IPARG1, IFVM_SKIP)
+      SUBROUTINE SHVIS3(
+     1   PM,       RHO,      OFF,      VX1,
+     2   VX2,      VX3,      VX4,      VX5,
+     3   VX6,      VX7,      VX8,      VY1,
+     4   VY2,      VY3,      VY4,      VY5,
+     5   VY6,      VY7,      VY8,      VZ1,
+     6   VZ2,      VZ3,      VZ4,      VZ5,
+     7   VZ6,      VZ7,      VZ8,      F11,
+     8   F21,      F31,      F12,      F22,
+     9   F32,      F13,      F23,      F33,
+     A   F14,      F24,      F34,      F15,
+     B   F25,      F35,      F16,      F26,
+     C   F36,      F17,      F27,      F37,
+     D   F18,      F28,      F38,      PX1H1,
+     E   PX1H2,    PX1H3,    PX2H1,    PX2H2,
+     F   PX2H3,    PX3H1,    PX3H2,    PX3H3,
+     G   PX4H1,    PX4H2,    PX4H3,    VOL,
+     H   MAT,      CXX,      VIS,      VD2,
+     I   DELTAX,   EANI,     PID,      GEO,
+     J   PARTSAV,  IPARTS,   OFFG,     VOL0,
+     K   IPARG1,   IFVM_SKIP,NEL,      NFT,
+     L   MTN,      ISMSTR,   JLAG,     JHBE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,7 +66,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k sj
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -65,6 +76,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JLAG
+      INTEGER, INTENT(IN) :: JHBE
       INTEGER MAT(*),PID(*),IPARTS(*), IPARG1(*)
       my_real
      .   PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO), RHO(*),OFF(*),
@@ -110,7 +127,7 @@ C-----------------------------------------------
       
       IF(IPARG1(64)==1 .OR. (MTN==17 .AND. ALE%UPWIND%UPWM<2) .OR. INT22>0 .OR. IFVM_SKIP==1)THEN
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
 
         F11(I) =ZERO
         F12(I) =ZERO
@@ -144,13 +161,13 @@ C
       ENDIF
 C
       IF(INVSTR>=35)THEN
-        MT = PID(LFT)
-        DO I=LFT,LLT
+        MT = PID(1)
+        DO I=1,NEL
           CAQ(I)=FOURTH*OFF(I)*GEO(13,MT)
         ENDDO
       ELSE
-        MX = MAT(LFT)
-        DO I=LFT,LLT
+        MX = MAT(1)
+        DO I=1,NEL
           CAQ(I)=FOURTH*OFF(I)*PM(4,MX)
         ENDDO
       ENDIF
@@ -159,7 +176,7 @@ C
 C MATERIAUX FLUIDES 
       IF(FLUID==1)THEN
        IF(ALE%UPWIND%UPWM>1 .OR. JLAG==1)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(VIS(I)>ZERO)THEN
           FCQ(I)=ZERO
           FCL(I)=TEN*CAQ(I)*VIS(I)*DELTAX(I)
@@ -169,12 +186,12 @@ C MATERIAUX FLUIDES
          ENDIF
         ENDDO
        ELSEIF(ALE%UPWIND%UPWM==0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           FCL(I)=CAQ(I)*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
           FCQ(I)=ZERO
         ENDDO
        ELSEIF(ALE%UPWIND%UPWM==1)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           FCL(I)=CAQ(I)*RHO(I)*DELTAX(I)**2
           FCL(I)=MIN(FCL(I)*CXX(I),MAX(TEN*CAQ(I)*VIS(I)*DELTAX(I),FCL(I)*SQRT(VD2(I))))
           FCQ(I)=ZERO
@@ -183,23 +200,23 @@ C MATERIAUX FLUIDES
       ELSE
 C MATERIAUX NON FLUIDES 
        IF(ISMSTR == 1)  THEN
-         MX = MAT(LFT)
-         DO I=LFT,LLT
+         MX = MAT(1)
+         DO I=1,NEL
            RHO0(I) = PM(1,MX)
          END DO
-         DO I=LFT,LLT
+         DO I=1,NEL
            FCL(I)=CAQ(I)*RHO0(I)*VOL(I)**TWO_THIRD     
            FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
            FCL(I)=FCL(I)*CXX(I)
          ENDDO
        ELSEIF(ISMSTR == 2) THEN
-         MX = MAT (LFT) 
-         DO I=LFT,LLT
+         MX = MAT (1) 
+         DO I=1,NEL
           IF(OFFG(I) > ONE) THEN
            RHO0(I) = PM(1,MX)
           END IF
          END DO
-         DO I=LFT,LLT
+         DO I=1,NEL
           IF(OFFG(I) > ONE) THEN
            AA = RHO0(I)*VOL0(I)/MAX(EM20,VOL(I))
            FCL(I)=CAQ(I)*AA*VOL(I)**TWO_THIRD
@@ -212,16 +229,15 @@ C MATERIAUX NON FLUIDES
           ENDIF 
          ENDDO
        ELSE
-         DO I=LFT,LLT
+         DO I=1,NEL
            FCL(I)=CAQ(I)*RHO(I)*VOL(I)**TWO_THIRD
            FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
            FCL(I)=FCL(I)*CXX(I)
          ENDDO
        ENDIF
       END IF
-
       IF(JHBE==0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         VX3478=VX3(I)-VX4(I)-VX7(I)+VX8(I)
         VX2358=VX2(I)-VX3(I)-VX5(I)+VX8(I)
         VX1467=VX1(I)-VX4(I)-VX6(I)+VX7(I)
@@ -253,7 +269,7 @@ C
         HGZ4(I)=VZ1256+VZ3478
        ENDDO
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
         HX1(I)=HGX1(I)*(FCL(I)+ABS(HGX1(I))*FCQ(I))
         HX2(I)=HGX2(I)*(FCL(I)+ABS(HGX2(I))*FCQ(I))
         HX3(I)=HGX3(I)*(FCL(I)+ABS(HGX3(I))*FCQ(I))
@@ -270,7 +286,7 @@ C
         HZ4(I)=HGZ4(I)*(FCL(I)+ABS(HGZ4(I))*FCQ(I))
        ENDDO
 C
-       DO  I=LFT,LLT
+       DO  I=1,NEL
         F11(I) =-HX1(I)-HX2(I)-HX3(I)-HX4(I)
         F12(I) = HX1(I)-HX2(I)+HX3(I)+HX4(I)
         F13(I) =-HX1(I)+HX2(I)+HX3(I)-HX4(I)
@@ -299,7 +315,7 @@ C
         F38(I) = HZ1(I)-HZ2(I)+HZ3(I)-HZ4(I)
        ENDDO
       ELSEIF(JHBE>=1) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         G11(I)= ONE-PX1H1(I)
         G21(I)=-ONE-PX2H1(I)
         G31(I)= ONE-PX3H1(I)
@@ -313,7 +329,7 @@ C
         HGZ1(I) = G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I)+G51(I)*VZ5(I)+G61(I)*VZ6(I)+G71(I)*VZ7(I)+G81(I)*VZ8(I)
        ENDDO
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
         G12(I)= ONE-PX1H2(I)
         G22(I)= ONE-PX2H2(I)
         G32(I)=-ONE-PX3H2(I)
@@ -327,7 +343,7 @@ C
         HGZ2(I)=G12(I)*VZ1(I)+G22(I)*VZ2(I)+G32(I)*VZ3(I)+G42(I)*VZ4(I)+G52(I)*VZ5(I)+G62(I)*VZ6(I)+G72(I)*VZ7(I)+G82(I)*VZ8(I)
        ENDDO
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
         G13(I)= ONE-PX1H3(I)
         G23(I)=-ONE-PX2H3(I)
         G33(I)=-ONE-PX3H3(I)
@@ -341,14 +357,14 @@ C
         HGZ3(I)=G13(I)*VZ1(I)+G23(I)*VZ2(I)+G33(I)*VZ3(I)+G43(I)*VZ4(I)+G53(I)*VZ5(I)+G63(I)*VZ6(I)+G73(I)*VZ7(I)+G83(I)*VZ8(I)
        ENDDO       
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
 C 1 -1 1 -1 -1 1 -1 1
          HGX4(I)=VX1(I)-VX2(I)+VX3(I)-VX4(I)-VX5(I)+VX6(I)-VX7(I)+VX8(I)
          HGY4(I)=VY1(I)-VY2(I)+VY3(I)-VY4(I)-VY5(I)+VY6(I)-VY7(I)+VY8(I)
          HGZ4(I)=VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I)-VZ5(I)+VZ6(I)-VZ7(I)+VZ8(I)
        ENDDO
 C 
-       DO I=LFT,LLT
+       DO I=1,NEL
         HX1(I)=HGX1(I)*(FCL(I)+ABS(HGX1(I))*FCQ(I))
         HX2(I)=HGX2(I)*(FCL(I)+ABS(HGX2(I))*FCQ(I))
         HX3(I)=HGX3(I)*(FCL(I)+ABS(HGX3(I))*FCQ(I))
@@ -365,7 +381,7 @@ C
         HZ4(I)=HGZ4(I)*(FCL(I)+ABS(HGZ4(I))*FCQ(I))
        ENDDO
 C
-       DO I=LFT,LLT
+       DO I=1,NEL
         F11(I) =-G11(I)*HX1(I)-G12(I)*HX2(I)-G13(I)*HX3(I)-HX4(I)
         F12(I) =-G21(I)*HX1(I)-G22(I)*HX2(I)-G23(I)*HX3(I)+HX4(I)
         F13(I) =-G31(I)*HX1(I)-G32(I)*HX2(I)-G33(I)*HX3(I)-HX4(I)
@@ -395,7 +411,7 @@ C
        ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         EHOU(I)= DT1*(
      &   HZ1(I)*HGZ1(I) + HZ2(I)*HGZ2(I) + 
      &   HZ3(I)*HGZ3(I) + HZ4(I)*HGZ4(I) + 
@@ -406,7 +422,7 @@ C
       END DO
 C
       EHOURT = ZERO
-      DO I=LFT,LLT     
+      DO I=1,NEL     
         EHOURT= EHOURT+EHOU(I)
       ENDDO   
 
@@ -415,20 +431,20 @@ C
       IF(JLAG==1)THEN
 C
         IF (IVECTOR==0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             MX = IPARTS(I)
             PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
           ENDDO
         ELSE
           IC=1
-          JST(IC)=LFT
-          DO J=LFT+1,LLT
+          JST(IC)=1
+          DO J=1+1,NEL
             IF (IPARTS(J)/=IPARTS(J-1)) THEN
               IC=IC+1
               JST(IC)=J
             ENDIF
           ENDDO
-          JST(IC+1)=LLT+1                 
+          JST(IC+1)=NEL+1                 
           DO II=1,IC
             MX=IPARTS(JST(II))
             IF (JST(II+1)-JST(II)>15) THEN
@@ -450,7 +466,7 @@ C
 C
        IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN
 #include "vectorize.inc"
-        DO I=LFT,LLT
+        DO I=1,NEL
           EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*VOL(I))
         ENDDO
       ENDIF

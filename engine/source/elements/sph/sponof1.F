@@ -519,7 +519,7 @@ C--------
           NG=-KXSP(2,N)
           IPARG(8,NG) =0
           IPARG(10,NG)=IPARG(10,NG)+1
-          CALL INITBUF (IPARG    ,NG      ,                   
+          CALL INITBUF(IPARG    ,NG      ,                   
      2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    

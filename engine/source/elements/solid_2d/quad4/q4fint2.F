@@ -26,16 +26,17 @@ Chd|-- called by -----------
 Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4FINT2(SIG,AY,FAY,FAZ,
-     2                   PY1,PY2,PY3,PY4,
-     3                   PZ1,PZ2,PZ3,PZ4,
-     8                   BYZ1,BYZ2,BYZ3,BYZ4,
-     9                   BZY1,BZY2,BZY3,BZY4,
-     5                   FY1,FZ1,FY2,FZ2,
-     6                   FY3,FZ3,FY4,FZ4,
-     7                   R22,R23,R32,R33,
-     8                   AIR,VOL,QVIS,ICP,
-     9                   NEL)
+      SUBROUTINE Q4FINT2(
+     1   SIG,     AY,      FAY,     FAZ,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   BYZ1,    BYZ2,    BYZ3,    BYZ4,
+     5   BZY1,    BZY2,    BZY3,    BZY4,
+     6   FY1,     FZ1,     FY2,     FZ2,
+     7   FY3,     FZ3,     FY4,     FZ4,
+     8   R22,     R23,     R32,     R33,
+     9   AIR,     VOL,     QVIS,    ICP,
+     A   NEL,     JHBE,    JCVT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,12 +48,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JHBE
+      INTEGER, INTENT(IN) :: JCVT
       INTEGER ICP,NEL
 C     REAL
       my_real

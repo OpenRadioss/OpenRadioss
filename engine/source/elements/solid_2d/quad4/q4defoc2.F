@@ -26,9 +26,12 @@ Chd|-- called by -----------
 Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4DEFOC2(VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     2                    PYC1,PYC2,PZC1,PZC2,AIRE,
-     3                    EYZ,EXX,DSV,ICP)
+      SUBROUTINE Q4DEFOC2(
+     1   VY1,     VY2,     VY3,     VY4,
+     2   VZ1,     VZ2,     VZ3,     VZ4,
+     3   PYC1,    PYC2,    PZC1,    PZC2,
+     4   AIRE,    EYZ,     EXX,     DSV,
+     5   ICP,     NEL,     JCVT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,10 +45,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: JCVT
 C     REAL
       my_real
      .    VY1(*),VY2(*),VY3(*),VY4(*),
@@ -77,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         VY13(I) = VY1(I)-VY3(I)
         VY24(I) = VY2(I)-VY4(I)
         VZ13(I) = VZ1(I)-VZ3(I)
@@ -85,7 +89,7 @@ C-----------------------------------------------
       ENDDO
 C
 C     SHEAR STRAIN RATE AND INTRINSIC ROTATION
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(AIRE(I)>ZERO) THEN
           DZY(I) = PYC1(I)*VZ13(I)+PYC2(I)*VZ24(I)
           DYZ(I) = PZC1(I)*VY13(I)+PZC2(I)*VY24(I)
@@ -99,12 +103,12 @@ C     SHEAR STRAIN RATE AND INTRINSIC ROTATION
         ENDIF
       ENDDO
       IF(JCVT==0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
 c          WXX(I) = HALF*DT1*(DZY(I)-DYZ(I))
           EYZ(I) = DZY(I)+DYZ(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
 c          WXX(I) = ZERO
           EYZ(I) = DZY(I)+DYZ(I)-DT1*(DYY(I)*DYZ(I)+DZY(I)*DZZ(I))
         ENDDO
@@ -112,14 +116,14 @@ c          WXX(I) = ZERO
 C
 C     X- NORMAL STRAIN RATE
       IF(N2D/=1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EXX(I) = ZERO
         ENDDO
       ENDIF
 C
 C     VOLUMETRIC STRAIN RATE
       IF(ICP>0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DSV(I) = DYY(I)+DZZ(I)+EXX(I)
         ENDDO
       ENDIF

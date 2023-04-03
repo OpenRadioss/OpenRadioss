@@ -156,7 +156,7 @@ C-----------
 C            Recherche du groupe d'appartenance.
              NG=MOD(KXSP(2,N),NGROUP+1)
              IF(NG>0)THEN
-              CALL INITBUF (IPARG    ,NG      ,
+              CALL INITBUF(IPARG    ,NG      ,
      2           MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
      3           NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4           JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,

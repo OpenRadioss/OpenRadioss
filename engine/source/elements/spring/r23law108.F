@@ -38,19 +38,22 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE R23LAW108(ELBUF_STR,
-     1                  JFT      ,JLT      ,NEL      ,MTN     ,IGEO    ,
-     2                  GEO      ,IPM      ,IXR      ,X       ,TABLE   ,
-     3                  XDP      ,F        ,NPF     ,TF      ,SKEW    ,
-     4                  FLG_KJ2  ,VR       ,AR      ,V       ,DT2T    ,
-     5                  NELTST   ,ITYPTST  ,STIFN   ,STIFR   ,MS      ,
-     6                  IN       ,FSKY     ,IADR    ,SENSOR_TAB,
-     7                  OFFSET   ,ANIM     ,PARTSAV ,IPARTR  ,TANI    ,
-     8                  FR_WAVE  ,BUFMAT   ,BUFGEO  ,PM      ,RBY     ,
-     9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
-     A                  FZ2      ,MX1      ,MX2     ,MY1     ,MY2     ,
-     B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
-     C                  MSRT     ,DMELRT   ,H3D_DATA)
+      SUBROUTINE R23LAW108(
+     1   ELBUF_STR, JFT,       JLT,       NEL,
+     2   MTN,       IGEO,      GEO,       IPM,
+     3   IXR,       X,         TABLE,     XDP,
+     4   F,         NPF,       TF,        SKEW,
+     5   FLG_KJ2,   VR,        AR,        V,
+     6   DT2T,      NELTST,    ITYPTST,   STIFN,
+     7   STIFR,     MS,        IN,        FSKY,
+     8   IADR,      SENSOR_TAB,OFFSET,    ANIM,
+     9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
+     A   BUFMAT,    BUFGEO,    PM,        RBY,
+     B   FX1,       FX2,       FY1,       FY2,
+     C   FZ1,       FZ2,       MX1,       MX2,
+     D   MY1,       MY2,       MZ1,       MZ2,
+     E   GRESAV,    GRTH,      IGRTH,     MSRT,
+     F   DMELRT,    H3D_DATA,  JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*)
@@ -208,11 +212,13 @@ C
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
 C
-        CALL R2LEN3(JFT     ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
-     2              ITYPTST ,STI    ,STIR      ,MS     ,IN     ,
-     3              MSRT    ,DMELRT ,GBUF%G_DT ,GBUF%DT,NGL    ,
-     4              XCR     ,XIN    ,XM        ,XKM    ,XCM    ,
-     5              XKR     ,NC1    ,NC2       )
+        CALL R2LEN3(
+     1   JFT,      JLT,      GBUF%OFF, DT2T,
+     2   NELTST,   ITYPTST,  STI,      STIR,
+     3   MS,       IN,       MSRT,     DMELRT,
+     4   GBUF%G_DT,GBUF%DT,  NGL,      XCR,
+     5   XIN,      XM,       XKM,      XCM,
+     6   XKR,      NC1,      NC2,      JSMS)
         CALL R23BILAN(GBUF%EINT,PARTSAV,IXR    ,GEO  ,V    ,
      2                IPARTR   ,GBUF%MASS,GRESAV ,GRTH ,IGRTH,
      3                GBUF%OFF ,NC1               ,NC2    ,X   ,VR)

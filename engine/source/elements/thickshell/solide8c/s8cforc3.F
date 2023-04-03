@@ -955,9 +955,11 @@ C
      3             0          , GBUF%TAG22 , VOLDP,LBUF%VOL0DP,AMU  ,GBUF%OFF)
 C
         IF (JCVT == 0) THEN
-          CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
-     .                S5      ,S6   ,WXX  ,WYY  ,WZZ,
-     .                NEL     )
+          CALL SROTA3(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
 C-----------------------------
 C      SMALL STRAIN
 C-----------------------------
@@ -985,7 +987,9 @@ C     TIME STEP EST CALCULE ICI DT2T
 C------------------------------------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
+      IF(IBOLTP /= 0) CALL BOLTST(
+     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
+     2   TT,        NEL,       SENSOR_TAB,NPT)
 
         CALL MMAIN(ELBUF_TAB,NG    ,PM     ,GEO     ,FV      ,ALE_CONNECT   ,
      2           IXS     ,IPARG    ,V      ,TF      ,NPF     ,BUFMAT  ,

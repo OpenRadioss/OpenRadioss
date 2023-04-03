@@ -159,11 +159,13 @@ C-----------------------------------------------------------------
      .              SSP)
 
       ELSEIF (MTN == 3) THEN
-        CALL M3LAW8(PM      ,OFF     ,GBUF%SIG ,GBUF%PLA,GBUF%EINT,
-     .              GBUF%RHO,D1      ,D2       ,D3      ,D4       ,
-     .              D5       ,D6     ,VOLN     ,VOLGP   ,DVOL     ,
-     .              MAT      ,NGL    ,JPLASOL  ,DPLA    ,EPSP     ,
-     .              TSTAR    ,BUFLY  ,NEL      )
+        CALL M3LAW8(
+     1   PM,       OFF,      GBUF%SIG, GBUF%PLA,
+     2   GBUF%EINT,GBUF%RHO, D1,       D2,
+     3   D3,       D4,       D5,       D6,
+     4   VOLN,     VOLGP,    DVOL,     MAT,
+     5   NGL,      JPLASOL,  DPLA,     EPSP,
+     6   TSTAR,    BUFLY,    NEL,      NPT)
         CALL MEOS8 (PM       ,OFF     ,GBUF%SIG ,GBUF%EINT,GBUF%RHO,
      .              GBUF%QVIS,GBUF%VOL,GBUF%PLA ,GBUF%TEMP,GBUF%RE ,
      .              STIFN    ,NEL     ,D1       ,D2       ,D3      ,
@@ -182,19 +184,24 @@ c     user-type laws
         ENDDO
 c
         CALL MULAW8(
-     1            1      ,NEL      ,NFT      ,MTN      ,NPT      ,
-     2            D1       ,D2       ,D3       ,D4       ,D5       , 
-     3            D6       ,PM       ,OFF      ,GBUF%SIG ,GBUF%EINT, 
-     4            GBUF%RHO ,GBUF%QVIS,GBUF%VOL ,GAMA     ,BUFLY    ,
-     5            BUFMAT   ,TF       ,NPF      ,STIFN    ,VOLN     , 
-     6            VOLGP    ,DELTAX   ,RHO0     ,DVOL     ,VD2      , 
-     7            VIS      ,GBUF%EPSD,MAT      ,NC       ,NGL      ,
-     8            WXX      ,WYY      ,WZZ      ,GEO      ,PID      , 
-     9            DT2T     ,NELTST   ,ITYPTST  ,JPLASOL  ,RX       , 
-     A            RY       ,RZ       ,SX       ,SY       ,SZ       , 
-     B            TX       ,TY       ,TZ       ,ISMSTR   ,IPM      ,   
-     C            GBUF%OFF ,ISORTH   ,ET       ,MSSA     ,DMELS    ,
-     D            TABLE    ,IHET     ,SSP      ,ITASK    ,NEL      ) 
+     1   1,        NEL,      NFT,      MTN,
+     2   NPT,      D1,       D2,       D3,
+     3   D4,       D5,       D6,       PM,
+     4   OFF,      GBUF%SIG, GBUF%EINT,GBUF%RHO,
+     5   GBUF%QVIS,GBUF%VOL, GAMA,     BUFLY,
+     6   BUFMAT,   TF,       NPF,      STIFN,
+     7   VOLN,     VOLGP,    DELTAX,   RHO0,
+     8   DVOL,     VD2,      VIS,      GBUF%EPSD,
+     9   MAT,      NC,       NGL,      WXX,
+     A   WYY,      WZZ,      GEO,      PID,
+     B   DT2T,     NELTST,   ITYPTST,  JPLASOL,
+     C   RX,       RY,       RZ,       SX,
+     D   SY,       SZ,       TX,       TY,
+     E   TZ,       ISMSTR,   IPM,      GBUF%OFF,
+     F   ISORTH,   ET,       MSSA,     DMELS,
+     G   TABLE,    IHET,     SSP,      ITASK,
+     H   NEL,      ITY,      JSMS,     JSPH,
+     I   JTHE,     JTUR)
 C-----
       ENDIF 
 C---------------------------

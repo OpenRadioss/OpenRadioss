@@ -26,11 +26,17 @@ Chd|-- called by -----------
 Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8SFINT3(SIG,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   DN_X, DN_Y, DN_Z, BB,
-     .   VOL,QVIS,ICP,JFAC,NEL ,I_SH,IDEGE)
+      SUBROUTINE S8SFINT3(
+     1   SIG,     F11,     F21,     F31,
+     2   F12,     F22,     F32,     F13,
+     3   F23,     F33,     F14,     F24,
+     4   F34,     F15,     F25,     F35,
+     5   F16,     F26,     F36,     F17,
+     6   F27,     F37,     F18,     F28,
+     7   F38,     DN_X,    DN_Y,    DN_Z,
+     8   BB,      VOL,     QVIS,    ICP,
+     9   JFAC,    NEL,     I_SH,    IDEGE,
+     A   ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,11 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER ICP,NEL,I_SH,IDEGE(*)
 C     REAL
       my_real

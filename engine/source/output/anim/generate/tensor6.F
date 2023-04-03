@@ -98,7 +98,7 @@ C-----------------------------------------------
         ISTRAIN = IPARG(44,NG)
         ISOLNOD = IPARG(28,NG)
         IVISC = IPARG(61,NG)
-        CALL INITBUF (IPARG    ,NG      ,                      
+        CALL INITBUF(IPARG    ,NG      ,                      
      2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -206,7 +206,9 @@ C             pour JHBE=14, valeurs moyennes est dans rep. corota.
                 GAMA(5)=ONE
                 GAMA(6)=ZERO
               END IF
-                CALL SROTA6_S8S(KCVT,EVAR(1,I),GAMA,JHBE,IGTYP,GBUF%COR_FR(9*(I-1)+1))
+                CALL SROTA6_S8S(
+     1   KCVT,                  EVAR(1,I),             GAMA,                  JHBE,
+     2   IGTYP,                 GBUF%COR_FR(9*(I-1)+1),IINT,                  ISORTH)
              ENDIF
             ENDDO
 C
@@ -3608,7 +3610,7 @@ C     REAL
 C=======================================================================      
       DO 900 NG=1,NGROUP
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
+        CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -3851,7 +3853,7 @@ C     REAL
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
 C=======================================================================      
       DO 900 NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
+          CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -4192,7 +4194,7 @@ C=======================================================================
         IF (LMAX_NSIG >0 .AND. IPART_OK(NG,1)==0) CYCLE
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
+        CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -4999,7 +5001,7 @@ C=======================================================================
       DO 900 NG=1,NGROUP
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
+        CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  

@@ -69,19 +69,24 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE MULAW8(
-     1           LFT     ,LLT     ,NFT     ,MTN     ,NPT     ,
-     2           D1      ,D2      ,D3      ,D4      ,D5      ,
-     3           D6      ,PM      ,OFF     ,SIG     ,EINT    ,
-     4           RHO     ,QOLD    ,VOL     ,GAMA    ,BUFLY   ,
-     5           BUFMAT  ,TF      ,NPF     ,STIFN   ,VOLN    ,
-     6           VOLGP   ,DELTAX  ,RHO0    ,DVOL    ,VD2     ,
-     7           VIS     ,EPSD    ,MAT     ,NC      ,NGL     ,
-     8           WXX     ,WYY     ,WZZ     ,GEO     , PID    ,
-     9           DT2T    ,NELTST  ,ITYPTST ,IPLA    ,RX      ,
-     A           RY      ,RZ      ,SX      ,SY      ,SZ      ,
-     B           TX      ,TY      ,TZ      ,ISMSTR  ,IPM     ,
-     C           OFFG    ,ISORTH  ,ET      ,MSSA    ,DMELS   ,
-     D           TABLE   ,IHET    ,SSP     ,ITASK   ,NEL     ) 
+     1   LFT,     LLT,     NFT,     MTN,
+     2   NPT,     D1,      D2,      D3,
+     3   D4,      D5,      D6,      PM,
+     4   OFF,     SIG,     EINT,    RHO,
+     5   QOLD,    VOL,     GAMA,    BUFLY,
+     6   BUFMAT,  TF,      NPF,     STIFN,
+     7   VOLN,    VOLGP,   DELTAX,  RHO0,
+     8   DVOL,    VD2,     VIS,     EPSD,
+     9   MAT,     NC,      NGL,     WXX,
+     A   WYY,     WZZ,     GEO,     PID,
+     B   DT2T,    NELTST,  ITYPTST, IPLA,
+     C   RX,      RY,      RZ,      SX,
+     D   SY,      SZ,      TX,      TY,
+     E   TZ,      ISMSTR,  IPM,     OFFG,
+     F   ISORTH,  ET,      MSSA,    DMELS,
+     G   TABLE,   IHET,    SSP,     ITASK,
+     H   NEL,     ITY,     JSMS,    JSPH,
+     I   JTHE,    JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -108,6 +113,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(IN) :: JSPH
+      INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: JTUR
       INTEGER LFT,LLT,NFT,NPT,MTN,ISORTH,IPLA,ISMSTR,NUVARR,NUVAR,NVARTMP,
      .  NELTST,ITYPTST,IHET,ITASK,NEL
       INTEGER NPF(*),MAT(MVSIZ),NC(8,MVSIZ),NGL(MVSIZ),
@@ -217,10 +227,13 @@ C
       ENDDO
 c
       IF (ISORTH /= 0) THEN
-        CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2               R23 ,R31,R32,R33,
-     3               RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4               TX  ,TY ,TZ )
+        CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
       ENDIF
 C-------------------
 C     MEAN STRAIN RATE
@@ -1136,12 +1149,16 @@ C-------------------------------------------
 C   BULK VISCOSITY AND TIME STEP COMPUTATION
 C   THIS SUBROUTINE RETURN THE NEW BULK VISCOSITY Q
 C-----------------------
-      CALL MQVISC8(PM,OFF,RHO,VIS,VIS,VIS,STIFN,EINT,
-     .                   D1,D2,D3,VOLN,DVOL,
-     .                   VD2,DELTAX,VIS,QOLD,SSP,
-     .                   MAT,NC,NGL,GEO, PID,
-     .                   DT2T ,NELTST,ITYPTST, OFFG,MSSA,
-     .                   DMELS,NEL)
+      CALL MQVISC8(
+     1   PM,      OFF,     RHO,     VIS,
+     2   VIS,     VIS,     STIFN,   EINT,
+     3   D1,      D2,      D3,      VOLN,
+     4   DVOL,    VD2,     DELTAX,  VIS,
+     5   QOLD,    SSP,     MAT,     NC,
+     6   NGL,     GEO,     PID,     DT2T,
+     7   NELTST,  ITYPTST, OFFG,    MSSA,
+     8   DMELS,   NEL,     ITY,     JTUR,
+     9   JTHE,    JSMS)
 C
       DO I=LFT,LLT
         EINT(I)=EINT(I)/MAX(EM15,VOL(I))

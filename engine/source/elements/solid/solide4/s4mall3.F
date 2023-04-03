@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S4MALLA3(SAV, OFFG ,OFF  ,WXX,WYY,
-     .                   WZZ,NEL)
+      SUBROUTINE S4MALLA3(
+     1   SAV,     OFFG,    OFF,     WXX,
+     2   WYY,     WZZ,     NEL,     ISMSTR,
+     3   JLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,10 +37,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JLAG
       INTEGER NEL
       my_real
      .   OFFG(*),OFF(*),WXX(*),WYY(*),WZZ(*)

@@ -362,12 +362,19 @@ c
 C
         IF (ISMSTR /= 3) THEN
           CALL CDERI3(
-     1      JFT ,JLT ,SMSTRG,OFFG,STI ,STIR,
-     2      AREA,PX1 ,PX2  ,PY1 ,PY2 ,X2  ,X3  ,X4  ,Y2  ,Y3  ,  
-     3      Y4  ,Z2  ,X1G  ,X2G ,X3G ,X4G ,Y1G ,Y2G ,Y3G ,Y4G ,
-     4      Z1G ,Z2G ,Z3G  ,Z4G ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,
-     5      E3X ,E3Y ,E3Z  ,VHX ,VHY ,A_I ,UX1 ,UX2 ,UX3 ,UX4 ,
-     7      UY1 ,UY2 ,UY3  ,UY4 ,NEL )
+     1   JFT,     JLT,     SMSTRG,  OFFG,
+     2   STI,     STIR,    AREA,    PX1,
+     3   PX2,     PY1,     PY2,     X2,
+     4   X3,      X4,      Y2,      Y3,
+     5   Y4,      Z2,      X1G,     X2G,
+     6   X3G,     X4G,     Y1G,     Y2G,
+     7   Y3G,     Y4G,     Z1G,     Z2G,
+     8   Z3G,     Z4G,     E1X,     E1Y,
+     9   E1Z,     E2X,     E2Y,     E2Z,
+     A   E3X,     E3Y,     E3Z,     VHX,
+     B   VHY,     A_I,     UX1,     UX2,
+     C   UX3,     UX4,     UY1,     UY2,
+     D   UY3,     UY4,     NEL,     ISMSTR)
         ELSE
           CALL CPXPY3(JFT       ,JLT    ,PM   ,STI  ,STIR,
      2                SMSTRG    ,PX1    ,PX2  ,PY1  ,PY2 ,

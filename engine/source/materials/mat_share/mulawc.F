@@ -1338,20 +1338,22 @@ c
      B         NGL    , ISMSTR , IPM     , GS      ) 
            ELSEIF (ILAW == 63) THEN       
            CALL SIGEPS63C(
-     1        JLT    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2        NPF    ,NPT    ,IPT,IFLAG   ,
-     2        TF     ,TT     ,DT1C    ,UPARAM  ,RHO,
-     3        AREA   ,EINT   ,THKLYL   ,
-     4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-     5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-     6        EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-     7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     8        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-     9        SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-     A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
-     B        OFF    ,NGL    ,
-     C        ETSE   ,GS     ,VOL0   ,SIGY      , TEMPEL,
-     D        DIE    ,COEF   ,INLOC  ,VARNL(1,IT))
+     1   JLT,          NUPARAM,      NUVAR,        NFUNC,
+     2   IFUNC,        NPF,          NPT,          IPT,
+     3   IFLAG,        TF,           TT,           DT1C,
+     4   UPARAM,       RHO,          AREA,         EINT,
+     5   THKLYL,       EPSPXX,       EPSPYY,       EPSPXY,
+     6   EPSPYZ,       EPSPZX,       DEPSXX,       DEPSYY,
+     7   DEPSXY,       DEPSYZ,       DEPSZX,       EPSXX,
+     8   EPSYY,        EPSXY,        EPSYZ,        EPSZX,
+     9   LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),
+     A   LBUF%SIG(IJ5),SIGNXX,       SIGNYY,       SIGNXY,
+     B   SIGNYZ,       SIGNZX,       SIGVXX,       SIGVYY,
+     C   SIGVXY,       SIGVYZ,       SIGVZX,       SSP,
+     D   VISCMX,       THKN,         LBUF%PLA,     UVAR,
+     E   OFF,          NGL,          ETSE,         GS,
+     F   VOL0,         SIGY,         TEMPEL,       DIE,
+     G   COEF,         INLOC,        VARNL(1,IT),  JTHE)
           ELSEIF (ILAW == 64) THEN       
            CALL SIGEPS64C(
      1        JLT    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -1556,16 +1558,19 @@ c
           ELSEIF (ILAW == 87) THEN
             ASRATE = PM(9,MX)
             CALL SIGEPS87C(
-     1        JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC  ,
-     2        NPF    ,TF     ,TT     ,DT1C    ,UPARAM   ,
-     4        UVAR   ,RHO    ,THKLYL ,THKN    ,OFF    ,
-     5        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-     6        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-     7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     8        SIGNXX ,SIGNYY   ,SIGNXY  ,SIGNYZ     ,SIGNZX ,
-     9        SSP    ,LBUF%PLA ,DPLA    ,EPSPL      ,SIGY   ,
-     A        ETSE   ,GS       ,ISRATE  ,ASRATE     ,YLDFAC ,
-     B        TEMPEL,LBUF%SIGB ,INLOC   ,VARNL(1,IT),LBUF%SEQ)
+     1   JLT,          NUPARAM,      NUVAR,        NFUNC,
+     2   IFUNC,        NPF,          TF,           TT,
+     3   DT1C,         UPARAM,       UVAR,         RHO,
+     4   THKLYL,       THKN,         OFF,          EPSPXX,
+     5   EPSPYY,       EPSPXY,       EPSPYZ,       EPSPZX,
+     6   DEPSXX,       DEPSYY,       DEPSXY,       DEPSYZ,
+     7   DEPSZX,       LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),
+     8   LBUF%SIG(IJ4),LBUF%SIG(IJ5),SIGNXX,       SIGNYY,
+     9   SIGNXY,       SIGNYZ,       SIGNZX,       SSP,
+     A   LBUF%PLA,     DPLA,         EPSPL,        SIGY,
+     B   ETSE,         GS,           ISRATE,       ASRATE,
+     C   YLDFAC,       TEMPEL,       LBUF%SIGB,    INLOC,
+     D   VARNL(1,IT),  LBUF%SEQ,     JTHE)
          ELSEIF (ILAW == 88) THEN
            CALL SIGEPS88C(
      1         JLT    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,

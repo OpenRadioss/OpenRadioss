@@ -27,12 +27,15 @@ Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|        R26SIG                        source/elements/spring/r26sig.F
 Chd|====================================================================
-      SUBROUTINE R26DEF3(F       ,E       ,DL      ,AL0     ,DV0     ,
-     2                   FEP     ,DPL2    ,IPOS    ,GEO     ,IGEO    ,
-     3                   NPF     ,TF      ,V       ,OFF     ,ANIM    ,
-     4                   FR_WAVE ,AL0_ERR ,X1DP    ,X2DP    ,NGL     ,
-     5                   MGN     ,EX      ,EY      ,EZ      ,XK      ,
-     6                   XM      ,XC      ,AK      )
+      SUBROUTINE R26DEF3(
+     1   F,       E,       DL,      AL0,
+     2   DV0,     FEP,     DPL2,    IPOS,
+     3   GEO,     IGEO,    NPF,     TF,
+     4   V,       OFF,     ANIM,    FR_WAVE,
+     5   AL0_ERR, X1DP,    X2DP,    NGL,
+     6   MGN,     EX,      EY,      EZ,
+     7   XK,      XM,      XC,      AK,
+     8   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*)
 C     REAL
       my_real
@@ -134,10 +138,13 @@ C
       ENDDO
 C
 C-----
-      CALL R26SIG(F       ,XK       ,DL        ,DLOLD    ,
-     .            E       ,OFF      ,XL0       ,TF       ,NPF      , 
-     .            ANIM    ,ANIM_FE(11),FR_WAVE ,DMN      ,DMX      , 
-     .            IGEO     ,GEO       ,MGN     ,DV0      ,ALPHA    )                    
+      CALL R26SIG(
+     1   F,          XK,         DL,         DLOLD,
+     2   E,          OFF,        XL0,        TF,
+     3   NPF,        ANIM,       ANIM_FE(11),FR_WAVE,
+     4   DMN,        DMX,        IGEO,       GEO,
+     5   MGN,        DV0,        ALPHA,      NEL,
+     6   NFT,        IAD)
 C-----
       NINDX = 0
       DO I=LFT,LLT

@@ -363,10 +363,13 @@ C
 C---------------------------
 C       ORTHOTROPE GLOBAL
 C---------------------------
-        CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2               R23 ,R31,R32,R33,
-     3               RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4               TX  ,TY ,TZ )
+        CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
         DO I=LFT,LLT
          EP4(I) = HALF*EP4(I)
          EP5(I) = HALF*EP5(I)
@@ -529,10 +532,13 @@ C       ORTHOTROPE GLOBAL
 C---------------------------
         IF (JCVT <= 0 .AND. ISORTH /= 0) THEN
 c
-          CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                 R23 ,R31,R32,R33,
-     3                 RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                 TX  ,TY ,TZ )
+          CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
           CALL MROTENS(LFT,LLT,ES1,ES2,ES3,ES4,ES5,ES6,
      .                 R11,R12,R13,
      .                 R21,R22,R23,
@@ -563,10 +569,13 @@ C---------------------------
             ES5(I) = HALF*ES5(I)
             ES6(I) = HALF*ES6(I)
            ENDDO
-            CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                   R23 ,R31,R32,R33,
-     3                   RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                   TX  ,TY ,TZ )
+            CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
             CALL MROTENS(LFT,LLT,ES1,ES2,ES3,ES4,ES5,ES6,
      .                   R11,R12,R13,
      .                   R21,R22,R23,
@@ -798,10 +807,13 @@ C---------------------------
 C       ORTHOTROPE 
 C---------------------------
             IF (ISORTH /= 0) THEN
-             CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                    R23 ,R31,R32,R33,
-     3                    RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                    TX  ,TY ,TZ )
+             CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
              CALL MROTENSNS(LFT,LLT,
      .               FPSXX,FPSXY,FPSXZ,
      .               FPSYX,FPSYY,FPSYZ,
@@ -962,10 +974,13 @@ C---------------------------
            IF (ISMSTR == 10) THEN
             IF (ISORTH /= 0) THEN
 C            ORTHOTROPE 
-             CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                    R23 ,R31,R32,R33,
-     3                    RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                    TX  ,TY ,TZ )
+             CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
              DO I=LFT,LLT
               MFXX(I) = ONE+MFXX(I)
               MFYY(I) = ONE+MFYY(I)
@@ -1113,10 +1128,13 @@ C---------------------------
 !     ISMSTR10_FP(15,1) =   UPSXZ(1:MVSIZ) 
 
              IF (ISORTH /= 0) THEN
-             CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     2                    R23 ,R31,R32,R33,
-     3                    RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     4                    TX  ,TY ,TZ )
+             CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
              CALL MROTENSNS(LFT,LLT,
      .               ISMSTR10_FP(1,1),ISMSTR10_FP(2,1),ISMSTR10_FP(3,1),
      .               ISMSTR10_FP(4,1),ISMSTR10_FP(5,1),ISMSTR10_FP(6,1),

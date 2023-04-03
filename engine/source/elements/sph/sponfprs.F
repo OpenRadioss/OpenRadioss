@@ -185,7 +185,7 @@ C
           IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             NG=MOD(KXSP(2,NP),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                   
+            CALL INITBUF(IPARG    ,NG      ,                   
      2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -213,7 +213,7 @@ C
          ENDIF
 C
          NG=MOD(KXSP(2,N),NGROUP+1)
-         CALL INITBUF (IPARG    ,NG      ,                   
+         CALL INITBUF(IPARG    ,NG      ,                   
      2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -356,7 +356,7 @@ C
           PN=MAX(PN,PMIN)
 C
           NG=MOD(KXSP(2,N),NGROUP+1)
-          CALL INITBUF (IPARG    ,NG      ,                   
+          CALL INITBUF(IPARG    ,NG      ,                   
      2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -387,7 +387,7 @@ C
           TFEXTT=TFEXTT+(PN-PX)*DVOL
          ELSE
           NG=MOD(KXSP(2,N),NGROUP+1)
-          CALL INITBUF (IPARG    ,NG      ,                   
+          CALL INITBUF(IPARG    ,NG      ,                   
      2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
      3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    

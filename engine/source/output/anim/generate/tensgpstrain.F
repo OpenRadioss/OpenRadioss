@@ -163,7 +163,7 @@ C=======================================================================
         IF (LMAX_NSTRA >0 .AND. IPART_OK(NG,2)==0) CYCLE
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
+        CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
@@ -786,7 +786,7 @@ C=======================================================================
       DO 900 NG=1,NGROUP
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
+        CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  

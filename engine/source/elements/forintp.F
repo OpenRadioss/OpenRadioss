@@ -290,7 +290,7 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
+            CALL INITBUF(IPARG    ,NG      ,                      
      2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
@@ -382,7 +382,7 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
+            CALL INITBUF(IPARG    ,NG      ,                      
      2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
@@ -454,7 +454,7 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
+            CALL INITBUF(IPARG    ,NG      ,                      
      2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
@@ -608,7 +608,7 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
+            CALL INITBUF(IPARG    ,NG      ,                      
      2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
@@ -1192,7 +1192,7 @@ C--------
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
-            CALL INITBUF (IPARG    ,NG      ,                    
+            CALL INITBUF(IPARG    ,NG      ,                    
      2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,     
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,     
      4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,     

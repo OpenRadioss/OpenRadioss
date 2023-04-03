@@ -28,12 +28,13 @@ Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
-      SUBROUTINE CDK6FINT_REG(NLOC_DMG,VAR_REG ,THK     ,NEL     ,
-     .                        OFF     ,AREA    ,NC1     ,NC2     ,
-     .                        NC3     ,PX2     ,PY2     ,PX3     ,
-     .                        PY3     ,BUFNL   ,IMAT    ,NDDL    ,
-     .                        ITASK   ,DT2T    ,LE      ,THK0    ,
-     .                        AREA0   )
+      SUBROUTINE CDK6FINT_REG(
+     1   NLOC_DMG,VAR_REG, THK,     NEL,
+     2   OFF,     AREA,    NC1,     NC2,
+     3   NC3,     PX2,     PY2,     PX3,
+     4   PY3,     BUFNL,   IMAT,    NDDL,
+     5   ITASK,   DT2T,    LE,      THK0,
+     6   AREA0,   NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -47,7 +48,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "parit_c.inc"
-#include      "vect01_c.inc"
 #include      "com20_c.inc"
 #include      "com08_c.inc"
 #include      "scr02_c.inc"
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER                                    :: NEL,IMAT,NDDL,ITASK
       INTEGER, DIMENSION(NEL)                    :: NC1,NC2,NC3
       my_real, DIMENSION(NEL,NDDL), INTENT(INOUT):: 

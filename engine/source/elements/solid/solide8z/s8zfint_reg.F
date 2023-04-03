@@ -29,18 +29,19 @@ Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc
 Chd|-- calls ---------------
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
-      SUBROUTINE S8ZFINT_REG(NLOC_DMG,
-     .                     VAR_REG ,NEL      ,OFFG     ,VOL      ,
-     .                     NC1     ,NC2      ,NC3      ,NC4      ,
-     .                     NC5     ,NC6      ,NC7      ,NC8      ,
-     .                     PX1     ,PX2      ,PX3      ,PX4      ,
-     .                     PX5     ,PX6      ,PX7      ,PX8      ,
-     .                     PY1     ,PY2      ,PY3      ,PY4      ,
-     .                     PY5     ,PY6      ,PY7      ,PY8      ,
-     .                     PZ1     ,PZ2      ,PZ3      ,PZ4      ,
-     .                     PZ5     ,PZ6      ,PZ7      ,PZ8      ,
-     .                     IMAT    ,H        ,WI       ,IP       ,
-     .                     ITASK   ,DT2T     ,VOL0     )
+      SUBROUTINE S8ZFINT_REG(
+     1   NLOC_DMG,VAR_REG, NEL,     OFFG,
+     2   VOL,     NC1,     NC2,     NC3,
+     3   NC4,     NC5,     NC6,     NC7,
+     4   NC8,     PX1,     PX2,     PX3,
+     5   PX4,     PX5,     PX6,     PX7,
+     6   PX8,     PY1,     PY2,     PY3,
+     7   PY4,     PY5,     PY6,     PY7,
+     8   PY8,     PZ1,     PZ2,     PZ3,
+     9   PZ4,     PZ5,     PZ6,     PZ7,
+     A   PZ8,     IMAT,    H,       WI,
+     B   IP,      ITASK,   DT2T,    VOL0,
+     C   NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -53,12 +54,12 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "parit_c.inc"
-#include      "vect01_c.inc"
 #include      "scr02_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER ::  NEL,IMAT,IP,ITASK
       INTEGER, DIMENSION(NEL) :: NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8
       my_real, DIMENSION(NEL), INTENT(IN) :: 

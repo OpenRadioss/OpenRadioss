@@ -179,7 +179,7 @@ C-----------------------------------------------
          CALL MY_BARRIER 
                                                                                     
          DO NG=ITASK+1,NGROUP,NTHREAD                                                       
-           CALL INITBUF (                                                                   
+           CALL INITBUF(                                                                   
      1                   IPARG    ,NG      ,                                                
      2                   MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,                      
      3                   NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,                      

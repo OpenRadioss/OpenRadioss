@@ -26,7 +26,9 @@ Chd|-- called by -----------
 Chd|        THQUAD                        source/output/th/thquad.F     
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QROTA3(X, IXQ, KCVT, TENS, GAMA)
+      SUBROUTINE QROTA3(
+     1   X,       IXQ,     KCVT,    TENS,
+     2   GAMA,    ISORTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -34,10 +36,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISORTH
       my_real
      .   X(3,*),TENS(6),GAMA(6)
       INTEGER IXQ(NIXQ), KCVT

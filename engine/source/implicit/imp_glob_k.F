@@ -138,7 +138,7 @@ C
             OFFSET  = 0
             MLW     = IPARG(1,NG)
             IF (MLW == 0 .OR. MLW == 13) GOTO 250
-            CALL INITBUF (IPARG    ,NG      ,
+            CALL INITBUF(IPARG    ,NG      ,
      2        MLW     ,NEL     ,NFT     ,KAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
@@ -3154,7 +3154,7 @@ C
             MLW     = IPARG(1,NG)
 C
             IF (MLW == 0 .OR. MLW == 13) GOTO 250
-            CALL INITBUF (IPARG    ,NG      ,
+            CALL INITBUF(IPARG    ,NG      ,
      2        MLW     ,NEL     ,NFT     ,KAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,

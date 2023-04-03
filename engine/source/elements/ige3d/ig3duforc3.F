@@ -452,9 +452,10 @@ C     ROTATION DE CORPS RIGIDE DES CONTRAINTES PASSEES
 C------------------------------------------------------
 
          CALL SROTA3(
-     .      LBUF%SIG,S1   ,S2   ,S3   ,S4   ,
-     .      S5      ,S6   ,WXX  ,WYY  ,WZZ  ,
-     .      NEL     )
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   IPARG(9,NG))
 
 C------------------------------------------------------
 C     CALCUL DE LA MASSE VOLUMIQUE COURANTE

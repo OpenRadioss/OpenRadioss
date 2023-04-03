@@ -26,10 +26,12 @@ Chd|-- called by -----------
 Chd|        XFORC3                        source/elements/xelem/xforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE XBILAN3(NX    ,KXX   ,IXX   ,X       ,V    ,
-     2                   VR    ,UMASS ,UINER ,FORC    ,TORQ  ,
-     3                   KEUSR , EUSR ,EINT  ,PARTSAV ,IPART ,
-     4                   GRESAV,GRTH  ,IGRTH)
+      SUBROUTINE XBILAN3(
+     1   NX,      KXX,     IXX,     X,
+     2   V,       VR,      UMASS,   UINER,
+     3   FORC,    TORQ,    KEUSR,   EUSR,
+     4   EINT,    PARTSAV, IPART,   GRESAV,
+     5   GRTH,    IGRTH,   IGRE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +42,10 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr23_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER KXX(NIXX),IXX(*),NX,KEUSR,IPART,GRTH(*),IGRTH(*)
 C     REAL
       my_real

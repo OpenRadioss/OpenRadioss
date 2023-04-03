@@ -222,7 +222,9 @@ c
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 CALL QROTA_GROUP(
+     1   X,           IXQ(1,NFT+1),JCVT,        EVAR,
+     2   GBUF%GAMA,   NEL,         ISORTH)
                 ENDIF
 c
               ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
@@ -256,7 +258,9 @@ c
 c
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 CALL QROTA_GROUP(
+     1   X,           IXQ(1,NFT+1),JCVT,        EVAR,
+     2   GBUF%GAMA,   NEL,         ISORTH)
                 ENDIF
 c
               ENDIF
@@ -283,7 +287,9 @@ c
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 CALL QROTA_GROUP(
+     1   X,           IXQ(1,NFT+1),JCVT,        EVAR,
+     2   GBUF%GAMA,   NEL,         ISORTH)
                 ENDIF
 c
               ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
@@ -300,7 +306,9 @@ c
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 CALL QROTA_GROUP(
+     1   X,           IXQ(1,NFT+1),JCVT,        EVAR,
+     2   GBUF%GAMA,   NEL,         ISORTH)
                 ENDIF
 c
               ENDIF
@@ -360,7 +368,9 @@ c
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 CALL QROTA_GROUP(
+     1   X,           IXQ(1,NFT+1),JCVT,        EVAR,
+     2   GBUF%GAMA,   NEL,         ISORTH)
                 ENDIF
 c
               ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
@@ -377,7 +387,9 @@ c
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
-                 CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
+                 CALL QROTA_GROUP(
+     1   X,           IXQ(1,NFT+1),JCVT,        EVAR,
+     2   GBUF%GAMA,   NEL,         ISORTH)
                 ENDIF
 c
               ENDIF

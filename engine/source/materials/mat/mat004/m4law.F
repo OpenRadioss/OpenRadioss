@@ -33,11 +33,14 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M4LAW(PM,OFF     ,SIG     ,EPXE    ,MAT     ,
-     2           TEMPER  ,SSP     ,D1      ,D2      ,D3      ,
-     3           D4      ,D5      ,D6      ,RHO0    ,DPDM    ,
-     4           EPD     ,IPLA    ,SIGY    ,DEFP    ,DPLA    ,
-     5           EPSP    ,TSTAR   ,TEMPEL  ,NEL     )     
+      SUBROUTINE M4LAW(
+     1   PM,      OFF,     SIG,     EPXE,
+     2   MAT,     TEMPER,  SSP,     D1,
+     3   D2,      D3,      D4,      D5,
+     4   D6,      RHO0,    DPDM,    EPD,
+     5   IPLA,    SIGY,    DEFP,    DPLA,
+     6   EPSP,    TSTAR,   TEMPEL,  NEL,
+     7   JTHE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,10 +54,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER MAT(MVSIZ),NEL
 C     REAL
       my_real

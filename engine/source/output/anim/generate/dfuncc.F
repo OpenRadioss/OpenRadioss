@@ -154,7 +154,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       DO NG=1,NGROUP
-       CALL INITBUF (IPARG    ,NG      ,                    
+       CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  

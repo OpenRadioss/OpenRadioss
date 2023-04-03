@@ -27,11 +27,19 @@ Chd|        S16FORC3                      source/elements/thickshell/solide16/s1
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S20COOR3(X,IXS,IXSP,V,W,IPERM1,IPERM2,NPE,
-     2   XX, YY, ZZ, VX,VY, VZ,VDXX, VDYY, VDZZ, 
-     3   VDX,VDY,VDZ,VD2,VIS,OFFG,OFF,SAV,
-     4   NC,NGL,MXT,NGEO,FX,FY,FZ,STIG,
-     5   SIGG,EINTG,RHOG,QG,EPLASM,EPSDG,G_PLA,G_EPSD,NEL,CONDEN)
+      SUBROUTINE S20COOR3(
+     1   X,       IXS,     IXSP,    V,
+     2   W,       IPERM1,  IPERM2,  NPE,
+     3   XX,      YY,      ZZ,      VX,
+     4   VY,      VZ,      VDXX,    VDYY,
+     5   VDZZ,    VDX,     VDY,     VDZ,
+     6   VD2,     VIS,     OFFG,    OFF,
+     7   SAV,     NC,      NGL,     MXT,
+     8   NGEO,    FX,      FY,      FZ,
+     9   STIG,    SIGG,    EINTG,   RHOG,
+     A   QG,      EPLASM,  EPSDG,   G_PLA,
+     B   G_EPSD,  NEL,     CONDEN,  JALE,
+     C   ISMSTR,  JEUL,    JLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,11 +51,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JALE
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JEUL
+      INTEGER, INTENT(IN) :: JLAG
       INTEGER NPE,G_PLA,G_EPSD,NEL,
      .        NC(MVSIZ,NPE), MXT(*), NGL(*),NGEO(*),
      .        IXS(NIXS,*),IXSP(NPE-8,*), IPERM1(NPE),IPERM2(NPE)

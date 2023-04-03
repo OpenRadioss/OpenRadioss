@@ -116,7 +116,7 @@ C---------------------------------
 C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
 C---------------------------------
           DO 200 NG=II/NVSIZ,NGROUP
-            CALL INITBUF (IPARG    ,NG      ,                   
+            CALL INITBUF(IPARG    ,NG      ,                   
      2            MTN     ,LLT     ,NFT     ,IAD     ,ITY     , 
      3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    , 
      4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    , 

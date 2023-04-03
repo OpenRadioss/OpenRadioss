@@ -179,13 +179,20 @@ C-----------------------------------------------
 C
         DO IPT = 1,NPT
           LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
-        CALL S8DEFO3(VXLOC,VYLOC,VZLOC,
-     .               PX1,PX2,PX3,PX4,PX5,PX6,PX7,PX8,
-     .               PY1,PY2,PY3,PY4,PY5,PY6,PY7,PY8,
-     .               PZ1,PZ2,PZ3,PZ4,PZ5,PZ6,PZ7,PZ8,
-     .               IPT,D1,D2,D3,D4,D5,D6,
-     .               WXX(1,IPT),WYY(1,IPT),WZZ(1,IPT))
-        CALL S8ROTA3(LBUF%SIG,WXX(1,IPT),WYY(1,IPT),WZZ(1,IPT),NEL)
+        CALL S8DEFO3(
+     1   VXLOC,     VYLOC,     VZLOC,     PX1,
+     2   PX2,       PX3,       PX4,       PX5,
+     3   PX6,       PX7,       PX8,       PY1,
+     4   PY2,       PY3,       PY4,       PY5,
+     5   PY6,       PY7,       PY8,       PZ1,
+     6   PZ2,       PZ3,       PZ4,       PZ5,
+     7   PZ6,       PZ7,       PZ8,       IPT,
+     8   D1,        D2,        D3,        D4,
+     9   D5,        D6,        WXX(1,IPT),WYY(1,IPT),
+     A   WZZ(1,IPT),NEL,       JCVT)
+        CALL S8ROTA3(
+     1   LBUF%SIG,  WXX(1,IPT),WYY(1,IPT),WZZ(1,IPT),
+     2   NEL,       JCVT)
       ENDDO
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES

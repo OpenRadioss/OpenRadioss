@@ -27,20 +27,22 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIGEPS63C(
-     1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     B     OFF    ,NGL    ,
-     C     ETSE   ,GS     ,VOL     ,YLD    , TEMPEL ,
-     D     DIE    ,COEF   ,INLOC   ,DPLANL )
+     1   NEL0,    NUPARAM, NUVAR,   MFUNC,
+     2   KFUNC,   NPF,     NPT0,    IPT,
+     3   IFLAG,   TF,      TIME,    TIMESTEP,
+     4   UPARAM,  RHO0,    AREA,    EINT,
+     5   THKLY,   EPSPXX,  EPSPYY,  EPSPXY,
+     6   EPSPYZ,  EPSPZX,  DEPSXX,  DEPSYY,
+     7   DEPSXY,  DEPSYZ,  DEPSZX,  EPSXX,
+     8   EPSYY,   EPSXY,   EPSYZ,   EPSZX,
+     9   SIGOXX,  SIGOYY,  SIGOXY,  SIGOYZ,
+     A   SIGOZX,  SIGNXX,  SIGNYY,  SIGNXY,
+     B   SIGNYZ,  SIGNZX,  SIGVXX,  SIGVYY,
+     C   SIGVXY,  SIGVYZ,  SIGVZX,  SOUNDSP,
+     D   VISCMAX, THK,     PLA,     UVAR,
+     E   OFF,     NGL,     ETSE,    GS,
+     F   VOL,     YLD,     TEMPEL,  DIE,
+     G   COEF,    INLOC,   DPLANL,  JTHE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,11 +103,9 @@ C---------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
       INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
      .   NGL(NEL0),MAT(NEL0),INLOC
       my_real TIME,TIMESTEP,
@@ -122,6 +122,7 @@ C
      .   GS(*),VOL(NEL0) ,TEMPEL(NEL0),
      .   DIE(NEL0),COEF(NEL0),DPLANL(NEL0)
       my_real ,DIMENSION(NUPARAM) :: UPARAM
+      INTEGER, INTENT(IN) :: JTHE
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------

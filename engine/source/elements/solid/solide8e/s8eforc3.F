@@ -1253,9 +1253,11 @@ C
 !!     .           R11, R21, R31, R12, R22, R32, R13, R23, R33,OFFG0)
        ENDIF ! (ISMSTR == 10.AND.IDTMIN(1)==3)
          IF (JCVT == 0) THEN
-            CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
-     .                  S5      ,S6   ,WXX  ,WYY  ,WZZ,
-     .                  NEL     )
+            CALL SROTA3(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
 C-----------------------------
 C      SMALL STRAIN
 C-----------------------------
@@ -1286,7 +1288,9 @@ C     TIME STEP EST CALCULE ICI DT2T
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
+      IF(IBOLTP /= 0) CALL BOLTST(
+     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
+     2   TT,        NEL,       SENSOR_TAB,NPT)
 c
       CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO      ,FV      ,ALE_CONNECT       ,
      2           IXS      ,IPARG  ,V      ,TF       ,NPF     ,BUFMAT  ,
@@ -1391,18 +1395,19 @@ c--------------------------
         ZS   = A_GAUSS(IS,NPTS) 
         ZT   = A_GAUSS(IT,NPTT)
         CALL BASIS8 (ZR,ZS,ZT,H,PR2,PS2,PT2)
-        CALL S8ZFINT_REG(NLOC_DMG ,    
-     .       VAR_REG(1,IP),NEL      ,GBUF%OFF ,
-     .       VOLN     ,NC1      ,NC2      ,NC3      ,
-     .       NC4      ,NC5      ,NC6      ,NC7      ,
-     .       NC8      ,PX1(1,IP),PX2(1,IP),PX3(1,IP),
-     .       PX4(1,IP),PX5(1,IP),PX6(1,IP),PX7(1,IP),
-     .       PX8(1,IP),PY1(1,IP),PY2(1,IP),PY3(1,IP),
-     .       PY4(1,IP),PY5(1,IP),PY6(1,IP),PY7(1,IP),
-     .       PY8(1,IP),PZ1(1,IP),PZ2(1,IP),PZ3(1,IP),
-     .       PZ4(1,IP),PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),
-     .       PZ8(1,IP),IMAT     ,H        ,WI       ,
-     .       IP       ,ITASK    ,DT2T     ,GBUF%VOL )
+        CALL S8ZFINT_REG(
+     1   NLOC_DMG,     VAR_REG(1,IP),NEL,          GBUF%OFF,
+     2   VOLN,         NC1,          NC2,          NC3,
+     3   NC4,          NC5,          NC6,          NC7,
+     4   NC8,          PX1(1,IP),    PX2(1,IP),    PX3(1,IP),
+     5   PX4(1,IP),    PX5(1,IP),    PX6(1,IP),    PX7(1,IP),
+     6   PX8(1,IP),    PY1(1,IP),    PY2(1,IP),    PY3(1,IP),
+     7   PY4(1,IP),    PY5(1,IP),    PY6(1,IP),    PY7(1,IP),
+     8   PY8(1,IP),    PZ1(1,IP),    PZ2(1,IP),    PZ3(1,IP),
+     9   PZ4(1,IP),    PZ5(1,IP),    PZ6(1,IP),    PZ7(1,IP),
+     A   PZ8(1,IP),    IMAT,         H,            WI,
+     B   IP,           ITASK,        DT2T,         GBUF%VOL,
+     C   NFT)
       ENDIF
 c
        DO I=LFT,LLT

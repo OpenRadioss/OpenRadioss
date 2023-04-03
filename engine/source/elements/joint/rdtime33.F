@@ -26,12 +26,15 @@ Chd|-- called by -----------
 Chd|        RGJOINT                       source/elements/joint/rgjoint.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE RDTIME33(JFT   ,JLT    ,DT2T  ,NELTST,ITYPTST,
-     2                    IXR   ,EINT   ,STI   ,STIR  ,OFF   ,
-     3                    XKM   ,XKR   ,XCM    ,XCR   ,UMAS  ,
-     4                    UINER ,FX     ,FY    ,FZ    ,
-     5                    XMOM  ,YMOM  ,ZMOM   ,ROT1  ,ROT2  ,
-     6                    MSRT  ,DMELRT,NUVAR  ,UVAR  ,JNTYP)
+      SUBROUTINE RDTIME33(
+     1   JFT,     JLT,     DT2T,    NELTST,
+     2   ITYPTST, IXR,     EINT,    STI,
+     3   STIR,    OFF,     XKM,     XKR,
+     4   XCM,     XCR,     UMAS,    UINER,
+     5   FX,      FY,      FZ,      XMOM,
+     6   YMOM,    ZMOM,    ROT1,    ROT2,
+     7   MSRT,    DMELRT,  NUVAR,   UVAR,
+     8   JNTYP,   JSMS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,10 +48,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr02_c.inc"
 #include      "sms_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER JFT, JLT, IXR(NIXR,*), NELTST, ITYPTST,
      .   NUVAR,JNTYP
       my_real DT2T, STI(3,*), STIR(3,*), OFF(*), EINT(*) ,  

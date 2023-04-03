@@ -851,21 +851,18 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
          IF (INLOC > 0) THEN
-           CALL CBAFINT_REG(NLOC_DMG,VAR_REG(1,1)     ,THK0    ,
-     .                      NEL     ,GBUF%OFF,AREA    ,NC1     ,
-     .                      NC2     ,NC3     ,NC4     ,
-     .                      ELBUF_STR%NLOC(IR,IS), 
-     .                      IXC(1,JFT),NDDL  ,ITASK   ,
-     .                      NG      ,JFT     ,JLT     ,X13     ,
-     .                      Y13     ,X24     ,Y24     ,DT2T    ,
-     .                      GBUF%THK_I,GBUF%AREA)
+           CALL CBAFINT_REG(
+     1   NLOC_DMG,         VAR_REG(1,1),     THK0,             NEL,
+     2   GBUF%OFF,         AREA,             NC1,              NC2,
+     3   NC3,              NC4,              ELBUF_STR%NLOC(IR,IS), IXC(1,JFT),
+     4   NDDL,             ITASK,            NG,               JFT,
+     5   JLT,              X13,              Y13,              X24,
+     6   Y24,              DT2T,             GBUF%THK_I, GBUF%AREA,
+     7   NFT)
          ENDIF 
        ENDDO  ! NPTR
       ENDDO  ! NPTS
     
-c      IF( ISHPLYXFEM > 0 )  
-c     .    CALL CBAFREL_PLY(JFT,JLT,NPT,THKLY,PLY_FN,IXC,
-c     .                       INOD_PXFEM,ISTACK,ZI_PLY,MS_PLY,VFI)
 C---------------------------------------
 C-----FIN DE BOUCLE DE 4 POINTS DE GAUSS
 C---------------------------------------
@@ -1191,12 +1188,15 @@ C
       ENDIF
 C     
       IF(ISHPLYXFEM > 0) THEN
-        CALL CUPDT_PLY(JFT ,JLT  ,NVC ,GBUF%OFF,OFF ,IADC_PXFEM,
-     2            IEL_PXFEM,INOD_PXFEM ,IXC   ,MS    ,IN   ,MS_PLY,
-     3            ZI_PLY,ISTACK,POSLY,
-     4            FLY11 ,FLY12 ,FLY13  ,FLY14 , FLY21 , FLY22 ,
-     5            FLY23 ,FLY24 ,FLY31 ,FLY32 , FLY33  ,FLY34 ,
-     6            FACN  ,STI_PLY,MSZ2)
+        CALL CUPDT_PLY(
+     1   JFT,       JLT,       NVC,       GBUF%OFF,
+     2   OFF,       IADC_PXFEM,IEL_PXFEM, INOD_PXFEM,
+     3   IXC,       MS,        IN,        MS_PLY,
+     4   ZI_PLY,    ISTACK,    POSLY,     FLY11,
+     5   FLY12,     FLY13,     FLY14,     FLY21,
+     6   FLY22,     FLY23,     FLY24,     FLY31,
+     7   FLY32,     FLY33,     FLY34,     FACN,
+     8   STI_PLY,   MSZ2,      NFT,       NPT)
       ENDIF  
 C------------
       IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          

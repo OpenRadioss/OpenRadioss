@@ -638,10 +638,13 @@ C
 C---------------------------
 C       ORTHOTROPE GLOBAL
 C---------------------------
-          CALL MREPLOC(GAMA,R11,R12,R13,R21,R22,
-     .                 R23 ,R31,R32,R33,
-     .                 RX  ,RY ,RZ ,SX ,SY ,SZ,
-     .                 TX  ,TY ,TZ )
+          CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
           DO I=1,NEL
             EP4(I) = HALF*EP4(I)
             EP5(I) = HALF*EP5(I)
@@ -715,10 +718,13 @@ C---------------------------
        ENDIF ! IF (ISTRAIN > 0
 !----------------
       ELSEIF (MTN == 3) THEN
-        CALL M3LAW(PM       ,OFF      ,LBUF%SIG ,LBUF%PLA,MAT     ,
-     2             NGL      ,CXX      ,DXX      ,DYY     ,DZZ     ,
-     3             D4       ,D5       ,D6       ,RHO0    ,DPDM    , 
-     4             JPLASOL  ,SIGY     ,DEFP     ,DPLA    ,NEL     )
+        CALL M3LAW(
+     1   PM,      OFF,     LBUF%SIG,LBUF%PLA,
+     2   MAT,     NGL,     CXX,     DXX,
+     3   DYY,     DZZ,     D4,      D5,
+     4   D6,      RHO0,    DPDM,    JPLASOL,
+     5   SIGY,    DEFP,    DPLA,    NEL,
+     6   NFT)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF    ,LBUF%RHO ,LBUF%RK  ,LBUF%TEMP ,CXX    ,
      2         LBUF%RE  ,STIFN   ,DT2T     ,NELTST   ,ITYPTST   ,AIRE   ,
@@ -742,11 +748,14 @@ C---------------------------
      5             TMU    ,EINC   ,MTN    ,VOL_AVG,NEL  ) 
 C
       ELSEIF (MTN == 4) THEN
-        CALL M4LAW(PM       ,OFF      ,LBUF%SIG ,LBUF%PLA,MAT     ,
-     2             LBUF%TEMP,CXX      ,DXX      ,DYY     ,DZZ     ,
-     3             D4       ,D5       ,D6       ,RHO0    ,DPDM    ,
-     4             LBUF%EPSD,JPLASOL  ,SIGY     ,DEFP    ,DPLA    ,
-     5             EPSP     ,TSTAR    ,TEMPEL   ,NEL     )
+        CALL M4LAW(
+     1   PM,       OFF,      LBUF%SIG, LBUF%PLA,
+     2   MAT,      LBUF%TEMP,CXX,      DXX,
+     3   DYY,      DZZ,      D4,       D5,
+     4   D6,       RHO0,     DPDM,     LBUF%EPSD,
+     5   JPLASOL,  SIGY,     DEFP,     DPLA,
+     6   EPSP,     TSTAR,    TEMPEL,   NEL,
+     7   JTHE)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF    ,LBUF%RHO ,LBUF%RK  ,LBUF%TEMP ,CXX      ,
      2         LBUF%RE  ,STIFN   ,DT2T     ,NELTST   ,ITYPTST   ,AIRE     ,
@@ -795,10 +804,13 @@ C
 C---------------------------
 C       ORTHOTROPE GLOBAL
 C---------------------------
-          CALL MREPLOC(GAMA,R11,R12,R13,R21,R22,
-     .                 R23 ,R31,R32,R33,
-     .                 RX  ,RY ,RZ ,SX ,SY ,SZ,
-     .                 TX  ,TY ,TZ )
+          CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
           DO I=1,NEL
             EP4(I) = HALF*EP4(I)
             EP5(I) = HALF*EP5(I)
@@ -901,13 +913,17 @@ C
      4            ER1V   ,ER2V    ,WDR1V    ,WDR2V      ,W1, AMU)
 
       ELSEIF (MTN == 6) THEN
-        CALL M6LAW(PM  ,OFF     ,LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%RK ,
-     2         LBUF%RE ,LBUF%VK ,VOLN    ,RHO0     ,VIS     ,PSH     ,
-     3         DXX     ,DYY     ,DZZ     ,D4       ,D5      ,D6      ,
-     4         C1      ,C2      ,C3      ,C4       ,C5      ,C6      , 
-     5         PC      ,AMU     ,AMU2    ,ESPE     ,CXX     ,DF      ,
-     6         TMU     ,MAT     ,WXX     ,WYY      ,WZZ     ,NEL     ,
-     7         DPDM)
+        CALL M6LAW(
+     1   PM,       OFF,      LBUF%SIG, LBUF%EINT,
+     2   LBUF%RHO, LBUF%RK,  LBUF%RE,  LBUF%VK,
+     3   VOLN,     RHO0,     VIS,      PSH,
+     4   DXX,      DYY,      DZZ,      D4,
+     5   D5,       D6,       C1,       C2,
+     6   C3,       C4,       C5,       C6,
+     7   PC,       AMU,      AMU2,     ESPE,
+     8   CXX,      DF,       TMU,      MAT,
+     9   WXX,      WYY,      WZZ,      NEL,
+     A   DPDM,     JTUR,     JPOR)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM ,OFF     ,LBUF%RHO ,LBUF%RK  ,LBUF%TEMP ,CXX       ,
      2         LBUF%RE    ,STIFN   ,DT2T     ,NELTST   ,ITYPTST   ,AIRE      ,
@@ -993,18 +1009,22 @@ C       TSAI 3D Complet
         EOSTYP= IPM(4,MAT(1))
         STRD1(1:NEL*3) => LBUF%EPE(1:NEL*3)
         STRD2(1:NEL*3) => LBUF%EPE(1+NEL*3:NEL*6)
-        CALL M12LAW(PM       ,OFF       ,LBUF%SIG,LBUF%EINT,LBUF%PLA,
-     2            LBUF%SIGF  ,LBUF%EPSF ,LBUF%DAM,STRD1    ,STRD2   ,
-     3            GAMA       ,LBUF%VOL  ,RX      ,RY       ,RZ      ,
-     4            SX         ,SY        ,SZ      ,MAT      ,VOLN    ,
-     5            DVOL       ,CXX       ,DXX     ,DYY      ,DZZ     , 
-     6            D4         ,D5        ,D6      ,S1       ,S2      ,
-     7            S3         ,S4        ,S5      ,S6       ,SIGY    ,
-     8            DEFP       ,NGL       ,LBUF%SEQ,NEL      ,EOSTYP  ,   
-     9            RHO0       ,AMU       ,AMU2    ,ESPE     ,DF      ,
-     A            PSH        ,PNEW      ,DPDM    ,DPDE     ,LBUF%RHO,
-     B            LBUF%TEMP  ,ECOLD     ,BUFMAT  ,NPF      ,TF      ,
-     C            LBUF%TSAIWU,EBUF%VAR,NVAREOS)
+        CALL M12LAW(
+     1   PM,         OFF,        LBUF%SIG,   LBUF%EINT,
+     2   LBUF%PLA,   LBUF%SIGF,  LBUF%EPSF,  LBUF%DAM,
+     3   STRD1,      STRD2,      GAMA,       LBUF%VOL,
+     4   RX,         RY,         RZ,         SX,
+     5   SY,         SZ,         MAT,        VOLN,
+     6   DVOL,       CXX,        DXX,        DYY,
+     7   DZZ,        D4,         D5,         D6,
+     8   S1,         S2,         S3,         S4,
+     9   S5,         S6,         SIGY,       DEFP,
+     A   NGL,        LBUF%SEQ,   NEL,        EOSTYP,
+     B   RHO0,       AMU,        AMU2,       ESPE,
+     C   DF,         PSH,        PNEW,       DPDM,
+     D   DPDE,       LBUF%RHO,   LBUF%TEMP,  ECOLD,
+     E   BUFMAT,     NPF,        TF,         LBUF%TSAIWU,
+     F   EBUF%VAR,   NVAREOS,    JCVT,       JSPH)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF    ,LBUF%RHO ,LBUF%RK ,LBUF%TEMP ,CXX       ,
      2         LBUF%RE  ,STIFN   ,DT2T     ,NELTST  ,ITYPTST   ,AIRE      ,
@@ -1027,14 +1047,18 @@ C       TSAI 3D Complet
       ELSEIF (MTN == 14) THEN
         STRD1(1:NEL*3) => LBUF%EPE(1:NEL*3)
         STRD2(1:NEL*3) => LBUF%EPE(1+NEL*3:NEL*6)
-        CALL M14LAW(PM       ,OFF      ,LBUF%SIG,LBUF%EINT,LBUF%PLA,
-     2              LBUF%SIGF,LBUF%EPSF,LBUF%DAM,STRD1    ,STRD2   ,
-     3              GAMA     ,LBUF%VOL ,RX      ,RY       ,RZ      ,
-     4              SX       ,SY       ,SZ      ,MAT      ,VOLN    ,
-     5              DVOL     ,CXX      ,DXX     ,DYY      ,DZZ     , 
-     6              D4       ,D5       ,D6      ,S1       ,S2      ,
-     7              S3       ,S4       ,S5      ,S6       ,SIGY    ,
-     8              DEFP     ,NGL      ,LBUF%SEQ,NEL      ,LBUF%TSAIWU)
+        CALL M14LAW(
+     1   PM,         OFF,        LBUF%SIG,   LBUF%EINT,
+     2   LBUF%PLA,   LBUF%SIGF,  LBUF%EPSF,  LBUF%DAM,
+     3   STRD1,      STRD2,      GAMA,       LBUF%VOL,
+     4   RX,         RY,         RZ,         SX,
+     5   SY,         SZ,         MAT,        VOLN,
+     6   DVOL,       CXX,        DXX,        DYY,
+     7   DZZ,        D4,         D5,         D6,
+     8   S1,         S2,         S3,         S4,
+     9   S5,         S6,         SIGY,       DEFP,
+     A   NGL,        LBUF%SEQ,   NEL,        LBUF%TSAIWU,
+     B   JCVT,       JSPH)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF   ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX      ,
      2         LBUF%RE  ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE    ,
@@ -1088,13 +1112,17 @@ C       TSAI 3D Complet
      3              E01      ,E02       ,PNEW)
 c
       ELSEIF (MTN == 17) THEN
-        CALL M17LAW(PM      ,OFF     ,LBUF%SIG ,LBUF%EINT ,LBUF%RHO  ,
-     2              LBUF%RK ,LBUF%RE ,LBUF%VK  ,WXX       ,WYY       ,
-     3              WZZ     ,VOLN    ,MAT      ,VIS       ,DXX       ,
-     4              DYY     ,DZZ     ,D4       ,D5        ,D6        ,
-     5              NEL     ,ALOGEY  ,CXX, RHO0, TMU,
-     6              AMU, AMU2, PSH, PC, ESPE,
-     7              C1, C2, C3, C4, C5, C6, DF,DPDM)
+        CALL M17LAW(
+     1   PM,       OFF,      LBUF%SIG, LBUF%EINT,
+     2   LBUF%RHO, LBUF%RK,  LBUF%RE,  LBUF%VK,
+     3   WXX,      WYY,      WZZ,      VOLN,
+     4   MAT,      VIS,      DXX,      DYY,
+     5   DZZ,      D4,       D5,       D6,
+     6   NEL,      ALOGEY,   CXX,      RHO0,
+     7   TMU,      AMU,      AMU2,     PSH,
+     8   PC,       ESPE,     C1,       C2,
+     9   C3,       C4,       C5,       C6,
+     A   DF,       DPDM,     JPOR)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF   ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX       ,
      2         LBUF%RE ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE      ,
@@ -1246,12 +1274,16 @@ C     like law25 for shell + S33 = EPS33*E33
      4   DVOL,     POLD,     CXX,      RHO0,
      5   P01,      NEL)
         IF (JSPH == 0) THEN
-         CALL MQVISC26(PM,OFF     ,LBUF%RHO,LBUF%RK ,LBUF%TEMP,CXX     ,
-     2           LBUF%RE ,STIFN   ,DT2T    ,NELTST  ,ITYPTST  ,AIRE    ,
-     3           LBUF%OFF,GEO     ,PID     ,
-     4           VOLN    ,VD2     ,DELTAX  ,VIS        ,  
-     5           DXX     ,DYY     ,DZZ    ,PNEW    ,PSH     ,MAT        ,
-     6           NGL     ,QVIS    ,SSP_EQ ,XK      )
+         CALL MQVISC26(
+     1   PM,       OFF,      LBUF%RHO, LBUF%RK,
+     2   LBUF%TEMP,CXX,      LBUF%RE,  STIFN,
+     3   DT2T,     NELTST,   ITYPTST,  AIRE,
+     4   LBUF%OFF, GEO,      PID,      VOLN,
+     5   VD2,      DELTAX,   VIS,      DXX,
+     6   DYY,      DZZ,      PNEW,     PSH,
+     7   MAT,      NGL,      QVIS,     SSP_EQ,
+     8   XK,       NEL,      ITY,      ISMSTR,
+     9   JTUR,     JTHE)
         ELSE
           CALL MDTSPH(PM ,OFF     ,LBUF%RHO,LBUF%RK   ,LBUF%TEMP,
      2         LBUF%RE   ,STIFN   ,DT2T    ,NELTST    ,ITYPTST  ,
@@ -1469,10 +1501,13 @@ C-----------------------------------------------------------------------
           EP6(I) = D6(I) *OFF(I)
         ENDDO
         IF (ISORTH /= 0 .AND. JCVT == 0) THEN
-          CALL MREPLOC(GAMA,R11,R12,R13,R21,R22    ,
-     .                 R23 ,R31,R32,R33,
-     .                 RX  ,RY ,RZ ,SX ,SY ,SZ     ,
-     .                 TX  ,TY ,TZ )
+          CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
           DO I=1,NEL
             EP4(I) = HALF*EP4(I)
             EP5(I) = HALF*EP5(I)
@@ -1628,10 +1663,13 @@ C------------------------------------------------------------
           ENDIF
 C           
           IF (ISORTH  > 0 .AND. JCVT == 0) THEN 
-            CALL MREPLOC(GAMA ,R11,R12,R13,R21,R22    ,
-     .                  R23  ,R31,R32,R33,                
-     .                  RX   ,RY ,RZ ,SX ,SY ,SZ     ,    
-     .                  TX   ,TY ,TZ )                    
+            CALL MREPLOC(
+     1   GAMA,    R11,     R12,     R13,
+     2   R21,     R22,     R23,     R31,
+     3   R32,     R33,     RX,      RY,
+     4   RZ,      SX,      SY,      SZ,
+     5   TX,      TY,      TZ,      NEL,
+     6   JSPH)
             CALL MROTENS(1,NEL,SS1,SS2,SS3,SS4,SS5,SS6,
      .              R11,R12,R13,
      .              R21,R22,R23,

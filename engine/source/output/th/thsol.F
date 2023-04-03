@@ -214,7 +214,7 @@ c
          NPTS = ELBUF_TAB(NG)%NPTS                        
          NPTT = ELBUF_TAB(NG)%NPTT
 C------
-         CALL INITBUF ( IPARG    ,NG      ,                    
+         CALL INITBUF( IPARG    ,NG      ,                    
      2          MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
      4          JTHE    ,JLAG    ,JMULT   ,KHBE    ,JIVF    ,  

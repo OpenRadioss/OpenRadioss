@@ -26,7 +26,9 @@ Chd|-- called by -----------
 Chd|        TENSORS                       source/output/anim/generate/tensor6.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SROTA6_S8S(KCVT  ,TENS  ,GAMA  ,KHBE  ,ITYP  ,FRAME)
+      SUBROUTINE SROTA6_S8S(
+     1   KCVT,    TENS,    GAMA,    KHBE,
+     2   ITYP,    FRAME,   IINT,    ISORTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -34,10 +36,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IINT
+      INTEGER, INTENT(IN) :: ISORTH
 C     REAL
       my_real
      .   TENS(6),GAMA(6),FRAME(3,3)

@@ -29,12 +29,16 @@ Chd|        MEOS8                         source/materials/mat_share/meos8.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MQVISC8(PM  ,OFF ,RHO   ,RK ,T   ,RE,
-     .                   STI ,EINT,D1    ,D2 ,D3  ,VOL,
-     .                   DVOL,VD2 ,DELTAX,VIS,QOLD,SSP,
-     .                   MAT ,NC  ,NGL   ,GEO,PID ,
-     .                   DT2T ,NELTST,ITYPTST, OFFG,MSSA,
-     .                   DMELS,NEL)
+      SUBROUTINE MQVISC8(
+     1   PM,      OFF,     RHO,     RK,
+     2   T,       RE,      STI,     EINT,
+     3   D1,      D2,      D3,      VOL,
+     4   DVOL,    VD2,     DELTAX,  VIS,
+     5   QOLD,    SSP,     MAT,     NC,
+     6   NGL,     GEO,     PID,     DT2T,
+     7   NELTST,  ITYPTST, OFFG,    MSSA,
+     8   DMELS,   NEL,     ITY,     JTUR,
+     9   JTHE,    JSMS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +51,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
@@ -63,6 +66,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER :: NEL
 C     REAL
       my_real

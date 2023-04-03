@@ -26,10 +26,12 @@ Chd|-- called by -----------
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TFCUM3P(FOR ,STI  ,FSKY ,FSKYV ,IADT,
-     .                   FX1 ,FX2  ,FY1  ,FY2   ,FZ1 ,
-     .                   FZ2 ,OFFG ,OFF  ,NC1   ,NC2 ,
-     .                   EX  ,EY   ,EZ   )
+      SUBROUTINE TFCUM3P(
+     1   FOR,     STI,     FSKY,    FSKYV,
+     2   IADT,    FX1,     FX2,     FY1,
+     3   FY2,     FZ1,     FZ2,     OFFG,
+     4   OFF,     NC1,     NC2,     EX,
+     5   EY,      EZ,      NEL,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,11 +44,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
       my_real
      .   FSKYV(LSKY,8),FSKY(8,LSKY),FOR(*),STI(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -61,20 +64,20 @@ C-----------------------------------------------
       my_real
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),OFF_L
 C-----------------------------------------------      
-      DO I=LFT,LLT
+      DO I=1,NEL
         F11(I)=EX(I)*FOR(I)
         F21(I)=EY(I)*FOR(I)
         F31(I)=EZ(I)*FOR(I)
       ENDDO
 c
       OFF_L=ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
 c
       IF (OFF_L < ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I) < ZERO) THEN
             F11(I)=ZERO
             F21(I)=ZERO
@@ -88,7 +91,7 @@ C     ASSEMBLE
 C-------------------------
       IF (IVECTOR == 1) THEN
 #include "vectorize.inc"
-        DO I=LFT,LLT
+        DO I=1,NEL
           II = I+NFT
           K = IADT(1,II)
           FSKYV(K,1)=F11(I)
@@ -108,7 +111,7 @@ C-------------------------
           FZ2(I) = F31(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
          II = I+NFT
          K = IADT(1,II)
          FSKY(1,K)=F11(I)

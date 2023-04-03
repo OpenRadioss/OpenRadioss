@@ -285,12 +285,16 @@ C     PROJECT NODAL COORDINATES INTO CO-ROTATIONAL SYSTEM
      4   NC3,       NC4,       NGL,       MXT,
      5   NGEO,      VD2,       VIS,       NEL)
       ELSE
-        CALL QRCOOR2(X,IXQ(1,NF1),
-     2              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     3              NC1,NC2,NC3,NC4,
-     4              NGL,MXT,NGEO,VD2,
-     5              R11,R12,R13,R21,R22,R23,R31,R32,R33,
-     6              GAMA,Y234,Y124,VIS)
+        CALL QRCOOR2(
+     1   X,         IXQ(1,NF1),Y1,        Y2,
+     2   Y3,        Y4,        Z1,        Z2,
+     3   Z3,        Z4,        NC1,       NC2,
+     4   NC3,       NC4,       NGL,       MXT,
+     5   NGEO,      VD2,       R11,       R12,
+     6   R13,       R21,       R22,       R23,
+     7   R31,       R32,       R33,       GAMA,
+     8   Y234,      Y124,      VIS,       NEL,
+     9   ISORTH)
       ENDIF
 C
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
@@ -326,12 +330,16 @@ C
         ENDDO
       ENDIF
 C     COMPUTE SHAPE DERIVATIVES AT ELEMENT CENTER
-      CALL Q4DERIC2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     2              Y12,Y34,Y13,Y24,Y14,Y23,
-     3              Z12,Z34,Z13,Z24,Z14,Z23,
-     4              PYC1,PYC2,PZC1,PZC2,AIRE,
-     5              VOLU,YAVG,RX ,RY ,RZ  ,
-     6              SX  ,SY ,SZ )
+      CALL Q4DERIC2(
+     1   Y1,      Y2,      Y3,      Y4,
+     2   Z1,      Z2,      Z3,      Z4,
+     3   Y12,     Y34,     Y13,     Y24,
+     4   Y14,     Y23,     Z12,     Z34,
+     5   Z13,     Z24,     Z14,     Z23,
+     6   PYC1,    PYC2,    PZC1,    PZC2,
+     7   AIRE,    VOLU,    YAVG,    RX,
+     8   RY,      RZ,      SX,      SY,
+     9   SZ,      NEL,     JHBE)
 C
 C     COMPUTE VOLUME/(2*PI) FOR AXISYMMETRIC CASE
 C     
@@ -409,15 +417,18 @@ C     INITIALIZE WEIGHTING FACTORS
       WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)
 C
 C     COMPUTE JACOBIAN & SHAPE DERIVATIVES AT INTEGRATION POINT
-        CALL Q4DERI2(OFFG,OFF,KSI,ETA,WI,YAVG,
-     2               Y12,Y34,Y13,Y24,Y14,Y23,
-     3               Z12,Z34,Z13,Z24,Z14,Z23,
-     4               PY1,PY2,PY3,PY4,
-     5               PZ1,PZ2,PZ3,PZ4,
-     7               PYC1,PYC2,PZC1,PZC2,
-     8               BYZ1,BYZ2,BYZ3,BYZ4,
-     9               BZY1,BZY2,BZY3,BZY4,
-     B               AIRN,VOLN,NUU)
+        CALL Q4DERI2(
+     1   OFFG,    OFF,     KSI,     ETA,
+     2   WI,      YAVG,    Y12,     Y34,
+     3   Y13,     Y24,     Y14,     Y23,
+     4   Z12,     Z34,     Z13,     Z24,
+     5   Z14,     Z23,     PY1,     PY2,
+     6   PY3,     PY4,     PZ1,     PZ2,
+     7   PZ3,     PZ4,     PYC1,    PYC2,
+     8   PZC1,    PZC2,    BYZ1,    BYZ2,
+     9   BYZ3,    BYZ4,    BZY1,    BZY2,
+     A   BZY3,    BZY4,    AIRN,    VOLN,
+     B   NUU,     NEL,     JHBE)
 C-------------add BYZj... later
 C
       CALL MMSTIFS(PM   ,MXT  ,HH1   ,VOLN  ,ICSIG ,

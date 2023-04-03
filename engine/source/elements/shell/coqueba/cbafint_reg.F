@@ -28,12 +28,14 @@ Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
-      SUBROUTINE CBAFINT_REG(NLOC_DMG ,VAR_REG  ,THK     ,NEL     ,
-     .                       OFF      ,AREA     ,NC1     ,NC2     ,
-     .                       NC3      ,NC4      ,BUFNL   ,IMAT    ,
-     .                       NDDL     ,ITASK    ,NG      ,JFT     ,
-     .                       JLT      ,X13      ,Y13     ,X24     ,
-     .                       Y24      ,DT2T     ,THK0    ,AREA0   )
+      SUBROUTINE CBAFINT_REG(
+     1   NLOC_DMG,VAR_REG, THK,     NEL,
+     2   OFF,     AREA,    NC1,     NC2,
+     3   NC3,     NC4,     BUFNL,   IMAT,
+     4   NDDL,    ITASK,   NG,      JFT,
+     5   JLT,     X13,     Y13,     X24,
+     6   Y24,     DT2T,    THK0,    AREA0,
+     7   NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -47,7 +49,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "parit_c.inc"
-#include      "vect01_c.inc"
 #include      "com20_c.inc"
 #include      "com08_c.inc"
 #include      "scr02_c.inc"
@@ -55,6 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER                                    :: NEL,IMAT,NDDL,ITASK,NG,
      .                                              IR ,IS,JFT,JLT
       INTEGER, DIMENSION(NEL)                    :: NC1,NC2,NC3,NC4

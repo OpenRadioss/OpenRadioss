@@ -36,15 +36,19 @@ Chd|        PLAS24B                       source/materials/mat/mat024/plas24b.F
 Chd|        ROTLOC                        source/materials/mat/mat024/rotloc.F
 Chd|        UDAM24N                       source/materials/mat/mat024/udam24.F
 Chd|====================================================================
-      SUBROUTINE CONC24(PM      ,OFF    ,SIG    ,EINT   ,SIGA   ,
-     2                  EPXA    ,GAMA   ,DAM    ,ANG    ,EPS_F  ,
-     3                  VK0     ,STRAIN ,CRAK   ,DAMSUM ,ROB    ,
-     4                  SIGC    ,VK     ,PLA    ,NGL    ,D1     ,
-     5                  D2      ,D3     ,D4     ,D5     ,D6     ,
-     6                  RX      ,RY     ,RZ     ,SX     ,SY     ,
-     7                  SZ      ,SEQ    ,RHO    ,EPSVP  ,NEL    ,
-     8                  R11     ,R12    ,R13    ,R21    ,R22    ,
-     9                  R23     ,R31    ,R32    ,R33    )
+      SUBROUTINE CONC24(
+     1   PM,      OFF,     SIG,     EINT,
+     2   SIGA,    EPXA,    GAMA,    DAM,
+     3   ANG,     EPS_F,   VK0,     STRAIN,
+     4   CRAK,    DAMSUM,  ROB,     SIGC,
+     5   VK,      PLA,     NGL,     D1,
+     6   D2,      D3,      D4,      D5,
+     7   D6,      RX,      RY,      RZ,
+     8   SX,      SY,      SZ,      SEQ,
+     9   RHO,     EPSVP,   NEL,     R11,
+     A   R12,     R13,     R21,     R22,
+     B   R23,     R31,     R32,     R33,
+     C   JCVT,    JSPH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +69,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: JSPH
       INTEGER NGL(NEL),NEL
       my_real GAMA(MVSIZ,6)
       my_real PM(NPROPM), OFF(NEL), SIG(NEL,6), EINT(NEL), SIGA(NEL,3),
@@ -117,10 +123,12 @@ c
         ARMA = ARMA + ARM1(I) + ARM2(I) + ARM3(I)
       ENDDO
 c     GAMA = repere  d'armature
-      CALL ROTLOC(NEL,GAMA,
-     .            RX,RY,RZ,SX,SY,SZ,
-     .            R11,R12,R13,R21,R22,
-     .            R23,R31,R32,R33)
+      CALL ROTLOC(
+     1   NEL,     GAMA,    RX,      RY,
+     2   RZ,      SX,      SY,      SZ,
+     3   R11,     R12,     R13,     R21,
+     4   R22,     R23,     R31,     R32,
+     5   R33,     JCVT,    JSPH)
 c
       CALL GLOA24(NEL,STRAIN,DT1,ARM1,ARM2,ARM3,
      .            D1,D2,D3,D4,D5,D6,

@@ -336,7 +336,8 @@ C
          END IF 
       END IF 
 C     
-      CALL S10NX3(NX)
+      CALL S10NX3(
+     1   NX,      NEL,     NPT)
       IF(JTHE < 0 .AND. ISOLNOD == 4) CALL S10NXT4(NXT4,NEL)
 C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
@@ -352,11 +353,14 @@ C----------------------
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
      .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,VOLG,VOLDP,
      .   NEL,GBUF%OFF)
-        CALL S10LEN3(VOLP,NGL,DELTAX,DELTAX2,
-     .   PX ,PY ,PZ ,VOLG,GBUF%VOL ,
-     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   NC ,NEL,MXT,PM  ,GBUF%ISMS,
-     .   GBUF%DT_PITER)
+        CALL S10LEN3(
+     1   VOLP,         NGL,          DELTAX,       DELTAX2,
+     2   PX,           PY,           PZ,           VOLG,
+     3   GBUF%VOL,     RX,           RY,           RZ,
+     4   SX,           SY,           SZ,           TX,
+     5   TY,           TZ,           NC,           NEL,
+     6   MXT,          PM,           GBUF%ISMS,    GBUF%DT_PITER,
+     7   NPT,          IINT,         ISROT,        IFORMDT)
        ELSE
 C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un) 
         IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
@@ -392,11 +396,14 @@ C-----------
      .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,VOLG,VOLDP,
      .   NC ,GBUF%SMSTR,GBUF%OFF ,NEL)
 C
-        CALL S10LEN3(VOLP,NGL,DELTAX,DELTAX2,
-     .   PX ,PY ,PZ ,VOLG,GBUF%VOL ,
-     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   NC ,NEL,MXT,PM  ,GBUF%ISMS,
-     .   GBUF%DT_PITER)
+        CALL S10LEN3(
+     1   VOLP,         NGL,          DELTAX,       DELTAX2,
+     2   PX,           PY,           PZ,           VOLG,
+     3   GBUF%VOL,     RX,           RY,           RZ,
+     4   SX,           SY,           SZ,           TX,
+     5   TY,           TZ,           NC,           NEL,
+     6   MXT,          PM,           GBUF%ISMS,    GBUF%DT_PITER,
+     7   NPT,          IINT,         ISROT,        IFORMDT)
 
         IF (IPLAW1>0) THEN
            CALL S10DVM12(
@@ -496,9 +503,11 @@ c
 !!          CALL SROTO12(LFT,LLT,LBUF%SIG,
 !!     .                 E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z,OFFG0)
        ENDIF
-        CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
-     .              S5      ,S6   ,WXX  ,WYY  ,WZZ,
-     .              NEL     )
+        CALL SROTA3(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   WYY,     WZZ,     NEL,     MTN,
+     4   ISMSTR)
 C-----------------------------
 C       SMALL STRAIN
 C-----------------------------
@@ -528,7 +537,9 @@ C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C
-      IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR_TAB)
+      IF(IBOLTP /= 0) CALL BOLTST(
+     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
+     2   TT,        NEL,       SENSOR_TAB,NPT)
 C
         CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO        ,FV	    ,ALE_CONNECT  ,
      2             IXS      ,IPARG  ,V      ,TF      ,NPF     ,BUFMAT ,
@@ -583,11 +594,15 @@ C-------------------------
 C----------------------------
 C       INTERNAL FORCES
 C----------------------------
-        CALL S10FINT3(LBUF%SIG,PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
-     .   FX,FY,FZ,VOLN,QVIS,STI,STIG,
-     .   LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
-     .   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
-     .   WIP(IP,NPT),GBUF%G_PLA,NEL,CONDE,CONDEG,GBUF%G_EPSD)
+        CALL S10FINT3(
+     1   LBUF%SIG,   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
+     2   FX,         FY,         FZ,         VOLN,
+     3   QVIS,       STI,        STIG,       LBUF%EINT,
+     4   LBUF%RHO,   LBUF%QVIS,  LBUF%PLA,   LBUF%EPSD,
+     5   GBUF%EPSD,  GBUF%SIG,   GBUF%EINT,  GBUF%RHO,
+     6   GBUF%QVIS,  GBUF%PLA,   WIP(IP,NPT),GBUF%G_PLA,
+     7   NEL,        CONDE,      CONDEG,     GBUF%G_EPSD,
+     8   ISRAT)
 C
         DO I=LFT,LLT
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN

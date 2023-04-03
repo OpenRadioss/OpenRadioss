@@ -48,19 +48,22 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE PFORC3(ELBUF_STR,
-     1                  JFT     ,JLT    ,NEL     ,MTN     ,ISMSTR  , 
-     2                  PM      ,NCC    ,X       ,
-     3                  F       ,M      ,V       ,R       ,
-     4                  GEO     ,PARTSAV,DT2T    ,NELTST  ,ITYPTST , 
-     5                  STIFN   ,STIFR  ,FSKY    ,IADP    ,OFFSET  , 
-     6                  IPARTP  ,TANI   ,FX1     ,FX2     ,FY1     , 
-     7                  FY2     ,FZ1    ,FZ2     ,MX1     ,MX2     , 
-     8                  MY1     ,MY2    ,MZ1     ,MZ2     ,IGEO    ,
-     9                  IPM     ,BUFMAT ,NPT     ,NPF     ,TF      ,
-     A                  GRESAV  ,GRTH   ,IGRTH   ,MSP     ,DMELP   ,
-     C                  IOUTPRT ,ITASK  ,JTHE    ,TEMP    ,FTHE    ,
-     D                  FTHESKY ,IEXPAN ,H3D_DATA)
+      SUBROUTINE PFORC3(
+     1   ELBUF_STR,JFT,      JLT,      NEL,
+     2   MTN,      ISMSTR,   PM,       NCC,
+     3   X,        F,        M,        V,
+     4   R,        GEO,      PARTSAV,  DT2T,
+     5   NELTST,   ITYPTST,  STIFN,    STIFR,
+     6   FSKY,     IADP,     OFFSET,   IPARTP,
+     7   TANI,     FX1,      FX2,      FY1,
+     8   FY2,      FZ1,      FZ2,      MX1,
+     9   MX2,      MY1,      MY2,      MZ1,
+     A   MZ2,      IGEO,     IPM,      BUFMAT,
+     B   NPT,      NPF,      TF,       GRESAV,
+     C   GRTH,     IGRTH,    MSP,      DMELP,
+     D   IOUTPRT,  ITASK,    JTHE,     TEMP,
+     E   FTHE,     FTHESKY,  IEXPAN,   H3D_DATA,
+     F   JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER NCC(NIXP,*),IADP(2,*),IPARTP(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),NPF(*),GRTH(*),IGRTH(*)
       INTEGER JFT,JLT,NELTST,ITYPTST,OFFSET,NEL,JTHE,
@@ -149,10 +153,13 @@ C-----------------------------------------------
      8   E3Y,      E3Z,      NEL)
       IF (ISMSTR /= 0) CALL PPXPY3(
      1   GBUF%LENGTH,AL,         NEL)
-      CALL PDLEN3(JFT    ,JLT    ,PM        ,GEO        ,GBUF%OFF,
-     .            DT2T   ,NELTST ,ITYPTST,STI    ,STIR   ,
-     .            MSP    ,DMELP  ,GBUF%G_DT ,GBUF%DT    ,AL      ,
-     .            MAT    ,PID    ,NGL       )
+      CALL PDLEN3(
+     1   JFT,      JLT,      PM,       GEO,
+     2   GBUF%OFF, DT2T,     NELTST,   ITYPTST,
+     3   STI,      STIR,     MSP,      DMELP,
+     4   GBUF%G_DT,GBUF%DT,  AL,       MAT,
+     5   PID,      NGL,      NEL,      IGTYP,
+     6   JSMS)
       CALL PDEFO3(
      1   V,       EXX,     EXY,     EXZ,
      2   AL,      NC1,     NC2,     NC3,

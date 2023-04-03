@@ -353,13 +353,16 @@ C     PROJECT NODAL COORDINATES AND VELOCITES INTO CO-ROTATIONAL SYSTEM
       LCO = 1 + 7*NFT
       NF1 = 1 + NFT
       IF(JCVT==0) THEN
-        CALL Q4COOR2(X,IC(LCO),
-     2              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     3              NC1,NC2,NC3,NC4,
-     4              NGL,MAT,NGEO,VD2,VIS,
-     5              V       ,VY1     ,VY2     ,VY3     ,
-     6              VY4     ,VZ1     ,VZ2     ,VZ3     ,VZ4     ,
-     7              YAVG    ,AY      ,EXX    )                   
+        CALL Q4COOR2(
+     1   X,       IC(LCO), Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      NC1,     NC2,
+     4   NC3,     NC4,     NGL,     MAT,
+     5   NGEO,    VD2,     VIS,     V,
+     6   VY1,     VY2,     VY3,     VY4,
+     7   VZ1,     VZ2,     VZ3,     VZ4,
+     8   YAVG,    AY,      EXX,     NEL,
+     9   JHBE)
       ELSE
 C----EXX,YAVG ,AY are calculated in global system anyway, more efficient eo be done here
 C----for the moment constant in element
@@ -408,12 +411,16 @@ C     COMPUTE CHARACTERISTIC LENGTH OF EACH ELEMENT FOR DETERMINING TIME STEP
 C
 C     COMPUTE SHAPE DERIVATIVES AT ELEMENT CENTER
 C
-      CALL Q4DERIC2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     2              Y12,Y34,Y13,Y24,Y14,Y23,
-     3              Z12,Z34,Z13,Z24,Z14,Z23,
-     4              PYC1,PYC2,PZC1,PZC2,AIRE,
-     5              VOLU,YAVG,RX ,RY ,RZ  ,
-     6              SX  ,SY ,SZ )
+      CALL Q4DERIC2(
+     1   Y1,      Y2,      Y3,      Y4,
+     2   Z1,      Z2,      Z3,      Z4,
+     3   Y12,     Y34,     Y13,     Y24,
+     4   Y14,     Y23,     Z12,     Z34,
+     5   Z13,     Z24,     Z14,     Z23,
+     6   PYC1,    PYC2,    PZC1,    PZC2,
+     7   AIRE,    VOLU,    YAVG,    RX,
+     8   RY,      RZ,      SX,      SY,
+     9   SZ,      NEL,     JHBE)
 C
 C -----ICPG could be cleaned after---
       ICPG = 0
@@ -421,9 +428,12 @@ C      IF(ICPG==2) ICPG = 1
 C
 C     COMPUTE SHEAR & VOLUMETRIC STRAIN RATE AT ELEMENT CENTER
 C     WITH B(t+dt), V(t+dt/2) & CORRECTION
-      CALL Q4DEFOC2(VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     2              PYC1,PYC2,PZC1,PZC2,AIRE,
-     3              EYZ,EXX,DSV,ICPG)
+      CALL Q4DEFOC2(
+     1   VY1,     VY2,     VY3,     VY4,
+     2   VZ1,     VZ2,     VZ3,     VZ4,
+     3   PYC1,    PYC2,    PZC1,    PZC2,
+     4   AIRE,    EYZ,     EXX,     DSV,
+     5   ICPG,    NEL,     JCVT)
 C
 C
       IOFFS = 0
@@ -455,28 +465,33 @@ C
 C       INITIALIZE INDEX OF ELEMENT DATA ARRAY
 C
 C       COMPUTE JACOBIAN & SHAPE DERIVATIVES AT INTEGRATION POINT
-        CALL Q4DERI2(OFFG,OFF,KSI,ETA,WI,YAVG,
-     2               Y12,Y34,Y13,Y24,Y14,Y23,
-     3               Z12,Z34,Z13,Z24,Z14,Z23,
-     4               PY1,PY2,PY3,PY4,
-     5               PZ1,PZ2,PZ3,PZ4,
-     7               PYC1,PYC2,PZC1,PZC2,
-     8               BYZ1,BYZ2,BYZ3,BYZ4,
-     9               BZY1,BZY2,BZY3,BZY4,
-     B               AIRN,VOLN,NUU)
+        CALL Q4DERI2(
+     1   OFFG,    OFF,     KSI,     ETA,
+     2   WI,      YAVG,    Y12,     Y34,
+     3   Y13,     Y24,     Y14,     Y23,
+     4   Z12,     Z34,     Z13,     Z24,
+     5   Z14,     Z23,     PY1,     PY2,
+     6   PY3,     PY4,     PZ1,     PZ2,
+     7   PZ3,     PZ4,     PYC1,    PYC2,
+     8   PZC1,    PZC2,    BYZ1,    BYZ2,
+     9   BYZ3,    BYZ4,    BZY1,    BZY2,
+     A   BZY3,    BZY4,    AIRN,    VOLN,
+     B   NUU,     NEL,     JHBE)
 C
 C       COMPUTE RATE OF STRAIN AT INTEGRATION POINT WITH B(t+dt),V(t+dt/2) & CORRECTION
 C       MODIFY INITIAL VOLUME & INTERNAL ENERGY DENSITY
-        CALL Q4DEFO2(PY1,PY2,PY3,PY4,
-     2               PZ1,PZ2,PZ3,PZ4,
-     8               BYZ1,BYZ2,BYZ3,BYZ4,
-     9               BZY1,BZY2,BZY3,BZY4,
-     3               VY1,VY2,VY3,VY4,
-     4               VZ1,VZ2,VZ3,VZ4,
-     5               EYZ,EYY,EZZ,EXX,WXX,
-     .               R22,R23,
-     6               AY,OFF,GBUF%OFF,LBUF%VOL,
-     7               LBUF%EINT,DSV,ICPG,FAC)
+        CALL Q4DEFO2(
+     1   PY1,      PY2,      PY3,      PY4,
+     2   PZ1,      PZ2,      PZ3,      PZ4,
+     3   BYZ1,     BYZ2,     BYZ3,     BYZ4,
+     4   BZY1,     BZY2,     BZY3,     BZY4,
+     5   VY1,      VY2,      VY3,      VY4,
+     6   VZ1,      VZ2,      VZ3,      VZ4,
+     7   EYZ,      EYY,      EZZ,      EXX,
+     8   WXX,      R22,      R23,      AY,
+     9   OFF,      GBUF%OFF, LBUF%VOL, LBUF%EINT,
+     A   DSV,      ICPG,     FAC,      NEL,
+     B   JCVT)
 C
 C
 C       COMPUTE ADDITIONAL VOLUME CHANGE & MODIFY CURRENT DENSITY
@@ -487,7 +502,10 @@ C       RHO' = RHO0*VOL0'/VOL
      2   VOLN,     DVOL,     MAT,      NEL)
 C
 C       COPY OLD STRESS AND DO NECESSARY TREATMENT
-        CALL QROTA2(LBUF%SIG,S1,S2,S3,S4,S5,S6,WXX,NEL)
+        CALL QROTA2(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WXX,
+     3   NEL,     JCVT)
 C
 C       UPDATE STRESS
         CALL MMAIN(
@@ -511,16 +529,17 @@ C       UPDATE STRESS
      J     ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C
 C       COMPUTE NODAL INTERNAL FORCE
-        CALL Q4FINT2(LBUF%SIG,AY,FAY,FAZ,
-     2               PY1,PY2,PY3,PY4,
-     3               PZ1,PZ2,PZ3,PZ4,
-     8               BYZ1,BYZ2,BYZ3,BYZ4,
-     9               BZY1,BZY2,BZY3,BZY4,
-     5               FY1,FZ1,FY2,FZ2,
-     6               FY3,FZ3,FY4,FZ4,
-     7               R22,R23,R32,R33,
-     8               AIRN,VOLN,QVIS,ICPG,
-     9               NEL)
+        CALL Q4FINT2(
+     1   LBUF%SIG,AY,      FAY,     FAZ,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   BYZ1,    BYZ2,    BYZ3,    BYZ4,
+     5   BZY1,    BZY2,    BZY3,    BZY4,
+     6   FY1,     FZ1,     FY2,     FZ2,
+     7   FY3,     FZ3,     FY4,     FZ4,
+     8   R22,     R23,     R32,     R33,
+     9   AIRN,    VOLN,    QVIS,    ICPG,
+     A   NEL,     JHBE,    JCVT)
 C
 C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
         CALL S8EFMOY3(LBUF%SIG ,
@@ -560,10 +579,13 @@ C
       CALL SMALLB3(GBUF%OFF,OFFG)
 C
 C     ADD NODAL INTERNAL FORCE FOR CONSTANT PRESSURE AND CONSTANT SHEAR STRAIN
-      CALL Q4FINTC2(PYC1,PYC2,PZC1,PZC2,AY,FAY,
-     2              FY1,FZ1,FY2,FZ2,
-     3              FY3,FZ3,FY4,FZ4,
-     4              AIRE,VOLU,GBUF%SIG,PP,ICPG,NEL)
+      CALL Q4FINTC2(
+     1   PYC1,    PYC2,    PZC1,    PZC2,
+     2   AY,      FAY,     FY1,     FZ1,
+     3   FY2,     FZ2,     FY3,     FZ3,
+     4   FY4,     FZ4,     AIRE,    VOLU,
+     5   GBUF%SIG,PP,      ICPG,    NEL,
+     6   JHBE)
 C
       IF(N2D==1.AND.JHBE==17) THEN
          CALL Q4VIS2(PM,GBUF%OFF,GBUF%RHO,

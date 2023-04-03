@@ -102,7 +102,7 @@ C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-         CALL INITBUF (IPARG    ,NG      ,                  
+         CALL INITBUF(IPARG    ,NG      ,                  
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
@@ -186,7 +186,7 @@ C     ALE ON / OFF
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-         CALL INITBUF (IPARG    ,NG      ,                  
+         CALL INITBUF(IPARG    ,NG      ,                  
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
@@ -268,7 +268,7 @@ C     ALE ON / OFF
       DO NG=ITASK+1,NGROUP,NTHREAD  
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-         CALL INITBUF (IPARG    ,NG      ,                  
+         CALL INITBUF(IPARG    ,NG      ,                  
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
@@ -301,7 +301,7 @@ C     Communication MPI pour les gradients
       DO NG=ITASK+1,NGROUP,NTHREAD  
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-         CALL INITBUF (IPARG    ,NG      ,                  
+         CALL INITBUF(IPARG    ,NG      ,                  
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   

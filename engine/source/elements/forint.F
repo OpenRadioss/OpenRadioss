@@ -281,7 +281,7 @@ C       MLW = 13 ----> rigid material
         IF (MLW == 0 .OR. MLW == 13) GOTO 250                          
 C
 C---
-        CALL INITBUF (IPARG    ,NG      ,                              
+        CALL INITBUF(IPARG    ,NG      ,                              
      2     MLW     ,NEL     ,NFT     ,KAD     ,ITY     ,               
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,               
      4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,               
@@ -1132,19 +1132,22 @@ C
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTP(NF1) ,SUBSET ,IPRI)
-          CALL PFORC3(ELBUF_TAB(NG),
-     1       JFT           ,JLT         ,NEL    ,MTN  ,ISMSTR,
-     2      PM         ,IXP(1,NF1),X       ,
-     3      A          ,AR        ,V       ,VR      ,
-     4      GEO        ,PARTSAV   ,DT2T    ,NELTST  ,ITYPTST,
-     5      STIFN      ,STIFR     ,FSKY    ,IADP    ,OFFSET ,
-     6      IPARTP(NF1),TANI(K1)  ,FX(1,1) ,FX(1,2) ,FY(1,1),
-     7      FY(1,2)    ,FZ(1,1)   ,FZ(1,2) ,MX(1,1) ,MX(1,2),
-     8      MY(1,1)    ,MY(1,2)   ,MZ(1,1) ,MZ(1,2) ,IGEO   ,
-     9      IPM        ,BUFMAT    ,NPT     ,NPC     ,TF     ,
-     A      GRESAV     ,GRTH      ,IGRTH(OFF_IGRTH+NF1),MSP(NF1),DMELP(NF1),
-     C      IPRI       ,ITASK     ,JTHE    ,TEMP     ,FTHE      ,
-     D      FTHESKY    ,IEXPAN    ,H3D_DATA)
+          CALL PFORC3(
+     1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
+     2   MTN,                 ISMSTR,              PM,                  IXP(1,NF1),
+     3   X,                   A,                   AR,                  V,
+     4   VR,                  GEO,                 PARTSAV,             DT2T,
+     5   NELTST,              ITYPTST,             STIFN,               STIFR,
+     6   FSKY,                IADP,                OFFSET,              IPARTP(NF1),
+     7   TANI(K1),            FX(1,1),             FX(1,2),             FY(1,1),
+     8   FY(1,2),             FZ(1,1),             FZ(1,2),             MX(1,1),
+     9   MX(1,2),             MY(1,1),             MY(1,2),             MZ(1,1),
+     A   MZ(1,2),             IGEO,                IPM,                 BUFMAT,
+     B   NPT,                 NPC,                 TF,                  GRESAV,
+     C   GRTH,                IGRTH(OFF_IGRTH+NF1),MSP(NF1),            DMELP(NF1),
+     D   IPRI,                ITASK,               JTHE,                TEMP,
+     E   FTHE,                FTHESKY,             IEXPAN,              H3D_DATA,
+     F   JSMS)
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1182,21 +1185,23 @@ c
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTR(NF1) ,SUBSET ,IPRI)
          IF(IGTYP == 23) THEN
-              CALL R23FORC3(ELBUF_TAB(NG),
-     1      JFT        ,JLT         ,NEL          ,MTN       ,IGEO      ,
-     2      GEO        ,IPM         ,IXR(1,NF1)  ,X            ,TABLE     ,
-     3      XDP       ,A          ,NPC         ,TF           ,SKEW      ,
-     4      FLG_KJ2   ,VR         ,AR          ,V            ,DT2T      ,
-     5      NELTST    ,ITYPTST    ,STIFN       ,STIFR        ,MS        ,
-     6      IN        ,FSKY       ,IADR        ,SENSOR_TAB   ,
-     7      OFFSET    ,  ANIN       ,PARTSAV     ,IPARTR(NF1)  ,TANI(K1)  ,
-     8      FR_WAVE   ,BUFMAT     ,BUFGEO      ,PM           ,RBY       ,
-     9      FX(1,1)   , FX(1,2)    ,FY(1,1)     ,FY(1,2)      ,FZ(1,1)   ,
-     A      FZ(1,2)   ,     MX(1,1)    ,MX(1,2)     ,MY(1,1)      ,MY(1,2)   ,
-     B      MZ(1,1)   ,MZ(1,2)    ,GRESAV      ,GRTH ,IGRTH(OFF_IGRTH+NF1),
-     C      MSRT(NF1),DMELRT(NF1),
-     D      FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     E      H3D_DATA)
+              CALL R23FORC3(
+     1   ELBUF_TAB(NG),        JFT,                  JLT,                  NEL,
+     2   MTN,                  IGEO,                 GEO,                  IPM,
+     3   IXR(1,NF1),           X,                    TABLE,                XDP,
+     4   A,                    NPC,                  TF,                   SKEW,
+     5   FLG_KJ2,              VR,                   AR,                   V,
+     6   DT2T,                 NELTST,               ITYPTST,              STIFN,
+     7   STIFR,                MS,                   IN,                   FSKY,
+     8   IADR,                 SENSOR_TAB,           OFFSET,               ANIN,
+     9   PARTSAV,              IPARTR(NF1),          TANI(K1),             FR_WAVE,
+     A   BUFMAT,               BUFGEO,               PM,                   RBY,
+     B   FX(1,1),              FX(1,2),              FY(1,1),              FY(1,2),
+     C   FZ(1,1),              FZ(1,2),              MX(1,1),              MX(1,2),
+     D   MY(1,1),              MY(1,2),              MZ(1,1),              MZ(1,2),
+     E   GRESAV,               GRTH,                 IGRTH(OFF_IGRTH+NF1), MSRT(NF1),
+     F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
+     G   JSMS)
          ELSE
           CALL RFORC3(ELBUF_TAB(NG),
      1      JFT        ,JLT         ,NEL         ,MTN       ,IGEO      ,
@@ -1208,9 +1213,9 @@ c
      7      ANIN       ,PARTSAV     ,IPARTR(NF1) ,TANI(K1)  , FR_WAVE   ,
      8      BUFMAT     ,BUFGEO      ,PM          ,RBY       , FX(1,1)   ,
      9      FX(1,2)    ,FY(1,1)     ,FY(1,2)     ,FZ(1,1)   ,FZ(1,2)    ,
-     A      MX(1,1)    ,MX(1,2)     ,MY(1,1)      ,MY(1,2)  ,MZ(1,1)   ,
+     A      MX(1,1)    ,MX(1,2)     ,MY(1,1)     ,MY(1,2)  ,MZ(1,1)   ,
      B      MZ(1,2)    ,GRESAV      ,GRTH ,IGRTH(OFF_IGRTH+NF1),MSRT(NF1) ,
-     C      DMELRT(NF1), ITASK       ,H3D_DATA    )
+     C      DMELRT(NF1), ITASK      ,H3D_DATA    ,JSMS    )
              
          ENDIF
 C

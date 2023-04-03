@@ -91,7 +91,7 @@ C-----------------------------------------------
       SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + II*NUMELTG + NSVOIS+ NQVOIS + II*NTGVOIS + NSEGFLU )        
       IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for /ANIM/ELEM/SCHLIEREN or /H3D/ELEM/SCHLIEREN (DENSITY GATHERING)            
       DO NG=1,NGROUP                                                                                                    
-        CALL INITBUF (                                                                                                  
+        CALL INITBUF(                                                                                                  
      1          IPARG   ,NG      ,                                                                                      
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,                                                           
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,                                                           

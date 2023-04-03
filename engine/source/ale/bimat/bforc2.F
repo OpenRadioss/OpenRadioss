@@ -290,7 +290,10 @@ c
      .            VY1, VY2, VY3, VY4, 
      .            VZ1, VZ2, VZ3, VZ4,
      .            MAT)
-      CALL QROTA2(LBUF1%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
+      CALL QROTA2(
+     1   LBUF1%SIG,S1,       S2,       S3,
+     2   S4,       S5,       S6,       WYZ,
+     3   NEL,      JCVT)
 
       IF (ISORTH == 0) THEN 
 C       propriete isotrope
@@ -385,10 +388,12 @@ C
 C--------------------
 C     FORCES INTERNES
 C--------------------
-      CALL QFINT2(LBUF%SIG,
-     .   PY1, PY2, PZ1, PZ2, AIRE, VOLN, QVIS,
-     .   F11, F12, F21, F22, AX1, AX2,
-     .   BID, BID, BID, BID,NEL)
+      CALL QFINT2(
+     1   LBUF%SIG,PY1,     PY2,     PZ1,
+     2   PZ2,     AIRE,    VOLN,    QVIS,
+     3   F11,     F12,     F21,     F22,
+     4   AX1,     AX2,     BID,     BID,
+     5   BID,     BID,     NEL,     JCVT)
 C------------------------
 C     FORCES DE TRANSPORT
 C------------------------
@@ -475,7 +480,10 @@ c
      .            VY1, VY2, VY3, VY4, 
      .            VZ1, VZ2, VZ3, VZ4,
      .            MAT)
-      CALL QROTA2(LBUF%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
+      CALL QROTA2(
+     1   LBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WYZ,
+     3   NEL,     JCVT)
 c
       IF (ISORTH == 0) THEN 
 C       propriete isotrope
@@ -569,10 +577,12 @@ c
 C--------------------
 C       FORCES INTERNES
 C--------------------
-        CALL QFINT2(LBUF%SIG,
-     .     PY1, PY2, PZ1, PZ2, AIRE, VOLN, QVIS,
-     .     F11, F12, F21, F22, AX1, AX2,
-     .     BID, BID, BID, BID,NEL)
+        CALL QFINT2(
+     1   LBUF%SIG,PY1,     PY2,     PZ1,
+     2   PZ2,     AIRE,    VOLN,    QVIS,
+     3   F11,     F12,     F21,     F22,
+     4   AX1,     AX2,     BID,     BID,
+     5   BID,     BID,     NEL,     JCVT)
 C------------------------
 C       FORCES DE TRANSPORT
 C------------------------

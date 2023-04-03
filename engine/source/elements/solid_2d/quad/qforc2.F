@@ -242,13 +242,16 @@ C
       ELSE
 C------ Co-rotational system (convective local system)      
 C       JCVT/=0 => JLAG/=0
-        CALL QRCOOR2(X  ,IC(LCO) ,Y1   ,Y2   ,Y3   ,
-     2              Y4  ,Z1      ,Z2   ,Z3   ,Z4   ,
-     3              NC1 ,NC2     ,NC3  ,NC4  ,NGL  ,
-     4              MAT ,NGEO    ,VD2  ,R11  ,R12  ,
-     5              R13 ,R21     ,R22  ,R23  ,R31  ,
-     6              R32 ,R33     ,GAMA ,Y234 ,Y124 ,
-     7              VIS )
+        CALL QRCOOR2(
+     1   X,       IC(LCO), Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      NC1,     NC2,
+     4   NC3,     NC4,     NGL,     MAT,
+     5   NGEO,    VD2,     R11,     R12,
+     6   R13,     R21,     R22,     R23,
+     7   R31,     R32,     R33,     GAMA,
+     8   Y234,    Y124,    VIS,     NEL,
+     9   ISORTH)
       END IF
 c
       IF (JLAG/=0) THEN
@@ -274,21 +277,29 @@ C--------------
      B   VOLN,    AIRE,    AIREM,   NC1,
      C   NC2,     NC3,     NC4,     NEL)
         ELSE
-          CALL QRDEFO2(V,
-     .                   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                   PY1,PY2,PZ1,PZ2,
-     .                   WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT,
-     .                   RX,RY,RZ,SX,SY,SZ,TX,TY,TZ,
-     .                   VOLN,AIRE,AIREM,
-     .                   NC1,NC2,NC3,NC4,
-     .                   R22 ,R23 ,R32 ,R33)
+          CALL QRDEFO2(
+     1   V,       Y1,      Y2,      Y3,
+     2   Y4,      Z1,      Z2,      Z3,
+     3   Z4,      VY1,     VY2,     VY3,
+     4   VY4,     VZ1,     VZ2,     VZ3,
+     5   VZ4,     PY1,     PY2,     PZ1,
+     6   PZ2,     WYZ,     DYZ,     DZY,
+     7   EYY,     EZZ,     ETT,     EYZ,
+     8   EYT,     EZT,     RX,      RY,
+     9   RZ,      SX,      SY,      SZ,
+     A   TX,      TY,      TZ,      VOLN,
+     B   AIRE,    AIREM,   NC1,     NC2,
+     C   NC3,     NC4,     R22,     R23,
+     D   R32,     R33,     NEL,     JCVT)
         END IF
 c
         CALL QLAGR2(
      1   PM,       GBUF%VOL, GBUF%RHO, GBUF%EINT,
      2   VOLN,     DVOL,     MAT,      NEL)
-        CALL QROTA2(GBUF%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
+        CALL QROTA2(
+     1   GBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WYZ,
+     3   NEL,     JCVT)
       ELSEIF (JALE/=0) THEN
 C------------
 C      A.L.E.
@@ -314,7 +325,10 @@ C------------
      .                   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                   VOLN,DVOL,VD2,
      .                   NC1,NC2,NC3,NC4,NGL)
-        CALL QROTA2(GBUF%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
+        CALL QROTA2(
+     1   GBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WYZ,
+     3   NEL,     JCVT)
       ELSEIF (JEUL/=0) THEN
 C-----------
 C      EULER
@@ -330,7 +344,10 @@ C-----------
      .                  NC1,NC2,NC3,NC4)
         CALL EULRO2(GBUF%VOL,GBUF%RHO,FLUX(1,NF1),FLU1(NF1),VOLN,
      .             DVOL    ,NGL     )
-        CALL QROTA2(GBUF%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
+        CALL QROTA2(
+     1   GBUF%SIG,S1,      S2,      S3,
+     2   S4,      S5,      S6,      WYZ,
+     3   NEL,     JCVT)
       ENDIF
 C-----------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES(Constitutive relation compute)
@@ -452,10 +469,12 @@ C------------------------
 C--------------------
 C     FORCES INTERNES
 C--------------------
-      CALL QFINT2(GBUF%SIG,
-     .   PY1, PY2, PZ1, PZ2, AIRE, VOLN, QVIS,
-     .   F11, F12, F21, F22, AX1,AX2,
-     .   R22  ,R23    ,R32  ,R33  ,NEL)
+      CALL QFINT2(
+     1   GBUF%SIG,PY1,     PY2,     PZ1,
+     2   PZ2,     AIRE,    VOLN,    QVIS,
+     3   F11,     F12,     F21,     F22,
+     4   AX1,     AX2,     R22,     R23,
+     5   R32,     R33,     NEL,     JCVT)
 C--------------
       IF(JCVT/=0)THEN
         CALL QRROTA2(
