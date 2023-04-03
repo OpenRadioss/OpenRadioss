@@ -122,7 +122,7 @@ Card cannot be read. Object might be incomplete
 /MESSAGE/100213/DESCRIPTION
 -- BLOCK: %s
 -- LINE: %s
-unsupported field exits at the end of line
+unsupported field exists at the end of line
 /MESSAGE/100213/SOLUTION
     Please check input format and fields description defined in the Reference Guide.
 
@@ -131,7 +131,7 @@ unsupported field exits at the end of line
 /MESSAGE/100214/DESCRIPTION
 -- BLOCK: %s
 -- LINE: %s
-unsupported field exits
+unsupported field exists
 /MESSAGE/100214/SOLUTION
     Please check input format and fields description defined in the Reference Guide.
 
