@@ -160,7 +160,7 @@ c
           PH3 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH3+1:NPH3+1+LLT)
           CALL M51TH(
      1   T(1+NFT),      PH1,           PH2,           PH3,
-     2   BUFMAT(IADBUF),VAL2(1+NFT),   NEL,           NEL)
+     2   BUFMAT(IADBUF),VAL2(1+NFT),   NEL)
         ELSEIF (JTUR /= 0.AND.MTN /= 11) THEN
           DO I=LFT,LLT
             J=I+NFT
