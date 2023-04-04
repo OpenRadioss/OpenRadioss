@@ -36,7 +36,7 @@ Chd|====================================================================
       USE LINEAR_SOLVER_MOD
       USE MATRIX_MOD
       USE VECTOR_MOD
-      implicit none
+      IMPLICIT NONE
 #include "my_real.inc"
 !     .___________________________.   !
 !     |                           |   !
@@ -45,21 +45,21 @@ Chd|====================================================================
 !     |   **********************  |   !
 !     |___________________________|   !
 
-      type :: t_diffusion
-      class(t_linear_solver), private, pointer :: linear_solver
-      type(t_cfs_matrix) :: mat
-      type(t_vector) :: rhs
-      double precision, dimension(:), allocatable :: sol
-      integer, dimension(:), allocatable :: flag_outlet
-      my_real, dimension(:), allocatable :: nu
-      integer :: nrhs
-      logical :: outlet_flagged = .false.
-      contains
-      procedure, pass :: init_diffusion
-      procedure, pass :: solve_diffusion
-      procedure, pass :: terminate_diffusion
-      procedure, pass :: get_solution
-      end type t_diffusion
+      TYPE :: T_DIFFUSION
+      CLASS(T_LINEAR_SOLVER), PRIVATE, POINTER :: LINEAR_SOLVER
+      TYPE(T_CFS_MATRIX) :: MAT
+      TYPE(T_VECTOR) :: RHS
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: SOL
+      INTEGER, DIMENSION(:), ALLOCATABLE :: FLAG_OUTLET
+      MY_REAL, DIMENSION(:), ALLOCATABLE :: NU
+      INTEGER :: NRHS
+      LOGICAL :: OUTLET_FLAGGED = .FALSE.
+      CONTAINS
+      PROCEDURE, PASS :: INIT_DIFFUSION
+      PROCEDURE, PASS :: SOLVE_DIFFUSION
+      PROCEDURE, PASS :: TERMINATE_DIFFUSION
+      PROCEDURE, PASS :: GET_SOLUTION
+      END TYPE T_DIFFUSION
 
 !     ._____________________________.   !
 !     |                             |   !
@@ -68,10 +68,10 @@ Chd|====================================================================
 !     |   ************************  |   !
 !     |_____________________________|   !
 
-      contains
-      subroutine init_diffusion(this, linsol, nrhs, iparg, ale_connect)
-      use linear_solver_mod
-      use ale_connectivity_mod
+      CONTAINS
+      SUBROUTINE INIT_DIFFUSION(this, LINSOL, NRHS, IPARG, ALE_CONNECT)
+      USE LINEAR_SOLVER_MOD
+      USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,116 +96,115 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      class(t_diffusion) :: this
-      class(t_linear_solver), intent(in), target :: linsol
-      integer, dimension(nparg, ngroup), intent(in) :: iparg
-      integer, intent(in) :: nrhs
-      type(t_ale_connectivity), intent(in) :: ale_connect
+      CLASS(T_DIFFUSION) :: this
+      CLASS(T_LINEAR_SOLVER), INTENT(IN), TARGET :: LINSOL
+      INTEGER, DIMENSION(NPARG, NGROUP), INTENT(IN) :: IPARG
+      INTEGER, INTENT(IN) :: NRHS
+      TYPE(T_ALE_CONNECTIVITY), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer :: mat_nz, ng, ii, nel, ity, matlaw, nft, i, jj, kk
-      integer :: glob_dim, max_id, ierr, iad, lgth
+      INTEGER :: MAT_NZ, NG, II, NEL, ITY, MATLAW, NFT, I, JJ, KK
+      INTEGER :: GLOB_DIM, MAX_ID, IERR, IAD, LGTH
 
-      this%nrhs = nrhs
+      this%NRHS = NRHS
 !     number of non zero values for the diffusion matrix elem <-> elem matrix
-      mat_nz = 0
-      do ng = 1, ngroup
-         matlaw = iparg(1, ng)
-         if (matlaw == 151) then
-            nel = iparg(2, ng)
-            nft = iparg(3, ng)
-            ity = iparg(5, ng)
-            do ii = 1, nel
-               i = ii + nft
-               mat_nz = mat_nz + 1
-               iad = ale_connect%ee_connect%iad_connect(i)
-               lgth = ale_connect%ee_connect%iad_connect(i+1)-ale_connect%ee_connect%iad_connect(i)
-               do jj = 1, lgth
-                  kk = ale_connect%ee_connect%connected(iad + jj - 1)
-                  if (kk > 0) then
-                     mat_nz = mat_nz + 1
-                  endif
-               enddo
-            enddo
-         endif
-      enddo
+      MAT_NZ = 0
+      DO NG = 1, NGROUP
+         MATLAW = IPARG(1, NG)
+         IF (MATLAW == 151) THEN
+            NEL = IPARG(2, NG)
+            NFT = IPARG(3, NG)
+            ITY = IPARG(5, NG)
+            DO II = 1, NEL
+               I = II + NFT
+               MAT_NZ = MAT_NZ + 1
+               IAD = ALE_CONNECT%EE_CONNECT%IAD_CONNECT(I)
+               LGTH = ALE_CONNECT%EE_CONNECT%IAD_CONNECT(I+1)-ALE_CONNECT%EE_CONNECT%IAD_CONNECT(I)
+               DO JJ = 1, LGTH
+                  KK = ALE_CONNECT%EE_CONNECT%CONNECTED(IAD + JJ - 1)
+                  IF (KK > 0) THEN
+                     MAT_NZ = MAT_NZ + 1
+                  ENDIF
+               ENDDO
+            ENDDO
+         ENDIF
+      ENDDO
 !     create matrix
-      call this%mat%matrix_create(mat_nz)
+      CALL this%MAT%MATRIX_CREATE(MAT_NZ)
 !     create rhs
-      call this%rhs%create(nrhs * numels)
+      CALL this%RHS%CREATE(NRHS * NUMELS)
 !     global system size
-      glob_dim = numels
-      max_id = maxval(ale_connect%idglob%id(1:numels + nsvois))
+      GLOB_DIM = NUMELS
+      MAX_ID = MAXVAL(ALE_CONNECT%IDGLOB%ID(1:NUMELS + NSVOIS))
 #ifdef MPI
-      if (nspmd > 1) then
-         call mpi_allreduce(max_id, glob_dim, 1, mpi_int, mpi_max, 
-     .        mpi_comm_world, ierr)
-      endif
+      IF (NSPMD > 1) THEN
+         CALL MPI_ALLREDUCE(MAX_ID, GLOB_DIM, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD, IERR)
+      ENDIF
 #endif
 !     solution
-      allocate(this%sol(3 * glob_dim))
+      ALLOCATE(this%SOL(3 * GLOB_DIM))
 !     init solver
-      this%linear_solver => linsol
-      call this%linear_solver%init_solver(glob_dim)
+      this%LINEAR_SOLVER => LINSOL
+      CALL this%LINEAR_SOLVER%INIT_SOLVER(GLOB_DIM)
 !     set rhs and matrix
-      call this%linear_solver%set_rhs(3, this%rhs)
-      call this%linear_solver%set_matrix(this%mat)
+      CALL this%LINEAR_SOLVER%SET_RHS(3, this%RHS)
+      CALL this%LINEAR_SOLVER%SET_MATRIX(this%MAT)
 !     diffusion coefficient, outlet flag
-      this%outlet_flagged = .false.
-      if (n2d == 0) then
-         allocate(this%nu(numels + nsvois))
-         this%nu(1:numels + nsvois) = zero
-         allocate(this%flag_outlet(6 * numels))
-         this%flag_outlet(1:6 * numels) = 0
-      else
-         allocate(this%nu(numelq + numeltg + nqvois + ntgvois))
-         this%nu(1:numelq + numeltg + nqvois + ntgvois) = zero
-         allocate(this%flag_outlet(4 * numelq + 3 * numeltg))
-         this%flag_outlet(1:4 * numelq + 3 * numeltg) = 0
-      endif
+      this%OUTLET_FLAGGED = .FALSE.
+      IF (N2D == 0) THEN
+         ALLOCATE(this%NU(NUMELS + NSVOIS))
+         this%NU(1:NUMELS + NSVOIS) = ZERO
+         ALLOCATE(this%FLAG_OUTLET(6 * NUMELS))
+         this%FLAG_OUTLET(1:6 * NUMELS) = 0
+      ELSE
+         ALLOCATE(this%NU(NUMELQ + NUMELTG + NQVOIS + NTGVOIS))
+         this%NU(1:NUMELQ + NUMELTG + NQVOIS + NTGVOIS) = ZERO
+         ALLOCATE(this%FLAG_OUTLET(4 * NUMELQ + 3 * NUMELTG))
+         this%FLAG_OUTLET(1:4 * NUMELQ + 3 * NUMELTG) = 0
+      ENDIF
 
-      end subroutine init_diffusion
+      END SUBROUTINE INIT_DIFFUSION
 
-      subroutine solve_diffusion(this)
+      SUBROUTINE SOLVE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc" 
-      class(t_diffusion) :: this
-      integer :: glob_dim
+      CLASS(T_DIFFUSION) :: this
+      INTEGER :: GLOB_DIM
       
-      glob_dim = this%linear_solver%get_global_dim()
-      call this%linear_solver%solve(this%sol, this%nrhs * glob_dim)
+      GLOB_DIM = this%LINEAR_SOLVER%GET_GLOBAL_DIM()
+      CALL this%LINEAR_SOLVER%SOLVE(this%SOL, this%NRHS * GLOB_DIM)
       
-      end subroutine solve_diffusion
+      END SUBROUTINE SOLVE_DIFFUSION
 
-      subroutine get_solution(this, sol, glob_dim)
+      SUBROUTINE GET_SOLUTION(this, SOL, GLOB_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc" 
-      class(t_diffusion), intent(inout), target :: this
-      integer, intent(out) :: glob_dim
+      CLASS(T_DIFFUSION), INTENT(INOUT), TARGET :: this
+      INTEGER, INTENT(OUT) :: GLOB_DIM
       
-      double precision, dimension(:), intent(inout), pointer :: sol
-      sol => this%sol
-      glob_dim = this%linear_solver%get_global_dim()
-      end subroutine get_solution
+      DOUBLE PRECISION, DIMENSION(:), INTENT(INOUT), POINTER :: SOL
+      SOL => this%SOL
+      GLOB_DIM = this%LINEAR_SOLVER%GET_GLOBAL_DIM()
+      END SUBROUTINE GET_SOLUTION
 
-      subroutine terminate_diffusion(this)
+      SUBROUTINE TERMINATE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc" 
-      class(t_diffusion), intent(inout) :: this
+      CLASS(T_DIFFUSION), INTENT(INOUT) :: this
       
     
-      call this%linear_solver%terminate()
-      call this%mat%matrix_destroy()
-      call this%rhs%destroy()
-      if (allocated(this%sol)) deallocate(this%sol)
-      if (allocated(this%nu)) deallocate(this%nu)
-      if (allocated(this%flag_outlet)) deallocate(this%flag_outlet)
-      end subroutine terminate_diffusion
-      end module diffusion_mod
+      CALL this%LINEAR_SOLVER%TERMINATE()
+      CALL this%MAT%MATRIX_DESTROY()
+      CALL this%RHS%DESTROY()
+      IF (ALLOCATED(this%SOL)) DEALLOCATE(this%SOL)
+      IF (ALLOCATED(this%NU)) DEALLOCATE(this%NU)
+      IF (ALLOCATED(this%FLAG_OUTLET)) DEALLOCATE(this%FLAG_OUTLET)
+      END SUBROUTINE TERMINATE_DIFFUSION
+      END MODULE DIFFUSION_MOD
