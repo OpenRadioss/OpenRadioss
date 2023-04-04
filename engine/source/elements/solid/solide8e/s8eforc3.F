@@ -32,6 +32,7 @@ Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
 Chd|        DEGENES8                      source/elements/solid/solide/sdlen3.F
 Chd|        JACOB_F0                      source/elements/solid/solide8e/s8edefo3.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
+Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|        S8EDEFO3                      source/elements/solid/solide8e/s8edefo3.F
 Chd|        S8EDEFOC3                     source/elements/solid/solide8e/s8edefo3.F
 Chd|        S8EDEFOT12                    source/elements/solid/solide8e/s8edefo3.F

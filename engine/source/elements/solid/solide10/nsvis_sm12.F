@@ -24,6 +24,8 @@ Chd|====================================================================
 Chd|  NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
+Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
+Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE NSVIS_SM12(OFFG ,MU ,SSP  ,VOL  ,D1   ,

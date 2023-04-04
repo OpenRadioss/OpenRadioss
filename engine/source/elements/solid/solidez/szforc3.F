@@ -35,6 +35,7 @@ Chd|        EPXLE3                        source/elements/solid/solide/epxle3.F
 Chd|        FE_CLOSE                      source/elements/solid/solide/fe_close.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
+Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|        S11DEFO3                      source/elements/solid/solide/s11defo3.F
 Chd|        S8SAV12                       source/elements/solid/solide/srcoor3.F
 Chd|        S8SAV3                        source/elements/solid/solide/srcoor3.F
