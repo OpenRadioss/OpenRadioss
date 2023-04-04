@@ -274,7 +274,7 @@ C------------
      .            BID    ,BID            ,ISUBSTACK ,NLAY  ,ELBUF_STR,
      .            STACK  ,GBUF%THK_I     ,RNOISE    ,DRAPE   ,
      .            PERTURB,IX1            ,IX2       ,IX3     ,IX4       ,
-     .            IDRAPE ,DRAPEG)
+     .            IDRAPE ,DRAPEG%INDX)
 C-----------------------------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
      .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
@@ -310,7 +310,7 @@ c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
      .   GEO_STACK  ,IGEO_STACK,E3X       ,E3Y        ,E3Z        ,
      .   GBUF%BETAORTH,X1      ,X2        ,Y1         ,Y2         ,
      .   Z1         ,Z2        ,NEL       ,GBUF%G_ADD_NODE,GBUF%ADD_NODE,
-     .   NPT_ALL    ,IDRAPE    ,DRAPEG%INDX(1)) 
+     .   NPT_ALL    ,IDRAPE    ,DRAPEG%INDX) 
 c---     
 C-----
       IF(IGTYP == 51 .OR. IGTYP == 52 .AND. IGMAT > 0) THEN
