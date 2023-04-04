@@ -203,8 +203,8 @@ if ( NOT DEFINED COM )
 #include always rebuild 
 add_custom_command(    
          OUTPUT 
-            ${Build_includes_directory}/__foo.inc 
-            ${Build_includes_directory}/build_info.inc
+         ${Build_includes_directory}/__foo.inc
+         ${Build_includes_directory}/build_info.inc
          COMMAND
             python ${source_directory}/../Compiling_tools/script/or_build_info.py -arch=${arch} -outfile=${Build_includes_directory}/build_info.inc
          DEPENDS 
@@ -221,6 +221,7 @@ add_custom_command(
          COMMAND
            ls  ${Build_includes_directory}
          DEPENDS 
+
          )
 endif()
 
@@ -238,7 +239,7 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 
 
-add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc   ${Build_includes_directory}/build_info.inc)
+add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc)
 
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
 target_link_libraries(${EXEC_NAME} ${LINK} )
