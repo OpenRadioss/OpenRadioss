@@ -376,7 +376,7 @@ C----------------------------------------
 C Mass initialization
       CALL S6MASS3(GBUF%RHO,MAS,PARTSAV,X,V,IPARTS(NF1),MSS(1,NF1),
      .     RHOCP,MCP ,MCPS(1,NF1),MSSA(NF1),GBUF%FILL, VOLU, 
-     .     IX1, IX2, IX3, IX4, IX6, IX6)
+     .     IX1, IX2, IX3, IX4, IX5, IX6)
 C----------------------------------------
 C Failure model initialization
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
