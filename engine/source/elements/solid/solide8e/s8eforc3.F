@@ -470,7 +470,7 @@ C-------v termes will be calculated like HEPH
        ISELECT=0
       ENDIF
       ICPT = ICP
-      IF (MTN==1.AND.ISMSTR>=11) ICPT=0
+      IF (IINT==2.AND.MTN==1.AND.ISMSTR>=11) ICPT=0
 c      ipr=0
 c      iel=1        
 C-----------
@@ -587,7 +587,8 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
       ENDIF 
       CNS2 = ZERO
       NUT(LFT:LLT) =NU0
-      IF (ICP==1.AND.MTN==1.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
+      IF (IINT==2.AND.ICP==1.AND.MTN==1.AND.
+     .               (ISMSTR==10.OR.ISMSTR==12)) THEN
         DO I=LFT,LLT
           NUT(I) = TWO_THIRD*NU0*NU0
         ENDDO
