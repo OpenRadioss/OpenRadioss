@@ -218,73 +218,74 @@ Chd|====================================================================
 !     ************    !
 !     Connectivity
 !     ************    !
-      type, public :: t_connectivity
-      integer, dimension(:), allocatable :: iad_connect
-      integer, dimension(:), allocatable :: connected
-      integer, dimension(:), allocatable :: type
-      end type t_connectivity
+      TYPE, PUBLIC :: T_CONNECTIVITY
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_CONNECT
+        INTEGER, DIMENSION(:), ALLOCATABLE :: CONNECTED
+        INTEGER, DIMENSION(:), ALLOCATABLE :: TYPE
+      END TYPE T_CONNECTIVITY
 
 !     Extended type : + iface
-      type, public, extends(t_connectivity) :: t_connectivity_ext1
-      integer, dimension(:), allocatable :: iface2
-      end typet_connectivity_ext1
+      TYPE, PUBLIC, EXTENDS(T_CONNECTIVITY) :: T_CONNECTIVITY_EXT1
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IFACE2
+      END TYPET_CONNECTIVITY_EXT1
 
 
 !     ******************    !
 !     Extended local ids    !
 !     ******************    !
-      type :: t_idglob
-      integer, dimension(:), allocatable :: id
-      integer, dimension(:), allocatable :: uid
-      end type t_idglob
+      TYPE :: T_IDGLOB
+        INTEGER, DIMENSION(:), ALLOCATABLE :: ID
+        INTEGER, DIMENSION(:), ALLOCATABLE :: UID
+      END TYPE T_IDGLOB
 
 !     ****************     !
 !     ALE connectivity     !
 !     ****************     !
-      type, public :: t_ale_connectivity
+      TYPE, PUBLIC :: T_ALE_CONNECTIVITY
 !     node-node, node-element, element-element
-      type(t_connectivity) :: nn_connect, ne_connect
-      type(t_connectivity_ext1) :: ee_connect
-      logical :: has_nn_connect = .false.
-      logical :: has_ne_connect = .false.
-      logical :: has_ee_connect = .false.
-      logical :: has_idglob = .false.
-      logical :: nale_already_computed = .false.
-      integer, dimension(:), allocatable :: nale
-      type(t_idglob) :: idglob
-      contains
-      procedure, pass :: ale_connectivity_init
-      procedure, pass :: ale_compute_connectivity
-      procedure, pass :: ale_compute_ee_connectivity
-      procedure, pass :: ale_deallocate_connectivity
-      end type t_ale_connectivity
+        TYPE(T_CONNECTIVITY) :: NN_CONNECT, NE_CONNECT
+        TYPE(T_CONNECTIVITY_EXT1) :: EE_CONNECT
+        LOGICAL :: HAS_NN_CONNECT = .FALSE.
+        LOGICAL :: HAS_NE_CONNECT = .FALSE.
+        LOGICAL :: HAS_EE_CONNECT = .FALSE.
+        LOGICAL :: HAS_IDGLOB = .FALSE.
+        LOGICAL :: NALE_ALREADY_COMPUTED = .FALSE.
+        INTEGER, DIMENSION(:), ALLOCATABLE :: NALE
+        TYPE(T_IDGLOB) :: IDGLOB
+        CONTAINS
+          PROCEDURE, PASS :: ALE_CONNECTIVITY_INIT
+          PROCEDURE, PASS :: ALE_COMPUTE_CONNECTIVITY
+          PROCEDURE, PASS :: ALE_COMPUTE_EE_CONNECTIVITY
+          PROCEDURE, PASS :: ALE_DEALLOCATE_CONNECTIVITY
+      END TYPE T_ALE_CONNECTIVITY
 
 !     ***********    !
 !     Subroutines    !
 !     ***********    !
       CONTAINS
       
-      subroutine ale_connectivity_init(this)
-      use ale_mod      
-      implicit none
-      class(t_ale_connectivity), intent(inout) :: this
+      SUBROUTINE ALE_CONNECTIVITY_INIT(THIS)
+        USE ALE_MOD      
+        IMPLICIT NONE
+        CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
 #include "com01_c.inc"
 #include "inter18.inc"
-      logical result  
-      result = .false.
-      if(iale > 0 .and. ALE%GRID%nwale == 6)result=.true.                 !/ale/grid/volume defined
-      if(inter18_autoparam == 1)result=.true. !/inter/type18 with flag iauto set to 1
-      if(inter18_is_variable_gap_defined)result=.true. !/inter/type18 with flag iauto set to 1      
-      this%has_ne_connect = result
-      result = .false.
-      if(iale > 0 .and. ALE%GRID%nwale < 2)result=.true.     !/ale/grid/donea, disp, spring
-      if(iale > 0 .and. ALE%GRID%nwale == 5)result=.true. !/ale/grid/laplacian
-      this%has_nn_connect = result
-      end subroutine ale_connectivity_init
-      subroutine ale_compute_connectivity(this, numnod, numelq, numeltg, numels, 
-     .     nixq, nixtg, nixs, itab,
-     .     ixq, ixtg, ixs)
-      implicit none
+        LOGICAL RESULT  
+        RESULT = .FALSE.
+        IF(IALE > 0 .AND. ALE%GRID%NWALE == 6)RESULT=.TRUE. !/ALE/GRID/VOLUME DEFINED
+        IF(INTER18_AUTOPARAM == 1)RESULT=.TRUE. !/INTER/TYPE18 WITH FLAG IAUTO SET TO 1
+        IF(INTER18_IS_VARIABLE_GAP_DEFINED)RESULT=.TRUE. !/INTER/TYPE18 WITH FLAG IAUTO SET TO 1    
+        THIS%HAS_NE_CONNECT = RESULT
+        RESULT = .FALSE.
+        IF(IALE > 0 .AND. ALE%GRID%NWALE < 2)RESULT=.TRUE. !/ALE/GRID/DONEA, DISP, SPRING
+        IF(IALE > 0 .AND. ALE%GRID%NWALE == 5)RESULT=.TRUE. !/ALE/GRID/LAPLACIAN
+        THIS%HAS_NN_CONNECT = RESULT
+      END SUBROUTINE ALE_CONNECTIVITY_INIT
+      
+      SUBROUTINE ALE_COMPUTE_CONNECTIVITY(THIS, NUMNOD, NUMELQ, NUMELTG, NUMELS, 
+     .     NIXQ, NIXTG, NIXS, ITAB,
+     .     IXQ, IXTG, IXS)
+        IMPLICIT NONE
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -295,344 +296,343 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      class(t_ale_connectivity), intent(inout) :: this
-      integer, intent(in) :: numnod, numelq, numeltg, numels, 
-     .     nixq, nixtg, nixs
-      integer, dimension(numnod), intent(in) :: itab
-      integer, dimension(nixq, numelq), intent(in) :: ixq
-      integer, dimension(nixtg, numeltg), intent(in) :: ixtg
-      integer, dimension(nixs, numels), intent(in) :: ixs
+        CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
+        INTEGER, INTENT(IN) :: NUMNOD, NUMELQ, NUMELTG, NUMELS, NIXQ, NIXTG, NIXS
+        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: ITAB
+        INTEGER, DIMENSION(NIXQ, NUMELQ), INTENT(IN) :: IXQ
+        INTEGER, DIMENSION(NIXTG, NUMELTG), INTENT(IN) :: IXTG
+        INTEGER, DIMENSION(NIXS, NUMELS), INTENT(IN) :: IXS
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer :: ii, jj, node_id, node1, node2
-      integer, dimension(:), allocatable :: adsky
-      integer :: iad1, iad2, itmp
-      integer :: max_edge, nb_edge, nb_edge_new, iedge, cur_pos
-      integer, dimension(:, :), allocatable :: edges, edges_tmp
-      integer, dimension(:), allocatable :: idx
-      integer, dimension(2, 3) :: tri_edge
-      integer, dimension(2, 4) :: quad_edge
-      integer, dimension(2, 12) :: hexa_edge
-      integer, dimension(2, 6) :: tetra_edge
-      integer, dimension(:), allocatable :: nn_nb_connect, ne_nb_connect
+        INTEGER :: II, JJ, NODE_ID, NODE1, NODE2
+        INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY
+        INTEGER :: IAD1, IAD2, ITMP
+        INTEGER :: MAX_EDGE, NB_EDGE, NB_EDGE_NEW, IEDGE, CUR_POS
+        INTEGER, DIMENSION(:, :), ALLOCATABLE :: EDGES, EDGES_TMP
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IDX
+        INTEGER, DIMENSION(2, 3) :: TRI_EDGE
+        INTEGER, DIMENSION(2, 4) :: QUAD_EDGE
+        INTEGER, DIMENSION(2, 12) :: HEXA_EDGE
+        INTEGER, DIMENSION(2, 6) :: TETRA_EDGE
+        INTEGER, DIMENSION(:), ALLOCATABLE :: NN_NB_CONNECT, NE_NB_CONNECT
 C-----------------------------------------------
-C     B e g i n n i n g   o f   S u b r o u t i n e
+C     S o u r c e   L i n e s
 C-----------------------------------------------
-!     In case we go through this routine a second time
-!     node-node connectivity
-      if (allocated(this%nn_connect%iad_connect)) deallocate(this%nn_connect%iad_connect)
-      if (allocated(this%nn_connect%connected)) deallocate(this%nn_connect%connected)
+!       In case we go through this routine a second time
+!       node-node connectivity
+        IF (ALLOCATED(THIS%NN_CONNECT%IAD_CONNECT)) DEALLOCATE(THIS%NN_CONNECT%IAD_CONNECT)
+        IF (ALLOCATED(THIS%NN_CONNECT%CONNECTED)) DEALLOCATE(THIS%NN_CONNECT%CONNECTED)
 !     node-element connectivity
-      if (allocated(this%ne_connect%iad_connect)) deallocate(this%ne_connect%iad_connect)
-      if (allocated(this%ne_connect%connected)) deallocate(this%ne_connect%connected)
-      if (allocated(this%ne_connect%type)) deallocate(this%ne_connect%type)
+        IF (ALLOCATED(THIS%NE_CONNECT%IAD_CONNECT)) DEALLOCATE(THIS%NE_CONNECT%IAD_CONNECT)
+        IF (ALLOCATED(THIS%NE_CONNECT%CONNECTED)) DEALLOCATE(THIS%NE_CONNECT%CONNECTED)
+        IF (ALLOCATED(THIS%NE_CONNECT%TYPE)) DEALLOCATE(THIS%NE_CONNECT%TYPE)
       
-      allocate(nn_nb_connect(numnod))
-      nn_nb_connect(1:numnod) = 0
-      allocate(ne_nb_connect(numnod))
-      ne_nb_connect(1:numnod) = 0
-      max_edge = 12 * numels + 3 * numeltg + 4 * numelq
-      allocate(edges(2, max_edge))
-      nb_edge = 0
-      node_id = 0
+        ALLOCATE(NN_NB_CONNECT(NUMNOD))
+        NN_NB_CONNECT(1:NUMNOD) = 0
+        ALLOCATE(NE_NB_CONNECT(NUMNOD))
+        NE_NB_CONNECT(1:NUMNOD) = 0
+        MAX_EDGE = 12 * NUMELS + 3 * NUMELTG + 4 * NUMELQ
+        ALLOCATE(EDGES(2, MAX_EDGE))
+        NB_EDGE = 0
+        NODE_ID = 0
       
-      tri_edge(1, 1) = 1
-      tri_edge(2, 1) = 2
-      tri_edge(1, 2) = 2
-      tri_edge(2, 2) = 3
-      tri_edge(1, 3) = 3
-      tri_edge(2, 3) = 1
+        TRI_EDGE(1, 1) = 1
+        TRI_EDGE(2, 1) = 2
+        TRI_EDGE(1, 2) = 2
+        TRI_EDGE(2, 2) = 3
+        TRI_EDGE(1, 3) = 3
+        TRI_EDGE(2, 3) = 1
 
-      quad_edge(1, 1) = 1
-      quad_edge(2, 1) = 2
-      quad_edge(1, 2) = 2
-      quad_edge(2, 2) = 3
-      quad_edge(1, 3) = 3
-      quad_edge(2, 3) = 4
-      quad_edge(1, 4) = 4
-      quad_edge(2, 4) = 1
+        QUAD_EDGE(1, 1) = 1
+        QUAD_EDGE(2, 1) = 2
+        QUAD_EDGE(1, 2) = 2
+        QUAD_EDGE(2, 2) = 3
+        QUAD_EDGE(1, 3) = 3
+        QUAD_EDGE(2, 3) = 4
+        QUAD_EDGE(1, 4) = 4
+        QUAD_EDGE(2, 4) = 1
 
-      hexa_edge(1, 1) = 1
-      hexa_edge(2, 1) = 2
-      hexa_edge(1, 2) = 2
-      hexa_edge(2, 2) = 3
-      hexa_edge(1, 3) = 3
-      hexa_edge(2, 3) = 4
-      hexa_edge(1, 4) = 4
-      hexa_edge(2, 4) = 1
-      hexa_edge(1, 5) = 5
-      hexa_edge(2, 5) = 6
-      hexa_edge(1, 6) = 6
-      hexa_edge(2, 6) = 7
-      hexa_edge(1, 7) = 7
-      hexa_edge(2, 7) = 8
-      hexa_edge(1, 8) = 8
-      hexa_edge(2, 8) = 5
-      hexa_edge(1, 9) = 1
-      hexa_edge(2, 9) = 5
-      hexa_edge(1, 10) = 2
-      hexa_edge(2, 10) = 6
-      hexa_edge(1, 11) = 3
-      hexa_edge(2, 11) = 7
-      hexa_edge(1, 12) = 4
-      hexa_edge(2, 12) = 8
+        HEXA_EDGE(1, 1) = 1
+        HEXA_EDGE(2, 1) = 2
+        HEXA_EDGE(1, 2) = 2
+        HEXA_EDGE(2, 2) = 3
+        HEXA_EDGE(1, 3) = 3
+        HEXA_EDGE(2, 3) = 4
+        HEXA_EDGE(1, 4) = 4
+        HEXA_EDGE(2, 4) = 1
+        HEXA_EDGE(1, 5) = 5
+        HEXA_EDGE(2, 5) = 6
+        HEXA_EDGE(1, 6) = 6
+        HEXA_EDGE(2, 6) = 7
+        HEXA_EDGE(1, 7) = 7
+        HEXA_EDGE(2, 7) = 8
+        HEXA_EDGE(1, 8) = 8
+        HEXA_EDGE(2, 8) = 5
+        HEXA_EDGE(1, 9) = 1
+        HEXA_EDGE(2, 9) = 5
+        HEXA_EDGE(1, 10) = 2
+        HEXA_EDGE(2, 10) = 6
+        HEXA_EDGE(1, 11) = 3
+        HEXA_EDGE(2, 11) = 7
+        HEXA_EDGE(1, 12) = 4
+        HEXA_EDGE(2, 12) = 8
 
-      tetra_edge(1, 1) = 1
-      tetra_edge(2, 1) = 3
-      tetra_edge(1, 2) = 3
-      tetra_edge(2, 2) = 6
-      tetra_edge(1, 3) = 6
-      tetra_edge(2, 3) = 1
-      tetra_edge(1, 4) = 1
-      tetra_edge(2, 4) = 5
-      tetra_edge(1, 5) = 3
-      tetra_edge(2, 5) = 5
-      tetra_edge(1, 6) = 6
-      tetra_edge(2, 6) = 5
+        TETRA_EDGE(1, 1) = 1
+        TETRA_EDGE(2, 1) = 3
+        TETRA_EDGE(1, 2) = 3
+        TETRA_EDGE(2, 2) = 6
+        TETRA_EDGE(1, 3) = 6
+        TETRA_EDGE(2, 3) = 1
+        TETRA_EDGE(1, 4) = 1
+        TETRA_EDGE(2, 4) = 5
+        TETRA_EDGE(1, 5) = 3
+        TETRA_EDGE(2, 5) = 5
+        TETRA_EDGE(1, 6) = 6
+        TETRA_EDGE(2, 6) = 5
        
-!     2D elements
-!     /TRIA
-      do ii = 1, numeltg
-         do jj = 1, 3
-            node_id = ixtg(1 + jj, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-         enddo
-!     edges
-         do iedge = 1, 3
-            node1 = ixtg(1 + tri_edge(1, iedge), ii)
-            node2 = ixtg(1 + tri_edge(2, iedge), ii)
-            nb_edge = nb_edge + 1
-            edges(1, nb_edge) = node1
-            edges(2, nb_edge) = node2
-         enddo
-      enddo
-!     /QUAD
-      do ii = 1, numelq
-         do jj = 1, 4
-            node_id = ixq(1 + jj, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-         enddo
-!     edges
-         do iedge = 1, 4
-            node1 = ixq(1 + quad_edge(1, iedge), ii)
-            node2 = ixq(1 + quad_edge(2, iedge), ii)
-            nb_edge = nb_edge + 1
-            edges(1, nb_edge) = node1
-            edges(2, nb_edge) = node2
-         enddo
-      enddo
+!       2D elements
+!       /TRIA
+        DO II = 1, NUMELTG
+          DO JJ = 1, 3
+            NODE_ID = IXTG(1 + JJ, II)
+            NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+          ENDDO
+          !edges
+          DO IEDGE = 1, 3
+            NODE1 = IXTG(1 + TRI_EDGE(1, IEDGE), II)
+            NODE2 = IXTG(1 + TRI_EDGE(2, IEDGE), II)
+            NB_EDGE = NB_EDGE + 1
+            EDGES(1, NB_EDGE) = NODE1
+            EDGES(2, NB_EDGE) = NODE2
+          ENDDO
+        ENDDO
+!       /QUAD
+        DO II = 1, NUMELQ
+          DO JJ = 1, 4
+            NODE_ID = IXQ(1 + JJ, II)
+            NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+          ENDDO
+          !edges
+          DO IEDGE = 1, 4
+            NODE1 = IXQ(1 + QUAD_EDGE(1, IEDGE), II)
+            NODE2 = IXQ(1 + QUAD_EDGE(2, IEDGE), II)
+            NB_EDGE = NB_EDGE + 1
+            EDGES(1, NB_EDGE) = NODE1
+            EDGES(2, NB_EDGE) = NODE2
+          ENDDO
+        ENDDO
 !     3D elements
-      do ii = 1, numels
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
-     .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
-            node_id = ixs(2, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-            node_id = ixs(4, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-            node_id = ixs(7, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-            node_id = ixs(6, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-!     edges
-            do iedge = 1, 6
-               node1 = ixs(1 + tetra_edge(1, iedge), ii)
-               node2 = ixs(1 + tetra_edge(2, iedge), ii)
-               nb_edge = nb_edge + 1
-               edges(1, nb_edge) = node1
-               edges(2, nb_edge) = node2
-            enddo
-          else
-!     bricks
-            do jj = 1, 8
-               node_id = ixs(1 + jj, ii)
-               ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-            enddo
-!     edges
-            do iedge = 1, 12
-               node1 = ixs(1 + hexa_edge(1, iedge), ii)
-               node2 = ixs(1 + hexa_edge(2, iedge), ii)
-               nb_edge = nb_edge + 1
-               edges(1, nb_edge) = node1
-               edges(2, nb_edge) = node2
-            enddo
-         endif
-      enddo
+        DO II = 1, NUMELS
+          IF (IXS(2, II) == IXS(3, II) .AND. IXS(4, II) == IXS(5, II) .AND. 
+     .         IXS(6, II) == IXS(9, II) .AND. IXS(7, II) == IXS(8, II)) THEN
+!            TETRA
+             NODE_ID = IXS(2, II)
+             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             NODE_ID = IXS(4, II)
+             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             NODE_ID = IXS(7, II)
+             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             NODE_ID = IXS(6, II)
+             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             !edges
+             DO IEDGE = 1, 6
+                NODE1 = IXS(1 + TETRA_EDGE(1, IEDGE), II)
+                NODE2 = IXS(1 + TETRA_EDGE(2, IEDGE), II)
+                NB_EDGE = NB_EDGE + 1
+                EDGES(1, NB_EDGE) = NODE1
+                EDGES(2, NB_EDGE) = NODE2
+             ENDDO
+           ELSE
+!             BRICKS
+             DO JJ = 1, 8
+                NODE_ID = IXS(1 + JJ, II)
+                NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             ENDDO
+!             edges
+             DO IEDGE = 1, 12
+                NODE1 = IXS(1 + HEXA_EDGE(1, IEDGE), II)
+                NODE2 = IXS(1 + HEXA_EDGE(2, IEDGE), II)
+                NB_EDGE = NB_EDGE + 1
+                EDGES(1, NB_EDGE) = NODE1
+                EDGES(2, NB_EDGE) = NODE2
+             ENDDO
+          ENDIF
+        ENDDO
 
-      do ii = 1, nb_edge
-         if (edges(1, ii) > edges(2, ii)) then
-            itmp = edges(1, ii)
-            edges(1, ii) = edges(2, ii)
-            edges(2, ii) = itmp
-         endif
-      enddo
+        DO II = 1, NB_EDGE
+          IF (EDGES(1, II) > EDGES(2, II)) THEN
+            ITMP = EDGES(1, II)
+            EDGES(1, II) = EDGES(2, II)
+            EDGES(2, II) = ITMP
+          ENDIF
+        ENDDO
       
 
-!     Indirection tab
-      allocate(this%ne_connect%iad_connect(numnod + 1))
-      this%ne_connect%iad_connect(1) = 1
-      do ii = 2, numnod + 1
-         this%ne_connect%iad_connect(ii) = this%ne_connect%iad_connect(ii - 1) + 
-     .        ne_nb_connect(ii - 1) 
-      enddo
+!       Indirection tab
+        ALLOCATE(THIS%NE_CONNECT%IAD_CONNECT(NUMNOD + 1))
+        THIS%NE_CONNECT%IAD_CONNECT(1) = 1
+        DO II = 2, NUMNOD + 1
+          THIS%NE_CONNECT%IAD_CONNECT(II) = THIS%NE_CONNECT%IAD_CONNECT(II - 1) + NE_NB_CONNECT(II - 1) 
+        ENDDO
 
-      allocate(adsky(numnod))
-      do ii = 1, numnod
-         adsky(ii) = this%ne_connect%iad_connect(ii)
-      enddo
-!     Connectivities
-      allocate(this%ne_connect%connected(this%ne_connect%iad_connect(numnod + 1)))
-      this%ne_connect%connected(:) = 0
-      allocate(this%ne_connect%type(this%ne_connect%iad_connect(numnod + 1)))
-      this%ne_connect%type(:) = 0
-!     2D elements
-!     /TRIA
-      do ii = 1, numeltg
-         do jj = 1, 3
-            node_id = ixtg(1 + jj, ii)
-            this%ne_connect%connected(adsky(node_id)) = ii
-            this%ne_connect%type(adsky(node_id)) = 3
-            adsky(node_id) = adsky(node_id) + 1
-         enddo
-      enddo
-!     /QUAD
-      do ii = 1, numelq
-         do jj = 1, 4
-            node_id = ixq(1 + jj, ii)
-            this%ne_connect%connected(adsky(node_id)) = ii
-            this%ne_connect%type(adsky(node_id)) = 2
-            adsky(node_id) = adsky(node_id) + 1
-         enddo
-      enddo
-!     3D elements
-      do ii = 1, numels
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
-     .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
-            node_id = ixs(2, ii)
-            this%ne_connect%connected(adsky(node_id)) = ii
-            this%ne_connect%type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-            node_id = ixs(4, ii)
-            this%ne_connect%connected(adsky(node_id)) = ii
-            this%ne_connect%type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-            node_id = ixs(7, ii)
-            this%ne_connect%connected(adsky(node_id)) = ii
-            this%ne_connect%type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-            node_id = ixs(6, ii)
-            this%ne_connect%connected(adsky(node_id)) = ii
-            this%ne_connect%type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-         else
-!     bricks
-            do jj = 1, 8
-               node_id = ixs(1 + jj, ii)
-               this%ne_connect%connected(adsky(node_id)) = ii
-               this%ne_connect%type(adsky(node_id)) = 1
-               adsky(node_id) = adsky(node_id) + 1
-            enddo
-         endif
-      enddo
+        ALLOCATE(ADSKY(NUMNOD))
+        DO II = 1, NUMNOD
+          ADSKY(II) = THIS%NE_CONNECT%IAD_CONNECT(II)
+        ENDDO
+!       Connectivities
+        ALLOCATE(THIS%NE_CONNECT%CONNECTED(THIS%NE_CONNECT%IAD_CONNECT(NUMNOD + 1)))
+        THIS%NE_CONNECT%CONNECTED(:) = 0
+        ALLOCATE(THIS%NE_CONNECT%TYPE(THIS%NE_CONNECT%IAD_CONNECT(NUMNOD + 1)))
+        THIS%NE_CONNECT%TYPE(:) = 0
+        
+!       2D elements
+!       /TRIA
+        DO II = 1, NUMELTG
+          DO JJ = 1, 3
+            NODE_ID = IXTG(1 + JJ, II)
+            THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II
+            THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 3
+            ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+          ENDDO
+        ENDDO
+!       /QUAD
+        DO II = 1, NUMELQ
+          DO JJ = 1, 4
+            NODE_ID = IXQ(1 + JJ, II)
+            THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II
+            THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 2
+            ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+          ENDDO
+        ENDDO
+        
+!       3D elements
+        DO II = 1, NUMELS
+         IF (IXS(2, II) == IXS(3, II) .AND. IXS(4, II) == IXS(5, II) .AND. 
+     .        IXS(6, II) == IXS(9, II) .AND. IXS(7, II) == IXS(8, II)) THEN
+!          TETRA                                          
+           NODE_ID = IXS(2, II)                           
+           THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
+           THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+           NODE_ID = IXS(4, II)                           
+           THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
+           THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+           NODE_ID = IXS(7, II)                           
+           THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
+           THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+           NODE_ID = IXS(6, II)                           
+           THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
+           THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+         ELSE
+!          BRICKS                                            
+           DO JJ = 1, 8                                      
+              NODE_ID = IXS(1 + JJ, II)                      
+              THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
+              THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
+              ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+           ENDDO                                             
+         ENDIF
+        ENDDO
 
-      allocate(idx(nb_edge), edges_tmp(2, nb_edge))
-      do ii = 1, nb_edge
-         idx(ii) = ii
-         edges_tmp(1, ii) = edges(1, ii)
-         edges_tmp(2, ii) = edges(2, ii)
-      enddo
-      call quicksort_i2(edges_tmp(1, :), idx, 1, nb_edge)
-      do ii = 1, nb_edge
-         edges_tmp(1, ii) = edges(1, idx(ii))
-         edges_tmp(2, ii) = edges(2, idx(ii))
-      enddo
+        ALLOCATE(IDX(NB_EDGE), EDGES_TMP(2, NB_EDGE))
+        DO II = 1, NB_EDGE
+          IDX(II) = II
+          EDGES_TMP(1, II) = EDGES(1, II)
+          EDGES_TMP(2, II) = EDGES(2, II)
+        ENDDO
+        CALL QUICKSORT_I2(EDGES_TMP(1, :), IDX, 1, NB_EDGE)
+        DO II = 1, NB_EDGE
+          EDGES_TMP(1, II) = EDGES(1, IDX(II))
+          EDGES_TMP(2, II) = EDGES(2, IDX(II))
+        ENDDO
       
-      nb_edge_new = 0
-      ii = 1
-      do while (ii < nb_edge)
-         cur_pos = ii
-         iad1 = 1
-         do while (edges_tmp(1, ii + iad1) == edges_tmp(1, ii))
-            if (ii + iad1 == nb_edge) then
-               exit
-            endif
-            iad1 = iad1 + 1
-         enddo
-         if (iad1 == 1) then
-            nb_edge_new = nb_edge_new + 1
-            edges(1, nb_edge_new) = edges_tmp(1, ii)
-            edges(2, nb_edge_new) = edges_tmp(2, ii)
-            ii = ii + 1
-         else
-            call quicksort_i(edges_tmp(2, ii : ii + iad1 - 1), 1, iad1)
-            node1 = edges_tmp(1, ii)
-            node2 = edges_tmp(2, ii)
-            nb_edge_new = nb_edge_new + 1
-            edges(1, nb_edge_new) = node1
-            edges(2, nb_edge_new) = node2
-            do iad2 = 0, iad1 - 1
-               if (edges_tmp(2, ii + iad2) /= node2) then
-                  nb_edge_new = nb_edge_new + 1
-                  node2 = edges_tmp(2, ii + iad2)
-                  edges(1, nb_edge_new) = node1
-                  edges(2, nb_edge_new) = node2
-               endif
-            enddo
-            ii = ii + iad1
-         endif
-      enddo
-!     node node connectivity
-      do ii = 1, nb_edge_new
-         nn_nb_connect(edges(1, ii)) = nn_nb_connect(edges(1, ii)) + 1
-         nn_nb_connect(edges(2, ii)) = nn_nb_connect(edges(2, ii)) + 1
-      enddo
-      ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-!     indirection tab
-      allocate(this%nn_connect%iad_connect(numnod + 1))
-      this%nn_connect%iad_connect(1) = 1
-      do ii = 2, numnod + 1
-         this%nn_connect%iad_connect(ii) = this%nn_connect%iad_connect(ii - 1) + 
-     .        nn_nb_connect(ii - 1) 
-      enddo
+        NB_EDGE_NEW = 0
+        II = 1
+        DO WHILE (II < NB_EDGE)
+           CUR_POS = II
+           IAD1 = 1
+           DO WHILE (EDGES_TMP(1, II + IAD1) == EDGES_TMP(1, II))
+              IF (II + IAD1 == NB_EDGE) THEN
+                 EXIT
+              ENDIF
+              IAD1 = IAD1 + 1
+           ENDDO
+           IF (IAD1 == 1) THEN
+              NB_EDGE_NEW = NB_EDGE_NEW + 1
+              EDGES(1, NB_EDGE_NEW) = EDGES_TMP(1, II)
+              EDGES(2, NB_EDGE_NEW) = EDGES_TMP(2, II)
+              II = II + 1
+           ELSE
+              CALL QUICKSORT_I(EDGES_TMP(2, II : II + IAD1 - 1), 1, IAD1)
+              NODE1 = EDGES_TMP(1, II)
+              NODE2 = EDGES_TMP(2, II)
+              NB_EDGE_NEW = NB_EDGE_NEW + 1
+              EDGES(1, NB_EDGE_NEW) = NODE1
+              EDGES(2, NB_EDGE_NEW) = NODE2
+              DO IAD2 = 0, IAD1 - 1
+                 IF (EDGES_TMP(2, II + IAD2) /= NODE2) THEN
+                    NB_EDGE_NEW = NB_EDGE_NEW + 1
+                    NODE2 = EDGES_TMP(2, II + IAD2)
+                    EDGES(1, NB_EDGE_NEW) = NODE1
+                    EDGES(2, NB_EDGE_NEW) = NODE2
+                 ENDIF
+              ENDDO
+              II = II + IAD1
+           ENDIF
+        ENDDO
+        
+!       node node connectivity
+        DO II = 1, NB_EDGE_NEW
+          NN_NB_CONNECT(EDGES(1, II)) = NN_NB_CONNECT(EDGES(1, II)) + 1
+          NN_NB_CONNECT(EDGES(2, II)) = NN_NB_CONNECT(EDGES(2, II)) + 1
+        ENDDO
+        NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+!       indirection tab
+        ALLOCATE(THIS%NN_CONNECT%IAD_CONNECT(NUMNOD + 1))
+        THIS%NN_CONNECT%IAD_CONNECT(1) = 1
+        DO II = 2, NUMNOD + 1
+          THIS%NN_CONNECT%IAD_CONNECT(II) = THIS%NN_CONNECT%IAD_CONNECT(II - 1) + NN_NB_CONNECT(II - 1) 
+        ENDDO
 
-      do ii = 1, numnod
-         adsky(ii) = this%nn_connect%iad_connect(ii)
-      enddo
-      allocate(this%nn_connect%connected(this%nn_connect%iad_connect(numnod + 1)))
-      this%nn_connect%connected(:) = 0
-      do ii = 1, nb_edge_new
-         node1 = edges(1, ii)
-         node2 = edges(2, ii)
-         this%nn_connect%connected(adsky(node1)) = node2
-         this%nn_connect%connected(adsky(node2)) = node1
-         adsky(node1) = adsky(node1) + 1
-         adsky(node2) = adsky(node2) + 1
-      enddo
+        DO II = 1, NUMNOD
+          ADSKY(II) = THIS%NN_CONNECT%IAD_CONNECT(II)
+        ENDDO
+        ALLOCATE(THIS%NN_CONNECT%CONNECTED(THIS%NN_CONNECT%IAD_CONNECT(NUMNOD + 1)))
+        THIS%NN_CONNECT%CONNECTED(:) = 0
+        DO II = 1, NB_EDGE_NEW
+          NODE1 = EDGES(1, II)
+          NODE2 = EDGES(2, II)
+          THIS%NN_CONNECT%CONNECTED(ADSKY(NODE1)) = NODE2
+          THIS%NN_CONNECT%CONNECTED(ADSKY(NODE2)) = NODE1
+          ADSKY(NODE1) = ADSKY(NODE1) + 1
+          ADSKY(NODE2) = ADSKY(NODE2) + 1
+        ENDDO
 
-      deallocate(adsky, edges, idx, edges_tmp, nn_nb_connect, ne_nb_connect)
-      end subroutine ale_compute_connectivity
+        DEALLOCATE(ADSKY, EDGES, IDX, EDGES_TMP, NN_NB_CONNECT, NE_NB_CONNECT)
+      END SUBROUTINE ALE_COMPUTE_CONNECTIVITY
 
-      subroutine ale_deallocate_connectivity(this)
-      implicit none
-      class(t_ale_connectivity), intent(inout) :: this
-      
-      if (allocated(this%ne_connect%connected)) deallocate(this%ne_connect%connected)
-      if (allocated(this%ne_connect%iad_connect)) deallocate(this%ne_connect%iad_connect)
+      SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY(THIS)
+        IMPLICIT NONE
+        CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
+        
+        IF (ALLOCATED(THIS%NE_CONNECT%CONNECTED)) DEALLOCATE(THIS%NE_CONNECT%CONNECTED)
+        IF (ALLOCATED(THIS%NE_CONNECT%IAD_CONNECT)) DEALLOCATE(THIS%NE_CONNECT%IAD_CONNECT)
+        IF (ALLOCATED(THIS%NN_CONNECT%CONNECTED)) DEALLOCATE(THIS%NN_CONNECT%CONNECTED)
+        IF (ALLOCATED(THIS%NN_CONNECT%IAD_CONNECT)) DEALLOCATE(THIS%NN_CONNECT%IAD_CONNECT)
+        IF (ALLOCATED(THIS%NALE)) DEALLOCATE(THIS%NALE)
+        
+      END SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY
 
-      if (allocated(this%nn_connect%connected)) deallocate(this%nn_connect%connected)
-      if (allocated(this%nn_connect%iad_connect)) deallocate(this%nn_connect%iad_connect)
-
-      if (allocated(this%nale)) deallocate(this%nale)
-      end subroutine ale_deallocate_connectivity
-
-      subroutine ale_compute_ee_connectivity(this, pm, igeo,
-     .     npropgi,numgeo, npropm, nummat, numnod, numelq, numeltg, numels, n2d, 
-     .     iale, ieuler, itherm, ialelag,
-     .     nixq, nixtg, nixs, itab,
-     .     ixq, ixtg, ixs)
-      implicit none
+      SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY(THIS, PM, IGEO,
+     .     NPROPGI,NUMGEO, NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
+     .     IALE, IEULER, ITHERM, IALELAG,
+     .     NIXQ, NIXTG, NIXS, ITAB,
+     .     IXQ, IXTG, IXS)
+        IMPLICIT NONE
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -642,555 +642,558 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      class(t_ale_connectivity), intent(inout) :: this
-      integer, intent(in) :: numnod, numelq, numeltg, numels, npropgi,
-     .     nixq, nixtg, nixs, n2d, iale, ieuler, itherm, ialelag, npropm, nummat,numgeo
-      my_real, dimension(npropm, nummat), intent(in) :: pm
-      integer, dimension(numnod), intent(in) :: itab
-      integer, dimension(nixq, numelq), intent(in) :: ixq
-      integer, dimension(nixtg, numeltg), intent(in) :: ixtg
-      integer, dimension(nixs, numels), intent(in) :: ixs
-      integer, dimension(npropgi, numgeo), intent(in) :: igeo
+        CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
+        INTEGER, INTENT(IN) :: NUMNOD, NUMELQ, NUMELTG, NUMELS, NPROPGI
+        INTEGER, INTENT(IN) :: NIXQ, NIXTG, NIXS, N2D, IALE, IEULER, ITHERM, IALELAG, NPROPM, NUMMAT,NUMGEO
+        MY_REAL, DIMENSION(NPROPM, NUMMAT), INTENT(IN) :: PM
+        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: ITAB
+        INTEGER, DIMENSION(NIXQ, NUMELQ), INTENT(IN) :: IXQ
+        INTEGER, DIMENSION(NIXTG, NUMELTG), INTENT(IN) :: IXTG
+        INTEGER, DIMENSION(NIXS, NUMELS), INTENT(IN) :: IXS
+        INTEGER, DIMENSION(NPROPGI, NUMGEO), INTENT(IN) :: IGEO
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer :: ii, jj, node_id, node1, node2, inode
-      integer, dimension(:), allocatable :: adsky
-      integer :: iad1, iad2, itmp, iad
-      integer :: max_edge, nb_edge, nb_edge_new, iedge, cur_pos
-      integer, dimension(:, :), allocatable :: edges, edges_tmp
-      integer, dimension(:), allocatable :: idx
-      integer, dimension(2, 3) :: tri_edge
-      integer, dimension(2, 4) :: quad_edge
-      integer, dimension(2, 12) :: hexa_edge
-      integer, dimension(2, 6) :: tetra_edge
-      integer, dimension(:), allocatable :: iad_connect, ne_nb_connect, connected, type, ee_nb_connect, 
-     .     itag
-      integer(8) :: vec_ptr1
-      integer :: jal_from_mat, jal_from_prop, jal, jalt, mlw, imid, tmp, count
-      integer, dimension(4), target :: tetra_nodes
-      integer, dimension(6, 4), target :: hexa_face
-      integer, dimension(6, 3), target :: tetra_face
-      integer, dimension(4, 2), target :: quad_face
-      integer, dimension(3, 2), target :: tri_face
-      integer, dimension(:, :), pointer :: elem_face, elem_face2
-      integer :: kface, kface2, nface, nface_node, nface2, nface_node2
+        INTEGER :: II, JJ, NODE_ID, NODE1, NODE2, INODE
+        INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY
+        INTEGER :: IAD1, IAD2, ITMP, IAD
+        INTEGER :: MAX_EDGE, NB_EDGE, NB_EDGE_NEW, IEDGE, CUR_POS
+        INTEGER, DIMENSION(:, :), ALLOCATABLE :: EDGES, EDGES_TMP
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IDX
+        INTEGER, DIMENSION(2, 3) :: TRI_EDGE
+        INTEGER, DIMENSION(2, 4) :: QUAD_EDGE
+        INTEGER, DIMENSION(2, 12) :: HEXA_EDGE
+        INTEGER, DIMENSION(2, 6) :: TETRA_EDGE
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_CONNECT, NE_NB_CONNECT, CONNECTED, TYPE, EE_NB_CONNECT,ITAG
+        INTEGER(8) :: VEC_PTR1
+        INTEGER :: JAL_FROM_MAT, JAL_FROM_PROP, JAL, JALT, MLW, IMID, TMP, COUNT
+        INTEGER, DIMENSION(4), TARGET :: TETRA_NODES
+        INTEGER, DIMENSION(6, 4), TARGET :: HEXA_FACE
+        INTEGER, DIMENSION(6, 3), TARGET :: TETRA_FACE
+        INTEGER, DIMENSION(4, 2), TARGET :: QUAD_FACE
+        INTEGER, DIMENSION(3, 2), TARGET :: TRI_FACE
+        INTEGER, DIMENSION(:, :), POINTER :: ELEM_FACE, ELEM_FACE2
+        INTEGER :: KFACE, KFACE2, NFACE, NFACE_NODE, NFACE2, NFACE_NODE2
 C-----------------------------------------------
 C     B e g i n n i n g   o f   S u b r o u t i n e
 C-----------------------------------------------  
-      if (iale + ieuler + ialelag +itherm == 0) then
-         return
-      endif
+        IF (IALE + IEULER + IALELAG +ITHERM == 0) THEN
+           RETURN
+        ENDIF
 !     List of nodes of interest for tetra
-      tetra_nodes(1) = 2
-      tetra_nodes(2) = 4
-      tetra_nodes(3) = 7
-      tetra_nodes(4) = 6
+        TETRA_NODES(1) = 2
+        TETRA_NODES(2) = 4
+        TETRA_NODES(3) = 7
+        TETRA_NODES(4) = 6
 !     Faces for each element
 !     hexa
-      hexa_face(1, 1) = 1
-      hexa_face(1, 2) = 2
-      hexa_face(1, 3) = 3
-      hexa_face(1, 4) = 4
-      hexa_face(2, 1) = 3
-      hexa_face(2, 2) = 4
-      hexa_face(2, 3) = 8
-      hexa_face(2, 4) = 7
-      hexa_face(3, 1) = 5
-      hexa_face(3, 2) = 6
-      hexa_face(3, 3) = 7
-      hexa_face(3, 4) = 8
-      hexa_face(4, 1) = 1
-      hexa_face(4, 2) = 2
-      hexa_face(4, 3) = 6
-      hexa_face(4, 4) = 5
-      hexa_face(5, 1) = 2
-      hexa_face(5, 2) = 3
-      hexa_face(5, 3) = 7
-      hexa_face(5, 4) = 6
-      hexa_face(6, 1) = 1
-      hexa_face(6, 2) = 4
-      hexa_face(6, 3) = 8
-      hexa_face(6, 4) = 5
+        HEXA_FACE(1, 1) = 1
+        HEXA_FACE(1, 2) = 2
+        HEXA_FACE(1, 3) = 3
+        HEXA_FACE(1, 4) = 4
+        HEXA_FACE(2, 1) = 3
+        HEXA_FACE(2, 2) = 4
+        HEXA_FACE(2, 3) = 8
+        HEXA_FACE(2, 4) = 7
+        HEXA_FACE(3, 1) = 5
+        HEXA_FACE(3, 2) = 6
+        HEXA_FACE(3, 3) = 7
+        HEXA_FACE(3, 4) = 8
+        HEXA_FACE(4, 1) = 1
+        HEXA_FACE(4, 2) = 2
+        HEXA_FACE(4, 3) = 6
+        HEXA_FACE(4, 4) = 5
+        HEXA_FACE(5, 1) = 2
+        HEXA_FACE(5, 2) = 3
+        HEXA_FACE(5, 3) = 7
+        HEXA_FACE(5, 4) = 6
+        HEXA_FACE(6, 1) = 1
+        HEXA_FACE(6, 2) = 4
+        HEXA_FACE(6, 3) = 8
+        HEXA_FACE(6, 4) = 5
 !     tetra
-      tetra_face(1, 1) = -1
-      tetra_face(1, 2) = -1
-      tetra_face(1, 3) = -1
-      tetra_face(2, 1) = 5
-      tetra_face(2, 2) = 6
-      tetra_face(2, 3) = 3
-      tetra_face(3, 1) = -1
-      tetra_face(3, 2) = -1
-      tetra_face(3, 3) = -1
-      tetra_face(4, 1) = 5
-      tetra_face(4, 2) = 1
-      tetra_face(4, 3) = 6
-      tetra_face(5, 1) = 1
-      tetra_face(5, 2) = 3
-      tetra_face(5, 3) = 6
-      tetra_face(6, 1) = 5
-      tetra_face(6, 2) = 3
-      tetra_face(6, 3) = 1
+        TETRA_FACE(1, 1) = -1
+        TETRA_FACE(1, 2) = -1
+        TETRA_FACE(1, 3) = -1
+        TETRA_FACE(2, 1) = 5
+        TETRA_FACE(2, 2) = 6
+        TETRA_FACE(2, 3) = 3
+        TETRA_FACE(3, 1) = -1
+        TETRA_FACE(3, 2) = -1
+        TETRA_FACE(3, 3) = -1
+        TETRA_FACE(4, 1) = 5
+        TETRA_FACE(4, 2) = 1
+        TETRA_FACE(4, 3) = 6
+        TETRA_FACE(5, 1) = 1
+        TETRA_FACE(5, 2) = 3
+        TETRA_FACE(5, 3) = 6
+        TETRA_FACE(6, 1) = 5
+        TETRA_FACE(6, 2) = 3
+        TETRA_FACE(6, 3) = 1
 !     quad
-      quad_face(1, 1) = 1
-      quad_face(1, 2) = 2
-      quad_face(2, 1) = 2
-      quad_face(2, 2) = 3
-      quad_face(3, 1) = 3
-      quad_face(3, 2) = 4
-      quad_face(4, 1) = 4
-      quad_face(4, 2) = 1
+        QUAD_FACE(1, 1) = 1
+        QUAD_FACE(1, 2) = 2
+        QUAD_FACE(2, 1) = 2
+        QUAD_FACE(2, 2) = 3
+        QUAD_FACE(3, 1) = 3
+        QUAD_FACE(3, 2) = 4
+        QUAD_FACE(4, 1) = 4
+        QUAD_FACE(4, 2) = 1
 !     tria
-      tri_face(1, 1) = 1
-      tri_face(1, 2) = 2
-      tri_face(2, 1) = 2
-      tri_face(2, 2) = 3
-      tri_face(3, 1) = 3
-      tri_face(3, 2) = 1
-      if (.not. this%nale_already_computed) then
+        TRI_FACE(1, 1) = 1
+        TRI_FACE(1, 2) = 2
+        TRI_FACE(2, 1) = 2
+        TRI_FACE(2, 2) = 3
+        TRI_FACE(3, 1) = 3
+        TRI_FACE(3, 2) = 1
+        IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
 !     Marking ALE nodes
-         if (allocated(this%nale)) deallocate(this%nale)
-         allocate(this%nale(numnod))
-         this%nale(1:numnod) = 0
-      endif
+          IF (ALLOCATED(THIS%NALE)) DEALLOCATE(THIS%NALE)
+          ALLOCATE(THIS%NALE(NUMNOD))
+          THIS%NALE(1:NUMNOD) = 0
+        ENDIF
 !     element-element connectivity
-      if (allocated(this%ee_connect%iad_connect)) deallocate(this%ee_connect%iad_connect)
-      if (allocated(this%ee_connect%connected)) deallocate(this%ee_connect%connected)
-      if (allocated(this%ee_connect%type)) deallocate(this%ee_connect%type)
-      if (allocated(this%ee_connect%iface2)) deallocate(this%ee_connect%iface2)
+        IF (ALLOCATED(THIS%EE_CONNECT%IAD_CONNECT)) DEALLOCATE(THIS%EE_CONNECT%IAD_CONNECT)
+        IF (ALLOCATED(THIS%EE_CONNECT%CONNECTED)) DEALLOCATE(THIS%EE_CONNECT%CONNECTED)
+        IF (ALLOCATED(THIS%EE_CONNECT%TYPE)) DEALLOCATE(THIS%EE_CONNECT%TYPE)
+        IF (ALLOCATED(THIS%EE_CONNECT%IFACE2)) DEALLOCATE(THIS%EE_CONNECT%IFACE2)
 
 !     Node element connectivity
-      allocate(ne_nb_connect(numnod))
-      ne_nb_connect(1:numnod) = 0
+        ALLOCATE(NE_NB_CONNECT(NUMNOD))
+        NE_NB_CONNECT(1:NUMNOD) = 0
 
-!     2D elements
-!     /TRIA
-      do ii = 1, numeltg
-!     ale : jal = 1, euler : jal = 2
-         jal_from_mat = nint(pm(72, iabs(ixtg(1, ii)))) 
-         jal_from_prop = igeo(62, iabs(ixtg(5, ii)))
-         jal = max(jal_from_mat, jal_from_prop)
-         jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
-         imid = iabs(ixtg(1, ii))
-         if (jalt == 0) cycle
-         mlw  = nint(pm(19,imid))
-         do jj = 1, 3
-            node_id = ixtg(1 + jj, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-            if (.not. this%nale_already_computed) then
-               this%nale(node_id) = max(this%nale(node_id), jal)
-               if (mlw == 151) then
-                  if (this%nale(node_id) == 1 .or. this%nale(node_id) == 2) this%nale(node_id) = 150 + this%nale(node_id)
-               endif
-            endif
-         enddo
-      enddo
-!     /QUAD
-      do ii = 1, numelq
-!     ale : jal = 1, euler : jal = 2
-         jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
-         jal_from_prop = igeo(62,iabs(ixq(6, ii))) 
-         jal = max(jal_from_mat, jal_from_prop)
-         jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
-         imid = iabs(ixq(1, ii))
-         if (jalt == 0) cycle
-         mlw  = nint(pm(19,imid))
-         do jj = 1, 4
-            node_id = ixq(1 + jj, ii)
-            ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-            if (.not. this%nale_already_computed) then
-               this%nale(node_id) = max(this%nale(node_id), jal)
-               if (mlw == 151) then
-                  if (this%nale(node_id) == 1 .or. this%nale(node_id) == 2) this%nale(node_id) = 150 + this%nale(node_id)
-               endif
-            endif
-         enddo
-      enddo
-!     3D elements
-      do ii = 1, numels
-         jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
-         jal_from_prop = igeo(62, iabs(ixs(10, ii)))
-         jal = max(jal_from_mat, jal_from_prop) 
-         jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
-         imid = iabs(ixs(1, ii))
-         if (jalt == 0) cycle
-         mlw  = nint(pm(19,imid))
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
-     .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
-            do jj = 1, 4
-               node_id = ixs(tetra_nodes(jj), ii)
-               ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-               if (.not. this%nale_already_computed) then
-                  this%nale(node_id) = max(this%nale(node_id), jal)
-                  if (mlw == 151) then
-                     if (this%nale(node_id) == 1 .or. this%nale(node_id) == 2) this%nale(node_id) = 150 + this%nale(node_id)
-                  endif
-               endif
-            enddo
-          else
-!     bricks
-            do jj = 1, 8
-               node_id = ixs(1 + jj, ii)
-               ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
-               if (.not. this%nale_already_computed) then
-                  this%nale(node_id) = max(this%nale(node_id), jal)
-                  if (mlw == 151) then
-                     if (this%nale(node_id) == 1 .or. this%nale(node_id) == 2) this%nale(node_id) = 150 + this%nale(node_id)
-                  endif
-               endif
-            enddo
-         endif
-      enddo    
+!       2D elements
+!       /TRIA
+        DO II = 1, NUMELTG
+!       ale : jal = 1, euler : jal = 2
+         JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II)))) 
+         JAL_FROM_PROP = IGEO(62, IABS(IXTG(5, II)))
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+         JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
+         IMID = IABS(IXTG(1, II))
+         IF (JALT == 0) CYCLE
+         MLW  = NINT(PM(19,IMID))
+         DO JJ = 1, 3
+            NODE_ID = IXTG(1 + JJ, II)
+            NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+            IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
+               THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
+               IF (MLW == 151) THEN
+                  IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+               ENDIF
+            ENDIF
+         ENDDO
+        ENDDO
+!       /QUAD
+        DO II = 1, NUMELQ
+!       ale : jal = 1, euler : jal = 2
+         JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))
+         JAL_FROM_PROP = IGEO(62,IABS(IXQ(6, II))) 
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+         JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))
+         IMID = IABS(IXQ(1, II))
+         IF (JALT == 0) CYCLE
+         MLW  = NINT(PM(19,IMID))
+         DO JJ = 1, 4
+            NODE_ID = IXQ(1 + JJ, II)
+            NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+            IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
+               THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
+               IF (MLW == 151) THEN
+                  IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+               ENDIF
+            ENDIF
+         ENDDO
+        ENDDO
+        
+!       3D elements
+        DO II = 1, NUMELS
+         JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
+         JAL_FROM_PROP = IGEO(62, IABS(IXS(10, II)))
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP) 
+         JALT = JAL + NINT(PM(71, IABS(IXS(1, II))) + PM(96, IABS(IXS(1, II))))
+         IMID = IABS(IXS(1, II))
+         IF (JALT == 0) CYCLE
+         MLW  = NINT(PM(19,IMID))
+         IF (IXS(2, II) == IXS(3, II) .AND. IXS(4, II) == IXS(5, II) .AND. 
+     .        IXS(6, II) == IXS(9, II) .AND. IXS(7, II) == IXS(8, II)) THEN
+!         tetra 
+           DO JJ = 1, 4
+             NODE_ID = IXS(TETRA_NODES(JJ), II)
+             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
+               THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
+               IF (MLW == 151) THEN
+                  IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+               ENDIF
+             ENDIF
+            ENDDO
+         ELSE
+!          bricks
+           DO JJ = 1, 8
+             NODE_ID = IXS(1 + JJ, II)
+             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+             IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
+               THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
+               IF (MLW == 151) THEN
+                 IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+               ENDIF
+             ENDIF
+           ENDDO
+         ENDIF
+        ENDDO    
 
-      this%nale_already_computed = .true.
+        THIS%NALE_ALREADY_COMPUTED = .TRUE.
 
-!     Indirection tab
-      allocate(iad_connect(numnod + 1))
-      iad_connect(1) = 1
-      do ii = 2, numnod + 1
-         iad_connect(ii) = iad_connect(ii - 1) + ne_nb_connect(ii - 1) 
-      enddo
-      allocate(adsky(numnod))
-      do ii = 1, numnod
-         adsky(ii) = iad_connect(ii)
-      enddo
+!       Indirection tab
+        ALLOCATE(IAD_CONNECT(NUMNOD + 1))
+        IAD_CONNECT(1) = 1
+        DO II = 2, NUMNOD + 1
+          IAD_CONNECT(II) = IAD_CONNECT(II - 1) + NE_NB_CONNECT(II - 1) 
+        ENDDO
+        ALLOCATE(ADSKY(NUMNOD))
+        DO II = 1, NUMNOD
+          ADSKY(II) = IAD_CONNECT(II)
+        ENDDO
 
-      allocate(connected(iad_connect(numnod + 1)))
-      connected(:) = 0
-      allocate(type(iad_connect(numnod + 1)))
-      type(:) = 0
-!     2D elements
-!     /TRIA
-      do ii = 1, numeltg
-         jal_from_mat = nint(pm(72, iabs(ixtg(1, ii)))) 
-         jal_from_prop = igeo(62,iabs(ixtg(5, ii)))
-         jal = max(jal_from_mat, jal_from_prop)
-         jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
-         imid = iabs(ixtg(1, ii))
-         if (jalt == 0) cycle
-         do jj = 1, 3
-            node_id = ixtg(1 + jj, ii)
-            connected(adsky(node_id)) = ii
-            type(adsky(node_id)) = 3
-            adsky(node_id) = adsky(node_id) + 1
-         enddo
-      enddo
-!     /QUAD
-      do ii = 1, numelq
-         jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
-         jal_from_prop = igeo(62, iabs(ixq(6, ii)) ) 
-         jal = max(jal_from_mat, jal_from_prop)
-         jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
-         imid = iabs(ixq(1, ii))
-         if (jalt == 0) cycle
-         do jj = 1, 4
-            node_id = ixq(1 + jj, ii)
-            connected(adsky(node_id)) = ii
-            type(adsky(node_id)) = 2
-            adsky(node_id) = adsky(node_id) + 1
-         enddo
-      enddo
-!     3D elements
-      do ii = 1, numels
-         jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
-         jal_from_prop = igeo(62, iabs(ixs(10, ii)) ) 
-         jal = max(jal_from_mat, jal_from_prop)         
-         jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
-         imid = iabs(ixs(1, ii))
-         if (jalt == 0) cycle
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
-     .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
-            node_id = ixs(2, ii)
-            connected(adsky(node_id)) = ii
-            type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-            node_id = ixs(4, ii)
-            connected(adsky(node_id)) = ii
-            type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-            node_id = ixs(7, ii)
-            connected(adsky(node_id)) = ii
-            type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-            node_id = ixs(6, ii)
-            connected(adsky(node_id)) = ii
-            type(adsky(node_id)) = 1
-            adsky(node_id) = adsky(node_id) + 1
-         else
-!     bricks
-            do jj = 1, 8
-               node_id = ixs(1 + jj, ii)
-               connected(adsky(node_id)) = ii
-               type(adsky(node_id)) = 1
-               adsky(node_id) = adsky(node_id) + 1
-            enddo
-         endif
-      enddo
+        ALLOCATE(CONNECTED(IAD_CONNECT(NUMNOD + 1)))
+        CONNECTED(:) = 0
+        ALLOCATE(TYPE(IAD_CONNECT(NUMNOD + 1)))
+        TYPE(:) = 0
+        
+!       2D elements
+!       /TRIA
+        DO II = 1, NUMELTG
+         JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II)))) 
+         JAL_FROM_PROP = IGEO(62,IABS(IXTG(5, II)))
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+         JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
+         IMID = IABS(IXTG(1, II))
+         IF (JALT == 0) CYCLE
+         DO JJ = 1, 3
+            NODE_ID = IXTG(1 + JJ, II)
+            CONNECTED(ADSKY(NODE_ID)) = II
+            TYPE(ADSKY(NODE_ID)) = 3
+            ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+         ENDDO
+        ENDDO
+!       /QUAD
+        DO II = 1, NUMELQ
+         JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))
+         JAL_FROM_PROP = IGEO(62, IABS(IXQ(6, II)) ) 
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+         JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))
+         IMID = IABS(IXQ(1, II))
+         IF (JALT == 0) CYCLE
+         DO JJ = 1, 4
+            NODE_ID = IXQ(1 + JJ, II)
+            CONNECTED(ADSKY(NODE_ID)) = II
+            TYPE(ADSKY(NODE_ID)) = 2
+            ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+         ENDDO
+       ENDDO
+!      3D elements
+        DO II = 1, NUMELS
+         JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
+         JAL_FROM_PROP = IGEO(62, IABS(IXS(10, II)) ) 
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)         
+         JALT = JAL + NINT(PM(71, IABS(IXS(1, II))) + PM(96, IABS(IXS(1, II))))
+         IMID = IABS(IXS(1, II))
+         IF (JALT == 0) CYCLE
+         IF (IXS(2, II) == IXS(3, II) .AND. IXS(4, II) == IXS(5, II) .AND. 
+     .        IXS(6, II) == IXS(9, II) .AND. IXS(7, II) == IXS(8, II)) THEN
+!          tetra 
+           NODE_ID = IXS(2, II)                
+           CONNECTED(ADSKY(NODE_ID)) = II      
+           TYPE(ADSKY(NODE_ID)) = 1            
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1 
+           NODE_ID = IXS(4, II)                
+           CONNECTED(ADSKY(NODE_ID)) = II      
+           TYPE(ADSKY(NODE_ID)) = 1            
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1 
+           NODE_ID = IXS(7, II)                
+           CONNECTED(ADSKY(NODE_ID)) = II      
+           TYPE(ADSKY(NODE_ID)) = 1            
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1 
+           NODE_ID = IXS(6, II)                
+           CONNECTED(ADSKY(NODE_ID)) = II      
+           TYPE(ADSKY(NODE_ID)) = 1            
+           ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1 
+         ELSE
+!           bricks
+            DO JJ = 1, 8
+               NODE_ID = IXS(1 + JJ, II)
+               CONNECTED(ADSKY(NODE_ID)) = II
+               TYPE(ADSKY(NODE_ID)) = 1
+               ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+            ENDDO
+         ENDIF
+        ENDDO
 
       
-!     Counting connected elements
-      if (n2d == 0) then
-         allocate(this%ee_connect%iad_connect(numels+1))
-         allocate(ee_nb_connect(numels))
-      else
-         allocate(this%ee_connect%iad_connect(numeltg + numelq + 1))
-         allocate(ee_nb_connect(numeltg + numelq))
-      endif
-      ee_nb_connect(:) = 0
+!       Counting connected elements
+        IF (N2D == 0) THEN
+         ALLOCATE(THIS%EE_CONNECT%IAD_CONNECT(NUMELS+1))
+         ALLOCATE(EE_NB_CONNECT(NUMELS))
+        ELSE
+         ALLOCATE(THIS%EE_CONNECT%IAD_CONNECT(NUMELTG + NUMELQ + 1))
+         ALLOCATE(EE_NB_CONNECT(NUMELTG + NUMELQ))
+        ENDIF
+        EE_NB_CONNECT(:) = 0
 
-      tmp = 0
-      if (n2d == 0) then
-!     3D elements
-         do ii = 1, numels
-            jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
-            jal_from_prop = igeo(62, iabs(ixs(10, ii)) ) 
-            jal = max(jal_from_mat, jal_from_prop)            
-            jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
-            if (jalt == 0) cycle
-            if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
-     .           ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     Tetras
-               ee_nb_connect(ii) = 6
-            else
-!     Hexa
-               ee_nb_connect(ii) = 6
-            endif
-         enddo
-         this%ee_connect%iad_connect(1) = 1
-         do ii = 2, numels + 1
-            this%ee_connect%iad_connect(ii) = this%ee_connect%iad_connect(ii - 1) + ee_nb_connect(ii - 1)
-         enddo
-         tmp = this%ee_connect%iad_connect(numels + 1)
-      else
-!     2D elements
-!     /QUAD
-         do ii = 1, numelq
-            jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
-            jal_from_prop = igeo(62, iabs(ixq(6, ii)) ) 
-            jal = max(jal_from_mat, jal_from_prop)            
-            jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
-            if (jalt == 0) cycle
-            ee_nb_connect(ii) = 4
-         enddo   
-!     /TRIA
-         do ii = 1, numeltg
-            jal_from_mat = nint(pm(72, iabs(ixtg(1, ii))))
-            jal_from_prop = igeo(62, iabs(ixtg(5, ii)) ) 
-            jal = max(jal_from_mat, jal_from_prop)            
-            jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
-            if (jalt == 0) cycle
-            ee_nb_connect(ii) = 3
-         enddo
-         this%ee_connect%iad_connect(1) = 1
-         do ii = 2, numelq + numeltg + 1
-            this%ee_connect%iad_connect(ii) = this%ee_connect%iad_connect(ii - 1) + ee_nb_connect(ii - 1)
-         enddo
-         tmp = this%ee_connect%iad_connect(numelq + numeltg + 1) - 1
-      endif
+        TMP = 0
+        IF (N2D == 0) THEN
+!        3D elements
+         DO II = 1, NUMELS
+            JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
+            JAL_FROM_PROP = IGEO(62, IABS(IXS(10, II)) ) 
+            JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)            
+            JALT = JAL + NINT(PM(71, IABS(IXS(1, II))) + PM(96, IABS(IXS(1, II))))
+            IF (JALT == 0) CYCLE
+            IF (IXS(2, II) == IXS(3, II) .AND. IXS(4, II) == IXS(5, II) .AND. 
+     .           IXS(6, II) == IXS(9, II) .AND. IXS(7, II) == IXS(8, II)) THEN
+!             Tetras
+              EE_NB_CONNECT(II) = 6
+            ELSE
+!             Hexa
+              EE_NB_CONNECT(II) = 6
+            ENDIF
+         ENDDO
+         THIS%EE_CONNECT%IAD_CONNECT(1) = 1
+         DO II = 2, NUMELS + 1
+            THIS%EE_CONNECT%IAD_CONNECT(II) = THIS%EE_CONNECT%IAD_CONNECT(II - 1) + EE_NB_CONNECT(II - 1)
+         ENDDO
+         TMP = THIS%EE_CONNECT%IAD_CONNECT(NUMELS + 1)
+        ELSE
+!          2D elements                                                                                    
+!         /QUAD                                                                                           
+          DO II = 1, NUMELQ                                                                               
+             JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))                                                
+             JAL_FROM_PROP = IGEO(62, IABS(IXQ(6, II)) )                                                  
+             JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)                                                       
+             JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))                       
+             IF (JALT == 0) CYCLE                                                                         
+             EE_NB_CONNECT(II) = 4                                                                        
+          ENDDO                                                                                           
+!         /TRIA                                                                                           
+          DO II = 1, NUMELTG                                                                              
+             JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II))))                                               
+             JAL_FROM_PROP = IGEO(62, IABS(IXTG(5, II)) )                                                 
+             JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)                                                       
+             JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))                     
+             IF (JALT == 0) CYCLE                                                                         
+             EE_NB_CONNECT(II) = 3                                                                        
+          ENDDO                                                                                           
+          THIS%EE_CONNECT%IAD_CONNECT(1) = 1                                                              
+          DO II = 2, NUMELQ + NUMELTG + 1                                                                 
+             THIS%EE_CONNECT%IAD_CONNECT(II) = THIS%EE_CONNECT%IAD_CONNECT(II - 1) + EE_NB_CONNECT(II - 1)
+          ENDDO                                                                                           
+          TMP = THIS%EE_CONNECT%IAD_CONNECT(NUMELQ + NUMELTG + 1) - 1                                     
+        ENDIF
 
-      allocate(this%ee_connect%connected(tmp))
-      allocate(this%ee_connect%type(tmp))
-      allocate(this%ee_connect%iface2(tmp))
-      this%ee_connect%type(1:tmp) = 0
-      this%ee_connect%connected(1:tmp) = 0
-      this%ee_connect%iface2(1:tmp) = 0
-      call intvector_create(vec_ptr1)
-      allocate(itag(numnod))
-      itag(1:numnod) = 0
-      if (n2d == 0) then
-         do ii = 1, numels 
-            jal_from_mat = nint(pm(72, iabs(ixs(1, ii))))
-            jal_from_prop = igeo(62, iabs(ixs(10, ii)) ) 
-            jal = max(jal_from_mat, jal_from_prop)            
-            jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
-            if (jalt == 0) cycle
-            iad1 = this%ee_connect%iad_connect(ii)
-            if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
-     .           ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     Tetras
-               nface = 6
-               nface_node = 3
-               count = 3
-               elem_face => tetra_face
-            else
-!     Hexa
-               nface = 6
-               nface_node = 4
-               count = 4
-               elem_face => hexa_face
-            endif
-            do kface = 1, nface
-               call intvector_clear(vec_ptr1)
-               do inode = 1, nface_node
-                  if (elem_face(kface, inode) < 0) cycle
-                  node_id = ixs(1 + elem_face(kface, inode), ii)
-                  itag(node_id) = 1
-                  do iad = iad_connect(node_id), iad_connect(node_id + 1) - 1
-                     if (connected(iad) /= ii) then
-                        call intvector_push_back(vec_ptr1, connected(iad))
-                     endif
-                  enddo
-               enddo
+        ALLOCATE(THIS%EE_CONNECT%CONNECTED(TMP))
+        ALLOCATE(THIS%EE_CONNECT%TYPE(TMP))
+        ALLOCATE(THIS%EE_CONNECT%IFACE2(TMP))
+        THIS%EE_CONNECT%TYPE(1:TMP) = 0
+        THIS%EE_CONNECT%CONNECTED(1:TMP) = 0
+        THIS%EE_CONNECT%IFACE2(1:TMP) = 0
+        CALL INTVECTOR_CREATE(VEC_PTR1)
+        ALLOCATE(ITAG(NUMNOD))
+        ITAG(1:NUMNOD) = 0
+        IF (N2D == 0) THEN
+           DO II = 1, NUMELS 
+              JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
+              JAL_FROM_PROP = IGEO(62, IABS(IXS(10, II)) ) 
+              JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)            
+              JALT = JAL + NINT(PM(71, IABS(IXS(1, II))) + PM(96, IABS(IXS(1, II))))
+              IF (JALT == 0) CYCLE
+              IAD1 = THIS%EE_CONNECT%IAD_CONNECT(II)
+              IF (IXS(2, II) == IXS(3, II) .AND. IXS(4, II) == IXS(5, II) .AND. 
+     .             IXS(6, II) == IXS(9, II) .AND. IXS(7, II) == IXS(8, II)) THEN
+!              Tetras
+               NFACE = 6
+               NFACE_NODE = 3
+               COUNT = 3
+               ELEM_FACE => TETRA_FACE
+              ELSE
+!              Hexa
+               NFACE = 6
+               NFACE_NODE = 4
+               COUNT = 4
+               ELEM_FACE => HEXA_FACE
+              ENDIF
+              DO KFACE = 1, NFACE
+               CALL INTVECTOR_CLEAR(VEC_PTR1)
+               DO INODE = 1, NFACE_NODE
+                  IF (ELEM_FACE(KFACE, INODE) < 0) CYCLE
+                  NODE_ID = IXS(1 + ELEM_FACE(KFACE, INODE), II)
+                  ITAG(NODE_ID) = 1
+                  DO IAD = IAD_CONNECT(NODE_ID), IAD_CONNECT(NODE_ID + 1) - 1
+                     IF (CONNECTED(IAD) /= II) THEN
+                        CALL INTVECTOR_PUSH_BACK(VEC_PTR1, CONNECTED(IAD))
+                     ENDIF
+                  ENDDO
+               ENDDO
+!              get the redundant element number
+               CALL INTVECTOR_GET_REDUNDANT(VEC_PTR1, JJ, ITMP, COUNT)
+               IAD1 = THIS%EE_CONNECT%IAD_CONNECT(II)
+               THIS%EE_CONNECT%CONNECTED(IAD1 + KFACE - 1) = JJ
+               IF (JJ > 0) THEN
+                  IF (IXS(2, JJ) == IXS(3, JJ) .AND. IXS(4, JJ) == IXS(5, JJ) .AND. 
+     .                 IXS(6, JJ) == IXS(9, JJ) .AND. IXS(7, JJ) == IXS(8, JJ)) THEN
+!                    Tetras
+                     NFACE2 = 6
+                     NFACE_NODE2 = 3
+                     ELEM_FACE2 => TETRA_FACE
+                     THIS%EE_CONNECT%TYPE(IAD1 + KFACE - 1) = 1
+                  ELSE
+!                    Hexa
+                     NFACE2 = 6
+                     NFACE_NODE2 = 4
+                     ELEM_FACE2 => HEXA_FACE
+                     THIS%EE_CONNECT%TYPE(IAD1 + KFACE - 1) = 0
+                  ENDIF
+                  DO KFACE2 = 1, NFACE2
+                     ITMP = 1
+                     DO INODE = 1, NFACE_NODE2
+                        IF (ELEM_FACE(KFACE2, INODE) < 0) CYCLE
+                        ITMP = ITMP * ITAG(IXS(1 + ELEM_FACE(KFACE2, INODE), JJ))
+                     ENDDO
+                     IF (ITMP == 1) THEN
+                        THIS%EE_CONNECT%IFACE2(IAD1 + KFACE - 1) = KFACE2
+                        EXIT
+                     ENDIF
+                  ENDDO
+               ENDIF
+               DO INODE = 1, NFACE_NODE
+                  IF (ELEM_FACE(KFACE, INODE) < 0) CYCLE
+                  NODE_ID = IXS(1 + ELEM_FACE(KFACE, INODE), II)
+                  ITAG(NODE_ID) = 0
+               ENDDO
+              ENDDO
+           ENDDO
+        ELSE
+!         Quad
+          DO II = 1, NUMELQ
+            JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))
+            JAL_FROM_PROP = IGEO(62, IABS(IXQ(6, II)) ) 
+            JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+            JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))
+            IF (JALT == 0) CYCLE
+            IAD1 = THIS%EE_CONNECT%IAD_CONNECT(II)
+            NFACE = 4
+            NFACE_NODE = 2
+            ELEM_FACE => QUAD_FACE
+            COUNT = 2
+            DO KFACE = 1, NFACE
+              CALL INTVECTOR_CLEAR(VEC_PTR1)                                 
+              DO INODE = 1, NFACE_NODE                                       
+                 NODE_ID = IXQ(1 + ELEM_FACE(KFACE, INODE), II)              
+                 ITAG(NODE_ID) = 1                                           
+                 DO IAD = IAD_CONNECT(NODE_ID), IAD_CONNECT(NODE_ID + 1) - 1 
+                    IF (CONNECTED(IAD) /= II) THEN                           
+                       CALL INTVECTOR_PUSH_BACK(VEC_PTR1, CONNECTED(IAD))    
+                    ENDIF                                                    
+                 ENDDO                                                       
+              ENDDO                                                          
 !     get the redundant element number
-               call intvector_get_redundant(vec_ptr1, jj, itmp, count)
-               iad1 = this%ee_connect%iad_connect(ii)
-               this%ee_connect%connected(iad1 + kface - 1) = jj
-               if (jj > 0) then
-                  if (ixs(2, jj) == ixs(3, jj) .and. ixs(4, jj) == ixs(5, jj) .and. 
-     .                 ixs(6, jj) == ixs(9, jj) .and. ixs(7, jj) == ixs(8, jj)) then
-!     Tetras
-                     nface2 = 6
-                     nface_node2 = 3
-                     elem_face2 => tetra_face
-                     this%ee_connect%type(iad1 + kface - 1) = 1
-                  else
-!     Hexa
-                     nface2 = 6
-                     nface_node2 = 4
-                     elem_face2 => hexa_face
-                     this%ee_connect%type(iad1 + kface - 1) = 0
-                  endif
-                  do kface2 = 1, nface2
-                     itmp = 1
-                     do inode = 1, nface_node2
-                        if (elem_face(kface2, inode) < 0) cycle
-                        itmp = itmp * itag(ixs(1 + elem_face(kface2, inode), jj))
-                     enddo
-                     if (itmp == 1) then
-                        this%ee_connect%iface2(iad1 + kface - 1) = kface2
-                        exit
-                     endif
-                  enddo
-               endif
-               do inode = 1, nface_node
-                  if (elem_face(kface, inode) < 0) cycle
-                  node_id = ixs(1 + elem_face(kface, inode), ii)
-                  itag(node_id) = 0
-               enddo
-            enddo
-         enddo
-      else
-!     Quad
-         do ii = 1, numelq
-            jal_from_mat = nint(pm(72, iabs(ixq(1, ii))))
-            jal_from_prop = igeo(62, iabs(ixq(6, ii)) ) 
-            jal = max(jal_from_mat, jal_from_prop)
-            jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
-            if (jalt == 0) cycle
-            iad1 = this%ee_connect%iad_connect(ii)
-            nface = 4
-            nface_node = 2
-            elem_face => quad_face
-            count = 2
-            do kface = 1, nface
-               call intvector_clear(vec_ptr1)
-               do inode = 1, nface_node
-                  node_id = ixq(1 + elem_face(kface, inode), ii)
-                  itag(node_id) = 1
-                  do iad = iad_connect(node_id), iad_connect(node_id + 1) - 1
-                     if (connected(iad) /= ii) then
-                        call intvector_push_back(vec_ptr1, connected(iad))
-                     endif
-                  enddo
-               enddo
-!     get the redundant element number
-               call intvector_get_redundant(vec_ptr1, jj, itmp, count)
-               this%ee_connect%connected(iad1 + kface - 1) = jj
-               if (jj > 0) then
-                  if (jj > numelq) then
-                     nface2 = 3
-                     nface_node2 = 2
-                     elem_face2 => tri_face
-                     this%ee_connect%type(iad1 + kface - 1) = 3
-                  else
-                     nface2 = 4
-                     nface_node2 = 2
-                     elem_face2 => quad_face
-                     this%ee_connect%type(iad1 + kface - 1) = 2
-                  endif
-                  do kface2 = 1, nface2
-                     itmp = 1
-                     do inode = 1, nface_node2
-                        itmp = itmp * itag(ixq(1 + elem_face(kface2, inode), jj))
-                     enddo
-                     if (itmp == 1) then
-                        this%ee_connect%iface2(iad1 + kface - 1) = kface2
-                        exit
-                     endif
-                  enddo
-               endif
-               do inode = 1, nface_node
-                  node_id = ixq(1 + elem_face(kface, inode), ii)
-                  itag(node_id) = 0
-               enddo
-            enddo
-         enddo
-!     Tria
-         do ii = 1, numeltg
-            jal_from_mat = nint(pm(72, iabs(ixtg(1, ii))))
-            jal_from_prop = igeo(62, iabs(ixtg(5, ii)) ) 
-            jal = max(jal_from_mat, jal_from_prop)            
-            jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
-            if (jalt == 0) cycle
-            iad1 = this%ee_connect%iad_connect(ii)
-            nface = 3
-            nface_node = 2
-            elem_face => tri_face
-            count = 2
-            do kface = 1, nface
-               call intvector_clear(vec_ptr1)
-               do inode = 1, nface_node
-                  node_id = ixtg(1 + elem_face(kface, inode), ii)
-                  itag(node_id) = 1
-                  do iad = iad_connect(node_id), iad_connect(node_id + 1) - 1
-                     if (connected(iad) /= ii) then
-                        call intvector_push_back(vec_ptr1, connected(iad))
-                     endif
-                  enddo
-               enddo
-!     get the redundant element number
-               call intvector_get_redundant(vec_ptr1, jj, itmp, count)
-               this%ee_connect%connected(iad1 + kface - 1) = jj
-               if (jj > 0) then
-                  if (jj > numelq) then
-                     nface2 = 2
-                     nface_node2 = 2
-                     elem_face2 => tri_face
-                     this%ee_connect%type(iad1 + kface - 1) = 3
-                  else
-                     nface2 = 4
-                     nface_node2 = 3
-                     elem_face2 => quad_face
-                     this%ee_connect%type(iad1 + kface - 1) = 2
-                  endif
-                  do kface2 = 1, nface2
-                     itmp = 1
-                     do inode = 1, nface_node2
-                        itmp = itmp * itag(ixtg(1 + elem_face(kface2, inode), jj))
-                     enddo
-                     if (itmp == 1) then
-                        this%ee_connect%iface2(iad1 + kface - 1) = kface2
-                        exit
-                     endif
-                  enddo
-               endif
-               do inode = 1, nface_node
-                  node_id = ixtg(1 + elem_face(kface, inode), ii)
-                  itag(node_id) = 0
-               enddo
-            enddo
-         enddo
-      endif
+              CALL INTVECTOR_GET_REDUNDANT(VEC_PTR1, JJ, ITMP, COUNT)            
+              THIS%EE_CONNECT%CONNECTED(IAD1 + KFACE - 1) = JJ                   
+              IF (JJ > 0) THEN                                                   
+                 IF (JJ > NUMELQ) THEN                                           
+                    NFACE2 = 3                                                   
+                    NFACE_NODE2 = 2                                              
+                    ELEM_FACE2 => TRI_FACE                                       
+                    THIS%EE_CONNECT%TYPE(IAD1 + KFACE - 1) = 3                   
+                 ELSE                                                            
+                    NFACE2 = 4                                                   
+                    NFACE_NODE2 = 2                                              
+                    ELEM_FACE2 => QUAD_FACE                                      
+                    THIS%EE_CONNECT%TYPE(IAD1 + KFACE - 1) = 2                   
+                 ENDIF                                                           
+                 DO KFACE2 = 1, NFACE2                                           
+                    ITMP = 1                                                     
+                    DO INODE = 1, NFACE_NODE2                                    
+                       ITMP = ITMP * ITAG(IXQ(1 + ELEM_FACE(KFACE2, INODE), JJ)) 
+                    ENDDO                                                        
+                    IF (ITMP == 1) THEN                                          
+                       THIS%EE_CONNECT%IFACE2(IAD1 + KFACE - 1) = KFACE2         
+                       EXIT                                                      
+                    ENDIF                                                        
+                 ENDDO                                                           
+              ENDIF                                                              
+              DO INODE = 1, NFACE_NODE                                           
+                 NODE_ID = IXQ(1 + ELEM_FACE(KFACE, INODE), II)                  
+                 ITAG(NODE_ID) = 0                                               
+              ENDDO                                                              
+            ENDDO
+          ENDDO
+!         Tria
+          DO II = 1, NUMELTG
+            JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II))))
+            JAL_FROM_PROP = IGEO(62, IABS(IXTG(5, II)) ) 
+            JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)            
+            JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
+            IF (JALT == 0) CYCLE
+            IAD1 = THIS%EE_CONNECT%IAD_CONNECT(II)
+            NFACE = 3
+            NFACE_NODE = 2
+            ELEM_FACE => TRI_FACE
+            COUNT = 2
+            DO KFACE = 1, NFACE
+               CALL INTVECTOR_CLEAR(VEC_PTR1)
+               DO INODE = 1, NFACE_NODE
+                  NODE_ID = IXTG(1 + ELEM_FACE(KFACE, INODE), II)
+                  ITAG(NODE_ID) = 1
+                  DO IAD = IAD_CONNECT(NODE_ID), IAD_CONNECT(NODE_ID + 1) - 1
+                     IF (CONNECTED(IAD) /= II) THEN
+                        CALL INTVECTOR_PUSH_BACK(VEC_PTR1, CONNECTED(IAD))
+                     ENDIF
+                  ENDDO
+               ENDDO
+!               get the redundant element number
+               CALL INTVECTOR_GET_REDUNDANT(VEC_PTR1, JJ, ITMP, COUNT)
+               THIS%EE_CONNECT%CONNECTED(IAD1 + KFACE - 1) = JJ
+               IF (JJ > 0) THEN
+                  IF (JJ > NUMELQ) THEN
+                     NFACE2 = 2
+                     NFACE_NODE2 = 2
+                     ELEM_FACE2 => TRI_FACE
+                     THIS%EE_CONNECT%TYPE(IAD1 + KFACE - 1) = 3
+                  ELSE
+                     NFACE2 = 4
+                     NFACE_NODE2 = 3
+                     ELEM_FACE2 => QUAD_FACE
+                     THIS%EE_CONNECT%TYPE(IAD1 + KFACE - 1) = 2
+                  ENDIF
+                  DO KFACE2 = 1, NFACE2
+                     ITMP = 1
+                     DO INODE = 1, NFACE_NODE2
+                        ITMP = ITMP * ITAG(IXTG(1 + ELEM_FACE(KFACE2, INODE), JJ))
+                     ENDDO
+                     IF (ITMP == 1) THEN
+                        THIS%EE_CONNECT%IFACE2(IAD1 + KFACE - 1) = KFACE2
+                        EXIT
+                     ENDIF
+                  ENDDO
+               ENDIF
+               DO INODE = 1, NFACE_NODE
+                  NODE_ID = IXTG(1 + ELEM_FACE(KFACE, INODE), II)
+                  ITAG(NODE_ID) = 0
+               ENDDO
+            ENDDO
+          ENDDO
+        ENDIF
 
-      call intvector_delete(vec_ptr1)
-      if (allocated(ee_nb_connect)) deallocate(ee_nb_connect)
-      if (allocated(itag)) deallocate(itag)
-      if (allocated(ne_nb_connect)) deallocate(ne_nb_connect)
-      if (allocated(iad_connect)) deallocate(iad_connect)
-      if (allocated(adsky)) deallocate(adsky)
-      if (allocated(connected)) deallocate(connected)
+        CALL INTVECTOR_DELETE(VEC_PTR1)
+        IF (ALLOCATED(EE_NB_CONNECT)) DEALLOCATE(EE_NB_CONNECT)
+        IF (ALLOCATED(ITAG)) DEALLOCATE(ITAG)
+        IF (ALLOCATED(NE_NB_CONNECT)) DEALLOCATE(NE_NB_CONNECT)
+        IF (ALLOCATED(IAD_CONNECT)) DEALLOCATE(IAD_CONNECT)
+        IF (ALLOCATED(ADSKY)) DEALLOCATE(ADSKY)
+        IF (ALLOCATED(CONNECTED)) DEALLOCATE(CONNECTED)
       
-      end subroutine ale_compute_ee_connectivity
+      END SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY
+C-----------------------------------------------
+      
       END MODULE ALE_CONNECTIVITY_MOD

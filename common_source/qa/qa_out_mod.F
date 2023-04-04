@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       module QA_OUT_MOD
 
 !#if CPP_mach == CPP_p4win64 
-!      use IFPORT
+!      USE IFPORT
 !#endif
 
       integer doqa, lunitqa, qaid, next_index

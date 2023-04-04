@@ -49,51 +49,52 @@ Chd|====================================================================
 !     Generic Linear Solver    !
 !     *********************    !
 
-      type t_linear_solver
-      integer, private :: global_dimension
-      contains
-      procedure, pass :: init_solver
-      procedure, pass :: set_matrix
-      procedure, pass :: set_rhs
-      procedure, pass :: solve
-      procedure, pass :: terminate
-      procedure, nopass :: error
-      procedure, pass :: get_global_dim
-      end type t_linear_solver
+      TYPE T_LINEAR_SOLVER
+        INTEGER, PRIVATE :: GLOBAL_DIMENSION
+        CONTAINS
+          PROCEDURE, PASS :: INIT_SOLVER
+          PROCEDURE, PASS :: SET_MATRIX
+          PROCEDURE, PASS :: SET_RHS
+          PROCEDURE, PASS :: SOLVE
+          PROCEDURE, PASS :: TERMINATE
+          PROCEDURE, NOPASS :: ERROR
+          PROCEDURE, PASS :: GET_GLOBAL_DIM
+      END TYPE T_LINEAR_SOLVER
 
 !     ********************    !
 !     MUMPS Linear Solver     !
 !     ********************    !
 #ifdef MUMPS5
-      type, extends(t_linear_solver) :: t_mumps_solver
-      type(dmumps_struc), private :: mumps_par
-      logical :: job_1_done = .false.
-      contains
-      procedure, pass :: init_solver_mumps
-      procedure, pass :: set_matrix_mumps
-      procedure, pass :: set_rhs_mumps
-      procedure, pass :: solve_mumps
-      procedure, pass :: terminate_mumps
-      end type t_mumps_solver
+      TYPE, EXTENDS(T_LINEAR_SOLVER) :: T_MUMPS_SOLVER
+        TYPE(DMUMPS_STRUC), PRIVATE :: MUMPS_PAR
+        LOGICAL :: JOB_1_DONE = .FALSE.
+        CONTAINS
+          PROCEDURE, PASS :: INIT_SOLVER_MUMPS
+          PROCEDURE, PASS :: SET_MATRIX_MUMPS
+          PROCEDURE, PASS :: SET_RHS_MUMPS
+          PROCEDURE, PASS :: SOLVE_MUMPS
+          PROCEDURE, PASS :: TERMINATE_MUMPS
+      END TYPE T_MUMPS_SOLVER
 #endif
 
 !     *************************    !
 !     Conjugate gradient solver    !
 !     *************************    !
-      type, extends(t_linear_solver) :: t_cg_solver
-      type(t_cfs_matrix), pointer :: mat
-      type(t_vector), pointer :: rhs
-      type(t_vector) :: sol_vec, r, rnew, temp, p
-      my_real, dimension(:), allocatable :: diag
-      integer :: nrhs
-      contains
-      procedure, pass :: init_solver_cg
-      procedure, pass :: set_matrix_cg
-      procedure, pass :: set_rhs_cg
-      procedure, pass :: solve_cg
-      procedure, pass :: terminate_cg
-      end type t_cg_solver
-      contains
+      TYPE, EXTENDS(T_LINEAR_SOLVER) :: T_CG_SOLVER
+        TYPE(T_CFS_MATRIX), POINTER :: MAT
+        TYPE(T_VECTOR), POINTER :: RHS
+        TYPE(T_VECTOR) :: SOL_VEC, R, RNEW, TEMP, P
+        MY_REAL, DIMENSION(:), ALLOCATABLE :: DIAG
+        INTEGER :: NRHS
+        CONTAINS
+          PROCEDURE, PASS :: INIT_SOLVER_CG
+          PROCEDURE, PASS :: SET_MATRIX_CG
+          PROCEDURE, PASS :: SET_RHS_CG
+          PROCEDURE, PASS :: SOLVE_CG
+          PROCEDURE, PASS :: TERMINATE_CG
+      END TYPE T_CG_SOLVER
+      
+      CONTAINS
       
 !     ._____________________________.   !
 !     |                             |   !
@@ -108,45 +109,45 @@ Chd|====================================================================
 
 !     Error
 !     -----
-      subroutine error()
-      print*, "error"
-      end subroutine error
+      SUBROUTINE ERROR()
+        PRINT*, "ERROR"
+      END SUBROUTINE ERROR
       
-      function get_global_dim(this)
+      FUNCTION GET_GLOBAL_DIM(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_linear_solver), intent(in) :: this
-      integer :: get_global_dim
-      get_global_dim = this%global_dimension
-      end function get_global_dim
+      CLASS (T_LINEAR_SOLVER), INTENT(IN) :: this
+      INTEGER :: GET_GLOBAL_DIM
+      GET_GLOBAL_DIM = this%GLOBAL_DIMENSION
+      END FUNCTION GET_GLOBAL_DIM
 
 !     Solver initialization
 !     ---------------------
-      subroutine init_solver(this, mat_dim)
+      SUBROUTINE INIT_SOLVER(this, MAT_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_linear_solver), intent(inout) :: this
-      integer, intent(in) :: mat_dim
-      this%global_dimension = mat_dim
-      select type(this)
+      CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: MAT_DIM
+      this%GLOBAL_DIMENSION = MAT_DIM
+      SELECT TYPE(this)
 #ifdef MUMPS5
-      type is (t_mumps_solver)
-      call this%init_solver_mumps(mat_dim)
+      TYPE IS (T_MUMPS_SOLVER)
+      CALL this%INIT_SOLVER_MUMPS(MAT_DIM)
 #endif
-      type is (t_cg_solver)
-      call this%init_solver_cg(mat_dim)
-      class default
-      call this%error()
-      end select
-      end subroutine init_solver
+      TYPE IS (T_CG_SOLVER)
+      CALL this%INIT_SOLVER_CG(MAT_DIM)
+      CLASS DEFAULT
+      CALL this%ERROR()
+      END SELECT
+      END SUBROUTINE INIT_SOLVER
 
 !     Set matrix
 !     ----------
-      subroutine set_matrix(this, mat)
+      SUBROUTINE SET_MATRIX(this, MAT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -155,23 +156,23 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_linear_solver), intent(inout) :: this
-      type(t_cfs_matrix), intent(inout) :: mat
-      select type(this)
+      CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
+      TYPE(T_CFS_MATRIX), INTENT(INOUT) :: MAT
+      SELECT TYPE(this)
 #ifdef MUMPS5
-      type is (t_mumps_solver)
-      call this%set_matrix_mumps(mat)
+      TYPE IS (T_MUMPS_SOLVER)
+      CALL this%SET_MATRIX_MUMPS(MAT)
 #endif
-      type is (t_cg_solver)
-      call this%set_matrix_cg(mat)
-      class default
-      call this%error()
-      end select
-      end subroutine set_matrix
+      TYPE IS (T_CG_SOLVER)
+      CALL this%SET_MATRIX_CG(MAT)
+      CLASS DEFAULT
+      CALL this%ERROR()
+      END SELECT
+      END SUBROUTINE SET_MATRIX
 
 !     Set right hand side
 !     -------------------
-      subroutine set_rhs(this, nrhs, rhs)
+      SUBROUTINE SET_RHS(this, NRHS, RHS)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -180,62 +181,62 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_linear_solver), intent(inout) :: this
-      integer, intent(in) :: nrhs
-      type(t_vector), intent(inout) :: rhs
-      select type(this)
+      CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: NRHS
+      TYPE(T_VECTOR), INTENT(INOUT) :: RHS
+      SELECT TYPE(this)
 #ifdef MUMPS5
-      type is (t_mumps_solver)
-      call this%set_rhs_mumps(nrhs, rhs)
+      TYPE IS (T_MUMPS_SOLVER)
+      CALL this%SET_RHS_MUMPS(NRHS, RHS)
 #endif
-      type is (t_cg_solver)
-      call this%set_rhs_cg(nrhs, rhs)
-      class default
-      call this%error()
-      end select
-      end subroutine set_rhs
+      TYPE IS (T_CG_SOLVER)
+      CALL this%SET_RHS_CG(NRHS, RHS)
+      CLASS DEFAULT
+      CALL this%ERROR()
+      END SELECT
+      END SUBROUTINE SET_RHS
 
 !     Solve the linear system
 !     -----------------------
-      subroutine solve(this, sol, dim)
+      SUBROUTINE SOLVE(this, SOL, DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_linear_solver), intent(inout) :: this
-      integer, intent(in) :: dim
-      double precision, dimension(dim), intent(out) :: sol
-      select type(this)
+      CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: DIM
+      DOUBLE PRECISION, DIMENSION(DIM), INTENT(OUT) :: SOL
+      SELECT TYPE(THIS)
 #ifdef MUMPS5
-      type is (t_mumps_solver)
-      call this%solve_mumps(sol, dim)
+      TYPE IS (T_MUMPS_SOLVER)
+      CALL this%SOLVE_MUMPS(SOL, DIM)
 #endif
-      type is (t_cg_solver)
-      call this%solve_cg(sol, dim)
-      class default
-      call this%error()
-      end select
-      end subroutine solve
+      TYPE IS (T_CG_SOLVER)
+      CALL this%SOLVE_CG(SOL, DIM)
+      CLASS DEFAULT
+      CALL this%ERROR()
+      END SELECT
+      END SUBROUTINE SOLVE
 
 !     End the solver instance
 !     -----------------------
-      subroutine terminate(this)
+      SUBROUTINE TERMINATE(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_linear_solver), intent(inout) :: this
-      select type(this)
+      CLASS (T_LINEAR_SOLVER), INTENT(INOUT) :: this
+      SELECT TYPE(this)
 #ifdef MUMPS5
-      type is (t_mumps_solver)
-      call this%terminate_mumps()
+      TYPE IS (T_MUMPS_SOLVER)
+      CALL this%TERMINATE_MUMPS()
 #endif
-      type is (t_cg_solver)
-      call this%terminate_cg()
-      class default
-      call this%error()
-      end select
-      end subroutine terminate
+      TYPE IS (T_CG_SOLVER)
+      CALL this%TERMINATE_CG()
+      CLASS DEFAULT
+      CALL this%ERROR()
+      END SELECT
+      END SUBROUTINE TERMINATE
 
 !     **************     !
 !     MUMPS routines     !
@@ -244,7 +245,7 @@ C-----------------------------------------------
 !     Solver initialization
 !     ---------------------
 #ifdef MUMPS5
-      subroutine init_solver_mumps(this, mat_dim)
+      SUBROUTINE INIT_SOLVER_MUMPS(this, MAT_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -256,87 +257,87 @@ C-----------------------------------------------
 #include "mpif.h"
 #endif
 C-----------------------------------------------
-      class (t_mumps_solver), intent(inout) :: this
-      integer, intent(in) :: mat_dim
-      this%mumps_par%par = 1
+      CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: MAT_DIM
+      this%MUMPS_PAR%PAR = 1
 #ifdef MPI      
-      this%mumps_par%comm = mpi_comm_world
+      this%MUMPS_PAR%COMM = MPI_COMM_WORLD
 #else 
-      this%mumps_par%comm = -1
+      this%MUMPS_PAR%COMM = -1
 #endif
       this%mumps_par%job = -1
       this%mumps_par%sym = 0
       call dmumps(this%mumps_par)
 
 !     matrice globale
-      this%mumps_par%icntl(5) = 0
+      this%MUMPS_PAR%ICNTL(5) = 0
 !     matrice distribuee
-      this%mumps_par%icntl(18) = 3
+      this%MUMPS_PAR%ICNTL(18) = 3
 !     taille de la matrice
-      this%mumps_par%n = mat_dim
+      this%MUMPS_PAR%N = MAT_DIM
 !     matrice sym  trique d  finie positive
-      this%mumps_par%sym = 1
+      this%MUMPS_PAR%SYM = 1
 !     distributed rhs
-      this%mumps_par%icntl(20) = 10
+      this%MUMPS_PAR%ICNTL(20) = 10
 !     distributed solution
       !mumps_par%icntl(21) = 1
 !     un-distributed solution
-      this%mumps_par%icntl(21) = 0
+      this%MUMPS_PAR%ICNTL(21) = 0
 !     info on solution
-      this%mumps_par%icntl(11) = 1
+      this%MUMPS_PAR%ICNTL(11) = 1
 !     dump matrice
 !      this%mumps_par%write_problem = "mat"
 !     verbosity
-      this%mumps_par%icntl(4) = 0
+      this%MUMPS_PAR%ICNTL(4) = 0
       
-      end subroutine init_solver_mumps
+      END SUBROUTINE INIT_SOLVER_MUMPS
       
 !     Set matrix
 !     ----------
-      subroutine set_matrix_mumps(this, mat)
+      SUBROUTINE SET_MATRIX_MUMPS(this, MAT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      use matrix_mod
+      USE MATRIX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_mumps_solver), intent(inout) :: this
-      type(t_cfs_matrix), intent(inout) :: mat
-      call mat%matrix_associate(this%mumps_par%irn_loc, this%mumps_par%jcn_loc, this%mumps_par%a_loc)
-      this%mumps_par%nnz_loc = mat%get_dim()
-      end subroutine set_matrix_mumps
+      CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
+      TYPE(T_CFS_MATRIX), INTENT(INOUT) :: MAT
+      CALL MAT%MATRIX_ASSOCIATE(this%MUMPS_PAR%IRN_LOC, this%MUMPS_PAR%JCN_LOC, this%MUMPS_PAR%A_LOC)
+      this%MUMPS_PAR%NNZ_LOC = MAT%GET_DIM()
+      END SUBROUTINE SET_MATRIX_MUMPS
 
 !     Set right hand side
 !     -------------------
-      subroutine set_rhs_mumps(this, nrhs, rhs)
+      SUBROUTINE SET_RHS_MUMPS(this, NRHS, RHS)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      use vector_mod
+      USE VECTOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_mumps_solver), intent(inout) :: this
-      integer, intent(in) :: nrhs
-      type(t_vector), intent(inout) :: rhs
+      CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: NRHS
+      TYPE(T_VECTOR), INTENT(INOUT) :: RHS
 C-----------------------------------------------
 C     D u m m y   a r g u m e n t s
 C-----------------------------------------------
-      integer :: dim
+      INTEGER :: DIM
 
-      call rhs%associate(this%mumps_par%irhs_loc, this%mumps_par%rhs_loc)
-      dim = rhs%get_dim() / nrhs
-      this%mumps_par%nrhs = nrhs
-      this%mumps_par%nloc_rhs = dim
-      this%mumps_par%lrhs_loc = dim
-      end subroutine set_rhs_mumps
+      CALL RHS%ASSOCIATE(this%MUMPS_PAR%IRHS_LOC, this%MUMPS_PAR%RHS_LOC)
+      DIM = RHS%GET_DIM() / NRHS
+      this%MUMPS_PAR%NRHS = NRHS
+      this%MUMPS_PAR%NLOC_RHS = DIM
+      this%MUMPS_PAR%LRHS_LOC = DIM
+      END SUBROUTINE SET_RHS_MUMPS
 
 !     Solve the linear system
 !     -----------------------
-      subroutine solve_mumps(this, sol, dim)
+      SUBROUTINE SOLVE_MUMPS(this, SOL, DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -350,33 +351,33 @@ C-----------------------------------------------
 #include "mpif.h"
 #endif
 C-----------------------------------------------
-      class (t_mumps_solver), intent(inout) :: this
-      integer, intent(in) :: dim
+      CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: DIM
 !      my_real, dimension(dim), intent(out), target :: sol
-      double precision, dimension(dim), intent(out), target :: sol
+      DOUBLE PRECISION, DIMENSION(DIM), INTENT(OUT), TARGET :: SOL
 C-----------------------------------------------     
 C     L o c a l   V a r i a b l e s 
 C----------------------------------------------- 
-      integer :: ierr
-      if (dim /= this%mumps_par%n * this%mumps_par%nrhs) then
-         print*, "*** Dimension mismatch in solution vector"
-         return
-      else
-         if (.not. this%job_1_done) then
+      INTEGER :: IERR
+      IF (DIM /= this%MUMPS_PAR%N * this%MUMPS_PAR%NRHS) THEN
+         PRINT*, "*** DIMENSION MISMATCH IN SOLUTION VECTOR"
+         RETURN
+      ELSE
+         IF (.NOT. this%JOB_1_DONE) THEN
 ! analysis
-            this%mumps_par%job = 1
-            call dmumps(this%mumps_par)
-            this%job_1_done = .true.
-         endif
+            this%MUMPS_PAR%JOB = 1
+            CALL DMUMPS(this%MUMPS_PAR)
+            this%JOB_1_DONE = .TRUE.
+         ENDIF
 !     factorization
-         this%mumps_par%job = 2
-         call dmumps(this%mumps_par)
+         this%MUMPS_PAR%JOB = 2
+         CALL DMUMPS(this%MUMPS_PAR)
 
 !     solve
-         this%mumps_par%rhs => sol
-         this%mumps_par%lrhs = this%mumps_par%n
-         this%mumps_par%job = 3
-         call dmumps(this%mumps_par)
+         this%MUMPS_PAR%RHS => SOL
+         this%MUMPS_PAR%LRHS = this%MUMPS_PAR%N
+         this%MUMPS_PAR%JOB = 3
+         CALL DMUMPS(this%MUMPS_PAR)
 
 #ifdef MPI
 !     Sent to all procs
@@ -384,12 +385,12 @@ C-----------------------------------------------
             CALL MPI_BCAST(SOL, DIM, REAL, 0, MPI_COMM_WORLD, IERR)
          ENDIF
 #endif     
-      endif
-      end subroutine solve_mumps
+      ENDIF
+      END SUBROUTINE SOLVE_MUMPS
 
 !     End the solver instance
 !     -----------------------
-      subroutine terminate_mumps(this)
+      SUBROUTINE TERMINATE_MUMPS(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -401,12 +402,12 @@ C-----------------------------------------------
 #include "mpif.h"
 #endif
 C-----------------------------------------------
-      class (t_mumps_solver), intent(inout) :: this
+      CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
 
-      this%mumps_par%job = -2
-      call dmumps(this%mumps_par)
+      this%MUMPS_PAR%JOB = -2
+      CALL DMUMPS(this%MUMPS_PAR)
  
-      end subroutine terminate_mumps
+      END SUBROUTINE TERMINATE_MUMPS
 #endif
 C END OF MUMPS5 SPECIFIC CODE
 
@@ -415,69 +416,69 @@ C END OF MUMPS5 SPECIFIC CODE
 !     ***********     !
 !     Solver initialization
 !     ---------------------
-      subroutine init_solver_cg(this, mat_dim)
+      SUBROUTINE INIT_SOLVER_CG(this, MAT_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_cg_solver), intent(inout) :: this
-      integer, intent(in) :: mat_dim
+      CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: MAT_DIM
 
-      call this%sol_vec%create(mat_dim)
-      call this%r%create(mat_dim)
-      call this%rnew%create(mat_dim)
-      call this%temp%create(mat_dim)
-      call this%p%create(mat_dim)
-      allocate(this%diag(mat_dim))
+      CALL this%SOL_VEC%CREATE(MAT_DIM)
+      CALL this%R%CREATE(MAT_DIM)
+      CALL this%RNEW%CREATE(MAT_DIM)
+      CALL this%TEMP%CREATE(MAT_DIM)
+      CALL this%P%CREATE(MAT_DIM)
+      ALLOCATE(this%DIAG(MAT_DIM))
 
-      end subroutine init_solver_cg
+      END SUBROUTINE INIT_SOLVER_CG
       
 !     Set matrix
 !     ----------
-      subroutine set_matrix_cg(this, mat)
+      SUBROUTINE SET_MATRIX_CG(this, MAT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      use matrix_mod
+      USE MATRIX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_cg_solver), intent(inout) :: this
-      type(t_cfs_matrix), intent(inout), target :: mat
+      CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
+      TYPE(T_CFS_MATRIX), INTENT(INOUT), TARGET :: MAT
       
-      this%mat => mat
+      this%MAT => MAT
       
-      end subroutine set_matrix_cg
+      END SUBROUTINE SET_MATRIX_CG
 
 !     Set right hand side
 !     -------------------
-      subroutine set_rhs_cg(this, nrhs, rhs)
+      SUBROUTINE SET_RHS_CG(this, NRHS, RHS)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      use vector_mod
+      USE VECTOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_cg_solver), intent(inout) :: this
-      integer, intent(in) :: nrhs
-      type(t_vector), intent(inout), target :: rhs
+      CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: NRHS
+      TYPE(T_VECTOR), INTENT(INOUT), TARGET :: RHS
 
-      integer :: ii
-      integer :: lgth
+      INTEGER :: II
+      INTEGER :: LGTH
       
-      this%rhs => rhs
-      this%nrhs = nrhs
+      this%RHS => RHS
+      this%NRHS = NRHS
       
       
-      end subroutine set_rhs_cg
+      END SUBROUTINE SET_RHS_CG
 
 !     Solve the linear system
 !     -----------------------
-      subroutine solve_cg(this, sol, dim)
-      use vector_mod
+      SUBROUTINE SOLVE_CG(this, SOL, DIM)
+      USE VECTOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -491,84 +492,84 @@ C-----------------------------------------------
 #include "mpif.h"
 #endif
 C-----------------------------------------------
-      class (t_cg_solver), intent(inout) :: this
-      integer, intent(in) :: dim
-      double precision, dimension(dim), intent(out), target :: sol
+      CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
+      INTEGER, INTENT(IN) :: DIM
+      DOUBLE PRECISION, DIMENSION(DIM), INTENT(OUT), TARGET :: SOL
 C-----------------------------------------------     
 C     L o c a l   V a r i a b l e s 
 C----------------------------------------------- 
-      integer :: iter, system_size, irhs, ii, i, j, mat_nnz
-      my_real :: error, norm_init
-      my_real :: alpha, beta
+      INTEGER :: ITER, SYSTEM_SIZE, IRHS, II, I, J, MAT_NNZ
+      MY_REAL :: ERROR, NORM_INIT
+      MY_REAL :: ALPHA, BETA
       ! a sortir sous forme de parametre
-      integer :: max_iter
-      my_real :: tol
+      INTEGER :: MAX_ITER
+      MY_REAL :: TOL
 
-      tol = 1.d-8
+      TOL = 1.D-8
       
-      system_size = dim / this%nrhs
-      max_iter = system_size
+      SYSTEM_SIZE = DIM / this%NRHS
+      MAX_ITER = SYSTEM_SIZE
 
 !     diaginal matrix made of inverse of square root of diagonal elements of the 
 !     system matrix
-      mat_nnz = this%mat%get_dim()
-      do ii = 1, mat_nnz
-         i = this%mat%irow(ii)
-         j = this%mat%jcol(ii)
-         if (i == j) then
-            this%diag(i) = ONE / sqrt(this%mat%val(ii))
-         endif
-      enddo
+      MAT_NNZ = this%MAT%GET_DIM()
+      DO II = 1, MAT_NNZ
+         I = this%MAT%IROW(II)
+         J = this%MAT%JCOL(II)
+         IF (I == J) THEN
+            this%DIAG(I) = ONE / SQRT(this%MAT%VAL(II))
+         ENDIF
+      ENDDO
       
 
-      do irhs = 1, this%nrhs
-         this%sol_vec%val(1:system_size) = zero     
+      DO IRHS = 1, this%NRHS
+         this%SOL_VEC%VAL(1:SYSTEM_SIZE) = ZERO     
 !     initialisation du solver
-         call prod_vec(this%mat, this%sol_vec, this%temp)
-         this%r%val(1:system_size) = this%rhs%val(system_size * (irhs - 1) + 1 : system_size * (irhs - 1) + system_size) - 
-     .        this%temp%val(1:system_size)
-         this%p%val(1:system_size) = this%r%val(1:system_size)
-         norm_init = this%r%norm()
-         error = norm_init
-         iter = 0
-         do while (iter <= max_iter .and. error > tol)
-            iter = iter + 1
-            call prod_vec(this%mat, this%p, this%temp)
-            alpha = dot_product(this%r%val(1:system_size),this% r%val(1:system_size)) /
-     .           dot_product(this%temp%val(1:system_size), this%p%val(1:system_size))
-            do ii = 1, system_size
-               this%sol_vec%val(ii) = this%sol_vec%val(ii) + alpha * this%p%val(ii)
-               this%rnew%val(ii) = this%r%val(ii) - alpha * this%temp%val(ii)
-            enddo
-            beta = dot_product(this%rnew%val(1:system_size), this%rnew%val(1:system_size)) / 
-     .           dot_product(this%r%val(1:system_size), this%r%val(1:system_size))
-            do ii = 1, system_size
-               this%p%val(ii) = this%rnew%val(ii) + beta * this%p%val(ii)
-               this%r%val(ii) =  this%rnew%val(ii)
-            enddo
-            error = this%r%norm() / norm_init
-         enddo
-         sol(system_size * (irhs - 1) + 1:system_size * (irhs - 1) + system_size) = 
-     .        this%sol_vec%val(1:system_size)
-      enddo
+         CALL PROD_VEC(this%MAT, this%SOL_VEC, this%TEMP)
+         this%R%VAL(1:SYSTEM_SIZE) = this%RHS%VAL(SYSTEM_SIZE * (IRHS - 1) + 1 : SYSTEM_SIZE * (IRHS - 1) + SYSTEM_SIZE) - 
+     .        this%TEMP%VAL(1:SYSTEM_SIZE)
+         this%P%VAL(1:SYSTEM_SIZE) = this%R%VAL(1:SYSTEM_SIZE)
+         NORM_INIT = this%R%NORM()
+         ERROR = NORM_INIT
+         ITER = 0
+         DO WHILE (ITER <= MAX_ITER .AND. ERROR > TOL)
+            ITER = ITER + 1
+            CALL PROD_VEC(this%MAT, this%P, this%TEMP)
+            ALPHA = DOT_PRODUCT(this%R%VAL(1:SYSTEM_SIZE),this% R%VAL(1:SYSTEM_SIZE)) /
+     .           DOT_PRODUCT(this%TEMP%VAL(1:SYSTEM_SIZE), this%P%VAL(1:SYSTEM_SIZE))
+            DO II = 1, SYSTEM_SIZE
+               this%SOL_VEC%VAL(II) = this%SOL_VEC%VAL(II) + ALPHA * this%P%VAL(II)
+               this%RNEW%VAL(II) = this%R%VAL(II) - ALPHA * this%TEMP%VAL(II)
+            ENDDO
+            BETA = DOT_PRODUCT(this%RNEW%VAL(1:SYSTEM_SIZE), this%RNEW%VAL(1:SYSTEM_SIZE)) / 
+     .           DOT_PRODUCT(this%R%VAL(1:SYSTEM_SIZE), this%R%VAL(1:SYSTEM_SIZE))
+            DO II = 1, SYSTEM_SIZE
+               this%P%VAL(II) = this%RNEW%VAL(II) + BETA * this%P%VAL(II)
+               this%R%VAL(II) =  this%RNEW%VAL(II)
+            ENDDO
+            ERROR = this%R%NORM() / NORM_INIT
+         ENDDO
+         SOL(SYSTEM_SIZE * (IRHS - 1) + 1:SYSTEM_SIZE * (IRHS - 1) + SYSTEM_SIZE) = 
+     .        this%SOL_VEC%VAL(1:SYSTEM_SIZE)
+      ENDDO
 
       
-      end subroutine solve_cg
+      END SUBROUTINE SOLVE_CG
 
 !     End the solver instance
 !     -----------------------
-      subroutine terminate_cg(this)
+      SUBROUTINE TERMINATE_CG(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      class (t_cg_solver), intent(inout) :: this
-      call this%sol_vec%destroy()
-      call this%r%destroy()
-      call this%temp%destroy()
-      call this%p%destroy()
-      call this%rnew%destroy()
-      deallocate(this%diag)
-      end subroutine terminate_cg
+        CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
+        CALL this%SOL_VEC%DESTROY()
+        CALL this%R%DESTROY()
+        CALL this%TEMP%DESTROY()
+        CALL this%P%DESTROY()
+        CALL this%RNEW%DESTROY()
+        DEALLOCATE(this%DIAG)
+      END SUBROUTINE TERMINATE_CG
 
-      end module linear_solver_mod
+      END MODULE LINEAR_SOLVER_MOD

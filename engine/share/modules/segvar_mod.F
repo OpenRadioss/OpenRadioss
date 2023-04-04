@@ -65,92 +65,92 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
-      TYPE t_segvar
-        INTEGER :: nseg
-        INTEGER :: nbmat !number of phases
-        logical :: has_rho = .false.
-        logical :: has_eint = .false.        
-        logical :: has_rk = .false.
-        logical :: has_re = .false.  
-        logical :: has_uvar = .false.                      
-        logical :: has_phase_alpha = .false.  
-        logical :: has_phase_rho = .false.    
-        logical :: has_phase_eint = .false.            
-        my_real,allocatable,dimension(:) :: rho
-        my_real,allocatable,dimension(:) :: eint
-        my_real,allocatable,dimension(:) :: rk
-        my_real,allocatable,dimension(:) :: re  
-        my_real,allocatable,dimension(:) :: uvar
-        my_real,allocatable,dimension(:,:) :: phase_alpha 
-        my_real,allocatable,dimension(:,:) :: phase_rho
-        my_real,allocatable,dimension(:,:) :: phase_eint 
+      TYPE T_SEGVAR
+        INTEGER :: NSEG
+        INTEGER :: NBMAT !NUMBER OF PHASES
+        LOGICAL :: HAS_RHO = .FALSE.
+        LOGICAL :: HAS_EINT = .FALSE.        
+        LOGICAL :: HAS_RK = .FALSE.
+        LOGICAL :: HAS_RE = .FALSE.  
+        LOGICAL :: HAS_UVAR = .FALSE.                      
+        LOGICAL :: HAS_PHASE_ALPHA = .FALSE.  
+        LOGICAL :: HAS_PHASE_RHO = .FALSE.    
+        LOGICAL :: HAS_PHASE_EINT = .FALSE.            
+        MY_REAL,ALLOCATABLE,DIMENSION(:) :: RHO
+        MY_REAL,ALLOCATABLE,DIMENSION(:) :: EINT
+        MY_REAL,ALLOCATABLE,DIMENSION(:) :: RK
+        MY_REAL,ALLOCATABLE,DIMENSION(:) :: RE  
+        MY_REAL,ALLOCATABLE,DIMENSION(:) :: UVAR
+        MY_REAL,ALLOCATABLE,DIMENSION(:,:) :: PHASE_ALPHA 
+        MY_REAL,ALLOCATABLE,DIMENSION(:,:) :: PHASE_RHO
+        MY_REAL,ALLOCATABLE,DIMENSION(:,:) :: PHASE_EINT 
       CONTAINS
-        procedure, pass :: destroy => segvar_destroy      
-        procedure, pass :: create => segvar_create  
-      END TYPE t_segvar
+        PROCEDURE, PASS :: DESTROY => SEGVAR_DESTROY      
+        PROCEDURE, PASS :: CREATE => SEGVAR_CREATE  
+      END TYPE T_SEGVAR
       
       CONTAINS
       
-      subroutine segvar_destroy(this)
-      implicit none
-      class(t_segvar), intent(inout) :: this
-        if(allocated(this%rho)) deallocate(this%rho)
-        if(allocated(this%eint)) deallocate(this%eint)
-        if(allocated(this%rk)) deallocate(this%rk)
-        if(allocated(this%re)) deallocate(this%re)                
-        if(allocated(this%uvar)) deallocate(this%uvar)
-        if(allocated(this%phase_alpha)) deallocate(this%phase_alpha) 
-        if(allocated(this%phase_alpha)) deallocate(this%phase_rho) 
-        if(allocated(this%phase_alpha)) deallocate(this%phase_eint)                 
-      end subroutine segvar_destroy
+      SUBROUTINE SEGVAR_DESTROY(this)
+      IMPLICIT NONE
+      CLASS(T_SEGVAR), INTENT(INOUT) :: this
+        IF(ALLOCATED(this%RHO)) DEALLOCATE(this%RHO)
+        IF(ALLOCATED(this%EINT)) DEALLOCATE(this%EINT)
+        IF(ALLOCATED(this%RK)) DEALLOCATE(this%RK)
+        IF(ALLOCATED(this%RE)) DEALLOCATE(this%RE)                
+        IF(ALLOCATED(this%UVAR)) DEALLOCATE(this%UVAR)
+        IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_ALPHA) 
+        IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_RHO) 
+        IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_EINT)                 
+      END SUBROUTINE SEGVAR_DESTROY
       
-      subroutine segvar_create(this,nbmat)
-      use ale_mod      
-      implicit none
+      SUBROUTINE SEGVAR_CREATE(this,NBMAT)
+      USE ALE_MOD      
+      IMPLICIT NONE
 #include "constant.inc"       
 #include "../includes/com04_c.inc" 
-      class(t_segvar), intent(inout) :: this
-       integer,intent(in) :: nbmat
-        this%nseg=NSEGFLU
-        this%nbmat=nbmat
-        if(this%nseg > 0)then
-          if(ALE%GLOBAL%NVCONV >= 1)this%has_rho=.true.
-          if(ALE%GLOBAL%NVCONV >= 2)this%has_eint=.true.
-          if(ALE%GLOBAL%NVCONV >= 3)this%has_rk=.true.
-          if(ALE%GLOBAL%NVCONV >= 4)this%has_re=.true.
-          if(ALE%GLOBAL%NVCONV >= 5)this%has_uvar=.true.                                
-          if(this%has_rho)then
-            allocate(this%rho(this%nseg))
-            this%rho(1:this%nseg)=ZERO
-          endif
-          if(this%has_eint)then
-            allocate(this%eint(this%nseg))
-            this%eint(1:this%nseg)=ZERO
-          endif
-          if(this%has_rk)then
-            allocate(this%rk(this%nseg))
-            this%rk(1:this%nseg)=ZERO            
-          endif
-          if(this%has_re)then
-            allocate(this%re(this%nseg))
-            this%re(1:this%nseg)=ZERO
-          endif
-          if(this%has_uvar)then
-            allocate(this%uvar(this%nseg))
-            this%uvar(1:this%nseg)=ZERO 
-          endif
-          if(nbmat > 0)then
-            this%has_phase_alpha = .true.
-            allocate(this%phase_alpha(this%nbmat,this%nseg))
-            this%phase_alpha(1:this%nbmat,1:this%nseg) = ZERO
-            this%has_phase_rho = .true.
-            allocate(this%phase_rho(this%nbmat,this%nseg))
-            this%phase_rho(1:this%nbmat,1:this%nseg) = ZERO
-            this%has_phase_eint = .true.
-            allocate(this%phase_eint(this%nbmat,this%nseg))
-            this%phase_eint(1:this%nbmat,1:this%nseg) = ZERO                        
-          endif
-        endif                               
-      end subroutine segvar_create      
+      CLASS(T_SEGVAR), INTENT(INOUT) :: this
+       INTEGER,INTENT(IN) :: NBMAT
+        this%NSEG=NSEGFLU
+        this%NBMAT=NBMAT
+        IF(this%NSEG > 0)THEN
+          IF(ALE%GLOBAL%NVCONV >= 1)this%HAS_RHO=.TRUE.
+          IF(ALE%GLOBAL%NVCONV >= 2)this%HAS_EINT=.TRUE.
+          IF(ALE%GLOBAL%NVCONV >= 3)this%HAS_RK=.TRUE.
+          IF(ALE%GLOBAL%NVCONV >= 4)this%HAS_RE=.TRUE.
+          IF(ALE%GLOBAL%NVCONV >= 5)this%HAS_UVAR=.TRUE.                                
+          IF(this%HAS_RHO)THEN
+            ALLOCATE(this%RHO(this%NSEG))
+            this%RHO(1:this%NSEG)=ZERO
+          ENDIF
+          IF(this%HAS_EINT)THEN
+            ALLOCATE(this%EINT(this%NSEG))
+            this%EINT(1:this%NSEG)=ZERO
+          ENDIF
+          IF(this%HAS_RK)THEN
+            ALLOCATE(this%RK(this%NSEG))
+            this%RK(1:this%NSEG)=ZERO            
+          ENDIF
+          IF(this%HAS_RE)THEN
+            ALLOCATE(this%RE(this%NSEG))
+            this%RE(1:this%NSEG)=ZERO
+          ENDIF
+          IF(this%HAS_UVAR)THEN
+            ALLOCATE(this%UVAR(this%NSEG))
+            this%UVAR(1:this%NSEG)=ZERO 
+          ENDIF
+          IF(NBMAT > 0)THEN
+            this%HAS_PHASE_ALPHA = .TRUE.
+            ALLOCATE(this%PHASE_ALPHA(this%NBMAT,this%NSEG))
+            this%PHASE_ALPHA(1:this%NBMAT,1:this%NSEG) = ZERO
+            this%HAS_PHASE_RHO = .TRUE.
+            ALLOCATE(this%PHASE_RHO(this%NBMAT,this%NSEG))
+            this%PHASE_RHO(1:this%NBMAT,1:this%NSEG) = ZERO
+            this%HAS_PHASE_EINT = .TRUE.
+            ALLOCATE(this%PHASE_EINT(this%NBMAT,this%NSEG))
+            this%PHASE_EINT(1:this%NBMAT,1:this%NSEG) = ZERO                        
+          ENDIF
+        ENDIF                               
+      END SUBROUTINE SEGVAR_CREATE      
 
       END MODULE SEGVAR_MOD
