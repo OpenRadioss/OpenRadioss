@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALEMUSCL_MOD                  modules/alemuscl_mod.F        
+Chd|  ALEMUSCL_MOD                  modules/ale/alemuscl_mod.F    
 Chd|-- called by -----------
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        HM_READ_ALE_MUSCL             starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F

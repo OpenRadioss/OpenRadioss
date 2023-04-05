@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|-- calls ---------------
 Chd|        BCS3V                         source/ale/inter/bcs3v.F      
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ALESUB1(
      1  NALE ,V    ,W    ,DSAVE ,ICODT,

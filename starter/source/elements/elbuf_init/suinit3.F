@@ -39,7 +39,7 @@ Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        ST_USERLIB_SINIUSR            source/user_interface/dyn_userlib.c
 Chd|        SUDERI3                       source/elements/elbuf_init/suderi3.F
 Chd|        SUMASS3                       source/elements/elbuf_init/suinit3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

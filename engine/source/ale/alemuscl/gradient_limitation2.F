@@ -25,7 +25,7 @@ Chd|  GRADIENT_LIMITATION2          source/ale/alemuscl/gradient_limitation2.F
 Chd|-- called by -----------
 Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
 Chd|-- calls ---------------
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
 Chd|====================================================================
       SUBROUTINE GRADIENT_LIMITATION2(IXQ, X, TRIMAT)
 C-----------------------------------------------

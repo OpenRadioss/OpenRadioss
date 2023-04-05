@@ -27,8 +27,8 @@ Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
 Chd|-- calls ---------------
 Chd|        I22STO                        source/interfaces/intsort/i22sto.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
 Chd|====================================================================
       SUBROUTINE I22TRIVOX(

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        INIFILL                       source/initial_conditions/inivol/inifill.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE INIPHASE(IXS      ,IPART_    ,IPHASE    ,IDP      ,
      .                    KVOL     ,NUPARAM   ,UPARAM    ,NTRACE   ,

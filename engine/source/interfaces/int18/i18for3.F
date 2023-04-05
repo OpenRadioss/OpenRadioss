@@ -34,7 +34,7 @@ Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I18FOR3(JLT      ,A          ,V         ,IBCC      ,ICODT         ,

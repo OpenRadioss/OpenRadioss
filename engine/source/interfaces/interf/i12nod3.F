@@ -25,6 +25,7 @@ Chd|  I12NOD3                       source/interfaces/interf/i12nod3.F
 Chd|-- called by -----------
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE I12NOD3(NRT,ISEG,IRECT,SEGVAR,JCODV,

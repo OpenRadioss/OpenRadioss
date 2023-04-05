@@ -30,6 +30,7 @@ Chd|        CONSTIT                       source/elements/nodes/constit.F
 Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|        TAGELEM_R2R                   source/coupling/rad2rad/tagelem_r2r.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -28,6 +28,7 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|        AJAC3_V                       source/elements/solid/solide/ajac3.F
 Chd|        AMOMTN3                       source/elements/solid/solide/amomtn3.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE AMOMT3(
      1   PM,      RHO,     VOL,     X1,

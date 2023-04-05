@@ -30,10 +30,10 @@ Chd|        SCOOR431                      source/elements/solid/sconnect/scoor43
 Chd|        SCORTHO31                     source/elements/thickshell/solidec/scortho31.F
 Chd|        SORTHO31                      source/elements/solid/solide/sortho31.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE THSOL(ELBUF_TAB,NTHGRP2 , ITHGRP , 
      .                 IPARG   ,ITHBUF   ,WA      ,

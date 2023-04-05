@@ -25,7 +25,8 @@ Chd|  ALE51_ANTIDIFF2               source/ale/ale51/ale51_antidiff2.F
 Chd|-- called by -----------
 Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE ALE51_ANTIDIFF2(FLUX,ALE_CONNECT,ALPH,VOL,IXQ,FLUX_VOIS,

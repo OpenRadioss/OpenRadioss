@@ -30,6 +30,7 @@ Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
 Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
 Chd|-- calls ---------------
 Chd|        S4FRACA                       source/elements/solid/solide4/s4mass3.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE S4MASS3(
      1   RHO  ,MS ,PARTSAV,X   ,V,

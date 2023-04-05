@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
 Chd|-- calls ---------------
 Chd|        CG                            source/ale/alemuscl/conjugate_gradient.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE GRADIENT_RECONSTRUCTION(ITASK, IXS, X, ALE_CONNECT, NV46, ITRIMAT,SEGVAR)

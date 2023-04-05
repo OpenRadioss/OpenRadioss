@@ -27,6 +27,7 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
 Chd|        SLEN                          source/elements/solid/solide/slen.F
 Chd|        SLENA                         source/elements/solid/solide/slen.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE FDLEN3(
      1   VOLN,    DELTAX,  X1,      X2,

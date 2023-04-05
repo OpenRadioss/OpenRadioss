@@ -30,6 +30,7 @@ Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|        LOI_FLUID                     source/fluid/loi_fluid.F      
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE QDLEN2(IPARG, 
      .     AIRE, DELTAX, 

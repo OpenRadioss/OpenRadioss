@@ -25,9 +25,9 @@ Chd|  ALEFVM_SFINT3_INT22           source/ale/alefvm/alefvm_sfint3_int22.F
 Chd|-- called by -----------
 Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_SFINT3_INT22
      .                         (

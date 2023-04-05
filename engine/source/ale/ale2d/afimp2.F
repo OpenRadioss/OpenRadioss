@@ -25,7 +25,7 @@ Chd|  AFIMP2                        source/ale/ale2d/afimp2.F
 Chd|-- called by -----------
 Chd|        ATHERM                        source/ale/atherm.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AFIMP2(
      1                  PM  ,X           ,IXQ  ,T  ,GRAD  ,

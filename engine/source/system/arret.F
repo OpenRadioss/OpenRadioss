@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  ARRET                         source/system/arret.F         
 Chd|-- called by -----------
 Chd|        INTBUF_INI                    ../common_source/interf/intbuf_ini.F
-Chd|        PBLAST_LOAD                   ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_LOAD                   ../common_source/modules/loads/pblast_mod.F
 Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F

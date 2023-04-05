@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MULTI_GLOBALIZE               source/multifluid/multi_globalize.F
 Chd|        MULTI_UPDATE_GLOBAL           source/multifluid/multi_update_global.F
 Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_BILAN(PARTSAV, VOL, MULTI_FVM,
      .     NEL, NFT, IPARTS, GRESAV, IGRTH, GRTH)

@@ -27,6 +27,7 @@ Chd|  FFINT3                        source/elements/solid/solide/ffint3.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE FFINT3(SIG,DFE,
      .   PX1, PX2, PX3, PX4,

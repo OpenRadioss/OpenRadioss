@@ -35,11 +35,11 @@ Chd|        M51VOIS3                      source/materials/mat/mat051/m51vois3.F
 Chd|        POLY51                        source/materials/mat/mat051/polynomial51.F
 Chd|        POLYUN51                      source/materials/mat/mat051/polynomial51.F
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS51 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,

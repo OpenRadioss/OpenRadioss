@@ -26,7 +26,7 @@ Chd|  ALESO2                        source/ale/ale2d/aleso2.F
 Chd|-- called by -----------
 Chd|        ALELEC                        source/ale/alelec.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALESO2(ALE_CONNECTIVITY,PM,IXQ,IGEO)
 C-----------------------------------------------

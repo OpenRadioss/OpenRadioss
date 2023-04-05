@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        REDKEY2                       source/input/redkey2.F        
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

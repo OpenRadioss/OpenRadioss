@@ -25,7 +25,7 @@ Chd|  AREZO3                        source/ale/ale3d/arezo3.F
 Chd|-- called by -----------
 Chd|        AREZON                        source/ale/arezon.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AREZO3(ALE_CONNECT,VAR,NV,PHI,NDIM,FLUX,VOL,IAD22,IXS,ITRIMAT)
 C-----------------------------------------------
@@ -118,7 +118,7 @@ Chd|  AREZO3_SIG                    source/ale/ale3d/arezo3.F
 Chd|-- called by -----------
 Chd|        AREZON                        source/ale/arezon.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AREZO3_SIG(ALE_CONNECT,SIG,NV,PHI,NDIM,FLUX,
      .                      VOL,IAD22,IXS,ITRIMAT,NEL)

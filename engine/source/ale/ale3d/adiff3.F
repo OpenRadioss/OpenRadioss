@@ -27,7 +27,7 @@ Chd|        AETURB                        source/ale/turbulence/aeturb.F
 Chd|        AKTURB                        source/ale/turbulence/akturb.F
 Chd|        ATHERM                        source/ale/atherm.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ADIFF3(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL)
 C-----------------------------------------------

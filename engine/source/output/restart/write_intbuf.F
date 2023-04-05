@@ -1370,7 +1370,7 @@ Chd|-- called by -----------
 Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
+Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_INTBUF_T8(T8)  
 C-----------------------------------------------

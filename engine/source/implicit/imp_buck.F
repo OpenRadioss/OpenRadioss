@@ -49,7 +49,7 @@ Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
 Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
 Chd|        ZEROR                         source/system/zero.F          
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
@@ -63,7 +63,7 @@ Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
 Chd|        IMP_WORKG                     share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

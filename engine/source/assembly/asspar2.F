@@ -29,6 +29,7 @@ Chd|        IDP_FREE                      source/system/machine.F
 Chd|        IDP_LOCK                      source/system/machine.F       
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ORDER_V                       source/assembly/asspar2.F     
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ASSPAR2( 
      2   A          ,AR         ,ITASK      ,NODFT     ,

@@ -91,6 +91,11 @@ C-----------------------------------------------
       
       CONTAINS
       
+Chd|====================================================================
+Chd|  SEGVAR_DESTROY                share/modules/segvar_mod.F    
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SEGVAR_DESTROY(this)
       IMPLICIT NONE
       CLASS(T_SEGVAR), INTENT(INOUT) :: this
@@ -104,6 +109,12 @@ C-----------------------------------------------
         IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_EINT)                 
       END SUBROUTINE SEGVAR_DESTROY
       
+Chd|====================================================================
+Chd|  SEGVAR_CREATE                 share/modules/segvar_mod.F    
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
+Chd|====================================================================
       SUBROUTINE SEGVAR_CREATE(this,NBMAT)
       USE ALE_MOD      
       IMPLICIT NONE

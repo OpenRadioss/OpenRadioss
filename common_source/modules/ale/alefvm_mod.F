@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALEFVM_MOD                    modules/alefvm_mod.F          
+Chd|  ALEFVM_MOD                    modules/ale/alefvm_mod.F      
 Chd|-- called by -----------
 Chd|        ALE_EULER_INIT                starter/source/materials/ale/ale_euler_init.F
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        HM_READ_MAT11_K_EPS           starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
 Chd|        INIMOM_FVM                    starter/source/elements/solid/solide/inimom_fvm.F
 Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        LECTUR                        starter/source/starter/lectur.F

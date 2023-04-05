@@ -35,8 +35,9 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        SBOLTLAW                      source/elements/solid/solide/sboltlaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE MQVISCB(PM,OFF     ,RHO   ,RK     ,T       ,SSP     ,
      2             RE      ,STI     ,DT2T  ,NELTST ,ITYPTST ,AIRE    ,
@@ -663,6 +664,7 @@ Chd|  FMQVISCB                      source/materials/mat_share/mqviscb.F
 Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
          SUBROUTINE FMQVISCB(NEL,PM,GEO, PID,  MAT , NGL , 
      .                     NELTST,ITYPTST, DT2T  ,UVAR  ,

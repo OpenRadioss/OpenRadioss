@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I22BUFBRIC_MOD                modules/cut-cell-search_mod.F 
+Chd|  I22BUFBRIC_MOD                modules/interfaces/cut-cell-search_mod.F
 Chd|-- called by -----------
 Chd|        W_BUFBRIC_22                  starter/source/interfaces/inter3d1/w_bufbric_22.F
 Chd|        A22CONV3                      engine/source/ale/alefvm/cut_cells/a22conv3.F
@@ -88,7 +88,7 @@ Chd|        WRITE_CUT_CELL_BUFFER         engine/source/interfaces/int22/write_c
 Chd|        W_BUFBRIC_22                  engine/source/interfaces/int22/w_bufbric_22.F
 Chd|        weighting_Cell_Nodes          engine/source/interfaces/int22/weighting_cell_nodes.F
 Chd|-- calls ---------------
-Chd|        i22EDGE_MOD                   modules/cut-cell-buffer_mod.F 
+Chd|        i22EDGE_MOD                   modules/interfaces/cut-cell-buffer_mod.F
 Chd|====================================================================
       MODULE I22BUFBRIC_MOD
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C
 C
 C
 Chd|====================================================================
-Chd|  I22TRI_MOD                    modules/cut-cell-search_mod.F 
+Chd|  I22TRI_MOD                    modules/interfaces/cut-cell-search_mod.F
 Chd|-- called by -----------
 Chd|        W_BUFBRIC_22                  starter/source/interfaces/inter3d1/w_bufbric_22.F
 Chd|        A22CONV3                      engine/source/ale/alefvm/cut_cells/a22conv3.F

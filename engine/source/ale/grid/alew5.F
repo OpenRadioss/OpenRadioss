@@ -28,7 +28,8 @@ Chd|-- calls ---------------
 Chd|        ALEWDX_GRID_BCS               source/ale/grid/alewdx_grid_bcs.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW5( 
      1     X         ,D       ,V       ,W       ,WA      ,

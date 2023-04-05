@@ -24,8 +24,8 @@ Chd|====================================================================
 Chd|  WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
-Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/pblast_mod.F
-Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        CONVWREST                     source/restart/ddsplit/wrrest.F
 Chd|        COPY_RVAL                     source/restart/ddsplit/inter_tools.F
@@ -216,7 +216,7 @@ Chd|  READ_DB                       source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
 Chd|        DECOMPRESS_R_NNZ              ../common_source/comm/decompress_nnz.F
 Chd|        INTBUF_INI                    ../common_source/interf/intbuf_ini.F
-Chd|        PBLAST_LOAD                   ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_LOAD                   ../common_source/modules/loads/pblast_mod.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
 Chd|        INTSTAMP_RRESTR               share/modules1/intstamp_mod.F 
 Chd|        LEC_INIMAP1D_FILE             source/initial_conditions/inimap/lec_inimap1d_file.F

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        AGRAD0                        source/ale/agrad0.F           
 Chd|        NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AGRAD3(IXS,X,ALE_CONNECTIVITY,GRAD)
 C-----------------------------------------------

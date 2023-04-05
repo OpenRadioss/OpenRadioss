@@ -25,7 +25,7 @@ Chd|  EBCVIT7                       source/boundary_conditions/ebcs/ebcvit7.F
 Chd|-- called by -----------
 Chd|        EBCCLAP                       source/boundary_conditions/ebcs/ebcclap.F
 Chd|-- calls ---------------
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|====================================================================
       SUBROUTINE EBCVIT7(V, A, LISTE, NOD, V0, RESO, EBCS)
       USE EBCS_MOD

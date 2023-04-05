@@ -26,8 +26,8 @@ Chd|  C_IXFLOC                      source/restart/ddsplit/c_ixfloc.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE C_IXFLOC(NUMEL,IXSF,IXQF,IXTGF,NSVOIS,
      +                    NQVOIS,NTGVOIS,PROC,IPARG,CEP,CEL,

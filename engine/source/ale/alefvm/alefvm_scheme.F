@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|-- calls ---------------
 Chd|        ALEFVM_EXPAND_MOM2            source/ale/alefvm/alefvm_expand_mom2.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_SCHEME (
      1                          IXS,  NV46,  IALEFVM_FLG, ITASK ,    

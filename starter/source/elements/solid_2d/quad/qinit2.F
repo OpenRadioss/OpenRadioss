@@ -38,7 +38,7 @@ Chd|        QMASI2                        source/elements/solid_2d/quad/qmasi2.F
 Chd|        QMORTH2                       source/elements/solid_2d/quad/qmorth2.F
 Chd|        QRCOOR2                       source/elements/solid_2d/quad/qrcoor2.F
 Chd|        QVOLI2                        source/elements/solid_2d/quad/qvoli2.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

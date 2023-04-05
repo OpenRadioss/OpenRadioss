@@ -2096,7 +2096,7 @@ Chd|        INTBUF_INI                    common_source/interf/intbuf_ini.F
 Chd|-- calls ---------------
 Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
 Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
-Chd|        INT8_MOD                      modules/int8_mod.F            
+Chd|        INT8_MOD                      modules/interfaces/int8_mod.F 
 Chd|====================================================================
       SUBROUTINE INTBUF_INI_T8(T8)  
 C Reads the T8 structures

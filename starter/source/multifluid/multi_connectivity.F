@@ -25,8 +25,8 @@ Chd|  MULTI_CONNECTIVITY            source/multifluid/multi_connectivity.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_CONNECTIVITY( INDX_S,INDX_Q,INDX_TG,
      1                               FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,

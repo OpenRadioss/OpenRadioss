@@ -27,8 +27,8 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
 Chd|        SREPISO3                      source/elements/solid/solide/srepiso3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE SCOOR3_FVM(X,IXS,V,W,GAMA0,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

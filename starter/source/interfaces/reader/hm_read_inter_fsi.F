@@ -33,7 +33,7 @@ Chd|        HM_READ_INTER_TYPE18          source/interfaces/int18/hm_read_inter_
 Chd|        HM_READ_INTER_TYPE22          source/interfaces/int22/hm_read_inter_type22.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_FSI(

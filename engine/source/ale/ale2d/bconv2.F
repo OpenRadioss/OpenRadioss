@@ -25,7 +25,7 @@ Chd|  BCONV2                        source/ale/ale2d/bconv2.F
 Chd|-- called by -----------
 Chd|        ACONVE                        source/ale/aconve.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE BCONV2(VTOT  ,PHI   ,FLUX ,FLU1 , ALE_CONNECT ,
      .                  BHOLE ,NM   )

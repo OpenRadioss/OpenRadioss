@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|        SPMD_I8_REDUCE                source/mpi/interfaces/spmd_i8tool.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
+Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

@@ -25,6 +25,7 @@ Chd|  I12M2S                        source/interfaces/interf/i12m2s.F
 Chd|-- called by -----------
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE I12M2S(NSN,IRECTS,IRTL,NODVAR,NRTM,NRTS,

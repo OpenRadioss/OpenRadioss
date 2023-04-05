@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|        UPWIND                        source/elements/solid/solide/upwind.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE AMOMT2(
      .   PM , V     , W  ,  RHO,

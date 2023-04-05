@@ -25,8 +25,8 @@ Chd|  DESTROY_CELL                  source/interfaces/int22/destroy_cell.F
 Chd|-- called by -----------
 Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE DESTROY_CELL(NIN,IB,ICELL_TARGET,ICELLv,IBv,J,Jv, IXS, ITASK)
 C-----------------------------------------------

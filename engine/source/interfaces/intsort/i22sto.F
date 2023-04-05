@@ -25,7 +25,7 @@ Chd|  I22STO                        source/interfaces/intsort/i22sto.F
 Chd|-- called by -----------
 Chd|        I22TRIVOX                     source/interfaces/intsort/i22trivox.F
 Chd|-- calls ---------------
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22STO(
      1      J_STOK ,IRECT   ,X       ,II_STOK ,CAND_B,

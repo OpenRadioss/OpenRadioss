@@ -25,8 +25,8 @@ Chd|  ST_QAPRINT_EBCS               source/output/qaprint/st_qaprint_ebcs.F
 Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
-Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale_ebcs_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_EBCS(EBCS_TAB)

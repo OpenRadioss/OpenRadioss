@@ -24,6 +24,10 @@ Chd|====================================================================
 Chd|  VECTOR_MOD                    linearalgebra/vector_mod.F    
 Chd|-- called by -----------
 Chd|        MATRIX_MOD                    common_source/linearalgebra/matrix_mod.F
+Chd|        SET_RHS                       engine/share/modules/linear_solver_mod.F
+Chd|        SET_RHS_CG                    engine/share/modules/linear_solver_mod.F
+Chd|        SET_RHS_MUMPS                 engine/share/modules/linear_solver_mod.F
+Chd|        SOLVE_CG                      engine/share/modules/linear_solver_mod.F
 Chd|        DIFFUSION_MOD                 engine/share/modules/diffusion_mod.F
 Chd|        LINEAR_SOLVER_MOD             engine/share/modules/linear_solver_mod.F
 Chd|-- calls ---------------

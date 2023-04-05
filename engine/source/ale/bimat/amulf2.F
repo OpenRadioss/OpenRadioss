@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        AFLUX2                        source/ale/ale2d/aflux2.F     
 Chd|        EFLUX2                        source/ale/euler2d/eflux2.F   
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPV,
      .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 

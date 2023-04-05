@@ -24,10 +24,10 @@ Chd|====================================================================
 Chd|  MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|-- called by -----------
 Chd|        INTBUF_INI                    ../common_source/interf/intbuf_ini.F
-Chd|        PBLAST_DEALLOCATE             ../common_source/modules/pblast_mod.F
-Chd|        PBLAST_LOAD                   ../common_source/modules/pblast_mod.F
-Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/pblast_mod.F
-Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_DEALLOCATE             ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_LOAD                   ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F

@@ -25,7 +25,7 @@ Chd|  ALESO3                        source/ale/ale3d/aleso3.F
 Chd|-- called by -----------
 Chd|        ALELEC                        source/ale/alelec.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALESO3(ALE_CONNECTIVITY,PM,IXS,GEO,IGEO)
 C-----------------------------------------------

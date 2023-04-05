@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
 Chd|-- calls ---------------
 Chd|        ALECONV3                      source/ale/porous/aleconv.F   
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALECONVE(VAR     ,FLUX    ,FLU1    ,PHI     ,
      .                    ALE_CONNECT   ,PHIV    ,NGL     ,nvar )
@@ -72,7 +72,7 @@ Chd|  ALECONV3                      source/ale/porous/aleconv.F
 Chd|-- called by -----------
 Chd|        ALECONVE                      source/ale/porous/aleconv.F   
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALECONV3(VTOT        ,PHI    ,FLUX  ,FLU1  ,PHIV  ,
      .                    ALE_CONNECT ,IOFF   ,NGL   )

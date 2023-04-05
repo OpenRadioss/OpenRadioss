@@ -25,9 +25,9 @@ Chd|  ALEFVM_AFLUX3                 source/ale/alefvm/alefvm_aflux3.F
 Chd|-- called by -----------
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_AFLUX3(PM   ,IXS  ,V     ,W       ,FLUX ,
      2                         FLU1 ,VEUL ,ALE_CONNECT  ,TAG22,

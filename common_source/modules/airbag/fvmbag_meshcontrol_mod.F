@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FVMBAG_MESHCONTROL_MOD        modules/fvmbag_meshcontrol_mod.F
+Chd|  FVMBAG_MESHCONTROL_MOD        modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|-- called by -----------
 Chd|        APPLYSORT2FVM                 starter/source/airbag/fvmesh0.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MULTI_BILAN                   source/multifluid/multi_bilan.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_GLOBALIZE(ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
      .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH)

@@ -86,7 +86,7 @@ Chd|  MESHGEMS_TETRA                stub/fvmbags_stub.F
 Chd|-- called by -----------
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|-- calls ---------------
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
+Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
@@ -117,7 +117,7 @@ Chd|  HYPERMESH_TETRA               stub/fvmbags_stub.F
 Chd|-- called by -----------
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|-- calls ---------------
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
+Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================

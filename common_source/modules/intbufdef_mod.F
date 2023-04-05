@@ -500,7 +500,7 @@ Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        IMP_INTBUF                    engine/share/modules/imp_mod_def.F
 Chd|        INTBUF_MOD                    engine/share/modules/restart_mod.F
 Chd|-- calls ---------------
-Chd|        INT8_MOD                      modules/int8_mod.F            
+Chd|        INT8_MOD                      modules/interfaces/int8_mod.F 
 Chd|        METRIC_MOD                    modules/metric_mod.F          
 Chd|====================================================================
       MODULE INTBUFDEF_MOD

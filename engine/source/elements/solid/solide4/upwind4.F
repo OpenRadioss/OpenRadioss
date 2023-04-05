@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        A4MOMT3                       source/elements/solid/solide4/a4momt3.F
 Chd|        A4MOMTN3                      source/elements/solid/solide4/a4momtn3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE UPWIND4(
      1   RHO,     VIS,     VDX,     VDY,

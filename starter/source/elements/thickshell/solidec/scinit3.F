@@ -41,7 +41,7 @@ Chd|        SDLENSH                       source/elements/thickshell/solidec/sci
 Chd|        SIGIN20B                      source/elements/solid/solide20/s20mass3.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        SVALUE0                       source/elements/thickshell/solidec/scinit3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

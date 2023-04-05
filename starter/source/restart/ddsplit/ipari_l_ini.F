@@ -29,7 +29,7 @@ Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE IPARI_L_INI(IPARI ,PROC   ,NUMNOD_L,
      +                NBDDI2M  ,I2NSN_L,PROBINT,IMAXIMP_L,NBI18_L ,

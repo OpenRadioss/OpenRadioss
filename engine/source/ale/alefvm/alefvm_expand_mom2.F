@@ -25,7 +25,7 @@ Chd|  ALEFVM_EXPAND_MOM2            source/ale/alefvm/alefvm_expand_mom2.F
 Chd|-- called by -----------
 Chd|        ALEFVM_SCHEME                 source/ale/alefvm/alefvm_scheme.F
 Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_EXPAND_MOM2 (
      1                               X  , V   ,   IXS, NV46, 

@@ -26,7 +26,7 @@ Chd|  C_MULTI_VEL                   source/restart/ddsplit/c_multi_vel.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE C_MULTI_VEL(CEP, NUMEL, NUMEL_L, PROC, 
      .     MULTI_FVM_VEL_L, MULTI_FVM)

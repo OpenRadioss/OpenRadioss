@@ -25,8 +25,8 @@ Chd|  M11VS3                        source/materials/mat/mat011/m11vs3.F
 Chd|-- called by -----------
 Chd|        M11LAW                        source/materials/mat/mat011/m11law.F
 Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M11VS3(PM    , IPARG, IXS  , ALE_CONNECT  , ELBUF_TAB  , V  ,

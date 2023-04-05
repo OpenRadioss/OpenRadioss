@@ -25,7 +25,7 @@ Chd|  INIGRAV_PART_LIST             source/initial_conditions/inigrav/inigrav_pa
 Chd|-- called by -----------
 Chd|        INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
 Chd|-- calls ---------------
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -69,6 +69,13 @@ Chd|====================================================================
 !     |_____________________________|   !
 
       CONTAINS
+Chd|====================================================================
+Chd|  INIT_DIFFUSION                share/modules/diffusion_mod.F 
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
+Chd|====================================================================
       SUBROUTINE INIT_DIFFUSION(this, LINSOL, NRHS, IPARG, ALE_CONNECT)
       USE LINEAR_SOLVER_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -166,6 +173,11 @@ C-----------------------------------------------
 
       END SUBROUTINE INIT_DIFFUSION
 
+Chd|====================================================================
+Chd|  SOLVE_DIFFUSION               share/modules/diffusion_mod.F 
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SOLVE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -179,6 +191,11 @@ C-----------------------------------------------
       
       END SUBROUTINE SOLVE_DIFFUSION
 
+Chd|====================================================================
+Chd|  GET_SOLUTION                  share/modules/diffusion_mod.F 
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE GET_SOLUTION(this, SOL, GLOB_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -192,6 +209,11 @@ C-----------------------------------------------
       GLOB_DIM = this%LINEAR_SOLVER%GET_GLOBAL_DIM()
       END SUBROUTINE GET_SOLUTION
 
+Chd|====================================================================
+Chd|  TERMINATE_DIFFUSION           share/modules/diffusion_mod.F 
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE TERMINATE_DIFFUSION(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

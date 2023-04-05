@@ -25,7 +25,7 @@ Chd|  WRITEMESH                     source/airbag/writeMesh.F
 Chd|-- called by -----------
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|-- calls ---------------
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
+Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|====================================================================
       SUBROUTINE WRITEMESH(VOLID)

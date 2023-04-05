@@ -31,7 +31,7 @@ Chd|        NODALD                        source/output/anim/generate/nodald.F
 Chd|        NODALP                        source/output/anim/generate/nodalp.F
 Chd|        NODALT                        source/output/anim/generate/nodalt.F
 Chd|        NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F

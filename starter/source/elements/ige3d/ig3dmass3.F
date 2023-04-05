@@ -25,6 +25,7 @@ Chd|  IG3DMASS3                     source/elements/ige3d/ig3dmass3.F
 Chd|-- called by -----------
 Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE IG3DMASS3(
      1  RHO    ,MS    ,PARTSAV,X     ,Y      ,

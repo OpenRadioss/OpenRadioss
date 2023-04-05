@@ -247,7 +247,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        RESTALLOC                     source/output/restart/arralloc.F
 Chd|-- calls ---------------
-Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
+Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       MODULE INTBUF_MOD

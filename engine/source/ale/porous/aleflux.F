@@ -25,7 +25,7 @@ Chd|  ALEFLUX                       source/ale/porous/aleflux.F
 Chd|-- called by -----------
 Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE ALEFLUX(PM ,IXS,NC1 ,NC2 ,NC3 ,NC4 ,NC5 ,

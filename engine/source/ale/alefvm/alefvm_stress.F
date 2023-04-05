@@ -25,7 +25,7 @@ Chd|  ALEFVM_STRESS                 source/ale/alefvm/alefvm_stress.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_STRESS (
      1                          IXS,  NV46, SIG,  QVIS, 

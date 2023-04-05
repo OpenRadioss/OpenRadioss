@@ -42,11 +42,11 @@ Chd|        SPMD_E4VOIS                   source/mpi/fluid/spmd_cfd.F
 Chd|        SPMD_E6VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_I4VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_I8VOIS                   source/mpi/fluid/spmd_cfd.F   
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        TRIMAT_MOD                    share/modules/trimat.F        

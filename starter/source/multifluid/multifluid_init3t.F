@@ -31,7 +31,7 @@ Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
 Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
 Chd|        S4MASS3                       source/elements/solid/solide4/s4mass3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

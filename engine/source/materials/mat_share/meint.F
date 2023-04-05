@@ -25,6 +25,7 @@ Chd|  MEINT                         source/materials/mat_share/meint.F
 Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE MEINT(OFF  ,SNEW ,QOLD ,EINT ,VNEW ,ESPE ,
      2                 SOLD1,SOLD2,SOLD3,SOLD4,SOLD5,SOLD6,

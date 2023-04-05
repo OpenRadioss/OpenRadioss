@@ -27,6 +27,7 @@ Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.
 Chd|-- calls ---------------
 Chd|        A4MOMTN3                      source/elements/solid/solide4/a4momtn3.F
 Chd|        UPWIND4                       source/elements/solid/solide4/upwind4.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE A4MOMT3(
      1   PM,      RHO,     VOL,     X1,

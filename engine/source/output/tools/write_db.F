@@ -24,8 +24,8 @@ Chd|====================================================================
 Chd|  WRITE_DB                      source/output/tools/write_db.F
 Chd|-- called by -----------
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
-Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/pblast_mod.F
-Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        ALELAG_WREST                  source/output/restart/wrrest.F
 Chd|        CONVWREST                     source/output/restart/wrrest.F

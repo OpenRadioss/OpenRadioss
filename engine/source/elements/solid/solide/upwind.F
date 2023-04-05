@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        AMOMT2                        source/ale/ale2d/amomt2.F     
 Chd|        EMOMT2                        source/ale/euler2d/emomt2.F   
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE UPWIND(RHO,VIS,VDX,VDY,VDZ,R,S,T,DELTAX,GAM)
 C-----------------------------------------------
@@ -111,6 +112,7 @@ Chd|  UPWIND_V                      source/elements/solid/solide/upwind.F
 Chd|-- called by -----------
 Chd|        AMOMTN3                       source/elements/solid/solide/amomtn3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE UPWIND_V(RHO,VIS,VDX,VDY,VDZ,R,S,T,DELTAX,GAM)
 C-----------------------------------------------

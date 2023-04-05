@@ -25,8 +25,8 @@ Chd|  I22DATAINIT                   source/interfaces/int22/i22datainit.F
 Chd|-- called by -----------
 Chd|        R_BUFBRIC_22                  source/interfaces/int22/r_bufbric_22.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22DATAINIT()
       USE I22TRI_MOD

@@ -25,6 +25,7 @@ Chd|  ST_QAPRINT_GENERAL_CONTROLS   source/output/qaprint/st_qaprint_general_con
 Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT ,INOM_OPT  ,DAMPR  , IRAND, ALEA,
      1                                       XSEED   ,UNITAB    ,QP_IPERTURB,QP_RPERTURB,

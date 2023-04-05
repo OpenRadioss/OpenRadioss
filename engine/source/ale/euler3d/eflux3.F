@@ -25,8 +25,8 @@ Chd|  EFLUX3                        source/ale/euler3d/eflux3.F
 Chd|-- called by -----------
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE EFLUX3(PM,IXS,V,FLUX,FLU1,VEUL,ALE_CONNECT,TAG22)
 C-----------------------------------------------

@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MULTI_FVM_MOD                 modules/multi_fvm_mod.F       
+Chd|  MULTI_FVM_MOD                 modules/ale/multi_fvm_mod.F   
 Chd|-- called by -----------
-Chd|        EBCS_MOD                      common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ALELEC                        starter/source/ale/alelec.F   
 Chd|        C3GRHEAD                      starter/source/elements/sh3n/coque3n/c3grhead.F
 Chd|        C3GRTAILS                     starter/source/elements/sh3n/coque3n/c3grtails.F

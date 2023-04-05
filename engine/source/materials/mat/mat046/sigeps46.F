@@ -25,6 +25,7 @@ Chd|  SIGEPS46                      source/materials/mat/mat046/sigeps46.F
 Chd|-- called by -----------
 Chd|        M46LAW                        source/materials/mat/mat046/m46law.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS46 (
      1     NEL    ,NUPARAM,NUVAR   ,

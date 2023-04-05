@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        EBCS_EXTRAP2                  source/boundary_conditions/ebcs/ebcs_extrapol.F
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|====================================================================
       SUBROUTINE EBCS_EXTRAPOL(FV, NP, TF, EBCS_TAB)
       USE EBCS_MOD

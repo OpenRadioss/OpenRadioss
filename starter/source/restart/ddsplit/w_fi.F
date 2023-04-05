@@ -34,7 +34,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        I25_FIE_MOD                   share/modules1/i25_fie_mod.F  
 Chd|        I7I10SPLITMOD                 share/modules1/i710split_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE W_FI(IPARI,PROC,LEN_IA,
      1                INTERCEP ,INTBUF_TAB,ITAB,MULTI_FVM,TAG,

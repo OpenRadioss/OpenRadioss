@@ -28,10 +28,10 @@ Chd|-- calls ---------------
 Chd|        H3D_WRITE_VECTORS             source/output/h3d/h3d_results/h3d_write_vectors.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        QROTA_VECT                    source/output/anim/generate/qrota_vect.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

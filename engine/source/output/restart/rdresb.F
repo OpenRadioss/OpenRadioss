@@ -41,8 +41,8 @@ Chd|        INTFRIC_RRESTR                share/modules/intbuf_fric_mod.F
 Chd|        INTSTAMP_RRESTI               share/modules/intstamp_mod.F  
 Chd|        INTSTAMP_RRESTR               share/modules/intstamp_mod.F  
 Chd|        LINE_INI                      source/groups/line_ini.F      
-Chd|        PBLAST_INIT_TABLES            ../common_source/modules/pblast_mod.F
-Chd|        PBLAST_LOAD                   ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_INIT_TABLES            ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_LOAD                   ../common_source/modules/loads/pblast_mod.F
 Chd|        RDCOMR                        source/output/restart/rdcomm.F
 Chd|        READ_CLUSTER                  source/output/cluster/read_cluster.F
 Chd|        READ_DB                       source/output/tools/read_db.F 
@@ -61,9 +61,10 @@ Chd|        SURF_INI                      source/groups/surf_ini.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
 Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFFRIC_MOD                share/modules/restart_mod.F   
@@ -73,11 +74,11 @@ Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
@@ -1930,7 +1931,7 @@ Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        SPMD_COMM_SPLIT               source/mpi/generic/spmd_comm_split.F
 Chd|        SPMD_FVB_COMM_PATTERN         source/mpi/airbags/spmd_fvb_comm_pattern.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
+Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FVRREST(MONVOL)

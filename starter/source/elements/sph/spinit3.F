@@ -30,7 +30,7 @@ Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        SPORTH3                       source/elements/sph/sporth3.F 
 Chd|        SPPART3                       source/elements/sph/sppart3.F 
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================

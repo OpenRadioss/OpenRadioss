@@ -236,7 +236,7 @@ Chd|-- calls ---------------
 Chd|        FVTEMP                        source/airbag/fvtemp.F        
 Chd|        SPMD_FVB_GATH_END             source/mpi/airbags/spmd_fvb.F 
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
-Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
+Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|====================================================================
       SUBROUTINE FVUPD1(NEL       , IBUF    , ELEM     , X    , NPOLH ,
      .                  MPOLH     , QPOLH   , EPOLH    , V    ,

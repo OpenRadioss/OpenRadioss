@@ -31,13 +31,13 @@ Chd|        INIGRAV_EOS                   source/initial_conditions/inigrav/inig
 Chd|        INIGRAV_M37                   source/initial_conditions/inigrav/inigrav_m37.F
 Chd|        INIGRAV_M51                   source/initial_conditions/inigrav/inigrav_m51.F
 Chd|        INIGRAV_PART_LIST             source/initial_conditions/inigrav/inigrav_part_list.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE INIGRAV_LOAD(ELBUF_TAB ,IPART  ,IGRPART ,IPARG  ,IPARTTG  ,
      1                        IPARTS    ,IPARTQ ,X       ,IXS    ,IXQ      ,

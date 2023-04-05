@@ -34,7 +34,7 @@ Chd|        QNORM2                        source/multifluid/qnorm2.F
 Chd|        QNORM2T                       source/multifluid/qnorm2t.F   
 Chd|        SNORM3                        source/multifluid/snorm3.F    
 Chd|        SNORM3T                       source/multifluid/snorm3t.F   
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_FACE_ELEM_DATA(ITASK, IPARG, IXS, IXQ, IXTG, XGRID, WGRID, MULTI_FVM)
 C-----------------------------------------------

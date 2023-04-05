@@ -44,7 +44,7 @@ Chd|        SOLTOSPHV4                    source/elements/sph/soltosph.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
 Chd|        USERIN3                       source/elements/solid/solide/userin3.F
 Chd|        USTRSIN3                      source/elements/solid/solide/userin3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

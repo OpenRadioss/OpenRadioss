@@ -25,9 +25,9 @@ Chd|  EBCS10                        source/boundary_conditions/ebcs/ebcs10.F
 Chd|-- called by -----------
 Chd|        EBCS_MAIN                     source/boundary_conditions/ebcs/ebcs_main.F
 Chd|-- calls ---------------
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE EBCS10(NSEG,ISEG,SEGVAR,

@@ -54,7 +54,7 @@ Chd|        QMASSREAL2AP                  source/elements/solid_2d/quad/qmass2.F
 Chd|        QMASSREAL2P                   source/elements/solid_2d/quad/qmass2.F
 Chd|        QROTA2                        source/elements/solid_2d/quad/qrota2.F
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

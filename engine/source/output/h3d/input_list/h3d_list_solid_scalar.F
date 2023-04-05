@@ -27,7 +27,7 @@ Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/le
 Chd|-- calls ---------------
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_LIST_SOLID_SCALAR(H3D_KEYWORD_SOLID_SCALAR,GEO,IGEO,MULTI_FVM,NKEY)
 C-----------------------------------------------

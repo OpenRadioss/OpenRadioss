@@ -27,8 +27,8 @@ Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
 Chd|-- calls ---------------
 Chd|        I22GBIT                       source/interfaces/int22/i22ident.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22IDENT(
      1       IXS, X, ITASK, NIN, BUFBRIC)
@@ -603,8 +603,8 @@ Chd|  I22GBIT                       source/interfaces/int22/i22ident.F
 Chd|-- called by -----------
 Chd|        I22IDENT                      source/interfaces/int22/i22ident.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22GBIT(
      1       IAD , Icode, Idble, Nbits, Npqts, 

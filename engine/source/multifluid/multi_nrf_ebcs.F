@@ -27,8 +27,8 @@ Chd|        MULTI_EBCS                    source/multifluid/multi_ebcs.F
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,EBCS,NPF,TF)

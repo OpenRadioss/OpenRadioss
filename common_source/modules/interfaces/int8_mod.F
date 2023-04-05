@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INT8_MOD                      modules/int8_mod.F            
+Chd|  INT8_MOD                      modules/interfaces/int8_mod.F 
 Chd|-- called by -----------
 Chd|        INTBUF_INI_T8                 common_source/interf/intbuf_ini.F
 Chd|        INTBUFDEF_MOD                 common_source/modules/intbufdef_mod.F

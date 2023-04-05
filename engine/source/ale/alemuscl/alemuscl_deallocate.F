@@ -25,7 +25,7 @@ Chd|  ALEMUSCL_DEALLOCATE           source/ale/alemuscl/alemuscl_deallocate.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
 Chd|====================================================================
       SUBROUTINE ALEMUSCL_DEALLOCATE()
 C-----------------------------------------------

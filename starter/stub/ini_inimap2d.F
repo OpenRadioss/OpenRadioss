@@ -31,7 +31,7 @@ Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE INI_INIMAP2D(INIMAP2D ,ELBUF_TAB ,IPART   ,IPARG   ,IPARTS   , 
      .                        IPARTQ   ,XGRID     ,VEL     ,IXS     ,IXQ      ,

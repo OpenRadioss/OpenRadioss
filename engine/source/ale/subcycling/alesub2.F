@@ -27,6 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        BCS3V                         source/ale/inter/bcs3v.F      
 Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ALESUB2(
      1   NALE   ,V    ,DSAVE ,ICODT  ,ISKEW  ,

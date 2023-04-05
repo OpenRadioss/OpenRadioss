@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  EBCS_MOD                      modules/ebcs_mod.F            
+Chd|  EBCS_MOD                      modules/boundary_conditions/ebcs_mod.F
 Chd|-- called by -----------
 Chd|        C_IEBCS                       starter/source/restart/ddsplit/c_iebcs.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
@@ -77,7 +77,7 @@ Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        SPMD_INIT_EBCS                engine/source/mpi/fluid/spmd_cfd.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 modules/multi_fvm_mod.F       
+Chd|        MULTI_FVM_MOD                 modules/ale/multi_fvm_mod.F   
 Chd|====================================================================
       MODULE EBCS_MOD
       USE MULTI_FVM_MOD

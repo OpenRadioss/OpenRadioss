@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  i22EDGE_MOD                   modules/cut-cell-buffer_mod.F 
+Chd|  i22EDGE_MOD                   modules/interfaces/cut-cell-buffer_mod.F
 Chd|-- called by -----------
-Chd|        I22BUFBRIC_MOD                common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|-- calls ---------------
 Chd|====================================================================

@@ -29,11 +29,11 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        C3VEOK3                       source/elements/sh3n/coque3n/c3veok3.F
 Chd|        M5IN2T                        source/initial_conditions/detonation/m5in2t.F
 Chd|        MATINI                        source/materials/mat_share/matini.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTIFLUID_INIT2T(ELBUF_STR, NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .     IGEO, IPART, IPARTTG, IPM, PTSH3N, NPF, ILOADP, 

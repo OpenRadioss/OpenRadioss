@@ -25,7 +25,7 @@ Chd|  weighting_Cell_Nodes          source/interfaces/int22/weighting_cell_nodes
 Chd|-- called by -----------
 Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE weighting_Cell_Nodes (
      .                    NIN,   IB,   ICELL , IRES, IDEMERGE)

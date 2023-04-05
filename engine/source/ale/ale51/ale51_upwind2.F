@@ -27,7 +27,7 @@ Chd|        AFLUXT                        source/ale/ale51/afluxt.F
 Chd|        ALE51_FINISH                  source/ale/ale51/ale51_finish.F
 Chd|        ALE51_INIT                    source/ale/ale51/ale51_init.F 
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU1,ALE_CONNECT,
      .               ITRIMAT,DDVOL,QMV,IFLG)

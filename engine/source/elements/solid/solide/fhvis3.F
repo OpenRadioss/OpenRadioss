@@ -25,6 +25,7 @@ Chd|  FHVIS3                        source/elements/solid/solide/fhvis3.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE FHVIS3(PM,RHO,OFF,
      .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,

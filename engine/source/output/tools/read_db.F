@@ -25,7 +25,7 @@ Chd|  READ_DB                       source/output/tools/read_db.F
 Chd|-- called by -----------
 Chd|        DECOMPRESS_R_NNZ              ../common_source/comm/decompress_nnz.F
 Chd|        INTBUF_INI                    ../common_source/interf/intbuf_ini.F
-Chd|        PBLAST_LOAD                   ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_LOAD                   ../common_source/modules/loads/pblast_mod.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
 Chd|        ALELAG_RREST                  source/output/restart/rdresb.F
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F

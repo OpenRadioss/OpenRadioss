@@ -25,7 +25,7 @@ Chd|  I8LOC3                        source/interfaces/inter3d/i8loc3.F
 Chd|-- called by -----------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
-Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
+Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|====================================================================
       SUBROUTINE I8LOC3(X,IRECT,LMSR,MSR,NSV,ILOC,NSEG,
      .                  XI,YI,ZI,XFACE,ITAB,DISTANCE,

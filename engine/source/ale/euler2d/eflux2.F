@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|-- calls ---------------
 Chd|        AMULF2                        source/ale/bimat/amulf2.F     
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE EFLUX2(PM,IXQ,V,X,
      .                  FLUX,FLU1,FILL,DFILL,VOL,ALE_CONNECT,ALPH)

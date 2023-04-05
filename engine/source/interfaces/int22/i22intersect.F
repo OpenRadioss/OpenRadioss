@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ISONSH3N                      source/interfaces/int22/i22intersect.F
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
 Chd|====================================================================
       SUBROUTINE I22INTERSECT(

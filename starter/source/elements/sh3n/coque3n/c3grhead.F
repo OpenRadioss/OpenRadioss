@@ -31,7 +31,7 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================

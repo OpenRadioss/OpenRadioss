@@ -50,7 +50,7 @@ Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F
 Chd|        SOLTOSPHV8                    source/elements/sph/soltosph.F
 Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        SVALUE0                       source/elements/thickshell/solidec/scinit3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

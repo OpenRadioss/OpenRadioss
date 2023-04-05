@@ -25,7 +25,7 @@ Chd|  EGRAD2                        source/ale/euler2d/egrad2.F
 Chd|-- called by -----------
 Chd|        AGRAD0                        source/ale/agrad0.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE EGRAD2(IXQ,X,ALE_CONNECT,GRAD)
 C-----------------------------------------------

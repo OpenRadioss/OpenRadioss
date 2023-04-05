@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALE_EBCS_MOD                  modules/ale_ebcs_mod.F        
+Chd|  ALE_EBCS_MOD                  modules/ale/ale_ebcs_mod.F    
 Chd|-- called by -----------
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F

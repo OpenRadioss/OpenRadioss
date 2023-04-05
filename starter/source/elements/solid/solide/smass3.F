@@ -32,6 +32,7 @@ Chd|        SCINIT3                       source/elements/thickshell/solidec/sci
 Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE SMASS3(
      1     RHO    ,MS   ,PARTSAV,X    ,V ,

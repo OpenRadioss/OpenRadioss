@@ -235,7 +235,7 @@ Chd|        NLOCAL_DTNODA                 source/time_step/nlocal_dtnoda.F
 Chd|        NLOCAL_INCR                   source/assembly/nlocal_incr.F 
 Chd|        NLOCAL_VEL                    source/assembly/nlocal_vel.F  
 Chd|        PBLAST                        source/loads/pblast/pblast.F  
-Chd|        PBLAST_DEALLOCATE             ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_DEALLOCATE             ../common_source/modules/loads/pblast_mod.F
 Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|        PLYXFEM_WRAVUPLY              source/output/restart/wrrest.F
 Chd|        PLYXFEM_WREST                 source/output/restart/wrrest.F
@@ -425,9 +425,10 @@ Chd|        ZERO1                         source/system/zero.F
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        ACCELERATION_DP_MOD           share/modules/acceleration_dp_mod.F
 Chd|        ALEFLOW_MOD                   share/modules/aleflow_mod.F   
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        ALEMUSCL_MOD                  ../common_source/modules/alemuscl_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
@@ -437,7 +438,7 @@ Chd|        DRAPE_MOD                     share/modules/drape_mod.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        DTDC_MOD                      share/modules/dtdc_mod.F      
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        ERROR_MOD                     share/modules/error_mod.F     
@@ -447,8 +448,8 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        HEAT_MOD                      share/modules/heat_mod.F      
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        ICONTACT_MOD                  share/modules/icontact_mod.F  
 Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
 Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
@@ -464,10 +465,10 @@ Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MPI_TOOLS_MOD                 share/modules/mpi_tools_mod.F 
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
@@ -490,7 +491,7 @@ Chd|        TIME_MOD                      share/modules/time_mod.F
 Chd|        UNITS_MOD                     share/modules/units_mod.F     
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2VARS_MOD                 share/modules/xfem2vars_mod.F 
-Chd|        i22EDGE_MOD                   ../common_source/modules/cut-cell-buffer_mod.F
+Chd|        i22EDGE_MOD                   ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 Chd|====================================================================
       SUBROUTINE RESOL(AF,IAF,
      1  ICODE  ,ISKEW  ,ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,

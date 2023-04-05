@@ -30,9 +30,9 @@ Chd|        ALESO2T                       source/ale/ale2d/aleso2t.F
 Chd|        ALESO3                        source/ale/ale3d/aleso3.F     
 Chd|        ALESOP                        source/ale/alesop.F           
 Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F    
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALELEC(
      1      ICODE    ,IXS     , IXQ      , IXC             ,IXT    ,

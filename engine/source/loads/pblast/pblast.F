@@ -31,7 +31,7 @@ Chd|        PBLAST_2                      source/loads/pblast/pblast_2.F
 Chd|        PBLAST_3                      source/loads/pblast/pblast_3.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|====================================================================
       SUBROUTINE PBLAST (ILOADP  ,FAC     ,A       , V       ,X       ,
      1                   IADC    ,FSKY    ,FSKYV   ,LLOADP   ,FEXT    ,

@@ -27,6 +27,7 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|        SIGEPS46                      source/materials/mat/mat046/sigeps46.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE M46LAW (LFT   ,LLT    ,NFT   ,MTN     ,
      2                  PM     ,OFF    ,SIG   ,EINT    ,RHO   ,

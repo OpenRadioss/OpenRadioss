@@ -114,12 +114,12 @@ Chd|        SURFACE_MIN_MAX_COMPUTATION   source/initial_conditions/inivol/surfa
 Chd|        TINIT3                        source/elements/truss/tinit3.F
 Chd|        XINIT3                        source/elements/xelem/xinit3.F
 Chd|        STRR                          source/tools/univ/strr.F      
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -129,7 +129,7 @@ Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    

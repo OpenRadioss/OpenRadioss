@@ -29,6 +29,7 @@ Chd|        ASS2SORT                      source/assembly/ass2sort.F
 Chd|        ASS2SORT_PXFEM                source/assembly/ass2sort.F    
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ORDER_V                       source/assembly/asspar2.F     
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
       SUBROUTINE ASSPAR4(

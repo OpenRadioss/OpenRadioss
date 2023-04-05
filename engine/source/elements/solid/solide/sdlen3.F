@@ -31,6 +31,7 @@ Chd|-- calls ---------------
 Chd|        SLDEGE                        source/elements/solid/solide/sdlen3.F
 Chd|        SLEN                          source/elements/solid/solide/slen.F
 Chd|        SLENA                         source/elements/solid/solide/slen.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE SDLEN3(VOLN,DELTAX,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

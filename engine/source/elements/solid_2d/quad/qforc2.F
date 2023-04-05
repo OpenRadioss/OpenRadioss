@@ -52,7 +52,7 @@ Chd|        QRDEFO2                       source/elements/solid_2d/quad/qrdefo2.
 Chd|        QROTA2                        source/elements/solid_2d/quad/qrota2.F
 Chd|        QRROTA2                       source/elements/solid_2d/quad/qrrota2.F
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F

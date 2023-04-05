@@ -27,6 +27,7 @@ Chd|        ALEWDX                        source/ale/grid/alewdx.F
 Chd|-- calls ---------------
 Chd|        SPMD_EXALEW                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_EXALEW_PON               source/mpi/fluid/spmd_cfd.F   
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW2(
      1   X       ,D      ,V       ,W     ,WA    ,

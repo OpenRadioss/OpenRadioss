@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  MULTI_FLUXOUT_EBCS            source/multifluid/multi_fluxout_ebcs.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_FLUXOUT_EBCS(MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .     IXS, IXQ, IXTG, XGRID, WGRID)

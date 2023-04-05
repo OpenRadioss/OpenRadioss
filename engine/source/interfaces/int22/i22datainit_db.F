@@ -24,8 +24,8 @@ Chd|====================================================================
 Chd|  I22DATAINIT_DB                source/interfaces/int22/i22datainit_db.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22DATAINIT_DB()
       USE I22TRI_MOD

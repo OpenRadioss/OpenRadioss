@@ -40,11 +40,11 @@ Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F
 Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        SVEOK3                        source/elements/solid/solide/sveok3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTIFLUID_INIT3(ELBUF_STR,MAS      ,IXS    ,PM      ,X       ,
      .     GEO      ,ALE_CONNECTIVITY   ,IPARG_GR,

@@ -35,6 +35,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
 Chd|        LCGEO19                       source/elements/shell/coque/lcgeo19.F
 Chd|        VDOUBLE                       source/system/sysfus.F        
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

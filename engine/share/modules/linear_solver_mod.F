@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
 Chd|-- called by -----------
+Chd|        INIT_DIFFUSION                share/modules/diffusion_mod.F 
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F 
 Chd|-- calls ---------------
@@ -109,6 +110,11 @@ Chd|====================================================================
 
 !     Error
 !     -----
+Chd|====================================================================
+Chd|  ERROR                         share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE ERROR()
         PRINT*, "ERROR"
       END SUBROUTINE ERROR
@@ -125,6 +131,11 @@ C-----------------------------------------------
 
 !     Solver initialization
 !     ---------------------
+Chd|====================================================================
+Chd|  INIT_SOLVER                   share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE INIT_SOLVER(this, MAT_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -147,6 +158,12 @@ C-----------------------------------------------
 
 !     Set matrix
 !     ----------
+Chd|====================================================================
+Chd|  SET_MATRIX                    share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        MATRIX_MOD                    ../common_source/linearalgebra/matrix_mod.F
+Chd|====================================================================
       SUBROUTINE SET_MATRIX(this, MAT)
 C-----------------------------------------------
 C     M o d u l e s
@@ -172,6 +189,12 @@ C-----------------------------------------------
 
 !     Set right hand side
 !     -------------------
+Chd|====================================================================
+Chd|  SET_RHS                       share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        VECTOR_MOD                    ../common_source/linearalgebra/vector_mod.F
+Chd|====================================================================
       SUBROUTINE SET_RHS(this, NRHS, RHS)
 C-----------------------------------------------
 C     M o d u l e s
@@ -198,6 +221,11 @@ C-----------------------------------------------
 
 !     Solve the linear system
 !     -----------------------
+Chd|====================================================================
+Chd|  SOLVE                         share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SOLVE(this, SOL, DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -220,6 +248,11 @@ C-----------------------------------------------
 
 !     End the solver instance
 !     -----------------------
+Chd|====================================================================
+Chd|  TERMINATE                     share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE TERMINATE(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -245,6 +278,11 @@ C-----------------------------------------------
 !     Solver initialization
 !     ---------------------
 #ifdef MUMPS5
+Chd|====================================================================
+Chd|  INIT_SOLVER_MUMPS             share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE INIT_SOLVER_MUMPS(this, MAT_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -294,6 +332,12 @@ C-----------------------------------------------
       
 !     Set matrix
 !     ----------
+Chd|====================================================================
+Chd|  SET_MATRIX_MUMPS              share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        MATRIX_MOD                    ../common_source/linearalgebra/matrix_mod.F
+Chd|====================================================================
       SUBROUTINE SET_MATRIX_MUMPS(this, MAT)
 C-----------------------------------------------
 C     M o d u l e s
@@ -311,6 +355,12 @@ C-----------------------------------------------
 
 !     Set right hand side
 !     -------------------
+Chd|====================================================================
+Chd|  SET_RHS_MUMPS                 share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        VECTOR_MOD                    ../common_source/linearalgebra/vector_mod.F
+Chd|====================================================================
       SUBROUTINE SET_RHS_MUMPS(this, NRHS, RHS)
 C-----------------------------------------------
 C     M o d u l e s
@@ -337,6 +387,11 @@ C-----------------------------------------------
 
 !     Solve the linear system
 !     -----------------------
+Chd|====================================================================
+Chd|  SOLVE_MUMPS                   share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SOLVE_MUMPS(this, SOL, DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -390,6 +445,11 @@ C-----------------------------------------------
 
 !     End the solver instance
 !     -----------------------
+Chd|====================================================================
+Chd|  TERMINATE_MUMPS               share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE TERMINATE_MUMPS(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -416,6 +476,11 @@ C END OF MUMPS5 SPECIFIC CODE
 !     ***********     !
 !     Solver initialization
 !     ---------------------
+Chd|====================================================================
+Chd|  INIT_SOLVER_CG                share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE INIT_SOLVER_CG(this, MAT_DIM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -435,6 +500,12 @@ C-----------------------------------------------
       
 !     Set matrix
 !     ----------
+Chd|====================================================================
+Chd|  SET_MATRIX_CG                 share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        MATRIX_MOD                    ../common_source/linearalgebra/matrix_mod.F
+Chd|====================================================================
       SUBROUTINE SET_MATRIX_CG(this, MAT)
 C-----------------------------------------------
 C     M o d u l e s
@@ -453,6 +524,12 @@ C-----------------------------------------------
 
 !     Set right hand side
 !     -------------------
+Chd|====================================================================
+Chd|  SET_RHS_CG                    share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        VECTOR_MOD                    ../common_source/linearalgebra/vector_mod.F
+Chd|====================================================================
       SUBROUTINE SET_RHS_CG(this, NRHS, RHS)
 C-----------------------------------------------
 C     M o d u l e s
@@ -477,6 +554,12 @@ C-----------------------------------------------
 
 !     Solve the linear system
 !     -----------------------
+Chd|====================================================================
+Chd|  SOLVE_CG                      share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        VECTOR_MOD                    ../common_source/linearalgebra/vector_mod.F
+Chd|====================================================================
       SUBROUTINE SOLVE_CG(this, SOL, DIM)
       USE VECTOR_MOD
 C-----------------------------------------------
@@ -558,6 +641,11 @@ C-----------------------------------------------
 
 !     End the solver instance
 !     -----------------------
+Chd|====================================================================
+Chd|  TERMINATE_CG                  share/modules/linear_solver_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE TERMINATE_CG(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

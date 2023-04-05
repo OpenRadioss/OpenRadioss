@@ -25,8 +25,8 @@ Chd|  I22WETSURF                    source/interfaces/int22/i22wetsurf.F
 Chd|-- called by -----------
 Chd|        I22MAINF                      source/interfaces/int22/i22mainf.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22WETSURF(
      1                  JLT    ,CAND_B ,CAND_E  ,CB_LOC ,CE_LOC ,

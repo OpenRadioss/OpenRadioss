@@ -38,6 +38,7 @@ Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_
 Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE DEFINTER(KEY,IVAL,FLAG,IPRINT,

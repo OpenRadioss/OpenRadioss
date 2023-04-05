@@ -25,6 +25,7 @@ Chd|  SMASS3B                       source/elements/solid/solid8p/smass3b.F
 Chd|-- called by -----------
 Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE SMASS3B(
      1                   RHO    ,MS  ,VOLGP,LVLOC,MSS,

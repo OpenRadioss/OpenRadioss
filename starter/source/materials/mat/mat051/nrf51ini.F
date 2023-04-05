@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE NRF51INI(IPM             ,     PM,      X, NIX,     IX,

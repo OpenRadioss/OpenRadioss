@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALE_CONNECTIVITY_MOD          modules/ale_connectivity_mod.F
+Chd|  ALE_CONNECTIVITY_MOD          modules/ale/ale_connectivity_mod.F
 Chd|-- called by -----------
 Chd|        AGRAD2                        starter/source/ale/ale2d/agrad2.F
 Chd|        AGRAD3                        starter/source/ale/ale3d/agrad3.F
@@ -164,6 +164,7 @@ Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22ma
 Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
+Chd|        INIT_DIFFUSION                engine/share/modules/diffusion_mod.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        M11LAW                        engine/source/materials/mat/mat011/m11law.F
@@ -264,6 +265,12 @@ Chd|====================================================================
 !     ***********    !
       CONTAINS
       
+Chd|====================================================================
+Chd|  ALE_CONNECTIVITY_INIT         modules/ale/ale_connectivity_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        ALE_MOD                       modules/ale/ale_mod.F         
+Chd|====================================================================
       SUBROUTINE ALE_CONNECTIVITY_INIT(THIS)
         USE ALE_MOD      
         IMPLICIT NONE
@@ -282,6 +289,11 @@ Chd|====================================================================
         THIS%HAS_NN_CONNECT = RESULT
       END SUBROUTINE ALE_CONNECTIVITY_INIT
       
+Chd|====================================================================
+Chd|  ALE_COMPUTE_CONNECTIVITY      modules/ale/ale_connectivity_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE ALE_COMPUTE_CONNECTIVITY(THIS, NUMNOD, NUMELQ, NUMELTG, NUMELS, 
      .     NIXQ, NIXTG, NIXS, ITAB,
      .     IXQ, IXTG, IXS)
@@ -615,6 +627,11 @@ C-----------------------------------------------
         DEALLOCATE(ADSKY, EDGES, IDX, EDGES_TMP, NN_NB_CONNECT, NE_NB_CONNECT)
       END SUBROUTINE ALE_COMPUTE_CONNECTIVITY
 
+Chd|====================================================================
+Chd|  ALE_DEALLOCATE_CONNECTIVITY   modules/ale/ale_connectivity_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY(THIS)
         IMPLICIT NONE
         CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
@@ -627,6 +644,11 @@ C-----------------------------------------------
         
       END SUBROUTINE ALE_DEALLOCATE_CONNECTIVITY
 
+Chd|====================================================================
+Chd|  ALE_COMPUTE_EE_CONNECTIVITY   modules/ale/ale_connectivity_mod.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY(THIS, PM, IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
      .     IALE, IEULER, ITHERM, IALELAG,

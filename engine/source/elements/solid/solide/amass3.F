@@ -27,7 +27,7 @@ Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE AMASS3(MS,RHO,VOLGP,TAG22,
      .         VOLU,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,MSNF,NVC,OFF,IXS)
@@ -285,7 +285,7 @@ Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE AMASS3P(FSKYM,RHO,VOLGP,TAG22,VOLU,IADS,OFF,IXS)
 C-----------------------------------------------

@@ -25,6 +25,7 @@ Chd|  FRHO3                         source/elements/solid/solide/frho3.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE FRHO3(UVAR ,RHO0,DXX, DYY, DZZ,
      .                 FLUX,FLU1,VOLN,NGL,MAT,OFF,NEL)

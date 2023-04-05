@@ -25,7 +25,7 @@ Chd|  M51VOIS3                      source/materials/mat/mat051/m51vois3.F
 Chd|-- called by -----------
 Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M51VOIS3(PM     ,IPARG  ,IXS    ,ALE_CONNECT  ,ELBUF_TAB,V     ,

@@ -25,7 +25,7 @@ Chd|  EGRAD3                        source/ale/euler3d/egrad3.F
 Chd|-- called by -----------
 Chd|        AGRAD0                        source/ale/agrad0.F           
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE EGRAD3(IXS,X,ALE_CONNECT,GRAD,VEUL)
 C-----------------------------------------------

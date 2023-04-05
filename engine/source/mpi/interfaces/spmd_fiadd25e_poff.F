@@ -29,7 +29,7 @@ Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_FIADD25E_POFF(
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,

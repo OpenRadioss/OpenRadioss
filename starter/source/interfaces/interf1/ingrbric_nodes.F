@@ -30,6 +30,7 @@ Chd|-- called by -----------
 Chd|        LECINS                        source/interfaces/interf1/lecins.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE INGRBRIC_NODES(MSN,NOINT,IBUFSSG,ITAB,MSV, IXS, NBRIC,IFLAG, NALE, IPM, BUFMAT, S_MSV)
 C-----------------------------------------------

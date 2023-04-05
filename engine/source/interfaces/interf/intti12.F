@@ -36,6 +36,7 @@ Chd|        I12ROT3                       source/interfaces/inter3d/i12rot3.F
 Chd|        I12S2M                        source/interfaces/interf/i12s2m.F
 Chd|        I3CST3                        source/interfaces/inter3d/i3cst3.F
 Chd|        VARCONDEC                     source/interfaces/interf/varcondec.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================

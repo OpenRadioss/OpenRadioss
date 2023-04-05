@@ -25,7 +25,7 @@ Chd|  ALEFVM_GRAVITY                source/ale/alefvm/alefvm_gravity.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_GRAVITY(
      1                          AGRV, IGRV, LGRAV,

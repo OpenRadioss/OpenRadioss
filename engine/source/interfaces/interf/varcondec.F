@@ -27,6 +27,7 @@ Chd|        ACONVE                        source/ale/aconve.F
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE VARCONDEC(ICODV,VARCONV,CODTOT)
 C-----------------------------------------------

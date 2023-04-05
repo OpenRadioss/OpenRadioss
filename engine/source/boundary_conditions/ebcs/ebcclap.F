@@ -29,7 +29,7 @@ Chd|        EBCCLAP1                      source/boundary_conditions/ebcs/ebccla
 Chd|        EBCVIT4                       source/boundary_conditions/ebcs/ebcvit4.F
 Chd|        EBCVIT5                       source/boundary_conditions/ebcs/ebcvit5.F
 Chd|        EBCVIT7                       source/boundary_conditions/ebcs/ebcvit7.F
-Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|====================================================================
       SUBROUTINE EBCCLAP(V, A, FV, EBCS_TAB)
       USE EBCS_MOD

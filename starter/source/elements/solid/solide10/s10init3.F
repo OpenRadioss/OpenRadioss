@@ -41,7 +41,7 @@ Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
 Chd|        SIGIN20B                      source/elements/solid/solide20/s20mass3.F
 Chd|        SMORTH3                       source/elements/solid/solide/smorth3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

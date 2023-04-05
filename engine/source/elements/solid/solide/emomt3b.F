@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE EMOMT3B(PM,RHO,VOLGP,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,

@@ -25,8 +25,8 @@ Chd|  I22GET_PREV_DATA              source/interfaces/int22/i22get_prev_data.F
 Chd|-- called by -----------
 Chd|        I22BUCE                       source/interfaces/intsort/i22buce.F
 Chd|-- calls ---------------
-Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-search_mod.F
-Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
+Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
+Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        REALLOC_MOD                   share/modules/realloc_mod.F   
 Chd|====================================================================
       SUBROUTINE I22GET_PREV_DATA(

@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        AMOMT3                        source/elements/solid/solide/amomt3.F
 Chd|-- calls ---------------
 Chd|        UPWIND_V                      source/elements/solid/solide/upwind.F
+Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE AMOMTN3(
      1   RHO,     DELTAX,  VIS,     VOL,

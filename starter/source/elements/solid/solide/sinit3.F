@@ -54,8 +54,8 @@ Chd|        SVEOK3                        source/elements/solid/solide/sveok3.F
 Chd|        SZDERI3                       source/elements/solid/solidez/szderi3.F
 Chd|        USERIN3                       source/elements/solid/solide/userin3.F
 Chd|        USTRSIN3                      source/elements/solid/solide/userin3.F
-Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

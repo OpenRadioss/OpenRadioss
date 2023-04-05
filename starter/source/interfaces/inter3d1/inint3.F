@@ -113,7 +113,7 @@ Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multim
 Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_EDG           source/interfaces/interf1/upgrade_remnode.F
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
