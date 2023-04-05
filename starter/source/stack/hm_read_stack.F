@@ -40,9 +40,9 @@ Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_STACK(
-     .           GEO      ,IGEO     ,PM       ,IPM       ,ISKN     ,  
-     .           PROP_ID  ,RTRANS   ,SUB_ID   ,STACK_INFO,
-     .           TITR     ,UNITAB   ,LSUBMODEL)
+     .           GEO_STACK ,IGEO_STACK ,PM        ,IPM       ,ISKN     ,  
+     .           PROP_ID   ,RTRANS     ,SUB_ID    ,STACK_INFO,
+     .           TITR      ,UNITAB     ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,11 +70,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: PROP_ID,SUB_ID
-      INTEGER, INTENT(INOUT) :: IGEO(NPROPGI)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI,*)
+      INTEGER, INTENT(INOUT) :: IGEO_STACK(NPROPGI)
+      INTEGER, INTENT(IN) :: IPM(NPROPMI,NUMMAT)
       INTEGER :: ISKN(LISKN,*)
-      my_real, INTENT(INOUT) :: GEO(NPROPG)
-      my_real, INTENT(IN) ::  PM(NPROPM,*),RTRANS(NTRANSF,*)
+      my_real, INTENT(INOUT) :: GEO_STACK(NPROPG)
+      my_real, INTENT(IN) ::  PM(NPROPM,NUMMAT),RTRANS(NTRANSF,*)
       CHARACTER(LEN = nchartitle) :: TITR
       TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE (SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -348,52 +348,52 @@ C     isub stack
   300   CONTINUE
       ENDIF 
 c--------------------------------------------
-      IF (DM == ZERO) IGEO(31) = 1
-      IGEO(1)  = PROP_ID
-      IGEO(2)  = ISK
-      IGEO(4)  = NPLY
-      IGEO(5)  = ISMSTR
-      IGEO(6)  = IORTH  ! IREP
-      IGEO(10) = ISHELL
-      IGEO(11) = IGTYP
-      IGEO(18) = ISH3N
-      IGEO(20) = ISROT
-      IGEO(43) = NSUB   ! number of substack               
-      IGEO(44) = NISUB  ! number of interface 
-      IGEO(47) = IINT
-      IGEO(48) = 0 
-      IGEO(98) = IGMAT
-      IGEO(99) = IPOS
-      IGEO(14) = IRP
+      IF (DM == ZERO) IGEO_STACK(31) = 1
+      IGEO_STACK(1)  = PROP_ID
+      IGEO_STACK(2)  = ISK
+      IGEO_STACK(4)  = NPLY
+      IGEO_STACK(5)  = ISMSTR
+      IGEO_STACK(6)  = IORTH  ! IREP
+      IGEO_STACK(10) = ISHELL
+      IGEO_STACK(11) = IGTYP
+      IGEO_STACK(18) = ISH3N
+      IGEO_STACK(20) = ISROT
+      IGEO_STACK(43) = NSUB   ! number of substack               
+      IGEO_STACK(44) = NISUB  ! number of interface 
+      IGEO_STACK(47) = IINT
+      IGEO_STACK(48) = 0 
+      IGEO_STACK(98) = IGMAT
+      IGEO_STACK(99) = IPOS
+      IGEO_STACK(14) = IRP
 c
-      GEO(3)  = ISMSTR
-      GEO(6)  = NPLY    ! double stockage
-      GEO(7)  = VX
-      GEO(8)  = VY
-      GEO(9)  = VZ
-      GEO(11) = ISTRAIN
-      GEO(12) = IGTYP
-      GEO(13) = HM
-      GEO(14) = HF
-      GEO(15) = HR
-      GEO(16) = DM
-      GEO(17) = DN
-      GEO(35) = ITHK
-      GEO(37) = ISHEAR
-      GEO(39) = IPLAST
-      GEO(38) = ASHEAR
-      GEO(42) = ZERO
-      GEO(43) = ONE
-      GEO(199)= ZSHIFT
-      GEO(212) = GEO(212) * PI / HUNDRED80
+      GEO_STACK(3)  = ISMSTR
+      GEO_STACK(6)  = NPLY    ! double stockage
+      GEO_STACK(7)  = VX
+      GEO_STACK(8)  = VY
+      GEO_STACK(9)  = VZ
+      GEO_STACK(11) = ISTRAIN
+      GEO_STACK(12) = IGTYP
+      GEO_STACK(13) = HM
+      GEO_STACK(14) = HF
+      GEO_STACK(15) = HR
+      GEO_STACK(16) = DM
+      GEO_STACK(17) = DN
+      GEO_STACK(35) = ITHK
+      GEO_STACK(37) = ISHEAR
+      GEO_STACK(39) = IPLAST
+      GEO_STACK(38) = ASHEAR
+      GEO_STACK(42) = ZERO
+      GEO_STACK(43) = ONE
+      GEO_STACK(199)= ZSHIFT
+      GEO_STACK(212) = GEO_STACK(212) * PI / HUNDRED80
       IF (ISHELL==0) THEN
-        GEO(171) = 0
+        GEO_STACK(171) = 0
       ELSEIF (ISHELL == 1) THEN
-        GEO(171)=1
+        GEO_STACK(171)=1
       ELSEIF (ISHELL == 2) THEN
-        GEO(171)=0
+        GEO_STACK(171)=0
       ELSEIF (ISHELL >= 3 .AND. ISHELL < 100 .AND. ISHELL /= 4) THEN
-        GEO(171)=ISHELL-1
+        GEO_STACK(171)=ISHELL-1
       ENDIF      
 c--------------------------------------------
 c     OUTPUT 
@@ -405,22 +405,22 @@ c--------------------------------------------
         IF (ISK == 0) THEN
           IF (ISHELL > 11 .AND. ISHELL < 29) THEN
             WRITE(IOUT,2100)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
-     .               GEO(16),GEO(13),GEO(38),ISHEAR,ITHK,
-     .               IPLAST,IORTH,GEO(7),GEO(8),GEO(9),IGEO(47),IGEO(14)
+     .               GEO_STACK(16),GEO_STACK(13),GEO_STACK(38),ISHEAR,ITHK,
+     .               IPLAST,IORTH,GEO_STACK(7),GEO_STACK(8),GEO_STACK(9),IGEO_STACK(47),IGEO_STACK(14)
           ELSE 
             WRITE(IOUT,2200)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
      .               HM,HF,HR,DM,ASHEAR,
      .               ISHEAR,ITHK,IPLAST,IORTH,
-     .               VX,VY,VZ,IINT,IGEO(14)
+     .               VX,VY,VZ,IINT,IGEO_STACK(14)
           ENDIF
         ELSE
           IF (ISHELL > 11 .AND. ISHELL < 29) THEN 
             WRITE(IOUT,2300)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
-     .               GEO(16),GEO(13),GEO(38),ISHEAR,ITHK,
-     .               IPLAST,IORTH,IDSK,IGEO(47),IGEO(14)
+     .               GEO_STACK(16),GEO_STACK(13),GEO_STACK(38),ISHEAR,ITHK,
+     .               IPLAST,IORTH,IDSK,IGEO_STACK(47),IGEO_STACK(14)
           ELSE
             WRITE(IOUT,2400)ISTRAIN,ISMSTR,ISHELL,ISH3N,HM,HF,HR,DM,
-     .            ASHEAR,ISHEAR,ITHK,IPLAST,IORTH,IDSK,IINT,IGEO(14)
+     .            ASHEAR,ISHEAR,ITHK,IPLAST,IORTH,IDSK,IINT,IGEO_STACK(14)
           ENDIF
         ENDIF
 c---
