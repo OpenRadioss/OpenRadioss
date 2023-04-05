@@ -219,7 +219,7 @@ C-----------------------------------------------
             this%GRID%VGZ = ZERO
             this%GRID%VGY0 = ZERO
             this%GRID%VGZ0 = ZERO            
-            this%GRID%NWALE_ENGINE = 0
+            this%GRID%NWALE_ENGINE = -1
             this%GRID%NWALE_RST = 0
             this%GRID%NWALE = 0   
             !---ALE%UPWIND
