@@ -1616,13 +1616,17 @@ int i, j, k, nn, nm, offset;
             {
                 com->fx_buf[k+j] =  fx[nn+j];
                 com->fr_buf[k+j] =  fr[nn+j];
-                                if((*typ < 4)||(*npas == 0)) com->vx_buf[k+j] =  vx[nn+j];
-                                if((*typ == 5)&&(*kin == 1))
-                                  {dr[3*next+j] += *dt2*vr[nn+j];
-                                   com->dx_buf[2*k+j] =  dx[nn+j];
-                                   com->dx_buf[2*k+j+3] =  dr[3*next+j];}                                   
-                                else
-                                  {com->dx_buf[k+j] =  dx[nn+j];}                                  
+                if ((*typ <= 4)||(*npas == 0)) 
+                  {com->vx_buf[k+j] =  vx[nn+j];}
+                if(*typ == 5)
+                  {
+                   if (*kin == 1)
+                     {dr[3*next+j] += *dt2*vr[nn+j];
+                      com->dx_buf[2*k+j] =  dx[nn+j];
+                      com->dx_buf[2*k+j+3] =  dr[3*next+j];}                                   
+                   else
+                     {com->dx_buf[k+j] =  dx[nn+j];}
+                  }                                  
             }
             com->mass_buf[i] = ms[nm];
             if(*typ == 5) com->sx_buf[i] = stx[nm];
@@ -1631,10 +1635,10 @@ int i, j, k, nn, nm, offset;
                 if(*typ == 5) com->sr_buf[i] = str[nm];
                 com->iner_buf[i] = in[nm];
                 if (*rbylnk==1)
-                           for (j = 0; j < 9; j++) 
-                      com->iner_rby_buf[9*i+j] = rby[*nrby*tag_rby[*add_rby+next]+j+16];                
-                if((*typ < 4)||(*npas == 0)) 
-                           for (j = 0; j < 3; j++) com->vr_buf[k+j] =  vr[nn+j];
+                  for (j = 0; j < 9; j++) 
+                     com->iner_rby_buf[9*i+j] = rby[*nrby*tag_rby[*add_rby+next]+j+16];                
+                if ((*typ <= 4)||(*npas == 0)) 
+                  for (j = 0; j < 3; j++) com->vr_buf[k+j] =  vr[nn+j];
             }
             /************ change of state - activation or deactivation of SPH - coordinates are transmitted instead of forces**************/
             if (flg_sphinout == 1)
