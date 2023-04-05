@@ -310,7 +310,14 @@ C
             OFF_L(I) = ONE
           ENDIF
       ENDDO
-
+C
+      DO I = 1,NEL
+        M=IPARTS(I)
+        IF (OFF(I) < ONE) THEN 
+          PARTSAV(25,M) = PARTSAV(25,M) + ONE
+        ENDIF
+      ENDDO
+C
       CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF_L,IPARTS,ITASK)      
 C
 C-----------

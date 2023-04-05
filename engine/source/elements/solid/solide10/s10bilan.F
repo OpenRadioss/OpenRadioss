@@ -311,6 +311,14 @@ C
       ENDIF
 
       OFF_L(LFT:LLT) = ONE
+C
+      DO I = LFT,LLT
+        M=IPARTS(I)
+        IF (OFFG(I) < ONE) THEN 
+          PARTSAV(25,M) = PARTSAV(25,M) + ONE
+        ENDIF
+      ENDDO
+C
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)  
 C
       RETURN

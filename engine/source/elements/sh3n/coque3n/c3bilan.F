@@ -464,7 +464,14 @@ C
             ENDIF
          ENDDO
        ENDIF
-    
+C
+      DO I = JFT,JLT
+        MX = IPARTTG(I)
+        IF (OFF(I)==ZERO) THEN 
+          PARTSAV(25,MX) = PARTSAV(25,MX) + ONE
+        ENDIF
+      ENDDO
+C 
       CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTTG,ITASK) 
 C---
       RETURN

@@ -283,7 +283,7 @@ C-----------------------------
          ELSE
           II=0                                  
           DO I=1,NPART+NTHPART                  
-            NVAR=IPARTH(NVPARTH,I)               
+            NVAR=IPARTH(NVPARTH,I)   
             IAD =IPARTH(NVPARTH+1,I)             
             IF (I > NPART) THEN               
               DO J=1,NPSAV                       
@@ -332,7 +332,7 @@ C---------------------------------------
                 ELSEIF(K==5)THEN
                   WA(II)=PARTSAV(K,I)                
                 ELSEIF(K==6)THEN
-                  WA(II)=PARTSAV(6,I)+PARTSAV(25,I)
+                  WA(II)=PARTSAV(6,I)
                 ELSEIF(K==7)THEN
                   WA(II)=PARTSAV(8,I)
                 ELSEIF(K==8)THEN
@@ -387,6 +387,8 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
      .             + JXY*XXMOM*YYMOM+JYZ*YYMOM*ZZMOM+JZX*XXMOM*ZZMOM )
                 ELSEIF(K==24)THEN
                   WA(II)=PARTSAV(22,I)
+                ELSEIF(K==25) THEN 
+                  WA(II)=PARTSAV(25,I)
                 ELSEIF(K > 0 .AND. SIZE(PARTSAV,1) >= K) THEN
                   WA(II)=PARTSAV(K,I)
                 ELSE 
@@ -456,7 +458,7 @@ C-----------------------------
                IF(K==1)THEN
                  WA(II)=SUBSAV(1)+SUBSAV(24)+SUBSAV(26)
                ELSEIF(K==6)THEN
-                 WA(II)=SUBSAV(6)+SUBSAV(25)
+                 WA(II)=SUBSAV(6)
                ELSEIF(K==7)THEN
                  WA(II)=SUBSAV(8)
                ELSEIF(K==8)THEN
@@ -514,6 +516,8 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
      .            + IXY*XXMOM*YYMOM+IYZ*YYMOM*ZZMOM+IZX*XXMOM*ZZMOM )
               ELSEIF(K==24)THEN
                  WA(II)=SUBSAV(22)
+              ELSEIF(K==25) THEN 
+                 WA(II)=SUBSAV(25)
                ELSEIF(K > 0) THEN
                  WA(II)=SUBSAV(K)
                ELSE 
@@ -1324,7 +1328,7 @@ C---------------------------------------
             DO M=1,NPART+NTHPART
 C remise a zero apres gather sur toute les parts ou on ne cumule pas
               DO I=1,NPSAV
-                IF((I<23.OR.I>26).AND.I/=8 .AND. NABFILE==0
+                IF((I<23.OR.I>26.OR.I==25).AND.I/=8 .AND. NABFILE==0
      .               .AND. (MSTOP /= 1 .OR. ICTLSTOP == 1) )
      .            PARTSAV(I,M)=0
               END DO
@@ -1346,7 +1350,7 @@ C-------------------------
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP)
           IF(JALE == 0 .OR. (JALE > 0 .AND. ICOND))THEN
             DO I=1,NPSAV
-              IF((I < 23.OR.I > 26) .AND. I /= 8 .AND. NABFILE==0 .AND.(MSTOP /= 1 .OR. ICTLSTOP == 1) ) THEN
+              IF((I < 23.OR.I > 26.OR.I==25) .AND. I /= 8 .AND. NABFILE==0 .AND.(MSTOP /= 1 .OR. ICTLSTOP == 1) ) THEN
                 PARTSAV(I,M)=0
               ENDIF
             END DO
