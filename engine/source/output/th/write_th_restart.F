@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TH_),INTENT(INOUT) :: TH   ! TH Type 
+        TYPE(TH_),INTENT(IN) :: TH   ! TH Type 
 C-----------------------------------------------
         CALL WRITE_I_C(TH%NITHGR,  1)
         CALL WRITE_I_C(TH%SITHGRP, 1) 
