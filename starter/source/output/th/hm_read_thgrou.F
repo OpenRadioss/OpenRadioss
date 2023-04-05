@@ -1090,7 +1090,7 @@ C   part
      . 'MASS    ','HE      ','TURBKE  ','XCG     ','YCG     ',
      . 'ZCG     ','XXMOM   ','YYMOM   ','ZZMOM   ','IXX     ',
      . 'IYY     ','IZZ     ','IXY     ','IYZ     ','IZX     ',
-     . 'RIE     ','KERB    ','RKERB   ','RKE     ','UNUSED  ',
+     . 'RIE     ','KERB    ','RKERB   ','RKE     ','ERODED  ',
      . 'UNUSED  ','UNUSED  ','HEAT    '/
 C   rivets
       DATA VARRIV/

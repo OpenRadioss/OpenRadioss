@@ -96,7 +96,6 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        IF(OFF(I) < ONE) CYCLE
         M=IPARTS(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EI(I)
         PARTSAV(2,M)=PARTSAV(2,M) + EK(I)
@@ -192,6 +191,14 @@ C
             OFF_L(I) = ONE
           ENDIF
       ENDDO
+C
+      DO I = LFT,LLT
+        M=IPARTS(I)
+        IF (OFFG(I) < ONE) THEN 
+          PARTSAV(25,M) = PARTSAV(25,M) + ONE
+        ENDIF
+      ENDDO
+C
       CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
 C
       RETURN
