@@ -376,7 +376,7 @@ C--------- Orthotropic elements ------------
                 WRITE(IUDYNAIN,'(A)')
      .            '$          THIC1           THIC2           THIC3           THIC4            BETA' 
                ELSE
-                 WRITE(LINE,'(A)') '*ELEMENT_SHELL_THICKNESS'
+                 WRITE(LINE,'(A)') '*ELEMENT_SHELL_THICKNESS_BETA'
                  CALL STRS_TXT50(LINE,100)
                  WRITE(LINE,'(A)') 
      .             '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
