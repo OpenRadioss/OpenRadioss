@@ -95,27 +95,27 @@ C
           !/ETH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(8*(NPART+NTHPART)+1:10*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(5) ,TH%ITHGRPE   ,TH%ITHBUFE   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,5    ,TH%SITHGRPD,TH%SITHBUFD )
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,5    ,TH%SITHGRPE,TH%SITHBUFE )
  
           !/FTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(10*(NPART+NTHPART)+1:12*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(6) ,TH%ITHGRPF   ,TH%ITHBUFF   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,6    ,TH%SITHGRPE,TH%SITHBUFE )
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,6    ,TH%SITHGRPF,TH%SITHBUFF )
      
           !/GTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(12*(NPART+NTHPART)+1:14*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(7) ,TH%ITHGRPG   ,TH%ITHBUFG   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,7    ,TH%SITHGRPF,TH%SITHBUFF )
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,7    ,TH%SITHGRPG,TH%SITHBUFG )
      
           !/HTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(14*(NPART+NTHPART)+1:16*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(8) ,TH%ITHGRPH   ,TH%ITHBUFH   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,8    ,TH%SITHGRPG,TH%SITHBUFG  )
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,8    ,TH%SITHGRPH,TH%SITHBUFH  )
      
           !/ITH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(16*(NPART+NTHPART)+1:18*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(9) ,TH%ITHGRPI   ,TH%ITHBUFI   ,ITHVAR   ,IPART    ,
-     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,9    ,TH%SITHGRPH,TH%SITHBUFH )
+     .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,9    ,TH%SITHGRPI,TH%SITHBUFI )
 C        
         ENDIF
 C-----------------------------------------------
