@@ -24,7 +24,6 @@ Cel46d11+++
 Chd|====================================================================
 Chd|  LASERP1                       source/loads/laser/laserp.F   
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        LASERP2                       source/loads/laser/laserp.F   
 Chd|====================================================================
@@ -104,7 +103,6 @@ C
 Chd|====================================================================
 Chd|  LASERP3                       source/loads/laser/laserp.F   
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        LASERP4                       source/loads/laser/laserp.F   
 Chd|====================================================================

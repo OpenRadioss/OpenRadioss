@@ -189,7 +189,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  BUILD_ADMESH                  source/model/remesh/build_admesh.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CONSTIT                       source/elements/nodes/constit.F

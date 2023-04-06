@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
 Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
 Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F

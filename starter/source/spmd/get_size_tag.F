@@ -83,7 +83,6 @@ C
 Chd|====================================================================
 Chd|  GET_SIZE_INTER24              source/spmd/get_size_tag.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE GET_SIZE_INTER24(I24MAXNSNE,NINTER,NPARI,IPARI,FLAG_24_25)
@@ -138,7 +137,6 @@ C Tag Arrays must be increased accordingly
 Chd|====================================================================
 Chd|  GET_SIZE_NUMNOD_LOCAL         source/spmd/get_size_tag.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|====================================================================

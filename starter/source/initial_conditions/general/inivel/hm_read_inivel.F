@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      

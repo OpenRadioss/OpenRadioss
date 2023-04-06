@@ -44,7 +44,6 @@ Chd|        IG3DMASS3                     starter/source/elements/ige3d/ig3dmass
 Chd|        INGRBRIC_NODES                starter/source/interfaces/interf1/ingrbric_nodes.F
 Chd|        LECINT                        starter/source/interfaces/interf1/lecint.F
 Chd|        LECSTACK_PLY                  starter/source/properties/composite_options/stack/lecstack_ply.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        QDLEN2                        starter/source/elements/solid_2d/quad/qdlen2.F
 Chd|        QMASI2                        starter/source/elements/solid_2d/quad/qmasi2.F
 Chd|        QMASI2B                       starter/source/elements/solid_2d/quad/qmasi2b.F

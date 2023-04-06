@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FILL_BUFFER_51_0              source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F

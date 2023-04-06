@@ -114,14 +114,11 @@ Chd|        HM_READ_MAT94                 starter/source/materials/mat/mat094/hm
 Chd|        HM_READ_MAT95                 starter/source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 starter/source/materials/mat/mat097/hm_read_mat97.F
 Chd|        INIRIG_MAT                    starter/source/elements/initia/inirig_mat.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIT_MAT_KEYWORD              starter/source/materials/mat/init_mat_keyword.F
 Chd|        INI_MATPARAM                  starter/source/materials/mat/ini_matparam.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
 Chd|        LAW76_UPD                     starter/source/materials/mat/mat076/law76_upd.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        MATPARAM_R2R_VOID             starter/source/elements/elbuf_init/matparam_r2r_void.F
-Chd|        OUTPART5                      starter/source/elements/initia/initia.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
 Chd|        SET_ELGROUP_PARAM             starter/source/elements/shell/coque/set_elgroup_param.F
 Chd|        SGRTAILS                      starter/source/elements/solid/solide/sgrtails.F

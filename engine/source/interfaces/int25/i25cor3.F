@@ -762,6 +762,7 @@ Chd|  I25COR3_3                     source/interfaces/int25/i25cor3.F
 Chd|-- called by -----------
 Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
+Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25COR3_3(

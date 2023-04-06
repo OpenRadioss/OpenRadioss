@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  CHK_DTTSH                     source/elements/thickshell/solidec/scdtchk3.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

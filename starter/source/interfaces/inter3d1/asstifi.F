@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ASSTIFI                       source/interfaces/inter3d1/asstifi.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ASSTIFI(VOLNOD, BVOLNOD, ETNOD, NSHNOD, STIFINT)

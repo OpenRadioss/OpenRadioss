@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_CLEAN_INTER               source/coupling/rad2rad/r2r_clean_inter.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

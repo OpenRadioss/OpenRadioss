@@ -539,7 +539,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  SURFEXT_TAGN                  source/groups/ssurftag.F      
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)

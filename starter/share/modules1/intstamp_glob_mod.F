@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INTSTAMP_GLOB_MOD             share/modules1/intstamp_glob_mod.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
 Chd|====================================================================

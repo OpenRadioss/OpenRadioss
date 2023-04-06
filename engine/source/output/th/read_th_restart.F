@@ -21,9 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  READ_TH                      source/output/th/read_th.F
+Chd|  READ_TH_RESTART               source/output/th/read_th_restart.F
 Chd|-- called by -----------
+Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        TH_ALLOC                      ../common_source/modules/output/time_history_mod.F
+Chd|        TIME_HISTORY_MOD              ../common_source/modules/output/time_history_mod.F
 Chd|====================================================================
       SUBROUTINE READ_TH_RESTART(TH)
    ! -----------------------------------------------

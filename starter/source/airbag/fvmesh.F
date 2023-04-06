@@ -3446,7 +3446,6 @@ C
 Chd|====================================================================
 Chd|  FVDIM                         source/airbag/fvmesh.F        
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F

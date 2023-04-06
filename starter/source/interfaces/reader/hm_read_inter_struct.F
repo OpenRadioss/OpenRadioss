@@ -46,6 +46,7 @@ Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_
 Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_type25.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

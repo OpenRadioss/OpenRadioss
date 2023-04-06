@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    

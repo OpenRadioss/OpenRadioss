@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  CDK6INX                       source/elements/sh3n/coquedk6/cdk6inx.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

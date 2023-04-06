@@ -184,7 +184,6 @@ Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_va
 Chd|        INI_PROP_VARS                 source/elements/elbuf_init/ini_prop_vars.F
 Chd|        LAW104_UPD                    source/materials/mat/mat104/law104_upd.F
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        M20DCOD                       source/system/fsdcod.F        
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|        UPDMAT                        source/materials/updmat.F     

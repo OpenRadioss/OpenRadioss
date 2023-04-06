@@ -1555,9 +1555,7 @@ Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
 Chd|        C3INMAS                       source/elements/sh3n/coque3n/c3inmas.F
 Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
-Chd|        CHECKMP                       source/elements/initia/initia.F
 Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
-Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   
 Chd|        CHKTYP2                       source/interfaces/interf1/chktyp2.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
@@ -1614,7 +1612,6 @@ Chd|        ININTSUB_25                   source/output/subinterface/inintsub_25
 Chd|        ININTSUB_7                    source/output/subinterface/inintsub_7.F
 Chd|        INIRBE2                       source/constraints/general/rbe2/hm_read_rbe2.F
 Chd|        INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIVOID                       source/elements/initia/inivoid.F
 Chd|        INI_FXBODY                    source/constraints/fxbody/ini_fxbody.F
 Chd|        INTER_DCOD_FRICTION           source/interfaces/reader/inter_dcod_friction.F
@@ -1639,8 +1636,6 @@ Chd|        M20DCOD                       source/system/fsdcod.F
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        MULTIFLUID_INIT3              source/multifluid/multifluid_init3.F
 Chd|        NEWDBL2                       source/system/sysfus.F        
-Chd|        OUTPART                       source/elements/initia/initia.F
-Chd|        OUTPART5                      source/elements/initia/initia.F
 Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
 Chd|        PORNOD                        source/ale/pornod.F           
 Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F

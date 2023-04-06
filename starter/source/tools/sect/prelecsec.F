@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
 Chd|-- calls ---------------

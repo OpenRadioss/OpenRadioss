@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  S6FRACA                       source/elements/thickshell/solide6c/s6fraca3.F
+Chd|-- called by -----------
+Chd|        S6MASS3                       source/elements/thickshell/solide6c/s6mass3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE S6FRACA(X,IX1 ,IX2,IX3 ,IX4 ,IX5 ,IX6 ,PTG   ,NEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

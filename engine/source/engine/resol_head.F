@@ -42,9 +42,11 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        RBODY_MOD                     share/modules/rbody_mod.F     
 Chd|        RESTMOD                       share/modules/restart_mod.F   

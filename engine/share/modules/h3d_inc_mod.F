@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|-- called by -----------
+Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|        H3D_PRE_SKIN_IXSKIN           source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F

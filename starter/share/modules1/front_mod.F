@@ -43,7 +43,6 @@ Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        INI_IDDCONNECT                source/spmd/node/ddtools.F    
 Chd|        INI_IFRONT                    source/spmd/node/ddtools.F    
 Chd|        IPARI_L_INI                   source/restart/ddsplit/ipari_l_ini.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LINE_DECOMP                   source/model/group/line_decomp.F
 Chd|        PLIST_BFS                     source/spmd/node/ddtools.F    
 Chd|        PLIST_IDDCONNECT              source/spmd/node/ddtools.F    

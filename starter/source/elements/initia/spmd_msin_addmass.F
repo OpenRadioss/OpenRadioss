@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_MSIN_ADDMASS             source/elements/initia/spmd_msin_addmass.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
@@ -488,7 +487,6 @@ C---
 Chd|====================================================================
 Chd|  SPMD_PARTSAV_PON              source/elements/initia/spmd_msin_addmass.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|====================================================================

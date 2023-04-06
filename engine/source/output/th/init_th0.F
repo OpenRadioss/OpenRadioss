@@ -31,6 +31,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
+Chd|        TIME_HISTORY_MOD              ../common_source/modules/output/time_history_mod.F
 Chd|====================================================================
         SUBROUTINE INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,TH,
      .                       WEIGHT)

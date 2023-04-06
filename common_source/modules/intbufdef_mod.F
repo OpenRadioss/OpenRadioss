@@ -69,6 +69,7 @@ Chd|        INIEND2D                      starter/source/interfaces/inter3d1/ini
 Chd|        ININT2                        starter/source/interfaces/inter2d1/inint2.F
 Chd|        ININT3                        starter/source/interfaces/inter3d1/inint3.F
 Chd|        ININT3_THKVAR                 starter/source/interfaces/inter3d1/inint3_thkvar.F
+Chd|        ININTMASS                     starter/source/interfaces/inter3d1/inintmass.F
 Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
 Chd|        ININTR1                       starter/source/interfaces/interf1/inintr1.F
 Chd|        ININTR2                       starter/source/interfaces/inter3d1/inintr2.F
@@ -87,7 +88,6 @@ Chd|        ITAGSL12                      starter/source/interfaces/inter3d1/ini
 Chd|        ITAGSL2                       starter/source/interfaces/inter3d1/itagsl2.F
 Chd|        LAGM_INI                      starter/source/tools/lagmul/lagm_ini.F
 Chd|        LECINS                        starter/source/interfaces/interf1/lecins.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LGMINI_I2                     starter/source/tools/lagmul/lgmini_i2.F
 Chd|        LGMINI_I7                     starter/source/tools/lagmul/lgmini_i7.F
 Chd|        PREPARE_INT25                 starter/source/model/mesh/build_cnel.F
@@ -390,6 +390,7 @@ Chd|        INTER_VOXEL_CREATION          engine/source/interfaces/generic/inter
 Chd|        INTFOP1                       engine/source/interfaces/interf/intfop1.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTFOP8                       engine/source/interfaces/interf/intfop8.F
+Chd|        INTMASS_UPDATE                engine/source/interfaces/interf/intmass_update.F
 Chd|        INTTI0                        engine/source/interfaces/interf/intti0.F
 Chd|        INTTI1                        engine/source/interfaces/interf/intti1.F
 Chd|        INTTI12A                      engine/source/interfaces/interf/intti12.F

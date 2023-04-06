@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  THPINIT                       source/output/th/thpinit.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|====================================================================

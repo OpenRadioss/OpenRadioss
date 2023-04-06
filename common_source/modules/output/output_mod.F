@@ -21,9 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TH_TYPE                      modules/time_history_type.F
+Chd|  OUTPUT_MOD                    modules/output/output_mod.F   
 Chd|-- called by -----------
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        STARTER0                      starter/source/starter/starter0.F
+Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
+Chd|        ST_QAPRINT_TIME_HISTORIES     starter/source/output/qaprint/st_qaprint_time_histories.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
+Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
+Chd|        TIME_HISTORY_MOD              modules/output/time_history_mod.F
 Chd|====================================================================
       MODULE OUTPUT_MOD
         USE TIME_HISTORY_MOD

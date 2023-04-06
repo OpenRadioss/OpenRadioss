@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        C_VOIS                        source/restart/ddsplit/c_vois.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_SPLIT_CFD_SOLIDE   source/spmd/split_cfd_solide.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
 Chd|        W_FRONT                       source/restart/ddsplit/w_front.F
 Chd|-- calls ---------------

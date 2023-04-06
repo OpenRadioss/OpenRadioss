@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SHSUB                         source/elements/shell/subcycling/shsub.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SHSUB(LSHSUB  ,IXS     ,IXS10   ,IXS20   ,IXS16   ,

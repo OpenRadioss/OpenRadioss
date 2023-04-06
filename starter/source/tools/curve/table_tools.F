@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TABLE_ZERO                    source/tools/curve/table_tools.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================

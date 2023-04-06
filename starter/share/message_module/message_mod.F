@@ -30,6 +30,7 @@ Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
+Chd|        TH_ALLOC                      ../common_source/modules/output/time_history_mod.F
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
 Chd|        ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
 Chd|        ADMBCS                        source/model/remesh/admbcs.F  
@@ -83,12 +84,10 @@ Chd|        CEPSCHK                       source/elements/shell/coque/cepsini.F
 Chd|        CFINT_REG_INI                 source/elements/shell/coque/cfint_reg_ini.F
 Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
-Chd|        CHECKMP                       source/elements/initia/initia.F
 Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
 Chd|        CHECK_DYNAIN                  source/starter/check_dynain.F 
 Chd|        CHECK_ELTYP                   source/model/sets/check_eltyp.F
 Chd|        CHECK_SURF                    source/groups/check_surf.F    
-Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   
 Chd|        CHKTYP2                       source/interfaces/interf1/chktyp2.F
 Chd|        CHK_DTTSH                     source/elements/thickshell/solidec/scdtchk3.F
@@ -156,6 +155,7 @@ Chd|        DEFINTER                      source/interfaces/interf1/definter.F
 Chd|        DOMDEC2                       source/spmd/domdec2.F         
 Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|        DOMETIS2                      source/spmd/domain_decomposition/domdecs.F
+Chd|        DTNODA_STIFINT                source/interfaces/inter3d1/dtnoda_stifint.F
 Chd|        ECRAN1                        source/initial_conditions/detonation/ecran1.F
 Chd|        ECRSUB2                       source/model/assembling/hm_read_subset.F
 Chd|        EIGRLINE                      source/general_controls/computation/hm_read_eig.F
@@ -784,6 +784,7 @@ Chd|        INIGUSER                      source/system/iniguser.F
 Chd|        ININT2                        source/interfaces/inter2d1/inint2.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|        ININT3_THKVAR                 source/interfaces/inter3d1/inint3_thkvar.F
+Chd|        ININTMASS                     source/interfaces/inter3d1/inintmass.F
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|        ININTR_ORTHDIRFRIC            source/interfaces/interf1/inintr_orthdirfric.F
@@ -800,7 +801,6 @@ Chd|        INIRBYS                       source/constraints/general/rbody/inirb
 Chd|        INISEN                        source/tools/sensor/inisen.F  
 Chd|        INISMS                        source/general_controls/computation/hm_read_sms.F
 Chd|        INISRF                        source/constraints/general/rbody/inisrf.F
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|        INIT_SKEW45                   source/elements/joint/rjoint/rini45.F
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
@@ -878,7 +878,6 @@ Chd|        LECSTAMP                      source/interfaces/interf1/lecstamp.F
 Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
 Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LEC_DOF_JNT                   source/properties/spring/hm_read_prop45.F
 Chd|        LEC_INIMAP1D_FILE             source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        LEC_INIMAP2D_FILE             source/initial_conditions/inimap/lec_inimap2d_file.F

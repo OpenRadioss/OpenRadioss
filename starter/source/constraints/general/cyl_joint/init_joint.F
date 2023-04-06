@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIT_JOINT                    source/constraints/general/cyl_joint/init_joint.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
 Chd|====================================================================

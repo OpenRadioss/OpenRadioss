@@ -45,7 +45,6 @@ Chd|        ININTR                        starter/source/interfaces/interf1/inin
 Chd|        ININTR_THKVAR                 starter/source/interfaces/interf1/inintr_thkvar.F
 Chd|        INI_FXBODY                    starter/source/constraints/fxbody/ini_fxbody.F
 Chd|        INI_H3DTMAX_ENGINE            starter/source/starter/contrl.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LEC_INIMAP1D_FILE             starter/source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        LEC_INIMAP2D_FILE             starter/source/initial_conditions/inimap/lec_inimap2d_file.F
 Chd|        NLOC_DMG_INIT                 starter/source/materials/fail/nloc_dmg_init.F

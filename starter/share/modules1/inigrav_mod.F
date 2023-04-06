@@ -29,7 +29,6 @@ Chd|        INIEBCS_DP                    source/boundary_conditions/ebcs/iniebc
 Chd|        INIEBCS_NRF_TCAR              source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 Chd|        INIGRAV_LOAD                  source/initial_conditions/inigrav/inigrav_load.F
 Chd|        INIGRAV_PART_LIST             source/initial_conditions/inigrav/inigrav_part_list.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        ST_QAPRINT_INITIAL_CONDITIONS source/output/qaprint/st_qaprint_initial_conditions.F
 Chd|-- calls ---------------
 Chd|====================================================================

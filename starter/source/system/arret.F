@@ -58,12 +58,10 @@ Chd|        HM_READ_PROP_USER             source/properties/user_spring_solid/hm
 Chd|        HM_READ_RETRACTOR             source/tools/seatbelts/hm_read_retractor.F
 Chd|        HM_READ_SLIPRING              source/tools/seatbelts/hm_read_slipring.F
 Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        LAW111_UPD                    source/materials/mat/mat111/law111_upd.F
 Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
 Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        M20DCOD                       source/system/fsdcod.F        
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        MONVOL_ORIENT_SURF            share/modules1/monvol_struct_mod.F

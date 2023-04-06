@@ -30,6 +30,7 @@ Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
+Chd|        TH_ALLOC                      ../common_source/modules/output/time_history_mod.F
 Chd|        ACC_CYCON                     source/constraints/general/bcs/bcscyc.F
 Chd|        ADMERR                        source/model/remesh/admerr.F  
 Chd|        ADMINI                        source/model/remesh/admini.F  
@@ -259,6 +260,7 @@ Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_o
 Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
+Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
 Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|        KNOTLOCELREST                 source/output/restart/rdresb.F
 Chd|        KNOTLOCPCREST                 source/output/restart/rdresb.F
@@ -490,6 +492,7 @@ Chd|        USERWI_WRITE                  source/user_interface/userwindow_inter
 Chd|        USER_WINDOWS_ROUTINE          source/user_interface/user_windows.F
 Chd|        WCIUSC2                       source/input/wciusc2.F        
 Chd|        WIGEREST                      source/output/restart/rdresb.F
+Chd|        WRITE_TH_RESTART              source/output/th/write_th_restart.F
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        XANIM28                       source/elements/xelem/xanim28.F
 Chd|        XFORC28                       source/elements/xelem/xforc28.F

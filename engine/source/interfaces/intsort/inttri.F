@@ -66,6 +66,7 @@ Chd|        INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallo
 Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|        INTER_TRC_7                   source/interfaces/int07/inter_trc_7.F
+Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
 Chd|        INT_STARTIME                  source/system/timer_interf.F  
 Chd|        INT_STOPTIME                  source/system/timer_interf.F  
 Chd|        MY_BARRIER                    source/system/machine.F       

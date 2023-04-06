@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INVERTED_GROUP_DEALLOC        source/model/sets/inverted_group_dealloc.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|====================================================================

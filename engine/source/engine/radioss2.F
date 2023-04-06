@@ -100,6 +100,7 @@ Chd|        STACK_RREST                   source/output/restart/rdresb.F
 Chd|        SWITCH_TO_DTNODA              source/time_step/switch_to_dtnoda.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
 Chd|        THCRREST                      source/output/restart/rdresb.F
+Chd|        TH_CLEAN                      ../common_source/modules/output/time_history_mod.F
 Chd|        TRACE_IN                      source/system/trace_back.F    
 Chd|        TRACE_OUT                     source/system/trace_back.F    
 Chd|        UACCESS_DUM                   source/user_interface/uaccess.F
@@ -130,6 +131,7 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|        INTBUFFRIC_MOD                share/modules/restart_mod.F   
 Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        INTBUF_MOD                    share/modules/restart_mod.F   
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -137,6 +139,7 @@ Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        RBODY_MOD                     share/modules/rbody_mod.F     

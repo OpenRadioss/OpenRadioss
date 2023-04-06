@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  NOD2EL_MOD                    share/modules1/nod2el_mod.F   
 Chd|-- called by -----------
 Chd|        I2TID3                        source/interfaces/inter3d1/i2tid3.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
 Chd|        R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
 Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F

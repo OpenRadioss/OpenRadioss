@@ -27,6 +27,7 @@ Chd|        I24MAINF                      source/interfaces/int24/i24main.F
 Chd|-- calls ---------------
 Chd|        I24FIC_GETN                   source/interfaces/int24/i24for3e.F
 Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
+Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I24COR3(

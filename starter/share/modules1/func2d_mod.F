@@ -25,9 +25,7 @@ Chd|  FUNC2D_MOD                    share/modules1/func2d_mod.F
 Chd|-- called by -----------
 Chd|        HM_READ_FUNC2D                source/tools/curve/hm_read_func2d.F
 Chd|        HM_READ_INIMAP2D              source/initial_conditions/inimap/hm_read_inimap2d.F
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INI_INIMAP2D                  stub/ini_inimap2d.F           
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LEC_INIMAP2D_FILE             source/initial_conditions/inimap/lec_inimap2d_file.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F

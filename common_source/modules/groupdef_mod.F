@@ -276,7 +276,6 @@ Chd|        ININTSUB_7                    starter/source/output/subinterface/ini
 Chd|        INISMS                        starter/source/general_controls/computation/hm_read_sms.F
 Chd|        INISOLDIST                    starter/source/initial_conditions/inivol/inisoldist.F
 Chd|        INISRF                        starter/source/constraints/general/rbody/inisrf.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIT_MONVOL                   starter/source/airbag/init_monvol.F
 Chd|        INIVEL                        starter/source/initial_conditions/general/inivel/inivel.F
 Chd|        INI_FVMINIVEL                 starter/source/elements/initia/ini_fvminivel.F
@@ -297,7 +296,6 @@ Chd|        LECSEC42                      starter/source/tools/sect/hm_read_sect
 Chd|        LECSEC4BOLT                   starter/source/tools/sect/lecsec4bolt.F
 Chd|        LECTRANS                      starter/source/model/transformation/lectrans.F
 Chd|        LECTRANSSUB                   starter/source/model/submodel/lectranssub.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LEC_INIMAP1D_FILE             starter/source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        LEC_INIMAP2D_FILE             starter/source/initial_conditions/inimap/lec_inimap2d_file.F
 Chd|        LEC_INISTATE                  starter/source/elements/initia/lec_inistate.F
@@ -369,7 +367,6 @@ Chd|        SETELOFF                      starter/source/constraints/general/rbo
 Chd|        SETELOFF2                     starter/source/constraints/general/rbe2/hm_read_rbe2.F
 Chd|        SETRB2ON                      starter/source/constraints/general/rbe2/hm_read_rbe2.F
 Chd|        SETRBYON                      starter/source/constraints/general/rbody/hm_read_rbody.F
-Chd|        SET_IBUFSSG_IO                starter/source/starter/lectur.F
 Chd|        SGRHEAD                       starter/source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      starter/source/elements/solid/solide/sgrtails.F
 Chd|        SORT_SURF                     starter/source/groups/sort_surf.F

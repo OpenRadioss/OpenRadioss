@@ -221,6 +221,7 @@ Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
+Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        I_CORPFIT3                    source/interfaces/int24/i24cor3.F
 Chd|        I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F

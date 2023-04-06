@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INI_IFRONT                    source/spmd/node/ddtools.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|====================================================================
@@ -387,7 +386,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  SET_FRONT8                    source/spmd/node/ddtools.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
@@ -692,7 +690,6 @@ C--------------------------------------------------------------
 Chd|====================================================================
 Chd|  SET_INTERCEP                  source/spmd/node/ddtools.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
@@ -933,7 +930,6 @@ C Allocate CEP INTERFACE
 Chd|====================================================================
 Chd|  FILL_INTERCEP                 source/spmd/node/ddtools.F    
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    

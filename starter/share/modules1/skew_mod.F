@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        CHECK_SKEW                    source/spmd/domain_decomposition/check_skew.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DOMDEC2                       source/spmd/domdec2.F         
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        SPLIT_SKEW                    source/restart/ddsplit/split_skew.F
 Chd|        SPLIT_SKEW_save               source/restart/ddsplit/split_skew.F
 Chd|-- calls ---------------

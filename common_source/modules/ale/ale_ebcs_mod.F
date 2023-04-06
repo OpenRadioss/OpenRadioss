@@ -29,7 +29,6 @@ Chd|        DOMDEC2                       starter/source/spmd/domdec2.F
 Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
 Chd|        INIEBCS                       starter/source/boundary_conditions/ebcs/iniebcs.F
 Chd|        INIEBCSP0                     starter/source/boundary_conditions/ebcs/iniebcsp0.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_EBCS                     starter/source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F

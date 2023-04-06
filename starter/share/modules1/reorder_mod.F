@@ -32,8 +32,6 @@ Chd|        C_IDGLOB                      source/restart/ddsplit/c_idglob.F
 Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|        FVMESH0                       source/airbag/fvmesh0.F       
 Chd|        FVMESH1                       source/airbag/fvmesh.F        
-Chd|        INIT_PERMUTATION              source/starter/lectur.F       
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
 Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F

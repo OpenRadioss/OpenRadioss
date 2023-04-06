@@ -90,7 +90,6 @@ C
 Chd|====================================================================
 Chd|  APPLYSORT2FLUX                source/restart/ddsplit/w_ithflux.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE APPLYSORT2FLUX(IBFFLUX,SIZ1,SIZ2,PERMUTATIONS)

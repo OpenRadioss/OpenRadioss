@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  BINIT2                        source/ale/bimat/binit2.F     
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ATHERI                        source/ale/atheri.F           
 Chd|        ATURI2                        source/ale/ale2d/aturi2.F     

@@ -21,11 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DTNODA                        source/time_step/dtnoda.F     
+Chd|  DTNODA_STIFINT                source/interfaces/inter3d1/dtnoda_stifint.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd| 
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE DTNODA_STIFINT( MS    ,STIFN  ,DT_STIFINT)
 C-----------------------------------------------

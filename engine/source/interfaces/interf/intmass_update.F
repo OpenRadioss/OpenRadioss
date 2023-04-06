@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DTNODA                        source/time_step/dtnoda.F     
+Chd|  INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
-Chd| 
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE INTMASS_UPDATE(NIN  , IPARI, INTBUF_TAB, MS )
 C-----------------------------------------------

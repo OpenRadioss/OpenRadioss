@@ -29,7 +29,6 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        HM_READ_RETRACTOR             starter/source/tools/seatbelts/hm_read_retractor.F
 Chd|        HM_READ_SLIPRING              starter/source/tools/seatbelts/hm_read_slipring.F
 Chd|        INI_SEATBELT                  starter/source/tools/seatbelts/ini_seatbelt.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        NEW_SEATBELT                  starter/source/tools/seatbelts/new_seatbelt.F
 Chd|        RGRHEAD                       starter/source/elements/spring/rgrhead.F
 Chd|        RGRTAILS                      starter/source/elements/spring/rgrtails.F

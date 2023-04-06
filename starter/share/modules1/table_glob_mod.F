@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        GET_U_TABLE                   source/user_interface/utable.F
 Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        INIGUSER                      source/system/iniguser.F      
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        GET_U_NUMTABLE                source/user_interface/utable.F
 Chd|-- calls ---------------
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    

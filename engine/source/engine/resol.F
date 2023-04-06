@@ -456,6 +456,7 @@ Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
@@ -468,6 +469,7 @@ Chd|        MPI_TOOLS_MOD                 share/modules/mpi_tools_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DOMDEC2                       source/spmd/domdec2.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CHECK_SKEW                    source/spmd/domain_decomposition/check_skew.F
@@ -1993,7 +1992,6 @@ C
 Chd|====================================================================
 Chd|  FILLCNE                       source/spmd/domdec2.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
@@ -2748,7 +2746,6 @@ C
 Chd|====================================================================
 Chd|  FILLCNI2                      source/spmd/domdec2.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
@@ -2825,7 +2822,6 @@ C
 Chd|====================================================================
 Chd|  DDPRINT                       source/spmd/domdec2.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE  DDPRINT(DDSTAT,  MEMFLOW)

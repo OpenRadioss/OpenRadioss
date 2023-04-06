@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf_init/allocbuf_auto.F
 Chd|        INITVARS_AUTO                 source/elements/elbuf_init/initvars_auto.F

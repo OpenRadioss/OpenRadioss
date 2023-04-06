@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALE_ELEMENT_SIZE_COMPUTATION  source/initial_conditions/inivol/ale_element_size_computation.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE ALE_ELEMENT_SIZE_COMPUTATION(IPARG,IXS,IXQ,IXTG,

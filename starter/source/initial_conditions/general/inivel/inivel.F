@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FMT_DEF                       source/starter/fmt_def.F      

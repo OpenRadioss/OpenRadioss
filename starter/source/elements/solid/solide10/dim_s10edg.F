@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DIM_S10EDG                    source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE DIM_S10EDG(NEDG, IXS10 ,IPARG ,ITAGND)
@@ -85,7 +84,6 @@ C
 Chd|====================================================================
 Chd|  IND_S10EDG                    source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IND_S10EDG(ICNDS10, IXS, IXS10 ,IPARG,ITAGND)
@@ -168,7 +166,6 @@ C
 Chd|====================================================================
 Chd|  REORD_ICND                    source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REORD_ICND(ICNDS10, ITAGND)
@@ -402,7 +399,6 @@ C
 Chd|====================================================================
 Chd|  RIGMODIF1_ND                  source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RIGMODIF1_ND(NPBY,LPBY,ITAGND)
@@ -605,7 +601,6 @@ C
 Chd|====================================================================
 Chd|  RBE2MODIF1_ND                 source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -656,7 +651,6 @@ C
 Chd|====================================================================
 Chd|  BCSMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -741,7 +735,6 @@ C
 Chd|====================================================================
 Chd|  FIXMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        SAMEFVID                      source/elements/solid/solide10/dim_s10edg.F
@@ -1150,7 +1143,6 @@ c-----------
 Chd|====================================================================
 Chd|  PRE_CNDPON                    source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|====================================================================
@@ -1268,7 +1260,6 @@ C
 Chd|====================================================================
 Chd|  FILLCNCND                     source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FILLCNCND(CNCND  ,ADDCNCND, ICNDS10,ITAGND)
@@ -1313,7 +1304,6 @@ C
 Chd|====================================================================
 Chd|  STIFN0_ND                     source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE STIFN0_ND(ICNDS10,STIFN)
@@ -1349,7 +1339,6 @@ C
 Chd|====================================================================
 Chd|  STIFN1_ND                     source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE STIFN1_ND(ICNDS10,STIFN)
@@ -1393,7 +1382,6 @@ C
 Chd|====================================================================
 Chd|  BCSCYCMODIF_ND                source/elements/solid/solide10/dim_s10edg.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -21,29 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  STATE_MOD                     modules/interfaces_mod.F           
+Chd|  INTERFACES_MOD                modules/interfaces/interfaces_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        ECRIT                         engine/source/output/ecrit.F  
-Chd|        FREDYNAIN                     engine/source/input/fredynain.F
-Chd|        FREFORM                       engine/source/input/freform.F 
-Chd|        GENDYNAIN                     engine/source/output/dynain/gendynain.F
-Chd|        LECINP                        engine/source/input/lecinp.F  
-Chd|        LECTUR                        engine/source/input/lectur.F  
+Chd|        HM_READ_INTERFACES            starter/source/interfaces/reader/hm_read_interfaces.F
+Chd|        HM_READ_INTER_STRUCT          starter/source/interfaces/reader/hm_read_inter_struct.F
+Chd|        I24MAINF                      engine/source/interfaces/int24/i24main.F
+Chd|        I25MAINF                      engine/source/interfaces/int25/i25mainf.F
+Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
-Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESA                        engine/source/output/restart/rdresa.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
-Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
-Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
+Chd|        PARAMETERS_MOD                modules/interfaces/parameters_mod.F
 Chd|====================================================================
         MODULE INTERFACES_MOD
 C-----------------------------------------------

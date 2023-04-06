@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        SOLVE_EINT                    source/initial_conditions/inimap/ini_inimap1d.F

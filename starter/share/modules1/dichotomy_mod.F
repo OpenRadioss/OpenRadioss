@@ -29,7 +29,6 @@ Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F
 Chd|        HM_READ_SURF                  source/groups/hm_read_surf.F  
 Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
 Chd|        HM_SET                        source/model/sets/hm_set.F    
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|        SORT_SET                      source/model/sets/sort_sets.F 
 Chd|-- calls ---------------

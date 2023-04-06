@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        LOCAL_EDGE_NUMBERING          source/spmd/prepare_split_i25e2e.F
 Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F

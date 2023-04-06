@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  BUILD_CNEL                    source/model/mesh/build_cnel.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BUILD_CNEL(
@@ -420,7 +419,6 @@ C------------------------------------------------
 Chd|====================================================================
 Chd|  PREPARE_INT25                 source/model/mesh/build_cnel.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
@@ -525,7 +523,6 @@ C         IRTLM(3,-) <=> n� de segment local sur IRTLM(4,-)
 Chd|====================================================================
 Chd|  BUILD_CSRECT                  source/model/mesh/build_cnel.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================

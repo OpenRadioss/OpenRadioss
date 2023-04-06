@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LCE16Q3                       source/elements/solid_2d/quad/lce16q.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        REORDR                        source/elements/solid_2d/quad/reordr.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

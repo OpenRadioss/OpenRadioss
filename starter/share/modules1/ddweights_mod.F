@@ -33,7 +33,6 @@ Chd|        INITWG_TRI                    source/spmd/domain_decomposition/initw
 Chd|        INITWG_TRUSS                  source/spmd/domain_decomposition/initwg_truss.F
 Chd|        INITWG_X                      source/spmd/domain_decomposition/initwg_x.F
 Chd|        INIT_MAT_WEIGHT               source/user_interface/set_dd_mat_weight.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
 Chd|        SET_DD_MAT_WEIGHT             source/user_interface/set_dd_mat_weight.F
 Chd|-- calls ---------------

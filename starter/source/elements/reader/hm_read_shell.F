@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  HM_READ_SHELL                 source/elements/reader/hm_read_shell.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANODSET                       source/output/analyse/analyse_node.c

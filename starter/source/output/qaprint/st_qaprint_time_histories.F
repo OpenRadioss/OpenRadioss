@@ -27,6 +27,7 @@ Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_drive
 Chd|-- calls ---------------
 Chd|        ST_QAPRINT_THGROU             source/output/qaprint/st_qaprint_time_histories.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_TIME_HISTORIES(TH , ITHVAR , IPART  , SUBSETS, 
      .                                     IPARTTH, NTHGRPMX)

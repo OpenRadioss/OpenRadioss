@@ -49,7 +49,6 @@ Chd|        INTER_DCOD_FRICTION           source/interfaces/reader/inter_dcod_fr
 Chd|        INTFRIC_WRESTI                source/interfaces/intbuf/intbufFric_ini_starter.F
 Chd|        INTFRIC_WRESTR                source/interfaces/intbuf/intbufFric_ini_starter.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_FRICTION           source/output/qaprint/st_qaprint_friction.F

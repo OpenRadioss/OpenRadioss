@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  KINCHK                        source/constraints/general/kinchk.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
@@ -1149,7 +1148,6 @@ C
 Chd|====================================================================
 Chd|  KINREM                        source/constraints/general/kinchk.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE KINREM(IKINE,IKINEW,RWL,ITAB,NPRW,LPRW,
@@ -1220,7 +1218,6 @@ C
 Chd|====================================================================
 Chd|  INIVCHK                       source/constraints/general/kinchk.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        RBE2_IMPD                     source/constraints/general/kinchk.F
 Chd|        RBE3_IMPD                     source/constraints/general/kinchk.F

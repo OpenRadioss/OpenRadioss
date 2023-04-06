@@ -25,6 +25,7 @@ Chd|  S6MASS3                       source/elements/thickshell/solide6c/s6mass3.
 Chd|-- called by -----------
 Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
 Chd|-- calls ---------------
+Chd|        S6FRACA                       source/elements/thickshell/solide6c/s6fraca3.F
 Chd|====================================================================
       SUBROUTINE S6MASS3(RHO,MS,PARTSAV,X,V,IPART,MSS,
      .     RHOCP,MCP ,MCPS,MSSA,FILL, VOLU, 

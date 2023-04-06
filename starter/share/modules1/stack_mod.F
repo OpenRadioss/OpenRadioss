@@ -47,12 +47,10 @@ Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51
 Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
 Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
 Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIVOID                       source/elements/initia/inivoid.F
 Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
 Chd|        LAYINI_XFE                    source/elements/xfem/cbufxfe.F
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F

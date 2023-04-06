@@ -65,7 +65,6 @@ Chd|        INGRBRIC_DX                   starter/source/interfaces/interf1/ingr
 Chd|        INIFILL                       starter/source/initial_conditions/inivol/inifill.F
 Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
 Chd|        INIPHASE                      starter/source/initial_conditions/inivol/iniphase.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIVEL                        starter/source/initial_conditions/general/inivel/inivel.F
 Chd|        INIVOL_SET                    starter/source/initial_conditions/inivol/inivol_set.F
 Chd|        INI_FVMINIVEL                 starter/source/elements/initia/ini_fvminivel.F
@@ -74,7 +73,6 @@ Chd|        INI_INIMAP2D                  starter/stub/ini_inimap2d.F
 Chd|        IPARI_L_INI                   starter/source/restart/ddsplit/ipari_l_ini.F
 Chd|        LECINS                        starter/source/interfaces/interf1/lecins.F
 Chd|        LECINT                        starter/source/interfaces/interf1/lecint.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LEC_INIMAP1D_FILE             starter/source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        MULTIFLUID_GLOBAL_TDET        starter/source/multifluid/multifluid_global_tdet.F
 Chd|        MULTIFLUID_INIT2T             starter/source/multifluid/multifluid_init2t.F

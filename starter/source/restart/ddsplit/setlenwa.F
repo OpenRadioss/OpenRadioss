@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  SETLENWA                      source/restart/ddsplit/setlenwa.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SETLENWA(
@@ -110,7 +109,6 @@ C
 Chd|====================================================================
 Chd|  SETMULTI                      source/restart/ddsplit/setlenwa.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SETMULTI(IPARI)

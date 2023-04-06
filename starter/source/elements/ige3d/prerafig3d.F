@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
 Chd|-- calls ---------------
 Chd|        COMPUT_COINKNOT               source/elements/ige3d/comput_coinknot.F

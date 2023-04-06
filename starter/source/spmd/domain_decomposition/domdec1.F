@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        DD_ANI                        source/output/anim/dd_ani.F   
 Chd|        DD_FR                         source/spmd/domain_decomposition/domdec1.F

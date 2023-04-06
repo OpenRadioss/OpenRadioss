@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_PREREAD_BCSCYC             source/constraints/general/bcs/lecbcscyc.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL                       source/starter/freform.F      
@@ -126,7 +125,6 @@ C
 Chd|====================================================================
 Chd|  INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        INIBCS_CY                     source/constraints/general/bcs/lecbcscyc.F

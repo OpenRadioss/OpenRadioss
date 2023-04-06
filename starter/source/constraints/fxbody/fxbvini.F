@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FXBVINI                       source/constraints/fxbody/fxbvini.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FXBVINI(FXBIPM, FXBVIT, FXBRPM, V, VR)

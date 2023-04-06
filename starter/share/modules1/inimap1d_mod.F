@@ -24,9 +24,7 @@ Chd|====================================================================
 Chd|  INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
 Chd|-- called by -----------
 Chd|        HM_READ_INIMAP1D              source/initial_conditions/inimap/hm_read_inimap1d.F
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LEC_INIMAP1D_FILE             source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_INITIAL_CONDITIONS source/output/qaprint/st_qaprint_initial_conditions.F

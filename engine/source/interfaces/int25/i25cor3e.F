@@ -25,6 +25,7 @@ Chd|  I25COR3E                      source/interfaces/int25/i25cor3e.F
 Chd|-- called by -----------
 Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
+Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

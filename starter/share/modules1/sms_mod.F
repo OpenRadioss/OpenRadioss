@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SMS_MOD                       share/modules1/sms_mod.F      
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NOD_SMS_DT_SOL                source/ams/sms_auto_dt.F      
 Chd|-- calls ---------------
 Chd|====================================================================

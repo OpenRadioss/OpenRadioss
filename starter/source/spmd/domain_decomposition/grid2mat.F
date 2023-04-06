@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        C_IDDCONNECT                  source/spmd/node/ddtools.F    
@@ -2996,7 +2995,6 @@ C
 Chd|====================================================================
 Chd|  SPDOMETIS                     source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|====================================================================
@@ -3516,7 +3514,6 @@ c        END IF
 Chd|====================================================================
 Chd|  PRELEC_DDW                    source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRELEC_DDW(FILNAM,LEN_FILNAM,MARQUEUR3)
@@ -3583,7 +3580,6 @@ C        Prelecture des poids couple Mat/Prop
 Chd|====================================================================
 Chd|  LEC_DDW                       source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LEC_DDW(FILNAM,LEN_FILNAM,TAB_UMP_OLD,CPUTIME_MP_OLD)
@@ -3630,7 +3626,6 @@ C     Lecture des poids couple Mat/Prop
 Chd|====================================================================
 Chd|  PRELEC_DDW_POIN               source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRELEC_DDW_POIN(FILNAM,LEN_FILNAM)
@@ -3666,7 +3661,6 @@ C     Lecture du pointer
 Chd|====================================================================
 Chd|  LEC_DDW_POIN                  source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LEC_DDW_POIN(FILNAM,LEN_FILNAM,POIN_UMP_OLD)
@@ -3708,7 +3702,6 @@ C     Lecture du pointer
 Chd|====================================================================
 Chd|  REINI_MATPROP                 source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REINI_MATPROP(TAILLE,TAILLE2,TAB_UMP_LOC,TAB_UMP_LOC2,
@@ -3919,7 +3912,6 @@ C
 Chd|====================================================================
 Chd|  REINI_MATPROP2                source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REINI_MATPROP2(TAILLE,TAILLE2,

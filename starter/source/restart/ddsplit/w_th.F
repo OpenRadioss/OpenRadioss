@@ -24,7 +24,7 @@ C
 Chd|====================================================================
 Chd|  W_TH                          source/restart/ddsplit/w_th.F 
 Chd|-- called by -----------
-Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        WRITE_TH_BUFFER               source/restart/ddsplit/write_th_buffer.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    

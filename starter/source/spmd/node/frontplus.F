@@ -78,14 +78,12 @@ Chd|        INIEND2D                      source/interfaces/inter3d1/iniend.F
 Chd|        INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        INI_SEATBELT                  source/tools/seatbelts/ini_seatbelt.F
 Chd|        LECSTAMP                      source/interfaces/interf1/lecstamp.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        PORNOD                        source/ale/pornod.F           
 Chd|        R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
 Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_SENSOR_DISP              source/tools/sensor/read_sensor_disp.F
-Chd|        SET_IBUFSSG_IO                source/starter/lectur.F       
 Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
 Chd|        SPMDSET                       source/constraints/general/rbody/spmdset.F
 Chd|        UELT_SPMD_ADDITIONAL_NODE     source/user_interface/uaccess.F

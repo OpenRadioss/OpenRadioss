@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ALENO                         source/airbag/fvmbag1.F       
 Chd|        ANCMSG                        source/output/message/message.F

@@ -57,7 +57,6 @@ C
 Chd|====================================================================
 Chd|  INIT_MAT_WEIGHT               source/user_interface/set_dd_mat_weight.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
 Chd|-- calls ---------------
 Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F

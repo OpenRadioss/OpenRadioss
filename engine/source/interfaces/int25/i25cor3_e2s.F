@@ -27,6 +27,7 @@ Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
 Chd|        INT_CHECKSUM                  share/modules/debug_mod.F     
 Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
+Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

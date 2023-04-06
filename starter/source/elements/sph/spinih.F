@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPINIH                        source/elements/sph/spinih.F  
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
 Chd|====================================================================

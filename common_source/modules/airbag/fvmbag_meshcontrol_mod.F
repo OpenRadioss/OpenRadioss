@@ -31,7 +31,6 @@ Chd|        FVMESH0                       starter/source/airbag/fvmesh0.F
 Chd|        FVWRESTP                      starter/source/restart/ddsplit/fvwrestp.F
 Chd|        HYPERMESH_TETRA               starter/stub/fvmbags_stub.F   
 Chd|        INIT_MONVOL                   starter/source/airbag/init_monvol.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        MESHGEMS_TETRA                starter/stub/fvmbags_stub.F   
 Chd|        WRITEMESH                     starter/source/airbag/writeMesh.F
 Chd|        ALEVFLU                       engine/source/output/anim/generate/genani.F

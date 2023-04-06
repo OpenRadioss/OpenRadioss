@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SMS_AUTO_DT                   source/ams/sms_auto_dt.F      
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        NOD_SMS_DT                    source/ams/sms_auto_dt.F      
 Chd|        NOD_SMS_DT_SOL                source/ams/sms_auto_dt.F      

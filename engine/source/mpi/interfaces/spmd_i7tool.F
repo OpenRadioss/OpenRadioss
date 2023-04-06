@@ -3472,6 +3472,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

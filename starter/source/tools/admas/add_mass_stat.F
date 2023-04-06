@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FIND_DT_TARGET                ../common_source/tools/time_step/find_dt_target.F
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INIEBCSP                      source/boundary_conditions/ebcs/iniebcsp.F
 Chd|        INIEBCS_DP                    source/boundary_conditions/ebcs/iniebcs_dp.F

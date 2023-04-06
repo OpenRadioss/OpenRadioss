@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        BULKIGE3                      source/elements/ige3d/bulkigeo3.F
 Chd|        DTMAIN                        source/materials/time_step/dtmain.F

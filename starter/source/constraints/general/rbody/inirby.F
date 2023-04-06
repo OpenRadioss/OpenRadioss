@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIRBY                        source/constraints/general/rbody/inirby.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CHBAS                         source/constraints/general/rbody/chbas.F
@@ -1107,7 +1106,6 @@ C
 Chd|====================================================================
 Chd|  INIRBYS                       source/constraints/general/rbody/inirby.F
 Chd|-- called by -----------
-Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        INEPRI                        source/materials/mat/mat019/inepri.F

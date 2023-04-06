@@ -627,7 +627,6 @@ C     >IU>TABM
 Chd|====================================================================
 Chd|  R2R_NOM_OPT                   source/coupling/rad2rad/routines_r2r.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================

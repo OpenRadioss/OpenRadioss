@@ -21,28 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  STATE_MOD                     modules/intparameters_mod.F           
+Chd|  PARAMETERS_MOD                modules/interfaces/parameters_mod.F
 Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        INTERFACES_MOD                common_source/modules/interfaces/interfaces_mod.F
+Chd|        HM_READ_INTER_TYPE24          starter/source/interfaces/int24/hm_read_inter_type24.F
+Chd|        HM_READ_INTER_TYPE25          starter/source/interfaces/int25/hm_read_inter_type25.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
-Chd|        ECRIT                         engine/source/output/ecrit.F  
-Chd|        FREDYNAIN                     engine/source/input/fredynain.F
-Chd|        FREFORM                       engine/source/input/freform.F 
-Chd|        GENDYNAIN                     engine/source/output/dynain/gendynain.F
-Chd|        LECINP                        engine/source/input/lecinp.F  
-Chd|        LECTUR                        engine/source/input/lectur.F  
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        WRCOMR                        starter/source/restart/ddsplit/wrcomm.F
+Chd|        I24COR3                       engine/source/interfaces/int24/i24cor3.F
+Chd|        I25COR3E                      engine/source/interfaces/int25/i25cor3e.F
+Chd|        I25COR3_3                     engine/source/interfaces/int25/i25cor3.F
+Chd|        I25COR3_E2S                   engine/source/interfaces/int25/i25cor3_e2s.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
-Chd|        RDRESA                        engine/source/output/restart/rdresa.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        SPMD_INITFI                   engine/source/mpi/interfaces/spmd_i7tool.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE PARAMETERS_MOD

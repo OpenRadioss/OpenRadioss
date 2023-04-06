@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SMS_INIT                      source/ams/sms_init.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
@@ -376,7 +375,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  SMS_INI_KAD                   source/ams/sms_init.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SMS_INI_KAD(
@@ -760,7 +758,6 @@ C
 Chd|====================================================================
 Chd|  SMS_INI_KDI                   source/ams/sms_init.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
@@ -1164,7 +1161,6 @@ C
 Chd|====================================================================
 Chd|  SMS_INI_JAD_1                 source/ams/sms_init.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
@@ -1551,7 +1547,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  SMS_INI_JAD_2                 source/ams/sms_init.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
@@ -1853,7 +1848,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  SMS_INI_JAD_3                 source/ams/sms_init.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

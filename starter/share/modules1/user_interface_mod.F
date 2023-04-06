@@ -47,7 +47,6 @@ C-------------------------------------------------------------------------------
 Chd|====================================================================
 Chd|  USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|-- calls ---------------

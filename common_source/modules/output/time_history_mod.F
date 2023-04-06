@@ -21,8 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TH_TYPE                      modules/time_history_type.F
+Chd|  TIME_HISTORY_MOD              modules/output/time_history_mod.F
 Chd|-- called by -----------
+Chd|        OUTPUT_MOD                    common_source/modules/output/output_mod.F
+Chd|        WRITE_TH_BUFFER               starter/source/restart/ddsplit/write_th_buffer.F
+Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
+Chd|        READ_TH_RESTART               engine/source/output/th/read_th_restart.F
+Chd|        WRITE_TH_RESTART              engine/source/output/th/write_th_restart.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE TIME_HISTORY_MOD
@@ -76,10 +81,12 @@ Chd|====================================================================
          CONTAINS
 
 Chd|====================================================================
-Chd|  TH_ALLOC             
+Chd|  TH_ALLOC                      modules/output/time_history_mod.F
 Chd|-- called by -----------
-Chd|       
+Chd|        READ_TH_RESTART               engine/source/output/th/read_th_restart.F
 Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
+Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE TH_ALLOC(TH,
      .                       SITHGRP,  SITHBUF ,
@@ -150,9 +157,10 @@ C-----------------------------------------------
 
 
 Chd|====================================================================
-Chd|  TH_ALLOC             
+Chd|  TH_CLEAN                      modules/output/time_history_mod.F
 Chd|-- called by -----------
-Chd|       
+Chd|        STARTER0                      starter/source/starter/starter0.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TH_CLEAN(TH )

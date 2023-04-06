@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  GENANI1                       source/output/anim/genani1.F  
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANIOFF0                       source/output/anim/anioff0.F  
 Chd|        ANIOFFC                       source/output/anim/anioffc.F  

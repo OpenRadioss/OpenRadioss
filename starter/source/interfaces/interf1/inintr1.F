@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        I20STIFN                      source/interfaces/inter3d1/i20stifn.F
 Chd|        I24STSECND                    source/interfaces/inter3d1/i24stslav.F

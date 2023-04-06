@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_FXB1                  source/constraints/fxbody/hm_read_fxb.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL                       source/starter/freform.F      
@@ -482,7 +481,6 @@ c===============================================================================
 Chd|====================================================================
 Chd|  HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      

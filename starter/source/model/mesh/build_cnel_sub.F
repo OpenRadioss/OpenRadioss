@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  BUILD_CNEL_SUB                source/model/mesh/build_cnel_sub.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BUILD_CNEL_SUB(CNEL_SUB ,ADDCNEL_SUB,CNEL     ,ADDCNEL  ,

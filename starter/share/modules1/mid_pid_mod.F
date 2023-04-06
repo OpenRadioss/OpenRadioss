@@ -31,7 +31,6 @@ Chd|        INITWG_SHELL                  source/spmd/domain_decomposition/initw
 Chd|        INITWG_SOLID                  source/spmd/domain_decomposition/initwg_solid.F
 Chd|        INITWG_TRI                    source/spmd/domain_decomposition/initwg_tri.F
 Chd|        INIT_MID_PID_ARRAY            source/spmd/tools/init_mid_pid_array.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        W_TABMAT_PROP                 source/restart/ddsplit/w_tabmat_prop.F
 Chd|-- calls ---------------
 Chd|====================================================================

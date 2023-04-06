@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DTNODA                        source/time_step/dtnoda.F     
+Chd|  ININTMASS                     source/interfaces/inter3d1/inintmass.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd| 
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININTMASS( IPARI, INTBUF_TAB, MS  ,ISTIF_DT)
 C-----------------------------------------------

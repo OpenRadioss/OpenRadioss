@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        PRESCRINT                     source/interfaces/interf1/prescrint.F
 Chd|        SCRINT                        source/interfaces/interf1/scrint.F
 Chd|-- calls ---------------

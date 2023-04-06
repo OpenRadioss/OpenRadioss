@@ -54,6 +54,7 @@ Chd|        WRITE_JOINT                   source/output/restart/write_joint.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
 Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
+Chd|        WRITE_TH_RESTART              source/output/th/write_th_restart.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|        W_CLUSTER                     source/output/cluster/w_cluster.F
 Chd|        W_ELBUF_STR                   source/elements/elbuf/w_elbuf_str.F
@@ -76,12 +77,14 @@ Chd|        INT8_MOD                      ../common_source/modules/interfaces/in
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        RESTMOD                       share/modules/restart_mod.F   

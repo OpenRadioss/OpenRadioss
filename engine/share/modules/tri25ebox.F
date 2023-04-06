@@ -36,6 +36,7 @@ Chd|        I25OPTCD_EDG                  source/interfaces/intsort/i25optcd_edg
 Chd|        I25STO_E2S                    source/interfaces/intsort/i25sto_e2s.F
 Chd|        I25STO_EDG                    source/interfaces/intsort/i25sto_edg.F
 Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_edg.F
+Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F

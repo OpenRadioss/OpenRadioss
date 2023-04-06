@@ -59,6 +59,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        ST_UACCESS_DUM                source/user_interface/uaccess.F
 Chd|        ST_UTABLE_DUM                 source/user_interface/utable.F
+Chd|        TH_CLEAN                      ../common_source/modules/output/time_history_mod.F
 Chd|        TITRE1                        source/output/outfile/titre1.F
 Chd|        TRACE_IN1                     source/system/trace_back.F    
 Chd|        TRACE_OUT1                    source/system/trace_back.F    
@@ -75,6 +76,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SET_POIN_UMP                  source/system/set_poin_ump.F  
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SET_POIN_UMP(IPART,IPM,TAB_UMP,POIN_UMP,TAILLE)

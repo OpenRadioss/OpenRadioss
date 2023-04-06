@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DSWREST                       source/restart/ddsplit/wrrest.F
 Chd|        DSWRESTP                      source/restart/ddsplit/wrrest.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE DSGRAPH_MOD

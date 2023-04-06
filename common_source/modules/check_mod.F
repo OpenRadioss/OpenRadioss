@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
 Chd|        FREFORM                       starter/source/starter/freform.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        EXECARGCHECK                  engine/source/engine/execargcheck.F
 Chd|        FREFORM                       engine/source/input/freform.F 

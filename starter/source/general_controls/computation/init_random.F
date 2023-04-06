@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIT_RANDOM                   source/general_controls/computation/init_random.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        RANDOM_MOD                    share/modules1/random_mod.F   
 Chd|====================================================================
