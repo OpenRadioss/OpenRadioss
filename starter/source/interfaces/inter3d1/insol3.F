@@ -191,6 +191,10 @@ Chd|====================================================================
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
      .                  IXS10,IXS16,IXS20 )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -199,6 +203,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -218,14 +223,20 @@ C     REAL
       my_real
      .   N1, N2, N3, DDS
       my_real :: XX1(4),XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
+      INTEGER, DIMENSION(:),ALLOCATABLE ::TAGELEMS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C
       NEL=0
       IC=0
+
       IF(NUMELS==0) RETURN
        IF(IRECT(1,I)>NUMNOD) RETURN
+
+       MY_ALLOCATE(TAGELEMS,NUMELS)
+       TAGELEMS = 0
+
        NUSERM = -1
        DO 230 IAD=KNOD2ELS(IRECT(1,I))+1,KNOD2ELS(IRECT(1,I)+1)
         N = NOD2ELS(IAD)
@@ -237,11 +248,14 @@ C
             ENDDO
             GOTO 230
   210     CONTINUE
-          IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER>NUSERM) THEN
-            NEL = N
-            NUSERM = NUSER
+          IF(TAGELEMS(N)==0) THEN
+             IC=IC+1
+             TAGELEMS(N) = 1
+             IF (NUSER>NUSERM) THEN
+                NEL = N
+                NUSERM = NUSER
+             ENDIF
           ENDIF
         ELSEIF(N <= NUMELS8+NUMELS10)THEN
           DO 220 JJ=1,4
@@ -254,11 +268,14 @@ C
             ENDDO
             GOTO 230
   220     CONTINUE
-          IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER>NUSERM) THEN
-            NEL = N
-            NUSERM = NUSER
+          IF(TAGELEMS(N)==0) THEN
+             IC=IC+1
+             TAGELEMS(N) = 1
+             IF (NUSER>NUSERM) THEN
+                NEL = N
+                NUSERM = NUSER
+             ENDIF
           ENDIF
         ELSEIF(N <= NUMELS8+NUMELS10+NUMELS20)THEN
           DO 222 JJ=1,4
@@ -271,11 +288,14 @@ C
             ENDDO
             GOTO 230
   222     CONTINUE
-          IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER>NUSERM) THEN
-            NEL = N
-            NUSERM = NUSER
+          IF(TAGELEMS(N)==0) THEN
+             IC=IC+1
+             TAGELEMS(N) = 1
+             IF (NUSER>NUSERM) THEN
+                NEL = N
+                NUSERM = NUSER
+             ENDIF
           ENDIF
         ELSEIF(N <= NUMELS8+NUMELS10+NUMELS20+NUMELS16)THEN
           DO 224 JJ=1,4
@@ -288,19 +308,24 @@ C
             ENDDO
             GOTO 230
   224     CONTINUE
-          IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER>NUSERM) THEN
-            NEL = N
-            NUSERM = NUSER
+          IF(TAGELEMS(N)==0) THEN
+             IC=IC+1
+             TAGELEMS(N) = 1
+             IF (NUSER>NUSERM) THEN
+                NEL = N
+                NUSERM = NUSER
+             ENDIF
           ENDIF
         ELSE
           GOTO 230
         END IF
   230  CONTINUE
+       DEALLOCATE(TAGELEMS)
+
        IF (NUSERM==-1) RETURN
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     SEGMENTS ORIENTATION CHECKING 
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO
@@ -316,6 +341,7 @@ C-----------------------------------------------
   100  ZS1=ZS1+FOURTH*X(3,NN)       
 C
        CALL NORMA1D(N1,N2,N3,AREA,XX1,XX2,XX3)
+
        XC=0.
        YC=0.
        ZC=0.
@@ -328,9 +354,11 @@ C
        XC=XC*ONE_OVER_8
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
+
        IF(IR/=0) RETURN
        IF(IC>=2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
+
        IF(DDS<ZERO) RETURN
        IF(IY(3)==IY(4)) THEN
         IRECT(1,I)=IY(2)
