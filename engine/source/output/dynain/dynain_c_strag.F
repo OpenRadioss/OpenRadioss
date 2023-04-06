@@ -427,9 +427,9 @@ c
 
             J = J + 5
             IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-               WRITE(IUDYNAIN,'(3I10,I10)')ID,NPG,NPT,LARGE
+               WRITE(IUDYNAIN,'(4I8)')ID,NPG,NPT,LARGE
             ELSE
-               WRITE(LINE,'(3I10,I10)')ID,NPG,NPT,LARGE
+               WRITE(LINE,'(4I8)')ID,NPG,NPT,LARGE
                CALL STRS_TXT50(LINE,100)
             ENDIF
             IF (NPT == 0) THEN
@@ -777,9 +777,9 @@ C
             J = J + 5
 
             IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-              WRITE(IUDYNAIN,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
+              WRITE(IUDYNAIN,'(4I8)')ID,NPG,NPT,LARGE
             ELSE
-              WRITE(LINE,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
+              WRITE(LINE,'(4I8)')ID,NPG,NPT,LARGE
               CALL STRS_TXT50(LINE,100)
             ENDIF
 
