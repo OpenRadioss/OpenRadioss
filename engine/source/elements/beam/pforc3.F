@@ -153,6 +153,7 @@ C-----------------------------------------------
      8   E3Y,      E3Z,      NEL)
       IF (ISMSTR /= 0) CALL PPXPY3(
      1   GBUF%LENGTH,AL,         NEL)
+      IGTYP = IGEO(11,PID(1))
       CALL PDLEN3(
      1   JFT,      JLT,      PM,       GEO,
      2   GBUF%OFF, DT2T,     NELTST,   ITYPTST,
@@ -177,7 +178,6 @@ C-----------------------------------------------
      7   E2Y,     E2Z,     E3X,     E3Y,
      8   E3Z,     PID,     NEL)
 C---
-      IGTYP = IGEO(11,PID(1))
       NUPARAM = IPM(9,MAT(1))
 C---
        DIE(JFT:JLT)   = ZERO
