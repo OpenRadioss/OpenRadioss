@@ -437,7 +437,7 @@ C-----------------------------------------------
       TYPE INTERMASURFEP
         INTEGER, DIMENSION(:), POINTER :: P
       END TYPE INTERMASURFEP
-      TYPE (DYNAIN_DATABASE), INTENT(IN)    :: DYNAIN_DATA
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT)    :: DYNAIN_DATA
       TYPE (OUTPUT_),INTENT(IN)             :: OUTPUT
       TYPE (INTERFACES_)   ,INTENT(IN)      :: INTERFACES
 C-----------------------------------------------
