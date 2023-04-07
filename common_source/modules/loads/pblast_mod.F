@@ -287,7 +287,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: SIZ,IERR1,I,NSEG_LOC,IAD,OFF,JJ
+      INTEGER :: SIZ,I,NSEG_LOC,IAD,OFF,JJ
       INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
       my_real, DIMENSION(:),ALLOCATABLE :: RTMP
 C-----------------------------------------------
@@ -378,7 +378,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: SIZ,IERR1,I,IAD,JJ
+      INTEGER :: SIZ,I,IAD,JJ
       INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
       my_real, DIMENSION(:),ALLOCATABLE :: RTMP
 C-----------------------------------------------

@@ -86,7 +86,7 @@ C-----------------------------------------------
        IDT_PBLAST = 0      
 
        IF(NLOADP_B==0)THEN
-         RETURN 
+         RETURN
        ENDIF     
        
 C-----------------------------------------------,
@@ -123,20 +123,20 @@ C-----------------------------------------------
                !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
                CALL PBLAST_1(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
-     2                       IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT     ,
+     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
      3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
      
              CASE(2)
                !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
                CALL PBLAST_2(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
-     2                       IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT     ,
+     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
      3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)        
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
                CALL PBLAST_3(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
-     2                       IADC    ,FSKY     ,FSKYV    ,LLOADP    ,FEXT     ,
+     2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
      3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
      
              END SELECT 
@@ -152,10 +152,8 @@ C-----------------------------------------------
                NN(2)=LLOADP(ILOADP(4,NL)+4*(II-1)+1)
                NN(3)=LLOADP(ILOADP(4,NL)+4*(II-1)+2)
                NN(4)=LLOADP(ILOADP(4,NL)+4*(II-1)+3)
-               IF(NN(4) /= 0 .AND.
-     .            NN(1) /= NN(2) .AND. NN(1) /= NN(3) .AND. NN(1) /= NN(4) .AND.
-     .            NN(2) /= NN(3) .AND. NN(2) /= NN(4) .AND.
-     .            NN(3) /= NN(4) )THEN
+               IF(NN(4) /= 0 .AND.NN(1) /= NN(2) .AND. NN(1) /= NN(3) .AND. NN(1) /= NN(4) .AND.
+     .            NN(2) /= NN(3) .AND. NN(2) /= NN(4) .AND. NN(3) /= NN(4) )THEN
                  NNOD=4
                ELSE
                  NNOD=3

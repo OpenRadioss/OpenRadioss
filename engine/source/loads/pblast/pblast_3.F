@@ -33,7 +33,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|====================================================================
       SUBROUTINE PBLAST_3(ILOADP  ,FAC      ,A       ,V         ,X       ,
-     1                    IADC    ,FSKY     ,FSKYV   ,LLOADP    ,FEXT    ,
+     1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
      2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -69,68 +69,43 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),NL
       my_real,INTENT(INOUT) :: T0INF_LOC,TFEXT_LOC
       my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
-      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1, ISK, N2, N3, N4,IL,IS,
-     .        IERR,ICODE,IAD,I,
-     .        IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
-     .        Phi_I, ID, ITA_SHIFT,
-     .        NITER,ITER,IMODEL,ITMP
-     
+      INTEGER N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1
+      INTEGER Phi_I, ID, ITA_SHIFT, NITER,ITER,IMODEL,ITMP
+      INTEGER :: idx_zg1, idx_zg2, idx1_angle, idx2_angle, idx1, idx2
+      INTEGER :: curve_id1, curve_id2, NN(4)   
+      LOGICAL :: calculate, BOOL_UNDERGROUND_CURRENT_SEG     
+          
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz ! target face centroid and normal vector
       my_real NNx,NNy,NNz,NORM_NN, NORM2_NN, tmp_var ! ground vector
-      my_real SgnDist
       my_real HZ ! height of centroid
       my_real LG,ZG ! ground distance and scaled ground distance(SHDC : scaled horizontal distance from charge)
-      my_real ZH ! scaled height
-      my_real ZC,ZC_ftlb ! scaled height of charge, and its value in ft/(lb**1/3)
+      my_real ZC ! scaled height of charge, and its value in ft/(lb**1/3)
       my_real SHTP,HTP ! scaled height of triple point
-      my_real ANGLE !angle of incidence
       my_real ANGLE_G ! angle of incidence at ground
       my_real Pra, Pra_refl !mach front incident pressure and refelcted pressure
       my_real Ira, Ira_refl !mach impulse
       my_real ProjZ(3),ProjDet(3), tmp(3)
       my_real Z_struct ! scaled height for target face
-
       my_real alpha_zc ! interpolation between curves Scaled Height of Charge
       my_real alpha_zg ! interpolation between abscissa on figure 2-13 (scaled distance on ground)
-            
-      INTEGER :: idx_ZC, idx_zg1, idx_zg2, idx1_angle, idx2_angle, idx1, idx2
       my_real :: alpha_angle !inteprolation factor
       
-      INTEGER :: curve_id1, curve_id2
-      
-      LOGICAL :: calculate, BOOL_UNDERGROUND_CURRENT_SEG      
-      
-      my_real
-     .   AA, A0, VV, DYDX, TS, LAMBDA,
-     .   F1, F2,FCX,FCY, VSEGX, VSEGY, VSEGZ,
-     .   FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,
-     .   cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,Phi_DB,bound1,bound2, 
-     .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
-     .   WAVE_refl,WAVE_inci, W13, P0, T_
-      my_real FINTER,COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,FV(MVSIZ),
-     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
-     .        Dx,Dy,Dz,
-     .        NORMD, P,
-     .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_SHIFT, TT_STAR
-     
-      my_real BX,BY,BZ  !basis point
-      my_real HC ! height of charge
-      
-      my_real logRes
-      
-      integer, external :: OMP_GET_THREAD_NUM     
-      EXTERNAL FINTER
-      
-      my_real Z1_
-      
-      my_real DECAY_inci,DECAY_refl,ZETA,ZETA2,ZETA3,TMP2,TMP3,TMP4,FUNCT,DIFF,RES,TOL,T_INF,T_FIN,T_ZERO
-      my_real H00,H10,H01,H11,pP0,pP1,pM0,pM1,kk,m2,PI_,Ic,Ib,alpha,diff_t0_inci,diff_t0_refl
-      
+      my_real LAMBDA, cos_theta, alpha_inci, alpha_refl,P_inci,P_refl,Z,Phi_DB,bound1,bound2, 
+     .         I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13, P0
+      my_real DNORM,Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
+     .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_SHIFT, TT_STAR     
+      my_real HC ! height of charge      
+      my_real logRes            
+      my_real Z1_     
+      my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL
+      my_real kk ,NPT   
+            
+      my_real PI_      
       DATA PI_/3.141592653589793238462643D0/
       
       my_real dzc
@@ -150,8 +125,7 @@ C-----------------------------------------------
       my_real FAC_UNIT ! convert scaled distance from cm/g^1/3 to ft/lb^1/3
       DATA FAC_unit/3.966977216838196139019/  
       
-      my_real NPT
-      INTEGER NN(4)   
+
       
       
 C-----------------------------------------------
@@ -189,28 +163,27 @@ C-----------------------------------------------
       !-----------------------------------------------,                
       !    AIR BURST                                                   
       !-----------------------------------------------                 
-      IL             = NL-NLOADP_F                                                                                                                                                                   
-      TDET           = FAC(01,NL)                                                                                                                                                                    
-      XDET           = FAC(02,NL)                                                                                                                                                                    
-      YDET           = FAC(03,NL)                                                                                                                                                                    
-      ZDET           = FAC(04,NL)                                                                                                                                                                    
-      WTNT           = FAC(05,NL)                                                                                                                                                                    
-      PMIN           = FAC(06,NL)                                                                                                                                                                    
-      TA_SHIFT       = FAC(07,NL)                                                                                                                                                                    
-      NNX            = FAC(08,NL)                                                                                                                                                                    
-      NNY            = FAC(09,NL)                                                                                                                                                                    
-      NNZ            = FAC(10,NL)                                                                                                                                                                    
-      HC             = FAC(11,NL)                                                                                                                                                                    
+      IL             = NL-NLOADP_F
+      TDET           = FAC(01,NL)
+      XDET           = FAC(02,NL)
+      YDET           = FAC(03,NL)
+      WTNT           = FAC(05,NL)
+      PMIN           = FAC(06,NL)
+      TA_SHIFT       = FAC(07,NL)
+      NNX            = FAC(08,NL)
+      NNY            = FAC(09,NL)
+      NNZ            = FAC(10,NL)
+      HC             = FAC(11,NL)
       alpha_zc       = FAC(12,NL)  !curve_id1+alpha_zc
-      T_STOP         = FAC(13,NL)                                                                                                                                               
+      T_STOP         = FAC(13,NL)
       P0             = ZERO                                                                                                                                                                          
       ISIZ_SEG       = ILOADP(01,NL)/4                                                                                                                                                               
-      IS             = ILOADP(02,NL)                                                                                                                                                                 
-      IZ_UPDATE      = ILOADP(06,NL)                                                                                                                                                                 
-      ABAC_ID        = ILOADP(07,NL)                                                                                                                                                                 
-      ID             = ILOADP(08,NL) !user_id                                                                                                                                                        
-      ITA_SHIFT      = ILOADP(09,NL)                                                                                                                                                                 
-      IMODEL         = ILOADP(11,NL)                                                                                                                                                                 
+      IS             = ILOADP(02,NL)
+      IZ_UPDATE      = ILOADP(06,NL)
+      ABAC_ID        = ILOADP(07,NL)
+      ID             = ILOADP(08,NL) !user_id
+      ITA_SHIFT      = ILOADP(09,NL)
+      IMODEL         = ILOADP(11,NL)
                                                                                                                                                                                                      
       !curve_id1+alpha_zc                                                                                                                                                                            
       curve_id1=INT(alpha_zc)                                                                                                                                                                        
@@ -840,7 +813,6 @@ C-----------------------------------------------
       RETURN
       
 C-----------------------------------------------
- 1000 CONTINUE
        IF (IERR1/=0) THEN
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
