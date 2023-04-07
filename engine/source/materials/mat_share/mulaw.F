@@ -1716,7 +1716,7 @@ c       TAPO (toughened adhesive polymer)
      .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
      .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
-     .                 JTHE   ,INLOC  ,VARNL  ,LBUF%DMG)
+     .                 JTHE   ,INLOC  ,VARNL  ,LBUF%DMG     ,DMG_SCALE)
 c
       ELSEIF (MTN == 121) THEN 
 c 
