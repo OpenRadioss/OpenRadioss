@@ -40,7 +40,7 @@ Chd|====================================================================
      5           DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6           SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7           SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8           JTHE    ,INLOC   ,DPLANL  ,DMG)
+     8           JTHE    ,INLOC   ,DPLANL  ,DMG     ,DMG_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C----------------------------------------------------------------
      .         SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
       my_real, DIMENSION(NEL) ,INTENT(INOUT) :: EPSD,SOUNDSP,
      .         SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL)         ,INTENT(INOUT) :: PLA,DPLANL,OFF,DMG
+      my_real ,DIMENSION(NEL)         ,INTENT(INOUT) :: PLA,DPLANL,OFF,DMG,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       TYPE(TTABLE) ,DIMENSION(NTABLE) ,INTENT(IN)    :: TABLE
@@ -91,7 +91,7 @@ c------------------------------------------------------------------
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
-     8         JTHE    ,INLOC   ,DPLANL  ,DMG)
+     8         JTHE    ,INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
         ELSE                     ! tabulated Von-Mises formulation
           CALL SIGEPS120_TAB_VM(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
@@ -101,7 +101,7 @@ c------------------------------------------------------------------
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         NTABLE  ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
-     8         JTHE    ,INLOC   ,DPLANL  ,DMG)
+     8         JTHE    ,INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
         END IF
 c
       ELSE
@@ -114,7 +114,7 @@ c
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         INLOC   ,DPLANL  ,DMG)
+     7         INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
         ELSE                     ! analytical Von-Mises formulation
           CALL SIGEPS120_VM(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
@@ -123,7 +123,7 @@ c
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         INLOC   ,DPLANL  ,DMG)
+     7         INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
         END IF
       END IF
 c-----------------------------------------------------------------

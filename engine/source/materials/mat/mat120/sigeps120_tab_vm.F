@@ -37,7 +37,7 @@ Chd|====================================================================
      5      SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6      SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7      NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
-     8      JTHE    ,INLOC   ,DPLANL  ,DMG)
+     8      JTHE    ,INLOC   ,DPLANL  ,DMG     ,DMG_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ c
      .         SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,DPLANL,DMG
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,DPLANL,DMG,DMG_SCALE
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
@@ -92,7 +92,7 @@ c     Local variables
      .   DLAM,DDEP,DFDLAM,DPLA_DLAM,DPHI_DLAM,
      .   GAMC,GAMF,NP_XX,NP_YY,NP_ZZ,NP_XY,NP_YZ,NP_ZX,
      .   NF_XX,NF_YY,NF_ZZ,NF_XY,NF_YZ,NF_ZX,DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX
-      my_real ,DIMENSION(NEL) :: I1,J2,YLD,PHI,DAM,FDAM,JCRATE,
+      my_real ,DIMENSION(NEL) :: I1,J2,YLD,PHI,DAM,JCRATE,
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,DPLA,JCR_LOG,GAMMA,DGAMM,HARDP,FVM,
      .   YLD_I,HARDP_I,PLA_NL,DPDT_NL
 c--------------------------------
@@ -192,19 +192,19 @@ c
 c------------------------------------------------------------------
 c     Computation of the nominal trial stress tensor (non damaged)
 c------------------------------------------------------------------
-      DAM (1:NEL) = DMG(1:NEL)
-      FDAM(1:NEL) = ONE - DAM(1:NEL)
+      DAM (1:NEL) = DMG(1:NEL)  
+      DPLA(1:NEL)   = ZERO          
 c
       DO I = 1,NEL
         IF (OFF(I) < 0.001) OFF(I) = ZERO
         IF (OFF(I) < ONE)    OFF(I) = OFF(I)*FOUR_OVER_5
         IF (OFF(I) == ONE) THEN
-          SIGNXX(I) = SIGOXX(I)/FDAM(I) + C11*DEPSXX(I) + C12*(DEPSYY(I) + DEPSZZ(I))
-          SIGNYY(I) = SIGOYY(I)/FDAM(I) + C11*DEPSYY(I) + C12*(DEPSXX(I) + DEPSZZ(I))
-          SIGNZZ(I) = SIGOZZ(I)/FDAM(I) + C11*DEPSZZ(I) + C12*(DEPSXX(I) + DEPSYY(I))
-          SIGNXY(I) = SIGOXY(I)/FDAM(I) + DEPSXY(I)*G 
-          SIGNYZ(I) = SIGOYZ(I)/FDAM(I) + DEPSYZ(I)*G
-          SIGNZX(I) = SIGOZX(I)/FDAM(I) + DEPSZX(I)*G
+          SIGNXX(I) = SIGOXX(I) + C11*DEPSXX(I) + C12*(DEPSYY(I) + DEPSZZ(I))
+          SIGNYY(I) = SIGOYY(I) + C11*DEPSYY(I) + C12*(DEPSXX(I) + DEPSZZ(I))
+          SIGNZZ(I) = SIGOZZ(I) + C11*DEPSZZ(I) + C12*(DEPSXX(I) + DEPSYY(I))
+          SIGNXY(I) = SIGOXY(I) + DEPSXY(I)*G 
+          SIGNYZ(I) = SIGOYZ(I) + DEPSYZ(I)*G
+          SIGNZX(I) = SIGOZX(I) + DEPSZX(I)*G
           I1(I)     = SIGNXX(I) + SIGNYY(I) + SIGNZZ(I)
 c
           SXX(I) = SIGNXX(I) - I1(I) * THIRD
@@ -340,7 +340,6 @@ c
      .             -(NF_XY*NP_XY + NF_YZ*NP_YZ + NF_ZX*NP_ZX)*TWO*G2
 c
             DPLA_DLAM = TWO*SQRT((J2(I) + TP*AS*I1(I)))
-            DPLA_DLAM = DPLA_DLAM / FDAM(I)
             DPHI_DLAM = DFDLAM - TWO*YLD(I)*HARDP(I)*DPLA_DLAM
 c----------------------------------------------------------------
             DLAM = -PHI(I) / DPHI_DLAM
@@ -457,11 +456,11 @@ c---------------------------------------------------------------------
           END IF
         ELSE
           IF (INLOC == 1) THEN
-            DGAMM(1:NEL)  = DPLANL(1:NEL) * FDAM(1:NEL)
+            DGAMM(1:NEL)  = DPLANL(1:NEL) * DMG_SCALE(1:NEL)
             UVAR(1:NEL,1) = UVAR(1:NEL,1) + DGAMM(1:NEL)
             GAMMA (1:NEL) = UVAR(1:NEL,1)
           ELSE
-            DGAMM(1:NEL)  = DPLA(1:NEL) * FDAM(1:NEL)
+            DGAMM(1:NEL)  = DPLA(1:NEL) * DMG_SCALE(1:NEL)
             UVAR(1:NEL,1) = UVAR(1:NEL,1) + DGAMM(1:NEL)
             GAMMA (1:NEL) = UVAR(1:NEL,1)
           END IF
@@ -470,13 +469,15 @@ c
         DO II = 1,NINDX
           I = INDX(II)
 c
+          TRIAX = ZERO
+          FACT = ONE
           FACR = ONE + D_JC * JCR_LOG(I)  ! total strain rate factor on damage
-          IF (ITRX == 1) THEN
-            TRIAX = THIRD * I1(I) / SQRT(THREE*J2(I))
+          IF ( J2(I)/= ZERO)TRIAX = THIRD * I1(I) / SQRT(THREE*J2(I))
+          IF (ITRX == 1 ) THEN
             FACT  = EXP(-D_TRX*TRIAX)
-          ELSE IF (I1(I) <= ZERO) THEN  ! ITRX = 2 => no triaxiality influence in compression
-            FACT = ONE
-          END IF
+          ELSE
+           IF (TRIAX > ZERO )FACT  = EXP(-D_TRX*TRIAX)
+          ENDIF
           GAMC = (D1C + D2C * FACT) * FACR
           GAMF = (D1F + D2F * FACT) * FACR
           IF (GAMMA(I) > GAMC) THEN
@@ -499,13 +500,7 @@ c
         ENDDO
 c       Update damaged stress
         DO I = 1, NEL
-          FACD = ONE - DAM(I)
-          SIGNXX(I) = SIGNXX(I) * FACD
-          SIGNYY(I) = SIGNYY(I) * FACD
-          SIGNZZ(I) = SIGNZZ(I) * FACD
-          SIGNXY(I) = SIGNXY(I) * FACD
-          SIGNYZ(I) = SIGNYZ(I) * FACD
-          SIGNZX(I) = SIGNZX(I) * FACD        
+          DMG_SCALE(I) = ONE - DAM(I)   
         END DO
       END IF
 c-------------------------

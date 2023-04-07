@@ -158,8 +158,8 @@ c-------------------
       END IF
       IF (EXP_N == ZERO) EXP_N = ONE  
       IF (IFORM == 0) IFORM = 1  
-      IF (ITRX  == 0) ITRX  = 1  
-      IF (IDAM  == 0) IDAM  = 1  
+      IF (ITRX  == 0) ITRX  = 2  
+      IF (IDAM  == 0) IDAM  = 2  
       IF (XSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Xscale' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         XSCALE = ONE * XSCALE_UNIT
@@ -247,11 +247,14 @@ C     Formulation for solid elements time step computation.
 c-----------------
 c     Element buffer variable allocation
 c-----------------
-      MTAG%G_PLA   = 1
-      MTAG%L_PLA   = 1
-      MTAG%L_EPSD  = 1
-      MTAG%G_EPSD  = 1
-      MTAG%L_DMG   = 1
+      MTAG%G_PLA    = 1
+      MTAG%L_PLA    = 1
+      MTAG%L_EPSD   = 1
+      MTAG%G_EPSD   = 1
+      MTAG%L_DMG    = 1
+      MTAG%G_DMG    = 1
+      MTAG%L_DMGSCL = 1
+
       CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL" )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN")
