@@ -63,7 +63,7 @@ Chd|====================================================================
      C   GRTH,     IGRTH,    MSP,      DMELP,
      D   IOUTPRT,  ITASK,    JTHE,     TEMP,
      E   FTHE,     FTHESKY,  IEXPAN,   H3D_DATA,
-     F   JSMS)
+     F   JSMS,     IGRE,     NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +87,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: JSMS
       INTEGER NCC(NIXP,*),IADP(2,*),IPARTP(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),NPF(*),GRTH(*),IGRTH(*)
@@ -292,14 +294,18 @@ C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG = MOD(NCYCLE,NCPRI)
       IF (IOUTPRT > 0)     
-     .  CALL PBILAN(PM     ,V      ,GBUF%EINT ,GEO     ,PARTSAV,
-     2              IPARTP ,TANI   ,GBUF%FOR  ,GBUF%MOM,GRESAV ,
-     3              GRTH   ,IGRTH  ,GBUF%OFF  ,NEL     ,AL     ,
-     4              NC1    ,NC2    ,NC3       ,E1X     ,E1Y    ,
-     5              E1Z    ,E2X    ,E2Y       ,E2Z     ,MAT    ,
-     6              PID    ,VX1G   ,VX2G      ,VY1G    ,VY2G   ,
-     7              VZ1G   ,VZ2G   ,X1        ,X2      ,Y1     ,
-     8              Y2     ,Z1     ,Z2        ,ITASK   ,H3D_DATA)
+     .  CALL PBILAN(
+     1   PM,       V,        GBUF%EINT,GEO,
+     2   PARTSAV,  IPARTP,   TANI,     GBUF%FOR,
+     3   GBUF%MOM, GRESAV,   GRTH,     IGRTH,
+     4   GBUF%OFF, NEL,      AL,       NC1,
+     5   NC2,      NC3,      E1X,      E1Y,
+     6   E1Z,      E2X,      E2Y,      E2Z,
+     7   MAT,      PID,      VX1G,     VX2G,
+     8   VY1G,     VY2G,     VZ1G,     VZ2G,
+     9   X1,       X2,       Y1,       Y2,
+     A   Z1,       Z2,       ITASK,    H3D_DATA,
+     B   IGRE)
 C----------------------------
 C     FORCES INTERNES
 C----------------------------
@@ -331,33 +337,44 @@ C-------------------------
 C     ASSEMBLAGE
 C-------------------------
       IF (IPARIT == 0) THEN
-        CALL PFCUM3(F       ,STI     ,STIFN   ,FX1     ,FX2     ,
-     .              FY1   ,FY2   ,FZ1    ,FZ2  ,NC1,
-     .              NC2   ,NC3   ,E1X    ,E1Y  ,E1Z,
-     .              E2X   ,E2Y   ,E2Z    ,E3X  ,E3Y,
-     .              E3Z   ,F11   ,F12    ,F21  ,F22,
-     .              F31   ,F32   ,FPHI ,FTHE )
-        CALL PMCUM3(M,STIR,STIFR,MX1,MX2,
-     .              MY1 ,MY2  ,MZ1   ,MZ2  ,NC1,
-     .              NC2 ,NC3  ,E1X   ,E1Y  ,E1Z,
-     .              E2X ,E2Y  ,E2Z   ,E3X  ,E3Y,
-     .              E3Z ,M11  ,M12   ,M21  ,M22,
-     .              M31 ,M32  )
+        CALL PFCUM3(
+     1   F,       STI,     STIFN,   FX1,
+     2   FX2,     FY1,     FY2,     FZ1,
+     3   FZ2,     NC1,     NC2,     NC3,
+     4   E1X,     E1Y,     E1Z,     E2X,
+     5   E2Y,     E2Z,     E3X,     E3Y,
+     6   E3Z,     F11,     F12,     F21,
+     7   F22,     F31,     F32,     FPHI,
+     8   FTHE,    NEL,     JTHE)
+        CALL PMCUM3(
+     1   M,       STIR,    STIFR,   MX1,
+     2   MX2,     MY1,     MY2,     MZ1,
+     3   MZ2,     NC1,     NC2,     NC3,
+     4   E1X,     E1Y,     E1Z,     E2X,
+     5   E2Y,     E2Z,     E3X,     E3Y,
+     6   E3Z,     M11,     M12,     M21,
+     7   M22,     M31,     M32,     NEL)
       ELSE
-        CALL PFCUM3P(STI,FSKY,FSKY,IADP,FX1,
-     .               FX2 ,FY1  ,FY2  ,FZ1  ,FZ2,
-     .               NC1 ,NC2  ,NC3  ,E1X  ,E1Y,
-     .               E1Z ,E2X  ,E2Y  ,E2Z  ,E3X,
-     .               E3Y ,E3Z  ,F11  ,F12  ,F21,
-     .               F22 ,F31  ,F32  , FPHI,
-     .               FTHESKY)
+        CALL PFCUM3P(
+     1   STI,     FSKY,    FSKY,    IADP,
+     2   FX1,     FX2,     FY1,     FY2,
+     3   FZ1,     FZ2,     NC1,     NC2,
+     4   NC3,     E1X,     E1Y,     E1Z,
+     5   E2X,     E2Y,     E2Z,     E3X,
+     6   E3Y,     E3Z,     F11,     F12,
+     7   F21,     F22,     F31,     F32,
+     8   FPHI,    FTHESKY, NEL,     NFT,
+     9   JTHE)
      
-        CALL PMCUM3P(STIR,FSKY,FSKY,IADP,MX1,
-     .               MX2  ,MY1  ,MY2  ,MZ1  ,MZ2,
-     .               NC1  ,NC2  ,NC3  ,E1X  ,E1Y,
-     .               E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X,
-     .               E3Y  ,E3Z  ,M11  ,M12  ,M21,
-     .               M22  ,M31  ,M32  )
+        CALL PMCUM3P(
+     1   STIR,    FSKY,    FSKY,    IADP,
+     2   MX1,     MX2,     MY1,     MY2,
+     3   MZ1,     MZ2,     NC1,     NC2,
+     4   NC3,     E1X,     E1Y,     E1Z,
+     5   E2X,     E2Y,     E2Z,     E3X,
+     6   E3Y,     E3Z,     M11,     M12,
+     7   M21,     M22,     M31,     M32,
+     8   NEL,     NFT)
       ENDIF
 C-----------------------------------------------
       RETURN

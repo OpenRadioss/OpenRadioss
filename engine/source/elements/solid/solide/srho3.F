@@ -43,9 +43,13 @@ Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SRHO3(PM         ,VOLO    ,RHON    ,EINT    ,DIVDE ,
-     .                 FLUX       ,FLU1    ,VOLN    ,DVOL    ,NGL   ,MAT  , OFF ,
-     .                 IS_MAT_BCS ,TAG22   ,VOLDP   ,VOL0DP  ,AMU   ,OFFG )
+      SUBROUTINE SRHO3(
+     1   PM,        VOLO,      RHON,      EINT,
+     2   DIVDE,     FLUX,      FLU1,      VOLN,
+     3   DVOL,      NGL,       MAT,       OFF,
+     4   IS_MAT_BCS,TAG22,     VOLDP,     VOL0DP,
+     5   AMU,       OFFG,      NEL,       MTN,
+     6   JALE,      ISMSTR,    JEUL,      JLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +70,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "scr06_c.inc"
 #include      "impl1_c.inc"
 #include      "com01_c.inc"
@@ -76,6 +79,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: JALE
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JEUL
+      INTEGER, INTENT(IN) :: JLAG
       INTEGER NGL(*), MAT(*), IS_MAT_BCS, IB,NIN,MCELL
       
       my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
@@ -89,12 +98,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      RHON_OLD(LFT:LLT)=RHON(LFT:LLT)
+      RHON_OLD(1:NEL)=RHON(1:NEL)
       IF(ALE%GLOBAL%INCOMP==1 .AND. JEUL+JALE==1)THEN
-        MX        = MAT(LFT)
+        MX        = MAT(1)
         RHO0      = PM(1,MX)
         E0        = PM(23,MX)
-        DO I=LFT,LLT
+        DO I=1,NEL
           DVV     = DIVDE(I)
           RHON(I) = RHON(I)-DVV*RHO0
           VAVG    = HALF*(VOLN(I)+VOLO(I))
@@ -103,46 +112,46 @@ C-----------------------------------------------
         ENDDO
       ELSE
         IF(JLAG/=0)THEN
-          MX      = MAT(LFT)
+          MX      = MAT(1)
           RHO0    = PM(1,MX)
 C--- due to /INIBRI/EREF        
           IF (TT==ZERO) THEN
            IF (ISMSTR==11) THEN
-            VOLO(LFT:LLT)=VOLN(LFT:LLT)
+            VOLO(1:NEL)=VOLN(1:NEL)
            ELSEIF(ISMSTR==1) THEN
-            DO I=LFT,LLT
+            DO I=1,NEL
               IF(OFFG(I)>ONE) VOLO(I)=VOLN(I)
             ENDDO
            END IF
           END IF
           IF (IMPL_S>0.AND.ILINE>0) THEN
-            DO I=LFT,LLT
+            DO I=1,NEL
               RHON(I) = RHO0
               EINT(I) = EINT(I)*VOLN(I)
             ENDDO
           ELSE
             IF (MTN /= 115) THEN 
-              DO I=LFT,LLT
+              DO I=1,NEL
                 DVOL(I) = VOLN(I)-(RHO0/RHON(I))*VOLO(I)
                 RHON(I) = RHO0*(VOLO(I)/VOLN(I))
                 EINT(I) = EINT(I)*VOLO(I)
               ENDDO
             ELSE
-              DO I=LFT,LLT
-                DVOL(I) = VOLN(I)-(RHON(I+LLT)/RHON(I))*VOLO(I)
-                RHON(I) = RHON(I+LLT)*(VOLO(I)/VOLN(I))
+              DO I=1,NEL
+                DVOL(I) = VOLN(I)-(RHON(I+NEL)/RHON(I))*VOLO(I)
+                RHON(I) = RHON(I+NEL)*(VOLO(I)/VOLN(I))
                 EINT(I) = EINT(I)*VOLO(I)
               ENDDO            
             ENDIF
           ENDIF
         ELSEIF(JALE/=0)THEN                                                                                              
-          DO I=LFT,LLT                                                                                                     
+          DO I=1,NEL                                                                                                     
            RHON(I)    = RHON(I)/VOLN(I)                                                                                    
            DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
            VOLO(I)    = VOLN(I)                                                                                            
          ENDDO                                                                                                             
         ELSEIF(JEUL/=0)THEN                                                                                              
-         DO I=LFT,LLT                                                                                                      
+         DO I=1,NEL                                                                                                      
           RHON(I)     = RHON(I)/VOLN(I)                                                                                    
           DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
          ENDDO                                                                                                             
@@ -152,7 +161,7 @@ C--- due to /INIBRI/EREF
         IF(INT22/=0)THEN
           IF(JEUL+JALE/=0)THEN      
            NIN        = 1
-           DO I=LFT,LLT         
+           DO I=1,NEL         
              IB       = NINT(TAG22(I))
              IF(IB==0)CYCLE
              MCELL    = BRICK_LIST(NIN,IB)%mainID
@@ -177,7 +186,7 @@ C             write(*,FMT='(A,I10,A,F30.16)') "brick id =", NGL(I), "   mass= ",
 
       IF(JALE+JEUL/=0)THEN
        COUNT=0
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(IS_MAT_BCS== 1)CYCLE
          IF(RHON(I)> ZERO)CYCLE
          IF(OFF(I)== ZERO )CYCLE
@@ -196,14 +205,14 @@ C
 C      change DXX,DYY,DZZ by DIVDE(I)=dt1*(DXX(I)+DYY(I)+DZZ(I)) as input
 C---------RHON(I) = RHO0*(VOLO(I)/VOLN(I)) just calculated above
 C---------VOLN(I)=VOLO(I) for small strain excepting initial stat case
-       DO I=LFT,LLT
+       DO I=1,NEL
          DVDP   = DIVDE(I)
          RHON(I) = RHON_OLD(I) - RHON(I)*DVDP
          RHON(I) = MAX(RHON(I),EM30)
          DVOL(I)=VOLN(I)*DVDP
        ENDDO
       ELSEIF ((ISMSTR<=4.OR.ISMSTR==12).AND.JLAG>0) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         IF(OFFG(I)>ONE) THEN
          DVDP  = DIVDE(I)
          RHOREF = RHON(I)
@@ -219,7 +228,7 @@ C
      .     .AND.IMPL_S==0.AND.ISMSTR/=1.AND.ISMSTR/=3.AND.ISMSTR/=11)THEN
        IF(IRESP==1)THEN
 C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to      
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(OFFG(I)>ONE) THEN
           DVDP = DIVDE(I)*(VOLO(I)/VOLN(I))
           VOL0DP(I)=VOL0DP(I)-DVDP*VOLDP(I)
@@ -231,7 +240,7 @@ C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to
           RHON(I) = RHO0*(VOL0DP(I)/VOLDP(I))
          END IF
         ENDDO
-        AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - ONE
+        AMU(1:NEL) = VOL0DP(1:NEL)/VOLDP(1:NEL) - ONE
        END IF
       ENDIF
 C-----AMU compute for DP in MMAIN: AMU() = RHON()/RHO0 - 1, because RHON*VOLDP=RHO0*VOL0DP     

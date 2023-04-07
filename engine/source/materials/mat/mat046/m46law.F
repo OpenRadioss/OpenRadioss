@@ -29,18 +29,24 @@ Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|        SIGEPS46                      source/materials/mat/mat046/sigeps46.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE M46LAW (LFT   ,LLT    ,NFT   ,MTN     ,
-     2                  PM     ,OFF    ,SIG   ,EINT    ,RHO   ,
-     3                  QOLD   ,VOL    ,UVAR  ,BUFMAT  ,STIFN ,
-     4                  MAT    ,NGL    ,NUVAR ,DT2T    ,NELTST,RHO0   ,
-     5                  ITYPTST,OFFG   ,JLAG  ,GEO     ,PID   ,SSP    ,
-     6                  AIRE   ,VOLN   ,VD2   ,DELTAX  ,VIS   ,D1     , 
-     7                  D2     ,D3     ,PNEW  ,PSH     ,Q     ,SSP_EQ ,
-     8                  WXX  ,
-     9                  WYY    ,WZZ    ,IPM   ,MSSA    ,DMELS ,DVOL   ,
-     A                  SOLD1  ,SOLD2  ,SOLD3 ,SOLD4   ,SOLD5 ,SOLD6  ,
-     B                  CONDE  ,VOL_AVG,DTEL  ,G_DT    ,NEL   ,D4     ,
-     C                  D5     ,D6     ,RHOREF  ,RHOSP   )
+      SUBROUTINE M46LAW(
+     1   LFT,     LLT,     NFT,     MTN,
+     2   PM,      OFF,     SIG,     EINT,
+     3   RHO,     QOLD,    VOL,     UVAR,
+     4   BUFMAT,  STIFN,   MAT,     NGL,
+     5   NUVAR,   DT2T,    NELTST,  RHO0,
+     6   ITYPTST, OFFG,    JLAG,    GEO,
+     7   PID,     SSP,     AIRE,    VOLN,
+     8   VD2,     DELTAX,  VIS,     D1,
+     9   D2,      D3,      PNEW,    PSH,
+     A   Q,       SSP_EQ,  WXX,     WYY,
+     B   WZZ,     IPM,     MSSA,    DMELS,
+     C   DVOL,    SOLD1,   SOLD2,   SOLD3,
+     D   SOLD4,   SOLD5,   SOLD6,   CONDE,
+     E   VOL_AVG, DTEL,    G_DT,    NEL,
+     F   D4,      D5,      D6,      RHOREF,
+     G   RHOSP,   ISMSTR,  ITY,     JSMS,
+     H   JTUR,    JTHE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +70,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER LFT,LLT,NFT,MTN, NUVAR,MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT),G_DT,NEL
       INTEGER NELTST, ITYPTST,JLAG
       my_real DT2T
@@ -151,13 +162,19 @@ C-------------------------------------------
 C   BULK VISCOSITY AND TIME STEP COMPUTATION
 C   THIS SUBROUTINE RETURN THE NEW BULK VISCOSITY Q
 C-----------------------
-      CALL MQVISCB(PM     ,OFF     ,RHO     ,BID1  ,BID2    ,SSP   ,
-     2            BID3    ,STIFN   ,DT2T   ,NELTST ,ITYPTST ,AIRE  ,
-     3            OFFG    ,GEO     ,PID    ,VOLN   ,VD2     ,DELTAX,
-     4            VIS     ,D1      ,D2     ,D3     ,PNEW    ,PSH   ,
-     5            MAT     ,NGL     ,Q      ,SSP_EQ ,VOL     ,MSSA  ,
-     6            DMELS   ,IBID    ,FACQ0   ,CONDE  ,DTEL  ,G_DT   ,
-     7            IPM     ,RHOREF  ,RHOSP   )
+      CALL MQVISCB(
+     1   PM,      OFF,     RHO,     BID1,
+     2   BID2,    SSP,     BID3,    STIFN,
+     3   DT2T,    NELTST,  ITYPTST, AIRE,
+     4   OFFG,    GEO,     PID,     VOLN,
+     5   VD2,     DELTAX,  VIS,     D1,
+     6   D2,      D3,      PNEW,    PSH,
+     7   MAT,     NGL,     Q,       SSP_EQ,
+     8   VOL,     MSSA,    DMELS,   IBID,
+     9   FACQ0,   CONDE,   DTEL,    G_DT,
+     A   IPM,     RHOREF,  RHOSP,   NEL,
+     B   ITY,     ISMSTR,  JTUR,    JTHE,
+     C   JSMS)
 C
       DO I=LFT,LLT
         P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))/THREE

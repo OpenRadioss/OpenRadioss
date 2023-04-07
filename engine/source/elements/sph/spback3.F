@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPBACK3(SIG     ,QVIS    ,STI     ,SSP     ,WA      ,
-     .                   SSP_EQ  ,DIE     ,NEL     )
+      SUBROUTINE SPBACK3(
+     1   SIG,     QVIS,    STI,     SSP,
+     2   WA,      SSP_EQ,  DIE,     NEL,
+     3   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,11 +37,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER NEL
 C     REAL
       my_real

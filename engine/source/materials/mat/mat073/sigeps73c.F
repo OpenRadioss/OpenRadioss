@@ -31,20 +31,23 @@ Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS73C(
-     1     NEL    ,NUPARAM,NUVAR   ,TIME   ,TIMESTEP,
-     2     UPARAM  ,RHO0  ,AREA    ,EINT   ,THKLY   ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     B     OFF    ,NGL    ,ITABLE  ,ETSE   ,
-     C     GS     ,SIGY   ,DPLA1   ,EPSP    ,TABLE  ,
-     D     VOL    ,TEMPEL ,DIE     ,COEF    ,NPF    ,
-     E     NFUNC  ,IFUNC  ,TF     ,SHF      ,HARDM  ,
-     F     SEQ_OUTPUT,INLOC,DPLANL   )
+     1   NEL,       NUPARAM,   NUVAR,     TIME,
+     2   TIMESTEP,  UPARAM,    RHO0,      AREA,
+     3   EINT,      THKLY,     EPSPXX,    EPSPYY,
+     4   EPSPXY,    EPSPYZ,    EPSPZX,    DEPSXX,
+     5   DEPSYY,    DEPSXY,    DEPSYZ,    DEPSZX,
+     6   EPSXX,     EPSYY,     EPSXY,     EPSYZ,
+     7   EPSZX,     SIGOXX,    SIGOYY,    SIGOXY,
+     8   SIGOYZ,    SIGOZX,    SIGNXX,    SIGNYY,
+     9   SIGNXY,    SIGNYZ,    SIGNZX,    SIGVXX,
+     A   SIGVYY,    SIGVXY,    SIGVYZ,    SIGVZX,
+     B   SOUNDSP,   VISCMAX,   THK,       PLA,
+     C   UVAR,      OFF,       NGL,       ITABLE,
+     D   ETSE,      GS,        SIGY,      DPLA1,
+     E   EPSP,      TABLE,     VOL,       TEMPEL,
+     F   DIE,       COEF,      NPF,       NFUNC,
+     G   IFUNC,     TF,        SHF,       HARDM,
+     H   SEQ_OUTPUT,INLOC,     DPLANL,    JTHE)
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -56,10 +59,10 @@ C-----------------------------------------------
 C   G L O B A L   P A R A M E T E R S
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER NEL, NUPARAM, NUVAR, NGL(NEL),ITABLE(*),
      .   INLOC
       my_real 

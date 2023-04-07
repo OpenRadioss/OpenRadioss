@@ -28,17 +28,21 @@ Chd|-- calls ---------------
 Chd|        Q4KELIJ2                      source/elements/solid_2d/quad4/q4kel2.F
 Chd|        Q4KELIJS2                     source/elements/solid_2d/quad4/q4kel2.F
 Chd|====================================================================
-      SUBROUTINE Q4KEL2 (
-     1                PY1,PY2,PY3,PY4,
-     2                PZ1,PZ2,PZ3,PZ4,
-     3                PYC1,PYC2,PZC1,PZC2,AY,R22,R23,
-     4                K11,K12,K13,K14,K22,
-     5                K23,K24,K33,K34,K44,
-     4                K11U,K12U,K13U,K14U,K22U,
-     5                K23U,K24U,K33U,K34U,K44U,
-     4                K11L,K12L,K13L,K14L,K22L,
-     5                K23L,K24L,K33L,K34L,K44L,
-     6                DD,GG,DG,G33,IKSUP,ICP,OFF)
+      SUBROUTINE Q4KEL2(
+     1   PY1,     PY2,     PY3,     PY4,
+     2   PZ1,     PZ2,     PZ3,     PZ4,
+     3   PYC1,    PYC2,    PZC1,    PZC2,
+     4   AY,      R22,     R23,     K11,
+     5   K12,     K13,     K14,     K22,
+     6   K23,     K24,     K33,     K34,
+     7   K44,     K11U,    K12U,    K13U,
+     8   K14U,    K22U,    K23U,    K24U,
+     9   K33U,    K34U,    K44U,    K11L,
+     A   K12L,    K13L,    K14L,    K22L,
+     B   K23L,    K24L,    K33L,    K34L,
+     C   K44L,    DD,      GG,      DG,
+     D   G33,     IKSUP,   ICP,     OFF,
+     E   NEL,     JCVT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,10 +54,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: NEL
       INTEGER ICP, IKSUP
       my_real
      .    PY1(*), PY2(*), PY3(*), PY4(*), 
@@ -75,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         PYC3(I) = -PYC1(I)
         PYC4(I) = -PYC2(I)
         PZC3(I) = -PZC1(I)
@@ -84,291 +89,130 @@ C-----------------------------------------------
 C
       IF (IKSUP==0) THEN
         IS = 1
-        CALL Q4KELIJS2(PY1, PZ1, PY1, PZ1,
-     .                PYC1, PZC1, PYC1, PZC1, AY, R22, R23,
-     .                DD, GG, K11, K11U, K11L, IS)
-        CALL Q4KELIJS2(PY2, PZ2, PY2, PZ2,
-     .                PYC2, PZC2, PYC2, PZC2, AY, R22, R23,
-     .                DD, GG, K22, K22U, K22L, IS)
-        CALL Q4KELIJS2(PY3, PZ3, PY3, PZ3,
-     .                PYC3, PZC3, PYC3, PZC3, AY, R22, R23,
-     .                DD, GG, K33, K33U, K33L, IS)
-        CALL Q4KELIJS2(PY4, PZ4, PY4, PZ4,
-     .                PYC4, PZC4, PYC4, PZC4, AY, R22, R23,
-     .                DD, GG, K44, K44U, K44L, IS)
+        CALL Q4KELIJS2(
+     1   PY1,     PZ1,     PY1,     PZ1,
+     2   PYC1,    PZC1,    PYC1,    PZC1,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K11,     K11U,    K11L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY2,     PZ2,     PY2,     PZ2,
+     2   PYC2,    PZC2,    PYC2,    PZC2,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K22,     K22U,    K22L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY3,     PZ3,     PY3,     PZ3,
+     2   PYC3,    PZC3,    PYC3,    PZC3,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K33,     K33U,    K33L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY4,     PZ4,     PY4,     PZ4,
+     2   PYC4,    PZC4,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K44,     K44U,    K44L,
+     5   IS,      NEL,     JCVT)
         IS = 0
-        CALL Q4KELIJS2(PY1, PZ1, PY2, PZ2,
-     .                PYC1, PZC1, PYC2, PZC2, AY, R22, R23,
-     .                DD, GG, K12, K12U, K12L, IS)
-        CALL Q4KELIJS2(PY1, PZ1, PY3, PZ3,
-     .                PYC1, PZC1, PYC3, PZC3, AY, R22, R23,
-     .                DD, GG, K13, K13U, K13L, IS)
-        CALL Q4KELIJS2(PY1, PZ1, PY4, PZ4,
-     .                PYC1, PZC1, PYC4, PZC4, AY, R22, R23,
-     .                DD, GG, K14, K14U, K14L, IS)
-        CALL Q4KELIJS2(PY2, PZ2, PY3, PZ3,
-     .                PYC2, PZC2, PYC3, PZC3, AY, R22, R23,
-     .                DD, GG, K23, K23U, K23L, IS)
-        CALL Q4KELIJS2(PY2, PZ2, PY4, PZ4,
-     .                PYC2, PZC2, PYC4, PZC4, AY, R22, R23,
-     .                DD, GG, K24, K24U, K24L, IS)
-        CALL Q4KELIJS2(PY3, PZ3, PY4, PZ4,
-     .                PYC3, PZC3, PYC4, PZC4, AY, R22, R23,
-     .                DD, GG, K34, K34U, K34L, IS)
+        CALL Q4KELIJS2(
+     1   PY1,     PZ1,     PY2,     PZ2,
+     2   PYC1,    PZC1,    PYC2,    PZC2,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K12,     K12U,    K12L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY1,     PZ1,     PY3,     PZ3,
+     2   PYC1,    PZC1,    PYC3,    PZC3,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K13,     K13U,    K13L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY1,     PZ1,     PY4,     PZ4,
+     2   PYC1,    PZC1,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K14,     K14U,    K14L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY2,     PZ2,     PY3,     PZ3,
+     2   PYC2,    PZC2,    PYC3,    PZC3,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K23,     K23U,    K23L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY2,     PZ2,     PY4,     PZ4,
+     2   PYC2,    PZC2,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K24,     K24U,    K24L,
+     5   IS,      NEL,     JCVT)
+        CALL Q4KELIJS2(
+     1   PY3,     PZ3,     PY4,     PZ4,
+     2   PYC3,    PZC3,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   GG,      K34,     K34U,    K34L,
+     5   IS,      NEL,     JCVT)
       ELSE
         IS = 1
-        CALL Q4KELIJ2(PY1, PZ1, PY1, PZ1,
-     .                PYC1, PZC1, PYC1, PZC1, AY, R22, R23,
-     .                DD, DG, G33, K11, IS)
-        CALL Q4KELIJ2(PY2, PZ2, PY2, PZ2,
-     .                PYC2, PZC2, PYC2, PZC2, AY, R22, R23,
-     .                DD, DG, G33, K22, IS)
-        CALL Q4KELIJ2(PY3, PZ3, PY3, PZ3,
-     .                PYC3, PZC3, PYC3, PZC3, AY, R22, R23,
-     .                DD, DG, G33, K33, IS)
-        CALL Q4KELIJ2(PY4, PZ4, PY4, PZ4,
-     .                PYC4, PZC4, PYC4, PZC4, AY, R22, R23,
-     .                DD, DG, G33, K44, IS)
+        CALL Q4KELIJ2(
+     1   PY1,     PZ1,     PY1,     PZ1,
+     2   PYC1,    PZC1,    PYC1,    PZC1,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K11,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY2,     PZ2,     PY2,     PZ2,
+     2   PYC2,    PZC2,    PYC2,    PZC2,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K22,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY3,     PZ3,     PY3,     PZ3,
+     2   PYC3,    PZC3,    PYC3,    PZC3,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K33,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY4,     PZ4,     PY4,     PZ4,
+     2   PYC4,    PZC4,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K44,     IS,
+     5   NEL,     JCVT)
         IS = 0
-        CALL Q4KELIJ2(PY1, PZ1, PY2, PZ2,
-     .                PYC1, PZC1, PYC2, PZC2, AY, R22, R23,
-     .                DD, DG, G33, K12, IS)
-        CALL Q4KELIJ2(PY1, PZ1, PY3, PZ3,
-     .                PYC1, PZC1, PYC3, PZC3, AY, R22, R23,
-     .                DD, DG, G33, K13, IS)
-        CALL Q4KELIJ2(PY1, PZ1, PY4, PZ4,
-     .                PYC1, PZC1, PYC4, PZC4, AY, R22, R23,
-     .                DD, DG, G33, K14, IS)
-        CALL Q4KELIJ2(PY2, PZ2, PY3, PZ3,
-     .                PYC2, PZC2, PYC3, PZC3, AY, R22, R23,
-     .                DD, DG, G33, K23, IS)
-        CALL Q4KELIJ2(PY2, PZ2, PY4, PZ4,
-     .                PYC2, PZC2, PYC4, PZC4, AY, R22, R23,
-     .                DD, DG, G33, K24, IS)
-        CALL Q4KELIJ2(PY3, PZ3, PY4, PZ4,
-     .                PYC3, PZC3, PYC4, PZC4, AY, R22, R23,
-     .                DD, DG, G33, K34, IS)
-      ENDIF
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  Q4KELIJ2                      source/elements/solid_2d/quad4/q4kel2.F
-Chd|-- called by -----------
-Chd|        Q4KEL2                        source/elements/solid_2d/quad4/q4kel2.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE Q4KELIJ2 (PYI, PZI, PYJ, PZJ,
-     .                     PYCI, PZCI, PYCJ, PZCJ, AY, R22, R23,
-     .                     DD, DG, G33, KIJ, IS)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "com01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IS
-      my_real
-     .   PYI(*), PZI(*), PYJ(*), PZJ(*),
-     .   PYCI(*), PZCI(*), PYCJ(*), PZCJ(*), AY(*), R22(*), R23(*),
-     .   DD(3,3,*), DG(3,3,*), G33(3,3,*), KIJ(2,2,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER EP,IASY
-      my_real
-     .    AYS(MVSIZ)
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-      DO EP=LFT,LLT
-        KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                DD(1,1,EP)*PYI(EP)*PYJ(EP) + 
-     .                DG(1,1,EP)*(PYI(EP)*PZCJ(EP)+PZCI(EP)*PYJ(EP)) + 
-     .                G33(1,1,EP)*(PZCI(EP)*PZCJ(EP))
-        KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                DD(1,2,EP)*PYI(EP)*PZJ(EP) + 
-     .                DG(1,1,EP)*PYI(EP)*PYCJ(EP) + 
-     .                DG(2,1,EP)*PZCI(EP)*PZJ(EP) + 
-     .                G33(1,1,EP)*PZCI(EP)*PYCJ(EP)
-        KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                DD(1,2,EP)*PZI(EP)*PYJ(EP) + 
-     .                DG(1,1,EP)*PYCI(EP)*PYJ(EP) + 
-     .                DG(2,1,EP)*PZI(EP)*PZCJ(EP) + 
-     .                G33(1,1,EP)*PYCI(EP)*PZCJ(EP)
-        KIJ(2,2,EP) = KIJ(2,2,EP) + 
-     .                DD(2,2,EP)*PZI(EP)*PZJ(EP) + 
-     .                DG(2,1,EP)*(PYCI(EP)*PZJ(EP)+PZI(EP)*PYCJ(EP)) + 
-     .                G33(1,1,EP)*PYCI(EP)*PYCJ(EP)
-      ENDDO
-C
-      IF (N2D==1) THEN
-        DO EP=LFT,LLT
-          AYS(EP) = AY(EP)*AY(EP)
-        ENDDO
-        IF (JCVT==0) THEN
-          DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) +
-     .                  DD(1,3,EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
-     .                  DD(3,3,EP)*AYS(EP) +
-     .                  DG(3,1,EP)*AY(EP)*(PYCI(EP)+PZCJ(EP))
-            KIJ(1,2,EP) = KIJ(1,2,EP) +
-     .                  DD(2,3,EP)*AY(EP)*PZJ(EP) +
-     .                  DG(3,1,EP)*AY(EP)*PYCJ(EP)
-            KIJ(2,1,EP) = KIJ(2,1,EP) +
-     .                  DD(2,3,EP)*PZI(EP)*AY(EP) +
-     .                  DG(3,1,EP)*PYCI(EP)*AY(EP)
-          ENDDO
-C         asymmetric part
-C          IASY = 0
-C          IF (IASY/=0) THEN
-C          ENDIF
-        ELSE
-          DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                  DD(1,3,EP)*R22(EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
-     .                  DD(3,3,EP)*R22(EP)*R22(EP)*AYS(EP) +
-     .                  DG(3,1,EP)*AY(EP)*R22(EP)*(PYCI(EP)+PZCJ(EP))
-            KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYI(EP) +
-     .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZJ(EP) +
-     .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP) +
-     .          DG(3,1,EP)*AY(EP)*(R22(EP)*PYCJ(EP)+R23(EP)*PZCI(EP))
-            KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYJ(EP) +
-     .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZI(EP) +
-     .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP) +
-     .          DG(3,1,EP)*AY(EP)*(R23(EP)*PZCJ(EP)+R22(EP)*PYCI(EP))
-            KIJ(2,2,EP) = KIJ(2,2,EP) + 
-     .                  DD(2,3,EP)*R23(EP)*AY(EP)*(PZI(EP)+PZJ(EP)) +
-     .                  DD(3,3,EP)*R23(EP)*R23(EP)*AYS(EP) +
-     .                  DG(3,1,EP)*AY(EP)*R23(EP)*(PYCI(EP)+PZCJ(EP))
-          ENDDO
-C         asymmetric part
-C          IASY = 0
-C          IF (IASY/=0) THEN
-C          ENDIF
-        ENDIF
-      ENDIF
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  Q4KELIJS2                     source/elements/solid_2d/quad4/q4kel2.F
-Chd|-- called by -----------
-Chd|        Q4KEL2                        source/elements/solid_2d/quad4/q4kel2.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE Q4KELIJS2 (PYI, PZI, PYJ, PZJ,
-     .                      PYCI, PZCI, PYCJ, PZCJ, AY, R22, R23,
-     .                      DD, GG, KIJ, KIJU, KIJL, IS)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "com01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IS
-      my_real
-     .   PYI(*), PZI(*), PYJ(*), PZJ(*),
-     .   PYCI(*), PZCI(*), PYCJ(*), PZCJ(*), AY(*), R22(*), R23(*),
-     .   DD(3,3,*), GG(*), KIJ(2,2,*), KIJU(2,2,*), KIJL(2,2,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER EP,IASY
-      my_real
-     .    AYS(MVSIZ)
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-      DO EP=LFT,LLT
-        KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                DD(1,1,EP)*PYI(EP)*PYJ(EP) + 
-     .                GG(EP)*PZCI(EP)*PZCJ(EP)
-        KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                DD(1,2,EP)*PYI(EP)*PZJ(EP) + 
-     .                GG(EP)*PZCI(EP)*PYCJ(EP)
-        KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                DD(1,2,EP)*PZI(EP)*PYJ(EP) + 
-     .                GG(EP)*PYCI(EP)*PZCJ(EP)
-        KIJ(2,2,EP) = KIJ(2,2,EP) + 
-     .                DD(2,2,EP)*PZI(EP)*PZJ(EP) + 
-     .                GG(EP)*PYCI(EP)*PYCJ(EP)
-      ENDDO
-C
-      IF (N2D==1) THEN
-        DO EP=LFT,LLT
-          AYS(EP) = AY(EP)*AY(EP)
-        ENDDO
-        IF (JCVT==0) THEN
-          DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                  DD(1,3,EP)*AY(EP)*(PYI(EP)+PYJ(EP)) + 
-     .                  DD(3,3,EP)*AYS(EP)
-            KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                  DD(2,3,EP)*AY(EP)*PZJ(EP) 
-            KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                  DD(2,3,EP)*PZI(EP)*AY(EP) 
-          ENDDO
-C         asymmetric part
-C          IASY = 0
-C          IF (IASY/=0) THEN
-C          DO EP=LFT,LLT
-C            KIJU(1,1,EP) = KIJU(1,1,EP) - 
-C     .                  AY(EP)*(DD(1,1,EP)*PYJ(EP)+DD(1,3,EP)*AY(EP))
-C            KIJU(1,2,EP) = KIJU(1,2,EP) - AY(EP)*DD(1,2,EP)*PZJ(EP)
-C            KIJU(2,1,EP) = KIJU(2,1,EP) - AY(EP)*GG(EP)*PZCJ(EP)
-C            KIJU(2,2,EP) = KIJU(2,2,EP) - AY(EP)*GG(EP)*PYCJ(EP)
-C            KIJL(1,1,EP) = KIJL(1,1,EP) - 
-C     .                  AY(EP)*(DD(1,1,EP)*PYI(EP)+DD(1,3,EP)*AY(EP))
-C            KIJL(1,2,EP) = KIJL(1,2,EP) - AY(EP)*GG(EP)*PZCI(EP)
-C            KIJL(2,1,EP) = KIJL(2,1,EP) - AY(EP)*DD(1,2,EP)*PZI(EP)
-C            KIJL(2,2,EP) = KIJL(2,2,EP) - AY(EP)*GG(EP)*PYCI(EP)
-C          ENDDO
-C          ENDIF
-        ELSE
-          DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                  DD(1,3,EP)*R22(EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
-     .                  DD(3,3,EP)*R22(EP)*R22(EP)*AYS(EP)
-            KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYI(EP) +
-     .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZJ(EP) +
-     .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP)
-            KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYJ(EP) +
-     .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZI(EP) +
-     .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP)
-            KIJ(2,2,EP) = KIJ(2,2,EP) + 
-     .                  DD(2,3,EP)*R23(EP)*AY(EP)*(PZI(EP)+PZJ(EP)) +
-     .                  DD(3,3,EP)*R23(EP)*R23(EP)*AYS(EP)
-          ENDDO
-C         asymmetric part
-C          IASY = 0
-C          IF (IASY/=0) THEN
-C          ENDIF
-        ENDIF
+        CALL Q4KELIJ2(
+     1   PY1,     PZ1,     PY2,     PZ2,
+     2   PYC1,    PZC1,    PYC2,    PZC2,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K12,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY1,     PZ1,     PY3,     PZ3,
+     2   PYC1,    PZC1,    PYC3,    PZC3,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K13,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY1,     PZ1,     PY4,     PZ4,
+     2   PYC1,    PZC1,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K14,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY2,     PZ2,     PY3,     PZ3,
+     2   PYC2,    PZC2,    PYC3,    PZC3,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K23,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY2,     PZ2,     PY4,     PZ4,
+     2   PYC2,    PZC2,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K24,     IS,
+     5   NEL,     JCVT)
+        CALL Q4KELIJ2(
+     1   PY3,     PZ3,     PY4,     PZ4,
+     2   PYC3,    PZC3,    PYC4,    PZC4,
+     3   AY,      R22,     R23,     DD,
+     4   DG,      G33,     K34,     IS,
+     5   NEL,     JCVT)
       ENDIF
 C
       RETURN

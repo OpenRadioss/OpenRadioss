@@ -28,9 +28,11 @@ Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I3LOC3(X,IRECT,LMSR,MSR,NSV,
-     1                  ILOC,NSEG,XI,YI,ZI,
-     2                  XFACE)
+      SUBROUTINE I3LOC3(
+     1   X,       IRECT,   LMSR,    MSR,
+     2   NSV,     ILOC,    NSEG,    XI,
+     3   YI,      ZI,      XFACE,   LFT,
+     4   LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,16 +44,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
 C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) ::  XI,YI,ZI,XFACE
 C-----------------------------------------------

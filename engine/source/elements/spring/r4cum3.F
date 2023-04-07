@@ -29,14 +29,16 @@ Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE R4CUM3(
-     1                  F     ,FORX ,FORY ,FORZ ,XM  ,
-     2                  XMOM  ,YMOM ,ZMOM ,STI  ,STIR,
-     3                  STIFN ,STIFR,FX1  ,FX2  ,FY1 ,
-     4                  FY2   ,FZ1  ,FZ2  ,MX1  ,MX2 ,
-     5                  MY1   ,MY2  ,MZ1  ,MZ2  ,AL  ,
-     6                  EXX   ,EYX  ,EZX  ,EXY  ,EYY ,
-     7                  EZY   ,EXZ  ,EYZ  ,EZZ  ,NC1 ,
-     8                  NC2   )
+     1   F,       FORX,    FORY,    FORZ,
+     2   XM,      XMOM,    YMOM,    ZMOM,
+     3   STI,     STIR,    STIFN,   STIFR,
+     4   FX1,     FX2,     FY1,     FY2,
+     5   FZ1,     FZ2,     MX1,     MX2,
+     6   MY1,     MY2,     MZ1,     MZ2,
+     7   AL,      EXX,     EYX,     EZX,
+     8   EXY,     EYY,     EZY,     EXZ,
+     9   EYZ,     EZZ,     NC1,     NC2,
+     A   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,10 +50,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NC1(*),NC2(*)
 C     REAL
       my_real
@@ -76,7 +78,7 @@ C     REAL
      .   YMOM1, YMOM2, ZMOM1, ZMOM2, YMOM1P, ZMOM1P,
      .   YMOM2P,ZMOM2P
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         F11(I)=EXX(I)*FORX(I)+EXY(I)*FORY(I)+EXZ(I)*FORZ(I)
         F21(I)=EYX(I)*FORX(I)+EYY(I)*FORY(I)+EYZ(I)*FORZ(I)
         F31(I)=EZX(I)*FORX(I)+EZY(I)*FORY(I)+EZZ(I)*FORZ(I)
@@ -84,7 +86,7 @@ C-----------------------------------------------
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         F(1,NC1(I))=F(1,NC1(I))+F11(I)
         F(2,NC1(I))=F(2,NC1(I))+F21(I)
         F(3,NC1(I))=F(3,NC1(I))+F31(I)
@@ -104,7 +106,7 @@ C
 C-------------------------
 C     MOMENTS
 C-------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         YMOM1 = YMOM(I) - HALF*AL(I)*FORZ(I)
         ZMOM1 = ZMOM(I) + HALF*AL(I)*FORY(I)
         M11(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM1+EXZ(I)*ZMOM1
@@ -119,7 +121,7 @@ C-------------------------
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         XM(1,NC1(I))=XM(1,NC1(I))+M11(I)
         XM(2,NC1(I))=XM(2,NC1(I))+M21(I)
         XM(3,NC1(I))=XM(3,NC1(I))+M31(I)
@@ -136,177 +138,6 @@ C
         MZ2(I) = M32(I)
         STIFR(NC2(I))=STIFR(NC2(I))+STIR(2,I)
       ENDDO
-C---
-      RETURN
-      END
-Chd|====================================================================
-Chd|  R4CUM3P                       source/elements/spring/r4cum3.F
-Chd|-- called by -----------
-Chd|        R23LAW113                     source/elements/spring/r23law113.F
-Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|        RFORC3                        source/elements/spring/rforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE R4CUM3P(
-     1                   FORX  ,FORY ,FORZ ,XMOM ,YMOM ,
-     2                   ZMOM  ,STI  ,STIR ,FSKY ,FSKYV,
-     3                   IADR  ,FX1  ,FX2  ,FY1  ,FY2  ,
-     4                   FZ1   ,FZ2  ,MX1  ,MX2  ,MY1  ,
-     5                   MY2   ,MZ1  ,MZ2  ,EXX  ,EYX  ,
-     6                   EZX   ,EXY  ,EYY  ,EZY  ,EXZ  ,
-     7                   EYZ   ,EZZ  ,AL   )
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "parit_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IADR(3,*)
-C     REAL
-      my_real
-     .   FORX(*), FORY(*), FORZ(*), XMOM(*),
-     .   YMOM(*),ZMOM(*),STI(3,*),STIR(3,*),FSKYV(LSKY,8),
-     .   FSKY(8,LSKY),
-     .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
-     .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
-     .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
-     .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),
-     .   EXX(MVSIZ), EYX(MVSIZ), EZX(MVSIZ),
-     .   EXY(MVSIZ), EYY(MVSIZ), EZY(MVSIZ),
-     .   EXZ(MVSIZ), EYZ(MVSIZ), EZZ(MVSIZ),AL(MVSIZ)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, II, N, J
-C     REAL
-      my_real
-     .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
-     .   M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
-     .   M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
-     .   YMOM1, YMOM2, ZMOM1, ZMOM2, YMOM1P, ZMOM1P,
-     .   YMOM2P,ZMOM2P
-C-----------------------------------------------
-      DO I=LFT,LLT
-        F11(I)=EXX(I)*FORX(I)+EXY(I)*FORY(I)+EXZ(I)*FORZ(I)
-        F21(I)=EYX(I)*FORX(I)+EYY(I)*FORY(I)+EYZ(I)*FORZ(I)
-        F31(I)=EZX(I)*FORX(I)+EZY(I)*FORY(I)+EZZ(I)*FORZ(I)
-      ENDDO
-C-------------------------
-C     ASSEMBLE
-C-------------------------
-      IF (IVECTOR == 1) THEN
-#include "vectorize.inc"
-        DO I=LFT,LLT
-          II = I+NFT
-          N = IADR(1,II)
-          FSKYV(N,1)=F11(I)
-          FSKYV(N,2)=F21(I)
-          FSKYV(N,3)=F31(I)
-          FX1(I) = -F11(I)
-          FY1(I) = -F21(I)
-          FZ1(I) = -F31(I)
-          FSKYV(N,7)=STI(1,I)
-          N = IADR(2,II)
-          FSKYV(N,1)=-F11(I)
-          FSKYV(N,2)=-F21(I)
-          FSKYV(N,3)=-F31(I)
-          FX2(I) = F11(I)
-          FY2(I) = F21(I)
-          FZ2(I) = F31(I)
-          FSKYV(N,7)=STI(2,I)
-        ENDDO
-      ELSE
-        DO I=LFT,LLT
-         II = I+NFT
-         N = IADR(1,II)
-         FSKY(1,N)=F11(I)
-         FSKY(2,N)=F21(I)
-         FSKY(3,N)=F31(I)
-         FX1(I) = -F11(I)
-         FY1(I) = -F21(I)
-         FZ1(I) = -F31(I)
-         FSKY(7,N)=STI(1,I)
-         N = IADR(2,II)
-         FSKY(1,N)=-F11(I)
-         FSKY(2,N)=-F21(I)
-         FSKY(3,N)=-F31(I)
-         FX2(I) = F11(I)
-         FY2(I) = F21(I)
-         FZ2(I) = F31(I)
-         FSKY(7,N)=STI(2,I)
-        ENDDO
-      ENDIF
-C-------------------------
-C     MOMENTS
-C-------------------------
-      DO I=LFT,LLT
-        YMOM1 = YMOM(I) - HALF*AL(I)*FORZ(I)
-        ZMOM1 = ZMOM(I) + HALF*AL(I)*FORY(I)
-        M11(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM1+EXZ(I)*ZMOM1
-        M21(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM1+EYZ(I)*ZMOM1
-        M31(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM1+EZZ(I)*ZMOM1
-        YMOM2 = YMOM(I) + HALF*AL(I)*FORZ(I)
-        ZMOM2 = ZMOM(I) - HALF*AL(I)*FORY(I)
-        M12(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM2+EXZ(I)*ZMOM2
-        M22(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM2+EYZ(I)*ZMOM2
-        M32(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM2+EZZ(I)*ZMOM2
-      ENDDO
-C-------------------------
-C     ASSEMBLE
-C-------------------------
-      IF (IVECTOR == 1) THEN
-#include "vectorize.inc"
-        DO I=LFT,LLT
-          II = I+NFT
-          N = IADR(1,II)
-          FSKYV(N,4)=M11(I)
-          FSKYV(N,5)=M21(I)
-          FSKYV(N,6)=M31(I)
-          MX1(I) = -M11(I)
-          MY1(I) = -M21(I)
-          MZ1(I) = -M31(I)
-          FSKYV(N,8)=STIR(1,I)
-          N = IADR(2,II)
-          FSKYV(N,4)=-M12(I)
-          FSKYV(N,5)=-M22(I)
-          FSKYV(N,6)=-M32(I)
-          MX2(I) = M12(I)
-          MY2(I) = M22(I)
-          MZ2(I) = M32(I)
-          FSKYV(N,8)=STIR(2,I)
-        ENDDO
-      ELSE
-        DO I=LFT,LLT
-          II = I+NFT
-          N = IADR(1,II)
-          FSKY(4,N)=M11(I)
-          FSKY(5,N)=M21(I)
-          FSKY(6,N)=M31(I)
-          MX1(I) = -M11(I)
-          MY1(I) = -M21(I)
-          MZ1(I) = -M31(I)
-          FSKY(8,N)=STIR(1,I)
-          N = IADR(2,II)
-          FSKY(4,N)=-M12(I)
-          FSKY(5,N)=-M22(I)
-          FSKY(6,N)=-M32(I)
-          MX2(I) = M12(I)
-          MY2(I) = M22(I)
-          MZ2(I) = M32(I)
-          FSKY(8,N)=STIR(2,I)
-        ENDDO
-      ENDIF
 C---
       RETURN
       END

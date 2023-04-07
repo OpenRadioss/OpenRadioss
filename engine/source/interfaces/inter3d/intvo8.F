@@ -64,7 +64,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -125,6 +124,7 @@ C     REAL
      .   STARTT, FRIC, GAP,  STOPT,  
      .   VISC,VISCF,FNOR,DEPTH,FRIC_LAST,FNOR_LAST
       INTEGER :: NMN, NTY, NSN
+      INTEGER :: LFT, LLT, NFT
 C-----------------------------------------------
 
       NSN    = IPARI(5)
@@ -219,9 +219,12 @@ C
 
         ENDIF
 
-        CALL I8LOC3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     .          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%NSEGM,
-     .          XI,YI,ZI,FACE, ITAB,DISTANCE,IFLINEAR,DISTLIN,NSN)
+        CALL I8LOC3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%NSEGM, XI,
+     3   YI,               ZI,               FACE,             ITAB,
+     4   DISTANCE,         IFLINEAR,         DISTLIN,          NSN,
+     5   LFT,              LLT,              NFT)
         IF(NSPMD > 1) THEN
 
           CALL SPMD_I8_ILOC(INTBUF_TAB%ILOCS,    INTBUF_TAB%MSR,ITAB,T8%BUFFER,
@@ -234,10 +237,12 @@ C
           CALL SPMD_I8_UPDBUF(NSN,INTBUF_TAB%ILOCS,INTBUF_TAB%NSV,
      .              ITAB,T8%BUFFER,T8%SPMD_COMM_PATTERN,INDEX_IN_COMM)
         ENDIF
-        CALL I8MSR3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     .              INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,
-     .              INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,FACE,
-     .              NSN,ITAB, HAS_MOVED,TAB_RMAX,TAB_RMAX_UID)
+        CALL I8MSR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%IRTLM, INTBUF_TAB%NSEGM,
+     3   FACE,             NSN,              ITAB,             HAS_MOVED,
+     4   TAB_RMAX,         TAB_RMAX_UID,     LFT,              LLT,
+     5   NFT)
 
         IF(NSPMD > 1) THEN
          CALL SPMD_I8_IRTL(INTBUF_TAB%IRTLM,HAS_MOVED,
@@ -285,48 +290,44 @@ C
            NINSKID = H3D_DATA%N_SKID_INTER(NIN)
         ENDIF
 
-        CALL I8COR3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,NSV_A,
-     .  	IRTL_A, 
-     . IX1 ,IX2 ,IX3, 
-     . IX4, X1 ,Y1,
-     . Z1, X2 ,Y2 ,Z2,
-     . X3 ,Y3 ,Z3,
-     . X4 ,Y4 ,Z4)
-        CALL I8CST3(X1 ,Y1 ,Z1,
-     .              X2 ,Y2 ,Z2,
-     .              X3 ,Y3 ,Z3,
-     .              X4,Y4,Z4,
-     .              XI_A,YI_A,ZI_A,
-     .              N1,N2,N3,
-     .               ANS, SSC, TTC,
-     .              FACE_A,
-     .                X0,  Y0,  Z0,
-     .               XX1, YY1, ZZ1,
-     .               XX2, YY2, ZZ2,
-     .               XX3, YY3, ZZ3,
-     .               XX4, YY4, ZZ4,
-     .               XI1, YI1, ZI1,
-     .               XI2, YI2, ZI2,
-     .               XI3, YI3, ZI3,
-     .               XI4, YI4, ZI4,
-     .               XN1, YN1, ZN1,
-     .               XN2, YN2, ZN2,
-     .               XN3, YN3, ZN3,
-     .               XN4, YN4, ZN4,
-     .              AREA)
+        CALL I8COR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   NSV_A,
+     2   IRTL_A,           IX1,              IX2,              IX3,
+     3   IX4,              X1,               Y1,               Z1,
+     4   X2,               Y2,               Z2,               X3,
+     5   Y3,               Z3,               X4,               Y4,
+     6   Z4,               LFT,              LLT,              NFT)
+        CALL I8CST3(
+     1   X1,      Y1,      Z1,      X2,
+     2   Y2,      Z2,      X3,      Y3,
+     3   Z3,      X4,      Y4,      Z4,
+     4   XI_A,    YI_A,    ZI_A,    N1,
+     5   N2,      N3,      ANS,     SSC,
+     6   TTC,     FACE_A,  X0,      Y0,
+     7   Z0,      XX1,     YY1,     ZZ1,
+     8   XX2,     YY2,     ZZ2,     XX3,
+     9   YY3,     ZZ3,     XX4,     YY4,
+     A   ZZ4,     XI1,     YI1,     ZI1,
+     B   XI2,     YI2,     ZI2,     XI3,
+     C   YI3,     ZI3,     XI4,     YI4,
+     D   ZI4,     XN1,     YN1,     ZN1,
+     E   XN2,     YN2,     ZN2,     XN3,
+     F   YN3,     ZN3,     XN4,     YN4,
+     G   ZN4,     AREA,    LFT,     LLT)
 
-        CALL I8GAP3(GAP, THK,AREA, ALP)
-        CALL I8DIS3(IGIMP,NTY,DIST,
-     .              X1 ,Y1 ,Z1,
-     .              X2 ,Y2 ,Z2,
-     .              X3 ,Y3 ,Z3,
-     .              X4,Y4,Z4,
-     .              XI_A,YI_A,ZI_A,
-     .              XP,YP,ZP,
-     .              N1,N2,N3,
-     .               ANS, SSC, TTC,
-     .                H1,  H2,  H3,
-     .                H4,FACE_A, ALP )
+        CALL I8GAP3(
+     1   GAP,     THK,     AREA,    ALP,
+     2   LFT,     LLT)
+        CALL I8DIS3(
+     1   IGIMP,   NTY,     DIST,    X1,
+     2   Y1,      Z1,      X2,      Y2,
+     3   Z2,      X3,      Y3,      Z3,
+     4   X4,      Y4,      Z4,      XI_A,
+     5   YI_A,    ZI_A,    XP,      YP,
+     6   ZP,      N1,      N2,      N3,
+     7   ANS,     SSC,     TTC,     H1,
+     8   H2,      H3,      H4,      FACE_A,
+     9   ALP,     LFT,     LLT)
 
         CALL I8FOR3(LFT  ,LLT	,NFT   ,A   ,
      2          INTBUF_TAB%MSR,NSV_A,IRTL_A,INTBUF_TAB%STFM,

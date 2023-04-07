@@ -182,10 +182,14 @@ C     VE formulation
                PHASE_EINTJJ(IMAT) = FVM_INLET_DATA%VAL_PRES(IMAT)
                   PHASE_EINTJJ(IMAT) = PHASE_EINTII(IMAT)
                IF (PHASE_ALPHAJJ(IMAT)  >  ZERO) THEN
-                  CALL MULTI_SUBMATLAW(0, MATLAW(IMAT), LOCAL_MATID(IMAT), 1, PHASE_EINTJJ(IMAT), 
-     .                 PHASE_PRESJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_SSPJJ(IMAT), ONE, DUMMY, 
-     .                 PM, IPM, NPROPM, NPROPMI, DUMMY, ONE, DUMMY, 
-     .                 MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, DUMMY, DUMMY,NPF,TF,DUMMY,1)
+                  CALL MULTI_SUBMATLAW(
+     1   0,                           MATLAW(IMAT),                LOCAL_MATID(IMAT),           1,
+     2   PHASE_EINTJJ(IMAT),          PHASE_PRESJJ(IMAT),          PHASE_RHOJJ(IMAT),           PHASE_SSPJJ(IMAT),
+     3   ONE,                         DUMMY,                       PM,                          IPM,
+     4   NPROPM,                      NPROPMI,                     DUMMY,                       ONE,
+     5   DUMMY,                       MULTI_FVM%BFRAC(IMAT,ELEMID),MULTI_FVM%TBURN(ELEMID),     DUMMY,
+     6   DUMMY,                       DUMMY,                       NPF,                         TF,
+     7   DUMMY,                       1)
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * 
      .                 MAX(EM20, PHASE_SSPJJ(IMAT)) 
                   P_JJ = P_JJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)

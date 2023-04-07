@@ -236,7 +236,8 @@ c           IF (MTN==11) NB3S = NB14
 C----------------------------
 C       OFF
 C----------------------------
-        CALL SMALLB3(GBUF%OFF,OFF)
+        CALL SMALLB3(
+     1   GBUF%OFF,OFF,     NEL,     ISMSTR)
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------
@@ -255,10 +256,15 @@ C     CONVECTE --> GLOBAL.
 C----------------------------
       IF (JCVT==1) THEN
        CALL SRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F11, F12, F13, F14, F15, F16, F17, F18,
-     .   F21, F22, F23, F24, F25, F26, F27, F28,
-     .   F31, F32, F33, F34, F35, F36, F37, F38)
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F11,     F12,     F13,
+     4   F14,     F15,     F16,     F17,
+     5   F18,     F21,     F22,     F23,
+     6   F24,     F25,     F26,     F27,
+     7   F28,     F31,     F32,     F33,
+     8   F34,     F35,     F36,     F37,
+     9   F38,     NEL)
       ENDIF
 C-------------------------
 C     ASSEMBLE
@@ -275,14 +281,26 @@ C-------------------------
      8   F38,     NEL)
       ELSE
           FBI = ZERO
-          CALL SCUMU3P(GBUF%OFF,STI,FSKY,FSKY,IADS,
-     2   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     3   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     4   IBI,IBI,IBI,IBI,IBI,IBI,IBI,IBI,
-     5   FBI,FBI,FBI,
-     6   FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,
-     7   FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,FBI,
-     8   FBI, FBI,FBI,FBI)
+          CALL SCUMU3P(
+     1   GBUF%OFF,STI,     FSKY,    FSKY,
+     2   IADS,    F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     F15,     F25,     F35,
+     6   F16,     F26,     F36,     F17,
+     7   F27,     F37,     F18,     F28,
+     8   F38,     IBI,     IBI,     IBI,
+     9   IBI,     IBI,     IBI,     IBI,
+     A   IBI,     FBI,     FBI,     FBI,
+     B   FBI,     FBI,     FBI,     FBI,
+     C   FBI,     FBI,     FBI,     FBI,
+     D   FBI,     FBI,     FBI,     FBI,
+     E   FBI,     FBI,     FBI,     FBI,
+     F   FBI,     FBI,     FBI,     FBI,
+     G   FBI,     FBI,     FBI,     FBI,
+     H   FBI,     FBI,     FBI,     FBI,
+     I   NEL,     NFT,     JTHE,    ISROT,
+     J   IPARTSPH)
       ENDIF
 C
 C-----------

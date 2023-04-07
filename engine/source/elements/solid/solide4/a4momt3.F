@@ -51,7 +51,8 @@ Chd|====================================================================
      J   VDX,     VDY,     VDZ,     DELTAX,
      K   VIS,     MAT,     RX,      RY,
      L   RZ,      SX,      SY,      SZ,
-     M   TX,      TY,      TZ,      NEL)
+     M   TX,      TY,      TZ,      NEL,
+     N   MTN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,11 +68,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: MTN
       INTEGER, INTENT(IN) :: NEL
       my_real
      .   PM(NPROPM,*), RHO(*),VOL(*),
@@ -116,42 +117,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------      
-      IF(ALE%UPWIND%UPWM>1)THEN
-      !      DO I=LFT,LLT
-      !       V12(1,I)=X2(I)-X1(I)
-      !       V12(2,I)=Y2(I)-Y1(I)
-      !       V12(3,I)=Z2(I)-Z1(I)
-      !       V13(1,I)=X3(I)-X1(I)
-      !       V13(2,I)=Y3(I)-Y1(I)
-      !       V13(3,I)=Z3(I)-Z1(I)
-      !       V14(1,I)=X4(I)-X1(I)
-      !       V14(2,I)=Y4(I)-Y1(I)
-      !       V14(3,I)=Z4(I)-Z1(I)
-      !       V24(1,I)=X4(I)-X2(I)
-      !       V24(2,I)=Y4(I)-Y2(I)
-      !       V24(3,I)=Z4(I)-Z2(I)
-      !       V23(1,I)=X3(I)-X2(I)
-      !       V23(2,I)=Y3(I)-Y2(I)
-      !       V23(3,I)=Z3(I)-Z2(I)
-      !       V34(1,I)=X4(I)-X3(I)
-      !       V34(2,I)=Y4(I)-Y3(I)
-      !       V34(3,I)=Z4(I)-Z3(I)
-      !      ENDDO
-      !      DO J=1,3
-      !       DO I=LFT,LLT
-      !        R(J,I)=0.5*V34(J,I)
-      !        S(J,I)=0.5*V12(J,I)
-      !        T(J,I)=0.25*(V13(J,I)+V14(J,I)+V24(J,I)+V23(J,I))
-      !       ENDDO
-      !      ENDDO
-      ENDIF
       
       ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
       ! STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
       IF(ALE%UPWIND%UPWM<2 .OR.MTN==11)THEN
         IF(MTN==11.AND.ALE%UPWIND%UPWM>1)THEN
           ! VDX,VDY,VDZ EST CALCULE DANS M11VS3
-          DO I=LFT,LLT
+          DO I=1,NEL
              R(I,1)=RX(I)
              R(I,2)=RY(I)
              R(I,3)=RZ(I)
@@ -166,7 +138,7 @@ C-----------------------------------------------
      1   RHO,     VIS,     VDX,     VDY,
      2   VDZ,     R,       S,       T,
      3   GAM,     NEL)
-          DO I=LFT,LLT
+          DO I=1,NEL
             FAC=GAM(I)
             A1(I) = FAC*(PX1(I)*VDX(I)+PY1(I)*VDY(I)+PZ1(I)*VDZ(I))
             A2(I) = FAC*(PX2(I)*VDX(I)+PY2(I)*VDY(I)+PZ2(I)*VDZ(I))
@@ -177,15 +149,15 @@ C-----------------------------------------------
         ELSE!IF(MTN==11.AND.ALE%UPWIND%UPWM>1)
         
           IF(ALE%UPWIND%UPWM==ZERO)THEN
-            DO I=LFT,LLT
+            DO I=1,NEL
               GAM(I)= PM(15,MAT(I))
             ENDDO
           ELSE
-            DO I=LFT,LLT
+            DO I=1,NEL
               GAM(I)= ALE%UPWIND%CUPWM
             ENDDO
           ENDIF
-          DO I=LFT,LLT
+          DO I=1,NEL
            A1(I) = PX1(I)*VDX(I)+PY1(I)*VDY(I)+PZ1(I)*VDZ(I)
            A2(I) = PX2(I)*VDX(I)+PY2(I)*VDY(I)+PZ2(I)*VDZ(I)
            A3(I) = PX3(I)*VDX(I)+PY3(I)*VDY(I)+PZ3(I)*VDZ(I)
@@ -198,14 +170,14 @@ C-----------------------------------------------
           
         ENDIF !IF(MTN==11.AND.ALE%UPWIND%UPWM>1)
        
-         DO I=LFT,LLT
+         DO I=1,NEL
            FAC = FOURTH*RHO(I)*VOL(I)
            F1(I) = (VDX(I)*DXX(I)+VDY(I)*DXY(I)+VDZ(I)*DXZ(I))*FAC
            F2(I) = (VDX(I)*DYX(I)+VDY(I)*DYY(I)+VDZ(I)*DYZ(I))*FAC
            F3(I) = (VDX(I)*DZX(I)+VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*FAC
          ENDDO
        
-         DO I=LFT,LLT
+         DO I=1,NEL
           F11(I) = F11(I) - (ONE+A1(I))*F1(I)
           F12(I) = F12(I) - (ONE+A2(I))*F1(I)
           F13(I) = F13(I) - (ONE+A3(I))*F1(I)
@@ -228,7 +200,7 @@ C-----------------------------------------------
       ! TRANSPORTATION FORCE
       !  <PHI,UJ*DUI/DXJ> EVALUATED AT NODES 
 
-        DO I=LFT,LLT
+        DO I=1,NEL
            R(I,1)=RX(I)-SX(I)
            R(I,2)=RY(I)-SY(I)
            R(I,3)=RZ(I)-SZ(I)
@@ -259,7 +231,7 @@ C-----------------------------------------------
      7   VDZ1,    F11,     F21,     F31,
      8   NEL)
      
-        DO I=LFT,LLT
+        DO I=1,NEL
            R(I,1)=SX(I)-TX(I)    
            R(I,2)=SY(I)-TY(I)
            R(I,3)=SZ(I)-TZ(I)
@@ -290,7 +262,7 @@ C-----------------------------------------------
      7   VDZ2,    F12,     F22,     F32,
      8   NEL)
      
-        DO I=LFT,LLT
+        DO I=1,NEL
            R(I,1)=TX(I)
            R(I,2)=TY(I)
            R(I,3)=TZ(I)
@@ -322,7 +294,7 @@ C-----------------------------------------------
      7   VDZ3,    F13,     F23,     F33,
      8   NEL)
      
-        DO I=LFT,LLT
+        DO I=1,NEL
            R(I,1)=RX(I)
            R(I,2)=RY(I)
            R(I,3)=RZ(I)

@@ -32,12 +32,15 @@ Chd|        C3COOR3_CRK2                  source/elements/xfem/c3coor3_crk.F
 Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|====================================================================
-      SUBROUTINE C3BILAN(JFT    ,JLT    ,PM   ,V    ,THK    ,EINT     ,
-     2                   PARTSAV,IPARTTG,RHO  ,VOL00,IXTG   ,X        ,
-     3                   VR     ,THK02  ,AREA ,GRESAV,GRTH  ,
-     4                   IGRTH  ,OFF    ,IXFEM,ILEV ,IEL_CRK,IADTG_CRK,
-     5                   NFT1   ,IEXPAN ,EINTTH ,ITASK,MAT  ,GVOL     ,
-     6                   ACTIFXFEM)
+      SUBROUTINE C3BILAN(
+     1   JFT,      JLT,      PM,       V,
+     2   THK,      EINT,     PARTSAV,  IPARTTG,
+     3   RHO,      VOL00,    IXTG,     X,
+     4   VR,       THK02,    AREA,     GRESAV,
+     5   GRTH,     IGRTH,    OFF,      IXFEM,
+     6   ILEV,     IEL_CRK,  IADTG_CRK,NFT1,
+     7   IEXPAN,   EINTTH,   ITASK,    MAT,
+     8   GVOL,     ACTIFXFEM,IGRE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,11 +53,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "com_xfem1.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT, JLT, IEXPAN,
      .   IPARTTG(*),IXTG(NIXTG,*),GRTH(*),IGRTH(*),IXFEM,
      .   ILEV,IEL_CRK(*),IADTG_CRK(3,*),NFT1,ITASK

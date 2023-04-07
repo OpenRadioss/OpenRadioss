@@ -30,12 +30,17 @@ Chd|-- calls ---------------
 Chd|        MQVISC8                       source/materials/mat_share/mqvisc8.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE M1LAW8 (PM,OFF,SIG,EINT,RHO,QOLD,VOL,STIFN,NEL,
-     .                   D1,D2,D3,D4,D5,D6,
-     .                   VNEW,VOLGP,DELTAX,RHO0,DVOL,VD2,VIS,
-     .                   MAT,NC,NGL,GEO,PID,
-     .                   DT2T ,NELTST,ITYPTST, OFFG,MSSA   ,
-     .                   DMELS ,BUFLY, SSP)
+      SUBROUTINE M1LAW8(
+     1   PM,      OFF,     SIG,     EINT,
+     2   RHO,     QOLD,    VOL,     STIFN,
+     3   NEL,     D1,      D2,      D3,
+     4   D4,      D5,      D6,      VNEW,
+     5   VOLGP,   DELTAX,  RHO0,    DVOL,
+     6   VD2,     VIS,     MAT,     NC,
+     7   NGL,     GEO,     PID,     DT2T,
+     8   NELTST,  ITYPTST, OFFG,    MSSA,
+     9   DMELS,   BUFLY,   SSP,     ITY,
+     A   NPT,     JTUR,    JTHE,    JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,10 +58,14 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: NPT
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER MAT(MVSIZ),NC(8,MVSIZ),NGL(MVSIZ),PID(MVSIZ)
       INTEGER NEL,NELTST,ITYPTST
 C     REAL

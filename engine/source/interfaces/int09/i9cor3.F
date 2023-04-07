@@ -26,12 +26,15 @@ Chd|-- called by -----------
 Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I9COR3(X     ,V     ,A       ,IRECT ,MSR   ,
-     2                  NSV   ,IRTL  ,IX1     ,IX2   ,IX3   ,
-     3                  IX4   ,X1    ,X2      ,X3    ,X4    ,
-     4                  XI    ,Y1    ,Y2      ,Y3    ,Y4    ,
-     5                  YI    ,Z1    ,Z2      ,Z3    ,Z4    ,
-     6                  ZI)
+      SUBROUTINE I9COR3(
+     1   X,       V,       A,       IRECT,
+     2   MSR,     NSV,     IRTL,    IX1,
+     3   IX2,     IX3,     IX4,     X1,
+     4   X2,      X3,      X4,      XI,
+     5   Y1,      Y2,      Y3,      Y4,
+     6   YI,      Z1,      Z2,      Z3,
+     7   Z4,      ZI,      LFT,     LLT,
+     8   NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(OUT):: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(OUT) ::  X1,X2,X3,X4,XI
@@ -54,7 +60,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

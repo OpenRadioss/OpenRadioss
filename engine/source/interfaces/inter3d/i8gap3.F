@@ -26,7 +26,9 @@ Chd|-- called by -----------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I8GAP3(GAP,THK,AREA,ALP)
+      SUBROUTINE I8GAP3(
+     1   GAP,     THK,     AREA,    ALP,
+     2   LFT,     LLT)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -35,13 +37,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
 C     REAL
       my_real
      .   GAP, THK(*), ALP(*), AREA(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

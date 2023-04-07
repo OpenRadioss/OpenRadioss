@@ -307,12 +307,15 @@ c
      2      DNIDR         ,DNIDS         ,DNIDT         )
 C
          CALL S20DERI3(
-     1    NGL,OFF,A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),WI,
-     2    DNIDR    ,DNIDS    ,DNIDT   ,RX(1,IP)  ,RY(1,IP)  ,RZ(1,IP)  ,
-     3    SX(1,IP) ,SY(1,IP) ,SZ(1,IP),TX(1,IP)  ,TY(1,IP)  ,TZ(1,IP)  ,
-     4    XX       ,YY       ,ZZ      ,PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
-     5    VOLNP(1,IP),DELTAX ,STIN    ,NI(1,IP)  ,VOLG      ,UL        ,
-     6    IR       ,IS       ,IT      ,VOLDP(1,IP))
+     1   NGL,             OFF,             A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),
+     2   A_GAUSS(IT,NPTT),WI,              DNIDR,           DNIDS,
+     3   DNIDT,           RX(1,IP),        RY(1,IP),        RZ(1,IP),
+     4   SX(1,IP),        SY(1,IP),        SZ(1,IP),        TX(1,IP),
+     5   TY(1,IP),        TZ(1,IP),        XX,              YY,
+     6   ZZ,              PX(1,1,IP),      PY(1,1,IP),      PZ(1,1,IP),
+     7   VOLNP(1,IP),     DELTAX,          STIN,            NI(1,IP),
+     8   VOLG,            UL,              IR,              IS,
+     9   IT,              VOLDP(1,IP),     NEL)
 C
         ENDDO
        ENDDO
@@ -349,9 +352,13 @@ C--------
      7   VOLNP(1,IP),VOLN,       NEL)
 C                                                                     
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
-         CALL SRHO3( PM         , LBUF%VOL  , LBUF%RHO, LBUF%EINT, DIVDE,
-     .               FLUX(1,NF1), FLU1(NF1) , VOLN    , DVOL     , NGL, MXT, OFF,
-     .               0          , GBUF%TAG22 ,VOLDP(1,IP),LBUF%VOL0DP,AMU  ,GBUF%OFF)
+         CALL SRHO3(
+     1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
+     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     3   DVOL,       NGL,        MXT,        OFF,
+     4   0,          GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP,
+     5   AMU,        GBUF%OFF,   NEL,        MTN,
+     6   JALE,       ISMSTR,     JEUL,       JLAG)
      
          CALL SROTA3(
      1   LBUF%SIG,S1,      S2,      S3,
@@ -361,7 +368,10 @@ C
 C-----------------------------
 C        SMALL STRAIN
 C-----------------------------
-         CALL SMALLA3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,WZZ,NEL)
+         CALL SMALLA3(
+     1   GBUF%SMSTR,GBUF%OFF,  OFF,       WXX,
+     2   WYY,       WZZ,       NEL,       ISMSTR,
+     3   JLAG)
 C
 C         for heat transfert
 C
@@ -372,35 +382,47 @@ C------------------------------------------------------
 C         CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
           CALL MMAIN(
-     1    ELBUF_TAB,NG       ,PM       ,GEO           ,FV	     ,ALE_CONNECT    ,
-     2    IXS      ,IPARG    ,V        ,TF       ,NPF      ,BUFMAT   ,
-     3    STI      ,X        ,DT2T     ,NELTST   ,ITYPTST  ,OFFSET   ,
-     4    NEL      ,W        ,OFF      ,NGEO          ,
-     6    MXT      ,NGL      ,VOLN     ,VD2      ,DVOL     ,DELTAX   ,
-     7    VIS      ,QVIS     ,CXX      ,S1       ,S2       ,S3       ,
-     8    S4       ,S5       ,S6       ,DXX      ,DYY      ,DZZ      ,
-     9    D4       ,D5       ,D6       ,WXX      ,WYY      ,WZZ      ,
-     A    RX(1,IP) ,RY(1,IP) ,RZ(1,IP) ,SX(1,IP) ,SY(1,IP) ,SZ(1,IP) ,
-     B    VDX      ,VDY      ,VDZ      ,MUVOID   ,SSP_EQ   ,AIRE     ,
-     C    SIGY     ,ET       ,R1_FREE  ,LBUF%PLA,     R3_FREE	     ,AMU      ,
-     D    BID      ,BID      ,BID      ,BID      ,BID      ,BID      , 
-     E    BID      ,BID      ,BID      ,IPM      ,GAMA     ,BID      ,
-     F    BID      ,BID      ,BID      ,BID      ,BID      ,BID      ,
-     G    ISTRAIN  ,TEMPEL   ,DIE      ,IEXPAN   ,ILAY     ,MBID     ,
-     H    MBID     ,IR       ,IS       ,IT       ,TABLE    ,BID      ,
-     I    BID      ,BID      ,BID      ,IPARG(1,NG)   ,IGEO     ,CONDE    ,
-     J    ITASK    ,NLOC_DMG ,VARNL    ,MATPARAM_TAB  ,H3D_STRAIN)
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   OFF,         NGEO,        MXT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        CXX,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          DXX,         DYY,         DZZ,
+     B   D4,          D5,          D6,          WXX,
+     C   WYY,         WZZ,         RX(1,IP),    RY(1,IP),
+     D   RZ(1,IP),    SX(1,IP),    SY(1,IP),    SZ(1,IP),
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   R1_FREE,     LBUF%PLA,    R3_FREE,     AMU,
+     H   BID,         BID,         BID,         BID,
+     I   BID,         BID,         BID,         BID,
+     J   BID,         IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     M   DIE,         IEXPAN,      ILAY,        MBID,
+     N   MBID,        IR,          IS,          IT,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        CONDE,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 c     
           IF (ISTRAIN == 1) THEN 
-            CALL SSTRA3(DXX,DYY,DZZ,D4,D5, 
-     .                  D6,LBUF%STRA, WXX, WYY, WZZ,
-     .                  OFF,NEL)
+            CALL SSTRA3(
+     1   DXX,      DYY,      DZZ,      D4,
+     2   D5,       D6,       LBUF%STRA,WXX,
+     3   WYY,      WZZ,      OFF,      NEL,
+     4   JCVT)
           ENDIF
 
 C-----------------------------
 C         SMALL STRAIN 
 C-----------------------------
-          CALL SMALLB3(GBUF%OFF,OFF)
+          CALL SMALLB3(
+     1   GBUF%OFF,OFF,     NEL,     ISMSTR)
 C----------------------------
 C         INTERNAL FORCES
 C----------------------------
@@ -439,7 +461,7 @@ C
      .              YY(1,1), YY(1,2), YY(1,3), YY(1,4),
      .              YY(1,5), YY(1,6), YY(1,7), YY(1,8),
      .              ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
-     .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8))
+     .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8), NEL)
         CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
       END IF !( NN_DEL> 0) THEN
 C--------------------------
@@ -460,12 +482,19 @@ c-----------------------------
      2   FY,       FZ,       NEL)
 c-----------------------------
       IF (IPARIT == 0)THEN
-        CALL S20CUMU3(GBUF%OFF,A,NC,STIFN,STIG,FX,FY,
-     2                FZ, IPERM1,IPERM2,NPE, THEM,FTHE,CONDN,CONDEG)
+        CALL S20CUMU3(
+     1   GBUF%OFF,A,       NC,      STIFN,
+     2   STIG,    FX,      FY,      FZ,
+     3   IPERM1,  IPERM2,  NPE,     THEM,
+     4   FTHE,    CONDN,   CONDEG,  NEL,
+     5   JTHE)
       ELSE
-        CALL S20CUMU3P(GBUF%OFF,STIG,FSKY,FSKY,IADS(1,NF1),FX,FY,
-     2           FZ,IADS20(1,NF2),NC,IPERM1,IPERM2,NPE,THEM, FTHESKY,
-     3           CONDNSKY,CONDEG)
+        CALL S20CUMU3P(
+     1   GBUF%OFF,     STIG,         FSKY,         FSKY,
+     2   IADS(1,NF1),  FX,           FY,           FZ,
+     3   IADS20(1,NF2),NC,           IPERM1,       IPERM2,
+     4   NPE,          THEM,         FTHESKY,      CONDNSKY,
+     5   CONDEG,       NEL,          NFT,          JTHE)
       ENDIF
 C-----------
       RETURN

@@ -28,20 +28,22 @@ Chd|-- calls ---------------
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|====================================================================
-      SUBROUTINE SBOLTLAW  (PM      ,SIG     ,MAT     ,D1     ,
-     1                      D2      ,D3      ,D4      ,D5     ,
-     2                      D6      ,NEL     ,RHO     ,BPRELD ,  
-     3                      EINT    ,QOLD    ,VOL0    ,STIFN  ,
-     4                      DT2T    ,NELTST  ,ITYPTST ,OFFG   ,
-     5                      GEO     ,PID     ,
-     7                      MUMAX   ,NGL     ,SSP     ,DVOL   ,
-     8                      AIRE    ,VNEW    ,VD2     ,DELTAX ,
-     9                      VIS     ,PNEW    ,PSH     ,QNEW   ,  
-     A                      SSP_EQ  ,SOLD1   ,SOLD2   ,SOLD3  ,
-     B                      SOLD4   ,SOLD5   ,SOLD6   ,MSSA   ,
-     C                      DMELS   ,CONDE   ,AMU     ,VOL_AVG,
-     D                      DTEL    ,G_DT    ,OFF     ,IPM    ,
-     E                      RHOREF  ,RHOSP   ,VOL0DP  )
+      SUBROUTINE SBOLTLAW(
+     1   PM,      SIG,     MAT,     D1,
+     2   D2,      D3,      D4,      D5,
+     3   D6,      NEL,     RHO,     BPRELD,
+     4   EINT,    QOLD,    VOL0,    STIFN,
+     5   DT2T,    NELTST,  ITYPTST, OFFG,
+     6   GEO,     PID,     MUMAX,   NGL,
+     7   SSP,     DVOL,    AIRE,    VNEW,
+     8   VD2,     DELTAX,  VIS,     PNEW,
+     9   PSH,     QNEW,    SSP_EQ,  SOLD1,
+     A   SOLD2,   SOLD3,   SOLD4,   SOLD5,
+     B   SOLD6,   MSSA,    DMELS,   CONDE,
+     C   AMU,     VOL_AVG, DTEL,    G_DT,
+     D   OFF,     IPM,     RHOREF,  RHOSP,
+     E   VOL0DP,  ISMSTR,  JSPH,    JTUR,
+     F   ITY,     JTHE,    JSMS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,10 +58,15 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JSPH
 C
       INTEGER NEL
       my_real
@@ -123,20 +130,30 @@ C
       ENDDO
 C
       IF (JSPH==0)THEN
-       CALL MQVISCB(PM,OFF     ,RHO    ,BID1  ,BID2    ,SSP    ,
-     2        BID3    ,STIFN   ,DT2T   ,NELTST,ITYPTST ,AIRE   ,
-     3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2    ,DELTAX ,
-     4        VIS     ,D1      ,D2     ,D3     ,PNEW  ,PSH     ,
-     5        MAT     ,NGL     ,QNEW   ,SSP_EQ ,VOL0  ,MSSA    ,
-     6        DMELS   ,IBID    ,FACQ0   ,CONDE  ,DTEL  ,G_DT   ,
-     7        IPM     ,RHOREF  ,RHOSP   )
+       CALL MQVISCB(
+     1   PM,      OFF,     RHO,     BID1,
+     2   BID2,    SSP,     BID3,    STIFN,
+     3   DT2T,    NELTST,  ITYPTST, AIRE,
+     4   OFFG,    GEO,     PID,     VNEW,
+     5   VD2,     DELTAX,  VIS,     D1,
+     6   D2,      D3,      PNEW,    PSH,
+     7   MAT,     NGL,     QNEW,    SSP_EQ,
+     8   VOL0,    MSSA,    DMELS,   IBID,
+     9   FACQ0,   CONDE,   DTEL,    G_DT,
+     A   IPM,     RHOREF,  RHOSP,   NEL,
+     B   ITY,     ISMSTR,  JTUR,    JTHE,
+     C   JSMS)
       ELSE
-       CALL MDTSPH(PM ,OFF     ,RHO     ,BID1    ,BID2    ,
-     2        BID3    ,STIFN   ,DT2T    ,NELTST  ,ITYPTST ,
-     3        OFFG    ,GEO     ,PID     ,MUMAX   ,SSP     ,
-     4        VNEW    ,VD2     ,DELTAX  ,VIS     ,D1      ,
-     5        D2      ,D3      ,PNEW    ,PSH     ,MAT     ,
-     6        NGL     ,QNEW    ,SSP_EQ  ,G_DT    ,DTEL)
+       CALL MDTSPH(
+     1   PM,      OFF,     RHO,     BID1,
+     2   BID2,    BID3,    STIFN,   DT2T,
+     3   NELTST,  ITYPTST, OFFG,    GEO,
+     4   PID,     MUMAX,   SSP,     VNEW,
+     5   VD2,     DELTAX,  VIS,     D1,
+     6   D2,      D3,      PNEW,    PSH,
+     7   MAT,     NGL,     QNEW,    SSP_EQ,
+     8   G_DT,    DTEL,    NEL,     ITY,
+     9   JTUR,    JTHE)
       ENDIF
 
       DTA =HALF*DT1

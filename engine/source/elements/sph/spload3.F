@@ -26,10 +26,12 @@ Chd|-- called by -----------
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPLOAD3(SPBUF  ,WA  ,RHOA ,RHON ,DELTAX ,
-     1        OFFG, DXX, DXY, DXZ, DYX,
-     2        DYY, DYZ, DZX, DZY, DZZ ,
-     3        MUMAX)
+      SUBROUTINE SPLOAD3(
+     1   SPBUF,   WA,      RHOA,    RHON,
+     2   DELTAX,  OFFG,    DXX,     DXY,
+     3   DXZ,     DYX,     DYY,     DYZ,
+     4   DZX,     DZY,     DZZ,     MUMAX,
+     5   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,11 +39,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       my_real
      .   SPBUF(NSPBUF,*) ,WA(KWASPH,*)  ,
      .   RHOA(*) ,RHON(*) ,DELTAX(*) ,OFFG(*) ,

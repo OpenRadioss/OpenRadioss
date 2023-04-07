@@ -26,12 +26,15 @@ Chd|-- called by -----------
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I12COR3(XS  ,XM  ,IRECT,MSR ,IRTL ,
-     1                   ILEV,X   ,TETS ,IX1 ,IX2  ,
-     2                   IX3 ,IX4 ,X1   ,X2  ,X3   ,
-     3                   X4  ,XI  ,Y1   ,Y2  ,Y3   ,
-     4                   Y4  ,YI  ,Z1   ,Z2  ,Z3   ,
-     5                   Z4  ,ZI  ,XFACE)
+      SUBROUTINE I12COR3(
+     1   XS,      XM,      IRECT,   MSR,
+     2   IRTL,    ILEV,    X,       TETS,
+     3   IX1,     IX2,     IX3,     IX4,
+     4   X1,      X2,      X3,      X4,
+     5   XI,      Y1,      Y2,      Y3,
+     6   Y4,      YI,      Z1,      Z2,
+     7   Z3,      Z4,      ZI,      XFACE,
+     8   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*), MSR(*), IRTL(*),ILEV
       my_real
      .   XS(3,*),XM(3,*),X(3,*),TETS(*)
@@ -54,7 +60,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

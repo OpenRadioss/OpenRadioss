@@ -27,7 +27,10 @@ Chd|        ATHERM                        source/ale/atherm.F
 Chd|-- calls ---------------
 Chd|        MINTP_RT                      ../common_source/eos/mintp_rt.F
 Chd|====================================================================
-      SUBROUTINE M26TH(MAT, RHO,T,XK,PM,SESAME,Z)
+      SUBROUTINE M26TH(
+     1   MAT,     RHO,     T,       XK,
+     2   PM,      SESAME,  Z,       NEL,
+     3   NFT)
 C----------------------------------------
 C     CALCUL DE LA CONDUCTIVITE THERMIQUE
 C----------------------------------------
@@ -38,11 +41,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
       INTEGER MAT(*)
       my_real
      .   RHO(*), T(*), XK(*), PM(NPROPM,*), SESAME(*), Z(*)
@@ -59,7 +63,7 @@ C-----------------------------------------------
       !----------------------------
       !     CONDUCTION ELECTRONIQUE
       !----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         J=I+NFT
         MX = MAT(I)
         ZZ = MAX(EM10,Z(I))
@@ -80,7 +84,7 @@ C-----------------------------------------------
       !----------------------------
       !     RADIATION
       !----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         J=I+NFT
         MX = MAT(I)
         STEFAN = PM(51,MX)

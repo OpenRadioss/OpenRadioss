@@ -117,7 +117,9 @@ C-------------------------
 C          STANDARD 8 NODE SOLID ELEMENT (JHBE = 1,2,101,102)
 C-------------------------
            UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
-           CALL VFLUID(UVAR , NEL, MLW, PHI1, PHI2 ,POR)
+           CALL VFLUID(
+     1   UVAR,    NEL,     MLW,     PHI1,
+     2   PHI2,    POR,     NFT)
         ENDIF
 C-------------------------
         IF (IDDW>0) CALL STOPTIMEG(NG)
@@ -147,53 +149,4 @@ C
 C Fin Partie non parallele smt
 !$OMP END SINGLE       
       ENDIF
-      END SUBROUTINE PRELECFLOW
-C --- fluid structure       
-Chd|====================================================================
-Chd|  VFLUID                        source/elements/solid/solide/prelecflow.F
-Chd|-- called by -----------
-Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE VFLUID (UVAR, NEL, MLW , PHI1, PHI2,PHI3)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL,MLW
-      my_real
-     .   DT2T
-      my_real
-     .  PHI1(*),PHI2(*),UVAR(*),PHI3(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-       INTEGER I,IE
-       my_real
-     .  VOL0
-C======================================================================|
-      DO I=LFT,LLT
-        IE =NFT+I
-        
-        VOL0 = UVAR(I + 2*NEL)
-C        
-C density, energy, alpha  
-        PHI1(IE) = UVAR(I)
-        PHI2(IE) = UVAR(I + NEL) 
-        PHI3(IE) = UVAR(I + 20*NEL)
-C       
-        UVAR(I) =  PHI1(IE)*VOL0
-        UVAR(I + NEL) = PHI2(IE)*VOL0
-      ENDDO    
-C------------------------------------------------------
-C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
-C------------------------------------------------------
-      RETURN
-      END SUBROUTINE VFLUID
+      END

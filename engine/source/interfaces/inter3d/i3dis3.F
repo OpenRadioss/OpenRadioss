@@ -30,13 +30,16 @@ Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I3DIS3(IGIMP ,NTY     ,DIST  ,X1    ,X2 ,
-     1                  X3    ,X4      ,XI    ,Y1    ,Y2 ,
-     2                  Y3    ,Y4      ,YI    ,Z1    ,Z2 ,
-     3                  Z3    ,Z4      ,ZI    ,XFACE ,N1 ,
-     4                  N2    ,N3      ,SSC   ,TTC   ,ALP,
-     5                  ANS   ,XP      ,YP    ,ZP    ,H1 ,
-     6                  H2    ,H3      ,H4)
+      SUBROUTINE I3DIS3(
+     1   IGIMP,   NTY,     DIST,    X1,
+     2   X2,      X3,      X4,      XI,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   YI,      Z1,      Z2,      Z3,
+     5   Z4,      ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,15 +51,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
       INTEGER IGIMP,NTY
       my_real DIST(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  X1,X2,X3,X4,XI
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  Y1,Y2,Y3,Y4,YI
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  Z1,Z2,Z3,Z4,ZI

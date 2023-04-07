@@ -29,8 +29,10 @@ Chd|        S10PIJ12                      source/elements/solid/solide10/s10forc
 Chd|        S10PIJSAV12                   source/elements/solid/solide10/s10forc3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE S10UPD11T12(ELBUF_TAB ,OFFG   ,OFFG0  ,NC   ,
-     +                       XX   ,YY   ,ZZ   ,NEL )
+      SUBROUTINE S10UPD11T12(
+     1   ELBUF_TAB,OFFG,     OFFG0,    NC,
+     2   XX,       YY,       ZZ,       NEL,
+     3   NPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,10 +48,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPT
       INTEGER NC(MVSIZ,10),NEL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)

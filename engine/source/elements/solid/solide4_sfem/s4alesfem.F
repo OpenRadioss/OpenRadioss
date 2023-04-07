@@ -112,7 +112,10 @@ C
 C
         GBUF => ELBUF_TAB(NG)%GBUF
         IF(ISROT == 3) THEN
-          CALL S4VOLNOD3(VARNOD6,X,NC1,NC2,NC3,NC4,GBUF%OFF,GBUF%SMSTR,NEL)
+          CALL S4VOLNOD3(
+     1   VARNOD6,   X,         NC1,       NC2,
+     2   NC3,       NC4,       GBUF%OFF,  GBUF%SMSTR,
+     3   NEL,       ISMSTR)
           DO I=LFT,LLT
             MASS(I)=GBUF%RHO(I)/PM(1,MAT(I))
           ENDDO

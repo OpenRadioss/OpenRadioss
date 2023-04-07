@@ -26,9 +26,11 @@ Chd|-- called by -----------
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IG3DCUMU3(IXIG3D,KXIG3D,NCTRL ,OFFG    ,E    ,
-     1                     FX    ,FY    ,FZ    ,BtDBAloc,
-     2                     STIG  ,STIFN )
+      SUBROUTINE IG3DCUMU3(
+     1   IXIG3D,  KXIG3D,  NCTRL,   OFFG,
+     2   E,       FX,      FY,      FZ,
+     3   BtDBAloc,STIG,    STIFN,   NEL,
+     4   NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,10 +44,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
       INTEGER NCTRL,KXIG3D(NIXIG3D,*),IXIG3D(*)
       my_real
      .   OFFG(*),E(3,*),BtDBAloc(3*NCTRL,*),
@@ -59,11 +62,11 @@ C-----------------------------------------------
      .   OFF_L
 C-----------------------------------------------
       OFF_L = ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(OFF_L<ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(OFFG(I)<ZERO)THEN
            DO J=1,NCTRL    
             FX(I,J)=ZERO
@@ -74,7 +77,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        DO J=1,NCTRL
         IF( J <= KXIG3D(3,I+NFT) ) THEN
          INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1)                   

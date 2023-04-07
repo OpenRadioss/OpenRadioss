@@ -32,8 +32,10 @@ Chd|-- called by -----------
 Chd|        SOLTOSPHP                     source/elements/sph/soltosph.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SIG_HEPH1(JR0     ,JS0  ,JT0  ,GSIG, FHOUR  , 
-     .                     SIG_HEPH,PM   ,IXS  ,II  , NEL    )
+      SUBROUTINE SIG_HEPH1(
+     1   JR0,     JS0,     JT0,     GSIG,
+     2   FHOUR,   SIG_HEPH,PM,      IXS,
+     3   II,      NEL,     LFT,     LLT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,10 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
       INTEGER IXS(NIXS,*),II(6),NEL
       my_real
      .   GSIG(*),FHOUR(NEL,3,4),JR0(*),JS0(*),JT0(*) ,

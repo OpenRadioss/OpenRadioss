@@ -74,31 +74,35 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-       SUBROUTINE CFORC3 (ELBUF_STR,
-     1            JFT     ,JLT     ,PM       ,IXC      ,X       ,
-     2            F       ,M       ,V        ,VR       ,FAILWAVE,
-     3            NVC     ,MTN     ,GEO      ,TF       ,NPF     ,
-     4            BUFMAT  ,PARTSAV ,DT2T     ,NELTST   ,ITYPTST ,
-     5            STIFN   ,STIFR   ,FSKY     ,IADC     ,ITAB    ,
-     6            D       ,DR      ,TANI     ,OFFSET   ,EANI    ,
-     7            F11     ,F12     ,F13      ,F14      ,F21     ,
-     8            F22     ,F23     ,F24      ,F31      ,F32     ,
-     9            F33     ,F34     ,M11      ,M12      ,M13     ,
-     A            M14     ,M21     ,M22      ,M23      ,M24     ,
-     B            M31     ,M32     ,M33      ,M34      ,INDXOF  ,
-     C            IPARTC  ,THKE    ,GROUP_PARAM,MATPARAM_TAB,
-     F            NEL     ,ISTRAIN ,IHBE     ,
-     G            ITHK    ,IOFC    ,IPLA     ,NFT      ,ISMSTR  ,
-     H            NPT     ,KFTS    ,
-     I            FZERO   ,IGEO    ,IPM      ,IFAILURE ,ITASK   ,
-     J            JTHE    ,TEMP    , FTHE    ,FTHESKY  ,IEXPAN  ,
-     K            GRESAV  ,GRTH    ,XEDGE4N  ,
-     L            IGRTH   ,MSC     ,DMELC    ,JSMS     ,TABLE   ,
-     M            IPARG   ,IXFEM   ,KNOD2ELC ,SENSOR_TAB,
-     N            ELCUTC  ,INOD_CRK,IEL_CRK  ,IBORDNODE,NODENR  ,
-     O            IADC_CRK,NODEDGE ,CRKNODIAD,CONDN   ,
-     P            CONDNSKY,STACK   ,ISUBSTACK,XFEM_STR ,CRKEDGE ,
-     R            DRAPE_SH4N  ,IPRI     ,NLOC_DMG, INDX_DRAPE)
+      SUBROUTINE CFORC3(
+     1   ELBUF_STR,   JFT,         JLT,         PM,
+     2   IXC,         X,           F,           M,
+     3   V,           VR,          FAILWAVE,    NVC,
+     4   MTN,         GEO,         TF,          NPF,
+     5   BUFMAT,      PARTSAV,     DT2T,        NELTST,
+     6   ITYPTST,     STIFN,       STIFR,       FSKY,
+     7   IADC,        ITAB,        D,           DR,
+     8   TANI,        OFFSET,      EANI,        F11,
+     9   F12,         F13,         F14,         F21,
+     A   F22,         F23,         F24,         F31,
+     B   F32,         F33,         F34,         M11,
+     C   M12,         M13,         M14,         M21,
+     D   M22,         M23,         M24,         M31,
+     E   M32,         M33,         M34,         INDXOF,
+     F   IPARTC,      THKE,        GROUP_PARAM, MATPARAM_TAB,
+     G   NEL,         ISTRAIN,     IHBE,        ITHK,
+     H   IOFC,        IPLA,        NFT,         ISMSTR,
+     I   NPT,         KFTS,        FZERO,       IGEO,
+     J   IPM,         IFAILURE,    ITASK,       JTHE,
+     K   TEMP,        FTHE,        FTHESKY,     IEXPAN,
+     L   GRESAV,      GRTH,        XEDGE4N,     IGRTH,
+     M   MSC,         DMELC,       JSMS,        TABLE,
+     N   IPARG,       IXFEM,       KNOD2ELC,    SENSOR_TAB,
+     O   ELCUTC,      INOD_CRK,    IEL_CRK,     IBORDNODE,
+     P   NODENR,      IADC_CRK,    NODEDGE,     CRKNODIAD,
+     Q   CONDN,       CONDNSKY,    STACK,       ISUBSTACK,
+     R   XFEM_STR,    CRKEDGE,     DRAPE_SH4N,  IPRI,
+     S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -134,6 +138,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT,JLT,NVC,MTN,NELTST,ITYPTST,OFFSET,
      .   NEL,ISTRAIN,IHBE,ITASK,JTHE,JSMS,
      .   ITHK,IOFC,IPLA,NFT,ISMSTR,NPT,KFTS,IFAILURE,IEXPAN,
@@ -354,15 +360,22 @@ C Y1G-> Y1,Y2G-> Y2,Y3G-> Y3,Y4G-> Y4,Z1G-> Z1,Z2G-> Z2,Z3G-> Z3,Z4G-> Z4
      4              X1G  ,X2G  ,X3G  ,X4G  ,Y1G  ,Y2G    ,
      5              Y3G  ,Y4G  ,Z1G  ,Z2G  ,Z3G  ,Z4G    )
       ELSE
-        CALL CSUBC3(JFT     ,JLT    ,X    ,IXC     ,GEO ,GBUF%OFF ,
-     2              OFF     ,SIGY   ,PID  ,D       ,DR   ,DSUB,
-     3            DRSUB,VL1,VL2,VL3,VL4,VRL1,VRL2,VRL3,VRL4,NDT ,PM ,V,
-     4            GBUF%THK,GBUF%EINT,PARTSAV,TSUB,DTCSUB,AREAS,
-     5            VR     ,MAT     ,NGL   ,DT1C   ,DT2C ,THKE,THK0,
-     6            X1G    ,X2G     ,X3G   ,X4G    ,Y1G  ,Y2G    ,
-     7            Y3G    ,Y4G     ,Z1G   ,Z2G    ,Z3G  ,Z4G    ,
-     8            IPARTC ,IADC  ,FSKY   ,FSKY ,GRESAV   ,
-     9            GRTH   ,IGRTH   ,ITASK,GBUF%VOL,ACTIFXFEM)
+        CALL CSUBC3(
+     1   JFT,      JLT,      X,        IXC,
+     2   GEO,      GBUF%OFF, OFF,      SIGY,
+     3   PID,      D,        DR,       DSUB,
+     4   DRSUB,    VL1,      VL2,      VL3,
+     5   VL4,      VRL1,     VRL2,     VRL3,
+     6   VRL4,     NDT,      PM,       V,
+     7   GBUF%THK, GBUF%EINT,PARTSAV,  TSUB,
+     8   DTCSUB,   AREAS,    VR,       MAT,
+     9   NGL,      DT1C,     DT2C,     THKE,
+     A   THK0,     X1G,      X2G,      X3G,
+     B   X4G,      Y1G,      Y2G,      Y3G,
+     C   Y4G,      Z1G,      Z2G,      Z3G,
+     D   Z4G,      IPARTC,   IADC,     FSKY,
+     E   FSKY,     GRESAV,   GRTH,     IGRTH,
+     F   ITASK,    GBUF%VOL, ACTIFXFEM,IGRE)
         IF(JLT < JFT)RETURN
       ENDIF
 C
@@ -584,17 +597,20 @@ C     BILANS PAR MATERIAU
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
       IF (IPRI>0) THEN
-         CALL CBILAN(JFT    ,JLT      ,PM     ,V     ,IXC   , 
-     2              GBUF%THK,GBUF%EINT,PARTSAV,AREA  ,MAT   , 
-     3              IPARTC  ,X        ,VR     ,VOL0  ,VOL00 , 
-     4              THK0    ,THK02    ,1      ,OFF   , 
-     5              NFT     ,GRESAV   ,GRTH   ,IGRTH ,        
-     6              VL1     ,VL2      ,VL3    ,VL4   ,VRL1  , 
-     7              VRL2    ,VRL3     ,VRL4   ,X1G   ,X2G   , 
-     8              X3G     ,X4G      ,Y1G    ,Y2G   ,Y3G   , 
-     9              Y4G     ,Z1G      ,Z2G    ,Z3G   ,Z4G   , 
-     A              IBID    ,IEXPAN   ,GBUF%EINTTH   ,ITASK ,
-     B              GBUF%VOL,ACTIFXFEM)                                   
+         CALL CBILAN(
+     1   JFT,        JLT,        PM,         V,
+     2   IXC,        GBUF%THK,   GBUF%EINT,  PARTSAV,
+     3   AREA,       MAT,        IPARTC,     X,
+     4   VR,         VOL0,       VOL00,      THK0,
+     5   THK02,      1,          OFF,        NFT,
+     6   GRESAV,     GRTH,       IGRTH,      VL1,
+     7   VL2,        VL3,        VL4,        VRL1,
+     8   VRL2,       VRL3,       VRL4,       X1G,
+     9   X2G,        X3G,        X4G,        Y1G,
+     A   Y2G,        Y3G,        Y4G,        Z1G,
+     B   Z2G,        Z3G,        Z4G,        IBID,
+     C   IEXPAN,     GBUF%EINTTH,ITASK,      GBUF%VOL,
+     D   ACTIFXFEM,  IGRE)
        ENDIF
 C--------------------------
 C     PAS DE TEMPS
@@ -635,9 +651,11 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
       IF (JTHE > 0 .AND. IDT_THERM == 1) THEN
-        CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE,   
-     2               RHO  ,GBUF%RK,VOL0 ,ALDT,MAT ,     
-     3               DT_THERM,OFF,CONDE)                
+        CALL DTTHERM(
+     1   JFT,     JLT,     PM,      TEMPEL,
+     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
+     3   ALDT,    MAT,     DT_THERM,OFF,
+     4   CONDE,   JTUR)
       ENDIF 
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 

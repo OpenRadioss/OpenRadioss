@@ -30,7 +30,9 @@ Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I3GAP3(GAP,AREA,THK,ALP)
+      SUBROUTINE I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,6 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
       my_real
      .   GAP
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  AREA
@@ -49,7 +53,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

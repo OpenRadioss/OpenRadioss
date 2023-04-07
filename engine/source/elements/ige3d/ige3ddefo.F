@@ -26,9 +26,13 @@ Chd|-- called by -----------
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IGE3DDEFO(VX,VY,VZ,MATB,NCTRL,
-     .                     WXX,WYY,WZZ,DXX,DYY,DZZ,DXY,DYX,
-     .                     DYZ,DZY,DXZ,DZX,D4,D5,D6,BA,A)
+      SUBROUTINE IGE3DDEFO(
+     1   VX,      VY,      VZ,      MATB,
+     2   NCTRL,   WXX,     WYY,     WZZ,
+     3   DXX,     DYY,     DZZ,     DXY,
+     4   DYX,     DYZ,     DZY,     DXZ,
+     5   DZX,     D4,      D5,      D6,
+     6   BA,      A,       NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,11 +44,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NCTRL
       my_real
      .   DXX(*), DXY(*), DXZ(*),
@@ -62,7 +66,7 @@ C-----------------------------------------------
       my_real DT1D2, DT1D, AAA
 C=======================================================================
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXX(I)=ZERO
         DYY(I)=ZERO
         DZZ(I)=ZERO
@@ -85,7 +89,7 @@ C         [dNj/dy  dNl/dy  ..  ] |  T
 C         [dNj/dz  dNl/dz  ..  ] |  R
 C         [  ..      ..    ..  ] /  L
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         DO J=1,NCTRL 
           INCTRL = (J-1)*3
           DXX(I)=DXX(I)+MATB(INCTRL+1,I)*VX(J,I) 
@@ -102,7 +106,7 @@ C         [  ..      ..    ..  ] /  L
 
           DT1D2=HALF*DT1 
 
-      DO I=LFT,LLT
+      DO I=1,NEL
           DXX(I)  = DXX(I)
      .             -DT1D2*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
           DYY(I)  = DYY(I)

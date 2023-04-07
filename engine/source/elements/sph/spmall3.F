@@ -26,7 +26,9 @@ Chd|-- called by -----------
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPMALLB3(OFFG ,OFF ,KXSP, SPH2SOL)
+      SUBROUTINE SPMALLB3(
+     1   OFFG,    OFF,     KXSP,    SPH2SOL,
+     2   LFT,     LLT,     ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,12 +37,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "sphcom.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: ISMSTR
 C     REAL
       INTEGER KXSP(NISP,*),SPH2SOL(*)
       my_real

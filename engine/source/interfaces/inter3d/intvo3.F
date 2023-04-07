@@ -62,7 +62,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "parit_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -117,6 +116,7 @@ C     REAL
      .   STARTT, FRIC, GAP, MAXBOX, MINBOX, STOPT, FB_CAM, FB_IMM,
      .   VISC,VISCF,FNOR,DEPTH
       INTEGER :: NMN, NTY, NSN
+      INTEGER :: LFT, LLT, NFT
 C-----------------------------------------------
 C----     
       NSN    = IPARI(5)
@@ -153,38 +153,52 @@ C
        NFT=(NG-1)*NVSIZ
        LFT=1
        LLT=MIN0(NVSIZ,NSN-NFT)
-       CALL I3LOC3(X,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1             INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%NSEGM,XI,YI,ZI,
-     2                  XFACE)
-       CALL I3MSR3(X,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,XFACE)
+       CALL I3LOC3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%NSEGM, XI,
+     3   YI,               ZI,               XFACE,            LFT,
+     4   LLT,              NFT)
+       CALL I3MSR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%IRTLM, INTBUF_TAB%NSEGM,
+     3   XFACE,            LFT,              LLT,              NFT)
        CALL I3COR3(
-     1    X  ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     1                  IX11   ,IX12   ,IX13   ,IX14  ,X11   ,
-     2                  X12    ,X13    ,X14    ,Y11   ,Y12   ,
-     3                  Y13    ,Y14    ,Z11   ,Z12    ,Z13   ,
-     4                  Z14    )
-       CALL I3CST3(X11   ,X12     ,X13   ,X14   ,XI ,
-     1             Y11   ,Y12     ,Y13   ,Y14   ,YI ,
-     2             Z11   ,Z12     ,Z13   ,Z14   ,ZI ,
-     3             XFACE ,N1      ,N2    ,N3   ,SSC,
-     4             TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5             XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6             YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7             ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8             YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9             ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1             XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2             YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3             AREA)
-       CALL I3GAP3(GAP,AREA,THK,ALP)
-       CALL I3DIS3(IGIMP,NTY,DIST ,X11   ,X12,
-     1             X13   ,X14     ,XI    ,Y11   ,Y12 ,
-     2             Y13   ,Y14     ,YI    ,Z11   ,Z12 ,
-     3             Z13   ,Z14     ,ZI    ,XFACE ,N1 ,
-     4             N2    ,N3      ,SSC   ,TTC   ,ALP,
-     5             ANS   ,XP      ,YP    ,ZP    ,H1 ,
-     6             H2    ,H3      ,H4)
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,
+     2   INTBUF_TAB%IRTLM, IX11,             IX12,             IX13,
+     3   IX14,             X11,              X12,              X13,
+     4   X14,              Y11,              Y12,              Y13,
+     5   Y14,              Z11,              Z12,              Z13,
+     6   Z14,              LFT,              LLT,              NFT)
+       CALL I3CST3(
+     1   X11,     X12,     X13,     X14,
+     2   XI,      Y11,     Y12,     Y13,
+     3   Y14,     YI,      Z11,     Z12,
+     4   Z13,     Z14,     ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
+       CALL I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
+       CALL I3DIS3(
+     1   IGIMP,   NTY,     DIST,    X11,
+     2   X12,     X13,     X14,     XI,
+     3   Y11,     Y12,     Y13,     Y14,
+     4   YI,      Z11,     Z12,     Z13,
+     5   Z14,     ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
        IF(IGIMP==0)GOTO 100
        CALL I3FOR3(LFT   ,LLT   ,NFT   ,
      2      A ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,
@@ -207,46 +221,58 @@ C
      6      IX11  ,IX12  ,IX13  ,IX14  ,H1    ,
      7      H2    ,H3    ,H4    ,SSC   ,TTC   ,
      8      XFACE ,STIF  ,XP    ,YP    ,ZP    ,
-     9      XX3   )!,YY3   ,ZZ3   ,XX4   ,YY4   ,
-!     1      YI1   ,YI2   ,YI3   ,ZZ3   ,ZI1   ,
-!     2      ZI2   ,ZI3   ,XI1   ,XI2   ,XI3   ,
-!     3      XI4)
+     9      XX3   )
  100   CONTINUE
        DO 130 NG=1,NGROUM
        NFT=(NG-1)*NVSIZ
        LFT=1
        LLT=MIN0(NVSIZ,NMN-NFT)
-       CALL I3LOC3(X,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     1          INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%NSEGS,XI,YI,ZI,
-     2          XFACE)
-       CALL I3MSR3(X,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     1      INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%NSEGS,XFACE)
-       CALL I3COR3(X,INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,
-     1             IX11   ,IX12   ,IX13   ,IX14  ,X11   ,
-     2             X12    ,X13    ,X14    ,Y11   ,Y12   ,
-     3             Y13    ,Y14    ,Z11   ,Z12    ,Z13   ,
-     4             Z14    )
-       CALL I3CST3(X11   ,X12     ,X13   ,X14   ,XI ,
-     1             Y11   ,Y12     ,Y13   ,Y14   ,YI ,
-     2             Z11   ,Z12     ,Z13   ,Z14   ,ZI ,
-     3             XFACE ,N1      ,N2    ,N3   ,SSC,
-     4             TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5             XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6             YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7             ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8             YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9             ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1             XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2             YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3             AREA)
-       CALL I3GAP3(GAP,AREA,THK,ALP)
-       CALL I3DIS3(IGIMP,NTY,DIST,X11   ,X12,
-     1             X13   ,X14     ,XI    ,Y11   ,Y12 ,
-     2             Y13   ,Y14     ,YI    ,Z11   ,Z12 ,
-     3             Z13   ,Z14     ,ZI    ,XFACE ,N1 ,
-     4             N2    ,N3      ,SSC   ,TTC   ,ALP,
-     5             ANS   ,XP      ,YP    ,ZP    ,H1 ,
-     6             H2    ,H3      ,H4)
+       CALL I3LOC3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,  INTBUF_TAB%NSV,
+     2   INTBUF_TAB%MSR,   INTBUF_TAB%ILOCM, INTBUF_TAB%NSEGS, XI,
+     3   YI,               ZI,               XFACE,            LFT,
+     4   LLT,              NFT)
+       CALL I3MSR3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,  INTBUF_TAB%NSV,
+     2   INTBUF_TAB%MSR,   INTBUF_TAB%ILOCM, INTBUF_TAB%IRTLS, INTBUF_TAB%NSEGS,
+     3   XFACE,            LFT,              LLT,              NFT)
+       CALL I3COR3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,   INTBUF_TAB%MSR,
+     2   INTBUF_TAB%IRTLS, IX11,             IX12,             IX13,
+     3   IX14,             X11,              X12,              X13,
+     4   X14,              Y11,              Y12,              Y13,
+     5   Y14,              Z11,              Z12,              Z13,
+     6   Z14,              LFT,              LLT,              NFT)
+       CALL I3CST3(
+     1   X11,     X12,     X13,     X14,
+     2   XI,      Y11,     Y12,     Y13,
+     3   Y14,     YI,      Z11,     Z12,
+     4   Z13,     Z14,     ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
+       CALL I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
+       CALL I3DIS3(
+     1   IGIMP,   NTY,     DIST,    X11,
+     2   X12,     X13,     X14,     XI,
+     3   Y11,     Y12,     Y13,     Y14,
+     4   YI,      Z11,     Z12,     Z13,
+     5   Z14,     ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
        IF(IGIMP==0)GOTO 130
        CALL I3FOR3(LFT   ,LLT   ,NFT   , A  ,
      2      INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,
@@ -269,10 +295,7 @@ C
      6      IX11  ,IX12  ,IX13  ,IX14  ,H1    ,
      7      H2    ,H3    ,H4    ,SSC   ,TTC   ,
      8      XFACE ,STIF  ,XP    ,YP    ,ZP    ,
-     9      XX3   )!,YY3   ,ZZ3   ,XX4   ,YY4   ,
-!     1      YI1   ,YI2   ,YI3   ,ZZ4   ,ZI1   ,
-!     2      ZI2   ,ZI3   ,XI1   ,XI2   ,XI3   ,
-!     3      XI4)
+     9      XX3   )
 
  130   CONTINUE
 C
@@ -288,38 +311,52 @@ C
         NFT=(NG-1)*NVSIZ
         LFT=1
         LLT=MIN0(NVSIZ,NSN-NFT)
-        CALL I3LOC3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     .          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%NSEGM,XI,YI,ZI,
-     2                  XFACE)
-        CALL I3MSR3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     .          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,XFACE)
-        CALL I3COR3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
-     .              INTBUF_TAB%IRTLM,
-     1              IX11   ,IX12   ,IX13   ,IX14  ,X11   ,
-     2              X12    ,X13    ,X14    ,Y11   ,Y12   ,
-     3              Y13    ,Y14    ,Z11   ,Z12    ,Z13   ,
-     4              Z14    )
-        CALL I3CST3(X11   ,X12     ,X13   ,X14   ,XI ,
-     1             Y11   ,Y12     ,Y13   ,Y14   ,YI ,
-     2             Z11   ,Z12     ,Z13   ,Z14   ,ZI ,
-     3             XFACE ,N1      ,N2    ,N3   ,SSC,
-     4             TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5             XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6             YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7             ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8             YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9             ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1             XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2             YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3             AREA)
-        CALL I3GAP3(GAP,AREA,THK,ALP)
-        CALL I3DIS3(IGIMP,NTY,DIST,X11   ,X12,
-     1             X13   ,X14     ,XI    ,Y11   ,Y12 ,
-     2             Y13   ,Y14     ,YI    ,Z11   ,Z12 ,
-     3             Z13   ,Z14     ,ZI    ,XFACE ,N1 ,
-     4             N2    ,N3      ,SSC   ,TTC   ,ALP,
-     5             ANS   ,XP      ,YP    ,ZP    ,H1 ,
-     6             H2    ,H3      ,H4)
+        CALL I3LOC3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%NSEGM, XI,
+     3   YI,               ZI,               XFACE,            LFT,
+     4   LLT,              NFT)
+        CALL I3MSR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%IRTLM, INTBUF_TAB%NSEGM,
+     3   XFACE,            LFT,              LLT,              NFT)
+        CALL I3COR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,
+     2   INTBUF_TAB%IRTLM, IX11,             IX12,             IX13,
+     3   IX14,             X11,              X12,              X13,
+     4   X14,              Y11,              Y12,              Y13,
+     5   Y14,              Z11,              Z12,              Z13,
+     6   Z14,              LFT,              LLT,              NFT)
+        CALL I3CST3(
+     1   X11,     X12,     X13,     X14,
+     2   XI,      Y11,     Y12,     Y13,
+     3   Y14,     YI,      Z11,     Z12,
+     4   Z13,     Z14,     ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
+        CALL I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
+        CALL I3DIS3(
+     1   IGIMP,   NTY,     DIST,    X11,
+     2   X12,     X13,     X14,     XI,
+     3   Y11,     Y12,     Y13,     Y14,
+     4   YI,      Z11,     Z12,     Z13,
+     5   Z14,     ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
         IF(IGIMP==0)GOTO 150
         CALL I5FOR3(LFT   ,LLT   ,NFT   , A ,
      2          INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,
@@ -331,8 +368,10 @@ C
      8          H3    ,H4    ,THK     ,ANS    ,STIF  ,
      9          XX3 )
         IF (IMPL_S==1) THEN
-         CALL I5IMPK3(INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
-     .                INTBUF_TAB%IRTLM,NUM_IMP,NS_IMP,NE_IMP,ANS)
+         CALL I5IMPK3(
+     1   INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,   INTBUF_TAB%IRTLM,
+     2   NUM_IMP,          NS_IMP,           NE_IMP,           ANS,
+     3   LFT,              LLT,              NFT)
         ENDIF
         IF(FRIC==0.AND.MFROT==0)GOTO 150
         IF(IGIMP==0)GOTO 150

@@ -781,7 +781,12 @@ C     Initialization
       TEMP = ZERO
       ITER = 0
       CONT = .TRUE.
-      CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, EINT, PRES, RHO, SSP, VOL, GRUN, 
-     .     PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
-     .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF,VAREOS,NVAREOS)
+      CALL MULTI_SUBMATLAW(
+     1   0,           MATLAW,      LOCAL_MATID, 1,
+     2   EINT,        PRES,        RHO,         SSP,
+     3   VOL,         GRUN,        PM,          IPM,
+     4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
+     5   TEMP,        BURNFRAC,    BURNTIME,    DELTAX,
+     6   CURRENT_TIME,SIG(1:6),    NPF,         TF,
+     7   VAREOS,      NVAREOS)
       END SUBROUTINE COMPUTE_PRESSURE

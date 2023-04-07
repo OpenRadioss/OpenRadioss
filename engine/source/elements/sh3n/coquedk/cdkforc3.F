@@ -54,25 +54,28 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE CDKFORC3 (ELBUF_STR,
-     1            JFT   ,JLT    ,PM     ,IXTG       ,X       ,
-     2            F     ,M      ,V      ,R          ,FAILWAVE,
-     3            NVC   ,MTN    ,GEO    ,TF         ,NPF     ,
-     4            BUFMAT,PMSAV  ,DT2T   ,NELTST     ,ITYPTST ,
-     5            STIFN ,STIFR  ,FSKY   ,IADTG      ,ITAB    ,
-     6            EPSDOT,IPARTTG,THKE   ,GROUP_PARAM,F11     ,
-     7            F12    ,F13   ,F21    ,F22    ,F23     ,
-     8            F31    ,F32   ,F33    ,M11    ,M12     ,
-     9            M13    ,M21   ,M22    ,M23    ,M31     ,
-     A            M32    ,M33   ,MATPARAM_TAB,
-     B            NEL    ,ISTRAIN,IHBE ,
-     C            ITHK   ,IOFC   ,IPLA  ,NFT   ,ISMSTR   ,
-     D            NPT    ,KFTS   ,
-     E            IGEO   ,IPM    ,IFAILURE,GRESAV,GRTH   ,
-     F            IGRTH  ,MSTG   ,DMELTG  ,JSMS  ,TABLE  ,
-     G            IPARG  ,SENSOR_TAB,PTG    ,JTHE   ,
-     H            CONDN  ,CONDNSKY,ISUBSTACK,STACK,ITASK ,
-     I            DRAPE_SH3N  ,IPRI ,NLOC_DMG , INDX_DRAPE)
+      SUBROUTINE CDKFORC3(
+     1   ELBUF_STR,   JFT,         JLT,         PM,
+     2   IXTG,        X,           F,           M,
+     3   V,           R,           FAILWAVE,    NVC,
+     4   MTN,         GEO,         TF,          NPF,
+     5   BUFMAT,      PMSAV,       DT2T,        NELTST,
+     6   ITYPTST,     STIFN,       STIFR,       FSKY,
+     7   IADTG,       ITAB,        EPSDOT,      IPARTTG,
+     8   THKE,        GROUP_PARAM, F11,         F12,
+     9   F13,         F21,         F22,         F23,
+     A   F31,         F32,         F33,         M11,
+     B   M12,         M13,         M21,         M22,
+     C   M23,         M31,         M32,         M33,
+     D   MATPARAM_TAB,NEL,         ISTRAIN,     IHBE,
+     E   ITHK,        IOFC,        IPLA,        NFT,
+     F   ISMSTR,      NPT,         KFTS,        IGEO,
+     G   IPM,         IFAILURE,    GRESAV,      GRTH,
+     H   IGRTH,       MSTG,        DMELTG,      JSMS,
+     I   TABLE,       IPARG,       SENSOR_TAB,  PTG,
+     J   JTHE,        CONDN,       CONDNSKY,    ISUBSTACK,
+     K   STACK,       ITASK,       DRAPE_SH3N,  IPRI,
+     L   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,6 +106,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST,IUN,
      .        NEL,ISTRAIN,IHBE ,ITHK,IOFC,IPLA,NFT,ISMSTR ,
      .        NPT,KFTS,IFAILURE,JSMS,JTHE,ISUBSTACK,ITASK,IPRI
@@ -627,9 +632,11 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
-           CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE ,
-     2                  RHO  ,GBUF%RK ,VOL0 ,ALDT,MAT ,
-     3                  DT_THERM,OFF    ,CONDE) 
+           CALL DTTHERM(
+     1   JFT,     JLT,     PM,      TEMPEL,
+     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
+     3   ALDT,    MAT,     DT_THERM,OFF,
+     4   CONDE,   JTUR)
          ENDIF
 C--------------------------
 C     NON-LOCAL TIME STEP
@@ -643,12 +650,15 @@ C     BILANS PAR MATERIAU
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
       IF(IPRI>0) 
-     1   CALL C3BILAN(JFT  ,JLT    ,PM   ,V    ,GBUF%THK,GBUF%EINT,
-     2                PMSAV,IPARTTG,RHO  ,VOL00,IXTG   ,X         ,
-     3                R    ,THK02  ,AREA ,GRESAV ,GRTH      ,
-     4                IGRTH,OFF    ,IBID ,IBID ,IBID   ,IBID      ,
-     5                IBID ,IBID   ,GBUF%EINTTH,ITASK  ,MAT ,GBUF%VOL,
-     6                ACTIFXFEM)
+     1   CALL C3BILAN(
+     1   JFT,        JLT,        PM,         V,
+     2   GBUF%THK,   GBUF%EINT,  PMSAV,      IPARTTG,
+     3   RHO,        VOL00,      IXTG,       X,
+     4   R,          THK02,      AREA,       GRESAV,
+     5   GRTH,       IGRTH,      OFF,        IBID,
+     6   IBID,       IBID,       IBID,       IBID,
+     7   IBID,       GBUF%EINTTH,ITASK,      MAT,
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE)
 c
       IF (IPARIT == 0) THEN
         CALL C3UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,

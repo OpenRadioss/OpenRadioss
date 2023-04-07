@@ -93,7 +93,10 @@ C-----------------------------------------------
      .   OFF5(MVSIZ), OFF6(MVSIZ), OFF7(MVSIZ), OFF8(MVSIZ)  
       INTEGER I
 C-----------------------------------------------
-      CALL UPWIND_V(RHO,VIS,VDX0,VDY0,VDZ0,R,S,T,DELTAX,GAM)
+      CALL UPWIND_V(
+     1   RHO,     VIS,     VDX0,    VDY0,
+     2   VDZ0,    R,       S,       T,
+     3   DELTAX,  GAM,     NEL)
       OFF1(1:MVSIZ) = ONE
       OFF2(1:MVSIZ) = ONE
       OFF3(1:MVSIZ) = ONE

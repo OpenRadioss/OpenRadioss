@@ -258,9 +258,12 @@ c
 C--------------
 C      LAGRANGE, VOLUME and CHARACTERISTIC length (for DT) compute
 C--------------
-        CALL QVOLU2(GBUF%OFF,AIRE,VOLN,NGL,
-     .              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .              Y234 ,Y124 )
+        CALL QVOLU2(
+     1   GBUF%OFF,AIRE,    VOLN,    NGL,
+     2   Y1,      Y2,      Y3,      Y4,
+     3   Z1,      Z2,      Z3,      Z4,
+     4   Y234,    Y124,    NEL,     JMULT,
+     5   JCVT)
         CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
         IF (JCVT == 0) THEN
           CALL QDEFO2(
@@ -304,9 +307,12 @@ c
 C------------
 C      A.L.E.
 C------------
-        CALL QVOLU2(GBUF%OFF,AIRE,VOLN,NGL,
-     .              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .              BID,BID)
+        CALL QVOLU2(
+     1   GBUF%OFF,AIRE,    VOLN,    NGL,
+     2   Y1,      Y2,      Y3,      Y4,
+     3   Z1,      Z2,      Z3,      Z4,
+     4   BID,     BID,     NEL,     JMULT,
+     5   JCVT)
         CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
         CALL QDEFO2(
      1   V,       W,       Y1,      Y2,
@@ -321,10 +327,13 @@ C------------
      A   SZ,      TX,      TY,      TZ,
      B   VOLN,    AIRE,    AIREM,   NC1,
      C   NC2,     NC3,     NC4,     NEL)
-        CALL ALERO2(GBUF%OFF,GBUF%VOL,GBUF%RHO,FLUX(1,NF1),FLU1(NF1),W,
-     .                   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                   VOLN,DVOL,VD2,
-     .                   NC1,NC2,NC3,NC4,NGL)
+        CALL ALERO2(
+     1   GBUF%OFF,   GBUF%VOL,   GBUF%RHO,   FLUX(1,NF1),
+     2   FLU1(NF1),  W,          VY1,        VY2,
+     3   VY3,        VY4,        VZ1,        VZ2,
+     4   VZ3,        VZ4,        VOLN,       DVOL,
+     5   VD2,        NC1,        NC2,        NC3,
+     6   NC4,        NGL)
         CALL QROTA2(
      1   GBUF%SIG,S1,      S2,      S3,
      2   S4,      S5,      S6,      WYZ,
@@ -333,17 +342,26 @@ C------------
 C-----------
 C      EULER
 C-----------
-        IF (MTN == 11) CALL EDE112(PM,V,VEUL,X,IC,ALE_CONNECT,
-     .                  WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT)
-        CALL EDEFO2(GBUF%VOL,V,VEUL,
-     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                  PY1,PY2,PZ1,PZ2,
-     .                  WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT,
-     .                  VOLN,AIRE,DELTAX,VDY,VDZ,VD2,
-     .                  NC1,NC2,NC3,NC4)
-        CALL EULRO2(GBUF%VOL,GBUF%RHO,FLUX(1,NF1),FLU1(NF1),VOLN,
-     .             DVOL    ,NGL     )
+        IF (MTN == 11) CALL EDE112(
+     1   PM,         V,          VEUL,       X,
+     2   IC,         ALE_CONNECT,WYZ,        DYZ,
+     3   DZY,        EYY,        EZZ,        ETT,
+     4   EYZ,        EYT,        EZT)
+        CALL EDEFO2(
+     1   GBUF%VOL,V,       VEUL,    Y1,
+     2   Y2,      Y3,      Y4,      Z1,
+     3   Z2,      Z3,      Z4,      VY1,
+     4   VY2,     VY3,     VY4,     VZ1,
+     5   VZ2,     VZ3,     VZ4,     PY1,
+     6   PY2,     PZ1,     PZ2,     WYZ,
+     7   DYZ,     DZY,     EYY,     EZZ,
+     8   ETT,     EYZ,     EYT,     EZT,
+     9   VOLN,    AIRE,    DELTAX,  VDY,
+     A   VDZ,     VD2,     NC1,     NC2,
+     B   NC3,     NC4)
+        CALL EULRO2(
+     1   GBUF%VOL,   GBUF%RHO,   FLUX(1,NF1),FLU1(NF1),
+     2   VOLN,       DVOL,       NGL)
         CALL QROTA2(
      1   GBUF%SIG,S1,      S2,      S3,
      2   S4,      S5,      S6,      WYZ,
@@ -360,24 +378,33 @@ c
       IPTT = 1                                                
 c
       CALL MMAIN(
-     1   ELBUF_TAB,NG     ,PM     ,GEO       ,FV      ,ALE_CONNECT   ,
-     2   IC       ,IPARG  ,V      ,TF        ,NPF     ,BUFMAT  ,
-     3   STI      ,X      ,DT2T   ,NELTST    ,ITYPTST ,OFFSET ,
-     4   NEL      ,W      ,GBUF%OFF,NGEO     ,
-     6   MAT      ,NGL    ,VOLN   ,VD2       ,DVOL    ,DELTAX ,
-     7   VIS      ,QVIS   ,SSP    ,S1        ,S2      ,S3     ,
-     8   S4       ,S5     ,S6     ,EYY       ,EZZ     ,ETT    ,
-     9   EYZ      ,EYT    ,EZT    ,WYY       ,WZZ     ,WYZ    ,
-     A   RX       ,RY     ,RZ     ,SX        ,SY      ,SZ     ,
-     B   VDX      ,VDY    ,VDZ    ,MUVOID    ,SSP_EQ  ,AIRE   ,
-     C   SIGY     ,ET     ,BUFVOIS,GBUF%PLA  ,R3_FREE ,R4_FREE,
-     D   EYY      ,EZZ    ,ETT    ,EYZ       ,EYT     ,EZT    ,
-     E   WYY      ,WZZ    ,WYZ    ,IPM       ,GAMA    ,BID    ,
-     F   BID      ,BID    ,BID    ,BID       ,BID     ,BID    ,
-     G   ISTRAIN  ,BID    ,BID    ,IBIDON(1) ,ILAY   ,MBID   ,
-     H   MBID     ,IPTR   ,IPTS   ,IPTT      ,TABLE   ,BID    ,
-     I   BID      ,BID    ,BID    ,IBIDON(1) ,IGEO    ,BID      ,
-     J   ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IC,          IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   GBUF%OFF,    NGEO,        MAT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        SSP,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          EYY,         EZZ,         ETT,
+     B   EYZ,         EYT,         EZT,         WYY,
+     C   WZZ,         WYZ,         RX,          RY,
+     D   RZ,          SX,          SY,          SZ,
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   BUFVOIS,     GBUF%PLA,    R3_FREE,     R4_FREE,
+     H   EYY,         EZZ,         ETT,         EYZ,
+     I   EYT,         EZT,         WYY,         WZZ,
+     J   WYZ,         IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         ISTRAIN,     BID,
+     M   BID,         IBIDON(1),   ILAY,        MBID,
+     N   MBID,        IPTR,        IPTS,        IPTT,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IBIDON(1),   IGEO,        BID,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 C--------------------------
 C       BILANS PAR MATERIAU thermique
 C--------------------------
@@ -390,11 +417,15 @@ c
            ELSE
              EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
            ENDIF
-          CALL QBILAN(PARTSAV,GBUF%OFF,EINT,GBUF%RHO,GBUF%RK,
-     2              GBUF%VOL,VY1,VY2,VY3,VY4,VZ1,
-     3              VZ2,VZ3,VZ4,VOLN,IPARTQ,EHOU,R22  ,
-     4              R23    ,R32  ,R33  ,GRESAV,GRTH,IGRTH,
-     5              IBIDON(1),GBUF%EINTTH,ITASK)
+          CALL QBILAN(
+     1   PARTSAV,    GBUF%OFF,   EINT,       GBUF%RHO,
+     2   GBUF%RK,    GBUF%VOL,   VY1,        VY2,
+     3   VY3,        VY4,        VZ1,        VZ2,
+     4   VZ3,        VZ4,        VOLN,       IPARTQ,
+     5   EHOU,       R22,        R23,        R32,
+     6   R33,        GRESAV,     GRTH,       IGRTH,
+     7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
+     8   JTUR,       JCVT,       IGRE)
         ENDIF
         RETURN
       ENDIF
@@ -402,20 +433,28 @@ C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------
       IF (IPARIT == 0)THEN
-       CALL QMASS2(GBUF%OFF,GBUF%RHO,MS,
-     .                  AIRE,NC1,NC2,NC3,NC4)
+       CALL QMASS2(
+     1   GBUF%OFF,GBUF%RHO,MS,      AIRE,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
       ELSE
-       CALL QMASS2P(GBUF%OFF,GBUF%RHO,AIRE,FSKY,FSKY,IADQ)
+       CALL QMASS2P(
+     1   GBUF%OFF,GBUF%RHO,AIRE,    FSKY,
+     2   FSKY,    IADQ,    NEL,     NFT)
       ENDIF
 C--------------------------
 C     UPDATE OF MASSES : ALE physical masses
 C----------------------------   
       IF (JALE+JEUL > 0 )THEN
          IF (IPARIT == 0)THEN
-          CALL QMASSREAL2(GBUF%OFF,GBUF%RHO,MS_2D,
-     .                  VOLN,NC1,NC2,NC3,NC4)
+          CALL QMASSREAL2(
+     1   GBUF%OFF,GBUF%RHO,MS_2D,   VOLN,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
          ELSE
-          CALL QMASSREAL2P(GBUF%OFF,GBUF%RHO,VOLN,FSKYM,IADQ)
+          CALL QMASSREAL2P(
+     1   GBUF%OFF,GBUF%RHO,VOLN,    FSKYM,
+     2   IADQ,    NEL,     NFT)
          ENDIF
       ENDIF
 C------------------------
@@ -439,33 +478,48 @@ c
         ELSE                                                     
           EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)                     
         ENDIF                                                    
-        CALL QBILAN(PARTSAV,GBUF%OFF,EINT,GBUF%RHO,GBUF%RK,
-     2              GBUF%VOL,VY1,VY2,VY3,VY4,VZ1,
-     3              VZ2,VZ3,VZ4,VOLN,IPARTQ, EHOU,R22  ,
-     4              R23    ,R32  ,R33  ,GRESAV,GRTH,IGRTH,
-     5              IBIDON(1) ,GBUF%EINTTH,ITASK)
+        CALL QBILAN(
+     1   PARTSAV,    GBUF%OFF,   EINT,       GBUF%RHO,
+     2   GBUF%RK,    GBUF%VOL,   VY1,        VY2,
+     3   VY3,        VY4,        VZ1,        VZ2,
+     4   VZ3,        VZ4,        VOLN,       IPARTQ,
+     5   EHOU,       R22,        R23,        R32,
+     6   R33,        GRESAV,     GRTH,       IGRTH,
+     7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
+     8   JTUR,       JCVT,       IGRE)
       ENDIF
 C
 C------------------------
 C     FORCES DE TRANSPORT
 C------------------------
        IF(JALE>0.AND.MTN/=11)
-     .   CALL AMOMT2(PM,V,W,GBUF%RHO,
-     .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   T11, T12, T13, T14, T21, T22, T23 , T24, 
-     .   PY1, PY2, PZ1, PZ2, AIREM,
-     .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4,
-     .   EYY, EZZ, DYZ, DZY,
-     .   NC1,NC2,NC3,NC4,MAT,GBUF%OFF,QMV,BUFMAT, DELTAX, VIS)
+     .   CALL AMOMT2(
+     1   PM,      V,       W,       GBUF%RHO,
+     2   Y1,      Y2,      Y3,      Y4,
+     3   Z1,      Z2,      Z3,      Z4,
+     4   T11,     T12,     T13,     T14,
+     5   T21,     T22,     T23,     T24,
+     6   PY1,     PY2,     PZ1,     PZ2,
+     7   AIREM,   VY1,     VY2,     VY3,
+     8   VY4,     VZ1,     VZ2,     VZ3,
+     9   VZ4,     EYY,     EZZ,     DYZ,
+     A   DZY,     NC1,     NC2,     NC3,
+     B   NC4,     MAT,     GBUF%OFF,QMV,
+     C   BUFMAT,  DELTAX,  VIS)
        IF(JEUL>0.)
-     .   CALL EMOMT2(PM,GBUF%RHO,
-     .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .   T11, T12, T13, T14, T21, T22, T23 , T24, 
-     .   PY1, PY2, PZ1, PZ2, AIRE,
-     .   EYY, EZZ, DYZ, DZY, VDY, VDZ,
-     .   DELTAX,VIS,VD2,
-     .   NC1,NC2,NC3,NC4,MAT,QMV,BUFMAT )
+     .   CALL EMOMT2(
+     1   PM,      GBUF%RHO,Y1,      Y2,
+     2   Y3,      Y4,      Z1,      Z2,
+     3   Z3,      Z4,      VY1,     VY2,
+     4   VY3,     VY4,     VZ1,     VZ2,
+     5   VZ3,     VZ4,     T11,     T12,
+     6   T13,     T14,     T21,     T22,
+     7   T23,     T24,     PY1,     PY2,
+     8   PZ1,     PZ2,     AIRE,    EYY,
+     9   EZZ,     DYZ,     DZY,     VDY,
+     A   VDZ,     DELTAX,  VIS,     VD2,
+     B   NC1,     NC2,     NC3,     NC4,
+     C   MAT,     QMV,     BUFMAT)
 C--------------------
 C     FORCES INTERNES
 C--------------------
@@ -494,15 +548,20 @@ C--------------
 C     ASSEMBLE
 C--------------
       IF(IPARIT == 0)THEN
-        CALL QCUMU2(A,
-     .   F11, F12, F21, F22, AX1, AX2,
-     .   T11, T12, T13, T14, T21, T22, T23, T24, 
-     .   NC1, NC2, NC3, NC4, STI, STIFN)
+        CALL QCUMU2(
+     1   A,       F11,     F12,     F21,
+     2   F22,     AX1,     AX2,     T11,
+     3   T12,     T13,     T14,     T21,
+     4   T22,     T23,     T24,     NC1,
+     5   NC2,     NC3,     NC4,     STI,
+     6   STIFN,   NEL)
       ELSE
         CALL QCUMU2P(
-     .   F11, F12, F21, F22, AX1, AX2,
-     .   T11, T12, T13, T14, T21, T22, T23, T24, 
-     .   FSKY,FSKY,IADQ,STI)
+     1   F11,     F12,     F21,     F22,
+     2   AX1,     AX2,     T11,     T12,
+     3   T13,     T14,     T21,     T22,
+     4   T23,     T24,     FSKY,    FSKY,
+     5   IADQ,    STI,     NEL,     NFT)
       ENDIF
 c-----------
       RETURN

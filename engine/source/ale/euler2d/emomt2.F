@@ -183,7 +183,10 @@ C FORCE AT CENTROID
 C
       IF(ALE%UPWIND%UPWM < 2.OR.MTN == 11)THEN
        IF(MTN == 11.AND.ALE%UPWIND%UPWM > 1)THEN
-        CALL UPWIND(RHO,VIS,VDY,VDY,VDZ,S,S,T,DELTAX,GAM)
+        CALL UPWIND(
+     1   RHO,     VIS,     VDY,     VDY,
+     2   VDZ,     S,       S,       T,
+     3   DELTAX,  GAM,     LLT)
         DO I=LFT,LLT
          FAC=4.*GAM(I)/AIRE(I)
          A1(I) = FAC*(PY1(I)*VDY(I)+PZ1(I)*VDZ(I))
@@ -245,7 +248,10 @@ C P1Y4=-Z34/TR4 P1Z4= Y34/TR4
 C P3Y4=-Z41/TR4 P3Z4= Y41/TR4 P4Y4=-Z13/TR4 P4Z4= Y13/TR4
 C
 C NODE 1      
-       CALL UPWIND(RHO,VIS,VY1,VY1,VZ1,S,S,T,DELTAX,GAM)
+       CALL UPWIND(
+     1   RHO,     VIS,     VY1,     VY1,
+     2   VZ1,     S,       S,       T,
+     3   DELTAX,  GAM,     LLT)
        DO I=LFT,LLT
         TR(I)=(Y41(I)*Z12(I)-Y12(I)*Z41(I))
         DYYP(I)=(-Z24(I)*VY1(I)-Z41(I)*VY2(I)-Z12(I)*VY4(I))
@@ -285,7 +291,10 @@ C
         ENDDO
        ENDIF
 C NODE 2      
-       CALL UPWIND(RHO,VIS,VY2,VY2,VZ2,S,S,T,DELTAX,GAM)
+       CALL UPWIND(
+     1   RHO,     VIS,     VY2,     VY2,
+     2   VZ2,     S,       S,       T,
+     3   DELTAX,  GAM,     LLT)
        DO I=LFT,LLT
         TR(I)=(Y12(I)*Z23(I)-Y23(I)*Z12(I))
         DYYP(I)=(-Z23(I)*VY1(I)+Z13(I)*VY2(I)-Z12(I)*VY3(I))
@@ -323,7 +332,10 @@ C NODE 2
         ENDDO
        ENDIF
 C NODE 3      
-       CALL UPWIND(RHO,VIS,VY3,VY3,VZ3,S,S,T,DELTAX,GAM)
+       CALL UPWIND(
+     1   RHO,     VIS,     VY3,     VY3,
+     2   VZ3,     S,       S,       T,
+     3   DELTAX,  GAM,     LLT)
        DO I=LFT,LLT
         TR(I)=(Y23(I)*Z34(I)-Y34(I)*Z23(I))
         DYYP(I)=(-Z34(I)*VY2(I)+Z24(I)*VY3(I)-Z23(I)*VY4(I))
@@ -361,7 +373,10 @@ C NODE 3
         ENDDO
        ENDIF
 C NODE  4      
-       CALL UPWIND(RHO,VIS,VY4,VY4,VZ4,S,S,T,DELTAX,GAM)
+       CALL UPWIND(
+     1   RHO,     VIS,     VY4,     VY4,
+     2   VZ4,     S,       S,       T,
+     3   DELTAX,  GAM,     LLT)
        DO I=LFT,LLT
         TR(I)=(Y34(I)*Z41(I)-Y41(I)*Z34(I))
         DYYP(I)=(-Z34(I)*VY1(I)-Z41(I)*VY3(I)-Z13(I)*VY4(I))

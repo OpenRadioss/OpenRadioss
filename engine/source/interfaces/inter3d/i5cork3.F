@@ -27,13 +27,16 @@ Chd|        I5KE3                         source/interfaces/inter3d/i5ke3.F
 Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I5CORK3(X     ,IRECT ,MSR   ,NSV   ,IRTL    ,
-     1                   I_N   ,I_E   ,NSVG  ,JX1   ,JX2     ,
-     2                   JX3   ,JX4   ,X1    ,X2    ,X3      ,
-     3                   X4    ,Y1    ,Y2    ,Y3    ,Y4      ,
-     4                   Z1    ,Z2    ,Z3    ,Z4    ,XFACE   ,
-     5                   XI    ,YI    ,ZI    ,IX1   ,IX2     ,
-     6                   IX3   ,IX4)
+      SUBROUTINE I5CORK3(
+     1   X,       IRECT,   MSR,     NSV,
+     2   IRTL,    I_N,     I_E,     NSVG,
+     3   JX1,     JX2,     JX3,     JX4,
+     4   X1,      X2,      X3,      X4,
+     5   Y1,      Y2,      Y3,      Y4,
+     6   Z1,      Z2,      Z3,      Z4,
+     7   XFACE,   XI,      YI,      ZI,
+     8   IX1,     IX2,     IX3,     IX4,
+     9   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +48,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*),I_N(*),I_E(*)
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
      .        NSVG(MVSIZ)
@@ -59,7 +65,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -105,58 +110,6 @@ C
       JX3(I)=IX3(I)
       JX4(I)=IX4(I)
  100  CONTINUE
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  I5IMPK3                       source/interfaces/inter3d/i5cork3.F
-Chd|-- called by -----------
-Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE I5IMPK3(IRECT ,MSR   ,NSV   ,IRTL  ,
-     1                   NUM_IMP,NS_IMP,NE_IMP,ANS)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*)
-      INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*)
-C     REAL
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: ANS
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, IL, IG, L, NN,J
-C     REAL
-C-----------------------------------------------
-C
-      J=0
-      DO I=LFT,LLT
-       IL=I+NFT
-       IG=NSV(IL)
-       L=IRTL(IL)
-       IF (ANS(I)<ZERO) THEN
-        J = J + 1
-        NS_IMP(J+NUM_IMP)=IL
-        NE_IMP(J+NUM_IMP)=L
-       ENDIF
-      ENDDO
-      NUM_IMP=NUM_IMP+J
 C
       RETURN
       END

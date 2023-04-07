@@ -75,29 +75,33 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE C3FORC3 (ELBUF_STR,
-     1           JFT      ,JLT      ,PM      ,IXTG     ,X        ,
-     2           F        ,M        ,V       ,R        ,FAILWAVE ,
-     3           NVC      ,MTN      ,GEO     ,TF       ,NPF      ,
-     4           BUFMAT   ,PMSAV    ,DT2T    ,NELTST   ,ITYPTST  ,
-     5           STIFN    ,STIFR    ,FSKY    ,IADTG    ,ITAB     ,
-     6           EPSDOT   ,OFFSET   ,IPARTTG ,THKE     ,F11      ,
-     7           F12      ,F13      ,F21     ,F22      ,F23      ,
-     8           F31      ,F32      ,F33     ,M11      ,M12      ,
-     9           M13      ,M21      ,M22     ,M23      ,M31      ,
-     A           M32      ,M33      ,GROUP_PARAM,MATPARAM_TAB,
-     B           NEL      ,ISTRAIN  ,ISH3N   ,XEDGE3N  ,
-     C           ITHK     ,IOFC     ,IPLA    ,NFT      ,ISMSTR   ,
-     D           NPT      ,KFTS     ,
-     E           FZERO    ,IGEO     ,IPM     ,IFAILURE ,ITASK    ,  
-     F           JTHE     ,TEMP     ,FTHE    ,FTHESKY  ,IEXPAN   ,
-     G           GRESAV   ,GRTH     ,IGRTH   ,
-     H           MSTG     ,DMELTG   ,JSMS    ,TABLE    ,IPARG    ,
-     I           IXFEM    ,SENSOR_TAB,PTG      ,IBORDNODE,
-     J           ELCUTC   ,INOD_CRK ,IEL_CRK ,NODENR   ,IADTG_CRK,
-     K           NODEDGE  ,CRKNODIAD,KNOD2ELC,CONDN    ,
-     L           CONDNSKY ,STACK    ,ISUBSTACK,XFEM_STR,CRKEDGE  ,
-     N           DRAPE_SH3N    ,IPRI    ,NLOC_DMG , xdp , INDX_DRAPE)
+      SUBROUTINE C3FORC3(
+     1   ELBUF_STR,   JFT,         JLT,         PM,
+     2   IXTG,        X,           F,           M,
+     3   V,           R,           FAILWAVE,    NVC,
+     4   MTN,         GEO,         TF,          NPF,
+     5   BUFMAT,      PMSAV,       DT2T,        NELTST,
+     6   ITYPTST,     STIFN,       STIFR,       FSKY,
+     7   IADTG,       ITAB,        EPSDOT,      OFFSET,
+     8   IPARTTG,     THKE,        F11,         F12,
+     9   F13,         F21,         F22,         F23,
+     A   F31,         F32,         F33,         M11,
+     B   M12,         M13,         M21,         M22,
+     C   M23,         M31,         M32,         M33,
+     D   GROUP_PARAM, MATPARAM_TAB,NEL,         ISTRAIN,
+     E   ISH3N,       XEDGE3N,     ITHK,        IOFC,
+     F   IPLA,        NFT,         ISMSTR,      NPT,
+     G   KFTS,        FZERO,       IGEO,        IPM,
+     H   IFAILURE,    ITASK,       JTHE,        TEMP,
+     I   FTHE,        FTHESKY,     IEXPAN,      GRESAV,
+     J   GRTH,        IGRTH,       MSTG,        DMELTG,
+     K   JSMS,        TABLE,       IPARG,       IXFEM,
+     L   SENSOR_TAB,  PTG,         IBORDNODE,   ELCUTC,
+     M   INOD_CRK,    IEL_CRK,     NODENR,      IADTG_CRK,
+     N   NODEDGE,     CRKNODIAD,   KNOD2ELC,    CONDN,
+     O   CONDNSKY,    STACK,       ISUBSTACK,   XFEM_STR,
+     P   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
+     Q   xdp,         INDX_DRAPE,  IGRE,        JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,6 +135,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST, OFFSET,
      .        NEL    ,ISTRAIN,ISH3N , ICSEN,
      .        ITHK  ,IOFC   ,IPLA  ,NFT   ,ISMSTR ,NPT,KFTS,IFAILURE,
@@ -538,12 +544,15 @@ C     BALANCE FOR EACH MATERIAL
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
       IF(IPRI>0)
-     +   CALL C3BILAN(JFT  ,JLT    ,PM    ,V    ,GBUF%THK,GBUF%EINT,
-     2                PMSAV,IPARTTG,RHO   ,VOL00,IXTG   ,X        ,
-     3                R    ,THK02  ,AREA  ,GRESAV ,GRTH     ,
-     4                IGRTH,OFF    ,IBID  ,IBID ,IBID   ,IBID     ,
-     5                IBID ,IEXPAN ,GBUF%EINTTH ,ITASK  ,MAT      ,
-     6                GBUF%VOL,ACTIFXFEM)
+     +   CALL C3BILAN(
+     1   JFT,        JLT,        PM,         V,
+     2   GBUF%THK,   GBUF%EINT,  PMSAV,      IPARTTG,
+     3   RHO,        VOL00,      IXTG,       X,
+     4   R,          THK02,      AREA,       GRESAV,
+     5   GRTH,       IGRTH,      OFF,        IBID,
+     6   IBID,       IBID,       IBID,       IBID,
+     7   IEXPAN,     GBUF%EINTTH,ITASK,      MAT,
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE)
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------
@@ -585,9 +594,11 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
-           CALL DTTHERM(JFT     ,JLT     ,PM   ,TEMPEL,GBUF%RE,
-     2                  RHO     ,GBUF%RK ,VOL0 ,ALDT  ,MAT    ,
-     3                  DT_THERM,OFF     ,CONDE) 
+           CALL DTTHERM(
+     1   JFT,     JLT,     PM,      TEMPEL,
+     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
+     3   ALDT,    MAT,     DT_THERM,OFF,
+     4   CONDE,   JTUR)
          ENDIF 
 C-------------------------
 C     ASSEMBLY

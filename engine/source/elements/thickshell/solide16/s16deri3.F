@@ -29,12 +29,16 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE S16DERI3(NGL,OFF,R,S,T    ,W     ,
-     2   DNIDR ,DNIDS ,DNIDT ,DXDR  ,DYDR  ,DZDR  ,
-     3   DXDS  ,DYDS  ,DZDS  ,DXDT  ,DYDT  ,DZDT  ,
-     4   XX    ,YY    ,ZZ    ,PX    ,PY    ,PZ    ,
-     5   VOL   ,DELTAX,KXX   ,NI    ,VOLG  ,UL    ,
-     6   IR    ,IS    ,IT    ,VOLDP )
+      SUBROUTINE S16DERI3(
+     1   NGL,     OFF,     R,       S,
+     2   T,       W,       DNIDR,   DNIDS,
+     3   DNIDT,   DXDR,    DYDR,    DZDR,
+     4   DXDS,    DYDS,    DZDS,    DXDT,
+     5   DYDT,    DZDT,    XX,      YY,
+     6   ZZ,      PX,      PY,      PZ,
+     7   VOL,     DELTAX,  KXX,     NI,
+     8   VOLG,    UL,      IR,      IS,
+     9   IT,      VOLDP,   NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER NGL(*),IR,IS,IT
 C     REAL
       my_real
@@ -69,7 +74,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -248,7 +252,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------------
 C     dx/dr; dx/ds; dx/dt
 C-----------------------------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
 C
         DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
      +          + DNIDR(4)*XX(I,4) + DNIDR(5)*XX(I,5) + DNIDR(6)*XX(I,6)
@@ -356,7 +360,7 @@ C      ENDIF
 C
 C
       ICOR=0
-      DO I=LFT,LLT
+      DO I=1,NEL
           IF(OFF(I)==ZERO)THEN
               VOL(I)=1.
               VOLDP(I) = ONE
@@ -365,7 +369,7 @@ C
           ENDIF
       ENDDO
       IF(ICOR/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
           IF(VOL(I)<=ZERO)THEN
             CALL ANCMSG(MSGID=170,ANMODE=ANINFO,
      .                  I1=NGL(I),I2=IR,I3=IS,I4=IT)
@@ -374,7 +378,7 @@ C
        ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
 C-----------------------------------------------------------------------
 C          -1            Inversion du jacobien suite
 C       [J]              et repere local r,s,t
@@ -477,13 +481,13 @@ C
 C
 C
       DO N=1,16
-        DO I=LFT,LLT
+        DO I=1,NEL
           KXX(I,N) = VOL(I)*
      .     (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
           UL(I,N) = UL(I,N) + KXX(I,N)
         ENDDO
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         VOLG(I) =VOLG(I) + VOL(I)
       ENDDO
 C
@@ -491,7 +495,7 @@ c      AA = 0
 c      DO N=1,16
 c        AA = AA + NI(N)*NI(N)
 c      ENDDO
-c      DO I=LFT,LLT
+c      DO I=1,NEL
 c        BB = 1.E20
 c        DO N=1,16
 c          BB = MIN(BB,NI(N)*NI(N)/UL(I,N))
@@ -502,234 +506,5 @@ C
 C
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
 C
-      RETURN
-      END
-
-Chd|====================================================================
-Chd|  S16RST                        source/elements/thickshell/solide16/s16deri3.F
-Chd|-- called by -----------
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE S16RST(R,S,T,
-     2   NI   ,DNIDR ,DNIDS ,DNIDT )
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real
-     1   R,S,T,
-     2   NI(16) ,DNIDR(16),DNIDS(16),DNIDT(16)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-      my_real
-     .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
-     .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
-     .  A
-C-----------------------------------------------
-C
-C
-C
-C                            ^ S       _ T
-C                            |         /|
-C                            |        /
-C                   7        | 14    /
-C                    O-------|--O----------O 6
-C                   /.       |     /      /|
-C                  / .       |           / |
-C              15 O  .           /   13 O  |
-C                /   .       |         /   |
-C               /    .    16   /    5 /    |
-C            8 O----------O----------O     |
-C     R <------|- - -.- - - -+  10   |     |
-C              |     O..........O....|.....O 2
-C              |    . 3              |    / 
-C              |   .                 |   /    
-C              |  O 11               |  O     
-C              | .                   | / 9    
-C              |.                    |/    
-C              O----------O----------O     
-C             4          12           1
-C
-C
-C
-C
-C-----------------------------------------------
-C ro = r ri    so = s si    to = t ti
-C
-C i=1,8  
-C    ri=+-1  si=+-1 ti=+-1
-C    Ni = 1/8 (1+ro)(1+so)(1+to)(ro+to-1)
-C    dNi/dr = ri/8 (1+so)(1+to)(2ro+to)
-C    dNi/ds = si/8 (1+to)(1+ro)(to+ro-1)
-C    dNi/dt = ti/8 (1+ro)(1+so)(2to+ro)
-C
-C i=10;12;14;16
-C    ri=0    si=+-1 ti=+-1
-C    Ni = 1/4 (1-r^2)(1+so)(1+to)
-C    dNi/dr = -r/2 (1+so)(1+to)
-C    dNi/ds = si/4 (1-r^2)(1+to)
-C    dNi/dt = ti/4 (1-r^2)(1+so)
-C
-C
-C i=9;11;13;15
-C    ri=+-1  si=+-1 ti=0
-C    Ni = 1/4 (1-t^2)(1+ro)(1+so)
-C    dNi/dr = ri/4 (1-t^2)(1+so)
-C    dNi/ds = si/4 (1-t^2)(1+ro)
-C    dNi/dt = -t/2 (1+ro)(1+so)
-C-----------------------------------------------
-C  i    ri   si   ti       Ni                                  
-C--------------------------------------------------------------------
-C  1   -1   -1   -1     1/8(1-r)(1-s)(1-t)(-r-t-1)
-C  2   -1   -1   +1     1/8(1-r)(1-s)(1+t)(-r+t-1)
-C  3   +1   -1   +1     1/8(1+r)(1-s)(1+t)(+r+t-1)
-C  4   +1   -1   -1     1/8(1+r)(1-s)(1-t)(+r-t-1)
-C  5   -1   +1   -1     1/8(1-r)(1+s)(1-t)(-r-t-1)
-C  6   -1   +1   +1     1/8(1-r)(1+s)(1+t)(-r+t-1)
-C  7   +1   +1   +1     1/8(1+r)(1+s)(1+t)(+r+t-1)    
-C  8   +1   +1   -1     1/8(1+r)(1+s)(1-t)(+r-t-1)
-C  9   -1   -1    0     1/4(1-t^2)(1-r)(1-s)
-C 10    0   -1   +1     1/4(1-r^2)     (1-s)(1+t)
-C 11   +1   -1    0     1/4(1-t^2)(1+r)(1-s)
-C 12    0   -1   -1     1/4(1-r^2)     (1-s)(1-t)
-C 13   -1   +1    0     1/4(1-t^2)(1-r)(1+s)
-C 14    0   +1   +1     1/4(1-r^2)     (1+s)(1+t)
-C 15   +1   +1    0     1/4(1-t^2)(1+r)(1+s)
-C 16    0   +1   -1     1/4(1-r^2)     (1+s)(1-t)
-C-----------------------------------------------
-C  i    ri   si   ti       dNi/dr                  dNi/ds                               
-C--------------------------------------------------------------------
-C  1   -1   -1   -1     -1/8(1-s)(1-t)(-2r-t)     -1/8 (1-t)(1-r)(-t-r-1)
-C  2   -1   -1   +1     -1/8(1-s)(1+t)(-2r+t)     -1/8 (1+t)(1-r)( t-r-1)
-C  3   +1   -1   +1      1/8(1-s)(1+t)(+2r+t)     -1/8 (1+t)(1+r)( t+r-1)
-C  4   +1   -1   -1      1/8(1-s)(1-t)(+2r-t)     -1/8 (1-t)(1+r)(-t+r-1)
-C  5   -1   +1   -1     -1/8(1+s)(1-t)(-2r-t)      1/8 (1-t)(1-r)(-t-r-1)
-C  6   -1   +1   +1     -1/8(1+s)(1+t)(-2r+t)      1/8 (1+t)(1-r)( t-r-1)
-C  7   +1   +1   +1      1/8(1+s)(1+t)(+2r+t)      1/8 (1+t)(1+r)( t+r-1)   
-C  8   +1   +1   -1      1/8(1+s)(1-t)(+2r-t)      1/8 (1-t)(1+r)(-t+r-1)
-C  9   -1   -1    0     -1/4 (1-t^2)(1-s)         -1/4 (1-t^2)(1-r)
-C 10    0   -1   +1     -1/2 r(1-s)(1+t)          -1/4 (1-r^2)(1+t)
-C 11   +1   -1    0      1/4 (1-t^2)(1-s)         -1/4 (1-t^2)(1+r)
-C 12    0   -1   -1     -1/2 r(1-s)(1-t)          -1/4 (1-r^2)(1-t)
-C 13   -1   +1    0     -1/4 (1-t^2)(1+s)          1/4 (1-t^2)(1-r)
-C 14    0   +1   +1     -1/2 r(1+s)(1+t)           1/4 (1-r^2)(1+t)
-C 15   +1   +1    0      1/4 (1-t^2)(1+s)          1/4 (1-t^2)(1+r)
-C 16    0   +1   -1     -1/2 r(1+s)(1-t)           1/4 (1-r^2)(1-t)
-C-----------------------------------------------
-C
-      U_M_R = HALF*(ONE - R)
-      U_P_R = HALF*(ONE + R)
-C
-      U_M_S = HALF*(ONE - S)
-      U_P_S = HALF*(ONE + S)
-C
-      U_M_T = HALF*(ONE - T)
-      U_P_T = HALF*(ONE + T)
-C
-      UMS_UMT = U_M_S * U_M_T
-      UMS_UPT = U_M_S * U_P_T
-      UPS_UMT = U_P_S * U_M_T
-      UPS_UPT = U_P_S * U_P_T
-C
-      UMR_UMS = U_M_R * U_M_S
-      UMR_UPS = U_M_R * U_P_S
-      UPR_UMS = U_P_R * U_M_S
-      UPR_UPS = U_P_R * U_P_S
-C
-      UMT_UMR = U_M_T * U_M_R
-      UMT_UPR = U_M_T * U_P_R
-      UPT_UMR = U_P_T * U_M_R
-      UPT_UPR = U_P_T * U_P_R
-C
-      NI(1) = U_M_R * UMS_UMT * (-R-T-ONE)
-      NI(2) = U_M_R * UMS_UPT * (-R+T-ONE)
-      NI(3) = U_P_R * UMS_UPT * ( R+T-ONE)
-      NI(4) = U_P_R * UMS_UMT * ( R-T-ONE)
-      NI(5) = U_M_R * UPS_UMT * (-R-T-ONE)
-      NI(6) = U_M_R * UPS_UPT * (-R+T-ONE)
-      NI(7) = U_P_R * UPS_UPT * ( R+T-ONE)
-      NI(8) = U_P_R * UPS_UMT * ( R-T-ONE)     
-C
-      DNIDR(1) = -UMS_UMT * (-HALF*T - R) 
-      DNIDR(2) = -UMS_UPT * ( HALF*T - R)
-      DNIDR(3) =  UMS_UPT * ( HALF*T + R)
-      DNIDR(4) =  UMS_UMT * (-HALF*T + R)
-      DNIDR(5) = -UPS_UMT * (-HALF*T - R)
-      DNIDR(6) = -UPS_UPT * ( HALF*T - R)
-      DNIDR(7) =  UPS_UPT * ( HALF*T + R)
-      DNIDR(8) =  UPS_UMT * (-HALF*T + R)      
-C
-      DNIDS(1) = -UMT_UMR * (-R-T-ONE)*HALF
-      DNIDS(2) = -UPT_UMR * (-R+T-ONE)*HALF
-      DNIDS(3) = -UPT_UPR * ( R+T-ONE)*HALF
-      DNIDS(4) = -UMT_UPR * ( R-T-ONE)*HALF
-      DNIDS(5) =  UMT_UMR * (-R-T-ONE)*HALF
-      DNIDS(6) =  UPT_UMR * (-R+T-ONE)*HALF
-      DNIDS(7) =  UPT_UPR * ( R+T-ONE)*HALF
-      DNIDS(8) =  UMT_UPR * ( R-T-ONE)*HALF      
-C
-      DNIDT(1) = -UMR_UMS * (-HALF*R - T)
-      DNIDT(2) =  UMR_UMS * (-HALF*R + T)
-      DNIDT(3) =  UPR_UMS * (+HALF*R + T)
-      DNIDT(4) = -UPR_UMS * (+HALF*R - T)
-      DNIDT(5) = -UMR_UPS * (-HALF*R - T)
-      DNIDT(6) =  UMR_UPS * (-HALF*R + T)
-      DNIDT(7) =  UPR_UPS * (+HALF*R + T)
-      DNIDT(8) = -UPR_UPS * (+HALF*R - T)      
-C------------------------------------
-      A = (ONE - R*R)
-      NI(10) = A * UMS_UPT
-      NI(12) = A * UMS_UMT
-      NI(14) = A * UPS_UPT
-      NI(16) = A * UPS_UMT
-C    
-      A = HALF*A
-      DNIDT(10) =  A * U_M_S
-      DNIDT(14) =  A * U_P_S
-      DNIDS(10) = -A * U_P_T
-      DNIDS(12) = -A * U_M_T
-C    
-      A = -TWO*R
-      DNIDR(10) = A * UMS_UPT
-      DNIDR(12) = A * UMS_UMT
-      DNIDR(14) = A * UPS_UPT
-      DNIDR(16) = A * UPS_UMT
-C------------------------------------
-      A = (ONE - T*T)
-      NI(9)  = A * UMR_UMS
-      NI(11) = A * UPR_UMS
-      NI(13) = A * UMR_UPS
-      NI(15) = A * UPR_UPS
-C
-      A = HALF*A
-C      DNIDR(11) =  A * U_M_S
-C      DNIDR(15) =  A * U_P_S
-C      DNIDR(9)  = -DNIDR(11)
-C      DNIDR(13) = -DNIDR(15)
-      DNIDR(9)  = -A * U_M_S
-      DNIDR(13) = -A * U_P_S
-C
-C      DNIDS(13) =  A * U_M_R
-C      DNIDS(15) =  A * U_P_R
-C      DNIDS(9)  = -DNIDS(13)
-C      DNIDS(11) = -DNIDS(15)
-      DNIDS(9)  = -A * U_M_R
-      DNIDS(11) = -A * U_P_R
-C
-      A = -TWO*T
-      DNIDT(9)  = A * UMR_UMS
-      DNIDT(11) = A * UPR_UMS
-      DNIDT(13) = A * UMR_UPS
-      DNIDT(15) = A * UPR_UPS
-C
-C-----------------------------------------------
       RETURN
       END

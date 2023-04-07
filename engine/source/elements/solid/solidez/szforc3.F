@@ -309,10 +309,10 @@ C
       DO I=1,NEL
         SIGY(I)   = EP20
         SIGO(I,1) = GBUF%SIG(II(1)+I)
-        SIGO(I,2) = GBUF%SIG(II(2)+I)	  
-        SIGO(I,3) = GBUF%SIG(II(3)+I)	  
-        SIGO(I,4) = GBUF%SIG(II(4)+I)	  
-        SIGO(I,5) = GBUF%SIG(II(5)+I)	  
+        SIGO(I,2) = GBUF%SIG(II(2)+I)
+        SIGO(I,3) = GBUF%SIG(II(3)+I)
+        SIGO(I,4) = GBUF%SIG(II(4)+I)
+        SIGO(I,5) = GBUF%SIG(II(5)+I)
         SIGO(I,6) = GBUF%SIG(II(6)+I)
       ENDDO
 C
@@ -344,26 +344,33 @@ C
       END IF
 C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
-        CALL SGCOOR3(TT,8,X,IXS(1,NF1),
-     .    X0, Y0, Z0, VX0, VY0, VZ0, 
-     .    GBUF%SMSTR,D ,GBUF%OFF,OFFG0,NEL ,XDP )
+        CALL SGCOOR3(
+     1   TT,        8,         X,         IXS(1,NF1),
+     2   X0,        Y0,        Z0,        VX0,
+     3   VY0,       VZ0,       GBUF%SMSTR,D,
+     4   GBUF%OFF,  OFFG0,     NEL,       XDP,
+     5   MTN,       ISMSTR)
         IF (ISMSTR == 11) THEN
         CALL SRROTADP(
-     .    R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .    X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
-     .    X0(1,5), X0(1,6), X0(1,7), X0(1,8),
-     .    Y0(1,1), Y0(1,2), Y0(1,3), Y0(1,4), 
-     .    Y0(1,5), Y0(1,6), Y0(1,7), Y0(1,8),
-     .    Z0(1,1), Z0(1,2), Z0(1,3), Z0(1,4), 
-     .    Z0(1,5), Z0(1,6), Z0(1,7), Z0(1,8) )
+     1   R11,     R12,     R13,     R21,
+     2   R22,     R23,     R31,     R32,
+     3   R33,     X0(1,1), X0(1,2), X0(1,3),
+     4   X0(1,4), X0(1,5), X0(1,6), X0(1,7),
+     5   X0(1,8), Y0(1,1), Y0(1,2), Y0(1,3),
+     6   Y0(1,4), Y0(1,5), Y0(1,6), Y0(1,7),
+     7   Y0(1,8), Z0(1,1), Z0(1,2), Z0(1,3),
+     8   Z0(1,4), Z0(1,5), Z0(1,6), Z0(1,7),
+     9   Z0(1,8), NEL)
         CALL SRROTA3(
-     .    R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .    VX0(1,1), VX0(1,2), VX0(1,3), VX0(1,4), 
-     .    VX0(1,5), VX0(1,6), VX0(1,7), VX0(1,8),
-     .    VY0(1,1), VY0(1,2), VY0(1,3), VY0(1,4), 
-     .    VY0(1,5), VY0(1,6), VY0(1,7), VY0(1,8),
-     .    VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4), 
-     .    VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8) )
+     1   R11,     R12,     R13,     R21,
+     2   R22,     R23,     R31,     R32,
+     3   R33,     VX0(1,1),VX0(1,2),VX0(1,3),
+     4   VX0(1,4),VX0(1,5),VX0(1,6),VX0(1,7),
+     5   VX0(1,8),VY0(1,1),VY0(1,2),VY0(1,3),
+     6   VY0(1,4),VY0(1,5),VY0(1,6),VY0(1,7),
+     7   VY0(1,8),VZ0(1,1),VZ0(1,2),VZ0(1,3),
+     8   VZ0(1,4),VZ0(1,5),VZ0(1,6),VZ0(1,7),
+     9   VZ0(1,8),NEL)
         CALL SZDERIT3(OFF,VOLN,NGL,NEL,
      .    X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
      .    X0(1,5), X0(1,6), X0(1,7), X0(1,8),
@@ -379,25 +386,28 @@ C Total strain Pij are in global system for ISMSTR=10,12 and in local system for
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
      .    JAC1,JAC2,JAC3,
-     .    JAC4,JAC5,JAC6,JAC9)
+     .    JAC4,JAC5,JAC6,JAC9,JLAG)
         ELSE
-          CALL SZDERITO3(OFF,VOLN,
-     .         PX1, PX2, PX3, PX4,
-     .         PY1, PY2, PY3, PY4,
-     .         PZ1, PZ2, PZ3, PZ4,
-     .         GBUF%JAC_I,NEL)
+          CALL SZDERITO3(
+     1   OFF,       VOLN,      PX1,       PX2,
+     2   PX3,       PX4,       PY1,       PY2,
+     3   PY3,       PY4,       PZ1,       PZ2,
+     4   PZ3,       PZ4,       GBUF%JAC_I,NEL,
+     5   JLAG)
         END IF
          CALL SDEFOT3(
-     .    PX1, PX2, PX3, PX4,
-     .    PY1, PY2, PY3, PY4,
-     .    PZ1, PZ2, PZ3, PZ4,
-     .    VX0(1,1), VX0(1,2), VX0(1,3), VX0(1,4), 
-     .    VX0(1,5), VX0(1,6), VX0(1,7), VX0(1,8),
-     .    VY0(1,1), VY0(1,2), VY0(1,3), VY0(1,4), 
-     .    VY0(1,5), VY0(1,6), VY0(1,7), VY0(1,8),
-     .    VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4), 
-     .    VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8),
-     .    MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ)
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   VX0(1,1),VX0(1,2),VX0(1,3),VX0(1,4),
+     5   VX0(1,5),VX0(1,6),VX0(1,7),VX0(1,8),
+     6   VY0(1,1),VY0(1,2),VY0(1,3),VY0(1,4),
+     7   VY0(1,5),VY0(1,6),VY0(1,7),VY0(1,8),
+     8   VZ0(1,1),VZ0(1,2),VZ0(1,3),VZ0(1,4),
+     9   VZ0(1,5),VZ0(1,6),VZ0(1,7),VZ0(1,8),
+     A   MFXX,    MFXY,    MFXZ,    MFYX,
+     B   MFYY,    MFYZ,    MFZX,    MFZY,
+     C   MFZZ,    NEL)
 c
         IF (ISMSTR==10.OR.ISMSTR==12.OR.ISORTH/=0) THEN
           CALL SZTORTH3(LFT,LLT,ISORTH,NEL,
@@ -428,10 +438,14 @@ C
 C
 C------
         IF (ISMSTR==11) THEN
-         CALL SCOOR_CP2SP(X0,Y0,Z0,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+         CALL SCOOR_CP2SP(
+     1   X0,      Y0,      Z0,      X1,
+     2   X2,      X3,      X4,      X5,
+     3   X6,      X7,      X8,      Y1,
+     4   Y2,      Y3,      Y4,      Y5,
+     5   Y6,      Y7,      Y8,      Z1,
+     6   Z2,      Z3,      Z4,      Z5,
+     7   Z6,      Z7,      Z8,      NEL)
         ELSE
          CALL SZDERI3(OFF,VOLN,NGL,ISMSTR,
      .        XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
@@ -445,30 +459,44 @@ C------
      .        PX3H1, PX3H2, PX3H3, PX3H4,
      .        PX4H1, PX4H2, PX4H3, PX4H4,
      .        JAC1,JAC2,JAC3,JAC4,JAC5,JAC6,JAC9,
-     .        GBUF%SMSTR,GBUF%OFF,NEL,VOLDP)
+     .        GBUF%SMSTR,GBUF%OFF,NEL,VOLDP,JLAG)
         END IF
 C        
         IF (IDT1SOL == 1) THEN
-          CALL SDLEN8(DELTAX,VOLN,IXS(1,NF1),
-     .      X1, X2, X3, X4, X5, X6, X7, X8,
-     .      Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .      Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+          CALL SDLEN8(
+     1   DELTAX,    VOLN,      IXS(1,NF1),X1,
+     2   X2,        X3,        X4,        X5,
+     3   X6,        X7,        X8,        Y1,
+     4   Y2,        Y3,        Y4,        Y5,
+     5   Y6,        Y7,        Y8,        Z1,
+     6   Z2,        Z3,        Z4,        Z5,
+     7   Z6,        Z7,        Z8,        NEL)
         ELSEIF(IDTMINS==2)THEN
 C
 C         Possible mix of elts computing DELTAX like in sdlen3 & sdlen8
-          CALL SDLEN_SMS(DELTAX,VOLN,IXS(1,NF1),
-     .      X1, X2, X3, X4, X5, X6, X7, X8,
-     .      Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .      Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .      IPARTS, TAGPRT_SMS, GBUF%ISMS)
+          CALL SDLEN_SMS(
+     1   DELTAX,    VOLN,      IXS(1,NF1),X1,
+     2   X2,        X3,        X4,        X5,
+     3   X6,        X7,        X8,        Y1,
+     4   Y2,        Y3,        Y4,        Y5,
+     5   Y6,        Y7,        Y8,        Z1,
+     6   Z2,        Z3,        Z4,        Z5,
+     7   Z6,        Z7,        Z8,        IPARTS,
+     8   TAGPRT_SMS,GBUF%ISMS, NEL)
         ELSE
-          CALL SDLEN3(VOLN,DELTAX,
-     .      X1, X2, X3, X4, X5, X6, X7, X8,
-     .      Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .      Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .      N1X, N2X, N3X, N4X, N5X, N6X,
-     .      N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .      N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
+          CALL SDLEN3(
+     1   VOLN,    DELTAX,  X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      N1X,     N2X,
+     8   N3X,     N4X,     N5X,     N6X,
+     9   N1Y,     N2Y,     N3Y,     N4Y,
+     A   N5Y,     N6Y,     N1Z,     N2Z,
+     B   N3Z,     N4Z,     N5Z,     N6Z,
+     C   NEL,     MTN,     JALE,    JEUL)
         END IF   !IF (IDTHEPH == 1) THEN
       ELSEIF (JEUL /= 0) THEN
         CALL EPXLE3(
@@ -506,44 +534,65 @@ c
      6   WZZ,        BUFMAT,     NEL,        NFT)
       ELSE
         CALL SDEFO3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .   WXX, WYY, WZZ, BID,BID,BID,IXS)
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   PX5,     PX6,     PX7,     PX8,
+     5   PY5,     PY6,     PY7,     PY8,
+     6   PZ5,     PZ6,     PZ7,     PZ8,
+     7   VX1,     VX2,     VX3,     VX4,
+     8   VX5,     VX6,     VX7,     VX8,
+     9   VY1,     VY2,     VY3,     VY4,
+     A   VY5,     VY6,     VY7,     VY8,
+     B   VZ1,     VZ2,     VZ3,     VZ4,
+     C   VZ5,     VZ6,     VZ7,     VZ8,
+     D   DXX,     DXY,     DXZ,     DYX,
+     E   DYY,     DYZ,     DZX,     DZY,
+     F   DZZ,     D4,      D5,      D6,
+     G   WXX,     WYY,     WZZ,     BID,
+     H   BID,     BID,     IXS,     NEL,
+     I   NFT,     ISMSTR,  JEUL,    JHBE,
+     J   JCVT,    ISROT)
       ENDIF
 C
       IF (JCVT == 2) THEN
-       CALL STORTH3(LFT,LLT,NEL,
-     .   G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z, GBUF%GAMA)
+       CALL STORTH3(
+     1   LFT,      LLT,      NEL,      G1X,
+     2   G1Y,      G1Z,      G2X,      G2Y,
+     3   G2Z,      G3X,      G3Y,      G3Z,
+     4   GBUF%GAMA,ISORTH)
        CALL SZORDEF3(LFT,LLT,DXX,DYY,DZZ,D4,D5,D6,
      .              G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z)
       ENDIF
       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
-      CALL SRHO3(PM         ,GBUF%VOL  , GBUF%RHO , GBUF%EINT, DIVDE,
-     .           FLUX(1,NF1),FLU1(NF1) , VOLN     , DVOL     , NGL, MXT , OFF,
-     .           IBID       ,GBUF%TAG22, VOLDP    ,LBUF%VOL0DP,AMU  ,GBUF%OFF)
+      CALL SRHO3(
+     1   PM,         GBUF%VOL,   GBUF%RHO,   GBUF%EINT,
+     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     3   DVOL,       NGL,        MXT,        OFF,
+     4   IBID,       GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
+     5   AMU,        GBUF%OFF,   NEL,        MTN,
+     6   JALE,       ISMSTR,     JEUL,       JLAG)
 C
 C Extract stresses + small strain
        CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
      .             GBUF%OFF,OFF,NEL)
-       CALL SRMALLA11(GBUF%SMSTR,GBUF%OFF,WXX,WYY,WZZ,
-     .     R11, R12, R13, R21, R22, R23, R31, R32, R33,NEL)
+       CALL SRMALLA11(
+     1   GBUF%SMSTR,GBUF%OFF,  WXX,       WYY,
+     2   WZZ,       R11,       R12,       R13,
+     3   R21,       R22,       R23,       R31,
+     4   R32,       R33,       NEL,       ISMSTR)
 C
 C  Update reference configuration (possible future change to small strain option)
 C  Total strain option doesn't change the reference configuration
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
-       CALL S8SAV3(GBUF%OFF,GBUF%SMSTR,
-     .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .             YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .             NEL)
+       CALL S8SAV3(
+     1   GBUF%OFF,  GBUF%SMSTR,XD1,       XD2,
+     2   XD3,       XD4,       XD5,       XD6,
+     3   XD7,       XD8,       YD1,       YD2,
+     4   YD3,       YD4,       YD5,       YD6,
+     5   YD7,       YD8,       ZD1,       ZD2,
+     6   ZD3,       ZD4,       ZD5,       ZD6,
+     7   ZD7,       ZD8,       NEL)
       END IF !(ISMSTR == 2) THEN
 C
 C Element temperature
@@ -591,28 +640,40 @@ C
      2   TT,        NEL,       SENSOR_TAB,NPT)
 C
 C Compute stresses according to the material law
-      CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO     ,FV      ,ALE_CONNECT,
-     2           IXS      ,IPARG  ,V      ,TF      ,NPF     ,BUFMAT  ,
-     3           STI      ,X      ,DT2T   ,NELTST  ,ITYPTST ,OFFSET  ,
-     4           NEL      ,W      ,OFF    ,NGEO    ,
-     6           MXT      ,NGL    ,VOLN   ,VD2     ,DVOL    ,DELTAX  ,
-     7           VIS      ,QVIS   ,CXX    ,S1      ,S2      ,S3      ,
-     8           S4       ,S5     ,S6     ,DXX     ,DYY     ,DZZ     ,
-     9           D4       ,D5     ,D6     ,WXX     ,WYY     ,WZZ     ,
-     A           JAC1     ,JAC2   ,JAC3   ,JAC4    ,JAC5    ,JAC6    ,
-     B           VDX      ,VDY    ,VDZ    ,MUVOID  ,SSP_EQ  ,AIRE    ,
-     C           SIGY     ,ET     ,R1_FREE,LBUF%PLA,R3_DAM  , AMU    ,
-     D           MFXX     ,MFXY   ,MFXZ   ,MFYX    ,MFYY    ,MFYZ    , 
-     E           MFZX     ,MFZY   ,MFZZ   ,IPM     ,GAMA    ,BID     ,
-     F           DXY      ,DYX    ,DYZ    ,DZY     ,DZX     ,DXZ     ,
-     G           ISTRAIN  ,TEMPEL ,DIE    ,IEXPAN  ,ILAY    ,MSSA    ,
-     H           DMELS    ,IPTR   ,IPTS   ,IPTT    ,TABLE   ,BID     ,
-     I           BID      ,BID    ,BID    ,IPARG(1,NG),IGEO ,CONDE   ,
-     J           ITASK    ,NLOC_DMG,VAR_REG,MATPARAM_TAB,H3D_STRAIN)
+      CALL MMAIN(
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   OFF,         NGEO,        MXT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        CXX,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          DXX,         DYY,         DZZ,
+     B   D4,          D5,          D6,          WXX,
+     C   WYY,         WZZ,         JAC1,        JAC2,
+     D   JAC3,        JAC4,        JAC5,        JAC6,
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   R1_FREE,     LBUF%PLA,    R3_DAM,      AMU,
+     H   MFXX,        MFXY,        MFXZ,        MFYX,
+     I   MFYY,        MFYZ,        MFZX,        MFZY,
+     J   MFZZ,        IPM,         GAMA,        BID,
+     K   DXY,         DYX,         DYZ,         DZY,
+     L   DZX,         DXZ,         ISTRAIN,     TEMPEL,
+     M   DIE,         IEXPAN,      ILAY,        MSSA,
+     N   DMELS,       IPTR,        IPTS,        IPTT,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        CONDE,
+     Q   ITASK,       NLOC_DMG,    VAR_REG,     MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
       IF (ISTRAIN == 1)THEN 
-        CALL SSTRA3(DXX      ,DYY      ,DZZ   ,D4   ,D5   ,
-     .              D6       ,LBUF%STRA,WXX   ,WYY  ,WZZ  ,
-     .              OFF      ,NEL      )
+        CALL SSTRA3(
+     1   DXX,      DYY,      DZZ,      D4,
+     2   D5,       D6,       LBUF%STRA,WXX,
+     3   WYY,      WZZ,      OFF,      NEL,
+     4   JCVT)
       ENDIF
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C
@@ -638,11 +699,14 @@ C           a) by minimum time step in MMAIN
 C           b) by small volume or bad aspect ratio in SMALLGEO3
 C If ISMSTR=2 GBUF%SMSTR was updated by S8SAV3 (before MMAIN, each cycle) fixed when off=2
 C If ISMSTR=12 fixed GBUF%SMSTR before, updated only once by S8SAV12 
-      CALL SMALLB3(GBUF%OFF,OFF)
-      CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
+      CALL SMALLB3(GBUF%OFF,OFF,NEL,ISMSTR)
+      CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET,NEL,ISMSTR)
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
-        CALL S8SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,X  ,XDP   ,
-     .     NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,NEL)
+        CALL S8SAV12(
+     1   GBUF%OFF,  OFFG0,     GBUF%SMSTR,X,
+     2   XDP,       NC1,       NC2,       NC3,
+     3   NC4,       NC5,       NC6,       NC7,
+     4   NC8,       NEL,       JCVT)
         IF (ISM12_11>0 .AND. ISORTH == 0) THEN
           CALL S8UPD11T12(GBUF%OFF,OFFG0  ,X  ,XDP  ,
      .     NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,
@@ -671,11 +735,17 @@ C
 C ALE or EULER : update masses 
       IF (JALE+JEUL > 0 .AND. ALE%GLOBAL%INCOMP == 0) THEN
         IF(IPARIT == 0)THEN
-          CALL AMASS3(MS,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,
-     .                VOLN,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     .                MSNF,NVC,OFF,IXS)
+          CALL AMASS3(
+     1   MS,                GBUF%RHO,          VEUL(LVEUL*NFT+44),GBUF%TAG22,
+     2   VOLN,              NC1,               NC2,               NC3,
+     3   NC4,               NC5,               NC6,               NC7,
+     4   NC8,               MSNF,              NVC,               OFF,
+     5   IXS,               NEL,               JEUL)
         ELSE
-          CALL AMASS3P(FSKYM,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,VOLN,IADS,OFF,IXS)
+          CALL AMASS3P(
+     1   FSKYM,             GBUF%RHO,          VEUL(LVEUL*NFT+44),GBUF%TAG22,
+     2   VOLN,              IADS,              OFF,               IXS,
+     3   NEL,               NFT,               JEUL)
         ENDIF
       ENDIF
 C
@@ -697,37 +767,64 @@ C Anti hourglass forces
        ELSE
         IADBUF = 1 ! BUFMAT starts at 1 => BUFMAT(0) is wrong 
        ENDIF
-       CALL SZHOUR3_OR(ELBUF_TAB(NG),PM,GBUF%RHO,OFF,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1H1, PX1H2, PX1H3, PX1H4, 
-     .   PX2H1, PX2H2, PX2H3, PX2H4,
-     .   PX3H1, PX3H2, PX3H3, PX3H4, 
-     .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   VOLN,MXT,CXX,VIS,VD2,DELTAX,NGEO,GEO,PARTSAV,IPARTS,
-     .   DXX, DYY, DZZ, D4, D5, D6 ,
-     .   GBUF%HOURG,JAC1,JAC5,JAC9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
-     .   LBUF%PLA,IMATVIS,ET ,R3_DAM,NEL,GAMA  ,BUFMAT(IADBUF),
-     .   GBUF%STRHG,LBUF%STRA,ISTRAIN)
+       CALL SZHOUR3_OR(
+     1   ELBUF_TAB(NG), PM,            GBUF%RHO,      OFF,
+     2   VX1,           VX2,           VX3,           VX4,
+     3   VX5,           VX6,           VX7,           VX8,
+     4   VY1,           VY2,           VY3,           VY4,
+     5   VY5,           VY6,           VY7,           VY8,
+     6   VZ1,           VZ2,           VZ3,           VZ4,
+     7   VZ5,           VZ6,           VZ7,           VZ8,
+     8   F11,           F21,           F31,           F12,
+     9   F22,           F32,           F13,           F23,
+     A   F33,           F14,           F24,           F34,
+     B   F15,           F25,           F35,           F16,
+     C   F26,           F36,           F17,           F27,
+     D   F37,           F18,           F28,           F38,
+     E   PX1H1,         PX1H2,         PX1H3,         PX1H4,
+     F   PX2H1,         PX2H2,         PX2H3,         PX2H4,
+     G   PX3H1,         PX3H2,         PX3H3,         PX3H4,
+     H   PX4H1,         PX4H2,         PX4H3,         PX4H4,
+     I   VOLN,          MXT,           CXX,           VIS,
+     J   VD2,           DELTAX,        NGEO,          GEO,
+     K   PARTSAV,       IPARTS,        DXX,           DYY,
+     L   DZZ,           D4,            D5,            D6,
+     M   GBUF%HOURG,    JAC1,          JAC5,          JAC9,
+     N   GBUF%EINT,     GBUF%VOL,      SIGY,          SIGN,
+     O   SIGO,          ICP,           LBUF%PLA,      IMATVIS,
+     P   ET,            R3_DAM,        NEL,           GAMA,
+     Q   BUFMAT(IADBUF),GBUF%STRHG,    LBUF%STRA,     ISTRAIN,
+     R   MTN,           ISMSTR,        JLAG,          IINT)
 C
       ELSE
-      CALL SZHOUR3(ELBUF_TAB(NG),PM,GBUF%RHO,OFF,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1H1, PX1H2, PX1H3, PX1H4, 
-     .   PX2H1, PX2H2, PX2H3, PX2H4,
-     .   PX3H1, PX3H2, PX3H3, PX3H4, 
-     .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   VOLN,MXT,CXX,VIS,VD2,DELTAX,NGEO,GEO,PARTSAV,IPARTS,
-     .   DXX, DYY, DZZ, D4, D5, D6 ,
-     .   GBUF%HOURG,JAC1,JAC5,JAC9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
-     .   LBUF%PLA,IMATVIS,ET ,R3_DAM,NEL,GBUF%STRHG,ISTRAIN)
+      CALL SZHOUR3(
+     1   ELBUF_TAB(NG),PM,           GBUF%RHO,     OFF,
+     2   VX1,          VX2,          VX3,          VX4,
+     3   VX5,          VX6,          VX7,          VX8,
+     4   VY1,          VY2,          VY3,          VY4,
+     5   VY5,          VY6,          VY7,          VY8,
+     6   VZ1,          VZ2,          VZ3,          VZ4,
+     7   VZ5,          VZ6,          VZ7,          VZ8,
+     8   F11,          F21,          F31,          F12,
+     9   F22,          F32,          F13,          F23,
+     A   F33,          F14,          F24,          F34,
+     B   F15,          F25,          F35,          F16,
+     C   F26,          F36,          F17,          F27,
+     D   F37,          F18,          F28,          F38,
+     E   PX1H1,        PX1H2,        PX1H3,        PX1H4,
+     F   PX2H1,        PX2H2,        PX2H3,        PX2H4,
+     G   PX3H1,        PX3H2,        PX3H3,        PX3H4,
+     H   PX4H1,        PX4H2,        PX4H3,        PX4H4,
+     I   VOLN,         MXT,          CXX,          VIS,
+     J   VD2,          DELTAX,       NGEO,         GEO,
+     K   PARTSAV,      IPARTS,       DXX,          DYY,
+     L   DZZ,          D4,           D5,           D6,
+     M   GBUF%HOURG,   JAC1,         JAC5,         JAC9,
+     N   GBUF%EINT,    GBUF%VOL,     SIGY,         SIGN,
+     O   SIGO,         ICP,          LBUF%PLA,     IMATVIS,
+     P   ET,           R3_DAM,       NEL,          GBUF%STRHG,
+     Q   ISTRAIN,      MTN,          ISMSTR,       JLAG,
+     R   IINT)
       END IF !(ISORTH>0) THEN
       IF (CNS2 > ZERO) 
      .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
@@ -788,7 +885,7 @@ C ALE or EULER : update momentum transport forces
      X   IPARG(1,NG),IXS,        GBUF%TAG22, NC1,
      Y   NC2,        NC3,        NC4,        NC5,
      Z   NC6,        NC7,        NC8,        NALE,
-     1   NEL)
+     1   NEL,        NFT,        MTN)
       ELSEIF(JEUL == 1 .AND. INTEG8 == 1)THEN
 C
 C Does not include upwind SUPG or TG
@@ -856,20 +953,26 @@ C Energy, momentum, mass balance per part in case of output
       ENDIF
 C
 C Compute nodal internal forces
-      CALL SFINT3(SIGN,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOLN,QVIS,
-     .   N1X, N2X, N3X, N4X, N5X, N6X,
-     .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z,
-     .   BID,   P, IXS, NEL)
+      CALL SFINT3(
+     1   SIGN,    PX1,     PX2,     PX3,
+     2   PX4,     PY1,     PY2,     PY3,
+     3   PY4,     PZ1,     PZ2,     PZ3,
+     4   PZ4,     PX5,     PX6,     PX7,
+     5   PX8,     PY5,     PY6,     PY7,
+     6   PY8,     PZ5,     PZ6,     PZ7,
+     7   PZ8,     F11,     F21,     F31,
+     8   F12,     F22,     F32,     F13,
+     9   F23,     F33,     F14,     F24,
+     A   F34,     F15,     F25,     F35,
+     B   F16,     F26,     F36,     F17,
+     C   F27,     F37,     F18,     F28,
+     D   F38,     VOLN,    QVIS,    N1X,
+     E   N2X,     N3X,     N4X,     N5X,
+     F   N6X,     N1Y,     N2Y,     N3Y,
+     G   N4Y,     N5Y,     N6Y,     N1Z,
+     H   N2Z,     N3Z,     N4Z,     N5Z,
+     I   N6Z,     BID,     P,       IXS,
+     J   NEL,     NFT,     JALE,    JEUL)
 C
 C Virtual internal forces of regularized non local dof 
       IF (INLOC > 0) THEN  
@@ -901,10 +1004,15 @@ C Finite element heat transfert
 C
 C Transform forces from convected frame to global frame
       CALL SRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F11, F12, F13, F14, F15, F16, F17, F18,
-     .   F21, F22, F23, F24, F25, F26, F27, F28,
-     .   F31, F32, F33, F34, F35, F36, F37, F38)
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F11,     F12,     F13,
+     4   F14,     F15,     F16,     F17,
+     5   F18,     F21,     F22,     F23,
+     6   F24,     F25,     F26,     F27,
+     7   F28,     F31,     F32,     F33,
+     8   F34,     F35,     F36,     F37,
+     9   F38,     NEL)
 C
       IF(NFILSOL/=0) CALL SFILLOPT(
      1   GBUF%FILL,STI,      F11,      F21,
@@ -917,1306 +1025,47 @@ C
 C
 C Assemble internal forces
       IF(IPARIT == 0)THEN
-          CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,
-     2             NC5, NC6, NC7, NC8,STIFN,STI,
-     3   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     4   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     5   NVC,BID,BID,BID,
-     6   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     7   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     8   THEM, FTHE,CONDN,CONDE)
+          CALL SCUMU3(
+     1   GBUF%OFF,A,       NC1,     NC2,
+     2   NC3,     NC4,     NC5,     NC6,
+     3   NC7,     NC8,     STIFN,   STI,
+     4   F11,     F21,     F31,     F12,
+     5   F22,     F32,     F13,     F23,
+     6   F33,     F14,     F24,     F34,
+     7   F15,     F25,     F35,     F16,
+     8   F26,     F36,     F17,     F27,
+     9   F37,     F18,     F28,     F38,
+     A   NVC,     BID,     BID,     BID,
+     B   BID,     BID,     BID,     BID,
+     C   BID,     BID,     BID,     BID,
+     D   BID,     BID,     BID,     BID,
+     E   BID,     BID,     BID,     BID,
+     F   BID,     BID,     BID,     BID,
+     G   BID,     BID,     BID,     BID,
+     H   THEM,    FTHE,    CONDN,   CONDE,
+     I   NEL,     JTHE,    ISROT,   IPARTSPH)
       ELSE
-          CALL SCUMU3P(GBUF%OFF,STI,FSKY,FSKY,IADS,
-     2   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     3   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     4   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     5   BID,BID,BID,
-     6   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     7   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     8   THEM , FTHESKY,CONDNSKY,CONDE)
+          CALL SCUMU3P(
+     1   GBUF%OFF,STI,     FSKY,    FSKY,
+     2   IADS,    F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     F15,     F25,     F35,
+     6   F16,     F26,     F36,     F17,
+     7   F27,     F37,     F18,     F28,
+     8   F38,     NC1,     NC2,     NC3,
+     9   NC4,     NC5,     NC6,     NC7,
+     A   NC8,     BID,     BID,     BID,
+     B   BID,     BID,     BID,     BID,
+     C   BID,     BID,     BID,     BID,
+     D   BID,     BID,     BID,     BID,
+     E   BID,     BID,     BID,     BID,
+     F   BID,     BID,     BID,     BID,
+     G   BID,     BID,     BID,     BID,
+     H   THEM,    FTHESKY, CONDNSKY,CONDE,
+     I   NEL,     NFT,     JTHE,    ISROT,
+     J   IPARTSPH)
       ENDIF
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
       RETURN
-      END SUBROUTINE SZFORC3
-C                                                                      12
-Chd|====================================================================
-Chd|  STORTH3                       source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE STORTH3(JFT,JLT,NEL,
-     .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GAMA)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C----------------------------------------------- 
-      INTEGER JFT, JLT ,NEL
-C     REAL
-      my_real
-     .   G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),GAMA(NEL,6)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C=======================================================================
-      IF (ISORTH == 1) THEN 
-      DO I=JFT,JLT
-         G1X(I)=GAMA(I,1)
-         G1Y(I)=GAMA(I,2)
-         G1Z(I)=GAMA(I,3)
-         G2X(I)=GAMA(I,4)
-         G2Y(I)=GAMA(I,5)
-         G2Z(I)=GAMA(I,6)
-         G3X(I)=G1Y(I)*G2Z(I)-G1Z(I)*G2Y(I)
-         G3Y(I)=G1Z(I)*G2X(I)-G1X(I)*G2Z(I)
-         G3Z(I)=G1X(I)*G2Y(I)-G1Y(I)*G2X(I)
-       ENDDO
-        ELSE
-       DO I=JFT,JLT
-         G1X(I)=ONE
-         G1Y(I)=ZERO
-         G1Z(I)=ZERO
-         G2X(I)=ZERO
-         G2Y(I)=ONE
-         G2Z(I)=ZERO
-         G3X(I)=ZERO
-         G3Y(I)=ZERO
-         G3Z(I)=ONE       
-       ENDDO
-        ENDIF 
-C-----------
-      RETURN
-      END SUBROUTINE STORTH3
-C                                                                     12
-Chd|====================================================================
-Chd|  SZORDEF3                      source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        SROTO3V                       source/elements/solid/solidez/szforc3.F
-Chd|====================================================================
-      SUBROUTINE SZORDEF3(JFT,JLT,DXX,DYY,DZZ,D4,D5,D6,
-     .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
-      my_real
-     .   DXX(*),DYY(*),DZZ(*),D4(*),D5(*),D6(*), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   DEF(MVSIZ,6),DEFN(MVSIZ,6)
-C=======================================================================
-      DO I=JFT,JLT
-        DEF(I,1) = DXX(I)
-        DEF(I,2) = DYY(I)
-        DEF(I,3) = DZZ(I)
-        DEF(I,4) = HALF*D4(I)
-        DEF(I,5) = HALF*D5(I)
-        DEF(I,6) = HALF*D6(I)
-      ENDDO
-      CALL SROTO3V(JFT,JLT,DEF,DEFN,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-      DO I=JFT,JLT
-        DXX(I) = DEFN(I,1)
-        DYY(I) = DEFN(I,2)
-        DZZ(I) = DEFN(I,3)
-        D4(I) = TWO*DEFN(I,4)
-        D5(I) = TWO*DEFN(I,5)
-        D6(I) = TWO*DEFN(I,6)
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SZORDEF3
-C                                                                     12
-Chd|====================================================================
-Chd|  SROTO3                        source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SROTO3(JFT,JLT,SIG,SIGN,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT,NEL
-C     REAL
-      my_real
-     .   SIG(NEL,6),SIGN(NEL,6), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   SX,SY,SZ
-C-----------------------------------------------
-      DO I=JFT,JLT
-         SX = SIG(I,1)*G1X(I)+SIG(I,4)*G1Y(I)+SIG(I,6)*G1Z(I)
-         SY = SIG(I,4)*G1X(I)+SIG(I,2)*G1Y(I)+SIG(I,5)*G1Z(I)
-         SZ = SIG(I,6)*G1X(I)+SIG(I,5)*G1Y(I)+SIG(I,3)*G1Z(I)
-         SIGN(I,1) = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         SIGN(I,4) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,6) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G2X(I)+SIG(I,4)*G2Y(I)+SIG(I,6)*G2Z(I)
-         SY = SIG(I,4)*G2X(I)+SIG(I,2)*G2Y(I)+SIG(I,5)*G2Z(I)
-         SZ = SIG(I,6)*G2X(I)+SIG(I,5)*G2Y(I)+SIG(I,3)*G2Z(I)
-         SIGN(I,2) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,5) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G3X(I)+SIG(I,4)*G3Y(I)+SIG(I,6)*G3Z(I)
-         SY = SIG(I,4)*G3X(I)+SIG(I,2)*G3Y(I)+SIG(I,5)*G3Z(I)
-         SZ = SIG(I,6)*G3X(I)+SIG(I,5)*G3Y(I)+SIG(I,3)*G3Z(I)
-         SIGN(I,3) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SROTO3
-C                                                                     12
-Chd|====================================================================
-Chd|  SROTO3V                       source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        SZORDEF3                      source/elements/solid/solidez/szforc3.F
-Chd|        SZORSTR3                      source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SROTO3V(JFT,JLT,SIG,SIGN,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-!-----------------------------------------------
-!       Description
-!       vectorized version of SROTO3 
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
-      my_real
-     .   SIG(MVSIZ,6),SIGN(MVSIZ,6), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   SX,SY,SZ
-C-----------------------------------------------
-      DO I=JFT,JLT
-         SX = SIG(I,1)*G1X(I)+SIG(I,4)*G1Y(I)+SIG(I,6)*G1Z(I)
-         SY = SIG(I,4)*G1X(I)+SIG(I,2)*G1Y(I)+SIG(I,5)*G1Z(I)
-         SZ = SIG(I,6)*G1X(I)+SIG(I,5)*G1Y(I)+SIG(I,3)*G1Z(I)
-         SIGN(I,1) = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         SIGN(I,4) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,6) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G2X(I)+SIG(I,4)*G2Y(I)+SIG(I,6)*G2Z(I)
-         SY = SIG(I,4)*G2X(I)+SIG(I,2)*G2Y(I)+SIG(I,5)*G2Z(I)
-         SZ = SIG(I,6)*G2X(I)+SIG(I,5)*G2Y(I)+SIG(I,3)*G2Z(I)
-         SIGN(I,2) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,5) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G3X(I)+SIG(I,4)*G3Y(I)+SIG(I,6)*G3Z(I)
-         SY = SIG(I,4)*G3X(I)+SIG(I,2)*G3Y(I)+SIG(I,5)*G3Z(I)
-         SZ = SIG(I,6)*G3X(I)+SIG(I,5)*G3Y(I)+SIG(I,3)*G3Z(I)
-         SIGN(I,3) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SROTO3V
-C                                                                     12
-Chd|====================================================================
-Chd|  SORDEFT3                      source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SORDEFT3(JFT,JLT,MXX, MXY, MXZ,  
-     .                     MYX, MYY, MYZ,MZX, MZY, MZZ,
-     .                     G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
-      my_real
-     .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),  
-     .   MZX(*), MZY(*), MZZ(*),G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
-C-----------------------------------------------
-      DO I=JFT,JLT
-         SX = MXX(I)*G1X(I)+MYX(I)*G1Y(I)+MZX(I)*G1Z(I)
-         SY = MXY(I)*G1X(I)+MYY(I)*G1Y(I)+MZY(I)*G1Z(I)
-         SZ = MXZ(I)*G1X(I)+MYZ(I)*G1Y(I)+MZZ(I)*G1Z(I)
-         FXX = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         FXY = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         FXZ = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = MXX(I)*G2X(I)+MYX(I)*G2Y(I)+MZX(I)*G2Z(I)
-         SY = MXY(I)*G2X(I)+MYY(I)*G2Y(I)+MZY(I)*G2Z(I)
-         SZ = MXZ(I)*G2X(I)+MYZ(I)*G2Y(I)+MZZ(I)*G2Z(I)
-         FYX = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         FYY = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         FYZ = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = MXX(I)*G3X(I)+MYX(I)*G3Y(I)+MZX(I)*G3Z(I)
-         SY = MXY(I)*G3X(I)+MYY(I)*G3Y(I)+MZY(I)*G3Z(I)
-         SZ = MXZ(I)*G3X(I)+MYZ(I)*G3Y(I)+MZZ(I)*G3Z(I)
-         FZX = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         FZY = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         FZZ = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         MXX(I)=FXX
-         MXY(I)=FXY
-         MXZ(I)=FXZ
-         MYX(I)=FYX
-         MYY(I)=FYY
-         MYZ(I)=FYZ
-         MZX(I)=FZX
-         MZY(I)=FZY
-         MZZ(I)=FZZ
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SORDEFT3
-Chd|====================================================================
-Chd|  SDLEN8                        source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        BASISF                        source/elements/solid/solide8/basisf.F
-Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen3.F
-Chd|====================================================================
-      SUBROUTINE SDLEN8(DELTAX,VOLG,IXS,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER  IXS(NIXS,*)
-C     REAL
-      my_real
-     .   DELTAX(*),VOLG(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "scr17_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER  I, J, IPT, IDEGE(MVSIZ)
-C     REAL
-      my_real
-     .   AJ11, AJ12, AJ13, AJ21,
-     .   AJ22, AJ23, AJ31, AJ32,
-     .   AJ33, AI11, AI12, AI13,
-     .   AI21, AI22, AI23, AI31,
-     .   AI32, AI33
-C     REAL
-      my_real
-     .   X12(MVSIZ), X34(MVSIZ), X56(MVSIZ),
-     .   X78(MVSIZ), Y12(MVSIZ), Y34(MVSIZ), Y56(MVSIZ), Y78(MVSIZ),
-     .   Z12(MVSIZ), Z34(MVSIZ), Z56(MVSIZ), Z78(MVSIZ), X14(MVSIZ),
-     .   X23(MVSIZ), X58(MVSIZ), X67(MVSIZ), Y14(MVSIZ), Y23(MVSIZ),
-     .   Y58(MVSIZ), Y67(MVSIZ), Z14(MVSIZ), Z23(MVSIZ), Z58(MVSIZ),
-     .   Z67(MVSIZ), X15(MVSIZ), X26(MVSIZ), X37(MVSIZ), X48(MVSIZ),
-     .   Y15(MVSIZ), Y26(MVSIZ), Y37(MVSIZ), Y48(MVSIZ), Z15(MVSIZ),
-     .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8), VLINV,
-     .   DELTA1,DELTA2,DELTA3,
-     .   SPX1,SPX2,SPX3,SPX4,SPX5,SPX6,SPX7,SPX8,
-     .   SPY1,SPY2,SPY3,SPY4,SPY5,SPY6,SPY7,SPY8,
-     .   SPZ1,SPZ2,SPZ3,SPZ4,SPZ5,SPZ6,SPZ7,SPZ8,
-     .   XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,SMAX(MVSIZ),VMIN,
-     .   P1(8), P2(8), P3(8),VLINC(MVSIZ,8)
-C-----------------------------------------------
-C      
-      IF (IDTS6>0) THEN
-       CALL SDLEN_DEGE(VOLG,DELTAX,
-     .  X1, X2, X3, X4, X5, X6, X7, X8,
-     .  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .  IXS,IDEGE)
-      ELSE
-       IDEGE(LFT:LLT)=0
-      END IF
-C
-      DO I=LFT,LLT
-       X12(I)=X1(I)-X2(I)
-       Y12(I)=Y1(I)-Y2(I)
-       Z12(I)=Z1(I)-Z2(I)
-       X34(I)=X3(I)-X4(I)
-       Y34(I)=Y3(I)-Y4(I)
-       Z34(I)=Z3(I)-Z4(I)
-       X56(I)=X5(I)-X6(I)
-       Y56(I)=Y5(I)-Y6(I)
-       Z56(I)=Z5(I)-Z6(I)
-       X78(I)=X7(I)-X8(I)
-       Y78(I)=Y7(I)-Y8(I)
-       Z78(I)=Z7(I)-Z8(I)
-       X14(I)=X1(I)-X4(I)
-       Y14(I)=Y1(I)-Y4(I)
-       Z14(I)=Z1(I)-Z4(I)
-       X23(I)=X2(I)-X3(I)
-       Y23(I)=Y2(I)-Y3(I)
-       Z23(I)=Z2(I)-Z3(I)
-       X58(I)=X5(I)-X8(I)
-       Y58(I)=Y5(I)-Y8(I)
-       Z58(I)=Z5(I)-Z8(I)
-       X67(I)=X6(I)-X7(I)
-       Y67(I)=Y6(I)-Y7(I)
-       Z67(I)=Z6(I)-Z7(I)
-       X15(I)=X1(I)-X5(I)
-       Y15(I)=Y1(I)-Y5(I)
-       Z15(I)=Z1(I)-Z5(I)
-       X26(I)=X2(I)-X6(I)
-       Y26(I)=Y2(I)-Y6(I)
-       Z26(I)=Z2(I)-Z6(I)
-       X37(I)=X3(I)-X7(I)
-       Y37(I)=Y3(I)-Y7(I)
-       Z37(I)=Z3(I)-Z7(I)
-       X48(I)=X4(I)-X8(I)
-       Y48(I)=Y4(I)-Y8(I)
-       Z48(I)=Z4(I)-Z8(I)
-      END DO 
-C      
-      DO IPT=1,8
-       CALL BASISF (H,P1,P2,P3,IPT)
-C
-       DO I=LFT,LLT
-          AJ11=P1(1)*X12(I)+P1(3)*X34(I)+P1(5)*X56(I)+P1(7)*X78(I)
-          AJ12=P1(1)*Y12(I)+P1(3)*Y34(I)+P1(5)*Y56(I)+P1(7)*Y78(I)
-          AJ13=P1(1)*Z12(I)+P1(3)*Z34(I)+P1(5)*Z56(I)+P1(7)*Z78(I)
-          AJ21=P2(1)*X14(I)+P2(2)*X23(I)+P2(5)*X58(I)+P2(6)*X67(I)
-          AJ22=P2(1)*Y14(I)+P2(2)*Y23(I)+P2(5)*Y58(I)+P2(6)*Y67(I)
-          AJ23=P2(1)*Z14(I)+P2(2)*Z23(I)+P2(5)*Z58(I)+P2(6)*Z67(I)
-          AJ31=P3(1)*X15(I)+P3(2)*X26(I)+P3(3)*X37(I)+P3(4)*X48(I)
-          AJ32=P3(1)*Y15(I)+P3(2)*Y26(I)+P3(3)*Y37(I)+P3(4)*Y48(I)
-          AJ33=P3(1)*Z15(I)+P3(2)*Z26(I)+P3(3)*Z37(I)+P3(4)*Z48(I)
-
-          AI11= AJ22*AJ33-AJ23*AJ32
-          AI21=-AJ21*AJ33+AJ23*AJ31
-          AI31= AJ21*AJ32-AJ22*AJ31
-          VLINC(I,IPT)=AJ11*AI11+AJ12*AI21+AJ13*AI31
-       ENDDO
-      END DO ! IPT=1,8
-C      
-      DO I=LFT,LLT
-c mediane * 4
-        XX1 = X1(I) + X2(I) + X3(I) + X4(I)
-     .      - X5(I) - X6(I) - X7(I) - X8(I)
-        YY1 = Y1(I) + Y2(I) + Y3(I) + Y4(I)
-     .      - Y5(I) - Y6(I) - Y7(I) - Y8(I)
-        ZZ1 = Z1(I) + Z2(I) + Z3(I) + Z4(I)
-     .      - Z5(I) - Z6(I) - Z7(I) - Z8(I)
-        XX2 = X1(I) + X2(I) + X5(I) + X6(I)
-     .      - X3(I) - X4(I) - X7(I) - X8(I)
-        YY2 = Y1(I) + Y2(I) + Y5(I) + Y6(I)
-     .      - Y3(I) - Y4(I) - Y7(I) - Y8(I)
-        ZZ2 = Z1(I) + Z2(I) + Z5(I) + Z6(I)
-     .      - Z3(I) - Z4(I) - Z7(I) - Z8(I)
-        XX3 = X1(I) + X4(I) + X5(I) + X8(I)
-     .      - X3(I) - X2(I) - X7(I) - X6(I)
-        YY3 = Y1(I) + Y4(I) + Y5(I) + Y8(I)
-     .      - Y3(I) - Y2(I) - Y7(I) - Y6(I)
-        ZZ3 = Z1(I) + Z4(I) + Z5(I) + Z8(I)
-     .      - Z3(I) - Z2(I) - Z7(I) - Z6(I)
-C surface * 16
-        SMAX(I) =          (YY1 * ZZ2 - YY2 * ZZ1)**2
-     .                + (ZZ1 * XX2 - ZZ2 * XX1)**2
-     .                + (XX1 * YY2 - XX2 * YY1)**2
-        SMAX(I) = MAX(SMAX(I),(YY1 * ZZ3 - YY3 * ZZ1)**2
-     .                + (ZZ1 * XX3 - ZZ3 * XX1)**2
-     .                + (XX1 * YY3 - XX3 * YY1)**2)
-        SMAX(I) = MAX(SMAX(I),(YY3 * ZZ2 - YY2 * ZZ3)**2
-     .                + (ZZ3 * XX2 - ZZ2 * XX3)**2
-     .                + (XX3 * YY2 - XX2 * YY3)**2)
-      ENDDO
-C volume / 8
-      IF (IDTS6>0) THEN
-                DO I=LFT,LLT
-                        IF(IDEGE(I)==0)THEN
-                                VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
-     .                                     VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-C
-                                DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
-                        ENDIF
-                ENDDO
-      ELSE
-                DO I=LFT,LLT
-                        VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
-     .                             VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-C
-                        DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
-                ENDDO
-      ENDIF
-                        
-        
-C-----------
-      RETURN
-      END SUBROUTINE SDLEN8
-Chd|====================================================================
-Chd|  SDLEN_SMS                     source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|        BASISF                        source/elements/solid/solide8/basisf.F
-Chd|        DEGENES8                      source/elements/solid/solide/sdlen3.F
-Chd|        DEGES4V                       source/elements/solid/solide/sdlen3.F
-Chd|        IDEGE8                        source/elements/solid/solide/sdlen3.F
-Chd|====================================================================
-      SUBROUTINE SDLEN_SMS(DELTAX,VOLG,IXS,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   IPARTS,TAGPRT_SMS,TAGELEM_SMS)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER  IXS(NIXS,*), IPARTS(*), TAGPRT_SMS(*), TAGELEM_SMS(*)
-C     REAL
-      my_real
-     .   DELTAX(*),VOLG(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "scr17_c.inc"
-#include      "sms_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER  I, J, IT, IPT, IDEGE(MVSIZ), NINDX, NJNDX, 
-     .         INDEX(MVSIZ), JNDEX(MVSIZ)
-C     REAL
-      my_real
-     .   AJ11, AJ12, AJ13, AJ21,
-     .   AJ22, AJ23, AJ31, AJ32,
-     .   AJ33, AI11, AI12, AI13,
-     .   AI21, AI22, AI23, AI31,
-     .   AI32, AI33
-C     REAL
-      my_real
-     .   X12(MVSIZ), X34(MVSIZ), X56(MVSIZ),
-     .   X78(MVSIZ), Y12(MVSIZ), Y34(MVSIZ), Y56(MVSIZ), Y78(MVSIZ),
-     .   Z12(MVSIZ), Z34(MVSIZ), Z56(MVSIZ), Z78(MVSIZ), X14(MVSIZ),
-     .   X23(MVSIZ), X58(MVSIZ), X67(MVSIZ), Y14(MVSIZ), Y23(MVSIZ),
-     .   Y58(MVSIZ), Y67(MVSIZ), Z14(MVSIZ), Z23(MVSIZ), Z58(MVSIZ),
-     .   Z67(MVSIZ), X15(MVSIZ), X26(MVSIZ), X37(MVSIZ), X48(MVSIZ),
-     .   Y15(MVSIZ), Y26(MVSIZ), Y37(MVSIZ), Y48(MVSIZ), Z15(MVSIZ),
-     .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8), VLINV,
-     .   XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,SMAX(MVSIZ),VMIN,
-     .   P1(8), P2(8), P3(8),VLINC(MVSIZ,8)
-      my_real
-     .   AREAM(MVSIZ), FAC, V_G
-C-----------------------------------------------
-C  
-      NINDX=0    
-      NJNDX=0
-C
-      IF (ISMS_SELEC==1) THEN
-C-- Full AMS
-        DO I=LFT,LLT
-          NJNDX=NJNDX+1
-          JNDEX(NJNDX)=I
-        END DO
-      ELSEIF (ISMS_SELEC==2) THEN
-C-- AMS by parts    
-        DO I=LFT,LLT
-          IF(TAGPRT_SMS(IPARTS(I))==0)THEN
-            NINDX=NINDX+1
-            INDEX(NINDX)=I
-          ELSE
-            NJNDX=NJNDX+1
-            JNDEX(NJNDX)=I
-          END IF
-        END DO
-      ELSEIF (ISMS_SELEC==3) THEN
-C-- AMS auto - defined by elements
-        DO I=LFT,LLT
-          IF(TAGELEM_SMS(I)==0)THEN
-            NINDX=NINDX+1
-            INDEX(NINDX)=I
-          ELSE
-            NJNDX=NJNDX+1
-            JNDEX(NJNDX)=I
-          END IF
-        END DO
-      ELSEIF (ISMS_SELEC==4) THEN
-C-- AMS auto + parts
-        DO I=LFT,LLT
-          IF ((TAGELEM_SMS(I)==0).AND.(TAGPRT_SMS(IPARTS(I))==0)) THEN
-            NINDX=NINDX+1
-            INDEX(NINDX)=I
-          ELSE
-            NJNDX=NJNDX+1
-            JNDEX(NJNDX)=I
-          END IF
-        END DO
-      ENDIF
-C      
-      IF(IDTS6 > 0)THEN
-        CALL DEGENES8(IXS,IDEGE)
-      ELSE
-        IDEGE(LFT:LLT)=0
-      END IF
-C-----------------------------------------------------------
-C     Non AMS elements ~ sdlen.F
-C-----------------------------------------------------------
-      DO J=1,NINDX
-       I=INDEX(J)
-C
-       AREAM(I) =EM20
-C
-       CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
-     .            Z1(I),Z2(I),Z3(I),Z4(I),AREAM(I),FAC,IT)
-       CALL IDEGE8(X5(I),X6(I),X7(I),X8(I),Y5(I),Y6(I),Y7(I),Y8(I),
-     .            Z5(I),Z6(I),Z7(I),Z8(I),AREAM(I),FAC,IT)
-       CALL IDEGE8(X1(I),X2(I),X6(I),X5(I),Y1(I),Y2(I),Y6(I),Y5(I),
-     .            Z1(I),Z2(I),Z6(I),Z5(I),AREAM(I),FAC,IT)
-       CALL IDEGE8(X2(I),X3(I),X7(I),X6(I),Y2(I),Y3(I),Y7(I),Y6(I),
-     .            Z2(I),Z3(I),Z7(I),Z6(I),AREAM(I),FAC,IT)
-       CALL IDEGE8(X3(I),X4(I),X8(I),X7(I),Y3(I),Y4(I),Y8(I),Y7(I),
-     .            Z3(I),Z4(I),Z8(I),Z7(I),AREAM(I),FAC,IT)
-       CALL IDEGE8(X4(I),X1(I),X5(I),X8(I),Y4(I),Y1(I),Y5(I),Y8(I),
-     .            Z4(I),Z1(I),Z5(I),Z8(I),AREAM(I),FAC,IT)
-C----tetra 4  ,pyrami    
-       IF(IDEGE(I) > 0)THEN
-C----tetra 4  ,pyrami     
-         IF (IDEGE(I) > 2) THEN
-           FAC=ONE_OVER_9
-         ELSEIF (IDEGE(I) > 1) THEN
-           FAC=FOURTH
-         ELSE
-           FAC=ONE
-         END IF
-C--------suposse here V=0.5*A_max*L for penta	=0.333A_max*L for Pyram 
-         IF (IT ==0  ) AREAM(I)=FAC*AREAM(I) 
-C--------add special treat for tetra4, as V is not right values		
-         IF (IDEGE(I) > 3 ) THEN
-	   AREAM(I)=AREAM(I)*FAC
-           CALL DEGES4V(V_G,
-     .    X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
-     .    Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
-     .    Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
-	 ELSE
-	   V_G=VOLG(I)
-	 END IF
-       ENDIF
-C------
-       DELTAX(I)=FOUR*VOLG(I)/SQRT(AREAM(I))
-      END DO
-C-----------------------------------------------------------
-C     AMS elements ~ sdlen8
-C-----------------------------------------------------------
-      DO J=1,NJNDX
-       I=JNDEX(J)
-       IF(IDEGE(I)/=0) THEN
-C------- due to the fact that AREA_Max*L is far from V for Dege---
-         AREAM(I) =EM20
-C----tetra 4  ,pyrami     
-         IF (IDEGE(I) > 2) THEN
-           FAC=ONE_OVER_9
-         ELSEIF (IDEGE(I) > 1) THEN
-           FAC=FOURTH
-         ELSE
-           FAC=ONE
-         END IF
-	 IT = 0
-         CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
-     .              Z1(I),Z2(I),Z3(I),Z4(I),AREAM(I),FAC,IT)
-         CALL IDEGE8(X5(I),X6(I),X7(I),X8(I),Y5(I),Y6(I),Y7(I),Y8(I),
-     .              Z5(I),Z6(I),Z7(I),Z8(I),AREAM(I),FAC,IT)
-         CALL IDEGE8(X1(I),X2(I),X6(I),X5(I),Y1(I),Y2(I),Y6(I),Y5(I),
-     .              Z1(I),Z2(I),Z6(I),Z5(I),AREAM(I),FAC,IT)
-         CALL IDEGE8(X2(I),X3(I),X7(I),X6(I),Y2(I),Y3(I),Y7(I),Y6(I),
-     .              Z2(I),Z3(I),Z7(I),Z6(I),AREAM(I),FAC,IT)
-         CALL IDEGE8(X3(I),X4(I),X8(I),X7(I),Y3(I),Y4(I),Y8(I),Y7(I),
-     .              Z3(I),Z4(I),Z8(I),Z7(I),AREAM(I),FAC,IT)
-         CALL IDEGE8(X4(I),X1(I),X5(I),X8(I),Y4(I),Y1(I),Y5(I),Y8(I),
-     .              Z4(I),Z1(I),Z5(I),Z8(I),AREAM(I),FAC,IT)
-C----tetra 4       
-         IF (IT ==0  ) AREAM(I)=FAC*AREAM(I)
-         IF (IDEGE(I) > 3 ) THEN
-	   AREAM(I)=AREAM(I)*FAC
-           CALL DEGES4V(V_G,
-     .    X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
-     .    Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
-     .    Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
-	 ELSE
-	   V_G=VOLG(I)
-	 END IF
-         DELTAX(I) = FOUR*V_G/SQRT(AREAM(I))
-       END IF
-      END DO
-
-      DO I=LFT,LLT
-         X12(I)=X1(I)-X2(I)
-         Y12(I)=Y1(I)-Y2(I)
-         Z12(I)=Z1(I)-Z2(I)
-         X34(I)=X3(I)-X4(I)
-         Y34(I)=Y3(I)-Y4(I)
-         Z34(I)=Z3(I)-Z4(I)
-         X56(I)=X5(I)-X6(I)
-         Y56(I)=Y5(I)-Y6(I)
-         Z56(I)=Z5(I)-Z6(I)
-         X78(I)=X7(I)-X8(I)
-         Y78(I)=Y7(I)-Y8(I)
-         Z78(I)=Z7(I)-Z8(I)
-         X14(I)=X1(I)-X4(I)
-         Y14(I)=Y1(I)-Y4(I)
-         Z14(I)=Z1(I)-Z4(I)
-         X23(I)=X2(I)-X3(I)
-         Y23(I)=Y2(I)-Y3(I)
-         Z23(I)=Z2(I)-Z3(I)
-         X58(I)=X5(I)-X8(I)
-         Y58(I)=Y5(I)-Y8(I)
-         Z58(I)=Z5(I)-Z8(I)
-         X67(I)=X6(I)-X7(I)
-         Y67(I)=Y6(I)-Y7(I)
-         Z67(I)=Z6(I)-Z7(I)
-         X15(I)=X1(I)-X5(I)
-         Y15(I)=Y1(I)-Y5(I)
-         Z15(I)=Z1(I)-Z5(I)
-         X26(I)=X2(I)-X6(I)
-         Y26(I)=Y2(I)-Y6(I)
-         Z26(I)=Z2(I)-Z6(I)
-         X37(I)=X3(I)-X7(I)
-         Y37(I)=Y3(I)-Y7(I)
-         Z37(I)=Z3(I)-Z7(I)
-         X48(I)=X4(I)-X8(I)
-         Y48(I)=Y4(I)-Y8(I)
-         Z48(I)=Z4(I)-Z8(I)
-       ENDDO
-C      
-      DO IPT=1,8
-       CALL BASISF (H,P1,P2,P3,IPT)
-C
-       DO I=LFT,LLT
-          AJ11=P1(1)*X12(I)+P1(3)*X34(I)+P1(5)*X56(I)+P1(7)*X78(I)
-          AJ12=P1(1)*Y12(I)+P1(3)*Y34(I)+P1(5)*Y56(I)+P1(7)*Y78(I)
-          AJ13=P1(1)*Z12(I)+P1(3)*Z34(I)+P1(5)*Z56(I)+P1(7)*Z78(I)
-          AJ21=P2(1)*X14(I)+P2(2)*X23(I)+P2(5)*X58(I)+P2(6)*X67(I)
-          AJ22=P2(1)*Y14(I)+P2(2)*Y23(I)+P2(5)*Y58(I)+P2(6)*Y67(I)
-          AJ23=P2(1)*Z14(I)+P2(2)*Z23(I)+P2(5)*Z58(I)+P2(6)*Z67(I)
-          AJ31=P3(1)*X15(I)+P3(2)*X26(I)+P3(3)*X37(I)+P3(4)*X48(I)
-          AJ32=P3(1)*Y15(I)+P3(2)*Y26(I)+P3(3)*Y37(I)+P3(4)*Y48(I)
-          AJ33=P3(1)*Z15(I)+P3(2)*Z26(I)+P3(3)*Z37(I)+P3(4)*Z48(I)
-          AI11= AJ22*AJ33-AJ23*AJ32
-          AI21=-AJ21*AJ33+AJ23*AJ31
-          AI31= AJ21*AJ32-AJ22*AJ31
-          VLINC(I,IPT)=AJ11*AI11+AJ12*AI21+AJ13*AI31
-       ENDDO
-      END DO ! IPT=1,8
-C      
-      DO I=LFT,LLT
-c mediane * 4
-        XX1 = X1(I) + X2(I) + X3(I) + X4(I)
-     .      - X5(I) - X6(I) - X7(I) - X8(I)
-        YY1 = Y1(I) + Y2(I) + Y3(I) + Y4(I)
-     .      - Y5(I) - Y6(I) - Y7(I) - Y8(I)
-        ZZ1 = Z1(I) + Z2(I) + Z3(I) + Z4(I)
-     .      - Z5(I) - Z6(I) - Z7(I) - Z8(I)
-        XX2 = X1(I) + X2(I) + X5(I) + X6(I)
-     .      - X3(I) - X4(I) - X7(I) - X8(I)
-        YY2 = Y1(I) + Y2(I) + Y5(I) + Y6(I)
-     .      - Y3(I) - Y4(I) - Y7(I) - Y8(I)
-        ZZ2 = Z1(I) + Z2(I) + Z5(I) + Z6(I)
-     .      - Z3(I) - Z4(I) - Z7(I) - Z8(I)
-        XX3 = X1(I) + X4(I) + X5(I) + X8(I)
-     .      - X3(I) - X2(I) - X7(I) - X6(I)
-        YY3 = Y1(I) + Y4(I) + Y5(I) + Y8(I)
-     .      - Y3(I) - Y2(I) - Y7(I) - Y6(I)
-        ZZ3 = Z1(I) + Z4(I) + Z5(I) + Z8(I)
-     .      - Z3(I) - Z2(I) - Z7(I) - Z6(I)
-C surface * 16
-                SMAX(I) =       (YY1 * ZZ2 - YY2 * ZZ1)**2
-     .                + (ZZ1 * XX2 - ZZ2 * XX1)**2
-     .                + (XX1 * YY2 - XX2 * YY1)**2
-                SMAX(I) =    MAX(SMAX(I),(YY1 * ZZ3 - YY3 * ZZ1)**2
-     .                + (ZZ1 * XX3 - ZZ3 * XX1)**2
-     .                + (XX1 * YY3 - XX3 * YY1)**2)
-                SMAX(I) =    MAX(SMAX(I),(YY3 * ZZ2 - YY2 * ZZ3)**2
-     .                + (ZZ3 * XX2 - ZZ2 * XX3)**2
-     .                + (XX3 * YY2 - XX2 * YY3)**2)
-        ENDDO
-
-C volume / 8
-      IF (IDTS6>0) THEN
-                DO I=LFT,LLT
-                        IF(IDEGE(I)==0)THEN
-                                VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
-     .                                     VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-                                DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
-                        ENDIF
-                ENDDO
-      ELSE
-                DO I=LFT,LLT
-        VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
-     .             VLINC(I,5),VLINC(I,6),VLINC(I,7),VLINC(I,8))
-                        DELTAX(I)=HUNDRED28*VMIN/SQRT(SMAX(I))
-      ENDDO
-      ENDIF
-C-----------
-      RETURN
-      END SUBROUTINE SDLEN_SMS
-Chd|====================================================================
-Chd|  SCOOR_CP2SP                   source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SCOOR_CP2SP(X0,Y0,Z0,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C     REAL
-      my_real
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
-      DOUBLE PRECISION 
-     .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER  I, IPT
-C-----------------------------------------------
-        DO I=LFT,LLT
-        X1(I)= X0(I,1) 
-        Y1(I)= Y0(I,1) 
-        Z1(I)= Z0(I,1)
-        X2(I)= X0(I,2) 
-        Y2(I)= Y0(I,2) 
-        Z2(I)= Z0(I,2)
-        X3(I)= X0(I,3) 
-        Y3(I)= Y0(I,3) 
-        Z3(I)= Z0(I,3)
-        X4(I)= X0(I,4) 
-        Y4(I)= Y0(I,4) 
-        Z4(I)= Z0(I,4) 
-        X5(I)= X0(I,5) 
-        Y5(I)= Y0(I,5)
-        Z5(I)= Z0(I,5) 
-        X6(I)= X0(I,6) 
-        Y6(I)= Y0(I,6) 
-        Z6(I)= Z0(I,6) 
-        X7(I)= X0(I,7) 
-        Y7(I)= Y0(I,7) 
-        Z7(I)= Z0(I,7) 
-        X8(I)= X0(I,8) 
-        Y8(I)= Y0(I,8) 
-        Z8(I)= Z0(I,8) 
-        ENDDO    
-C-----------
-      RETURN
-      END SUBROUTINE SCOOR_CP2SP
-Chd|====================================================================
-Chd|  SZTORTH3                      source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SZTORTH3(JFT,JLT,ISORTH,NEL,
-     .                   E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
-     .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GAMA)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C----------------------------------------------- 
-      INTEGER JFT, JLT,ISORTH,NEL
-C     REAL
-      my_real
-     .   E1X(*),E1Y(*),E1Z(*),
-     .   E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
-     .   G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),GAMA(NEL,6)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-      my_real
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33
-C=======================================================================
-      IF (ISORTH > 0) THEN 
-       DO I=JFT,JLT
-         R11=GAMA(I,1)
-         R12=GAMA(I,2)
-         R13=GAMA(I,3)
-         R21=GAMA(I,4)
-         R22=GAMA(I,5)
-         R23=GAMA(I,6)
-         R31=R12*R23-R13*R22
-         R32=R13*R21-R11*R23
-         R33=R11*R22-R12*R21
-         G1X(I)=R11*E1X(I)+R12*E2X(I)+R13*E3X(I)
-         G1Y(I)=R11*E1Y(I)+R12*E2Y(I)+R13*E3Y(I)
-         G1Z(I)=R11*E1Z(I)+R12*E2Z(I)+R13*E3Z(I)
-         G2X(I)=R21*E1X(I)+R22*E2X(I)+R23*E3X(I)
-         G2Y(I)=R21*E1Y(I)+R22*E2Y(I)+R23*E3Y(I)
-         G2Z(I)=R21*E1Z(I)+R22*E2Z(I)+R23*E3Z(I)
-         G3X(I)=R31*E1X(I)+R32*E2X(I)+R33*E3X(I)
-         G3Y(I)=R31*E1Y(I)+R32*E2Y(I)+R33*E3Y(I)
-         G3Z(I)=R31*E1Z(I)+R32*E2Z(I)+R33*E3Z(I)    
-       ENDDO
-      ELSE
-       DO I=JFT,JLT
-         G1X(I)=E1X(I)
-         G1Y(I)=E1Y(I)
-         G1Z(I)=E1Z(I)
-         G2X(I)=E2X(I)
-         G2Y(I)=E2Y(I)
-         G2Z(I)=E2Z(I)
-         G3X(I)=E3X(I)
-         G3Y(I)=E3Y(I)
-         G3Z(I)=E3Z(I)    
-       ENDDO
-      ENDIF 
-C-----------
-      RETURN
-      END SUBROUTINE SZTORTH3
-C                                                                     12
-Chd|====================================================================
-Chd|  SORDEFT12                     source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SORDEFT12(JFT,JLT,MXX, MXY, MXZ,  
-     .                     MYX, MYY, MYZ,MZX, MZY, MZZ,
-     .                     G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
-      my_real
-     .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),  
-     .   MZX(*), MZY(*), MZZ(*),G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
-C-----------------------------------------------
-      DO I=JFT,JLT
-       IF (OFF(I) <=ONE) CYCLE
-         SX = MXX(I)*G1X(I)+MYX(I)*G1Y(I)+MZX(I)*G1Z(I)
-         SY = MXY(I)*G1X(I)+MYY(I)*G1Y(I)+MZY(I)*G1Z(I)
-         SZ = MXZ(I)*G1X(I)+MYZ(I)*G1Y(I)+MZZ(I)*G1Z(I)
-         FXX = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         FXY = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         FXZ = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = MXX(I)*G2X(I)+MYX(I)*G2Y(I)+MZX(I)*G2Z(I)
-         SY = MXY(I)*G2X(I)+MYY(I)*G2Y(I)+MZY(I)*G2Z(I)
-         SZ = MXZ(I)*G2X(I)+MYZ(I)*G2Y(I)+MZZ(I)*G2Z(I)
-         FYX = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         FYY = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         FYZ = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = MXX(I)*G3X(I)+MYX(I)*G3Y(I)+MZX(I)*G3Z(I)
-         SY = MXY(I)*G3X(I)+MYY(I)*G3Y(I)+MZY(I)*G3Z(I)
-         SZ = MXZ(I)*G3X(I)+MYZ(I)*G3Y(I)+MZZ(I)*G3Z(I)
-         FZX = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         FZY = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         FZZ = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         MXX(I)=FXX
-         MXY(I)=FXY
-         MXZ(I)=FXZ
-         MYX(I)=FYX
-         MYY(I)=FYY
-         MYZ(I)=FYZ
-         MZX(I)=FZX
-         MZY(I)=FZY
-         MZZ(I)=FZZ
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SORDEFT12
-Chd|====================================================================
-Chd|  SROTO12                       source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        SORDEF12                      source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SROTO12(JFT,JLT,SIG,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
-      my_real
-     .   SIG(MVSIZ,6), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   SX,SY,SZ,SIGN(MVSIZ,6)
-C-----------------------------------------------
-      DO I=JFT,JLT
-       IF (OFF(I) <=ONE) CYCLE
-         SX = SIG(I,1)*G1X(I)+SIG(I,4)*G1Y(I)+SIG(I,6)*G1Z(I)
-         SY = SIG(I,4)*G1X(I)+SIG(I,2)*G1Y(I)+SIG(I,5)*G1Z(I)
-         SZ = SIG(I,6)*G1X(I)+SIG(I,5)*G1Y(I)+SIG(I,3)*G1Z(I)
-         SIGN(I,1) = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         SIGN(I,4) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,6) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G2X(I)+SIG(I,4)*G2Y(I)+SIG(I,6)*G2Z(I)
-         SY = SIG(I,4)*G2X(I)+SIG(I,2)*G2Y(I)+SIG(I,5)*G2Z(I)
-         SZ = SIG(I,6)*G2X(I)+SIG(I,5)*G2Y(I)+SIG(I,3)*G2Z(I)
-         SIGN(I,2) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,5) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G3X(I)+SIG(I,4)*G3Y(I)+SIG(I,6)*G3Z(I)
-         SY = SIG(I,4)*G3X(I)+SIG(I,2)*G3Y(I)+SIG(I,5)*G3Z(I)
-         SZ = SIG(I,6)*G3X(I)+SIG(I,5)*G3Y(I)+SIG(I,3)*G3Z(I)
-         SIGN(I,3) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SIG(I,1) = SIGN(I,1) 
-         SIG(I,2) = SIGN(I,2) 
-         SIG(I,3) = SIGN(I,3) 	 
-         SIG(I,4) = SIGN(I,4) 
-         SIG(I,5) = SIGN(I,5) 
-         SIG(I,6) = SIGN(I,6) 	 
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SROTO12
-Chd|====================================================================
-Chd|  SORDEF12                      source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|        SROTO12                       source/elements/solid/solidez/szforc3.F
-Chd|====================================================================
-      SUBROUTINE SORDEF12(JFT,JLT,DXX,DYY,DZZ,D4,D5,D6,
-     .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
-      my_real
-     .   DXX(*),DYY(*),DZZ(*),D4(*),D5(*),D6(*), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   DEF(MVSIZ,6)
-C=======================================================================
-      DO I=JFT,JLT
-       IF (OFF(I) <=ONE) CYCLE
-        DEF(I,1) = DXX(I)
-        DEF(I,2) = DYY(I)
-        DEF(I,3) = DZZ(I)
-        DEF(I,4) = HALF*D4(I)
-        DEF(I,5) = HALF*D5(I)
-        DEF(I,6) = HALF*D6(I)
-      ENDDO
-      CALL SROTO12(JFT,JLT,DEF,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
-      DO I=JFT,JLT
-       IF (OFF(I) <=ONE) CYCLE
-        DXX(I) = DEF(I,1)
-        DYY(I) = DEF(I,2)
-        DZZ(I) = DEF(I,3)
-        D4(I) = TWO*DEF(I,4)
-        D5(I) = TWO*DEF(I,5)
-        D6(I) = TWO*DEF(I,6)
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SORDEF12
-Chd|====================================================================
-Chd|  SROTO12_SIG                   source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
-Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
-Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SROTO12_SIG(JFT,JLT,SIG,NEL,
-     .                       G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT,NEL
-C     REAL
-      my_real
-     .   SIG(NEL,6), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   SX,SY,SZ,SIGN(NEL,6)
-C-----------------------------------------------
-      DO I=JFT,JLT
-       IF (OFF(I) <=ONE) CYCLE
-         SX = SIG(I,1)*G1X(I)+SIG(I,4)*G1Y(I)+SIG(I,6)*G1Z(I)
-         SY = SIG(I,4)*G1X(I)+SIG(I,2)*G1Y(I)+SIG(I,5)*G1Z(I)
-         SZ = SIG(I,6)*G1X(I)+SIG(I,5)*G1Y(I)+SIG(I,3)*G1Z(I)
-         SIGN(I,1) = SX*G1X(I)+SY*G1Y(I)+SZ*G1Z(I)
-         SIGN(I,4) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,6) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G2X(I)+SIG(I,4)*G2Y(I)+SIG(I,6)*G2Z(I)
-         SY = SIG(I,4)*G2X(I)+SIG(I,2)*G2Y(I)+SIG(I,5)*G2Z(I)
-         SZ = SIG(I,6)*G2X(I)+SIG(I,5)*G2Y(I)+SIG(I,3)*G2Z(I)
-         SIGN(I,2) = SX*G2X(I)+SY*G2Y(I)+SZ*G2Z(I)
-         SIGN(I,5) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SX = SIG(I,1)*G3X(I)+SIG(I,4)*G3Y(I)+SIG(I,6)*G3Z(I)
-         SY = SIG(I,4)*G3X(I)+SIG(I,2)*G3Y(I)+SIG(I,5)*G3Z(I)
-         SZ = SIG(I,6)*G3X(I)+SIG(I,5)*G3Y(I)+SIG(I,3)*G3Z(I)
-         SIGN(I,3) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
-         SIG(I,1) = SIGN(I,1) 
-         SIG(I,2) = SIGN(I,2) 
-         SIG(I,3) = SIGN(I,3)	 
-         SIG(I,4) = SIGN(I,4) 
-         SIG(I,5) = SIGN(I,5) 
-         SIG(I,6) = SIGN(I,6)	 
-      ENDDO
-C-----------
-      RETURN
       END
-Chd|====================================================================
-Chd|  SZORSTR3                      source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        SROTO3V                       source/elements/solid/solidez/szforc3.F
-Chd|====================================================================
-      SUBROUTINE SZORSTR3(JFT,JLT,STRAIN,NEL,
-     .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT,NEL
-C     REAL
-      my_real
-     .   STRAIN(NEL,6), G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .   DEF(MVSIZ,6),DEFN(MVSIZ,6)
-C=======================================================================
-      DO I=JFT,JLT
-        DEF(I,1) = STRAIN(I,1)
-        DEF(I,2) = STRAIN(I,2)
-        DEF(I,3) = STRAIN(I,3)
-        DEF(I,4) = HALF*STRAIN(I,4)
-        DEF(I,5) = HALF*STRAIN(I,5)
-        DEF(I,6) = HALF*STRAIN(I,6)
-      ENDDO
-      CALL SROTO3V(JFT,JLT,DEF,DEFN,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-      DO I=JFT,JLT
-        STRAIN(I,1) = DEFN(I,1)
-        STRAIN(I,2) = DEFN(I,2)
-        STRAIN(I,3) = DEFN(I,3)
-        STRAIN(I,4) = TWO*DEFN(I,4)
-        STRAIN(I,5) = TWO*DEFN(I,5)
-        STRAIN(I,6) = TWO*DEFN(I,6)
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE SZORSTR3
-Chd|====================================================================
-Chd|  VISC_ET                       source/elements/solid/solidez/szforc3.F
-Chd|-- called by -----------
-Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE VISC_ET(
-     .           NEL     ,MXT     ,IPM     ,UPARAM  ,CXX     ,PM      ,
-     .           ET      )
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL,MXT(*)
-      INTEGER IPM(NPROPMI,*)
-      my_real
-     .   UPARAM(*),CXX(*),ET(*),PM(NPROPM,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,J ,IADBUF, NPRONY,IMAT
-      my_real
-     .   GG,GV,RHO0,NU,GV_MAX,NU1
-C=======================================================================        
-      IMAT = MXT(1)
-      IADBUF = IPM(223,IMAT)  
-      NPRONY  = NINT(UPARAM(IADBUF + 1))
-C
-      GV  = ZERO
-      DO J=1,NPRONY                                  
-       GV   = GV  +  UPARAM(IADBUF + 1 + J)            
-      ENDDO
-C
-      RHO0=PM(1,IMAT)
-      NU=PM(21,IMAT)
-      GV_MAX = THIRD*(ONE+NU)/(ONE -TWO*NU)
-      NU1= RHO0*(ONE -TWO*NU)/(ONE-NU)
-C
-      DO I=1,NEL
-       GG = CXX(I)*CXX(I)*NU1    
-       ET(I)= ET(I) + MIN(GV_MAX,GV/GG)
-      ENDDO
-C------------
-      RETURN
-      END
-C                                                                     12

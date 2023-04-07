@@ -26,22 +26,27 @@ Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S6CFINT3(SIG,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
-     .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
-     .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,
-     .   VOL,QVIS,
-     .   EINT,RHO,Q,EPLA,EPSD,
-     .   EPSDM,SIGM,EINTM,RHOM,QM,EPLASM,
-     .   ZI,WI,VOLG,OFF,NU,
-     .   VOL0,VOL0G,G_PLA,G_EPSD,NEL)
+      SUBROUTINE S6CFINT3(
+     1   SIG,     PX1,     PX2,     PX3,
+     2   PX4,     PY1,     PY2,     PY3,
+     3   PY4,     PZ1,     PZ2,     PZ3,
+     4   PZ4,     PX1H,    PX2H,    PX3H,
+     5   PY1H,    PY2H,    PY3H,    PZ1H,
+     6   PZ2H,    PZ3H,    JI33,    B1X,
+     7   B1Y,     B2Y,     B2X,     B1122,
+     8   B1221,   B2212,   B1121,   B1XH,
+     9   B1YH,    B2XH,    B2YH,    B1122H,
+     A   B1221H,  B2212H,  B1121H,  F11,
+     B   F21,     F31,     F12,     F22,
+     C   F32,     F13,     F23,     F33,
+     D   F14,     F24,     F34,     F15,
+     E   F25,     F35,     F16,     F26,
+     F   F36,     VOL,     QVIS,    EINT,
+     G   RHO,     Q,       EPLA,    EPSD,
+     H   EPSDM,   SIGM,    EINTM,   RHOM,
+     I   QM,      EPLASM,  ZI,      WI,
+     J   VOLG,    OFF,     NU,      VOL0,
+     K   VOL0G,   G_PLA,   G_EPSD,  NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -92,7 +96,7 @@ C     REAL
       my_real 
      .  NU1,FINSZ
 C=======================================================================
-      DO I=LFT,LLT
+      DO I=1,NEL
        S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)
        S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)
        S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)
@@ -102,7 +106,7 @@ C=======================================================================
       ENDDO
 C                                                                     12
 C  -------constant part---------
-       DO I=LFT,LLT
+       DO I=1,NEL
         FINT=S1(I)*PX1(I)+S4(I)*PY1(I)
         FXC = JI33(I)*S6(I)
         FYC = JI33(I)*S5(I)
@@ -146,7 +150,7 @@ C
        ENDDO
 C   --- non constante part------------
 C                                                                     12
-      DO I=LFT,LLT
+      DO I=1,NEL
        S1(I) = ZI*S1(I)
        S2(I) = ZI*S2(I)
        S3(I) = ZI*S3(I)
@@ -154,7 +158,7 @@ C                                                                     12
        S5(I) = ZI*S5(I)
        S6(I) = ZI*S6(I)
       ENDDO
-       DO I=LFT,LLT
+       DO I=1,NEL
         NU1 = NU(I)/(ONE - NU(I))
         FXC =S1(I)-(S2(I)+S3(I))*NU(I)
         FYC =S2(I)-(S1(I)+S3(I))*NU(I)
@@ -217,7 +221,7 @@ C
        ENDDO
 C----------------------------------------------    /
 C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
-      DO I=LFT,LLT
+      DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIG(I,1)
          SIGM(I,2) = SIGM(I,2) + FAC(I) * SIG(I,2)
@@ -230,92 +234,15 @@ C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
          QM(I)     = QM(I)     + FAC(I) * Q(I)
       ENDDO
       IF (G_PLA > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPLASM(I)  = EPLASM(I)  + FAC(I) * EPLA(I)
         ENDDO
       ENDIF
       IF (G_EPSD > 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EPSDM(I) = EPSDM(I) + FAC(I) * EPSD(I)
         ENDDO
       ENDIF
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  S6CZERO3                      source/elements/thickshell/solide6c/s6cfint3.F
-Chd|-- called by -----------
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE S6CZERO3(
-     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4, 
-     .   FX5, FY5, FZ5, FX6, FY6, FZ6, 
-     .   SIGM,EINTM,RHOM,QM,EPLASM,EPSDM,G_PLA,G_EPSD,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER  G_PLA,G_EPSD,NEL
-C     REAL
-      my_real
-     .   FX1(*), FX2(*), FX3(*), FX4(*), FX5(*), FX6(*), 
-     .   FY1(*), FY2(*), FY3(*), FY4(*), FY5(*), FY6(*),
-     .   FZ1(*), FZ2(*), FZ3(*), FZ4(*), FZ5(*), FZ6(*), 
-     .   EINTM(*),RHOM(*),QM(*),EPSDM(*),EPLASM(*),SIGM(NEL,6)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER  I
-C=======================================================================
-      DO I=LFT,LLT
-        SIGM(I,1) = ZERO  
-        SIGM(I,2) = ZERO  
-        SIGM(I,3) = ZERO  
-        SIGM(I,4) = ZERO  
-        SIGM(I,5) = ZERO  
-        SIGM(I,6) = ZERO  
-        RHOM(I)   = ZERO  
-        EINTM(I)  = ZERO  
-        QM(I)     = ZERO	  
-      ENDDO
-      IF (G_EPSD > 0) THEN
-        DO I=LFT,LLT
-          EPSDM(I) = ZERO
-        ENDDO
-      ENDIF
-      IF (G_PLA > 0) THEN
-        DO I=LFT,LLT
-          EPLASM(I)  = ZERO
-        ENDDO
-      ENDIF
-      DO I=LFT,LLT
-       FX1(I)=ZERO
-       FY1(I)=ZERO
-       FZ1(I)=ZERO
-       FX2(I)=ZERO
-       FY2(I)=ZERO
-       FZ2(I)=ZERO
-       FX3(I)=ZERO
-       FY3(I)=ZERO
-       FZ3(I)=ZERO
-       FX4(I)=ZERO
-       FY4(I)=ZERO
-       FZ4(I)=ZERO
-       FX5(I)=ZERO
-       FY5(I)=ZERO
-       FZ5(I)=ZERO
-       FX6(I)=ZERO
-       FY6(I)=ZERO
-       FZ6(I)=ZERO      
-      ENDDO
-C-----------
-      RETURN
-      END SUBROUTINE S6CZERO3

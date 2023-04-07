@@ -27,16 +27,18 @@ Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
 Chd|-- calls ---------------
 Chd|        NINTERP                       source/interfaces/int14/ninterp.F
 Chd|====================================================================
-      SUBROUTINE I6DAMP(V      ,NPC    ,TF     ,IRECT  ,
-     1                  MSR    ,NSV    ,IRTL   ,IRTLO  ,
-     2                  CST    ,ES     ,EM     ,VISC   ,
-     3                  NDAMP1 ,NDAMP2 ,LOLD   ,MASS   ,
-     4                  VNI    ,ASCALF ,ASCALV ,FSCALV ,
-     5                  H1     ,H2     ,H3     ,H4     ,
-     6                  FNI    ,FXI    ,FYI    ,FZI    ,
-     7                  FX1    ,FX2    ,FX3    ,FX4    ,
-     8                  FY1    ,FY2    ,FY3    ,FY4    ,
-     9                  FZ1    ,FZ2    ,FZ3    ,FZ4)
+      SUBROUTINE I6DAMP(
+     1   V,       NPC,     TF,      IRECT,
+     2   MSR,     NSV,     IRTL,    IRTLO,
+     3   CST,     ES,      EM,      VISC,
+     4   NDAMP1,  NDAMP2,  LOLD,    MASS,
+     5   VNI,     ASCALF,  ASCALV,  FSCALV,
+     6   H1,      H2,      H3,      H4,
+     7   FNI,     FXI,     FYI,     FZI,
+     8   FX1,     FX2,     FX3,     FX4,
+     9   FY1,     FY2,     FY3,     FY4,
+     A   FZ1,     FZ2,     FZ3,     FZ4,
+     B   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,6 +50,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER NDAMP1 ,NDAMP2
       INTEGER IRECT(4,*),MSR(*),NSV(*),IRTL(*),IRTLO(*),NPC(*),LOLD(*)
 C     REAL
@@ -63,7 +68,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -42,8 +42,9 @@ Chd|        SCOOR431                      source/elements/solid/sconnect/scoor43
 Chd|        SCORTHO31                     source/elements/thickshell/solidec/scortho31.F
 Chd|        SORTHO31                      source/elements/solid/solide/sortho31.F
 Chd|====================================================================
-      SUBROUTINE SROTA6(X     ,IXS   ,KCVT  ,TENS  ,GAMA  , 
-     .                  KHBE  ,ITYP  )
+      SUBROUTINE SROTA6(
+     1   X,       IXS,     KCVT,    TENS,
+     2   GAMA,    KHBE,    ITYP,    ISORTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,10 +52,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: ISORTH
 C     REAL
       my_real
      .   X(3,*),TENS(6),GAMA(6)

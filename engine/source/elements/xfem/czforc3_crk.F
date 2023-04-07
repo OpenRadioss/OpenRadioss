@@ -80,7 +80,7 @@ Chd|====================================================================
      M            IADC_CRK,ELCUTC,CRKSKY,SENSOR_TAB,IXEL    ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE, STACK ,DRAPE_SH4N,NLOC_DMG,
-     P            INDX_DRAPE  )
+     P            INDX_DRAPE, IGRE  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,6 +121,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,*),INDXOF(MVSIZ),ITASK,IEXPAN,GRTH(*),IGRTH(*),
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
      .        ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
+      INTEGER, INTENT(IN) :: IGRE
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
@@ -481,17 +482,20 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
         IF (IPRI == 1)
-     1    CALL CBILAN(JFT     ,JLT      ,PM     ,V    ,IXC ,
-     2                THKG    ,EINTG    ,PARTSAV,AREA ,MAT ,
-     3                IPARTC  ,BID      ,BID    ,BID  ,BID ,
-     4                BID     ,BID      ,IBID   ,OFF  ,
-     5                NFT     ,GRESAV   ,GRTH   ,IGRTH,
-     6                VL1     ,VL2      ,VL3    ,VL4  ,VRL1,
-     7                VRL2    ,VRL3     ,VRL4   ,X1G  ,X2G ,
-     8                X3G     ,X4G      ,Y1G    ,Y2G  ,Y3G ,
-     9                Y4G     ,Z1G      ,Z2G    ,Z3G  ,Z4G ,
-     A                IXFEM2  ,IEXPAN   ,EINTTH ,ITASK,GBUF%VOL,
-     B                ACTIFXFEM)
+     1    CALL CBILAN(
+     1   JFT,      JLT,      PM,       V,
+     2   IXC,      THKG,     EINTG,    PARTSAV,
+     3   AREA,     MAT,      IPARTC,   BID,
+     4   BID,      BID,      BID,      BID,
+     5   BID,      IBID,     OFF,      NFT,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1G,
+     9   X2G,      X3G,      X4G,      Y1G,
+     A   Y2G,      Y3G,      Y4G,      Z1G,
+     B   Z2G,      Z3G,      Z4G,      IXFEM2,
+     C   IEXPAN,   EINTTH,   ITASK,    GBUF%VOL,
+     D   ACTIFXFEM,IGRE)
 C
         CALL CNDT3(
      1             JFT    ,JLT    ,OFF    , DT2T   ,AMU   ,

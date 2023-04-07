@@ -928,8 +928,9 @@ c---------------------Rotation to the global system for EPSXX.. ------
                   GAMA(5)=ONE
                   GAMA(6)=ZERO
 
-                  CALL SROTA6(X,IXS(1,N),KCVT,
-     .                        STRAIN,GAMA, KHBE,IGTYP)       
+                  CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    STRAIN,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
 
                   DO J=1,3
                     WWA(1618 + J) = STRAIN(J)  ! mean stress in global skew
@@ -1053,8 +1054,9 @@ C-----------------in global ref : EPSX............-----------
                         GAMA(6)=ZERO
                      END IF
 
-                     CALL SROTA6(X,IXS(1,N),KCVT,
-     .                        STRAIN,GAMA, KHBE,IGTYP)       
+                     CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    STRAIN,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
 
                      DO J=1,3
                         WWA(1618 + J) = STRAIN(J)  ! mean strain in global skew
@@ -1109,8 +1111,9 @@ C-----------------in global ref : EPSX............-----------
                         GAMA(6)=ZERO
                     END IF
 
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                        STRAIN,GAMA, KHBE,IGTYP)       
+                    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    STRAIN,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
 
                     DO J=1,3
                        WWA(1618 + J) = STRAIN(J)  ! mean stress in global skew
@@ -1235,8 +1238,9 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
 
                         ENDIF
 
-                        CALL SROTA6(X,IXS(1,N),KCVT,
-     .                         EVAR_TMP,GAMA, KHBE,IGTYP)   
+                        CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
                                                         
                          DO J = 1, 6                    
                            EVAR(J) = EVAR(J) + EVAR_TMP(J)/NPTG
@@ -1311,8 +1315,9 @@ C                       Deformation plastique
                           ENDIF
                         ENDIF     
 
-                        CALL SROTA6(X,IXS(1,N),KCVT,
-     .                               SIGG,GAMA, KHBE,IGTYP)
+                        CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    SIGG,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
 
 C-----------------in global ref : SXIJK............-----------                                          
                         DO J=1,6
@@ -1537,10 +1542,12 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                            
                           ENDIF
 
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                               SIGG,GAMA, KHBE,IGTYP)
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                               EVAR_TMP,GAMA, KHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    SIGG,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                          CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
 
 C-----------------in global ref : SXIJK............-----------
                         DO J=1,6
@@ -1885,8 +1892,9 @@ C-----------------in local ref : L_EPSX............-----------
                       GAMA(4)=GBUF%GAMA(KK(4) + I)
                       GAMA(5)=GBUF%GAMA(KK(5) + I)
                       GAMA(6)=GBUF%GAMA(KK(6) + I)
-                      CALL SROTA6(X,IXS(1,N),2,
-     .                            STRAIN,GAMA,KHBE,IGTYP)  
+                      CALL SROTA6(
+     1   X,       IXS(1,N),2,       STRAIN,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
                     ENDIF
                   ENDIF 
                   DO J = 1, 6                    
@@ -2194,8 +2202,9 @@ C-----------------in local ref : L_EPSX............-----------
                     GAMA(4)=GBUF%GAMA(KK(4) + I)
                     GAMA(5)=GBUF%GAMA(KK(5) + I)
                     GAMA(6)=GBUF%GAMA(KK(6) + I)
-                    CALL SROTA6(X,IXS(1,N),2,
-     .                          STRAIN,GAMA,KHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,       IXS(1,N),2,       STRAIN,
+     2   GAMA,    KHBE,    IGTYP,   ISORTH)
                   ENDIF
                   DO J = 1, 6                    
                     WWA(239030 + J) = STRAIN(J)

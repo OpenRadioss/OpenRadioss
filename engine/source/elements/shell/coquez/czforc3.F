@@ -75,30 +75,36 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-       SUBROUTINE CZFORC3(ELBUF_STR,
-     1            JFT       ,JLT       ,NFT       ,NPT       ,ITAB       ,
-     2            IPARI     ,MTN       ,IPRI      ,ITHK      ,NELTST     ,
-     3            ISTRAIN   ,IPLA      ,TT        ,DT1       ,DT2T       ,
-     4            PM        ,GEO       ,PARTSAV   ,IXC       ,ITYPTST    ,
-     5            BUFMAT    ,TF        ,NPF       ,IADC      ,FAILWAVE   ,
-     6            X         ,D         ,DR        ,V         ,VR         ,
-     7            F         ,M         ,STIFN     ,STIFR     ,FSKY       ,
-     8            TANI      ,EANI      ,INDXOF    ,ISMSTR    ,GROUP_PARAM,
-     9            IPARTC    ,THKE      ,NVC       ,IOFC      ,IHBE       ,
-     A            F11       ,F12       ,F13       ,F14       ,F21        ,
-     B            F22       ,F23       ,F24       ,F31       ,F32        ,
-     C            F33       ,F34       ,M11       ,M12       ,M13        ,
-     D            M14       ,M21       ,M22       ,M23       ,M24        ,
-     E            M31       ,M32       ,M33       ,M34       ,KFTS       ,
-     F            FZERO     ,IGEO      ,IPM       ,IFAILURE  ,ITASK      ,
-     G            JTHE      ,TEMP      ,FTHE      ,FTHESKY   ,IEXPAN     ,
-     H            GRESAV    ,GRTH      ,IGRTH     ,XEDGE4N   ,MSC        ,
-     I            DMELC     ,JSMS      ,TABLE     ,IPARG     ,MATPARAM_TAB,
-     J            IXFEM     ,KNOD2ELC  ,SENSOR_TAB,
-     K            ELCUTC    ,INOD_CRK  ,IEL_CRK   ,IBORDNODE ,NODENR   ,
-     L            IADC_CRK  ,NODEDGE   ,CRKNODIAD ,CONDN    ,
-     M            CONDNSKY  ,STACK     ,ISUBSTACK ,XFEM_STR  ,CRKEDGE  ,
-     O            DRAPE_SH4N  ,NEL       ,NLOC_DMG ,INDX_DRAPE)
+      SUBROUTINE CZFORC3(
+     1   ELBUF_STR,   JFT,         JLT,         NFT,
+     2   NPT,         ITAB,        IPARI,       MTN,
+     3   IPRI,        ITHK,        NELTST,      ISTRAIN,
+     4   IPLA,        TT,          DT1,         DT2T,
+     5   PM,          GEO,         PARTSAV,     IXC,
+     6   ITYPTST,     BUFMAT,      TF,          NPF,
+     7   IADC,        FAILWAVE,    X,           D,
+     8   DR,          V,           VR,          F,
+     9   M,           STIFN,       STIFR,       FSKY,
+     A   TANI,        EANI,        INDXOF,      ISMSTR,
+     B   GROUP_PARAM, IPARTC,      THKE,        NVC,
+     C   IOFC,        IHBE,        F11,         F12,
+     D   F13,         F14,         F21,         F22,
+     E   F23,         F24,         F31,         F32,
+     F   F33,         F34,         M11,         M12,
+     G   M13,         M14,         M21,         M22,
+     H   M23,         M24,         M31,         M32,
+     I   M33,         M34,         KFTS,        FZERO,
+     J   IGEO,        IPM,         IFAILURE,    ITASK,
+     K   JTHE,        TEMP,        FTHE,        FTHESKY,
+     L   IEXPAN,      GRESAV,      GRTH,        IGRTH,
+     M   XEDGE4N,     MSC,         DMELC,       JSMS,
+     N   TABLE,       IPARG,       MATPARAM_TAB,IXFEM,
+     O   KNOD2ELC,    SENSOR_TAB,  ELCUTC,      INOD_CRK,
+     P   IEL_CRK,     IBORDNODE,   NODENR,      IADC_CRK,
+     Q   NODEDGE,     CRKNODIAD,   CONDN,       CONDNSKY,
+     R   STACK,       ISUBSTACK,   XFEM_STR,    CRKEDGE,
+     S   DRAPE_SH4N,  NEL,         NLOC_DMG,    INDX_DRAPE,
+     T   IGRE,        JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -141,6 +147,7 @@ C-----------------------------------------------
      .   KNOD2ELC(*),XEDGE4N(4,*),
      .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),IBORDNODE(*),
      .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*),INDX_DRAPE(SCDRAPE)
+      INTEGER :: IGRE,JTUR
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -566,17 +573,20 @@ C     BILANS PAR MATERIAU
 C--------------------------
        IPOUT=2
       IF (IPRI == 1)
-     1   CALL CBILAN(JFT     ,JLT      ,PM     ,V       ,IXC      ,
-     2               GBUF%THK,GBUF%EINT,PARTSAV,AREA    ,MAT      ,
-     3               IPARTC  ,X        ,VR     ,BID     ,BID      ,
-     4               BID     ,THK02    ,IPOUT  ,OFF     ,
-     5               NFT     ,GRESAV   ,GRTH   ,IGRTH   ,
-     6               VL1     ,VL2      ,VL3    ,VL4     ,VRL1     ,
-     7               VRL2    ,VRL3     ,VRL4   ,X1G     ,X2G      ,
-     8               X3G     ,X4G      ,Y1G    ,Y2G     ,Y3G      ,
-     9               Y4G     ,Z1G      ,Z2G    ,Z3G     ,Z4G      ,
-     A               IBID    ,IEXPAN   ,GBUF%EINTTH     ,ITASK    ,
-     B               GBUF%VOL,ACTIFXFEM)
+     1   CALL CBILAN(
+     1   JFT,        JLT,        PM,         V,
+     2   IXC,        GBUF%THK,   GBUF%EINT,  PARTSAV,
+     3   AREA,       MAT,        IPARTC,     X,
+     4   VR,         BID,        BID,        BID,
+     5   THK02,      IPOUT,      OFF,        NFT,
+     6   GRESAV,     GRTH,       IGRTH,      VL1,
+     7   VL2,        VL3,        VL4,        VRL1,
+     8   VRL2,       VRL3,       VRL4,       X1G,
+     9   X2G,        X3G,        X4G,        Y1G,
+     A   Y2G,        Y3G,        Y4G,        Z1G,
+     B   Z2G,        Z3G,        Z4G,        IBID,
+     C   IEXPAN,     GBUF%EINTTH,ITASK,      GBUF%VOL,
+     D   ACTIFXFEM,  IGRE)
 C
          CALL CNDT3(
      1        JFT    ,JLT    ,OFF    ,DT2T   ,AMU     ,
@@ -699,9 +709,11 @@ c--------------------------
 c     THERMAL TIME STEP
 c--------------------------
         IF (JTHE > 0 .AND. IDT_THERM == 1) THEN
-           CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE  ,
-     2                  RHO  ,GBUF%RK ,VOL0 ,LL,MAT ,
-     3                  DT_THERM,OFF    ,CONDE) 
+           CALL DTTHERM(
+     1   JFT,     JLT,     PM,      TEMPEL,
+     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
+     3   LL,      MAT,     DT_THERM,OFF,
+     4   CONDE,   JTUR)
         ENDIF
 C
 C--------------------------

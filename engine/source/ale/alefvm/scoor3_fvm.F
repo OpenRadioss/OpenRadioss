@@ -226,13 +226,21 @@ C=======================================================================
       ENDIF
 
       CALL SREPISO3(
-     .       XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .       YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .       ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .       RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
+     1   XD1,     XD2,     XD3,     XD4,
+     2   XD5,     XD6,     XD7,     XD8,
+     3   YD1,     YD2,     YD3,     YD4,
+     4   YD5,     YD6,     YD7,     YD8,
+     5   ZD1,     ZD2,     ZD3,     ZD4,
+     6   ZD5,     ZD6,     ZD7,     ZD8,
+     7   RX,      RY,      RZ,      SX,
+     8   SY,      SZ,      TX,      TY,
+     9   TZ,      NEL)
       CALL SREPLOC3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
-     .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      E1X,     E2X,     E3X,
+     4   E1Y,     E2Y,     E3Y,     E1Z,
+     5   E2Z,     E3Z,     LLT)
 
         GAMA(I,1) = ONE
         GAMA(I,2) = ZERO

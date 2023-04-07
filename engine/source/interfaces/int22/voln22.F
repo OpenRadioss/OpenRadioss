@@ -29,7 +29,9 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
-      SUBROUTINE VOLN22(VOLN,IAD22,IXS)
+      SUBROUTINE VOLN22(
+     1   VOLN,    IAD22,   IXS,     LFT,
+     2   LLT,     JALE,    JEUL)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,11 +56,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: JALE
+      INTEGER, INTENT(INOUT) :: JEUL
       my_real,INTENT(INOUT) :: VOLN(*)
       my_real,INTENT(IN)    :: IAD22(*)
       INTEGER,INTENT(IN)    :: IXS(NIXS,*)

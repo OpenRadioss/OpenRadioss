@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "parit_c.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -104,6 +103,7 @@ C-----------------------------------------------
      .   ANSMX,ASCALV,ASCALF,FSCALV,FMX,FMY,FMZ,STARTT,FRIC,SFRIC,VISC, 
      .   STIFF, GAP, STOPT,DIST
       INTEGER :: NSN,NMN
+      INTEGER :: NFT,LLT,LFT
 C=======================================================================
       NSN   = IPARI(5)
       NMN   = IPARI(6)
@@ -145,83 +145,106 @@ c
         NFT=(NG-1)*NVSIZ
         LFT=1
         LLT=MIN0(NVSIZ,NSN-NFT)
-        CALL I3LOC3(X,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     .        INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%NSEGM,XI   ,YI     ,ZI,
-     2                  XFACE)
-        CALL I3MSR3(X       ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     .        INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,XFACE)
-        CALL I3COR3(X	   ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     1                  IX1   ,IX2   ,IX3   ,IX4   ,X1   ,
-     2                  X2    ,X3    ,X4    ,Y1    ,Y2   ,
-     3                  Y3    ,Y4    ,Z1    ,Z2    ,Z3   ,
-     4                  Z4    )
-        CALL I3CST3(    X1    ,X2      ,X3    ,X4    ,XI ,
-     1                  Y1    ,Y2      ,Y3    ,Y4    ,YI ,
-     2                  Z1    ,Z2      ,Z3    ,Z4    ,ZI ,
-     3                  XFACE ,N1      ,N2    ,N3    ,SSC,
-     4                  TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5                  XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6                  YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7                  ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8                  YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9                  ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1                  XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2                  YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3                  AREA)
-        CALL I3GAP3(GAP,AREA,THK,ALP)
-        CALL I3DIS3(IGIMP,INTY,DIST,X1    ,X2 ,
-     1              X3   ,X4  ,XI  ,Y1    ,Y2 ,
-     2              Y3   ,Y4  ,YI  ,Z1    ,Z2 ,
-     3              Z3   ,Z4  ,ZI  ,XFACE ,N1 ,
-     4              N2   ,N3  ,SSC ,TTC   ,ALP,
-     5              ANS  ,XP  ,YP  ,ZP    ,H1 ,
-     6              H2   ,H3  ,H4)
+        CALL I3LOC3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%NSEGM, XI,
+     3   YI,               ZI,               XFACE,            LFT,
+     4   LLT,              NFT)
+        CALL I3MSR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,  INTBUF_TAB%MSR,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%ILOCS, INTBUF_TAB%IRTLM, INTBUF_TAB%NSEGM,
+     3   XFACE,            LFT,              LLT,              NFT)
+        CALL I3COR3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,
+     2   INTBUF_TAB%IRTLM, IX1,              IX2,              IX3,
+     3   IX4,              X1,               X2,               X3,
+     4   X4,               Y1,               Y2,               Y3,
+     5   Y4,               Z1,               Z2,               Z3,
+     6   Z4,               LFT,              LLT,              NFT)
+        CALL I3CST3(
+     1   X1,      X2,      X3,      X4,
+     2   XI,      Y1,      Y2,      Y3,
+     3   Y4,      YI,      Z1,      Z2,
+     4   Z3,      Z4,      ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
+        CALL I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
+        CALL I3DIS3(
+     1   IGIMP,   INTY,    DIST,    X1,
+     2   X2,      X3,      X4,      XI,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   YI,      Z1,      Z2,      Z3,
+     5   Z4,      ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
         IF(IGIMP == 0)CYCLE
 
         CALL I6FOR3(
-     .      INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM         ,  
-     .      INTBUF_TAB%STFM,INTBUF_TAB%STFNS,IGIMP                 ,INTBUF_TAB%FS    , 
-     .      INTBUF_TAB%FM,ANSMX        , FMX     ,FMY   , FMZ      ,INTBUF_TAB%FCONT ,
-     4      N1  ,N2    ,N3    ,XFACE ,ANS   ,
-     5      H1    ,H2    ,H3    ,H4    ,THK,
-     6      XX3   ,YY3   ,ZZ3   ,XX4   ,YY4   ,
-     7      YI1   ,YI2   ,YI3   ,ZZ4   ,ZI1   ,
-     8      ZI2   ,ZI3   ,XI1   ,XI2   ,XI3   ,
-     9      XI4)
+     1   INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,   INTBUF_TAB%IRTLM,
+     2   INTBUF_TAB%STFM,  INTBUF_TAB%STFNS, IGIMP,            INTBUF_TAB%FS,
+     3   INTBUF_TAB%FM,    ANSMX,            FMX,              FMY,
+     4   FMZ,              INTBUF_TAB%FCONT, N1,               N2,
+     5   N3,               XFACE,            ANS,              H1,
+     6   H2,               H3,               H4,               THK,
+     7   XX3,              YY3,              ZZ3,              XX4,
+     8   YY4,              YI1,              YI2,              YI3,
+     9   ZZ4,              ZI1,              ZI2,              ZI3,
+     A   XI1,              XI2,              XI3,              XI4,
+     B   LFT,              LLT,              NFT)
 c
         IF (VISC > ZERO .or. IDAMPV > 0 .or. FRIC > ZERO) 
      .    CALL I6IPMACT(
-     1         LOLD  ,INTBUF_TAB%IRTLM,INTBUF_TAB%IRTLOM,INTBUF_TAB%CSTS,
-     2         INTBUF_TAB%IRECTM  ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,V      ,
-     3         VNI            ,VNT          ,N1      ,N2    ,
-     4         N3     ,SSC    ,TTC     ,H1    ,
-     5         H2     ,H3     ,H4      ,XFACE)
+     1   LOLD,             INTBUF_TAB%IRTLM, INTBUF_TAB%IRTLOM,INTBUF_TAB%CSTS,
+     2   INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,   V,
+     3   VNI,              VNT,              N1,               N2,
+     4   N3,               SSC,              TTC,              H1,
+     5   H2,               H3,               H4,               XFACE,
+     6   LFT,              LLT,              NFT)
 
         IF (VISC > ZERO .or. IDAMPV > 0) 
      .    CALL I6DAMP(
-     .         V            ,NPC          ,TF           ,INTBUF_TAB%IRECTM,
-     1         INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%IRTLOM,
-     2         INTBUF_TAB%CSTS,INTBUF_TAB%FS,INTBUF_TAB%FM,VISC       ,
-     3         IDAMPV       ,IDAMPF       ,LOLD           ,MS           ,
-     4         VNI          ,ASCALF       ,ASCALV         ,FSCALV       ,
-     5         H1           ,H2           ,H3             ,H4           ,
-     6         XX3          ,YY3          ,ZZ3            ,XX4          ,
-     7         YY4          ,YI1          ,YI2            ,YI3          ,
-     8         ZZ4          ,ZI1          ,ZI2            ,ZI3          ,
-     9         XI1          ,XI2          ,XI3            ,XI4)
+     1   V,                NPC,              TF,               INTBUF_TAB%IRECTM,
+     2   INTBUF_TAB%MSR,   INTBUF_TAB%NSV,   INTBUF_TAB%IRTLM, INTBUF_TAB%IRTLOM,
+     3   INTBUF_TAB%CSTS,  INTBUF_TAB%FS,    INTBUF_TAB%FM,    VISC,
+     4   IDAMPV,           IDAMPF,           LOLD,             MS,
+     5   VNI,              ASCALF,           ASCALV,           FSCALV,
+     6   H1,               H2,               H3,               H4,
+     7   XX3,              YY3,              ZZ3,              XX4,
+     8   YY4,              YI1,              YI2,              YI3,
+     9   ZZ4,              ZI1,              ZI2,              ZI3,
+     A   XI1,              XI2,              XI3,              XI4,
+     B   LFT,              LLT,              NFT)
 c
         IF (FRIC > ZERO)
-     .  CALL I6FRI3(X           ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,
-     .       INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,
-     .       INTBUF_TAB%FRICOS,FRIC   ,INTBUF_TAB%FS,INTBUF_TAB%FM,
-     .       SFRIC        ,IFRICF     ,NPC          ,TF           ,LOLD    ,
-     .       IFRICV       ,VNT        ,ASCALF       ,ASCALV       ,STIFF   ,
-     5       N1     ,N2    ,N3    ,SSC   ,TTC ,
-     6       XFACE  ,XP    ,YP    ,ZP    ,H1  ,
-     7       H2     ,H3    ,H4    ,XX3   ,YY3 ,
-     7       ZZ3    ,XX4   ,YY4   ,YI1   ,YI2 ,
-     8       YI3    ,ZZ4   ,ZI1   ,ZI2   ,ZI3 ,
-     9       XI1    ,XI2   ,XI3   ,XI4)
+     .  CALL I6FRI3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,
+     2   INTBUF_TAB%IRTLM, INTBUF_TAB%CSTS,  INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
+     3   FRIC,             INTBUF_TAB%FS,    INTBUF_TAB%FM,    SFRIC,
+     4   IFRICF,           NPC,              TF,               LOLD,
+     5   IFRICV,           VNT,              ASCALF,           ASCALV,
+     6   STIFF,            N1,               N2,               N3,
+     7   SSC,              TTC,              XFACE,            XP,
+     8   YP,               ZP,               H1,               H2,
+     9   H3,               H4,               XX3,              YY3,
+     A   ZZ3,              XX4,              YY4,              YI1,
+     B   YI2,              YI3,              ZZ4,              ZI1,
+     C   ZI2,              ZI3,              XI1,              XI2,
+     D   XI3,              XI4,              LFT,              LLT,
+     E   NFT)
 c
 
       ENDDO
@@ -238,86 +261,108 @@ c
          NFT=(NG-1)*NVSIZ
          LFT=1
          LLT=MIN0(NVSIZ,NMN-NFT)
-         CALL I3LOC3(X	   ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     .        INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%NSEGS,XI   ,YI     ,ZI,
-     2                  XFACE)
-         CALL I3MSR3(X	   ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     .        INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%NSEGS,XFACE)
-         CALL I3COR3(X	   ,INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,
-     1               IX1   ,IX2              ,IX3           ,IX4           ,X1              ,
-     2               X2    ,X3               ,X4            ,Y1            ,Y2              ,
-     3               Y3    ,Y4               ,Z1            ,Z2            ,Z3              ,
-     4               Z4    )
+         CALL I3LOC3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,  INTBUF_TAB%NSV,
+     2   INTBUF_TAB%MSR,   INTBUF_TAB%ILOCM, INTBUF_TAB%NSEGS, XI,
+     3   YI,               ZI,               XFACE,            LFT,
+     4   LLT,              NFT)
+         CALL I3MSR3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,  INTBUF_TAB%NSV,
+     2   INTBUF_TAB%MSR,   INTBUF_TAB%ILOCM, INTBUF_TAB%IRTLS, INTBUF_TAB%NSEGS,
+     3   XFACE,            LFT,              LLT,              NFT)
+         CALL I3COR3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,   INTBUF_TAB%MSR,
+     2   INTBUF_TAB%IRTLS, IX1,              IX2,              IX3,
+     3   IX4,              X1,               X2,               X3,
+     4   X4,               Y1,               Y2,               Y3,
+     5   Y4,               Z1,               Z2,               Z3,
+     6   Z4,               LFT,              LLT,              NFT)
 
-         CALL I3CST3(X1    ,X2      ,X3    ,X4    ,XI ,
-     1               Y1    ,Y2      ,Y3    ,Y4    ,YI ,
-     2               Z1    ,Z2      ,Z3    ,Z4    ,ZI ,
-     3               XFACE ,N1      ,N2    ,N3    ,SSC,
-     4               TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5               XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6               YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7               ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8               YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9               ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1               XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2               YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3               AREA)
-         CALL I3GAP3(GAP,AREA,THK,ALP)
-         CALL I3DIS3(IGIMP,INTY,DIST,X1    ,X2 ,
-     1               X3   ,X4  ,XI  ,Y1    ,Y2 ,
-     2               Y3   ,Y4  ,YI  ,Z1    ,Z2 ,
-     3               Z3   ,Z4  ,ZI  ,XFACE ,N1 ,
-     4               N2   ,N3  ,SSC ,TTC   ,ALP,
-     5               ANS  ,XP  ,YP  ,ZP    ,H1 ,
-     6               H2   ,H3  ,H4)
+         CALL I3CST3(
+     1   X1,      X2,      X3,      X4,
+     2   XI,      Y1,      Y2,      Y3,
+     3   Y4,      YI,      Z1,      Z2,
+     4   Z3,      Z4,      ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
+         CALL I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
+         CALL I3DIS3(
+     1   IGIMP,   INTY,    DIST,    X1,
+     2   X2,      X3,      X4,      XI,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   YI,      Z1,      Z2,      Z3,
+     5   Z4,      ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
 
          IF (IGIMP == 0) CYCLE
 c
          CALL I6FOR3(
-     .  	INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,
-     .  	INTBUF_TAB%STFS,INTBUF_TAB%STFNM,IGIMP	 ,INTBUF_TAB%FM,
-     .  	INTBUF_TAB%FS,ANSMX	   ,FMX 	 ,FMY	  ,
-     .  	FMZ	     ,INTBUF_TAB%FCONT,
-     4      N1  ,N2    ,N3    ,XFACE ,ANS   ,
-     5      H1    ,H2    ,H3    ,H4    ,THK,
-     6      XX3   ,YY3   ,ZZ3   ,XX4   ,YY4   ,
-     7      YI1   ,YI2   ,YI3   ,ZZ4   ,ZI1   ,
-     8      ZI2   ,ZI3   ,XI1   ,XI2   ,XI3   ,
-     9      XI4)
+     1   INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,   INTBUF_TAB%MSR,   INTBUF_TAB%IRTLS,
+     2   INTBUF_TAB%STFS,  INTBUF_TAB%STFNM, IGIMP,            INTBUF_TAB%FM,
+     3   INTBUF_TAB%FS,    ANSMX,            FMX,              FMY,
+     4   FMZ,              INTBUF_TAB%FCONT, N1,               N2,
+     5   N3,               XFACE,            ANS,              H1,
+     6   H2,               H3,               H4,               THK,
+     7   XX3,              YY3,              ZZ3,              XX4,
+     8   YY4,              YI1,              YI2,              YI3,
+     9   ZZ4,              ZI1,              ZI2,              ZI3,
+     A   XI1,              XI2,              XI3,              XI4,
+     B   LFT,              LLT,              NFT)
 c
         IF (VISC > ZERO .or. IDAMPV > 0 .or. FRIC > ZERO) 
      .    CALL I6IPMACT(
-     .         LOLD  ,INTBUF_TAB%IRTLS,INTBUF_TAB%IRTLOS,INTBUF_TAB%CSTM,
-     .         INTBUF_TAB%IRECTS  ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,V      ,
-     .         VNI    ,VNT    ,N1      ,N2    ,
-     4         N3     ,SSC    ,TTC     ,H1    ,
-     5         H2     ,H3     ,H4      ,XFACE)
+     1   LOLD,             INTBUF_TAB%IRTLS, INTBUF_TAB%IRTLOS,INTBUF_TAB%CSTM,
+     2   INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,   INTBUF_TAB%MSR,   V,
+     3   VNI,              VNT,              N1,               N2,
+     4   N3,               SSC,              TTC,              H1,
+     5   H2,               H3,               H4,               XFACE,
+     6   LFT,              LLT,              NFT)
 
         IF (VISC > ZERO .or. IDAMPV > 0) 
      .    CALL I6DAMP(
-     .         V            ,NPC          ,TF           ,INTBUF_TAB%IRECTS,
-     .         INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%IRTLOS,
-     .         INTBUF_TAB%CSTM,INTBUF_TAB%FM,INTBUF_TAB%FS,VISC         ,
-     .         IDAMPV       ,IDAMPF       ,LOLD           ,MS           ,
-     .         VNI          ,ASCALF       ,ASCALV         ,FSCALV       ,
-     5         H1           ,H2           ,H3             ,H4           ,
-     6         XX3          ,YY3          ,ZZ3            ,XX4          ,
-     7         YY4          ,YI1          ,YI2            ,YI3          ,
-     8         ZZ4          ,ZI1          ,ZI2            ,ZI3          ,
-     9         XI1          ,XI2          ,XI3            ,XI4)
+     1   V,                NPC,              TF,               INTBUF_TAB%IRECTS,
+     2   INTBUF_TAB%NSV,   INTBUF_TAB%MSR,   INTBUF_TAB%IRTLS, INTBUF_TAB%IRTLOS,
+     3   INTBUF_TAB%CSTM,  INTBUF_TAB%FM,    INTBUF_TAB%FS,    VISC,
+     4   IDAMPV,           IDAMPF,           LOLD,             MS,
+     5   VNI,              ASCALF,           ASCALV,           FSCALV,
+     6   H1,               H2,               H3,               H4,
+     7   XX3,              YY3,              ZZ3,              XX4,
+     8   YY4,              YI1,              YI2,              YI3,
+     9   ZZ4,              ZI1,              ZI2,              ZI3,
+     A   XI1,              XI2,              XI3,              XI4,
+     B   LFT,              LLT,              NFT)
 c
          IF (FRIC > ZERO)
-     .     CALL I6FRI3(X        ,INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,
-     .      INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,
-     .      INTBUF_TAB%FRICOM,FRIC     ,INTBUF_TAB%FM,INTBUF_TAB%FS,
-     .      SFRIC        ,IFRICF    ,NPC          ,TF        ,LOLD    ,
-     .      IFRICV       ,VNT       ,ASCALF       ,ASCALV    ,STIFF   ,
-     5      N1           ,N2        ,N3           ,SSC       ,TTC ,
-     6      XFACE  ,XP    ,YP    ,ZP    ,H1  ,
-     7      H2     ,H3    ,H4    ,XX3   ,YY3 ,
-     7      ZZ3    ,XX4   ,YY4   ,YI1   ,YI2 ,
-     8      YI3    ,ZZ4   ,ZI1   ,ZI2   ,ZI3 ,
-     9      XI1    ,XI2   ,XI3   ,XI4)
+     .     CALL I6FRI3(
+     1   X,                INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,   INTBUF_TAB%MSR,
+     2   INTBUF_TAB%IRTLS, INTBUF_TAB%CSTM,  INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
+     3   FRIC,             INTBUF_TAB%FM,    INTBUF_TAB%FS,    SFRIC,
+     4   IFRICF,           NPC,              TF,               LOLD,
+     5   IFRICV,           VNT,              ASCALF,           ASCALV,
+     6   STIFF,            N1,               N2,               N3,
+     7   SSC,              TTC,              XFACE,            XP,
+     8   YP,               ZP,               H1,               H2,
+     9   H3,               H4,               XX3,              YY3,
+     A   ZZ3,              XX4,              YY4,              YI1,
+     B   YI2,              YI3,              ZZ4,              ZI1,
+     C   ZI2,              ZI3,              XI1,              XI2,
+     D   XI3,              XI4,              LFT,              LLT,
+     E   NFT)
       ENDDO
 C-----------
       CALL I6ASS3(

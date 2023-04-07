@@ -26,9 +26,11 @@ Chd|-- called by -----------
 Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I9IMP3(ILOC,CST,NOR,XFACE,N1,
-     1                  N2  ,N3 ,SSC,TTC  ,THK, 
-     2                  ANS)
+      SUBROUTINE I9IMP3(
+     1   ILOC,    CST,     NOR,     XFACE,
+     2   N1,      N2,      N3,      SSC,
+     3   TTC,     THK,     ANS,     LFT,
+     4   LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,6 +42,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER ILOC(*)
       my_real NOR(3,*), CST(2,*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  XFACE,SSC,TTC,THK
@@ -48,7 +53,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

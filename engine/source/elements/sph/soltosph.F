@@ -638,18 +638,26 @@ C-----------
           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
           MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----------
-          CALL SREP2GLO(X,IXS(1,NFT+1),GBUF%GAMA,
-     .                  RX ,RY ,RZ, SX ,SY ,SZ ,TX ,TY ,TZ ,
-     .                  R11,R12,R13,R21,R22,R23,R31,R32,R33,
-     .                  T11,T12,T13,T21,T22,T23,T31,T32,T33,
-     .                  JR0,JS0,JT0,NEL)
+          CALL SREP2GLO(
+     1   X,           IXS(1,NFT+1),GBUF%GAMA,   RX,
+     2   RY,          RZ,          SX,          SY,
+     3   SZ,          TX,          TY,          TZ,
+     4   R11,         R12,         R13,         R21,
+     5   R22,         R23,         R31,         R32,
+     6   R33,         T11,         T12,         T13,
+     7   T21,         T22,         T23,         T31,
+     8   T32,         T33,         JR0,         JS0,
+     9   JT0,         NEL,         LFT,         LLT,
+     A   JHBE,        JCVT,        ISORTH)
 C
 C----------- HEPH -------
           IF (JHBE==24) THEN
 C------------------------
           SIG_HEPH(1:MVSIZ,1:6,1:7) = ZERO
-          CALL SIG_HEPH1(JR0     ,JS0  ,JT0  ,GBUF%SIG  ,GBUF%HOURG,
-     .                   SIG_HEPH,PM   ,IXS  ,II        ,NEL       )          
+          CALL SIG_HEPH1(
+     1   JR0,       JS0,       JT0,       GBUF%SIG,
+     2   GBUF%HOURG,SIG_HEPH,  PM,        IXS,
+     3   II,        NEL,       LFT,       LLT)
 C
           IF(ISORTH==0)THEN
            DO J=1,7

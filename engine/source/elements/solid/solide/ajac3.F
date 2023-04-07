@@ -26,7 +26,9 @@ Chd|-- called by -----------
 Chd|        AMOMT3                        source/elements/solid/solide/amomt3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE AJAC3_V(V1,V2,V3,AJ1,AJ2,AJ3,AJV)
+      SUBROUTINE AJAC3_V(
+     1   V1,      V2,      V3,      AJ1,
+     2   AJ2,     AJ3,     AJV,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -38,17 +40,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   V1(MVSIZ,3),V2(MVSIZ,3),V3(MVSIZ,3),AJ1(MVSIZ,3),AJ2(MVSIZ,3),AJ3(MVSIZ,3),AJV(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      DO I=LFT,LLT
+      DO I=1,NEL
        AJ1(I,1)=V2(I,2)*V3(I,3)-V2(I,3)*V3(I,2)
        AJ1(I,2)=V2(I,3)*V3(I,1)-V2(I,1)*V3(I,3)
        AJ1(I,3)=V2(I,1)*V3(I,2)-V2(I,2)*V3(I,1)

@@ -29,14 +29,18 @@ Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE PBILAN(PM     ,V     ,EINT   ,GEO ,PARTSAV,
-     2                  IPARTP ,TANI  ,FOR    ,MOM ,GRESAV ,
-     3                  GRTH   ,IGRTH ,OFF_DUM,NEL ,AL     ,
-     4                  NC1    ,NC2   ,NC3    ,E1X ,E1Y    ,
-     5                  E1Z    ,E2X   ,E2Y    ,E2Z ,MAT    ,
-     6                  PID    ,VX1G  ,VX2G   ,VY1G,VY2G   ,
-     7                  VZ1G   ,VZ2G  ,X1G    ,X2G ,Y1G    ,
-     .                  Y2G    ,Z1G   ,Z2G    ,ITASK,H3D_DATA)
+      SUBROUTINE PBILAN(
+     1   PM,      V,       EINT,    GEO,
+     2   PARTSAV, IPARTP,  TANI,    FOR,
+     3   MOM,     GRESAV,  GRTH,    IGRTH,
+     4   OFF_DUM, NEL,     AL,      NC1,
+     5   NC2,     NC3,     E1X,     E1Y,
+     6   E1Z,     E2X,     E2Y,     E2Z,
+     7   MAT,     PID,     VX1G,    VX2G,
+     8   VY1G,    VY2G,    VZ1G,    VZ2G,
+     9   X1G,     X2G,     Y1G,     Y2G,
+     A   Z1G,     Z2G,     ITASK,   H3D_DATA,
+     B   IGRE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,11 +57,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER IPARTP(*),GRTH(*),IGRTH(*),NEL,NC1(MVSIZ),NC2(MVSIZ),
      .   NC3(MVSIZ),MAT(MVSIZ),PID(MVSIZ),ITASK
 C     REAL

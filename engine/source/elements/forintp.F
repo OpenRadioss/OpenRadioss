@@ -396,7 +396,7 @@ C-----------------------------------------------
               CALL SPGRADT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
      2    NOD2SP    ,ISPSYM    ,XSPSYM    ,WA        ,WASPH     ,
-     3    WT        ,WTR       ,WGRADT    )
+     3    WT        ,WTR       ,WGRADT    , LFT, LLT, NFT)
 C-----------------------------------------------
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
@@ -432,8 +432,10 @@ C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
          IF(ITASK==0)
-     1    CALL SPGTSYM(ISPCOND ,XFRAME  ,ISPSYM ,XSPSYM  ,WGRADT  ,
-     2                 WGRADTSM,WASPACT ,WGR    )
+     1    CALL SPGTSYM(
+     1   ISPCOND, XFRAME,  ISPSYM,  XSPSYM,
+     2   WGRADT,  WGRADTSM,WASPACT, WGR,
+     3   LFT,     LLT,     NFT)
 C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
@@ -469,7 +471,7 @@ C-----------------------------------------------
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
      2    NOD2SP    ,ISPSYM    ,XSPSYM    ,WA        ,WASPH     ,
      3    WGRADT    ,WGR       ,WGRADTSM  ,WLAPLT ,WSMCOMP,
-     4    LAMBDA    ,LAMBDR    )
+     4    LAMBDA    ,LAMBDR,   LFT, LLT, NFT   )
 C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
@@ -488,7 +490,7 @@ C-----------------------------------------------
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
      2    NOD2SP    ,ISPSYM    ,XSPSYM    ,WA        ,WASPH     ,
      3    WGRADT    ,WGR       ,WGRADTSM  ,WLAPLT ,WSMCOMP,
-     4    LAMBDA    ,LAMBDR    )
+     4    LAMBDA    ,LAMBDR    ,LFT,LLT,NFT    )
 C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT

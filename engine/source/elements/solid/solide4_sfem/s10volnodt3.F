@@ -31,7 +31,10 @@ Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defo
 Chd|        S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE S10VOLNODT3(ELBUF_TAB,VOLNOD6,X,NC,OFFG,SAV,XDP,NEL)
+      SUBROUTINE S10VOLNODT3(
+     1   ELBUF_TAB,VOLNOD6,  X,        NC,
+     2   OFFG,     SAV,      XDP,      NEL,
+     3   NPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,6 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPT
       INTEGER, INTENT(IN) ::NEL
       INTEGER, DIMENSION(MVSIZ,10),INTENT(IN) :: NC
       DOUBLE PRECISION
@@ -62,7 +66,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,7 +93,7 @@ C----------------------------
 C----------------------------
       IF(IRESP == 1) THEN
         DO N=1,10
-          DO I=LFT,LLT               
+          DO I=1,NEL               
             NN = MAX(1,NC(I,N))    
             XX(I,N)=XDP(1,NN)          
             YY(I,N)=XDP(2,NN)          
@@ -99,7 +102,7 @@ C----------------------------
         ENDDO
       ELSE
         DO N=1,10
-          DO I=LFT,LLT               
+          DO I=1,NEL               
             NN = MAX(1,NC(I,N))    
             XX(I,N)=X(1,NN)          
             YY(I,N)=X(2,NN)          
@@ -111,7 +114,7 @@ C-------exact for Itetra4=1
       DO N=5,10
         N1=IPERM1(N)
         N2=IPERM2(N)
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(NC(I,N)==0)THEN
             XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
             YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
@@ -124,7 +127,7 @@ C     NODAL COORDINATES INITIALES    |
 C----------------------------
       NPE = 10
       DO N=1,NPE
-       DO I=LFT,LLT
+       DO I=1,NEL
         X0(I,N)=SAV(I,N)
         Y0(I,N)=SAV(I,N+NPE)
         Z0(I,N)=SAV(I,N+2*NPE)
@@ -134,32 +137,32 @@ C----------------------------
 C     DISPLACEMENT     |
 C----------------------------
         N = NPE
-        DO I=LFT,LLT
+        DO I=1,NEL
         VX0(I,N)=XX(I,N)-X0(I,N)
         VY0(I,N)=YY(I,N)-Y0(I,N)
         VZ0(I,N)=ZZ(I,N)-Z0(I,N)
         ENDDO
        DO N=1,NPE
-        DO I=LFT,LLT
+        DO I=1,NEL
         VX0(I,N)=XX(I,N)-X0(I,N)-VX0(I,NPE)
         VY0(I,N)=YY(I,N)-Y0(I,N)-VY0(I,NPE)
         VZ0(I,N)=ZZ(I,N)-Z0(I,N)-VZ0(I,NPE)
         ENDDO
        ENDDO 
-      NPT =4  
       IBID = 1      
       DO IP=1,NPT
          LBUF => ELBUF_TAB%BUFLY(IBID)%LBUF(IP,IBID,IBID)
-         CALL S10PIJTO3(PX,PY,PZ,LBUF%PIJ,LLT)
+         CALL S10PIJTO3(PX,PY,PZ,LBUF%PIJ,NEL)
          CALL S10DEFOT3(
-     .    PX, PY, PZ, VX0, VY0, VZ0,
-     .    MFXX, MFXY, MFXZ, MFYX, MFYY, 
-     .    MFYZ, MFZX, MFZY, MFZZ )
-         CALL JACOB_J33(JAC,
-     .                MFXX, MFXY, MFXZ ,
-     .                MFYX, MFYY, MFYZ ,
-     .                MFZX, MFZY, MFZZ )
-        DO I=LFT,LLT
+     1   PX,      PY,      PZ,      VX0,
+     2   VY0,     VZ0,     MFXX,    MFXY,
+     3   MFXZ,    MFYX,    MFYY,    MFYZ,
+     4   MFZX,    MFZY,    MFZZ,    NEL)
+         CALL JACOB_J33(
+     1   JAC,     MFXX,    MFXY,    MFXZ,
+     2   MFYX,    MFYY,    MFYZ,    MFZX,
+     3   MFZY,    MFZZ,    NEL)
+        DO I=1,NEL
          IF (OFFG(I) == ZERO .OR. ABS(OFFG(I))>ONE) THEN
            VOLP(I)= ZERO
          ELSE
@@ -168,9 +171,9 @@ C----------------------------
         ENDDO
         
         !Parith-On treatment
-        CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOLP ,DET6 )
+        CALL FOAT_TO_6_FLOAT(1  ,NEL  ,VOLP ,DET6 )
         
-        DO I=LFT,LLT
+        DO I=1,NEL
           VOLNOD6(1:6,NC(I,IP)) = VOLNOD6(1:6,NC(I,IP)) + DET6(1:6,I)
         ENDDO
 C      

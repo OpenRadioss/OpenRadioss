@@ -27,17 +27,21 @@ Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
 Chd|-- calls ---------------
 Chd|        NINTERP                       source/interfaces/int14/ninterp.F
 Chd|====================================================================
-      SUBROUTINE I6FRI3(X       ,IRECT  ,MSR   ,NSV   ,IRTL  ,
-     1                  CST     ,IRTLO  ,FRIC0 ,FRIC  ,ES    ,
-     2                  EM      ,SFRIC  ,IFRICF,NPC   ,TF    ,
-     3                  LOLD    ,IFRICV ,VNT   ,ASCALF,ASCALV,
-     4                  STIFF   ,
-     5                  N1     ,N2    ,N3    ,SSC   ,TTC ,
-     6                  XFACE  ,XP    ,YP    ,ZP    ,H1  ,
-     7                  H2     ,H3    ,H4    ,FNI   ,FXI ,
-     8                  FYI    ,FZI   ,FX1   ,FX2   ,FX3 ,
-     9                  FX4    ,FY1   ,FY2   ,FY3   ,FY4 ,
-     1                  FZ1    ,FZ2   ,FZ3   ,FZ4)
+      SUBROUTINE I6FRI3(
+     1   X,       IRECT,   MSR,     NSV,
+     2   IRTL,    CST,     IRTLO,   FRIC0,
+     3   FRIC,    ES,      EM,      SFRIC,
+     4   IFRICF,  NPC,     TF,      LOLD,
+     5   IFRICV,  VNT,     ASCALF,  ASCALV,
+     6   STIFF,   N1,      N2,      N3,
+     7   SSC,     TTC,     XFACE,   XP,
+     8   YP,      ZP,      H1,      H2,
+     9   H3,      H4,      FNI,     FXI,
+     A   FYI,     FZI,     FX1,     FX2,
+     B   FX3,     FX4,     FY1,     FY2,
+     C   FY3,     FY4,     FZ1,     FZ2,
+     D   FZ3,     FZ4,     LFT,     LLT,
+     E   NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,6 +53,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*),MSR(*),NSV(*),IRTL(*),IRTLO(*),NPC(*),LOLD(*)
       INTEGER IFRICF,IFRICV
 c
@@ -66,7 +73,6 @@ c
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -27,28 +27,22 @@ Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I8CST3(
-     .  X1,Y1,Z1,
-     .  X2,Y2,Z2,
-     .  X3,Y3,Z3,
-     .  X4,Y4,Z4,
-     .  XI,YI,ZI,
-     .  N1,N2,N3,
-     .  ANS,SSC,TTC,
-     .  XFACE,
-     .  X0, Y0, Z0, 
-     .  XX1,YY1,ZZ1,
-     .  XX2,YY2,ZZ2,
-     .  XX3,YY3,ZZ3,
-     .  XX4,YY4,ZZ4,
-     .  XI1,YI1,ZI1,
-     .  XI2,YI2,ZI2,
-     .  XI3,YI3,ZI3,
-     .  XI4,YI4,ZI4,
-     .  XN1,YN1,ZN1,
-     .  XN2,YN2,ZN2,
-     .  XN3,YN3,ZN3,
-     .  XN4,YN4,ZN4,
-     .  AREA)
+     1   X1,      Y1,      Z1,      X2,
+     2   Y2,      Z2,      X3,      Y3,
+     3   Z3,      X4,      Y4,      Z4,
+     4   XI,      YI,      ZI,      N1,
+     5   N2,      N3,      ANS,     SSC,
+     6   TTC,     XFACE,   X0,      Y0,
+     7   Z0,      XX1,     YY1,     ZZ1,
+     8   XX2,     YY2,     ZZ2,     XX3,
+     9   YY3,     ZZ3,     XX4,     YY4,
+     A   ZZ4,     XI1,     YI1,     ZI1,
+     B   XI2,     YI2,     ZI2,     XI3,
+     C   YI3,     ZI3,     XI4,     YI4,
+     D   ZI4,     XN1,     YN1,     ZN1,
+     E   XN2,     YN2,     ZN2,     XN3,
+     F   YN3,     ZN3,     XN4,     YN4,
+     G   ZN4,     AREA,    LFT,     LLT)
 
 
 C-----------------------------------------------
@@ -58,6 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
       my_real
      .   X1(*), X2(*), X3(*), X4(*),
      .     Y1(*), Y2(*), Y3(*), Y4(*),
@@ -79,7 +75,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

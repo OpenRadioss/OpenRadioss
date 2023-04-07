@@ -204,9 +204,12 @@ C------------
 C      A.L.E.
 C------------
       IF (JALE/=0) THEN
-       CALL QVOLU2(GBUF%OFF,AIRE,VOLN,NGL,
-     .             Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .             BID,BID)
+       CALL QVOLU2(
+     1   GBUF%OFF,AIRE,    VOLN,    NGL,
+     2   Y1,      Y2,      Y3,      Y4,
+     3   Z1,      Z2,      Z3,      Z4,
+     4   BID,     BID,     NEL,     JMULT,
+     5   JCVT)
        CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
        CALL QDEFO2(
      1   V,       W,       Y1,      Y2,
@@ -320,42 +323,59 @@ C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES
 C-----------------------------------------------------
 C pour le fluide en SPMD : BUFVOIS LOI11
       CALL MMAIN(
-     1   ELBUF_TAB,NG   ,PM     ,GEO           ,FV	      ,ALE_CONNECT  ,
-     2   IC     ,IPARG  ,V      ,TF            ,NPF	      ,BUFMAT ,
-     3   STI    ,X      ,DT2T   ,NELTST        ,ITYPTST       ,OFFSET ,
-     4   NEL    ,W      ,LBUF%OFF,NGEO	       ,
-     6   MAT    ,NGL    ,VOLN   ,VD2	       ,DVOL	      ,DELTAX ,
-     7   VIS    ,QVIS   ,SSP    ,S1	       ,S2	      ,S3     ,
-     8   S4     ,S5     ,S6     ,EYY	       ,EZZ	      ,ETT    ,
-     9   EYZ    ,EYT    ,EZT    ,WYY	       ,WZZ	      ,WYZ    ,
-     A   RX     ,RY     ,RZ     ,SX	       ,SY	      ,SZ     ,
-     B   VDX    ,VDY    ,VDZ    ,MUVOID        ,SSP_EQ        ,AIRE   ,
-     C   SIGY   ,ET     ,BUFVOIS,LBUF%PLA      ,R3_FREE       ,R4_FREE,
-     D   EYY    ,EZZ    ,ETT    ,EYZ	       ,EYT	      ,EZT    ,
-     E   WYY    ,WZZ    ,WYZ    ,IPM	       ,GAMA	      ,BID    ,
-     F   BID    ,BID    ,BID    ,BID           ,BID	      ,BID    ,
-     G   IBID   ,BID    ,BID    ,IBID          ,JMULT	      ,MBID   ,
-     H   MBID   ,1      ,1      ,1             ,TABLE	      ,BID    ,
-     I   BID    ,BID    ,BID    ,IPARG(1,NG)   ,IGEO   ,BID    ,
-     J   ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB  ,H3D_STRAIN)
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IC,          IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   LBUF%OFF,    NGEO,        MAT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        SSP,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          EYY,         EZZ,         ETT,
+     B   EYZ,         EYT,         EZT,         WYY,
+     C   WZZ,         WYZ,         RX,          RY,
+     D   RZ,          SX,          SY,          SZ,
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   BUFVOIS,     LBUF%PLA,    R3_FREE,     R4_FREE,
+     H   EYY,         EZZ,         ETT,         EYZ,
+     I   EYT,         EZT,         WYY,         WZZ,
+     J   WYZ,         IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         IBID,        BID,
+     M   BID,         IBID,        JMULT,       MBID,
+     N   MBID,        1,           1,           1,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        BID,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------
       IF (IPARIT==0) THEN
-        CALL QMASS2(LBUF%OFF,LBUF%RHO,MS,
-     .                  AIRE,NC1,NC2,NC3,NC4)
+        CALL QMASS2(
+     1   LBUF%OFF,LBUF%RHO,MS,      AIRE,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
       ELSE
-        CALL QMASS2P(LBUF%OFF,LBUF%RHO,AIRE,FSKY,FSKY,IADQ)
+        CALL QMASS2P(
+     1   LBUF%OFF,LBUF%RHO,AIRE,    FSKY,
+     2   FSKY,    IADQ,    NEL,     NFT)
       ENDIF
 C--------------------------
 C     UPDATE OF MASSES : ALE physical masses
 C----------------------------  
       IF (JALE+JEUL > 0 )THEN
          IF (IPARIT == 0)THEN
-          CALL QMASSREAL2(LBUF%OFF,LBUF%RHO,MS_2D,
-     .                  VOLN,NC1,NC2,NC3,NC4)
+          CALL QMASSREAL2(
+     1   LBUF%OFF,LBUF%RHO,MS_2D,   VOLN,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
          ELSE
-          CALL QMASSREAL2P(LBUF%OFF,LBUF%RHO,VOLN,FSKYM,IADQ)
+          CALL QMASSREAL2P(
+     1   LBUF%OFF,LBUF%RHO,VOLN,    FSKYM,
+     2   IADQ,    NEL,     NFT)
          ENDIF
       ENDIF
 C------------------------
@@ -381,9 +401,15 @@ C--------------------------
      .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
      .   OR.TT>=TABFIS(10))
-     . CALL QBILAN(PARTSAV,LBUF%OFF,LBUF%EINT,LBUF%RHO,LBUF%RK,LBUF%VOL,
-     .             VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,VOLN,IPARTQ,EHOU,
-     .             BID,BID,BID,BID,GRESAV,GRTH,IGRTH,IBID,BID,ITASK)
+     . CALL QBILAN(
+     1   PARTSAV,  LBUF%OFF, LBUF%EINT,LBUF%RHO,
+     2   LBUF%RK,  LBUF%VOL, VY1,      VY2,
+     3   VY3,      VY4,      VZ1,      VZ2,
+     4   VZ3,      VZ4,      VOLN,     IPARTQ,
+     5   EHOU,     BID,      BID,      BID,
+     6   BID,      GRESAV,   GRTH,     IGRTH,
+     7   IBID,     BID,      ITASK,    NEL,
+     8   JTUR,     JCVT,     IGRE)
 C
 C--------------------
 C     FORCES INTERNES
@@ -508,42 +534,60 @@ C       propriete isotrope
 C-----------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES
 C-----------------------------------------------------
-      CALL MMAIN(ELBUF_TAB,NG   ,PM     ,GEO    ,FV      ,ALE_CONNECT   ,
-     2           IC     ,IPARG  ,V      ,TF      ,NPF     ,BUFMAT ,
-     3           STI    ,X      ,DT2T    ,NELTST  ,ITYPTST ,OFFSET ,
-     4           NEL    ,W      ,LBUF%OFF,NGEO    ,
-     6           MAT    ,NGL    ,VOLN   ,VD2     ,DVOL    ,DELTAX ,
-     7           VIS    ,QVIS   ,SSP    ,S1      ,S2      ,S3     ,
-     8           S4     ,S5     ,S6     ,EYY     ,EZZ     ,ETT    ,
-     9           EYZ    ,EYT    ,EZT    ,WYY     ,WZZ     ,WYZ    ,
-     A           RX     ,RY     ,RZ     ,SX      ,SY      ,SZ     ,
-     B           VDX    ,VDY    ,VDZ    ,MUVOID  ,SSP_EQ  ,AIRE   ,
-     C           SIGY   ,ET     ,BUFVOIS,LBUF%PLA,R3_FREE ,R4_FREE,
-     D           EYY    ,EZZ    ,ETT    ,EYZ     ,EYT     ,EZT    ,
-     E           WYY    ,WZZ    ,WYZ    ,IPM     ,GAMA    ,BID    ,
-     F           BID    ,BID    ,BID    ,BID     ,BID      ,BID    ,
-     G           IBID   ,BID    ,BID    ,IBID    ,JMULT   ,MBID   ,
-     H           MBID   ,1      ,1      ,1       ,TABLE   ,BID    ,
-     I           BID    ,BID    ,BID    ,IBIDV   ,IGEO   ,BID    ,
-     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,TH_STRAIN)
+      CALL MMAIN(
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IC,          IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   LBUF%OFF,    NGEO,        MAT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        SSP,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          EYY,         EZZ,         ETT,
+     B   EYZ,         EYT,         EZT,         WYY,
+     C   WZZ,         WYZ,         RX,          RY,
+     D   RZ,          SX,          SY,          SZ,
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   BUFVOIS,     LBUF%PLA,    R3_FREE,     R4_FREE,
+     H   EYY,         EZZ,         ETT,         EYZ,
+     I   EYT,         EZT,         WYY,         WZZ,
+     J   WYZ,         IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         IBID,        BID,
+     M   BID,         IBID,        JMULT,       MBID,
+     N   MBID,        1,           1,           1,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IBIDV,       IGEO,        BID,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   TH_STRAIN,   JPLASOL,     JSPH)
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------
       IF (IPARIT==0) THEN
-      CALL QMASS2(LBUF%OFF,LBUF%RHO,MS,
-     .                  AIRE,NC1,NC2,NC3,NC4)
+      CALL QMASS2(
+     1   LBUF%OFF,LBUF%RHO,MS,      AIRE,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
       ELSE
-       CALL QMASS2AP(LBUF%OFF,LBUF%RHO,AIRE,FSKY,FSKY,IADQ)
+       CALL QMASS2AP(
+     1   LBUF%OFF,LBUF%RHO,AIRE,    FSKY,
+     2   FSKY,    IADQ,    NEL,     NFT)
       ENDIF
 C--------------------------
 C     UPDATE OF MASSES : ALE physical masses
 C----------------------------  
       IF (JALE+JEUL > 0 )THEN
          IF (IPARIT == 0)THEN
-          CALL QMASSREAL2(LBUF%OFF,LBUF%RHO,MS_2D,
-     .                  VOLN,NC1,NC2,NC3,NC4)
+          CALL QMASSREAL2(
+     1   LBUF%OFF,LBUF%RHO,MS_2D,   VOLN,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
          ELSE
-          CALL QMASSREAL2AP(LBUF%OFF,LBUF%RHO,VOLN,FSKYM,IADQ)
+          CALL QMASSREAL2AP(
+     1   LBUF%OFF,LBUF%RHO,VOLN,    FSKYM,
+     2   IADQ,    NEL,     NFT)
          ENDIF
       ENDIF
 C------------------------
@@ -570,10 +614,15 @@ C--------------------------
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
      .   OR.TT>=TABFIS(10))
 c
-     . CALL QBILAN(PARTSAV,LBUF%OFF,LBUF%EINT,LBUF%RHO,LBUF%RK,
-     .             LBUF%VOL,VY1,VY2,VY3,VY4,VZ1,
-     .             VZ2,VZ3,VZ4,VOLN,IPARTQ,EHOU,
-     .             BID,BID,BID,BID,GRESAV,GRTH,IGRTH,IBID,BID,ITASK)
+     . CALL QBILAN(
+     1   PARTSAV,  LBUF%OFF, LBUF%EINT,LBUF%RHO,
+     2   LBUF%RK,  LBUF%VOL, VY1,      VY2,
+     3   VY3,      VY4,      VZ1,      VZ2,
+     4   VZ3,      VZ4,      VOLN,     IPARTQ,
+     5   EHOU,     BID,      BID,      BID,
+     6   BID,      GRESAV,   GRTH,     IGRTH,
+     7   IBID,     BID,      ITASK,    NEL,
+     8   JTUR,     JCVT,     IGRE)
 C--------------------
 C       FORCES INTERNES
 C--------------------

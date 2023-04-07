@@ -1087,15 +1087,18 @@ C
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI)
 c
-          CALL TFORC3(ELBUF_TAB(NG),
-     1 JFT         ,JLT         ,PM          ,GEO         ,IXT        ,
-     2 X           ,A         ,V           ,PARTSAV             ,BUFMAT   ,
-     3 DT2T        ,NELTST      ,ITYPTST     ,STIFN       ,FSKY       ,
-     4 IADT        ,OFFSET      ,IPARTT(NF1) ,TANI(K1)    ,FX(1,1)    ,
-     5 FX(1,2)     ,FY(1,1)     ,FY(1,2)     ,FZ(1,1)     ,FZ(1,2)    ,
-     6 NEL         ,GRESAV    ,GRTH        ,IGRTH(OFF_IGRTH+NF1),MSTR(NF1),
-     7 DMELTR(NF1) ,IPRI     ,
-     8 IPM         ,NPC       ,TF          ,ITASK               ,H3D_DATA )
+          CALL TFORC3(
+     1   ELBUF_TAB(NG),       JFT,                 JLT,                 PM,
+     2   GEO,                 IXT,                 X,                   A,
+     3   V,                   PARTSAV,             BUFMAT,              DT2T,
+     4   NELTST,              ITYPTST,             STIFN,               FSKY,
+     5   IADT,                OFFSET,              IPARTT(NF1),         TANI(K1),
+     6   FX(1,1),             FX(1,2),             FY(1,1),             FY(1,2),
+     7   FZ(1,1),             FZ(1,2),             NEL,                 GRESAV,
+     8   GRTH,                IGRTH(OFF_IGRTH+NF1),MSTR(NF1),           DMELTR(NF1),
+     9   IPRI,                IPM,                 NPC,                 TF,
+     A   ITASK,               H3D_DATA,            NFT,                 MTN,
+     B   JSMS,                IGRE)
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1147,7 +1150,7 @@ C
      C   GRTH,                IGRTH(OFF_IGRTH+NF1),MSP(NF1),            DMELP(NF1),
      D   IPRI,                ITASK,               JTHE,                TEMP,
      E   FTHE,                FTHESKY,             IEXPAN,              H3D_DATA,
-     F   JSMS)
+     F   JSMS,                IGRE,                NFT)
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1201,21 +1204,25 @@ c
      D   MY(1,1),              MY(1,2),              MZ(1,1),              MZ(1,2),
      E   GRESAV,               GRTH,                 IGRTH(OFF_IGRTH+NF1), MSRT(NF1),
      F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS)
+     G   JSMS,                 IGRE,                 NFT)
          ELSE
-          CALL RFORC3(ELBUF_TAB(NG),
-     1      JFT        ,JLT         ,NEL         ,MTN       ,IGEO      ,
-     2      GEO        ,IXR(1,NF1)  ,X           ,TABLE     ,XDP        ,
-     3      A          ,NPC         ,TF          ,SKEW      ,FLG_KJ2    ,
-     4      VR         ,AR          ,V           ,DT2T      ,NELTST     ,
-     5      ITYPTST    ,STIFN       ,STIFR       ,MS         ,IN         ,
-     6      FSKY       ,IADR        ,SENSOR_TAB  ,OFFSET    ,
-     7      ANIN       ,PARTSAV     ,IPARTR(NF1) ,TANI(K1)  , FR_WAVE   ,
-     8      BUFMAT     ,BUFGEO      ,PM          ,RBY       , FX(1,1)   ,
-     9      FX(1,2)    ,FY(1,1)     ,FY(1,2)     ,FZ(1,1)   ,FZ(1,2)    ,
-     A      MX(1,1)    ,MX(1,2)     ,MY(1,1)     ,MY(1,2)  ,MZ(1,1)   ,
-     B      MZ(1,2)    ,GRESAV      ,GRTH ,IGRTH(OFF_IGRTH+NF1),MSRT(NF1) ,
-     C      DMELRT(NF1), ITASK      ,H3D_DATA    ,JSMS    )
+          CALL RFORC3(
+     1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
+     2   MTN,                 IGEO,                GEO,                 IXR(1,NF1),
+     3   X,                   TABLE,               XDP,                 A,
+     4   NPC,                 TF,                  SKEW,                FLG_KJ2,
+     5   VR,                  AR,                  V,                   DT2T,
+     6   NELTST,              ITYPTST,             STIFN,               STIFR,
+     7   MS,                  IN,                  FSKY,                IADR,
+     8   SENSOR_TAB,          OFFSET,              ANIN,                PARTSAV,
+     9   IPARTR(NF1),         TANI(K1),            FR_WAVE,             BUFMAT,
+     A   BUFGEO,              PM,                  RBY,                 FX(1,1),
+     B   FX(1,2),             FY(1,1),             FY(1,2),             FZ(1,1),
+     C   FZ(1,2),             MX(1,1),             MX(1,2),             MY(1,1),
+     D   MY(1,2),             MZ(1,1),             MZ(1,2),             GRESAV,
+     E   GRTH,                IGRTH(OFF_IGRTH+NF1),MSRT(NF1),           DMELRT(NF1),
+     F   ITASK,               H3D_DATA,            JSMS,                NFT,
+     G   IAD,                 IGRE)
              
          ENDIF
 C
@@ -1261,21 +1268,27 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI)
 
-            CALL IG3DUFORC3(ELBUF_TAB,   NG,
-     1           JFT     ,JLT     ,NFT     ,NEL     ,IXS      ,
-     2           PM      ,GEO     ,IPM     ,IGEO    ,X        ,
-     3           A       ,AR      ,V       ,VR      ,W        ,
-     4           D       ,MS      ,IN      ,TF      ,NPC      ,
-     5           BUFMAT   ,IPARG     ,IPARTS(NF1),PARTSAV  ,NLOC_DMG ,
-     6           FSKY    ,FR_WAVE ,IADS    ,EANI    ,STIFN    ,
-     7           STIFR   ,FX      ,FY      ,FZ      ,IFAILURE ,
-     8           MTN     ,IGTYP   ,NPT     ,JSMS    ,MSSA(NF1),
-     9           DMELS(NF1),KXIG3D,IXIG3D  ,KNOT    ,NCTRL    ,
-     A           WIGE    ,WA      ,VAL2    ,DT2T    ,NELTST   ,
-     B           ITYPTST  ,OFFSET    ,TABLE     ,IEXPAN    ,ALE_CONNECT    ,
-     C           FV       ,ITASK     ,IPRI     ,
-     D           PX       ,PY        ,PZ        ,KNOTLOCPC ,KNOTLOCEL,
-     E           GRESAV   ,GRTH      ,IGRTH(OFF_IGRTH+NF1) ,MATPARAM_TAB,IBID)
+            CALL IG3DUFORC3(
+     1   ELBUF_TAB,           NG,                  JFT,                 JLT,
+     2   NFT,                 NEL,                 IXS,                 PM,
+     3   GEO,                 IPM,                 IGEO,                X,
+     4   A,                   AR,                  V,                   VR,
+     5   W,                   D,                   MS,                  IN,
+     6   TF,                  NPC,                 BUFMAT,              IPARG,
+     7   IPARTS(NF1),         PARTSAV,             NLOC_DMG,            FSKY,
+     8   FR_WAVE,             IADS,                EANI,                STIFN,
+     9   STIFR,               FX,                  FY,                  FZ,
+     A   IFAILURE,            MTN,                 IGTYP,               NPT,
+     B   JSMS,                MSSA(NF1),           DMELS(NF1),          KXIG3D,
+     C   IXIG3D,              KNOT,                NCTRL,               WIGE,
+     D   WA,                  VAL2,                DT2T,                NELTST,
+     E   ITYPTST,             OFFSET,              TABLE,               IEXPAN,
+     F   ALE_CONNECT,         FV,                  ITASK,               IPRI,
+     G   PX,                  PY,                  PZ,                  KNOTLOCPC,
+     H   KNOTLOCEL,           GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
+     I   MATPARAM_TAB,        IBID,                ISMSTR,              JALE,
+     J   JEUL,                JLAG,                JCVT,                JPLASOL,
+     K   JSPH)
 
         ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
@@ -1315,7 +1328,9 @@ C             ROTATION IF COROTA SYSTEM
                 GAMA(5)=ONE
                 GAMA(6)=ZERO
               END IF
-              CALL SROTA6(X,IXS(1,NN),JCVT,STRESSMEAN(1,NN),GAMA,JHBE,IGTYP)
+              CALL SROTA6(
+     1   X,               IXS(1,NN),       JCVT,            STRESSMEAN(1,NN),
+     2   GAMA,            JHBE,            IGTYP,           ISORTH)
             ENDDO           
           ENDIF
        ENDIF

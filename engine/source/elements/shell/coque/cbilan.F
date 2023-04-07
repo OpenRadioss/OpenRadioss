@@ -34,17 +34,20 @@ Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE CBILAN(JFT,JLT ,PM   ,V   ,IXC,
-     2                  THK,EINT,PARTSAV,AREA,MAT,
-     3                  IPARTC,X,VR   ,VOL0,VOL00,
-     4                  THK0,THK02,IFLA ,OFF ,
-     5                  NFT1,GRESAV,GRTH,IGRTH,
-     6                  VL1  ,VL2    ,VL3   ,VL4  ,VRL1,
-     7                  VRL2 ,VRL3   ,VRL4  ,X1G  ,X2G ,
-     8                  X3G  ,X4G    ,Y1G   ,Y2G  ,Y3G ,
-     9                  Y4G  ,Z1G    ,Z2G   ,Z3G  ,Z4G ,
-     A                  IXFEM,IEXPAN ,EINTTH,ITASK,GVOL,
-     B                  ACTIFXFEM)
+      SUBROUTINE CBILAN(
+     1   JFT,      JLT,      PM,       V,
+     2   IXC,      THK,      EINT,     PARTSAV,
+     3   AREA,     MAT,      IPARTC,   X,
+     4   VR,       VOL0,     VOL00,    THK0,
+     5   THK02,    IFLA,     OFF,      NFT1,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1G,
+     9   X2G,      X3G,      X4G,      Y1G,
+     A   Y2G,      Y3G,      Y4G,      Z1G,
+     B   Z2G,      Z3G,      Z4G,      IXFEM,
+     C   IEXPAN,   EINTTH,   ITASK,    GVOL,
+     D   ACTIFXFEM,IGRE)
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,11 +61,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "com_xfem1.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER IXC(NIXC,*),MAT(MVSIZ), JFT, JLT,IFLA,IEXPAN,
      .   IPARTC(*),NFT1,GRTH(*),IGRTH(*),IXFEM,ITASK
       INTEGER, INTENT(IN) :: ACTIFXFEM

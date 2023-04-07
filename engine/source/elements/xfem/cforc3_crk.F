@@ -80,7 +80,7 @@ Chd|====================================================================
      L            IEL_CRK,IADC_CRK,ELCUTC,
      M            SENSOR_TAB,IXEL ,STACK   ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
-     O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE)
+     O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE, IGRE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -117,6 +117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT,JLT,NVC,MTN,NELTST,ITYPTST,OFFSET,
      .   NEL,ISTRAIN,IHBE,ITHK,IOFC,IPLA,NFT,
      .   ISMSTR,KFTS,IFAILURE,IEXPAN,IXEL,NLEVXF,IPRI
@@ -519,17 +520,20 @@ C       BILANS PAR MATERIAU
 C--------------------------
 c        IFLAG = MOD(NCYCLE,NCPRI)
         IF (IPRI>0) THEN
-          CALL CBILAN(JFT    ,JLT       ,PM     ,V     ,IXC   ,
-     2                THKG   ,EINTG     ,PARTSAV,AREA  ,MAT   ,
-     3                IPARTC ,X         ,VR     ,VOL0  ,VOL00 ,
-     4                THK0   ,THK02     ,IUN    ,OFF   ,
-     5                NFT    ,GRESAV    ,GRTH   ,IGRTH ,
-     6                VL1    ,VL2       ,VL3    ,VL4   ,VRL1  ,
-     7                VRL2   ,VRL3      ,VRL4   ,X1G   ,X2G   ,
-     8                X3G    ,X4G       ,Y1G    ,Y2G   ,Y3G   ,
-     9                Y4G    ,Z1G       ,Z2G    ,Z3G   ,Z4G   ,
-     A                IXFEM  ,IEXPAN    ,EINTTH ,ITASK ,GBUF%VOL,
-     B                ACTIFXFEM)
+          CALL CBILAN(
+     1   JFT,      JLT,      PM,       V,
+     2   IXC,      THKG,     EINTG,    PARTSAV,
+     3   AREA,     MAT,      IPARTC,   X,
+     4   VR,       VOL0,     VOL00,    THK0,
+     5   THK02,    IUN,      OFF,      NFT,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1G,
+     9   X2G,      X3G,      X4G,      Y1G,
+     A   Y2G,      Y3G,      Y4G,      Z1G,
+     B   Z2G,      Z3G,      Z4G,      IXFEM,
+     C   IEXPAN,   EINTTH,   ITASK,    GBUF%VOL,
+     D   ACTIFXFEM,IGRE)
        ENDIF
 C--------------------------
 C     PAS DE TEMPS

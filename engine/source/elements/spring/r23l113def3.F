@@ -29,29 +29,34 @@ Chd|        REDEF3                        source/elements/spring/redef3.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|====================================================================
       SUBROUTINE R23L113DEF3(
-     1        SKEW    ,IPM    ,IGEO   ,MID     ,PID    ,
-     2        GEO    ,UPARAM   ,FX     , FY    , FZ    ,
-     3        E       ,DX     , DY     , DZ    , NPF   ,
-     4        TF      ,OFF    ,DPX     ,DPY    ,DPZ   ,
-     5        DPX2    ,DPY2   , DPZ2   ,FXEP   ,FYEP  ,
-     6        FZEP    ,X0     ,Y0     , Z0     ,XMOM  ,
-     7        YMOM    ,ZMOM   , RX     ,RY     ,RZ    ,
-     8        RPX     ,RPY    ,RPZ    ,XMEP   ,YMEP   ,
-     9        ZMEP    ,RPX2   , RPY2   ,RPZ2   ,ANIM  , 
-     A        POSX    ,POSY   ,POSZ   ,POSXX  ,POSYY  ,
-     B        POSZZ   ,FR_WAVE,E6     ,NEL    , EXX2  ,
-     C        EYX2    ,EZX2   ,EXY2   ,EYY2   ,EZY2   , 
-     D        EXZ2    ,EYZ2   , EZZ2   , AL2DP  , NGL , 
-     E        CRIT_NEW,X0_ERR ,ALDP  ,YIELDX , YIELDY,
-     F        YIELDZ  ,YIELDX2,YIELDY2,YIELDZ2,EXX    ,
-     G        EYX    ,EZX   , EXY     ,EYY    ,  EZY  ,
-     H        EXZ    , EYZ   ,EZZ     ,XCR    , RX1   ,
-     I        RY1    ,RZ1   ,RX2      ,RY2    ,RZ2    ,
-     K        XIN     ,AK    ,XM      ,XKM    , XCM   , 
-     L        XKR     , VX1   ,VX2     ,VY1   ,VY2    ,
-     I        VZ1     ,VZ2   ,NUVAR   ,UVAR   ,MASS   ,
-     J        DX0    ,DY0    ,DZ0     ,RX0    ,RY0    ,
-     K        RZ0    )
+     1   SKEW,    IPM,     IGEO,    MID,
+     2   PID,     GEO,     UPARAM,  FX,
+     3   FY,      FZ,      E,       DX,
+     4   DY,      DZ,      NPF,     TF,
+     5   OFF,     DPX,     DPY,     DPZ,
+     6   DPX2,    DPY2,    DPZ2,    FXEP,
+     7   FYEP,    FZEP,    X0,      Y0,
+     8   Z0,      XMOM,    YMOM,    ZMOM,
+     9   RX,      RY,      RZ,      RPX,
+     A   RPY,     RPZ,     XMEP,    YMEP,
+     B   ZMEP,    RPX2,    RPY2,    RPZ2,
+     C   ANIM,    POSX,    POSY,    POSZ,
+     D   POSXX,   POSYY,   POSZZ,   FR_WAVE,
+     E   E6,      NEL,     EXX2,    EYX2,
+     F   EZX2,    EXY2,    EYY2,    EZY2,
+     G   EXZ2,    EYZ2,    EZZ2,    AL2DP,
+     H   NGL,     CRIT_NEW,X0_ERR,  ALDP,
+     I   YIELDX,  YIELDY,  YIELDZ,  YIELDX2,
+     J   YIELDY2, YIELDZ2, EXX,     EYX,
+     K   EZX,     EXY,     EYY,     EZY,
+     L   EXZ,     EYZ,     EZZ,     XCR,
+     M   RX1,     RY1,     RZ1,     RX2,
+     N   RY2,     RZ2,     XIN,     AK,
+     O   XM,      XKM,     XCM,     XKR,
+     P   VX1,     VX2,     VY1,     VY2,
+     Q   VZ1,     VZ2,     NUVAR,   UVAR,
+     R   MASS,    DX0,     DY0,     DZ0,
+     S   RX0,     RY0,     RZ0,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),PID(*),MID(*),NUVAR,
      .     IPM(NPROPMI,*)
 C     REAL
@@ -321,14 +327,18 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 1)
       ENDDO
       IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
-      CALL REDEF3(FX      ,XK      ,DX      ,FXEP       ,DXOLD   ,
-     .            DPX     ,TF      ,NPF     ,XC         ,OFF     ,
-     .            E6(1,1) ,DPX2    ,ANIM    ,ANIM_FE(11),POSX    ,
-     .            FR_WAVE ,XL0     ,DMN     ,DMX        ,DV      ,
-     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
-     .            YIELDX  ,ALDP    ,AK      ,B          ,D       ,
-     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   FX,         XK,         DX,         FXEP,
+     2   DXOLD,      DPX,        TF,         NPF,
+     3   XC,         OFF,        E6(1,1),    DPX2,
+     4   ANIM,       ANIM_FE(11),POSX,       FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDX,     ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
 C
       DO I=1,NEL
         CC = UPARAM(IADBUF + NUPAR + 3)
@@ -392,14 +402,18 @@ C
 C
       KK = 1 + NUMELR * ANIM_FE(11)
       IF (NUVAR >= 2) COORD_OLD => UVAR(2,1:NEL)
-      CALL REDEF3(FY      ,YK     ,DY      ,FYEP       ,DYOLD   ,
-     .            DPY     ,TF     ,NPF     ,YC         ,OFF     ,
-     .            E6(1,2) ,DPY2   ,ANIM(KK),ANIM_FE(12),POSY    ,
-     .            FR_WAVE ,XL0    ,DMN     ,DMX        ,DV      ,
-     .            FF      ,LSCALE ,EE      ,GF3        ,IFUNC3  ,
-     .            YIELDY  ,ALDP   ,AK      ,B          ,D       ,
-     .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA    ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   FY,         YK,         DY,         FYEP,
+     2   DYOLD,      DPY,        TF,         NPF,
+     3   YC,         OFF,        E6(1,2),    DPY2,
+     4   ANIM(KK),   ANIM_FE(12),POSY,       FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDY,     ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -464,14 +478,18 @@ C
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
       IF (NUVAR >= 3) COORD_OLD => UVAR(3,1:NEL)
-      CALL REDEF3(FZ      ,ZK     ,DZ      ,FZEP       ,DZOLD   ,
-     .            DPZ     ,TF     ,NPF     ,ZC         ,OFF     ,
-     .            E6(1,3) ,DPZ2   ,ANIM(KK),ANIM_FE(13),POSZ    ,
-     .            FR_WAVE ,XL0    ,DMN     ,DMX        ,DV      ,
-     .            FF      ,LSCALE ,EE      ,GF3        ,IFUNC3  ,
-     .            YIELDZ  ,ALDP   ,AK      ,B          ,D       ,
-     .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA    ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   FZ,         ZK,         DZ,         FZEP,
+     2   DZOLD,      DPZ,        TF,         NPF,
+     3   ZC,         OFF,        E6(1,3),    DPZ2,
+     4   ANIM(KK),   ANIM_FE(13),POSZ,       FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDZ,     ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -580,14 +598,18 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 4)
       ENDDO
       IF (NUVAR >= 4) COORD_OLD => UVAR(4,1:NEL)
-      CALL REDEF3(XMOM    ,XK      ,RX      ,XMEP       ,DXOLD   ,
-     .            RPX     ,TF      ,NPF     ,XC         ,OFF     ,
-     .            E6(1,4) ,RPX2    ,ANIM    ,0          ,POSXX   ,
-     .            FR_WAVE ,XL0     ,DMN     ,DMX        ,DV      ,
-     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
-     .            YIELDX2 ,ALDP    ,AK      ,B          ,D       ,
-     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   XMOM,     XK,       RX,       XMEP,
+     2   DXOLD,    RPX,      TF,       NPF,
+     3   XC,       OFF,      E6(1,4),  RPX2,
+     4   ANIM,     0,        POSXX,    FR_WAVE,
+     5   XL0,      DMN,      DMX,      DV,
+     6   FF,       LSCALE,   EE,       GF3,
+     7   IFUNC3,   YIELDX2,  ALDP,     AK,
+     8   B,        D,        IECROU,   IFUNC,
+     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
+     A   NOT_USED, NOT_USED, NOT_USED, NEL,
+     B   NFT)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -650,14 +672,18 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 5)
       ENDDO
       IF (NUVAR >= 5) COORD_OLD => UVAR(5,1:NEL)
-      CALL REDEF3(YMOM    ,YK      ,RY      ,YMEP       ,DYOLD   ,
-     .            RPY     ,TF      ,NPF     ,YC         ,OFF     ,
-     .            E6(1,5) ,RPY2    ,ANIM    ,0          ,POSYY   ,
-     .            FR_WAVE ,XL0     ,DMN     ,DMX        ,DV      ,
-     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
-     .            YIELDY2 ,ALDP    ,AK      ,B          ,D       ,
-     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   YMOM,     YK,       RY,       YMEP,
+     2   DYOLD,    RPY,      TF,       NPF,
+     3   YC,       OFF,      E6(1,5),  RPY2,
+     4   ANIM,     0,        POSYY,    FR_WAVE,
+     5   XL0,      DMN,      DMX,      DV,
+     6   FF,       LSCALE,   EE,       GF3,
+     7   IFUNC3,   YIELDY2,  ALDP,     AK,
+     8   B,        D,        IECROU,   IFUNC,
+     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
+     A   NOT_USED, NOT_USED, NOT_USED, NEL,
+     B   NFT)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -720,14 +746,18 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 6)
       ENDDO
       IF (NUVAR >= 6) COORD_OLD => UVAR(6,1:NEL)
-      CALL REDEF3(ZMOM    ,ZK      ,RZ      ,ZMEP       ,DZOLD    ,
-     .            RPZ     ,TF      ,NPF     ,ZC         ,OFF      ,
-     .            E6(1,6) ,RPZ2    ,ANIM    ,0          ,POSZZ    ,
-     .            FR_WAVE ,XL0     ,DMN     ,DMX        ,DV       ,
-     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3   ,
-     .            YIELDZ2 ,ALDP    ,AK      ,B          ,D        ,
-     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA     ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   ZMOM,     ZK,       RZ,       ZMEP,
+     2   DZOLD,    RPZ,      TF,       NPF,
+     3   ZC,       OFF,      E6(1,6),  RPZ2,
+     4   ANIM,     0,        POSZZ,    FR_WAVE,
+     5   XL0,      DMN,      DMX,      DV,
+     6   FF,       LSCALE,   EE,       GF3,
+     7   IFUNC3,   YIELDZ2,  ALDP,     AK,
+     8   B,        D,        IECROU,   IFUNC,
+     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
+     A   NOT_USED, NOT_USED, NOT_USED, NEL,
+     B   NFT)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1

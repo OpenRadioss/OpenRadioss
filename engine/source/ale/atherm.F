@@ -149,7 +149,10 @@ c
      1   GBUF%TEMP,VAL2,     MAT,      PM,
      2   IPM,      TF,       NPF,      NEL)
         ELSEIF (MTN == 26)THEN
-          CALL M26TH(MAT,GBUF%RHO,GBUF%TEMP,VAL2,PM,BUFMAT,GBUF%RE)
+          CALL M26TH(
+     1   MAT,      GBUF%RHO, GBUF%TEMP,VAL2,
+     2   PM,       BUFMAT,   GBUF%RE,  NEL,
+     3   NFT)
         ELSEIF (MTN == 51) THEN
           NPH1 = (N0PHAS)*LLT
           NPH2 = (N0PHAS + NVPHAS)*LLT

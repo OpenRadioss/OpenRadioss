@@ -53,7 +53,7 @@ Chd|====================================================================
      F   IGRTH,     MSRT,      DMELRT,    NELTST,
      G   ITYPTST,   IGTYP,     SENSOR_TAB,NC1,
      H   NC2,       XDP,       X0_ERR,    H3D_DATA,
-     I   JSMS)
+     I   JSMS,      IGRE,      NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +72,8 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: JSMS
       INTEGER JFT,JLT,IOUT,NEL,NUVAR,IPROP,
      .        IPARTR(*),IXR(NIXR,*),IADR(3,*),GRTH(*),IGRTH(*),
@@ -126,9 +128,11 @@ C
      7   MSRT,    DMELRT,  NUVAR,   UVAR,
      8   IGTYP,   JSMS)
 C
-      CALL RBILAN33(JFT  ,JLT    ,E      ,PARTSAV ,UMAS ,
-     .              VX   ,IPARTR ,GRESAV ,GRTH    ,IGRTH,
-     .              NC1  ,NC2    )
+      CALL RBILAN33(
+     1   JFT,     JLT,     E,       PARTSAV,
+     2   UMAS,    VX,      IPARTR,  GRESAV,
+     3   GRTH,    IGRTH,   NC1,     NC2,
+     4   IGRE)
       CALL RANIM33 (JFT,JLT,FORX,FORY,FORZ,XMOM,YMOM,ZMOM,XL,TANI,H3D_DATA)
 C
       IF(IPARIT==0)THEN
@@ -140,12 +144,15 @@ C
      .              MY1   ,MY2    ,MZ1   ,MZ2   ,NUVAR ,
      .              UVAR)
       ELSE
-        CALL RCUM33P(JFT   ,JLT   ,XL    ,
-     .               FSKY  ,FSKYV ,FORX  ,FORY  ,FORZ  ,
-     .               XMOM  ,YMOM  ,ZMOM  ,STI   ,STIR  ,
-     .               FX1   ,FX2   ,FY1   ,FY2   ,FZ1   ,
-     .               FZ2   ,MX1   ,MX2   ,MY1   ,MY2   ,
-     .               MZ1   ,MZ2   ,IADR  ,NUVAR ,UVAR)
+        CALL RCUM33P(
+     1   JFT,     JLT,     XL,      FSKY,
+     2   FSKYV,   FORX,    FORY,    FORZ,
+     3   XMOM,    YMOM,    ZMOM,    STI,
+     4   STIR,    FX1,     FX2,     FY1,
+     5   FY2,     FZ1,     FZ2,     MX1,
+     6   MX2,     MY1,     MY2,     MZ1,
+     7   MZ2,     IADR,    NUVAR,   UVAR,
+     8   NFT)
       ENDIF
 C-------------------------------
       RETURN

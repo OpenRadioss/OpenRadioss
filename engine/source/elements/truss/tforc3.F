@@ -38,15 +38,18 @@ Chd|        TFCUM3P                       source/elements/truss/tfcum3p.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE TFORC3(ELBUF_STR,
-     1                  JFT      ,JLT    ,PM      ,GEO    ,NCT    ,
-     2                  X        ,F      ,V       ,PARTSAV,BUFMAT ,
-     3                   DT2T ,NELTST ,ITYPTST ,STIFN ,FSKY  ,
-     4                   IADT ,OFFSET ,IPARTT  ,TANI  ,FX1,
-     5                   FX2  ,FY1    ,FY2     ,FZ1   ,FZ2,
-     6                  NEL      ,GRESAV ,GRTH    ,IGRTH  ,MSTR   ,
-     7                  DMELTR   ,IOUTPRT,
-     8                  IPM      ,NPF    ,TF      ,ITASK  ,H3D_DATA)
+      SUBROUTINE TFORC3(
+     1   ELBUF_STR,JFT,      JLT,      PM,
+     2   GEO,      NCT,      X,        F,
+     3   V,        PARTSAV,  BUFMAT,   DT2T,
+     4   NELTST,   ITYPTST,  STIFN,    FSKY,
+     5   IADT,     OFFSET,   IPARTT,   TANI,
+     6   FX1,      FX2,      FY1,      FY2,
+     7   FZ1,      FZ2,      NEL,      GRESAV,
+     8   GRTH,     IGRTH,    MSTR,     DMELTR,
+     9   IOUTPRT,  IPM,      NPF,      TF,
+     A   ITASK,    H3D_DATA, NFT,      MTN,
+     B   JSMS,     IGRE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,12 +67,15 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "parit_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER NCT(*),IADT(2,*),IPARTT(*),OFFSET,
      .        JFT,JLT,NELTST,ITYPTST,NEL,GRTH(*),IPM(NPROPMI,*),
      .        IGRTH(*),IOUTPRT,NPF(*),ITASK
@@ -170,12 +176,15 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IF (IOUTPRT>0) THEN
-      CALL TBILAN(PM    ,V    ,GBUF%EINT,GBUF%AREA,PARTSAV,
-     .            IPARTT,TANI ,GBUF%FOR ,GRESAV   ,GRTH   ,
-     .            IGRTH ,MAT  ,AL       ,VX1      ,VX2    ,
-     .            VY1   ,VY2  ,VZ1      ,VZ2      ,X1     ,
-     .            X2    ,Y1   ,Y2       ,Z1       ,Z2     ,
-     .            ITASK ,H3D_DATA)
+      CALL TBILAN(
+     1   PM,       V,        GBUF%EINT,GBUF%AREA,
+     2   PARTSAV,  IPARTT,   TANI,     GBUF%FOR,
+     3   GRESAV,   GRTH,     IGRTH,    MAT,
+     4   AL,       VX1,      VX2,      VY1,
+     5   VY2,      VZ1,      VZ2,      X1,
+     6   X2,       Y1,       Y2,       Z1,
+     7   Z2,       ITASK,    H3D_DATA, NEL,
+     8   IGRE)
       END IF !(IOUTPRT>0) THEN
 C-------------------------
 C     ASSEMBLE

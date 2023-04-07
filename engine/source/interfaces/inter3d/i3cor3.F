@@ -27,11 +27,13 @@ Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I3COR3(X     ,IRECT ,MSR   ,NSV   ,IRTL ,
-     1                  IX1   ,IX2   ,IX3   ,IX4   ,X1   ,
-     2                  X2    ,X3    ,X4    ,Y1    ,Y2   ,
-     3                  Y3    ,Y4    ,Z1   ,Z2    ,Z3    ,
-     4                  Z4    )
+      SUBROUTINE I3COR3(
+     1   X,       IRECT,   MSR,     NSV,
+     2   IRTL,    IX1,     IX2,     IX3,
+     3   IX4,     X1,      X2,      X3,
+     4   X4,      Y1,      Y2,      Y3,
+     5   Y4,      Z1,      Z2,      Z3,
+     6   Z4,      LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +45,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(OUT):: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(OUT) ::  X1,X2,X3,X4
@@ -53,7 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
