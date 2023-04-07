@@ -33,7 +33,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|====================================================================
       SUBROUTINE PBLAST_1(ILOADP  ,FAC      ,A       ,V         ,X       ,
-     1                    IADC    ,FSKY     ,FSKYV   ,LLOADP    ,FEXT    ,
+     1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
      2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -69,45 +69,30 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),NL
       my_real,INTENT(INOUT) :: T0INF_LOC,TFEXT_LOC
       my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
-      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1, ISK, N2, N3, N4,IL,IS,
-     .        IERR,ICODE,IAD,I,
-     .        IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
-     .        Phi_I, ID, ITA_SHIFT,
-     .        NITER,ITER,IMODEL,NN(4)
+      INTEGER N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
+     .        Phi_I, ID, ITA_SHIFT,NITER,ITER,IMODEL,NN(4)
      
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz
       
       my_real
-     .   AA, A0, VV, DYDX, TS, LAMBDA,
-     .   F1, F2,FCX,FCY, VSEGX, VSEGY, VSEGZ,
-     .   FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,
-     .   cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,Phi_DB,bound1,bound2, 
+     .   LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,Phi_DB,bound1,bound2, 
      .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
-     .   WAVE_refl,WAVE_inci, W13, P0, T_
-      my_real FINTER,COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,FV(MVSIZ),
-     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
-     .        Dx,Dy,Dz,
-     .        NORMD, P,
+     .   WAVE_refl,WAVE_inci, W13, P0
+      my_real DNORM,
+     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_SHIFT, TT_STAR
-      EXTERNAL FINTER
-      
       my_real Z1_
-      
-      my_real DECAY_inci,DECAY_refl,ZETA,ZETA2,ZETA3,TMP,TMP2,TMP3,TMP4,FUNCT,DIFF,RES,TOL,T_INF,T_FIN,T_ZERO
-      my_real H00,H10,H01,H11,pP0,pP1,pM0,pM1,kk,m2,PI_,Ic,Ib,alpha,diff_t0_inci,diff_t0_refl
-      
+      my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL,kk
       my_real :: LogRes
-      
       my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3)
       
       integer, external :: OMP_GET_THREAD_NUM
       
-      DATA PI_/3.141592653589793238462643D0/
       DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
       DATA log10_ /2.30258509299405000000/
    
@@ -333,13 +318,13 @@ C-----------------------------------------------
           T_A = exp(LogRes*log10_)                                                                                                                                                                                      
                                                                                                                                                                                                       
           !switch from normalized values.      ( Pressure are not scaled by W13 in tables )                                                                                                           
-          I_inci  = I_inci * W13                                                                                                                                                                      
-          I_inci_ = I_inci_* W13                                                                                                                                                                      
-          I_refl  = I_refl * W13                                                                                                                                                                      
-          I_refl_ = I_refl_* W13                                                                                                                                                                      
-          DT_0    = DT_0   * W13                                                                                                                                                                      
-          DT_0_   = DT_0_  * W13                                                                                                                                                                      
-          T_A     = T_A    * W13                                                                                                                                                                      
+          I_inci  = I_inci * W13
+          I_inci_ = I_inci_* W13
+          I_refl  = I_refl * W13
+          I_refl_ = I_refl_* W13
+          DT_0    = DT_0   * W13
+          DT_0_   = DT_0_  * W13
+          T_A     = T_A    * W13
 
           !---DECAY                                                                                                                                                                                   
           IF(TT_STAR>=T_A)THEN                                                                                                                                                                        
@@ -592,7 +577,6 @@ C-----------------------------------------------
       RETURN
       
 C-----------------------------------------------
- 1000 CONTINUE
        IF (IERR1/=0) THEN
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'

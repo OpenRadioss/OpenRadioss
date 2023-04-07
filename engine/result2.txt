@@ -1,0 +1,850 @@
+ 
+ Build OpenRadioss Engine 
+ -------------------------
+ Build Arguments :
+ arch =                 :  linux64_gf
+ mpi =                  :  SMP Only
+ mpi_os =               :  0
+ precision =            :  dp
+ debug =                :  1
+ static_link =          : 
+ Addflag               : "-Wunused " 
+ 
+ #threads for Makefile :  1
+ 
+ 
+ 
+-- Loading linux64_gf settings
+-- modules: /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/modules
+ 
+-- Fortran Compiler: /opt/rh/devtoolset-11/root/usr/bin/gfortran
+-- C Compiler: /opt/rh/devtoolset-11/root/usr/bin/gcc
+-- CPP Compiler: /opt/rh/devtoolset-11/root/usr/bin/g++
+-- Exec name: engine_linux64_gf_db 
+-- MPI: smp 
+-- MPI libraries :  
+-- MPI include directory :  
+-- Flags release:   
+-- Precision: dp 
+-- Runtime Static link :  
+-- debug: 1 
+-- Addflag : -Wunused 
+-- Build_type : o
+ 
+ dir : /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db added
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db
+make[1] : on entre dans le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[2] : on entre dans le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[2] : on quitte le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[2] : on entre dans le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+[  0%] Generating CMakeFiles/includes_engine_linux64_gf_db/__foo.inc, CMakeFiles/includes_engine_linux64_gf_db/build_info.inc
+
+('Create:', '/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc')
+
+make[2] : on quitte le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+[  0%] Built target always_execute
+make[2] : on entre dans le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+Scanning dependencies of target engine_linux64_gf_db
+make[2] : on quitte le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[2] : on entre dans le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[2] : on quitte le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[2] : on entre dans le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+[  0%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/engine/radioss_title.F.o
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss_title.F:49:55:
+
+   49 |       INTEGER LEN,LEN_RAD,LENBT,LENCPUNAM,LENARCHTIT,CT,LBT,
+      |                                                       1
+Warning: Unused variable ‘ct’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss_title.F:52:39:
+
+   52 |      *          ARCH_TIT*66,GPUTITLE*66
+      |                                       1
+Warning: Unused variable ‘gputitle’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:34:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                  1
+Warning: Unused variable ‘len_bdate’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:45:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                             1
+Warning: Unused variable ‘len_btime’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss_title.F:49:25:
+
+   49 |       INTEGER LEN,LEN_RAD,LENBT,LENCPUNAM,LENARCHTIT,CT,LBT,
+      |                         1
+Warning: Unused variable ‘len_rad’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:4:22:
+
+    4 |        INTEGER LENBNAM
+      |                      1
+Warning: Unused variable ‘lenbnam’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss_title.F:50:20:
+
+   50 |      *        LENGPU
+      |                    1
+Warning: Unused variable ‘lengpu’ declared at (1) [-Wunused-variable]
+[  0%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/engine/execargcheck.F.o
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:500:5:
+
+  500 |  4000  CONTINUE
+      |     1
+Warning: Label 4000 at (1) defined but not used [-Wunused-label]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:466:5:
+
+  466 |  3000  CONTINUE
+      |     1
+Warning: Label 3000 at (1) defined but not used [-Wunused-label]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:676:24:
+
+  676 |       CHARACTER*256 ARGP,EMSG*256
+      |                        1
+Warning: Unused variable ‘argp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:675:24:
+
+  675 |       INTEGER ERRN,STRLN,SMSG
+      |                        1
+Warning: Unused variable ‘strln’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:525:21:
+
+  525 |        INTEGER  STLEN,LS,LC
+      |                     1
+Warning: Unused variable ‘stlen’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:27:41:
+
+   27 |      .  , DIMENSION(:), ALLOCATABLE :: AF
+      |                                         1
+Warning: Unused variable ‘af’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:633:50:
+
+  633 |         CHARACTER*256 RFLEXNAM,GPUTITLE,ARCHTIT*66
+      |                                                  1
+Warning: Unused variable ‘archtit’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:633:39:
+
+  633 |         CHARACTER*256 RFLEXNAM,GPUTITLE,ARCHTIT*66
+      |                                       1
+Warning: Unused variable ‘gputitle’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:18:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                  1
+Warning: Unused variable ‘iadi’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:34:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                                  1
+Warning: Unused variable ‘iadif’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:23:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                       1
+Warning: Unused variable ‘iadr’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:40:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                                        1
+Warning: Unused variable ‘iadrf’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:28:47:
+
+   28 |       INTEGER, DIMENSION(:), ALLOCATABLE :: IAF
+      |                                               1
+Warning: Unused variable ‘iaf’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:619:32:
+
+  619 |         SUBROUTINE PREXECINFO(IDUM)
+      |                                       1
+Warning: Unused dummy argument ‘idum’ at (1) [-Wunused-dummy-argument]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:28:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                            1
+Warning: Unused variable ‘ixdp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:634:19:
+
+  634 |         INTEGER LEN,LBT
+      |                   1
+Warning: Unused variable ‘len’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:34:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                  1
+Warning: Unused variable ‘len_bdate’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:45:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                             1
+Warning: Unused variable ‘len_btime’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:636:26:
+
+  636 |         INTEGER RDFLEXCOMP
+      |                          1
+Warning: Unused variable ‘rdflexcomp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:633:30:
+
+  633 |         CHARACTER*256 RFLEXNAM,GPUTITLE,ARCHTIT*66
+      |                              1
+Warning: Unused variable ‘rflexnam’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:29:62:
+
+   29 |       REAL (KIND=KIND(1.D0)), DIMENSION(:), ALLOCATABLE :: XDP
+      |                                                              1
+Warning: Unused variable ‘xdp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:2:30:
+
+    2 |        CHARACTER YEARSTRING*11
+      |                              1
+Warning: Unused variable ‘yearstring’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:724:34:
+
+  724 |       CHARACTER EMSG*256, ARGP*256
+      |                                  1
+Warning: Unused variable ‘argp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:34:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                  1
+Warning: Unused variable ‘len_bdate’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:45:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                             1
+Warning: Unused variable ‘len_btime’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:4:22:
+
+    4 |        INTEGER LENBNAM
+      |                      1
+Warning: Unused variable ‘lenbnam’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:723:30:
+
+  723 |       INTEGER ERRN,SMSG,STRLNA
+      |                              1
+Warning: Unused variable ‘strlna’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:2:30:
+
+    2 |        CHARACTER YEARSTRING*11
+      |                              1
+Warning: Unused variable ‘yearstring’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:68:30:
+
+   68 |      .                 ARGREAD
+      |                              1
+Warning: Unused variable ‘argread’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:67:64:
+
+   67 |        CHARACTER*2096  ARGS,INPUTC,INPUTR,ARGP,MSG,STRING,INPUTE,
+      |                                                                1
+Warning: Unused variable ‘inpute’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:63:21:
+
+   63 |        INTEGER ARGN,J,K,L
+      |                     1
+Warning: Unused variable ‘j’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:63:23:
+
+   63 |        INTEGER ARGN,J,K,L
+      |                       1
+Warning: Unused variable ‘k’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/execargcheck.F:63:25:
+
+   63 |        INTEGER ARGN,J,K,L
+      |                         1
+Warning: Unused variable ‘l’ declared at (1) [-Wunused-variable]
+[  1%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/engine/radioss2.F.o
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:1365:31:
+
+ 1362 |         CALL READ_DPDB(GLOBAL_COMP_TIME%STARTER_TIME,1)
+      |                       2        
+......
+ 1365 |                 CALL READ_DPDB(GLOBAL_COMP_TIME%ENGINE_TIME,GLOBAL_COMP_TIME%RUN_NBR-1)
+      |                               1
+Warning: Rank mismatch between actual argument at (1) and actual argument at (2) (scalar and rank-1)
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:271:55:
+
+  271 |      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+      |                                                       1
+Warning: Unused variable ‘abfcomp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:271:47:
+
+  271 |      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+      |                                               1
+Warning: Unused variable ‘abfv’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:297:26:
+
+  297 |       INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
+      |                          1
+Warning: Unused variable ‘buftest’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:275:47:
+
+  275 |       CHARACTER FILNAM*100, VERSDP*36,CHRUNM1*2, INPUTNAM*100,
+      |                                               1
+Warning: Unused variable ‘chrunm1’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:281:24:
+
+  281 |       CHARACTER*6 CISPMD
+      |                        1
+Warning: Unused variable ‘cispmd’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:280:23:
+
+  280 |       CHARACTER*10 CPID
+      |                       1
+Warning: Unused variable ‘cpid’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:285:29:
+
+  285 |      .          FILNAMABF*100,FILNAMABF_TMP*100
+      |                             1
+Warning: Unused variable ‘filnamabf’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:285:47:
+
+  285 |      .          FILNAMABF*100,FILNAMABF_TMP*100
+      |                                               1
+Warning: Unused variable ‘filnamabf_tmp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:297:61:
+
+  297 |       INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
+      |                                                             1
+Warning: Unused variable ‘flag_main’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:18:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                  1
+Warning: Unused variable ‘i13a’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:23:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                       1
+Warning: Unused variable ‘i13b’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:28:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                            1
+Warning: Unused variable ‘i13c’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:33:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                 1
+Warning: Unused variable ‘i13d’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:38:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                      1
+Warning: Unused variable ‘i13e’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:43:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                           1
+Warning: Unused variable ‘i13f’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:48:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                                1
+Warning: Unused variable ‘i13g’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:53:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                                     1
+Warning: Unused variable ‘i13h’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:18:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                  1
+Warning: Unused variable ‘i15a’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:291:20:
+
+  291 |      .        I15ATH,ITHFLAG
+      |                    1
+Warning: Unused variable ‘i15ath’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:23:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                       1
+Warning: Unused variable ‘i15b’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:28:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                            1
+Warning: Unused variable ‘i15c’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:33:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                 1
+Warning: Unused variable ‘i15d’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:38:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                      1
+Warning: Unused variable ‘i15e’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:43:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                           1
+Warning: Unused variable ‘i15f’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:48:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                                1
+Warning: Unused variable ‘i15g’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:53:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                                     1
+Warning: Unused variable ‘i15h’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:58:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                                          1
+Warning: Unused variable ‘i15i’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:290:63:
+
+  290 |       INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
+      |                                                               1
+Warning: Unused variable ‘i15j’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:18:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                  1
+Warning: Unused variable ‘i40a’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:23:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                       1
+Warning: Unused variable ‘i40b’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:28:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                            1
+Warning: Unused variable ‘i40g’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:58:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                                          1
+Warning: Unused variable ‘i76a’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:270:38:
+
+  270 |      .        IUN,IFUN, ITH, I76ATH(9), IFIL, IO_ERRL,
+      |                                      1
+Warning: Unused variable ‘i76ath’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:33:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                                 1
+Warning: Unused variable ‘i78n’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:63:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                                               1
+Warning: Unused variable ‘i88a’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:268:68:
+
+  268 |      .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
+      |                                                                    1
+Warning: Unused variable ‘i89a’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:58:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                                                          1
+Warning: Unused variable ‘iad1’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:64:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                                                                1
+Warning: Unused variable ‘iad2’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:70:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                                                                      1
+Warning: Unused variable ‘iad3’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:18:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                  1
+Warning: Unused variable ‘iadi’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/share/spe_inc/machine.inc:30:23:
+
+   30 |       INTEGER IADI,IADR,IXDP,IADIF,IADRF
+      |                       1
+Warning: Unused variable ‘iadr’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:292:17:
+
+  292 |       INTEGER ICH,MSGID
+      |                 1
+Warning: Unused variable ‘ich’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:294:20:
+
+  294 |       INTEGER IERROR,MADSTRLEN
+      |                    1
+Warning: Unused variable ‘ierror’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:271:63:
+
+  271 |      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+      |                                                               1
+Warning: Unused variable ‘ifilabf’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:265:46:
+
+  265 |      .        IFILNAM(2148), IFILNAM_TMP(2148)
+      |                                              1
+Warning: Unused variable ‘ifilnam_tmp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:270:22:
+
+  270 |      .        IUN,IFUN, ITH, I76ATH(9), IFIL, IO_ERRL,
+      |                      1
+Warning: Unused variable ‘ifun’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:50:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                                                  1
+Warning: Unused variable ‘ipang’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:27:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                           1
+Warning: Unused variable ‘ipmat’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:43:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                                           1
+Warning: Unused variable ‘ipmat_iply’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:20:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                    1
+Warning: Unused variable ‘ippid’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:64:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                                                                1
+Warning: Unused variable ‘ippos’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:71:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                                                                       1
+Warning: Unused variable ‘ipt’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:56:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                                                        1
+Warning: Unused variable ‘ipthk’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:266:51:
+
+  266 |       INTEGER ITSTV1, IEXPM, IRUNN, IRFL, IRFE, IRR, IT, JT, I,
+      |                                                   1
+Warning: Unused variable ‘irr’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:67:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                                                                   1
+Warning: Unused variable ‘is’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:270:27:
+
+  270 |      .        IUN,IFUN, ITH, I76ATH(9), IFIL, IO_ERRL,
+      |                           1
+Warning: Unused variable ‘ith’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:270:17:
+
+  270 |      .        IUN,IFUN, ITH, I76ATH(9), IFIL, IO_ERRL,
+      |                 1
+Warning: Unused variable ‘iun’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:266:59:
+
+  266 |       INTEGER ITSTV1, IEXPM, IRUNN, IRFL, IRFE, IRR, IT, JT, I,
+      |                                                           1
+Warning: Unused variable ‘jt’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:65:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                 1
+Warning: Unused variable ‘k1’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:93:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                                             1
+Warning: Unused variable ‘k10’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:97:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                                                 1
+Warning: Unused variable ‘k11’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:68:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                    1
+Warning: Unused variable ‘k2’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:71:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                       1
+Warning: Unused variable ‘k3’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:74:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                          1
+Warning: Unused variable ‘k4’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:77:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                             1
+Warning: Unused variable ‘k5’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:80:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                                1
+Warning: Unused variable ‘k6’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:83:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                                   1
+Warning: Unused variable ‘k7’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:86:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                                      1
+Warning: Unused variable ‘k8’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:89:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                                                         1
+Warning: Unused variable ‘k9’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:62:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                              1
+Warning: Unused variable ‘kmadfail’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:53:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                                     1
+Warning: Unused variable ‘kmadnod’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:21:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                     1
+Warning: Unused variable ‘kmadprt’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:37:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                     1
+Warning: Unused variable ‘kmadsh3’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:29:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                             1
+Warning: Unused variable ‘kmadsh4’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:296:45:
+
+  296 |       INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
+      |                                             1
+Warning: Unused variable ‘kmadsol’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:34:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                  1
+Warning: Unused variable ‘len_bdate’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:3:45:
+
+    3 |        INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG
+      |                                             1
+Warning: Unused variable ‘len_btime’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:46:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                                              1
+Warning: Unused variable ‘len_g’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:269:52:
+
+  269 |      .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
+      |                                                    1
+Warning: Unused variable ‘len_m’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:4:22:
+
+    4 |        INTEGER LENBNAM
+      |                      1
+Warning: Unused variable ‘lenbnam’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:273:46:
+
+  273 |       INTEGER OMP_GET_THREAD_NUM,LONG,LONG_TMP,
+      |                                              1
+Warning: Unused variable ‘long_tmp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:295:37:
+
+  295 |       CHARACTER MAD_OPTION_STRING*256,RMAD_OPTION_STRING*256
+      |                                     1
+Warning: Unused variable ‘mad_option_string’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:294:30:
+
+  294 |       INTEGER IERROR,MADSTRLEN
+      |                              1
+Warning: Unused variable ‘madstrlen’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:303:25:
+
+  303 |       CHARACTER*128 MESS1,MESS2,MESS3
+      |                         1
+Warning: Unused variable ‘mess1’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:303:31:
+
+  303 |       CHARACTER*128 MESS1,MESS2,MESS3
+      |                               1
+Warning: Unused variable ‘mess2’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:303:37:
+
+  303 |       CHARACTER*128 MESS1,MESS2,MESS3
+      |                                     1
+Warning: Unused variable ‘mess3’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:158:38:
+
+  158 |       SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA)
+      |                                      1
+Warning: Unused dummy argument ‘midata’ at (1) [-Wunused-dummy-argument]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:158:51:
+
+  158 |       SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA)
+      |                                                   1
+Warning: Unused dummy argument ‘mrdata’ at (1) [-Wunused-dummy-argument]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:274:44:
+
+  274 |      .        LENV,FVERS,LFNAME,NB_INDEX_ABF
+      |                                            1
+Warning: Unused variable ‘nb_index_abf’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:297:33:
+
+  297 |       INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
+      |                                 1
+Warning: Unused variable ‘nb_man’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:297:44:
+
+  297 |       INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
+      |                                            1
+Warning: Unused variable ‘nb_man_tot’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:267:20:
+
+  267 |      .        NPRELD, NPTS,NNODES,N,LEN, IOS,
+      |                    1
+Warning: Unused variable ‘npreld’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:309:31:
+
+  309 |       INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      |                               1
+Warning: Unused variable ‘npt’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:267:26:
+
+  267 |      .        NPRELD, NPTS,NNODES,N,LEN, IOS,
+      |                          1
+Warning: Unused variable ‘npts’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:273:32:
+
+  273 |       INTEGER OMP_GET_THREAD_NUM,LONG,LONG_TMP,
+      |                                1
+Warning: Unused variable ‘omp_get_thread_num’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:327:36:
+
+  327 |       INTEGER :: RADFLEX_PROCESS_PID
+      |                                    1
+Warning: Unused variable ‘radflex_process_pid’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:271:31:
+
+  271 |      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+      |                               1
+Warning: Unused variable ‘radflexv’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:271:22:
+
+  271 |      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+      |                      1
+Warning: Unused variable ‘radiossv’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:271:42:
+
+  271 |      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+      |                                          1
+Warning: Unused variable ‘rdflexcomp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:295:60:
+
+  295 |       CHARACTER MAD_OPTION_STRING*256,RMAD_OPTION_STRING*256
+      |                                                            1
+Warning: Unused variable ‘rmad_option_string’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:305:44:
+
+  305 |       my_real RNB_INDEX_ABF,RMAXINT
+      |                                            1
+Warning: Unused variable ‘rmaxint’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:305:36:
+
+  305 |       my_real RNB_INDEX_ABF,RMAXINT
+      |                                    1
+Warning: Unused variable ‘rnb_index_abf’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:297:51:
+
+  297 |       INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
+      |                                                   1
+Warning: Unused variable ‘topint’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/engine/radioss2.F:275:37:
+
+  275 |       CHARACTER FILNAM*100, VERSDP*36,CHRUNM1*2, INPUTNAM*100,
+      |                                     1
+Warning: Unused variable ‘versdp’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db/CMakeFiles/includes_engine_linux64_gf_db/build_info.inc:2:30:
+
+    2 |        CHARACTER YEARSTRING*11
+      |                              1
+Warning: Unused variable ‘yearstring’ declared at (1) [-Wunused-variable]
+[  1%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/loads/pblast/pblast.F.o
+[  1%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/loads/pblast/pblast_1.F.o
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_1.F:581:5:
+
+  581 |  1000 CONTINUE
+      |     1
+Warning: Label 1000 at (1) defined but not used [-Wunused-label]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_1.F:91:31:
+
+   91 |       my_real kk,alpha
+      |                               1
+Warning: Unused variable ‘alpha’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_1.F:90:55:
+
+   90 |       my_real DECAY_inci,DECAY_refl,ZETA,ZETA3,TMP2,TMP3,FUNCT,DIFF,RES,TOL
+      |                                                       1
+Warning: Unused variable ‘zeta3’ declared at (1) [-Wunused-variable]
+[  1%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/loads/pblast/pblast_2.F.o
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_2.F:574:5:
+
+  574 |  1000 CONTINUE
+      |     1
+Warning: Label 1000 at (1) defined but not used [-Wunused-label]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_2.F:96:31:
+
+   96 |       my_real kk,alpha
+      |                               1
+Warning: Unused variable ‘alpha’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_2.F:77:21:
+
+   77 |       INTEGER N1, ISK, N2, N3, N4, IL, IS, IAD, I,
+      |                     1
+Warning: Unused variable ‘isk’ declared at (1) [-Wunused-variable]
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_2.F:86:70:
+
+   86 |      .   I_inci,I_refl,dt_0,t_a,dt_0_,WAVE_refl,WAVE_inci, W13, P0, T_
+      |                                                                      1
+Warning: Unused variable ‘t_’ declared at (1) [-Wunused-variable]
+[  1%] Building Fortran object CMakeFiles/engine_linux64_gf_db.dir/source/loads/pblast/pblast_3.F.o
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_3.F:291:15:
+
+  291 |           DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)
+      |               1
+Error: Symbol ‘dnorm’ at (1) has no IMPLICIT type; did you mean ‘norm’?
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_3.F:187:10:
+
+  187 |       XDET           = FAC(02,NL)
+      |          1
+Error: Symbol ‘xdet’ at (1) has no IMPLICIT type; did you mean ‘tdet’?
+/work/05.GIT/OpenRadioss/OpenRadioss/engine/source/loads/pblast/pblast_3.F:835:5:
+
+  835 |  1000 CONTINUE
+      |     1
+Warning: Label 1000 at (1) defined but not used [-Wunused-label]
+make[2]: *** [CMakeFiles/engine_linux64_gf_db.dir/build.make:22039 : CMakeFiles/engine_linux64_gf_db.dir/source/loads/pblast/pblast_3.F.o] Erreur 1
+make[2] : on quitte le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make[1]: *** [CMakeFiles/Makefile2:100 : CMakeFiles/engine_linux64_gf_db.dir/all] Erreur 2
+make[1] : on quitte le répertoire « /work/05.GIT/OpenRadioss/OpenRadioss/engine/cbuild_linux64_gf_db »
+make: *** [Makefile:117 : all] Erreur 2
+ 
+ 
