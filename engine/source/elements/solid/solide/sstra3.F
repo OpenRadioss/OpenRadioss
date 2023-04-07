@@ -39,9 +39,11 @@ Chd|        SPSTRES                       source/elements/sph/spstres.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE SSTRA3(DXX   ,DYY   ,DZZ   ,D4    ,D5    ,
-     .                   D6    ,STRAIN,WXX   ,WYY   ,WZZ   ,
-     .                   OFF   ,NEL   )
+      SUBROUTINE SSTRA3(
+     1   DXX,     DYY,     DZZ,     D4,
+     2   D5,      D6,      STRAIN,  WXX,
+     3   WYY,     WZZ,     OFF,     NEL,
+     4   JCVT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,11 +52,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: NEL
       my_real DXX(*), DYY(*), DZZ(*), D4(*), D5(*), D6(*), 
      .        STRAIN(NEL,6), WXX(*), WYY(*), WZZ(*),OFF(*) 
 C-----------------------------------------------
@@ -72,7 +74,7 @@ C-
       Q3=0
       DTOFF(1:NEL) = DT1*OFF(1:NEL)
       IF(JCVT>0)THEN 
-        DO I=LFT,LLT
+        DO I=1,NEL
           STRAIN(I,1)=STRAIN(I,1)+DXX(I)*DTOFF(I)
           STRAIN(I,2)=STRAIN(I,2)+DYY(I)*DTOFF(I)
           STRAIN(I,3)=STRAIN(I,3)+DZZ(I)*DTOFF(I)
@@ -81,7 +83,7 @@ C-
           STRAIN(I,6)=STRAIN(I,6)+D6(I)*DTOFF(I)
         ENDDO
       ELSE    
-        DO I=LFT,LLT
+        DO I=1,NEL
 C
            WXXF=WXX(I)*OFF(I)
            WYYF=WYY(I)*OFF(I)

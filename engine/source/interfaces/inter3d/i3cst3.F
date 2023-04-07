@@ -31,19 +31,23 @@ Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I3CST3(X1    ,X2      ,X3    ,X4    ,XI ,
-     1                  Y1    ,Y2      ,Y3    ,Y4    ,YI ,
-     2                  Z1    ,Z2      ,Z3    ,Z4    ,ZI ,
-     3                  XFACE ,N1      ,N2    ,N3    ,SSC,
-     4                  TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5                  XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6                  YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7                  ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8                  YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9                  ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1                  XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2                  YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3                  AREA)
+      SUBROUTINE I3CST3(
+     1   X1,      X2,      X3,      X4,
+     2   XI,      Y1,      Y2,      Y3,
+     3   Y4,      YI,      Z1,      Z2,
+     4   Z3,      Z4,      ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,10 +59,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  X1,X2,X3,X4,XI
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  Y1,Y2,Y3,Y4,YI
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  Z1,Z2,Z3,Z4,ZI

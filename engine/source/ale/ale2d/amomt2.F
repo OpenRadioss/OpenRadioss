@@ -245,7 +245,10 @@ C-----------------------------------------------
          ! SUPG implementation for 2D ALE 
          !       NODE 1
          !-----------------------------------------------
-         CALL UPWIND(RHO,VIS,VY1,VY1,VZ1,S,S,T,DELTAX,GAMMA)
+         CALL UPWIND(
+     1   RHO,     VIS,     VY1,     VY1,
+     2   VZ1,     S,       S,       T,
+     3   DELTAX,  GAMMA,   LLT)
          DO I=LFT,LLT
             TR(I)=(Y41(I)*Z12(I)-Y12(I)*Z41(I))
             DYYP(I)=(-Z24(I)*FVY1(I)-Z41(I)*FVY2(I)-Z12(I)*FVY4(I))
@@ -273,7 +276,10 @@ C-----------------------------------------------
          ! SUPG implementation for 2D ALE 
          !       NODE 2
          !-----------------------------------------------
-         CALL UPWIND(RHO,VIS,VY2,VY2,VZ2,S,S,T,DELTAX,GAMMA)
+         CALL UPWIND(
+     1   RHO,     VIS,     VY2,     VY2,
+     2   VZ2,     S,       S,       T,
+     3   DELTAX,  GAMMA,   LLT)
          DO I=LFT,LLT
             TR(I)=(Y12(I)*Z23(I)-Y23(I)*Z12(I))
             DYYP(I)=(-Z23(I)*FVY1(I)+Z13(I)*FVY2(I)-Z12(I)*FVY3(I))
@@ -300,7 +306,10 @@ C-----------------------------------------------
          ! SUPG implementation for 2D ALE 
          !       NODE 3
          !-----------------------------------------------
-         CALL UPWIND(RHO,VIS,VY3,VY3,VZ3,S,S,T,DELTAX,GAMMA)
+         CALL UPWIND(
+     1   RHO,     VIS,     VY3,     VY3,
+     2   VZ3,     S,       S,       T,
+     3   DELTAX,  GAMMA,   LLT)
          DO I=LFT,LLT
             TR(I)=(Y23(I)*Z34(I)-Y34(I)*Z23(I))
             DYYP(I)=(-Z34(I)*FVY2(I)+Z24(I)*FVY3(I)-Z23(I)*FVY4(I))
@@ -327,7 +336,10 @@ C-----------------------------------------------
          ! SUPG implementation for 2D ALE 
          !       NODE 4
          !-----------------------------------------------
-         CALL UPWIND(RHO,VIS,VY4,VY4,VZ4,S,S,T,DELTAX,GAMMA)
+         CALL UPWIND(
+     1   RHO,     VIS,     VY4,     VY4,
+     2   VZ4,     S,       S,       T,
+     3   DELTAX,  GAMMA,   LLT)
          DO I=LFT,LLT
             TR(I)=(Y34(I)*Z41(I)-Y41(I)*Z34(I))
             DYYP(I)=(-Z34(I)*FVY1(I)-Z41(I)*FVY3(I)-Z13(I)*FVY4(I))

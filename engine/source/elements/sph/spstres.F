@@ -160,17 +160,22 @@ C GATHER PARTICLE VARIABLES
      3   NGEO,        IPART,       IPARTSP(NF1),NEL)
 C-----------
 C DOWNLOAD RHOO, RHON, DELTAX and D FROM WA.
-      CALL SPLOAD3(SPBUF ,WA ,RHOO ,GBUF%RHO,DELTAX ,
-     1        GBUF%OFF,DXX, DXY, DXZ, DYX,
-     2        DYY, DYZ, DZX, DZY, DZZ,
-     3        MUMAX)
+      CALL SPLOAD3(
+     1   SPBUF,   WA,      RHOO,    GBUF%RHO,
+     2   DELTAX,  GBUF%OFF,DXX,     DXY,
+     3   DXZ,     DYX,     DYY,     DYZ,
+     4   DZX,     DZY,     DZZ,     MUMAX,
+     5   LFT,     LLT,     NFT)
 C-----------
 C     LAGRANGIAN ONLY.
 C   do not enter spvol3 case thermal only material.
 C  (actually only Lagrangian case is available , not Ale neither Euler)
       IF(JLAG+JALE+JEUL/=0)THEN
-        CALL SPVOL3(OFF,PM,GBUF%VOL,GBUF%EINT,RHOO,
-     .            GBUF%RHO,VOLN,DVOL,NGL,MXT)
+        CALL SPVOL3(
+     1   OFF,      PM,       GBUF%VOL, GBUF%EINT,
+     2   RHOO,     GBUF%RHO, VOLN,     DVOL,
+     3   NGL,      MXT,      LFT,      LLT,
+     4   JLAG)
       END IF
 C-----------
       CALL SPDEFO3(
@@ -185,11 +190,15 @@ C     when particle is sleeping, stresses (global system) do not rotate.
      2   S4,      S5,      S6,      WXX,
      3   WYY,     WZZ,     NEL,     MTN,
      4   ISMSTR)
-      CALL SPREPLOC(GBUF%GAMA,WXX,WYY,WZZ,GAMA,
-     .              NEL      )
+      CALL SPREPLOC(
+     1   GBUF%GAMA,WXX,      WYY,      WZZ,
+     2   GAMA,     NEL,      LFT,      LLT,
+     3   ISORTH)
 C-----------
 Cbm   compute temperature in element
-      IF (JTHE < 0) CALL SPTEMPEL(KXSP,TEMP,TEMPEL)
+      IF (JTHE < 0) CALL SPTEMPEL(
+     1   KXSP,    TEMP,    TEMPEL,  LFT,
+     2   LLT,     NFT)
       DIE(1:MVSIZ)=ZERO
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
@@ -197,34 +206,46 @@ C------------------------------------------------------
 C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
       IBIDON(1)=0
       OFFSET=0
-      CALL MMAIN(ELBUF_TAB,NG    ,PM     ,GEO    ,FV     ,ALE_CONNECT,
-     2           IBIDON  ,IPARG  ,V      ,PLD    ,NPC    ,BUFMAT   ,
-     3           STI    ,X      ,DT2T   ,NELTST ,ITYPTST,OFFSET    ,
-     4           NEL    ,W      ,OFF    ,NGEO   ,
-     6           MXT    ,NGL    ,VOLN   ,VD2    ,DVOL   ,DELTAX    ,
-     7           VIS    ,QVIS   ,CXX    ,S1     ,S2     ,S3        ,
-     8           S4     ,S5     ,S6     ,DXX    ,DYY    ,DZZ       ,
-     9           D4     ,D5     ,D6     ,WXX    ,WYY    ,WZZ       ,
-     A           RX     ,RY     ,RZ     ,SX     ,SY     ,SZ        ,
-     B           VDX    ,VDY    ,VDZ    ,MUMAX  ,SSP_EQ ,AIRE      ,
-     C           SIGY   ,ET     ,R1_FREE,LBUF%PLA,R3_FREE,R4_FREE  ,
-     D           DXX    ,    DXY,    DXZ,    DYX,     DYY,    DYZ  ,
-     E           DZX    ,    DZY,    DZZ,IPM        ,GAMA    ,BID  ,
-     F           BID    ,BID    ,BID    ,BID        ,BID    ,BID   ,
-     G           ISTRAIN,TEMPEL ,DIE    ,IEXPAN     ,1    ,BID     ,
-     H           BID    ,1      ,1      ,1          ,TABLE   ,BID  ,
-     I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,BID  ,
-     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
+      CALL MMAIN(
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IBIDON,      IPARG,
+     3   V,           PLD,         NPC,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   OFF,         NGEO,        MXT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        CXX,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          DXX,         DYY,         DZZ,
+     B   D4,          D5,          D6,          WXX,
+     C   WYY,         WZZ,         RX,          RY,
+     D   RZ,          SX,          SY,          SZ,
+     E   VDX,         VDY,         VDZ,         MUMAX,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   R1_FREE,     LBUF%PLA,    R3_FREE,     R4_FREE,
+     H   DXX,         DXY,         DXZ,         DYX,
+     I   DYY,         DYZ,         DZX,         DZY,
+     J   DZZ,         IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     M   DIE,         IEXPAN,      1,           BID,
+     N   BID,         1,           1,           1,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        BID,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 C-----------------------------
       IF(ISTRAIN==1)THEN 
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,
      .              D6 ,LBUF%STRA,WXX ,WYY ,WZZ ,
-     .              OFF,NEL      )
+     .              OFF,NEL, IPARG(37,NG))
       ENDIF
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
-       CALL SPMALLB3(GBUF%OFF,OFF ,KXSP(1,NF1),SPH2SOL(NF1))
+       CALL SPMALLB3(
+     1   GBUF%OFF,    OFF,         KXSP(1,NF1), SPH2SOL(NF1),
+     2   LFT,         LLT,         ISMSTR)
 C--------------------------
 C     SUBMATERIALS SYNTHESIS
 C--------------------------
@@ -238,15 +259,20 @@ C--------------------------
          ELSE                                                    
            EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)                    
          ENDIF                                                   
-         CALL SPBILAN(V,PARTSAV,NC1,EINT,GBUF%RHO,GBUF%RK,
-     .                GBUF%VOL,VOLN,IPARTSP(NF1),GBUF%OFF,
-     .                GRESAV,GRTH,IGRTH(NF1),GBUF%EINTTH,IEXPAN,X)
+         CALL SPBILAN(
+     1   V,           PARTSAV,     NC1,         EINT,
+     2   GBUF%RHO,    GBUF%RK,     GBUF%VOL,    VOLN,
+     3   IPARTSP(NF1),GBUF%OFF,    GRESAV,      GRTH,
+     4   IGRTH(NF1),  GBUF%EINTTH, IEXPAN,      X,
+     5   LFT,         LLT,         JTUR,        IGRE)
       ENDIF
 C----------------------------
 C     RETURN TENSORS BACK FOR INTEGRATION.
 C----------------------------
-      CALL SPBACK3(GBUF%SIG,QVIS    ,STI     ,CXX     ,WA      ,
-     .             SSP_EQ  ,DIE     ,NEL     )
+      CALL SPBACK3(
+     1   GBUF%SIG,QVIS,    STI,     CXX,
+     2   WA,      SSP_EQ,  DIE,     NEL,
+     3   LFT,     LLT,     NFT)
 C----------------------------
       RETURN
       END

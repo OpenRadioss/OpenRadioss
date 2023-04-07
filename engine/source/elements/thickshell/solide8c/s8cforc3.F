@@ -408,8 +408,10 @@ C-----------
 C--------------------------
        IF (IOR_TSH  >  0) THEN
          CALL SGPARAV3(
-     .   8 ,X,IXS(1,NF1),
-     .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
+     1   8,         X,         IXS(1,NF1),RX,
+     2   RY,        RZ,        SX,        SY,
+     3   SZ,        TX,        TY,        TZ,
+     4   NEL)
        ENDIF
 C-----------
 C GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
@@ -460,8 +462,11 @@ C       GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .        NN_DEL=6
 c
       IF (JCVT == 2 .AND. IOR_TSH  == 0) THEN
-        CALL STORTH3(LFT,LLT,NEL,
-     .       G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z, GBUF%GAMA)
+        CALL STORTH3(
+     1   LFT,      LLT,      NEL,      G1X,
+     2   G1Y,      G1Z,      G2X,      G2Y,
+     3   G2Z,      G3X,      G3Y,      G3Z,
+     4   GBUF%GAMA,ISORTH)
       ENDIF
 c
       DO I=LFT,LLT
@@ -487,33 +492,42 @@ c      NPTR=MOD(NPT,10)
       NPTT=ELBUF_TAB(NG)%NPTT
       IT = 1
 c---------------------------      
-      CALL S8ZDERIC3(OFFL,VOLG,NGL,
-     .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .   PXC1, PXC2, PXC3, PXC4,
-     .   PYC1, PYC2, PYC3, PYC4,
-     .   PZC1, PZC2, PZC3, PZC4,
-     .   PX1H1, PX1H2, PX1H3, PX1H4,
-     .   PX2H1, PX2H2, PX2H3, PX2H4,
-     .   PX3H1, PX3H2, PX3H3, PX3H4,
-     .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   HX,   HY,   HZ,   
-     .   AJC1,AJC2,AJC3,
-     .   AJC4,AJC5,AJC6,
-     .   AJC7,AJC8,AJC9,SMAX,GBUF%SMSTR,GBUF%OFF ,NEL)
+      CALL S8ZDERIC3(
+     1   OFFL,      VOLG,      NGL,       XD1,
+     2   XD2,       XD3,       XD4,       XD5,
+     3   XD6,       XD7,       XD8,       YD1,
+     4   YD2,       YD3,       YD4,       YD5,
+     5   YD6,       YD7,       YD8,       ZD1,
+     6   ZD2,       ZD3,       ZD4,       ZD5,
+     7   ZD6,       ZD7,       ZD8,       PXC1,
+     8   PXC2,      PXC3,      PXC4,      PYC1,
+     9   PYC2,      PYC3,      PYC4,      PZC1,
+     A   PZC2,      PZC3,      PZC4,      PX1H1,
+     B   PX1H2,     PX1H3,     PX1H4,     PX2H1,
+     C   PX2H2,     PX2H3,     PX2H4,     PX3H1,
+     D   PX3H2,     PX3H3,     PX3H4,     PX4H1,
+     E   PX4H2,     PX4H3,     PX4H4,     HX,
+     F   HY,        HZ,        AJC1,      AJC2,
+     G   AJC3,      AJC4,      AJC5,      AJC6,
+     H   AJC7,      AJC8,      AJC9,      SMAX,
+     I   GBUF%SMSTR,GBUF%OFF,  NEL,       ISMSTR,
+     J   JLAG)
       IF (IDTS6>0) THEN                   
-        CALL SDLEN_DEGE(VOLG,DELTAX,         
-     .       X1, X2, X3, X4, X5, X6, X7, X8, 
-     .       Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
-     .       Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8, 
-     .       IXS(1,NF1),IDEG )  
+        CALL SDLEN_DEGE(
+     1   VOLG,      DELTAX,    X1,        X2,
+     2   X3,        X4,        X5,        X6,
+     3   X7,        X8,        Y1,        Y2,
+     4   Y3,        Y4,        Y5,        Y6,
+     5   Y7,        Y8,        Z1,        Z2,
+     6   Z3,        Z4,        Z5,        Z6,
+     7   Z7,        Z8,        IXS(1,NF1),IDEG,
+     8   NEL)
       END IF                                 
       IF (NTSHEG > 0) THEN
          CALL SDLENSH(VOLN,LLSH,AREA ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,NEL)
          LLSMIN(LFT:LLT) = DELTAX(LFT:LLT)
       END IF        
 C --------------------------
@@ -521,11 +535,14 @@ C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
 C  --- ! Total strain option doesn't change the Ref CONF.
 C --------------------------
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
-       CALL S8SAV3(GBUF%OFF,GBUF%SMSTR,
-     .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .             YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .             NEL)
+       CALL S8SAV3(
+     1   GBUF%OFF,  GBUF%SMSTR,XD1,       XD2,
+     2   XD3,       XD4,       XD5,       XD6,
+     3   XD7,       XD8,       YD1,       YD2,
+     4   YD3,       YD4,       YD5,       YD6,
+     5   YD7,       YD8,       ZD1,       ZD2,
+     6   ZD3,       ZD4,       ZD5,       ZD6,
+     7   ZD7,       ZD8,       NEL)
       END IF !(ISMSTR == 2) THEN
 C
       IF (ICP == 2) THEN
@@ -539,16 +556,22 @@ C
         ENDDO
       ENDIF 
 C-----don't do it w/ degenerated elm    
-      IF (ICP >0 .AND. IDTS6==0)  CALL DEGENES8(IXS(1,NF1),IDEG)
+      IF (ICP >0 .AND. IDTS6==0)  CALL DEGENES8(
+     1   IXS(1,NF1),IDEG,      NEL)
 C-----------
 C INITIALIZATION---Before increment-----
 C-----------
       CALL S8ZZERO3(
-     .  F11, F21, F31, F12, F22, F32, F13, F23, F33, F14, F24, F34, 
-     .  F15, F25, F35, F16, F26, F36, F17, F27, F37, F18, F28, F38,
-     .  GBUF%SIG ,GBUF%EINT,GBUF%RHO,GBUF%QVIS, GBUF%PLA ,
-     .  GBUF%EPSD,STIN     ,PP      ,GBUF%G_PLA,GBUF%G_EPSD, 
-     .  IEXPAN,   GBUF%EINTTH,NEL   ,CONDEN)
+     1   F11,        F21,        F31,        F12,
+     2   F22,        F32,        F13,        F23,
+     3   F33,        F14,        F24,        F34,
+     4   F15,        F25,        F35,        F16,
+     5   F26,        F36,        F17,        F27,
+     6   F37,        F18,        F28,        F38,
+     7   GBUF%SIG,   GBUF%EINT,  GBUF%RHO,   GBUF%QVIS,
+     8   GBUF%PLA,   GBUF%EPSD,  STIN,       PP,
+     9   GBUF%G_PLA, GBUF%G_EPSD,IEXPAN,     GBUF%EINTTH,
+     A   NEL,        CONDEN)
 C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT
 C-------------------------------------------
@@ -607,10 +630,16 @@ c------------------
 c------------------
 C       
         IF (IGTYP == 21) THEN                                           
-          CALL SCTORTH3(LFT,LLT,ICSIG,NEL,
-     .                  RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,            
-     .                  R11,R21,R31,R12,R22,R32,R13,R23,R33,            
-     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GBUF%GAMA) 
+          CALL SCTORTH3(
+     1   LFT,      LLT,      ICSIG,    NEL,
+     2   RX,       RY,       RZ,       SX,
+     3   SY,       SZ,       TX,       TY,
+     4   TZ,       R11,      R21,      R31,
+     5   R12,      R22,      R32,      R13,
+     6   R23,      R33,      G1X,      G1Y,
+     7   G1Z,      G2X,      G2Y,      G2Z,
+     8   G3X,      G3Y,      G3Z,      GBUF%GAMA,
+     9   IREP)
 c     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,EV(NBGAMA)) 
         ELSEIF (IGTYP == 22) THEN                                       
           IPTHK = IPANG+NLYMAX                                          
@@ -770,148 +799,256 @@ C----------------
          ENDIF ! IF (IOR_TSH)
          WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*WT    
 c
-         CALL S8ZDERI3(OFFL,OFF,VOLN,NGL,
-     .    ZR,ZS,ZT,WI,
-     .    PXC1, PXC2, PXC3, PXC4,
-     .    PYC1, PYC2, PYC3, PYC4,
-     .    PZC1, PZC2, PZC3, PZC4,
-     .    PX1H1, PX1H2, PX1H3, PX1H4,
-     .    PX2H1, PX2H2, PX2H3, PX2H4,
-     .    PX3H1, PX3H2, PX3H3, PX3H4,
-     .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,   HY,   HZ,   
-     .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
-     .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
-     .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
-     .    PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .    PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .    PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .    PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .    PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .    PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .    BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .    BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .    BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .    BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .    BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .    BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .    AJC1,AJC2,AJC3,
-     .    AJC4,AJC5,AJC6,
-     .    AJC7,AJC8,AJC9,
-     .    AJ1,AJ2,AJ3,
-     .    AJ4,AJ5,AJ6,
-     .    SMAX,DELTAX,NU1,ICP,IDEG,VOLDP)
+         CALL S8ZDERI3(
+     1   OFFL,    OFF,     VOLN,    NGL,
+     2   ZR,      ZS,      ZT,      WI,
+     3   PXC1,    PXC2,    PXC3,    PXC4,
+     4   PYC1,    PYC2,    PYC3,    PYC4,
+     5   PZC1,    PZC2,    PZC3,    PZC4,
+     6   PX1H1,   PX1H2,   PX1H3,   PX1H4,
+     7   PX2H1,   PX2H2,   PX2H3,   PX2H4,
+     8   PX3H1,   PX3H2,   PX3H3,   PX3H4,
+     9   PX4H1,   PX4H2,   PX4H3,   PX4H4,
+     A   HX,      HY,      HZ,      PX1,
+     B   PX2,     PX3,     PX4,     PX5,
+     C   PX6,     PX7,     PX8,     PY1,
+     D   PY2,     PY3,     PY4,     PY5,
+     E   PY6,     PY7,     PY8,     PZ1,
+     F   PZ2,     PZ3,     PZ4,     PZ5,
+     G   PZ6,     PZ7,     PZ8,     PXY1,
+     H   PXY2,    PXY3,    PXY4,    PXY5,
+     I   PXY6,    PXY7,    PXY8,    PYX1,
+     J   PYX2,    PYX3,    PYX4,    PYX5,
+     K   PYX6,    PYX7,    PYX8,    PXZ1,
+     L   PXZ2,    PXZ3,    PXZ4,    PXZ5,
+     M   PXZ6,    PXZ7,    PXZ8,    PZX1,
+     N   PZX2,    PZX3,    PZX4,    PZX5,
+     O   PZX6,    PZX7,    PZX8,    PYZ1,
+     P   PYZ2,    PYZ3,    PYZ4,    PYZ5,
+     Q   PYZ6,    PYZ7,    PYZ8,    PZY1,
+     R   PZY2,    PZY3,    PZY4,    PZY5,
+     S   PZY6,    PZY7,    PZY8,    BXY1,
+     T   BXY2,    BXY3,    BXY4,    BXY5,
+     U   BXY6,    BXY7,    BXY8,    BYX1,
+     V   BYX2,    BYX3,    BYX4,    BYX5,
+     W   BYX6,    BYX7,    BYX8,    BXZ1,
+     X   BXZ2,    BXZ3,    BXZ4,    BXZ5,
+     Y   BXZ6,    BXZ7,    BXZ8,    BZX1,
+     Z   BZX2,    BZX3,    BZX4,    BZX5,
+     1   BZX6,    BZX7,    BZX8,    BYZ1,
+     2   BYZ2,    BYZ3,    BYZ4,    BYZ5,
+     3   BYZ6,    BYZ7,    BYZ8,    BZY1,
+     4   BZY2,    BZY3,    BZY4,    BZY5,
+     5   BZY6,    BZY7,    BZY8,    AJC1,
+     6   AJC2,    AJC3,    AJC4,    AJC5,
+     7   AJC6,    AJC7,    AJC8,    AJC9,
+     8   AJ1,     AJ2,     AJ3,     AJ4,
+     9   AJ5,     AJ6,     SMAX,    DELTAX,
+     A   NU1,     ICP,     IDEG,    VOLDP,
+     B   NEL,     MTN,     ISMSTR,  JHBE)
 C
          IF (IGTYP == 22) THEN
            IF (ICT == 1) THEN
              CALL S8ZDEFO3(
-     .       PXC1, PXC2, PXC3, PXC4,
-     .       PYC1, PYC2, PYC3, PYC4,
-     .       PZC1, PZC2, PZC3, PZC4,
-     .       PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
-     .       PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
-     .       PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
-     .       PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .       PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .       PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .       PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .       PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .       PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .       BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .       BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .       BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .       BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .       BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .       BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .       VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .       VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .       VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .       DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .       WXX, WYY, WZZ,LBUF%VOL,OFF,LBUF%EINT,GBUF%OFF,DSV,
-     .       ICP,ICR,ICS,ICT,DTI,SMR(1,IP),SMS(1,IP),SMTT(1,IP),
-     .       NGL,IDEG,LBUF%VOL0DP)
+     1   PXC1,       PXC2,       PXC3,       PXC4,
+     2   PYC1,       PYC2,       PYC3,       PYC4,
+     3   PZC1,       PZC2,       PZC3,       PZC4,
+     4   PX1,        PX2,        PX3,        PX4,
+     5   PX5,        PX6,        PX7,        PX8,
+     6   PY1,        PY2,        PY3,        PY4,
+     7   PY5,        PY6,        PY7,        PY8,
+     8   PZ1,        PZ2,        PZ3,        PZ4,
+     9   PZ5,        PZ6,        PZ7,        PZ8,
+     A   PXY1,       PXY2,       PXY3,       PXY4,
+     B   PXY5,       PXY6,       PXY7,       PXY8,
+     C   PYX1,       PYX2,       PYX3,       PYX4,
+     D   PYX5,       PYX6,       PYX7,       PYX8,
+     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
+     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
+     G   PZX1,       PZX2,       PZX3,       PZX4,
+     H   PZX5,       PZX6,       PZX7,       PZX8,
+     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
+     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
+     K   PZY1,       PZY2,       PZY3,       PZY4,
+     L   PZY5,       PZY6,       PZY7,       PZY8,
+     M   BXY1,       BXY2,       BXY3,       BXY4,
+     N   BXY5,       BXY6,       BXY7,       BXY8,
+     O   BYX1,       BYX2,       BYX3,       BYX4,
+     P   BYX5,       BYX6,       BYX7,       BYX8,
+     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
+     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
+     S   BZX1,       BZX2,       BZX3,       BZX4,
+     T   BZX5,       BZX6,       BZX7,       BZX8,
+     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
+     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
+     W   BZY1,       BZY2,       BZY3,       BZY4,
+     X   BZY5,       BZY6,       BZY7,       BZY8,
+     Y   VX1,        VX2,        VX3,        VX4,
+     Z   VX5,        VX6,        VX7,        VX8,
+     1   VY1,        VY2,        VY3,        VY4,
+     2   VY5,        VY6,        VY7,        VY8,
+     3   VZ1,        VZ2,        VZ3,        VZ4,
+     4   VZ5,        VZ6,        VZ7,        VZ8,
+     5   DXX,        DXY,        DXZ,        DYX,
+     6   DYY,        DYZ,        DZX,        DZY,
+     7   DZZ,        D4,         D5,         D6,
+     8   WXX,        WYY,        WZZ,        LBUF%VOL,
+     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
+     A   ICP,        ICR,        ICS,        ICT,
+     B   DTI,        SMR(1,IP),  SMS(1,IP),  SMTT(1,IP),
+     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
+     D   ISMSTR,     JCVT)
            ELSEIF (ICS == 1) THEN
              CALL S8ZDEFO3(
-     .       PXC1, PXC2, PXC3, PXC4,
-     .       PYC1, PYC2, PYC3, PYC4,
-     .       PZC1, PZC2, PZC3, PZC4,
-     .       PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
-     .       PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
-     .       PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
-     .       PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .       PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .       PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .       PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .       PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .       PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .       BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .       BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .       BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .       BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .       BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .       BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .       VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .       VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .       VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .       DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .       WXX, WYY, WZZ,LBUF%VOL,OFF,LBUF%EINT,GBUF%OFF,DSV,
-     .       ICP,ICR,ICS,ICT,DTI,SMR(1,IP),SMTT(1,IP),SMT(1,IP),
-     .       NGL,IDEG,LBUF%VOL0DP)
+     1   PXC1,       PXC2,       PXC3,       PXC4,
+     2   PYC1,       PYC2,       PYC3,       PYC4,
+     3   PZC1,       PZC2,       PZC3,       PZC4,
+     4   PX1,        PX2,        PX3,        PX4,
+     5   PX5,        PX6,        PX7,        PX8,
+     6   PY1,        PY2,        PY3,        PY4,
+     7   PY5,        PY6,        PY7,        PY8,
+     8   PZ1,        PZ2,        PZ3,        PZ4,
+     9   PZ5,        PZ6,        PZ7,        PZ8,
+     A   PXY1,       PXY2,       PXY3,       PXY4,
+     B   PXY5,       PXY6,       PXY7,       PXY8,
+     C   PYX1,       PYX2,       PYX3,       PYX4,
+     D   PYX5,       PYX6,       PYX7,       PYX8,
+     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
+     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
+     G   PZX1,       PZX2,       PZX3,       PZX4,
+     H   PZX5,       PZX6,       PZX7,       PZX8,
+     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
+     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
+     K   PZY1,       PZY2,       PZY3,       PZY4,
+     L   PZY5,       PZY6,       PZY7,       PZY8,
+     M   BXY1,       BXY2,       BXY3,       BXY4,
+     N   BXY5,       BXY6,       BXY7,       BXY8,
+     O   BYX1,       BYX2,       BYX3,       BYX4,
+     P   BYX5,       BYX6,       BYX7,       BYX8,
+     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
+     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
+     S   BZX1,       BZX2,       BZX3,       BZX4,
+     T   BZX5,       BZX6,       BZX7,       BZX8,
+     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
+     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
+     W   BZY1,       BZY2,       BZY3,       BZY4,
+     X   BZY5,       BZY6,       BZY7,       BZY8,
+     Y   VX1,        VX2,        VX3,        VX4,
+     Z   VX5,        VX6,        VX7,        VX8,
+     1   VY1,        VY2,        VY3,        VY4,
+     2   VY5,        VY6,        VY7,        VY8,
+     3   VZ1,        VZ2,        VZ3,        VZ4,
+     4   VZ5,        VZ6,        VZ7,        VZ8,
+     5   DXX,        DXY,        DXZ,        DYX,
+     6   DYY,        DYZ,        DZX,        DZY,
+     7   DZZ,        D4,         D5,         D6,
+     8   WXX,        WYY,        WZZ,        LBUF%VOL,
+     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
+     A   ICP,        ICR,        ICS,        ICT,
+     B   DTI,        SMR(1,IP),  SMTT(1,IP), SMT(1,IP),
+     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
+     D   ISMSTR,     JCVT)
            ELSEIF (ICR == 1) THEN
              CALL S8ZDEFO3(
-     .       PXC1, PXC2, PXC3, PXC4,
-     .       PYC1, PYC2, PYC3, PYC4,
-     .       PZC1, PZC2, PZC3, PZC4,
-     .       PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
-     .       PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
-     .       PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
-     .       PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .       PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .       PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .       PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .       PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .       PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .       BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .       BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .       BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .       BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .       BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .       BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .       VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .       VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .       VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .       DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .       WXX, WYY, WZZ,LBUF%VOL,OFF,LBUF%EINT,GBUF%OFF,DSV,
-     .       ICP,ICR,ICS,ICT,DTI,SMTT(1,IP),SMS(1,IP),SMT(1,IP),
-     .       NGL,IDEG,LBUF%VOL0DP)
+     1   PXC1,       PXC2,       PXC3,       PXC4,
+     2   PYC1,       PYC2,       PYC3,       PYC4,
+     3   PZC1,       PZC2,       PZC3,       PZC4,
+     4   PX1,        PX2,        PX3,        PX4,
+     5   PX5,        PX6,        PX7,        PX8,
+     6   PY1,        PY2,        PY3,        PY4,
+     7   PY5,        PY6,        PY7,        PY8,
+     8   PZ1,        PZ2,        PZ3,        PZ4,
+     9   PZ5,        PZ6,        PZ7,        PZ8,
+     A   PXY1,       PXY2,       PXY3,       PXY4,
+     B   PXY5,       PXY6,       PXY7,       PXY8,
+     C   PYX1,       PYX2,       PYX3,       PYX4,
+     D   PYX5,       PYX6,       PYX7,       PYX8,
+     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
+     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
+     G   PZX1,       PZX2,       PZX3,       PZX4,
+     H   PZX5,       PZX6,       PZX7,       PZX8,
+     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
+     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
+     K   PZY1,       PZY2,       PZY3,       PZY4,
+     L   PZY5,       PZY6,       PZY7,       PZY8,
+     M   BXY1,       BXY2,       BXY3,       BXY4,
+     N   BXY5,       BXY6,       BXY7,       BXY8,
+     O   BYX1,       BYX2,       BYX3,       BYX4,
+     P   BYX5,       BYX6,       BYX7,       BYX8,
+     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
+     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
+     S   BZX1,       BZX2,       BZX3,       BZX4,
+     T   BZX5,       BZX6,       BZX7,       BZX8,
+     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
+     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
+     W   BZY1,       BZY2,       BZY3,       BZY4,
+     X   BZY5,       BZY6,       BZY7,       BZY8,
+     Y   VX1,        VX2,        VX3,        VX4,
+     Z   VX5,        VX6,        VX7,        VX8,
+     1   VY1,        VY2,        VY3,        VY4,
+     2   VY5,        VY6,        VY7,        VY8,
+     3   VZ1,        VZ2,        VZ3,        VZ4,
+     4   VZ5,        VZ6,        VZ7,        VZ8,
+     5   DXX,        DXY,        DXZ,        DYX,
+     6   DYY,        DYZ,        DZX,        DZY,
+     7   DZZ,        D4,         D5,         D6,
+     8   WXX,        WYY,        WZZ,        LBUF%VOL,
+     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
+     A   ICP,        ICR,        ICS,        ICT,
+     B   DTI,        SMTT(1,IP), SMS(1,IP),  SMT(1,IP),
+     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
+     D   ISMSTR,     JCVT)
            ENDIF 
 	     ELSE
            CALL S8ZDEFO3(
-     .     PXC1, PXC2, PXC3, PXC4,
-     .     PYC1, PYC2, PYC3, PYC4,
-     .     PZC1, PZC2, PZC3, PZC4,
-     .     PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
-     .     PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
-     .     PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
-     .     PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .     PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .     PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .     PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .     PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .     PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .     BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .     BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .     BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .     BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .     BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .     BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .     VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .     VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .     VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .     DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .     WXX, WYY, WZZ,LBUF%VOL,OFF,LBUF%EINT,GBUF%OFF,DSV,
-     .     ICP,ICR,ICS,ICT,DTI,SMR(1,IP),SMS(1,IP),SMT(1,IP),
-     .     NGL,IDEG,LBUF%VOL0DP)
+     1   PXC1,       PXC2,       PXC3,       PXC4,
+     2   PYC1,       PYC2,       PYC3,       PYC4,
+     3   PZC1,       PZC2,       PZC3,       PZC4,
+     4   PX1,        PX2,        PX3,        PX4,
+     5   PX5,        PX6,        PX7,        PX8,
+     6   PY1,        PY2,        PY3,        PY4,
+     7   PY5,        PY6,        PY7,        PY8,
+     8   PZ1,        PZ2,        PZ3,        PZ4,
+     9   PZ5,        PZ6,        PZ7,        PZ8,
+     A   PXY1,       PXY2,       PXY3,       PXY4,
+     B   PXY5,       PXY6,       PXY7,       PXY8,
+     C   PYX1,       PYX2,       PYX3,       PYX4,
+     D   PYX5,       PYX6,       PYX7,       PYX8,
+     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
+     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
+     G   PZX1,       PZX2,       PZX3,       PZX4,
+     H   PZX5,       PZX6,       PZX7,       PZX8,
+     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
+     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
+     K   PZY1,       PZY2,       PZY3,       PZY4,
+     L   PZY5,       PZY6,       PZY7,       PZY8,
+     M   BXY1,       BXY2,       BXY3,       BXY4,
+     N   BXY5,       BXY6,       BXY7,       BXY8,
+     O   BYX1,       BYX2,       BYX3,       BYX4,
+     P   BYX5,       BYX6,       BYX7,       BYX8,
+     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
+     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
+     S   BZX1,       BZX2,       BZX3,       BZX4,
+     T   BZX5,       BZX6,       BZX7,       BZX8,
+     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
+     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
+     W   BZY1,       BZY2,       BZY3,       BZY4,
+     X   BZY5,       BZY6,       BZY7,       BZY8,
+     Y   VX1,        VX2,        VX3,        VX4,
+     Z   VX5,        VX6,        VX7,        VX8,
+     1   VY1,        VY2,        VY3,        VY4,
+     2   VY5,        VY6,        VY7,        VY8,
+     3   VZ1,        VZ2,        VZ3,        VZ4,
+     4   VZ5,        VZ6,        VZ7,        VZ8,
+     5   DXX,        DXY,        DXZ,        DYX,
+     6   DYY,        DYZ,        DZX,        DZY,
+     7   DZZ,        D4,         D5,         D6,
+     8   WXX,        WYY,        WZZ,        LBUF%VOL,
+     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
+     A   ICP,        ICR,        ICS,        ICT,
+     B   DTI,        SMR(1,IP),  SMS(1,IP),  SMT(1,IP),
+     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
+     D   ISMSTR,     JCVT)
         ENDIF 
 C
         MX = MXT(LFT)
@@ -920,10 +1057,16 @@ C
           TEMPEL(I) = PM(79,MX)
         ENDDO
         IF (IGTYP == 22)  
-     .     CALL SCTORTH3(LFT,LLT,ICSIG,NEL,
-     .                    RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,
-     .                    R11,R21,R31,R12,R22,R32,R13,R23,R33,
-     .                    G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,LBUF%GAMA)
+     .     CALL SCTORTH3(
+     1   LFT,      LLT,      ICSIG,    NEL,
+     2   RX,       RY,       RZ,       SX,
+     3   SY,       SZ,       TX,       TY,
+     4   TZ,       R11,      R21,      R31,
+     5   R12,      R22,      R32,      R13,
+     6   R23,      R33,      G1X,      G1Y,
+     7   G1Z,      G2X,      G2Y,      G2Z,
+     8   G3X,      G3Y,      G3Z,      LBUF%GAMA,
+     9   IREP)
         IF (JCVT == 2) THEN
          CALL SZORDEF3(LFT,LLT,DXX,DYY,DZZ,D4,D5,D6,
      .                G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z)
@@ -955,9 +1098,13 @@ C
           ENDDO
         END IF
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
-        CALL SRHO3(PM         , LBUF%VOL  , LBUF%RHO , LBUF%EINT, DIVDE,
-     2             FLUX(1,NF1), FLU1(NF1) , VOLN     , DVOL     , NGL, MXT, OFF,
-     3             0          , GBUF%TAG22 , VOLDP,LBUF%VOL0DP,AMU  ,GBUF%OFF)
+        CALL SRHO3(
+     1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
+     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     3   DVOL,       NGL,        MXT,        OFF,
+     4   0,          GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
+     5   AMU,        GBUF%OFF,   NEL,        MTN,
+     6   JALE,       ISMSTR,     JEUL,       JLAG)
 C
         IF (JCVT == 0) THEN
           CALL SROTA3(
@@ -968,7 +1115,10 @@ C
 C-----------------------------
 C      SMALL STRAIN
 C-----------------------------
-          CALL SMALLA3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,WZZ,NEL)
+          CALL SMALLA3(
+     1   GBUF%SMSTR,GBUF%OFF,  OFF,       WXX,
+     2   WYY,       WZZ,       NEL,       ISMSTR,
+     3   JLAG)
 C
         ELSE
 C-----------------------------
@@ -996,29 +1146,41 @@ c
      1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
      2   TT,        NEL,       SENSOR_TAB,NPT)
 
-        CALL MMAIN(ELBUF_TAB,NG    ,PM     ,GEO     ,FV      ,ALE_CONNECT   ,
-     2           IXS     ,IPARG    ,V      ,TF      ,NPF     ,BUFMAT  ,
-     3           STI      ,X      ,DT2T   ,NELTST   ,ITYPTST ,OFFSET  ,
-     4           NEL      ,W      ,OFF    ,NGEO     ,
-     6           MXT      ,NGL    ,VOLN   ,VD2      ,DVOL    ,DELTAX  ,
-     7           VIS      ,QVIS   ,CXX    ,S1       ,S2      ,S3      ,
-     8           S4       ,S5     ,S6     ,DXX      ,DYY     ,DZZ     ,
-     9           D4       ,D5     ,D6     ,WXX      ,WYY     ,WZZ     ,
-     A           AJ1      ,AJ2    ,AJ3    ,AJ4      ,AJ5     ,AJ6     ,
-     B           VDX      ,VDY    ,VDZ    ,MUVOID   ,SSP_EQ  ,AIRE    ,
-     C           SIGY     ,ET     ,R1_FREE,LBUF%PLA ,R3_FREE ,AMU   ,
-     DMFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP)   ,MFYY(1,IP),MFYZ(1,IP), 
-     EMFZX(1,IP),MFZY(1,IP),MFZZ(1,IP)  ,IPM        ,GAMA      ,BID    ,
-     F           BID    ,BID    ,BID    ,BID        ,BID        ,BID     ,
-     G           ISTRAIN,TEMPEL ,DIE    ,IEXPAN     ,IL         ,MSSA    ,
-     H           DMELS  ,IR     ,IS     ,IT         ,TABLE      ,BID     ,
-     I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,CONDE  ,
-     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
+        CALL MMAIN(
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   OFF,         NGEO,        MXT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        CXX,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          DXX,         DYY,         DZZ,
+     B   D4,          D5,          D6,          WXX,
+     C   WYY,         WZZ,         AJ1,         AJ2,
+     D   AJ3,         AJ4,         AJ5,         AJ6,
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   R1_FREE,     LBUF%PLA,    R3_FREE,     AMU,
+     H   MFXX(1,IP),  MFXY(1,IP),  MFXZ(1,IP),  MFYX(1,IP),
+     I   MFYY(1,IP),  MFYZ(1,IP),  MFZX(1,IP),  MFZY(1,IP),
+     J   MFZZ(1,IP),  IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     M   DIE,         IEXPAN,      IL,          MSSA,
+     N   DMELS,       IR,          IS,          IT,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        CONDE,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 C    
         IF (ISTRAIN == 1) THEN 
-          CALL SSTRA3(DXX,DYY,DZZ,D4,D5,
-     .                D6, LBUF%STRA, WXX, WYY, WZZ,
-     .                OFF,NEL)
+          CALL SSTRA3(
+     1   DXX,      DYY,      DZZ,      D4,
+     2   D5,       D6,       LBUF%STRA,WXX,
+     3   WYY,      WZZ,      OFF,      NEL,
+     4   JCVT)
         ENDIF
 C
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
@@ -1028,64 +1190,102 @@ C
         IF (JCVT == 2) THEN
           CALL SROTO3(LFT,LLT,LBUF%SIG,SIGN,
      .            G1X, G2X, G3X, G1Y, G2Y, G3Y, G1Z, G2Z, G3Z,NEL)
-          CALL S8ZFINT3(SIGN,SIGN,
-     .    PX1, PX2, PX3, PX4,
-     .    PY1, PY2, PY3, PY4,
-     .    PZ1, PZ2, PZ3, PZ4,
-     .    PX5, PX6, PX7, PX8,
-     .    PY5, PY6, PY7, PY8,
-     .    PZ5, PZ6, PZ7, PZ8,
-     .    PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .    PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .    PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .    PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .    PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .    PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .    BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .    BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .    BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .    BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .    BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .    BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .    F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .    F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .    VOLN,QVIS,PP,
-     .    LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
-     .    GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
-     .    VOLG,STI,STIN,ICP,OFF,LBUF%VOL,GBUF%VOL,
-     .    GBUF%G_PLA*L_PLA,L_EPSD,FAC,
-     .    LBUF%EINTTH,GBUF%EINTTH,IEXPAN,NEL,IDEG,CONDE,CONDEN) 
+          CALL S8ZFINT3(
+     1   SIGN,            SIGN,            PX1,             PX2,
+     2   PX3,             PX4,             PY1,             PY2,
+     3   PY3,             PY4,             PZ1,             PZ2,
+     4   PZ3,             PZ4,             PX5,             PX6,
+     5   PX7,             PX8,             PY5,             PY6,
+     6   PY7,             PY8,             PZ5,             PZ6,
+     7   PZ7,             PZ8,             PXY1,            PXY2,
+     8   PXY3,            PXY4,            PXY5,            PXY6,
+     9   PXY7,            PXY8,            PYX1,            PYX2,
+     A   PYX3,            PYX4,            PYX5,            PYX6,
+     B   PYX7,            PYX8,            PXZ1,            PXZ2,
+     C   PXZ3,            PXZ4,            PXZ5,            PXZ6,
+     D   PXZ7,            PXZ8,            PZX1,            PZX2,
+     E   PZX3,            PZX4,            PZX5,            PZX6,
+     F   PZX7,            PZX8,            PYZ1,            PYZ2,
+     G   PYZ3,            PYZ4,            PYZ5,            PYZ6,
+     H   PYZ7,            PYZ8,            PZY1,            PZY2,
+     I   PZY3,            PZY4,            PZY5,            PZY6,
+     J   PZY7,            PZY8,            BXY1,            BXY2,
+     K   BXY3,            BXY4,            BXY5,            BXY6,
+     L   BXY7,            BXY8,            BYX1,            BYX2,
+     M   BYX3,            BYX4,            BYX5,            BYX6,
+     N   BYX7,            BYX8,            BXZ1,            BXZ2,
+     O   BXZ3,            BXZ4,            BXZ5,            BXZ6,
+     P   BXZ7,            BXZ8,            BZX1,            BZX2,
+     Q   BZX3,            BZX4,            BZX5,            BZX6,
+     R   BZX7,            BZX8,            BYZ1,            BYZ2,
+     S   BYZ3,            BYZ4,            BYZ5,            BYZ6,
+     T   BYZ7,            BYZ8,            BZY1,            BZY2,
+     U   BZY3,            BZY4,            BZY5,            BZY6,
+     V   BZY7,            BZY8,            F11,             F21,
+     W   F31,             F12,             F22,             F32,
+     X   F13,             F23,             F33,             F14,
+     Y   F24,             F34,             F15,             F25,
+     Z   F35,             F16,             F26,             F36,
+     1   F17,             F27,             F37,             F18,
+     2   F28,             F38,             VOLN,            QVIS,
+     3   PP,              LBUF%EINT,       LBUF%RHO,        LBUF%QVIS,
+     4   LBUF%PLA,        LBUF%EPSD,       GBUF%EPSD,       GBUF%SIG,
+     5   GBUF%EINT,       GBUF%RHO,        GBUF%QVIS,       GBUF%PLA,
+     6   VOLG,            STI,             STIN,            ICP,
+     7   OFF,             LBUF%VOL,        GBUF%VOL,        GBUF%G_PLA*L_PLA,
+     8   L_EPSD,          FAC,             LBUF%EINTTH,     GBUF%EINTTH,
+     9   IEXPAN,          NEL,             IDEG,            CONDE,
+     A   CONDEN,          MTN,             ISMSTR)
         ELSE
 C----------------------------
 C         INTERNAL FORCES
 C----------------------------
-          CALL S8ZFINT3(LBUF%SIG,LBUF%SIG,
-     .    PX1, PX2, PX3, PX4,
-     .    PY1, PY2, PY3, PY4,
-     .    PZ1, PZ2, PZ3, PZ4,
-     .    PX5, PX6, PX7, PX8,
-     .    PY5, PY6, PY7, PY8,
-     .    PZ5, PZ6, PZ7, PZ8,
-     .    PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .    PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .    PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .    PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .    PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .    PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .    BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .    BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .    BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .    BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .    BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .    BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .    F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .    F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .    VOLN,QVIS,PP,
-     .    LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
-     .    GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
-     .    VOLG,STI,STIN,ICP,OFF,LBUF%VOL,GBUF%VOL,
-     .    L_PLA,L_EPSD,FAC, 
-     .    LBUF%EINTTH,GBUF%EINTTH,IEXPAN,NEL,IDEG,CONDE,CONDEN) 
+          CALL S8ZFINT3(
+     1   LBUF%SIG,   LBUF%SIG,   PX1,        PX2,
+     2   PX3,        PX4,        PY1,        PY2,
+     3   PY3,        PY4,        PZ1,        PZ2,
+     4   PZ3,        PZ4,        PX5,        PX6,
+     5   PX7,        PX8,        PY5,        PY6,
+     6   PY7,        PY8,        PZ5,        PZ6,
+     7   PZ7,        PZ8,        PXY1,       PXY2,
+     8   PXY3,       PXY4,       PXY5,       PXY6,
+     9   PXY7,       PXY8,       PYX1,       PYX2,
+     A   PYX3,       PYX4,       PYX5,       PYX6,
+     B   PYX7,       PYX8,       PXZ1,       PXZ2,
+     C   PXZ3,       PXZ4,       PXZ5,       PXZ6,
+     D   PXZ7,       PXZ8,       PZX1,       PZX2,
+     E   PZX3,       PZX4,       PZX5,       PZX6,
+     F   PZX7,       PZX8,       PYZ1,       PYZ2,
+     G   PYZ3,       PYZ4,       PYZ5,       PYZ6,
+     H   PYZ7,       PYZ8,       PZY1,       PZY2,
+     I   PZY3,       PZY4,       PZY5,       PZY6,
+     J   PZY7,       PZY8,       BXY1,       BXY2,
+     K   BXY3,       BXY4,       BXY5,       BXY6,
+     L   BXY7,       BXY8,       BYX1,       BYX2,
+     M   BYX3,       BYX4,       BYX5,       BYX6,
+     N   BYX7,       BYX8,       BXZ1,       BXZ2,
+     O   BXZ3,       BXZ4,       BXZ5,       BXZ6,
+     P   BXZ7,       BXZ8,       BZX1,       BZX2,
+     Q   BZX3,       BZX4,       BZX5,       BZX6,
+     R   BZX7,       BZX8,       BYZ1,       BYZ2,
+     S   BYZ3,       BYZ4,       BYZ5,       BYZ6,
+     T   BYZ7,       BYZ8,       BZY1,       BZY2,
+     U   BZY3,       BZY4,       BZY5,       BZY6,
+     V   BZY7,       BZY8,       F11,        F21,
+     W   F31,        F12,        F22,        F32,
+     X   F13,        F23,        F33,        F14,
+     Y   F24,        F34,        F15,        F25,
+     Z   F35,        F16,        F26,        F36,
+     1   F17,        F27,        F37,        F18,
+     2   F28,        F38,        VOLN,       QVIS,
+     3   PP,         LBUF%EINT,  LBUF%RHO,   LBUF%QVIS,
+     4   LBUF%PLA,   LBUF%EPSD,  GBUF%EPSD,  GBUF%SIG,
+     5   GBUF%EINT,  GBUF%RHO,   GBUF%QVIS,  GBUF%PLA,
+     6   VOLG,       STI,        STIN,       ICP,
+     7   OFF,        LBUF%VOL,   GBUF%VOL,   L_PLA,
+     8   L_EPSD,     FAC,        LBUF%EINTTH,GBUF%EINTTH,
+     9   IEXPAN,     NEL,        IDEG,       CONDE,
+     A   CONDEN,     MTN,        ISMSTR)
         ENDIF
         DO I=LFT,LLT                                        
           OFFL(I)=MIN(OFFL(I),OFF(I))                        
@@ -1136,12 +1336,16 @@ c
 c----------------------      
       IF (ICP == 1) THEN
        CALL S8ZFINTP3(
-     .   PXC1, PXC2, PXC3, PXC4,
-     .   PYC1, PYC2, PYC3, PYC4,
-     .   PZC1, PZC2, PZC3, PZC4,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOLG,PP,IDEG)
+     1   PXC1,    PXC2,    PXC3,    PXC4,
+     2   PYC1,    PYC2,    PYC3,    PYC4,
+     3   PZC1,    PZC2,    PZC3,    PZC4,
+     4   F11,     F21,     F31,     F12,
+     5   F22,     F32,     F13,     F23,
+     6   F33,     F14,     F24,     F34,
+     7   F15,     F25,     F35,     F16,
+     8   F26,     F36,     F17,     F27,
+     9   F37,     F18,     F28,     F38,
+     A   VOLG,    PP,      IDEG,    NEL)
       ENDIF
       IF (IGTYP == 22) THEN
         MTN = MTN0
@@ -1154,14 +1358,15 @@ c----------------------
      .    CALL SDLENSH(VOLG,LLSH,AREA ,
      .          X1, X2, X3, X4, X5, X6, X7, X8,
      .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,NEL)
         CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
      .                  LLSH,GEO(1,PID),NN_DEL,NEL )
       ENDIF
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
-      CALL SMALLB3(GBUF%OFF,OFFL)
+      CALL SMALLB3(
+     1   GBUF%OFF,OFFL,    NEL,     ISMSTR)
 C--------------------------
 C       BILANS PAR MATERIAU
 C--------------------------
@@ -1192,10 +1397,15 @@ C     CONVECTE --> GLOBAL.
 C----------------------------
       IF (JCVT/=0) THEN
        CALL SRROTA3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   F11, F12, F13, F14, F15, F16, F17, F18,
-     .   F21, F22, F23, F24, F25, F26, F27, F28,
-     .   F31, F32, F33, F34, F35, F36, F37, F38)
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     F11,     F12,     F13,
+     4   F14,     F15,     F16,     F17,
+     5   F18,     F21,     F22,     F23,
+     6   F24,     F25,     F26,     F27,
+     7   F28,     F31,     F32,     F33,
+     8   F34,     F35,     F36,     F37,
+     9   F38,     NEL)
       ENDIF
 C----------------------------
       IF(NFILSOL/=0) CALL SFILLOPT(
@@ -1208,23 +1418,46 @@ C----------------------------
      7   F28,      F38,      NEL)
 C----------------------------
       IF(IPARIT == 0)THEN
-          CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,
-     2             NC5, NC6, NC7, NC8,STIFN,STIN,
-     3   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     4   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     5   NVC,BID,BID,BID,
-     6   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     7   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     8   THEM, FTHE,CONDN,CONDEN)
+          CALL SCUMU3(
+     1   GBUF%OFF,A,       NC1,     NC2,
+     2   NC3,     NC4,     NC5,     NC6,
+     3   NC7,     NC8,     STIFN,   STIN,
+     4   F11,     F21,     F31,     F12,
+     5   F22,     F32,     F13,     F23,
+     6   F33,     F14,     F24,     F34,
+     7   F15,     F25,     F35,     F16,
+     8   F26,     F36,     F17,     F27,
+     9   F37,     F18,     F28,     F38,
+     A   NVC,     BID,     BID,     BID,
+     B   BID,     BID,     BID,     BID,
+     C   BID,     BID,     BID,     BID,
+     D   BID,     BID,     BID,     BID,
+     E   BID,     BID,     BID,     BID,
+     F   BID,     BID,     BID,     BID,
+     G   BID,     BID,     BID,     BID,
+     H   THEM,    FTHE,    CONDN,   CONDEN,
+     I   NEL,     JTHE,    ISROT,   IPARTSPH)
       ELSE
-          CALL SCUMU3P(GBUF%OFF,STIN,FSKY,FSKY,IADS,
-     2   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     3   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     4   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     5   BID,BID,BID,
-     6   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     7   BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,BID,
-     8   THEM, FTHESKY,CONDNSKY,CONDEN)
+          CALL SCUMU3P(
+     1   GBUF%OFF,STIN,    FSKY,    FSKY,
+     2   IADS,    F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     F15,     F25,     F35,
+     6   F16,     F26,     F36,     F17,
+     7   F27,     F37,     F18,     F28,
+     8   F38,     NC1,     NC2,     NC3,
+     9   NC4,     NC5,     NC6,     NC7,
+     A   NC8,     BID,     BID,     BID,
+     B   BID,     BID,     BID,     BID,
+     C   BID,     BID,     BID,     BID,
+     D   BID,     BID,     BID,     BID,
+     E   BID,     BID,     BID,     BID,
+     F   BID,     BID,     BID,     BID,
+     G   BID,     BID,     BID,     BID,
+     H   THEM,    FTHESKY, CONDNSKY,CONDEN,
+     I   NEL,     NFT,     JTHE,    ISROT,
+     J   IPARTSPH)
       ENDIF
       IF (NTSHEG > 0) THEN
         ALPHA_E(LFT:LLT) = ONE  
@@ -1233,136 +1466,11 @@ C----------------------------
           FACDP = 1.343*LLSH(I)/LLSMIN(I)
           ALPHA_E(I) = FACDP*FACDP  
         ENDDO
-        CALL SCUMUALPHA(GBUF%OFF,ALPHA_E,NC1, NC2, NC3, NC4,
-     +                               NC5, NC6, NC7, NC8)
+        CALL SCUMUALPHA(
+     1   GBUF%OFF,ALPHA_E, NC1,     NC2,
+     2   NC3,     NC4,     NC5,     NC6,
+     3   NC7,     NC8,     NEL)
       END IF        
 C-----------
       RETURN
-      END SUBROUTINE S8CFORC3
-      
-Chd|====================================================================
-Chd|  SCTORTH3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|-- called by -----------
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SCTORTH3(JFT,JLT,ICSTR,NEL,
-     .                   RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,
-     .                   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
-     .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GAMA)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C----------------------------------------------- 
-      INTEGER JFT, JLT,ICSTR,NEL
-C     REAL
-      my_real
-     .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
-     .   E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
-     .   G1X(*),G1Y(*),G1Z(*),
-     .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),GAMA(NEL,6)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real 
-     .   V1,V2,V3,VR,VS,AA,BB,SUMA,CPN(MVSIZ),SPN(MVSIZ)
-C-----------------------------------------------
-        IF(IREP == 0) THEN
-           CPN(JFT:JLT) = GAMA(JFT:JLT,1)
-           SPN(JFT:JLT) = GAMA(JFT:JLT,2)
-        ELSE
-         SELECT CASE (ICSTR)                                             
-          CASE (1)                                                        
-          DO I=JFT,JLT
-            AA = GAMA(I,1)
-            BB = GAMA(I,2)
-            V1 = AA*RX(I) + BB*SX(I)
-            V2 = AA*RY(I) + BB*SY(I)
-            V3 = AA*RZ(I) + BB*SZ(I)
-            VR=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
-            VS=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
-            SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=ONE/MAX(EM20,SUMA)
-            CPN(I) = VR*SUMA
-            SPN(I) = VS*SUMA
-          ENDDO
-         CASE (100)                                                        
-          DO I=JFT,JLT
-            AA = GAMA(I,1)
-            BB = GAMA(I,2)
-            V1 = AA*SX(I) + BB*TX(I)
-            V2 = AA*SY(I) + BB*TY(I)
-            V3 = AA*SZ(I) + BB*TZ(I)
-            VR=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
-            VS=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
-            SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=ONE/MAX(EM20,SUMA)
-            CPN(I) = VR*SUMA
-            SPN(I) = VS*SUMA
-          ENDDO
-        CASE (10)                                                        
-          DO I=JFT,JLT
-            AA = GAMA(I,1)
-            BB = GAMA(I,2)
-            V1 = AA*TX(I) + BB*RX(I)
-            V2 = AA*TY(I) + BB*RY(I)
-            V3 = AA*TZ(I) + BB*RZ(I)
-            VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
-            VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
-            SUMA=SQRT(VR*VR + VS*VS)
-            SUMA=ONE/MAX(EM20,SUMA)
-            CPN(I) = VR*SUMA
-            SPN(I) = VS*SUMA
-          ENDDO
-         END SELECT                                                      
-        ENDIF
-C
-        SELECT CASE (ICSTR)                                             
-        CASE (1)                                                        
-            G1X(JFT:JLT)=ZERO
-            G1Y(JFT:JLT)=CPN(JFT:JLT)
-            G1Z(JFT:JLT)=SPN(JFT:JLT)
-            G2X(JFT:JLT)=ZERO                                                 
-            G2Y(JFT:JLT)=-SPN(JFT:JLT)                                                 
-            G2Z(JFT:JLT)=CPN(JFT:JLT)                                               
-            G3X(JFT:JLT)=ONE
-            G3Y(JFT:JLT)=ZERO
-            G3Z(JFT:JLT)=ZERO
-        CASE (100)                                                        
-            G1X(JFT:JLT)=SPN(JFT:JLT)
-            G1Y(JFT:JLT)=ZERO
-            G1Z(JFT:JLT)=CPN(JFT:JLT)
-            G2X(JFT:JLT)=CPN(JFT:JLT)                                                 
-            G2Y(JFT:JLT)=ZERO                                                 
-            G2Z(JFT:JLT)=-SPN(JFT:JLT)                                               
-            G3X(JFT:JLT)=ZERO
-            G3Y(JFT:JLT)=ONE
-            G3Z(JFT:JLT)=ZERO
-        CASE (10)                                                        
-            G1X(JFT:JLT)=CPN(JFT:JLT)
-            G1Y(JFT:JLT)=SPN(JFT:JLT)
-            G1Z(JFT:JLT)=ZERO
-            G2X(JFT:JLT)=-SPN(JFT:JLT)                                                 
-            G2Y(JFT:JLT)=CPN(JFT:JLT)                                                 
-            G2Z(JFT:JLT)= ZERO                                               
-            G3X(JFT:JLT)= ZERO
-            G3Y(JFT:JLT)= ZERO
-            G3Z(JFT:JLT)= ONE
-       END SELECT                                                      
-C----------
-      RETURN
-      END SUBROUTINE SCTORTH3
-      
+      END

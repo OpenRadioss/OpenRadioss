@@ -29,14 +29,20 @@ Chd|        M25CPLA                       source/materials/mat/mat025/m25cpla.F
 Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|        MROTENS                       source/materials/mat_share/mrotens.F
 Chd|====================================================================
-      SUBROUTINE M25LAW(  PM        ,MAT  ,OFF  ,SIG  ,EINT ,
-     1                    S01       ,S02  ,S03  ,S04  ,S05  ,S06 ,
-     2                    D1        ,D2   ,D3   ,D4   ,D5   ,D6  ,
-     3                    RX        ,RY   ,RZ   ,SX   ,SY   ,SZ  ,
-     4                    TX        ,TY   ,TZ   ,GAMA ,VNEW ,SSP , 
-     5                    VOL       ,EPSP ,WPLA ,DAMT ,CRAK ,EPST, 
-     6                    DEFP      ,SIGY ,SIGL ,NGL  ,ILAY ,FLAY,
-     7                    SEQ_OUTPUT,NEL  ,IPM  ,IPG  ,TSAIWU)
+      SUBROUTINE M25LAW(
+     1   PM,        MAT,       OFF,       SIG,
+     2   EINT,      S01,       S02,       S03,
+     3   S04,       S05,       S06,       D1,
+     4   D2,        D3,        D4,        D5,
+     5   D6,        RX,        RY,        RZ,
+     6   SX,        SY,        SZ,        TX,
+     7   TY,        TZ,        GAMA,      VNEW,
+     8   SSP,       VOL,       EPSP,      WPLA,
+     9   DAMT,      CRAK,      EPST,      DEFP,
+     A   SIGY,      SIGL,      NGL,       ILAY,
+     B   FLAY,      SEQ_OUTPUT,NEL,       IPM,
+     C   IPG,       TSAIWU,    NFT,       NPT,
+     D   JCVT,      JSPH,      ISORTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,11 +59,15 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: NPT
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: JSPH
+      INTEGER, INTENT(IN) :: ISORTH
       INTEGER MAT(MVSIZ), NGL(MVSIZ),IPM(NPROPMI,*),ILAY,NEL,IPG
 C     REAL
       my_real

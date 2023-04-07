@@ -33,7 +33,9 @@ Chd|====================================================================
      2   RE,      GEO,     VOLN,    MAT,
      3   DELTAX,  NGEO,    VIS,     VNEW,
      4   VD2,     DVOL,    AIRE,    EINC,
-     5   PNEW,    TMU,     ALOGEY,  NEL)
+     5   PNEW,    TMU,     ALOGEY,  NEL,
+     6   LFT,     LLT,     JPOR)
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,7 +47,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
@@ -53,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NEL, LFT,     LLT,     JPOR
       my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO),VOLN(MVSIZ),
      .        DELTAX(*), VIS(*), VNEW(*), VD2(*), DVOL(*), AIRE(*), EINC(*), PNEW(*),
      .        TMU(*), ALOGEY(*)

@@ -46,7 +46,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "vect01_c.inc"
 #include      "scr06_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
@@ -71,7 +70,7 @@ C  incompressible flow avoir plus en cas de besoin
 C      INCOMP = 1 not tested
       IF(ALE%GLOBAL%INCOMP == 1)THEN
          E0 = ZERO ! 
-         DO I=LFT,LLT
+         DO I=1,NEL
           DVV=DT1*(DXX(I)+DYY(I)+DZZ(I))
           RHON(I)=RHON(I)-DVV*RHO0(I)
           VAVG=HALF*(VOLN(I)+VOLO(I))
@@ -80,13 +79,12 @@ C      INCOMP = 1 not tested
          ENDDO
 C compresssible flow
       ELSE
-         DO I=LFT,LLT
+         DO I=1,NEL
            RHON(I) = RHON(I)/VOLN(I)
           
            DVOL(I) = VOLN(I) 
      .             - VOLO(I)+0.5*DT1*(FLU1(I)+FLUX(I,1)+FLUX(I,2)
      .             +  FLUX(I,3)+FLUX(I,4)+FLUX(I,5)+FLUX(I,6) )
-cc            DVOL(I) = VOLN(I) - VOLO(I)
             VOLO(I)=VOLN(I)
            RHON(I) = MAX(RHON(I) , EM30)
        
@@ -94,7 +92,7 @@ cc            DVOL(I) = VOLN(I) - VOLO(I)
       ENDIF
 C
         COUNT=0
-        DO  I=LFT,LLT
+        DO  I=1,NEL
           IF(RHON(I) <= ZERO .AND. OFF(I)/= ZERO)THEN
              COUNT = COUNT + 1
               LIST(COUNT)=I
@@ -102,12 +100,6 @@ C
         ENDDO
         DO II=1,COUNT
          I=LIST(II)
-C         CALL ANCMSG(MSGID=17,ANMODE=ANINFO,
-C     .               I1=NGL(I),R1=RHON(I))
-C remplacer les 5 lignes ci-dessous  par le CALL ANCMSG ci-dessus
-C et decommenter le USE MESSAGE_MOD en entete de routine
-C rien a faire si c est un warning mais si c est une erreur 
-C il faut change le message 17 en ERROR : ne pas oublier les antislash n
 #include "lockon.inc"
         WRITE(IOUT,1000) NGL(I),RHON(I)
         WRITE(ISTDO,1000) NGL(I),RHON(I)

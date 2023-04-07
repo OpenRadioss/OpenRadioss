@@ -26,8 +26,11 @@ Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE AMASS3F(MS,RHO,
-     .         VOLU,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,MSNF,NVC,OFF)
+      SUBROUTINE AMASS3F(
+     1   MS,      RHO,     VOLU,    NC1,
+     2   NC2,     NC3,     NC4,     NC5,
+     3   NC6,     NC7,     NC8,     MSNF,
+     4   NVC,     OFF,     NEL)
 C------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,6 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   MS(*), RHO(*),VOLU(*),
@@ -49,7 +53,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -67,19 +70,19 @@ C-----------------------------------------------
       NVC7 = (NVC-NVC1*128-NVC2*64-NVC3*32-NVC4*16-NVC5*8-NVC6*4)/2
       NVC8 =  NVC-NVC1*128-NVC2*64-NVC3*32-NVC4*16-NVC5*8-NVC6*4-NVC7*2
 C-
-       DO  I=LFT,LLT
+       DO  I=1,NEL
           DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
        ENDDO
 C
 #include "lockon.inc"
       IF(NVC1==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC1(I))=MS(NC1(I)) + DMASS(I)
          MSNF(NC1(I))=MSNF(NC1(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC1(I))=MS(NC1(I)) + DMASS(I)
          MSNF(NC1(I))=MSNF(NC1(I)) + DMASS(I)
        ENDDO
@@ -87,12 +90,12 @@ C
 C
       IF(NVC2==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC2(I))=MS(NC2(I)) + DMASS(I)
          MSNF(NC2(I))=MSNF(NC2(I)) + DMASS(I)
        ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
          MS(NC2(I))=MS(NC2(I)) + DMASS(I)
          MSNF(NC2(I))=MSNF(NC2(I)) + DMASS(I)
        ENDDO
@@ -100,12 +103,12 @@ C
 C
       IF(NVC3==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC3(I))=MS(NC3(I)) + DMASS(I)
          MSNF(NC3(I))=MSNF(NC3(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC3(I))=MS(NC3(I)) + DMASS(I)
          MSNF(NC3(I))=MSNF(NC3(I)) + DMASS(I)
        ENDDO
@@ -113,12 +116,12 @@ C
 C
       IF(NVC4==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC4(I))=MS(NC4(I)) + DMASS(I)
          MSNF(NC4(I))=MSNF(NC4(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC4(I))=MS(NC4(I)) + DMASS(I)
          MSNF(NC4(I))=MSNF(NC4(I)) + DMASS(I)
        ENDDO
@@ -126,12 +129,12 @@ C
 C
       IF(NVC5==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC5(I))=MS(NC5(I)) + DMASS(I)
          MSNF(NC5(I))=MSNF(NC5(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC5(I))=MS(NC5(I)) + DMASS(I)
          MSNF(NC5(I))=MSNF(NC5(I)) + DMASS(I)
        ENDDO
@@ -139,12 +142,12 @@ C
 C
       IF(NVC6==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC6(I))=MS(NC6(I)) + DMASS(I)
          MSNF(NC6(I))=MSNF(NC6(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC6(I))=MS(NC6(I)) + DMASS(I)
          MSNF(NC6(I))=MSNF(NC6(I)) + DMASS(I)
        ENDDO
@@ -152,12 +155,12 @@ C
 C
       IF(NVC7==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC7(I))=MS(NC7(I)) + DMASS(I)
          MSNF(NC7(I))=MSNF(NC7(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC7(I))=MS(NC7(I)) + DMASS(I)
          MSNF(NC7(I))=MSNF(NC7(I)) + DMASS(I)
        ENDDO
@@ -165,12 +168,12 @@ C
 C
       IF(NVC8==0)THEN
 #include "vectorize.inc"
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC8(I))=MS(NC8(I)) + DMASS(I)
          MSNF(NC8(I))=MSNF(NC8(I)) + DMASS(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          MS(NC8(I))=MS(NC8(I)) + DMASS(I)
          MSNF(NC8(I))=MSNF(NC8(I)) + DMASS(I)
        ENDDO
@@ -179,71 +182,3 @@ C
 #include "lockoff.inc"
       RETURN
       END
-Chd|====================================================================
-Chd|  AMASS3PF                      source/elements/solid/solide/amass3f.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE AMASS3PF(FSKYM,RHO,VOLU,IADS,OFF)
-C------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-C     REAL
-      my_real
-     .   FSKYM(*), RHO(*),VOLU(*), OFF(*)
-      INTEGER IADS(8,*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,IFLAG,II, K
-C     REAL
-      my_real DMASS(MVSIZ)
-C-----------------------------------------------
-       DO  I=LFT,LLT
-        DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
-       ENDDO
-C
-      DO I=LFT,LLT
-        II = I +NFT
-        K = IADS(1,II)
-        FSKYM(K)= DMASS(I)
-C
-        K = IADS(2,II)
-        FSKYM(K)= DMASS(I)
-C
-        K = IADS(3,II)
-        FSKYM(K)= DMASS(I)
-C
-        K = IADS(4,II)
-        FSKYM(K)= DMASS(I)
-C
-        K = IADS(5,II)
-        FSKYM(K)= DMASS(I)
-C
-        II = I +NFT
-        K = IADS(6,II)
-        FSKYM(K)= DMASS(I)
-C
-        K = IADS(7,II)
-        FSKYM(K)= DMASS(I)
-C
-        K = IADS(8,II)
-        FSKYM(K)= DMASS(I)
-      ENDDO
-C
-      RETURN
-      END
-C

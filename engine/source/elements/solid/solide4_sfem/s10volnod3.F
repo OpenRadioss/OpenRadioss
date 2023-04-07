@@ -28,7 +28,10 @@ Chd|-- calls ---------------
 Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
 Chd|        S10VOLJ                       source/elements/solid/solide4_sfem/s10volj.F
 Chd|====================================================================
-      SUBROUTINE S10VOLNOD3(VOLNOD6,X,NC,OFFG,VOLG,XDP,NEL)
+      SUBROUTINE S10VOLNOD3(
+     1   VOLNOD6, X,       NC,      OFFG,
+     2   VOLG,    XDP,     NEL,     NPT,
+     3   ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPT
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NEL,NC(MVSIZ,10)
       DOUBLE PRECISION
      .   VOLNOD6(6,2*NUMNOD)
@@ -53,7 +58,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,7 +86,7 @@ C----------------------------
 C----------------------------
       IF(IRESP == 1) THEN
         DO N=1,10
-          DO I=LFT,LLT               
+          DO I=1,NEL               
             NN = MAX(1,NC(I,N))    
             XX(I,N)=XDP(1,NN)          
             YY(I,N)=XDP(2,NN)          
@@ -91,7 +95,7 @@ C----------------------------
         ENDDO
       ELSE
         DO N=1,10
-          DO I=LFT,LLT               
+          DO I=1,NEL               
             NN = MAX(1,NC(I,N))    
             XX(I,N)=X(1,NN)          
             YY(I,N)=X(2,NN)          
@@ -103,7 +107,7 @@ C
       DO N=5,10
         N1=IPERM1(N)
         N2=IPERM2(N)
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(NC(I,N)==0)THEN
             XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
             YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
@@ -121,7 +125,7 @@ C      NPT =4
       B4M1  = B4- ONE
 C
       DO N=1,4
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,N) = A4M1*XX(I,N)
           YA(I,N) = A4M1*YY(I,N)
           ZA(I,N) = A4M1*ZZ(I,N)
@@ -133,7 +137,7 @@ C
       ENDDO
 C
       DO N=5,10
-        DO I=LFT,LLT
+        DO I=1,NEL
           XA(I,N) = A4*XX(I,N)
           YA(I,N) = A4*YY(I,N)
           ZA(I,N) = A4*ZZ(I,N)
@@ -144,7 +148,7 @@ C
         ENDDO
       ENDDO
 C
-      VOLG(LFT:LLT) =ZERO
+      VOLG(1:NEL) =ZERO
       DO IP=1,4
         K1 = IPERM(1,IP)
         K2 = IPERM(2,IP)
@@ -166,20 +170,20 @@ C
      .   ZB(1,K1),ZB(1,K2),ZB(1,K3),ZA(1,K4),ZB(1,K5),
      .   ZB(1,K6),ZB(1,K7),ZB(1,K8),ZB(1,K9),ZB(1,K10),
      .   ZA(1,K8),ZA(1,K9),ZA(1,K10),
-     .   VOLDP,LLT)
+     .   VOLDP,NEL)
 c     
-         VOLG(LFT:LLT) =VOLG(LFT:LLT) + VOLDP(LFT:LLT)
+         VOLG(1:NEL) =VOLG(1:NEL) + VOLDP(1:NEL)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
        IF (OFFG(I) == ZERO .OR. ABS(OFFG(I))>ONE) THEN
          VOLG(I)= ZERO
        ENDIF
       ENDDO
 
       !Parith-On treatment
-      CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOLG ,DET6 )
+      CALL FOAT_TO_6_FLOAT(1  ,NEL  ,VOLG ,DET6 )
 
-      DO I=LFT,LLT
+      DO I=1,NEL
 C----------------------------------
 C VOLUME <0 SERA TESTE DANS S4DERI3
 C----------------------------------

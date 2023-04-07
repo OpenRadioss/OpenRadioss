@@ -28,7 +28,8 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ATURBN(PM,OFF  ,RHO  ,RK   ,RE   ,GEO  , 
      2               EINC ,DVOL ,VNEW ,PNEW ,TMU  ,VIS  ,
-     3               VD2  ,MAT  ,NGEO )
+     3               VD2  ,MAT  ,NGEO,
+     5               LFT, LLT,   JPOR,   JCLOSE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,7 +37,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
@@ -44,6 +44,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),NGEO(*)
+      INTEGER, INTENT(IN) ::   LFT, LLT,   JPOR,   JCLOSE
+
       my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO)
       my_real EINC(*), DVOL(*), VNEW(*), PNEW(*), TMU(*), VIS(*), VD2(*)
 C-----------------------------------------------

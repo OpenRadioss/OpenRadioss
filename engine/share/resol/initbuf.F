@@ -283,7 +283,6 @@ C=======================================================================
       ITY     = IPARG(5,NG)    
       NPT     = IPARG(6,NG)     
       JALE    = IPARG(7,NG)     
-
       ISMSTR  = IPARG(9,NG)     
 
       IF(ITY==1.OR.ITY==2)THEN

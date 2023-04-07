@@ -27,10 +27,11 @@ Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|-- calls ---------------
 Chd|        SYSTRAN2                      source/elements/solid_2d/quad4/q4kerot2.F
 Chd|====================================================================
-      SUBROUTINE Q4KEROT2 (
-     1                R22,R32,R23,R33,
-     2                K11,K12,K13,K14,K22,
-     3                K23,K24,K33,K34,K44)
+      SUBROUTINE Q4KEROT2(
+     1   R22,     R32,     R23,     R33,
+     2   K11,     K12,     K13,     K14,
+     3   K22,     K23,     K24,     K33,
+     4   K34,     K44,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,10 +43,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .    R22(*), R23(*), R32(*), R33(*), 
      .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*), 
@@ -59,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         Q(1,1,I)=R22(I)
         Q(1,2,I)=R23(I)
         Q(2,1,I)=R32(I)
@@ -67,88 +68,17 @@ C-----------------------------------------------
       ENDDO
 C
       ISYM = 1
-      CALL SYSTRAN2(LFT, LLT, Q, K11, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K22, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K33, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K44, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K11, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K22, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K33, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K44, ISYM)
       ISYM = 0
-      CALL SYSTRAN2(LFT, LLT, Q, K12, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K13, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K14, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K23, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K24, ISYM)
-      CALL SYSTRAN2(LFT, LLT, Q, K34, ISYM)
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  SYSTRAN2                      source/elements/solid_2d/quad4/q4kerot2.F
-Chd|-- called by -----------
-Chd|        Q4KEROT2                      source/elements/solid_2d/quad4/q4kerot2.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SYSTRAN2(JFT, JLT, VQ, KK, ISYM)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER JFT, JLT, ISYM
-      my_real 
-     .   VQ(2,2,*), KK(2,2,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, J, EP
-      my_real
-     .    K(2,2,MVSIZ)
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-C     IF (ISYM==1) THEN
-C       DO EP=JFT,JLT
-C         DO I=1,2
-C         DO J=I,2
-C           K(I,J,EP)=
-C    1      VQ(I,1,EP)*(KK(1,1,EP)*VQ(J,1,EP)+KK(1,2,EP)*VQ(J,2,EP)) + 
-C    2      VQ(I,2,EP)*(KK(1,2,EP)*VQ(J,1,EP)+KK(2,2,EP)*VQ(J,2,EP))
-C         ENDDO
-C         ENDDO
-C       ENDDO
-C       DO EP=JFT,JLT
-C         DO I=1,2
-C         DO J=I,2
-C           KK(I,J,EP) = K(I,J,EP)
-C         ENDDO
-C         ENDDO
-C       ENDDO
-C       DO EP=JFT,JLT
-C         KK(2,1,EP) = K(1,2,EP)
-C       ENDDO
-C     ELSE
-        DO EP=JFT,JLT 
-          DO I=1,2
-          DO J=1,2
-            K(I,J,EP) = 
-     1      VQ(I,1,EP)*(KK(1,1,EP)*VQ(J,1,EP)+KK(1,2,EP)*VQ(J,2,EP)) + 
-     2      VQ(I,2,EP)*(KK(2,1,EP)*VQ(J,1,EP)+KK(2,2,EP)*VQ(J,2,EP))                 
-          ENDDO
-          ENDDO
-        ENDDO
-        DO EP=JFT,JLT
-          DO I=1,2
-          DO J=1,2
-            KK(I,J,EP) = K(I,J,EP)
-          ENDDO
-          ENDDO
-        ENDDO
-C     ENDIF
+      CALL SYSTRAN2(1, NEL, Q, K12, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K13, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K14, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K23, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K24, ISYM)
+      CALL SYSTRAN2(1, NEL, Q, K34, ISYM)
 C
       RETURN
       END

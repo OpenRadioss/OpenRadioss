@@ -28,13 +28,16 @@ Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
 Chd|-- calls ---------------
 Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|====================================================================
-      SUBROUTINE REDEF_SEATBELT(FX      ,XK     ,DX     ,FXEP   ,DXOLD ,
-     .                          DPX     ,TF     ,NPF    ,XC     ,OFF   ,
-     .                          E       ,ANIM   ,IANI   ,POS    ,XL0   ,
-     .                          DMN     ,DMX    ,LSCALE ,YIELD  ,AK    ,  
-     .                          IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD ,FX_MAX,
-     .                          XKC     ,LLT_LOC,INDEXA ,FLAG   ,XK_TAN,
-     .                          EPS_OLD ,FRAM_FACTOR)
+      SUBROUTINE REDEF_SEATBELT(
+     1   FX,         XK,         DX,         FXEP,
+     2   DXOLD,      DPX,        TF,         NPF,
+     3   XC,         OFF,        E,          ANIM,
+     4   IANI,       POS,        XL0,        DMN,
+     5   DMX,        LSCALE,     YIELD,      AK,
+     6   IECROU,     IFUNC,      IFUNC2,     XX_OLD,
+     7   FX_MAX,     XKC,        NEL_LOC,    INDEXA,
+     8   FLAG,       XK_TAN,     EPS_OLD,    FRAM_FACTOR,
+     9   NEL,        NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,13 +50,14 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*),IECROU(MVSIZ),IFUNC(MVSIZ),IFUNC2(MVSIZ),IANI,
-     .        INDEXA(*),LLT_LOC,FLAG
+     .        INDEXA(*),NEL_LOC,FLAG
 C     REAL
       my_real
      .   FX(*), XK(*), DX(*), FXEP(*), DXOLD(*), DPX(*), TF(*),
@@ -82,7 +86,7 @@ C
       DT11 = DT1
       IF(DT11==ZERO)DT11 = EP30
 C
-      DO J=LFT,LLT_LOC
+      DO J=1,NEL_LOC
         I = INDEXA(J)
         DX(I)=DX(I)/XL0(I)
         DXOLD(I)=DXOLD(I)/XL0(I)
@@ -94,7 +98,7 @@ C
       ENDDO
 C
       IF ((IANI/=0).AND.(FLAG==1))THEN
-        DO I=LFT,LLT_LOC
+        DO I=1,NEL_LOC
           II=I+NFT
           DAMP=DX(I)/MAX(DMX(I),EM15)
           DAMM=DX(I)/MIN(DMN(I),-EM15)
@@ -110,7 +114,7 @@ C
       JECROU(1:4) = 0
       INTERP = 0
 C
-      DO J=LFT,LLT_LOC
+      DO J=1,NEL_LOC
        I = INDEXA(J)
        IF(IECROU(I) == 0)THEN
          JECROU(1) = JECROU(1) + 1
@@ -126,7 +130,7 @@ C
       ENDDO
 C
       IF(INTERP>0)THEN
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           JPOS(J)  = NINT(POS(I))          
           JFUNC =MAX(1,IFUNC(I))
@@ -139,14 +143,14 @@ C
 C-------------------------------------
 C        LINEAR ELASTIC
 C-------------------------------------
-      IF(JECROU(1)==LLT_LOC)THEN
-        DO J=LFT,LLT_LOC
+      IF(JECROU(1)==NEL_LOC)THEN
+        DO J=1,NEL_LOC
           I = INDEXA(J) 
           FX(I)=XK(I)*DX(I)
           XK_TAN(I) = XK(I)
         ENDDO
       ELSEIF(JECROU(1)>0)THEN
-        DO J=LFT,LLT
+        DO J=1,NEL
           I = INDEXA(J) 
           IF(IFUNC(I)==0)THEN
             FX(I)=XK(I)*DX(I)
@@ -158,8 +162,8 @@ C
 C-------------------------------------
 C        ELASTO PLASTIC (Isotropic hardening) - PERFECTLY PLASTIC IN COMPRESSION
 C-------------------------------------
-      IF(JECROU(2)==LLT_LOC)THEN
-        DO J=LFT,LLT_LOC
+      IF(JECROU(2)==NEL_LOC)THEN
+        DO J=1,NEL_LOC
           I = INDEXA(J)                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
           NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
@@ -209,7 +213,7 @@ C--- Compression - perfectly plastic behavior
           FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
         ENDDO
       ELSEIF(JECROU(2)>0)THEN
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
          I = INDEXA(J)
          IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
           FUND = IFUNC2(I)     ! N3 curve for unloading                                                             
@@ -263,8 +267,8 @@ C--- Compression - perfectly plastic behavior
 C-------------------------------------
 C        LINEAR ELASTIC in tension - perfleclty palstic in compression (same as 10 without curve)
 C-------------------------------------
-      IF(JECROU(3)==LLT_LOC)THEN
-        DO J=LFT,LLT_LOC  
+      IF(JECROU(3)==NEL_LOC)THEN
+        DO J=1,NEL_LOC  
           I = INDEXA(J)                                                            
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
@@ -282,7 +286,7 @@ C----       Crossing of compression/tension line - mix stiffness computed
           FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
         ENDDO
       ELSEIF(JECROU(3)>0)THEN
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11) THEN                      
             AN3Y0(J)= ZERO
@@ -305,8 +309,8 @@ C----       Crossing of compression/tension line - mix stiffness computed
 C-------------------------------------
 C        NON LINEAR ELASTIC in tension with compression and no plasticity in compression - for 2D seatblets only
 C-------------------------------------
-      IF(JECROU(4)==LLT_LOC)THEN
-        DO J=LFT,LLT_LOC
+      IF(JECROU(4)==NEL_LOC)THEN
+        DO J=1,NEL_LOC
           I = INDEXA(J)                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
           NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
@@ -398,7 +402,7 @@ C----       Crossing of the yield line
           ENDIF
         ENDDO
       ELSEIF(JECROU(4)>0)THEN
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(IFUNC(I)/= 0.AND.IECROU(I)== 12)THEN                                           
             FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
@@ -495,16 +499,16 @@ C----         Crossing of the yield line
 C-------------------------------------
 c     VECTOR INTERPOLATION
 C-------------------------------------
-      DO J=LFT,LLT_LOC
+      DO J=1,NEL_LOC
         I = INDEXA(J)
         XX(J)  = XX(J) *LSCALE(I)        
       ENDDO                          
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(2)==LLT_LOC)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
-        DO J=LFT,LLT_LOC
+      IF(JECROU(2)==NEL_LOC)THEN
+        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
+        DO J=1,NEL_LOC
            I = INDEXA(J)
            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
              POS(I) = JPOS(J)
@@ -527,8 +531,8 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           FXEP(I)=FX(I)
         ENDDO
       ELSEIF(JECROU(2)>0)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
-        DO J=LFT,LLT_LOC
+        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
+        DO J=1,NEL_LOC
          I = INDEXA(J)
          IF(IFUNC(I)/= 0.AND.IECROU(I)== 10)THEN
            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
@@ -556,8 +560,8 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     SEATBELT - LINEAR ELASTIC in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(3)==LLT_LOC)THEN
-        DO J=LFT,LLT_LOC
+      IF(JECROU(3)==NEL_LOC)THEN
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(FX(I)<= -FX_MAX(I))THEN
             YY(J) = -FX_MAX(I)
@@ -571,7 +575,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           FXEP(I)=FX(I)
         ENDDO
       ELSEIF(JECROU(3)>0)THEN
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11)THEN
             IF(FX(I)<= -FX_MAX(I))THEN
@@ -590,9 +594,9 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     NON LINEAR ELASTIC in tension with compression and no plasticity in compression - for 2D seatblets only
 C-------------------------------------
-      IF(JECROU(4)==LLT_LOC)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
-        DO J=LFT,LLT_LOC
+      IF(JECROU(4)==NEL_LOC)THEN
+        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
             POS(I) = JPOS(J)
@@ -608,8 +612,8 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
           FXEP(I)=FX(I)
         ENDDO
       ELSEIF(JECROU(4)>0)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
-        DO J=LFT,LLT_LOC
+        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(IFUNC(I)/= 0.AND.IECROU(I)== 12)THEN
             IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
@@ -631,20 +635,20 @@ C--------------------------------------------------------------------
 C     NON LINEAR DAMPING
 C--------------------------------------------------------------------
       IF(IMPL_S==0.OR.IDYNA>0) THEN
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           FX(I)= (AK(I)*FX(I) + XC(I)*DVX(J)) *OFF(I)
           E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
         ENDDO
       ELSE
-        DO J=LFT,LLT_LOC
+        DO J=1,NEL_LOC
           I = INDEXA(J)
           FX(I)= FX(I)  *AK(I)* OFF(I)
           E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
         ENDDO
       ENDIF
 c-------------------------  
-      DO J=LFT,LLT_LOC
+      DO J=1,NEL_LOC
         I = INDEXA(J)
         DX(I)=DX(I)*XL0(I)
         DXOLD(I)=DXOLD(I)*XL0(I)

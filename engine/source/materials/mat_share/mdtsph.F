@@ -35,12 +35,16 @@ Chd|        SBOLTLAW                      source/elements/solid/solide/sboltlaw.
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MDTSPH(PM ,OFF     ,RHO     ,RK      ,T       ,
-     2             RE      ,STI     ,DT2T    ,NELTST  ,ITYPTST ,
-     3             OFFG    ,GEO     ,PID     ,MUMAX   ,SSP     ,
-     4             VOL     ,VD2     ,DELTAX  ,VIS     ,D1      ,
-     5             D2      ,D3      ,PNEW    ,PSH     ,MAT     ,
-     6             NGL     ,QVIS    ,SSP_EQ  ,G_DT    ,DTSPH)
+      SUBROUTINE MDTSPH(
+     1   PM,      OFF,     RHO,     RK,
+     2   T,       RE,      STI,     DT2T,
+     3   NELTST,  ITYPTST, OFFG,    GEO,
+     4   PID,     MUMAX,   SSP,     VOL,
+     5   VD2,     DELTAX,  VIS,     D1,
+     6   D2,      D3,      PNEW,    PSH,
+     7   MAT,     NGL,     QVIS,    SSP_EQ,
+     8   G_DT,    DTSPH,   NEL,     ITY,
+     9   JTUR,    JTHE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +57,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com08_c.inc"
 #include      "scr02_c.inc"
 #include      "scr18_c.inc"
@@ -64,6 +67,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER NELTST,ITYPTST,PID(*),MAT(*), NGL(*)
       my_real :: DT2T
 
@@ -73,7 +80,7 @@ C-----------------------------------------------
      .   VOL(*), VD2(*), DELTAX(*), SSP(*), VIS(*),
      .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*), D1(*),
      .   D2(*), D3(*)
-      my_real, INTENT(INOUT) :: DTSPH(LFT:LLT)
+      my_real, INTENT(INOUT) :: DTSPH(1:NEL)
       INTEGER,INTENT(IN)     :: G_DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -88,13 +95,13 @@ C-----------------------------------------------
 C   S o u  r c e   L  i n e s
 C-----------------------------------------------
       IF(IMPL==ZERO)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
          CX(I)=SSP(I)+SQRT(VD2(I))
        ENDDO
        VISI=ONE
        FACQ=ONE
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
          CX(I)=SQRT(VD2(I))
        ENDDO
        VISI=ZERO
@@ -103,14 +110,14 @@ C-----------------------------------------------
       
       !not a bug : only law 24 uses CNS1 & CNS2 
       !(they are not yet available with SPH).
-      DO I=LFT,LLT
+      DO I=1,NEL
         AL(I)=ZERO
         IF(OFF(I)<1.) CYCLE
         AL(I)=VOL(I)**THIRD
       ENDDO
 
-      MT = MAT(LFT)
-      DO I=LFT,LLT
+      MT = MAT(1)
+      DO I=1,NEL
         QA =FACQ*GEO(14,PID(I))
         QB =FACQ*GEO(15,PID(I))
         CNS1=GEO(16,PID(I))
@@ -122,21 +129,21 @@ C-----------------------------------------------
         QVIS(I)=ZERO
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
        DTX(I)=DELTAX(I)/MAX(EM20,QX(I)+SQRT(QX(I)*QX(I)+CX(I)*CX(I)))
       !preparing material sound speed for nodal time step computation: 
        SSP_EQ(I) = MAX(EM20,QXMATER(I)+SQRT(QXMATER(I)*QXMATER(I)+CX(I)*CX(I)))
       ENDDO            
 
       IF(JTHE/=0)THEN
-        MT  = MAT(LFT)
+        MT  = MAT(1)
         SPH = PM(69,MT)
         AK1 = PM(75,MT)
         BK1 = PM(76,MT)
         AK2 = PM(77,MT)
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(T(I)<TLI)THEN
           AKK=AK1+BK1*T(I)
          ELSE
@@ -153,7 +160,7 @@ C-----------------------------------------------
         ENDDO       
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         STI(I) = ZERO
         IF(OFF(I)==ZERO) CYCLE
         STI(I) = TWO*RHO(I) * VOL(I) / (DTX(I)*DTX(I))
@@ -163,7 +170,7 @@ C-----------------------------------------------
       ENDDO
       
       IF(G_DT/=ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           DTSPH(I) = DTX(I)
         ENDDO
       ENDIF
@@ -171,7 +178,7 @@ C-----------------------------------------------
 
       IF(NODADT==0)THEN
        IF(IDTMIN(ITY)==1)THEN
-        DO 170 I=LFT,LLT
+        DO 170 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO) GO TO 170
           TSTOP = TT
 #include "lockon.inc"
@@ -180,7 +187,7 @@ C-----------------------------------------------
 #include "lockoff.inc"
  170     CONTINUE
        ELSEIF(IDTMIN(ITY)==2)THEN
-        DO 270 I=LFT,LLT
+        DO 270 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO) GO TO 270
           OFF(I) = ZERO
 #include "lockon.inc"
@@ -189,7 +196,7 @@ C-----------------------------------------------
 #include "lockoff.inc"
  270    CONTINUE
        ELSEIF(IDTMIN(ITY)==5)THEN
-        DO 570 I=LFT,LLT
+        DO 570 I=1,NEL
         IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==0.) GO TO 570
           MSTOP = 2
 #include "lockon.inc"
@@ -201,7 +208,7 @@ C-----------------------------------------------
  570    CONTINUE
        ENDIF
        
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF(DTX(I)>DT2T.OR.OFF(I)==ZERO) CYCLE
          !nelts et itypts remplaces par neltst et itypst
          NELTST =NGL(I)

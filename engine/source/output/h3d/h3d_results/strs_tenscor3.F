@@ -332,7 +332,9 @@ c
                      EVAR_TMP(1:6) = EVAR_TMP(1:6) + LBUF%VISC(JJ(1:6) + I)
                    ENDIF
                    IF (KCVT /= 0)
-     .             CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,JHBE,IGTYP)
+     .             CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                    EVAR(1:6,J,I) =  EVAR(1:6,J,I)+ N1 * EVAR_TMP(1:6)
                  ENDIF
                ENDDO
@@ -369,7 +371,9 @@ C------       orthotropic laws will be treated later
                    EVAR_TMP(1:6) =EVAR_TMP(1:6)+ LBUF%VISC(JJ(1:6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                   EVAR(1:6,J,I) =  EVAR_TMP(1:6)
               ENDDO
            END DO !I=LFT,LLT
@@ -504,7 +508,9 @@ c
                      EVAR_TMP(6) =EVAR_TMP(6)+ LBUF%VISC(JJ(6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                   EVAR(1:6,J,I) =  EVAR(1:6,J,I)+ N1 * EVAR_TMP(1:6)
                ENDDO
              ENDDO
@@ -550,7 +556,9 @@ c
                      EVAR_TMP(6) =EVAR_TMP(6)+ LBUF%VISC(JJ(6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                DO J=1,4
                  EVAR(1:6,J,I) =  N1 * EVAR_TMP(1:6)
                ENDDO
@@ -608,7 +616,9 @@ C
                  ENDIF
                ENDDO
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_T10(1,J),GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,            IXS(1,N),     KCVT,         EVAR_T10(1,J),
+     2   GAMA,         JHBE,         IGTYP,        ISORTH)
              END DO !J=1,4
              DO J=5,10
                 NN1=IPERM1(J)

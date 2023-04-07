@@ -27,16 +27,22 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|-- calls ---------------
 Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
 Chd|====================================================================
-      SUBROUTINE CSUBC3(JFT  ,JLT ,X   ,IXC ,GEO ,OFFG ,
-     2                  OFF ,SIGY,PID ,D   ,DR   ,D0  ,
-     3                  DR0 , VL1, VL2, VL3, VL4,
-     3                  VRL1, VRL2, VRL3, VRL4 ,NDT  ,PM  ,V ,
-     4                  THK ,EINT,PARTSAV,T0  ,DTC ,AREA,
-     5                  VR  ,MAT  ,NGL,DT1C,DT2C,THKE,THK0,
-     6                  X1  ,X2  ,X3  ,X4  ,Y1  ,Y2    ,
-     7                  Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4    ,
-     8                  IPARTC ,IADC ,FSKY ,FSKYV,GRESAV,
-     9                  GRTH,IGRTH,ITASK,GVOL,ACTIFXFEM)
+      SUBROUTINE CSUBC3(
+     1   JFT,      JLT,      X,        IXC,
+     2   GEO,      OFFG,     OFF,      SIGY,
+     3   PID,      D,        DR,       D0,
+     4   DR0,      VL1,      VL2,      VL3,
+     5   VL4,      VRL1,     VRL2,     VRL3,
+     6   VRL4,     NDT,      PM,       V,
+     7   THK,      EINT,     PARTSAV,  T0,
+     8   DTC,      AREA,     VR,       MAT,
+     9   NGL,      DT1C,     DT2C,     THKE,
+     A   THK0,     X1,       X2,       X3,
+     B   X4,       Y1,       Y2,       Y3,
+     C   Y4,       Z1,       Z2,       Z3,
+     D   Z4,       IPARTC,   IADC,     FSKY,
+     E   FSKYV,    GRESAV,   GRTH,     IGRTH,
+     F   ITASK,    GVOL,     ACTIFXFEM,IGRE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER NGL(MVSIZ), NDT(*),PID(*),MAT(MVSIZ), IXC(NIXC,*),
      .                  IPARTC(*),JFT, JLT, IADC(4,*),GRTH(*),
      .                  IGRTH(*),ITASK
@@ -106,17 +113,20 @@ C
             DO I=JFT,JLT
               MAT(I)=IXC(1,I)
             ENDDO
-            CALL CBILAN(JFT,JLT,PM   ,V   ,IXC,
-     2                  THK,EINT  ,PARTSAV,AREA,MAT,
-     3                  IPARTC ,BID,BID,BID,BID,
-     4                  BID,BID, 0,OFF,
-     5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
-     9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL,
-     B                  ACTIFXFEM)
+            CALL CBILAN(
+     1   JFT,      JLT,      PM,       V,
+     2   IXC,      THK,      EINT,     PARTSAV,
+     3   AREA,     MAT,      IPARTC,   BID,
+     4   BID,      BID,      BID,      BID,
+     5   BID,      0,        OFF,      IBID,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1,
+     9   X2,       X3,       X4,       Y1,
+     A   Y2,       Y3,       Y4,       Z1,
+     B   Z2,       Z3,       Z4,       IBID,
+     C   IBID,     BID,      ITASK,    GVOL,
+     D   ACTIFXFEM,IGRE)
           ENDIF
           IF(IPARIT/=0)THEN
            IF (IVECTOR==1) THEN
@@ -238,50 +248,59 @@ C
               DO I=JFT,JLT
                 MAT(I)=IXC(1,I)
               ENDDO
-              CALL CBILAN(JFT,JLT,PM   ,V   ,IXC,
-     2                  THK,EINT  ,PARTSAV,AREA,MAT,
-     3                  IPARTC ,BID,BID,BID,BID,
-     4                  BID,BID, 0,OFF,
-     5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
-     9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL,
-     B                  ACTIFXFEM)
+              CALL CBILAN(
+     1   JFT,      JLT,      PM,       V,
+     2   IXC,      THK,      EINT,     PARTSAV,
+     3   AREA,     MAT,      IPARTC,   BID,
+     4   BID,      BID,      BID,      BID,
+     5   BID,      0,        OFF,      IBID,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1,
+     9   X2,       X3,       X4,       Y1,
+     A   Y2,       Y3,       Y4,       Z1,
+     B   Z2,       Z3,       Z4,       IBID,
+     C   IBID,     BID,      ITASK,    GVOL,
+     D   ACTIFXFEM,IGRE)
             ELSE
              IF(JFTN>JFT)THEN
               DO I=JFT,JFTN-1
                 MAT(I)=IXC(1,I)
               ENDDO
-              CALL CBILAN(JFT,JFTN-1,PM   ,V   ,IXC,
-     2                  THK,EINT  ,PARTSAV,AREA,MAT,
-     3                  IPARTC ,BID,BID,BID,BID,
-     4                  BID,BID, 0,OFF,
-     5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
-     9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL,
-     B                  ACTIFXFEM)
+              CALL CBILAN(
+     1   JFT,      JFTN-1,   PM,       V,
+     2   IXC,      THK,      EINT,     PARTSAV,
+     3   AREA,     MAT,      IPARTC,   BID,
+     4   BID,      BID,      BID,      BID,
+     5   BID,      0,        OFF,      IBID,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1,
+     9   X2,       X3,       X4,       Y1,
+     A   Y2,       Y3,       Y4,       Z1,
+     B   Z2,       Z3,       Z4,       IBID,
+     C   IBID,     BID,      ITASK,    GVOL,
+     D   ACTIFXFEM,IGRE)
              ENDIF
 C
              IF(JLT >JLTN)THEN
               DO I=JLTN+1,JLT
                 MAT(I)=IXC(1,I)
               ENDDO
-              CALL CBILAN(JLTN+1,JLT ,PM   ,V   ,IXC,
-     2                  THK   ,EINT,PARTSAV,AREA,MAT,
-     3                  IPARTC ,BID,BID,BID,BID,
-     4                  BID,BID, 0,OFF,
-     5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
-     9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
-     A                  IBID,IBID ,BID  ,ITASK,GVOL,
-     B                  ACTIFXFEM)
+              CALL CBILAN(
+     1   JLTN+1,   JLT,      PM,       V,
+     2   IXC,      THK,      EINT,     PARTSAV,
+     3   AREA,     MAT,      IPARTC,   BID,
+     4   BID,      BID,      BID,      BID,
+     5   BID,      0,        OFF,      IBID,
+     6   GRESAV,   GRTH,     IGRTH,    VL1,
+     7   VL2,      VL3,      VL4,      VRL1,
+     8   VRL2,     VRL3,     VRL4,     X1,
+     9   X2,       X3,       X4,       Y1,
+     A   Y2,       Y3,       Y4,       Z1,
+     B   Z2,       Z3,       Z4,       IBID,
+     C   IBID,     BID,      ITASK,    GVOL,
+     D   ACTIFXFEM,IGRE)
              ENDIF
             ENDIF
 C

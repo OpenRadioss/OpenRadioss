@@ -26,15 +26,18 @@ Chd|-- called by -----------
 Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I6FOR3(IRECT ,MSR   ,NSV   ,IRTL  ,STF   ,
-     2                  STFN  ,IGIMP ,ES    ,EM    ,ANSMX ,
-     3                  FMX   ,FMY   ,FMZ   ,PENI  ,
-     4                  N1    ,N2    ,N3    ,XFACE ,ANS   ,
-     5                  H1    ,H2    ,H3    ,H4    ,THK   ,
-     6                  FNI   ,FXI   ,FYI   ,FZI   ,FX1   ,
-     7                  FX2   ,FX3   ,FX4   ,FY1   ,FY2   ,
-     8                  FY3   ,FY4   ,FZ1   ,FZ2   ,FZ3   ,
-     9                  FZ4)
+      SUBROUTINE I6FOR3(
+     1   IRECT,   MSR,     NSV,     IRTL,
+     2   STF,     STFN,    IGIMP,   ES,
+     3   EM,      ANSMX,   FMX,     FMY,
+     4   FMZ,     PENI,    N1,      N2,
+     5   N3,      XFACE,   ANS,     H1,
+     6   H2,      H3,      H4,      THK,
+     7   FNI,     FXI,     FYI,     FZI,
+     8   FX1,     FX2,     FX3,     FX4,
+     9   FY1,     FY2,     FY3,     FY4,
+     A   FZ1,     FZ2,     FZ3,     FZ4,
+     B   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +49,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IGIMP
 C     REAL
       my_real
@@ -65,7 +71,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

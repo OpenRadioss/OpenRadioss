@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I12LOC3(XS,XM,IRECT,LMSR,
-     &                   MSR,NSV,ILOC,NSEG)
+      SUBROUTINE I12LOC3(
+     1   XS,      XM,      IRECT,   LMSR,
+     2   MSR,     NSV,     ILOC,    NSEG,
+     3   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,13 +37,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
       my_real
      .   XS(3,*),XM(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

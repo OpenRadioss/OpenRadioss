@@ -141,7 +141,8 @@ C-----------------------------------------------
               DO I=1,NEL
                 LFT = 1
                 LLT = NEL
-                CALL AGRAD3(IXS,X,ALE_CONNECTIVITY,GRAD)
+                CALL AGRAD3(
+     1   IXS,             X,               ALE_CONNECTIVITY,GRAD)
                 IE =NFT+I
                 IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 IV(1)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + 1 - 1)

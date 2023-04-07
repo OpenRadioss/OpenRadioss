@@ -245,11 +245,17 @@ C--------------------------
 C     UPDATE DES MASSES
 C----------------------------
                      IF(IPARIT == 0)THEN
-                        CALL AMASS3(MS,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,
-     .                       GBUF%VOL,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     .                       MSNF,NVC,GBUF%OFF,IXS)
+                        CALL AMASS3(
+     1   MS,                GBUF%RHO,          VEUL(LVEUL*NFT+44),GBUF%TAG22,
+     2   GBUF%VOL,          NC1,               NC2,               NC3,
+     3   NC4,               NC5,               NC6,               NC7,
+     4   NC8,               MSNF,              NVC,               GBUF%OFF,
+     5   IXS,               NEL,               JEUL)
                      ELSE
-                        CALL AMASS3P(FSKYM,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,GBUF%VOL,IADS,GBUF%OFF,IXS)          
+                        CALL AMASS3P(
+     1   FSKYM,             GBUF%RHO,          VEUL(LVEUL*NFT+44),GBUF%TAG22,
+     2   GBUF%VOL,          IADS,              GBUF%OFF,          IXS,
+     3   NEL,               NFT,               JEUL)
                      ENDIF
 
 C     ASSEMBLE
@@ -257,23 +263,46 @@ C     ASSEMBLE
                      FR_WAV(:) = ZERO
                      IBID = 0
                      IF(IPARIT == 0)THEN
-                        CALL SCUMU3(GBUF%OFF,ACCELE,NC1, NC2, NC3, NC4,
-     2                       NC5, NC6, NC7, NC8,STIFN,STI,
-     3                       F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     4                       F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     5                       NVC,AR,FR_WAVE,FR_WAV,
-     6                       MX1,MY1,MZ1,MX2,MY2,MZ2,MX3,MY3,MZ3,MX4,MY4,MZ4,
-     7                       MX5,MY5,MZ5,MX6,MY6,MZ6,MX7,MY7,MZ7,MX8,MY8,MZ8,
-     8                       THEM , FTHE,CONDN,CONDE)
+                        CALL SCUMU3(
+     1   GBUF%OFF,ACCELE,  NC1,     NC2,
+     2   NC3,     NC4,     NC5,     NC6,
+     3   NC7,     NC8,     STIFN,   STI,
+     4   F11,     F21,     F31,     F12,
+     5   F22,     F32,     F13,     F23,
+     6   F33,     F14,     F24,     F34,
+     7   F15,     F25,     F35,     F16,
+     8   F26,     F36,     F17,     F27,
+     9   F37,     F18,     F28,     F38,
+     A   NVC,     AR,      FR_WAVE, FR_WAV,
+     B   MX1,     MY1,     MZ1,     MX2,
+     C   MY2,     MZ2,     MX3,     MY3,
+     D   MZ3,     MX4,     MY4,     MZ4,
+     E   MX5,     MY5,     MZ5,     MX6,
+     F   MY6,     MZ6,     MX7,     MY7,
+     G   MZ7,     MX8,     MY8,     MZ8,
+     H   THEM,    FTHE,    CONDN,   CONDE,
+     I   NEL,     JTHE,    ISROT,   IPARTSPH)
                      ELSE
-                        CALL SCUMU3P(GBUF%OFF,STI,FSKY,FSKY,IADS,
-     2                       F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     3                       F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     4                       NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     5                       AR,FR_WAVE,FR_WAV,
-     6                       MX1,MY1,MZ1,MX2,MY2,MZ2,MX3,MY3,MZ3,MX4,MY4,MZ4,
-     7                       MX5,MY5,MZ5,MX6,MY6,MZ6,MX7,MY7,MZ7,MX8,MY8,MZ8,
-     8                       THEM,FTHESKY ,CONDNSKY,CONDE)
+                        CALL SCUMU3P(
+     1   GBUF%OFF,STI,     FSKY,    FSKY,
+     2   IADS,    F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     F15,     F25,     F35,
+     6   F16,     F26,     F36,     F17,
+     7   F27,     F37,     F18,     F28,
+     8   F38,     NC1,     NC2,     NC3,
+     9   NC4,     NC5,     NC6,     NC7,
+     A   NC8,     AR,      FR_WAVE, FR_WAV,
+     B   MX1,     MY1,     MZ1,     MX2,
+     C   MY2,     MZ2,     MX3,     MY3,
+     D   MZ3,     MX4,     MY4,     MZ4,
+     E   MX5,     MY5,     MZ5,     MX6,
+     F   MY6,     MZ6,     MX7,     MY7,
+     G   MZ7,     MX8,     MY8,     MZ8,
+     H   THEM,    FTHESKY, CONDNSKY,CONDE,
+     I   NEL,     NFT,     JTHE,    ISROT,
+     J   IPARTSPH)
                      ENDIF
                   ELSE IF (ITY == 1 .AND. ISOLNOD == 4) THEN
 C     TETRA CASE
@@ -331,9 +360,14 @@ C--------------------------
 C     UPDATE DES MASSES
 C----------------------------
                      IF (IPARIT == 0) THEN
-                        CALL A4MASS3(MS, GBUF%RHO, GBUF%VOL, NC1, NC2, NC3, NC4, MSNF, GBUF%OFF)
+                        CALL A4MASS3(
+     1   MS,      GBUF%RHO,GBUF%VOL,NC1,
+     2   NC2,     NC3,     NC4,     MSNF,
+     3   GBUF%OFF,NEL)
                      ELSE
-                        CALL A4MASS3P(FSKYM, GBUF%RHO, GBUF%VOL, IADS, GBUF%OFF)
+                        CALL A4MASS3P(
+     1   FSKYM,   GBUF%RHO,GBUF%VOL,IADS,
+     2   GBUF%OFF,NEL,     NFT)
                      ENDIF
                      
 C     ASSEMBLE
@@ -341,14 +375,22 @@ C     ASSEMBLE
                      FR_WAV(:) = ZERO
                      IBID = 0
                      IF(IPARIT == 0)THEN
-                        CALL S4CUMU3(GBUF%OFF,ACCELE,NC1, NC2, NC3, NC4,
-     2                       STIFN,STI,
-     3                       F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     8                       THEM , FTHE,CONDN,CONDE)
+                        CALL S4CUMU3(
+     1   GBUF%OFF,ACCELE,  NC1,     NC2,
+     2   NC3,     NC4,     STIFN,   STI,
+     3   F11,     F21,     F31,     F12,
+     4   F22,     F32,     F13,     F23,
+     5   F33,     F14,     F24,     F34,
+     6   THEM,    FTHE,    CONDN,   CONDE,
+     7   NEL,     JTHE)
                      ELSE
-                        CALL S4CUMU3P(GBUF%OFF,STI,FSKY,FSKY,IADS,
-     2                       F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     8                       THEM,FTHESKY ,CONDNSKY,CONDE)
+                        CALL S4CUMU3P(
+     1   GBUF%OFF,STI,     FSKY,    FSKY,
+     2   IADS,    F11,     F21,     F31,
+     3   F12,     F22,     F32,     F13,
+     4   F23,     F33,     F14,     F24,
+     5   F34,     THEM,    FTHESKY, CONDNSKY,
+     6   CONDE,   NEL,     NFT,     JTHE)
                      ENDIF
                   ENDIF
                ENDIF

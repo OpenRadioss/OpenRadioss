@@ -305,16 +305,20 @@ C
       END IF
 C-----------
       CALL S10COOR3(
-     1   X        ,IXS(1,NF1),IXS10(1,NF2),V        ,W        ,
-     2   XX       ,YY        ,ZZ          ,VX       ,VY       , 
-     3   VZ       ,VDXX      ,VDYY        ,VDZZ     ,VDX      , 
-     4   VDY      ,VDZ       ,VD2         ,VIS      ,GBUF%OFF ,
-     5   OFF      ,GBUF%SMSTR,NC          ,NGL      ,MXT      ,
-     6   NGEO     ,FX        ,FY          ,FZ       ,STIG     ,
-     7   GBUF%SIG ,GBUF%EINT ,GBUF%RHO    ,GBUF%QVIS,GBUF%PLA ,
-     8   GBUF%EPSD,VR        ,DR          ,D        ,WXXG     ,
-     9   WYYG     ,WZZG      ,GBUF%G_PLA  ,XDP      ,NEL      ,
-     A   CONDEG   ,GBUF%G_EPSD)
+     1   X,           IXS(1,NF1),  IXS10(1,NF2),V,
+     2   W,           XX,          YY,          ZZ,
+     3   VX,          VY,          VZ,          VDXX,
+     4   VDYY,        VDZZ,        VDX,         VDY,
+     5   VDZ,         VD2,         VIS,         GBUF%OFF,
+     6   OFF,         GBUF%SMSTR,  NC,          NGL,
+     7   MXT,         NGEO,        FX,          FY,
+     8   FZ,          STIG,        GBUF%SIG,    GBUF%EINT,
+     9   GBUF%RHO,    GBUF%QVIS,   GBUF%PLA,    GBUF%EPSD,
+     A   VR,          DR,          D,           WXXG,
+     B   WYYG,        WZZG,        GBUF%G_PLA,  XDP,
+     C   NEL,         CONDEG,      GBUF%G_EPSD, JALE,
+     D   ISMSTR,      JEUL,        JLAG,        ISRAT,
+     E   ISROT)
 C     
       IPLAW1 = 0
       CNS2 = ZERO
@@ -345,16 +349,22 @@ C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
-       CALL SGCOOR10(XX,YY,ZZ,X ,XDP ,
-     1   XX0, YY0, ZZ0, VX0,VY0, VZ0, 
-     2   GBUF%SMSTR,NC,D ,GBUF%OFF,OFFG0,NEL)
+       CALL SGCOOR10(
+     1   XX,        YY,        ZZ,        X,
+     2   XDP,       XX0,       YY0,       ZZ0,
+     3   VX0,       VY0,       VZ0,       GBUF%SMSTR,
+     4   NC,        D,         GBUF%OFF,  OFFG0,
+     5   NEL,       MTN,       ISMSTR)
 C----------------------
        IF (ISMSTR ==  11) THEN
-        CALL S10DERIT3(VOLP,DELTAX,DELTAX2,
-     .   XX0, YY0, ZZ0, PX,PY,PZ, NX,
-     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,VOLG,VOLDP,
-     .   NEL,GBUF%OFF)
+        CALL S10DERIT3(
+     1   VOLP,       DELTAX,     DELTAX2,    XX0,
+     2   YY0,        ZZ0,        PX,         PY,
+     3   PZ,         NX,         RX,         RY,
+     4   RZ,         SX,         SY,         SZ,
+     5   TX,         TY,         TZ,         WIP(1,NPT),
+     6   ALPH(1,NPT),BETA(1,NPT),VOLN,       VOLG,
+     7   VOLDP,      NEL,        GBUF%OFF,   NPT)
         CALL S10LEN3(
      1   VOLP,         NGL,          DELTAX,       DELTAX2,
      2   PX,           PY,           PZ,           VOLG,
@@ -366,8 +376,11 @@ C----------------------
        ELSE
 C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un) 
         IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
-         CALL S10RCOOR12(GBUF%OFF,X ,XDP ,NC ,
-     .    E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   ) 
+         CALL S10RCOOR12(
+     1   GBUF%OFF,X,       XDP,     NC,
+     2   E1X,     E2X,     E3X,     E1Y,
+     3   E2Y,     E3Y,     E1Z,     E2Z,
+     4   E3Z,     NEL)
         END IF !(ISMSTR == 10.AND.ISORTH/=0.AND.IDTMIN(1)==3)
         IBID = 1
         DO IP=1,NPT
@@ -377,9 +390,10 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
        END IF !(ISMSTR ==  11) THEN
        DO IP=1,NPT
         CALL S10DEFOT3(
-     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), VX0, VY0, VZ0,
-     .   MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), MFYY(1,IP), 
-     .   MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP) )
+     1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),VX0,
+     2   VY0,       VZ0,       MFXX(1,IP),MFXY(1,IP),
+     3   MFXZ(1,IP),MFYX(1,IP),MFYY(1,IP),MFYZ(1,IP),
+     4   MFZX(1,IP),MFZY(1,IP),MFZZ(1,IP),NEL)
        END DO 
        IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
          DO IP=1,NPT
@@ -392,11 +406,16 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
       ENDIF     ! ISMSTR == 10
 C-----------
       IF (ISMSTR /= 11) THEN
-      CALL S10DERI3(OFF,VOLP,NGL,DELTAX,DELTAX2,
-     .   XX, YY, ZZ, PX,PY,PZ, NX,
-     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
-     .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,VOLG,VOLDP,
-     .   NC ,GBUF%SMSTR,GBUF%OFF ,NEL)
+      CALL S10DERI3(
+     1   OFF,        VOLP,       NGL,        DELTAX,
+     2   DELTAX2,    XX,         YY,         ZZ,
+     3   PX,         PY,         PZ,         NX,
+     4   RX,         RY,         RZ,         SX,
+     5   SY,         SZ,         TX,         TY,
+     6   TZ,         WIP(1,NPT), ALPH(1,NPT),BETA(1,NPT),
+     7   VOLN,       VOLG,       VOLDP,      NC,
+     8   GBUF%SMSTR, GBUF%OFF,   NEL,        NPT,
+     9   ISMSTR,     JLAG)
 C
         CALL S10LEN3(
      1   VOLP,         NGL,          DELTAX,       DELTAX2,
@@ -427,8 +446,9 @@ C --------------------------
 C  --- UPDATE REF. CONFIGURATION 
 C --------------------------
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
-        CALL S10SAV3(GBUF%OFF ,GBUF%SMSTR,NC   ,
-     +                   XX   ,YY   ,ZZ  ,NEL)
+        CALL S10SAV3(
+     1   GBUF%OFF,  GBUF%SMSTR,NC,        XX,
+     2   YY,        ZZ,        NEL)
       END IF !(ISMSTR == 2) THEN
 C-----------------------------
       IF (ISORTH == 0) THEN            
@@ -442,12 +462,18 @@ C-----------------------------
         ENDDO                          
       ELSE                             
         CALL SREPLOC3(
-     .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .         E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      E1X,     E2X,     E3X,
+     4   E1Y,     E2Y,     E3Y,     E1Z,
+     5   E2Z,     E3Z,     LLT)
         CALL SORTHDIR3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
-     .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
-     .       GBUF%GAMA,GAMA )
+     1   RX,       RY,       RZ,       SX,
+     2   SY,       SZ,       TX,       TY,
+     3   TZ,       E1X,      E2X,      E3X,
+     4   E1Y,      E2Y,      E3Y,      E1Z,
+     5   E2Z,      E3Z,      GBUF%GAMA,GAMA,
+     6   NEL,      IREP)
       ENDIF
       IF(ICP >0 .AND. ISMSTR/=10) THEN
          DO I=LFT,LLT
@@ -469,9 +495,13 @@ C-----------------------------
        END IF
 C
         CALL S10DEFO3(
-     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), VX, VY, VZ,
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .       WXX, WYY, WZZ,VOLP(1,IP),VOLN,LBUF%RHO,RHOO)
+     1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),VX,
+     2   VY,        VZ,        DXX,       DXY,
+     3   DXZ,       DYX,       DYY,       DYZ,
+     4   DZX,       DZY,       DZZ,       D4,
+     5   D5,        D6,        WXX,       WYY,
+     6   WZZ,       VOLP(1,IP),VOLN,      LBUF%RHO,
+     7   RHOO,      NEL,       JHBE,      ISROT)
 
          IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
           CALL SORDEF12(LFT,LLT,DXX, DYY, DZZ,
@@ -485,17 +515,23 @@ C
                JACGM(I)=VARNOD(NC(I,IP))
              ENDDO
            END IF
-           CALL S10_ICP(GBUF%OFF,JACGM,FACP,NU,
-     .        MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), MFYY(1,IP), 
-     .        MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP) ,
-     .        LBUF%VOL,VOLN,LBUF%VOL0DP,VOLDP(1,IP),NEL)
+           CALL S10_ICP(
+     1   GBUF%OFF,   JACGM,      FACP,       NU,
+     2   MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP),
+     3   MFYY(1,IP), MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP),
+     4   MFZZ(1,IP), LBUF%VOL,   VOLN,       LBUF%VOL0DP,
+     5   VOLDP(1,IP),NEL,        ISMSTR)
          ENDIF
 C   
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
         IF (IPLAW1>0) CALL S10DIVDE12(DVM ,DIVDE ,FACP,GBUF%OFF,NEL)
-        CALL SRHO3(PM         ,LBUF%VOL  , LBUF%RHO, LBUF%EINT, DIVDE,
-     .             FLUX(1,NF1),FLU1(NF1) , VOLN    , DVOL     , NGL, MXT, OFF,
-     .             0          ,GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP ,AMU ,GBUF%OFF)
+        CALL SRHO3(
+     1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
+     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     3   DVOL,       NGL,        MXT,        OFF,
+     4   0,          GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP,
+     5   AMU,        GBUF%OFF,   NEL,        MTN,
+     6   JALE,       ISMSTR,     JEUL,       JLAG)
 c
        IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
           CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
@@ -513,8 +549,10 @@ c
 C-----------------------------
 C       SMALL STRAIN
 C-----------------------------
-        CALL S10MALLA3(GBUF%OFF,OFF,WXX,WYY,WZZ,
-     .                 WXXG,WYYG,WZZG,WIP(IP,NPT))
+        CALL S10MALLA3(
+     1   GBUF%OFF,   OFF,        WXX,        WYY,
+     2   WZZ,        WXXG,       WYYG,       WZZG,
+     3   WIP(IP,NPT),NEL,        ISMSTR,     JLAG)
            
         IF(JTHE < 0 ) THEN                                        
           DO I=LFT,LLT                                            
@@ -543,24 +581,34 @@ C
      1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
      2   TT,        NEL,       SENSOR_TAB,NPT)
 C
-        CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO        ,FV	    ,ALE_CONNECT  ,
-     2             IXS      ,IPARG  ,V      ,TF      ,NPF     ,BUFMAT ,
-     3             STI      ,X      ,DT2T   ,NELTST  ,ITYPTST ,OFFSET ,
-     4             NEL      ,W      ,OFF    ,NGEO       ,
-     6             MXT      ,NGL    ,VOLN   ,VD2     ,DVOL    ,DELTAX ,
-     7             VIS      ,QVIS   ,CXX    ,S1      ,S2      ,S3     ,
-     8             S4       ,S5     ,S6     ,DXX     ,DYY     ,DZZ    ,
-     9             D4       ,D5     ,D6     ,WXX     ,WYY     ,WZZ    ,
-     A             RX       ,RY     ,RZ     ,SX      ,SY      ,SZ     ,
-     B             VDX      ,VDY    ,VDZ    ,MUVOID  ,SSP_EQ  ,AIRE   ,
-     C             SIGY     ,ET     ,R1_FREE,LBUF%PLA   ,R3_FREE    ,AMU    ,
-     D             MFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP),MFYY(1,IP)     ,MFYZ(1,IP), 
-     E             MFZX(1,IP),MFZY(1,IP),MFZZ(1,IP)  ,IPM     ,GAMA	      ,BID    ,
-     F             BID      ,BID    ,BID    ,BID     ,BID     ,BID    ,
-     G             ISTRAIN  ,TEMPEL, DIE    ,IEXPAN  ,ILAY    ,MSSA   ,
-     H             DMELS    ,IPTR   ,IPTS   ,IPTT    ,TABLE   ,BID    ,
-     I             BID      ,BID    ,BID    ,IPARG(1,NG),IGEO  ,CONDE    ,
-     J             ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
+        CALL MMAIN(
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   OFF,         NGEO,        MXT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        CXX,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          DXX,         DYY,         DZZ,
+     B   D4,          D5,          D6,          WXX,
+     C   WYY,         WZZ,         RX,          RY,
+     D   RZ,          SX,          SY,          SZ,
+     E   VDX,         VDY,         VDZ,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   R1_FREE,     LBUF%PLA,    R3_FREE,     AMU,
+     H   MFXX(1,IP),  MFXY(1,IP),  MFXZ(1,IP),  MFYX(1,IP),
+     I   MFYY(1,IP),  MFYZ(1,IP),  MFZX(1,IP),  MFZY(1,IP),
+     J   MFZZ(1,IP),  IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     M   DIE,         IEXPAN,      ILAY,        MSSA,
+     N   DMELS,       IPTR,        IPTS,        IPTT,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        CONDE,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 C
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
@@ -577,9 +625,11 @@ C-----------  return to global system
      .         E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,OFFG0)
          ENDIF
        ENDIF
-        IF (ISTRAIN == 1) CALL SSTRA3(DXX ,DYY      ,DZZ ,D4  ,D5 ,
-     .                                D6  ,LBUF%STRA,WXX ,WYY ,WZZ,
-     .                                OFF ,NEL      )
+        IF (ISTRAIN == 1) CALL SSTRA3(
+     1   DXX,      DYY,      DZZ,      D4,
+     2   D5,       D6,       LBUF%STRA,WXX,
+     3   WYY,      WZZ,      OFF,      NEL,
+     4   JCVT)
 C--------------------------
         IFLAG=MOD(NCYCLE,NCPRI)
         IF(IOUTPRT>0)THEN
@@ -634,7 +684,9 @@ c-----------------------------
 c
 C-----  small strain
 C------ correction of GBUF%SMSTR will be done only from next cycle	
-        CALL S10MALLB3(GBUF%SMSTR,GBUF%OFF,WXXG,WYYG,WZZG,NEL)
+        CALL S10MALLB3(
+     1   GBUF%SMSTR,GBUF%OFF,  WXXG,      WYYG,
+     2   WZZG,      NEL,       ISMSTR,    JLAG)
         IF (IOFFS == 1)THEN
           DO I=LFT,LLT
 C           switch to small strain
@@ -657,10 +709,11 @@ c
         CALL S10MALLGEO3(NGL,GBUF%OFF ,VOLG ,DELTAX, GBUF%VOL ,
      .                       RX , RY , RZ , 
      .                       SX , SY , SZ ,
-     .                       TX , TY , TZ ,DELTAX4,GEO(1,NGEO(1)))
+     .                       TX , TY , TZ ,DELTAX4,GEO(1,NGEO(1)),
+     .                       NEL,NPT,ISMSTR,ISROT)
         CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX4,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
-        CALL SMALLB3(GBUF%OFF,OFF)
-        CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX4, GBUF%VOL ,ITET )
+        CALL SMALLB3(GBUF%OFF,OFF,NEL,ISMSTR)
+        CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX4, GBUF%VOL ,ITET, NEL, ISMSTR)
 C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IOFFS =0
@@ -668,11 +721,14 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
           IF(GBUF%OFF(I)/=OFFG0(I).AND.ABS(GBUF%OFF(I)) > ONE ) IOFFS=1
          ENDDO
          IF (IOFFS == 1) THEN
-           CALL S10SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,NC   ,
-     +                   XX   ,YY   ,ZZ   ,NEL )
+           CALL S10SAV12(
+     1   GBUF%OFF,  OFFG0,     GBUF%SMSTR,NC,
+     2   XX,        YY,        ZZ,        NEL)
            IF (ISM12_11>0 .AND. ISORTH == 0) THEN
-             CALL S10UPD11T12(ELBUF_TAB(NG) ,GBUF%OFF   ,OFFG0  ,NC   ,
-     +                        XX   ,YY   ,ZZ   ,NEL )
+             CALL S10UPD11T12(
+     1   ELBUF_TAB(NG),GBUF%OFF,     OFFG0,        NC,
+     2   XX,           YY,           ZZ,           NEL,
+     3   NPT)
            END IF 
           IPTS = 1
           IPTT = 1
@@ -692,204 +748,24 @@ c-----------------------------
      2   FY,       FZ,       NEL)
 C-----
         IF (IPARIT == 0) THEN
-          CALL S10CUMU3(GBUF%OFF,A,NC,STIFN,STIG,FX,FY,FZ,DELTAX2,
-     .                 THEM    ,FTHE,AR,X,STIFR,GBUF%SMSTR,CONDN,CONDEG,
-     .                 ITAGDN  ,NEL)
+          CALL S10CUMU3(
+     1   GBUF%OFF,  A,         NC,        STIFN,
+     2   STIG,      FX,        FY,        FZ,
+     3   DELTAX2,   THEM,      FTHE,      AR,
+     4   X,         STIFR,     GBUF%SMSTR,CONDN,
+     5   CONDEG,    ITAGDN,    NEL,       ISMSTR,
+     6   JTHE,      ISROT)
           ELSE
-          CALL S10CUMU3P(GBUF%OFF,STIG,FSKY   ,FSKY   ,IADS,FX,FY,
-     .                 FZ  ,DELTAX2,IADS10 ,NC,THEM, 
-     .                 FTHESKY ,AR,X,GBUF%SMSTR,CONDNSKY,CONDEG,
-     .                 ITAGDN  ,NEL)
+          CALL S10CUMU3P(
+     1   GBUF%OFF,  STIG,      FSKY,      FSKY,
+     2   IADS,      FX,        FY,        FZ,
+     3   DELTAX2,   IADS10,    NC,        THEM,
+     4   FTHESKY,   AR,        X,         GBUF%SMSTR,
+     5   CONDNSKY,  CONDEG,    ITAGDN,    NEL,
+     6   NFT,       ISMSTR,    JTHE,      ISROT)
         ENDIF
 c-----
       ENDIF
 c-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  S10PIJ12                      source/elements/solid/solide10/s10forc3.F
-Chd|-- called by -----------
-Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd11t12.F
-Chd|-- calls ---------------
-Chd|        S10JACOBNEL                   source/elements/solid/solide10/s10jacob.F
-Chd|====================================================================
-      SUBROUTINE S10PIJ12(NPT,XX, YY, ZZ, PX,PY,PZ ,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL,NPT
-      DOUBLE PRECISION XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
-      my_real PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,IP,N,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,
-     .        M,IPERM(10,4)
-      DOUBLE PRECISION
-     .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
-     .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),
-     .   A4,B4,A4M1,B4M1,AA,VOLDP(MVSIZ)
-      my_real
-     .   ALPH,BETA,W,VOL(MVSIZ)
-      DATA IPERM/
-     .            2, 4, 3, 1, 9,10, 6, 5, 8, 7,
-     .            4, 1, 3, 2, 8, 7,10, 9, 5, 6,
-     .            1, 4, 2, 3, 8, 9, 5, 7,10, 6,
-     .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
-C-----------------------------------------------
-      IF(NPT==4)THEN
-        ALPH = ZEP5854102
-        BETA  = ZEP1381966
-        W = FOURTH
-      ELSEIF(NPT==5)THEN
-        ALPH = HALF
-        BETA  = ONE_OVER_6
-        W = NINE_OVER_20
-      ENDIF
-      A4 = FOUR * ALPH
-      B4 = FOUR * BETA
-      A4M1  = A4- ONE
-      B4M1  = B4- ONE
-C
-      DO N=1,4
-        DO I=1,NEL
-          XA(I,N) = A4M1*XX(I,N)
-          YA(I,N) = A4M1*YY(I,N)
-          ZA(I,N) = A4M1*ZZ(I,N)
-C
-          XB(I,N) = B4M1*XX(I,N)
-          YB(I,N) = B4M1*YY(I,N)
-          ZB(I,N) = B4M1*ZZ(I,N)
-        ENDDO
-      ENDDO
-C
-      DO N=5,10
-        DO I=1,NEL
-          XA(I,N) = A4*XX(I,N)
-          YA(I,N) = A4*YY(I,N)
-          ZA(I,N) = A4*ZZ(I,N)
-C
-          XB(I,N) = B4*XX(I,N)
-          YB(I,N) = B4*YY(I,N)
-          ZB(I,N) = B4*ZZ(I,N)
-        ENDDO
-      ENDDO
-C
-      DO IP=1,4
-        K1 = IPERM(1,IP)
-        K2 = IPERM(2,IP)
-        K3 = IPERM(3,IP)
-        K4 = IPERM(4,IP)
-        K5 = IPERM(5,IP)
-        K6 = IPERM(6,IP)
-        K7 = IPERM(7,IP)
-        K8 = IPERM(8,IP)
-        K9 = IPERM(9,IP)
-        K10= IPERM(10,IP)
-        CALL S10JACOBNEL(ALPH,BETA,W,
-     .   XB(1,K1),XB(1,K2),XB(1,K3),XA(1,K4),XB(1,K5),
-     .   XB(1,K6),XB(1,K7),XB(1,K8),XB(1,K9),XB(1,K10),
-     .   XA(1,K8),XA(1,K9),XA(1,K10),
-     .   YB(1,K1),YB(1,K2),YB(1,K3),YA(1,K4),YB(1,K5),
-     .   YB(1,K6),YB(1,K7),YB(1,K8),YB(1,K9),YB(1,K10),
-     .   YA(1,K8),YA(1,K9),YA(1,K10),
-     .   ZB(1,K1),ZB(1,K2),ZB(1,K3),ZA(1,K4),ZB(1,K5),
-     .   ZB(1,K6),ZB(1,K7),ZB(1,K8),ZB(1,K9),ZB(1,K10),
-     .   ZA(1,K8),ZA(1,K9),ZA(1,K10),
-     .   PX(1,K1,IP) ,PX(1,K2,IP),PX(1,K3,IP),PX(1,K4,IP),PX(1,K5,IP),
-     .   PX(1,K6,IP) ,PX(1,K7,IP),PX(1,K8,IP),PX(1,K9,IP),PX(1,K10,IP),
-     .   PY(1,K1,IP) ,PY(1,K2,IP),PY(1,K3,IP),PY(1,K4,IP),PY(1,K5,IP),
-     .   PY(1,K6,IP) ,PY(1,K7,IP),PY(1,K8,IP),PY(1,K9,IP),PY(1,K10,IP),
-     .   PZ(1,K1,IP) ,PZ(1,K2,IP),PZ(1,K3,IP),PZ(1,K4,IP),PZ(1,K5,IP),
-     .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
-     .   VOL ,VOLDP,NEL)
-c
-      ENDDO
-C
-C
-      IF(NPT==5)THEN
-        ALPH = FOURTH
-        BETA  = FOURTH
-        A4 = ONE
-        B4 = ONE
-        A4M1  = ZERO
-        B4M1  = ZERO
-        W = - FOUR_OVER_5
-        IP = 5
-C
-        DO N=1,4
-         DO I=1,NEL
-          XA(I,N) = ZERO
-          YA(I,N) = ZERO
-          ZA(I,N) = ZERO
-         ENDDO
-        ENDDO
-CC
-        CALL S10JACOBNEL(ALPH,BETA,W,
-     .   XA(1,K1),XA(1,K2),XA(1,K3),XA(1,K4),XX(1,K5),
-     .   XX(1,K6),XX(1,K7),XX(1,K8),XX(1,K9),XX(1,K10),
-     .   XX(1,K8),XX(1,K9),XX(1,K10),
-     .   YA(1,K1),YA(1,K2),YA(1,K3),YA(1,K4),YY(1,K5),
-     .   YY(1,K6),YY(1,K7),YY(1,K8),YY(1,K9),YY(1,K10),
-     .   YY(1,K8),YY(1,K9),YY(1,K10),
-     .   ZA(1,K1),ZA(1,K2),ZA(1,K3),ZA(1,K4),ZZ(1,K5),
-     .   ZZ(1,K6),ZZ(1,K7),ZZ(1,K8),ZZ(1,K9),ZZ(1,K10),
-     .   ZZ(1,K8),ZZ(1,K9),ZZ(1,K10),
-     .   PX(1,K1,IP) ,PX(1,K2,IP),PX(1,K3,IP),PX(1,K4,IP),PX(1,K5,IP),
-     .   PX(1,K6,IP) ,PX(1,K7,IP),PX(1,K8,IP),PX(1,K9,IP),PX(1,K10,IP),
-     .   PY(1,K1,IP) ,PY(1,K2,IP),PY(1,K3,IP),PY(1,K4,IP),PY(1,K5,IP),
-     .   PY(1,K6,IP) ,PY(1,K7,IP),PY(1,K8,IP),PY(1,K9,IP),PY(1,K10,IP),
-     .   PZ(1,K1,IP) ,PZ(1,K2,IP),PZ(1,K3,IP),PZ(1,K4,IP),PZ(1,K5,IP),
-     .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
-     .   VOL ,VOLDP,NEL)
-      ENDIF
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  S10PIJSAV12                   source/elements/solid/solide10/s10forc3.F
-Chd|-- called by -----------
-Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd11t12.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE S10PIJSAV12(PX,PY,PZ, PIJ,SIG,SIGL,INDEX,NB,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL,NB,INDEX(*)
-      my_real
-     .   PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
-     .   PIJ(NEL,3,10),SIG(NEL,6),SIGL(NEL,6)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,J,K
-C-----------------------------------------------
-#include "vectorize.inc"
-      DO J=1,NB
-        I = INDEX(J)
-        PIJ(I,1,1:10) = PX(J,1:10) 
-        PIJ(I,2,1:10) = PY(J,1:10) 
-        PIJ(I,3,1:10) = PZ(J,1:10) 
-        SIGL(I,1:6) = SIG(I,1:6)
-      END DO
-C-----------
-      RETURN
-      END
-

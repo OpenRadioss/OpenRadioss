@@ -140,23 +140,31 @@ C
       ENDDO 
 C-----------------------------------------------------------------
       IF (MTN == 1) THEN
-        CALL M1LAW8(PM       ,OFF     ,GBUF%SIG,GBUF%EINT,GBUF%RHO ,
-     .              GBUF%QVIS,GBUF%VOL,STIFN   ,NEL      ,D1       ,
-     .              D2       ,D3      ,D4      ,D5       ,D6       ,
-     .              VOLN     ,VOLGP   ,DELTAX  ,RHO0     ,DVOL     ,
-     .              VD2      ,VIS     ,MAT     ,NC       ,NGL      ,
-     .              GEO      ,PID     ,DT2T    ,NELTST   ,ITYPTST  ,
-     .              GBUF%OFF ,MSSA    ,DMELS   ,BUFLY    ,SSP)
+        CALL M1LAW8(
+     1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
+     2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, STIFN,
+     3   NEL,      D1,       D2,       D3,
+     4   D4,       D5,       D6,       VOLN,
+     5   VOLGP,    DELTAX,   RHO0,     DVOL,
+     6   VD2,      VIS,      MAT,      NC,
+     7   NGL,      GEO,      PID,      DT2T,
+     8   NELTST,   ITYPTST,  GBUF%OFF, MSSA,
+     9   DMELS,    BUFLY,    SSP,      ITY,
+     A   NPT,      JTUR,     JTHE,     JSMS)
       ELSEIF (MTN == 2) THEN
-        CALL M2LAW8(PM       ,OFF     ,GBUF%SIG,GBUF%EINT,GBUF%RHO,
-     .              GBUF%QVIS,GBUF%VOL,STIFN   ,NEL      ,D1      ,
-     .              D2       ,D3      ,D4      ,D5       ,D6      ,
-     .              VOLN     ,VOLGP   ,DELTAX  ,RHO0     ,DVOL    ,
-     .              VD2      ,VIS     ,MAT     ,NC       ,NGL     ,
-     .              GEO      ,PID     ,GBUF%PLA,DT2T     ,NELTST  ,
-     .              ITYPTST  ,JPLASOL ,GBUF%OFF,DPLA     ,EPSP    ,
-     .              TSTAR    ,ET      ,MSSA    ,DMELS    ,BUFLY   ,
-     .              SSP)
+        CALL M2LAW8(
+     1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
+     2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, STIFN,
+     3   NEL,      D1,       D2,       D3,
+     4   D4,       D5,       D6,       VOLN,
+     5   VOLGP,    DELTAX,   RHO0,     DVOL,
+     6   VD2,      VIS,      MAT,      NC,
+     7   NGL,      GEO,      PID,      GBUF%PLA,
+     8   DT2T,     NELTST,   ITYPTST,  JPLASOL,
+     9   GBUF%OFF, DPLA,     EPSP,     TSTAR,
+     A   ET,       MSSA,     DMELS,    BUFLY,
+     B   SSP,      ITY,      NPT,      JTUR,
+     C   JTHE,     JSMS)
 
       ELSEIF (MTN == 3) THEN
         CALL M3LAW8(
@@ -166,13 +174,17 @@ C-----------------------------------------------------------------
      4   VOLN,     VOLGP,    DVOL,     MAT,
      5   NGL,      JPLASOL,  DPLA,     EPSP,
      6   TSTAR,    BUFLY,    NEL,      NPT)
-        CALL MEOS8 (PM       ,OFF     ,GBUF%SIG ,GBUF%EINT,GBUF%RHO,
-     .              GBUF%QVIS,GBUF%VOL,GBUF%PLA ,GBUF%TEMP,GBUF%RE ,
-     .              STIFN    ,NEL     ,D1       ,D2       ,D3      ,
-     .              VOLN     ,DELTAX  ,RHO0     ,DVOL     ,VD2     ,
-     .              VIS      ,MAT     ,NC       ,NGL      ,GEO     ,
-     .              PID      ,DT2T    ,NELTST   ,ITYPTST  ,GBUF%OFF,
-     .              MSSA     ,DMELS   ,BUFLY    ,SSP      )
+        CALL MEOS8(
+     1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
+     2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, GBUF%PLA,
+     3   GBUF%TEMP,GBUF%RE,  STIFN,    NEL,
+     4   D1,       D2,       D3,       VOLN,
+     5   DELTAX,   RHO0,     DVOL,     VD2,
+     6   VIS,      MAT,      NC,       NGL,
+     7   GEO,      PID,      DT2T,     NELTST,
+     8   ITYPTST,  GBUF%OFF, MSSA,     DMELS,
+     9   BUFLY,    SSP,      ITY,      NPT,
+     A   JTUR,     JTHE,     JSMS)
       ELSEIF (MTN == 41) THEN
       ELSEIF (MTN>=28) THEN
 c     user-type laws

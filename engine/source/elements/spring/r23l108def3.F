@@ -29,27 +29,32 @@ Chd|        REDEF3                        source/elements/spring/redef3.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|====================================================================
       SUBROUTINE R23L108DEF3(
-     .        IPM     ,IGEO   ,MID    ,PID    , UPARAM   ,   
-     1        SKEW    ,GEO    ,FX     ,FY     ,FZ      ,
-     2        E       ,DX     ,DY     ,DZ     ,NPF     ,
-     3        TF      ,OFF    ,DPX    ,DPY    ,DPZ     ,
-     4        DPX2    ,DPY2   ,DPZ2   ,FXEP   ,FYEP    ,
-     5        FZEP    ,X0     ,Y0     ,Z0     ,XMOM    ,
-     6        YMOM    ,ZMOM   ,RX     ,RY     ,RZ      ,
-     7        RPX     ,RPY    ,RPZ    ,XMEP   ,YMEP    ,
-     8        ZMEP    ,RPX2   ,RPY2   ,RPZ2   ,ANIM    ,
-     9        IPOSX   ,IPOSY  ,IPOSZ  ,IPOSXX ,IPOSYY  ,
-     A        IPOSZZ  ,FR_WAVE,V      ,E6      ,CRITNEW ,
-     B        NEL    ,X0_ERR ,X1DP   ,X2DP    ,YIELDX  ,
-     C        YIELDY ,YIELDZ ,YIELDX2,YIELDY2 ,YIELDZ2 ,
-     D        NGL    ,XKR     ,EXX    ,EYX     ,EZX    ,
-     E        EXY    ,EYY    ,EZY     ,EXZ     ,EYZ    ,
-     F        EZZ    ,XCR    ,RX1     ,RY1     ,RZ1    ,
-     G        RX2    ,RY2    ,RZ2     ,XIN    ,AK      ,
-     H        XM     ,XKM    ,XCM     ,NC1    ,NC2     ,
-     I        NUVAR  ,UVAR   ,MASS    ,DX0    , DY0    ,
-     J        DZ0    ,RX0    ,RY0    , RZ0    ,IEQUIL  ,
-     K        SKEW_ID)
+     1   IPM,     IGEO,    MID,     PID,
+     2   UPARAM,  SKEW,    GEO,     FX,
+     3   FY,      FZ,      E,       DX,
+     4   DY,      DZ,      NPF,     TF,
+     5   OFF,     DPX,     DPY,     DPZ,
+     6   DPX2,    DPY2,    DPZ2,    FXEP,
+     7   FYEP,    FZEP,    X0,      Y0,
+     8   Z0,      XMOM,    YMOM,    ZMOM,
+     9   RX,      RY,      RZ,      RPX,
+     A   RPY,     RPZ,     XMEP,    YMEP,
+     B   ZMEP,    RPX2,    RPY2,    RPZ2,
+     C   ANIM,    IPOSX,   IPOSY,   IPOSZ,
+     D   IPOSXX,  IPOSYY,  IPOSZZ,  FR_WAVE,
+     E   V,       E6,      CRITNEW, NEL,
+     F   X0_ERR,  X1DP,    X2DP,    YIELDX,
+     G   YIELDY,  YIELDZ,  YIELDX2, YIELDY2,
+     H   YIELDZ2, NGL,     XKR,     EXX,
+     I   EYX,     EZX,     EXY,     EYY,
+     J   EZY,     EXZ,     EYZ,     EZZ,
+     K   XCR,     RX1,     RY1,     RZ1,
+     L   RX2,     RY2,     RZ2,     XIN,
+     M   AK,      XM,      XKM,     XCM,
+     N   NC1,     NC2,     NUVAR,   UVAR,
+     O   MASS,    DX0,     DY0,     DZ0,
+     P   RX0,     RY0,     RZ0,     IEQUIL,
+     Q   SKEW_ID, NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*), IGEO(NPROPGI,*),NEL,NGL(*),NC1(*),NC2(*),NUVAR,
      .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)     
 C     REAL
@@ -342,14 +348,18 @@ C-------------------------------
          COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(FX      ,XK     ,DX    ,FXEP       ,DXOLD ,
-     .            DPX     ,TF     ,NPF   ,XC         ,OFF   ,
-     .            E6(1,1) ,DPX2   ,ANIM  ,ANIM_FE(11),IPOSX ,
-     .            FR_WAVE ,XL0    ,DMN   ,DMX        ,DV    ,
-     .            RSCALE  ,LSCALE ,EE    ,GF3        ,IFUNC3,
-     .            YIELDX  ,X0DP   ,AK    ,B          ,D     ,
-     .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   FX,         XK,         DX,         FXEP,
+     2   DXOLD,      DPX,        TF,         NPF,
+     3   XC,         OFF,        E6(1,1),    DPX2,
+     4   ANIM,       ANIM_FE(11),IPOSX,      FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   RSCALE,     LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDX,     X0DP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -402,14 +412,18 @@ C-------------------------------
          COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(FY      ,YK     ,DY      ,FYEP       ,DYOLD ,
-     .            DPY     ,TF     ,NPF     ,YC         ,OFF   ,
-     .            E6(1,2) ,DPY2   ,ANIM(KK),ANIM_FE(12),IPOSY ,
-     .            FR_WAVE ,XL0    ,DMN     ,DMX        ,DV    ,
-     .            RSCALE  ,LSCALE ,EE      ,GF3        ,IFUNC3,
-     .            YIELDY  ,Y0DP   ,AK      ,B          ,D     ,
-     .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA  ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   FY,         YK,         DY,         FYEP,
+     2   DYOLD,      DPY,        TF,         NPF,
+     3   YC,         OFF,        E6(1,2),    DPY2,
+     4   ANIM(KK),   ANIM_FE(12),IPOSY,      FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   RSCALE,     LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDY,     Y0DP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
@@ -460,14 +474,18 @@ C-------------------------------
       ELSE
          COORD_OLD => NOT_USED
       ENDIF
-      CALL REDEF3(FZ      ,ZK     ,DZ      ,FZEP       ,DZOLD ,
-     .            DPZ     ,TF     ,NPF     ,ZC         ,OFF   ,
-     .            E6(1,3) ,DPZ2   ,ANIM(KK),ANIM_FE(13),IPOSZ ,
-     .            FR_WAVE ,XL0    ,DMN     ,DMX        ,DV    ,
-     .            RSCALE  ,LSCALE ,EE      ,GF3        ,IFUNC3,
-     .            YIELDZ  ,Z0DP   ,AK      ,B          ,D     ,
-     .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,EPLA  ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   FZ,         ZK,         DZ,         FZEP,
+     2   DZOLD,      DPZ,        TF,         NPF,
+     3   ZC,         OFF,        E6(1,3),    DPZ2,
+     4   ANIM(KK),   ANIM_FE(13),IPOSZ,      FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   RSCALE,     LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDZ,     Z0DP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
@@ -563,14 +581,18 @@ C-------------------------------
       ELSE
         COORD_OLD => NOT_USED
       ENDIF
-      CALL REDEF3(XMOM    ,XK     ,RX    ,XMEP       ,DXOLD ,
-     .            RPX     ,TF     ,NPF   ,XC         ,OFF   ,
-     .            E6(1,4) ,RPX2   ,ANIM  ,0          ,IPOSXX,
-     .            FR_WAVE ,XL0    ,DMN   ,DMX        ,DV    ,
-     .            RSCALE  ,LSCALE ,EE    ,GF3        ,IFUNC3,
-     .            YIELDX2 ,X0DP   ,AK    ,B          ,D     ,
-     .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   XMOM,     XK,       RX,       XMEP,
+     2   DXOLD,    RPX,      TF,       NPF,
+     3   XC,       OFF,      E6(1,4),  RPX2,
+     4   ANIM,     0,        IPOSXX,   FR_WAVE,
+     5   XL0,      DMN,      DMX,      DV,
+     6   RSCALE,   LSCALE,   EE,       GF3,
+     7   IFUNC3,   YIELDX2,  X0DP,     AK,
+     8   B,        D,        IECROU,   IFUNC,
+     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
+     A   NOT_USED, NOT_USED, NOT_USED, NEL,
+     B   NFT)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -622,14 +644,18 @@ C-------------------------------------
         COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(YMOM    ,YK     ,RY    ,YMEP       ,DYOLD ,
-     .            RPY     ,TF     ,NPF   ,YC         ,OFF   ,
-     .            E6(1,5) ,RPY2   ,ANIM  ,0          ,IPOSYY,
-     .            FR_WAVE ,XL0    ,DMN   ,DMX        ,DV    ,
-     .            RSCALE  ,LSCALE ,EE    ,GF3        ,IFUNC3,
-     .            YIELDY2 ,Y0DP   ,AK    ,B          ,D     ,
-     .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   YMOM,     YK,       RY,       YMEP,
+     2   DYOLD,    RPY,      TF,       NPF,
+     3   YC,       OFF,      E6(1,5),  RPY2,
+     4   ANIM,     0,        IPOSYY,   FR_WAVE,
+     5   XL0,      DMN,      DMX,      DV,
+     6   RSCALE,   LSCALE,   EE,       GF3,
+     7   IFUNC3,   YIELDY2,  Y0DP,     AK,
+     8   B,        D,        IECROU,   IFUNC,
+     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
+     A   NOT_USED, NOT_USED, NOT_USED, NEL,
+     B   NFT)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -681,14 +707,18 @@ C-----------------------------------
         COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(ZMOM    ,ZK     ,RZ    ,ZMEP       ,DZOLD ,
-     .            RPZ     ,TF     ,NPF   ,ZC         ,OFF   ,
-     .            E6(1,6) ,RPZ2   ,ANIM  ,0          ,IPOSZZ,
-     .            FR_WAVE ,XL0    ,DMN   ,DMX        ,DV    ,
-     .            RSCALE  ,LSCALE ,EE    ,GF3        ,IFUNC3,
-     .            YIELDZ2 ,Z0DP   ,AK    ,B          ,D     ,
-     .            IECROU  ,IFUNC  ,IFV   ,IFUNC2     ,EPLA  ,
-     .            COORD_OLD,NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   ZMOM,     ZK,       RZ,       ZMEP,
+     2   DZOLD,    RPZ,      TF,       NPF,
+     3   ZC,       OFF,      E6(1,6),  RPZ2,
+     4   ANIM,     0,        IPOSZZ,   FR_WAVE,
+     5   XL0,      DMN,      DMX,      DV,
+     6   RSCALE,   LSCALE,   EE,       GF3,
+     7   IFUNC3,   YIELDZ2,  Z0DP,     AK,
+     8   B,        D,        IECROU,   IFUNC,
+     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
+     A   NOT_USED, NOT_USED, NOT_USED, NEL,
+     B   NFT)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN

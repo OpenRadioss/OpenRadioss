@@ -120,7 +120,10 @@ C
 C
         GBUF => ELBUF_TAB(NG)%GBUF
         IF(NNOD==4 .AND.ISROT == 3) THEN
-          CALL S4VOLNOD3(VARNOD6,X,NC1,NC2,NC3,NC4,GBUF%OFF,XDP,NEL)
+          CALL S4VOLNOD3(
+     1   VARNOD6, X,       NC1,     NC2,
+     2   NC3,     NC4,     GBUF%OFF,XDP,
+     3   NEL,     ISMSTR)
           IF(IRESP==1)THEN
            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
            DO I=LFT,LLT
@@ -140,8 +143,10 @@ C
            ENDDO
           END IF !(IRESP==1)THEN
 C-----for small strain elements
-          CALL S4VOLNOD_SM(VARNOD6,V,NC1,NC2,NC3,NC4,VOL0,GBUF%AMU,GBUF%OFF,
-     2                     GBUF%SMSTR,NEL)
+          CALL S4VOLNOD_SM(
+     1   VARNOD6,   V,         NC1,       NC2,
+     2   NC3,       NC4,       VOL0,      GBUF%AMU,
+     3   GBUF%OFF,  GBUF%SMSTR,NEL,       ISMSTR)
           !Parith-On treatment
           CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
           DO I=LFT,LLT      
@@ -172,8 +177,11 @@ C-----T10 large strain first
             NC(LFT:LLT,5:10) = 0
           ENDIF
           IF (ISMSTR==10) THEN
-            CALL S10VOLNODT3(ELBUF_TAB(NG),VARNOD6,X,NC,GBUF%OFF,
-     +                       GBUF%SMSTR,XDP,NEL)
+            NPT = 4 
+            CALL S10VOLNODT3(
+     1   ELBUF_TAB(NG),VARNOD6,      X,            NC,
+     2   GBUF%OFF,     GBUF%SMSTR,   XDP,          NEL,
+     3   NPT)
             IBID = 1
             DO IP=1,NPT
               LBUF => ELBUF_TAB(NG)%BUFLY(IBID)%LBUF(IP,IBID,IBID)
@@ -192,7 +200,10 @@ C-----T10 large strain first
                ENDDO
             END DO !IP=1,NPT
           ELSE
-            CALL S10VOLNOD3(VARNOD6,X,NC,GBUF%OFF,VOLG,XDP,NEL)
+            CALL S10VOLNOD3(
+     1   VARNOD6, X,       NC,      GBUF%OFF,
+     2   VOLG,    XDP,     NEL,     NPT,
+     3   ISMSTR)
             DO I=LFT,LLT
              IF(GBUF%OFF(I) == ZERO) THEN
                VOL0(I)=ZERO

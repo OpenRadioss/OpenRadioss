@@ -1600,36 +1600,46 @@ C-----------------------------------------------
         DO NFT = 0 , NUM_IMP - 1 , NVSIZ
           LFT=1
           LLT = MIN( NVSIZ, NUM_IMP - NFT )
-          CALL I5CORK3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,
-     .                INTBUF_TAB%NSV,
-     .                INTBUF_TAB%IRTLM,CAND_N(NFT+1),CAND_E(NFT+1),
-     .                NSVG  ,JX1   ,JX2     ,JX3   ,JX4   ,
-     2                X1    ,X2    ,X3      ,
-     3                X4    ,Y1    ,Y2    ,Y3    ,Y4      ,
-     4                Z1    ,Z2    ,Z3    ,Z4    ,XFACE   ,
-     5                XI    ,YI    ,ZI    ,IX1   ,IX2     ,
-     6                IX3   ,IX4)
-          CALL I3CST3(  X1    ,X2      ,X3    ,X4    ,XI ,
-     1                  Y1    ,Y2      ,Y3    ,Y4    ,YI ,
-     2                  Z1    ,Z2      ,Z3    ,Z4    ,ZI ,
-     3                  XFACE ,N1      ,N2    ,N3    ,SSC,
-     4                  TTC   ,X0      ,Y0    ,Z0    ,XX1,
-     5                  XX2   ,XX3     ,XX4   ,YY1   ,YY2,
-     6                  YY3   ,YY4     ,ZZ1   ,ZZ2   ,ZZ3,
-     7                  ZZ4   ,XI1     ,XI2   ,XI3   ,XI4,
-     8                  YI1   ,YI2     ,YI3   ,YI4   ,ZI1,
-     9                  ZI2   ,ZI3     ,ZI4   ,XN1   ,XN2,
-     1                  XN3   ,XN4     ,YN1   ,YN2   ,YN3,
-     2                  YN4   ,ZN1     ,ZN2   ,ZN3   ,ZN4,
-     3                  AREA)
-          CALL I3GAP3(GAP,AREA,THK,ALP)
-          CALL I3DIS3(IGIMP,INTY,DIST,X1    ,X2 ,
-     1              X3   ,X4  ,XI  ,Y1    ,Y2 ,
-     2              Y3   ,Y4  ,YI  ,Z1    ,Z2 ,
-     3              Z3   ,Z4  ,ZI  ,XFACE ,N1 ,
-     4              N2   ,N3  ,SSC ,TTC   ,ALP,
-     5              ANS  ,XP  ,YP  ,ZP    ,H1 ,
-     6              H2   ,H3  ,H4)
+          CALL I5CORK3(
+     1   X,                INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,   INTBUF_TAB%NSV,
+     2   INTBUF_TAB%IRTLM, CAND_N(NFT+1),    CAND_E(NFT+1),    NSVG,
+     3   JX1,              JX2,              JX3,              JX4,
+     4   X1,               X2,               X3,               X4,
+     5   Y1,               Y2,               Y3,               Y4,
+     6   Z1,               Z2,               Z3,               Z4,
+     7   XFACE,            XI,               YI,               ZI,
+     8   IX1,              IX2,              IX3,              IX4,
+     9   LFT,              LLT,              NFT)
+          CALL I3CST3(
+     1   X1,      X2,      X3,      X4,
+     2   XI,      Y1,      Y2,      Y3,
+     3   Y4,      YI,      Z1,      Z2,
+     4   Z3,      Z4,      ZI,      XFACE,
+     5   N1,      N2,      N3,      SSC,
+     6   TTC,     X0,      Y0,      Z0,
+     7   XX1,     XX2,     XX3,     XX4,
+     8   YY1,     YY2,     YY3,     YY4,
+     9   ZZ1,     ZZ2,     ZZ3,     ZZ4,
+     A   XI1,     XI2,     XI3,     XI4,
+     B   YI1,     YI2,     YI3,     YI4,
+     C   ZI1,     ZI2,     ZI3,     ZI4,
+     D   XN1,     XN2,     XN3,     XN4,
+     E   YN1,     YN2,     YN3,     YN4,
+     F   ZN1,     ZN2,     ZN3,     ZN4,
+     G   AREA,    LFT,     LLT)
+          CALL I3GAP3(
+     1   GAP,     AREA,    THK,     ALP,
+     2   LFT,     LLT)
+          CALL I3DIS3(
+     1   IGIMP,   INTY,    DIST,    X1,
+     2   X2,      X3,      X4,      XI,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   YI,      Z1,      Z2,      Z3,
+     5   Z4,      ZI,      XFACE,   N1,
+     6   N2,      N3,      SSC,     TTC,
+     7   ALP,     ANS,     XP,      YP,
+     8   ZP,      H1,      H2,      H3,
+     9   H4,      LFT,     LLT)
           CALL UD_INTG5(LFT    ,LLT    ,NSVG   ,JX1    ,JX2    ,
      .                  JX3    ,JX4    ,UD     ,H1     ,H2     ,
      2                  H3     ,H4     ,XFACE)

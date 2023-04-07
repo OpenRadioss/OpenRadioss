@@ -26,18 +26,16 @@ Chd|-- called by -----------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I8DIS3(IGIMP,NTY,DIST,
-     .                  X1,Y1,Z1,
-     .                  X2,Y2,Z2,
-     .                  X3,Y3,Z3,
-     .                  X4,Y4,Z4,
-     .                  XI,YI,ZI,
-     .                  XP,YP,ZP,
-     .                  N1,N2,N3,
-     .                  ANS,SSC,TTC,
-     .                  H1,H2,H3,
-     .                  H4,XFACE,
-     .                  ALP)
+      SUBROUTINE I8DIS3(
+     1   IGIMP,   NTY,     DIST,    X1,
+     2   Y1,      Z1,      X2,      Y2,
+     3   Z2,      X3,      Y3,      Z3,
+     4   X4,      Y4,      Z4,      XI,
+     5   YI,      ZI,      XP,      YP,
+     6   ZP,      N1,      N2,      N3,
+     7   ANS,     SSC,     TTC,     H1,
+     8   H2,      H3,      H4,      XFACE,
+     9   ALP,     LFT,     LLT)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,6 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
       INTEGER IGIMP,NTY
       my_real DIST(*)
       my_real
@@ -57,7 +57,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

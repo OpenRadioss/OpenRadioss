@@ -26,11 +26,13 @@ Chd|-- called by -----------
 Chd|        I6MAIN                        source/interfaces/inter3d/i6main.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I6IPMACT(LOLD   ,IRTL   ,IRTLO   ,CST   ,
-     1                    IRECT  ,MSR    ,NSV     ,V     ,
-     2                    VNI    ,VNT    ,N1      ,N2    ,
-     3                    N3     ,SSC    ,TTC     ,H1    ,
-     4                    H2     ,H3     ,H4      ,XFACE)
+      SUBROUTINE I6IPMACT(
+     1   LOLD,    IRTL,    IRTLO,   CST,
+     2   IRECT,   MSR,     NSV,     V,
+     3   VNI,     VNT,     N1,      N2,
+     4   N3,      SSC,     TTC,     H1,
+     5   H2,      H3,      H4,      XFACE,
+     6   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,6 +44,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER IRECT(4,*),MSR(*),NSV(*), IRTL(*), IRTLO(*), LOLD(*)
 C     REAL
       my_real
@@ -51,7 +56,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

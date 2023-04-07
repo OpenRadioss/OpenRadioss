@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I12DIS3(CRST ,NSV    ,ITAB,GAP,NOINT,
-     1                   ITEST,TAGKINE,SSC ,TTC)
+      SUBROUTINE I12DIS3(
+     1   CRST,    NSV,     ITAB,    GAP,
+     2   NOINT,   ITEST,   TAGKINE, SSC,
+     3   TTC,     LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,6 +41,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER NSV(*),ITAB(*),NOINT,ITEST,TAGKINE(*)
       my_real
      .  CRST(2,*),GAP
@@ -46,7 +51,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

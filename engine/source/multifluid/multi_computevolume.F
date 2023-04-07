@@ -137,20 +137,23 @@ C     Node 8
                   Z8(II) = XGRID(3, IX(9, II))
                   NGL(II) = IX(NIXS, II)
                ENDDO
-               CALL SDERI3(GBUF%OFF, VOLNEW, NGL,
-     .              X1, X2, X3, X4, X5, X6, X7, X8,
-     .              Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .              Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .              DUMMY, DUMMY, DUMMY, DUMMY,
-     .              DUMMY, DUMMY, DUMMY, DUMMY,
-     .              DUMMY, DUMMY, DUMMY, DUMMY,
-     .              DUMMY, DUMMY, DUMMY, 
-     .              DUMMY, DUMMY, DUMMY, 
-     .              DUMMY, DUMMY, DUMMY, 
-     .              DUMMY, DUMMY, DUMMY, 
-     .              JAC1, JAC2, JAC3, 
-     .              JAC4, JAC5, JAC6, 
-     .              GBUF%SMSTR, GBUF%OFF, NEL, VOLDP, JHBE, ISMSTR)
+               CALL SDERI3(
+     1   GBUF%OFF,  VOLNEW,    NGL,       X1,
+     2   X2,        X3,        X4,        X5,
+     3   X6,        X7,        X8,        Y1,
+     4   Y2,        Y3,        Y4,        Y5,
+     5   Y6,        Y7,        Y8,        Z1,
+     6   Z2,        Z3,        Z4,        Z5,
+     7   Z6,        Z7,        Z8,        DUMMY,
+     8   DUMMY,     DUMMY,     DUMMY,     DUMMY,
+     9   DUMMY,     DUMMY,     DUMMY,     DUMMY,
+     A   DUMMY,     DUMMY,     DUMMY,     DUMMY,
+     B   DUMMY,     DUMMY,     DUMMY,     DUMMY,
+     C   DUMMY,     DUMMY,     DUMMY,     DUMMY,
+     D   DUMMY,     DUMMY,     DUMMY,     JAC1,
+     E   JAC2,      JAC3,      JAC4,      JAC5,
+     F   JAC6,      GBUF%SMSTR,GBUF%OFF,  NEL,
+     G   VOLDP,     JHBE,      ISMSTR,    JLAG)
             ELSE
                DO II = 1, NEL
 C     Node 1
@@ -222,9 +225,12 @@ C     Node 4
                   Z4(II) = XGRID(3, IX(5, II))
                   NGL(II) = IX(NIXS, II)
                ENDDO
-               CALL QVOLU2(GBUF%OFF, GBUF%AREA, VOLNEW, NGL, 
-     .              Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, 
-     .              DUMMY, DUMMY) 
+               CALL QVOLU2(
+     1   GBUF%OFF, GBUF%AREA,VOLNEW,   NGL,
+     2   Y1,       Y2,       Y3,       Y4,
+     3   Z1,       Z2,       Z3,       Z4,
+     4   DUMMY,    DUMMY,    NEL,      JMULT,
+     5   JCVT)
             ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                IX => IXTG(1:NIXTG, 1 + NFT:NEL + NFT)

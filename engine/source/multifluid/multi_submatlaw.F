@@ -33,12 +33,14 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
-      SUBROUTINE MULTI_SUBMATLAW(IFLAG   , MATLAW  , LOCAL_MATID, NEL, EINT   , PRES  , RHO, SSP  , VOL, GRUN, 
-     .                           PM      , IPM     , NPROPM     , NPROPMI     , BUFMAT, OFF, THETA,
-     .                           BURNFRAC, BURNTIME, DELTAX     , CURRENT_TIME, SIGOLD, NPF, TF, VAREOS,NVAREOS)
-C-----------------------------------------------
-C     D e s c r i p t i o n
-C-----------------------------------------------      
+      SUBROUTINE MULTI_SUBMATLAW(
+     1   IFLAG,       MATLAW,      LOCAL_MATID, NEL,
+     2   EINT,        PRES,        RHO,         SSP,
+     3   VOL,         GRUN,        PM,          IPM,
+     4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
+     5   THETA,       BURNFRAC,    BURNTIME,    DELTAX,
+     6   CURRENT_TIME,SIGOLD,      NPF,         TF,
+     7   VAREOS,      NVAREOS)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,9 +48,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "tabsiz_c.inc"
-CC-----------------------------------------------
+C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IFLAG
@@ -76,6 +77,7 @@ C-----------------------------------------------
       my_real :: R1V, R2V, WDR1V, WDR2V, DR1V, ER1V, ER2V
       my_real :: TB, BFRAC1, BFRAC2, PMIN
       INTEGER :: IBFRAC
+      INTEGER :: LFT, LLT 
 C-----------------------------------------------  
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------

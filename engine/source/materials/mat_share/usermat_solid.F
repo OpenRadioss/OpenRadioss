@@ -76,38 +76,45 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE USERMAT_SOLID (
-     1                  LFT     ,LLT     ,NFT      ,MTN     ,JCVT     ,
-     2                  PM      ,OFF     ,SIG      ,EINT    ,RHO      ,
-     3                  QOLD    ,VOL     ,STRAIN   ,SIGL    ,GAMA     ,
-     4                  UVAR    ,BUFMAT  ,TF       ,NPF     ,STIFN    ,
-     5                  MAT     ,NGL     ,NUVAR    ,DT2T    ,NELTST   ,
-     6                  ITYPTST ,OFFG    ,GEO      ,PID     ,EPSD     ,
-     7                  LTEMP   ,WXX     ,
-     9                  WYY     ,WZZ     ,JSPH     ,MUMAX   ,SSP      ,
-     A                  AIRE    ,VOLN    ,VD2      ,DELTAX  ,VIS      ,
-     B                  D1      ,D2      ,D3       ,D4      ,D5       ,
-     C                  D6      ,PNEW    ,PSH      ,Q       ,SSP_EQ   ,
-     D                  DVOL    ,SOLD1   ,SOLD2    ,SOLD3   ,SOLD4    ,
-     E                  SOLD5   ,SOLD6   ,RX       ,RY      ,RZ       ,
-     F                  SX      ,SY      ,SZ       ,TX      ,TY       ,
-     G                  TZ      ,IPLA    ,SIGY     ,DEFP    ,ISMSTR   ,
-     H                  MFXX    ,MFXY    ,MFXZ     ,MFYX    ,MFYY     ,
-     I                  MFYZ    ,MFZX    ,MFZY     ,MFZZ    ,IPM      ,
-     J                  ISORTH  ,FBUF    ,NFAIL    ,NPG     ,SIGDD    ,
-     K                  DXY     ,DYX     ,DYZ      ,DZY     ,DZX      ,
-     L                  DXZ     ,FR_WAV  ,ISROT    ,V       ,VARNL    ,
-     M                  W       ,IX      ,X        ,JTHE    ,ET       ,
-     N                  MSSA    ,DMELS   ,IPTR     ,IPTS    ,IPTT     ,
-     O                  TABLE   ,FVD2    ,FDELTAX  ,FSSP    ,FQVIS    ,
-     P                  TEMPEL  ,IPARG1  ,IGEO     ,SIGV    ,
-     Q                  AL_IMP  ,SIGNOR  ,ISTRAIN  ,NG      ,ELBUF_TAB,
-     R                  VBUF    ,ILAY    ,VK       ,IPARG    ,
-     S                  BUFVOIS ,VDX     ,VDY      ,VDZ     ,IHET     ,
-     T                  CONDE   ,ITASK   ,IEXPAN   ,VOL_AVG ,AMU      ,
-     U                  EPSTH3  ,EPSTH   ,SVISC    ,NEL     ,ETOTSH   ,
-     V                  ISELECT ,TSTAR   ,MUOLD    ,AMU2    ,DPDM     ,
-     W                  RHOREF  ,RHOSP   ,NLOC_DMG )
+      SUBROUTINE USERMAT_SOLID(
+     1   LFT,      LLT,      NFT,      MTN,
+     2   JCVT,     PM,       OFF,      SIG,
+     3   EINT,     RHO,      QOLD,     VOL,
+     4   STRAIN,   SIGL,     GAMA,     UVAR,
+     5   BUFMAT,   TF,       NPF,      STIFN,
+     6   MAT,      NGL,      NUVAR,    DT2T,
+     7   NELTST,   ITYPTST,  OFFG,     GEO,
+     8   PID,      EPSD,     LTEMP,    WXX,
+     9   WYY,      WZZ,      JSPH,     MUMAX,
+     A   SSP,      AIRE,     VOLN,     VD2,
+     B   DELTAX,   VIS,      D1,       D2,
+     C   D3,       D4,       D5,       D6,
+     D   PNEW,     PSH,      Q,        SSP_EQ,
+     E   DVOL,     SOLD1,    SOLD2,    SOLD3,
+     F   SOLD4,    SOLD5,    SOLD6,    RX,
+     G   RY,       RZ,       SX,       SY,
+     H   SZ,       TX,       TY,       TZ,
+     I   IPLA,     SIGY,     DEFP,     ISMSTR,
+     J   MFXX,     MFXY,     MFXZ,     MFYX,
+     K   MFYY,     MFYZ,     MFZX,     MFZY,
+     L   MFZZ,     IPM,      ISORTH,   FBUF,
+     M   NFAIL,    NPG,      SIGDD,    DXY,
+     N   DYX,      DYZ,      DZY,      DZX,
+     O   DXZ,      FR_WAV,   ISROT,    V,
+     P   VARNL,    W,        IX,       X,
+     Q   JTHE,     ET,       MSSA,     DMELS,
+     R   IPTR,     IPTS,     IPTT,     TABLE,
+     S   FVD2,     FDELTAX,  FSSP,     FQVIS,
+     T   TEMPEL,   IPARG1,   IGEO,     SIGV,
+     U   AL_IMP,   SIGNOR,   ISTRAIN,  NG,
+     V   ELBUF_TAB,VBUF,     ILAY,     VK,
+     W   IPARG,    BUFVOIS,  VDX,      VDY,
+     X   VDZ,      IHET,     CONDE,    ITASK,
+     Y   IEXPAN,   VOL_AVG,  AMU,      EPSTH3,
+     Z   EPSTH,    SVISC,    NEL,      ETOTSH,
+     1   ISELECT,  TSTAR,    MUOLD,    AMU2,
+     2   DPDM,     RHOREF,   RHOSP,    NLOC_DMG,
+     3   ITY,      JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -137,6 +144,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JTUR
       INTEGER LFT ,LLT ,NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,
      .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
      .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
@@ -179,7 +188,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NV46, NUMEL, INLOC
+      INTEGER NV46, NUMEL, INLOC, JSMS
       INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,ISRATE,SIZNUL,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
      .  NVARF,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV
@@ -786,8 +795,11 @@ c----------------------------------------
 C chgrt de la structure 
 C
            CALL SREPLOC3(
-     .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       R11  ,R21  ,R31  ,R12  ,R22  ,R32  ,R13  ,R23  ,R33  )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R21,     R31,
+     4   R12,     R22,     R32,     R13,
+     5   R23,     R33,     LLT)
 
          IF(LOGICAL_USERL_AVAIL)THEN
 
@@ -1091,8 +1103,11 @@ c
           ALLOCATE(ISMSTR10_FP(15,NEL))
 
           CALL SREPLOC3(
-     .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       R11  ,R21  ,R31  ,R12  ,R22  ,R32  ,R13  ,R23  ,R33  )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R21,     R31,
+     4   R12,     R22,     R32,     R13,
+     5   R23,     R33,     LLT)
 
 
           IF (ISMSTR == 10) THEN
@@ -1690,23 +1705,32 @@ C   BULK VISCOSITY AND TIME STEP COMPUTATION
 C   THIS SUBROUTINE RETURN THE NEW BULK VISCOSITY Q
 C-----------------------
       IF (JSPH == 0)THEN  
-        CALL MQVISCB(                                            
-     1           PM      ,OFF     ,RHO    ,BID1    ,EL_TEMP     ,SSP   ,   
-     2           BID3    ,STIFN   ,DT2T   ,NELTST  ,ITYPTST     ,AIRE  ,
-     3           OFFG    ,GEO     ,PID    ,VOLN    ,VD2         ,DELTAX,
-     4           VIS     ,D1      ,D2      ,D3     ,PNEW        ,PSH   ,
-     5           MAT     ,NGL     ,Q       ,SSP_EQ ,VOL     ,MSSA      ,
-     6           DMELS   ,IGEO    ,FACQ0   ,CONDE  ,GBUF%DT ,GBUF%G_DT ,
-     7           IPM     ,RHOREF  ,RHOSP   )
+        JSMS = IPARG(52,NG)
+        CALL MQVISCB(
+     1   PM,       OFF,      RHO,      BID1,
+     2   EL_TEMP,  SSP,      BID3,     STIFN,
+     3   DT2T,     NELTST,   ITYPTST,  AIRE,
+     4   OFFG,     GEO,      PID,      VOLN,
+     5   VD2,      DELTAX,   VIS,      D1,
+     6   D2,       D3,       PNEW,     PSH,
+     7   MAT,      NGL,      Q,        SSP_EQ,
+     8   VOL,      MSSA,     DMELS,    IGEO,
+     9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
+     A   IPM,      RHOREF,   RHOSP,    NEL,
+     B   ITY,      ISMSTR,   JTUR,     JTHE,
+     C   JSMS)
 !------------------------------------------------
       ELSE
-        CALL MDTSPH(                                             
-     1           PM      ,OFF     ,RHO     ,BID1      ,EL_TEMP ,       
-     2           BID3    ,STIFN   ,DT2T    ,NELTST    ,ITYPTST ,
-     3           OFFG    ,GEO     ,PID     ,MUMAX     ,SSP     ,
-     4           VOLN    ,VD2     ,DELTAX  ,VIS       ,D1      ,
-     5           D2      ,D3      ,PNEW    ,PSH       ,MAT     ,
-     6           NGL     ,Q       ,SSP_EQ  ,GBUF%G_DT ,GBUF%DT)
+        CALL MDTSPH(
+     1   PM,       OFF,      RHO,      BID1,
+     2   EL_TEMP,  BID3,     STIFN,    DT2T,
+     3   NELTST,   ITYPTST,  OFFG,     GEO,
+     4   PID,      MUMAX,    SSP,      VOLN,
+     5   VD2,      DELTAX,   VIS,      D1,
+     6   D2,       D3,       PNEW,     PSH,
+     7   MAT,      NGL,      Q,        SSP_EQ,
+     8   GBUF%G_DT,GBUF%DT,  NEL,      ITY,
+     9   JTUR,     JTHE)
       ENDIF
 C-----------
       DO I=LFT,LLT                                                           

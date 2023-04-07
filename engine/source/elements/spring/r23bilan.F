@@ -29,9 +29,12 @@ Chd|        R23LAW114                     source/elements/spring/r23law114.F
 Chd|-- calls ---------------
 Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
 Chd|====================================================================
-      SUBROUTINE R23BILAN(EINT   ,PARTSAV,IXR   ,GEO ,V    ,
-     2                    IPARTR ,MASS   ,GRESAV,GRTH,IGRTH,
-     3                    OFF_DUM,NC1    ,NC2   ,X   ,VR   )
+      SUBROUTINE R23BILAN(
+     1   EINT,    PARTSAV, IXR,     GEO,
+     2   V,       IPARTR,  MASS,    GRESAV,
+     3   GRTH,    IGRTH,   OFF_DUM, NC1,
+     4   NC2,     X,       VR,      NEL,
+     5   IGRE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,11 +48,12 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com06_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER IPARTR(*),IXR(NIXR,*),GRTH(*),IGRTH(*),
      .        NC1(*),NC2(*)
 C     REAL
@@ -84,7 +88,7 @@ C-----------------------------------------------
       FLAG = 0
       RBIDON = ZERO
       OFF    = ZERO
-      DO I=LFT,LLT
+      DO I=1,NEL
         REINTT=REINTT + EINT(I)
       ENDDO
 C
@@ -92,7 +96,7 @@ C
         REINT = REINT + REINTT
 #include "atomend.inc"
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
         Z1(I)=X(3,NC1(I))
@@ -114,7 +118,7 @@ C
         XMAS(I)=MASS(I)
       ENDDO
 c
-      DO I=LFT,LLT
+      DO I=1,NEL
         XX(I)= X1(I)+X2(I)
         YY(I)= Y1(I)+Y2(I)
         ZZ(I)= Z1(I)+Z2(I)
@@ -135,7 +139,7 @@ c
      .           +VR1(I,3)*VR1(I,3)+VR2(I,3)*VR2(I,3)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XMAS2(I)=XMAS(I)*HALF
         XM(I)= XMAS2(I)*VXA(I)
         YM(I)= XMAS2(I)*VYA(I)
@@ -143,7 +147,7 @@ C
         EK(I)= XMAS2(I)*VA2(I)*HALF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         XCG(I)= XMAS2(I)*XX(I)
         YCG(I)= XMAS2(I)*YY(I)
         ZCG(I)= XMAS2(I)*ZZ(I)
@@ -172,10 +176,10 @@ C
       ENDDO
 C
       IF (IGRE /= 0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             OFF(I) = ONE
           ENDDO
-          CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
+          CALL GRELEM_SAV(1   ,NEL   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF   ,EINT  ,EK    ,XM    ,YM    ,
      3                    ZM    ,XMAS  ,XCG   ,YCG   ,ZCG   ,
      4                    XXM   ,YYM   ,ZZM   ,IXX   ,IYY   ,
@@ -183,7 +187,7 @@ C
      6                    REK   ,FLAG  )
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          MX = IPARTR(I)
          PARTSAV(1,MX)=PARTSAV(1,MX) + EINT(I)
          PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)

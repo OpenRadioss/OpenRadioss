@@ -534,10 +534,15 @@ C-----------------------------------------------
           Z8(I)=X(3,IX8(I))
         ENDDO
        CALL SREPISOT3(
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ) 
+     1   X1,      X2,      X3,      X4,
+     2   X5,      X6,      X7,      X8,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   Y5,      Y6,      Y7,      Y8,
+     5   Z1,      Z2,      Z3,      Z4,
+     6   Z5,      Z6,      Z7,      Z8,
+     7   RX,      RY,      RZ,      SX,
+     8   SY,      SZ,      TX,      TY,
+     9   TZ,      NEL)
         CALL SCORTHO3(
      1   RX,      RY,      RZ,      SX,
      2   SY,      SZ,      TX,      TY,

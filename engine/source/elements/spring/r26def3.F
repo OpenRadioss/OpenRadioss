@@ -35,7 +35,7 @@ Chd|====================================================================
      5   AL0_ERR, X1DP,    X2DP,    NGL,
      6   MGN,     EX,      EY,      EZ,
      7   XK,      XM,      XC,      AK,
-     8   NEL)
+     8   NEL,     NFT,     IAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,10 +53,11 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "param_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: IAD
       INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*)
 C     REAL
@@ -83,7 +84,7 @@ C-----------------------------------------------
       DT11 = DT1
       IF (DT11 == ZERO) DT11 = EP30
 c      
-      DO I=LFT,LLT
+      DO I=1,NEL
         PID = MGN(I) 
         XM(I)   =GEO(1,PID)
         XK(I)   =GEO(2,PID)
@@ -94,7 +95,7 @@ c
         AK(I) = ONE
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         EXDP(I)=X2DP(1,I)-X1DP(1,I)
         EYDP(I)=X2DP(2,I)-X1DP(2,I)
         EZDP(I)=X2DP(3,I)-X1DP(3,I)
@@ -103,18 +104,18 @@ C
       ENDDO
 C
       IF (TT == ZERO) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           AL0(I)=ALDP(I)                   ! cast double vers My_real
           AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference entre double et My_real
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         AL0DP(I) = AL0(I)                  ! cast My_real en double
         AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP   
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SUM  = MAX(ALDP(I),EM15)
         EXDP(I)= EXDP(I)/SUM
         EYDP(I)= EYDP(I)/SUM
@@ -124,11 +125,11 @@ C
         EZ(I)=EZDP(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DL(I) = ALDP(I) - AL0DP(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         ILENG = NINT(GEO(93,MGN(I)))
         IF (ILENG /= 0) THEN
           XL0(I)= AL0DP(I)
@@ -147,7 +148,7 @@ C-----
      6   NFT,        IAD)
 C-----
       NINDX = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (OFF(I) == ONE) THEN
           IF (DL(I) > DMX(I)*XL0(I) .OR. DL(I) < DMN(I)*XL0(I)) THEN
             OFF(I)=ZERO
@@ -164,7 +165,7 @@ C-----
         WRITE(ISTDO,1100) NGL(I),TT
 #include "lockoff.inc"
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,NEL
         XM(I)=XM(I)*XL0(I)
         XK(I)=XK(I)/XL0(I)
         XC(I)=XC(I)/XL0(I)

@@ -27,9 +27,11 @@ Chd|        RGJOINT                       source/elements/joint/rgjoint.F
 Chd|-- calls ---------------
 Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
 Chd|====================================================================
-      SUBROUTINE RBILAN33(JFT    ,JLT    ,EINT   ,PARTSAV,UMAS ,
-     .                    V      ,IPARTR ,GRESAV ,GRTH   ,IGRTH,
-     .                    NC1    ,NC2    )
+      SUBROUTINE RBILAN33(
+     1   JFT,     JLT,     EINT,    PARTSAV,
+     2   UMAS,    V,       IPARTR,  GRESAV,
+     3   GRTH,    IGRTH,   NC1,     NC2,
+     4   IGRE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,10 +46,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com06_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT,JLT, IPARTR(*),GRTH(*),IGRTH(*),NC1(*),NC2(*)
       my_real UMAS(*),EINT(*),PARTSAV(NPSAV,*),V(3,*),GRESAV(*)
 C-----------------------------------------------

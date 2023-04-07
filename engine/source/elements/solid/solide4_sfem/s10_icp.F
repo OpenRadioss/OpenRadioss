@@ -27,11 +27,12 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|        JACOB_J33                     source/elements/solid/solide8e/s8edefo3.F
 Chd|====================================================================
-      SUBROUTINE S10_ICP(OFFG,JACG,FACP,NU,
-     .                   DXX, DXY, DXZ,
-     .                   DYX, DYY, DYZ,
-     .                   DZX, DZY, DZZ,
-     .                   VOL0,VOLN,VOL0DP,VOLDP,NEL)
+      SUBROUTINE S10_ICP(
+     1   OFFG,    JACG,    FACP,    NU,
+     2   DXX,     DXY,     DXZ,     DYX,
+     3   DYY,     DYZ,     DZX,     DZY,
+     4   DZZ,     VOL0,    VOLN,    VOL0DP,
+     5   VOLDP,   NEL,     ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,6 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NEL
 C     REAL
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: OFFG,VOL0
@@ -57,7 +59,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -68,10 +69,10 @@ C-----------------------------------------------
 C----------------------------
       IF(ISMSTR==1.OR.ISMSTR>=10)THEN
         IF (ISMSTR==10) THEN
-          CALL JACOB_J33(JAC,
-     .                DXX, DXY, DXZ,
-     .                DYX, DYY, DYZ,
-     .                DZX, DZY, DZZ)
+          CALL JACOB_J33(
+     1   JAC,     DXX,     DXY,     DXZ,
+     2   DYX,     DYY,     DYZ,     DZX,
+     3   DZY,     DZZ,     NEL)
           DO I=1,NEL
            IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
            FAC=TWO_THIRD*NU(I)

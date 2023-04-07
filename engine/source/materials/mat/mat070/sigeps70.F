@@ -29,17 +29,23 @@ Chd|        VINTER2                       source/tools/curve/vinter.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS70(
-     1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,OFFG    ,RHOREF  ,RHOSP   ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
-     8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
-     B     PM     ,IPM    , MAT    ,EPSP    ,ET      )
+     1   NEL,     NUPARAM, NUVAR,   MFUNC,
+     2   KFUNC,   NPF,     TF,      TIME,
+     3   TIMESTEP,UPARAM,  RHO0,    RHO,
+     4   VOLUME,  EINT,    OFFG,    RHOREF,
+     5   RHOSP,   EPSPXX,  EPSPYY,  EPSPZZ,
+     6   EPSPXY,  EPSPYZ,  EPSPZX,  DEPSXX,
+     7   DEPSYY,  DEPSZZ,  DEPSXY,  DEPSYZ,
+     8   DEPSZX,  EPSXX,   EPSYY,   EPSZZ,
+     9   EPSXY,   EPSYZ,   EPSZX,   SIG0XX,
+     A   SIG0YY,  SIG0ZZ,  SIG0XY,  SIG0YZ,
+     B   SIG0ZX,  SIGNXX,  SIGNYY,  SIGNZZ,
+     C   SIGNXY,  SIGNYZ,  SIGNZX,  SIGVXX,
+     D   SIGVYY,  SIGVZZ,  SIGVXY,  SIGVYZ,
+     E   SIGVZX,  SOUNDSP, VISCMAX, UVAR,
+     F   OFF,     NGL,     PM,      IPM,
+     G   MAT,     EPSP,    ET,      ISMSTR,
+     H   IHET,    JSMS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,9 +101,9 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
 #include      "sms_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C
+      INTEGER, INTENT(IN) :: ISMSTR, IHET, JSMS
       INTEGER NEL, NUPARAM, NUVAR,IPT,
      .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
       my_real

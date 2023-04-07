@@ -50,26 +50,29 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE CDK6FORC3 (ELBUF_STR,
-     1            JFT   ,JLT    ,PM     ,IXTG   ,X          ,
-     2            F     ,M      ,V      ,R      ,FAILWAVE   ,
-     3            NVC   ,MTN    ,GEO    ,TF     ,NPF        ,
-     4            BUFMAT,PMSAV  ,DT2T   ,NELTST ,ITYPTST    ,
-     5            STIFN ,STIFR  ,FSKY   ,IADTG  ,GROUP_PARAM,
-     6            EPSDOT,OFFSET ,IPARTTG,THKE   ,F11        ,
-     7            F12    ,F13   ,F21    ,F22    ,F23        ,
-     8            F31    ,F32   ,F33    ,F14    ,F15        ,
-     9            F16    ,F24   ,F25    ,F26    ,F34        ,
-     A            F35    ,F36   ,MATPARAM_TAB,
-     B            NEL    ,ISTRAIN,IHBE  ,
-     C            ITHK   ,IOFC   ,IPLA  ,NFT    ,ISMSTR     ,
-     D            NPT    ,KFTS   ,
-     E            IXTG1  ,IADTG1,IGEO   ,IPM    ,IFAILURE   ,
-     F            IEXPAN ,GRESAV ,GRTH  ,IGRTH  ,MSTG       ,
-     G            DMELTG ,JSMS   ,TABLE ,IPARG  ,SENSOR_TAB ,
-     H            PTG    ,JTHE  ,CONDN  ,CONDNSKY   ,
-     K            ISUBSTACK,STACK,ITASK ,DRAPE_SH3N  ,IPRI, 
-     L            NLOC_DMG ,INDX_DRAPE)
+      SUBROUTINE CDK6FORC3(
+     1   ELBUF_STR,   JFT,         JLT,         PM,
+     2   IXTG,        X,           F,           M,
+     3   V,           R,           FAILWAVE,    NVC,
+     4   MTN,         GEO,         TF,          NPF,
+     5   BUFMAT,      PMSAV,       DT2T,        NELTST,
+     6   ITYPTST,     STIFN,       STIFR,       FSKY,
+     7   IADTG,       GROUP_PARAM, EPSDOT,      OFFSET,
+     8   IPARTTG,     THKE,        F11,         F12,
+     9   F13,         F21,         F22,         F23,
+     A   F31,         F32,         F33,         F14,
+     B   F15,         F16,         F24,         F25,
+     C   F26,         F34,         F35,         F36,
+     D   MATPARAM_TAB,NEL,         ISTRAIN,     IHBE,
+     E   ITHK,        IOFC,        IPLA,        NFT,
+     F   ISMSTR,      NPT,         KFTS,        IXTG1,
+     G   IADTG1,      IGEO,        IPM,         IFAILURE,
+     H   IEXPAN,      GRESAV,      GRTH,        IGRTH,
+     I   MSTG,        DMELTG,      JSMS,        TABLE,
+     J   IPARG,       SENSOR_TAB,  PTG,         JTHE,
+     K   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
+     L   ITASK,       DRAPE_SH3N,  IPRI,        NLOC_DMG,
+     M   INDX_DRAPE,  IGRE,        JTUR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +104,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST,OFFSET,
      .   NEL,ISTRAIN,IHBE ,NPT,KFTS,IUN,
      .   ITHK,IOFC,IPLA,NFT,ISMSTR,IFAILURE,IEXPAN , JSMS , JTHE,
@@ -408,9 +413,11 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
-           CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE ,
-     2                  RHO  ,GBUF%RK  ,VOL0 ,ALDT,MAT ,
-     3                  DT_THERM,OFF,CONDE) 
+           CALL DTTHERM(
+     1   JFT,     JLT,     PM,      TEMPEL,
+     2   GBUF%RE, RHO,     GBUF%RK, VOL0,
+     3   ALDT,    MAT,     DT_THERM,OFF,
+     4   CONDE,   JTUR)
          ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
@@ -429,12 +436,15 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IF(IPRI>0)
-     +   CALL C3BILAN(JFT  ,JLT    ,PM   ,V   ,GBUF%THK,GBUF%EINT,
-     2                PMSAV,IPARTTG,RHO  ,VOL0,IXTG   ,X      ,
-     3                R    ,THK02  ,AREA ,GRESAV ,GRTH   ,
-     4                IGRTH,OFF    ,IBID ,IBID,IBID   ,IBID   ,
-     5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK ,MAT,GBUF%VOL,
-     6                ACTIFXFEM)
+     +   CALL C3BILAN(
+     1   JFT,        JLT,        PM,         V,
+     2   GBUF%THK,   GBUF%EINT,  PMSAV,      IPARTTG,
+     3   RHO,        VOL0,       IXTG,       X,
+     4   R,          THK02,      AREA,       GRESAV,
+     5   GRTH,       IGRTH,      OFF,        IBID,
+     6   IBID,       IBID,       IBID,       IBID,
+     7   IEXPAN,     GBUF%EINTTH,ITASK,      MAT,
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE)
       IF(IPARIT==0)THEN
         CALL CDK6UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,

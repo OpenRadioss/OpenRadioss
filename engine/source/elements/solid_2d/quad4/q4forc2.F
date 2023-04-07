@@ -377,7 +377,8 @@ C----for the moment constant in element
      8   Y234,    Y124,    VIS,     V,
      9   VY1,     VY2,     VY3,     VY4,
      A   VZ1,     VZ2,     VZ3,     VZ4,
-     B   YAVG,    AY,      EXX,     NEL)
+     B   YAVG,    AY,      EXX,     NEL,
+     C   ISORTH)
       ENDIF
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
 C---- now assumed strain is used, no effect for Isolid17
@@ -402,9 +403,12 @@ C---- now assumed strain is used, no effect for Isolid17
         ENDDO
       ENDIF 
 C     COMPUTE AREA & VOLUME
-      CALL QVOLU2(GBUF%OFF,AIRE,VOLU,NGL,
-     2            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     3            Y234,Y124)
+      CALL QVOLU2(
+     1   GBUF%OFF,AIRE,    VOLU,    NGL,
+     2   Y1,      Y2,      Y3,      Y4,
+     3   Z1,      Z2,      Z3,      Z4,
+     4   Y234,    Y124,    NEL,     JMULT,
+     5   JCVT)
 C
 C     COMPUTE CHARACTERISTIC LENGTH OF EACH ELEMENT FOR DETERMINING TIME STEP 
       CALL QDLEN2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,AIRE,DELTAX,IPARG(63,NG))
@@ -509,24 +513,33 @@ C       COPY OLD STRESS AND DO NECESSARY TREATMENT
 C
 C       UPDATE STRESS
         CALL MMAIN(
-     1     ELBUF_TAB,NG     ,PM     ,GEO        ,FV	    ,ALE_CONNECT  ,
-     2     IC       ,IPARG  ,V      ,TF         ,NPF	    ,BUFMAT ,
-     3     STI      ,X      ,DT2T   ,NELTST     ,ITYPTST    ,OFFSET ,
-     4     NEL      ,W      ,OFF    ,NGEO       ,
-     6     MAT      ,NGL    ,VOLN   ,VD2        ,DVOL	    ,DELTAX ,
-     7     VIS      ,QVIS   ,SSP    ,S1         ,S2	    ,S3     ,
-     8     S4       ,S5     ,S6     ,EYY        ,EZZ	    ,EXX    ,
-     9     EYZ      ,EZX    ,EXY    ,WYY        ,WZZ	    ,WXX    ,
-     A     RX       ,RY     ,RZ     ,SX         ,SY	    ,SZ     ,
-     B     VDY      ,VDZ    ,VDX    ,MUVOID     ,SSP_EQ     ,AIRE   ,
-     C     SIGY     ,ET     ,BUFVOIS,LBUF%PLA   ,R3_FREE    ,R4_FREE,
-     D     EYY      ,EZZ    ,EXX    ,EYZ        ,EZX	    ,EXY    ,
-     E     WYY      ,WZZ    ,WXX    ,IPM        ,GAMA	    ,BID    ,
-     F     BID      ,BID    ,BID    ,BID        ,BID	    ,BID    ,
-     G     ISTRAIN  ,BID    ,BID    ,IBIDON(1)  ,1	    ,MBID   ,
-     H     MBID     ,IR     ,IS     ,1          ,TABLE      ,BID    ,
-     I     BID      ,BID    ,BID    ,IPARG(1,NG),IGEO   ,BID      ,
-     J     ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
+     1   ELBUF_TAB,   NG,          PM,          GEO,
+     2   FV,          ALE_CONNECT, IC,          IPARG,
+     3   V,           TF,          NPF,         BUFMAT,
+     4   STI,         X,           DT2T,        NELTST,
+     5   ITYPTST,     OFFSET,      NEL,         W,
+     6   OFF,         NGEO,        MAT,         NGL,
+     7   VOLN,        VD2,         DVOL,        DELTAX,
+     8   VIS,         QVIS,        SSP,         S1,
+     9   S2,          S3,          S4,          S5,
+     A   S6,          EYY,         EZZ,         EXX,
+     B   EYZ,         EZX,         EXY,         WYY,
+     C   WZZ,         WXX,         RX,          RY,
+     D   RZ,          SX,          SY,          SZ,
+     E   VDY,         VDZ,         VDX,         MUVOID,
+     F   SSP_EQ,      AIRE,        SIGY,        ET,
+     G   BUFVOIS,     LBUF%PLA,    R3_FREE,     R4_FREE,
+     H   EYY,         EZZ,         EXX,         EYZ,
+     I   EZX,         EXY,         WYY,         WZZ,
+     J   WXX,         IPM,         GAMA,        BID,
+     K   BID,         BID,         BID,         BID,
+     L   BID,         BID,         ISTRAIN,     BID,
+     M   BID,         IBIDON(1),   1,           MBID,
+     N   MBID,        IR,          IS,          1,
+     O   TABLE,       BID,         BID,         BID,
+     P   BID,         IPARG(1,NG), IGEO,        BID,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     R   H3D_STRAIN,  JPLASOL,     JSPH)
 C
 C       COMPUTE NODAL INTERNAL FORCE
         CALL Q4FINT2(
@@ -542,12 +555,15 @@ C       COMPUTE NODAL INTERNAL FORCE
      A   NEL,     JHBE,    JCVT)
 C
 C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
-        CALL S8EFMOY3(LBUF%SIG ,
-     2       VOLN    ,QVIS    ,PP      ,LBUF%EINT ,LBUF%RHO ,LBUF%QVIS ,       
-     3       LBUF%PLA,LBUF%EPSD,GBUF%EPSD,GBUF%SIG,GBUF%EINT,GBUF%RHO,       
-     4       GBUF%QVIS,GBUF%PLA,VOLU   ,STI     ,STIM    ,ICPG    ,       
-     5       OFF     ,LBUF%VOL,GBUF%VOL,GBUF%G_PLA,GBUF%G_EPSD ,
-     6       LBUF%EINTTH,GBUF%EINTTH,IEXPAN ,NEL,BID,BID)                                 
+        CALL S8EFMOY3(
+     1   LBUF%SIG,   VOLN,       QVIS,       PP,
+     2   LBUF%EINT,  LBUF%RHO,   LBUF%QVIS,  LBUF%PLA,
+     3   LBUF%EPSD,  GBUF%EPSD,  GBUF%SIG,   GBUF%EINT,
+     4   GBUF%RHO,   GBUF%QVIS,  GBUF%PLA,   VOLU,
+     5   STI,        STIM,       ICPG,       OFF,
+     6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
+     7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
+     8   BID,        BID)
 C
          DO I=LFT,LLT
            OFFG(I)=MIN(OFFG(I),OFF(I))
@@ -576,7 +592,8 @@ C
           ENDDO
         ENDDO
       ENDIF
-      CALL SMALLB3(GBUF%OFF,OFFG)
+      CALL SMALLB3(
+     1   GBUF%OFF,OFFG,    NEL,     ISMSTR)
 C
 C     ADD NODAL INTERNAL FORCE FOR CONSTANT PRESSURE AND CONSTANT SHEAR STRAIN
       CALL Q4FINTC2(
@@ -588,12 +605,16 @@ C     ADD NODAL INTERNAL FORCE FOR CONSTANT PRESSURE AND CONSTANT SHEAR STRAIN
      6   JHBE)
 C
       IF(N2D==1.AND.JHBE==17) THEN
-         CALL Q4VIS2(PM,GBUF%OFF,GBUF%RHO,
-     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                  PY1,PY2,PZ1,PZ2,
-     .                  FY1,FY2,FY3,FY4,FZ1,FZ2,FZ3,FZ4,
-     .                  AIRE,SSP)
+         CALL Q4VIS2(
+     1   PM,      GBUF%OFF,GBUF%RHO,Y1,
+     2   Y2,      Y3,      Y4,      Z1,
+     3   Z2,      Z3,      Z4,      VY1,
+     4   VY2,     VY3,     VY4,     VZ1,
+     5   VZ2,     VZ3,     VZ4,     PY1,
+     6   PY2,     PZ1,     PZ2,     FY1,
+     7   FY2,     FY3,     FY4,     FZ1,
+     8   FZ2,     FZ3,     FZ4,     AIRE,
+     9   SSP,     NEL)
       ENDIF
 C     OUTPUT ELEMENT INFORMATION TO BALANCE TABLE
       IFLAG=MOD(NCYCLE,NCPRI)
@@ -604,11 +625,15 @@ c
         ELSE                                       
           EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)   
         ENDIF                                      
-        CALL QBILAN(PARTSAV,GBUF%OFF,EINT,GBUF%RHO,GBUF%RK,
-     2              GBUF%VOL,VY1,VY2,VY3,VY4,VZ1,VZ2,
-     3              VZ3,VZ4,VOLU,IPARTQ,EHOU,R22,
-     4              R23,R32,R33,GRESAV,GRTH,IGRTH,
-     5              IBIDON(1),GBUF%EINTTH,ITASK)
+        CALL QBILAN(
+     1   PARTSAV,    GBUF%OFF,   EINT,       GBUF%RHO,
+     2   GBUF%RK,    GBUF%VOL,   VY1,        VY2,
+     3   VY3,        VY4,        VZ1,        VZ2,
+     4   VZ3,        VZ4,        VOLU,       IPARTQ,
+     5   EHOU,       R22,        R23,        R32,
+     6   R33,        GRESAV,     GRTH,       IGRTH,
+     7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
+     8   JTUR,       JCVT,       IGRE)
       ENDIF
 C
 C     PROJECT NODAL INTERNAL FORCE INTO GLOBAL SYSTEM FOR CO-ROTATIONAL CASE
@@ -637,15 +662,25 @@ C
 C     COMPUTE MASS STIFFNESS
       IF(N2D==1.AND.JHBE==17) THEN
         IF(IPARIT==0) THEN
-          CALL QMASS2(GBUF%OFF,GBUF%RHO,MS,AIRE,NC1,NC2,NC3,NC4)
+          CALL QMASS2(
+     1   GBUF%OFF,GBUF%RHO,MS,      AIRE,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
         ELSE
-          CALL QMASS2P(GBUF%OFF,GBUF%RHO,AIRE,FSKY,FSKY,IADQ)
+          CALL QMASS2P(
+     1   GBUF%OFF,GBUF%RHO,AIRE,    FSKY,
+     2   FSKY,    IADQ,    NEL,     NFT)
         ENDIF
       ELSE
         IF(IPARIT==0) THEN
-          CALL QMASS2(GBUF%OFF,GBUF%RHO,MS,VOLU,NC1,NC2,NC3,NC4)
+          CALL QMASS2(
+     1   GBUF%OFF,GBUF%RHO,MS,      VOLU,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
         ELSE
-          CALL QMASS2P(GBUF%OFF,GBUF%RHO,VOLU,FSKY,FSKY,IADQ)
+          CALL QMASS2P(
+     1   GBUF%OFF,GBUF%RHO,VOLU,    FSKY,
+     2   FSKY,    IADQ,    NEL,     NFT)
         ENDIF
       ENDIF
 C
@@ -654,114 +689,31 @@ C     UPDATE OF MASSES : ALE physical masses
 C----------------------------  
       IF (JALE+JEUL > 0 )THEN
          IF (IPARIT == 0)THEN
-          CALL QMASSREAL2(GBUF%OFF,GBUF%RHO,MS_2D,
-     .                  VOLU,NC1,NC2,NC3,NC4)
+          CALL QMASSREAL2(
+     1   GBUF%OFF,GBUF%RHO,MS_2D,   VOLU,
+     2   NC1,     NC2,     NC3,     NC4,
+     3   NEL)
          ELSE
-          CALL QMASSREAL2P(GBUF%OFF,GBUF%RHO,VOLU,FSKYM,IADQ)
+          CALL QMASSREAL2P(
+     1   GBUF%OFF,GBUF%RHO,VOLU,    FSKYM,
+     2   IADQ,    NEL,     NFT)
          ENDIF
       ENDIF
 C
 C     ASSEMBLE NODAL INTERNAL FORCE INTO GLOBAL STORAGE
       IF(IPARIT==0) THEN
-        CALL Q4CUMU2(A,STIFN,
-     2               NC1,NC2,NC3,NC4,
-     3               FY1,FZ1,FY2,FZ2,
-     4               FY3,FZ3,FY4,FZ4,
-     5               STIM)
+        CALL Q4CUMU2(
+     1   A,       STIFN,   NC1,     NC2,
+     2   NC3,     NC4,     FY1,     FZ1,
+     3   FY2,     FZ2,     FY3,     FZ3,
+     4   FY4,     FZ4,     STIM,    NEL)
       ELSE
-        CALL Q4CUMU2P(FSKY,FSKY,IADQ,
-     2                FY1,FZ1,FY2,FZ2,
-     3                FY3,FZ3,FY4,FZ4,
-     4                STIM)
+        CALL Q4CUMU2P(
+     1   FSKY,    FSKY,    IADQ,    FY1,
+     2   FZ1,     FY2,     FZ2,     FY3,
+     3   FZ3,     FY4,     FZ4,     STIM,
+     4   NEL,     NFT)
       ENDIF
 C-----------
-      RETURN
-      END
-Chd|====================================================================
-Chd|  Q4VIS2                        source/elements/solid_2d/quad4/q4forc2.F
-Chd|-- called by -----------
-Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE Q4VIS2(PM,OFF,RHO,
-     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                  PY1,PY2,PZ1,PZ2,
-     .                  T11,T12,T13,T14,T21,T22,T23,T24,
-     .                  AREA,CXX)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real
-     .   PM(NPROPM,*),OFF(*), RHO(*),
-     .   Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
-     .   VY1(*), VY2(*), VY3(*), VY4(*), VZ1(*), VZ2(*), VZ3(*),
-     .   PY1(*), PY2(*), PZ1(*), PZ2(*),
-     .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*),
-     .   VZ4(*), AREA(*), CXX(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER  I
-      my_real
-     .   CAQ(MVSIZ),FCL(MVSIZ) , 
-     .   G11(MVSIZ) , G21(MVSIZ) , G31(MVSIZ) , G41(MVSIZ),
-     .   HGY(MVSIZ), HGZ(MVSIZ), 
-     .   HY,HZ,FAC,PX1H1,PX2H1, ARE
-C-----------------------------------------------
-C 
-c      will use CAQ if necessary CAQ=0.001 (Quad BELYTSCHKO CAQ=0.1)
-C
-      DO I=LFT,LLT
-       FAC = EM03*OFF(I)
-       ARE = MAX(AREA(I),EM20)
-       FCL(I)=HALF*FAC*RHO(I)*SQRT(ARE)*CXX(I)
-      END DO 
-C
-C
-C HOURGLASS BELYTSCHKO
-C
-        DO I=LFT,LLT
-         HY=Y1(I)-Y2(I)+Y3(I)-Y4(I)
-         HZ=Z1(I)-Z2(I)+Z3(I)-Z4(I)
-         FAC=ONE/MAX(EM20,AREA(I))
-         PX1H1=FAC*(PY1(I)*HY+PZ1(I)*HZ)
-         PX2H1=FAC*(PY2(I)*HY+PZ2(I)*HZ)
-         G11(I)= ONE -PX1H1
-         G21(I)=-ONE -PX2H1
-         G31(I)= ONE +PX1H1
-         G41(I)=-ONE +PX2H1 
-        END DO 
-        DO I=LFT,LLT
-         HGY(I)=FCL(I)*(
-     &    G11(I)*VY1(I)+G21(I)*VY2(I)+G31(I)*VY3(I)+G41(I)*VY4(I))
-         HGZ(I)=FCL(I)*(
-     &    G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I))
-        END DO 
-        DO I=LFT,LLT
-         T11(I) =T11(I) - G11(I)*HGY(I)
-         T12(I) =T12(I) - G21(I)*HGY(I)
-         T13(I) =T13(I) - G31(I)*HGY(I)
-         T14(I) =T14(I) - G41(I)*HGY(I)
-         T21(I) =T21(I) - G11(I)*HGZ(I)
-         T22(I) =T22(I) - G21(I)*HGZ(I)
-         T23(I) =T23(I) - G31(I)*HGZ(I)
-         T24(I) =T24(I) - G41(I)*HGZ(I)
-        END DO 
-C
       RETURN
       END

@@ -30,11 +30,15 @@ Chd|-- calls ---------------
 Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|====================================================================
-      SUBROUTINE QBILAN(PARTSAV,OFF  ,EINT ,RHO  ,RK   ,VOL  ,
-     .                  VY1    ,VY2  ,VY3  ,VY4  ,VZ1  ,VZ2  ,
-     .                  VZ3    ,VZ4  ,VNEW ,IPARTQ,EHOU,R22  ,
-     .                  R23    ,R32  ,R33  ,GRESAV,GRTH,IGRTH,
-     .                  IEXPAN ,EINTTH ,ITASK)
+      SUBROUTINE QBILAN(
+     1   PARTSAV, OFF,     EINT,    RHO,
+     2   RK,      VOL,     VY1,     VY2,
+     3   VY3,     VY4,     VZ1,     VZ2,
+     4   VZ3,     VZ4,     VNEW,    IPARTQ,
+     5   EHOU,    R22,     R23,     R32,
+     6   R33,     GRESAV,  GRTH,    IGRTH,
+     7   IEXPAN,  EINTTH,  ITASK,   NEL,
+     8   JTUR,    JCVT,    IGRE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,10 +51,13 @@ C----6------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: IGRE
       my_real
      .   PARTSAV(NPSAV,*), OFF(*), EINT(*), RHO(*), RK(*), VOL(*),
      .   VY1(*),VY2(*),VY3(*),VY4(*),VZ1(*),VZ2(*),VZ3(*),VZ4(*),
@@ -75,13 +82,13 @@ C-----------------------------------------------
       YM_SAV = ZERO
       ZM_SAV = ZERO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         VYA(I)=VY1(I)+VY2(I)+VY3(I)+VY4(I)
         VZA(I)=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
       ENDDO
 
       IF(JCVT/=0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           VY=R22(I)*VYA(I)+R23(I)*VZA(I)
           VZ=R32(I)*VYA(I)+R33(I)*VZA(I)
           VYA(I)=VY
@@ -89,19 +96,19 @@ C-----------------------------------------------
         END DO
       END IF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         VA2(I)=
      1         VY1(I)*VY1(I)+VY2(I)*VY2(I)+VY3(I)*VY3(I)+VY4(I)*VY4(I)
      2        +VZ1(I)*VZ1(I)+VZ2(I)*VZ2(I)+VZ3(I)*VZ3(I)+VZ4(I)*VZ4(I)
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         XMAS(I)=RHO(I)*VNEW(I)*OFF(I)  
       ENDDO
 
       FLAG = 0
       IF (IGRE /= 0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             OFF_SAV(I) = ONE
             EI_SAV(I)  = EINT(I)*VOL(I)
             EK_SAV(I)  = XMAS(I)*VA2(I)*ONE_OVER_8
@@ -109,7 +116,7 @@ C-----------------------------------------------
             YM_SAV(I)  = XMAS(I)*VYA(I)*FOURTH
             ZM_SAV(I)  = XMAS(I)*VZA(I)*FOURTH
           ENDDO
-          CALL GRELEM_SAV(LFT   ,LLT   ,GRESAV,IGRTH ,GRTH  ,
+          CALL GRELEM_SAV(1   ,NEL   ,GRESAV,IGRTH ,GRTH  ,
      2                    OFF_SAV,EI_SAV,EK_SAV,XM_SAV,YM_SAV,
      3                    ZM_SAV,XMAS  ,RBIDON,RBIDON,RBIDON,
      4                    RBIDON,RBIDON,RBIDON,RBIDON,RBIDON,
@@ -117,7 +124,7 @@ C-----------------------------------------------
      6                    RBIDON,FLAG)
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         M=IPARTQ(I)
         PARTSAV(1,M)=PARTSAV(1,M) + EINT(I)*VOL(I)*OFF(I)
         PARTSAV(2,M)=PARTSAV(2,M) + XMAS(I)*VA2(I)*ONE_OVER_8
@@ -128,25 +135,25 @@ C-----------------------------------------------
       ENDDO
 
       IF(JTUR/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
          M=IPARTQ(I)
          PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)*OFF(I)
        ENDDO
       ENDIF
 
       IF(IEXPAN/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         M=IPARTQ(I)
         PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)*OFF(I)
        ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         M=IPARTQ(I)
         EI(I) = EINT(I)*VOL(I)*OFF(I)
         EK(I) = XMAS(I)*VA2(I)*ONE_OVER_8
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTQ,ITASK)  
+      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF,IPARTQ,ITASK)  
 
       RETURN
       END

@@ -45,12 +45,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "vect01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+      INTEGER, INTENT(IN) ::  NEL
       INTEGER ,DIMENSION(MVSIZ) ,INTENT(IN) :: MAT,PID,NGL
       my_real, DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
       my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
@@ -70,7 +69,7 @@ C-----------------------------------------------
      .   VOL(MVSIZ),RHOE(MVSIZ),RHOG(MVSIZ),DMM,A1(MVSIZ)
 C-----------------------------------------------
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHO(I) =PM( 1,MAT(I))
         G(I)   =PM(22,MAT(I))
         YM(I)  =PM(20,MAT(I))
@@ -84,12 +83,12 @@ C-----------------------------
         RHOG(I)= SQRT(TWO*G(I)*RHO(I))         
       ENDDO
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=LFT,LLT                    
+        DO I=1,NEL                    
           DMPM(I)=GEO(16,PID(I))*OFF(I)  
           DMPF(I)=GEO(17,PID(I))*OFF(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT                    
+        DO I=1,NEL                    
           DMPM(I)=ZERO  
           DMPF(I)=ZERO  
         ENDDO 
@@ -97,7 +96,7 @@ C-----------------------------
 C-----------------------------
 C     AMORTISSEMENT
 C-----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DMM = VOL(I)*RHOE(I)
         FA1(I) = FA1(I) + DMPM(I)*EXX(I)*DMM
         FA2(I) = FA2(I) + DMPF(I)*EXY(I)*DMM

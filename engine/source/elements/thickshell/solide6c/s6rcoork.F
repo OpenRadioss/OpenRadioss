@@ -28,16 +28,23 @@ Chd|-- calls ---------------
 Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6cortho3.F
 Chd|        VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
 Chd|====================================================================
-      SUBROUTINE S6RCOORK(X,IXS,
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
-     .   OFFG,OFF,SAV,
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   NC1,NC2,NC3,NC4,NC5,NC6,NGL,MXT,NGEO,
-     .   K11,K12,K13,K14,K15,K16,K22,K23,
-     .   K24,K25,K26,K33,K34,K35,K36,K44,
-     .   K45,K46,K55,K56,K66,NEL)
+      SUBROUTINE S6RCOORK(
+     1   X,       IXS,     X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   Y5,      Y6,      Z1,      Z2,
+     5   Z3,      Z4,      Z5,      Z6,
+     6   OFFG,    OFF,     SAV,     R11,
+     7   R12,     R13,     R21,     R22,
+     8   R23,     R31,     R32,     R33,
+     9   NC1,     NC2,     NC3,     NC4,
+     A   NC5,     NC6,     NGL,     MXT,
+     B   NGEO,    K11,     K12,     K13,
+     C   K14,     K15,     K16,     K22,
+     D   K23,     K24,     K25,     K26,
+     E   K33,     K34,     K35,     K36,
+     F   K44,     K45,     K46,     K55,
+     G   K56,     K66,     NEL,     ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,11 +56,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NEL
 C     REAL
       my_real

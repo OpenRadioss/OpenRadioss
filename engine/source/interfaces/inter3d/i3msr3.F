@@ -29,7 +29,10 @@ Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|-- calls ---------------
 Chd|        NEAREST_SEG                   ../common_source/interf/nearest_seg.F
 Chd|====================================================================
-      SUBROUTINE I3MSR3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,XFACE)
+      SUBROUTINE I3MSR3(
+     1   X,       IRECT,   LMSR,    MSR,
+     2   NSV,     ILOC,    IRTL,    NSEG,
+     3   XFACE,   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,6 +44,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER, INTENT(IN)  :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
       INTEGER, INTENT(INOUT) :: IRTL(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  XFACE
@@ -48,7 +54,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

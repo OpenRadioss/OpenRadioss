@@ -41,11 +41,15 @@ Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
 Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE Q4KE2 (PM     ,GEO    ,IXQ    ,X      ,ELBUF_STR,
-     1                  NEL    ,LIAD   ,ICP    ,ICSIG  ,ETAG   ,
-     2                  IDDL   ,NDOF   ,K_DIAG ,K_LT   ,IADK   ,
-     3                  JDIK   ,NPG    ,IPM    ,IGEO   ,IKGEO  ,
-     4                  BUFMAT )
+      SUBROUTINE Q4KE2(
+     1   PM,       GEO,      IXQ,      X,
+     2   ELBUF_STR,NEL,      LIAD,     ICP,
+     3   ICSIG,    ETAG,     IDDL,     NDOF,
+     4   K_DIAG,   K_LT,     IADK,     JDIK,
+     5   NPG,      IPM,      IGEO,     IKGEO,
+     6   BUFMAT,   NFT,      MTN,      JMULT,
+     7   JHBE,     JCVT,     IGTYP,    ISORTH,
+     8   ISMSTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,12 +65,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: JMULT
+      INTEGER, INTENT(IN) :: JHBE
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: IGTYP
+      INTEGER, INTENT(IN) :: ISORTH
       INTEGER IXQ(NIXQ,*), ICP, ICSIG, IKGEO
       INTEGER NEL, LIAD, NPG,
      .   IPM(NPROPMI,*), IGEO(NPROPGI,*), ETAG(*), IDDL(*),
@@ -243,7 +254,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
       IF (ISORTH == 0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           GAMA(I,1) = ONE
           GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
@@ -252,7 +263,7 @@ C-----------------------------------------------
           GAMA(I,6) = ZERO
         ENDDO
       ELSE
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = GBUF%GAMA(I        )
           GAMA(I,2) = GBUF%GAMA(I +   NEL)
           GAMA(I,3) = GBUF%GAMA(I + 2*NEL)
@@ -299,33 +310,36 @@ C     PROJECT NODAL COORDINATES INTO CO-ROTATIONAL SYSTEM
 C
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
 C---- now assumed strain is used, no effect for Isolid17
-        DO I=LFT,LLT
+        DO I=1,NEL
           NU(I)=MIN(HALF,PM(21,MXT(I)))
           C1 =PM(32,MXT(I))
           E0(I) =THREE*(ONE-TWO*NU(I))*C1
         ENDDO
       IF(ICP==2) THEN
-        CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
+        CALL S8ZSIGP3(1  ,NEL       ,GBUF%SIG,E0  ,GBUF%PLA,
      2                FAC  ,GBUF%G_PLA,NEL     )
-        DO I=LFT,LLT
+        DO I=1,NEL
           NUU(I)=NU(I)+(HALF-NU(I))*FAC(I)
         ENDDO
       ELSEIF(ICP==1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           NUU(I)=HALF
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           NUU(I)=ZERO
         ENDDO
       ENDIF 
 C     COMPUTE AREA & VOLUME/THICKNESS
-      CALL QVOLU2(GBUF%OFF,AIRE,VOLU,NGL,
-     2            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     3            Y234,Y124)
+      CALL QVOLU2(
+     1   GBUF%OFF,AIRE,    VOLU,    NGL,
+     2   Y1,      Y2,      Y3,      Y4,
+     3   Z1,      Z2,      Z3,      Z4,
+     4   Y234,    Y124,    NEL,     JMULT,
+     5   JCVT)
 C
       IF(N2D==1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          YAVG(I) = X(2,NC1(I))+X(2,NC2(I))+X(2,NC3(I))+X(2,NC4(I))
         ENDDO
       ENDIF
@@ -357,17 +371,20 @@ C
       ELSE
         IADBUF = 0
       ENDIF
-      CALL MMATS(LFT    ,LLT     ,PM    ,MXT    ,HH    ,
+      CALL MMATS(1    ,NEL     ,PM    ,MXT    ,HH    ,
      .           MTN    ,IKORTH  ,IPM   ,IGEO   ,GAMA  ,
      .           BUFMAT(IADBUF)  ,DM    ,DGM    ,GM    ,
      .           JHBE  ,GBUF%SIG ,BID   ,NNPT   ,NEL   )
-      CALL MMAT_H1(HH    ,HH1   ,FAC  ,ICPG  ,IPREDU)
+      CALL MMAT_H1(
+     1   HH,      HH1,     FAC,     ICPG,
+     2   IPREDU,  NEL,     MTN,     ISMSTR,
+     3   JHBE)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         OFFG(I) = GBUF%OFF(I)
       ENDDO
 C
-      DO EP=LFT,LLT
+      DO EP=1,NEL
       DO J=1,2
       DO I=1,2
         K11(I,J,EP)=ZERO
@@ -431,22 +448,28 @@ C     COMPUTE JACOBIAN & SHAPE DERIVATIVES AT INTEGRATION POINT
      B   NUU,     NEL,     JHBE)
 C-------------add BYZj... later
 C
-      CALL MMSTIFS(PM   ,MXT  ,HH1   ,VOLN  ,ICSIG ,
-     .             DD   ,GG   ,DG    ,G33   ,DM    ,
-     .             GM   ,DGM  ,IKORTH,LBUF%SIG,IR  ,
-     .             IS   ,IT   ,NEL   )
+      CALL MMSTIFS(
+     1   PM,      MXT,     HH1,     VOLN,
+     2   ICSIG,   DD,      GG,      DG,
+     3   G33,     DM,      GM,      DGM,
+     4   IKORTH,  LBUF%SIG,IR,      IS,
+     5   IT,      NEL,     JHBE,    MTN)
 C
       CALL Q4KEL2(
-     1            PY1,PY2,PY3,PY4,
-     2            PZ1,PZ2,PZ3,PZ4,
-     3            PYC1,PYC2,PZC1,PZC2,AY,R22,R23,
-     4            K11,K12,K13,K14,K22,
-     5            K23,K24,K33,K34,K44,
-     4            K11U,K12U,K13U,K14U,K22U,
-     5            K23U,K24U,K33U,K34U,K44U,
-     4            K11L,K12L,K13L,K14L,K22L,
-     5            K23L,K24L,K33L,K34L,K44L,
-     6            DD,GG,DG,G33,IKORTH,ICPG,OFFG)
+     1   PY1,     PY2,     PY3,     PY4,
+     2   PZ1,     PZ2,     PZ3,     PZ4,
+     3   PYC1,    PYC2,    PZC1,    PZC2,
+     4   AY,      R22,     R23,     K11,
+     5   K12,     K13,     K14,     K22,
+     6   K23,     K24,     K33,     K34,
+     7   K44,     K11U,    K12U,    K13U,
+     8   K14U,    K22U,    K23U,    K24U,
+     9   K33U,    K34U,    K44U,    K11L,
+     A   K12L,    K13L,    K14L,    K22L,
+     B   K23L,    K24L,    K33L,    K34L,
+     C   K44L,    DD,      GG,      DG,
+     D   G33,     IKORTH,  ICPG,    OFFG,
+     E   NEL,     JCVT)
 C
 c      IF (IKGEO<0) THEN
 c        CALL Q4KEG2(
@@ -463,43 +486,47 @@ C     EXIT THE INTEGRATION POINTS LOOP <--
 C
       IF (IPREDU > 0) THEN
         CALL Q4KEP2(
-     1              PYC1,PYC2,PZC1,PZC2,AY,R22,R23,
-     2              K11,K12,K13,K14,K22,
-     3              K23,K24,K33,K34,K44,
-     4              HH,VOLU,FAC,ICPG,OFFG)
+     1   PYC1,    PYC2,    PZC1,    PZC2,
+     2   AY,      R22,     R23,     K11,
+     3   K12,     K13,     K14,     K22,
+     4   K23,     K24,     K33,     K34,
+     5   K44,     HH,      VOLU,    FAC,
+     6   ICPG,    OFFG,    NEL,     JCVT)
       ENDIF
 C
 c      IF (IKGEO>0) THEN
       IF (IKGEO/=0) THEN
         CALL Q4KEGA2(
-     1               PYC1,PYC2,PZC1,PZC2,AY,
-     2               K11,K12,K13,K14,K22,
-     3               K23,K24,K33,K34,K44,
-     4               GBUF%SIG,VOLU,OFFG,NEL)
+     1   PYC1,    PYC2,    PZC1,    PZC2,
+     2   AY,      K11,     K12,     K13,
+     3   K14,     K22,     K23,     K24,
+     4   K33,     K34,     K44,     GBUF%SIG,
+     5   VOLU,    OFFG,    NEL)
       ENDIF
 C
 c      IF (N2D==1 .AND. JHBE==17) THEN
-c        CALL Q4ASYM(LFT, LLT, K11, K11U, K11L)
-c        CALL Q4ASYM(LFT, LLT, K22, K22U, K22L)
-c        CALL Q4ASYM(LFT, LLT, K33, K33U, K33L)
-c        CALL Q4ASYM(LFT, LLT, K44, K44U, K44L)
-c        CALL Q4ASYM(LFT, LLT, K12, K12U, K12L)
-c        CALL Q4ASYM(LFT, LLT, K13, K13U, K13L)
-c        CALL Q4ASYM(LFT, LLT, K14, K14U, K14L)
-c        CALL Q4ASYM(LFT, LLT, K23, K23U, K23L)
-c        CALL Q4ASYM(LFT, LLT, K24, K24U, K24L)
-c        CALL Q4ASYM(LFT, LLT, K34, K34U, K34L)
+c        CALL Q4ASYM(1, NEL, K11, K11U, K11L)
+c        CALL Q4ASYM(1, NEL, K22, K22U, K22L)
+c        CALL Q4ASYM(1, NEL, K33, K33U, K33L)
+c        CALL Q4ASYM(1, NEL, K44, K44U, K44L)
+c        CALL Q4ASYM(1, NEL, K12, K12U, K12L)
+c        CALL Q4ASYM(1, NEL, K13, K13U, K13L)
+c        CALL Q4ASYM(1, NEL, K14, K14U, K14L)
+c        CALL Q4ASYM(1, NEL, K23, K23U, K23L)
+c        CALL Q4ASYM(1, NEL, K24, K24U, K24L)
+c        CALL Q4ASYM(1, NEL, K34, K34U, K34L)
 c      ENDIF
 C
       IF (JCVT/=0) THEN
         CALL Q4KEROT2(
-     1                R22,R32,R23,R33,
-     2                K11,K12,K13,K14,K22,
-     3                K23,K24,K33,K34,K44)
+     1   R22,     R32,     R23,     R33,
+     2   K11,     K12,     K13,     K14,
+     3   K22,     K23,     K24,     K33,
+     4   K34,     K44,     NEL)
       ENDIF
 C
 C     IF (NEIG>0) THEN
-C       CALL Q4EOFF(LFT, LLT, IXQ(1,NF1), ETAG, OFFG)
+C       CALL Q4EOFF(1, NEL, IXQ(1,NF1), ETAG, OFFG)
 C     ENDIF
 C
       CALL ASSEM_Q4(
@@ -510,53 +537,3 @@ C
 C
       RETURN
       END
-Chd|====================================================================
-Chd|  Q4ASYM                        source/elements/solid_2d/quad4/q4ke2.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE Q4ASYM (LFT, LLT, KIJ, KIJU, KIJL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER LFT,LLT
-      my_real
-     .   KIJ(2,2,*), KIJU(2,2,*), KIJL(2,2,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER EP,I,J
-      my_real
-     .    AA,BB
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-      DO EP=LFT,LLT
-      DO J=1,2
-      DO I=1,2
-        AA = KIJ(I,J,EP) + KIJU(I,J,EP)
-        BB = KIJ(I,J,EP) + KIJL(I,J,EP)
-        IF (AA<ZERO .AND. BB<ZERO) THEN
-c          KIJ(I,J,EP) = 0.5*(AA+BB)
-c          KIJ(I,J,EP) = MIN(AA,BB)
-c          KIJ(I,J,EP) = MAX(AA,BB)
-        ELSEIF (AA>ZERO .AND. BB>ZERO) THEN
-c          KIJ(I,J,EP) = 0.5*(AA+BB)
-c          KIJ(I,J,EP) = MIN(AA,BB)
-c          KIJ(I,J,EP) = MAX(AA,BB)
-        ELSE
-c          KIJ(I,J,EP) = 0.5*(AA+BB)
-c          KIJ(I,J,EP) = MIN(AA,BB)
-c          KIJ(I,J,EP) = MAX(AA,BB)
-        ENDIF
-      ENDDO
-      ENDDO
-      ENDDO
-C
-      RETURN
-      END
-

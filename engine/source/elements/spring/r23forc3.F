@@ -49,7 +49,7 @@ Chd|====================================================================
      D   MY1,                  MY2,                  MZ1,                  MZ2,
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS)
+     G   JSMS,                 IGRE,                 NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
@@ -116,7 +118,8 @@ C=======================================================================
      C   FZ1,       FZ2,       MX1,       MX2,
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
-     F   DMELRT,    H3D_DATA,  JSMS)
+     F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
+     G   NFT)
        
        ELSEIF(MTN == 113) THEN
          ! Like type13 spring
@@ -135,7 +138,8 @@ C=======================================================================
      C   FZ1,       FZ2,       MX1,       MX2,
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
-     F   DMELRT,    H3D_DATA,  JSMS)
+     F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
+     G   NFT)
 
        ELSEIF(MTN == 114) THEN
          ! seatbelt_element
@@ -155,7 +159,7 @@ C=======================================================================
      D   MY1,                  MY2,                  MZ1,                  MZ2,
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS)
+     G   JSMS,                 IGRE,                 NFT)
  
        ENDIF
 C-----------------------------------------------       

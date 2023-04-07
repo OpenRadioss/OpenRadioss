@@ -29,20 +29,26 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE SFINT3(SIG,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOL,QVIS,
-     .   N1X, N2X, N3X, N4X, N5X, N6X,
-     .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z,
-     .   DFE, Pbak,IXS,NEL)
+      SUBROUTINE SFINT3(
+     1   SIG,     PX1,     PX2,     PX3,
+     2   PX4,     PY1,     PY2,     PY3,
+     3   PY4,     PZ1,     PZ2,     PZ3,
+     4   PZ4,     PX5,     PX6,     PX7,
+     5   PX8,     PY5,     PY6,     PY7,
+     6   PY8,     PZ5,     PZ6,     PZ7,
+     7   PZ8,     F11,     F21,     F31,
+     8   F12,     F22,     F32,     F13,
+     9   F23,     F33,     F14,     F24,
+     A   F34,     F15,     F25,     F35,
+     B   F16,     F26,     F36,     F17,
+     C   F27,     F37,     F18,     F28,
+     D   F38,     VOL,     QVIS,    N1X,
+     E   N2X,     N3X,     N4X,     N5X,
+     F   N6X,     N1Y,     N2Y,     N3Y,
+     G   N4Y,     N5Y,     N6Y,     N1Z,
+     H   N2Z,     N3Z,     N4Z,     N5Z,
+     I   N6Z,     DFE,     Pbak,    IXS,
+     J   NEL,     NFT,     JALE,    JEUL)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,13 +73,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "nsvis_c.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: JALE
+      INTEGER, INTENT(IN) :: JEUL
       INTEGER IXS(NIXS,*),NEL
       my_real
      .   SIG(NEL,6),
@@ -108,7 +116,7 @@ C-----------------------------------------------
         !------------------------------!
         !    TOTAL STRESS TENSOR       ! 
         !------------------------------!  
-        DO I=LFT,LLT                         
+        DO I=1,NEL                         
           QVIS_LOC = QVIS(I)                 
           S1(I)=SIG(I,1)+SVIS(I,1)-QVIS_LOC  
           S2(I)=SIG(I,2)+SVIS(I,2)-QVIS_LOC  
@@ -120,7 +128,7 @@ C-----------------------------------------------
         !------------------------------!
         !          PRESSURE            ! 
         !------------------------------!  
-        DO I=LFT,LLT                         
+        DO I=1,NEL                         
           P(I)=THIRD*(S1(I)+S2(I)+S3(I))    
           Pbak(I)=ONE_OVER_8*P(I)                       
         ENDDO          
@@ -128,7 +136,7 @@ C-----------------------------------------------
         !          DIV(SIGMA)          ! 
         !------------------------------!  
         ! Integral ( div(sigma) ) dV = Integral (sigma:n) dS  
-        DO I=LFT,LLT 
+        DO I=1,NEL 
           ! node-1 : faces 1,4,6
           TX=N1X(I)+N4X(I)+N6X(I)
           TY=N1Y(I)+N4Y(I)+N6Y(I)
@@ -195,7 +203,7 @@ C-----------------------------------------------
       ! ISFINT=2 : volume integration for SIG_dev only  !
       !-------------------------------------------------!       
       IF((ALE%GLOBAL%ICAA==1.OR.ALE%GLOBAL%ISFINT==2) .AND. JALE+JEUL/=0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          QVIS_LOC = QVIS(I)
          VOL_LOC = VOL(I) 
          S1(I)=SIG(I,1)+SVIS(I,1)-QVIS_LOC
@@ -210,13 +218,13 @@ C-----------------------------------------------
          S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC
          P(I)=P(I)*0.125 
         ENDDO
-        DO I=LFT,LLT
+        DO I=1,NEL
           Pbak(I) = P(I)
         ENDDO
         !--------------------------------------------------------------!
         ! fint from spherical tensor : FVM                             !
         !--------------------------------------------------------------!
-        DO I=LFT,LLT
+        DO I=1,NEL
           F11(I)=F11(I)-P(I)*(N1X(I)              +N4X(I)       +N6X(I))
           F21(I)=F21(I)-P(I)*(N1Y(I)              +N4Y(I)       +N6Y(I))
           F31(I)=F31(I)-P(I)*(N1Z(I)              +N4Z(I)       +N6Z(I))
@@ -243,7 +251,7 @@ C-----------------------------------------------
           F38(I)=F38(I)-P(I)*(      +N2Z(I)+N3Z(I)              +N6Z(I)) 
         ENDDO
       ELSE !IF(ICAA == 0 .OR. JALE+JEUL==0 )
-        DO I=LFT,LLT
+        DO I=1,NEL
          QVIS_LOC = QVIS(I)
          VOL_LOC = VOL(I) 
          S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS_LOC)*VOL_LOC
@@ -254,7 +262,7 @@ C-----------------------------------------------
          S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC 
         ENDDO
         IF(ALEFVM_Param%IEnabled/=0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             Pbak(I) =0.125 * (S1(I)+S2(I)+S3(I))/THREE/VOL(I)
           ENDDO
         ENDIF
@@ -266,7 +274,7 @@ C-----------------------------------------------
         !  otherwise             : total stress tensor                 !      
         !--------------------------------------------------------------!
         IF(JEUL==0 .OR. (JEUL==1.AND.INTEG8==0))THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
           !shape functions hypothesis : phi1=-phi7, phi2=-phi8, phi3=-phi5, phi4=-phi6
           !---nodes 1-7 ---!
           FINT=S1(I)*PX1(I)+S4(I)*PY1(I)+S6(I)*PZ1(I)
@@ -316,7 +324,7 @@ C-----------------------------------------------
         !  otherwise             : total stress tensor                 !   
         !--------------------------------------------------------------!
         !shape functions are different with hidden flag INTEG8 in /ANALY control card     
-         DO I=LFT,LLT
+         DO I=1,NEL
           F11(I)=F11(I)-(S1(I)*PX1(I)+S4(I)*PY1(I)+S6(I)*PZ1(I))
           F21(I)=F21(I)-(S2(I)*PY1(I)+S4(I)*PX1(I)+S5(I)*PZ1(I))
           F31(I)=F31(I)-(S3(I)*PZ1(I)+S6(I)*PX1(I)+S5(I)*PY1(I))
@@ -345,222 +353,5 @@ C-----------------------------------------------
         ENDIF
       ENDIF  
       
-      RETURN
-      END
-    
-
-Chd|====================================================================
-Chd|  SFINT3B                       source/elements/solid/solide/sfint3.F
-Chd|-- called by -----------
-Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SFINT3B(SIG,SIGD,X,
-     .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOL,QVIS,DR,RHO,CXX,
-     .   MX1,MY1,MZ1,MX2,MY2,MZ2,MX3,MY3,MZ3,MX4,MY4,MZ4,
-     .   MX5,MY5,MZ5,MX6,MY6,MZ6,MX7,MY7,MZ7,MX8,MY8,MZ8,
-     .   IXS,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "nsvis_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*),
-     .   NC8(*),IXS(NIXS,*),NEL
-      my_real
-     .   SIG(NEL,6),SIGD(NEL,6),X(3,*),DR(3,*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
-     .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
-     .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
-     .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
-     .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   VOL(*),QVIS(*),RHO(*),CXX(*),
-     .   MX1(*),MY1(*),MZ1(*),MX2(*),MY2(*),MZ2(*),
-     .   MX3(*),MY3(*),MZ3(*),MX4(*),MY4(*),MZ4(*),
-     .   MX5(*),MY5(*),MZ5(*),MX6(*),MY6(*),MZ6(*),
-     .   MX7(*),MY7(*),MZ7(*),MX8(*),MY8(*),MZ8(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, J
-      my_real
-     .   S1, S2, S3,
-     .   S4, S5, S6,
-     .   SXY, SYZ, SZX,
-     .   SYX, SZY, SXZ,
-     .   MX(MVSIZ), MY(MVSIZ), MZ(MVSIZ),
-     .   FINT,FINTD,AAA,DXR,DYR,DZR
-C-----------------------------------------------
-      DO I=LFT,LLT
-        S1=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)
-        S2=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)
-        S3=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)
-        S4 = (SIG(I,4)+SVIS(I,4))*VOL(I)
-        S5 = (SIG(I,5)+SVIS(I,5))*VOL(I)
-        S6 = (SIG(I,6)+SVIS(I,6))*VOL(I)
-        MZ(I) = (SIGD(I,1))*VOL(I)
-        MX(I) = (SIGD(I,2))*VOL(I)
-        MY(I) = (SIGD(I,3))*VOL(I)
-        SXY = S4 + MZ(I)  
-        SYZ = S5 + MX(I)  
-        SZX = S6 + MY(I)  
-        SYX = S4 - MZ(I)
-        SZY = S5 - MX(I)
-        SXZ = S6 - MY(I)
-        MZ(I) = -MZ(I)*0.25
-        MX(I) = -MX(I)*0.25
-        MY(I) = -MY(I)*0.25
-C
-        FINT=S1*PX1(I)+SXY*PY1(I)+SXZ*PZ1(I)
-        F11(I)=F11(I)-FINT
-        F17(I)=F17(I)+FINT
-        FINT=S2*PY1(I)+SYX*PX1(I)+SYZ*PZ1(I)
-        F21(I)=F21(I)-FINT
-        F27(I)=F27(I)+FINT
-        FINT=S3*PZ1(I)+SZX*PX1(I)+SZY*PY1(I)
-        F31(I)=F31(I)-FINT
-        F37(I)=F37(I)+FINT
-C
-        FINT=S1*PX2(I)+SXY*PY2(I)+SXZ*PZ2(I)
-        F12(I)=F12(I)-FINT
-        F18(I)=F18(I)+FINT
-        FINT=S2*PY2(I)+SYX*PX2(I)+SYZ*PZ2(I)
-        F22(I)=F22(I)-FINT
-        F28(I)=F28(I)+FINT
-        FINT=S3*PZ2(I)+SZX*PX2(I)+SZY*PY2(I)
-        F32(I)=F32(I)-FINT
-        F38(I)=F38(I)+FINT
-C
-        FINT=S1*PX3(I)+SXY*PY3(I)+SXZ*PZ3(I)
-        F13(I)=F13(I)-FINT
-        F15(I)=F15(I)+FINT
-        FINT=S2*PY3(I)+SYX*PX3(I)+SYZ*PZ3(I)
-        F23(I)=F23(I)-FINT
-        F25(I)=F25(I)+FINT
-        FINT=S3*PZ3(I)+SZX*PX3(I)+SZY*PY3(I)
-        F33(I)=F33(I)-FINT
-        F35(I)=F35(I)+FINT
-C
-        FINT=S1*PX4(I)+SXY*PY4(I)+SXZ*PZ4(I)
-        F14(I)=F14(I)-FINT
-        F16(I)=F16(I)+FINT
-        FINT=S2*PY4(I)+SYX*PX4(I)+SYZ*PZ4(I)
-        F24(I)=F24(I)-FINT
-        F26(I)=F26(I)+FINT
-        FINT=S3*PZ4(I)+SZX*PX4(I)+SZY*PY4(I)
-        F34(I)=F34(I)-FINT
-        F36(I)=F36(I)+FINT
-      ENDDO
-C
-      goto 111
-C correction des moments pour eviter une instabilite
-      IF(ISMSTR==1.OR.ISMSTR==2.OR.ISMSTR==3)THEN
-       DO I=LFT,LLT
-        MX(I) = X(2,NC1(I))*F31(I) - X(3,NC1(I))*F21(I)
-     .        + X(2,NC2(I))*F32(I) - X(3,NC2(I))*F22(I)
-     .        + X(2,NC3(I))*F33(I) - X(3,NC3(I))*F23(I)
-     .        + X(2,NC4(I))*F34(I) - X(3,NC4(I))*F24(I)
-     .        + X(2,NC5(I))*F35(I) - X(3,NC5(I))*F25(I)
-     .        + X(2,NC6(I))*F36(I) - X(3,NC6(I))*F26(I)
-     .        + X(2,NC7(I))*F37(I) - X(3,NC7(I))*F27(I)
-     .        + X(2,NC8(I))*F38(I) - X(3,NC8(I))*F28(I)
-
-        MY(I) = X(3,NC1(I))*F11(I) - X(1,NC1(I))*F31(I)
-     .        + X(3,NC2(I))*F12(I) - X(1,NC2(I))*F32(I)
-     .        + X(3,NC3(I))*F13(I) - X(1,NC3(I))*F33(I)
-     .        + X(3,NC4(I))*F14(I) - X(1,NC4(I))*F34(I)
-     .        + X(3,NC5(I))*F15(I) - X(1,NC5(I))*F35(I)
-     .        + X(3,NC6(I))*F16(I) - X(1,NC6(I))*F36(I)
-     .        + X(3,NC7(I))*F17(I) - X(1,NC7(I))*F37(I)
-     .        + X(3,NC8(I))*F18(I) - X(1,NC8(I))*F38(I)
-
-        MZ(I) = X(1,NC1(I))*F21(I) - X(2,NC1(I))*F11(I)
-     .        + X(1,NC2(I))*F22(I) - X(2,NC2(I))*F12(I)
-     .        + X(1,NC3(I))*F23(I) - X(2,NC3(I))*F13(I)
-     .        + X(1,NC4(I))*F24(I) - X(2,NC4(I))*F14(I)
-     .        + X(1,NC5(I))*F25(I) - X(2,NC5(I))*F15(I)
-     .        + X(1,NC6(I))*F26(I) - X(2,NC6(I))*F16(I)
-     .        + X(1,NC7(I))*F27(I) - X(2,NC7(I))*F17(I)
-     .        + X(1,NC8(I))*F28(I) - X(2,NC8(I))*F18(I)
-
-        MX(I) = -MX(I)*0.125
-        MY(I) = -MY(I)*0.125
-        MZ(I) = -MZ(I)*0.125
-       ENDDO
-      ENDIF
- 111  continue
-C
-      DO I=LFT,LLT
-C
-        AAA = 0.0125 * RHO(I) * CXX(I)**2 * VOL(I)
-C
-        DXR = 0.125 * 
-     .   (DR(1,NC1(I))+DR(1,NC2(I))+DR(1,NC3(I))+DR(1,NC4(I))
-     .   +DR(1,NC5(I))+DR(1,NC6(I))+DR(1,NC7(I))+DR(1,NC8(I)))
-        DYR = 0.125 * 
-     .   (DR(2,NC1(I))+DR(2,NC2(I))+DR(2,NC3(I))+DR(2,NC4(I))
-     .   +DR(2,NC5(I))+DR(2,NC6(I))+DR(2,NC7(I))+DR(2,NC8(I)))
-        DZR = 0.125 * 
-     .   (DR(3,NC1(I))+DR(3,NC2(I))+DR(3,NC3(I))+DR(3,NC4(I))
-     .   +DR(3,NC5(I))+DR(3,NC6(I))+DR(3,NC7(I))+DR(3,NC8(I)))
-C
-        MX1(I) = MX(I)  - AAA * (DR(1,NC1(I))-DXR)
-        MY1(I) = MY(I)  - AAA * (DR(2,NC1(I))-DYR)
-        MZ1(I) = MZ(I)  - AAA * (DR(3,NC1(I))-DZR)
-C
-        MX2(I) = MX(I)  - AAA * (DR(1,NC2(I))-DXR)
-        MY2(I) = MY(I)  - AAA * (DR(2,NC2(I))-DYR)
-        MZ2(I) = MZ(I)  - AAA * (DR(3,NC2(I))-DZR)
-C
-        MX3(I) = MX(I)  - AAA * (DR(1,NC3(I))-DXR)
-        MY3(I) = MY(I)  - AAA * (DR(2,NC3(I))-DYR)
-        MZ3(I) = MZ(I)  - AAA * (DR(3,NC3(I))-DZR)
-C
-        MX4(I) = MX(I)  - AAA * (DR(1,NC4(I))-DXR)
-        MY4(I) = MY(I)  - AAA * (DR(2,NC4(I))-DYR)
-        MZ4(I) = MZ(I)  - AAA * (DR(3,NC4(I))-DZR)
-C
-        MX5(I) = MX(I)  - AAA * (DR(1,NC5(I))-DXR)
-        MY5(I) = MY(I)  - AAA * (DR(2,NC5(I))-DYR)
-        MZ5(I) = MZ(I)  - AAA * (DR(3,NC5(I))-DZR)
-C
-        MX6(I) = MX(I)  - AAA * (DR(1,NC6(I))-DXR)
-        MY6(I) = MY(I)  - AAA * (DR(2,NC6(I))-DYR)
-        MZ6(I) = MZ(I)  - AAA * (DR(3,NC6(I))-DZR)
-C
-        MX7(I) = MX(I)  - AAA * (DR(1,NC7(I))-DXR)
-        MY7(I) = MY(I)  - AAA * (DR(2,NC7(I))-DYR)
-        MZ7(I) = MZ(I)  - AAA * (DR(3,NC7(I))-DZR)
-C
-        MX8(I) = MX(I)  - AAA * (DR(1,NC8(I))-DXR)
-        MY8(I) = MY(I)  - AAA * (DR(2,NC8(I))-DYR)
-        MZ8(I) = MZ(I)  - AAA * (DR(3,NC8(I))-DZR)
-      ENDDO
-C
       RETURN
       END

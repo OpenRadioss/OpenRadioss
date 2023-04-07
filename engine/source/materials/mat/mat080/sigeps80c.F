@@ -33,21 +33,24 @@ Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS80C(
-     1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0   ,IPT     ,IFLAG   ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ ,SIGOZX  ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ ,SIGNZX  ,
-     9     SIGVXX ,SIGVYY  ,SIGVXY ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     B     OFF    ,NGL    ,PM      ,IPM     ,MAT    ,
-     C     ETSE   ,GS     ,VOL     ,YLD    , TEMP   ,
-     D     DIE    ,COEF   , SHF    ,EPSP    ,TABLE  ,
-     E     ITHK   ,NVARTMP , VARTMP,EPSTHTOT) 
+     1   NEL,     NUPARAM, NUVAR,   MFUNC,
+     2   KFUNC,   NPF,     NPT0,    IPT,
+     3   IFLAG,   TF,      TIME,    TIMESTEP,
+     4   UPARAM,  RHO0,    AREA,    EINT,
+     5   THKLY,   EPSPXX,  EPSPYY,  EPSPXY,
+     6   EPSPYZ,  EPSPZX,  DEPSXX,  DEPSYY,
+     7   DEPSXY,  DEPSYZ,  DEPSZX,  EPSXX,
+     8   EPSYY,   EPSXY,   EPSYZ,   EPSZX,
+     9   SIGOXX,  SIGOYY,  SIGOXY,  SIGOYZ,
+     A   SIGOZX,  SIGNXX,  SIGNYY,  SIGNXY,
+     B   SIGNYZ,  SIGNZX,  SIGVXX,  SIGVYY,
+     C   SIGVXY,  SIGVYZ,  SIGVZX,  SOUNDSP,
+     D   VISCMAX, THK,     PLA,     UVAR,
+     E   OFF,     NGL,     PM,      IPM,
+     F   MAT,     ETSE,    GS,      VOL,
+     G   YLD,     TEMP,    DIE,     COEF,
+     H   SHF,     EPSP,    TABLE,   ITHK,
+     I   NVARTMP, VARTMP,  EPSTHTOT,JTHE)
 
 C-----------------------------------------------
       USE TABLE_MOD
@@ -112,13 +115,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
-#include      "vect01_c.inc"
 #include      "scr18_c.inc"
 #include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
+      INTEGER, INTENT(IN) :: JTHE
       INTEGER NEL, NUPARAM, NUVAR,NVARTMP, NPT0, IPT,IFLAG(*),
      .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*),ITHK
       my_real TIME,TIMESTEP,UPARAM(*),

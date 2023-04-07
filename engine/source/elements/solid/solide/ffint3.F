@@ -29,16 +29,22 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE FFINT3(SIG,DFE,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOL,QVIS,
-     .   N1X, N2X, N3X, N4X, N5X, N6X,
-     .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
-     .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
+      SUBROUTINE FFINT3(
+     1   SIG,     DFE,     PX1,     PX2,
+     2   PX3,     PX4,     PY1,     PY2,
+     3   PY3,     PY4,     PZ1,     PZ2,
+     4   PZ3,     PZ4,     F11,     F21,
+     5   F31,     F12,     F22,     F32,
+     6   F13,     F23,     F33,     F14,
+     7   F24,     F34,     F15,     F25,
+     8   F35,     F16,     F26,     F36,
+     9   F17,     F27,     F37,     F18,
+     A   F28,     F38,     VOL,     QVIS,
+     B   N1X,     N2X,     N3X,     N4X,
+     C   N5X,     N6X,     N1Y,     N2Y,
+     D   N3Y,     N4Y,     N5Y,     N6Y,
+     E   N1Z,     N2Z,     N3Z,     N4Z,
+     F   N5Z,     N6Z,     NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,10 +60,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       my_real
      .   SIG(MVSIZ,6),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -82,7 +88,7 @@ C-----------------------------------------------
      .   FINT,FINTD,P(MVSIZ)
 C-----------------------------------------------
       IF(ALE%GLOBAL%ICAA == 0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          S1(I)=(SIG(I,1)-QVIS(I))*VOL(I)
          S2(I)=(SIG(I,2)-QVIS(I))*VOL(I)
          S3(I)=(SIG(I,3)-QVIS(I))*VOL(I)
@@ -91,7 +97,7 @@ C-----------------------------------------------
          S6(I)=(SIG(I,6))*VOL(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
          S1(I)=SIG(I,1)-QVIS(I)
          S2(I)=SIG(I,2)-QVIS(I)
          S3(I)=SIG(I,3)-QVIS(I)
@@ -105,7 +111,7 @@ C-----------------------------------------------
          P(I)=P(I)*0.125
          
         ENDDO
-        DO I=LFT,LLT
+        DO I=1,NEL
           F11(I)=F11(I)-P(I)*(N1X(I)              +N4X(I)       +N6X(I))
           F21(I)=F21(I)-P(I)*(N1Y(I)              +N4Y(I)       +N6Y(I))
           F31(I)=F31(I)-P(I)*(N1Z(I)              +N4Z(I)       +N6Z(I))
@@ -133,7 +139,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C      
-       DO I=LFT,LLT
+       DO I=1,NEL
         FINT=S1(I)*PX1(I)+S4(I)*PY1(I)+S6(I)*PZ1(I)
         F11(I)=F11(I) - FINT  - DFE(I,1)     
         F17(I)=F17(I) + FINT - DFE(I,1)  

@@ -170,8 +170,9 @@ c---
                     WATMP(4) = LBUF%SIG(KK(4)+I)
                     WATMP(5) = LBUF%SIG(KK(5)+I)
                     WATMP(6) = LBUF%SIG(KK(6)+I)
-                    IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),				    
-     .              		    JCVT,WATMP,GAMA,JHBE,IGTYP)   
+                    IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                     WA(JJ + 1) = WATMP(1)
                     WA(JJ + 2) = WATMP(2)
                     WA(JJ + 3) = WATMP(3)
@@ -242,8 +243,9 @@ c---
                     WATMP(4) = LBUF%SIG(KK(4)+I)			
                     WATMP(5) = LBUF%SIG(KK(5)+I)			
                     WATMP(6) = LBUF%SIG(KK(6)+I)			
-                    IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),				    
-     .              		    JCVT,WATMP,GAMA,JHBE,IGTYP)   
+                    IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                     WA(JJ + 1) = WATMP(1)
                     WA(JJ + 2) = WATMP(2)
                     WA(JJ + 3) = WATMP(3)
@@ -314,8 +316,9 @@ c---
                       WATMP(4) = LBUF%SIG(KK(4)+I)			  
                       WATMP(5) = LBUF%SIG(KK(5)+I)			  
                       WATMP(6) = LBUF%SIG(KK(6)+I)			  
-                      IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),                                 
-     .                                JCVT,WATMP,GAMA,JHBE,IGTYP)   
+                      IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                       WA(JJ + 1) = WATMP(1)
                       WA(JJ + 2) = WATMP(2)
                       WA(JJ + 3) = WATMP(3)
@@ -390,8 +393,9 @@ c---
                       WATMP(4) = LBUF%SIG(KK(4)+I)			  
                       WATMP(5) = LBUF%SIG(KK(5)+I)			  
                       WATMP(6) = LBUF%SIG(KK(6)+I)			    
-                      IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),                                 
-     .                                JCVT,WATMP,GAMA,JHBE,IGTYP)
+                      IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                       WA(JJ + 1) = WATMP(1)
                       WA(JJ + 2) = WATMP(2)
                       WA(JJ + 3) = WATMP(3)
@@ -449,8 +453,9 @@ c---
                 WATMP(4) = LBUF%SIG(KK(4)+I)				      
                 WATMP(5) = LBUF%SIG(KK(5)+I)				      
                 WATMP(6) = LBUF%SIG(KK(6)+I)				      
-                IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),                                       
-     .                          JCVT,WATMP,GAMA,JHBE,IGTYP)                
+                IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                 WA(JJ + 1) = WATMP(1)                                      
                 WA(JJ + 2) = WATMP(2)                                      
                 WA(JJ + 3) = WATMP(3)                                      
@@ -520,8 +525,9 @@ c---
                       WATMP(4) = LBUF%SIG(KK(4)+I)			  
                       WATMP(5) = LBUF%SIG(KK(5)+I)			  
                       WATMP(6) = LBUF%SIG(KK(6)+I)			   
-                      IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),                                 
-     .                                JCVT,WATMP,GAMA,JHBE,IGTYP)
+                      IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                       WA(JJ + 1) = WATMP(1)
                       WA(JJ + 2) = WATMP(2)
                       WA(JJ + 3) = WATMP(3)
@@ -594,8 +600,9 @@ c---
                       WATMP(4) = LBUF%SIG(KK(4)+I)			  
                       WATMP(5) = LBUF%SIG(KK(5)+I)			  
                       WATMP(6) = LBUF%SIG(KK(6)+I)			     
-                      IF (IGLOB == 1) CALL SROTA6(X,IXS(1,N),                                 
-     .                                JCVT,WATMP,GAMA,JHBE,IGTYP)
+                      IF (IGLOB == 1) CALL SROTA6(
+     1   X,       IXS(1,N),JCVT,    WATMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                       WA(JJ + 1) = WATMP(1)
                       WA(JJ + 2) = WATMP(2)
                       WA(JJ + 3) = WATMP(3)

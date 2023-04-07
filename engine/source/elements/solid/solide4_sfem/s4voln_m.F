@@ -28,9 +28,15 @@ Chd|-- calls ---------------
 Chd|        JACOB_J33                     source/elements/solid/solide8e/s8edefo3.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE S4VOLN_M(VARNOD,NC1,NC2,NC3,NC4,MAT,OFFG,RHO,RHO0,
-     .                    FXX, FXY, FXZ, FYX, FYY, FYZ, FZX, FZY, FZZ,
-     .                    VOL0,VOLN,VOL0DP,VOLDP,AMU0,DXX,DYY,DZZ,MATPARAM,NEL)
+      SUBROUTINE S4VOLN_M(
+     1   VARNOD,  NC1,     NC2,     NC3,
+     2   NC4,     MAT,     OFFG,    RHO,
+     3   RHO0,    FXX,     FXY,     FXZ,
+     4   FYX,     FYY,     FYZ,     FZX,
+     5   FZY,     FZZ,     VOL0,    VOLN,
+     6   VOL0DP,  VOLDP,   AMU0,    DXX,
+     7   DYY,     DZZ,     MATPARAM,NEL,
+     8   ISMSTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,6 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),MAT(*),NEL
 C     REAL
       my_real
@@ -61,7 +68,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr18_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
@@ -80,12 +86,12 @@ C----------------------------
       MX = MAT(1)
       IF(ISMSTR==1.OR.ISMSTR==11)THEN
         IF (TT==ZERO) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(OFFG(I)==ZERO) CYCLE
            AMU0(I) = RHO(I)/RHO0-ONE
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(OFFG(I)==ZERO) CYCLE
            SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
            AMU(I) = FOUR/SUM -ONE
@@ -101,14 +107,14 @@ C----------------------------
       ELSE
 c-------------------------------------------------------------------------
         IF(IRESP==1)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
            SUMDP=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
            VOLDP(I) = FOURTH*SUMDP*VOL0DP(I) 
            VOLN(I) = VOLDP(I)
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
            SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
            VOLN(I)=FOURTH*SUM*VOL0(I) 
@@ -117,14 +123,14 @@ c-------------------------------------------------------------------------
         IF (MATPARAM(MX)%STRAIN_FORMULATION==1) THEN 
 C------compute AMU(t+dt) for large strain   
           IF(IRESP==1)THEN
-            AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - ONE
+            AMU(1:NEL) = VOL0DP(1:NEL)/VOLDP(1:NEL) - ONE
           ELSE
-            AMU(LFT:LLT) = VOL0(LFT:LLT)/VOLN(LFT:LLT) - ONE
+            AMU(1:NEL) = VOL0(1:NEL)/VOLN(1:NEL) - ONE
           END IF
           IF (TT==ZERO) THEN
-            AMU0(LFT:LLT) = AMU(LFT:LLT)
+            AMU0(1:NEL) = AMU(1:NEL)
           ELSE          
-            DO I = LFT,LLT
+            DO I = 1,NEL
               IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
               DTR   = (DXX(I) + DYY(I) + DZZ(I))*DT1
               DTREP_R = THIRD*((AMU(I)-AMU0(I))+DTR)/DT1
@@ -136,19 +142,19 @@ C------compute AMU(t+dt) for large strain
           END IF            
         ENDIF
         IF(ISMSTR>=10)THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
             IF(OFFG(I)==ZERO) CYCLE
             JAC_M(I)=VOLN(I)/VOL0(I)             
            ENDDO
         ENDIF
         IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3) THEN
           IF (TT==ZERO) THEN
-            DO I=LFT,LLT
+            DO I=1,NEL
              IF(OFFG(I)==ZERO) CYCLE
              AMU0(I) = RHO(I)/RHO0-ONE
             ENDDO
           ELSE
-            DO I=LFT,LLT
+            DO I=1,NEL
              IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))<=ONE) CYCLE
              SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
              AMU(I) = FOUR/SUM -ONE
@@ -163,7 +169,7 @@ C------compute AMU(t+dt) for large strain
             ENDDO
 C for totale strain modif in the next         
             IF(IRESP==1.AND.ISMSTR==12)THEN
-              DO I=LFT,LLT
+              DO I=1,NEL
                IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))<=ONE) CYCLE
                DVDP = DIVDE(I)*(VOL0(I)/VOLN(I))
                AMU0(I) = VOL0DP(I)/VOLDP(I)-ONE-DVDP
@@ -175,27 +181,27 @@ C for totale strain modif in the next
 C--------total strain modif      
        IF (ISMSTR==11) THEN
 C---- modify Dii w/ rho/rho_0       
-        DO I=LFT,LLT
+        DO I=1,NEL
           DTREP_R = -THIRD*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
           FXX(I) = FXX(I) + DTREP_R
           FYY(I) = FYY(I) + DTREP_R
           FZZ(I) = FZZ(I) + DTREP_R 
         ENDDO
        ELSEIF(ISMSTR>=10) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(ABS(OFFG(I))<=ONE) CYCLE
           DTREP_R = -THIRD*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
           FXX(I) = FXX(I) + DTREP_R
           FYY(I) = FYY(I) + DTREP_R
           FZZ(I) = FZZ(I) + DTREP_R 
         ENDDO
-        CALL JACOB_J33(JAC,
-     .                FXX, FXY, FXZ ,
-     .                FYX, FYY, FYZ ,
-     .                FZX, FZY, FZZ )
+        CALL JACOB_J33(
+     1   JAC,     FXX,     FXY,     FXZ,
+     2   FYX,     FYY,     FYZ,     FZX,
+     3   FZY,     FZZ,     NEL)
 C
         FAC=THIRD
-        DO I=LFT,LLT
+        DO I=1,NEL
          IF(ABS(OFFG(I))>ONE) CYCLE
          BASE = JAC_M(I)/MAX(EM20,JAC(I))
          JFAC =EXP(FAC*LOG(MAX(EM20,BASE)))

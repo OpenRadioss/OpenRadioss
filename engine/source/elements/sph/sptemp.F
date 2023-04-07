@@ -29,9 +29,10 @@ Chd|        WEIGHT1                       source/elements/sph/weight.F
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
       SUBROUTINE SPGRADT(
-     1    X        ,MS      ,SPBUF   ,KXSP     ,IXSP    ,
-     2    NOD2SP   ,ISPSYM  ,XSPSYM  ,WA      ,WACOMP  ,
-     3    WTEMP    ,WTR     ,WGRADT  )
+     1   X,       MS,      SPBUF,   KXSP,
+     2   IXSP,    NOD2SP,  ISPSYM,  XSPSYM,
+     3   WA,      WACOMP,  WTEMP,   WTR,
+     4   WGRADT,  LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,11 +44,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ISPSYM(NSPCOND,*)
       my_real
@@ -231,10 +234,11 @@ Chd|        WEIGHT1                       source/elements/sph/weight.F
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
       SUBROUTINE SPLAPLT(
-     1    X        ,MS      ,SPBUF   ,KXSP     ,IXSP    ,
-     2    NOD2SP   ,ISPSYM  ,XSPSYM  ,WA       ,WACOMP  ,
-     3    WGRADT   ,WGR     ,WGRADTSM,WLAPLT   ,WSMCOMP ,
-     4    LAMBDA   ,LAMBDR  )
+     1   X,       MS,      SPBUF,   KXSP,
+     2   IXSP,    NOD2SP,  ISPSYM,  XSPSYM,
+     3   WA,      WACOMP,  WGRADT,  WGR,
+     4   WGRADTSM,WLAPLT,  WSMCOMP, LAMBDA,
+     5   LAMBDR,  LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -246,11 +250,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ISPSYM(NSPCOND,*)
       my_real
@@ -634,8 +640,9 @@ Chd|-- calls ---------------
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
       SUBROUTINE SPGTSYM(
-     1    ISPCOND   ,XFRAME    ,ISPSYM    ,XSPSYM    ,WGRADT   ,
-     2    WGRADTSM   ,WASPACT   ,WGR       )
+     1   ISPCOND, XFRAME,  ISPSYM,  XSPSYM,
+     2   WGRADT,  WGRADTSM,WASPACT, WGR,
+     3   LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -652,6 +659,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER ISPCOND(NISPCOND,*), ISPSYM(NSPCOND,*), WASPACT(*)
       my_real
      .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) , WGRADT(3,*), 
@@ -751,7 +761,9 @@ Chd|-- called by -----------
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPTEMPEL(KXSP,TEMP,TEMPEL)
+      SUBROUTINE SPTEMPEL(
+     1   KXSP,    TEMP,    TEMPEL,  LFT,
+     2   LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -760,10 +772,12 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sphcom.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER KXSP(NISP,*)
       my_real TEMP(*),TEMPEL(*)
 C-----------------------------------------------

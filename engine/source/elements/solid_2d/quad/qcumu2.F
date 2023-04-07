@@ -26,10 +26,13 @@ Chd|-- called by -----------
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QCUMU2(E,
-     .   F11, F12, F21, F22, AX1,AX2,
-     .   T11, T12, T13, T14, T21, T22, T23,
-     .   T24, NC1, NC2, NC3, NC4,STI,STIFN)
+      SUBROUTINE QCUMU2(
+     1   E,       F11,     F12,     F21,
+     2   F22,     AX1,     AX2,     T11,
+     3   T12,     T13,     T14,     T21,
+     4   T22,     T23,     T24,     NC1,
+     5   NC2,     NC3,     NC4,     STI,
+     6   STIFN,   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,6 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
 C     REAL
       my_real
      .   E(3,*),STIFN(*),STI(*)
@@ -48,7 +52,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -57,7 +60,7 @@ C-------------------------
 C     ASSEMBLE
 C-------------------------
 C
-      DO 100 I=LFT,LLT
+      DO 100 I=1,NEL
 C
       E(2,NC1(I))=E(2,NC1(I))-F11(I)-AX1(I)-T11(I)
       E(3,NC1(I))=E(3,NC1(I))-F21(I)+AX2(I)-T21(I)
@@ -77,99 +80,5 @@ C
       STIFN(NC4(I))=STIFN(NC4(I))+STI(I)
 C
   100 CONTINUE
-      RETURN
-      END
-Chd|====================================================================
-Chd|  QCUMU2P                       source/elements/solid_2d/quad/qcumu2.F
-Chd|-- called by -----------
-Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE QCUMU2P(
-     .   F11, F12, F21, F22, AX1, AX2,
-     .   T11, T12, T13, T14, T21, T22, T23,
-     .   T24,FSKY,FSKYV,IADQ,STI)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "parit_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER  IADQ(4,*)
-C     REAL
-      my_real
-     .   FSKYV(LSKY,8),FSKY(8,LSKY),STI(*)
-C     REAL
-      my_real
-     .   F11(*), F12(*), F21(*), F22(*), AX1(*), AX2(*),
-     .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER  I, II, K
-C-------------------------
-C     ASSEMBLE
-C-------------------------
-C
-      IF(IVECTOR==1) THEN
-        DO I=LFT,LLT
-C
-          II=I+NFT
-          K = IADQ(1,II)
-          FSKYV(K,2)=-F11(I)-AX1(I)-T11(I)
-          FSKYV(K,3)=-F21(I)+AX2(I)-T21(I)
-          FSKYV(K,7)=STI(I)
-C
-          K = IADQ(2,II)
-          FSKYV(K,2)=-F12(I)-AX1(I)-T12(I)
-          FSKYV(K,3)=-F22(I)+AX2(I)-T22(I)
-          FSKYV(K,7)=STI(I)
-C
-          K = IADQ(3,II)
-          FSKYV(K,2)=+F11(I)-AX1(I)-T13(I)
-          FSKYV(K,3)=+F21(I)+AX2(I)-T23(I)
-          FSKYV(K,7)=STI(I)
-C
-          K = IADQ(4,II)
-          FSKYV(K,2)=+F12(I)-AX1(I)-T14(I)
-          FSKYV(K,3)=+F22(I)+AX2(I)-T24(I)
-          FSKYV(K,7)=STI(I)
-C
-        ENDDO
-C
-      ELSE
-        DO I=LFT,LLT
-C
-          II=I+NFT
-          K = IADQ(1,II)
-          FSKY(2,K)=-F11(I)-AX1(I)-T11(I)
-          FSKY(3,K)=-F21(I)+AX2(I)-T21(I)
-          FSKY(7,K) = STI(I)
-C
-          K = IADQ(2,II)
-          FSKY(2,K)=-F12(I)-AX1(I)-T12(I)
-          FSKY(3,K)=-F22(I)+AX2(I)-T22(I)
-          FSKY(7,K) = STI(I)
-C
-          K = IADQ(3,II)
-          FSKY(2,K)=+F11(I)-AX1(I)-T13(I)
-          FSKY(3,K)=+F21(I)+AX2(I)-T23(I)
-          FSKY(7,K) = STI(I)
-C
-          K = IADQ(4,II)
-          FSKY(2,K)=+F12(I)-AX1(I)-T14(I)
-          FSKY(3,K)=+F22(I)+AX2(I)-T24(I)
-          FSKY(7,K) = STI(I)
-C
-        ENDDO
-C
-      ENDIF
-C
       RETURN
       END

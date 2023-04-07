@@ -44,7 +44,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -61,6 +60,10 @@ C-----------------------------------------------
       INTEGER I, N1, N2, N3, N4, IE, NG,MAT, IFA
       my_real
      .  Y1, Y2, Z1, Z2,NY, NZ, DY, DZ,NORM,COND
+      INTEGER :: LLT ,NFT ,MTN ,IAD ,ITY ,NPT ,JALE ,ISMSTR ,JEUL ,JTUR ,JTHE ,JLAG ,JMULT ,JHBE
+      INTEGER :: JIVF, NVAUX, JPOR, JCVT, JCLOSE, JPLASOL, IREP, IINT, IGTYP
+      INTEGER :: ISORTH, ISORTHG, ISRAT, ISROT, ICSEN, IFAILURE, JSMS
+
 C-----------------------------------------------
       IERR = 0
 C---------------------------------

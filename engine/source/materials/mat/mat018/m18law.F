@@ -27,10 +27,12 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        INTERP                        source/tools/curve/interp.F   
 Chd|====================================================================
-      SUBROUTINE M18LAW(PM     ,VOLU   ,EINT   ,THETA  ,DELTAX ,
-     .                  TF     ,NPF    ,DT2T   ,NELTST ,ITYPTST,
-     .                  IPM    ,STI    ,VOLN   ,MAT    ,NGL    ,
-     .                  CONDE  )
+      SUBROUTINE M18LAW(
+     1   PM,      VOLU,    EINT,    THETA,
+     2   DELTAX,  TF,      NPF,     DT2T,
+     3   NELTST,  ITYPTST, IPM,     STI,
+     4   VOLN,    MAT,     NGL,     CONDE,
+     5   NEL,     ITY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,12 +45,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: ITY
       INTEGER NPF(*),IPM(NPROPMI,*),MAT(*),NGL(*)
 
       INTEGER NELTST,ITYPTST
@@ -68,18 +71,18 @@ C-----------------------------------------------
      .   SPH_1,A_1,B_1
 C-----------------------------------------------
 C=======================================================================
-      MX = MAT(LFT)
+      MX = MAT(1)
       SPH_1=PM(69,MX)
       A_1  =PM(75,MX)
       B_1  =PM(76,MX)
-      DO I=LFT,LLT
+      DO I=1,NEL
         VOLN(I)=VOLU(I)
         SPH(I)=SPH_1
         A(I)  =A_1
         B(I)  =B_1
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         IFUNC = IPM(12,MX)
         IF(IFUNC/=0)THEN
           RHO0=PM( 1,MX)
@@ -100,14 +103,14 @@ C=======================================================================
        T0=PM(79,MX)
        TIMESCAL = PM(41,MX)*TT
        NPOINT=(NPF(ITFUN+1)-NPF(ITFUN))/2
-       DO I=LFT,LLT
+       DO I=1,NEL
           CALL INTERP(TF(NPF(ITFUN)),TIMESCAL,NPOINT,THETA(I),BID)
          THETA(I) = T0*THETA(I)
          EINT(I)  = SPH(I)*THETA(I)
        ENDDO
       ENDIF
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         IKFUN = IPM(13,MX)
         IF (IKFUN /= 0) THEN
           TSCAL = THETA(I) / PM(42,MX) 
@@ -124,14 +127,14 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
         IF(IDT_THERM == 1)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
              IF(DTX(I)<DT_THERM)  DT_THERM = DTX(I)
              CONDE(I) = FOUR*VOLU(I)*(A(I)+B(I)*THETA(I))/DELTAX(I)*DELTAX(I)
 c             CONDE(I) = CONDE(I)*OFF(I)  
           ENDDO     
         ENDIF  
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         ! dt2, nelts, itypts remplaces par dt2t, neltst, ityptst
         IF(DTX(I)>DT2T) CYCLE
         DT2T=DTX(I)
@@ -139,7 +142,7 @@ c             CONDE(I) = CONDE(I)*OFF(I)
         ITYPTST=ITY        
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         STI(I)=ZERO
       END DO
 

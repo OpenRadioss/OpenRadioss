@@ -36,7 +36,7 @@ Chd|====================================================================
      6   NGL,     MGN,     EX,      EY,
      7   EZ,      XK,      XM,      XC,
      8   AK,      NC1,     NC2,     NUVAR,
-     9   UVAR,    DL0,     NEL)
+     9   UVAR,    DL0,     NEL,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*),
      .        NC1(*),NC2(*),NUVAR
@@ -197,14 +198,18 @@ C
         ENDIF
       ENDDO
 C
-      CALL REDEF3(F      ,XK    ,DL    ,FEP       ,DLOLD   ,
-     .            DPL    ,TF    ,NPF   ,XC        ,OFF     ,
-     .            E      ,DPL2  ,ANIM  ,ANIM_FE(11),IPOS   ,
-     .            FR_WAVE,XL0   ,DMN   ,DMX       ,DV      ,
-     .            FF     ,LSCALE,EE    ,GF3       ,IFUNC3  ,
-     .            YIELD  ,ALDP  ,AK    ,B         ,D       ,
-     .            IECROU ,IFUNC ,IFV   ,IFUNC2    ,EPLA    ,
-     .            UVAR(1,1),NOT_USED,NOT_USED,NOT_USED)
+      CALL REDEF3(
+     1   F,          XK,         DL,         FEP,
+     2   DLOLD,      DPL,        TF,         NPF,
+     3   XC,         OFF,        E,          DPL2,
+     4   ANIM,       ANIM_FE(11),IPOS,       FR_WAVE,
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELD,      ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       UVAR(1,1),
+     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
+     B   NFT)
       NINDX = 0
       DO I=1,NEL
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN

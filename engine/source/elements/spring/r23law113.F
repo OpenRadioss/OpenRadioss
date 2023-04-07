@@ -54,7 +54,8 @@ Chd|====================================================================
      C   FZ1,       FZ2,       MX1,       MX2,
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
-     F   DMELRT,    H3D_DATA,  JSMS)
+     F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
+     G   NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +80,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
@@ -166,9 +169,11 @@ C=======================================================================
      4   Z2,      PID,     MID,     RX1,
      5   RY1,     RZ1,     RX2,     RY2,
      6   RZ2,     NC1,     NC2,     NEL)
-       CALL R23SENS3(GEO                ,GBUF%OFF           ,SENSOR_TAB       ,GBUF%TOTDEPL(II(1)),
-     2              GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),GBUF%LENGTH(II(3)) ,
-     3              GBUF%TOTROT(II(1)) ,GBUF%TOTROT(II(2)) ,GBUF%TOTROT(II(3)),IGEO              ,PID                )
+       CALL R23SENS3(
+     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     2   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)), GBUF%LENGTH(II(2)),
+     3   GBUF%LENGTH(II(3)), GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)), GBUF%TOTROT(II(3)),
+     4   IGEO,               PID,                NEL)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -200,29 +205,34 @@ C
         ENDDO
 !!   is like r4def3 (spring type113)     
         CALL R23L113DEF3(
-     1 SKEW                   ,IPM                    ,IGEO                    ,MID                   ,PID                   ,
-     2 GEO                    ,BUFMAT                 ,GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,
-     3 GBUF%EINT              ,GBUF%TOTDEPL(II(1))    ,GBUF%TOTDEPL(II(2))    ,GBUF%TOTDEPL(II(3))    , NPF                   ,
-     4 TF                     ,OFF                    ,GBUF%DEP_IN_TENS(II(1)),GBUF%DEP_IN_TENS(II(2)),GBUF%DEP_IN_TENS(II(3)),
-     5 GBUF%DEP_IN_COMP(II(1)),GBUF%DEP_IN_COMP(II(2)),GBUF%DEP_IN_COMP(II(3)),GBUF%FOREP(II(1))      ,GBUF%FOREP(II(2))      ,
-     6 GBUF%FOREP(II(3))      ,GBUF%LENGTH(II(1))     , GBUF%LENGTH(II(2))     ,GBUF%LENGTH(II(3))     ,GBUF%MOM(II(1))       ,
-     7 GBUF%MOM(II(2))        ,GBUF%MOM(II(3))        ,GBUF%TOTROT(II(1))     ,GBUF%TOTROT(II(2))     ,GBUF%TOTROT(II(3))     ,
-     8 GBUF%ROT_IN_TENS(II(1)),GBUF%ROT_IN_TENS(II(2)),GBUF%ROT_IN_TENS(II(3)),GBUF%MOMEP(II(1))      ,GBUF%MOMEP(II(2))      ,
-     9 GBUF%MOMEP(II(3))      ,GBUF%ROT_IN_COMP(II(1)), GBUF%ROT_IN_COMP(II(2)),GBUF%ROT_IN_COMP(II(3)),ANIM                  ,
-     A GBUF%POSX              ,GBUF%POSY              , GBUF%POSZ              ,GBUF%POSXX             ,GBUF%POSYY            ,
-     B GBUF%POSZZ             ,FR_WAVE                ,GBUF%E6                ,NEL                    ,EXX2                   ,
-     C EYX2                   ,EZX2                   ,EXY2                   ,EYY2                   ,EZY2                   ,
-     D EXZ2                   ,EYZ2                   ,EZZ2                   ,AL2DP                  ,NGL                    ,
-     E GBUF%RUPTCRIT          ,GBUF%LENGTH_ERR        ,ALDP                   ,GBUF%YIELD(II(1))      ,GBUF%YIELD(II(2))      ,
-     F GBUF%YIELD(II(3))      ,GBUF%YIELD(II(4))       ,GBUF%YIELD(II(5))      ,GBUF%YIELD(II(6))      ,EXX                    ,
-     H EYX                   , EZX                     ,EXY                    ,EYY                   , EZY                    ,
-     I EXZ                    , EYZ                    ,EZZ                    ,XCR                   , RX1                    ,
-     J RY1                    , RZ1                    ,RX2                    ,RY2                   , RZ2                    , 
-     K XIN                    , AK                     ,XM                     ,XKM                   , XCM                    , 
-     L XKR                    , VX1                    ,VX2                    ,VY1                   ,VY2                    ,
-     I VZ1                    , VZ2                    ,NUVAR                  ,GBUF%VAR              ,GBUF%MASS              ,
-     J GBUF%DEFINI(II(1))     ,GBUF%DEFINI(II(2))      ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))    ,GBUF%DEFINI(II(5))     ,
-     K GBUF%DEFINI(II(6))     )
+     1   SKEW,                   IPM,                    IGEO,                   MID,
+     2   PID,                    GEO,                    BUFMAT,                 GBUF%FOR(II(1)),
+     3   GBUF%FOR(II(2)),        GBUF%FOR(II(3)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),
+     4   GBUF%TOTDEPL(II(2)),    GBUF%TOTDEPL(II(3)),    NPF,                    TF,
+     5   OFF,                    GBUF%DEP_IN_TENS(II(1)),GBUF%DEP_IN_TENS(II(2)),GBUF%DEP_IN_TENS(II(3)),
+     6   GBUF%DEP_IN_COMP(II(1)),GBUF%DEP_IN_COMP(II(2)),GBUF%DEP_IN_COMP(II(3)),GBUF%FOREP(II(1)),
+     7   GBUF%FOREP(II(2)),      GBUF%FOREP(II(3)),      GBUF%LENGTH(II(1)),     GBUF%LENGTH(II(2)),
+     8   GBUF%LENGTH(II(3)),     GBUF%MOM(II(1)),        GBUF%MOM(II(2)),        GBUF%MOM(II(3)),
+     9   GBUF%TOTROT(II(1)),     GBUF%TOTROT(II(2)),     GBUF%TOTROT(II(3)),     GBUF%ROT_IN_TENS(II(1)),
+     A   GBUF%ROT_IN_TENS(II(2)),GBUF%ROT_IN_TENS(II(3)),GBUF%MOMEP(II(1)),      GBUF%MOMEP(II(2)),
+     B   GBUF%MOMEP(II(3)),      GBUF%ROT_IN_COMP(II(1)),GBUF%ROT_IN_COMP(II(2)),GBUF%ROT_IN_COMP(II(3)),
+     C   ANIM,                   GBUF%POSX,              GBUF%POSY,              GBUF%POSZ,
+     D   GBUF%POSXX,             GBUF%POSYY,             GBUF%POSZZ,             FR_WAVE,
+     E   GBUF%E6,                NEL,                    EXX2,                   EYX2,
+     F   EZX2,                   EXY2,                   EYY2,                   EZY2,
+     G   EXZ2,                   EYZ2,                   EZZ2,                   AL2DP,
+     H   NGL,                    GBUF%RUPTCRIT,          GBUF%LENGTH_ERR,        ALDP,
+     I   GBUF%YIELD(II(1)),      GBUF%YIELD(II(2)),      GBUF%YIELD(II(3)),      GBUF%YIELD(II(4)),
+     J   GBUF%YIELD(II(5)),      GBUF%YIELD(II(6)),      EXX,                    EYX,
+     K   EZX,                    EXY,                    EYY,                    EZY,
+     L   EXZ,                    EYZ,                    EZZ,                    XCR,
+     M   RX1,                    RY1,                    RZ1,                    RX2,
+     N   RY2,                    RZ2,                    XIN,                    AK,
+     O   XM,                     XKM,                    XCM,                    XKR,
+     P   VX1,                    VX2,                    VY1,                    VY2,
+     Q   VZ1,                    VZ2,                    NUVAR,                  GBUF%VAR,
+     R   GBUF%MASS,              GBUF%DEFINI(II(1)),     GBUF%DEFINI(II(2)),     GBUF%DEFINI(II(3)),
+     S   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     NFT)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -234,32 +244,39 @@ C
      4   GBUF%G_DT,GBUF%DT,  NGL,      XCR,
      5   XIN,      XM,       XKM,      XCM,
      6   XKR,      NC1,      NC2,      JSMS)
-        CALL R23BILAN(GBUF%EINT,PARTSAV,IXR    ,GEO  ,V    ,
-     2                IPARTR   ,GBUF%MASS,GRESAV ,GRTH ,IGRTH,
-     3                GBUF%OFF ,NC1               ,NC2    ,X   ,VR)
+        CALL R23BILAN(
+     1   GBUF%EINT,PARTSAV,  IXR,      GEO,
+     2   V,        IPARTR,   GBUF%MASS,GRESAV,
+     3   GRTH,     IGRTH,    GBUF%OFF, NC1,
+     4   NC2,      X,        VR,       NEL,
+     5   IGRE)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
      3   H3D_DATA,       NEL)
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
-     1       F              ,GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),AR  ,
-     2       GBUF%MOM(II(1)),GBUF%MOM(II(2)),GBUF%MOM(II(3)),STI            ,STIR,
-     3       STIFN          ,STIFR          ,FX1            ,FX2            ,FY1 ,
-     4       FY2            ,FZ1            ,FZ2            ,MX1            ,MX2 ,
-     5       MY1            ,MY2            ,MZ1            ,MZ2            ,AL  ,
-     6       EXX            ,EYX            ,EZX            ,EXY            ,EYY ,
-     7       EZY            ,EXZ            ,EYZ            ,EZZ            ,NC1 ,
-     8       NC2            )
+     1   F,              GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),
+     2   AR,             GBUF%MOM(II(1)),GBUF%MOM(II(2)),GBUF%MOM(II(3)),
+     3   STI,            STIR,           STIFN,          STIFR,
+     4   FX1,            FX2,            FY1,            FY2,
+     5   FZ1,            FZ2,            MX1,            MX2,
+     6   MY1,            MY2,            MZ1,            MZ2,
+     7   AL,             EXX,            EYX,            EZX,
+     8   EXY,            EYY,            EZY,            EXZ,
+     9   EYZ,            EZZ,            NC1,            NC2,
+     A   NEL)
         ELSE
           CALL R4CUM3P(
-     1       GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),GBUF%MOM(II(2)),
-     2       GBUF%MOM(II(3)),STI            ,STIR           ,FSKY           ,FSKY           ,
-     3       IADR           ,FX1            ,FX2            ,FY1            ,FY2            ,
-     4       FZ1            ,FZ2            ,MX1            ,MX2            ,MY1            ,
-     5       MY2            ,MZ1            ,MZ2            ,EXX            ,EYX            ,
-     6       EZX            ,EXY            ,EYY            ,EZY            ,EXZ            ,
-     7       EYZ            ,EZZ            ,AL             )
+     1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
+     2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),STI,            STIR,
+     3   FSKY,           FSKY,           IADR,           FX1,
+     4   FX2,            FY1,            FY2,            FZ1,
+     5   FZ2,            MX1,            MX2,            MY1,
+     6   MY2,            MZ1,            MZ2,            EXX,
+     7   EYX,            EZX,            EXY,            EYY,
+     8   EZY,            EXZ,            EYZ,            EZZ,
+     9   AL,             NEL,            NFT)
         ENDIF
 C-----------------------------------------------
       RETURN

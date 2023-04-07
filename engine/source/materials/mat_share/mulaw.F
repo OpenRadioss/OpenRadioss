@@ -134,38 +134,45 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE MULAW (NFT     ,MTN     ,JCVT     ,
-     2                  PM      ,OFF     ,SIG      ,EINT        ,RHO    ,
-     3                  QOLD    ,VOL     ,STRAIN   ,SIGL        ,GAMA   ,
-     4                  UVAR    ,BUFMAT  ,TF       ,NPF         ,STIFN  ,
-     5                  MAT     ,NGL     ,NUVAR    ,DT2T        ,NELTST ,
-     6                  ITYPTST ,OFFG    ,GEO      ,PID         ,EPSD   ,
-     7                  LTEMP   ,WXX     ,
-     9                  WYY     ,WZZ     ,JSPH     ,MUMAX       ,SSP    ,
-     A                  AIRE    ,VOLN    ,VD2      ,DELTAX      ,VIS    ,
-     B                  D1      ,D2      ,D3       ,D4          ,D5     ,
-     C                  D6      ,PNEW    ,PSH      ,Q           ,SSP_EQ ,
-     D                  DVOL    ,SOLD1   ,SOLD2    ,SOLD3       ,SOLD4  ,
-     E                  SOLD5   ,SOLD6   ,RX       ,RY          ,RZ     ,
-     F                  SX      ,SY      ,SZ       ,TX          ,TY     ,
-     G                  TZ      ,IPLA    ,SIGY     ,DEFP        ,ISMSTR ,
-     H                  MFXX    ,MFXY    ,MFXZ     ,MFYX        ,MFYY   ,
-     I                  MFYZ    ,MFZX    ,MFZY     ,MFZZ        ,IPM    ,
-     J                  ISORTH  ,FBUF    ,NFAIL    ,NPG         ,SIGDD  ,
-     K                  DXY     ,DYX     ,DYZ      ,DZY         ,DZX    ,
-     L                  DXZ     ,FR_WAV  ,V        ,VARNL       ,
-     M                  W       ,IX      ,X        ,JTHE        ,ET     ,
-     N                  MSSA    ,DMELS   ,IPTR     ,IPTS        ,IPTT   ,
-     O                  TABLE   ,FVD2    ,FDELTAX  ,FSSP        ,FQVIS  ,
-     P                  TEMPEL  ,IGEO    ,SIGV     ,
-     Q                  AL_IMP  ,SIGNOR  ,ISTRAIN  ,NG          ,ELBUF_TAB,
-     R                  VBUF    ,ILAY    ,VK       ,ALE_CONNECT ,IPARG  ,
-     S                  BUFVOIS ,VDX     ,VDY      ,VDZ         ,IHET   ,
-     T                  CONDE   ,ITASK   ,IEXPAN   ,VOL_AVG     ,AMU    ,
-     U                  EPSTH3  ,EPSTH   ,SVISC    ,NEL         ,ETOTSH ,
-     V                  ISELECT ,TSTAR   ,MUOLD    ,DPDM        ,
-     W                  RHOREF  ,RHOSP   ,NVARTMP  ,VARTMP      ,EINTTH ,
-     X                  MATPARAM_TAB     ,NLOC_DMG )
+      SUBROUTINE MULAW(
+     1   NFT,         MTN,         JCVT,        PM,
+     2   OFF,         SIG,         EINT,        RHO,
+     3   QOLD,        VOL,         STRAIN,      SIGL,
+     4   GAMA,        UVAR,        BUFMAT,      TF,
+     5   NPF,         STIFN,       MAT,         NGL,
+     6   NUVAR,       DT2T,        NELTST,      ITYPTST,
+     7   OFFG,        GEO,         PID,         EPSD,
+     8   LTEMP,       WXX,         WYY,         WZZ,
+     9   JSPH,        MUMAX,       SSP,         AIRE,
+     A   VOLN,        VD2,         DELTAX,      VIS,
+     B   D1,          D2,          D3,          D4,
+     C   D5,          D6,          PNEW,        PSH,
+     D   Q,           SSP_EQ,      DVOL,        SOLD1,
+     E   SOLD2,       SOLD3,       SOLD4,       SOLD5,
+     F   SOLD6,       RX,          RY,          RZ,
+     G   SX,          SY,          SZ,          TX,
+     H   TY,          TZ,          IPLA,        SIGY,
+     I   DEFP,        ISMSTR,      MFXX,        MFXY,
+     J   MFXZ,        MFYX,        MFYY,        MFYZ,
+     K   MFZX,        MFZY,        MFZZ,        IPM,
+     L   ISORTH,      FBUF,        NFAIL,       NPG,
+     M   SIGDD,       DXY,         DYX,         DYZ,
+     N   DZY,         DZX,         DXZ,         FR_WAV,
+     O   V,           VARNL,       W,           IX,
+     P   X,           JTHE,        ET,          MSSA,
+     Q   DMELS,       IPTR,        IPTS,        IPTT,
+     R   TABLE,       FVD2,        FDELTAX,     FSSP,
+     S   FQVIS,       TEMPEL,      IGEO,        SIGV,
+     T   AL_IMP,      SIGNOR,      ISTRAIN,     NG,
+     U   ELBUF_TAB,   VBUF,        ILAY,        VK,
+     V   ALE_CONNECT, IPARG,       BUFVOIS,     VDX,
+     W   VDY,         VDZ,         IHET,        CONDE,
+     X   ITASK,       IEXPAN,      VOL_AVG,     AMU,
+     Y   EPSTH3,      EPSTH,       SVISC,       NEL,
+     Z   ETOTSH,      ISELECT,     TSTAR,       MUOLD,
+     1   DPDM,        RHOREF,      RHOSP,       NVARTMP,
+     2   VARTMP,      EINTTH,      MATPARAM_TAB,NLOC_DMG,
+     3   ITY,         JTUR,        JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -195,6 +202,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JSMS
       INTEGER NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,NVARTMP,
      .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
      .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
@@ -1160,17 +1170,24 @@ c
 C qa=qb=zero by default for law70        
         IF (IGEO(31,PID(1)) == 1) FACQ0 = ZERO
 C        
-        CALL SIGEPS70(NEL ,NPAR,NUVAR,NFUNC,IFUNC,NPF ,
-     2                  TF  ,TT,DT1  ,BUFMAT,RHO0,RHO ,
-     3                  VOLN,EINT,OFFG,RHOREF,RHOSP,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     A                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
-     B                  PM  ,IPM ,MAT ,EPSD ,ET   )
+        CALL SIGEPS70(
+     1   NEL,     NPAR,    NUVAR,   NFUNC,
+     2   IFUNC,   NPF,     TF,      TT,
+     3   DT1,     BUFMAT,  RHO0,    RHO,
+     4   VOLN,    EINT,    OFFG,    RHOREF,
+     5   RHOSP,   EP1,     EP2,     EP3,
+     6   EP4,     EP5,     EP6,     DE1,
+     7   DE2,     DE3,     DE4,     DE5,
+     8   DE6,     ES1,     ES2,     ES3,
+     9   ES4,     ES5,     ES6,     SO1,
+     A   SO2,     SO3,     SO4,     SO5,
+     B   SO6,     S1,      S2,      S3,
+     C   S4,      S5,      S6,      SV1,
+     D   SV2,     SV3,     SV4,     SV5,
+     E   SV6,     SSP,     VIS,     UVAR,
+     F   OFF,     NGL,     PM,      IPM,
+     G   MAT,     EPSD,    ET,      ISMSTR,
+     H   IHET,    JSMS)
 C
       ELSEIF (MTN == 71) THEN
         CALL SIGEPS71(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
@@ -1278,17 +1295,23 @@ c
      C                  AMU )
 C 
       ELSEIF (MTN == 80) THEN
-        CALL SIGEPS80(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TT,DT1,UPARAM,
-     3                  RHO0,RHO ,VOLN,EINT,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     A                  SSP ,VIS ,UVAR,OFF  ,NGL  ,IPM ,
-     B                  MAT ,EPSD,SIGY,DEFP ,TABLE,TEMPEL,
-     C                  NVARTMP   ,VARTMP   ,TREPSTH,EINTTH)
+        CALL SIGEPS80(
+     1   NEL,     NPAR,    NUVAR,   NFUNC,
+     2   IFUNC,   NPF,     TF,      TT,
+     3   DT1,     UPARAM,  RHO0,    RHO,
+     4   VOLN,    EINT,    EP1,     EP2,
+     5   EP3,     EP4,     EP5,     EP6,
+     6   DE1,     DE2,     DE3,     DE4,
+     7   DE5,     DE6,     ES1,     ES2,
+     8   ES3,     ES4,     ES5,     ES6,
+     9   SO1,     SO2,     SO3,     SO4,
+     A   SO5,     SO6,     S1,      S2,
+     B   S3,      S4,      S5,      S6,
+     C   SSP,     VIS,     UVAR,    OFF,
+     D   NGL,     IPM,     MAT,     EPSD,
+     E   SIGY,    DEFP,    TABLE,   TEMPEL,
+     F   NVARTMP, VARTMP,  TREPSTH, EINTTH,
+     G   JTHE)
         DO I=1,NEL
              D1(I) = EP1(I)
              D2(I) = EP2(I)
@@ -1494,8 +1517,11 @@ c
       ELSEIF (MTN == 101) THEN 
 C structure loading
            CALL SREPLOC3(
-     .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       R11  ,R21  ,R31  ,R12  ,R22  ,R32  ,R13  ,R23  ,R33  )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R21,     R31,
+     4   R12,     R22,     R32,     R13,
+     5   R23,     R33,     NEL)
             DO I=1,NEL
              FPSXX(I) = ONE+MFXX(I)
              FPSYY(I) = ONE+MFYY(I)
@@ -2309,30 +2335,40 @@ c   this subroutine return the new bulk viscosity q
 c-----------------------
       IF (JSPH == 0) THEN  
 C
-        CALL MQVISCB(                                            
-     1           PM      ,OFF     ,RHO    ,BID1    ,EL_TEMP     ,SSP   ,   
-     2           BID3    ,STIFN   ,DT2T   ,NELTST  ,ITYPTST     ,AIRE  ,
-     3           OFFG    ,GEO     ,PID    ,VOLN    ,VD2         ,DELTAX,
-     4           VIS     ,D1      ,D2      ,D3     ,PNEW        ,PSH   ,
-     5           MAT     ,NGL     ,Q       ,SSP_EQ ,VOL     ,MSSA      ,
-     6           DMELS   ,IGEO    ,FACQ0   ,CONDE  ,GBUF%DT ,GBUF%G_DT ,
-     7           IPM     ,RHOREF  ,RHOSP   )
+        CALL MQVISCB(
+     1   PM,       OFF,      RHO,      BID1,
+     2   EL_TEMP,  SSP,      BID3,     STIFN,
+     3   DT2T,     NELTST,   ITYPTST,  AIRE,
+     4   OFFG,     GEO,      PID,      VOLN,
+     5   VD2,      DELTAX,   VIS,      D1,
+     6   D2,       D3,       PNEW,     PSH,
+     7   MAT,      NGL,      Q,        SSP_EQ,
+     8   VOL,      MSSA,     DMELS,    IGEO,
+     9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
+     A   IPM,      RHOREF,   RHOSP,    NEL,
+     B   ITY,      ISMSTR,   JTUR,     JTHE,
+     C   JSMS)
 !------------------------------------------------
       ELSE
-        CALL MDTSPH(                                             
-     1           PM      ,OFF     ,RHO     ,BID1      ,EL_TEMP ,       
-     2           BID3    ,STIFN   ,DT2T    ,NELTST    ,ITYPTST ,
-     3           OFFG    ,GEO     ,PID     ,MUMAX     ,SSP     ,
-     4           VOLN    ,VD2     ,DELTAX  ,VIS       ,D1      ,
-     5           D2      ,D3      ,PNEW    ,PSH       ,MAT     ,
-     6           NGL     ,Q       ,SSP_EQ  ,GBUF%G_DT ,GBUF%DT)
+        CALL MDTSPH(
+     1   PM,       OFF,      RHO,      BID1,
+     2   EL_TEMP,  BID3,     STIFN,    DT2T,
+     3   NELTST,   ITYPTST,  OFFG,     GEO,
+     4   PID,      MUMAX,    SSP,      VOLN,
+     5   VD2,      DELTAX,   VIS,      D1,
+     6   D2,       D3,       PNEW,     PSH,
+     7   MAT,      NGL,      Q,        SSP_EQ,
+     8   GBUF%G_DT,GBUF%DT,  NEL,      ITY,
+     9   JTUR,     JTHE)
       ENDIF
 c-----------
-      IF (MTN == 77 ) CALL FMQVISCB (                         
-     .                NEL ,PM   ,GEO , PID  ,MAT   ,NGL   ,   
-     .                  NELTST,ITYPTST,DT2T, UVAR ,
-     .                  FSSP ,OFF ,OFFG, AIRE, FDELTAX ,VIS  ,
-     .                  FVD2,FQVIS) 
+      IF (MTN == 77 ) CALL FMQVISCB(
+     1   NEL,                  PM,                   GEO,
+     2   PID,                  MAT,                  NGL,                  NELTST,
+     3   ITYPTST,              DT2T,                 UVAR,                 FSSP,
+     4   OFF,                  OFFG,                 AIRE,                 FDELTAX,
+     5   VIS,                  FVD2,                 FQVIS,                ITY,
+     6   ISMSTR)
 C-----------
       IF (MTN == 67) THEN
         DO I=1,NEL

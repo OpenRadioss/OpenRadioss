@@ -32,18 +32,31 @@ Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|        SREPISOT3                     source/elements/solid/solide/srepiso3.F
 Chd|====================================================================
-      SUBROUTINE SRCOORK(X,IXS,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   OFFG,OFF,SAV,
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,KHBE,GAMA0 ,GAMA,
-     .   NEL)
+      SUBROUTINE SRCOORK(
+     1   X,       IXS,     X1,      X2,
+     2   X3,      X4,      X5,      X6,
+     3   X7,      X8,      Y1,      Y2,
+     4   Y3,      Y4,      Y5,      Y6,
+     5   Y7,      Y8,      Z1,      Z2,
+     6   Z3,      Z4,      Z5,      Z6,
+     7   Z7,      Z8,      OFFG,    OFF,
+     8   SAV,     R11,     R12,     R13,
+     9   R21,     R22,     R23,     R31,
+     A   R32,     R33,     NC1,     NC2,
+     B   NC3,     NC4,     NC5,     NC6,
+     C   NC7,     NC8,     NGL,     MXT,
+     D   NGEO,    K11,     K12,     K13,
+     E   K14,     K15,     K16,     K17,
+     F   K18,     K22,     K23,     K24,
+     G   K25,     K26,     K27,     K28,
+     H   K33,     K34,     K35,     K36,
+     I   K37,     K38,     K44,     K45,
+     J   K46,     K47,     K48,     K55,
+     K   K56,     K57,     K58,     K66,
+     L   K67,     K68,     K77,     K78,
+     M   K88,     KHBE,    GAMA0,   GAMA,
+     N   NEL,     ISMSTR,  JHBE,    JCVT,
+     O   IREP,    IGTYP,   ISORTH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,11 +68,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JHBE
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: IREP
+      INTEGER, INTENT(IN) :: IGTYP
+      INTEGER, INTENT(IN) :: ISORTH
       INTEGER NEL
 C     REAL
       my_real
@@ -103,8 +121,8 @@ C     REAL
      .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
 C-----------------------------------------------
 C
-      MXT_1 = IXS(1,LFT)
-      DO I=LFT,LLT
+      MXT_1 = IXS(1,1)
+      DO I=1,NEL
       NGEO(I)=IXS(10,I)
       NGL(I)=IXS(11,I)
       MXT(I)=MXT_1
@@ -120,7 +138,7 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
         Z1(I)=X(3,NC1(I))
@@ -150,10 +168,15 @@ C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
       CALL SREPISOT3(
-     .       X1, X2, X3, X4, X5, X6, X7, X8,
-     .       Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .       Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .       RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
+     1   X1,      X2,      X3,      X4,
+     2   X5,      X6,      X7,      X8,
+     3   Y1,      Y2,      Y3,      Y4,
+     4   Y5,      Y6,      Y7,      Y8,
+     5   Z1,      Z2,      Z3,      Z4,
+     6   Z5,      Z6,      Z7,      Z8,
+     7   RX,      RY,      RZ,      SX,
+     8   SY,      SZ,      TX,      TY,
+     9   TZ,      NEL)
       IF (KHBE==15) THEN
        CALL SCORTHO3(
      1   RX,      RY,      RZ,      SX,
@@ -164,17 +187,23 @@ C-----------
       ELSEIF (KHBE==1 .OR. KHBE==2. OR. KHBE == 12 .OR. KHBE==14 .OR.
      .    KHBE==17.OR .KHBE==24) THEN
        CALL SORTHO3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .       R12, R13, R11, R22, R23, R21, R32, R33, R31)
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R12,     R13,     R11,
+     4   R22,     R23,     R21,     R32,
+     5   R33,     R31,     NEL)
       ELSE
        CALL SORTHO3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .       R11, R12, R13, R21, R22, R23, R31, R32, R33)
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R12,     R13,
+     4   R21,     R22,     R23,     R31,
+     5   R32,     R33,     NEL)
       ENDIF
 C-------sauf thick shells --------------     
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
-          DO I=LFT,LLT                                          
+          DO I=1,NEL                                          
             GAMA(I,1) = ONE                             
             GAMA(I,2) = ZERO                              
             GAMA(I,3) = ZERO
@@ -184,14 +213,20 @@ C-------sauf thick shells --------------
           ENDDO      
         ELSE    
           CALL SORTHDIR3(
-     .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .           R11  ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  ,
-     .           GAMA0,GAMA )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R12,     R13,
+     4   R21,     R22,     R23,     R31,
+     5   R32,     R33,     GAMA0,   GAMA,
+     6   NEL,     IREP)
          IF (KHBE==17) THEN
           CALL SORTHDIR17(
-     .       RX    ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       R11   ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  ,
-     .       GAMA )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R11,     R12,     R13,
+     4   R21,     R22,     R23,     R31,
+     5   R32,     R33,     GAMA,    NEL,
+     6   JCVT)
          END IF 
         ENDIF
       ENDIF
@@ -202,7 +237,7 @@ C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
      .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN
        IF (JHBE==14.OR.JHBE==24.OR.JHBE==15.OR.JHBE==222) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
        IF(OFFG(I)>ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
@@ -305,7 +340,7 @@ C       SAV(I,21)=Z7(I)-Z8(I)
        ENDDO
 C------due to different initial systems and [K] is calculated using always HA8 system      
        ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
         IF(OFFG(I)>ONE)THEN
          X1(I)=SAV(I,1)
          Y1(I)=SAV(I,2)
@@ -335,7 +370,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         ENDIF
         ENDDO
         IF (JCVT==0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
         XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
         YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
         ZL=R13(I)*X1(I)+R23(I)*Y1(I)+R33(I)*Z1(I)
@@ -386,7 +421,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         Z8(I)=ZL
         ENDDO
         ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
         XL=Z1(I)
         YL=X1(I)
         ZL=Y1(I)
@@ -437,7 +472,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         Z8(I)=ZL
         ENDDO
         ENDIF !IF (JCVT==0)
-        DO I=LFT,LLT
+        DO I=1,NEL
         IF(OFFG(I)<=ONE)THEN
 C       SAV dans rep. local.
         SAV(I,1)=X1(I)-X8(I)
@@ -467,7 +502,7 @@ C       SAV dans rep. local.
        ENDIF !IF (JHBE==14.OR.JHBE==24...)
 C
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
         XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
         YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
         ZL=R13(I)*X1(I)+R23(I)*Y1(I)+R33(I)*Z1(I)
@@ -522,7 +557,7 @@ C
        ENDIF
 C-----------
       DO J=1,9      
-      DO I=LFT,LLT
+      DO I=1,NEL
         K11(J,I)=ZERO
         K12(J,I)=ZERO
         K13(J,I)=ZERO
@@ -564,107 +599,3 @@ C-----------
 C-----------
       RETURN
       END
-Chd|====================================================================
-Chd|  SORTHDIR17                    source/elements/solid/solide8z/srcoork.F
-Chd|-- called by -----------
-Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SORTHDIR17(
-     .       RX    ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X   ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
-     .       GAMA )
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real, DIMENSION(LLT), INTENT(IN)    ::
-     .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
-     .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
-      my_real, 
-     .  DIMENSION(MVSIZ,6), INTENT(INOUT) :: GAMA
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-      my_real
-     .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,D1,D2,D3,GX,GY,GZ,SUMA,S2,S3
-      my_real, 
-     .  DIMENSION(6)  :: GAMA0
-C=======================================================================
-        IF (JCVT== 0) THEN
-C------U,V,DW ->R,S,T orthogalized        
-         DO I=LFT,LLT                                            
-          SUMA = ONE/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
-          UX = RX(I)*SUMA
-          UY = RY(I)*SUMA
-          UZ = RZ(I)*SUMA             
-          WX = UY*SZ(I)-UZ*SY(I)                 
-          WY = UZ*SX(I)-UX*SZ(I)                 
-          WZ = UX*SY(I)-UY*SX(I)                 
-          SUMA = ONE/SQRT(WX*WX + WY*WY + WZ*WZ)
-          WX = WX*SUMA                 
-          WY = WY*SUMA                 
-          WZ = WZ*SUMA                 
-          VX = WY*UZ-WZ*UY                 
-          VY = WZ*UX-WX*UZ                 
-          VZ = WX*UY-WY*UX                 
-          SUMA = ONE/SQRT(VX*VX + VY*VY + VZ*VZ)
-          VX = VX*SUMA                 
-          VY = VY*SUMA                 
-          VZ = VZ*SUMA
-C---------refind --_global ortho          
-          GAMA0(1)= GAMA(I,1)*UX+GAMA(I,2)*VX+GAMA(I,3)*WX
-          GAMA0(2)= GAMA(I,1)*UY+GAMA(I,2)*VY+GAMA(I,3)*WY
-          GAMA0(3)= GAMA(I,1)*UZ+GAMA(I,2)*VZ+GAMA(I,3)*WZ
-C
-          GAMA0(4)= GAMA(I,4)*UX+GAMA(I,5)*VX+GAMA(I,6)*WX
-          GAMA0(5)= GAMA(I,4)*UY+GAMA(I,5)*VY+GAMA(I,6)*WY
-          GAMA0(6)= GAMA(I,4)*UZ+GAMA(I,5)*VZ+GAMA(I,6)*WZ
-C         
-          GAMA(I,1)=
-     .      GAMA0(1)*E1X(I)+GAMA0(2)*E1Y(I)+GAMA0(3)*E1Z(I)
-          GAMA(I,2)=
-     .      GAMA0(1)*E2X(I)+GAMA0(2)*E2Y(I)+GAMA0(3)*E2Z(I)
-          GAMA(I,3)=
-     .      GAMA0(1)*E3X(I)+GAMA0(2)*E3Y(I)+GAMA0(3)*E3Z(I)
-          GAMA(I,4)=
-     .      GAMA0(4)*E1X(I)+GAMA0(5)*E1Y(I)+GAMA0(6)*E1Z(I)
-          GAMA(I,5)=
-     .      GAMA0(4)*E2X(I)+GAMA0(5)*E2Y(I)+GAMA0(6)*E2Z(I)
-          GAMA(I,6)=
-     .      GAMA0(4)*E3X(I)+GAMA0(5)*E3Y(I)+GAMA0(6)*E3Z(I)
-         ENDDO                                     
-C
-        ELSE
-          DO I=LFT,LLT
-            GAMA0(1)  = GAMA(I,1)   
-            GAMA0(2)  = GAMA(I,2)   
-            GAMA0(3)  = GAMA(I,3)   
-            GAMA0(4)  = GAMA(I,4)   
-            GAMA0(5)  = GAMA(I,5)   
-            GAMA0(6)  = GAMA(I,6)   
-!                                       
-            GAMA(I,1) = GAMA0(3)                             
-            GAMA(I,2) = GAMA0(1)                             
-            GAMA(I,3) = GAMA0(2)
-            GAMA(I,4) = GAMA0(6)                             
-            GAMA(I,5) = GAMA0(4)                           
-            GAMA(I,6) = GAMA0(5)
-          ENDDO      
-        ENDIF                                      
-C-------------
-      RETURN
-      END SUBROUTINE SORTHDIR17

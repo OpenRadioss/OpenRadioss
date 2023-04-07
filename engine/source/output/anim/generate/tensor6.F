@@ -233,7 +233,9 @@ C             pour JHBE=14, valeurs moyennes est dans rep. corota.
                 GAMA(5)=ONE
                 GAMA(6)=ZERO
               END IF
-                CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA,JHBE,IGTYP)
+                CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
              ENDIF
             ENDDO
            ENDIF
@@ -256,7 +258,9 @@ c-----------
              DO I=LFT,LLT                        
                N = I + NFT                         
                IF(EL2FA(NN2+N) /= 0)THEN           
-                 CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA,JHBE,IGTYP)     
+                 CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                ENDIF                               
              ENDDO                                 
 c-----------
@@ -358,8 +362,9 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                         GAMA(5)=ONE
                         GAMA(6)=ZERO
                       END IF
-                     CALL SROTA6(X,IXS(1,N),KCVT,
-     .                EVAR(1,I),GAMA, JHBE,IGTYP)       
+                     CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                     ENDIF
                    ENDDO
                  ENDIF
@@ -440,8 +445,9 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
         	        	  GAMA(5)=ONE
         	        	  GAMA(6)=ZERO
         	        	END IF
-        	        	CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	    EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	              ENDIF
         	          CASE (10)	  
         	              IF(EL2FA(NN2+N) /= 0)THEN
@@ -460,8 +466,9 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
         	        	  GAMA(5)=ONE
         	        	  GAMA(6)=ZERO
         	        	END IF
-        	        	CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	    EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	              ENDIF
         	          CASE (100)	 
         	              IF(EL2FA(NN2+N) /= 0)THEN
@@ -480,8 +487,9 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
         	        	  GAMA(5)=ONE
         	        	  GAMA(6)=ZERO
         	        	END IF
-        	        	CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	    EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	              ENDIF
         	          END SELECT					     
         	        ENDIF
@@ -506,8 +514,9 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
         	        	  GAMA(5)=ONE
         	        	  GAMA(6)=ZERO
         	        	END IF
-        	        	CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	    EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	              ENDIF
         	          CASE (10)	  
         	              IF(EL2FA(NN2+N) /= 0)THEN
@@ -526,8 +535,9 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
         	        	  GAMA(5)=ONE
         	        	  GAMA(6)=ZERO
         	        	END IF
-        	        	CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	    EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	              ENDIF
         	          CASE (100)	 
         	              IF(EL2FA(NN2+N) /= 0)THEN
@@ -546,8 +556,9 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
         	        	  GAMA(5)=ONE
         	        	  GAMA(6)=ZERO
         	        	END IF
-        	        	CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	    EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	              ENDIF
         	          END SELECT					     
         	        ENDIF
@@ -603,8 +614,9 @@ C       	         STRAIN TENSOR IN GLOBAL SYSTEM
         	        	   GAMA(5)=ONE
         	        	   GAMA(6)=ZERO
         	        	 END IF
-        	        	 CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	     EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	 CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	               ENDIF
         	           CASE (10)	   
         	               IF(EL2FA(NN2+N) /= 0)THEN
@@ -623,8 +635,9 @@ C       	         STRAIN TENSOR IN GLOBAL SYSTEM
         	        	   GAMA(5)=ONE
         	        	   GAMA(6)=ZERO
         	        	 END IF
-        	        	 CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	     EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	 CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	               ENDIF
         	           CASE (100)	  
         	               IF(EL2FA(NN2+N) /= 0)THEN
@@ -643,8 +656,9 @@ C       	         STRAIN TENSOR IN GLOBAL SYSTEM
         	        	   GAMA(5)=ONE
         	        	   GAMA(6)=ZERO
         	        	 END IF
-        	        	 CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	     EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	 CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	               ENDIF
         	           END SELECT					      
         	         ENDIF
@@ -699,8 +713,9 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE				   
                       GAMA(6)=ZERO				   
                     END IF					   
-                    CALL SROTA6(X,IXS(1,N),KCVT,		   
-     .          	      EVAR(1,I),GAMA, JHBE,IGTYP)	   
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF 					   
                 ENDDO 
               ENDIF
@@ -788,8 +803,9 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE                          
                       GAMA(6)=ZERO                        
                     ENDIF                                
-                    CALL SROTA6(X,IXS(1,N),KCVT,            
-     .                   EVAR(1,I),GAMA, JHBE,IGTYP)             
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF                                    
                 ENDDO                                     
               ENDIF
@@ -893,8 +909,9 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE                       
                       GAMA(6)=ZERO                     
                     END IF                             
-                    CALL SROTA6(X,IXS(1,N),KCVT,       
-     .                   EVAR(1,I),GAMA, JHBE,IGTYP)        
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF                                
                 ENDDO                                 
               ENDIF                                   
@@ -960,8 +977,9 @@ C             DAMAGE IN GLOBAL SYSTEM
                     GAMA(5)=ONE
                     GAMA(6)=ZERO
                   END IF
-                  CALL SROTA6(X,IXS(1,N),KCVT,
-     .               EVAR(1,I),GAMA, JHBE,IGTYP)
+                  CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                 ENDIF
               ENDDO
             ENDIF
@@ -1016,7 +1034,9 @@ C             PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT, EVAR(1,I),GAMA, JHBE,IGTYP)       
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0)
@@ -1064,8 +1084,9 @@ c-----------
                                       GAMA(5) = ONE
                                       GAMA(6) = ZERO
         	        	    ENDIF ! IF (KCVT == 2)
-        	        	    CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	                EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	                  ENDIF ! IF (EL2FA(NN2+N) /= 0)
         	                CASE (10)	  
         	                  IF (EL2FA(NN2+N) /= 0) THEN
@@ -1084,8 +1105,9 @@ c-----------
                                       GAMA(5) = ONE
                                       GAMA(6) = ZERO
         	        	    ENDIF ! IF (KCVT == 2)
-        	        	    CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	                EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	                  ENDIF ! IF (EL2FA(NN2+N) /= 0)
         	                CASE (100)	 
         	                  IF (EL2FA(NN2+N) /= 0) THEN
@@ -1104,8 +1126,9 @@ c-----------
                                       GAMA(5) = ONE
                                       GAMA(6) = ZERO
         	        	    ENDIF ! IF (KCVT == 2)
-        	        	    CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	                EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	                  ENDIF ! IF (EL2FA(NN2+N) /= 0)
         	                  END SELECT					     
         	                ENDIF ! IF (JHBE == 14)
@@ -1130,8 +1153,9 @@ c-----------
                                       GAMA(5) = ONE
                                       GAMA(6) = ZERO
         	        	    ENDIF ! IF (KCVT == 2)
-        	        	    CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	                EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	                  ENDIF ! IF (EL2FA(NN2+N) /= 0)
         	                CASE (10)	  
         	                  IF (EL2FA(NN2+N) /= 0) THEN
@@ -1150,8 +1174,9 @@ c-----------
                                       GAMA(5) = ONE
                                       GAMA(6) = ZERO
         	        	    ENDIF ! IF (KCVT == 2)
-        	        	    CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	                EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	                  ENDIF ! IF (EL2FA(NN2+N) /= 0)
         	                CASE (100)	 
         	                  IF (EL2FA(NN2+N) /= 0) THEN
@@ -1170,8 +1195,9 @@ c-----------
                                       GAMA(5) = ONE
                                       GAMA(6) = ZERO
                                     ENDIF ! IF (KCVT == 2)
-        	        	    CALL SROTA6(X,IXS(1,N),KCVT,
-     .  	        	                EVAR_TMP,GAMA, JHBE,IGTYP)
+        	        	    CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
         	                  ENDIF ! IF (EL2FA(NN2+N) /= 0)
         	                  END SELECT
         	                ENDIF ! IF (JHBE == 14)
@@ -1212,8 +1238,9 @@ C             PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5) = ONE				   
                       GAMA(6) = ZERO				   
                     ENDIF !IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,		   
-     .          	        EVAR(1,I),GAMA, JHBE,IGTYP)	   
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)					   
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0 .AND. ICSIG == 0 .AND. JHBE /= 16)
@@ -1257,8 +1284,9 @@ c-----------
                       GAMA(5) = ONE                          
                       GAMA(6) = ZERO                        
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,            
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)             
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)                                   
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0)
@@ -1305,8 +1333,9 @@ C             PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5) = ONE                       
                       GAMA(6) = ZERO                     
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,       
-     .                   EVAR(1,I),GAMA, JHBE,IGTYP)        
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0)
@@ -1344,7 +1373,9 @@ c-----------
              DO I=LFT,LLT                        
                N = I + NFT                         
                IF(EL2FA(NN2+N) /= 0)THEN           
-                 CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA,JHBE,IGTYP)     
+                 CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                ENDIF                               
              ENDDO                                 
 c-----------
@@ -1402,8 +1433,9 @@ C                 STRESS TENSOR IN GLOBAL SYSTEM
                         GAMA(5)=ONE
                         GAMA(6)=ZERO
                       END IF
-                      CALL SROTA6(X,IXS(1,N),KCVT,
-     .                  EVAR(1,I),GAMA, JHBE,IGTYP)
+                      CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                     ENDIF
                   ENDDO
                 ENDIF
@@ -1471,8 +1503,9 @@ C                 STRESS TENSOR IN GLOBAL SYSTEM
                         GAMA(5)=ONE
                         GAMA(6)=ZERO
                       END IF
-                      CALL SROTA6(X,IXS(1,N),KCVT,
-     .                  EVAR(1,I),GAMA, JHBE,IGTYP)
+                      CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                     ENDIF
                   ENDDO
                 ENDIF
@@ -1532,8 +1565,9 @@ C                 STRESS TENSOR IN GLOBAL SYSTEM
                         GAMA(5)=ONE
                         GAMA(6)=ZERO
                       END IF
-                      CALL SROTA6(X,IXS(1,N),KCVT,
-     .                            EVAR(1,I),GAMA, JHBE,IGTYP)
+                      CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                     ENDIF
                   ENDDO
                 ENDIF
@@ -1620,8 +1654,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                             GAMA(5)=ONE
                             GAMA(6)=ZERO
                           END IF
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                      EVAR(1,I),GAMA, JHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                         ENDIF
                       ENDDO
                       CASE (10)                
@@ -1643,8 +1678,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                             GAMA(5)=ONE
                             GAMA(6)=ZERO
                           END IF
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                      EVAR(1,I),GAMA, JHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                         ENDIF
                       ENDDO
                       CASE (100)                                                        
@@ -1666,8 +1702,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                             GAMA(5)=ONE
                             GAMA(6)=ZERO
                           END IF
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                      EVAR(1,I),GAMA, JHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                         ENDIF
                       ENDDO
                       END SELECT 
@@ -1692,8 +1729,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                             GAMA(5)=ONE
                             GAMA(6)=ZERO
                           END IF
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                      EVAR(1,I),GAMA, JHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                         ENDIF
                       ENDDO
                       CASE (10)                
@@ -1715,8 +1753,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                             GAMA(5)=ONE
                             GAMA(6)=ZERO
                           END IF
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                      EVAR(1,I),GAMA, JHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                         ENDIF
                       ENDDO
                       CASE (100)                                                        
@@ -1738,8 +1777,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                             GAMA(5)=ONE
                             GAMA(6)=ZERO
                           END IF
-                          CALL SROTA6(X,IXS(1,N),KCVT,
-     .                      EVAR(1,I),GAMA, JHBE,IGTYP)
+                          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                         ENDIF
                       ENDDO
                       END SELECT 
@@ -1763,8 +1803,9 @@ C--------------thick shells----only pid21,irep=0--works--------
                           GAMA(5)=ONE
                           GAMA(6)=ZERO
                         END IF
-                        CALL SROTA6(X,IXS(1,N),KCVT,
-     .                    EVAR(1,I),GAMA, JHBE,IGTYP)
+                        CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                       ENDIF
                     ENDDO
                   ENDIF !(ICSIG >0)
@@ -1823,8 +1864,9 @@ C                 STRESS TENSOR IN GLOBAL SYSTEM
                         GAMA(5)=ONE
                         GAMA(6)=ZERO
                       END IF
-                      CALL SROTA6(X,IXS(1,N),KCVT,
-     .                  EVAR(1,I),GAMA, JHBE,IGTYP)
+                      CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                     ENDIF
                   ENDDO
                 ENDIF
@@ -1864,8 +1906,9 @@ C               STRESS TENSOR IN GLOBAL SYSTEM
                       GAMA(4)=-GAMA(2)
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                    ENDIF
                  ENDDO
                 ENDIF
@@ -1922,8 +1965,9 @@ C               STRESS TENSOR IN GLOBAL SYSTEM
                       GAMA(4)=-GAMA(2)
                       GAMA(5)= GAMA(1)
                       GAMA(6)= ZERO
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                    ENDIF
                  ENDDO
                 ENDIF
@@ -2004,8 +2048,9 @@ C-------------- thick shells----only pid21,irep=0--works--------
                           GAMA(5)=ONE                                      
                           GAMA(6)=ZERO                                    
                         END IF                                            
-                        CALL SROTA6(X,IXS(1,N),KCVT,                      
-     .                    EVAR(1,I),GAMA, JHBE,IGTYP)                     
+                        CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                       ENDIF                                               
                     ENDDO                                                 
                   CASE (10)                                                       
@@ -2027,8 +2072,9 @@ C-------------- thick shells----only pid21,irep=0--works--------
                           GAMA(5)=ONE                                      
                           GAMA(6)=ZERO                                    
                         END IF                                            
-                        CALL SROTA6(X,IXS(1,N),KCVT,                      
-     .                    EVAR(1,I),GAMA, JHBE,IGTYP)                     
+                        CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                       ENDIF                                               
                     ENDDO                                                 
                   CASE (100)                                                      
@@ -2050,8 +2096,9 @@ C-------------- thick shells----only pid21,irep=0--works--------
                           GAMA(5)=ONE                                      
                           GAMA(6)=ZERO                                    
                         END IF                                            
-                        CALL SROTA6(X,IXS(1,N),KCVT,                      
-     .                    EVAR(1,I),GAMA, JHBE,IGTYP)                     
+                        CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                       ENDIF                                               
                     ENDDO                                                
                   END SELECT                                               
@@ -2129,8 +2176,9 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                 EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF
                 ENDDO
               ENDIF
@@ -2198,8 +2246,9 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                   EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF
                 ENDDO
               ENDIF     
@@ -2326,8 +2375,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	            GAMA(5)=ONE
             	            GAMA(6)=ZERO
             	          END IF
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	            EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF
             	      ENDDO
             	      CASE (10)                                                        
@@ -2349,8 +2399,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	            GAMA(5)=ONE
             	            GAMA(6)=ZERO
             	          END IF
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	            EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF
             	      ENDDO
             	      CASE (100)                                                        
@@ -2372,8 +2423,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	            GAMA(5)=ONE
             	            GAMA(6)=ZERO
             	          END IF
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	            EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF
             	      ENDDO
             	      END SELECT 
@@ -2398,8 +2450,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	            GAMA(5)=ONE
             	            GAMA(6)=ZERO
             	          END IF
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	            EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF
             	      ENDDO
             	      CASE (10)                                                        
@@ -2421,8 +2474,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	            GAMA(5)=ONE
             	            GAMA(6)=ZERO
             	          END IF
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	            EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF
             	      ENDDO
             	      CASE (100)                                                        
@@ -2444,8 +2498,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             	            GAMA(5)=ONE
             	            GAMA(6)=ZERO
             	          END IF
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	            EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF
             	      ENDDO
             	      END SELECT 
@@ -2469,8 +2524,9 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
             		  GAMA(5)=ONE
             		  GAMA(6)=ZERO
             		END IF
-            		CALL SROTA6(X,IXS(1,N),KCVT,
-     .      		EVAR(1,I),GAMA, JHBE,IGTYP)
+            		CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	      ENDIF
             	    ENDDO
             	   ENDIF  !(JHBE == 14.AND.ICSIG > 0)	 
@@ -2532,8 +2588,9 @@ C           STRAIN TENSOR IN GLOBAL SYSTEM
                        GAMA(5)=ONE
                        GAMA(6)=ZERO
                      END IF
-                     CALL SROTA6(X,IXS(1,N),KCVT,
-     .               EVAR(1,I),GAMA, JHBE,IGTYP)
+                     CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                    ENDIF
                  ENDDO
                 ENDIF 
@@ -2599,8 +2656,9 @@ c
                       GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                 EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF
                 ENDDO
               ENDIF  
@@ -2665,8 +2723,9 @@ C           STRAIN TENSOR IN GLOBAL SYSTEM
                        GAMA(5)=ONE
                        GAMA(6)=ZERO
                      END IF
-                     CALL SROTA6(X,IXS(1,N),KCVT,
-     .               EVAR(1,I),GAMA, JHBE,IGTYP)
+                     CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                    ENDIF
                  ENDDO
                 ENDIF 
@@ -2777,8 +2836,9 @@ C           STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF
                 ENDDO
                 CASE (10)                                                        
@@ -2800,8 +2860,9 @@ C           STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF
                 ENDDO
                 CASE (100)                                                        
@@ -2823,8 +2884,9 @@ C           STRAIN TENSOR IN GLOBAL SYSTEM
                       GAMA(5)=ONE
                       GAMA(6)=ZERO
                     END IF
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF
                 ENDDO
                 END SELECT 
@@ -2918,8 +2980,9 @@ C                  3*9*3 points d'integration (r*s*t)
             	            GAMA(5) = ONE
             	            GAMA(6) = ZERO
             	          ENDIF ! IF (KCVT == 2)
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                      EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF ! IF (EL2FA(NN2+N) /= 0)
             	      ENDDO ! DO I=LFT,LLT
             	    CASE (10)
@@ -2941,8 +3004,9 @@ C                  3*9*3 points d'integration (r*s*t)
             	            GAMA(5) = ONE
             	            GAMA(6) = ZERO
             	          ENDIF ! IF (KCVT == 2)
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                      EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF ! IF (EL2FA(NN2+N) /= 0)
             	      ENDDO ! DO I=LFT,LLT
             	    CASE (100)                                                        
@@ -2964,8 +3028,9 @@ C                  3*9*3 points d'integration (r*s*t)
             	            GAMA(5) = ONE
             	            GAMA(6) = ZERO
             	          ENDIF ! IF (KCVT == 2)
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                      EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF ! IF (EL2FA(NN2+N) /= 0)
             	      ENDDO ! DO I=LFT,LLT
             	      END SELECT 
@@ -2990,8 +3055,9 @@ C                  3*9*3 points d'integration (r*s*t)
             	            GAMA(5) = ONE
             	            GAMA(6) = ZERO
             	          ENDIF ! IF (KCVT == 2)
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                      EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF ! IF (EL2FA(NN2+N) /= 0)
             	      ENDDO ! DO I=LFT,LLT
             	    CASE (10)                                                        
@@ -3013,8 +3079,9 @@ C                  3*9*3 points d'integration (r*s*t)
             	            GAMA(5) = ONE
             	            GAMA(6) = ZERO
             	          ENDIF ! IF (KCVT == 2)
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                      EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF ! IF (EL2FA(NN2+N) /= 0)
             	      ENDDO ! DO I=LFT,LLT
             	    CASE (100)                                                        
@@ -3036,8 +3103,9 @@ C                  3*9*3 points d'integration (r*s*t)
             	            GAMA(5) = ONE
             	            GAMA(6) = ZERO
             	          ENDIF ! IF (KCVT == 2)
-            	          CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                      EVAR(1,I),GAMA, JHBE,IGTYP)
+            	          CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             	        ENDIF ! IF (EL2FA(NN2+N) /= 0)
             	      ENDDO ! DO I=LFT,LLT
             	      END SELECT 
@@ -3061,8 +3129,9 @@ C                  3*9*3 points d'integration (r*s*t)
                           GAMA(5) = ONE
                           GAMA(6) = ZERO
             	        ENDIF ! IF (KCVT == 2)
-            	        CALL SROTA6(X,IXS(1,N),KCVT,
-     .      	                    EVAR(1,I),GAMA, JHBE,IGTYP)
+            	        CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                       ENDIF ! IF (EL2FA(NN2+N) /= 0)
                     ENDDO ! DO I=LFT,LLT
                   ENDIF  ! (JHBE == 14.AND.ICSIG > 0)	 
@@ -3114,8 +3183,9 @@ c
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0)
@@ -3153,8 +3223,9 @@ c-----------
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! 
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF 
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (IPT  <= NPTG .AND. IR <= NPTR .AND. IS <= NPTS .AND.
@@ -3199,8 +3270,9 @@ c-----------
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! 
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF 
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (IPT  <= NPTG .AND. IR <= NPTR .AND. IS <= NPTS .AND.
@@ -3273,8 +3345,9 @@ c-----------
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)
                 ENDDO ! DO I=LFT,LLT
               CASE (10)                                                        
@@ -3296,8 +3369,9 @@ c-----------
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)
                 ENDDO ! DO I=LFT,LLT
               CASE (100)                                                        
@@ -3319,8 +3393,9 @@ c-----------
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! IF (KCVT == 2)
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (EL2FA(NN2+N) /= 0)
                 ENDDO ! DO I=LFT,LLT
                 END SELECT 
@@ -3343,8 +3418,9 @@ c-----------
                       GAMA(5) = ONE
                       GAMA(6) = ZERO
                     ENDIF ! 
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          EVAR(1,I),GAMA, JHBE,IGTYP)
+                    CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
                   ENDIF ! IF (KCVT == 2)
                 ENDDO ! DO I=LFT,LLT
               ENDIF  !(JHBE == 14.AND.ICSIG > 0)    
@@ -3723,8 +3799,9 @@ C            STRESS TENSOR -> GLOBAL SYSTEM
                  GAMA(5)=ONE
                  GAMA(6)=ZERO
                END IF
-               CALL SROTA6(X,IXS(1,N),KCVT,
-     .                     EVAR(1,I),GAMA, JHBE,IGTYP) 
+               CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
              ENDDO
            ENDIF
 C-----------------------------------------------
@@ -3968,8 +4045,9 @@ C           STRESS TENSOR -> GLOBAL SYSTEM
                 GAMA(5)=ONE
                 GAMA(6)=ZERO
               END IF
-              CALL SROTA6(X,IXS(1,N),KCVT,
-     .                    EVAR(1,I),GAMA, JHBE,IGTYP)
+              CALL SROTA6(
+     1   X,        IXS(1,N), KCVT,     EVAR(1,I),
+     2   GAMA,     JHBE,     IGTYP,    ISORTH)
             ENDDO
            ENDIF
 C-----------------------------------------------
@@ -4407,7 +4485,9 @@ c
                      EVAR_TMP(6) = EVAR_TMP(6) + LBUF%VISC(JJ(6) + I)
                    ENDIF
                    IF (KCVT /= 0)
-     .             CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,JHBE,IGTYP)
+     .             CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                    EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
                    EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
                    EVAR(3,NC(J,I)) = EVAR(3,NC(J,I)) + N1 * EVAR_TMP(3)
@@ -4449,7 +4529,9 @@ C------       orthotropic laws will be treated later
                    EVAR_TMP(1:6) =EVAR_TMP(1:6)+ LBUF%VISC(JJ(1:6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                  EVAR(1:6,NC(J,I)) = EVAR(1:6,NC(J,I)) + EVAR_TMP(1:6)
              ENDDO
            ENDDO
@@ -4589,7 +4671,9 @@ C
                      EVAR_TMP(6) =EVAR_TMP(6)+ LBUF%VISC(JJ(6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                  EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
                  EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
                  EVAR(3,NC(J,I)) = EVAR(3,NC(J,I)) + N1 * EVAR_TMP(3)
@@ -4641,7 +4725,9 @@ c
                      EVAR_TMP(6) =EVAR_TMP(6)+ LBUF%VISC(JJ(6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                DO J=1,4
                  EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
                  EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
@@ -4704,7 +4790,9 @@ C
                  ENDIF
                ENDDO
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_T10(1,J),GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,            IXS(1,N),     KCVT,         EVAR_T10(1,J),
+     2   GAMA,         JHBE,         IGTYP,        ISORTH)
              END DO !J=1,4
              DO J=1,4
                EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + EVAR_T10(1,J)
@@ -5228,7 +5316,9 @@ c
                      EVAR_TMP(6) = EVAR_TMP(6) + LBUF%VISC(JJ(6) + I)
                    ENDIF
                    IF (KCVT /= 0)
-     .             CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,JHBE,IGTYP)
+     .             CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                    EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
                    EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
                    EVAR(3,NC(J,I)) = EVAR(3,NC(J,I)) + N1 * EVAR_TMP(3)
@@ -5271,7 +5361,9 @@ C------       orthotropic laws will be treated later
                    EVAR_TMP(1:6) =EVAR_TMP(1:6)+ LBUF%VISC(JJ(1:6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                  EVAR(1:6,NC(J,I)) = EVAR(1:6,NC(J,I)) + EVAR_TMP(1:6)
              ENDDO
            ENDDO
@@ -5411,7 +5503,9 @@ c
                      EVAR_TMP(6) =EVAR_TMP(6)+ LBUF%VISC(JJ(6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                  EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
                  EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
                  EVAR(3,NC(J,I)) = EVAR(3,NC(J,I)) + N1 * EVAR_TMP(3)
@@ -5463,7 +5557,9 @@ c
                      EVAR_TMP(6) =EVAR_TMP(6)+ LBUF%VISC(JJ(6) + I)
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                DO J=1,4
                  EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
                  EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
@@ -5527,7 +5623,9 @@ C
                  ENDIF
                ENDDO
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_T10(1,J),GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,            IXS(1,N),     KCVT,         EVAR_T10(1,J),
+     2   GAMA,         JHBE,         IGTYP,        ISORTH)
              END DO !J=1,4
              DO J=5,10
                 NN1=IPERM1(J)
@@ -5643,14 +5741,22 @@ C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
            CALL SREPISOT3(
-     .       XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .       YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .       ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .       RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
+     1   XD1,     XD2,     XD3,     XD4,
+     2   XD5,     XD6,     XD7,     XD8,
+     3   YD1,     YD2,     YD3,     YD4,
+     4   YD5,     YD6,     YD7,     YD8,
+     5   ZD1,     ZD2,     ZD3,     ZD4,
+     6   ZD5,     ZD6,     ZD7,     ZD8,
+     7   RX,      RY,      RZ,      SX,
+     8   SY,      SZ,      TX,      TY,
+     9   TZ,      NEL)
 C--- 
            CALL SORTHO3(
-     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
-     .       R12, R13, R11, R22, R23, R21, R32, R33, R31)
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      R12,     R13,     R11,
+     4   R22,     R23,     R21,     R32,
+     5   R33,     R31,     NEL)
 C--- 
               DO I=1,NEL      
                 XDL(I)=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)

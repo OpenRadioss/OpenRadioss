@@ -181,7 +181,8 @@ C
            NPTR = 2
            NPTS = 2
            NPTT = 2
-           CALL SZSTRAINGPS(LBUF%STRA,STR_IS24,GBUF%STRHG,NEL  )
+           CALL SZSTRAINGPS(
+     1   LBUF%STRA, STR_IS24,  GBUF%STRHG,NEL)
          ENDIF
 C----------
          IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
@@ -304,7 +305,9 @@ c       STRHG(NEL,6,8)
                    EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
                    EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
                    IF (KCVT /= 0)
-     .             CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,JHBE,IGTYP)
+     .             CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                    EVAR(1:6,J,I) = EVAR(1:6,J,I) + N1 * EVAR_TMP(1:6)
                  ENDIF
                ENDDO
@@ -438,7 +441,9 @@ c
                    EVAR_TMP(6) =  LBUF%STRA(JJ(6) + I)*HALF
                  ENDIF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
                  EVAR(1:6,J,I) = EVAR(1:6,J,I) + N1 * EVAR_TMP(1:6)
                ENDDO
              ENDDO
@@ -476,7 +481,9 @@ c
                  EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
                  EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
              DO J=1,4
                EVAR(1:6,J,I) = EVAR(1:6,J,I) + N1 * EVAR_TMP(1:6)
              ENDDO
@@ -526,7 +533,9 @@ C
                  EVAR_T10(6,J) = EVAR_T10(6,J)+ N1 *LBUF%STRA(JJ(6) + I)*HALF
                ENDDO
                  IF (KCVT /= 0)
-     .           CALL SROTA6(X,IXS(1,N),KCVT,EVAR_T10(1,J),GAMA, JHBE,IGTYP)
+     .           CALL SROTA6(
+     1   X,            IXS(1,N),     KCVT,         EVAR_T10(1,J),
+     2   GAMA,         JHBE,         IGTYP,        ISORTH)
              ENDDO
              DO J=5,10
                 NN1=IPERM1(J)

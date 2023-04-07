@@ -27,7 +27,10 @@ Chd|        INTTI12A                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------
 Chd|        I12_NEAREST_SEG               source/interfaces/inter3d/i12_nearest_seg.F
 Chd|====================================================================
-      SUBROUTINE I12MSR3(XS,XM,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG)
+      SUBROUTINE I12MSR3(
+     1   XS,      XM,      IRECT,   LMSR,
+     2   MSR,     NSV,     ILOC,    IRTL,
+     3   NSEG,    LFT,     LLT,     NFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,13 +38,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER, INTENT(IN)  :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
       INTEGER, INTENT(INOUT) :: IRTL(*)
       my_real, INTENT(IN)  :: XS(3,*),XM(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

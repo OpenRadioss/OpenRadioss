@@ -27,9 +27,12 @@ Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|====================================================================
-      SUBROUTINE I8LOC3(X,IRECT,LMSR,MSR,NSV,ILOC,NSEG,
-     .                  XI,YI,ZI,XFACE,ITAB,DISTANCE,
-     .                  IFLINEAR,DISTLIN,NSN)
+      SUBROUTINE I8LOC3(
+     1   X,       IRECT,   LMSR,    MSR,
+     2   NSV,     ILOC,    NSEG,    XI,
+     3   YI,      ZI,      XFACE,   ITAB,
+     4   DISTANCE,IFLINEAR,DISTLIN, NSN,
+     5   LFT,     LLT,     NFT)
 
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
@@ -49,6 +52,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: NFT
       INTEGER :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
       INTEGER :: ITAB(*)
       INTEGER  , INTENT(IN) :: IFLINEAR,NSN
@@ -61,7 +67,6 @@ C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

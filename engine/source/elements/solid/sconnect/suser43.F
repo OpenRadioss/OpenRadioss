@@ -638,10 +638,15 @@ C     Add forces for moment equilibrium
      .     RXX   ,RYY   ,RZZ   ,TTHICK ) 
 C     Nodal forces : corotationnal --> global
       CALL SRROTA3(
-     .     E1X   ,E1Y   ,E1Z   ,E2X   ,E2Y   ,E2Z   ,E3X   ,E3Y   ,E3Z ,
-     .     FX1   ,FX2   ,FX3   ,FX4   ,FX5   ,FX6   ,FX7   ,FX8   ,
-     .     FY1   ,FY2   ,FY3   ,FY4   ,FY5   ,FY6   ,FY7   ,FY8   ,
-     .     FZ1   ,FZ2   ,FZ3   ,FZ4   ,FZ5   ,FZ6   ,FZ7   ,FZ8   )
+     1   E1X,     E1Y,     E1Z,     E2X,
+     2   E2Y,     E2Z,     E3X,     E3Y,
+     3   E3Z,     FX1,     FX2,     FX3,
+     4   FX4,     FX5,     FX6,     FX7,
+     5   FX8,     FY1,     FY2,     FY3,
+     6   FY4,     FY5,     FY6,     FY7,
+     7   FY8,     FZ1,     FZ2,     FZ3,
+     8   FZ4,     FZ5,     FZ6,     FZ7,
+     9   FZ8,     NEL)
 c-----------
       RETURN
       END

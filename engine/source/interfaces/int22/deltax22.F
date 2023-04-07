@@ -29,8 +29,10 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
-      SUBROUTINE DELTAX22(VOL,VEUL,VOLN,DELTAX,IAD22,
-     .                  IXS)
+      SUBROUTINE DELTAX22(
+     1   VOL,     VEUL,    VOLN,    DELTAX,
+     2   IAD22,   IXS,     LFT,     LLT,
+     3   JALE,    JEUL)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -55,12 +57,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LFT
+      INTEGER, INTENT(INOUT) :: LLT
+      INTEGER, INTENT(INOUT) :: JALE
+      INTEGER, INTENT(INOUT) :: JEUL
       my_real :: VOL(*), VEUL(LVEUL,*), VOLN(*),DELTAX(*)
       my_real :: IAD22(*)
       INTEGER :: IXS(NIXS,*)

@@ -34,9 +34,12 @@ Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SORTHDIR3(
-     .       RX    ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X   ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
-     .       GAMA0,GAMA )
+     1   RX,      RY,      RZ,      SX,
+     2   SY,      SZ,      TX,      TY,
+     3   TZ,      E1X,     E2X,     E3X,
+     4   E1Y,     E2Y,     E3Y,     E1Z,
+     5   E2Z,     E3Z,     GAMA0,   GAMA,
+     6   NEL,     IREP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,17 +51,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, DIMENSION(LLT), INTENT(IN)    ::
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: IREP
+      my_real, DIMENSION(NEL), INTENT(IN)    ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
       my_real, 
-     .  DIMENSION(LLT,6), INTENT(IN)  :: GAMA0
+     .  DIMENSION(NEL,6), INTENT(IN)  :: GAMA0
       my_real, 
      .  DIMENSION(MVSIZ,6), INTENT(OUT) :: GAMA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -68,7 +72,7 @@ C     REAL
      .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,D1,D2,D3,GX,GY,GZ,SUMA,S2,S3
 C=======================================================================
       IF (IREP == 0) THEN 
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
           GAMA(I,1) = GAMA0(I,1)				  
           GAMA(I,2) = GAMA0(I,2)				  
           GAMA(I,3) = GAMA0(I,3) 
@@ -79,7 +83,7 @@ C=======================================================================
       ELSEIF (IREP > 0) THEN 
 ctmp      ELSEIF (IREP == 1) THEN 
 C         dir 1 = const
-        DO I=LFT,LLT                                            
+        DO I=1,NEL                                            
 C         Dir 1
           
           D1 = GAMA0(I,1)*RX(I) + GAMA0(I,2)*SX(I) + GAMA0(I,3)*TX(I)     
@@ -117,7 +121,7 @@ C ON VEUT LA 3EME DIRECTION DE GAMA (ELEM -> ORTHO)
         ENDDO                                     
 c      ELSEIF (IREP == 2) THEN 
 C       Plan (dir1,dir2) = const
-c        DO I=LFT,LLT                                            
+c        DO I=1,NEL                                            
 C         Dir 1  - normale au plan
 c          D1 = GAMA0(I,1)*RX(I) + GAMA0(I,2)*SX(I) + GAMA0(I,3)*TX(I)     
 c          D2 = GAMA0(I,1)*RY(I) + GAMA0(I,2)*SY(I) + GAMA0(I,3)*TY(I)     

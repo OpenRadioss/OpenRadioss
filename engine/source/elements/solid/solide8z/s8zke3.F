@@ -42,11 +42,14 @@ Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc
 Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE S8ZKE3 (PM     ,GEO    ,IXS    ,X      ,ELBUF_STR,
-     1                   NEL    ,ICP    ,ICSIG  ,ETAG   ,
-     2                   IDDL   ,NDOF   ,K_DIAG ,K_LT   ,IADK     ,
-     3                   JDIK   ,MPT    ,IPM    ,IGEO   ,IKGEO  ,
-     4                   BUFMAT )
+      SUBROUTINE S8ZKE3(
+     1   PM,       GEO,      IXS,      X,
+     2   ELBUF_STR,NEL,      ICP,      ICSIG,
+     3   ETAG,     IDDL,     NDOF,     K_DIAG,
+     4   K_LT,     IADK,     JDIK,     MPT,
+     5   IPM,      IGEO,     IKGEO,    BUFMAT,
+     6   NFT,      MTN,      ISMSTR,   JHBE,
+     7   JCVT,     IGTYP,    ISORTH,   IREP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,12 +65,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: IREP
+      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: JHBE
+      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: IGTYP
+      INTEGER, INTENT(IN) :: ISORTH
       INTEGER  NEL ,ICP, ICSIG,IKGEO,MPT
       INTEGER NDOF(*)  ,IADK(*) ,JDIK(*),
      .   IXS(NIXS,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ETAG(*),IDDL(*)  
@@ -260,23 +270,36 @@ C-----------------------------------------------
 C-----------
       NF1=NFT+1
 C-----------
-      CALL SRCOORK(X,IXS(1,NF1),
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   GBUF%OFF,OFFG,GBUF%SMSTR,
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33, 
-     .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,JHBE,GBUF%GAMA,GAMA,
-     .   NEL)
+      CALL SRCOORK(
+     1   X,         IXS(1,NF1),X1,        X2,
+     2   X3,        X4,        X5,        X6,
+     3   X7,        X8,        Y1,        Y2,
+     4   Y3,        Y4,        Y5,        Y6,
+     5   Y7,        Y8,        Z1,        Z2,
+     6   Z3,        Z4,        Z5,        Z6,
+     7   Z7,        Z8,        GBUF%OFF,  OFFG,
+     8   GBUF%SMSTR,R11,       R12,       R13,
+     9   R21,       R22,       R23,       R31,
+     A   R32,       R33,       NC1,       NC2,
+     B   NC3,       NC4,       NC5,       NC6,
+     C   NC7,       NC8,       NGL,       MXT,
+     D   NGEO,      K11,       K12,       K13,
+     E   K14,       K15,       K16,       K17,
+     F   K18,       K22,       K23,       K24,
+     G   K25,       K26,       K27,       K28,
+     H   K33,       K34,       K35,       K36,
+     I   K37,       K38,       K44,       K45,
+     J   K46,       K47,       K48,       K55,
+     K   K56,       K57,       K58,       K66,
+     L   K67,       K68,       K77,       K78,
+     M   K88,       JHBE,      GBUF%GAMA, GAMA,
+     N   NEL,       ISMSTR,    JHBE,      JCVT,
+     O   IREP,      IGTYP,     ISORTH)
 C
-      PID=NGEO(LFT)
+      PID=NGEO(1)
 C      IGTYP=NINT(GEO(12,PID))
 C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
-      DO I=LFT,LLT
+      DO I=1,NEL
         NU(I)=MIN(HALF,PM(21,MXT(I)))
         C1 =PM(32,MXT(I))
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
@@ -285,7 +308,7 @@ C        USB(I)=EM01/C1
 	      	IDEG(I)=0
       ENDDO
       IF (JHBE/=14.AND.JHBE<20) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         NU(I)=ZERO
        ENDDO
       ELSE
@@ -295,34 +318,38 @@ C        USB(I)=EM01/C1
        ICPG = 1
       ENDIF 
 c
-      CALL S8ZDERICT3(OFFG,VOLG,NGL,
-     .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   PXC1, PXC2, PXC3, PXC4,
-     .   PYC1, PYC2, PYC3, PYC4,
-     .   PZC1, PZC2, PZC3, PZC4,
-     .   PX1H1, PX1H2, PX1H3, PX1H4,
-     .   PX2H1, PX2H2, PX2H3, PX2H4,
-     .   PX3H1, PX3H2, PX3H3, PX3H4,
-     .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   HX,   HY,   HZ,   
-     .   AJC1,AJC2,AJC3,
-     .   AJC4,AJC5,AJC6,
-     .   AJC7,AJC8,AJC9,SMAX)
+      CALL S8ZDERICT3(
+     1   OFFG,    VOLG,    NGL,     X1,
+     2   X2,      X3,      X4,      X5,
+     3   X6,      X7,      X8,      Y1,
+     4   Y2,      Y3,      Y4,      Y5,
+     5   Y6,      Y7,      Y8,      Z1,
+     6   Z2,      Z3,      Z4,      Z5,
+     7   Z6,      Z7,      Z8,      PXC1,
+     8   PXC2,    PXC3,    PXC4,    PYC1,
+     9   PYC2,    PYC3,    PYC4,    PZC1,
+     A   PZC2,    PZC3,    PZC4,    PX1H1,
+     B   PX1H2,   PX1H3,   PX1H4,   PX2H1,
+     C   PX2H2,   PX2H3,   PX2H4,   PX3H1,
+     D   PX3H2,   PX3H3,   PX3H4,   PX4H1,
+     E   PX4H2,   PX4H3,   PX4H4,   HX,
+     F   HY,      HZ,      AJC1,    AJC2,
+     G   AJC3,    AJC4,    AJC5,    AJC6,
+     H   AJC7,    AJC8,    AJC9,    SMAX,
+     I   NEL)
       IF (ICPG==2) THEN
-       CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
+       CALL S8ZSIGP3(1  ,NEL       ,GBUF%SIG,E0  ,GBUF%PLA,
      2               FAC  ,GBUF%G_PLA,NEL     )
-       DO I=LFT,LLT
+       DO I=1,NEL
         NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
        ENDDO
       ELSEIF (JHBE==17.AND.ICPG==1.AND.ISMSTR==10) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         FAC(I)=TWO*NU(I)
         NU1(I)=NU(I)
        ENDDO
       ELSE
-       DO I=LFT,LLT
+       DO I=1,NEL
         NU1(I)=NU(I)
        ENDDO
       ENDIF 
@@ -332,11 +359,14 @@ c
        IADBUF = 0
       ENDIF
       NPPT = NPTS*NPTT*NPTR*NLAY
-      CALL MMATS(LFT    ,LLT     ,PM    ,MXT    ,HH    ,
+      CALL MMATS(1    ,NEL     ,PM    ,MXT    ,HH    ,
      .           MTN    ,IKORTH  ,IPM   ,IGEO   ,GAMA  ,
      .           BUFMAT(IADBUF)  ,DM    ,DGM    ,GM    ,
      .           JHBE  ,GBUF%SIG ,BID   ,NPPT   ,NEL   )
-      CALL MMAT_H1(HH    ,HH1   ,FAC  ,ICPG  ,IPREDU)
+      CALL MMAT_H1(
+     1   HH,      HH1,     FAC,     ICPG,
+     2   IPREDU,  NEL,     MTN,     ISMSTR,
+     3   JHBE)
 
 C-----------Matrix B----------
 C-----------Begin integrating points-----
@@ -353,78 +383,120 @@ C-----------
          IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
          WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*W_GAUSS(IT,NPTT)
 C
-         CALL S8ZDERII3(OFFG,OFF,VOLN,NGL,
-     .    A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),WI,
-     .    PXC1, PXC2, PXC3, PXC4,
-     .    PYC1, PYC2, PYC3, PYC4,
-     .    PZC1, PZC2, PZC3, PZC4,
-     .    PX1H1, PX1H2, PX1H3, PX1H4,
-     .    PX2H1, PX2H2, PX2H3, PX2H4,
-     .    PX3H1, PX3H2, PX3H3, PX3H4,
-     .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,   HY,   HZ,   
-     .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
-     .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
-     .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
-     .    PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .    PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .    PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .    PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .    PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .    PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .    BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .    BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .    BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .    BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .    BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .    BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .    AJC1,AJC2,AJC3,
-     .    AJC4,AJC5,AJC6,
-     .    AJC7,AJC8,AJC9,
-     .    AJ1,AJ2,AJ3,
-     .    AJ4,AJ5,AJ6,
-     .    SMAX,DELTAX,NU1,ICPG,IDEG)
-       CALL MMSTIFS(PM   ,MXT  ,HH1   ,VOLN  ,ICSIG ,
-     .              DD   ,GG   ,DG    ,G33   ,DM    ,
-     .              GM   ,DGM  ,IKORTH,LBUF%SIG,IR   ,
-     .              IS   ,IT   ,NEL   )
+         CALL S8ZDERII3(
+     1   OFFG,            OFF,             VOLN,            NGL,
+     2   A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),WI,
+     3   PXC1,            PXC2,            PXC3,            PXC4,
+     4   PYC1,            PYC2,            PYC3,            PYC4,
+     5   PZC1,            PZC2,            PZC3,            PZC4,
+     6   PX1H1,           PX1H2,           PX1H3,           PX1H4,
+     7   PX2H1,           PX2H2,           PX2H3,           PX2H4,
+     8   PX3H1,           PX3H2,           PX3H3,           PX3H4,
+     9   PX4H1,           PX4H2,           PX4H3,           PX4H4,
+     A   HX,              HY,              HZ,              PX1,
+     B   PX2,             PX3,             PX4,             PX5,
+     C   PX6,             PX7,             PX8,             PY1,
+     D   PY2,             PY3,             PY4,             PY5,
+     E   PY6,             PY7,             PY8,             PZ1,
+     F   PZ2,             PZ3,             PZ4,             PZ5,
+     G   PZ6,             PZ7,             PZ8,             PXY1,
+     H   PXY2,            PXY3,            PXY4,            PXY5,
+     I   PXY6,            PXY7,            PXY8,            PYX1,
+     J   PYX2,            PYX3,            PYX4,            PYX5,
+     K   PYX6,            PYX7,            PYX8,            PXZ1,
+     L   PXZ2,            PXZ3,            PXZ4,            PXZ5,
+     M   PXZ6,            PXZ7,            PXZ8,            PZX1,
+     N   PZX2,            PZX3,            PZX4,            PZX5,
+     O   PZX6,            PZX7,            PZX8,            PYZ1,
+     P   PYZ2,            PYZ3,            PYZ4,            PYZ5,
+     Q   PYZ6,            PYZ7,            PYZ8,            PZY1,
+     R   PZY2,            PZY3,            PZY4,            PZY5,
+     S   PZY6,            PZY7,            PZY8,            BXY1,
+     T   BXY2,            BXY3,            BXY4,            BXY5,
+     U   BXY6,            BXY7,            BXY8,            BYX1,
+     V   BYX2,            BYX3,            BYX4,            BYX5,
+     W   BYX6,            BYX7,            BYX8,            BXZ1,
+     X   BXZ2,            BXZ3,            BXZ4,            BXZ5,
+     Y   BXZ6,            BXZ7,            BXZ8,            BZX1,
+     Z   BZX2,            BZX3,            BZX4,            BZX5,
+     1   BZX6,            BZX7,            BZX8,            BYZ1,
+     2   BYZ2,            BYZ3,            BYZ4,            BYZ5,
+     3   BYZ6,            BYZ7,            BYZ8,            BZY1,
+     4   BZY2,            BZY3,            BZY4,            BZY5,
+     5   BZY6,            BZY7,            BZY8,            AJC1,
+     6   AJC2,            AJC3,            AJC4,            AJC5,
+     7   AJC6,            AJC7,            AJC8,            AJC9,
+     8   AJ1,             AJ2,             AJ3,             AJ4,
+     9   AJ5,             AJ6,             SMAX,            DELTAX,
+     A   NU1,             ICPG,            IDEG,            NEL,
+     B   MTN,             ISMSTR,          JHBE)
+       CALL MMSTIFS(
+     1   PM,      MXT,     HH1,     VOLN,
+     2   ICSIG,   DD,      GG,      DG,
+     3   G33,     DM,      GM,      DGM,
+     4   IKORTH,  LBUF%SIG,IR,      IS,
+     5   IT,      NEL,     JHBE,    MTN)
 C----------- check MPT sont memes entre KE et forc3----     
        CALL S8ZLKE3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   PXY1, PXY2, PXY3, PXY4, PXY5, PXY6, PXY7, PXY8,
-     .   PYX1, PYX2, PYX3, PYX4, PYX5, PYX6, PYX7, PYX8,
-     .   PXZ1, PXZ2, PXZ3, PXZ4, PXZ5, PXZ6, PXZ7, PXZ8,
-     .   PZX1, PZX2, PZX3, PZX4, PZX5, PZX6, PZX7, PZX8,
-     .   PYZ1, PYZ2, PYZ3, PYZ4, PYZ5, PYZ6, PYZ7, PYZ8,
-     .   PZY1, PZY2, PZY3, PZY4, PZY5, PZY6, PZY7, PZY8,
-     .   BXY1, BXY2, BXY3, BXY4, BXY5, BXY6, BXY7, BXY8,
-     .   BYX1, BYX2, BYX3, BYX4, BYX5, BYX6, BYX7, BYX8,
-     .   BXZ1, BXZ2, BXZ3, BXZ4, BXZ5, BXZ6, BXZ7, BXZ8,
-     .   BZX1, BZX2, BZX3, BZX4, BZX5, BZX6, BZX7, BZX8,
-     .   BYZ1, BYZ2, BYZ3, BYZ4, BYZ5, BYZ6, BYZ7, BYZ8,
-     .   BZY1, BZY2, BZY3, BZY4, BZY5, BZY6, BZY7, BZY8,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,
-     .   DD ,GG,ICPG,OFFG,IKORTH,DG ,G33)
+     1   PX1,     PX2,     PX3,     PX4,
+     2   PY1,     PY2,     PY3,     PY4,
+     3   PZ1,     PZ2,     PZ3,     PZ4,
+     4   PX5,     PX6,     PX7,     PX8,
+     5   PY5,     PY6,     PY7,     PY8,
+     6   PZ5,     PZ6,     PZ7,     PZ8,
+     7   PXY1,    PXY2,    PXY3,    PXY4,
+     8   PXY5,    PXY6,    PXY7,    PXY8,
+     9   PYX1,    PYX2,    PYX3,    PYX4,
+     A   PYX5,    PYX6,    PYX7,    PYX8,
+     B   PXZ1,    PXZ2,    PXZ3,    PXZ4,
+     C   PXZ5,    PXZ6,    PXZ7,    PXZ8,
+     D   PZX1,    PZX2,    PZX3,    PZX4,
+     E   PZX5,    PZX6,    PZX7,    PZX8,
+     F   PYZ1,    PYZ2,    PYZ3,    PYZ4,
+     G   PYZ5,    PYZ6,    PYZ7,    PYZ8,
+     H   PZY1,    PZY2,    PZY3,    PZY4,
+     I   PZY5,    PZY6,    PZY7,    PZY8,
+     J   BXY1,    BXY2,    BXY3,    BXY4,
+     K   BXY5,    BXY6,    BXY7,    BXY8,
+     L   BYX1,    BYX2,    BYX3,    BYX4,
+     M   BYX5,    BYX6,    BYX7,    BYX8,
+     N   BXZ1,    BXZ2,    BXZ3,    BXZ4,
+     O   BXZ5,    BXZ6,    BXZ7,    BXZ8,
+     P   BZX1,    BZX2,    BZX3,    BZX4,
+     Q   BZX5,    BZX6,    BZX7,    BZX8,
+     R   BYZ1,    BYZ2,    BYZ3,    BYZ4,
+     S   BYZ5,    BYZ6,    BYZ7,    BYZ8,
+     T   BZY1,    BZY2,    BZY3,    BZY4,
+     U   BZY5,    BZY6,    BZY7,    BZY8,
+     V   K11,     K12,     K13,     K14,
+     W   K15,     K16,     K17,     K18,
+     X   K22,     K23,     K24,     K25,
+     Y   K26,     K27,     K28,     K33,
+     Z   K34,     K35,     K36,     K37,
+     1   K38,     K44,     K45,     K46,
+     2   K47,     K48,     K55,     K56,
+     3   K57,     K58,     K66,     K67,
+     4   K68,     K77,     K78,     K88,
+     5   DD,      GG,      ICPG,    OFFG,
+     6   IKORTH,  DG,      G33,     NEL)
       IF (IKGEO<0.AND.JHBE==14) THEN
-       CALL S8ZKGEI3(LBUF%SIG, VOLN,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,NEL)
+       CALL S8ZKGEI3(
+     1   LBUF%SIG,VOLN,    PX1,     PX2,
+     2   PX3,     PX4,     PY1,     PY2,
+     3   PY3,     PY4,     PZ1,     PZ2,
+     4   PZ3,     PZ4,     PX5,     PX6,
+     5   PX7,     PX8,     PY5,     PY6,
+     6   PY7,     PY8,     PZ5,     PZ6,
+     7   PZ7,     PZ8,     K11,     K12,
+     8   K13,     K14,     K15,     K16,
+     9   K17,     K18,     K22,     K23,
+     A   K24,     K25,     K26,     K27,
+     B   K28,     K33,     K34,     K35,
+     C   K36,     K37,     K38,     K44,
+     D   K45,     K46,     K47,     K48,
+     E   K55,     K56,     K57,     K58,
+     F   K66,     K67,     K68,     K77,
+     G   K78,     K88,     NEL)
       ENDIF 
         ENDDO 
        ENDDO 
@@ -432,38 +504,57 @@ C----------- check MPT sont memes entre KE et forc3----
 C-------------      
       IF (IPREDU > 0) THEN
        CALL S8ZLKEP3(
-     .    PXC1, PXC2, PXC3, PXC4,
-     .    PYC1, PYC2, PYC3, PYC4,
-     .    PZC1, PZC2, PZC3, PZC4,
-     .    K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .    K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .    K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .    K66,K67,K68,K77,K78,K88,
-     .    HH ,VOLG,FAC  ,ICPG)
+     1   PXC1,    PXC2,    PXC3,    PXC4,
+     2   PYC1,    PYC2,    PYC3,    PYC4,
+     3   PZC1,    PZC2,    PZC3,    PZC4,
+     4   K11,     K12,     K13,     K14,
+     5   K15,     K16,     K17,     K18,
+     6   K22,     K23,     K24,     K25,
+     7   K26,     K27,     K28,     K33,
+     8   K34,     K35,     K36,     K37,
+     9   K38,     K44,     K45,     K46,
+     A   K47,     K48,     K55,     K56,
+     B   K57,     K58,     K66,     K67,
+     C   K68,     K77,     K78,     K88,
+     D   HH,      VOLG,    FAC,     ICPG,
+     E   NEL)
       END IF 
 C------due to the generic form, only the mean geometrical stiffness is considered
       IF (IKGEO>0) THEN
-       CALL S8ZKGEO3(GBUF%SIG,VOLG ,
-     .   PXC1, PXC2, PXC3, PXC4,
-     .   PYC1, PYC2, PYC3, PYC4,
-     .   PZC1, PZC2, PZC3, PZC4,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,NEL)
+       CALL S8ZKGEO3(
+     1   GBUF%SIG,VOLG,    PXC1,    PXC2,
+     2   PXC3,    PXC4,    PYC1,    PYC2,
+     3   PYC3,    PYC4,    PZC1,    PZC2,
+     4   PZC3,    PZC4,    K11,     K12,
+     5   K13,     K14,     K15,     K16,
+     6   K17,     K18,     K22,     K23,
+     7   K24,     K25,     K26,     K27,
+     8   K28,     K33,     K34,     K35,
+     9   K36,     K37,     K38,     K44,
+     A   K45,     K46,     K47,     K48,
+     B   K55,     K56,     K57,     K58,
+     C   K66,     K67,     K68,     K77,
+     D   K78,     K88,     NEL)
       ENDIF 
 C----------------------------
 C     CONVECTE --> GLOBAL.
 C----------------------------
       CALL S8ZCUMG3(
-     .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88)
+     1   R11,     R21,     R31,     R12,
+     2   R22,     R32,     R13,     R23,
+     3   R33,     K11,     K12,     K13,
+     4   K14,     K15,     K16,     K17,
+     5   K18,     K22,     K23,     K24,
+     6   K25,     K26,     K27,     K28,
+     7   K33,     K34,     K35,     K36,
+     8   K37,     K38,     K44,     K45,
+     9   K46,     K47,     K48,     K55,
+     A   K56,     K57,     K58,     K66,
+     B   K67,     K68,     K77,     K78,
+     C   K88,     NEL)
      
       IF (NEIG>0) CALL S8EOFF(
-     1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
+     1   1, NEL, IXS(1,NF1), ETAG, OFFG)
       CALL ASSEM_S8(
      1    IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,
      2    K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     
@@ -475,667 +566,5 @@ C----------------------------
      8    K56   ,K57   ,K58   ,K66   ,K67   ,
      9    K68   ,K77   ,K78   ,K88   ,OFFG   )     
 C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  S8ZKGEO3                      source/elements/solid/solide8z/s8zke3.F
-Chd|-- called by -----------
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|        S8ZKEH3                       source/elements/solid/solide8z/s8zke3.F
-Chd|====================================================================
-      SUBROUTINE S8ZKGEO3(SIG , VOL,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL
-C     REAL
-      my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*) ,K15(3,3,*)   ,
-     .   K16(3,3,*),K17(3,3,*),K18(3,3,*),K22(3,3,*) ,K23(3,3,*)   ,
-     .   K24(3,3,*),K25(3,3,*),K26(3,3,*),K27(3,3,*) ,K28(3,3,*)   ,
-     .   K33(3,3,*),K34(3,3,*),K35(3,3,*),K36(3,3,*) ,K37(3,3,*)   ,
-     .   K38(3,3,*),K44(3,3,*),K45(3,3,*),K46(3,3,*) ,K47(3,3,*)   ,
-     .   K48(3,3,*),K55(3,3,*),K56(3,3,*),K57(3,3,*) ,K58(3,3,*)   ,
-     .   K66(3,3,*),K67(3,3,*),K68(3,3,*),K77(3,3,*) ,K78(3,3,*)   ,
-     .   K88(3,3,*),VOL(*),SIG(NEL,6)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,J
-C     REAL
-      my_real
-     .   FXX(MVSIZ),FYY(MVSIZ),FZZ(MVSIZ),FXY(MVSIZ),FXZ(MVSIZ),
-     .   FYZ(MVSIZ),HIJ(MVSIZ)
-C-----------------------------------------------
-       DO I=LFT,LLT
-        FXX(I)=SIG(I,1)*VOL(I)
-        FYY(I)=SIG(I,2)*VOL(I)
-        FZZ(I)=SIG(I,3)*VOL(I)
-        FXY(I)=SIG(I,4)*VOL(I)
-        FYZ(I)=SIG(I,5)*VOL(I)
-        FXZ(I)=SIG(I,6)*VOL(I)
-       ENDDO
-C------------K11,K17,K77
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K11(J,J,I)=K11(J,J,I)+HIJ(I)
-         K77(J,J,I)=K77(J,J,I)+HIJ(I)
-         K17(J,J,I)=K17(J,J,I)-HIJ(I)
-        ENDDO
-       ENDDO
-C------------K12,K18,K27,K78
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K12(J,J,I)=K12(J,J,I)+HIJ(I)
-         K18(J,J,I)=K18(J,J,I)-HIJ(I)
-         K27(J,J,I)=K27(J,J,I)-HIJ(I)
-         K78(J,J,I)=K78(J,J,I)+HIJ(I)
-        ENDDO
-       ENDDO
-C------------K13,K15,K37,K57
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K13(J,J,I)=K13(J,J,I)+HIJ(I)
-         K15(J,J,I)=K15(J,J,I)-HIJ(I)
-         K37(J,J,I)=K37(J,J,I)-HIJ(I)
-         K57(J,J,I)=K57(J,J,I)+HIJ(I)
-        ENDDO
-       ENDDO
-C------------K14,K16,K47,K67
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K14(J,J,I)=K14(J,J,I)+HIJ(I)
-         K16(J,J,I)=K16(J,J,I)-HIJ(I)
-         K47(J,J,I)=K47(J,J,I)-HIJ(I)
-         K67(J,J,I)=K67(J,J,I)+HIJ(I)
-        ENDDO
-       ENDDO
-C------------K22,K28,K88
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K22(J,J,I)=K22(J,J,I)+HIJ(I)
-         K88(J,J,I)=K88(J,J,I)+HIJ(I)
-         K28(J,J,I)=K28(J,J,I)-HIJ(I)
-        ENDDO
-       ENDDO
-C------------K23,K25,K38,K58
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K23(J,J,I)=K23(J,J,I)+HIJ(I)
-         K25(J,J,I)=K25(J,J,I)-HIJ(I)
-         K38(J,J,I)=K38(J,J,I)-HIJ(I)
-         K58(J,J,I)=K58(J,J,I)+HIJ(I)
-        ENDDO
-       ENDDO
-C------------K24,K26,K48,K68
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K24(J,J,I)=K24(J,J,I)+HIJ(I)
-         K26(J,J,I)=K26(J,J,I)-HIJ(I)
-         K48(J,J,I)=K48(J,J,I)-HIJ(I)
-         K68(J,J,I)=K68(J,J,I)+HIJ(I)
-        ENDDO
-       ENDDO
-C------------K33,K35,K55
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K33(J,J,I)=K33(J,J,I)+HIJ(I)
-         K55(J,J,I)=K55(J,J,I)+HIJ(I)
-         K35(J,J,I)=K35(J,J,I)-HIJ(I)
-        ENDDO
-       ENDDO
-C------------K34,K36,K56,K45
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K34(J,J,I)=K34(J,J,I)+HIJ(I)
-         K36(J,J,I)=K36(J,J,I)-HIJ(I)
-         K56(J,J,I)=K56(J,J,I)+HIJ(I)
-         K45(J,J,I)=K45(J,J,I)-HIJ(I)
-        ENDDO
-       ENDDO
-C------------K44,K46,K66
-       CALL S8ZKEH3(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       DO J = 1,3
-        DO I=LFT,LLT
-         K44(J,J,I)=K44(J,J,I)+HIJ(I)
-         K66(J,J,I)=K66(J,J,I)+HIJ(I)
-         K46(J,J,I)=K46(J,J,I)-HIJ(I)
-        ENDDO
-       ENDDO
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  S8ZKEH3                       source/elements/solid/solide8z/s8zke3.F
-Chd|-- called by -----------
-Chd|        S4KEH3                        source/elements/solid/solide4/s4ke3.F
-Chd|        S8ZKGEO3                      source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE S8ZKEH3(LFT,LLT,
-     .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ, HIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER LFT,LLT
-C     REAL
-      my_real
-     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
-     .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),HIJ(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-C     REAL
-C-----------------------------------------------
-      DO I=LFT,LLT
-        HIJ(I)=FXX(I)*PXI(I)*PXJ(I)+FYY(I)*PYI(I)*PYJ(I)+
-     .         FZZ(I)*PZI(I)*PZJ(I)+
-     .         FXY(I)*(PXI(I)*PYJ(I)+PYI(I)*PXJ(I))+
-     .         FYZ(I)*(PYI(I)*PZJ(I)+PZI(I)*PYJ(I))+
-     .         FXZ(I)*(PXI(I)*PZJ(I)+PZI(I)*PXJ(I))
-      ENDDO
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  S8ZKGEI3                      source/elements/solid/solide8z/s8zke3.F
-Chd|-- called by -----------
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|        S8ZKEHIJ                      source/elements/solid/solide8z/s8zke3.F
-Chd|====================================================================
-      SUBROUTINE S8ZKGEI3(SIG , VOL,
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX5, PX6, PX7, PX8,
-     .   PY5, PY6, PY7, PY8,
-     .   PZ5, PZ6, PZ7, PZ8,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL
-C     REAL
-      my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
-     .   K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*) ,K15(3,3,*)   ,
-     .   K16(3,3,*),K17(3,3,*),K18(3,3,*),K22(3,3,*) ,K23(3,3,*)   ,
-     .   K24(3,3,*),K25(3,3,*),K26(3,3,*),K27(3,3,*) ,K28(3,3,*)   ,
-     .   K33(3,3,*),K34(3,3,*),K35(3,3,*),K36(3,3,*) ,K37(3,3,*)   ,
-     .   K38(3,3,*),K44(3,3,*),K45(3,3,*),K46(3,3,*) ,K47(3,3,*)   ,
-     .   K48(3,3,*),K55(3,3,*),K56(3,3,*),K57(3,3,*) ,K58(3,3,*)   ,
-     .   K66(3,3,*),K67(3,3,*),K68(3,3,*),K77(3,3,*) ,K78(3,3,*)   ,
-     .   K88(3,3,*),VOL(*),SIG(NEL,6)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,J
-C     REAL
-      my_real
-     .   FXX(MVSIZ),FYY(MVSIZ),FZZ(MVSIZ),FXY(MVSIZ),FXZ(MVSIZ),
-     .   FYZ(MVSIZ)
-C-----------------------------------------------
-       DO I=LFT,LLT
-        FXX(I)=SIG(I,1)*VOL(I)
-        FYY(I)=SIG(I,2)*VOL(I)
-        FZZ(I)=SIG(I,3)*VOL(I)
-        FXY(I)=SIG(I,4)*VOL(I)
-        FYZ(I)=SIG(I,5)*VOL(I)
-        FXZ(I)=SIG(I,6)*VOL(I)
-       ENDDO
-C------------K11,K17,K77
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, K11 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX7, PY7, PZ7, K17 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX7, PY7, PZ7 ,PX7, PY7, PZ7, K77 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K12,K18,K27,K78
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, K12 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX8, PY8, PZ8, K18 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX7, PY7, PZ7, K27 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX7, PY7 ,PZ7 ,PX8, PY8, PZ8, K78 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K13,K15,K37,K57
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, K13 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX5, PY5, PZ5, K15 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX7, PY7, PZ7, K37 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX5, PY5 ,PZ5 ,PX7, PY7, PZ7, K57 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K14,K16,K47,K67
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, K14 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX6, PY6, PZ6, K16 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX7, PY7, PZ7, K47 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX6, PY6 ,PZ6 ,PX7, PY7, PZ7, K67 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K22,K28,K88
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, K22 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX8, PY8, PZ8, K28 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX8, PY8 ,PZ8 ,PX8, PY8, PZ8, K88 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K23,K25,K38,K58
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, K23 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX5, PY5, PZ5, K25 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX8, PY8, PZ8, K38 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX5, PY5 ,PZ5 ,PX8, PY8, PZ8, K58 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K24,K26,K48,K68
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, K24 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX6, PY6, PZ6, K26 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX8, PY8, PZ8, K48 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX6, PY6 ,PZ6 ,PX8, PY8, PZ8, K68 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K33,K35,K55
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, K33 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX5, PY5, PZ5, K35 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX5, PY5 ,PZ5 ,PX5, PY5, PZ5, K55 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K34,K36,K56,K45
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, K34 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX6, PY6, PZ6, K36 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX5, PY5 ,PZ5 ,PX6, PY6, PZ6, K56 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX5, PY5, PZ5, K45 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C------------K44,K46,K66
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, K44 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX6, PY6, PZ6, K46 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-       CALL S8ZKEHIJ(LFT,LLT,
-     .   PX6, PY6 ,PZ6 ,PX6, PY6, PZ6, K66 ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  S8ZKEHIJ                      source/elements/solid/solide8z/s8zke3.F
-Chd|-- called by -----------
-Chd|        S8ZKGEI3                      source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE S8ZKEHIJ(LFT,LLT,
-     .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ, KIJ ,
-     .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER LFT,LLT
-C     REAL
-      my_real
-     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
-     .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),KIJ(3,3,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,J
-C     REAL
-      my_real
-     .   HIJ(MVSIZ)
-C-----------------------------------------------
-      DO I=LFT,LLT
-        HIJ(I)=FXX(I)*PXI(I)*PXJ(I)+FYY(I)*PYI(I)*PYJ(I)+
-     .         FZZ(I)*PZI(I)*PZJ(I)+
-     .         FXY(I)*(PXI(I)*PYJ(I)+PYI(I)*PXJ(I))+
-     .         FYZ(I)*(PYI(I)*PZJ(I)+PZI(I)*PYJ(I))+
-     .         FXZ(I)*(PXI(I)*PZJ(I)+PZI(I)*PXJ(I))
-      ENDDO
-       DO J = 1,3
-        DO I=LFT,LLT
-         KIJ(J,J,I)=KIJ(J,J,I)+HIJ(I)
-        ENDDO
-       ENDDO
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  MMAT_H1                       source/elements/solid/solide8z/s8zke3.F
-Chd|-- called by -----------
-Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE MMAT_H1(HH    ,HH1   ,FAC  ,ICP   ,IPREDU )
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER ICP,IPREDU
-C     REAL
-      my_real
-     .   HH(2,*),HH1(2,*),FAC(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,IFP
-C     REAL
-C-----------------------------------------------
-       IPREDU=0
-       IF (ICP==1.OR.(ICP==2.AND.JHBE==17)) IPREDU=1
-C-----exclude nonlinear pressure laws (don't use p=c1*rho/(rho0-1)--hyperelastic first       
-       IF (MTN==42.OR.MTN==62.OR.MTN==82) IPREDU=0
-       IFP = 0
-       IF (ICP==1.AND.JHBE==17.AND.ISMSTR==10) IFP=1
-       IF (IFP==1) IPREDU=1
-C       
-        IF (IPREDU == 0) THEN
-          DO I=LFT,LLT
-           HH1(1,I)= HH(1,I)
-           HH1(2,I) =HH(2,I)
-          ENDDO
-        ELSEIF (ICP==2.AND.JHBE==17.OR.IFP==1) THEN
-C-----------constant pressure-----  
-         DO I=LFT,LLT
-          HH1(1,I)=HH(2,I)*(ONE-FAC(I))-TWO_THIRD*HH(2,I)*FAC(I)
-          HH1(2,I) = HH(2,I)
-         ENDDO
-        ELSEIF (ICP == 1) THEN
-C-----------constant pressure-----  
-         DO I=LFT,LLT
-          HH1(1,I)=-TWO_THIRD*HH(2,I)
-          HH1(2,I) = HH(2,I)
-         ENDDO
-        END IF !(IPREDU == 0) THEN
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  S8ZLKEP3                      source/elements/solid/solide8z/s8zke3.F
-Chd|-- called by -----------
-Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
-Chd|-- calls ---------------
-Chd|        S8ZKED3                       source/elements/solid/solide8z/s8zlke3.F
-Chd|====================================================================
-      SUBROUTINE S8ZLKEP3(
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
-     .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
-     .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
-     .   K66,K67,K68,K77,K78,K88,
-     .   HH ,VOL,FAC,ICP)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER ICP
-C     REAL
-      my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   K11(9,*)   ,K12(9,*)   ,K13(9,*)    ,K14(9,*)    ,K15(9,*)   ,
-     .   K16(9,*)   ,K17(9,*)   ,K18(9,*)    ,K22(9,*)    ,K23(9,*)   ,
-     .   K24(9,*)   ,K25(9,*)   ,K26(9,*)    ,K27(9,*)    ,K28(9,*)   ,
-     .   K33(9,*)   ,K34(9,*)   ,K35(9,*)    ,K36(9,*)    ,K37(9,*)   ,
-     .   K38(9,*)   ,K44(9,*)   ,K45(9,*)    ,K46(9,*)    ,K47(9,*)   ,
-     .   K48(9,*)   ,K55(9,*)   ,K56(9,*)    ,K57(9,*)    ,K58(9,*)   ,
-     .   K66(9,*)   ,K67(9,*)   ,K68(9,*)    ,K77(9,*)    ,K78(9,*)   ,
-     .   K88(9,*)   ,HH(2,*)    ,VOL(*)      ,FAC(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, J,IS
-C     REAL
-      my_real
-     .   TT,TV,DD(3,3,MVSIZ),
-     .   PX5(MVSIZ), PX6(MVSIZ), PX7(MVSIZ), PX8(MVSIZ),  
-     .   PY5(MVSIZ), PY6(MVSIZ), PY7(MVSIZ), PY8(MVSIZ),  
-     .   PZ5(MVSIZ), PZ6(MVSIZ), PZ7(MVSIZ), PZ8(MVSIZ)  
-C-----------------------------------------------
-       IF (ICP==1) THEN
-        DO I=LFT,LLT
-         TV=(HH(1,I)+TWO_THIRD*HH(2,I))*VOL(I)
-         TT=TV
-         DD(1,1,I)=TT
-         DD(2,2,I)=TT
-         DD(3,3,I)=TT
-         DD(1,2,I)=TV
-         DD(1,3,I)=TV
-         DD(2,1,I)=TV
-         DD(2,3,I)=TV
-         DD(3,1,I)=TV
-         DD(3,2,I)=TV
-        ENDDO
-       ELSE
-        DO I=LFT,LLT
-         TV=(HH(1,I)*FAC(I)+TWO_THIRD*HH(2,I)*(ONE-FAC(I)))*VOL(I)
-         TT=TV
-         DD(1,1,I)=TT
-         DD(2,2,I)=TT
-         DD(3,3,I)=TT
-         DD(1,2,I)=TV
-         DD(1,3,I)=TV
-         DD(2,1,I)=TV
-         DD(2,3,I)=TV
-         DD(3,1,I)=TV
-         DD(3,2,I)=TV
-        ENDDO
-       END IF !(ICP==1) THEN
-C       
-       DO I=LFT,LLT
-         PX5(I)=-PX3(I)
-         PY5(I)=-PY3(I)
-         PZ5(I)=-PZ3(I)
-         PX6(I)=-PX4(I)
-         PY6(I)=-PY4(I)
-         PZ6(I)=-PZ4(I)
-         PX7(I)=-PX1(I)
-         PY7(I)=-PY1(I)
-         PZ7(I)=-PZ1(I)
-         PX8(I)=-PX2(I)
-         PY8(I)=-PY2(I)
-         PZ8(I)=-PZ2(I)
-       ENDDO
-C  -------symm(diag)------
-      IS =1
-C      
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DD, K22,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, DD, K33,IS)
-       CALL S8ZKED3(LFT,LLT,PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, DD, K44,IS)
-       CALL S8ZKED3(LFT,LLT,PX5, PY5 ,PZ5 ,PX5, PY5, PZ5, DD, K55,IS)
-       CALL S8ZKED3(LFT,LLT,PX6, PY6 ,PZ6 ,PX6, PY6, PZ6, DD, K66,IS)
-       CALL S8ZKED3(LFT,LLT,PX7, PY7 ,PZ7 ,PX7, PY7, PZ7, DD, K77,IS)
-       CALL S8ZKED3(LFT,LLT,PX8, PY8 ,PZ8 ,PX8, PY8, PZ8, DD, K88,IS)
-C  -------non symm------
-      IS =0
-C      
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DD, K13,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, DD, K14,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX5, PY5, PZ5, DD, K15,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX6, PY6, PZ6, DD, K16,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX7, PY7, PZ7, DD, K17,IS)
-       CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX8, PY8, PZ8, DD, K18,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, DD, K23,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, DD, K24,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX5, PY5, PZ5, DD, K25,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX6, PY6, PZ6, DD, K26,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX7, PY7, PZ7, DD, K27,IS)
-       CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX8, PY8, PZ8, DD, K28,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, DD, K34,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX5, PY5, PZ5, DD, K35,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX6, PY6, PZ6, DD, K36,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX7, PY7, PZ7, DD, K37,IS)
-       CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX8, PY8, PZ8, DD, K38,IS)
-       CALL S8ZKED3(LFT,LLT,PX4, PY4 ,PZ4 ,PX5, PY5, PZ5, DD, K45,IS)
-       CALL S8ZKED3(LFT,LLT,PX4, PY4 ,PZ4 ,PX6, PY6, PZ6, DD, K46,IS)
-       CALL S8ZKED3(LFT,LLT,PX4, PY4 ,PZ4 ,PX7, PY7, PZ7, DD, K47,IS)
-       CALL S8ZKED3(LFT,LLT,PX4, PY4 ,PZ4 ,PX8, PY8, PZ8, DD, K48,IS)
-       CALL S8ZKED3(LFT,LLT,PX5, PY5 ,PZ5 ,PX6, PY6, PZ6, DD, K56,IS)
-       CALL S8ZKED3(LFT,LLT,PX5, PY5 ,PZ5 ,PX7, PY7, PZ7, DD, K57,IS)
-       CALL S8ZKED3(LFT,LLT,PX5, PY5 ,PZ5 ,PX8, PY8, PZ8, DD, K58,IS)
-       CALL S8ZKED3(LFT,LLT,PX6, PY6 ,PZ6 ,PX7, PY7, PZ7, DD, K67,IS)
-       CALL S8ZKED3(LFT,LLT,PX6, PY6 ,PZ6 ,PX8, PY8, PZ8, DD, K68,IS)
-       CALL S8ZKED3(LFT,LLT,PX7, PY7 ,PZ7 ,PX8, PY8, PZ8, DD, K78,IS)
-C
-C   ---------------
       RETURN
       END

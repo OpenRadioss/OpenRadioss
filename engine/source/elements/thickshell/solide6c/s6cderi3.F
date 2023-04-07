@@ -29,21 +29,25 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE S6CDERI3(OFF,DET,NGL,
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
-     .   PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4,
-     .   PZ1, PZ2, PZ3, PZ4,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
-     .   JACOB5,JACOB6,JACOB4,
-     .   JACOB8,JACOB9,JACOB7,
-     .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
-     .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
-     .   VZL,VOLG,SAV,OFFG,NEL)
+      SUBROUTINE S6CDERI3(
+     1   OFF,     DET,     NGL,     X1,
+     2   X2,      X3,      X4,      X5,
+     3   X6,      Y1,      Y2,      Y3,
+     4   Y4,      Y5,      Y6,      Z1,
+     5   Z2,      Z3,      Z4,      Z5,
+     6   Z6,      PX1,     PX2,     PX3,
+     7   PX4,     PY1,     PY2,     PY3,
+     8   PY4,     PZ1,     PZ2,     PZ3,
+     9   PZ4,     PX1H,    PX2H,    PX3H,
+     A   PY1H,    PY2H,    PY3H,    PZ1H,
+     B   PZ2H,    PZ3H,    JACOB5,  JACOB6,
+     C   JACOB4,  JACOB8,  JACOB9,  JACOB7,
+     D   JACI33,  B1X,     B1Y,     B2Y,
+     E   B2X,     B1122,   B1221,   B2212,
+     F   B1121,   B1XH,    B1YH,    B2XH,
+     G   B2YH,    B1122H,  B1221H,  B2212H,
+     H   B1121H,  VZL,     VOLG,    SAV,
+     I   OFFG,    NEL,     ISMSTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,13 +66,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "units_c.inc"
-#include      "vect01_c.inc"
 #include      "scr07_c.inc"
 #include      "scr17_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: ISMSTR
       INTEGER :: NEL, NGL(*)
 C
       my_real
@@ -458,4 +462,4 @@ C
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
  3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
      +    ' SOLID-SHELL ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
-      END SUBROUTINE S6CDERI3
+      END
