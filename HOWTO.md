@@ -1,15 +1,32 @@
 # How to Build OpenRadioss 
 
-## Linux
+* [Build environment on Linux](#build-environment-on-linux)
+   * [System prerequisites](#system-prerequisites)
+   * [Compiler and development tools](#compiler-and-development-tools)
+   * [OpenMPI installation](#openmpi-installation)
+* [Build environment on Windows](#build-environment-on-windows)
+   * [Compiler environment](#compiler-environment)
+   * [Build environment using cmd DOS shell](#build-environment-using-cmd-dos-shell)
+   * [Build environment using Visual Studio 2019](#build-environment-using-visual-studio-2019)
+   * [Building environment using cygwin](#building-environment-using-cygwin)
+* [How to build OpenRadioss](#how-to-build-openradioss)
+   * [Get the source](#get-the-source)
+   * [Building on Linux](#building-on-Linux)
+   * [Build OpenRadioss on Windows with cmd Shell](#build-openRadioss-on-windows-with-cmd-shell)
+   * [Build OpenRadioss with Visual Studio 2019](build-openRadioss-with-visual-studio-2019)
+   * [Build OpenRadioss with cygwin](#build-openRadioss-with-cygwin)
+* [How to build OpenRadioss on Linux with Container using Apptainer](#how-to-build-openradioss-on-linux-with-container-using-apptainer)
 
-### System and compiler installation
+## Build environment on Linux
+
+### System prerequisites
 
 Linux system with glibc version 2.17 or higher: 
 * CentOS/RHEL 7, CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
 * Ubuntu 20.0.4 or higher
 * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): OpenRadioss works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x 
 
-#### Compiler and development tools
+### Compiler and development tools
 
 You will need GCC/Gfortran version 11 or higher,
 [Cmake](https://cmake.org/) version 2.8 or higher, and GNU make.
@@ -54,7 +71,7 @@ Install as sudo or root
 
 
 
-#### OpenMPI
+### OpenMPI installation
 
 OpenMPI is needed to build OpenRadioss with OpenMPI support.
 It is recommended to build and install OpenMPI from OpenMPI website using gcc compiler.
@@ -70,26 +87,31 @@ It is recommended to build and install OpenMPI from OpenMPI website using gcc co
             tar -xvzf openmpi-4.1.2.tar.gz
             cd openmpi-4.1.2
 
+3. Build and install OpenMPI
 
-3. Build and install OpenMPI                                    
 **you need root or sudo rights on your computer**.
 
         ./configure --prefix=/opt/openmpi
         make
         make install
 
-## Windows
+## Build environment on Windows
 
-### Compiler Environment
 
-OpenRadioss was tested with OneAPI 2023.0 + Visual Studio 2019. Cygwin is used to build OpenRadioss. 
+OpenRadioss was tested with OneAPI 2023.0 + Visual Studio 2019.
 
-This chapter explains how to setup 
+This chapter explains how to setup Windows on different build configuration
 
-## Compiler environment
+* Compiler environment
+* OpenRadioss build environment using cmd.exe
+* OpenRadioss build using cygwin
+* OpenRadioss build environment using Visual Studio.
+
+### Compiler environment
 
 1. Intel OneAPI requires Visual Studio Community, Enterprise or Professional Edition installed.
    For all prerequisites, visit : https://www.intel.com/content/www/us/en/developer/articles/system-requirements/intel-oneapi-base-toolkit-system-requirements.html
+   **It is recommended to upgrade Visual Studio to the latest available one.**
     
 2. Download one API Base Toolkit and one API HPC Toolkit
 
@@ -103,7 +125,10 @@ This chapter explains how to setup
 * In the Base Toolkit: Intel DPC++/C++, Intel Math Kernel Library, Intel distribution for Python.
 * In the HPC Toolkit: Intel Intel® oneAPI DPC++/C++ Compiler, Intel® Fortran Compiler, Intel® MPI Library
 
-Choose the default directory to install Intel oneAPI
+**Notes:**
+
+* Intel OneAPI plugin for Visual Studio is recommended to use Intel OneAPI in Visual Studio 2019
+* Choose the default directory to install Intel oneAPI
 
 
 4. Install Git 
@@ -111,8 +136,57 @@ Choose the default directory to install Intel oneAPI
 * Install Git for Windows from : [https://git-scm.com/downloads](https://git-scm.com/downloads)
 The Git Bash tool is not need, but can be installed.
 
+5. Post installation tasks with git
 
-5. Install Cygwin
+* Install git-lfs
+
+            git lfs install
+
+* Add in Git global environment the autocrlf flag
+
+            git config --global core.autocrlf true
+	    
+* Create the ssh key & set it in GitHub
+
+            ssh-keygen -t rsa
+  
+  **Note: Accept all defaults, Standard directory, no passphrase**
+
+* Set your git parameters as in [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+### Build environment using cmd DOS shell
+
+Building using cmd.exe is using cmake.exe and ninja.exe
+Both are shipped with Visual Studio 2019.
+
+1. Setup the compiler
+   Load compiler settings in cmd.exe using following command : 
+
+         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+
+   cmd.exe can be launched using a batch script to ease usage
+
+         @echo off
+         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+         cmd.exe
+
+
+
+### Build environment using Visual Studio 2019
+
+**Notes:**
+
+* Following procedure was tested on Visual Studio 2019
+
+* Visual Studio Graphical environment must be installed. 
+* Visual Studio using cmake and ninja for compilation.
+* It is recommended to update Visual Studio to most recent release.
+* Cmake + Builders must be installed in Visual Studio : Visual Studio is using Cmake and ninja builder (available with cmake package)
+* Intel OneAPI plugin for VS2019 must be installed and running. Otherwise Compiler is not found.
+
+### Building environment using cygwin
+
+1. Install Cygwin
 
 * Download setup-x86-64 setup from : https://www.cygwin.com/install.html
   Direct access is : [setup-x86_64.exe](https://www.cygwin.com/setup-x86_64.exe)
@@ -144,11 +218,12 @@ The Git Bash tool is not need, but can be installed.
 
 **Notes**
 Cygwin is a Unix environment for Windows, all Unix tools are accessible.
+
 * Windows directories are accessible in /cygdrive/[c|d]
 * There is a user home directory in cygwin
 
 
-6. Create a build environment with Intel oneAPI, git and cygwin
+2. Create a build environment with Intel oneAPI, git and cygwin
 
 Cygwin can be launched with following Batch script : 
 
@@ -159,33 +234,13 @@ Cygwin can be launched with following Batch script :
          bash --login -i
 
 
-7. Setup git in Cygwin
+3. Setup SSH in Cygwin
 
-This paragraph permits to to setup Git in Cygwin and use it with GitHub as in a Linux shell.
-Launch cygwin build environment and apply the git configuration :
-
-* Install git-lfs
-
-            git lfs install
-
-* Add in Git global environment the autocrlf flag
-
-            git config --global core.autocrlf true
-	    
-* Create the ssh key & set it in GitHub
-
-            ssh-keygen -t rsa
-  
-  **Note: Accept all defaults, Standard directory, no passphrase**
-
-* Copy the new generated ssh key in cygwin home directory
-  As a workaround to used git in cygwin, copy the ssh key in cygwin home directory 
-  ssh keys are found in : /cygdrive/c/Users/[Windows User]/.ssh
+* Copy the new generated ssh key generated in previous section in cygwin home directory
+  As a workaround to use git in cygwin, copy the ssh key in cygwin home directory 
+  ssh keys are found in: `/cygdrive/c/Users/[Windows User]/.ssh`
 
             cp -r /cygdrive/c/Users/[Windows User]/.ssh /home/[cygwin_user]/
-
-* Set your git parameters as in [CONTRIBUTING.md](./CONTRIBUTING.md)
-
 
 
 ## How to build OpenRadioss
@@ -196,7 +251,9 @@ Launch cygwin build environment and apply the git configuration :
 
 See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
-### Building OpenRadioss Starter
+### Building on Linux 
+
+#### OpenRadioss Starter
 
 * Enter the OpenRadioss/starter directory
 
@@ -246,7 +303,7 @@ Execution Control
 - `-clean`: deletes compilation files and execution.
 
 
-### Building OpenRadioss Engine
+#### Building OpenRadioss Engine
  
 * Enter the OpenRadioss/engine directory
 
@@ -336,7 +393,115 @@ Execution Control
 - `-verbose`: compilation process is in Verbose mode
 - `-clean`: deletes compilation files and execution.
 
-## How to build OpenRadioss Container using Apptainer
+### Build OpenRadioss on Windows with cmd Shell
+
+#### OpenRadioss Starter
+
+* Enter the OpenRadioss/starter directory
+
+            cd OpenRadioss/starter
+	    
+* Launch `build_windows.bat` to proceed with compilation
+  Usual build is made with:
+  
+           build_windows.bat -arch=win64
+ 
+* OpenRadioss Starter: **starter_win64.exe** binary is copied in **OpenRadioss/exec** directory
+
+* Different builds are possible : launch build_windows.bat without argument to see the possible options:
+
+       Use with arguments : 
+           -arch=[build architecture]          : set architecture : default  Windows 64 bit
+           -prec=[dp,sp]                       : set precision - dp (default),sp
+           -static-link                        : Compiler runtime is linked in binary
+           -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
+
+       Execution control
+           -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
+           -verbose           : Verbose build
+           -clean             : clean build directory
+
+#### OpenRadioss Engine
+
+* Enter the OpenRadioss/engine directory
+
+* Launch `build_windows.bat` to proceed to the compilation
+  To build OpenRadioss Engine with Intel MPI support
+            
+            ./build_windows.bat -arch=win64 -mpi=impi
+  
+
+  To build OpenRadioss without Intel MPI support (SMP parallelism):
+
+            ../build_windows.bat -arch=win64 
+
+
+* OpenRadioss Engine: **engine_win64_impi.exe** or **engine_win64.exe** binary are copied in **OpenRadioss/exec** directory
+
+
+* Different builds are possible : launch build_windows.bat without argument to see the possible options:
+
+       Use with arguments :
+          -arch=[build architecture]          : set architecture : default  Windows 64 bit
+          -mpi=[smp,impi]                     : set MPI version
+          -prec=[dp,sp]                       : set precision - dp (default),sp
+          -static-link                        : Compiler runtime is linked in binary
+          -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
+       Execution control
+          -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
+          -verbose           : Verbose build
+          -clean             : clean build directory
+
+### Build OpenRadioss with Visual Studio 2019
+
+* Launch Visual Studio 2019
+
+* Choose `Open Local Folder` option and select the OpenRadioss directory from your clone.
+
+![image](/doc/vs_start.png)
+
+* Visual Studio starts and read the configuration files CMakeLists.txt and CMakeSettings.json.
+
+* Select build configuration in the `Configuration` menu : 
+
+![image](/doc/vs_studio_in.png)
+
+* Choose the wanted configuration from Starter/Engine release and debug configuration.
+
+* Launch in Menu : [Build][Build All]
+
+* OpenRadioss binaries are copied in **OpenRadioss/exec** directory
+
+
+### Build OpenRadioss with cygwin
+
+Same procedure applies than building for Linux: 
+* Enter the OpenRadioss/starter directory
+
+            cd OpenRadioss/starter
+
+* Launch `build_script.sh` to proceed to the compilation
+
+  Usual build is make with:
+
+            ./build_script.sh -arch=win64
+
+* Enter the OpenRadioss/engine directory
+
+            cd OpenRadioss/engine
+
+* Launch `build_script.sh` to proceed to the compilation
+
+  Usual build with Intel MPI support is made with:
+
+            ./build_script.sh -arch=win64 -mpi=impi
+	    
+  To build without MPI Support (SMP only)
+  
+              ./build_script.sh -arch=win64
+
+
+## How to build OpenRadioss on Linux with Container using Apptainer
 
 ### Linux
 Linux system with [Apptainer](https://apptainer.org/docs/admin/main/installation.html):
@@ -354,7 +519,7 @@ Linux system with [Apptainer](https://apptainer.org/docs/admin/main/installation
 
             sudo apptainer build openradioss.sif openradioss.def
 
-* Copy OpenRadioss container to the directory which is in your $PATH
+* Copy OpenRadioss container to the directory which is in your `$PATH`
 
             sudo cp openradioss.sif /usr/local/bin
 

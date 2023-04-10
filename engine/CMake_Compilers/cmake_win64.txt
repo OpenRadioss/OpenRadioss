@@ -53,6 +53,12 @@ set ( mpiver "${MPI}" )
 
 set ( RELNAME ${arch}${mpi_suf})
 
+#
+# executable name
+# ---------------------------------
+set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
+
+
 # Third party libraries
 # ---------------------
 
@@ -89,7 +95,7 @@ else (precision STREQUAL "sp")
 endif (precision STREQUAL "sp")
 
 # Modules directory
-set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/${EXEC_NAME}/modules )
 set(CMAKE_Fortran_MODDIR_FLAG "/MODULE:" )
 
 message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
