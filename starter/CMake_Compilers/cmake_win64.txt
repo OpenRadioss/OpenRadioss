@@ -58,8 +58,13 @@ else (precision STREQUAL "sp")
   set (precision_flag "-DMYREAL8")
 endif (precision STREQUAL "sp")
 
+#
+# executable name
+# ---------------------------------
+set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
+
 # Modules directory
-set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/{EXEC_NAME}/modules )
 set(CMAKE_Fortran_MODDIR_FLAG "/module:" )
 
 message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")

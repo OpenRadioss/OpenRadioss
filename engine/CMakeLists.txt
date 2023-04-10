@@ -261,6 +261,14 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc)
 
+if(DEFINED VS_BUILD)
+  add_custom_command(TARGET ${EXEC_NAME}
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E make_directory ${source_directory}/../exec
+                   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${EXEC_NAME}> ${source_directory}/../exec
+                  )
+endif()
+
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
 target_link_libraries(${EXEC_NAME} ${LINK} )
 

@@ -1,4 +1,6 @@
 cbuild_*
+vs_build*
+.vs
 exec
 *.swp
 *.swo
