@@ -118,9 +118,10 @@ C
       IF (IFAIL2 /= 1 .AND. IFAIL2 /= 2 .AND. IFAIL2 /= 3) IFAIL2 = 0
       
       UPARAM(1)=IFAIL
-      UPARAM(2)=0  ! not used for this law
+      UPARAM(2)=IEQUIL
       UPARAM(3)=IFAIL2
-      UPARAM(4)=IEQUIL 
+C     UPARAM(4) used for NUVAR    
+C
       NUPARAM = 4
 c      
       IF (IS_ENCRYPTED) THEN
