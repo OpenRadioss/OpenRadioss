@@ -687,32 +687,43 @@ C-----------------------------------------------
 
 C Check skew1 ------
       IF (IDSK1>0) THEN
-          ISK = GET_U_SKEW(IDSK1,N1,N2,N3,U)
-          IF (ISK==0) THEN
-            CALL ANCMSG(MSGID=926,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IDSK1)
-          ELSE
-            DO I=1,9
-              EX(I)=U(I)
-            ENDDO
-	  ENDIF
+        ISK = GET_U_SKEW(IDSK1,N1,N2,N3,U)
+        IF (ISK==0) THEN
+          CALL ANCMSG(MSGID=926,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                C1=TITR,
+     .                I2=IDSK1)
+        ELSE
+          DO I=1,9
+            EX(I)=U(I)
+          ENDDO
+	ENDIF
       ENDIF
-C Check skew2 ------
 
+C Check skew2 ------
       IF (IDSK2>0) THEN
-          ISK = GET_U_SKEW(IDSK2,N1,N2,N3,V)
-          IF (ISK==0) THEN
+        ISK = GET_U_SKEW(IDSK2,N1,N2,N3,V)
+        IF (ISK==0) THEN
             CALL ANCMSG(MSGID=926,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IDSK2)
-	   ENDIF
+	ENDIF
+        IF ((JTYP>4).AND.(JTYP<9)) THEN
+C--       init angle not allowed for joints with no rotations - idsk2 ignored
+          CALL ANCMSG(MSGID=1134,
+     .                 MSGTYPE=MSGWARNING,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=JTYP,
+     .                 I3=IDSK2)
+          IDSK2 = 0
+        ENDIF
       ENDIF
 
 C Computation of initial orientation angles
@@ -772,14 +783,6 @@ C--      only one init angle allowed on X axis
      .                 I2=JTYP,
      .                 I3=IDSK2)
           ENDIF
-        ELSEIF ((JTYP>4).AND.(JTYP<9)) THEN
-C--      init angle not allowed for joints with no rotations
-          CALL ANCMSG(MSGID=1134,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=JTYP)
         ELSE
 C--      Check of initial angles vs stopping angles
           DO I=1,3
