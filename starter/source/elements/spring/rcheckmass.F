@@ -118,7 +118,7 @@ C
           K14 = K13 + 6
 C
           IF(MTN == 108) THEN
-            IEQUI = UPARAM(IADBUF+4)
+            IEQUI = UPARAM(IADBUF+2)
             N1  =IXR(2,NR)
             N2  =IXR(3,NR)
             IF((TAGSLV(N1)==0.AND.(MS(N1)==ZERO.OR.IN(N1)==ZERO)).OR.

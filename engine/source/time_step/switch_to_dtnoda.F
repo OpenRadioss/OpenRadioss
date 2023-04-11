@@ -248,7 +248,7 @@ C
             K14 = K13 + 6
 C
             IF(MTN == 108) THEN
-              IEQUI = UPARAM(IADBUF+4)
+              IEQUI = UPARAM(IADBUF+2)
               XKM= MAX(UPARAM(IADBUF + K11 + 1)*UPARAM(IADBUF + K1 + 1),
      .                 UPARAM(IADBUF + K11 + 2)*UPARAM(IADBUF + K1 + 2),
      .                 UPARAM(IADBUF + K11 + 3)*UPARAM(IADBUF + K1 + 3))   ! /XL(I)

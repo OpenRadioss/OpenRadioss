@@ -177,7 +177,7 @@ C
         EYZ(I)=SKEW(8,ISK)
         EZZ(I)=SKEW(9,ISK)
         XL0(I)=ONE
-        IEQUIL(I) = UPARAM(IADBUF + 4)
+        IEQUIL(I) = UPARAM(IADBUF + 2)
       ENDDO
 C---------------------
 C     TRANSLATIONS
