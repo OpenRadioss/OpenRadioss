@@ -176,7 +176,7 @@ C-----
 C
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
-      INTEGER IOFFS,G_PLA,G_EPSD
+      INTEGER IOFFS,G_PLA,G_EPSD,NN_DEL
       my_real
      .   OFFS(MVSIZ)
       my_real
@@ -241,7 +241,7 @@ C
      .   STIN(MVSIZ),DSV(MVSIZ),BID(MVSIZ),CONDEN(MVSIZ),DTI
        my_real
      .       NU1(MVSIZ),FAC(MVSIZ),DIVDE(MVSIZ),FOR(MVSIZ,6),
-     .       ALPHA_E(MVSIZ),LLSH(MVSIZ),C1,E0(MVSIZ)
+     .       ALPHA_E(MVSIZ),LLSH(MVSIZ),C1,E0(MVSIZ),AREA(MVSIZ)
       DOUBLE PRECISION 
      .   FACDP
 C-----
@@ -419,6 +419,10 @@ C Gather nodal variables and compute intrinsic rotations
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
 C
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=8
       MX = MXT(1)
       DO I=1,NEL
         SIGY(I) = EP30
@@ -472,7 +476,7 @@ C
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
       IF (NTSHEG > 0) THEN
-         CALL SDLENSH(VOLN,LLSH,
+         CALL SDLENSH(VOLN,LLSH,AREA ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
@@ -757,6 +761,15 @@ C-----------------------------
         DO I=1,NEL
           MXT(I)=MXT0(I)
         ENDDO
+      ENDIF
+      IF ( NN_DEL> 0) THEN
+        IF (NTSHEG == 0)
+     .    CALL SDLENSH(VOLN,LLSH,AREA ,
+     .          X1, X2, X3, X4, X5, X6, X7, X8,
+     .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLN,AREA,GBUF%VOL,
+     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
       ENDIF
 C-----------------------------
 C Small strain

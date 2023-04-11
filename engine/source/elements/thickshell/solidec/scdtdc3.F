@@ -519,7 +519,7 @@ Chd|        SCFORC3                       source/elements/thickshell/solidec/scf
 Chd|-- calls ---------------
 Chd|        CLSYS3                        source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|====================================================================
-      SUBROUTINE SDLENSH(VOLN,LLSH,
+      SUBROUTINE SDLENSH(VOLN,LLSH,AREA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
@@ -539,6 +539,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real, DIMENSION(MVSIZ) , INTENT(OUT)  :: AREA 
       my_real
      .   VOLN(*),LLSH(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -552,7 +553,7 @@ C-----------------------------------------------
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
      .   VQ(3,3,MVSIZ), LXYZ0(3),DETA1(MVSIZ),XX,YY,ZZ,
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
-     .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),AREA(MVSIZ),
+     .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),
      .   XN(4,MVSIZ) , YN(4,MVSIZ) , ZN(4,MVSIZ) 
       my_real
      .   AL1,AL2,LL(MVSIZ),COREL(2,4)
@@ -666,7 +667,7 @@ Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SDLENSH3N(VOLN,LLSH3N,
+      SUBROUTINE SDLENSH3N(VOLN,LLSH3N,AREA,
      .                     X1, X2, X3, X4, X5, X6,
      .                     Y1, Y2, Y3, Y4, Y5, Y6,
      .                     Z1, Z2, Z3, Z4, Z5, Z6)
@@ -685,6 +686,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real, DIMENSION(MVSIZ) , INTENT(OUT)  :: AREA 
       my_real
      .   VOLN(*),LLSH3N(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
@@ -700,7 +702,7 @@ C-----------------------------------------------
      .        E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
      .        X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
      .        X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),
-     .        X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ), AREA(MVSIZ),
+     .        X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ), 
      .        X2L(MVSIZ), X3L(MVSIZ), Y3L(MVSIZ),
      .        XN(3,MVSIZ) , YN(3,MVSIZ) , ZN(3,MVSIZ) 
       my_real

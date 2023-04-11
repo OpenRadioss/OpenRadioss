@@ -629,13 +629,15 @@ C
         ENDDO
       ENDIF
 C
+      ITET = 0
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+C
 C Small strain formulation is activated:
 C           a) by minimum time step in MMAIN
 C           b) by small volume or bad aspect ratio in SMALLGEO3
 C If ISMSTR=2 GBUF%SMSTR was updated by S8SAV3 (before MMAIN, each cycle) fixed when off=2
 C If ISMSTR=12 fixed GBUF%SMSTR before, updated only once by S8SAV12 
       CALL SMALLB3(GBUF%OFF,OFF)
-      ITET = 0
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         CALL S8SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,X  ,XDP   ,

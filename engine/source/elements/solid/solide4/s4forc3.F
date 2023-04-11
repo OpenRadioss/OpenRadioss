@@ -137,7 +137,7 @@ C
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*), FSKYM(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -562,11 +562,12 @@ C--------------------------
       ENDIF
 C
       IF(JLAG+JALE+JEUL == 0)RETURN
+      ITET = 1
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
       CALL SMALLB3(GBUF%OFF,OFF)
-      ITET = 1
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
          CALL S4SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,

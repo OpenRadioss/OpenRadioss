@@ -181,7 +181,7 @@ C
 C          
       my_real :: DT2T
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), 
      .   FLUX(6,*), FSKYM(*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
@@ -899,9 +899,10 @@ C Compute Strains for output
       ENDIF
       IF ((IMON_MAT==1).AND. ITASK == 0) CALL STOPTIME(35,1)
 C
+      ITET = 0
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
 C Small Strain
       CALL SMALLB3(GBUF%OFF,OFF)
-      ITET = 0
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         CALL S8SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,X  ,XDP   ,

@@ -203,7 +203,7 @@ C Variables utilisees en argument par les materiaux.
 C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUVOID(MVSIZ)
-      INTEGER IOFFS,IFVM22
+      INTEGER IOFFS,IFVM22,NN_DEL
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
@@ -294,7 +294,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
-     .   ALPHA_E(MVSIZ),LLSH(MVSIZ),LLSMIN(MVSIZ)
+     .   ALPHA_E(MVSIZ),LLSH(MVSIZ),LLSMIN(MVSIZ),AREA(MVSIZ)
       DOUBLE PRECISION 
      .   FACDP
       my_real
@@ -453,6 +453,10 @@ C       GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .    XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .    GBUF%GAMA_R) 
       ENDIF
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=6
 c
       IF (JCVT == 2 .AND. IOR_TSH  == 0) THEN
         CALL STORTH3(LFT,LLT,NEL,
@@ -505,7 +509,7 @@ c---------------------------
      .       IXS(1,NF1),IDEG )  
       END IF                                 
       IF (NTSHEG > 0) THEN
-         CALL SDLENSH(VOLN,LLSH,
+         CALL SDLENSH(VOLN,LLSH,AREA ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
@@ -1143,6 +1147,15 @@ c----------------------
         DO I=LFT,LLT
           MXT(I)=MXT0(I)
         ENDDO
+      ENDIF
+      IF ( NN_DEL> 0) THEN
+        IF (NTSHEG == 0)
+     .    CALL SDLENSH(VOLG,LLSH,AREA ,
+     .          X1, X2, X3, X4, X5, X6, X7, X8,
+     .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
+        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
+     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
       ENDIF
 C-----------------------------
 C     SMALL STRAIN 

@@ -111,7 +111,7 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),FLU1(*), 
+     .   PM(*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),FLU1(*), 
      .   VEUL(*), FV(*), TF(*),TEMP(*), FTHE(*),FTHESKY(*),GRESAV(*), 
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),VOLN(MVSIZ)
       my_real
@@ -135,7 +135,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NF1,NF2,ILAY,IP,IR,IS,IT,NPTT,NPTS,NPTR,IFLAG,IBID
-      INTEGER IBIDON(1)
+      INTEGER IBIDON(1),ITET,NN_DEL,PID
 
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ), IPERM1(NPE),
      .IPERM2(NPE)
@@ -169,7 +169,7 @@ C-----------------------------------------------
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
      .  DXY(MVSIZ),DYX(MVSIZ),
      .  DYZ(MVSIZ),DZY(MVSIZ),VOLG(MVSIZ),
-     .  DZX(MVSIZ),DXZ(MVSIZ),BID(MVSIZ),AA,WI,BB, MBID(1)
+     .  DZX(MVSIZ),DXZ(MVSIZ),BID(MVSIZ),AA,WI,BB, MBID(1),LL8(MVSIZ)
       my_real VARNL(NEL)
       DOUBLE PRECISION
      .  VOLDP(MVSIZ,NIPMAX)
@@ -267,6 +267,11 @@ C
      A   GBUF%QVIS,   GBUF%PLA,    GBUF%EPSD,   GBUF%G_PLA,
      B   GBUF%G_EPSD, NEL,         CONDEG,      JALE,
      C   ISMSTR,      JEUL,        JLAG)
+C
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=20
 c
       DO N=1,NPE
         DO I=1,NEL
@@ -423,6 +428,18 @@ C--------------------------
         ENDDO
        ENDDO
       ENDDO
+C      
+      IF ( NN_DEL> 0) THEN
+        ITET = 0
+        CALL SDLEN8(LL8,VOLG,IXS(1,NF1),
+     .              XX(1,1), XX(1,2), XX(1,3), XX(1,4),
+     .              XX(1,5), XX(1,6), XX(1,7), XX(1,8),
+     .              YY(1,1), YY(1,2), YY(1,3), YY(1,4),
+     .              YY(1,5), YY(1,6), YY(1,7), YY(1,8),
+     .              ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
+     .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8))
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+      END IF !( NN_DEL> 0) THEN
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
