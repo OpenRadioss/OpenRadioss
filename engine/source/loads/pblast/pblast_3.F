@@ -167,6 +167,7 @@ C-----------------------------------------------
       TDET           = FAC(01,NL)
       XDET           = FAC(02,NL)
       YDET           = FAC(03,NL)
+      ZDET           = FAC(04,NL)      
       WTNT           = FAC(05,NL)
       PMIN           = FAC(06,NL)
       TA_SHIFT       = FAC(07,NL)
