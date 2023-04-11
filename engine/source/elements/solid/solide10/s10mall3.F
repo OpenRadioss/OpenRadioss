@@ -144,10 +144,10 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
 Chd|====================================================================
-      SUBROUTINE S10MALLGEO3(NGL, OFFG ,VOLN ,DELTAX, VOLG0 ,
+      SUBROUTINE S10MALLGEO3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,
      .                       RX , RY , RZ , 
      .                       SX , SY , SZ ,
-     .                       TX , TY , TZ )
+     .                       TX , TY , TZ ,LC  ,GEO   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -158,13 +158,16 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "scr18_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*)
 C     REAL
+      my_real, DIMENSION(NPROPG) , INTENT(IN)  :: GEO 
+      my_real, DIMENSION(MVSIZ) , INTENT(OUT)  :: LC 
       my_real
-     .   OFFG(*),VOLN(*),DELTAX(*), VOLG0(*),
+     .   OFFG(*),VOLG(*),DELTAX(*), VOLG0(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),TX(*), TY(*), TZ(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -173,14 +176,16 @@ C-----------------------------------------------
       my_real
      .   A1,A2,A3,A4,
      .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,
-     .   LC(MVSIZ),VOLG(MVSIZ)
+     .   VDEFMIN,VDEFMAX,ASPMIN,ASPTET,DELM
 C---------------------------------------------
-      IF(ISMSTR==1.OR.ISMSTR==3.OR.ISMSTR==11) RETURN
-      IF(MIN_ASPECT==ZERO.AND.MIN_DEFV==ZERO) RETURN
+      VDEFMIN = GEO(190)
+      VDEFMAX = GEO(191)
+      ASPMIN  = GEO(192)
+      ASPTET  = GEO(193)
+      DELM = VDEFMIN + VDEFMAX + ASPMIN + ASPTET
+      IF(DELM ==ZERO.AND.(ISMSTR==1.OR.ISMSTR==3.OR.ISMSTR==11)) RETURN
+      IF(DELM ==ZERO.AND.MIN_ASPECT==ZERO.AND.MIN_DEFV==ZERO) RETURN
 C      
-        DO I=LFT,LLT
-         VOLG(I) = VOLN(I)*NPT
-        END DO
       IF(ISROT == 0)THEN
         DO I=LFT,LLT
           A1X = RY(I)*SZ(I)-RZ(I)*SY(I)
@@ -210,9 +215,6 @@ C
          LC(I) = DELTAX(I)
         END DO
       END IF ! (ISROT == 0)THEN
-C
-      ITET = 1
-      CALL SMALLGEO3(NGL ,OFFG ,VOLG ,LC, VOLG0 ,ITET )
 C      
       RETURN
       END

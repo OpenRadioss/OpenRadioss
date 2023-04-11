@@ -206,7 +206,7 @@ C                                                                     12
      .   STIN(MVSIZ),BID(MVSIZ),DSV(MVSIZ),ALPHA_E(MVSIZ),LLSH(MVSIZ)
 C     
       INTEGER PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IOFFS
-      INTEGER MXT0(MVSIZ)
+      INTEGER MXT0(MVSIZ),NN_DEL
       my_real
      .   DIR(MVSIZ,2),SIGN(NEL,6),SHF(MVSIZ),ZT,WT,OFFS(MVSIZ),
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),NU1(MVSIZ),FAC(MVSIZ),
@@ -217,7 +217,7 @@ C
      .   N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ),
      .   N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ),
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
-     .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ)
+     .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ),AREA(MVSIZ)
       my_real VARNL(NEL)
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ),FACDP
@@ -323,6 +323,10 @@ C-----------------------------------------------------------
      .   NEL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
      .   XGXYA,XGYZA,XGZXA,IPARG(1,NG),GBUF%GAMA_R) 
 C
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=6
       MX = MXT(1)
       C1 =PM(32,MX)
       DO I=1,NEL
@@ -372,7 +376,7 @@ C
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
       IF (NTSHEG > 0) THEN
-         CALL SDLENSH3N(VOLG,LLSH,
+         CALL SDLENSH3N(VOLG,LLSH,AREA , NEL ,
      .                  X1, X2, X3, X4, X5, X6,
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
      .                  Z1, Z2, Z3, Z4, Z5, Z6)
@@ -622,6 +626,15 @@ C-----------------------------
         DO I=1,NEL
           MXT(I)=MXT0(I)
         ENDDO
+      ENDIF
+      IF ( NN_DEL> 0) THEN
+        IF (NTSHEG == 0)
+     .   CALL SDLENSH3N(VOLG,LLSH,AREA , 
+     .                  X1, X2, X3, X4, X5, X6,
+     .                  Y1, Y2, Y3, Y4, Y5, Y6,
+     .                  Z1, Z2, Z3, Z4, Z5, Z6)
+        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLN,AREA,GBUF%VOL,
+     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
       ENDIF
 C-----------------------------
 C Small strain

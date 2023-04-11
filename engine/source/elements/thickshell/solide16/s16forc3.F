@@ -112,7 +112,7 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), 
      .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*)
       my_real
@@ -138,7 +138,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,LCO, NF1, IFLAG, IL, IR, IS, IT, NF2,L_PLA,
-     .        IP,NLAY,NPTT,NPTS,NPTR,ICO,IBID,IBIDON(1),MX,II(6)
+     .        IP,NLAY,NPTT,NPTS,NPTR,ICO,IBID,IBIDON(1),MX,II(6),PID
 
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IPERM1(NPE),IPERM2(NPE)
       my_real
@@ -162,10 +162,10 @@ C-----------------------------------------------
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
-     . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
+     . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE),AREA(MVSIZ),LLSH(MVSIZ)
      
       ! Variables utilisees dans les routines solides uniquement (en arguments).
-      INTEGER NC(MVSIZ,NPE)
+      INTEGER NC(MVSIZ,NPE),NN_DEL
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
      .  SIGSM(MVSIZ),VOLSM(MVSIZ),
@@ -391,6 +391,11 @@ C=======================================================================
      B   GBUF%G_EPSD, NEL,         CONDEG,      JALE,
      C   ISMSTR,      JEUL,        JLAG)
 
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=8
+C
       DO N=1,NPE
         DO I=1,NEL
           UL(I,N) = ZERO
@@ -615,6 +620,18 @@ C
         ENDDO   ! IL=1,NLAY
        ENDDO    ! IR=1,NPTR
       ENDDO     ! IT=1,NPTT
+C      
+      IF ( NN_DEL> 0) THEN
+        CALL SDLENSH(VOLG,LLSH,AREA ,
+     .          XX(1,1), XX(1,2), XX(1,3), XX(1,4),
+     .          XX(1,5), XX(1,6), XX(1,7), XX(1,8),
+     .          YY(1,1), YY(1,2), YY(1,3), YY(1,4),
+     .          YY(1,5), YY(1,6), YY(1,7), YY(1,8),
+     .          ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
+     .          ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8))
+        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
+     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
+      ENDIF
       !--------------------------
       !     BILANS PAR MATERIAU
       !--------------------------

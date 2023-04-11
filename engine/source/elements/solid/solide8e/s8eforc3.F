@@ -1467,11 +1467,12 @@ c-------------------
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
      .   VOLG,PP,IDEG)
       ENDIF
+      ITET = 0
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
       CALL SMALLB3(GBUF%OFF,OFFG)
-      ITET = 0
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX, GBUF%VOL ,ITET )
       IF (ISMSTR==11.OR.ISMSTR==12.OR.(JCVT == 0 .AND. ISMSTR>0)) THEN
          CALL S8EDEFW3(

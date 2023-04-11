@@ -217,7 +217,7 @@ C
      .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
      .    VISP(MVSIZ)
 c
-      my_real VARNL(NEL)
+      my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,II(6)
       my_real, 
@@ -651,11 +651,14 @@ C
           END DO
         END IF
 c
-        CALL SMALLB3(GBUF%OFF,OFF)
-        CALL S10MALLGEO3(NGL,GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,
+        ITET=1
+        CALL S10MALLGEO3(NGL,GBUF%OFF ,VOLG ,DELTAX, GBUF%VOL ,
      .                       RX , RY , RZ , 
      .                       SX , SY , SZ ,
-     .                       TX , TY , TZ )
+     .                       TX , TY , TZ ,DELTAX4,GEO(1,NGEO(1)))
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX4,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+        CALL SMALLB3(GBUF%OFF,OFF)
+        CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX4, GBUF%VOL ,ITET )
 C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IOFFS =0
