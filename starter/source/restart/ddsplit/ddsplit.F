@@ -340,8 +340,8 @@ Chd|====================================================================
      O   NCRKPART     ,INDX_CRK     ,CRKLVSET       ,CRKSHELL     ,CRKSKY      ,
      P   CRKAVX       ,CRKEDGE      ,FBSAV6         ,TABSENSOR    ,SENSORS     ,
      Q   STACK        ,XFEM_PHANTOM ,T8             ,TAB_UMP      ,POIN_UMP    ,
-     R   SOL2SPH_TYP  ,ADDCSRECT    ,CSRECT         ,DRAPE        ,
-     S   ITAGND        ,ICNDS10      ,ADDCNCND     ,
+     R   SOL2SPH_TYP  ,ADDCSRECT    ,CSRECT         ,DRAPE        ,LOADS       ,
+     S   ITAGND       ,ICNDS10      ,ADDCNCND       ,
      T   CEPCND       ,CELCND       ,CNCND          ,NATIV_SMS    ,I24MAXNSNE  ,
      U   MULTI_FVM    ,SEGQUADFR    ,INTBUF_FRIC_TAB,SUBSET       ,IGRNOD      ,
      V   IGRBRIC      ,IGRQUAD      ,IGRSH4N        ,IGRSH3N      ,IGRTRUSS    ,
@@ -353,7 +353,8 @@ Chd|====================================================================
      B   SIZE_ALE_ELM ,PINCH_DATA  ,TAG_SKINS6      ,IBCSCYC      ,LBCSCYC  ,T_MONVOL,
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
-     E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES)
+     E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
+     F   LOADS_PER_PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -394,6 +395,7 @@ C-----------------------------------------------
       USE JOINT_MOD
       USE SEATBELT_MOD
       USE OUTMAX_MOD
+      USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
@@ -643,6 +645,9 @@ C-----------------------------------------------
         TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
         TYPE(USER_WINDOWS_),INTENT(IN) :: USER_WINDOWS
 
+        INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
+        TYPE(LOADS_),INTENT(IN) :: LOADS ! initial structure of load cyl
+        TYPE(LOADS_), INTENT(IN) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1745,7 +1750,7 @@ C--------------------------------------------
      2   NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS%NSENSOR)
+     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS%NSENSOR,LOADS_PER_PROC%NLOAD_CYL)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS)
@@ -2507,7 +2512,8 @@ C--------------------------------------
      N      CRKNODIAD ,INTBUF_TAB,NUMELIG3D_L,KXIG3D,IXIG3D,
      O      IBFFLUX   ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L   ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
-     Q      IGRSURF_PROC ,NEBCS_NRF, EBCS_TAB_LOC_2)
+     Q      IGRSURF_PROC ,NEBCS_NRF, EBCS_TAB_LOC_2,
+     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC)
 
       ! -------------------
       CALL EBCS_TAB_LOC_2%destroy()
@@ -2595,6 +2601,14 @@ C--------------------------------------------
         CALL PBLAST_WRITE_STARTER(PBLAST_TAB,P-1,CEP)
       ENDIF
 C
+C--------------------------------------------
+C LOAD/PCYL
+C--------------------------------------------
+      IF (LOADS_PER_PROC%NLOAD_CYL > 0) THEN
+        CALL WRITE_PCYL(LOADS_PER_PROC%LOAD_CYL,LOADS_PER_PROC%NLOAD_CYL,NODLOCAL)
+      ENDIF
+C
+C--------------------------------------
       IF(ICRACK3D > 0)THEN
 C--------------------------------------
 C Boundary nodes for xfem

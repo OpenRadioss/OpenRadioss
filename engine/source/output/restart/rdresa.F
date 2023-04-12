@@ -40,7 +40,7 @@ Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
-     .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS)
+     .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE INTERFACES_MOD
       USE SENSOR_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,6 +79,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
       TYPE (INTERFACES_)    ,INTENT(INOUT) :: INTERFACES
       TYPE (SENSORS_)       ,INTENT(INOUT) :: SENSORS
+      TYPE (LOADS_)         ,INTENT(INOUT) :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,8 +163,7 @@ C      ENDIF
 C-----
       CALL READ_I_C(TABVINT,LVARINT)
       CALL RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .            INTERFACES%PARAMETERS,SENSORS)
-
+     .            INTERFACES%PARAMETERS,SENSORS,LOADS  )
 C
       IF(ANIM_PLY > 0 .AND.IPLYXFEM == 0) THEN
           WRITE(ISTDO,*) '**WARNING** /ANIM/SHELL/PLY '

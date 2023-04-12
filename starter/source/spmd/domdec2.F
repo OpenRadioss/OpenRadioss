@@ -58,7 +58,7 @@ Chd|====================================================================
      D   LGAUGE ,IGAUP  ,NGAUP  ,INTBUF_TAB,IBFFLUX,
      E   ICNDS10,ITAGND ,IGEO   ,TAG_SKN,MULTIPLE_SKEW,
      F   IBFV   ,IBCSCYC,LBCSCYC,R_SKEW,IPM     ,
-     G   SENSORS, LEN_CEP,EBCS_TAB)
+     G   SENSORS, LEN_CEP,EBCS_TAB,LOADS,IFRAME)
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_EBCS_MOD
       USE EBCS_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,7 +126,9 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE(SENSORS_)   ,INTENT(IN)    :: SENSORS
-      TYPE(T_EBCS_TAB) ,INTENT(INOUT) :: EBCS_TAB
+      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB ! ebcs data structure
+      TYPE (LOADS_), INTENT(INOUT) :: LOADS ! load data structure
+      INTEGER ,DIMENSION(LISKN,NUMFRAM+1)   ,INTENT(IN) :: IFRAME ! frame data structure
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -147,6 +150,7 @@ C-----------------------------------------------
      .        ECT_AK,FR_AK
       INTEGER :: IJK
       INTEGER :: SURF_ID,NUMBER_NODE,NODE_ID
+      INTEGER :: NUMBER_PROC,NUMBER_SEGMENT
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
@@ -158,6 +162,8 @@ c      CNT = CNT+1
 c      print*,'Count:',CNT
       INT2FRPLUS=0
 C-----------------------------------------------------
+
+      CALL DOMAIN_DECOMPOSITION_PCYL(LOADS,IFRAME)
       ! ------------------------
       DO ISENS=1,SENSORS%NSENSOR
             ! ------------------------   
@@ -1574,6 +1580,23 @@ C--------------------------------------
             ENDIF
         ENDDO
       ENDIF
+!   -------------------------------------
+!   /LOAD/PCYL : add 1 contribution per node per segment
+!   ------------
+    ! loop over the /LOAD/PCYL
+      DO I=1,LOADS%NLOAD_CYL
+            NUMBER_SEGMENT = LOADS%LOAD_CYL(I)%NSEG ! number of segment for the PCYL I
+            ! ------------
+            DO J=1,NUMBER_SEGMENT ! loop over the segments of the surface
+                DO K=1,4
+                    NODE_ID = LOADS%LOAD_CYL(I)%SEGNOD(J,K) + 1! get the node id + 1 (if the segment is a triangle, NODE_ID(node 4) = 0))
+                    NUMBER_PROC = 0
+                    IF(NODE_ID/=0) ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+                ENDDO
+            ENDDO
+            ! ------------
+        ENDDO
+!   -------------------------------------
 
 C-----------------------------------------------
 C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
@@ -2004,7 +2027,7 @@ Chd|====================================================================
      3   IXR    ,IXTG ,IXTG6  ,T_MONVOL ,
      4   IGRSURF,IB   ,ADDCNE ,CEP    ,
      5   ILEN   ,GEO    ,IBCV ,IBCR   ,IBFFLUX,
-     6   ILOADP ,LLOADP ,CEL  ,EBCS_TAB)
+     6   ILOADP ,LLOADP ,CEL  ,EBCS_TAB,LOADS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------    
@@ -2012,6 +2035,7 @@ C-----------------------------------------------
       USE MONVOL_STRUCT_MOD
       USE ALE_EBCS_MOD
       USE EBCS_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2038,7 +2062,8 @@ C-----------------------------------------------
      .        GEO(NPROPG,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
+      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB ! ebcs data structure
+      TYPE (LOADS_), INTENT(INOUT) :: LOADS ! load data structure
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -2055,6 +2080,8 @@ c     .        ADSKY(0:1000000), ITRI(1000000), INDEX(2000000),
       INTEGER :: IJK,NUMBER_NODE
       INTEGER :: NELEM,ELEM_ID,NODE_ID
       INTEGER :: SURF_ID ! surface id
+      INTEGER :: LOCAL_SEGMENT,NUMBER_SEGMENT ! number of segment for /LOAD
+      INTEGER :: PROC_ID ! processor id
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2736,6 +2763,31 @@ C-----------------------------------------------
             ENDIF
         ENDDO
       ENDIF
+!   -------------------------------------
+
+!   -------------------------------------
+!   /LOAD/PCYL : add 1 contribution per node per segment
+!   ------------
+    ! loop over the /LOAD/PCYL
+      LOCAL_SEGMENT = 0
+      DO I=1,LOADS%NLOAD_CYL
+            NUMBER_SEGMENT = LOADS%LOAD_CYL(I)%NSEG ! number of segment for the PCYL I
+            ! ------------
+            ! loop over the segments of the surface to find where the node are defined 
+            DO J=1,NUMBER_SEGMENT ! loop over the segments of the surface
+                PROC_ID = LOADS%CYL_RESTART(I)%SEGMENT_TO_PROC(J)
+                DO K=1,4
+                    NODE_ID = LOADS%LOAD_CYL(I)%SEGNOD(J,K) ! get the node id (if the segment is a triangle, NODE_ID(node 4) = 0))
+                    IF(NODE_ID/=0) THEN
+                        CEP(OFF+LOCAL_SEGMENT+J) = PROC_ID - 1 ! force the proc for the fake element
+                        CNE(ADSKY(NODE_ID)) = OFF+LOCAL_SEGMENT+J ! fake element id
+                        ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+                    ENDIF
+                ENDDO
+            ENDDO
+            LOCAL_SEGMENT = LOCAL_SEGMENT + NUMBER_SEGMENT
+            ! ------------
+        ENDDO
 !   -------------------------------------
 C
       RETURN

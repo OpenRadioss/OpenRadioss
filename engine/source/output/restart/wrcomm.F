@@ -42,7 +42,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .           INTER_PARAMETERS,SENSORS)
+     .           INTER_PARAMETERS,SENSORS,LOADS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE LOADS_MOD
       USE DRAPE_MOD
       USE STATE_MOD
       USE INTBUFDEF_MOD
@@ -68,11 +69,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*),ISP
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      TYPE(H3D_DATABASE), INTENT(IN) :: H3D_DATA
-      TYPE (DYNAIN_DATABASE), INTENT(IN) :: DYNAIN_DATA
-      TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
-      TYPE (SENSORS_)    ,INTENT(IN):: SENSORS
+      TYPE(MULTI_FVM_STRUCT) ,INTENT(IN) :: MULTI_FVM
+      TYPE(H3D_DATABASE)     ,INTENT(IN) :: H3D_DATA
+      TYPE (DYNAIN_DATABASE) ,INTENT(IN) :: DYNAIN_DATA
+      TYPE (PARAMETERS_)     ,INTENT(IN) :: INTER_PARAMETERS
+      TYPE (SENSORS_)        ,INTENT(IN) :: SENSORS
+      TYPE (LOADS_)          ,INTENT(IN) :: LOADS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1408,6 +1410,9 @@ C
       TABVINT(LVARINT) = NLOADP_F      
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_B      
+C /LOAD/PCYL
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = LOADS%NLOAD_CYL
 C      
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = IDTMIN(51)

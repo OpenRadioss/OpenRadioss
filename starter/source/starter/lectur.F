@@ -581,6 +581,7 @@ C-----------------------------------------------
       USE JOINT_MOD
       USE HM_OPTION_READ_MOD
       USE SEATBELT_MOD
+      USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE USER_SENSOR_MOD
@@ -1105,6 +1106,11 @@ c For /RANDOM --------------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
       TYPE(INVERTGROUP_STRUCT_) :: INV_GROUP
       TYPE(MAPPING_STRUCT_) :: MAP_TABLES
+      ! -------------
+      ! Load structure
+      TYPE (LOADS_) :: LOADS ! global structure for /LOAD
+      TYPE (LOADS_), DIMENSION(NSPMD) :: LOADS_PER_PROC ! local structure for each processor --> used for the restart operation
+      ! -------------
 C MERGE NODES
       INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT,ALE_EULER
       INTEGER, DIMENSION(:), ALLOCATABLE :: MERGE_NODE_TAB
@@ -1116,6 +1122,9 @@ C SEATBELTS
 C   
       INTEGER  :: NUMSH3,NUMSH4, NSLICE,NPT_DRAPE,JJ,ISL, IP,IE, IDSHEL
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
+
+      INTEGER :: NUMBER_LOAD_CYL
+      ! ------------------------------------
 c   BEGINNING
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
@@ -4581,6 +4590,11 @@ C--------------------------------------------
 C NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
       CALL TRACE_OUT1()
       IF (NSUBDOM>0) DEALLOCATE(NNCL)
+c
+c     pressure load in cylindrical coordintes
+c
+      CALL HM_READ_PCYL(LOADS   ,IGRSURF ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB ,TABLE   ,
+     .                  IFRAME  ,UNITAB  ,LSUBMODEL,NUMBER_LOAD_CYL  )
 C--------------------------------------------
 C     "LOAD FIELDS"
 C--------------------------------------------
@@ -5617,8 +5631,8 @@ C        IL faut prendre en compte les options ou front(i,p) = 1, p<>1
 C        les sensors de type 2 modifient front sur p<>1
       ELSEIF(IDDLEVEL==0) THEN
          IF (NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLCFIELD>0) THEN
-           SCEP = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP
-           SCEL = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP
+           SCEP = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
+           SCEL = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
            ALLOCATE(CEP(SCEP))
            ALLOCATE(CEL(SCEL))
          ELSE
@@ -10104,7 +10118,7 @@ C
      D    LGAUGE ,IGAUP   ,NGAUP  ,INTBUF_TAB,IBFFLUX ,
      E    ICNDS10,ITAGND  ,IGEO   ,TAG_SKN   ,MULTIPLE_SKEW,
      F    IBFV   ,IBCSCYC ,LBCSCYC,R_SKEW    ,IPM,
-     G    SENSORS,SCEP    ,EBCS_TAB)
+     G    SENSORS,SCEP    ,EBCS_TAB,LOADS,IFRAME)
 
 C      ELSE
 C       mise a 1 de front i.e. tous les noeuds sur Proc1, poids 1
@@ -10361,7 +10375,7 @@ C--------------------------------------------
      3      IXR    ,IXTG   ,IXTG1   ,T_MONVOL  ,
      4      IGRSURF,IBCL   ,ADDCNE  ,CEP     ,
      5      ILEN   ,GEO    ,IBCV   ,IBCR    ,IBFFLUX ,
-     6      ILOADP ,LLOADP ,CEL    ,EBCS_TAB)
+     6      ILOADP ,LLOADP ,CEL    ,EBCS_TAB,LOADS)
           IF(I2NSNT>0) THEN
             IF(LCNI2G>0) ALLOCATE(CNI2(LCNI2G))
             CALL FILLCNI2(
@@ -10546,6 +10560,11 @@ c         start CPU timer for ddsplit
                 ALLOCATE( FACE_ELM_TG(0,0) )
             ENDIF
           ! -----------------------------------------
+
+          ! -----------------------------------------
+          ! split the LOADS structure on the different processors
+            CALL SPLIT_PCYL(LOADS%NLOAD_CYL,LOADS,LOADS_PER_PROC)
+          ! -----------------------------------------
 C Parallel
 
 !   -------------------------------------------------------------
@@ -10692,7 +10711,7 @@ c
      O         NCRKPART     ,INDX_CRK    ,CRKLVSET       ,CRKSHELL    ,CRKSKY     ,
      P         CRKAVX       ,CRKEDGE     ,FBSAV6         ,TABSENSOR   ,SENSORS    ,
      Q         STACK        ,XFEM_PHANTOM, INTERT8       ,TAB_UMP     ,POIN_UMP   ,
-     R         SOL2SPH_TYP  ,ADDCSRECT   ,CSRECT         ,DRAPE     ,
+     R         SOL2SPH_TYP  ,ADDCSRECT   ,CSRECT         ,DRAPE       ,LOADS      ,
      S         ITAGND         ,ICNDS10     ,ADDCNCND   ,
      T         CEPCND       ,CELCND      ,CNCND          ,NATIV_SMS   ,I24MAXNSNE ,
      U         MULTI_FVM    ,SEGQUADFR   ,INTBUF_FRIC_TAB,SUBSETS     ,IGRNOD     ,
@@ -10705,7 +10724,8 @@ c
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
-     E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES )
+     E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
+     F         LOADS_PER_PROC(P))
       GOTO 220
  221  CONTINUE
 

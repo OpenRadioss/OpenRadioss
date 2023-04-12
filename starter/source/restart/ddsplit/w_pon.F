@@ -58,13 +58,15 @@ Chd|====================================================================
      N      CRKNODIAD, INTBUF_TAB,NUMELIG3D_L,KXIG3D,IXIG3D,
      O      IBFFLUX  ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L  ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
-     Q      IGRSURF_PROC ,LOCAL_NEBCS, EBCS_TAB_LOC_2)
+     Q      IGRSURF_PROC ,LOCAL_NEBCS, EBCS_TAB_LOC_2,
+     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE EBCS_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,6 +129,10 @@ C-----------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
       INTEGER, INTENT(IN) :: LOCAL_NEBCS ! number of parallelized ebcs 
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB_LOC_2 ! ebcs structure
+      ! load option
+      INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
+      TYPE(LOADS_),INTENT(IN) :: LOADS ! initial structure of load cyl
+      TYPE(LOADS_), INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -171,7 +177,14 @@ C-----------------------------------------------
       TYPE(ebcs_parith_on), DIMENSION(:), ALLOCATABLE :: EBCS_PARITHON_L ! adress for the fsky array for parith/on
       LOGICAL, DIMENSION(:), ALLOCATABLE :: EBCS_TAG ! boolean : true if the element belongs to an ebcs
       INTEGER :: LOCAL_NODE_ID,ELEM_ID,NUMG_SAVE
+
+      ! loads option
+      INTEGER :: GLOBAL_SEGMENT_ID ! global segment id
+      INTEGER :: LOCAL_PROC_ID ! processor id where the segment is defined
+      INTEGER :: LOCAL_SEGMENT_ID ! local segment id (local to the proc LOCAL_PROC_ID)
+      INTEGER :: GLOBAL_LOAD_ID,LOCAL_LOAD_ID ! load id (global and local to proc LOCAL_PROC_ID)
 C-----------------------------------------------
+
       IUN = 1
       ALLOCATE(SOLTAG(NUMELS))
       SOLTAG(1:NUMELS)=0
@@ -917,7 +930,30 @@ C
                ENDIF
              ENDDO
 C             
-C             
+C     
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
+     .            NUMRADIA+NFXFLUX+SLLOADP/4+NUMELIG3D+NUMBER_LOAD_CYL)THEN
+            ! --------------------
+            ! /LOAD/PCYL option
+            ! get the global load segment id
+            GLOBAL_SEGMENT_ID = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+     .            NUMELR+NUMELTG+NUMELX+ NCONLD + NUMCONV +
+     .            NUMRADIA+NFXFLUX+SLLOADP/4+NUMELIG3D)
+            LOCAL_PROC_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,1) ! get the proc id where the segment is defined
+            LOCAL_SEGMENT_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,2) ! get the local segment id (local to the proc P)
+            GLOBAL_LOAD_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,3) ! get the global load id
+            LOCAL_LOAD_ID = LOADS_PER_PROC%INDEX_LOAD(GLOBAL_LOAD_ID,2) ! get the local load id
+            ! --------
+            ! loop over the 4 nodes of the surfaces to save the adress
+            DO J=1,4
+                IF(N==LOADS_PER_PROC%LOAD_CYL(LOCAL_LOAD_ID)%SEGNOD(LOCAL_SEGMENT_ID,J)) THEN
+                    LOADS_PER_PROC%LOAD_CYL(LOCAL_LOAD_ID)%SEGMENT_ADRESS(J,LOCAL_SEGMENT_ID) = CC_L
+                    GO TO 100
+                ENDIF
+            ENDDO
+            ! --------
+            ! --------------------
            ELSE
              print *,'**error assadd2 unknown elem type'
            ENDIF

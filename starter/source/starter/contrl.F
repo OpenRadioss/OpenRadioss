@@ -758,6 +758,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/LOAD/PFLUID',NLOADP_F)
       CALL HM_OPTION_COUNT('/LOAD/PBLAST',NLOADP_B)
       CALL HM_OPTION_COUNT('/LOAD/PRESSURE',NLOADP_HYD)
+
 C-----
       CALL HM_OPTION_COUNT('/GRAV',NGRAV)
 C---------------------------------------------------

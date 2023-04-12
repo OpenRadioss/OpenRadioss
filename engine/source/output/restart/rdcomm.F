@@ -42,7 +42,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .                  INTER_PARAMETERS,SENSORS)
+     .                  INTER_PARAMETERS,SENSORS,LOADS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE PLOAD_CYL_MOD
       USE DRAPE_MOD
       USE STATE_MOD
       USE INTBUFDEF_MOD
@@ -60,6 +61,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE SENSOR_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,6 +72,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
       TYPE (PARAMETERS_)    ,INTENT(INOUT) :: INTER_PARAMETERS
       TYPE (SENSORS_)       ,INTENT(INOUT) :: SENSORS
+      TYPE (LOADS_)         ,INTENT(INOUT) :: LOADS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1430,6 +1433,8 @@ C /LOAD/PBLAST
       NLOADP_F   = TABVINT(NEXT)
       NEXT       = NEXT + 1
       NLOADP_B   = TABVINT(NEXT)      
+      NEXT       = NEXT + 1
+      LOADS%NLOAD_CYL  = TABVINT(NEXT)      
 C
       NEXT     = NEXT + 1
       IF(MCHECK/=0) IDTMIN(51)= TABVINT(NEXT)
