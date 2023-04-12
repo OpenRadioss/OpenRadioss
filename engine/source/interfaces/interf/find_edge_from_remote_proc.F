@@ -65,12 +65,12 @@ C-----------------------------------------------
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data         
          INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   ! array for sorting : 1 --> need to sort the interface NIN
-        INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
-        INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
-        INTEGER, DIMENSION(NIXT,NUMELT),TARGET, INTENT(in) :: IXT! truss array
-        INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
-        INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
-        INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(NIXS,NUMELS), INTENT(in) :: IXS   ! solid array
+        INTEGER, DIMENSION(NIXC,NUMELC), INTENT(in) :: IXC   ! shell array
+        INTEGER, DIMENSION(NIXT,NUMELT), INTENT(in) :: IXT! truss array
+        INTEGER, DIMENSION(NIXP,NUMELP), INTENT(in) :: IXP! beam array
+        INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
+        INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO

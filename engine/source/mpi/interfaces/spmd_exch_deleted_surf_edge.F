@@ -238,8 +238,10 @@ C-----------------------------------------------
             NB_SURFACE = REMOTE_SURF_PER_PROC_2(1,K)
             ADDRESS = INDEX_BUFFER_R_2(K)
 
-            CALL FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1 )
-
+            CALL FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,
+     .                                         IPARI,GEO,
+     .                                         IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                         ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
             NB_EDGE = REMOTE_SURF_PER_PROC_2(2,K)
             ADDRESS = INDEX_BUFFER_R_2(K)+4*NB_SURFACE  
             CALL FIND_EDGE_FROM_REMOTE_PROC( SHOOT_STRUCT,NB_EDGE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SYSFUS2                       source/system/sysfus.F        
 Chd|====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,
-     .                                 IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL )
+     .                                 IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,CHUNK)
 !$COMMENT
 !       COUNT_REMOTE_NB_ELEM_EDGE description
 !           check if a list of node is associated 
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: SIZE_BUFFER
+        INTEGER, INTENT(in) :: CHUNK ! chunk size : 1-> interface id, 2-> surface id, 3:6-> node id (for type11, 5&6 values are equal to 0)
         INTEGER, DIMENSION(SIZE_BUFFER), INTENT(inout) :: BUFFER
         INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
         INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
@@ -70,8 +71,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J,K
-        INTEGER :: N1,N2,NIN
-        INTEGER, DIMENSION(2) :: LOCAL_NODE,GLOBAL_NODE
+        INTEGER :: N1,N2,N3,N4,NIN
+        INTEGER :: NUMBER_NODE
+        INTEGER, DIMENSION(4) :: LOCAL_NODE,GLOBAL_NODE
         INTEGER :: ELEM_ID,NODE_ID
         INTEGER :: OFFSET_SOLID,OFFSET_QUAD,OFFSET_SHELL
         INTEGER :: OFFSET_TRUSS,OFFSET_BEAM,OFFSET_SPRING
@@ -91,21 +93,29 @@ C-----------------------------------------------
         OFFSET_TRIANGLE=OFFSET_SPRING+NUMELR
         OFFSET_UR=OFFSET_TRIANGLE+NUMELTG       
         ! --------------------------
-        ALLOCATE( TAG_NODE(NUMNOD) )
-        TAG_NODE(1:NUMNOD) = 0
-        DO J=1,SIZE_BUFFER,4
+        ALLOCATE( TAG_NODE(NUMNOD+1) )
+        TAG_NODE(1:NUMNOD+1) = 0
+        DO J=1,SIZE_BUFFER,CHUNK
             NIN = BUFFER(J)
-            GLOBAL_NODE(1:2) = BUFFER(J+2:J+3)
+            GLOBAL_NODE(1:4) = BUFFER(J+2:J+CHUNK-1)
             LOCAL_NODE(1) = SYSFUS2(GLOBAL_NODE(1),ITABM1,NUMNOD)
             LOCAL_NODE(2) = SYSFUS2(GLOBAL_NODE(2),ITABM1,NUMNOD)
-
+            LOCAL_NODE(3:4) = NUMNOD+1
+            NUMBER_NODE = 2 ! for type 11, there are 2 nodes per segments
+            IF(GLOBAL_NODE(3)/=0) LOCAL_NODE(3) = SYSFUS2(GLOBAL_NODE(3),ITABM1,NUMNOD)
+            IF(GLOBAL_NODE(4)/=0) LOCAL_NODE(4) = SYSFUS2(GLOBAL_NODE(4),ITABM1,NUMNOD)
+            IF( (GLOBAL_NODE(3)/=0).AND.(GLOBAL_NODE(4)/=0) ) NUMBER_NODE = 4 ! for type 7, there are 4 nodes per segments
             BUFFER(J+2:J+3) = 0
             N1 = LOCAL_NODE(1)
             N2 = LOCAL_NODE(2)
+            N3 = LOCAL_NODE(3)
+            N4 = LOCAL_NODE(4)
             DO I=ADDCNEL(N1),ADDCNEL(N1+1)-1
                 ELEM_ID = CNEL(I)
                 TAG_NODE(N1) = 0
                 TAG_NODE(N2) = 0
+                TAG_NODE(N3) = 0
+                TAG_NODE(N4) = 0
                 ! -----------------
                 ! solid element
                 IF(ELEM_ID<=OFFSET_SHELL) THEN
@@ -157,8 +167,8 @@ C-----------------------------------------------
                 ! -----------------
 
                 ! -----------------
-                ! check if the element has N1 & N2
-                IF(TAG_NODE(N1)+TAG_NODE(N2)==2) THEN
+                ! check if the element has N1 & N2 & N3 & N4 (if N3 and N4 are real nodes)
+                IF( (TAG_NODE(N1)+TAG_NODE(N2)+TAG_NODE(N3)+TAG_NODE(N4)) == NUMBER_NODE) THEN
                     BUFFER(J+2) = BUFFER(J+2) + 1
                 ENDIF
                 ! -----------------

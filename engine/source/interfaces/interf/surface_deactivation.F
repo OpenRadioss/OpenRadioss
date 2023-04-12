@@ -21,42 +21,62 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
+Chd|  CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|-- called by -----------
+Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-        SUBROUTINE DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
+        SUBROUTINE SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,MSEGLO,MVOISIN)
 !$COMMENT
-!       DEALLOC_SHOOT_INTER description
-!           deallocation of SHOOT_STRUCT%array
-!       DEALLOC_SHOOT_INTER organization
+!       SURFACE_DEACTIVATION description
+!           deactivation of neighbour surface
+!       SURFACE_DEACTIVATION organization
+!           - for a given K deactivated surface :
+!              loop over the surfaces to deactivate the neighbour K
 !$ENDCOMMENT
-        USE SHOOTING_NODE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
+        INTEGER, INTENT(in) :: NRTM ! number of surface
+        INTEGER, INTENT(in) :: GLOCAL_SURFACE_ID ! global id of the surface
+        INTEGER, DIMENSION(NRTM), INTENT(in) :: MSEGLO ! global id of the k surface 
+        INTEGER, DIMENSION(4,NRTM), INTENT(inout) :: MVOISIN ! neighbouring array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_SURFACE) )DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE )
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC) )DEALLOCATE( SHOOT_STRUCT%SAVE_PROC )
-
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_M_EDGE) )DEALLOCATE( SHOOT_STRUCT%SAVE_M_EDGE )
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_S_EDGE) )DEALLOCATE( SHOOT_STRUCT%SAVE_S_EDGE )
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC_EDGE) )DEALLOCATE( SHOOT_STRUCT%SAVE_PROC_EDGE)
-
-        IF(ALLOCATED(SHOOT_STRUCT%GLOBAL_ELEM_INDEX) ) DEALLOCATE(SHOOT_STRUCT%GLOBAL_ELEM_INDEX)
-        SHOOT_STRUCT%NUMBER_REMOTE_SURF = 0
-        SHOOT_STRUCT%SIZE_REMOTE_SURF = 0
-        IF(ALLOCATED(SHOOT_STRUCT%REMOTE_SURF)) DEALLOCATE(SHOOT_STRUCT%REMOTE_SURF)
-        ALLOCATE( SHOOT_STRUCT%REMOTE_SURF(SHOOT_STRUCT%SIZE_REMOTE_SURF) )
-
+        INTEGER :: J
+C-----------------------------------------------
+        ! ----------------------
+        DO J=1,NRTM
+            ! --------------
+            ! deactivation of neighbouring 
+            IF(MVOISIN(1,J)==GLOCAL_SURFACE_ID) MVOISIN(1,J) = 0
+            IF(MVOISIN(2,J)==GLOCAL_SURFACE_ID) MVOISIN(2,J) = 0
+            IF(MVOISIN(3,J)==GLOCAL_SURFACE_ID) MVOISIN(3,J) = 0
+            IF(MVOISIN(4,J)==GLOCAL_SURFACE_ID) MVOISIN(4,J) = 0
+            ! --------------
+                
+            ! --------------
+            ! deactivation of the surface SURFACE_ID
+            IF(MSEGLO(J)==GLOCAL_SURFACE_ID) THEN
+                MVOISIN(1,J) = 0
+                MVOISIN(2,J) = 0
+                MVOISIN(3,J) = 0
+                MVOISIN(4,J) = 0
+            ENDIF
+            ! --------------
+        ENDDO
+        ! ----------------------
         RETURN
-        END SUBROUTINE DEALLOC_SHOOT_INTER
+        END SUBROUTINE SURFACE_DEACTIVATION
