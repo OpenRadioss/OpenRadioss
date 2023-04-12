@@ -332,7 +332,7 @@ C******************************************************************************C
       IF(FLAG_ROT /= 0)
      .  CALL SPMD_R2R_RGET(STR,NNG,GRNOD,DD_R2R,WEIGHT,BUFR4)
       ENDIF
-      IF ((TYP<4).OR.(NCYCLE==0)) THEN
+      IF ((TYP<=4).OR.(NCYCLE==0)) THEN
       CALL SPMD_R2R_RGET3(V,NNG,GRNOD,DD_R2R,WEIGHT,BUFR5)
       IF(FLAG_ROT /= 0)
      .  CALL SPMD_R2R_RGET3(VR,NNG,GRNOD,DD_R2R,WEIGHT,BUFR6)
