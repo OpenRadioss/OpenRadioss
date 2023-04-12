@@ -514,6 +514,7 @@ C
 Chd|====================================================================
 Chd|  SDLENSH                       source/elements/thickshell/solidec/scdtdc3.F
 Chd|-- called by -----------
+Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------

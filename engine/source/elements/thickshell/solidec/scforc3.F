@@ -52,6 +52,7 @@ Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
 Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
 Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
+Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F

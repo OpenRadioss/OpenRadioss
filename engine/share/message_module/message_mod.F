@@ -355,6 +355,7 @@ Chd|        SECT_READ                     source/tools/sect/sectio.F
 Chd|        SECT_READP                    source/tools/sect/sectio.F    
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
+Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SIGEPS53                      source/materials/mat/mat053/sigeps53.F
 Chd|        SIGEPS75                      source/materials/mat/mat075/sigeps75.F
 Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
@@ -481,6 +482,7 @@ Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
 Chd|        TRACE_PRINT                   source/system/trace_back.F    
+Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
 Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0.F

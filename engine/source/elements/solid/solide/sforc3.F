@@ -78,6 +78,7 @@ Chd|        SFINT3                        source/elements/solid/solide/sfint3.F
 Chd|        SFINT3B                       source/elements/solid/solide/sfint3.F
 Chd|        SFINT_REG                     source/elements/solid/solide/sfint_reg.F
 Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
+Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SHVIS3                        source/elements/solid/solide/shvis3.F
 Chd|        SMALLA3                       source/elements/solid/solide/small3.F
 Chd|        SMALLB3                       source/elements/solid/solide/small3.F

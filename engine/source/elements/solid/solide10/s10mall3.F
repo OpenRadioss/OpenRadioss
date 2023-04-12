@@ -142,7 +142,6 @@ Chd|  S10MALLGEO3                   source/elements/solid/solide10/s10mall3.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
-Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
 Chd|====================================================================
       SUBROUTINE S10MALLGEO3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,
      .                       RX , RY , RZ , 

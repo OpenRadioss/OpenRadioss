@@ -54,6 +54,7 @@ Chd|        S4THERM                       source/elements/solid/solide4/s4therm.
 Chd|        S4UPD11T12                    source/elements/solid/solide4/s4forc3.F
 Chd|        S4VOLN_M                      source/elements/solid/solide4_sfem/s4voln_m.F
 Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
+Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SMALLB3                       source/elements/solid/solide/small3.F
 Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
 Chd|        SORDEF12                      source/elements/solid/solidez/szforc3.F

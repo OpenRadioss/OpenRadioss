@@ -50,6 +50,7 @@ Chd|        SGPARAV3                      source/elements/solid/solide/sgcoor3.F
 Chd|        SMALLB3                       source/elements/solid/solide/small3.F
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
 Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
+Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
 Chd|        VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

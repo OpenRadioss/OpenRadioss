@@ -52,6 +52,7 @@ Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.
 Chd|        SFINT3                        source/elements/solid/solide/sfint3.F
 Chd|        SFINT_REG                     source/elements/solid/solide/sfint_reg.F
 Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
+Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SMALLB3                       source/elements/solid/solide/small3.F
 Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
 Chd|        SORDEFT3                      source/elements/solid/solidez/szforc3.F
@@ -1231,6 +1232,7 @@ C-----------
 Chd|====================================================================
 Chd|  SDLEN8                        source/elements/solid/solidez/szforc3.F
 Chd|-- called by -----------
+Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|        BASISF                        source/elements/solid/solide8/basisf.F

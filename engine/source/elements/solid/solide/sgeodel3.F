@@ -21,6 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-----------------------------------------------
+Chd|====================================================================
+Chd|  SGEODEL3                      source/elements/solid/solide/sgeodel3.F
+Chd|-- called by -----------
+Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
+Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
+Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
+Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
+Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
+Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
+Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|====================================================================
       SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,ITET,NEL)
 C-----------------------------------------------
 C   M o d u l e s
