@@ -101,13 +101,14 @@ C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
      .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
-     .   IREP,IPOS,VDEFMIN,VDEFMAX,ASPMAX,ASPTET
+     .   IREP,IPOS
       my_real
      .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,ASHEAR
       INTEGER NUML(200), NLY, NLYMAX, N, J, M1, M2, M3,ICOMPA,
      .   K,  N1,IDSK, IPANG, IPTHK, IPPOS, IPMAT,IERRS,IP,ISK
       my_real
-     .   AN,  DT, THK, TMIN, TMAX,ANG,VX,VY,VZ
+     .   AN,  DT, THK, TMIN, TMAX,ANG,VX,VY,VZ,
+     .   VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
