@@ -67,12 +67,12 @@ C-----------------------------------------------
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data 
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
 
-        INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
-        INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
-        INTEGER, DIMENSION(NIXT,NUMELT),TARGET, INTENT(in) :: IXT! truss array
-        INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
-        INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
-        INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(NIXS,NUMELS), INTENT(in) :: IXS   ! solid array
+        INTEGER, DIMENSION(NIXC,NUMELC), INTENT(in) :: IXC   ! shell array
+        INTEGER, DIMENSION(NIXT,NUMELT), INTENT(in) :: IXT! truss array
+        INTEGER, DIMENSION(NIXP,NUMELP), INTENT(in) :: IXP! beam array
+        INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
+        INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
@@ -87,7 +87,8 @@ C-----------------------------------------------
         INTEGER :: I,K,FIRST,LAST
         INTEGER :: NIN,ID_INTER,NUMBER_INTER
         INTEGER :: ITY,IDEL
-        INTEGER :: N1,N2
+        INTEGER :: N1,N2,N3,N4
+        INTEGER :: NUMBER_NODE
         INTEGER :: SHIFT
         INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function
 C-----------------------------------------------
@@ -113,7 +114,6 @@ C-----------------------------------------------
 
             IF(ITASK==-1) THEN
                 IF(ITY==11.AND.IDEL==1) THEN
-
                     SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K) = SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K) - 1
                 ENDIF
             ENDIF
@@ -124,9 +124,12 @@ C-----------------------------------------------
                 IF(ITY==11.AND.IDEL==1) THEN
                     N1 = INTBUF_TAB(NIN)%IRECTM((K-1)*2+1)
                     N2 = INTBUF_TAB(NIN)%IRECTM((K-1)*2+2)
-
+                    N3 = 0
+                    N4 = 0
+                    NUMBER_NODE = 2
                     IF(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K)<1) THEN
-                        CALL CHECK_ACTIVE_ELEM_EDGE( N1,N2,DEACTIVATION,GEO,IXS,IXC,
+                        CALL CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
+     .                                               DEACTIVATION,GEO,IXS,IXC,
      .                                               IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,
      .                                               TAG_NODE,TAG_ELEM )
                     ELSE
@@ -170,8 +173,12 @@ C-----------------------------------------------
                 IF(ITY==11.AND.IDEL==1) THEN
                     N1 = INTBUF_TAB(NIN)%IRECTS((K-1)*2+1)
                     N2 = INTBUF_TAB(NIN)%IRECTS((K-1)*2+2)
+                    N3 = 0
+                    N4 = 0
+                    NUMBER_NODE = 2
                     IF(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(K)<1) THEN
-                        CALL CHECK_ACTIVE_ELEM_EDGE( N1,N2,DEACTIVATION,GEO,IXS,IXC,
+                        CALL CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
+     .                                               DEACTIVATION,GEO,IXS,IXC,
      .                                               IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,
      .                                               TAG_NODE,TAG_ELEM )
                     ELSE

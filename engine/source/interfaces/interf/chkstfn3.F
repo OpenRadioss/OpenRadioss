@@ -115,12 +115,6 @@ C si tag nul sur noeuds secnds alors stifn = 0.
             STFN(I) = -STFN(I)
             NEWFRONT = -1
           ENDIF
-        ELSE
-          IF (ITAG(NSV(I)) == 0.AND.STFN(I) > ZERO) THEN
-Cel       STFN(I) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
-            STFN(I) = -STFN(I)
-            NEWFRONT = -1
-          ENDIF
         ENDIF
       ENDDO
 C
@@ -1372,16 +1366,13 @@ C E2E have fictive nodes with NSV  > NUMNOD
              CALL CHKSLV3_T24(
      .           NSN         ,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK,
      .           INTBUF_TAB(NG)%IS2SE,INTBUF_TAB(NG)%IRTSE,NEWFRONT(NG))
-           ELSEIF(NTY==25) THEN
-             CALL CHKSLV3(
-     .           NSN         ,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK,
-     .           NEWFRONT(NG))
            ENDIF
          ENDIF
          NMN   =IPARI(6,NG)
          NRTM  =IPARI(4,NG)
          INC=4
          IF(IDEL == 1) THEN
+           NINDEX1(NG) = 0
            CALL CHKMSR3NB(
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG          ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1905,7 +1896,6 @@ Cote secnd
 
 
       IF(INT24USE > 0.OR.NINTER25/=0)THEN
-        CALL SPMD_EXCH_IDEL_SEGLO(IPARI,INTBUF_TAB,INDSEGLO,IBUFSEGLO)
         DEALLOCATE(INDSEGLO_SAV)
         DEALLOCATE(IBUFSEGLO_SAV)
       ENDIF
@@ -1985,7 +1975,7 @@ C si tag nul sur noeuds main alors msr(i) = -msr(i)
       END IF
 C
       CALL MY_BARRIER()
-      IF(NTY==7.OR.NTY==10.OR.NTY==22) RETURN
+      IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==24.OR.NTY==25) RETURN
 C
       NRTF = 1 + ITASK*NRTM / NTHREAD
       NRTL = (ITASK+1)*NRTM / NTHREAD
@@ -2170,7 +2160,8 @@ C si tag nul sur noeuds main alors msr(i) = -msr(i)
         ENDDO
       END IF
 C
-      CALL MY_BARRIER()
+      CALL MY_BARRIER()     
+      IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==24.OR.NTY==25) RETURN
 C
       NRTF = 1 + ITASK*NRTM / NTHREAD
       NRTL = (ITASK+1)*NRTM / NTHREAD

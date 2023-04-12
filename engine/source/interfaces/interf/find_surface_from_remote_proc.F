@@ -30,7 +30,10 @@ Chd|        SYSFUS2                       source/system/sysfus.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
-        SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,ITABM1 )
+        SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,ITABM1,
+     .                                           IPARI,GEO,
+     .                                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                           ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       FIND_SURFACE_FROM_REMOTE_PROC description
 !           this routine finds the surface id from a list of remote node
@@ -50,6 +53,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
+#include      "scr17_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -58,7 +63,19 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data         
- 
+
+        INTEGER, DIMENSION(NIXS,NUMELS), INTENT(in) :: IXS   ! solid array
+        INTEGER, DIMENSION(NIXC,NUMELC), INTENT(in) :: IXC   ! shell array
+        INTEGER, DIMENSION(NIXT,NUMELT), INTENT(in) :: IXT! truss array
+        INTEGER, DIMENSION(NIXP,NUMELP), INTENT(in) :: IXP! beam array
+        INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
+        INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
+        INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
+        my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
+        INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
+        INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
+        INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -134,7 +151,10 @@ C-----------------------------------------------
             NB_SURFACE_R_PROC = NB_SURFACE_R_PROC + NB_RESULT_INTERSECT            
         ENDDO
 
-        CALL CHECK_SURFACE_STATE( -1,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB )
+        CALL CHECK_SURFACE_STATE( -1,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
+     .                            IPARI,GEO,
+     .                            IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                            ADDCNEL,ITABM1,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 
         DEALLOCATE( LIST_SURFACE_R_PROC )
         DEALLOCATE( RESULT_INTERSECT )

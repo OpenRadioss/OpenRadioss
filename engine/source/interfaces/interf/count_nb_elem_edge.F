@@ -27,7 +27,7 @@ Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_st
 Chd|-- calls ---------------
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
-        SUBROUTINE COUNT_NB_ELEM_EDGE( MODE,SIZE_BUFFER,BUFFER,SHOOT_STRUCT )
+        SUBROUTINE COUNT_NB_ELEM_EDGE( MODE,SIZE_BUFFER,BUFFER,SHOOT_STRUCT,CHUNK)
 !$COMMENT
 !       COUNT_NB_ELEM_EDGE description
 !           count the number of element associated to an edge
@@ -43,6 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER :: MODE     ! mode = 1 --> main node / mode = 2 --> secondary node
+        INTEGER, INTENT(in) :: CHUNK ! chunk size : 1-> interface id, 2-> surface id, 3:6-> node id (for type11, 5&6 values are equal to 0)
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo
         INTEGER, INTENT(in) :: SIZE_BUFFER  ! size of buffer array
         INTEGER, DIMENSION(SIZE_BUFFER), INTENT(inout) :: BUFFER ! list of nin/edge id/number of remote element 
@@ -54,7 +55,7 @@ C-----------------------------------------------
         INTEGER :: IRECT_ID,NB_REMOTE_ELEM
 C-----------------------------------------------
 
-        DO I=1,SIZE_BUFFER,4
+        DO I=1,SIZE_BUFFER,CHUNK
             NIN = BUFFER(I)
             IRECT_ID = BUFFER(I+1)
             NB_REMOTE_ELEM = BUFFER(I+2)
