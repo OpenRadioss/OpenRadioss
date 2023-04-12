@@ -77,7 +77,7 @@ Chd|====================================================================
      2   NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,NSENSOR)
+     5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,NSENSOR,NLOAD_CYL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
+      USE PLOAD_CYL_MOD
       USE STATE_MOD
       USE INTBUFDEF_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
@@ -139,7 +140,7 @@ C-----------------------------------------------
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,LENIGRSH3N_L,LENISURF_L,
      .        LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
-     .        NUMSH4N_L,NUMSH3N_L
+     .        NUMSH4N_L,NUMSH3N_L,NLOAD_CYL
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -1592,6 +1593,9 @@ C /LOAD/PBLAST
       TABVINT(LVARINT) = NLOADP_F
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_B           
+C /LOAD/PCYL
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = NLOAD_CYL           
 C espace memoire reserv pour les checks points restarts.
 C     IDTMIN(51)
       LVARINT=LVARINT+1

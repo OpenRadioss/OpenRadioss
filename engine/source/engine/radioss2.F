@@ -204,6 +204,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE INTERFACES_MOD
       USE DT_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -332,6 +333,7 @@ C
       TYPE (INTERFACES_)  :: INTERFACES
 c      TYPE (SENSORS_)     :: SENSORS    ! defined as global in user_interface_mod
       TYPE (DT_)          :: DT
+      TYPE (LOADS_) :: LOADS
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -843,7 +845,7 @@ C     .rst file reading 1
 C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
-     .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS)
+     .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS)
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
@@ -1002,7 +1004,7 @@ c
       CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
      .            MULTI_FVM        ,H3D_DATA  ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA,
      .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   )
+     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           )
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -2230,7 +2232,7 @@ C---------------------------------------------------------------------
      .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
-     .                   OUTPUT       ,INTERFACES      ,DT              )
+     .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      )
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

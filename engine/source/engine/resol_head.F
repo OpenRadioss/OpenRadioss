@@ -70,7 +70,7 @@ Chd|====================================================================
      .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA ,ALE_CONNECTIVITY,
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
-     .           OUTPUT      ,INTERFACES  ,DT   )
+     .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE DIFFUSION_MOD
       USE SEGVAR_MOD
+      USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE OUTPUT_MOD
@@ -163,6 +164,7 @@ C     REAL
       TYPE(OUTPUT_),INTENT(INOUT)             :: OUTPUT
       TYPE(INTERFACES_),INTENT(INOUT)         :: INTERFACES
       TYPE(DT_),INTENT(INOUT)         :: DT
+      TYPE(LOADS_) ,INTENT(INOUT) :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -266,7 +268,7 @@ C
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
-     O  DT              )
+     O  DT              ,LOADS          )
 C
       CALL TRACE_OUT(2)
 C

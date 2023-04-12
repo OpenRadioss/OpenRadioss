@@ -101,7 +101,7 @@ Chd|====================================================================
      .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
-     .           INTERFACES    )
+     .           INTERFACES    ,LOADS     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -132,6 +132,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
+      USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
@@ -163,11 +164,12 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(t_ale_connectivity), INTENT(IN)                :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
       TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
-      TYPE (DYNAIN_DATABASE), INTENT(IN)                  :: DYNAIN_DATA
-      TYPE(USER_WINDOWS_),INTENT(IN)                      :: USER_WINDOWS
-      TYPE(OUTPUT_),INTENT(IN)                            :: OUTPUT
-      TYPE (INTERFACES_) ,INTENT(IN)                      :: INTERFACES
-      TYPE (SENSORS_)    ,INTENT(IN)                      :: SENSORS
+      TYPE(DYNAIN_DATABASE) ,INTENT(IN)                   :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_)   ,INTENT(IN)                   :: USER_WINDOWS
+      TYPE(OUTPUT_)         ,INTENT(IN)                   :: OUTPUT
+      TYPE(INTERFACES_)     ,INTENT(IN)                   :: INTERFACES
+      TYPE(SENSORS_)        ,INTENT(IN)                   :: SENSORS
+      TYPE(LOADS_)          ,INTENT(IN)                   :: LOADS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -232,7 +234,7 @@ C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
       IPARI0 = IPARIT
       CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .     INTERFACES%PARAMETERS,SENSORS)
+     .     INTERFACES%PARAMETERS,SENSORS,LOADS)
 C
       ENTMP(1) = TFEXT
       ENTMP(2) = EHOUR
@@ -915,6 +917,10 @@ C--------------------------------------
       ENDIF
       IF (NLOADP_B>0)THEN
         CALL PBLAST_WRITE_ENGINE(PBLAST_TAB)
+      ENDIF
+C--------------------------------------
+      IF (LOADS%NLOAD_CYL > 0) THEN
+        CALL WRITE_PCYL(LOADS)
       ENDIF
 C--------------------------------------
       IF(ICRACK3D > 0)THEN

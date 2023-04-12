@@ -94,7 +94,7 @@ Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   )
+     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,11 +121,14 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
+      USE PLOAD_CYL_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE SENSOR_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,12 +178,12 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT)              :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_),DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE(t_ebcs_tab), INTENT(INOUT)                      :: EBCS_TAB
-      TYPE(DYNAIN_DATABASE), INTENT(INOUT)                 :: DYNAIN_DATA
-      TYPE(USER_WINDOWS_),INTENT(INOUT)                    :: USER_WINDOWS
-      TYPE(OUTPUT_),INTENT(INOUT)                          :: OUTPUT
-      TYPE(INTERFACES_) ,INTENT(INOUT)                     :: INTERFACES
-      TYPE(SENSORS_)    ,INTENT(INOUT)                     :: SENSORS
-
+      TYPE(DYNAIN_DATABASE) ,INTENT(INOUT)                 :: DYNAIN_DATA
+      TYPE(USER_WINDOWS_)   ,INTENT(INOUT)                 :: USER_WINDOWS
+      TYPE(OUTPUT_)         ,INTENT(INOUT)                 :: OUTPUT
+      TYPE(INTERFACES_)     ,INTENT(INOUT)                 :: INTERFACES
+      TYPE(SENSORS_)        ,INTENT(INOUT)                 :: SENSORS
+      TYPE(LOADS_)          ,INTENT(INOUT)                 :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -835,6 +838,10 @@ C--------------------------------------
       IF (NLOADP_B>0)THEN
         CALL PBLAST_LOAD(PBLAST_TAB)
         CALL PBLAST_INIT_TABLES(PBLAST_DATA) !PBLAST_DATA defined in PBLAST_MOD
+      ENDIF
+c
+      IF (LOADS%NLOAD_CYL > 0) THEN
+        CALL READ_PCYL(LOADS)
       ENDIF
 C----------------------------------
       IF(ICRACK3D > 0)THEN

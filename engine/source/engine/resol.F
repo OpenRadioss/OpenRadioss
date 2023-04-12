@@ -85,7 +85,7 @@ Chd|        CNDINT                        source/model/remesh/cndint.F
 Chd|        CNDORDR                       source/model/remesh/cndordr.F 
 Chd|        CND_DMASI2                    source/elements/solid/solide10/s10cndf.F
 Chd|        COLLECT                       source/output/outfile/collect.F
-Chd|        COLLECTM                      source/output/outfile/collect.F
+Chd|        COLLECTM                      source/output/outfile/collet.F
 Chd|        COLLECTT                      source/output/outfile/collect.F
 Chd|        CONVEC                        source/constraints/thermic/convec.F
 Chd|        CONVWREST                     source/output/restart/wrrest.F
@@ -580,7 +580,7 @@ Chd|====================================================================
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
-     O  DT  )
+     O  DT         ,LOADS     )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -650,6 +650,7 @@ C-----------------------------------------------
       USE SHOOTING_NODE_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
@@ -882,6 +883,7 @@ c
       TYPE(t_segvar)                                     :: SEGVAR
       TYPE(inter_struct_type), DIMENSION(:), ALLOCATABLE :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(:), ALLOCATABLE :: SORT_COMM   ! structure for interface sorting comm
+      TYPE (LOADS_) ,INTENT(INOUT) :: LOADS
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)              :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)                  :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)                        :: OUTPUT
@@ -3290,8 +3292,16 @@ C----------------------------------
               T0INF_PBLAST = EP20       
          ENDIF    
         ENDIF    
-
-  
+C-------------------------------------------------------------------
+C       LOAD PCYL
+C----------------------------------
+        IF (LOADS%NLOAD_CYL > 0) THEN
+          CALL PRESSURE_CYL(
+     .         LOADS     ,TABLE     ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,IFRAME    ,
+     .         DT1       ,X         ,V         ,A         ,FEXT      ,
+     .         H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,FSKY      )
+        ENDIF  
+c
         IF( NUMCONV + NUMRADIA > 0 .AND. ITHERM_FE > 0 )THEN
 
 C========================================================================================
@@ -9292,7 +9302,7 @@ C--------------------------------------------------------
      .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSORS   , EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT        ,
-     .                 INTERFACES)
+     .                 INTERFACES, LOADS      )
 
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
@@ -9557,12 +9567,12 @@ C--------------------------------------------------------
              CALL SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,NSENSOR,SENSORS%SENSOR_TAB) 
           ENDIF
 
-          CALL WRRESTP(AF        , IAF             ,XDP       ,ICH         ,ADSKY          ,
-     .                 ELBUF_TAB , XFEM_TAB        ,INTBUF_TAB, MULTI_FVM  ,
-     .                 H3D_DATA  , INTBUF_FRIC_TAB ,SUBSETS   ,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL ,
-     .                 SENSORS   , EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
-     .                 INTERFACES )
+          CALL WRRESTP(AF         ,IAF             ,XDP       ,ICH         ,ADSKY          ,
+     .                 ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB, MULTI_FVM  ,
+     .                 H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSETS   ,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                 PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
+     .                 SENSORS    ,EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
+     .                 INTERFACES ,LOADS           )
 
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
@@ -9695,12 +9705,12 @@ C--------------------------------------------------------
              ENDIF
 
               ICH = 1
-              CALL WRRESTP(AF       ,IAF            ,XDP          ,ICH        ,ADSKY          ,
-     .                    ELBUF_TAB ,XFEM_TAB       ,INTBUF_TAB  , MULTI_FVM  ,
-     .                    H3D_DATA  ,INTBUF_FRIC_TAB,SUBSETS     ,MATPARAM_TAB,GROUP_PARAM_TAB,
-     .                    PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL ,
-     .                    SENSORS   , EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,
-     .                    INTERFACES )
+              CALL WRRESTP(AF        ,IAF            ,XDP          ,ICH        ,ADSKY          ,
+     .                    ELBUF_TAB  ,XFEM_TAB       ,INTBUF_TAB  , MULTI_FVM  ,
+     .                    H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS     ,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                    PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
+     .                    SENSORS    ,EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,
+     .                    INTERFACES ,LOADS         )
 
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()
