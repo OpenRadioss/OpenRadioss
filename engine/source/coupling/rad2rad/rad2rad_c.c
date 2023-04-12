@@ -1751,8 +1751,8 @@ int buflen, lbuf, rest, next, nn, nm, i, j, k, chunk;
             {
                 com->fx_buf[k+j] =  bufr1[nn+j];
                 com->fr_buf[k+j] =  bufr2[nn+j];
-                                if((*typ < 4)||(*npas == 0)) com->vx_buf[k+j] =  bufr5[nn+j];
-                                com->dx_buf[k+j] =  bufr7[nn+j];                                  
+                if((*typ <= 4)||(*npas == 0)) com->vx_buf[k+j] =  bufr5[nn+j];
+                com->dx_buf[k+j] =  bufr7[nn+j];                                  
             }
             com->mass_buf[i] = bufr8[nm];
             if(*typ == 5) com->sx_buf[i] = bufr3[nm];
@@ -1761,10 +1761,10 @@ int buflen, lbuf, rest, next, nn, nm, i, j, k, chunk;
                 if(*typ == 5) com->sr_buf[i] = bufr4[nm];
                 com->iner_buf[i] = bufr9[nm];
                 if (*flg_rby == 1)
-                           for (j = 0; j < 9; j++) 
-                      com->iner_rby_buf[9*i+j] = buf_rby[9*next+j];                
-                if((*typ < 4)||(*npas == 0)) 
-                           for (j = 0; j < 3; j++) com->vr_buf[k+j] =  bufr6[nn+j];
+                  for (j = 0; j < 9; j++) 
+                    com->iner_rby_buf[9*i+j] = buf_rby[9*next+j];                
+                if((*typ <= 4)||(*npas == 0)) 
+                  for (j = 0; j < 3; j++) com->vr_buf[k+j] =  bufr6[nn+j];
             }
         }              
         off_link += rest;
