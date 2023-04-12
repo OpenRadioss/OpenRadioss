@@ -9,7 +9,7 @@ dnf group install -y "Development Tools"
 dnf install -y \
 gcc gcc-gfortran gcc-c++ make perl git-lfs \
 wget git patch diffutils \
-pkgconfig libxcrypt-compat procps
+pkgconfig libxcrypt-compat procps which
 dnf install -y --enablerepo=devel compat-libpthread-nonshared
 
 cd /tmp

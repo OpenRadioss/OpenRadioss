@@ -5,7 +5,8 @@ From: rockylinux:9
 dnf group install -y "Development Tools"
 dnf install -y \
 gcc gcc-gfortran gcc-c++ make cmake perl git-lfs \
-wget git patch diffutils libxcrypt-compat
+wget git patch diffutils libxcrypt-compat \
+which python
 
 cd /tmp
 wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
