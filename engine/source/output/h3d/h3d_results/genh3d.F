@@ -2273,6 +2273,7 @@ c-----
           IMDSVAR = H3D_DATA%OUTPUT_LIST(I)%IMDSVAR
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+          OBJECT_ID = H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID
 c         IF(ISPMD == 0)  print *,'shell scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
 c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
@@ -2288,7 +2289,8 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     STACK     ,SHELL_ID  ,SHELL_ITY     ,INFO1        ,INFO2      ,
      .                     IS_WRITEN_SHELL,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                     ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
-     .                     D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  )
+     .                     D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  ,
+     .                     OBJECT_ID  )
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
@@ -2438,6 +2440,7 @@ c-----
           IMDSVAR = H3D_DATA%OUTPUT_LIST(I)%IMDSVAR
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+          OBJECT_ID = H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID
 c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
           CALL H3D_SOLID_SCALAR(
@@ -2451,7 +2454,8 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                    IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,SFANI_CELL ,
-     .                    MULTI_FVM, H3D_DATA  ,IDMDS         ,IMDSVAR      ,MDS_MATID  )
+     .                    MULTI_FVM, H3D_DATA  ,IDMDS         ,IMDSVAR      ,MDS_MATID  ,
+     .                    OBJECT_ID)
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

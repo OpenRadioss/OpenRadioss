@@ -104,15 +104,15 @@ c
         IF (ILOC>0) THEN
           NLOC_DMG%LEN(IMAT) = MAX(NLOC_DMG%LEN(IMAT), RLEN)
           CALL GET_LEMAX(NLOC_DMG%LE_MAX(IMAT),NLOC_DMG%LEN(IMAT))
+          MLAW_TAG%G_PLANL  = 1
+          MLAW_TAG%L_PLANL  = 1
+          MLAW_TAG%G_EPSDNL = 1
+          MLAW_TAG%L_EPSDNL = 1
         ENDIF
 c
         ! Tag for damage output
         MLAW_TAG%G_DMG    = 1
         MLAW_TAG%L_DMG    = 1
-        MLAW_TAG%G_PLANL  = 1
-        MLAW_TAG%L_PLANL  = 1
-        MLAW_TAG%G_EPSDNL = 1
-        MLAW_TAG%L_EPSDNL = 1
 c
         ! Update MATPARAM 
         CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")

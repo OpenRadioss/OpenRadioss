@@ -51,7 +51,7 @@ Chd|====================================================================
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
      .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
-     .                  MDS_MATID       )
+     .                  MDS_MATID       ,ID           )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IXTG(NIXTG,*),EL2FA(*),
      .   IXQ(NIXQ,*),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
+     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),ID,
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
      .   IUVAR_INPUT,SFANI_CELL,NG,IDMDS,IMDSVAR,MDS_MATID(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -123,7 +123,7 @@ C-----------------------------------------------
       INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
+     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,NLAY_FAIL,
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
@@ -1405,6 +1405,68 @@ c ILAYER=NULL IR= IS= IT=
                 ENDIF 	
               ENDIF
 C-------------------------------------------------- 
+              ELSEIF(KEYWORD == 'FAILURE') THEN
+C--------------------------------------------------
+c ILAYER=NULL IR=NULL IS=NULL IT=NULL
+	              IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN 
+                  DO I = 1,NEL
+                    NLAY_FAIL = 0 
+                    DO IL=1,NLAY 
+                      NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL		
+                      DO IS=1,NPTS					
+                        DO IT=1,NPTT					
+                          DO IIR=1,NPTR			
+                            FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)	
+                            DMGMX = ZERO
+                            DO IFAIL = 1,NFAIL
+                              IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
+                                DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
+                                IS_WRITTEN_VALUE(I) = 1 
+                                NLAY_FAIL = NLAY_FAIL + 1 
+                              ENDIF
+                            ENDDO
+                            VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS*NPTT)
+                          ENDDO
+                        ENDDO
+                       ENDDO
+                     ENDDO 
+                     VALUE(I) = VALUE(I)/NLAY_FAIL
+                   ENDDO
+c ILAYER=NULL IR= IS= IT=
+                ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND. 
+     .                   IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
+                  IIR = IR
+                  IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN	
+                    DO I = 1,NEL 
+                      NLAY_FAIL = 0 			 
+                      DO IL=1,NLAY  
+                        NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
+                  	    FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                        DO IFAIL = 1,NFAIL
+                          IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
+                            VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(I)
+                            IS_WRITTEN_VALUE(I) = 1 
+                            NLAY_FAIL = NLAY_FAIL + 1
+                          ENDIF
+                        ENDDO			
+                      ENDDO		
+                      VALUE(I) = VALUE(I)/NLAY_FAIL			
+                    ENDDO	
+                 ENDIF 						
+                ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND. 
+     .                   IS >= 0 .AND.  IS <= NPTS) THEN	
+                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
+                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)	    
+                  DO I = 1,NEL   												
+                    DO IFAIL = 1,NFAIL
+                      IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
+                        VALUE(I) = FBUF%FLOC(IFAIL)%DAMMX(I)
+                        IS_WRITTEN_VALUE(I) = 1 
+                      ENDIF
+                    ENDDO
+                  ENDDO	
+                ENDIF
+C--------------------------------------------------
               ELSEIF (KEYWORD == 'DAMG') THEN
 C--------------------------------------------------
 c

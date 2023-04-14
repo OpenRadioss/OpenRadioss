@@ -71,7 +71,7 @@ extern "C"
 void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2,
                                          int *layer, int *nuvar, int *ir, int *is, int *it,
                                          int *idMds, int *idMdsVar, int *idMatMds, char *comment, int *s_comment,
-                                         char *mdsUvarName, int *sizeMdsUvarName )
+                                         char *mdsUvarName, int *sizeMdsUvarName ,int *id)
 {
     char *cname,*cname2,*ccomment,*cmdsuvar;
     int cname_len,cname_len1,ccomment_len,cmdsuvar_len;
@@ -117,6 +117,8 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
     MID_STRING[0] ='\0'; 
     char * RES_STRING = new char [100];
     RES_STRING[0] ='\0'; 
+    char * ID_STRING = new char [100];
+    ID_STRING[0] ='\0'; 
 
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
@@ -125,6 +127,16 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
 #else
     RES_STRING = strcat(RES_STRING,cname);
 #endif
+
+    if(*id > 0)
+    {
+        sprintf(ID_STRING, " id %d",*id);
+#ifdef _WIN64
+        strcat_s(RES_STRING,100,ID_STRING);
+#else
+        RES_STRING = strcat(RES_STRING,ID_STRING);
+#endif
+    }
 
     if(*idMdsVar > 0 && *idMds > 0)
     {
@@ -311,21 +323,21 @@ void c_h3d_create_solid_scalar_datatype_(int *cpt_data, char *name1, int *size1,
 void _FCALL C_H3D_CREATE_SOLID_SCALAR_DATATYPE(int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2,
                                                int *layer, int *nuvar, int *ir, int *is, int *it,
                                                int *idMds, int *idMdsVar, int *idMatMds, char *comment, int *s_comment,
-                                               char *mdsUvarName,int *sizeMdsUvarName)
+                                               char *mdsUvarName,int *sizeMdsUvarName,int *id)
 {c_h3d_create_solid_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, layer, nuvar, ir, is, it, idMds, idMdsVar,
-                                      idMatMds, comment, s_comment, mdsUvarName, sizeMdsUvarName);}
+                                      idMatMds, comment, s_comment, mdsUvarName, sizeMdsUvarName,id);}
 
 void c_h3d_create_solid_scalar_datatype__ (int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2,
                                            int *layer, int *nuvar, int *ir, int *is, int *it,
                                            int *idMds, int *idMdsVar, int *idMatMds, char *comment, int *s_comment,
-                                           char *mdsUvarName,int *sizeMdsUvarName)
+                                           char *mdsUvarName,int *sizeMdsUvarName,int *id)
 {c_h3d_create_solid_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, layer, nuvar, ir, is, it, idMds, idMdsVar,
-                                      idMatMds,comment, s_comment, mdsUvarName, sizeMdsUvarName);}
+                                      idMatMds,comment, s_comment, mdsUvarName, sizeMdsUvarName,id);}
 
 void c_create_solid_scalar_datatype (int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2,
                                      int *layer, int *nuvar, int *ir, int *is, int *it,
                                      int *idMds, int *idMdsVar, int *idMatMds, char *comment, int *s_comment,
-                                     char *mdsUvarName,int *sizeMdsUvarName)
+                                     char *mdsUvarName,int *sizeMdsUvarName,int *id)
 {c_h3d_create_solid_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, layer, nuvar, ir, is, it, idMds, idMdsVar,
-                                      idMatMds,comment, s_comment, mdsUvarName, sizeMdsUvarName);}
+                                      idMatMds,comment, s_comment, mdsUvarName, sizeMdsUvarName,id);}
 }

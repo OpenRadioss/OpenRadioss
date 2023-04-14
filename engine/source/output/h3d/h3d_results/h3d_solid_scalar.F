@@ -45,7 +45,8 @@ Chd|====================================================================
      .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
-     .                  MULTI_FVM       , H3D_DATA    ,IDMDS     ,IMDSVAR     ,MDS_MATID )
+     .                  MULTI_FVM       , H3D_DATA    ,IDMDS     ,IMDSVAR     ,MDS_MATID   ,
+     .                  ID              )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IXTG(NIXTG,*),EL2FA(*),
      .   IXQ(NIXQ,*),IFUNC,NBF,
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
+     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),ID,
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
      .   IUVAR_INPUT,SFANI_CELL,IDMDS,IMDSVAR,MDS_MATID(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -157,7 +158,7 @@ c
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
      .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
-     .                  MDS_MATID       )
+     .                  MDS_MATID       ,ID           )
 
  900  CONTINUE   ! NG 
 C-----------------------------------------------

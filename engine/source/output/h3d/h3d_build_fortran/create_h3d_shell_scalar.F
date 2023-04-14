@@ -31,7 +31,8 @@ Chd|====================================================================
       SUBROUTINE CREATE_H3D_SHELL_SCALAR(H3D_DATA,ID_SHELL_SCALAR ,N1       ,N2       ,ID_INPUT ,TEXT1  ,
      .                                       STEXT1       ,COMMENT    ,SCOMMENT  ,IPART    ,KEY3_GLOB ,
      .                                       LAYER    ,IPT    ,PLY             ,GAUSS    ,IUVAR       ,
-     .                                       IDMDS    ,IVARMDS,ID_MAT_MDS,MDS_LABEL, SMDS_LABEL)
+     .                                       IDMDS    ,IVARMDS,ID_MAT_MDS,MDS_LABEL, SMDS_LABEL       ,
+     .                                       ID       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,7 +48,7 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       INTEGER ID_SHELL_SCALAR,ID_INPUT,STEXT1,N1,N2,SCOMMENT,
      .        LAYER,IPT,PLY,IUVAR,GAUSS,IDMDS,IVARMDS,SMDS_LABEL,
-     .        ID_MAT_MDS
+     .        ID_MAT_MDS,ID
       INTEGER IPART(LIPART1,*)
       CHARACTER(LEN=STEXT1) ::  TEXT1
       CHARACTER(LEN=ncharline) :: KEY3_GLOB
@@ -87,6 +88,7 @@ C=========================================================================
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%MDSVAR_NAME = TRIM(MDS_LABEL)
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%SMDSVAR_NAME = SMDS_LABEL
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%GAUSS = GAUSS
+      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OBJECT_ID = ID
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_STRING1 = STEXT1
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%STRING1(1:STEXT1) = TEXT1(1:STEXT1)
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_COMMENT = SCOMMENT
