@@ -337,6 +337,18 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'maximum of damage over time and of all failure criteria acting in one material'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'FAILURE'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_ID = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Failure'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Damage of current failure criterion'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DAMINI'
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1

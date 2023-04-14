@@ -53,7 +53,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
      .   ITY,IGTYP,ISORTH,ISRATE,ISROT,IREP,ERR,IEXPAN,ISTRA,IFAIL,   
-     .   NFAIL,IEOS,IXFEM,IVISC,IXEL,NPG,NPTT,NPTTOT,INLOC,NONL
+     .   NFAIL,IEOS,IXFEM,IVISC,IXEL,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -692,6 +692,7 @@ c         !-----------------------------------------------------
                   DO K = 1,NFAIL   
                     FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)
                     IFAIL = FLOC%ILAWF
+                    IDFAIL = FLOC%IDFAIL
                     NUVAR = FLOC%NVAR
                     LF_DAM  = FLOC%LF_DAM
                     LF_DAMMX= FLOC%LF_DAMMX
@@ -882,7 +883,8 @@ c
               DO IS = 1,ELBUF%NPTS                                           
                 DO K = 1,NFAIL                                           
                   FLOC=>ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC(K)  
-                  IFAIL = FLOC%ILAWF                                     
+                  IFAIL = FLOC%ILAWF    
+                  IDFAIL = FLOC%IDFAIL                                 
                   NUVAR = FLOC%NVAR                                      
                   RBUF_L(L_REL+1)=IFAIL                                  
                     L_REL = L_REL+1                                      

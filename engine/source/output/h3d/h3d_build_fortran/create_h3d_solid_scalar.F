@@ -31,7 +31,8 @@ Chd|====================================================================
       SUBROUTINE CREATE_H3D_SOLID_SCALAR(H3D_DATA,ID_SOLID_SCALAR,ID_INPUT,TEXT1,STEXT1,
      .                                   COMMENT, SCOMMENT, IPART,KEY3_GLOB,
      .                                   LAYER,IR,IS,IT,IUVAR,
-     .                                   IDMDS,IVARMDS,ID_MAT_MDS,MDS_LABEL,SMDS_LABEL)
+     .                                   IDMDS,IVARMDS,ID_MAT_MDS,MDS_LABEL,SMDS_LABEL,
+     .                                   ID   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,7 +48,7 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       INTEGER ID_SOLID_SCALAR,ID_INPUT,STEXT1,SCOMMENT,
      .        LAYER,IUVAR,IR,IS,IT,IDMDS,IVARMDS,SMDS_LABEL,
-     .        ID_MAT_MDS
+     .        ID_MAT_MDS,ID
       INTEGER IPART(LIPART1,*)
       CHARACTER(LEN=STEXT1) ::  TEXT1
       CHARACTER(LEN=ncharline) ::  KEY3_GLOB
@@ -78,6 +79,7 @@ C=========================================================================
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IR = IR
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IS = IS
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IT = IT
+      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OBJECT_ID = ID
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IUVAR = IUVAR
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IDMDS = IDMDS
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IDMATMDS = ID_MAT_MDS

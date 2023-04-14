@@ -147,7 +147,7 @@ C-----------------------------------------------
      .        ISHELL_NPT_CHECK,ICSTR,NPTR,NPTS,NPTT,IS_CORNER_DATA,ISH_NPT0,
      .        IS_MDSVAR_DEF,NMDSVAR_MAX,IS_MDSVAR,IS_MDSVAR_ALL,IMDSVAR,
      .        IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
-     .        IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19
+     .        IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IRUP,IFAIL
       INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
       CHARACTER  KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, KEY6*ncharkey,
      .           KEY7*ncharkey,KEY8*ncharkey,KEY3_GLOB*ncharline,KEY3_READ*ncharline, 
@@ -185,7 +185,21 @@ c
       TYPE (H3D_NUMBER_OF_KEY) :: H3D_NUM_KEY
   
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY 
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IS_LAYER_MAT 
+      CHARACTER*64 TEST_CHAIN
+      CHARACTER*10 FAIL_NAME(50)
+      DATA  FAIL_NAME/
+     1 'JOHNSON    ','TBUTCHER  ','WILKINS   ','USER1     ','USER2     ',
+     2 'USER3      ','FLD       ','SPALLING  ','WIERZBICKI','TENSSTRAIN',
+     3 'ENERGY     ','          ','CHANG     ','HASHIN    ','          ',
+     4 'PUCK       ','          ','LADEVEZE  ','          ','CONNECT   ',
+     5 '           ','          ','TAB1      ','ORTHSTRAIN','NXT       ',
+     6 'SNCONNECT  ','EMC       ','ALTER     ','SAHRAEI   ','BIQUAD    ',
+     7 'FABRIC     ','HC_DSSE   ','MULLINS   ','COCKCROFT ','GURSON    ',
+     8 'VISUAL     ','TAB_OLD   ','ORTHBIQUAD','GENE1     ','RTCL      ',
+     9 'TAB2       ','INIEVO    ','SYAZWAN   ','TSAIWU    ','TSAIHILL  ',
+     A 'HOFFMAN    ','MAXSTRAIN ','          ','          ','          '/
 C=========================================================================
       IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
       IF(H3D_DATA%TH3D_STOP0 /= EP20)  H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0      
@@ -844,6 +858,8 @@ C--------------------------------------------------
             NPLY_MAX = 0
             NUVAR_MAX = 0
             NMDSVAR_MAX = 0
+C
+            ! LAYER=ALL 
             IF (IS_LAYER_ALL == 1) THEN
 	      DO K=1,NUMGEO
            	IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
@@ -857,6 +873,7 @@ C--------------------------------------------------
               ENDDO
             ENDIF
 C
+            ! NPT=ALL
             ISH_NPT0 = 0    
             IF (IS_IPT_ALL == 1) THEN
                DO K=1,NUMGEO
@@ -874,6 +891,8 @@ C
                ENDDO
             ENDIF 
             IF(IS_IPT_ALL == 1 .AND. NIP_MAX == 0) ISHELL_NPT_CHECK = 1
+C
+            ! PLY=ALL
             ID_PLY(1:NUMGEO) = 0
             IPT_PLY(1:NUMGEO) = 0    
             IF (IS_PLY_ALL == 1) THEN
@@ -1141,6 +1160,36 @@ c
               ENDDO
             ENDDO
           ENDIF
+c
+          IF (KEY3_GLOB == 'FAILURE' .AND. IS_ID > 0) THEN
+            IRUP = 0
+            DO NG=1,NGROUP
+
+              CALL INITBUF (IPARG    ,NG     ,                    
+     2             MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
+     3             NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
+     4             JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
+     5             NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
+     6             IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+     7             ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+
+              NLAY = ELBUF_STR(NG)%NLAY
+              DO J = 1,NLAY
+                DO K = 1, ELBUF_STR(NG)%BUFLY(J)%NPTT
+                  DO L = 1,ELBUF_STR(NG)%NPTR
+                    DO M = 1,ELBUF_STR(NG)%NPTS
+                      FBUF => ELBUF_STR(NG)%BUFLY(J)%FAIL(L,M,K)
+                      DO IFAIL = 1,ELBUF_STR(NG)%BUFLY(J)%NFAIL
+                        IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
+                          IRUP = FBUF%FLOC(IFAIL)%ILAWF
+                        ENDIF
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO 
+              ENDDO
+            ENDDO
+          ENDIF
 C-------------------------------------------------- 
           IF(KEY2 == 'SHELL' .OR. KEY2 =='ELEM') THEN
 C-------------------------------------------------- 
@@ -1348,12 +1397,19 @@ c
      .     				       UVAR_INPUT(K))
                     IS_SKING = 1
 		   ELSE
+ 
+                   IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+                     TEST_CHAIN = ''
+                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP)),'Damage'
+                     H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
+                   ENDIF
+                    
            	   CALL CREATE_H3D_SHELL_SCALAR(H3D_DATA,H3D_KEYWORD_SHELL_SCALAR(J)%ID,N1,N2,ID_INPUT,
      .     					   TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),
      .                                             H3D_KEYWORD_SHELL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .     					   LAYER_INPUT(K),IPT_INPUT(K),PLY_INPUT(K),GAUSS_INPUT(K),UVAR_INPUT(K),
      .                                             MDSVAR_INPUT(K),MDSVAR_INPUT1(K),MDSVAR_INPUT2(K),
-     .                                             MDS_LABEL_TMP,30)
+     .                                             MDS_LABEL_TMP,30,IDS_INPUT(K))
               END IF			   
            	  IOK_H3DKEY = 1
            	ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_VECTOR == 1) THEN
@@ -1571,12 +1627,19 @@ c
                     IS_SKING = 1
                  ELSE
                     IF (IS_MDSVAR ==1) MDS_LABEL_TMP = MDS_LABEL(MDSVAR_INPUT1(K), MDSVAR_INPUT(K))
+ 
+                    IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+                      TEST_CHAIN = ''
+                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP)),'Damage'
+                      H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
+                    ENDIF
+
            	    CALL CREATE_H3D_SOLID_SCALAR(H3D_DATA,H3D_KEYWORD_SOLID_SCALAR(J)%ID,ID_INPUT,
      .     				       TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),
      .                                         H3D_KEYWORD_SOLID_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .     				       LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
      .     				       UVAR_INPUT(K),MDSVAR_INPUT(K),MDSVAR_INPUT1(K),
-     .                                         MDSVAR_INPUT2(K),MDS_LABEL_TMP,30)
+     .                                         MDSVAR_INPUT2(K),MDS_LABEL_TMP,30,IDS_INPUT(K))
                   END IF
            	  IOK_H3DKEY = 1
            	ELSEIF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_VECTOR == 1) THEN

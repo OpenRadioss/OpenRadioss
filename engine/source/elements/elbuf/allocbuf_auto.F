@@ -852,7 +852,11 @@ c-------------------------------
                 FLOC=>ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)  
          
                 FLOC%ILAWF = RBUF(IAD+1)                                   
-                IAD = IAD+1                                                
+                IAD = IAD+1    
+
+                FLOC%IDFAIL = RBUF(IAD+1)
+                IAD = IAD+1
+
                 NUVAR = RBUF(IAD+1)                                        
                 IAD = IAD+1                                                
                 FLOC%NVAR = NUVAR
@@ -1079,7 +1083,9 @@ c-------------------------------
               DO K = 1,NFAIL                                               
                 FLOC=>ELBUF_STR%INTLAY(IL)%FAIL(IR,IS)%FLOC(K)           
                 FLOC%ILAWF = RBUF(IAD+1)                                   
-                IAD = IAD+1                                                
+                IAD = IAD+1       
+                FLOC%IDFAIL = RBUF(IAD+1)
+                IAD = IAD+1                                         
                 NUVAR = RBUF(IAD+1)                                        
                 IAD = IAD+1                                                
                 FLOC%NVAR = NUVAR                                          

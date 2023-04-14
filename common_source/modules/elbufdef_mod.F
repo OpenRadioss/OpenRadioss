@@ -1071,6 +1071,7 @@ c-------  layer variables
  
       TYPE FAIL_LOC_
         integer  ILAWF    ! type de loi de rupture
+        integer  IDFAIL
         integer  NVAR
         integer  LF_DAM
         integer  LF_DAMMX

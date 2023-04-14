@@ -119,7 +119,8 @@ c------------scalar
      .                      H3D_DATA%OUTPUT_LIST(I)%IUVAR,H3D_DATA%OUTPUT_LIST(I)%GAUSS,H3D_DATA%OUTPUT_LIST(I)%IDMDS,
      .                      H3D_DATA%OUTPUT_LIST(I)%IMDSVAR             , H3D_DATA%OUTPUT_LIST(I)%IDMATMDS ,
      .                      H3D_DATA%OUTPUT_LIST(I)%COMMENT             , H3D_DATA%OUTPUT_LIST(I)%S_COMMENT,
-     .                      H3D_DATA%OUTPUT_LIST(I)%MDSVAR_NAME         , H3D_DATA%OUTPUT_LIST(I)%SMDSVAR_NAME)
+     .                      H3D_DATA%OUTPUT_LIST(I)%MDSVAR_NAME         , H3D_DATA%OUTPUT_LIST(I)%SMDSVAR_NAME,
+     .                      H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID)
               ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE ==  2) THEN
 c------------vector
                   CALL C_H3D_CREATE_SHELL_VECTOR_DATATYPE(
@@ -150,7 +151,8 @@ c------------scalar
      .                      H3D_DATA%OUTPUT_LIST(I)%IS, H3D_DATA%OUTPUT_LIST(I)%IT        , H3D_DATA%OUTPUT_LIST(I)%IDMDS    ,
      .                      H3D_DATA%OUTPUT_LIST(I)%IMDSVAR                               , H3D_DATA%OUTPUT_LIST(I)%IDMATMDS ,  
      .                      H3D_DATA%OUTPUT_LIST(I)%COMMENT                               , H3D_DATA%OUTPUT_LIST(I)%S_COMMENT ,
-     .                      H3D_DATA%OUTPUT_LIST(I)%MDSVAR_NAME                           , H3D_DATA%OUTPUT_LIST(I)%SMDSVAR_NAME)
+     .                      H3D_DATA%OUTPUT_LIST(I)%MDSVAR_NAME                           , H3D_DATA%OUTPUT_LIST(I)%SMDSVAR_NAME,
+     .                      H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID)
               ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE ==  2) THEN
 c------------vector
                   CALL C_H3D_CREATE_SOLID_VECTOR_DATATYPE(

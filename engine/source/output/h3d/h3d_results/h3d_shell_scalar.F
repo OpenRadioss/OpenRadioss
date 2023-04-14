@@ -45,7 +45,8 @@ Chd|====================================================================
      .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,INFO1       ,INFO2      , 
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
-     .                  D           , MULTI_FVM ,IDMDS    ,IMDSVAR     ,MDS_MATID  )
+     .                  D           , MULTI_FVM ,IDMDS    ,IMDSVAR     ,MDS_MATID  ,
+     .                  ID          )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,NPART),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(NUMELC),IPARTTG(NUMELTG),H3D_PART(*),
-     .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,IDMDS,
+     .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,IDMDS,ID,
      .   MDS_MATID(*),IMDSVAR,NERCVOIS(SNERCVOIS),NESDVOIS(SNESDVOIS),LERCVOIS(SLERCVOIS),LESDVOIS(SLESDVOIS)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -125,7 +126,7 @@ C-----------------------------------------------
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
      .                  D           ,NG         ,MULTI_FVM,IDMDS       ,IMDSVAR    ,
-     .                  MDS_MATID   )
+     .                  MDS_MATID   ,ID         )
       ENDDO
 C-----------------------------------------------
 
