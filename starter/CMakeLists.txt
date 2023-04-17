@@ -226,8 +226,6 @@ add_custom_command(
 endif()
 
 
-add_custom_target( alway_execute ALL DEPENDS ${Build_includes_directory}/__foo.inc )
-
 
 # make sure that the default is a RELEASE
 if (NOT CMAKE_BUILD_TYPE)
@@ -239,7 +237,7 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 
 
-add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc)
+add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc ${Build_includes_directory}/__foo.inc)
 
 if(DEFINED VS_BUILD)
   add_custom_command(TARGET ${EXEC_NAME}
