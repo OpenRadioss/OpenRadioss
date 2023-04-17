@@ -25,7 +25,7 @@ Chd|  R23L113DEF3                   source/elements/spring/r23l113def3.F
 Chd|-- called by -----------
 Chd|        R23LAW113                     source/elements/spring/r23law113.F
 Chd|-- calls ---------------
-Chd|        REDEF3                        source/elements/spring/redef3.F
+Chd|        REDEF3_LAW113                 source/elements/spring/redef3_law113.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|====================================================================
       SUBROUTINE R23L113DEF3(
@@ -114,7 +114,8 @@ C-----------------------------------------------
      .        IECROU(MVSIZ), IFUNC(MVSIZ), IFV(MVSIZ), IFUNC2(MVSIZ),
      .        I, ILENG, J, KK, IFAIL(MVSIZ),IFAIL2(MVSIZ),
      .        NINDX,ISRATE, IFUNC3(MVSIZ),I1,I2,I3,I4,I5,I6,I7,I8,
-     .        I9,I10,I11,I12,I13,I14,IF1,IF2,IF3,IF4,IADBUF,NUPAR
+     .        I9,I10,I11,I12,I13,I14,IF1,IF2,IF3,IF4,IADBUF,NUPAR,
+     .        IF5,IFUNC4(MVSIZ)
 C     REAL
       my_real
      .     XK(MVSIZ), YK(MVSIZ),
@@ -309,12 +310,14 @@ C-------------------------------
       IF2 = 6
       IF3 = 12
       IF4 = 18
+      IF5 = 24
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = IPM(10 + IF1 + 1,MID(I))
         IFV(I)   = IPM(10 + IF2 + 1,MID(I))
         IFUNC2(I)= IPM(10 + IF3 + 1,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 1,MID(I))
+        IFUNC4(I)= IPM(10 + IF5 + 1,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 1))
         AK(I)    = UPARAM(IADBUF + I1 + 1)
         B(I)     = UPARAM(IADBUF + I2 + 1)
@@ -327,18 +330,15 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 1)
       ENDDO
       IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
-      CALL REDEF3(
-     1   FX,         XK,         DX,         FXEP,
-     2   DXOLD,      DPX,        TF,         NPF,
-     3   XC,         OFF,        E6(1,1),    DPX2,
-     4   ANIM,       ANIM_FE(11),POSX,       FR_WAVE,
-     5   XL0,        DMN,        DMX,        DV,
-     6   FF,         LSCALE,     EE,         GF3,
-     7   IFUNC3,     YIELDX,     ALDP,       AK,
-     8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+      CALL REDEF3_LAW113(NEL, NFT ,
+     .            FX      ,XK      ,DX      ,FXEP       ,DXOLD   ,
+     .            DPX     ,TF      ,NPF     ,XC         ,OFF     ,
+     .            E6(1,1) ,DPX2    ,ANIM    ,ANIM_FE(11),POSX    ,
+     .            XL0     ,DMN     ,DMX     ,DV         ,
+     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
+     .            YIELDX  ,AK      ,B          ,D       ,
+     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,IFUNC4  , 
+     .            EPLA    , COORD_OLD  )
 C
       DO I=1,NEL
         CC = UPARAM(IADBUF + NUPAR + 3)
@@ -388,6 +388,7 @@ C
         IFV(I)   = IPM(10 + IF2 + 2,MID(I))
         IFUNC2(I)= IPM(10 + IF3 + 2,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 2,MID(I))
+        IFUNC4(I)= IPM(10 + IF5 + 2,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 2))
         AK(I)    = UPARAM(IADBUF + I1 + 2)
         B(I)     = UPARAM(IADBUF + I2 + 2)
@@ -402,18 +403,15 @@ C
 C
       KK = 1 + NUMELR * ANIM_FE(11)
       IF (NUVAR >= 2) COORD_OLD => UVAR(2,1:NEL)
-      CALL REDEF3(
-     1   FY,         YK,         DY,         FYEP,
-     2   DYOLD,      DPY,        TF,         NPF,
-     3   YC,         OFF,        E6(1,2),    DPY2,
-     4   ANIM(KK),   ANIM_FE(12),POSY,       FR_WAVE,
-     5   XL0,        DMN,        DMX,        DV,
-     6   FF,         LSCALE,     EE,         GF3,
-     7   IFUNC3,     YIELDY,     ALDP,       AK,
-     8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+      CALL REDEF3_LAW113(NEL, NFT ,
+     .            FY      ,YK     ,DY      ,FYEP       ,DYOLD   ,
+     .            DPY     ,TF     ,NPF     ,YC         ,OFF     ,
+     .            E6(1,2) ,DPY2   ,ANIM(KK),ANIM_FE(12),POSY    ,
+     .            XL0    ,DMN     ,DMX     ,DV      ,
+     .            FF      ,LSCALE ,EE      ,GF3        ,IFUNC3  ,
+     .            YIELDY  ,AK      ,B      ,D       ,
+     .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,IFUNC4  , 
+     .            EPLA    , COORD_OLD    )
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -464,6 +462,7 @@ C
         IFV(I)   = IPM(10 + IF2 + 3,MID(I))
         IFUNC2(I)= IPM(10 + IF3 + 3,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 3,MID(I))
+        IFUNC4(I)= IPM(10 + IF5 + 3,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 3))
         AK(I)    = UPARAM(IADBUF + I1 + 3)
         B(I)     = UPARAM(IADBUF + I2 + 3)
@@ -478,18 +477,15 @@ C
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
       IF (NUVAR >= 3) COORD_OLD => UVAR(3,1:NEL)
-      CALL REDEF3(
-     1   FZ,         ZK,         DZ,         FZEP,
-     2   DZOLD,      DPZ,        TF,         NPF,
-     3   ZC,         OFF,        E6(1,3),    DPZ2,
-     4   ANIM(KK),   ANIM_FE(13),POSZ,       FR_WAVE,
-     5   XL0,        DMN,        DMX,        DV,
-     6   FF,         LSCALE,     EE,         GF3,
-     7   IFUNC3,     YIELDZ,     ALDP,       AK,
-     8   B,          D,          IECROU,     IFUNC,
-     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+      CALL REDEF3_LAW113(NEL, NFT ,
+     .            FZ      ,ZK     ,DZ      ,FZEP       ,DZOLD   ,
+     .            DPZ     ,TF     ,NPF     ,ZC         ,OFF     ,
+     .            E6(1,3) ,DPZ2   ,ANIM(KK),ANIM_FE(13),POSZ    ,
+     .            XL0    ,DMN     ,DMX     ,DV      ,
+     .            FF      ,LSCALE ,EE      ,GF3        ,IFUNC3  ,
+     .            YIELDZ  ,AK      ,B      ,D       ,
+     .            IECROU  ,IFUNC  ,IFV     ,IFUNC2     ,IFUNC4  , 
+     .            EPLA    , COORD_OLD    )
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -586,6 +582,7 @@ C-------------------------------
         IFV(I)   = IPM(10 + IF2 + 4,MID(I))
         IFUNC2(I)= IPM(10 + IF3 + 4,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 4,MID(I))
+        IFUNC4(I)= IPM(10 + IF5 + 4,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 4))
         AK(I)    = UPARAM(IADBUF + I1 + 4)
         B(I)     = UPARAM(IADBUF + I2 + 4)
@@ -598,18 +595,15 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 4)
       ENDDO
       IF (NUVAR >= 4) COORD_OLD => UVAR(4,1:NEL)
-      CALL REDEF3(
-     1   XMOM,     XK,       RX,       XMEP,
-     2   DXOLD,    RPX,      TF,       NPF,
-     3   XC,       OFF,      E6(1,4),  RPX2,
-     4   ANIM,     0,        POSXX,    FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   FF,       LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDX2,  ALDP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3_LAW113(NEL, NFT,
+     .            XMOM    ,XK      ,RX      ,XMEP       ,DXOLD   ,
+     .            RPX     ,TF      ,NPF     ,XC         ,OFF     ,
+     .            E6(1,4) ,RPX2    ,ANIM    ,0          ,POSXX   ,
+     .            XL0     ,DMN     ,DMX     ,DV      ,
+     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
+     .            YIELDX2 ,AK      ,B       ,D       ,
+     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,IFUNC4  , 
+     .            EPLA    , COORD_OLD    )
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -660,6 +654,7 @@ C
         IFV(I)   = IPM(10 + IF2 + 5,MID(I))
         IFUNC2(I)= IPM(10 + IF3 + 5,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 5,MID(I))
+        IFUNC4(I)= IPM(10 + IF5 + 5,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 5))
         AK(I)    = UPARAM(IADBUF + I1 + 5)
         B(I)     = UPARAM(IADBUF + I2 + 5)
@@ -672,18 +667,15 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 5)
       ENDDO
       IF (NUVAR >= 5) COORD_OLD => UVAR(5,1:NEL)
-      CALL REDEF3(
-     1   YMOM,     YK,       RY,       YMEP,
-     2   DYOLD,    RPY,      TF,       NPF,
-     3   YC,       OFF,      E6(1,5),  RPY2,
-     4   ANIM,     0,        POSYY,    FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   FF,       LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDY2,  ALDP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3_LAW113(NEL,NFT,
+     .            YMOM    ,YK      ,RY      ,YMEP       ,DYOLD   ,
+     .            RPY     ,TF      ,NPF     ,YC         ,OFF     ,
+     .            E6(1,5) ,RPY2    ,ANIM    ,0          ,POSYY   ,
+     .            XL0     ,DMN     ,DMX     ,DV      ,
+     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
+     .            YIELDY2  ,AK      ,B      ,D       ,
+     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,IFUNC4  , 
+     .            EPLA    , COORD_OLD    )
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -734,6 +726,7 @@ C
         IFV(I)   = IPM(10 + IF2 + 6,MID(I))
         IFUNC2(I)= IPM(10 + IF3 + 6,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 6,MID(I))
+        IFUNC4(I)= IPM(10 + IF5 + 6,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 6))
         AK(I)    = UPARAM(IADBUF + I1 + 6)
         B(I)     = UPARAM(IADBUF + I2 + 6)
@@ -746,18 +739,15 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 6)
       ENDDO
       IF (NUVAR >= 6) COORD_OLD => UVAR(6,1:NEL)
-      CALL REDEF3(
-     1   ZMOM,     ZK,       RZ,       ZMEP,
-     2   DZOLD,    RPZ,      TF,       NPF,
-     3   ZC,       OFF,      E6(1,6),  RPZ2,
-     4   ANIM,     0,        POSZZ,    FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   FF,       LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDZ2,  ALDP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3_LAW113(NEL,NFT,
+     .            ZMOM    ,ZK      ,RZ      ,ZMEP       ,DZOLD    ,
+     .            RPZ     ,TF      ,NPF     ,ZC         ,OFF      ,
+     .            E6(1,6) ,RPZ2    ,ANIM    ,0          ,POSZZ    ,
+     .            XL0     ,DMN     ,DMX     ,DV       ,
+     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3   ,
+     .            YIELDZ2 ,AK      ,B       ,D        ,
+     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,IFUNC4  , 
+     .            EPLA    , COORD_OLD    )
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1

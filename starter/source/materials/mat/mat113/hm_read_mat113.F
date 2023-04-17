@@ -75,7 +75,7 @@ C-----------------------------------------------
        INTEGER J, IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
      .         IFAIL,ILENG,IFAIL2,FLGCHK,ILAW,
      .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
-     .         IF1,IF2,IF3,IF4
+     .         IF1,IF2,IF3,IF4,IF5,IFUNC5
 C     REAL
       my_real
      .   A, B, D, E, F, XK, XC, DN, DX, FWV, LSCALE,
@@ -149,6 +149,7 @@ c-------------------------------------------------------------------------------
       CALL HM_GET_FLOATV('Prop_X_E'  ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('scale1'    ,LSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Prop_X_H'  ,GF3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('FUN_K1'    ,IFUNC5   ,IS_AVAILABLE, LSUBMODEL)
       IF (IECROU == 4 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=231,
      .               MSGTYPE=MSGERROR,
@@ -286,12 +287,14 @@ C
       IF2 = 6
       IF3 = 12
       IF4 = 18
+      IF5 = 24 
 C      
       IFUNC(1) = IFUNC1
       IFUNC(IF2 + 1) = IFUNC2
       IFUNC(IF3 + 1) = IFUNC3
-      IFUNC(IF4 + 1) = IFUNC4      
-      NFUNC = 4
+      IFUNC(IF4 + 1) = IFUNC4 
+      IFUNC(IF5 + 1) = IFUNC5      
+      NFUNC = 5
 C----
       IF (IS_ENCRYPTED) THEN 
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -299,24 +302,24 @@ C----
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1813)'TENSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1812)'TENSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1810)'TENSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ELSE
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1823)'TENSION',XK,XC,IFUNC,LSCALE,IFUNC2,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1822)'TENSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1820)'TENSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
@@ -341,6 +344,7 @@ C
       CALL HM_GET_FLOATV('Prop_Y_E'  ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('scale2'    ,LSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Prop_Y_H'  ,GF3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('FUN_K2'    ,IFUNC5   ,IS_AVAILABLE, LSUBMODEL)
 C
       IF (IECROU == 4 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=231,
@@ -465,7 +469,8 @@ C
       IFUNC(IF2 + 2) = IFUNC2
       IFUNC(IF3 + 2) = IFUNC3
       IFUNC(IF4 + 2) = IFUNC4 
-      NFUNC = NFUNC  + 4
+      IFUNC(IF5 + 2) = IFUNC5 
+      NFUNC = NFUNC  + 5
 C----
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -473,24 +478,24 @@ C----
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1813)'Y SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1812)'Y SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1810)'Y SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ELSE
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1823)'Y SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1822)'Y SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1820)'Y SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
@@ -515,6 +520,7 @@ c
       CALL HM_GET_FLOATV('Prop_Z_E'  ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('scale3'    ,LSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Prop_Z_H'  ,GF3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('FUN_K3'    ,IFUNC5   ,IS_AVAILABLE, LSUBMODEL)
 C----
       IF (IECROU == 4 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=231,
@@ -638,7 +644,8 @@ C
       IFUNC(IF2 + 3) = IFUNC2
       IFUNC(IF3 + 3) = IFUNC3
       IFUNC(IF4 + 3) = IFUNC4 
-      NFUNC = NFUNC + 4
+      IFUNC(IF5 + 3) = IFUNC5 
+      NFUNC = NFUNC + 5
 C----
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -646,24 +653,24 @@ C----
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1813)'Z SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1812)'Z SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC3,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC3,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1810)'Z SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ELSE
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1823)'Z SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1822)'Z SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1820)'Z SHEAR',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
@@ -690,6 +697,7 @@ c
       CALL HM_GET_FLOATV('Prop_Tor_E',E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('scale4'    ,LSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Prop_Tor_H',GF3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('FUN_K4'    ,IFUNC5   ,IS_AVAILABLE, LSUBMODEL)
 C----
       IF (IECROU == 4 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=231,
@@ -812,7 +820,8 @@ C
       IFUNC(IF2 + 4) = IFUNC2
       IFUNC(IF3 + 4) = IFUNC3
       IFUNC(IF4 + 4) = IFUNC4 
-      NFUNC = NFUNC + 4
+      IFUNC(IF5 + 4) = IFUNC5
+      NFUNC = NFUNC + 5
 C----
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -820,24 +829,24 @@ C----
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1833)'TORSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1832)'TORSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1830)'TORSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ELSE
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1843)'TORSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1842)'TORSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1840)'TORSION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
@@ -860,6 +869,7 @@ C----
       CALL HM_GET_FLOATV('Prop_FlxY_E',E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('scale5'     ,LSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Prop_FlxY_H',GF3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('FUN_K5'    ,IFUNC5   ,IS_AVAILABLE, LSUBMODEL)
 C----
       IF (IECROU == 4 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=231,
@@ -981,7 +991,8 @@ C
       IFUNC(IF2 + 5) = IFUNC2
       IFUNC(IF3 + 5) = IFUNC3
       IFUNC(IF4 + 5) = IFUNC4 
-      NFUNC = NFUNC + 4
+      IFUNC(IF5 + 5) = IFUNC5 
+      NFUNC = NFUNC + 5
 C----
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -989,24 +1000,24 @@ C----
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1833)'Y FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1832)'Y FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1830)'Y FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ELSE
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1843)'Y FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1842)'Y FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1840)'Y FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
@@ -1029,6 +1040,7 @@ C----
       CALL HM_GET_FLOATV('Prop_FlxZ_E',E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('scale6'     ,LSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Prop_FlxZ_H',GF3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('FUN_K6'    ,IFUNC5   ,IS_AVAILABLE, LSUBMODEL)
 C----
       IF (IECROU == 4 .AND. (IFUNC1 == 0 .OR. IFUNC3 == 0)) THEN
          CALL ANCMSG(MSGID=231,
@@ -1152,7 +1164,8 @@ C
       IFUNC(IF2 + 6) = IFUNC2
       IFUNC(IF3 + 6) = IFUNC3
       IFUNC(IF4 + 6) = IFUNC4 
-      NFUNC = NFUNC + 4
+      IFUNC(IF5 + 6) = IFUNC5 
+      NFUNC = NFUNC + 5
 C----
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -1160,24 +1173,24 @@ C----
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1833)'Z FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC2,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1832)'Z FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1830)'Z FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ELSE
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1843)'Z FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DX
           ELSEIF (IFAIL2 == 2) THEN
             WRITE(IOUT,1842)'Z FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ELSE
             WRITE(IOUT,1840)'Z FLEXION',XK,XC,IFUNC1,LSCALE,IFUNC3,F,
-     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
+     .                       IECROU,A,B,D,E,GF3,IFUNC2,IFUNC4,IFUNC5,DN,DX
           ENDIF ! IF (IFAIL2 == 3)
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
@@ -1301,12 +1314,12 @@ C------------------------
       MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
       MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
       MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
-      MTAG%G_POSX = 5
-      MTAG%G_POSY = 5
-      MTAG%G_POSZ = 5
-      MTAG%G_POSXX = 5
-      MTAG%G_POSYY = 5
-      MTAG%G_POSZZ = 5
+      MTAG%G_POSX = 6
+      MTAG%G_POSY = 6
+      MTAG%G_POSZ = 6
+      MTAG%G_POSXX = 6
+      MTAG%G_POSYY = 6
+      MTAG%G_POSZZ = 6
       MTAG%G_YIELD = 6
       MTAG%G_RUPTCRIT = 1
       MTAG%G_NUVAR = MAX(MTAG%G_NUVAR,NINT(UPARAM(4)))
@@ -1364,6 +1377,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . .=',I10/,
      & 5X,'NEGATIVE FAILURE DISPLACEMENT . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE DISPLACEMENT . . . . .=',1PG20.13/)
  1820 FORMAT(
@@ -1388,6 +1403,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'NEGATIVE FAILURE DISPLACEMENT . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE DISPLACEMENT . . . . .=',1PG20.13/)
  1830 FORMAT(
@@ -1413,6 +1430,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'NEGATIVE FAILURE ROTATION . . . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE ROTATION . . . . . . .=',1PG20.13/)
  1840 FORMAT(
@@ -1472,6 +1491,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'NEGATIVE FAILURE FORCE. . . . . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE FORCE. . . . . . . . .=',1PG20.13/)
  1813 FORMAT(
@@ -1497,6 +1518,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'FAILURE ENERGY. . . . . . . . . . . . .=',1PG20.13/)
  1822 FORMAT(
      & 5X,A,/,
@@ -1520,6 +1543,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFNESS CURVE. . . . . . . . . .=',I10/,
      & 5X,'NEGATIVE FAILURE FORCE. . . . . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE FORCE. . . . . . . . .=',1PG20.13/)
  1823 FORMAT(
@@ -1544,6 +1569,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE CURVE. . . . . . . . . . . . . ..=',I10/,
      & 5X,'FAILURE ENERGY. . . . . . . . . . . . .=',1PG20.13/)
  1832 FORMAT(
      & 5X,A,/,
@@ -1568,6 +1595,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'NEGATIVE FAILURE MOMENT . . . . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE MOMENT . . . . . . . .=',1PG20.13/)
  1833 FORMAT(
@@ -1593,6 +1622,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'FAILURE ENERGY. . . . . . . . . . . . .=',1PG20.13/)
  1842 FORMAT(
      & 5X,A,/,
@@ -1616,6 +1647,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFFNESS CURVE. . . . . . . . . =',I10/,
      & 5X,'NEGATIVE FAILURE MOMENT . . . . . . . .=',1PG20.13/,
      & 5X,'POSITIVE FAILURE MOMENT . . . . . . . .=',1PG20.13/)
  1843 FORMAT(
@@ -1640,6 +1673,8 @@ c-----------
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
      & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
      & 5X,'FORCE-VELOCITY CURVE. . . . . . . . . .=',I10/,
+     & 5X,'FUNCTION IDENTIFIER FOR THE ADDITIONAL ',/,
+     & 5X,'SCALE STIFNESS CURVE. . . . . . . . . .=',I10/,
      & 5X,'FAILURE ENERGY. . . . . . . . . . . . .=',1PG20.13/)
  1850 FORMAT(
      & 5X,'TRANSL. REF. DEFORMATION VELOCITY . . .=',1PG20.13/,
