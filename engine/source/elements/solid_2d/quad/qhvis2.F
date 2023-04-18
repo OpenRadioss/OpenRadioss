@@ -226,11 +226,9 @@ C
         EHOUR = EHOUR + EHOURT
 #include "atomend.inc"
 C
-      IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN
-        DO I=LFT,LLT
-          EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*AREA(I))
-        ENDDO
-      ENDIF
+      DO I=LFT,LLT
+        EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*AREA(I))
+      ENDDO
 C
       RETURN
       END
