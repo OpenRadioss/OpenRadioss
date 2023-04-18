@@ -1065,6 +1065,10 @@ c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
      .            MAX(EM30,(STF(L)+STIF(I)))
 c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
+      ELSEIF(IGSTI==7)THEN
+         DO I=1,JLT
+            STIF(I)=ZERO
+         ENDDO
       ENDIF
 
 C------------------------------------------

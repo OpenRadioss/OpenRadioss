@@ -413,7 +413,7 @@ C       Cyle 1 : update secondary and main nodal masses
             N = INTLIST(KK)
             NTY = IPARI(7,N)
             IF (NTY == 24 .OR. NTY == 25 ) THEN
-               IF(IPARI(97,N) > 0.AND.IPARI(98,N)==1) THEN
+               IF(IPARI(97,N) > 0.AND.IPARI(98,N)==2) THEN
                   CALL INTMASS_UPDATE( N   ,IPARI(1,N), INTBUF_TAB(N), MS  )
               ENDIF
             ENDIF
