@@ -220,7 +220,6 @@ sub header() {
     if (exists ($mod_files{$routine})) {$file=$mod_files{$routine};}
   }
 
-
   # Print subroutine header
   push @header, "$sep\n";
 #   print "file=$file\n";
@@ -556,12 +555,12 @@ sub Wanted
     chomp($curline);
     $ligne++;
     if ($i_interface==1) {
-      if ($curline =~ /^[^Cc#!]([\s\t]*)END([\s\t]+)INTERFACE/) {
+      if ($curline =~ /^[^Cc#!]([\s\t]*)END([\s\t]+)INTERFACE([\s\t]*)$/) {
         $i_interface=0;
       }
       else { next; }
     }
-    if ($curline =~ /^[^Cc#!]([\s\t]*)INTERFACE/) { 
+    if ($curline =~ /^[^Cc#!]([\s\t]*)INTERFACE([\s\t]*)$/) { 
       $i_interface=1;
       next;
     }
@@ -867,7 +866,7 @@ sub Wanted_replace
 #         print "coucou\n";
 #       }
       if ($i_interface==1) {
-        if ($curline =~ /^[^Cc#!]([\s\t]*)END([\s\t]+)INTERFACE/) {
+        if ($curline =~ /^[^Cc#!]([\s\t]*)END([\s\t]+)INTERFACE([\s\t]*)$/) {
           $i_interface=0;
         }
         else {
@@ -875,7 +874,7 @@ sub Wanted_replace
           next;
         }
       }
-      if ($curline =~ /^[^Cc#!]([\s\t]*)INTERFACE/) { 
+      if ($curline =~ /^[^Cc#!]([\s\t]*)INTERFACE([\s\t]*)$/) { 
         push @newfile,$curline; 
         $i_interface=1;
         next;
