@@ -64,7 +64,8 @@ Chd|====================================================================
      B      IGRSURF ,SUBSET ,ITHFLAG,NPBY,LSUBMODEL,IPARG,
      C      IPARTS  ,IPARTQ ,IPARTC ,IPARTT  ,IPARTP  ,IPARTR ,
      D      IPARTG  ,IPARTX ,IPARTSP ,IPARTIG3D, LITHBUFMX,
-     E      MAP_TABLES, IFLAG,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSOR_TAB)
+     E      MAP_TABLES, IFLAG,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSOR_TAB,
+     F      INTERFACES,IPARI)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
@@ -73,6 +74,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE MAPPING_OPTION_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,10 +115,12 @@ C-----------------------------------------------
       INTEGER, TARGET :: IPARTS(NUMELS),IPARTQ(NUMELQ),IPARTC(NUMELC),
      .        IPARTT(NUMELT),IPARTP(NUMELP),IPARTR(NUMELR),IPARTG(NUMELTG),
      .        IPARTX(NUMELX),IPARTSP(NUMSPH),IPARTIG3D(NUMELIG3D)
+      INTEGER,INTENT(INOUT) :: IPARI(NPARI,NINTER)
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) ,INTENT(IN) :: LSUBMODEL
       TYPE(MAPPING_STRUCT_),INTENT(IN) :: MAP_TABLES
       TYPE (SENSOR_STR_)   ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE (INTERFACES_)   ,INTENT(INOUT):: INTERFACES
 C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
@@ -126,7 +130,7 @@ C-----------------------------------------------
       INTEGER J,JJ,II, I,ISU,ID,NOSYS,J10(10),NTOT,KK,IER,
      .        OK,IGS,IGRS,NSU,K,L,CONT,IAD0,IADV,NTRI,NL,
      .        IFITMP,IADFIN,NUMEL,NV,NVAR,M,N,IAD2,IAD,NSNE,NNE,ISK,
-     .        NVALL,TAGP,TAGS,IFIX_TMP,IBID
+     .        NVALL,TAGP,TAGS,IFIX_TMP,IBID,NIN
       CHARACTER TITR*nchartitle,MESS*40,KEY*ncharline,COPT*ncharline,
      .        TITR1*nchartitle
 C
@@ -149,7 +153,7 @@ C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
       PARAMETER (NVARP = 337,NVARR = 66,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
-      PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
+      PARAMETER (NVARIN = 29,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
       PARAMETER (NVARAC = 6,NVARSE =39,NVARJO = 6)
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
@@ -1005,7 +1009,7 @@ C   interfaces
      . '||FN||  ','|FX|    ','|FY|    ','|FZ|    ','||F||   ',
      . 'PVOL    ','PSURF   ','PMED    ','DELTAP  ','VOL     ',
      . 'SURF    ','MX      ','MY      ','MZ      ','QFRIC   ',
-     . 'CE_ELAST','CE_FRIC ','CE_DAMP '/
+     . 'CE_ELAST','CE_FRIC ','CE_DAMP ','CAREA   '/
 C   rigid wall
       DATA VARRW/
      . 'FNX     ','FNY     ','FNZ     ','FTX     ','FTY     ',
@@ -2192,6 +2196,17 @@ C
      4      IVARING  ,NSNE     ,NVALL  ,ITHVAR,FLAGABF ,NVARABF   ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
           IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
+          DO JJ = ITHGRP(7,IGS),ITHGRP(5,IGS)
+             IF(ITHBUF(JJ) ==29) INTERFACES%PARAMETERS%INTCAREA =1
+          ENDDO
+          IF(INTERFACES%PARAMETERS%INTCAREA > 0 ) THEN
+            DO JJ = ITHGRP(5,IGS),ITHGRP(5,IGS)+ITHGRP(4,IGS)-1
+               NIN = ITHBUF(JJ)
+               IF(NIN <= NINTER) THEN 
+                  IF(IPARI(7,NIN)==24.OR. IPARI(7,NIN)==25) IPARI(99,NIN) = 1
+               ENDIF
+            ENDDO
+          ENDIF
         ENDDO
       ENDIF
       !-------------------------------------------

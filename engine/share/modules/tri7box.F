@@ -543,6 +543,7 @@ C Type 25 Interface
       TYPE(int_pointer) , DIMENSION(:), ALLOCATABLE :: ICODT_FI
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: STIF_MSDT_FI
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: STIFE_MSDT_FI
+      TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: INTAREANFI
 
 C AMS TYPE2 + Contact
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: T2FAC_SMS_FI

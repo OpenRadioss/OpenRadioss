@@ -72,7 +72,8 @@ Chd|====================================================================
      X    INDEXORTH   , INDEXISOT,DIR1      ,DIR2      ,T2FAC_SMS ,
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
-     1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC )
+     1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,INTCAREA,
+     2    PARAMETERS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,6 +82,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE ANIM_MOD
       USE OUTPUTS_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -130,7 +132,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: IXX(MVSIZ,13)
-      INTEGER  , INTENT(IN) :: INTEREFRIC
+      INTEGER  , INTENT(IN) :: INTEREFRIC, INTCAREA
       my_real
      .   STIGLO,FROT_P(*), X(3,*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
@@ -168,6 +170,7 @@ C-----------------------------------------------
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
 
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,7 +195,7 @@ C-----------------------------------------------
      .   D1,D2,D3,D4,A1,A2,A3,A4,
      .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
-     .   FSAV22, FSAV23, FSAV24, FFO,
+     .   FSAV22, FSAV23, FSAV24, FFO,FSAV29,
      .   E10, H0D, S2D, SUM,
      .   LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
      .   P1S(MVSIZ),P2S(MVSIZ),P3S(MVSIZ),P4S(MVSIZ),
@@ -219,7 +222,7 @@ C-----------------------------------------------
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,ibug,ip,NCFIT
       INTEGER  ISEGTYP(MVSIZ),IXSS(4),NOD1,NOD2,NS
       my_real
-     .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ,VNM(MVSIZ),SFAC,STMIN,
+     .   FSAVSUB1(25,NISUB),IMPX,IMPY,IMPZ,VNM(MVSIZ),SFAC,STMIN,
      .   FXS(4),FYS(4),FZS(4),HH,FINC,FA,FB,DDP,PREC1
 
       DOUBLE PRECISION RP1,RP2,STIF_N
@@ -1061,7 +1064,7 @@ C     SORTIES TH PAR SOUS INTERFACE
 C---------------------------------
       IF(NISUB/=0)THEN
         DO JSUB=1,NISUB
-          DO J=1,24
+          DO J=1,25
             FSAVSUB1(J,JSUB)=ZERO
           END DO
         ENDDO
@@ -2476,6 +2479,7 @@ C---------------------------------
       FSAV22= ZERO
       FSAV23= ZERO
       FSAV24= ZERO
+      FSAV29= ZERO
       DO I=1,JLT
         IF(PENE(I) == ZERO)CYCLE
         IMPX=FXT(I)*DT12
@@ -2498,6 +2502,15 @@ C---------------------------------
         FSAV23=FSAV23+ZP(I)*IMPX-XP(I)*IMPZ
         FSAV24=FSAV24+XP(I)*IMPY-YP(I)*IMPX
       ENDDO
+      IF(INTCAREA > 0) THEN
+        DO I=1,JLT
+           IF(PENE(I) == ZERO)CYCLE
+           JG = NSVG(I)
+           IF(JG>0) THEN   ! Only local nodes in i25for3, remote nodes will be taken into account later
+              FSAV29=FSAV29+PARAMETERS%INTAREAN(JG) 
+           ENDIF    
+        ENDDO
+      ENDIF
 #include "lockon.inc"
       FSAV(4) = FSAV(4) + FSAV4
       FSAV(5) = FSAV(5) + FSAV5
@@ -2512,6 +2525,7 @@ C---------------------------------
       FSAV(26) = FSAV(26) + ECONTT
       FSAV(27) = FSAV(27) + ECONVT
       FSAV(28) = FSAV(28) + ECONTDT
+      FSAV(29) = FSAV(29) + FSAV29
 #include "lockoff.inc"
 C
       IF(ISENSINT(1)/=0) THEN
@@ -2575,6 +2589,8 @@ C
      .                                       +ZP(I)*IMPX-XP(I)*IMPZ
                     FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                            +XP(I)*IMPY-YP(I)*IMPX
+
+                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 C
                   END IF
 
@@ -2614,6 +2630,8 @@ C
      .                           +ZP(I)*IMPX-XP(I)*IMPZ
                 FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                           +XP(I)*IMPY-YP(I)*IMPX
+
+                IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 
                 JJ=JJ+1
 
@@ -2677,6 +2695,9 @@ C
      .                          +ZP(I)*IMPX-XP(I)*IMPZ
                     FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                          +XP(I)*IMPY-YP(I)*IMPX
+
+                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
+C
                   ENDIF
                   KK=KK+1
                   KSUB=LISUBM(KK)
@@ -2731,6 +2752,15 @@ C
      .                         +ZP(I)*IMPX-XP(I)*IMPZ
               FSAVSUB1(24,KSUB)=FSAVSUB1(24,KSUB)
      .                         +XP(I)*IMPY-YP(I)*IMPX
+
+              IF(PARAMETERS%INTCAREA > 0)  THEN
+                 IF(NN > 0) THEN
+                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + PARAMETERS%INTAREAN(NN) 
+                 ELSE
+                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + INTAREANFI(NIN)%P(-NN)
+                 ENDIF
+              ENDIF
+
 
             ENDIF
             KK=KK+1
@@ -2791,6 +2821,8 @@ C
      .                                             +ZP(I)*IMPX-XP(I)*IMPZ
                       FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                               +XP(I)*IMPY-YP(I)*IMPX
+
+                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 C
                     END IF
 
@@ -2831,6 +2863,8 @@ C
      .                             +ZP(I)*IMPX-XP(I)*IMPZ
                   FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                             +XP(I)*IMPY-YP(I)*IMPX
+
+                  IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 
                   JJ=JJ+1
 
@@ -2882,6 +2916,8 @@ C
                       FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                       FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 
+                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+
                     ENDIF
                     KK=KK+1
                     KSUB=LISUBM(KK)
@@ -2902,6 +2938,7 @@ C
           FSAVSUB(22,NSUB)=FSAVSUB(22,NSUB)+FSAVSUB1(22,JSUB)
           FSAVSUB(23,NSUB)=FSAVSUB(23,NSUB)+FSAVSUB1(23,JSUB)
           FSAVSUB(24,NSUB)=FSAVSUB(24,NSUB)+FSAVSUB1(24,JSUB)
+          IF(PARAMETERS%INTCAREA > 0) FSAVSUB(29,NSUB)=FSAVSUB(29,NSUB)+FSAVSUB1(25,JSUB)
         END DO
 #include "lockoff.inc"
       END IF

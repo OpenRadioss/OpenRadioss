@@ -1015,7 +1015,7 @@ C OpenMP specific
      .        NSNFIOLD(NSPMD),ADSKYI(0:NUMNOD+1),
      .        KINDRBY(NRBYKIN), NINDEX1(NINTER), NINDEX2(NINTER),
      .        NINDEX3(NINTER), NINDEX4(NINTER), KINDRBYM(NRBYM),
-     .        OMP_GET_THREAD_NUM,IADISK,RNUM_SIZ,RNS,NINDEXP,NI,LENC
+     .        OMP_GET_THREAD_NUM,IADISK,RNUM_SIZ,RNS,NINDEXP,NI,LENC,ITHOUT
       EXTERNAL OMP_GET_THREAD_NUM
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFIDEL, INDIDEL,RENUM,IBUFSEGLO,
      .                                      INDSEGLO
@@ -1322,7 +1322,9 @@ C
         ALLOCATE(ISENDP_CRK(MIN(LISENDP_CRK,1):LISENDP_CRK))
         ALLOCATE(IRECVP_CRK(MIN(LIRECVP_CRK,1):LIRECVP_CRK))
         ALLOCATE(FR_NBCC1  (2,NSPMD+1))
-C
+C----------------------------------------------------------
+C      Allocation of tables for /LOAD/PRESSURE
+C-----------------------------------------------------------
         NLOADP_HYD_INTER = 0  
         IERROR = 0
         IF(NINTLOADP > 0 ) THEN
@@ -1360,6 +1362,12 @@ C
            LOADP_TAGDEL(1:NPRESLOAD) =0
         ELSE
            ALLOCATE(LOADP_TAGDEL(0))       
+        ENDIF
+C----------------------------------------------------------
+        IF(INTERFACES%PARAMETERS%INTCAREA>0) THEN
+           MY_ALLOCATE(INTERFACES%PARAMETERS%INTAREAN,NUMNOD)
+        ELSE
+           ALLOCATE(INTERFACES%PARAMETERS%INTAREAN(0))   
         ENDIF
 C
           IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(ALEMUSCL_Param%IALEMUSCL>0).OR.(PDEL>0))THEN
@@ -3350,7 +3358,7 @@ C----------------------------------------
      5       IGRBRIC ,TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE   ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB ,INT24E2EUSE,
-     8       FORNEQS ,MULTI_FVM)
+     8       FORNEQS ,MULTI_FVM,INTERFACES)
         END IF
       IF (IMONM > 0) CALL STOPTIME(24,1)
       IF (IMON>0) CALL STOPTIME(13,1)
@@ -3450,7 +3458,8 @@ C===============================================================================
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
-     O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ)
+     O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
+     P     INTERFACES)
 C
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
@@ -3997,7 +4006,7 @@ C Init var parallel SMP
      P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
      Q     PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),T2FAC_SMS,TAGNCONT   ,
      R     KLOADPINTER       ,LOADPINTER     ,LOADP_HYD_INTER ,DGAPLOADINT    ,S_LOADPINTER    ,
-     S     INTERFACES%PARAMETERS)
+     S     INTERFACES        )
 
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.OR.
      .          ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0))THEN
@@ -4079,18 +4088,17 @@ C
      5         IXS       ,IXS(L3) ,FTHE    ,IRLEN7T ,
      6         ISLEN7T   ,IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,
      7         IRLEN20E  ,ISLEN20E,CONDN  ,1, INTBUF_TAB    ,
-     8         H3D_DATA, MULTI_FVM,TAGNCONT      ,
-     9         KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     8         H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,
+     9         LOADP_HYD_INTER,FSAV    ,INTERFACES)
            ELSE
 
              CALL SPMD_I7FCOM_PON(
-     1         IPARI     ,INTLIST,
-     2         NBINTC    ,NISKYFI,ICODT   ,SECFCUM ,NSTRF  ,
-     3         ICONTACT  ,FANI   ,IGRBRIC ,IXS     ,
-     4         IXS(L3)   ,NISKYFIE,NBINT20,
-     5         1, INTBUF_TAB  , SFSKYI   ,
-     6         SISKY ,H3D_DATA,MULTI_FVM ,TAGNCONT  ,
-     7         KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     1         IPARI     ,INTLIST  ,NBINTC    ,NISKYFI   ,ICODT   ,
+     2         SECFCUM   ,NSTRF    ,ICONTACT  ,FANI      ,IGRBRIC ,
+     3         IXS       ,IXS(L3)  ,NISKYFIE  ,NBINT20   ,1       , 
+     4         INTBUF_TAB,SFSKYI   ,SISKY     ,H3D_DATA  ,MULTI_FVM ,
+     5         TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,FSAV,
+     6         INTERFACES)
 
              IF(MULTI_FVM%IS_INT18_LAW151) THEN
               IF(NTHREAD>1) CALL INT18_LAW151_OMP_ACCUMULATION( MULTI_FVM )
@@ -4675,18 +4683,19 @@ C
      5         IXS       ,IXS(L3) ,FTHE    ,IRLEN7T ,
      6         ISLEN7T   ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,
      7         IRLEN20E  ,ISLEN20E,CONDN   ,2, INTBUF_TAB    ,
-     8         H3D_DATA, MULTI_FVM,TAGNCONT       ,
-     9         KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
-          ELSE
-            CALL SPMD_I7FCOM_PON(
-     1         IPARI     ,INTLIST,
-     2         NBINTC    ,NISKYFI,ICODT   ,SECFCUM ,NSTRF  ,
-     3         ICONTACT  ,FANI   ,IGRBRIC ,IXS     ,
-     4         IXS(L3)   ,NISKYFIE,NBINT20,
-     5         2         ,INTBUF_TAB      ,SFSKYI   ,
-     6         SISKY     ,H3D_DATA,MULTI_FVM,TAGNCONT,
-     7         KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     8         H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,
+     9         LOADP_HYD_INTER,FSAV    ,INTERFACES)
+           ELSE
+
+             CALL SPMD_I7FCOM_PON(
+     1         IPARI     ,INTLIST  ,NBINTC    ,NISKYFI   ,ICODT   ,
+     2         SECFCUM   ,NSTRF    ,ICONTACT  ,FANI      ,IGRBRIC ,
+     3         IXS       ,IXS(L3)  ,NISKYFIE  ,NBINT20   ,2       , 
+     4         INTBUF_TAB,SFSKYI   ,SISKY     ,H3D_DATA  ,MULTI_FVM ,
+     5         TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,FSAV,
+     6         INTERFACES)
           END IF
+
 C
           IF (IMON>0) THEN
             CALL STOPTIME(10,1)
@@ -9090,6 +9099,20 @@ C===============================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
+C---------Computation of node areas for contact area output-----
+        IF(INTERFACES%PARAMETERS%INTCAREA > 0) THEN
+C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cycle   
+         ITHOUT = 0
+         CALL TH_TIME_OUTPUT(ITHOUT, SENSOR_TAB)
+          IF(ITHOUT > 0) THEN
+             CALL INTER_NODAL_AREAS(IXS     ,IXC     ,IXTG      ,FASOLFR   ,X          ,
+     .                              IAD_ELEM,FR_ELEM ,WEIGHT    ,IXQ       ,SEGQUADFR  ,
+     .                              IXS(L1) ,INTERFACES%PARAMETERS%INTAREAN)
+          ENDIF
+
+        ENDIF
+
+
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
 C Useful to do it before send back to Remote nodes, E2E Fictive node position,
@@ -9121,7 +9144,7 @@ C mass & velocity
      5     IGRBRIC ,TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
      6     IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7     ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB ,INT24E2EUSE,
-     8     FORNEQS ,MULTI_FVM)
+     8     FORNEQS ,MULTI_FVM,INTERFACES)
         IF (IMONM > 0) CALL STOPTIME(23,1)
         IF (IMON>0) CALL STOPTIME(13,1)
         ENDIF
@@ -9196,7 +9219,7 @@ C mass & velocity
      5         IGRBRIC ,TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6         IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7         ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB ,INT24E2EUSE,
-     8         FORNEQS ,MULTI_FVM)
+     8         FORNEQS ,MULTI_FVM,INTERFACES)
           END IF
 
           IF (INT24USE == 1)THEN
@@ -9380,7 +9403,7 @@ C mass & velocity
      5          IGRBRIC ,TEMP    ,2       ,IRLEN7T ,ISLEN7T ,     
      6          IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,     
      7          ISLEN20E,IKINE   ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB ,INT24E2EUSE ,
-     8          FORNEQS ,MULTI_FVM) 
+     8          FORNEQS ,MULTI_FVM,INTERFACES) 
          END IF                                                   
          DEALLOCATE(ISENDTO, IRCVFROM)
          DEALLOCATE(INTLIST)
@@ -9467,7 +9490,7 @@ C mass & velocity
      5       IGRBRIC ,TEMP   ,3       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
-     8       FORNEQS ,MULTI_FVM)
+     8       FORNEQS ,MULTI_FVM,INTERFACES)
         END IF
 
         IF (INT24USE == 1)THEN
@@ -9607,7 +9630,7 @@ C mass & velocity
      5             IGRBRIC ,TEMP   ,3       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB ,INT24E2EUSE  ,
-     8             FORNEQS ,MULTI_FVM)
+     8             FORNEQS ,MULTI_FVM,INTERFACES)
               END IF
 C
               IF (INT24USE == 1)THEN
@@ -9757,7 +9780,7 @@ C /KILL
      5       IGRBRIC ,TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
-     8       FORNEQS ,MULTI_FVM)
+     8       FORNEQS ,MULTI_FVM,INTERFACES)
         ENDIF
         
         DEALLOCATE(ISENDTO, IRCVFROM)

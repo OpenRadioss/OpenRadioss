@@ -65,7 +65,7 @@ Chd|====================================================================
      4                  ITAB    ,KINET   ,TEMP    ,RENUM   ,
      5                  NSNFIOLD,NUM_IMP ,IND_IMP ,NODNX_SMS,
      6                  H3D_DATA,ESHIFT  ,NEDGE_T ,SSHIFT   ,NRTM_T ,
-     7                  ICODT   ,ISKEW   )
+     7                  ICODT   ,ISKEW   ,PARAMETERS)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MOD_I25MAIN_TRI
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,13 +111,14 @@ C     REAL
      .    X(3,*), V(*), MS(*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,IEDGE,NEDGE,IGSTI,ITIED,
      .        I,J, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_SK_OLD_E, I_STOK1, 
      .        ADD1, NOINT, INACTI, MULTIMP, IGAP, IFQ,
-     .        N, NSNF, NSNL, NSNRF, NSNRL,NMN_L, IVIS2, IGAP0
+     .        N, NSNF, NSNL, NSNRF, NSNRL,NMN_L, IVIS2, IGAP0, IFSUB_CAREA
       INTEGER 
      .        NCONT, NCONTE, MULNSN, MULNSNE, MULNSNS, INACTII, INACIMP, INTTH,
      .        I_MEM,I_MEME(2),CAND_N_OLD,CAND_E_OLD(2),ILEV,FLAGREMN, LREMNORMAX,
@@ -160,6 +162,8 @@ C
       NEDGE_REMOTE_OLD   = IPARI(69,NIN)
       NCONTE  = IPARI(88,NIN)
       ITHK    = IPARI(91,NIN)
+      IFSUB_CAREA =0
+      IF(IPARI(36,NIN)> 0.AND.PARAMETERS%INTCAREA > 0) IFSUB_CAREA = 1
 C
       NSNROLD = IPARI(24,NIN)
 C
@@ -371,7 +375,8 @@ C
      .                                                                       INTBUF_TAB%IRECTM,
      D      INTBUF_TAB%EBINFLG,INTBUF_TAB%MVOISIN,IEDGE      ,ICODT       , ISKEW            ,
      E      INTBUF_TAB%IPARTFRIC_E,INTBUF_TAB%E2S_NOD_NORMAL,IPARI(97,NIN),INTBUF_TAB%STIFMSDT_S,
-     .                                                                     INTBUF_TAB%STIFMSDT_EDG)
+     .                                                                     INTBUF_TAB%STIFMSDT_EDG,
+     F      IFSUB_CAREA     ,PARAMETERS%INTAREAN)
 
 C local renumbering of old candidates to collision
           CALL SPMD_RNUM25(
@@ -547,7 +552,7 @@ C
      2      IPARI(21,NIN),NSNR,MULTIMP      ,NTY,IPARI(47,NIN),
      3      ILEV         ,NSNFIOLD,IPARI   ,NSNROLD, RENUM, H3D_DATA ,
      4      IPARI(72,NIN),FLAGREMN,LREMNORMAX,NRTM ,INTBUF_TAB%KREMNODE,
-     5      INTBUF_TAB%REMNODE,IVIS2,IPARI(97,NIN))
+     5      INTBUF_TAB%REMNODE,IVIS2,IPARI(97,NIN),IFSUB_CAREA )
         IPARI(24,NIN) = NSNR
 
         NEDGE_REMOTE_OLD = NEDGE_REMOTE

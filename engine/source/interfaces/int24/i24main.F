@@ -153,7 +153,7 @@ C-----------------------------------------------
      .        NB_LOC, I_STOK_LOC,DEBUT, I_STOK_GLO,
      .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,INTPLY,INTFRIC,
      .        NSETPRTS ,NPARTFRIC, IERROR, INTNITSCHE, IORTHFRIC,
-     .        NFORTH ,NFISOT ,JJ ,ISTIF_MSDT
+     .        NFORTH ,NFISOT ,JJ ,ISTIF_MSDT, INTCAREA
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),CAND_T_N(MVSIZ),
@@ -293,7 +293,8 @@ C
       ISTIF_MSDT =IPARI(97,NIN)
       DTSTIF = INTBUF_TAB%VARIABLES(48)
 C
-
+      INTCAREA = IPARI(99,NIN)
+C
       IFRIC = 0
 C--- Corresponding Friction model  
       INTFRIC=IPARI(72,NIN)
@@ -603,7 +604,8 @@ C-------------------------------------------------------------------------------
      Y  TAGNCONT    ,KLOADPINTER ,LOADPINTER  ,LOADP_HYD_INTER,
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
-     1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC   ) 
+     1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC ,INTCAREA ,
+     2  INTERFACES%PARAMETERS ) 
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(

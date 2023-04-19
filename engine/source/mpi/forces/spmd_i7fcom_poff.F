@@ -51,7 +51,8 @@ Chd|====================================================================
      5   IXS     ,IXS16   ,FTHE    ,IRLEN7T ,
      6   ISLEN7T ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,
      7   IRLEN20E,ISLEN20E,CONDN   ,IFLAG   ,INTBUF_TAB, 
-     8   H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     8   H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,
+     9   LOADP_HYD_INTER  ,FSAV    ,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,10 +96,12 @@ C-----------------------------------------------
       my_real
      .        A(*), STIFN(*), VISCN(*),
      .        SECFCUM(7,NUMNOD,NSECT), FCONT(3,*), FTHE(*),CONDN(*)
+      my_real, INTENT(INOUT) :: FSAV(NTHVKI,*) 
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
+      TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------
@@ -115,7 +119,7 @@ c parasiz car variable en save
      .        ADDS(PARASIZ+1), ADDR(PARASIZ+1),
      .        REQ_SI(PARASIZ),REQ_RI(PARASIZ)
       INTEGER, PARAMETER :: LEN25E = 11 
-      INTEGER :: NEDGE
+      INTEGER :: NEDGE, INTCAREA
       DATA MSGOFF/143/
       LOGICAL ITEST
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
@@ -1129,6 +1133,7 @@ C
                 ISECIN=IPARI(28,NIN)
                 IBAG  =IPARI(32,NIN)
                 IADM  =IPARI(44,NIN)
+                INTCAREA=IPARI(99,NIN)
 C
                 IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23
      *       .OR.NTY==24.OR.NTY==25 )THEN
@@ -1140,7 +1145,8 @@ C
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
      4              FCONT   ,INACTI  ,IADM    ,INTTH , FTHE ,CONDN   ,
      5              H3D_DATA, MULTI_FVM,NIN   ,TAGNCONT,KLOADPINTER  ,
-     6              LOADPINTER,LOADP_HYD_INTER)
+     6              LOADPINTER,LOADP_HYD_INTER,INTCAREA,FSAV(1,NIN)  ,
+     7              INTERFACES%PARAMETERS)
                     L = L + NB*LEN
                   ELSE
                      CALL SPMD_FIADD_POFF(
@@ -1149,7 +1155,8 @@ C
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
      4              FCONT   ,INACTI  ,IADM    ,INTTH , FTHE ,CONDN   ,
      5              H3D_DATA, MULTI_FVM,NIN   ,TAGNCONT,KLOADPINTER  ,
-     6              LOADPINTER,LOADP_HYD_INTER)
+     6              LOADPINTER,LOADP_HYD_INTER,INTCAREA,FSAV(1,NIN)  ,
+     7              INTERFACES%PARAMETERS)
                     L = L + NB*LEN7T
                   ENDIF
                 ELSEIF(NTY==11)THEN

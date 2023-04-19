@@ -56,8 +56,10 @@ C   Global Parameters activated by Contact
 C---------------------------------------------
 
           TYPE PARAMETERS_
-             integer  ISTIF_DT ! stiffness based on Mass and DT computation flag
-             my_real  DT_STIFINT  ! time step for stiffness based on Mass and DT computation 
+             integer  ISTIF_DT      ! stiffness based on Mass and DT computation flag
+             integer  INTCAREA      ! flag for contact area computation for output
+             my_real  DT_STIFINT    ! time step for stiffness based on Mass and DT computation 
+             my_real, DIMENSION(:) , ALLOCATABLE ::   INTAREAN ! nodal areas for total contact area output
           END TYPE PARAMETERS_
 
 C

@@ -1417,7 +1417,7 @@ Chd|====================================================================
      9   XFIC         ,VFIC   ,IEDGE4 ,NSNE,IS2SE,
      A   IRTSE,IS2PT,ISEGPT,MSFIC,NRTSE,IS2ID,ISPT2,
      B   INTFRIC,IPARTFRICS,T2MAIN_SMS,INTNITSCHE,FORNEQS,
-     C   T2FAC_SMS,ISTIF_MSDT,STIFMSDT_S)
+     C   T2FAC_SMS,ISTIF_MSDT,STIFMSDT_S,IFSUB_CAREA,INTAREAN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1451,14 +1451,14 @@ C-----------------------------------------------
      .        IELEC(*),NUM_IMP, NODNX_SMS(*),I24_IRTLM(2,*),ITYP,
      .        NBINFLG(*),ILEV,I24_ICONT_I(*),IEDGE4,NSNE,IS2SE(2,*),IRTSE(5,*),
      .        IS2PT(*),ISEGPT(*),NRTSE, NSNR,IS2ID(*),ISPT2(*),IPARTFRICS(*),T2MAIN_SMS(6,*)
-      INTEGER , INTENT(IN) :: ISTIF_MSDT
+      INTEGER , INTENT(IN) :: ISTIF_MSDT, IFSUB_CAREA
 
       my_real
      .        X(3,*), V(3,*), MS(*), BMINMAL(*), STIFN(*), GAP_S(*),
      .        AREAS(*),TEMP(*),GAP_S_L(*),I24_TIME_S(*),I24_FRFI(6,*),
      .        I24_PENE_OLD(5,*),I24_STIF_OLD(2,*),XFIC(3,*),VFIC(3,*),MSFIC(*),
      .        FORNEQS(3,*),T2FAC_SMS(*)
-      my_real , INTENT(IN) ::  STIFMSDT_S(NSN) 
+      my_real , INTENT(IN) ::  STIFMSDT_S(NSN) , INTAREAN(NUMNOD)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -1634,6 +1634,9 @@ C---Nitsche
 C
 C---Stiffness based on mass and time step
       IF(ISTIF_MSDT > 0) RSIZ = RSIZ + 1
+
+C---CAREA ouptu
+      IF(IFSUB_CAREA > 0) RSIZ = RSIZ + 1
 
       IDEB = 1
       
@@ -1994,6 +1997,18 @@ c INT24
                 END DO 
 	        RSHIFT = RSHIFT + 1	
               ENDIF 
+
+              IF(IFSUB_CAREA > 0) THEN
+                L = 0
+#include      "vectorize.inc"
+                DO J = 1, NB
+                  I = INDEX(J)
+                  NOD = NSV(I)
+                  RBUF(P)%p(L+RSHIFT)    =INTAREAN(NOD)
+                  L = L + RSIZ
+                END DO 
+	        RSHIFT = RSHIFT + 1	
+              ENDIF 
 	        
 	      L2 = 0      
 	      I24IREMP = ISHIFT	
@@ -2251,7 +2266,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_TRI24GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN,
      2                        IGAP  ,NSNR,MULTIMP,ITY,INTTH ,
      3                        ILEV  ,IEDGE4, H3D_DATA,INTFRIC,
-     4                        INTNITSCHE,ISTIF_MSDT)
+     4                        INTNITSCHE,ISTIF_MSDT,IFSUB_CAREA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2283,7 +2298,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER RESULT, NIN, NSN, I_STOK, IGAP, NSNR, MULTIMP, ITY,
      .        CAND_N(*),INTTH,ILEV,IEDGE4,INTFRIC,INTNITSCHE
-      INTEGER , INTENT(IN) :: ISTIF_MSDT
+      INTEGER , INTENT(IN) :: ISTIF_MSDT, IFSUB_CAREA
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -2502,6 +2517,11 @@ C
              ALLOCATE(STIF_MSDT_FI(NIN)%P(NODFI),STAT=IERROR16)        
           ENDIF
 
+          IF(IFSUB_CAREA > 0) THEN
+             IF(ASSOCIATED(INTAREANFI(NIN)%P))DEALLOCATE(INTAREANFI(NIN)%P)
+             ALLOCATE(INTAREANFI(NIN)%P(NODFI),STAT=IERROR16)        
+          ENDIF
+
 C E2E //          
           IF(ASSOCIATED(ISEDGE_FI(NIN)%P))DEALLOCATE(ISEDGE_FI(NIN)%P)
           ALLOCATE(ISEDGE_FI(NIN)%P(NODFI),STAT=IERROR16)
@@ -2713,6 +2733,17 @@ C Stif based on mass and dt
                 DO J = 1, NN
                    I = IAUX(J)
                    STIF_MSDT_FI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
+                ENDDO
+	        RSHIFT = RSHIFT + 1
+              ENDIF
+
+C CAREA output
+
+              IF(IFSUB_CAREA > 0) THEN
+#include      "vectorize.inc"	      	    	    
+                DO J = 1, NN
+                   I = IAUX(J)
+                   INTAREANFI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
                 ENDDO
 	        RSHIFT = RSHIFT + 1
               ENDIF

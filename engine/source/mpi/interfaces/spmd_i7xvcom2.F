@@ -49,7 +49,7 @@ Chd|====================================================================
      5   IGRBRIC ,TEMP   ,IFLAG   ,IRLEN7T ,ISLEN7T ,
      6   IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7   ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
-     8   FORNEQS ,MULTI_FVM)
+     8   FORNEQS ,MULTI_FVM,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,6 +103,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -111,7 +113,7 @@ C-----------------------------------------------
      .        N1, N2, LENI, LEN11, NTY, IALLOCS, IALLOCR, INACTI,
      .        LEN17, IGN, IGE, NMES, NME, NAD, NN, IES, LEN7T,
      .        LEN20, LEN20T, NLN, LEN20E, INC,LEN11T,
-     .        IL, IL1, IL2, MSGOFF,INTNITSCHE,LENNIT,
+     .        IL, IL1, IL2, MSGOFF,INTNITSCHE,LENNIT,NISUB,
      .        STATUS(MPI_STATUS_SIZE),
 C parasiz car variable en save
      .        DEBUT(NINTER),  DEBUTE(NINTER),
@@ -135,6 +137,7 @@ C type 25
       DATA ISTOCOM/0/
       SAVE ADDS,ADDR,REQ_SI,REQ_RI,ISTOCOM,
      .     IALLOCS,IALLOCR,BBUFS,BBUFR
+      LOGICAL IFSUB_CAREA
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -172,6 +175,16 @@ C type 25
       LEN25E = 14 ! 2 x [  X(3) +  V(3) +  MS(1) ] +
 
 C
+      IFSUB_CAREA = .FALSE.
+      DO II = 1, NBINTC
+         NIN = INTLIST(II)
+         NTY = IPARI(7,NIN)
+         NISUB = IPARI(36,NIN)
+         IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN
+              IFSUB_CAREA = .TRUE.
+         ENDIF
+      ENDDO
+C
       IF(IFLAG==1)THEN
 C
 C Partie 1 envoi et preparation buffer reception
@@ -190,6 +203,8 @@ C
      .                       + LEN11T*ISLEN11 + LEN17*ISLEN17
      .          + LEN20*ISLEN20 + LEN20T*ISLEN20T + LEN20E*ISLEN20E
      .          + LEN25E*ISLEN25E
+        IF(IFSUB_CAREA ) IALLOCS = IALLOCS +ISLEN25+ISLEN7
+
         IERROR=0
         IF(IALLOCS>0)
      +    ALLOCATE(BBUFS(IALLOCS),STAT=IERROR)
@@ -202,6 +217,8 @@ C
      .                       + LEN11T*IRLEN11 + LEN17*IRLEN17
      .          + LEN20*IRLEN20 + LEN20T*IRLEN20T + LEN20E*IRLEN20E
      .          + LEN25E*IRLEN25E
+
+        IF(IFSUB_CAREA ) IALLOCR = IALLOCR +IRLEN25+IRLEN7
 
         IERROR=0
         IF(IALLOCR>0)
@@ -228,6 +245,7 @@ C
               INACTI = IPARI(22,NIN)
               INTNITSCHE = IPARI(86,NIN)
               IEDGE = IPARI(58,NIN)
+              NISUB = IPARI(36,NIN)
 C
               ISENS = 0
               INTERACT = 1
@@ -276,8 +294,16 @@ C ajout partie edge pour type 25
                 IF(NB>0) L = L + NB*LEN25E
               END IF
 
+
+              IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN
+                  IFSUB_CAREA = .TRUE.
+                  IF(NB>0) THEN
+                     L = L + NB
+                  ENDIF
+              ENDIF
+
             ENDDO
-            SIZ = L+1-ADD
+            SIZ = L+1-ADD 
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
 C BUFS : envoi partie force et reception partie vitesse
@@ -330,6 +356,11 @@ C
                 INTTH = IPARI(47,NIN)
                 INACTI = IPARI(22,NIN)           
                 INTNITSCHE = IPARI(86,NIN)
+                IFSUB_CAREA = .FALSE.
+                IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+                    IFSUB_CAREA = .TRUE.
+                ENDIF
+
                 LSAV=L
                 IF((NTY==7 .AND. INTTH ==0 ).OR.NTY==10.OR.
      .             (NTY==22 .AND. INTTH ==0) .OR.
@@ -754,7 +785,17 @@ C
                   ENDIF
                  ENDIF
 
+                 IF(IFSUB_CAREA) THEN
+                    DO I = 1, NB
+                      N=NSVSI(NIN)%P(IDEB+I)
+                      NOD = INTBUF_TAB(NIN)%NSV(N)
+                      IF(NOD > NUMNOD)THEN
+                         BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD)     
+                         L = L +1 
+                      ENDIF                      
+                    ENDDO
 
+                  ENDIF
 C
                 ELSEIF(NTY==11.AND.INTTH==0)THEN
 C type 11
@@ -2029,6 +2070,10 @@ C            DO NIN = 1, NINTER
                 NTY =IPARI(7,NIN)
                 INTTH = IPARI(47,NIN)
                 INTNITSCHE = IPARI(86,NIN)
+                IFSUB_CAREA = .FALSE.
+                IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN ! if Carea output for TH and subinterfaces
+                    IFSUB_CAREA = .TRUE.
+                ENDIF
                 IF((NTY==7.AND.INTTH == 0).OR.NTY==10.OR.
      .             (NTY==22.AND.INTTH == 0).OR.
      .             (NTY==23.AND.INTTH == 0).OR.
@@ -2308,6 +2353,13 @@ C
                     ENDIF
                    ENDIF
 
+C
+                  IF(IFSUB_CAREA) THEN
+                      DO I = 1, NB
+                        INTAREANFI(NIN)%P(I+IDEB) = BBUFR(L+1)
+                        L = L + 1
+                      ENDDO
+                  ENDIF
 
 
 C----
