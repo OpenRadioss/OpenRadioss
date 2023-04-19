@@ -1893,8 +1893,15 @@ C  FSAV(26) : contact elastic energy is not cumulated : only for int10 and int18
             IF(ITY /= 10.AND.(ITY /= 7.OR.IPARI(22,I) /= 7)) THEN 
                FSAV(26,I) = ZERO
             ENDIF
+            FSAV(29,I) = ZERO ! CAREA output is not cumulated too 
           ENDDO
       ENDIF
+
+       IF(NINTSUB > 0)THEN
+         DO N=1,NINTSUB
+           FSAV(29,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG)+N) = ZERO
+         END DO
+       ENDIF
       IF (ISPMD==0.AND.IFLAG==1) TFEXT  = TFEXT- TFEXTH
 C-----------
       RETURN

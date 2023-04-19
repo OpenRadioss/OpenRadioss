@@ -472,13 +472,15 @@ Chd|====================================================================
      3       IBAG  ,ICODT   ,SECFCUM,NSTRF  ,ICONTACT,
      4       FCONT ,INACTI  ,IADM   ,INTTH  ,FTHE    ,
      5       CONDN ,H3D_DATA, MULTI_FVM,NIN ,TAGNCONT,
-     6       KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     6       KLOADPINTER,LOADPINTER,LOADP_HYD_INTER  ,
+     .                     INTCAREA,FSAV  ,PARAMETERS)       
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD
       USE ANIM_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -503,17 +505,19 @@ C-----------------------------------------------
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),LOADPINTER(*),
      .        LOADP_HYD_INTER(*),
      .        IADM,INTTH
-      INTEGER, INTENT(in) :: NIN
+      INTEGER, INTENT(in) :: NIN, INTCAREA
       my_real
      .        BUFR(LEN,*), A(3,*), STIFN(*), VISCN(*),
      .        SECFCUM(7,NUMNOD,NSECT),
      .        FCONT(3,*),FTHE(*),CONDN(*)
+      my_real, INTENT(INOUT) :: FSAV(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      my_real :: MASS
+      my_real :: MASS, FSAV29
       INTEGER :: IBRIC
       INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,PP,PPL,NP  
 C-----------------------------------------------
@@ -594,6 +598,16 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
                  TAGNCONT(PPL,NOD) = 1
               ENDDO
             ENDDO
+         ENDIF
+C------------For outputting total contact area------------
+         IF(INTCAREA > 0) THEN
+           FSAV29 = ZERO
+           DO I = 1, NB
+              N = NINT(BUFR(1,I))
+              NOD = NSV(N)
+              FSAV29 = FSAV29 + PARAMETERS%INTAREAN(NOD)
+            ENDDO
+            FSAV(29) = FSAV(29) + FSAV29
          ENDIF
 C     
          IF(ISECIN>0)THEN
@@ -1919,13 +1933,14 @@ Chd|====================================================================
      3       ICODT  ,SECFCUM,NSTRF  ,ICONTACT,FCONT,
      4       INACTI ,IADM   ,INTTH  ,FTHESKYI,CONDNSKYI,
      5       H3D_DATA,NIN   ,TAGNCONT,KLOADPINTER,LOADPINTER  ,
-     6       LOADP_HYD_INTER )
+     6       LOADP_HYD_INTER,INTCAREA,FSAV   ,PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE ANIM_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1950,16 +1965,20 @@ C-----------------------------------------------
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),LOADPINTER(*),
      .        LOADP_HYD_INTER(*),
      .        IADM,INTTH
+      INTEGER ,INTENT(IN):: INTCAREA
       my_real
      .        BUFR(LEN,*),
      .        FSKYI(LSKYI,NFSKYI), SECFCUM(7,NUMNOD,NSECT),
      .        FCONT(3,*),FTHESKYI(LSKYI),CONDNSKYI(LSKYI)
+      my_real, INTENT(INOUT) :: FSAV(*) 
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,
      .        NISKY_SAV,TEMP_SIZ,IERROR,PP,PPL,NP
+      my_real FSAV29
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2038,6 +2057,17 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
             ENDDO
          ENDDO
        ENDIF
+C------------For outputting total contact area------------
+         IF(INTCAREA > 0) THEN
+           FSAV29 = ZERO
+           DO I = 1, NB
+              N = NINT(BUFR(1,I))
+              NOD = NSV(N)
+              FSAV29 = FSAV29 + PARAMETERS%INTAREAN(NOD)
+            ENDDO
+            FSAV(29) = FSAV(29) + FSAV29
+         ENDIF
+C 
 C
       IF(ISECIN>0)THEN
 C Sections
@@ -3579,6 +3609,10 @@ C
         IERROR = IERROR + IERROR1
         ALLOCATE(ADDSUBSFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
+        IF(PARAMETERS%INTCAREA > 0 ) THEN
+           ALLOCATE(INTAREANFI(NINTER),STAT=IERROR1)
+           IERROR = IERROR + IERROR1
+        ENDIF
 
         ALLOCATE(NISUBSFIE(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
@@ -3859,6 +3893,7 @@ C
           NULLIFY(LISUBSFI(I)%p)
           NULLIFY(INFLG_SUBSFI(I)%p)
           NULLIFY(ADDSUBSFI(I)%p)
+          IF(PARAMETERS%INTCAREA > 0) NULLIFY(INTAREANFI(I)%p)
 
           NULLIFY(NISUBSFIE(I)%p)
           NULLIFY(LISUBSFIE(I)%p)
@@ -4380,6 +4415,12 @@ C
                     MY_ALLOCATE(STIF_MSDT_FI(I)%P,LENR)
                     STIF_MSDT_FI(I)%P(1:LENR)=ZERO
                  ENDIF
+
+                 IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
+                   ALLOCATE(INTAREANFI(I)%P(LENR),STAT=IERROR1)
+                   IERROR = IERROR + IERROR1
+                   INTAREANFI(I)%P(1:LENR) =ZERO
+                ENDIF
                ENDIF
               ELSEIF(ITYP==11)THEN
 C type11
@@ -5055,6 +5096,11 @@ C rajout partie edge
               IF(IPARI(97,I) > 0) THEN
                  CALL READ_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
               ENDIF
+                IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
+                   ALLOCATE(INTAREANFI(I)%P(LENI),STAT=IERROR1)
+                   IERROR = IERROR + IERROR1
+                   INTAREANFI(I)%P(1:LENI) =ZERO
+                ENDIF
           ENDIF  ! fin partie type 24 & 25
 C
           IF (ITYP==24) THEN
@@ -5197,7 +5243,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,SENSOR_TAB)
+      SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,SENSOR_TAB,PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -5207,6 +5253,7 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE INTERFACE_MODIFICATION_MOD
       USE SENSOR_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5225,6 +5272,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), IFLAG
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -5668,6 +5716,7 @@ C
                 CALL WRITE_DB(PENE_OLDFI(I)%P(1,1),5*LENR)
                 CALL WRITE_DB(STIF_OLDFI(I)%P(1,1),2*LENR)
                 IF(IPARI(97,I) > 0) CALL WRITE_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
+                IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) CALL WRITE_DB(INTAREANFI(I)%P(1),LENR) ! output carea th (only case NISUB)
               ENDIF  ! fin partie type 24 & 25
 C             
               IF (ITYP==24) THEN

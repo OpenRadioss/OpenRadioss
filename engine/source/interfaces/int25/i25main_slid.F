@@ -54,9 +54,7 @@ Chd|====================================================================
      4       NODNX_SMS,JTASK   ,NB_DST2, MAIN_PROC,
      5       NEWFRONT ,ISENDTO ,IRCVFROM ,NBINTC,
      6       INTLIST ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
-     7       NB_DST1 ,H3D_DATA, 
-     8       ICODT,
-     9       ISKEW)
+     7       NB_DST1 ,H3D_DATA,   ICODT, ISKEW,PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +65,7 @@ C-----------------------------------------------
       USE MPI_COMMOD  
       USE H3D_MOD
       USE SENSOR_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +96,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        LENADD, MG, L, N, N_OLD_IMPACT,
      .        P, RSIZ(NINTER25), ISIZ(NINTER25), SIZBUFS(NSPMD), IADBUFR(NSPMD+1),
      .        NADMAX, LADMAX, NSLIDMX, NSENDTOT, NSNF, NSNL, NSNRF, NSNRL,INTFRIC ,
-     .        FLAGREMN, LREMNORMAX, ISTIF_MSDT
+     .        FLAGREMN, LREMNORMAX, ISTIF_MSDT, IFSUB_CAREA
       INTEGER SIZOPT, K_STOK, I_OPT_STOK
       my_real
      .       TS, STARTT, STOPT
@@ -291,6 +291,8 @@ C
              INTFRIC =IPARI(72,NIN)
              IVIS2 =IPARI(14,NIN)
              ISTIF_MSDT = IPARI(97,NIN)
+             IFSUB_CAREA =0
+             IF(IPARI(36,NIN)> 0.AND.PARAMETERS%INTCAREA > 0) IFSUB_CAREA = 1
              ITYP  = 25
 C
 C            NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
@@ -319,7 +321,7 @@ C           compute index of nodes to send to the all domains
      2        IFQ    ,INACTI ,IGAP   ,INTTH  ,ILEV     ,
      3        ITAB   ,INTBUF_TAB(NIN)%NSV,IAD_FRNOR,FR_NOR ,NADD ,
      4        KADD   ,RSIZ(NI25)    ,ISIZ(NI25),SIZBUFS,FR_SLIDE ,
-     5        INDXTOSEND,INTFRIC   , IVIS2   ,ISTIF_MSDT)
+     5        INDXTOSEND,INTFRIC   , IVIS2   ,ISTIF_MSDT,IFSUB_CAREA)
 C
             DO P=1,NSPMD
               NULLIFY(RBUFS(P,NI25)%P)
@@ -354,7 +356,7 @@ C ==========================================================================
      .        INTBUF_TAB(NIN)  ,RBUFS, IBUFS,
      6        RSIZ(NI25),      ISIZ(NI25),  SIZBUFS, FR_SLIDE,INDXTOSEND, 
      7        MAIN_PROC,INTFRIC ,IVIS2  , ICODT  ,ISKEW ,
-     8        ISTIF_MSDT) 
+     8        ISTIF_MSDT,IFSUB_CAREA,PARAMETERS%INTAREAN) 
 
 
 C ==========================================================================
@@ -401,6 +403,8 @@ C
           FLAGREMN =IPARI(63,NIN)
           LREMNORMAX =IPARI(82,NIN)
           ISTIF_MSDT = IPARI(97,NIN)
+          IFSUB_CAREA =0
+          IF(IPARI(36,NIN)> 0.AND.PARAMETERS%INTCAREA > 0) IFSUB_CAREA = 1
           ITYP  = 25
 
 C         filtrer => ne garder que les anciens impacts + les candidats au glissement 
@@ -459,7 +463,7 @@ C
      2                               IGAP  ,NSNR   ,INTTH   ,ILEV, INTBUF_TAB(NIN), 
      3                               FR_NOR,IAD_FRNOR, SIZBUFS, ITAB, H3D_DATA    ,
      4                               INTFRIC,FLAGREMN,LREMNORMAX,NRTM,IVIS2       ,
-     5                               ISTIF_MSDT)
+     5                               ISTIF_MSDT,IFSUB_CAREA)
         ! Passer intbuftab(nin)
 C : Les noeuds qui glissent de P0 vers P1 et qui sont locaux a P1 se trouvent quand
 C : meme dans la structure frontiere *FI(NIN)%P a la position du proc P1

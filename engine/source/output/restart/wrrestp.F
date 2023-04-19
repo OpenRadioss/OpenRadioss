@@ -875,7 +875,7 @@ C
 C--------------------------------------
 C ecriture tableaux additionnels frontieres interfaces (partie entiere)
 C--------------------------------------
-      CALL SPMD_SAVEFI(IPARI,1,INTBUF_TAB,SENSOR_TAB)
+      CALL SPMD_SAVEFI(IPARI,1,INTBUF_TAB,SENSOR_TAB,INTERFACES%PARAMETERS)
 C--------------------------------------
 C ecriture tableaux additionnels frontieres sph (partie entiere)
 C--------------------------------------

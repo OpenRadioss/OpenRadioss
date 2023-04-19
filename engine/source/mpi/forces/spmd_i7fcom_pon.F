@@ -60,13 +60,12 @@ Chd|        TRI25EBOX                     share/modules/tri25ebox.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_I7FCOM_PON(
-     1                       IPARI   ,INTLIST,
-     2                       NBINTC  ,NISKYFI,ICODT   ,SECFCUM ,NSTRF  ,
-     3                       ICONTACT,FCONT  ,IGRBRIC ,IXS     ,
-     4                       IXS16   ,NISKYFIE,NBINT20,
-     5                       IFLAG, INTBUF_TAB,  SFSKYI ,
-     6                       SISKY,H3D_DATA ,MULTI_FVM  ,                    
-     7                       TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     1                       IPARI   ,INTLIST,NBINTC  ,NISKYFI,ICODT   ,
+     2                       SECFCUM ,NSTRF  ,ICONTACT,FCONT  ,IGRBRIC ,
+     3                       IXS     ,IXS16  ,NISKYFIE,NBINT20,IFLAG   ,                        
+     4                       INTBUF_TAB,SFSKYI,SISKY  ,H3D_DATA,MULTI_FVM  ,                                         
+     5                       TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,FSAV,
+     6                       INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +78,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,10 +113,12 @@ C-----------------------------------------------
      .        SFSKYI , SISKY
       my_real
      .        SECFCUM(7,NUMNOD,NSECT), FCONT(3,*)
+      my_real, INTENT(INOUT) :: FSAV(NTHVKI,*) 
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------
@@ -128,7 +130,7 @@ C-----------------------------------------------
      .        IBC, ISECIN, IBAG, NOINT, NTY, LEN11, N1, N2,LENI,INACTI,
      .        IALLOCS, IALLOCR, LEN17, JJ, NAD, IGN, IGE, NMES, NME,
      .        IADM, IES,INTTH,LEN7T,LEN20, LEN20E, INC,LEN11T,
-     .        MSGOFF, MSGOFF2,J,K,
+     .        MSGOFF, MSGOFF2,J,K,INTCAREA,
      .        JD(50), KD(50),  STATUS(MPI_STATUS_SIZE),
      .        DEBUT(NINTER), DEBUTI(NINTER),
      .        DEBUTE(NINTER), DEBUTIE(NINTER),
@@ -1189,6 +1191,7 @@ C
                 IBAG  =IPARI(32,NIN)
                 IADM  =IPARI(44,NIN)
                 INTTH = IPARI(47,NIN)
+                INTCAREA=IPARI(99,NIN)
 C type int20 (non edge)
                 IF(NTY == 20) THEN
                   NB = NSNSI(NIN)%P(P)
@@ -1234,7 +1237,7 @@ C type int20 (non edge)
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                H3D_DATA,NIN    ,TAGNCONT,KLOADPINTER  ,LOADPINTER,
-     6                LOADP_HYD_INTER)
+     6                LOADP_HYD_INTER ,INTCAREA,FSAV(1,NIN)  ,INTERFACES%PARAMETERS)
                      L = L + NB*LEN
                     ELSE
                      CALL SPMD_FIADD_PON(
@@ -1243,7 +1246,7 @@ C type int20 (non edge)
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                H3D_DATA,NIN    ,TAGNCONT, KLOADPINTER ,LOADPINTER,
-     6                LOADP_HYD_INTER)
+     6                LOADP_HYD_INTER ,INTCAREA,FSAV(1,NIN)  ,INTERFACES%PARAMETERS)
                       L = L + NB*LEN7T
                     ENDIF
                     ENDIF ! NSNSI

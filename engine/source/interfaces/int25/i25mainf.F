@@ -161,7 +161,8 @@ C-----------------------------------------------
      .        NB_LOC, I_STOK_LOC,DEBUT,
      .        ILAGM, LENR, INTTH,IFORM,INTPLY,
      .        NADMSR, I_STOK_GLO, MGLOB, MG, N, NSNR, NN, IERROR,
-     .        IE, I1, I2, IORTHFRIC ,NFORTH ,NFISOT ,JJ,FCOND,IKTHE,IFRIC
+     .        IE, I1, I2, IORTHFRIC ,NFORTH ,NFISOT ,JJ,FCOND,IKTHE,IFRIC,
+     .        INTCAREA
       INTEGER  LENT, MAXCC
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
@@ -343,6 +344,9 @@ C
 C
       ILEV  = IPARI(20,NIN)
       NRTSE = IPARI(52,NIN)
+C
+      INTCAREA = IPARI(99,NIN)
+C
       ALLOCATE(INDEX2(LINDMAX))
 C--- Corresponding Friction model  
       INTFRIC=IPARI(72,NIN)
@@ -717,7 +721,7 @@ C-------------------------------------------------------------------------------
      C  INTTH       ,DRAD       ,FHEATS       ,FHEATM     ,QFRICINT(NIN),
      D  EFRICT      ,TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,
      E  INTBUF_TAB%TYPSUB,IPARI(40,NIN),NINLOADP,DGAPLOADINT,S_LOADPINTER,
-     F  DIST        ,DGAPLOADPMAX,INTEREFRIC  )
+     F  DIST        ,DGAPLOADPMAX,INTEREFRIC  ,INTCAREA   ,INTERFACES%PARAMETERS)
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 

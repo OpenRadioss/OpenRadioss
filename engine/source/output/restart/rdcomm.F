@@ -1750,6 +1750,9 @@ C  draped shell element
 C
       NEXT       = NEXT + 1
       INTER_PARAMETERS%ISTIF_DT   = TABVINT(NEXT)
+C
+      NEXT       = NEXT + 1
+      INTER_PARAMETERS%INTCAREA   = TABVINT(NEXT)
 C--------------------------------------
       RETURN
       END

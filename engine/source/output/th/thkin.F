@@ -46,7 +46,8 @@ C-----------------------------------------------
 C
       INTEGER I,J,L,II
 C
-Cel gather deja effectue, seul p0 ecrit 
+C Gathering already done , only p0 writes 
+
       IF (IMACH/=3.OR.ISPMD==0) THEN
         II = 0
         DO J=J1,J2

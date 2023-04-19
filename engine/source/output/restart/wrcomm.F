@@ -1714,6 +1714,9 @@ C  draped shell element
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTER_PARAMETERS%ISTIF_DT  
+C
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = INTER_PARAMETERS%INTCAREA 
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

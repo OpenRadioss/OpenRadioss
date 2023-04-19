@@ -47,7 +47,8 @@ Chd|====================================================================
      B   STFE      ,EDG_BISECTOR,VTX_BISECTOR,ADMSR,IRECT    ,
      D   EBINFLG   ,MVOISIN   ,IEDGE    , ICODT  ,ISKEW      ,
      E   IPARTFRIC_E,E2S_NOD_NORMAL,ISTIF_MSDT,STIFMSDT_S    ,
-     .                                        STIFMSDT_EDG   )
+     .                                        STIFMSDT_EDG   ,
+     F  IFSUB_CAREA ,INTAREAN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,7 +95,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IEDGE
       INTEGER, INTENT(IN) :: ICODT(*)
       INTEGER, INTENT(IN) :: ISKEW(*)
-      INTEGER, INTENT(IN) :: ISTIF_MSDT
+      INTEGER, INTENT(IN) :: ISTIF_MSDT, IFSUB_CAREA
 
 C     INTEGER :: NSNFIEOLD(*)
 
@@ -107,6 +108,7 @@ C     INTEGER :: NSNFIEOLD(*)
      .        STFE(*)
       REAL*4  EDG_BISECTOR(3,4,*),VTX_BISECTOR(3,2,*),E2S_NOD_NORMAL(3,*)
       my_real , INTENT(IN) ::  STIFMSDT_S(NSN), STIFMSDT_EDG(NEDGE) 
+      my_real , INTENT(IN) :: INTAREAN(NUMNOD)
 
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -284,6 +286,8 @@ C Friction
 
 C---Stiffness based on mass and time step
       IF(ISTIF_MSDT > 0) RSIZ = RSIZ + 1
+C---CAREA output 
+      IF(IFSUB_CAREA > 0) RSIZ = RSIZ + 1
 
 C -- IDTMINS==2      
       IF(IDTMINS == 2)THEN     
@@ -770,6 +774,19 @@ C Friction
                DO J = 1, NB
                  I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)    =STIFMSDT_S(I)
+                 L = L + RSIZ
+               END DO 
+	       RSHIFT = RSHIFT + 1	
+            ENDIF 
+
+
+            IF(IFSUB_CAREA > 0) THEN
+               L = 0
+#include      "vectorize.inc"
+               DO J = 1, NB
+                 I = INDEX(J)
+                 NOD = NSV(I)
+                 RBUF(P)%p(L+RSHIFT)    =INTAREAN(NOD)
                  L = L + RSIZ
                END DO 
 	       RSHIFT = RSHIFT + 1	
