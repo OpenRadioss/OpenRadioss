@@ -28,6 +28,7 @@ Chd|        HM_PREREAD_EIG                source/general_controls/computation/hm
 Chd|        HM_READ_EIG                   source/general_controls/computation/hm_read_eig.F
 Chd|        HM_READ_RAND                  source/general_controls/computation/hm_read_rand.F
 Chd|        INIT_RANDOM                   source/general_controls/computation/init_random.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE RANDOM_MOD

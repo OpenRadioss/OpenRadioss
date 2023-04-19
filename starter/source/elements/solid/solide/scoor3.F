@@ -349,6 +349,7 @@ C-----------
 Chd|====================================================================
 Chd|  SGSAVINI                      source/elements/solid/solide/scoor3.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SGSAVINI(NPE,X,IXS,SAV,NEL)

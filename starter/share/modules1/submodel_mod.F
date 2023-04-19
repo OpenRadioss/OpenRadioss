@@ -564,6 +564,7 @@ Chd|        HM_TAGPART2                   source/groups/hm_tagpart2.F
 Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
 Chd|        HM_THVARVENT                  source/output/th/hm_thvarent.F
 Chd|        HM_YCTRL                      source/elements/initia/hm_yctrl.F
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        LCGEO19                       source/elements/shell/coque/lcgeo19.F
 Chd|        LECACC                        source/tools/accele/lecacc.F  
@@ -581,6 +582,7 @@ Chd|        LECSTAMP                      source/interfaces/interf1/lecstamp.F
 Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
 Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LEC_DOF_JNT                   source/properties/spring/hm_read_prop45.F
 Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F

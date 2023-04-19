@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        DEALLOCATE_ONE_ELEMENT_GROUP  source/elements/elbuf_init/deallocate_one_element_group.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

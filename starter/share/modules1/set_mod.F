@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SET_MOD                       share/modules1/set_mod.F      
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|====================================================================

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  C3GRHEAD                      source/elements/sh3n/coque3n/c3grhead.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      

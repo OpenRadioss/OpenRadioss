@@ -35,7 +35,9 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        HM_READ_FAIL                  starter/source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FAIL_GURSON           starter/source/materials/fail/gurson/hm_read_fail_gurson.F
 Chd|        HM_READ_NONLOCAL              starter/source/materials/nonlocal/hm_read_nonlocal.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        NLOCAL_INIT_STA               starter/source/materials/fail/nlocal_init_sta.F
 Chd|        NLOC_DMG_INIT                 starter/source/materials/fail/nloc_dmg_init.F
 Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F

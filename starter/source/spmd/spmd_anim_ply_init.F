@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        PLYXFEM_MOD                   share/modules1/plyxfem_mod.F  
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  S10JACI3                      source/elements/solid/solide10/s10jaci3.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        S10JACOB                      source/elements/solid/solide10/s10deri3.F
 Chd|        S10PIJSAV                     source/elements/solid/solide10/s10deri3.F

@@ -76,6 +76,7 @@ Chd|        LECEXTLNK                     source/coupling/rad2rad/lecextlnk.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NEW_LINK                      source/coupling/rad2rad/new_link.F
 Chd|        OUTRIN                        source/materials/time_step/outri.F
 Chd|        PGRTAILS                      source/elements/beam/pgrtails.F

@@ -28,6 +28,7 @@ Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        HM_READ_PLOAD                 starter/source/loads/general/pload/hm_read_pload.F
 Chd|        HM_READ_PROP01                starter/source/properties/shell/hm_read_prop01.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        ACCELEPINCH                   engine/source/assembly/accelepinch.F
 Chd|        ASSPAR                        engine/source/assembly/asspar.F

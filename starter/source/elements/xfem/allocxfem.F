@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALLOCXFEM                     source/elements/xfem/allocxfem.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================

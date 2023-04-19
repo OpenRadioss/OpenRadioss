@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALE_BOX_COLORATION            source/initial_conditions/inivol/ale_box_coloration.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ALLOC_3D_ARRAY                ../common_source/modules/array_mod.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F

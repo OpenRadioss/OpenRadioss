@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ADDMAST10                     source/tools/admas/addmast10.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ADDMAST10(ICNDS10, MS  )

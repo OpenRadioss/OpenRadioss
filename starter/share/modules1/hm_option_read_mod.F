@@ -322,6 +322,7 @@ Chd|        LECSTAMP                      source/interfaces/interf1/lecstamp.F
 Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
 Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
 Chd|        NBADMESH                      source/model/remesh/nbadmesh.F
 Chd|        NBFUNCT                       source/tools/curve/nbfunc.F   

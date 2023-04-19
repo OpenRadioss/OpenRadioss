@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LAGM_NHF                      source/tools/lagmul/lagm_nhf.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LAGM_NHF(NCF, IADLL  ,JLL    ,LLL    ,JCIHF  )

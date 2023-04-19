@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ANI_FASOLFR1                  source/output/anim/ani_fasolfr.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================
@@ -331,6 +332,7 @@ C
 Chd|====================================================================
 Chd|  ANI_FASOLFR2                  source/output/anim/ani_fasolfr.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ANI_FASOLFR2(FASTAG  ,FASOLFR, ISOLNOD )

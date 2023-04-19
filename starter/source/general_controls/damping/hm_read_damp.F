@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_DAMP                  source/general_controls/damping/hm_read_damp.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_BOOLV                  source/devtools/hm_reader/hm_get_boolv.F

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ATHERI                        source/ale/atheri.F           

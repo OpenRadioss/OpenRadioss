@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ININTR_ORTHDIRFRIC            source/interfaces/interf1/inintr_orthdirfric.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
 Chd|        ORTHDIR_PROJ                  source/interfaces/interf1/inintr_orthdirfric.F

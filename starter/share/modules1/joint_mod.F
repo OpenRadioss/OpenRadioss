@@ -27,6 +27,7 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_JOINT              source/constraints/general/cyl_joint/deallocate_joint.F
 Chd|        HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
 Chd|        INIT_JOINT                    source/constraints/general/cyl_joint/init_joint.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
 Chd|        WRITE_JOINT                   source/constraints/general/cyl_joint/write_joint.F
 Chd|        print_JOINT                   source/constraints/general/cyl_joint/split_joint.F

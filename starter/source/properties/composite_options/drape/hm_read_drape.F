@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_PRELECDRAPE           source/properties/composite_options/drape/hm_read_drape.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
@@ -82,6 +83,7 @@ C
 Chd|====================================================================
 Chd|  HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOAT_ARRAY_2INDEXES   source/devtools/hm_reader/hm_get_float_array_2indexes.F

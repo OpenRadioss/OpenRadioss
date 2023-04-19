@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        CLOSE_C                       source/output/tools/write_routines.c
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F

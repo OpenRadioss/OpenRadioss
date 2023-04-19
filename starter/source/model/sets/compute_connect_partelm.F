@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  COMPUTE_CONNECT_PARTELM       source/model/sets/compute_connect_partelm.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INVERTED_GROUP_ALLOC          source/model/sets/inverted_group_alloc.F
 Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F

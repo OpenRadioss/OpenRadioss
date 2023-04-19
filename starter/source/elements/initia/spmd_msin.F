@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_MSIN                     source/elements/initia/spmd_msin.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        STRR                          source/tools/univ/strr.F      

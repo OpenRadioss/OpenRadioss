@@ -33,6 +33,8 @@ C-------------------------------------------
 Chd|====================================================================
 Chd|  STRR                          source/tools/univ/strr.F      
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        RINIT3                        source/elements/spring/rinit3.F
 Chd|        SPMD_MSIN                     source/elements/initia/spmd_msin.F
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  

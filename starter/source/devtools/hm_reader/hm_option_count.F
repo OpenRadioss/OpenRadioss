@@ -82,6 +82,7 @@ Chd|        LECFILL                       source/elements/initia/lecfill.F
 Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
 Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NBFUNCT                       source/tools/curve/nbfunc.F   
 Chd|        NBSPH                         source/elements/sph/nbsph.F   
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F

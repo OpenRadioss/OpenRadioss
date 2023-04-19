@@ -27,6 +27,8 @@ Chd|        ALE_BOX_COLORATION            source/initial_conditions/inivol/ale_b
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
+Chd|        INITIA                        source/elements/initia/initia.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
@@ -76,6 +78,8 @@ Chd|-- called by -----------
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
+Chd|        INITIA                        source/elements/initia/initia.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
@@ -106,6 +110,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INIVOL_INTERF_MOD             share/modules1/inivol_mod.F   
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INIVOL_INTERF_MOD

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LINE_DECOMP                   source/model/group/line_decomp.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    

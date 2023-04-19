@@ -599,6 +599,7 @@ C-----------
 Chd|====================================================================
 Chd|  SORTGROUP                     source/system/nintrr.F        
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|====================================================================

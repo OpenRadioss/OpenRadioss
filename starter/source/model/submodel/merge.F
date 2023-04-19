@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MERGE                         source/model/submodel/merge.F 
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MERGE_CNOD_CNOD               source/model/submodel/merge_cnod_cnod.F
 Chd|        USRTOS                        source/system/sysfus.F        

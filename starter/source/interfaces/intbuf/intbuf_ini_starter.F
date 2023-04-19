@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  INTBUF_INI_STARTER            source/interfaces/intbuf/intbuf_ini_starter.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
@@ -2130,6 +2131,7 @@ C-----
 Chd|====================================================================
 Chd|  INT8_INI                      source/interfaces/intbuf/intbuf_ini_starter.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================

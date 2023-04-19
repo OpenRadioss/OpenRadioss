@@ -24,6 +24,7 @@ C last SPH structures only (see RESTMOD for other SPH structures)
 Chd|====================================================================
 Chd|  SPH_MOD                       share/modules1/sph_mod.F      
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SPH_MOD

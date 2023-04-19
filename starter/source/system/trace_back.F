@@ -25,6 +25,7 @@ Chd|====================================================================
 Chd|  TRACE_IN1                     source/system/trace_back.F    
 Chd|-- called by -----------
 Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
@@ -340,6 +341,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  TRACE_OUT1                    source/system/trace_back.F    
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/output/analyse/analyse.c

@@ -230,6 +230,7 @@ C-------------------------------------------
 Chd|====================================================================
 Chd|  INISMS                        source/general_controls/computation/hm_read_sms.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

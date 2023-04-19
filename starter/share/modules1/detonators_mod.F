@@ -31,6 +31,8 @@ Chd|        ECRAN1                        source/initial_conditions/detonation/e
 Chd|        ECRAN2                        source/initial_conditions/detonation/ecran2.F
 Chd|        FREFORM                       source/starter/freform.F      
 Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
+Chd|        INITIA                        source/elements/initia/initia.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        M105INIT                      source/materials/mat/mat105/m105init.F
 Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
 Chd|        M5IN2                         source/initial_conditions/detonation/m5in2.F
@@ -110,6 +112,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE DEALLOCATE_DETONATORS(DET)

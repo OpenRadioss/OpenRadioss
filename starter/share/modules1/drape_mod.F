@@ -37,7 +37,9 @@ Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
 Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|        STACKGROUP_DRAPE              source/stack/stackgroup_drape.F

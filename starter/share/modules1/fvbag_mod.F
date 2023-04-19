@@ -37,6 +37,7 @@ Chd|        FVNODBR                       source/airbag/fvmbag1.F
 Chd|        FVWRESTP                      source/restart/ddsplit/fvwrestp.F
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NAME_FVBAG                    source/output/th/hm_thgrki_vent.F
 Chd|        W_FRONT                       source/restart/ddsplit/w_front.F
 Chd|-- calls ---------------

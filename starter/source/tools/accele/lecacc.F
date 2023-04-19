@@ -24,6 +24,7 @@ C=======================================================================
 Chd|====================================================================
 Chd|  LECACC                        source/tools/accele/lecacc.F  
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANODSET                       source/output/analyse/analyse_node.c

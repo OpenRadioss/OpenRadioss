@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALELEC                        source/ale/alelec.F           
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ALESO2                        source/ale/ale2d/aleso2.F     
 Chd|        ALESO2T                       source/ale/ale2d/aleso2t.F    

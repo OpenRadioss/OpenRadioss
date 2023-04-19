@@ -26,6 +26,8 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        HM_READ_INTERFACES            starter/source/interfaces/reader/hm_read_interfaces.F
 Chd|        HM_READ_INTER_STRUCT          starter/source/interfaces/reader/hm_read_inter_struct.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        I24MAINF                      engine/source/interfaces/int24/i24main.F
 Chd|        I25MAINF                      engine/source/interfaces/int25/i25mainf.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F

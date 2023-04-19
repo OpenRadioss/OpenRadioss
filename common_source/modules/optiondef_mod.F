@@ -62,7 +62,9 @@ Chd|        HM_READ_LINES                 starter/source/groups/hm_read_lines.F
 Chd|        HM_READ_SURF                  starter/source/groups/hm_read_surf.F
 Chd|        HM_SET                        starter/source/model/sets/hm_set.F
 Chd|        INICRKFILL                    starter/source/elements/xfem/inicrkfill.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        LECGROUP                      starter/source/groups/lecgroup.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        PRINTGROUP                    starter/source/output/outfile/printgroup.F
 Chd|        READ_BOX_BOX                  starter/source/model/box/read_box_box.F
 Chd|        READ_BOX_CYL                  starter/source/model/box/read_box_cyl.F

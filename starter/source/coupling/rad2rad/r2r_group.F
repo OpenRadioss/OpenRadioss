@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F    
 Chd|        ANCMSG                        source/output/message/message.F

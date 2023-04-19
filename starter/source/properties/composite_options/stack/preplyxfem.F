@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PREPLYXFEM                    source/properties/composite_options/stack/preplyxfem.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PREPLYXFEM(
@@ -93,6 +94,7 @@ C
 Chd|====================================================================
 Chd|  FILLCNE_PXFEM                 source/properties/composite_options/stack/preplyxfem.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|====================================================================

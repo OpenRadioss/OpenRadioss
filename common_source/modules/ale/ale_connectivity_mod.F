@@ -45,6 +45,8 @@ Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inig
 Chd|        INIGRAV_M51                   starter/source/initial_conditions/inigrav/inigrav_m51.F
 Chd|        ININT3                        starter/source/interfaces/inter3d1/inint3.F
 Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        M51INIT                       starter/source/materials/mat/mat051/m51init.F
 Chd|        MATINI                        starter/source/materials/mat_share/matini.F
 Chd|        MULTIFLUID_INIT2              starter/source/multifluid/multifluid_init2.F

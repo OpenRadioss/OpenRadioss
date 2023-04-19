@@ -90,6 +90,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INTSTAMP_ZERO                 share/modules1/intstamp_mod.F 
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INTSTAMP_ZERO(INTSTAMP)

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SENSOR_USER_INIT              source/tools/sensor/sensor_user_init.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================

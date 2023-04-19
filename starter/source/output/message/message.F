@@ -57,10 +57,12 @@ Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.
 Chd|        CEPSCHK                       source/elements/shell/coque/cepsini.F
 Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
+Chd|        CHECKMP                       source/elements/initia/initia.F
 Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
 Chd|        CHECK_DYNAIN                  source/starter/check_dynain.F 
 Chd|        CHECK_ELTYP                   source/model/sets/check_eltyp.F
 Chd|        CHECK_SURF                    source/groups/check_surf.F    
+Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   
 Chd|        CHKTYP2                       source/interfaces/interf1/chktyp2.F
 Chd|        CHK_DTTSH                     source/elements/thickshell/solidec/scdtchk3.F
@@ -561,6 +563,7 @@ Chd|        INIRBYS                       source/constraints/general/rbody/inirb
 Chd|        INISEN                        source/tools/sensor/inisen.F  
 Chd|        INISMS                        source/general_controls/computation/hm_read_sms.F
 Chd|        INISRF                        source/constraints/general/rbody/inisrf.F
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|        INIT_SKEW45                   source/elements/joint/rjoint/rini45.F
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
@@ -618,6 +621,7 @@ Chd|        LECSTAMP                      source/interfaces/interf1/lecstamp.F
 Chd|        LECSUBMOD                     source/model/submodel/lecsubmod.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
 Chd|        LECTRANSSUB                   source/model/submodel/lectranssub.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        LEC_DOF_JNT                   source/properties/spring/hm_read_prop45.F
 Chd|        LEC_INIMAP1D_FILE             source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        LEC_INIMAP2D_FILE             source/initial_conditions/inimap/lec_inimap2d_file.F

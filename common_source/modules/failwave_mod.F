@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        FAILWAVE_INIT                 starter/source/materials/fail/failwave_init.F
 Chd|        HM_READ_FAIL                  starter/source/materials/fail/hm_read_fail.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
 Chd|        W_FAILWAVE                    starter/source/restart/ddsplit/w_failwave.F
 Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F

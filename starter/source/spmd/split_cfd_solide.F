@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
@@ -142,6 +143,7 @@ C ----------------------------------------
 Chd|====================================================================
 Chd|  DEALLOCATE_SPLIT_CFD_SOLIDE   source/spmd/split_cfd_solide.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
 Chd|====================================================================

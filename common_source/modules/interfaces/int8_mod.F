@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        INTBUF_INI_T8                 common_source/interf/intbuf_ini.F
 Chd|        INTBUFDEF_MOD                 common_source/modules/intbufdef_mod.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        PREPARE_SPLIT_I8              starter/source/restart/ddsplit/inter_tools.F
 Chd|        SET_FRONT8                    starter/source/spmd/node/ddtools.F
 Chd|        SPLIT_INTERFACES              starter/source/restart/ddsplit/split_interfaces.F

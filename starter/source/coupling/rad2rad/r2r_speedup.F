@@ -29,6 +29,7 @@ Cbm|====================================================================
 Chd|====================================================================
 Chd|  R2R_SPEEDUP                   source/coupling/rad2rad/r2r_speedup.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FIND_DT_ENGINE                source/coupling/rad2rad/r2r_speedup.F

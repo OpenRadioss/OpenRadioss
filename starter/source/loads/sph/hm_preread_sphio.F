@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_PREREAD_SPHIO              source/loads/sph/hm_preread_sphio.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F

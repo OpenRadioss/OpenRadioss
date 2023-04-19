@@ -30,6 +30,7 @@ Chd|        HM_SET                        source/model/sets/hm_set.F
 Chd|        INVERTED_GROUP_ALLOC          source/model/sets/inverted_group_alloc.F
 Chd|        INVERTED_GROUP_DEALLOC        source/model/sets/inverted_group_dealloc.F
 Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INVERTED_GROUP_MOD

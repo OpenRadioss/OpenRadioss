@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  ARRAY_MOD                     modules/array_mod.F           
 Chd|-- called by -----------
 Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
@@ -71,6 +72,7 @@ Chd|====================================================================
 Chd|====================================================================
 Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
@@ -121,6 +123,7 @@ Chd|====================================================================
 Chd|====================================================================
 Chd|  DEALLOC_1D_ARRAY              modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
@@ -153,6 +156,7 @@ Chd|====================================================================
 Chd|====================================================================
 Chd|  DEALLOC_3D_ARRAY              modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE DEALLOC_3D_ARRAY(THIS)

@@ -64,6 +64,7 @@ C
 Chd|====================================================================
 Chd|  HM_READ_MERGE                 source/constraints/general/merge/hm_read_merge.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL                       source/starter/freform.F      
@@ -1018,6 +1019,7 @@ C
 Chd|====================================================================
 Chd|  RETRIRBY                      source/constraints/general/merge/hm_read_merge.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        RBMERGE_MOD                   source/constraints/general/merge/hm_read_merge.F

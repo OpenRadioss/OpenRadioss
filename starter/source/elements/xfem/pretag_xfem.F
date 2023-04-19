@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRETAG_XFEM                   source/elements/xfem/pretag_xfem.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        TAG_SH                        source/elements/xfem/pretag_xfem.F
 Chd|====================================================================

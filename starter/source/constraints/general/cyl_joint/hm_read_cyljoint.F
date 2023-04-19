@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANODSET                       source/output/analyse/analyse_node.c
 Chd|        FRETITL                       source/starter/freform.F      

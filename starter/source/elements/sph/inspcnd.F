@@ -25,6 +25,7 @@ C  093 + conditions aux limites SPH, modifie les masses.
 Chd|====================================================================
 Chd|  INSPCND                       source/elements/sph/inspcnd.F 
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F

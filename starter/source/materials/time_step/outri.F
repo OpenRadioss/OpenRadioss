@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  OUTRI                         source/materials/time_step/outri.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -356,6 +357,7 @@ C
 Chd|====================================================================
 Chd|  OUTRIN                        source/materials/time_step/outri.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F

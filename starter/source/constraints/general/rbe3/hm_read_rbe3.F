@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_RBE3                  source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL                       source/starter/freform.F      
@@ -345,6 +346,7 @@ C
 Chd|====================================================================
 Chd|  INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
@@ -473,6 +475,7 @@ C
 Chd|====================================================================
 Chd|  INTXRBE3                      source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INTXRBE3(IRBE3  ,LRBE3  ,NELEMINT,IXINT,IFIEND)

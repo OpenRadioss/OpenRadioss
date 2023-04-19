@@ -28,6 +28,7 @@ Chd|        C_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
 Chd|        HM_READ_CLUSTER               source/output/cluster/hm_read_cluster.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        RGRHEAD                       source/elements/spring/rgrhead.F
 Chd|        RGRTAILS                      source/elements/spring/rgrtails.F
 Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F

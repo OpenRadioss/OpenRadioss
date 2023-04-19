@@ -79,6 +79,7 @@ Chd|        ININTSUB                      starter/source/interfaces/interf1/inin
 Chd|        ININTSUB_11                   starter/source/output/subinterface/inintsub_11.F
 Chd|        ININTSUB_25                   starter/source/output/subinterface/inintsub_25.F
 Chd|        ININTSUB_7                    starter/source/output/subinterface/inintsub_7.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INT2CY_CHK                    starter/source/constraints/general/bcs/lecbcscyc.F
 Chd|        INT2MODIF_ND                  starter/source/elements/solid/solide10/dim_s10edg.F
 Chd|        INT8_INI                      starter/source/interfaces/intbuf/intbuf_ini_starter.F
@@ -88,6 +89,7 @@ Chd|        ITAGSL12                      starter/source/interfaces/inter3d1/ini
 Chd|        ITAGSL2                       starter/source/interfaces/inter3d1/itagsl2.F
 Chd|        LAGM_INI                      starter/source/tools/lagmul/lagm_ini.F
 Chd|        LECINS                        starter/source/interfaces/interf1/lecins.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LGMINI_I2                     starter/source/tools/lagmul/lgmini_i2.F
 Chd|        LGMINI_I7                     starter/source/tools/lagmul/lgmini_i7.F
 Chd|        PREPARE_INT25                 starter/source/model/mesh/build_cnel.F

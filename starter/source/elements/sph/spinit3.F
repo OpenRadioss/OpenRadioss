@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPINIT3                       source/elements/sph/spinit3.F 
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        DTMAIN                        source/materials/time_step/dtmain.F
 Chd|        MATINI                        source/materials/mat_share/matini.F

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LECGROUP                      source/groups/lecgroup.F      
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        HM_LECGRE                     source/groups/hm_lecgre.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

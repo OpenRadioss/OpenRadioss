@@ -27,6 +27,7 @@ Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        C_FRONT                       starter/source/restart/ddsplit/c_front.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        HM_READ_WINDOW_USER           starter/source/tools/userwi/hm_read_window_user.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        SET_USER_WINDOW_NODES         starter/source/user_interface/user_windows_tools.F
 Chd|        SPMD_USERWI_REST              starter/source/user_interface/user_windows_tools.F
 Chd|        STARTER0                      starter/source/starter/starter0.F

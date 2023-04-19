@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIT_MLAW_TAG                 source/elements/elbuf_init/init_mlaw_tag.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|====================================================================

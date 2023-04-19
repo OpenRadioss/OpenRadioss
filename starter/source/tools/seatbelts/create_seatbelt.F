@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  CREATE_SEATBELT               source/tools/seatbelts/create_seatbelt.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        NEW_SEATBELT                  source/tools/seatbelts/new_seatbelt.F

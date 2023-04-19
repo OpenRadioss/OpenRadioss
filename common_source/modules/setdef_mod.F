@@ -80,6 +80,7 @@ Chd|        FILL_SURF                     starter/source/model/sets/fill_gr.F
 Chd|        HM_READ_INIVOL                starter/source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_SET                        starter/source/model/sets/hm_set.F
 Chd|        INSERT_CLAUSE_IN_SET          starter/source/model/sets/insert_clause_in_set.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LINE_BUFFER                   starter/source/model/sets/line_buffer.F
 Chd|        QUAD_SURFACE_BUFFER           starter/source/model/sets/quad_surface_buffer.F
 Chd|        SET_INIT                      starter/source/model/sets/set_init.F

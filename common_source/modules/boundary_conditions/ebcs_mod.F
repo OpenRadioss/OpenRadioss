@@ -45,6 +45,8 @@ Chd|        INIEBCSP0                     starter/source/boundary_conditions/ebc
 Chd|        INIEBCS_NRF_TCAR              starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
 Chd|        INIGRAV_PART_LIST             starter/source/initial_conditions/inigrav/inigrav_part_list.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_EBCS                     starter/source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        SPLIT_EBCS                    starter/source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        STARTER0                      starter/source/starter/starter0.F

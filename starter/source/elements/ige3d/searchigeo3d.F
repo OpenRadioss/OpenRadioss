@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRESEARCHIGEO3D               source/elements/ige3d/searchigeo3d.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MYQSORT3D                     source/elements/ige3d/searchigeo3d.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -76,6 +77,7 @@ c
 Chd|====================================================================
 Chd|  SEARCHIGEO3D                  source/elements/ige3d/searchigeo3d.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================

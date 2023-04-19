@@ -24,6 +24,7 @@ C
 Chd|====================================================================
 Chd|  TITRE2                        source/output/outfile/titre2.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TITRE2

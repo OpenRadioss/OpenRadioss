@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  OUTPUT_MOD                    modules/output/output_mod.F   
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_TIME_HISTORIES     starter/source/output/qaprint/st_qaprint_time_histories.F

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ST_QAPRINT_ADMESH             source/output/qaprint/st_qaprint_admesh.F
 Chd|        ST_QAPRINT_ALE_OPTIONS_DRIVER source/output/qaprint/st_qaprint_ale_options_driver.F

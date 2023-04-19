@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MODBUFEL                      source/constraints/fxbody/modbufel.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        SCHREP                        source/constraints/fxbody/fsigsini.F
 Chd|====================================================================

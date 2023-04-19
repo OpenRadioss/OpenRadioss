@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_SOLID                 source/elements/reader/hm_read_solid.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANODSET                       source/output/analyse/analyse_node.c
@@ -438,6 +439,7 @@ C
 Chd|====================================================================
 Chd|  LCE16S3                       source/elements/reader/hm_read_solid.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        REORDR                        source/elements/solid_2d/quad/reordr.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -730,6 +732,7 @@ C
 Chd|====================================================================
 Chd|  LCE16S4                       source/elements/reader/hm_read_solid.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LCE16S4(IXS,PM,ICODE)

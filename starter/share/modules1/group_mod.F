@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  GROUP_MOD                     share/modules1/group_mod.F    
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|        R2R_EXIST                     source/coupling/rad2rad/routines_r2r.F
 Chd|-- calls ---------------

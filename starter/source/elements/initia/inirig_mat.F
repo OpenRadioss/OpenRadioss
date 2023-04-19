@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIRIG_MAT                    source/elements/initia/inirig_mat.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        C3COORI                       source/elements/sh3n/coque3n/c3coori.F
 Chd|        C3DERII                       source/elements/sh3n/coque3n/c3derii.F

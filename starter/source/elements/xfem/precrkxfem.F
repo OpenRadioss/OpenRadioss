@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRECRKXFEM                    source/elements/xfem/precrkxfem.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ADDCNE_XFE                    source/elements/xfem/precrkxfem.F
 Chd|====================================================================

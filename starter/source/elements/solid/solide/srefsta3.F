@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        SDEFO3                        source/elements/solid/solide/sdefo3.F

@@ -24,6 +24,7 @@ C
 Chd|====================================================================
 Chd|  SCRINT                        source/interfaces/interf1/scrint.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        NSEGMT                        source/interfaces/interf1/nsegmt.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

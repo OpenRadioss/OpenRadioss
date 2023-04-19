@@ -53,6 +53,7 @@ Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
 Chd|        HYPERMESH_TETRA               stub/fvmbags_stub.F           
 Chd|        IGRSURF_SPLIT                 source/spmd/igrsurf_split.F   
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        MESHGEMS_TETRA                stub/fvmbags_stub.F           
 Chd|        MONVOL_BUILD_EDGES            share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
@@ -158,6 +159,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  COPY_TO_MONVOL                share/modules1/monvol_struct_mod.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE COPY_TO_MONVOL(T_MONVOL, LICBAG, ICBAG, SMONVOL, MONVOL)
@@ -308,6 +310,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  COPY_TO_VOLMON                share/modules1/monvol_struct_mod.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE COPY_TO_VOLMON(T_MONVOL, LRCBAG, RCBAG, SVOLMON, VOLMON)
@@ -954,6 +957,7 @@ C
 Chd|====================================================================
 Chd|  MONVOL_ALLOCATE               share/modules1/monvol_struct_mod.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MONVOL_ALLOCATE(NVOLU, T_MONVOL, T_MONVOL_METADATA)
@@ -1037,6 +1041,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  MONVOL_DEALLOCATE             share/modules1/monvol_struct_mod.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MONVOL_DEALLOCATE(NVOLU, T_MONVOL)

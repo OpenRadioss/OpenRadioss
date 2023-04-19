@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ININODE_RM                    source/materials/mat/mat019/ininode_rm.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ININODE_RM(CONNEC,IRIG_NODE,IRBY,SLN,NRB,NRSLN,

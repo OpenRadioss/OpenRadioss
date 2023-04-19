@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  GROUP_INI                     source/model/group/group_ini.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        GR_ENTITY_INI                 source/model/group/gr_entity_ini.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

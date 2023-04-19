@@ -24,6 +24,7 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  PRINTSTSZ                     source/spmd/node/st_array_size.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MAP_MEMORY                    ../common_source/comm/memory_use_c.c
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F

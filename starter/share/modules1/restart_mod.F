@@ -29,6 +29,7 @@ Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multim
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        LECLAS                        source/loads/laser/leclas.F   
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NEW_LINK                      source/coupling/rad2rad/new_link.F
 Chd|        R2R_CHECK                     source/coupling/rad2rad/r2r_check.F
 Chd|        R2R_CHECK_SEG                 source/coupling/rad2rad/routines_r2r.F
@@ -218,6 +219,7 @@ Chd|====================================================================
 Chd|  INTBUFMOD                     share/modules1/restart_mod.F  
 Chd|-- called by -----------
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
@@ -241,6 +243,7 @@ Chd|  IXINTMOD                      share/modules1/restart_mod.F
 Chd|-- called by -----------
 Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|-- calls ---------------
 Chd|====================================================================

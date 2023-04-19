@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPHONF0                       source/elements/sph/sphonf0.F 
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPHONF0(KXSP ,IXSP    ,NOD2SP  ,IPART   ,IPARTSP ,

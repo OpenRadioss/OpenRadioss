@@ -30,6 +30,7 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        EDGETIP3N                     starter/source/elements/xfem/lslocal.F
 Chd|        EDGETIP4N                     starter/source/elements/xfem/lslocal.F
 Chd|        INICRKFILL                    starter/source/elements/xfem/inicrkfill.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LSLOCAL                       starter/source/elements/xfem/lslocal.F
 Chd|        PREINICRK3N                   starter/source/elements/xfem/preinicrk3N.F
 Chd|        PREINICRK4N                   starter/source/elements/xfem/preinicrk4N.F

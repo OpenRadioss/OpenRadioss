@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ANI_SEGQUADFR1                source/output/anim/ani_segquadfr.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ANI_SEGQUADFR1(IXQ ,SEGTAG ,KNOD2ELQ ,NOD2ELQ ,X ,NSEG)
@@ -101,6 +102,7 @@ C
 Chd|====================================================================
 Chd|  ANI_SEGQUADFR2                source/output/anim/ani_segquadfr.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ANI_SEGQUADFR2(SEGTAG  ,SEGQUADFR )

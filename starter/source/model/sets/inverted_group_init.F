@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
 Chd|-- called by -----------
 Chd|        COMPUTE_CONNECT_PARTELM       source/model/sets/compute_connect_partelm.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|====================================================================

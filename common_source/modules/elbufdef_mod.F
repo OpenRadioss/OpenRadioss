@@ -98,6 +98,7 @@ Chd|        INIGRAV_M51                   starter/source/initial_conditions/inig
 Chd|        ININTR_THKVAR                 starter/source/interfaces/interf1/inintr_thkvar.F
 Chd|        INIPHASE                      starter/source/initial_conditions/inivol/iniphase.F
 Chd|        INIRIG_MAT                    starter/source/elements/initia/inirig_mat.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INITVARS_AUTO                 starter/source/elements/elbuf_init/initvars_auto.F
 Chd|        INIVOID                       starter/source/elements/initia/inivoid.F
 Chd|        INIVOL_SET                    starter/source/initial_conditions/inivol/inivol_set.F
@@ -107,6 +108,7 @@ Chd|        INI_OUTMAX_AUTO               starter/source/elements/elbuf_init/ini
 Chd|        INI_SEATBELT                  starter/source/tools/seatbelts/ini_seatbelt.F
 Chd|        LAYINI1                       starter/source/elements/shell/coqueba/layini1.F
 Chd|        LAYINI_XFE                    starter/source/elements/xfem/cbufxfe.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LSLOCAL                       starter/source/elements/xfem/lslocal.F
 Chd|        M20DCOD                       starter/source/system/fsdcod.F
 Chd|        M37INIT                       starter/source/materials/mat/mat037/m37init.F

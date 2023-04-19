@@ -1764,6 +1764,7 @@ C-------------------------------------------
 Chd|====================================================================
 Chd|  INI_H3DTMAX_ENGINE            source/starter/contrl.F       
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        READ_H3DTMAX_KEY              source/starter/contrl.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

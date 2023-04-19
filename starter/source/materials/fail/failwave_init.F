@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FAILWAVE_INIT                 source/materials/fail/failwave_init.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

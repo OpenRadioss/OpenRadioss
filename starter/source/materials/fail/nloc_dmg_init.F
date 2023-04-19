@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  NLOC_DMG_INIT                 source/materials/fail/nloc_dmg_init.F
 Chd|-- called by -----------
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        NLOCAL_INIT_STA               source/materials/fail/nlocal_init_sta.F

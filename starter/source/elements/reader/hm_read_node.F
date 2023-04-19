@@ -24,6 +24,7 @@ C
 Chd|====================================================================
 Chd|  HM_READ_NODE                  source/elements/reader/hm_read_node.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CONSTIT                       source/elements/nodes/constit.F

@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  STATE_MOD                     modules/state_mod.F           
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        DYNAIN_C_STRAG                engine/source/output/dynain/dynain_c_strag.F
 Chd|        DYNAIN_C_STRSG                engine/source/output/dynain/dynain_c_strsg.F

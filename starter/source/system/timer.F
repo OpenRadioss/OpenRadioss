@@ -84,6 +84,7 @@ Chd|====================================================================
 Chd|  STARTIME                      source/system/timer.F         
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|        MY_ETIME                      source/system/machine.F       
@@ -125,6 +126,7 @@ Chd|====================================================================
 Chd|  STOPTIME                      source/system/timer.F         
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|        MY_ETIME                      source/system/machine.F       

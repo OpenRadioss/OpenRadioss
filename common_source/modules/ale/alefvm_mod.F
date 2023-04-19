@@ -29,6 +29,7 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        HM_READ_MAT11_K_EPS           starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
 Chd|        INIMOM_FVM                    starter/source/elements/solid/solide/inimom_fvm.F
 Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_ALE_MAT                  starter/source/materials/ale/read_ale_mat.F
 Chd|        READ_EULER_MAT                starter/source/materials/ale/read_euler_mat.F
 Chd|        SINIT3                        starter/source/elements/solid/solide/sinit3.F

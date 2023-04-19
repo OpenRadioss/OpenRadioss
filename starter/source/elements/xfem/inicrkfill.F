@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INICRKFILL                    source/elements/xfem/inicrkfill.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        LSLOCAL                       source/elements/xfem/lslocal.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

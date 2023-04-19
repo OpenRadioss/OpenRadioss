@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRESCRINT                     source/interfaces/interf1/prescrint.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        PRESEGMT                      source/interfaces/interf1/presegmt.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

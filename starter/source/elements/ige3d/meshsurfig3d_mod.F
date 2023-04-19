@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
 Chd|-- called by -----------
 Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
 Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
 Chd|        RAFIG3D                       source/elements/ige3d/rafig3d.F

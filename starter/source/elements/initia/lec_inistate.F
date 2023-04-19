@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
 Chd|        LEC_INISTATE_TRI              source/elements/initia/lec_inistate_tri.F

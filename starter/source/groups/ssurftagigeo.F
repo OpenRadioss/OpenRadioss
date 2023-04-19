@@ -803,6 +803,7 @@ C
 Chd|====================================================================
 Chd|  FICTIVMASSIGEO                source/groups/ssurftagigeo.F  
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
