@@ -111,7 +111,8 @@ C-----------------------------------------------
      .   DXM, GAPMX, GAPMN, AREASS, VOL, DX,GAP1,GAPS1,GAPTMP,XL,
      .   GET_U_GEO,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8,
-     .   XX1(4),XX2(4), XX3(4) ,FACE(6)
+     .   XX1(4),XX2(4), XX3(4) ,FACE(6),
+     .   N_1, N_2, N_3
 C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C     Stiffness: stiffness of the shell if the segment belongs
@@ -875,7 +876,7 @@ c           face 1234
                   XX1(4)=X4
                   XX2(4)=Y4
                   XX3(4)=Z4
-                  CALL NORMA1(I1,I2,I3,FACE(1),XX1,XX2,XX3)
+                  CALL NORMA1(N_1,N_2,N_3,FACE(1),XX1,XX2,XX3)
                   IF(    N4/=N3
      .               .AND.N3/=N2
      .               .AND.N2/=N1
@@ -897,7 +898,7 @@ c           face 5678
                   XX1(4)=X8
                   XX2(4)=Y8
                   XX3(4)=Z8
-                  CALL NORMA1(I1,I2,I3,FACE(2),XX1,XX2,XX3)
+                  CALL NORMA1(N_1,N_2,N_3,FACE(2),XX1,XX2,XX3)
                   IF(    N8/=N7
      .               .AND.N7/=N6
      .               .AND.N6/=N5
@@ -919,7 +920,7 @@ c           face 2376
                   XX1(4)=X6
                   XX2(4)=Y6
                   XX3(4)=Z6
-                  CALL NORMA1(I1,I2,I3,FACE(3),XX1,XX2,XX3)
+                  CALL NORMA1(N_1,N_2,N_3,FACE(3),XX1,XX2,XX3)
                   IF(    N6/=N7
      .               .AND.N7/=N3
      .               .AND.N3/=N2
@@ -941,7 +942,7 @@ c           face 1485
                   XX1(4)=X5
                   XX2(4)=Y5
                   XX3(4)=Z5
-                  CALL NORMA1(I1,I2,I3,FACE(4),XX1,XX2,XX3)
+                  CALL NORMA1(N_1,N_2,N_3,FACE(4),XX1,XX2,XX3)
                   IF(    N5/=N8
      .               .AND.N8/=N4
      .               .AND.N4/=N1
@@ -963,7 +964,7 @@ c           face 1265
                   XX1(4)=X5
                   XX2(4)=Y5
                   XX3(4)=Z5
-                  CALL NORMA1(I1,I2,I3,FACE(5),XX1,XX2,XX3)
+                  CALL NORMA1(N_1,N_2,N_3,FACE(5),XX1,XX2,XX3)
                   IF(    N5/=N6
      .               .AND.N6/=N2
      .               .AND.N2/=N1
@@ -985,7 +986,7 @@ c           face 4378
                   XX1(4)=X8
                   XX2(4)=Y8
                   XX3(4)=Z8
-                  CALL NORMA1(I1,I2,I3,FACE(6),XX1,XX2,XX3)
+                  CALL NORMA1(N_1,N_2,N_3,FACE(6),XX1,XX2,XX3)
                   IF(    N8/=N7
      .               .AND.N7/=N3
      .               .AND.N3/=N4
