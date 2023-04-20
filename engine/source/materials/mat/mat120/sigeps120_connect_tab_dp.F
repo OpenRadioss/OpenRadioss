@@ -143,6 +143,7 @@ C---------------------------------------------
       STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)                                              
 C---------------------------------------------
       DAM (1:NEL) = DMG(1:NEL)
+      DPLA(1:NEL) = ZERO
       FDAM(1:NEL) = ONE - DAM(1:NEL)
       DO I = 1,NEL
         IF (OFF(I) < 0.001) OFF(I) = ZERO
@@ -277,7 +278,6 @@ c
             DFDPLA    = THIRD*(SQR3*A1H*YLD0*I1(I) + A2H*I1P**2)
 
             DPLA_DLAM = TWO*SQRT((J2(I) + TP*AS*I1(I)))
-            DPLA_DLAM = DPLA_DLAM / FDAM(I)
 c
             DPHI_DLAM = DFDLAM + (DFDPLA - TWO*YLD(I)*HARDP(I))*DPLA_DLAM            
 c----------------------------------------------------------------
@@ -392,13 +392,15 @@ c
         DO II = 1,NINDX
           I = INDX(II)
 c
+          TRIAX = ZERO
+          FACT = ONE
           FACR = ONE + D_JC * JCR_LOG(I)  ! total strain rate factor on damage
-          IF (ITRX == 1) THEN
-            TRIAX = THIRD * I1(I) / SQRT(THREE*J2(I))
+          IF ( J2(I)/= ZERO)TRIAX = THIRD * I1(I) / SQRT(THREE*J2(I))
+          IF (ITRX == 1 ) THEN
             FACT  = EXP(-D_TRX*TRIAX)
-          ELSE IF (I1(I) <= ZERO) THEN  ! ITRX = 2 => no triaxiality influence in compression
-            FACT = ONE
-          END IF
+          ELSE
+           IF (TRIAX > ZERO )FACT  = EXP(-D_TRX*TRIAX)
+          ENDIF
           GAMC = (D1C + D2C * FACT) * FACR
           GAMF = (D1F + D2F * FACT) * FACR
           IF (GAMMA(I) > GAMC) THEN
