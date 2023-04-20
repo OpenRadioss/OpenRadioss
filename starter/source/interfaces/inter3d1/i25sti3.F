@@ -712,6 +712,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "scr08_c.inc"
+#include      "my_allocate.inc"s
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -746,6 +747,7 @@ C-----------------------------------------------
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG,ISOL
+      INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX,
@@ -755,6 +757,12 @@ C----------------------
       ISOL = 0
       NREV=0
       IPGMAT = 700
+      IF(NUMELS > 0) THEN
+        MY_ALLOCATE(TAGELEMS,NUMELS)
+        TAGELEMS = 0
+        MY_ALLOCATE(INDEXE,NUMELS)
+        INDEXE = 0
+      ENDIF
       DO I=1,NRT
         STF(I)=ZERO
         IF(INTTH > 0 ) IELEM(I) = 0
@@ -767,7 +775,7 @@ C      ELEMENTS SOLIDES
 C----------------------
         CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .             AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
-     .             IXS10,IXS16,IXS20)
+     .             IXS10,IXS16,IXS20,TAGELEMS,INDEXE)
         IF(NELS/=0) THEN
           MT=IXS(1,NELS)
           IF(INTTH > 0 ) IELEM(I) = MT
@@ -1032,6 +1040,8 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
           ENDIF
         ENDIF
       END DO
+C
+      IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
 C
       IF(IVIS2 ==-1.AND.ISOL /=0) THEN
         CALL ANCMSG(MSGID=2096,

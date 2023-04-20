@@ -77,6 +77,7 @@ C-----------------------------------------------
 #include      "scr08_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -118,6 +119,7 @@ C-----------------------------------------------
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,XL
       my_real, dimension(:), allocatable :: GAP_S_L_TMP
+      INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
       DATA JPERM/2,3,4,1/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -364,6 +366,12 @@ C
 C------------------------------------
 C     GAP STIFF FACES MAIN
 C------------------------------------
+      IF(NUMELS > 0) THEN
+        MY_ALLOCATE(TAGELEMS,NUMELS)
+        TAGELEMS = 0
+        MY_ALLOCATE(INDEXE,NUMELS)
+        INDEXE = 0
+      ENDIF
       DO I=1,NRT
         STF(I)=ZERO
         IF(INTTH > 0 ) IELES(I) = 0
@@ -608,7 +616,7 @@ C       SOLID ELEMENTS
 C----------------------
         CALL INSOL3D(X     ,IRECT ,IXS      ,NINT    ,NELS,INRT,
      .               AREA  ,NOINT ,KNOD2ELS ,NOD2ELS ,0   ,
-     .               IXS10 ,IXS16 ,IXS20)
+     .               IXS10 ,IXS16 ,IXS20    ,TAGELEMS,INDEXE)
         !----------------!
         !  NELS > 0      !
         !----------------!
@@ -881,6 +889,7 @@ C        SPMD EXCHANGE : if no element associated to the edge => error
 C----------------------------------        
       ENDDO!next I=1,NRT
   
+      IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
 C------------------------------------
 C     GAP STIF FACES MAIN IGE
 C------------------------------------
