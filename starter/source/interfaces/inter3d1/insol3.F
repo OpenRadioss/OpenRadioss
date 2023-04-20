@@ -190,11 +190,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
-     .                  IXS10,IXS16,IXS20 )
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MESSAGE_MOD
+     .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -204,7 +200,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -213,18 +208,18 @@ C-----------------------------------------------
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*)
+      INTEGER  , INTENT(INOUT) :: TAGELEMS(NUMELS),INDEXE(NUMELS)
       my_real
      .   X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM
+     .        NUSER, NUSERM, NINDEXE
 C     REAL
       my_real
      .   N1, N2, N3, DDS
       my_real :: XX1(4),XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
-      INTEGER, DIMENSION(:),ALLOCATABLE ::TAGELEMS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -235,9 +230,7 @@ C
       IF(NUMELS==0) RETURN
        IF(IRECT(1,I)>NUMNOD) RETURN
 
-       MY_ALLOCATE(TAGELEMS,NUMELS)
-       TAGELEMS = 0
-
+       NINDEXE = 0
        NUSERM = -1
        DO 230 IAD=KNOD2ELS(IRECT(1,I))+1,KNOD2ELS(IRECT(1,I)+1)
         N = NOD2ELS(IAD)
@@ -253,6 +246,8 @@ C
           IF(TAGELEMS(N)==0) THEN
              IC=IC+1
              TAGELEMS(N) = 1
+             NINDEXE = NINDEXE + 1
+             INDEXE(NINDEXE) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -273,6 +268,8 @@ C
           IF(TAGELEMS(N)==0) THEN
              IC=IC+1
              TAGELEMS(N) = 1
+             NINDEXE = NINDEXE + 1
+             INDEXE(NINDEXE) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -293,6 +290,8 @@ C
           IF(TAGELEMS(N)==0) THEN
              IC=IC+1
              TAGELEMS(N) = 1
+             NINDEXE = NINDEXE + 1
+             INDEXE(NINDEXE) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -313,6 +312,8 @@ C
           IF(TAGELEMS(N)==0) THEN
              IC=IC+1
              TAGELEMS(N) = 1
+             NINDEXE = NINDEXE + 1
+             INDEXE(NINDEXE) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -322,7 +323,11 @@ C
           GOTO 230
         END IF
   230  CONTINUE
-       DEALLOCATE(TAGELEMS)
+       DO JJ= 1,NINDEXE
+          N = INDEXE(JJ)
+          TAGELEMS(N) = 0
+          INDEXE(JJ) = 0
+       ENDDO
 
        IF (NUSERM==-1) RETURN
 C-----------------------------------------------
