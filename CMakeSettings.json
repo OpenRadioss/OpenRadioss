@@ -1,4 +1,10 @@
 ﻿{
+  "environments": [
+    {
+      "RAD_CFG_PATH": "${projectDir}\\hm_cfg_files",
+      "PATH": "${projectDir}\\extlib\\hm_reader\\win64;${projectDir}\\extlib\\h3d\\lib\\win64;${env.PATH}"
+    }
+  ],
   "configurations": [
     {
       "name": "Starter_x64-Release",
@@ -6,7 +12,7 @@
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
-      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=starter -Dprecision=dp -Ddebug=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=starter -Dprecision=dp -Ddebug=0  -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -18,7 +24,7 @@
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
-      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=smp -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=smp -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -30,7 +36,7 @@
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
-      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=impi -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=impi -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -42,7 +48,7 @@
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
-      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=starter -Dprecision=dp -Ddebug=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=starter -Dprecision=dp -Ddebug=1 -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -54,7 +60,7 @@
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
-      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=1 -DMPI=smp -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=1 -DMPI=smp -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -66,7 +72,7 @@
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
-      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=impi -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=impi -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],
