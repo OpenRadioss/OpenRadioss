@@ -821,7 +821,6 @@ Chd|        INI_RACK                      source/tools/lagmul/ini_rack.F
 Chd|        INI_SEATBELT                  source/tools/seatbelts/ini_seatbelt.F
 Chd|        INRCH2                        source/interfaces/inter2d1/inrch2.F
 Chd|        INSERT_CLAUSE_IN_SET          source/model/sets/insert_clause_in_set.F
-Chd|        INSOL3D                       source/interfaces/inter3d1/insol3.F
 Chd|        INSOLT10                      source/interfaces/inter3d1/insolt10.F
 Chd|        INSPCND                       source/elements/sph/inspcnd.F 
 Chd|        INSURF                        source/interfaces/interf1/insurf.F

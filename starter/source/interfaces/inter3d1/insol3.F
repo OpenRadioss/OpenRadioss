@@ -186,7 +186,6 @@ Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
 Chd|        I7STI3                        source/interfaces/inter3d1/i7sti3.F
 Chd|-- calls ---------------
 Chd|        NORMA1D                       source/interfaces/inter3d1/norma1.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
