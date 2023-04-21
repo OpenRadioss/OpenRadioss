@@ -1,7 +1,8 @@
-echo OFF
+@echo OFF
 
 REM Variable setting
-set arch=win64
+set arch=none
+set my_arch=
 set prec=dp
 set debug=0
 set static=0
@@ -15,14 +16,21 @@ set clean=0
 set jobs=1
 set jobsv=1
 set build=both
+set buildv=both
+set debug_suffix=
+set build_type=
 
 IF (%1) == () GOTO ERROR
 
 :ARG_LOOP
 IF (%1) == () GOTO END_ARG_LOOP
 
+   IF %1==-arch (
+       set my_arch=%2
+    )
+
    IF %1==-prec (
-       set prec=%2 
+       set prec=%2
     )
 
    IF %1==-debug (
@@ -62,10 +70,10 @@ GOTO ARG_LOOP
 
 :END_ARG_LOOP
 
-if %buildv%==starter (set build=starter)
-if %buildv%==engine (set build=engine)
-if %jobsv%==all ( set jobs=0)
 
+if %buildv%==starter ( set build=starter )
+if %buildv%==engine  ( set build=engine )
+if %jobsv%==all      ( set jobs=0 )
 
 Rem Engine name
 if %prec%==sp   ( set sp_suffix=_sp)
@@ -73,6 +81,7 @@ if %debug%==1   ( set debug_suffix=_db)
 if %debug%==2   ( set debug_suffix=_db)
 if %got_mpi%==1 ( set mpi_suffix=_%pmi%)
 
+set arch=%my_arch%
 
 set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%.exe
 set starter=starter_%arch%%sp_suffix%%debug_suffix%.exe
@@ -108,15 +117,6 @@ echo.
 echo  Build directory:  %build_directory%
 echo.
 
-if exist exec (
-
-  echo.
-
-) else (
-  echo creating exec directory
-  echo .
-  mkdir exec
-)
 
 if exist %build_directory% (
 
@@ -129,6 +129,13 @@ if exist %build_directory% (
 )
 
 
+REM define Build type
+
+if %debug%==0 (
+    set build_type=Release 
+) else (
+    set build_type=Debug
+)
 
 
 Rem Load Compiler settings
@@ -136,20 +143,9 @@ call ..\CMake_Compilers\cmake_%arch%_compilers.bat
 
 
 
-cmake -G Ninja -Darch=%arch% -Dbuild=%build% -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+cmake -G Ninja -Darch=%arch% -Dbuild=%build% -DVS_BUILD=1 -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
 ninja %verbose% -j %jobs%
 
-if exist engine\%engine% (
-  echo.
-  echo Copy %engine% in exec directory
-  copy engine\%engine% ..\exec
-)
-
-if exist starter\%starter% (
-  echo.
-  echo Copy %starter% in exec directory
-  copy starter\%starter% ..\exec
-)
 
 cd ..
 
@@ -172,6 +168,27 @@ GOTO END
   echo.
 
 :END
+Rem clean up used variables
+
+set arch=
+set my_arch=
+set prec=
+set debug=
+set static=
+set MPI=
+set pmpi=
+set got_mpi=
+set sp_suffix=
+set mpi_suffix=
+set verbose=
+set clean=
+set jobs=
+set jobsv=
+set build=
+set buildv=
+set debug_suffix=
+set build_type=
+
 echo.
 echo Terminating
 echo.

@@ -9,6 +9,8 @@ set verbose=
 set clean=0
 set jobs=1
 set jobsv=1
+set debug_suffix=
+set build_type=
 
 IF (%1) == () GOTO ERROR
 
@@ -100,16 +102,16 @@ if exist %build_directory% (
 Rem Load Compiler settings
 call ..\CMake_Compilers\cmake_%arch%_compilers.bat
 
+REM define Build type
 
-
-cmake -G Ninja -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
-ninja %verbose% -j %jobs%
-
-if exist %starter% (
-  echo.
-  echo Copy %starter% in exec directory
-  copy %starter% ..\..\exec
+if %debug%==0 (
+    set build_type=Release 
+) else (
+    set build_type=Debug
 )
+
+cmake -G Ninja -DVS_BUILD=1 -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+ninja %verbose% -j %jobs%
 
 cd ..
 
@@ -131,6 +133,19 @@ GOTO END
 
 :END
 echo.
+
+REM clean used variables
+set arch=
+set prec=
+set debug=
+set static=
+set verbose=
+set clean=
+set jobs=
+set jobsv=
+set debug_suffix=
+set build_type=
+
 echo Terminating
 echo.
 
