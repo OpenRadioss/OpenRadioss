@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFT
-      INTEGER, INTENT(IN) :: IAD
+      INTEGER, INTENT(INOUT) :: IAD
       INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*)
 C     REAL
