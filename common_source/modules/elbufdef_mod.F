@@ -248,7 +248,7 @@ Chd|        CRKLAYER4N_ADV                engine/source/elements/xfem/crklayer4n
 Chd|        CRKLAYER4N_INI                engine/source/elements/xfem/crklayer4n_ini.F
 Chd|        CRKOFFC                       engine/source/elements/xfem/precrklay.F
 Chd|        CRKOFFTG                      engine/source/elements/xfem/precrklay.F
-Chd|        CUTFUNCE                      engine/source/tools/sect/cutfunc.F
+Chd|        CUTFUNCE                      engine/source/tools/sect/cutfunce.F
 Chd|        CZCOORK3                      engine/source/elements/shell/coquez/czcoork3.F
 Chd|        CZCORC1                       engine/source/elements/shell/coquez/czcorc.F
 Chd|        CZCORCHT                      engine/source/elements/shell/coquez/czcorc.F
@@ -278,7 +278,7 @@ Chd|        DIM_ELEMSP                    engine/source/implicit/ind_glob_k.F
 Chd|        DIM_FR_K                      engine/source/mpi/implicit/imp_fri.F
 Chd|        DIM_GLOB_K                    engine/source/implicit/ind_glob_k.F
 Chd|        DIM_KINMAX                    engine/source/implicit/ind_glob_k.F
-Chd|        DIM_TSHEDG                    engine/source/elements/thickshell/solidec/scdtdc3.F
+Chd|        DIM_TSHEDG                    engine/source/elements/thickshell/solidec/dim_tshedg.F
 Chd|        DMASANI0                      engine/source/output/anim/generate/dmasani0.F
 Chd|        DMASANIC                      engine/source/output/anim/generate/dmasanic.F
 Chd|        DMASANIF                      engine/source/output/anim/generate/dmasanif.F
@@ -392,7 +392,7 @@ Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
 Chd|        IMP_SOL_INIT                  engine/source/implicit/imp_sol_init.F
 Chd|        IND_FR_K                      engine/source/mpi/implicit/imp_fri.F
 Chd|        IND_GLOB_K                    engine/source/implicit/ind_glob_k.F
-Chd|        IND_TSHEDG                    engine/source/elements/thickshell/solidec/scdtdc3.F
+Chd|        IND_TSHEDG                    engine/source/elements/thickshell/solidec/ind_tshedg.F
 Chd|        INIT_TH                       engine/source/output/th/init_th.F
 Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
 Chd|        INIXFEM                       engine/source/elements/xfem/inixfem.F
@@ -507,8 +507,8 @@ Chd|        RGWAT2                        engine/source/interfaces/int09/rgwat2.
 Chd|        RGWAT3                        engine/source/interfaces/int09/rgwat3.F
 Chd|        RGWATH                        engine/source/interfaces/int09/rgwath.F
 Chd|        RUSER32KE3                    engine/source/elements/spring/ruser32ke3.F
-Chd|        S10DERIT3                     engine/source/elements/solid/solide10/s10deri3.F
-Chd|        S10DERITO3                    engine/source/elements/solid/solide10/s10deri3.F
+Chd|        S10DERIT3                     engine/source/elements/solid/solide10/s10derit3.F
+Chd|        S10DERITO3                    engine/source/elements/solid/solide10/s10derito3.F
 Chd|        S10FORC3                      engine/source/elements/solid/solide10/s10forc3.F
 Chd|        S10KE3                        engine/source/elements/solid/solide10/s10ke3.F
 Chd|        S10UPD11T12                   engine/source/elements/solid/solide10/s10upd11t12.F
@@ -534,7 +534,7 @@ Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/
 Chd|        S8SKE3                        engine/source/elements/solid/solide8s/s8ske3.F
 Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
 Chd|        S8ZKE3                        engine/source/elements/solid/solide8z/s8zke3.F
-Chd|        S8_IS17JAC_I                  engine/source/elements/solid/solide8e/s8ederi3.F
+Chd|        S8_IS17JAC_I                  engine/source/elements/solid/solide8e/s8_is17jac_i.F
 Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
 Chd|        SCHLIEREN                     engine/source/output/anim/generate/schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/schlieren_buffer_gathering.F
@@ -626,7 +626,7 @@ Chd|        SUSER43                       engine/source/elements/solid/sconnect/
 Chd|        SWITCH_TO_DTNODA              engine/source/time_step/switch_to_dtnoda.F
 Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
 Chd|        SZHOUR3                       engine/source/elements/solid/solidez/szhour3.F
-Chd|        SZHOUR3_OR                    engine/source/elements/solid/solidez/szhour3.F
+Chd|        SZHOUR3_OR                    engine/source/elements/solid/solidez/szhour3_or.F
 Chd|        S_USER                        engine/source/output/sty/s_user.F
 Chd|        TAGOFF3N                      engine/source/interfaces/interf/chkstfn3.F
 Chd|        TENCGPS1                      engine/source/output/anim/generate/tensorc.F

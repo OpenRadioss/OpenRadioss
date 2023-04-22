@@ -25,7 +25,7 @@ Chd|  SZDERI3                       source/elements/solid/solidez/szderi3.F
 Chd|-- called by -----------
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        SCHKJABT3                     source/elements/solid/solide4/s4deri3.F
+Chd|        SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
 Chd|====================================================================
       SUBROUTINE SZDERI3(
      1   OFF,     DET,     NGL,     ISMSTR,
@@ -321,7 +321,7 @@ Chd|  SZDERIT3                      source/elements/solid/solidez/szderi3.F
 Chd|-- called by -----------
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        SCHKJAB3                      source/elements/solid/solide/sderi3.F
+Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
 Chd|====================================================================
       SUBROUTINE SZDERIT3(
      1   OFF,     DET,     NGL,     NEL,

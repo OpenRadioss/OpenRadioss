@@ -4486,7 +4486,7 @@ C----6---------------------------------------------------------------7---------8
 Chd|====================================================================
 Chd|  INTAB                         source/implicit/ind_glob_k.F  
 Chd|-- called by -----------
-Chd|        DEGENES8                      source/elements/solid/solide/sdlen3.F
+Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
 Chd|        DIM_FR_K                      source/mpi/implicit/imp_fri.F 
 Chd|        DIM_KINE_I                    source/implicit/ind_glob_k.F  
 Chd|        DIM_KINE_S                    source/implicit/ind_glob_k.F  

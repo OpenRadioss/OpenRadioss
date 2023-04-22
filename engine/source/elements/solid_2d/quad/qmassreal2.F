@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 Chd|====================================================================
-Chd|  QMASSREAL2                    source/elements/solid_2d/quad/qmass2.F
+Chd|  QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
 Chd|-- called by -----------
 Chd|        BFORC2                        source/ale/bimat/bforc2.F     
 Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F

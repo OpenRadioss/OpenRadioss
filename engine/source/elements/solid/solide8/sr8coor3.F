@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
 Chd|-- calls ---------------
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepiso3.F
+Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
 Chd|====================================================================
       SUBROUTINE SR8COOR3(OFFG,OFF,X,V,IXS,
      .                   XLOC,YLOC,ZLOC,VXLOC,VYLOC,VZLOC,

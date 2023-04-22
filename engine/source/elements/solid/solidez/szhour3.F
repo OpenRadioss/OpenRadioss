@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|        SZETFAC                       source/elements/solid/solidez/szhour3.F
-Chd|        SZSTRAINHG                    source/elements/solid/solidez/szhour3.F
-Chd|        SZSVM                         source/elements/solid/solidez/szhour3.F
+Chd|        SZETFAC                       source/elements/solid/solidez/szetfac.F
+Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
+Chd|        SZSVM                         source/elements/solid/solidez/szsvm.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SZHOUR3(

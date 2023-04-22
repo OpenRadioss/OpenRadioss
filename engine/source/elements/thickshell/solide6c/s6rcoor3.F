@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|-- calls ---------------
 Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6cortho3.F
-Chd|        S6PROJ3                       source/elements/thickshell/solide6c/s6rcoor3.F
+Chd|        S6PROJ3                       source/elements/thickshell/solide6c/s6proj3.F
 Chd|        VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
 Chd|====================================================================
       SUBROUTINE S6RCOOR3(

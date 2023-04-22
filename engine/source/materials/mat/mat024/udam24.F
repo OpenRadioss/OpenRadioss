@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  UDAM24                        source/materials/mat/mat024/udam24.F
 Chd|-- called by -----------
-Chd|        M24ANIM                       source/materials/mat/mat024/m24law.F
+Chd|        M24ANIM                       source/materials/mat/mat024/m24anim.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UDAM24(SIG,ANG,NEL)

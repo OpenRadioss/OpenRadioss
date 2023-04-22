@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MMSTIFS                       source/elements/solid/solide8z/mmats.F
+Chd|  MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
 Chd|-- called by -----------
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
@@ -31,9 +31,9 @@ Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
 Chd|-- calls ---------------
-Chd|        GETHKT3                       source/elements/solid/solide8z/mmats.F
-Chd|        SKTCONS2                      source/elements/solid/solide8z/mmats.F
-Chd|        SKTVONM3                      source/elements/solid/solide8z/mmats.F
+Chd|        GETHKT3                       source/elements/solid/solide8z/gethkt3.F
+Chd|        SKTCONS2                      source/elements/solid/solide8z/sktcons2.F
+Chd|        SKTVONM3                      source/elements/solid/solide8z/sktvonm3.F
 Chd|====================================================================
       SUBROUTINE MMSTIFS(
      1   PM,      MAT,     HH,      VOL,

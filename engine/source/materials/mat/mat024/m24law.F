@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|        M24ANIM                       source/materials/mat/mat024/m24law.F
-Chd|        M24DMAX                       source/materials/mat/mat024/m24law.F
+Chd|        M24ANIM                       source/materials/mat/mat024/m24anim.F
+Chd|        M24DMAX                       source/materials/mat/mat024/m24dmax.F
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MNSVIS                        source/materials/mat_share/mnsvis.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F

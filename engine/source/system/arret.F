@@ -293,12 +293,12 @@ Chd|        R_BUFBRIC_22                  source/interfaces/int22/r_bufbric_22.F
 Chd|        S16DERI3                      source/elements/thickshell/solide16/s16deri3.F
 Chd|        S20DERI3                      source/elements/solid/solide20/s20deri3.F
 Chd|        S8DERI3                       source/elements/solid/solide8/s8deri3.F
-Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederi3.F
-Chd|        S8EDERICT3                    source/elements/solid/solide8e/s8ederi3.F
+Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederic3.F
+Chd|        S8EDERICT3                    source/elements/solid/solide8e/s8ederict3.F
 Chd|        S8SLKE3                       source/elements/solid/solide8s/s8slke3.F
-Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8ZDERICTO3                   source/elements/solid/solide8z/s8zderi3.F
+Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderic3.F
+Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderict3.F
+Chd|        S8ZDERICTO3                   source/elements/solid/solide8z/s8zdericto3.F
 Chd|        SECT_READ                     source/tools/sect/sectio.F    
 Chd|        SECT_READP                    source/tools/sect/sectio.F    
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F

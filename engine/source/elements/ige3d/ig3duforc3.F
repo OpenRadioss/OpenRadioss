@@ -27,7 +27,7 @@ Chd|        FORINT                        source/elements/forint.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        IG3DAVERAGE                   source/elements/ige3d/ig3dfint.F
+Chd|        IG3DAVERAGE                   source/elements/ige3d/ig3daverage.F
 Chd|        IG3DCUMU3                     source/elements/ige3d/ig3dcumu3.F
 Chd|        IG3DDERISHAP                  source/elements/ige3d/ig3dderishap.F
 Chd|        IG3DFINT                      source/elements/ige3d/ig3dfint.F
@@ -37,7 +37,7 @@ Chd|        IGE3DBILAN                    source/elements/ige3d/ige3dbilan.F
 Chd|        IGE3DDEFO                     source/elements/ige3d/ige3ddefo.F
 Chd|        IGE3DZERO                     source/elements/ige3d/ige3dzero.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        SMALLB3                       source/elements/solid/solide/small3.F
+Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
 Chd|        SROTA3                        source/elements/solid/solide/srota3.F
 Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F

@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  S16RST                        source/elements/thickshell/solide16/s16deri3.F
+Chd|  S16RST                        source/elements/thickshell/solide16/s16rst.F
 Chd|-- called by -----------
 Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
 Chd|-- calls ---------------

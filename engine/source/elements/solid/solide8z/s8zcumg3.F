@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
 Chd|-- calls ---------------
-Chd|        SYSTRAN3                      source/elements/solid/solide8z/s8zcumg3.F
+Chd|        SYSTRAN3                      source/elements/solid/solide8z/systran3.F
 Chd|====================================================================
       SUBROUTINE S8ZCUMG3(
      1   R11,     R21,     R31,     R12,

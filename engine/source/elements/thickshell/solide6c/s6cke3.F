@@ -28,14 +28,14 @@ Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F
 Chd|-- calls ---------------
 Chd|        ASSEM_S6                      source/implicit/assem_s6.F    
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
 Chd|        S6CCUMG3                      source/elements/thickshell/solide6c/s6ccumg3.F
 Chd|        S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3.F
-Chd|        S6CKGEO3                      source/elements/thickshell/solide6c/s6cke3.F
+Chd|        S6CKGEO3                      source/elements/thickshell/solide6c/s6ckgeo3.F
 Chd|        S6CLKE3                       source/elements/thickshell/solide6c/s6clke3.F
 Chd|        S6RCOORK                      source/elements/thickshell/solide6c/s6rcoork.F
 Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S6CKE3(

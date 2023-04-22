@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SDLEN8                        source/elements/solid/solidez/szforc3.F
+Chd|  SDLEN8                        source/elements/solid/solidez/sdlen8.F
 Chd|-- called by -----------
+Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|        BASISF                        source/elements/solid/solide8/basisf.F
-Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen3.F
+Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
 Chd|====================================================================
       SUBROUTINE SDLEN8(
      1   DELTAX,  VOLG,    IXS,     X1,

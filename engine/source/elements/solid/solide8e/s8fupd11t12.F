@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|-- calls ---------------
-Chd|        S8_IS17JAC_I                  source/elements/solid/solide8e/s8ederi3.F
+Chd|        S8_IS17JAC_I                  source/elements/solid/solide8e/s8_is17jac_i.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S8FUPD11T12(ELBUF_TAB, OFFG   ,OFFG0  ,X  ,XDP  ,

@@ -40,7 +40,7 @@ Chd|        CDK6UPDT3P                    source/elements/sh3n/coquedk6/cdk6updt
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|        CNCOEF3                       source/elements/sh3n/coquedk/cncoef3.F
 Chd|        CNDT3                         source/elements/sh3n/coquedk/cndt3.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F

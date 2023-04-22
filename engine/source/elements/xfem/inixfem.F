@@ -25,7 +25,7 @@ Chd|  INIXFEM                       source/elements/xfem/inixfem.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        CRK_COORD_INI                 source/elements/xfem/inixfem.F
+Chd|        CRK_COORD_INI                 source/elements/xfem/crk_coord_ini.F
 Chd|        ENRICHC_INI                   source/elements/xfem/enrichc_ini.F
 Chd|        ENRICHTG_INI                  source/elements/xfem/enrichtg_ini.F
 Chd|        SPMD_EXCH_IEDGE               source/mpi/elements/spmd_xfem.F

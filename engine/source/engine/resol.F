@@ -25,7 +25,7 @@ Chd|  RESOL                         source/engine/resol.F
 Chd|-- called by -----------
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
 Chd|-- calls ---------------
-Chd|        ACCDTDC                       source/elements/thickshell/solidec/scdtdc3.F
+Chd|        ACCDTDC                       source/elements/thickshell/solidec/accdtdc.F
 Chd|        ACCEL1                        source/tools/accele/accel1.F  
 Chd|        ACCELE                        source/assembly/accele.F      
 Chd|        ACCELEPINCH                   source/assembly/accelepinch.F 
@@ -92,7 +92,7 @@ Chd|        CP_DM                         source/implicit/produt_v.F
 Chd|        CRKXFEM_WREST                 source/output/restart/wrrest.F
 Chd|        CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
 Chd|        CRK_ACCELE                    source/elements/xfem/accele_crk.F
-Chd|        CRK_COORD_INI                 source/elements/xfem/inixfem.F
+Chd|        CRK_COORD_INI                 source/elements/xfem/crk_coord_ini.F
 Chd|        CRK_VITESSE                   source/elements/xfem/crk_vitesse.F
 Chd|        CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
 Chd|        CRK_ZERO_ACCEL                source/elements/xfem/crk_vitesse.F

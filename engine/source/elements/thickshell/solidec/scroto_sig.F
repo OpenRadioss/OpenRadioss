@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCROTO_SIG                    source/elements/thickshell/solidec/scforc3.F
+Chd|  SCROTO_SIG                    source/elements/thickshell/solidec/scroto_sig.F
 Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F

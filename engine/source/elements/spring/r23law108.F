@@ -28,9 +28,9 @@ Chd|-- calls ---------------
 Chd|        R23BILAN                      source/elements/spring/r23bilan.F
 Chd|        R23COOR3                      source/elements/spring/r23coor3.F
 Chd|        R23L108DEF3                   source/elements/spring/r23l108def3.F
-Chd|        R23SENS3                      source/elements/spring/rsens3.F
+Chd|        R23SENS3                      source/elements/spring/r23sens3.F
 Chd|        R2CUM3                        source/elements/spring/r2cum3.F
-Chd|        R2CUM3P                       source/elements/spring/r2cum3.F
+Chd|        R2CUM3P                       source/elements/spring/r2cum3p.F
 Chd|        R2LEN3                        source/elements/spring/r2len3.F
 Chd|        R2TORS                        source/elements/spring/r2tors.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

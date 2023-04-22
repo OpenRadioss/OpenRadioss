@@ -40,7 +40,7 @@ Chd|        M2LAW8                        source/materials/mat/mat002/m2law8.F
 Chd|        M3LAW8                        source/materials/mat/mat003/m3law8.F
 Chd|        MEOS8                         source/materials/mat_share/meos8.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
+Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

@@ -194,16 +194,16 @@ Chd|-- called by -----------
 Chd|        CMATCH3                       source/elements/shell/coqueba/cmatc3.F
 Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
 Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        GETHKT3                       source/elements/solid/solide8z/mmats.F
-Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
+Chd|        GETHKT3                       source/elements/solid/solide8z/gethkt3.F
+Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/get_etfac_s.F
 Chd|        IKTMAT_INI                    source/implicit/imp_init.F    
 Chd|        KTBUF_INI                     source/implicit/imp_init.F    
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        NUL_ETFAC_S                   source/elements/solid/solide8z/mmats.F
-Chd|        PUTSIGNOR3                    source/elements/solid/solide8z/mmats.F
+Chd|        NUL_ETFAC_S                   source/elements/solid/solide8z/nul_etfac_s.F
+Chd|        PUTSIGNOR3                    source/elements/solid/solide8z/putsignor3.F
 Chd|        PUTSIGNORC3                   source/elements/shell/coqueba/cmatc3.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
-Chd|        SKTCONS2                      source/elements/solid/solide8z/mmats.F
+Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
+Chd|        SKTCONS2                      source/elements/solid/solide8z/sktcons2.F
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -678,16 +678,16 @@ Chd|-- called by -----------
 Chd|        CMATCH3                       source/elements/shell/coqueba/cmatc3.F
 Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
 Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        GETHKT3                       source/elements/solid/solide8z/mmats.F
-Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
+Chd|        GETHKT3                       source/elements/solid/solide8z/gethkt3.F
+Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/get_etfac_s.F
 Chd|        IKTMAT_INI                    source/implicit/imp_init.F    
 Chd|        KTBUF_INI                     source/implicit/imp_init.F    
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        NUL_ETFAC_S                   source/elements/solid/solide8z/mmats.F
-Chd|        PUTSIGNOR3                    source/elements/solid/solide8z/mmats.F
+Chd|        NUL_ETFAC_S                   source/elements/solid/solide8z/nul_etfac_s.F
+Chd|        PUTSIGNOR3                    source/elements/solid/solide8z/putsignor3.F
 Chd|        PUTSIGNORC3                   source/elements/shell/coqueba/cmatc3.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
-Chd|        SKTCONS2                      source/elements/solid/solide8z/mmats.F
+Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
+Chd|        SKTCONS2                      source/elements/solid/solide8z/sktcons2.F
 Chd|-- calls ---------------
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
 Chd|====================================================================

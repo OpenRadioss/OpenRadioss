@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  UPENRITG_LAST                 source/elements/xfem/upxfem2.F
+Chd|  UPENRITG_LAST                 source/elements/xfem/upenritg_last.F
 Chd|-- called by -----------
 Chd|        UPXFEM2                       source/elements/xfem/upxfem2.F
 Chd|-- calls ---------------

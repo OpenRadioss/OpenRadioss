@@ -28,12 +28,12 @@ Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F
 Chd|-- calls ---------------
 Chd|        ASSEM_S4                      source/implicit/assem_s4.F    
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
-Chd|        MORTHLOCK3                    source/elements/solid/solide4/s4ke3.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
+Chd|        MORTHLOCK3                    source/elements/solid/solide4/morthlock3.F
 Chd|        S4COORK                       source/elements/solid/solide4/s4coork.F
 Chd|        S4CUMG3                       source/elements/solid/solide4/s4cumg3.F
-Chd|        S4DERIT3                      source/elements/solid/solide4/s4deri3.F
-Chd|        S4KGEO3                       source/elements/solid/solide4/s4ke3.F
+Chd|        S4DERIT3                      source/elements/solid/solide4/s4derit3.F
+Chd|        S4KGEO3                       source/elements/solid/solide4/s4kgeo3.F
 Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
 Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F

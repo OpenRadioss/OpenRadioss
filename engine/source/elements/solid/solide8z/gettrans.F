@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  GETTRANS                      source/elements/solid/solide8z/mmats.F
+Chd|  GETTRANS                      source/elements/solid/solide8z/gettrans.F
 Chd|-- called by -----------
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
 Chd|-- calls ---------------

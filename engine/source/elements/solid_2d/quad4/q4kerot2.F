@@ -25,7 +25,7 @@ Chd|  Q4KEROT2                      source/elements/solid_2d/quad4/q4kerot2.F
 Chd|-- called by -----------
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|-- calls ---------------
-Chd|        SYSTRAN2                      source/elements/solid_2d/quad4/q4kerot2.F
+Chd|        SYSTRAN2                      source/elements/solid_2d/quad4/systran2.F
 Chd|====================================================================
       SUBROUTINE Q4KEROT2(
      1   R22,     R32,     R23,     R33,

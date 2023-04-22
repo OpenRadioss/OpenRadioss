@@ -43,7 +43,7 @@ Chd|        ALEFVM_STRESS_INT22           engine/source/ale/alefvm/alefvm_stress
 Chd|        ALEMUSCL_UPWIND               engine/source/ale/alemuscl/alemuscl_upwind.F
 Chd|        ALEMUSCL_UPWIND2              engine/source/ale/alemuscl/alemuscl_upwind2.F
 Chd|        AMASS3                        engine/source/elements/solid/solide/amass3.F
-Chd|        AMASS3P                       engine/source/elements/solid/solide/amass3.F
+Chd|        AMASS3P                       engine/source/elements/solid/solide/amass3p.F
 Chd|        DELTAX22                      engine/source/interfaces/int22/deltax22.F
 Chd|        DESTROY_CELL                  engine/source/interfaces/int22/destroy_cell.F
 Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F

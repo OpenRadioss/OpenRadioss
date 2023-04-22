@@ -25,7 +25,7 @@ Chd|  Q4KEP2                        source/elements/solid_2d/quad4/q4kep2.F
 Chd|-- called by -----------
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|-- calls ---------------
-Chd|        Q4KEPIJ2                      source/elements/solid_2d/quad4/q4kep2.F
+Chd|        Q4KEPIJ2                      source/elements/solid_2d/quad4/q4kepij2.F
 Chd|====================================================================
       SUBROUTINE Q4KEP2(
      1   PY1,     PY2,     PZ1,     PZ2,

@@ -38,7 +38,7 @@ Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        AREZON                        source/ale/arezon.F           
 Chd|        ATHERM                        source/ale/atherm.F           
-Chd|        CUTFUNCE                      source/tools/sect/cutfunc.F   
+Chd|        CUTFUNCE                      source/tools/sect/cutfunce.F  
 Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
 Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
 Chd|        DFUNCC_CRK                    source/output/anim/generate/dfuncc_crk.F
@@ -168,7 +168,7 @@ Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        AREZON                        source/ale/arezon.F           
 Chd|        ATHERM                        source/ale/atherm.F           
-Chd|        CUTFUNCE                      source/tools/sect/cutfunc.F   
+Chd|        CUTFUNCE                      source/tools/sect/cutfunce.F  
 Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
 Chd|        DFUNCC_CRK                    source/output/anim/generate/dfuncc_crk.F
 Chd|        DFUNCC_PLY                    source/output/anim/generate/dfuncc_ply.F

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ACTIV_XFEM                    source/elements/xfem/xfeoff.F 
+Chd|  ACTIV_XFEM                    source/elements/xfem/activ_xfem.F
 Chd|-- called by -----------
 Chd|        XFEOFF                        source/elements/xfem/xfeoff.F 
 Chd|-- calls ---------------

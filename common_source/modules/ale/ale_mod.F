@@ -84,7 +84,7 @@ Chd|        EPXLE3                        engine/source/elements/solid/solide/ep
 Chd|        FDLEN3                        engine/source/elements/solid/solide/fdlen3.F
 Chd|        FFINT3                        engine/source/elements/solid/solide/ffint3.F
 Chd|        FHVIS3                        engine/source/elements/solid/solide/fhvis3.F
-Chd|        FMQVISCB                      engine/source/materials/mat_share/mqviscb.F
+Chd|        FMQVISCB                      engine/source/materials/mat_share/fmqviscb.F
 Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FREFORM                       engine/source/input/freform.F 
 Chd|        FREUPWIND                     engine/source/input/freupwind.F
@@ -127,7 +127,7 @@ Chd|        SZFORC3                       engine/source/elements/solid/solidez/s
 Chd|        SZ_PRINT                      engine/source/output/restart/arralloc.F
 Chd|        UPWIND                        engine/source/elements/solid/solide/upwind.F
 Chd|        UPWIND4                       engine/source/elements/solid/solide4/upwind4.F
-Chd|        UPWIND_V                      engine/source/elements/solid/solide/upwind.F
+Chd|        UPWIND_V                      engine/source/elements/solid/solide/upwind_v.F
 Chd|        VARCONDEC                     engine/source/interfaces/interf/varcondec.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F

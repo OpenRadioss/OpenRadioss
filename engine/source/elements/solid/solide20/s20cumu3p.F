@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S20CUMU3P                     source/elements/solid/solide20/s20cumu3.F
+Chd|  S20CUMU3P                     source/elements/solid/solide20/s20cumu3p.F
 Chd|-- called by -----------
 Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F

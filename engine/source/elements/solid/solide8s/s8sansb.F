@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 Chd|====================================================================
-Chd|  S8SANSB                       source/elements/solid/solide8s/s8slke3.F
+Chd|  S8SANSB                       source/elements/solid/solide8s/s8sansb.F
 Chd|-- called by -----------
 Chd|        S8SLKE3                       source/elements/solid/solide8s/s8slke3.F
 Chd|-- calls ---------------

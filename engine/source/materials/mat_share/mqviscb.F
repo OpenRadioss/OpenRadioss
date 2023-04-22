@@ -24,8 +24,8 @@ Chd|====================================================================
 Chd|  MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|-- called by -----------
 Chd|        M1LAW                         source/materials/mat/mat001/m1law.F
-Chd|        M1LAWI                        source/materials/mat/mat001/m1law.F
-Chd|        M1LAWTOT                      source/materials/mat/mat001/m1law.F
+Chd|        M1LAWI                        source/materials/mat/mat001/m1lawi.F
+Chd|        M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
 Chd|        M22LAW                        source/materials/mat/mat022/m22law.F
 Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
 Chd|        M2LAW                         source/materials/mat/mat002/m2law.F

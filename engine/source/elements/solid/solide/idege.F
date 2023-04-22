@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  IDEGE                         source/elements/solid/solide/sdlen3.F
+Chd|  IDEGE                         source/elements/solid/solide/idege.F
 Chd|-- called by -----------
-Chd|        SLDEGE                        source/elements/solid/solide/sdlen3.F
+Chd|        SLDEGE                        source/elements/solid/solide/sldege.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IDEGE(X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,A,AMAX,FAC,

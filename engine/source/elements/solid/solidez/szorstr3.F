@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SZORSTR3                      source/elements/solid/solidez/szforc3.F
+Chd|  SZORSTR3                      source/elements/solid/solidez/szorstr3.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        SROTO3V                       source/elements/solid/solidez/szforc3.F
+Chd|        SROTO3V                       source/elements/solid/solidez/sroto3v.F
 Chd|====================================================================
       SUBROUTINE SZORSTR3(JFT,JLT,STRAIN,NEL,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)

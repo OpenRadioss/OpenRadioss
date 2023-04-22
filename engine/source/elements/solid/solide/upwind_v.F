@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  UPWIND_V                      source/elements/solid/solide/upwind.F
+Chd|  UPWIND_V                      source/elements/solid/solide/upwind_v.F
 Chd|-- called by -----------
 Chd|        AMOMTN3                       source/elements/solid/solide/amomtn3.F
 Chd|-- calls ---------------

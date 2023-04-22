@@ -25,8 +25,8 @@ Chd|  SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
-Chd|        KIRKALDYKINETICS              source/materials/mat/mat080/sigeps80.F
-Chd|        PHASEKINETIC2                 source/materials/mat/mat080/sigeps80.F
+Chd|        KIRKALDYKINETICS              source/materials/mat/mat080/kirkaldykinetics.F
+Chd|        PHASEKINETIC2                 source/materials/mat/mat080/phasekinetic2.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     

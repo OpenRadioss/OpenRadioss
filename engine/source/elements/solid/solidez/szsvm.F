@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  SZSVM                         source/elements/solid/solidez/szhour3.F
+Chd|  SZSVM                         source/elements/solid/solidez/szsvm.F
 Chd|-- called by -----------
 Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
 Chd|-- calls ---------------

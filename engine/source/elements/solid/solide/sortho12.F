@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SORTHO12                      source/elements/solid/solide/sortho3.F
+Chd|  SORTHO12                      source/elements/solid/solide/sortho12.F
 Chd|-- called by -----------
-Chd|        SRCOOR12                      source/elements/solid/solide/srcoor3.F
+Chd|        SRCOOR12                      source/elements/solid/solide/srcoor12.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SORTHO12(

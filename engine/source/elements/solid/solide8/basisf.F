@@ -25,8 +25,8 @@ Chd|====================================================================
 Chd|  BASISF                        source/elements/solid/solide8/basisf.F
 Chd|-- called by -----------
 Chd|        S8DERI3                       source/elements/solid/solide8/s8deri3.F
-Chd|        SDLEN8                        source/elements/solid/solidez/szforc3.F
-Chd|        SDLEN_SMS                     source/elements/solid/solidez/szforc3.F
+Chd|        SDLEN8                        source/elements/solid/solidez/sdlen8.F
+Chd|        SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
 Chd|-- calls ---------------
 Chd|        BASIS8                        source/elements/solid/solide8/basis8.F
 Chd|====================================================================

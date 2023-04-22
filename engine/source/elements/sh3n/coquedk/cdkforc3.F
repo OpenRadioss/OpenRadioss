@@ -42,7 +42,7 @@ Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|        CNCOEF3                       source/elements/sh3n/coquedk/cncoef3.F
 Chd|        CNDT3                         source/elements/sh3n/coquedk/cndt3.F
 Chd|        DTCDK_REG                     source/elements/sh3n/coquedk/dtcdk_reg.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|        SET_FAILWAVE_NOD3             source/materials/fail/failwave/set_failwave_nod3.F
 Chd|        SET_FAILWAVE_SH3N             source/materials/fail/failwave/upd_failwave_sh3n.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     

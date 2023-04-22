@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S10DERITO3                    source/elements/solid/solide10/s10deri3.F
+Chd|  S10DERITO3                    source/elements/solid/solide10/s10derito3.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        S10JACOBT                     source/elements/solid/solide10/s10jacob.F
+Chd|        S10JACOBT                     source/elements/solid/solide10/s10jacobt.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

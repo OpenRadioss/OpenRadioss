@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TRANRIDRRJ33                  source/elements/thickshell/solide6c/s6ccumg3.F
+Chd|  TRANRIDRRJ33                  source/elements/thickshell/solide6c/tranridrrj33.F
 Chd|-- called by -----------
-Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/s6ccumg3.F
+Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/setprojks6.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TRANRIDRRJ33(JFT   ,JLT    ,RI  ,RD , RJ,KD  ,IS   )

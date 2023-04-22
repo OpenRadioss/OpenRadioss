@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  QMASSREAL2AP                  source/elements/solid_2d/quad/qmass2.F
+Chd|  QMASSREAL2AP                  source/elements/solid_2d/quad/qmassreal2ap.F
 Chd|-- called by -----------
 Chd|        BFORC2                        source/ale/bimat/bforc2.F     
 Chd|-- calls ---------------

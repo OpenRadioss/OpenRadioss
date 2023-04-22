@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  Q4KEPIJ2                      source/elements/solid_2d/quad4/q4kep2.F
+Chd|  Q4KEPIJ2                      source/elements/solid_2d/quad4/q4kepij2.F
 Chd|-- called by -----------
 Chd|        Q4KEP2                        source/elements/solid_2d/quad4/q4kep2.F
 Chd|-- calls ---------------

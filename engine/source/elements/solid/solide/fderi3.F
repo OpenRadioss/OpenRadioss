@@ -25,7 +25,7 @@ Chd|  FDERI3                        source/elements/solid/solide/fderi3.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
-Chd|        SCHKJAB3                      source/elements/solid/solide/sderi3.F
+Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
 Chd|====================================================================
       SUBROUTINE FDERI3(
      1   OFF,     DET,     NGL,     X1,

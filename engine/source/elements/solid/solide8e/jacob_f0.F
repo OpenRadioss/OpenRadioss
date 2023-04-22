@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  JACOB_F0                      source/elements/solid/solide8e/s8edefo3.F
+Chd|  JACOB_F0                      source/elements/solid/solide8e/jacob_f0.F
 Chd|-- called by -----------
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|-- calls ---------------
-Chd|        JACOB_J33                     source/elements/solid/solide8e/s8edefo3.F
-Chd|        SDEFOT3                       source/elements/solid/solide/sdefo3.F
+Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
+Chd|        SDEFOT3                       source/elements/solid/solide/sdefot3.F
 Chd|====================================================================
       SUBROUTINE JACOB_F0(
      1   DET0,    PX1,     PX2,     PX3,

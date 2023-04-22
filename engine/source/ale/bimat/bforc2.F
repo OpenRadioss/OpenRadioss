@@ -47,11 +47,11 @@ Chd|        QDLEN2                        source/elements/solid_2d/quad/qdlen2.F
 Chd|        QFINT2                        source/elements/solid_2d/quad/qfint2.F
 Chd|        QHVIS2                        source/elements/solid_2d/quad/qhvis2.F
 Chd|        QMASS2                        source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASS2AP                      source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASS2P                       source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASSREAL2AP                  source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASSREAL2P                   source/elements/solid_2d/quad/qmass2.F
+Chd|        QMASS2AP                      source/elements/solid_2d/quad/qmass2ap.F
+Chd|        QMASS2P                       source/elements/solid_2d/quad/qmass2p.F
+Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
+Chd|        QMASSREAL2AP                  source/elements/solid_2d/quad/qmassreal2ap.F
+Chd|        QMASSREAL2P                   source/elements/solid_2d/quad/qmassreal2p.F
 Chd|        QROTA2                        source/elements/solid_2d/quad/qrota2.F
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F

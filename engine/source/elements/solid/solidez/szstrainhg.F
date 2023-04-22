@@ -22,10 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  SZSTRAINHG                    source/elements/solid/solidez/szhour3.F
+Chd|  SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
 Chd|-- called by -----------
 Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
-Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3.F
+Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SZSTRAINHG(

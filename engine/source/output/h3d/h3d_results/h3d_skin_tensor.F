@@ -449,7 +449,7 @@ Chd|        H3D_FLD_STRAIN                source/output/h3d/h3d_results/h3d_fld_
 Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- calls ---------------
 Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepiso3.F
+Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
 Chd|====================================================================
       SUBROUTINE TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
 C-----------------------------------------------

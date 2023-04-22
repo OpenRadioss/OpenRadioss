@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  IG3DAVERAGE                   source/elements/ige3d/ig3dfint.F
+Chd|  IG3DAVERAGE                   source/elements/ige3d/ig3daverage.F
 Chd|-- called by -----------
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
 Chd|-- calls ---------------

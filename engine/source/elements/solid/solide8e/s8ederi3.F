@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  S8EDERI3                      source/elements/solid/solide8e/s8ederi3.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        S8BICP11                      source/elements/solid/solide8e/s8ederi3.F
+Chd|        S8BICP11                      source/elements/solid/solide8e/s8bicp11.F
 Chd|====================================================================
       SUBROUTINE S8EDERI3(
      1   OFFG,    OFF,     VOL,     NGL,

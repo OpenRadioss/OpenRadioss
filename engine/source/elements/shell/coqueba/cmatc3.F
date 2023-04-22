@@ -30,7 +30,7 @@ Chd|        CZKEL3                        source/elements/shell/coquez/czkel3.F
 Chd|-- calls ---------------
 Chd|        CCTOGLOB                      source/elements/shell/coqueba/cmatc3.F
 Chd|        GEPM_LC                       source/elements/shell/coqueba/cmatc3.F
-Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
+Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/get_etfac_s.F
 Chd|        LAYINI                        source/elements/shell/coque/layini.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
@@ -558,7 +558,7 @@ Chd|        C3KE3                         source/elements/sh3n/coque3n/c3ke3.F
 Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
 Chd|        CZKE3                         source/elements/shell/coquez/czke3.F
 Chd|-- calls ---------------
-Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
+Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/get_etfac_s.F
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
 Chd|====================================================================

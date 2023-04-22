@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c
 Chd|====================================================================
-Chd|  M24DMAX                       source/materials/mat/mat024/m24law.F
+Chd|  M24DMAX                       source/materials/mat/mat024/m24dmax.F
 Chd|-- called by -----------
 Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
 Chd|-- calls ---------------

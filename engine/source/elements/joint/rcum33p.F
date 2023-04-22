@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  RCUM33P                       source/elements/joint/rcum33.F
+Chd|  RCUM33P                       source/elements/joint/rcum33p.F
 Chd|-- called by -----------
 Chd|        RGJOINT                       source/elements/joint/rgjoint.F
 Chd|-- calls ---------------

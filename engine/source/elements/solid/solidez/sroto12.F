@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SROTO12                       source/elements/solid/solidez/szforc3.F
+Chd|  SROTO12                       source/elements/solid/solidez/sroto12.F
 Chd|-- called by -----------
-Chd|        SORDEF12                      source/elements/solid/solidez/szforc3.F
+Chd|        SORDEF12                      source/elements/solid/solidez/sordef12.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SROTO12(JFT,JLT,SIG,

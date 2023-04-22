@@ -25,11 +25,11 @@ Chd|  SRCOOR3_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- called by -----------
 Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
 Chd|-- calls ---------------
-Chd|        CRFRAME_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
-Chd|        CRTRANS_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
-Chd|        GETULOC                       source/elements/solid/solide8s/srcoor3_imp.F
-Chd|        S8SAV3_IMP                    source/elements/solid/solide8s/srcoor3_imp.F
-Chd|        S8XREF_IMP                    source/elements/solid/solide8s/srcoor3_imp.F
+Chd|        CRFRAME_IMP                   source/elements/solid/solide8s/crframe_imp.F
+Chd|        CRTRANS_IMP                   source/elements/solid/solide8s/crtrans_imp.F
+Chd|        GETULOC                       source/elements/solid/solide8s/getuloc.F
+Chd|        S8SAV3_IMP                    source/elements/solid/solide8s/s8sav3_imp.F
+Chd|        S8XREF_IMP                    source/elements/solid/solide8s/s8xref_imp.F
 Chd|====================================================================
       SUBROUTINE SRCOOR3_IMP(X   ,IXS   ,V     ,W     ,GAMA0 ,GAMA  ,
      .   X1    ,X2    ,X3    ,X4    ,X5    ,X6    ,X7    ,X8    ,

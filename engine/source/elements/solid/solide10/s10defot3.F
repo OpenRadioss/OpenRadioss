@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S10DEFOT3                     source/elements/solid/solide10/s10defo3.F
+Chd|  S10DEFOT3                     source/elements/solid/solide10/s10defot3.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|        S10VOLNODT3                   source/elements/solid/solide4_sfem/s10volnodt3.F

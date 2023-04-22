@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MORTHLOCK3                    source/elements/solid/solide4/s4ke3.F
+Chd|  MORTHLOCK3                    source/elements/solid/solide4/morthlock3.F
 Chd|-- called by -----------
 Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
 Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F

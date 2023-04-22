@@ -28,13 +28,13 @@ Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F
 Chd|-- calls ---------------
 Chd|        ASSEM_S20                     source/implicit/assem_s20.F   
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
 Chd|        S20COORK                      source/elements/solid/solide20/s20coork.F
 Chd|        S20CUMG3                      source/elements/solid/solide20/s20cumg3.F
 Chd|        S20DERI3                      source/elements/solid/solide20/s20deri3.F
 Chd|        S20EOFF                       source/elements/solid/solide20/s20eoff.F
-Chd|        S20KGEO3                      source/elements/solid/solide20/s20ke3.F
-Chd|        S20RST                        source/elements/solid/solide20/s20deri3.F
+Chd|        S20KGEO3                      source/elements/solid/solide20/s20kgeo3.F
+Chd|        S20RST                        source/elements/solid/solide20/s20rst.F
 Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

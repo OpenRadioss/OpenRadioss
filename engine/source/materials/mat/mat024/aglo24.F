@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  AGLO24                        source/materials/mat/mat024/aglo24.F
 Chd|-- called by -----------
 Chd|        CONC24                        source/materials/mat/mat024/conc24.F
-Chd|        M24ANIM                       source/materials/mat/mat024/m24law.F
+Chd|        M24ANIM                       source/materials/mat/mat024/m24anim.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE AGLO24(NEL,SIG,R11,R12,R13,

@@ -2414,7 +2414,7 @@ Chd|  CLSYS3                        source/output/h3d/h3d_results/h3d_shell_tens
 Chd|-- called by -----------
 Chd|        C3SYSG2L                      source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        C4SYSG2L                      source/output/h3d/h3d_results/h3d_shell_tensor.F
-Chd|        SDLENSH                       source/elements/thickshell/solidec/scdtdc3.F
+Chd|        SDLENSH                       source/elements/thickshell/solidec/sdlensh.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET,NEL)

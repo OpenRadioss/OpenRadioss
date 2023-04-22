@@ -30,7 +30,7 @@ Chd|        PBILAN                        source/elements/beam/pbilan.F
 Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
 Chd|        R23BILAN                      source/elements/spring/r23bilan.F
 Chd|        R3BILAN                       source/elements/spring/r3bilan.F
-Chd|        R5BILAN                       source/elements/spring/rforc3.F
+Chd|        R5BILAN                       source/elements/spring/r5bilan.F
 Chd|        RBILAN                        source/elements/spring/rbilan.F
 Chd|        RBILAN33                      source/elements/joint/rbilan33.F
 Chd|        S10BILAN                      source/elements/solid/solide10/s10bilan.F

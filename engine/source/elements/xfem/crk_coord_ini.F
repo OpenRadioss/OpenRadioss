@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c
 Chd|====================================================================
-Chd|  CRK_COORD_INI                 source/elements/xfem/inixfem.F
+Chd|  CRK_COORD_INI                 source/elements/xfem/crk_coord_ini.F
 Chd|-- called by -----------
 Chd|        INIXFEM                       source/elements/xfem/inixfem.F
 Chd|        RESOL                         source/engine/resol.F         

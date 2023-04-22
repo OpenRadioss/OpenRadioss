@@ -24,9 +24,9 @@ Chd|====================================================================
 Chd|  SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|-- called by -----------
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
-Chd|        S10LOC_S                      source/elements/solid/solide10/s10coor3.F
-Chd|        S10RCOOR10                    source/elements/solid/solide10/s10coor3.F
-Chd|        SR10COOR3                     source/elements/solid/solide10/s10coor3.F
+Chd|        S10LOC_S                      source/elements/solid/solide10/s10loc_s.F
+Chd|        S10RCOOR10                    source/elements/solid/solide10/s10rcoor10.F
+Chd|        SR10COOR3                     source/elements/solid/solide10/sr10coor3.F
 Chd|        SR8COOR3                      source/elements/solid/solide8/sr8coor3.F
 Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F

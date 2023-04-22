@@ -53,14 +53,14 @@ Chd|        FAIL_TSAIWU_S                 source/materials/fail/tsaiwu/fail_tsai
 Chd|        FAIL_VISUAL_S                 source/materials/fail/visual/fail_visual_s.F
 Chd|        FAIL_WIERZBICKI_S             source/materials/fail/wierzbicki/fail_wierzbicki_s.F
 Chd|        FAIL_WILKINS_S                source/materials/fail/wilkins/fail_wilkins_s.F
-Chd|        FMQVISCB                      source/materials/mat_share/mqviscb.F
+Chd|        FMQVISCB                      source/materials/mat_share/fmqviscb.F
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|        MROTENS                       source/materials/mat_share/mrotens.F
 Chd|        MROTENSNS                     source/materials/mat_share/mrotens.F
 Chd|        MSTRAIN_RATE                  source/materials/mat_share/mstrain_rate.F
-Chd|        NSVISUL                       source/materials/mat_share/mnsvis.F
+Chd|        NSVISUL                       source/materials/mat_share/nsvisul.F
 Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
 Chd|        SIGEPS101                     source/materials/mat/mat101/sigeps101.F
 Chd|        SIGEPS102                     source/materials/mat/mat102/sigeps102.F

@@ -65,7 +65,7 @@ Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|        MROTENS                       source/materials/mat_share/mrotens.F
 Chd|        MROTENSNS                     source/materials/mat_share/mrotens.F
 Chd|        NOLIB_USERMAT99               source/user_interface/nolib_usermat99.F
-Chd|        NSVISUL                       source/materials/mat_share/mnsvis.F
+Chd|        NSVISUL                       source/materials/mat_share/nsvisul.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

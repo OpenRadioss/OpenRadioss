@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|-- called by -----------
-Chd|        ACTIV_XFEM                    source/elements/xfem/xfeoff.F 
+Chd|        ACTIV_XFEM                    source/elements/xfem/activ_xfem.F
 Chd|        ANIM_XFE_INIT                 source/output/anim/generate/anim_crk_init.F
 Chd|        ANIOFFC_CRK                   source/output/anim/generate/anioffc_crk.F
 Chd|        ASSPAR_CRK                    source/elements/xfem/asspar_crk.F
@@ -46,9 +46,9 @@ Chd|        CRKOFFC                       source/elements/xfem/precrklay.F
 Chd|        CRKOFFTG                      source/elements/xfem/precrklay.F
 Chd|        CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
 Chd|        CRK_ACCELE                    source/elements/xfem/accele_crk.F
-Chd|        CRK_COORD_INI                 source/elements/xfem/inixfem.F
-Chd|        CRK_TAGXP3                    source/elements/xfem/upxfem_tagxp.F
-Chd|        CRK_TAGXP4                    source/elements/xfem/upxfem_tagxp.F
+Chd|        CRK_COORD_INI                 source/elements/xfem/crk_coord_ini.F
+Chd|        CRK_TAGXP3                    source/elements/xfem/crk_tagxp3.F
+Chd|        CRK_TAGXP4                    source/elements/xfem/crk_tagxp4.F
 Chd|        CRK_VITESSE                   source/elements/xfem/crk_vitesse.F
 Chd|        CRK_VITESSE2                  source/elements/xfem/crk_vitesse2.F
 Chd|        CRK_ZERO_ACCEL                source/elements/xfem/crk_vitesse.F
@@ -91,14 +91,14 @@ Chd|        SPMD_GATHERITAB_CRK           source/mpi/anim/spmd_gatheritab_crk.F
 Chd|        SPMD_WRT_CRK_XYZNOD           source/mpi/anim/spmd_wrt_crk_xyznod.F
 Chd|        SPMD_WRT_CRK_XYZNOR           source/mpi/anim/spmd_wrt_crk_xyznor.F
 Chd|        TENSORC_CRK                   source/output/anim/generate/tensorc_crk.F
-Chd|        UPENRIC1_N3                   source/elements/xfem/upxfem1.F
-Chd|        UPENRIC1_N4                   source/elements/xfem/upxfem1.F
-Chd|        UPENRIC2_N3                   source/elements/xfem/upxfem1.F
-Chd|        UPENRIC2_N4                   source/elements/xfem/upxfem1.F
+Chd|        UPENRIC1_N3                   source/elements/xfem/upenric1_n3.F
+Chd|        UPENRIC1_N4                   source/elements/xfem/upenric1_n4.F
+Chd|        UPENRIC2_N3                   source/elements/xfem/upenric2_n3.F
+Chd|        UPENRIC2_N4                   source/elements/xfem/upenric2_n4.F
 Chd|        UPENRIC3_N3                   source/elements/xfem/upenric3_nx.F
 Chd|        UPENRIC3_N4                   source/elements/xfem/upenric3_nx.F
-Chd|        UPENRIC_LAST                  source/elements/xfem/upxfem2.F
-Chd|        UPENRITG_LAST                 source/elements/xfem/upxfem2.F
+Chd|        UPENRIC_LAST                  source/elements/xfem/upenric_last.F
+Chd|        UPENRITG_LAST                 source/elements/xfem/upenritg_last.F
 Chd|        UPENR_CRK                     source/elements/xfem/upenr_crk.F
 Chd|        UPOFFC                        source/elements/xfem/upoffc.F 
 Chd|        UPOFFTG                       source/elements/xfem/upofftg.F

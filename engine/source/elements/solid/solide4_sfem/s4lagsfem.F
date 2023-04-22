@@ -30,7 +30,7 @@ Chd|        INITBUF                       share/resol/initbuf.F
 Chd|        S10VOLNOD3                    source/elements/solid/solide4_sfem/s10volnod3.F
 Chd|        S10VOLNODT3                   source/elements/solid/solide4_sfem/s10volnodt3.F
 Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
-Chd|        S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod3.F
+Chd|        S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod_sm.F
 Chd|        SPMD_EXCH_VOL                 source/mpi/nodes/spmd_exch_vol.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         

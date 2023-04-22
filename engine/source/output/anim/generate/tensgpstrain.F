@@ -29,7 +29,7 @@ Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_noda
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szhour3.F
+Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
@@ -667,7 +667,7 @@ Chd|        H3D_SOL_SKIN_TENSOR           source/output/h3d/h3d_results/h3d_sol_
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szhour3.F
+Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================

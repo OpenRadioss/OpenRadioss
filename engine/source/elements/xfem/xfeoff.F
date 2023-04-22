@@ -25,7 +25,7 @@ Chd|  XFEOFF                        source/elements/xfem/xfeoff.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ACTIV_XFEM                    source/elements/xfem/xfeoff.F 
+Chd|        ACTIV_XFEM                    source/elements/xfem/activ_xfem.F
 Chd|        SPMD_EXCH_IEDGE               source/mpi/elements/spmd_xfem.F
 Chd|        SPMD_MAX_XFE_I                source/mpi/elements/spmd_xfem.F
 Chd|        STARTIMEG                     source/system/timer.F         

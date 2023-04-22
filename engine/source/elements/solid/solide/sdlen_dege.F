@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SDLEN_DEGE                    source/elements/solid/solide/sdlen3.F
+Chd|  SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
 Chd|-- called by -----------
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
-Chd|        SDLEN8                        source/elements/solid/solidez/szforc3.F
+Chd|        SDLEN8                        source/elements/solid/solidez/sdlen8.F
 Chd|-- calls ---------------
-Chd|        DEGENES8                      source/elements/solid/solide/sdlen3.F
-Chd|        DEGES4V                       source/elements/solid/solide/sdlen3.F
-Chd|        IDEGE8                        source/elements/solid/solide/sdlen3.F
+Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
+Chd|        DEGES4V                       source/elements/solid/solide/deges4v.F
+Chd|        IDEGE8                        source/elements/solid/solide/idege8.F
 Chd|====================================================================
       SUBROUTINE SDLEN_DEGE(
      1   VOLG,    LAT,     X1,      X2,

@@ -27,10 +27,10 @@ Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8
 Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
 Chd|-- calls ---------------
 Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
-Chd|        SORTHDIR17                    source/elements/solid/solide8z/srcoork.F
+Chd|        SORTHDIR17                    source/elements/solid/solide8z/sorthdir17.F
 Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepiso3.F
+Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
 Chd|====================================================================
       SUBROUTINE SRCOORK(
      1   X,       IXS,     X1,      X2,

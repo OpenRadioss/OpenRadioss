@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
     
 
 Chd|====================================================================
-Chd|  SFINT3B                       source/elements/solid/solide/sfint3.F
+Chd|  SFINT3B                       source/elements/solid/solide/sfint3b.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------

@@ -25,10 +25,10 @@ Chd|  S10CUMG3                      source/elements/solid/solide10/s10cumg3.F
 Chd|-- called by -----------
 Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
 Chd|-- calls ---------------
-Chd|        S8ZKEBG1                      source/elements/solid/solide8z/s8zlke3.F
-Chd|        S8ZKED3                       source/elements/solid/solide8z/s8zlke3.F
-Chd|        S8ZKEG3                       source/elements/solid/solide8z/s8zlke3.F
-Chd|        S8ZKEG33                      source/elements/solid/solide8z/s8zlke3.F
+Chd|        S8ZKEBG1                      source/elements/solid/solide8z/s8zkebg1.F
+Chd|        S8ZKED3                       source/elements/solid/solide8z/s8zked3.F
+Chd|        S8ZKEG3                       source/elements/solid/solide8z/s8zkeg3.F
+Chd|        S8ZKEG33                      source/elements/solid/solide8z/s8zkeg33.F
 Chd|====================================================================
       SUBROUTINE S10CUMG3(
      1   PX,      PY,      PZ,      DD,

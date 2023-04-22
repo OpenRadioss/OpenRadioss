@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S10JACOBNEL                   source/elements/solid/solide10/s10jacob.F
+Chd|  S10JACOBNEL                   source/elements/solid/solide10/s10jacobnel.F
 Chd|-- called by -----------
-Chd|        S10PIJ12                      source/elements/solid/solide10/s10forc3.F
+Chd|        S10PIJ12                      source/elements/solid/solide10/s10pij12.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10JACOBNEL(ALPH,BETA,W,

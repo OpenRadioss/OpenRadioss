@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PRINC_U1                      source/materials/mat/mat001/m1law.F
+Chd|  PRINC_U1                      source/materials/mat/mat001/princ_u1.F
 Chd|-- called by -----------
-Chd|        M1ISMSTR11                    source/materials/mat/mat001/m1law.F
+Chd|        M1ISMSTR11                    source/materials/mat/mat001/m1ismstr11.F
 Chd|-- calls ---------------
 Chd|        VALPVECOP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|====================================================================

@@ -261,7 +261,7 @@ Chd|        BAFIL2                        source/ale/bimat/bafil2.F
 Chd|        BALPH2                        source/ale/bimat/balph2.F     
 Chd|        BEFIL2                        source/ale/bimat/befil2.F     
 Chd|        QMASS2                        source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmass2.F
+Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
 Chd|        USER_LOCK                     source/system/machine.F       
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -293,7 +293,7 @@ Chd|        BAFIL2                        source/ale/bimat/bafil2.F
 Chd|        BALPH2                        source/ale/bimat/balph2.F     
 Chd|        BEFIL2                        source/ale/bimat/befil2.F     
 Chd|        QMASS2                        source/elements/solid_2d/quad/qmass2.F
-Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmass2.F
+Chd|        QMASSREAL2                    source/elements/solid_2d/quad/qmassreal2.F
 Chd|        USER_FREE                     source/system/machine.F       
 Chd|-- calls ---------------
 Chd|====================================================================

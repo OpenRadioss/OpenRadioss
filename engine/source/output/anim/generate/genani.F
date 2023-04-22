@@ -64,7 +64,7 @@ Chd|        CNTSKEW                       source/output/anim/generate/aniskewf.F
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        CUTCNT                        source/tools/sect/cutcnt.F    
 Chd|        CUTFUNC                       source/tools/sect/cutfunc.F   
-Chd|        CUTFUNCE                      source/tools/sect/cutfunc.F   
+Chd|        CUTFUNCE                      source/tools/sect/cutfunce.F  
 Chd|        CUTMAIN                       source/tools/sect/cutmain.F   
 Chd|        CUTMASS                       source/tools/sect/cutmass.F   
 Chd|        DELNUMB0                      source/output/anim/generate/delnumb0.F

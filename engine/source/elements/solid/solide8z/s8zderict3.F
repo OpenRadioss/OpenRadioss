@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S8ZDERICT3                    source/elements/solid/solide8z/s8zderi3.F
+Chd|  S8ZDERICT3                    source/elements/solid/solide8z/s8zderict3.F
 Chd|-- called by -----------
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
@@ -29,7 +29,7 @@ Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        SCHKJAB3                      source/elements/solid/solide/sderi3.F
+Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S8ZDERICT3(

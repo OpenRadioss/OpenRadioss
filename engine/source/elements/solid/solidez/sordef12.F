@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SORDEF12                      source/elements/solid/solidez/szforc3.F
+Chd|  SORDEF12                      source/elements/solid/solidez/sordef12.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
-Chd|        SROTO12                       source/elements/solid/solidez/szforc3.F
+Chd|        SROTO12                       source/elements/solid/solidez/sroto12.F
 Chd|====================================================================
       SUBROUTINE SORDEF12(JFT,JLT,DXX,DYY,DZZ,D4,D5,D6,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,OFF)

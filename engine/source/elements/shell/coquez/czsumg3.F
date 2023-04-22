@@ -1599,7 +1599,7 @@ Chd|  TRANQIKQJ                     source/elements/shell/coquez/czsumg3.F
 Chd|-- called by -----------
 Chd|        SETPROJK                      source/elements/shell/coquez/czsumg3.F
 Chd|        SETPROJKBA                    source/elements/shell/coqueba/cbasumg3.F
-Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/s6ccumg3.F
+Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/setprojks6.F
 Chd|        SETPROJKZ                     source/elements/shell/coquez/czsumg3.F
 Chd|        SETPROJKZ1                    source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------

@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S8EDERIO3                     source/elements/solid/solide8e/s8ederi3.F
+Chd|  S8EDERIO3                     source/elements/solid/solide8e/s8ederio3.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        S8BICP11                      source/elements/solid/solide8e/s8ederi3.F
+Chd|        S8BICP11                      source/elements/solid/solide8e/s8bicp11.F
 Chd|====================================================================
       SUBROUTINE S8EDERIO3(
      1   OFFG,    OFF,     VOL,     NGL,

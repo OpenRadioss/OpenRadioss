@@ -34,13 +34,13 @@ Chd|        CHKINIT                       source/interfaces/interf/chkstfn3.F
 Chd|        CNDMASI2_DIM                  source/elements/solid/solide10/s10cndf.F
 Chd|        CNDMASI2_INI                  source/elements/solid/solide10/s10cndf.F
 Chd|        CNDORDR                       source/model/remesh/cndordr.F 
-Chd|        DIM_TSHEDG                    source/elements/thickshell/solidec/scdtdc3.F
+Chd|        DIM_TSHEDG                    source/elements/thickshell/solidec/dim_tshedg.F
 Chd|        FILLIPARTL                    source/engine/resol_init.F    
 Chd|        FINDGROUPC                    source/elements/findgroup.F   
 Chd|        FINDGROUPS                    source/elements/findgroup.F   
 Chd|        GRPSPLIT                      source/engine/resol_init.F    
 Chd|        IMP_INIT                      source/implicit/imp_init.F    
-Chd|        IND_TSHEDG                    source/elements/thickshell/solidec/scdtdc3.F
+Chd|        IND_TSHEDG                    source/elements/thickshell/solidec/ind_tshedg.F
 Chd|        INITIMEG                      source/system/timer.F         
 Chd|        INIT_KYNE                     source/engine/resol_init.F    
 Chd|        INIT_REAC_NOD                 source/output/th/init_reac_nod.F
@@ -61,8 +61,8 @@ Chd|        SPMD_FAILWAVE_BOUNDARIES      source/mpi/output/spmd_exch_failwave.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUB_BOUNDARIES           source/mpi/spmd_exch_sub.F    
 Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
-Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/scdtdc3.F
-Chd|        TSHCDCOM_INI                  source/elements/thickshell/solidec/scdtdc3.F
+Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/tshcdcom_dim.F
+Chd|        TSHCDCOM_INI                  source/elements/thickshell/solidec/tshcdcom_ini.F
 Chd|        ZERO1                         source/system/zero.F          
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F

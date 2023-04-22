@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  S20RST                        source/elements/solid/solide20/s20deri3.F
+Chd|  S20RST                        source/elements/solid/solide20/s20rst.F
 Chd|-- called by -----------
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F

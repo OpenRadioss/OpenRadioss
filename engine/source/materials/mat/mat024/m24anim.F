@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 Chd|====================================================================
-Chd|  M24ANIM                       source/materials/mat/mat024/m24law.F
+Chd|  M24ANIM                       source/materials/mat/mat024/m24anim.F
 Chd|-- called by -----------
 Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
 Chd|-- calls ---------------

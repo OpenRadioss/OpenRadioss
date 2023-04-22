@@ -31,9 +31,9 @@ Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.F
 Chd|-- calls ---------------
-Chd|        GETTRANS                      source/elements/solid/solide8z/mmats.F
-Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
-Chd|        MSTIFORTH                     source/elements/solid/solide8z/mmats.F
+Chd|        GETTRANS                      source/elements/solid/solide8z/gettrans.F
+Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/get_etfac_s.F
+Chd|        MSTIFORTH                     source/elements/solid/solide8z/mstiforth.F
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
 Chd|====================================================================

@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
 Chd|====================================================================
-Chd|  SLDEGE                        source/elements/solid/solide/sdlen3.F
+Chd|  SLDEGE                        source/elements/solid/solide/sldege.F
 Chd|-- called by -----------
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|-- calls ---------------
-Chd|        DEGES4V                       source/elements/solid/solide/sdlen3.F
-Chd|        IDEGE                         source/elements/solid/solide/sdlen3.F
+Chd|        DEGES4V                       source/elements/solid/solide/deges4v.F
+Chd|        IDEGE                         source/elements/solid/solide/idege.F
 Chd|====================================================================
       SUBROUTINE SLDEGE(
      1   X1,      X2,      X3,      X4,

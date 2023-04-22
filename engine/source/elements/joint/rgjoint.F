@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        RANIM33                       source/elements/joint/ranim33.F
 Chd|        RBILAN33                      source/elements/joint/rbilan33.F
 Chd|        RCUM33                        source/elements/joint/rcum33.F
-Chd|        RCUM33P                       source/elements/joint/rcum33.F
+Chd|        RCUM33P                       source/elements/joint/rcum33p.F
 Chd|        RDTIME33                      source/elements/joint/rdtime33.F
 Chd|        RSKEW33                       source/elements/joint/rskew33.F
 Chd|        RUSER33                       source/elements/joint/ruser33.F

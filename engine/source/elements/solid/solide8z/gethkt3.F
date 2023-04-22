@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  GETHKT3                       source/elements/solid/solide8z/mmats.F
+Chd|  GETHKT3                       source/elements/solid/solide8z/gethkt3.F
 Chd|-- called by -----------
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
 Chd|-- calls ---------------
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 

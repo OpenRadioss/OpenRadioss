@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCUMU3P                       source/elements/solid/solide/scumu3.F
+Chd|  SCUMU3P                       source/elements/solid/solide/scumu3p.F
 Chd|-- called by -----------
 Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F

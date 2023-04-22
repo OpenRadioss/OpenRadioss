@@ -27,7 +27,7 @@ Chd|        SOLTOSPHP                     source/elements/sph/soltosph.F
 Chd|-- calls ---------------
 Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepiso3.F
+Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
 Chd|====================================================================
       SUBROUTINE SREP2GLO(
      1   X,       IXS,     GAMA,    RX,

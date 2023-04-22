@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C                                                                     12
 Chd|====================================================================
-Chd|  SZORDEF3                      source/elements/solid/solidez/szforc3.F
+Chd|  SZORDEF3                      source/elements/solid/solidez/szordef3.F
 Chd|-- called by -----------
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        SROTO3V                       source/elements/solid/solidez/szforc3.F
+Chd|        SROTO3V                       source/elements/solid/solidez/sroto3v.F
 Chd|====================================================================
       SUBROUTINE SZORDEF3(JFT,JLT,DXX,DYY,DZZ,D4,D5,D6,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)

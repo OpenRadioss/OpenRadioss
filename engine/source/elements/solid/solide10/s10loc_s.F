@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S10LOC_S                      source/elements/solid/solide10/s10coor3.F
+Chd|  S10LOC_S                      source/elements/solid/solide10/s10loc_s.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F

@@ -338,9 +338,9 @@ C-----
 Chd|====================================================================
 Chd|  IKTMAT_INI                    source/implicit/imp_init.F    
 Chd|-- called by -----------
-Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
-Chd|        NUL_ETFAC_S                   source/elements/solid/solide8z/mmats.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
+Chd|        GET_ETFAC_S                   source/elements/solid/solide8z/get_etfac_s.F
+Chd|        NUL_ETFAC_S                   source/elements/solid/solide8z/nul_etfac_s.F
+Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|-- calls ---------------
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 

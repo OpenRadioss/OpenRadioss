@@ -76,7 +76,7 @@ Chd|        CUPDTN3P                      source/elements/shell/coque/cupdtn3.F
 Chd|        CUPDTN3PINCH                  source/elements/shell/coqueba/cupdtn3pinch.F
 Chd|        CUPDT_PLY                     source/properties/composite_options/stack/cupdt_ply.F
 Chd|        DTCBA_REG                     source/elements/shell/coqueba/dtcba_reg.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|        SET_FAILWAVE_SH4N             source/materials/fail/failwave/upd_failwave_sh4n.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

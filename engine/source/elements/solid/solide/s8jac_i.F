@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S8JAC_I                       source/elements/solid/solide/sforc3.F
+Chd|  S8JAC_I                       source/elements/solid/solide/s8jac_i.F
 Chd|-- called by -----------
-Chd|        S8UPD11T12                    source/elements/solid/solide/sforc3.F
+Chd|        S8UPD11T12                    source/elements/solid/solide/s8upd11t12.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

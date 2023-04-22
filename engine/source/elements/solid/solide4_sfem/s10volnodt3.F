@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|-- calls ---------------
 Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
-Chd|        JACOB_J33                     source/elements/solid/solide8e/s8edefo3.F
-Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defo3.F
+Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
+Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defot3.F
 Chd|        S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================

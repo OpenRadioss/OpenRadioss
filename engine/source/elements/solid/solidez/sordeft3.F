@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C                                                                     12
 Chd|====================================================================
-Chd|  SORDEFT3                      source/elements/solid/solidez/szforc3.F
+Chd|  SORDEFT3                      source/elements/solid/solidez/sordeft3.F
 Chd|-- called by -----------
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F

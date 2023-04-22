@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  S10JACOB                      source/elements/solid/solide10/s10jacob.F
 Chd|-- called by -----------
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
-Chd|        S10DERIT3                     source/elements/solid/solide10/s10deri3.F
+Chd|        S10DERIT3                     source/elements/solid/solide10/s10derit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10JACOB(

@@ -37,7 +37,7 @@ Chd|        DELAMINATION                  source/properties/composite_options/st
 Chd|        LAYINI                        source/elements/shell/coque/layini.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
+Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        THERMEXPC                     source/materials/mat_share/thermexpc.F

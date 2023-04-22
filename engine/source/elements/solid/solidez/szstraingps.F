@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SZSTRAINGPS                   source/elements/solid/solidez/szhour3.F
+Chd|  SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
 Chd|-- called by -----------
 Chd|        GPSSTRAIN_SKIN                source/output/anim/generate/tensgpstrain.F
 Chd|        STRN_TENSCOR3                 source/output/h3d/h3d_results/h3d_strn_tenscor3.F

@@ -55,7 +55,7 @@ Chd|        CRKLAYER3N_INI                source/elements/xfem/crklayer3n_ini.F
 Chd|        CRKLEN3N_ADV                  source/elements/xfem/crklen3n_adv.F
 Chd|        CRKOFFTG                      source/elements/xfem/precrklay.F
 Chd|        CSENS3                        source/elements/shell/coque/csens3.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|        PRECRKLAYTG                   source/elements/xfem/precrklay.F
 Chd|        SET_FAILWAVE_NOD3             source/materials/fail/failwave/set_failwave_nod3.F
 Chd|        SET_FAILWAVE_SH3N             source/materials/fail/failwave/upd_failwave_sh3n.F

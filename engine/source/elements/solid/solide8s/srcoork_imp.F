@@ -25,7 +25,7 @@ Chd|  S8SCOORK_IMP                  source/elements/solid/solide8s/srcoork_imp.F
 Chd|-- called by -----------
 Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
 Chd|-- calls ---------------
-Chd|        CRTRANS_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
+Chd|        CRTRANS_IMP                   source/elements/solid/solide8s/crtrans_imp.F
 Chd|====================================================================
       SUBROUTINE S8SCOORK_IMP(X,IXS,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

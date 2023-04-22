@@ -27,7 +27,7 @@ Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_soli
 Chd|-- calls ---------------
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSIGPARA                     source/elements/solid/solidez/szhour3.F
+Chd|        SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STRS_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,

@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MSTIFORTHV                    source/elements/solid/solidez/szhour3.F
+Chd|  MSTIFORTHV                    source/elements/solid/solidez/mstiforthv.F
 Chd|-- called by -----------
-Chd|        M24C2ARM                      source/elements/solid/solidez/szhour3.F
-Chd|        MMODUL                        source/elements/solid/solidez/szhour3.F
+Chd|        M24C2ARM                      source/elements/solid/solidez/m24c2arm.F
+Chd|        MMODUL                        source/elements/solid/solidez/mmodul.F
 Chd|-- calls ---------------
-Chd|        CBATRAN3V                     source/elements/solid/solidez/szhour3.F
+Chd|        CBATRAN3V                     source/elements/solid/solidez/cbatran3v.F
 Chd|====================================================================
       SUBROUTINE MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                      QG     ,CC    ,G3  ,G33  ,CG     ) 

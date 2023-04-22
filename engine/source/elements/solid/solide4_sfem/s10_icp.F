@@ -25,7 +25,7 @@ Chd|  S10_ICP                       source/elements/solid/solide4_sfem/s10_icp.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
-Chd|        JACOB_J33                     source/elements/solid/solide8e/s8edefo3.F
+Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
 Chd|====================================================================
       SUBROUTINE S10_ICP(
      1   OFFG,    JACG,    FACP,    NU,

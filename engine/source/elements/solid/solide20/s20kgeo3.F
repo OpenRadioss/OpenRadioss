@@ -22,11 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
 Chd|====================================================================
-Chd|  S20KGEO3                      source/elements/solid/solide20/s20ke3.F
+Chd|  S20KGEO3                      source/elements/solid/solide20/s20kgeo3.F
 Chd|-- called by -----------
 Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F
 Chd|-- calls ---------------
-Chd|        S4KEH3                        source/elements/solid/solide4/s4ke3.F
+Chd|        S4KEH3                        source/elements/solid/solide4/s4keh3.F
 Chd|====================================================================
       SUBROUTINE S20KGEO3(
      1   SIG,     VOL,     PX,      PY,

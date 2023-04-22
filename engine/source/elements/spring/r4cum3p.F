@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  R4CUM3P                       source/elements/spring/r4cum3.F
+Chd|  R4CUM3P                       source/elements/spring/r4cum3p.F
 Chd|-- called by -----------
 Chd|        R23LAW113                     source/elements/spring/r23law113.F
 Chd|        R23LAW114                     source/elements/spring/r23law114.F

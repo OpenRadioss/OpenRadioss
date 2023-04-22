@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 Chd|====================================================================
-Chd|  DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|  DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|-- called by -----------
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F

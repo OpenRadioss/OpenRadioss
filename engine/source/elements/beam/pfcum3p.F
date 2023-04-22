@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PFCUM3P                       source/elements/beam/pfcum3.F 
+Chd|  PFCUM3P                       source/elements/beam/pfcum3p.F
 Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------

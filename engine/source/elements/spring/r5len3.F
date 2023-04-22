@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  R5LEN3                        source/elements/spring/rforc3.F
+Chd|  R5LEN3                        source/elements/spring/r5len3.F
 Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------

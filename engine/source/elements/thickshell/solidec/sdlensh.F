@@ -21,8 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SDLENSH                       source/elements/thickshell/solidec/scdtdc3.F
+Chd|  SDLENSH                       source/elements/thickshell/solidec/sdlensh.F
 Chd|-- called by -----------
+Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------

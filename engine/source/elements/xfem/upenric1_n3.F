@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c
 Chd|====================================================================
-Chd|  UPENRIC1_N3                   source/elements/xfem/upxfem1.F
+Chd|  UPENRIC1_N3                   source/elements/xfem/upenric1_n3.F
 Chd|-- called by -----------
 Chd|        UPXFEM1                       source/elements/xfem/upxfem1.F
 Chd|-- calls ---------------

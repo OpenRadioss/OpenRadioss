@@ -35,11 +35,11 @@ Chd|        PDEFO3                        source/elements/beam/pdefo3.F
 Chd|        PDLEN3                        source/elements/beam/pdlen3.F 
 Chd|        PEVEC3                        source/elements/beam/pevec3.F 
 Chd|        PFCUM3                        source/elements/beam/pfcum3.F 
-Chd|        PFCUM3P                       source/elements/beam/pfcum3.F 
+Chd|        PFCUM3P                       source/elements/beam/pfcum3p.F
 Chd|        PFINT3                        source/elements/beam/pfint3.F 
 Chd|        PMAIN3                        source/elements/beam/pmain3.F 
 Chd|        PMCUM3                        source/elements/beam/pmcum3.F 
-Chd|        PMCUM3P                       source/elements/beam/pmcum3.F 
+Chd|        PMCUM3P                       source/elements/beam/pmcum3p.F
 Chd|        PPXPY3                        source/elements/beam/ppxpy3.F 
 Chd|        SIGEPS44P                     source/materials/mat/mat044/sigeps44p.F
 Chd|        THERMEXPPG                    source/elements/beam/thermexpp.F

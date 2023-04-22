@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  C33STIF2EL                    source/elements/solid/solidez/szhour3.F
+Chd|  C33STIF2EL                    source/elements/solid/solidez/c33stif2el.F
 Chd|-- called by -----------
-Chd|        MMODUL                        source/elements/solid/solidez/szhour3.F
+Chd|        MMODUL                        source/elements/solid/solidez/mmodul.F
 Chd|-- calls ---------------
-Chd|        CBATRAN3V                     source/elements/solid/solidez/szhour3.F
+Chd|        CBATRAN3V                     source/elements/solid/solidez/cbatran3v.F
 Chd|====================================================================
       SUBROUTINE C33STIF2EL(NEL   ,QC   ,QCG   ,QGC    ,QG     ,
      .                      C33   ,CC   ,G33   ,CG     ) 

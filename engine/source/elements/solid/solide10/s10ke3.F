@@ -28,13 +28,13 @@ Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F
 Chd|-- calls ---------------
 Chd|        ASSEM_S10                     source/implicit/assem_s10.F   
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
-Chd|        MORTHLOCK3                    source/elements/solid/solide4/s4ke3.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
+Chd|        MORTHLOCK3                    source/elements/solid/solide4/morthlock3.F
 Chd|        S10COORK                      source/elements/solid/solide10/s10coork.F
 Chd|        S10CUMG3                      source/elements/solid/solide10/s10cumg3.F
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
 Chd|        S10EOFF                       source/elements/solid/solide10/s10eoff.F
-Chd|        S10KGEO3                      source/elements/solid/solide10/s10ke3.F
+Chd|        S10KGEO3                      source/elements/solid/solide10/s10kgeo3.F
 Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

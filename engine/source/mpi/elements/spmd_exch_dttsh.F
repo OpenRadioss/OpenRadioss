@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_EXCH_TAG_TSH             source/mpi/elements/spmd_exch_dttsh.F
 Chd|-- called by -----------
-Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/scdtdc3.F
+Chd|        TSHCDCOM_DIM                  source/elements/thickshell/solidec/tshcdcom_dim.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

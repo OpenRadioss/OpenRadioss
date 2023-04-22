@@ -110,8 +110,8 @@ Chd|        M16LAW                        source/materials/mat/mat016/m16law.F
 Chd|        M17LAW                        source/materials/mat/mat017/m17law.F
 Chd|        M18LAW                        source/materials/mat/mat018/m18law.F
 Chd|        M1LAW                         source/materials/mat/mat001/m1law.F
-Chd|        M1LAWI                        source/materials/mat/mat001/m1law.F
-Chd|        M1LAWTOT                      source/materials/mat/mat001/m1law.F
+Chd|        M1LAWI                        source/materials/mat/mat001/m1lawi.F
+Chd|        M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
 Chd|        M21LAW                        source/materials/mat/mat021/m21law.F
 Chd|        M22LAW                        source/materials/mat/mat022/m22law.F
 Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
@@ -134,8 +134,8 @@ Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|        MROTENS                       source/materials/mat_share/mrotens.F
 Chd|        MTHETA                        source/materials/mat_share/mtheta.F
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
-Chd|        PUTSIGNOR3                    source/elements/solid/solide8z/mmats.F
-Chd|        PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
+Chd|        PUTSIGNOR3                    source/elements/solid/solide8z/putsignor3.F
+Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|        SBOLTLAW                      source/elements/solid/solide/sboltlaw.F
 Chd|        SESA10                        source/materials/mat/mat026/sesa10.F
 Chd|        SESA20                        source/materials/mat/mat026/sesa20.F

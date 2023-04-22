@@ -4129,7 +4129,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSIGPARA                     source/elements/solid/solidez/szhour3.F
+Chd|        SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
@@ -4952,7 +4952,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        SZSIGPARA                     source/elements/solid/solidez/szhour3.F
+Chd|        SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
@@ -5669,7 +5669,7 @@ Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
 Chd|        TENSGPS_SKIN                  source/output/anim/generate/tensor6.F
 Chd|-- calls ---------------
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
-Chd|        SREPISOT3                     source/elements/solid/solide/srepiso3.F
+Chd|        SREPISOT3                     source/elements/solid/solide/srepisot3.F
 Chd|====================================================================
         SUBROUTINE PRE_HEPH(X,IXS,JR0,JS0,JT0,PM,MAT,NU,NFT,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8

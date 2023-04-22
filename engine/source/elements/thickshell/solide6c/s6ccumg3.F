@@ -25,9 +25,9 @@ Chd|  S6CCUMG3                      source/elements/thickshell/solide6c/s6ccumg3
 Chd|-- called by -----------
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
 Chd|-- calls ---------------
-Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/s6ccumg3.F
+Chd|        SETPROJKS6                    source/elements/thickshell/solide6c/setprojks6.F
 Chd|        SET_RI33                      source/elements/shell/coqueba/cbasumg3.F
-Chd|        SYSTRAN3                      source/elements/solid/solide8z/s8zcumg3.F
+Chd|        SYSTRAN3                      source/elements/solid/solide8z/systran3.F
 Chd|====================================================================
       SUBROUTINE S6CCUMG3(
      1   R11,     R21,     R31,     R12,

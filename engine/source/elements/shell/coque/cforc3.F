@@ -55,7 +55,7 @@ Chd|        CSUBF3                        source/elements/shell/coque/csubf3.F
 Chd|        CUPDT3                        source/elements/shell/coque/cupdt3.F
 Chd|        CUPDT3F                       source/elements/shell/coque/cupdt3.F
 Chd|        CUPDT3P                       source/elements/shell/coque/cupdt3.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|        MHVIS3                        source/airbag/mhvis3.F        
 Chd|        PRECRKLAY                     source/elements/xfem/precrklay.F
 Chd|        SET_FAILWAVE_NOD4             source/materials/fail/failwave/set_failwave_nod4.F

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod3.F
+Chd|  S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod_sm.F
 Chd|-- called by -----------
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|-- calls ---------------

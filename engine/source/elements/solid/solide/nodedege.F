@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  NODEDEGE                      source/elements/solid/solide/sdlen3.F
+Chd|  NODEDEGE                      source/elements/solid/solide/nodedege.F
 Chd|-- called by -----------
-Chd|        DEGES4V                       source/elements/solid/solide/sdlen3.F
+Chd|        DEGES4V                       source/elements/solid/solide/deges4v.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE NODEDEGE(X,Y,Z,XYZ,NN)

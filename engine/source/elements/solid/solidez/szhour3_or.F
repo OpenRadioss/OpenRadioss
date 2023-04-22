@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SZHOUR3_OR                    source/elements/solid/solidez/szhour3.F
+Chd|  SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
 Chd|-- called by -----------
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        GFHOUR_OR                     source/elements/solid/solidez/szhour3.F
+Chd|        GFHOUR_OR                     source/elements/solid/solidez/gfhour_or.F
 Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|        MMODUL                        source/elements/solid/solidez/szhour3.F
-Chd|        MMOD_NORM                     source/elements/solid/solidez/szhour3.F
-Chd|        SZETFAC                       source/elements/solid/solidez/szhour3.F
-Chd|        SZSTRAINHG                    source/elements/solid/solidez/szhour3.F
-Chd|        SZSVM_OR                      source/elements/solid/solidez/szhour3.F
+Chd|        MMODUL                        source/elements/solid/solidez/mmodul.F
+Chd|        MMOD_NORM                     source/elements/solid/solidez/mmod_norm.F
+Chd|        SZETFAC                       source/elements/solid/solidez/szetfac.F
+Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
+Chd|        SZSVM_OR                      source/elements/solid/solidez/szsvm_or.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SZHOUR3_OR(

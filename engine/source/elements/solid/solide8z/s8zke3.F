@@ -28,17 +28,17 @@ Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F
 Chd|-- calls ---------------
 Chd|        ASSEM_S8                      source/implicit/assem_s8.F    
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMAT_H1                       source/elements/solid/solide8z/s8zke3.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
+Chd|        MMAT_H1                       source/elements/solid/solide8z/mmat_h1.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
 Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
 Chd|        S8ZCUMG3                      source/elements/solid/solide8z/s8zcumg3.F
-Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8ZDERII3                     source/elements/solid/solide8z/s8zderi3.F
-Chd|        S8ZKGEI3                      source/elements/solid/solide8z/s8zke3.F
-Chd|        S8ZKGEO3                      source/elements/solid/solide8z/s8zke3.F
+Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderict3.F
+Chd|        S8ZDERII3                     source/elements/solid/solide8z/s8zderii3.F
+Chd|        S8ZKGEI3                      source/elements/solid/solide8z/s8zkgei3.F
+Chd|        S8ZKGEO3                      source/elements/solid/solide8z/s8zkgeo3.F
 Chd|        S8ZLKE3                       source/elements/solid/solide8z/s8zlke3.F
-Chd|        S8ZLKEP3                      source/elements/solid/solide8z/s8zke3.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        S8ZLKEP3                      source/elements/solid/solide8z/s8zlkep3.F
+Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
 Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================

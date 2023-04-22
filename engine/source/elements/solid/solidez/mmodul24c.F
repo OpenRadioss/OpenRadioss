@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MMODUL24C                     source/elements/solid/solidez/szhour3.F
+Chd|  MMODUL24C                     source/elements/solid/solidez/mmodul24c.F
 Chd|-- called by -----------
 Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
 Chd|-- calls ---------------

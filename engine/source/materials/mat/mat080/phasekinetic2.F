@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PHASEKINETIC2                 source/materials/mat/mat080/sigeps80.F
+Chd|  PHASEKINETIC2                 source/materials/mat/mat080/phasekinetic2.F
 Chd|-- called by -----------
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
 Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F

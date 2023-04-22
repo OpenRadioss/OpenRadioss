@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C                                                                     12
 Chd|====================================================================
-Chd|  SCORDEF3                      source/elements/thickshell/solidec/scforc3.F
+Chd|  SCORDEF3                      source/elements/thickshell/solidec/scordef3.F
 Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------
-Chd|        SCROTO                        source/elements/thickshell/solidec/scforc3.F
+Chd|        SCROTO                        source/elements/thickshell/solidec/scroto.F
 Chd|====================================================================
       SUBROUTINE SCORDEF3(NEL,DXX,DYY,DZZ,D4,D5,D6,DIR)
 C-----------------------------------------------

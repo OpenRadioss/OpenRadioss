@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S8UPD11T12                    source/elements/solid/solide/sforc3.F
+Chd|  S8UPD11T12                    source/elements/solid/solide/s8upd11t12.F
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        S8JAC_I                       source/elements/solid/solide/sforc3.F
+Chd|        S8JAC_I                       source/elements/solid/solide/s8jac_i.F
 Chd|====================================================================
       SUBROUTINE S8UPD11T12(OFFG   ,OFFG0  ,X  ,XDP  ,
      .     NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,

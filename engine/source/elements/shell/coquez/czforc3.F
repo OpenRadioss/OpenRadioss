@@ -57,7 +57,7 @@ Chd|        CZFINTN_OR                    source/elements/shell/coquez/czfintn.F
 Chd|        CZPROJ1                       source/elements/shell/coquez/czproj.F
 Chd|        CZSTRA3                       source/elements/shell/coquez/czstra3.F
 Chd|        CZSTRAH3                      source/elements/shell/coquez/czstrah3.F
-Chd|        DTTHERM                       source/elements/sh3n/coquedk/cndt3.F
+Chd|        DTTHERM                       source/elements/sh3n/coquedk/dttherm.F
 Chd|        PRECRKLAY                     source/elements/xfem/precrklay.F
 Chd|        SET_FAILWAVE_NOD4             source/materials/fail/failwave/set_failwave_nod4.F
 Chd|        SET_FAILWAVE_SH4N             source/materials/fail/failwave/upd_failwave_sh4n.F

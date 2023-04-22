@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PUT_ETFAC                     source/elements/solid/solide8z/mmats.F
+Chd|  PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|-- called by -----------
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F

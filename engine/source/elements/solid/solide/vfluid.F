@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C --- fluid structure       
 Chd|====================================================================
-Chd|  VFLUID                        source/elements/solid/solide/prelecflow.F
+Chd|  VFLUID                        source/elements/solid/solide/vfluid.F
 Chd|-- called by -----------
 Chd|        PRELECFLOW                    source/elements/solid/solide/prelecflow.F
 Chd|-- calls ---------------

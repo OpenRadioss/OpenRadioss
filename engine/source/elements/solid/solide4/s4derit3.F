@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S4DERIT3                      source/elements/solid/solide4/s4deri3.F
+Chd|  S4DERIT3                      source/elements/solid/solide4/s4derit3.F
 Chd|-- called by -----------
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
 Chd|        S4KE3                         source/elements/solid/solide4/s4ke3.F
 Chd|-- calls ---------------
-Chd|        SCHKJAB3                      source/elements/solid/solide/sderi3.F
+Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
 Chd|====================================================================
       SUBROUTINE S4DERIT3(
      1   OFF,     DET,     NGL,     DELTAX,

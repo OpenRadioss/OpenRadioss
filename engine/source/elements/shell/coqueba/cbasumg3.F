@@ -376,7 +376,7 @@ Chd|-- called by -----------
 Chd|        C3SUMG3                       source/elements/sh3n/coque3n/c3sumg3.F
 Chd|        CBASUMG3                      source/elements/shell/coqueba/cbasumg3.F
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
-Chd|        MSTIFORTH                     source/elements/solid/solide8z/mmats.F
+Chd|        MSTIFORTH                     source/elements/solid/solide8z/mstiforth.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CBATRAN3(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM) 

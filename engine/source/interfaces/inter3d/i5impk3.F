@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I5IMPK3                       source/interfaces/inter3d/i5cork3.F
+Chd|  I5IMPK3                       source/interfaces/inter3d/i5impk3.F
 Chd|-- called by -----------
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|-- calls ---------------

@@ -209,7 +209,7 @@ Chd|        S10VOLNODT3                   source/elements/solid/solide4_sfem/s10
 Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
-Chd|        S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod3.F
+Chd|        S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod_sm.F
 Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
 Chd|        SMS_MAV_LT                    source/ams/sms_pcg.F          
 Chd|        SMS_MAV_LT1                   source/ams/sms_pcg.F          

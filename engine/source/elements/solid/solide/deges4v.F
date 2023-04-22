@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DEGES4V                       source/elements/solid/solide/sdlen3.F
+Chd|  DEGES4V                       source/elements/solid/solide/deges4v.F
 Chd|-- called by -----------
-Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen3.F
-Chd|        SDLEN_SMS                     source/elements/solid/solidez/szforc3.F
-Chd|        SLDEGE                        source/elements/solid/solide/sdlen3.F
+Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
+Chd|        SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
+Chd|        SLDEGE                        source/elements/solid/solide/sldege.F
 Chd|-- calls ---------------
-Chd|        NODEDEGE                      source/elements/solid/solide/sdlen3.F
-Chd|        TETRA4V                       source/elements/solid/solide/sdlen3.F
+Chd|        NODEDEGE                      source/elements/solid/solide/nodedege.F
+Chd|        TETRA4V                       source/elements/solid/solide/tetra4v.F
 Chd|====================================================================
       SUBROUTINE DEGES4V(DET,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

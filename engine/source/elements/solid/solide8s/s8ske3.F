@@ -32,7 +32,7 @@ Chd|        S8SCOORK_IMP                  source/elements/solid/solide8s/srcoork
 Chd|        S8SDERI3                      source/elements/solid/solide8s/s8sderi3.F
 Chd|        S8SKSIG                       source/elements/solid/solide8s/s8sksig.F
 Chd|        S8SLKE3                       source/elements/solid/solide8s/s8slke3.F
-Chd|        TRANSK                        source/elements/solid/solide8s/s8ske3.F
+Chd|        TRANSK                        source/elements/solid/solide8s/transk.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S8SKE3(

@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  AMASS3P                       source/elements/solid/solide/amass3.F
+Chd|  AMASS3P                       source/elements/solid/solide/amass3p.F
 Chd|-- called by -----------
 Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F

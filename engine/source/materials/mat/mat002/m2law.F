@@ -25,7 +25,7 @@ Chd|  M2LAW                         source/materials/mat/mat002/m2law.F
 Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
-Chd|        M2ITER_IMP                    source/materials/mat/mat002/m2law.F
+Chd|        M2ITER_IMP                    source/materials/mat/mat002/m2iter_imp.F
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|====================================================================

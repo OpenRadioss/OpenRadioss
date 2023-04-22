@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCHKJAB3                      source/elements/solid/solide/sderi3.F
+Chd|  SCHKJAB3                      source/elements/solid/solide/schkjab3.F
 Chd|-- called by -----------
 Chd|        FDERI3                        source/elements/solid/solide/fderi3.F
-Chd|        S4DERIT3                      source/elements/solid/solide4/s4deri3.F
-Chd|        S8EDERICT3                    source/elements/solid/solide8e/s8ederi3.F
-Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        SDERIT3                       source/elements/solid/solide/sderi3.F
+Chd|        S4DERIT3                      source/elements/solid/solide4/s4derit3.F
+Chd|        S8EDERICT3                    source/elements/solid/solide8e/s8ederict3.F
+Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderict3.F
+Chd|        SDERIT3                       source/elements/solid/solide/sderit3.F
 Chd|        SZDERIT3                      source/elements/solid/solidez/szderi3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F

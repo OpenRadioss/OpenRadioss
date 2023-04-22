@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SZSIGPARA                     source/elements/solid/solidez/szhour3.F
+Chd|  SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
 Chd|-- called by -----------
 Chd|        STRS_TENSCOR3                 source/output/h3d/h3d_results/strs_tenscor3.F
 Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F

@@ -112,14 +112,14 @@ Chd|        MONVOL0                       source/airbag/monvol0.F
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
-Chd|        R1SENS3                       source/elements/spring/rsens3.F
+Chd|        R1SENS3                       source/elements/spring/r1sens3.F
 Chd|        R23FORC3                      source/elements/spring/r23forc3.F
 Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
 Chd|        R23LAW108                     source/elements/spring/r23law108.F
 Chd|        R23LAW113                     source/elements/spring/r23law113.F
 Chd|        R23LAW114                     source/elements/spring/r23law114.F
-Chd|        R23SENS3                      source/elements/spring/rsens3.F
-Chd|        R2SENS3                       source/elements/spring/rsens3.F
+Chd|        R23SENS3                      source/elements/spring/r23sens3.F
+Chd|        R2SENS3                       source/elements/spring/r2sens3.F
 Chd|        RADIATION                     source/constraints/thermic/radiation.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RBYSENS                       source/constraints/general/rbody/rbyonf.F

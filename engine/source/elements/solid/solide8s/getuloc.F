@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
 Chd|====================================================================
-Chd|  GETULOC                       source/elements/solid/solide8s/srcoor3_imp.F
+Chd|  GETULOC                       source/elements/solid/solide8s/getuloc.F
 Chd|-- called by -----------
 Chd|        SRCOOR3_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- calls ---------------

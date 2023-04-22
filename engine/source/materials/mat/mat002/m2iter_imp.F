@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  M2ITER_IMP                    source/materials/mat/mat002/m2law.F
+Chd|  M2ITER_IMP                    source/materials/mat/mat002/m2iter_imp.F
 Chd|-- called by -----------
 Chd|        M2LAW                         source/materials/mat/mat002/m2law.F
 Chd|-- calls ---------------

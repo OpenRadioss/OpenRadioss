@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       
 Chd|====================================================================
-Chd|  TRANSK                        source/elements/solid/solide8s/s8ske3.F
+Chd|  TRANSK                        source/elements/solid/solide8s/transk.F
 Chd|-- called by -----------
 Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
 Chd|-- calls ---------------

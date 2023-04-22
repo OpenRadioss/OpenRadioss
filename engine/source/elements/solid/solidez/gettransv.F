@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  GETTRANSV                     source/elements/solid/solidez/szhour3.F
+Chd|  GETTRANSV                     source/elements/solid/solidez/gettransv.F
 Chd|-- called by -----------
-Chd|        M24C2ARM                      source/elements/solid/solidez/szhour3.F
+Chd|        M24C2ARM                      source/elements/solid/solidez/m24c2arm.F
 Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.F
-Chd|        MMODUL                        source/elements/solid/solidez/szhour3.F
+Chd|        MMODUL                        source/elements/solid/solidez/mmodul.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GETTRANSV(JFT    ,JLT   ,GAMA ,QC  ,QCG  ,

@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 Chd|====================================================================
-Chd|  KIRKALDYKINETICS              source/materials/mat/mat080/sigeps80.F
+Chd|  KIRKALDYKINETICS              source/materials/mat/mat080/kirkaldykinetics.F
 Chd|-- called by -----------
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
 Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F

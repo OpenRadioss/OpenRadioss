@@ -24,11 +24,11 @@ Chd|====================================================================
 Chd|  MDAMA24                       source/elements/solid/solidez/mdama24.F
 Chd|-- called by -----------
 Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
-Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3.F
+Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
 Chd|-- calls ---------------
-Chd|        CBATRAN3V                     source/elements/solid/solidez/szhour3.F
-Chd|        GETTRANSV                     source/elements/solid/solidez/szhour3.F
-Chd|        MMODUL24C                     source/elements/solid/solidez/szhour3.F
+Chd|        CBATRAN3V                     source/elements/solid/solidez/cbatran3v.F
+Chd|        GETTRANSV                     source/elements/solid/solidez/gettransv.F
+Chd|        MMODUL24C                     source/elements/solid/solidez/mmodul24c.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MDAMA24(ELBUF_STR,JFT     ,JLT     ,PM    ,MAT    ,

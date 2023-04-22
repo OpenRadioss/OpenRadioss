@@ -28,7 +28,7 @@ Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        S10JACOB                      source/elements/solid/solide10/s10jacob.F
-Chd|        S10JACOB1                     source/elements/solid/solide10/s10jacob.F
+Chd|        S10JACOB1                     source/elements/solid/solide10/s10jacob1.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S10DERI3(

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SYSTRAN2                      source/elements/solid_2d/quad4/q4kerot2.F
+Chd|  SYSTRAN2                      source/elements/solid_2d/quad4/systran2.F
 Chd|-- called by -----------
 Chd|        Q4KEROT2                      source/elements/solid_2d/quad4/q4kerot2.F
 Chd|-- calls ---------------

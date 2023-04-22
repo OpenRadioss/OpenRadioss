@@ -34,8 +34,8 @@ Chd|        S8DERI3                       source/elements/solid/solide8/s8deri3.
 Chd|        S8FINT3                       source/elements/solid/solide8/s8fint3.F
 Chd|        S8LAGR3                       source/elements/solid/solide8/s8lagr3.F
 Chd|        S8ROTA3                       source/elements/solid/solide8/s8rota3.F
-Chd|        SCUMU3P                       source/elements/solid/solide/scumu3.F
-Chd|        SMALLB3                       source/elements/solid/solide/small3.F
+Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
+Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
 Chd|        SR8BILAN                      source/elements/solid/solide8/sr8bilan.F
 Chd|        SR8COOR3                      source/elements/solid/solide8/sr8coor3.F
 Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F

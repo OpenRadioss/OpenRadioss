@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  M1ISMSTR10_PON                source/materials/mat/mat001/m1law.F
+Chd|  M1ISMSTR10_PON                source/materials/mat/mat001/m1ismstr10_pon.F
 Chd|-- called by -----------
-Chd|        M1LAWTOT                      source/materials/mat/mat001/m1law.F
+Chd|        M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
 Chd|-- calls ---------------
-Chd|        PRINC_U                       source/materials/mat/mat001/m1law.F
+Chd|        PRINC_U                       source/materials/mat/mat001/princ_u.F
 Chd|====================================================================
               SUBROUTINE M1ISMSTR10_PON(NEL ,
      1                              ES1 , ES2 ,ES3 ,ES4  ,ES5   ,

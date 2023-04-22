@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCHKJABT3                     source/elements/solid/solide4/s4deri3.F
+Chd|  SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
 Chd|-- called by -----------
 Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
-Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederi3.F
-Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderi3.F
+Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederic3.F
+Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderic3.F
 Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        SZDERI3                       source/elements/solid/solidez/szderi3.F
 Chd|-- calls ---------------

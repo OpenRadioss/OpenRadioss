@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MULTI_COMPUTEVOLUME           source/multifluid/multi_computevolume.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
-Chd|        SCHKJABT3                     source/elements/solid/solide4/s4deri3.F
+Chd|        SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
 Chd|====================================================================
       SUBROUTINE SDERI3(
      1   OFF,     DET,     NGL,     X1,

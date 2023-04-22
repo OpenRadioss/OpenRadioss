@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
 Chd|-- called by -----------
 Chd|        COMPUTE_PRESSURE              source/multifluid/multi_muscl_fluxes_computation.F
-Chd|        ENERGY_JUMP                   source/multifluid/multi_fluxes_computation.F
 Chd|        MULTI_INLET_EBCS              source/multifluid/multi_inlet_ebcs.F
 Chd|        MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
 Chd|        MULTI_PRESSURE_EQUILIBRIUM    source/multifluid/multi_pressure_equilibrium.F

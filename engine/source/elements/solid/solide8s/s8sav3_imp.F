@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  S8SAV3_IMP                    source/elements/solid/solide8s/srcoor3_imp.F
+Chd|  S8SAV3_IMP                    source/elements/solid/solide8s/s8sav3_imp.F
 Chd|-- called by -----------
 Chd|        SRCOOR3_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- calls ---------------

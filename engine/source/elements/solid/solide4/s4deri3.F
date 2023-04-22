@@ -25,7 +25,7 @@ Chd|  S4DERI3                       source/elements/solid/solide4/s4deri3.F
 Chd|-- called by -----------
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
 Chd|-- calls ---------------
-Chd|        SCHKJABT3                     source/elements/solid/solide4/s4deri3.F
+Chd|        SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
 Chd|====================================================================
       SUBROUTINE S4DERI3(
      1   OFF,     DET,     NGL,     DELTAX,

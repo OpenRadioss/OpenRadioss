@@ -31,8 +31,8 @@ Chd|        SPMD_EXCH_REDGE               source/mpi/elements/spmd_xfem.F
 Chd|        SPMD_MAX_XFE_I                source/mpi/elements/spmd_xfem.F
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        UPENRIC_LAST                  source/elements/xfem/upxfem2.F
-Chd|        UPENRITG_LAST                 source/elements/xfem/upxfem2.F
+Chd|        UPENRIC_LAST                  source/elements/xfem/upenric_last.F
+Chd|        UPENRITG_LAST                 source/elements/xfem/upenritg_last.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|====================================================================
       SUBROUTINE UPXFEM2(IPARG    ,IXC    ,NGROUC  ,IGROUC ,IADC_CRK ,

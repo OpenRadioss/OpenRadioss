@@ -27,8 +27,8 @@ Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F
 Chd|-- calls ---------------
 Chd|        ASSEM_Q4                      source/implicit/assem_q4.F    
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
-Chd|        MMAT_H1                       source/elements/solid/solide8z/s8zke3.F
-Chd|        MMSTIFS                       source/elements/solid/solide8z/mmats.F
+Chd|        MMAT_H1                       source/elements/solid/solide8z/mmat_h1.F
+Chd|        MMSTIFS                       source/elements/solid/solide8z/mmstifs.F
 Chd|        Q4DERI2                       source/elements/solid_2d/quad4/q4deri2.F
 Chd|        Q4DERIC2                      source/elements/solid_2d/quad4/q4deric2.F
 Chd|        Q4KEGA2                       source/elements/solid_2d/quad4/q4kega2.F
@@ -38,7 +38,7 @@ Chd|        Q4KEROT2                      source/elements/solid_2d/quad4/q4kerot
 Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
 Chd|        QRCOOR2                       source/elements/solid_2d/quad/qrcoor2.F
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE Q4KE2(

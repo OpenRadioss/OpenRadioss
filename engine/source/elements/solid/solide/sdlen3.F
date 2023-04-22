@@ -28,9 +28,9 @@ Chd|        SCFORC3                       source/elements/thickshell/solidec/scf
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
-Chd|        SLDEGE                        source/elements/solid/solide/sdlen3.F
+Chd|        SLDEGE                        source/elements/solid/solide/sldege.F
 Chd|        SLEN                          source/elements/solid/solide/slen.F
-Chd|        SLENA                         source/elements/solid/solide/slen.F
+Chd|        SLENA                         source/elements/solid/solide/slena.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE SDLEN3(

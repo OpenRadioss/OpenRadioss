@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S8SKE3                        source/elements/solid/solide8s/s8ske3.F
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
-Chd|        S8SANSB                       source/elements/solid/solide8s/s8slke3.F
+Chd|        S8SANSB                       source/elements/solid/solide8s/s8sansb.F
 Chd|====================================================================
       SUBROUTINE S8SLKE3(
      1   KL,      HH,      VOL,     !DN_X,
