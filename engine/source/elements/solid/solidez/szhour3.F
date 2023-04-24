@@ -259,7 +259,7 @@ C------ w/ Prony, use Icpre=0 anyway
         NU3(I) =ZEP444
         NU4(I) =ZERO
        ENDDO
-      ELSEIF(ICP==2)THEN
+      ELSEIF(ICP==2.AND.IPLAST>0)THEN
        DO I=1,NEL
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
         FAC2=ONE-DEFP(I)/FAC1
