@@ -63,6 +63,7 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -144,6 +145,17 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
        END IF !(ISELECT>0) THEN
         CALL M1ISMSTR10_PON(NEL   , ES1 , ES2 ,ES3 ,ES4  ,
      1                     ES5   ,ES6  ,EPSTH, C1  ,G   ,SIGTMP)
+        IF(IPRES==1.AND.IRESP==1)THEN 
+          DO I=1,NEL
+           FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))
+           FACG = MAX(ONE,FF/G2_11)
+           IF (FACG>ONE) FACG = ONEP2*FACG
+           SIGTMP(I,4)= FACG*SIGTMP(I,4)
+           SIGTMP(I,5)= FACG*SIGTMP(I,5)
+           SIGTMP(I,6)= FACG*SIGTMP(I,6)
+           G(I) = FACG*G(I)
+          END DO
+        END IF !(IPRES==1)THEN 
         SIG(1:NEL,1:6)=SIGTMP(1:NEL,1:6)
       ELSEIF (ISMSTR == 12) THEN
         NLAR = 0

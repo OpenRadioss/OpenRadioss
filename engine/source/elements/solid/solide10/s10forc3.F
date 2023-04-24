@@ -217,7 +217,7 @@ C
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
      .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
-     .    VISP(MVSIZ)
+     .    VISP(MVSIZ),FACDB
 c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
@@ -327,7 +327,9 @@ C
          RHO0_1 =PM( 1,MX)
          IF (PM(21,MX)>0.49) IPLAW1=1
          IF (IPLAW1==1) THEN
-           FACP(LFT:LLT)=TWO*PM(21,MX)
+           FACDB = ONE- ZEP02
+           FACDB = MIN(FACDB,TWO*PM(21,MX))
+           FACP(LFT:LLT)=FACDB
            VISP(LFT:LLT)=TWO
            CNS2 = ZEP02
            IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
