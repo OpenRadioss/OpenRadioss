@@ -578,7 +578,9 @@ C------------------------------------------------------
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
+     S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
+
 C
         DO I=1,NEL
           STIN(I) = STIN(I)+STI(I)

@@ -124,7 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IAD
+      INTEGER, INTENT(INOUT) :: IAD
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),

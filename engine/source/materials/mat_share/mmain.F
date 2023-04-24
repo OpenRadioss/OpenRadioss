@@ -181,7 +181,8 @@ Chd|====================================================================
      O   TABLE,       FVD2,        FDELTAX,     FSSP,
      P   FQVIS,       IPARG1,      IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN,
+     S   OPT_JCVT,    OPT_ISORTH,  OPT_ISORTHG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -221,6 +222,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, OPTIONAL, INTENT(IN) :: OPT_MTN, OPT_JCVT, OPT_ISORTH,  OPT_ISORTHG
       INTEGER, INTENT(INOUT) :: JSPH
       INTEGER, INTENT(INOUT) :: JPLASOL
       INTEGER, INTENT(IN) :: NEL
@@ -328,26 +330,15 @@ C-----------------------------------------------
       LOGICAL_USERL_AVAIL = .FALSE.
       l_MULAW_CALLED=.FALSE.
       IF(USERL_AVAIL/=0) LOGICAL_USERL_AVAIL = .TRUE.
-      GBUF => ELBUF_TAB(NG)%GBUF
-      LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
-      MBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%MAT(IPTR,IPTS,IPTT)
-      FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IPTR,IPTS,IPTT)
-      VBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%VISC(IPTR,IPTS,IPTT)
-      EBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%EOS(IPTR,IPTS,IPTT)
-      ILAW  = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
-      NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
-      IVISC = ELBUF_TAB(NG)%BUFLY(ILAY)%IVISC
-      NPTR  = ELBUF_TAB(NG)%NPTR
-      NPTS  = ELBUF_TAB(NG)%NPTS
-      NPTT  = ELBUF_TAB(NG)%NPTT
-      NLAY  = ELBUF_TAB(NG)%NLAY
-      NPG   = NPTS*NPTT*NPTR
-      NVAREOS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_EOS 
-      IPG   = IPTR + ((IPTS-1) + (IPTT-1)*NPTS)*NPTR
-      IGTYP = IPARG(38,NG)
+
+
 
       LFT = 1
-      MTN     = IPARG(1,NG)    
+      IF(PRESENT(OPT_MTN)) THEN
+        MTN     = OPT_MTN 
+      ELSE
+        MTN     = IPARG(1,NG)    
+      ENDIF
       LLT     = IPARG(2,NG)    
       NFT     = IPARG(3,NG)    
       IAD     = IPARG(4,NG)    
@@ -376,7 +367,12 @@ C-----------------------------------------------
       IINT    = IPARG(36,NG)    
       IHET    = 0
       IF(JHBE == 24) IHET = IINT
-      JCVT    = IPARG(37,NG)
+
+      IF(PRESENT(OPT_JCVT)) THEN
+        JCVT  = OPT_JCVT
+      ELSE
+        JCVT  = IPARG(37,NG)
+      ENDIF
       IGTYP   = IPARG(38,NG)
       ICSEN   = IPARG(39,NG)
       ISRAT   = IPARG(40,NG)      
@@ -384,12 +380,45 @@ C-----------------------------------------------
       IF(IPARG(28,NG) == 10) ISROT = IPARG(74,NG)     
       ISORTH  = IPARG(42,NG)      
       ISORTHG = ISORTH
+      IF(PRESENT(OPT_ISORTH)) ISORTH = OPT_ISORTH
+      IF(PRESENT(OPT_ISORTHG)) ISORTHG = OPT_ISORTHG
+
       IFAILURE = IPARG(43,NG)                  
       JSMS = IPARG(52,NG)
       IPARTSPH = IPARG(69,NG)
 
 
 
+C compatibility with deprecated law 20
+      IF(ILAY < 0) THEN
+        JMULT = - ILAY
+        ILAY =  - ILAY
+        IF(JMULT == 1) THEN
+          MTN = IPARG(25,NG)
+        ELSE
+          MTN = IPARG(26,NG)
+        ENDIF
+      ENDIF
+
+
+
+
+      GBUF => ELBUF_TAB(NG)%GBUF
+      LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
+      MBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%MAT(IPTR,IPTS,IPTT)
+      FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IPTR,IPTS,IPTT)
+      VBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%VISC(IPTR,IPTS,IPTT)
+      EBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%EOS(IPTR,IPTS,IPTT)
+      ILAW  = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
+      NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
+      IVISC = ELBUF_TAB(NG)%BUFLY(ILAY)%IVISC
+      NPTR  = ELBUF_TAB(NG)%NPTR
+      NPTS  = ELBUF_TAB(NG)%NPTS
+      NPTT  = ELBUF_TAB(NG)%NPTT
+      NLAY  = ELBUF_TAB(NG)%NLAY
+      NPG   = NPTS*NPTT*NPTR
+      NVAREOS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_EOS 
+      IPG   = IPTR + ((IPTS-1) + (IPTT-1)*NPTS)*NPTR
 
       DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
       IF ((IGTYP == 20).OR.(IGTYP == 21).OR.(IGTYP == 22)) THEN

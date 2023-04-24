@@ -595,7 +595,9 @@ C
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
+     S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
+
 c
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(
