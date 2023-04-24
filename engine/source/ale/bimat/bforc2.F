@@ -62,7 +62,7 @@ Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE BFORC2 (ELBUF_TAB,NG   ,
+      SUBROUTINE BFORC2(ELBUF_TAB,NG   ,
      1                   PM     ,GEO    ,IC     ,X       ,
      2                   A      ,V      ,MS     ,W      ,FLUX    ,
      3                   FLU1   ,VEUL   ,FV     ,ALE_CONNECT  ,IPARG   ,
@@ -128,6 +128,7 @@ C-----------------------------------------------
       INTEGER I,NF1,NF2, MTN1, MTN2, LCO, IMULT, IFLAG,IBID
       INTEGER MAT(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      .        NGL(MVSIZ),NGEO(MVSIZ), IBIDV(1) ,L_TEMP, L_PLA, L_BFRAC,L_BULK
+      INTEGER :: ILAY
       my_real
      .   SOFF
       my_real
@@ -273,6 +274,7 @@ C     MULTIMATERIAUX 1
 C-----------------------------------------------------
       IMULT=JMULT
       JMULT=1
+      ILAY = -1
       LBUF => ELBUF_TAB(NG)%BUFLY(JMULT)%LBUF(1,1,1)  ! buffer mat 1
       MTN=JPARG(25)
       L_TEMP = ELBUF_TAB(NG)%BUFLY(JMULT)%L_TEMP
@@ -344,7 +346,7 @@ C pour le fluide en SPMD : BUFVOIS LOI11
      J   WYZ,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
      L   BID,         BID,         IBID,        BID,
-     M   BID,         IBID,        JMULT,       MBID,
+     M   BID,         IBID,        ILAY,       MBID,
      N   MBID,        1,           1,           1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
@@ -485,7 +487,8 @@ C     NB1:OFF /NB2:SIG(6)/NB3:ENERGIE/NB4:RHO/NB5: Q /
 C-----------------------------------------------------
       IF(IMULT>1)THEN
 c
-      JMULT=2
+      JMULT = 2
+      ILAY = -2
       LBUF => ELBUF_TAB(NG)%BUFLY(JMULT)%LBUF(1,1,1)  ! buffer mat 2
       MTN=JPARG(26)
       L_TEMP = ELBUF_TAB(NG)%BUFLY(JMULT)%L_TEMP
@@ -556,7 +559,7 @@ C-----------------------------------------------------
      J   WYZ,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
      L   BID,         BID,         IBID,        BID,
-     M   BID,         IBID,        JMULT,       MBID,
+     M   BID,         IBID,        ILAY,        MBID,
      N   MBID,        1,           1,           1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IBIDV,       IGEO,        BID,

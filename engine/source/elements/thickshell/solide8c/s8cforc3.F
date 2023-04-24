@@ -482,9 +482,6 @@ C---------R,S,T->S,T,R-------------
       ICS=ICSIG/100
       ICT=MOD(ICSIG/10,10)
       ICR=MOD(ICSIG,10)
-c      NPTS=NPT/100
-c      NPTT=MOD(NPT/10,10)
-c      NPTR=MOD(NPT,10)
 
       NLAY=ELBUF_TAB(NG)%NLAY
       NPTR=ELBUF_TAB(NG)%NPTR
@@ -590,21 +587,6 @@ C-----------Constant SIG traitement-----
 C-----------dans ce cas unique constant direction- EV(NB2) est dans ortho. sys------
       IF (IOR_TSH > 0) THEN    ! Thick shell property - ortho or composite
         PID=NGEO(LFT)
-c
-c        NPTS0=NPTS
-c        NPTT0=NPTT
-c        NPTR0=NPTR
-c        IF (ICS == 1) THEN
-c          NPTR=NPTT0
-c          NPTS=NPTR0
-c          NPTT=NPTS0
-c        ELSEIF (ICR == 1) THEN
-c          NPTR=NPTS0
-c          NPTS=NPTT0
-c          NPTT=NPTR0
-c        ENDIF 
-c        IF (IGTYP == 22 .AND. NLAY==0) NLAY=IGEO(15,PID)
-c------------------   
         DO IR=1,NPTR
           DO IS=1,NPTS
             DO I=LFT,LLT
@@ -1173,7 +1155,8 @@ c
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
+     S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(
