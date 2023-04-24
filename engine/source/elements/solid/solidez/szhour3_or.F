@@ -263,7 +263,7 @@ c      ENDIF
        DO I=1,NEL
         NUS(I) =ZEP499
        ENDDO
-      ELSEIF(ICP==2)THEN
+      ELSEIF(ICP==2.AND.IPLAST>0)THEN
        DO I=1,NEL
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
         FAC2 = DEFP(I)/FAC1
