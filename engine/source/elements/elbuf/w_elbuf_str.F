@@ -703,6 +703,8 @@ c         !-----------------------------------------------------
 c
                     RBUF_L(L_REL+1)=IFAIL
                       L_REL = L_REL+1
+                    RBUF_L(L_REL+1)=IDFAIL
+                      L_REL = L_REL+1
                     RBUF_L(L_REL+1)=NUVAR
                       L_REL = L_REL+1
                     RBUF_L(L_REL+1)=LF_DAM
@@ -887,7 +889,9 @@ c
                   IDFAIL = FLOC%IDFAIL                                 
                   NUVAR = FLOC%NVAR                                      
                   RBUF_L(L_REL+1)=IFAIL                                  
-                    L_REL = L_REL+1                                      
+                    L_REL = L_REL+1 
+                  RBUF_L(L_REL+1)=IDFAIL                                 
+                    L_REL = L_REL+1                     
                   RBUF_L(L_REL+1)=NUVAR                                  
                     L_REL = L_REL+1                                      
                   RBUF_L(L_REL+1:L_REL+NEL*NUVAR)=                       
