@@ -293,4 +293,9 @@ duplicate %s id %d
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200030/DESCRIPTION
 %s (id: %u, name: %s) : Negative FAIL parameter is not supported
+
+/MESSAGE/200031/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200031/DESCRIPTION
+Only one %s card is allowed
 #------------------------------------------------------------------------------
