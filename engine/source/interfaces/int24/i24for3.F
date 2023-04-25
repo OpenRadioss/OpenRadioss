@@ -223,7 +223,7 @@ C-----------------------------------------------
      .   FXS(4),FYS(4),FZS(4),HH,FINC,FA,FB,DDP,PREC1
 
       DOUBLE PRECISION RP1,RP2,STIF_N
-      INTEGER TAGIP(MVSIZ)
+      INTEGER TAGIP(MVSIZ),ISPDO
 C
       INTEGER BITGET
       EXTERNAL BITGET
@@ -476,8 +476,6 @@ C---------if multi-contact in the same groupe---
                   STIF(I) = FACM1*STIF0_IMP(I)
 C-----------never higher than STIF0----------------
                   STIF(I) = MIN(STIF(I),STIF0(I))
-c             IF(ip>0.and.INCONV ==1 )
-c     +    write(iout,*)'FACM1,STIF(I),STIF0(I)=',FACM1,STIF(I),STIF0(I)
                 ENDIF
 C------------quand  PENE_OLD(2,N)=PENE_OLD(1,N)
                 IF(INCONV ==1 )THEN
@@ -552,14 +550,15 @@ C------explicit or implicit+Istif/=6
           DPENE(I) = MAX(ZERO,-VNM(I)*DT1)
           JG = NSVG(I)
           N  = CAND_N_N(I)
+          ISPDO = 1
           IF(JG > 0)THEN
             IF(TT /= ZERO.AND.(PENE_OLD(2,N)/= ZERO.OR.PENE_OLD(5,N)/= ZERO))THEN
-              DDP = PENE(I)-PENE_OLD(2,N)-DPENE(I)-PREC1
-              IF(PENE_OLD(5,N)> ZERO) DDP = DDP+PREC1
+              DDP = PENE(I)-PENE_OLD(2,N)-DPENE(I)
               IF(PENE(I) > PENE_OLD(2,N) .AND.DDP>ZERO)THEN
                 RP1 = PENE_OLD(2,N)/PENE(I)
                 RP2 = DPENE(I)/PENE(I)
-                STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
+                IF (IRESP==1.AND. RP2<EM01) ISPDO = 0
+                IF (ISPDO==1) STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
               ELSEIF(.NOT.(PENE_OLD(2,N)== ZERO.AND.STIF_OLD(2,N)==ZERO))THEN
 C-----------first contact STIF_OLD(2,N) should not be zero
                 STIF(I) = STIF_OLD(2,N)
@@ -579,12 +578,12 @@ c new impact, possible multi impact
             JG = -JG
             IF(TT /= ZERO.AND.(PENE_OLDFI(NIN)%P(2,JG)/= ZERO.OR.
      .                         PENE_OLDFI(NIN)%P(5,JG)/= ZERO))THEN
-              DDP = PENE(I)-PENE_OLDFI(NIN)%P(2,JG)-DPENE(I)-PREC1
-              IF(PENE_OLDFI(NIN)%P(5,JG)> ZERO) DDP = DDP+PREC1
+              DDP = PENE(I)-PENE_OLDFI(NIN)%P(2,JG)-DPENE(I)
               IF(PENE(I) > PENE_OLDFI(NIN)%P(2,JG) .AND.DDP>ZERO)THEN
                 RP1 = PENE_OLDFI(NIN)%P(2,JG)/PENE(I)
                 RP2 = DPENE(I)/PENE(I)
-                STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
+                IF (IRESP==1.AND. RP2<EM01) ISPDO = 0
+                IF (ISPDO==1)STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
               ELSEIF(.NOT.(PENE_OLDFI(NIN)%P(2,JG)== ZERO.AND.
      .                            STIF_OLDFI(NIN)%P(2,JG)==ZERO))THEN
                 STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
