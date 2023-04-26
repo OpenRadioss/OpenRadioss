@@ -133,7 +133,7 @@ Chd|====================================================================
      M                  POR      ,ICONTACT ,IFOAM    ,VOLN    ,CONDN   ,
      N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSORS ,
      O                  SKEW     ,NALE     ,D        ,IOUTPRT ,NLOC_DMG,
-     Q                  MATPARAM_TAB,H3D_STRAIN)     
+     Q                  MATPARAM_TAB,H3D_STRAIN,DT   )     
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -145,6 +145,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE ALE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -212,6 +213,7 @@ C
       my_real :: AGRAV(*),SKEW(LSKEW,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (DT_),   INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -980,14 +982,14 @@ C Compute Strains for output
       IF ((IMON_MAT==1).AND. ITASK == 0) CALL STOPTIME(35,1)
 C
       ITET = 0
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
 C Small Strain
       CALL SMALLB3(
      1   GBUF%OFF,OFF,     NEL,     ISMSTR)
       ITET = 0
       CALL SMALLGEO3(
      1   NGL,     GBUF%OFF,VOLN,    DELTAX,
-     2   GBUF%VOL,ITET,    NEL,     ISMSTR)
+     2   GBUF%VOL,ITET,    NEL,     ISMSTR,DT )
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         CALL S8SAV12(
      1   GBUF%OFF,  OFFG0,     GBUF%SMSTR,X,

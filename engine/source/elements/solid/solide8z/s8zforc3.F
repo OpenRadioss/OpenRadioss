@@ -108,7 +108,8 @@ Chd|====================================================================
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT    ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS   ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,
-     M                    D        ,SENSORS,IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN)
+     M                    D        ,SENSORS,IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN,
+     N                    DT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -120,6 +121,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -182,6 +184,7 @@ C
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB 
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
+      TYPE(DT_),     INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
@@ -1353,12 +1356,12 @@ c----------------------
      A   VOLG,    PP,      IDEG,    NEL)
       ENDIF
       ITET = 0
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
       CALL SMALLB3(GBUF%OFF,OFFL,NEL,ISMSTR)
-      CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX, GBUF%VOL ,ITET,NEL,ISMSTR)
+      CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX, GBUF%VOL ,ITET,NEL,ISMSTR,DT)
       IF (ISMSTR==11.OR.(ISMSTR == 12.AND.IDTMIN(1)==3)) THEN
          CALL S8EDEFW3(
      1   PXC1,    PXC2,    PXC3,    PXC4,

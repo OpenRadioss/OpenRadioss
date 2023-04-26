@@ -96,7 +96,7 @@ Chd|====================================================================
      K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSORS   ,
      L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
      M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
-     N         DIFFUSION   , MATPARAM_TAB,H3D_DATA)
+     N         DIFFUSION   , MATPARAM_TAB,H3D_DATA      ,DT   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -116,6 +116,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE H3D_MOD
       USE ALE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,6 +200,7 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
       my_real, INTENT(INOUT) :: XCELL(3,SXCELL)
+      TYPE (DT_) ,INTENT(INOUT)  :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -773,7 +775,8 @@ C
      B            BID       ,BID       ,BID     ,IBID       ,GRESAV   ,
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,VARNOD    ,VOLN    ,BID        ,BID      ,
-     E            D         ,SENSORS   ,IOUTPRT ,MATPARAM_TAB,IBID)
+     E            D         ,SENSORS   ,IOUTPRT ,MATPARAM_TAB,IBID    ,
+     F            DT )
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -806,7 +809,7 @@ C
      N            CONDNSKY     ,AGRAV        ,IGRV         ,LGRAV        ,SENSORS ,
      O            SKEW          ,
      P            ALE_CONNECTIVITY%NALE      ,D            ,IOUTPRT      ,NLOC_DMG,
-     Q            MATPARAM_TAB ,IBID)
+     Q            MATPARAM_TAB ,IBID         ,DT  )
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -927,7 +930,8 @@ C     ALE ON / OFF
      B            BID       ,BID       ,BID     ,IBID       ,GRESAV   ,
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,BID       ,VOLN    ,BID        ,BID      ,
-     E            D         ,SENSORS   ,IOUTPRT ,MATPARAM_TAB ,IBID)
+     E            D         ,SENSORS   ,IOUTPRT ,MATPARAM_TAB ,IBID   ,
+     F            DT  )
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -960,7 +964,7 @@ C     ALE ON / OFF
      N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSORS ,
      O            SKEW        ,
      P            ALE_CONNECTIVITY%NALE         ,D           ,IOUTPRT   ,NLOC_DMG     ,
-     Q            MATPARAM_TAB ,IBID)
+     Q            MATPARAM_TAB ,IBID        ,DT  )
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 

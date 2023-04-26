@@ -578,7 +578,8 @@ Chd|====================================================================
      K  NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
-     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES)
+     N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
+     O  DT  )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -653,6 +654,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -883,6 +885,7 @@ c
       TYPE(USER_WINDOWS_),INTENT(INOUT)                  :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)                        :: OUTPUT
       TYPE (INTERFACES_) ,INTENT(INOUT)                  :: INTERFACES
+      TYPE (DT_) ,INTENT(INOUT)                          :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3699,7 +3702,7 @@ C
      K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS        ,
      L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM      ,IGRTRUSS        ,
      M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB       ,ALE_CONNECTIVITY, DIFFUSION,
-     N          MATPARAM_TAB,H3D_DATA)
+     N          MATPARAM_TAB,H3D_DATA,DT   )
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4465,7 +4468,7 @@ C
      U CONDNSKY       ,SFSAV6        ,FBSAV6      ,STABSEN    ,TABSENSOR       ,
      V TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
-     Y H3D_DATA       ,IFTHE         ,ICONDN      )
+     Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT    )
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN
@@ -8444,7 +8447,7 @@ C Regular animation
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
-     t   USER_WINDOWS  ,OUTPUT  ) 
+     t   USER_WINDOWS  ,OUTPUT         ,DT  ) 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(

@@ -76,7 +76,7 @@ Chd|====================================================================
      D                   IGRTH    ,TABLE   ,MSSA    ,DMELS  ,VOLN   ,
      E                   ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN ,
      F                   TEMP     ,FTHE    ,FTHESKY ,CONDN  ,CONDNSKY,
-     G                   IEXPAN   ,IFTHE   ,ICONDN )
+     G                   IEXPAN   ,IFTHE   ,ICONDN  ,DT     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -130,9 +131,10 @@ C-----------------------------------------------
      .   CONDN(ICONDN),CONDNSKY(LSKY)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (NLOCAL_STR_)  , TARGET                    :: NLOC_DMG 
+      TYPE(t_ale_connectivity), INTENT(IN)            :: ALE_CONNECT
+      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)     :: MATPARAM_TAB
+      TYPE(DT_)  , INTENT(INOUT)                      :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -338,6 +340,7 @@ C
       PID = NGEO(1)
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=6
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=6
       MX = MXT(1)
       C1 =PM(32,MX)
       DO I=1,NEL
@@ -723,13 +726,12 @@ C-----------------------------
         ENDDO
       ENDIF
       IF ( NN_DEL> 0) THEN
-        IF (NTSHEG == 0)
-     .   CALL SDLENSH3N(VOLG,LLSH,AREA , 
+        CALL SDLENSH3N2(VOLG,LLSH,AREA , 
      .                  X1, X2, X3, X4, X5, X6,
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, NEL)
-        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLN,AREA,GBUF%VOL,
-     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
+        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
+     .                  LLSH,GEO(1,PID),NN_DEL,DT,NEL )
       ENDIF
 C-----------------------------
 C Small strain

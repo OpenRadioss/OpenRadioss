@@ -31,11 +31,12 @@ Chd|        SCFORC3                       source/elements/thickshell/solidec/scf
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE TSHGEODEL3(NGL, OFFG ,VOLG ,AREA, VOLG0 ,L_SH,GEO ,NNOD,NEL)
+      SUBROUTINE TSHGEODEL3(NGL, OFFG ,VOLG ,AREA, VOLG0 ,L_SH,GEO ,NNOD,DT,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr18_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -55,27 +55,34 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(MVSIZ) ,INTENT(IN)  :: NGL
       my_real, DIMENSION(NPROPG) , INTENT(IN)  :: GEO 
       my_real, DIMENSION(NEL) , INTENT(IN)  :: VOLG0 
-      my_real, DIMENSION(MVSIZ) , INTENT(IN)  :: VOLG,AREA,L_SH 
+      my_real, DIMENSION(MVSIZ) , INTENT(IN)  :: VOLG,AREA,L_SH ! L_SH=L_MAX**2
       my_real, DIMENSION(NEL) , INTENT(INOUT)  :: OFFG 
+      TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ICOUNT,LIST(MVSIZ)
       my_real
      .   TET_COLLA(MVSIZ),DEF_V(MVSIZ),APS_R(MVSIZ),
-     .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX
+     .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
 C---------------------------------------------
       VDEFMIN = GEO(190)
       VDEFMAX = GEO(191)
       ASPMAX  = GEO(192)
       COLMIN  = GEO(193)
 C-----
-      IF((VDEFMIN+VDEFMAX+ASPMAX+COLMIN)==ZERO) RETURN
+      GDEL=VDEFMIN+VDEFMAX+ASPMAX+COLMIN
+      IF(GDEL==ZERO.AND.DT%IDEL_BRICK==0) RETURN
+C-----
+      IF(VDEFMAX==ZERO .OR. DT%BRICK_DEL_DEFV_MAX<VDEFMAX) 
+     .                   VDEFMAX = DT%BRICK_DEL_DEFV_MAX 
+      IF(ASPMAX==ZERO .OR. DT%BRICK_DEL_ASP_MAX<ASPMAX)
+     .                   ASPMAX = DT%BRICK_DEL_ASP_MAX 
       C_MIN = ONE
       C_MAX = ONE
 C--- penta6      
       IF (NNOD ==6) THEN
-       C_MAX = SQR2
+       C_MAX = FOURTH*SQR3
        C_MIN = ONE/C_MAX
       END IF
 C
@@ -129,13 +136,13 @@ C
 #include "lockoff.inc"
         END IF !(ICOUNT > 0) THEN
       END IF 
-C--- Hexa : APS_r=lmax/lmin lmax~sqrt(Amax); lmin~l_sh  -> 
-C---        APS_r~sqrt(Amax)/l_sh)    
+C--- Hexa : APS_r=lmax/lmin lmax~sqrt(L_SH); lmin~A/lmax  -> 
+C---        APS_r~lmax^2/A    
         IF (ASPMAX>ZERO) THEN
           ICOUNT = 0
           DO I=1,NEL
            IF (OFFG(I)==ZERO) CYCLE
-           APS_R(I) = C_MAX*SQRT(AREA(I))/L_SH(I)
+           APS_R(I) = C_MAX*L_SH(I)/AREA(I)
            IF (APS_R(I) > ASPMAX) THEN
             OFFG(I) = ZERO
             ICOUNT=ICOUNT+1
@@ -162,7 +169,7 @@ C---        TET_c =1/ASP_r
           ICOUNT = 0
           DO I=1,NEL
            IF (OFFG(I)==ZERO) CYCLE
-           TET_COLLA(I) = C_MIN * L_SH(I)/SQRT(AREA(I))
+           TET_COLLA(I) = C_MIN *AREA(I)/L_SH(I)
            IF (TET_COLLA(I) < COLMIN) THEN
             OFFG(I) = ZERO
             ICOUNT=ICOUNT+1

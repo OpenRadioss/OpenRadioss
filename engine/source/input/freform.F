@@ -79,7 +79,7 @@ Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .                   SENSORS)
+     .                   SENSORS,DT )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -98,6 +98,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
       USE SENSOR_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,6 +110,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
+      TYPE (DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -864,6 +866,12 @@ C
       DTFACS_INT=ZERO
       DTMINS_INT=ZERO
       IDT_THERM=0
+      DT%BRICK_CST_DEFV_MIN = ZERO
+      DT%BRICK_CST_COL_MIN = ZERO
+      DT%BRICK_DEL_DEFV_MIN = ZERO
+      DT%BRICK_DEL_DEFV_MAX = ZERO
+      DT%BRICK_DEL_ASP_MAX = ZERO
+      DT%BRICK_DEL_COL_MIN = ZERO
 C
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
@@ -1030,16 +1038,29 @@ C
          DTFAC1(1) = DTFACA
          DTMIN1(1) = DTMINA
          IDTMIN(1) = IDT
-         MIN_ASPECT = ZERO
-         MIN_DEFV = ZERO
-         IF(K4==1)THEN
+         IF(KEY3(1:3)=='CST'.AND.K4==1)THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-           READ(IUSC2,*,ERR=1001,END=1001)MIN_ASPECT,MIN_DEFV
+           READ(IUSC2,*,ERR=1001,END=1001)DT%BRICK_CST_COL_MIN,
+     .                                    DT%BRICK_CST_DEFV_MIN
            GO TO 1002
  1001      CONTINUE
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-           READ(IUSC2,*,ERR=9990,END=9990)MIN_ASPECT
+           READ(IUSC2,*,ERR=9990,END=9990)DT%BRICK_CST_COL_MIN
  1002      CONTINUE
+           K=K+1
+         ENDIF
+         IF(KEY3(1:3)=='DEL'.AND.K4==1)THEN
+           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+           READ(IUSC2,*,ERR=1003,END=1003)DT%BRICK_DEL_COL_MIN,
+     .                                    DT%BRICK_DEL_DEFV_MIN,
+     .                                    DT%BRICK_DEL_ASP_MAX,
+     .                                    DT%BRICK_DEL_DEFV_MAX
+           GO TO 1004
+ 1003      CONTINUE
+           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+           READ(IUSC2,*,ERR=9990,END=9990)DT%BRICK_DEL_COL_MIN,
+     .                                    DT%BRICK_DEL_DEFV_MIN
+ 1004     CONTINUE
            K=K+1
          ENDIF
         ELSEIF(KEY2(1:4)=='QUAD')THEN
@@ -1310,16 +1331,29 @@ C--------------------------
          DTFAC1(1) = DTFACA
          DTMIN1(1) = DTMINA
          IDTMIN(1) = IDT
-            MIN_ASPECT = ZERO
-            MIN_DEFV = ZERO
-            IF(K4==1)THEN
+            IF(KEY3(1:3)=='CST'.AND.K4==1)THEN
               CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-              READ(IUSC2,*,ERR=1101,END=1101)MIN_ASPECT,MIN_DEFV
+              READ(IUSC2,*,ERR=1101,END=1101)DT%BRICK_CST_COL_MIN,
+     .                                       DT%BRICK_CST_DEFV_MIN
               GO TO 1102
  1101         CONTINUE
               CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-              READ(IUSC2,*,ERR=9990,END=9990)MIN_ASPECT
+              READ(IUSC2,*,ERR=9990,END=9990)DT%BRICK_CST_COL_MIN
  1102         CONTINUE
+              K=K+1
+            ENDIF
+            IF(KEY3(1:3)=='DEL'.AND.K4==1)THEN
+              CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+              READ(IUSC2,*,ERR=1103,END=1103)DT%BRICK_DEL_COL_MIN,
+     .                                       DT%BRICK_DEL_DEFV_MIN,
+     .                                       DT%BRICK_DEL_ASP_MAX,
+     .                                       DT%BRICK_DEL_DEFV_MAX
+              GO TO 1104
+ 1103         CONTINUE
+              CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+              READ(IUSC2,*,ERR=9990,END=9990)DT%BRICK_DEL_COL_MIN,
+     .                                       DT%BRICK_DEL_DEFV_MIN
+ 1104         CONTINUE
               K=K+1
             ENDIF
        ELSE
@@ -1330,7 +1364,7 @@ C--------------------------
        ENDIF
        IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 161
       ENDIF
-      
+      CALL INIT_IDEL_BRICK(DT)
 C--------------------------
 C     /TFILE
 C-------------------------- 
