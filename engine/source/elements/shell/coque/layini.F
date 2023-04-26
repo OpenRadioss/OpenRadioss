@@ -204,7 +204,7 @@ C---
                 JMLY = (IXLAY - 1)*JLT + I                                                
                 DO IT=1,NPTT    
                    J = (IT-1)*JLT + I                                                                     
-                   THK_IT(IT,I) = ONE/NPTT  ! 
+                   THK_IT(IT,I) = ONE/NPTT  !  THK_LY = ONE
                    THKLY(J)    = THK_IT(IT,I)                                   
                    MATLY(JMLY) = MAT_LY(I)    ! layer defined
                    POSLY(I,IT) = ZERO                     
@@ -219,7 +219,7 @@ C---
                 JMLY = (IXLAY - 1)*JLT + I                                                
                 DO IT=1,NPTT    
                    J = (IT-1)*JLT + I                                                                     
-                   THK_IT(IT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)
+                   THK_IT(IT,I) = HALF*W_GAUSS(IT,NPTT)  ! THK_LY = ONE
                    THKLY(J)    = THK_IT(IT,I)                                                          
                    MATLY(JMLY) = MAT_LY(I)    ! layer defined
                    POSLY(I,IT) = ZERO                     
