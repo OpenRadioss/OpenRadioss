@@ -34,11 +34,12 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,ITET,NEL)
+      SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,ITET,DT,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,20 +60,27 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) , INTENT(IN)  :: VOLG0 
       my_real, DIMENSION(MVSIZ) , INTENT(IN)  :: VOLG,DELTAX 
       my_real, DIMENSION(NEL) , INTENT(INOUT)  :: OFFG 
+      TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ICOUNT,LIST(MVSIZ)
       my_real
      .   TET_COLLA(MVSIZ),DEF_V(MVSIZ),APS_R(MVSIZ),
-     .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX
+     .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
 C---------------------------------------------
-      VDEFMIN = GEO(190)
+      VDEFMIN = MAX(GEO(190),DT%BRICK_DEL_DEFV_MIN)
       VDEFMAX = GEO(191)
       ASPMAX  = GEO(192)
-      COLMIN  = GEO(193)
+      COLMIN  = MAX(GEO(193),DT%BRICK_DEL_COL_MIN)
 C-----
-      IF((VDEFMIN+VDEFMAX+ASPMAX+COLMIN)==ZERO) RETURN
+      GDEL=VDEFMIN+VDEFMAX+ASPMAX+COLMIN
+      IF(GDEL==ZERO.AND.DT%IDEL_BRICK==0) RETURN
+C-----
+      IF(VDEFMAX==ZERO .OR. DT%BRICK_DEL_DEFV_MAX<VDEFMAX) 
+     .                   VDEFMAX = DT%BRICK_DEL_DEFV_MAX 
+      IF(ASPMAX==ZERO .OR. DT%BRICK_DEL_ASP_MAX<ASPMAX)
+     .                   ASPMAX = DT%BRICK_DEL_ASP_MAX 
       C_MIN = ONE
       C_MAX = ONE
 C--- tet      

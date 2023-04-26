@@ -69,7 +69,8 @@ Chd|====================================================================
      H                    TEMP     ,FTHE   ,FTHESKY,IEXPAN ,GRESAV ,
      I                    GRTH     ,IGRTH  ,TABLE  ,IGEO   ,VOLN   ,
      J                    CONDN    ,CONDNSKY,
-     K                    ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
+     K                    ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN,
+     L                    DT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -133,6 +135,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -274,6 +277,7 @@ C
       PID = NGEO(1)
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=20
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=20
 c
       DO N=1,NPE
         DO I=1,NEL
@@ -462,7 +466,7 @@ C
      .              YY(1,5), YY(1,6), YY(1,7), YY(1,8),
      .              ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
      .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8), NEL)
-        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
       END IF !( NN_DEL> 0) THEN
 C--------------------------
 C     BILANS PAR MATERIAU

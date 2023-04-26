@@ -71,7 +71,7 @@ Chd|====================================================================
      F                    IPM      ,ISTRAIN ,TEMP   ,FTHE    ,FTHESKY ,
      G                    IEXPAN   ,GRESAV  ,GRTH   ,IGRTH   ,TABLE   ,
      H                    IGEO     ,VOLN    ,CONDN  ,CONDNSKY,ITASK  ,
-     I                    IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN)
+     I                    IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN  ,DT    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -136,6 +137,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -397,6 +399,7 @@ C=======================================================================
       PID = NGEO(1)
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=16
 C
       DO N=1,NPE
         DO I=1,NEL
@@ -651,7 +654,7 @@ C
       ENDDO     ! IT=1,NPTT
 C      
       IF ( NN_DEL> 0) THEN
-        CALL SDLENSH(VOLG,LLSH,AREA ,
+        CALL SDLENSH2(VOLG,LLSH,AREA ,
      .          XX(1,1), XX(1,2), XX(1,3), XX(1,4),
      .          XX(1,5), XX(1,6), XX(1,7), XX(1,8),
      .          YY(1,1), YY(1,2), YY(1,3), YY(1,4),
@@ -659,7 +662,7 @@ C
      .          ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
      .          ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8), NEL)
         CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
-     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
+     .                  LLSH,GEO(1,PID),NN_DEL,DT ,NEL )
       ENDIF
       !--------------------------
       !     BILANS PAR MATERIAU

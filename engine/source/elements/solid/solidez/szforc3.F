@@ -104,7 +104,8 @@ Chd|====================================================================
      F                   MSSA     ,DMELS   ,TABLE   ,IGEO   ,XDP    ,
      G                   CONDN    ,CONDNSKY  ,
      H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
-     I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN)
+     I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN,
+     J                   DT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -116,6 +117,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE ALE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -177,6 +179,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
+      TYPE(DT_),     INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -691,7 +694,7 @@ C
       ENDIF
 C
       ITET = 0
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,NEL )
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
 C
 C Small strain formulation is activated:
 C           a) by minimum time step in MMAIN
@@ -699,7 +702,7 @@ C           b) by small volume or bad aspect ratio in SMALLGEO3
 C If ISMSTR=2 GBUF%SMSTR was updated by S8SAV3 (before MMAIN, each cycle) fixed when off=2
 C If ISMSTR=12 fixed GBUF%SMSTR before, updated only once by S8SAV12 
       CALL SMALLB3(GBUF%OFF,OFF,NEL,ISMSTR)
-      CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET,NEL,ISMSTR)
+      CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET,NEL,ISMSTR,DT)
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         CALL S8SAV12(
      1   GBUF%OFF,  OFFG0,     GBUF%SMSTR,X,

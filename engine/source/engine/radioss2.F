@@ -202,6 +202,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -329,6 +330,7 @@ C
       TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
       TYPE (INTERFACES_)  :: INTERFACES
 c      TYPE (SENSORS_)     :: SENSORS    ! defined as global in user_interface_mod
+      TYPE (DT_)          :: DT
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -640,7 +642,7 @@ C------------------------------------------------
 C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .            SENSORS)
+     .            SENSORS,DT )
       NFSKYI=5
       IF(KDTINT==0 )NFSKYI=4
       
@@ -1532,7 +1534,7 @@ C------------------------------------------------
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA)
+     I              DYNAIN_DATA,DT )
 
 C------------------------------------------------
 C Close & Delete scratch file
@@ -2227,7 +2229,7 @@ C---------------------------------------------------------------------
      .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
-     .                   OUTPUT       ,INTERFACES      )
+     .                   OUTPUT       ,INTERFACES      ,DT              )
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

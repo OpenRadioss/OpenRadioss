@@ -27,12 +27,13 @@ Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driv
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ENG_QAPRINT_DTINPUT()
+      SUBROUTINE ENG_QAPRINT_DTINPUT(DT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +47,10 @@ C-----------------------------------------------
 #include      "scr_thermal_c.inc"
 #include      "sms_c.inc"
 #include      "cong2_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      TYPE(DT_)  , INTENT(INOUT)                      :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,11 +84,11 @@ C         VARNAME: variable name in ref.extract (without blanks)
         ENDDO
 
         WRITE(VARNAME,'(A)') 'MIN_ASPECT'
-        TEMP_DOUBLE = MIN_ASPECT
+        TEMP_DOUBLE = DT%BRICK_CST_COL_MIN
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
         WRITE(VARNAME,'(A)') 'MIN_DEFV'
-        TEMP_DOUBLE = MIN_DEFV
+        TEMP_DOUBLE = DT%BRICK_CST_DEFV_MIN
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
 C-----------------------------------------------

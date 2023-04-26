@@ -36,11 +36,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SMALLGEO3(
      1   NGL,     OFFG,    VOLG,    DELTAX,
-     2   VOLG0,   ITET,    NEL,     ISMSTR)
+     2   VOLG0,   ITET,    NEL,     ISMSTR,DT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +51,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr18_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -60,14 +60,17 @@ C-----------------------------------------------
       INTEGER ITET,NGL(*)
       my_real
      .   OFFG(*),VOLG(*),DELTAX(*), VOLG0(*)
+      TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ICOUNT,LIST(MVSIZ)
       my_real
-     .   TET_COLLA(MVSIZ),COEF,DEF_V,AL
+     .   TET_COLLA(MVSIZ),COEF,DEF_V,AL,MIN_ASPECT,MIN_DEFV
 C---------------------------------------------
-C----- MIN_ASPECT, MIN_DEFV will be defined in include file--
+      MIN_ASPECT = DT%BRICK_CST_COL_MIN
+      MIN_DEFV = DT%BRICK_CST_DEFV_MIN
+C-
       IF(MIN_ASPECT==ZERO.AND.MIN_DEFV==ZERO) RETURN
       IF(ISMSTR/=2.AND.ISMSTR/=12) RETURN
       COEF = ONE

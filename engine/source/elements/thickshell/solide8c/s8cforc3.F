@@ -91,7 +91,7 @@ Chd|====================================================================
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT   ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS  ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSORS,
-     M                    IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
+     M                    IOUTPRT,MATPARAM_TAB,H3D_STRAIN,DT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
       USE MATPARAM_DEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,6 +163,7 @@ C
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
+      TYPE(DT_), INTENT(INOUT)     :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -459,7 +461,8 @@ C       GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
       NN_DEL = 0
       PID = NGEO(1)
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
-     .        NN_DEL=6
+     .        NN_DEL=8
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
 c
       IF (JCVT == 2 .AND. IOR_TSH  == 0) THEN
         CALL STORTH3(
@@ -521,10 +524,10 @@ c---------------------------
      8   NEL)
       END IF                                 
       IF (NTSHEG > 0) THEN
-         CALL SDLENSH(VOLN,LLSH,AREA ,
+         CALL SDLENSH8(VOLN,LLSH,AREA ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,NEL)
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,ICSIG,NEL)
          LLSMIN(LFT:LLT) = DELTAX(LFT:LLT)
       END IF        
 C --------------------------
@@ -1337,13 +1340,12 @@ c----------------------
         ENDDO
       ENDIF
       IF ( NN_DEL> 0) THEN
-        IF (NTSHEG == 0)
-     .    CALL SDLENSH(VOLG,LLSH,AREA ,
+         CALL SDLENSH14(VOLG,LLSH,AREA ,
      .          X1, X2, X3, X4, X5, X6, X7, X8,
      .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,NEL)
+     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,ICSIG,NEL)
         CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
-     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
+     .                  LLSH,GEO(1,PID),NN_DEL,DT,NEL )
       ENDIF
 C-----------------------------
 C     SMALL STRAIN 

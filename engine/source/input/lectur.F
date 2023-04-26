@@ -88,7 +88,7 @@ Chd|====================================================================
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I                  DYNAIN_DATA)
+     I                  DYNAIN_DATA,DT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +109,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -189,6 +190,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)  :: DYNAIN_DATA
+      TYPE (DT_), INTENT(INOUT)              :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -218,7 +220,7 @@ C-----------------------------------------------
        CHARACTER*9 Cale1,Cale2,ALEform(0:6),CHAR1,CHAR2
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
        CHARACTER CARTE*ncharline,LINE*ncharline
-      my_real eta1,eta2
+      my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
       my_real, DIMENSION(:), POINTER :: OFFG
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
       LOGICAL IS_ALREADY_PRINTED
@@ -468,10 +470,13 @@ C --------------------------------------------------------------------
            CALL ARRET(2)
         ENDIF
       ENDIF
+C      
+      MIN_ASPECT = DT%BRICK_CST_COL_MIN
+      MIN_DEFV = DT%BRICK_CST_DEFV_MIN
       IF(ISPMD == 0.AND.MCHECK == 0)
      .  WRITE(IOUT,1100)TSTOP,DTHIS,DTFAC,DTMIN
       IF(NODADT == 0)THEN
-	IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
+       IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
          IF(ISPMD == 0.AND.MCHECK == 0)THEN
            WRITE(IOUT,4700) DTFAC1(1),DTMIN1(1),IDTMIN(1),
      +                 MIN_ASPECT,MIN_DEFV,
@@ -487,7 +492,7 @@ C --------------------------------------------------------------------
           IF(IDT1SOL/=0) WRITE(IOUT,4730)
           IF(IDT1TET10/=0) WRITE(IOUT,4740)
          ENDIF!(ISPMD == 0.AND.MCHECK == 0)
-        ELSE
+       ELSE
          IF(ISPMD == 0.AND.MCHECK == 0)THEN
           WRITE(IOUT,1105) DTFAC1(1),DTMIN1(1),IDTMIN(1),
      +                 DTFAC1(2),DTMIN1(2),IDTMIN(2),
@@ -502,7 +507,12 @@ C --------------------------------------------------------------------
           IF(IDT1SOL/=0) WRITE(IOUT,4730)
           IF(IDT1TET10/=0) WRITE(IOUT,4740)
          ENDIF!(ISPMD == 0.AND.MCHECK == 0)
-	      END IF
+       END IF !(MIN_ASPECT+MIN_DEFV)>ZERO)
+       IF (DT%IDEL_BRICK>ZERO) THEN
+           IF(ISPMD == 0.AND.MCHECK == 0)
+     .     WRITE(IOUT,5020)DT%BRICK_DEL_COL_MIN,DT%BRICK_DEL_DEFV_MIN,
+     .                     DT%BRICK_DEL_ASP_MAX,DT%BRICK_DEL_DEFV_MAX
+       ENDIF
         IF(IDTMIN(11) == 3 .OR. IDTMIN(11) == 8) THEN
            IF(ISPMD == 0.AND.MCHECK == 0)
      .      WRITE(IOUT,1107)DTFAC1(11),DTMIN1(11),IDTMIN(11)
@@ -535,7 +545,7 @@ C --------------------------------------------------------------------
             ENDIF
           END IF
         END IF
-	       IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
+        IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
          IF(ISPMD == 0.AND.MCHECK == 0)THEN
            WRITE(IOUT,4700) DTFAC1(1),DTMIN1(1),IDTMIN(1),
      +                 MIN_ASPECT,MIN_DEFV,
@@ -549,8 +559,8 @@ C --------------------------------------------------------------------
            !WRITE(IOUT,4710) DTFAC1(102),DTMIN1(102)
            IF(IDT1SH /=0) WRITE(IOUT,4720)
            IF(IDT1SOL/=0) WRITE(IOUT,4730)
-          IF(IDT1TET10/=0) WRITE(IOUT,4740)
-          ENDIF
+           IF(IDT1TET10/=0) WRITE(IOUT,4740)
+         ENDIF
         ELSE
          IF(ISPMD == 0.AND.MCHECK == 0)THEN
           WRITE(IOUT,1105) DTFAC1(1),DTMIN1(1),IDTMIN(1),
@@ -566,7 +576,12 @@ C --------------------------------------------------------------------
           IF(IDT1SOL/=0) WRITE(IOUT,4730)
           IF(IDT1TET10/=0) WRITE(IOUT,4740)
          ENDIF
-	END IF !((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
+        END IF !((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
+        IF (DT%IDEL_BRICK>ZERO) THEN
+           IF(ISPMD == 0.AND.MCHECK == 0)
+     .     WRITE(IOUT,5020)DT%BRICK_DEL_COL_MIN,DT%BRICK_DEL_DEFV_MIN,
+     .                     DT%BRICK_DEL_ASP_MAX,DT%BRICK_DEL_DEFV_MAX
+        END IF 
         IF(IDTMINS_INT/=0)THEN
          IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
           WRITE(IOUT,1209) DTFACS_INT,DTMINS_INT
@@ -605,10 +620,6 @@ C
 C
       ENDIF
 C
-     	IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
-           IF(ISPMD == 0.AND.MCHECK == 0)
-     .      WRITE(IOUT,4700)MIN_ASPECT,MIN_DEFV
-	     END IF
 
       IF(NODADT==0.AND.(ISTATCND/=0.AND.IMPL_S==0))THEN
         CALL ANCMSG(MSGID=121,ANMODE=ANINFO_BLIND)
@@ -3059,8 +3070,8 @@ C
      .  ' BRICK TIME STEP SCALE FACTOR . . . . . . . . . . ',G14.7/
      .  ' BRICK MINIMUM TIME STEP. . . . . . . . . . . . . ',G14.7/
      .  ' MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE 3:CST )',I5//
-     .  ' BRICK MINIMUM ASPECT RATIO (Tet collapse). . . . :',G14.7/
-     .  ' BRICK MINIMUM VOLUME CHANGE . . . . . . . . . . .:',G14.7//
+     .  ' BRICK_CST MINIMUM ASPECT RATIO (Tet collapse). . ',G14.7/
+     .  ' BRICK_CST MINIMUM VOLUME CHANGE . . . . . . . .  ',G14.7//
      .  ' QUAD TIME STEP SCALE FACTOR. . . . . . . . . . . ',G14.7/
      .  ' QUAD MINIMUM TIME STEP . . . . . . . . . . . . . ',G14.7/
      .  ' MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD). ',I5//
@@ -3107,6 +3118,11 @@ C
      .  ' NODE GROUP ID (=0 ALL NODES) . . . . . . . . . . ',I10/
      .  '  START TIME. . . . . . . . . . . . . . . . . . . ',G14.7/
      .  '  STOP  TIME. . . . . . . . . . . . . . . . . . . ',G14.7)
+ 5020 FORMAT(
+     .  ' BRICK_DEL MINIMUM COLLAPSE RATIO. . . . . . . . . ',G14.7/
+     .  ' BRICK_DEL MINIMUM VOLUME CHANGE . . . . . . . . . ',G14.7/
+     .  ' BRICK_DEL MAXIMUM ASPECT RATIO  . . . . . . . . . ',G14.7/
+     .  ' BRICK_DEL MAXIMUM VOLUME CHANGE . . . . . . . . . ',G14.7//)
 
       END
 Chd|====================================================================

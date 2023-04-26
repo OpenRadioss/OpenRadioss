@@ -77,7 +77,7 @@ Chd|====================================================================
      E                   IEXPAN   ,IGEO    ,GRESAV   ,GRTH    ,IGRTH    ,
      F                   MSSA     ,DMELS   ,TABLE    ,XDP     ,VOLN     ,
      G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MATPARAM_TAB,
-     H                   H3D_STRAIN)
+     H                   H3D_STRAIN,DT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +87,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -136,6 +137,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -426,6 +428,7 @@ C
       PID = NGEO(1)
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       MX = MXT(1)
       DO I=1,NEL
         SIGY(I) = EP30
@@ -811,13 +814,12 @@ C-----------------------------
         ENDDO
       ENDIF
       IF ( NN_DEL> 0) THEN
-        IF (NTSHEG == 0)
-     .    CALL SDLENSH(VOLN,LLSH,AREA ,
+         CALL SDLENSH2(VOLG,LLSH,AREA ,
      .          X1, X2, X3, X4, X5, X6, X7, X8,
      .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,NEL)
-        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLN,AREA,GBUF%VOL,
-     .                  LLSH,GEO(1,PID),NN_DEL,NEL )
+        CALL TSHGEODEL3(NGL,GBUF%OFF,VOLG,AREA,GBUF%VOL,
+     .                  LLSH,GEO(1,PID),NN_DEL,DT,NEL )
       ENDIF
 C-----------------------------
 C Small strain
