@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER  I,J,NBMESSAGES,MSG_ID,MSG_TYPE,LINE_NB
       CHARACTER*ncharline FILE_NAME 
       CHARACTER*1000 MSG_DESCR,MSG_BLOCK,MSG_LINE
-      INTEGER  IS_READER_KO,FILE_END
+      INTEGER  IS_READER_KO,FILE_END,NB_INCLUDE_DYNA
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -157,6 +157,17 @@ C OUTPUT MESSAGE IN RADIOSS 0.out FILE
           ENDIF
         ENDIF
       ENDDO
+C--------------------------------------------------
+C CHECK FOR SEVERAL /INCLUDE_DYNA
+C--------------------------------------------------
+      NB_INCLUDE_DYNA = 0
+      CALL HM_OPTION_COUNT('/INCLUDE_DYNA', NB_INCLUDE_DYNA)
+      IF (NB_INCLUDE_DYNA > 1) THEN
+        CALL ANCMSG(MSGID=3006,
+     .    MSGTYPE=MSGERROR,
+     .    ANMODE=ANINFO)
+        IS_READER_KO = IS_READER_KO + 1
+      ENDIF
 C--------------------------------------------------
 C LS-DYNA INPUT FORMAT READING MESSAGES ( SYNTAX PB)
 C--------------------------------------------------
