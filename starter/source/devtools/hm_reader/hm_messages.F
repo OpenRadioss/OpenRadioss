@@ -162,7 +162,7 @@ C--------------------------------------------------
 C CHECK FOR SEVERAL /INCLUDE_DYNA
 C--------------------------------------------------
       NB_INCLUDE_DYNA = 0
-      CALL HM_OPTION_COUNT('/INCLUDE_DYNA', NB_INCLUDE_DYNA)
+      CALL HM_OPTION_COUNT('/INCLUDE_LS-DYNA', NB_INCLUDE_DYNA)
       IF (NB_INCLUDE_DYNA > 1) THEN
         CALL ANCMSG(MSGID=3006,
      .    MSGTYPE=MSGERROR,
