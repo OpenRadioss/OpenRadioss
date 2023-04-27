@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
+Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE HM_MESSAGES(IS_DYNA)

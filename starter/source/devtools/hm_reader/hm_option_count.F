@@ -30,6 +30,7 @@ Chd|        HM_CONVERT_INTER_TYPE19       source/devtools/hm_reader/hm_convert_i
 Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 Chd|        HM_DEBUG_PRINT_OPTION         source/devtools/hm_reader/hm_debug_print_option.F
 Chd|        HM_GET_MAX_ID                 source/devtools/hm_reader/hm_get_max_id.F
+Chd|        HM_MESSAGES                   source/devtools/hm_reader/hm_messages.F
 Chd|        HM_PREREAD_BEM                source/loads/bem/hm_read_bem.F
 Chd|        HM_PREREAD_IMPACC             source/constraints/general/impvel/hm_preread_impacc.F
 Chd|        HM_PREREAD_IMPDISP            source/constraints/general/impvel/hm_preread_impdisp.F

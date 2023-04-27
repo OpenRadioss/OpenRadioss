@@ -26,7 +26,6 @@ Chd|  REDEF3                        source/elements/spring/redef3.F
 Chd|-- called by -----------
 Chd|        R1DEF3                        source/elements/spring/r1def3.F
 Chd|        R23L108DEF3                   source/elements/spring/r23l108def3.F
-Chd|        R23L113DEF3                   source/elements/spring/r23l113def3.F
 Chd|        R23L114DEF3                   source/elements/spring/r23l114def3.F
 Chd|        R2DEF3                        source/elements/spring/r2def3.F
 Chd|        R3DEF3                        source/elements/spring/r3def3.F

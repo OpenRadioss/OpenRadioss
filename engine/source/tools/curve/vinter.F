@@ -103,6 +103,7 @@ Chd|        MAT121C_NICE                  source/materials/mat/mat121/mat121c_ni
 Chd|        MAT121_NEWTON                 source/materials/mat/mat121/mat121_newton.F
 Chd|        MAT121_NICE                   source/materials/mat/mat121/mat121_nice.F
 Chd|        REDEF3                        source/elements/spring/redef3.F
+Chd|        REDEF3_LAW113                 source/elements/spring/redef3_law113.F
 Chd|        REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.F
 Chd|        RKENONL                       source/elements/spring/r4mat3.F
 Chd|        SIGEPS121                     source/materials/mat/mat121/sigeps121.F
@@ -180,6 +181,7 @@ Chd|  VINTER2DP                     source/tools/curve/vinter.F
 Chd|-- called by -----------
 Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
 Chd|        REDEF3                        source/elements/spring/redef3.F
+Chd|        REDEF3_LAW113                 source/elements/spring/redef3_law113.F
 Chd|        RKENONL                       source/elements/spring/r4mat3.F
 Chd|        SIGEPS28                      source/materials/mat/mat028/sigeps28.F
 Chd|        SIGEPS68                      source/materials/mat/mat068/sigeps68.F

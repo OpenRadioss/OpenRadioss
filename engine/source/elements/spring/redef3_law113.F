@@ -22,8 +22,8 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
-Chd|  REDEF3_LAW113                      source/elements/spring/redef3_law113.F
-Chd|-- called by -----------        
+Chd|  REDEF3_LAW113                 source/elements/spring/redef3_law113.F
+Chd|-- called by -----------
 Chd|        R23L113DEF3                   source/elements/spring/r23l113def3.F
 Chd|-- calls ---------------
 Chd|        VINTER2                       source/tools/curve/vinter.F   
