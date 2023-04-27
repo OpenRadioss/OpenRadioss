@@ -80,8 +80,8 @@ C----------------------------------------------------------
                       MS2 = MS(N2)
                       N3=INTBUF_TAB(N)%IRECTM(4*(I-1)+3)
                       MS3 = MS(N3)
+                      N4=INTBUF_TAB(N)%IRECTM(4*(I-1)+4)
                       IF (N3 /= N4) THEN
-                         N4=INTBUF_TAB(N)%IRECTM(4*(I-1)+4)
                          MS4 = MS(N4)
                          INTBUF_TAB(N)%STIFMSDT_M(I) = STFACM*FOURTH*(MS1+MS2+MS3+MS4)
                       ELSE
