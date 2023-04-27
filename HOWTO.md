@@ -7,15 +7,16 @@
 * [Build environment on Windows](#build-environment-on-windows)
    * [Compiler environment](#compiler-environment)
    * [Build environment using cmd DOS shell](#build-environment-using-cmd-dos-shell)
-   * [Build environment using Visual Studio 2019](#build-environment-using-visual-studio-2019)
+   * [Build environment using Visual Studio](#build-environment-using-visual-studio-2019)
    * [Building environment using cygwin](#building-environment-using-cygwin)
 * [How to build OpenRadioss](#how-to-build-openradioss)
    * [Get the source](#get-the-source)
    * [Building on Linux](#building-on-Linux)
-   * [Build OpenRadioss on Windows with cmd Shell](#build-openRadioss-on-windows-with-cmd-shell)
-   * [Build OpenRadioss with Visual Studio 2019](build-openRadioss-with-visual-studio-2019)
-   * [Build OpenRadioss with cygwin](#build-openRadioss-with-cygwin)
+   * [Build OpenRadioss on Windows with cmd Shell](#build-openradioss-on-windows-with-cmd-shell)
+   * [Build OpenRadioss with Visual Studio](#build-openradioss-with-visual-studio)
+   * [Build OpenRadioss with cygwin](#build-openradioss-with-cygwin)
 * [How to build OpenRadioss on Linux with Container using Apptainer](#how-to-build-openradioss-on-linux-with-container-using-apptainer)
+* [How to debug with Visual Studio](./doc/Visual_Studio_Debugger.md)
 
 ## Build environment on Linux
 
@@ -452,9 +453,12 @@ Execution Control
           -verbose           : Verbose build
           -clean             : clean build directory
 
-### Build OpenRadioss with Visual Studio 2019
+### Build OpenRadioss with Visual Studio
 
-* Launch Visual Studio 2019
+This sections assumes, that Intel OneAPI Compiler was successfully installed.
+Procedure was tested on Visual Studio 2019 and Visual Studio 2022
+
+* Launch Visual Studio
 
 * Choose `Open Local Folder` option and select the OpenRadioss directory from your clone.
 

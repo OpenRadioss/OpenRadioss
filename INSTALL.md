@@ -24,7 +24,7 @@ OpenRadioss is made of:
     * [Running OpenRadioss container using Apptainer under Linux](#running-openradioss-container-using-apptainer-under-linux)
     * [Running OpenRadioss container without MPI (OpenMP only)](#running-openradioss-container-without-mpi) 
 * [Running OpenRadioss test suite from the source code](#running-openradioss-test-suite-from-the-source-code)
-
+* [Debugging OpenRadioss with Visual Studio](./doc/Visual_Studio_Debugger.md)
 
 
 ## Prerequisites
