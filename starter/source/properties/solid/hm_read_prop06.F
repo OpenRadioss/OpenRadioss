@@ -38,7 +38,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP06(GEO      ,IGEO    ,PROP_TAG,MULTI_FVM ,IGTYP   ,
      .                          IG       ,IDTITL  ,UNITAB  ,LSUBMODEL ,RTRANS  ,
-     .                          SUB_ID   ,ISKN    ,IPART   )
+     .                          SUB_ID   ,ISKN    ,IPART   ,SUB_INDEX)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -49,12 +49,20 @@ C   ===================
 C
 C     NAME            DESCRIPTION                         
 C
-C     IGEO            PROPERTY ARRAY(INTEGER)
 C     GEO             PROPERTY ARRAY(REAL)
+C     IGEO            PROPERTY ARRAY(INTEGER)
+C     PROP_TAG        PROPERTY TAGS STRUCTURE
+C     MULTI_FVM       MULTI_FVM STRUCTURE
+C     IGTYP           PROPERTY TYPE
+C     IG              PROPERTY ID
+C     IDTITL          TITLES ARRAY
 C     UNITAB          UNITS ARRAY
-C     IG              PROPERTY ID(INTEGER)
-C     SUB_INDEX       SUBMODEL INDEX(INTEGER)
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+C     LSUBMODEL       SUBMODEL STRUCTURE   
+C     RTRANS          TRANSFORMATION ARRAY(REAL)
+C     SUB_ID          SUBMODEL ID
+C     ISKN            SKEW ARRAY(INTEGER)
+C     IPART           PART ARRAY(INTEGER)
+C     SUB_INDEX       SUBMODEL INDEX
 C-----------------------------------------------
 C============================================================================
 C-----------------------------------------------
@@ -81,19 +89,27 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "sphcom.inc"
 #include      "tablen_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(INOUT) :: IGEO(NPROPGI)
+      INTEGER,INTENT(IN) :: IG
+      INTEGER,INTENT(IN) :: ISKN(LISKN,SISKWN/LISKN)
+      INTEGER,INTENT(IN) :: IPART(LIPART1,NPART+NTHPART) 
+      INTEGER,INTENT(IN) :: IGTYP
+      INTEGER,INTENT(IN) :: SUB_ID 
+      INTEGER,INTENT(IN) :: SUB_INDEX 
+C
+      my_real,INTENT(INOUT) :: GEO(NPROPG)
+      my_real,INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
+C
+      CHARACTER,INTENT(IN) :: IDTITL*nchartitle
+C
+      TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP),INTENT(INOUT) :: PROP_TAG
+      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IGEO(NPROPGI),IG,SUB_ID,ISKN(LISKN,*),
-     .        IPART(LIPART1,*),IGTYP
-C     REAL
-      my_real
-     .   GEO(NPROPG),RTRANS(NTRANSF,*)
-      TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
-      TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      CHARACTER IDTITL*nchartitle
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -115,7 +131,6 @@ C-----------------------------------------------
       IHBE=0
 C======================================================================|
 C
-C  double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
       GEO(3)=ISMSTR
 
       IGEO( 1)=IG
@@ -171,6 +186,8 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Px',PX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Py',PY,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Pz',PZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+C--------------------------------------------------
+      IF(ISK == 0 .AND. SUB_INDEX /= 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
 C-----removed flags:
       ISTR=1 
       IPLAS = 2
@@ -493,8 +510,6 @@ C
       ENDIF 
 
 C-------------------------------
-C  Double stockage temporaire : GEO() / IGEO() : a supprimer a terme
-C
       IGEO(1) =IG
       IGEO(11)=IGTYP
       IGEO(17)=ISORTH

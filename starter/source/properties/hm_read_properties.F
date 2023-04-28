@@ -359,8 +359,8 @@ C            HM READING PROPERTY TYPE6 (SOL_ORTH)
 c------------------------------
              IGTYP=6
              CALL HM_READ_PROP06(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP  ,
-     .                          PROP_ID       ,IDTITL   ,UNITAB   ,LSUBMODEL,RTRANS ,
-     .                          SUB_ID   ,ISKN     ,IPART    )
+     .                          PROP_ID  ,IDTITL   ,UNITAB   ,LSUBMODEL,RTRANS ,
+     .                          SUB_ID   ,ISKN     ,IPART    ,SUB_INDEX)
 
           CASE ('TYPE5','TYPE05','RIVET')
 c------------------------------
