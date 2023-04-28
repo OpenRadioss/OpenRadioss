@@ -2070,7 +2070,7 @@ c  --- GENE1 failure model
      3          NGL      ,GBUF%DT  ,EPSP1    ,UVARF    ,OFF      ,NPG      ,     
      4          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,           
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     6          TEMPEL   ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
+     6          EL_TEMP  ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
      7          IR       ,ELBUF_TAB(NG),ILAY )
 c
           ELSEIF (IRUPT == 40) THEN                                      

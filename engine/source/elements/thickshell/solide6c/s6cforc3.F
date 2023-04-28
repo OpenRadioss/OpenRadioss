@@ -73,7 +73,9 @@ Chd|====================================================================
      B                   ICP      ,ICSIG   ,NLOC_DMG,
      C                   IPM      ,ISTRAIN ,IGEO    ,GRESAV ,GRTH   ,
      D                   IGRTH    ,TABLE   ,MSSA    ,DMELS  ,VOLN   ,
-     E                   ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
+     E                   ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN ,
+     F                   TEMP     ,FTHE    ,FTHESKY ,CONDN  ,CONDNSKY,
+     G                   IEXPAN   ,IFTHE   ,ICONDN )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -95,18 +97,20 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "parit_c.inc"
 #include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "com06_c.inc"
+#include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),GRTH(*),
      .  IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),IGRTH(*), ITASK,IOUTPRT
       INTEGER NELTST,ITYPTST,OFFSET,NG,NEL,ICP,ICSIG,ISTRAIN,H3D_STRAIN
+      INTEGER, INTENT(IN) :: IEXPAN,IFTHE,ICONDN
       my_real
      .   DT2T
       my_real
@@ -121,6 +125,8 @@ C-----------------------------------------------
      .   F15(MVSIZ),F25(MVSIZ),F35(MVSIZ),
      .   F16(MVSIZ),F26(MVSIZ),F36(MVSIZ),GRESAV(*),
      .   MSSA(*), DMELS(*), VOLN(MVSIZ)
+      my_real, INTENT(INOUT) :: TEMP(NUMNOD),FTHE(IFTHE),FTHESKY(LSKY),
+     .   CONDN(ICONDN),CONDNSKY(LSKY)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -130,7 +136,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,LCO,NF1,IFLAG,NUVAR,
-     .   ILAY,NLAY,IR,IS,IT,IP,IBID,MX
+     .   ILAY,NLAY,IR,IS,IT,IP,IBID,MX,L_PLA,L_EPSD
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IBIDON(1)
 c     Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
@@ -220,6 +226,7 @@ C
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
      .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ),AREA(MVSIZ)
       my_real VARNL(NEL)
+      my_real THEM(MVSIZ,6),TEMPEL(MVSIZ),DIE(MVSIZ),CONDEN(MVSIZ)
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ),FACDP
 C-----
@@ -339,6 +346,7 @@ C
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
         USB(I)=EM01/C1
         STIN(I)=ZERO
+        CONDEN(I)= ZERO
       ENDDO
 C
       IF (ICP==1) THEN                                
@@ -484,6 +492,23 @@ C--------------------------------------
       ELSE
         DTI = ONE/DT1
       ENDIF 
+C-------------------------------------------
+C Element temperature
+C-------------------------------------------
+      TEMPEL(1:NEL) = ZERO
+      IF (JTHE < 0) THEN       
+        DO I=1,NEL
+          TEMPEL(I) = ONE_OVER_6 *(TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                           + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                           + TEMP(NC5(I)) + TEMP(NC6(I)))
+          GBUF%TEMP(I) = TEMPEL(I)
+        ENDDO
+      ENDIF
+      IOFFS=0
+      DO I=1,NEL
+        OFFS(I)  = EP20
+      ENDDO
+      IF (JTHE < 0) THEM(1:NEL,1:6) = ZERO
 C---------------------------------------------
 C Loop on integration points through thickness
 C---------------------------------------------
@@ -534,7 +559,7 @@ C
           ENDIF
         ENDIF
 C 
-         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)  
+        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)  
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
      2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
@@ -572,11 +597,11 @@ C------------------------------------------------------
      I   DYY,         DYZ,         DZX,         DZY,
      J   DZZ,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     BID,
-     M   BID,         IBID,        ILAY,        MSSA,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     M   DIE,         IEXPAN,      ILAY,        MSSA,
      N   DMELS,       IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
-     P   BID,         IPARG(1,NG), IGEO,        BID,
+     P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
      S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
@@ -585,6 +610,12 @@ C
         DO I=1,NEL
           STIN(I) = STIN(I)+STI(I)
         ENDDO
+C
+        IF(NODADT_THERM == 1) THEN
+          DO I=1,NEL
+            CONDEN(I)= CONDEN(I)+ CONDE(I)
+          ENDDO
+        ENDIF
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(
      1   DXX,      DYY,      DZZ,      D4,
@@ -595,6 +626,8 @@ C
 C----------------------------
 C Internal forces
 C----------------------------
+        L_PLA  = ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA
+        L_EPSD = ELBUF_TAB(NG)%BUFLY(ILAY)%L_EPSD
         IF (ISORTH > 0) THEN
          CALL SCROTO_SIG(NEL,LBUF%SIG,SIGN,DIR)
 !! SCROTO() temporary replaced by (the same) SCROTO_SIG() in order to do not affect
@@ -619,7 +652,7 @@ C----------------------------
      H   GBUF%EPSD,  GBUF%SIG,   GBUF%EINT,  GBUF%RHO,
      I   GBUF%QVIS,  GBUF%PLA,   ZT,         WT,
      J   VOLG,       OFF,        NU1,        LBUF%VOL,
-     K   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,NEL)
+     K   GBUF%VOL,   L_PLA,      L_EPSD,     NEL)
         ELSE
          CALL S6CFINT3(
      1   LBUF%SIG,          PX1,               PX2,               PX3,
@@ -641,17 +674,27 @@ C----------------------------
      H   GBUF%EPSD,         GBUF%SIG,          GBUF%EINT,         GBUF%RHO,
      I   GBUF%QVIS,         GBUF%PLA,          A_GAUSS(ILAY,NLAY),W_GAUSS(ILAY,NLAY),
      J   VOLG,              OFF,               NU1,               LBUF%VOL,
-     K   GBUF%VOL,          GBUF%G_PLA,        GBUF%G_EPSD,       NEL)
-          DO I=1,NEL
-            OFFS(I)=EP20
-          ENDDO
+     K   GBUF%VOL,          L_PLA,             L_EPSD,            NEL)
         ENDIF ! IF (ISORTH > 0)
-        IOFFS=0
+C-------------------------
+C Finite element heat transfert  
+C--------------------------
+        IF (JTHE < 0) THEN
+          CALL S6CTHERM(
+     1      PM       ,MXT     ,VOLN     ,NC1      ,
+     2      NC2      ,NC3     ,NC4      ,NC5      ,
+     3      NC6      ,PX1     ,PX2      ,PX3      ,
+     4      PX4      ,PY1     ,PY2      ,PY3      ,
+     5      PY4      ,PZ1     ,PZ2      ,PZ3      ,
+     6      PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
+     7      DIE      ,THEM    ,GBUF%OFF ,LBUF%OFF ,
+     8      NEL      )
+        ENDIF 
         DO I=1,NEL                                        
           OFFG(I)=MIN(OFFG(I),OFF(I))                        
-         IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
-           OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
-           IOFFS   = 1                                         
+          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
+            OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
+            IOFFS   = 1                                         
           END IF                                             
         ENDDO                                               
 C-----------------------------
@@ -699,7 +742,7 @@ C--------------------------------------
       IF (IOUTPRT>0) THEN         
            CALL S6CBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,GBUF%RK ,GBUF%VOL,
      .       VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
-     .       GRESAV,GRTH,IGRTH,GBUF%OFF,IBID,GBUF%EINTTH,
+     .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
      .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),GBUF%OFF)
       ENDIF
@@ -767,7 +810,8 @@ C----------------------------
      5   F13,     F23,     F33,     F14,
      6   F24,     F34,     F15,     F25,
      7   F35,     F16,     F26,     F36,
-     8   NEL)
+     8   NEL,    JTHE,    FTHE,    THEM,
+     9   CONDN,CONDEN,   IFTHE,  ICONDN)
       ELSE
         CALL S6CUMU3P(
      1   GBUF%OFF,STIN,    FSKY,    FSKY,
@@ -776,7 +820,8 @@ C----------------------------
      4   F23,     F33,     F14,     F24,
      5   F34,     F15,     F25,     F35,
      6   F16,     F26,     F36,     NEL,
-     7   NFT)
+     7   NFT,    JTHE, FTHESKY,    THEM,
+     8   CONDNSKY,CONDEN)
       ENDIF
       IF (NTSHEG > 0)
      +  CALL SCUMUALPHA6(
