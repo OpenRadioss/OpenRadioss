@@ -388,6 +388,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE SKEW_MOD
       USE MATPARAM_DEF_MOD
+      USE GROUP_PARAM_MOD
       USE SPLIT_CFD_MOD
       USE PINCHTYPE_MOD
       USE INOUTFILE_MOD
@@ -768,8 +769,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: NODGLOBXFE
 
       TYPE(INTBUF_STRUCT_),DIMENSION(:),ALLOCATABLE :: INTBUF_TAB_L
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)   :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP)   :: GROUP_PARAM_TAB
+      TYPE(MATPARAM_STRUCT_)  ,DIMENSION(NUMMAT)    :: MATPARAM_TAB
+      TYPE(GROUP_PARAM_)      ,DIMENSION(NGROUP)    :: GROUP_PARAM_TAB
 C-----------------------------------------------
 C     For Meshgems
 C-----------------------------------------------

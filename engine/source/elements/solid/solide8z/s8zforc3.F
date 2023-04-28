@@ -110,18 +110,17 @@ Chd|====================================================================
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT    ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS   ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,
-     M                    D        ,SENSORS,IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN,
+     M                    D        ,SENSORS,IOUTPRT,MAT_ELEM,H3D_STRAIN,
      N                    DT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE DT_MOD
 C-----------------------------------------------
@@ -184,7 +183,7 @@ C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB 
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       TYPE(DT_),     INTENT(INOUT) :: DT
 C-----------------------------------------------
@@ -1169,7 +1168,7 @@ C
      N   DMELS,        IR,           IS,           IT,
      O   TABLE,        BID,          BID,          BID,
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
-     Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MATPARAM_TAB,
+     Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,      JSPH)
 C    
         IF (ISTRAIN == 1) THEN 

@@ -21,44 +21,33 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
+Chd|  GROUP_PARAM              
 Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NGROUP
-      TYPE(GROUP_PARAM_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER NG,LEN
-      my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
-C=======================================================================
-      LEN = 2
-      ALLOCATE(RBUF(NGROUP,LEN))
-c
-      DO NG = 1, NGROUP
-        RBUF(NG,1) = GROUP_PARAM_TAB(NG)%VISC_DM
-        RBUF(NG,2) = GROUP_PARAM_TAB(NG)%VISC_DN
-      ENDDO
-C
-      CALL WRITE_DB(RBUF,LEN*NGROUP)
-      DEALLOCATE( RBUF )
-c-----------
-      RETURN
-      END
+      MODULE GROUP_PARAM_MOD
+C----------------------------------------------------------------------- 
+#include "my_real.inc"
+c=======================================================================      
+c define type GROUP_PARAM_STRUCT_ for element group parameters depending on property/material
+c allocatable dimension : NGROUP
+c=======================================================================      
+!      INTEGER ,PARAMETER  :: IPARG_X = 
+!      INTEGER ,PARAMETER  :: IPARG_Y = 
+!      INTEGER ,PARAMETER  :: IPARG_Z = 
 
+!      INTEGER ,PARAMETER  :: NPARG  = 100
+c 
+      TYPE GROUP_PARAM_               ! (NGROUP)
+        integer     :: IMAT    
+        integer     :: IPROP
+        integer     :: NPARG    
+        my_real     :: VISC_DN
+        my_real     :: VISC_DM
+        integer     :: ISMSTR
+        
+        integer ,DIMENSION(:) ,ALLOCATABLE :: IPARG  ! size = NPARG
+
+      END TYPE GROUP_PARAM_
+c
+c---------------
+      END MODULE GROUP_PARAM_MOD

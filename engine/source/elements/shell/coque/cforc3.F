@@ -90,7 +90,7 @@ Chd|====================================================================
      C   M12,         M13,         M14,         M21,
      D   M22,         M23,         M24,         M31,
      E   M32,         M33,         M34,         INDXOF,
-     F   IPARTC,      THKE,        GROUP_PARAM, MATPARAM_TAB,
+     F   IPARTC,      THKE,        GROUP_PARAM, MAT_ELEM,
      G   NEL,         ISTRAIN,     IHBE,        ITHK,
      H   IOFC,        IPLA,        NFT,         ISMSTR,
      I   NPT,         KFTS,        FZERO,       IGEO,
@@ -109,11 +109,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE CRACKXFEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD    
       USE NLOCAL_REG_MOD
       USE DRAPE_MOD
       USE SENSOR_MOD
@@ -170,12 +169,12 @@ C
       TYPE (ELBUF_STRUCT_), DIMENSION(NXEL), TARGET :: XFEM_STR  ! take xfem_str
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
-      TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
-      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (OUTPUT_)     ,INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (SENSORS_)    ,INTENT(IN)    :: SENSORS
+      TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (GROUP_PARAM_),INTENT(IN)    :: GROUP_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -521,7 +520,7 @@ C-----------------------------
      4  SSP         ,RHO         ,VISCMX      ,DT1C       ,SIGY       ,
      5  AREA        ,EXX         ,EYY         ,EXY        ,EXZ        ,
      6  EYZ         ,KXX         ,KYY         ,KXY        ,NU         ,
-     7  OFF         ,THK0        ,MAT         ,PID        ,MATPARAM_TAB,
+     7  OFF         ,THK0        ,MAT         ,PID        ,MAT_ELEM   ,
      8  GBUF%FOR    ,GBUF%MOM    ,GBUF%STRA   ,FAILWAVE   ,FWAVE_EL   ,
      9  GBUF%THK    ,GBUF%EINT   ,IOFC        ,
      A  G           ,A11         ,A12         ,VOL0       ,INDXOF     ,

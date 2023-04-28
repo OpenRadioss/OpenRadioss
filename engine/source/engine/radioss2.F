@@ -180,7 +180,8 @@ C-----------------------------------------------
       USE INTBUFFRIC_MOD
       USE GROUP_MOD
       USE GROUPDEF_MOD
-      USE MATPARAM_DEF_MOD
+      USE MAT_ELEM_MOD
+      USE GROUP_PARAM_MOD
       USE TIME_MOD
       USE PINCHTYPE_MOD
       USE CHECK_MOD
@@ -316,7 +317,7 @@ C Madymo Stuff
       TYPE (MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(:), ALLOCATABLE :: MATPARAM_TAB     ! NUMMAT
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB  ! NGROUP
+      TYPE(GROUP_PARAM_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB  ! NGROUP
 
       TYPE (PINCH)  :: PINCH_DATA
       TYPE(DRAPE_), DIMENSION(:), ALLOCATABLE        :: DRAPE_SH4N,DRAPE_SH3N
@@ -333,9 +334,10 @@ C
       INTEGER IUTITLHIS,IUTITLHI(9)
       TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
       TYPE (INTERFACES_)  :: INTERFACES
-c      TYPE (SENSORS_)     :: SENSORS    ! defined as global in user_interface_mod
-      TYPE (DT_)          :: DT
-      TYPE (LOADS_) :: LOADS
+c      TYPE (SENSORS_)  :: SENSORS    ! defined as global in user_interface_mod
+      TYPE (DT_)       :: DT
+      TYPE (LOADS_)    :: LOADS
+      TYPE (MAT_ELEM_) :: MAT_ELEM
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -847,7 +849,8 @@ C     .rst file reading 1
 C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
-     .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS)
+     .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
+     .            MAT_ELEM )
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
@@ -1006,7 +1009,7 @@ c
       CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
      .            MULTI_FVM        ,H3D_DATA  ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA,
      .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           )
+     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           ,MAT_ELEM   )
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -2234,7 +2237,7 @@ C---------------------------------------------------------------------
      .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
-     .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      )
+     .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  )
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

@@ -181,20 +181,20 @@ Chd|====================================================================
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       FVD2,        FDELTAX,     FSSP,
      P   FQVIS,       IPARG1,      IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN,
      S   OPT_JCVT,    OPT_ISORTH,  OPT_ISORTHG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD
       USE ANIM_MOD
       USE ALE_MOD
+      USE MULAW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -255,8 +255,8 @@ C-----------  R4_FREE is replaced by R3_AMU (no more free)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (MAT_ELEM_)  ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1725,7 +1725,7 @@ c
      Y   EPSTH,       LBUF%FORTH,  LBUF%VISC,   NEL,
      Z   GBUF%ETOTSH, ISELECT,     TSTAR,       LBUF%MU,
      1   DPDM,        RHOREF,      RHOSP,       NVARTMP,
-     2   MBUF%VARTMP, LBUF%EINTTH, MATPARAM_TAB,NLOC_DMG,
+     2   MBUF%VARTMP, LBUF%EINTTH, MAT_ELEM,    NLOC_DMG,
      3   ITY,         JTUR,        JSMS)
 
       ENDIF 

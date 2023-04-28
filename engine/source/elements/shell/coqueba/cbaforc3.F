@@ -94,7 +94,7 @@ Chd|====================================================================
      1   ELBUF_STR,   JFT,         JLT,         NFT,
      2   NPT,         IPARI,       MTN,         IPRI,
      3   ITHK,        NELTST,      ITYPTST,     ITAB,
-     4   MATPARAM_TAB,ISTRAIN,     IPLA,        TT,
+     4   MAT_ELEM,    ISTRAIN,     IPLA,        TT,
      5   DT1,         DT2T,        PM,          GEO,
      6   PARTSAV,     IXC,         FAILWAVE,    BUFMAT,
      7   TF,          NPF,         IADC,        X,
@@ -124,10 +124,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE TABLE_MOD
-      USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD        
+      USE MAT_ELEM_MOD        
       USE NLOCAL_REG_MOD    
       USE PINCH_LOCAL_MOD
       USE DRAPE_MOD
@@ -183,10 +182,10 @@ C     REAL OU REAL*8
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
+      TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG 
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE)
-      TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_),INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -762,7 +761,7 @@ C-----------------
      4    SSP       ,RHO       ,VISCMX    ,DT1C      ,SIGY       ,
      5    CDET      ,EXX       ,EYY       ,EXY       ,EXZ        ,
      6    EYZ       ,KXX       ,KYY       ,KXY       ,NU         ,
-     7    OFF       ,THK0      ,MAT       ,PID       ,MATPARAM_TAB,
+     7    OFF       ,THK0      ,MAT       ,PID       ,MAT_ELEM   ,
      8    GBUF%FORPG(PTF),GBUF%MOMPG(PTM) ,GBUF%STRPG(PTS),FAILWAVE,FWAVE_EL,
      9    GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A    G         ,A11       ,A12       ,VOL0      ,INDXOF    ,

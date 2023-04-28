@@ -44,7 +44,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .                  INTER_PARAMETERS,SENSORS,LOADS )
+     .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE PARAMETERS_MOD
       USE SENSOR_MOD
       USE LOADS_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +76,7 @@ C-----------------------------------------------
       TYPE (PARAMETERS_)    ,INTENT(INOUT) :: INTER_PARAMETERS
       TYPE (SENSORS_)       ,INTENT(INOUT) :: SENSORS
       TYPE (LOADS_)         ,INTENT(INOUT) :: LOADS
+      TYPE (MAT_ELEM_)      ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -375,6 +377,7 @@ C
       SSEGQUADFR= TABVINT(236)
 C-----1
       NUMMAT =TABVINT(238)
+      MAT_ELEM%NUMMAT = NUMMAT
       NUMNOD =TABVINT(239)
       NUMSKW =TABVINT(240)
       NUMBCS =TABVINT(241)

@@ -30,11 +30,12 @@ Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_MATPARAM(MATPARAM_TAB,NUMMAT)
+      SUBROUTINE WRITE_MATPARAM(MATPARAM,NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      USE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,55 +44,83 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER , INTENT(IN)    :: NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM_TAB
-      TARGET :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT,IAD,LEN,NPARAM,NUMTABL
-      INTEGER, DIMENSION(:)  ,ALLOCATABLE :: IBUF
-      TYPE(MATPARAM_STRUCT_) ,POINTER     :: MATPARAM
+      INTEGER :: I,IMAT,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,LEN
+      INTEGER ,DIMENSION(NCHARTITLE) :: NAME
+      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
-      NPARAM = 8
-      LEN = NPARAM*NUMMAT + 1
+      NFIX = 13
+      LEN = NFIX*NUMMAT + 1
       ALLOCATE (IBUF(LEN) )
 c
       IAD = 1
       IBUF(IAD) = LEN-1
 c
       DO IMAT=1,NUMMAT
-        MATPARAM => MATPARAM_TAB(IMAT)
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%ILAW 
+          IBUF(IAD) = MATPARAM(IMAT)%ILAW 
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%MAT_ID
+          IBUF(IAD) = MATPARAM(IMAT)%MAT_ID
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%NTABLE
+          IBUF(IAD) = MATPARAM(IMAT)%NUPARAM
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%COMPRESSIBILITY
+          IBUF(IAD) = MATPARAM(IMAT)%NIPARAM
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%SMSTR
+          IBUF(IAD) = MATPARAM(IMAT)%NFUNC
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%STRAIN_FORMULATION
+          IBUF(IAD) = MATPARAM(IMAT)%NTABLE
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%IPRES
+          IBUF(IAD) = MATPARAM(IMAT)%NSUBMAT
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%ORTHOTROPY
+          IBUF(IAD) = MATPARAM(IMAT)%NFAIL
+c
+        IAD = IAD+1
+          IBUF(IAD) = MATPARAM(IMAT)%COMPRESSIBILITY
+        IAD = IAD+1
+          IBUF(IAD) = MATPARAM(IMAT)%SMSTR
+        IAD = IAD+1
+          IBUF(IAD) = MATPARAM(IMAT)%STRAIN_FORMULATION
+        IAD = IAD+1
+          IBUF(IAD) = MATPARAM(IMAT)%IPRES
+        IAD = IAD+1
+          IBUF(IAD) = MATPARAM(IMAT)%ORTHOTROPY
       END DO
 c
       CALL WRITE_I_C(IBUF,LEN)
-c
       DEALLOCATE(IBUF)
+      
+c     write material title
+
+      DO IMAT=1,NUMMAT      
+        DO I=1,NCHARTITLE
+          NAME(I) = ICHAR(MATPARAM(IMAT)%TITLE(I:I))
+        END DO
+        CALL WRITE_C_C(NAME,NCHARTITLE)
+      END DO
+c           
+c     write material parameter array
+
+      DO IMAT=1,NUMMAT      
+        NUPARAM = MATPARAM(IMAT)%NUPARAM
+        NIPARAM = MATPARAM(IMAT)%NIPARAM
+        IF (NUPARAM > 0) THEN
+          CALL WRITE_DB(MATPARAM(IMAT)%UPARAM ,NUPARAM)
+        END IF      
+        IF (NIPARAM > 0) THEN
+          CALL WRITE_I_C(MATPARAM(IMAT)%IPARAM ,NIPARAM)
+        END IF      
+      END DO
       
 c     write material law tables if necessary
       
       DO IMAT=1,NUMMAT
-        MATPARAM => MATPARAM_TAB(IMAT)
-        NUMTABL  = MATPARAM%NTABLE
-        
+        NUMTABL  = MATPARAM(IMAT)%NTABLE
         IF (NUMTABL > 0) THEN
-          CALL TABLE_WRESTI_MAT(MATPARAM%TABLE, NUMTABL)
-          CALL TABLE_WRESTR_MAT(MATPARAM%TABLE, NUMTABL)
+          CALL TABLE_WRESTI_MAT(MATPARAM(IMAT)%TABLE, NUMTABL)
+          CALL TABLE_WRESTR_MAT(MATPARAM(IMAT)%TABLE, NUMTABL)
         END IF
       END DO      
 c-----------

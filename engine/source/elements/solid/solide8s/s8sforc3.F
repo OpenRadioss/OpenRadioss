@@ -86,17 +86,16 @@ Chd|====================================================================
      D                    TEMP     ,FTHE   ,FTHESKY ,IEXPAN  ,GRESAV  ,
      E                    GRTH     ,IGRTH  ,MSSA    ,DMELS   ,TABLE   ,
      F                    IGEO     ,XDP    ,VOLN    ,CONDN   ,CONDNSKY,
-     G                    D        ,IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
+     G                    D        ,IOUTPRT,MAT_ELEM,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -151,7 +150,7 @@ C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -829,7 +828,7 @@ c
      N   DMELS,        IR,           IS,           IT,
      O   TABLE,        BID,          BID,          BID,
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
-     Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MATPARAM_TAB,
+     Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,      JSPH)
 C
        IF (ISTRAIN == 1)THEN 

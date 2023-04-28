@@ -63,7 +63,7 @@ Chd|====================================================================
      A   F31,         F32,         F33,         F14,
      B   F15,         F16,         F24,         F25,
      C   F26,         F34,         F35,         F36,
-     D   MATPARAM_TAB,NEL,         ISTRAIN,     IHBE,
+     D   MAT_ELEM,    NEL,         ISTRAIN,     IHBE,
      E   ITHK,        IOFC,        IPLA,        NFT,
      F   ISMSTR,      NPT,         KFTS,        IXTG1,
      G   IADTG1,      IGEO,        IPM,         IFAILURE,
@@ -76,11 +76,10 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE TABLE_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD   
       USE NLOCAL_REG_MOD       
       USE DRAPE_MOD       
       USE SENSOR_MOD
@@ -129,10 +128,10 @@ C     REAL
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
+      TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_),DIMENSION(NUMELTG_DRAPE) :: DRAPE_SH3N
-      TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -353,7 +352,7 @@ C----------------------------------------------------------------------------
      4   SSP       ,RHO       ,VISCMX    ,DT1C      ,SIGY       ,
      5   AREA      ,EXX       ,EYY       ,EXY       ,EXZ        ,
      6   EYZ       ,KXX       ,KYY       ,KXY       ,NU         ,
-     7   OFF       ,THK0      ,MAT       ,PID       ,MATPARAM_TAB,
+     7   OFF       ,THK0      ,MAT       ,PID       ,MAT_ELEM   ,
      8   GBUF%FOR  ,GBUF%MOM  ,GBUF%STRA ,FAILWAVE  ,FWAVE_EL   ,
      9   GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A   G         ,A11       ,A12       ,VOL0      ,INDX       ,

@@ -27,7 +27,7 @@ Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.
 Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_MATPARAM(MATPARAM_TAB,NUMMAT)
+      SUBROUTINE INI_MATPARAM(MAT_PARAM,NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -40,21 +40,27 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMAT
 C=======================================================================
       DO IMAT=1,NUMMAT
-        MATPARAM_TAB(IMAT)%ILAW               = 0
-        MATPARAM_TAB(IMAT)%MAT_ID             = 0
-        MATPARAM_TAB(IMAT)%COMPRESSIBILITY    = 3  ! elsto_plastic
-        MATPARAM_TAB(IMAT)%SMSTR              = 2  ! large strain
-        MATPARAM_TAB(IMAT)%STRAIN_FORMULATION = 1  ! incremental
-        MATPARAM_TAB(IMAT)%ORTHOTROPY         = 1  ! isotropic
-        MATPARAM_TAB(IMAT)%NTABLE = 0              ! number of local function tables
-        MATPARAM_TAB(IMAT)%IPRES = 1               ! hydrostatic using AMU
+        MAT_PARAM(IMAT)%ILAW    = 0
+        MAT_PARAM(IMAT)%MAT_ID  = 0
+        MAT_PARAM(IMAT)%NUPARAM = 0              ! number of real value material paraameters
+        MAT_PARAM(IMAT)%NIPARAM = 0              ! number of int value material parameters
+        MAT_PARAM(IMAT)%NFUNC   = 0              ! number of local functions in material
+        MAT_PARAM(IMAT)%NTABLE  = 0              ! number of local function tables
+        MAT_PARAM(IMAT)%NSUBMAT = 0              ! number of submaterials (multi-mat law51)
+        MAT_PARAM(IMAT)%NFAIL   = 0              !
+c
+        MAT_PARAM(IMAT)%COMPRESSIBILITY    = 3   ! elsto_plastic
+        MAT_PARAM(IMAT)%SMSTR              = 2   ! large strain
+        MAT_PARAM(IMAT)%STRAIN_FORMULATION = 1   ! incremental
+        MAT_PARAM(IMAT)%IPRES              = 1   ! hydrostatic using AMU
+        MAT_PARAM(IMAT)%ORTHOTROPY         = 1   ! isotropic
       END DO
 c-----------
       RETURN

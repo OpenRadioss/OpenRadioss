@@ -39,9 +39,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT36(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR  ,NVARTMP  ,
-     .                         IFUNC    ,MAXFUNC  ,MFUNC     , PARMAT,UNITAB   ,
-     .                         ID       ,MTAG     ,TITR     , LSUBMODEL,PM     ,
+      SUBROUTINE HM_READ_MAT36(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR    ,NVARTMP  ,
+     .                         IFUNC    ,MAXFUNC  ,MFUNC     ,PARMAT   ,UNITAB   ,
+     .                         ID       ,MTAG     ,TITR      ,LSUBMODEL,PM       ,
      .                         ISRATE   )                     
 C-----------------------------------------------
 C   D e s c r i p t i o n

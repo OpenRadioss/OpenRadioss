@@ -21,44 +21,36 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
+Chd|  FAIL_MOD               
 Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NGROUP
-      TYPE(GROUP_PARAM_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER NG,LEN
-      my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
-C=======================================================================
-      LEN = 2
-      ALLOCATE(RBUF(NGROUP,LEN))
+      MODULE FAIL_PARAM_MOD
+      USE TABLE_MOD
+C----------------------------------------------------------------------- 
+#include "my_real.inc"
+#include "nchar_c.inc"
+c=======================================================================      
+c define type FAIL_ for general failure model data storage
+c=======================================================================      
+      
+      TYPE FAIL_PARAM_
+        integer     :: IRUPT                  ! failure model type (number)
+        character(len=nchartitle) :: TITLE    ! failure model input name
+        character(len=nchartitle) :: KEYWORD  ! failure model type name
+        integer     :: NUPARAM
+        integer     :: NIPARAM
+        integer     :: NFUNC
+        integer     :: NTABLE
+        integer     :: NMOD                   !number of rupture/damage modes
+        
+        character(len=nchartitle) ,DIMENSION(:) ,ALLOCATABLE :: MODES   ! size NMOD
+        integer       ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
+        my_real       ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
+        integer       ,DIMENSION(:) ,ALLOCATABLE :: IFUNC   ! NFUNC
+        TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! NTABLE
+      
+      END TYPE FAIL_PARAM_   
 c
-      DO NG = 1, NGROUP
-        RBUF(NG,1) = GROUP_PARAM_TAB(NG)%VISC_DM
-        RBUF(NG,2) = GROUP_PARAM_TAB(NG)%VISC_DN
-      ENDDO
-C
-      CALL WRITE_DB(RBUF,LEN*NGROUP)
-      DEALLOCATE( RBUF )
-c-----------
-      RETURN
-      END
-
+c---------------
+      END MODULE FAIL_PARAM_MOD
