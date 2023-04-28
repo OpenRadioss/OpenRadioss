@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C
 Chd|====================================================================
 Chd|  I21ELS3                       source/interfaces/inter3d1/i21els3.F
 Chd|-- called by -----------
@@ -92,6 +91,9 @@ C     REAL
       my_real
      .   AREA,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3
 
+      INTEGER :: NB_CONTRIB
+      INTEGER, DIMENSION(:), ALLOCATABLE :: CONTRIB_KEY, CONTRIB_VALUE
+
 C-----
       IF(INTTH > 0)THEN
         NELEM = NUMELC+NUMELTG+NUMELS+NUMELR
@@ -101,6 +103,7 @@ C-----
      .                             MSGTYPE=MSGERROR,
      .                         C1='INRTIE')
         INRTIE=0
+        ALLOCATE(CONTRIB_KEY(NELEM),CONTRIB_VALUE(NELEM))
       END IF
 C
 C------------------------------------
@@ -127,14 +130,14 @@ C----------------------
         END IF
       END IF
 C----------------------
-C     ELEMENTS SOLIDES
+C     SOLIDS 
 C----------------------
       CALL INSOL3(X,IRECTS,IXS,NINT,NELS,INRT,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
      .            IXS16,IXS20)
       IF(NELS/=0) IELES(I)=NELS
 C---------------------
-C     ELEMENTS COQUES
+C     SHELLS              
 C---------------------
       CALL INCOQ3(IRECTS,IXC ,IXTG ,NINT ,NELC     ,
      .            NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
@@ -165,7 +168,6 @@ C
      .                  I2=I)
          ENDIF
        ELSE
-Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -185,9 +187,6 @@ Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon er
        ENDIF
       ENDIF
   250 CONTINUE
-C------------------------------------
-C     TRAITEMENTS FACES MAINS (Cherche elt pour SPMD)
-C------------------------------------
       DO 500 I=1,NRTM
       INRT=I
 C----------------------
@@ -209,13 +208,13 @@ C----------------------
         END IF
       END IF
 C----------------------
-C     ELEMENTS SOLIDES
+C     SOLIDS 
 C----------------------
       CALL INSOL3(X,IRECTM,IXS,NINT,NELS,INRT,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
      .            IXS16,IXS20)
 C---------------------
-C     ELEMENTS COQUES
+C     SHELLS               
 C---------------------
       CALL INCOQ3(IRECTM,IXC ,IXTG ,NINT ,NELC     ,
      .            NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
@@ -241,7 +240,6 @@ C
      .                  I2=I)
          ENDIF
        ELSE
-C        en SPMD il faut un element associe a l'arrete sinon erreur
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -267,7 +265,7 @@ C        en SPMD il faut un element associe a l'arrete sinon erreur
       END IF
   500 CONTINUE
 C---------------------------
-C     remplace dans IRECTM les n\B0s de noeuds par leur n\B0 dans MSR.
+C     Replace node number in IRECTM by their value in MSR
 C---------------------------
       ITMP=0
       DO I=1,NMN
@@ -282,9 +280,7 @@ C
       END DO
 
 C--------------------------------------------------------------
-C
-C calcul de l'aire second. ---
-C calcul du surface second. ---
+C Surface secondary area
       IF(INTTH > 0 ) THEN
 C
        IF(NUMELC/=0) THEN
@@ -292,8 +288,20 @@ C
         IF(NADMESH==0)THEN
           DO I = 1,NSN    
              AREAS(I) = ZERO
+
+             ! AREA being a cumulative sum, the order needs to be same
+             ! for reproducibility
+             NB_CONTRIB = 0
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
+               NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELC(J)
+               CONTRIB_KEY(NB_CONTRIB) = IXC(NIXC,IE) ! UID
+               CONTRIB_VALUE(NB_CONTRIB) = IE 
+             ENDDO
+             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+
+             DO J = 1,NB_CONTRIB
+               IE = CONTRIB_VALUE(J)
                SX1 = X(1,IXC(4,IE)) - X(1,IXC(2,IE))
                SY1 = X(2,IXC(4,IE)) - X(2,IXC(2,IE))
                SZ1 = X(3,IXC(4,IE)) - X(3,IXC(2,IE))
@@ -310,9 +318,21 @@ C overwrite
                AS(I)= AS(I)+PM(75,MAT)*AREA
                BS(I)= BS(I)+PM(76,MAT)*AREA
              END DO
-C
+
+             ! AREA being a cumulative sum, the order needs to be same
+             ! for reproducibility
+             NB_CONTRIB = 0
              DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1)
+               NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELTG(J)
+               CONTRIB_KEY(NB_CONTRIB) = IXTG(NIXTG,IE) ! UID
+               CONTRIB_VALUE(NB_CONTRIB) = IE 
+             ENDDO
+             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+
+C
+             DO J = 1,NB_CONTRIB
+               IE = CONTRIB_VALUE(J)
                SX1 = X(1,IXTG(3,IE)) - X(1,IXTG(2,IE))
                SY1 = X(2,IXTG(3,IE)) - X(2,IXTG(2,IE))
                SZ1 = X(3,IXTG(3,IE)) - X(3,IXTG(2,IE))
@@ -335,8 +355,20 @@ C overwrite
         ELSE
           DO I = 1,NSN    
              AREAS(I) = ZERO
+
+             ! AREA being a cumulative sum, the order needs to be same
+             ! for reproducibility
+             NB_CONTRIB = 0
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
+               NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELC(J)
+               CONTRIB_KEY(NB_CONTRIB) = IXC(NIXC,IE) ! UID
+               CONTRIB_VALUE(NB_CONTRIB) = IE 
+             ENDDO
+             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+
+             DO J = 1,NB_CONTRIB
+               IE = CONTRIB_VALUE(J)
 
                IP = IPARTC(IE)
                NLEV =IPART(10,IP)
@@ -356,16 +388,24 @@ C overwrite
                  AREA = ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                  AREAS(I) = AREAS(I) + AREA
 C overwrite
-C
                  MAT  = IXC(1,IE)
                  AS(I)= AS(I)+PM(75,MAT)*AREA
                  BS(I)= BS(I)+PM(76,MAT)*AREA
                ENDIF
              END DO
 C
-            DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1)
+             ! AREA being a cumulative sum, the order needs to be same
+             ! for reproducibility
+             NB_CONTRIB = 0
+             DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1)
+               NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELTG(J)
-
+               CONTRIB_KEY(NB_CONTRIB) = IXTG(NIXTG,IE) ! UID
+               CONTRIB_VALUE(NB_CONTRIB) = IE 
+             ENDDO
+             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             DO J = 1,NB_CONTRIB
+               IE = CONTRIB_VALUE(J)
                IP = IPARTTG(IE)
                NLEV =IPART(10,IP)
                MYLEV=SH3TREE(3,IE)
@@ -384,7 +424,6 @@ C
                  AREA = ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
                  AREAS(I) = AREAS(I)+AREA
 C overwrite
-C
                   MAT  = IXTG(1,IE)
                   AS(I)= AS(I)+PM(75,MAT)*AREA
                   BS(I)= BS(I)+PM(76,MAT)*AREA
@@ -393,7 +432,6 @@ C
              END DO
              AS(I)=AS(I)/MAX(EM20,AREAS(I))
              BS(I)=BS(I)/MAX(EM20,AREAS(I))
-
           END DO
         END IF
       ENDIF
@@ -401,15 +439,24 @@ C
       IF(NUMELS/=0)THEN
           DO I = 1,NSN    
              AREAS(I) = ZERO
+             ! AREA being a cumulative sum, the order needs to be same
+             ! for reproducibility
+             NB_CONTRIB = 0
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
+               NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELS(J)
+               CONTRIB_KEY(NB_CONTRIB) = IXS(NIXS,IE) ! UID
+               CONTRIB_VALUE(NB_CONTRIB) = IE 
+             ENDDO
+             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             DO J = 1,NB_CONTRIB
+               IE = CONTRIB_VALUE(J)
                INRT = INRTIE(IE)
                IF(INRT/=0)THEN
                  N1=IRECTS(1,INRT)
                  N2=IRECTS(2,INRT)
                  N3=IRECTS(3,INRT)
                  N4=IRECTS(4,INRT)
-
                  SX1 = X(1,N3) - X(1,N1)
                  SY1 = X(2,N3) - X(2,N1)
                  SZ1 = X(3,N3) - X(3,N1)
@@ -431,9 +478,11 @@ C overwrite
              BS(I)=BS(I)/MAX(EM20,AREAS(I))
           ENDDO
         ENDIF
-
       ENDIF
 
+      IF(INTTH > 0) THEN
+        DEALLOCATE(CONTRIB_KEY,CONTRIB_VALUE)
+      ENDIF
 C---------------------------
       RETURN
       END
