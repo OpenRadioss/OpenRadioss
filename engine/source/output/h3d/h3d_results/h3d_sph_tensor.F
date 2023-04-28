@@ -52,7 +52,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -111,6 +110,8 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
+      INTEGER :: NFT,IAD,ITY,NPT,JALE,ISMSTR,JEUL,JTUR,JTHE,JLAG,JMULT,JHBE,JIVF,NVAUX,JPOR
+      INTEGER :: JCLOSE,JPLASOL,IREP,IINT,IGTYP,ISORTH,ISORTHG,ISRAT,ISROT,ICSEN,IFAILURE,JSMS
 C-----------------------------------------------  
       NN1 = 1
       NN2 = 1

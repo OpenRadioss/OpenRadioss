@@ -21,18 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  H3D_WRITE_TENSOR              source/output/h3d/h3d_results/h3d_write_tensor.F
+Chd|  U_FROM_F2                     source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|-- called by -----------
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_ONED_TENSOR               source/output/h3d/h3d_results/h3d_oned_tensor.F
-Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
+Chd|        SH3_TSTRAIN                   source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE H3D_WRITE_TENSOR(
-     .                          IOK_PART  ,IS_WRITTEN ,TENSOR ,NEL ,OFFSET ,NFT,
-     .                          VALUE    ,IS_WRITTEN_TENSOR)
+      SUBROUTINE U_FROM_F2(F,STRAIN,NEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,27 +34,49 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real, DIMENSION(6,*), INTENT(INOUT) :: VALUE
-        my_real, DIMENSION(6,*), INTENT(OUT) :: TENSOR
-        INTEGER, INTENT(IN) :: NEL,OFFSET,NFT
-        INTEGER, DIMENSION(*), INTENT(IN) :: IOK_PART
-        INTEGER, DIMENSION(*), INTENT(OUT) :: IS_WRITTEN
-        INTEGER, DIMENSION(*), INTENT(IN) :: IS_WRITTEN_TENSOR
+      INTEGER NEL
+      my_real
+     .   F(2,2,NEL), STRAIN(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I
+      INTEGER I
+      DOUBLE PRECISION 
+     .         FMAT(2,2),UM(2,2),IC,I2C,I3C,IU,I2U,I3U,
+     .         C11,C21,C31,C12,C22,C32,C13,C23,C33,DETJ0,DETM1,
+     .         CC11,CC21,CC31,CC12,CC22,CC32,CC13,CC23,CC33,
+     .         A,B,ZZ,A1,A2,A3,A4,ALPHA,C_A,S_A,C_A2,S_A2
 C-----------------------------------------------
-        DO I=1,NEL
-          TENSOR(1,OFFSET+NFT+I) = VALUE(1,I)
-          TENSOR(2,OFFSET+NFT+I) = VALUE(2,I)
-          TENSOR(3,OFFSET+NFT+I) = VALUE(3,I)
-          TENSOR(4,OFFSET+NFT+I) = VALUE(4,I)
-          TENSOR(5,OFFSET+NFT+I) = VALUE(5,I)
-          TENSOR(6,OFFSET+NFT+I) = VALUE(6,I)
-          IF(IOK_PART(I) == 1  .AND. IS_WRITTEN_TENSOR(I) == 1) IS_WRITTEN(OFFSET+NFT+I)= 1
-          VALUE(1:6,I) = ZERO
-        ENDDO
-
-        RETURN
-        END
+      DO I=1,NEL
+        FMAT(1,1)= F(1,1,I)+1.0
+        FMAT(2,2)= F(2,2,I)+1.0
+        FMAT(1,2)= F(1,2,I)
+        FMAT(2,1)= F(2,1,I)
+        C11 = FMAT(1,1)*FMAT(1,1)+FMAT(2,1)*FMAT(2,1)
+        C12 = FMAT(1,1)*FMAT(1,2)+FMAT(2,1)*FMAT(2,2)
+        C22 = FMAT(1,2)*FMAT(1,2)+FMAT(2,2)*FMAT(2,2)
+        CC12 = 0.5*(C11-C22)
+        IC  = 0.5*(C11+C22)
+        B = SQRT(CC12*CC12+C12*C12)
+        CC11 = SQRT(IC + B)
+        CC22 = SQRT(IC - B)
+        IF (ABS(CC12)<EM20) THEN
+         C_A = 0.0
+         S_A = 1.0
+        ELSE
+         ALPHA =0.5*(atan(C12/CC12))
+         C_A = COS(ALPHA)
+         S_A = SIN(ALPHA)
+        END IF
+        C_A2 = C_A*C_A
+        S_A2 = S_A*S_A
+        UM(1,1) = CC11*C_A2+CC22*S_A2
+        UM(2,2) = CC11*S_A2+CC22*C_A2
+        UM(1,2) = (CC11-CC22)*S_A*C_A
+        STRAIN(1,I) = UM(1,1)-ONE
+        STRAIN(2,I) = UM(2,2)-ONE
+        STRAIN(3,I) = UM(1,2)
+       END DO
+C
+      RETURN
+      END

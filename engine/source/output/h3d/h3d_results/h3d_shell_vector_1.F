@@ -62,7 +62,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -97,6 +96,9 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF    
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
       my_real,DIMENSION(:), POINTER  :: UVAR
+      INTEGER :: NFT,IAD,ITY,NPT,JALE,ISMSTR,JEUL,JTHE,JLAG,JMULT,JHBE,JIVF,NVAUX,JPOR
+      INTEGER :: JCVT,JCLOSE,JPLASOL,IREP,IINT,IGTYP,ISORTH,ISORTHG,ISRAT,ISROT,ICSEN,IFAILURE,JSMS
+
 C----------------------------------------------- 
 
        CALL INITBUF(IPARG   ,NG      ,                    

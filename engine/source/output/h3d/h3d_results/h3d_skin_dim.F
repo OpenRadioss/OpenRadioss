@@ -21,46 +21,58 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  H3D_WRITE_TENSOR              source/output/h3d/h3d_results/h3d_write_tensor.F
+Chd|  H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|-- called by -----------
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_ONED_TENSOR               source/output/h3d/h3d_results/h3d_oned_tensor.F
-Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
+Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
 Chd|-- calls ---------------
+Chd|        H3D_SKIN_PRE_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_SOL_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_TSH_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
 Chd|====================================================================
-        SUBROUTINE H3D_WRITE_TENSOR(
-     .                          IOK_PART  ,IS_WRITTEN ,TENSOR ,NEL ,OFFSET ,NFT,
-     .                          VALUE    ,IS_WRITTEN_TENSOR)
+      SUBROUTINE H3D_SKIN_DIM(IPARG ,NUMSKIN, NUMSKING,TAG_SKINS6,IBCL,
+     .   	                  ILOADP,LLOADP ,NUMSKINP0,NUMSKINP,IFLAG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real, DIMENSION(6,*), INTENT(INOUT) :: VALUE
-        my_real, DIMENSION(6,*), INTENT(OUT) :: TENSOR
-        INTEGER, INTENT(IN) :: NEL,OFFSET,NFT
-        INTEGER, DIMENSION(*), INTENT(IN) :: IOK_PART
-        INTEGER, DIMENSION(*), INTENT(OUT) :: IS_WRITTEN
-        INTEGER, DIMENSION(*), INTENT(IN) :: IS_WRITTEN_TENSOR
+      INTEGER ,INTENT(OUT) :: NUMSKINP0
+      INTEGER NUMSKIN, NUMSKING ,IPARG(*),TAG_SKINS6(*),
+     .        IBCL(*),ILOADP(*),LLOADP(*),NUMSKINP,IFLAG	  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-        INTEGER :: I
-C-----------------------------------------------
-        DO I=1,NEL
-          TENSOR(1,OFFSET+NFT+I) = VALUE(1,I)
-          TENSOR(2,OFFSET+NFT+I) = VALUE(2,I)
-          TENSOR(3,OFFSET+NFT+I) = VALUE(3,I)
-          TENSOR(4,OFFSET+NFT+I) = VALUE(4,I)
-          TENSOR(5,OFFSET+NFT+I) = VALUE(5,I)
-          TENSOR(6,OFFSET+NFT+I) = VALUE(6,I)
-          IF(IOK_PART(I) == 1  .AND. IS_WRITTEN_TENSOR(I) == 1) IS_WRITTEN(OFFSET+NFT+I)= 1
-          VALUE(1:6,I) = ZERO
-        ENDDO
+C----------------------------------------------- 
+      INTEGER I, LEN ,N0  ,NUMSKIN0
 
-        RETURN
-        END
+C-----------------------------------------------
+       NUMSKIN = 0
+C--- thick-shell first, solid after
+       IF (IFLAG==1.OR.IFLAG==3) THEN
+        CALL  H3D_SKIN_TSH_DIM(IPARG    ,TAG_SKINS6, NUMSKIN)     
+        CALL  H3D_SKIN_SOL_DIM(IPARG    ,TAG_SKINS6, NUMSKIN)
+       END IF        
+C--- followed by pressure: pblast, pfluid,force
+       N0 = NUMSKIN
+       NUMSKIN0 = NUMSKIN
+C------!!!!create NODAL_IPART(numnod) before       
+       IF (IFLAG>1) CALL H3D_SKIN_PRE_DIM (IBCL   ,ILOADP ,LLOADP, NUMSKIN0,NUMSKIN)
+	   NUMSKINP =NUMSKIN- N0
+	   NUMSKINP0=NUMSKIN0- N0
+C
+       LEN = 1       
+       IF (NSPMD>1) THEN
+         NUMSKING = NUMSKIN
+         CALL SPMD_ALLGLOB_ISUM9(NUMSKING,LEN)
+       ELSE
+        NUMSKING = NUMSKIN
+       END IF
+C-----------
+      RETURN
+      END

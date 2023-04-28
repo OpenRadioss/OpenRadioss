@@ -62,7 +62,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -97,11 +96,14 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
+      INTEGER :: NFT,IAD,ITY,NPT,JALE,ISMSTR,JEUL,JTUR,JTHE,JLAG,JMULT
+      INTEGER :: JHBE,JIVF,NVAUX,JPOR,JCVT,JCLOSE,JPLASOL,IREP,IINT
+      INTEGER :: IGTYP,ISORTH,ISORTHG,ISRAT,ISROT,ICSEN,IFAILURE,JSMS
+
 C-----------------------------------------------
       DO I=1,NUMELS
          IS_WRITTEN_SOLID(I) = 0
       ENDDO
-C
 c
       DO NG=1,NGROUP
 
@@ -117,8 +119,6 @@ c
           ISOLNOD = IPARG(28,NG)
           IVISC = IPARG(61,NG)
           IOK_PART(1:NEL) = 0 
-          LFT=1
-          LLT=NEL
 c
           DO I=1,6
             JJ(I) = NEL*(I-1)
@@ -127,7 +127,7 @@ c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO      
 C-----------------------------------------------
           IF (ITY == 1) THEN
 c           SOLID ELEMENTS

@@ -63,7 +63,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -128,6 +127,9 @@ C-----------------------------------------------
       TYPE(BUF_MAT_)  ,POINTER :: MBUF 
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       TARGET :: BUFMAT
+      INTEGER :: NFT,IAD,ITY,NPT,JALE,ISMSTR,JEUL,JTHE,JLAG,JMULT,JHBE
+      INTEGER :: JIVF,NVAUX,JPOR,JCVT,JCLOSE,JPLASOL,IREP,IINT,IGTYP,ISORTH,ISORTHG,ISRAT,ISROT,ICSEN,IFAILURE,JSMS
+
 C-----------------------------------------------
       ILAY = LAYER_INPUT
       IUVAR = IUVAR_INPUT
@@ -153,8 +155,6 @@ C-----------
           ISUBSTACK = IPARG(71,NG)
           IVISC = IPARG(61,NG)
           IOK_PART(1:NEL) = 0 
-          LFT=1
-          LLT=NEL
 !
           DO I=1,6
             JJ(I) = NEL*(I-1)
@@ -163,7 +163,7 @@ c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO
           EVAR(1:3,1:NEL) = ZERO
           IS_WRITTEN_VECTOR(1:NEL) = 0
 C-----------------------------------------------

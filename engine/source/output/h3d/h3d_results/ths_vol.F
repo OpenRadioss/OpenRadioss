@@ -21,46 +21,48 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  H3D_WRITE_TENSOR              source/output/h3d/h3d_results/h3d_write_tensor.F
+Chd|  THS_VOL                       source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- called by -----------
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_ONED_TENSOR               source/output/h3d/h3d_results/h3d_oned_tensor.F
-Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
+Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE H3D_WRITE_TENSOR(
-     .                          IOK_PART  ,IS_WRITTEN ,TENSOR ,NEL ,OFFSET ,NFT,
-     .                          VALUE    ,IS_WRITTEN_TENSOR)
+      SUBROUTINE THS_VOL(RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,DET,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real, DIMENSION(6,*), INTENT(INOUT) :: VALUE
-        my_real, DIMENSION(6,*), INTENT(OUT) :: TENSOR
-        INTEGER, INTENT(IN) :: NEL,OFFSET,NFT
-        INTEGER, DIMENSION(*), INTENT(IN) :: IOK_PART
-        INTEGER, DIMENSION(*), INTENT(OUT) :: IS_WRITTEN
-        INTEGER, DIMENSION(*), INTENT(IN) :: IS_WRITTEN_TENSOR
+      INTEGER NEL
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: TX,TY,TZ
+      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I
-C-----------------------------------------------
-        DO I=1,NEL
-          TENSOR(1,OFFSET+NFT+I) = VALUE(1,I)
-          TENSOR(2,OFFSET+NFT+I) = VALUE(2,I)
-          TENSOR(3,OFFSET+NFT+I) = VALUE(3,I)
-          TENSOR(4,OFFSET+NFT+I) = VALUE(4,I)
-          TENSOR(5,OFFSET+NFT+I) = VALUE(5,I)
-          TENSOR(6,OFFSET+NFT+I) = VALUE(6,I)
-          IF(IOK_PART(I) == 1  .AND. IS_WRITTEN_TENSOR(I) == 1) IS_WRITTEN(OFFSET+NFT+I)= 1
-          VALUE(1:6,I) = ZERO
-        ENDDO
-
-        RETURN
-        END
+      INTEGER I
+      my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
+C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      DO I=1,NEL
+       JAC1 = RX(I) 
+       JAC2 = RY(I) 
+       JAC3 = RZ(I) 
+       JAC4 = SX(I) 
+       JAC5 = SY(I) 
+       JAC6 = SZ(I) 
+       JAC7 = TX(I) 
+       JAC8 = TY(I) 
+       JAC9 = TZ(I) 
+       DET(I) = JAC1 * (JAC5 * JAC9 - JAC8 * JAC6) + 
+     .          JAC2 * (JAC6 * JAC7 - JAC4 * JAC9) + 
+     .          JAC3 * (JAC4 * JAC8 - JAC7 * JAC5)
+      ENDDO 
+c-----------
+      RETURN
+      END

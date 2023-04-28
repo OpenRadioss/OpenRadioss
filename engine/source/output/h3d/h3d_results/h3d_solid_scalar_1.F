@@ -70,7 +70,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -145,6 +144,9 @@ C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       INTEGER :: ISUBMAT,NVAREOS,NTILLOTSON,IMAT_TILLOTSON
+      INTEGER :: NFT,IAD,ITY,NPT,JALE,ISMSTR,JEUL,JTUR,JTHE
+      INTEGER :: JLAG,JMULT,JHBE,JIVF,NVAUX,JPOR,JCVT,JCLOSE
+      INTEGER :: JPLASOL,IREP,IINT,IGTYP,ISORTH,ISORTHG,ISRAT,ISROT,ICSEN,IFAILURE,JSMS
 
 C-----------------------------------------------
 
@@ -155,13 +157,12 @@ C-----------------------------------------------
      5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+
        IF (MLW /= 13) THEN
           NFT = IPARG(3,NG)
           ISOLNOD = IPARG(28,NG)
           IVISC = IPARG(61,NG)
           IOK_PART(1:NEL) = 0 
-          LFT=1
-          LLT=NEL
           IS_EULER=IPARG(11,NG)
           IS_ALE=IPARG(7,NG)
 c
@@ -172,7 +173,7 @@ c
           DO I=1,NEL
             VALUE(I) = ZERO
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO
 C-----------------------------------------------
           IF (ITY == 1) THEN
 c           SOLID ELEMENTS
@@ -293,7 +294,7 @@ C--------------------------------------------------
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'WPLA' .AND. (MLW == 12 .OR. MLW == 14 .OR. MLW == 25))THEN
 C--------------------------------------------------  
-                 DO I=LFT,LLT   
+                 DO I=1,NEL   
                     VALUE(I) = ZERO                                      
                 ENDDO  
                 IF (ISOLNOD == 16 .OR. ISOLNOD == 20.OR.
@@ -305,7 +306,7 @@ C--------------------------------------------------
                          DO IT=1,NPTT                                      
                           DO IR=1,NPTR                                    
                             LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                            DO I=LFT,LLT                                 
+                            DO I=1,NEL                                 
                                VALUE(I) = VALUE(I) + LBUF%PLA(I)/NPTG 
                                IS_WRITTEN_VALUE(I) = 1         
                             ENDDO
@@ -315,7 +316,7 @@ C--------------------------------------------------
                       ENDIF 
                     ENDDO            
                 ELSE
-                  DO I=LFT,LLT
+                  DO I=1,NEL
                    IF (GBUF%G_PLA > 0)THEN
                       EVAR(I) = GBUF%PLA(I)
                       IS_WRITTEN_VALUE(I) = 1
@@ -325,7 +326,7 @@ C--------------------------------------------------
 C--------------------------------------------------  
               ELSEIF (KEYWORD == 'TSAIWU' .AND. GBUF%G_TSAIWU > 0) THEN
 C--------------------------------------------------  
-                DO I=LFT,LLT   
+                DO I=1,NEL   
                   VALUE(I) = ZERO                                      
                 ENDDO  
                 DO IL=1,NLAY                          
@@ -334,7 +335,7 @@ C--------------------------------------------------
                       DO IT=1,NPTT                                      
                         DO IR=1,NPTR                                    
                           LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                          DO I=LFT,LLT                                 
+                          DO I=1,NEL                                 
                             VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/NPTG 
                             IS_WRITTEN_VALUE(I) = 1         
                           ENDDO
@@ -2600,90 +2601,5 @@ C--------------------------------------------------
        ENDIF
 
 C-----------------------------------------------
-      RETURN
-      END
-Chd|====================================================================
-Chd|  THS_MAREA                     source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|-- called by -----------
-Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE THS_MAREA(RX, RY, RZ, SX, SY, SZ, DET,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
-      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-      my_real
-     .   E3X(NEL), E3Y(NEL), E3Z(NEL) 
-C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      DO I=1,NEL
-C---------E3------------
-       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
-       DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
-      ENDDO 
-c-----------
-      RETURN
-      END
-Chd|====================================================================
-Chd|  THS_VOL                       source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|-- called by -----------
-Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE THS_VOL(RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,DET,NEL)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: TX,TY,TZ
-      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I
-      my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
-C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      DO I=1,NEL
-       JAC1 = RX(I) 
-       JAC2 = RY(I) 
-       JAC3 = RZ(I) 
-       JAC4 = SX(I) 
-       JAC5 = SY(I) 
-       JAC6 = SZ(I) 
-       JAC7 = TX(I) 
-       JAC8 = TY(I) 
-       JAC9 = TZ(I) 
-       DET(I) = JAC1 * (JAC5 * JAC9 - JAC8 * JAC6) + 
-     .          JAC2 * (JAC6 * JAC7 - JAC4 * JAC9) + 
-     .          JAC3 * (JAC4 * JAC8 - JAC7 * JAC5)
-      ENDDO 
-c-----------
       RETURN
       END

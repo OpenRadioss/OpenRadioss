@@ -21,19 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  H3D_SKIN_PRE_MAP              source/output/h3d/h3d_results/h3d_skin_pre_map.F
+Chd|  H3D_SKIN_PRE_DIM              source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|-- called by -----------
-Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
+Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|-- calls ---------------
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
-      SUBROUTINE H3D_SKIN_PRE_MAP(IB     ,ILOADP    ,LLOADP ,IMAPSKP)
+      SUBROUTINE H3D_SKIN_PRE_DIM(IB     ,ILOADP    ,LLOADP , NSKIN0,NSKIN)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE PINCHTYPE_MOD 
-      USE H3D_INC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,22 +48,55 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, DIMENSION(SIZLOADP,NLOADP), INTENT(IN)  :: ILOADP
-      INTEGER, DIMENSION(SLLOADP), INTENT(IN)  :: LLOADP
-      INTEGER, DIMENSION(NIBCLD,NCONLD), INTENT(IN)  :: IB
-      INTEGER, DIMENSION(NUMSKINP0), INTENT(OUT)  :: IMAPSKP
+      INTEGER LLOADP(SLLOADP),NSKIN,NSKIN0
+      INTEGER ILOADP(SIZLOADP,*),IB(NIBCLD,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, J,IXST,
-     .        IAD ,NP ,NP0 ,NPRES ,N,NSKIN_I,NSKINP0,IERR
-      INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
+      INTEGER NL, N1, ISK, N2, N3, N4, N5, J,
+     .        IAD ,NP ,IFUNC ,NPRES ,N,NSKIN_I,NSKINP0,IERR,IXST
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
+      INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
 C=======================================================================
-       ALLOCATE(IRECT(4,NUMSKINP),ITAGN(NUMNOD),STAT=IERR)
+C-----Force (pressure) first 
+       NSKIN_I = NSKIN
+       DO NL=1,NCONLD-NPLOADPINCH
+         N1      = IB(1,NL)
+         N2      = IB(2,NL)
+         N3      = IB(3,NL)
+         N4      = IB(4,NL)
+C        
+		 IF (N1>0.AND.N2>0.AND.N3>0.AND.N4/=-1) NSKIN = NSKIN + 1
+       END DO 
+C----------load_pressure
+       DO  NL=1,NLOADP_HYD
+           IAD = ILOADP(4,NL)
+           DO N=1, ILOADP(1,NL)/4
+              N1 = LLOADP(IAD+4*(N-1))
+              N2 = LLOADP(IAD+4*(N-1)+1)
+              N3 = LLOADP(IAD+4*(N-1)+2)
+              N4 = LLOADP(IAD+4*(N-1)+3)
+		     IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
+           ENDDO
+       END DO 
+C---------pfluid+pblast	   
+       DO NL=1,NLOADP_F+NLOADP_B
+         IAD = ILOADP(4,NL)
+           DO N=1, ILOADP(1,NL)/4
+              N1 = LLOADP(IAD+4*(N-1))
+              N2 = LLOADP(IAD+4*(N-1)+1)
+              N3 = LLOADP(IAD+4*(N-1)+2)
+              N4 = LLOADP(IAD+4*(N-1)+3)
+		     IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
+           ENDDO
+       END DO 
+       NSKIN0 = NSKIN
+       NSKINP0 = NSKIN0 - NSKIN_I
+       IF (NSKINP0 > (NCONLD-NPLOADPINCH)) THEN
+         ALLOCATE(IRECT(4,NSKINP0),ITAGN(NUMNOD),STAT=IERR)
 C
+         NP = 0 
          ITAGN = 0         
-         NP = 0
          DO NL=1,NCONLD-NPLOADPINCH
            N1      = IB(1,NL)
            N2      = IB(2,NL)
@@ -73,17 +104,14 @@ C
            N4      = IB(4,NL)
 C          
 		   IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
-           NP = NP +1
-           IRECT(1:4,NP) = IB(1:4,NL)
-           IF (IRECT(4,NP)==0) IRECT(4,NP)=IRECT(3,NP)
            IF (N4==0) N4 = N3
+           NP = NP +1
            ITAGN(N1) = 1
            ITAGN(N2) = 1
            ITAGN(N3) = 1
            ITAGN(N4) = 1
-           IMAPSKP(NP) = NP         
-         END DO
-         NP0 = NP         
+           IRECT(1:4,NP) = IB(1:4,NL)
+         END DO 
 C----add only not existing           
            DO  NL=1,NLOADP_HYD
               IAD = ILOADP(4,NL)
@@ -94,18 +122,13 @@ C----add only not existing
                 N4 = LLOADP(IAD+4*(N-1)+3)
 		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
                 IF (N4==0) N4 = N3
-                NP0 = NP0 +1
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
                    NP = NP +1
                    ITAGN(N1) = 1
                    ITAGN(N2) = 1
                    ITAGN(N3) = 1
                    ITAGN(N4) = 1
-                   IRECT(1,NP) = N1
-                   IRECT(2,NP) = N2
-                   IRECT(3,NP) = N3
-                   IRECT(4,NP) = N4
-                   IMAPSKP(NP0) = NP         
+                   IRECT(1:4,NP) = IB(1:4,NL)
                 ELSE
                   IXST = 0
                   J = 0
@@ -116,7 +139,6 @@ C----add only not existing
                     IF (N3 /= IRECT(3,J)) CYCLE
                     IF (N4 /= IRECT(4,J)) CYCLE
                     IXST = 1
-                    IMAPSKP(NP0) = J         
                   END DO
                   IF (IXST == 0 )THEN
                     NP = NP +1
@@ -124,17 +146,12 @@ C----add only not existing
                     ITAGN(N2) = 1
                     ITAGN(N3) = 1
                     ITAGN(N4) = 1
-                    IRECT(1,NP) = N1
-                    IRECT(2,NP) = N2
-                    IRECT(3,NP) = N3
-                    IRECT(4,NP) = N4
-                    IMAPSKP(NP0) = NP         
+                    IRECT(1:4,NP) = IB(1:4,NL)
                   END IF
                 END IF 
               ENDDO
            END DO 
-C           
-           DO  NL=1,NLOADP_F+NLOADP_B
+           DO  NL=1,NLOADP_F + NLOADP_B
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
                 N1 = LLOADP(IAD+4*(N-1))
@@ -143,7 +160,6 @@ C
                 N4 = LLOADP(IAD+4*(N-1)+3)
 		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
                 IF (N4==0) N4 = N3
-                NP0 = NP0 +1
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
                    NP = NP +1
                    ITAGN(N1) = 1
@@ -154,7 +170,6 @@ C
                    IRECT(2,NP) = N2
                    IRECT(3,NP) = N3
                    IRECT(4,NP) = N4
-                   IMAPSKP(NP0) = NP         
                 ELSE
                   IXST = 0
                   J = 0
@@ -165,7 +180,6 @@ C
                     IF (N3 /= IRECT(3,J)) CYCLE
                     IF (N4 /= IRECT(4,J)) CYCLE
                     IXST = 1
-                    IMAPSKP(NP0) = J         
                   END DO
                   IF (IXST == 0 )THEN
                     NP = NP +1
@@ -177,12 +191,14 @@ C
                     IRECT(2,NP) = N2
                     IRECT(3,NP) = N3
                     IRECT(4,NP) = N4
-                    IMAPSKP(NP0) = NP         
                   END IF
                 END IF 
               ENDDO
            END DO 
-        DEALLOCATE(IRECT,ITAGN)
+          NSKIN = NSKIN_I + NP
+          DEALLOCATE(IRECT,ITAGN)
+       END IF
+C-----some segs are used > 1 times       
 C
       RETURN
       END

@@ -66,7 +66,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
 #include      "mmale51_c.inc"
 #include      "com01_c.inc"
@@ -137,6 +136,9 @@ C-----------------------------------------------
       TARGET :: BUFMAT
       my_real PI_
       DATA PI_/3.141592653589793238462643/
+      INTEGER :: NFT,IAD,ITY,NPT,JALE,ISMSTR,JEUL,JTHE,JLAG,JMULT,JHBE,JIVF,NVAUX,JPOR,JCVT
+      INTEGER :: JCLOSE,JPLASOL,IREP,IINT,IGTYP,ISORTH,ISORTHG,ISRAT,ISROT,ICSEN,IFAILURE,JSMS
+
 C-----------------------------------------------
       ILAY = LAYER_INPUT
       IUVAR = IUVAR_INPUT
@@ -169,8 +171,6 @@ C-----------
           ISUBSTACK = IPARG(71,NG)
           IVISC = IPARG(61,NG)
           IOK_PART(1:NEL) = 0 
-          LFT=1
-          LLT=NEL
           IS_EULER=IPARG(11,NG)
           IS_ALE=IPARG(7,NG)
 !
@@ -269,7 +269,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TSAIWU' .AND. GBUF%G_TSAIWU > 0) THEN
 C--------------------------------------------------  
-              DO I=LFT,LLT   
+              DO I=1,NEL   
                 VALUE(I) = ZERO                                      
               ENDDO                          
               IF (ELBUF_TAB(NG)%BUFLY(1)%L_TSAIWU > 0) THEN
@@ -277,7 +277,7 @@ C--------------------------------------------------
                   DO IT=1,NPTT                                      
                     DO IR=1,NPTR                                    
                       LBUF=>ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                      DO I=LFT,LLT                                 
+                      DO I=1,NEL                                 
                         VALUE(I) = VALUE(I) + LBUF%TSAIWU(I)/(NPTS*NPTT*NPTR) 
                         IS_WRITTEN_VALUE(I) = 1         
                       ENDDO

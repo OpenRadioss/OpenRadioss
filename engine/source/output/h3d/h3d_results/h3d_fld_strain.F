@@ -30,9 +30,11 @@ Chd|        ROTO_SIG2D                    source/output/h3d/h3d_results/h3d_skin
 Chd|        TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE H3D_FLD_STRAIN(ELBUF_TAB,X  ,IXS   ,
-     .                          JHBE,MLWI,ILAY,KCVT,IOR_TSH,
-     .                          ICSTR,NPTR,NPTS,NEL,F_EXP,EVAR )
+      SUBROUTINE H3D_FLD_STRAIN(
+     1   ELBUF_TAB,X,        IXS,      JHBE,
+     2   MLWI,     ILAY,     KCVT,     IOR_TSH,
+     3   ICSTR,    NPTR,     NPTS,     NEL,
+     4   F_EXP,    EVAR,     IREP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: IREP
       INTEGER , INTENT(IN) :: JHBE,ILAY,MLWI,KCVT,IOR_TSH,
      .                        NPTR,NPTS,ICSTR,NEL 
       INTEGER ,DIMENSION(NIXS,NUMELS), INTENT(IN) ::  IXS
@@ -77,15 +80,15 @@ C-----------------------------------------------
            IS = 1
            LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
             IF (MLWI == 12 .OR. MLWI == 14) THEN
-              DO I=1,NEL						   
+              DO I=1,NEL               
                EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
                EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-              ENDDO						       
+              ENDDO                  
             ELSEIF (MLWI /= 49 ) THEN                 
-              DO I=1,NEL						   
+              DO I=1,NEL               
                EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
                EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-              ENDDO						       
+              ENDDO                  
             END IF               
 C------      
         ELSE ! 14,16
@@ -93,20 +96,20 @@ C------
             DO IR=1,NPTR
               DO IS=1,NPTS
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-                 DO I=1,NEL						   
+                 DO I=1,NEL              
                   EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
                   EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
               END DO 
             END DO 
           ELSEIF (MLWI /= 49 ) THEN                 
             DO IR=1,NPTR
               DO IS=1,NPTS
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-                 DO I=1,NEL						   
+                 DO I=1,NEL              
                   EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
                   EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
               ENDDO 
             END DO 
           END IF               
@@ -128,9 +131,11 @@ C------
               DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
              ENDDO
            END IF
-           CALL TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
+           CALL TSH_DIR2(
+     1   X,       IXS,     DIR,     DIRB,
+     2   ICSTR,   NEL,     IREP,    JHBE)
            CALL ROTO_SIG2D(1,NEL,EVAR,DIRB)
         END IF !(KCVT==2) THEN
 C
       RETURN
-      END SUBROUTINE H3D_FLD_STRAIN
+      END

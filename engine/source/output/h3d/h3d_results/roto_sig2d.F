@@ -21,46 +21,46 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  H3D_WRITE_TENSOR              source/output/h3d/h3d_results/h3d_write_tensor.F
+Chd|  ROTO_SIG2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- called by -----------
-Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
-Chd|        H3D_ONED_TENSOR               source/output/h3d/h3d_results/h3d_oned_tensor.F
-Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
-Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
+Chd|        H3D_FLD_STRAIN                source/output/h3d/h3d_results/h3d_fld_strain.F
+Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE H3D_WRITE_TENSOR(
-     .                          IOK_PART  ,IS_WRITTEN ,TENSOR ,NEL ,OFFSET ,NFT,
-     .                          VALUE    ,IS_WRITTEN_TENSOR)
+      SUBROUTINE ROTO_SIG2D(JFT,JLT,SIG,DIR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real, DIMENSION(6,*), INTENT(INOUT) :: VALUE
-        my_real, DIMENSION(6,*), INTENT(OUT) :: TENSOR
-        INTEGER, INTENT(IN) :: NEL,OFFSET,NFT
-        INTEGER, DIMENSION(*), INTENT(IN) :: IOK_PART
-        INTEGER, DIMENSION(*), INTENT(OUT) :: IS_WRITTEN
-        INTEGER, DIMENSION(*), INTENT(IN) :: IS_WRITTEN_TENSOR
+      INTEGER JFT, JLT
+      my_real
+     .   SIG(3,MVSIZ), DIR(MVSIZ,2)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I
+      INTEGER I
+      my_real
+     .   X2,Y2,XY,XYS2,SIGN(3)
 C-----------------------------------------------
-        DO I=1,NEL
-          TENSOR(1,OFFSET+NFT+I) = VALUE(1,I)
-          TENSOR(2,OFFSET+NFT+I) = VALUE(2,I)
-          TENSOR(3,OFFSET+NFT+I) = VALUE(3,I)
-          TENSOR(4,OFFSET+NFT+I) = VALUE(4,I)
-          TENSOR(5,OFFSET+NFT+I) = VALUE(5,I)
-          TENSOR(6,OFFSET+NFT+I) = VALUE(6,I)
-          IF(IOK_PART(I) == 1  .AND. IS_WRITTEN_TENSOR(I) == 1) IS_WRITTEN(OFFSET+NFT+I)= 1
-          VALUE(1:6,I) = ZERO
-        ENDDO
-
-        RETURN
-        END
+      DO I=JFT,JLT
+         X2=DIR(I,1)*DIR(I,1)
+         Y2=DIR(I,2)*DIR(I,2)
+         XY=DIR(I,1)*DIR(I,2)
+         XYS2=TWO*XY*SIG(3,I)
+         SIGN(1) = X2*SIG(1,I)+Y2*SIG(2,I)-XYS2
+         SIGN(2) = Y2*SIG(1,I)+X2*SIG(2,I)+XYS2
+         SIGN(3) =(SIG(1,I)-SIG(2,I))*XY+(X2-Y2)*SIG(3,I)
+         SIG(1,I) = SIGN(1)
+         SIG(2,I) = SIGN(2)
+         SIG(3,I) = SIGN(3)
+      ENDDO
+C-----------
+      RETURN
+      END
