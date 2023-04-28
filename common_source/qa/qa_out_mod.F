@@ -86,6 +86,7 @@ C     At least one card is one char, so we do 1039 / 2 (one char one comma...)
       allocate(qa_storage(lqa_storage))
       do i=1,lqa_storage
         qa_storage(i)%itype=0
+        qa_storage(i)%title=''
         qa_storage(i)%valuer=0.0_8
         qa_storage(i)%valuei=0
       end do

@@ -393,6 +393,7 @@ c          ALLOCATE (ELBUF_TAB(NG)%XFEM(NPTR,NPTS,NPTT) ,STAT=Stat)
           ELBUF_TAB(NG)%NPTT  = NPTT                         
           ELBUF_TAB(NG)%IXFEM = IXFEM
           ELBUF_TAB(NG)%NXEL  = NXEL
+          ELBUF_TAB(NG)%IDRAPE = IDRAPE
 c                                  
           NPG = NPTR*NPTS*NPTT                                           
 c-------------------------------------------------
