@@ -204,31 +204,28 @@ C--------------------------------------------------------------------C
         ENDDO
 C--------------------------------------------------------------------C
 C------Prereading and tag of Transformations-------------------------C
-C--------------------------------------------------------------------C     	          
-        KCUR = KTRANSF   
-        IREC=KOPTAD(KCUR) 
-        DO I=1,NSLASH(KCUR)	  	  			
-          CALL NEXTSLA()
-          IREC=IREC+1
-          CALL FREDEC_2KEY_4ID(KEY,ID,NUL,NUL,NUL)
-          READ(IIN,REC=IREC,ERR=999,FMT='(A)')TITR                               
-          IREC=IREC+1
+C--------------------------------------------------------------------C    
+      CALL HM_OPTION_START('TRANSFORM') 
+      DO I=1,NTRANS
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                       OPTION_ID = ID,
+     .                       OPTION_TITR = TITR,
+     .                       KEYWORD2 = KEY)    	          
 C----
-          IF (KEY(1:3)/='MAT') THEN
-            READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-            READ(LINE,ERR=999,FMT=FMT_I_3F_2I) NUL,NUL_M,NUL_M,NUL_M,N1,N2
-            IF (N1/=0) THEN
+        IF (KEY(1:3)/='MAT') THEN
+          CALL HM_GET_INTV('node1',N1,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('node2',N2,IS_AVAILABLE,LSUBMODEL)
+          IF (N1/=0) THEN
               N1=USR2SYS(N1,ITABM1,MESS,NI)
-	      IF (TAGNO(NPART+N1)==-1) CALL MODIF_TAG(TAGNO(NPART+N1),0,MODIF)
-            ENDIF
-            IF (N2/=0) THEN
-              N2=USR2SYS(N2,ITABM1,MESS,NI)
-	      IF (TAGNO(NPART+N2)==-1) CALL MODIF_TAG(TAGNO(NPART+N2),0,MODIF)
-            ENDIF
+	          IF (TAGNO(NPART+N1)==-1) CALL MODIF_TAG(TAGNO(NPART+N1),0,MODIF)
           ENDIF
+          IF (N2/=0) THEN
+            N2=USR2SYS(N2,ITABM1,MESS,NI)
+	          IF (TAGNO(NPART+N2)==-1) CALL MODIF_TAG(TAGNO(NPART+N2),0,MODIF)
+          ENDIF
+        ENDIF
 C----
-        ENDDO
-	
+      ENDDO
 C--------------------------------------------------------------------C
 C------Prereading and tag of Sensors---------------------------------C
 C--------------------------------------------------------------------C
