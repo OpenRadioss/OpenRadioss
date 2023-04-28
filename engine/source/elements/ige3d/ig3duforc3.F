@@ -69,7 +69,7 @@ Chd|====================================================================
      F   ALE_CONNECT, FV,          ITASK,       IOUTPRT,
      G   PX,          PY,          PZ,          KNOTLOCPC,
      H   KNOTLOCEL,   GRESAV,      GRTH,        IGRTH,
-     I   MATPARAM_TAB,H3D_STRAIN,  ISMSTR,      JALE,
+     I   MAT_ELEM,    H3D_STRAIN,  ISMSTR,      JALE,
      J   JEUL,        JLAG,        JCVT,        JPLASOL,
      K   JSPH)
 C-----------------------------------------------
@@ -77,11 +77,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +128,7 @@ C-----------------------------------------------
       TYPE(TTABLE) TABLE(*)
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -520,7 +519,7 @@ C------------------------------------------------------
      N   DMELS,       I,           J,           K,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 
        CALL SSTRA3(

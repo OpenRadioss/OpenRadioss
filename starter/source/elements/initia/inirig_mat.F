@@ -70,7 +70,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
-      USE MATPARAM_DEF_MOD            
+      USE GROUP_PARAM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .   MSSX(12,*),STIFN(*), STIFR(*),
      .   XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*), MSSA(*),BUFMAT(*),
      .   RNOISE(*),STRC(*),STRTG(*)
-      TYPE(GRP_PARAM_STRUCT_)  :: GROUP_PARAM
+      TYPE(GROUP_PARAM_)  :: GROUP_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

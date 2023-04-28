@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE MULAW_MOD
+      CONTAINS
 Chd|====================================================================
 Chd|  MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- called by -----------
@@ -172,15 +174,14 @@ Chd|====================================================================
      Y   EPSTH3,      EPSTH,       SVISC,       NEL,
      Z   ETOTSH,      ISELECT,     TSTAR,       MUOLD,
      1   DPDM,        RHOREF,      RHOSP,       NVARTMP,
-     2   VARTMP,      EINTTH,      MATPARAM_TAB,NLOC_DMG,
+     2   VARTMP,      EINTTH,      MAT_ELEM,    NLOC_DMG,
      3   ITY,         JTUR,        JSMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
 C-----------------------------------------------
@@ -208,7 +209,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JSMS
       INTEGER NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,NVARTMP,
      .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
-     .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
+     .        IX(*), JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
       INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,*),
      .        IPARG(NPARG,NGROUP),IGEO(NPROPGI,NUMGEO),ITASK,ISELECT
       TARGET  :: IPM
@@ -244,7 +245,7 @@ C
       TYPE (TTABLE), DIMENSION(NTABLE) ::  TABLE
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT),TARGET :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) ,TARGET :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -346,7 +347,7 @@ C=======================================================================
         ALLOCATE (BUFZERO(0))
         UPARVIS => BUFZERO
       END IF
-      MATPARAM => MATPARAM_TAB(MX)
+      MATPARAM => MAT_ELEM%MAT_PARAM(MX)
       !==================================================  
       ! Recovering data from MATPARAM data structure
       ! Material compressibility 
@@ -2456,3 +2457,5 @@ C-----------
 C------------------------------------------
       RETURN
       END
+C-----
+      END MODULE MULAW_MOD

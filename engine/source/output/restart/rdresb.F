@@ -98,7 +98,7 @@ Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           )
+     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUFFRIC_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD
+      USE MAT_ELEM_MOD
       USE PINCHTYPE_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MONVOL_STRUCT_MOD
@@ -177,7 +177,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT)                               :: MULTI_FVM
       TYPE(H3D_DATABASE)                                   :: H3D_DATA
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)          :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP)          :: GROUP_PARAM_TAB
+      TYPE(GROUP_PARAM_)      , DIMENSION(NGROUP)          :: GROUP_PARAM_TAB
       TYPE(PINCH)                                          :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT)              :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_),DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
@@ -188,6 +188,7 @@ C-----------------------------------------------
       TYPE(INTERFACES_)     ,INTENT(INOUT)                 :: INTERFACES
       TYPE(SENSORS_)        ,INTENT(INOUT)                 :: SENSORS
       TYPE(LOADS_)          ,INTENT(INOUT)                 :: LOADS
+      TYPE(MAT_ELEM_)       ,INTENT(INOUT)                 :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -910,7 +911,7 @@ C--------------------------------------
 
         CALL READ_DB(PM,SPM)
 
-        CALL READ_MATPARAM(MATPARAM_TAB,NUMMAT)
+        CALL READ_MATPARAM(MAT_ELEM,NUMMAT)
 
         CALL READ_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
 

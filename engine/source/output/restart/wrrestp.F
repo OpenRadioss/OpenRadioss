@@ -100,7 +100,7 @@ Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE WRRESTP(AF    ,IAF       ,XDP       ,ICH       ,ADDCNE,
-     .           ELBUF_TAB     ,XFEM_TAB  ,INTBUF_TAB, MULTI_FVM,
+     .           ELBUF_TAB     ,XFEM_TAB  ,INTBUF_TAB, MULTI_FVM,MAT_ELEM,
      .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
@@ -113,7 +113,7 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE SMS_MOD
       USE TABLE_GLOB_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE SPH_MOD
       USE INTBUFDEF_MOD
       USE INT8_MOD
@@ -124,7 +124,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE GROUP_MOD
-      USE MATPARAM_DEF_MOD
       USE PINCHTYPE_MOD
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -162,7 +161,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBSET_), TARGET, DIMENSION(NSUBS)             :: SUBSET
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)         :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP)         :: GROUP_PARAM_TAB
+      TYPE(GROUP_PARAM_)      , DIMENSION(NGROUP)         :: GROUP_PARAM_TAB
       TYPE(PINCH)                                         :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN)                :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
@@ -173,6 +172,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(INTERFACES_)     ,INTENT(IN)                   :: INTERFACES
       TYPE(SENSORS_)        ,INTENT(IN)                   :: SENSORS
       TYPE(LOADS_)          ,INTENT(IN)                   :: LOADS
+      TYPE(MAT_ELEM_)       ,INTENT(IN)                   :: MAT_ELEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -981,7 +981,7 @@ C--------------------------------------
 
          CALL WRITE_DB(PM,SPM)
 
-         CALL WRITE_MATPARAM(MATPARAM_TAB,NUMMAT)
+         CALL WRITE_MATPARAM(MAT_ELEM%MAT_PARAM,NUMMAT)
 
          CALL WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
 

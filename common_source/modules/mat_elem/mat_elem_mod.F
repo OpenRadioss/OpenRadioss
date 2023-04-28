@@ -21,44 +21,35 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
+Chd|  MATERIAL & ELEMENTS                      
 Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NGROUP
-      TYPE(GROUP_PARAM_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER NG,LEN
-      my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
-C=======================================================================
-      LEN = 2
-      ALLOCATE(RBUF(NGROUP,LEN))
-c
-      DO NG = 1, NGROUP
-        RBUF(NG,1) = GROUP_PARAM_TAB(NG)%VISC_DM
-        RBUF(NG,2) = GROUP_PARAM_TAB(NG)%VISC_DN
-      ENDDO
-C
-      CALL WRITE_DB(RBUF,LEN*NGROUP)
-      DEALLOCATE( RBUF )
-c-----------
-      RETURN
-      END
+      MODULE MAT_ELEM_MOD
+        USE ELBUFDEF_MOD
+        USE MATPARAM_DEF_MOD
+        USE PROP_PARAM_MOD
+        USE GROUP_PARAM_MOD
 
+        TYPE MAT_ELEM_
+           INTEGER :: NGROUP       ! Number of element groups
+           INTEGER :: NUMMAT       ! Number of /MAT  cards
+           INTEGER :: NUMGEO       ! Number of /PROP cards
+           INTEGER :: NUMSUBSTACK  ! Number of SUBSTACK created from /PROP/TYPE17, TYPE51 or TYPE52 => NS_STACK (see stackgroup.F)
+           INTEGER :: NUMSTACK     ! Number of /STACK  used with /PCOMPP
+           INTEGER :: NUMPLY       ! Number of /PLY    used with /PCOMPP
+
+           TYPE (ELBUF_STRUCT_)    ,DIMENSION(:)   ,ALLOCATABLE :: ELBUF          ! NGROUP
+           TYPE (ELBUF_STRUCT_)    ,DIMENSION(:,:) ,ALLOCATABLE :: XFEM_TAB       
+           TYPE (GROUP_PARAM_)     ,DIMENSION(:)   ,ALLOCATABLE :: GROUP_PARAM    ! NGROUP
+        
+           TYPE (MATPARAM_STRUCT_) ,DIMENSION(:)   ,POINTER     :: MAT_PARAM      ! NUMMAT
+        
+           TYPE (PROP_PARAM_)      ,DIMENSION(:)   ,ALLOCATABLE :: PROP_PARAM     ! NUMGEO
+           TYPE (PROP_PARAM_)      ,DIMENSION(:)   ,ALLOCATABLE :: PROP_STACK     ! NUMSTACK
+           TYPE (PROP_PARAM_)      ,DIMENSION(:)   ,ALLOCATABLE :: PROP_PLY       ! NUMPLY
+           TYPE (PROP_PARAM_)      ,DIMENSION(:)   ,ALLOCATABLE :: PROP_SUBSTACK  ! NUMSUBSTACK      
+     
+        END TYPE MAT_ELEM_
+
+      END MODULE MAT_ELEM_MOD

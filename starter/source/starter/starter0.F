@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE USER_INTERFACE_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -184,7 +185,7 @@ C
       TYPE(t_ebcs_tab)                                :: EBCS_TAB
       TYPE(OUTPUT_)                                   :: OUTPUT
 c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
-
+      TYPE(MAT_ELEM_)                                 :: MAT_ELEM
       CHARACTER CWD*ncharline
       CHARACTER GLOBAL_PATH*(ncharline+2048)
       INTEGER :: LEN_CWD
@@ -793,7 +794,7 @@ c 2d seatbelt translation
 C-------------------------------------------------------------------
 C     Control variables (count options)
 C-------------------------------------------------------------------
-      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS)
+      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM)
 C-------------------------------------------------------------------
 C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------
@@ -887,8 +888,9 @@ C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------
         CALL LECTUR(
-     .       MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
-     .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  )
+     .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
+     .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
+     .       MAT_ELEM                     )
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)

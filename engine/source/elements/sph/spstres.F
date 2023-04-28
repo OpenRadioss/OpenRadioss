@@ -54,16 +54,15 @@ Chd|====================================================================
      6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7    GRTH      ,IGRTH     ,TABLE     ,ISTRAIN   ,VOLN      ,
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MATPARAM_TAB,H3D_STRAIN,OUTPUT)
+     9    MAT_ELEM  ,H3D_STRAIN,OUTPUT    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE OUTPUT_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -100,8 +99,8 @@ C-----------------------------------------------
      .   GRESAV(*),VOLN(MVSIZ),TEMP(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
-      TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -235,7 +234,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      N   BID,         1,           1,           1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAt_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C-----------------------------
       IF(ISTRAIN==1)THEN 

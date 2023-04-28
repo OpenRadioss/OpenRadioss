@@ -514,7 +514,8 @@ Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
-     .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  )
+     .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
+     .                  MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -562,7 +563,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE SKEW_MOD
       USE MESHSURFIG3D_MOD
-      USE MATPARAM_DEF_MOD
+      USE MAT_ELEM_MOD
       USE SPLIT_CFD_MOD
       USE PINCHTYPE_MOD
       USE CHECK_MOD
@@ -856,8 +857,9 @@ C
       TYPE(DRAPE_WORK_) ,DIMENSION(:), ALLOCATABLE   :: IWORK_T
       INTEGER :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
 C
-      TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
-      TYPE (INTERFACES_)  :: INTERFACES
+      TYPE (DYNAIN_DATABASE)   :: DYNAIN_DATA
+      TYPE (INTERFACES_)       :: INTERFACES
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 
 
 C-----------------------------------------------
@@ -950,9 +952,8 @@ C ---- Interface t8
       TYPE(TABCONPATCH_IG3D_), DIMENSION(:), ALLOCATABLE :: TABCONPATCH
 c---  Material data  --------------------------------------------------
       TYPE(MATPARAM_STRUCT_) , DIMENSION(:), ALLOCATABLE , TARGET :: MPARAM_INI,MPARAM_R2R
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(:), POINTER :: MATPARAM_TAB       ! NUMMAT
 c---  Element group parameter table  --------------------------------------------------
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB   ! NGROUP
+      TYPE(GROUP_PARAM_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB   ! NGROUP
 C AMS
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: T2MAIN_SMS
 C
@@ -1125,11 +1126,9 @@ C SEATBELTS
 C   
       INTEGER  :: NUMSH3,NUMSH4, NSLICE,NPT_DRAPE,JJ,ISL, IP,IE, IDSHEL
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
-
       INTEGER :: NUMBER_LOAD_CYL
       INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
-      ! ------------------------------------
-c   BEGINNING
+c=======================================================================
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
       I22LEN_L = 0 
@@ -2011,12 +2010,12 @@ c------------------------------------
       MY_ALLOCATE(MTAG_INI   ,NUMMAT)
       MY_ALLOCATE(MPARAM_INI ,NUMMAT)
       CALL INIT_MLAW_TAG(MTAG_INI,NUMMAT)
-      MATPARAM_TAB(1:NUMMAT) => MPARAM_INI(1:NUMMAT)
+      MAT_ELEM%MAT_PARAM(1:NUMMAT) => MPARAM_INI(1:NUMMAT)
       MLAW_TAG(1:NUMMAT) => MTAG_INI(1:NUMMAT)
       NLOC_DMG%IMOD = 0
 c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
-     .     MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG   ,
+     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG   ,
      .     RWORK       ,SBUFMAT  ,IPM      ,PM       ,UNITAB    ,
      .     MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
      .     TABLE       ,NPC      )
@@ -2331,7 +2330,8 @@ c       complete mlaw_tag for new void materials
          MTAG_R2R(1:NUMMAT0) = MTAG_INI(1:NUMMAT0)
          CALL MATPARAM_R2R_VOID(MPARAM_R2R, MPARAM_INI   ,NUMMAT0 ,NUMMAT)
          MLAW_TAG(1:NUMMAT)     => MTAG_R2R(1:NUMMAT)
-         MATPARAM_TAB(1:NUMMAT) => MPARAM_R2R(1:NUMMAT)
+         MAT_ELEM%MAT_PARAM(1:NUMMAT) => MPARAM_R2R(1:NUMMAT)
+         MAT_ELEM%NUMMAT = NUMMAT
          DEALLOCATE(MTAG_INI)
          DEALLOCATE(MPARAM_INI)
         ENDIF
@@ -2339,6 +2339,7 @@ c       complete mlaw_tag for new void materials
         ALLOCATE(TAG_PART(0),IPART_R2R(4,0))
       ENDIF
       CALL TRACE_OUT1()
+C--------------------------------------------
 C--------------------------------------------
 C     POIN UMP
 C--------------------------------------------
@@ -5372,7 +5373,7 @@ c     Update & check parameters of material laws
 c------------------------------------------------------------------------
       CALL UPDMAT(BUFMAT   ,PM      ,IPM       ,TABLE    ,NPC1     ,
      .            NPC      ,TF      ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,
-     .            MATPARAM_TAB)
+     .            MAT_ELEM%MAT_PARAM)
 C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------
@@ -5848,7 +5849,7 @@ C
      5       IXS20    ,IXS16    ,IGEO     ,IDDLEVEL,
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
      7       TAGPRT_SMS,USER_INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
-     8       IFLAG_BPRELOAD, CLUSTERS ,MATPARAM_TAB ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
+     8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
         GRSOL_ID2 = NGROUP
         NGR_SOL   = GRSOL_ID2 - GRSOL_ID1
 C
@@ -5978,7 +5979,7 @@ C
      5        IGRSURF  ,IGRSH4N  ,IGEO     ,IPM     ,
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
-     8        STACK    ,DRAPE   ,RNOISE  ,MATPARAM_TAB,
+     8        STACK    ,DRAPE   ,RNOISE  ,MAT_ELEM%MAT_PARAM,
      9        SH4ANG, IDDLEVEL , DRAPEG)
          OFF = OFF + NUMELC
 
@@ -6216,7 +6217,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,
-     9          MULTI_FVM,MATPARAM_TAB,SH3ANG,DRAPEG)
+     9          MULTI_FVM,MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG)
          ELSE
            CALL T3GRTAILS(
      1          IXTG     ,PM       ,IPARGTMP ,GEO      ,
@@ -10628,10 +10629,8 @@ c
           NULLIFY(pMEMFLOW) ; IF(NSPMD  > 0)  pMEMFLOW => MEMFLOW(1,P)    !MEMFLOW(2,1:NSPMD)   ; NSPMD =0 => MEMFLOW(1,0) is undefined
 
 
-
-
           CALL DDSPLIT(
-     1         P            ,CEP         ,CEL           ,IGEO        ,MATPARAM_TAB,
+     1         P            ,CEP         ,CEL            ,IGEO        ,MAT_ELEM%MAT_PARAM,
      2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
      3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
      4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG     ,

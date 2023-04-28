@@ -70,7 +70,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD 
+      USE GROUP_PARAM_MOD 
       USE PINCHTYPE_MOD
       USE PINCH_LOCAL_MOD
       USE DRAPE_MOD
@@ -117,7 +117,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
+      TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL
       TYPE (DRAPE_) :: DRAPE
 C-----------------------------------------------

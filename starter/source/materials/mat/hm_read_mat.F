@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE HM_READ_MAT_MOD
+      CONTAINS
 Chd|====================================================================
 Chd|  HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|-- called by -----------
@@ -149,7 +151,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT(
-     .   MATPARAM_TAB,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
+     .   MAT_PARAM   ,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
      .   BUFLEN      ,IADBUF      ,MAXEOS      ,IPM         ,PM          ,
      .   MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
 C-----------------------------------------------
@@ -199,8 +201,9 @@ C-----------------------------------------------
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
       TYPE(FAIL_TAG_), TARGET, DIMENSION(0:MAXFAIL),INTENT(INOUT) :: FAIL_TAG
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(INOUT) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
+      TARGET :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -309,7 +312,7 @@ c---------------------------------------------------
         NVARTMP = 0
         NUPARAM = 0
         MTAG => MLAW_TAG(MAT_NUMBER)
-        MATPARAM => MATPARAM_TAB(MAT_NUMBER)
+        MATPARAM => MAT_PARAM(MAT_NUMBER)
         MATPARAM%TITLE = ' '
         MATPARAM%TITLE = TITR(1:LEN_TRIM(TITR)-1)
 c-----------------------------------------------------------------------
@@ -1232,7 +1235,7 @@ c--------------------------------------------
         ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
         ASRATE = PARMAT(5)*TWO*PI             ! ASRATE = 2*PI*FCUT
 !!        IF (ASRATE == ZERO) ASRATE = EP20
-c
+c--------------------------------------------      
         MATPARAM%ILAW   = ILAW
         MATPARAM%MAT_ID = MAT_ID        
 c
@@ -1436,3 +1439,5 @@ c------------------------------
      & 5X,'USER MATERIAL LAW . . . . . . . . . . .=',I10/)
 c------------------------------
       END
+c------------------------------
+      END MODULE HM_READ_MAT_MOD

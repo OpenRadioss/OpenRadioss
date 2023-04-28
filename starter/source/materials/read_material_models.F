@@ -52,7 +52,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE READ_MATERIAL_MODELS(
-     .             MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG  ,
+     .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG  ,
      .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
      .             TABLE       ,NPC      )
@@ -76,9 +76,10 @@ C-----------------------------------------------
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
+      USE MAT_ELEM_MOD
+      USE HM_READ_MAT_MOD
 c-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,6 +95,7 @@ C-----------------------------------------------
 #include      "scr19_c.inc"
 #include      "tabsiz_c.inc"
 #include      "submod_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -110,13 +112,13 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(FAILWAVE_STR_) :: FAILWAVE 
       TYPE(NLOCAL_STR_) :: NLOC_DMG 
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT) :: MATPARAM_TAB
-      TYPE(SUBMODEL_DATA) ,INTENT(IN) :: LSUBMODEL(NSUBMOD)
-      TYPE(TTABLE) TABLE(NTABLE)
+      TYPE(SUBMODEL_DATA) ,INTENT(IN)   :: LSUBMODEL(NSUBMOD)
+      TYPE(TTABLE)  ,DIMENSION(NTABLE)  :: TABLE 
+      TYPE(MAT_ELEM_) ,INTENT(INOUT)    :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ::  I,J,K,N,IADBUF,IMAT, ILAW, JALE, ID,MID1,MID2,UID1,UID2, ILAW1,ILAW2,NPAR,MAT_ID,UID,KK
+      INTEGER ::  I,J,K,N,IADBUF,ILAW
       LOGICAL IS_ENCRYPTED, IS_AVAILABLE
       my_real ::  T0,SPH,AS,BS,T1,AL,BL
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
@@ -129,11 +131,12 @@ C-----------------------------------------------
       DATA MESS/'MATERIAL DEFINITION                     '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
-C-----------------------------------------------      
+C=======================================================================
+      CALL INI_MATPARAM (MAT_ELEM%MAT_PARAM, MAT_ELEM%NUMMAT)
+    
       !Set default parameters used in material laws
       CALL INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,VISC_TAG ,NUMMAT)  ! attention ca ne marchera pas
       CALL INI_EOS_VARS (EOS_TAG,  MAXEOS )
-      CALL INI_MATPARAM (MATPARAM_TAB ,NUMMAT)
 c----------      
       ILAW    = 0
       BUFLEN  = 0
@@ -160,7 +163,7 @@ c-------------------------------------------------------------------
 c     /MAT : Material laws (Constitutive law : sigma,epsilon)
 c-------------------------------------------------------------------      
       CALL HM_READ_MAT(
-     .     MATPARAM_TAB,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
+     .     MAT_ELEM%MAT_PARAM ,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,MAXEOS      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
 
@@ -200,7 +203,7 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /MAT/LAW51 - FILL BUFFER (modern input)
 c-------------------------------------------------------------------
-      CALL FILL_BUFFER_51_0(MATPARAM_TAB, IPM, PM, BUFMAT)
+      CALL FILL_BUFFER_51_0(MAT_ELEM%MAT_PARAM, IPM, PM, BUFMAT)
 
 c-------------------------------------------------------------------
 c     /HEAT/MAT : thermal parameters

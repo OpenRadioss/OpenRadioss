@@ -59,7 +59,7 @@ Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
       SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM       ,TABLE    ,FUNC_ID  ,
      .                  NPC      ,PLD   ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,
-     .                  MATPARAM_TAB    )
+     .                  MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -91,8 +91,8 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
       TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(INOUT) ::  TABLE
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MATPARAM_TAB
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,7 +161,7 @@ c
         IADD     = MAX(1,IPM(7,IMAT))
         NPARAM   = MIN(IPM(9,IMAT),SBUFMAT)
         UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
-        MATPARAM => MATPARAM_TAB(IMAT)
+        MATPARAM => MAT_PARAM(IMAT)
 c
 c-----------------------------------------------------------------------
 c       Replace Func ID -> function system number in IFUNC table

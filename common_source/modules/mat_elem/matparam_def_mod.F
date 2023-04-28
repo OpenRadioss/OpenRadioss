@@ -190,38 +190,91 @@ Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
 Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
 Chd|====================================================================
       MODULE MATPARAM_DEF_MOD
+c
       USE TABLE_MOD
+      USE FAIL_PARAM_MOD
+      USE NAMES_AND_TITLES_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-#include "nchar_c.inc"
 c=======================================================================      
 c define type MATPARAM_STRUCT_ for general material data structure table
 c allocatable dimension : NUMMAT
 c=======================================================================      
-c 
+c
+      ! list of index values for IPM   (integer array)
+!      INTEGER ,PARAMETER  :: IPM_ISRATE = 3
+!      INTEGER ,PARAMETER  :: IPM_EXPAN  = 218
+!      INTEGER ,PARAMETER  :: IPM_VISC   = 222
+!      INTEGER ,PARAMETER  :: IPM_MATVIS = 222
+!      INTEGER ,PARAMETER  :: IPM_THE    = 21
+!      INTEGER ,PARAMETER  :: IPM_EOS    =
+!      INTEGER ,PARAMETER  :: IPM_TUR    =
+!      INTEGER ,PARAMETER  :: IPM_ALE    =
+!      INTEGER ,PARAMETER  :: IPM_NLOC   =
+!      INTEGER ,PARAMETER  :: IPM_FAILWAVE=
+!      INTEGER ,PARAMETER  :: IPM_XFEM   =
+!      INTEGER ,PARAMETER  :: IPM_ALEFVM =
+!      INTEGER ,PARAMETER  :: IPM_FORMDT =
+c      
+      ! list of index values for PM   (real array)
+!      INTEGER ,PARAMETER  :: PM_RHO    = 1
+!      INTEGER ,PARAMETER  :: PM_RHO0   = 2
+!      INTEGER ,PARAMETER  :: PM_QA     =
+!      INTEGER ,PARAMETER  :: PM_QL     =
+!      INTEGER ,PARAMETER  :: PM_QH     =
+!      INTEGER ,PARAMETER  :: PM_DMPM   =
+!      INTEGER ,PARAMETER  :: PM_DMPF   =
+!      INTEGER ,PARAMETER  :: PM_DMPR   =
+!      INTEGER ,PARAMETER  :: PM_DMMB   =
+!      INTEGER ,PARAMETER  :: PM_ASRATE =
+!      INTEGER ,PARAMETER  :: PM_E1     =
+!      INTEGER ,PARAMETER  :: PM_E2     =
+!      INTEGER ,PARAMETER  :: PM_BULK   =
+!      INTEGER ,PARAMETER  :: PM_G      =
+!      INTEGER ,PARAMETER  :: PM_NU1    =
+!      INTEGER ,PARAMETER  :: PM_STIFF  =
+!      ! size of PM and IPM arrays 
+!      INTEGER ,PARAMETER  :: NPROPM  = 
+!      INTEGER ,PARAMETER  :: NPROPMI = 
+c-----------------------------------------------------------------------      
+c
       TYPE MATPARAM_STRUCT_
-        integer     :: ILAW    
-        integer     :: MAT_ID
-        character   :: TITLE*nchartitle
-        integer     :: NTABLE
-        integer     :: COMPRESSIBILITY      ! "compressible","incompressible","elasto_plastic"
-        integer     :: SMSTR                ! "small_strain", "large_strain"
-        integer     :: STRAIN_FORMULATION   ! "total", "incremental"
-        integer     :: IPRES                ! "hydrostatic",hydro_eos","hook"
-        integer     :: ORTHOTROPY           ! "isotropic", "orthotropic", "anisotropic"
-        TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! local table of functions
+      
+        INTEGER     :: ILAW                 ! Material law number (type)    
+        INTEGER     :: MAT_ID               ! Material law ID   
+        CHARACTER(LEN=NCHARTITLE) :: TITLE  ! Material law title
+        INTEGER     :: NUPARAM
+        INTEGER     :: NIPARAM
+        INTEGER     :: NFUNC
+        INTEGER     :: NTABLE
+        INTEGER     :: NSUBMAT
+        INTEGER     :: NFAIL
+        ! -------  material characteristics flags
+        INTEGER     :: COMPRESSIBILITY      ! "compressible","incompressible","elasto_plastic"
+        INTEGER     :: SMSTR                ! "small_strain", "large_strain"
+        INTEGER     :: STRAIN_FORMULATION   ! "total", "incremental"
+        INTEGER     :: IPRES                ! "hydrostatic",hydro_eos","hook"
+        INTEGER     :: ORTHOTROPY           ! "isotropic", "orthotropic", "anisotropic"
+        ! --------------------------------- !  
+c                        
+        my_real  ,DIMENSION(:) ,ALLOCATABLE :: UPARAM           ! NUPARAM
+        my_real  ,DIMENSION(:) ,ALLOCATABLE :: PM               ! NPROPM
+
+        INTEGER  ,DIMENSION(:) ,ALLOCATABLE :: IPARAM           ! NIPARAM
+        INTEGER  ,DIMENSION(:) ,ALLOCATABLE :: IPM              ! NPROPMI
+c
+        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IFUNC       ! local functions
+        TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE       ! local function tables
+c                
+        TYPE (FAIL_PARAM_) ,DIMENSION(:) ,ALLOCATABLE :: FAIL   ! NFAIL
+
+c        TYPE (EOS_PARAM_)    :: EOS      ! to be defined      
+c        TYPE (VISC_PARAM_)   :: VISC     ! to be defined           
+c        TYPE (THERM_PARAM_)  :: THERM    ! to be defined          
+
+        ! TYPE (SUBMAT_)     ,DIMENSION(:) ,ALLOCATABLE :: SUBMAT  ! multi materials
+
       END TYPE MATPARAM_STRUCT_
-c=======================================================================      
-c define type GRP_PARAM_STRUCT_ for element group parameters depending on property/material
-c allocatable dimension : NGROUP
-c=======================================================================      
-c 
-      TYPE GRP_PARAM_STRUCT_
-c        integer     :: IMAT    
-c        integer     :: IPROP
-        my_real     :: VISC_DN
-        my_real     :: VISC_DM
-      END TYPE GRP_PARAM_STRUCT_
 c
 c---------------
       END MODULE MATPARAM_DEF_MOD

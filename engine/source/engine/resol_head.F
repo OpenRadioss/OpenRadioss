@@ -71,7 +71,7 @@ Chd|====================================================================
      .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA ,ALE_CONNECTIVITY,
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
-     .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      )
+     .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,6 @@ C-----------------------------------------------
       USE INTBUFMOD
       USE DSGRAPH_MOD
       USE TABLE_GLOB_MOD
-      USE ELBUFDEF_MOD
       USE SPH_MOD
       USE SOLTOSPH_MOD
       USE CLUSTER_MOD
@@ -89,7 +88,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
-      USE MATPARAM_DEF_MOD
+      USE MAT_ELEM_MOD
       USE PINCHTYPE_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MONVOL_STRUCT_MOD
@@ -150,7 +149,7 @@ C     REAL
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSLIN
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      TYPE(GROUP_PARAM_)    ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
@@ -158,14 +157,15 @@ C     REAL
       TYPE(DRAPEG_)                           :: DRAPEG
       TYPE(SENSORS_)  ,INTENT(INOUT)          :: SENSORS
       TYPE(t_ebcs_tab), INTENT(INOUT)         :: EBCS_TAB
-      TYPE(T_DIFFUSION), INTENT(INOUT)        :: DIFFUSION
+      TYPE(T_DIFFUSION)    ,INTENT(INOUT)     :: DIFFUSION
       TYPE(t_segvar)                          :: SEGVAR
       TYPE(DYNAIN_DATABASE), INTENT(INOUT)    :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)       :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)             :: OUTPUT
       TYPE(INTERFACES_),INTENT(INOUT)         :: INTERFACES
-      TYPE(DT_),INTENT(INOUT)         :: DT
-      TYPE(LOADS_) ,INTENT(INOUT) :: LOADS
+      TYPE(DT_),INTENT(INOUT)                 :: DT
+      TYPE(LOADS_)    ,INTENT(INOUT)          :: LOADS
+      TYPE(MAT_ELEM_) ,INTENT(INOUT)          :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -191,7 +191,7 @@ C
      .  AF              ,IAF            ,
      1  ICODE           ,ISKEW          ,ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
      2  IXTG            ,IXS            ,IXQ            ,IXC            ,IXT            ,IXP         ,IXR       ,
-     3                   ITAB           ,ITABM1         ,IFILL          ,
+     3                   ITAB           ,ITABM1         ,IFILL          ,MAT_ELEM       ,
      4  IMS             ,NPC            ,IBCL           ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
      6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,

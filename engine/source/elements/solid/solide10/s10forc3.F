@@ -92,17 +92,16 @@ Chd|====================================================================
      B                   STIFR    ,D       ,GRESAV  ,GRTH    ,IGRTH   ,
      C                   TABLE    ,MSSA    ,DMELS   ,IGEO    ,XDP     ,
      D                   VOLN     ,CONDN   ,CONDNSKY,VARNOD  ,
-     E                   ITAGDN  ,SENSORS  ,IOUTPRT ,
-     F                   MATPARAM_TAB,H3D_STRAIN,DT )
+     E                   ITAGDN   ,SENSORS ,IOUTPRT ,MAT_ELEM ,H3D_STRAIN,
+     F                   DT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE DT_MOD
 C-----------------------------------------------
@@ -157,9 +156,9 @@ C     REAL
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSORS_), INTENT(IN) :: SENSORS
-      TYPE(DT_),    INTENT(INOUT) :: DT
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (SENSORS_)  ,INTENT(IN)    :: SENSORS
+      TYPE(DT_)        ,INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -612,7 +611,7 @@ C
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
