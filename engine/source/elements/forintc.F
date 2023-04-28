@@ -58,10 +58,10 @@ Chd|====================================================================
      1    PM        ,GEO       ,X         ,A         ,AR        ,
      2    V         ,VR        ,MS        ,IN        ,NLOC_DMG  ,
      3    WA        ,STIFN     ,STIFR     ,FSKY      ,CRKSKY    ,
-     4    TF        ,BUFMAT    ,PARTSAV   ,D         ,MATPARAM_TAB,
+     4    TF        ,BUFMAT    ,PARTSAV   ,D         ,MAT_ELEM  ,
      5    DR        ,EANI      ,TANI      ,FANI      ,
      6    FSAV      ,SENSORS   ,SKEW      ,ANIN      ,FAILWAVE  ,
-     7    DT2T      ,THKE      ,BUFGEO    ,IADC      ,IADTG	,
+     7    DT2T      ,THKE      ,BUFGEO    ,IADC      ,IADTG    	,
      8    IPARG     ,NPC       ,IXC       ,IXTG      ,NELTST    ,
      A    IPARI     ,ITYPTST   ,NSTRF     ,
      B    IPART     ,IPARTC    ,IPARTTG   ,SECFCUM   ,
@@ -83,12 +83,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE CRACKXFEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD
       USE GROUPDEF_MOD
       USE PINCHTYPE_MOD
       USE SENSOR_MOD
@@ -161,13 +160,13 @@ C     REAL
       TYPE (STACK_PLY) :: STACK 
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (NLOCAL_STR_)   :: NLOC_DMG 
-      TYPE (GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      TYPE (GROUP_PARAM_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (DRAPE_)    :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_)               :: DRAPEG
-      TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -302,7 +301,7 @@ C
      1   ELBUF_TAB(NG),      JFT,                JLT,                NFT,
      2   NPT,                IPARI,              MLW,                IPRI,
      3   ITHK,               NELTST,             ITYPTST,            ITAB,
-     4   MATPARAM_TAB,       ISTRA,              IPLA,               TT,
+     4   MAT_ELEM,           ISTRA,              IPLA,               TT,
      5   DT1,                DT2T,               PM,                 GEO,
      6   PARTSAV,            IXC(1,NF1),         FAILWAVE,           BUFMAT,
      7   TF,                 NPC,                IADC(1,NF1),        X,
@@ -353,13 +352,13 @@ C
      K   JTHE,               TEMP,               FTHE,               FTHESKY,
      L   IEXPAN,             GRESAV,             GRTH,               IGRTH(NF1),
      M   XEDGE4N,            MSC(NF1),           DMELC(NF1),         JSMS,
-     N   TABLE,              IPARG(1,NG),        MATPARAM_TAB,       IXFEM,
+     N   TABLE,              IPARG(1,NG),        MAT_ELEM    ,       IXFEM,
      O   KNOD2ELC,           SENSORS,            ELCUTC(1,NF1),      INOD_CRK,
      P   IEL_CRK,            IBORDNODE,          NODENR,             IADC_CRK,
      Q   NODEDGE,            CRKNODIAD,          CONDN,              CONDNSKY,
      R   STACK,              ISUBSTACK,          XFEM_TAB(NG,1:NXEL),CRKEDGE,
      S   DRAPE_SH4N,         NEL,                NLOC_DMG,           DRAPEG%INDX_SH4N,
-     T   IGRE,               JTUR)
+     T   IGRE,               JTUR                )
 
       IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -378,7 +377,7 @@ C
      C          FZ(1,3)    ,FZ(1,4)   ,MX(1,1)   ,MX(1,2)   ,MX(1,3)    ,
      D          MX(1,4)    ,MY(1,1)   ,MY(1,2)   ,MY(1,3)   ,MY(1,4)    ,
      E          MZ(1,1)    ,MZ(1,2)   ,MZ(1,3)   ,MZ(1,4),
-     F          KFTS       ,FZERO(1,1,NF1),ISMSTR ,MATPARAM_TAB,
+     F          KFTS       ,FZERO(1,1,NF1),ISMSTR,MAT_ELEM  ,
      I          IGEO       ,IPM        ,IFAILURE ,ITASK     ,JTHE        ,
      J          TEMP       ,FTHE       ,FTHESKY  ,IEXPAN    ,GRESAV      ,
      K          GRTH       ,IGRTH(NF1) ,MSC(NF1) ,DMELC(NF1),JSMS        ,
@@ -406,7 +405,7 @@ c
      C   MX(1,2),            MX(1,3),            MX(1,4),            MY(1,1),
      D   MY(1,2),            MY(1,3),            MY(1,4),            MZ(1,1),
      E   MZ(1,2),            MZ(1,3),            MZ(1,4),            INDXOF,
-     F   IPARTC(NF1),        THKE(NF1),          GROUP_PARAM_TAB(NG),MATPARAM_TAB,
+     F   IPARTC(NF1),        THKE(NF1),          GROUP_PARAM_TAB(NG),MAT_ELEM,
      G   NEL,                ISTRA,              JHBE,               ITHK,
      H   IOFC,               IPLA,               NFT,                ISMSTR,
      I   NPT,                KFTS,               FZERO(1,1,NF1),     IGEO,
@@ -436,7 +435,7 @@ c
      9            FZ(1,3)  ,FZ(1,4)  ,MX(1,1)  ,MX(1,2)  ,MX(1,3)    ,
      A            MX(1,4)  ,MY(1,1)  ,MY(1,2)  ,MY(1,3)  ,MY(1,4)    ,
      B            MZ(1,1)  ,MZ(1,2)  ,MZ(1,3)  ,MZ(1,4)  ,INDXOF     ,
-     C            IPARTC(NF1),THKE(NF1),GROUP_PARAM_TAB(NG),MATPARAM_TAB, 
+     C            IPARTC(NF1),THKE(NF1),GROUP_PARAM_TAB(NG),MAT_ELEM , 
      F            NEL      ,ISTRA     ,JHBE    ,KFTS     ,
      G            ITHK     ,IOFC      ,IPLA    ,NFT      ,ISMSTR     ,
      H FZERO(1,1,NF1),IGEO      ,IPM         ,IFAILURE  ,ITASK       ,           
@@ -507,7 +506,7 @@ C----6---------------------------------------------------------------7--
      A   FZ(1,1),         FZ(1,2),              FZ(1,3),         FX(1,4),
      B   FX(1,5),         FX(1,6),              FY(1,4),         FY(1,5),
      C   FY(1,6),         FZ(1,4),              FZ(1,5),         FZ(1,6),
-     D   MATPARAM_TAB,    NEL,                  ISTRA,           ISH3N,
+     D   MAT_ELEM,        NEL,                  ISTRA,           ISH3N,
      E   ITHK,            IOFC,                 IPLA,            NFT,
      F   ISMSTR,          NPT,                  KFTS,            IXTG1(1,NFT1),
      G   IADTG1(1,NFT1),  IGEO,                 IPM,             IFAILURE,
@@ -532,7 +531,7 @@ C----6---------------------------------------------------------------7--
      A   FZ(1,1),                               FZ(1,2),              FZ(1,3),         MX(1,1),
      B   MX(1,2),                               MX(1,3),              MY(1,1),         MY(1,2),
      C   MY(1,3),                               MZ(1,1),              MZ(1,2),         MZ(1,3),
-     D   MATPARAM_TAB,                          NEL,                  ISTRA,           ISH3N,
+     D   MAT_ELEM,                              NEL,                  ISTRA,           ISH3N,
      E   ITHK,                                  IOFC,                 IPLA,            NFT,
      F   ISMSTR,                                NPT,                  KFTS,            IGEO,
      G   IPM,                                   IFAILURE,             GRESAV,          GRTH,
@@ -555,7 +554,7 @@ C----6---------------------------------------------------------------7--
      A   FZ(1,1),               FZ(1,2),                               FZ(1,3),           MX(1,1),
      B   MX(1,2),               MX(1,3),                               MY(1,1),           MY(1,2),
      C   MY(1,3),               MZ(1,1),                               MZ(1,2),           MZ(1,3),
-     D   GROUP_PARAM_TAB(NG),   MATPARAM_TAB,                          NEL,               ISTRA,
+     D   GROUP_PARAM_TAB(NG),   MAT_ELEM,                              NEL,               ISTRA,
      E   ISH3N,                 XEDGE3N,                               ITHK,              IOFC,
      F   IPLA,                  NFT,                                   ISMSTR,            NPT,
      G   KFTS,                  FZERO(1,1,NF1+NUMELC),                 IGEO,              IPM,
@@ -585,7 +584,7 @@ C----6---------------------------------------------------------------7--
      A   FZ(1,1),           FZ(1,2),              FZ(1,3),          MX(1,1),
      B   MX(1,2),           MX(1,3),              MY(1,1),          MY(1,2),
      C   MY(1,3),           MZ(1,1),              MZ(1,2),          MZ(1,3),
-     D   KFTS,              GROUP_PARAM_TAB(NG),  MATPARAM_TAB,     NEL,
+     D   KFTS,              GROUP_PARAM_TAB(NG),  MAT_ELEM,         NEL,
      E   ISTRA,             ISH3N,                ITHK,             IOFC,
      F   IPLA,              NFT,                  ISMSTR,           FZERO(1,1,NF1+NUMELC),
      G   IGEO,              IPM,                  IFAILURE,         ITASK,

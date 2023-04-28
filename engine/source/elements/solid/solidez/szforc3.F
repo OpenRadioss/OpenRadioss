@@ -107,17 +107,16 @@ Chd|====================================================================
      F                   MSSA     ,DMELS   ,TABLE   ,IGEO   ,XDP    ,
      G                   CONDN    ,CONDNSKY  ,
      H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
-     I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN,
+     I                   NALE     ,NLOC_DMG  ,MAT_ELEM,H3D_STRAIN,
      J                   DT       ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE ALE_MOD
       USE DT_MOD
@@ -181,7 +180,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       TYPE(DT_),     INTENT(INOUT) :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
@@ -679,7 +678,7 @@ C Compute stresses according to the material law
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VAR_REG,     MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(

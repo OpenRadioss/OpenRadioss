@@ -211,7 +211,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD  
+      USE GROUP_PARAM_MOD  
       USE DETONATORS_MOD 
       USE DRAPE_MOD    
       USE INIVOL_DEF_MOD
@@ -332,7 +332,7 @@ C
       TYPE (FUNC2D_STRUCT), DIMENSION(NFUNC2D), INTENT(IN) :: FUNC2D
       TYPE (FVM_INIVEL_STRUCT), INTENT(IN) :: FVM_INIVEL(*)
       TYPE (NLOCAL_STR_)   :: NLOC_DMG 
-      TYPE (GRP_PARAM_STRUCT_), DIMENSION(NGROUP)  :: GROUP_PARAM_TAB
+      TYPE (GROUP_PARAM_), DIMENSION(NGROUP)  :: GROUP_PARAM_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -3309,7 +3309,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE GROUP_PARAM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3329,7 +3329,7 @@ C-----------------------------------------------
       INTEGER IPART(LIPART1,*),IPARG(NPARG,*),IGEO(NPROPGI,*)
       my_real
      .   GEO(NPROPG,*),PM(NPROPM,*)
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      TYPE(GROUP_PARAM_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

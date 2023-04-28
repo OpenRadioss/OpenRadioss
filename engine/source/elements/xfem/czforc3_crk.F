@@ -72,7 +72,7 @@ Chd|====================================================================
      C            F33    ,F34    ,M11    ,M12    ,M13    ,
      D            M14    ,M21    ,M22    ,M23    ,M24    ,
      E            M31    ,M32    ,M33    ,M34    ,
-     F            KFTS   ,FZERO  ,ISMSTR ,MATPARAM_TAB,
+     F            KFTS   ,FZERO  ,ISMSTR ,MAT_ELEM ,
      I            IGEO   ,IPM    ,IFAILURE,ITASK , JTHE  ,
      J            TEMP   ,FTHE   ,FTHESKY ,IEXPAN,GRESAV ,
      K            GRTH   ,IGRTH  ,MSC    ,DMELC  ,JSMS   ,
@@ -86,10 +86,9 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
-      USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD  
+      USE MAT_ELEM_MOD  
       USE DRAPE_MOD 
       USE NLOCAL_REG_MOD         
       USE SENSOR_MOD
@@ -146,9 +145,9 @@ C     REAL OU REAL*8
       TYPE (XFEM_SKY_)    , DIMENSION(*) :: CRKSKY
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
+      TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
-      TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -456,7 +455,7 @@ C-----------------------------
      4       SSP       ,RHO       ,VISCMX    ,DT1C      ,SIGY    ,
      5       AREA      ,EXX       ,EYY       ,EXY       ,EXZ     ,
      6       EYZ       ,KXX       ,KYY       ,KXY       ,NU      ,
-     7       OFF       ,THK0      ,MAT       ,PID       ,MATPARAM_TAB,
+     7       OFF       ,THK0      ,MAT       ,PID       ,MAT_ELEM,
      8       FORG      ,MOMG      ,STRAG     ,FAILWAVE  ,FWAVE   ,
      9       THKG      ,EINTG     ,IOFC      ,
      A       G         ,A11       ,A12       ,VOL0      ,INDXOF  ,

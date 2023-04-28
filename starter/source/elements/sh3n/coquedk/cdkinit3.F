@@ -71,7 +71,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD            
       USE STACK_MOD
-      USE MATPARAM_DEF_MOD
+      USE GROUP_PARAM_MOD
       USE NLOCAL_REG_MOD   
       USE DRAPE_MOD           
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .   RNOISE(*),SH3ANG(*),GEO_STACK(*),STRTG(*),ELE_AREA(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (GRP_PARAM_STRUCT_)  :: GROUP_PARAM
+      TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE (DRAPE_)  :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG

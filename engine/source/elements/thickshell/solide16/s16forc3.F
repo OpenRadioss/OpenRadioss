@@ -72,16 +72,15 @@ Chd|====================================================================
      F                    IPM      ,ISTRAIN ,TEMP   ,FTHE    ,FTHESKY ,
      G                    IEXPAN   ,GRESAV  ,GRTH   ,IGRTH   ,TABLE   ,
      H                    IGEO     ,VOLN    ,CONDN  ,CONDNSKY,ITASK  ,
-     I                    IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN  ,DT    )
+     I                    IOUTPRT  ,MAT_ELEM,H3D_STRAIN  ,DT    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -137,7 +136,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -402,7 +401,7 @@ C=======================================================================
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=16
-      IPRES = MATPARAM_TAB(MXT(1))%IPRES
+      IPRES = MAT_ELEM%MAT_PARAM(MXT(1))%IPRES
 C
       DO N=1,NPE
         DO I=1,NEL
@@ -600,7 +599,7 @@ C
      N   MBID,        IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
      S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
 

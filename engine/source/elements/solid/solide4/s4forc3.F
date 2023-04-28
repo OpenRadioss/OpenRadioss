@@ -91,17 +91,16 @@ Chd|====================================================================
      B            TEMP     ,FTHE    ,FTHESKY ,IEXPAN   ,GRESAV   ,
      C            GRTH     ,IGRTH   ,MSSA    ,DMELS    ,TABLE    ,
      D            XDP      ,VARNOD  ,VOLN    ,CONDN    ,CONDNSKY ,
-     E            D        ,SENSORS ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN,
+     E            D        ,SENSORS ,IOUTPRT ,MAT_ELEM ,H3D_STRAIN,
      F            DT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD         
+      USE MAT_ELEM_MOD         
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE ALE_MOD
       USE DT_MOD
@@ -154,7 +153,7 @@ C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_)  , INTENT(IN) :: SENSORS
       TYPE(DT_),      INTENT(INOUT) :: DT
 C-----------------------------------------------
@@ -460,7 +459,7 @@ C-----------------------------------------------------
      4   MFYX,        MFYY,        MFYZ,        MFZX,
      5   MFZY,        MFZZ,        GBUF%VOL,    VOLN,
      6   LBUF%VOL0DP, VOLDP,       GBUF%AMU,    DXX,
-     7   DYY,         DZZ,         MATPARAM_TAB,NEL,
+     7   DYY,         DZZ,         MAT_ELEM%MAT_PARAM,NEL,
      8   ISMSTR)
       ENDIF
       IF(JALE > 0.AND.ISROT == 3.AND.MTN /= 37.AND.MTN /= 51.AND.
@@ -592,7 +591,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VAR_REG,     MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)

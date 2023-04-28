@@ -21,44 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
+Chd|  PLY_PARAM_MOD              
 Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NGROUP
-      TYPE(GROUP_PARAM_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER NG,LEN
-      my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
-C=======================================================================
-      LEN = 2
-      ALLOCATE(RBUF(NGROUP,LEN))
-c
-      DO NG = 1, NGROUP
-        RBUF(NG,1) = GROUP_PARAM_TAB(NG)%VISC_DM
-        RBUF(NG,2) = GROUP_PARAM_TAB(NG)%VISC_DN
-      ENDDO
-C
-      CALL WRITE_DB(RBUF,LEN*NGROUP)
-      DEALLOCATE( RBUF )
-c-----------
-      RETURN
-      END
+      MODULE PLY_PARAM_MOD
+C----------------------------------------------------------------------- 
+#include "my_real.inc"
+#include "nchar_c.inc"
+c=======================================================================      
 
+      TYPE PLY_PARAM_                      ! NLAY
+        my_real :: ALPHA                
+        my_real :: PHI
+        my_real :: THICK
+        my_real :: POS
+        my_real :: P_THKLY
+        my_real :: P_WEIGHT
+        INTEGER :: PID
+        INTEGER :: MID_PLY
+        INTEGER :: MID_INTPLY
+        INTEGER :: NPT_PLY
+      END TYPE PLY_PARAM_
+
+c---------------
+      END MODULE PLY_PARAM_MOD
