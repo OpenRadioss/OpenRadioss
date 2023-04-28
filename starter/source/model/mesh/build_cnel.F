@@ -178,13 +178,6 @@ C
       END DO
       KNOD2ELQ(1)=0
 C-----------------------------------------------
-C      DO K=2,5
-C        DO I=1,NUMELQ
-C          N = IXQ(K,I)
-C          ADDCNEL(N) = ADDCNEL(N) + 1
-C        END DO
-C      END DO
-C
       DO K=2,3
         DO I=1,NUMELT
           N = IXT(K,I)
@@ -313,14 +306,6 @@ C
         KNOD2ELTG(N+1)=KNOD2ELTG(N)
       END DO
       KNOD2ELTG(1)=0
-C
-C      DO K=2,5
-C        DO I=1,NUMELQ
-C          N = IXQ(K,I)
-C          ADDCNEL(N) = ADDCNEL(N) + 1
-C          CNEL(ADDCNEL(N)) = OFFSET_Q+I
-C        END DO
-C      END DO
 
       DO K=2,3
         DO I=1,NUMELT
@@ -358,29 +343,18 @@ C      END DO
         ADDCNEL(N+1)=ADDCNEL(N)
       END DO
       ADDCNEL(1)=0
-c traitement a part du 3eme noeud optionnel sauf type 12
-c      DO I=1,NUMELR
-c        N = IXR(4,I)
-c        IF(IGEO(11,IXR(1,I))==12)  THEN
-c          ADDCNEL(N) = ADDCNEL(N) + 1
-c          CNEL(ADDCNEL(N)) = OFFSET_R+I
-c        END IF
-c      END DO
-
-
-C
 
 c fill LELX (use in I11STI3 and I20STI3E)
       IF(NUMELX /= 0)THEN
-	LELX(1:NUMELX) = ZERO
-	DO I=1,NUMELX
-	  DO J=KXX(4,I)+1,KXX(3,I)+KXX(4,I)-1
-	    LELX(I) = LELX(I) + 
+        LELX(1:NUMELX) = ZERO
+        DO I=1,NUMELX
+          DO J=KXX(4,I)+1,KXX(3,I)+KXX(4,I)-1
+            LELX(I) = LELX(I) + 
      .       SQRT((X(1,IXX(J))-X(1,IXX(J-1)))**2
-     .  	 +(X(2,IXX(J))-X(2,IXX(J-1)))**2
-     .  	 +(X(3,IXX(J))-X(3,IXX(J-1)))**2)
-	  ENDDO
-	ENDDO
+     .     +(X(2,IXX(J))-X(2,IXX(J-1)))**2
+     .     +(X(3,IXX(J))-X(3,IXX(J-1)))**2)
+         ENDDO
+       ENDDO
       ENDIF
 C
       DO I=1,NUMELIG3D
@@ -497,8 +471,8 @@ C
 
         ALLOCATE(IRTLM_L(NRTM),STAT=IERROR)
         IF (IERROR /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                           C1='Prepare data related to /INTER/TYPE25')
+     .     MSGTYPE=MSGERROR,
+     .     C1='Prepare data related to /INTER/TYPE25')
 
         NRTLM_L(1:NSPMD)=0
         DO K=1,NRTM

@@ -21,6 +21,9 @@
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include <algorithm>
+#include <vector>
+#include <utility>
+
 #define _FCALL
 
 #ifdef MYREAL8
@@ -28,27 +31,64 @@
 #else
 #define my_real float
 #endif
-extern "C" {
 
-void stlsort(int * len, my_real * array)
-{
-        std::sort(array,array+ *len);
+
+template<typename K, typename V>
+void stlsort_generic_generic(int *len,  K *keys, V *values){
+    int n = *len;
+    std::vector<std::pair<K, V>> pairs(n);
+
+    for (int i = 0; i < n; ++i) {
+        pairs[i] = std::make_pair(keys[i], values[i]);
+    }
+
+    std::sort(pairs.begin(), pairs.end(), [](const std::pair<K, V> &a, const std::pair<K, V> &b) {
+        return a.first < b.first;
+    });
+
+    for (int i = 0; i < n; ++i) {
+        keys[i] = pairs[i].first;
+        values[i] = pairs[i].second;
+    }
 }
-void stlsort__(int * len, my_real * array)
-{
-        std::sort(array,array+ *len);
-}
-void _FCALL stlsort_(int * len, my_real * array)
-{
-        std::sort(array,array+ *len);
-}
-void _FCALL STLSORT(int * len, my_real * array)
-{
-        std::sort(array,array+ *len);
-}
-void STLSORT_(int * len, my_real * array)
-{
-        std::sort(array,array+ *len);
-}
+
+extern "C" {
+// sort array
+    void stlsort(int * len, my_real * array)
+    {
+            std::sort(array,array+ *len);
+    }
+    void stlsort__(int * len, my_real * array)
+    {
+            std::sort(array,array+ *len);
+    }
+    void _FCALL stlsort_(int * len, my_real * array)
+    {
+            std::sort(array,array+ *len);
+    }
+    void _FCALL STLSORT(int * len, my_real * array)
+    {
+            std::sort(array,array+ *len);
+    }
+    void STLSORT_(int * len, my_real * array)
+    {
+            std::sort(array,array+ *len);
+    }
+// sort array with int and key
+    void stlsort_int_int(int *len, int* keys,  int *values) {
+         stlsort_generic_generic<int,int>(len, keys, values); 
+    }
+    void stlsort_int_int__(int *len, int* keys,  int *values) {
+         stlsort_generic_generic<int,int>(len, keys, values); 
+    }
+    void _FCALL stlsort_int_int_(int *len, int* keys,  int *values) {
+         stlsort_generic_generic<int,int>(len, keys, values); 
+    }
+    void _FCALL STLSORT_INT_INT(int *len, int* keys,  int *values) {
+         stlsort_generic_generic<int,int>(len, keys, values); 
+    }
+    void STLSORT_INT_INT_(int *len, int* keys,  int *values) {
+         stlsort_generic_generic<int,int>(len, keys, values); 
+    }
 }
 
