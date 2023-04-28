@@ -4438,7 +4438,7 @@ C
      U CONDNSKY       ,SFSAV6        ,FBSAV6      ,STABSEN    ,TABSENSOR       ,
      V TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
-     Y H3D_DATA)
+     Y H3D_DATA       ,IFTHE         ,ICONDN      )
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN

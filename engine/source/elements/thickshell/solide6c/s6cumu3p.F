@@ -33,19 +33,27 @@ Chd|====================================================================
      4   F23,     F33,     F14,     F24,
      5   F34,     F15,     F25,     F35,
      6   F16,     F26,     F36,     NEL,
-     7   NFT)
+     7   NFT,    JTHE, FTHESKY,    THEM,
+     8   CONDNSKY,CONDE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "comlock.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "com01_c.inc"
 #include      "parit_c.inc"
+#include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NEL,JTHE
       INTEGER, INTENT(IN) :: NFT
 C     REAL
       my_real
@@ -53,19 +61,18 @@ C     REAL
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*)
+      my_real, INTENT(INOUT) :: THEM(MVSIZ,6),FTHESKY(LSKY),
+     .   CONDNSKY(LSKY),CONDE(MVSIZ)
       INTEGER IADS(8,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C ds 41i 001 13/6/00  +1
-C     INTEGER I, II, K
       INTEGER I, II, K, J
       my_real
      .   OFF_L
 C-----------------------------------------------
-      OFF_L = 0.
+      OFF_L = ZERO
       DO I=1,NEL
-Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(OFF_L<ZERO)THEN
@@ -99,104 +106,228 @@ C     because 2*Mnodal = 2*Melement/6
       DO I=1,NEL
         STI(I)=THIRD*STI(I)
       END DO
+      IF(NODADT_THERM == 1 ) THEN  
+        DO I=1,NEL
+           CONDE(I)=ONE_OVER_6*CONDE(I)
+        END DO
+      ENDIF
 C
-      IF(IVECTOR==1) THEN
+      IF(JTHE >= 0) THEN
+        IF(IVECTOR==1) THEN
 #include "vectorize.inc"
-        DO I=1,NEL
-          II=I+NFT
-          K = IADS(1,II)
-          FSKYV(K,1)=F11(I)
-          FSKYV(K,2)=F21(I)
-          FSKYV(K,3)=F31(I)
-          FSKYV(K,4)=ZERO
-          FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
-          FSKYV(K,7)=STI(I)
+          DO I=1,NEL
+            II=I+NFT
+            K = IADS(1,II)
+            FSKYV(K,1)=F11(I)
+            FSKYV(K,2)=F21(I)
+            FSKYV(K,3)=F31(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
 C
-          K = IADS(2,II)
-          FSKYV(K,1)=F12(I)
-          FSKYV(K,2)=F22(I)
-          FSKYV(K,3)=F32(I)
-          FSKYV(K,4)=ZERO
-          FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
-          FSKYV(K,7)=STI(I)
+            K = IADS(2,II)
+            FSKYV(K,1)=F12(I)
+            FSKYV(K,2)=F22(I)
+            FSKYV(K,3)=F32(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
 C
-          K = IADS(3,II)
-          FSKYV(K,1)=F13(I)
-          FSKYV(K,2)=F23(I)
-          FSKYV(K,3)=F33(I)
-          FSKYV(K,4)=ZERO
-          FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO
-          FSKYV(K,7)=STI(I)
+            K = IADS(3,II)
+            FSKYV(K,1)=F13(I)
+            FSKYV(K,2)=F23(I)
+            FSKYV(K,3)=F33(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO
+            FSKYV(K,7)=STI(I)
 C
-          K = IADS(5,II)
-          FSKYV(K,1)=F14(I)
-          FSKYV(K,2)=F24(I)
-          FSKYV(K,3)=F34(I)
-          FSKYV(K,4)=ZERO
-          FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
-          FSKYV(K,7)=STI(I)
+            K = IADS(5,II)
+            FSKYV(K,1)=F14(I)
+            FSKYV(K,2)=F24(I)
+            FSKYV(K,3)=F34(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
 C
-          K = IADS(6,II)
-          FSKYV(K,1)=F15(I)
-          FSKYV(K,2)=F25(I)
-          FSKYV(K,3)=F35(I)
-          FSKYV(K,4)=ZERO
-          FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
-          FSKYV(K,7)=STI(I)
+            K = IADS(6,II)
+            FSKYV(K,1)=F15(I)
+            FSKYV(K,2)=F25(I)
+            FSKYV(K,3)=F35(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
 C
-          K = IADS(7,II)
-          FSKYV(K,1)=F16(I)
-          FSKYV(K,2)=F26(I)
-          FSKYV(K,3)=F36(I)
-          FSKYV(K,4)=ZERO
-          FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
-          FSKYV(K,7)=STI(I)
-        ENDDO
+            K = IADS(7,II)
+            FSKYV(K,1)=F16(I)
+            FSKYV(K,2)=F26(I)
+            FSKYV(K,3)=F36(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            II=I+NFT
+            K = IADS(1,II)
+            FSKY(1,K)=F11(I)
+            FSKY(2,K)=F21(I)
+            FSKY(3,K)=F31(I)
+            FSKY(7,K)=STI(I)
+C
+            K = IADS(2,II)
+            FSKY(1,K)=F12(I)
+            FSKY(2,K)=F22(I)
+            FSKY(3,K)=F32(I)
+            FSKY(7,K)=STI(I)
+C
+            K = IADS(3,II)
+            FSKY(1,K)=F13(I)
+            FSKY(2,K)=F23(I)
+            FSKY(3,K)=F33(I)
+            FSKY(7,K)=STI(I)
+C
+            K = IADS(5,II)
+            FSKY(1,K)=F14(I)
+            FSKY(2,K)=F24(I)
+            FSKY(3,K)=F34(I)
+            FSKY(7,K)=STI(I)
+C
+            K = IADS(6,II)
+            FSKY(1,K)=F15(I)
+            FSKY(2,K)=F25(I)
+            FSKY(3,K)=F35(I)
+            FSKY(7,K)=STI(I)
+C
+            K = IADS(7,II)
+            FSKY(1,K)=F16(I)
+            FSKY(2,K)=F26(I)
+            FSKY(3,K)=F36(I)
+            FSKY(7,K)=STI(I)
+          ENDDO
+        ENDIF
       ELSE
-        DO I=1,NEL
-          II=I+NFT
-          K = IADS(1,II)
-          FSKY(1,K)=F11(I)
-          FSKY(2,K)=F21(I)
-          FSKY(3,K)=F31(I)
-          FSKY(7,K)=STI(I)
+        IF(IVECTOR==1) THEN
+#include "vectorize.inc"
+          DO I=1,NEL
+            II=I+NFT
+            K = IADS(1,II)
+            FSKYV(K,1)=F11(I)
+            FSKYV(K,2)=F21(I)
+            FSKYV(K,3)=F31(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
+            FTHESKY(K)=THEM(I,1) 
 C
-          K = IADS(2,II)
-          FSKY(1,K)=F12(I)
-          FSKY(2,K)=F22(I)
-          FSKY(3,K)=F32(I)
-          FSKY(7,K)=STI(I)
+            K = IADS(2,II)
+            FSKYV(K,1)=F12(I)
+            FSKYV(K,2)=F22(I)
+            FSKYV(K,3)=F32(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
+            FTHESKY(K)=THEM(I,2) 
 C
-          K = IADS(3,II)
-          FSKY(1,K)=F13(I)
-          FSKY(2,K)=F23(I)
-          FSKY(3,K)=F33(I)
-          FSKY(7,K)=STI(I)
+            K = IADS(3,II)
+            FSKYV(K,1)=F13(I)
+            FSKYV(K,2)=F23(I)
+            FSKYV(K,3)=F33(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO
+            FSKYV(K,7)=STI(I)
+            FTHESKY(K)=THEM(I,3) 
 C
-          K = IADS(5,II)
-          FSKY(1,K)=F14(I)
-          FSKY(2,K)=F24(I)
-          FSKY(3,K)=F34(I)
-          FSKY(7,K)=STI(I)
+            K = IADS(5,II)
+            FSKYV(K,1)=F14(I)
+            FSKYV(K,2)=F24(I)
+            FSKYV(K,3)=F34(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
+            FTHESKY(K)=THEM(I,4) 
 C
-          K = IADS(6,II)
-          FSKY(1,K)=F15(I)
-          FSKY(2,K)=F25(I)
-          FSKY(3,K)=F35(I)
-          FSKY(7,K)=STI(I)
+            K = IADS(6,II)
+            FSKYV(K,1)=F15(I)
+            FSKYV(K,2)=F25(I)
+            FSKYV(K,3)=F35(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
+            FTHESKY(K)=THEM(I,5) 
 C
-          K = IADS(7,II)
-          FSKY(1,K)=F16(I)
-          FSKY(2,K)=F26(I)
-          FSKY(3,K)=F36(I)
-          FSKY(7,K)=STI(I)
-        ENDDO
+            K = IADS(7,II)
+            FSKYV(K,1)=F16(I)
+            FSKYV(K,2)=F26(I)
+            FSKYV(K,3)=F36(I)
+            FSKYV(K,4)=ZERO
+            FSKYV(K,5)=ZERO
+            FSKYV(K,6)=ZERO 
+            FSKYV(K,7)=STI(I)
+            FTHESKY(K)=THEM(I,6) 
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            II=I+NFT
+            K = IADS(1,II)
+            FSKY(1,K)=F11(I)
+            FSKY(2,K)=F21(I)
+            FSKY(3,K)=F31(I)
+            FSKY(7,K)=STI(I)
+            FTHESKY(K)  = THEM(I,1)
+            IF(NODADT_THERM == 1) CONDNSKY(K) = CONDE(I)
+C
+            K = IADS(2,II)
+            FSKY(1,K)=F12(I)
+            FSKY(2,K)=F22(I)
+            FSKY(3,K)=F32(I)
+            FSKY(7,K)=STI(I)
+            FTHESKY(K)  = THEM(I,2)
+            IF(NODADT_THERM == 1) CONDNSKY(K) = CONDE(I)
+C
+            K = IADS(3,II)
+            FSKY(1,K)=F13(I)
+            FSKY(2,K)=F23(I)
+            FSKY(3,K)=F33(I)
+            FSKY(7,K)=STI(I)
+            FTHESKY(K)  = THEM(I,3)
+            IF(NODADT_THERM == 1) CONDNSKY(K) = CONDE(I)
+C
+            K = IADS(5,II)
+            FSKY(1,K)=F14(I)
+            FSKY(2,K)=F24(I)
+            FSKY(3,K)=F34(I)
+            FSKY(7,K)=STI(I)
+            FTHESKY(K)  = THEM(I,4)
+            IF(NODADT_THERM == 1) CONDNSKY(K) = CONDE(I)
+C
+            K = IADS(6,II)
+            FSKY(1,K)=F15(I)
+            FSKY(2,K)=F25(I)
+            FSKY(3,K)=F35(I)
+            FSKY(7,K)=STI(I)
+            FTHESKY(K)  = THEM(I,5)
+            IF(NODADT_THERM == 1) CONDNSKY(K) = CONDE(I)
+C
+            K = IADS(7,II)
+            FSKY(1,K)=F16(I)
+            FSKY(2,K)=F26(I)
+            FSKY(3,K)=F36(I)
+            FSKY(7,K)=STI(I)
+            FTHESKY(K)  = THEM(I,6)
+            IF(NODADT_THERM == 1) CONDNSKY(K) = CONDE(I)
+          ENDDO
+        ENDIF
       ENDIF
 C
       RETURN

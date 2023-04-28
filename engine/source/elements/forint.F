@@ -105,7 +105,7 @@ Chd|====================================================================
      U    CONDNSKY  ,DIMFB     , FBSAV6    ,STABSEN   ,TABSENSOR ,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     Y    H3D_DATA) 
+     Y    H3D_DATA  ,IFTHE     ,ICONDN     ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -190,6 +190,7 @@ C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      INTEGER, INTENT(IN) :: IFTHE, ICONDN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -604,7 +605,9 @@ C              6 node penta
      B         ICP     ,ICS     ,NLOC_DMG,
      C         IPM     ,ISTRA   ,IGEO    ,GRESAV  ,GRTH       ,
      D         IGRTH(NF1),TABLE ,MSSA(NF1),DMELS(NF1)  ,VOLN  ,
-     E         ITASK ,IPRI      ,MATPARAM_TAB,IBID)
+     E         ITASK ,IPRI      ,MATPARAM_TAB,IBID,TEMP       ,
+     F         FTHE  ,FTHESKY   ,CONDN    ,CONDNSKY ,IEXPAN,
+     G         IFTHE ,ICONDN    )
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
