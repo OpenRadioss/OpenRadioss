@@ -507,7 +507,7 @@ Chd|====================================================================
       SUBROUTINE RESOL(AF,IAF,
      1  ICODE  ,ISKEW  ,ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2  IXTG   ,IXS     ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
-     3          ITAB   ,ITABM1  ,IFILL  ,
+     3          ITAB   ,ITABM1  ,IFILL  ,MAT_ELEM,
      4  IMS    ,NPC    ,IBCL    ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
      5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
      6  IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
@@ -613,7 +613,6 @@ C-----------------------------------------------
       USE IMP_INTBUF
       USE MESSAGE_MOD
       USE CRACKXFEM_MOD
-      USE ELBUFDEF_MOD            
       USE I22BUFBRIC_MOD
       USE i22EDGE_MOD
       USE CLUSTER_MOD
@@ -633,7 +632,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD
+      USE MAT_ELEM_MOD
       USE TIME_MOD
       USE PINCHTYPE_MOD
       USE CHECK_MOD
@@ -875,8 +874,8 @@ C     Mat + Prop timers
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
 c
       TYPE(NLOCAL_STR_)  :: NLOC_DMG
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      TYPE(MATPARAM_STRUCT_)  ,DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(GROUP_PARAM_)      ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
@@ -895,6 +894,7 @@ c
       TYPE(OUTPUT_),INTENT(INOUT)                        :: OUTPUT
       TYPE (INTERFACES_) ,INTENT(INOUT)                  :: INTERFACES
       TYPE (DT_) ,INTENT(INOUT)                          :: DT
+      TYPE(MAT_ELEM_)   ,INTENT(INOUT)                   :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3758,7 +3758,7 @@ C
      K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS        ,
      L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM      ,IGRTRUSS        ,
      M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB       ,ALE_CONNECTIVITY, DIFFUSION,
-     N          MATPARAM_TAB,H3D_DATA,DT, OUTPUT)
+     N          MAT_ELEM   ,H3D_DATA,DT , OUTPUT  )
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4386,12 +4386,12 @@ C Init var parallel SMP
      1   PM           ,GEO             ,X               ,A(1,NDTSK)     ,AR(1,NDTSK)  ,
      2   V            ,VR              ,MS              ,IN             ,NLOC_DMG     , 
      3   WA(NWAFTSK)  ,STIFN(NDTSK)    ,STIFR(NDTSK)    ,FSKY           ,CRKSKY       , 
-     4   TF           ,BUFMAT          ,PARTSAV(IPMTSK) ,D              ,MATPARAM_TAB , 
-     5   DR           ,EANI            ,TANI            ,FANI(1,NFOA+1) ,       
+     4   TF           ,BUFMAT          ,PARTSAV(IPMTSK) ,D              ,MAT_ELEM     , 
+     5   DR           ,EANI            ,TANI            ,FANI(1,NFOA+1) ,      
      6   FSAV         ,SENSORS         ,SKEW            ,ANIN(NDMA2+1)  ,FAILWAVE     ,               
      7   DT2TT        ,THKE            ,BUFGEO          ,IADS(I87C)     ,IADS(I87G)   , 
      8   IPARG        ,NPC             ,IXC             ,IXTG           ,NELTSTT      , 
-     9   IPARI        ,ITYPTSTT        ,NSTRF          ,          
+     9   IPARI        ,ITYPTSTT        ,NSTRF           ,        
      A   IPART        ,IPART(K3)       ,IPART(K8)       ,SECFCUM        ,                  
      B   FSAVD        ,GROUP_PARAM_TAB , 
      E   FZERO        ,IXTG1           ,IADS(LLT1)      ,IGEO           ,IPM          ,
@@ -4501,7 +4501,7 @@ C
      5 PARTSAV(IPMTSK),D             ,DR          ,EANI       ,ELBUF_TAB       ,
      6 TANI           ,FANI(1,NFOA+1),FSAV        ,SENSORS    ,NLOC_DMG        ,
      7 SKEW           ,ANIN(NDMA2+1) ,DT2TT       ,BUFGEO     ,ITAB            ,
-     8 IADS           ,IADS(I87B)    ,IADS(I87D)  ,IADS(I87E) ,MATPARAM_TAB    ,
+     8 IADS           ,IADS(I87B)    ,IADS(I87D)  ,IADS(I87E) ,MAT_ELEM        ,
      9 IADS(I87F)     ,IPARG         ,ALE_CONNECTIVITY,NPC    ,
      A IXS            ,IXQ           ,IXT         ,IXP        ,
      B IXR            ,NELTSTT       ,IPARI       ,
@@ -4614,7 +4614,7 @@ C----------------------------------
      C    NGROUNC       ,IGROUNC        ,IXS        ,IRST            ,SOL2SPH       ,
      D    SPH2SOL       ,FSKY           ,FSKY       ,IGEO            ,TEMP          ,
      E    FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
-     F    MATPARAM_TAB  ,OUTPUT )
+     F    MAt_ELEM      ,OUTPUT         )
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -9297,7 +9297,7 @@ C--------------------------------------------------------
           ICH = 0
           IF (RESTART_FILE==1) THEN
           CALL WRRESTP(AF        , IAF        ,XDP        ,ICH        ,ADSKY          ,
-     .                 ELBUF_TAB , XFEM_TAB   ,INTBUF_TAB , MULTI_FVM ,
+     .                 ELBUF_TAB , XFEM_TAB   ,INTBUF_TAB , MULTI_FVM ,MAT_ELEM       ,
      .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSORS   , EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT        ,
@@ -9567,7 +9567,7 @@ C--------------------------------------------------------
           ENDIF
 
           CALL WRRESTP(AF         ,IAF             ,XDP       ,ICH         ,ADSKY          ,
-     .                 ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB, MULTI_FVM  ,
+     .                 ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB, MULTI_FVM  ,MAT_ELEM       ,
      .                 H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSETS   ,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                 PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                 SENSORS    ,EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
@@ -9705,7 +9705,7 @@ C--------------------------------------------------------
 
               ICH = 1
               CALL WRRESTP(AF        ,IAF            ,XDP          ,ICH        ,ADSKY          ,
-     .                    ELBUF_TAB  ,XFEM_TAB       ,INTBUF_TAB  , MULTI_FVM  ,
+     .                    ELBUF_TAB  ,XFEM_TAB       ,INTBUF_TAB   ,MULTI_FVM  ,MAT_ELEM       ,
      .                    H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS     ,MATPARAM_TAB,GROUP_PARAM_TAB,
      .                    PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                    SENSORS    ,EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,

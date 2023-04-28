@@ -30,29 +30,36 @@ Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE READ_MATPARAM(MATPARAM_TAB,NUMMAT)
+      SUBROUTINE READ_MATPARAM(MAT_ELEM,NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD
+      USE MESSAGE_MOD
+      USE MAT_ELEM_MOD
+      USE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "my_allocate.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NUMMAT
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM_TAB
-      TARGET :: MATPARAM_TAB 
+      INTEGER :: NUMMAT
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IMAT,NUMTABL,IAD,LEN
-      INTEGER ,DIMENSION(:)   ,ALLOCATABLE :: IBUF
-      TYPE (MATPARAM_STRUCT_) ,POINTER     :: MATPARAM
+      INTEGER :: I,IMAT,NUMTABL,NUPARAM,IAD,LEN
+      INTEGER ,DIMENSION(NCHARTITLE) :: NAME
+      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
 c     read MATPARAM data
+      MAT_ELEM%NUMMAT = NUMMAT
+      MY_ALLOCATE(MAT_ELEM%MAT_PARAM ,NUMMAT)
 c
       CALL READ_I_C(LEN, 1)
       ALLOCATE (IBUF(LEN) )
@@ -60,37 +67,70 @@ c
 c      
       IAD = 0
       DO IMAT=1,NUMMAT
-        MATPARAM => MATPARAM_TAB(IMAT)
+        
         IAD = IAD+1
-          MATPARAM%ILAW               = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%ILAW               = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%MAT_ID             = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID             = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%NTABLE             = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM            = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%COMPRESSIBILITY    = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM            = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%SMSTR              = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%NFUNC              = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%STRAIN_FORMULATION = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%NTABLE             = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%IPRES              = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%NSUBMAT            = IBUF(IAD)
         IAD = IAD+1
-          MATPARAM%ORTHOTROPY         = IBUF(IAD)
+          MAT_ELEM%MAT_PARAM(IMAT)%NFAIL              = IBUF(IAD)
+
+        IAD = IAD+1
+          MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY    = IBUF(IAD)
+        IAD = IAD+1
+          MAT_ELEM%MAT_PARAM(IMAT)%SMSTR              = IBUF(IAD)
+        IAD = IAD+1
+          MAT_ELEM%MAT_PARAM(IMAT)%STRAIN_FORMULATION = IBUF(IAD)
+        IAD = IAD+1
+          MAT_ELEM%MAT_PARAM(IMAT)%IPRES              = IBUF(IAD)
+        IAD = IAD+1
+          MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY         = IBUF(IAD)
       END DO
 c
       DEALLOCATE( IBUF )
 c
+c     read material title
+
+      DO IMAT=1,NUMMAT      
+        CALL READ_C_C(NAME,NCHARTITLE)
+        DO I=1,NCHARTITLE
+          MAT_ELEM%MAT_PARAM(IMAT)%TITLE(I:I) = CHAR(NAME(I))
+        END DO
+      END DO
+      
+c     read material parameter array
+
+      DO IMAT=1,NUMMAT
+      
+        NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
+        MY_ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)
+
+        IF (NUPARAM > 0) THEN
+          CALL READ_DB(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)
+          LEN = LEN + NUPARAM
+        END IF
+      
+      END DO
+c
 c     read material law tables if necessary
       
       DO IMAT=1,NUMMAT
-        MATPARAM => MATPARAM_TAB(IMAT)
-        NUMTABL  = MATPARAM%NTABLE
+        NUMTABL  = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE
         
         IF (NUMTABL > 0) THEN
-          ALLOCATE (MATPARAM%TABLE(NUMTABL))
-          CALL TABLE_RRESTI_MAT(MATPARAM%TABLE, NUMTABL)
-          CALL TABLE_RRESTR_MAT(MATPARAM%TABLE, NUMTABL)
+          ALLOCATE (MAT_ELEM%MAT_PARAM(IMAT)%TABLE(NUMTABL))
+          CALL TABLE_RRESTI_MAT(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL)
+          CALL TABLE_RRESTR_MAT(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL)
         END IF
       END DO      
 c-----------

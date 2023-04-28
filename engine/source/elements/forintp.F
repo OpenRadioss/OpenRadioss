@@ -95,7 +95,7 @@ Chd|====================================================================
      C    NGROUNC   ,IGROUNC   ,IXS       ,IRST      ,SOL2SPH   ,
      D    SPH2SOL   ,FSKYV     ,FSKY      ,IGEO      ,TEMP      ,
      E    FTHE      ,FTHESKYI  ,SPHG_F6   ,WSMCOMP   ,SOL2SPH_TYP,
-     F    MATPARAM_TAB,OUTPUT)
+     F    MAT_ELEM  ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,9 +103,8 @@ C-----------------------------------------------
       USE SPHBOX
       USE MOD_FORINTP
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD
       USE OUTPUT_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -159,6 +158,7 @@ C-----------------------------------------------
       DOUBLE PRECISION SPHG_F6(4,6,NBGAUGE)
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -637,15 +637,15 @@ C            a ne pas ecraser avt SPFORC.
 C-----------------------------------------------
              NDSVOID=0
              CALL SPSTRES(ELBUF_TAB,NG    ,
-     1    PM        ,GEO       ,X         ,V         ,MS        ,
-     2    W         ,SPBUF     ,WA        ,NLOC_DMG  ,
-     3    ITAB      ,PLD       ,BUFMAT    ,BUFGEO    ,PARTSAV   ,
-     4    FSAV      ,DT2T      ,IPARG     ,NPC       ,KXSP      ,
-     5    IXSP      ,NOD2SP    ,NELTST    ,ITYPTST   ,IPART     ,
-     6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
-     7    GRTH      ,IGRTH     ,TABLE     ,ISTRA     ,VOLN      ,
-     8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MATPARAM_TAB,IBID,OUTPUT)
+     1            PM        ,GEO       ,X         ,V         ,MS        ,
+     2            W         ,SPBUF     ,WA        ,NLOC_DMG  ,
+     3            ITAB      ,PLD       ,BUFMAT    ,BUFGEO    ,PARTSAV   ,
+     4            FSAV      ,DT2T      ,IPARG     ,NPC       ,KXSP      ,
+     5            IXSP      ,NOD2SP    ,NELTST    ,ITYPTST   ,IPART     ,
+     6            IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
+     7            GRTH      ,IGRTH     ,TABLE     ,ISTRA     ,VOLN      ,
+     8            IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
+     9            MAT_ELEM  ,IBID      ,OUTPUT    )
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO

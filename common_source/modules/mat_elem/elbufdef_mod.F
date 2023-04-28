@@ -845,7 +845,7 @@ c---
         my_real, DIMENSION(:) , POINTER ::   DELTAX                 
         my_real, DIMENSION(:) , POINTER ::   VOL                            
         my_real, DIMENSION(:) , POINTER ::   EPSD  
-        my_real, DIMENSION(:) , POINTER ::   EPSQ	
+        my_real, DIMENSION(:) , POINTER ::   EPSQ
         my_real, DIMENSION(:) , POINTER ::   PLA   
         my_real, DIMENSION(:) , POINTER ::   TEMP  
         my_real, DIMENSION(:) , POINTER ::   TB    
@@ -880,7 +880,7 @@ C
         my_real, DIMENSION(:) , POINTER ::   SEQ
         my_real, DIMENSION(:) , POINTER ::   THK_I   !---- add for Ismstr=10 shell (XFEM not done) STRWPG total anti-symme curvature                         
         my_real, DIMENSION(:) , POINTER ::   STRW 
-        my_real, DIMENSION(:) , POINTER ::   STRWPG         	
+        my_real, DIMENSION(:) , POINTER ::   STRWPG
         my_real, DIMENSION(:) , POINTER ::   JAC_I   !--------inversed [J]
         my_real, DIMENSION(:) , POINTER ::   DT
         my_real, DIMENSION(:) , POINTER ::   ABURN 
@@ -968,7 +968,7 @@ c---
         my_real, DIMENSION(:) , POINTER ::   GAMA   
         my_real, DIMENSION(:) , POINTER ::   STRA   
         my_real, DIMENSION(:) , POINTER ::   FRAC          
-        my_real, DIMENSION(:) , POINTER ::   BFRAC	
+        my_real, DIMENSION(:) , POINTER ::   BFRAC
         my_real, DIMENSION(:) , POINTER ::   EINT   
         my_real, DIMENSION(:) , POINTER ::   EINS   
         my_real, DIMENSION(:) , POINTER ::   RHO    
@@ -1147,7 +1147,7 @@ c-------
         integer  L_GAMA   
         integer  L_STRA   
         integer  L_FRAC   
-        integer  L_BFRAC	
+        integer  L_BFRAC
         integer  L_EINT   
         integer  L_EINS   
         integer  L_RHO    

@@ -79,17 +79,16 @@ Chd|====================================================================
      D                   IPM      ,ISTRAIN ,TEMP     ,FTHE    ,FTHESKY  ,
      E                   IEXPAN   ,IGEO    ,GRESAV   ,GRTH    ,IGRTH    ,
      F                   MSSA     ,DMELS   ,TABLE    ,XDP     ,VOLN     ,
-     G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MATPARAM_TAB,
+     G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MAT_ELEM ,
      H                   H3D_STRAIN,DT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -139,7 +138,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -438,7 +437,7 @@ C
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       MX = MXT(1)
-      IPRES = MATPARAM_TAB(MX)%IPRES
+      IPRES = MAT_ELEM%MAT_PARAM(MX)%IPRES
       DO I=1,NEL
         SIGY(I) = EP30
         SIGYM(I) = EP30
@@ -736,7 +735,7 @@ C------------------------------------------------------
      N   DMELS,        IR,          IS,        IT,
      O   TABLE,        BID,         BID,       BID,
      P   BID,          IPARG(1,NG), IGEO,      CONDE,
-     Q   ITASK,        NLOC_DMG,    VAR_REG(1,ILAY),   MATPARAM_TAB,
+     Q   ITASK,        NLOC_DMG,    VAR_REG(1,ILAY),   MAT_ELEM,
      R   H3D_STRAIN,   JPLASOL,     JSPH,      OPT_MTN=MTN,
      S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,      OPT_ISORTHG=ISORTHG)
 

@@ -81,7 +81,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
-      USE MATPARAM_DEF_MOD
+      USE GROUP_PARAM_MOD
       USE NLOCAL_REG_MOD    
       USE DRAPE_MOD        
 C-----------------------------------------------
@@ -122,7 +122,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET ,DIMENSION(NGROUP,*):: XFEM_STR
       !   when XFEM is ON, XFEM_STR's dimension = NGROUP,NXEL
       TYPE (STACK_PLY) :: STACK
-      TYPE (GRP_PARAM_STRUCT_)  :: GROUP_PARAM
+      TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE (DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG

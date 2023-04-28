@@ -91,7 +91,7 @@ Chd|====================================================================
      5    PARTSAV   ,D         ,DR         ,EANI      ,ELBUF_TAB ,
      6    TANI      ,FANI      ,FSAV       ,SENSORS   ,NLOC_DMG  ,
      7    SKEW      ,ANIN      ,DT2T       ,BUFGEO    ,ITAB      ,
-     8    IADS      ,IADQ      ,IADT       ,IADP      ,MATPARAM_TAB,
+     8    IADS      ,IADQ      ,IADT       ,IADP      ,MAT_ELEM  ,
      9    IADR      ,IPARG     ,ALE_CONNECT,NPC       ,
      A    IXS       ,IXQ       ,IXT        ,IXP       ,
      B    IXR       ,NELTST    ,IPARI      ,
@@ -121,10 +121,9 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -197,7 +196,7 @@ C-----------------------------------------------
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT) :: MATPARAM_TAB 
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER, INTENT(IN) :: IFTHE, ICONDN
@@ -357,7 +356,7 @@ C---------
      B        TEMP    ,FTHE      ,FTHESKY  ,IEXPAN     ,GRESAV  ,
      C        GRTH    ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE   ,
      D        XDP     ,VARNOD    ,VOLN     ,CONDN      ,CONDNSKY,
-     E        D       ,SENSORS   ,IPRI      ,MATPARAM_TAB,IBID  ,
+     E        D       ,SENSORS   ,IPRI     ,MAT_ELEM   ,IBID  ,
      F        DT )
 C
             IF (NSECT > 0) THEN 
@@ -402,7 +401,7 @@ c---------
      B       STIFR  ,D   ,GRESAV  ,GRTH        ,IGRTH(OFF_IGRTH+NF1),  
      C       TABLE  ,MSSA(NF1),DMELS(NF1),IGEO ,XDP,
      D       VOLN    ,CONDN    ,CONDNSKY  , VARNOD, 
-     E       ITAGND  ,SENSORS  ,IPRI     ,MATPARAM_TAB,IBID ,DT)                        
+     E       ITAGND  ,SENSORS  ,IPRI     ,MAT_ELEM,IBID ,DT)                        
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
@@ -486,7 +485,7 @@ c
      H         TEMP     ,FTHE     ,FTHESKY   ,IEXPAN     ,GRESAV     ,
      I         GRTH     ,IGRTH(OFF_IGRTH+NF1),TABLE      ,IGEO       ,
      J         VOLN     ,CONDN    ,CONDNSKY  ,
-     K         ITASK    ,IPRI     ,MATPARAM_TAB,IBID     ,DT ) 
+     K         ITASK    ,IPRI     ,MAT_ELEM  ,IBID     ,DT ) 
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
@@ -570,7 +569,7 @@ C-------------------------
      F         IPM      ,ISTRA    ,TEMP     ,FTHE       , FTHESKY,
      G         IEXPAN   ,GRESAV   ,GRTH ,IGRTH(OFF_IGRTH + NF1),TABLE,
      H         IGEO     ,VOLN     ,CONDN    ,CONDNSKY   ,ITASK,IPRI  ,
-     I         MATPARAM_TAB,IBID  ,DT       )   
+     I         MAT_ELEM ,IBID  ,DT       )   
 c
               IF(NSECT>0)THEN
 
@@ -619,7 +618,7 @@ C              6 node penta
      B         ICP     ,ICS     ,NLOC_DMG,
      C         IPM     ,ISTRA   ,IGEO    ,GRESAV  ,GRTH       ,
      D         IGRTH(NF1),TABLE ,MSSA(NF1),DMELS(NF1)  ,VOLN  ,
-     E         ITASK ,IPRI      ,MATPARAM_TAB,IBID,TEMP       ,
+     E         ITASK ,IPRI      ,MAT_ELEM ,IBID,TEMP       ,
      F         FTHE  ,FTHESKY   ,CONDN    ,CONDNSKY ,IEXPAN,
      G         IFTHE ,ICONDN    ,DT      )
 c
@@ -668,7 +667,7 @@ C              8 node hexa
      D         IPM      ,ISTRA    ,TEMP    ,FTHE        ,FTHESKY   ,
      E         IEXPAN   ,IGEO     ,GRESAV  ,GRTH        ,IGRTH(NF1),
      F         MSSA(NF1),DMELS(NF1),TABLE  ,XDP         ,VOLN      ,
-     G         CONDN    ,CONDNSKY ,ITASK   ,IPRI        ,MATPARAM_TAB,
+     G         CONDN    ,CONDNSKY ,ITASK   ,IPRI        ,MAT_ELEM  ,
      H         IBID     ,DT       )
 C
             ENDIF
@@ -718,7 +717,7 @@ C------------------------- Isolid=19 for Salim
      D         TEMP       ,FTHE     ,FTHESKY  ,IEXPAN     ,GRESAV    ,
      E         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE     ,
      F         IGEO       ,XDP      ,VOLN      ,CONDN    ,CONDNSKY   ,
-     G         D          ,IPRI     ,MATPARAM_TAB,IBID)
+     G         D          ,IPRI     ,MAT_ELEM ,IBID)
             ELSE
 C-------------------------
 C             SOLID HE8<->HE8
@@ -739,7 +738,7 @@ C-------------------------
      D         TEMP       ,FTHE     ,FTHESKY  ,IEXPAN     ,GRESAV    ,
      E         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE     ,
      F         IGEO       ,XDP      ,VOLN      ,CONDN    ,CONDNSKY   ,
-     G         D          ,SENSORS  ,IPRI     ,MATPARAM_TAB,IBID,DT )
+     G         D          ,SENSORS  ,IPRI     ,MAT_ELEM   ,IBID,DT )
             ENDIF !(IPARG(36,NG)==3)   (IMPL_S /= 0)
 c
             IF (NSECT > 0) THEN
@@ -803,11 +802,11 @@ c
      F         ICS      ,W16(L1)   ,W16(L2) ,W16(L3) ,W16(L4) ,
      G         W16(L5)  ,W16(L6)   ,W16(L7) ,W16(L8) ,W16(L9) ,
      H         W16(L10) ,W16(L11)  ,W16(L12),NVC     ,IPM     ,
-     I         ITASK     ,ISTRA   ,TEMP    ,FTHE,
+     I         ITASK    ,ISTRA     ,TEMP    ,FTHE,
      J         FTHESKY  ,IEXPAN    ,IGEO    ,NPT     ,GRESAV  ,
      K         GRTH     ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE,
      L         XDP      ,VOLN      ,CONDN    ,CONDNSKY,SENSORS,
-     M         IPRI      ,MATPARAM_TAB,IBID  ,DT )
+     M         IPRI     ,MAT_ELEM  ,IBID  ,DT )
 C
             IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -878,11 +877,11 @@ c            IF (NPTR==0) NPTR=IINT
      F         ICS        ,W16(L1)   ,W16(L2)  ,W16(L3)    ,W16(L4)    ,
      G         W16(L5)    ,W16(L6)   ,W16(L7)  ,W16(L8)    ,W16(L9)    ,
      H         W16(L10)   ,W16(L11)  ,W16(L12) ,NVC        ,IPM        ,
-     I         ITASK     ,ISTRA    ,TEMP       ,FTHE       ,
+     I         ITASK      ,ISTRA    ,TEMP       ,FTHE       ,
      J         FTHESKY    ,IEXPAN    ,IGEO     ,NPT0       ,GRESAV     ,
      K         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE      ,
      L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,
-     M         D          ,SENSORS   ,IPRI       ,MATPARAM_TAB,IBID,DT )
+     M         D          ,SENSORS   ,IPRI     ,MAt_ELEM   ,IBID,DT )
 C
             IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -955,8 +954,8 @@ C
      F         MSSA(NF1),DMELS(NF1),TABLE,IGEO    ,XDP    ,
      G         CONDN     ,CONDNSKY  ,
      H         D         ,TAGPRT_SMS,SENSORS  ,IPRI      ,
-     I         NALE      ,NLOC_DMG  ,MATPARAM_TAB,IBID,
-     J         DT, OUTPUT)
+     I         NALE      ,NLOC_DMG  ,MAT_ELEM,IBID,DT,
+     J         OUTPUT)
 C
             ELSE
 C-------------------------
@@ -989,7 +988,7 @@ C-------------------------
      M        POR          ,ICONTACT   ,IFOAM     ,VOLN        ,CONDN     ,
      N        CONDNSKY     ,AGRAV      ,IGRV      ,LGRAV       ,SENSORS   ,
      O        SKEW         ,NALE       ,D         ,IPRI        ,NLOC_DMG  ,
-     Q        MATPARAM_TAB ,IBID       ,DT       )
+     Q        MAt_ELEM     ,IBID       ,DT       )
 
             ENDIF
 C
@@ -1080,7 +1079,7 @@ C----6---------------------------------------------------------------7---------8
      7        IPARG(10,NG),NG    ,
      8        IPM         ,BID   ,QMVBID  ,GRESAV   ,GRTH        ,
      9        IGRTH(OFF_IGRTH+NF1),TABLE     ,IGEO      ,ITASK   ,IEXPAN,
-     A        MS_2D      ,FSKYM   ,IPRI      ,MATPARAM_TAB,IBID)
+     A        MS_2D      ,FSKYM   ,IPRI      ,MAT_ELEM  ,IBID)
           ELSE
 
             CALL QFORC2(ELBUF_TAB,NG   ,
@@ -1093,7 +1092,7 @@ C----6---------------------------------------------------------------7---------8
      9        IPM     ,BID    ,QMVBID       ,
      A        GRESAV  ,GRTH   ,IGRTH(OFF_IGRTH+NF1),TABLE,IGEO ,
      B        VOLN    ,ITASK  ,MS_2D   ,FSKYM     ,IPRI        ,
-     C        MATPARAM_TAB,H3D_DATA%STRAIN)
+     C        MAT_ELEM,H3D_DATA%STRAIN)
 
           ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -1304,7 +1303,7 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
      F   ALE_CONNECT,         FV,                  ITASK,               IPRI,
      G   PX,                  PY,                  PZ,                  KNOTLOCPC,
      H   KNOTLOCEL,           GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
-     I   MATPARAM_TAB,        IBID,                ISMSTR,              JALE,
+     I   MAT_ELEM,            IBID,                ISMSTR,              JALE,
      J   JEUL,                JLAG,                JCVT,                JPLASOL,
      K   JSPH)
 

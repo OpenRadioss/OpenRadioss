@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE GROUP_PARAM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NPROPM,NUMMAT)  :: PM
       my_real ,DIMENSION(NPROPG,NUMGEO)  :: GEO
       my_real ,DIMENSION(SBUFMAT)        :: BUFMAT
-      TYPE(GRP_PARAM_STRUCT_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      TYPE(GROUP_PARAM_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -73,7 +73,7 @@ Chd|====================================================================
      A   F31,         F32,         F33,         M11,
      B   M12,         M13,         M21,         M22,
      C   M23,         M31,         M32,         M33,
-     D   KFTS,        GROUP_PARAM, MATPARAM_TAB,NEL,
+     D   KFTS,        GROUP_PARAM, MAT_ELEM,    NEL,
      E   ISTRAIN,     ISH3N,       ITHK,        IOFC,
      F   IPLA,        NFT,         ISMSTR,      FZERO,
      G   IGEO,        IPM,         IFAILURE,    ITASK,
@@ -89,10 +89,9 @@ Chd|====================================================================
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
-      USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD  
+      USE MAT_ELEM_MOD  
       USE DRAPE_MOD 
       USE NLOCAL_REG_MOD          
       USE SENSOR_MOD
@@ -146,11 +145,11 @@ C-----------------------------------------------
       TYPE (XFEM_SKY_)    , DIMENSION(*) :: CRKSKY
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM 
-      TYPE(DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (GROUP_PARAM_)  :: GROUP_PARAM 
+      TYPE (DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -426,7 +425,7 @@ C--------------------------
      4   SSP       ,RHO       ,VISCMX    ,DT1C      ,SIGY      ,
      5   AREA      ,EXX       ,EYY       ,EXY       ,EZX       ,
      6   EYZ       ,KXX       ,KYY       ,KXY       ,NU        ,
-     7   OFF       ,THK0      ,MAT       ,PID       ,MATPARAM_TAB,
+     7   OFF       ,THK0      ,MAT       ,PID       ,MAT_ELEM  ,
      8   FORG      ,MOMG      ,STRAG     ,FAILWAVE  ,FWAVE     ,
      9   THKG      ,EINTG     ,IOFC      ,
      A   G         ,A11       ,A12       ,VOL0      ,INDX      ,

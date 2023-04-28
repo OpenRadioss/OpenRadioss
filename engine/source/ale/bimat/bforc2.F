@@ -73,7 +73,7 @@ Chd|====================================================================
      7                   EANI   ,IPARTQ ,NEL    ,IADQ   ,FSKY    ,
      8                   IPM    ,BUFVOIS,
      9                   GRESAV ,GRTH   ,IGRTH  ,TABLE  ,IGEO    ,
-     O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MATPARAM_TAB,
+     O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MAT_ELEM,
      B                   H3D_STRAIN,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -84,8 +84,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE OUTPUT_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,8 +123,8 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -353,7 +353,7 @@ C pour le fluide en SPMD : BUFVOIS LOI11
      N   MBID,        1,           1,           1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
@@ -566,7 +566,7 @@ C-----------------------------------------------------
      N   MBID,        1,           1,           1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IBIDV,       IGEO,        BID,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   TH_STRAIN,   JPLASOL,     JSPH)
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE

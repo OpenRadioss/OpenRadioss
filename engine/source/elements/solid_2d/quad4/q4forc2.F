@@ -67,16 +67,15 @@ Chd|====================================================================
      7                   ICP   ,NG     ,
      8                   IPM   ,BUFVOIS,QMV    ,GRESAV,GRTH   ,
      9                   IGRTH ,TABLE  ,IGEO   ,ITASK ,IEXPAN ,
-     A                   MS_2D ,FSKYM  ,IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
+     A                   MS_2D ,FSKYM  ,IOUTPRT,MAT_ELEM,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,7 +109,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 c FUNCTION: Internal force computation of fully-integrated 2D Quad4 element
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
@@ -538,7 +537,7 @@ C       UPDATE STRESS
      N   MBID,        IR,          IS,          1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C
 C       COMPUTE NODAL INTERNAL FORCE

@@ -87,7 +87,8 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
-      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS)
+      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,
+     .                  MAT_ELEM )
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +112,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
       USE ALE_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -173,6 +175,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)::IS_DYNA
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
+      TYPE(MAT_ELEM_), INTENT(INOUT)     :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -708,6 +711,7 @@ C---------------------------------------------------
       HM_NUMMAT = 0
       CALL HM_OPTION_COUNT('MATERIAL',HM_NUMMAT)
       NUMMAT      = HM_NUMMAT + 1
+      MAT_ELEM%NUMMAT = NUMMAT
 C---------------------------------------------------
 C     PROPERTIES
 C---------------------------------------------------

@@ -59,7 +59,7 @@ Chd|====================================================================
      4           SSP       ,RHO       ,VISCMX    ,DT1C      ,SIGY       ,
      5           AREA      ,EXX       ,EYY       ,EXY       ,EXZ        ,
      6           EYZ       ,KXX       ,KYY       ,KXY       ,NU         ,
-     7           OFF       ,THK0      ,MAT       ,PID       ,MATPARAM_TAB,
+     7           OFF       ,THK0      ,MAT       ,PID       ,MAT_ELEM   ,
      8           FOR       ,MOM       ,GSTR      ,FAILWAVE  ,FWAVE_EL   ,
      9           THK       ,EINT      ,IOFC      ,
      A           G         ,A11       ,A12       ,VOL0      ,INDXDEL    ,
@@ -78,15 +78,15 @@ Chd|====================================================================
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
-     R           INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE)
+     R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE MULAWC_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD
       USE DRAPE_MOD 
       USE NLOCAL_REG_MOD
       USE SENSOR_MOD
@@ -140,9 +140,9 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
+      TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE(NUMEL_DRAPE)
-      TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
@@ -291,7 +291,7 @@ c
      4       EYZ     ,KXX     ,KYY     ,KXY     ,GEO     ,THK_LY  ,
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,DM      ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IPLA    ,IOFC    ,
-     7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,MATPARAM_TAB,
+     7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,MAT_ELEM,
      8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,

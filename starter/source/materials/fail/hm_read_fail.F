@@ -205,14 +205,14 @@ C       CHECK IF Unit_ID exists
 C--------------------------------------------------
         IUNIT = 1
         IF (UNIT_ID > 0) THEN
-        IFLAGUNIT = 0
-        DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UNIT_ID) THEN
-            IFLAGUNIT = 1
-              UNIT_ID = IUNIT
-            EXIT
-          ENDIF
-        ENDDO
+          IFLAGUNIT = 0
+          DO IUNIT=1,NUNITS
+              IF (UNITAB%UNIT_ID(IUNIT) == UNIT_ID) THEN
+              IFLAGUNIT = 1
+                UNIT_ID = IUNIT
+              EXIT
+            ENDIF
+          ENDDO
           IF (IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1= MAT_ID,

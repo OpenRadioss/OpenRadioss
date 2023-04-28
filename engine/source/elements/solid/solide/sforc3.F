@@ -135,16 +135,15 @@ Chd|====================================================================
      M                  POR      ,ICONTACT ,IFOAM    ,VOLN    ,CONDN   ,
      N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSORS ,
      O                  SKEW     ,NALE     ,D        ,IOUTPRT ,NLOC_DMG,
-     Q                  MATPARAM_TAB,H3D_STRAIN,DT   )     
+     Q                  MAT_ELEM ,H3D_STRAIN,DT   )     
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD         
+      USE MAT_ELEM_MOD         
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE ALE_MOD
       USE DT_MOD
@@ -207,7 +206,7 @@ C
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB 
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C
       my_real :: P(MVSIZ),FSKYI(LSKYI,NFSKYI)
 C
@@ -963,7 +962,7 @@ C
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       FVD2,        FDELTAX,     FCXX,
      P   FQVIS,       IPARG1,      IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VAR_REG,     MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
