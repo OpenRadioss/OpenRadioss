@@ -712,7 +712,7 @@ C-----------------------------------------------
      .   IPARSENS,NBT8,
      .   TAB_SOL(6),
      .   LCNCND,I24MAXNSNE,NSIGBEAM,NSIGTRUSS,S_LOADPINTER,
-     .   FLAGF,ITHFLAG,MAXRTM_T2,NS_I2,SITAGE,NCTRLMAX,INLIN
+     .   FLAGF,ITHFLAG,MAXRTM_T2,NS_I2,SITAGE,NCTRLMAX,INLIN,SVR_1
       INTEGER (KIND=8) EMAX
       INTEGER (KIND=8) K0,K1,K2,K3,K4,K5,K6,K7,K8
 ! integer 8 version of the variables NUMELC etc.
@@ -1382,6 +1382,7 @@ C--------------------------------------------
       SD  = 5*NUMNOD
       SV  = 3*NUMNOD
       SVR = 3*NUMNOD*MAX(IRODDL,IRODDL0)
+      SVR_1 = NUMNOD*MAX(IRODDL,IRODDL0)
       STHKE = NUMELC+NUMELTG
       SMS = NUMNOD
       SPINCH= NPINCH
@@ -4708,11 +4709,7 @@ C
      .              X       ,UNITAB  ,LSUBMODEL,RTRANS,XFRAME  ,
      .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM,
      .              FVM_INIVEL,IGRQUAD ,IGRSH3N  ,RBY_MSN ,RBY_INIAXIS)
-        CALL INIVEL(V       ,W       ,ITAB   ,ITABM1  ,VR      ,
-     .              IGRNOD    ,IGRBRIC ,ISKWN    ,SKEW    ,IWORK    ,
-     .              X       ,UNITAB  ,LSUBMODEL,RTRANS,XFRAME  ,
-     .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM,
-     .              FVM_INIVEL,IGRQUAD ,IGRSH3N  )
+        CALL INIVEL(V       ,VR      ,SVR_1 ,ITABM1     )
 C
         IF (ALLOCATED(IWORK)) DEALLOCATE(IWORK)
         NINVEL  = SIWORK
