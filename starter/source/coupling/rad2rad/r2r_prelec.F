@@ -204,7 +204,9 @@ C--------------------------------------------------------------------C
         ENDDO
 C--------------------------------------------------------------------C
 C------Prereading and tag of Transformations-------------------------C
-C--------------------------------------------------------------------C    
+C--------------------------------------------------------------------C
+      NTRANS = 0   
+      CALL HM_OPTION_COUNT('TRANSFORM',NTRANS) 
       CALL HM_OPTION_START('TRANSFORM') 
       DO I=1,NTRANS
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
