@@ -593,7 +593,6 @@ Chd|        PRELECDET                     source/initial_conditions/detonation/p
 Chd|        PRELECLAS                     source/loads/laser/lpreleclas.F
 Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|        PRELECSEC4BOLT                source/tools/sect/prelecsec4bolt.F
-Chd|        PREREAD_INIVEL                source/initial_conditions/general/inivel/inivel.F
 Chd|        PREREAD_RBODY_LAGMUL          source/constraints/general/rbody/preread_rbody_lagmul.F
 Chd|        PREREAD_RBODY_SET             source/model/sets/preread_rbody_set.F
 Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F

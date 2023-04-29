@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREDEC_2KEY_4ID               source/starter/freform.F      
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
@@ -36,7 +35,6 @@ Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_co
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
-Chd|        NEXTSLA                       source/starter/freform.F      
 Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
 Chd|        TAGINT_R2R                    source/coupling/rad2rad/tagint_r2r.F

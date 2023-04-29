@@ -26,13 +26,6 @@ Chd|  INIVEL                        source/initial_conditions/general/inivel/ini
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FMT_DEF                       source/starter/fmt_def.F      
-Chd|        FREDEC_2KEY_4ID_T             source/starter/freform.F      
-Chd|        FREERR                        source/starter/freform.F      
-Chd|        NEXTSLA                       source/starter/freform.F      
-Chd|        UDOUBLE                       source/system/sysfus.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        USRTOS                        source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

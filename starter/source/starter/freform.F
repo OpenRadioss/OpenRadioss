@@ -969,7 +969,6 @@ C
 Chd|====================================================================
 Chd|  FREDEC4                       source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        PREREAD_INIVEL                source/initial_conditions/general/inivel/inivel.F
 Chd|-- calls ---------------
 Chd|        FREERR                        source/starter/freform.F      
 Chd|====================================================================
@@ -1012,7 +1011,6 @@ C
 Chd|====================================================================
 Chd|  FREDEC5                       source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
@@ -1085,7 +1083,6 @@ C
 Chd|====================================================================
 Chd|  FREDEC6                       source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
 Chd|-- calls ---------------
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
@@ -1387,7 +1384,6 @@ Chd|        HM_READ_MONVOL_TYPE9          source/airbag/hm_read_monvol_type9.F
 Chd|        HM_READ_PLOAD                 source/loads/general/pload/hm_read_pload.F
 Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
 Chd|        HM_SETFXRBYON                 source/constraints/fxbody/hm_setfxrbyon.F
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        LECG47                        source/properties/ige3d/lecgeo47.F
 Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
 Chd|        LECTRANS                      source/model/transformation/lectrans.F
@@ -1727,9 +1723,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  NEXTSLA                       source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
-Chd|        PREREAD_INIVEL                source/initial_conditions/general/inivel/inivel.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        SZ_R2R                        source/coupling/rad2rad/routines_r2r.F
 Chd|-- calls ---------------
 Chd|        FREERR                        source/starter/freform.F      
@@ -1765,7 +1758,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  FREDEC_2KEY_ID_OR_KEY_ID      source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
@@ -1977,7 +1969,6 @@ C---
 Chd|====================================================================
 Chd|  FREDEC_2KEY_4ID_T             source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        NBADIGEMESH                   source/elements/ige3d/nbadigemesh.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
@@ -2157,7 +2148,6 @@ C---
 Chd|====================================================================
 Chd|  FREDEC_2KEY_4ID               source/starter/freform.F      
 Chd|-- called by -----------
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      

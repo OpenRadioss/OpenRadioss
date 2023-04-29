@@ -27,7 +27,6 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        HM_PREREAD_INIVEL             source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|        HM_PREREAD_PROPERTIES         source/properties/hm_preread_properties.F
 Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        PREREAD_INIVEL                source/initial_conditions/general/inivel/inivel.F
 Chd|        R2R_VOID                      source/coupling/rad2rad/r2r_void.F
 Chd|-- calls ---------------
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    

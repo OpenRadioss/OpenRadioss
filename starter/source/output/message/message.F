@@ -566,7 +566,6 @@ Chd|        INISRF                        source/constraints/general/rbody/inisr
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|        INIT_SKEW45                   source/elements/joint/rjoint/rini45.F
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        INIVOID                       source/elements/initia/inivoid.F
 Chd|        INIVOL_SET                    source/initial_conditions/inivol/inivol_set.F
 Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F

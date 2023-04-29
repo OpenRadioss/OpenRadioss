@@ -83,7 +83,6 @@ Chd|        HM_READ_TRIA                  source/elements/reader/hm_read_tria.F
 Chd|        HM_READ_TRUSS                 source/elements/reader/hm_read_truss.F
 Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
 Chd|        HM_SETFXRBYON                 source/constraints/fxbody/hm_setfxrbyon.F
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        LECACC                        source/tools/accele/lecacc.F  
 Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
 Chd|        LECREFSTA                     source/loads/reference_state/refsta/lecrefsta.F
@@ -529,7 +528,6 @@ Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
 Chd|        HM_READ_THGROU                source/output/th/hm_read_thgrou.F
 Chd|        HM_READ_THPART                source/output/thpart/hm_read_thpart.F
 Chd|        HM_READ_XELEM                 source/elements/reader/hm_read_xelem.F
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F

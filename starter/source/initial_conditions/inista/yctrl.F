@@ -26,9 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREDEC5                       source/starter/freform.F      
-Chd|        FREDEC6                       source/starter/freform.F      
-Chd|        FREDEC_2KEY_ID_OR_KEY_ID      source/starter/freform.F      
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  FMT_DEF                       source/starter/fmt_def.F      
 Chd|-- called by -----------
 Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FMT_DEF(INVERS,IFIX)
