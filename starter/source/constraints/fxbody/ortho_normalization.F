@@ -140,14 +140,21 @@ C-----------------------------------------------
      .        S, MS, NORM, UNSN, REF, VT(NDDL)
 C
       my_real 
-     .        PRSCAL
+     .        PRSCAL,MAXI
+C-----------------------------------------------
       EXTERNAL PRSCAL
+C-----------------------------------------------
 C
          DO I=1,NDDL
             VT(I)=ZERO
          ENDDO
-         REF=PRSCAL(VECTS(1,1), VECTS(1,1), NDDL, MAS)
-         REF=SQRT(REF)
+
+         MAXI = ZERO
+         DO I=1,NMS
+           NORM=PRSCAL(VECTS(1,I), VECTS(1,I), NDDL, MAS)
+           IF (SQRT(NORM)>MAXI) MAXI  = MAX(MAXI,SQRT(NORM))
+         ENDDO
+         REF = MAXI
          NMSF=0
 C
          DO I=1,NMS
