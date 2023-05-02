@@ -168,7 +168,7 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'HOURGLASS'
-      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Hourglass Energy'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Hourglass Energy per unit mass'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'EPSD'
