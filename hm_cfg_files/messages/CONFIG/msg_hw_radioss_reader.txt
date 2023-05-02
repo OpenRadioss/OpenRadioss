@@ -298,9 +298,4 @@ duplicate %s id %d
 ** ERROR IN LS-DYNA IMPORT
 /MESSAGE/200031/DESCRIPTION
 Only one %s card is allowed
-
-/MESSAGE/200032/TITLE
-** WARNING IN LS-DYNA IMPORT
-/MESSAGE/200032/DESCRIPTION
-%s (id: %u, name: %s) : OPTION DAMAGE-FAILURE is ignored
 #------------------------------------------------------------------------------
