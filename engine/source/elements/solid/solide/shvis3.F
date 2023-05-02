@@ -173,7 +173,7 @@ C
       ENDIF
 C
       FLUID=IPARG1(63)
-C MATERIAUX FLUIDES 
+C FLUID MATERIALS
       IF(FLUID==1)THEN
        IF(ALE%UPWIND%UPWM>1 .OR. JLAG==1)THEN
         DO I=1,NEL
@@ -198,7 +198,7 @@ C MATERIAUX FLUIDES
         ENDDO
        ENDIF
       ELSE
-C MATERIAUX NON FLUIDES 
+C NON FLUID MATERIALS
        IF(ISMSTR == 1)  THEN
          MX = MAT(1)
          DO I=1,NEL
@@ -464,12 +464,10 @@ C
 #include "atomend.inc"
       ENDIF
 C
-       IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN
 #include "vectorize.inc"
-        DO I=1,NEL
-          EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*VOL(I))
-        ENDDO
-      ENDIF
+      DO I=1,NEL
+        EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*VOL(I))
+      ENDDO
 C
       RETURN
       END

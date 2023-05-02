@@ -174,7 +174,7 @@ C-----------------------------------
        H2(I)=ZERO     
  360  CONTINUE
 C-----------------------------------
-C     RIGIDITE-DT
+C     STIFFNESS - DT
 C-----------------------------------
       DO I=JFT,JLT
          SCALE(I)= ZERO
@@ -233,7 +233,7 @@ C
        ENDIF
       ENDIF
 C-----------------------------------
-C     FORCES ANTISABLIER DE MEMBRANE
+C     ANTI-HOURGLASS MEMBRANE FORCES
 C-----------------------------------
       IF(ISMSTR==3.OR.IHBE<1)THEN
        DO 400 I=JFT,JLT
@@ -285,7 +285,7 @@ C-----------------------------------
      .       + VY3(I)*H23(I) + VY4(I)*H24(I) 
       ENDDO
 C----------------------------------------------------------------
-C     FORCES ANTISABLIER DE FLEXION W OU PARABOLOIDE HYPERBOLIQUE
+C     HYPERBOLIC SHAPE ANTI-HOURGLASS BENDING FORCES
 C----------------------------------------------------------------
       IF(ISMSTR==3.OR.IHBE<1)THEN
        DO 600 I=JFT,JLT
@@ -315,7 +315,7 @@ C
  760   CONTINUE
       ENDIF
 C------------------------------------------------------
-C     FORCES ANTISABLIER DE FLEXION  V OU DENTS DE SCIE
+C     V-SHAPE ANTI-HOURGLASS BENDING FORCES
 C------------------------------------------------------
        DO 780 I=JFT,JLT
        HG1(I)=+VZ1(I)+VZ2(I)-VZ3(I)-VZ4(I)
@@ -371,12 +371,9 @@ C
         EHOUR = EHOUR + EHOURT
 #include "atomend.inc"
 C
-      IF((ANIM_E(25)==1).OR.(ANIM_CE(25)==1).OR.
-     &                 (OUTP_CS(25)==1))THEN
-        DO I=JFT,JLT
-          EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I)+EHOU(I)
-        ENDDO
-      ENDIF
+      DO I=JFT,JLT
+        EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I)+EHOU(I)
+      ENDDO
 C
       RETURN
       END
