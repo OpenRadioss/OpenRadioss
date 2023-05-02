@@ -867,22 +867,26 @@ C--------------------------------------------------
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXS(11,I),C1=LINE,C2='/SOLID')
         ENDIF
-        NSPHDIR=IGEO(37,IPART(2,IPARTS(I)))
-        IF(IXS(6,I)+IXS(7,I)+IXS(8,I)+IXS(9,I)==0)THEN
-          NT=0
-          DO IT=1,NSPHDIR
-            NT=NT+IT
-            NSPHSOL=NSPHSOL+NT
-          END DO
-        ELSEIF(IXS(8,I)+IXS(9,I)==0)THEN
-          NT=0
-          DO IT=1,NSPHDIR
-            NT=NT+IT
-          END DO
-          NSPHSOL=NSPHSOL+NSPHDIR*NT
-        ELSE
-          NSPHSOL=NSPHSOL+NSPHDIR*NSPHDIR*NSPHDIR
+C
+        IF (IPART(2,IPARTS(I)) > 0) THEN
+          NSPHDIR=IGEO(37,IPART(2,IPARTS(I)))
+          IF(IXS(6,I)+IXS(7,I)+IXS(8,I)+IXS(9,I)==0)THEN
+            NT=0
+            DO IT=1,NSPHDIR
+              NT=NT+IT
+              NSPHSOL=NSPHSOL+NT
+            END DO
+          ELSEIF(IXS(8,I)+IXS(9,I)==0)THEN
+            NT=0
+            DO IT=1,NSPHDIR
+              NT=NT+IT
+            END DO
+            NSPHSOL=NSPHSOL+NSPHDIR*NT
+          ELSE
+            NSPHSOL=NSPHSOL+NSPHDIR*NSPHDIR*NSPHDIR
+          ENDIF
         ENDIF
+C
       ENDDO
 C
         FLAG_FMT = 0
