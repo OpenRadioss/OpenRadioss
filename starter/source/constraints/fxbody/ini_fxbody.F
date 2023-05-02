@@ -212,7 +212,6 @@ C-- Mass matrix automatically generated from nodal masses and inertia
               MASS(6*(I-1)+5,6*(I-1)+5) = IN(IDN)
               MASS(6*(I-1)+6,6*(I-1)+6) = IN(IDN)
             ENDDO
-C
           ELSE
             DO I=1,SIZE_MASS
               I1 = FXB_MATRIX_ADD(1,ADR_MASS+I-1) 
@@ -221,6 +220,17 @@ C
               IDOF2 = FXB_MATRIX_ADD(4,ADR_MASS+I-1)
               MASS(6*(I1-1)+IDOF1,6*(I2-1)+IDOF2) = FXB_MATRIX(ADR_MASS+I-1)
               MASS(6*(I2-1)+IDOF2,6*(I1-1)+IDOF1) = FXB_MATRIX(ADR_MASS+I-1)
+            ENDDO
+C-- Mass of connections nodes is added to the mass matrix
+            DO I=1,NBNOD
+              IDN = FXBNOD(ADRNOD+I-1)
+              FXBNOD(ADRNOD+I-1) = IDN
+              MASS(6*(I-1)+1,6*(I-1)+1) = MASS(6*(I-1)+1,6*(I-1)+1)+MS(IDN)
+              MASS(6*(I-1)+2,6*(I-1)+2) = MASS(6*(I-1)+2,6*(I-1)+2)+MS(IDN)
+              MASS(6*(I-1)+3,6*(I-1)+3) = MASS(6*(I-1)+3,6*(I-1)+3)+MS(IDN)
+              MASS(6*(I-1)+4,6*(I-1)+4) = MASS(6*(I-1)+4,6*(I-1)+4)+IN(IDN)
+              MASS(6*(I-1)+5,6*(I-1)+5) = MASS(6*(I-1)+5,6*(I-1)+5)+IN(IDN)
+              MASS(6*(I-1)+6,6*(I-1)+6) = MASS(6*(I-1)+6,6*(I-1)+6)+IN(IDN)
             ENDDO
           ENDIF
 C
@@ -417,12 +427,8 @@ C
 C
           IF (NMST > 0) THEN
             NMST_F = 0
-            TOLE = MIN_DIAG_STIF*MIN_DIAG_STIF*EM5*EM5
-            IF (IRESP == 0) THEN
-              TOLE = EM5
-            ELSE
-              TOLE = EM4
-            ENDIF
+C           TOLE = MIN_DIAG_STIF*MIN_DIAG_STIF*EM5*EM5
+            TOLE = EM4
             CALL ORTHST(MODES,MASS,NDDL,NMST,NMST_F,TOLE)
             NMST = NMST_F
           ENDIF
@@ -457,362 +463,362 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   REDUCED DIAG MASS MATRIX                        CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(10,NFX) = ADRLM
+          FXBIPM(10,NFX) = ADRLM
 C
-      MTEMP(1:NDDL,1:NMOD) = MATMUL(MASS(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMOD))
-      MTEMP2(1:NMOD,1:NMOD) = MATMUL(MODEST(1:NMOD,1:NDDL),MTEMP(1:NDDL,1:NMOD))
+          MTEMP(1:NDDL,1:NMOD) = MATMUL(MASS(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMOD))
+          MTEMP2(1:NMOD,1:NMOD) = MATMUL(MODEST(1:NMOD,1:NDDL),MTEMP(1:NDDL,1:NMOD))
 C
-      DO I=1,NMOD
-        FXBLM(ADRLM) = FAC2*MTEMP2(I,I)
-        ADRLM=ADRLM+1
-      ENDDO
+          DO I=1,NMOD
+            FXBLM(ADRLM) = FAC2*MTEMP2(I,I)
+            ADRLM=ADRLM+1
+          ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   REDUCED FULL STIFF MATRIX                       CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(11,NFX) = ADRFLS
+          FXBIPM(11,NFX) = ADRFLS
 C
-      MTEMP(1:NDDL,1:NMST) = MATMUL(STIF(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMST))
-      MTEMP3(1:NMST,1:NMST) = MATMUL(MODEST(1:NMST,1:NDDL),MTEMP(1:NDDL,1:NMST))
+          MTEMP(1:NDDL,1:NMST) = MATMUL(STIF(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMST))
+          MTEMP3(1:NMST,1:NMST) = MATMUL(MODEST(1:NMST,1:NDDL),MTEMP(1:NDDL,1:NMST))
 C
-      DO I=1,NMST
-        DO J=1,NMST
+          DO I=1,NMST
+            DO J=1,NMST
 CC-- Mat sym trian sup
-          IF (J >= I) THEN
-            FXBFLS(ADRFLS) = FAC2*MTEMP3(I,J)
-            ADRFLS=ADRFLS+1
-          ENDIF
-        ENDDO
-      ENDDO
+              IF (J >= I) THEN
+                FXBFLS(ADRFLS) = FAC2*MTEMP3(I,J)
+                ADRFLS=ADRFLS+1
+              ENDIF
+            ENDDO
+          ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   COMPUTATION OF MAX FREQUENCY                    CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-       ALLOCATE(WI(NMST),WR(NMST),EIG_R(NMST,NMST),EIG_L(NMST,NMST),INVMK(NMST,NMST))
+          ALLOCATE(WI(NMST),WR(NMST),EIG_R(NMST,NMST),EIG_L(NMST,NMST),INVMK(NMST,NMST))
 C
-       DO I=1,NMST
-         DO J=1,NMST
-           IF (I==J) THEN
-             MTEMP2(I,J) = ONE/MAX(EM20,MTEMP2(I,J))
-           ELSE
-             MTEMP2(I,J) = ZERO
-           ENDIF
-         ENDDO
-       ENDDO
+          DO I=1,NMST
+            DO J=1,NMST
+              IF (I==J) THEN
+                MTEMP2(I,J) = ONE/MAX(EM20,MTEMP2(I,J))
+              ELSE
+                MTEMP2(I,J) = ZERO
+              ENDIF
+            ENDDO
+          ENDDO
 C
-       INVMK(1:NMST,1:NMST) = MATMUL(MTEMP2(1:NMST,1:NMST),MTEMP3(1:NMST,1:NMST))
+          INVMK(1:NMST,1:NMST) = MATMUL(MTEMP2(1:NMST,1:NMST),MTEMP3(1:NMST,1:NMST))
 C
 #ifndef WITHOUT_LINALG
-       LWORK = -1
-       CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK1,LWORK,INFO2)
-       LWORK = MAX( 1000, INT( WORK1( 1 ) ) )
-       ALLOCATE(WORK(LWORK))
+          LWORK = -1
+          CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK1,LWORK,INFO2)
+          LWORK = MAX( 1000, INT( WORK1( 1 ) ) )
+          ALLOCATE(WORK(LWORK))
 C
-       CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK,LWORK,INFO2)
+          CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK,LWORK,INFO2)
 #else
-        INFO2 = 1
+          INFO2 = 1
 #endif
 C
-       IF( INFO2>0 ) THEN
-         WRITE(*,*)'The algorithm failed to compute eigenvalues.'
-         STOP
-       END IF
+          IF( INFO2>0 ) THEN
+            WRITE(*,*)'The algorithm failed to compute eigenvalues.'
+            STOP
+          END IF
 C
-       RHO_INVMK = ZERO
-       DO I=1,NMST
-         IF (WI(I)==ZERO) RHO_INVMK = MAX(RHO_INVMK,ABS(WR(I)))
-       ENDDO
+          RHO_INVMK = ZERO
+          DO I=1,NMST
+            IF (WI(I)==ZERO) RHO_INVMK = MAX(RHO_INVMK,ABS(WR(I)))
+          ENDDO
 C
-       DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
+          DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
 C
-       FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)      
+          FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)      
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   MASS MATRIX PROJ ON RB MODES                    CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(8,NFX) = ADRGLM
+          FXBIPM(8,NFX) = ADRGLM
 C
-      MTEMP(1:NDDL,1:NME) = MATMUL(MASS(1:NDDL,1:NDDL),MODES_RB(1:NDDL,1:NME))
-      MTEMP2(1:NME,1:NME) = MATMUL(MODES_RBT(1:NME,1:NDDL),MTEMP(1:NDDL,1:NME))
+          MTEMP(1:NDDL,1:NME) = MATMUL(MASS(1:NDDL,1:NDDL),MODES_RB(1:NDDL,1:NME))
+          MTEMP2(1:NME,1:NME) = MATMUL(MODES_RBT(1:NME,1:NDDL),MTEMP(1:NDDL,1:NME))
 C
-      DO I=1,NME
-        DO J=1,NME
+          DO I=1,NME
+            DO J=1,NME
 CC-- Mat sym trian sup
-          IF (J >= I) THEN
-            FXBGLM(ADRGLM) = MTEMP2(I,J)
-            ADRGLM=ADRGLM+1
-          ENDIF
-        ENDDO
-      ENDDO
+              IF (J >= I) THEN
+                FXBGLM(ADRGLM) = MTEMP2(I,J)
+                ADRGLM=ADRGLM+1
+              ENDIF
+            ENDDO
+          ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   MASS MATRIX COUPLED PROJECTION                  CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(9,NFX) = ADRCP
+          FXBIPM(9,NFX) = ADRCP
 C
-      DO I = 1,3
-        DO J = 1,3
+          DO I = 1,3
+            DO J = 1,3
 C
-          DO K=1,NMOD
-            VT(1:NDDL) = ZERO
-            CPT = 0
-            DO M = 1,NBNOD
-              VT(CPT+I) = MODES(CPT+J,K)
-              VT(CPT+3+I) = MODES(CPT+3+J,K)
-              CPT = CPT + 6
+              DO K=1,NMOD
+                VT(1:NDDL) = ZERO
+                CPT = 0
+                DO M = 1,NBNOD
+                  VT(CPT+I) = MODES(CPT+J,K)
+                  VT(CPT+3+I) = MODES(CPT+3+J,K)
+                  CPT = CPT + 6
+                ENDDO
+                DO L=1,NME
+                  MTEMP(L,K)=FAC*PRSCAL(VT,MODES_RB(1,L),NDDL,MASS)
+                ENDDO
+              ENDDO
+C
+              DO L=1,NME
+                DO K=1,NMOD
+                  FXBCPM(ADRCP) = MTEMP(L,K)
+                  ADRCP=ADRCP+1
+                ENDDO
+              ENDDO
+C
             ENDDO
-            DO L=1,NME
-              MTEMP(L,K)=FAC*PRSCAL(VT,MODES_RB(1,L),NDDL,MASS)
-            ENDDO
-          ENDDO
-C
-          DO L=1,NME
-            DO K=1,NMOD
-              FXBCPM(ADRCP) = MTEMP(L,K)
-              ADRCP=ADRCP+1
-            ENDDO
-          ENDDO
-C
-        ENDDO
-      ENDDO  
+          ENDDO  
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   STIFF MATRIX COUPLED PROJECTION                  CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(9,NFX) = ADRCP2
+          FXBIPM(9,NFX) = ADRCP2
 C
-      DO I = 1,3
-        DO J = 1,3
+          DO I = 1,3
+            DO J = 1,3
 C
-          DO K=1,NME
-            VT(1:NDDL) = ZERO
-            CPT = 0
-            DO M = 1,NBNOD
-              VT(CPT+I) = MODES_RB(CPT+J,K)
-              VT(CPT+3+I) = MODES_RB(CPT+3+J,K)
-              CPT = CPT + 6
-            ENDDO
-            DO L=1,NMOD
-              MTEMP(K,L)=FAC*PRSCAL(MODES(1,L),VT,NDDL,STIF)
+              DO K=1,NME
+                VT(1:NDDL) = ZERO
+                CPT = 0
+                DO M = 1,NBNOD
+                  VT(CPT+I) = MODES_RB(CPT+J,K)
+                  VT(CPT+3+I) = MODES_RB(CPT+3+J,K)
+                  CPT = CPT + 6
+                ENDDO
+                DO L=1,NMOD
+                  MTEMP(K,L)=FAC*PRSCAL(MODES(1,L),VT,NDDL,STIF)
+                ENDDO
+              ENDDO
+C
+              DO L=1,NME
+                DO K=1,NMOD
+                  FXBCPS(ADRCP2) = MTEMP(L,K)
+                  ADRCP2=ADRCP2+1
+                ENDDO
+              ENDDO
+C
             ENDDO
           ENDDO
-C
-          DO L=1,NME
-            DO K=1,NMOD
-              FXBCPS(ADRCP2) = MTEMP(L,K)
-              ADRCP2=ADRCP2+1
-            ENDDO
-          ENDDO
-C
-        ENDDO
-      ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                       ADDITIONAL ADDRESSES                        CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(13,NFX) = ADRVAR 
-      ADRVAR=ADRVAR+NMOD+NME
-      FXBIPM(15,NFX) = ADRMCD 
-      ADRMCD=ADRMCD+NME*NME
+          FXBIPM(13,NFX) = ADRVAR 
+          ADRVAR=ADRVAR+NMOD+NME
+          FXBIPM(15,NFX) = ADRMCD 
+          ADRMCD=ADRMCD+NME*NME
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCC                         PRINTOUT CONTROL                            CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-      WRITE(IOUT,1100) ID,TRIM(TITR),NMST,NME,FXBRPM(FXBIPM(14,NFX))
+          WRITE(IOUT,1100) ID,TRIM(TITR),NMST,NME,FXBRPM(FXBIPM(14,NFX))
 
 C
-      IF (IPRI >= 5) THEN
+          IF (IPRI >= 5) THEN
 C
 C--       FXB file generation for full output
 C
-          RPM_L = FXBIPM(14,NFX)
-          ADRMODE_L = FXBIPM(7,NFX)
-          ADRLM_L = FXBIPM(10,NFX)
-          ADRFLS_L = FXBIPM(11,NFX)
-          ADRGLM_L = FXBIPM(8,NFX)
-          ADRCP_L = FXBIPM(9,NFX)
-          ADRCP2_L = FXBIPM(9,NFX)         
+            RPM_L = FXBIPM(14,NFX)
+            ADRMODE_L = FXBIPM(7,NFX)
+            ADRLM_L = FXBIPM(10,NFX)
+            ADRFLS_L = FXBIPM(11,NFX)
+            ADRGLM_L = FXBIPM(8,NFX)
+            ADRCP_L = FXBIPM(9,NFX)
+            ADRCP2_L = FXBIPM(9,NFX)         
 C
-          REF= 11000
-          IF (NFX < 10) THEN
-            WRITE(TMP_NAME,'(A,I1,A)') OUTFILE_NAME(1:OUTFILE_NAME_LEN)//"FXB_CONTROL",NFX,"_0000.fxb"
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + 21
-          ELSE
-            WRITE(TMP_NAME,'(A,I2,A)') OUTFILE_NAME(1:OUTFILE_NAME_LEN)//"FXB_CONTROL",NFX,"_0000.fxb"
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + 22
-          ENDIF
+            REF= 11000
+            IF (NFX < 10) THEN
+              WRITE(TMP_NAME,'(A,I1,A)') OUTFILE_NAME(1:OUTFILE_NAME_LEN)//"FXB_CONTROL",NFX,"_0000.fxb"
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + 21
+            ELSE
+              WRITE(TMP_NAME,'(A,I2,A)') OUTFILE_NAME(1:OUTFILE_NAME_LEN)//"FXB_CONTROL",NFX,"_0000.fxb"
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + 22
+            ENDIF
 C
-          OPEN(UNIT=REF,FILE=TMP_NAME(1:LEN_TMP_NAME),
+            OPEN(UNIT=REF,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')  
 C
-          WRITE(REF,'(A)') '# FLEXIBLE BODY DATA'
-          WRITE(REF,'(A)') '#--1---|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10---|'
-          WRITE(REF,'(A)') '#  Param'     
-          WRITE(REF,'(A)') "#  Nbmod  Nbstat   Nbnod    Irot   Idamp    Iblo   Ifile  Intype"
+            WRITE(REF,'(A)') '# FLEXIBLE BODY DATA'
+            WRITE(REF,'(A)') '#--1---|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10---|'
+            WRITE(REF,'(A)') '#  Param'     
+            WRITE(REF,'(A)') "#  Nbmod  Nbstat   Nbnod    Irot   Idamp    Iblo   Ifile  Intype"
 C
-          WRITE(REF,'(7I8)') NMOD,NMST,NBNOD,ISHELL,IDAMP,IBLO,IFILE
-          WRITE(REF,'(A)') '#  Nodes'
+            WRITE(REF,'(7I8)') NMOD,NMST,NBNOD,ISHELL,IDAMP,IBLO,IFILE
+            WRITE(REF,'(A)') '#  Nodes'
 C
-          CPT = 0
-          ZZ = NBNOD / 10
-          NLIGNE = CEILING(ZZ)
-          DO I=1,NLIGNE
-            WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,10)
-            CPT = CPT + 10          
-          ENDDO
-          REST = NBNOD-10*NLIGNE
-          IF (REST > 0) WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,REST)
+            CPT = 0
+            ZZ = NBNOD / 10
+            NLIGNE = CEILING(ZZ)
+            DO I=1,NLIGNE
+              WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,10)
+              CPT = CPT + 10          
+            ENDDO
+            REST = NBNOD-10*NLIGNE
+            IF (REST > 0) WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,REST)
 C
-          WRITE(REF,'(A)') '#         Mrot11          Mrot12          Mrot13          Mrot21          Mrot22'
-          WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+1),FXBRPM(RPM_L+2),FXBRPM(RPM_L+3),FXBRPM(RPM_L+4),FXBRPM(RPM_L+5)
-          WRITE(REF,'(A)') '#         Mrot23          Mrot31          Mrot32          Mrot33            Freq'
-          WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+6),FXBRPM(RPM_L+7),FXBRPM(RPM_L+8),FXBRPM(RPM_L+9),FXBRPM(RPM_L)
+            WRITE(REF,'(A)') '#         Mrot11          Mrot12          Mrot13          Mrot21          Mrot22'
+            WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+1),FXBRPM(RPM_L+2),FXBRPM(RPM_L+3),FXBRPM(RPM_L+4),FXBRPM(RPM_L+5)
+            WRITE(REF,'(A)') '#         Mrot23          Mrot31          Mrot32          Mrot33            Freq'
+            WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+6),FXBRPM(RPM_L+7),FXBRPM(RPM_L+8),FXBRPM(RPM_L+9),FXBRPM(RPM_L)
 C
-          WRITE(REF,'(A)') '#   BLOCK5  - RB MODES' 
+            WRITE(REF,'(A)') '#   BLOCK5  - RB MODES' 
 C
 C --- block5 - Modes RBODY
 C
-          IF (IBLO == 0) THEN
+            IF (IBLO == 0) THEN
 C
-             DO I=1,NME
-               WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-               WRITE(REF,'(A)') '#             ZZ'
-               DO J=1,NBNOD
-                 WRITE(REF,'(5(1PE16.9))') (FXBMOD(ADRMODE_L+K-1),K=1,5)
-                 WRITE(REF,'((1PE16.9))') FXBMOD(ADRMODE_L+6-1)
-                 ADRMODE_L = ADRMODE_L + 6      
-               ENDDO
-             ENDDO
+              DO I=1,NME
+                WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+                WRITE(REF,'(A)') '#             ZZ'
+                DO J=1,NBNOD
+                  WRITE(REF,'(5(1PE16.9))') (FXBMOD(ADRMODE_L+K-1),K=1,5)
+                  WRITE(REF,'((1PE16.9))') FXBMOD(ADRMODE_L+6-1)
+                  ADRMODE_L = ADRMODE_L + 6      
+                ENDDO
+              ENDDO
 C
-           ENDIF
+            ENDIF
 C
-           WRITE(REF,'(A)') '#   BLOCK6  - REDUCED MODES ROTATION ' 
-           WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-           WRITE(REF,'(A)') '#             ZZ'
+            WRITE(REF,'(A)') '#   BLOCK6  - REDUCED MODES ROTATION ' 
+            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+            WRITE(REF,'(A)') '#             ZZ'
 C
 C --- block7 - Reduced Modes
 C
-           WRITE(REF,'(A)') '#   BLOCK7  - REDUCED MODES' 
-C
-           DO I=1,NMST
-             WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-             WRITE(REF,'(A)') '#             ZZ'
-             DO J=1,NBNOD
-               WRITE(REF,'(5(1PE16.9))') (FXBMOD(ADRMODE_L+K-1),K=1,5)
-               WRITE(REF,'((1PE16.9))') FXBMOD(ADRMODE_L+6-1)
-               ADRMODE_L = ADRMODE_L + 6     
-             ENDDO
-           ENDDO
+            WRITE(REF,'(A)') '#   BLOCK7  - REDUCED MODES' 
+C  
+            DO I=1,NMST
+              WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+              WRITE(REF,'(A)') '#             ZZ'
+              DO J=1,NBNOD
+                WRITE(REF,'(5(1PE16.9))') (FXBMOD(ADRMODE_L+K-1),K=1,5)
+                WRITE(REF,'((1PE16.9))') FXBMOD(ADRMODE_L+6-1)
+                ADRMODE_L = ADRMODE_L + 6     
+              ENDDO
+            ENDDO
 C
 C --- block8 - Diag Mass matrix
 C
-           WRITE(REF,'(A)') '#   BLOCK8  - REDUCED DIAG MASS MATRIX' 
-           WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-           WRITE(REF,'(A)') '#             ZZ'
+            WRITE(REF,'(A)') '#   BLOCK8  - REDUCED DIAG MASS MATRIX' 
+            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+            WRITE(REF,'(A)') '#             ZZ'
 C
-           ZZ = NMOD / 5
-           NLIGNE = CEILING(ZZ)
-           DO I=1,NLIGNE
-             WRITE(REF,'(5(1PE16.9))') (FXBLM(ADRLM_L+K-1),K=1,5)
-             ADRLM_L = ADRLM_L + 5          
-           ENDDO
-           REST = NMOD-5*NLIGNE
-           IF (REST > 0) THEN
-             WRITE(REF,'(5(1PE16.9))') (FXBLM(ADRLM_L+K-1),K=1,REST)
-             ADRLM_L = ADRLM_L + 1
-           ENDIF
+            ZZ = NMOD / 5
+            NLIGNE = CEILING(ZZ)
+            DO I=1,NLIGNE
+              WRITE(REF,'(5(1PE16.9))') (FXBLM(ADRLM_L+K-1),K=1,5)
+              ADRLM_L = ADRLM_L + 5          
+            ENDDO
+            REST = NMOD-5*NLIGNE
+            IF (REST > 0) THEN
+              WRITE(REF,'(5(1PE16.9))') (FXBLM(ADRLM_L+K-1),K=1,REST)
+              ADRLM_L = ADRLM_L + 1
+            ENDIF
 C
 C --- block9 - Full Stiff matrix
 C
-           WRITE(REF,'(A)') '#   BLOCK9  - REDUCED FULL STIFF MATRIX' 
-           WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-           WRITE(REF,'(A)') '#             ZZ'
+            WRITE(REF,'(A)') '#   BLOCK9  - REDUCED FULL STIFF MATRIX' 
+            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+            WRITE(REF,'(A)') '#             ZZ'
 C
-           SIZE_MAX = ((NMST+1)*NMST)/2
-           ZZ = SIZE_MAX / 5
-           NLIGNE = CEILING(ZZ)
-           DO I=1,NLIGNE
-             WRITE(REF,'(5(1PE16.9))') (FXBFLS(ADRFLS_L+K-1),K=1,5)
-             ADRFLS_L = ADRFLS_L + 5         
-           ENDDO
-           REST = SIZE_MAX-5*NLIGNE
-           IF (REST > 0) THEN
-             WRITE(REF,'(5(1PE16.9))') (FXBFLS(ADRFLS_L+K-1),K=1,REST)
-             ADRFLS_L = ADRFLS_L + 1
-           ENDIF
+            SIZE_MAX = ((NMST+1)*NMST)/2
+            ZZ = SIZE_MAX / 5
+            NLIGNE = CEILING(ZZ)
+            DO I=1,NLIGNE
+              WRITE(REF,'(5(1PE16.9))') (FXBFLS(ADRFLS_L+K-1),K=1,5)
+              ADRFLS_L = ADRFLS_L + 5         
+            ENDDO
+            REST = SIZE_MAX-5*NLIGNE
+            IF (REST > 0) THEN
+              WRITE(REF,'(5(1PE16.9))') (FXBFLS(ADRFLS_L+K-1),K=1,REST)
+              ADRFLS_L = ADRFLS_L + 1
+            ENDIF
 C
 C --- block11 - Reduced Mass matrix on rbody modes - diag  
 C
-           WRITE(REF,'(A)') '#   BLOCK11  - RB MODES RB MATRIX' 
-           WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-           WRITE(REF,'(A)') '#             ZZ'
+            WRITE(REF,'(A)') '#   BLOCK11  - RB MODES RB MATRIX' 
+            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+            WRITE(REF,'(A)') '#             ZZ'
 C
-           SIZE_MAX = ((NME+1)*NME)/2
-           ZZ = SIZE_MAX / 5
-           NLIGNE = CEILING(ZZ)
-           DO I=1,NLIGNE
-             WRITE(REF,'(5(1PE16.9))') (FXBGLM(ADRGLM_L+K-1),K=1,5)
-             ADRGLM_L = ADRGLM_L + 5         
-           ENDDO
-           REST = SIZE_MAX-5*NLIGNE
-           IF (REST > 0) THEN
-             WRITE(REF,'(5(1PE16.9))') (FXBGLM(ADRGLM_L+K-1),K=1,REST)
-             ADRGLM_L = ADRGLM_L + 1
-           ENDIF
+            SIZE_MAX = ((NME+1)*NME)/2
+            ZZ = SIZE_MAX / 5
+            NLIGNE = CEILING(ZZ)
+            DO I=1,NLIGNE
+              WRITE(REF,'(5(1PE16.9))') (FXBGLM(ADRGLM_L+K-1),K=1,5)
+              ADRGLM_L = ADRGLM_L + 5         
+            ENDDO
+            REST = SIZE_MAX-5*NLIGNE
+            IF (REST > 0) THEN
+              WRITE(REF,'(5(1PE16.9))') (FXBGLM(ADRGLM_L+K-1),K=1,REST)
+              ADRGLM_L = ADRGLM_L + 1
+            ENDIF
 C
 C --- block12 - Coupled mass projection
 C
-           WRITE(REF,'(A)') '#   BLOCK12  - COUPLE MASS PROJECTION' 
-           WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-           WRITE(REF,'(A)') '#             ZZ'
+            WRITE(REF,'(A)') '#   BLOCK12  - COUPLE MASS PROJECTION' 
+            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+            WRITE(REF,'(A)') '#             ZZ'
 C
-           DO L=1,9
-             WRITE(REF,'(A,7I8)') '#',L
-             SIZE_MAX = NME*NMOD
-             ZZ = SIZE_MAX / 5
-             NLIGNE = CEILING(ZZ)
-             DO I=1,NLIGNE
-               WRITE(REF,'(5(1PE16.9))') (FXBCPM(ADRCP_L+K-1),K=1,5)
-               ADRCP_L = ADRCP_L + 5         
-             ENDDO
-             REST = SIZE_MAX-5*NLIGNE
-             IF (REST > 0) THEN
-               WRITE(REF,'(5(1PE16.9))') (FXBCPM(ADRCP_L+K-1),K=1,REST)
-               ADRCP_L = ADRCP_L + 1
-             ENDIF
-           ENDDO
-C
+            DO L=1,9
+              WRITE(REF,'(A,7I8)') '#',L
+              SIZE_MAX = NME*NMOD
+              ZZ = SIZE_MAX / 5
+              NLIGNE = CEILING(ZZ)
+              DO I=1,NLIGNE
+                WRITE(REF,'(5(1PE16.9))') (FXBCPM(ADRCP_L+K-1),K=1,5)
+                ADRCP_L = ADRCP_L + 5         
+              ENDDO
+              REST = SIZE_MAX-5*NLIGNE
+              IF (REST > 0) THEN
+                WRITE(REF,'(5(1PE16.9))') (FXBCPM(ADRCP_L+K-1),K=1,REST)
+                ADRCP_L = ADRCP_L + 1
+              ENDIF
+            ENDDO
+C  
 C --- block13 - Coupled stiff projection
 C
-           WRITE(REF,'(A)') '#   BLOCK13  - COUPLE STIFF PROJECTION' 
-           WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
-           WRITE(REF,'(A)') '#             ZZ'
+            WRITE(REF,'(A)') '#   BLOCK13  - COUPLE STIFF PROJECTION' 
+            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
+            WRITE(REF,'(A)') '#             ZZ'
 C
-           DO L=1,9
-             WRITE(REF,'(A,7I8)') '#',L
-             SIZE_MAX = NME*NMOD
-             ZZ = SIZE_MAX / 5
-             NLIGNE = CEILING(ZZ)
-             DO I=1,NLIGNE
-               WRITE(REF,'(5(1PE16.9))') (FXBCPS(ADRCP2_L+K-1),K=1,5)
-               ADRCP2_L = ADRCP2_L + 5         
-             ENDDO
-             REST = SIZE_MAX-5*NLIGNE
-             IF (REST > 0) THEN
-               WRITE(REF,'(5(1PE16.9))') (FXBCPS(ADRCP2_L+K-1),K=1,REST)
-               ADRCP2_L = ADRCP2_L + 1
-             ENDIF
-           ENDDO
+            DO L=1,9
+              WRITE(REF,'(A,7I8)') '#',L
+              SIZE_MAX = NME*NMOD
+              ZZ = SIZE_MAX / 5
+              NLIGNE = CEILING(ZZ)
+              DO I=1,NLIGNE
+                WRITE(REF,'(5(1PE16.9))') (FXBCPS(ADRCP2_L+K-1),K=1,5)
+                ADRCP2_L = ADRCP2_L + 5         
+              ENDDO
+              REST = SIZE_MAX-5*NLIGNE
+              IF (REST > 0) THEN
+                WRITE(REF,'(5(1PE16.9))') (FXBCPS(ADRCP2_L+K-1),K=1,REST)
+                ADRCP2_L = ADRCP2_L + 1
+              ENDIF
+            ENDDO
 C
-           WRITE(REF,'(A)') '#--1---|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10---|'
+            WRITE(REF,'(A)') '#--1---|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10---|'
 C
-           CLOSE(UNIT=REF,STATUS='KEEP')
+            CLOSE(UNIT=REF,STATUS='KEEP')
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCC          FIN  PRINTOUT CONTROL CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
