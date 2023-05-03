@@ -2251,7 +2251,7 @@ C Init var parallel SMP
           ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
           IF(NSPMD>1.AND.(INT24USE>0.OR.NINTER25/=0)) THEN 
             IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
-     .                                                   SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
+     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
@@ -5354,7 +5354,7 @@ C WA local  : utilise de 1 a NUMNOD
           ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
           IF(NSPMD>1.AND.(INT24USE>0.OR.NINTER25/=0)) THEN 
             IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
-     .                                                   SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
+     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
