@@ -24,6 +24,8 @@ Chd|====================================================================
 Chd|  SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|-- called by -----------
 Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
+Chd|        CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
+Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|        COUNT_NB_ELEM_EDGE            source/interfaces/interf/count_nb_elem_edge.F
 Chd|        DEALLOC_SHOOT_INTER           source/interfaces/interf/dealloc_shoot_inter.F
 Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F

@@ -25,6 +25,7 @@ Chd|  ARRAY_MOD                     modules/array_mod.F
 Chd|-- called by -----------
 Chd|        ALE_BOX_COLORATION            starter/source/initial_conditions/inivol/ale_box_coloration.F
 Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
 Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|-- calls ---------------
@@ -90,6 +91,7 @@ Chd|====================================================================
 Chd|====================================================================
 Chd|  ALLOC_2D_ARRAY                modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE ALLOC_2D_ARRAY(THIS)
@@ -141,6 +143,7 @@ Chd|====================================================================
 Chd|====================================================================
 Chd|  DEALLOC_2D_ARRAY              modules/array_mod.F           
 Chd|-- called by -----------
+Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE DEALLOC_2D_ARRAY(THIS)

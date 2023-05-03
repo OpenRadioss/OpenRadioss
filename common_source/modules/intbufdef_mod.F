@@ -185,6 +185,7 @@ Chd|        ALEMAIN                       engine/source/ale/alemain.F
 Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
 Chd|        CHECK_EDGE_STATE              engine/source/interfaces/interf/check_edge_state.F
 Chd|        CHECK_NODAL_STATE             engine/source/interfaces/interf/check_nodal_state.F
+Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
 Chd|        CHECK_SURFACE_STATE           engine/source/interfaces/interf/check_surface_state.F
 Chd|        CHKSTFN3N                     engine/source/interfaces/interf/chkstfn3.F
 Chd|        CHKSTIFN                      engine/source/interfaces/inter2d/chkstifn.F

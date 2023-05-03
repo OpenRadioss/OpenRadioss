@@ -24,7 +24,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_EXCH_IDEL_SEGLO          source/mpi/interfaces/spmd_exch_idel_seglo.F
 Chd|-- called by -----------
-Chd|        CHKSTFN3N                     source/interfaces/interf/chkstfn3.F
 Chd|-- calls ---------------
 Chd|        I24_REMOVE_GLOBAL_SEGMENT     source/interfaces/interf/chkstfn3.F
 Chd|        I25_REMOVE_GLOBAL_SEGMENT     source/interfaces/interf/chkstfn3.F

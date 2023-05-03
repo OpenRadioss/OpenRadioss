@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  CHECK_ACTIVE_ELEM_EDGE        source/interfaces/interf/check_active_elem_edge.F
 Chd|-- called by -----------
 Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
+Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,

@@ -1269,7 +1269,6 @@ Chd|        CHKSLV3_T24                   source/interfaces/interf/chkstfn3.F
 Chd|        SETMSR2                       source/interfaces/interf/chkstfn3.F
 Chd|        SETMSR3                       source/interfaces/interf/chkstfn3.F
 Chd|        SPMD_EXCHMSR_IDEL             source/mpi/interfaces/spmd_exchmsr_idel.F
-Chd|        SPMD_EXCH_IDEL_SEGLO          source/mpi/interfaces/spmd_exch_idel_seglo.F
 Chd|        SPMD_INIT_IDEL                source/mpi/interfaces/spmd_init_idel.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

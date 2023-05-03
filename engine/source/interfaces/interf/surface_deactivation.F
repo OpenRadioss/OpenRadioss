@@ -21,12 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
+Chd|  SURFACE_DEACTIVATION          source/interfaces/interf/surface_deactivation.F
 Chd|-- called by -----------
-Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,MSEGLO,MVOISIN)
 !$COMMENT

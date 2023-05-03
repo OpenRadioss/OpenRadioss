@@ -63,6 +63,7 @@ Chd|        BFGS_H1P                      source/implicit/imp_bfgs.F
 Chd|        BFGS_H2                       source/implicit/imp_bfgs.F    
 Chd|        BFGS_H2P                      source/implicit/imp_bfgs.F    
 Chd|        CFIELD_1                      source/loads/general/load_centri/cfield.F
+Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|        CHK11MSR3N                    source/interfaces/interf/chkstfn3.F
 Chd|        CHK11MSR3NB                   source/interfaces/interf/chkstfn3.F
 Chd|        CHK20EMSR3N                   source/interfaces/interf/chkstfn3.F
