@@ -82,6 +82,7 @@ It is not recommended to push commits directly into your `main` branch. This bra
 | Filenames: `<subroutine_name>.F`, `<module_name>_mod.F` |`*.f`, `*.F90`   |
 | Indent using spaces | use tabs | 
 | Modules and derived type   |`COMMON`, `EQUIVALENCE`, `SAVE`|
+| define types in early routines and pass in arguments   | declare variable type in module |
 | Look for clarity                        |`GOTO`, multiple `RETURN` | 
 | `#include "implicit_f.inc"` that contains `IMPLICIT NONE` | use implicit declaration |
 | Explicit size of dummy argument arrays  `INTEGER, INTENT(IN) :: A(LEN)`  | `INTEGER, INTENT(IN) :: A(*)` |
