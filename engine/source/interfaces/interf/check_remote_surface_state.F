@@ -114,8 +114,8 @@ C-----------------------------------------------
         NUMBER_INTER = SHIFT_INTERFACE(NINTER+1,2)
 
         ALLOCATE( S_BUFFER(NSPMD), R_BUFFER(NSPMD) )
-        S_BUFFER(1:NSPMD)%SIZE_INT_ARRAY_2D(1) = SURFARCE_NB
-        S_BUFFER(1:NSPMD)%SIZE_INT_ARRAY_2D(2) = 2
+        S_BUFFER(1:NSPMD)%SIZE_INT_ARRAY_2D(1) = 2
+        S_BUFFER(1:NSPMD)%SIZE_INT_ARRAY_2D(2) = SURFARCE_NB
         NUMBER_REMOTE_SURF(1:NSPMD) = 0
         ! --------------------------
         ! loop over the deactivated surface
@@ -161,11 +161,11 @@ C-----------------------------------------------
                                 CALL ALLOC_2D_ARRAY(S_BUFFER(REMOTE_PROC))
                             ENDIF
                             IF(ITY==24) THEN
-                                S_BUFFER(REMOTE_PROC)%INT_ARRAY_2D(NUMBER_REMOTE_SURF(REMOTE_PROC),1) = INTBUF_TAB(NIN)%MSEGLO(K)
+                                S_BUFFER(REMOTE_PROC)%INT_ARRAY_2D(1,NUMBER_REMOTE_SURF(REMOTE_PROC)) = INTBUF_TAB(NIN)%MSEGLO(K)
                             ELSEIF(ITY==25) THEN
-                                S_BUFFER(REMOTE_PROC)%INT_ARRAY_2D(NUMBER_REMOTE_SURF(REMOTE_PROC),1) = -INTBUF_TAB(NIN)%MSEGLO(K)
+                                S_BUFFER(REMOTE_PROC)%INT_ARRAY_2D(1,NUMBER_REMOTE_SURF(REMOTE_PROC)) = -INTBUF_TAB(NIN)%MSEGLO(K)
                             ENDIF
-                            S_BUFFER(REMOTE_PROC)%INT_ARRAY_2D(NUMBER_REMOTE_SURF(REMOTE_PROC),2) = NIN
+                            S_BUFFER(REMOTE_PROC)%INT_ARRAY_2D(2,NUMBER_REMOTE_SURF(REMOTE_PROC)) = NIN
                         ENDIF
                     ENDDO
                 ENDIF
@@ -214,12 +214,12 @@ C-----------------------------------------------
             IF(NUMBER_REMOTE_SURF_R(PROC_ID)>0) THEN
                 RECV_NB_2 = RECV_NB_2 + 1
                 INDEX_R_PROC_2(RECV_NB_2) = PROC_ID
-                R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(1) = NUMBER_REMOTE_SURF_R(PROC_ID)
-                R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(2) = 2
+                R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(1) = 2
+                R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(2) = NUMBER_REMOTE_SURF_R(PROC_ID)
                 CALL ALLOC_2D_ARRAY(R_BUFFER(PROC_ID)) 
                 SIZE_R = R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(1) * R_BUFFER(PROC_ID)%SIZE_INT_ARRAY_2D(2)
                 MSGTYP = MSGOFF2
-                CALL MPI_IRECV(R_BUFFER(PROC_ID)%INT_ARRAY_2D,SIZE_R,
+                CALL MPI_IRECV(R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,1),SIZE_R,
      .                  MPI_INTEGER,IT_SPMD(PROC_ID),MSGTYP,
      .                  MPI_COMM_WORLD,REQUEST_SIZE_R_2(RECV_NB_2),IERROR )
             ENDIF
@@ -231,8 +231,8 @@ C-----------------------------------------------
         DO I=1,NSPMD
             IF(NUMBER_REMOTE_SURF(I)>0) THEN
                 MSGTYP = MSGOFF2
-                SIZE_S = S_BUFFER(I)%SIZE_INT_ARRAY_2D(1) * S_BUFFER(I)%SIZE_INT_ARRAY_2D(2)
-                CALL MPI_ISEND( S_BUFFER(I)%INT_ARRAY_2D,SIZE_S,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+                SIZE_S = NUMBER_REMOTE_SURF(I) * S_BUFFER(I)%SIZE_INT_ARRAY_2D(1)
+                CALL MPI_ISEND( S_BUFFER(I)%INT_ARRAY_2D(1,1),SIZE_S,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                          MPI_COMM_WORLD,REQUEST_SIZE_S_2(I),IERROR )
             ENDIF
         ENDDO
@@ -244,14 +244,14 @@ C-----------------------------------------------
             PROC_ID = INDEX_R_PROC_2(K)
             ! --------------
             DO J=1,NUMBER_REMOTE_SURF_R(PROC_ID)
-                NIN = R_BUFFER(PROC_ID)%INT_ARRAY_2D(J,2) ! get the interface id
+                NIN = R_BUFFER(PROC_ID)%INT_ARRAY_2D(2,J) ! get the interface id
                 ITY = IPARI(7,NIN)  ! get the type of interface
                 IDEL = IPARI(17,NIN) ! get the kind of idel (1 or 2)
                 NRTM = IPARI(4,NIN)     ! get the number of surfaces of the interface NIN
                 ! --------------
-                GLOCAL_SURFACE_ID = R_BUFFER(PROC_ID)%INT_ARRAY_2D(J,1) ! get the global deleted surface id
+                GLOCAL_SURFACE_ID = R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,J) ! get the global deleted surface id
                 IF(ITY==24.OR.ITY==25) THEN
-                    CALL SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN)
+                    CALL SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN) 
                 ENDIF
                 ! --------------
             ENDDO
