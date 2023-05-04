@@ -1075,7 +1075,7 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
-     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS        ,T2FAC_SMS,INTERFACES%PARAMETERS)
             IADI = IADI+NUM_IMP(N)
         ELSE
        CALL I24MAIN_TRI(
@@ -1084,7 +1084,7 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,KINET        ,TEMP         ,NRTM_T  ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
-     6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
+     6 H3D_DATA,T2MAIN_SMS ,FORNEQS        ,T2FAC_SMS,INTERFACES%PARAMETERS)
             IADI = IADI+NUM_IMP(N)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
@@ -1106,7 +1106,7 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      4      ITAB    ,KINET        ,TEMP         ,RENUM     ,
      5      NSNFIOLD,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
      6      H3D_DATA,ESHIFT,NEDGE_T ,SSHIFT     ,NRTM_T    ,
-     7      ICODT   ,ISKEW        )
+     7      ICODT   ,ISKEW        ,INTERFACES%PARAMETERS)
             IADI = IADI+NUM_IMP(N)
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN

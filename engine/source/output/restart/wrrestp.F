@@ -1120,7 +1120,7 @@ C  if xfem
 C--------------------------------------
 C ecriture tableaux additionnels frontieres interfaces (partie reelle)
 C--------------------------------------
-      CALL SPMD_SAVEFI(IPARI,2,INTBUF_TAB,SENSOR_TAB)
+      CALL SPMD_SAVEFI(IPARI,2,INTBUF_TAB,SENSOR_TAB,INTERFACES%PARAMETERS)
 C--------------------------------------
 C ecriture tableaux additionnels frontieres sph (partie reelle)
 C--------------------------------------

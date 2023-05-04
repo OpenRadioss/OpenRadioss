@@ -162,7 +162,8 @@ Chd|====================================================================
      X  ELBUF_TAB,ELBUF_IMP,XDP,WEIGHT_MD , STACK ,
      Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
-     A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG)
+     A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
+     B  INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -180,6 +181,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE IMPBUFDEF_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -267,6 +269,7 @@ C
       TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (DRAPEG_)   :: DRAPEG
+      TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
 C      
 C---D_IMP: dUn+1,i,DD : ddU,i+1
 C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:pour line-search]
@@ -1413,7 +1416,8 @@ c         END IF
      9       DT2PREV,WAINT ,NUM_IMP1,IRLEN20,ISLEN20,
      A       IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      B       IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
-     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,MAXDGAP)
+     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,MAXDGAP,
+     D       INTERFACES)
           TT=MAX(ZERO,TT-DT2)
           ISETK =0
 C-------save Fint par AC,ACR---------
