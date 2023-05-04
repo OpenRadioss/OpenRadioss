@@ -50,7 +50,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_RBODY(RBY       ,NPBY    ,LPBY    ,ITAB     ,ITABM1   ,
      2                         IGRNOD    ,IGRSURF ,IBFV    ,IGRV     ,IBGR     ,
-     3                         SENSOR_TAB,IMERGE  ,UNITAB  ,ISKN     ,NOM_OPT  ,
+     3                         SENSORS   ,IMERGE  ,UNITAB  ,ISKN     ,NOM_OPT  ,
      4                         NUMSL     ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
      5                         KNOD2ELQ  ,ITAGND  ,ICDNS10 ,LSUBMODEL,ICFIELD  ,
      6                         LCFIELD   )
@@ -106,7 +106,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF        
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -333,8 +333,8 @@ c
         ENDDO
 C
         IF(ISENS > 0)THEN
-          DO I=1,NSENSOR
-            IF (ISENS == SENSOR_TAB(I)%SENS_ID) NPBY(4,NRB)=I
+          DO I=1,SENSORS%NSENSOR
+            IF (ISENS == SENSORS%SENSOR_TAB(I)%SENS_ID) NPBY(4,NRB)=I
           ENDDO
           IF(NPBY(4,NRB) == 0)THEN
              TITR1 = IGRSURF(IGS)%TITLE

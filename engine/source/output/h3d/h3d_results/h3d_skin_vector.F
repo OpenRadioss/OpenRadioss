@@ -33,7 +33,7 @@ Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,
+      SUBROUTINE H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,NSENSOR,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  ,INTENT(IN) :: NSENSOR
       CHARACTER*ncharline KEYWORD
       my_real
      .   SKIN_VECTOR(3,*),TF(*),X(3,*),V(3,*)

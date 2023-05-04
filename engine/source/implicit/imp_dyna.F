@@ -732,7 +732,8 @@ Chd|====================================================================
      4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                    RBY   ,FR_ELEM,IAD_ELEM  ,NDDL  ,NNZK,
-     7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC)
+     7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,
+     8                    NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -757,6 +758,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER ITASK,NPC(*), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),IDIV,
      .        CPTREAC,NODREAC(*)
@@ -834,7 +836,7 @@ C---estimation a(t=0)----
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
           CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,DY_A  ,
      2               V     ,X     ,SKEW  ,DY_AR,VR    ,
-     3               SENSOR_TAB,WEIGHT,TFEXC,
+     3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
      4               IADS_F,FSKY  ,FSKY,RBID,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC)
          IF (NSPMD>1) THEN
@@ -863,7 +865,7 @@ C---estimation a(t=0)----
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,DY_A,
      2                    V     ,X     ,SKEW  ,MS,TFEXC,
-     3                    SENSOR_TAB,WEIGHT,LGRAV,ITASK,
+     3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
      4                    NRBYAC,IRBYAC,NPBY  ,RBY    )
           IF (IMON>0) CALL STOPTIME(4,ITASK+1)
         ENDIF
@@ -969,7 +971,7 @@ Chd|====================================================================
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                    RBY   ,IBFV  ,VEL   ,D      ,DR    ,
      7                    IKC   ,IDDL  ,IFRAME,XFRAME ,NDOF  ,
-     8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC)
+     8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -992,6 +994,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER ITASK,NPC(*), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),
      .        IFRAME(LISKN,*),IBFV(*),IKC(*) ,IDDL(*),NDOF(*),
@@ -1017,7 +1020,7 @@ C--------------------------------
         IF(NCONLD/=0) THEN
           CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,A     ,
      2               V     ,X     ,SKEW  ,AR  ,VR    ,
-     3               SENSOR_TAB,WEIGHT,TFEXC,
+     3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC)
           TFEXT = TFEXT + TFEXC*DT2
@@ -1025,13 +1028,13 @@ C--------------------------------
         IF(NGRAV/=0) THEN
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,A    ,
      2                    V     ,X     ,SKEW  ,MS,TFEXC,
-     3                    SENSOR_TAB,WEIGHT,LGRAV,ITASK,
+     3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
      5                    NRBYAC,IRBYAC,NPBY  ,RBY    )
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
         IF(NFXVEL/=0) THEN
           CALL WFV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
-     1                D      ,DR     ,IKC   ,IDDL  ,
+     1                D      ,DR     ,IKC   ,IDDL  ,NSENSOR   ,
      2                SKEW  ,IFRAME ,XFRAME  ,DY_A  ,DY_AR ,
      3                X     ,NDOF    ,MS     ,IN    ,WEIGHT,
      4                RBY   ,TFEXC   )

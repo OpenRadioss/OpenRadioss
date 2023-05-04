@@ -80,7 +80,7 @@ Chd|====================================================================
      H   JTHE,        TEMP,        FTHE,        FTHESKY,
      I   IEXPAN,      GRESAV,      GRTH,        IGRTH,
      J   MSTG,        DMELTG,      JSMS,        TABLE,
-     K   IPARG,       SENSOR_TAB,  PTG,         IXFEM,
+     K   IPARG,       SENSORS,     PTG,         IXFEM,
      L   INOD_CRK,    IEL_CRK,     IADTG_CRK,   ELCUTC,
      M   IXEL,        STACK,       ISUBSTACK,   UXINT_MEAN,
      N   UYINT_MEAN,  UZINT_MEAN,  NLEVXF,      NODEDGE,
@@ -150,7 +150,7 @@ C-----------------------------------------------
       TYPE(DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -440,7 +440,7 @@ C--------------------------
      I   BID       ,BID       ,BID       ,E1X       ,E1Y       ,
      J   E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X       ,
      K   E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM     ,
-     L   BID       ,SENSOR_TAB,BID       ,ELCRKINI  ,
+     L   BID       ,SENSORS   ,BID       ,ELCRKINI  ,
      M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

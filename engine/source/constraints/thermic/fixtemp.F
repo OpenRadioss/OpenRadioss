@@ -29,8 +29,8 @@ Chd|        VINTER                        source/tools/curve/vinter.F
 Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE FIXTEMP(IBFT  ,VAL    , TEMP  ,NPC    ,TF   ,
-     .                   SENSOR_TAB)
+      SUBROUTINE FIXTEMP(IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
+     .                   NSENSOR,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER IBFT(NIFT,*)
 C     REAL

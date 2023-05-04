@@ -43,7 +43,7 @@ Chd|====================================================================
      7                         VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
      8                         SENSOR_TAB,AL0DP,FR_ID,DDF,FX,FX2,
      9                         ALDP2,AL0DP2,EX2DP,EY2DP,EZ2DP,
-     A                         XL02,XK2,COMPT,INDEX2)
+     A                         XL02,XK2,COMPT,INDEX2,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER UPDATE_FLAG(*),SLIPRING_ID(*),NC1(*),NC2(*),NC3(*),SLIPRING_STRAND(*),
      .        ADHER(*),FLAG_SLIPRING_UPDATE,ADD_NODE1(*),ADD_NODE2(*),RETRACTOR_ID(*),
      .        FLAG_RETRACTOR_UPDATE,FR_ID(*)

@@ -30,7 +30,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE AIRBAGA1(IVOLU  ,NJET    ,IBAGJET ,NVENT   ,IBAGHOL ,
      2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG   ,
-     3                    RVOLUV ,NPC     ,TF      ,SENSOR_TAB ,
+     3                    RVOLUV ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
      4                    VOL    ,PMAIN ,GEO     ,IGEO    ,PM      )
 C-----------------------------------------------
 C   M o d u l e s
@@ -56,6 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN,
      .        IGEO(NPROPGI,*)

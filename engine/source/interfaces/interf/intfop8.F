@@ -37,7 +37,7 @@ Chd|====================================================================
      2       ICODT ,FSAV    ,WA      ,V      ,MS   ,
      3       DT2T  ,NELTST  ,ITYPTST ,ITAB   ,STIFN,
      4       NPC   ,TF      ,FSKYI   ,ISKY   ,VR   ,
-     5       FCONT ,IN      ,BUFSF   ,FNCONT ,
+     5       FCONT ,IN      ,BUFSF   ,FNCONT ,NSENSOR,
      6       FTCONT,ICONTACT,RCONTACT,NUM_IMP,NS_IMP,
      7       NE_IMP ,NT_IMP  ,SENSOR_TAB,INTBUF_TAB    ,
      8       H3D_DATA,PSKIDS,TAGNCONT,KLOADPINTER,LOADPINTER,
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST 
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
       INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*), 

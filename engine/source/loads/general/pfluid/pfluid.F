@@ -31,9 +31,8 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE PFLUID(ILOADP     ,RLOAD   ,NPC    ,TF     ,A       ,
      2                  V          ,X       ,XFRAME ,AR     ,VR      ,
-     3                  SENSOR_TAB ,WEIGHT  ,TFEXC  ,IADC   ,
-     4                  FSKY       ,FSKYV   ,LLOADP ,FEXT   ,H3D_DATA
-     5                  )
+     3                  NSENSOR    ,SENSOR_TAB ,WEIGHT  ,TFEXC  ,IADC   ,
+     4                  FSKY       ,FSKYV   ,LLOADP ,FEXT   ,H3D_DATA   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -99,6 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(SNPC),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,NLOADP)
       INTEGER WEIGHT(SWEIGHT), IADC(DSNCOL)

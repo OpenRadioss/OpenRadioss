@@ -41,7 +41,7 @@ Chd|====================================================================
      5   FLG_KJ2,              VR,                   AR,                   V,
      6   DT2T,                 NELTST,               ITYPTST,              STIFN,
      7   STIFR,                MS,                   IN,                   FSKY,
-     8   IADR,                 SENSOR_TAB,           OFFSET,               ANIM,
+     8   IADR,                 SENSORS   ,           OFFSET,               ANIM,
      9   PARTSAV,              IPARTR,               TANI,                 FR_WAVE,
      A   BUFMAT,               BUFGEO,               PM,                   RBY,
      B   FX1,                  FX2,                  FY1,                  FY2,
@@ -95,11 +95,13 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) , INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER :: NSENSOR
 C=======================================================================
+       NSENSOR = SENSORS%NSENSOR
 !
        IF(MTN  == 108) THEN
          ! Like type08 spring
@@ -111,7 +113,7 @@ C=======================================================================
      5   FLG_KJ2,   VR,        AR,        V,
      6   DT2T,      NELTST,    ITYPTST,   STIFN,
      7   STIFR,     MS,        IN,        FSKY,
-     8   IADR,      SENSOR_TAB,OFFSET,    ANIM,
+     8   IADR,      NSENSOR,SENSORS%SENSOR_TAB,OFFSET,    ANIM,
      9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
      A   BUFMAT,    BUFGEO,    PM,        RBY,
      B   FX1,       FX2,       FY1,       FY2,
@@ -131,7 +133,7 @@ C=======================================================================
      5   FLG_KJ2,   VR,        AR,        V,
      6   DT2T,      NELTST,    ITYPTST,   STIFN,
      7   STIFR,     MS,        IN,        FSKY,
-     8   IADR,      SENSOR_TAB,OFFSET,    ANIM,
+     8   IADR,      NSENSOR,SENSORS%SENSOR_TAB,OFFSET,    ANIM,
      9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
      A   BUFMAT,    BUFGEO,    PM,        RBY,
      B   FX1,       FX2,       FY1,       FY2,
@@ -151,7 +153,7 @@ C=======================================================================
      5   FLG_KJ2,              VR,                   AR,                   V,
      6   DT2T,                 NELTST,               ITYPTST,              STIFN,
      7   STIFR,                MS,                   IN,                   FSKY,
-     8   IADR,                 SENSOR_TAB,           OFFSET,               ANIM,
+     8   IADR,                 SENSORS%SENSOR_TAB,   OFFSET,               ANIM,
      9   PARTSAV,              IPARTR,               TANI,                 FR_WAVE,
      A   BUFMAT,               BUFGEO,               PM,                   RBY,
      B   FX1,                  FX2,                  FY1,                  FY2,
@@ -159,7 +161,7 @@ C=======================================================================
      D   MY1,                  MY2,                  MZ1,                  MZ2,
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT)
+     G   JSMS,                 IGRE,                 NFT,                  NSENSOR)
  
        ENDIF
 C-----------------------------------------------       

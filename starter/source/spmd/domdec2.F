@@ -58,7 +58,7 @@ Chd|====================================================================
      D   LGAUGE ,IGAUP  ,NGAUP  ,INTBUF_TAB,IBFFLUX,
      E   ICNDS10,ITAGND ,IGEO   ,TAG_SKN,MULTIPLE_SKEW,
      F   IBFV   ,IBCSCYC,LBCSCYC,R_SKEW,IPM     ,
-     G   SENSOR_TAB, LEN_CEP,EBCS_TAB)
+     G   SENSORS, LEN_CEP,EBCS_TAB)
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -124,12 +124,8 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-!       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       SENSOR_TAB : structure, dimension = NSENSOR
-!                    new structure for SENSOR
-!       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
+      TYPE(SENSORS_)   ,INTENT(IN)    :: SENSORS
+      TYPE(T_EBCS_TAB) ,INTENT(INOUT) :: EBCS_TAB
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -163,23 +159,23 @@ c      print*,'Count:',CNT
       INT2FRPLUS=0
 C-----------------------------------------------------
       ! ------------------------
-      DO ISENS=1,NSENSOR
+      DO ISENS=1,SENSORS%NSENSOR
             ! ------------------------   
             ! dist-surf sensor : for plane defined by 3 nodes, 
             !                    add the 3 nodes and the reference node
             !                    on all spmd processors
-            IF (SENSOR_TAB(ISENS)%TYPE==15) THEN
+            IF (SENSORS%SENSOR_TAB(ISENS)%TYPE==15) THEN
                 ! -------------
                 ! reference node : %IPARAM(1)
-                N1 = SENSOR_TAB(ISENS)%IPARAM(1)
+                N1 = SENSORS%SENSOR_TAB(ISENS)%IPARAM(1)
                 DO P=1,NSPMD
                     CALL IFRONTPLUS(N1,P)
                 ENDDO
                 ! -------------
-                IF(SENSOR_TAB(ISENS)%IPARAM(2)==0) THEN
+                IF(SENSORS%SENSOR_TAB(ISENS)%IPARAM(2)==0) THEN
                     ! plane nodes : %IPARAM(3:5)
                     DO I=1,3
-                        N1 = SENSOR_TAB(ISENS)%IPARAM(3+I-1)
+                        N1 = SENSORS%SENSOR_TAB(ISENS)%IPARAM(3+I-1)
                         DO P=1,NSPMD
                             CALL IFRONTPLUS(N1,P)
                         ENDDO
@@ -1155,12 +1151,12 @@ C mise sur Pi des noeuds non affectes (round robbin)
 C-----------------------------------------------------
 C Traitement special sensor type2
 C-----------------------------------------------------
-      IF(NSENSOR>0) THEN
+      IF(SENSORS%NSENSOR>0) THEN
        DO P = 1, NSPMD
          NSENSP(P) = 0
        END DO
-       DO I=1,NSENSOR
-        TYP = SENSOR_TAB(I)%TYPE
+       DO I=1,SENSORS%NSENSOR
+        TYP = SENSORS%SENSOR_TAB(I)%TYPE
         ISENSP(1,I) = 0
         ISENSP(2,I) = 0
 C
@@ -1170,7 +1166,7 @@ C
 C--------------------------------
 C         CAPTEUR - DEPLACEMENT
 C--------------------------------
-          N1 = SENSOR_TAB(I)%IPARAM(1)
+          N1 = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1)THEN
               ISENSP(1,I) = P
@@ -1179,7 +1175,7 @@ C--------------------------------
             END IF
           END DO
  500      CONTINUE
-          N2 = SENSOR_TAB(I)%IPARAM(2)
+          N2 = SENSORS%SENSOR_TAB(I)%IPARAM(2)
           DO P = 1, NSPMD
             IF(NLOCAL(N2,P)==1)THEN
               ISENSP(2,I) = P
@@ -1196,7 +1192,7 @@ C--------------------------------
         ELSEIF(TYP==8)THEN
 c
         ELSEIF(TYP==13)THEN  ! SENSOR WORK
-          N1 = SENSOR_TAB(I)%IPARAM(1)
+          N1 = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           DO P = 1, NSPMD
             IF (NLOCAL(N1,P)==1) THEN
               ISENSP(1,I) = P
@@ -1204,7 +1200,7 @@ c
               EXIT
             END IF
           END DO
-          N2 = SENSOR_TAB(I)%IPARAM(2)
+          N2 = SENSORS%SENSOR_TAB(I)%IPARAM(2)
           IF (N2 > 0) THEN
             DO P = 1, NSPMD
               IF (NLOCAL(N2,P)==1) THEN

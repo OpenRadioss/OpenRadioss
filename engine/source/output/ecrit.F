@@ -43,7 +43,7 @@ Chd|====================================================================
       SUBROUTINE ECRIT(PARTSAV    ,MS        ,V	       ,IN       ,R          ,
      2                 RBY        ,NPBY      ,DMAS     ,DINER    ,WEIGHT     ,
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
-     4                 XMOM_SMS   ,SENSOR_TAB,QFRICINT ,IPARI    ,WEIGHT_MD  ,
+     4                 XMOM_SMS   ,SENSORS   ,QFRICINT ,IPARI    ,WEIGHT_MD  ,
      5                 TFEXTH     ,IFLAG     ,MS_2D    ,MULTI_FVM,MAS_ND     ,
      6                 KEND       ,H3D_DATA  ,DYNAIN_DATA,USREINT)
 C-----------------------------------------------
@@ -100,14 +100,14 @@ C-----------------------------------------------
      .   XMOM_SMS(3,*),QFRICINT(*),MS_2D(*),KEND,MAS_ND
       my_real, INTENT(IN) :: USREINT
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-      TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
-      TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE(H3D_DATABASE), INTENT(INOUT)  :: H3D_DATA
+      TYPE (SENSORS_)    ,INTENT(IN)     :: SENSORS
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IPRI, INFO, I, J, M, JPRI, ILIGN, K, ITHIS, ADRRPM, ISENS,
-     .         NTY,INTHE,IABFIS,SENS_ID,SENS_TYPE
+     .         NTY,INTHE,IABFIS
       my_real
      .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,
      .   VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
@@ -500,11 +500,11 @@ C     + DEF + TFEXT + DELTAE + TFEXT_MD
 C-----------------------------------------------
 C       /STATE/LSENSOR
 C-----------------------------------------------
-        IF (NSTATSENS  > 0) THEN
+        IF (SENSORS%NSTAT  > 0) THEN
           MSTATT = 0
-          DO I=1,NSTATSENS
-             ISENS = LSTATSENS(I)
-             TS = SENSOR_TAB(ISENS)%TSTART      
+          DO I=1,SENSORS%NSTAT
+             ISENS = SENSORS%STAT(I)
+             TS = SENSORS%SENSOR_TAB(ISENS)%TSTART      
              IF (TT >= TS) THEN
                MSTAT(I) = MSTAT(I)+1    
              ENDIF
@@ -514,11 +514,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       /OUTP/LSENSOR
 C-----------------------------------------------
-        IF (NOUTPSENS > 0) THEN
+        IF (SENSORS%NOUTP > 0) THEN
           MOUTPT = 0
-          DO I=1,NOUTPSENS
-             ISENS = LOUTPSENS(I)
-             TS = SENSOR_TAB(ISENS)%TSTART     
+          DO I=1,SENSORS%NOUTP
+             ISENS = SENSORS%OUTP(I)
+             TS = SENSORS%SENSOR_TAB(ISENS)%TSTART     
              IF (TT >= TS) THEN
                 MOUTP(I) = MOUTP(I)+1    
              ENDIF
@@ -530,16 +530,12 @@ C       STOP OR KILL
 C-----------------------------------------------
 C       /STOP/LSENSOR
 C-----------------------------------------------
-        IF (NSTOPSENS > 0) THEN
-          DO I=1,NSTOPSENS
-             ISENS = LSTOPSENS(I)
-             SENS_TYPE = SENSOR_TAB(ISENS)%TYPE
-             TS = EP20
-             SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
-             IF (SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
-             IF (TT >= TS) THEN
+        IF (SENSORS%NSTOP > 0) THEN
+          DO I=1,SENSORS%NSTOP
+             ISENS = SENSORS%STOP(I)
+             IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
                 CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
-     .                      I1 = SENS_ID)
+     .                      I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
                 IWARN=IWARN+1
                 MSTOP=1
                 MREST=1

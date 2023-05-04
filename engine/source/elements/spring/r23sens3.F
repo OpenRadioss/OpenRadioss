@@ -33,7 +33,7 @@ Chd|====================================================================
      1   GEO,       OFF,       SENSOR_TAB,DX,
      2   DY,        DZ,        X0,        Y0,
      3   Z0,        RX,        RY,        RZ,
-     4   IGEO,      PID,       NEL)
+     4   IGEO,      PID,       NEL,       NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NEL,NSENSOR
       INTEGER IGEO(NPROPGI,*),PID(*)
       my_real :: GEO(NPROPG,*), OFF(*), DX(*),DY(*),DZ(*),X0(*),Y0(*),Z0(*),RX(*),RY(*),RZ(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB

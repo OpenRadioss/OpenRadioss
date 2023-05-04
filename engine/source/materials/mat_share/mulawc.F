@@ -147,7 +147,7 @@ Chd|====================================================================
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
-     D       SENSOR_TAB,NG      ,                         
+     D       SENSORS  ,NG      ,                         
      E       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,             
      F       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,    
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
@@ -216,13 +216,13 @@ C-----------------------------------------------
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) ,TARGET :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ::I,J,K,II,JJ,KK,IC,JMLY,IPG,IP,IT,IFL,ILAY,NPG,MPT,MX,IMAT,
      .   IRUPT,NFAIL,IADBUF,IADBUFR,MAXNULVAR,IGTYP,NUVAR,NVARF,JDIR,
-     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NFUNC1,IFAILWV,NLOCAL,
+     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NFUNC1,IFAILWV,NLOCAL,NSENSOR,
      .   IUN,IBIDON1,IBIDON2,IBIDON3,
      .   IPTX,ILAYER,IROT,DMG_FLAG,
      .   IGMAT,IPGMAT,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
@@ -284,13 +284,14 @@ c----
 c
 C-----------------------------------------------
 C   S o u r c e   L i n e s
-C-----------------------------------------------
+c=======================================================================      
       GBUF => ELBUF_STR%GBUF
       IPG  = (IS-1)*ELBUF_STR%NPTR + IR     ! current Gauss point
       NPG  = ELBUF_STR%NPTR * ELBUF_STR%NPTS
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       INLOC = IPARG(78)                     ! Flag for non-local regularization
+      NSENSOR = SENSORS%NSENSOR
 !  
       IDRAPE = ELBUF_STR%IDRAPE   
       LOGICAL_USERL_AVAIL=.FALSE.
@@ -1016,11 +1017,11 @@ C------------------------------------------
 
             CALL SIGEPS19C(
      .            NEL       ,NUPARAM   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
-     .            UPARAM    ,NPTTOT    ,SSP       ,
+     .            UPARAM    ,NPTTOT    ,SSP       ,NSENSOR   ,
      .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
      .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     .            GBUF%SIGI ,SENSOR_TAB)
+     .            GBUF%SIGI ,SENSORS%SENSOR_TAB)
 
           ELSEIF (ILAW == 22) THEN
             CALL SIGEPS22C(
@@ -1273,7 +1274,7 @@ C
 
            CALL SIGEPS58C(
      1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC  , 
-     2        NPF     ,NPT     ,IPT     ,IFLAG    ,          
+     2        NPF     ,NPT     ,IPT     ,IFLAG    ,NSENSOR,          
      2        TF      ,TT      ,DT1C    ,UPARAM   ,RHO    ,  
      3        AREA    ,EINT    ,THKLYL  ,                    
      4        EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ   ,EPSPZX  ,  
@@ -1285,7 +1286,7 @@ C
      A        SSP     ,VISCMX  ,THKN    ,LBUF%PLA ,UVAR    ,
      B        OFF     ,NGL     ,PM      ,MATLY(JMLY),ETSE  ,
      C        SHF     ,SIGY    ,EPSPL   ,LBUF%ANG ,
-     D        ALDT    ,SENSOR_TAB,ISMSTR,TABLE    ,GBUF%OFF)                          
+     D        ALDT    ,SENSORS%SENSOR_TAB,ISMSTR,TABLE    ,GBUF%OFF)                          
              
 c
           ELSEIF (ILAW == 60) THEN
@@ -1709,7 +1710,8 @@ c
      6        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5), 
      7        SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,                       
      8        SIGVXX    ,SIGVYY    ,SIGVXY    ,LBUF%ANG  ,GBUF%OFF  ,
-     9        RHO       ,ETSE      ,SHF       ,ALDT      ,SENSOR_TAB)  
+     9        RHO       ,ETSE      ,SHF       ,ALDT      ,NSENSOR   ,
+     A        SENSORS%SENSOR_TAB)  
 c
           ENDIF !ILAW
 c-------------------------------------------

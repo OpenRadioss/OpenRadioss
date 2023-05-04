@@ -35,7 +35,8 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25COMP_1(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
-     2                   KINET      ,JTASK  ,NB_DST1,V       ,SENSOR_TAB )
+     2                   KINET      ,JTASK  ,NB_DST1,V       ,NSENSOR    ,
+     3                   SENSOR_TAB )
 C=======================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NIN, NB_DST1, JTASK
       INTEGER IPARI(NPARI,NINTER), ITAB(*), KINET(*)
 C     REAL

@@ -31,7 +31,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP ,NPC     ,TF      ,
      2                          A         ,V         ,X      ,SKEW    ,SENSOR_TAB,
-     3                          IADC     ,FSKY    ,FEXT    ,TAGNCONT,
+     3                          IADC     ,FSKY    ,FEXT    ,TAGNCONT,NSENSOR   ,
      4                          KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER, H3D_DATA,
      5                          NPRESLOAD ,LOADP_TAGDEL)
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPRESLOAD
+      INTEGER, INTENT(IN) :: NPRESLOAD,NSENSOR
       INTEGER NPC(*),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),

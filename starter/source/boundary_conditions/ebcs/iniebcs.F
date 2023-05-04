@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
-     .     PM, IGEO, X, SENSOR_TAB, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       INTEGER,INTENT(IN) :: IFLAG, IGEO(NPROPGI,NUMGEO)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -242,8 +242,8 @@ C=======================================================================
                 ENDIF
              ENDDO
              IF(IFLAG==1)THEN
-               DO J = 1, NSENSOR
-                  IF (SENS == SENSOR_TAB(J)%SENS_ID)THEN
+               DO J = 1, SENSORS%NSENSOR
+                  IF (SENS == SENSORS%SENSOR_TAB(J)%SENS_ID)THEN
                      EBCS%monvol_id = SENS
                   ENDIF
                ENDDO

@@ -69,7 +69,7 @@ Chd|====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG    ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER   ,
-     5                 PARTSAV ,ACCELM    ,LOUT     ,
+     5                 PARTSAV ,ACCELM    ,LOUT     ,NSENSOR  ,
      6                 IPARI   ,WEIGHT    ,IPART    ,IGRSURF  ,
      7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
      8                 KXX     ,IXR       ,
@@ -128,7 +128,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: SITHBUF
+      INTEGER,INTENT(IN) :: SITHBUF,NSENSOR
       INTEGER MBUFFER, NPARTL
       LOGICAL LOUT
       INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),

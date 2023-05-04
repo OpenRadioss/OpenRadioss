@@ -31,7 +31,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FIXVEL(IBFV  ,A    ,V     ,NPC    ,TF   ,
      2                  VEL   ,MS   ,X     ,SKEW   ,AR   ,
-     3                  VR    ,IN   ,SENSOR_TAB,
+     3                  VR    ,IN   ,NSENSOR,SENSOR_TAB,
      4                  WEIGHT,DEPLA    ,RBY   ,IFRAME,
      5                  XFRAME,DR   ,NODNX_SMS,
      6                  TT_DOUBLE,DEPLA_DOUBLE)
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),NODNX_SMS(*)
       my_real, DIMENSION(3,*), TARGET :: DEPLA

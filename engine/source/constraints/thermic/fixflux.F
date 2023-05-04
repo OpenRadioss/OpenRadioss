@@ -32,7 +32,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FIXFLUX (IBFFLUX ,FBFFLUX ,NPC   ,TF  ,X  ,IXS,
-     1                    SENSOR_TAB,FTHE  ,IAD ,FTHESKY)
+     1                    NSENSOR ,SENSOR_TAB,FTHE  ,IAD ,FTHESKY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IAD(4,*)
       INTEGER IBFFLUX(NITFLUX,*),IXS(NIXS,*)
 C     REAL

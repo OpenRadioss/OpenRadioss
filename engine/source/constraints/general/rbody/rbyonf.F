@@ -226,7 +226,7 @@ Chd|====================================================================
       SUBROUTINE RBYSENS(IPARG,IPARI      ,MS    ,IN   ,
      2                  IXS  ,IXQ  ,IXC   ,IXT   ,IXP  ,
      3                  IXR  ,SKEW ,ITAB  ,ITABM1,ISKWN,
-     4                  NPBY ,ITAG  ,LPBY ,FSKY  ,
+     4                  NPBY ,ITAG  ,LPBY ,FSKY  ,NSENSOR,
      5                  RBY  ,X    ,V     ,VR    ,IXTG ,
      6                  IGRV ,IBGR ,SENSOR_TAB,A     ,AR   ,
      7                  FSAV,STIFN,STIFR  ,FANI  ,WEIGHT,
@@ -255,6 +255,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARG(NPARG,*), IPARI(*), IXS(NIXS,*), IXQ(NIXQ,*),
      .   IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*),
      .   ITAB(*), ITABM1(*),IGRV(NIGRV,*),IBGR(*),

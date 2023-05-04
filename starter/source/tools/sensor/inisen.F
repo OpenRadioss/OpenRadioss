@@ -32,7 +32,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE INISEN(SENSOR_TAB, IPARI ,NOM_OPT,PTR_NOPT_RWALL,
      .                  PTR_NOPT_SECT,NBR_SENS,IPARSENS,PTR_NOPT_INTER,
-     .                  IXR    ,R_SKEW   )
+     .                  IXR    ,R_SKEW   ,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER NSENSOR
       INTEGER IPARI(NPARI,NINTER)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RWALL,PTR_NOPT_SECT,
      .        PTR_NOPT_INTER
@@ -288,7 +289,7 @@ C-------------------------------------
 c----------------------------------------------------------------------
 c     Logical sensors : AND, OR, NOT, SENS - create a dependancy order
 c----------------------------------------------------------------------
-      CALL SORT_LOGICAL_SENSORS(SENSOR_TAB)
+      CALL SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)
 
 
 c-----------

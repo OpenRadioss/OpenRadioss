@@ -55,7 +55,7 @@ Chd|====================================================================
      5           PM_STACK ,IWORKSH  ,IGRBRIC2,IGRQUAD2  ,IGRSH4N2,
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
      7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_,
-     7           NLOC_DMG ,DETONATORS)
+     7           NLOC_DMG ,DETONATORS,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-      INTEGER NGROU,
+      INTEGER NGROU,NSENSOR,
      .   BUF_NOD(*),INNOD,FLAG,KK,
      .   IPARTS(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IPARTQ(*),IPARTSP(*),
@@ -324,7 +324,7 @@ C---------------Prereading of options for tag of nodes---------------C
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
-     8           DETONATORS)
+     8           DETONATORS,NSENSOR)
         ENDIF
 C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
         IF (COMPT_T2>0) THEN

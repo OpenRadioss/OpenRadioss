@@ -77,7 +77,8 @@ Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
-      SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
+      SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
+     .                   SENSORS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -95,6 +96,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,6 +107,7 @@ C-----------------------------------------------
       INTEGER IRUNN, IRFL, IRFE, FLAG_CST_AMS
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -281,7 +284,7 @@ C
       IDT_PERCENT_ADDMASS = 0
       
       TH_TITLES = 0
-           
+c         
       IERR1=0
       IF(.NOT.ALLOCATED(FVMBAG_INPUT_OPTIONS)) ALLOCATE(FVMBAG_INPUT_OPTIONS(8192),STAT=IERR1)
       IF (IERR1/=0) GOTO 1000
@@ -505,7 +508,26 @@ C
        ENDIF
        MCHECK = 1
       ENDIF
-
+c
+      IF (MCHECK == 0) THEN
+        SENSORS%NSTOP = 0
+        SENSORS%NOUTP = 0
+        SENSORS%NSTAT = 0
+        SENSORS%NANIM = 0      
+        ALLOCATE (SENSORS%STOP_TMP(MX_SENS))
+        ALLOCATE (SENSORS%OUTP_TMP(MX_SENS))
+        ALLOCATE (SENSORS%STAT_TMP(MX_SENS))
+        ALLOCATE (SENSORS%ANIM_TMP(MX_SENS))
+        SENSORS%STOP_TMP(:) = 0  
+        SENSORS%OUTP_TMP(:) = 0 
+        SENSORS%STAT_TMP(:) = 0 
+        SENSORS%ANIM_TMP(:) = 0     
+      ELSE  ! rerun afrer chkpoint restart => use previous run settings
+        ALLOCATE (SENSORS%STOP(SENSORS%NSTOP))
+        ALLOCATE (SENSORS%OUTP(SENSORS%NOUTP))
+        ALLOCATE (SENSORS%STAT(SENSORS%NSTAT))
+        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
+      END IF     
 C--------------------
 C     INPUT VERSION
 C--------------------
@@ -679,24 +701,22 @@ C-----------------------
 C-----------------------
 C     /STOP
 C-----------------------
-      NSTOPSENS = 0
-      LSTOPSENS(1:NSENSOR) = 0
       IKEY=KSTOP
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
+c     
+      IF (IKAD(IKEY)/=IKAD(IKEY+1))THEN
         K=0
  1150   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990)KEY2,NBC
         K=K+1
-        IF(KEY2=='LSENS')THEN    ! IF STOP BASED ON SENSOR ACTIVATION
-c        First lign
+        IF (KEY2=='LSENS')THEN    ! IF STOP BASED ON SENSOR ACTIVATION
+c        First line
           DO I=1,NBC-1
             READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-           K=K+1
-            READ(IUSC2,*,ERR=9990,END=9990)
-     .          (LSTOPSENS(N),N=1,NVAR(CARTE))
-              NSTOPSENS=NSTOPSENS+NVAR(CARTE)
+            K = K + 1
+            READ(IUSC2,*,ERR=9990,END=9990) (SENSORS%STOP_TMP(N),N=1,NVAR(CARTE))
+            SENSORS%NSTOP = SENSORS%NSTOP + NVAR(CARTE)
           ENDDO
-c        Second lign
+c        Second line
           IOK_READ = 0
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=148,END=148)NSANIM,NSTH,NSSTAT,NSOUTP,NSABF,NSH3D,NSDYNANIN
@@ -2324,11 +2344,11 @@ C--------------------
 C-----------------------
 C     /ANIM (ANIMATION FILES)
 C-----------------------
-      CALL FREANIM(IKAD(0),KEY0,KANIM)
+      CALL FREANIM(IKAD(0),KEY0,KANIM,SENSORS)
 C-----------------------
 C     /OUTP (OUTPUT FILES)
 C-----------------------
-      CALL FREOUTP(IKAD(0),KEY0,KOUTP)
+      CALL FREOUTP(IKAD(0),KEY0,KOUTP,SENSORS)
       
 C-----------------------
 C     /DEBUG
@@ -2422,7 +2442,7 @@ C--------------------
 C-----------------------
 C     /STATE
 C-----------------------
-      CALL FRESTAT(IKAD(0),KEY0,KSTATF)
+      CALL FRESTAT(IKAD(0),KEY0,KSTATF,SENSORS)
       
 C-----------------------
 C     /DYNAIN
@@ -2460,7 +2480,7 @@ C-----------------------
 C     /H3D
 C-----------------------
       CALL H3D_INI(H3D_DATA,KH3D,NSLASH)
-      CALL H3D_READ(IKAD(0),KEY0,KH3D,NSLASH,H3D_DATA)
+      CALL H3D_READ(IKAD(0),KEY0,KH3D,NSLASH,H3D_DATA,SENSORS)
 
 C-----------------------
 C     /REPORT

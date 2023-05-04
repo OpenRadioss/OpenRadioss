@@ -29,7 +29,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE R1SENS3(
      1   GEO,       OFF,       SENSOR_TAB,DX,
-     2   X0,        IGEO,      MGN,       NEL)
+     2   X0,        IGEO,      MGN,       NEL,      NSENSOR)
 C-----------------------------------------------  
 C   M o d u l e s
 C-----------------------------------------------  
@@ -47,10 +47,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NEL,NSENSOR
       INTEGER IGEO(NPROPGI,*),MGN(*)
       my_real :: GEO(NPROPG,*), OFF(*),DX(*),X0(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -60,15 +60,15 @@ Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE RESOL_HEAD(
-     .           ITASK       ,AF          ,IAF            ,IDATA      , RDATA,XDP       ,
-     .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        , TEMP            ,
-     .           ELBUF_TAB   ,XFEM_TAB    ,INTBUF_TAB     ,STACK      , IRUNN_BIS       ,
-     .           MULTI_FVM   ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS    , IGRNOD          ,
-     .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    , IGRTRUSS        ,
-     .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    , IGRSLIN         , 
-     .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA , ALE_CONNECTIVITY,
-     .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSOR_TAB ,EBCS_TAB         ,
-     .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS     ,
+     .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
+     .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
+     .           ELBUF_TAB   ,XFEM_TAB    ,INTBUF_TAB     ,STACK      ,IRUNN_BIS       ,
+     .           MULTI_FVM   ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS    ,IGRNOD          ,
+     .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    ,IGRTRUSS        ,
+     .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    ,IGRSLIN         , 
+     .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA ,ALE_CONNECTIVITY,
+     .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
+     .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -152,7 +152,7 @@ C     REAL
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE(DRAPE_)                            :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)                           :: DRAPEG
-      TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE(SENSORS_)                          :: SENSORS
       TYPE(t_ebcs_tab), INTENT(INOUT)         :: EBCS_TAB
       TYPE(T_DIFFUSION), INTENT(INOUT)        :: DIFFUSION
       TYPE(t_segvar)                          :: SEGVAR
@@ -199,7 +199,7 @@ C
      E  W               ,VEUL           ,FILL           ,DFILL          ,ALPH           ,WB          ,DSAVE            ,ASAVE     ,
      .  MSNF            , 
      F  TF              ,FORC           ,VEL            ,FSAV           ,FZERO          ,XLAS        ,ACCELM           ,
-     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF          ,RWBUF       ,SENSOR_TAB,
+     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF          ,RWBUF       ,SENSORS,
      H  RWSAV           ,RBY            ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
      I  WA              ,FV             ,A              ,AR             ,STIFN          ,STIFR       ,PARTSAV          ,FSKY      ,
      J  UWA             ,VAL2           ,PHI            ,SEGVAR         ,R              ,CRFLSW      ,

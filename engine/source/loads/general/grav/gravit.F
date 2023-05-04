@@ -33,7 +33,8 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE GRAVIT(IGRV  ,AGRV  ,NPC   ,TF   ,A     ,
      2                  V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                  WEIGHT,IB    ,ITASK,NALE, ITAB)
+     3                  WEIGHT,IB    ,ITASK,NALE, ITAB,
+     4                  NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -57,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER, INTENT(IN) :: NALE(ALE%GLOBAL%SNALE), ITAB(NUMNOD)
       INTEGER NPC(*),NVDIM
       INTEGER IGRV(NIGRV,*),IB(*)

@@ -41,7 +41,7 @@ Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .                  INTER_PARAMETERS)
+     .                  INTER_PARAMETERS,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
       USE PARAMETERS_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +66,9 @@ C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
-      TYPE (PARAMETERS_) ,INTENT(INOUT):: INTER_PARAMETERS
+      TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (PARAMETERS_)    ,INTENT(INOUT) :: INTER_PARAMETERS
+      TYPE (SENSORS_)       ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -119,7 +121,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-          INTEGER LWASPH44C, I, NEXT,IDUM1,ISUSED
+          INTEGER LWASPH44C, I, NEXT,IDUM1,ISUSED,SENS_NSTOP,SENS_NSTAT,SENS_NOUTP,SENS_NANIM
 C-----------------------------------------------
 C     LECTURE DES VARIABLES ENTIERES.
 C-----------------------------------------------
@@ -400,7 +402,7 @@ C-----1
       NFACX  =TABVINT(267)
       NUMPOR =TABVINT(268)
       NACCELM=TABVINT(269)
-      NSENSOR=TABVINT(270)
+      SENSORS%NSENSOR=TABVINT(270)
       NPRETEN=TABVINT(271)
       NVOLU  =TABVINT(272)
       NPART  =TABVINT(273)
@@ -484,10 +486,8 @@ C-----
       NUMELS20  =TABVINT(429)
       IDAMPG=TABVINT(430)
       ICLOSE=TABVINT(431)
-      NSENSI = TABVINT(432)
-      NSENSR = TABVINT(433)
-      IF(NSENSI==0) NSENSI = 15
-      IF(NSENSR==0) NSENSR = 20
+c      TABVINT(432)
+c      TABVINT(433)
       NIBVEL=TABVINT(434)
       LWASPH=TABVINT(435)
       IF(LWASPH==0)LWASPH=16*NUMSPH
@@ -1644,14 +1644,20 @@ C  Pinching
       NEXT       = NEXT + 1
       INISPRI    = TABVINT(NEXT)
 !
-      NEXT       = NEXT + 1
-      NSTOPSENS_OLD = TABVINT(NEXT)
-      NEXT       = NEXT + 1
-      NSTATSENS_OLD = TABVINT(NEXT)
-      NEXT       = NEXT + 1
-      NOUTPSENS_OLD = TABVINT(NEXT)
-      NEXT       = NEXT + 1
-      IANISENS_OLD = TABVINT(NEXT)
+      NEXT = NEXT + 1
+      SENS_NSTOP = TABVINT(NEXT)
+      NEXT = NEXT + 1
+      SENS_NSTAT = TABVINT(NEXT)
+      NEXT = NEXT + 1
+      SENS_NOUTP = TABVINT(NEXT)
+      NEXT = NEXT + 1
+      SENS_NANIM = TABVINT(NEXT)
+      IF (MCHECK /= 0) THEN
+        SENSORS%NSTOP = SENS_NSTOP
+        SENSORS%NSTAT = SENS_NSTAT
+        SENSORS%NOUTP = SENS_NOUTP
+        SENSORS%NANIM = SENS_NANIM
+      END IF
 !
       NEXT       = NEXT + 1
       NIBCLD = TABVINT(NEXT)

@@ -53,7 +53,7 @@ Chd|====================================================================
      F   IGRTH,     MSRT,      DMELRT,    NELTST,
      G   ITYPTST,   IGTYP,     SENSOR_TAB,NC1,
      H   NC2,       XDP,       X0_ERR,    H3D_DATA,
-     I   JSMS,      IGRE,      NFT)
+     I   JSMS,      IGRE,      NFT   ,    NSENSOR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: NFT,NSENSOR
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: JSMS
       INTEGER JFT,JLT,IOUT,NEL,NUVAR,IPROP,
@@ -91,7 +91,7 @@ C----------------------------------------------------------
      .   MSRT(*), DMELRT(*),X0_ERR(3,*)
       DOUBLE PRECISION XDP(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) , INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C
      .             NUVAR  ,UVAR    ,RBY    ,X      ,XL   ,
      .             ROT1   ,ROT2    ,DX     ,DY     ,DZ   ,
      .             RX     ,RY      ,RZ     ,VR     ,IGTYP,
-     .             SENSOR_TAB,ISENS  ,NC1    ,NC2  ,
+     .             NSENSOR,SENSOR_TAB,ISENS  ,NC1    ,NC2  ,
      .             XDP)         
 C
       CALL RUSER33(NEL   ,IOUT   ,IPROP  ,NUVAR   ,UVAR  ,

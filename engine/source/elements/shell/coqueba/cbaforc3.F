@@ -115,7 +115,7 @@ Chd|====================================================================
      M   IN,          MS_PLY,      ZI_PLY,      INOD_PXFEM,
      N   IEL_PXFEM,   IADC_PXFEM,  GRESAV,      GRTH,
      O   IGRTH,       MSC,         DMELC,       JSMS,
-     P   TABLE,       IPARG,       SENSOR_TAB,  MSZ2,
+     P   TABLE,       IPARG,       SENSORS,     MSZ2,
      Q   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
      R   DRAPE_SH4N,  NEL,         NLOC_DMG,    VPINCH,
      S   FPINCH,      STIFPINCH,   INDX_DRAPE,  IGRE,
@@ -187,7 +187,7 @@ C     REAL OU REAL*8
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG 
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE)
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -778,7 +778,7 @@ C-----------------
      I    DELG_PLY  ,TH_IPLY   ,SIG_IPLY  ,R11       ,R12       ,
      J    R13       ,R21       ,R22       ,R23       ,R31       ,
      K    R32       ,R33       ,NG        ,TABLE     ,IBID      ,
-     L    OFFI      ,SENSOR_TAB,A11_IPLY  ,IBID      ,
+     L    OFFI      ,SENSORS   ,A11_IPLY  ,IBID      ,
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,

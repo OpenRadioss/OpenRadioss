@@ -29,12 +29,14 @@ Chd|        FREFORM                       source/input/freform.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE LECINP(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
+      SUBROUTINE LECINP(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
+     .                  SENSORS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE STATE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,7 +46,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRUN, IRFL, IRFE,FLAG_CST_AMS
       TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(SENSORS_), INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -74,7 +77,8 @@ C
       NODADT = 0
 C
       IFREEF=1
-      CALL FREFORM(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
+      CALL FREFORM(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
+     .             SENSORS)
 C
       REWIND IIN
 C

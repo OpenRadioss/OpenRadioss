@@ -37,7 +37,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
         SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
-     1                         ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
+     1                         NSENSOR,ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
      2                         RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR_TAB,
      3                         INTER_STRUCT,SORT_COMM,RENUM_SIZ )
 !$COMMENT
@@ -74,6 +74,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(in) :: ITASK    !   omp thread ID
       INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
+      INTEGER, INTENT(in) :: NSENSOR
       INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
       INTEGER, INTENT(inout) :: RETRI
       INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data

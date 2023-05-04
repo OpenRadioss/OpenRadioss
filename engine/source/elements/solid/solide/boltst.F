@@ -33,9 +33,9 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE BOLTST(
-     1   IBOLTP,    IP,        BPRELD,    SIG,
-     2   TT,        NEL,       SENSOR_TAB,NPT)
+      SUBROUTINE BOLTST(IP      ,BPRELD   ,SIG       ,TT        ,        
+     .                  NEL     ,NPT      ,NSENSOR   ,SENSOR_TAB)
+C-----------------------------------------------  
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
@@ -47,13 +47,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPT
-C
-      INTEGER IBOLTP,NEL,IP
+      INTEGER, INTENT(IN) :: NPT,NSENSOR,NEL,IP
       my_real
      .   TT, DT1
       my_real

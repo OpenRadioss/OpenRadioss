@@ -29,7 +29,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS19C(
      .            NEL    ,NUPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,
-     .            UPARAM ,NPTTOT ,SSP    ,
+     .            UPARAM ,NPTTOT ,SSP    ,NSENSOR,
      .            EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX     ,
      .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX    ,
      .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX    ,
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NPTTOT,NUPARAM
+      INTEGER ,INTENT(IN) :: NEL,NPTTOT,NUPARAM,NSENSOR
       LOGICAL ,INTENT(IN) :: FLAG_ZCFAC
       my_real ,DIMENSION(MVSIZ,2) ,INTENT(INOUT) :: ZCFAC
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM

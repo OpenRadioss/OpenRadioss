@@ -33,7 +33,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FLOW0(IFLOW  , RFLOW  , WIFLOW , WRFLOW, X      ,
      .                 V      , A      , NPC    , TF    , SENSOR_TAB,
-     .                 NBGAUGE, LGAUGE , GAUGE  ,NSENSOR, 
+     .                 NBGAUGE, LGAUGE , GAUGE  , NSENSOR, 
      .                 IGRV   , AGRV   , NFUNCT )
 C-----------------------------------------------
 C   M o d u l e s
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NBGAUGE, NSENSOR, NFUNCT
+      INTEGER ,INTENT(IN) :: NSENSOR,NBGAUGE,NFUNCT
       INTEGER IFLOW(*), WIFLOW(*), NPC(*),LGAUGE(3,*)
       INTEGER IGRV(NIGRV,*)
       my_real
@@ -174,7 +174,7 @@ C
      .      IFLOW(II2),  IFLOW(II3),  IFLOW(II4),  IFLOW(II5),  IFLOW(II7),
      .      IFLOW(II8),  IFLOW(II9),  RFLOW(IR1),  RFLOW(IR2),  RFLOW(IR3),
      .      RFLOW(IR4),  RFLOW(IR5),  X,           V,           A,        
-     .      NPC,         TF,          SENSOR_TAB ,
+     .      NPC,         TF        ,  NSENSOR    , SENSOR_TAB ,
      .      IFLOW(II10), IFLOW(II6),  IFLOW(II13), IFLOW(II14), WIFLOW(IADIP), 
      .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT        ) 
 C

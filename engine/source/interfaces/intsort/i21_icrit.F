@@ -32,7 +32,7 @@ Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE I21_ICRIT(
-     1  INTBUF_TAB     ,IPARI  ,DT2T   ,NELTST ,
+     1  INTBUF_TAB     ,IPARI  ,DT2T   ,NELTST ,NSENSOR ,
      2  ITYPTST,XSLV   ,XMSR   ,VSLV   ,VMSR   ,
      3  INTSTAMP,X21MSR,V21MSR ,SENSOR_TAB,NBINTC21,
      4  INTLIST21)
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), 
      .        NELTST, ITYPTST,NBINTC21,
      .        INTLIST21(*)

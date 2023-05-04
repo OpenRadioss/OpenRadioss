@@ -55,7 +55,7 @@ Chd|====================================================================
      2     GEO       ,PM      ,
      3     IXC       ,IXTG    ,X       ,NPC     ,
      4     ITABM1    ,ITAB    ,IGRSURF ,
-     5     SENSOR_TAB,IGRBRIC ,MFI     ,
+     5     SENSORS   ,IGRBRIC ,MFI     ,
      6     NAIRWA    ,IXS     ,V       ,LIBAGALE,
      7     NPT       ,PLD     ,LRBAGALE,IPM     ,IGEO    ,
      8     UNITAB    )
@@ -99,7 +99,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE(MONVOL_METADATA_), INTENT(INOUT) :: T_MONVOL_METADATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  :: SENSORS
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -946,7 +946,7 @@ C
                   IF(ITEMP/=0)ITEMP=NPC(ITEMP)
                   FTEMP=T_MONVOL(N)%RBAGJET(6, I)
                   ISENS=T_MONVOL(N)%IBAGJET(4, I)
-                  IF (ISENS > 0) ISENS = SENSOR_TAB(ISENS)%SENS_ID
+                  IF (ISENS > 0) ISENS = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
                   WRITE(IOUT,1430)I,
      .                 IMASS,IFLU,FMASS,ITEMP,FTEMP,ISENS
 C     

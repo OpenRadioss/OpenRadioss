@@ -27,8 +27,8 @@ Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE RSENS_NIC(NEL   ,IXR   ,FOR   ,MOM    ,SKEW     ,
-     .                     SENSOR_TAB)
+      SUBROUTINE RSENS_NIC(NEL    ,IXR   ,FOR   ,MOM    ,SKEW     ,
+     .                     NSENSOR,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL
+      INTEGER ,INTENT(IN) :: NEL,NSENSOR
       INTEGER ,DIMENSION(NIXR,NUMELR) ,INTENT(IN) :: IXR
       my_real ,DIMENSION(NEL) ,INTENT(IN)  :: FOR,MOM
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(INOUT) :: SENSOR_TAB

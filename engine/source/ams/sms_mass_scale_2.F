@@ -76,7 +76,7 @@ Chd|====================================================================
      6        WEIGHT   ,NPBY      ,LPBY      ,
      7        TAGSLV_RBY_SMS,LAD_SMS ,KAD_SMS ,JRB_SMS,IBFV      ,
      8        VEL      ,NPC      ,TF       ,V         ,X         ,
-     9        D        ,SENSOR_TAB,IFRAME    ,XFRAME    ,
+     9        D        ,SENSOR_TAB,NSENSOR ,IFRAME    ,XFRAME    ,
      A        JADI_SMS ,JDII_SMS ,LTI_SMS  ,FR_SMS    ,FR_RMS    ,
      B        ISKYI_SMS,MSKYI_SMS,RES_SMS  ,IGRV      ,AGRV      ,
      C        LGRAV    ,ILINK    ,RLINK    ,FR_RL     ,FRL6      ,
@@ -128,7 +128,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  ITASK, NODFT, NODLT, NODII_SMS(*), INDX2_SMS(*),
+      INTEGER  ITASK, NODFT,NSENSOR,NODLT, NODII_SMS(*), INDX2_SMS(*),
      .         NODXI_SMS(*), ICODT(*), ICODR(*),
      .         ISKEW(*), JAD_SMS(*), JDI_SMS(*), INDX1_SMS(*),
      .         IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*), WEIGHT(*),
@@ -270,7 +270,7 @@ C----
 C
       CALL SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                WEIGHT,LGRAV ,ITASK,TAGSLV_RBY_SMS)
+     3                WEIGHT,LGRAV ,ITASK,TAGSLV_RBY_SMS,NSENSOR)
 C
       CALL MY_BARRIER
 C
@@ -757,7 +757,7 @@ C
           IT=0
           CALL SMS_FIXVEL(IBFV   ,A       ,V        ,NPC    ,TF     ,
      2                    VEL    ,MS      ,X        ,SKEW   ,SENSOR_TAB,
-     3                    WEIGHT  ,D        ,IFRAME ,XFRAME ,
+     3                    WEIGHT  ,D        ,IFRAME ,XFRAME ,NSENSOR ,
      4                    IT     ,PREC_SMS,NODXI_SMS,CPTREAC,NODREAC,
      5                    FTHREAC,AM      ,VR       ,DR     ,IN     ,
      6                    RBY    )
@@ -794,7 +794,7 @@ C-----------------------------------
      5            ISKEW   ,SKEW     ,ITASK  ,NODXI_SMS,IAD_ELEM,
      6            FR_ELEM ,WEIGHT   ,IBFV   ,VEL      ,NPC     ,
      7            TF       ,V      ,X       ,D        ,SENSOR_TAB,
-     8            IFRAME ,XFRAME  ,JADI_SMS ,JDII_SMS,
+     8            IFRAME ,XFRAME  ,JADI_SMS ,JDII_SMS ,NSENSOR   ,
      9            LTI_SMS  ,FR_SMS ,FR_RMS  ,LIST_SMS ,LIST_RMS,
      A            MSKYI_FI_SMS,VFI ,ISKYI_SMS,MSKYI_SMS,
      B            RES_SMS  ,ILINK  ,RLINK   ,FR_RL    ,FRL6    ,

@@ -30,7 +30,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE VOLPREP(IVOLU  ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET   ,
-     2                   SENSOR_TAB,X       ,V       ,A         ,
+     2                   NSENSOR,SENSOR_TAB,X       ,V       ,A         ,
      3                   N      ,NPC     ,TF      ,NN      ,SURF_NODES,
      4                   IADMV  ,FSKY    ,FSKYV   ,FEXT    ,H3D_DATA  ,
      5                   SURF_ELTYP,SURF_ELEM)
@@ -58,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NPC(*),NN,IADMV(4,*),SURF_NODES(NN,4),SURF_ELTYP(NN),
      .        SURF_ELEM(NN)

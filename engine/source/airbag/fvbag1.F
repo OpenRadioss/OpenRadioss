@@ -46,9 +46,9 @@ Chd|====================================================================
       SUBROUTINE FVBAG1(NN     , NEL    , IBUF     , ELEM   , NJET    ,
      2                  IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,
      3                  P      , RHO    , TK       , U      , SSPK    ,
-     4                           X      , V        , A      , SENSOR_TAB,
+     4                  X      , V      , A        , NSENSOR ,SENSOR_TAB,
      5                  FSAV   , NPC    , TF       , IVOLU  , RVOLU   ,
-     6                  MPOLH  , QPOLH  , EPOLH    ,
+     6                  MPOLH  , QPOLH  , EPOLH    , 
      7                  PPOLH  , RPOLH  , GPOLH    ,
      8                  NPOLH  , IFVNOD , RFVNOD   , IFVTRI ,
      9                  IFVPOLY, IFVTADR, IFVPOLH  ,
@@ -97,6 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NN, NEL, IBUF(*), ELEM(3,*), NJET, IBAGJET(NIBJET,*),
      .        NVENT, IBAGHOL(NIBHOL,*),
      .        NPC(*), IVOLU(*), NPOLH, IFVNOD(3,*), IFVTRI(6,*),
@@ -596,11 +597,11 @@ C---------------------------------------------------
 C
       SCALT =RVOLU(26)
       IF(ITYP == 6) THEN
-        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR_TAB,
-     .               SCALT, DATAINJ )
+        CALL FVINJT6(NJET, IBAGJET, RBAGJET, NPC, TF, NSENSOR,
+     .               SENSOR_TAB,SCALT, DATAINJ )
       ELSEIF(ITYP == 8) THEN
-        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, SENSOR_TAB,
-     .               SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
+        CALL FVINJT8(NJET, IBAGJET, RBAGJET, NPC, TF, NSENSOR,
+     .               SENSOR_TAB,SCALT, IGEO, GEO, PM, IVOLU, DATAINJ )
       ENDIF
 C
       DO IINJ=1,NJET

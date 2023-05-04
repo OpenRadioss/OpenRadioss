@@ -53,7 +53,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRITE_JOINT                   source/output/restart/write_joint.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
-Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
+Chd|        WRITE_SENSORS                 source/output/restart/write_sensor_tab.F
 Chd|        WRITE_TH_RESTART              source/output/th/write_th_restart.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|        W_CLUSTER                     source/output/cluster/w_cluster.F
@@ -100,7 +100,7 @@ Chd|====================================================================
      .           ELBUF_TAB     ,XFEM_TAB  ,INTBUF_TAB, MULTI_FVM,
      .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
-     .           SENSOR_TAB    ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
+     .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
      .           INTERFACES    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -162,12 +162,12 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(PINCH)                                         :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN)                :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
-      TYPE (SENSOR_STR_)  , DIMENSION(NSENSOR),INTENT(IN) :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
       TYPE (DYNAIN_DATABASE), INTENT(IN)                  :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)                      :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(IN)                            :: OUTPUT
       TYPE (INTERFACES_) ,INTENT(IN)                      :: INTERFACES
+      TYPE (SENSORS_)    ,INTENT(IN)                      :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -231,7 +231,8 @@ C--------------------------------------
 C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
 C--------------------------------------
       IPARI0 = IPARIT
-      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,INTERFACES%PARAMETERS)
+      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+     .     INTERFACES%PARAMETERS,SENSORS)
 C
       ENTMP(1) = TFEXT
       ENTMP(2) = EHOUR
@@ -875,7 +876,8 @@ C
 C--------------------------------------
 C ecriture tableaux additionnels frontieres interfaces (partie entiere)
 C--------------------------------------
-      CALL SPMD_SAVEFI(IPARI,1,INTBUF_TAB,SENSOR_TAB,INTERFACES%PARAMETERS)
+      CALL SPMD_SAVEFI(IPARI,1,INTBUF_TAB,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                 INTERFACES%PARAMETERS)
 C--------------------------------------
 C ecriture tableaux additionnels frontieres sph (partie entiere)
 C--------------------------------------
@@ -1061,9 +1063,7 @@ C--------------------------------------
 
          CALL WRITE_DB(GAUGE,LLGAUGE*NBGAUGE)
 
-         IF(NSENSOR > 0)THEN
-            CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR)
-         ENDIF
+         CALL WRITE_SENSORS(SENSORS)
 
          CALL WRITE_DB(FBVEL,SFBVEL)
 
@@ -1120,7 +1120,8 @@ C  if xfem
 C--------------------------------------
 C ecriture tableaux additionnels frontieres interfaces (partie reelle)
 C--------------------------------------
-      CALL SPMD_SAVEFI(IPARI,2,INTBUF_TAB,SENSOR_TAB,INTERFACES%PARAMETERS)
+      CALL SPMD_SAVEFI(IPARI,2,INTBUF_TAB,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                 INTERFACES%PARAMETERS)
 C--------------------------------------
 C ecriture tableaux additionnels frontieres sph (partie reelle)
 C--------------------------------------
@@ -1314,14 +1315,6 @@ C ALE LINKS
         CALL WRITE_I_C(LINALE,SLINALE)
       END IF
 C
-c        CALL WRITE_DB(RTHBUF,SRTHBUF)
-C--------------------------------------
-C--------------------------------------
-C 
-      CALL WRITE_I_C(LSTOPSENS,NSTOPSENS)
-      CALL WRITE_I_C(LSTATSENS,NSTATSENS)
-      CALL WRITE_I_C(LOUTPSENS,NOUTPSENS)
-      CALL WRITE_I_C(LANISENS,IANISENS)
 C--------------------------------------
 C FXBODY (moved from resol.F)
 C--------------------------------------

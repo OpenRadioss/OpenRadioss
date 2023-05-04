@@ -67,10 +67,10 @@ C
         RETURN
       ENDIF
 C---
-      DO J=1,NSENSOR
+      DO J=1,SENSORS%NSENSOR
 
-        ID = SENSOR_TAB(J)%SENS_ID
-        ITYP = SENSOR_TAB(J)%TYPE
+        ID   = SENSORS%SENSOR_TAB(J)%SENS_ID
+        ITYP = SENSORS%SENSOR_TAB(J)%TYPE
 
         IF(IDSENS==ID)THEN
           IF (ITYP>=29 .AND. ITYP<=31)THEN
@@ -112,7 +112,7 @@ C=======================================================================
         RETURN
       ENDIF
 
-      GET_U_SENS_ID = SENSOR_TAB(ISENS)%SENS_ID
+      GET_U_SENS_ID = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
 C---
       RETURN
       END
@@ -153,11 +153,11 @@ C
         RETURN
       ENDIF
 
-      ITYP = SENSOR_TAB(NSENS)%TYPE
+      ITYP = SENSORS%SENSOR_TAB(NSENS)%TYPE
 C
       IF (ITYP>=29 .AND. ITYP<=31)THEN
 
-        SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR) = VAR
+        SENSORS%SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR) = VAR
         SET_U_SENS_VALUE = 0
 
       ENDIF
@@ -200,11 +200,11 @@ C
         RETURN
       ENDIF
 
-      ITYP =  SENSOR_TAB(NSENS)%TYPE
+      ITYP =  SENSORS%SENSOR_TAB(NSENS)%TYPE
 
       IF (ITYP>=29 .AND. ITYP<=31)THEN
 
-        VAR = SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR)
+        VAR = SENSORS%SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR)
         GET_U_SENS_VALUE = 0
 
       ENDIF
@@ -251,9 +251,9 @@ C=======================================================================
         RETURN
       ENDIF
 
-      MAXV = SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR)
+      MAXV = SENSORS%SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR)
       MAXV = MAX(MAXV,VAR)
-      SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR) = MAXV
+      SENSORS%SENSOR_TAB(NSENS)%FLOAT_USERBUF(IVAR) = MAXV
       SET_U_SENS_MAXVALUE = 0    
 C---
       RETURN
@@ -298,11 +298,11 @@ C
         RETURN
       ENDIF
 C
-      ITYP = SENSOR_TAB(NSENS)%TYPE
+      ITYP = SENSORS%SENSOR_TAB(NSENS)%TYPE
 
       IF ( ITYP>=29 .AND. ITYP<=31 )THEN
 
-        VAR = SENSOR_TAB(NSENS)%FLOAT_USERPARAM(IVAR)
+        VAR = SENSORS%SENSOR_TAB(NSENS)%FLOAT_USERPARAM(IVAR)
         GET_U_SENS_FPAR = 0
 
       ENDIF
@@ -348,11 +348,11 @@ C=======================================================================
 
       ENDIF
 
-      ITYP = SENSOR_TAB(NSENS)%TYPE
+      ITYP = SENSORS%SENSOR_TAB(NSENS)%TYPE
 
       IF (ITYP>=29 .AND. ITYP<=31)THEN
 
-        VAR = SENSOR_TAB(NSENS)%INTEGER_USERPARAM(IVAR)
+        VAR = SENSORS%SENSOR_TAB(NSENS)%INTEGER_USERPARAM(IVAR)
         GET_U_SENS_IPAR = 0
    
       ENDIF
@@ -390,16 +390,16 @@ c========================================================================
       SET_U_SENS_ACTI = -1
 
 
-      IF (NSENS > 0 .OR. NSENS <= NSENSOR ) THEN
-      ITYP = SENSOR_TAB(NSENS)%TYPE
+      IF (NSENS > 0 .OR. NSENS <= SENSORS%NSENSOR ) THEN
+      ITYP = SENSORS%SENSOR_TAB(NSENS)%TYPE
 
         IF (ITYP >= 29 .AND. ITYP <= 31)THEN
   
-          TSTART = SENSOR_TAB(NSENS)%TSTART
+          TSTART = SENSORS%SENSOR_TAB(NSENS)%TSTART
           SETVAR = MIN(TT,TSTART)
 
-          SENSOR_TAB(NSENS)%TSTART = SETVAR
-          SENSOR_TAB(NSENS)%STATUS = 1
+          SENSORS%SENSOR_TAB(NSENS)%TSTART = SETVAR
+          SENSORS%SENSOR_TAB(NSENS)%STATUS = 1
           SET_U_SENS_ACTI = 0
 
         ENDIF
@@ -438,12 +438,12 @@ C-----------------------------------------------
 c========================================================================
       SET_U_SENS_DEACTI = -1
 
-      IF (NSENS >= 1 .OR. NSENS <= NSENSOR) THEN
+      IF (NSENS >= 1 .OR. NSENS <= SENSORS%NSENSOR) THEN
 
-        ITYP = SENSOR_TAB(NSENS)%TYPE
+        ITYP = SENSORS%SENSOR_TAB(NSENS)%TYPE
 
         IF (ITYP >= 29 .AND. ITYP <= 31)THEN
-          SENSOR_TAB(NSENS)%TSTART = EP30
+          SENSORS%SENSOR_TAB(NSENS)%TSTART = EP30
           SET_U_SENS_DEACTI = 0
         ENDIF
       ENDIF
@@ -483,7 +483,7 @@ C-----------------------------------------------
 
 
       
-      IF (NSENS < 1 .OR. NSENS > NSENSOR) THEN
+      IF (NSENS < 1 .OR. NSENS > SENSORS%NSENSOR) THEN
 
         ! Sensor not existing
         ! --------------------
@@ -491,7 +491,7 @@ C-----------------------------------------------
 
       ELSE
 
-        TSTART=SENSOR_TAB(NSENS)%TSTART
+        TSTART=SENSORS%SENSOR_TAB(NSENS)%TSTART
 
         IF (TT > TSTART) THEN
           GET_U_SENS_ACTI = TT-TSTART
@@ -546,13 +546,13 @@ C
       ! CASE : Find Sensor, 
       !        Do Treatment
       ! --------------------
-      DO J=1,NSENSOR
+      DO J=1,SENSORS%NSENSOR
         
-          LI = SENSOR_TAB(J)%SENS_ID
+          LI = SENSORS%SENSOR_TAB(J)%SENS_ID
 
           IF (USENS == LI) THEN 
 
-            LT = SENSOR_TAB(J)%TSTART
+            LT = SENSORS%SENSOR_TAB(J)%TSTART
             ! If sensor is activated - return the time Sensor is active
             IF (TT > LT) THEN
             GET_U_SENS = TT - LT
@@ -605,7 +605,7 @@ C
 
       ! Sensor is not existing
       ! -----------------------
-      IF ( NSENS < 1 .OR. NSENS > NSENSOR) THEN
+      IF ( NSENS < 1 .OR. NSENS > SENSORS%NSENSOR) THEN
          GET_U_SENS_DELAY = TT
         RETURN
       ENDIF
@@ -613,7 +613,7 @@ C
       ! TDELAY Value
       ! -------------
      
-      TDELAY = SENSOR_TAB(NSENS)%TDELAY
+      TDELAY = SENSORS%SENSOR_TAB(NSENS)%TDELAY
       GET_U_SENS_DELAY = TDELAY
 C---
       RETURN

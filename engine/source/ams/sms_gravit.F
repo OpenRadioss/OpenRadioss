@@ -30,7 +30,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                      V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS)
+     3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),NDDIM,NVDIM
+      INTEGER NPC(*),NDDIM,NVDIM,NSENSOR
       INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*), ITASK, TAGSLV_RBY_SMS(*)
 C     REAL

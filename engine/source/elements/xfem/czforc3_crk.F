@@ -77,7 +77,7 @@ Chd|====================================================================
      J            TEMP   ,FTHE   ,FTHESKY ,IEXPAN,GRESAV ,
      K            GRTH   ,IGRTH  ,MSC    ,DMELC  ,JSMS   ,
      L            TABLE  ,IPARG  ,IXFEM ,INOD_CRK,IEL_CRK,
-     M            IADC_CRK,ELCUTC,CRKSKY,SENSOR_TAB,IXEL    ,
+     M            IADC_CRK,ELCUTC,CRKSKY,SENSORS,IXEL    ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE, STACK ,DRAPE_SH4N,NLOC_DMG,
      P            INDX_DRAPE, IGRE  )
@@ -150,7 +150,7 @@ C     REAL OU REAL*8
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -470,7 +470,7 @@ C-----------------------------
      I       BID       ,BID       ,BID       ,R11       ,R12     ,
      J       R13       ,R21       ,R22       ,R23       ,R31     ,
      K       R32       ,R33       ,IBID      ,TABLE     ,IXFEM   ,
-     L       BID       ,SENSOR_TAB,BID       ,ELCRKINI,
+     L       BID       ,SENSORS   ,BID       ,ELCRKINI,
      M       DIR1_CRK  ,DIR2_CRK  ,LL        ,
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

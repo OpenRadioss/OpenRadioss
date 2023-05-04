@@ -59,6 +59,6 @@ Chd|====================================================================
 C-----------------------------------------------------------------------------------
 C     MODULE dedicated to pass sensors arrays
 C-----------------------------------------------------------------------------------
-        TYPE (SENSOR_STR_),DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
+        TYPE (SENSORS_)  :: SENSORS
       END MODULE USER_SENSOR_MOD
 

@@ -93,7 +93,7 @@ Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_
 Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA , 
-     .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSOR_TAB   ,EBCS_TAB        ,DYNAIN_DATA,
+     .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
      .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -174,12 +174,12 @@ C-----------------------------------------------
       TYPE(PINCH)                                          :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT)              :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_),DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
-      TYPE(SENSOR_STR_)   ,DIMENSION(NSENSOR)              :: SENSOR_TAB
       TYPE(t_ebcs_tab), INTENT(INOUT)                      :: EBCS_TAB
       TYPE(DYNAIN_DATABASE), INTENT(INOUT)                 :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(INOUT)                    :: USER_WINDOWS
       TYPE(OUTPUT_),INTENT(INOUT)                          :: OUTPUT
-      TYPE (INTERFACES_) ,INTENT(INOUT)                    :: INTERFACES
+      TYPE(INTERFACES_) ,INTENT(INOUT)                     :: INTERFACES
+      TYPE(SENSORS_)    ,INTENT(INOUT)                     :: SENSORS
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -989,9 +989,7 @@ C--------------------------------------
 
         CALL READ_DB(GAUGE,LLGAUGE*NBGAUGE)
 
-        IF(NSENSOR > 0)THEN
-          CALL READ_SENSOR_TAB(SENSOR_TAB,NSENSOR)
-        ENDIF
+        CALL READ_SENSORS(SENSORS)
 
         CALL READ_DB(FBVEL,SFBVEL)
 
@@ -1242,13 +1240,6 @@ C ALE LINK
 C--------------------------------------
 !      print *,"rdresb.F: READ_I_C, SLINALE=", SLINALE
       IF (SLINALE>0)CALL READ_I_C(LINALE,SLINALE)
-C--------------------------------------
-
-C--------------------------------------
-      CALL READ_I_C(LSTOPSENS_OLD,NSTOPSENS_OLD)
-      CALL READ_I_C(LSTATSENS_OLD,NSTATSENS_OLD)
-      CALL READ_I_C(LOUTPSENS_OLD,NOUTPSENS_OLD)
-      CALL READ_I_C(LANISENS_OLD,IANISENS_OLD)
 C--------------------------------------
 C FXBODY (moved from radioss2.F)
 C--------------------------------------

@@ -39,7 +39,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_INT_K( A     ,V         ,
      1                      ICODT ,ICODR ,ISKEW  ,IBFV  ,NPC    ,
-     2                      TF    ,VEL   ,SENSOR_TAB,XFRAME ,
+     2                      TF    ,VEL   ,NSENSOR,SENSOR_TAB,XFRAME ,
      3                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY  ,
      4                      ITAB  ,WEIGHT,MS     ,IN     ,NRBYAC,
      5                      IRBYAC,NSS   ,ISS    ,IPARI  ,INTBUF_TAB,
@@ -73,6 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IBFV(NIFV,*),DIRUL(*),
      .        ICODT(*),ICODR(*),ISKEW(*),ITOK(*),NDDL,NT_RW
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ITAB(*),
@@ -384,7 +385,7 @@ Chd|====================================================================
      2       V        ,VR      ,ISENDTO ,IRECVFROM,
      4       NEWFRONT ,ITASK   ,DTK     ,ITAB     ,
      5       INTLIST  ,NBINTC  ,DT_MIN  ,MS       ,
-     6       SENSOR_TAB,MAXDGAP)
+     6       NSENSOR  ,SENSOR_TAB,MAXDGAP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -405,6 +406,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
@@ -527,7 +529,7 @@ C
      1    INTBUF_TAB   ,IPARI   ,NEWFRONT ,ISENDTO  ,
      2    IRECVFROM,DTK(N)  ,ITAB    ,XSLV_L   ,XMSR_L   ,
      3    VSLV_L  ,VMSR_L   ,SIZE_T  ,N        ,SENSOR_TAB,
-     4    INTLIST  ,NBINTC  ,MAXDGAP)
+     4    INTLIST  ,NBINTC  ,MAXDGAP ,NSENSOR  )
 C     
           IF (NSPMD>1)CALL SPMD_MIN_S(DTK(N))
          DT_MIN = MIN(DT_MIN,DTK(N))
@@ -551,7 +553,7 @@ Chd|====================================================================
      1  INTBUF_TAB,IPARI  ,NEWFRONT,ISENDTO,
      2  IRCVFROM,DT2T   ,ITAB   ,XSLV_L  ,XMSR_L ,
      3  VSLV_L ,VMSR_L  ,SIZE_T ,N       ,SENSOR_TAB,
-     4  INTLIST ,NBINTC ,MAXDGAP) 
+     4  INTLIST ,NBINTC ,MAXDGAP,NSENSOR ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -571,6 +573,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), NEWFRONT(*), ITAB(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*),N,
      .        NBINTC,INTLIST(*)
@@ -716,8 +719,8 @@ Chd|====================================================================
      9       DT2PREV,WA,NUM_IMP1,IRLEN20,ISLEN20,
      A       IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      B       IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
-     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,MAXDGAP,
-     D       INTERFACES)
+     C       NSENSOR,SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,
+     D       MAXDGAP,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -743,6 +746,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
@@ -809,7 +813,7 @@ C----deactive cette fonction.
      2       V        ,VR      ,ISENDTO ,IRECVFROM,
      4       NEWFRONT ,ITASK   ,DTK     ,ITAB     ,
      5       INTLIST  ,NBINTC  ,DT_MIN  ,MS       ,
-     6       SENSOR_TAB,MAXDGAP)
+     6       NSENSOR  ,SENSOR_TAB,MAXDGAP)
        IF (DT_MIN >= DT2) GOTO 1000
        DO N = 1,NINTER
         NUM_IMP(N) = 0
@@ -871,7 +875,8 @@ C
      9       IXS    ,TEMP  ,DT2PREV,WA     ,N    ,NTY,
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
-     C       SENSOR_TAB,XDP  ,H3D_DATA, MULTI_FVM  ,FORNEQS,INTERFACES)
+     C       SENSOR_TAB,XDP  ,H3D_DATA, MULTI_FVM  ,FORNEQS,
+     D       INTERFACES,NSENSOR)
  999   CONTINUE
       ENDDO
 C
@@ -1086,7 +1091,8 @@ Chd|====================================================================
      9       IXS    ,TEMP  ,DT2PREV,WAG    ,N   ,NTY ,
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,  
-     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,INTERFACES)
+     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,
+     D       INTERFACES,NSENSOR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1111,6 +1117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),IKINE(*),
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
@@ -1166,7 +1173,7 @@ C-------------dans inttri------
      1       IPARI   ,X    ,V       ,MS          ,
      2       IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
      3       ISLEN7  ,IRLEN7 ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
-     4       IRLEN17 ,IXS    ,IXS(L3) ,
+     4       IRLEN17 ,IXS    ,IXS(L3) ,NSENSOR ,
      5       IGRBRIC ,TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
@@ -1175,7 +1182,7 @@ C-------------dans inttri------
      1       IPARI   ,X       ,V       ,MS      ,
      2       IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
      3       ISLEN7  ,IRLEN7 ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
-     4       IRLEN17 ,IXS    ,IXS(L3) ,
+     4       IRLEN17 ,IXS    ,IXS(L3) ,NSENSOR ,
      5       IGRBRIC ,TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
@@ -1562,7 +1569,7 @@ Chd|====================================================================
      2       VR    ,ITAB   ,D_IMP   ,DR_IMP  ,NBINTC  ,
      3       INTLIST,ITASK ,NEWFRONT,ISENDTO ,IRECVFROM,
      4       IDDL  ,NDOF   ,IKC     ,SCAL    ,MS      ,
-     5       SENSOR_TAB, MAXDGAP)
+     5       NSENSOR,SENSOR_TAB, MAXDGAP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1584,6 +1591,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
@@ -1626,7 +1634,7 @@ C-------------before inttri------
      2       V        ,VR      ,ISENDTO ,IRECVFROM,
      4       NEWFRONT ,ITASK   ,DTK     ,ITAB     ,
      5       INTLIST  ,NBINTC  ,DT_MIN  ,MS       ,
-     6       SENSOR_TAB,MAXDGAP)
+     6       NSENSOR  ,SENSOR_TAB,MAXDGAP)
 C  
        SCAL = DT_MIN*DTI
        IF (SCAL<ONE) THEN

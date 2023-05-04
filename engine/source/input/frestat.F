@@ -33,12 +33,13 @@ Chd|        NVAR                          source/input/nvar.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STATE_INIMAP_MOD              share/modules/state_inimap_mod.F
 Chd|====================================================================
-      SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF)
+      SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_INIMAP_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,6 +50,7 @@ C-----------------------------------------------
       INTEGER IKAD(0:*),
      .        KSTATF
       CHARACTER KEY0(*)*5
+      TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -68,7 +70,7 @@ C-----------------------------------------------
       CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, 
      .          KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey, CARTE*ncharline, 
      .          LINE*line120
-      LOGICAL BOOL
+      LOGICAL BOOL,IS_STAT_LSENS
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -248,8 +250,8 @@ c---
               CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
               K=K+1
               READ(IUSC2,*,ERR=9990,END=9990)
-     .            (LSTATSENS(J),J=1,NVAR(CARTE))
-              NSTATSENS=NSTATSENS+NVAR(CARTE)
+     .            (SENSORS%STAT_TMP(J),J=1,NVAR(CARTE))
+              SENSORS%NSTAT = SENSORS%NSTAT + NVAR(CARTE)
             ENDDO 
           ELSEIF (KEY2(1:5) == 'NO_DE') THEN
             IS_STAT_NO_DE = .TRUE.

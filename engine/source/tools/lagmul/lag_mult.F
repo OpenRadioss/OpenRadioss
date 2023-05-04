@@ -62,7 +62,7 @@ Chd|====================================================================
      7       NPBYL  ,LPBYL   ,IBFV    ,VEL      ,NPF      ,
      8       TF     ,NEWFRONT,ICONTACT,RWBUF    ,LPRW     ,
      9       NPRW   ,RBYL    ,D       ,DR       ,KINET    ,
-     A       SENSOR_TAB,INTBUF_TAB ,H3D_DATA ,IGRBRIC)
+     A       NSENSOR,SENSOR_TAB,INTBUF_TAB ,H3D_DATA ,IGRBRIC)
 C======================================================================|
 C-----------------------------------------------
 C   M o d u l e s
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITASK
+      INTEGER ITASK,NSENSOR
       INTEGER IPARI(NPARI,*),IXS(NIXS,*),IXS16(8,*),
      .        IXS10(6,*),IXS20(12,*),ITAB(*),
      .        LAGBUF(*),IBCSLAG(*),GJBUFI(LKJNI,*),

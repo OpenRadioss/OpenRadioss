@@ -42,7 +42,8 @@ Chd|====================================================================
      4       NPC   ,TF      ,FSKYI   ,ISKY   ,VR   ,
      5       FCONT ,IN      ,IGRSURF ,BUFSF  ,FNCONT,
      6       FTCONT,ICONTACT,RCONTACT,NUM_IMP,NS_IMP,
-     8       NE_IMP ,NT_IMP  ,SENSOR_TAB,INTBUF_TAB,H3D_DATA)
+     8       NE_IMP ,NT_IMP  ,SENSOR_TAB,INTBUF_TAB,H3D_DATA,
+     9       NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -68,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST 
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
       INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*), 

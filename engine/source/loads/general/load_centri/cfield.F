@@ -32,7 +32,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE CFIELD_1(ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
      2                  V     ,X     ,XFRAME  ,MS,SENSOR_TAB,
-     3                  WEIGHT,IB,ITASK,IFRAME)
+     3                  WEIGHT,IB,ITASK,IFRAME,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -53,6 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER ICFIELD(SIZFIELD,*),IB(*),IFRAME(LISKN,*)
       INTEGER WEIGHT(*),ITASK

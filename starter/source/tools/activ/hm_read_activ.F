@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_ACTIV(IACTIV   ,FACTIV   ,SENSOR_TAB,IGRBRIC,
+      SUBROUTINE HM_READ_ACTIV(IACTIV   ,FACTIV   ,SENSORS,IGRBRIC,
      .                   IGRQUAD  ,IGRSH4N  ,IGRSH3N ,IGRTRUSS ,IGRBEAM,
      .                   IGRSPRING,LSUBMODEL,UNITAB)
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
       TYPE (SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,8 +117,8 @@ C
 C
         IF (ISEN  >  0) THEN
           IERR1 = 1
-          DO J=1,NSENSOR
-            IF (ISEN  ==  SENSOR_TAB(J)%SENS_ID) THEN
+          DO J=1,SENSORS%NSENSOR
+            IF (ISEN  ==  SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
               IACTIV(2,I) = J
               IERR1 = 0
               EXIT
@@ -140,8 +140,8 @@ C
           IF (STOPT == ZERO) STOPT= INFINITY
           IF (ISEN > 0) THEN
              J = IACTIV(2,I)
-             FACTIV(1,I) = STARTT + SENSOR_TAB(J)%TCRIT
-             FACTIV(2,I) = STOPT  + SENSOR_TAB(J)%TCRIT
+             FACTIV(1,I) = STARTT + SENSORS%SENSOR_TAB(J)%TCRIT
+             FACTIV(2,I) = STOPT  + SENSORS%SENSOR_TAB(J)%TCRIT
           ELSE
              FACTIV(1,I) = STARTT  
              FACTIV(2,I) = STOPT

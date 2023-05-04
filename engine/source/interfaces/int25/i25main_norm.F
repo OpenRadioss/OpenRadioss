@@ -44,7 +44,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE I25MAIN_NORM(
      1                   INTLIST25,IPARI   ,INTBUF_TAB ,JTASK    ,X       ,
-     2                   ITAB    ,SENSOR_TAB,IAD_FRNOR    ,FR_NOR   ,
+     2                   ITAB    ,NSENSOR  ,SENSOR_TAB,IAD_FRNOR    ,FR_NOR   ,
      3                   IAD_FREDG,FR_EDG,IAD_ELEM,FR_ELEM,FSKYN25,
      4                   ADDCSRECT,PROCNOR)
 C=======================================================================
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JTASK
+      INTEGER JTASK,NSENSOR
       INTEGER IPARI(NPARI,NINTER), INTLIST25(*), ITAB(*),
      .        IAD_FRNOR(NINTER25,*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*), 
      .        IAD_ELEM(2,*), FR_ELEM(*),ADDCSRECT(*), PROCNOR(*)

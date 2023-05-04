@@ -35,7 +35,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FVBAG0(MONVOL,   VOLMON , X        , SENSOR_TAB, V      ,
-     .                  A     ,   NPC    , TF       ,
+     .                  A     ,   NPC    , TF       , NSENSOR,
      .                  FSAV  ,   IFVMESH, ICONTACT , LGAUGE ,
      .                  GAUGE ,   IGEO   , GEO      , PM     , IPM,
      .                  IPARG ,  IGROUPTG, IGROUPC  , ELBUF_TAB, FEXT,
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER MONVOL(*), NPC(*),IFVMESH,ICONTACT(*), LGAUGE(3,*), IGEO(NPROPGI,*)
       INTEGER IPM(NPROPMI,*), IPARG(NPARG,*)
       INTEGER IGROUPTG(*), IGROUPC(*)
@@ -238,7 +239,7 @@ C
      1                 NNS,           NTG,           MONVOL(KI1), MONVOL(KI2), NJET,
      2                 MONVOL(IADJET),VOLMON(RADJET),NVENT,MONVOL(IADHOL),VOLMON(RADHOL),
      3                 VOLMON(KR1),   VOLMON(KR2),   VOLMON(KR3), VOLMON(KR4),VOLMON(KR9),
-     4                 X,             V,           A,           SENSOR_TAB,
+     4                 X,             V,           A,           NSENSOR,SENSOR_TAB,
      5                 FSAV(1,N),     NPC,           TF,          MONVOL(K1),VOLMON(KK1),
      6                 FVDATA(IFV)%MPOLH, FVDATA(IFV)%QPOLH, FVDATA(IFV)%EPOLH,
      7                 FVDATA(IFV)%PPOLH, FVDATA(IFV)%RPOLH, FVDATA(IFV)%GPOLH,
@@ -263,7 +264,7 @@ C
      1                 NNS, NTG, MONVOL(KI2), NJET, FVDATA(IFV)%NPOLY, FVDATA(IFV)%LENH,NBA,
      2                 MONVOL(IADJET),VOLMON(RADJET),NVENT,MONVOL(IADHOL),VOLMON(RADHOL),
      3                 VOLMON(KR1),   VOLMON(KR2),   VOLMON(KR3), VOLMON(KR4),VOLMON(KR9),
-     4                 X,             V,           A,           SENSOR_TAB,
+     4                 X,             V,           A,           NSENSOR, SENSOR_TAB,
      5                 FSAV(1,N),     NPC,           TF,          MONVOL(K1),VOLMON(KK1),
      6                 FVDATA(IFV)%MPOLH, FVDATA(IFV)%QPOLH, FVDATA(IFV)%EPOLH,
      7                 FVDATA(IFV)%PPOLH, FVDATA(IFV)%RPOLH, FVDATA(IFV)%GPOLH,

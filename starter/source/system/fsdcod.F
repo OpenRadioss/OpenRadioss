@@ -36,7 +36,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES   ,
-     .                  IBFV      ,ISKEW     ,ISKN      ,SENSOR_TAB,
+     .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,
      .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO  ,
      .                  IBCSLAG   ,IGEO      ,IPM       ,
      .                  DAMPR     ,IBFT      ,IBCV      ,IBFVEL    ,
@@ -81,7 +81,7 @@ C-----------------------------------------------
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
       DOUBLE PRECISION BUFGEO(*)
       INTEGER NOM_OPT(LNOPT1,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1943,8 +1943,8 @@ C
           ISENS = BUFMAT(IADD+13)
           IOK = 0
           IF (ISENS > 0) THEN
-            DO J=1,NSENSOR
-              IF (ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+            DO J=1,SENSORS%NSENSOR
+              IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                 BUFMAT(IADD+13) = J
                 IOK = 1
                 EXIT
@@ -1964,8 +1964,8 @@ C-------------------------
        DO I=1,NUMCONV
           ISENS = IBCV(6,I)
           IF(ISENS/=0) THEN
-            DO J=1,NSENSOR
-              IF(ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+            DO J=1,SENSORS%NSENSOR
+              IF(ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                  IBCV(6,I) = J
                  GO TO 801
               ENDIF
@@ -1981,8 +1981,8 @@ C------------------------
        DO I=1,NUMRADIA
           ISENS = IBCR(6,I)
           IF(ISENS/=0) THEN
-            DO J=1,NSENSOR
-              IF(ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+            DO J=1,SENSORS%NSENSOR
+              IF(ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                  IBCR(6,I) = J
                  GO TO 802
               ENDIF
@@ -1998,8 +1998,8 @@ C---------------------
        DO I=1,NFXFLUX
           ISENS = IBFFLUX(6,I)
           IF(ISENS/=0) THEN
-            DO J=1,NSENSOR
-              IF(ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+            DO J=1,SENSORS%NSENSOR
+              IF(ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                  IBFFLUX(6,I) = J
                  GO TO 803
               ENDIF
@@ -2016,8 +2016,8 @@ C---------------------
       DO I=1,NFXTEMP
         ISENS = IBFT(3,I)
         IF (ISENS > 0) THEN
-          DO J=1,NSENSOR
-            IF (ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+          DO J=1,SENSORS%NSENSOR
+            IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                IBFT(3,I) = J
                EXIT
             ENDIF
@@ -2031,8 +2031,8 @@ C---------------------
       DO I=1,NFXVEL
         ISENS = IBFVEL(4,I)
         IF (ISENS > 0) THEN
-          DO J=1,NSENSOR
-            IF (ISENS == SENSOR_TAB(J)%SENS_ID) THEN
+          DO J=1,SENSORS%NSENSOR
+            IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                IBFVEL(4,I) = J
                EXIT
             ENDIF
