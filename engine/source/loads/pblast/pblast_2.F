@@ -79,9 +79,8 @@ C-----------------------------------------------
      .        NITER,ITER,IMODEL,NN(4)
      
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,NNx,NNy,NNz,Hz
-      my_real
-     .   LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci,P_refl,Z,Phi_DB,bound1,bound2, 
-     .   I_inci,I_refl,dt_0,t_a,dt_0_,WAVE_refl,WAVE_inci, W13, P0
+      my_real LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci,P_refl,Z,Phi_DB,bound1,bound2, 
+     .        I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13, P0
       my_real DNORM,
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
      .        Dx,Dy,Dz,
@@ -99,8 +98,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C this subroutines is applying pressure load to a segment submitted to a blast wave which
-C characteristics are built from TM5-1300 abacuses which are in unit system {cm g mus, bar},  pressure must also be converted into Mbar before switching from unit system.
+C This subroutines is applying pressure load to a segment submitted to a blast wave (SURFACE BURST model).
+C Preussre time histories are built from "UFC 3-340-02, Dec. 5th 2008" tables which are hardcoded in unit system {g, cm, mus}
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -231,7 +230,7 @@ C-----------------------------------------------
             !scaled distance                                                                                                                                                                            
             Z     = DNORM / W13    !in abac unit ID  g,cm,mus                                                                                                                                           
                                                                                                                                                                                                         
-            !finding index for TM5-1300 abacuses from bijection.                                                                                                                                        
+            !finding index for UFC table (Figure 2-15) using bijection.                                                                                                                                        
             IF(Z>0.5 .and. Z<400.) then                                                                                                                                                                 
               Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
               Phi_I  = 1 + INT(Phi_DB)                                                                                                                                                                  
@@ -266,36 +265,36 @@ C-----------------------------------------------
                                                                                                                                                                                                         
             !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!                                                                                                                                       
                                                                                                                                                 
-            !Incident upper Pressure (TM5-1300)                                                                                                                                                       
+            !Incident upper Pressure (UFC table from Figure 2-15)                                                                                                                                                       
             bound1 = PBLAST_DATA%Pso_Surf(Phi_I)                                                                                                                                                           
             bound2 = PBLAST_DATA%Pso_Surf(Phi_I+1)                                                                                                                                                         
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             P_inci = exp(LogRes*log10_)                                                                                                                                                               
                                                                                                                                                                                                                                                                                                                                                                 
-            !Incident upper Impulse (TM5-1300)                                                                                                                                                        
+            !Incident upper Impulse (UFC table from Figure 2-15)                                                                                                                                                        
             bound1 = PBLAST_DATA%Iso_Surf(Phi_I)                                                                                                                                                           
             bound2 = PBLAST_DATA%Iso_Surf(Phi_I+1)                                                                                                                                                         
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             I_inci = exp(LogRes*log10_)                                                                                                                                                               
                                                                                                                                                                                                       
-            !Reflected upper Pressure (TM5-1300)                                                                                                                                                      
+            !Reflected upper Pressure (UFC table from Figure 2-15)                                                                                                                                                      
             bound1 = PBLAST_DATA%Pr_Surf(Phi_I)                                                                                                                                                            
             bound2 = PBLAST_DATA%Pr_Surf(Phi_I+1)                                                                                                                                                          
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             P_refl = exp(LogRes*log10_)                                                                                                                                                         
-            !Reflected upper Impulse (TM5-1300)                                                                                                                                                       
+            !Reflected upper Impulse (UFC table from Figure 2-15)                                                                                                                                                       
             bound1 = PBLAST_DATA%Ir_Surf(Phi_I)                                                                                                                                                         
             bound2 = PBLAST_DATA%Ir_Surf(Phi_I+1)                                                                                                                                                       
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             I_refl = exp(LogRes*log10_)                                                                                                                                                           
                                                                                                                                                                                                       
-            !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
+            !first time for which P=P0 after t_arrival (UFC table from Figure 2-15)                                                                                                                                     
             bound1 = PBLAST_DATA%t0_Surf(Phi_I)                                                                                                                                                            
             bound2 = PBLAST_DATA%t0_Surf(Phi_I+1)                                                                                                                                                          
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
             DT_0 = exp(LogRes*log10_)                                                                                                                                                                 
                                                                                                                                                                                                                                                                                                                                                                   
-            !Time Arrival (TM5-1300)                                                                                                                                                                  
+            !Time Arrival (UFC table from Figure 2-15)                                                                                                                                                                  
             bound1 = PBLAST_DATA%ta_Surf(Phi_I)                                                                                                                                                            
             bound2 = PBLAST_DATA%ta_Surf(Phi_I+1)                                                                                                                                                          
             LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
@@ -384,14 +383,13 @@ C-----------------------------------------------
   
             !CONVERSION UNITS !                                                                                                                                                                         
             !g,cm,mus,Bar -> Working unit system                                                                                                                                                        
-            P_inci  =  P_inci / FAC_P_bb
-            I_inci  =  I_inci / FAC_I_bb
-            P_refl  =  P_refl / FAC_P_bb
-            I_refl  =  I_refl / FAC_I_bb
-            DT_0    =  DT_0    / FAC_T_bb
-            DT_0_   =  DT_0_   / FAC_T_bb
-            T_A     =  T_A     / FAC_T_bb  
-            T_A    = T_A + TDET
+            P_inci = P_inci / FAC_P_bb
+            I_inci = I_inci / FAC_I_bb
+            P_refl = P_refl / FAC_P_bb
+            I_refl = I_refl / FAC_I_bb
+            DT_0 = DT_0 / FAC_T_bb
+            T_A = T_A / FAC_T_bb  
+            T_A = T_A + TDET
                                                                                                                                                                                                         
             !update wave parameters                                                                                                                                                                     
             PBLAST_TAB(IL)%cos_theta(I) = cos_theta
