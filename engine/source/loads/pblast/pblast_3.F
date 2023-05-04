@@ -131,14 +131,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C this subroutines is applying pressure load to
-C a segment submitted to a blast wave which
-C characteristics are built from TM5-1300 abacuses which are in unit system {cm g mus, bar},  pressure must also be converted into Mbar before switching from unit system.
-!
-C IZ_UPDATE :
-!     1: do not update scaled distance  
-!     2: update scaled distance with time
-
+C This subroutines is applying pressure load to a segment submitted to a blast wave (AIR BURST model).
+C Preussre time histories are built from "UFC 3-340-02, Dec. 5th 2008" tables which are hardcoded in unit system {g, cm, mus}
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------

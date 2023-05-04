@@ -76,8 +76,12 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C this subroutines is applying pressure load to
-C a segment submitted to a blast wave which
-C characteristics are built from TM5-1300 abacuses which are in unit system {cm g mus, bar},  pressure must also be converted into Mbar before switching from unit system.
+C a segment submitted to a blast wave.
+C Preussre time histories are built from "UFC 3-340-02, Dec. 5th 2008" tables which are hardcoded in unit system {g, cm, mus}
+C 3 different models are avaialable to build the pressure time history :
+C    FREE AIR      (ABAC_ID = 1)
+C    SURFACE BURST (ABAC_ID = 2)
+C    AIR BURST     (ABAC_ID = 3)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
