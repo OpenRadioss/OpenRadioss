@@ -303,4 +303,14 @@ Only one %s card is allowed
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200032/DESCRIPTION
 %s (id: %u, name: %s) : OPTION DAMAGE-FAILURE is ignored
+
+/MESSAGE/200033/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200033/DESCRIPTION
+%s (id: %u, name: %s) : Positiv LCID function is expected
+
+/MESSAGE/200034/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200034/DESCRIPTION
+%s (id: %u, name: %s) : Load applied to non-rigid component
 #------------------------------------------------------------------------------
