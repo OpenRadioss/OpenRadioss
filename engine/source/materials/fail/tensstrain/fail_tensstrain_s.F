@@ -133,9 +133,8 @@ c
 C-----------------------------------------------
 c     Initialization
 C-----------------------------------------------
-      IF (TIME == ZERO) THEN
+      IF (UVAR(1,1) == ZERO) THEN 
         DO I=1,NEL
-
           SELECT CASE (S_FLAG)
             CASE (1)  ! default - old formulation
               UVAR(I,1) = EPSP1
@@ -155,13 +154,13 @@ C-----------------------------------------------
               ELSE
                 UVAR(I,1) = ONE
               ENDIF              
-          END SELECT          
+          END SELECT
         ENDDO
       ENDIF
 c-----------------------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I)=ZERO
-        IF (OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 c----------------------------------------------
 c     Max strain transformation following input definition
