@@ -716,7 +716,8 @@ Chd|====================================================================
      9       DT2PREV,WA,NUM_IMP1,IRLEN20,ISLEN20,
      A       IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      B       IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
-     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,MAXDGAP)
+     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,MAXDGAP,
+     D       INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -725,6 +726,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -766,6 +768,7 @@ C-----------------------------------------------
 !
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -868,7 +871,7 @@ C
      9       IXS    ,TEMP  ,DT2PREV,WA     ,N    ,NTY,
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
-     C       SENSOR_TAB,XDP  ,H3D_DATA, MULTI_FVM  ,FORNEQS)
+     C       SENSOR_TAB,XDP  ,H3D_DATA, MULTI_FVM  ,FORNEQS,INTERFACES)
  999   CONTINUE
       ENDDO
 C
@@ -1083,7 +1086,7 @@ Chd|====================================================================
      9       IXS    ,TEMP  ,DT2PREV,WAG    ,N   ,NTY ,
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,  
-     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS)
+     C       SENSOR_TAB,XDP,H3D_DATA,MULTI_FVM,FORNEQS,INTERFACES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1092,6 +1095,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE SENSOR_MOD
+      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1131,6 +1135,7 @@ C-----------------------------------------------
 !
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1165,7 +1170,7 @@ C-------------dans inttri------
      5       IGRBRIC ,TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
-     8       FORNEQS ,MULTI_FVM)
+     8       FORNEQS ,MULTI_FVM,INTERFACES)
            CALL SPMD_I7XVCOM2(
      1       IPARI   ,X       ,V       ,MS      ,
      2       IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
@@ -1174,7 +1179,7 @@ C-------------dans inttri------
      5       IGRBRIC ,TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6       IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7       ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
-     8       FORNEQS ,MULTI_FVM)
+     8       FORNEQS ,MULTI_FVM,INTERFACES)
         ENDIF
           NRTM_T = IPARI(4,N)
           ESHIFT = 0
