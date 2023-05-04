@@ -55,7 +55,7 @@ number_of_arguments=$#
 clean=0
 verbose=""
 st_vers="starter"
-
+com=0
 
 if [ $number_of_arguments = 0 ]
 then
@@ -115,6 +115,7 @@ else
 
        if [ "$arg" == "-c" ]
        then
+         com=1
          dc="-DCOM=1"
          cf="_c"
          vers=`cat CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
@@ -213,8 +214,13 @@ echo " "
 cd ${build_directory}
 
 # Get compiler settings
-source ../CMake_Compilers/cmake_${arch}_compilers.sh
-
+if [ $com = 1 ]
+then
+    source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
+else
+    source ../CMake_Compilers/cmake_${arch}_compilers.sh
+fi
+  
 Fortran_path=`which $Fortran_comp`
 C_path=`which $C_comp`
 CPP_path=`which $CPP_comp`

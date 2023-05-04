@@ -77,13 +77,13 @@ set(Fortran "/fpp /extend-source /assume:buffered_io")
 if ( debug STREQUAL "1" )
  
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /fp:precise /O1 /debug:all /Qftz /extend-source /Qopenmp  ${ADF} /traceback" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo  /fp:precise /O1 /debug:all /Qftz  /Qopenmp /traceback " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo  /fp:precise /O1 /debug:all /Qftz  /Qopenmp /traceback" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback" )
 
 else ()
 
@@ -112,11 +112,13 @@ set (F_O1_compiler_flags " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /exte
 set (F_O1_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O1 /Qopenmp /fp:precise /Qftz")
 set (F_O2_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O2 /Qopenmp /fp:precise /Qftz")
 
-set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+if ( debug STREQUAL "0" )
+  set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
 
-set_source_files_properties( ${source_directory}/source/tools/sect/prelecsec.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags_no_omp} )
+  set_source_files_properties( ${source_directory}/source/tools/sect/prelecsec.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags_no_omp} )
 
-set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags_no_omp} )
+  set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags_no_omp} )
+endif()
 
 
 

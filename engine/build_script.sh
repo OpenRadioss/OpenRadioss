@@ -83,6 +83,7 @@ verbose=""
 mumps_root=""
 scalapack_root=""
 lapack_root=""
+com=0
 
 if [ $number_of_arguments = 0 ]
 then
@@ -106,6 +107,15 @@ else
          pmpi=`echo $var|awk -F '=' '{print $2}'`
          dmpi=_${pmpi}
          MPI=-DMPI=${pmpi}
+
+         if [ "$pmpi" != "smp" ]
+         then
+            dmpi=_${pmpi}
+            MPI=-DMPI=${pmpi}
+         else 
+            pmpi="SMP Only"
+         fi
+
        fi
 
        if [ "$arg" == "-mpi-os" ]
@@ -200,6 +210,7 @@ else
 
        if [ "$arg" == "-c" ]
        then
+         com=1 
          dc="-DCOM=1"
          cf="_c"
          vers=`cat CMake_Compilers_c/cmake_eng_version.txt | awk -F '\"' '{print $2}' `
@@ -287,7 +298,13 @@ echo " "
 cd ${build_directory}
 
 # Get compiler settings
-source ../CMake_Compilers/cmake_${arch}_compilers.sh
+if [ $com = 1 ]
+then
+    source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
+else
+    source ../CMake_Compilers/cmake_${arch}_compilers.sh
+fi
+
 Fortran_path=`which $Fortran_comp`
 C_path=`which $C_comp`
 CPP_path=`which $CPP_comp`
