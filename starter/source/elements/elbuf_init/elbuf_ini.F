@@ -694,6 +694,7 @@ C----- thickshell will be checked later----
           IF (JTHE      /= 0 .AND. NPG > 1) GBUF%G_TEMPG = NPG 
           IF (JEUL+JALE /= 0 .AND. ISNOD >= 4) GBUF%G_MOM = 3
           IF (JHBE == 15 .OR. JHBE == 24) GBUF%G_HOURG = 12
+          IF (JHBE == 15 .AND. ISNOD == 6) GBUF%G_HOURG = 2
 C------------- for strain output, to 3*6	  
           IF (JHBE == 24) GBUF%G_STRHG = 3*6
 c           Allocate thermal stress and Thermal internal energy
