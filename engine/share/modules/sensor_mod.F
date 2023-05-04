@@ -184,6 +184,7 @@ Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|        THSENS                        source/output/th/thsens.F     
+Chd|        TH_TIME_OUTPUT                source/output/th/th_time_output.F
 Chd|        VOLPRE                        source/airbag/volpres.F       
 Chd|        VOLPREP                       source/airbag/volpresp.F      
 Chd|        WFV_IMP                       source/constraints/general/impvel/fv_imp0.F

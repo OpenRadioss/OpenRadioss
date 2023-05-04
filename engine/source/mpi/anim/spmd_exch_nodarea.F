@@ -29,6 +29,7 @@ Chd|        ANI_PCONT                     source/output/anim/generate/ani_pcont.
 Chd|        ANI_PCONT21                   source/output/anim/generate/ani_pcont.F
 Chd|        ERR_THK                       source/elements/shell/err_thk.F
 Chd|        GENANI                        source/output/anim/generate/genani.F
+Chd|        INTER_NODAL_AREAS             source/output/inter_nodal_areas.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA(

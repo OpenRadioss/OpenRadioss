@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INTER_NODAL_AREAS                source/output/inter_nodal_areas.F
+Chd|  INTER_NODAL_AREAS             source/output/inter_nodal_areas.F
 Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
 Chd|====================================================================

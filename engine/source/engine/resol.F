@@ -197,6 +197,7 @@ Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_i
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
 Chd|        INTAL1                        source/ale/inter/intal1.F     
+Chd|        INTER_NODAL_AREAS             source/output/inter_nodal_areas.F
 Chd|        INTER_STRUCT_INIT             source/interfaces/generic/inter_struct_init.F
 Chd|        INTFOP1                       source/interfaces/interf/intfop1.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
@@ -403,6 +404,7 @@ Chd|        THBCS_IMP                     source/output/th/thbcs_imp.F
 Chd|        THCWREST                      source/output/restart/wrrest.F
 Chd|        THERMBILAN                    source/constraints/thermic/thermbilan.F
 Chd|        THICKVAR                      source/elements/shell/coque/thickvar.F
+Chd|        TH_TIME_OUTPUT                source/output/th/th_time_output.F
 Chd|        TIMFUN                        source/tools/curve/timfun.F   
 Chd|        TRACE_IN                      source/system/trace_back.F    
 Chd|        TRACE_OUT                     source/system/trace_back.F    
