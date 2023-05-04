@@ -220,21 +220,19 @@ C-----------------------------------------------
 #include "my_real.inc"
 #include "nchar_c.inc"
 C-----------------------------------------------
+C     fixed array sizes
+C-----------------------------------------------
+      INTEGER ,PARAMETER :: ISENBUF  = 20
+      INTEGER ,PARAMETER :: LSENBUF  = 101
+      INTEGER ,PARAMETER :: NSENPARI = 12
+      INTEGER ,PARAMETER :: NSENPARR = 20
+      INTEGER ,PARAMETER :: ISENPARI = 3
+      INTEGER ,PARAMETER :: ISENPARR = 203
+      INTEGER ,PARAMETER :: MX_SENS  = 50000 !used only in sensor list in engine options /STOP, /OUTP...
+
+C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-      INTEGER ISENBUF
-      INTEGER LSENBUF
-      INTEGER NSENPARI
-      INTEGER NSENPARR
-      INTEGER ISENPARI
-      INTEGER ISENPARR
-      PARAMETER (ISENBUF=20)
-      PARAMETER (LSENBUF=101)
-      PARAMETER (NSENPARI=12)
-      PARAMETER (NSENPARR=20)
-      PARAMETER (ISENPARI=3)
-      PARAMETER (ISENPARR=203)
-
 
       TYPE SENSOR_STR_
         INTEGER :: TYPE        !   sensor type 
@@ -304,6 +302,35 @@ c
 c
       INTEGER LOGICAL_SENSOR_COUNT
       INTEGER, DIMENSION(:),ALLOCATABLE :: LOGICAL_SENSORS_LIST
+      
+      ! -----------------------------------
+      !  Main sensor data structure    
+      ! -----------------------------------
+      TYPE SENSORS_
+      
+        INTEGER :: NSENSOR
+        INTEGER :: NSTOP
+        INTEGER :: NSTAT
+        INTEGER :: NOUTP
+        INTEGER :: NANIM
+        INTEGER :: ANIM_ID
+        my_real :: ANIM_DT
+
+        TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TAB
+
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STOP
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: ANIM
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STOP_TMP
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP_TMP
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT_TMP
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: ANIM_TMP
+            
+      END TYPE SENSORS_
+
+      ! -----------------------------------
+     
 
       END MODULE SENSOR_MOD
 

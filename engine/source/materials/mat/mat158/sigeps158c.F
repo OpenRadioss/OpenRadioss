@@ -37,7 +37,8 @@ Chd|====================================================================
      6           SIGOXX    ,SIGOYY    ,SIGOXY    ,SIGOYZ    ,SIGOZX    ,
      7           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      8           SIGVXX    ,SIGVYY    ,SIGVXY    ,TAN_PHI   ,OFFGG     ,
-     9           RHO0      ,ETSE      ,SHF       ,ALDT      ,SENSOR_TAB)
+     9           RHO0      ,ETSE      ,SHF       ,ALDT      ,NSENSOR   ,
+     A           SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR
+      INTEGER ,INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,NSENSOR
       my_real ,INTENT(IN) :: TIME,TIMESTEP
       INTEGER ,DIMENSION(NFUNC),INTENT(IN) :: IFUNC
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF

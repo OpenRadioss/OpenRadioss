@@ -40,7 +40,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PFLUID(NUMLOADP ,ILOADP  ,LLOADP ,FACLOADP ,NPC      ,
-     .                          SENSOR_TAB,IGRSURF ,UNITAB ,IFRAME   ,LSUBMODEL)
+     .                          SENSORS  ,IGRSURF ,UNITAB ,IFRAME   ,LSUBMODEL)
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -208,10 +208,10 @@ C-----------
 	       ILOADP(1,K)=4*NN                                                             
         !-----------  
         !possible Sensor                                                               
-	TSENS=0                                                                      
-        DO J=1,NSENSOR                                                               
+	       TSENS=0                                                                      
+        DO J=1,SENSORS%NSENSOR                                                               
         	  IF(ISENS /= 0) THEN                                                
-	            IF (ISENS == SENSOR_TAB(J)%SENS_ID) TSENS=J
+	            IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
         	  ENDIF                                                              
         	ENDDO                                                                
         	IF((TSENS == 0).AND.(ISENS /= 0))THEN                               

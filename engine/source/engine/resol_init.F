@@ -103,7 +103,7 @@ Chd|====================================================================
      E  X       ,D        ,MS      ,IN        ,STIFN     ,
      F  STIFR   ,DMAS     ,DINER   ,FANI      ,ANIN      ,
      G           WA       ,UWA     ,PM        ,GEO       ,
-     H  PARTSAV ,PARTS0    ,MONVOL    ,
+     H  PARTSAV ,PARTS0   ,MONVOL    ,
      I  I87H    ,I87I     ,I87J    ,I87K      ,
      J  I15J    ,KXX      ,
      K  SECBUF  ,SECFCUM  ,NSTRF   ,IGRNOD    ,IEXLNK    ,
@@ -128,8 +128,8 @@ Chd|====================================================================
      e  IRLEN20E,ISLEN20E ,NISKYFIE,IRBE3     ,R3SIZE    ,
      f  MCP     ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g  ADSKY_PXFEM,ICODT,ICODR    ,IBFV      ,ADMSMS    ,
-     h  NODREAC  ,IGROUC  ,NGROUC    ,
-     i  IGROUNC  ,NGROUNC ,FR_RBY  ,FR_RBY6   ,NPBY      ,
+     h  NODREAC  ,IGROUC  ,NGROUC  ,IGROUNC   ,NGROUNC ,
+     i  FR_RBY   ,FR_RBY6 ,NPBY    ,NSENSOR   ,
      j  NOM_SECT ,MCPC    ,MCPTG   ,GRTH      ,IGRTH     ,
      k  NELEM    ,LAG_SEC ,NPRW    ,DIAG_SMS  ,DMELC     ,
      l  DMELTG   ,NGRTH   ,NFT2    ,DMELS     ,DMELTR    ,
@@ -216,6 +216,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER ITASK, NBINTC, NODFT, NODLT, LINDIDEL, LBUFIDEL,
      .        NUMNTHREAD, NDTASK, NFIA, NFEA, NFOA ,NDMA, NFNCA, NFTCA,
      .        NDMA2,NDIN,N1,N2,N3,IGTYP,NPARTL,NGROUC,NGROUNC,
@@ -420,8 +421,8 @@ C
      4       NME17   ,ISLEN17 ,IRLEN17 ,IRLEN7T ,ISLEN7T ,
      5       LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6       ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
-     7       FR_RBY6 ,NPBY    ,IRBKIN_L,
-     8       NRBYKIN_L,KINDRBY,SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
+     7       FR_RBY6 ,NPBY    ,IRBKIN_L,NRBYKIN_L,KINDRBY,
+     8       NSENSOR ,SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
      9       SORT_COMM)
 C
         IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN

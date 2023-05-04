@@ -63,7 +63,7 @@ Chd|====================================================================
      K   CSRECT,NBDDNORT ,NBDDNOR_MAX,NBCCFR25 ,NBCCNOR ,
      L   NUMNOR_L,NBDDEDGT,NBDDEDG_MAX,INTERCEP,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM) 
+     N   SIZE_ALE_ELM,NSENSOR) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C-----------------------------------------------
      .          NESVOIS, NSEGFL_L, NUMEL, NBCFD, NUMELQ_L,NUMELTG_L,
      .          NUMPOR_L, NUMEL_L, NBI18_L, INACTI, NLAGF_L,
      .          NBDDNORT, NBDDNOR_MAX, NBCCFR25, NBCCNOR, NUMNOR_L,
-     .          NBDDEDGT,NBDDEDG_MAX,
+     .          NBDDEDGT,NBDDEDG_MAX,NSENSOR,
      .          NODLOCAL(*), NODGLOB(*), NPBY(NNPBY,*),
      .          LPBY(*), NPRW(*), LPRW(*), DD_RBY2(3,NRBYKIN),
      .          ITABI2M(*), CEP(*), MONVOL(*),

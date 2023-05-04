@@ -65,7 +65,7 @@ Chd|====================================================================
      B      IGRSURF ,SUBSET ,ITHFLAG,NPBY,LSUBMODEL,IPARG,
      C      IPARTS  ,IPARTQ ,IPARTC ,IPARTT  ,IPARTP  ,IPARTR ,
      D      IPARTG  ,IPARTX ,IPARTSP ,IPARTIG3D, LITHBUFMX,
-     E      MAP_TABLES, IFLAG,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSOR_TAB,
+     E      MAP_TABLES, IFLAG,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSORS,
      F      INTERFACES,IPARI)
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -120,8 +120,8 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) ,INTENT(IN) :: LSUBMODEL
       TYPE(MAPPING_STRUCT_),INTENT(IN) :: MAP_TABLES
-      TYPE (SENSOR_STR_)   ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (INTERFACES_)   ,INTENT(INOUT):: INTERFACES
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
@@ -2973,7 +2973,7 @@ C             error message if type of inout is not correct
           NVALL = 1
           ITYP  = 120
           KEY   = 'SENSOR    ' 
-          CALL HM_READ_THGRSENS(SENSOR_TAB,
+          CALL HM_READ_THGRSENS(SENSORS,
      .      ITYP     ,KEY      ,IGS      ,LITHBUFMX ,ITHBUF    ,
      .      IAD      ,IFI      ,ITHGRP(1,IGS),ITHVAR,NVALL     ,
      .      NVARSENS ,NVARSENSG,VARSENS  ,VARSENSG  ,IVARSENSG ,

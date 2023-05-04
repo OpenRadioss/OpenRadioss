@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
       INTEGER ,DIMENSION(3,*) ,INTENT(IN) :: LACCELM
       CHARACTER (len=nchartitle) TITR
-      TYPE (SENSOR_STR_)  :: SENSOR_PTR
+      TYPE (SENSOR_STR_) ,INTENT(INOUT) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
 C-----------------------------------------------

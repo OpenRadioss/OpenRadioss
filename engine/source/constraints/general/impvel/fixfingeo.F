@@ -31,7 +31,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF       ,
      2                     VEL    ,MS    ,X      ,D      ,SENSOR_TAB,
-     3                     WEIGHT,CPTREAC,NODREAC,NODNX_SMS,
+     3                     WEIGHT ,CPTREAC,NODREAC,NODNX_SMS,NSENSOR,
      4                     FTHREAC,ITABM1,ITAB   ) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -55,6 +55,7 @@ C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),CPTREAC,NODREAC(*)
       INTEGER IBFV(NIFV,*),WEIGHT(*),
      .        NODNX_SMS(*),ITABM1(*),ITAB(*)
@@ -77,7 +78,7 @@ C     REAL
      .   AOLD0(3),
      .   VX1, VY1, VZ1, VX2, VY2, VZ2
       my_real, DIMENSION(:), ALLOCATABLE :: MASS, VX, VY, VZ      
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

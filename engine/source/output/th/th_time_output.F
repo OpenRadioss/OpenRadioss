@@ -27,7 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE TH_TIME_OUTPUT(ITHOUT,SENSOR_TAB)
+      SUBROUTINE TH_TIME_OUTPUT(ITHOUT,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -40,21 +40,18 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr07_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER , INTENT(INOUT) :: ITHOUT
-      TYPE (SENSOR_STR_), DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
+      INTEGER         ,INTENT(INOUT) :: ITHOUT
+      TYPE (SENSORS_) ,INTENT(IN)    :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, ISENS, SENS_ID , SENS_TYPE
-       my_real
-     .   THIS_L, TS, TABFIS_L(10)
-
+      INTEGER :: I, J, ISENS, SENS_ID , SENS_TYPE
+      my_real :: THIS_L, TS, TABFIS_L(10)
 C---------------------------------------------------------------------------
 C   ITHOUT : flag to check if TH file will be written for CAREA output
 C--------------------------------------------------------------------------
@@ -63,13 +60,13 @@ C ******  IF /STOP/LSENSOR *****
 
        THIS_L = THIS
        TABFIS_L(1:10) =TABFIS(1:10)
-       IF (NSTOPSENS > 0) THEN
-          DO I=1,NSTOPSENS
-             ISENS = LSTOPSENS(I)
-             SENS_TYPE = SENSOR_TAB(ISENS)%TYPE
+       IF (SENSORS%NSTOP > 0) THEN
+          DO I=1,SENSORS%NSTOP
+             ISENS = SENSORS%STOP(I)
+             SENS_TYPE = SENSORS%SENSOR_TAB(ISENS)%TYPE
              TS = EP20
-             SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
-             IF (SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
+             SENS_ID = SENSORS%SENSOR_TAB(ISENS)%SENS_ID  
+             IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
              IF (TT >= TS) THEN
                 IF(NSTH/=0)THEN  !IF THIST FILE
                    THIS_L= TT

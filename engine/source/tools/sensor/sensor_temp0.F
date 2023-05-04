@@ -30,7 +30,7 @@ Chd|        SUM_6_FLOAT                   source/system/parit.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_TEMP0(SENSOR,IGRNOD,TEMP,WEIGHT)
+      SUBROUTINE SENSOR_TEMP0(NSENSOR,SENSOR_TAB,IGRNOD,TEMP,WEIGHT)
 c-----------------------------------------------------------------------
 !$COMMENT
 !       SENSOR_TEMP description :
@@ -60,9 +60,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       my_real :: TEMP(NUMNOD)
       TYPE(GROUP_)  ,DIMENSION(NGRNOD) ,INTENT(IN) :: IGRNOD
-      TYPE (SENSOR_STR_),DIMENSION(NSENSOR), INTENT(INOUT) :: SENSOR
+      TYPE (SENSOR_STR_),DIMENSION(NSENSOR), INTENT(INOUT) :: SENSOR_TAB
       INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT
 C----------------------------------------------------------
 C Local Variables
@@ -93,14 +94,14 @@ C=======================================================================
         !   loop over the sensor temp
         DO IJK=1,COMM_SENS17%NUM_SENS
           ISENS = COMM_SENS17%ID_SENS(IJK)       ! id of sensor temp
-          IF (SENSOR(ISENS)%STATUS == 1) CYCLE   ! already activated
+          IF (SENSOR_TAB(ISENS)%STATUS == 1) CYCLE   ! already activated
 c
-          IF (TT == ZERO) SENSOR(ISENS)%VAR(2) = EP20   ! initialize Temp min
-          IGN    = SENSOR(ISENS)%IPARAM(1)
+          IF (TT == ZERO) SENSOR_TAB(ISENS)%VAR(2) = EP20   ! initialize Temp min
+          IGN    = SENSOR_TAB(ISENS)%IPARAM(1)
 c      
           NNOD   = IGRNOD(IGN)%NENTITY
-          TEMP_MAX(IJK) = SENSOR(ISENS)%VAR(1)
-          TEMP_MIN(IJK) = SENSOR(ISENS)%VAR(2)
+          TEMP_MAX(IJK) = SENSOR_TAB(ISENS)%VAR(1)
+          TEMP_MIN(IJK) = SENSOR_TAB(ISENS)%VAR(2)
           TEMP_AVG(IJK) = ZERO
           ALLOCATE( TEMP_NODE(NNOD) )
           INDEX_SUM6FLOAT = 0
@@ -162,8 +163,8 @@ c
             DO IJK=1,COMM_SENS17%NUM_SENS
               ISENS = COMM_SENS17%ID_SENS(IJK)
               INDEX_MIN_MAX = INDEX_MIN_MAX + 1
-              SENSOR(ISENS)%VAR(1) = RBUFF_MAX(INDEX_MIN_MAX) ! max temp
-              SENSOR(ISENS)%VAR(2) =-RBUFF_MIN(INDEX_MIN_MAX) ! min temp 
+              SENSOR_TAB(ISENS)%VAR(1) = RBUFF_MAX(INDEX_MIN_MAX) ! max temp
+              SENSOR_TAB(ISENS)%VAR(2) =-RBUFF_MIN(INDEX_MIN_MAX) ! min temp 
             ENDDO
             !   --------------------
             DEALLOCATE( SBUFF_MAX )
@@ -221,8 +222,8 @@ c
      .                  SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,KJI,1)
                 ENDDO
             ENDIF
-            TOTAL_NUMBER_NOD = SENSOR(ISENS)%IPARAM(2)
-            SENSOR(ISENS)%VAR(3) = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) / TOTAL_NUMBER_NOD
+            TOTAL_NUMBER_NOD = SENSOR_TAB(ISENS)%IPARAM(2)
+            SENSOR_TAB(ISENS)%VAR(3) = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) / TOTAL_NUMBER_NOD
             DO KJI=1,DIM_FOR_MEAN
                 SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,KJI,1) = ZERO
             ENDDO

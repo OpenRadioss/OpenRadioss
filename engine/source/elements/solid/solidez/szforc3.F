@@ -103,7 +103,7 @@ Chd|====================================================================
      E                   FTHESKY  ,IEXPAN  ,GRESAV  ,GRTH   ,IGRTH  , 
      F                   MSSA     ,DMELS   ,TABLE   ,IGEO   ,XDP    ,
      G                   CONDN    ,CONDNSKY  ,
-     H                   D        ,TAGPRT_SMS,SENSOR_TAB,IOUTPRT  ,
+     H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
      I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -176,7 +176,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) , INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -635,9 +635,8 @@ C Compute regularized non local variable in Gauss point
         ENDDO
       ENDIF
 C
-      IF(IBOLTP /= 0) CALL BOLTST(
-     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
-     2   TT,        NEL,       SENSOR_TAB,NPT)
+      IF(IBOLTP /= 0) CALL BOLTST(IP    ,BPRELD    ,LBUF%SIG  ,TT     ,NEL   ,
+     .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 C
 C Compute stresses according to the material law
       CALL MMAIN(

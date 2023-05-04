@@ -338,7 +338,7 @@ Chd|====================================================================
      M   I11FLAG      ,XFEM_TAB     ,LENTHGR        ,RTHBUF       ,
      N   IXIG3D       ,KXIG3D       ,KNOT           ,IPARTIG3D    ,WIGE        ,
      O   NCRKPART     ,INDX_CRK     ,CRKLVSET       ,CRKSHELL     ,CRKSKY      ,
-     P   CRKAVX       ,CRKEDGE      ,FBSAV6         ,TABSENSOR    ,SENSOR_TAB  ,
+     P   CRKAVX       ,CRKEDGE      ,FBSAV6         ,TABSENSOR    ,SENSORS     ,
      Q   STACK        ,XFEM_PHANTOM ,T8             ,TAB_UMP      ,POIN_UMP    ,
      R   SOL2SPH_TYP  ,ADDCSRECT    ,CSRECT         ,DRAPE        ,
      S   ITAGND        ,ICNDS10      ,ADDCNCND     ,
@@ -562,7 +562,7 @@ C-----------------------------------------------
       TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (NLOCAL_STR_)   :: NLOC_DMG
       TYPE (DRAPE_)   :: DRAPE (NUMELC_DRAPE + NUMELTG_DRAPE)
-      TYPE (SENSOR_STR_) ,DIMENSION(*) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DRAPEG_)   :: DRAPEG
 C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
@@ -1745,7 +1745,7 @@ C--------------------------------------------
      2   NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS)
+     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS%NSENSOR)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS)
@@ -2456,7 +2456,7 @@ C--------------------------------------
      K   CSRECT  ,NBDDNORT_L,NBDDNOR_MAX_L,NBCCFR25_L,NBCCNOR_L,
      L   NUMNOR_L ,NBDDEDGT_L,NBDDEDG_MAX_L,INTERCEP ,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM  )
+     N   SIZE_ALE_ELM,SENSORS%NSENSOR)
       DEALLOCATE(ITABI2M)
       DEALLOCATE(ITABRBE3M)
       DEALLOCATE(ITABRBE2M)
@@ -2915,8 +2915,8 @@ C--------------------------------------------
 C--------------------------------------------
 C Sensors
 C--------------------------------------------
-      IF (NSENSOR > 0) THEN
-        CALL WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL)
+      IF (SENSORS%NSENSOR > 0) THEN
+        CALL WRITE_SENSOR_TAB(SENSORS,NODLOCAL)
       END IF
 C--------------------------------------------
 C RBM

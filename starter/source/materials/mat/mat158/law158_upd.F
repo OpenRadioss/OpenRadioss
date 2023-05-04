@@ -34,7 +34,7 @@ Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
       SUBROUTINE LAW158_UPD(TITR   ,UPARAM ,NPC    ,PLD    ,  
      .                      NFUNC  ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
-     .                      PM     ,NUPARAM,SENSOR_TAB)
+     .                      PM     ,NUPARAM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(STF)  ,INTENT(IN) :: PLD
       my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
       my_real ,DIMENSION(NPROPM)  ,INTENT(OUT)   :: PM
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,8 +91,8 @@ C     SENSOR NUMBERING CHECK
 C----------------------------
       ISENS   = 0
       IF (SENS_ID > 0 ) THEN
-        DO I=1,NSENSOR
-          IF (SENS_ID == SENSOR_TAB(I)%SENS_ID) THEN
+        DO I=1,SENSORS%NSENSOR
+          IF (SENS_ID == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
             ISENS = I
             UPARAM(9) = ISENS
             EXIT

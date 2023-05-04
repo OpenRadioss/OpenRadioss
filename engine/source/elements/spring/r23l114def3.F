@@ -69,7 +69,7 @@ Chd|====================================================================
      Y   SENSOR_TAB,           UINER,                FR_ID,                FRAM_FACTOR,
      Z   EPS_OLD,              FX_B2,                DPX_B2,               YIELDX_B2,
      1   XX_OLD_B2,            FXEP_B2,              POSX_B2,              EPS_OLD_B2,
-     2   NFT)
+     2   NFT      ,            NSENSOR               )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NFT
+      INTEGER, INTENT(IN) :: NFT,NSENSOR
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),PID(*),MID(*),NUVAR,
      .     IPM(NPROPMI,*),NC1(*),NC2(*),NC3(*),ADD_NODE1(*),ADD_NODE2(*),
      .     SLIPRING_ID(*),UPDATE_FLAG(*),RETRACTOR_ID(*),SLIPRING_STRAND(*),
@@ -583,7 +583,7 @@ C--     Computation of material flow for slipring and retractor
      7                     VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
      8                     SENSOR_TAB,X0DP,FR_ID,DFX,FX,FX_B2,
      9                     ALDP_B2,X0DP_B2,EX2DP,EY2DP,EZ2DP,XL02,
-     A                     XKP_B2,COMPT,INDEX2)
+     A                     XKP_B2,COMPT,INDEX2,NSENSOR)
 C
         DO I=1,NEL
           IF (SLIPRING_STRAND(I) > 0) THEN   

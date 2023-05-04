@@ -95,6 +95,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
+      USE USER_SENSOR_MOD
       USE USER_INTERFACE_MOD
       USE ALE_MOD
       USE OUTPUT_MOD
@@ -181,6 +182,7 @@ C
       TYPE(DETONATOR_STRUCT_),TARGET                  :: DETONATORS
       TYPE(t_ebcs_tab)                                :: EBCS_TAB
       TYPE(OUTPUT_)                                   :: OUTPUT
+c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
 
       CHARACTER CWD*ncharline
       CHARACTER GLOBAL_PATH*(ncharline+2048)
@@ -528,7 +530,6 @@ C new composite shell pid max nbs 200
       NNPBY  = 18
       NMGRBY = 7
       NRWLP  = 26
-      NSENSR = 223
       NIBVEL = 0
       NBVELP = 6
       NRCNX  = 12
@@ -548,7 +549,6 @@ C      LTITR   = 40
       LISUB1  = 20 + LTITR
       LIBOX1  = 20 + LTITR
       LIPART1 = 20 + LTITR
-      NSENSI  = 15 + LTITR
       NPROPGI = 750 + LTITR
       NPROPMI = 300 + LTITR
 C     npsav not used by starter
@@ -885,8 +885,9 @@ c       start CPU timer for lectur
 C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------
-        CALL LECTUR(MULTI_FVM                    ,LSUBMODEL          ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
-     .              SEATBELT_CONVERTED_ELEMENTS  ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  )
+        CALL LECTUR(
+     .       MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
+     .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  )
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)

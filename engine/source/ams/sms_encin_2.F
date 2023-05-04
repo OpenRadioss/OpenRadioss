@@ -49,7 +49,7 @@ Chd|====================================================================
      4        A        ,WV       ,WMV      ,WDG       ,XMOM_SMS ,
      5        ICODT    ,ICODR    ,ISKEW    ,SKEW      ,IBFV     ,
      6        VEL      ,NPC      ,TF       ,X         ,D        ,
-     7        SENSOR_TAB,IFRAME   ,XFRAME    ,JADI_SMS ,
+     7        SENSORS  ,IFRAME   ,XFRAME    ,JADI_SMS ,
      8        JDII_SMS ,LTI_SMS  ,ISKYI_SMS ,MSKYI_SMS ,FR_SMS  ,
      9        FR_RMS   ,NPBY     ,TAGSLV_RBY_SMS,INTSTAMP,CPTREAC,
      A        NODREAC  ,FTHREAC  ,AR        ,VR        ,
@@ -111,7 +111,7 @@ C-----------------------------------------------
       DOUBLE PRECISION RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  :: SENSORS
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -331,8 +331,8 @@ C       reimp wmv=0
 C
         IF(ITASK==0)
      .  CALL SMS_FIXVEL(IBFV   ,WMV     ,V     ,NPC    ,TF     ,
-     2                  VEL    ,DIAG_SMS,X     ,SKEW   ,SENSOR_TAB,
-     3                  WEIGHT  ,D     ,IFRAME ,XFRAME ,
+     2                  VEL    ,DIAG_SMS,X     ,SKEW   ,SENSORS%SENSOR_TAB,
+     3                  WEIGHT  ,D     ,IFRAME ,XFRAME ,SENSORS%NSENSOR,
      4                  -(IT+1),DIAG_SMS,NODXI_SMS,CPTREAC,
      5                  NODREAC,FTHREAC ,AR     ,VR       ,DR  ,
      6                  IN     ,RBY     )

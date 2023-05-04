@@ -31,7 +31,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSOR_TAB ,IGEO    ,GEO    )
+      SUBROUTINE ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSORS ,IGEO    ,GEO    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER ISPMD, MCHECK, IGEO(NPROPGI,*)
       my_real
      .        GEO(NPROPG,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -64,45 +64,38 @@ C-----------------------------------------------
      .   IUS,IPT,IGTYP,NPT,NPTS,NPTR,NPTT,NPTT_PLY,CPtPLY,NMAX,IGTYP15,
      .   IDX,NIPMAX_BEAM, NIPMAX_SOL,ICSTR,N14R,N14S,N14T
 C-------------------------------------------
-      IF(ISPMD == 0.AND.MCHECK == 0) THEN
+      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
 C-----------------------
-C      ANIM/SENSOR Initializations
+C       /ANIM/SENSOR and /ANIM/LSENSOR Initializations
 C-----------------------       
-        IANIS0=IANISENS
-        IF(IANIS0 /= 0)THEN
-          DO I=1,NSENSOR
-            IF( IANIS0 == SENSOR_TAB(I)%SENS_ID ) IANISENS=I
+        IANIS0 = SENSORS%ANIM_ID
+        IF (IANIS0 /= 0) THEN
+          DO I=1,SENSORS%NSENSOR
+            IF (IANIS0 == SENSORS%SENSOR_TAB(I)%SENS_ID) SENSORS%ANIM_ID=I
           ENDDO
         ENDIF
-        DO K=1,NLSENS
+c
+        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
+        DO K=1,SENSORS%NANIM
           IOK = 0
-          IANIS0=LANISENS(K)
-          IF(IANIS0 /= 0)THEN
-            DO I=1,NSENSOR
-              IF( IANIS0 == SENSOR_TAB(I)%SENS_ID ) THEN
-                LANISENS(K)=I
+          IANIS0 = SENSORS%ANIM_TMP(K)
+          IF (IANIS0 > 0) THEN
+            DO I=1,SENSORS%NSENSOR
+              IF (IANIS0 == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
+                SENSORS%ANIM(K)=I
                 IOK = 1
                 EXIT
               ENDIF
             ENDDO
           ENDIF
-          IF(IOK == 0) THEN
+          IF (IOK == 0) THEN
             CALL ANCMSG(MSGID=228,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IANIS0)
             CALL ARRET(2)
           ENDIF
         ENDDO
-C-----------------------       
-      ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
-C-----------------------
-C     ANIM/SENSOR Iniializations
-C-----------------------   
-         IANISENS = IANISENS_OLD
-         DO K=1,IANISENS_OLD
-           LANISENS(K) = LANISENS_OLD(K)
-         ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
-      IF(MCHECK == 0 ) THEN
+      IF (MCHECK == 0 ) THEN
        IF( ISTRESALL == 1 .OR. ISTRAIALL  == 1      .OR.
      .    IEPSDOALL == 1 .OR. IEPSPALL   == 1      .OR.
      .                        IPHIALL    == 1      .OR.

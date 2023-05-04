@@ -27,7 +27,7 @@ Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_AND(SENSOR_TAB,SENS)
+      SUBROUTINE SENSOR_AND(NSENSOR,SENSOR_TAB,SENS)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) ::  SENS
+      INTEGER, INTENT(IN) ::  SENS,NSENSOR
       TYPE (SENSOR_STR_), INTENT(INOUT) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

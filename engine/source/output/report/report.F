@@ -32,6 +32,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
+      USE USER_INTERFACE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -504,10 +505,10 @@ c
          WRITE(IOUTREP,'(A,I10,A)')'<td><font face="Arial" size="2">',NSLIN,'</td>'
          WRITE(IOUTREP,'(A)')'</tr>'
        ENDIF
-       IF(NSENSOR /= 0)THEN
+       IF(SENSORS%NSENSOR /= 0)THEN
          WRITE(IOUTREP,'(A)')'<tr>'
          WRITE(IOUTREP,'(A)')'<td><font face="Arial" size="2">Number of sensors: &nbsp;&nbsp;</td>'
-         WRITE(IOUTREP,'(A,I10,A)')'<td><font face="Arial" size="2">',NSENSOR,'</td>'
+         WRITE(IOUTREP,'(A,I10,A)')'<td><font face="Arial" size="2">',SENSORS%NSENSOR,'</td>'
          WRITE(IOUTREP,'(A)')'</tr>'
        ENDIF
        IF(NUMSKW /= 0)THEN

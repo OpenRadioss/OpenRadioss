@@ -93,7 +93,7 @@ Chd|====================================================================
      H         GRTH        , IGRTH       ,LGAUGE        ,GAUGE     ,MSSA      ,
      I         DMELS       , IGAUP       ,NGAUP         ,TABLE     ,MS0       ,
      J         XDP         , IGRNOD      ,VARNOD                   ,FSKYI     ,ISKY            ,
-     K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSOR_TAB,
+     K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSORS   ,
      L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
      M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
      N         DIFFUSION   , MATPARAM_TAB,H3D_DATA)
@@ -197,7 +197,7 @@ C-----------------------------------------------
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
       my_real, INTENT(INOUT) :: XCELL(3,SXCELL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -554,7 +554,7 @@ C     -------------------------
 C     Gravity terms
 C     -------------------------
                CALL ALEFVM_GRAV_INIT(
-     1              AGRAV, IGRV    , LGRAV, SENSOR_TAB,
+     1              AGRAV, IGRV    , LGRAV, SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
      2              IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3              ITAB 
      .              )
@@ -706,7 +706,7 @@ C
             !GRAVITY INIT
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allocation
             CALL ALEFVM_GRAV_INIT(
-     1                           AGRAV, IGRV    , LGRAV, SENSOR_TAB,
+     1                           AGRAV, IGRV    , LGRAV, SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
      2                           IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3                           ITAB 
      .                           )
@@ -773,7 +773,7 @@ C
      B            BID       ,BID       ,BID     ,IBID       ,GRESAV   ,
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,VARNOD    ,VOLN    ,BID        ,BID      ,
-     E            D         ,SENSOR_TAB,IOUTPRT ,MATPARAM_TAB,IBID)
+     E            D         ,SENSORS   ,IOUTPRT ,MATPARAM_TAB,IBID)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -803,7 +803,7 @@ C
      J            BID          ,BID          ,BID          ,BID          ,BID     ,
      K            BID          ,BID          ,IPARG(1,NG)  ,XDP     ,
      M            BID          ,IBID         ,IBID         ,VOLN         ,CONDN   ,
-     N            CONDNSKY     ,AGRAV        ,IGRV         ,LGRAV        ,SENSOR_TAB,
+     N            CONDNSKY     ,AGRAV        ,IGRV         ,LGRAV        ,SENSORS ,
      O            SKEW          ,
      P            ALE_CONNECTIVITY%NALE      ,D            ,IOUTPRT      ,NLOC_DMG,
      Q            MATPARAM_TAB ,IBID)
@@ -927,7 +927,7 @@ C     ALE ON / OFF
      B            BID       ,BID       ,BID     ,IBID       ,GRESAV   ,
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,BID       ,VOLN    ,BID        ,BID      ,
-     E            D         ,SENSOR_TAB,IOUTPRT ,MATPARAM_TAB ,IBID)
+     E            D         ,SENSORS   ,IOUTPRT ,MATPARAM_TAB ,IBID)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -957,7 +957,7 @@ C     ALE ON / OFF
      J            BID          ,BID         ,BID       ,BID          ,BID     ,      
      K            BID          ,BID         ,IPARG(1,NG)  ,XDP     ,      
      M            BID          ,IBID        ,IBID      ,VOLN         ,CONDN   ,
-     N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSOR_TAB,
+     N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSORS ,
      O            SKEW        ,
      P            ALE_CONNECTIVITY%NALE         ,D           ,IOUTPRT   ,NLOC_DMG     ,
      Q            MATPARAM_TAB ,IBID)

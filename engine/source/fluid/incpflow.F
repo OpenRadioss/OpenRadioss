@@ -37,7 +37,7 @@ Chd|====================================================================
      .                    IBUF  , ELEM  , IINOUT , IBUFI  , IBUFR  ,
      .                    IBUFC , IBUFL , RFLOW  , PHI    , PRES   ,
      .                    U     , RINOUT, X      , V      , A      ,
-     .                    NPC   , TF    , SENSOR_TAB,
+     .                    NPC   , TF    , NSENSOR,SENSOR_TAB,
      .                    CNP   , ITAGEL, IBUFELR, IBUFELC, IPIV   ,
      .                    HBEM  , GBEM  , IBUFIL , CNPI   , IPINT  )
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NNO, NEL, NINOUT, NNI, IFLOW(*), IBUF(*), ELEM(3,*),
      .        IINOUT(NIIOFLOW,*), IBUFI(*), IBUFR(*), IBUFC(*), 
      .        IBUFL(*), NPC(*),CNP(*),

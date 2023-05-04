@@ -37,7 +37,7 @@ Chd|====================================================================
      3             ZMOM    ,E       ,OFF    ,STIFM  ,STIFR  ,
      4             VISCM   ,VISCR   ,MASS   ,XINER  ,DT     ,
      5             XL      ,VX      ,RY1    ,RZ1    ,RX     ,
-     6             RY2     ,RZ2     ,FR_WAVE,SENSOR_TAB)
+     6             RY2     ,RZ2     ,FR_WAVE,NSENSOR,SENSOR_TAB)
 C-----------------------------------------------  
 C   M o d u l e s
 C-----------------------------------------------  
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER IOUT,NEL,NUVAR,IPROP,
+      INTEGER IOUT,NEL,NUVAR,IPROP,NSENSOR,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
      .        KFUNC,KMAT,KPROP
       my_real

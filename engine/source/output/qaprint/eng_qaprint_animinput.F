@@ -28,13 +28,14 @@ Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ENG_QAPRINT_ANIMINPUT()
+      SUBROUTINE ENG_QAPRINT_ANIMINPUT(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
       USE ANIM_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +51,7 @@ C-----------------------------------------------
       INTEGER I
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C=======================================================================
 C-----------------------------------------------
 C     QA PRINT FOR ANIM INPUTS
@@ -71,11 +73,11 @@ C-----------------------------------------------
         TEMP_DOUBLE = TANIM_STOP0
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)        
 
-        WRITE(VARNAME,'(A)') 'IANISENS'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IANISENS,0.0_8)
+        WRITE(VARNAME,'(A)') 'SENSORS%ANIM_ID'
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%ANIM_ID,0.0_8)
 
-        WRITE(VARNAME,'(A)') 'NLSENS'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NLSENS,0.0_8)
+        WRITE(VARNAME,'(A)') 'SENSORS%NANIM'
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%NANIM,0.0_8)
 
         WRITE(VARNAME,'(A)') 'MX_ANI'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),MX_ANI,0.0_8)
@@ -141,10 +143,10 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 
-        DO I = 1,MX_ANI
+        DO I = 1,SENSORS%NANIM
           IF(ANIM_FE(I)/=0)THEN
-            WRITE(VARNAME,'(A,I0)') 'LANISENS_',I
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LANISENS(I),0.0_8)
+            WRITE(VARNAME,'(A,I0)') 'SENSORS_NANIM_',I
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%ANIM(I),0.0_8)
           ENDIF
         ENDDO
 

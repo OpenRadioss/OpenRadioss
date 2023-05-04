@@ -509,8 +509,8 @@ Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
-      SUBROUTINE LECTUR( MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
-     .                   SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT )
+      SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
+     .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -603,7 +603,8 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT)              ::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
       INTEGER,INTENT(IN)                 ::NB_DYNA_INCLUDE
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
-      TYPE(OUTPUT_), INTENT(INOUT)       :: OUTPUT
+      TYPE(OUTPUT_),  INTENT(INOUT)      :: OUTPUT
+c      TYPE(SENSORS_), INTENT(INOUT)      :: SENSORS! declared as global in USER_SENSOR_MOD
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -1045,6 +1046,7 @@ C
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SKN
       TYPE(SKEW_TYPE), DIMENSION(:), ALLOCATABLE :: MULTIPLE_SKEW
+      TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TMP
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       TAG_SKN : integer ; dimension=NUMSKW+1
 !                 tag array --> tag the i SKEW if a SPRING uses it
@@ -3751,7 +3753,7 @@ C---  Premiere Passe -> comptage
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
-     8           NLOC_DMG ,DETONATORS)
+     8           NLOC_DMG ,DETONATORS,SENSORS%NSENSOR)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
          IF (STAT /= 0) THEN
@@ -4845,11 +4847,11 @@ C-------------------------------------------------
       CALL READ_EBCS(IGRSURF,MULTI_FVM,NPC1,(LNOPT1*INOM_OPT(24)+1),LSUBMODEL,EBCS_TAB)
       IF (NEBCS > 0)THEN
         !allocate & count
-        IF(.NOT. ALLOCATED(SENSOR_TAB)) ALLOCATE( SENSOR_TAB(0) )
+        IF(.NOT. ALLOCATED(SENSOR_TMP)) ALLOCATE( SENSOR_TMP(0) )
         CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG,
-     .        PM, IGEO, X, SENSOR_TAB, MONVOl, MULTI_FVM%IS_USED, 
+     .        PM, IGEO, X, SENSOR_TMP, MONVOl, MULTI_FVM%IS_USED, 
      .        EBCS_TAB, EBCS_TAG_CELL_SPMD)
-        DEALLOCATE(SENSOR_TAB)
+        DEALLOCATE(SENSOR_TMP)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -4896,27 +4898,23 @@ c
       ! size initialization for user sensor
       CALL SENSOR_USER_INIT()
       ! -------------
-      IF (ALLOCATED(SENSOR_TAB))DEALLOCATE(SENSOR_TAB)
-      ALLOCATE( SENSOR_TAB(NSENSOR) )
 c
-      IF (NSENSOR > 0) THEN
-        CALL HM_READ_SENSORS(
-     .       SENSOR_TAB,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
-     .       SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
-     .       SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)
-        ! -----------------
-        ! check if a user sensor is used with a list of node
-        ! convert the list of User node ID into Local node ID
+      CALL HM_READ_SENSORS(
+     .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
+     .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
+     .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)
+      ! -----------------
+      ! check if a user sensor is used with a list of node
+      ! convert the list of User node ID into Local node ID
 
-        IF (SENSOR_USER_STRUCT%IS_USED) THEN
-            IF (SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
-                CALL SENSOR_USER_CONVERT_LOCAL_ID(
-     .           ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
-     .           SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
-            ENDIF
-        ENDIF
+      IF (SENSOR_USER_STRUCT%IS_USED) THEN
+          IF (SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
+              CALL SENSOR_USER_CONVERT_LOCAL_ID(
+     .         ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
+     .         SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
+          ENDIF
+      ENDIF
         ! -----------------
-      END IF
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES PRELOADS
@@ -4963,7 +4961,7 @@ c
 
        WRITE(ISTDO,'(A)')TITRE(34)
        CALL HM_READ_PRELOAD(IXS   ,IXS10     ,IPRELOAD ,PRELOAD,IFLAG_BPRELOAD,
-     .                      NSTRF ,SENSOR_TAB,UNITAB ,X        ,
+     .                      NSTRF ,SENSORS   ,UNITAB ,X        ,
      .                      EANI  ,ITAB      ,LSUBMODEL)
 c
        IF(ALLOCATED(NSTRF))  DEALLOCATE(NSTRF)
@@ -5163,7 +5161,7 @@ C----------------------------------
         WRITE(ISTDO,'(A)') ' .. MONITORED VOLUMES '
 
         CALL READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO,
-     .       X, PM, GEO, IXC, IXTG, SENSOR_TAB,
+     .       X, PM, GEO, IXC, IXTG, SENSORS,
      .       UNITAB, NPC1, NPC, TF, IGRSURF, IGRBRIC, NOM_OPT(LNOPT1*INOM_OPT(2)+1),IFRAME, XFRAME,
      .       LSUBMODEL)
 
@@ -5171,7 +5169,7 @@ C----------------------------------
      2       GEO     ,PM      ,
      3       IXC     ,IXTG    ,X       ,NPC1    ,
      4       ITABM1  ,ITAB      ,IGRSURF ,
-     5       SENSOR_TAB,IGRBRIC  ,SBUFALE ,
+     5       SENSORS ,IGRBRIC  ,SBUFALE ,
      6       NAIRWA  ,IXS     ,V       ,LIBAGALE,
      7       NPC     ,TF      ,LRBAGALE,IPM     ,IGEO    ,
      8       UNITAB  )
@@ -5335,7 +5333,7 @@ C------------------------------------------------------------------------
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL FSDCOD(BUFMAT   ,PM       ,GEO      ,IBCL      ,IPRES    ,
-     .            IBFV     ,ISKEW    ,ISKWN    ,SENSOR_TAB,
+     .            IBFV     ,ISKEW    ,ISKWN    ,SENSORS   ,
      .            ITABM1   ,SKEW     ,LACCELM  ,BID13     ,BUFGEO   ,
      .            IBCSLAG  ,IGEO     ,IPM      ,
      .            DAMPR    ,IBFTEMP  ,IBCV     ,IBFV      ,
@@ -5346,7 +5344,7 @@ c------------------------------------------------------------------------
 c     Update & check parameters of material laws
 c------------------------------------------------------------------------
       CALL UPDMAT(BUFMAT   ,PM      ,IPM       ,TABLE    ,NPC1     ,
-     .            NPC      ,TF      ,SENSOR_TAB,NLOC_DMG ,MLAW_TAG ,
+     .            NPC      ,TF      ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,
      .            MATPARAM_TAB)
 C
       CALL TRACE_OUT1()
@@ -5401,7 +5399,7 @@ C
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
         WRITE(ISTDO,'(A)')' .. SEATBELT INITIALIZATION'
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
-     .                       X,SENSOR_TAB,BUFMAT,PM,GEO,
+     .                       X,SENSORS,BUFMAT,PM,GEO,
      .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
      .                       ISKWN   )
         CALL TRACE_OUT1()
@@ -6595,7 +6593,7 @@ c      CALL PRELECGRAV(NUMGRAV ,IGRNOD)
       END IF
       IGRV = 0
       CALL HM_READ_GRAV(IGRV   ,LGRAV   ,GRAV      ,ITAB    ,ITABM1  ,
-     .                 IGRNOD  ,NPC     ,SENSOR_TAB,UNITAB  ,ISKWN   ,
+     .                 IGRNOD  ,NPC     ,SENSORS   ,UNITAB  ,ISKWN   ,
      .                 ITAGND  ,LSUBMODEL)
       CALL TRACE_OUT1()
 C----------------------------------
@@ -6691,7 +6689,7 @@ C        Centrifugal Loads
 !READING CARDS & STORING DATA
          IF(NLOADC/=0)THEN
            CALL HM_READ_LOAD_CENTRI(ICFIELD ,LCFIELD ,CFIELD    ,ITAB    ,ITABM1  ,
-     .                              IGRNOD  ,NPC     ,SENSOR_TAB,UNITAB  ,IFRAME  ,
+     .                              IGRNOD  ,NPC     ,SENSORS   ,UNITAB  ,IFRAME  ,
      .                              LSUBMODEL)
          END IF
 C
@@ -6741,7 +6739,7 @@ C        PFLUID & PBLAST & LOAD PRESSURE
          NINTLOADP21 = 0
          IF(NLOADP_F/=0)THEN
            CALL HM_READ_PFLUID(NUMLOADP ,ILOADP  ,LLOADP  ,LOADP   ,NPC      ,
-     .                        SENSOR_TAB,IGRSURF ,UNITAB  ,IFRAME  ,LSUBMODEL)
+     .                        SENSORS   ,IGRSURF ,UNITAB  ,IFRAME  ,LSUBMODEL)
          END IF
          IF(NLOADP_B/=0)THEN
            CALL HM_READ_PBLAST(ITAB    ,ITABM1  ,UNITAB  ,IGRSURF,  NUMLOADP,
@@ -6751,7 +6749,7 @@ C        PFLUID & PBLAST & LOAD PRESSURE
          IF(NLOADP_HYD/=0)THEN
            CALL HM_READ_LOAD_PRESSURE(
      .                       NUMLOADP   ,ILOADP     ,LLOADP       ,INTERLOADP ,LOADP      ,
-     .                       KLOADPINTER,LOADPINTER ,NPC          ,SENSOR_TAB ,IGRSURF    ,
+     .                       KLOADPINTER,LOADPINTER ,NPC          ,SENSORS    ,IGRSURF    ,
      .                       UNITAB     ,ISKWN      ,LSUBMODEL    ,DGAPINT    ,INTGAPLOADP,
      .                       DGAPLOADINT,S_LOADPINTER)
 
@@ -6852,7 +6850,7 @@ C--------------------------------------------
      .                             MSGTYPE=MSGERROR, C1='IACTIV')
       END IF
       IACTIV = 0
-      IF (NACTIV > 0) CALL HM_READ_ACTIV(IACTIV   ,FACTIV  ,SENSOR_TAB,IGRBRIC,
+      IF (NACTIV > 0) CALL HM_READ_ACTIV(IACTIV   ,FACTIV  ,SENSORS,IGRBRIC,
      .                             IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS,IGRBEAM,
      .                             IGRSPRING,LSUBMODEL,UNITAB)
 C--------------------------------------------
@@ -7170,7 +7168,7 @@ C--------------------------------------------------------------
      2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N                     ,
      3           IGRTRUSS ,NPC      ,ISKWN    ,XFILTR     ,STFAC                       ,
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
-     5           DEF_INTER,NPC1     ,SENSOR_TAB,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
+     5           DEF_INTER,NPC1     ,SENSORS  ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
      7           KLOADPINTER        ,DGAPINT  ,INTERFACES)
 C
@@ -7561,7 +7559,7 @@ C
             CALL HM_READ_RBODY(
      1       RBY       ,NPBY    ,LPBY    ,ITAB    ,ITABM1    ,
      2       IGRNOD    ,IGRSURF ,IBFV    ,IGRV    ,LGRAV     ,
-     3       SENSOR_TAB,IMERGE  ,UNITAB  ,ISKWN   ,NOM_OPT   ,
+     3       SENSORS   ,IMERGE  ,UNITAB  ,ISKWN   ,NOM_OPT   ,
      4       SLRBODY   ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
      5       KNOD2ELQ  ,ITAGND  ,ICNDS10 ,LSUBMODEL,ICFIELD  ,
      6       LCFIELD   )
@@ -9023,15 +9021,15 @@ C----------------------------------
 C--------------------------------------------
 C     INIT DES SENSORS (REMPLACEMENT DES NOS EXTERNES PAR LES NOS SYSTEMES)
 C--------------------------------------------
-      IF (NSENSOR > 0) THEN
-        CALL INISEN(SENSOR_TAB ,IPARI,NOM_OPT,INOM_OPT(5),
+      IF (SENSORS%NSENSOR > 0) THEN
+        CALL INISEN(SENSORS%SENSOR_TAB ,IPARI,NOM_OPT,INOM_OPT(5),
      .              INOM_OPT(8),SFSAV6,IPARSENS,INOM_OPT(4),
-     .              IXR        ,R_SKEW     )
+     .              IXR        ,R_SKEW   ,SENSORS%NSENSOR)
         IF(IPARSENS/=0) THEN
           STABSEN=NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
           ALLOCATE(TABSENSOR(STABSEN)  , STAT=stat)
           ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-          CALL INIPARSEN(SENSOR_TAB,SFSAV6,STABSEN,TABSENSOR,FBSAV6)
+          CALL INIPARSEN(SENSORS%SENSOR_TAB,SFSAV6,SENSORS%NSENSOR,STABSEN,TABSENSOR,FBSAV6)
         ELSE
           SFSAV6=0
           STABSEN=0
@@ -9179,7 +9177,7 @@ c
          SEGINDX = 0
          !update due to domain decomposition
          CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG,
-     .        PM, IGEO, X, SENSOR_TAB, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .        PM, IGEO, X, SENSORS, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
          !initialization
         CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM)
       ENDIF
@@ -9378,7 +9376,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 0,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB   ,
+     E       MAP_TABLES, 0,INOM_OPT(31),INOM_OPT(32),SENSORS   ,
      F       INTERFACES,IPARI   )
 C
       MY_ALLOCATE(OUTPUT%TH%ITHBUF,OUTPUT%TH%SITHBUF)
@@ -9423,7 +9421,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 1,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 1,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
@@ -9466,9 +9464,8 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 2,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 2,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
-
 
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
@@ -9511,7 +9508,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 3,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 3,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
@@ -9554,7 +9551,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 4,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 4,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFD,OUTPUT%TH%SITHBUFD)
@@ -9598,7 +9595,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 5,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 5,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
@@ -9641,7 +9638,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 6,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 6,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
@@ -9684,7 +9681,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 7,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 7,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
@@ -9727,7 +9724,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 8,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 8,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
@@ -9770,7 +9767,7 @@ c-----
      B       IGRSURF    ,SUBSETS  ,ITHFLAG,NPBY     ,LSUBMODEL, IPARG  ,
      C       IPARTS   ,IPARTQ   ,IPARTC   ,IPARTT   ,IPARTP  ,IPARTR   ,
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
-     E       MAP_TABLES, 9,INOM_OPT(31),INOM_OPT(32),SENSOR_TAB,
+     E       MAP_TABLES, 9,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
@@ -10070,7 +10067,7 @@ C--------------------------------------------
         ENDIF
         ALLOCATE(ISKWP(NUMSKW+1))
         ALLOCATE(NSKWP(NSPMD))
-        ALLOCATE(ISENSP(2*NSENSOR))
+        ALLOCATE(ISENSP(2*SENSORS%NSENSOR))
         ALLOCATE(NSENSP(NSPMD))
         ALLOCATE(IACCP(NACCELM))
         ALLOCATE(NACCP(NSPMD))
@@ -10101,7 +10098,7 @@ C
      D    LGAUGE ,IGAUP   ,NGAUP  ,INTBUF_TAB,IBFFLUX ,
      E    ICNDS10,ITAGND  ,IGEO   ,TAG_SKN   ,MULTIPLE_SKEW,
      F    IBFV   ,IBCSCYC ,LBCSCYC,R_SKEW    ,IPM,
-     G    SENSOR_TAB, SCEP,EBCS_TAB)
+     G    SENSORS,SCEP    ,EBCS_TAB)
 
 C      ELSE
 C       mise a 1 de front i.e. tous les noeuds sur Proc1, poids 1
@@ -10279,7 +10276,7 @@ C----------------------------------------------
      U        XSEED       ,XLAS       ,ILAS            ,IRBE2         ,LRBE2            ,
      V        KXSP        ,IPARTSP    ,DRAPE           ,IXR_KJ        ,IACTIV           ,
      W        FACTIV      ,UNITAB     ,NPBYL           ,LPBYL         ,RBYL             ,
-     X        XYZREF      ,SENSOR_TAB ,FUNC2D          ,
+     X        XYZREF      ,SENSORS    ,FUNC2D          ,
      Y        INICRACK    ,IPRELOAD   ,PRELOAD         ,IFLAG_BPRELOAD,IBMPC            ,
      Z        IBMPC2      ,IBMPC3     ,IBMPC4          ,RBMPC         ,LJOINT           ,
      A        NNLINK      ,LNLINK     ,BUFSF           ,SBUFSF        ,STACK%PM         ,
@@ -10687,7 +10684,7 @@ c
      M         I11FLAG      ,XFEM_TAB    ,LENTHGR        ,RTHBUF      ,
      N         IXIG3D       ,KXIG3D      ,KNOT           ,IPARTIG3D   ,WIGE       ,
      O         NCRKPART     ,INDX_CRK    ,CRKLVSET       ,CRKSHELL    ,CRKSKY     ,
-     P         CRKAVX       ,CRKEDGE     ,FBSAV6         ,TABSENSOR   ,SENSOR_TAB ,
+     P         CRKAVX       ,CRKEDGE     ,FBSAV6         ,TABSENSOR   ,SENSORS    ,
      Q         STACK        ,XFEM_PHANTOM, INTERT8       ,TAB_UMP     ,POIN_UMP   ,
      R         SOL2SPH_TYP  ,ADDCSRECT   ,CSRECT         ,DRAPE     ,
      S         ITAGND         ,ICNDS10     ,ADDCNCND   ,
@@ -10948,7 +10945,7 @@ C
       IF (ALLOCATED(XSEED)) DEALLOCATE (XSEED)
       IF (ALLOCATED(ALEA))  DEALLOCATE (ALEA)
       IF (ALLOCATED(IRAND)) DEALLOCATE (IRAND)
-      IF(ALLOCATED(SENSOR_TAB)) DEALLOCATE( SENSOR_TAB )
+      IF (ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB )
       IF (ALLOCATED(LOGICAL_SENSORS_LIST)) DEALLOCATE(LOGICAL_SENSORS_LIST)
 C
       CALL EBCS_TAB%destroy()

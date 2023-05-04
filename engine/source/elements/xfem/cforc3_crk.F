@@ -78,7 +78,7 @@ Chd|====================================================================
      J            GRESAV ,GRTH   ,IGRTH ,MSC    ,DMELC ,
      K            JSMS  ,TABLE   ,IPARG ,IXFEM,INOD_CRK,
      L            IEL_CRK,IADC_CRK,ELCUTC,
-     M            SENSOR_TAB,IXEL ,STACK   ,
+     M            SENSORS,IXEL ,STACK   ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE, IGRE)
 C-----------------------------------------------
@@ -149,7 +149,7 @@ C     REAL
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE)  ::  DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -451,7 +451,7 @@ C-----------------------------
      I    BID       ,BID       ,BID       ,E1X       ,E1Y       ,
      J    E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X       ,
      K    E3Y       ,E3Z       ,IBID      ,TABLE     ,IXFEM     ,
-     L    BID       ,SENSOR_TAB,BID       ,ELCRKINI  ,
+     L    BID       ,SENSORS   ,BID       ,ELCRKINI  ,
      M    DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N    ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      O    IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

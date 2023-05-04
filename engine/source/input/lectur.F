@@ -87,7 +87,7 @@ Chd|====================================================================
      E                  IPM     ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
-     H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSOR_TAB,
+     H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
      I                  DYNAIN_DATA)
 C-----------------------------------------------
 C   M o d u l e s
@@ -187,8 +187,8 @@ C-----------------------------------------------
       TYPE(GROUP_)  ,DIMENSION(NGRPART) :: IGRPART
       CHARACTER MDS_LABEL(1024,MDS_NMAT)
       TYPE (STACK_PLY) :: STACK
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
+      TYPE (DYNAIN_DATABASE), INTENT(INOUT)  :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -220,6 +220,7 @@ C-----------------------------------------------
        CHARACTER CARTE*ncharline,LINE*ncharline
       my_real eta1,eta2
       my_real, DIMENSION(:), POINTER :: OFFG
+      TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
       LOGICAL IS_ALREADY_PRINTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -233,6 +234,7 @@ C-----------------------------------------------
          IPARI(13,I)=10
          IF(IPARI(15,I) == 0) IPARI(15,I)=I
       ENDDO
+      SENSOR_TAB => SENSORS%SENSOR_TAB(1:SENSORS%NSENSOR)
 
       CALL CHKIPARI(IPARI)
 
@@ -500,7 +502,7 @@ C --------------------------------------------------------------------
           IF(IDT1SOL/=0) WRITE(IOUT,4730)
           IF(IDT1TET10/=0) WRITE(IOUT,4740)
          ENDIF!(ISPMD == 0.AND.MCHECK == 0)
-	END IF
+	      END IF
         IF(IDTMIN(11) == 3 .OR. IDTMIN(11) == 8) THEN
            IF(ISPMD == 0.AND.MCHECK == 0)
      .      WRITE(IOUT,1107)DTFAC1(11),DTMIN1(11),IDTMIN(11)
@@ -533,7 +535,7 @@ C --------------------------------------------------------------------
             ENDIF
           END IF
         END IF
-	IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
+	       IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
          IF(ISPMD == 0.AND.MCHECK == 0)THEN
            WRITE(IOUT,4700) DTFAC1(1),DTMIN1(1),IDTMIN(1),
      +                 MIN_ASPECT,MIN_DEFV,
@@ -603,10 +605,10 @@ C
 C
       ENDIF
 C
-	IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
+     	IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
            IF(ISPMD == 0.AND.MCHECK == 0)
      .      WRITE(IOUT,4700)MIN_ASPECT,MIN_DEFV
-	END IF
+	     END IF
 
       IF(NODADT==0.AND.(ISTATCND/=0.AND.IMPL_S==0))THEN
         CALL ANCMSG(MSGID=121,ANMODE=ANINFO_BLIND)
@@ -820,7 +822,7 @@ C-----------------------
 C-----------------------
 C       Tracing Animations cards
 C-----------------------
-       WRITE(IOUT,1120)TANIM,DTANIM,TANIM_STOP,IANISENS,DTANISENS,
+       WRITE(IOUT,1120)TANIM,DTANIM,TANIM_STOP,SENSORS%ANIM_ID,SENSORS%ANIM_DT,
      +       ANIM_E(1),ANIM_E(2),ANIM_E(3),ANIM_E(25),
      +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
      +       ANIM_E(7),ANIM_E(8),ANIM_E(9),
@@ -838,105 +840,93 @@ C-----------------------
 C     The correct indexes in ANIM data structures wrt integration points or layers
 C     of all actual elements will be rebuilt ::
 C-----------------------
-      CALL ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSOR_TAB ,IGEO    ,GEO    )
+      CALL ANIM_BUILD_INDEX_ALL(ISPMD   ,MCHECK ,SENSORS ,IGEO ,GEO )
 C-------------------------------------------
 C     STOP/SENSOR
 C-------------------------------------------
-      IF(ISPMD == 0.AND.MCHECK == 0) THEN
-       IF (NSTOPSENS /= 0) THEN
-          DO K=1,NSTOPSENS
+      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
+        MY_ALLOCATE (SENSORS%STOP,SENSORS%NSTOP)
+        SENSORS%STOP = 0
+        IF (SENSORS%NSTOP > 0) THEN
+          DO K=1,SENSORS%NSTOP
             IERR = 1
-            IF(LSTOPSENS(K) /= 0) THEN
-              DO I=1,NSENSOR
-               IF (SENSOR_TAB(I)%SENS_ID == LSTOPSENS(K)) THEN
-                 LSTOPSENS(K) = I
-                 IERR = 0
-                 EXIT
+            IF (SENSORS%STOP_TMP(K) > 0) THEN
+              DO I=1,SENSORS%NSENSOR
+                IF (SENSOR_TAB(I)%SENS_ID == SENSORS%STOP_TMP(K)) THEN
+                  SENSORS%STOP(K) = I
+                  IERR = 0
+                  EXIT
                 ENDIF
               ENDDO
             ENDIF
-            IF(IERR == 1) THEN
-             CALL ANCMSG(MSGID=233,
-     .             ANMODE=ANINFO,
-     .             I1=LSTOPSENS(K))
+            IF (IERR == 1) THEN
+             CALL ANCMSG(MSGID=233, ANMODE=ANINFO,
+     .             I1=SENSORS%STOP_TMP(K))
             ENDIF
           ENDDO
         ENDIF
-      ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
-        NSTOPSENS = NSTOPSENS_OLD
-        DO K=1,NSTOPSENS_OLD
-          LSTOPSENS(K) = LSTOPSENS_OLD(K)
-        ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
-      IF(ISPMD == 0.AND.MCHECK == 0) THEN
-       MSTATT = 0
-       IF (NSTATSENS /= 0) THEN
-          DO K=1,NSTATSENS
+      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
+        MSTATT = 0
+        MY_ALLOCATE (SENSORS%STAT,SENSORS%NSTAT)
+        SENSORS%STAT(:) = 0
+        IF (SENSORS%NSTAT > 0) THEN
+          DO K=1,SENSORS%NSTAT
             IERR = 1
-            IF(LSTATSENS(K) /= 0) THEN
-              DO I=1,NSENSOR
-               IF (SENSOR_TAB(I)%SENS_ID == LSTATSENS(K)) THEN
-                 LSTATSENS(K) = I
+            IF(SENSORS%STAT(K) /= 0) THEN
+              DO I=1,SENSORS%NSENSOR
+               IF (SENSORS%SENSOR_TAB(I)%SENS_ID == SENSORS%STAT(K)) THEN
+                 SENSORS%STAT(K) = I
                  IERR = 0
                  EXIT
                 ENDIF
               ENDDO
             ENDIF
-            IF(IERR == 1) THEN
-             CALL ANCMSG(MSGID=235,
-     .             ANMODE=ANINFO,
-     .             I1=LSTATSENS(K))
+            IF (IERR == 1) THEN
+             CALL ANCMSG(MSGID=235, ANMODE=ANINFO,
+     .             I1=SENSORS%STAT(K))
             ELSE
                MSTAT(K) = 0
             ENDIF
           ENDDO
         ENDIF
-      ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
-        NSTATSENS = NSTATSENS_OLD
-        DO K=1,NSTATSENS_OLD
-          LSTATSENS(K) = LSTATSENS_OLD(K)
-        ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     OUTP/SENSOR
 C-------------------------------------------
-      IF(ISPMD == 0.AND.MCHECK == 0) THEN
-       IF (NOUTPSENS /= 0) THEN
-          DO K=1,NOUTPSENS
+      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
+        MY_ALLOCATE (SENSORS%OUTP,SENSORS%NOUTP)
+        SENSORS%OUTP(:) = 0
+        IF (SENSORS%NOUTP > 0) THEN
+          DO K=1,SENSORS%NOUTP
             IERR = 1
-            IF(LOUTPSENS(K) /= 0) THEN
-              DO I=1,NSENSOR
-               IF (SENSOR_TAB(I)%SENS_ID == LOUTPSENS(K)) THEN
-                 LOUTPSENS(K) = I
+            IF (SENSORS%OUTP_TMP(K) > 0) THEN
+              DO I=1,SENSORS%NSENSOR
+               IF (SENSORS%SENSOR_TAB(I)%SENS_ID == SENSORS%OUTP_TMP(K)) THEN
+                 SENSORS%OUTP(K) = I
                  IERR = 0
                  EXIT
                 ENDIF
               ENDDO
             ENDIF
-            IF(IERR == 1) THEN
-             CALL ANCMSG(MSGID=236,
-     .             ANMODE=ANINFO,
-     .             I1=LOUTPSENS(K))
+            IF (IERR == 1) THEN
+             CALL ANCMSG(MSGID=236, ANMODE=ANINFO,
+     .             I1 = SENSORS%OUTP_TMP(K))
             ENDIF
           ENDDO
         ENDIF
-      ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
-        NOUTPSENS = NOUTPSENS_OLD
-        DO K=1,NOUTPSENS_OLD
-          LOUTPSENS(K) = LOUTPSENS_OLD(K)
-         ENDDO
       END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     H3D/SENSOR
 C-------------------------------------------
-      IF(ISPMD == 0.AND.MCHECK == 0) THEN
+      IF (ISPMD == 0.AND.MCHECK == 0) THEN
         DO K=1,H3D_DATA%N_SENS_H3D
          IOK = 0
           IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
-           DO I=1,NSENSOR
+           DO I=1,SENSORS%NSENSOR
               IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
                 H3D_DATA%LSENS_H3D(K)=I
                IOK = 1
@@ -945,11 +935,10 @@ C-------------------------------------------
            ENDDO
          ENDIF
          IF(IOK == 0) THEN
-            CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
+           CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
            CALL ARRET(2)
          ENDIF
        ENDDO
-      ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
       ENDIF                     !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     STATE/SENSOR
@@ -2713,6 +2702,13 @@ C-------------------------------------------
         K9=K8+NUMELTG
         CALL READ_DYNAIN(IPART,DYNAIN_DATA,IPART(K3),IPART(K8),IXC,IXTG)
       END IF
+c-----------------------------------------
+c     deallocate temporary SENSOR arrays
+c-----------------------------------------
+      IF (ALLOCATED(SENSORS%ANIM_TMP)) DEALLOCATE (SENSORS%ANIM_TMP)
+      IF (ALLOCATED(SENSORS%STAT_TMP)) DEALLOCATE (SENSORS%STAT_TMP)
+      IF (ALLOCATED(SENSORS%OUTP_TMP)) DEALLOCATE (SENSORS%OUTP_TMP)
+      IF (ALLOCATED(SENSORS%STOP_TMP)) DEALLOCATE (SENSORS%STOP_TMP)
 C---------------------------------------------------------
       IF(IERR == 0) RETURN
       CALL ARRET(0)

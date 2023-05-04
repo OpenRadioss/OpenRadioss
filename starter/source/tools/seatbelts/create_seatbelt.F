@@ -32,7 +32,7 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
-     .                           X,SENSOR_TAB,BUFMAT,PM,GEO,
+     .                           X,SENSORS,BUFMAT,PM,GEO,
      .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
      .                           ISKN    )
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
       INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO),ISKN(SISKWN)
       my_real X(3,*),BUFMAT(*),PM(NPROPM,*),GEO(NPROPG,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -92,8 +92,8 @@ C
         DO I=1,NSLIPRING
           ISENS_LOC(1) = 0
           IF(SLIPRING(I)%SENSID > 0)THEN
-            DO K=1,NSENSOR
-              IF(SLIPRING(I)%SENSID == SENSOR_TAB(K)%SENS_ID) ISENS_LOC(1) = K
+            DO K=1,SENSORS%NSENSOR
+              IF(SLIPRING(I)%SENSID == SENSORS%SENSOR_TAB(K)%SENS_ID) ISENS_LOC(1) = K
             ENDDO
             IF(ISENS_LOC(1) == 0) THEN
               CALL ANCMSG(MSGID=2002,
@@ -111,8 +111,8 @@ C
           ISENS_LOC(1:2) = 0
           DO J=1,2
             IF(RETRACTOR(I)%ISENS(J) > 0)THEN
-              DO K=1,NSENSOR
-                IF(RETRACTOR(I)%ISENS(J) == SENSOR_TAB(K)%SENS_ID) ISENS_LOC(J) = K
+              DO K=1,SENSORS%NSENSOR
+                IF(RETRACTOR(I)%ISENS(J) == SENSORS%SENSOR_TAB(K)%SENS_ID) ISENS_LOC(J) = K
               ENDDO
               IF(ISENS_LOC(J) == 0) THEN
                 CALL ANCMSG(MSGID=2028,

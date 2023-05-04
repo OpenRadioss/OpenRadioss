@@ -41,7 +41,7 @@ Chd|====================================================================
      .                   FSAV  , FXBFP ,  FXBEFW , FXBFC   , D      ,
      .                   DT2T  , ITYPTST, NELTST , FXBGRVI , FXBGRVR,
      .                   IGRV  , NPC    , TF     , FXBGRP  , FXBGRW ,
-     .                   IPARG , SENSOR_TAB, IAD_ELEM, FR_ELEM,
+     .                   IPARG , NSENSOR,SENSOR_TAB, IAD_ELEM, FR_ELEM,
      .                   AGRV  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -69,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*), FXBELM(*), ITYPTST, NELTST,
      .        FXBGRVI(*), IGRV(NIGRV,*), NPC(*), IPARG(NPARG,*),
      .        IAD_ELEM(2,*), FR_ELEM(*)
@@ -177,7 +178,7 @@ C
      .NME          ,NMOD        ,FXBMVN(ACP) ,FXBMCD(AMCD),FXBSE(ASE)  ,
      .FXBSV(ALM)   ,FSAV(1,NN2) ,FXBFP(AVAR) ,FXBEFW(NFX) ,FXBFC(ALM)  ,
      .FXBGRVI(AGRVI),FXBGRVR(AGRVR),NLGRAV   ,IGRV        ,NPC         ,
-     .TF           ,FXBGRP(AVAR),FXBGRW(NFX) ,SENSOR_TAB  ,
+     .TF           ,FXBGRP(AVAR),FXBGRW(NFX) ,SENSOR_TAB  ,NSENSOR     ,  
      .MFEXTP(AVAR) ,AGRV        )
          ENDIF
       ENDDO

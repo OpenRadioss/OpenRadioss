@@ -79,7 +79,7 @@ Chd|====================================================================
      3    ELBUF     ,WA        ,VAL2       ,VEUL      ,FV        ,
      4    STIFN     ,STIFR     ,FSKY       ,TF        ,BUFMAT    ,
      5    PARTSAV   ,D         ,DR         ,EANI      ,ELBUF_TAB ,
-     6    TANI      ,FANI      ,FSAV       ,SENSOR_TAB,NLOC_DMG  ,
+     6    TANI      ,FANI      ,FSAV       ,SENSORS   ,NLOC_DMG  ,
      7    SKEW      ,ANIN      ,DT2T       ,BUFGEO    ,ITAB      ,
      8    IADS      ,IADQ      ,IADT       ,IADP      ,MATPARAM_TAB,
      9    IADR      ,IPARG     ,ALE_CONNECT,NPC       ,
@@ -189,8 +189,8 @@ C-----------------------------------------------
       DOUBLE PRECISION,TARGET :: FBSAV6(12,6,DIMFB)
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       INTEGER, INTENT(IN) :: IFTHE, ICONDN
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -240,8 +240,8 @@ C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cy
      .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(9)).OR.ISTAT==3) IPRI=1
 !
       ISENS_ENERGY = 0
-      DO I=1,NSENSOR
-        IF (SENSOR_TAB(I)%TYPE == 14) ISENS_ENERGY = 1 ! save internal/kinetic energy (PARTSAV)
+      DO I=1,SENSORS%NSENSOR
+        IF (SENSORS%SENSOR_TAB(I)%TYPE == 14) ISENS_ENERGY = 1 ! save internal/kinetic energy (PARTSAV)
       ENDDO ! DO I=1,NSENSOR
 C
        OFF_IGRTH = 0
@@ -344,7 +344,7 @@ C---------
      B        TEMP    ,FTHE      ,FTHESKY  ,IEXPAN     ,GRESAV  ,
      C        GRTH    ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE   ,
      D        XDP     ,VARNOD    ,VOLN     ,CONDN      ,CONDNSKY,
-     E        D       ,SENSOR_TAB,IPRI      ,MATPARAM_TAB,IBID)
+     E        D       ,SENSORS   ,IPRI      ,MATPARAM_TAB,IBID)
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -388,7 +388,7 @@ c---------
      B       STIFR  ,D   ,GRESAV  ,GRTH        ,IGRTH(OFF_IGRTH+NF1),  
      C       TABLE  ,MSSA(NF1),DMELS(NF1),IGEO ,XDP,
      D       VOLN    ,CONDN    ,CONDNSKY  , VARNOD, 
-     E       ITAGND  ,SENSOR_TAB,IPRI     ,MATPARAM_TAB,IBID)                        
+     E       ITAGND  ,SENSORS  ,IPRI     ,MATPARAM_TAB,IBID)                        
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
@@ -725,7 +725,7 @@ C-------------------------
      D         TEMP       ,FTHE     ,FTHESKY  ,IEXPAN     ,GRESAV    ,
      E         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE     ,
      F         IGEO       ,XDP      ,VOLN      ,CONDN    ,CONDNSKY   ,
-     G         D         ,SENSOR_TAB,IPRI     ,MATPARAM_TAB,IBID)
+     G         D          ,SENSORS  ,IPRI     ,MATPARAM_TAB,IBID)
             ENDIF !(IPARG(36,NG)==3)   (IMPL_S /= 0)
 c
             IF (NSECT > 0) THEN
@@ -792,7 +792,7 @@ c
      I         ITASK     ,ISTRA   ,TEMP    ,FTHE,
      J         FTHESKY  ,IEXPAN    ,IGEO    ,NPT     ,GRESAV  ,
      K         GRTH     ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE,
-     L         XDP      ,VOLN      ,CONDN    ,CONDNSKY,SENSOR_TAB,
+     L         XDP      ,VOLN      ,CONDN    ,CONDNSKY,SENSORS,
      M         IPRI      ,MATPARAM_TAB,IBID)
 C
             IF (NSECT > 0) THEN
@@ -868,7 +868,7 @@ c            IF (NPTR==0) NPTR=IINT
      J         FTHESKY    ,IEXPAN    ,IGEO     ,NPT0       ,GRESAV     ,
      K         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE      ,
      L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,
-     M         D          ,SENSOR_TAB,IPRI       ,MATPARAM_TAB,IBID)
+     M         D          ,SENSORS   ,IPRI       ,MATPARAM_TAB,IBID)
 C
             IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -940,7 +940,7 @@ C
      E         FTHESKY ,IEXPAN  ,GRESAV  ,GRTH    ,IGRTH(NF1),
      F         MSSA(NF1),DMELS(NF1),TABLE,IGEO    ,XDP    ,
      G         CONDN     ,CONDNSKY  ,
-     H         D         ,TAGPRT_SMS,SENSOR_TAB,IPRI      ,
+     H         D         ,TAGPRT_SMS,SENSORS  ,IPRI      ,
      I         NALE      ,NLOC_DMG  ,MATPARAM_TAB,IBID)
 C
             ELSE
@@ -972,7 +972,7 @@ C-------------------------
      J        VF           ,AF         ,DF        ,WF          ,FFSKY     ,        
      K        AFGLOB       ,MSF        ,IPARG(1,NG) ,XDP        ,
      M        POR          ,ICONTACT   ,IFOAM     ,VOLN        ,CONDN     ,
-     N        CONDNSKY     ,AGRAV      ,IGRV      ,LGRAV       ,SENSOR_TAB,
+     N        CONDNSKY     ,AGRAV      ,IGRV      ,LGRAV       ,SENSORS   ,
      O        SKEW         ,NALE       ,D         ,IPRI        ,NLOC_DMG  ,
      Q        MATPARAM_TAB ,IBID       )
 
@@ -1199,7 +1199,7 @@ c
      5   FLG_KJ2,              VR,                   AR,                   V,
      6   DT2T,                 NELTST,               ITYPTST,              STIFN,
      7   STIFR,                MS,                   IN,                   FSKY,
-     8   IADR,                 SENSOR_TAB,           OFFSET,               ANIN,
+     8   IADR,                 SENSORS   ,           OFFSET,               ANIN,
      9   PARTSAV,              IPARTR(NF1),          TANI(K1),             FR_WAVE,
      A   BUFMAT,               BUFGEO,               PM,                   RBY,
      B   FX(1,1),              FX(1,2),              FY(1,1),              FY(1,2),
@@ -1217,7 +1217,7 @@ c
      5   VR,                  AR,                  V,                   DT2T,
      6   NELTST,              ITYPTST,             STIFN,               STIFR,
      7   MS,                  IN,                  FSKY,                IADR,
-     8   SENSOR_TAB,          OFFSET,              ANIN,                PARTSAV,
+     8   SENSORS   ,          OFFSET,              ANIN,                PARTSAV,
      9   IPARTR(NF1),         TANI(K1),            FR_WAVE,             BUFMAT,
      A   BUFGEO,              PM,                  RBY,                 FX(1,1),
      B   FX(1,2),             FY(1,1),             FY(1,2),             FZ(1,1),

@@ -91,7 +91,7 @@ Chd|====================================================================
      B                   STIFR    ,D       ,GRESAV  ,GRTH    ,IGRTH   ,
      C                   TABLE    ,MSSA    ,DMELS   ,IGEO    ,XDP     ,
      D                   VOLN     ,CONDN   ,CONDNSKY,VARNOD  ,
-     E                   ITAGDN  ,SENSOR_TAB,IOUTPRT ,
+     E                   ITAGDN  ,SENSORS  ,IOUTPRT ,
      F                   MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -156,7 +156,7 @@ C     REAL
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_), INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -580,8 +580,8 @@ C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C
       IF(IBOLTP /= 0) CALL BOLTST(
-     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
-     2   TT,        NEL,       SENSOR_TAB,NPT)
+     .                IP,        BPRELD,    LBUF%SIG,TT,        
+     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 C
         CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,

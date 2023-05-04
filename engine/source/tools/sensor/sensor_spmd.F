@@ -37,7 +37,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE SENSOR_SPMD(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
      .                   XSENS     ,X      ,ACCELM ,IACCP   ,NACCP     ,
-     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2)
+     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2,NSENSOR   )
 C-----------------------------------------------
 C   SPMD sensor update routine
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,NINTER),
      .        NPRW(*), ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        IGAUP(*), NGAUP(*)

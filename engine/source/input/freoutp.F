@@ -32,11 +32,12 @@ Chd|        WRIUSC2                       source/input/wriusc2.F
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FREOUTP(IKAD,KEY0,KOUTP)
+      SUBROUTINE FREOUTP(IKAD,KEY0,KOUTP,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +59,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER NVAR
+      TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,8 +84,9 @@ C
         OUTP_SPS(I)=0
         OUTP_SPT(I)=0
       ENDDO
+c
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       K=0
+         K=0
  1175    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)') CART
          READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)') LINE
 
@@ -515,14 +518,14 @@ C-----------------------------------------------
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2=='LSENS')THEN
-          DO I=1,NBC
-            READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CART
-            CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
-            READ(IUSC2,*,ERR=9990,END=9990)
-     .          (LOUTPSENS(N),N=1,NVAR(CART))
-              NOUTPSENS=NOUTPSENS+NVAR(CART)
-           ENDDO 
+       ELSEIF (KEY2=='LSENS')THEN
+         DO I=1,NBC
+           READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CART
+           CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
+           READ(IUSC2,*,ERR=9990,END=9990)
+     .         (SENSORS%OUTP_TMP(N),N=1,NVAR(CART))
+             SENSORS%NOUTP = SENSORS%NOUTP + NVAR(CART)
+         ENDDO 
        ELSE
          GOTO 9990
        ENDIF

@@ -1982,7 +1982,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_KPRES(IB    ,FAC    ,NPC   ,TF    ,X     ,
-     2                     SKEW  ,SENSOR_TAB,WEIGHT,IADC  ,
+     2                     SKEW  ,NSENSOR,SENSOR_TAB,WEIGHT,IADC  ,
      3                     IDDL  ,NDOF   ,IADK  ,JDIK  ,K_DIAG,
      4                     K_LT  )
 C-----------------------------------------------
@@ -2004,10 +2004,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,
-     .         GET_U_SENS_VALUE,SET_U_SENS_VALUE
-      EXTERNAL GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,
-     .         GET_U_SENS_VALUE,SET_U_SENS_VALUE
+      INTEGER ,INTENT(IN) :: NSENSOR
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

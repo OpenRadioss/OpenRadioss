@@ -32,7 +32,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
-     .                          IPARTP,IPARTR,SENSOR_TAB)
+     .                          IPARTP,IPARTR,NSENSOR,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE (SUBSET_) , DIMENSION(NSUBS), INTENT(IN) :: SUBSET
-        INTEGER, INTENT(IN) :: NGROUC
+        INTEGER, INTENT(IN) :: NGROUC,NSENSOR
         INTEGER, DIMENSION(*), TARGET, INTENT(IN) :: IPARTC,IPARTTG,IPARTS,IPARTQ
         INTEGER, DIMENSION(*), TARGET, INTENT(IN) :: IPARTT,IPARTP,IPARTR
         INTEGER, DIMENSION(NPARG,*), INTENT(IN) :: IPARG
@@ -407,7 +407,7 @@ c----------------------------------------------------------------------
            ENDDO
      
            ! Logical Sensors can be active at TT=0
-           CALL SENSOR_LOGICAL(SENSOR_TAB)
+           CALL SENSOR_LOGICAL(NSENSOR,SENSOR_TAB)
         ELSE
            LOGICAL_SENSOR_COUNT=0
         ENDIF

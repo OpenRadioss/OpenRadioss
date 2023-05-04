@@ -123,9 +123,10 @@ C-----------------------------------------------
       PARAMETER (ISENPARI=3)
       PARAMETER (ISENPARR=203)
 
+
       TYPE SENSOR_STR_
         INTEGER :: TYPE        !   sensor type 
-        INTEGER :: SENS_ID     !   sensor ID
+        INTEGER :: SENS_ID     !   sensor User ID
         INTEGER :: STATUS      !   sensor status
                                !          = 0   : deactivated
                                !          = 1   : activated at TSTART
@@ -134,13 +135,14 @@ C-----------------------------------------------
         my_real :: TMIN        !   time duration of crit value before activation
         my_real :: TDELAY      !   time delay before activation (after Tmin)
         my_real :: TSTART      !   time when sensor is finally activated (for output)
-        my_real :: VALUE       !   actual value of sensor criterion
+        my_real :: VALUE       !   actual sensor value
         INTEGER :: NPARI       !   number of constant integer parameters
         INTEGER :: NPARR       !   number of constant real value parameters
         INTEGER :: NVAR        !   number of internal variables
         INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  !  integer parameter array
         my_real ,DIMENSION(:) ,ALLOCATABLE :: RPARAM  !  real parameter array
         my_real ,DIMENSION(:) ,ALLOCATABLE :: VAR     !  internal variables array
+        ! User Sensor buffers
         INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERBUF    !  Buffer to store integer variables
         my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERBUF      !  Buffer to store user variables.
         INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERPARAM  !  Buffer to store integer variables
@@ -162,6 +164,22 @@ C-----------------------------------------------
 c
       INTEGER LOGICAL_SENSOR_COUNT
       INTEGER, DIMENSION(:),ALLOCATABLE :: LOGICAL_SENSORS_LIST
+      
+      
+      ! -----------------------------------
+      !  Main sensor data structure    
+      ! -----------------------------------
+      TYPE SENSORS_
+      
+        INTEGER NSENSOR
+
+        TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TAB
+            
+      END TYPE SENSORS_
+
+      
+      
+      
 c--------------------------
       END MODULE SENSOR_MOD
 

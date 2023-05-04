@@ -232,7 +232,7 @@ Chd|====================================================================
      .                    NME    , NMOD   , MVN   , MCD   , SE     ,
      .                    SV     , FSAV   , FXBFP , TFEXT , FXBFC  ,
      .                    FXBGRVI, FXBGRVR, NLGRAV, IGRV  , NPC    ,
-     .                    TF     , FXBGRP , TFGRAV, SENSOR_TAB,
+     .                    TF     , FXBGRP , TFGRAV, SENSOR_TAB, NSENSOR,
      .                    MFEXT  , AGRV   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -251,6 +251,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER FXBIPM(*), NME, NMOD, FXBGRVI(*), NLGRAV, IGRV(NIGRV,*),
      .        NPC(*)
       my_real

@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE05(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
      2        IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
-     3        SENSOR_TAB ,UNITAB     ,LSUBMODEL  ,TITR       )
+     3        SENSORS    ,UNITAB     ,LSUBMODEL  ,TITR       )
 C============================================================================
 C
 C-----------------------------------------------
@@ -72,8 +72,8 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -318,7 +318,7 @@ C------------------------------------------------------------
 C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
 C
-        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,SENSOR_TAB)
+        CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,SENSORS)
 C
 C------------------------------------------------------------
 C     PRINTOUT

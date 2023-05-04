@@ -41,7 +41,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE11(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,IGRSLIN    ,SENSOR_TAB ,DEF_INTER ,TITR      ,
+     2        IGRSURF    ,IGRSLIN    ,SENSORS    ,DEF_INTER ,TITR      ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      4        ID_TYPE19)
 C============================================================================
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -491,7 +491,7 @@ C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
 C
         NTYP0 = 11
-        CALL INTER_DCOD_SENSOR (NTYP0,NI,IPARI,NOM_OPT,SENSOR_TAB)
+        CALL INTER_DCOD_SENSOR (NTYP0,NI,IPARI,NOM_OPT,SENSORS)
         CALL INTER_DCOD_FRICTION(NTYP0,NI,IPARI,NOM_OPT,NOM_OPTFRIC,
      .           INTBUF_FRIC_TAB)
 C

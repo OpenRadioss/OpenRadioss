@@ -30,7 +30,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FVINJT6(NJET   , IBAGJET , RBAGJET , NPC    , TF      ,
-     2                   SENSOR_TAB, SCALT,    DATAINJ )
+     2                   NSENSOR,SENSOR_TAB, SCALT,    DATAINJ )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -48,11 +48,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NJET, IBAGJET(NIBJET,*), NPC(*)
 C     REAL
       my_real
      .   RBAGJET(NRBJET,*), TF(*),SCALT,DATAINJ(6,NJET)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

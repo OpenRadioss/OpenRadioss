@@ -43,7 +43,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE07(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,NOM_OPT    ,
-     3        DEF_INTER  ,NPC1       ,SENSOR_TAB ,UNITAB    ,LSUBMODEL  ,
+     3        DEF_INTER  ,NPC1       ,SENSORS    ,UNITAB    ,LSUBMODEL  ,
      4        TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
      4        ID_TYPE19)
 C============================================================================
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -740,7 +740,7 @@ C------------------------------------------------------------
 C
         NTYP0 = 7
         CALL INTER_DCOD_FUNCTION(NTYP0,NI,IPARI,NPC1,NOM_OPT,NPC,TF)
-        CALL INTER_DCOD_SENSOR (NTYP0,NI,IPARI,NOM_OPT,SENSOR_TAB)
+        CALL INTER_DCOD_SENSOR (NTYP0,NI,IPARI,NOM_OPT,SENSORS)
         CALL INTER_DCOD_FRICTION(NTYP0,NI,IPARI,NOM_OPT,NOM_OPTFRIC,
      .                           INTBUF_FRIC_TAB)
 C

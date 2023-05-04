@@ -30,7 +30,7 @@ Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE WRITE_SENSOR_TAB(SENSOR_TAB,NSENSOR,NODLOCAL)
+      SUBROUTINE WRITE_SENSOR_TAB(SENSORS,NODLOCAL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,9 +43,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER , INTENT(IN)    :: NSENSOR
       INTEGER , DIMENSION(*)  :: NODLOCAL
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
+      TYPE (SENSORS_) ,TARGET ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -58,13 +57,13 @@ C-----------------------------------------------
 C=======================================================================
       NFIX = 11
 c
-      DO ISEN=1,NSENSOR
-        SENSOR => SENSOR_TAB(ISEN)
+      DO ISEN=1,SENSORS%NSENSOR
+        SENSOR => SENSORS%SENSOR_TAB(ISEN)
         TYP   = SENSOR%TYPE 
         NPARI = SENSOR%NPARI
         NPARR = SENSOR%NPARR
         NVAR  = SENSOR%NVAR
-        TITLE = SENSOR_TAB(ISEN)%TITLE
+        TITLE = SENSOR%TITLE
         ALLOCATE (LTEMP(NPARI))
         LTEMP(1:NPARI) = SENSOR%IPARAM(1:NPARI)
 c       update node system N° after renumbering for sensors using nodes

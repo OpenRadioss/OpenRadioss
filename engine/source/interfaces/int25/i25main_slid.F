@@ -50,7 +50,7 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25MAIN_SLID(
      1       IPARI    ,IAD_ELEM ,FR_ELEM  ,ITAB     ,SENSOR_TAB,
-     2       INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,
+     2       NSENSOR  ,INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,
      3       X        ,V       ,MS      ,TEMP   ,KINET   ,
      4       NODNX_SMS,JTASK   ,NB_DST2, MAIN_PROC,
      5       NEWFRONT ,ISENDTO ,IRCVFROM ,NBINTC,
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,
+      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,NSENSOR,
      .        IAD_ELEM(2,*) ,FR_ELEM(*), IAD_FRNOR(NINTER25,NSPMD+1), FR_NOR(*),
      .        KINET(*), NODNX_SMS(*), NB_DST1(PARASIZ), NB_DST2(PARASIZ)
       INTEGER, INTENT(IN) :: ICODT(*),ISKEW(*)
@@ -168,7 +168,8 @@ C
 C
         CALL I25COMP_1(
      1    IPARI   ,INTBUF_TAB(NIN),X   ,ITAB      ,NIN       ,
-     2    KINET     ,JTASK    ,NB_DST1(JTASK),V   ,SENSOR_TAB)
+     2    KINET     ,JTASK    ,NB_DST1(JTASK),V   ,NSENSOR   ,
+     3    SENSOR_TAB)
       ENDDO
 C
       CALL MY_BARRIER

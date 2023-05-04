@@ -47,7 +47,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_BASE(SENSOR_TAB,
+      SUBROUTINE SENSOR_BASE(NSENSOR  ,SENSOR_TAB,
      .           XSENS     ,IPARSENS  ,TABS      ,STABS     ,IPARI     ,
      .           SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SFSAV6,STABS,IPARSENS
+      INTEGER ,INTENT(IN) :: NSENSOR,SFSAV6,STABS,IPARSENS
       INTEGER ,DIMENSION(NPARI,NINTER)  ,INTENT(IN) :: IPARI
       INTEGER ,DIMENSION(*)             ,INTENT(IN) :: NPRW
       INTEGER ,DIMENSION(STABS)         ,INTENT(IN) :: TABS

@@ -58,7 +58,7 @@ Chd|====================================================================
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
-     8           DETONATORS)
+     8           DETONATORS,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER IPARTS(*),IPARTC(*),IPARTG(*),IPARTT(*),IPARTP(*),
-     .   IPARTR(*),COMPT_T2,MODIF,PASSE,INOM_OPT(*),IPARTSP(*),NSPCONDN,
+     .   IPARTR(*),COMPT_T2,MODIF,PASSE,INOM_OPT(*),IPARTSP(*),NSPCONDN,NSENSOR,
      .   NSPHION,IPART_L(LIPART1,*),MEMTR(*),IWORKSH(*),NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,
      .   NEW_NINIVOL,IXS10(*), IXS16(*), IXS20(*)
       my_real
