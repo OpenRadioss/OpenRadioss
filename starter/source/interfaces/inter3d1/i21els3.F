@@ -295,11 +295,10 @@ C
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELC(J)
-               CONTRIB_KEY(NB_CONTRIB) = IXC(NIXC,IE) ! UID
+               CONTRIB_KEY(NB_CONTRIB) = -IXC(NIXC,IE) ! -UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
              CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
-
              DO J = 1,NB_CONTRIB
                IE = CONTRIB_VALUE(J)
                SX1 = X(1,IXC(4,IE)) - X(1,IXC(2,IE))
@@ -325,7 +324,7 @@ C overwrite
              DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1)
                NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELTG(J)
-               CONTRIB_KEY(NB_CONTRIB) = IXTG(NIXTG,IE) ! UID
+               CONTRIB_KEY(NB_CONTRIB) = -IXTG(NIXTG,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
              CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
@@ -362,11 +361,10 @@ C overwrite
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELC(J)
-               CONTRIB_KEY(NB_CONTRIB) = IXC(NIXC,IE) ! UID
+               CONTRIB_KEY(NB_CONTRIB) = -IXC(NIXC,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
              CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
-
              DO J = 1,NB_CONTRIB
                IE = CONTRIB_VALUE(J)
 
@@ -400,7 +398,7 @@ C
              DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1)
                NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELTG(J)
-               CONTRIB_KEY(NB_CONTRIB) = IXTG(NIXTG,IE) ! UID
+               CONTRIB_KEY(NB_CONTRIB) = -IXTG(NIXTG,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
              CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
@@ -445,7 +443,7 @@ C
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
                NB_CONTRIB = NB_CONTRIB + 1
                IE = NOD2ELS(J)
-               CONTRIB_KEY(NB_CONTRIB) = IXS(NIXS,IE) ! UID
+               CONTRIB_KEY(NB_CONTRIB) = -IXS(NIXS,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
              CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)

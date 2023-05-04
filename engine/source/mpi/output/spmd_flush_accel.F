@@ -186,10 +186,10 @@ c     Convert A in integer
         S2 = MOD(S1 + S2    ,ROOT)
       ENDDO
 C     (s2 << 16) | s1
-      CHECKSUM = IOR(S2 * TWO_POWER_16,S1)
+      IF(S1 < 0) S1 = S1 + TWO_POWER_16
+      CHECKSUM = IOR(ISHFT(S2, 16), IAND(S1, (TWO_POWER_16-1)))
       DEALLOCATE(TMP)
       WRITE(IOUT,*) NCYCLE, "CHECKSUM:",CHECKSUM
-c     WRITE(6,*)    NCYCLE, "CHECKSUM:",CHECKSUM
 
       END
 
