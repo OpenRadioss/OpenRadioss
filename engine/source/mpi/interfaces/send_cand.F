@@ -1702,7 +1702,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_IFRONT_STAMP(
-     1   IPARI   ,INTBUF_TAB, RETRI,TEMP    ,SENSOR_TAB  ,ITAB,
+     1   IPARI   ,NSENSOR ,INTBUF_TAB, RETRI,TEMP    ,SENSOR_TAB  ,ITAB,
      2   NBINTC21,INTLIST21)
 C============================================================================
 C   M o d u l e s
@@ -1734,7 +1734,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER),RETRI(*),ITAB(*),
+      INTEGER IPARI(NPARI,NINTER),RETRI(*),ITAB(*),NSENSOR,
      .        NBINTC21 ,INTLIST21(*)
 C     REAL
       my_real :: TEMP(*)
@@ -2094,7 +2094,7 @@ Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR_TAB) 
+      SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,NSENSOR,SENSOR_TAB) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -2125,6 +2125,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  ,INTENT(IN) :: NSENSOR
       INTEGER  IPARI(NPARI,NINTER)
 C     REAL
       my_real :: TEMP(*)
@@ -2295,7 +2296,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR_TAB,NISKYFI ,
-     .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ) 
+     .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ,NSENSOR ) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -2329,6 +2330,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  ,INTENT(IN) :: NSENSOR
       INTEGER  IPARI(NPARI,NINTER), ISKY(*), NISKYFI(*)
 C     REAL
       my_real :: FTHE(*),FTHESKYI(*),FSKYI(LSKYI,*),CONDNSKYI(*)

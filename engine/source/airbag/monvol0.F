@@ -46,8 +46,8 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE MONVOL0(MONVOL   ,VOLMON  ,X       ,A      ,
      2                   NPC      ,TF      ,V       ,N      ,
-     3                   FSAV     ,SENSOR_TAB,IGRSURF,
-     4                   FR_MV   ,IADMV   ,
+     3                   FSAV     ,NSENSOR ,SENSOR_TAB,IGRSURF,
+     4                   FR_MV    ,IADMV   ,
      5                   FSKY     ,ICONTACT,PORO    ,IPARG  ,
      6                   ELBUF_TAB,GEO     ,IGEO    ,
      7                   PM       ,IPM     ,IPART   ,IPARTC ,
@@ -76,6 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),MONVOL(*),FR_MV(NSPMD+2,NVOLU),
      .   IADMV(4,*),ICONTACT(*),IPARG(NPARG,*),
      .   IGEO(NPROPGI,*),
@@ -91,7 +92,7 @@ C     REAL
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
 C     PORO(*) STOCKE DANS WA
@@ -181,7 +182,7 @@ C         AIRBAGS
 C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
-     3 VOLMON  ,NPC     ,TF      ,SENSOR_TAB ,
+     3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
      4 VOL     ,PMAIN )
         ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
@@ -189,7 +190,7 @@ C         AIRBAGS1 (NOUVEAUX INJECTEURS)
 C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
-     3 VOLMON  ,NPC     ,TF      ,SENSOR_TAB ,
+     3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
      4 VOL     ,PMAIN ,GEO     ,IGEO    ,PM)
         ELSEIF(ITYP==10)THEN
 C=======================================================================
@@ -202,12 +203,12 @@ C=======================================================================
         IF(ITYP/=1)THEN
          IF (IPARIT==0) THEN
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
-     2                 SENSOR_TAB ,X       ,V       ,A       ,
+     2                 NSENSOR ,SENSOR_TAB ,X       ,V       ,A       ,
      3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
      4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)
          ELSE
             CALL VOLPREP(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
-     2                 SENSOR_TAB  ,X       ,V       ,A       ,
+     2                 NSENSOR ,SENSOR_TAB  ,X       ,V       ,A       ,
      3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
      4                 IADMV(1,K6),FSKY ,FSKY    ,FEXT, H3D_DATA ,
      5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)

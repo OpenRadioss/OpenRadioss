@@ -108,7 +108,7 @@ Chd|====================================================================
      U                             XSEED       ,XLAS       ,LAS             ,IRBE2          ,LRBE2            ,
      V                             KXSP        ,IPARTSP    ,DRAPE           ,IXR_KJ         ,IACTIV           ,
      W                             FACTIV      ,UNITAB     ,NPBYL           ,LPBYL          ,RBYL             ,
-     X                             XYZREF      ,SENSOR_TAB ,FUNC2D          ,
+     X                             XYZREF      ,SENSORS    ,FUNC2D          ,
      Y                             INICRACK    ,IPRELOAD   ,PRELOAD         ,IFLAG_BPRELOAD ,IBMPC,
      Z                             IBMPC2      ,IBMPC3     ,IBMPC4          ,RBMPC          ,LJOINT           ,
      A                             NNLINK      ,LNLINK     ,BUFSF           ,SBUFSF_        ,PM_STACK         ,
@@ -189,7 +189,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: FACTIV(LRACTIV,*),GEO_STACK(6*NPT_STACK+1,NS_STACK),PM_STACK(20,NS_STACK)
       TYPE (UNIT_TYPE_) ::UNITAB
       my_real, INTENT(IN) :: XYZREF(SX)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE(FUNC2D_STRUCT), DIMENSION(NFUNC2D), INTENT(IN) :: FUNC2D
       TYPE (INICRACK_) , DIMENSION(NINICRACK) :: INICRACK
       INTEGER, INTENT(IN) :: LLINAL
@@ -425,7 +425,7 @@ C-----------------------------------------------
       CALL ST_QAPRINT_OUTPUT_DATABASES(NOM_OPT, INOM_OPT, LACCELM ,ACCELM,LGAUGE,GAUGE)
       CALL ST_QAPRINT_MODEL_TOOLS(NOM_OPT, INOM_OPT, IBOX, IPMAS, NOM_SECT, NSTRF, SECBUF ,
      .                            SKEW   , ISKWN   , XFRAME, NPC,PLD,TABLE,NPTS, 
-     .                            IACTIV , FACTIV  ,SENSOR_TAB,FUNC2D)
+     .                            IACTIV , FACTIV  ,SENSORS,FUNC2D)
       CALL ST_QAPRINT_MONVOL(T_MONVOL, T_MONVOL_METADATA)
       CALL ST_QAPRINT_FRICTION(NOM_OPT,INOM_OPT,INTBUF_FRIC_TAB,NPFRICORTH,PFRICORTH ,IREPFORTH,PHIFORTH,VFORTH) 
       CALL ST_QAPRINT_REFERENCE_STATE(XREFC     ,XREFTG    ,XREFS     ,TAGXREF   ,

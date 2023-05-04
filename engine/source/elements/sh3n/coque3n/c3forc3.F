@@ -96,7 +96,7 @@ Chd|====================================================================
      I   FTHE,        FTHESKY,     IEXPAN,      GRESAV,
      J   GRTH,        IGRTH,       MSTG,        DMELTG,
      K   JSMS,        TABLE,       IPARG,       IXFEM,
-     L   SENSOR_TAB,  PTG,         IBORDNODE,   ELCUTC,
+     L   SENSORS,     PTG,         IBORDNODE,   ELCUTC,
      M   INOD_CRK,    IEL_CRK,     NODENR,      IADTG_CRK,
      N   NODEDGE,     CRKNODIAD,   KNOD2ELC,    CONDN,
      O   CONDNSKY,    STACK,       ISUBSTACK,   XFEM_STR,
@@ -172,7 +172,7 @@ C-----------------------------------------------
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_), DIMENSION(NUMELTG_DRAPE)   :: DRAPE_SH3N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -516,7 +516,7 @@ C--------------------------
      I   BID       ,BID       ,BID       ,E1X0      ,E1Y0       ,
      J   E1Z0      ,E2X0      ,E2Y0      ,E2Z0      ,E3X0       ,
      K   E3Y0      ,E3Z0      ,NG        ,TABLE     ,IXFEM     ,
-     L   BID       ,SENSOR_TAB,BID       ,ELCRKINI  ,
+     L   BID       ,SENSORS   ,BID       ,ELCRKINI  ,
      M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

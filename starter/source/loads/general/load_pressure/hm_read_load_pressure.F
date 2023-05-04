@@ -43,7 +43,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_LOAD_PRESSURE(
      .           NUMLOADP   ,ILOADP     ,LLOADP    ,INTERLOADP ,FACLOADP   ,
-     .           KLOADPINTER,LOADPINTER ,NPC       ,SENSOR_TAB ,IGRSURF    ,
+     .           KLOADPINTER,LOADPINTER ,NPC       ,SENSORS    ,IGRSURF    ,
      .           UNITAB     ,ISKN      ,LSUBMODEL  ,DGAPINT    ,INTGAPLOADP,
      .           DGAPLOADINT,S_LOADPINTER )
 C
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -285,9 +285,9 @@ C-----------
          !-----------
         ISENS = 0
         IF(IDSENS > 0) THEN
-           DO J=1,NSENSOR
+           DO J=1,SENSORS%NSENSOR
 	            IF(IDSENS/=0) THEN
-	              IF(IDSENS == SENSOR_TAB(J)%SENS_ID) THEN
+	              IF(IDSENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
                   ISENS=J
                   EXIT
                 ENDIF

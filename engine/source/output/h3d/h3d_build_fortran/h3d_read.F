@@ -36,7 +36,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE H3D_READ(IKAD,KEY0,KH3D,NSLASH,H3D_DATA)
+      SUBROUTINE H3D_READ(IKAD,KEY0,KH3D,NSLASH,H3D_DATA,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE H3D_MOD
       USE ANIM_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +55,7 @@ C-----------------------------------------------
       INTEGER IKAD(0:*),KH3D,NSLASH(*)
       CHARACTER KEY0(*)*5
       TYPE (H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSORS_)  ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -107,7 +109,8 @@ c
 !
         ELSEIF(KEY2=='SENSO')THEN
           CALL WRIUSC2(IREC,1,KEY0(KCUR))
-          READ(IUSC2,*,ERR=9990)IANISENS,DTANISENS
+          READ(IUSC2,*,ERR=9990) SENSORS%ANIM_ID,SENSORS%ANIM_DT
+!
         ELSEIF(KEY2=='LSENSOR')THEN
           DO I=1,NBC
             READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE
@@ -122,6 +125,7 @@ c
      .          (H3D_DATA%LSENS_H3D(J+NBSENS),J=1,NVAR(CARTE))
             NBSENS = NBSENS + NVAR(CARTE)
           ENDDO
+!
         ELSEIF(KEY2=='COMPRESS')THEN
           CALL WRIUSC2(IREC,1,KEY0(KCUR))
           READ(IUSC2,*,ERR=9990)H3D_DATA%PERCENTAGE_ERROR

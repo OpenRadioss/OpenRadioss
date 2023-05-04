@@ -3000,8 +3000,8 @@ Chd|====================================================================
      4   NME17   ,ISLEN17 ,IRLEN17 ,IRLEN7T ,ISLEN7T ,
      5   LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6   ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
-     7   FR_RBY6 ,NPBY    ,IRBKIN_L,
-     8   NRBYKIN_L,KINDRBY,SENSOR_TAB,LBUFIDEL24,INTBUF_TAB,
+     7   FR_RBY6 ,NPBY    ,IRBKIN_L,NRBYKIN_L,KINDRBY,
+     8   NSENSOR ,SENSOR_TAB,LBUFIDEL24,INTBUF_TAB,
      9   SORT_COMM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -3037,6 +3037,7 @@ C commun local a spmd_init et spmd_ring_mmx
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER ISENDTO(NINTER+1,NSPMD+1),
      .        IRCVFROM(NINTER+1,NSPMD+1), IPARI(NPARI,*),
      .        INTLIST(NINTER), IAD_ELEM(2,*),
@@ -5246,7 +5247,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,SENSOR_TAB,PARAMETERS)
+      SUBROUTINE SPMD_SAVEFI(IPARI, IFLAG,INTBUF_TAB,NSENSOR,SENSOR_TAB,PARAMETERS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -5272,6 +5273,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), IFLAG
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB

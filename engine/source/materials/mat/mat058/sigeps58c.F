@@ -32,7 +32,7 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS58C(
      1     NEL0   ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT    ,IFLAG   ,
+     2     NPF    ,NPT0    ,IPT    ,IFLAG   ,NSENSOR,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
      3     AREA   ,EINT   ,THKLY   ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
@@ -117,6 +117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,ISMSTR,IFLAG(*),
      .   NGL(NEL0),MAT(NEL0)
       my_real TIME,TIMESTEP(NEL0),UPARAM(*),
@@ -146,7 +147,7 @@ C-----------------------------------------------
       my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
       TYPE(TTABLE) TABLE(*)
       my_real, DIMENSION(1) :: XX
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------

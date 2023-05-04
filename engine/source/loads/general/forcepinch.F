@@ -33,7 +33,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FORCEPINCH (IB     ,FAC     ,NPC    ,TF      ,A     ,
      2                  V      ,X       ,SKEW   ,AR      ,VR    ,
-     3                  SENSOR_TAB ,WEIGHT ,TFEXC   ,IADC  ,
+     3                  NSENSOR,SENSOR_TAB ,WEIGHT ,TFEXC   ,IADC  ,
      4                  FSKY   ,FSKYV   ,FEXT   ,H3D_DATA,
      5                  APINCH ,VPINCH)
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER IB(NIBCLD,*)
       INTEGER WEIGHT(*), IADC(4,*)

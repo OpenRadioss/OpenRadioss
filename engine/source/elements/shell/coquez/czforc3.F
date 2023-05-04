@@ -99,7 +99,7 @@ Chd|====================================================================
      L   IEXPAN,      GRESAV,      GRTH,        IGRTH,
      M   XEDGE4N,     MSC,         DMELC,       JSMS,
      N   TABLE,       IPARG,       MATPARAM_TAB,IXFEM,
-     O   KNOD2ELC,    SENSOR_TAB,  ELCUTC,      INOD_CRK,
+     O   KNOD2ELC,    SENSORS,     ELCUTC,      INOD_CRK,
      P   IEL_CRK,     IBORDNODE,   NODENR,      IADC_CRK,
      Q   NODEDGE,     CRKNODIAD,   CONDN,       CONDNSKY,
      R   STACK,       ISUBSTACK,   XFEM_STR,    CRKEDGE,
@@ -174,7 +174,7 @@ C     REAL OU REAL*8
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -559,7 +559,7 @@ C-----------------------------------------------
      I      BID       ,BID       ,BID       ,R11       ,R12        ,
      J      R13       ,R21       ,R22       ,R23       ,R31        ,
      K      R32       ,R33       ,NG        ,TABLE     ,IXFEM      ,
-     L      BID       ,SENSOR_TAB,BID       ,ELCRKINI   ,
+     L      BID       ,SENSORS   ,BID       ,ELCRKINI   ,
      M      DIR1_CRK  ,DIR2_CRK  ,LL        ,
      N      ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O      IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,

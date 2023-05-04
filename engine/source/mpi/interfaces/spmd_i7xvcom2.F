@@ -46,7 +46,7 @@ Chd|====================================================================
      1   IPARI   ,X       ,V       ,MS      ,
      2   IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
      3   ISLEN7  ,IRLEN7 ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
-     4   IRLEN17 ,IXS    ,IXS16   ,
+     4   IRLEN17 ,IXS    ,IXS16   ,NSENSOR ,
      5   IGRBRIC ,TEMP   ,IFLAG   ,IRLEN7T ,ISLEN7T ,
      6   IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7   ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
@@ -90,6 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IMSCH, I2MSCH, IFLAG, NBINTC,
      .        ISLEN7, IRLEN7, ISLEN11, IRLEN11, ISLEN17, IRLEN17,
      .        IRLEN7T, ISLEN7T,IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,

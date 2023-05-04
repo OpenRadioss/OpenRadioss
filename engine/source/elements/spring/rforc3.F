@@ -87,7 +87,7 @@ Chd|====================================================================
      5   VR,        AR,        V,         DT2T,
      6   NELTST,    ITYPTST,   STIFN,     STIFR,
      7   MS,        IN,        FSKY,      IADR,
-     8   SENSOR_TAB,OFFSET,    ANIM,      PARTSAV,
+     8   SENSORS,   OFFSET,    ANIM,      PARTSAV,
      9   IPARTR,    TANI,      FR_WAVE,   BUFMAT,
      A   BUFGEO,    PM,        RBY,       FX1,
      B   FX2,       FY1,       FY2,       FZ1,
@@ -146,7 +146,7 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) , INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -171,7 +171,7 @@ C     REAL
      .   AK(MVSIZ),XKM(MVSIZ),XCM(MVSIZ),XKR(MVSIZ),
      .   EX2(MVSIZ),EY2(MVSIZ),EZ2(MVSIZ),VX1(MVSIZ),VX2(MVSIZ),
      .   VY1(MVSIZ),VY2(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ)
-      INTEGER IGTYP,I,I0,NUVAR
+      INTEGER IGTYP,I,I0,NUVAR,NSENSOR
       DOUBLE PRECISION
      .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),X3DP(3,MVSIZ),
      .   ELX(3,MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ)
@@ -189,6 +189,7 @@ C-----------------------------------------------
       INTEGER SIZE
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
+      NSENSOR = SENSORS%NSENSOR
 !
       FX1(1:MVSIZ) = ZERO
       FX2(1:MVSIZ) = ZERO
@@ -223,8 +224,8 @@ C=======================================================================
      2   X1DP,    X2DP,    NGL,     MGN,
      3   NC1,     NC2,     NEL)
         CALL R1SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
-     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL)
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL,NSENSOR)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -290,8 +291,8 @@ C=======================================================================
      2   X1DP,    X2DP,    NGL,     MGN,
      3   NC1,     NC2,     NEL)
         CALL R1SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
-     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL)
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL      ,NSENSOR)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /=  -TEN) THEN
@@ -355,8 +356,8 @@ C=======================================================================
      2   X1DP,    X2DP,    NGL,     MGN,
      3   NC1,     NC2,     NEL)
         CALL R1SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
-     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL)
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL       ,NSENSOR )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -422,10 +423,10 @@ C=======================================================================
      5   RZ1,     RX2,     RY2,     RZ2,
      6   NC1,     NC2,     NEL)
         CALL R2SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
      2   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)), GBUF%LENGTH(II(2)),
      3   GBUF%LENGTH(II(3)), GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)), GBUF%TOTROT(II(3)),
-     4   IGEO,               MGN,                NEL)
+     4   IGEO,               MGN,                NEL,              NSENSOR)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -467,7 +468,8 @@ C
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
         
-        CALL RSENS_NIC(NEL   ,IXR    ,GBUF%FOR,GBUF%MOM,SKEW  ,SENSOR_TAB)
+        CALL RSENS_NIC(NEL    ,IXR    ,GBUF%FOR,GBUF%MOM,SKEW  ,
+     .                 NSENSOR,SENSORS%SENSOR_TAB)
 C
         CALL R2LEN3(
      1   JFT,      JLT,      GBUF%OFF, DT2T,
@@ -522,8 +524,8 @@ C=======================================================================
      3   MGN,     NC1,     NC2,     NC3,
      4   NEL)
         CALL R1SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
-     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL)
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     2   GBUF%LENGTH(II(1)), IGEO,               MGN,                NEL,       NSENSOR )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -591,10 +593,10 @@ C=======================================================================
      5   RZ1,     RX2,     RY2,     RZ2,
      6   NC1,     NC2,     NEL)
        CALL R2SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
      2   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)), GBUF%LENGTH(II(2)),
      3   GBUF%LENGTH(II(3)), GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)), GBUF%TOTROT(II(3)),
-     4   IGEO,               MGN,                NEL)
+     4   IGEO,               MGN,                NEL               , NSENSOR            )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -703,10 +705,10 @@ C=======================================================================
      5   RZ1,     RX2,     RY2,     RZ2,
      6   NC1,     NC2,     NEL)
         CALL R2SENS3(
-     1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
+     1   GEO,                GBUF%OFF,   SENSORS%SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
      2   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)), GBUF%LENGTH(II(2)),
      3   GBUF%LENGTH(II(3)), GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)), GBUF%TOTROT(II(3)),
-     4   IGEO,               MGN,                NEL)
+     4   IGEO,               MGN,                NEL               , NSENSOR           )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -1046,7 +1048,7 @@ C
      3 GBUF%MOM(II(3))      ,GBUF%EINT            ,OFF                 ,USTI                ,USTIR                ,
      4 VISI                 ,VISIR                ,UNUSED              ,UINER               ,DT1                  ,
      5 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
-     6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              ,SENSOR_TAB          )
+     6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              ,NSENSOR,SENSORS%SENSOR_TAB          )
 C
         DO I=JFT,JLT
          IF (OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -1122,9 +1124,9 @@ C
      D   MX1,                MX2,                MY1,                MY2,
      E   MZ1,                MZ2,                GRESAV,             GRTH,
      F   IGRTH,              MSRT,               DMELRT,             NELTST,
-     G   ITYPTST,            IGTYP,              SENSOR_TAB,         NC1,
+     G   ITYPTST,            IGTYP,              SENSORS%SENSOR_TAB, NC1,
      H   NC2,                XDP,                GBUF%LENGTH_ERR,    H3D_DATA,
-     I   JSMS,               IGRE,               NFT)
+     I   JSMS,               IGRE,               NFT,                NSENSOR )
 C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN
 C=======================================================================

@@ -41,7 +41,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_LOAD_CENTRI(ICFIELD,LCFIELD  ,CFIELD  ,ITAB     ,ITABM1 ,
-     .                               IGRNOD ,NPC      ,SENSOR_TAB ,UNITAB   ,IFRAME ,
+     .                               IGRNOD ,NPC      ,SENSORS ,UNITAB   ,IFRAME ,
      .                               LSUBMODEL)
 C
 C-----------------------------------------------
@@ -78,8 +78,8 @@ C-----------------------------------------------
       my_real CFIELD(LFACLOAD,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -259,8 +259,8 @@ C-----------
 C-----------        
         TSENS = 0
 	       IF (ISENS/=0) THEN
-          DO J=1,NSENSOR
-	           IF (ISENS == SENSOR_TAB(J)%SENS_ID) TSENS=J
+          DO J=1,SENSORS%NSENSOR
+	           IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
 	         ENDDO
 	         IF (TSENS==0) THEN
              CALL ANCMSG(MSGID=884, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,

@@ -72,7 +72,7 @@ Chd|====================================================================
      3                    IXS         , IXQ         , IXC      , IXT      , IXP       ,
      4                    IXR         , IXTG        , IXTG1    , IPARG     ,
      5                    TF          , NPC         , FR_WAVE  , W16      , BUFMAT    ,
-     6                    THKE        , BUFGEO      ,SENSOR_TAB, RBY       ,
+     6                    THKE        , BUFGEO      , NSENSOR  ,SENSOR_TAB, RBY       ,
      7                    SKEW        , WA          ,ICODT     , ICODR    , ISKEW     ,
      9                    IBFV        , VEL         , LPBY     , NPBY     , ITAB      ,
      A                    WEIGHT      , MS          , IN       ,IPARI    , INTBUF_TAB ,  
@@ -150,6 +150,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NDDL0, NNZK0,  IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IXS(*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),INDX_CRK(*),   
@@ -354,7 +355,7 @@ citask0       IF (ITASK == 0) THEN
 
         IF(NFXVEL/=0) THEN
           CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
-     1                D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
+     1                D_IMP  ,DR_IMP ,IKC   ,IDDL  ,NSENSOR   ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
      3                X     ,DIRUL  ,NDOF   ,A     ,AR    )
         ENDIF

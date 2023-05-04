@@ -72,7 +72,7 @@ Chd|====================================================================
      F   ISMSTR,      NPT,         KFTS,        IGEO,
      G   IPM,         IFAILURE,    GRESAV,      GRTH,
      H   IGRTH,       MSTG,        DMELTG,      JSMS,
-     I   TABLE,       IPARG,       SENSOR_TAB,  PTG,
+     I   TABLE,       IPARG,       SENSORS,     PTG,
      J   JTHE,        CONDN,       CONDNSKY,    ISUBSTACK,
      K   STACK,       ITASK,       DRAPE_SH3N,  IPRI,
      L   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR)
@@ -133,7 +133,7 @@ C     REAL
       TYPE(NLOCAL_STR_),  TARGET :: NLOC_DMG
       TYPE (DRAPE_), DIMENSION (NUMELTG_DRAPE):: DRAPE_SH3N
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -416,7 +416,7 @@ C----------------------------------------------------------------------------
      I     BID       ,BID       ,BID       ,R11       ,R12       ,
      J     R13       ,R21       ,R22       ,R23       ,R31       ,
      K     R32       ,R33       ,NG        ,TABLE     ,IBID      ,
-     L     BID       ,SENSOR_TAB,BID       ,IBID      ,
+     L     BID       ,SENSORS   ,BID       ,IBID      ,
      M     BID       ,BID       ,ALDT      ,
      N     ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O     IBID      ,IBID      ,ISUBSTACK ,STACK     ,

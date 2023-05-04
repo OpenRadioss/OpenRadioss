@@ -328,6 +328,7 @@ C
       INTEGER IUTITLHIS,IUTITLHI(9)
       TYPE (DYNAIN_DATABASE) :: DYNAIN_DATA
       TYPE (INTERFACES_)  :: INTERFACES
+c      TYPE (SENSORS_)     :: SENSORS    ! defined as global in user_interface_mod
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -462,8 +463,6 @@ C------------------------------------------------------------------
       NBVELP = 6
       NRVOLU=24
       LFACLOAD =13
-      NSENSI = 15
-      NSENSR = 223
       LKJNI = 6
       LKJNR = 19
       KWASPH = 16
@@ -640,7 +639,8 @@ C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
 C------------------------------------------------
 C     Standard input reading
 C------------------------------------------------
-      CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA)
+      CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
+     .            SENSORS)
       NFSKYI=5
       IF(KDTINT==0 )NFSKYI=4
       
@@ -840,7 +840,7 @@ C     .rst file reading 1
 C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
-     .            PINCH_DATA,DYNAIN_DATA,INTERFACES)
+     .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS)
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
@@ -990,16 +990,15 @@ c     allocation of element group parameters
 !     allocation of engine time array
       ALLOCATE(GLOBAL_COMP_TIME%ENGINE_TIME(IRUNN))
 c
-      ALLOCATE (SENSOR_TAB(NSENSOR) )
-c
       GLOBAL_COMP_TIME%ENGINE_TIME(1:IRUNN) = ZERO
       GLOBAL_COMP_TIME%RUN_NBR = IRUNN
       GLOBAL_COMP_TIME%RST_NAME(1:1000)=''
       GLOBAL_COMP_TIME%RST_NAME=
      .   ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0001.rst'
+c
       CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
      .            MULTI_FVM        ,H3D_DATA  ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA,
-     .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSOR_TAB   ,EBCS_TAB        ,DYNAIN_DATA,
+     .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
      .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   )
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
@@ -1532,7 +1531,7 @@ C------------------------------------------------
      E              IPM   ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
-     H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSOR_TAB,
+     H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
      I              DYNAIN_DATA)
 
 C------------------------------------------------
@@ -2226,7 +2225,7 @@ C---------------------------------------------------------------------
      .                   IGRBRIC      ,IGRQUAD         ,IGRSH4N         ,IGRSH3N    ,IGRTRUSS  ,
      .                   IGRBEAM      ,IGRSPRING       ,IGRPART         ,IGRSURF    ,IGRSLIN   ,
      .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
-     .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSOR_TAB ,EBCS_TAB        ,
+     .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      )
 C---------------------------------------------------------------------

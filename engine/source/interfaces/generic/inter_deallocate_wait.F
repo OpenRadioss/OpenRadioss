@@ -35,7 +35,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
         SUBROUTINE INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
-     1                                    IRECVFROM,INTBUF_TAB,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
+     1                          NSENSOR,IRECVFROM,INTBUF_TAB,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
 !$COMMENT
 !       INTER_DEALLOCATE_WAIT description
 !       wait the message "send the secondary nodes" & deallocation of array
@@ -71,6 +71,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(in) :: ITASK    !   omp thread ID
       INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
+      INTEGER, INTENT(in) :: NSENSOR
       INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
       INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
       INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 

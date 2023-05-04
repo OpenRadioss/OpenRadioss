@@ -90,7 +90,7 @@ Chd|====================================================================
      I                    ITASK  ,ISTRAIN,TEMP   ,FTHE    ,
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT   ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS  ,TABLE   ,
-     L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSOR_TAB,
+     L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSORS,
      M                    IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
@@ -161,7 +161,7 @@ C
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1125,8 +1125,8 @@ C------------------------------------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c
       IF(IBOLTP /= 0) CALL BOLTST(
-     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
-     2   TT,        NEL,       SENSOR_TAB,NPT)
+     .                 IP,        BPRELD,    LBUF%SIG,TT     ,        
+     .                 NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 
         CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,

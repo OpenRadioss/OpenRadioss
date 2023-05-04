@@ -56,7 +56,7 @@ Chd|====================================================================
      D   MY1,                  MY2,                  MZ1,                  MZ2,
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT)
+     G   JSMS,                 IGRE,                 NFT,                  NSENSOR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
@@ -103,6 +103,7 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) , INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -133,7 +134,6 @@ C     REAL
       DOUBLE PRECISION
      .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),X3DP(3,MVSIZ),
      .   ELX(3,MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(9)
@@ -176,7 +176,7 @@ C=======================================================================
      1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
      2   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)), GBUF%LENGTH(II(2)),
      3   GBUF%LENGTH(II(3)), GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)), GBUF%TOTROT(II(3)),
-     4   IGEO,               PID,                NEL)
+     4   IGEO,               PID,                NEL,                NSENSOR  )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN
@@ -252,7 +252,7 @@ C
      Y   SENSOR_TAB,             GBUF%INTVAR(II(1)),     GBUF%SLIPRING_FRAM_ID,  GBUF%FRAM_FACTOR,
      Z   GBUF%INTVAR(II(2)),     GBUF%INTVAR(II(3)),     GBUF%INTVAR(II(4)),     GBUF%INTVAR(II(5)),
      1   GBUF%INTVAR(II(6)),     GBUF%INTVAR(II(7)),     GBUF%INTVAR(II(8)),     GBUF%INTVAR(II(9)),
-     2   NFT)
+     2   NFT               ,     NSENSOR)
 C
         DO I=JFT,JLT
           IF (GBUF%UPDATE(I) == -1) THEN

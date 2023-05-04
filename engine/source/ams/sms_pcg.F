@@ -67,7 +67,7 @@ Chd|====================================================================
      5                ISKEW     ,SKEW     ,ITASK    ,NODNX_SMS,IAD_ELEM,
      6                FR_ELEM   ,WEIGHT   ,IBFV     ,VEL      ,NPC     ,
      7                TF        ,V        ,X        ,D        ,SENSOR_TAB,
-     8                IFRAME   ,XFRAME   ,JADI_SMS ,JDII_SMS,
+     8                IFRAME    ,XFRAME   ,JADI_SMS ,JDII_SMS ,NSENSOR   ,
      9                LTI_SMS   ,FR_SMS   ,FR_RMS   ,LIST_SMS ,LIST_RMS,
      A                MSKYI_FI_SMS,VFI    ,ISKYI_SMS,MSKYI_SMS         ,
      B                RES_SMS   ,ILINK    ,LLINK    ,FR_RL    ,FRL6    ,
@@ -119,7 +119,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C----------resol [M]{X}={F}---------
-      INTEGER  NODFT, NODLT, IADK(*), JDIK(*), NNZ, ISP,
+      INTEGER  NODFT, NODLT, IADK(*), JDIK(*), NNZ, ISP,NSENSOR,
      .         NODFT1_SMS,NODLT1_SMS,INDX1_SMS(*),
      .         ICODT(*), ICODR(*), ISKEW(*), ITASK, NODNX_SMS(*),
      .         IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*), WEIGHT(*),
@@ -157,7 +157,7 @@ C     REAL
      .                 RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -640,7 +640,7 @@ C
         IF(ITASK==0)
      .  CALL SMS_FIXVEL(IBFV   ,RES_SMS ,V        ,NPC    ,TF     ,
      2                  VEL    ,DIAG_SMS,X        ,SKEW   ,SENSOR_TAB,
-     3                  WEIGHT  ,D        ,IFRAME ,XFRAME ,
+     3                  WEIGHT  ,D        ,IFRAME ,XFRAME ,NSENSOR   ,
      4                  IT+1   ,DIAG_SMS,NODNX_SMS,CPTREAC,NODREAC,
      5                  FTHREAC,AM       ,VR     ,DR      ,IN     ,
      6                  RBY     )
@@ -1130,7 +1130,7 @@ C
         IF(ITASK==0)
      .  CALL SMS_FIXVEL(IBFV   ,RES_SMS ,V        ,NPC    ,TF     ,
      2                  VEL    ,DIAG_SMS,X        ,SKEW   ,SENSOR_TAB,
-     3                  WEIGHT  ,D         ,IFRAME,XFRAME ,
+     3                  WEIGHT  ,D         ,IFRAME,XFRAME ,NSENSOR   ,
      4                  IT+1   ,DIAG_SMS,NODNX_SMS,CPTREAC,NODREAC,
      5                  FTHREAC,AM       ,VR     ,DR      ,IN     ,
      6                  RBY     )

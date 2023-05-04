@@ -28,12 +28,13 @@ Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ANIM_SET2ZERO_STRUCT()
+      SUBROUTINE ANIM_SET2ZERO_STRUCT(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ANIM_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,13 +49,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
+      TYPE (SENSORS_) ,INTENT(OUT) :: SENSORS
 C-----------------------------------------------
       TANIM0            = ZERO
       TANIM_STOP0       = ZERO
       DTANIM0           = ZERO
       TANIMSENS         = ZERO
-      DTANISENS         = ZERO
-      IANISENS          = 0
+      SENSORS%ANIM_DT   = ZERO
+      SENSORS%ANIM_ID   = 0
       ANIM_M            = 0
       ANIM_K            = 0
       ANIM_U            = 0
@@ -107,11 +109,9 @@ C-----------------------------------------------
         ANIM_CT(I)      = 0
         ANIM_ST(I)      = 0
         ANIM_FT(I)      = 0
-        LANISENS(I)     = 0
         NTITLETAB(I)    = 0
       ENDDO
       ANIM_WPLA         = 0
-      NLSENS            = 0
       IFVANI            = 0
       NLTITLE           = 0
       NBPLY_ANIM        = 0

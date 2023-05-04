@@ -58,7 +58,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM       ,TABLE    ,FUNC_ID  ,
-     .                  NPC      ,PLD   ,SENSOR_TAB,NLOC_DMG ,MLAW_TAG ,
+     .                  NPC      ,PLD   ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,
      .                  MATPARAM_TAB    )
 C-----------------------------------------------
 C   M o d u l e s
@@ -92,7 +92,7 @@ C-----------------------------------------------
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -201,7 +201,7 @@ c
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
             CALL LAW58_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
-     .                     PM(1,IMAT),NPARAM,SENSOR_TAB)
+     .                     PM(1,IMAT),NPARAM,SENSORS)
 c-------------------------
           CASE (62) 
 c------------------
@@ -342,7 +342,7 @@ c-------------------------
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
             CALL LAW158_UPD(TITR,UPARAM,NPC,PLD,
      .                      NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
-     .                      PM(1,IMAT),NPARAM,SENSOR_TAB)
+     .                      PM(1,IMAT),NPARAM,SENSORS)
 c------------------
 c
         END SELECT ! (ILAW)  

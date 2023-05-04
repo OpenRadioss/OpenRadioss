@@ -41,7 +41,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_GRAV(IGRV   ,LGRAV   ,GRAV      ,ITAB    ,ITABM1  ,
-     .                        IGRNOD ,NPC     ,SENSOR_TAB,UNITAB  ,ISKN    ,
+     .                        IGRNOD ,NPC     ,SENSORS   ,UNITAB  ,ISKN    ,
      .                        ITAGND ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -75,7 +75,7 @@ C-----------------------------------------------
       my_real
      .   GRAV(LFACGRV,NGRAV)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C     IGRV(LIBRV,NGRAV) 
 C-----------------------------------------------
@@ -235,9 +235,9 @@ C
         GRAV(1,K) = FCY
         GRAV(2,K) = ONE/FCX
         TSENS=0
-        DO J=1,NSENSOR
+        DO J=1,SENSORS%NSENSOR
           IF(ISENS/=0) THEN
-            IF (IGRV(6,K) == SENSOR_TAB(J)%SENS_ID) TSENS=J
+            IF (IGRV(6,K) == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
           ENDIF
         ENDDO
         IF((TSENS==0).AND.(IGRV(6,K)/=0))THEN

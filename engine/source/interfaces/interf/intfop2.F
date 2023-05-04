@@ -62,7 +62,7 @@ Chd|====================================================================
      9       FR_I18    ,IGRBRIC    ,EMINX      ,
      A       IXS       ,IXS16      ,IXS20      ,FNCONT    ,FTCONT          ,
      B       IAD_ELEM  ,FR_ELEM    ,RCONTACT   ,ACONTACT  ,PCONTACT        ,
-     C       TEMP      ,FTHE       ,FTHESKYI   ,IPARG     ,
+     C       TEMP      ,FTHE       ,FTHESKYI   ,IPARG     ,NSENSOR         ,
      D       PM        ,INTSTAMP   ,WEIGHT     ,NISKYFIE  ,IRLEN20         ,
      E       ISLEN20   ,IRLEN20T   ,ISLEN20T   ,IRLEN20E  ,ISLEN20E        ,
      F       MSKYI_SMS ,ISKYI_SMS  ,NODNX_SMS  ,INT18ADD  ,FCONTG          ,
@@ -115,6 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------     
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST,NEWFRONT(*),NSTRF(*),
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IRLEN20E, ISLEN20E,INT18ADD(*),NCONT,NV46,DIMFB, STABSEN_,IGROUPS(NUMELS)

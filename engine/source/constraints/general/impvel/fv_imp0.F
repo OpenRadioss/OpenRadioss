@@ -205,7 +205,7 @@ Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
-     1                  UD    ,RD   ,IFIX  ,IDDL  ,
+     1                  UD    ,RD   ,IFIX  ,IDDL   ,NSENSOR   ,
      2                  SKEW   ,IFRAME,XFRAME,V    ,VR    ,
      3                  X      ,LJ    ,NDOF  ,A    ,AR    )
 C-----------------------------------------------  
@@ -227,6 +227,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IBFV(NIFV,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),LJ(*),NDDL,
      .        NDOF(*)
@@ -235,7 +236,7 @@ C     REAL
      .  TF(*), VEL(LFXVELR,*), UD(3,*),
      .  SKEW(LSKEW,*),RD(3,*),V(3,*),VR(3,*),
      .  X(3,*),XFRAME(NXFRAME,*),A(3,*),AR(3,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1749,7 +1750,7 @@ Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE WFV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
-     1                  UD     ,RD   ,IFIX  ,IDDL  ,
+     1                  UD     ,RD    ,IFIX  ,IDDL  ,NSENSOR   ,
      2                  SKEW   ,IFRAME ,XFRAME,A    ,AR    ,
      3                  X      ,NDOF  ,MS   ,IN    ,WEIGHT ,
      4                  RBY    ,DW    )
@@ -1773,6 +1774,7 @@ Ctmp+1
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IBFV(NIFV,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),NDOF(*),WEIGHT(*)
 C     REAL
@@ -1780,7 +1782,7 @@ C     REAL
      .  TF(*), VEL(LFXVELR,*), UD(3,*),
      .  SKEW(LSKEW,*),RD(3,*),A(3,*),AR(3,*),IN(*),
      .  X(3,*),XFRAME(NXFRAME,*),DW,MS(*),RBY(NRBY,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2131,7 +2133,7 @@ Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FV_FINT0(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
-     1                   UD     ,RD   ,IFIX  ,IDDL  ,
+     1                   UD     ,RD     ,IFIX ,IDDL  ,NSENSOR   ,
      2                   SKEW   ,IFRAME ,XFRAME,A    ,AR    ,
      3                   X      ,NDOF  ,MS   ,IN    ,WEIGHT ,
      4                   RBY    )
@@ -2154,6 +2156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IBFV(NIFV,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),NDOF(*),WEIGHT(*)
 C     REAL
@@ -2161,7 +2164,7 @@ C     REAL
      .  TF(*), VEL(LFXVELR,*), UD(3,*),
      .  SKEW(LSKEW,*),RD(3,*),A(3,*),AR(3,*),IN(*),
      .  X(3,*),XFRAME(NXFRAME,*),DW,MS(*),RBY(NRBY,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

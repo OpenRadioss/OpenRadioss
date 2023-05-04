@@ -56,7 +56,7 @@ Chd|====================================================================
      2        IGRNOD      ,IGRSURF    ,IGRSLIN        ,NPC      ,ILAGM     ,   
      3        ITABM1      ,ITAB       ,ISKN           ,UNITAB   ,I2RUPT    ,
      4        AREASL      ,NI         ,NOM_OPT        ,TITR     ,DEF_INTER ,
-     5        IDINT7      ,IDINT7B    ,IDINT11        ,NPC1     ,SENSOR_TAB,
+     5        IDINT7      ,IDINT7B    ,IDINT11        ,NPC1     ,SENSORS   ,
      6        NOM_OPTFRIC,INTBUF_FRIC_TAB,IGRBRIC     ,NOINT    ,KEY       ,
      7        LSUBMODEL  ,TF          ,INTERFACES  )
 C============================================================================
@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   FRIGAP(*),FRIC_P(*),I2RUPT(*),TF(*)
       CHARACTER TITR*nchartitle
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
@@ -157,7 +157,7 @@ C--------------------------------------------------
               CALL HM_READ_INTER_TYPE25(
      1         IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2         IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,DEF_INTER  ,
-     3         SENSOR_TAB ,NOM_OPT    ,UNITAB    ,LSUBMODEL  ,TITR       ,
+     3         SENSORS    ,NOM_OPT    ,UNITAB    ,LSUBMODEL  ,TITR       ,
      4         NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,NPC1       ,TF         ,
      5         INTERFACES%PARAMETERS)
 
@@ -169,7 +169,7 @@ C--------------------------------------------------
               CALL HM_READ_INTER_TYPE24(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI          ,
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P     ,DEF_INTER  ,
-     3        SENSOR_TAB ,NOM_OPT     ,UNITAB     ,LSUBMODEL  ,TITR      ,
+     3        SENSORS    ,NOM_OPT     ,UNITAB     ,LSUBMODEL  ,TITR      ,
      4        NOM_OPTFRIC,INTBUF_FRIC_TAB,INTERFACES%PARAMETERS )
 
           CASE ('TYPE23')
@@ -190,7 +190,7 @@ C--------------------------------------------------
               NTYP=21
               CALL HM_READ_INTER_TYPE21(
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2          IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSOR_TAB,
+     2          IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3          NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
      4          TF         )
 
@@ -253,7 +253,7 @@ C--------------------------------------------------
              NTYP = 11
              CALL HM_READ_INTER_TYPE11(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRSURF    ,IGRSLIN    ,SENSOR_TAB ,DEF_INTER ,TITR      ,
+     2        IGRSURF    ,IGRSLIN    ,SENSORS    ,DEF_INTER ,TITR      ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      4        ID_TYPE19)
 
@@ -283,7 +283,7 @@ C--------------------------------------------------
              CALL HM_READ_INTER_TYPE07(
      1           IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
      2           IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,NOM_OPT    ,
-     3           DEF_INTER  ,NPC1       ,SENSOR_TAB ,UNITAB    ,LSUBMODEL  ,
+     3           DEF_INTER  ,NPC1       ,SENSORS    ,UNITAB    ,LSUBMODEL  ,
      4           TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
      5           ID_TYPE19)
 
@@ -304,7 +304,7 @@ C--------------------------------------------------
            CALL HM_READ_INTER_TYPE05(
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
      2          IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
-     3          SENSOR_TAB ,UNITAB     ,LSUBMODEL  ,TITR       )
+     3          SENSORS    ,UNITAB     ,LSUBMODEL  ,TITR       )
 
           CASE ('TYPE4')
 C--------------------------------------------------

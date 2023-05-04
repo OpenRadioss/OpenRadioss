@@ -54,8 +54,8 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(STABS)    :: TABS
       my_real, DIMENSION(3,NUMNOD) :: X
       my_real, DIMENSION(12)       :: XSENS
-      TYPE (SENSOR_STR_) ,TARGET   :: SENSOR
-      DOUBLE PRECISION ,DIMENSION(12,6,DIMFB) :: FBSAV6
+      TYPE (SENSOR_STR_) ,INTENT(INOUT) ,TARGET   :: SENSOR
+      DOUBLE PRECISION ,DIMENSION(12,6,DIMFB) ,INTENT(IN) :: FBSAV6
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------

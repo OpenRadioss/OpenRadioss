@@ -141,7 +141,7 @@ Chd|====================================================================
      1                  SH4TREE  ,SH3TREE  ,H3D_DATA    ,MULTI_FVM   ,SUBSET    ,
      2                  PSKIDS   ,TAG_SKINS6,TF         ,NPF         ,FCONT_MAX ,
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
-     4                  LLOADP   ,FAC      ,SENSOR_TAB  ,TAGNCONT    ,LOADP_HYD_INTER,
+     4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6                  CSEFRIC_STAMP,CSEFRICG_STAMP)
 C-----------------------------------------------
@@ -263,7 +263,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       TYPE (SUBSET_) , TARGET, DIMENSION(NSUBS) :: SUBSET
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       my_real , INTENT(IN) :: AR(SAR)
       my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
@@ -298,7 +298,7 @@ C-----------------------------------------------
       CHARACTER*80 STR, MES*30, CAUX,TITL*100, H3DTITLE
       CHARACTER*ncharline KEYWORD
       CHARACTER CH_H3D*4,FILNAM*100, CHANIM1*4
-      INTEGER I, NBF, NBPART, MAGIC, J, IFUNC, FILEN, NPSOL,
+      INTEGER I, NBF, NBPART, MAGIC, J, IFUNC, FILEN, NPSOL,NSENSOR,
      .        NODCUT,NELCUT,LENR,LENI,LENCUT,IXEL,
      .        MIC1,MIC2,MIC3,MIC4,MIC5,MAC1,MAC2,MAC3,NPSPR,N,K,
      .        I3000, NESCT,NERBY,NERWL,NNWL,TMPNBF,ISK(6),
@@ -450,6 +450,7 @@ C=======================================================================
       NDMA2 = NUMNOD*(MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
      .              +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
      .              +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
+      NSENSOR = SENSORS%NSENSOR
       ALLOCATE(MAS(SMAS))
       ALLOCATE(SUB_NCHILD(NSUBS))
       ALLOCATE(SUB_LEVEL(NSUBS))
@@ -2833,7 +2834,7 @@ c-----
      .                    IS_WRITEN_SKIN,INFO1,KEYWORD       , H3D_DATA  ,
      6                    IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
-     8                    SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC  ,
+     8                    NSENSOR,SENSORS%SENSOR_TAB,TAGNCONT,LOADP_HYD_INTER,XFRAME,FORC  ,
      9                    NODAL_IPART ,IMAPSKP )
 c
           IF (NSPMD > 1 ) THEN
@@ -2867,9 +2868,9 @@ c-----
           INFO1 = H3D_DATA%OUTPUT_LIST(I)%INFO1
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
 
-          CALL H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,
+          CALL H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,NSENSOR,
      .                   IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,KEYWORD ,
-     .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
+     .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSORS%SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP)
 c
           IF (NSPMD > 1 ) THEN

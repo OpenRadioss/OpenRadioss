@@ -34,7 +34,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE MANCTR(SENSOR_TAB,H3D_DATA)
+      SUBROUTINE MANCTR(SENSORS ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -74,7 +74,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0
+      INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, 
+     .   MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0,SENS_ID
       my_real TMPMAN(50), TMAN,TMAN_LOC
       CHARACTER FILNAM*100, CARTE*ncharline, KEY2*80, FMT*80, KEY0(NKEY)*5,REC*1
       INTEGER :: LEN_TMP_NAME
@@ -116,53 +117,54 @@ C SOUS CYCLAGE ALE
 C-----------------------------
 C     SENSOR 
 C-----------------------------
-       IF(IANISENS>0)THEN
-        IF (TT > SENSOR_TAB(IANISENS)%TSTART) THEN
-C         ACTIVATION
-          IANISENS=-IANISENS
-          TANIMSENS=TT+DTANISENS
-          MANIM=4
-          MDESS=MDESS+MANIM
-        ENDIF
-       ELSEIF(IANISENS<0)THEN
-        IF(TT < SENSOR_TAB(-IANISENS)%TSTART) THEN
-C         DEACTIVATION
-          IANISENS=-IANISENS
-        ELSEIF (TT > TANIMSENS) THEN
-C         ACTIF
-          TANIMSENS=TANIMSENS+DTANISENS
-          MANIM=4
-          MDESS=MDESS+MANIM
-          RETURN
-        ENDIF
+       IF (SENSORS%ANIM_ID > 0)THEN
+         IF (TT > SENSORS%SENSOR_TAB(SENSORS%ANIM_ID)%TSTART) THEN
+C          ACTIVATION
+           SENSORS%ANIM_ID = -SENSORS%ANIM_ID
+           TANIMSENS = TT + SENSORS%ANIM_DT
+           MANIM=4
+           MDESS=MDESS+MANIM
+         ENDIF
+       ELSEIF (SENSORS%ANIM_ID < 0) THEN
+         IF (TT < SENSORS%SENSOR_TAB(-SENSORS%ANIM_ID)%TSTART) THEN
+C          DEACTIVATION
+           SENSORS%ANIM_ID = -SENSORS%ANIM_ID
+         ELSEIF (TT > TANIMSENS) THEN
+C          ACTIF
+           TANIMSENS=TANIMSENS+DTANISENS
+           MANIM=4
+           MDESS=MDESS+MANIM
+           RETURN
+         ENDIF
        ENDIF
-       IF(NLSENS>0)THEN
-         DO I=1,NLSENS
-           IF(LANISENS(I)>0)THEN
-             IF (TT > SENSOR_TAB(LANISENS(I))%TSTART) THEN
-C           ACTIVATION
-               LANISENS(I)=-LANISENS(I)
+c
+       IF (SENSORS%NANIM > 0) THEN
+         DO I=1,SENSORS%NANIM
+           SENS_ID = SENSORS%ANIM(I)
+           IF (SENS_ID > 0) THEN
+             IF (TT > SENSORS%SENSOR_TAB(SENS_ID)%TSTART) THEN  ! ACTIVATION
+               SENS_ID = -SENS_ID
                MANIM=4
                MDESS=MDESS+MANIM
              ENDIF
-           ELSEIF(LANISENS(I)<0)THEN
-             IF (TT < SENSOR_TAB(-LANISENS(I))%TSTART) THEN
-C           DEACTIVATION
-               LANISENS(I)=-LANISENS(I)
+           ELSEIF (SENS_ID < 0) THEN
+             IF (TT < SENSORS%SENSOR_TAB(-SENS_ID)%TSTART) THEN ! DEACTIVATION
+               SENS_ID = -SENS_ID
              ENDIF
            ENDIF
          ENDDO
        ENDIF
+c
        IF(H3D_DATA%N_SENS_H3D>0)THEN
          DO I=1,H3D_DATA%N_SENS_H3D
            IF(H3D_DATA%LSENS_H3D(I)>0)THEN
-             IF (TT > SENSOR_TAB(H3D_DATA%LSENS_H3D(I))%TSTART) THEN
+             IF (TT > SENSORS%SENSOR_TAB(H3D_DATA%LSENS_H3D(I))%TSTART) THEN
 C           ACTIVATION
                H3D_DATA%LSENS_H3D(I)=-H3D_DATA%LSENS_H3D(I)
                H3D_DATA%MH3D=1
              ENDIF
            ELSEIF (H3D_DATA%LSENS_H3D(I)<0) THEN
-             IF (TT < SENSOR_TAB(-H3D_DATA%LSENS_H3D(I))%TSTART) THEN
+             IF (TT < SENSORS%SENSOR_TAB(-H3D_DATA%LSENS_H3D(I))%TSTART) THEN
 C           DEACTIVATION
                H3D_DATA%LSENS_H3D(I)=-H3D_DATA%LSENS_H3D(I)
              ENDIF
@@ -349,9 +351,8 @@ C *** on applique les flags recus de rad2rad ***
 C---------------------------------
 C     ECHANGE MULTIPROCS
 C---------------------------------
-      IF((IANISENS/=0.OR.NLSENS/=0.OR.H3D_DATA%N_SENS_H3D>0).OR.
-     .  ((NCYCLE/NCINP)*NCINP==NCYCLE).OR.
-     .  ((IRAD2R==1).AND.(MFILR==1))) THEN    
+      IF((SENSORS%ANIM_ID /=0 .OR. SENSORS%NANIM /=0 .OR. H3D_DATA%N_SENS_H3D > 0) .OR.
+     .  ((NCYCLE/NCINP)*NCINP==NCYCLE) .OR. (IRAD2R==1 .AND. MFILR==1)) THEN    
           IF (ISPMD==0) THEN
              TMPMAN(1) = MDESS
              TMPMAN(2) = MREST0

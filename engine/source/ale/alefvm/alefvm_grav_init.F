@@ -30,7 +30,7 @@ Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mo
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE ALEFVM_GRAV_INIT(
-     1                          AGRV, IGRV, LGRAV, SENSOR_TAB,
+     1                          AGRV, IGRV, LGRAV, NSENSOR,SENSOR_TAB,
      2                          IXS , ITASK, NPC , TF    ,SKEW    ,
      3                          ITAB )
 C-----------------------------------------------
@@ -71,6 +71,7 @@ C finite volume scheme (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK,LGRAV(*),NPC(*),ITAB(*)
       my_real :: AGRV(LFACGRV,*),TF(*)
 C-----------------------------------------------

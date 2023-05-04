@@ -51,7 +51,7 @@ C-------------------------------------------------------------------------------
 C     MODULE dedicated to pass arrays from RADIOSS to user routines.
 C-----------------------------------------------------------------------------------
         
-        TYPE (USER_WINDOWS_)::USER_WINDOWS
-        TYPE (SENSOR_STR_)       ,DIMENSION(:) , ALLOCATABLE :: SENSOR_TAB       ! NSENSOR
+        TYPE (USER_WINDOWS_) :: USER_WINDOWS
+        TYPE (SENSORS_)      :: SENSORS
 
       END MODULE USER_INTERFACE_MOD

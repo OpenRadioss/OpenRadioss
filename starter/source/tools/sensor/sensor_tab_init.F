@@ -27,7 +27,7 @@ Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE SENSOR_TAB_INIT(SENSOR_TAB,NSENSOR)
+      SUBROUTINE SENSOR_TAB_INIT(SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -39,27 +39,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSENSOR
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NVAR
-      TYPE (SENSOR_STR_) ,POINTER :: SENSOR_PTR
+      INTEGER I
 C=======================================================================
-      DO I=1,NSENSOR
-        SENSOR_PTR => SENSOR_TAB(I)
-        SENSOR_PTR%TYPE    = -1
-        SENSOR_PTR%SENS_ID = 0  
-        SENSOR_PTR%STATUS  = 0     
-        SENSOR_PTR%TCRIT   = 0     
-        SENSOR_PTR%TMIN    = 0     
-        SENSOR_PTR%TDELAY  = 0    
-        SENSOR_PTR%TSTART  = 0   
-        SENSOR_PTR%VALUE   = 0   
-        SENSOR_PTR%NPARI   = 0   
-        SENSOR_PTR%NPARR   = 0   
-        SENSOR_PTR%NVAR    = 0   
+      DO I=1,SENSORS%NSENSOR
+        SENSORS%SENSOR_TAB(I)%TYPE    = -1
+        SENSORS%SENSOR_TAB(I)%SENS_ID = 0  
+        SENSORS%SENSOR_TAB(I)%STATUS  = 0     
+        SENSORS%SENSOR_TAB(I)%TCRIT   = 0     
+        SENSORS%SENSOR_TAB(I)%TMIN    = 0     
+        SENSORS%SENSOR_TAB(I)%TDELAY  = 0    
+        SENSORS%SENSOR_TAB(I)%TSTART  = 0   
+        SENSORS%SENSOR_TAB(I)%VALUE   = 0   
+        SENSORS%SENSOR_TAB(I)%NPARI   = 0   
+        SENSORS%SENSOR_TAB(I)%NPARR   = 0   
+        SENSORS%SENSOR_TAB(I)%NVAR    = 0   
       END DO
 C------------
       RETURN

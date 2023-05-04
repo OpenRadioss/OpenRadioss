@@ -90,7 +90,7 @@ Chd|====================================================================
      B            TEMP     ,FTHE    ,FTHESKY ,IEXPAN   ,GRESAV   ,
      C            GRTH     ,IGRTH   ,MSSA    ,DMELS    ,TABLE    ,
      D            XDP      ,VARNOD  ,VOLN    ,CONDN    ,CONDNSKY ,
-     E            D        ,SENSOR_TAB,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
+     E            D        ,SENSORS ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -152,7 +152,7 @@ C
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  , INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -555,9 +555,10 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      2   B4,             B5,             B6,             WXX,
      3   WYY,            WZZ,            NEL,            MTN,
      4   ISMSTR)
+
         CALL BOLTST(
-     1   IBOLTP,    IP,        BPRELD,    LBUF%SIG,
-     2   TT,        NEL,       SENSOR_TAB,NPT)
+     1       IP,        BPRELD,    LBUF%SIG,TT,   NEL,     
+     2       NPT,   SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
       END IF
 
       CALL MMAIN(

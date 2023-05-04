@@ -32,13 +32,13 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE DESACTI(IXS     ,IXQ      ,IXC     ,IXP     ,IXT      ,
-     .                   IXR     ,IXTG     ,IPARG   , 
-     .                   IACTIV  ,SENSOR_TAB,FSKY    ,X       ,ELBUF_TAB,
-     .                   IBCV    ,FCONV    ,IBCR    ,FRADIA  ,IGROUPS  ,
-     .                   FACTIV  ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
-     .                   IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
-     .                   IGRBEAM ,IGRSPRING)
+      SUBROUTINE DESACTI(IXS      ,IXQ      ,IXC     ,IXP     ,IXT      ,
+     .                   IXR      ,IXTG     ,IPARG   ,IACTIV  , 
+     .                   NSENSOR  ,SENSOR_TAB,FSKY    ,X      ,ELBUF_TAB,
+     .                   IBCV     ,FCONV    ,IBCR    ,FRADIA  ,IGROUPS  ,
+     .                   FACTIV   ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
+     .                   IGRBRIC  ,IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
+     .                   IGRBEAM  ,IGRSPRING)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,6 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IACTIV(LACTIV,*),IPARG(NPARG,*),
      .        IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),  
      .        IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*)

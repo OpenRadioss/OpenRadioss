@@ -40,7 +40,8 @@ Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/pa
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,INTER_PARAMETERS)
+      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+     .           INTER_PARAMETERS,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,6 +58,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
       USE PARAMETERS_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +71,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE), INTENT(IN) :: H3D_DATA
       TYPE (DYNAIN_DATABASE), INTENT(IN) :: DYNAIN_DATA
       TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
+      TYPE (SENSORS_)    ,INTENT(IN):: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -401,7 +404,7 @@ C-----1
       TABVINT(267)=NFACX
       TABVINT(268)=NUMPOR
       TABVINT(269)=NACCELM
-      TABVINT(270)=NSENSOR
+      TABVINT(270)=SENSORS%NSENSOR
       TABVINT(271)=NPRETEN
       TABVINT(272)=NVOLU
       TABVINT(273)=NPART
@@ -492,8 +495,8 @@ C-----
       TABVINT(429)=NUMELS20
       TABVINT(430)=IDAMPG
       TABVINT(431)=ICLOSE
-      TABVINT(432)=NSENSI
-      TABVINT(433)=NSENSR
+c      TABVINT(432)=NSENSI
+c      TABVINT(433)=NSENSR
       TABVINT(434)=NIBVEL
       TABVINT(435)=LWASPH
       TABVINT(436)=NUMELS16
@@ -1612,13 +1615,13 @@ C
       TABVINT(LVARINT)=INISPRI
 !
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NSTOPSENS
+      TABVINT(LVARINT)=SENSORS%NSTOP
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NSTATSENS
+      TABVINT(LVARINT)=SENSORS%NSTAT
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NOUTPSENS
+      TABVINT(LVARINT)=SENSORS%NOUTP
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=IANISENS
+      TABVINT(LVARINT)=SENSORS%NANIM
 !
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NIBCLD

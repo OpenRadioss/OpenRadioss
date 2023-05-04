@@ -39,7 +39,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE INTCRIT(
-     1  IPARI  ,NEWFRONT,ISENDTO,
+     1  IPARI  ,NEWFRONT,ISENDTO,NSENSOR ,
      2  IRCVFROM,DT2T   ,NELTST ,ITYPTST ,ITAB   ,
      3  XSLV    ,XMSR   ,VSLV   ,VMSR    ,INTLIST,
      4  NBINTC  ,SIZE_T ,SENSOR_TAB,DELTA_PMAX_GAP,
@@ -71,7 +71,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),
-     .        NELTST,ITYPTST,NBINTC,INTLIST(*),
+     .        NELTST,ITYPTST,NBINTC,NSENSOR,INTLIST(*),
      .        NEWFRONT(*), ITAB(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*),DELTA_PMAX_GAP_NODE(*),IDEL7NOK_SAV
       my_real :: DT2T

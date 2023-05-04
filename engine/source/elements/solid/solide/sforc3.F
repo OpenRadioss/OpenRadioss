@@ -131,8 +131,8 @@ Chd|====================================================================
      J                  VF       ,AF       ,DF       ,WF      ,FFSKY   ,
      K                  AFGLOB   ,MSF      ,IPARG1   ,XDP     ,
      M                  POR      ,ICONTACT ,IFOAM    ,VOLN    ,CONDN   ,
-     N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSOR_TAB,
-     O                  SKEW     ,NALE     ,D        ,IOUTPRT  ,NLOC_DMG,
+     N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSORS ,
+     O                  SKEW     ,NALE     ,D        ,IOUTPRT ,NLOC_DMG,
      Q                  MATPARAM_TAB,H3D_STRAIN)     
 C-----------------------------------------------
 C   M o d u l e s
@@ -211,7 +211,7 @@ C
       INTEGER :: IGRV(*), LGRAV(*)
       my_real :: AGRAV(*),SKEW(LSKEW,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -920,9 +920,9 @@ C
      2   B4,             B5,             B6,             WXX,
      3   WYY,            WZZ,            NEL,            MTN,
      4   ISMSTR)
-        CALL BOLTST(
-     1   IBOLTP,    IPTR,      BPRELD,    LBUF%SIG,
-     2   TT,        NEL,       SENSOR_TAB,NPT)
+
+        CALL BOLTST(IPTR  ,BPRELD,LBUF%SIG       ,TT    ,NEL   ,        
+     .              NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
       END IF
 C
 C Stress computation according to material laws 

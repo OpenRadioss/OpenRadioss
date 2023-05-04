@@ -34,9 +34,9 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25MAIND_2(
-     1       IPARI    ,ITAB     ,SENSOR_TAB,INTLIST25,INTBUF_TAB ,
+     1       IPARI    ,ITAB    ,SENSOR_TAB,INTLIST25,INTBUF_TAB ,
      2       X        ,V       ,KINET   ,JTASK    ,NB_DST2    ,
-     3       ICODT    ,ISKEW   )
+     3       ICODT    ,ISKEW   ,NSENSOR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,
+      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,NSENSOR,
      .        KINET(*), NB_DST2(PARASIZ), ICODT(*), ISKEW(*)
       my_real :: X(3,*), V(3,*)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB

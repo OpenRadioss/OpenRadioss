@@ -59,8 +59,6 @@ C-----------------------------------------------
       DTANIM0           = ZERO
       TANIM_STOP0       = EP20
       TANIMSENS         = ZERO
-      DTANISENS         = ZERO
-      IANISENS          = 0
       ANIM_M            = 0
       ANIM_K            = 0
       ANIM_U            = 0
@@ -108,11 +106,9 @@ C-----------------------------------------------
         ANIM_CT(I)      = 0
         ANIM_ST(I)      = 0
         ANIM_FT(I)      = 0
-        LANISENS(I)     = 0
         NTITLETAB(I)    = 0
       ENDDO
       ANIM_WPLA         = 0
-      NLSENS            = 0
       IFVANI            = 0
       NLTITLE           = 0
       NBPLY_ANIM        = 0

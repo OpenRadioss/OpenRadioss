@@ -106,14 +106,14 @@ Chd|====================================================================
      d            FR_RBE3M  ,IAD_RBE2    ,DXANCG     ,IEL_PXFEM ,ZI_PLY   ,         
      e            VGAZ      ,FCONTG      ,FNCONTG    ,FTCONTG   ,FANREAC  ,         
      f            INOD_CRK  ,IEL_CRK     ,ELCUTC     ,IADC_CRK  ,PDAMA2   ,         
-     g            RES_SMS   ,SENSOR_TAB,                   
+     g            RES_SMS   ,SENSORS     ,                   
      h            QFRICINT  ,IGAUP       ,NGAUP      ,WEIGHT_MD ,NCONT    ,         
      i            INDEXCONT ,NODGLOBXFE  ,NODEDGE    ,XFEM_TAB  ,           
      j            NV46      ,RTHBUF      ,KXIG3D     ,IXIG3D    ,KNOT     ,
      k            WIGE      ,NERCVOIS    ,NESDVOIS   ,LERCVOIS  ,LESDVOIS ,
      l            CRKEDGE   ,STACK       ,ISPHIO     ,VSPHIO    ,ICODE    ,
      m            INDX_CRK  ,XEDGE4N     ,XEDGE3N    ,SPH2SOL   ,STIFN    ,
-     n            STIFR     ,DRAPE_SH4N, DRAPE_SH3N       ,MS_2D     ,MULTI_FVM,
+     n            STIFR     ,DRAPE_SH4N  ,DRAPE_SH3N ,MS_2D     ,MULTI_FVM,
      o            SEGQUADFR ,H3D_DATA    ,ISKEW      ,PSKIDS    ,ISKWP    ,
      p            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS, 
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
@@ -259,8 +259,8 @@ C-----------------------------------------------
       TYPE (PINCH) :: PINCH_DATA
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_)  :: DRAPEG
-      TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (SENSORS_)         ,INTENT(IN)   :: SENSORS
+      TYPE(t_ale_connectivity), INTENT(IN)  :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS     
 C-----------------------------------------------
@@ -269,7 +269,7 @@ C-----------------------------------------------
       INTEGER N1,N2,N3,N4,N5,N6,N7,N8,N9,N10,I,M,JALE,NEL,NFACE,
      .        K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11,K12,
      .        NEL1D,NEL2D,NEL3D, L1, IFIL, IFILABF, CPTFILE,
-     .        IAD, J, THUPDT,IFLAG, IFV,ITHFLAG
+     .        IAD, J, THUPDT,IFLAG, IFV,ITHFLAG,NSENSOR
       INTEGER
      .    KUIX, KXUSR ,KFACPTX,KXEDGE,KXFACET,KXSOLID,KNUMX1,KNUMX2,
      .    KNUMX3,KOFFX1,KOFFX2,KOFFX3,KMASS1,KMASS2,KMASS3,
@@ -299,6 +299,7 @@ C=======================================================================
       IF(IPLYXFEM == 0 ) ANIM_PLY = 0
       IF(ICRACK3D > 0 ) ANIM_CRK = 1
       CPTFILE=0
+      NSENSOR = SENSORS%NSENSOR
 C----------------------
 C       FICHIERS NOISE
 C----------------------
@@ -323,7 +324,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
         CALL ECRIT(PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     , 
      2             RBY      ,NPBY    ,DMAS   ,DINER    ,WEIGHT ,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
-     4             XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI  ,
+     4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
      6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT)
         DEALLOCATE(VMCDN)
@@ -332,7 +333,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
         CALL ECRIT(PARTSAV  ,MS      ,V      ,IN       ,VR     , 
      2             RBY      ,NPBY    ,DMAS   ,DINER    ,WEIGHT ,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
-     4             XMOM_SMS ,SENSOR_TAB,QFRICINT ,IPARI  ,
+     4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
      6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT)
        ENDIF
@@ -755,7 +756,7 @@ c
      1             SH4TREE    ,SH3TREE   ,H3D_DATA    ,MULTI_FVM   ,SUBSET    ,
      2             PSKIDS     ,TAG_SKINS6,TF          ,NPC         ,FCONT_MAX ,
      3             MDS_MATID  ,FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP    ,
-     4             LLOADP     ,LOADP     ,SENSOR_TAB  ,TAGNCONT    ,LOADP_HYD_INTER,
+     4             LLOADP     ,LOADP     ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5             XFRAME     ,FORC      ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6             CSEFRIC_STAMP,CSEFRICG_STAMP)
       ENDIF
@@ -985,9 +986,9 @@ C         to avoid double points
             ENDIF
             ITHFLAG = 1
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,                                 
-     5                 PARTSAV,ACCELM,LOUT ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPA, OUTPUT%TH%ITHBUFA, SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1015,8 +1016,8 @@ C         to avoid double points
             IFILABF = 12
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB,                               
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB,                               
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPA,OUTPUT%TH%ITHBUFA,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1078,9 +1079,9 @@ C
             ENDIF
             ITHFLAG = 2
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                 PARTSAV,ACCELM,LOUT ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1105,8 +1106,8 @@ C
             IFILABF = 13
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1170,9 +1171,9 @@ C
             ENDIF
             ITHFLAG = 3
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                 PARTSAV,ACCELM,LOUT ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1198,8 +1199,8 @@ C
             IFILABF = 14
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1259,9 +1260,9 @@ C
             ENDIF
             ITHFLAG = 4
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                 PARTSAV,ACCELM,LOUT ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1288,8 +1289,8 @@ C
             IFILABF = 15
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1348,9 +1349,9 @@ C
             ENDIF
             ITHFLAG = 5
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1376,8 +1377,8 @@ C
             IFILABF = 16
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1436,9 +1437,9 @@ C
             ENDIF
             ITHFLAG = 6
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1465,8 +1466,8 @@ C
             IFILABF = 17
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1526,9 +1527,9 @@ C
              ENDIF
             ITHFLAG = 7
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1554,8 +1555,8 @@ C
             IFILABF = 18
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1615,9 +1616,9 @@ C
             ENDIF
             ITHFLAG = 8
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1643,8 +1644,8 @@ C
             IFILABF = 19
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1703,9 +1704,9 @@ C
             ENDIF
             ITHFLAG = 9
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1730,8 +1731,8 @@ C
             IFILABF = 20
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1789,9 +1790,9 @@ C
         ENDIF
         ITHFLAG = 10
         CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
-     2                IXS  ,ELBUF,WA(N2),IPARG,SENSOR_TAB,
+     2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1818,8 +1819,8 @@ C
           IFILABF = 11
           CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,
-     4                FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSOR_TAB, 
-     5                PARTSAV,ACCELM,LOUT ,
+     4                FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1870,7 +1871,7 @@ C     to avoid double points (end of ilastanim/=2)
 C----------------------------------------------
 C     Driver to QAPRINT 
 C----------------------------------------------
-      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS)
+      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS)
 C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------

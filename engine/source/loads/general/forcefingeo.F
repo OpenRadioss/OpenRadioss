@@ -32,7 +32,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FORCEFINGEO(IBFV  ,NPC    ,TF     ,A     ,V    ,X     ,
      2                       VEL   ,SENSOR_TAB,FSKY  ,FEXT ,ITABM1,
-     3                       H3D_DATA)
+     3                       H3D_DATA,NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -63,6 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IBFV(NIFV,*), NPC(*)
       INTEGER ITABM1(*)
       my_real TF(*), A(3,*), V(3,*), X(3,*),

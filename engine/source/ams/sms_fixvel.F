@@ -32,7 +32,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF     ,
      2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR_TAB,
-     3                     WEIGHT,D     ,IFRAME ,XFRAME ,
+     3                     WEIGHT,D     ,IFRAME ,XFRAME ,NSENSOR,
      4                     IT     ,DIAG_SMS,NODNX_SMS   ,CPTREAC,
      5                     NODREAC,FTHREAC ,AR  ,VR     ,DR     ,
      6                     IN      ,RBY )
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),CPTREAC,NODREAC(*)
       INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),
      .        IT,NODNX_SMS(*)
@@ -69,7 +70,7 @@ C     REAL
      .   SKEW(LSKEW,*),XFRAME(NXFRAME,*),
      .   DIAG_SMS(*),FTHREAC(6,*),
      .   AR(3,*), VR(3,*), DR(3,*), IN(*), RBY(NRBY,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

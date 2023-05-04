@@ -29,7 +29,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-        SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
+        SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,NSENSOR,
      .                               INTBUF_TAB,SENSOR_TAB,NB_INTER_SORTED,
      .                               LIST_INTER_SORTED,INTER_STRUCT)
 !$COMMENT
@@ -62,6 +62,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: ITASK    !   omp task id
         INTEGER, INTENT(inout) :: NEED_TO_SORT  !   1 if one or more interfaces must be sorted
         INTEGER, INTENT(in) :: NBINTC   ! number of interface which are not TYPE2
+        INTEGER, INTENT(in) :: NSENSOR
         INTEGER, DIMENSION(NBINTC), INTENT(in) :: INTLIST   !   interface id 
         INTEGER, INTENT(inout) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
         INTEGER, DIMENSION(NBINTC), INTENT(inout) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted

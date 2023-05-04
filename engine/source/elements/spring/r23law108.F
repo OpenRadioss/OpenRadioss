@@ -46,7 +46,7 @@ Chd|====================================================================
      5   FLG_KJ2,   VR,        AR,        V,
      6   DT2T,      NELTST,    ITYPTST,   STIFN,
      7   STIFR,     MS,        IN,        FSKY,
-     8   IADR,      SENSOR_TAB,OFFSET,    ANIM,
+     8   IADR,      NSENSOR,   SENSOR_TAB,OFFSET,    ANIM,
      9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
      A   BUFMAT,    BUFGEO,    PM,        RBY,
      B   FX1,       FX2,       FY1,       FY2,
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
@@ -100,6 +100,7 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -129,7 +130,6 @@ C     REAL
       DOUBLE PRECISION
      .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),X3DP(3,MVSIZ),
      .   ELX(3,MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(6)
@@ -172,7 +172,7 @@ C=======================================================================
      1   GEO,                GBUF%OFF,           SENSOR_TAB,         GBUF%TOTDEPL(II(1)),
      2   GBUF%TOTDEPL(II(2)),GBUF%TOTDEPL(II(3)),GBUF%LENGTH(II(1)), GBUF%LENGTH(II(2)),
      3   GBUF%LENGTH(II(3)), GBUF%TOTROT(II(1)), GBUF%TOTROT(II(2)), GBUF%TOTROT(II(3)),
-     4   IGEO,               PID,                NEL)
+     4   IGEO,               PID,                NEL,                NSENSOR           )
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN) THEN

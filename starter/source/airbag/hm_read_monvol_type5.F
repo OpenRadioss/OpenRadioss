@@ -45,7 +45,7 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE5(T_MONVOLN, T_MONVOL_METADATA, IPM, IGEO, ITABM1,
-     .     SENSOR_TAB, NPT, PLD,
+     .     SENSORS, NPT, PLD,
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .     LSUBMODEL)
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       TYPE(MONVOL_METADATA_), INTENT(INOUT) :: T_MONVOL_METADATA
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -407,10 +407,10 @@ C     ==============
       DO II = 1, NJET
          IF (ISENS(II) > 0) THEN
             FOUND = .FALSE.
-            DO IS = 1, NSENSOR
-               IF (ISENS(II) == SENSOR_TAB(IS)%SENS_ID) THEN
+            DO IS = 1, SENSORS%NSENSOR
+               IF (ISENS(II) == SENSORS%SENSOR_TAB(IS)%SENS_ID) THEN
                   T_MONVOLN%IBAGJET(4, II) = IS
-                  IF (SENSOR_TAB(IS)%TCRIT < TTFIRE) TTFIRE = SENSOR_TAB(IS)%TCRIT
+                  IF (SENSORS%SENSOR_TAB(IS)%TCRIT < TTFIRE) TTFIRE = SENSORS%SENSOR_TAB(IS)%TCRIT
                   FOUND = .TRUE.
                   EXIT
                ENDIF

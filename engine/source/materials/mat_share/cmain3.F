@@ -73,7 +73,7 @@ Chd|====================================================================
      I           DEL_PLY   ,TH_IPLY   ,SIG_IPLY  ,E1X       ,E1Y        ,
      J           E1Z       ,E2X       ,E2Y       ,E2Z       ,E3X        ,
      K           E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM      ,
-     L           OFFI      ,SENSOR_TAB,A11_IPLY  ,ELCRKINI   ,
+     L           OFFI      ,SENSORS   ,A11_IPLY  ,ELCRKINI   ,
      M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
@@ -144,7 +144,7 @@ C-----------------------------------------------
       TYPE (DRAPE_) :: DRAPE(NUMEL_DRAPE)
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -297,7 +297,7 @@ c
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
-     D       SENSOR_TAB,NG      ,
+     D       SENSORS ,NG      ,
      E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      F       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,

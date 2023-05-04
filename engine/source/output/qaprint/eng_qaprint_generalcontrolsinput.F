@@ -130,13 +130,13 @@ C-----------------------------------------------
 C     QA PRINT FOR STOP INPUT
 C-----------------------------------------------
       IF (MYQAKEY('/STOP')) THEN
-        WRITE(VARNAME,'(A)') 'NSTOPSENS'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSTOPSENS,0.0_8)
+!        WRITE(VARNAME,'(A)') 'NSTOPSENS'
+!        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSTOPSENS,0.0_8)
 
-        DO I=1,NSENSOR
-          WRITE(VARNAME,'(A,I0)') 'LSTOPSENS_', I
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LSTOPSENS(I),0.0_8)
-        ENDDO
+!        DO I=1,NSENSOR
+!          WRITE(VARNAME,'(A,I0)') 'LSTOPSENS_', I
+!          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LSTOPSENS(I),0.0_8)
+!        ENDDO
 
         WRITE(VARNAME,'(A)') 'NSANIM'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSANIM,0.0_8)

@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC     ,TF     , X  ,
-     1                     TEMP   ,SENSOR_TAB,FTHE   ,IAD ,
+      SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC       ,TF     , X  ,
+     1                     TEMP   ,NSENSOR   ,SENSOR_TAB,FTHE   ,IAD ,
      2                     FTHESKY)
 C-----------------------------------------------
 C   M o d u l e s
@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IAD(4,*)
       INTEGER IBCR(NIRADIA,*)
 C     REAL

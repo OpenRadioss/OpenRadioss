@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE SORT_LOGICAL_SENSORS(SENSOR_TAB)
+      SUBROUTINE SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER NSENSOR
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

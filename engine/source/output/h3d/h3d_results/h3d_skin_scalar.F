@@ -46,7 +46,7 @@ Chd|====================================================================
      .                  IS_WRITTEN_SKIN ,INFO1        ,KEYWORD   , H3D_DATA  ,
      6                  IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                  NPF   ,TF    ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
-     8                  SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC    ,
+     8                  NSENSOR,SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC    ,
      9                  NODAL_IPART ,IMAPSKP ) 
 C-----------------------------------------------
 C   M o d u l e s
@@ -74,6 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  ,INTENT(IN) :: NSENSOR
       my_real
      .   SKIN_SCALAR(*),X(3,*),V(3,*),W(3,*),GEO(NPROPG,*),PM(NPROPM,*),
      .   TF(*),BUFMAT(*)
@@ -89,7 +90,7 @@ C-----------------------------------------------
      .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER*ncharline KEYWORD
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -495,7 +496,7 @@ C------for solid elements
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME ,X ,V ,
-     .                   IMAPSKP,NSKIN )
+     .                   IMAPSKP,NSKIN ,NSENSOR)
 C-----------------------------------------------
       RETURN
       END
@@ -516,7 +517,7 @@ Chd|====================================================================
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
-     .                   IMAPSKP, NSKIN )
+     .                   IMAPSKP, NSKIN ,NSENSOR )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -547,6 +548,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  ,INTENT(IN) :: NSENSOR
       my_real
      .   SKIN_SCALAR(*),TF(*),X(3,*),V(3,*)
       CHARACTER*ncharline KEYWORD
@@ -560,7 +562,7 @@ C-----------------------------------------------
      .        LOADP_HYD_INTER(NLOADP_HYD),NODAL_IPART(*)
       my_real
      .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

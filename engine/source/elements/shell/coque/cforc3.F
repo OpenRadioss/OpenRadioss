@@ -97,7 +97,7 @@ Chd|====================================================================
      K   TEMP,        FTHE,        FTHESKY,     IEXPAN,
      L   GRESAV,      GRTH,        XEDGE4N,     IGRTH,
      M   MSC,         DMELC,       JSMS,        TABLE,
-     N   IPARG,       IXFEM,       KNOD2ELC,    SENSOR_TAB,
+     N   IPARG,       IXFEM,       KNOD2ELC,    SENSORS,
      O   ELCUTC,      INOD_CRK,    IEL_CRK,     IBORDNODE,
      P   NODENR,      IADC_CRK,    NODEDGE,     CRKNODIAD,
      Q   CONDN,       CONDNSKY,    STACK,       ISUBSTACK,
@@ -171,7 +171,7 @@ C
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -529,7 +529,7 @@ C-----------------------------
      I  BID         ,BID         ,BID         ,E1X        ,E1Y        ,
      J  E1Z         ,E2X         ,E2Y         ,E2Z        ,E3X        ,
      K  E3Y         ,E3Z         ,NG          ,TABLE      ,IXFEM      ,
-     L  BID         ,SENSOR_TAB  ,BID        ,ELCRKINI   ,
+     L  BID         ,SENSORS     ,BID        ,ELCRKINI   ,
      M  DIR1_CRK    ,DIR2_CRK    ,ALDT        ,
      N  ISMSTR      ,IR          ,IS          ,NLAY       ,NPT        ,
      O  IXLAY       ,IXEL        ,ISUBSTACK   ,STACK      ,

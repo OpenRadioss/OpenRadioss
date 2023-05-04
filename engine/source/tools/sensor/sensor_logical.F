@@ -33,7 +33,7 @@ Chd|        SENSOR_SENS                   source/tools/sensor/sensor_sens.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_LOGICAL(SENSOR_TAB)
+      SUBROUTINE SENSOR_LOGICAL(NSENSOR,SENSOR_TAB)
 C-----------------------------------------------
 C   M a c r o s 
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -73,19 +74,19 @@ C--------------------------------
 
          CASE (SENS_SENS) 
 
-                         CALL SENSOR_SENS(SENSOR_TAB,K)
+                         CALL SENSOR_SENS(NSENSOR,SENSOR_TAB,K)
 
          CASE (SENS_AND) 
 
-                         CALL SENSOR_AND(SENSOR_TAB,K)
+                         CALL SENSOR_AND(NSENSOR,SENSOR_TAB,K)
 c
          CASE (SENS_OR)
 
-                         CALL SENSOR_OR(SENSOR_TAB,K)
+                         CALL SENSOR_OR(NSENSOR,SENSOR_TAB,K)
 c
          CASE (SENS_NOT)
 
-                         CALL SENSOR_NOT(SENSOR_TAB,K)
+                         CALL SENSOR_NOT(NSENSOR,SENSOR_TAB,K)
          END SELECT
 C-----------------------------------------------------------------------
        ENDDO

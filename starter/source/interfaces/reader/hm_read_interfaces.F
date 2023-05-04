@@ -50,7 +50,7 @@ Chd|====================================================================
      2           IGRNOD   ,IGRSURF  ,IGRSLIN   ,IGRBRIC    ,IGRSH3N    ,
      3           IGRTRUSS ,NPC      ,ISKN      ,XFILTR     ,STFAC      , 
      4           FRIC_P   ,I2RUPT   ,AREASL    ,UNITAB     ,NOM_OPT    ,
-     5           DEF_INTER,NPC1     ,SENSOR_TAB,MULTI_FVM  ,NOM_OPTFRIC,
+     5           DEF_INTER,NPC1     ,SENSORS   ,MULTI_FVM  ,NOM_OPTFRIC,
      6           INTBUF_FRIC_TAB    ,IDDLEVEL  ,LSUBMODEL  ,TF         ,
      7           KLOADPINTER        ,DGAPINT   ,INTERFACES)
 C============================================================================
@@ -98,7 +98,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -252,7 +252,7 @@ C---------------------------------------------------------------
      2          IGRNOD       ,IGRSURF    ,IGRSLIN        ,NPC       ,ILAGM       ,
      3          ITABM1       ,ITAB       ,ISKN           ,UNITAB    ,I2RUPT(1,NI),
      4          AREASL(NI)   ,NI         ,NOM_OPT        ,TITR      ,DEF_INTER   ,
-     5          IDINT7       ,IDINT7B    ,IDINT11        ,NPC1     , SENSOR_TAB  ,
+     5          IDINT7       ,IDINT7B    ,IDINT11        ,NPC1     , SENSORS     ,
      6          NOM_OPTFRIC,INTBUF_FRIC_TAB,IGRBRIC      ,NOINT    , KEY         ,
      7          LSUBMODEL    ,TF         ,INTERFACES  )
 

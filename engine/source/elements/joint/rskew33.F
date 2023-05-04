@@ -36,7 +36,7 @@ Chd|====================================================================
      .                   NUVAR  ,UVAR    ,RBY   ,X     ,XL   ,
      .                   ROT1   ,ROT2    ,DX    ,DY    ,DZ   ,
      .                   RX     ,RY      ,RZ    ,VR    ,IGTYP,
-     .                   SENSOR_TAB,ISENS ,NC1   ,NC2  ,
+     .                   NSENSOR,SENSOR_TAB,ISENS ,NC1   ,NC2  ,
      .                   XDP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER JFT, JLT, IOUT, NUVAR, IPROP, IXR(NIXR,*),IGTYP,
      .        ISENS,NC1(*),NC2(*)
 C     REAL

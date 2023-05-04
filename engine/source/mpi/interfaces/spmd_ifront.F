@@ -37,7 +37,7 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE SPMD_IFRONT(
      1   IPARI   ,NEWFRONT,ISENDTO   ,IRCVFROM,
-     2   NBINTC  ,INTLIST ,ISLEN7    ,IRLEN7  ,
+     2   NSENSOR ,NBINTC  ,INTLIST ,ISLEN7    ,IRLEN7  ,
      3   ISLEN11 ,IRLEN11 ,ISLEN17   ,IRLEN17 ,IRLEN7T ,
      4   ISLEN7T ,IRLEN20 ,ISLEN20   ,IRLEN20T,ISLEN20T,
      5   IRLEN20E,ISLEN20E,SENSOR_TAB,INTBUF_TAB, MODE)
@@ -74,7 +74,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBINTC,ISLEN7,IRLEN7,ISLEN11,IRLEN11,ISLEN17,IRLEN17,
      .        IRLEN7T,ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
-     .        IRLEN20E,ISLEN20E,  
+     .        IRLEN20E,ISLEN20E, NSENSOR, 
      .        IPARI(NPARI,NINTER),
      .        NEWFRONT(*), INTLIST(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*)

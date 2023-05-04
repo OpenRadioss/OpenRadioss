@@ -37,13 +37,14 @@ Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE FREANIM(IKAD,KEY0,KANIM)
+      SUBROUTINE FREANIM(IKAD,KEY0,KANIM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE ANIM_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,6 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IKAD(0:*),KANIM
       CHARACTER KEY0(*)*5
+      TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -81,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Set all indexes and some other variables for ANIM to zero
 C-----------------------------------------------
-      CALL ANIM_SET2ZERO_STRUCT()
+      CALL ANIM_SET2ZERO_STRUCT(SENSORS)
 C-----------------------------------------------
 C     Loop over /ANIM cards
 C-----------------------------------------------
@@ -120,16 +122,19 @@ C----------------------------
 !
          ELSEIF(KEY2(1:5)=='SENSO')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-           READ(IUSC2,*,ERR=9990)IANISENS,DTANISENS
+           READ(IUSC2,*,ERR=9990) SENSORS%ANIM_ID,SENSORS%ANIM_DT
+!
          ELSEIF(KEY2(1:5)=='LSENS')THEN
           DO I=1,NBC
              READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
              CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
-             READ(IUSC2,*,ERR=9990,END=9990)(LANISENS(J+NLSENS),J=1,NVAR(CARTE))
+             READ(IUSC2,*,ERR=9990,END=9990)
+     .           (SENSORS%ANIM_TMP(J+SENSORS%NANIM),J=1,NVAR(CARTE))
              DO J=1,NVAR(CARTE)
-               NLSENS=NLSENS+1
+               SENSORS%NANIM = SENSORS%NANIM + 1
              ENDDO
           ENDDO
+!
          ELSEIF(KEY2(1:5)=='TITLE')THEN
           DO I=1,NBC
              READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
