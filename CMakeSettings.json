@@ -2,7 +2,8 @@
   "environments": [
     {
       "RAD_CFG_PATH": "${projectDir}\\hm_cfg_files",
-      "PATH": "${projectDir}\\extlib\\hm_reader\\win64;${projectDir}\\extlib\\h3d\\lib\\win64;${env.PATH}"
+      "PATH": "${projectDir}\\extlib\\hm_reader\\win64;${env.PATH}",
+      "RAD_H3D_PATH": "${projectDir}\\extlib\\h3d\\lib\\win64"
     }
   ],
   "configurations": [
