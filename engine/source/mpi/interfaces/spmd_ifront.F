@@ -72,15 +72,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NBINTC,ISLEN7,IRLEN7,ISLEN11,IRLEN11,ISLEN17,IRLEN17,
      .        IRLEN7T,ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
-     .        IRLEN20E,ISLEN20E, NSENSOR, 
+     .        IRLEN20E,ISLEN20E, 
      .        IPARI(NPARI,NINTER),
      .        NEWFRONT(*), INTLIST(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*)
       INTEGER MODE
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

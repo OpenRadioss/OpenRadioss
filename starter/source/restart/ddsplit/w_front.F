@@ -92,13 +92,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  ,INTENT(IN) :: NSENSOR
       INTEGER  PROC, NBDDACC, NBDDKIN, NBDDPROC, NBDDBOUN, NUMELS_L,
      .          NUMNOD_L, NBDDNRB, LEN_IA, NBDDI2M, NBDDNCJ,NBDDNRBM,
      .          NNODT_L, NNODL_L, ISP0, NRCVVOIS, NSNDVOIS, NERVOIS,
      .          NESVOIS, NSEGFL_L, NUMEL, NBCFD, NUMELQ_L,NUMELTG_L,
      .          NUMPOR_L, NUMEL_L, NBI18_L, INACTI, NLAGF_L,
      .          NBDDNORT, NBDDNOR_MAX, NBCCFR25, NBCCNOR, NUMNOR_L,
-     .          NBDDEDGT,NBDDEDG_MAX,NSENSOR,
+     .          NBDDEDGT,NBDDEDG_MAX,
      .          NODLOCAL(*), NODGLOB(*), NPBY(NNPBY,*),
      .          LPBY(*), NPRW(*), LPRW(*), DD_RBY2(3,NRBYKIN),
      .          ITABI2M(*), CEP(*), MONVOL(*),

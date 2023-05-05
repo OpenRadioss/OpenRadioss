@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       my_real ,DIMENSION(3,NUMNOD) :: X
       TYPE (SURF_) ,DIMENSION(NSURF), TARGET :: IGRSURF
-      TYPE (SENSOR_STR_), DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_), DIMENSION(NSENSOR),INTENT(INOUT) :: SENSOR_TAB
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------

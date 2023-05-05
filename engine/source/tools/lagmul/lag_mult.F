@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITASK,NSENSOR
+      INTEGER ,INTENT(IN) :: NSENSOR,ITASK
       INTEGER IPARI(NPARI,*),IXS(NIXS,*),IXS16(8,*),
      .        IXS10(6,*),IXS20(12,*),ITAB(*),
      .        LAGBUF(*),IBCSLAG(*),GJBUFI(LKJNI,*),
@@ -101,7 +101,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC

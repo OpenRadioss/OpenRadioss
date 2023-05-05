@@ -84,7 +84,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,NSENSOR,
+      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,
      .        IAD_ELEM(2,*) ,FR_ELEM(*), IAD_FRNOR(NINTER25,NSPMD+1), FR_NOR(*),
      .        KINET(*), NODNX_SMS(*), NB_DST1(PARASIZ), NB_DST2(PARASIZ)
       INTEGER, INTENT(IN) :: ICODT(*),ISKEW(*)
@@ -96,7 +97,7 @@ C-----------------------------------------------
      .        NEWFRONT(*), INTLIST(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

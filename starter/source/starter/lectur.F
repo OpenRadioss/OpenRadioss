@@ -3780,7 +3780,7 @@ C---  Deuxieme Passe -> creation des interfaces
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
-     8           NLOC_DMG ,DETONATORS)
+     8           NLOC_DMG ,DETONATORS,SENSORS%NSENSOR)
 C--------------------------------------------
 C     MULTIDOMAINS - SPLIT DES TABLEAUX
 C--------------------------------------------

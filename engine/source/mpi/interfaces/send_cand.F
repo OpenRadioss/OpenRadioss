@@ -1734,12 +1734,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER),RETRI(*),ITAB(*),NSENSOR,
+      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER IPARI(NPARI,NINTER),RETRI(*),ITAB(*),
      .        NBINTC21 ,INTLIST21(*)
 C     REAL
       my_real :: TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2130,7 +2131,7 @@ C-----------------------------------------------
 C     REAL
       my_real :: TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2335,7 +2336,7 @@ C-----------------------------------------------
 C     REAL
       my_real :: FTHE(*),FTHESKYI(*),FSKYI(LSKYI,*),CONDNSKYI(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR),INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

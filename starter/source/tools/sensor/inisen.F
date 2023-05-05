@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSENSOR
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,NINTER)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RWALL,PTR_NOPT_SECT,
      .        PTR_NOPT_INTER

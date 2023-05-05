@@ -466,7 +466,7 @@ citask0      IF (ITASK == 0) THEN
 C--------include load-stiffness matrix-in Kg---------
       IF (IKPRES>0) THEN
          CALL IMP_KPRES(IBCL  ,FORC   ,NPC   ,TF    ,X     ,
-     2                  SKEW  ,SENSOR_TAB,WEIGHT,IBID  ,
+     2                  SKEW  ,NSENSOR,SENSOR_TAB,WEIGHT,IBID  ,
      3                  IDDL  ,NDOF   ,IADK  ,JDIK  ,DIAG_KG,
      4                  LT_KG )
       END IF

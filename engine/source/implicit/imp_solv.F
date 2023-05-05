@@ -3589,7 +3589,7 @@ C----------------------------------
 Ctmp-------A n'est pas modifie ici -------------------
            CALL IMP_INT_K(A     ,V         ,
      1     ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2     TF        ,VEL       ,SENSOR_TAB,XFRAME    ,
+     2     TF        ,VEL       ,NSENSOR   ,SENSOR_TAB,XFRAME    ,
      3     RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
      4     ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
      5     IRBYAC    ,NSS       ,ISS       ,IPARI     ,INTBUF_TAB,

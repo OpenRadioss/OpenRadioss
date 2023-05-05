@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JTASK,NSENSOR
+      INTEGER ,INTENT(IN) :: JTASK,NSENSOR
       INTEGER IPARI(NPARI,NINTER), INTLIST25(*), ITAB(*),
      .        IAD_FRNOR(NINTER25,*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*), 
      .        IAD_ELEM(2,*), FR_ELEM(*),ADDCSRECT(*), PROCNOR(*)
@@ -80,7 +80,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
       TYPE(MPI_COMM_NOR_STRUCT) , DIMENSION(NINTER25) :: BUFFERS
       REAL*4 FSKYN25(3,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

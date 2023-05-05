@@ -91,7 +91,7 @@ C-----------------------------------------------
      .  DIAG_I(*),LT_I(*),LB(*),UD(3,*),GAPMIN,XFRAME(NXFRAME,*),
      .  FRBE3(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
