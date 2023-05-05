@@ -205,11 +205,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,I11,MAT_ID,UID,ILAW,JALE,JTUR,JTHE,
-     .   IMATVIS,ISRATE,IUSER_LAW,NFUNC,NUMTABL,NUPARAM,NUVAR,NVARTMP,
-     .    MAXUPARAM,MAXFUNC,MAXTABL,IUNIT,IFLAGUNIT,K
+     .        IMATVIS,ISRATE,IUSER_LAW,NFUNC,NUMTABL,NUPARAM,NUVAR,NVARTMP,
+     .        MAXUPARAM,MAXFUNC,MAXTABL,IUNIT,IFLAGUNIT,K,NSUBMAT
       PARAMETER (MAXUPARAM = 1048576) 
       PARAMETER (MAXFUNC  = 128, MAXTABL = 9)
-      my_real :: RHO,RHO0,RHOR,YOUNG,NU,C1,G,SSP,ASRATE,RBID
+      my_real :: RHO,RHO0,RHOR,YOUNG,NU,C1,G,SSP,ASRATE,RBID,RHO_MAX
       INTEGER ,DIMENSION(MAXFUNC)  :: IFUNC
       INTEGER ,DIMENSION(MAXTABL)  :: ITABLE
       my_real ,DIMENSION(:), ALLOCATABLE :: UPARAM
@@ -1390,16 +1390,32 @@ C------------------------------
           PM(100,I) = PM(32,I)
         ENDIF
       END DO
+      
+      ! RHO_MAX (INTER18 AUTOMATIC STIFFNESS) - MULTIMATERIAL
+      DO I = 1, NUMMAT-1
+        ILAW = IPM(2,I)       
+        IF (ILAW == 151) THEN
+          NSUBMAT=IPM(20,I)
+          RHO_MAX=ZERO          
+          DO J=1,NSUBMAT
+            MAT_ID=IPM(20+J,I)
+            RHO_MAX=MAX(RHO_MAX, PM(89,MAT_ID))         
+          ENDDO
+          PM(91,I)=RHO_MAX
+        ELSEIF(ILAW /=37 .AND. ILAW/=51)THEN
+          !monomaterial laws
+          PM(91,I)=PM(89,I) 
+        ELSE
+          !already done
+          !law37 : see hm_read_mat37.F          
+          !law51 : see hm_read_mat51.F & fill_buffer_51.F
+        ENDIF
+      END DO
 
       DEALLOCATE( UPARAM )
 c------------------------------
       RETURN
- 999  CALL ANCMSG(MSGID=55,
-     .            ANMODE=ANINFO,
-     .            MSGTYPE=MSGERROR,
-     .            C1=KEY0(KCUR),
-     .            C2=KLINE,
-     .            C3=LINE)
+ 999  CALL ANCMSG(MSGID=55,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=KEY0(KCUR),C2=KLINE,C3=LINE)
          CALL ARRET(2)
       RETURN
 c------------------------------

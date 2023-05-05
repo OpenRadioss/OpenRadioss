@@ -70,27 +70,26 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
+#include      "param_c.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real
-     .   PM(*)
-      INTEGER :: IPM(*)
-      TYPE(MLAW_TAG_) :: MTAG
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,INTENT(IN) :: TITR
+      INTEGER,INTENT(INOUT) :: IPM(NPROPMI)
+      INTEGER,INTENT(IN) :: ID
+      my_real,INTENT(INOUT) :: PM(NPROPM)      
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB       
+      TYPE(MLAW_TAG_),INTENT(INOUT) :: MTAG      
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      LOGICAL :: IS_AVAILABLE
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: II
       my_real :: FRAC_VOL, SUM_FRAC_VOL
-      LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
