@@ -1339,7 +1339,7 @@ C
       END IF 
       IF (NSPMD > 1 .AND. (RETRI == 1 .OR. NINTER25 > 0 ) ) THEN        
 C
-C Communication apres retri
+C Communication after sorting
 C
         IF (IMONM > 0) CALL STARTIME(18,1)
         CALL SPMD_IFRONT(
