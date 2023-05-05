@@ -31,6 +31,9 @@ Chd|        INITIA                        starter/source/elements/initia/initia.
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        I24MAINF                      engine/source/interfaces/int24/i24main.F
 Chd|        I25MAINF                      engine/source/interfaces/int25/i25mainf.F
+Chd|        IMP_INTTD0                    engine/source/implicit/imp_int_k.F
+Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
+Chd|        IMP_TRIPI                     engine/source/implicit/imp_int_k.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F

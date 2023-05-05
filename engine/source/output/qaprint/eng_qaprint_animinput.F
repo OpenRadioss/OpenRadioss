@@ -27,6 +27,7 @@ Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driv
 Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE ENG_QAPRINT_ANIMINPUT(SENSORS)
 C-----------------------------------------------

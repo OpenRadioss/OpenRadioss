@@ -53,7 +53,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRITE_JOINT                   source/output/restart/write_joint.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
-Chd|        WRITE_SENSORS                 source/output/restart/write_sensor_tab.F
+Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRITE_TH_RESTART              source/output/th/write_th_restart.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|        W_CLUSTER                     source/output/cluster/w_cluster.F

@@ -27,6 +27,7 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        ENG_QAPRINT_ANIMINPUT         source/output/qaprint/eng_qaprint_animinput.F
 Chd|        ENG_QAPRINT_DTINPUT           source/output/qaprint/eng_qaprint_dtinput.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS)
 C-----------------------------------------------

@@ -31,6 +31,7 @@ Chd|        FREDEC_8KEY_I                 source/input/fredec_8key_i.F
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_INIMAP_MOD              share/modules/state_inimap_mod.F
 Chd|====================================================================
       SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF,SENSORS)

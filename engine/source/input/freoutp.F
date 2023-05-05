@@ -31,6 +31,7 @@ Chd|        GET_KEYS_ID                   source/input/freoutp.F
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        NVAR                          source/input/nvar.F           
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FREOUTP(IKAD,KEY0,KOUTP,SENSORS)
 C-----------------------------------------------

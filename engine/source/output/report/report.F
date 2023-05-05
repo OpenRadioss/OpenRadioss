@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        ARRET                         source/system/arret.F         
 Chd|-- calls ---------------
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|====================================================================
       SUBROUTINE REPORT(IH3DREADER,N,IMVW)
 C-----------------------------------------------

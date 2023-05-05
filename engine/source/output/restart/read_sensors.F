@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
+Chd|  READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/input/freform.F        
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE READ_SENSORS(SENSORS)

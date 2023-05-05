@@ -79,6 +79,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        USER_INTERFACE_MOD            share/modules1/user_interface_mod.F
+Chd|        USER_SENSOR_MOD               share/modules1/user_interface_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE STARTER0   

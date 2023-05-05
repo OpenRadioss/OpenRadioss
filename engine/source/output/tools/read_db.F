@@ -57,7 +57,7 @@ Chd|        READ_CLUSTER                  source/output/cluster/read_cluster.F
 Chd|        READ_ELGROUP_PARAM            source/output/restart/read_elgroup_param.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
-Chd|        READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
+Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|        RMATRREST                     source/output/restart/rdresb.F
 Chd|        RTHBUFREST                    source/output/restart/rdresb.F
 Chd|        R_BUFBRIC_22                  source/interfaces/int22/r_bufbric_22.F

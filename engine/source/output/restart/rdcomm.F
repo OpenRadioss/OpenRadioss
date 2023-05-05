@@ -38,6 +38,7 @@ Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,

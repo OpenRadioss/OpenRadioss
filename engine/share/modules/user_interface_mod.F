@@ -25,6 +25,7 @@ Chd|  USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|-- called by -----------
 Chd|        GET_USER_WINDOW_NODES         source/user_interface/userwindow_interface_routines.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        REPORT                        source/output/report/report.F 
 Chd|        USERWINDOW_GET_A              source/user_interface/userwindow_interface_routines.F
 Chd|        USERWINDOW_GET_AR             source/user_interface/userwindow_interface_routines.F
 Chd|        GET_U_NUMSENS                 source/user_interface/usensor.F

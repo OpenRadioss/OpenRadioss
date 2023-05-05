@@ -53,7 +53,7 @@ Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        READ_JOINT                    source/output/restart/read_joint.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
-Chd|        READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
+Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|        READ_TH_RESTART               source/output/th/read_th_restart.F
 Chd|        SPMD_INISPH                   source/mpi/sph/spmd_sptool.F  
 Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F

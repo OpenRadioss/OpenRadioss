@@ -34,6 +34,7 @@ Chd|        NVAR                          source/input/nvar.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE H3D_READ(IKAD,KEY0,KH3D,NSLASH,H3D_DATA,SENSORS)

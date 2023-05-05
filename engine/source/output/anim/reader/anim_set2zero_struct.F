@@ -27,6 +27,7 @@ Chd|        FREANIM                       source/output/anim/reader/freanim.F
 Chd|-- calls ---------------
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE ANIM_SET2ZERO_STRUCT(SENSORS)
 C-----------------------------------------------

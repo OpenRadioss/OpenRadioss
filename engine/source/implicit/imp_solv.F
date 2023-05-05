@@ -130,6 +130,7 @@ Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

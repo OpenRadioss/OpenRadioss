@@ -28,6 +28,7 @@ Chd|        AIRBAGA1                      source/airbag/airbaga1.F
 Chd|        ALEFVM_GRAV_INIT              source/ale/alefvm/alefvm_grav_init.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        ANIM_BUILD_INDEX_ALL          source/output/anim/reader/anim_build_index_all.F
+Chd|        ANIM_SET2ZERO_STRUCT          source/output/anim/reader/anim_set2zero_struct.F
 Chd|        BOLTST                        source/elements/solid/solide/boltst.F
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
@@ -49,6 +50,8 @@ Chd|        DESACTI                       source/elements/desacti.F
 Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
 Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
 Chd|        ECRIT                         source/output/ecrit.F         
+Chd|        ENG_QAPRINT_ANIMINPUT         source/output/qaprint/eng_qaprint_animinput.F
+Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
 Chd|        FILTER_SAE211                 source/tools/sensor/filter_sae211.F
 Chd|        FIXFINGEO                     source/constraints/general/impvel/fixfingeo.F
 Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F
@@ -60,6 +63,10 @@ Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FORINTC                       source/elements/forintc.F     
+Chd|        FREANIM                       source/output/anim/reader/freanim.F
+Chd|        FREFORM                       source/input/freform.F        
+Chd|        FREOUTP                       source/input/freoutp.F        
+Chd|        FRESTAT                       source/input/frestat.F        
 Chd|        FVBAG0                        source/airbag/fvbag0.F        
 Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVINJT6                       source/airbag/fvinjt6.F       
@@ -74,6 +81,7 @@ Chd|        GRAVIT                        source/loads/general/grav/gravit.F
 Chd|        GRAVIT_FVM_FEM                source/loads/general/grav/gravit_fvm_fem.F
 Chd|        GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
 Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|        H3D_READ                      source/output/h3d/h3d_build_fortran/h3d_read.F
 Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
 Chd|        HIST2                         source/output/th/hist2.F      
@@ -104,6 +112,7 @@ Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTFOP8                       source/interfaces/interf/intfop8.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
+Chd|        LECINP                        source/input/lecinp.F         
 Chd|        LECTUR                        source/input/lectur.F         
 Chd|        LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
 Chd|        MANCTR                        source/input/manctr.F         
@@ -123,8 +132,10 @@ Chd|        R2SENS3                       source/elements/spring/r2sens3.F
 Chd|        RADIATION                     source/constraints/thermic/radiation.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RBYSENS                       source/constraints/general/rbody/rbyonf.F
+Chd|        RDCOMI                        source/output/restart/rdcomm.F
+Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
+Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
@@ -188,7 +199,8 @@ Chd|        TH_TIME_OUTPUT                source/output/th/th_time_output.F
 Chd|        VOLPRE                        source/airbag/volpres.F       
 Chd|        VOLPREP                       source/airbag/volpresp.F      
 Chd|        WFV_IMP                       source/constraints/general/impvel/fv_imp0.F
-Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
+Chd|        WRCOMI                        source/output/restart/wrcomm.F
+Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|        GET_U_NUMSENS                 source/user_interface/usensor.F
 Chd|        GET_U_SENS                    source/user_interface/usensor.F

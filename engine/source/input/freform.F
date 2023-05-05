@@ -74,6 +74,7 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
@@ -2627,7 +2628,7 @@ Chd|====================================================================
 Chd|  FRETITL                       source/input/freform.F        
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
-Chd|        WRITE_SENSOR_TAB              source/output/restart/write_sensor_tab.F
+Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        W_GR_ENTITY                   source/output/restart/w_gr_entity.F
 Chd|        W_LINE_STR                    source/output/restart/w_line_str.F
 Chd|        W_SUBSET_STR                  source/output/restart/w_subset_str.F
@@ -2678,7 +2679,7 @@ Chd|        ALLOC_SURF_STR                source/groups/alloc_surf_str.F
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        OUTP_MT                       source/output/sty/outp_mt.F   
-Chd|        READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
+Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|        THMONV                        source/output/th/thmonv.F     
 Chd|-- calls ---------------
 Chd|====================================================================
