@@ -29,9 +29,9 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE INGRBRIC_DX(NBRIC   , IBUFSSG   , GLOBAL_GAP     , IXS        ,    X,  
-     .                       NOINT   , TITR      , IS_GAP_COMPUTED,  PM        , RHO0,
-     .                       IDDLEVEL, ISTIFF    , AUTO_RHO       , AUTO_LENGTH, IGAP,
+      SUBROUTINE INGRBRIC_DX(NBRIC    , IBUFSSG, GLOBAL_GAP     , IXS        , X      ,  
+     .                       NOINT    , TITR   , IS_GAP_COMPUTED, PM         , 
+     .                       IDDLEVEL , ISTIFF , AUTO_RHO       , AUTO_LENGTH, IGAP   ,
      .                       MULTI_FVM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -61,14 +61,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: NBRIC, NOINT, IDDLEVEL,ISTIFF,IGAP
-      INTEGER,INTENT(IN)    :: IBUFSSG(*), IXS(NIXS,NUMELS)
+      INTEGER,INTENT(IN) :: NBRIC, NOINT, IDDLEVEL,ISTIFF,IGAP
+      INTEGER,INTENT(IN) :: IBUFSSG(*), IXS(NIXS,NUMELS)
       my_real,INTENT(INOUT) :: GLOBAL_GAP
-      my_real,INTENT(IN)    :: X(3,NUMNOD)
+      my_real,INTENT(IN) :: X(3,NUMNOD)
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       LOGICAL, INTENT(INOUT) :: IS_GAP_COMPUTED
-      my_real , INTENT(IN)    :: PM(NPROPM,NUMMAT)
-      my_real, INTENT(INOUT) :: RHO0, AUTO_RHO, AUTO_LENGTH
+      my_real , INTENT(IN) :: PM(NPROPM,NUMMAT)
+      my_real, INTENT(INOUT) :: AUTO_RHO, AUTO_LENGTH
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
 C   L o c a l   V a r a i b l e s
@@ -80,13 +80,10 @@ C-----------------------------------------------
       my_real :: XX2,YY2,ZZ2
       my_real :: DX,DY,DZ
       my_real :: DIAG, DIAG_MAX , MAX_RATIO, LEN_EDGE(12), LMAX, LMIN, RATIO2
-      LOGICAL :: CHECK_ASPECt 
+      my_real :: RHO_MAX, RHO0
+      LOGICAL :: CHECK_ASPECT 
       CHARACTER*nchartitle :: MSGTITL
       CHARACTER*10 :: CHAR_ID
-C-----------------------------------------------
-C   P r e - C o n d i t i o n s
-C-----------------------------------------------
-     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -137,18 +134,19 @@ C-----------------------------------------------
       !-----------------------------------------
       ! DETERMINE GLOBAL DENSITY
       !-----------------------------------------
+      RHO_MAX = ZERO
       IF(ISTIFF==2)THEN
-        RHO0=ZERO
+        RHO_MAX=ZERO
         DO I=1,NBRIC
           IE=IBUFSSG(I)      
           IF(IE==0)EXIT
           IMAT = IXS(1,IE)
-          RHO0=MAX(RHO0,PM(91,IMAT))
+          RHO0=PM(89,IXS(1,IE))
+          RHO_MAX=MAX(RHO_MAX, RHO0) ! loop over material density (incase of monomaterial formulation)
+          RHO_MAX=MAX(RHO0,PM(91,IMAT)) ! use rho_max in case of multi material laws
         END DO
-      ELSE
-        RHO0=PM(1,IXS(1,IBUFSSG(1)))
       ENDIF  
-      AUTO_RHO = RHO0     
+      AUTO_RHO = RHO_MAX     
       
       !-----------------------------------------
       ! CHECK ASPECT RATIO

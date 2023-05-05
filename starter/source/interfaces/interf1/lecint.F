@@ -124,131 +124,126 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,L,IRS,IRM,NI,NSN,NMN,
-     .   NTYP,IS1,IS2,NOINT,NRTS,NRTM,IBUC,ILEV, 
-     .   MULTIMP,IGAP,INACTI,NME,LAG_NC16,LAG_NK16,
-     .   ILAGM,NCF_I2,NUVAR,
-     .   NIN,NISUB,JSUB,IGR,ISU,ISU1,ISU2,PID,STAT,
-     .   NRTMS,NRTMM,IALLO,NLINSA,NLINMA,NSNE,NLN,
-     .   NRTS_NEW, NRTM_NEW,NRTM_FE,
-     .   NRTM_IGE,NRTMM_IGE,
-     .   NRTS_IGE,NRTMS_IGE,NRTS_FE,
-     .   NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,IAD_IGE,
-     .   IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF
+     .        NTYP,IS1,IS2,NOINT,NRTS,NRTM,IBUC,ILEV, 
+     .        MULTIMP,IGAP,INACTI,NME,LAG_NC16,LAG_NK16,
+     .        ILAGM,NCF_I2,NUVAR,
+     .        NIN,NISUB,JSUB,IGR,ISU,ISU1,ISU2,PID,STAT,
+     .        NRTMS,NRTMM,IALLO,NLINSA,NLINMA,NSNE,NLN,
+     .        NRTS_NEW, NRTM_NEW,NRTM_FE,
+     .        NRTM_IGE,NRTMM_IGE,
+     .        NRTS_IGE,NRTMS_IGE,NRTS_FE,
+     .        NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,IAD_IGE,
+     .        IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF
       INTEGER KD(50),JD(50),IBID,NRTM_SH,ETYP,INTPLY
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
-     .   IRECTS,IRECTM,NSV,MSR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IRECTS,IRECTM,NSV,MSR
       INTEGER ID,ISL, GRBRIC_ID
-      CHARACTER*nchartitle,
-     .   TITR
-      my_real
-     .   RBID,RHO0_MAX,AUTO_RHO,AUTO_LENGTH, STIFF_STAT(3)
+      CHARACTER*nchartitle :: TITR
+      my_real RBID,AUTO_RHO,AUTO_LENGTH, STIFF_STAT(3)
 
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET ::  NTAG_TARGET
       INTEGER, DIMENSION(:), POINTER :: NTAG
       INTEGER, DIMENSION(:,:), POINTER :: SURF_NODES,SURF_NODES_IGE,LINE_NODES
       LOGICAL IS_GAP_COMPUTED,TYPE18
       INTEGER S_MSR,S_NSV,S_IRECTS,S_IRECTM
+      CHARACTER MESS*40
+      DATA MESS/'INTERFACE INPUT                         '/      
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRI
-C
-      CHARACTER MESS*40
-      DATA MESS/'INTERFACE INPUT                         '/
+      INTEGER,EXTERNAL :: NINTRI
 C--------------------------------------------
-C     ORGANISATION DES BUFFERS D'INTERFACES
-C                    sauf Interface TYPE 14 (doc/doc_generale/int14.doc).
-C                    et   Interface TYPE 15 (doc/doc_generale/int15.doc).
+C     INTERFACE BUFFER
+C      expect for Interface TYPE 14 & Interface TYPE 15 
 C--------------------------------------------
 C     IPARI(NPARI,NINTER) ::  PARAMETER BUFFER
 C--------------------------------------------
-C  1 :JINBUF:ADRESSE DU BUFFER ENTIER
-C  2 :JBUFIN:ADRESSE DU BUFFER REEL
-C  3 :NRTS  :NBRE DE FACES SECONDS
-C  4 :NRTM  :NBRE DE FACES MAIN
-C  5 :NSN   :NBRE DE POINTS SECONDS
-C  6 :NMN   :NBRE DE POINTS MAINS
-C  7 :NTY   :TYPE D'INTERFACE
-C  8 :NST   :LGR VECT FACES VOISINES SECONDS
-C  9 :NMT   :LGR VECT FACES VOISINES MAIN
-C 10 :JINSCR:ADRESSE DU BUFFER SCRATCH
-C 11 :IBC   :FLAG POUR CONNDITION AUX LIMITES
-C 12 :IBUC  :FLAG BUCKET SORT (SAUF TYPE 7)
-C 13 :IDEF  :FLAG DE DEF DU TYPE D'INPUT DES SURFACES S/M
-C 14 :IVIS2 :Viscosity flag TYPE                          :7, 24, 25  
-C 14 :IVIS2==-1 : FLAG FOR ADHESION AT INTERFACES          :25
+C  1 :JINBUF:INDEX FOR INTEGER BUFFER
+C  2 :JBUFIN:INDEX FOR REAL BUFFER
+C  3 :NRTS  :NUMBER OF SECONDARY FACES
+C  4 :NRTM  :NUMBER OF MAIN FACES
+C  5 :NSN   :NUMBER OF SECONDARY POINTS
+C  6 :NMN   :NUMBER OF MAIN POINTS
+C  7 :NTY   :INTERFACE TYPE
+C  8 :NST   :SIZE FOR ADJACENT SECONDARY FACES
+C  9 :NMT   :SIZE FOR ADJACENT MAIN FACES
+C 10 :JINSCR:INDEX FOR SCRATCH BUFFER
+C 11 :IBC   :FLAG FOR BOUNDARY CONDITIONS
+C 12 :IBUC  :FLAG BUCKET SORT (EXPECT FOR TYPE 7)
+C 13 :IDEF  :DEFAULT FLAG FOR INPUT TYPE (SURFACES S/M)
+C 14 :IVIS2 :VISCOSITY flag TYPE                          : 7, 24, 25  
+C 14 :IVIS2==-1 : FLAG FOR ADHESION AT INTERFACES         : 25
 C 14 :NRTM  :ND DE CALCULS DE FORCE INTERFACE TYPE 4 ;
-C 15 :NOINT :NO USER DE L'INTERFACE
-C 16 :      : FLAG PARALLELILSATION BOUCLES INTERFACES
-C 17 :IDELx : flag shooting nodes                         : 2,3,5,7,10,11
-C 18 :NCONT :NOMBRE DE CONTACTS MOYEN EN SPMD 
+C 15 :NOINT :USER IDENTIFIER
+C 16 :      : PARALLELILZATION FLAG (INTERFACE LOOPS)
+C 17 :IDELx : SHOOTING NODES FLAG                         : 2,3,5,7,10,11
+C 18 :NCONT :NUMBER OF AVERAGE CONTACTS IN SPMD 
 C           (NCONT=NSN*NMN_L/NMN)                         : 7,10,11
 C 19 :ISINT :FLAG TH
-C 20 :ILEV  :FLAG DE FORMULATION
-C 21 :IGAP  :FLAG DE GAP VARIABLE
-C 22 :INACTI:inactivation pene init                       :(3,4,5,6)7 
-C 23 :MULTIMP:number of possible multiple impact          :     7,10,11
-C 24 :NSNR  :NOMBRE DE NOEUDS SECONDARY ADDITIONNELS DES  
-C            PROC REMOTEEN SPMD                           :     7,10,11
-C    :IRM   :RENUMBER MAIN FLAG                         : 3,5,6;8
-C 25 :IRS   :RENUMBER  SECONDARY FLAG                         : 3,6
+C 20 :ILEV  :FORMULATION FLAG
+C 21 :IGAP  :FLAG FOR VARIABLE GAP
+C 22 :INACTI:inactivation initial penetrations            :(3,4,5,6)7 
+C 23 :MULTIMP:number of possible multiple impact          : 7,10,11
+C 24 :NSNR  :NUMBER OF SECONDARY ADDITIONAL NODES  
+C            PROC REMOTEEN SPMD                           : 7,10,11
+C    :IRM   :RENUMBER MAIN FLAG                           : 3,5,6;8
+C 25 :IRS   :RENUMBER  SECONDARY FLAG                     : 3,6
 C 26 :HIERA :FLAG DE TRAITEMENT HIERARCHIE                : 2 ,(12,13) 
-C    :NOD1  : ID Node groug                               : 20
+C    :NOD1  :ID Node groug                                : 20
 C    :NB DE SHELL PARMI NRTM                              : 24
-C 27 :IADFIN:1ere ADRESSE LIBRE DANS TABLEAU CHAINE       : 11 
-C 28 :INTSEC:Nombre de Section concernant cette interface 
-C 29 :ICONT :flag de contact (pour sensor) 
-C 30 :MFROT :MODELE DU FROTTEMENT                         : 5,7,20
-C 31 :IFQ   :FLAG DE FILTRAGE DU FROTTEMENT               : 5,7,20
-C 32 :IBAG  :FLAG COUPLAGE POROSITE D'AIRBAG              : 5,7,20
+C 27 :IADFIN:FIRST INDEX FOR CHAINED LIST                 : 11 
+C 28 :INTSEC:NUMBER OF SECTION 
+C 29 :ICONT :CONTACT FLAG FOR SENSORS 
+C 30 :MFROT :FRICTION MODEL IDENTIFIER                    : 5,7,20
+C 31 :IFQ   :FRICTION FILTERING FLAG                      : 5,7,20
+C 32 :IBAG  :FLAG TOCOUPLE AIRBAG POROSIT§Y               : 5,7,20
 C 33 :ILAGM :
 C 34 :IGSTI : 
 C 34 :IGE   : I17 
 C 35 :ISTOK : I17
 C 35 :NUVAR : user property for interf 2 + rupture
 C 36 :IGN   : I17
-C    :NLN   :total number of nodes (secondary+main+edge)    20
-C 36 :NISUB : sous interfaces                              7 10 20
-C 37 :NISUBS: sous interfaces                              7 10 20
-C 38 :NISUBM: sous interfaces                              7 10 20
-C 39 :ICURV : courbure fixe                                   7 20
-C 40 :NA1   : courbure fixe                                   7 20
-C 41 :NA2   : courbure fixe                                   7 20
-C 42 :ISYME : EDGE SYMMETRIE                                 11 20
-C 43 :PID  :  user property for interf 2 + rupture          2
-C    :ISYM  : surface symmetriques                         20
-C 44 :IADM  :FLAG COUPLAGE ADAPTIVE MESHING                 5 7 20
-C 45 :ISU1  : Secondary Gpe or Surface                         20
-C 46 :ISU2  : Main Gpe or Surface                        20
-C 47 :IFILTR: Flag filtrage interf type 2 with rupture
-C    :INTTH : Flag thermique                               7...
-C 48 :IFORM : Choice of formulation                       7
+C    :NLN   :total number of nodes (secondary+main+edge)        20
+C 36 :NISUB : sub interfaces                               7 10 20
+C 37 :NISUBS: sub interfaces                               7 10 20
+C 38 :NISUBM: sub interfaces                               7 10 20
+C 39 :ICURV : fixed curvature                                 7 20
+C 40 :NA1   : fixed curvature                                 7 20
+C 41 :NA2   : fixed curvature                                 7 20
+C 42 :ISYME : EDGE SYMMETRY                                  11 20
+C 43 :PID   :  user property for interf 2 + rupture              2
+C    :ISYM  : SYMMETRICAL SURFACES                              20
+C 44 :IADM  : FLAG COUPLAGE ADAPTIVE MESHING                5 7 20
+C 45 :ISU1  : Secondary Gpe or Surface                          20
+C 46 :ISU2  : Main Gpe or Surface                               20
+C 47 :IFILTR: FILTERING FLAG (type2 with rupture)
+C    :INTTH : THERMAL FLAG                                       7...
+C 48 :IFORM : FORMULATION FLAG                                   7
 C               (constant temperature or contact shell&brick)
-C    :IFUNS : Function ID for type 2 with rupture          2
-C 49 :IFUNN : Function ID for type 2 with rupture          2
+C    :IFUNS : Function ID for type 2 with rupture                2
+C 49 :IFUNN : Function ID for type 2 with rupture                2
 C 49 :NRADM:Nb of elements within an arc, if adaptive meshing.
-C 50 :IFNOR : for computing normal force                  8
+C 50 :IFNOR : for computing normal force                         8
 C 50 :IFUNT : Function ID for type 2 with rupture
-C 51 :NLINS : NBRE DE LIGNES SECONDS                      20
-C 52 :MLINM : NBRE DE LIGNES MAIN                    20
-C 53 :NLINSA: NBRE LIGNES SECONDS ACTIVES                20
-C 54 :MLINMA: NBRE LIGNES MAIN ACTIVES              20
-C 55 :NSNE  : NBRE DE POINTS DES LIGNES SECONDS           20
-C 56 :NMNE  : NBRE DE POINTS DES LIGNES MAINS            20
-C 57 :NSNER  :NOMBRE DE LIGNES SECONDARY ADDITIONNELS REMOTE  20  
-C 58 :IEDGE : FLAG TYPE d'EDGE                             20
-C 59 :LINE1 : ID Line 1                                    20
-C 60 :LINE2 : ID Line 2                                    20
+C 51 :NLINS : NUMBER OF SECONDARY EDGES                         20
+C 52 :MLINM : NUMBER OF MAIN EDGES                              20
+C 53 :NLINSA: NUMBER OF ACTIVE SECONDARY   EDGES                20
+C 54 :MLINMA: NUMBER OF ACTIVE MAIN EDGES                       20
+C 55 :NSNE  : NUMBER OF POINTS FOR SECONDARY EDGES              20
+C 56 :NMNE  : NUMBER OF POINTS FOR MAIN EDGES                   20
+C 57 :NSNER  :NUMBER OF POINTS FOR SECONDARY EDGES(REMOTE)      20  
+C 58 :IEDGE : FLAG FOR EDGE TYPE                                20
+C 59 :LINE1 : ID Line 1                                         20
+C 60 :LINE2 : ID Line 2                                         20
 C 61 :IDELKEEP: Keep non-connected secondary nodes (IDEL)       3,5,7,10,11,20,21,23,24
 C
-C 73 :NRTM_IGE  :NBRE DE FACES ISOGEOMETRIQUES MAIN
-C 74 :NRTM_FE   :NBRE DE FACES ELEMENTS FINIS  MAIN
-C 75 :NTRS_IGE  :NBRE DE FACES ISOGEOMETRIQUES SECONDS
-C 76 :NTRS_FE   :NBRE DE FACES ELEMENTS FINIS  SECONDS
-C 77 :NSN_IGE   :NBRE DE POINTS ISOGEOMETRIQUES SECONDS
-C 78 :NSN_FE    :NBRE DE POINTS ELEMENTS FINIS SECONDS
-C 79 :NMN_IGE   :NBRE DE POINTS ISOGEOMETRIQUES MAINS
-C 80 :NMN_FE    :NBRE DE POINTS ELEMENTS FINIS MAINS
+C 73 :NRTM_IGE  :NUMBER OF FACE ISOGEOMETRIC MAIN
+C 74 :NRTM_FE   :NUMBER OF FACE FINITE ELEMENT MAIN
+C 75 :NTRS_IGE  :NUMBER OF FACE ISOGEOMETRIC SECONDS
+C 76 :NTRS_FE   :NUMBER OF FACE FINITE ELEMENT SECONDS
+C 77 :NSN_IGE   :NUMBER OF POINTS ISOGEOMETRIC SECONDS
+C 78 :NSN_FE    :NUMBER OF POINTS FINITE ELEMENT SECONDS
+C 79 :NMN_IGE   :NUMBER OF POINTS ISOGEOMETRIC MAINS
+C 80 :NMN_FE    :NUMBER OF POINTS FINITE ELEMENT MAINS
 C=======================================================================
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -291,8 +286,8 @@ C
         ILAGM   = IPARI(33,NI)
         TYPE18=.FALSE.
         IF(NTYP==7 .AND. INACTI==7 )TYPE18=.TRUE.
-        GRBRIC_ID  = ISU1
-        IF(TYPE18)GRBRIC_ID  = IPARI(83,NI) 
+        GRBRIC_ID = ISU1
+        IF(TYPE18)GRBRIC_ID = IPARI(83,NI) 
 C-----  --
         NSN=0
         NSN_FE=0
@@ -671,8 +666,7 @@ C-----Isogeometric elements
         ENDIF
 C-------------------------------------------
         ID=NOM_OPT(1,NI)
-        CALL FRETITL2(TITR,
-     .                NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NI),LTITR)
 C--------------------------------------------
 C      1) SECONDARY SIDE FROM NODES IN GRBRIC (INT18)
 C--------------------------------------------
@@ -698,7 +692,7 @@ C--------------------------------------------
           IF(GRBRIC_ID > 0)THEN
             IS_GAP_COMPUTED = .FALSE.
             CALL INGRBRIC_DX(NBRIC   , IGRBRIC(GRBRIC_ID)%ENTITY, FRIGAP(2,NI)   , IXS        , X,
-     .                       NOINT   , TITR                     , IS_GAP_COMPUTED, PM         , RHO0_MAX, 
+     .                       NOINT   , TITR                     , IS_GAP_COMPUTED, PM         ,  
      .                       IDDLEVEL, ISTIFF                   , AUTO_RHO       , AUTO_LENGTH, IGAP    ,
      .                       MULTI_FVM)
             IF(IS_GAP_COMPUTED)THEN
@@ -888,7 +882,7 @@ C--------------------------------------------
           IF ( TYPE18 ) THEN
             IF(ISTIFF == 2 .AND. ISU2 > 0)THEN
               STIFF_STAT(1) = -STFAC(NI)     !-STFAC*VREF*VREF
-              STIFF_STAT(2) = AUTO_RHO       !rho0_max (also computed for multimaterials)
+              STIFF_STAT(2) = AUTO_RHO       ! (RHO0_MAX : also computed for multimaterials)
               STIFF_STAT(3) = FRIGAP(2,NI) !gap
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM,1:4)
               CALL INSURF_DX(NRTM,NMN,IRM,IRECTM,NOINT,
@@ -1156,8 +1150,7 @@ C-
 
 ! inter18 : automatic gap if not defined in input file 
 1000  FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
-3020  FORMAT(
-     .    '    COMPUTED GAP VALUE. . . . . . . . . . . . . ',1PG20.13)
+3020  FORMAT('    COMPUTED GAP VALUE. . . . . . . . . . . . . ',1PG20.13)
 C-----
       RETURN
 C-----         
