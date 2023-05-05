@@ -51,7 +51,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real, DIMENSION(3,NUMNOD) :: X
       my_real, DIMENSION(12)       :: XSENS
-      TYPE (SENSOR_STR_) ,TARGET   :: SENSOR
+      TYPE (SENSOR_STR_) ,INTENT(INOUT) ,TARGET :: SENSOR
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------

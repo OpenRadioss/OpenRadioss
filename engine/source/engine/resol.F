@@ -2088,7 +2088,7 @@ C     Multidomains + SPH
 C     THERMAL EXPANSION and IMPTEMP : Initialisation of nodal temperatures
       IF(NFXTEMP  > 0 .AND. ITHERM_FE > 0.AND.TT==ZERO) THEN
         CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
-     .      SENSORS%SENSOR_TAB )
+     .       NSENSOR  ,SENSORS%SENSOR_TAB )
       ENDIF
 
 C ---------------------

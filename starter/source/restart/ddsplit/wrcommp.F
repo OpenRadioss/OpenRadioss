@@ -99,6 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER LMXVINT,LVARINT,TABVINT(*),
      .        NGROUP_L, LBUFEL_L, LENWA_L, NUMELQ_L, NUMELS_L,
      .        NUMELC_L, NUMELT_L, NUMELR_L, NUMELP_L, NUMELX_L,
@@ -138,7 +139,7 @@ C-----------------------------------------------
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,LENIGRSH3N_L,LENISURF_L,
      .        LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
-     .        NUMSH4N_L,NUMSH3N_L,NSENSOR
+     .        NUMSH4N_L,NUMSH3N_L
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA

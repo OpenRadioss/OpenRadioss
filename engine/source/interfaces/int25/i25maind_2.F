@@ -61,11 +61,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,NSENSOR,
+      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,
      .        KINET(*), NB_DST2(PARASIZ), ICODT(*), ISKEW(*)
       my_real :: X(3,*), V(3,*)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_)  ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

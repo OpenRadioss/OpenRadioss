@@ -111,7 +111,7 @@ C-----------------------------------------------
       DOUBLE PRECISION RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
-      TYPE (SENSORS_)  :: SENSORS
+      TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------

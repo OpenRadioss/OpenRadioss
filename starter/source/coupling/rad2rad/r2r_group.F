@@ -93,7 +93,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-      INTEGER NGROU,NSENSOR,
+      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER NGROU,
      .   BUF_NOD(*),INNOD,FLAG,KK,
      .   IPARTS(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IPARTQ(*),IPARTSP(*),

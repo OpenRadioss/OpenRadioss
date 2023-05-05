@@ -90,9 +90,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER IPARTS(*),IPARTC(*),IPARTG(*),IPARTT(*),IPARTP(*),
-     .   IPARTR(*),COMPT_T2,MODIF,PASSE,INOM_OPT(*),IPARTSP(*),NSPCONDN,NSENSOR,
+     .   IPARTR(*),COMPT_T2,MODIF,PASSE,INOM_OPT(*),IPARTSP(*),NSPCONDN,
      .   NSPHION,IPART_L(LIPART1,*),MEMTR(*),IWORKSH(*),NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,
      .   NEW_NINIVOL,IXS10(*), IXS16(*), IXS20(*)
       my_real

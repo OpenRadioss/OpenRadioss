@@ -61,7 +61,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   TEMP(*),TF(*), VAL(LFACTHER,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

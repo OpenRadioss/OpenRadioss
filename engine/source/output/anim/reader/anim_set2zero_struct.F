@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      TYPE (SENSORS_) ,INTENT(OUT) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
       TANIM0            = ZERO
       TANIM_STOP0       = ZERO
