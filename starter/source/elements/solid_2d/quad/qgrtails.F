@@ -345,14 +345,7 @@ C
           ISRAT=IPM(3,MID)
           IFAIL = 0
           NFAIL = IPM(220,MID)
-          IF (NFAIL > 0)THEN
-            IFAIL = 1
-            DO J=1,NFAIL
-              FAILMODEL = IPM(111 + 15*(J - 1) ,MID)
-              IF (FAILMODEL == 10 .OR. FAILMODEL == 4 .OR.
-     .            FAILMODEL == 5  .OR. FAILMODEL == 6) ISTRAIN = 1
-            ENDDO
-          ENDIF 
+          ISTRAIN = 1
           IEOS=IPM(4,MID)
 
 C

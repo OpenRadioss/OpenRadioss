@@ -270,6 +270,18 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'DAMAGE'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'FAILURE'
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_PLY = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_PLY_ALL = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_LAYER = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_IPT = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_ID = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Failure'
+      H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT = 'Damage of current failue criterion'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'DAMA/MEMB'
       H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'MAX DAMAGE MEMBRANE'
 c-----------------------------------------------

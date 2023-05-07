@@ -2670,6 +2670,8 @@ c-----
           IT = H3D_DATA%OUTPUT_LIST(I)%IT
           IUVAR = H3D_DATA%OUTPUT_LIST(I)%IUVAR
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+          OBJECT_ID = H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID
+
 
 c         IF(ISPMD == 0)  print *,'QUAD scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
@@ -2686,7 +2688,8 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     STACK     ,QUAD_ID  ,INFO1        ,INFO2      ,
      .                     IS_WRITEN_QUAD,IPARTQ ,IPARTTG     ,LAYER        ,IPT        ,
      .                     ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
-     .                     BUFMAT     ,MULTI_FVM ,IR           ,IS           ,IT         )
+     .                     BUFMAT     ,MULTI_FVM ,IR           ,IS           ,IT         ,
+     .                     OBJECT_ID  )
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

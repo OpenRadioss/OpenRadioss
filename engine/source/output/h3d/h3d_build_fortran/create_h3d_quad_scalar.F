@@ -29,7 +29,8 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE CREATE_H3D_QUAD_SCALAR(H3D_DATA,ID_QUAD_SCALAR,ID_INPUT,TEXT1,STEXT1,
-     .                                  COMMENT,SCOMMENT,IPART,KEY3_GLOB,LAYER,IR,IS,IT,IUVAR)
+     .                                  COMMENT,SCOMMENT,IPART,KEY3_GLOB,LAYER,IR,IS,IT,IUVAR,
+     .                                  ID     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +46,7 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       INTEGER ID_QUAD_SCALAR,ID_INPUT,STEXT1,SCOMMENT,LAYER,IR,IS,IT,IUVAR
       INTEGER IPART(LIPART1,*)
+      INTEGER, INTENT(IN) :: ID
       CHARACTER(LEN=STEXT1) ::  TEXT1
       CHARACTER(LEN=ncharline) :: KEY3_GLOB
       CHARACTER(LEN=SCOMMENT) :: COMMENT
@@ -79,6 +81,8 @@ C=========================================================================
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%STRING1(1:STEXT1) = TEXT1(1:STEXT1)
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_COMMENT = SCOMMENT
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%COMMENT(1:SCOMMENT) = COMMENT(1:SCOMMENT)
+      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OBJECT_ID = ID
+
 
       N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_H3D_PART_LIST = N_H3D_PART
