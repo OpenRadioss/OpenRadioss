@@ -724,8 +724,7 @@ C
      H   IPG,      LBUF%DMG, ITY,      JTUR,
      I   JTHE,     JSPH,     ISMSTR,   JSMS)
 !----------------
-       IF (ISTRAIN > 0 .AND.
-     .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1 )) THEN
+       IF (ISTRAIN > 0) THEN
 !
         ! strain rate
         DO I=1,NEL
@@ -918,8 +917,7 @@ C
      7   TMU,      EINC,     MTN,      VOL_AVG,
      8   NEL,      JTUR,     JLAG,     JPOR)
 !----------------
-       IF (ISTRAIN > 0 .AND.
-     .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1)) THEN
+       IF (ISTRAIN > 0) THEN
 !
         ! strain rate
         DO I=1,NEL

@@ -48,7 +48,8 @@ Chd|====================================================================
      .                  STACK       ,ID_ELEM   ,INFO1       ,INFO2      , 
      .                  IS_WRITTEN_QUAD,IPARTQ,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD   ,
-     .                  BUFMAT      ,MULTI_FVM ,IR_INPUT  ,IS_INPUT    ,IT_INPUT    )
+     .                  BUFMAT      ,MULTI_FVM ,IR_INPUT  ,IS_INPUT    ,IT_INPUT  ,
+     .                  ID          )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +88,7 @@ C-----------------------------------------------
      .   INFO1,INFO2,IS_WRITTEN_QUAD(*),IPARTQ(*),IPARTTG(*),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,
      .   IR_INPUT,IS_INPUT,IT_INPUT
+      INTEGER, INTENT(IN) :: ID
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
@@ -285,6 +287,28 @@ C--------------------------------------------------
                   ENDDO      
                 ENDDO        
               ENDIF 
+C--------------------------------------------------
+            ELSEIF (KEYWORD == 'FAILURE') THEN
+C--------------------------------------------------  
+              DO I=LFT,LLT   
+                VALUE(I) = ZERO                                      
+              ENDDO
+              NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+              DO I = LFT,LLT                         
+                DO IS=1,NPTS 
+                  DO IT=1,NPTT                                      
+                    DO IR=1,NPTR                                    
+                      FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,IT)
+                      DO IFAIL=1,NFAIL
+                        IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN                       
+                          VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(I)/(NPTS*NPTT*NPTR) 
+                          IS_WRITTEN_VALUE(I) = 1  
+                        ENDIF       
+                      ENDDO
+                    ENDDO    
+                  ENDDO      
+                ENDDO
+              ENDDO        
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'DENS')THEN
 C--------------------------------------------------

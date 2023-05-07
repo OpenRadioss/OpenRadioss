@@ -1843,6 +1843,10 @@ C--------------------------------------------------
            	      IF(IT /= 0) IT_INPUT(CPT_H3D) = IT
            	    ENDIF
 
+           	    IF(H3D_KEYWORD_QUAD%IS_ID == 1) THEN
+           	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
+           	    ENDIF
+
            	  ELSE
 	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
@@ -1866,6 +1870,9 @@ c
 
 	 	  	       IT_INPUT(CPT_H3D) = -1
 	 	  	       IF (IT_MAX /= 0  .AND. IS_IT_ALL == 1) IT_INPUT(CPT_H3D) = O
+
+           	   IDS_INPUT(CPT_H3D) = -1
+           	   IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
 c
 	 	  	       GAUSS_INPUT(CPT_H3D) = -1
 c
@@ -1883,7 +1890,8 @@ c
      .     	       H3D_KEYWORD_QUAD%IS_IR == 0 .AND. IS_IR == 0 .AND. 
      .     	       H3D_KEYWORD_QUAD%IS_IS == 0 .AND. IS_IS == 0 .AND. 
      .     	       H3D_KEYWORD_QUAD%IS_IT == 0 .AND. IS_IT == 0 .AND. 
-     .     	       H3D_KEYWORD_QUAD%IS_UVAR == 0 .AND. IS_UVAR == 0) THEN
+     .     	       H3D_KEYWORD_QUAD%IS_UVAR == 0 .AND. IS_UVAR == 0 .AND.
+     .             H3D_KEYWORD_QUAD%IS_ID == 0 .AND. IS_ID == 0 ) THEN
            	  CPT_H3D = CPT_H3D + 1
            	  LAYER_INPUT(CPT_H3D) = -1
            	  UVAR_INPUT (CPT_H3D)= -1
@@ -1894,17 +1902,26 @@ c
            	  IR_INPUT(CPT_H3D) = -1
            	  IS_INPUT(CPT_H3D) = -1
            	  IT_INPUT(CPT_H3D) = -1
+              IDS_INPUT(CPT_H3D) = -1
            	  IS_AVAILABLE_KEY(CPT_H3D) = 1 
            	ENDIF
 	      ENDIF
 
               DO K=1,CPT_H3D
 	        IF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_SCALAR == 1)THEN
+
+                   IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+                     TEST_CHAIN = ''
+                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP)),'Damage'
+                     H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1 = TEST_CHAIN
+                   ENDIF
+
+
                   CALL CREATE_H3D_QUAD_SCALAR(H3D_DATA,H3D_KEYWORD_QUAD,ID_INPUT,
      .                                      TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1),
      .                                      H3D_KEYWORD_QUAD_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                      LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .     				    UVAR_INPUT(K) )
+     .     				                          UVAR_INPUT(K),IDS_INPUT(K))
                   IOK_H3DKEY = 1
 	        ENDIF
 
