@@ -142,20 +142,22 @@ C-----------------------------------------------
        EPS_FAIL2    = ZERO
 C
 C!  Initialization
-       IF (TIME == ZERO .AND. NFUNC > 0) THEN
-        DO I=1,NEL
-          IF (NUVAR == 3) THEN
-            UVAR(I,3) = ALDT(I) 
-            LAMBDA = UVAR(I,3) / REF_EL_LEN
-            FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
-            UVAR(I,3) = FAC
-          ELSEIF (NUVAR ==9) THEN
-            UVAR(I,9) = ALDT(I) 
-            LAMBDA = UVAR(I,9) / REF_EL_LEN
-            FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
-            UVAR(I,9) = FAC
-          ENDIF
-        ENDDO
+       IF (NFUNC > 0) THEN 
+         IF ((NUVAR == 3).AND.(UVAR(1,3)==ZERO)) THEN 
+           DO I=1,NEL
+             UVAR(I,3) = ALDT(I) 
+             LAMBDA = UVAR(I,3) / REF_EL_LEN
+             FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
+             UVAR(I,3) = FAC
+           ENDDO
+         ELSEIF ((NUVAR == 9).AND.(UVAR(1,9)==ZERO)) THEN 
+           DO I=1,NEL
+             UVAR(I,9) = ALDT(I) 
+             LAMBDA = UVAR(I,9) / REF_EL_LEN
+             FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
+             UVAR(I,9) = FAC
+           ENDDO
+         ENDIF
        ENDIF
 C-----------------------------------------------
        IF(FLAG_PERTURB == 0) THEN

@@ -121,20 +121,22 @@ C!--------------------------------------------------------------
 C-----------------------------------------------
 C!  Initialization
 C-----------------------------------------------
-       IF (TIME == ZERO .AND. MFUNC > 0) THEN
-        DO I=1,NEL
-          IF (NUVAR == 3) THEN
-            UVAR(I,3) = ALDT(I) 
-            LAMBDA = UVAR(I,3) / REF_EL_LEN
-            FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
-            UVAR(I,3) = FAC
-          ELSEIF (NUVAR ==9) THEN
-            UVAR(I,9) = ALDT(I) 
-            LAMBDA = UVAR(I,9) / REF_EL_LEN
-            FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
-            UVAR(I,9) = FAC
-          ENDIF
-        ENDDO
+       IF (MFUNC > 0) THEN 
+         IF ((NUVAR == 3).AND.(UVAR(1,3)==ZERO)) THEN 
+           DO I=1,NEL
+             UVAR(I,3) = ALDT(I) 
+             LAMBDA = UVAR(I,3) / REF_EL_LEN
+             FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
+             UVAR(I,3) = FAC
+           ENDDO
+         ELSEIF ((NUVAR == 9).AND.(UVAR(1,9)==ZERO)) THEN 
+           DO I=1,NEL
+             UVAR(I,9) = ALDT(I) 
+             LAMBDA = UVAR(I,9) / REF_EL_LEN
+             FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
+             UVAR(I,9) = FAC
+           ENDDO
+         ENDIF
        ENDIF
 C-----------------------------------------------
 c! fast degradation

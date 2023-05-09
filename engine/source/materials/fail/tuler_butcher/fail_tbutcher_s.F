@@ -128,11 +128,6 @@ c=======================================================================
       SIGR  = UPARAM(3)
       IFLAG = INT(UPARAM(5))
 
-      IF(TIME == ZERO)THEN
-        DO I=1,NEL
-         TDELE(I)  = ZERO
-        ENDDO   
-      ENDIF 
 C-----------------------------------------------
       IDEL=0
       IDEV=0

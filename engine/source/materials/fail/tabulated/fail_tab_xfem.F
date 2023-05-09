@@ -150,11 +150,9 @@ C-----------------------------------------------
       INDX = 0
       SIGM_PS = ONE/SQRT(THREE)
 
-      IF (TIME == ZERO) THEN
+      IF (UVAR(1,5) == ZERO) THEN
        DO I=1,NEL
-         UVAR(I,4) = ZERO
          UVAR(I,5) = ALDT(I) 
-         DMG_FLAG_INT(I) = 0
        ENDDO
       ENDIF
 C-----------------------------------------------
