@@ -136,10 +136,10 @@ C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF(ISIGI == 0)THEN
-        IF(TIME == ZERO)THEN
-         DO I=1,NEL
-          UVAR(I,8)  = ONE
-         ENDDO   
+        IF ((UVAR(1,8) == ZERO).AND.(OFF(1) == ONE)) THEN
+          DO I=1,NEL
+            UVAR(I,8)  = ONE
+          ENDDO   
         ENDIF    
       ENDIF 
 C-----------------------------------------------

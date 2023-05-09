@@ -122,13 +122,17 @@ C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF (ISIGI == ZERO) THEN
-        IF (TIME == ZERO) THEN
+        IF ((UVAR(1,6) == ZERO).AND.(OFFL(1) == ONE)) THEN 
           DO I=1,NEL
-            UVAR(I,6)= ONE         
+            UVAR(I,6)= ONE  
+          ENDDO
+        ENDIF
+        IF (UVAR(1,13) == ZERO) THEN
+          DO I=1,NEL         
             UVAR(I,13)= AREA(I)  
-          ENDDO   
-        ENDIF     
-      ENDIF  
+          ENDDO  
+        ENDIF 
+      ENDIF 
 C-----------------------------------------------
       DO I=1,NEL
         DAM1(I) = UVAR(I,7)                   

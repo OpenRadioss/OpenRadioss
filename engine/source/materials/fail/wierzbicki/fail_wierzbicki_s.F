@@ -115,12 +115,6 @@ C--------------------------------------------------------------
       CN = UPARAM(6)
       IFLAG = INT(UPARAM(8))
       IMOY  = INT( UPARAM(9))
-C         
-      IF(TIME == ZERO)THEN
-        DO I=1,NEL
-         TDELE(I)  = ZERO
-        ENDDO   
-      ENDIF 
 Cc
       IDEL=0
       IDEV=0

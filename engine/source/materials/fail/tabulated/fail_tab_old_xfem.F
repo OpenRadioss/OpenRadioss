@@ -102,7 +102,7 @@ C-----------------------------------------------
       INDX = 0
       SIGM_PS = ONE/SQRT(THREE)
 
-      IF (TIME == ZERO) THEN
+      IF (UVAR(1,2) == ZERO) THEN
         UVAR(1:NEL,2) = ALDT(1:NEL) 
       ENDIF
 C-----------------------------------------------

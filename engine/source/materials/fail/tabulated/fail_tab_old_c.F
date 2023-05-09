@@ -92,7 +92,7 @@ C UVAR(1) = DAMAGE
 C UVAR(2) = initial characteristic el. length
 C UVAR(3) = IPOS variable for element length scale function interpolation
 C=======================================================================
-      IF (TIME == ZERO) THEN
+      IF (UVAR(1,2) == ZERO) THEN
         UVAR(1:NEL,2) = ALDT(1:NEL) 
       ENDIF
 c---------------------------

@@ -121,7 +121,7 @@ C=======================================================================
       IFUN3N  = IFUNC(3)
       IFUN3T  = IFUNC(4)
 C-----------------------------------------------
-      IF (TIME == ZERO) THEN
+      IF (UVAR(1,3) == ZERO) THEN
         DO I=1,NEL
           UVAR(I,3)= AREA(I)    ! initial area at time = 0
         ENDDO   

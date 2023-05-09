@@ -236,7 +236,7 @@ c----------------------------------------------
 c     Element size scale factor
       FSIZE => UVAR(1:NEL,32)
 c
-      IF (TIME == ZERO) THEN
+      IF (FSIZE(1)==ZERO) THEN
         IF (IFUNC_SIZ > 0) THEN
 	        ESCAL(1:NEL) = ALDT(1:NEL) / REF_SIZ
           IPOSP(1:NEL) = 0

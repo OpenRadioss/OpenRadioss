@@ -211,23 +211,25 @@ c
       ENDIF       
 c      
       ! At initial time, compute the element size regularization factor
-      IF (ISIGI == 0 .and. TIME == ZERO) THEN
-        IF (fct_IDel > 0) THEN 
-          DO I=1,NEL   
-            LAMBDA      = ALDT(I)/El_ref
-            FAC         = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF) 
-            UVAR(I,1)   = FAC*Fscale_el
-          ENDDO
-        ELSE
-          UVAR(1:NEL,1) = ONE
-        ENDIF
-        UVAR(1:NEL,8) = ALDT(1:NEL)
+      IF (ISIGI == 0) THEN 
+        IF (UVAR(1,1)==ZERO) THEN 
+          IF (fct_IDel > 0) THEN 
+            DO I=1,NEL   
+              LAMBDA      = ALDT(I)/El_ref
+              FAC         = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF) 
+              UVAR(I,1)   = FAC*Fscale_el
+            ENDDO
+          ELSE
+            UVAR(1:NEL,1) = ONE
+          ENDIF
+        ENDIF  
+        IF (UVAR(1,5) == ZERO.AND.(OFF(1) /= ZERO)) UVAR(1:NEL,5) = ONE
+        IF (UVAR(1,8) == ZERO) UVAR(1:NEL,8) = ALDT(1:NEL)
       ENDIF
 c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
        ! Integration point failure
-       IF (TIME == ZERO) UVAR(I,5) = ONE
        IF (UVAR(I,5) < ONE .AND. UVAR(I,5) >= EM08) THEN 
          UVAR(I,5) = UVAR(I,5) - ONE/NSTEP
        ENDIF
