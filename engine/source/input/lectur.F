@@ -844,9 +844,11 @@ C-----------------------
 C-------------------------------------------
 C     STOP/SENSOR
 C-------------------------------------------
-      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
+      IF (MCHECK == 0) THEN
         MY_ALLOCATE (SENSORS%STOP,SENSORS%NSTOP)
-        SENSORS%STOP = 0
+        SENSORS%STOP(:) = 0
+      END IF
+      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
         IF (SENSORS%NSTOP > 0) THEN
           DO K=1,SENSORS%NSTOP
             IERR = 1
@@ -869,10 +871,12 @@ C-------------------------------------------
 C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
+      IF (MCHECK == 0) THEN
+        MY_ALLOCATE (SENSORS%STAT,SENSORS%NSTOP)
+        SENSORS%STAT(:) = 0
+      END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
         MSTATT = 0
-        MY_ALLOCATE (SENSORS%STAT,SENSORS%NSTAT)
-        SENSORS%STAT(:) = 0
         IF (SENSORS%NSTAT > 0) THEN
           DO K=1,SENSORS%NSTAT
             IERR = 1
@@ -897,9 +901,11 @@ C-------------------------------------------
 C-------------------------------------------
 C     OUTP/SENSOR
 C-------------------------------------------
-      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
+      IF (MCHECK == 0) THEN
         MY_ALLOCATE (SENSORS%OUTP,SENSORS%NOUTP)
         SENSORS%OUTP(:) = 0
+      END IF
+      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
         IF (SENSORS%NOUTP > 0) THEN
           DO K=1,SENSORS%NOUTP
             IERR = 1

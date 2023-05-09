@@ -131,7 +131,7 @@ C          DEACTIVATION
            SENSORS%ANIM_ID = -SENSORS%ANIM_ID
          ELSEIF (TT > TANIMSENS) THEN
 C          ACTIF
-           TANIMSENS=TANIMSENS+DTANISENS
+           TANIMSENS = TANIMSENS + SENSORS%ANIM_DT
            MANIM=4
            MDESS=MDESS+MANIM
            RETURN
@@ -141,15 +141,15 @@ c
        IF (SENSORS%NANIM > 0) THEN
          DO I=1,SENSORS%NANIM
            SENS_ID = SENSORS%ANIM(I)
-           IF (SENS_ID > 0) THEN
+           IF (SENSORS%ANIM(I) > 0) THEN
              IF (TT > SENSORS%SENSOR_TAB(SENS_ID)%TSTART) THEN  ! ACTIVATION
-               SENS_ID = -SENS_ID
+               SENSORS%ANIM(I) = -SENS_ID
                MANIM=4
                MDESS=MDESS+MANIM
              ENDIF
            ELSEIF (SENS_ID < 0) THEN
              IF (TT < SENSORS%SENSOR_TAB(-SENS_ID)%TSTART) THEN ! DEACTIVATION
-               SENS_ID = -SENS_ID
+               SENSORS%ANIM(I) = -SENS_ID
              ENDIF
            ENDIF
          ENDDO
