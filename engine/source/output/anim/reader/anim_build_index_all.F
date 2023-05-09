@@ -64,6 +64,11 @@ C-----------------------------------------------
      .   IUS,IPT,IGTYP,NPT,NPTS,NPTR,NPTT,NPTT_PLY,CPtPLY,NMAX,IGTYP15,
      .   IDX,NIPMAX_BEAM, NIPMAX_SOL,ICSTR,N14R,N14S,N14T
 C-------------------------------------------
+      IF (MCHECK == 0) THEN
+        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
+        SENSORS%ANIM(:) = 0
+      END IF
+
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
 C-----------------------
 C       /ANIM/SENSOR and /ANIM/LSENSOR Initializations
@@ -75,7 +80,6 @@ C-----------------------
           ENDDO
         ENDIF
 c
-        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
         DO K=1,SENSORS%NANIM
           IOK = 0
           IANIS0 = SENSORS%ANIM_TMP(K)

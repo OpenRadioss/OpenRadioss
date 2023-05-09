@@ -104,9 +104,5 @@ Chd|====================================================================
         my_real DTANIM, DTANIM0          !time frequency
         my_real TANIM_STOP, TANIM_STOP0  !stop time
         my_real TANIMSENS  
-        my_real DTANISENS
-              
-        !INTEGER VARIABLES FOR ANIMATION FILES
-        ! refer to scr14_c.inc
-          
+
       END MODULE ANIM_MOD
