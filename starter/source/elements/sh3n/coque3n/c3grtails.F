@@ -517,6 +517,15 @@ C
           ICSEN= IGEO(3,PID)
           ISTRAIN = NINT(GEO(11,PID))
           IF (ISH3N > 3 .AND. ISH3N < 30) ISH3N=2
+          IF (ISH3N > 31 ) THEN  ! not expected 
+            CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+            CALL ANCMSG(MSGID=3008,
+     .                  ANMODE=ANINFO,
+     .                  MSGTYPE=MSGERROR,
+     .                  I1=IGEO(1,PID),
+     .                  C1=TITR,
+     .                  I2=ISH3N)
+          ENDIF
           NLEVXF = 0
           IXFEM = 0
           ISUBSTACK = 0
