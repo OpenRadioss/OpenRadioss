@@ -135,7 +135,7 @@ C-----------------------------------------------
      .   NGP(NSPMD+1),N1,IRUP,NVARV,IVISC,IFWV,IXFEM,IPTUN,IMID,IREP,
      .   INUM_R2R(1+R2R_SIU*NUMELC),ISUBSTACK,IIGEO,IADI,IPMAT, IPPID,
      .   IPARTR2R,NB_LAW58,IPERT,STAT,IGMAT,IPINCH,ISM0,ISEATBELT,
-     .   IP,NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0
+     .   IP,NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0,ISHEL
       my_real
      .  ANGLE(NUMELC)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
@@ -564,6 +564,16 @@ C          IGTYP=NINT(GEO(12,PID))
           ENDIF
           IF(NDRAPE > 0 .AND. (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP ==52) ) THEN
               IF(DRAPEG%INDX(II) /= 0 ) IDRAPE = 1
+          ENDIF
+          ISHEL=IHBE+1
+          IF ((ISHEL /=12 .AND. ISHEL /=24).AND.ISHEL > 5 ) THEN  ! not expected 
+            CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+            CALL ANCMSG(MSGID=3007,
+     .                  ANMODE=ANINFO,
+     .                  MSGTYPE=MSGERROR,
+     .                  I1=IGEO(1,PID),
+     .                  C1=TITR,
+     .                  I2=ISHEL)
           ENDIF
 c-------- check xfem compatibility
 c          IF (ICRACK3D > 0) THEN
