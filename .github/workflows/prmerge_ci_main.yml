@@ -512,7 +512,7 @@ jobs:
         run: |
 
           MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
-          echo -e "\n#### STATUS_STEP_QA ${{ matrix.build }} ###"
+          echo -e "\n#### STATUS_STEP_QA ###"
           if [ "$STATUS_QA" = 0 ]
           then
             echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
@@ -839,7 +839,7 @@ jobs:
         run: >
           call C:\cygwin64\bin\bash --login -c "
           MAILMSG=\"Some error(s) has(ve) been raised during workflow execution:\n\n\";
-          echo -e \"\n#### STATUS_STEP_QA ${{ matrix.build }} ###\";
+          echo -e \"\n#### STATUS_STEP_QA ###\";
           if [ ${{ env.STATUS_QA }} = 0 ];
           then
           echo -e \"Status\t[ \033[31;2;1mFAILED\033[0m ]\";
@@ -891,16 +891,9 @@ jobs:
     secrets: 
       DOCKER_REGISTRY_USER: ${{secrets.DOCKER_REGISTRY_USER}}
       DOCKER_REGISTRY_PASSWD: ${{secrets.DOCKER_REGISTRY_PASSWD}}
-      SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
-      P4PORT: ${{secrets.P4PORT}}
-      P4USER: ${{secrets.P4USER}}
-      P4PASSWD: ${{secrets.P4PASSWD}}
-      RUN_FIRST_TIME: ${{secrets.RUN_FIRST_TIME}}
-      TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}      
       FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
       TO_EMAIL: ${{ secrets.TO_EMAIL }} 
-      DATE_MIN_CHECK_COMMITS: "${{ secrets.DATE_MIN_CHECK_COMMITS }}"
       GITLAB_PAT: "${{ secrets.GITLAB_PAT }}"
       GITLAB_REPO_URL: "${{ secrets.GITLAB_REPO_URL }}"
       

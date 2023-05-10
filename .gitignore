@@ -20,3 +20,4 @@ qa-tests/scripts/Output_files
 qa-tests/scripts/Screen_Output
 qa-tests/scripts/*.tmp
 qa-tests/scripts/my_results
+.vscode/settings.json
