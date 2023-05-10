@@ -1391,24 +1391,17 @@ C------------------------------
         ENDIF
       END DO
       
-      ! RHO_MAX (INTER18 AUTOMATIC STIFFNESS) - MULTIMATERIAL
+      ! RHO_MAX (INTER18 AUTOMATIC STIFFNESS)
       DO I = 1, NUMMAT-1
         ILAW = IPM(2,I)       
-        IF (ILAW == 151) THEN
-          NSUBMAT=IPM(20,I)
-          RHO_MAX=ZERO          
-          DO J=1,NSUBMAT
-            MAT_ID=IPM(20+J,I)
-            RHO_MAX=MAX(RHO_MAX, PM(89,MAT_ID))         
-          ENDDO
-          PM(91,I)=RHO_MAX
-        ELSEIF(ILAW /=37 .AND. ILAW/=51)THEN
+        IF(ILAW/=20 .AND. ILAW /=37 .AND. ILAW/=51 .AND. ILAW/=151)THEN
           !monomaterial laws
           PM(91,I)=PM(89,I) 
         ELSE
           !already done
-          !law37 : see hm_read_mat37.F          
-          !law51 : see hm_read_mat51.F & fill_buffer_51.F
+          !law37  : see hm_read_mat37.F          
+          !law51  : see hm_read_mat51.F & fill_buffer_51.F
+          !law151 : see m20dcod.F (user material ids are first converted into internal material ids in IPM(20+1:20+NSBUMAT)
         ENDIF
       END DO
 
