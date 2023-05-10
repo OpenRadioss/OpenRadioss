@@ -75,6 +75,10 @@ C-----------------------------------------------
         DY_BOX = ABS(MIN_MAX_POSITION(2) - MIN_MAX_POSITION(5))
         DZ_BOX = ABS(MIN_MAX_POSITION(3) - MIN_MAX_POSITION(6))
         
+        IF(DX_BOX == 2*EP30)DX_BOX=ZERO ! y,z plane
+        IF(DY_BOX == 2*EP30)DY_BOX=ZERO ! x,z plane
+        IF(DZ_BOX == 2*EP30)DZ_BOX=ZERO ! x,y plane        
+                
         DIST_MAX = MAX(DX_BOX,DY_BOX,DZ_BOX)
         IF(DIST_MAX==DX_BOX) LEADING_DIMENSION = 1
         IF(DIST_MAX==DY_BOX) LEADING_DIMENSION = 2
