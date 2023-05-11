@@ -183,7 +183,7 @@ C-----------------------------------------------
      .        STAT,IERROR,ID,IDX,IDY,IDZ,NCTRL,BID,NSH3NFRAM,NS17_OLD,
      .        IGNORE_SPMD,IGNORE_THREADS,GOT_VARIABLE,KROT,OLD_RSB,
      .        NRAFX,NRAFY,NRAFZ,NFUNCT0,NTABLE0,NTABLE1,NSENSOR,
-     .        IRFE,IRFL, HM_NINTER_DEF,NB_AMS,NUMNUSR,NPERTURB_HM
+     .        IRFE,IRFL, HM_NINTER_DEF,NB_AMS,NUMNUSR,NPERTURB_HM,ICR3
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
       my_real DTINI, DTX ,RBID
@@ -1087,7 +1087,8 @@ C-----
       ENDIF
 C----------------------------------------------------------
       CALL CONTRBE2(ICR,LSUBMODEL)
-      IF(IISROT==1.OR.ICR>0)IRODDL = 1
+      CALL CONTRBE3(ICR3,LSUBMODEL)
+      IF(IISROT==1.OR.ICR>0.OR.ICR3>0)IRODDL = 1
 C----------------------------------------------------------
       CALL HM_OPTION_COUNT('/USERWI',USER_WINDOWS%HAS_USER_WINDOW)
       NCPRI=1
