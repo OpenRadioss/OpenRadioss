@@ -389,7 +389,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,IMO,
+      INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,IMO,ICR,
      .        J, P,IAD,NS,NN,J6(6),JJ,II,IADS,IERR1,NP,IC,ICT
       INTEGER ID
       CHARACTER*nchartitle,
@@ -444,12 +444,6 @@ C----- re-ordering by hierrrchy (only 1 level)
      .                   R1=WMIN)
            END IF
         END IF
-C------ remove JR of NS if no dof of rotation		
-		IF (IRODDL==0 .OR.IN(NS)==ZERO) THEN
-		 IC = IRBE3(4,I)
-		 ICT = IC/512
-		 IRBE3(4,I) = ICT*512
-		END IF
         DO J=1,NM
           M= LRBE3(IAD+J)
           FRBE3(IADS+J) =MS(M)
