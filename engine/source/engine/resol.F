@@ -2261,18 +2261,6 @@ C Init var parallel SMP
           ! ---------------------
 
           ! ---------------------
-          ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
-          ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
-          IF(NSPMD>1.AND.(INT24USE>0.OR.NINTER25/=0)) THEN 
-            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
-     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
-     .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
-     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
-           CALL MY_BARRIER()
-          ENDIF
-          ! ---------------------
-
-          ! ---------------------
           ! loop over the surface id and deactivate the surface
           ! ONLY FOR LOCAL SURFACE / LOCAL ELEMENT
           CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
@@ -2288,6 +2276,18 @@ C Init var parallel SMP
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,IXC,IXT,IXP,IXR,IXTG,
      .                           ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+          ! ---------------------
+
+          ! ---------------------
+          ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
+          ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
+          IF(INT24USE>0.OR.NINTER25/=0) THEN 
+            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
+     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
+     .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
+     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
+           CALL MY_BARRIER()
+          ENDIF
           ! ---------------------
 
           CALL CHKSTFN3N(
@@ -5365,18 +5365,6 @@ C WA local  : utilise de 1 a NUMNOD
           ! ---------------------
 
           ! ---------------------
-          ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
-          ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
-          IF(NSPMD>1.AND.(INT24USE>0.OR.NINTER25/=0)) THEN 
-            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
-     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
-     .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
-     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
-           CALL MY_BARRIER()
-          ENDIF
-          ! ---------------------
-
-          ! ---------------------
           ! loop over the surface id and deactivate the surface
           ! ONLY FOR LOCAL SURFACE / LOCAL ELEMENT
           CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
@@ -5392,6 +5380,18 @@ C WA local  : utilise de 1 a NUMNOD
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,IXC,IXT,IXP,IXR,IXTG,
      .                           ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+          ! ---------------------
+
+          ! ---------------------
+          ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
+          ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
+          IF(INT24USE>0.OR.NINTER25/=0) THEN 
+            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
+     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
+     .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
+     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
+           CALL MY_BARRIER()
+          ENDIF
           ! ---------------------
         ENDIF
 

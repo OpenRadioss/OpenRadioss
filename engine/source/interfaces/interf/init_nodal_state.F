@@ -476,8 +476,8 @@ C-----------------------------------------------
                     IF(ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25) THEN
                         LIST_NODE_ID(3) = INTBUF_TAB(NIN)%IRECTM((I-1)*NB_NODE_SURF+3) ! node id N3
                         LIST_NODE_ID(4) = INTBUF_TAB(NIN)%IRECTM((I-1)*NB_NODE_SURF+4) ! node id N4
-                        GLOBAL_NODE_ID(1) = ITAB(LIST_NODE_ID(3)) ! global node id N3
-                        GLOBAL_NODE_ID(2) = ITAB(LIST_NODE_ID(4)) ! global node id N4
+                        GLOBAL_NODE_ID(3) = ITAB(LIST_NODE_ID(3)) ! global node id N3
+                        GLOBAL_NODE_ID(4) = ITAB(LIST_NODE_ID(4)) ! global node id N4
                         NB_REAL_NODE = 4 ! number of node per surface (4 for interface type 7 / 2 for interface type 11)
                         IF(LIST_NODE_ID(3)==LIST_NODE_ID(4)) NB_REAL_NODE = 3 ! N3 and N4 equal : the surface is defined as a triangle -> only 3 nodes
                     ENDIF
