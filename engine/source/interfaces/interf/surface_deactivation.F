@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,MSEGLO,MVOISIN)
+        SUBROUTINE SURFACE_DEACTIVATION(ITY,NRTM,GLOCAL_SURFACE_ID,MSEGLO,MVOISIN)
 !$COMMENT
 !       SURFACE_DEACTIVATION description
 !           deactivation of neighbour surface
@@ -38,7 +38,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -46,6 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER, INTENT(in) :: ITY ! kind of interface
         INTEGER, INTENT(in) :: NRTM ! number of surface
         INTEGER, INTENT(in) :: GLOCAL_SURFACE_ID ! global id of the surface
         INTEGER, DIMENSION(NRTM), INTENT(in) :: MSEGLO ! global id of the k surface 
@@ -67,7 +67,7 @@ C-----------------------------------------------
                 
             ! --------------
             ! deactivation of the surface SURFACE_ID
-            IF(MSEGLO(J)==GLOCAL_SURFACE_ID) THEN
+            IF(ITY==24.AND.MSEGLO(J)==GLOCAL_SURFACE_ID) THEN
                 MVOISIN(1,J) = 0
                 MVOISIN(2,J) = 0
                 MVOISIN(3,J) = 0

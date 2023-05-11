@@ -175,9 +175,9 @@ C-----------------------------------------------
                 ! -----------------
                 ! for interface 7 : need to check if the element has N3 & N4
                 OTHER_NODE = 0
-                IF(NUMBER_NODE>2) THEN
-                    OTHER_NODE = TAG_NODE(N3)+TAG_NODE(N4)
-                ENDIF
+                IF(NUMBER_NODE>2) OTHER_NODE = TAG_NODE(N3)
+                IF(NUMBER_NODE>3) OTHER_NODE = TAG_NODE(N4)
+
                 ! -----------------
         
                 ! -----------------

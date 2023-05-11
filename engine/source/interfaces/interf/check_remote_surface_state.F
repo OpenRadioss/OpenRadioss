@@ -108,7 +108,6 @@ C-----------------------------------------------
         DATA MSGOFF1/13014/
         DATA MSGOFF2/13015/
 C-----------------------------------------------
-
         FIRST = 1
         LAST = SURFARCE_NB 
         NUMBER_INTER = SHIFT_INTERFACE(NINTER+1,2)
@@ -117,6 +116,7 @@ C-----------------------------------------------
         S_BUFFER(1:NSPMD)%SIZE_INT_ARRAY_2D(1) = 2
         S_BUFFER(1:NSPMD)%SIZE_INT_ARRAY_2D(2) = SURFARCE_NB
         NUMBER_REMOTE_SURF(1:NSPMD) = 0
+
         ! --------------------------
         ! loop over the deactivated surface
         DO I=FIRST,LAST
@@ -127,7 +127,6 @@ C-----------------------------------------------
             ITY = IPARI(7,NIN)
             IDEL = IPARI(17,NIN)
             NRTM = IPARI(4,NIN)
-            
             ! *----*----*----*   1/2/3 surfaces need to deactivate the neighbouring deleted surface 
             ! | 1  |    |    |   the deleted surface must be deactivate 
             ! |    | 4  |    |   not sure about 4 & 5
@@ -139,11 +138,16 @@ C-----------------------------------------------
             ! | 2  |    |    |
             ! *----*----*----*
             
-            GLOCAL_SURFACE_ID = INTBUF_TAB(NIN)%MSEGLO(K)
-            IF(ITY==24.OR.ITY==25) THEN
-                CALL SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN)
+            IF(ITY==25) THEN 
+                GLOCAL_SURFACE_ID = K
+            ELSEIF(ITY==24) THEN
+                GLOCAL_SURFACE_ID = INTBUF_TAB(NIN)%MSEGLO(K)
             ENDIF
-            
+            IF(ITY==24.OR.ITY==25) THEN
+                CALL SURFACE_DEACTIVATION(ITY,NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN)
+            ENDIF
+
+            IF(NSPMD>1) THEN            
             ! --------------
             ALREADY_DONE(1:NSPMD) = .FALSE.
             ALREADY_DONE(ISPMD+1) = .TRUE.
@@ -171,8 +175,11 @@ C-----------------------------------------------
                 ENDIF
             ENDDO
             ! --------------
+            ENDIF
         ENDDO
         ! --------------------------
+
+        IF(NSPMD>1) THEN
 #ifdef MPI
 
         ! ----------------
@@ -251,7 +258,7 @@ C-----------------------------------------------
                 ! --------------
                 GLOCAL_SURFACE_ID = R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,J) ! get the global deleted surface id
                 IF(ITY==24.OR.ITY==25) THEN
-                    CALL SURFACE_DEACTIVATION(NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN) 
+                    CALL SURFACE_DEACTIVATION(ITY,NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN) 
                 ENDIF
                 ! --------------
             ENDDO
@@ -280,6 +287,7 @@ C-----------------------------------------------
         ENDDO
         ! ----------------
 #endif
+        ENDIF
 
         DEALLOCATE( S_BUFFER, R_BUFFER )
 
