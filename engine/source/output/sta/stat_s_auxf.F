@@ -124,40 +124,76 @@ C          JHBE   = IGEO(10,PID)
           ELSE
             NUVAR = IPM(8,IXS(1,NFT+1))   
           ENDIF
+c-------------------------------
+          IF (ISOLNOD == 16) THEN
 c
-          DO I=LFT,LLT                                       
-            N = I + NFT                                      
-            IPRT=IPARTS(N)                                   
-            IF (IPART_STATE(IPRT)==0) CYCLE                    
-            WA(JJ+1) = GBUF%VOL(I)             
-            WA(JJ+2) = IPRT                                  
-            WA(JJ+3) = IXS(NIXS,N)                           
-            WA(JJ+4) = NLAY                                          
-            WA(JJ+5) = NPTR                                
-            WA(JJ+6) = NPTS                                
-            WA(JJ+7) = NPTT                                
-            WA(JJ+8) = ISOLNOD                                
-            WA(JJ+9) = NUVAR                                  
-            WA(JJ+10)= JHBE   
-            WA(JJ+11) = GBUF%OFF(I)                                                                                                                 
-            JJ = JJ + 11  
-            DO IL=1,NLAY                                               
-             DO IR=1,NPTR                                             
-              DO IS=1,NPTS                                           
-               DO IT=1,NPTT                                         
-                 MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
-                 DO IUS = 1,NUVAR   
-                   WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
-                   JJ = JJ +1                                     
-                 ENDDO                                             
-               ENDDO                                                 
-              ENDDO                                                   
-             ENDDO                                                    
-            ENDDO                 
-            IE=IE+1                          
-C           pointeur de fin de zone dans WA  
-            PTWA(IE)=JJ                      
-          ENDDO  !  I=LFT,LLT                                     
+            DO I=LFT,LLT                                       
+              N = I + NFT                                      
+              IPRT=IPARTS(N)                                   
+              IF (IPART_STATE(IPRT)==0) CYCLE                    
+              WA(JJ+1) = GBUF%VOL(I)             
+              WA(JJ+2) = IPRT                                  
+              WA(JJ+3) = IXS(NIXS,N)                           
+              WA(JJ+4) = NLAY                                          
+              WA(JJ+5) = NPTR                                
+              WA(JJ+6) = NPTS                                
+              WA(JJ+7) = NPTT                                
+              WA(JJ+8) = ISOLNOD                                
+              WA(JJ+9) = NUVAR                                  
+              WA(JJ+10)= JHBE   
+              WA(JJ+11) = GBUF%OFF(I)                                                                                                                 
+              JJ = JJ + 11  
+              IS = 1 
+              DO IT=1,NPTT                                         
+               DO IL=1,NLAY                                               
+                DO IR=1,NPTR                                             
+                   MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                   DO IUS = 1,NUVAR   
+                     WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
+                     JJ = JJ +1                                     
+                   ENDDO                                             
+                ENDDO                                                 
+               ENDDO                                                    
+              ENDDO                 
+              IE=IE+1                          
+C             pointeur de fin de zone dans WA  
+              PTWA(IE)=JJ                      
+            ENDDO  !  I=LFT,LLT                                     
+          ELSE
+            DO I=LFT,LLT                                       
+              N = I + NFT                                      
+              IPRT=IPARTS(N)                                   
+              IF (IPART_STATE(IPRT)==0) CYCLE                    
+              WA(JJ+1) = GBUF%VOL(I)             
+              WA(JJ+2) = IPRT                                  
+              WA(JJ+3) = IXS(NIXS,N)                           
+              WA(JJ+4) = NLAY                                          
+              WA(JJ+5) = NPTR                                
+              WA(JJ+6) = NPTS                                
+              WA(JJ+7) = NPTT                                
+              WA(JJ+8) = ISOLNOD                                
+              WA(JJ+9) = NUVAR                                  
+              WA(JJ+10)= JHBE   
+              WA(JJ+11) = GBUF%OFF(I)                                                                                                                 
+              JJ = JJ + 11  
+              DO IL=1,NLAY                                               
+               DO IT=1,NPTT
+                DO IS=1,NPTS
+                 DO IR=1,NPTR
+                    MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                    DO IUS = 1,NUVAR   
+                      WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
+                      JJ = JJ +1                                     
+                    ENDDO                                             
+                 ENDDO                                                   
+                ENDDO                                                    
+               ENDDO                 
+              ENDDO                 
+              IE=IE+1                          
+C             pointeur de fin de zone dans WA  
+              PTWA(IE)=JJ                      
+            ENDDO  !  I=LFT,LLT                                     
+          ENDIF !  ISOLNOD == 16
         ENDIF    !  ITY = 1
       ENDDO
  200  CONTINUE

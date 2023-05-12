@@ -163,19 +163,6 @@ c    material parameters
        COEFM = UPARAMF(3)    
       ENDIF
 
-      IF(TIME == ZERO)THEN
-        DO  I = 1, NEL
-         UVAR(I,1) = ONE
-         UVAR(I,2) = ONE
-         UVAR(I,3) = ONE
-         UVAR(I,4) = ZERO
-         UVAR(I,5) = ZERO
-         UVAR(I,6) = ZERO
-         UVAR(I,7) = ZERO
-         UVAR(I,8) = ZERO
-         UVAR(I,9) = ZERO
-        ENDDO
-      ENDIF
 C	  
       IF (IAVIS>0) THEN	  
       DO  I = 1, NEL
@@ -306,6 +293,7 @@ C
      .                EXPM, KSI, TAUREF  , DGAMMA ) 
 
 
+        IF (TIME == ZERO) DGAMMA(1:NEL) = UVAR(1:NEL,10)
         DO I=1,NEL ! calcul lde Lb
           UVAR(I,10)= DGAMMA(I)
           FACTOR    = DGAMMA(I)/TBNORM(I)
