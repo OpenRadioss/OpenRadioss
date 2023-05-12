@@ -349,6 +349,8 @@ c
      2       NPF   ,TF      ,UPARAM  ,RHO0   ,VOL    ,
      3       EINT  ,MBUF%VAR)
 c
+        ELSEIF (MTN == 95) THEN
+          CALL M95INIT(NEL   ,NUVAR   ,MBUF%VAR)
         ELSEIF (MTN == 97)THEN
           IPARG(16)=1   !  FLAG REZONE (BURNING TIME same index for EPS PLAST.)
           IPARG(63)=1   !  FLAG FOR FLUID MATERIAL
