@@ -937,10 +937,6 @@ C     SMALL STRAIN
 C-----------------------------
       CALL SMALLB3(
      1   GBUF%OFF,OFFG,    NEL,     ISMSTR)
-      ITET = 0
-      CALL SMALLGEO3(
-     1   NGL,     GBUF%OFF,VOLG,    DELTAX,
-     2   GBUF%VOL,ITET,    NEL,     ISMSTR)
       IF (ISMSTR==11.OR.(JCVT == 0 .AND. ISMSTR>0)) THEN
          CALL S8EDEFW3(
      1   PXC1,    PXC2,    PXC3,    PXC4,
