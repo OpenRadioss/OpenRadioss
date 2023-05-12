@@ -120,7 +120,7 @@ Chd|====================================================================
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
-     t            OUTPUT    ,DT ) 
+     t            OUTPUT    ,DT          ,FSAVSURF    ,NSEG_LOADP )  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -245,6 +245,8 @@ C-----------------------------------------------
      .       LOADP(LFACCLD,*),FORC(*)
 
       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------      
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------      
@@ -1007,7 +1009,8 @@ C         to avoid double points
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP ,AFORM(1),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA)
+     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA,
+     Q                 FSAVSURF,NSEG_LOADP)
 
             IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
      *          CALL file_size(MULTITHFILESIZE(1))
@@ -1100,7 +1103,8 @@ C
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP, AFORM(2),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB)
+     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB,
+     Q                 FSAVSURF,NSEG_LOADP)
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
      
@@ -1192,7 +1196,8 @@ C
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP ,AFORM(3),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC)
+     n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC,
+     Q                 FSAVSURF,NSEG_LOADP)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
@@ -1281,7 +1286,8 @@ C
      K                 FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                 IGAUP  ,NGAUP ,AFORM(4),WEIGHT_MD,SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD)
+     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD,
+     Q                 FSAVSURF,NSEG_LOADP)
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
      *     ISPMD==0 )CALL file_size(MULTITHFILESIZE(4))
@@ -1370,7 +1376,8 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP  ,NGAUP ,AFORM(5),WEIGHT_MD,SIZE_MES,
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE,
+     Q                FSAVSURF,NSEG_LOADP)
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(5))
@@ -1458,7 +1465,8 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(6),WEIGHT_MD,SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF,
+     Q                FSAVSURF,NSEG_LOADP)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
@@ -1548,7 +1556,8 @@ C
      K                FTHREAC,NODREAC,GRESAV ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(7),WEIGHT_MD,SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG,
+     Q                FSAVSURF,NSEG_LOADP)
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(7))
@@ -1637,7 +1646,8 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP  ,NGAUP ,AFORM(8),WEIGHT_MD,SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
+     Q                FSAVSURF,NSEG_LOADP)
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
@@ -1725,7 +1735,8 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP ,AFORM(9),WEIGHT_MD,SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
+     Q                FSAVSURF,NSEG_LOADP)
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
@@ -1811,7 +1822,8 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,GAUGE  ,
      L                IGAUP,NGAUP,ITFORM,WEIGHT_MD,SIZE_MES,
      M                RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
-     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF)
+     N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF,
+     Q                FSAVSURF,NSEG_LOADP)
 
         IF(SIZE_MES==1 .AND.
      *     ITFORM==3   .AND.
@@ -1906,6 +1918,15 @@ C  FSAV(26) : contact elastic energy is not cumulated : only for int10 and int18
            FSAV(29,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG)+N) = ZERO
          END DO
        ENDIF
+
+C Pressure/Area for /TH/SURF is reset to zero (not cumulated)
+      IF(NSURF >0 ) THEN
+        DO N = 1,NSURF                                                                        
+          FSAVSURF(4:5,N) = ZERO
+          NSEG_LOADP(N) = 0
+        ENDDO
+       ENDIF 
+
       IF (ISPMD==0.AND.IFLAG==1) TFEXT  = TFEXT- TFEXTH
 C-----------
       RETURN

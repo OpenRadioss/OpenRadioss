@@ -98,7 +98,7 @@ C-----------------------------------------------
      .        SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,NIP,
      .        NN,IAD,TSENS,ISENS,IS,ISU,NOSKEW,IDIR,IFUNC,NINTERP,INORM,
      .        H, CAPT,TINTER,IDINT,NIK,NBINTER,NB,NOINT,NL,STAT,IFUNCL,
-     .        IDSENS,IDSKEW,ILOAD,NINTERS
+     .        IDSENS,IDSKEW,ILOAD,NINTERS,NIDXLOAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_INTER,INTER_TYP
       my_real
      .        FCX,FCY,FAC_FCX,FAC_FCY,GAP_I
@@ -186,6 +186,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C BROWSING MODEL 1..NLOADP_F
 C--------------------------------------------------
+      NIDXLOAD = NLOADP_F+NLOADP_B
       DO K=1,NLOADP_HYD
 C--------------------------------------------------
 C EXTRACT DATAS OF /LOAD/PFLUID... LINE
@@ -216,7 +217,7 @@ C--------------------------------------------------
      .                C3      = TITR)  
         ENDIF
 C-----------        
-        ILOADP(2,K) = ID
+        ILOADP(2,K+NIDXLOAD) = ID
 C-----------        
         IAD      = NUMLOADP + 1
 
@@ -267,7 +268,7 @@ C--------------------------------------------------
               ENDIF  
            ENDDO
         ENDIF   
-	ILOADP(1,K)=4*NN   
+	ILOADP(1,K+NIDXLOAD)=4*NN   
 
 C-----------        
         IFUNCL=0
@@ -372,17 +373,17 @@ C--------------
 C Storage 
 C--------------
          IF(IS/=0)THEN    
-           ILOADP  ( 3,K) = IFUNCL        
-           ILOADP  ( 4,K) = IAD
-           ILOADP  ( 5,K) = NINTERS 
-	   ILOADP  ( 6,K) = IDIR   
-           ILOADP  ( 7,K) = ISENS  
-           ILOADP  ( 8,K) = NOSKEW    
-           ILOADP  ( 9,K) = INORM
-           ILOADP  (10,K) = ILOAD
+           ILOADP  ( 3,K+NIDXLOAD) = IFUNCL        
+           ILOADP  ( 4,K+NIDXLOAD) = IAD
+           ILOADP  ( 5,K+NIDXLOAD) = NINTERS 
+	   ILOADP  ( 6,K+NIDXLOAD) = IDIR   
+           ILOADP  ( 7,K+NIDXLOAD) = ISENS  
+           ILOADP  ( 8,K+NIDXLOAD) = NOSKEW    
+           ILOADP  ( 9,K+NIDXLOAD) = INORM
+           ILOADP  (10,K+NIDXLOAD) = ILOAD
                                                                                                   
-           FACLOADP( 1,K) = FCY                                          
-           FACLOADP( 2,K) = ONE/FCX   
+           FACLOADP( 1,K+NIDXLOAD) = FCY                                          
+           FACLOADP( 2,K+NIDXLOAD) = ONE/FCX   
            !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---        
 	   IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                
          ENDIF    
@@ -412,7 +413,7 @@ C--------------
       IF(NINTLOADP > 0) THEN
          NIK = 0
          DO K=1,NLOADP_HYD
-            NINTERP = ILOADP(5,K)
+            NINTERP = ILOADP(5,K+NIDXLOAD)
             DO N=1,NINTERP
                NI = INTERLOADP(NIK + N) 
                KLOADPINTER(NI) = KLOADPINTER(NI)+1
@@ -431,7 +432,7 @@ C--------------
 
         NIK = 0
          DO K=1,NLOADP_HYD
-            NINTERP = ILOADP(5,K)
+            NINTERP = ILOADP(5,K+NIDXLOAD)
             DO N=1,NINTERP
                NI = INTERLOADP(NIK + N) 
                KLOADPINTER(NI) = KLOADPINTER(NI)+1

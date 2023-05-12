@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER MONVOL(*), FR_MV(NSPMD+2,NVOLU)
 C     REAL
       my_real
-     .   FSAVSURF(3,NSURF), VOLMON(*)
+     .   FSAVSURF(5,NSURF), VOLMON(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

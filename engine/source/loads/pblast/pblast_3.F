@@ -34,7 +34,8 @@ Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_
 Chd|====================================================================
       SUBROUTINE PBLAST_3(ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
-     2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC)
+     2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC,
+     4                    TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -42,6 +43,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE GROUPDEF_MOD      
       USE H3D_INC_MOD 
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,12 +73,15 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF), NSEGPL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1
       INTEGER Phi_I, ID, ITA_SHIFT, NITER,ITER,IMODEL,ITMP
-      INTEGER :: idx_zg1, idx_zg2, idx1_angle, idx2_angle, idx1, idx2
+      INTEGER :: idx_zg1, idx_zg2, idx1_angle, idx2_angle, idx1, idx2,NS,KSURF
       INTEGER :: curve_id1, curve_id2, NN(4)   
       LOGICAL :: calculate, BOOL_UNDERGROUND_CURRENT_SEG     
           
@@ -102,7 +107,7 @@ C-----------------------------------------------
       my_real HC ! height of charge      
       my_real logRes            
       my_real Z1_     
-      my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL
+      my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL,AREA
       my_real kk ,NPT   
             
       my_real PI_      
@@ -123,10 +128,7 @@ C-----------------------------------------------
       INTEGER,EXTERNAL :: DICHOTOMIC_SEARCH_R_DESC,DICHOTOMIC_SEARCH_R_ASC
       
       my_real FAC_UNIT ! convert scaled distance from cm/g^1/3 to ft/lb^1/3
-      DATA FAC_unit/3.966977216838196139019/  
-      
-
-      
+      DATA FAC_unit/3.966977216838196139019/       
       
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -712,7 +714,20 @@ C-----------------------------------------------
         TFEXT_LOC=TFEXT_LOC+DT1*(   PBLAST_TAB(IL)%FX(I) * SUM(  V( 1, NN(1:NINT(NPt))  )  )                                                                                                                          
      +                            + PBLAST_TAB(IL)%FY(I) * SUM(  V( 2, NN(1:NINT(NPt))  )  )                                                                                                                          
      +                            + PBLAST_TAB(IL)%FZ(I) * SUM(  V( 3, NN(1:NINT(NPt))  )  )                                                                                                                          
-     +                          )                                                                                                                                                                         
+     +                          )  
+
+C----- /TH/SURF -------
+        IF(TH_SURF%LOADP_FLAG > 0 ) THEN
+          NSEGPL = NSEGPL + 1
+          AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+          DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
+             KSURF = TH_SURF%LOADP_SEGS(NS)
+             NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+             FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + P
+             FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+          ENDDO
+        ENDIF
+                                                                                                                                                                     
 
       ENDDO!next I                                                                                                                                                                                   
 !$OMP END DO        

@@ -73,10 +73,12 @@ C------------------------------------
 C     CHECK SURFACE FOR TH/SURF
 C------------------------------------
         DO I=1,NSURF
-           IF(IGRSURF(I)%TH_SURF /= 1) CYCLE
-           IF(IGRSURF(I)%ISH4N3N == 1) CYCLE
+           IF(IGRSURF(I)%TH_SURF ==2 ) THEN
+              IGRSURF(I)%TH_SURF = 1
+              IF(IGRSURF(I)%ISH4N3N == 1) CYCLE
               CALL ANCMSG(MSGID=1135,ANMODE=ANINFO,
      .                    MSGTYPE=MSGERROR,I1=IGRSURF(I)%ID)
+           ENDIF
         ENDDO
       ENDIF
       RETURN

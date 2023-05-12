@@ -35,13 +35,14 @@ Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_
 Chd|====================================================================
       SUBROUTINE PBLAST (ILOADP  ,FAC     ,A       , V       ,X       ,
      1                   IADC    ,FSKY    ,FSKYV   ,LLOADP   ,FEXT    ,
-     2                   ITAB    ,H3D_DATA)
+     2                   ITAB    ,H3D_DATA,TH_SURF,FSAVSURF  ,NSEG_LOADP)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
       USE PBLAST_MOD
-      USE GROUPDEF_MOD      
+      USE GROUPDEF_MOD  
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,10 +67,13 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER :: NL, ABAC_ID, NDT, NDT0, ID, II, IJK, NN(4), NNOD, IAD , IL
+       INTEGER :: NL, ABAC_ID, NDT, NDT0, ID, II, IJK, NN(4), NNOD, IAD , IL, NSEGPL
        my_real :: T0INF_LOC, TFEXT_LOC, T_STOP, TDET
        LOGICAL :: IS_RESET
 C-----------------------------------------------
@@ -92,7 +96,7 @@ C-----------------------------------------------
        IF(NLOADP_B==0)THEN
          RETURN
        ENDIF     
-       
+       NSEGPL = TH_SURF%NSEGLOADPF
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
@@ -128,20 +132,23 @@ C-----------------------------------------------
                CALL PBLAST_1(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
+     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC,
+     4                       TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL   )
      
              CASE(2)
                !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
                CALL PBLAST_2(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)        
+     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC,
+     4                       TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL   )        
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
                CALL PBLAST_3(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC)
+     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC,
+     4                       TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL   )
      
              END SELECT 
              

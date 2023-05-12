@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,NTOT,KK,IER,
      .        OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,ITITLE(LTITR),
-     .        IDS,IDSMAX
+     .        IDS,IDSMAX,AIRBAG_OUTPUT
       CHARACTER TITR*nchartitle,MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -126,6 +126,11 @@ C-----------------------------------------------
         ITHGRP(8)=IAD2
         IFI=IFI+3*NNE+40*NNE
         CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
+
+        AIRBAG_OUTPUT = 0
+        DO JJ = ITHGRP(7),ITHGRP(5)
+            IF(ITHBUF(JJ) ==2.OR.ITHBUF(JJ) ==3) AIRBAG_OUTPUT = 1
+         ENDDO
       
 C
           DO K = 1,IDSMAX
@@ -141,7 +146,8 @@ C----------------------------------------------------------------------
               DO J=1,NUM
                 IF(IDS == IGRSURF(J)%ID)THEN
                    N=J
-                   IGRSURF(J)%TH_SURF=1
+                   IGRSURF(J)%TH_SURF=1          
+                   IF(AIRBAG_OUTPUT > 0) IGRSURF(J)%TH_SURF=2
                 ENDIF
               ENDDO
               IF(N==0)THEN
