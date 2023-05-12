@@ -57,14 +57,14 @@ C-----------------------------------------------
       my_real PLD(*)
       CHARACTER*nchartitle  :: TITR
       TYPE(MATPARAM_STRUCT_)  ,TARGET :: MATPARAM
-      TYPE(TTABLE), DIMENSION(NTABLE) ,TARGET ::  TABLE
+      TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(INOUT) ,TARGET ::  TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NDIM,NPT,FUNC_ID,FUNC_T,FUNC_C,FUNC_S,ICAS,ICONV,STAT,
-     .           NPT_TRAC,NPT_COMP,NPT_SHEAR,NPTMAX,IFUN_NUP,IFX,IFY
+      INTEGER :: I,J,NDIM,NPT,NEPSP,FUNC_ID,FUNC_T,FUNC_C,FUNC_S,ICAS,ICONV,
+     .           NPT_TRAC,NPT_COMP,NPT_SHEAR,NPTMAX,IFUN_NUP,IFX,IFY,STAT
       my_real :: XFAC,EPDT_MIN,EPDT_MAX,EPDC_MIN,EPDC_MAX,EPDS_MIN,EPDS_MAX,
-     .           NUP
+     .           NUP,XINT,YINT
       my_real ,DIMENSION(:)  ,ALLOCATABLE :: X_COMP,Y_COMP
       TYPE(TTABLE), DIMENSION(:) ,POINTER ::  TABLE_MAT
 C=======================================================================
@@ -98,33 +98,90 @@ c-----------------------------------------------------------------------------
       ENDDO
 c---------------------------------------------------------------
 c    check max and min strain rates by direction in yield tables
+c    check if yield curves for different strain rates do not intersect
 c---------------------------------------------------------------
       NDIM = TABLE(FUNC_T)%NDIM
       IF (NDIM == 2) THEN
-        NPT = SIZE(TABLE(FUNC_T)%X(2)%VALUES)
+        NPT      = SIZE(TABLE(FUNC_T)%X(1)%VALUES)
+        NEPSP    = SIZE(TABLE(FUNC_T)%X(2)%VALUES)
         EPDT_MIN = TABLE(FUNC_T)%X(2)%VALUES(1)*XFAC
-        EPDT_MAX = TABLE(FUNC_T)%X(2)%VALUES(NPT)*XFAC
+        EPDT_MAX = TABLE(FUNC_T)%X(2)%VALUES(NEPSP)*XFAC
         UPARAM(19) = EPDT_MIN
         UPARAM(20) = EPDT_MAX
+c
+        DO I = 2,NEPSP
+          DO J = I+1,NEPSP
+            CALL TABLE2D_INTERSECT(TABLE(FUNC_T) ,I ,J ,NPT  ,
+     .                             XFAC  ,XINT ,YINT)
+            IF (XINT > ZERO .and. YINT > ZERO) THEN
+              CALL ANCMSG(MSGID=3007, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
+     .                    I1 = MAT_ID,                                               
+     .                    I2 = TABLE(FUNC_T)%NOTABLE,                                               
+     .                    C1 = TITR  ,
+     .                    R1 = TABLE(FUNC_T)%X(2)%VALUES(I)*XFAC,                                               
+     .                    R2 = TABLE(FUNC_T)%X(2)%VALUES(J)*XFAC,                                               
+     .                    R3 = XINT,
+     .                    R4 = YINT)
+            END IF
+          END DO
+        END DO
       END IF
+c---
       IF (FUNC_C > 0) THEN
         NDIM = TABLE(FUNC_C)%NDIM
         IF (NDIM == 2) THEN
-          NPT = SIZE(TABLE(FUNC_C)%X(2)%VALUES)
+          NPT      = SIZE(TABLE(FUNC_C)%X(1)%VALUES)
+          NEPSP    = SIZE(TABLE(FUNC_C)%X(2)%VALUES)
           EPDC_MIN = TABLE(FUNC_C)%X(2)%VALUES(1)*XFAC
-          EPDC_MAX = TABLE(FUNC_C)%X(2)%VALUES(NPT)*XFAC
+          EPDC_MAX = TABLE(FUNC_C)%X(2)%VALUES(NEPSP)*XFAC
           UPARAM(21) = EPDC_MIN
           UPARAM(22) = EPDC_MAX
+c
+          DO I = 2,NEPSP
+            DO J = I+1,NEPSP
+              CALL TABLE2D_INTERSECT(TABLE(FUNC_C) ,I ,J ,NPT  ,
+     .                               XFAC  ,XINT ,YINT)
+              IF (XINT > ZERO .and. YINT > ZERO) THEN
+                CALL ANCMSG(MSGID=3007, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
+     .                      I1 = MAT_ID,                                             
+     .                      I2 = TABLE(FUNC_T)%NOTABLE,                                             
+     .                      C1 = TITR  ,
+     .                      R1 = TABLE(FUNC_T)%X(2)%VALUES(I)*XFAC,                                             
+     .                      R2 = TABLE(FUNC_T)%X(2)%VALUES(J)*XFAC,                                             
+     .                      R3 = XINT,
+     .                      R4 = YINT)
+              END IF
+            END DO
+          END DO
         END IF
       END IF
+c---
       IF (FUNC_S > 0) THEN
         NDIM = TABLE(FUNC_S)%NDIM
         IF (NDIM == 2) THEN
-          NPT = SIZE(TABLE(FUNC_S)%X(2)%VALUES)
+          NPT      = SIZE(TABLE(FUNC_S)%X(1)%VALUES)
+          NEPSP    = SIZE(TABLE(FUNC_S)%X(2)%VALUES)
           EPDS_MIN = TABLE(FUNC_S)%X(2)%VALUES(1)*XFAC
-          EPDS_MAX = TABLE(FUNC_S)%X(2)%VALUES(NPT)*XFAC
+          EPDS_MAX = TABLE(FUNC_S)%X(2)%VALUES(NEPSP)*XFAC
           UPARAM(23) = EPDS_MIN
           UPARAM(24) = EPDS_MAX
+c
+          DO I = 2,NEPSP
+            DO J = I+1,NEPSP
+              CALL TABLE2D_INTERSECT(TABLE(FUNC_S) ,I ,J ,NPT  ,
+     .                               XFAC  ,XINT ,YINT)
+              IF (XINT > ZERO .and. YINT > ZERO) THEN
+                CALL ANCMSG(MSGID=3007, MSGTYPE=MSGWARNING, ANMODE=ANINFO,      
+     .                      I1 = MAT_ID,                                             
+     .                      I2 = TABLE(FUNC_T)%NOTABLE,                                             
+     .                      C1 = TITR  ,
+     .                      R1 = TABLE(FUNC_T)%X(2)%VALUES(I)*XFAC,                                             
+     .                      R2 = TABLE(FUNC_T)%X(2)%VALUES(J)*XFAC,                                             
+     .                      R3 = XINT,
+     .                      R4 = YINT)
+              END IF
+            END DO
+          END DO
         END IF
       END IF
 c--------------------------------------------------------------------------
