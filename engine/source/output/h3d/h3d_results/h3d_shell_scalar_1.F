@@ -360,12 +360,19 @@ C--------------------------------------------------
             ELSEIF (KEYWORD == 'DENS') THEN   ! DENS
 C--------------------------------------------------
                IF (MLW /= 151) THEN
-                  IF (ITHK >0) THEN
-                     DO I=1,NEL
-                        VALUE(I) = GBUF%RHO(I) 
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
-                  ENDIF
+                 IF (ITY == 3) THEN 
+                   DO I=1,NEL
+                     N = I + NFT
+                     VALUE(I) = PM(1,IXC(1,N))
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO   
+                 ELSEIF(ITY == 7) THEN 
+                   DO I=1,NEL
+                     N = I + NFT
+                     VALUE(I) = PM(1,IXTG(1,N)) 
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO 
+                 ENDIF
                ELSE
                   DO I=1,NEL
                      VALUE(I) = MULTI_FVM%RHO(I + NFT)

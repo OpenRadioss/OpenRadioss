@@ -1068,10 +1068,22 @@ cc                  IPT = IABS(NPT)/2 + 1
               ENDIF  
                           
 c---
-            ELSEIF (IFUNC == 2 .AND. MLW == 151) THEN
-              DO I=LFT,LLT
-                EVAR(I) = GBUF%RHO(I) 
-              ENDDO               
+            ELSEIF (IFUNC == 2) THEN
+              IF (MLW == 151) THEN 
+                DO I=LFT,LLT
+                  EVAR(I) = GBUF%RHO(I) 
+                ENDDO 
+              ELSE 
+                IF (ITY == 3) THEN 
+                  DO I=LFT,LLT
+                    EVAR(I) = PM(1,IXC(1,NFT+I))
+                  ENDDO
+                ELSEIF (ITY == 7) THEN 
+                  DO I=LFT,LLT
+                    EVAR(I) = PM(1,IXTG(1,NFT+I))
+                  ENDDO
+                ENDIF 
+              ENDIF          
 c---
             ELSEIF (IFUNC == 3 .AND. MLW == 151) THEN
               DO I=LFT,LLT
