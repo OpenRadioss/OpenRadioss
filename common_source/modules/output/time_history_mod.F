@@ -31,6 +31,7 @@ Chd|        WRITE_TH_RESTART              engine/source/output/th/write_th_resta
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE TIME_HISTORY_MOD
+       USE TH_SURF_MOD
 #include "my_real.inc" 
 
          TYPE TH_
@@ -76,6 +77,9 @@ Chd|====================================================================
             INTEGER  SITHGRPH
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPI
             INTEGER  SITHGRPI
+C
+            TYPE (TH_SURF_) TH_SURF
+C
          END TYPE TH_
 
          CONTAINS

@@ -34,7 +34,8 @@ Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_
 Chd|====================================================================
       SUBROUTINE PBLAST_1(ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
-     2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC)
+     2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC,
+     3                    TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -42,6 +43,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE GROUPDEF_MOD      
       USE H3D_INC_MOD 
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,13 +73,16 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF) , NSEGPL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
-     .        Phi_I, ID, ITA_SHIFT,NITER,ITER,IMODEL,NN(4)
+     .        Phi_I, ID, ITA_SHIFT,NITER,ITER,IMODEL,NN(4),NS,KSURF
      
-      my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz
+      my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,AREA
       
       my_real
      .   LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,Phi_DB,bound1,bound2, 
@@ -483,6 +488,18 @@ C-----------------------------------------------
         ! for this current 4-node or 3-node face :   DW = sum(   <F_k,V_k>*dt       k=1,NPT)   where F_k=Fel/NPT
         TFEXT_LOC=TFEXT_LOC+DT1*(FF(1)*SUM(V(1,NN(1:NINT(NPT)))) +FF(2)*SUM(V(2,NN(1:NINT(NPT)))) +FF(3)*SUM(V(3,NN(1:NINT(NPT)))))
 
+C----- /TH/SURF -------
+        IF(TH_SURF%LOADP_FLAG > 0 ) THEN
+          NSEGPL = NSEGPL + 1
+          AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+          DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
+             KSURF = TH_SURF%LOADP_SEGS(NS)
+             NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+             FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + P
+             FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+          ENDDO
+        ENDIF
+
       ENDDO!next I                                                                                                                                                                                    
 !$OMP END DO
          
@@ -570,9 +587,9 @@ C-----------------------------------------------
           ENDIF                                                                                  
         ENDDO                                                                                           
       ENDIF  
-!$OMP END SINGLE                                                                                                                                                                                
+!$OMP END SINGLE    
 
- 9000 CONTINUE      
+ 9000 CONTINUE 
       RETURN
       
 C-----------------------------------------------

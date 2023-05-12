@@ -85,7 +85,8 @@ Chd|====================================================================
      K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE    ,
      L                 IGAUP   ,NGAUP     ,ITTYP    ,WEIGHT_MD,SIZE_MES  ,
      M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO    ,
-     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W,SITHBUF)
+     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W        ,SITHBUF   ,
+     Q                 FSAVSURF,NSEG_LOADP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -161,6 +162,8 @@ C-----------------------------------------------
       TYPE (PINCH) :: PINCH_DATA
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -175,7 +178,7 @@ C-----------------------------------------------
      .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,XM,YM,ZM,             
      .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
      .        VX(3),VY(3),VN(3),X1(3),X2(3),X3(3),FLOC(3),MLOC(3),FAC ,     
-     .        FSAVSURF(3,NSURF),ARRAY(5)                                    
+     .        ARRAY(5)                                    
       DATA FIRST/0/
       SAVE FIRST
 C=======================================================================
@@ -588,7 +591,7 @@ C
            ENDDO
          ENDDO
 C-----------------------------------
-C      CALCUL DE L'AIRE DES SURFACES
+C      Area of surfaces computation
 C-----------------------------------
          DO I=1,NSURF
             IF(IGRSURF(I)%TH_SURF == 1) THEN
@@ -601,7 +604,20 @@ C      CALCUL DE LA MASSE TRAVERSANT LES SURFACES (FVMBAG)
 C---------------------------------------------------------
          CALL SURF_MASS_MONV(FSAVSURF,IGRSURF,MONVOL,VOLMON,FR_MV)
 C
-         IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVSURF,3*NSURF)
+         IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVSURF,5*NSURF)
+         IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(NSEG_LOADP,NSURF)
+C
+         IF(ISPMD ==0 ) THEN
+           DO I=1,NSURF
+            IF(IGRSURF(I)%TH_SURF == 1) THEN
+               IF(NSEG_LOADP(I) > 0) THEN
+                  FSAVSURF(4,I)=FSAVSURF(4,I) / NSEG_LOADP(I) ! The pressure in an average pressure
+               ELSE
+                  FSAVSURF(4,I)= ZERO
+               ENDIF
+            ENDIF    
+          ENDDO
+        ENDIF
        ENDIF
 C--------------------------------------------
 C      PRE TRAITEMENT RIVETS SPMD ONLY

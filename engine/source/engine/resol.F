@@ -1085,6 +1085,8 @@ C TEMPI I24
       INTEGER S_LOADPINTER, NPRESLOAD
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNCONT
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_HYD_INTER, LOADP_TAGDEL
+      my_real, DIMENSION(:), ALLOCATABLE :: FSAVSURF    ! table for storing surf TH output (Pressure, Area ...)
+      INTEGER, DIMENSION(:), ALLOCATABLE ::  NSEG_LOADP ! number of segments of surf pressure is applied
 C-----------------------------------------------------------------------------------
 C Debug CAND INTERFACE TYPE25
       INTEGER NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
@@ -1376,6 +1378,33 @@ C----------------------------------------------------------
         ELSE
            ALLOCATE(INTERFACES%PARAMETERS%INTAREAN(0))   
         ENDIF
+C
+C       ! /TH/SURF output
+
+        IF(NSURF > 0) THEN
+           MY_ALLOCATE(FSAVSURF,5*NSURF) 
+           MY_ALLOCATE(NSEG_LOADP,NSURF) 
+           NSEG_LOADP (1:NSURF)= 0          
+           FSAVSURF(1:5*NSURF)=ZERO
+        ELSE
+           ALLOCATE(FSAVSURF(0))  
+           ALLOCATE(NSEG_LOADP(0))            
+        ENDIF
+C
+        IF(OUTPUT%TH%TH_SURF%IOK > 0 ) THEN
+           IF(OUTPUT%TH%TH_SURF%LOADP_FLAG > 0 ) THEN
+             DO K=1,NLOADP_F
+                OUTPUT%TH%TH_SURF%NSEGLOADPF = OUTPUT%TH%TH_SURF%NSEGLOADPF + ILOADP(SIZLOADP*(K-1)+1)/4 
+             ENDDO
+             DO K=NLOADP_F+1,NLOADP_B
+                OUTPUT%TH%TH_SURF%NSEGLOADPB = OUTPUT%TH%TH_SURF%NSEGLOADPB + ILOADP(SIZLOADP*(K-1)+1)/4 
+             ENDDO
+             DO K=NLOADP_F+NLOADP_B+1,NLOADP
+                OUTPUT%TH%TH_SURF%NSEGLOADP = OUTPUT%TH%TH_SURF%NSEGLOADP + ILOADP(SIZLOADP*(K-1)+1)/4 
+             ENDDO
+           ENDIF
+        ENDIF
+
 C
           IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(ALEMUSCL_Param%IALEMUSCL>0).OR.(PDEL>0))THEN
             SIZE_ADDCNEL = NUMNOD+1
@@ -3189,7 +3218,8 @@ C-------------------------------------------------------------------
      2               V      ,X       ,SKEW   ,AR      ,VR        ,
      3               NSENSOR,SENSORS%SENSOR_TAB ,WEIGHT ,TFEXC   ,IADS(I87J),
      4               FSKY   , FSKY   ,FEXT   ,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC)
+     5               CPTREAC,FTHREAC,NODREAC ,OUTPUT%TH%TH_SURF ,FSAVSURF   ,
+     6               NSEG_LOADP)
 C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
@@ -3227,11 +3257,11 @@ C-------------------------------------------------------------------
         IF (IMON>0) CALL STARTIME(4,1)
         IF (IMONM > 0) CALL STARTIME(41,1)
 !$OMP PARALLEL
-          CALL PFLUID(ILOADP  ,LOADP   ,NPC   ,TF   ,A         ,
-     2                V     ,X      ,XFRAME  ,AR   ,VR        ,
-     3                NSENSOR,SENSORS%SENSOR_TAB,WEIGHT,TFEXC,IADS(I87M),
-     4                FSKY    ,FSKY    ,LLOADP ,FEXT  ,H3D_DATA
-     5                )
+          CALL PFLUID(ILOADP  ,LOADP   ,NPC        ,TF        ,A         ,
+     2                V       ,X       ,XFRAME     ,AR        ,VR        ,
+     3                NSENSOR,SENSORS%SENSOR_TAB,WEIGHT,TFEXC,IADS(I87M) ,
+     4                FSKY    ,FSKY    ,LLOADP     ,FEXT     ,H3D_DATA   ,
+     5                OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
 !$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(41,1)
         IF (IMON>0) CALL STOPTIME(4,1)
@@ -3247,7 +3277,7 @@ C----------------------------------
           IF (IMONM > 0) CALL STARTIME(41,1)
           CALL PBLAST(ILOADP     ,LOADP      ,A          ,V       ,X      ,
      1                IADS(I87M) ,FSKY       ,FSKY       ,LLOADP  ,FEXT   ,
-     2                ITAB       ,H3D_DATA)
+     2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP) 
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
@@ -4730,9 +4760,11 @@ C
           IF (IMONM > 0) CALL STARTIME(41,1)
             CALL LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP  ,NPC    ,TF       ,
      2                          A         ,V         ,X       ,SKEW   ,SENSORS%SENSOR_TAB,
-     3                          IADS(I87M),FSKY    ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
+     3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
      4                          KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,H3D_DATA ,
-     5                          NPRESLOAD ,LOADP_TAGDEL )
+     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,FSAVSURF,
+     6                          NSEG_LOADP )
+
           IF (IMONM > 0) CALL STOPTIME(41,1)
            IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
@@ -8448,7 +8480,7 @@ C Regular animation
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
-     t   USER_WINDOWS  ,OUTPUT         ,DT  ) 
+     t   USER_WINDOWS  ,OUTPUT         ,DT             ,FSAVSURF       ,NSEG_LOADP    ) 
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(

@@ -160,7 +160,7 @@ C-----------------------------------------------
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
       PARAMETER (NVARPA =28)
       PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,
-     .           NVARSURF = 3,NVARSLIP=6,NVARRET=3)
+     .           NVARSURF = 5,NVARSLIP=6,NVARRET=3)
       CHARACTER*10 VARN(NVARN),VARS(NVARS),VARC(NVARC),VART(NVART)
       CHARACTER*10 VARP(NVARP),VARR(NVARR),VARUR(NVARUR)
       CHARACTER*10 VARS1(196),VARS2(567), VARS3(369), VARS4(492),
@@ -1124,7 +1124,7 @@ C     element cluster
       DATA VARFLOW/
      . 'FLOW    '/
       DATA VARSURF/
-     . 'AREA    ','MASSFLOW','VELOCITY'/
+     . 'AREA    ','MASSFLOW','VELOCITY','P       ','A       '/
 C
       DATA VARSLIP/
      . 'RINGSLIP','FN      ','F1      ','F2      ','THETA   ','GAMMA   '/
@@ -1637,7 +1637,7 @@ C   frames
      .         / 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
       DATA VARSURFG/'DEF     '/
       DATA IVARSURFG
-     .         / 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
+     .         / 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
       DATA VARSLIPG/'DEF     '/
       DATA IVARSLIPG
      .         / 1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/

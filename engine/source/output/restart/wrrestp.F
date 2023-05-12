@@ -661,6 +661,8 @@ c        CALL WRITE_I_C(INBUF,SINBUF)
         ENDIF
 
         CALL WRITE_TH_RESTART(OUTPUT%TH)   ! Write Time History Buffer
+
+        CALL THSURF_WRITE_RESTART(OUTPUT%TH%TH_SURF,2)
         
         CALL WRITE_I_C(FR_MV,SFR_MV)
 

@@ -35,17 +35,19 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE FORCE (IB     ,FAC     ,NPC    ,TF      ,A     ,
-     2                  V      ,X       ,SKEW   ,AR      ,VR    ,
-     3                  NSENSOR,SENSOR_TAB,WEIGHT ,TFEXC   ,IADC  ,
-     4                  FSKY   ,FSKYV   ,FEXT   ,H3D_DATA,
-     5                  CPTREAC,FTHREAC,NODREAC)
+      SUBROUTINE FORCE (IB      ,FAC       ,NPC     ,TF      ,A      ,
+     2                  V       ,X         ,SKEW    ,AR      ,VR     ,
+     3                  NSENSOR ,SENSOR_TAB,WEIGHT  ,TFEXC   ,IADC   ,
+     4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
+     5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
+     6                  NSEG_LOADP) 
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
       USE PINCHTYPE_MOD 
       USE SENSOR_MOD
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,16 +86,19 @@ C-----------------------------------------------
      .   FSKY(8,LSKY), FSKYV(LSKY,8),FEXT(3,*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, K1, K2, K3, ISENS,K,LL,IERR,
      .        ICODE,IAD,N_OLD, Bric(2), Face(2), NumBric, IBRIC, IANIM,I,
-     .        ISMOOTH,IDEL
+     .        ISMOOTH,IDEL,KSURF,NS,NSEGPL
       INTEGER :: UP_BOUND
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH
+     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,AREA
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
@@ -102,6 +107,7 @@ C=======================================================================
       TFEXTT = ZERO
       N_OLD  = 0
       X_OLD  = ZERO
+      NSEGPL = 0
       IANIM  = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
      .         ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT
 C
@@ -280,6 +286,16 @@ C
             ENDIF
           ENDIF
 !
+          IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+             NSEGPL = NSEGPL + 1
+             AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+             DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                KSURF = TH_SURF%PLOAD_SEGS(NS)
+                NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+             ENDDO
+          ENDIF
 C
            A(1,N2)=A(1,N2)+FX
            A(2,N2)=A(2,N2)+FY
@@ -366,6 +382,16 @@ C
             ENDIF
           ENDIF
 !
+          IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+             NSEGPL = NSEGPL + 1
+             AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+             DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                KSURF = TH_SURF%PLOAD_SEGS(NS)
+                NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+             ENDDO
+          ENDIF
 C
           A(1,N2) = A(1,N2)+FX
           A(2,N2) = A(2,N2)+FY
@@ -438,6 +464,16 @@ c
             ENDIF
           ENDIF
 !
+          IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+             NSEGPL = NSEGPL + 1
+             AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+             DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                KSURF = TH_SURF%PLOAD_SEGS(NS)
+                NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+             ENDDO
+          ENDIF
 C
          IF(N2D==1)THEN
           AX     = HALF*(X(2,N1)+X(2,N2))
@@ -651,6 +687,16 @@ C
                  ENDIF
                ENDIF
 !
+               IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+                  NSEGPL = NSEGPL + 1
+                  AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+                  DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                     KSURF = TH_SURF%PLOAD_SEGS(NS)
+                     NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                     FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                     FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                  ENDDO
+               ENDIF
 C
                IAD = IADC(2,NL)
                FSKY(1,IAD) = FX
@@ -740,6 +786,16 @@ C
                  ENDIF
                ENDIF
 !
+               IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+                 NSEGPL = NSEGPL + 1
+                 AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+                 DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                    KSURF = TH_SURF%PLOAD_SEGS(NS)
+                    NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                    FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                    FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                 ENDDO
+               ENDIF
 C
                IAD = IADC(2,NL)
                FSKY(1,IAD) = FX
@@ -816,6 +872,16 @@ c
                ENDIF
              ENDIF
 !
+             IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+               NSEGPL = NSEGPL + 1
+               AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+               DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                  KSURF = TH_SURF%PLOAD_SEGS(NS)
+                  NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                  FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                  FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+               ENDDO
+             ENDIF
 C
              IF(N2D==1)THEN
                AX=HALF*(X(2,N1)+X(2,N2))
@@ -999,6 +1065,16 @@ C
                  ENDIF
                ENDIF
 !
+               IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+                 NSEGPL = NSEGPL + 1
+                 AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+                 DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                   KSURF = TH_SURF%PLOAD_SEGS(NS)
+                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                 ENDDO
+               ENDIF
 C
                IAD = IADC(2,NL)
                FSKYV(IAD,1) = FX
@@ -1088,6 +1164,16 @@ C
                  ENDIF
                ENDIF
 !
+               IF(TH_SURF%PLOAD_FLAG >0 ) THEN
+                 NSEGPL = NSEGPL + 1
+                 AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
+                 DO NS=TH_SURF%PLOAD_KSEGS(NSEGPL) +1,TH_SURF%PLOAD_KSEGS(NSEGPL+1)
+                   KSURF = TH_SURF%PLOAD_SEGS(NS)
+                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
+                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
+                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                 ENDDO
+               ENDIF
 C
                IAD = IADC(2,NL)
                FSKYV(IAD,1) = FX
@@ -1164,7 +1250,6 @@ c
                ENDIF
              ENDIF
 !
-C
              IF(N2D==1)THEN
                AX=HALF*(X(2,N1)+X(2,N2))
              ELSE

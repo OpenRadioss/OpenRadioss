@@ -9788,6 +9788,12 @@ C -------------------------------------------------
 C Check des surfaces pour les sorties TH
 C -------------------------------------------------
       CALL CHECK_SURF(IGRSURF,2)
+C -------------------------------------------------
+C /TH/SURF : outputting Pressure and Area : 
+C -------------------------------------------------
+      CALL TH_SURF_LOAD_PRESSURE(IGRSURF  , OUTPUT%TH%TH_SURF , IPRES  ,ILOADP  ,LLOADP  ,
+     .                           SIZLOADP ,NLOADP             ,SLLOADP ,NIBCLD  ,NPRELD  ,
+     .                           NSURF    ,NUMNOD   )
 C
 C------------------------- CHECK -------------------
 C-- La variable NSMAT (nb de Material ds TH),

@@ -2421,6 +2421,21 @@ C--------------------------------------------
      2                      NTHGRP0  ,NTHGRP   ,NTHGRP01 ,NTHGRP1  , 
      3                      SCEL     ,NUMSPH   ,NUMNOD   ,NCLUSTER ,
      4                      CELSPH   ,NUMLOCCLUSTER ,NBR_TH_MONVOL)
+
+       CALL THSURF_WRITE_RESTART(OUTPUT%TH%TH_SURF,1)
+       IF (OUTPUT%TH%TH_SURF%PLOAD_FLAG > 0) THEN 
+          OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELX
+          CALL W_TH_SURF_PLOAD(IBCL ,NODLOCAL ,P-1   ,LEN_IA  ,CEP    ,
+     .             OUTPUT%TH%TH_SURF,NUMNOD   ,NIBCLD,NCONLD  ,LEN_CEP,
+     .                         OFF  )
+       ENDIF
+       IF (OUTPUT%TH%TH_SURF%LOADP_FLAG > 0) THEN 
+          OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
+          CALL W_TH_SURF_LOADP(ILOADP  ,NODLOCAL  ,P-1   ,LEN_IA  ,CEP    ,
+     .                OUTPUT%TH%TH_SURF,NUMNOD    ,SIZLOADP,NLOADP,LEN_CEP,
+     .                OFF              )
+       ENDIF
+
 C--------------------------------------
 C Frontieres SPMD
 C--------------------------------------
