@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTABLE,NFUNCT,NTABLE1,L
 C     REAL
-      TYPE(TTABLE) TABLE(*)
+      TYPE(TTABLE) ,INTENT(INOUT) :: TABLE(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real, INTENT(IN) :: UNITAB(LUNIT, NUNITS)
 C-----------------------------------------------

@@ -111,10 +111,10 @@ C-----------------------------------------------
         my_real, 
      .          DIMENSION(:), POINTER :: VALUES
       END TYPE TTABLE_XY
+C---------
       TYPE TTABLE
-C---------
-          INTEGER NOTABLE, NDIM
-C---------
+          INTEGER :: NOTABLE
+          INTEGER :: NDIM
           TYPE(TTABLE_XY), DIMENSION(:), POINTER :: X
           TYPE(TTABLE_XY), POINTER :: Y
       END TYPE TTABLE
