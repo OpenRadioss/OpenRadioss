@@ -128,16 +128,16 @@ C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF(ISIGI == ZERO)THEN 
-        IF ((UVAR(1,12)==ZERO).AND.(OFF(1)==ONE)) THEN
+        IF ((UVAR(1,12)==ZERO).AND.(UVAR(1,1)==ZERO)) THEN
           DO I=1,NEL
             UVAR(I,12) = ONE
           ENDDO   
         ENDIF    
-      ENDIF   
+      ENDIF    
 C-----------------------------------------------
       DO I=1,NEL
         IF(OFF(I)<EM01) OFF(I)=ZERO
-        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 C           
         NINDX=0 
