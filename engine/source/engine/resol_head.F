@@ -33,6 +33,7 @@ Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F
 Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F 
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        EIG_MOD                       share/modules/eig_mod.F       
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F

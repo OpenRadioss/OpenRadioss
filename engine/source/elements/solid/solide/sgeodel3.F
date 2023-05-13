@@ -32,6 +32,7 @@ Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,ITET,DT,NEL)

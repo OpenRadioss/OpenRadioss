@@ -45,7 +45,8 @@ Chd|        SCTORTH3                      source/elements/thickshell/solide8c/sc
 Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
 Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
 Chd|        SCUMUALPHA                    source/elements/thickshell/solidec/scumualpha.F
-Chd|        SDLENSH                       source/elements/thickshell/solidec/sdlensh.F
+Chd|        SDLENSH14                     source/elements/thickshell/solide8c/sdlensh14.F
+Chd|        SDLENSH8                      source/elements/thickshell/solide8c/sdlensh8.F
 Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
 Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
 Chd|        SGPARAV3                      source/elements/solid/solide/sgparav3.F
@@ -64,6 +65,7 @@ Chd|        STORTH3                       source/elements/solid/solidez/storth3.
 Chd|        SZORDEF3                      source/elements/solid/solidez/szordef3.F
 Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F

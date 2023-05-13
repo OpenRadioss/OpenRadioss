@@ -81,6 +81,7 @@ Chd|        STORTH3                       source/elements/solid/solidez/storth3.
 Chd|        SZORDEF3                      source/elements/solid/solidez/szordef3.F
 Chd|        SZTORTH3                      source/elements/solid/solidez/sztorth3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

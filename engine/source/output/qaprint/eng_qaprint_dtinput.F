@@ -25,6 +25,7 @@ Chd|  ENG_QAPRINT_DTINPUT           source/output/qaprint/eng_qaprint_dtinput.F
 Chd|-- called by -----------
 Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
 Chd|-- calls ---------------
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ENG_QAPRINT_DTINPUT(DT)

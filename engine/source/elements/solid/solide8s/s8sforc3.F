@@ -56,7 +56,6 @@ Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_deg
 Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
 Chd|        SMALLG3                       source/elements/solid/solide/smallg3.F
-Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
 Chd|        SRBILAN                       source/elements/solid/solide/srbilan.F
 Chd|        SRCOOR3_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F

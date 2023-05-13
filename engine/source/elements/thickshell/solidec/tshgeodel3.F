@@ -29,6 +29,7 @@ Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE TSHGEODEL3(NGL, OFFG ,VOLG ,AREA, VOLG0 ,L_SH,GEO ,NNOD,DT,NEL)

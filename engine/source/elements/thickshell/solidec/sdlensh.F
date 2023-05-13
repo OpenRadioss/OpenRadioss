@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SDLENSH                       source/elements/thickshell/solidec/sdlensh.F
 Chd|-- called by -----------
-Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------
 Chd|        CLSYS3                        source/output/h3d/h3d_results/h3d_shell_tensor.F

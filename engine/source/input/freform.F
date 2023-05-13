@@ -60,6 +60,7 @@ Chd|        FREUPWIND                     source/input/freupwind.F
 Chd|        FREUPWM                       source/input/freupwm.F        
 Chd|        H3D_INI                       source/output/h3d/h3d_build_fortran/h3d_ini.F
 Chd|        H3D_READ                      source/output/h3d/h3d_build_fortran/h3d_read.F
+Chd|        INIT_IDEL_BRICK               share/modules/dt_mod.F        
 Chd|        OPEN_F_SCRATCH_FILE           source/system/open_tempfile.F 
 Chd|        RDELE                         source/input/rdele.F          
 Chd|        REDKEY0                       source/input/redkey0.F        
@@ -70,6 +71,7 @@ Chd|        NVAR                          source/input/nvar.F
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

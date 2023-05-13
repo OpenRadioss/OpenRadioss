@@ -440,6 +440,7 @@ Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        DTDC_MOD                      share/modules/dtdc_mod.F      
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      

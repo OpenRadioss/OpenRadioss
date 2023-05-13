@@ -26,12 +26,12 @@ Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
-Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SMALLGEO3(

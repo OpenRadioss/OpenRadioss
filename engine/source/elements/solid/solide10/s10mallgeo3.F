@@ -25,6 +25,7 @@ Chd|  S10MALLGEO3                   source/elements/solid/solide10/s10mallgeo3.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
+Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|====================================================================
       SUBROUTINE S10MALLGEO3(
      1   NGL,     OFFG,    VOLG,    DELTAX,

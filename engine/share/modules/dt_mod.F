@@ -1,3 +1,34 @@
+Chd|====================================================================
+Chd|  DT_MOD                        share/modules/dt_mod.F        
+Chd|-- called by -----------
+Chd|        ALEMAIN                       source/ale/alemain.F          
+Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
+Chd|        ENG_QAPRINT_DTINPUT           source/output/qaprint/eng_qaprint_dtinput.F
+Chd|        FORINT                        source/elements/forint.F      
+Chd|        FREFORM                       source/input/freform.F        
+Chd|        LECINP                        source/input/lecinp.F         
+Chd|        LECTUR                        source/input/lectur.F         
+Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL_HEAD                    source/engine/resol_head.F    
+Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
+Chd|        S10MALLGEO3                   source/elements/solid/solide10/s10mallgeo3.F
+Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
+Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
+Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
+Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
+Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
+Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
+Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
+Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
+Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
+Chd|        SMALLGEO3                     source/elements/solid/solide/smallgeo3.F
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
+Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
+Chd|        TSHGEODEL3                    source/elements/thickshell/solidec/tshgeodel3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE DT_MOD
       
         IMPLICIT NONE
@@ -14,6 +45,12 @@
         CONTAINS        
           
 C INITIALISATION : CALL DT%INIT_IDEL_BRICK()
+Chd|====================================================================
+Chd|  INIT_IDEL_BRICK               share/modules/dt_mod.F        
+Chd|-- called by -----------
+Chd|        FREFORM                       source/input/freform.F        
+Chd|-- calls ---------------
+Chd|====================================================================
           SUBROUTINE INIT_IDEL_BRICK(THIS)		
             IMPLICIT NONE
 #include    "constant.inc" 
