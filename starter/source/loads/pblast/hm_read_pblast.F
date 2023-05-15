@@ -42,8 +42,8 @@ Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PBLAST(ITAB      ,ITABM1    ,UNITAB   ,IGRSURF ,NUMLOADP,
-     .                          ILOADP    ,IBUFLOADP ,FACLOADP ,X       ,BUFSF   , 
+      SUBROUTINE HM_READ_PBLAST(ITAB      ,ITABM1 ,UNITAB   ,IGRSURF ,NUMLOADP,
+     .                          ILOADP    ,LLOADP ,FACLOADP ,X       ,BUFSF   , 
      .                          LSUBMODEL ,RTRANS)
 C
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(NUMNOD), ITABM1(NUMNOD), NUMLOADP, ILOADP(SIZLOADP,NLOADP), IBUFLOADP(*)
+      INTEGER ITAB(NUMNOD), ITABM1(NUMNOD), NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(SLLOADP)
       my_real FACLOADP(LFACLOAD,NLOADP)
       my_real, INTENT(IN) :: X(3,NUMNOD)
       my_real, INTENT(INOUT) :: BUFSF(SBUFSF)
@@ -149,25 +149,71 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER,EXTERNAL :: DICHOTOMIC_SEARCH_R_DESC,DICHOTOMIC_SEARCH_R_ASC,USR2SYS,NGR2USR      
-C-----------------------------------------------
+      INTEGER,EXTERNAL :: DICHOTOMIC_SEARCH_R_DESC,DICHOTOMIC_SEARCH_R_ASC,USR2SYS,NGR2USR        
+C----------------------------------------------------------------------------------        
 C   C o m m e n t s
-C-----------------------------------------------      
-C                         /LOAD/PFLUID             /LOAD/PBLAST    
+C----------------------------------------------------------------------------------   
+C                         /LOAD/PFLUID     /LOAD/PBLAST    
 C
-C     IBUFLOADP(1,K) :   NODE1                    NODE1            
-C     IBUFLOADP(2,K) :   NODE2                    NODE2            
-C     IBUFLOADP(3,K) :   NODE3                    NODE3            
-C     IBUFLOADP(4,K) :   NODE4                    NODE4             
-C     IBUFLOADP(5,K) :   2 (for /LOAD/PFLUID)     3                
-C     IBUFLOADP(6,K) :   Sensor Id                Unit_ID          
-C     IBUFLOADP(7,K) :   FUN_HSP function Id                       
-C     IBUFLOADP(8,K) :                                                                    
-C     IBUFLOADP(9,K) :                                                        
-C     IBUFLOADP(10,K):                                                       
-C     IBUFLOADP(11,K):                             
-C     IBUFLOADP(12,K):                             
-C     IBUFLOADP(13,K):                                
+C     LLOADP(1,K)   :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  SEGMENT STORAGE (surface)
+C     ILOADP(1,K)   :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  INTEGER STORAGE (option parameters)
+C     FACLOADP(1,K) :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  REAL STORAGE    (option parameters)     
+C
+C----------------------------------------------------------------------------------   
+C                     /LOAD/PFLUID                                     /LOAD/PBLAST  
+C                       K=1,NLOADP_F                                     K=1+NLOADP_F,NLOADP_F+NLOADP_B  
+C----------------------------------------------------------------------------------        
+C     ILOADP(1:SIZLOADP,K) : INTEGER STORAGE (option parameters)
+C----------------------------------------------------------------------------------      
+C                     K=1,NLOADP_F                                    K=1+NLOADP_F,NLOADP_F+NLOADP_B 
+C
+C     ILOADP(1,K) :   4*NN (4 * Nb of segments)                       4*NN 
+C     ILOADP(2,K) :   ID                                              IS
+C     ILOADP(3,K) :   -                                               -
+C     ILOADP(4,K) :   IAD  Address of segments in LLOADP              IAD         
+C     ILOADP(5,K) :   2                                               3         
+C     ILOADP(6,K) :   Sensor id                                       IZ_UPDATE 
+C     ILOADP(7,K) :   FCT_HSP function No                             IABAC
+C     ILOADP(8,K) :   Dir_hsp (1, 2, 3)                               ID                              
+C     ILOADP(9,K) :   frahsp id                                       ITA_SHIFT               
+C     ILOADP(10,K):   FCT_CX function No                              NDT                             
+C     ILOADP(11,K):   FCT_VEL function No                             IMODEL
+C     ILOADP(12,K):   Dir_vel (1, 2, 3)                               -
+C     ILOADP(13,K):   fravel id                                       -
+C----------------------------------------------------------------------------------   
+C                     /LOAD/PFLUID                                     /LOAD/PBLAST  
+C                       K=1,NLOADP_F                                     K=1+NLOADP_F,NLOADP_F+NLOADP_B   
+C----------------------------------------------------------------------------------   
+C     LLOADP(1:SLLOADP,K) : SEGMENT STORAGE (surface)
+C----------------------------------------------------------------------------------      
+C                     K=1,NLOADP_F                                    K=1+NLOADP_F,NLOADP_F+NLOADP_B 
+C    
+C     LLOADP(1,K) :   NODE1                                           NODE1            
+C     LLOADP(2,K) :   NODE2                                           NODE2            
+C     LLOADP(3,K) :   NODE3                                           NODE3            
+C     LLOADP(4,K) :   NODE4                                           NODE4             
+C----------------------------------------------------------------------------------   
+C                     /LOAD/PFLUID                                     /LOAD/PBLAST  
+C                       K=1,NLOADP_F                                     K=1+NLOADP_F,NLOADP_F+NLOADP_B   
+C----------------------------------------------------------------------------------        
+C     FACLOADP(LFACLOAD,K) : REAL STORAGE    (option parameters) 
+C----------------------------------------------------------------------------------      
+C    
+C     FACLOADP( 1,K) = Fscaley_hsp                                    TDET                                      
+C     FACLOADP( 2,K) = ONE/Ascalex_hsp                                XDET     
+C     FACLOADP( 3,K) = Fscaley_pc                                     YDET                                        
+C     FACLOADP( 4,K) = ONE/Ascalex_pc                                 ZDET     
+C     FACLOADP( 5,K) = Fscaley_vel                                    WTNT                                        
+C     FACLOADP( 6,K) = ONE/Ascalex_vel                                P0_REF   
+C     FACLOADP( 7,K) = -		                              ZERO ! TA_SHIFT 
+C     FACLOADP( 8,K) = -                                              Nx_SURF
+C     FACLOADP( 9,K) = -                                              Ny_SURF
+C     FACLOADP(10,K) = -                                              Nz_SURF
+C     FACLOADP(11,K) = -                                              HC
+C     FACLOADP(12,K) = -                                              alpha_zc
+C     FACLOADP(13,K) = -                                              TSTOP 
+C----------------------------------------------------------------------------------   
+                       
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -184,7 +230,7 @@ C-----------------------------------------------
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
      
-      DO K = 1, NLOADP_B
+      DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, SUBMODEL_ID = SUB_ID)                 
             IAD = NUMLOADP + 1
             SURF_ID = 0 !target surface id
@@ -326,11 +372,11 @@ C-----------------------------------------------
             IF(internal_SURF_ID /= 0)THEN                                          
                NN   = IGRSURF(internal_SURF_ID)%NSEG
                DO J=1,NN                                               
-                  IBUFLOADP(IAD+4*(J-1))   = IGRSURF(internal_SURF_ID)%NODES(J,1)
-                  IBUFLOADP(IAD+4*(J-1)+1) = IGRSURF(internal_SURF_ID)%NODES(J,2)
-                  IBUFLOADP(IAD+4*(J-1)+2) = IGRSURF(internal_SURF_ID)%NODES(J,3)
-                  IBUFLOADP(IAD+4*(J-1)+3) = IGRSURF(internal_SURF_ID)%NODES(J,4)
-                  IF(IGRSURF(internal_SURF_ID)%ELTYP(J)==7)IBUFLOADP(IAD+4*(J-1)+3)  = 0
+                  LLOADP(IAD+4*(J-1))   = IGRSURF(internal_SURF_ID)%NODES(J,1)
+                  LLOADP(IAD+4*(J-1)+1) = IGRSURF(internal_SURF_ID)%NODES(J,2)
+                  LLOADP(IAD+4*(J-1)+2) = IGRSURF(internal_SURF_ID)%NODES(J,3)
+                  LLOADP(IAD+4*(J-1)+3) = IGRSURF(internal_SURF_ID)%NODES(J,4)
+                  IF(IGRSURF(internal_SURF_ID)%ELTYP(J)==7)LLOADP(IAD+4*(J-1)+3)  = 0
                ENDDO
             ENDIF  
             
