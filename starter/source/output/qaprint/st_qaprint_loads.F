@@ -136,7 +136,7 @@ C-----------------------------------------------
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       LOGICAL :: OK_QA 
-      INTEGER :: COUNT
+      INTEGER :: COUNT,IOPT_FIRST,IOPT_LAST
 C-----------------------------------------------
 C     /LOAD/CENTRI
 C-----------------------------------------------
@@ -180,11 +180,28 @@ C
         END DO ! MY_LOAD=1,NLOADC
       END IF
 C-----------------------------------------------
-C     /LOAD/PFLUID & /LOAD/PBLAST
+C     /LOAD/PFLUID & /LOAD/PBLAST  & /LOAD/PRESSURE
 C-----------------------------------------------
-      OK_QA = MYQAKEY('/LOAD/PFLUID') .OR. MYQAKEY('/LOAD/PBLAST')
+      OK_QA = MYQAKEY('/LOAD/PFLUID') .OR. MYQAKEY('/LOAD/PBLAST') .OR. MYQAKEY('/LOAD/PRESSURE') 
+      
       IF (OK_QA) THEN
-        DO MY_LOAD=1,NLOADP_F + NLOADP_B
+
+        IF(MYQAKEY('/LOAD/PFLUID'))THEN
+          !output pfluid only
+          IOPT_FIRST = 1
+          IOPT_LAST = NLOADP_F
+        ELSEIF(MYQAKEY('/LOAD/PBLAST'))THEN
+          !output pblast only
+          IOPT_FIRST = 1+NLOADP_F
+          IOPT_LAST = NLOADP_F+NLOADP_B
+        ELSEIF(MYQAKEY('/LOAD/PRESSURE'))THEN
+          !output pressure only
+          IOPT_FIRST = 1+NLOADP_F+NLOADP_B
+          IOPT_LAST = NLOADP_F+NLOADP_B+NLOADP_HYD
+        ENDIF
+            
+        !common procedure for /LOAD/PFLUID, /LOAD/PBLAST, /LOAD/PRESSURE options.
+        DO MY_LOAD=IOPT_FIRST,IOPT_LAST
 C
 C         Title of the option was not stored in NOM_OPT ... TBD
           TITR(1:nchartitle)=''
@@ -242,56 +259,12 @@ C             VARNAME: variable name in ref.extract (without blanks)
 C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
-            END DO              
-            
-            
-                    
+            END DO                     
           ENDIF
 C
-        END DO ! MY_LOAD=1,NLOADP_F
+        END DO ! MY_LOAD=IOPT_FIRST, IOPT_LAST
       END IF
-C-----------------------------------------------
-C     /LOAD/PRESSURE
-C-----------------------------------------------
-      IF (MYQAKEY('/LOAD/PRESSURE')) THEN
-        DO MY_LOAD=1,NLOADP_HYD
-C
-C         Title of the option was not stored in NOM_OPT ... TBD
-          TITR(1:nchartitle)=''
-          IF(LEN_TRIM(TITR)/=0)THEN
-            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),ILOADP(2,MY_LOAD),0.0_8)
-          ELSE
-            CALL QAPRINT('A_LOAD_PRESSURE_FAKE_NAME',ILOADP(2,MY_LOAD),0.0_8)
-          END IF
-C
-          DO I=1,SIZLOADP
-            IF(ILOADP(I,MY_LOAD) /=0)THEN
-C
-C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'ILOADP_',I      ! ILOADP(11) => 'ILOADP_11'
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ILOADP(I,MY_LOAD),0.0_8)
-            END IF
-          END DO
-C
-          DO I=ILOADP(4,MY_LOAD),ILOADP(4,MY_LOAD)+ILOADP(1,MY_LOAD)-1
-C
-C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
-          END DO
-C
-          DO I=1,LFACLOAD
-            IF(LOADP(I,MY_LOAD)/=ZERO)THEN
-C
-C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'LOADP_',I
-              TEMP_DOUBLE = LOADP(I,MY_LOAD)
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-            END IF
-          END DO
-C
-        END DO ! MY_LOAD=1,NLOADP_HYD
-      END IF
+
 C-----------------------------------------------
 C     /CLOAD
 C-----------------------------------------------
