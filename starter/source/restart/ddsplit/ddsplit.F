@@ -646,8 +646,8 @@ C-----------------------------------------------
         TYPE(USER_WINDOWS_),INTENT(IN) :: USER_WINDOWS
 
         INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
-        TYPE(LOADS_),INTENT(IN) :: LOADS ! initial structure of load cyl
-        TYPE(LOADS_), INTENT(IN) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
+        TYPE(LOADS_),INTENT(IN)    :: LOADS ! initial structure of load cyl
+        TYPE(LOADS_),INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
