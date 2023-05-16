@@ -21,6 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 CHD|====================================================================
+Chd|====================================================================
+Chd|  S6CHOUR3                      source/elements/thickshell/solide6c/s6chourg3.F
+Chd|-- called by -----------
+Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE S6CHOUR3(RHO,VOL,SSP,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,

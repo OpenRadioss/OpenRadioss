@@ -84,6 +84,7 @@ Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.
 Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
+Chd|        TABLE2D_INTERSECT             source/tools/curve/table2d_intersect.F
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        TABLE_INTERS                  source/tools/curve/func_inters.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F

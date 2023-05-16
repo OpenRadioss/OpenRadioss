@@ -31,6 +31,7 @@ Chd|        S6CBILAN                      source/elements/thickshell/solide6c/s6
 Chd|        S6CDEFC3                      source/elements/thickshell/solide6c/s6cdefo3.F
 Chd|        S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3.F
 Chd|        S6CFINT3                      source/elements/thickshell/solide6c/s6cfint3.F
+Chd|        S6CHOUR3                      source/elements/thickshell/solide6c/s6chourg3.F
 Chd|        S6CTHERM                      source/elements/thickshell/solide6c/s6ctherm.F
 Chd|        S6CUMU3                       source/elements/thickshell/solide6c/s6cumu3.F
 Chd|        S6CUMU3P                      source/elements/thickshell/solide6c/s6cumu3p.F

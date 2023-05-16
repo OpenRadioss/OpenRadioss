@@ -62,6 +62,7 @@ Chd|        M6IN                          source/materials/mat/mat006/m6in.F
 Chd|        M70INIT                       source/materials/mat/mat070/m70init.F
 Chd|        M75INIT                       source/materials/mat/mat075/m75init.F
 Chd|        M77INIT                       source/materials/mat/mat077/m77init.F
+Chd|        M95INIT                       source/materials/mat/mat095/m95init.F
 Chd|        M97INIT                       source/materials/mat/mat097/m97init.F
 Chd|        MATING                        source/materials/mat_share/mating.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F

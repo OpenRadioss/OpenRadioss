@@ -25,6 +25,7 @@ Chd|  SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|-- called by -----------
 Chd|        CHECK_ELTYP                   source/model/sets/check_eltyp.F
 Chd|        CONTRBE2                      source/constraints/general/rbe2/hm_read_rbe2.F
+Chd|        CONTRBE3                      source/constraints/general/rbe3/contrbe3.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
 Chd|        CREATE_ELT_BOX                source/model/sets/create_elt_box.F

@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|-- called by -----------
 Chd|        CONTRBE2                      source/constraints/general/rbe2/hm_read_rbe2.F
+Chd|        CONTRBE3                      source/constraints/general/rbe3/contrbe3.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
 Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F

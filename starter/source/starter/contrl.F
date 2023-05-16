@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        CONTRBE2                      source/constraints/general/rbe2/hm_read_rbe2.F
+Chd|        CONTRBE3                      source/constraints/general/rbe3/contrbe3.F
 Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F       
 Chd|        FMT_DEF                       source/starter/fmt_def.F      
 Chd|        FREERR                        source/starter/freform.F      
