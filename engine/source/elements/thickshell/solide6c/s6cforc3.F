@@ -109,6 +109,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "scr18_c.inc"
+#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -739,13 +740,15 @@ C-----------------------------
 C-----------------------------
 C Hourglass
 C-----------------------------
-      CALL S6CHOUR3(GBUF%RHO,VOLG,CXX,
+      IF ( IMPL_S == 0) THEN
+        CALL S6CHOUR3(GBUF%RHO,VOLG,CXX,
      .   X1, X2, X3, X3, X4, X5, X6, X6,
      .   Y1, Y2, Y3, Y3, Y4, Y5, Y6, Y6,
      .   Z1, Z2, Z3, Z3, Z4, Z5, Z6, Z6,
      .   VZ1, VZ2, VZ3, VZ3, VZ4, VZ5, VZ6, VZ6,
      .   F31,F32,F33,F33,F34,F35,F36,F36,
      .   NU,GBUF%HOURG,OFF,GBUF%VOL,GBUF%EINT,NEL)
+      ENDIF
 C-----------------------------
 C Small strain
 C-----------------------------
