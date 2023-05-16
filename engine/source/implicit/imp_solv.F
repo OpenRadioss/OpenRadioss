@@ -164,7 +164,7 @@ Chd|====================================================================
      Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES)
+     B  INTERFACES,TH_SURF ,FSAVSURF,NSEG_LOADP) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -183,6 +183,7 @@ C-----------------------------------------------
       USE IMPBUFDEF_MOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -272,6 +273,9 @@ C
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (DRAPEG_)   :: DRAPEG
       TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C      
 C---D_IMP: dUn+1,i,DD : ddU,i+1
 C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:pour line-search]
@@ -511,7 +515,7 @@ C
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                    RBY   ,FR_ELEM,IAD_ELEM,NDDL0,NNZK0,
      7                    I_IMP(5),H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                    NSENSOR)
+     8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP)
 C
 C----------------------------------
 C       FORCES EXTERNES A=Fext-Fint
@@ -521,11 +525,12 @@ C
          IF(NCONLD/=0) THEN
           IF (IMON>0) CALL STARTIME(4,1)
 C         --en spmd force est traite comme elements---
-          CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,AC    ,
-     2               V     ,X     ,SKEW  ,ACR ,VR    ,
+          CALL FORCE(IBCL   ,FORC    ,NPC    ,TF    ,AC     ,
+     2               V      ,X       ,SKEW   ,ACR   ,VR     ,
      3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
-     4               IADS_F,FSKY  ,FSKY,RBID,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC)
+     4               IADS_F ,FSKY    ,FSKY   ,RBID,H3D_DATA,
+     5               CPTREAC ,FTHREAC,NODREAC ,TH_SURF ,FSAVSURF,
+     6               NSEG_LOADP)
 C
          IF (IMACH==3.AND.NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
@@ -1905,7 +1910,8 @@ C
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,
      6                    NPBY  ,RBY   ,IBFV    ,VEL   ,D_IMP  ,
      7                    DR_IMP,IKC   ,IDDL  ,IFRAME,XFRAME  ,
-     8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR)
+     8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
+     9                    TH_SURF ,FSAVSURF,NSEG_LOADP) 
            CALL DYNA_CPR0(NDDL0  )
          END IF
 C----------D_imp taking D_n-1 :exception for case with Gravity----- 
@@ -3126,7 +3132,8 @@ c     K  IND_IMP,NDOFI  ,IDDLI  ,NKUD   ,IKUD   ,BKUD   ,I_IMP  ,R_IMP  ,
      M  FSAVD  ,DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
      O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N,DRAPE_SH3N,H3D_DATA,
-     P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG)
+     P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG,TH_SURF ,
+     Q  FSAVSURF,NSEG_LOADP) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3139,6 +3146,7 @@ C-----------------------------------------------
       USE IMPBUFDEF_MOD
       USE SENSOR_MOD
       USE DRAPE_MOD
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3206,6 +3214,9 @@ c     .  BKUD(*),R_IMP(*),AC(3,*),ACR(3,*),FRBE3(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3319,7 +3330,8 @@ C----------------------------------
      2               V     ,X     ,SKEW  ,ACR ,VR    ,
      3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC)
+     5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
+     6               NSEG_LOADP)
           IF (IMACH==3.AND.NSPMD>1) THEN
            DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)

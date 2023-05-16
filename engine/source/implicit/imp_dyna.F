@@ -733,7 +733,7 @@ Chd|====================================================================
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                    RBY   ,FR_ELEM,IAD_ELEM  ,NDDL  ,NNZK,
      7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                    NSENSOR)
+     8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -741,6 +741,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -770,6 +771,9 @@ C     REAL
      .   A(3,*) ,AR(3,*),TFEXC,FSKY(*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -838,7 +842,8 @@ C---estimation a(t=0)----
      2               V     ,X     ,SKEW  ,DY_AR,VR    ,
      3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
      4               IADS_F,FSKY  ,FSKY,RBID,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC)
+     5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
+     6               NSEG_LOADP) 
          IF (NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
@@ -971,13 +976,15 @@ Chd|====================================================================
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                    RBY   ,IBFV  ,VEL   ,D      ,DR    ,
      7                    IKC   ,IDDL  ,IFRAME,XFRAME ,NDOF  ,
-     8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR)
+     8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
+     9                    TH_SURF ,FSAVSURF,NSEG_LOADP) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_DYNA
       USE H3D_MOD
       USE SENSOR_MOD
+      USE TH_SURF_MOD , ONLY : TH_SURF_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1009,6 +1016,9 @@ C     REAL
      .   FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1022,7 +1032,8 @@ C--------------------------------
      2               V     ,X     ,SKEW  ,AR  ,VR    ,
      3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC)
+     5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
+     6               NSEG_LOADP) 
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
         IF(NGRAV/=0) THEN
