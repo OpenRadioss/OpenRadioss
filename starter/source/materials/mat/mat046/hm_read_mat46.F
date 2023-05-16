@@ -145,9 +145,9 @@ C-----------------------------------------------
 
       !===OUTPUT 
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,46
+      WRITE(IOUT,'(5X,A,//)')'  LES FLUID'
+      WRITE(IOUT,'(5X,A,//)')'  ---------'      
       IF(IS_ENCRYPTED)THEN
-        WRITE(IOUT,'(5X,A,//)')'  LES FLUID'
-        WRITE(IOUT,'(5X,A,//)')'  ---------'
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         IF(ISGS==0)WRITE(IOUT,1000)RHO0,RHOR,SSP,VIS

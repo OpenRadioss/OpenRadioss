@@ -259,7 +259,7 @@ c-------------------
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1200 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)
+     & 5X,'REFERENCE DENSITY  .  . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,E12.4/,
      & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,E12.4/,

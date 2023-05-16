@@ -71,12 +71,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real  GAMMA, P0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,PSTAR,RHOI,RHOR,MU0,PP,DF,SSP0,G0,DPDMU
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -84,7 +85,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('LAW5_P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('P_star', PSTAR, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -106,12 +107,7 @@ C-----------------------------------------------
       ! GAMMA <=0
       
       IF(GAMMA <= ONE)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=IMIDEOS,
-     .               C1='/EOS/STIFF-GAS',
-     .               C2='GAMMA MUST BE GREATER THAN 1.0')
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,C1='/EOS/STIFF-GAS',C2='GAMMA MUST BE GREATER THAN 1.0')
       ENDIF
 
       
@@ -157,7 +153,8 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)GAMMA,P0,PSH,PSTAR,RHO0,E0
+        WRITE(IOUT,1500)GAMMA,P0,PSH,PSTAR,E0
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -169,8 +166,9 @@ C-----------------------------------------------
      & 5X,'P0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PSH . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PSTAR . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'COMPUTED E0 . . . . . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'COMPUTED E0 . . . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)        
 
       RETURN
       END

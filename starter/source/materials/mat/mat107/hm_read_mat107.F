@@ -457,7 +457,7 @@ c--------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1200) RHO0,RHOR
+        WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) YOUNG1,YOUNG2,YOUNG3,NU12,NU21,G12,G23,G31
         WRITE(IOUT,1350) Ires
         WRITE(IOUT,1450) XI1,XI2,K1,K2,K3,K4,K5,K6,G1C,D1,D2
@@ -479,8 +479,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : PAPERBOARD LIGHT (PFEIFFER,2019)',/,
      & 5X,'-------------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG MODULUS IN DIRECTION 1. . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS IN DIRECTION 2. . . . . .=',1PG20.13/

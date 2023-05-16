@@ -209,7 +209,7 @@ C-------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1002) RHO0      
+        WRITE(IOUT,1002) RHO0,RHOR     
         WRITE(IOUT,1100) E11,E22,E33
         WRITE(IOUT,1200) N12,N23,N31
         WRITE(IOUT,1300) G12,G23,G31
@@ -386,7 +386,8 @@ C
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13)
  1100 FORMAT(
      & 5X,'YOUNG MODULUS E11 . . . . . . . . . . .=',1PG20.13/,
      & 5X,'YOUNG MODULUS E22 . . . . . . . . . . .=',1PG20.13/,

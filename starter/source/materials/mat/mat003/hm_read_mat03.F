@@ -192,13 +192,14 @@ C-----------------------------------------------
       MTAG%G_TEMP  = 1
       MTAG%L_TEMP  = 1
 
-      WRITE(IOUT,1000)          
-
+      
+      WRITE(IOUT,2001) TITR,MAT_ID,3
+      WRITE(IOUT,1000)    
+              
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,2001) TITR,MAT_ID,3
-        WRITE(IOUT,2002) RHO0,RHOR 
+        WRITE(IOUT,2002)RHO0,RHOR 
         WRITE(IOUT,1300)YOUNG,ANU,G,BULK
         WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM
         WRITE(IOUT,1500)PMIN
@@ -210,9 +211,7 @@ C-----------------------------------------------
         WRITE(IOUT,2000)                                 !      
         IF(IS_ENCRYPTED)THEN                        !
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     !
-        ELSE      
-          WRITE(IOUT,2001) TITR,MAT_ID,6                       
-          WRITE(IOUT,2002) RHO0,RHOR                                                  !
+        ELSE                                                       !
           WRITE(IOUT,2500)C0,C1,C2,C3,C4,C5,E0,PM(1),PSH !
         ENDIF                                            !
       ENDIF                                              !

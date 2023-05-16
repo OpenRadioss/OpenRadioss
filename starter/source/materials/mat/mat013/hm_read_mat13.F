@@ -82,8 +82,8 @@ C-----------------------------------------------
 C     Check input encryption
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C     Initial and reference density
-      CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR, IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF (RHOR == ZERO) THEN
          RHOR = RHO0
       ENDIF
@@ -124,12 +124,12 @@ c-----------------
 c-----------------
 C--------------------------------
 C
-      WRITE(IOUT, 800) TRIM(TITR),MAT_ID,13
+      WRITE(IOUT,800)TRIM(TITR),MAT_ID,13
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-         WRITE(IOUT, 850) RHO0
+         WRITE(IOUT, 850)RHO0,RHOR
          WRITE(IOUT,1300)YOUNG,ANU,G
       ENDIF
 C-----------
@@ -139,7 +139,8 @@ C-----------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
   850 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . =',1PG20.13/)
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
  1000 FORMAT(
      & 5X,'  RIGID LAW                           ',/,
      & 5X,'  ---------                           ')

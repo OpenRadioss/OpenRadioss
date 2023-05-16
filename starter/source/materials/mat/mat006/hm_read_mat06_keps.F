@@ -198,13 +198,13 @@ C-----------------------------------------------
       PM(87)=RK0/RHO0                                      
 
 
-      WRITE(IOUT,1001)
       WRITE(IOUT,2001) TRIM(TITR),MAT_ID,6
-      WRITE(IOUT,2002) RHO0,RHOR           
+      WRITE(IOUT,1001)
                
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
+         WRITE(IOUT,2002)RHO0,RHOR         
          WRITE(IOUT,1300)VIS
          WRITE(IOUT,1501)PMIN 
       ENDIF

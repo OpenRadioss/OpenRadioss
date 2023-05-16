@@ -194,7 +194,7 @@ C-----------------------------------------------
       IF (IS_ENCRYPTED) THEN
          WRITE(IOUT, '(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-         WRITE(IOUT, 850) RHO0, RHOR
+         WRITE(IOUT, 850) RHO0
          WRITE(IOUT, 1100) E, NU, AY, AZ, BY, BZ, CX
          WRITE(IOUT, 2000)
          WRITE(IOUT, 2100) NF, SFAC, SIG0, H, M
@@ -207,8 +207,7 @@ C-----------------------------------------------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
   850 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY. . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)
  1000 FORMAT(
      & 5X,'  ELASTOPLASTIC USER LAW ',/,
      & 5X,'  ---------------------- ',//)

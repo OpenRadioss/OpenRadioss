@@ -59,17 +59,18 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle ,INTENT(IN)             :: TITR
-      INTEGER, INTENT(IN)                          :: MAT_ID
-      INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
-      my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
+      CHARACTER*nchartitle ,INTENT(IN) :: TITR
+      INTEGER, INTENT(IN) :: MAT_ID
+      INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT) :: IPM
+      my_real, DIMENSION(NPROPM)  ,INTENT(INOUT) :: PM
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
+      TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 !
       ILAW = 16
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 !-----------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -299,9 +300,7 @@ C        WRITE(IOUT,2000)E0J,TMJ,P1J
       ENDIF
 C--------------------
       IF (EPS0 == ZERO) THEN
-         CALL ANCMSG(MSGID=298,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=298,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=16,
      .               I2=MAT_ID,
      .               C1=TITR)
@@ -329,7 +328,7 @@ C--------------------
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,1PG20.13/,
      & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,1PG20.13/,

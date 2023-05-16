@@ -220,10 +220,10 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
 C--------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,19
+      WRITE(IOUT,1100)      
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1100)
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) E11,E22,N12,G12,G23,G31,
      .                   RCOMP,ZEROSTRESS,ISENS,POROSITY

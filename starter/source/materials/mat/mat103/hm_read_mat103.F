@@ -196,7 +196,7 @@ C-------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1020)RHO0 
+        WRITE(IOUT,1020)RHO0,RHOR
         WRITE(IOUT,1100) E, NU, A0, M1, M2, M3, M4, M5, M7
         WRITE(IOUT,1200) FSMOOTH, FCUT, EPS0, PMIN, RCP, TINI, ETA
       ENDIF
@@ -210,7 +210,8 @@ C
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/) 
  1020 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . =',1PG20.13/)
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13)
  1100 FORMAT(
      & 5X,'YOUNG MODULUS. . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO. . . . . . . . . . . . . . . .=',1PG20.13/

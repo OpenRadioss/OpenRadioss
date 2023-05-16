@@ -240,13 +240,13 @@ C     Formulation for solid elements time step computation.
       MTAG%L_EPSD = 1   
       
 C--------------------------------
+      WRITE(IOUT,2001) TITR,MAT_ID,4
       WRITE(IOUT,1000)
 
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,2001) TITR,MAT_ID,4
-        WRITE(IOUT,2002) RHO0,RHOR           
+        WRITE(IOUT,2002)RHO0,RHOR           
         WRITE(IOUT,1300)YOUNG,ANU,G,BULK
         WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM
         WRITE(IOUT,1500)PMIN
@@ -267,12 +267,7 @@ C--------------------------------
       !--------------------------------------------------!
 C
       IF(EPS0 == ZERO) THEN
-         CALL ANCMSG(MSGID=298,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=4,
-     .               I2=MAT_ID,
-     .               C1=TITR)
+         CALL ANCMSG(MSGID=298,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=4,I2=MAT_ID,C1=TITR)
       ENDIF
       RETURN
  1000 FORMAT(

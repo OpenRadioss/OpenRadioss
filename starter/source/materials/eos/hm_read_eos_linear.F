@@ -69,22 +69,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   C0, C1, C2, C3, C4, C5,  PSH, RHO0,RHOR,MU0,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,RHOI,G0,SSP0,DPDMU
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      my_real C0, C1, C2, C3, C4, C5,  PSH, RHO0,RHOR,MU0, FAC_L,FAC_T,FAC_M,FAC_C,RHOI,G0,SSP0,DPDMU
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE , IS_AVAILABLE_RHO0    
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('LAW5_P0', C0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_BULK', C1, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -133,7 +132,8 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)C0,C1,PSH,RHO0
+        WRITE(IOUT,1500)C0,C1,PSH
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -143,8 +143,9 @@ C-----------------------------------------------
  1500 FORMAT(
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BULK MODULUS. . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13//)
-
+     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13) 
+     
       RETURN
       END

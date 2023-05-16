@@ -73,13 +73,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real ::  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,Cv,MU0,PP,RHOI,RHOR,G0,SSP0,DPDMU,DF
       my_real :: XSCALE_A, XSCALE_B, FSCALE_A, FSCALE_B
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
       INTEGER :: A_FUN_ID, B_FUN_ID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      Is_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -94,22 +95,18 @@ C-----------------------------------------------
 
       CALL HM_GET_FLOATV('PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       !MANAGING INPUT ERRORS :
       IF(A_fun_id+B_fun_id == 0)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/TABULATED',
      .               C2='NO INPUT FUNCTION')
       ENDIF
       
-      IF(RHO0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+      IF(IS_AVAILABLE_RHO0 .AND. RHO0 < ZERO)THEN
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/TABULATED',
      .               C2='REFERENCE DENSITY MUST BE STRICTLY POSITIVE')
@@ -172,7 +169,8 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)A_fun_id,XSCALE_A,FSCALE_A,B_fun_id,XSCALE_B,FSCALE_B,E0,PSH,RHO0
+        WRITE(IOUT,1500)A_fun_id,XSCALE_A,FSCALE_A,B_fun_id,XSCALE_B,FSCALE_B,E0,PSH
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -187,8 +185,9 @@ C-----------------------------------------------
      & 5X,'XSCALE_B. . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'FSCALE_B. . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'E0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,          
-     & 5X,'PSH . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY. . . . .  . . . . . . .=',1PG20.13/)
+     & 5X,'PSH . . . . . . . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)       
 
       RETURN
 

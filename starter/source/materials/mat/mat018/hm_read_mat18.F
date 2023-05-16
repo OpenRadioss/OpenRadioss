@@ -58,18 +58,18 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       my_real, DIMENSION(*), INTENT(IN) :: UNITAB
-      INTEGER, INTENT(IN)    :: MAT_ID
-c
-      INTEGER, INTENT(INOUT)   :: IPM(NPROPMI)
-      my_real, INTENT(INOUT)   :: PM(NPROPM)     
-      INTEGER, INTENT(INOUT)   :: NUPARAM,NUVAR,NFUNC,JTHE
-      TYPE(MLAW_TAG_) ,INTENT(INOUT)         :: MTAG
+      INTEGER, INTENT(IN) :: MAT_ID
+      INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
+      my_real, INTENT(INOUT) :: PM(NPROPM)     
+      INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC,JTHE
+      TYPE(MLAW_TAG_) ,INTENT(INOUT) :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER :: ILAW,ITF,ISPH,IAS
       my_real :: RHOR,RHO0,T0,SPH,AS,BS,E0,TIMESCAL,TSCAL,ESCAL,KSCAL
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW = 18
       JTHE = 1
