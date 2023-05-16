@@ -51,14 +51,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SENS_ID
-      TYPE (SENSOR_STR_) :: SENSOR_PTR
-      TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
+      TYPE (SENSOR_STR_) ,INTENT(INOUT) :: SENSOR_PTR
+      TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) ,INTENT(IN) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NPARIS,NPARRS,NVAR,SENS_TYPE
-      my_real :: TDEL
+      my_real :: TDEL,TSTOP
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
 C     SENSOR TIMER
@@ -68,9 +68,11 @@ C=======================================================================
 c--------------------------------------------------
 c
       CALL HM_GET_FLOATV('Tdelay' ,TDEL   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Tstop'  ,TSTOP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
 c--------------------------------------------------
-c
+      IF (TSTOP == ZERO) TSTOP = INFINITY
+      TSTOP = MAX(TSTOP ,TDEL)
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
       SENSOR_PTR%STATUS  = 0            ! status = deactivated
@@ -78,7 +80,7 @@ c
       SENSOR_PTR%TCRIT   = TDEL
       SENSOR_PTR%TMIN    = ZERO         ! TMIN global
       SENSOR_PTR%TDELAY  = TDEL         ! time delay before activation
-      SENSOR_PTR%VALUE   = ZERO
+      SENSOR_PTR%VALUE   = TSTOP        ! stop time
 
       NPARIS = 0
       NPARRS = 0
@@ -95,13 +97,14 @@ c
       SENSOR_PTR%IPARAM(:) = 0
       SENSOR_PTR%RPARAM(:) = 0
 c------------------------------------------------------------
-      WRITE (IOUT, 1000) SENS_ID,TDEL
+      WRITE (IOUT, 1000) SENS_ID,TDEL,TSTOP
 c------------------------------------------------------------
  1000 FORMAT(
-     & 5X,'    SENSOR TYPE 0: TIME DELAY            '/,
+     & 5X,'    SENSOR TYPE 0: TIME                  '/,
      & 5X,'    --------------------                 '/,
      & 5X,'SENSOR ID. . . . . . . . . . . . . . . . .=',I10/
-     & 5X,'TIME DELAY BEFORE ACTIVATION . . . . . . .=',E12.4/)
+     & 5X,'TIME DELAY BEFORE ACTIVATION . . . . . . .=',E12.4/,
+     & 5X,'STOP TIME. . . . . . . . . . . . . . . . .=',E12.4/)
 c-----------
       RETURN
       END

@@ -47,7 +47,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_BASE(NSENSOR  ,SENSOR_TAB,
+      SUBROUTINE SENSOR_BASE(NSENSOR  ,SENSOR_TAB,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARSENS  ,TABS      ,STABS     ,IPARI     ,
      .           SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,
@@ -73,11 +73,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR,SFSAV6,STABS,IPARSENS
+      my_real ,INTENT(IN) :: TIME,TIMESTEP
       INTEGER ,DIMENSION(NPARI,NINTER)  ,INTENT(IN) :: IPARI
       INTEGER ,DIMENSION(*)             ,INTENT(IN) :: NPRW
       INTEGER ,DIMENSION(STABS)         ,INTENT(IN) :: TABS
-      my_real ,DIMENSION(3,NUMNOD)      ,INTENT(IN) :: X,V,A
       my_real ,DIMENSION(12,NSENSOR)    ,INTENT(IN) :: XSENS
+      my_real ,DIMENSION(3,NUMNOD)      ,INTENT(IN) :: X,V,A
       my_real ,DIMENSION(LLACCELM,*)    ,INTENT(IN) :: ACC
       my_real ,DIMENSION(NTHVKI,*)      ,INTENT(IN) :: FSAV
       my_real ,DIMENSION(LLGAUGE,*)     ,INTENT(IN) :: GAUGE
@@ -111,7 +112,7 @@ C       SENSOR - TIME
 C--------------------------------
         IF (TYP == 0) THEN
 
-          CALL SENSOR_TIME(SENSOR_TAB(ISENS))
+          CALL SENSOR_TIME(SENSOR_TAB(ISENS) ,TIME   ,TIMESTEP)
 
 C--------------------------------
 C       SENSOR - ACCELEROMETER

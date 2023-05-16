@@ -1970,8 +1970,9 @@ C Play Time & Logical sensors.
        K12=K11+NUMELIG3D
 
        CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
-     1                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
-     2                  IPART(K5) ,IPART(K6),NSENSOR,SENSORS%SENSOR_TAB)
+     .                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
+     .                  IPART(K5) ,IPART(K6),NSENSOR,SENSORS%SENSOR_TAB,
+     .                  TT        ,DT2      )
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -6812,7 +6813,8 @@ c
           ENDIF      
 c
           ! check activation condition of base sensors
-          CALL SENSOR_BASE(NSENSOR  ,SENSORS%SENSOR_TAB,
+          CALL SENSOR_BASE(
+     .         NSENSOR   ,SENSORS%SENSOR_TAB   ,TT        ,DT2       ,
      .         XSENS     ,IPARSENS  ,TABSENSOR ,STABSEN   ,IPARI     ,
      .         SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
      .         X         ,V         ,A         ,ACCELM    ,NPRW      ,
@@ -8114,7 +8116,8 @@ c
         ENDIF
 c       
         ! check activation condition of base sensors
-        CALL SENSOR_BASE(NSENSOR  ,SENSORS%SENSOR_TAB,
+        CALL SENSOR_BASE(
+     .       NSENSOR   ,SENSORS%SENSOR_TAB   ,TT        ,DT2       ,
      .       XSENS     ,IPARSENS  ,TABSENSOR ,STABSEN   ,IPARI     ,
      .       SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
      .       X         ,V         ,A         ,ACCELM    ,NPRW      ,

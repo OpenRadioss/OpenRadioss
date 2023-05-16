@@ -29,7 +29,7 @@ Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_TIME(SENSOR)
+      SUBROUTINE SENSOR_TIME(SENSOR ,TIME   ,TIMESTEP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -41,40 +41,52 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
 #include      "units_c.inc"
 #include      "comlock.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (SENSOR_STR_) :: SENSOR
+      my_real            ,INTENT(IN)    :: TIME,TIMESTEP
+      TYPE (SENSOR_STR_) ,INTENT(INOUT) :: SENSOR
 C----------------------------------------------------------
 C   Local Variables
 C----------------------------------------------------------
-      INTEGER NSENS
-      my_real TDELAY
-      DOUBLE PRECISION LTT_DP,DT2_DP,TDELAY_DP,NEXT_CYCLE
+      INTEGER :: NSENS
+      my_real :: TDELAY,TSTOP,INFINITY
+      DOUBLE PRECISION :: TDELAY_DP,TSTOP_DP,NEXT_CYCLE
+      PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       NSENS  = SENSOR%SENS_ID
       TDELAY = SENSOR%TDELAY
-      LTT_DP = TT
-      DT2_DP = DT2
-      NEXT_CYCLE = TT + DT2
+      TSTOP  = SENSOR%VALUE
+      NEXT_CYCLE = TIME + TIMESTEP
       TDELAY_DP  = TDELAY
+      TSTOP_DP   = TSTOP
 c
       IF (NEXT_CYCLE >= TDELAY_DP .AND. SENSOR%STATUS == 0) THEN
         SENSOR%STATUS = 1
         SENSOR%TSTART = TDELAY
         IF (ISPMD == 0) THEN
 #include "lockon.inc"
-          WRITE (IOUT,'(A,I10,A,1PE12.5)')   
-     .         ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TDELAY
-          WRITE (ISTDO,'(A,I10,A,1PE12.5)')   
-     .         ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TDELAY
+          WRITE (IOUT ,1000) SENSOR%SENS_ID,TDELAY
+          WRITE (ISTDO,1000) SENSOR%SENS_ID,TDELAY
+#include "lockoff.inc"
+        ENDIF
+      ELSE IF (NEXT_CYCLE >= TSTOP_DP .AND. SENSOR%STATUS == 1) THEN
+        SENSOR%STATUS = 0
+        SENSOR%TSTART = INFINITY
+        SENSOR%TDELAY = INFINITY
+        IF (ISPMD == 0) THEN
+#include "lockon.inc"
+          WRITE (IOUT ,2000) SENSOR%SENS_ID,TSTOP
+          WRITE (ISTDO,2000) SENSOR%SENS_ID,TSTOP
 #include "lockoff.inc"
         ENDIF
       ENDIF
 c-----------------------------------------------------------------------      
+1000  FORMAT(' SENSOR (TIME) NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
+2000  FORMAT(' SENSOR (TIME) NUMBER ',I10,' DESACTIVATED AT TIME ',1PE12.5)
+c-----------   
       RETURN
-      END SUBROUTINE
+      END SUBROUTINE SENSOR_TIME
