@@ -396,7 +396,7 @@ C-----------------------------------------------
      .   TITR
 C
       my_real
-     .   W,WMIN
+     .   W,WMIN,IN_T
 C-----------------------------------------------
 C     FRBE3(1-3,I) : tw(i)
 C     FRBE3(4-6,I) : rw(i)
@@ -416,6 +416,23 @@ C----- re-ordering by hierrrchy (only 1 level)
         
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+C------ check if solid node for all independent        
+        IF (IROT>0) THEN
+          IN_T = ZERO
+          DO J=1,NM
+            M= LRBE3(IAD+J)
+            IN_T = IN_T + IN(M)
+          ENDDO
+          IF (IN_T<EM20) THEN
+             CALL ANCMSG(MSGID=3009,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,
+     .                   C1=TITR)
+            IROT = 0
+            IRBE3(6,I) = 0
+          END IF
+         END IF !(IROT>0) THEN
         CALL RBE3CHK(LRBE3(IAD+1),LRBE3(NMT+IAD+1) ,NS     ,X      ,
      .               FRBE3(6*IAD+1),SKEW    ,NM   ,IROT  ,IMO, WMIN,
      .               IERR1 )
