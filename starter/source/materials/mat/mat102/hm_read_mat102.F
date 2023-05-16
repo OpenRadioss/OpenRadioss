@@ -113,7 +113,7 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV  ('IFORM',IFORM  ,IS_AVAILABLE, LSUBMODEL) 
       
-      CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       
       CALL HM_GET_FLOATV('MAT_E'        ,E     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'       ,NU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -276,7 +276,7 @@ C
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)  
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)  
  1100 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/

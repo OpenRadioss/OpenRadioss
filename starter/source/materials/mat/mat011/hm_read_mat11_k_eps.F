@@ -251,13 +251,13 @@ C     Already exited at input reading
 C----------------------
 C     PRINTOUT
 C----------------------
-      WRITE(IOUT, 800) TRIM(TITR),MAT_ID,11
+      WRITE(IOUT,800)TRIM(TITR),MAT_ID,11
       IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,900)
          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
          WRITE(IOUT,1000)ITYP,PSH,TSCAL
-         WRITE(IOUT, 850) RHO0, RHOR
+         WRITE(IOUT,850) RHO0,RHOR
          SELECT CASE(ITYP)
          CASE(0)
             WRITE(IOUT,1100)GAM,P0,E0,VCRT,RCRT,PCRT,INOD
@@ -339,8 +339,8 @@ C----------------------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
   850 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY. . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
   900 FORMAT(
      & 5X,40H  LAW FOR FLUID BOUNDARY ELEMENTS       ,/,
      & 5X,40H  -------------------------------       ,/)

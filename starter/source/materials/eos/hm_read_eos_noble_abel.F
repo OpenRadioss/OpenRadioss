@@ -73,19 +73,20 @@ C-----------------------------------------------
      .   C0, C1, C2, C3, C4, C5, E0, PSH, RHO0,
      .   FAC_L,FAC_T,FAC_M,FAC_C,BB,GAMMA,AA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
       my_real MU0,MU2,DF,SSP0,G0
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_FLOATV('b_Covolume',BB, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Gamma_Constant', GAMMA, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -145,7 +146,8 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)BB,GAMMA,PM(31),E0,RHO0,PSH
+        WRITE(IOUT,1500)BB,GAMMA,PM(31),E0,PSH
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -157,8 +159,9 @@ C-----------------------------------------------
      & 5X,'GAMMA GAS CONSTANT. . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)
+     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)     
 
       RETURN
       END

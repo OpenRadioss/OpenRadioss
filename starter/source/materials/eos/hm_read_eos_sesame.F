@@ -87,18 +87,19 @@ C-----------------------------------------------
       my_real MU0,DF,SSP0,G0,DPDMU
       CHARACTER FILE*(ncharline),FILE_TMP*(ncharline)
       INTEGER :: FILE_LEN
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
       CHARACTER*nchartitle TITR        
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('MAT_EA', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('SESAME_RHO', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('SESAME_RHO', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
       CALL HM_GET_STRING('ISRTY',FILE, ncharline,IS_AVAILABLE)
 
       RHOR = PM(1)
@@ -153,7 +154,8 @@ C
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)E0,PM(1),FILE,P0,T0
+        WRITE(IOUT,1500)E0,FILE,P0,T0
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       PM(31) = P0
@@ -186,25 +188,19 @@ C
       
       RETURN
   999 CONTINUE
-      CALL ANCMSG(MSGID=19,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,
-     .            I1=IMID,
-     .            C1='EOS',
-     .            C2='EOS',
-     .            C3=TITR,
-     .            C4=FILE)
+      CALL ANCMSG(MSGID=19,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMID,C1='EOS',C2='EOS',C3=TITR,C4=FILE)
       RETURN
       
  1000 FORMAT(
      & 5X,'  SESAME TABLE EOS     ',/,
      & 5X,'  ----------------     ',/)
  1500 FORMAT(
-     & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME. . .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY. . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SESAME TABLE 301 . . . . . . . . . . . . . .=',A70/,
-     & 5X,'INITIAL PRESSURE . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL TEMPERATURE. . . . . . . . . . . . .=',1PG20.13//)
+     & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME. =',1PG20.13/,
+     & 5X,'SESAME TABLE 301 . . . . . . . . . . . . =',A70/,
+     & 5X,'INITIAL PRESSURE . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'INITIAL TEMPERATURE. . . . . . . . . . . =',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)        
 C
       RETURN
       END

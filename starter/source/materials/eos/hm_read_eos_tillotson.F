@@ -76,12 +76,13 @@ C-----------------------------------------------
       my_real :: C1, C2, A, B, ER, ES, VS, E0, RHO0,RHOI,RHOR, ALPHA, BETA,
      .           FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU0,MU2,DF,ETA,
      .           OMEGA,AA,BB,PP,XX,EXPA,EXPB,DPDMU, SSP0, G0
-      LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE,IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       EOS_TAG(IEOS)%NVAR = 1  !saving Region id for H2D and ANIM output                         
 
@@ -96,7 +97,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('E_S', ES, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Vs', VS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_EA', E0 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       CALL HM_GET_FLOATV('Alpha', ALPHA ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Beta', BETA ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -178,7 +179,8 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)C1,C2,A,B,ER,ES,VS,E0,PM(31),PM(1),ALPHA,BETA
+        WRITE(IOUT,1500)C1,C2,A,B,ER,ES,VS,E0,PM(31),ALPHA,BETA
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -196,9 +198,10 @@ C-----------------------------------------------
      & 5X,'SUBLIMATION RELATIVE VOLUME . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY(PER UNIT VOLUME).=',1PG20.13/,
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY. . .  . . . . . . . . .=',1PG20.13/,
      & 5X,'ALPHA . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'BETA. . . . . . . . . . . . . . . . . . .=',1PG20.13//)
+     & 5X,'BETA. . . . . . . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)     
  
       RETURN
       END

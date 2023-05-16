@@ -297,9 +297,6 @@ C-----------------
      &,5X,'SHAPE UNLOADING FACTOR. . . . . . . . . . =',1PG20.13//) 
  1500 FORMAT
      &(5X,'ITENSION : PARAMETER FOR UNLOADING . . . .=',I10/)
- 1600 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . . =',1PG20.13/)
 C-----------------
       RETURN
    

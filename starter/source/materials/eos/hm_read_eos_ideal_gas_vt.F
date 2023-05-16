@@ -80,12 +80,13 @@ C-----------------------------------------------
       my_real :: GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,Cv,MU0,PP,RHOI,RHOR,G0,SSP0,DPDMU,DF
       my_real :: R_GAS,r_gas_, M_GAS, A0, A1, A2, A3, A4, A5, Cp
       INTEGER :: USER_CURVEID, CURVEID, JJ
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -96,7 +97,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('T_Initial', T0, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_C0', A0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_C1', A1, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_C2', A2, IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -114,19 +115,14 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
       
       IF(P0*T0 /= ZERO)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS-VT',
      .               C2='P0 AND T0 CANNOT BE BOTH DEFINED')
       ENDIF
       
       IF(r_gas_ <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS-VT',
      .               C2='GAS CONSTANT r MUST BE STRICTLY POSITIVE')
        P0 = ZERO
@@ -145,18 +141,14 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
       
       IF(P0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS-VT',
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF   
       
       IF(T0 < ZERO)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS-VT',
      .               C2='TEMPERATURE MUST BE POSITIVE (UNIT:KELVIN)')
@@ -182,9 +174,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CP = A0 + A1*T0 + A2*T0*T0 + A3*T0**3 + A4*T0**4
       
       IF(CP < r_GAS_)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS-VT',
      .               C2='Cp(0) < r IS NOT EXPECTED. CHECK INPUT FUNCTION')
@@ -230,7 +220,8 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)r_GAS_,T0,P0,PSH,RHO0,Cp,A0,A1,A2,A3,A4
+        WRITE(IOUT,1500)r_GAS_,T0,P0,PSH,Cp,A0,A1,A2,A3,A4
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -242,14 +233,15 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
      & 5X,'INITIAL TEMPERATURE . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL MASSIC HEAT CAPACTITY . . . . . .=',1PG20.13/,
      & 5X,'A0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,     
      & 5X,'A1. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'A2. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'A3. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'A4. . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
-
+     & 5X,'A4. . . . . . . . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13) 
+     
       RETURN
 
       END SUBROUTINE HM_READ_EOS_IDEAL_GAS_VT

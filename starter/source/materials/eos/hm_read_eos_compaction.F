@@ -79,12 +79,13 @@ C-----------------------------------------------
       my_real  C0,C1,C2,C3,MUMAX,BID,BUNL,MU,MUMIN
       my_real  MU0,SSP0,DF, G0, BULK,BULK2,P_, BB, POLD, MU2, MUOLD, ALPHA,DPDMU
       INTEGER IFORM, IOUTP
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
       IFORM=0
       IOUTP=1
       
@@ -104,7 +105,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('EOS_COM_B', BUNL, IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -117,12 +118,7 @@ C-----------------------------------------------
       ENDIF
             
       IF(C1 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=IMIDEOS,
-     .               C1='/EOS/COMPACTION',
-     .               C2='C1 MUST BE POSITIVE')
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,C1='/EOS/COMPACTION',C2='C1 MUST BE POSITIVE')
       ENDIF
 
       !IFORM=1 : CONSTANT unload modulus BUNL (DEFAULT)
@@ -202,6 +198,7 @@ C-----------------------------------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1500)C0,C1,C2,C3,PSH,BUNL,MUMIN,MUMAX
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1503)PM(1)
         IF(IOUTP == 1)THEN
           IF(IFORM==10)THEN
              WRITE(IOUT,1510)
@@ -225,13 +222,15 @@ C-----------------------------------------------
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BUNL : UNLOADING MODULUS. . . . . . . . . .=',1PG20.13/,
      & 5X,'MU_MIN : ELASTIC LIMIT. . . . . . . . . . .=',1PG20.13/,
-     & 5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13/)
+     & 5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13)    
  1510 FORMAT(
      & 5X,'LEGACY FORMULATION'/)
  1501 FORMAT(
      & 5X,'CONSTANT UNLOAD MODULUS'/)
  1502 FORMAT(
      & 5X,'CONTINUOUS UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
+ 1503 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)      
 
       RETURN
   

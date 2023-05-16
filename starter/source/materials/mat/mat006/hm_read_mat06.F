@@ -167,14 +167,16 @@ C-----
 
       WRITE(IOUT,2001) TRIM(TITR),MAT_ID,6   
       WRITE(IOUT,1000)
+      
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSEIF (IS_EOS) THEN
-        WRITE(IOUT,2002) RHO0,RHOR     
+        WRITE(IOUT,2002)RHO0,RHOR
         WRITE(IOUT,1300)VIS
         WRITE(IOUT,1400)PSH
         WRITE(IOUT,1500)C0,C1,C2,C3,C4,C5,PMIN,PM(31),E0  
       ELSE
+         WRITE(IOUT,2002)RHO0,RHOR
          WRITE(IOUT,1300)VIS
          WRITE(IOUT,1501)PMIN 
       ENDIF
@@ -224,7 +226,7 @@ C--------------------------------
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  2002 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13)
 
 C--------------------------------
 C-----------

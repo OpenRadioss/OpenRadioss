@@ -411,7 +411,7 @@ c--------------------------------------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1100)
-        WRITE(IOUT,1200) RHO0,RHOR
+        WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) E11,E22,E33,G12,G23,G31,ASRATE
 c
         WRITE(IOUT,1001)
@@ -469,8 +469,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : HONEYCOMB (VISC_HONEY) ',/,
      & 5X,'-------------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'E11 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'E22 . . . . . . . . . . . . . . . . . .=',1PG20.13/

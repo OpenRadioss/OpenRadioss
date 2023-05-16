@@ -72,12 +72,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C, FAC_E
       my_real A1,A2,B0,B1,B2,C0,C1,D0,RHOI,RHOR,dPdmu_partial,dPdE,DF,MU0,DPDMU,A2_,G0,SSP0, DENOM
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      IS_AVAILABLE_RHO0 = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -92,7 +93,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('EOS_D0', D0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -115,9 +116,7 @@ C-----------------------------------------------
      .   D0 <= ZERO .OR.
      .   RHO0 <= ZERO 
      .   )THEN
-         CALL ANCMSG(MSGID=67,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=67, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/OSBORNE',
      .               C2='PARAMETERS MUST BE STRICTLY POSITIVE')
@@ -180,7 +179,8 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)A1,A2,B0,B1,B2,C0,C1,D0,P0,RHO0
+        WRITE(IOUT,1500)A1,A2,B0,B1,B2,C0,C1,D0,P0
+        IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
@@ -196,8 +196,9 @@ C-----------------------------------------------
      & 5X,'C0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'C1. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'D0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'P0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'P0. . . . . . . . . . . . . . . . . . . .=',1PG20.13)
+ 1501 FORMAT(     
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)      
 
       RETURN
       END

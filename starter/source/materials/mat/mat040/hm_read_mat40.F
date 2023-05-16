@@ -186,7 +186,7 @@ c-----------------
       IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-         WRITE(IOUT, 850) RHO0, RHOR
+         WRITE(IOUT, 850) RHO0
          WRITE(IOUT,1100)AK,G0,G1,G2,G3,G4,G5,
      .        BETA1,BETA2,BETA3,BETA4,BETA5,
      .        ASTAS,BSTAS,VMISK
@@ -197,8 +197,7 @@ C
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
   850 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY. . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)
  1000 FORMAT(
      & 5X,'  MAXWELL VISCO-ELASTIC LAW ',/,
      & 5X,'  ------------------------- ',//)
