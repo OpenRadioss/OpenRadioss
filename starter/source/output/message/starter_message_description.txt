@@ -793,6 +793,9 @@
 ** ERROR WITH /MAT/LAW51 INPUT TYPE
 
 /MESSAGE/75/DESCRIPTION
+   -- MATERIAL ID: %d
+   -- MATERIAL TITLE: %s
+   %i1="/MAT"
    -- %s
 
 

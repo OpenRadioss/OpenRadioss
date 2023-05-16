@@ -269,7 +269,7 @@ C-----------------------------------------------
       ! IFLG == 0                  !
       !============================!
       CASE(0)
-        !necessarily INVERS_SRC < 2023
+        !necessarily INVERS_SRC < 2023 : otherwise default leads to IFLG=12
         !line-3
         CALL HM_GET_FLOATV('PEXT'     , PEXT , IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_NU'   , VIS  , IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -301,9 +301,12 @@ C-----------------------------------------------
       !============================!
       CASE(1)
         IFLG = 0
-        chain1='INPUT TYPE IFORM=1 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'
         !obsolete law51-formulation
-        IF(INVERS_SRC>=2023)CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1=chain1)
+        IF(INVERS_SRC>=2023)THEN
+          chain1='INPUT TYPE IFORM=1 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)
+          RETURN
+        ENDIF
         !line-3
         CALL HM_GET_FLOATV('PEXT'     , PEXT , IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_NU'   , VIS  , IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -376,8 +379,11 @@ C-----------------------------------------------
       CASE(3)
         !OBSOLETE use IFLG=6 instead
         ALE%GLOBAL%IS_BOUNDARY_MATERIAL=.TRUE.
-        chain1='INPUT TYPE IFORM=3 IS OBSOLETE SINCE 2023 VERSION : IFORM=6 MUST BE USED'
-        IF(INVERS_SRC>=2023)CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1=chain1)
+        IF(INVERS_SRC>=2023)THEN
+          chain1='INPUT TYPE IFORM=3 IS OBSOLETE SINCE 2023 VERSION : IFORM=6 MUST BE USED'
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)
+          RETURN
+        ENDIF
         DO I=1,3
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_ALPHA_Iflg3_phas'     ,AV(I)   ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_RHO_Iflg3_phas'       ,RHO0_(I),I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -471,9 +477,12 @@ C-----------------------------------------------
       CASE(10)
         IFLG=1
         IEXP=1
-        chain1='INPUT TYPE IFORM=10 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'
         !obsolete law51-formulation
-        IF(INVERS_SRC>=2023)CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1=chain1)      
+        IF(INVERS_SRC>=2023)THEN
+          chain1='INPUT TYPE IFORM=10 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'        
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)
+          RETURN
+        ENDIF               
         CALL HM_GET_FLOATV('PEXT'       ,PEXT         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_NU'     ,VIS          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_Lamda'  ,VISV         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -534,9 +543,12 @@ C-----------------------------------------------
       CASE(11)
         IFLG=1
         IEXP=1
-        chain1='INPUT TYPE IFORM=11 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'
         !obsolete law51-formulation
-        IF(INVERS_SRC>=2023)CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1=chain1)           
+        IF(INVERS_SRC>=2023)THEN
+          chain1='INPUT TYPE IFORM=11 IS OBSOLETE SINCE 2023 VERSION : IFORM=12 MUST BE USED'        
+          CALL ANCMSG(MSGID=75, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=MAT_ID,C1=TITR,C2=chain1)   
+          RETURN
+        ENDIF        
         CALL HM_READ_MAT51_IFORM11(
      .        AV     , RHO0_     ,E0       ,  PMIN_   , C0      ,
      .        C1     , C2        ,C3       ,  C4      , C5      ,
@@ -584,20 +596,23 @@ C-----------------------------------------------
         IF(MIP==0)THEN
               chain1='SUBMATERIAL DATA NOT FOUND '
               CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+              RETURN
         ENDIF
-        DO I=1,MIP
-          IF(tAV(I)<ZERO .OR. tAV(I)>ONE)THEN
-              chain(1:20)='                    '
-              write(chain(1:20),'(e20.14)')tAV(I)
-              chain1='VOLUME FRACTION MUST BE BETWEEN 0.0 AND 1.0 , READ VALUE IS '// chain(1:20)
-              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
-          ENDIF
           IF(tMID(I)  <= 0)THEN
               chain(1:10)='          '
               write(chain(1:10),'(i10)')tMID(I)
               chain1='INCORRECT MATERIAL IDENTIFIER '//chain(1:10)
               CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
               tMID(I)=0
+              RETURN
+          ENDIF        
+        DO I=1,MIP
+          IF(tAV(I)<ZERO .OR. tAV(I)>ONE)THEN
+              chain(1:20)='                    '
+              write(chain(1:20),'(e20.14)')tAV(I)
+              chain1='VOLUME FRACTION MUST BE BETWEEN 0.0 AND 1.0 , READ VALUE IS '// chain(1:20)
+              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+              RETURN
           ENDIF
         ENDDO
         SUMVF = SUM(tAV(1:4))
@@ -606,6 +621,7 @@ C-----------------------------------------------
             write(chain(1:20),'(F20.8)')SUMVF
             chain1='SUM OF VOLUME FRACTION MUST BE EQUAL TO 1.0, CURRENT SUM IS '// chain(1:20)
             CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+            RETURN
         ENDIF
       !============================!
       ! IFLG == NOT VALID          !
@@ -614,6 +630,7 @@ C-----------------------------------------------
        !not correct iform value
            chain1='INCORRECT IFORM VALUE '
            CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR,C2=chain1)
+           RETURN
       END SELECT
       !============================!
       ! PLASTICITY DEFAULT         !
@@ -745,10 +762,12 @@ C     !============================!
         IF(C1(4)  <= ZERO)THEN
            chain1='BULK MODULUS C14 MUST BE PROVIDED FOR UNREACTED EXPLOSIVE'
            CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+           RETURN
         ENDIF
         IF(VDET  <= ZERO)THEN
           chain1='DETONATION VELOCITY MUST BE INPUT FOR EXPLOSIVE SUBMATERIAL'
           CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
+          RETURN
         ENDIF
       ENDIF
       !============================!
