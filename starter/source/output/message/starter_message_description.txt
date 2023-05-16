@@ -14689,6 +14689,14 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    %i1="/PROP"
    INVALID ISH3N= %d   
 
+/MESSAGE/3009/TITLE
+** WARNING IN RBE3 ELEMENT
+
+/MESSAGE/3009/DESCRIPTION
+   -- RBE3 ID: %d
+   -- RBE3 TITLE: %s
+   %i1="/RBE3"
+   Inconsistent rotational DOFs defined in Trarot_Mi are removed
 
 /MESSAGE/9998/TITLE
 ** MESSAGE WITH NO CATEGORY
