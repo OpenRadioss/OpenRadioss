@@ -113,6 +113,8 @@ c         -> YSCALE_P
 c         -> SURFBOX(xmin,ymin,zmin,xmax,ymax,zmax)
 C=======================================================================
       IS_AVAILABLE = .FALSE.
+
+      NUMBER_LOAD_CYL = 0
 C--------------------------------------------------
 C     START BROWSING MODEL /PCYL
 C--------------------------------------------------
@@ -121,7 +123,6 @@ C--------------------------------------------------
       MY_ALLOCATE(LOADS%LOAD_CYL,NLOAD_CYL)
 
       CALL HM_OPTION_START('/LOAD/PCYL')
-
 C--------------------------------------------------
       DO I=1,NLOAD_CYL     
 
