@@ -57,10 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISENS
-      my_real PARTSAV2(2,*)
-      TYPE (SUBSET_) ,DIMENSION(NSUBS) :: SUBSET
-      TYPE (SENSOR_STR_) :: SENSOR
+      INTEGER ,INTENT(IN) :: ISENS
+      my_real ,INTENT(IN) :: PARTSAV2(2,*)
+      TYPE (SUBSET_) ,DIMENSION(NSUBS) ,INTENT(IN) :: SUBSET
+      TYPE (SENSOR_STR_) ,INTENT(INOUT) :: SENSOR
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
@@ -113,47 +113,47 @@ c---------------------------------------------------------
 c     PARITH ON
 c---------------------------------------------------------
       IF (IPARIT > 0) THEN
-          EINT = ZERO
-          EKIN = ZERO
-          NBR_GROUP = SENSOR_STRUCT(ISENS)%NUM_GROUP_PART
-          DO ITSK=2,NTHREAD
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) = 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) + 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,ITSK)
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) = 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) + 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,ITSK)
-          ENDDO     
+        EINT = ZERO
+        EKIN = ZERO
+        NBR_GROUP = SENSOR_STRUCT(ISENS)%NUM_GROUP_PART
+        DO ITSK=2,NTHREAD
+          SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) = 
+     .    SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) + 
+     .    SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,ITSK)
+          SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) = 
+     .    SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) + 
+     .    SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,ITSK)
+        ENDDO     
 
-          DO J=2,6
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) = 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) + SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,1)
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) = 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) + SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,1)
-          ENDDO 
-          EINT = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1)
-          EKIN = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1)
+        DO J=2,6
+          SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) = 
+     .    SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) + SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,1)
+          SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) = 
+     .    SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) + SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,1)
+        ENDDO 
+        EINT = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1)
+        EKIN = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1)
       
-          DO ITSK=1,NTHREAD
-            DO J=1,6
-              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,ITSK) = ZERO    
-              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,ITSK) = ZERO        
-            ENDDO
+        DO ITSK=1,NTHREAD
+          DO J=1,6
+            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,ITSK) = ZERO    
+            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,ITSK) = ZERO        
           ENDDO
-      ELSE
-          EINT = ZERO
-          EKIN = ZERO
-          IF (IPART > 0) THEN
-            EINT = PARTSAV2(1,IPART)
-            EKIN = PARTSAV2(2,IPART)
-          ELSEIF (ISUBS > 0) THEN
-            NP = SUBSET(ISUBS)%NTPART
-            DO J=1,NP
-              IPART=SUBSET(ISUBS)%TPART(J)
-              EINT = EINT + PARTSAV2(1,IPART)
-              EKIN = EKIN + PARTSAV2(2,IPART)
-            ENDDO
-          ENDIF ! IF (IPART > 0)
+        ENDDO
+      ELSE    ! PARTTH/OFF
+        EINT = ZERO
+        EKIN = ZERO
+        IF (IPART > 0) THEN
+          EINT = PARTSAV2(1,IPART)
+          EKIN = PARTSAV2(2,IPART)
+        ELSEIF (ISUBS > 0) THEN
+          NP = SUBSET(ISUBS)%NTPART
+          DO J=1,NP
+            IPART= SUBSET(ISUBS)%TPART(J)
+            EINT = EINT + PARTSAV2(1,IPART)
+            EKIN = EKIN + PARTSAV2(2,IPART)
+          ENDDO
+        ENDIF ! IF (IPART > 0)
       ENDIF
 c---------------------------------------------------------
 c     TEST of principal criterion (Emax, Emin)
@@ -279,13 +279,13 @@ c
         IF (FAC_EK < KETOL) ICRIT2 = 1
 c
         IF (SENSOR%VAR(3) > TT) THEN
-          IF (ICRIT1 == 0) THEN
+          IF (ICRIT2 == 0) THEN
             SENSOR%VAR(3) = INFINITY
           ELSE IF (SENSOR%VAR(3) == INFINITY) THEN
             SENSOR%VAR(3) = MIN(SENSOR%VAR(3), TT)
           END IF
         ELSE IF (SENSOR%VAR(4) == INFINITY) THEN
-          SENSOR%VAR(4) = SENSOR%VAR(1) + TDELAY
+          SENSOR%VAR(4) = SENSOR%VAR(3) + TDELAY
         END IF
         IF (SENSOR%VAR(4) <= TT) THEN   ! sensor activation
           SENSOR%STATUS = 1
