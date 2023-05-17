@@ -25,11 +25,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !! \details  /PLOAD option
 
 Chd|====================================================================
-Chd|  W_ILOADP                      source/restart/ddsplit/w_iloadp.F
+Chd|  W_TH_SURF_PLOAD               source/restart/ddsplit/w_th_surf_pload.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE W_TH_SURF_PLOAD(IBCL  ,NODLOCAL  ,PROC  ,LEN_IA  ,CEP    ,
      .                          TH_SURF,NUMNOD   ,NIBCLD ,NCONLD  ,LEN_CEP,

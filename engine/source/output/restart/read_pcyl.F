@@ -1,8 +1,11 @@
 Chd|====================================================================
-Chd| 
+Chd|  READ_PCYL                     source/output/restart/read_pcyl.F
 Chd|-- called by -----------
-Chd|        RDRESB            
+Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
+Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|====================================================================
       SUBROUTINE READ_PCYL(LOADS)
 C-----------------------------------------------

@@ -1,7 +1,11 @@
 Chd|====================================================================
-Chd|  WRITE_PCYL  
+Chd|  WRITE_PCYL                    source/output/restart/write_pcyl.F
 Chd|-- called by -----------
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
+Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_PCYL(LOADS)
 C-----------------------------------------------

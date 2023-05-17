@@ -46,6 +46,7 @@ Chd|        HM_READ_MONVOL_TYPE6          source/airbag/hm_read_monvol_type6.F
 Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
 Chd|        HM_READ_MONVOL_TYPE8          source/airbag/hm_read_monvol_type8.F
 Chd|        HM_READ_MONVOL_TYPE9          source/airbag/hm_read_monvol_type9.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PFLUID                source/loads/general/pfluid/hm_read_pfluid.F
 Chd|        HM_READ_PRELOAD               source/loads/general/preload/hm_read_preload.F
 Chd|        HM_READ_RBODY                 source/constraints/general/rbody/hm_read_rbody.F

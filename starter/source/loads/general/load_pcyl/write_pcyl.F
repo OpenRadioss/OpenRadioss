@@ -1,14 +1,12 @@
 Chd|====================================================================
-Chd|  WRITE_PCYL  
+Chd|  WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F
 Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
-Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
-Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
+Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_cyl_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_PCYL(LOAD_CYL ,NLOAD_CYL ,NODLOCAL)
 C-----------------------------------------------

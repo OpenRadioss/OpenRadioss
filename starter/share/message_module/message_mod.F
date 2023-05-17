@@ -30,6 +30,7 @@ Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
+Chd|        THSURF_READ_RESTART           ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        TH_ALLOC                      ../common_source/modules/output/time_history_mod.F
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
 Chd|        ADD_MASS_STAT                 source/tools/admas/add_mass_stat.F
@@ -564,6 +565,7 @@ Chd|        HM_READ_NONLOCAL              source/materials/nonlocal/hm_read_nonl
 Chd|        HM_READ_OUTP                  source/general_controls/engine/hm_read_outp.F
 Chd|        HM_READ_PART                  source/model/assembling/hm_read_part.F
 Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PERTURB               source/general_controls/computation/hm_read_perturb.F
 Chd|        HM_READ_PERTURB_FAIL          source/general_controls/computation/hm_read_perturb_fail.F
 Chd|        HM_READ_PERTURB_PART_SHELL    source/general_controls/computation/hm_read_perturb_part_shell.F
@@ -1139,6 +1141,7 @@ Chd|        TAG_NODE_FROM_RBODY           source/model/sets/tag_node_from_rbody.
 Chd|        TAG_NODE_FROM_SOLID           source/model/sets/tag_node_from_solid.F
 Chd|        TETA45_YLD2000                source/materials/mat/mat087/law87_upd.F
 Chd|        THICKINI                      source/elements/shell/coqueba/thickini.F
+Chd|        TH_SURF_LOAD_PRESSURE         source/output/th/th_surf_load_pressure.F
 Chd|        TINIT3                        source/elements/truss/tinit3.F
 Chd|        TRACE_PRINT                   source/system/trace_back.F    
 Chd|        TRIINTFRIC                    source/interfaces/interf1/trintfric.F
@@ -1153,8 +1156,11 @@ Chd|        UNIFY_X                       source/tools/curve/func_slope.F
 Chd|        UNIT_CODE                     source/general_controls/computation/unit_code.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        VDOUBL2                       source/system/sysfus.F        
+Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F
 Chd|        W_ISPH                        source/restart/ddsplit/w_isph.F
 Chd|        W_RSPH                        source/restart/ddsplit/w_rsph.F
+Chd|        W_TH_SURF_LOADP               source/restart/ddsplit/w_th_surf_loadp.F
+Chd|        W_TH_SURF_PLOAD               source/restart/ddsplit/w_th_surf_pload.F
 Chd|        W_TYPE8                       source/restart/ddsplit/split_interfaces.F
 Chd|        XGRHEAD                       source/elements/xelem/xgrhead.F
 Chd|        XGRTAILS                      source/elements/xelem/xgrtails.F

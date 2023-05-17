@@ -1,6 +1,11 @@
-Chd|  INTERSECT_DIR_SEG3  
+Chd|====================================================================
+Chd|  PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
 Chd|-- called by -----------
+Chd|        PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
 Chd|-- calls ---------------
+Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
+Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_cyl_mod.F
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE PRESS_SEG3(A     ,B     ,C     ,N1    ,DIR    ,
      .                      IFUNC ,TABLE ,XFACR ,XFACT ,YFAC  ,

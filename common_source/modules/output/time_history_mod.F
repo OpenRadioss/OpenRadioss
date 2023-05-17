@@ -29,6 +29,7 @@ Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
 Chd|        READ_TH_RESTART               engine/source/output/th/read_th_restart.F
 Chd|        WRITE_TH_RESTART              engine/source/output/th/write_th_restart.F
 Chd|-- calls ---------------
+Chd|        TH_SURF_MOD                   modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       MODULE TIME_HISTORY_MOD
        USE TH_SURF_MOD

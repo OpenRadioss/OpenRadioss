@@ -64,6 +64,7 @@ Chd|        C_DOMS10                      source/spmd/domdec2.F
 Chd|        DD_FR                         source/spmd/domain_decomposition/domdec1.F
 Chd|        DD_FRX                        source/spmd/domain_decomposition/domdec1.F
 Chd|        DD_FR_2                       source/spmd/domain_decomposition/domdec1.F
+Chd|        DOMAIN_DECOMPOSITION_PCYL     source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 Chd|        DOMDEC2                       source/spmd/domdec2.F         
 Chd|        HM_READ_CYLJOINT              source/constraints/general/cyl_joint/hm_read_cyljoint.F
 Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F

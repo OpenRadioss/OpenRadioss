@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE PFLUID(ILOADP     ,RLOAD   ,NPC    ,TF     ,A          ,
      2                  V          ,X       ,XFRAME ,AR     ,VR         ,

@@ -61,6 +61,7 @@ Chd|        WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_pa
 Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
+Chd|        WRITE_PCYL                    source/output/restart/write_pcyl.F
 Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F

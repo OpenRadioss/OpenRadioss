@@ -73,6 +73,8 @@ Chd|        MULAWGLCPINCH                 source/elements/shell/coqueba/mulawglc
 Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
 Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
 Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
+Chd|        PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
+Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
 Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
 Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|        R23FORC3                      source/elements/spring/r23forc3.F

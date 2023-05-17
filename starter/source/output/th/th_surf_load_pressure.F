@@ -26,10 +26,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !!   the list of th surfaces  where a pressure is applied 
 
 Chd|====================================================================
-Chd|  SURF_AREA                     source/output/th/surf_area.F  
+Chd|  TH_SURF_LOAD_PRESSURE         source/output/th/th_surf_load_pressure.F
 Chd|-- called by -----------
-Chd|        HIST2                         source/output/th/hist2.F      
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE TH_SURF_LOAD_PRESSURE(IGRSURF  ,TH_SURF  , IPRES   ,ILOADP   ,LLOADP  ,
      .                                 SIZLOADP ,NLOADP   ,SLLOADP  ,NIBCLD   ,NPRELD  ,

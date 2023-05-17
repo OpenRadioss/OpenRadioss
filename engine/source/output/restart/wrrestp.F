@@ -41,6 +41,7 @@ Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
+Chd|        THSURF_WRITE_RESTART          ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|        WRCOMI                        source/output/restart/wrcomm.F
 Chd|        WRCOMR                        source/output/restart/wrcomm.F
@@ -53,6 +54,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRITE_JOINT                   source/output/restart/write_joint.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
+Chd|        WRITE_PCYL                    source/output/restart/write_pcyl.F
 Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRITE_TH_RESTART              source/output/th/write_th_restart.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
@@ -79,6 +81,7 @@ Chd|        INTBUFMOD                     share/modules/restart_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F

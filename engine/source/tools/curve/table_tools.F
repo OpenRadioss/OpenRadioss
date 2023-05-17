@@ -583,6 +583,7 @@ Chd|====================================================================
 Chd|  TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        GET_TABLE_VALUE_DYDX          source/user_interface/utable.F
+Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

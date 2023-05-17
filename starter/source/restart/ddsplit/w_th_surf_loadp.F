@@ -25,11 +25,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !! \details  Load pressures option
 
 Chd|====================================================================
-Chd|  W_ILOADP                      source/restart/ddsplit/w_iloadp.F
+Chd|  W_TH_SURF_LOADP               source/restart/ddsplit/w_th_surf_loadp.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE W_TH_SURF_LOADP(ILOADP ,NODLOCAL ,PROC     ,LEN_IA   ,CEP    ,
      .                           TH_SURF,NUMNOD   ,SIZLOADP ,NLOADP   ,LEN_CEP,

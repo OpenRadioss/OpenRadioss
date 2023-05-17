@@ -20,12 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
 #include "my_real.inc"
 c-----------------------------------------------------------------------
+Chd|====================================================================
+Chd|  DOMDEC_LOAD_MOD               modules/loads/domdec_load_mod.F
+Chd|-- called by -----------
+Chd|        LOADS_MOD                     common_source/modules/loads/loads_mod.F
+Chd|-- calls ---------------
+Chd|====================================================================
         MODULE DOMDEC_LOAD_MOD
 c-----------------------------------------------------------------------
         TYPE DOMDEC_PROC_LOAD_

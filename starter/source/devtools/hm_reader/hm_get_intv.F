@@ -311,6 +311,7 @@ Chd|        HM_READ_NBCS                  source/constraints/general/bcs/hm_read
 Chd|        HM_READ_NODE                  source/elements/reader/hm_read_node.F
 Chd|        HM_READ_PART                  source/model/assembling/hm_read_part.F
 Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PERTURB_FAIL          source/general_controls/computation/hm_read_perturb_fail.F
 Chd|        HM_READ_PERTURB_PART_SHELL    source/general_controls/computation/hm_read_perturb_part_shell.F
 Chd|        HM_READ_PERTURB_PART_SOLID    source/general_controls/computation/hm_read_perturb_part_solid.F

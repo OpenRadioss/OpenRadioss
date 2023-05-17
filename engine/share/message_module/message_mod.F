@@ -30,6 +30,7 @@ Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F
+Chd|        THSURF_READ_RESTART           ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        TH_ALLOC                      ../common_source/modules/output/time_history_mod.F
 Chd|        ACC_CYCON                     source/constraints/general/bcs/bcscyc.F
 Chd|        ADMERR                        source/model/remesh/admerr.F  

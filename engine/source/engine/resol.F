@@ -85,7 +85,7 @@ Chd|        CNDINT                        source/model/remesh/cndint.F
 Chd|        CNDORDR                       source/model/remesh/cndordr.F 
 Chd|        CND_DMASI2                    source/elements/solid/solide10/s10cndf.F
 Chd|        COLLECT                       source/output/outfile/collect.F
-Chd|        COLLECTM                      source/output/outfile/collet.F
+Chd|        COLLECTM                      source/output/outfile/collect.F
 Chd|        COLLECTT                      source/output/outfile/collect.F
 Chd|        CONVEC                        source/constraints/thermic/convec.F
 Chd|        CONVWREST                     source/output/restart/wrrest.F
@@ -249,6 +249,7 @@ Chd|        PLY_VITESSE                   source/assembly/ply_vitesse.F
 Chd|        PORO                          source/ale/porous/poro.F      
 Chd|        PREPARE_DEBUG                 share/modules/debug_mod.F     
 Chd|        PRERBE3P0                     source/constraints/general/rbe3/rbe3f.F
+Chd|        PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
 Chd|        PRINTIME                      source/system/timer.F         
 Chd|        PRINTIMEG                     source/system/timer.F         
 Chd|        PRINTIME_INTERF               source/system/timer_interf.F  
@@ -465,6 +466,7 @@ Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

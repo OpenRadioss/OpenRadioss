@@ -235,6 +235,7 @@ Chd|        PBLAST_2                      source/loads/pblast/pblast_2.F
 Chd|        PBLAST_3                      source/loads/pblast/pblast_3.F
 Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
+Chd|        PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
 Chd|        R1TORS                        source/elements/spring/r1tors.F
 Chd|        R23FORC3                      source/elements/spring/r23forc3.F
 Chd|        R23LAW108                     source/elements/spring/r23law108.F

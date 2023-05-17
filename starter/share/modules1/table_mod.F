@@ -45,6 +45,7 @@ Chd|        HM_READ_MAT76                 source/materials/mat/mat076/hm_read_ma
 Chd|        HM_READ_MAT80                 source/materials/mat/mat080/hm_read_mat80.F
 Chd|        HM_READ_MAT90                 source/materials/mat/mat090/hm_read_mat90.F
 Chd|        HM_READ_MOVE_FUNCT            source/tools/curve/hm_read_move_funct.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_TABLE1                source/tools/curve/hm_read_table.F
 Chd|        HM_READ_TABLE1_0              source/tools/curve/hm_read_table1_0.F
 Chd|        HM_READ_TABLE1_1              source/tools/curve/hm_read_table1_1.F

@@ -21,12 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  HM_READ_PCYL                 source/loads/general/pcyl/hm_read_pcyl.F
+Chd|  HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        NGR2USR                       source/system/nintrr.F        
-Chd|        USR2SYS                       source/system/sysfus.F        
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
+Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
+Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
+Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
+Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
+Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE HM_READ_PCYL(LOADS    ,IGRSURF  ,NSENSOR  ,SENSOR_TAB,TABLE  ,
      .                        IFRAME   ,UNITAB   ,LSUBMODEL, NUMBER_LOAD_CYL)

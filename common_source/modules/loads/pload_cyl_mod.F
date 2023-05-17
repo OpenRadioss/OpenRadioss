@@ -20,12 +20,19 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
 #include "my_real.inc"
 c-----------------------------------------------------------------------
+Chd|====================================================================
+Chd|  PLOAD_CYL_MOD                 modules/loads/pload_cyl_mod.F 
+Chd|-- called by -----------
+Chd|        LOADS_MOD                     common_source/modules/loads/loads_mod.F
+Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
+Chd|        WRITE_PCYL                    starter/source/loads/general/load_pcyl/write_pcyl.F
+Chd|        PRESS_SEG3                    engine/source/loads/general/load_pcyl/press_seg3.F
+Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE PLOAD_CYL_MOD
 c-----------------------------------------------------------------------
       TYPE PRESS_CYL_

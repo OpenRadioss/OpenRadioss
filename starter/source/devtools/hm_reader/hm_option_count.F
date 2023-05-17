@@ -60,6 +60,7 @@ Chd|        HM_READ_LAGMUL                source/tools/lagmul/hm_read_lagmul.F
 Chd|        HM_READ_LEAK                  source/airbag/hm_read_leak.F  
 Chd|        HM_READ_MOVE_FUNCT            source/tools/curve/hm_read_move_funct.F
 Chd|        HM_READ_NONLOCAL              source/materials/nonlocal/hm_read_nonlocal.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PERTURB               source/general_controls/computation/hm_read_perturb.F
 Chd|        HM_READ_PERTURB_FAIL          source/general_controls/computation/hm_read_perturb_fail.F
 Chd|        HM_READ_PRETHGROU             source/output/th/hm_read_prethgrou.F

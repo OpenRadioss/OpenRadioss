@@ -187,6 +187,7 @@ Chd|        HM_READ_NBCS                  source/constraints/general/bcs/hm_read
 Chd|        HM_READ_NODE                  source/elements/reader/hm_read_node.F
 Chd|        HM_READ_PART                  source/model/assembling/hm_read_part.F
 Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PERTURB               source/general_controls/computation/hm_read_perturb.F
 Chd|        HM_READ_PFLUID                source/loads/general/pfluid/hm_read_pfluid.F
 Chd|        HM_READ_PLOAD                 source/loads/general/pload/hm_read_pload.F
@@ -403,6 +404,7 @@ Chd|        SPHDCOD                       source/elements/sph/sphdcod.F
 Chd|        SPHONF0                       source/elements/sph/sphonf0.F 
 Chd|        SPINIH                        source/elements/sph/spinih.F  
 Chd|        SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
+Chd|        SPLIT_PCYL                    source/loads/general/load_pcyl/split_pcyl.F
 Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F
 Chd|        SPTRI                         source/elements/sph/sptri.F   
 Chd|        STACKGROUP                    source/stack/stackgroup.F     
@@ -423,6 +425,7 @@ Chd|        TGRHEAD                       source/elements/truss/tgrhead.F
 Chd|        TGRTAILS                      source/elements/truss/tgrtails.F
 Chd|        THPINIT                       source/output/th/thpinit.F    
 Chd|        THSKEWC                       source/output/th/thskewc.F    
+Chd|        TH_SURF_LOAD_PRESSURE         source/output/th/th_surf_load_pressure.F
 Chd|        TITRE2                        source/output/outfile/titre2.F
 Chd|        TITRE3                        source/output/outfile/titre3.F
 Chd|        TRACE_IN1                     source/system/trace_back.F    
@@ -475,6 +478,7 @@ Chd|        INTSTAMP_GLOB_MOD             share/modules1/intstamp_glob_mod.F
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|        IXINTMOD                      share/modules1/restart_mod.F  
 Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F

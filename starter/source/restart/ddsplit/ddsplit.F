@@ -112,6 +112,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
+Chd|        THSURF_WRITE_RESTART          ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        WRCOMIP                       source/restart/ddsplit/wrcommp.F
 Chd|        WRCOMR                        source/restart/ddsplit/wrcomm.F
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
@@ -122,6 +123,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRITE_JOINT                   source/constraints/general/cyl_joint/write_joint.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/restart/ddsplit/write_nloc_struct.F
+Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F
 Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
 Chd|        WRITE_TH_BUFFER               source/restart/ddsplit/write_th_buffer.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
@@ -218,6 +220,8 @@ Chd|        W_SKWSUB                      source/restart/ddsplit/w_skwsub.F
 Chd|        W_STACK                       source/restart/ddsplit/w_stack.F
 Chd|        W_SUBSET_STR                  source/restart/ddsplit/w_subset_str.F
 Chd|        W_TABMAT_PROP                 source/restart/ddsplit/w_tabmat_prop.F
+Chd|        W_TH_SURF_LOADP               source/restart/ddsplit/w_th_surf_loadp.F
+Chd|        W_TH_SURF_PLOAD               source/restart/ddsplit/w_th_surf_pload.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
@@ -239,6 +243,7 @@ Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
 Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  

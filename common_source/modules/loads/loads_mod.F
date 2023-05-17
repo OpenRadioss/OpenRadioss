@@ -20,12 +20,34 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
 #include "my_real.inc"
 c-----------------------------------------------------------------------
+Chd|====================================================================
+Chd|  LOADS_MOD                     modules/loads/loads_mod.F     
+Chd|-- called by -----------
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
+Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
+Chd|        HM_READ_PCYL                  starter/source/loads/general/load_pcyl/hm_read_pcyl.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        SPLIT_PCYL                    starter/source/loads/general/load_pcyl/split_pcyl.F
+Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
+Chd|        PRESSURE_CYL                  engine/source/loads/general/load_pcyl/pressure_cyl.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        RDRESA                        engine/source/output/restart/rdresa.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        READ_PCYL                     engine/source/output/restart/read_pcyl.F
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
+Chd|        WRITE_PCYL                    engine/source/output/restart/write_pcyl.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
+Chd|-- calls ---------------
+Chd|        DOMDEC_LOAD_MOD               modules/loads/domdec_load_mod.F
+Chd|        PLOAD_CYL_MOD                 modules/loads/pload_cyl_mod.F 
+Chd|====================================================================
       MODULE LOADS_MOD
 c-----------------------------------------------------------------------
       USE PLOAD_CYL_MOD

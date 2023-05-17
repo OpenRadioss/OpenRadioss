@@ -31,6 +31,7 @@ Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|====================================================================
       SUBROUTINE W_PON(
      1      ADDCNE   ,CNE      ,LCNE      ,NUMNOD_L  ,NODGLOB   ,

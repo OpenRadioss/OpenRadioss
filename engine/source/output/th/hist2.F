@@ -32,6 +32,7 @@ Chd|        FSEEK_C                       source/output/tools/sortie_c.c
 Chd|        SPMD_COLLECT_SEATBELT         source/mpi/output/spmd_collect_seatbelt.F
 Chd|        SPMD_GATHERV                  source/mpi/generic/spmd_gatherv.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
+Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_GLOB_RSUM_POFF           source/mpi/generic/spmd_glob_rsum_poff.F
 Chd|        SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
 Chd|        SPMD_SD_GAU                   source/mpi/output/spmd_sd_gau.F

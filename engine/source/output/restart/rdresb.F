@@ -53,6 +53,7 @@ Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        READ_JOINT                    source/output/restart/read_joint.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
+Chd|        READ_PCYL                     source/output/restart/read_pcyl.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|        READ_TH_RESTART               source/output/th/read_th_restart.F
 Chd|        SPMD_INISPH                   source/mpi/sph/spmd_sptool.F  
@@ -61,6 +62,7 @@ Chd|        SUBSET_INI                    source/groups/subset_ini.F
 Chd|        SURF_INI                      source/groups/surf_ini.F      
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
+Chd|        THSURF_READ_RESTART           ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
@@ -73,6 +75,7 @@ Chd|        INTBUFMOD                     share/modules/restart_mod.F
 Chd|        INTBUF_MOD                    share/modules/restart_mod.F   
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
@@ -83,6 +86,7 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
+Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_cyl_mod.F
 Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

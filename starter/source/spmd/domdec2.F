@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CHECK_SKEW                    source/spmd/domain_decomposition/check_skew.F
 Chd|        C_DOMS10                      source/spmd/domdec2.F         
+Chd|        DOMAIN_DECOMPOSITION_PCYL     source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 Chd|        FRONTPLUS_RM                  source/spmd/node/frontplus.F  
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
 Chd|        SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
@@ -37,6 +38,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
@@ -2019,6 +2021,7 @@ Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
       SUBROUTINE FILLCNE(

@@ -207,6 +207,7 @@ Chd|        HM_READ_MONVOL_TYPE8          starter/source/airbag/hm_read_monvol_t
 Chd|        HM_READ_MONVOL_TYPE9          starter/source/airbag/hm_read_monvol_type9.F
 Chd|        HM_READ_NBCS                  starter/source/constraints/general/bcs/hm_read_nbcs.F
 Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
+Chd|        HM_READ_PCYL                  starter/source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PERTURB               starter/source/general_controls/computation/hm_read_perturb.F
 Chd|        HM_READ_PERTURB_FAIL          starter/source/general_controls/computation/hm_read_perturb_fail.F
 Chd|        HM_READ_PERTURB_PART_SHELL    starter/source/general_controls/computation/hm_read_perturb_part_shell.F
@@ -407,6 +408,7 @@ Chd|        TAG_ELEM_VOID_R2R_LIN         starter/source/coupling/rad2rad/tagele
 Chd|        TGRHEAD                       starter/source/elements/truss/tgrhead.F
 Chd|        TGRTAILS                      starter/source/elements/truss/tgrtails.F
 Chd|        THPRIN_SUB                    starter/source/output/th/thprin.F
+Chd|        TH_SURF_LOAD_PRESSURE         starter/source/output/th/th_surf_load_pressure.F
 Chd|        TSURFTAG                      starter/source/groups/tsurftag.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
 Chd|        W_GROUP_STR                   starter/source/restart/ddsplit/w_group_str.F

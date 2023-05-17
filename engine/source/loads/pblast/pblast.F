@@ -32,6 +32,7 @@ Chd|        PBLAST_3                      source/loads/pblast/pblast_3.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE PBLAST (ILOADP  ,FAC     ,A       , V       ,X       ,
      1                   IADC    ,FSKY    ,FSKYV   ,LLOADP   ,FEXT    ,

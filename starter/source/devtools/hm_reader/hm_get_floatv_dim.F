@@ -114,6 +114,7 @@ Chd|        HM_READ_MONVOL_TYPE6          source/airbag/hm_read_monvol_type6.F
 Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
 Chd|        HM_READ_MONVOL_TYPE8          source/airbag/hm_read_monvol_type8.F
 Chd|        HM_READ_MONVOL_TYPE9          source/airbag/hm_read_monvol_type9.F
+Chd|        HM_READ_PCYL                  source/loads/general/load_pcyl/hm_read_pcyl.F
 Chd|        HM_READ_PFLUID                source/loads/general/pfluid/hm_read_pfluid.F
 Chd|        HM_READ_PLOAD                 source/loads/general/pload/hm_read_pload.F
 Chd|        HM_READ_PROP04                source/properties/spring/hm_read_prop04.F

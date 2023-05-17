@@ -135,6 +135,7 @@ Chd|        INTBUF_MOD                    share/modules/restart_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

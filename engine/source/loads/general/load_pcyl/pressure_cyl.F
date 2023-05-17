@@ -1,7 +1,13 @@
-Chd|  SEGP_CYL  
+Chd|====================================================================
+Chd|  PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
 Chd|-- called by -----------
-Chd|     RESOL
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE PRESSURE_CYL(
      .           LOADS     ,TABLE     ,NSENSOR   ,SENSOR_TAB,IFRAME    ,

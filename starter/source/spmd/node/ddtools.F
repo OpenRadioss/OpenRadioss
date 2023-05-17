@@ -129,6 +129,7 @@ Chd|====================================================================
 Chd|  PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|-- called by -----------
 Chd|        C_IRBE2                       source/restart/ddsplit/c_irbe2.F
+Chd|        DOMAIN_DECOMPOSITION_PCYL     source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 Chd|        GET_SIZE_NUMNOD_LOCAL         source/spmd/get_size_tag.F    
 Chd|        PREPARE_SPLIT_I21             source/restart/ddsplit/inter_tools.F
 Chd|        R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
