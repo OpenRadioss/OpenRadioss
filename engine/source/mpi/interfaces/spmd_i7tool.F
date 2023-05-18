@@ -5100,9 +5100,10 @@ C rajout partie edge
                  CALL READ_DB(STIF_MSDT_FI(I)%P(1),LENR) ! stif based on mass and dt
               ENDIF
                 IF(PARAMETERS%INTCAREA > 0.AND.IPARI(36,I)>0) THEN
-                   ALLOCATE(INTAREANFI(I)%P(LENI),STAT=IERROR1)
+                   ALLOCATE(INTAREANFI(I)%P(LENR),STAT=IERROR1)
                    IERROR = IERROR + IERROR1
-                   INTAREANFI(I)%P(1:LENI) =ZERO
+c                   INTAREANFI(I)%P(1:LENR) =ZERO
+                   CALL READ_DB(INTAREANFI(I)%P(1),LENR) ! Area of seconday node
                 ENDIF
           ENDIF  ! fin partie type 24 & 25
 C
