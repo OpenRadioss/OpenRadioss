@@ -271,7 +271,7 @@ C=======================================================================
        RFSA = YLD_SAF *(SQDT+ALPHA)-CSA*TFSA
        DO I = 1,NEL
 C
-	   FM = UVAR(I,1)   ! fraction of Martensite    
+        FM = UVAR(I,1)   ! fraction of Martensite    
         GT(I) = G + FM * (GM - G) !G_n
         KT(I) = K + FM * (KM - K) !K_n
         !pressure
@@ -304,7 +304,7 @@ C   Check Austenite -----> martensite
         FASF = FS -  RFAS
         FS0 = UVAR(I,2)
         BETA      = EPSL*(TWO*GT(I)+NINE*KT(I)*ALPHA*ALPHA)
-        IF((FS - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO .AND. FM < ONE )THEN
+        IF((FS - FS0) > ZERO .AND. FASS > ZERO.AND. FM <= ONE ) THEN  
         ! DFMAS = MIN(ONE, -(FS-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  ) ! (should be positive)
          DB    = (TWO * (GM-G) +NINE*ALPHA*ALPHA*(KM-K)) *EPSL
          UNMXN = ONE - FM
@@ -321,14 +321,14 @@ C   Check Austenite -----> martensite
          DFMAS = MIN(ONE,DFMAS  ) ! (should be positive)
         ENDIF
 C----------------------
-C   Check marteniste -----> austenite  (dependance au tempurature a voir ...)
+C   Check marteniste -----> austenite   
 c      Unloading function
         FS = SV + THREE*ALPHA*P  - CSA*TEMP(I)
         FSAS = FS -RSSA  
         FSAF = FS -RFSA  
         FS0 = UVAR(I,3)
 
-        IF((FS - FS0) < ZERO .AND. FSAS < ZERO.AND. FSAF > ZERO )THEN 
+        IF((FS - FS0) < ZERO .AND. FSAS < ZERO .AND. FM >ZERO)THEN 
          !DFMSA =  MAX(-ONE , FM * (FS - FS0)/ (FSAF+BETA*FM) )
          DB    = (TWO * (GM-G) +NINE*ALPHA*ALPHA*(KM-K))*EPSL
          DFTR  = TWO * (GM-G)*NE+ THREE*ALPHA*(KM-K)*TRDE(I)
@@ -367,7 +367,7 @@ C----------------------
        SIGXX(I)= SXX + P
        SIGYY(I)= SYY + P
        SIGZZ(I)= SZZ + P
-	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
+       SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
        FS = SV + THREE*ALPHA*P      
        !CAUCHY STRESS
        IF(DET(I)/=zero)THEN 
@@ -422,7 +422,7 @@ C=======================================================================
        RFSA = YLD_SAF *(SQDT+ALPHA)-CSA*TFSA
        DO I = 1,NEL
 C
-	   FM = UVAR(I,1)   ! fraction of Martensite    
+        FM = UVAR(I,1)   ! fraction of Martensite    
         !pressure
         P = K * (TRDE(I) - THREE*ALPHA*EPSL*FM)
         ! n= e/ norm(e)
@@ -449,24 +449,24 @@ c loading function
        FS = SV + THREE*ALPHA*P - CAS*TEMP(I) ! loading function A--> M
        !FSS = FS - YLD_ASS 
 C----------------------
-C   Check Austenite -----> martensite  (dependance tempurature a voir ...)
+C   Check Austenite -----> martensite  
        FASS = FS -RSAS 
        FASF = FS -RFAS 
        FS0 = UVAR(I,2)
-       IF((FS - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < ONE ) THEN!          
+       IF((FS - FS0) > ZERO .AND. FASS > ZERO.AND. FM < ONE ) THEN!        
                 DFMAS = MIN(ONE, -(FS-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  ) ! (should be positive)
        ENDIF
 C----------------------
-C   Check marteniste -----> austenite  (dependance au tempurature a voir ...)
+!   Check marteniste -----> austenite   
        FS = SV + THREE*ALPHA*P - CSA*TEMP(I) ! Unloading function M--> A
        FSAS = FS - RSSA
        FSAF = FS - RFSA
        FS0 = UVAR(I,3)
-       IF((FS - FS0) < ZERO .AND. FSAS < ZERO .AND. FSAF > ZERO ) THEN
+       IF((FS - FS0) < ZERO .AND. FSAS < ZERO  .AND. FM > ZERO) THEN ! 
                DFMSA =  MAX(-ONE , FM * (FS - FS0)/ (FSAF+BETA*FM) )  !compute marteniste fraction
        ENDIF
 C----------------------
-C      new martensite fraction        
+!      new martensite fraction        
        DFM =  DFMAS + DFMSA 
        IF(DFM < ZERO .AND. FM == ZERO) DFM = ZERO
 C----------------------

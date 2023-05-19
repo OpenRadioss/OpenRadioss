@@ -332,7 +332,7 @@ c----------------------------------------------
            ! loading function
            FS(I) = SV(I) + THREE*ALPHA*P11(I) - CAS*TEMP(I) ! loading function A--> M
            !----------------------
-           !   Check Austenite -----> martensite  (dependance tempurature a voir ...)
+           !   Check Austenite -----> martensite  
            FASS = FS(I) -RSAS 
            FASF = FS(I) -RFAS 
            FS0  = UVAR(I,2)
