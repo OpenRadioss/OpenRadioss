@@ -2547,10 +2547,6 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
       ENDDO
       RETURN
       END
-
-
-
-
 Chd|====================================================================
 Chd|  VALPVECOP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------

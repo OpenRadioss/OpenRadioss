@@ -1056,7 +1056,7 @@ C------ default IHKT of HEPH
            IF (IMATVIS > 0 .OR.MLN==24) THEN
             SELECT CASE (MLN)
 C--------hyperelastic, visco-elastic           
-             CASE(38,42,62,69,70,82,88,90,92,94)             
+             CASE(38,42,62,69,70,82,88,90,92,94,190)             
               IINT =2
 C--------SUPERELASTIC           
              CASE(71)                                             
@@ -1074,7 +1074,7 @@ C -------------------
             ICPRE = 1
             SELECT CASE (MLN)
 C--------elastic ,visco-elastic           
-             CASE(1,13,16,33,34,35,38,40,41,70,77,90)                                             
+             CASE(1,13,16,33,34,35,38,40,41,70,77,90,190)                                             
               ICPRE = 0
               IF (PM(21,MID)>=0.49) ICPRE = 1
 C-----Keep IINT=2 for message and output (Isolid=18->17), remove free-shear in Engine               
@@ -1129,7 +1129,7 @@ C--------hyper-elastic
              CASE(42,62,69,82,88,92,94,95,100,101,111)                                             
               ISSN=10
 C--------visco_elastic  add 90       
-             CASE(38,90)                                             
+             CASE(38,90,190)                                             
               ISSN=10
 C--------special          
              CASE(28)                                             
@@ -1215,7 +1215,7 @@ cc          CALL ANCERR(601,ANINFO_BLIND_2)
      .         MLN /= 99 .AND. MLN /= 1  .AND. MLN /= 88  .AND. 
      .         MLN /= 71 .AND. MLN /= 94 .AND. MLN /= 90  .AND. 
      .         MLN /= 95 .AND. MLN /=100 .AND. MLN /= 101 .AND.
-     .         MLN /= 111 ) THEN
+     .         MLN /= 111 .AND. MLN /=190) THEN
 C--------------warning out     
                 CALL ANCMSG(MSGID=1092,
      .                      MSGTYPE=MSGWARNING,
@@ -1232,7 +1232,7 @@ C--------------warning out
             END IF
           ELSE IF (ISSN == 11) THEN
             IF(MLN /= 1 .AND.MLN /= 38 .AND. MLN /= 70 .AND. MLN /= 77 
-     .         .AND. MLN /= 90  )THEN
+     .         .AND. MLN /= 90  .AND. MLN /= 190)THEN
 C--------------error out     
                 CALL ANCMSG(MSGID=1093,
      .                      MSGTYPE=MSGERROR,

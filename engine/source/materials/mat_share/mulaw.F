@@ -1761,7 +1761,16 @@ c
      .                   SSP   ,VIS   ,UVAR  ,OFF   ,SIGY  ,DEFP  ,
      .                   DPLA  ,ET    ,IPM   ,MAT   ,ISRATE,
      .                   YLDFAC,EPSP  ) 
+      ELSEIF (MTN == 190) THEN !Path dependent foam (Dubois)
 
+        CALL SIGEPS190(NEL ,NUVAR,TT   ,RHO ,
+     1                 EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,          
+     2                 S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,          
+     3                 MFXX,MFXY,MFXZ,MFYX ,MFYY ,MFYZ,          
+     4                 MFZX ,MFZY,MFZZ,                          
+     5                 SSP ,VIS ,UVAR,                           
+     6                 MATPARAM%NTABLE,MATPARAM,NVARTMP, VARTMP) 
+C      
 c----------------------------------------
       ENDIF  ! MTN
 C=======================================================================

@@ -1118,6 +1118,14 @@ c-------
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
 c-------
+          CASE ('LAW190','FOAM_DUBOIS')
+            ILAW  = 190  
+            CALL HM_READ_MAT190(
+     .           NUVAR    ,NUMTABL    ,
+     .           MAXTABL  ,ITABLE   ,PARMAT   ,UNITAB     ,
+     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM   ,
+     .           NVARTMP ,IMATVIS)
+c-------
           CASE ('GAS')
              ILAW = 999
              CALL HM_READ_MATGAS(PM(1, I), IPM(1, I),MAT_ID, TITR, KEY2, UNITAB, LSUBMODEL)
