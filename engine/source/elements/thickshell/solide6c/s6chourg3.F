@@ -266,10 +266,12 @@ C
         F31(I) =F31(I)-G11(I)*NFHZ1(I)-G12(I)*NFHZ2(I)
         F32(I) =F32(I)-G21(I)*NFHZ1(I)-G22(I)*NFHZ2(I)
         F33(I) =F33(I)-G31(I)*NFHZ1(I)-G32(I)*NFHZ2(I)
-        F34(I) =F34(I)-G41(I)*NFHZ1(I)-G42(I)*NFHZ2(I)
         F35(I) =F35(I)-G51(I)*NFHZ1(I)-G52(I)*NFHZ2(I)
         F36(I) =F36(I)-G61(I)*NFHZ1(I)-G62(I)*NFHZ2(I)
         F37(I) =F37(I)-G71(I)*NFHZ1(I)-G72(I)*NFHZ2(I)
+      ENDDO
+      DO I=1,NEL
+        F34(I) =F34(I)-G41(I)*NFHZ1(I)-G42(I)*NFHZ2(I)
         F38(I) =F38(I)-G81(I)*NFHZ1(I)-G82(I)*NFHZ2(I)
       ENDDO
       DO I=1,NEL
