@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE LAW190_UPD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -345,6 +346,10 @@ c-------------------------
             CALL LAW158_UPD(TITR,UPARAM,NPC,PLD,
      .                      NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
      .                      PM(1,IMAT),NPARAM,SENSORS)
+c------------------
+          CASE (190) !PAth dependent foam (dubois)
+c------------------
+            CALL LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE   )       
 c------------------
 c
         END SELECT ! (ILAW)  

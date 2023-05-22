@@ -529,7 +529,6 @@ C
         SIGNZZ(I) = DIRPRV(3,3,I)*DIRPRV(3,3,I)*T3        
      .            + DIRPRV(3,1,I)*DIRPRV(3,1,I)*T1
      .            + DIRPRV(3,2,I)*DIRPRV(3,2,I)*T2
-     
         SIGNXY(I) = DIRPRV(1,1,I)*DIRPRV(2,1,I)*T1
      .            + DIRPRV(1,2,I)*DIRPRV(2,2,I)*T2     
      .            + DIRPRV(1,3,I)*DIRPRV(2,3,I)*T3
