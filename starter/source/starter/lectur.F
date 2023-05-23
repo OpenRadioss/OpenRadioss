@@ -8050,7 +8050,7 @@ C
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .               KXSP     ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .               EOS_TAG  ,MAXEOS)
+     .               EOS_TAG  ,MAXEOS   ,ISTR_24  )
 C---
 C  if xfem
 c---
