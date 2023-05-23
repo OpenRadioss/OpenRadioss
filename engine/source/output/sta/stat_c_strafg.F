@@ -132,7 +132,7 @@ C-----------------------------------------------
          IGTYP= IPARG(38,NG)
          ISUBSTACK=IPARG(71,NG)
          NPG  = NPTR*NPTS
-         IF (IHBE == 23) NPG=4
+         IF (IHBE == 23 .AND. GBUF%G_STRPG>GBUF%G_STRA) NPG=4
          LFT=1
          LLT=NEL
          G_STRA = GBUF%G_STRA

@@ -487,7 +487,7 @@ C----------------------------------
      6             Y24    ,PX2    ,PY1   ,PY2  ,AREA     ,
      7             ISMSTR ,MTN    ,WXY   ,F_DEF,GBUF%STRW,
      8             NEL    )
-       IF (ISTRAIN /= 0) THEN
+       IF (GBUF%G_STRPG > GBUF%G_STRA) THEN
         CALL CZSTRAH3(JFT   ,JLT    ,GBUF%STRPG,DHG    ,A_I   ,
      3               MX23   ,MX34   ,MY23  ,MY34   ,DT1C  ,
      4               EXX    ,EYY    ,EXY   ,EXZ    ,EYZ      ,  
