@@ -598,6 +598,7 @@ C-----------------------------------------------
               CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
               RETURN
         ENDIF
+        DO I=1,MIP
           IF(tMID(I)  <= 0)THEN
               chain(1:10)='          '
               write(chain(1:10),'(i10)')tMID(I)
@@ -605,7 +606,8 @@ C-----------------------------------------------
               CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=TITR,C2=chain1)
               tMID(I)=0
               RETURN
-          ENDIF        
+          ENDIF
+        ENDDO      
         DO I=1,MIP
           IF(tAV(I)<ZERO .OR. tAV(I)>ONE)THEN
               chain(1:20)='                    '
