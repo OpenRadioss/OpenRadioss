@@ -500,7 +500,7 @@ c---
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
 C--------to fill GBUF%STRPG     
-         IF (ITHKSHEL == 2) 
+         IF (ITHKSHEL == 2.AND.GBUF%G_STRPG>GBUF%G_STRA) 
      1     CALL CSTRAINI4(LFT   ,LLT    ,NFT    ,NEL    ,NUMSHEL,
      2           ISTRAIN,GBUF%STRPG,SIGSH ,NSIGSH ,NUMELC ,
      4           IXC    ,NIXC   ,PTSHEL   ,THKE   ,GBUF%STRA,

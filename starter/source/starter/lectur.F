@@ -716,7 +716,7 @@ C-----------------------------------------------
      .   PROC_BID,FLG_R2R_ERR,NSPCOND0,LENTHGR,FLAG_XFEM,
      .   IADTABIGE,NDOUBLONIGE,DECALIGEO,HM_NSENSOR,
      .   IPARSENS,NBT8,
-     .   TAB_SOL(6),
+     .   TAB_SOL(6),ISTR_24,
      .   LCNCND,I24MAXNSNE,NSIGBEAM,NSIGTRUSS,S_LOADPINTER,
      .   FLAGF,ITHFLAG,MAXRTM_T2,NS_I2,SITAGE,NCTRLMAX,INLIN,SVR_1
       INTEGER (KIND=8) EMAX
@@ -6857,6 +6857,11 @@ C---------------------------------------------
 C    CHECK ENGINE FILE /H3D/?/TMAX initialization
 C-------------------------------------------
       CALL INI_H3DTMAX_ENGINE(IPARG,IPART,IPARTS,IPARTC,IPARTG,IDDLEVEL)
+C---------------------------------------------
+C    CHECK ENGINE FILE DYNAIN or STATE if to use F.I. total strain for QEPH
+C-------------------------------------------
+      ISTR_24 = 0
+      IF (NUMELC/=0) CALL CHECK_QEPH_STRA(ISTR_24)
 C--------------------------------------------
 C     LECTURE DES ELEMENTS DESACTIVABLES
 C--------------------------------------------
@@ -8061,7 +8066,7 @@ c
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .         KXSP                   ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .         IXT                    ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .         EOS_TAG                ,MAXEOS)
+     .         EOS_TAG                ,MAXEOS   ,ISTR_24  )
         ENDDO
       ELSE
         ALLOCATE (XFEM_TAB(0,0), STAT=Stat)

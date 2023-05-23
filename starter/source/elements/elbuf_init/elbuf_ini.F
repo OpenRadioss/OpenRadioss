@@ -40,7 +40,7 @@ Chd|====================================================================
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .           KXSP      ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .           IXT       ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .           EOS_TAG   ,MAXEOS)
+     .           EOS_TAG   ,MAXEOS   ,ISTR_24  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER , INTENT(IN) :: ISTR_24
       INTEGER IPARG(NPARG,NGROUP),IPART(LIPART1,*),
      .        IPARTSP(*),IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
@@ -1453,7 +1454,7 @@ c---------for accumulate WXY
      .       ISMSTR == 11 .OR.(ISMSTR==1 .AND. MLW==19)) THEN
             GBUF%G_STRA = 8
           ENDIF
-          IF (ITY == 3 .AND. JHBE == 23) GBUF%G_STRPG = 4*GBUF%G_STRA
+          IF (ITY == 3 .AND. JHBE == 23 .AND. ISTR_24 > 0) GBUF%G_STRPG = 4*GBUF%G_STRA
 c           Allocate thermal stress and Thermal internal energy
           IF(IEXPAN > 0) THEN
              GBUF%G_FORTH = 2
