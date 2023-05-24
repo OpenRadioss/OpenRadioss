@@ -25,7 +25,6 @@ Chd|  R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|-- called by -----------
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
-Chd|        CATCH_SIG_C                   source/coupling/rad2rad/sys_pipes_c.c
 Chd|        CONNECTION_SOCK_C             source/coupling/rad2rad/rad2rad_c.c
 Chd|        GET_FBUF_C                    source/coupling/rad2rad/rad2rad_c.c
 Chd|        GET_IBUF_C                    source/coupling/rad2rad/rad2rad_c.c
@@ -186,7 +185,6 @@ C----- Initialize Fifos
        CALL OPENFIFO_C(IROOT,ROOTLEN,R2R_FDW,R2R_FDR,SOCKET(1),ISPMD,NTHREAD,PPID)       
 C----- set signal catch  
        CALL GET_IBUF_C(R2R_IPID,1)
-       CALL CATCH_SIG_C(R2R_IPID)
 C----- send link interface data
        CALL SEND_IBUF_C(NR2RLNK,1)
        CALL SEND_IBUF_C(IRODDL,1)
@@ -396,7 +394,6 @@ C----- Initialize Fifos
         CALL OPENSEM_C(IROOT,ROOTLEN,ISPMD,NTHREAD,PPID)
 C----- set signal catch
         CALL GET_IBUF_C(R2R_IPID,1)	
-        CALL CATCH_SIG_C(R2R_IPID)	
 C----- send link interface data
         CALL SEND_IBUF_C(NR2RLNK,1)
         CALL SEND_IBUF_C(IRODDL,1)

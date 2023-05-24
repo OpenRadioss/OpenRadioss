@@ -20,13 +20,14 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
+
+
 #include "hardware.inc"
 #include "pipes_c.inc"
 #include <stdio.h>
-#if CPP_mach==CPP_sun || CPP_mach==CPP_sun25 || CPP_mach==CPP_ppw_spmd || CPP_mach==CPP_ppw
-#include <utmpx.h>
-#endif
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
+
+#ifdef _WIN64 
+
 #include <sys\types.h>
 #include <errno.h>
 #include <signal.h>
@@ -36,13 +37,12 @@
 #include <string.h>
 #include <ctype.h>
 #include <io.h>
-/* def signaux bidons */
-#define SIGHUP   1
-#define SIGQUIT  3
-#define SIGBUS  10
-#define SIGPIPE 13
+
 #define _FCALL 
+
 #elif 1
+#include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -50,8 +50,12 @@
 #include <signal.h>
 #include <errno.h>
 #include <time.h>
-#include <stdlib.h>
+
+
+
+
 #define _FCALL
+
 #endif
 
 /***************************************************************************/
@@ -146,82 +150,6 @@ int ncount,done;
 }
 
 
-static void cleanup(int sig, int ppid)
-{
-    if (signal(sig,SIG_IGN) == SIG_ERR)
-        syserr("signal");
-    printf("\n ** ERROR: Catched system signal: ");
-    switch (sig)
-    {
-    case SIGHUP:
-        printf("Hangup\n");
-        break;
-    case SIGINT:
-        printf("Process interrupted\n");
-        break;
-    case SIGILL:
-        printf("Illegal instruction\n");
-        break;
-    case SIGABRT:
-        printf("Process aborted\n");
-        break;
-    case SIGQUIT:
-        printf("Process Quit\n");
-        break;
-    case SIGFPE:
-        printf("Floating point exception\n");
-        break;
-    case SIGBUS:
-        printf("Bus error\n");
-        break;
-    case SIGSEGV:
-        printf("Segmentation fault\n");
-        break;
-    case SIGPIPE:
-        printf("Broken pipe, lost contact with master process\n");
-        break;
-    default:
-        break;
-    }
-#if CPP_mach==CPP_sgi5 || CPP_mach==CPP_sgi6
-    printf("\tSending termination signal to master...\n");
-    if(sigsend(P_PID, ppid, SIGUSR1))
-            syserr("Signal");
-#endif
-    exit(0);
-}
-
-
-
-void catch_sig_c(int *pid)
-{
-
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
-#elif 1
-    sigset(SIGHUP,  cleanup);
-    sigset(SIGINT,  cleanup);
-    sigset(SIGILL,  cleanup);
-    sigset(SIGABRT, cleanup);
-    sigset(SIGQUIT, cleanup);
-    sigset(SIGFPE,  cleanup);
-    sigset(SIGBUS,  cleanup);
-    sigset(SIGSEGV, cleanup);
-    sigset(SIGPIPE, cleanup);
-#endif
-}
-void _FCALL CATCH_SIG_C(pid)
-int *pid;
-{
-    catch_sig_c(pid);
-}
-void catch_sig_c_(pid)
-int *pid;
-{
-    catch_sig_c(pid);
-}
-void catch_sig_c__(pid)
-int *pid;
-{catch_sig_c(pid);}
 
 
 
