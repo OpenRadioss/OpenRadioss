@@ -24,7 +24,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
+
+
+
+#ifdef _WIN64
 
 #define _FCALL
 
@@ -32,19 +35,23 @@
 #elif 1
 
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #define _FCALL
 
 #endif
 
 
 
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
+#ifdef _WIN64 
 
 void my_fork_c(int * pid){
  *pid=-1;   
 }
 void my_waitpid_c(int * pid, int * istat, int * pidp, int * pidret){
  *pid=-1;   
+ *pidret=-1;
 }
 
 
@@ -54,10 +61,12 @@ void my_waitpid_c(int * pid, int * istat, int * pidp, int * pidret){
 void my_fork_c(int * pid){
 *pid = fork();
 }
-void my_waitpid_c(int * pid, int * istat, int * pidp, int * pidret){
-waitpid(*pid,*istat,*pidp);
-}
 
+void my_waitpid_c(int * pid, int * istat, int * pidp, int * pidret){
+
+*pidret = waitpid(*pid,istat,*pidp);
+
+}
 
 #endif
 
