@@ -102,6 +102,7 @@ card3 - Hardening mdefied Voce
 card4 - JC strain rate
       CALL HM_GET_FLOATV('MAT104_Cjc'  ,JCC          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT104_Eps0' ,EPSP0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT104_Fcut' ,FCUT         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card5 - thermal softening
       CALL HM_GET_FLOATV('MAT104_Tss'  ,MTEMP        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT104_Tref' ,TREF         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -115,7 +116,9 @@ c---------------------------------------------------
       ! Default values
       IF (YLD0 == ZERO) YLD0 = INFINITY
       ! Cutting frequency
-      FCUT   = 10000.0D0*FAC_T_WORK
+      IF (FCUT == ZERO) THEN 
+        FCUT = 10000.0D0*FAC_T_WORK
+      ENDIF
       ASRATE = TWO*PI*FCUT
       ! If the inviscid plastic strain-rate is zero, no Johnson-Cook model
       IF(EPSP0 == ZERO) THEN 
@@ -261,7 +264,7 @@ c-----------------------------------------------------------------------
       ELSE
         WRITE(IOUT,1050) RHO0
         WRITE(IOUT,1100) YOUNG,NU   ,CDR ,QVOCE,BVOCE,
-     .                   YLD0, HP   ,JCC ,EPSP0,
+     .                   YLD0, HP   ,JCC ,EPSP0,FCUT,
      .                   MTEMP,TREF ,TINI,ETA  ,CP, DPIS,DPAD,
      .                   FLAGNICE
       ENDIF
@@ -288,6 +291,7 @@ c-----------------------------------------------------------------------
      & 5X,'LINEAR HARDENING PARAMETER. . . . . . . . . .=',1PG20.13/ 
      & 5X,'J-C STRAIN RATE COEFFICIENT C . . . . . . . .=',1PG20.13/
      & 5X,'J-C REFERENCE STRAIN RATE . . . . . . . . . .=',1PG20.13/
+     & 5X,'PLASTIC STRAIN RATE CUTOFF FREQUENCY. . . . .=',1PG20.13/
 !
      & 5X,'THERMAL SOFTENING SLOPE . . . . . . . . . . .=',1PG20.13/
      & 5X,'REFERENCE TEMPERATURE . . . . . . . . . . . .=',1PG20.13/

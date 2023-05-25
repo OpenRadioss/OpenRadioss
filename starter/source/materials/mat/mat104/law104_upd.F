@@ -114,9 +114,6 @@ c
         MLAW_TAG%G_DMG    = 1
         MLAW_TAG%L_DMG    = 1
 c
-        ! Update MATPARAM 
-        CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")
-c
         ! Storage of damage parameters
         UPARAM(30) = IGURSON
         UPARAM(31) = Q1

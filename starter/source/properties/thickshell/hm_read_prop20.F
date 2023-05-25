@@ -91,7 +91,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
+     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
+     .   NLY
       my_real
      .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -201,6 +202,7 @@ C
      .                I3=IHBE)
         ENDIF                                              
         NPG = NPT
+        NLY = NPT
       CASE(14,16)                                          
 c        NPT = NPTR*100+NPTS*10+ NPTT     
         IF (NPT == 0) THEN
@@ -209,7 +211,8 @@ c        NPT = NPTR*100+NPTS*10+ NPTT
          NPTS = 2
          NPTT = 2     
         END IF         
-        NPG = NPTR*NPTS*NPTT                                    
+        NPG = NPTR*NPTS*NPTT   
+        NLY = 0                                 
         IF (IHBE == 14 .AND.                               
      .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.     
      .      NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN   
@@ -252,7 +255,8 @@ C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IGEO(13) = ICPRE                                 
       IGEO(14) = ICSTR                                 
       IGEO(15) = IINT                                 
-      IGEO(16) = JCVT-1                               
+      IGEO(16) = JCVT-1  
+      IGEO(30) = NLY
 C
       GEO(13)  = CVIS        
       GEO(14)  = QA

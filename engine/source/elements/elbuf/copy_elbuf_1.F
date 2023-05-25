@@ -88,6 +88,7 @@ C-----------------------------------------------
       TYPE(BUF_VISC_) , POINTER :: VISCS,VISCT
       TYPE(BUF_EOS_)  , POINTER :: EOSS,EOST
       TYPE(BUF_NLOC_) , POINTER :: BUFNLS,BUFNLT
+      TYPE(BUF_NLOCTS_),POINTER :: BUFNLSTS,BUFNLTTS
 c-------------------------------------------------
 c      copy the element buffer : ELBUF_SRC -> ELBUF_TGT
 c      target must be allocated
@@ -519,6 +520,36 @@ c-------------------------------
                     BUFNLT%VNLTH(I,1:NONL)  = BUFNLS%VNLTH(I,1:NONL) 
                     ! Non-local in-thickness forces
                     BUFNLT%FNLTH(I,1:NONL)  = BUFNLS%FNLTH(I,1:NONL) 
+                  ENDDO
+                ENDDO
+              ENDDO
+            ENDIF
+c-------------------------------
+c         Non-local regularization in the thickshell thickness                   
+c-------------------------------
+          ELSEIF (ITY==1) THEN
+            ! Number of integration points in the shell thickness
+            NPTT = ELBUF_SRC(NG)%NLAY
+            IF ((INLOC>0).AND.(NPTT>1)) THEN
+              ! Number of non-local nodes in the thickness
+              NONL = NPTT+1
+              ! Loop over integration points in the plane of the shell
+              DO IR = 1,NPTR
+                DO IS = 1,NPTS
+                  ! Pointing the non-local buffer of the source
+                  BUFNLSTS => ELBUF_SRC(NG)%NLOCTS(IR,IS)
+                  ! Pointing the non-local buffer of the target
+                  BUFNLTTS => ELBUF_TGT(NG)%NLOCTS(IR,IS)
+                  ! Copying the buffer
+                  DO I = 1,NEL
+                    ! Nodal masses
+                    BUFNLTTS%MASSTH(I,1:NONL) = BUFNLSTS%MASSTH(I,1:NONL) 
+                    ! Non-local in-thickness cumulated variables
+                    BUFNLTTS%UNLTH(I,1:NONL)  = BUFNLSTS%UNLTH(I,1:NONL) 
+                    ! Non-local in-thickness velocities
+                    BUFNLTTS%VNLTH(I,1:NONL)  = BUFNLSTS%VNLTH(I,1:NONL) 
+                    ! Non-local in-thickness forces
+                    BUFNLTTS%FNLTH(I,1:NONL)  = BUFNLSTS%FNLTH(I,1:NONL) 
                   ENDDO
                 ENDDO
               ENDDO

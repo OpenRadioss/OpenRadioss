@@ -190,16 +190,16 @@ c
       CHARACTER*64 TEST_CHAIN
       CHARACTER*10 FAIL_NAME(50)
       DATA  FAIL_NAME/
-     1 'JOHNSON    ','TBUTCHER  ','WILKINS   ','USER1     ','USER2     ',
-     2 'USER3      ','FLD       ','SPALLING  ','WIERZBICKI','TENSSTRAIN',
-     3 'ENERGY     ','          ','CHANG     ','HASHIN    ','          ',
-     4 'PUCK       ','          ','LADEVEZE  ','          ','CONNECT   ',
-     5 '           ','          ','TAB1      ','ORTHSTRAIN','NXT       ',
-     6 'SNCONNECT  ','EMC       ','ALTER     ','SAHRAEI   ','BIQUAD    ',
-     7 'FABRIC     ','HC_DSSE   ','MULLINS   ','COCKCROFT ','GURSON    ',
-     8 'VISUAL     ','TAB_OLD   ','ORTHBIQUAD','GENE1     ','RTCL      ',
-     9 'TAB2       ','INIEVO    ','SYAZWAN   ','TSAIWU    ','TSAIHILL  ',
-     A 'HOFFMAN    ','MAXSTRAIN ','          ','          ','          '/
+     1 'JOHNSON   ','TBUTCHER  ','WILKINS   ','USER1     ','USER2     ',
+     2 'USER3     ','FLD       ','SPALLING  ','WIERZBICKI','TENSSTRAIN',
+     3 'ENERGY    ','          ','CHANG     ','HASHIN    ','          ',
+     4 'PUCK      ','          ','LADEVEZE  ','          ','CONNECT   ',
+     5 '          ','          ','TAB1      ','ORTHSTRAIN','NXT       ',
+     6 'SNCONNECT ','EMC       ','ALTER     ','SAHRAEI   ','BIQUAD    ',
+     7 'FABRIC    ','HC_DSSE   ','MULLINS   ','COCKCROFT ','GURSON    ',
+     8 'VISUAL    ','TAB_OLD   ','ORTHBIQUAD','GENE1     ','RTCL      ',
+     9 'TAB2      ','INIEVO    ','SYAZWAN   ','TSAIWU    ','TSAIHILL  ',
+     A 'HOFFMAN   ','MAXSTRAIN ','          ','          ','          '/
 C=========================================================================
       IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
       IF(H3D_DATA%TH3D_STOP0 /= EP20)  H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0      
@@ -861,15 +861,17 @@ C--------------------------------------------------
 C
             ! LAYER=ALL 
             IF (IS_LAYER_ALL == 1) THEN
-	      DO K=1,NUMGEO
-           	IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
-                   NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
-           	ELSEIF(IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
+	            DO K=1,NUMGEO
+           	    IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
+                  NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
+           	    ELSEIF(IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
                   NLAY_MAX = MAX(NLAY_MAX,MIN(1,IGEO(30,K)))
+                ELSEIF(IGEO(11,K) == 20) THEN 
+                  NLAY_MAX = MAX(NLAY_MAX,MAX(1,IGEO(30,K)))
                 ENDIF
-	      ENDDO
+	            ENDDO
               DO K=1,NS_STACK ! type17,51 & 52
-                  NLAY_MAX = MAX(NLAY_MAX,STACK%IGEO(1,K))
+                NLAY_MAX = MAX(NLAY_MAX,STACK%IGEO(1,K))
               ENDDO
             ENDIF
 C
