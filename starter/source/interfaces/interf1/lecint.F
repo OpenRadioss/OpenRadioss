@@ -631,6 +631,7 @@ C=======================================================================
         NOINT  = IPARI(15,NI)
         IS1    = IPARI(13,NI)/10
         IGAP   = IPARI(21,NI)
+        INACTI = IPARI(22,NI)
         ILAGM  = IPARI(33,NI)
         IS2    = MOD(IPARI(13,NI),10)
         ISU1   = IPARI(45,NI)
