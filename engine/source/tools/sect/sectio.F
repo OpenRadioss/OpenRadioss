@@ -129,11 +129,11 @@ C
 C
        IF(IPARSENS==0) THEN    ! Parith/Off
         DO K=1,NSA
-         I1=IPERM(II)
-         DO II=1,4
-           J  = JJJ(K)
-           I  = NSTRF(1,J)-NFT
-           IPACK = NSTRF(2,J)
+         J  = JJJ(K)
+         I  = NSTRF(1,J)-NFT
+         IPACK = MOD(NSTRF(2,J),256)
+         DO II=1,6
+           I1 = IPERM(II)
            IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
@@ -191,11 +191,11 @@ C
         ENDDO
        ELSE                ! Parith/On
         DO K=1,NSA
-         I1=IPERM(II)
-         DO II=1,4
-           J  = JJJ(K)
-           I  = NSTRF(1,J)-NFT
-           IPACK = NSTRF(2,J)
+         J  = JJJ(K)
+         I  = NSTRF(1,J)-NFT
+         IPACK = MOD(NSTRF(2,J),256)
+         DO II=1,6
+           I1 = IPERM(II)
            IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
@@ -313,12 +313,12 @@ C
       ELSE
 C
 #include "lockon.inc"
-        DO II=1,4
+        DO II=1,6
          I1=IPERM(II)
          DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
-           IPACK = NSTRF(2,J)
+           IPACK = MOD(NSTRF(2,J),256)
            IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXS(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)- FX(I,II)

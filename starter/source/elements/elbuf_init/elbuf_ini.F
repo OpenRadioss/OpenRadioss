@@ -100,7 +100,7 @@ C-----------------------------------------------
      .   ISUBSTACK,IIGEO,IADI,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,LAW,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
-     .   IPNPT_LAY,IDFAIL
+     .   IPNPT_LAY,IDFAIL,LNLOCTS
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(ELBUF_STRUCT_), POINTER :: ELBUF
@@ -114,6 +114,7 @@ C-----------------------------------------------
       TYPE(PROP_TAG_)    , POINTER :: PTAG
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
+      TYPE(BUF_NLOCTS_)  , POINTER :: BUFNLTS
       TYPE (L_BUFEL_DIR_), POINTER :: LBUF_DIR  
 C=======================================================================
 c      Element Buffer Routine (Solid) 
@@ -223,7 +224,8 @@ c
         LIFAIL = 0  
         NUVARN = 0
         CRKDIR = 0
-        LNLOC  = 0       
+        LNLOC  = 0 
+        LNLOCTS= 0      
         
         IF (IXFEM == 0 .AND. FLAG_XFEM == 1) CYCLE ! no "XFEM_TAB" buffer for non xfem PARTS
 c
@@ -367,9 +369,9 @@ c
             IMID = IPART(1,IPRT)                                            
             IPID = IPART(2,IPRT)                                         
           ENDIF
-c-------------------------------------------------
-c       allocation des sub-structures de l'element buffer
-c-------------------------------------------------
+c----------------------------------------------------
+c       allocation of element buffer sub-structures 
+c----------------------------------------------------
           MY_ALLOCATE(ELBUF_TAB(NG)%INTLAY,NINTLAY)
 c
           MY_ALLOCATE(ELBUF_TAB(NG)%BUFLY,NLAY)
@@ -396,7 +398,13 @@ c          ALLOCATE (ELBUF_TAB(NG)%XFEM(NPTR,NPTS,NPTT) ,STAT=Stat)
           ELBUF_TAB(NG)%NXEL  = NXEL
           ELBUF_TAB(NG)%IDRAPE = IDRAPE
 c                                  
-          NPG = NPTR*NPTS*NPTT                                           
+          NPG = NPTR*NPTS*NPTT         
+c--------------------------------------------------------
+c       no non-local structure allocation if not needed
+c--------------------------------------------------------
+          IF (INLOC == 0) THEN 
+            MY_ALLOCATE2D(ELBUF_TAB(NG)%NLOCTS,0,0)
+          ENDIF                     
 c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
@@ -540,7 +548,38 @@ c---
               IF (MLAW_TAG(IMAT(IL))%L_PLA == 0 .and. IPARG(10,NG) == 2) THEN
                 IPARG(10,NG) = 0  ! ICPRE
               ENDIF                                   
-            ENDDO                                       
+            ENDDO      
+C---
+            ! Non-local regularization in the shell thickness
+            IF (INLOC > 0) THEN 
+              ! Allocation of the non-local in thickness structural data
+              MY_ALLOCATE2D(ELBUF_TAB(NG)%NLOCTS,NPTR,NPTS)
+              ! Number of non-local nodes in the thickness
+              NONL = NLAY+1
+              ! Loop over Gauss points in the plane of the shell
+              DO IR = 1,ELBUF_TAB(NG)%NPTR
+                DO IS = 1,ELBUF_TAB(NG)%NPTS
+                  ! Non-local buffer
+                  BUFNLTS => ELBUF_TAB(NG)%NLOCTS(IR,IS)
+                  ! Non-local in-thickness masses
+                  MY_ALLOCATE2D(BUFNLTS%MASSTH,NEL,NONL) 
+                  BUFNLTS%MASSTH = ZERO
+                  LNLOCTS = LNLOCTS + NEL*NONL
+                  ! Non-local in-thickness cumulated variables
+                  MY_ALLOCATE2D(BUFNLTS%UNLTH,NEL,NONL)  
+                  BUFNLTS%UNLTH = ZERO
+                  LNLOCTS = LNLOCTS + NEL*NONL
+                  ! Non-local in-thickness velocities
+                  MY_ALLOCATE2D(BUFNLTS%VNLTH,NEL,NONL)    
+                  BUFNLTS%VNLTH = ZERO
+                  LNLOCTS = LNLOCTS + NEL*NONL
+                  ! Non-local in-thickness forces
+                  MY_ALLOCATE2D(BUFNLTS%FNLTH,NEL,NONL)
+                  BUFNLTS%FNLTH = ZERO
+                  LNLOCTS = LNLOCTS + NEL*NONL
+                ENDDO
+              ENDDO
+            ENDIF
 c---
           ELSE  
             NUVAR   = MLAW_TAG(IMID)%NUVAR                                
@@ -760,7 +799,7 @@ c         GBUF%NVAR_GLOB ! number of element variables in GBUF
 c         BUFLY%NVAR_LAY ! number of element variables in BUFLY
 c         BUFLY%NVAR_LOC ! number of element variables in LBUF (defined on layer level)
 c
-          BUFLEN = NPAR_TAB + LMAT  + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL
+          BUFLEN = NPAR_TAB + LMAT  + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL + LNLOCTS
           LGLOB = 0                                 
           LGLOB = LGLOB + GBUF%G_NOFF  
           LGLOB = LGLOB + GBUF%G_IERR  
@@ -1074,14 +1113,20 @@ c
           MY_ALLOCATE2D(FAILID,NLAY,MAXFLAY)
           MY_ALLOCATE(IMAT,NLAY)
           MY_ALLOCATE(ILAW,NLAY)
+c---------------------------------------------------------
+c       no non-local structure allocation if not needed
+c---------------------------------------------------------
+          IF (INLOC == 0) THEN 
+            MY_ALLOCATE2D(ELBUF_TAB(NG)%NLOC,0,0)
+          ENDIF  
 c
           TFAIL(:,:) = 0
           FAILID(:,:) = 0
           ILAW(:)    = 0
           IMAT(:)    = 0
-c-------------------------------------------------
-c         allocation des sub-structures de l'element buffer
-c-------------------------------------------------
+c------------------------------------------------------
+c         allocation of element buffer sub-structures 
+c------------------------------------------------------
           MY_ALLOCATE(ELBUF_TAB(NG)%BUFLY,NLAY)
 C---
           IF(IDRAPE > 0) THEN
@@ -1173,9 +1218,6 @@ C---
                 LNLOC = LNLOC + NEL*NONL
               ENDDO
             ENDDO
-          ELSE
-            ! Else no allocation
-            MY_ALLOCATE2D(ELBUF_TAB(NG)%NLOC,0,0)
           ENDIF
 !-------------------------------------------------
 C---

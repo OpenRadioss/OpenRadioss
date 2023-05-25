@@ -68,10 +68,14 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'EPSP'
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER_ALL  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Plastic Strain'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'NL_EPSP'
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER_ALL  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Non-local Plastic Strain'
 c-----------------------------------------------
       I = I + 1
@@ -336,6 +340,8 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IS_ALL  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT_ALL  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER_ALL  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Damage'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'Damage variable for coupled damage models'
 c-----------------------------------------------

@@ -41,7 +41,7 @@ Chd|====================================================================
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SIGY    ,ET      ,TEMPEL  ,VARNL   ,OFF     ,IPG     ,
-     8     DMG     ,TEMP    ,SEQ     ,NPG     ,ELBUF_TAB,INLOC  )
+     8     DMG     ,TEMP    ,SEQ     ,NPG     ,UELR    ,INLOC   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,10 +75,9 @@ C-----------------------------------------------
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,VARNL,LOFF,OFF,DMG,TEMP,SEQ
+     .   PLA,DPLA,EPSD,VARNL,LOFF,OFF,DMG,TEMP,SEQ,UELR
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
-      TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,49 +175,19 @@ c--------------------------
       ! Solid elements deletion
       IF (IGURSON>0) THEN 
         NINDX = 0
-        ! Fully integrated solid elements
-        IF (NPG > 1) THEN
-          DO I=1,NEL
-            !Integration point failure
-            IF (LOFF(I) == FOUR_OVER_5) THEN
-              IDEL7NOK   = 1
-              NINDX      = NINDX+1
-              INDX(NINDX)= I
+        DO I=1,NEL
+          !Integration point failure
+          IF (LOFF(I) == FOUR_OVER_5) THEN
+            NINDX       = NINDX+1
+            INDX(NINDX) = I
+            UELR(I)     = UELR(I) + 1
+            ! If all integration points have failed, element is deleted
+            IF (NINT(UELR(I)) == NPG) THEN 
+              OFF(I)   = ZERO
+              IDEL7NOK = 1
             ENDIF
-          ENDDO
-          ! Checking full failure of the element
-          IF (IPG == NPG) THEN 
-            DO I = 1,NEL
-              ! Initialization of OFFG
-              OFF(I) = ZERO
-              ! Loop over integration points
-              DO IR = 1, ELBUF_TAB%NPTR
-                DO IS = 1, ELBUF_TAB%NPTS
-                  DO IT = 1, ELBUF_TAB%NPTT
-                    !If one integration points is not fully broken, the brick remains
-                    IF (ELBUF_TAB%BUFLY(1)%LBUF(IR,IS,IT)%OFF(I)>ZERO) OFF(I) = ONE
-                  ENDDO
-                ENDDO
-              ENDDO
-            ENDDO
           ENDIF
-        ! Under-integrated solid element
-        ELSE
-          DO I=1,NEL
-            !Initialization for checking complete failure of the shell (all integration points)
-            IF (IPG == 1) THEN
-              OFF(I) = ZERO
-            ENDIF
-            !If one integration points is not fully broken, the brick remains
-            IF (LOFF(I)>ZERO) OFF(I) = ONE
-            !Integration point failure
-            IF (LOFF(I) == FOUR_OVER_5) THEN
-              IDEL7NOK   = 1
-              NINDX      = NINDX+1
-              INDX(NINDX)= I
-            ENDIF
-          ENDDO
-        ENDIF
+        ENDDO
         IF((NINDX>0).AND.(IMCONV==1))THEN
           DO J=1,NINDX
 #include "lockon.inc"

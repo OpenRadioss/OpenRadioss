@@ -123,6 +123,8 @@ c---------------------
           IF (GBUF%G_DMG    == 0) GBUF%G_DMG    = MTAG%G_DMG
           IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC    
           IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS
+          IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
+          IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL
           IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU            
           BUFLY%NVAR_MAT= MTAG%NUVAR
           BUFLY%NVARTMP = MTAG%NVARTMP
@@ -155,7 +157,9 @@ c---------------------
             IF (GBUF%G_DAMDL  == 0) GBUF%G_DAMDL  = MTAG%G_DAMDL 
             IF (GBUF%G_IERR   == 0) GBUF%G_IERR   = MTAG%G_IERR
             IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC    
-            IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS      
+            IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS    
+            IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
+            IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL  
             IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU      
           ENDDO 
         ELSE IF (GMAT > 0) THEN

@@ -232,10 +232,12 @@ C
      .   N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ),
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
      .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ),AREA(MVSIZ)
-      my_real VARNL(NEL)
       my_real THEM(MVSIZ,6),TEMPEL(MVSIZ),DIE(MVSIZ),CONDEN(MVSIZ)
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ),FACDP
+      INTEGER INLOC,L_NLOC,IPOS(6),INOD(6)
+      my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
+      my_real, DIMENSION(:), POINTER :: DNL
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -306,6 +308,8 @@ C=======================================================================
       IR = 1
       IS = 1
       IT = 1
+      INLOC = IPARG(78,NG)
+      ALLOCATE(VAR_REG(NEL,NLAY))
 C-----------
       IBID = 0
       IBIDON(1) = 0
@@ -481,7 +485,33 @@ c
             SHF(I)=GEO(38,NGEO(I))                 
           ENDDO                                    
         ENDIF                                      
-      ENDIF                                        
+      ENDIF 
+c
+C---------------------------------------------------------
+C Compute non-local variable increment at each Gauss point 
+C---------------------------------------------------------
+      IF (INLOC > 0) THEN  
+        L_NLOC = NLOC_DMG%L_NLOC
+        DNL => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
+        DO ILAY=1,NLAY
+          DO I=1,NEL
+            INOD(1) = NLOC_DMG%IDXI(NC1(I))
+            INOD(2) = NLOC_DMG%IDXI(NC2(I))
+            INOD(3) = NLOC_DMG%IDXI(NC3(I))
+            INOD(4) = NLOC_DMG%IDXI(NC4(I))
+            INOD(5) = NLOC_DMG%IDXI(NC5(I))
+            INOD(6) = NLOC_DMG%IDXI(NC6(I))
+            DO J = 1,6
+              IPOS(J) = NLOC_DMG%POSI(INOD(J))+ILAY-1
+            ENDDO
+            VAR_REG(I,ILAY) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + 
+     .                        DNL(IPOS(4)) + DNL(IPOS(5)) + DNL(IPOS(6))
+            VAR_REG(I,ILAY) = VAR_REG(I,ILAY)*ONE_OVER_6
+          ENDDO
+        ENDDO     
+      ENDIF 
+C---------------------------------------------------------
+c                                       
 C--------------------------------------
 C Constant stress through the thickness
 C--------------------------------------
@@ -612,7 +642,7 @@ C------------------------------------------------------
      N   DMELS,       IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MATPARAM_TAB,
+     Q   ITASK,       NLOC_DMG,    VAR_REG(1,ILAY),MATPARAM_TAB,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
      S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
 
@@ -710,6 +740,30 @@ C--------------------------
 C-----------------------------
       ENDDO  !  ILAY=1,NLAY
 C-----------------------------
+c
+C-------------------------------
+C Non-local specific computation
+C-------------------------------
+      IF (INLOC > 0) THEN 
+       ! Computation of thickshell area
+       CALL SDLENSH3N(VOLG,LLSH,AREA , 
+     .                  X1, X2, X3, X4, X5, X6,
+     .                  Y1, Y2, Y3, Y4, Y5, Y6,
+     .                  Z1, Z2, Z3, Z4, Z5, Z6,NEL)
+       ! Non-local internal forces 
+       CALL S6CFINT_REG(
+     1      NLOC_DMG ,VAR_REG  ,NEL     ,OFF     ,
+     2      VOLG     ,NC1      ,NC2     ,NC3     ,
+     3      NC4      ,NC5      ,NC6     ,PX1     ,
+     4      PX2      ,PX3      ,PX4     ,PY1     ,
+     5      PY2      ,PY3      ,PY4     ,PZ1     ,
+     6      PZ2      ,PZ3      ,PZ4     ,MXT(LFT),
+     7      ITASK    ,DT2T     ,GBUF%VOL,NFT     ,
+     8      NLAY     ,W_GAUSS  ,A_GAUSS ,AREA    ,
+     9      ELBUF_TAB(NG)%NLOCTS(1,1))
+      ENDIF
+C--------------------------
+c
       IF (IOFFS == 1) THEN
        DO I=1,NEL
          IF (OFFS(I)<=TWO)GBUF%OFF(I) = OFFS(I)
