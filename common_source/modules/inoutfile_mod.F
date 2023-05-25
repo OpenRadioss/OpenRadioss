@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  INOUTFILE_MOD                 modules/inoutfile_mod.F       
 Chd|-- called by -----------
 Chd|        CHECK_DYNAIN                  starter/source/starter/check_dynain.F
+Chd|        CHECK_QEPH_STRA               starter/source/starter/check_qeph_stra.F
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        DD_ANI                        starter/source/output/anim/dd_ani.F
