@@ -1035,6 +1035,13 @@ c---
         my_real, DIMENSION(:,:), POINTER :: VNLTH  ! Non-local velocities
         my_real, DIMENSION(:,:), POINTER :: FNLTH  ! Non-local forces
       END TYPE BUF_NLOC_
+!     Non-local buffer for regularization in the thickshell thickness
+      TYPE BUF_NLOCTS_
+        my_real, DIMENSION(:,:), POINTER :: MASSTH ! Embedded wire nodal masses
+        my_real, DIMENSION(:,:), POINTER :: UNLTH  ! Non-local cumulated variable at nodes
+        my_real, DIMENSION(:,:), POINTER :: VNLTH  ! Non-local velocities
+        my_real, DIMENSION(:,:), POINTER :: FNLTH  ! Non-local forces
+      END TYPE BUF_NLOCTS_
 !--------------------------------------------------------------------------------
 
       TYPE BUF_EOS_
@@ -1257,6 +1264,7 @@ c--------------------
         TYPE (BUF_INTLAY_), DIMENSION(:)   , POINTER :: INTLAY ! inter-layer (NLAY-1)
         TYPE (BUF_XFEM_)  , DIMENSION(:)   , POINTER :: XFEM   ! XFEM (NXEL)
         TYPE (BUF_NLOC_)  , DIMENSION(:,:) , POINTER :: NLOC   ! NLOC (NPTR,NPTS)
+        TYPE (BUF_NLOCTS_), DIMENSION(:,:) , POINTER :: NLOCTS ! NLOC (NPTR,NPTS)
       END TYPE ELBUF_STRUCT_
 c
 c---------------

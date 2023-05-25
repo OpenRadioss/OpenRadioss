@@ -106,6 +106,7 @@ C-----------------------------------------------
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
+      TYPE(BUF_NLOCTS_)  , POINTER :: BUFNLTS
       TYPE(L_BUFEL_DIR_) , POINTER :: LBUF_DIR
 c-------------------------------------------------
 c       allocation of sub-structures of the element buffer
@@ -985,8 +986,49 @@ c-------------------------------
             ENDDO
           ENDDO
         ENDIF
+c-------------------------------
+c         Non-local regularization in the thickshell thickness                
+c-------------------------------
+      ELSEIF (ITY==1) THEN
+        ! Number of integration points in the shell thickness
+        NPTT = ELBUF_STR%NLAY
+        IF ((INLOC>0).AND.(NPTT>1)) THEN
+          ! Allocation of the non-local buffer
+          ALLOCATE(ELBUF_STR%NLOCTS(NPTR,NPTS), STAT=ERR)
+          ! Number of non-local nodes in the thickness
+          NONL = NPTT+1
+          ! Loop over the elements
+          DO IR = 1, NPTR
+            DO IS = 1, NPTS
+              ! Pointing the non-local buffer
+              BUFNLTS => ELBUF_STR%NLOCTS(IR,IS)
+              ! Non-local in-thickness masses
+              ALLOCATE(BUFNLTS%MASSTH(NEL,NONL), STAT=ERR) 
+              ! Non-local in-thickness cumulated variables
+              ALLOCATE(BUFNLTS%UNLTH(NEL,NONL) , STAT=ERR) 
+              ! Non-local in-thickness velocities
+              ALLOCATE(BUFNLTS%VNLTH(NEL,NONL) , STAT=ERR) 
+              ! Non-local in-thickness forces
+              ALLOCATE(BUFNLTS%FNLTH(NEL,NONL) , STAT=ERR) 
+              ! Copying the buffer
+              DO I = 1,NEL
+                ! Nodal masses
+                BUFNLTS%MASSTH(I,1:NONL) = RBUF(IAD+1:IAD+NONL)
+                IAD = IAD + NONL
+                ! Non-local in-thickness cumulated variables
+                BUFNLTS%UNLTH(I,1:NONL)  = RBUF(IAD+1:IAD+NONL)
+                IAD = IAD + NONL
+                ! Non-local in-thickness velocities
+                BUFNLTS%VNLTH(I,1:NONL)  = RBUF(IAD+1:IAD+NONL)
+                IAD = IAD + NONL
+                ! Non-local in-thickness forces
+                BUFNLTS%FNLTH(I,1:NONL)  = RBUF(IAD+1:IAD+NONL)
+                IAD = IAD + NONL
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDIF
       ENDIF
-      
 c-------------------------------
 c         EoS buffer
 c-------------------------------

@@ -103,7 +103,8 @@ C-----------------------------------------------
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
-      TYPE(L_BUFEL_DIR_)     , POINTER :: LBUF_DIR
+      TYPE(BUF_NLOCTS_)  , POINTER :: BUFNLTS
+      TYPE(L_BUFEL_DIR_) , POINTER :: LBUF_DIR
       
 C=======================================================================
       DEBUG_PRINT = 0  
@@ -887,6 +888,32 @@ c
                  ENDDO
                ENDDO
              ENDIF
+           ELSEIF ((ITY == 1).AND.(ELBUF_TAB(NG)%NLAY>1)) THEN
+             IF (INLOC>0) THEN 
+              ! Number of non-local nodes in the thickshell thickness
+              NONL = ELBUF%NLAY+1
+              ! Copying the buffer
+              DO IR = 1,ELBUF%NPTR                                             
+                DO IS = 1,ELBUF%NPTS                   
+                  ! Pointing the non-local buffer
+                  BUFNLTS => ELBUF_TAB(NG)%NLOCTS(IR,IS)
+                  DO I = 1,NEL
+                    ! Nodal masses
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNLTS%MASSTH(I,1:NONL) 
+                    L_REL = L_REL + NONL
+                    ! Non-local in-thickness cumulated variables
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNLTS%UNLTH(I,1:NONL) 
+                    L_REL = L_REL + NONL
+                    ! Non-local in-thickness velocities
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNLTS%VNLTH(I,1:NONL) 
+                    L_REL = L_REL + NONL
+                    ! Non-local in-thickness forces
+                    RBUF_L(L_REL+1:L_REL+NONL) = BUFNLTS%FNLTH(I,1:NONL) 
+                    L_REL = L_REL + NONL           
+                  ENDDO
+                ENDDO
+              ENDDO
+            ENDIF
            ENDIF
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN

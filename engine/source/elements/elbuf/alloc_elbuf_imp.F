@@ -84,6 +84,7 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)  , POINTER :: LBUF
       TYPE(FAIL_LOC_) , POINTER :: FLOC
       TYPE(BUF_NLOC_) , POINTER :: BUFNL
+      TYPE(BUF_NLOCTS_),POINTER :: BUFNLTS
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -437,6 +438,33 @@ c-------------------------------
                 ALLOCATE(BUFNL%VNLTH(NEL,NONL), STAT=ERR) 
                 ! Non-local in-thickness forces
                 ALLOCATE(BUFNL%FNLTH(NEL,NONL), STAT=ERR) 
+              ENDDO
+            ENDDO  
+          ENDIF
+c-------------------------------
+c         Non-local regularization in the thickshell thickness                 
+c-------------------------------
+        ELSEIF (ITY==1) THEN
+          ! Number of integration points in the thickness
+          NPTT = ELBUF_TAB(NG)%NLAY
+          IF ((INLOC>0).AND.(NPTT>1)) THEN
+            ! Allocation of the non-local buffer structure
+            ALLOCATE(ELBUF_TAB(NG)%NLOCTS(NPTR,NPTS), STAT=ERR)
+            ! Number of non-local nodes in the thickness
+            NONL = NPTT+1
+            ! Loop over the integration points in the plane of the shell
+            DO IR = 1,NPTR
+              DO IS = 1,NPTS
+                ! Pointing the non-local buffer
+                BUFNLTS => ELBUF_TAB(NG)%NLOCTS(IR,IS)
+                ! Non-local in-thickness masses
+                ALLOCATE(BUFNLTS%MASSTH(NEL,NONL), STAT=ERR) 
+                ! Non-local in-thickness cumulated variables
+                ALLOCATE(BUFNLTS%UNLTH(NEL,NONL), STAT=ERR) 
+                ! Non-local in-thickness velocities
+                ALLOCATE(BUFNLTS%VNLTH(NEL,NONL), STAT=ERR) 
+                ! Non-local in-thickness forces
+                ALLOCATE(BUFNLTS%FNLTH(NEL,NONL), STAT=ERR) 
               ENDDO
             ENDDO  
           ENDIF

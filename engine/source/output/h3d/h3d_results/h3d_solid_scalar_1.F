@@ -281,7 +281,8 @@ C--------------------------------------------------
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'EPSP' .AND. (MLW /= 12 .AND. MLW /=14 .AND. MLW /= 25))THEN
 C--------------------------------------------------  
-                DO I=1,NEL     
+                IF (ILAY == -1) THEN 
+                DO I=1,NEL   
                   IF (MLW == 10 .OR. MLW == 21) THEN
                     VALUE(I) = LBUF%EPSQ(I)
                     IS_WRITTEN_VALUE(I) = 1
@@ -290,6 +291,12 @@ C--------------------------------------------------
                     IS_WRITTEN_VALUE(I) = 1
                   ENDIF
                 ENDDO 
+              ELSE
+                DO I=1,NEL
+                  VALUE(I) = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%PLA(I)
+                  IS_WRITTEN_VALUE(I) = 1
+                ENDDO
+              ENDIF
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'WPLA' .AND. (MLW == 12 .OR. MLW == 14 .OR. MLW == 25))THEN
 C--------------------------------------------------  
@@ -360,16 +367,32 @@ C--------------------------------------------------
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'TEMP')THEN
 C--------------------------------------------------  
-                DO I=1,NEL     
-                  IF (IPARG(1,NG)  ==  2 .AND. JTHE  ==  0) THEN       
+                IF (IPARG(1,NG)  ==  2 .AND. JTHE  ==  0) THEN  
+                  DO I=1,NEL      
                     VALUE(I) = PM(54,IXS(1,NFT+I)) + GBUF%EINT(I)*     
-     .                        GBUF%VOL(I) * PM(53,IXS(1,NFT+I)) 
+     .                      GBUF%VOL(I) * PM(53,IXS(1,NFT+I)) 
                     IS_WRITTEN_VALUE(I) = 1  
-                  ELSEIF (GBUF%G_TEMP > 0) THEN           
-                    VALUE(I) = GBUF%TEMP(I)
-                    IS_WRITTEN_VALUE(I) = 1  
-                  ENDIF          
-                ENDDO 
+                  ENDDO
+                ELSEIF (GBUF%G_TEMP > 0) THEN           
+                  DO I=LFT,LLT   
+                    VALUE(I) = ZERO                                      
+                  ENDDO  
+                  DO IL=1,NLAY                          
+                    IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                      DO IS=1,NPTS 
+                        DO IT=1,NPTT                                      
+                          DO IR=1,NPTR                                    
+                            LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                            DO I=LFT,LLT                                 
+                              VALUE(I) = VALUE(I) + LBUF%TEMP(I)/NPTG 
+                              IS_WRITTEN_VALUE(I) = 1         
+                            ENDDO
+                          ENDDO    
+                        ENDDO      
+                      ENDDO        
+                    ENDIF 
+                  ENDDO
+                ENDIF           
 C--------------------------------------------------  
               ELSEIF(KEYWORD == 'P')THEN
 C--------------------------------------------------  
@@ -1472,42 +1495,58 @@ C--------------------------------------------------
 c
                 IF (GBUF%G_DMG > 0) THEN
 c
-                  ! If nothing is specified by the user, computing a mean value
-                  IF (IR == -1 .AND. IS == -1 .AND. IT == -1) THEN
+                  ! Resetting values
+                  DO I=1,NEL                                          
+                    VALUE(I) = ZERO                                      
+                  ENDDO 
 c
-                    ! Resetting values
-                    DO I=1,NEL                                          
-                      VALUE(I) = ZERO                                      
-                    ENDDO 
+                  ! If nothing is specified by the user, computing a mean value
+                  IF (IR == -1 .AND. IS == -1 .AND. IT == -1 .AND. ILAY == -1) THEN
 c
                     ! Filling the value table
-                    DO I=1,NEL 
-                      DO IS=1,NPTS                                        
+                    DO IL=1,NLAY                          
+                      DO IS=1,NPTS 
                         DO IT=1,NPTT                                      
-                          DO IIR=1,NPTR 
-                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IIR,IS,IT)                       
-                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTS*NPTT*NPTR) 
+                          DO IR=1,NPTR                                    
+                            LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                            DO I=LFT,LLT                                 
+                              VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPTG 
+                              IS_WRITTEN_VALUE(I) = 1         
+                            ENDDO
                           ENDDO
                         ENDDO
                       ENDDO
-                      IS_WRITTEN_VALUE(I) = 1   
                     ENDDO
 c
-                  ! If something is specified by the user
+                  ! If integratiion point is specified by the user
                   ELSEIF ( IR >= 0 .AND. IR <= NPTR .AND. 
-     .                     IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN 
-c
-                    ! Corresponding buffer
-                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT) 
+     .                     IS >= 0 .AND. IS <= NPTS .AND. 
+     .                     IT >= 0 .AND. IT <= NPTT) THEN 
 c
                     ! Filling the value table
-                    IF (IR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN      
+                    DO IL=1,NLAY 
+                      LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT) 
                       DO I=1,NEL                       
-                        VALUE(I) = LBUF%DMG(I)
+                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/NLAY
                         IS_WRITTEN_VALUE(I) = 1                            
                       ENDDO
-                    ENDIF                                                 
+                    ENDDO
+c
+                  ! If the layer is specified by the user
+                  ELSEIF (ILAY > 0 .AND. ILAY <= NLAY) THEN
+                    DO IS=1,NPTS 
+                      DO IT=1,NPTT                                      
+                        DO IR=1,NPTR                                    
+                          LBUF=>ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                          DO I=LFT,LLT                                 
+                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS*NPTT)
+                            IS_WRITTEN_VALUE(I) = 1         
+                          ENDDO
+                        ENDDO    
+                      ENDDO      
+                    ENDDO        
                   ENDIF 
+c
                 ENDIF  
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'DAMINI') THEN
@@ -1737,36 +1776,62 @@ C--------------------------------------------------
               ELSEIF (KEYWORD == 'NL_EPSP') THEN  
 C--------------------------------------------------  
                 IF (GBUF%G_PLANL > 0) THEN
-                  NPTG = NLAY*NPTR*NPTS*NPTT
-                  VALUE(1:NEL) = ZERO
-                  DO IT=1,NPTT
-                    DO IR=1,NPTR
-                      DO IS=1,NPTS
-                        LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
-                        DO I=1,NEL
-                          VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPTG
-                          IS_WRITTEN_VALUE(I) = 1	
-                        ENDDO
-                      ENDDO
-                    ENDDO
+                  DO I=LFT,LLT   
+                    VALUE(I) = ZERO                                      
                   ENDDO
+                  IF (ILAY == -1) THEN
+                    DO IL=1,NLAY                          
+                      IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLANL > 0) THEN
+                        DO IS=1,NPTS 
+                          DO IT=1,NPTT                                      
+                            DO IR=1,NPTR                                    
+                              LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                              DO I=LFT,LLT                                 
+                                VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPTG 
+                                IS_WRITTEN_VALUE(I) = 1         
+                              ENDDO
+                            ENDDO    
+                          ENDDO      
+                        ENDDO        
+                      ENDIF 
+                    ENDDO
+                  ELSE 
+                    IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLANL > 0) THEN
+                      DO IS=1,NPTS 
+                        DO IT=1,NPTT                                      
+                          DO IR=1,NPTR                                    
+                            LBUF=>ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                            DO I=LFT,LLT                                 
+                              VALUE(I) = VALUE(I) + LBUF%PLANL(I)/(NPTR*NPTS*NPTT)
+                              IS_WRITTEN_VALUE(I) = 1         
+                            ENDDO
+                          ENDDO    
+                        ENDDO      
+                      ENDDO        
+                    ENDIF 
+                  ENDIF
                 ENDIF
 C--------------------------------------------------  
               ELSEIF (KEYWORD == 'NL_EPSD') THEN  
 C--------------------------------------------------  
-                IF (GBUF%G_PLANL > 0) THEN
-                  NPTG = NLAY*NPTR*NPTS*NPTT
-                  VALUE(1:NEL) = ZERO
-                  DO IT=1,NPTT
-                    DO IR=1,NPTR
-                      DO IS=1,NPTS
-                        LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
-                        DO I=1,NEL
-                          VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPTG
-                          IS_WRITTEN_VALUE(I) = 1	
-                        ENDDO
-                      ENDDO
-                    ENDDO
+                IF (GBUF%G_EPSDNL > 0) THEN
+                  DO I=LFT,LLT   
+                    VALUE(I) = ZERO                                      
+                  ENDDO  
+                  DO IL=1,NLAY                          
+                    IF (ELBUF_TAB(NG)%BUFLY(IL)%L_EPSDNL > 0) THEN
+                      DO IS=1,NPTS 
+                        DO IT=1,NPTT                                      
+                          DO IR=1,NPTR                                    
+                            LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                            DO I=LFT,LLT                                 
+                              VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPTG 
+                              IS_WRITTEN_VALUE(I) = 1         
+                            ENDDO
+                          ENDDO    
+                        ENDDO      
+                      ENDDO        
+                    ENDIF 
                   ENDDO
                 ENDIF
 C-------------------------------------------------- 

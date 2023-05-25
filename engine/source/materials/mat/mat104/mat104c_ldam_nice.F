@@ -172,7 +172,7 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! If the element is failing
-        IF (OFF(I) < 0.001) OFF(I) = ZERO
+        IF (OFF(I) < EM03) OFF(I) = ZERO
         IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)  = UVAR(I,1)  ! Previous yield function value

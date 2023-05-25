@@ -81,12 +81,13 @@ C-----------------------------------------------
       CHARACTER(len=2148) :: TMP_NAME
       LOGICAL :: ENG_FILE
       INTEGER I,J,K,NG,NEL,NFT,ITY,NPTT,ILOC,INOD,NNOD,NDEPAR,IMAT,
-     .        L_NLOC,POS,NDD,FORMU,N,NUMELS_NL,IGTYP,NUMELC_NL,NDDMAX,
+     .        L_NLOC,POS,NDD,ISOLID,N,NUMELS_NL,IGTYP,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,NPTR,NPTS,IR,IS,ISOLNOD,IO_ERR1,LEN_TMP_NAME,
      .        WORK(70000),IDEB,IDEBS,IDEBC,IDEBT,IADBUF,MATSIZE
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNOD
       INTEGER, DIMENSION(:),   ALLOCATABLE :: INDX,IDXI,NMAT,NDDL,
-     .                                        POSI,ITRI,INDEX,TAGTET
+     .                                        POSI,ITRI,INDEX,TAGTET,
+     .                                        TAGPENT
       INTEGER, DIMENSION(:,:), POINTER     :: IADS
       my_real
      .   DENS, DTMIN, LEN, SSPNL,NTH1, NTH2,
@@ -100,6 +101,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(:)  , POINTER     :: 
      .   VOL, THCK, UPARAM
       TYPE(BUF_NLOC_), POINTER             :: BUFNL
+      TYPE(BUF_NLOCTS_), POINTER           :: BUFNLTS
       my_real, DIMENSION(:,:), POINTER     :: 
      .   MASSTH
       ! Damping ratio ZETA 
@@ -112,7 +114,7 @@ C-----------------------------------------------
       ! (here we have a good compromise to find, DENS must be as low as 
       !  possible but sufficiently high to avoid the decrease of the timestep)
       my_real, PARAMETER                   :: CSTA = 40.0D0
-      ! Position of integration points in the thickness
+      ! Position of integration points in the 2D shell thickness
       DATA  Z01/
      1 0.       ,0.       ,0.       ,0.       ,0.       ,
      1 0.       ,0.       ,0.       ,0.       ,0.       ,0.       ,
@@ -136,7 +138,7 @@ C-----------------------------------------------
      A 0.0555555,0.1666667,0.2777778,0.3888889,0.5      ,0.       ,
      B -.5      ,-.4      ,-.3      ,-.2      ,-.1      ,
      B 0.       ,0.1      ,0.2      ,0.3      ,0.4      ,0.5      /
-      ! Weight of integration in the thickness 
+      ! Weights of integration in the 2D shell thickness 
       DATA  WF1/
      1 1.       ,0.       ,0.       ,0.       ,0.       ,
      1 0.       ,0.       ,0.       ,0.       ,0.       ,0.       ,
@@ -160,7 +162,7 @@ C-----------------------------------------------
      A 0.1111111,0.1111111,0.1111111,0.1111111,0.0555556,0.       ,
      B 0.05     ,0.1      ,0.1      ,0.1      ,0.1      ,
      B 0.1      ,0.1      ,0.1      ,0.1      ,0.1      ,0.05     /
-      ! Position of nodes in the shell thickness
+      ! Position of nodes in the 2D shell thickness
       DATA  ZN1/
      1 0.       ,0.       ,0.       ,0.       ,0.       ,0.       ,
      1 0.       ,0.       ,0.       ,0.       ,0.       ,0.       ,
@@ -184,6 +186,104 @@ C-----------------------------------------------
      A 0.1111111,0.2222222,0.3333333,0.4444444,0.5      ,0.       ,
      B -.5      ,-.45     ,-.35     ,-.25     ,-.15     ,-.05     ,
      B 0.05     ,0.15     ,0.25     ,0.35     ,0.45     ,0.5      /
+      my_real
+     .  W_GAUSS(9,9),A_GAUSS(9,9),Z_GAUSS(10,9)
+      ! Weights of integration points in the thickshell thickness
+      DATA W_GAUSS / 
+     1 2.               ,0.               ,0.               ,
+     1 0.               ,0.               ,0.               ,
+     1 0.               ,0.               ,0.               ,
+     2 1.               ,1.               ,0.               ,
+     2 0.               ,0.               ,0.               ,
+     2 0.               ,0.               ,0.               ,
+     3 0.555555555555556,0.888888888888889,0.555555555555556,
+     3 0.               ,0.               ,0.               ,
+     3 0.               ,0.               ,0.               ,
+     4 0.347854845137454,0.652145154862546,0.652145154862546,
+     4 0.347854845137454,0.               ,0.               ,
+     4 0.               ,0.               ,0.               ,
+     5 0.236926885056189,0.478628670499366,0.568888888888889,
+     5 0.478628670499366,0.236926885056189,0.               ,
+     5 0.               ,0.               ,0.               ,
+     6 0.171324492379170,0.360761573048139,0.467913934572691,
+     6 0.467913934572691,0.360761573048139,0.171324492379170,
+     6 0.               ,0.               ,0.               ,
+     7 0.129484966168870,0.279705391489277,0.381830050505119,
+     7 0.417959183673469,0.381830050505119,0.279705391489277,
+     7 0.129484966168870,0.               ,0.               ,
+     8 0.101228536290376,0.222381034453374,0.313706645877887,
+     8 0.362683783378362,0.362683783378362,0.313706645877887,
+     8 0.222381034453374,0.101228536290376,0.               ,
+     9 0.081274388361574,0.180648160694857,0.260610696402935,
+     9 0.312347077040003,0.330239355001260,0.312347077040003,
+     9 0.260610696402935,0.180648160694857,0.081274388361574/
+      ! Position of integration points in the thickshell thickness
+      DATA A_GAUSS / 
+     1 0.               ,0.               ,0.               ,
+     1 0.               ,0.               ,0.               ,
+     1 0.               ,0.               ,0.               ,
+     2 -.577350269189626,0.577350269189626,0.               ,
+     2 0.               ,0.               ,0.               ,
+     2 0.               ,0.               ,0.               ,
+     3 -.774596669241483,0.               ,0.774596669241483,
+     3 0.               ,0.               ,0.               ,
+     3 0.               ,0.               ,0.               ,
+     4 -.861136311594053,-.339981043584856,0.339981043584856,
+     4 0.861136311594053,0.               ,0.               ,
+     4 0.               ,0.               ,0.               ,
+     5 -.906179845938664,-.538469310105683,0.               ,
+     5 0.538469310105683,0.906179845938664,0.               ,
+     5 0.               ,0.               ,0.               ,
+     6 -.932469514203152,-.661209386466265,-.238619186083197,
+     6 0.238619186083197,0.661209386466265,0.932469514203152,
+     6 0.               ,0.               ,0.               ,
+     7 -.949107912342759,-.741531185599394,-.405845151377397,
+     7 0.               ,0.405845151377397,0.741531185599394,
+     7 0.949107912342759,0.               ,0.               ,
+     8 -.960289856497536,-.796666477413627,-.525532409916329,
+     8 -.183434642495650,0.183434642495650,0.525532409916329,
+     8 0.796666477413627,0.960289856497536,0.               ,
+     9 -.968160239507626,-.836031107326636,-.613371432700590,
+     9 -.324253423403809,0.               ,0.324253423403809,
+     9 0.613371432700590,0.836031107326636,0.968160239507626/
+      ! Position of nodes in the thickshell thickness
+      DATA Z_GAUSS / 
+     1 0.               ,0.               ,0.               ,
+     1 0.               ,0.               ,0.               ,
+     1 0.               ,0.               ,0.               ,
+     1 0.               ,
+     2 -1.              ,0.               ,1.               ,
+     2 0.               ,0.               ,0.               ,
+     2 0.               ,0.               ,0.               ,
+     2 0.               ,
+     3 -1.              ,-.549193338482966,0.549193338482966,
+     3 1.               ,0.               ,0.               ,
+     3 0.               ,0.               ,0.               ,
+     3 0.               ,
+     4 -1.              ,-.600558677589454,0.               ,
+     4 0.600558677589454,1.               ,0.               ,
+     4 0.               ,0.               ,0.               ,
+     4 0.               ,
+     5 -1.              ,-.812359691877328,-.264578928334038,
+     5 0.264578928334038,0.812359691877328,1.               ,
+     5 0.               ,0.               ,0.               ,
+     5 0.               ,
+     6 -1.              ,-.796839450334708,-.449914286274731,
+     6 0.               ,0.449914286274731,0.796839450334708,
+     6 1.               ,0.               ,0.               ,
+     6 0.               ,
+     7 -1.              ,-.898215824685518,-.584846546513270,
+     7 -.226843756241524,0.226843756241524,0.584846546513270,
+     7 0.898215824685518,1.               ,0.               ,
+     7 0.               ,
+     8 -1.              ,-.878478166955581,-.661099443664978,
+     8 -.354483526205989,0.               ,0.354483526205989,
+     8 0.661099443664978,0.878478166955581,1.               ,
+     8 0.               ,
+     9 -1.              ,-.936320479015252,-.735741735638020,
+     9 -.491001129763160,-.157505717044458,0.157505717044458,
+     9 0.491001129763160,0.735741735638020,0.936320479015252,
+     9 1.               /
 C=======================================================================
       ! If the non-local method is not used
       IF (NLOC_DMG%IMOD == 0) THEN
@@ -239,6 +339,7 @@ c
         ALLOCATE( VOLN(NUMNOD) )
         ALLOCATE( VOLU(NUMELS) )
         ALLOCATE( TAGTET(NUMELS) )
+        ALLOCATE( TAGPENT(NUMELS))
         ALLOCATE( INDEX(NUMELS+NUMELC+NUMELTG) )
         ALLOCATE( ITRI(NUMELS+NUMELC+NUMELTG) )
 C
@@ -250,7 +351,7 @@ C--       multidomains - origianl nummat is used
         ENDIF
         MY_ALLOCATE2D(WARN_LENGHT,MATSIZE,3)
 c   
-        ! Initialization of variables   
+        ! Initialization of variables  
         VOLN_S(1:8,1:NUMELS)   = ZERO
         VOLN_C(1:4,1:NUMELC)   = ZERO
         VOLN_TG(1:3,1:NUMELTG) = ZERO
@@ -260,6 +361,7 @@ c
         ITRI(1:NUMELS+NUMELC+NUMELTG)  = 0
         TAGNOD(1:NUMNOD,1:3) = 0
         TAGTET(1:NUMELS)     = 0
+        TAGPENT(1:NUMELS)    = 0
         NUMELS_NL  = 0
         NUMELC_NL  = 0
         NUMELTG_NL = 0
@@ -280,7 +382,7 @@ c
             ! Type of elements
             ITY = IPARG(5,NG)
             ! Formulation of the elements (under-integrated,fully integrated,...)
-            FORMU = IPARG(23,NG)
+            ISOLID = IPARG(23,NG)
             ! For brick elements
             IF (ITY == 1) THEN
               ! To detect tetra elements
@@ -295,9 +397,11 @@ c
               ENDDO 
               ! Counting non-local solid elements
               NUMELS_NL = NUMELS_NL + NEL
+              ! Number of layers
+              NPTT = ELBUF_TAB(NG)%NLAY
               ! Material Law ID
               IMAT = IXS(1,1+NFT)
-              ! Tetra element
+              ! Tetra 4 element
               IF (ISOLNOD == 4) THEN 
                 ! Loop over elements
                 DO I=1,NEL
@@ -326,10 +430,39 @@ c
                     VOLN_S(J,I+NFT) = FOURTH * VOL(I)
                   ENDDO      
                 ENDDO
+              ! Penta 6 element
+              ELSEIF (ISOLNOD == 6) THEN     
+                ! Loop over elements
+                DO I=1,NEL
+                  ! Tag penta element
+                  TAGPENT(I+NFT) = 1
+                  ! Loop over penta nodes
+                  DO J=1,6
+                    ! Number of the nodes
+                    K = J + 1
+                    IF (J == 4) K = 6
+                    IF (J == 5) K = 7
+                    IF (J == 6) K = 8
+                    INOD = IXS(K,I+NFT)  
+                    ! Tag the node as non-local
+                    TAGNOD(INOD,1) = 1
+                    ! Tag the number of additional d.o.fs
+                    TAGNOD(INOD,2) = NPTT
+                    ! If already written and different => error
+                    IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
+                      CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+                    ENDIF
+                    ! Tag the material law id of the node
+                    TAGNOD(INOD,3) = IMAT 
+                    ! Computation of the volume associated to the node
+                    VOLN_S(J,I+NFT) = ONE_OVER_6 * VOL(I)                    
+                  ENDDO            
+                ENDDO
               ! Brick element
               ELSEIF (ISOLNOD == 8) THEN
                 ! Supported formulations
-                IF (FORMU/=16) THEN
+                IF ((ISOLID/=16).OR.(ISOLID/=14)) THEN
                   ! Loop over elements
                   DO I = 1,NEL
                     ! Loop over brick nodes
@@ -340,7 +473,7 @@ c
                       ! Tag the node as non-local
                       TAGNOD(INOD,1) = 1
                       ! Tag the number of additional d.o.fs
-                      TAGNOD(INOD,2) = 1
+                      TAGNOD(INOD,2) = NPTT
                       ! If already written and different => error
                       IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
                         CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
@@ -355,7 +488,7 @@ c
                 ELSE
                   ! Formulations not supported
                   CALL ANCMSG(MSGID=1659,MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,I1=FORMU)                 
+     .                     ANMODE=ANINFO_BLIND_1,I1=ISOLID)                 
                 ENDIF
               ENDIF  
             ! For 4-nodes shell elements
@@ -548,6 +681,15 @@ C
                 IF (K == 4) N = IXS(6,I)
                 VOLN(N) = VOLN(N) + VOLN_S(K,I)
               ENDDO 
+            ELSEIF (TAGPENT(I)>0) THEN 
+              ! Loop over element nodes
+              DO K = 1,6
+                N = IXS(K+1,I)
+                IF (K == 4) N = IXS(6,I)
+                IF (K == 5) N = IXS(7,I)
+                IF (K == 6) N = IXS(8,I)
+                VOLN(N) = VOLN(N) + VOLN_S(K,I)
+              ENDDO     
             ELSE
               ! Loop over element nodes
               DO K = 1,8
@@ -704,8 +846,13 @@ c
           DO J = POS,POS+NDD-1
             ! For brick elements
             IF (ITY == 1) THEN
-              NLOC_DMG%MASS(J)  = VOLN(INDX(I))*DENS
-              NLOC_DMG%MASS0(J) = VOLN(INDX(I))*DENS
+              IF (NDD > 1) THEN 
+                NLOC_DMG%MASS(J)  = HALF*W_GAUSS(J-POS+1,NDD)*VOLN(INDX(I))*DENS
+                NLOC_DMG%MASS0(J) = HALF*W_GAUSS(J-POS+1,NDD)*VOLN(INDX(I))*DENS
+              ELSE 
+                NLOC_DMG%MASS(J)  = VOLN(INDX(I))*DENS
+                NLOC_DMG%MASS0(J) = VOLN(INDX(I))*DENS
+              ENDIF
             ! For shell and triangle elements
             ELSEIF ((ITY == 3).OR.(ITY == 7)) THEN 
               NLOC_DMG%MASS(J)  = WF1(J-POS+1,NDD)*VOLN(INDX(I))*DENS
@@ -720,10 +867,10 @@ c
           ILOC  = IPARG(78,NG)
           ! Type of elements
           ITY   = IPARG(5,NG)
+          ! First element position
+          NFT   = IPARG(3,NG)
           ! If the elements are non-local and are shells or triangles
           IF ((ILOC > 0).AND.((ITY == 3).OR.(ITY == 7))) THEN
-            ! First element position
-            NFT   = IPARG(3,NG)
             ! Number of the material
             IF (ITY == 3) THEN 
               IMAT  = IXC(1,1+NFT)
@@ -784,6 +931,43 @@ c
                 ENDDO
               ENDDO
             ENDIF
+          ELSEIF ((ILOC > 0).AND.((ITY == 1).AND.(ELBUF_TAB(NG)%NLAY > 1))) THEN
+            ! Number of the material
+            IMAT = IXS(1,1+NFT)
+            ! Non-local density
+            DENS = NLOC_DMG%DENS(IMAT)
+            ! Number of the elements inside the group
+            NEL  = IPARG(2,NG)
+            ! Number of integration points in the R direction
+            NPTR = ELBUF_TAB(NG)%NPTR
+            ! Number of integration points in the S direction
+            NPTS = ELBUF_TAB(NG)%NPTS
+            ! Number of integration points in the shell thickness
+            NPTT = ELBUF_TAB(NG)%NLAY
+            ! Volume of the element
+            VOL => ELBUF_TAB(NG)%GBUF%VOL(1:NEL)
+            ! Non-local in the thickness only if NPTT>1
+            ! -> Loop over integration points in the shell surface
+            DO IR = 1, NPTR
+              DO IS = 1, NPTS
+                BUFNLTS => ELBUF_TAB(NG)%NLOCTS(IR,IS)       
+                MASSTH  => BUFNLTS%MASSTH   
+                ! Loop over integration points in the shell thickness
+                DO K = 1, NPTT
+                  NTH1 = (A_GAUSS(K,NPTT)   - Z_GAUSS(K+1,NPTT))/
+     .                   (Z_GAUSS(K,NPTT)   - Z_GAUSS(K+1,NPTT))  
+                  NTH2 = (A_GAUSS(K,NPTT)   - Z_GAUSS(K,NPTT))/
+     .                   (Z_GAUSS(K+1,NPTT) - Z_GAUSS(K,NPTT))
+                  ! Loop over elements
+                  DO I=1,NEL                                   
+                    MASSTH(I,K)   = MASSTH(I,K)   + 
+     .                   (NTH1**2 + NTH1*NTH2)*DENS*VOL(I)*HALF*W_GAUSS(K,NPTT)
+                    MASSTH(I,K+1) = MASSTH(I,K+1) + 
+     .                   (NTH2**2 + NTH1*NTH2)*DENS*VOL(I)*HALF*W_GAUSS(K,NPTT)
+                  ENDDO
+                ENDDO
+              ENDDO
+            ENDDO
           ENDIF
         ENDDO
 c
@@ -808,6 +992,7 @@ c
        IF (ALLOCATED(INDEX))   DEALLOCATE(INDEX)
        IF (ALLOCATED(ITRI))    DEALLOCATE(ITRI)
        IF (ALLOCATED(TAGTET))  DEALLOCATE(TAGTET)
+       IF (ALLOCATED(TAGPENT)) DEALLOCATE(TAGPENT)
        IF (ALLOCATED(VOLN_S))  DEALLOCATE(VOLN_S)
        IF (ALLOCATED(VOLN_C))  DEALLOCATE(VOLN_C)
        IF (ALLOCATED(VOLN_TG)) DEALLOCATE(VOLN_TG)

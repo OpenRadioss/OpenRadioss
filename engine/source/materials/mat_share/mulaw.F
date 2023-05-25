@@ -392,7 +392,7 @@ c
 
       IF (MTN == 67) THEN
         EL_TEMP => UVAR(NFT+1:NFT+NEL)
-      ELSEIF (JTHE == 0 .and. ELBUF_TAB(NG)%BUFLY(ILAY)%L_TEMP > 0) THEN            
+      ELSEIF (JTHE == 0 .AND. ELBUF_TAB(NG)%BUFLY(ILAY)%L_TEMP > 0) THEN            
         EL_TEMP => LTEMP     ! LBUF%TEMP
       ELSE                                                  
         EL_TEMP => TEMPEL(1:NEL)                           
@@ -1607,7 +1607,7 @@ c
      .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
      .                 SIGY   ,ET     ,TEMPEL ,VARNL  ,OFF    ,IPG    ,
-     .                 LBUF%DMG,LBUF%TEMP,LBUF%SEQ,NPG,ELBUF_TAB(NG)  ,
+     .                 LBUF%DMG,LBUF%TEMP,LBUF%SEQ,NPG,GBUF%UELR      ,
      .                 INLOC  )
 c
       ELSEIF (MTN == 105) THEN
