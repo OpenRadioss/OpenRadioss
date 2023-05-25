@@ -465,9 +465,11 @@ C-----------------------------------------------
              DO IEDGE = 1, 12
                 NODE1 = IXS(1 + HEXA_EDGE(1, IEDGE), II)
                 NODE2 = IXS(1 + HEXA_EDGE(2, IEDGE), II)
-                NB_EDGE = NB_EDGE + 1
-                EDGES(1, NB_EDGE) = NODE1
-                EDGES(2, NB_EDGE) = NODE2
+                IF(NODE1 /= NODE2)THEN
+                  NB_EDGE = NB_EDGE + 1
+                  EDGES(1, NB_EDGE) = NODE1
+                  EDGES(2, NB_EDGE) = NODE2
+                ENDIF
              ENDDO
           ENDIF
         ENDDO
