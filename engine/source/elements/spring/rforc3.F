@@ -311,7 +311,7 @@ C
      5   GBUF%LENGTH_ERR,        X1DP,                   X2DP,                   NGL,
      6   MGN,                    EX,                     EY,                     EZ,
      7   XK,                     XM,                     XC,                     AK,
-     8   NEL,                    NFT,                    IAD)
+     8   NEL,                    NFT,                    IAD,                    GBUF%RUPTCRIT(II(1)))
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -375,7 +375,7 @@ C
      4   GBUF%LENGTH_ERR,    X1DP,               X2DP,               NGL,
      5   MGN,                EX,                 EY,                 EZ,
      6   XK,                 XM,                 XC,                 AK,
-     7   NEL,                NFT)
+     7   NEL,                NFT,                GBUF%RUPTCRIT(II(1)))
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)

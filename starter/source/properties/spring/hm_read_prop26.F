@@ -259,6 +259,7 @@ C
       PROP_TAG(IGTYP)%G_POSX = 5  !  just temp - not really used - 
       PROP_TAG(IGTYP)%G_LENGTH_ERR = 1
       PROP_TAG(IGTYP)%G_DV = 1
+      PROP_TAG(IGTYP)%G_RUPTCRIT = 1
 C
 C-----------
       RETURN
