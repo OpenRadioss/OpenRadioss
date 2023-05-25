@@ -34,7 +34,7 @@ Chd|====================================================================
      4   AL0_ERR, X1DP,    X2DP,    NGL,
      5   MGN,     EX,      EY,      EZ,
      6   XK,      XM,      XC,      FSCALE,
-     7   NEL,     NFT)
+     7   NEL,     NFT,     CRIT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +65,8 @@ C     REAL
      .   AL0_ERR(*),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),XK(MVSIZ),
      .   XM(MVSIZ),XC(MVSIZ),FSCALE(MVSIZ)
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*)
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: 
+     .   CRIT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -299,14 +301,22 @@ C     ==================================================================
         IF (OFF(I) == ONE .AND. IFAIL(I) /= 0) THEN
           IF (IFAIL(I) == 1) THEN
             IF (ITENS(I) > 0) THEN
+              CRIT(I) = MAX(DL(I)/(DMX(I)*XL0(I)),DL(I)/(DMN(I)*XL0(I)))
+              CRIT(I) = MIN(CRIT(I),ONE)
+              CRIT(I) = MAX(CRIT(I),ZERO)
               IF (DL(I) > DMX(I)*XL0(I) .OR. DL(I) < DMN(I)*XL0(I)) THEN
+                CRIT(I) = ONE
                 OFF(I) = ZERO
                 NINDX  = NINDX + 1
                 INDX(NINDX) = I
                 IDEL7NOK = 1
               ENDIF
             ELSE
+              CRIT(I) = DL(I)/(DMN(I)*XL0(I))
+              CRIT(I) = MIN(CRIT(I),ONE)
+              CRIT(I) = MAX(CRIT(I),ZERO)
               IF (DL(I) < DMN(I)*XL0(I)) THEN
+                CRIT(I) = ONE
                 OFF(I) = ZERO
                 NINDX  = NINDX + 1
                 INDX(NINDX) = I
@@ -314,15 +324,23 @@ C     ==================================================================
               ENDIF
             ENDIF
           ELSEIF (IFAIL(I) == 2) THEN
-            IF (ITENS(I) > 0) THEN 
+            IF (ITENS(I) > 0) THEN
+              CRIT(I) = MAX(F(I)/DMX(I),F(I)/DMN(I)) 
+              CRIT(I) = MIN(CRIT(I),ONE)
+              CRIT(I) = MAX(CRIT(I),ZERO)
               IF (F(I)  > DMX(I) .OR. F(I)  < DMN(I)) THEN
+                CRIT(I) = ONE
                 OFF(I) = ZERO
                 NINDX  = NINDX + 1
                 INDX(NINDX) = I
                 IDEL7NOK = 1
               ENDIF
             ELSE
+              CRIT(I) = F(I)/DMN(I)
+              CRIT(I) = MIN(CRIT(I),ONE)
+              CRIT(I) = MAX(CRIT(I),ZERO)
               IF (F(I)  < DMN(I)) THEN
+                CRIT(I) = ONE
                 OFF(I) = ZERO
                 NINDX  = NINDX + 1
                 INDX(NINDX) = I

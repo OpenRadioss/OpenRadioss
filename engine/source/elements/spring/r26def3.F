@@ -35,7 +35,7 @@ Chd|====================================================================
      5   AL0_ERR, X1DP,    X2DP,    NGL,
      6   MGN,     EX,      EY,      EZ,
      7   XK,      XM,      XC,      AK,
-     8   NEL,     NFT,     IAD)
+     8   NEL,     NFT,     IAD,     CRIT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +67,8 @@ C     REAL
      .   AL0_ERR(*),EX(MVSIZ), EY(MVSIZ), EZ(MVSIZ),XK(MVSIZ),
      .   XM(MVSIZ),XC(MVSIZ),AK(MVSIZ)
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*)
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: 
+     .   CRIT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -150,7 +152,11 @@ C-----
       NINDX = 0
       DO I=1,NEL
         IF (OFF(I) == ONE) THEN
+          CRIT(I) = MAX(DL(I)/(DMX(I)*XL0(I)),DL(I)/(DMN(I)*XL0(I)))
+          CRIT(I) = MIN(CRIT(I),ONE)
+          CRIT(I) = MAX(CRIT(I),ZERO)
           IF (DL(I) > DMX(I)*XL0(I) .OR. DL(I) < DMN(I)*XL0(I)) THEN
+            CRIT(I) = ONE
             OFF(I)=ZERO
             NINDX = NINDX + 1
             INDX(NINDX) = I
