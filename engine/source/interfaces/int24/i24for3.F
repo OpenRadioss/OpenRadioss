@@ -554,15 +554,18 @@ C------explicit or implicit+Istif/=6
           DPENE(I) = MAX(ZERO,-VNM(I)*DT1)
           JG = NSVG(I)
           N  = CAND_N_N(I)
-          ISPDO = 1
           IF(JG > 0)THEN
             IF(TT /= ZERO.AND.(PENE_OLD(2,N)/= ZERO.OR.PENE_OLD(5,N)/= ZERO))THEN
               DDP = PENE(I)-PENE_OLD(2,N)-DPENE(I)
               IF(PENE(I) > PENE_OLD(2,N) .AND.DDP>ZERO)THEN
                 RP1 = PENE_OLD(2,N)/PENE(I)
                 RP2 = DPENE(I)/PENE(I)
-                IF (IRESP==1.AND. RP2<EM01) ISPDO = 0
-                IF (ISPDO==1) STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
+                IF (IRESP==1 .AND. RP2<EM01 .AND. RP1>ZERO) THEN
+                   STIF(I) = STIF_OLD(2,N)
+                ELSE
+                 IF (IRESP==1 .AND. RP1==ZERO) RP2 = HALF
+                 STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
+                END IF
               ELSEIF(.NOT.(PENE_OLD(2,N)== ZERO.AND.STIF_OLD(2,N)==ZERO))THEN
 C-----------first contact STIF_OLD(2,N) should not be zero
                 STIF(I) = STIF_OLD(2,N)
@@ -586,8 +589,12 @@ c new impact, possible multi impact
               IF(PENE(I) > PENE_OLDFI(NIN)%P(2,JG) .AND.DDP>ZERO)THEN
                 RP1 = PENE_OLDFI(NIN)%P(2,JG)/PENE(I)
                 RP2 = DPENE(I)/PENE(I)
-                IF (IRESP==1.AND. RP2<EM01) ISPDO = 0
-                IF (ISPDO==1)STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
+                IF (IRESP==1 .AND. RP2<EM01 .AND. RP1>ZERO) THEN
+                   STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
+                ELSE
+                 IF (IRESP==1 .AND. RP1==ZERO) RP2 = HALF
+                 STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
+                END IF
               ELSEIF(.NOT.(PENE_OLDFI(NIN)%P(2,JG)== ZERO.AND.
      .                            STIF_OLDFI(NIN)%P(2,JG)==ZERO))THEN
                 STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
