@@ -918,6 +918,8 @@ C
           ELSEIF(MFROT==3)THEN
             WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
+          ELSEIF(MFROT==4)THEN
+            WRITE(IOUT,1526)  FRIC,FRIC_P(1),FRIC_P(2)
           ENDIF
         ENDIF
 C Interface Adhesion 
@@ -1006,6 +1008,12 @@ C------------
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
+ 1526 FORMAT(/
+     .    '        EXPONENTIAL DECAY FRICTION LAW   '/
+     .    '          MU = c1+(MUo-c1)*exp(-c2*v)'/
+     .    '          STATIC COEFFICIENT MUo . . . . . . . . . ',1PG20.13/,
+     .    '          DYNAMIC COEFFICIENT C1 . . . . . . . . . ',1PG20.13/,
+     .    '          EXPONENTIAL DECAY COEFFICIENT C2 . . . . ',1PG20.13/)
 C----------     
  3526 FORMAT(//
      .       '    TYPE==25  MUTI-TYPE IMPACTING             ' //,

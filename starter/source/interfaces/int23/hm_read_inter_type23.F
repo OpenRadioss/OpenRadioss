@@ -354,6 +354,8 @@ C
       ELSEIF(MFROT==3)THEN
         WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .  FRIC_P(4),FRIC_P(5),FRIC_P(6)
+      ELSEIF(MFROT==4)THEN
+        WRITE(IOUT,1526)  FRIC,FRIC_P(1),FRIC_P(2)
       ENDIF
       IF(IDEL23/=0) THEN
         WRITE(IOUT,'(A,I5/)')
@@ -432,6 +434,12 @@ C------------
      .  '   Function for FRICTION COEFFICIENT wrt TEMPERATURE',I10/,
      .      '    Abscissa scale factor on IFUNTCF. . . .  . ',1PG20.13/,
      .      '    Ordinate scale factor on IFUNTCF .  . .  . ',1PG20.13/)
+ 1526 FORMAT(/
+     .    '     EXPONENTIAL DECAY FRICTION LAW   '/
+     .    '      MU = c1+(MUo-c1)*exp(-c2*v)'/
+     .    '      STATIC COEFFICIENT MUo . . . . . . . . . ',1PG20.13/,
+     .    '      DYNAMIC COEFFICIENT C1 . . . . . . . . . ',1PG20.13/,
+     .    '      EXPONENTIAL DECAY COEFFICIENT C2 . . . . ',1PG20.13/)
  1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
      .             'FORMULATION')
  1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
