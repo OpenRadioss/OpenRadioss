@@ -20,15 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C|======================================================================
-C|  SIGEPS79                                /mate79/sigeps79.F
-C|----------------------------------------------------------------------
-C|-- appelee par -----------
-C|         MULAW                            /matera/mulaw.F
-C|-- appelle ---------------
-C|         
-C|======================================================================
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  SIGEPS79                      source/materials/mat/mat079/sigeps79.F
 Chd|-- called by -----------
@@ -47,7 +38,7 @@ Chd|====================================================================
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , DVOL  , VOL0  ,
      B      IPM    , MAT    , EPSD    , SIGY  , DPLA  , DEFP  ,
-     C      AMU    )
+     C      AMU    , DMG    )
 C
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
@@ -129,7 +120,8 @@ C
      .      SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
      .      DVOL(NEL)  , VOL0(NEL)  , EPSD(NEL)  ,
-     .      AMU(NEL)      
+     .      AMU(NEL)    
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: DMG(NEL)  
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -161,9 +153,9 @@ C----------------------------------------------------------------
      .   TSTAR , PHEL , SHEL , BETA   ,
      .   D1    , D2   , K1   , K2     , K3
       my_real
-     .   MU(MVSIZ),MU2(MVSIZ), POLD(MVSIZ), DAMAGE(MVSIZ), VM(MVSIZ),
+     .   MU(MVSIZ),MU2(MVSIZ), POLD(MVSIZ), VM(MVSIZ),
      .   DELTAP(MVSIZ), PNEW(MVSIZ), PSTAR(MVSIZ), SCALE(MVSIZ), 
-     .   SIGYI(MVSIZ),  SIGYF(MVSIZ), SIGYOLD(MVSIZ)
+     .   SIGYI(MVSIZ),  SIGYF(MVSIZ), SIGYOLD(MVSIZ), DMG_OLD(MVSIZ)
       my_real
      .   DAV, CE, SIGSTAR, EPFAIL, P1, YIELD, DELTAU, DPDMU,
      .   PMIN, RATIO, J2
@@ -188,14 +180,13 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       BETA    = UPARAM(18)
 C
       DO I=1,NEL
-         DEFP(I)   = UVAR(I,1)
-         DAMAGE(I) = UVAR(I,3)
-         DELTAP(I) = UVAR(I,4)
-         SIGYOLD(I)= UVAR(I,5)/SHEL
-         POLD(I)   =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
+         DELTAP(I)  = UVAR(I,1)
+         SIGYOLD(I) = UVAR(I,2)/SHEL
+         DMG_OLD(I) = DMG(I)
+         POLD(I)    = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
 c         MU(I)     = RHO(I)/RHO0(I)-ONE
-         MU(I)     = AMU(I)
-         MU2(I)    = MU(I)*MU(I)
+         MU(I)      = AMU(I)
+         MU2(I)     = MU(I)*MU(I)
       ENDDO
 C--------------------------------
 C     ELASTIC DEVIATORIC STRESSES
@@ -225,7 +216,7 @@ C-------------------------------
          IF(MU(I)>ZERO) THEN
            PNEW(I)=PNEW(I)+K2*MU2(I)+K3*MU2(I)*MU(I)
          ELSE
-           PMIN=-TSTAR*PHEL*(ONE-DAMAGE(I))
+           PMIN=-TSTAR*PHEL*(ONE-DMG(I))
            PNEW(I)=MAX(PNEW(I),PMIN)
          ENDIF
          PSTAR(I)=PNEW(I)/PHEL
@@ -258,7 +249,7 @@ C
 C
          SIGYI(I)  = CE*SIGYI(I)
          SIGYF(I)  = MIN(CE*SIGYF(I),SIGFMAX)
-         SIGY(I)   =(ONE-DAMAGE(I))*SIGYI(I)+DAMAGE(I)*SIGYF(I)
+         SIGY(I)   = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
       ENDDO
 C-------------------------------
 C     PROJECTION
@@ -297,9 +288,9 @@ C
          IF(EPFAIL > ZERO) THEN
            DPLA(I) = (ONE -SCALE(I))*VM(I)/(THREE*SQRT(THREE)*G)
            DEFP(I) = DEFP(I)+DPLA(I)   
-           DAMAGE(I) = MIN(ONE,DAMAGE(I)+DPLA(I)/EPFAIL)
+           DMG(I)  = MIN(ONE,DMG(I)+DPLA(I)/EPFAIL)
          ELSEIF(SCALE(I) < ONE) THEN
-           DAMAGE(I) = ONE
+           DMG(I)  = ONE
          ENDIF
       ENDDO      
 C------------
@@ -307,9 +298,9 @@ C NEW DELTAP
 C------------
       DO I=1,NEL
         IF(MU(I) <= ZERO) CYCLE
-        IF(DAMAGE(I) > UVAR(I,3)) THEN
+        IF(DMG(I) > DMG_OLD(I)) THEN
          P1=K1*MU(I)
-         YIELD  =(ONE-DAMAGE(I))*SIGYI(I)+DAMAGE(I)*SIGYF(I)
+         YIELD  =(ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
          DELTAU =(SIGYOLD(I)*SIGYOLD(I)-YIELD*YIELD)/(SIX*G)
          IF(DELTAU > ZERO) THEN
            DELTAU=DELTAU*SHEL*SHEL
@@ -320,11 +311,8 @@ C------------
       ENDDO
 C
       DO I=1,NEL
-         UVAR(I,1)=DEFP(I)
-         UVAR(I,2)=ZERO
-         UVAR(I,3)=DAMAGE(I)
-         UVAR(I,4)=DELTAP(I)
-         UVAR(I,5)=SIGY(I)*SHEL
+         UVAR(I,1)=DELTAP(I)
+         UVAR(I,2)=SIGY(I)*SHEL
          SIGNXX(I)=SIGNXX(I)-PNEW(I)
          SIGNYY(I)=SIGNYY(I)-PNEW(I)
          SIGNZZ(I)=SIGNZZ(I)-PNEW(I)
