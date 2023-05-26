@@ -1190,7 +1190,7 @@ C---        Loi Darmstad
      .           + FROT_P(5)*EXP(FROT_P(6)*VV)
         ENDDO
       ELSEIF (MFROT==3) THEN
-C---        Loi Renard
+C---    Renard
         DO I=1,JLT
           AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
           V2 = (VX(I) - N1(I)*AA)**2
@@ -1211,6 +1211,18 @@ C---        Loi Renard
             XMU(I) = FROT_P(2) - DMU / (ONE + DMU*VV2)
           ENDIF
         ENDDO
+      ELSEIF(MFROT==4)THEN
+C---    Exponential decay model
+        DO I=1,JLT
+          AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
+          V2 = (VX(I) - N1(I)*AA)**2
+     .       + (VY(I) - N2(I)*AA)**2
+     .       + (VZ(I) - N3(I)*AA)**2
+           VV = SQRT(MAX(EM30,V2))
+           XMU(I) = FRIC
+     .        + (FROT_P(1)-FRIC)*EXP(-FROT_P(2)*VV)
+           XMU(I) = MAX(XMU(I),EM30)
+         ENDDO
       ENDIF
 C------------------
 C    TANGENT FORCE CALCULATION

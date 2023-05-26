@@ -423,7 +423,7 @@ C should be the current nodal surface instead of the initial one.
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ELSEIF(MFROT==2)THEN
-C---    Loi Darmstad
+C---    Darmstad LAW
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
@@ -442,7 +442,7 @@ C should be the current nodal surface instead of the initial one.
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ELSEIF (MFROT==3) THEN
-C---    Loi Renard
+C---    Renard LAW
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
@@ -464,6 +464,18 @@ C attention : normale <> normale a l'elt
             XMU(I) = FROT_P(2) - DMU / (ONE + DMU*VV2)
           ENDIF
           XMU(I) = MAX(XMU(I),EM30)
+        ENDDO
+      ELSEIF(MFROT==4)THEN
+C---        Exponential decay model
+        DO I=1,JLT
+          AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
+          V2 = (VX(I) - NX(I)*AA)**2 
+     .       + (VY(I) - NY(I)*AA)**2 
+     .       + (VZ(I) - NZ(I)*AA)**2
+           VV = SQRT(MAX(EM30,V2))
+           XMU(I) = FRIC
+     .            + (FROT_P(1)-FRIC)*EXP(-FROT_P(2)*VV)
+           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ENDIF
 C------------------

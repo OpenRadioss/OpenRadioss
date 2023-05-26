@@ -1901,7 +1901,7 @@ C---      Viscous friction
             XMU(I) = MAX(XMU(I),EM30)
           ENDDO
         ELSEIF(MFROT==2)THEN
-C---        Loi Darmstad
+C---        Darmstad Law
           DO I=1,JLT-JLT_TIED
             IE=CE_LOC(I)
             AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
@@ -1927,7 +1927,7 @@ C---        Loi Darmstad
             XMU(I) = MAX(XMU(I),EM30)
           ENDDO
         ELSEIF (MFROT==3) THEN
-C---        Loi Renard
+C---        Renard Law
           DO I=1,JLT-JLT_TIED
             AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
             V2 = (VX(I) - N1(I)*AA)**2
@@ -1949,8 +1949,20 @@ C---        Loi Renard
             ENDIF
             XMU(I) = MAX(XMU(I),EM30)
           ENDDO
-        ENDIF
 
+        ELSEIF(MFROT==4)THEN
+C---        Exponential decay model
+          DO I=1,JLT-JLT_TIED
+            AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
+            V2 = (VX(I) - N1(I)*AA)**2
+     .         + (VY(I) - N2(I)*AA)**2
+     .         + (VZ(I) - N3(I)*AA)**2
+            VV = SQRT(MAX(EM30,V2))
+            XMU(I) = FRICC(I)
+     .             + (FRIC_COEFS(I,1)-FRICC(I))*EXP(-FRIC_COEFS(I,2)*VV)
+            XMU(I) = MAX(XMU(I),EM30)
+          ENDDO
+        ENDIF
       ELSE
 C++ Orthotropic Friction
 
@@ -2066,7 +2078,7 @@ c
           ENDDO
 
         ELSEIF(MFROT==2)THEN
-C---        Loi Darmstad
+C---        Darmstad LAW
 #include   "vectorize.inc"
           DO K=1,NFISOT  ! isotropic friction couples
             I = INDEXISOT(K)
@@ -2150,7 +2162,7 @@ c
           ENDDO
 
         ELSEIF (MFROT==3) THEN
-C---        Loi Renard
+C---        Renard Law
 #include   "vectorize.inc"
           DO K=1,NFISOT  ! isotropic friction couples
             I = INDEXISOT(K)
@@ -2210,6 +2222,59 @@ c
               VV2 = (VV - FRIC_COEFS2(I,6))**2
               XMU2(I) = FRIC_COEFS2(I,2) - DMU / (ONE + DMU*VV2)
             ENDIF
+            XMU(I) = MAX(XMU(I),EM30)
+            XMU2(I) = MAX(XMU2(I),EM30)
+          ENDDO
+
+#include   "vectorize.inc"
+          DO K=1,NFORTH ! Orthotropic friction couples : treat differently cases where mu1=0 AND/OR mu2=0
+            I = INDEXORTH(K)
+            IF(XMU(I)<=EM30) THEN
+              XMU(I) = EM30
+              DIR1(I,1:3) = ZERO
+              AN(K) = ZERO
+            ELSE
+              AN(K)=XMU(I)**2
+              AN(K)=ONE/AN(K)
+            ENDIF
+            IF(XMU2(I)<=EM30) THEN
+              XMU2(I) = EM30
+              DIR2(I,1:3) = ZERO
+              BN(K) = ZERO
+            ELSE
+              BN(K)=XMU2(I)**2
+              BN(K)=ONE/BN(K)
+            ENDIF
+          ENDDO
+
+        ELSEIF(MFROT==4)THEN
+C---        Exponential decay model
+#include   "vectorize.inc"
+          DO K=1,NFISOT  ! isotropic friction couples
+            I = INDEXISOT(K)
+            AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
+            V2 = (VX(I) - N1(I)*AA)**2
+     .         + (VY(I) - N2(I)*AA)**2
+     .         + (VZ(I) - N3(I)*AA)**2
+            VV = SQRT(MAX(EM30,V2))
+            XMU(I) = FRICC(I)
+     .             + (FRIC_COEFS(I,1)-FRICC(I))*EXP(-FRIC_COEFS(I,2)*VV)
+            XMU(I) = MAX(XMU(I),EM30)
+          ENDDO
+c
+#include   "vectorize.inc"
+          DO K=1,NFORTH ! Orthotropic friction couples
+            I = INDEXORTH(K)
+c
+            V2 = VX(I)*DIR1(I,1) +VY(I)*DIR1(I,2)+VZ(I)*DIR1(I,3)
+            VV  = MAX(EM30,V2)
+            XMU(I) = FRICC(I)
+     .             + (FRIC_COEFS(I,1)-FRICC(I))*EXP(-FRIC_COEFS(I,2)*VV)
+c
+            V2 = VX(I)*DIR2(I,1) +VY(I)*DIR2(I,2)+VZ(I)*DIR2(I,3)
+            VV  = MAX(EM30,V2)
+            XMU2(I) = FRICC2(I)
+     .             + (FRIC_COEFS2(I,1)-FRICC2(I))*EXP(-FRIC_COEFS2(I,2)*VV)
             XMU(I) = MAX(XMU(I),EM30)
             XMU2(I) = MAX(XMU2(I),EM30)
           ENDDO

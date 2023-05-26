@@ -382,7 +382,7 @@ C attention : normale <> normale a l'elt
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ELSEIF (MFROT==3) THEN
-C---    Loi Renard
+C---    Renard 
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
@@ -405,6 +405,18 @@ C attention : normale <> normale a l'elt
           ENDIF
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
+      ELSEIF(MFROT==4)THEN
+C---    Exponential decay model
+        DO I=1,JLT
+          AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
+          V2 = (VX(I) - NX(I)*AA)**2 
+     .       + (VY(I) - NY(I)*AA)**2 
+     .       + (VZ(I) - NZ(I)*AA)**2
+           VV = SQRT(MAX(EM30,V2))
+           XMU(I) = FRIC
+     .        + (FROT_P(1)-FRIC)*EXP(-FROT_P(2)*VV)
+           XMU(I) = MAX(XMU(I),EM30)
+         ENDDO
       ENDIF
 C------------------
 C    TANGENT FORCE CALCULATION
