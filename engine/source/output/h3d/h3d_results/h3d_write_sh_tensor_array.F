@@ -21,41 +21,42 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INI_MATPARAM                  source/materials/mat/ini_matparam.F
+Chd|  H3D_WRITE_SH_TENSOR           source/output/h3d/h3d_results/h3d_write_sh_tensor.F
 Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
+Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_MATPARAM(MATPARAM_TAB,NUMMAT)
+      SUBROUTINE H3D_WRITE_SH_TENSOR_ARRAY(
+     .           IOK_PART  ,ISELECT   ,NEL       ,OFFSET    ,NFT       ,
+     .           IS_WRITTEN,TENSOR    ,VALUE     )
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MATPARAM_DEF_MOD
-C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      INTEGER ,INTENT(IN) :: NEL,OFFSET,NFT,ISELECT
+      INTEGER ,DIMENSION(NEL)   ,INTENT(IN)    :: IOK_PART
+      my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: VALUE
+      my_real ,DIMENSION(3,NEL) ,INTENT(OUT)   :: TENSOR
+      INTEGER ,DIMENSION(NUMELC+NUMELTG) ,INTENT(INOUT) :: IS_WRITTEN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT
-C=======================================================================
-      DO IMAT=1,NUMMAT
-        MATPARAM_TAB(IMAT)%ILAW               = 0
-        MATPARAM_TAB(IMAT)%MAT_ID             = 0
-        MATPARAM_TAB(IMAT)%COMPRESSIBILITY    = 3  ! elsto_plastic
-        MATPARAM_TAB(IMAT)%SMSTR              = 2  ! large strain
-        MATPARAM_TAB(IMAT)%STRAIN_FORMULATION = 1  ! incremental
-        MATPARAM_TAB(IMAT)%ORTHOTROPY         = 1  ! isotropic
-        MATPARAM_TAB(IMAT)%NTABLE = 0              ! number of local function tables
-        MATPARAM_TAB(IMAT)%IPRES = 1               ! hydrostatic using AMU
+      INTEGER I
+c=======================================================================
+      DO I = 1,NEL
+        TENSOR(1,OFFSET+NFT+I) = VALUE(I,1)
+        TENSOR(2,OFFSET+NFT+I) = VALUE(I,2)
+        TENSOR(3,OFFSET+NFT+I) = VALUE(I,3)
+        IF (IOK_PART(I) == 1 .AND. ISELECT == 1) IS_WRITTEN(OFFSET+NFT+I) = 1
       END DO
-c-----------
+      VALUE(:,:) = ZERO
+c----------- 
       RETURN
-      END 
+      END

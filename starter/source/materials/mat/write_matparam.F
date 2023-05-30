@@ -42,44 +42,47 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER , INTENT(IN)    :: NUMMAT
-      INTEGER , INTENT(INOUT) :: LEN
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT), TARGET :: MATPARAM_TAB
+      INTEGER ,INTENT(IN)    :: NUMMAT
+      INTEGER ,INTENT(INOUT) :: LEN
+      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM_TAB
+      TARGET :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT,IAD,NPARAM,NUMTABL,LENI,LENR
-      my_real, DIMENSION(:), ALLOCATABLE :: RBUF
-      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
+      INTEGER :: IMAT,IAD,NPARAM,NUMTABL,LENI,LENR
+      INTEGER, DIMENSION(:)  ,ALLOCATABLE :: IBUF
+      TYPE(MATPARAM_STRUCT_) ,POINTER     :: MATPARAM
 C=======================================================================
-      NPARAM = 7
+      NPARAM = 8
       LEN = NPARAM*NUMMAT + 1
-      ALLOCATE (RBUF(LEN) )
+      ALLOCATE (IBUF(LEN) )
 c
       IAD = 1
-      RBUF(IAD) = LEN-1
+      IBUF(IAD) = LEN-1
 c
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%ILAW 
+          IBUF(IAD) = MATPARAM%ILAW 
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%MAT_ID
+          IBUF(IAD) = MATPARAM%MAT_ID
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%COMPRESSIBILITY
+          IBUF(IAD) = MATPARAM%NTABLE
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%SMSTR
+          IBUF(IAD) = MATPARAM%COMPRESSIBILITY
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%STRAIN_FORMULATION
+          IBUF(IAD) = MATPARAM%SMSTR
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%NTABLE
+          IBUF(IAD) = MATPARAM%STRAIN_FORMULATION
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%IPRES
+          IBUF(IAD) = MATPARAM%IPRES
+        IAD = IAD+1
+          IBUF(IAD) = MATPARAM%ORTHOTROPY
       END DO
 c
-      CALL WRITE_DB(RBUF,LEN)
+      CALL WRITE_I_C(IBUF,LEN)
 c
-      DEALLOCATE( RBUF )
+      DEALLOCATE(IBUF)
       
 c     write material law tables if necessary
       

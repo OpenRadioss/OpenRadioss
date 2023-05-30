@@ -150,12 +150,12 @@ C-------------------------------------------
              ANIM_CT(4)    = 1
              NCT_ANI = NCT_ANI + 1
            ENDIF
-           IF(NIPMAX<=100)THEN
+c           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                ANIM_CT(100+I) = 1
                NCT_ANI = NCT_ANI + 1
              ENDDO
-           ENDIF
+c           ENDIF
          ENDIF
          IF (ISTRAIALL == 1)THEN
            IF (ANIM_CT(7) == 0) THEN

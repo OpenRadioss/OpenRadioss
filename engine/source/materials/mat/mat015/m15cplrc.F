@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SIGEPS15C                     source/materials/mat/mat015/sigeps15c.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M15CPLRC(JFT    ,JLT    ,PM     ,WPLA   ,DIR   ,
+      SUBROUTINE M15CPLRC(JFT    ,JLT    ,PM     ,WPLA   ,
      2                    IMATLY ,DAMT   ,SHF    ,NGL    ,SIGE  ,
      3                    DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      4                    SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX,
@@ -53,8 +53,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT, ISRATE(*)
 C     REAL
       my_real
-     .   PM(NPROPM,*),WPLA(*),DIR(NEL,2),
-     .   DAMT(NEL,2),SHF(*),EPSP(*),
+     .   PM(NPROPM,*),WPLA(*),DAMT(NEL,2),SHF(*),EPSP(*),
      .   SIGE(MVSIZ,5),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),
