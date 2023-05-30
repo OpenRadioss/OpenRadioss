@@ -684,7 +684,7 @@ c-------
             CALL HM_READ_MAT58(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     )
+     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
 c-------
           CASE ('LAW59','CONNECT')
             ILAW  = 59  
@@ -1107,7 +1107,7 @@ c-------
             CALL HM_READ_MAT158(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     )
+     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
 c-------
           CASE ('GAS')
              ILAW = 999
@@ -1365,15 +1365,20 @@ c---------------------------------------------------------
 C-----initialization MATPARAM%IPRES... by keywords (default :HYDROSTATIC)
 c---------------------------------------------------------
             SELECT CASE (ILAW)
-C------ laws using EOS and thermo are grouped here              
+c            laws using EOS and thermo are grouped here              
              CASE(3,4,5,6,10,11,16,17,18,21,26,46,49,51,97,102,103,151)  
                CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
-C------ composite, visco-elastic laws don't separate spheric & deviatoric              
+c              composite, visco-elastic laws don't separate spheric & deviatoric              
              CASE(12,14,24,25,28,34,35,37,50,52,53,59,68,71,75,78,80,81,
      .            83,84,106,116,117)
               CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
-             END SELECT 
-c---------------------------------------------------------
+            END SELECT 
+c-----------------------------------------------------------------
+c           orthotropy => include in hm_read_matxxx !!!            
+            SELECT CASE (ILAW)
+             CASE(12,14,15,19,25,28,32,43,50,53,57,68,72,73,74,76,78,84,87,93,200)  
+               CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+            END SELECT 
 C                       
 C---------------  fin boucle sur les lois
       ENDDO   ! HM_NUMMAT

@@ -301,7 +301,9 @@ C---              Axe II
               ENDIF ! IF (ILAW == 58) THEN
             ENDDO ! DO N=1,NLAY
           ENDIF
-      ELSE
+c
+      ELSE     ! DRAPE = 0
+c
           IF (ELBUF_STR%BUFLY(1)%LY_DIRA == 0) THEN
             DO N=1,NLAY                              
               J = (N-1)*NEL*2

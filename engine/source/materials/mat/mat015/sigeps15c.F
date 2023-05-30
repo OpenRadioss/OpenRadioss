@@ -29,7 +29,7 @@ Chd|        M15CPLRC                      source/materials/mat/mat015/m15cplrc.F
 Chd|        M15CRAK                       source/materials/mat/mat015/m15crak.F
 Chd|====================================================================
       SUBROUTINE SIGEPS15C(
-     1                 JFT    ,JLT    ,PM     ,DAMT   ,DIR     ,
+     1                 JFT    ,JLT    ,PM     ,DAMT   ,
      3                 IMAT   ,SHF    ,NGL    ,EPSPL  ,DMG_FLAG,
      7                 ILAYER ,NEL    ,ISRATE ,PLA    ,SIGDMG  ,
      A                 DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX  ,
@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ)
 C     REAL
       my_real
-     .   PM(NPROPM,*),DIR(NEL,2),SHF(*),EPSPL(*),SIGDMG(MVSIZ,5)
+     .   PM(NPROPM,*),SHF(*),EPSPL(*),SIGDMG(MVSIZ,5)
       my_real
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),PLA(NEL),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
@@ -75,7 +75,7 @@ C     PLASTICITE AUX POINTS D'INTEGRATION
 C-----------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C-----------------------
-      CALL M15CPLRC(JFT    ,JLT    ,PM     ,PLA    ,DIR   ,
+      CALL M15CPLRC(JFT    ,JLT    ,PM     ,PLA    ,
      2              IMAT   ,DAMT   ,SHF    ,NGL    ,SIGE  ,
      3              DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      4              SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX,
@@ -106,7 +106,7 @@ C-----------------------
         ENDIF
       ENDDO
 !
-      CALL M15CRAK(JFT   ,JLT   ,PM     ,DAMT ,DIR ,
+      CALL M15CRAK(JFT   ,JLT   ,PM     ,DAMT ,
      .             SIGR  ,IMAT  ,ILAYER ,SIGE ,NGL ,
      .             NEL   )
 C---
