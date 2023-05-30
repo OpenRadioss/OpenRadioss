@@ -88,7 +88,7 @@ Chd|====================================================================
      B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,                   
      C            VR        ,IN          ,WEIGHT     ,FCLUSTER  ,MCLUSTER ,         
      D            DD_IAD    ,DMAS        ,DINER      ,ACCELM    ,GAUGE,             
-     E            IPARI     ,EANI        ,IPART,                                    
+     E            IPARI     ,EANI        ,IPART      ,MATPARAM_TAB,                                    
      F            IGRNOD    ,SUBSET      ,      
      G            NOM_OPT   ,AR          ,IGRSURF    ,BUFSF     ,IDATA    ,         
      H            RDATA     ,KXX         ,IXX        ,BUFMAT    ,BUFGEO   ,         
@@ -156,6 +156,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE TABLE_MOD
       USE LOADS_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -269,12 +270,13 @@ C-----------------------------------------------
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_)  :: DRAPEG
       TYPE (SENSORS_)         ,INTENT(IN)   :: SENSORS
-      TYPE(t_ale_connectivity), INTENT(IN)  :: ALE_CONNECT
+      TYPE (t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS     
       TYPE(DT_),        INTENT(INOUT)       :: DT     
       TYPE (LOADS_)   , INTENT(IN)          :: LOADS
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -589,7 +591,7 @@ c
      5         SN5        ,CONT     ,SN6          ,ICUT       ,SKEW      ,
      6         XCUT       ,FINT     ,ITAB        ,SN7       ,FEXT      ,
      7         FOPT       ,ANIN     ,LPBY        ,NPBY       ,NSTRF     ,
-     8         RWBUF      ,NPRW     ,TANI       ,ELBUF_TAB ,
+     8         RWBUF      ,NPRW     ,TANI       ,ELBUF_TAB ,MATPARAM_TAB,
      A         DD_IAD     ,WEIGHT     ,EANI        ,IPART       ,CLUSTER   ,
      B         IPART(K1)  ,IPART(K2) ,IPART(K3)   ,IPART(K4)   ,IPART(K5) ,
      C         IPART(K6)  ,IPART(K7) ,IPART(K8)   ,
@@ -735,7 +737,7 @@ c
      5             SN5        ,CONT      ,SN6         ,ICUT        ,SKEW      ,
      6             XCUT       ,FINT      ,ITAB        ,SN7         ,FEXT      ,
      7             FOPT       ,ANIN      ,LPBY        ,NPBY        ,NSTRF     ,
-     8             RWBUF      ,NPRW      ,TANI        ,ELBUF_TAB ,
+     8             RWBUF      ,NPRW      ,TANI        ,ELBUF_TAB   ,MATPARAM_TAB,
      A             DD_IAD     ,WEIGHT    ,EANI        ,IPART       ,CLUSTER   ,
      B             IPART(K1)  ,IPART(K2) ,IPART(K3)   ,IPART(K4)   ,IPART(K5) ,
      C             IPART(K6)  ,IPART(K7) ,IPART(K8)   ,
@@ -997,7 +999,7 @@ C         to avoid double points
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,                                 
-     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB, 
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPA, OUTPUT%TH%ITHBUFA, SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1027,7 +1029,7 @@ C         to avoid double points
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB,                               
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPA,OUTPUT%TH%ITHBUFA,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1091,7 +1093,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1119,7 +1121,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1185,7 +1187,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1213,7 +1215,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1275,7 +1277,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                 PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                 KXX   ,IXR,
@@ -1305,7 +1307,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1366,7 +1368,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1395,7 +1397,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1456,7 +1458,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1485,7 +1487,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1547,7 +1549,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1576,7 +1578,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1638,7 +1640,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1667,7 +1669,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1728,7 +1730,7 @@ C
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1756,7 +1758,7 @@ C
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
      4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                  PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                  KXX   ,IXR,
@@ -1816,7 +1818,7 @@ C
         CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,
@@ -1845,7 +1847,7 @@ C
           CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,SENSORS%SENSOR_TAB, 
-     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,
+     5                PARTSAV,ACCELM,LOUT ,NSENSOR  ,MATPARAM_TAB,
      6                IPARI,WEIGHT,IPART,IGRSURF,
      7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,

@@ -124,6 +124,15 @@ c
         CASE ("HOOK")      
           MATPARAM%IPRES = 3
 c
+        CASE ("ISOTROPIC")      
+          MATPARAM%ORTHOTROPY = 1
+c
+        CASE ("ORTHOTROPIC")      
+          MATPARAM%ORTHOTROPY = 2
+c
+        CASE ("ANISOTROPIC")      
+          MATPARAM%ORTHOTROPY = 3
+
         CASE DEFAULT      
           ! write error : keyword not recognized"
 c---

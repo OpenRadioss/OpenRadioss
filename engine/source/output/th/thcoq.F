@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE THCOQ(ELBUF_TAB,NTHGRP2 , ITHGRP , 
+      SUBROUTINE THCOQ(ELBUF_TAB,MATPARAM_TAB,NTHGRP2 , ITHGRP , 
      .                 IPARG    ,ITHBUF  ,WA      ,
      .                 IPM      ,IGEO  ,IXC    ,IXTG   ,PM     ,
      .                 RTHBUF   ,THKE  ,STACK)
@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE PINCHTYPE_MOD         
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,6 +49,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
@@ -61,6 +63,7 @@ C-----------------------------------------------
       my_real
      .   WA(*),PM(NPROPM,*),RTHBUF(*),THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -70,22 +73,19 @@ C-----------------------------------------------
      .   ISTRAIN,NU,NUVAR,NUVARV,NUVARD,IGTYP,IHBE,NBD1,NBD2,NBD3,
      .   IFAILURE,IADD,ISROT,IVISC,IPMAT,PTMAT,ISHPLYXFEM,IPMAT_IPLY,
      .   MAT_IPLY,NBDELM,IWA,NV,NGL,IIGEO,IADI,ISUBSTACK,ITHK,NPT_ALL,
-     .   MATLY,KK(8),IPINCH,IPG
+     .   MATLY,KK(8),IPINCH,IPG,IMAT,MAT_ORTH
       INTEGER PID(MVSIZ),MAT(MVSIZ)
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK
-      my_real
-     .   WWA(50000),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ), DMAX(MVSIZ),WPMAX(MVSIZ), FAIL(MVSIZ) ,
-     .   FAIL1(MVSIZ) , FAIL2(MVSIZ) ,  FAIL3(MVSIZ),F1,F2,F3,F4,F5,
-     .   F11,F22,F33,F44,F55,CP,SP,MM1,MM2,MM3,MM11,MM22,MM33,FUNC(6),
-     .   VAL_LY_IP,VAL_LY_AVERAGE
+      my_real :: WWA(50000),FUNC(6),SIG(5)
+      my_real ,DIMENSION(MVSIZ) :: DAM1,DAM2,WPLA,DMAX,WPMAX,
+     .   FAIL,FAIL1,FAIL2,FAIL3
+      my_real :: F1,F2,F3,F4,F5,F11,F22,F33,F44,F55,CP,SP,MM1,MM2,MM3,
+     .   MM11,MM22,MM33,D1,D2,D11,D12,D22,VAL_LY_IP,VAL_LY_AVERAGE
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVAR 
-      my_real,
-     .  DIMENSION(:,:), ALLOCATABLE  :: VAR 
+      my_real ,DIMENSION(:), POINTER  :: UVAR,DIR_A
+      my_real ,DIMENSION(:,:), ALLOCATABLE  :: VAR 
       TYPE (STACK_PLY) :: STACK
 C-------------------------
 C           ELEMENTS COQUES
@@ -159,7 +159,7 @@ c
      .        MTE == 44.OR.MTE == 45.OR.MTE == 48.OR.MTE>=50) THEN
               CONTINUE
 c
-	    ELSEIF (MTE == 25) THEN
+	           ELSEIF (MTE == 25) THEN
 C
               DO I=1,NEL               
                 DAM1(I)=ZERO           
@@ -220,7 +220,7 @@ c
                   ENDDO 
                 ENDIF	              			    
               ENDIF
-            ENDIF     ! MTE = 25
+            ENDIF     ! MTE
 c---------
 c
 c---------
@@ -331,164 +331,75 @@ c
                 DO J = 24,50000
                   WWA(J)=ZERO
                 ENDDO
-c----
-C         Stress tensor
-c----
-                IF (NPG > 1) THEN     ! IHBE == 11
+c----------------------
+c              Stress tensor
+c----------------------
 c----           mean stress over Gauss points in each layer
-                  IF (NLAY > 1) THEN
-                    DO IPT=1,NLAY                                        
-                      BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
-                      DO J = 1,5                                       
-                        WWA(183+(IPT-1)*5+J) = BUFLY%SIGPT(M5+J)
-                      ENDDO
-                    ENDDO 
-                  ELSE
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                    NPTT = BUFLY%NPTT
-cc                    DO IPT=1,NPT
-                    DO IPT=1,NPTT
-                      JJ = (IPT-1)*NEL*5                                  
-                      DO J = 1,5                                       
-                        WWA(183+(IPT-1)*5+J) = BUFLY%SIGPT(M5+JJ+J)     
-                      ENDDO
-                    ENDDO
-                  ENDIF
-c
-C               for interply      
-                  IF (ISHPLYXFEM > 0) THEN 
-c                    N16A= N16 + 2*NPT*NEL                                                     
-c                  NBM_S = 6*NEL*NPT + NEL + NEL*MPT*NUVARR                                  
-c                  IF(IVISC > 0) NBM_S=NBM_S + NEL*MPT*NUVARV + 5*NEL*NPT                  
-c                  NBDELM = N16A +  NBM_S*MAX(NPG,1)                                         
-                    IF (IFAILURE > 0) NBDELM = NBDELM + NEL 
-C   NEL*NPT ( off by layer element) + out flag
-                    NBDELM = NBDELM + NPT*NEL 
-                    IF(MTE == 25)NBDELM = NBDELM  + NEL
-C                      
-                    DO IPT=1,NPT-1                                                              
-                      IWA = 30882 + (IPT -1)*(6*4 + 11)                              
-                      DO K=1,NPG                                                             
-                        NBD1 = NBDELM + (K - 1)*(NUVARD + 6)*NPT*NEL                        
-                        NBD2 = NBD1 +      NUVARD*NPT*NEL                                   
-                        NBD3 = NBD2 +           3*NPT*NEL 
-                                                          
-C                                                                                            
-                        I1=NBD1 +  NEL*NUVARD*(IPT-1)                 
-                        I2=NBD2 +  NEL*3*(IPT-1)  +  (I-1) * 3                              
-                        I3=NBD3 +  NEL*3*(IPT-1)  +  (I-1) * 3
-                        DO L = 1,3                                                          
-!                         WWA(IWA +  (K-1)*6 + L )    =  BUFEL(I2 + L-1)
-!                         WWA(IWA +  (K-1)*6 + 3 + L )=  BUFEL(I3 + L-1) 
-!                         WWA(IWA + 24 + L )= WWA(IWA + 24 + L ) 
-!     .                                          + BUFEL(I2 + L-1)/NPG    
-!                         WWA(IWA + 27 + L )= WWA(IWA + 27 + L ) 
-!     .                                          + BUFEL(I3 + L-1)/NPG    
-                        ENDDO !  L = 1,3 
-C                                                                              
-                        NV = MIN(NUVARD,4)                                                   
-                        IF( NUVARD >= 4) THEN                                                 
-                          DO L = 1,4  
-                            I1=NBD1 +  NEL*NUVARD*(IPT-1) + (L-1)*NEL + I                                                         
-!                          WWA(IWA + 30 + L )= MAX(WWA(IWA+30+L),
-!     .                                            BUFEL(I1-1))
-                          ENDDO                                                              
-                        ELSE                                                                 
-                          DO L = 1,NV  
-                            I1=NBD1 +  NEL*NUVARD*(IPT-1) + (L-1)*NEL + I                                                    
-!                          WWA(IWA + 30 + L )= MAX(WWA(IWA+30+L),
-!     .                                            BUFEL(I1-1))
-                          ENDDO                                                              
-                        ENDIF ! NUVARD                              
-                      ENDDO  !  K=1,NPG
-C                      internal energy
-                      I4 = NBDELM+NPG*(NUVARD+6)*NPT*NEL +(IPT-1)*NEL+I 
-!                      WWA(IWA + 35 ) = BUFEL(I4 - 1) 
-                    ENDDO   ! IPT=1,NPT-1                                                                     
-                  ENDIF  ! ishplyxfem
-c
-                ELSE  ! NPG = 1                                                
-c----           stress in each layer
-                  IF (NLAY > 1) THEN
-                    DO IPT=1,NLAY                                        
-c                      LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)
-c                      DO J = 1,5                                      
-c                        WWA(183 + (IPT-1)*5 + J) = LBUF%SIG(M5 + J)  
-c                      ENDDO                                            
-                      BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
-                      NPTT = BUFLY%NPTT
-                      FUNC(1:5) = ZERO
+                DO IL = 1,NLAY                                        
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                  IMAT  = BUFLY%IMAT                          
+                  NPTT  = BUFLY%NPTT
+                  SIG(1:5) = ZERO
+                  K = 183 + (IL-1)*5
+                  DO IR=1,NPTR                    
+                    DO IS=1,NPTS       
                       DO IT=1,NPTT
-                        LBUF => BUFLY%LBUF(1,1,IT)
+                        LBUF => BUFLY%LBUF(IR,IS,IT)
                         DO J = 1,5
-                          FUNC(J) = FUNC(J) + LBUF%SIG(KK(J) + I)/NPTT
+                          SIG(J) = SIG(J) + LBUF%SIG(KK(J) + I) / (NPTT*NPG)
                         ENDDO
                       ENDDO
-                      DO J = 1,5
-                        WWA(183 + (IPT-1)*5 + J) = FUNC(J)
-                      ENDDO
-                    ENDDO                                                                     
-                  ELSE
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                    NPTT = BUFLY%NPTT
-cc                    DO IPT = 1, NPT
-                    DO IPT = 1, NPTT
-                      LBUF => BUFLY%LBUF(1,1,IPT)
-                      DO J = 1,5                                      
-                        WWA(183 + (IPT-1)*5 + J) = LBUF%SIG(KK(J) + I)  
-                      ENDDO
-                    ENDDO             
-                  ENDIF ! NLAY
-                ENDIF   ! NPG                                                 
-c----
-c------------ Viscous stress
-c----
+                    ENDDO
+                  ENDDO
+                  MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                  IF (MAT_ORTH == 1) THEN                 
+                    DO J = 1,5
+                      WWA(K + J) = SIG(J)
+                    ENDDO
+                  ELSE IF (MAT_ORTH == 2) THEN   !  rotate sig to global coord             
+                    DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA
+                    D1  = DIR_A(I)
+                    D2  = DIR_A(I+NEL)
+                    D11 = D1*D1
+                    D22 = D2*D2
+                    D12 = D1*D2
+                    WWA(K + 1) = D11*SIG(1) + D22*SIG(2) + TWO*D12 *SIG(3)
+                    WWA(K + 2) = D22*SIG(1) + D11*SIG(2) - TWO*D12 *SIG(3)
+                    WWA(K + 3) =-D12*SIG(1) + D12*SIG(2) +(D11-D22)*SIG(3)
+                    WWA(K + 4) =-D2 *SIG(5) + D1 *SIG(4)
+                    WWA(K + 5) = D1 *SIG(5) + D2 *SIG(4)
+                  END IF
+                ENDDO    ! DO IL=1,NLAY                                                                     
 c
-                IF (IVISC > 0) THEN
-C               available just for law 25  
-c               mean visc stress over Gauss points in each layer           
+c------------   Viscous stress
 c
-                  IF (NLAY > 1) THEN                                         
-                    DO IPT=1,NLAY                                            
-                      BUFLY = ELBUF_TAB(NG)%BUFLY(IPT)
-                      DO IR=1,NPTR                                          
-                        DO IS=1,NPTS                                        
-c                          LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)     
-c                          DO J = 1,5                                         
-c                            WWA(30382+(IPT-1)*5+J) = WWA(30382+(IPT-1)*5+J)  
-c     .                                             + LBUF%VISC(KK(J) + I)/NPG   
-c                         ENDDO
-c               mean visc stress over NPTT points in each layer
-                          FUNC(1:5) = ZERO
-                          DO IT=1,NPTT
-                            LBUF => BUFLY%LBUF(IR,IS,IT)
-                            DO J = 1,5
-                              FUNC(J) = FUNC(J) + LBUF%VISC(KK(J) + I)/NPTT
-                            ENDDO
-                          ENDDO
+                DO IL = 1,NLAY                                        
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                  IMAT  = BUFLY%IMAT                          
+                  IVISC = IPM(222,IMAT)    
+                  NPTT  = BUFLY%NPTT
+                  IF (IVISC > 0) THEN  
+                    K = 30382+(IL-1)*5
+                    FUNC(1:5) = ZERO
+                    DO IR=1,NPTR                                          
+                      DO IS=1,NPTS                                        
+                        DO IT=1,NPTT
+                          LBUF => BUFLY%LBUF(IR,IS,IT)
                           DO J = 1,5
-                            WWA(30382+(IPT-1)*5+J) = WWA(30382+(IPT-1)*5+J)
-     .                                             + FUNC(J)/NPG
+                            FUNC(J) = FUNC(J) + LBUF%VISC(KK(J) + I) / NPTT
                           ENDDO
-                        ENDDO ! DO IS=1,NPTS
-                      ENDDO ! DO IR=1,NPTR
-                    ENDDO ! DO IPT=1,NLAY   
-                  ELSE  ! NLAY = 1   
-                    BUFLY = ELBUF_TAB(NG)%BUFLY(1)
-                    NPTT = BUFLY%NPTT
-                    DO IPT=1,NPTT                                            
-                      DO IR=1,NPTR                                          
-                        DO IS=1,NPTS                                        
-                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)      
-                          DO J = 1,5                                         
-                            WWA(30382+(IPT-1)*5+J) = WWA(30382+(IPT-1)*5+J)  
-     .                                             + LBUF%VISC(KK(J) + I)/NPG   
-                          ENDDO                                              
-                        ENDDO                                                
-                      ENDDO                                                  
-                    ENDDO                                                    
-                  ENDIF ! NLAY                                               
-                ENDIF   ! IVISC > 0
+                        ENDDO
+                        DO J = 1,5
+                          WWA(K+J) = FUNC(J) / NPG
+                        ENDDO
+                      ENDDO ! DO IS=1,NPTS
+                    ENDDO   ! DO IR=1,NPTR
+c
+                  ENDIF     ! IVISC > 0
+                ENDDO       ! DO IL=1,NLAY                                                                     
+c
+c------------     Viscous stress
+c
 c
 c------------  Max/Min Plastic strain
                 IF (GBUF%G_PLA > 0) THEN 

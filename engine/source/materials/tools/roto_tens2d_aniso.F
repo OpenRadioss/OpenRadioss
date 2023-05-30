@@ -21,41 +21,39 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INI_MATPARAM                  source/materials/mat/ini_matparam.F
+Chd|  ROTO_TENS2D_ANISO                               
 Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_MATPARAM(MATPARAM_TAB,NUMMAT)
+      SUBROUTINE ROTO_TENS2D_ANISO(NEL,TENS,DIR_A,DIR_B)
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MATPARAM_DEF_MOD
-C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      INTEGER ,INTENT(IN) :: NEL
+      my_real ,DIMENSION(NEL,2) ,INTENT(IN)    :: DIR_A,DIR_B
+      my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: TENS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT
-C=======================================================================
-      DO IMAT=1,NUMMAT
-        MATPARAM_TAB(IMAT)%ILAW               = 0
-        MATPARAM_TAB(IMAT)%MAT_ID             = 0
-        MATPARAM_TAB(IMAT)%COMPRESSIBILITY    = 3  ! elsto_plastic
-        MATPARAM_TAB(IMAT)%SMSTR              = 2  ! large strain
-        MATPARAM_TAB(IMAT)%STRAIN_FORMULATION = 1  ! incremental
-        MATPARAM_TAB(IMAT)%ORTHOTROPY         = 1  ! isotropic
-        MATPARAM_TAB(IMAT)%NTABLE = 0              ! number of local function tables
-        MATPARAM_TAB(IMAT)%IPRES = 1               ! hydrostatic using AMU
-      END DO
+      INTEGER :: I
+      my_real :: R1,R2,S1,S2,T1,T2,T3
+c=======================================================================
+      DO I = 1,NEL
+        T1 = TENS(I,1)
+        T2 = TENS(I,2)
+        T3 = TENS(I,3)
+        R1 = DIR_A(I,1)
+        S1 = DIR_A(I,2)
+        R2 = DIR_B(I,1)
+        S2 = DIR_B(I,2)
+        TENS(I,1) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3        ! eps_x dir1
+        TENS(I,2) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3        ! eps_y dir2           
+        TENS(I,3) = ATAN((R1*R2 + S1*S2) / (R1*S2 - R2*S1))   ! angle xy
+      ENDDO
 c-----------
       RETURN
-      END 
+      END

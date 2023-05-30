@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IDX, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,IPT
+      INTEGER I, IDX, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,ILAY,IPT
       my_real 
      .        X0,Y0,Z0,VNX,VNY,VNZ,V0
       LOGICAL :: LAW51_PHASE1, LAW51_PHASE2, LAW51_PHASE3, LAW51_PHASE4
@@ -159,8 +159,8 @@ C
 C--------------------------
 C      TENSEUR OLD
 C--------------------------
-       IF    (KEY3(1:6)=='STRESS')THEN
-         IF    (KEY4(1:4)=='MEMB')THEN
+       IF (KEY3(1:6)=='STRESS')THEN
+         IF (KEY4(1:4)=='MEMB')THEN
            ANIM_T(1) = 1
            ANIM_CT(1) = 1
          ELSEIF(KEY4(1:4)=='BEND')THEN
@@ -183,6 +183,7 @@ C--------------------------
              IXITKEY=IXITKEY+1
            ENDIF
          ENDIF
+
        ELSEIF(KEY3(1:5)=='STRAI')THEN
          IF    (KEY4(1:4)=='MEMB')THEN
            ANIM_T(5) = 1
@@ -236,26 +237,26 @@ C--------------------------
          IXITKEY=IXITKEY+1
        ENDIF
 C--------------------------
-C    SHELL
+C      SHELL
 C--------------------------
       ELSEIF(KEY2(1:4)=='SHEL')THEN
 C
-       FMT_ANI = 4
+        FMT_ANI = 4
 C-----------------------------
-C    ply shell for composite with xfem ply formulation
+C       ply shell for composite with xfem ply formulation
 C-------------------------------
-      IF(KEY3(1:3)=='PLY') THEN
-         ANIM_PLY = 1
-          !READ(KEY4,'(I5)')N1
-          ! IF(N1>0.AND.N1<=200)THEN
-          !    ANIM_PLIES(N1) = 1
-          !  ELSE
-          !    IXITKEY=IXITKEY+1
-          !  ENDIF
+        IF(KEY3(1:3)=='PLY') THEN
+           ANIM_PLY = 1
+            !READ(KEY4,'(I5)')N1
+            ! IF(N1>0.AND.N1<=200)THEN
+            !    ANIM_PLIES(N1) = 1
+            !  ELSE
+            !    IXITKEY=IXITKEY+1
+            !  ENDIF
 C----------------------------------------------------   
-C  ooutp for inter ply composites shell
+C        outp for inter ply composites shell
 C---------------------------------------
-       ELSEIF(KEY3(1:4)=='IPLY') THEN
+        ELSEIF(KEY3(1:4)=='IPLY') THEN
              IF(KEY4(1:3)=='DAM' .OR. KEY4(1:5)=='MINDA') THEN
                  ANIM_CE(10240)  = 1
              ELSEIF(KEY4(1:5)=='SIGZZ') THEN
@@ -275,1271 +276,1311 @@ C---------------------------------------
              ELSEIF(KEY4(1:5)=='MAXDA') THEN
                   ANIM_CE(10669)= 1
              ENDIF           
-      !fin        
-      ! XFEM for layered shell (real crack path visualisation)
-      ELSE IF(KEY3(1:3)=='CRK') THEN
+        ELSE IF(KEY3(1:3)=='CRK') THEN
+          ! XFEM for layered shell (real crack path visualisation)
 c          ANIM_CRK = 1
 C--------------------------
-C    SHELL:TENSOR
+C        SHELL:TENSOR
 C--------------------------
-      ELSEIF (KEY3(1:4) == 'TENS') THEN
-        IF (KEY4(1:5) == 'STRES') THEN
-          N1 = 0
-          N2 = 0
-          IF (KEY5(1:4) == 'MEMB') THEN
-            ANIM_CT(1) = 1
-          ELSEIF (KEY5(1:4) == 'BEND') THEN
-            ANIM_CT(2) = 1
-          ELSEIF (KEY5(1:5) == 'UPPER') THEN
-            ANIM_CT(3) = 1
-          ELSEIF (KEY5(1:5) == 'LOWER') THEN
-            ANIM_CT(4) = 1
-          ELSEIF (KEY5(1:3) == 'ALL') THEN
-            ISTRESALL =  1 ! mean layer value
-            IF (KEY6(1:3) == 'ALL') ISTRESFULL =  2 ! all NPTT
-          ELSE
-            READ(KEY5(1:5),'(I5)') N1
-            IF (N1 > 0 .AND. N1 <= 100) THEN
-              ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
-              IF (KEY6(1:5) == 'UPPER') THEN
-                ANIM_CT(400+N1) = 1
-              ELSEIF (KEY6(1:5) == 'LOWER') THEN
-                ANIM_CT(500+N1) = 1
-              ELSEIF (KEY6(1:3) == 'ALL') THEN
-                ISTRESFULL =  1
-                ANIM_STRESS(N1) = 1
-              ELSE
-                READ(KEY6(1:5),'(I5)') N2   !  NPTT (max=10) through layer N1 (max=100)
-                IF (N2 > 0 .AND. N2 <= 10) THEN
-                  ANIM_CT(600 + 10*N1 + N2) = 1 ! NPTT through N1
-                ELSE
-                  ANIM_CT(100+N1) = 1 ! classic layer out (mean value)
-                ENDIF ! IF (N2 > 0 .AND. N2 <= 10)
-              ENDIF ! IF (KEY6(1:5) == 'UPPER')
-            ELSE
-              IXITKEY=IXITKEY+1
-            ENDIF
-          ENDIF
-C------------
-        ELSEIF (KEY4(1:5) == 'STRAI') THEN
-          N1 = 0
-          N2 = 0
-          IDX = 1610 + 3*MX_PLY_ANIM
-          IF (KEY5(1:4) == 'MEMB') THEN
-            ANIM_CT(5) = 1
-          ELSEIF (KEY5(1:4) == 'BEND') THEN
-            ANIM_CT(6) = 1
-          ELSEIF (KEY5(1:5) == 'UPPER') THEN
-            ANIM_CT(7) = 1
-          ELSEIF (KEY5(1:5) == 'LOWER') THEN
-            ANIM_CT(8) = 1
-          ELSEIF (KEY5(1:3) == 'ALL') THEN
-            ISTRAIALL = 1 ! mean layer value
-            IF (KEY6(1:3) == 'ALL') ISTRAINFULL =  2 ! all NPTT
-          ELSE
-            READ(KEY5(1:5),'(I5)') N1
-            IF (N1 > 0 .AND. N1 <= 100) THEN
-            !   case of PID_51, 52  (read NPTT, or, UPPER or LOWER, within NPTT)
-              IF (KEY6(1:5) == 'UPPER') THEN
-                ANIM_CT(IDX + N1) = 1
-              ELSEIF (KEY6(1:5) == 'LOWER') THEN
-                ANIM_CT(IDX + 100 + N1) = 1
-              ELSEIF (KEY6(1:3) == 'ALL') THEN
-                ISTRAINFULL =  1
-                ANIM_STRAIN(N1) = 1
-              ELSE
-                READ(KEY6(1:5),'(I5)') N2   !  NPTT (max=10) through layer N1 (max=100)
-                IF (N2 > 0 .AND. N2 <= 10) THEN
-                  ANIM_CT(IDX + 200 + 10*N1 + N2) = 1 ! NPTT through N1
-                ELSE
-                  ANIM_CT(200+N1) = 1 ! classic layer out (mean value)
-                ENDIF ! IF (N2 > 0 .AND. N2 <= 10)
-              ENDIF ! IF (KEY6(1:5) == 'UPPER')
-            ELSE
-              IXITKEY=IXITKEY+1
-            ENDIF ! IF (N1 > 0 .AND. N1 <= 100)
-          ENDIF ! IF (KEY5(1:4)
-C------------
-        ELSEIF(KEY4(1:5)=='EPSDO')THEN
-          IEPSDOT = 1
-          N1 = 0
-          N2 = 0
-          IDX = 2820 + 3*MX_PLY_ANIM
-          IF (KEY5(1:4) == 'MEMB') THEN
-            ANIM_CT(91) = 1
-          ELSEIF (KEY5(1:4) == 'BEND') THEN
-            ANIM_CT(92) = 1
-          ELSEIF (KEY5(1:5) == 'UPPER') THEN
-            ANIM_CT(93) = 1
-          ELSEIF (KEY5(1:5) == 'LOWER') THEN
-            ANIM_CT(94) = 1
-          ELSEIF(KEY5(1:5) == 'ALL') THEN
-            IEPSDOALL = 1 ! mean layer value
-            IF (KEY6(1:3) == 'ALL') IEPSDOFULL =  2 ! all NPTT
-          ELSE
-            READ(KEY5(1:5),'(I5)') N1
-            IF (N1 > 0 .AND. N1 <= 100) THEN
-            !   case of PID_51, 52  (read NPTT, or, UPPER or LOWER, within NPTT)
-              IF (KEY6(1:5) == 'UPPER') THEN
-                ANIM_CT(IDX + N1) = 1
-              ELSEIF (KEY6(1:5) == 'LOWER') THEN
-                ANIM_CT(IDX + 100 + N1) = 1
-              ELSEIF (KEY6(1:3) == 'ALL') THEN
-                IEPSDOFULL =  1
-                ANIM_EPSDOT(N1) = 1
-              ELSE
-                READ(KEY6(1:5),'(I5)') N2   !  NPTT (max=10) through layer N1 (max=100)
-                IF (N2 > 0 .AND. N2 <= 10) THEN
-                  ANIM_CT(IDX + 200 + 10*N1 + N2) = 1 ! NPTT through N1
-                ELSE
-                  ANIM_CT(300+N1) = 1 ! classic layer out (mean value)
-                ENDIF ! IF (N2 > 0 .AND. N2 <= 10)
-              ENDIF ! IF (KEY6(1:5) == 'UPPER')
-            ELSE
-              IXITKEY=IXITKEY+1
-            ENDIF ! IF (N1 > 0 .AND. N1 <= 100)
-          ENDIF ! IF (KEY5(1:4)
-!
-        ENDIF
-C--------------------------
-C    COQUES:SCALAIRES
-C--------------------------
-       ELSEIF(KEY3(1:4)=='EPSP')THEN
-         N1 = 0
-         N2 = 0
-         IF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(2040)=1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(2041)=1
-         ELSEIF(KEY4(1:3)=='ALL')THEN
-           IEPSPALL = 1 ! mean layer value
-           IF(KEY5(1:3)=='ALL') IEPSPFULL =  2 ! all NPTT
-         ELSE
-           READ(KEY4(1:5),'(I5)')N1   !  layer
-           IF (N1 > 0 .AND. N1 <= 100) THEN
-             ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
-             IF(KEY5(1:5)=='UPPER')THEN
-               ANIM_CE(10677+N1) = 1
-             ELSEIF(KEY5(1:5)=='LOWER')THEN
-               ANIM_CE(10777+N1) = 1
-             ELSEIF(KEY5(1:3)=='ALL')THEN
-               IEPSPFULL = 1
-               ANIM_EPSP(N1) = 1
-             ELSE
-               READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
-               IF (N2 > 0 .AND. N2 <= 10) THEN
-                 ANIM_CE(10877 + 10*N1 + N2) = 1 ! NPTT through N1
-               ELSE
-                 ANIM_CE(2041+N1) = 1 ! classic layer out (mean value)
-               ENDIF
-             ENDIF
-           ELSE
-             ANIM_CE(1) = 1
-           ENDIF
-         ENDIF
-C------------
-       ELSEIF(KEY3(1:4)=='DENS')THEN
-         ANIM_CE(2) = 1
-       ELSEIF(KEY3(1:4)=='ENER')THEN
-         ANIM_CE(3) = 1
-       ELSEIF(KEY3(1:4)=='TEMP')THEN
-         ANIM_CE(4) = 1
-       ELSEIF(KEY3(1:4)=='THIC')THEN
-         ANIM_CE(5) = 1
-       ELSEIF(KEY3(1:1)=='P' .AND.  KEY3(1:3) /= 'PHI' .AND.  KEY3(1:5) /= 'PLA51')THEN
-         ANIM_CE(6) = 1
-       ELSEIF(KEY3(1:4)=='VONM')THEN
-         ANIM_CE(7) = 1
-       ELSEIF(KEY3(1:1)=='K')THEN
-         ANIM_CE(8) = 1
-       ELSEIF(KEY3(1:4)=='TVIS')THEN
-         ANIM_CE(9) = 1
-       ELSEIF(KEY3(1:5)=='VORTX')THEN
-         ANIM_CE(10) = 1
-       ELSEIF(KEY3(1:5)=='DAM1')THEN
-         ANIM_CE(11) = 1
-       ELSEIF(KEY3(1:5)=='DAM2')THEN
-         ANIM_CE(12) = 1
-       ELSEIF(KEY3(1:5)=='DAM3')THEN
-         ANIM_CE(13) = 1
-       ELSEIF(KEY3(1:5)=='SIGX ')THEN
-         ANIM_CE(14) = 1
-       ELSEIF(KEY3(1:5)=='SIGY ')THEN
-         ANIM_CE(15) = 1
-       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
-         ANIM_CE(16) = 1
-       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
-         ANIM_CE(17) = 1
-       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
-         ANIM_CE(18) = 1
-       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
-         ANIM_CE(19) = 1
-       ELSEIF(KEY3(1:5)=='USR1 '.OR.KEY3(1:5)=='USER1')THEN
-         ANIM_CE(20) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(39+N1)=1
-          ANIM_CE(20) = 0
-         ENDIF
-       ELSEIF(KEY3(1:5)=='USR2 '.OR.KEY3(1:5)=='USER2')THEN
-         ANIM_CE(21) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(139+N1)=1
-          ANIM_CE(21) = 0
-         ENDIF
-       ELSEIF(KEY3(1:5)=='USR3 '.OR.KEY3(1:5)=='USER3')THEN
-         ANIM_CE(22) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(239+N1)=1
-          ANIM_CE(22) = 0
-         ENDIF
-       ELSEIF(KEY3(1:5)=='USR4 '.OR.KEY3(1:5)=='USER4')THEN
-         ANIM_CE(23) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(339+N1)=1
-          ANIM_CE(23) = 0
-         ENDIF
-       ELSEIF(KEY3(1:5)=='USR5 '.OR.KEY3(1:5)=='USER5')THEN
-         ANIM_CE(24) = 1
-         READ(KEY4,'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(439+N1)=1
-          ANIM_CE(24) = 0
-         ENDIF
-       ELSEIF(KEY3(1:4)=='HOUR')THEN
-         ANIM_CE(25) = 1
-       ELSEIF    (KEY3(1:4)=='EPSD')THEN
-         ANIM_CE(26) = 1
-      ELSEIF(KEY3(1:5)=='USR6 '.OR.KEY3(1:5)=='USER6')THEN
-         ANIM_CE(27) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(539+N1)=1
-          ANIM_CE(27) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR7 '.OR.KEY3(1:5)=='USER7')THEN
-         ANIM_CE(28) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(639+N1)=1
-          ANIM_CE(28) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR8 '.OR.KEY3(1:5)=='USER8')THEN
-         ANIM_CE(29) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(739+N1)=1
-          ANIM_CE(29) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR9 '.OR.KEY3(1:5)=='USER9')THEN
-         ANIM_CE(30) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(839+N1)=1
-          ANIM_CE(30) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR10')THEN
-         ANIM_CE(31) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(939+N1)=1
-          ANIM_CE(31) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR11')THEN
-         ANIM_CE(32) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1039+N1)=1
-          ANIM_CE(32) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR12')THEN
-         ANIM_CE(33) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1139+N1)=1
-          ANIM_CE(33) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR13')THEN
-         ANIM_CE(34) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1239+N1)=1
-          ANIM_CE(34) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR14')THEN
-         ANIM_CE(35) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1339+N1)=1
-          ANIM_CE(35) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR15')THEN
-         ANIM_CE(36) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1439+N1)=1
-          ANIM_CE(36) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR16')THEN
-         ANIM_CE(37) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1539+N1)=1
-          ANIM_CE(37) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR17')THEN
-         ANIM_CE(38) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1639+N1)=1
-          ANIM_CE(38) = 0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR18')THEN
-         ANIM_CE(39) = 1
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1739+N1)=1
-          ANIM_CE(39)=0
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR19')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR20')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(1939+N1)=1
-         ENDIF
-       ELSEIF(KEY3(1:4)=='FAIL')THEN
-         ANIM_CE(2142) = 1
-         READ(KEY4(1:5),'(I5)')IFAILA
-         IF(IFAILA == 0) IFAILA = 1
-       ELSEIF(KEY3(1:5)=='CRMAS')THEN
-         ANIM_CE(2143) = 1
-       ELSEIF(KEY3(1:5)=='CRVEL')THEN
-         ANIM_CE(2144) = 1
-       ELSEIF(KEY3(1:4)=='THIN')THEN
-         ANIM_CE(2155) = 1
-       ELSEIF(KEY3(1:5)=='ERROR')THEN
-         IF(KEY4(1:5)=='THICK')THEN
-           ANIM_CE(2156) = 1
-         ELSE
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR21')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR22')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR23')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR24')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR25')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR26')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR27')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR28')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(2939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR29')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR30')THEN
-         READ(KEY4,'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR31')THEN
-         READ(KEY4,'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR32')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR33')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR34')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR35')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR36')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR37')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR38')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(3939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR39')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR40')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR41')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR42')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR43')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR44')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR45')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR46')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR47')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR48')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(4939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR49')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR50')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR51')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR52')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR53')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR54')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR55')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR56')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR57')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR58')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(5939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR59')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR60')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR61')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR62')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR63')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR64')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR65')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR66')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR67')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR68')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(6939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR69')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR70')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR71')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR72')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR73')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR74')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR75')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR76')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR77')THEN
-         READ(KEY4,'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR78')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(7939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR79')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR80')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR81')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR82')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR83')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR84')THEN
-         READ(KEY4,'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR85')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR86')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR87')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR88')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(8939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR89')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR90')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9139+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR91')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9239+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR92')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9339+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR93')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9439+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR94')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9539+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR95')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9639+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR96')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9739+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR97')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9839+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR98')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(9939+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:5)=='USR99')THEN
-         READ(KEY4(1:5),'(I5)')N1
-         IF(N1/=0)THEN
-          ANIM_CE(10039+N1)=1
-         ENDIF
-      ELSEIF(KEY3(1:3)=='PHI')THEN
-         IF(KEY4(1:3)=='ALL')THEN
-           IPHIALL = 1
-         ELSEIF(KEY4(1:4)=='MEMB')THEN
-           ANIM_CE(10673) = 1
-         ELSEIF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(10674) = 1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(10675) = 1
-         ELSE
-           READ(KEY4(1:5),'(I5)')N1
-           IF(N1/=0)THEN
-            ANIM_CE(10139+N1)=1
-           ENDIF
-         ENDIF
-      ELSEIF(KEY3(1:4)=='DAMA')THEN
-        N1 = 0
-        N2 = 0
-        IDX = 11925 + 4*MX_PLY_ANIM + 6
-        ! in addition DAMA for PID_51 and PID_52 - shell composite -
-        IF(KEY4(1:5)=='UPPER')THEN
-          ANIM_CE(10257)=1
-        ELSEIF(KEY4(1:5)=='LOWER')THEN
-          ANIM_CE(10258)=1
-        ELSEIF(KEY4(1:4)=='MEMB')THEN
-          ANIM_CE(10259)=1
-        ELSEIF(KEY4(1:3)=='ALL')THEN
-          IDAMAALL = 1 ! mean layer value
-          IF(KEY5(1:3)=='ALL') IDAMAFULL =  2 ! all NPTT
-        ELSE
-          READ(KEY4(1:5),'(I5)')N1   !  layer
-          IF (N1 > 0 .AND. N1 <= 100) THEN
-            !   case of PID_51, 52  (read NPTT, or, UPPER or LOWER, MEMB within NPTT)
-            IF (KEY5(1:5) == 'UPPER') THEN
-               ANIM_CE(IDX + N1) = 1
+        ELSEIF (KEY3(1:4) == 'TENS') THEN
+c
+          IF (KEY4(1:5) == 'STRES') THEN
+            N1 = 0
+            N2 = 0
+            IF (KEY5(1:4) == 'MEMB') THEN
+              ANIM_CT(1) = 1
+            ELSEIF (KEY5(1:4) == 'BEND') THEN
+              ANIM_CT(2) = 1
+            ELSEIF (KEY5(1:5) == 'UPPER') THEN
+              ANIM_CT(3) = 1
             ELSEIF (KEY5(1:5) == 'LOWER') THEN
-               ANIM_CE(IDX + 100 + N1) = 1
-            ELSEIF (KEY5(1:4) == 'MEMB') THEN
-               ANIM_CE(IDX + 200 + N1) = 1
-            ELSEIF(KEY5(1:3) == 'ALL')THEN
-              IDAMAFULL = 1
-              ANIM_DAMA(N1) = 1
+              ANIM_CT(4) = 1
+            ELSEIF (KEY5(1:3) == 'ALL') THEN
+              ISTRESALL =  1 ! mean layer value
+              IF (KEY6(1:3) == 'ALL') ISTRESFULL =  2 ! all NPTT
             ELSE
-              READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
-              IF (N2 > 0 .AND. N2 <= 10) THEN
-                ANIM_CE(IDX + 300 + 10*N1 + N2) = 1 ! NPTT through N1
+
+              READ(KEY5(1:5),'(I5)') N1
+              IF (N1 > 0 .AND. N1 <= 100) THEN
+                ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
+                IF (KEY6(1:5) == 'UPPER') THEN
+                  ANIM_CT(400+N1) = 1
+                ELSEIF (KEY6(1:5) == 'LOWER') THEN
+                  ANIM_CT(500+N1) = 1
+                ELSEIF (KEY6(1:3) == 'ALL') THEN
+                  ISTRESFULL =  1
+                  ANIM_STRESS(N1) = 1
+                ELSE
+                  READ(KEY6(1:5),'(I5)') N2   !  NPTT (max=10) through layer N1 (max=100)
+                  IF (N2 > 0 .AND. N2 <= 10) THEN
+                    ANIM_CT(600 + 10*N1 + N2) = 1 ! NPTT through N1
+                  ELSE
+                    ANIM_CT(100+N1) = 1 ! classic layer out (mean value)
+                  ENDIF ! IF (N2 > 0 .AND. N2 <= 10)
+                ENDIF ! IF (KEY6(1:5) == 'UPPER')
               ELSE
-                ANIM_CE(10259+N1) = 1 ! classic layer out (mean value)
+                IXITKEY=IXITKEY+1
               ENDIF
             ENDIF
-          ELSE
-            ANIM_CE(10256) = 1
-          ENDIF
-        ENDIF ! IF(KEY4=='UPPER')THEN
-      ELSEIF(KEY3(1:4)=='NXTF')THEN
-         IF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(10360)=1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(10361)=1
-         ELSEIF(KEY4(1:4)=='MEMB')THEN
-           ANIM_CE(10362)=1
-         ELSEIF(KEY4(1:3)=='ALL')THEN
-           INXTFALL = 1
-         ELSE
-           READ(KEY4(1:5),'(I5)')N1
-           IF (N1/=0) THEN
-             ANIM_CE(10362+N1) = 1
-           ENDIF
-        ENDIF
-      ELSEIF(KEY3(1:5)=='SIG1H')THEN
-         IF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(10463)=1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(10464)=1
-         ELSEIF(KEY4(1:4)=='MEMB')THEN
-           ANIM_CE(10465)=1
-         ELSEIF(KEY4(1:3)=='ALL')THEN
-           SIGH1ALL = 1
-         ELSE
-           READ(KEY4(1:5),'(I5)')N1
-           IF (N1/=0) THEN
-             ANIM_CE(10465+N1) = 1
-           ENDIF
-        ENDIF
-      ELSEIF(KEY3(1:5)=='SIG2H')THEN
-         IF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(10566)=1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(10567)=1
-         ELSEIF(KEY4(1:4)=='MEMB')THEN
-           ANIM_CE(10568)=1
-         ELSEIF(KEY4(1:3)=='ALL')THEN
-           SIGH2ALL = 1
-         ELSE
-           READ(KEY4(1:5),'(I5)')N1
-           IF (N1/=0) THEN
-             ANIM_CE(10568+N1) = 1
-           ENDIF
-        ENDIF
-      ELSEIF(KEY3(1:5)=='TDEL')THEN
-         ANIM_CE(10670) = 1
-      ELSEIF(KEY3(1:3)=='SSP')THEN
-         ANIM_CE(10671) = 1     
-      ELSEIF(KEY3(1:5)=='SCHLI')THEN !.OR. 'SCHLIEREN'
-         ANIM_CE(10672) = 1        
-      ELSEIF(KEY3(1:5)=='DOMAI')THEN 
-         ANIM_CE(10676) = 1    
-      !C   element equivalent stress criteria
-      ELSEIF(KEY3(1:5)=='SIGEQ')THEN
-         ANIM_CE(10677) = 1
-      ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
-         ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)         
-      ELSEIF(KEY3(1:4)=='TDET')THEN 
-         ANIM_CE(11889) = 1            
-      ELSEIF(KEY3(1:5)=='LAW20')THEN
-         ANIM_CE(11890) = 1 !dens
-         ANIM_CE(11891) = 1
-         ANIM_CE(11892) = 0
-         ANIM_CE(11893) = 0
-         ANIM_CE(11894) = 1 !ener
-         ANIM_CE(11895) = 1
-         ANIM_CE(11896) = 0
-         ANIM_CE(11897) = 0
-         ANIM_CE(11898) = 1 !temp
-         ANIM_CE(11899) = 1
-         ANIM_CE(11900) = 0
-         ANIM_CE(11901) = 0
-         ANIM_CE(11902) = 1 !pres
-         ANIM_CE(11903) = 1
-         ANIM_CE(11904) = 0
-         ANIM_CE(11905) = 0
-         ANIM_CE(11906) = 1 !plas
-         ANIM_CE(11907) = 1
-         ANIM_CE(11908) = 0
-         ANIM_CE(11909) = 0                                                                                                                                                                                                                 
-         ANIM_CE(11910) = 1 !ssp           
-         ANIM_CE(11911) = 1  
-         ANIM_CE(11912) = 0  
-         ANIM_CE(11913) = 0  
-         ANIM_CE(11914) = 1 !volume 
-         ANIM_CE(11915) = 1  
-         ANIM_CE(11916) = 0  
-         ANIM_CE(11917) = 0  
-         ANIM_CE(11918) = 1 !mass 
-         ANIM_CE(11919) = 1  
-         ANIM_CE(11920) = 0  
-         ANIM_CE(11921) = 0  
-         ANIM_CE(11922) = 1 !Qvis  
-         ANIM_CE(11923) = 1  
-         ANIM_CE(11924) = 0 
-         ANIM_CE(11925) = 0
-
-      ELSEIF(KEY3(1:5)=='IDPLY')THEN       
-        !ANIM_CE(11925) ->  ANIM_CE(11925+3*MX_PLY_ANIM)
-        !ANIM_CT(1610) ->  ANIM_CT(1610+2*MX_PLY_ANIM)
-         ! === /ANIM/SHELL/IDPLY/STRESS ===
-        IF(KEY4(1:5)=='STRES')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            ISTRESALL_PLY = 1
-          ELSE
-            READ(KEY5(1:5),'(I5)')N1
-            READ(KEY6(1:5),'(I5)')IPT
-            NBPLY_ANIM_STRESS = NBPLY_ANIM_STRESS + 1
-            PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+2) = 2
-            PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+1) = N1
-            PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+3) = IPT
-            ANIM_CT(1610 + NBPLY_ANIM_STRESS) = 1
-            IF(NBPLY_ANIM_STRESS > MX_PLY_ANIM) 
-     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-          ENDIF  
-        ! /ANIM/SHELL/IDPLY/STRAIN
-        ELSEIF(KEY4(1:5)=='STRAI')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            ISTRAINALL_PLY = 1
-          ELSE
-            READ(KEY5(1:5),'(I5)')N1
-            READ(KEY6(1:5),'(I5)')IPT
-            NBPLY_ANIM_STRAIN = NBPLY_ANIM_STRAIN + 1
-            PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+1) = N1
-            PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+2) = 3
-            PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+3) = IPT
-            ANIM_CT( (1610+ MX_PLY_ANIM) + NBPLY_ANIM_STRAIN) = 1
-            IF(NBPLY_ANIM_STRAIN > MX_PLY_ANIM) 
-     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-          ENDIF
-        ! /ANIM/SHELL/IDPLY/EPSDOT
-        ELSEIF(KEY4(1:5)=='EPSDO')THEN
-          IEPSDOT = 1
-          IF(KEY5(1:3) == 'ALL')THEN
-            IEPSDOTALL_PLY = 1
-          ELSE
-            READ(KEY5(1:5),'(I5)')N1
-            READ(KEY6(1:5),'(I5)')IPT
-            NBPLY_ANIM_EPSDOT = NBPLY_ANIM_EPSDOT + 1
-            PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+1) = N1
-            PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+2) = 6
-            PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+3) = IPT
-            ANIM_CT( (1610+ 2*MX_PLY_ANIM) + NBPLY_ANIM_EPSDOT) = 1
-            IF(NBPLY_ANIM_EPSDOT > MX_PLY_ANIM) 
-     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-          ENDIF
-        ELSEIF(KEY4(1:3)=='PHI')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            ! /ANIM/SHELL/IDPLY/PHI/ALL
-            IPHIALL_PLY = 1
-          ELSE
-            ! /ANIM/SHELL/IDPLY/PHI/Id
-            READ(KEY5(1:5),'(I5)')N1
-            NBPLY_ANIM_PHI = NBPLY_ANIM_PHI + 1
-            IF(NBPLY_ANIM_PHI > MX_PLY_ANIM) 
-     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-            PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+1) = N1
-            PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+2) = 4
-            PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+3) = 0
-            ANIM_CE( (11925 + MX_PLY_ANIM) + NBPLY_ANIM_PHI ) = 1  
-          ENDIF
-        ELSEIF(KEY4(1:4)=='EPSP')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            ! /ANIM/SHELL/IDPLY/EPSP/ALL
-            IEPSPALL_PLY = 1
-          ELSE
-            ! /ANIM/SHELL/IDPLY/EPSP/Id_ply_id_point
-            READ(KEY5(1:5),'(I5)')N1
-            READ(KEY6(1:5),'(I5)')IPT
-            NBPLY_ANIM_EPSP = NBPLY_ANIM_EPSP + 1
-            IF(NBPLY_ANIM_EPSP > MX_PLY_ANIM) 
-     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-            PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+1) = N1
-            PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+2) = 5
-            PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+3) = IPT
-            ANIM_CE( (11925 + 2 * MX_PLY_ANIM) + NBPLY_ANIM_EPSP ) = 1  
-          ENDIF
-        ELSEIF(KEY4(1:4)=='DAMA')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            ! /ANIM/SHELL/IDPLY/DAMA/ALL
-            IDAMAALL_PLY = 1
-          ELSE
-            ! /ANIM/SHELL/IDPLY/DAMA/Id_ply_id_point
-            READ(KEY5(1:5),'(I5)')N1
-            READ(KEY6(1:5),'(I5)')IPT
-            NBPLY_ANIM_DAMA = NBPLY_ANIM_DAMA + 1
-            IF(NBPLY_ANIM_DAMA > MX_PLY_ANIM) 
-     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-            PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+1) = N1
-            PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+2) = 7
-            PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+3) = IPT
-            ANIM_CE( (11925 + 3 * MX_PLY_ANIM) + NBPLY_ANIM_DAMA ) = 1  
-          ENDIF
-        ELSEIF(KEY4(1:3)=='ALL')THEN
-          ! /ANIM/SHELL/IDPLY/ALL
-          IPLYALL = 1
-        ELSE
-          ! /ANIM/SHELL/IDPLY/Id
-          READ(KEY4(1:5),'(I5)')N1
-          NBPLY_ANIM = NBPLY_ANIM + 1
-          IF(NBPLY_ANIM > MX_PLY_ANIM) 
-     .      CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-          PLY_ANIM(3*(NBPLY_ANIM-1)+1) = N1
-          PLY_ANIM(3*(NBPLY_ANIM-1)+2) = 1
-          PLY_ANIM(3*(NBPLY_ANIM-1)+3) = 0
-          ANIM_CE(11925 + NBPLY_ANIM) = 1  
-        ENDIF  
-      ELSEIF(KEY3(1:4) == 'FLDF')THEN
-         IDX = 11925+4*MX_PLY_ANIM
-         IF (KEY4(1:5) == 'UPPER') THEN
-           ANIM_CE(IDX+1)=1
-         ELSEIF (KEY4(1:5) == 'LOWER') THEN
-           ANIM_CE(IDX+2)=1
-         ELSEIF (KEY4(1:4) == 'MEMB') THEN
-           ANIM_CE(IDX+3)=1
-        ENDIF
-      ELSEIF(KEY3(1:4) == 'FLDZ')THEN
-         IDX = 11925+4*MX_PLY_ANIM + 3
-         IF (KEY4(1:5) == 'UPPER') THEN
-           ANIM_CE(IDX+1)=1
-         ELSEIF (KEY4(1:5) == 'LOWER') THEN
-           ANIM_CE(IDX+2)=1
-         ELSEIF (KEY4(1:4) == 'MEMB') THEN
-           ANIM_CE(IDX+3)=1
-        ENDIF
-      ELSEIF(KEY3(1:5) == 'DT   ')THEN
-        IDX          = 13242 + 4*MX_PLY_ANIM
-        ANIM_CE(IDX) = 1
-      ELSEIF(KEY3(1:3) == 'AMS')THEN
-        IDX          = 13242 + 4*MX_PLY_ANIM + 1
-        ANIM_CE(IDX) = 1    
-!NIM/SHELL/WPLA/KEY4/KEY5
-      ELSEIF(KEY3(1:4) == 'WPLA')THEN
-         N1  = 0
-         N2  = 0
-         IDX = 13245 + 4*MX_PLY_ANIM 
-         IF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(IDX + 1)=1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(IDX + 2)=1
-         ELSEIF(KEY4(1:5)=='ALL')THEN
-           IWPLAALL = 1 ! mean layer value
-           IF(KEY5(1:3)=='ALL') IWPLAFULL =  2 ! all NPTT
-         ELSE
-           READ(KEY4(1:5),'(I5)')N1   !  layer
-             IF (N1 > 0 .AND. N1 <= 100) THEN
-             ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
-               IDX = 13347 + 4*MX_PLY_ANIM 
-               IF(KEY5(1:5)=='UPPER')THEN
-                  ANIM_CE(IDX  + N1) = 1
-               ELSEIF(KEY5(1:5)=='LOWER')THEN
-                  ANIM_CE(IDX + 100 + N1) = 1
-               ELSEIF(KEY5(1:3)=='ALL')THEN
-                  IWPLAFULL = 1
-                  ANIM_WPLA(N1) = 1
-               ELSE
-                  IDX = 13547 + 4*MX_PLY_ANIM 
-                  READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
+c---
+          ELSE IF (KEY4(1:6) == 'MSTRES') THEN
+            ! IGTYP = 1,9,10,11,16 
+            ILAY = 0
+            IPT  = 0
+            IDX = 3120 + 3*MX_PLY_ANIM
+            IF (KEY5(1:4) == 'MEMB') THEN
+              ANIM_CT(IDX+1) = 1
+            ELSEIF (KEY5(1:5) == 'UPPER') THEN
+              ANIM_CT(IDX+2) = 1
+            ELSEIF (KEY5(1:5) == 'LOWER') THEN
+              ANIM_CT(IDX+3) = 1
+            ELSE    
+              ! /TESNSOR/MSTRESS/ILAY
+              READ(KEY5(1:5),'(I5)') ILAY
+              IDX = 3120 + 3*MX_PLY_ANIM + 3
+              IF (ILAY > 0 .AND. ILAY <= 100) THEN
+                ANIM_STRESS(IDX+ILAY) = 1
+              ELSE
+                IXITKEY=IXITKEY+1
+              ENDIF
+            ENDIF
+C----
+          ELSEIF (KEY4(1:5) == 'STRAI') THEN
+            N1 = 0
+            N2 = 0
+            IDX = 1610 + 3*MX_PLY_ANIM
+            IF (KEY5(1:4) == 'MEMB') THEN
+              ANIM_CT(5) = 1
+            ELSEIF (KEY5(1:4) == 'BEND') THEN
+              ANIM_CT(6) = 1
+            ELSEIF (KEY5(1:5) == 'UPPER') THEN
+              ANIM_CT(7) = 1
+            ELSEIF (KEY5(1:5) == 'LOWER') THEN
+              ANIM_CT(8) = 1
+            ELSEIF (KEY5(1:3) == 'ALL') THEN
+              ISTRAIALL = 1 ! mean layer value
+              IF (KEY6(1:3) == 'ALL') ISTRAINFULL =  2 ! all NPTT
+            ELSE
+              READ(KEY5(1:5),'(I5)') N1
+              IF (N1 > 0 .AND. N1 <= 100) THEN
+              !   case of PID_51, 52  (read NPTT, or, UPPER or LOWER, within NPTT)
+                IF (KEY6(1:5) == 'UPPER') THEN
+                  ANIM_CT(IDX + N1) = 1
+                ELSEIF (KEY6(1:5) == 'LOWER') THEN
+                  ANIM_CT(IDX + 100 + N1) = 1
+                ELSEIF (KEY6(1:3) == 'ALL') THEN
+                  ISTRAINFULL =  1
+                  ANIM_STRAIN(N1) = 1
+                ELSE
+                  READ(KEY6(1:5),'(I5)') N2   !  NPTT (max=10) through layer N1 (max=100)
                   IF (N2 > 0 .AND. N2 <= 10) THEN
-                    ANIM_CE(IDX + 10*(N1-1) + N2) = 1 ! NPTT through N1
+                    ANIM_CT(IDX + 200 + 10*N1 + N2) = 1 ! NPTT through N1
                   ELSE
-                    IDX = 13247 + 4*MX_PLY_ANIM !!! N1 <= 100
-                    ANIM_CE(IDX + N1) = 1 ! classic layer out (mean value)
-                  ENDIF
+                    ANIM_CT(200+N1) = 1 ! classic layer out (mean value)
+                  ENDIF ! IF (N2 > 0 .AND. N2 <= 10)
+                ENDIF ! IF (KEY6(1:5) == 'UPPER')
+              ELSE
+                IXITKEY=IXITKEY+1
+              ENDIF ! IF (N1 > 0 .AND. N1 <= 100)
+            ENDIF ! IF (KEY5(1:4)
+C--- 
+          ELSEIF(KEY4(1:5)=='EPSDO')THEN
+            IEPSDOT = 1
+            N1 = 0
+            N2 = 0
+            IDX = 2820 + 3*MX_PLY_ANIM
+            IF (KEY5(1:4) == 'MEMB') THEN
+              ANIM_CT(91) = 1
+            ELSEIF (KEY5(1:4) == 'BEND') THEN
+              ANIM_CT(92) = 1
+            ELSEIF (KEY5(1:5) == 'UPPER') THEN
+              ANIM_CT(93) = 1
+            ELSEIF (KEY5(1:5) == 'LOWER') THEN
+              ANIM_CT(94) = 1
+            ELSEIF(KEY5(1:5) == 'ALL') THEN
+              IEPSDOALL = 1 ! mean layer value
+              IF (KEY6(1:3) == 'ALL') IEPSDOFULL =  2 ! all NPTT
+            ELSE
+              READ(KEY5(1:5),'(I5)') N1
+              IF (N1 > 0 .AND. N1 <= 100) THEN
+              !   case of PID_51, 52  (read NPTT, or, UPPER or LOWER, within NPTT)
+                IF (KEY6(1:5) == 'UPPER') THEN
+                  ANIM_CT(IDX + N1) = 1
+                ELSEIF (KEY6(1:5) == 'LOWER') THEN
+                  ANIM_CT(IDX + 100 + N1) = 1
+                ELSEIF (KEY6(1:3) == 'ALL') THEN
+                  IEPSDOFULL =  1
+                  ANIM_EPSDOT(N1) = 1
+                ELSE
+                  READ(KEY6(1:5),'(I5)') N2   !  NPTT (max=10) through layer N1 (max=100)
+                  IF (N2 > 0 .AND. N2 <= 10) THEN
+                    ANIM_CT(IDX + 200 + 10*N1 + N2) = 1 ! NPTT through N1
+                  ELSE
+                    ANIM_CT(300+N1) = 1 ! classic layer out (mean value)
+                  ENDIF ! IF (N2 > 0 .AND. N2 <= 10)
+                ENDIF ! IF (KEY6(1:5) == 'UPPER')
+              ELSE
+                IXITKEY=IXITKEY+1
+              ENDIF ! IF (N1 > 0 .AND. N1 <= 100)
+            ENDIF ! IF (KEY5(1:4)
+!
+          ENDIF
+C--------------------------
+C         COQUES:SCALAIRES
+C--------------------------
+        ELSEIF(KEY3(1:4)=='EPSP')THEN
+          N1 = 0
+          N2 = 0
+          IF(KEY4(1:5)=='UPPER')THEN
+            ANIM_CE(2040)=1
+          ELSEIF(KEY4(1:5)=='LOWER')THEN
+            ANIM_CE(2041)=1
+          ELSEIF(KEY4(1:3)=='ALL')THEN
+            IEPSPALL = 1 ! mean layer value
+            IF(KEY5(1:3)=='ALL') IEPSPFULL =  2 ! all NPTT
+          ELSE
+            READ(KEY4(1:5),'(I5)')N1   !  layer
+            IF (N1 > 0 .AND. N1 <= 100) THEN
+              ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
+              IF(KEY5(1:5)=='UPPER')THEN
+                ANIM_CE(10677+N1) = 1
+              ELSEIF(KEY5(1:5)=='LOWER')THEN
+                ANIM_CE(10777+N1) = 1
+              ELSEIF(KEY5(1:3)=='ALL')THEN
+                IEPSPFULL = 1
+                ANIM_EPSP(N1) = 1
+              ELSE
+                READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
+                IF (N2 > 0 .AND. N2 <= 10) THEN
+                  ANIM_CE(10877 + 10*N1 + N2) = 1 ! NPTT through N1
+                ELSE
+                  ANIM_CE(2041+N1) = 1 ! classic layer out (mean value)
+                ENDIF
+              ENDIF
+            ELSE
+              ANIM_CE(1) = 1
+            ENDIF
+          ENDIF
+C-----
+        ELSEIF(KEY3(1:4)=='DENS')THEN
+          ANIM_CE(2) = 1
+        ELSEIF(KEY3(1:4)=='ENER')THEN
+          ANIM_CE(3) = 1
+        ELSEIF(KEY3(1:4)=='TEMP')THEN
+          ANIM_CE(4) = 1
+        ELSEIF(KEY3(1:4)=='THIC')THEN
+          ANIM_CE(5) = 1
+        ELSEIF(KEY3(1:1)=='P' .AND.  KEY3(1:3) /= 'PHI' .AND.  KEY3(1:5) /= 'PLA51')THEN
+          ANIM_CE(6) = 1
+        ELSEIF(KEY3(1:4)=='VONM')THEN
+          ANIM_CE(7) = 1
+        ELSEIF(KEY3(1:1)=='K')THEN
+          ANIM_CE(8) = 1
+        ELSEIF(KEY3(1:4)=='TVIS')THEN
+          ANIM_CE(9) = 1
+        ELSEIF(KEY3(1:5)=='VORTX')THEN
+          ANIM_CE(10) = 1
+        ELSEIF(KEY3(1:5)=='DAM1')THEN
+          ANIM_CE(11) = 1
+        ELSEIF(KEY3(1:5)=='DAM2')THEN
+          ANIM_CE(12) = 1
+        ELSEIF(KEY3(1:5)=='DAM3')THEN
+          ANIM_CE(13) = 1
+        ELSEIF(KEY3(1:5)=='SIGX ')THEN
+          ANIM_CE(14) = 1
+        ELSEIF(KEY3(1:5)=='SIGY ')THEN
+          ANIM_CE(15) = 1
+        ELSEIF(KEY3(1:5)=='SIGZ ')THEN
+          ANIM_CE(16) = 1
+        ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
+          ANIM_CE(17) = 1
+        ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
+          ANIM_CE(18) = 1
+        ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
+          ANIM_CE(19) = 1
+        ELSEIF(KEY3(1:5)=='USR1 '.OR.KEY3(1:5)=='USER1')THEN
+          ANIM_CE(20) = 1
+          READ(KEY4(1:5),'(I5)')N1
+          IF(N1/=0)THEN
+           ANIM_CE(39+N1)=1
+           ANIM_CE(20) = 0
+          ENDIF
+        ELSEIF(KEY3(1:5)=='USR2 '.OR.KEY3(1:5)=='USER2')THEN
+          ANIM_CE(21) = 1
+          READ(KEY4(1:5),'(I5)')N1
+          IF(N1/=0)THEN
+           ANIM_CE(139+N1)=1
+           ANIM_CE(21) = 0
+          ENDIF
+        ELSEIF(KEY3(1:5)=='USR3 '.OR.KEY3(1:5)=='USER3')THEN
+          ANIM_CE(22) = 1
+          READ(KEY4(1:5),'(I5)')N1
+          IF(N1/=0)THEN
+           ANIM_CE(239+N1)=1
+           ANIM_CE(22) = 0
+          ENDIF
+        ELSEIF(KEY3(1:5)=='USR4 '.OR.KEY3(1:5)=='USER4')THEN
+          ANIM_CE(23) = 1
+          READ(KEY4(1:5),'(I5)')N1
+          IF(N1/=0)THEN
+           ANIM_CE(339+N1)=1
+           ANIM_CE(23) = 0
+          ENDIF
+        ELSEIF(KEY3(1:5)=='USR5 '.OR.KEY3(1:5)=='USER5')THEN
+          ANIM_CE(24) = 1
+          READ(KEY4,'(I5)')N1
+          IF(N1/=0)THEN
+           ANIM_CE(439+N1)=1
+           ANIM_CE(24) = 0
+          ENDIF
+        ELSEIF(KEY3(1:4)=='HOUR')THEN
+          ANIM_CE(25) = 1
+        ELSEIF    (KEY3(1:4)=='EPSD')THEN
+          ANIM_CE(26) = 1
+        ELSEIF(KEY3(1:5)=='USR6 '.OR.KEY3(1:5)=='USER6')THEN
+           ANIM_CE(27) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(539+N1)=1
+            ANIM_CE(27) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR7 '.OR.KEY3(1:5)=='USER7')THEN
+           ANIM_CE(28) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(639+N1)=1
+            ANIM_CE(28) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR8 '.OR.KEY3(1:5)=='USER8')THEN
+           ANIM_CE(29) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(739+N1)=1
+            ANIM_CE(29) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR9 '.OR.KEY3(1:5)=='USER9')THEN
+           ANIM_CE(30) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(839+N1)=1
+            ANIM_CE(30) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR10')THEN
+           ANIM_CE(31) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(939+N1)=1
+            ANIM_CE(31) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR11')THEN
+           ANIM_CE(32) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1039+N1)=1
+            ANIM_CE(32) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR12')THEN
+           ANIM_CE(33) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1139+N1)=1
+            ANIM_CE(33) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR13')THEN
+           ANIM_CE(34) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1239+N1)=1
+            ANIM_CE(34) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR14')THEN
+           ANIM_CE(35) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1339+N1)=1
+            ANIM_CE(35) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR15')THEN
+           ANIM_CE(36) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1439+N1)=1
+            ANIM_CE(36) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR16')THEN
+           ANIM_CE(37) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1539+N1)=1
+            ANIM_CE(37) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR17')THEN
+           ANIM_CE(38) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1639+N1)=1
+            ANIM_CE(38) = 0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR18')THEN
+           ANIM_CE(39) = 1
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1739+N1)=1
+            ANIM_CE(39)=0
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR19')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR20')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(1939+N1)=1
+           ENDIF
+         ELSEIF(KEY3(1:4)=='FAIL')THEN
+           ANIM_CE(2142) = 1
+           READ(KEY4(1:5),'(I5)')IFAILA
+           IF(IFAILA == 0) IFAILA = 1
+         ELSEIF(KEY3(1:5)=='CRMAS')THEN
+           ANIM_CE(2143) = 1
+         ELSEIF(KEY3(1:5)=='CRVEL')THEN
+           ANIM_CE(2144) = 1
+         ELSEIF(KEY3(1:4)=='THIN')THEN
+           ANIM_CE(2155) = 1
+         ELSEIF(KEY3(1:5)=='ERROR')THEN
+           IF(KEY4(1:5)=='THICK')THEN
+             ANIM_CE(2156) = 1
+           ELSE
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR21')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR22')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR23')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR24')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR25')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR26')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR27')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR28')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(2939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR29')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR30')THEN
+           READ(KEY4,'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR31')THEN
+           READ(KEY4,'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR32')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR33')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR34')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR35')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR36')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR37')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR38')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(3939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR39')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR40')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR41')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR42')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR43')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR44')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR45')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR46')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR47')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR48')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(4939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR49')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR50')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR51')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR52')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR53')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR54')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR55')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR56')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR57')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR58')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(5939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR59')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR60')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR61')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR62')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR63')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR64')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR65')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR66')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR67')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR68')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(6939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR69')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR70')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR71')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR72')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR73')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR74')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR75')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR76')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR77')THEN
+           READ(KEY4,'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR78')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(7939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR79')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR80')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR81')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR82')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR83')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR84')THEN
+           READ(KEY4,'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR85')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR86')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR87')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR88')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(8939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR89')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR90')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9139+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR91')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9239+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR92')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9339+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR93')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9439+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR94')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9539+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR95')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9639+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR96')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9739+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR97')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9839+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR98')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(9939+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:5)=='USR99')THEN
+           READ(KEY4(1:5),'(I5)')N1
+           IF(N1/=0)THEN
+            ANIM_CE(10039+N1)=1
+           ENDIF
+        ELSEIF(KEY3(1:3)=='PHI')THEN
+           IF(KEY4(1:3)=='ALL')THEN
+             IPHIALL = 1
+           ELSEIF(KEY4(1:4)=='MEMB')THEN
+             ANIM_CE(10673) = 1
+           ELSEIF(KEY4(1:5)=='UPPER')THEN
+             ANIM_CE(10674) = 1
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
+             ANIM_CE(10675) = 1
+           ELSE
+             READ(KEY4(1:5),'(I5)')N1
+             IF(N1/=0)THEN
+              ANIM_CE(10139+N1)=1
+             ENDIF
+           ENDIF
+        ELSEIF(KEY3(1:4)=='DAMA')THEN
+          N1 = 0
+          N2 = 0
+          IDX = 11925 + 4*MX_PLY_ANIM + 6
+          ! in addition DAMA for PID_51 and PID_52 - shell composite -
+          IF(KEY4(1:5)=='UPPER')THEN
+            ANIM_CE(10257)=1
+          ELSEIF(KEY4(1:5)=='LOWER')THEN
+            ANIM_CE(10258)=1
+          ELSEIF(KEY4(1:4)=='MEMB')THEN
+            ANIM_CE(10259)=1
+          ELSEIF(KEY4(1:3)=='ALL')THEN
+            IDAMAALL = 1 ! mean layer value
+            IF(KEY5(1:3)=='ALL') IDAMAFULL =  2 ! all NPTT
+          ELSE
+            READ(KEY4(1:5),'(I5)')N1   !  layer
+            IF (N1 > 0 .AND. N1 <= 100) THEN
+              !   case of PID_51, 52  (read NPTT, or, UPPER or LOWER, MEMB within NPTT)
+              IF (KEY5(1:5) == 'UPPER') THEN
+                 ANIM_CE(IDX + N1) = 1
+              ELSEIF (KEY5(1:5) == 'LOWER') THEN
+                 ANIM_CE(IDX + 100 + N1) = 1
+              ELSEIF (KEY5(1:4) == 'MEMB') THEN
+                 ANIM_CE(IDX + 200 + N1) = 1
+              ELSEIF(KEY5(1:3) == 'ALL')THEN
+                IDAMAFULL = 1
+                ANIM_DAMA(N1) = 1
+              ELSE
+                READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
+                IF (N2 > 0 .AND. N2 <= 10) THEN
+                  ANIM_CE(IDX + 300 + 10*N1 + N2) = 1 ! NPTT through N1
+                ELSE
+                  ANIM_CE(10259+N1) = 1 ! classic layer out (mean value)
+                ENDIF
+              ENDIF
+            ELSE
+              ANIM_CE(10256) = 1
+            ENDIF
+          ENDIF ! IF(KEY4=='UPPER')THEN
+        ELSEIF(KEY3(1:4)=='NXTF')THEN
+           IF(KEY4(1:5)=='UPPER')THEN
+             ANIM_CE(10360)=1
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
+             ANIM_CE(10361)=1
+           ELSEIF(KEY4(1:4)=='MEMB')THEN
+             ANIM_CE(10362)=1
+           ELSEIF(KEY4(1:3)=='ALL')THEN
+             INXTFALL = 1
+           ELSE
+             READ(KEY4(1:5),'(I5)')N1
+             IF (N1/=0) THEN
+               ANIM_CE(10362+N1) = 1
+             ENDIF
+          ENDIF
+        ELSEIF(KEY3(1:5)=='SIG1H')THEN
+           IF(KEY4(1:5)=='UPPER')THEN
+             ANIM_CE(10463)=1
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
+             ANIM_CE(10464)=1
+           ELSEIF(KEY4(1:4)=='MEMB')THEN
+             ANIM_CE(10465)=1
+           ELSEIF(KEY4(1:3)=='ALL')THEN
+             SIGH1ALL = 1
+           ELSE
+             READ(KEY4(1:5),'(I5)')N1
+             IF (N1/=0) THEN
+               ANIM_CE(10465+N1) = 1
+             ENDIF
+          ENDIF
+        ELSEIF(KEY3(1:5)=='SIG2H')THEN
+           IF(KEY4(1:5)=='UPPER')THEN
+             ANIM_CE(10566)=1
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
+             ANIM_CE(10567)=1
+           ELSEIF(KEY4(1:4)=='MEMB')THEN
+             ANIM_CE(10568)=1
+           ELSEIF(KEY4(1:3)=='ALL')THEN
+             SIGH2ALL = 1
+           ELSE
+             READ(KEY4(1:5),'(I5)')N1
+             IF (N1/=0) THEN
+               ANIM_CE(10568+N1) = 1
+             ENDIF
+          ENDIF
+        ELSEIF(KEY3(1:5)=='TDEL')THEN
+           ANIM_CE(10670) = 1
+        ELSEIF(KEY3(1:3)=='SSP')THEN
+           ANIM_CE(10671) = 1
+        ELSEIF(KEY3(1:5)=='SCHLI')THEN !.OR. 'SCHLIEREN'
+           ANIM_CE(10672) = 1
+        ELSEIF(KEY3(1:5)=='DOMAI')THEN
+           ANIM_CE(10676) = 1
+        !C   element equivalent stress criteria
+        ELSEIF(KEY3(1:5)=='SIGEQ')THEN
+           ANIM_CE(10677) = 1
+        ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
+           ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)
+        ELSEIF(KEY3(1:4)=='TDET')THEN
+           ANIM_CE(11889) = 1
+        ELSEIF(KEY3(1:5)=='LAW20')THEN
+           ANIM_CE(11890) = 1 !dens
+           ANIM_CE(11891) = 1
+           ANIM_CE(11892) = 0
+           ANIM_CE(11893) = 0
+           ANIM_CE(11894) = 1 !ener
+           ANIM_CE(11895) = 1
+           ANIM_CE(11896) = 0
+           ANIM_CE(11897) = 0
+           ANIM_CE(11898) = 1 !temp
+           ANIM_CE(11899) = 1
+           ANIM_CE(11900) = 0
+           ANIM_CE(11901) = 0
+           ANIM_CE(11902) = 1 !pres
+           ANIM_CE(11903) = 1
+           ANIM_CE(11904) = 0
+           ANIM_CE(11905) = 0
+           ANIM_CE(11906) = 1 !plas
+           ANIM_CE(11907) = 1
+           ANIM_CE(11908) = 0
+           ANIM_CE(11909) = 0
+           ANIM_CE(11910) = 1 !ssp
+           ANIM_CE(11911) = 1
+           ANIM_CE(11912) = 0
+           ANIM_CE(11913) = 0
+           ANIM_CE(11914) = 1 !volume
+           ANIM_CE(11915) = 1
+           ANIM_CE(11916) = 0
+           ANIM_CE(11917) = 0
+           ANIM_CE(11918) = 1 !mass
+           ANIM_CE(11919) = 1
+           ANIM_CE(11920) = 0
+           ANIM_CE(11921) = 0
+           ANIM_CE(11922) = 1 !Qvis
+           ANIM_CE(11923) = 1
+           ANIM_CE(11924) = 0
+           ANIM_CE(11925) = 0
+
+        ELSEIF(KEY3(1:5)=='IDPLY')THEN
+          !ANIM_CE(11925) ->  ANIM_CE(11925+3*MX_PLY_ANIM)
+          !ANIM_CT(1610) ->  ANIM_CT(1610+2*MX_PLY_ANIM)
+           ! === /ANIM/SHELL/IDPLY/STRESS ===
+          IF (KEY4(1:5)=='STRES') THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              ISTRESALL_PLY = 1
+            ELSE
+              READ(KEY5(1:5),'(I5)')N1
+              READ(KEY6(1:5),'(I5)')IPT
+              NBPLY_ANIM_STRESS = NBPLY_ANIM_STRESS + 1
+              PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+2) = 2
+              PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+1) = N1
+              PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+3) = IPT
+              ANIM_CT(1610 + NBPLY_ANIM_STRESS) = 1
+              IF(NBPLY_ANIM_STRESS > MX_PLY_ANIM)
+     .          CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+            ENDIF
+c
+          ELSE IF (KEY4(1:6)=='MSTRES') THEN
+            READ(KEY5(1:5),'(I5)') ILAY
+            READ(KEY6(1:5),'(I5)') IPT
+c
+            IDX = 3120 + 3*MX_PLY_ANIM + 103
+            NBPLY_ANIM_STRESS = NBPLY_ANIM_STRESS + 1
+            PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+2) = 3
+            PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+1) = ILAY
+            PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+3) = IPT
+            ANIM_CT(IDX + NBPLY_ANIM_STRESS) = 1
+            IF (NBPLY_ANIM_STRESS > MX_PLY_ANIM) THEN
+              CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+            ENDIF
+c
+          ! /ANIM/SHELL/IDPLY/STRAIN
+          ELSEIF(KEY4(1:5)=='STRAI')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              ISTRAINALL_PLY = 1
+            ELSE
+              READ(KEY5(1:5),'(I5)')N1
+              READ(KEY6(1:5),'(I5)')IPT
+              NBPLY_ANIM_STRAIN = NBPLY_ANIM_STRAIN + 1
+              PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+1) = N1
+              PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+2) = 3
+              PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+3) = IPT
+              ANIM_CT( (1610+ MX_PLY_ANIM) + NBPLY_ANIM_STRAIN) = 1
+              IF(NBPLY_ANIM_STRAIN > MX_PLY_ANIM)
+     .          CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+            ENDIF
+          ! /ANIM/SHELL/IDPLY/EPSDOT
+          ELSEIF(KEY4(1:5)=='EPSDO')THEN
+            IEPSDOT = 1
+            IF(KEY5(1:3) == 'ALL')THEN
+              IEPSDOTALL_PLY = 1
+            ELSE
+              READ(KEY5(1:5),'(I5)')N1
+              READ(KEY6(1:5),'(I5)')IPT
+              NBPLY_ANIM_EPSDOT = NBPLY_ANIM_EPSDOT + 1
+              PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+1) = N1
+              PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+2) = 6
+              PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+3) = IPT
+              ANIM_CT( (1610+ 2*MX_PLY_ANIM) + NBPLY_ANIM_EPSDOT) = 1
+              IF(NBPLY_ANIM_EPSDOT > MX_PLY_ANIM)
+     .          CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+            ENDIF
+          ELSEIF(KEY4(1:3)=='PHI')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              ! /ANIM/SHELL/IDPLY/PHI/ALL
+              IPHIALL_PLY = 1
+            ELSE
+              ! /ANIM/SHELL/IDPLY/PHI/Id
+              READ(KEY5(1:5),'(I5)')N1
+              NBPLY_ANIM_PHI = NBPLY_ANIM_PHI + 1
+              IF(NBPLY_ANIM_PHI > MX_PLY_ANIM)
+     .          CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+              PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+1) = N1
+              PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+2) = 4
+              PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+3) = 0
+              ANIM_CE( (11925 + MX_PLY_ANIM) + NBPLY_ANIM_PHI ) = 1
+            ENDIF
+          ELSEIF(KEY4(1:4)=='EPSP')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              ! /ANIM/SHELL/IDPLY/EPSP/ALL
+              IEPSPALL_PLY = 1
+            ELSE
+              ! /ANIM/SHELL/IDPLY/EPSP/Id_ply_id_point
+              READ(KEY5(1:5),'(I5)')N1
+              READ(KEY6(1:5),'(I5)')IPT
+              NBPLY_ANIM_EPSP = NBPLY_ANIM_EPSP + 1
+              IF(NBPLY_ANIM_EPSP > MX_PLY_ANIM)
+     .          CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+              PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+1) = N1
+              PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+2) = 5
+              PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+3) = IPT
+              ANIM_CE( (11925 + 2 * MX_PLY_ANIM) + NBPLY_ANIM_EPSP ) = 1
+            ENDIF
+          ELSEIF(KEY4(1:4)=='DAMA')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              ! /ANIM/SHELL/IDPLY/DAMA/ALL
+              IDAMAALL_PLY = 1
+            ELSE
+              ! /ANIM/SHELL/IDPLY/DAMA/Id_ply_id_point
+              READ(KEY5(1:5),'(I5)')N1
+              READ(KEY6(1:5),'(I5)')IPT
+              NBPLY_ANIM_DAMA = NBPLY_ANIM_DAMA + 1
+              IF(NBPLY_ANIM_DAMA > MX_PLY_ANIM)
+     .          CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+              PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+1) = N1
+              PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+2) = 7
+              PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+3) = IPT
+              ANIM_CE( (11925 + 3 * MX_PLY_ANIM) + NBPLY_ANIM_DAMA ) = 1
+            ENDIF
+          ELSEIF(KEY4(1:3)=='ALL')THEN
+            ! /ANIM/SHELL/IDPLY/ALL
+            IPLYALL = 1
+          ELSE
+            ! /ANIM/SHELL/IDPLY/Id
+            READ(KEY4(1:5),'(I5)')N1
+            NBPLY_ANIM = NBPLY_ANIM + 1
+            IF(NBPLY_ANIM > MX_PLY_ANIM)
+     .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
+            PLY_ANIM(3*(NBPLY_ANIM-1)+1) = N1
+            PLY_ANIM(3*(NBPLY_ANIM-1)+2) = 1
+            PLY_ANIM(3*(NBPLY_ANIM-1)+3) = 0
+            ANIM_CE(11925 + NBPLY_ANIM) = 1
+          ENDIF
+        ELSEIF(KEY3(1:4) == 'FLDF')THEN
+           IDX = 11925+4*MX_PLY_ANIM
+           IF (KEY4(1:5) == 'UPPER') THEN
+             ANIM_CE(IDX+1)=1
+           ELSEIF (KEY4(1:5) == 'LOWER') THEN
+             ANIM_CE(IDX+2)=1
+           ELSEIF (KEY4(1:4) == 'MEMB') THEN
+             ANIM_CE(IDX+3)=1
+          ENDIF
+        ELSEIF(KEY3(1:4) == 'FLDZ')THEN
+           IDX = 11925+4*MX_PLY_ANIM + 3
+           IF (KEY4(1:5) == 'UPPER') THEN
+             ANIM_CE(IDX+1)=1
+           ELSEIF (KEY4(1:5) == 'LOWER') THEN
+             ANIM_CE(IDX+2)=1
+           ELSEIF (KEY4(1:4) == 'MEMB') THEN
+             ANIM_CE(IDX+3)=1
+          ENDIF
+        ELSEIF(KEY3(1:5) == 'DT   ')THEN
+          IDX          = 13242 + 4*MX_PLY_ANIM
+          ANIM_CE(IDX) = 1
+        ELSEIF(KEY3(1:3) == 'AMS')THEN
+          IDX          = 13242 + 4*MX_PLY_ANIM + 1
+          ANIM_CE(IDX) = 1
+          !NIM/SHELL/WPLA/KEY4/KEY5
+        ELSEIF(KEY3(1:4) == 'WPLA')THEN
+           N1  = 0
+           N2  = 0
+           IDX = 13245 + 4*MX_PLY_ANIM 
+           IF(KEY4(1:5)=='UPPER')THEN
+             ANIM_CE(IDX + 1)=1
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
+             ANIM_CE(IDX + 2)=1
+           ELSEIF(KEY4(1:5)=='ALL')THEN
+             IWPLAALL = 1 ! mean layer value
+             IF(KEY5(1:3)=='ALL') IWPLAFULL =  2 ! all NPTT
+           ELSE
+             READ(KEY4(1:5),'(I5)')N1   !  layer
+               IF (N1 > 0 .AND. N1 <= 100) THEN
+               ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
+                 IDX = 13347 + 4*MX_PLY_ANIM 
+                 IF(KEY5(1:5)=='UPPER')THEN
+                    ANIM_CE(IDX  + N1) = 1
+                 ELSEIF(KEY5(1:5)=='LOWER')THEN
+                    ANIM_CE(IDX + 100 + N1) = 1
+                 ELSEIF(KEY5(1:3)=='ALL')THEN
+                    IWPLAFULL = 1
+                    ANIM_WPLA(N1) = 1
+                 ELSE
+                    IDX = 13547 + 4*MX_PLY_ANIM 
+                    READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
+                    IF (N2 > 0 .AND. N2 <= 10) THEN
+                      ANIM_CE(IDX + 10*(N1-1) + N2) = 1 ! NPTT through N1
+                    ELSE
+                      IDX = 13247 + 4*MX_PLY_ANIM !!! N1 <= 100
+                      ANIM_CE(IDX + N1) = 1 ! classic layer out (mean value)
+                    ENDIF
+                 ENDIF
+               ELSE
+                 IDX = 13245 + 4*MX_PLY_ANIM
+                 ANIM_CE(IDX) = 1 
+               ENDIF 
+             ENDIF   
+             !  IDX =   13547 + 4*MX_PLY_ANIM + 10*100 limit
+        ELSEIF(KEY3(1:3) == 'OFF')THEN           
+          IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 1 
+          ANIM_CE(IDX) = 1                       
+        ELSEIF(KEY3(1:4) == 'MACH')THEN          
+          IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 2 
+          ANIM_CE(IDX) = 1                       
+        ELSEIF(KEY3(1:5) == 'COLOR')THEN         
+          IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 3 
+          ANIM_CE(IDX) = 1                       
+        ELSEIF(KEY3(1:4) == 'DAMG') THEN         
+          IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 4 
+          N1 = 0                                 
+          IF(KEY4(1:4)=='MEAN')THEN              
+            ANIM_CE(IDX) = 1                     
+          ELSEIF(KEY4(1:5)=='UPPER')THEN         
+            ANIM_CE(IDX+1)=1                     
+          ELSEIF(KEY4(1:5)=='LOWER')THEN         
+            ANIM_CE(IDX+2)=1                     
+          ELSEIF(KEY4(1:4)=='MEMB')THEN          
+            ANIM_CE(IDX+3)=1                     
+          ELSE                                   
+            READ(KEY4(1:5),'(I5)')N1   ! NPTT    
+            IF (N1 > 0 .AND. N1 <= 11) THEN      
+              ANIM_CE(IDX+3+N1)=1                
+            ELSE                                 
+              ANIM_CE(IDX) = 1                   
+            ENDIF                                
+          ENDIF                                  
+        ELSEIF(KEY3(1:7)=='NL_EPSP')THEN         
+          IDX = 4*MX_PLY_ANIM + 14567            
+          N1  = 0                                
+          IF(KEY4(1:5)=='UPPER')THEN             
+            ANIM_CE(IDX+1)=1                     
+          ELSEIF(KEY4(1:5)=='LOWER')THEN         
+            ANIM_CE(IDX+2)=1                     
+          ELSEIF(KEY4(1:3)=='ALL')THEN           
+            IEPSPNLALL = 1                       
+          ELSE                                   
+            READ(KEY4(1:5),'(I5)') N1            
+            IF (N1 > 0 .AND. N1 <= 11) THEN      
+              ANIM_CE(IDX+2+N1) = 1              
+            ELSE                                 
+              ANIM_CE(IDX) = 1                   
+            ENDIF                                
+          ENDIF                                  
+        ELSEIF(KEY3(1:7)=='NL_EPSD')THEN         
+          IDX = 4*MX_PLY_ANIM + 14581            
+          N1  = 0                                
+          IF(KEY4(1:5)=='UPPER')THEN             
+            ANIM_CE(IDX+1)=1                     
+          ELSEIF(KEY4(1:5)=='LOWER')THEN         
+            ANIM_CE(IDX+2)=1                     
+          ELSEIF(KEY4(1:3)=='ALL')THEN           
+            IEPSDNLALL = 1                       
+          ELSE                                   
+            READ(KEY4(1:5),'(I5)') N1            
+            IF (N1 > 0 .AND. N1 <= 11) THEN      
+              ANIM_CE(IDX+2+N1) = 1              
+            ELSE                                 
+              ANIM_CE(IDX) = 1                   
+            ENDIF                                
+          ENDIF                                  
+          !ANIM/SHELL/TSAIWU/KEY4/KEY5
+        ELSEIF (KEY3(1:6) == 'TSAIWU') THEN
+           N1  = 0
+           N2  = 0
+           IDX = 14595 + 4*MX_PLY_ANIM
+           IF(KEY4(1:5)=='UPPER')THEN
+             ANIM_CE(IDX + 1)=1
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
+             ANIM_CE(IDX + 2)=1
+           ELSEIF(KEY4(1:5)=='ALL')THEN
+             ITSAIWUALL = 1 ! mean layer value
+             IF(KEY5(1:3)=='ALL') ITSAIWUALL = 2 ! all NPTT
+           ELSE
+             READ(KEY4(1:5),'(I5)') N1   !  layer
+             IF (N1 > 0 .AND. N1 <= 100) THEN
+               ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
+               IDX = 14697 + 4*MX_PLY_ANIM
+               IF (KEY5(1:5)=='UPPER') THEN
+                 ANIM_CE(IDX + N1) = 1
+               ELSEIF(KEY5(1:5)=='LOWER') THEN
+                 ANIM_CE(IDX + 100 + N1) = 1
+               ELSEIF(KEY5(1:3)=='ALL')THEN
+                 ITSAIWUFULL = N1
+               ELSE
+                 IDX = 14897 + 4*MX_PLY_ANIM
+                 READ(KEY5(1:5),'(I5)') N2             ! NPTT (max=10) through layer N1 (max=100)
+                 IF (N2 > 0 .AND. N2 <= 10) THEN
+                   ANIM_CE(IDX + 10*(N1-1) + N2) = 1   ! NPTT through N1
+                 ELSE
+                   IDX = 14597 + 4*MX_PLY_ANIM         ! N1 <= 100
+                   ANIM_CE(IDX + N1) = 1               ! classic layer out (mean value)
+                 ENDIF
                ENDIF
              ELSE
-               IDX = 13245 + 4*MX_PLY_ANIM
+               IDX = 14595 + 4*MX_PLY_ANIM 
                ANIM_CE(IDX) = 1 
              ENDIF 
-           ENDIF   
-!  IDX =   13547 + 4*MX_PLY_ANIM + 10*100 limit
-      ELSEIF(KEY3(1:3) == 'OFF')THEN
-        IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 1
-        ANIM_CE(IDX) = 1
-      ELSEIF(KEY3(1:4) == 'MACH')THEN
-        IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 2
-        ANIM_CE(IDX) = 1
-      ELSEIF(KEY3(1:5) == 'COLOR')THEN
-        IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 3
-        ANIM_CE(IDX) = 1
-      ELSEIF(KEY3(1:4) == 'DAMG') THEN 
-        IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 4
-        N1 = 0
-        IF(KEY4(1:4)=='MEAN')THEN
-          ANIM_CE(IDX) = 1  
-        ELSEIF(KEY4(1:5)=='UPPER')THEN
-          ANIM_CE(IDX+1)=1
-        ELSEIF(KEY4(1:5)=='LOWER')THEN
-          ANIM_CE(IDX+2)=1
-        ELSEIF(KEY4(1:4)=='MEMB')THEN
-          ANIM_CE(IDX+3)=1
-        ELSE
-          READ(KEY4(1:5),'(I5)')N1   ! NPTT
-          IF (N1 > 0 .AND. N1 <= 11) THEN
-            ANIM_CE(IDX+3+N1)=1
-          ELSE
-            ANIM_CE(IDX) = 1  
-          ENDIF
-        ENDIF
-      ELSEIF(KEY3(1:7)=='NL_EPSP')THEN
-        IDX = 4*MX_PLY_ANIM + 14567
-        N1  = 0
-        IF(KEY4(1:5)=='UPPER')THEN
-          ANIM_CE(IDX+1)=1
-        ELSEIF(KEY4(1:5)=='LOWER')THEN
-          ANIM_CE(IDX+2)=1
-        ELSEIF(KEY4(1:3)=='ALL')THEN
-          IEPSPNLALL = 1
-        ELSE
-          READ(KEY4(1:5),'(I5)') N1
-          IF (N1 > 0 .AND. N1 <= 11) THEN
-            ANIM_CE(IDX+2+N1) = 1 
-          ELSE
-            ANIM_CE(IDX) = 1
-          ENDIF
-        ENDIF
-      ELSEIF(KEY3(1:7)=='NL_EPSD')THEN
-        IDX = 4*MX_PLY_ANIM + 14581
-        N1  = 0
-        IF(KEY4(1:5)=='UPPER')THEN
-          ANIM_CE(IDX+1)=1
-        ELSEIF(KEY4(1:5)=='LOWER')THEN
-          ANIM_CE(IDX+2)=1
-        ELSEIF(KEY4(1:3)=='ALL')THEN
-          IEPSDNLALL = 1
-        ELSE
-          READ(KEY4(1:5),'(I5)') N1
-          IF (N1 > 0 .AND. N1 <= 11) THEN
-            ANIM_CE(IDX+2+N1) = 1 
-          ELSE
-            ANIM_CE(IDX) = 1
-          ENDIF
-        ENDIF
-!ANIM/SHELL/TSAIWU/KEY4/KEY5
-      ELSEIF (KEY3(1:6) == 'TSAIWU') THEN
-         N1  = 0
-         N2  = 0
-         IDX = 14595 + 4*MX_PLY_ANIM
-         IF(KEY4(1:5)=='UPPER')THEN
-           ANIM_CE(IDX + 1)=1
-         ELSEIF(KEY4(1:5)=='LOWER')THEN
-           ANIM_CE(IDX + 2)=1
-         ELSEIF(KEY4(1:5)=='ALL')THEN
-           ITSAIWUALL = 1 ! mean layer value
-           IF(KEY5(1:3)=='ALL') ITSAIWUALL = 2 ! all NPTT
-         ELSE
-           READ(KEY4(1:5),'(I5)') N1   !  layer
-           IF (N1 > 0 .AND. N1 <= 100) THEN
-             ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
-             IDX = 14697 + 4*MX_PLY_ANIM
-             IF (KEY5(1:5)=='UPPER') THEN
-               ANIM_CE(IDX + N1) = 1
-             ELSEIF(KEY5(1:5)=='LOWER') THEN
-               ANIM_CE(IDX + 100 + N1) = 1
-             ELSEIF(KEY5(1:3)=='ALL')THEN
-               ITSAIWUFULL = N1
-             ELSE
-               IDX = 14897 + 4*MX_PLY_ANIM
-               READ(KEY5(1:5),'(I5)') N2             ! NPTT (max=10) through layer N1 (max=100)
-               IF (N2 > 0 .AND. N2 <= 10) THEN
-                 ANIM_CE(IDX + 10*(N1-1) + N2) = 1   ! NPTT through N1
-               ELSE
-                 IDX = 14597 + 4*MX_PLY_ANIM         ! N1 <= 100
-                 ANIM_CE(IDX + N1) = 1               ! classic layer out (mean value)
-               ENDIF
-             ENDIF
-           ELSE
-             IDX = 14595 + 4*MX_PLY_ANIM 
-             ANIM_CE(IDX) = 1 
            ENDIF 
-         ENDIF 
-      ELSEIF(KEY3(1:9) == 'TILLOTSON')THEN
-        IDX = 14596 + 4*MX_PLY_ANIM
-        ANIM_CE(IDX) = 1           
-      ELSE
-        IXITKEY=IXITKEY+1
-      ENDIF
+        ELSEIF(KEY3(1:9) == 'TILLOTSON')THEN
+          IDX = 14596 + 4*MX_PLY_ANIM
+          ANIM_CE(IDX) = 1           
+        ELSE
+          IXITKEY=IXITKEY+1
+c
+        ENDIF ! KEY3 SHELLS
+c
 C--------------------------
-C    BRIQUES
+C       BRIQUES
 C--------------------------
       ELSEIF(KEY2(1:4)=='BRIC')THEN
 C
-      FMT_ANI = 4
+        FMT_ANI = 4
 C--------------------------
-C     BRIQUES:TENSEUR
+C       BRIQUES:TENSEUR
 C--------------------------
-      IF(KEY3(1:4)=='TENS')THEN !ANIM/BRICK/TENS
-        IF(KEY4(1:5)=='STRES')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            IBRICK_STRESSALL = 1
-          ELSE
-            READ(KEY5(1:5),'(I5)')N1
-            IF(N1/=0)THEN
-              IF ( MOD(ABS(N1)/10,10) == 0) THEN
-                READ(KEY6(1:5),'(I5)')N2
-                  ANIM_ST(2010+MOD(ABS(N1),100)+
-     .                 N2*10+(ABS(N1)/100)*2010)=1
-              ELSE
-                ANIM_ST(10+N1)=1
-              ENDIF
+        IF(KEY3(1:4)=='TENS')THEN !ANIM/BRICK/TENS
+          IF(KEY4(1:5)=='STRES')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              IBRICK_STRESSALL = 1
             ELSE
-              ANIM_ST(1) = 1 
-            ENDIF
-          ENDIF
-        ELSEIF(KEY4(1:5)=='STRAI')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            IBRICK_STRAINALL = 1
-          ELSE
-            READ(KEY5(1:5),'(I5)')N1
-            IF(N1/=0)THEN
-              IF ( MOD(ABS(N1)/10,10) == 0) THEN
-                READ(KEY6(1:5),'(I5)')N2
-                ANIM_ST(22110+MOD(ABS(N1),100)+
-     .                 N2*10+(ABS(N1)/100)*2010)=1
+              READ(KEY5(1:5),'(I5)')N1
+              IF(N1/=0)THEN
+                IF ( MOD(ABS(N1)/10,10) == 0) THEN
+                  READ(KEY6(1:5),'(I5)')N2
+                    ANIM_ST(2010+MOD(ABS(N1),100)+
+     .                   N2*10+(ABS(N1)/100)*2010)=1
+                ELSE
+                  ANIM_ST(10+N1)=1
+                ENDIF
               ELSE
-                ANIM_ST(1010+N1)=1
+                ANIM_ST(1) = 1 
               ENDIF
-            ELSE
-              ANIM_ST(2) = 1
             ENDIF
-          ENDIF
-        ELSEIF(KEY4(1:5)=='EPSDO')THEN
-c           IEPSDOT = 1
-c           ANIM_ST(3) = 1
-        ELSEIF(KEY4(1:4)=='DAMA')THEN
-           ANIM_ST(4) = 1
-        ELSEIF(KEY4(1:4)=='EPSP')THEN
-          IF(KEY5(1:3) == 'ALL')THEN
-            IBRICK_EPSPALL = 1
-          ELSE
-            READ(KEY5(1:5),'(I5)')N1
-            IF(N1/=0)THEN
-              IF ( MOD(ABS(N1)/10,10) == 0) THEN
-                READ(KEY6(1:5),'(I5)')N2
-                ANIM_ST(43210+MOD(ABS(N1),100)+
-     .                 N2*10+(ABS(N1)/100)*2010)=1
+          ELSEIF(KEY4(1:5)=='STRAI')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              IBRICK_STRAINALL = 1
+            ELSE
+              READ(KEY5(1:5),'(I5)')N1
+              IF(N1/=0)THEN
+                IF ( MOD(ABS(N1)/10,10) == 0) THEN
+                  READ(KEY6(1:5),'(I5)')N2
+                  ANIM_ST(22110+MOD(ABS(N1),100)+
+     .                   N2*10+(ABS(N1)/100)*2010)=1
+                ELSE
+                  ANIM_ST(1010+N1)=1
+                ENDIF
               ELSE
-                ANIM_ST(42210+N1)=1
+                ANIM_ST(2) = 1
               ENDIF
-            ELSE
-              ANIM_ST(5) = 1
             ENDIF
+          ELSEIF(KEY4(1:5)=='EPSDO')THEN
+c             IEPSDOT = 1
+c             ANIM_ST(3) = 1
+          ELSEIF(KEY4(1:4)=='DAMA')THEN
+             ANIM_ST(4) = 1
+          ELSEIF(KEY4(1:4)=='EPSP')THEN
+            IF(KEY5(1:3) == 'ALL')THEN
+              IBRICK_EPSPALL = 1
+            ELSE
+              READ(KEY5(1:5),'(I5)')N1
+              IF(N1/=0)THEN
+                IF ( MOD(ABS(N1)/10,10) == 0) THEN
+                  READ(KEY6(1:5),'(I5)')N2
+                  ANIM_ST(43210+MOD(ABS(N1),100)+
+     .                   N2*10+(ABS(N1)/100)*2010)=1
+                ELSE
+                  ANIM_ST(42210+N1)=1
+                ENDIF
+              ELSE
+                ANIM_ST(5) = 1
+              ENDIF
+            ENDIF
+          ELSE
+            IXITKEY=IXITKEY+1
           ENDIF
-        ELSE
-          IXITKEY=IXITKEY+1
-        ENDIF
-      ELSE IF (KEY3(1:5) == 'LAW51') THEN
-        IF (KEY4(1:3) == 'ALL') THEN
-           LAW51_PHASE1 = .TRUE.
-           LAW51_PHASE2 = .TRUE.
-           LAW51_PHASE3 = .TRUE.
-           LAW51_PHASE4 = .TRUE.
-        ELSE IF (KEY4(1:1) == '1') THEN
-           LAW51_PHASE1 = .TRUE.
-        ELSE IF (KEY4(1:1) == '2') THEN
-           LAW51_PHASE2 = .TRUE.
-        ELSE IF (KEY4(1:1) == '3') THEN
-           LAW51_PHASE3 = .TRUE.
-        ELSE IF (KEY4(1:1) == '4') THEN
-           LAW51_PHASE4 = .TRUE.
-        ENDIF
+        ELSE IF (KEY3(1:5) == 'LAW51') THEN
+          IF (KEY4(1:3) == 'ALL') THEN
+             LAW51_PHASE1 = .TRUE.
+             LAW51_PHASE2 = .TRUE.
+             LAW51_PHASE3 = .TRUE.
+             LAW51_PHASE4 = .TRUE.
+          ELSE IF (KEY4(1:1) == '1') THEN
+             LAW51_PHASE1 = .TRUE.
+          ELSE IF (KEY4(1:1) == '2') THEN
+             LAW51_PHASE2 = .TRUE.
+          ELSE IF (KEY4(1:1) == '3') THEN
+             LAW51_PHASE3 = .TRUE.
+          ELSE IF (KEY4(1:1) == '4') THEN
+             LAW51_PHASE4 = .TRUE.
+          ENDIF
 C--------------------------
 C     BRIQUES:SCALAIRES
 C--------------------------
