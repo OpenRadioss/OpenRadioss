@@ -399,8 +399,7 @@ C-----------
      & 5X,'SMOOTH STRAIN RATE OPTION . . . . . . . . .=',I10/
      & 5X,'     0 -> NO SMOOTHING                      ',/,
      & 5X,'     1 -> SMOOTH + LINEAR INTERPOLATION     ',/,
-     & 5X,'     2 -> SMOOTH + LOG_10 INTERPOLATION     ',/,
-     & 5X,'     3 -> SMOOTH + LOG_N  INTERPOLATION     ',/
+     & 5X,'     2 -> SMOOTH + LOG_N  INTERPOLATION     ',/
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . . . .=',1PG20.13/
      & 5X,'PLASTIC STRAIN RATE DEPENDENCY FLAG . . . .=',I10/
      & 5X,'   FLAG_PL = 0 -> TOTAL SR DEPENDENCY       ',/,

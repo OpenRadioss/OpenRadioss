@@ -228,14 +228,10 @@ C
           J2 = J1+1                                               
           Y1(I) = Y1(I)*YFAC(I,1)                                 
           Y2(I) = Y2(I)*YFAC(I,2)
-          IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+          IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
             EPSP1 = MAX(RATE(I,1), EM20)
             EPSP2 = RATE(I,2)
             FAC   = LOG(MAX(EPSP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)   
-          ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-            EPSP1 = MAX(RATE(I,1), EM20)
-            EPSP2 = RATE(I,2)
-            FAC   = LOG10(MAX(EPSP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)   
           ELSE                         ! linear interpolation of strain rate
             EPSP1 = RATE(I,1)
             EPSP2 = RATE(I,2)

@@ -354,7 +354,7 @@ c
               IF (EPSP(I) >= UPARAM(6+J)) JJ(I) = J
             ENDDO
           ENDDO
-          IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+          IF (ISMOOTH == 2) THEN      ! log_n  based interpolation of strain rate
 #include    "vectorize.inc"
             DO I=1,NEL
               EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
@@ -362,15 +362,6 @@ c
               RFAC(I) = LOG(MAX(EPSP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
               YFAC(I,1) = UPARAM(6+NRATE+JJ(I))  * FACYLDI(I)
               YFAC(I,2) = UPARAM(7+NRATE+JJ(I))  * FACYLDI(I)
-            ENDDO
-          ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include    "vectorize.inc"
-            DO I=1,NEL
-              EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-              EPSP2 = UPARAM(7+JJ(I))
-              RFAC(I) = LOG10(MAX(EPSP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
-              YFAC(I,1) = UPARAM(6+NRATE+JJ(I)) * FACYLDI(I)
-              YFAC(I,2) = UPARAM(7+NRATE+JJ(I)) * FACYLDI(I)
             ENDDO
           ELSE                        ! linear interpolation of strain rate
 #include    "vectorize.inc"
@@ -720,19 +711,12 @@ C-------------------
           ENDDO                                    
         ENDDO                                      
 c
-        IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+        IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include  "vectorize.inc"
           DO I=1,NEL
             EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
             EPSP2 = UPARAM(7+JJ(I))
             RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-          ENDDO
-        ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include  "vectorize.inc"
-          DO I=1,NEL
-            EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-            EPSP2 = UPARAM(7+JJ(I))
-            RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
           ENDDO
         ELSE                        ! linear interpolation of strain rate
 #include  "vectorize.inc"

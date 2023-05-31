@@ -444,19 +444,12 @@ c-----------
             ENDDO
           ENDDO
 C
-          IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+          IF (ISMOOTH == 2) THEN      ! log_n  based interpolation of strain rate
 #include    "vectorize.inc"
             DO I=1,NEL
               EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
               EPSP2 = UPARAM(7+JJ(I))
-              RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-            ENDDO
-          ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include    "vectorize.inc"
-            DO I=1,NEL
-              EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-              EPSP2 = UPARAM(7+JJ(I))
-              RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
+              RFAC(I) = LOG(MAX(EPSP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
             ENDDO
           ELSE                        ! linear interpolation of strain rate
 #include "vectorize.inc"
@@ -496,9 +489,9 @@ C
             DO I=1,NEL
               J1 = JJ(I)
               J2 = J1+1
-              Y1(I)=Y1(I)*YFAC(I,1)
-              Y2(I)=Y2(I)*YFAC(I,2)
-              FAC   = RFAC(I)
+              Y1(I)= Y1(I)*YFAC(I,1)
+              Y2(I)= Y2(I)*YFAC(I,2)
+              FAC  = RFAC(I)
               CC = FAIL(I)* PFAC(I)
               YLD(I)  = (Y1(I)    + FAC*(Y2(I)-Y1(I))) * CC
               DYDX1(I)= DYDX1(I)*YFAC(I,1)
@@ -717,21 +710,13 @@ c
                 IF (PLAP(I) >= UPARAM(6+J)) JJ(I) = J               
               ENDDO
             ENDDO  
-            IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+            IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include     "vectorize.inc" 
               DO II=1,NINDX                                             
                 I = INDEX(II) 
                 EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
                 EPSP2 = UPARAM(7+JJ(I))
                 RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-              ENDDO
-            ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include     "vectorize.inc" 
-              DO II=1,NINDX                                             
-                I = INDEX(II) 
-                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-                EPSP2 = UPARAM(7+JJ(I))
-                RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
               ENDDO
             ELSE                         ! linear interpolation of strain rate
 #include     "vectorize.inc" 
@@ -830,19 +815,12 @@ c------------------------
                   IF(PLAP(I) >= UPARAM(6+J)) JJ(I) = J       
                 ENDDO       
               ENDDO
-              IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+              IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include        "vectorize.inc"
                 DO I=1,NEL
                   EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
                   EPSP2 = UPARAM(7+JJ(I))
                   RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-                ENDDO
-              ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include        "vectorize.inc"
-                DO I=1,NEL
-                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-                  EPSP2 = UPARAM(7+JJ(I))
-                  RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
                 ENDDO
               ELSE                        ! linear interpolation of strain rate
 #include        "vectorize.inc"
@@ -950,21 +928,13 @@ c------------------------------------------------
               ENDDO
             ENDDO    
 c
-            IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+            IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include      "vectorize.inc"
               DO II=1,NINDX                                           
                 I = INDEX(II) 
                 EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
                 EPSP2 = UPARAM(7+JJ(I))
                 RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-              ENDDO
-            ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include      "vectorize.inc"
-              DO II=1,NINDX                                           
-                I = INDEX(II) 
-                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-                EPSP2 = UPARAM(7+JJ(I))
-                RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
               ENDDO
             ELSE                        ! linear interpolation of strain rate
 #include      "vectorize.inc"
@@ -1082,21 +1052,13 @@ c
                 ENDDO              
               ENDDO
 c
-              IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+              IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include        "vectorize.inc"
                 DO II=1,NINDX                                           
                   I = INDEX(II) 
                   EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
                   EPSP2 = UPARAM(7+JJ(I))
                   RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-                ENDDO
-              ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include        "vectorize.inc"
-                DO II=1,NINDX                                           
-                  I = INDEX(II) 
-                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-                  EPSP2 = UPARAM(7+JJ(I))
-                  RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
                 ENDDO
               ELSE                        ! linear interpolation of strain rate
 #include        "vectorize.inc"
@@ -1214,21 +1176,13 @@ c------------------------------------------------
               ENDDO 
             ENDDO
 c
-            IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+            IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include      "vectorize.inc"
               DO II=1,NINDX                                           
                 I = INDEX(II) 
                 EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
                 EPSP2 = UPARAM(7+JJ(I))
                 RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-              ENDDO
-            ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include      "vectorize.inc"
-              DO II=1,NINDX                                           
-                I = INDEX(II) 
-                EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-                EPSP2 = UPARAM(7+JJ(I))
-                RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
               ENDDO
             ELSE                        ! linear interpolation of strain rate
 #include      "vectorize.inc"
@@ -1346,21 +1300,13 @@ c
                 ENDDO
               ENDDO
 c
-              IF (ISMOOTH == 3) THEN       ! log_n  based interpolation of strain rate
+              IF (ISMOOTH == 2) THEN       ! log_n  based interpolation of strain rate
 #include        "vectorize.inc"
                 DO II=1,NINDX                                           
                   I = INDEX(II) 
                   EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
                   EPSP2 = UPARAM(7+JJ(I))
                   RFAC(I) = LOG(MAX(PLAP(I),EM20)/EPSP1) / LOG(EPSP2/EPSP1)
-                ENDDO
-              ELSE IF (ISMOOTH == 2) THEN  ! log_10 based interpolation of strain rate
-#include        "vectorize.inc"
-                DO II=1,NINDX                                           
-                  I = INDEX(II) 
-                  EPSP1 = MAX(UPARAM(6+JJ(I)), EM20)
-                  EPSP2 = UPARAM(7+JJ(I))
-                  RFAC(I) = LOG10(MAX(PLAP(I),EM20)/EPSP1) / LOG10(EPSP2/EPSP1)
                 ENDDO
               ELSE                        ! linear interpolation of strain rate
 #include        "vectorize.inc"
