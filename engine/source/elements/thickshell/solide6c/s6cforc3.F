@@ -746,7 +746,7 @@ C-----------------------------
      .   Y1, Y2, Y3, Y3, Y4, Y5, Y6, Y6,
      .   Z1, Z2, Z3, Z3, Z4, Z5, Z6, Z6,
      .   VZ1, VZ2, VZ3, VZ3, VZ4, VZ5, VZ6, VZ6,
-     .   F31,F32,F33,F33,F34,F35,F36,F36,
+     .   F31,F32,F33,F34,F35,F36,
      .   NU,GBUF%HOURG,OFF,GBUF%VOL,GBUF%EINT,NEL)
       ENDIF
 C-----------------------------
