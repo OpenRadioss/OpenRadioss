@@ -115,7 +115,7 @@ c
             CALL TABLE2D_INTERSECT(TABLE(FUNC_T) ,I ,J ,NPT  ,
      .                             XFAC  ,XINT ,YINT)
             IF (XINT > ZERO .and. YINT > ZERO) THEN
-              CALL ANCMSG(MSGID=3007, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
+              CALL ANCMSG(MSGID=3010, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
      .                    I1 = MAT_ID,                                               
      .                    I2 = TABLE(FUNC_T)%NOTABLE,                                               
      .                    C1 = TITR  ,
@@ -143,7 +143,7 @@ c
               CALL TABLE2D_INTERSECT(TABLE(FUNC_C) ,I ,J ,NPT  ,
      .                               XFAC  ,XINT ,YINT)
               IF (XINT > ZERO .and. YINT > ZERO) THEN
-                CALL ANCMSG(MSGID=3007, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
+                CALL ANCMSG(MSGID=3010, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
      .                      I1 = MAT_ID,                                             
      .                      I2 = TABLE(FUNC_T)%NOTABLE,                                             
      .                      C1 = TITR  ,
@@ -172,7 +172,7 @@ c
               CALL TABLE2D_INTERSECT(TABLE(FUNC_S) ,I ,J ,NPT  ,
      .                               XFAC  ,XINT ,YINT)
               IF (XINT > ZERO .and. YINT > ZERO) THEN
-                CALL ANCMSG(MSGID=3007, MSGTYPE=MSGWARNING, ANMODE=ANINFO,      
+                CALL ANCMSG(MSGID=3010, MSGTYPE=MSGWARNING, ANMODE=ANINFO,      
      .                      I1 = MAT_ID,                                             
      .                      I2 = TABLE(FUNC_T)%NOTABLE,                                             
      .                      C1 = TITR  ,
