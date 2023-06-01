@@ -1048,6 +1048,15 @@ c  --- RTCL failure model
      1          LLT      ,NPAR     ,NVARF    ,TT       ,DT1      ,BUFMAT(IADBUF),
      2          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      3          NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDELE    ) 
+c
+          ELSEIF (IFAIL(II) == 43) THEN                                      
+C  --- Syazwan failure model                                  
+              CALL FAIL_SYAZWAN_S(
+     1          LLT     ,BUFMAT(IADBUF)    ,NPAR    ,UVARF   ,NVARF    ,
+     2          TT      ,NGL      ,IP      ,DPLA    ,DEFP    ,
+     3          S1      ,S2       ,S3      ,S4      ,S5      ,S6       ,
+     4          DFMAX   ,NFUNC    ,IFUNC   ,DELTAX  ,OFF    ,
+     5          NPF     ,TF      ) 
 c---------
           ENDIF ! IRUPT
 c---------

@@ -366,6 +366,14 @@ c  --- RTCL failure model
      2          SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      ,
      3          NGL      ,DPLA(J1) ,UVARF    ,OFF      ,DFMAX    ,TDELE    )
 c---------
+c ---   Syazwan failure                                               
+          ELSEIF (IFAIL(II) == 43) THEN                                      
+            CALL FAIL_SYAZWAN_S(
+     1          NEL     ,BUFMAT(IADBUF)    ,NUPARAM ,UVARF   ,NVARF   ,
+     2          TT      ,NGL      ,IP      ,DPLA(J1),LBUF%PLA,
+     3          SXX     ,SYY      ,SZZ     ,SXY     ,SYZ     ,SZX     ,
+     4          DFMAX   ,NFUNC    ,IFUNC   ,DELTAX  ,OFF     ,
+     5          NPF     ,TF      )
            ENDIF
           ENDDO
 c

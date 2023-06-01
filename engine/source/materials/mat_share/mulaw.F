@@ -1292,7 +1292,7 @@ c
      9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      A                  SSP ,VIS ,UVAR,OFF  ,DVOL ,VOL ,
      B                  IPM ,MAT ,EPSD,SIGY ,DPLA ,DEFP,
-     C                  AMU ,LBUF%DMG)
+     C                  AMU )
 C 
       ELSEIF (MTN == 80) THEN
         CALL SIGEPS80(
@@ -2101,6 +2101,14 @@ C---- Inievo failure model
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
      8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )  
 c
+          ELSEIF (IRUPT == 43) THEN                                      
+c  --- Syazwan failure model                                  
+              CALL FAIL_SYAZWAN_S(
+     1          NEL     ,UPARAMF  ,NPAR    ,UVARF   ,NVARF   ,
+     2          TT      ,NGL      ,IP      ,DPLA    ,EL_PLA  ,
+     3          S1      ,S2       ,S3      ,S4      ,S5      ,S6       , 
+     4          DFMAX   ,NFUNC    ,IFUNC   ,EL_LEN  ,OFF     ,
+     5          NPF     ,TF      )
           ELSEIF (IRUPT == 44) THEN                                      
 C---- Tsai-Wu failure model
               CALL FAIL_TSAIWU_S(
