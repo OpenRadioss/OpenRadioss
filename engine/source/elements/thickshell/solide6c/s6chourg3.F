@@ -32,7 +32,7 @@ Chd|====================================================================
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .   F31,F32,F33,F34,F35,F36,F37,F38,
+     .   F31,F32,F33,F35,F36,F37,
      .   NU ,FHOUR ,OFF,VOL0,EINT,NEL)
 C-----------------------------------------------
 C   M O D U L E S
@@ -63,7 +63,7 @@ C     REAL
       my_real, DIMENSION(NEL) , INTENT(IN)  :: VOL0
       my_real, DIMENSION(NEL) , INTENT(INOUT)  :: EINT
       my_real, DIMENSION(MVSIZ) , INTENT(INOUT)  :: 
-     .   F31,F32,F33,F34,F35,F36,F37,F38
+     .   F31,F32,F33,F35,F36,F37
       my_real, DIMENSION(NEL,2) , INTENT(INOUT)  :: FHOUR
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -266,13 +266,11 @@ C
         F31(I) =F31(I)-G11(I)*NFHZ1(I)-G12(I)*NFHZ2(I)
         F32(I) =F32(I)-G21(I)*NFHZ1(I)-G22(I)*NFHZ2(I)
         F33(I) =F33(I)-G31(I)*NFHZ1(I)-G32(I)*NFHZ2(I)
+     .                -G41(I)*NFHZ1(I)-G42(I)*NFHZ2(I) ! F34
         F35(I) =F35(I)-G51(I)*NFHZ1(I)-G52(I)*NFHZ2(I)
         F36(I) =F36(I)-G61(I)*NFHZ1(I)-G62(I)*NFHZ2(I)
         F37(I) =F37(I)-G71(I)*NFHZ1(I)-G72(I)*NFHZ2(I)
-      ENDDO
-      DO I=1,NEL
-        F34(I) =F34(I)-G41(I)*NFHZ1(I)-G42(I)*NFHZ2(I)
-        F38(I) =F38(I)-G81(I)*NFHZ1(I)-G82(I)*NFHZ2(I)
+     .                -G81(I)*NFHZ1(I)-G82(I)*NFHZ2(I) ! F38
       ENDDO
       DO I=1,NEL
         EINT(I)= EINT(I)+DT1*(
