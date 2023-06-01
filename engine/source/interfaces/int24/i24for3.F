@@ -563,7 +563,7 @@ C------explicit or implicit+Istif/=6
                 IF (IRESP==1 .AND. RP2<EM01 .AND. RP1>ZERO) THEN
                    STIF(I) = STIF_OLD(2,N)
                 ELSE
-                 IF (IRESP==1 .AND. RP1==ZERO) RP2 = HALF
+                 IF (IRESP==1 .AND. RP1==ZERO) RP2 = EM01
                  STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
                 END IF
               ELSEIF(.NOT.(PENE_OLD(2,N)== ZERO.AND.STIF_OLD(2,N)==ZERO))THEN
@@ -592,7 +592,7 @@ c new impact, possible multi impact
                 IF (IRESP==1 .AND. RP2<EM01 .AND. RP1>ZERO) THEN
                    STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
                 ELSE
-                 IF (IRESP==1 .AND. RP1==ZERO) RP2 = HALF
+                 IF (IRESP==1 .AND. RP1==ZERO) RP2 = EM01
                  STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
                 END IF
               ELSEIF(.NOT.(PENE_OLDFI(NIN)%P(2,JG)== ZERO.AND.
