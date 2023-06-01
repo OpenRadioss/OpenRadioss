@@ -3192,7 +3192,7 @@ C
      3       IXP       ,IXR       ,IXTG
      4                 ,IPART     ,IPARTS    ,IPARTQ    ,IPARTC    ,
      5       IPARTT    ,IPARTP    ,IPARTR    ,IPARTG    ,X         ,
-     6       INSEG     ,SBUFSF    ,ISKWN     ,SKEW      ,
+     6       SBUFSF    ,ISKWN     ,SKEW      ,
      7       RWORK     ,KNOD2ELS  ,NOD2ELS   ,SH4TREE   ,SH3TREE   ,
      8       ISUBMOD   ,FLAGG     ,UNITAB    ,IBOX      ,
      9       IXS10     ,IXS16     ,IXS20     ,RTRANS,
@@ -3255,7 +3255,7 @@ C       fill, 1st level surfaces
      3       IXP       ,IXR       ,IXTG
      4                 ,IPART     ,IPARTS    ,IPARTQ    ,IPARTC    ,
      5       IPARTT    ,IPARTP    ,IPARTR    ,IPARTG    ,X         ,
-     6       INSEG     ,SBUFSF    ,ISKWN     ,SKEW      ,
+     6       SBUFSF    ,ISKWN     ,SKEW      ,
      7       RWORK     ,KNOD2ELS  ,NOD2ELS   ,SH4TREE   ,SH3TREE   ,
      8       ISUBMOD   ,FLAGG     ,UNITAB    ,IBOX      ,
      9       IXS10     ,IXS16     ,IXS20     ,RTRANS,
