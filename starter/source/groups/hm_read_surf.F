@@ -63,7 +63,7 @@ Chd|====================================================================
      3           IXP     ,IXR     ,IXTG
      4                   ,IPART   ,IPARTS  ,IPARTQ  ,IPARTC  ,
      5           IPARTT  ,IPARTP  ,IPARTR  ,IPARTTG ,X       ,
-     6           INSEG   ,MFI     ,ISKN    ,SKEW    ,
+     6           MFI     ,ISKN    ,SKEW    ,
      7           BUFSF   ,KNOD2ELS,NOD2ELS ,SH4TREE ,SH3TREE ,
      8           ISUBMOD ,FLAG    ,UNITAB  ,IBOX    ,
      9           IXS10   ,IXS16   , IXS20  ,RTRANS  ,
@@ -121,7 +121,7 @@ C-----------------------------------------------
      .        KNOD2ELIG3D(NUMNOD+1),NOD2ELIG3D(*),
      .        NIGE(*),IGEO(NPROPGI,NUMGEO),
      .        KNOD2ELQ(NUMNOD+1),NOD2ELQ(4*NUMELQ)
-      INTEGER INSEG,FLAG,IADTABIGE,DECALIGEO,
+      INTEGER FLAG,IADTABIGE,DECALIGEO,
      .        IADBOXMAX,NSETS
       my_real X(3,NUMNOD),SKEW(LSKEW,SSKEW/LSKEW),BUFSF(LISURF1*NSURF),
      .        RTRANS(NTRANSF,NRTRANS),V(3,NUMNOD),RIGE(*),XIGE(*),VIGE(*),
@@ -346,7 +346,6 @@ C             tag for surfaces defined from surface list
                   ENDIF
                 ENDIF
                 IF (FLAG == 0) THEN
-                  INSEG=INSEG+NISX*NSEG
                   IGRSURF(IGS)%NSEG = NSEG
                 ENDIF
               ENDDO
@@ -627,7 +626,6 @@ C=======================================================================
      6                    NINDX_SOL, NINDX_SOL10, INDX, INDX_SOL, INDX_SOL10,  
      7                    SURF_ELM)                                            
             IF (FLAG == 0) THEN                                                
-              INSEG=INSEG+NISX*NSEG                                            
               IGRSURF(IGS)%NSEG = NSEG                                         
             ENDIF                                                              
           ENDIF                                                                
@@ -746,7 +744,6 @@ C------------/SURF/PART/EXT FOR QUADS --------------------
             IF (FLAG == 0) THEN                                                                                               
               IGRSURF(IGS)%NSEG = NSEG                                                                                        
               IGRSURF(IGS)%NSEG_IGE = NSEGIGE                                                                                 
-              INSEG=INSEG+NISX*NSEG                                                                                           
               NUMFAKENODIGEO=NUMFAKENODIGEO+16*NSEGIGE/9 ! same functionnality as IADTABIGE
             ENDIF                                                                                                             
           ENDIF                                                                                                               
@@ -864,7 +861,6 @@ C-------------------------
      7                    SURF_ELM)                                            
             IF (FLAG == 0) THEN                                                
               IGRSURF(IGS)%NSEG = NSEG                                         
-              INSEG=INSEG+NISX*NSEG                                            
             ENDIF                                                              
 C-------------------------
           ENDIF
@@ -921,7 +917,6 @@ C-----------                                              --
      .                    INDX,NINDX,NSEG_TOT)                           
             IF (FLAG == 0) THEN                                          
               IGRSURF(IGS)%NSEG = NSEG                                   
-              INSEG=INSEG+NISX*NSEG                                      
             ENDIF                                                        
 C---
           ELSEIF (KEY(1:6)=='GRSH3N' .OR. KEY(1:6)=='GRTRIA') THEN
@@ -954,7 +949,6 @@ C---
      .                    INDX,NINDX,NSEG_TOT)                                          
             IF (FLAG == 0) THEN                                                         
               IGRSURF(IGS)%NSEG = NSEG                                                  
-              INSEG=INSEG+NISX*NSEG                                                     
             ENDIF                                                                       
           ENDIF
           !reset BUFTMP to 0 (only where it was set to 1/-1)
