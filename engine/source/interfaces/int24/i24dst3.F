@@ -51,7 +51,7 @@ Chd|====================================================================
      G                  STIF_OLD,ITRIV ,ITAB   ,CAND_T ,IEDGE  ,
      H                  NFT     ,PENMIN,EPS0   ,NM1    ,NM2    ,
      I                  NM3     ,INTPLY ,DGAP_NM,ICONT_I,MARGE ,
-     J                  NSNE    ,ISPT2  ,IZERO ) 
+     J                  NSNE    ,ISPT2  ,IZERO ,IKNON  ,PENREF ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,6 +94,8 @@ C-----------------------------------------------
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN),PENMIN,EPS0,
      .     NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ),DGAP_NM(4,*),MARGE
       INTEGER IRECT(4,*),ITAB(*),ICONT_I(*)
+      INTEGER, DIMENSION(MVSIZ), INTENT(IN)  :: IKNON
+      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: PENREF
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -197,7 +199,8 @@ C-----------------------------------------------
      .     X23D,Y23D,Z23D,X34D,Y34D,Z34D,X41D,Y41D,Z41D,
      .     X12D,Y12D,Z12D,GAP2D,XI5D,YI5D,ZI5D,S2D, LA0,LB0,LC0,
      .     HLA, ADT,OVERW,EPS,PENE_SH,OVERW0,VOL,EPS2,DGAP,RX,RY,RZ,
-     .     PENE_TM(MVSIZ),LA_TM(MVSIZ),LB_TM(MVSIZ),N_TM(3,MVSIZ)
+     .     PENE_TM(MVSIZ),LA_TM(MVSIZ),LB_TM(MVSIZ),N_TM(3,MVSIZ),
+     .     AREA(MVSIZ)
       INTEGER ICONTACT(MVSIZ),IT0(3,20),IT(3,20,MVSIZ),IC(10,20),
      .     ISTEP(MVSIZ),IRTLM_OLD(MVSIZ),SUBTRIA_N(MVSIZ),
      .     NSS,MGLOB,ibug,JG,IZLIM,ip,IKEEP,LARGEP,IPEN0(MVSIZ),IER,
@@ -971,6 +974,7 @@ C
         ENDIF
         
         S2 = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
+        AREA(I) = S2
         AAA = ONE/S2
         NQX = NQX*AAA
         NQY = NQY*AAA
@@ -2382,6 +2386,7 @@ c      write(iout,*)'i24dst3 8'
         NQZ = NZ(I)
         
         AAA = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
+        AREA(I) = AAA
         S2 = ONE/AAA
         NQX = NQX*S2
         NQY = NQY*S2
@@ -3371,6 +3376,37 @@ C---------PENE -> updated bt PENE_Offset
         PENE(I) = PENE_SH
        ENDDO
       END IF !IF (INACTI==5)
+C-----peneref for nonlinear stif (quadratic...)
+      PENREF(1:JLT) = ZERO 
+      IF (INACTI==-1) THEN
+        DO I=1,JLT
+          IF(PENE(I) == ZERO.OR.IKNON(I)==0) CYCLE
+          PENREF(I) = SQRT(EPS2*AREA(I))
+          JG = NSVG(I)
+          N  = CAND_N(I)
+          IF(JG > 0)THEN
+            PENE_SH = EM01*PENE_OLD(5,N)
+          ELSE
+            JG = -JG
+            PENE_SH = EM01*PENE_OLDFI(NIN)%P(5,JG)
+          ENDIF
+          PENREF(I) = MAX(PENREF(I),PENE_SH)
+        ENDDO
+      ELSE
+        DO I=1,JLT
+          IF(PENE(I) == ZERO) CYCLE
+          PENREF(I) = ONE_FIFTH*SQRT(AREA(I))
+          JG = NSVG(I)
+          N  = CAND_N(I)
+          IF(JG > 0)THEN
+            PENE_SH = PENE_OLD(5,N)
+          ELSE
+            JG = -JG
+            PENE_SH = PENE_OLDFI(NIN)%P(5,JG)
+          ENDIF
+          PENREF(I) = MAX(PENREF(I),PENE_SH)
+        ENDDO
+      END IF
 C
       RETURN
       END

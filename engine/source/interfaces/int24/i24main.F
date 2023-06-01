@@ -157,7 +157,7 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),CAND_T_N(MVSIZ),
-     .        KINI(MVSIZ),
+     .        KINI(MVSIZ),IKNON(MVSIZ),
      .        SUBTRIA_OLD(MVSIZ),
 c     .        INDEX2(LINDMAX),SUBTRIA_OLD(MVSIZ),
      .        ISDSIZ(NSPMD+1),IRCSIZ(NSPMD+1),
@@ -168,7 +168,7 @@ c     .        INDEX2(LINDMAX),SUBTRIA_OLD(MVSIZ),
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, STOPT,PMAX_GAP,
+     .   STARTT, FRIC, GAP, STOPT,PMAX_GAP,PENREF(MVSIZ),
      .   VISC,VISCF,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS,IFRIC
 C-----------------------------------------------
@@ -439,6 +439,7 @@ C
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
 C preparation candidats retenus
+          IKNON(1:JLT) = 0
 	  CALL I24CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_T,
      2     CAND_E_N,CAND_N_N,CAND_T_N	  ,IEDGE	)
@@ -467,7 +468,7 @@ C-------ISPT2 change    dimension NSN, initialis   au Starter
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
-     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY ) 
+     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY ,IKNON ) 
 
           JLT_NEW = 0
           IF(IMPL_S > 0 ) THEN
@@ -496,7 +497,7 @@ C
      G INTBUF_TAB%STIF_OLD,ITRIV      ,ITAB       ,CAND_T_N    ,IEDGE  ,      
      H NFT         ,PENMIN      ,EPS        ,NM1         ,NM2          ,
      I NM3         ,INTPLY      ,INTBUF_TAB%DGAP_NM ,INTBUF_TAB%ICONT_I,
-     J MARGE       ,IEDG4       ,ISPT2_LOC  ,IPARI(40,NIN))
+     J MARGE       ,IEDG4       ,ISPT2_LOC  ,IPARI(40,NIN),IKNON,PENREF )
 
           IF(IEDGE/=0)CALL I24DST3E(
      1 JLT         ,A           ,X           ,CAND_N_N    ,CAND_E_N    ,
@@ -605,7 +606,7 @@ C-------------------------------------------------------------------------------
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
      1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC ,INTCAREA ,
-     2  INTERFACES%PARAMETERS ) 
+     2  INTERFACES%PARAMETERS ,PENREF ) 
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(

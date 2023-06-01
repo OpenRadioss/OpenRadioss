@@ -953,7 +953,7 @@ Chd|====================================================================
       SUBROUTINE I_CORPFIT3(
      1               JLT      ,STF     ,STFN    ,STIF     ,NSN    ,
      2               CAND_E   ,CAND_N  ,NIN     ,IGSTI   ,KMIN     ,
-     3               KMAX     ,INACTI  ,NCFIT   ,TNCY) 
+     3               KMAX     ,INACTI  ,NCFIT   ,TNCY    ,IKNON   ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -973,6 +973,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   STF(*), STFN(*),STIF(*),KMIN,KMAX,TNCY
+      INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IKNON
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1002,6 +1003,9 @@ c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
          FB = MAX(ZERO,THREE*TNCY-TWO)
          F_PFIT = EM04*(FA+FAB)+FB
          STIF(1:JLT)=F_PFIT*STIF(1:JLT)
+         IF (FB >ZERO) IKNON(1:JLT) = 1 ! -> nonlinear stiff
+      ELSEIF (INACTI==-1)THEN
+         IKNON(1:JLT) = 1 
       END IF
 C
       RETURN
