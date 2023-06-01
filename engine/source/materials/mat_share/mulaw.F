@@ -1292,7 +1292,7 @@ c
      9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      A                  SSP ,VIS ,UVAR,OFF  ,DVOL ,VOL ,
      B                  IPM ,MAT ,EPSD,SIGY ,DPLA ,DEFP,
-     C                  AMU )
+     C                  AMU ,LBUF%DMG)
 C 
       ELSEIF (MTN == 80) THEN
         CALL SIGEPS80(
