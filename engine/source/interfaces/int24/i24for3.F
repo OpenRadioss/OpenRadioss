@@ -74,7 +74,7 @@ Chd|====================================================================
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
      1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,INTCAREA,
-     2    PARAMETERS )
+     2    PARAMETERS  ,PENREF   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -169,6 +169,7 @@ C-----------------------------------------------
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN),F_PFIT
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: PENREF
 
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
@@ -217,9 +218,9 @@ C-----------------------------------------------
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      .   CX,CY,CFI,AUX, FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ),
      .   PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ), PHI4(MVSIZ),
-     .   DTMINI,STIF0_IMP(MVSIZ),PENN,TINY,
+     .   DTMINI,STIF0_IMP(MVSIZ),PENN,TINY,PENDR,
      .   FNNIT1,FNNIT2,FNNIT3,FNNITSCHE,T3,FNITXT(MVSIZ),FNITYT(MVSIZ),FNITZT(MVSIZ),
-     .   XMU2(MVSIZ)
+     .   XMU2(MVSIZ),FACN,FNON,STIFKT(MVSIZ),FACKT
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,ibug,ip,NCFIT
       INTEGER  ISEGTYP(MVSIZ),IXSS(4),NOD1,NOD2,NS
       my_real
@@ -252,6 +253,7 @@ C-----------------------------------------------
       ECONTDT = ZERO
       DO I=1,JLT
         STIF0(I) = STIF(I)
+        STIFKT(I) = STIF(I)
       ENDDO
       EFRIC_L(1:JLT) = ZERO
 C---------------------
@@ -267,6 +269,8 @@ C---------------------
       ELSE
         IFIT = 0
       END IF
+      FNON = EP02
+      FMAX = EP03
 C-------------------------------------------
 C     PENE Offset removed to i24dst3.F
 C-------------------------------------------
@@ -407,12 +411,19 @@ C-------------------------------------------
 C     stifness reduction to avoid positive
 C     force jump and energy generation
 C-------------------------------------------
-      IF (IFIT >0) THEN
+      IF (IFIT >0.OR.(INACTI==-1.AND.IMPL_S==0)) THEN
         DO I=1,JLT
           IF(PENE(I) == ZERO)CYCLE
           STIF(I) = STIF0(I)
-c          STIF(I) = FINC*STIF0(I)
           IF(STIGLO<=ZERO) STIF(I) = HALF*STIF(I)
+C---- nonlinear stif          
+          IF(PENREF(I) > ZERO) THEN
+            PENDR  = (PENE(I)/PENREF(I))**2
+            FACKT = MIN(FMAX,(ONE+THREE*FNON*PENDR))
+            FACN = MIN(FMAX,(ONE+FNON*PENDR))
+            STIFKT(I)= STIFKT(I)*FACKT
+            STIF(I)= STIF(I)*FACN
+          END IF
           FNI(I)= -STIF(I) * PENE(I)
         ENDDO
       ELSEIF(IMPL_S>0.AND.IGSTI==6)THEN
@@ -2296,7 +2307,6 @@ C--------implicit non converge---
             DO K=1,NFISOT  ! isotropic friction couples
               I = INDEXISOT(K)
               IF(PENE(I) == ZERO)CYCLE
-              IF(PENE(I) == ZERO)CYCLE
               FX = STIF0(I)*VX(I)*DT12
               FY = STIF0(I)*VY(I)*DT12
               FZ = STIF0(I)*VZ(I)*DT12
@@ -2353,7 +2363,6 @@ C            IFPEN(INDEX(I)) = 1
 #include   "vectorize.inc"
             DO K=1,NFORTH  ! Orthotropic friction couples
               I = INDEXORTH(K)
-              IF(PENE(I) == ZERO)CYCLE
               IF(PENE(I) == ZERO)CYCLE
               FX = STIF0(I)*VX(I)*DT12
               FY = STIF0(I)*VY(I)*DT12
@@ -3449,6 +3458,7 @@ ctmp+1 mic only
       ENDIF
 
 C
+      IF (INACTI==-1.AND.IMPL_S==0) STIF(1:JLT)=MAX(STIF(1:JLT),STIFKT(1:JLT))
       IF(IPARIT==3)THEN
         stop 789
       ELSEIF(IPARIT==0)THEN

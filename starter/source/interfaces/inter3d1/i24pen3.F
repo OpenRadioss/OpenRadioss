@@ -193,6 +193,7 @@ C------Elimine the impact take into account to SECONDARY nodal normal
              IF (NORM >= ZERO) THEN
               PEN = -ABS(PEN)-TOL
 c             print *,'impact pair eliminated due to N_SECONDARY'
+              IDEL = 0
              END IF
            END IF
           END IF !(MSEGTYP(L)/=0 ) THEN
