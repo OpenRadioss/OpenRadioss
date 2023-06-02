@@ -572,7 +572,10 @@ C----add only not existing
                    ITAGN(N2) = 1
                    ITAGN(N3) = 1
                    ITAGN(N4) = 1
-                   IRECT(1:4,NP) = IB(1:4,NL)
+                   IRECT(1,NP) = N1
+                   IRECT(2,NP) = N2
+                   IRECT(3,NP) = N3
+                   IRECT(4,NP) = N4
                 ELSE
                   IXST = 0
                   J = 0
@@ -590,7 +593,10 @@ C----add only not existing
                     ITAGN(N2) = 1
                     ITAGN(N3) = 1
                     ITAGN(N4) = 1
-                    IRECT(1:4,NP) = IB(1:4,NL)
+                    IRECT(1,NP) = N1
+                    IRECT(2,NP) = N2
+                    IRECT(3,NP) = N3
+                    IRECT(4,NP) = N4
                   END IF
                 END IF 
               ENDDO
