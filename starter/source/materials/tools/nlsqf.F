@@ -1121,7 +1121,7 @@ C-----------------------------------------------
       save SMALL
 
       my_real MCOF_MIN(NMUAL) ! lower bounds of material parameters
-      my_real MCOF_MAX(NMUAL) ! lower bounds of material parameters
+      my_real MCOF_MAX(NMUAL) ! upper bounds of material parameters
 
       REAL*4 randnum
 
