@@ -50,6 +50,7 @@ Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_
 Chd|        FAIL_RTCL_S                   source/materials/fail/rtcl/fail_rtcl_s.F
 Chd|        FAIL_SAHRAEI_S                source/materials/fail/sahraei/fail_sahraei_s.F
 Chd|        FAIL_SPALLING_S               source/materials/fail/spalling/fail_spalling_s.F
+Chd|        FAIL_SYAZWAN                  source/materials/fail/syazwan/fail_syazwan_s.F
 Chd|        FAIL_TAB2_S                   source/materials/fail/tabulated/fail_tab2_s.F
 Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
 Chd|        FAIL_TBUTCHER_S               source/materials/fail/tuler_butcher/fail_tbutcher_s.F
@@ -1574,6 +1575,14 @@ C---- Inievo failure model
      7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
      8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )  
 c
+          ELSEIF (IRUPT == 43) THEN    
+c  --- Syazwan failure model                                  
+              CALL FAIL_SYAZWAN_S(
+     1          NEL     ,UPARAMF  ,NPAR    ,UVARF   ,NVARF   ,
+     2          TT      ,NGL      ,IP      ,DPLA    ,EL_PLA  ,
+     3          S1      ,S2       ,S3      ,S4      ,S5      ,S6       , 
+     4          DFMAX   ,NFUNC    ,IFUNC   ,EL_LEN  ,OFF     ,
+     5          NPF     ,TF      )  
           ELSEIF (IRUPT == 44) THEN                                      
 C---- Tsai-Wu failure model
               CALL FAIL_TSAIWU_S(

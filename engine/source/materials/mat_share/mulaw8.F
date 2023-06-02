@@ -35,6 +35,7 @@ Chd|        FAIL_ORTHBIQUAD_S             source/materials/fail/orthbiquad/fail_
 Chd|        FAIL_RTCL_S                   source/materials/fail/rtcl/fail_rtcl_s.F
 Chd|        FAIL_SAHRAEI_S                source/materials/fail/sahraei/fail_sahraei_s.F
 Chd|        FAIL_SPALLING_S               source/materials/fail/spalling/fail_spalling_s.F
+Chd|        FAIL_SYAZWAN_S                source/materials/fail/syazwan/fail_syazwan_s.F
 Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
 Chd|        FAIL_TBUTCHER_S               source/materials/fail/tuler_butcher/fail_tbutcher_s.F
 Chd|        FAIL_TENSSTRAIN_S             source/materials/fail/tensstrain/fail_tensstrain_s.F
@@ -1048,6 +1049,15 @@ c  --- RTCL failure model
      1          LLT      ,NPAR     ,NVARF    ,TT       ,DT1      ,BUFMAT(IADBUF),
      2          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      3          NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDELE    ) 
+c
+          ELSEIF (IFAIL(II) == 43) THEN                                      
+C  --- Syazwan failure model                                  
+              CALL FAIL_SYAZWAN_S(
+     1          LLT     ,BUFMAT(IADBUF)    ,NPAR    ,UVARF   ,NVARF    ,
+     2          TT      ,NGL      ,IP      ,DPLA    ,DEFP    ,
+     3          S1      ,S2       ,S3      ,S4      ,S5      ,S6       ,
+     4          DFMAX   ,NFUNC    ,IFUNC   ,DELTAX  ,OFF    ,
+     5          NPF     ,TF      ) 
 c---------
           ENDIF ! IRUPT
 c---------
