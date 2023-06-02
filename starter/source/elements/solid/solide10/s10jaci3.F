@@ -192,6 +192,7 @@ C
        DO IP=1,NPT
         LBUF => ELBUF_STR%BUFLY(1)%LBUF(IP,1,1)
         CALL S10PIJSAV(PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),LBUF%PIJ,NEL)
+        LBUF%VOL(1:NEL)=VOL(1:NEL,IP)
        ENDDO
 C
       RETURN
