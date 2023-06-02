@@ -211,7 +211,7 @@ C-----------------------------------------------
             DO J=1,NSPMD
                 IF(LOADS%CYL_RESTART(I)%PROC(J)%LOCAL_SEGMENT_NUMBER>0) THEN
                     FRAME_ID = LOADS%LOAD_CYL(I)%IFRAME + 1
-                    IF(FRAME_ID>0) THEN
+                    IF(FRAME_ID > 0 .and. IFRAME(5,FRAME_ID) > 0) THEN
                         DO K=1,2
                             NODE_ID = IFRAME(K,FRAME_ID)
                             CALL IFRONTPLUS(NODE_ID,J)

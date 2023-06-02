@@ -109,8 +109,7 @@ c
 c
           IF (N4 == 0) THEN    ! 3 node segment
             CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,YFAC   ,
-     .                      SEGP)
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             NX = (C(2)-A(2))*(C(3)-B(3)) - (C(3)-A(3))*(C(2)-B(2))
             NY = (C(3)-A(3))*(C(1)-B(1)) - (C(1)-A(1))*(C(3)-B(3))
             NZ = (C(1)-A(1))*(C(2)-B(2)) - (C(2)-A(2))*(C(1)-B(1))
@@ -133,32 +132,28 @@ c
             PRESS = ZERO
 c           1st internal triangle 
             CALL PRESS_SEG3(A       ,B      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,YFAC   ,
-     .                      SEGP)
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP
 c           2nd internal triangle 
             CALL PRESS_SEG3(B       ,C      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,YFAC   ,
-     .                      SEGP)            
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP
 c           3rd internal triangle 
             CALL PRESS_SEG3(C       ,D      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,YFAC   ,
-     .                      SEGP)
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP
 c           4th internal triangle 
             CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,YFAC   ,
-     .                      SEGP)
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP
-            PRESS = PRESS * ONE_OVER_8
+            PRESS = ABS(PRESS) * ONE_OVER_8
 c            
             NX = (C(2)-A(2))*(D(3)-B(3)) - (C(3)-A(3))*(D(2)-B(2))
             NY = (C(3)-A(3))*(D(1)-B(1)) - (C(1)-A(1))*(D(3)-B(3))
             NZ = (C(1)-A(1))*(D(2)-B(2)) - (C(2)-A(2))*(D(1)-B(1))
-            FX = PRESS * NX
-            FY = PRESS * NY
-            FZ = PRESS * NZ
+            FX = PRESS * YFAC * NX
+            FY = PRESS * YFAC * NY
+            FZ = PRESS * YFAC * NZ
             TFEXTT = TFEXTT 
      .             + (FX*(V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4))
      .             +  FY*(V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4))

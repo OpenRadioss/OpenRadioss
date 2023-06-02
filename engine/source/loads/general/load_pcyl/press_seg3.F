@@ -8,8 +8,7 @@ Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_c
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE PRESS_SEG3(A     ,B     ,C     ,N1    ,DIR    ,
-     .                      IFUNC ,TABLE ,XFACR ,XFACT ,YFAC  ,
-     .                      PRESS )
+     .                      IFUNC ,TABLE ,XFACR ,XFACT ,PRESS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -28,7 +27,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IFUNC
-      my_real ,INTENT(IN) :: XFACR,XFACT,YFAC
+      my_real ,INTENT(IN) :: XFACR,XFACT
       my_real ,DIMENSION(3) ,INTENT(IN)  :: A,B,C,N1,DIR
       TYPE (TTABLE), DIMENSION(NTABLE) ,INTENT(IN)       :: TABLE
       my_real ,INTENT(OUT) :: PRESS
@@ -131,7 +130,7 @@ c
         XX(1) = R3
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P3,DYDX)
       END IF
-      PRESS = (P1*YFAC + P2*YFAC + P3*YFAC) * SINP * THIRD
+      PRESS = (P1 + P2 + P3) * SINP * THIRD
 c-----------      
       RETURN
       END
