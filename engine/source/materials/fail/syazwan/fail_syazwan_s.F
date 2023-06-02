@@ -201,11 +201,6 @@ c------------------------
 #include "lockoff.inc"
          END DO
        END IF         
-C---------Damage for output  0 < DFMAX < 1 --------------------
-c!       DO J=1,IR
-c!          I=JST(J)
-c!          DFMAX(I)= MIN(ONE,DFMAX(I))
-c!       ENDDO
 C------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (SYAZWAN) el#',I10,
      .          ' AT TIME :',1PE12.4)     
