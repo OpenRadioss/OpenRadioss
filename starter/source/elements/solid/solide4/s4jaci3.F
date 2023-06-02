@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S4JACI3(SAV   ,JAC_I, NEL  ) 
+      SUBROUTINE S4JACI3(SAV   ,JAC_I, VOL, NEL  ) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,6 +41,7 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: NEL
       DOUBLE PRECISION , DIMENSION(NEL,9),INTENT(IN) :: SAV     
       my_real , DIMENSION(10,NEL),INTENT(OUT) :: JAC_I     
+      my_real , DIMENSION(NEL),   INTENT(OUT) :: VOL     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -50,7 +51,7 @@ C-----------------------------------------------
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),VOLDP 
 C     REAL
       my_real
-     .   VOL(MVSIZ),DET(MVSIZ),
+     .   DET(MVSIZ),
      .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),  
      .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),  
      .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ)  
