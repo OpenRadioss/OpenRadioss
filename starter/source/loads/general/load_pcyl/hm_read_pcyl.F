@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,LOAD_ID,TABLE_ID,SURF_ID,SENS_ID,FRAME_ID,UID,ISENS,ISS,
-     .        NOFRA,SUB_INDX,NSEG,ITABLE,STAT,NLOAD_CYL
+     .        NOFRA,SUB_INDX,NSEG,ITABLE,STAT,NLOAD_CYL,IMOV
       my_real :: X_R,X_T,YFAC,FAC_R,FAC_T,FAC_P
       CHARACTER MESS*40,TITR*nchartitle
       LOGICAL IS_AVAILABLE
@@ -142,7 +142,7 @@ card2
         CALL HM_GET_INTV('table_ID'  ,TABLE_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV('xscale_r',X_R      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('xscale_t',X_T      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOATV('xscale_r',YFAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('yscale_p',YFAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
 c       read units
         CALL HM_GET_FLOATV_DIM('xscale_r' ,FAC_R ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -215,10 +215,12 @@ c
 c       check local frame
 c
         NOFRA = 0
+        IMOV  = 0
         IF (FRAME_ID > 0) THEN
           DO J=0,NUMFRAM
             IF (FRAME_ID == IFRAME(4,J+1)) THEN
               NOFRA = J
+              IMOV  = IFRAME(5,J+1)
               EXIT
             ENDIF
           ENDDO
@@ -230,6 +232,12 @@ c
      .           C2='/LOAD/PCYL',
      .           C3=TITR,
      .           I2=FRAME_ID)
+        ELSE IF (IMOV == 0) THEN
+            CALL ANCMSG(MSGID=3011, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
+     .           C1='/LOAD/PCYL',
+     .           I1=LOAD_ID,
+     .           C2='/LOAD/PCYL',
+     .           C3=TITR)
         ENDIF
 c
         LOADS%LOAD_CYL(I)%ID = LOAD_ID
