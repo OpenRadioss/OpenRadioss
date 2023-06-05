@@ -289,6 +289,7 @@ c----------------
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       ENDIF
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------

@@ -213,6 +213,7 @@ c
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c-----------------------------------------------------------------------
       WRITE(IOUT,900) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1000)      

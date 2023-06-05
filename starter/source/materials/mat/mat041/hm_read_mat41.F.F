@@ -232,6 +232,7 @@ C-----------------------------------------------
       UPARAM(40) = ZERO                                                            
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 c-----------------
       !------------------------!
       !    LISTING OUTPUT      !

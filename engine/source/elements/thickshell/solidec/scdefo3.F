@@ -41,7 +41,8 @@ Chd|====================================================================
      B   VOLG,    VOLO,    DDHV,    SIG,
      C   SIGZM,   VOLM,    USB,     EINT,
      D   OFF,     OFFG,    DTI,     OFFS,
-     E   DVC,     NEL,     VOL0DP,  VOLDP)
+     E   DVC,     VOL0DP,  VOLDP,   IPRES,
+     F   NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+      INTEGER, INTENT(IN) :: NEL,IPRES
 C     REAL
       my_real
      .   DXX(*), DXY(*), DXZ(*), DYX(*), DYY(*),DYZ(*), 
@@ -81,29 +82,35 @@ C=======================================================================
       DO I=1,NEL
         VOLDP(I)=HALF*WI*(VOLG(I)+VZL(I)*ZI)
         VOL(I)=VOLDP(I)
-C  ------due to the assumed strain terms----
-        DV = DDHV(I)*DT1*ZI
-C  ------due to the sigzz traitement----
-        DVZ = -(SIG(I,3)-SIGZM(I)/MAX(EM20,VOLM(I)))*USB(I)
         OFF(I)=OFFG(I)
-        DDV = (DV+DVZ)*OFF(I)
-        DVC(I) = DDV
         IF (VOL(I)<=ZERO.OR.DDV>TOL) THEN
-         VOL(I)= EM20
-         OFF(I)= ZERO
-         DDV   = ZERO
+           VOL(I)= EM20
+           OFF(I)= ZERO
         ELSEIF(OFF(I)==ZERO.OR.OFFS(I)==TWO.OR.ISMDISP>0)THEN
-         VOLDP(I)=MAX(EM20,VOLDP(I))
-         VOL(I)=MAX(EM20,VOL(I))
-         DDV   =ZERO
+           VOLDP(I)=MAX(EM20,VOLDP(I))
+           VOL(I)=MAX(EM20,VOL(I))
         ENDIF
-C
-        IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*(ONE- DDV)
-        VOLO(I) = VOLO(I)*(ONE- DDV)
-        EINT(I) = EINT(I)/(ONE- DDV)
-C	
-        IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = DVZ
       ENDDO
+      IF (IPRES==1) THEN
+        DO I=1,NEL
+C  ------due to the assumed strain terms----
+          DV = DDHV(I)*DT1*ZI
+C  ------due to the sigzz traitement----
+          DVZ = -(SIG(I,3)-SIGZM(I)/MAX(EM20,VOLM(I)))*USB(I)
+          DDV = (DV+DVZ)*OFF(I)
+          DVC(I) = DDV
+C         
+          IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*(ONE- DDV)
+          IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = DVZ
+C	    
+          VOLO(I) = VOLO(I)*(ONE- DDV)
+          EINT(I) = EINT(I)/(ONE- DDV)
+        ENDDO
+      ELSE
+        DO I=1,NEL
+          IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = ZERO
+        ENDDO
+      END IF
 C   +++ -----partie non constante------
       DO I=1,NEL
         DXX(I)=DCXX(I)+ZI*DHXX(I)

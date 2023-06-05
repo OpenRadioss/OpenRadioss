@@ -209,6 +209,7 @@ C
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c-----------------
       !========== OUTPUT =============!
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,92

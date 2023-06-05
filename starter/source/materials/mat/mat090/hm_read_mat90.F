@@ -211,6 +211,7 @@ c-----------------
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       END IF
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c-----------------
       RETURN
 !---

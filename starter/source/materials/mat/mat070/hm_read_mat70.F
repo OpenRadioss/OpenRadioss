@@ -290,6 +290,7 @@ c-----------------
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       END IF
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c------------------------------------
       WRITE(IOUT,1001) TRIM(TITR),ID,70    
       WRITE(IOUT,1000)

@@ -188,6 +188,7 @@ C
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c-----------------
       !========== OUTPUT =============!
       

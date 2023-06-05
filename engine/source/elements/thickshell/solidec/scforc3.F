@@ -181,7 +181,7 @@ C-----
 C
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
-      INTEGER IOFFS,G_PLA,G_EPSD,NN_DEL
+      INTEGER IOFFS,G_PLA,G_EPSD,NN_DEL,IPRES
       my_real
      .   OFFS(MVSIZ)
       my_real
@@ -432,6 +432,7 @@ C
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       MX = MXT(1)
+      IPRES = MATPARAM_TAB(MX)%IPRES
       DO I=1,NEL
         SIGY(I) = EP30
         SIGYM(I) = EP30
@@ -636,7 +637,8 @@ C-------------------------------------------------
      B   VOLG,       LBUF%VOL,   DDHV,       LBUF%SIG,
      C   SIGZM,      VOLM,       USB,        LBUF%EINT,
      D   OFF,        OFFG,       DTI,        GBUF%OFF,
-     E   DSV,        NEL,        LBUF%VOL0DP,VOLDP)
+     E   DSV,        LBUF%VOL0DP,VOLDP,      IPRES,
+     F   NEL    )
         DO I=1,NEL
           EINTO(I) = LBUF%EINT(I)
           RHOO(I)  = LBUF%RHO(I)
@@ -855,7 +857,7 @@ C-----------------------------
      L   SY0,       JAC5,      GBUF%EINT, EINTM,
      M   GBUF%VOL,  SIGYM,     GBUF%SIG,  MM,
      N   NU,        GBUF%PLA,  ICP,       NEL,
-     O   MTN)
+     O   MTN,       NLAY   )
 C--------------------------------------
 C Balance per part in case of print out
 C--------------------------------------

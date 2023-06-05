@@ -114,6 +114,15 @@ c
 c
         CASE ("SMALL_STRAIN")      
           MATPARAM%SMSTR = 1
+c          
+        CASE ("HYDROSTATIC")      
+          MATPARAM%IPRES = 1
+c          
+        CASE ("HYDRO_EOS")      
+          MATPARAM%IPRES = 2
+c          
+        CASE ("HOOK")      
+          MATPARAM%IPRES = 3
 c
         CASE DEFAULT      
           ! write error : keyword not recognized"

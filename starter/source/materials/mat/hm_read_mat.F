@@ -1351,7 +1351,7 @@ c
         IF (PM(100,I) == ZERO) PM(100,I) = PM(32,I) ! bulk used for interf 20 stiffness
 C        
 c---------------------------------------------------------
-C-----initialization MATPARAM%COMPRESSIBILITY by keywords (default :ELASTO_PLASTIC)
+C-----initialization MATPARAM%COMPRESSIBILITY... by keywords (default :ELASTO_PLASTIC)
 c---------------------------------------------------------
             SELECT CASE (ILAW)
 C--------no-langrangian laws can be added later(not used now, so not important)         
@@ -1360,7 +1360,20 @@ C--------no-langrangian laws can be added later(not used now, so not important)
 C------ elasto-plastic, the call is not needed (default value), just for info             
              CASE(10,21,22,23,24,27,32)  
                CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
-            END SELECT 
+             END SELECT 
+c---------------------------------------------------------
+C-----initialization MATPARAM%IPRES... by keywords (default :HYDROSTATIC)
+c---------------------------------------------------------
+            SELECT CASE (ILAW)
+C------ laws using EOS and thermo are grouped here              
+             CASE(3,4,5,6,10,11,16,17,18,21,26,46,49,51,97,102,103,151)  
+               CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+C------ composite, visco-elastic laws don't separate spheric & deviatoric              
+             CASE(12,14,24,25,28,34,35,37,50,52,53,59,68,71,75,78,80,81,
+     .            83,84,106,116,117)
+              CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+             END SELECT 
+c---------------------------------------------------------
 C                       
 C---------------  fin boucle sur les lois
       ENDDO   ! HM_NUMMAT

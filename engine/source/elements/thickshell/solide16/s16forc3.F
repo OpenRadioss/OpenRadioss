@@ -170,7 +170,7 @@ C-----------------------------------------------
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE),AREA(MVSIZ),LLSH(MVSIZ)
      
       ! Variables utilisees dans les routines solides uniquement (en arguments).
-      INTEGER NC(MVSIZ,NPE),NN_DEL
+      INTEGER NC(MVSIZ,NPE),NN_DEL,IPRES
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
      .  SIGSM(MVSIZ),VOLSM(MVSIZ),
@@ -401,6 +401,7 @@ C=======================================================================
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=16
+      IPRES = MATPARAM_TAB(MXT(1))%IPRES
 C
       DO N=1,NPE
         DO I=1,NEL
@@ -508,7 +509,7 @@ C-------------------------
         BB = BB*THIRTY2*THIRD
         DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
       ENDDO
-      IF (ICP == 1 .OR. ICP == 2) THEN
+      IF (ICP == 1 .OR. ICP == 2 .AND. IPRES==1 ) THEN
         CALL S16SIGP3(1,NEL,NEL,NPTR,NLAY,
      .                NPTT,ICP,MTN,NPE,NIPMAX, 
      .                PX, PY, PZ, VX, VY, VZ, 
@@ -534,7 +535,7 @@ c
      6   WYY,        WZZ,        LBUF%RHO,   RHOO,
      7   VOLNP(1,IP),VOLN,       NEL)
 C           
-         IF(DT1/=ZERO)CALL S16SIGS3(
+         IF(DT1/=ZERO .AND. IPRES==1 )CALL S16SIGS3(
      1   DXX,        DYY,        DZZ,        D4,
      2   D5,         D6,         RX(1,IP),   RY(1,IP),
      3   RZ(1,IP),   SX(1,IP),   SY(1,IP),   SZ(1,IP),

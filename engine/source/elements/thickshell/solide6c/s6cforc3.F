@@ -220,7 +220,7 @@ C                                                                     12
      .   STIN(MVSIZ),BID(MVSIZ),DSV(MVSIZ),ALPHA_E(MVSIZ),LLSH(MVSIZ)
 C     
       INTEGER PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IOFFS
-      INTEGER MXT0(MVSIZ),NN_DEL
+      INTEGER MXT0(MVSIZ),NN_DEL,IPRES
       my_real
      .   DIR(MVSIZ,2),SIGN(NEL,6),SHF(MVSIZ),ZT,WT,OFFS(MVSIZ),
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),NU1(MVSIZ),FAC(MVSIZ),
@@ -347,6 +347,7 @@ C
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=6
       MX = MXT(1)
       C1 =PM(32,MX)
+      IPRES = MATPARAM_TAB(MX)%IPRES
       DO I=1,NEL
         SIGZM(I) = ZERO
         VOLM(I) = ZERO
@@ -549,7 +550,8 @@ C
      B   VOLG,       LBUF%VOL,   DDHV,       LBUF%SIG,
      C   SIGZM,      VOLM,       USB,        LBUF%EINT,
      D   OFF,        OFFG,       DTI,        GBUF%OFF,
-     E   DSV,        NEL,        LBUF%VOL0DP,VOLDP)
+     E   DSV,        LBUF%VOL0DP,VOLDP,      IPRES,
+     F   NEL    )
         DO I=1,NEL
           RHOO(I)= LBUF%RHO(I)
         ENDDO
