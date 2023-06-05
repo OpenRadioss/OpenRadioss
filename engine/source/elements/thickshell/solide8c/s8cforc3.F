@@ -208,7 +208,7 @@ C Variables utilisees en argument par les materiaux.
 C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUVOID(MVSIZ)
-      INTEGER IOFFS,IFVM22,NN_DEL
+      INTEGER IOFFS,IFVM22,NN_DEL,IPRES
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
@@ -474,6 +474,8 @@ c
      4   GBUF%GAMA,ISORTH)
       ENDIF
 c
+      MX = MXT(1)
+      IPRES = MATPARAM_TAB(MX)%IPRES
       DO I=LFT,LLT
         NU(I)=MIN(HALF,PM(21,MXT(I)))
         DELTAX(I)=EP30
@@ -836,158 +838,14 @@ c
 C
          IF (IGTYP == 22) THEN
            IF (ICT == 1) THEN
-             CALL S8ZDEFO3(
-     1   PXC1,       PXC2,       PXC3,       PXC4,
-     2   PYC1,       PYC2,       PYC3,       PYC4,
-     3   PZC1,       PZC2,       PZC3,       PZC4,
-     4   PX1,        PX2,        PX3,        PX4,
-     5   PX5,        PX6,        PX7,        PX8,
-     6   PY1,        PY2,        PY3,        PY4,
-     7   PY5,        PY6,        PY7,        PY8,
-     8   PZ1,        PZ2,        PZ3,        PZ4,
-     9   PZ5,        PZ6,        PZ7,        PZ8,
-     A   PXY1,       PXY2,       PXY3,       PXY4,
-     B   PXY5,       PXY6,       PXY7,       PXY8,
-     C   PYX1,       PYX2,       PYX3,       PYX4,
-     D   PYX5,       PYX6,       PYX7,       PYX8,
-     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
-     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
-     G   PZX1,       PZX2,       PZX3,       PZX4,
-     H   PZX5,       PZX6,       PZX7,       PZX8,
-     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
-     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
-     K   PZY1,       PZY2,       PZY3,       PZY4,
-     L   PZY5,       PZY6,       PZY7,       PZY8,
-     M   BXY1,       BXY2,       BXY3,       BXY4,
-     N   BXY5,       BXY6,       BXY7,       BXY8,
-     O   BYX1,       BYX2,       BYX3,       BYX4,
-     P   BYX5,       BYX6,       BYX7,       BYX8,
-     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
-     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
-     S   BZX1,       BZX2,       BZX3,       BZX4,
-     T   BZX5,       BZX6,       BZX7,       BZX8,
-     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
-     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
-     W   BZY1,       BZY2,       BZY3,       BZY4,
-     X   BZY5,       BZY6,       BZY7,       BZY8,
-     Y   VX1,        VX2,        VX3,        VX4,
-     Z   VX5,        VX6,        VX7,        VX8,
-     1   VY1,        VY2,        VY3,        VY4,
-     2   VY5,        VY6,        VY7,        VY8,
-     3   VZ1,        VZ2,        VZ3,        VZ4,
-     4   VZ5,        VZ6,        VZ7,        VZ8,
-     5   DXX,        DXY,        DXZ,        DYX,
-     6   DYY,        DYZ,        DZX,        DZY,
-     7   DZZ,        D4,         D5,         D6,
-     8   WXX,        WYY,        WZZ,        LBUF%VOL,
-     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
-     A   ICP,        ICR,        ICS,        ICT,
-     B   DTI,        SMR(1,IP),  SMS(1,IP),  SMTT(1,IP),
-     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
-     D   ISMSTR,     JCVT)
+             SMT(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
            ELSEIF (ICS == 1) THEN
-             CALL S8ZDEFO3(
-     1   PXC1,       PXC2,       PXC3,       PXC4,
-     2   PYC1,       PYC2,       PYC3,       PYC4,
-     3   PZC1,       PZC2,       PZC3,       PZC4,
-     4   PX1,        PX2,        PX3,        PX4,
-     5   PX5,        PX6,        PX7,        PX8,
-     6   PY1,        PY2,        PY3,        PY4,
-     7   PY5,        PY6,        PY7,        PY8,
-     8   PZ1,        PZ2,        PZ3,        PZ4,
-     9   PZ5,        PZ6,        PZ7,        PZ8,
-     A   PXY1,       PXY2,       PXY3,       PXY4,
-     B   PXY5,       PXY6,       PXY7,       PXY8,
-     C   PYX1,       PYX2,       PYX3,       PYX4,
-     D   PYX5,       PYX6,       PYX7,       PYX8,
-     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
-     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
-     G   PZX1,       PZX2,       PZX3,       PZX4,
-     H   PZX5,       PZX6,       PZX7,       PZX8,
-     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
-     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
-     K   PZY1,       PZY2,       PZY3,       PZY4,
-     L   PZY5,       PZY6,       PZY7,       PZY8,
-     M   BXY1,       BXY2,       BXY3,       BXY4,
-     N   BXY5,       BXY6,       BXY7,       BXY8,
-     O   BYX1,       BYX2,       BYX3,       BYX4,
-     P   BYX5,       BYX6,       BYX7,       BYX8,
-     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
-     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
-     S   BZX1,       BZX2,       BZX3,       BZX4,
-     T   BZX5,       BZX6,       BZX7,       BZX8,
-     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
-     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
-     W   BZY1,       BZY2,       BZY3,       BZY4,
-     X   BZY5,       BZY6,       BZY7,       BZY8,
-     Y   VX1,        VX2,        VX3,        VX4,
-     Z   VX5,        VX6,        VX7,        VX8,
-     1   VY1,        VY2,        VY3,        VY4,
-     2   VY5,        VY6,        VY7,        VY8,
-     3   VZ1,        VZ2,        VZ3,        VZ4,
-     4   VZ5,        VZ6,        VZ7,        VZ8,
-     5   DXX,        DXY,        DXZ,        DYX,
-     6   DYY,        DYZ,        DZX,        DZY,
-     7   DZZ,        D4,         D5,         D6,
-     8   WXX,        WYY,        WZZ,        LBUF%VOL,
-     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
-     A   ICP,        ICR,        ICS,        ICT,
-     B   DTI,        SMR(1,IP),  SMTT(1,IP), SMT(1,IP),
-     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
-     D   ISMSTR,     JCVT)
+             SMS(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
            ELSEIF (ICR == 1) THEN
-             CALL S8ZDEFO3(
-     1   PXC1,       PXC2,       PXC3,       PXC4,
-     2   PYC1,       PYC2,       PYC3,       PYC4,
-     3   PZC1,       PZC2,       PZC3,       PZC4,
-     4   PX1,        PX2,        PX3,        PX4,
-     5   PX5,        PX6,        PX7,        PX8,
-     6   PY1,        PY2,        PY3,        PY4,
-     7   PY5,        PY6,        PY7,        PY8,
-     8   PZ1,        PZ2,        PZ3,        PZ4,
-     9   PZ5,        PZ6,        PZ7,        PZ8,
-     A   PXY1,       PXY2,       PXY3,       PXY4,
-     B   PXY5,       PXY6,       PXY7,       PXY8,
-     C   PYX1,       PYX2,       PYX3,       PYX4,
-     D   PYX5,       PYX6,       PYX7,       PYX8,
-     E   PXZ1,       PXZ2,       PXZ3,       PXZ4,
-     F   PXZ5,       PXZ6,       PXZ7,       PXZ8,
-     G   PZX1,       PZX2,       PZX3,       PZX4,
-     H   PZX5,       PZX6,       PZX7,       PZX8,
-     I   PYZ1,       PYZ2,       PYZ3,       PYZ4,
-     J   PYZ5,       PYZ6,       PYZ7,       PYZ8,
-     K   PZY1,       PZY2,       PZY3,       PZY4,
-     L   PZY5,       PZY6,       PZY7,       PZY8,
-     M   BXY1,       BXY2,       BXY3,       BXY4,
-     N   BXY5,       BXY6,       BXY7,       BXY8,
-     O   BYX1,       BYX2,       BYX3,       BYX4,
-     P   BYX5,       BYX6,       BYX7,       BYX8,
-     Q   BXZ1,       BXZ2,       BXZ3,       BXZ4,
-     R   BXZ5,       BXZ6,       BXZ7,       BXZ8,
-     S   BZX1,       BZX2,       BZX3,       BZX4,
-     T   BZX5,       BZX6,       BZX7,       BZX8,
-     U   BYZ1,       BYZ2,       BYZ3,       BYZ4,
-     V   BYZ5,       BYZ6,       BYZ7,       BYZ8,
-     W   BZY1,       BZY2,       BZY3,       BZY4,
-     X   BZY5,       BZY6,       BZY7,       BZY8,
-     Y   VX1,        VX2,        VX3,        VX4,
-     Z   VX5,        VX6,        VX7,        VX8,
-     1   VY1,        VY2,        VY3,        VY4,
-     2   VY5,        VY6,        VY7,        VY8,
-     3   VZ1,        VZ2,        VZ3,        VZ4,
-     4   VZ5,        VZ6,        VZ7,        VZ8,
-     5   DXX,        DXY,        DXZ,        DYX,
-     6   DYY,        DYZ,        DZX,        DZY,
-     7   DZZ,        D4,         D5,         D6,
-     8   WXX,        WYY,        WZZ,        LBUF%VOL,
-     9   OFF,        LBUF%EINT,  GBUF%OFF,   DSV,
-     A   ICP,        ICR,        ICS,        ICT,
-     B   DTI,        SMTT(1,IP), SMS(1,IP),  SMT(1,IP),
-     C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
-     D   ISMSTR,     JCVT)
+             SMR(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
            ENDIF 
-	     ELSE
-           CALL S8ZDEFO3(
+         ENDIF 
+         CALL S8CDEFO3(
      1   PXC1,       PXC2,       PXC3,       PXC4,
      2   PYC1,       PYC2,       PYC3,       PYC4,
      3   PZC1,       PZC2,       PZC3,       PZC4,
@@ -1035,8 +893,7 @@ C
      A   ICP,        ICR,        ICS,        ICT,
      B   DTI,        SMR(1,IP),  SMS(1,IP),  SMT(1,IP),
      C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
-     D   ISMSTR,     JCVT)
-        ENDIF 
+     D   ISMSTR,     IPRES)
 C
         MX = MXT(LFT)
         DO I=LFT,LLT

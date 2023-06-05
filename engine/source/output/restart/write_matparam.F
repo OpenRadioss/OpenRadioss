@@ -51,7 +51,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
 C=======================================================================
-      NPARAM = 6
+      NPARAM = 7
       LEN = NPARAM*NUMMAT + 1
       ALLOCATE (RBUF(LEN) )
 c
@@ -72,6 +72,8 @@ c
           RBUF(IAD) = MATPARAM%STRAIN_FORMULATION
         IAD = IAD+1
           RBUF(IAD) = MATPARAM%NTABLE
+        IAD = IAD+1
+          RBUF(IAD) = MATPARAM%IPRES
       END DO
 c
       CALL WRITE_DB(RBUF,LEN)

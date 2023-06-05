@@ -53,6 +53,7 @@ C=======================================================================
         MATPARAM_TAB(IMAT)%SMSTR = 2               ! large strain
         MATPARAM_TAB(IMAT)%STRAIN_FORMULATION = 1  ! incremental
         MATPARAM_TAB(IMAT)%NTABLE = 0              ! number of local function tables
+        MATPARAM_TAB(IMAT)%IPRES = 1               ! hydrostatic using AMU
       END DO
 c-----------
       RETURN

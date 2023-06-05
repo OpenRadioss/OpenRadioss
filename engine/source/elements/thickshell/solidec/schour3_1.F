@@ -50,7 +50,7 @@ Chd|====================================================================
      L   SY0,     AJ5,     EINT,    EINTM,
      M   VOL0,    SIGY,    SIG0,    MM,
      N   NU,      DEFP,    ICP,     NEL,
-     O   MTN)
+     O   MTN,     NLAY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: MTN
+      INTEGER, INTENT(IN) :: MTN,NLAY
       INTEGER MAT(*),PID(*),ICP,NEL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*), RHO(*),OFF(*),
@@ -271,8 +271,10 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,6) =  OFF(I)*FHOUR(I,6)  +  DH_YK3
        FHOUR(I,7) =  OFF(I)*FHOUR(I,7)  +  DH_ZK3
        FHOUR(I,8) =  OFF(I)*FHOUR(I,8)  +  DH_ZE3
-       FHOUR(I,9) =  OFF(I)*FHOUR(I,9)  +  DH_XE4
-       FHOUR(I,10) = OFF(I)*FHOUR(I,10) +  DH_YK4
+       IF (NLAY>1) THEN
+         FHOUR(I,9) =  OFF(I)*FHOUR(I,9)  +  DH_XE4
+         FHOUR(I,10) = OFF(I)*FHOUR(I,10) +  DH_YK4
+       END IF
        FHOUR(I,11) = OFF(I)*FHOUR(I,11) +  DH_Z4
 C------   SIGY(I) : now min(sigy(ip)) and =sigy(e_plas=0) at beginning in law2   
        IF (SIGY(I)<ZEP9EP30) THEN
@@ -314,6 +316,7 @@ c        SVM2 = SQRT(MM(I,2)+COEF*(SVMR+MIN(SVM,-SVM)))
           FHOUR(I,12) = SVM2
         ENDIF
 C------bending behaviours :
+        IF (NLAY>1) THEN
          SE  =FHOUR(I,9)*FHOUR(I,9)
          SK  =FHOUR(I,10)*FHOUR(I,10)
          SR1 = (ONE +NU(I)*NU(I))*(SE+SK)
@@ -334,6 +337,7 @@ C------bending behaviours :
          ENDIF 
          FHOUR(I,9) = FHOUR(I,9) - FACB*DH_XE4
          FHOUR(I,10) = FHOUR(I,10) - FACB*DH_YK4
+        END IF !(NLAY>1) THEN
 c         DP = THIRD*(ONE+NU(I))*(DH_XE3+DH_YK3)
          DP = ZERO
          IF (FACM>ZERO) THEN

@@ -251,6 +251,7 @@ C     Formulation for solid elements time step computation.
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
 c-----------------
       WRITE(IOUT,1010) TRIM(TITR),MAT_ID,88   
       WRITE(IOUT,1000)     

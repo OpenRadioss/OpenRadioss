@@ -153,6 +153,7 @@ C
 C
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE") 
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
      
       PARMAT(1) = ZERO !  updated in updmat111
       PARMAT(2) = ZERO !  updated in updmat111

@@ -197,6 +197,7 @@ c
         integer     :: STRAIN_FORMULATION   ! "total", "incremental"
         character   :: TITLE*nchartitle
         integer     :: NTABLE
+        integer     :: IPRES                ! "hydrostatic",hydro_eos","hook"
         TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! local table of functions
       END TYPE MATPARAM_STRUCT_
 c=======================================================================      

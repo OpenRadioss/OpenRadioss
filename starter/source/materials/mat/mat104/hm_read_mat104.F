@@ -239,6 +239,7 @@ c---------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM ,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL"   )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN"  )
+      CALL INIT_MAT_KEYWORD(MATPARAM ,"HOOK")
 c---------------------------    
       PARMAT(1) = C1
       PARMAT(2) = YOUNG

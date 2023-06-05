@@ -589,6 +589,8 @@ C
             IXS(1,II)=MID
             INEG = 1
           ENDIF
+c          
+          MATPARAM => MATPARAM_TAB(MID)
           IF(IGT == 6 .AND. MLN == 70) THEN
                 CALL ANCMSG(MSGID=1221,
      .                   MSGTYPE=MSGERROR,
@@ -726,7 +728,6 @@ C--------------------
           IF (IGT == 20 .OR. IGT == 21 .OR. IGT == 22) ITSH = 1
 C---add ICPRE auto for thick-shell          
           IF (ITSH == 1 ) THEN
-            MATPARAM => MATPARAM_TAB(MID)
              ICP0=MATPARAM%COMPRESSIBILITY
              SELECT CASE (ICP0)
 C-------compressible       
@@ -750,7 +751,6 @@ C--------message out
           END IF !IF (ITSH == 1 )
 C          
           IF (IGT == 14 .OR. IGT == 6) THEN
-           MATPARAM => MATPARAM_TAB(MID)
            IF (ICPRE<0) THEN
             IF (IKSNOD0 ==8.AND.JHBE>10) THEN
              ICP0=MATPARAM%COMPRESSIBILITY
@@ -825,7 +825,6 @@ C--------message out
 C---add ICPRE auto for T10, firsly limited by Large Strain          
           IF (IT10 ==1 .AND. (ISSN==4 .OR. ISSN==10)
      .                 .AND. IKSNOD0==10 ) THEN
-            MATPARAM => MATPARAM_TAB(MID)
              ICP0=MATPARAM%COMPRESSIBILITY
              SELECT CASE (ICP0)
 C-------compressible       
@@ -851,6 +850,16 @@ C--------message out
           ELSEIF (IT10 ==1) THEN
             ICPRE = 0
           END IF !IF (IT10 == 1 )
+c          
+          IF (MLN == 1.AND.ISSN<10) CALL INIT_MAT_KEYWORD(MATPARAM,"HYDROSTATIC")
+          IF (ITSH == 1.AND. MATPARAM%IPRES/=1)   CALL ANCMSG(
+     .                      MSGID=3012,
+     .                      MSGTYPE=MSGINFO,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      I2=MLN,
+     .                      PRMOD=MSG_CUMU)
 C--------------------
 C TEST COMPATIBILITE
 C--------------------
@@ -1574,6 +1583,10 @@ C-----------
      .                  PRMOD=MSG_PRINT)
       CALL ANCMSG(MSGID=2037,
      .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_2,
+     .                  PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3012,
+     .                  MSGTYPE=MSGINFO,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  PRMOD=MSG_PRINT)
 c-----

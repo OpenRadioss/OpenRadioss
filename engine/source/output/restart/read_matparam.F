@@ -76,6 +76,8 @@ c
           MATPARAM%STRAIN_FORMULATION = NINT(RBUF(IAD))
         IAD = IAD+1
           MATPARAM%NTABLE = NINT(RBUF(IAD))
+        IAD = IAD+1
+          MATPARAM%IPRES = NINT(RBUF(IAD))
       END DO
 c
       DEALLOCATE( RBUF )
