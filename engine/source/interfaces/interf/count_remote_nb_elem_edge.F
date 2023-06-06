@@ -80,6 +80,9 @@ C-----------------------------------------------
         INTEGER :: OFFSET_TRIANGLE,OFFSET_UR
 
         INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NODE
+        INTEGER :: NUMBER_ELEMENT, NUMBER_ELEMENT_HERE
+        INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_ELEMENT
+        LOGICAL, DIMENSION(:), ALLOCATABLE :: ALREADY_HERE
 
         INTEGER :: SYSFUS2 ! external function : give the local ID of a global node ID
 C-----------------------------------------------
@@ -93,6 +96,15 @@ C-----------------------------------------------
         OFFSET_TRIANGLE=OFFSET_SPRING+NUMELR
         OFFSET_UR=OFFSET_TRIANGLE+NUMELTG       
         ! --------------------------
+        ! allocation of already_here array 
+        ! cnel is not bijective (2 differents index can give the same cnel(i) value)
+        ! --> need to tag the elements to avoid a duplication
+        NUMBER_ELEMENT = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP + NUMELR + NUMELTG
+        ALLOCATE( LIST_ELEMENT(NUMBER_ELEMENT) ) ! <-- list of element to flush only the modified cells
+        ALLOCATE( ALREADY_HERE(NUMBER_ELEMENT) ) ! <-- boolean to avoid any element duplications
+        ALREADY_HERE(1:NUMBER_ELEMENT) = .FALSE.
+        NUMBER_ELEMENT_HERE = 0
+
         ALLOCATE( TAG_NODE(NUMNOD+1) )
         TAG_NODE(1:NUMNOD+1) = 0
         DO J=1,SIZE_BUFFER,CHUNK
@@ -110,8 +122,11 @@ C-----------------------------------------------
             N2 = LOCAL_NODE(2)
             N3 = LOCAL_NODE(3)
             N4 = LOCAL_NODE(4)
+            NUMBER_ELEMENT_HERE = 0
+            ! ---------------
+            ! loop over the elements connected to N1 
             DO I=ADDCNEL(N1),ADDCNEL(N1+1)-1
-                ELEM_ID = CNEL(I)
+                ELEM_ID = CNEL(I)   ! <-- element id
                 TAG_NODE(N1) = 0
                 TAG_NODE(N2) = 0
                 TAG_NODE(N3) = 0
@@ -169,13 +184,30 @@ C-----------------------------------------------
                 ! -----------------
                 ! check if the element has N1 & N2 & N3 & N4 (if N3 and N4 are real nodes)
                 IF( (TAG_NODE(N1)+TAG_NODE(N2)+TAG_NODE(N3)+TAG_NODE(N4)) == NUMBER_NODE) THEN
-                    BUFFER(J+2) = BUFFER(J+2) + 1
+                    IF( .NOT.ALREADY_HERE(ELEM_ID) ) THEN ! check if the element is already taken into account
+                        BUFFER(J+2) = BUFFER(J+2) + 1
+                        ALREADY_HERE(ELEM_ID) = .TRUE. ! <-- the element is now taken into account
+                        NUMBER_ELEMENT_HERE = NUMBER_ELEMENT_HERE  + 1
+                        LIST_ELEMENT(NUMBER_ELEMENT_HERE) = ELEM_ID
+                    ENDIF
                 ENDIF
+
                 ! -----------------
             ENDDO
+            ! ---------------
+
+            ! ---------------
+            ! re-initialization of already_here array for the next node
+            DO I=1,NUMBER_ELEMENT_HERE
+                ELEM_ID = LIST_ELEMENT(I)
+                ALREADY_HERE(ELEM_ID) = .FALSE.
+            ENDDO
+            ! ---------------
         ENDDO
 
         DEALLOCATE( TAG_NODE )
+        DEALLOCATE( LIST_ELEMENT )
+        DEALLOCATE( ALREADY_HERE )
 
         RETURN
         END SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE
