@@ -53,13 +53,16 @@ C
         LGAU(2,I) = LGAUGE(2,I)
         IF(N>0)THEN
           LGAU(3,I) = NODLOCAL(N)
-        ELSE
+        !!ELSE
+        ELSEIF(N<0)THEN
           P = CEP(-N + NUMELS )
           IF(PROC == P)THEN
             LGAU(3,I)= -CEL(-N+NUMELS)
           ELSE
             LGAU(3,I)=0
           ENDIF
+        ELSE
+          LGAU(3,I)=0
         ENDIF
       ENDDO
       CALL WRITE_I_C(LGAU,3*NC)

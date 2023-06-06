@@ -25,6 +25,7 @@ Chd|  ALEMAIN                       source/ale/alemain.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        AGAUGE                        source/ale/agauge.F
 Chd|        ALEFVM_GRAV_INIT              source/ale/alefvm/alefvm_grav_init.F
 Chd|        ALESUB1                       source/ale/subcycling/alesub1.F
 Chd|        ALETHE                        source/ale/alethe.F           
@@ -664,7 +665,28 @@ C     -------------------------
                CALL MY_BARRIER
             ENDIF
             IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_MULTIFVM,1)
+
+            !---------------
+            ! Law_151 + /GAUGE
+            !---------------
+
+            !-----------------------------!
+            !     PRESSURE GAUGE          !
+            !-----------------------------!
+            IF (NBGAUGE > 0) THEN
+              IF (NSPMD  > 1) THEN
+                LENCOM =NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
+              END IF
+              CALL AGAUGE(
+     1          IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
+     2          X       ,ALE_CONNECTIVITY,ITASK  ,NERCVOIS,NESDVOIS,
+     3          LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,
+     4          GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
+            ENDIF ! IF (NBGAUGE > 0)
+        !-----------------------------!
+
          ELSE
+
 !------------------------------------------------!
 ! CONVECTION, CONDUCTION, REZONING               !
 !------------------------------------------------! 
@@ -681,7 +703,7 @@ C     -------------------------
      A   IPM,             QMV,             ITAB,            ITABM1,
      B   LENQMV,          NV46,            LGAUGE,          GAUGE,
      C   IGAUP,           NGAUP,           VOLN,            IAD_ELEM,
-     D   FR_ELEM,         NEL)
+     D   FR_ELEM,         NEL,             IXTG)
          ENDIF
       ELSE
          ALE%SUB%IFSUBM=0

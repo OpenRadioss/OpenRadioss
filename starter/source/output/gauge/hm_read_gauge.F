@@ -81,9 +81,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ID, NGAU, NOD, ISK, UID, IFLAGUNIT, IG, L,NBGAUGE_SPH
+      INTEGER I, J,ID, NGAU, NOD, ISK, UID, IFLAGUNIT, IG, L,NBGAUGE_SPH,NBGAUGE_POINT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,N,NS,NG,OFFS
-      my_real FF,BID,DIST
+      my_real FF,BID,DIST,Xgauge,Ygauge,Zgauge
       CHARACTER MESS*40
       CHARACTER TITR*nchartitle,KEY*ncharkey, KEY2*ncharkey
       DATA MESS/'GAUGE DEFINITION                        '/
@@ -93,49 +93,49 @@ C-----------------------------------------------
 C---------------------------------------------
 C     LECTURE DES PARAMETRES DE GAUGES
 C-----------------------------------------------
-c     GAUGE(3,*)
-c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge
+c     LGAUGE(3,*)
+c 1:  -Isolid                              -(NUMELS_G+1) if SPH gauge
 c 2:  GaugeId
 c 3:  +Node or -Shell
 c
 c     => GAUGE(LLGAUGE,*), LLGAUGE = 37
-c 1:  Dist (distance from Shell)	   Dist (distance from Shell)
-c 2:  XG				   XG
-c 3:  YG				   YG
-c 4:  ZG				   ZG
-c 5:  Alpha (Solid penetration ratio)	   not yet used
-c 6:    				   XSAV (SPH sorting)
-c 7:    				   YSAV (SPH sorting)
-c 8:    				   ZSAV (SPH sorting)
-c 9:    				   FF (sph only)
-c 10:   				   intantaneous Pressure
-c 11:   				   intantaneous PA
-c 12:   				   intantaneous Rho
-c 13:   				   intantaneous E
-c 14:   				   ! Butterworth !
-c 15:   				   ! Butterworth !
-c 16:   				   ! Butterworth !
-c 17:   				   ! Butterworth !
-c 18:   				   ! Butterworth !
-c 19:   				   ! Butterworth !
-c 20:   			           ! Butterworth !
-c 21: 				           ! Butterworth !
-c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
-c 24:   				   ! Butterworth !
-c 25:   				   ! Butterworth !
-c 26:   				   ! Butterworth !
-c 27:   				   ! Butterworth !
-c 28:   				   ! Butterworth !
-c 29:   				   ! Butterworth !
-c 30:  Pressure      		  	   filtered Pressure
-c 31:  PA            			   filtered PA
-c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
-c 34:   				   ! Butterworth !
-c 35:   				   ! Butterworth !
-c 36:   				   ! Butterworth !
-c 37:   				   ! Butterworth !
+c 1:  Dist (distance from Shell)           Dist (distance from Shell)
+c 2:  XG                                   XG
+c 3:  YG                                   YG
+c 4:  ZG                                   ZG
+c 5:  Alpha (Solid penetration ratio)      not yet used
+c 6:                                       XSAV (SPH sorting)
+c 7:                                       YSAV (SPH sorting)
+c 8:                                       ZSAV (SPH sorting)
+c 9:                                       FF (sph only)
+c 10:                                      intantaneous Pressure
+c 11:                                      intantaneous PA
+c 12:                                      intantaneous Rho
+c 13:                                      intantaneous E
+c 14:                                      ! Butterworth !
+c 15:                                      ! Butterworth !
+c 16:                                      ! Butterworth !
+c 17:                                      ! Butterworth !
+c 18:                                      ! Butterworth !
+c 19:                                      ! Butterworth !
+c 20:                                      ! Butterworth !
+c 21:                                      ! Butterworth !
+c 22:                                      ! Butterworth !
+c 23:                                      ! Butterworth !
+c 24:                                      ! Butterworth !
+c 25:                                      ! Butterworth !
+c 26:                                      ! Butterworth !
+c 27:                                      ! Butterworth !
+c 28:                                      ! Butterworth !
+c 29:                                      ! Butterworth !
+c 30:  Pressure                            filtered Pressure
+c 31:  PA                                  filtered PA
+c 32:  Rho                                 filtered Rho
+c 33:  E                                   filtered E
+c 34:                                      ! Xpoint      !
+c 35:                                      ! Ypoint      !
+c 36:                                      ! Zpoint      !
+c 37:                                      ! Butterworth !
 C=======================================================================
       NG = 0
       FF = 0
@@ -205,6 +205,56 @@ C-------------------------------------
       ENDIF
 
 C-----------------------------------------------
+c--------/GAUGE/POINT
+C-----------------------------------------------
+      CALL HM_OPTION_COUNT('/GAUGE/POINT', NBGAUGE_POINT)
+C----------------------------------------------------------------- 
+      IF ( NBGAUGE_POINT > 0)THEN
+        CALL HM_OPTION_START('/GAUGE/POINT')       
+          DO I=1,NBGAUGE_POINT
+
+            KEY=''
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                              OPTION_ID   = NGAU, 
+     .                              KEYWORD2    = KEY ,
+     .                              OPTION_TITR = TITR)    
+            NOM_OPT(1,I)=NGAU
+            CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+
+            NG=NG+1
+            !Multidomaines --> on ignore les sections non tagees----
+            IF(NSUBDOM > 0) THEN
+              IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
+            ENDIF
+            !----------------------------------------------------------------- 
+            LGAUGE(1,NG)=0
+
+            CALL HM_GET_FLOATV ('Xi'     ,Xgauge  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV ('Yi'     ,Ygauge  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV ('Zi'     ,Zgauge  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+            LGAUGE(2,NG)=NGAU
+            LGAUGE(3,NG)=0  ! ID shell or node only
+
+            GAUGE(1,NG)=ZERO ! DIST
+            GAUGE(9,NG)=ZERO ! FF
+            GAUGE(34,NG)=Xgauge
+            GAUGE(35,NG)=Ygauge
+            GAUGE(36,NG)=Zgauge
+    
+            WRITE (IOUT,'(///,A)')'          GAUGE'
+            WRITE (IOUT,'(A/)')   '          -----'
+            WRITE (IOUT,'(A,I10)')
+     .      ' GAUGE NUMBER . . . . . . . . . . . . .',NGAU
+            WRITE (IOUT,'(A,I10)')
+     .      ' GAUGE POINT coordinate:'
+            WRITE (IOUT,'(A,/1P3G20.13/)')
+     .    '        Xg                  Yg                  Zg',Xgauge, Ygauge, Zgauge
+      
+            WRITE (IOUT,'(A,1PG20.13)')' 4-POLE BUTTERWORTH CORNER FREQUENCY. .',FF
+          ENDDO ! DO I=1,NBGAUGE_POINT
+      ENDIF ! IF ( NBGAUGE_POINT > 0)
+C-----------------------------------------------
 c--------/GAUGE
 C-----------------------------------------------
       CALL HM_OPTION_START('/GAUGE')       
@@ -219,7 +269,7 @@ C-----------------------------------------------
         NOM_OPT(1,I)=NGAU
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 
-        IF (KEY == 'SPH') CYCLE  
+        IF (KEY == 'SPH'.OR.KEY == 'POINT') CYCLE  
         NG=NG+1
         !Multidomaines --> on ignore les sections non tagees----
         IF(NSUBDOM > 0) THEN

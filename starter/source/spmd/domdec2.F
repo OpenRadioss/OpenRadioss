@@ -1264,7 +1264,8 @@ C
                 EXIT
               END IF
             END DO
-          ELSE
+          !!ELSE
+          ELSEIF(N1<0)THEN
             N1 = -N1 + NUMELS
             P  = CEP(N1  ) + 1
             IGAUP(I) = P

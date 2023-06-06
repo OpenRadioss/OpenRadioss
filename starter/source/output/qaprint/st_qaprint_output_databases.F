@@ -97,10 +97,12 @@ C
        IF (NBGAUGE > 0) THEN 
         DO II = 1, NBGAUGE
           TITR(1:nchartitle)=''
+          ID = NOM_OPT(1, INOM_OPT(27) + II)
+          CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1, INOM_OPT(27) + II), LTITR)
           IF(LEN_TRIM(TITR)/=0)THEN
-            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),II,0.0_8)
+            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),ID,0.0_8)
           ELSE
-            CALL QAPRINT('A_GAUGE_FAKE_NAME', II,0.0_8)
+            CALL QAPRINT('A_GAUGE_FAKE_NAME', ID,0.0_8)
           END IF     
           DO I = 1, 3
            IF(LGAUGE(I,II) /=0)THEN
