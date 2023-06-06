@@ -313,4 +313,9 @@ Only one %s card is allowed
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200034/DESCRIPTION
 %s (id: %u, name: %s) : Load applied to non-rigid component
+
+/MESSAGE/200035/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200035/DESCRIPTION
+%s (id: %u, name: %s) : Inflator nozzles can be defined only by shells VID=-1 or VID=-2
 #------------------------------------------------------------------------------
