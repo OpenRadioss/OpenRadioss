@@ -1163,7 +1163,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
 {
     int i,j;
     int cpt;
-    char buffer[100];
+    char buffer[11];
     float *tmpImpulse;
     int outpuType = 0;
     int nbData = *cptData / *nbTimeStep ;
@@ -1255,7 +1255,6 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
             if((strcmp(buffer,"FNX       ")==0 || strcmp(buffer,"FNY       ")==0 || strcmp(buffer,"FNZ       ")==0  ||
                 strcmp(buffer,"FTX       ")==0 || strcmp(buffer,"FTY       ")==0 || strcmp(buffer,"FTZ       ")==0  ||
                 strcmp(buffer,"MX        ")==0 || strcmp(buffer,"MY        ")==0 || strcmp(buffer,"MZ        ")==0  ||
-                strcmp(buffer,"FX        ")==0 || strcmp(buffer,"FY        ")==0 || strcmp(buffer,"FZ        ")==0  ||
                 strcmp(buffer,"REACX     ")==0 || strcmp(buffer,"REACY     ")==0 || strcmp(buffer,"REACZ     ")==0  ||
                 strcmp(buffer,"REACXX    ")==0 || strcmp(buffer,"REACYY    ")==0 || strcmp(buffer,"REACZZ    ")==0  ||
                 strcmp(buffer,"|FNX|     ")==0 || strcmp(buffer,"|FNY|     ")==0 || strcmp(buffer,"|FNZ|     ")==0  ||
@@ -1263,6 +1262,8 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
                 strcmp(buffer,"||FN||    ")==0 || strcmp(buffer,"||F||     ")==0 ||
                 strcmp(buffer,"FXI       ")==0 || strcmp(buffer,"FYI       ")==0 || strcmp(buffer,"FZI       ")==0  ||
                 strcmp(buffer,"MXI       ")==0 || strcmp(buffer,"MYI       ")==0 || strcmp(buffer,"MZI       ")==0)  ||
+                ((strcmp(buffer,"FX        ")==0 || strcmp(buffer,"FY        ")==0 || strcmp(buffer,"FZ        ")==0 ) &&  
+                outpuType != 6) ||
                 ((strcmp(buffer,"F1        ")==0 || strcmp(buffer,"F2        ")==0 || strcmp(buffer,"F3        ")==0 ||
                     strcmp(buffer,"M1        ")==0 || strcmp(buffer,"M2        ")==0 || strcmp(buffer,"M3        ")==0 ) && 
                 outpuType == 102) )
