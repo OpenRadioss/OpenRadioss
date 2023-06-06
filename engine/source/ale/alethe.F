@@ -61,7 +61,7 @@ Chd|====================================================================
      A   IPM,        QMV,        ITAB,       ITABM1,
      B   LENQMV,     NV46,       LGAUGE,     GAUGE,
      C   IGAUP,      NGAUP,      VOLN,       IAD_ELEM,
-     D   FR_ELEM,    NEL)
+     D   FR_ELEM,    NEL,        IXTG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C-----------------------------------------------
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(NPROPMI,NUMMAT),
      .        LGAUGE(3,NBGAUGE),IGAUP(*),NGAUP(*),   
      .        NODFT, NODLT, LENQMV, ITASK, NV46,
-     .        IAD_ELEM(2, *), FR_ELEM(*)
+     .        IAD_ELEM(2, *), FR_ELEM(*),IXTG(NIXTG,NUMELTG)
  
       my_real VEUL, FLUX(*), VAL2(*), PHI(*), V(*), W(*), X(*), PM(*),
      .        MS(*), FILL(*), DFILL(*), ALPH(*), FV(*), BUFMAT(*), TF(*),
@@ -360,7 +360,7 @@ C----------------------
      1     IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
      2     X       ,ALE_CONNECT,ITASK  ,NERCVOIS,NESDVOIS,
      3     LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,
-     4     GAUGE   ,V          ,IGAUP  ,NGAUP   )
+     4     GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
         !-----------------------------!
 
       ENDIF

@@ -8026,7 +8026,7 @@ C-- // --------------
           N  = LGAUGE(1,K)
 C
 C SPH Gauges
-          IF(N < -NUMELS)THEN
+          IF(N < -(NUMELS+NUMELQ+NUMELTG))THEN
             CALL SPGAUGE_F(
      .        GAUGE(10,K),GAUGE(9,K),GAUGE(14,K),GAUGE(22,K),
      .        GAUGE(30,K),4)

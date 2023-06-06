@@ -108,7 +108,7 @@ C
 
        DO I=1,NBGAUGE
           IF(LGAUGE(1,I) > 0 .OR. LGAUGE(1,I) < -NUMELS) CYCLE
-          IF(LGAUGE(1,I) == 0) THEN
+          IF(LGAUGE(1,I) == 0 . AND. LGAUGE(3,I) > 0) THEN
 C Node input
             N1=LGAUGE(3,I)
             DO J=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
@@ -132,8 +132,10 @@ C Node input
             GAUGE(30,I)=ZERO
             GAUGE(31,I)=ZERO
             GAUGE(32,I)=ZERO
-          ELSE
-C Shell input
+          ELSEIF( LGAUGE(3,I) < 0 )THEN
+C Shell input -not available
+          ELSEIF(LGAUGE(1,I) == 0 . AND. LGAUGE(3,I) == 0)THEN
+C Point input (by coordinates) -not available
           ENDIF
   800  CONTINUE
        ENDDO
