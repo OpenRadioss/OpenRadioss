@@ -400,6 +400,7 @@ C=======================================================================
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
       INLOC = IPARG(78)
       ALLOCATE(VAR_REG(NEL))
+      TEMPEL(1:MVSIZ) = ZERO
 C
       IBOLTP = IPARG1(72) !IPARG(72,NG)
       NBPRELD = GBUF%G_BPRELD

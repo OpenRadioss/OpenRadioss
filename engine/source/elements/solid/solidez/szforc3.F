@@ -296,6 +296,7 @@ C=======================================================================
       NPTS = IPARG(6,NG) 
       INLOC = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL))   
+      TEMPEL(1:MVSIZ) = ZERO
       IBID = 0
       IBIDV = 0
       IF (JCVT==1 .AND. ISORTH>0) JCVT=2

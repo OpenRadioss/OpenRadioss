@@ -250,6 +250,7 @@ C-----special traitment when switching Ismstr from 12 to 11
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
       IBID = 0
       IBIDON(1) = 0
+      TEMPEL(1:MVSIZ) = ZERO
 C
       IBOLTP = IPARG(72,NG)
       INLOC  = IPARG(78,NG)

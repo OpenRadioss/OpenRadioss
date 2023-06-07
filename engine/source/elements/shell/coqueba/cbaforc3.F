@@ -416,15 +416,13 @@ c     .              IGEO, PID,ISUBSTACK)
       IGMAT  = IGEO(98 ,IXC(6,1))
 C      
 C initiallisation pour la thermique ---
-       IF(JTHE > 0 ) THEN
-         DO I=JFT,JLT
-          THEM(I,1) = ZERO
-          THEM(I,2) = ZERO
-          THEM(I,3) = ZERO
-          THEM(I,4) = ZERO
-          TEMPEL(I) = ZERO
-         ENDDO 
-       ENDIF  
+       DO I=JFT,JLT
+         THEM(I,1) = ZERO
+         THEM(I,2) = ZERO
+         THEM(I,3) = ZERO
+         THEM(I,4) = ZERO
+         TEMPEL(I) = ZERO
+       ENDDO
 C
        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
          ALLOCATE(PLAPT_LAY(MVSIZ,NLAY,NPG))
