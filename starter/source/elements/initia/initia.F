@@ -3096,16 +3096,16 @@ C
         VZ = PARTSAV(13,I) * SM
         EK = PARTSAV(14,I)
         CALL FRETITL2(TEXT,IPART(LIPART1-LTITR+1,I),LTITR)
-        WRITE(IOUT,'(/,A,I10,A)')'PART : ',IPART(4,I),TRIM(TEXT)
-        WRITE(IOUT,'(A)')       '----'
+        WRITE(IOUT,'(/,A,I10,A,A)')'PART : ',IPART(4,I),', ',TRIM(TEXT)
+C        WRITE(IOUT,'(A)')       '----'
         WRITE(IOUT,'(2A)')
-     .  ' Mass        Ixx         Iyy         Izz         ',
-     .  'Ixy        Iyz        Izx'
-        WRITE(IOUT,'(1P4G20.13,3G20.13)')MAS,IXX,IYY,IZZ,IXY,IYZ,IZX
+     .  '            Mass             Ixx             Iyy             Izz',
+     .  '             Ixy             Iyz             Izx'
+        WRITE(IOUT,'(1P7ES16.8)')MAS,IXX,IYY,IZZ,IXY,IYZ,IZX
         WRITE(IOUT,'(2A)')
-     .  ' X           Y           Z           Kin. Energy ',
-     .  'Vx         Vy         Vz'
-        WRITE(IOUT,'(1P4G20.13,3G20.13)')XG,YG,ZG,EK,VX,VY,VZ
+     .  '               X               Y               Z     Kin. Energy',
+     .  '              Vx              Vy              Vz'
+        WRITE(IOUT,'(1P7ES16.8)')XG,YG,ZG,EK,VX,VY,VZ
       ENDDO
 C
       RETURN
