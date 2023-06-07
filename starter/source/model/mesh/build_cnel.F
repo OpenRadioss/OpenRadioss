@@ -61,33 +61,39 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, PX, PY, PZ
+      INTEGER :: IPREV
 C-----------------------------------------------
 C
 C Pre construction ADDRESSES
 C    
-      DO  K=2,9
-        DO  I=1,NUMELS
+      IPREV = 0
+      DO  I=1,NUMELS
+        DO  K=2,9
           N = IXS(K,I)
-          IF(N/=0) KNOD2ELS(N) = KNOD2ELS(N) + 1
-        END DO
-      END DO
+          IF(N/=0 .AND. IPREV /= I) THEN
+            KNOD2ELS(N) = KNOD2ELS(N) + 1 
+            IPREV = I
+          ENDIF
+        ENDDO
+      ENDDO
+
 C
-      DO K=1,6
-        DO I=1,NUMELS10
+      DO I=1,NUMELS10
+        DO K=1,6
           N = IXS10(K,I)
           IF(N/=0) KNOD2ELS(N) = KNOD2ELS(N) + 1
         END DO
       END DO
 C
-      DO K=1,12
-        DO I=1,NUMELS20
+      DO I=1,NUMELS20
+        DO K=1,12
           N = IXS20(K,I)
           IF(N/=0) KNOD2ELS(N) = KNOD2ELS(N) + 1
         END DO
       END DO
 C
-      DO K=1,8
-        DO I=1,NUMELS16
+      DO I=1,NUMELS16
+        DO K=1,8
           N = IXS16(K,I)
           IF(N/=0) KNOD2ELS(N) = KNOD2ELS(N) + 1
         END DO
@@ -224,11 +230,16 @@ C-----------------------------------------------
 C
 C Construction de la matrice Nod -> Solid elt
 C
-      DO  K=2,9
-        DO  I=1,NUMELS
+
+
+      IPREV = 0
+      DO  I=1,NUMELS
+        DO  K=2,9
           N = IXS(K,I)
-          KNOD2ELS(N) = KNOD2ELS(N) + 1
-          IF(N/=0) NOD2ELS(KNOD2ELS(N)) = I
+          IF(N/=0 .AND. IPREV/=I) THEN
+            KNOD2ELS(N) = KNOD2ELS(N) + 1
+            NOD2ELS(KNOD2ELS(N)) = I
+          ENDIF
         END DO
       END DO
 C
