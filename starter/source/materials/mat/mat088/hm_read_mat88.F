@@ -77,6 +77,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
+#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -216,6 +217,10 @@ C
      .              I1=MAT_ID,
      .              C1=TITR)
       END IF
+      IF (FCUT == ZERO .AND. NL > 1 ) THEN
+        FCUT = EP03*FAC_T_WORK
+        ISRATE = 1  
+      ENDIF
 C
       UPARAM(1) = BULK
       UPARAM(2) = NU
