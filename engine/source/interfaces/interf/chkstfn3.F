@@ -289,7 +289,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, N, ITY, NEL, LLT, LFT, NFT, IE, ISOLNOD, ICNOD,
-     .        OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, NG
+     .        OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, NG,IPREV
 CC-----------------------------------------------
 C
 C Pre construction de ADDCNEL
@@ -298,10 +298,14 @@ C
         ADDCNEL(I) = 0
       END DO
 C
-      DO  K=2,9
-        DO  I=1,NUMELS
+      IPREV = 0
+      DO  I=1,NUMELS
+         DO  K=2,9
           N = IXS(K,I) + 1
+          IF(IPREV /= I) THEN
           ADDCNEL(N) = ADDCNEL(N) + 1
+          IPREV = I
+          ENDIF
         END DO
       END DO
 C
@@ -413,12 +417,16 @@ C
           LLT     = NEL
           IF(ITY == 1) THEN
 C#include "vectorize.inc"
+            IPREV = 0
             DO I = LFT,LLT
               IE = NFT+I
               DO K=2,9
                 N = IXS(K,NFT+I)
+                IF(IPREV /= I) THEN
                 CNEL(ADSKY(N)) = IE
                 ADSKY(N) = ADSKY(N)+1
+                IPREV = I
+                ENDIF
               ENDDO
             ENDDO
 C
