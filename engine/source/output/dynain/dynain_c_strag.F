@@ -150,6 +150,7 @@ C
           NPG  = NPTR*NPTS
           NPT  = NLAY*NPTT 
           IF (IHBE == 23 .AND. GBUF%G_STRPG>GBUF%G_STRA) NPG=4
+          IF (IHBE == 23 .AND. NPG/=4) CYCLE
           LFT=1
           LLT=NEL
 
