@@ -83,7 +83,7 @@ C=======================================================================
         VOLDP(I)=HALF*WI*(VOLG(I)+VZL(I)*ZI)
         VOL(I)=VOLDP(I)
         OFF(I)=OFFG(I)
-        IF (VOL(I)<=ZERO.OR.DDV>TOL) THEN
+        IF (VOL(I)<=ZERO) THEN
            VOL(I)= EM20
            OFF(I)= ZERO
         ELSEIF(OFF(I)==ZERO.OR.OFFS(I)==TWO.OR.ISMDISP>0)THEN
@@ -99,6 +99,13 @@ C  ------due to the sigzz traitement----
           DVZ = -(SIG(I,3)-SIGZM(I)/MAX(EM20,VOLM(I)))*USB(I)
           DDV = (DV+DVZ)*OFF(I)
           DVC(I) = DDV
+          IF (DDV>TOL) THEN
+           VOL(I)= EM20
+           OFF(I)= ZERO
+           DDV = ZERO
+          ELSEIF(OFF(I)==ZERO.OR.OFFS(I)==TWO.OR.ISMDISP>0)THEN
+           DDV = ZERO
+          END IF
 C         
           IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*(ONE- DDV)
           IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = DVZ
