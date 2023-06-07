@@ -89,6 +89,8 @@ Chd|        AFLUX2                        engine/source/ale/ale2d/aflux2.F
 Chd|        AFLUX3                        engine/source/ale/ale3d/aflux3.F
 Chd|        AFLUXT                        engine/source/ale/ale51/afluxt.F
 Chd|        AGAUG3                        engine/source/ale/agauge.F    
+Chd|        AGAUG3Q                       engine/source/ale/agaug3q.F   
+Chd|        AGAUG3T                       engine/source/ale/agaug3t.F   
 Chd|        AGAUGE                        engine/source/ale/agauge.F    
 Chd|        AGRAD0                        engine/source/ale/agrad0.F    
 Chd|        AGRAD2                        engine/source/ale/ale2d/agrad2.F

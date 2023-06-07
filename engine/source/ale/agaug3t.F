@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  AGAUG3T                       source/ale/agaug3t.F           
+Chd|  AGAUG3T                       source/ale/agaug3t.F          
 Chd|-- called by -----------
 Chd|        AGAUGE                        source/ale/agauge.F           
 Chd|-- calls ---------------

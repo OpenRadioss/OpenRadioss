@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  AGAUGE                        source/ale/agauge.F           
 Chd|-- called by -----------
+Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        ALETHE                        source/ale/alethe.F           
-Chd|        ALEMAIN                       source/ale/alemain.F
 Chd|-- calls ---------------
 Chd|        AGAUG3                        source/ale/agauge.F           
-Chd|        AGAUG3Q                       source/ale/agaug3q.F
-Chd|        AGAUG3T                       source/ale/agaug3t.F
 Chd|        AGAUG30                       source/ale/agauge.F           
+Chd|        AGAUG3Q                       source/ale/agaug3q.F          
+Chd|        AGAUG3T                       source/ale/agaug3t.F          
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
