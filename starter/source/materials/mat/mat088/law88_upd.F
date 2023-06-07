@@ -128,24 +128,23 @@ c
         YINC = ZERO
         XINT = ZERO
         YINT = ZERO
-        IF( ICASE == 3) THEN
-          FUNC = IFUNC(1)
-          FUND = IFUNC(NL + 1)
-          FAC1 = UPARAM(11  )
-          FAC2 = UPARAM(11 + 2*NL  )
+        FUNC = IFUNC(1)
+        FUND = IFUNC(NL + 1)
+        FAC1 = UPARAM(11  )
+        FAC2 = UPARAM(11 + 2*NL  )
 C intersection pt of tension if existing
-          UPARAM(NV + 1) = 0  ! not existing
-          CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
+        UPARAM(NV + 1) = 0  ! not existing
+        CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINT  ,YINT  )
-          UPARAM(NV + 2) = XINT   
-          UPARAM(NV + 3) = YINT
-          IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension 
+        UPARAM(NV + 2) = XINT   
+        UPARAM(NV + 3) = YINT
+        IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension 
 C intersection pt of compression if existing 
-          CALL FUNC_INTERS_C(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
+        CALL FUNC_INTERS_C(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINC  ,YINC  )
-          UPARAM(NV + 4) = XINC   
-          UPARAM(NV + 5) = YINC
-          IF(XINC*YINC /= ZERO ) THEN
+        UPARAM(NV + 4) = XINC   
+        UPARAM(NV + 5) = YINC
+        IF(XINC*YINC /= ZERO ) THEN
            IF(INT(UPARAM(NV + 1)) == 0 )THEN
               UPARAM(NV + 1) = -1  ! only compression 
             ELSE  
@@ -161,10 +160,8 @@ C intersection pt of compression if existing
      .              I2=FUNC_ID(FUNC),   ! Id function             
      .              I3=FUNC_ID(FUND) ) ! Id_function              
              CALL ARRET(2)
-          
-          ENDIF
-            
-        ENDIF  
+        ENDIF
+              
         WRITE(IOUT,1000)
          
          IF(XINT*YINT > ZERO) WRITE(IOUT,1600) XINT,YINT
