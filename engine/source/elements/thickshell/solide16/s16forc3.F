@@ -372,6 +372,7 @@ C=======================================================================
       NLAY     = ELBUF_TAB(NG)%NLAY
       IS       = 1
       ISORTH   = 0
+      TEMPEL(1:MVSIZ) = ZERO
       NF1      = NFT+1
       NF2      = NF1-(NUMELS8+NUMELS10+NUMELS20)
       IF (NPTR*NPTS*NPTT*NLAY > NIPMAX) STOP 933

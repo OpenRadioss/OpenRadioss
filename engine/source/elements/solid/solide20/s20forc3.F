@@ -257,6 +257,7 @@ c
       BID    = ZERO
       IBID   = 0
       IBIDON = 0
+      TEMPEL(1:MVSIZ) = ZERO
       NF1  = NFT+1
       NF2  = NF1-(NUMELS8+NUMELS10)
 C     

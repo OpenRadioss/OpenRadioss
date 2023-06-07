@@ -267,6 +267,7 @@ C-----
       NLAY  = ELBUF_STR%NLAY
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
+      TEMPEL(1:MVSIZ) = ZERO
 c
 c      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 c                                to allow for NPT = 0 (global LAW_3
