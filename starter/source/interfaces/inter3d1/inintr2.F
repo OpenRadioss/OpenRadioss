@@ -51,7 +51,8 @@ Chd|====================================================================
      .                   MWA     ,IKINE  ,I2NSNT  ,IN    ,
      .                   STIFN   ,STIFINT,NOM_OPT,INOD_PXFEM,MS_PLY,
      .                   INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,
-     .                   NSTRF   ,ITAGCYC,IRBE2  ,IRBE3  ,LRBE3 )
+     .                   NSTRF   ,ITAGCYC,IRBE2  ,IRBE3  ,LRBE3 ,
+     .                   KNOD2ELS ,NOD2ELS,IXS10  ,IXS16 ,IXS20 )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -73,6 +74,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, DIMENSION(6,NUMELS10)  ,INTENT(IN):: IXS10
+      INTEGER, DIMENSION(8,NUMELS16)  ,INTENT(IN):: IXS16
+      INTEGER, DIMENSION(12,NUMELS20) ,INTENT(IN):: IXS20
+      INTEGER, DIMENSION(NUMNOD+1) ,INTENT(IN):: KNOD2ELS
+      INTEGER, DIMENSION(*)        ,INTENT(IN):: NOD2ELS
       INTEGER , DIMENSION(NRBE2L,NRBE2), INTENT(IN) :: IRBE2
       INTEGER , DIMENSION(NRBE3L,NRBE3), INTENT(IN) :: IRBE3
       INTEGER , DIMENSION(SLRBE3), INTENT(IN) :: LRBE3
@@ -225,8 +231,11 @@ C
         ENDIF
       END DO
 C
-       IF (N2D==0 .AND. NINT2 >0 ) THEN      
-         CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
+       IF (N2D==0 ) THEN      
+         IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN)
+         CALL REMN_SELF24(X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
+     .                KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,
+     .                ITAB , NOM_OPT,NREMN)
          CALL REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMN )
          CALL RI2_INT24P_INI(IPARI  ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
        END IF !(NINT2 >0) THEN   

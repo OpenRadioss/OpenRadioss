@@ -640,7 +640,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr10_c.inc"
-#include      "scr12_c.inc"
+#include      "scr12_c.inc" 
 #include      "scr14_c.inc"
 #include      "scr15_c.inc"
 #include      "scr16_c.inc"
@@ -9963,7 +9963,8 @@ C
      .               MWA     ,D       ,I2NSNT  ,IN      ,
      .               STIFFN,STIFINT ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),INOD_PXFEM ,MS_PLY,
      .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC,
-     .               IRBE2   ,IRBE3  ,LRBE3  )
+     .               IRBE2   ,IRBE3  ,LRBE3    ,KNOD2ELS ,NOD2ELS ,
+     5               IXS10   ,IXS16  ,IXS20 )    
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------------------------
