@@ -36,7 +36,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NPT
       my_real :: A11,A12,A21,A22,B1,B2,DET,ALPHA,BETA,GAMMA,F1,F2,R,S,
-     .           R1,R2,R3,RMAX,P1,P2,P3,DYDX,COSP,SINP
+     .   R1,R2,R3,RMAX,P1,P2,P3,DYDX,NX,NY,NZ,NORM,COSP,SINP
       my_real, DIMENSION(3) :: AB,AC,AN,P,AP,BP,CP
       my_real, DIMENSION(2) :: XX
 c-----------------------------------------------
@@ -96,6 +96,7 @@ c
       DET = A11*A22 - A12*A21
       R   = (A22 * B1 - A12 * B2) / DET
       S   = (A11 * B2 - A21 * B1) / DET
+      ! P = projection of axe origin N1 on ABC plane following direction DIR
       P(1)= A(1) + R*AB(1) + S*AC(1)
       P(2)= A(2) + R*AB(2) + S*AC(2)
       P(3)= A(3) + R*AB(3) + S*AC(3)
@@ -113,24 +114,42 @@ c
       R3 = SQRT(CP(1)**2 + CP(2)**2 + CP(3)**2)
       COSP = (DIR(1) * AP(1) + DIR(2) * AP(2) + DIR(3) * AP(3)) / MAX(R1,EM20)
       SINP = MAX(SQRT(ONE - COSP**2), EM20)
-      R1 = R1 / SINP
-      R2 = R2 / SINP 
-      R3 = R3 / SINP 
 c
       XX(2) = TT    ! Time
+c     pressure in 1st point of 3N sub-segment
+      COSP = (DIR(1) * AP(1) + DIR(2) * AP(2) + DIR(3) * AP(3)) / MAX(R1,EM20)
+      SINP = MAX(SQRT(ONE - COSP**2), EM20)
+      R1   = R1 * SINP
       IF (R1 <=  RMAX) THEN
         XX(1) = R1
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P1,DYDX)
       END IF
+c     pressure in 2nd point of 3N sub-segment
+      COSP = (DIR(1) * BP(1) + DIR(2) * BP(2) + DIR(3) * BP(3)) / MAX(R2,EM20)
+      SINP = MAX(SQRT(ONE - COSP**2), EM20)
+      R2   = R2 * SINP
       IF (R2 <= RMAX) THEN
         XX(1) = R2
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P2,DYDX)
       END IF
+c     pressure in 3rd point of 3N sub-segment
+      COSP = (DIR(1) * CP(1) + DIR(2) * CP(2) + DIR(3) * CP(3)) / MAX(R3,EM20)
+      SINP = MAX(SQRT(ONE - COSP**2), EM20)
+      R3   = R3 * SINP
       IF (R3 <= RMAX) THEN
         XX(1) = R3
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P3,DYDX)
       END IF
-      PRESS = (P1 + P2 + P3) * SINP * THIRD
+      PRESS = (P1 + P2 + P3) * THIRD
+      IF (PRESS > ZERO) THEN
+c       calculate cos(angle) between cylinder axis and segment normal to scale pressure
+        NX = AB(2) * AC(3) - AB(3) *  AC(2)
+        NY = AB(3) * AC(1) - AB(1) *  AC(3)
+        NZ = AB(1) * AC(2) - AB(2) *  AC(1)
+        NORM  = SQRT(NX**2 + NY**2 + NZ**2)
+        COSP  = ABS(NX * ALPHA + NY * BETA + NZ * GAMMA) / NORM
+        PRESS = PRESS * COSP
+      END IF
 c-----------      
       RETURN
       END

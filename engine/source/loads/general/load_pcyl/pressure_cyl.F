@@ -81,18 +81,19 @@ c
         RMAX = TABLE(IFUN)%X(1)%VALUES(NPOINT)
         M1   = IFRAME(1,IFRA)
         M2   = IFRAME(2,IFRA)
-        DIRX = X(1,M2) - X(1,M1)
-        DIRY = X(2,M2) - X(2,M1)
-        DIRZ = X(3,M2) - X(3,M1)
+        DIRX = X(1,M1) - X(1,M2)
+        DIRY = X(2,M1) - X(2,M2)
+        DIRZ = X(3,M1) - X(3,M2)
         LEN  = SQRT(DIRX**2 + DIRY**2 + DIRZ**2)
         ! SEGP beam axis
         DIR(1) = DIRX / LEN
         DIR(2) = DIRY / LEN
         DIR(3) = DIRZ / LEN
-        P0(1)  = X(1,M1)
-        P0(2)  = X(2,M1)
-        P0(3)  = X(3,M1)
+        P0(1)  = X(1,M2)
+        P0(2)  = X(2,M2)
+        P0(3)  = X(3,M2)
         DO J = 1,NSEG
+          PRESS = ZERO
           N1   = LOADS%LOAD_CYL(I)%SEGNOD(J,1)
           N2   = LOADS%LOAD_CYL(I)%SEGNOD(J,2)
           N3   = LOADS%LOAD_CYL(I)%SEGNOD(J,3)
@@ -113,7 +114,8 @@ c
             NX = (C(2)-A(2))*(C(3)-B(3)) - (C(3)-A(3))*(C(2)-B(2))
             NY = (C(3)-A(3))*(C(1)-B(1)) - (C(1)-A(1))*(C(3)-B(3))
             NZ = (C(1)-A(1))*(C(2)-B(2)) - (C(2)-A(2))*(C(1)-B(1))
-            PRESS = PRESS * ONE_OVER_6
+            PRESS = SEGP * ONE_OVER_6
+            PRESS = PRESS * YFAC
             FX = PRESS * NX
             FY = PRESS * NY
             FZ = PRESS * NZ
@@ -129,31 +131,30 @@ c
             M(1) = (X(1,N1) + X(1,N2) + X(1,N3) + X(1,N4)) * FOURTH
             M(2) = (X(2,N1) + X(2,N2) + X(2,N3) + X(2,N4)) * FOURTH
             M(3) = (X(3,N1) + X(3,N2) + X(3,N3) + X(3,N4)) * FOURTH
-            PRESS = ZERO
 c           1st internal triangle 
             CALL PRESS_SEG3(A       ,B      ,M      ,P0      ,DIR    , 
      .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-            PRESS = PRESS + SEGP
+            PRESS = PRESS + SEGP * FOURTH
 c           2nd internal triangle 
             CALL PRESS_SEG3(B       ,C      ,M      ,P0      ,DIR    , 
      .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-            PRESS = PRESS + SEGP
+            PRESS = PRESS + SEGP * FOURTH
 c           3rd internal triangle 
             CALL PRESS_SEG3(C       ,D      ,M      ,P0      ,DIR    , 
      .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-            PRESS = PRESS + SEGP
+            PRESS = PRESS + SEGP * FOURTH
 c           4th internal triangle 
             CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
      .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-            PRESS = PRESS + SEGP
-            PRESS = ABS(PRESS) * ONE_OVER_8
-c            
+            PRESS = PRESS + SEGP * FOURTH
+c           normal to segment = vector prod of 2 diagonals  
             NX = (C(2)-A(2))*(D(3)-B(3)) - (C(3)-A(3))*(D(2)-B(2))
             NY = (C(3)-A(3))*(D(1)-B(1)) - (C(1)-A(1))*(D(3)-B(3))
             NZ = (C(1)-A(1))*(D(2)-B(2)) - (C(2)-A(2))*(D(1)-B(1))
-            FX = PRESS * YFAC * NX
-            FY = PRESS * YFAC * NY
-            FZ = PRESS * YFAC * NZ
+            PRESS = ABS(PRESS) * YFAC * ONE_OVER_8
+            FX = PRESS * NX
+            FY = PRESS * NY
+            FZ = PRESS * NZ
             TFEXTT = TFEXTT 
      .             + (FX*(V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4))
      .             +  FY*(V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4))
