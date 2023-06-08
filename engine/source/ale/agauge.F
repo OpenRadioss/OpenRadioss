@@ -294,8 +294,8 @@ C-----------------------------
           IF (IG <= 0) CYCLE
 c         
           P = (GBUF%SIG(JJ(1)+I) + GBUF%SIG(JJ(2)+I) + GBUF%SIG(JJ(3)+I))/THREE
-          RHO = GBUF%RHO(I) /GBUF%VOL(I)
-          E   = GBUF%EINT(I)/GBUF%VOL(I)
+          RHO = GBUF%RHO(I)
+          E   = GBUF%EINT(I)
           U2 = ZERO
           IF (IPARG(5,NG) == 1) THEN
             ! Solid (8N)
