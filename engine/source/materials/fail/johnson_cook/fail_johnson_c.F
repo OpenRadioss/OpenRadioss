@@ -121,9 +121,9 @@ c-----------------------------
           SVM = SQRT (SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
      .              - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
           EPSF = D3*P/MAX(EM20,SVM)
-          EPSF = (D1 + D2*EXP(EPSF))*(ONE 
-     .               + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
-     .               * (ONE + D5*TSTAR(I))
+          EPSF = (D1 + D2*EXP(EPSF))
+          IF(D4>ZERO) EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0))) ! if d4=0, epsp is not correctly defined
+          IF(D5>ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tstart is not correctly defined
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
           IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1

@@ -132,10 +132,9 @@ C
      .            +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
            SVM=SQRT(THREE*SVM)
            EPSF = D3*P/MAX(EM20,SVM)
-           EPSF = (D1 + 
-     .             D2*EXP(EPSF))*(ONE 
-     .                    + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
-     .                      *(ONE + D5*TSTAR(I))
+           EPSF = (D1 + D2*EXP(EPSF))
+           IF(D4>ZERO) EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0))) ! if d4=0, epsp is not correctly defined
+           IF(D5>ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tsart is not correctly defined
            IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
          ENDIF
          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
