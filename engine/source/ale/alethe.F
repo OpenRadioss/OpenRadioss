@@ -61,7 +61,7 @@ Chd|====================================================================
      A   IPM,        QMV,        ITAB,       ITABM1,
      B   LENQMV,     NV46,       LGAUGE,     GAUGE,
      C   IGAUP,      NGAUP,      VOLN,       IAD_ELEM,
-     D   FR_ELEM,    NEL,        IXTG)
+     D   FR_ELEM,    NEL,        IXTG,       FLAG_MAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: NEL,FLAG_MAT
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
@@ -359,7 +359,7 @@ C----------------------
          IF (NBGAUGE > 0) CALL AGAUGE(
      1     IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
      2     X       ,ALE_CONNECT,ITASK  ,NERCVOIS,NESDVOIS,
-     3     LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,
+     3     LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,FLAG_MAT,
      4     GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
         !-----------------------------!
 
