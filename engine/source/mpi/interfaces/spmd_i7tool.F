@@ -3067,7 +3067,6 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C ne sert plus que dans spmd_anim (a virer)
         NEW_BOUND = 1
         NEW_BOUND_E = 1
         NEW_BOUND_A = 1

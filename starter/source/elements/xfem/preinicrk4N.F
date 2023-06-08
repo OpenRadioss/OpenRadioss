@@ -145,8 +145,8 @@ c
           ELCRK = IELCRKC(I+NFT)
           IF (ELCUT(I+NFT) > 0) THEN
             ICRK = CRKSHELL(ILEV(1))%PHANTOMG(ELCRK)  ! global xfem element N
-            CRKLVSET(ILEV(1))%ELCUT(ELCRK) =  ICRK ! virer
-            CRKLVSET(ILEV(2))%ELCUT(ELCRK) = -ICRK ! virer
+            CRKLVSET(ILEV(1))%ELCUT(ELCRK) =  ICRK
+            CRKLVSET(ILEV(2))%ELCUT(ELCRK) = -ICRK
 c
             XFEM_PHANTOM(ILAY)%ELCUT(ELCRK) = ICRK
             CRKEDGE(ILAY)%LAYCUT(ELCRK) = 2
@@ -213,7 +213,7 @@ C
 C
                 CRKEDGE(ILAY)%EDGETIP(1,IEDGE) = MAX(IED,
      .                                     CRKEDGE(ILAY)%EDGETIP(1,IEDGE))
-                CRKEDGE(ILAY)%EDGETIP(2,IEDGE) = 
+                CRKEDGE(ILAY)%EDGETIP(2,IEDGE) =
      .                        CRKEDGE(ILAY)%EDGETIP(2,IEDGE) + 1
 C
 c               add check if BETA (0:1)
@@ -266,7 +266,7 @@ C------------------------------------------------------
         DO IXEL=1,NXEL
           GBUF => XFEM_STR(IXEL)%GBUF
           DO I=LFT,LLT
-           IF(ELCUT(I+NFT) > 0)THEN
+            IF(ELCUT(I+NFT) > 0)THEN
               OFF_PHANTOM = GBUF%OFF(I)
               GBUF%OFF(I) = - OFF_PHANTOM
             ENDIF

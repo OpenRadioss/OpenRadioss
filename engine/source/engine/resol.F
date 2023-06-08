@@ -3631,7 +3631,7 @@ C===============================================================================
      .               INC  ,SH3TREE  ,MSTG   ,INTG   ,PTG  ,
      .            ACONTACT,PCONTACT,ERR_THK_SH4,ERR_THK_SH3,MSCND,
      .               INCND,PM      ,MCP     ,MCPC   ,MCPTG)
-        NGDONE = 1       ! ne sert plus a virer
+        NGDONE = 1 
 C       /---------------/
         CALL MY_BARRIER
 C       /---------------/
