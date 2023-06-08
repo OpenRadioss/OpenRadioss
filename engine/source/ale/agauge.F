@@ -42,7 +42,7 @@ Chd|====================================================================
       SUBROUTINE AGAUGE(
      1  IPARG    ,ELBUF_STR   ,PHI     ,IXS      ,IXQ     ,
      2  X        ,ALE_CONNECT ,ITASK   ,NERCVOIS ,NESDVOIS,
-     3  LERCVOIS ,LESDVOIS    ,LENCOM  ,LGAUGE   ,
+     3  LERCVOIS ,LESDVOIS    ,LENCOM  ,LGAUGE   ,FLAG_MAT,
      4  GAUGE    ,V           ,IGAUP   ,NGAUP    ,IXTG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: FLAG_MAT
       INTEGER IPARG(NPARG,NGROUP), ITASK, LENCOM,IXTG(NIXTG,NUMELTG),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),LGAUGE(3,NBGAUGE),IGAUP(NBGAUGE),NGAUP(NSPMD)   
@@ -294,8 +295,15 @@ C-----------------------------
           IF (IG <= 0) CYCLE
 c         
           P = (GBUF%SIG(JJ(1)+I) + GBUF%SIG(JJ(2)+I) + GBUF%SIG(JJ(3)+I))/THREE
-          RHO = GBUF%RHO(I)
-          E   = GBUF%EINT(I)
+          IF (FLAG_MAT == 1) THEN
+            ! law_151 multimat
+            RHO = GBUF%RHO(I)
+            E   = GBUF%EINT(I)
+          ELSE
+            ! law_6 or law_51
+            RHO = GBUF%RHO(I) /GBUF%VOL(I)
+            E   = GBUF%EINT(I)/GBUF%VOL(I)
+          ENDIF
           U2 = ZERO
           IF (IPARG(5,NG) == 1) THEN
             ! Solid (8N)

@@ -207,7 +207,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, M, NG, NVC, NF1,OFFSET,ISOLNOD,  NSG, NEL,I, LENCOM,ISTRA, IBID,IOUTPRT
-      INTEGER IPLA
+      INTEGER IPLA,FLAG_MAT
       INTEGER IADBH, IAD22, NIN, NBRIC_L
       INTEGER SBUFVOIS
       
@@ -230,6 +230,7 @@ C-----------------------------------------------
       IBID          = 0
       BID           = ZERO
       SBUFVOIS      = 6
+      FLAG_MAT      = 0
 
 C  IOUTPRT (assembly report)   
          IOUTPRT = 0
@@ -448,6 +449,7 @@ c
          !==================================================================================   
          
          IF (MULTI_FVM%IS_USED) THEN
+          FLAG_MAT = 1
           IF(ITASK==0) CALL STARTIME(MACRO_TIMER_MULTIFVM,1)
 C     -------------------------
 C     Multifluid law variable globalization
@@ -680,7 +682,7 @@ C     -------------------------
               CALL AGAUGE(
      1          IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
      2          X       ,ALE_CONNECTIVITY,ITASK  ,NERCVOIS,NESDVOIS,
-     3          LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,
+     3          LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,FLAG_MAT,
      4          GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
             ENDIF ! IF (NBGAUGE > 0)
         !-----------------------------!
@@ -703,7 +705,7 @@ C     -------------------------
      A   IPM,             QMV,             ITAB,            ITABM1,
      B   LENQMV,          NV46,            LGAUGE,          GAUGE,
      C   IGAUP,           NGAUP,           VOLN,            IAD_ELEM,
-     D   FR_ELEM,         NEL,             IXTG)
+     D   FR_ELEM,         NEL,             IXTG,            FLAG_MAT)
          ENDIF
       ELSE
          ALE%SUB%IFSUBM=0
