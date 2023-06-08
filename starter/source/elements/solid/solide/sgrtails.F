@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        ZEROIN                        source/system/zeroin.F        
 Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  

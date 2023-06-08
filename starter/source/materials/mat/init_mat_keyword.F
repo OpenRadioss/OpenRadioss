@@ -70,6 +70,7 @@ Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_ma
 Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        LAW104_UPD                    source/materials/mat/mat104/law104_upd.F
+Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
