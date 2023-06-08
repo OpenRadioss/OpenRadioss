@@ -28,76 +28,61 @@ Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS44C( 
-     1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,DPLA_I  ,ASRATE ,
-     D     NVARTMP,VARTMP ,SIGP    ,INLOC   ,DPLANL )
+     1     NEL     ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
+     2     NPF     ,TF     ,TIME    ,TIMESTEP,UPARAM ,
+     2     RHO0    ,THKLY  ,OFF     ,ETSE    ,
+     3     EPSPXX  ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+     4     DEPSXX  ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     5     EPSXX   ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     6     SIGOXX  ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     7     SIGNXX  ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     8     SOUNDSP ,VISCMAX,THK     ,PLA     ,UVAR   ,
+     9     GS      ,YLD    ,EPSP    ,DPLA_I  ,ASRATE ,
+     A     NVARTMP ,VARTMP ,SIGP    ,INLOC   ,DPLANL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
-C NEL0    |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
+C NEL    |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
 C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
 C IFUNC   | NFUNC   | I | R | FUNCTION INDEX 
 C NPF     |  *      | I | R | FUNCTION ARRAY   
-C NPT0    |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
-C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
-C IFLAG   |  *      | I | R | GEOMETRICAL FLAGS   
 C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C RHO0    | NEL0    | F | R | INITIAL DENSITY
-C AREA    | NEL0    | F | R | AREA
-C EINT    | 2*NEL0  | F | R | INTERNAL ENERGY(MEMBRANE,BENDING)
-C THKLY   | NEL0    | F | R | LAYER THICKNESS
-C EPSPXX  | NEL0    | F | R | STRAIN RATE XX
-C EPSPYY  | NEL0    | F | R | STRAIN RATE YY
+C RHO0    | NEL    | F | R | INITIAL DENSITY
+C THKLY   | NEL    | F | R | LAYER THICKNESS
+C EPSPXX  | NEL    | F | R | STRAIN RATE XX
+C EPSPYY  | NEL    | F | R | STRAIN RATE YY
 C ...     |         |   |   |
-C DEPSXX  | NEL0    | F | R | STRAIN INCREMENT XX
-C DEPSYY  | NEL0    | F | R | STRAIN INCREMENT YY
+C DEPSXX  | NEL    | F | R | STRAIN INCREMENT XX
+C DEPSYY  | NEL    | F | R | STRAIN INCREMENT YY
 C ...     |         |   |   |
-C EPSXX   | NEL0    | F | R | STRAIN XX
-C EPSYY   | NEL0    | F | R | STRAIN YY
+C EPSXX   | NEL    | F | R | STRAIN XX
+C EPSYY   | NEL    | F | R | STRAIN YY
 C ...     |         |   |   |
-C SIGOXX  | NEL0    | F | R | OLD ELASTO PLASTIC STRESS XX 
-C SIGOYY  | NEL0    | F | R | OLD ELASTO PLASTIC STRESS YY
+C SIGOXX  | NEL    | F | R | OLD ELASTO PLASTIC STRESS XX 
+C SIGOYY  | NEL    | F | R | OLD ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |    
 C---------+---------+---+---+--------------------------------------------
-C SIGNXX  | NEL0    | F | W | NEW ELASTO PLASTIC STRESS XX
-C SIGNYY  | NEL0    | F | W | NEW ELASTO PLASTIC STRESS YY
+C SIGNXX  | NEL    | F | W | NEW ELASTO PLASTIC STRESS XX
+C SIGNYY  | NEL    | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
-C SIGVXX  | NEL0    | F | W | VISCOUS STRESS XX
-C SIGVYY  | NEL0    | F | W | VISCOUS STRESS YY
-C ...     |         |   |   |
-C SOUNDSP | NEL0    | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL0    | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
+C SOUNDSP | NEL    | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
+C VISCMAX | NEL    | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
-C THK     | NEL0    | F |R/W| THICKNESS
-C PLA     | NEL0    | F |R/W| PLASTIC STRAIN
+C THK     | NEL    | F |R/W| THICKNESS
+C PLA     | NEL    | F |R/W| PLASTIC STRAIN
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C OFF     | NEL0    | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
+C OFF     | NEL    | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -105,66 +90,40 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
-      INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL0),MAT(NEL0),IPM(NPROPMI,*),NVARTMP,INLOC
-      my_real
-     . TIME,TIMESTEP,UPARAM(NUPARAM),
-     .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
-     .   THKLY(NEL0),PLA(NEL0),
-     .   EPSPXX(NEL0),EPSPYY(NEL0),
-     .   EPSPXY(NEL0),EPSPYZ(NEL0),EPSPZX(NEL0),
-     .   DEPSXX(NEL0),DEPSYY(NEL0),
-     .   DEPSXY(NEL0),DEPSYZ(NEL0),DEPSZX(NEL0),
-     .   EPSXX(NEL0) ,EPSYY(NEL0) ,
-     .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
-     .   SIGOXX(NEL0),SIGOYY(NEL0),
-     .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
-     .   GS(*),EPSP(NEL0),ASRATE,
-     .   DPLANL(NEL0)
-      my_real ,DIMENSION(NEL0,3),INTENT(INOUT) :: 
-     .   SIGP
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM, NUVAR,NVARTMP,INLOC
+      my_real ,INTENT(IN) :: TIME,TIMESTEP,ASRATE
+      my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
+      my_real ,DIMENSION(NEL)     ,INTENT(IN) :: RHO0,THKLY,GS,DPLANL,
+     .   EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,
+     .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
+     .   EPSXX ,EPSYY ,EPSXY ,EPSYZ ,EPSZX ,
+     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
+      INTEGER ,INTENT(IN) :: NPF(*),MFUNC,KFUNC(MFUNC)
+      my_real ,INTENT(IN) :: TF(*)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .    SIGNXX(NEL0),SIGNYY(NEL0),
-     .    SIGNXY(NEL0),SIGNYZ(NEL0),SIGNZX(NEL0),
-     .    SIGVXX(NEL0),SIGVYY(NEL0),
-     .    SIGVXY(NEL0),SIGVYZ(NEL0),SIGVZX(NEL0),
-     .    SOUNDSP(NEL0),VISCMAX(NEL0),ETSE(NEL0),
-     .    DPLA_I(NEL0)
+      my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SOUNDSP,VISCMAX,ETSE,
+     .    SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,EPSP,DPLA_I
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      INTEGER :: VARTMP(NEL0,NVARTMP)
-      my_real
-     . UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
-C-------------------------
-C    variables non utilisees (Fonctions utilisateur)
-C-------------------------
-      INTEGER NPF(*),MFUNC,KFUNC(MFUNC)
-      my_real
-     . TF(*)
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      my_real ,DIMENSION(NEL)         ,INTENT(INOUT) :: PLA,OFF,THK,YLD
+      my_real ,DIMENSION(NEL,3)       ,INTENT(INOUT) :: SIGP
+      my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NINDX,NMAX,IADBUF,ICC1,ISRATE,INDEX(MVSIZ),VFLAG,
-     .        IPOS(MVSIZ),ILEN(MVSIZ),IAD(MVSIZ),IPOS0(MVSIZ)
-      my_real 
-     .        SVM(MVSIZ),DR(MVSIZ),
-     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
-     .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),HS(MVSIZ),
-     .        YLO(MVSIZ),ZEROR(MVSIZ),
-     .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ)
-      my_real
-     .        R,UMR,NUX,RQ,A,B,C,S11,S22,S12,P,P2,DEZZ,SIGZ,S1,S2,S3,
-     .        VM2,EPST,NNU2,F,DF,Q2,YLD_I,E1,A11,A21,G1,G31,
-     .        NNU11,NU11,NU21,NU31,NU41,NU51,NU61,
-     .        EPSM1,EPSR11,EPSR21,FISOKIN1,CA1,CB1,CN1,CC1,CP1,
-     .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY, ALPHA,
-     .        SIGM(MVSIZ),EPSGM(MVSIZ),YSCALE,DFDPLA(MVSIZ),DAV,
-     .        DEVE1,DEVE2,DEVE3,DEVE4,DEVE5,DEVE6,DPDT
+      INTEGER :: I,J,N,NINDX,NMAX,IADBUF,ICC1,ISRATE,VFLAG
+      my_real :: R,UMR,NUX,RQ,A,B,C,S11,S22,S12,P,P2,DEZZ, 
+     .   SIGZ,S1,S2,S3,VM2,EPST,F,DF,Q2,YLD_I,E1,A11,A21,
+     .   G1,G31,NNU11,NU11,NU21,NU31,DEVE1,DEVE2,DEVE3,DEVE4,DPDT,
+     .   EPSM1,EPSR11,EPSR21,FISOKIN1,CA1,CB1,CN1,CC1,CP1,
+     .   DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,ALPHA,YSCALE,DAV
+      INTEGER ,DIMENSION(NEL) :: INDEX,IPOS,ILEN,IAD,IPOS0
+      my_real ,DIMENSION(NEL) :: SVM,DR,AA,BB,DPLA_J,PP,QQ,FAIL,H,HS,
+     .   YLO,ZEROR,SIGEXX,SIGEYY,SIGEXY,SIGM,EPSGM,DFDPLA
 C
       DATA NMAX/3/
 C-----------------------------------------------
@@ -191,32 +150,27 @@ C-----------------------------------------------
        YSCALE   = UPARAM(24)
 C       
        NNU11 = NUX / (ONE - NUX)
-       NNU2  = NNU11*NNU11
        NU11  = ONE/(ONE-NUX)
        NU21  = ONE/(ONE+NUX)
        NU31  = ONE - NNU11
-       NU41  = ONE + NNU2 + NNU11
-       NU51  = ONE + NNU2 - TWO*NNU11
-       NU61  = HALF- NNU2 + HALF*NNU11
 C       
-       DO I=1,NEL0
+       DO I=1,NEL
          EPSGM(I) = UPARAM(22)
          SIGM(I)  = UPARAM(4)
        ENDDO
 C       
        IF (MFUNC > 0) THEN
-         ZEROR(1:NEL0) = ZERO
-         IPOS0(1:NEL0) = 1
-         IAD (1:NEL0)  = NPF(KFUNC(1)) / 2 + 1
-         ILEN(1:NEL0)  = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL0) - IPOS0(1:NEL0)
-         CALL VINTER(TF,IAD,IPOS0,ILEN,NEL0,ZEROR,DFDPLA,YLO)
-         YLO(1:NEL0)   = YSCALE * YLO(1:NEL0)
+         ZEROR(1:NEL) = ZERO
+         IPOS0(1:NEL) = 1
+         IAD (1:NEL)  = NPF(KFUNC(1)) / 2 + 1
+         ILEN(1:NEL)  = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS0(1:NEL)
+         CALL VINTER(TF,IAD,IPOS0,ILEN,NEL,ZEROR,DFDPLA,YLO)
+         YLO(1:NEL)   = YSCALE * YLO(1:NEL)
        ENDIF
 C-----------------------------------------------
 C     ELASTIC STRESS ESTIMATE 
 C-----------------------------------------------
-       DO I=1,NEL0
-C
+       DO I=1,NEL
          IF (FISOKIN1 > ZERO) THEN 
            SIGNXX(I) = SIGOXX(I) - SIGP(I,1) + A11*DEPSXX(I) + A21*DEPSYY(I)
            SIGNYY(I) = SIGOYY(I) - SIGP(I,2) + A21*DEPSXX(I) + A11*DEPSYY(I)
@@ -264,10 +218,9 @@ C-----------------------------------------------
              EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
              UVAR(I,1) = EPSP(I)
            ELSEIF (VFLAG == 2) THEN
-             EPSP(I) = 
-     .       HALF*( ABS(EPSPXX(I)+EPSPYY(I))
-     .     + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                   + EPSPXY(I)*EPSPXY(I) ) )
+             EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .               + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .               + EPSPXY(I)*EPSPXY(I) ) )
            ENDIF
          ENDIF
 C-------------------
@@ -286,17 +239,17 @@ C      CURRENT YIELD AND HARDENING
 C-------------------
 C
        IF (MFUNC > 0) THEN
-         IPOS(1:NEL0)     = VARTMP(1:NEL0,1)
-         IAD (1:NEL0)     = NPF(KFUNC(1)) / 2 + 1
-         ILEN(1:NEL0)     = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL0) - IPOS(1:NEL0)
-         CALL VINTER(TF,IAD,IPOS,ILEN,NEL0,PLA,DFDPLA,YLD) 
-         VARTMP(1:NEL0,1) = IPOS(1:NEL0)
+         IPOS(1:NEL)     = VARTMP(1:NEL,1)
+         IAD (1:NEL)     = NPF(KFUNC(1)) / 2 + 1
+         ILEN(1:NEL)     = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+         CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 
+         VARTMP(1:NEL,1) = IPOS(1:NEL)
        ENDIF
 C
        RQ = ONE
 C--------------------
        IF((MFUNC > 0) .AND. (CA1 == ZERO)) THEN
-         DO I=1,NEL0
+         DO I=1,NEL
              IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
              YLO(I) = YLO(I) * RQ
            IF (PLA(I)>ZERO) THEN
@@ -310,7 +263,7 @@ C--------------------
 C---------------------------
        ELSEIF ((MFUNC > 0) .AND. (CA1 /= ZERO)) THEN 
 C--------------------
-         DO I=1,NEL0
+         DO I=1,NEL
            IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            YLO(I) = YLO(I) + CA1 * (RQ-ONE)
            IF (PLA(I)>ZERO) THEN
@@ -332,7 +285,7 @@ C--------------------
          ENDDO
        ELSE
 C--------------------
-         DO I=1,NEL0
+         DO I=1,NEL
            IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            YLO(I) = CA1 * RQ
            IF (PLA(I)>ZERO) THEN
@@ -354,7 +307,7 @@ C--------------------
          ENDDO
        ENDIF
 
-       DO I=1,NEL0
+       DO I=1,NEL
            IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            IF(ICC1 == 1) SIGM(I) = SIGM(I) * RQ
            IF (ICC1 /= 1 .and. CN1 /= ZERO .and. CB1 /= ZERO)
@@ -370,204 +323,128 @@ C------           kinematic hardening
        ENDDO
 
 C----------------------------------------
-
-
+C---  VON MISES 
 C
-C-------------------------
-C      PROJECTION IFLAG = 0  (projection radiale)
-C-------------------------
+      DO  I=1,NEL
+        S1=SIGNXX(I)+SIGNYY(I)
+        S2=SIGNXX(I)-SIGNYY(I)
+        S3=SIGNXY(I)
+        AA(I)=FOURTH*S1*S1
+        BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
+        SVM(I)=SQRT(AA(I)+BB(I))  
+        IF (INLOC == 0) THEN 
+          DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
+          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+        ENDIF
+      ENDDO
 C
-       IF(IFLAG(1) == 0)THEN
+C---  GATHER PLASTIC FLOW
 C
-         DO I=1,NEL0
-           SVM(I)= SQRT(SIGNXX(I)*SIGNXX(I)
-     .           + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I)
-     .           + THREE*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
-           SIGNXX(I)=SIGNXX(I)*R
-           SIGNYY(I)=SIGNYY(I)*R
-           SIGNXY(I)=SIGNXY(I)*R
-           UMR = ONE-R
-           DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
-           PLA(I) = PLA(I) + DPLA_I(I)
-           S1=HALF*(SIGNXX(I)+SIGNYY(I))
-           IF (INLOC == 0) THEN 
-             DEZZ = DPLA_I(I) * S1 / YLD(I)
-             DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
-             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           ENDIF
-           IF(R < ONE) ETSE(I)= HS(I)/(HS(I)+E1)
-         ENDDO
+      NINDX = 0
+      DO I = 1,NEL
+        IF ((SVM(I) > YLD(I)).AND.(OFF(I) == ONE)) THEN
+          NINDX=NINDX+1
+          INDEX(NINDX)=I
+        ENDIF
+      ENDDO
 C
-C-------------------------
-C      PROJECTION IFLAG = 1
-C-------------------------
-       ELSEIF(IFLAG(1) == 1)THEN
+C---  DEP EN CONTRAINTE PLANE
 C
-C---     CRITERE DE VON MISES
+      IF (NINDX > 0) THEN
+#include "vectorize.inc"
+        DO J=1,NINDX
+          I=INDEX(J)
+          HS(I) = MAX(ZERO,HS(I))
+          DPLA_J(I)=(SVM(I)-YLD(I))/(G31+HS(I))
+          ETSE(I)= HS(I)/(HS(I)+E1)
+          H(I) = HS(I)*(ONE-FISOKIN1)
+        ENDDO
 C
-         DO  I=1,NEL0
-           S1=SIGNXX(I)+SIGNYY(I)
-           S2=SIGNXX(I)-SIGNYY(I)
-           S3=SIGNXY(I)
-           AA(I)=FOURTH*S1*S1
-           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
-           IF (INLOC == 0) THEN 
-             DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
-             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           ENDIF
-         ENDDO
-C
-C---     GATHER PLASTIC FLOW
-C
-         NINDX = 0
-         DO I = 1,NEL0
-           IF ((SVM(I) > YLD(I)).AND.(OFF(I) == ONE)) THEN
-             NINDX=NINDX+1
-             INDEX(NINDX)=I
-           ENDIF
-         ENDDO
-C
-C---    DEP EN CONTRAINTE PLANE
-C
-         IF (NINDX /= 0) THEN
+        DO N=1,NMAX
 #include "vectorize.inc"
           DO J=1,NINDX
-           I=INDEX(J)
-           HS(I) = MAX(ZERO,HS(I))
-           DPLA_J(I)=(SVM(I)-YLD(I))/(G31+HS(I))
-           ETSE(I)= HS(I)/(HS(I)+E1)
-           H(I) = HS(I)*(ONE-FISOKIN1)
+            I=INDEX(J)
+            DPLA_I(I)=DPLA_J(I)
+            YLD_I =YLD(I)+H(I)*DPLA_I(I)
+            DR(I) =HALF*E1*DPLA_I(I)/YLD_I
+            PP(I) =ONE/(ONE + DR(I)*NU11)
+            QQ(I) =ONE/(ONE + THREE*DR(I)*NU21)
+            P2    =PP(I)*PP(I)
+            Q2    =QQ(I)*QQ(I)
+            F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
+            DF=-(AA(I)*NU11*P2*PP(I)+ THREE*BB(I)*NU21*Q2*QQ(I))
+     .        *(E1-TWO*DR(I)*H(I))/YLD_I
+     .        -TWO*H(I)*YLD_I
+            DF = SIGN(MAX(ABS(DF),EM20),DF)
+            IF(DPLA_I(I)>ZERO) THEN
+              DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
+            ELSE
+              DPLA_J(I)=ZERO
+            ENDIF        
           ENDDO
+        ENDDO
 C
-          DO N=1,NMAX
-#include "vectorize.inc"
-           DO J=1,NINDX
-             I=INDEX(J)
-             DPLA_I(I)=DPLA_J(I)
-             YLD_I =YLD(I)+H(I)*DPLA_I(I)
-             DR(I) =HALF*E1*DPLA_I(I)/YLD_I
-             PP(I) =ONE/(ONE + DR(I)*NU11)
-             QQ(I) =ONE/(ONE + THREE*DR(I)*NU21)
-             P2    =PP(I)*PP(I)
-             Q2    =QQ(I)*QQ(I)
-             F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF=-(AA(I)*NU11*P2*PP(I)+ THREE*BB(I)*NU21*Q2*QQ(I))
-     .         *(E1-TWO*DR(I)*H(I))/YLD_I
-     .         -TWO*H(I)*YLD_I
-             DF = SIGN(MAX(ABS(DF),EM20),DF)
-             IF(DPLA_I(I)>ZERO) THEN
-               DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
-             ELSE
-               DPLA_J(I)=ZERO
-             ENDIF        
-           ENDDO
-          ENDDO
-C
-C---     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C---    CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C
 #include "vectorize.inc"
-          DO J=1,NINDX
-           I=INDEX(J)
-           PLA(I) = PLA(I) + DPLA_I(I)
-           S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
-           S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=HALF*(S1+S2)
-           SIGNYY(I)=HALF*(S1-S2)
-           SIGNXY(I)=SIGNXY(I)*QQ(I)
-           IF (INLOC == 0) THEN 
-             DEZZ = - NU31*DR(I)*S1/E1
-             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           ENDIF
-          ENDDO
-         ENDIF
+        DO J=1,NINDX
+          I=INDEX(J)
+          PLA(I) = PLA(I) + DPLA_I(I)
+          S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
+          S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
+          SIGNXX(I)=HALF*(S1+S2)
+          SIGNYY(I)=HALF*(S1-S2)
+          SIGNXY(I)=SIGNXY(I)*QQ(I)
+          IF (INLOC == 0) THEN 
+            DEZZ = - NU31*DR(I)*S1/E1
+            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+          ENDIF
+        ENDDO
+
+      ENDIF ! nindx /= 0
 C
-C-------------------------
-C      PROJECTION IFLAG = 2
-C-------------------------
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
-C
-       ELSEIF(IFLAG(1) == 2)THEN
-C
-         DO I=1,NEL0
-           P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
-           S11 = SIGNXX(I)+P
-           S22 = SIGNYY(I)+P
-           S12 = SIGNXY(I)
-C
-           P2 = P*P
-           VM2= THREE*(S12*S12 - S11*S22)
-           A  = P2*NU41 + VM2
-           VM2= THREE*P2  + VM2
-           B  = P2*NU61
-           C  = P2*NU51 - YLD(I)*YLD(I)
-           R  = MIN(ONE,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
-           SIGNXX(I) = S11*R - P
-           SIGNYY(I) = S22*R - P
-           SIGNXY(I) = S12*R
-           UMR = ONE - R
-           SIGZ      = NNU11*P*UMR
-           SIGNXX(I) = SIGNXX(I) + SIGZ
-           SIGNYY(I) = SIGNYY(I) + SIGZ
-           SVM(I)=SQRT(VM2)
-           DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
-           PLA(I) = PLA(I) + DPLA_I(I)
-           IF (INLOC == 0) THEN 
-             DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
-             DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
-             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           ENDIF
-           IF(R < ONE) ETSE(I)= HS(I)/(HS(I)+E1)
-         ENDDO
-       ENDIF
-C
-       DO I=1,NEL0
-         IF ((PLA(I) > EPSM1).AND.(OFF(I) == ONE)) OFF(I) = FOUR_OVER_5
-         IF (VFLAG == 1) THEN 
-           DPDT      = DPLA_I(I)/MAX(EM20,TIMESTEP)
-           UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
-           EPSP(I)   = UVAR(I,1)
-         ENDIF
-       ENDDO
+      DO I=1,NEL
+        IF ((PLA(I) > EPSM1).AND.(OFF(I) == ONE)) OFF(I) = FOUR_OVER_5
+        IF (VFLAG == 1) THEN 
+          DPDT      = DPLA_I(I)/MAX(EM20,TIMESTEP)
+          UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
+          EPSP(I)   = UVAR(I,1)
+        ENDIF
+      ENDDO
 C
 C---     KINEMATIC HARDENING
 C
-       IF (FISOKIN1 > ZERO) THEN 
-         DO I=1,NEL0
-           DSXX  = SIGEXX(I) - SIGNXX(I)
-           DSYY  = SIGEYY(I) - SIGNYY(I)
-           DSXY  = SIGEXY(I) - SIGNXY(I)
-           DEXX  = (DSXX - NUX*DSYY) 
-           DEYY  = (DSYY - NUX*DSXX)
-           DEXY  = TWO*(ONE+NUX)*DSXY
-           ALPHA = FISOKIN1*HS(I)/(E1+HS(I)) * THIRD
-           SIGNXX(I) = SIGNXX(I) + SIGP(I,1)
-           SIGNYY(I) = SIGNYY(I) + SIGP(I,2)
-           SIGNXY(I) = SIGNXY(I) + SIGP(I,3)
-           SIGP(I,1) = SIGP(I,1) + ALPHA*(FOUR*DEXX+TWO*DEYY)
-           SIGP(I,2) = SIGP(I,2) + ALPHA*(FOUR*DEYY+TWO*DEXX)
-           SIGP(I,3) = SIGP(I,3) + ALPHA*DEXY
-         ENDDO
-       ENDIF
+      IF (FISOKIN1 > ZERO) THEN                              
+        DO I=1,NEL                                          
+          DSXX  = SIGEXX(I) - SIGNXX(I)                      
+          DSYY  = SIGEYY(I) - SIGNYY(I)                      
+          DSXY  = SIGEXY(I) - SIGNXY(I)                      
+          DEXX  = (DSXX - NUX*DSYY)                          
+          DEYY  = (DSYY - NUX*DSXX)                          
+          DEXY  = TWO*(ONE+NUX)*DSXY                         
+          ALPHA = FISOKIN1*HS(I)/(E1+HS(I)) * THIRD          
+          SIGNXX(I) = SIGNXX(I) + SIGP(I,1)                  
+          SIGNYY(I) = SIGNYY(I) + SIGP(I,2)                  
+          SIGNXY(I) = SIGNXY(I) + SIGP(I,3)                  
+          SIGP(I,1) = SIGP(I,1) + ALPHA*(FOUR*DEXX+TWO*DEYY) 
+          SIGP(I,2) = SIGP(I,2) + ALPHA*(FOUR*DEYY+TWO*DEXX) 
+          SIGP(I,3) = SIGP(I,3) + ALPHA*DEXY                 
+        ENDDO                                                
+      ENDIF                                                  
 C
-C---     NON-LOCAL THICKNESS VARIATION
+C---    NON-LOCAL THICKNESS VARIATION
 C
-       IF (INLOC > 0) THEN 
-         DO I = 1,NEL0 
-           SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
-     .           + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I)
-     .           + THREE*SIGNXY(I)*SIGNXY(I))
-           DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
-           DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
-           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
-         ENDDO  
-       ENDIF 
+      IF (INLOC > 0) THEN 
+        DO I = 1,NEL 
+          SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
+     .          + SIGNYY(I)*SIGNYY(I)
+     .          - SIGNXX(I)*SIGNYY(I)
+     .          + THREE*SIGNXY(I)*SIGNXY(I))
+          DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
+          DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
+          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
+        ENDDO  
+      ENDIF 
 C-----------
       RETURN
       END

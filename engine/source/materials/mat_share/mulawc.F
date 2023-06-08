@@ -1163,22 +1163,21 @@ C
      B        DPLA   ,EPSP   ,SHF      ,INLOC   ,VARNL(1,IT),
      C        LBUF%SEQ)
            EPSPL(JFT:JLT) = EPSP(JFT:JLT)
+
           ELSEIF (ILAW == 44) THEN
            CALL SIGEPS44C(
-     1        JLT    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2        NPF    ,NPT    ,IPT  ,IFLAG   ,
-     2        TF     ,TT     ,DT1C    ,UPARAM  ,RHO,
-     3        AREA   ,EINT   ,THKLYL  ,
-     4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-     5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-     6        EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-     7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     8        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-     9        SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-     A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
-     B        OFF    ,NGL    ,IPM     ,MATLY(JMLY),ETSE ,
-     C        GS     ,SIGY   ,EPSP    ,DPLA     ,ASRATE ,
-     D        NVARTMP,VARTMP ,LBUF%SIGB,INLOC   ,VARNL(1,IT))
+     1        JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC   ,
+     2        NPF    ,TF     ,TT      ,DT1      ,UPARAM  ,
+     2        RHO    ,THKLYL ,OFF     ,ETSE     ,
+     3        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
+     4        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
+     5        EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
+     6        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     7        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
+     8        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
+     9        GS     ,SIGY   ,EPSP    ,DPLA     ,ASRATE ,
+     A        NVARTMP,VARTMP ,LBUF%SIGB,INLOC   ,VARNL(1,IT))
+
           ELSEIF (ILAW == 45) THEN
            CALL SIGEPS45C(
      1        JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC  ,
