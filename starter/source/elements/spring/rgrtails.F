@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C
 Chd|====================================================================
 Chd|  RGRTAILS                      source/elements/spring/rgrtails.F
 Chd|-- called by -----------
@@ -52,7 +51,7 @@ C-----------------------------------------------
 C     IXR(6,NUMELR)      TABLEAU CONECS+PID+NOS RESSORTS            E
 C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
 C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELR)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
+C     EADD(NUMELR)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E
 C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
 C     INDEX(NUMELR)      TABLEAU DE TRAVAIL                         E/S
 C     INUM (6*NUMELR)      TABLEAU DE TRAVAIL                         E/S
@@ -109,9 +108,9 @@ C     NSPGROUP = NSPGROUP + ND
       NFT = 0
 C initialisation dd_iad
       DO N=1,ND
-       DO P=1,NSPMD+1
-         DD_IAD(P,NSPGROUP+N) = 0
-       END DO
+        DO P=1,NSPMD+1
+          DD_IAD(P,NSPGROUP+N) = 0
+        END DO
       ENDDO
 C
       DO N=1,ND
@@ -129,7 +128,7 @@ C
           INUM(8,I)=IRESOFF(NFT+I)
           INUM(9,I)=R_SKEW(NFT+I)
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -165,17 +164,17 @@ C dd-iad
           DD_IAD(P,NSPGROUP+N) = DD_IAD(P-1,NSPGROUP+N)+1
         ENDDO
         DD_IAD(1,NSPGROUP+N) = 1
-C          
+C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO          
+      ENDDO
 C
 C RENUMEROTATION POUR SURFACES
 C
@@ -199,31 +198,31 @@ C
 C renumerotation CONNECTIVITE INVERSE
 C
       ITAG = 0
-      DO I=1,2*NUMELT+2*NUMELP+3*NUMELR   
+      DO I=1,2*NUMELT+2*NUMELP+3*NUMELR
         IF(NOD2EL1D(I) /= 0 .AND. NOD2EL1D(I)   > NUMELT+NUMELP)THEN
           IF(ITAG(NOD2EL1D(I)) == 0) THEN
             NOD2EL1D(I)=ITR1(NOD2EL1D(I)-NUMELT-NUMELP)
             NOD2EL1D(I)=NOD2EL1D(I)+NUMELT+NUMELP
             ITAG(NOD2EL1D(I)) = 1
           END IF
-	END IF
-      END DO   
+        END IF
+      END DO
 
 !   -----------------------
 !   reordering for cluster typ=2 or 3 (spring cluster)
       DO I=1,NCLUSTER
         CLUSTER_TYP = CLUSTERS(I)%TYPE
         IF(CLUSTER_TYP==2.OR.CLUSTER_TYP==3) THEN
-            CLUSTER_NEL = CLUSTERS(I)%NEL
-            ALLOCATE( SAVE_CLUSTER( CLUSTER_NEL ) )
-            SAVE_CLUSTER( 1:CLUSTER_NEL ) = CLUSTERS(I)%ELEM( 1:CLUSTER_NEL )
-            DO J=1,CLUSTER_NEL
-                CLUSTERS(I)%ELEM(J) = ITR1( SAVE_CLUSTER( J ) )
-            ENDDO
-            DEALLOCATE( SAVE_CLUSTER )
+          CLUSTER_NEL = CLUSTERS(I)%NEL
+          ALLOCATE( SAVE_CLUSTER( CLUSTER_NEL ) )
+          SAVE_CLUSTER( 1:CLUSTER_NEL ) = CLUSTERS(I)%ELEM( 1:CLUSTER_NEL )
+          DO J=1,CLUSTER_NEL
+            CLUSTERS(I)%ELEM(J) = ITR1( SAVE_CLUSTER( J ) )
+          ENDDO
+          DEALLOCATE( SAVE_CLUSTER )
         ENDIF
       ENDDO
-!   -----------------------   
+!   -----------------------
 C
 C REORDERING FOR SEATBELTS
 C
@@ -233,84 +232,80 @@ C
           SEATBELT_TAB(I)%SPRING(J) = ITR1(SEATBELT_TAB(I)%SPRING(J))
         ENDDO
       ENDDO
-C              
+C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
 C ngroup est global, iparg est global mais organise en fonction de dd
 C
       DO 300 N=1,ND
-       NFT = 0
+        NFT = 0
 cc       LB_L = LBUFEL
-       DO P = 1, NSPMD
-        NGP(P)=0
-        NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL>0) THEN
-         NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
-         NGP(P)=NGROUP
-         NG  = (NEL-1)/NVSIZ + 1
-         DO 220 I=1,NG
+        DO P = 1, NSPMD
+          NGP(P)=0
+          NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
+          IF (NEL>0) THEN
+            NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
+            NGP(P)=NGROUP
+            NG  = (NEL-1)/NVSIZ + 1
+            DO 220 I=1,NG
 C ngroup global
-          NGROUP=NGROUP+1
-          II = EADD(N)+NFT
-          PID= IXR(1,II)
+              NGROUP=NGROUP+1
+              II = EADD(N)+NFT
+              PID= IXR(1,II)
 C Multidomains - spring not duplicated
-          IF (NSUBDOM>0) IPARTR2R = 1
-          MTNN = NINT(GEO(8,PID))
-          IGTYP= IGEO(11,PID)
-          ISSN=0
-          IF(GEO(5,PID)/=0.)ISSN=1
-          IF(IGTYP == 23) THEN
-             MID  = IXR(5,II)
-             MTNN = IPM(2,MID)
-          ENDIF
+              IF (NSUBDOM>0) IPARTR2R = 1
+              MTNN = NINT(GEO(8,PID))
+              IGTYP= IGEO(11,PID)
+              ISSN=0
+              IF(GEO(5,PID)/=0.)ISSN=1
+              IF(IGTYP == 23) THEN
+                MID  = IXR(5,II)
+                MTNN = IPM(2,MID)
+              ENDIF
 C
-          CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
+              CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
-          NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
-          IPARG(1,NGROUP) = MTNN
-          IPARG(2,NGROUP) = NE1
-          IPARG(3,NGROUP) = EADD(N)-1 + NFT
-          IPARG(4,NGROUP) = LBUFEL+1  !  kept in place for compatibility with
+              NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
+              IPARG(1,NGROUP) = MTNN
+              IPARG(2,NGROUP) = NE1
+              IPARG(3,NGROUP) = EADD(N)-1 + NFT
+              IPARG(4,NGROUP) = LBUFEL+1  !  kept in place for compatibility with
 c                                        other groups using old buffer
-          IPARG(5,NGROUP) = 6
-          IPARG(9,NGROUP) = ISSN
+              IPARG(5,NGROUP) = 6
+              IPARG(9,NGROUP) = ISSN
 C reperage groupe/processeur
-          IPARG(32,NGROUP)= P-1
-          IPARG(38,NGROUP)= IGTYP
+              IPARG(32,NGROUP)= P-1
+              IPARG(38,NGROUP)= IGTYP
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
+              IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C
-          JSMS=0
-          IF(ISMS/=0)THEN
-            IF(IDTGRS/=0)THEN
-              IF(TAGPRT_SMS(IPARTR(II))/=0)JSMS=1
-            ELSE
-              JSMS=1
-            END IF
-          END IF
-          IPARG(52,NGROUP)=JSMS
+              JSMS=0
+              IF(ISMS/=0)THEN
+                IF(IDTGRS/=0)THEN
+                  IF(TAGPRT_SMS(IPARTR(II))/=0)JSMS=1
+                ELSE
+                  JSMS=1
+                END IF
+              END IF
+              IPARG(52,NGROUP)=JSMS
 C
-C         LBUFEL= LBUFEL + NE1 * NMTV(MTNN)
-cc          LBUFEL= LBUFEL + NE1 * NPTVC(IGTYP)  ! Cmi --> a virer
-          NFT = NFT + NE1
-  220    CONTINUE
-         NGP(P)=NGROUP-NGP(P)
-        ENDIF
-       ENDDO
-cc       LB_L = LBUFEL - LB_L
-cc       LB_MAX = MAX(LB_MAX,LB_L)
+              NFT = NFT + NE1
+  220       CONTINUE
+            NGP(P)=NGROUP-NGP(P)
+          ENDIF
+        ENDDO
 C DD_IAD => nb groupes par sous domaine
-       NGP(NSPMD+1)=0
-       DO P = 1, NSPMD
-         NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
-         DD_IAD(P,NSPGROUP+N)=NGP(P)
-       END DO
-       DD_IAD(NSPMD+1,NSPGROUP+N)=NGP(NSPMD+1)
+        NGP(NSPMD+1)=0
+        DO P = 1, NSPMD
+          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
+          DD_IAD(P,NSPGROUP+N)=NGP(P)
+        END DO
+        DD_IAD(NSPMD+1,NSPGROUP+N)=NGP(NSPMD+1)
 C
   300 CONTINUE
 C
       NSPGROUP = NSPGROUP + ND
-C 
+C
       WRITE(IOUT,1000)
       WRITE(IOUT,1001)(N,IGTYP,IPARG(2,N),IPARG(3,N)+1,IPARG(5,N),
      +                 N=NGR1,NGROUP)

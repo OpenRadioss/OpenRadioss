@@ -49,7 +49,7 @@ C-----------------------------------------------
 C     KXX(5,NUMELX)      TABLEAU CONECS+PID+NOS RESSORTS            E
 C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
 C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELX)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
+C     EADD(NUMELX)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E
 C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
 C     INDEX(NUMELX)      TABLEAU DE TRAVAIL                         E/S
 C     INUM (6*NUMELX)      TABLEAU DE TRAVAIL                         E/S
@@ -99,15 +99,15 @@ C
       NFT = 0
 C initialisation dd_iad
       DO N=1,ND
-       DO P=1,NSPMD+1
-         DD_IAD(P,NSPGROUP+N) = 0
-       END DO
+        DO P=1,NSPMD+1
+          DD_IAD(P,NSPGROUP+N) = 0
+        END DO
       ENDDO
 
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
 C
-        DO I = 1, NEL 
+        DO I = 1, NEL
           INDEX(I) = I
           INUM(1,I)=IPARTX(NFT+I)
           INUM(2,I)=KXX(1,NFT+I)
@@ -116,7 +116,7 @@ C
           INUM(5,I)=KXX(4,NFT+I)
           INUM(6,I)=KXX(5,NFT+I)
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -149,25 +149,25 @@ C   dd-iad
           DD_IAD(P,NSPGROUP+N) = DD_IAD(P-1,NSPGROUP+N)+1
         ENDDO
         DD_IAD(1,NSPGROUP+N) = 1
-C          
+C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO           
+      ENDDO
 C
 C RENUMEROTATION POUR SURFACE voir pour 100==ITYP
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
         DO J=1,NN
-         IF(IGRSURF(I)%ELTYP(J) == 100)
-     .      IGRSURF(I)%ELEM(J) = ITR1(IGRSURF(I)%ELEM(J))
+          IF(IGRSURF(I)%ELTYP(J) == 100)
+     .       IGRSURF(I)%ELEM(J) = ITR1(IGRSURF(I)%ELEM(J))
         ENDDO
       ENDDO
 
@@ -175,80 +175,78 @@ C phase 2 : bornage en groupe de mvsiz
 C ngroup est global, iparg est global mais organise en fonction de dd
 C
       DO 300 N=1,ND
-       NFT = 0
+        NFT = 0
 cc       LB_L = LBUFEL
-       DO P = 1, NSPMD
-        NGP(P)=0
-        NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL>0) THEN
-         NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
-         NGP(P)=NGROUP
-         NG  = (NEL-1)/NVSIZ + 1
-         DO 220 I=1,NG
+        DO P = 1, NSPMD
+          NGP(P)=0
+          NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
+          IF (NEL>0) THEN
+            NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
+            NGP(P)=NGROUP
+            NG  = (NEL-1)/NVSIZ + 1
+            DO 220 I=1,NG
 C xgroup global
-          NGROUP=NGROUP+1
-          II = EADD(N)+NFT
+              NGROUP=NGROUP+1
+              II = EADD(N)+NFT
 C Multidomains - xelem not duplicated
-          IF (NSUBDOM>0) IPARTR2R = 1
-          PID =  KXX(2,II)
-          innd = kxx(3,II)
-          MTNN=GEO(8,PID)
-          IGTYP=NINT(GEO(12,PID))
- 	  IF(IGTYP<28.OR.IGTYP>31) THEN
-      CALL ANCMSG(MSGID=413,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO_BLIND_1,
-     .                I1=KXX(5,I),
-     .                C1='PROPERTY',
-     .                I2=IGEO(1,PID),
-     .                C2='PROPERTY',
-     .                I3=IGTYP)
- 	  ENDIF
-          ISSN=0
-          IETYP = 100
-          GEO(8,PID)=IETYP + EM01
-          IF(GEO(5,PID)/=ZERO)ISSN=1
+              IF (NSUBDOM>0) IPARTR2R = 1
+              PID =  KXX(2,II)
+              innd = kxx(3,II)
+              MTNN=GEO(8,PID)
+              IGTYP=NINT(GEO(12,PID))
+              IF(IGTYP<28.OR.IGTYP>31) THEN
+                CALL ANCMSG(MSGID=413,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                          I1=KXX(5,I),
+     .                          C1='PROPERTY',
+     .                          I2=IGEO(1,PID),
+     .                          C2='PROPERTY',
+     .                          I3=IGTYP)
+              ENDIF
+              ISSN=0
+              IETYP = 100
+              GEO(8,PID)=IETYP + EM01
+              IF(GEO(5,PID)/=ZERO)ISSN=1
 
 C
-          CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
+              CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
-          NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
-          NUVAR =NINT( GEO(25,PID))
-          NUVARN=NINT( GEO(35,PID))
+              NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
+              NUVAR =NINT( GEO(25,PID))
+              NUVARN=NINT( GEO(35,PID))
 
-          IPARG(1,NGROUP) = MTNN
-          IPARG(2,NGROUP) = NE1
-          IPARG(3,NGROUP) = II-1
-          IPARG(4,NGROUP) = LBUFEL+1  !  kept in place for compatibility with
+              IPARG(1,NGROUP) = MTNN
+              IPARG(2,NGROUP) = NE1
+              IPARG(3,NGROUP) = II-1
+              IPARG(4,NGROUP) = LBUFEL+1  !  kept in place for compatibility with
 c                                        other groups using old buffer
-          IPARG(5,NGROUP) = IETYP
-          IPARG(9,NGROUP) = ISSN
+              IPARG(5,NGROUP) = IETYP
+              IPARG(9,NGROUP) = ISSN
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
+              IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C
-cc          LBUFEL= IPARG(4,NGROUP)+NE1*
-cc     .            (NXVIE+NUVAR+INND*(NXVIN+NUVARN))-1  ! Cmi --> a virer
 C reperage groupe/processeur
-          IPARG(32,NGROUP)= P-1
-          NFT = NFT + NE1
-  220    CONTINUE
-         NGP(P)=NGROUP-NGP(P)
-        ENDIF
-       ENDDO
+              IPARG(32,NGROUP)= P-1
+              NFT = NFT + NE1
+  220       CONTINUE
+            NGP(P)=NGROUP-NGP(P)
+          ENDIF
+        ENDDO
 cc       LB_L = LBUFEL - LB_L
 cc       LB_MAX = MAX(LB_MAX,LB_L)
 C DD_IAD => nb groupes par sous domaine
-       NGP(NSPMD+1)=0
-       DO P = 1, NSPMD
-         NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
-         DD_IAD(P,NSPGROUP+N)=NGP(P)
-       END DO
-       DD_IAD(NSPMD+1,NSPGROUP+N)=NGP(NSPMD+1)
+        NGP(NSPMD+1)=0
+        DO P = 1, NSPMD
+          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
+          DD_IAD(P,NSPGROUP+N)=NGP(P)
+        END DO
+        DD_IAD(NSPMD+1,NSPGROUP+N)=NGP(NSPMD+1)
 C
   300 CONTINUE
 C
       NSPGROUP = NSPGROUP + ND
-C 
+C
       WRITE(IOUT,1000)
       WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(4,N),IPARG(5,N),
