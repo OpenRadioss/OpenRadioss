@@ -1595,10 +1595,10 @@ C----   size real arrays
           ENDIF
 !   Erosion for solids
           INTBUF_TAB(NIN)%S_IELEM_M  = 2*NRTM
-          IF(IDEL_SOLID >0) THEN
+c          IF(IDEL_SOLID >0) THEN
             INTBUF_TAB(NIN)%S_PROC_ELEM_M  = 2*NRTM
             INTBUF_TAB(NIN)%S_PROC_MVOISIN  = 4*NRTM             
-          ENDIF
+c          ENDIF
 
         ENDIF !END ALL INTERFACE TYPES
 
