@@ -237,7 +237,15 @@ C TAGE flag servant pour inacti
               IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
                 NRTM_L = NRTM_L + 1
                 TAGE(K) = NRTM_L
-              ENDIF              
+              ENDIF  
+              IF (ITYP==25) THEN 
+                IF(INTERCEP(2,NI)%P(K) > 0.AND.INTERCEP(2,NI)%P(K)/=INTERCEP(1,NI)%P(K)) THEN
+                  IF(INTERCEP(2,NI)%P(K)==PROC+1)THEN
+                    NRTM_L = NRTM_L + 1
+                    TAGE(K) = NRTM_L
+                  ENDIF 
+                ENDIF    
+              ENDIF    
             ENDDO
 C
             NODFI = 0

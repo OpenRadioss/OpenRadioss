@@ -719,7 +719,7 @@ C--------------------------------------------------------
       SUBTRIX(1:JLT)=0
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         IF(IX3(I)/=IX4(I))THEN
 
@@ -1288,7 +1288,7 @@ C
 C--------------------------------------------------------
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         IA    = SUBTRIA(I)
         PENAX = ZERO

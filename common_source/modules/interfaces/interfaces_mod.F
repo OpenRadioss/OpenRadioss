@@ -53,6 +53,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE PARAMETERS_MOD
+       USE SPMD_ARRAYS_MOD
        implicit  none
 C-----------------------------------------------
 C   m y _ r e a l
@@ -71,6 +72,7 @@ C---------------------------------------------
 
           TYPE INTERFACES_
                TYPE (PARAMETERS_) PARAMETERS
+               TYPE (SPMD_ARRAYS_) SPMD_ARRAYS
           END TYPE INTERFACES_
 
 C

@@ -192,7 +192,7 @@ Chd|====================================================================
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
      .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE,
-     .                  NINV )
+     .                  NINV ,IELEM_M )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -218,11 +218,12 @@ C-----------------------------------------------
       INTEGER  , INTENT(INOUT) :: TAGELEMS(NUMELS),INDEXE(NUMELS)
       my_real
      .   X(3,*)
+      INTEGER  , INTENT(INOUT) :: IELEM_M(2) ! ID of 1 or 2 solid elements attached to main segment
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM, NINDEXE
+     .        NUSER, NUSERM, NINDEXE, IELS
 C     REAL
       my_real
      .   N1, N2, N3, DDS
@@ -255,6 +256,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             IELEM_M(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -277,6 +279,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             IELEM_M(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -299,6 +302,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             IELEM_M(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -321,6 +325,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             IELEM_M(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -337,6 +342,16 @@ C
        ENDDO
 
        IF (NUSERM==-1) RETURN
+       IF(IC==1) THEN 
+          IELEM_M(1) =   NEL
+          IELEM_M(2) =   0
+       ELSEIF(IC==2) THEN 
+          IF(IELEM_M(1)/= NEL) THEN 
+            IELS = IELEM_M(1)
+            IELEM_M(1) = IELEM_M(2)
+            IELEM_M(2) = IELS
+          ENDIF
+       ENDIF
 C-----------------------------------------------
 C     SEGMENTS ORIENTATION CHECKING 
 C-----------------------------------------------

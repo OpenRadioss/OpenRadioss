@@ -31,9 +31,9 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,ITABM1,
-     .                                           IPARI,GEO,
-     .                                           IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                                           ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
+     .                                           IPARI       ,GEO       ,IXS      ,IXC       ,IXT   ,
+     .                                           IXP         ,IXR       ,IXTG     ,ADDCNEL   ,CNEL  ,
+     .                                           TAG_NODE    ,TAG_ELEM  ,INTERFACES)
 !$COMMENT
 !       FIND_SURFACE_FROM_REMOTE_PROC description
 !           this routine finds the surface id from a list of remote node
@@ -45,6 +45,7 @@ Chd|====================================================================
 !$ENDCOMMENT
         USE INTBUFDEF_MOD   
         USE SHOOTING_NODE_MOD
+        USE INTERFACES_MOD       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,6 +56,8 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
+#include      "task_c.inc"
+
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -76,6 +79,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
         INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
+        TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -110,7 +115,7 @@ C-----------------------------------------------
                 LOCAL_NODE(J) = SYSFUS2(GLOBAL_NODE(J),ITABM1,NUMNOD)
             ENDDO
             NODE_ID = LOCAL_NODE(1)    ! get the node ID
-      
+
             NB_RESULT_INTERSECT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node
             SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
             RESULT_INTERSECT(1:NB_RESULT_INTERSECT) = SHOOT_STRUCT%M_NODE_SURF( SHIFT+1:SHIFT+NB_RESULT_INTERSECT )
@@ -145,16 +150,15 @@ C-----------------------------------------------
                 LIST_SURFACE_R_PROC(1:NB_SURFACE_R_PROC) = TMP_ARRAY(1:NB_SURFACE_R_PROC)
                 DEALLOCATE( TMP_ARRAY )
             ENDIF
-            
             LIST_SURFACE_R_PROC(1+NB_SURFACE_R_PROC:NB_SURFACE_R_PROC+NB_RESULT_INTERSECT) = 
      .            RESULT_INTERSECT(1:NB_RESULT_INTERSECT)
             NB_SURFACE_R_PROC = NB_SURFACE_R_PROC + NB_RESULT_INTERSECT            
         ENDDO
 
-        CALL CHECK_SURFACE_STATE( -1,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
-     .                            IPARI,GEO,
-     .                            IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                            ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
+        CALL CHECK_SURFACE_STATE( -1   ,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
+     .                            IPARI,GEO              ,IXS                ,IXC                         ,IXT       ,
+     .                            IXP  ,IXR              ,IXTG               ,ADDCNEL                     ,CNEL      ,
+     .                            TAG_NODE,TAG_ELEM      ,SHOOT_STRUCT       ,INTERFACES )
 
         DEALLOCATE( LIST_SURFACE_R_PROC )
         DEALLOCATE( RESULT_INTERSECT )

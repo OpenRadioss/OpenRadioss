@@ -878,7 +878,7 @@ C     CALCULATE NODAL NORMAL FOR SECONDARY NODES
 C---------------------------------------------
       IF (INACTI/=0) THEN
        CALL I24NORMNS(
-     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD)
+     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD, STF)
 C------nodal part_id      
         DO I=1,NUMNOD
          TAGB(I)=0
@@ -1156,7 +1156,7 @@ C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC,ST
+     .   XL,STIFC,ST,IELEM(2)
 C----------------------
       NREV=0
       IPGMAT = 700
@@ -1308,7 +1308,7 @@ C-------coating shell  stif=max(sol,shell)
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .            NINV)
+     .            NINV,IELEM)
            IF(NELS/=0) THEN
             MT=IXS(1,NELS)
             IF(MT>0)THEN
@@ -1418,7 +1418,7 @@ C-------coating shell  stif=max(sol,shell)
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE ,
-     .            NINV)
+     .            NINV,IELEM)
            IF(NELS/=0) THEN
             MT=IXS(1,NELS)
             IF(MT>0)THEN
@@ -1455,7 +1455,7 @@ C----------------------
        CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .            NINV)
+     .            NINV ,IELEM)
       IF(NELS/=0) THEN
        MT=IXS(1,NELS)
        IF(INTTH > 0 ) IELES(I) = NELS
@@ -1855,7 +1855,7 @@ Chd|        NORMV3                        source/interfaces/inter3d1/i24tools.F
 Chd|        NORMVEC                       source/interfaces/inter3d1/i24sti3.F
 Chd|====================================================================
       SUBROUTINE I24NORMNS(
-     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD)
+     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD, STF)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1878,6 +1878,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   NORM(3,NUMNOD),R(3),S(3),T(3),DET
+      my_real  , INTENT(IN) :: STF(NRT)
+
 C=======================================================================
        DO I=1,NUMNOD
         NORM(1,I) = ZERO
@@ -1886,62 +1888,64 @@ C=======================================================================
         ITAG(I) =0
        ENDDO
        DO I=1,NRT
-        DO J=1,4
-         NN(J)=IRECT(J,I)
-         ITAG(NN(J)) =ITAG(NN(J))+1
-        END DO
-C------Node 1        
-        DO J=1,3
-         R(J) = X(J,NN(2))-X(J,NN(1))
-         S(J) = X(J,NN(4))-X(J,NN(1))
-        END DO
-        CALL NORMVEC(R,S,T)
-        DO J=1,3
-         NORM(J,NN(1)) = NORM(J,NN(1))+T(J)
-        END DO
-C------Node 2        
-        DO J=1,3
-         R(J) = X(J,NN(3))-X(J,NN(2))
-         S(J) = X(J,NN(1))-X(J,NN(2))
-        END DO
-        CALL NORMVEC(R,S,T)
-        DO J=1,3
-         NORM(J,NN(2)) = NORM(J,NN(2))+T(J)
-        END DO
+        IF(STF(I) > ZERO) THEN
+          DO J=1,4
+            NN(J)=IRECT(J,I)
+            ITAG(NN(J)) =ITAG(NN(J))+1
+          END DO
+C------Node 1            
+          DO J=1,3
+            R(J) = X(J,NN(2))-X(J,NN(1))
+            S(J) = X(J,NN(4))-X(J,NN(1))
+          END DO
+          CALL NORMVEC(R,S,T)
+          DO J=1,3
+            NORM(J,NN(1)) = NORM(J,NN(1))+T(J)
+          END DO
+C------Node 2          
+          DO J=1,3
+            R(J) = X(J,NN(3))-X(J,NN(2))
+            S(J) = X(J,NN(1))-X(J,NN(2))
+          END DO
+          CALL NORMVEC(R,S,T)
+          DO J=1,3
+           NORM(J,NN(2)) = NORM(J,NN(2))+T(J)
+          END DO
 C------Node 3        
-        DO J=1,3
-         R(J) = X(J,NN(4))-X(J,NN(3))
-         S(J) = X(J,NN(2))-X(J,NN(3))
-        END DO
-        CALL NORMVEC(R,S,T)
-        DO J=1,3
-         NORM(J,NN(3)) = NORM(J,NN(3))+T(J)
-        END DO
+          DO J=1,3
+            R(J) = X(J,NN(4))-X(J,NN(3))
+            S(J) = X(J,NN(2))-X(J,NN(3))
+          END DO
+          CALL NORMVEC(R,S,T)
+          DO J=1,3
+            NORM(J,NN(3)) = NORM(J,NN(3))+T(J)
+          END DO
 C------Node 4
-        IF (NN(4)/=NN(3)) THEN        
-         DO J=1,3
-          R(J) = X(J,NN(1))-X(J,NN(4))
-          S(J) = X(J,NN(3))-X(J,NN(4))
-         END DO
-         CALL NORMVEC(R,S,T)
-         DO J=1,3
-          NORM(J,NN(4)) = NORM(J,NN(4))+T(J)
-         END DO
-        END IF
-       ENDDO
+          IF (NN(4)/=NN(3)) THEN        
+            DO J=1,3
+             R(J) = X(J,NN(1))-X(J,NN(4))
+             S(J) = X(J,NN(3))-X(J,NN(4))
+            END DO
+            CALL NORMVEC(R,S,T)
+            DO J=1,3
+             NORM(J,NN(4)) = NORM(J,NN(4))+T(J)
+            END DO
+          END IF
+        ENDIF
+      ENDDO
 C----re-normalizing---       
-       DO I=1,NUMNOD
+      DO I=1,NUMNOD
         IF (ITAG(I) >1) THEN
          CALL NORMV3(NORM(1,I),DET)
         END IF
-       ENDDO
+      ENDDO
 C       
-       DO I=1,NSN
+      DO I=1,NSN
         NS = NSV(I)
         PEN_OLD(1,I) = NORM(1,NS)
         PEN_OLD(2,I) = NORM(2,NS)
         PEN_OLD(3,I) = NORM(3,NS)
-       ENDDO
+      ENDDO
 C-----------
       RETURN
       END
