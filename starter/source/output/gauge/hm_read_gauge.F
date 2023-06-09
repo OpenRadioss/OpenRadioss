@@ -304,7 +304,9 @@ C
                 EXIT
               ENDIF
             ENDDO
-            WRITE (IOUT,'(A,I10)')
+            IF (LGAUGE(3,NG) == 0)
+     .      CALL ANCMSG(MSGID=3013,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NGAU,C1=TITR,I2=NS)
+            WRITE (IOUT,'(/,A,I10)')
      .    ' SHELL NUMBER . . . . . . . . . . . . .',NS
             WRITE (IOUT,'(A,1PG20.13)')
      .    ' DISTANCE . . . . . . . . . . . . . . .',DIST
