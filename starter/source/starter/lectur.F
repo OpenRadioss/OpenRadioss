@@ -718,7 +718,7 @@ C-----------------------------------------------
      .   PROC_BID,FLG_R2R_ERR,NSPCOND0,LENTHGR,FLAG_XFEM,
      .   IADTABIGE,NDOUBLONIGE,DECALIGEO,HM_NSENSOR,
      .   IPARSENS,NBT8,
-     .   TAB_SOL(6),ISTR_24,
+     .   TAB_SOL(6),ISTR_24,IDEL_SOLID,
      .   LCNCND,I24MAXNSNE,NSIGBEAM,NSIGTRUSS,S_LOADPINTER,
      .   FLAGF,ITHFLAG,MAXRTM_T2,NS_I2,SITAGE,NCTRLMAX,INLIN,SVR_1
       INTEGER (KIND=8) EMAX
@@ -7154,6 +7154,7 @@ C--------------------------------------------
       INTERFACES%PARAMETERS%ISTIF_DT = 0
 C PROBINT egalement initialisee dans ENGINE (rdresa)
       PROBINT=HALF
+      INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 0
 
       IF(NINTER == 0.AND.NINTERFRIC > 0 )THEN
             CALL ANCMSG(MSGID=1593,
@@ -7197,6 +7198,7 @@ C
 C------------------------------------------------------------
 C     INTERFACE READING
 C--------------------------------------------------------------
+       NINTER25 = 0
        CALL HM_READ_INTERFACES(
      1           IPARI    ,FRIGAP   ,NINTER   ,ITAB       ,ITABM1                      ,
      2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N                     ,
@@ -7208,6 +7210,17 @@ C--------------------------------------------------------------
 C
 
        IF(.NOT. ALLOCATED(ALE_CONNECTIVITY%NALE)) ALLOCATE(ALE_CONNECTIVITY%NALE(0))
+
+c       IF(NINTER25 /= 0)THEN
+c        DO N=1,NGROUP
+c          IF(IPARG(NPARG*(N-1)+43) >0.AND.IPARG(NPARG*(N-1)+5)==1)THEN
+c             INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 1
+c          ENDIF
+c        END DO
+c       END IF
+c       INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 1
+
+
        CALL LECINT (IPARI       ,NINTER    ,IPM       ,BUFMAT   ,                                                 
      .              NMNT        ,ITAB      ,ITABM1    ,GEO      ,                                                 
      .              PM          ,X         ,IGRNOD    ,IGRSURF  ,IGRSLIN  ,                                       
@@ -7221,7 +7234,13 @@ C
      .              IXS16       ,IXS20     ,DEF_INTER ,MAXNSNE  ,                                                 
      .              NPC1        ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
      .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS  ,MAXRTM_T2,NSN_MULTI_CONNEC,           
-     .              T2_NB_CONNEC,IDDLEVEL ,ALE_CONNECTIVITY%NALE)
+     .              T2_NB_CONNEC,IDDLEVEL ,ALE_CONNECTIVITY%NALE,INTERFACES)
+
+c       IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID == 2) THEN
+c         INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 1
+c       ELSE
+c         INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 0
+c       ENDIF
 C
        !need to allocate only once at first passage in lectur
        FLAG_ALLOCATE = 1
@@ -7279,7 +7298,8 @@ C
      .             IXC      ,IXTG      ,KNOD2ELC ,KNOD2ELTG                    ,NOD2ELC,
      .             NOD2ELTG ,INTBUF_TAB,KNOD2ELS ,NOD2ELS                      ,IXS10  ,
      .             IXS16    ,IXS20     ,NIGE     ,RIGE                         ,XIGE   ,
-     .             VIGE     ,IGRBRIC   ,MULTI_FVM,ALE_CONNECTIVITY%NALE        ,IGEO)
+     .             VIGE     ,IGRBRIC   ,MULTI_FVM,ALE_CONNECTIVITY%NALE        ,IGEO   ,
+     .             INTERFACES)
 C
 cc     DEALLOCATE(XFILTR)
 cc     DEALLOCATE(STFAC)
@@ -7409,9 +7429,17 @@ C
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 
-        DEALLOCATE(T2_NB_CONNEC)
-        DEALLOCATE(RWORK)
-        DEALLOCATE(IWORK)
+      IDEL_SOLID = 0
+      DO I=1,NINTER 
+         IF(IPARI(NPARI*(I-1)+7)==25.AND.IPARI(NPARI*(I-1)+100)>0) THEN
+            IDEL_SOLID = IDEL_SOLID + 1
+         ENDIF
+      ENDDO
+      IF(IDEL_SOLID == 0) INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 0
+         
+        DEALLOCATE (T2_NB_CONNEC)
+        DEALLOCATE (RWORK)
+        DEALLOCATE (IWORK)
 
         IF(IDDLEVEL==1)  THEN
           DEALLOCATE(XFILTR)

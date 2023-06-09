@@ -255,7 +255,7 @@ C
      C  WSMCOMP        ,STACK          ,
      D  CPUTIME_MP_GLOB ,CPUTIME_MP     ,TAB_UMP        ,POIN_UMP       ,SOL2SPH_TYP    ,
      E  IRUNN_BIS       ,ADDCSRECT      ,IAD_FRNOR      ,FR_NOR         ,PROCNOR        ,
-     F  IAD_FREDG       ,FR_EDG         ,DRAPE_SH4N     ,DRAPE_SH3N       ,TAB_MAT        , 
+     F  INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG  ,DRAPE_SH4N     ,DRAPE_SH3N     ,TAB_MAT        , 
      G  NATIV0_SMS      ,MULTI_FVM      ,DDP            ,SEGQUADFR      ,MS_2D          ,
      H  H3D_DATA        ,INTBUF_FRIC_TAB,SUBSETS        ,IGRNOD         ,IGRBRIC        ,
      I  IGRQUAD         ,IGRSH4N        ,IGRSH3N        ,IGRTRUSS       ,IGRBEAM        ,

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  PARAMETERS_MOD                modules/interfaces/parameters_mod.F
+Chd|  SPMD_ARRAYS_MOD                modules/interfaces/SPMD_ARRAYS_mod.F
 Chd|-- called by -----------
 Chd|        INTERFACES_MOD                common_source/modules/interfaces/interfaces_mod.F
 Chd|        HM_READ_INTER_TYPE24          starter/source/interfaces/int24/hm_read_inter_type24.F
@@ -47,7 +47,7 @@ Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        MODULE PARAMETERS_MOD
+        MODULE SPMD_ARRAYS_MOD
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
@@ -60,16 +60,13 @@ C-----------------------------------------------
 !   -------------------------
 
 C----------------------------------------------
-C   Global Parameters activated by Contact
+C   Global SPMD_ARRAYS activated by Contact
 C---------------------------------------------
 
-          TYPE PARAMETERS_
-             integer  ISTIF_DT      ! stiffness based on Mass and DT computation flag
-             integer  INTCAREA      ! flag for contact area computation for output
-             integer  INT25_EROSION_SOLID ! flag for considering erosion of solids for Inter25
-             my_real  DT_STIFINT    ! time step for stiffness based on Mass and DT computation 
-             my_real, DIMENSION(:) , ALLOCATABLE ::   INTAREAN ! nodal areas for total contact area output
-          END TYPE PARAMETERS_
+          TYPE SPMD_ARRAYS_
+             INTEGER , DIMENSION(:), ALLOCATABLE :: FR_EDG      ! List of frontier edges of main segments of int25 contacts
+             INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Adress of frontier edges of main segments of int25 contacts per proc spmd
+          END TYPE SPMD_ARRAYS_
 
 C
-        END MODULE PARAMETERS_MOD
+        END MODULE SPMD_ARRAYS_MOD

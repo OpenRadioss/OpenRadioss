@@ -194,7 +194,7 @@ C-----------------------------------------------
      .         NMN_IGE_L,NSN_FE_L,NSN_IGE_L,NMN_FE,
      .         NMN_IGE,NSN_FE,NSN_IGE,L,INTFRIC,NREMNOR,IVIS2,
      .         NEDGE,NEDGE_L,INTNITSCHE,II,NISUBE_L,ITHK,FLAGLOADP,
-     .         ISTIF_MSDT
+     .         ISTIF_MSDT, IDEL25_SOLID
        INTEGER :: NINDX_NDLOCAL24
        INTEGER :: MULTIMPE
 c      my_real
@@ -314,6 +314,7 @@ C       WRITE(6,*) __FILE__,"INTERFACE=",NI
         ITHK = IPARI(91,NI)
         FLAGLOADP = IPARI(95,NI)
         ISTIF_MSDT = IPARI(97,NI)
+        IDEL25_SOLID = IPARI(100,NI)
 
         IF (ITYP == 24) NRTSE  = IPARI(52,NI)
         IF (ITYP == 24) IEDGE4 = IPARI(59,NI)
@@ -2484,7 +2485,7 @@ C=======================================================================
      .                          TAG_SEGM2     ,TAG_NM      ,TAG_NODE_MSR,
      .                          TAG_SCRATCH   ,TAG_SM      ,KNOR2MSR    ,
      .                          NOR2MSR       ,TAG_NODE_2RY2,NINDX_NM,INDX_NM,
-     .                          NINDX_SCRT    ,INDX_SCRT)
+     .                          NINDX_SCRT    ,INDX_SCRT    ,INTERCEP(2,NI),NRTM_L)
 
           IF(II_STOK>0)THEN
             CALL PREPARE_SPLIT_CAND(INTBUF_TAB(NI), TAG_SEGM2, II_STOK,
@@ -2709,6 +2710,13 @@ c     .                            TAG_II_E2E)
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IFPEN_E2S,II_STOK_S_L,1,
      .                            TAG_II_E2S) 
           ENDIF
+
+c          IF(IDEL25_SOLID /=0) THEN
+C---------IELEM_M
+            CALL SPLIT_SEG_IELEM(INTBUF_TAB(NI)%IELEM_M,INTBUF_TAB(NI)%PROC_MVOISIN, INTBUF_TAB(NI)%MVOISIN,NRTM,
+     .                           NRTM_L               ,TAG_SEGM                   ,CEP                    ,CEL  ,
+     .                           IDEL25_SOLID         ,INTERCEP(1,NI)             ,PROC                  ,NUMELS)
+c          ENDIF
 
 c split and write on disk floating arrays 
 

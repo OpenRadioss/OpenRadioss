@@ -31,10 +31,10 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
-        SUBROUTINE CHECK_SURFACE_STATE( ITASK,SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
-     .                                  IPARI,GEO,
-     .                                  IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                                  ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
+        SUBROUTINE CHECK_SURFACE_STATE( ITASK ,SURFARCE_NB ,SURFACE_ID ,SHIFT_INTERFACE ,INTBUF_TAB ,
+     .                                  IPARI ,GEO         ,IXS        ,IXC             ,IXT        ,
+     .                                  IXP   ,IXR         ,IXTG       ,ADDCNEL         ,CNEL       ,
+     .                                  TAG_NODE,TAG_ELEM ,SHOOT_STRUCT,INTERFACES      )
 !$COMMENT
 !       CHECK_SURFACE_STATE description
 !           check the state of an surface (active or not)
@@ -47,6 +47,7 @@ Chd|====================================================================
 !$ENDCOMMENT
         USE INTBUFDEF_MOD
         USE SHOOTING_NODE_MOD
+        USE INTERFACES_MOD       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,11 +81,13 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
         INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo   
+        TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         LOGICAL :: DEACTIVATION
-        INTEGER :: I,K,FIRST,LAST
+        INTEGER :: I,K,J,FIRST,LAST
         INTEGER :: NIN,ID_INTER,NUMBER_INTER
         INTEGER :: ITY,IDEL
         INTEGER :: N1,N2,N3,N4
@@ -97,7 +100,10 @@ C-----------------------------------------------
         INTEGER :: OFFSET_TASK ! offset to point to the right place in the array SHOOT_STRUCT%REMOTE_SURF
         INTEGER :: LOW_BOUND,UP_BOUND ! bounds
         INTEGER :: TOTAL_NUMBER_SURFACE ! total number of deleted surface
+        INTEGER :: NB_RESULT_INTERSECT_25, OLD_SIZE ! number temporary of internal segments becoming external
         INTEGER, DIMENSION(:), ALLOCATABLE :: SAVED_SURFACE ! temporary array 
+        INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT_INTERSECT_25 ! temporary array for saving internal segments becoming external
+        INTEGER, DIMENSION(:), ALLOCATABLE :: TMP_ARRAY
 C-----------------------------------------------
         IF(ITASK==-1) THEN
             FIRST = 1
@@ -113,6 +119,8 @@ C-----------------------------------------------
         IF(ITASK/=-1) CALL MY_BARRIER( )
         NUMBER_INTER = SHIFT_INTERFACE(NINTER+1,2)
         NUMBER_SAVED_SURFACE_TYP24_25(MY_REAL_TASK_ID) = 0
+        NB_RESULT_INTERSECT_25 = 0
+        IF(ITASK==-1.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) ALLOCATE( RESULT_INTERSECT_25( SURFARCE_NB )) 
         ! --------------------------
         ! loop over the deactivated surface
         DO I=FIRST,LAST
@@ -128,6 +136,7 @@ C-----------------------------------------------
                     SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K) = SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K) - 1
                 ENDIF
             ENDIF
+
             IF((ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25).AND.IDEL==1) THEN
                 N1 = INTBUF_TAB(NIN)%IRECTM((K-1)*4+1)
                 N2 = INTBUF_TAB(NIN)%IRECTM((K-1)*4+2)
@@ -145,6 +154,17 @@ C-----------------------------------------------
                 ENDIF
             ELSE
                 DEACTIVATION=.TRUE.
+            ENDIF
+
+            ! Solid erosion Int25 : check if segment deleted of internal becoming external
+
+            IF(ITASK==-1.AND.ITY==25.AND.IPARI(100,NIN) > 0) THEN
+                IF(INTBUF_TAB(NIN)%STFM(K) < 0 ) THEN ! if local element is already OFF INTBUF_TAB(NIN)%STFM(K) = 0
+                    INTBUF_TAB(NIN)%STFM(K) = - INTBUF_TAB(NIN)%STFM(K) 
+                    NB_RESULT_INTERSECT_25 = NB_RESULT_INTERSECT_25 + 1 ! Other element is ON : Internal segment becoming external
+                    RESULT_INTERSECT_25(NB_RESULT_INTERSECT_25) = SURFACE_ID(I)
+                    DEACTIVATION=.FALSE.
+                ENDIF
             ENDIF
             ! check if the surface is active, if yes --> deactivate it
             IF(DEACTIVATION) THEN
@@ -197,6 +217,28 @@ C-----------------------------------------------
             IF(MY_REAL_TASK_ID==1) SHOOT_STRUCT%NUMBER_REMOTE_SURF = SHOOT_STRUCT%NUMBER_REMOTE_SURF + TOTAL_NUMBER_SURFACE
         ENDIF
         ! --------------------------
+        IF(ITASK/=-1.AND.NB_RESULT_INTERSECT_25>0) THEN  
+            ! solid erosion int25 : new external segments
+            ! save the surface id
+
+            IF( SHOOT_STRUCT%SAVE_SURFACE_NB_EXT+NB_RESULT_INTERSECT_25>SHOOT_STRUCT%S_SAVE_SURFACE_EXT) THEN
+                ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_SURFACE_EXT) )
+                TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_SURFACE_EXT) =
+     .            SHOOT_STRUCT%SAVE_SURFACE_EXT(1:SHOOT_STRUCT%S_SAVE_SURFACE_EXT)
+
+                DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE_EXT )
+                OLD_SIZE = SHOOT_STRUCT%S_SAVE_SURFACE_EXT
+                SHOOT_STRUCT%S_SAVE_SURFACE_EXT = 1.20*(SHOOT_STRUCT%S_SAVE_SURFACE_EXT+5*NB_RESULT_INTERSECT_25)
+                ALLOCATE( SHOOT_STRUCT%SAVE_SURFACE_EXT( SHOOT_STRUCT%S_SAVE_SURFACE_EXT ) )
+                SHOOT_STRUCT%SAVE_SURFACE_EXT(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
+                DEALLOCATE( TMP_ARRAY )
+            ENDIF
+            DO J=1,NB_RESULT_INTERSECT_25
+                SHOOT_STRUCT%SAVE_SURFACE_NB_EXT = SHOOT_STRUCT%SAVE_SURFACE_NB_EXT + 1
+                SHOOT_STRUCT%SAVE_SURFACE_EXT( SHOOT_STRUCT%SAVE_SURFACE_NB_EXT ) =  RESULT_INTERSECT_25(J)
+            ENDDO
+        ENDIF
+
         IF(ITASK/=-1) CALL MY_BARRIER( )
         IF(MY_REAL_TASK_ID==1) DEALLOCATE( NUMBER_SAVED_SURFACE_TYP24_25 )
         RETURN
