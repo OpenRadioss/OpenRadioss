@@ -26,8 +26,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IELEM(IELEM_M    ,PROC_MVOISIN  ,MVOISIN  ,NRTM      ,
      .                           NRTM_L     ,TAG_SEG       ,CEP      ,CEL       ,
@@ -65,7 +63,7 @@ C-----------------------------------------------
 C ----------------------------------------
       ALLOCATE(IBUF1(2*NRTM_L))
       ALLOCATE(IBUF2(2*NRTM_L))
-      IF(IDEL_SOLID > 0) ALLOCATE(IBUF3(4*NRTM_L))
+      ALLOCATE(IBUF3(4*NRTM_L))
       IBUF1(1:2*NRTM_L) = 0
       IBUF2(1:2*NRTM_L) = 0
       IF(IDEL_SOLID > 0) IBUF3(1:4*NRTM_L) = 0
@@ -106,7 +104,6 @@ c            write(*,*) 'problem split ielem'
         ENDIF 
       ENDDO
 
-      IF(IDEL_SOLID > 0) THEN
         DO I = 1, NRTM        
            DO J = 1,4
               K = MVOISIN(J,I)
@@ -120,15 +117,14 @@ c            write(*,*) 'problem split ielem'
              IF(N /= 0) IBUF3(4*(I-1)+J) = PROC_MVOISIN(J,K)
            ENDDO
        ENDDO
-      ENDIF
       
       CALL WRITE_I_C(IBUF1,2*NRTM_L)
-      IF(IDEL_SOLID > 0) CALL WRITE_I_C(IBUF2,2*NRTM_L)
-      IF(IDEL_SOLID > 0) CALL WRITE_I_C(IBUF3,4*NRTM_L)
+      CALL WRITE_I_C(IBUF2,2*NRTM_L)
+      CALL WRITE_I_C(IBUF3,4*NRTM_L)
 
 !     WRITE(6,*) __FILE__,__LINE__,IBUF(1)
       DEALLOCATE(IBUF1,IBUF2)
-      IF(IDEL_SOLID > 0) DEALLOCATE(IBUF3)
+      DEALLOCATE(IBUF3)
 
       RETURN
       END

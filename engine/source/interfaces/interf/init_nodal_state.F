@@ -478,7 +478,7 @@ c           ALLOCATE( SHOOT_STRUCT%M_INTER_SURF( SHOOT_STRUCT%SIZE_M_ELEM_SURF) 
                     IF(IEL <= NUMELS) THEN
                         WORK_ARRAY_4(IEL) = WORK_ARRAY_4(IEL) + 1
                         SHIFT =  WORK_ARRAY_4(IEL) + SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL) ! index for M_ELEM_SUR
-                        SHOOT_STRUCT%M_ELEM_SURF(SHIFT) =  I
+                        SHOOT_STRUCT%M_ELEM_SURF(SHIFT) =  SHIFT_INTER  - 1 + I
 c                        SHOOT_STRUCT%M_INTER_SURF(SHIFT) = NIN
                     ENDIF
                     IEL = INTBUF_TAB(NIN)%IELEM_M((I-1)*2+2)

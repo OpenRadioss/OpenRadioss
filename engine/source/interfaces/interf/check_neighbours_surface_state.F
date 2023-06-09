@@ -264,7 +264,7 @@ C---------------------------------------------------------
                ITAGM(1:NRTM) = 0
                IDX(1:NRTM) = 0
                DO I=1,NRTM
-                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+1) <= NUMELS.AND.INTBUF_TAB(NIN)%STFM(I) > ZERO) THEN
+                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+1) <= NUMELS.AND.INTBUF_TAB(NIN)%STFM(I) > ZERO.AND.INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+2)>0) THEN
                     DO J=1,4
                         IF (INTBUF_TAB(NIN)%MVOISIN(4*(I-1)+J)==0) THEN
                           MVOISIN_CHANGE = 1 ! flag is ON if new Mvoisin is on another proc : need to update spmd arrays
@@ -638,8 +638,8 @@ C---------------------------------------------------------
                                ! Sorting of edges frontiers : unique order
                                ITRI25(1,NBDDEDG) =  P
 
-                               N1=INTBUF_TAB(NI)%IRECTM(4*(I-1)+J)
-                               N2=INTBUF_TAB(NI)%IRECTM(4*(I-1)+MOD(J,4)+1)
+                               N1=INTBUF_TAB(NIN)%IRECTM(4*(I-1)+J)
+                               N2=INTBUF_TAB(NIN)%IRECTM(4*(I-1)+MOD(J,4)+1)
 
                                ITRI25(2,NBDDEDG) =  MIN(-K,INTBUF_TAB(NIN)%MSEGLO(I))
                                ITRI25(3,NBDDEDG) =  MAX(-K,INTBUF_TAB(NIN)%MSEGLO(I))
