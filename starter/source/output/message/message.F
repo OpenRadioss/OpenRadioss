@@ -212,6 +212,7 @@ Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F
 Chd|        HM_READ_FUNCT                 source/tools/curve/hm_read_funct.F
 Chd|        HM_READ_FXB1                  source/constraints/fxbody/hm_read_fxb.F
 Chd|        HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
+Chd|        HM_READ_GAUGE                 source/output/gauge/hm_read_gauge.F
 Chd|        HM_READ_GRAV                  source/loads/general/grav/hm_read_grav.F
 Chd|        HM_READ_IMPACC                source/constraints/general/impvel/hm_read_impacc.F
 Chd|        HM_READ_IMPFLUX               source/constraints/thermic/hm_read_impflux.F
