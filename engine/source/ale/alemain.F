@@ -207,7 +207,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, M, NG, NVC, NF1,OFFSET,ISOLNOD,  NSG, NEL,I, LENCOM,ISTRA, IBID,IOUTPRT
-      INTEGER IPLA,FLAG_MAT
+      INTEGER IPLA
       INTEGER IADBH, IAD22, NIN, NBRIC_L
       INTEGER SBUFVOIS
       
@@ -230,7 +230,6 @@ C-----------------------------------------------
       IBID          = 0
       BID           = ZERO
       SBUFVOIS      = 6
-      FLAG_MAT      = 0
 
 C  IOUTPRT (assembly report)   
          IOUTPRT = 0
@@ -449,7 +448,7 @@ c
          !==================================================================================   
          
          IF (MULTI_FVM%IS_USED) THEN
-          FLAG_MAT = 1
+
           IF(ITASK==0) CALL STARTIME(MACRO_TIMER_MULTIFVM,1)
 C     -------------------------
 C     Multifluid law variable globalization
@@ -668,25 +667,6 @@ C     -------------------------
             ENDIF
             IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_MULTIFVM,1)
 
-            !---------------
-            ! Law_151 + /GAUGE
-            !---------------
-
-            !-----------------------------!
-            !     PRESSURE GAUGE          !
-            !-----------------------------!
-            IF (NBGAUGE > 0) THEN
-              IF (NSPMD  > 1) THEN
-                LENCOM =NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-              END IF
-              CALL AGAUGE(
-     1          IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
-     2          X       ,ALE_CONNECTIVITY,ITASK  ,NERCVOIS,NESDVOIS,
-     3          LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,FLAG_MAT,
-     4          GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
-            ENDIF ! IF (NBGAUGE > 0)
-        !-----------------------------!
-
          ELSE
 
 !------------------------------------------------!
@@ -703,9 +683,9 @@ C     -------------------------
      8   LERCVOIS,        LESDVOIS,        IADS,            SEGVAR,
      9   MSNF,            NODFT,           NODLT,           WA(IADBH),
      A   IPM,             QMV,             ITAB,            ITABM1,
-     B   LENQMV,          NV46,            LGAUGE,          GAUGE,
-     C   IGAUP,           NGAUP,           VOLN,            IAD_ELEM,
-     D   FR_ELEM,         NEL,             IXTG,            FLAG_MAT)
+     B   LENQMV,          NV46,
+     C   VOLN,            IAD_ELEM,
+     D   FR_ELEM,         NEL,             IXTG)
          ENDIF
       ELSE
          ALE%SUB%IFSUBM=0
@@ -875,7 +855,6 @@ c
             ENDIF
           ENDDO
 C
-
          !---------------------------------------------
          ! ELEMENTS : LAW==11
          !---------------------------------------------
@@ -1043,6 +1022,20 @@ c        DO N=NODFT,NODLT
 c          MSNF(N) = ZERO
 c        ENDDO
 c      ENDIF
+
+      !-----------------------------!
+      !     PRESSURE GAUGE          !
+      !-----------------------------!
+      IF (NBGAUGE > 0) THEN
+      IF (NSPMD  > 1) THEN
+        LENCOM =NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
+      END IF
+      CALL AGAUGE(
+     1          IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
+     2          X       ,ALE_CONNECTIVITY,ITASK  ,NERCVOIS,NESDVOIS,
+     3          LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,
+     4          GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
+      ENDIF ! IF (NBGAUGE > 0)
 
       !--------------------------------------------------------
       !       ALE SUB-CYCLING SUITE

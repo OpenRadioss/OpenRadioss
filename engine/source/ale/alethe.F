@@ -29,7 +29,6 @@ Chd|        ACONVE                        source/ale/aconve.F
 Chd|        AETURB                        source/ale/turbulence/aeturb.F
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
-Chd|        AGAUGE                        source/ale/agauge.F           
 Chd|        AGRAD0                        source/ale/agrad0.F           
 Chd|        AKTURB                        source/ale/turbulence/akturb.F
 Chd|        ALE51_FINISH                  source/ale/ale51/ale51_finish.F
@@ -59,9 +58,9 @@ Chd|====================================================================
      8   LERCVOIS,   LESDVOIS,   IADS,       SEGVAR,
      9   MSNF,       NODFT,      NODLT,      BHOLE,
      A   IPM,        QMV,        ITAB,       ITABM1,
-     B   LENQMV,     NV46,       LGAUGE,     GAUGE,
-     C   IGAUP,      NGAUP,      VOLN,       IAD_ELEM,
-     D   FR_ELEM,    NEL,        IXTG,       FLAG_MAT)
+     B   LENQMV,     NV46,
+     C   VOLN,       IAD_ELEM,
+     D   FR_ELEM,    NEL,        IXTG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,20 +84,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,FLAG_MAT
+      INTEGER, INTENT(IN) :: NEL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
      .        IADS(8,*), ITAB(NUMNOD), ITABM1(*), BHOLE(*),
      .        NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(NPROPMI,NUMMAT),
-     .        LGAUGE(3,NBGAUGE),IGAUP(*),NGAUP(*),   
      .        NODFT, NODLT, LENQMV, ITASK, NV46,
      .        IAD_ELEM(2, *), FR_ELEM(*),IXTG(NIXTG,NUMELTG)
  
       my_real VEUL, FLUX(*), VAL2(*), PHI(*), V(*), W(*), X(*), PM(*),
      .        MS(*), FILL(*), DFILL(*), ALPH(*), FV(*), BUFMAT(*), TF(*),
-     .        MSNF(*),QMV(*),GAUGE(LLGAUGE,*),VOLN(MVSIZ)
+     .        MSNF(*),QMV(*),VOLN(MVSIZ)
 
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -353,16 +351,6 @@ C----------------------
      .                       PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
          ENDIF
 C----------------------
-        !-----------------------------!
-        !     PRESSURE GAUGE          !
-        !-----------------------------!
-         IF (NBGAUGE > 0) CALL AGAUGE(
-     1     IPARG   ,ELBUF_TAB  ,PHI    ,IXS     ,IXQ     ,
-     2     X       ,ALE_CONNECT,ITASK  ,NERCVOIS,NESDVOIS,
-     3     LERCVOIS,LESDVOIS   ,LENCOM ,LGAUGE  ,FLAG_MAT,
-     4     GAUGE   ,V          ,IGAUP  ,NGAUP   ,IXTG)
-        !-----------------------------!
-
       ENDIF
 
       IF(ITASK==0) DEALLOCATE(FLUX_SAV)
