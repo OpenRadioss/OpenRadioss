@@ -1128,6 +1128,7 @@ C
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
 
       INTEGER :: NUMBER_LOAD_CYL
+      INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
       ! ------------------------------------
 c   BEGINNING
 !     domain decomposition statistic
@@ -2780,8 +2781,9 @@ C Create IXTG1 array and set to 0
      .                           MSGTYPE=MSGERROR)
       KNOD2ELQ=0
 
-      ALLOCATE(NOD2ELS(8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16),
-     .         STAT=stat)
+
+      S_NOD2ELS = 8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16
+      ALLOCATE(NOD2ELS(S_NOD2ELS),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELS')
@@ -2791,12 +2793,14 @@ C Create IXTG1 array and set to 0
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELC')
       NOD2ELC=0
-      ALLOCATE(NOD2ELTG(3*NUMELTG+3*NUMELTG6),STAT=stat)
+      S_NOD2ELTG = 3*NUMELTG+3*NUMELTG6
+      ALLOCATE(NOD2ELTG(S_NOD2ELTG),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELTG')
       NOD2ELTG=0
-      ALLOCATE(NOD2EL1D(2*NUMELT+2*NUMELP+3*NUMELR+2*SIXX),STAT=stat)
+      S_NOD2EL1D=2*NUMELT+2*NUMELP+3*NUMELR+2*SIXX
+      ALLOCATE(NOD2EL1D(S_NOD2EL1D),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2EL1D')
@@ -9957,14 +9961,15 @@ C     Mass and inertia are not modified - a specific array is used
 C
       IF (NS10E>0.AND.N2D==0) CALL STIFN0_ND(ICNDS10,STIFFN)
       IF (NINTER > 0) THEN
-       CALL ININTR2 (IPARI   ,INSCR   ,X       ,
+       CALL ININTR2(IPARI   ,INSCR   ,X       ,
      .               IXS     ,IXQ     ,IXC     ,PM      ,GEO     ,
      .               INSCR   ,ITAB    ,MS      ,NPBY    ,LPBY    ,
      .               MWA     ,D       ,I2NSNT  ,IN      ,
      .               STIFFN,STIFINT ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),INOD_PXFEM ,MS_PLY,
      .               INTBUF_TAB,STIFINTR,ITAGND,ICNDS10,MS_B,IN_B,NSTRF,ITAGCYC,
-     .               IRBE2   ,IRBE3  ,LRBE3    ,KNOD2ELS ,NOD2ELS ,
-     5               IXS10   ,IXS16  ,IXS20 )    
+     .               IRBE2   ,IRBE3  ,LRBE3    ,
+     .               KNOD2ELS ,NOD2ELS , IXS10   ,IXS16  ,IXS20,
+     .               S_NOD2ELS )    
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------------------------

@@ -35,18 +35,18 @@ Chd|====================================================================
       SUBROUTINE REMN_SELF24(
      .               X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .               KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,
-     .               ITAB , NOM_OPT,NREMOV)
+     .               ITAB , NOM_OPT,NREMOV,S_NOD2ELS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
@@ -56,22 +56,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, DIMENSION(NPARI,NINTER), INTENT(IN) :: IPARI
-      INTEGER, DIMENSION(NIXS,NUMELS) ,INTENT(IN):: IXS
-      INTEGER, DIMENSION(6,NUMELS10)  ,INTENT(IN):: IXS10
-      INTEGER, DIMENSION(8,NUMELS16)  ,INTENT(IN):: IXS16
-      INTEGER, DIMENSION(12,NUMELS20) ,INTENT(IN):: IXS20
-      INTEGER, DIMENSION(NUMNOD+1) ,INTENT(IN):: KNOD2ELS
-      INTEGER, DIMENSION(*)        ,INTENT(IN):: NOD2ELS
-      INTEGER, DIMENSION(NUMNOD)   ,INTENT(IN):: ITAB
-      INTEGER, DIMENSION(LNOPT1,SNOM_OPT) ,INTENT(IN):: NOM_OPT
-      INTEGER, DIMENSION(NINTER)   ,INTENT(INOUT):: NREMOV
-      my_real, DIMENSION(NUMNOD*3) ,INTENT(IN)   :: X
-
+      INTEGER, DIMENSION(NPARI,NINTER)    ,INTENT(IN) :: IPARI
+      INTEGER, DIMENSION(NIXS,NUMELS)     ,INTENT(IN) :: IXS
+      INTEGER, DIMENSION(6,NUMELS10)      ,INTENT(IN) :: IXS10
+      INTEGER, DIMENSION(8,NUMELS16)      ,INTENT(IN) :: IXS16
+      INTEGER, DIMENSION(12,NUMELS20)     ,INTENT(IN) :: IXS20
+      INTEGER, DIMENSION(NUMNOD+1)        ,INTENT(IN) :: KNOD2ELS
+      INTEGER,                             INTENT(IN) :: S_NOD2ELS
+      INTEGER, DIMENSION(S_NOD2ELS)       ,INTENT(IN) :: NOD2ELS
+      INTEGER, DIMENSION(NUMNOD)          ,INTENT(IN) :: ITAB
+      INTEGER, DIMENSION(LNOPT1,SNOM_OPT) ,INTENT(IN) :: NOM_OPT
+      INTEGER, DIMENSION(NINTER)      ,INTENT(INOUT) :: NREMOV
+      my_real, DIMENSION(NUMNOD*3)       ,INTENT(IN) :: X
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER),INTENT(IN):: INTBUF_TAB
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,13 +82,13 @@ C-----------------------------------------------
       CHARACTER*nchartitle,
      .   TITR
 
-        
-        INTEGER :: III,JJJ,NNOD_2,NOINT,E_ID,IADA
-        INTEGER :: FIRST,LAST,NNREM_SAVE,FLAGREMNODE_SAV
-        INTEGER :: OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED
-        INTEGER :: SIZE_INSERTED_NODE,OLDSIZE,MAX_INSERTED_NODE
-        INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
-        INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_SAVE,INSERTED_NODE,REMNODE,TMP
+
+      INTEGER :: III,JJJ,NNOD_2,NOINT,E_ID,IADA
+      INTEGER :: FIRST,LAST,NNREM_SAVE,FLAGREMNODE_SAV
+      INTEGER :: OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED
+      INTEGER :: SIZE_INSERTED_NODE,OLDSIZE,MAX_INSERTED_NODE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
+      INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_SAVE,INSERTED_NODE,REMNODE,TMP
       my_real
      .   AREA
 !       -------------------------------
@@ -105,264 +102,264 @@ C-----------------------------------------------
 !       NBR_INSERT_II : integer, dimension = NRTM , number of inserted nodes for each II segment
 !       ADRESS_II : integer, dimension = NRTM , adress of the first inserted nodes for each II segment
 !       KREMNODE_SAVE : integer, dimension = NRTM+1 , list of old nodes
-!       SIZE_INSERTED_NODE : integer, size of the INSERTED_NODE array ; SIZE_INSERTED_NODE is an upper bound, 
+!       SIZE_INSERTED_NODE : integer, size of the INSERTED_NODE array ; SIZE_INSERTED_NODE is an upper bound,
 !                            can be optimized!
 !       INSERTED_NODE : integer, dimension = SIZE_INSERTED_NODE, list inserted nodes
 !       REMNODE : integer, dimension = NRTM + TOTAL_INSERTED, new array with old and inserted nodes
 !       -------------------------------
 C-----------------------------------------------
 C----creat list of SECONDARY nodes of self-contact to be removed per M_seg
-        MAX_INSERTED_NODE = 1
-        ALLOCATE(TAGNOD(NUMNOD),TAGD(NUMNOD))
-        DO N=1,NINTER
-           NTY=IPARI(7,N)
-           NREMOV1(N)=0
-           IF (NTY/=24) CYCLE
-           NSN   =IPARI(5,N)
-           NRTM  =IPARI(4,N)
-           NOINT =IPARI(15,N)
-           TAGNOD(1:NUMNOD)=0
-           DO JJ=1,NSN
-               NS = INTBUF_TAB(N)%NSV(JJ)
-               IF (NS<=NUMNOD) TAGNOD(NS)=1
-           ENDDO
-C----- dimensioning           
-           DO II=1,NRTM
-              CALL INSOL3ET(X   ,INTBUF_TAB(N)%IRECTM,IXS   ,
-     .                      N   ,E_ID,II ,AREA ,
-     .                      NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
-     .                      IXS16,IXS20 ,NNOD)
-             SELECT CASE (NNOD)
-              CASE(8)                                             
-                NC(1:8)=IXS(2:9,E_ID)
-              CASE(10)  
-                NC(1) =IXS(2,E_ID)
-                NC(2) =IXS(4,E_ID)
-                NC(3) =IXS(7,E_ID)
-                NC(4) =IXS(6,E_ID)
-                NC(5:10)=IXS10(1:6,E_ID-NUMELS8)
-              CASE(20)  
-                NC(1:8)=IXS(2:9,E_ID)
-                NC(9:20)=IXS20(1:12,E_ID-NUMELS8-NUMELS10)
-              CASE(16)  
-                NC(1:8)=IXS(2:9,E_ID)
-                NC(9:16)=IXS16(1:8,E_ID-NUMELS8-NUMELS10-NUMELS20)
-             END SELECT
+      MAX_INSERTED_NODE = 1
+      ALLOCATE(TAGNOD(NUMNOD),TAGD(NUMNOD))
+      DO N=1,NINTER
+        NTY=IPARI(7,N)
+        NREMOV1(N)=0
+        IF (NTY/=24) CYCLE
+        NSN   =IPARI(5,N)
+        NRTM  =IPARI(4,N)
+        NOINT =IPARI(15,N)
+        TAGNOD(1:NUMNOD)=0
+        DO JJ=1,NSN
+          NS = INTBUF_TAB(N)%NSV(JJ)
+          IF (NS<=NUMNOD) TAGNOD(NS)=1
+        ENDDO
+C----- dimensioning
+        DO II=1,NRTM
+          CALL INSOL3ET(X   ,INTBUF_TAB(N)%IRECTM,IXS   ,
+     .                  N   ,E_ID,II ,AREA ,
+     .                  NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
+     .                  IXS16,IXS20 ,NNOD)
+          SELECT CASE (NNOD)
+           CASE(8)
+            NC(1:8)=IXS(2:9,E_ID)
+           CASE(10)
+            NC(1) =IXS(2,E_ID)
+            NC(2) =IXS(4,E_ID)
+            NC(3) =IXS(7,E_ID)
+            NC(4) =IXS(6,E_ID)
+            NC(5:10)=IXS10(1:6,E_ID-NUMELS8)
+           CASE(20)
+            NC(1:8)=IXS(2:9,E_ID)
+            NC(9:20)=IXS20(1:12,E_ID-NUMELS8-NUMELS10)
+           CASE(16)
+            NC(1:8)=IXS(2:9,E_ID)
+            NC(9:16)=IXS16(1:8,E_ID-NUMELS8-NUMELS10-NUMELS20)
+          END SELECT
 C
-             NMC(1:4)=INTBUF_TAB(N)%IRECTM(4*(II-1)+1:4)
-             MAXNM = 0             
-             DO I = 1,NNOD
-               NI= NC(I)
-               IF (NI==0) CYCLE
-               IF (TAGNOD(NI)>0 .AND.NI/=NMC(1).AND.NI/=NMC(2)
-     .                        .AND.NI/=NMC(3).AND.NI/=NMC(4)) THEN
-                   NREMOV1(N) =  NREMOV1(N)+ 1    
-                   MAXNM = MAXNM + 1             
-               END IF                   
-             END DO
-             MAX_INSERTED_NODE = MAX(MAX_INSERTED_NODE,MAXNM)
-           END DO
+          NMC(1:4)=INTBUF_TAB(N)%IRECTM(4*(II-1)+1:4)
+          MAXNM = 0
+          DO I = 1,NNOD
+            NI= NC(I)
+            IF (NI==0) CYCLE
+            IF (TAGNOD(NI)>0 .AND.NI/=NMC(1).AND.NI/=NMC(2)
+     .                     .AND.NI/=NMC(3).AND.NI/=NMC(4)) THEN
+              NREMOV1(N) =  NREMOV1(N)+ 1
+              MAXNM = MAXNM + 1
+            END IF
+          END DO
+          MAX_INSERTED_NODE = MAX(MAX_INSERTED_NODE,MAXNM)
+        END DO
       END DO !N=1,NINTER
 
- 
+
 
 !   ------------------------------------------------
 C---------
-        DO N=1,NINTER
-            IF(NREMOV1(N)==0) CYCLE
-            NTY=IPARI(7,N)
-            NSN   =IPARI(5,N)
-            NRTM  =IPARI(4,N)
+      DO N=1,NINTER
+        IF(NREMOV1(N)==0) CYCLE
+        NTY=IPARI(7,N)
+        NSN   =IPARI(5,N)
+        NRTM  =IPARI(4,N)
 
-            ALLOCATE( NBR_INSERT_II(NRTM) )
-            ALLOCATE( ADRESS_II(NRTM) )
-            ALLOCATE( KREMNODE_SAVE(NRTM+1) )
-            NBR_INSERT_II(1:NRTM) = 0
-            ADRESS_II(1:NRTM) = 0
-            KREMNODE_SAVE(1:NRTM+1) = 0
+        ALLOCATE( NBR_INSERT_II(NRTM) )
+        ALLOCATE( ADRESS_II(NRTM) )
+        ALLOCATE( KREMNODE_SAVE(NRTM+1) )
+        NBR_INSERT_II(1:NRTM) = 0
+        ADRESS_II(1:NRTM) = 0
+        KREMNODE_SAVE(1:NRTM+1) = 0
 
-C----- --           
-            TAGNOD(1:NUMNOD)=0
-            TAGD(1:NUMNOD)=2
-            JJJ = 0
-C--------dim first  
-            NNREM = 0      
-            DO JJ=1,NSN
-                NS = INTBUF_TAB(N)%NSV(JJ)
-                IF (NS<=NUMNOD) TAGD(NS)=0
-                IF (NS<=NUMNOD) TAGNOD(NS)=1
+C----- --
+        TAGNOD(1:NUMNOD)=0
+        TAGD(1:NUMNOD)=2
+        JJJ = 0
+C--------dim first
+        NNREM = 0
+        DO JJ=1,NSN
+          NS = INTBUF_TAB(N)%NSV(JJ)
+          IF (NS<=NUMNOD) TAGD(NS)=0
+          IF (NS<=NUMNOD) TAGNOD(NS)=1
+        ENDDO
+        IFLAG =0
+        NREMOV(N) = IPARI(62,N)
+        IADA= 1
+        KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
+
+        SIZE_INSERTED_NODE = MAX_INSERTED_NODE*NRTM
+        MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE)
+
+        DO II=1,NRTM
+          NNREM_SAVE = NNREM
+C
+          KI = INTBUF_TAB(N)%KREMNODE(II)+1
+          KL = INTBUF_TAB(N)%KREMNODE(II+1)
+          DO J=KI,KL
+            NS = INTBUF_TAB(N)%REMNODE(J)
+            TAGD(NS)=1
+          END DO
+C
+          CALL INSOL3ET(X   ,INTBUF_TAB(N)%IRECTM,IXS   ,
+     .                  N   ,E_ID,II,AREA ,
+     .                  NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
+     .                  IXS16,IXS20 ,NNOD)
+          SELECT CASE (NNOD)
+           CASE(8)
+            NC(1:8)=IXS(2:9,E_ID)
+           CASE(10)
+            NC(1) =IXS(2,E_ID)
+            NC(2) =IXS(4,E_ID)
+            NC(3) =IXS(7,E_ID)
+            NC(4) =IXS(6,E_ID)
+            NC(5:10)=IXS10(1:6,E_ID-NUMELS8)
+           CASE(20)
+            NC(1:8)=IXS(2:9,E_ID)
+            NC(9:20)=IXS20(1:12,E_ID-NUMELS8-NUMELS10)
+           CASE(16)
+            NC(1:8)=IXS(2:9,E_ID)
+            NC(9:16)=IXS16(1:8,E_ID-NUMELS8-NUMELS10-NUMELS20)
+          END SELECT
+C
+          NMC(1:4)=INTBUF_TAB(N)%IRECTM(4*(II-1)+1:4)
+          DO I = 1,NNOD
+            NI= NC(I)
+            IF (NI==0) CYCLE
+            IF (TAGNOD(NI)>0 .AND.NI/=NMC(1).AND.NI/=NMC(2)
+     .                     .AND.NI/=NMC(3).AND.NI/=NMC(4)) THEN
+              IF(TAGD(NI)==0) THEN
+                NNREM = NNREM + 1
+                TAGD(NI)=1
+                JJJ = JJJ + 1
+                INSERTED_NODE(JJJ) = NI
+              ENDIF
+            END IF
+          END DO
+          !   -------------------
+          !   number of inserted nodes
+          NBR_INSERT_II(II) = NNREM - NNREM_SAVE
+          KREMNODE_SAVE(II) = KREMNODE_SAVE(II+1) - KREMNODE_SAVE(II)
+          IADA = IADA + KREMNODE_SAVE(II)
+          !   adress of the first inserted node
+          ADRESS_II(II) = IADA
+          KREMNODE_SAVE(II) = IADA + NBR_INSERT_II(II) - 1
+          IADA = IADA + NBR_INSERT_II(II)
+          !   -------------------
+
+C-----reset    TAGD=0
+          DO I = 1,NNOD
+            NI= NC(I)
+            IF (NI==0) CYCLE
+            IF (TAGNOD(NI)>0 .AND.NI/=NMC(1).AND.NI/=NMC(2)
+     .                     .AND.NI/=NMC(3).AND.NI/=NMC(4)) THEN
+              IF(TAGD(NI)==1) TAGD(NI)=0
+            END IF
+          END DO
+          DO J=KI,KL
+            NS = INTBUF_TAB(N)%REMNODE(J)
+            TAGD(NS)=0
+          END DO
+C
+        END DO !II=1,NRTM
+
+
+        IF(NNREM>0) THEN
+
+          ! get the first and the last inserted node
+          FIRST = 0
+          LAST = 0
+          DO II = 1,NRTM
+            IF(FIRST==0) THEN
+              IF( NBR_INSERT_II(II)/=0 ) FIRST = II
+            ENDIF
+            IF(LAST==0) THEN
+              IF( NBR_INSERT_II(NRTM+1-II)/=0 ) LAST = NRTM+1-II
+            ENDIF
+          ENDDO
+          !       count the total number of inserted nodes
+          TOTAL_INSERTED = 0
+          DO II=1,NRTM
+            TOTAL_INSERTED = TOTAL_INSERTED + NBR_INSERT_II(II)
+          ENDDO
+          !       allocate the buffer array
+          ALLOCATE( REMNODE(NREMOV(N)+TOTAL_INSERTED) )
+
+          J = 0
+          I = 0
+          OFFSET = 0
+          IF( FIRST>0 ) THEN
+            !   insertion of the first chunk of node : if ADRESS_II(FIRST) > 1
+            !   --> need to copy the old nodes
+            IF( ADRESS_II(FIRST)>1 ) THEN
+              REMNODE(1:ADRESS_II(FIRST)-1) = INTBUF_TAB(N)%REMNODE(1:ADRESS_II(FIRST)-1)
+              OFFSET = OFFSET + ADRESS_II(FIRST)-1
+              I = I + ADRESS_II(FIRST)-1
+            ENDIF
+
+            DO II=FIRST,LAST
+              !       insertion of the nodes
+              IF( NBR_INSERT_II(II)>0 ) THEN
+                DO JJ = 1,NBR_INSERT_II(II)
+                  J = J + 1
+                  REMNODE(OFFSET+NBR_INSERT_II(II)+1-JJ) = INSERTED_NODE(J)
+                ENDDO
+                OFFSET = OFFSET + NBR_INSERT_II(II)
+              ENDIF
+              IF(II<LAST.AND.NREMOV(N)>0) THEN
+                ! copy of the old nodes
+                NBR_INTRA = ADRESS_II(II+1) - ADRESS_II(II)-NBR_INSERT_II(II)
+                IF( NBR_INTRA>0 )THEN
+                  DO JJ = 1,NBR_INTRA
+                    I = I + 1
+                    REMNODE(JJ+OFFSET) = INTBUF_TAB(N)%REMNODE(I)
+                  ENDDO
+                  OFFSET = OFFSET + NBR_INTRA
+                ENDIF
+              ENDIF
             ENDDO
-            IFLAG =0
-            NREMOV(N) = IPARI(62,N)
-            IADA= 1
-            KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
+          ENDIF
+          !       copy of the old nodes for the LAST chunk
 
-            SIZE_INSERTED_NODE = MAX_INSERTED_NODE*NRTM
-            MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE) 
-
-            DO II=1,NRTM
-                NNREM_SAVE = NNREM
-C
-                KI = INTBUF_TAB(N)%KREMNODE(II)+1
-                KL = INTBUF_TAB(N)%KREMNODE(II+1) 
-                DO J=KI,KL
-                    NS = INTBUF_TAB(N)%REMNODE(J)
-                    TAGD(NS)=1
-                END DO
-C
-                CALL INSOL3ET(X   ,INTBUF_TAB(N)%IRECTM,IXS   ,
-     .                        N   ,E_ID,II,AREA ,
-     .                        NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
-     .                        IXS16,IXS20 ,NNOD)
-                SELECT CASE (NNOD)
-                 CASE(8)                                             
-                   NC(1:8)=IXS(2:9,E_ID)
-                 CASE(10)  
-                   NC(1) =IXS(2,E_ID)
-                   NC(2) =IXS(4,E_ID)
-                   NC(3) =IXS(7,E_ID)
-                   NC(4) =IXS(6,E_ID)
-                   NC(5:10)=IXS10(1:6,E_ID-NUMELS8)
-                 CASE(20)  
-                   NC(1:8)=IXS(2:9,E_ID)
-                   NC(9:20)=IXS20(1:12,E_ID-NUMELS8-NUMELS10)
-                 CASE(16)  
-                   NC(1:8)=IXS(2:9,E_ID)
-                   NC(9:16)=IXS16(1:8,E_ID-NUMELS8-NUMELS10-NUMELS20)
-                END SELECT
-C
-                NMC(1:4)=INTBUF_TAB(N)%IRECTM(4*(II-1)+1:4)
-                DO I = 1,NNOD
-                  NI= NC(I)
-                  IF (NI==0) CYCLE
-                  IF (TAGNOD(NI)>0 .AND.NI/=NMC(1).AND.NI/=NMC(2)
-     .                           .AND.NI/=NMC(3).AND.NI/=NMC(4)) THEN
-                      IF(TAGD(NI)==0) THEN
-                          NNREM = NNREM + 1
-                          TAGD(NI)=1 
-                          JJJ = JJJ + 1
-                          INSERTED_NODE(JJJ) = NI   
-                      ENDIF
-                  END IF                   
-                END DO             
-                !   -------------------
-                !   number of inserted nodes
-                NBR_INSERT_II(II) = NNREM - NNREM_SAVE
-                KREMNODE_SAVE(II) = KREMNODE_SAVE(II+1) - KREMNODE_SAVE(II)
-                IADA = IADA + KREMNODE_SAVE(II)
-                !   adress of the first inserted node
-                ADRESS_II(II) = IADA
-                KREMNODE_SAVE(II) = IADA + NBR_INSERT_II(II) - 1
-                IADA = IADA + NBR_INSERT_II(II)
-                !   -------------------
-                                
-C-----reset    TAGD=0        
-                DO I = 1,NNOD
-                  NI= NC(I)
-                  IF (NI==0) CYCLE
-                  IF (TAGNOD(NI)>0 .AND.NI/=NMC(1).AND.NI/=NMC(2)
-     .                           .AND.NI/=NMC(3).AND.NI/=NMC(4)) THEN
-                      IF(TAGD(NI)==1) TAGD(NI)=0 
-                  END IF                   
-                END DO             
-                DO J=KI,KL
-                    NS = INTBUF_TAB(N)%REMNODE(J)
-                    TAGD(NS)=0
-                END DO
-C
-            END DO !II=1,NRTM
-
-
-             IF(NNREM>0) THEN
-              
-                ! get the first and the last inserted node
-                FIRST = 0
-                LAST = 0
-                DO II = 1,NRTM
-                    IF(FIRST==0) THEN
-                        IF( NBR_INSERT_II(II)/=0 ) FIRST = II
-                    ENDIF
-                    IF(LAST==0) THEN
-                        IF( NBR_INSERT_II(NRTM+1-II)/=0 ) LAST = NRTM+1-II
-                    ENDIF
-                ENDDO
-                !       count the total number of inserted nodes
-                TOTAL_INSERTED = 0
-                DO II=1,NRTM
-                    TOTAL_INSERTED = TOTAL_INSERTED + NBR_INSERT_II(II)
-                ENDDO
-                !       allocate the buffer array
-                ALLOCATE( REMNODE(NREMOV(N)+TOTAL_INSERTED) )
-       
-                J = 0
-                I = 0
-                OFFSET = 0
-                IF( FIRST>0 ) THEN
-                    !   insertion of the first chunk of node : if ADRESS_II(FIRST) > 1
-                    !   --> need to copy the old nodes 
-                    IF( ADRESS_II(FIRST)>1 ) THEN
-                        REMNODE(1:ADRESS_II(FIRST)-1) = INTBUF_TAB(N)%REMNODE(1:ADRESS_II(FIRST)-1)
-                        OFFSET = OFFSET + ADRESS_II(FIRST)-1
-                        I = I + ADRESS_II(FIRST)-1
-                    ENDIF
-        
-                    DO II=FIRST,LAST
-                        !       insertion of the nodes
-                        IF( NBR_INSERT_II(II)>0 ) THEN
-                            DO JJ = 1,NBR_INSERT_II(II)
-                                J = J + 1
-                                REMNODE(OFFSET+NBR_INSERT_II(II)+1-JJ) = INSERTED_NODE(J)
-                            ENDDO
-                            OFFSET = OFFSET + NBR_INSERT_II(II)
-                        ENDIF
-                        IF(II<LAST.AND.NREMOV(N)>0) THEN
-                            ! copy of the old nodes
-                            NBR_INTRA = ADRESS_II(II+1) - ADRESS_II(II)-NBR_INSERT_II(II)
-                            IF( NBR_INTRA>0 )THEN
-                                DO JJ = 1,NBR_INTRA
-                                    I = I + 1
-                                    REMNODE(JJ+OFFSET) = INTBUF_TAB(N)%REMNODE(I)
-                                ENDDO
-                                OFFSET = OFFSET + NBR_INTRA
-                            ENDIF
-                        ENDIF
-                    ENDDO
-                ENDIF
-                !       copy of the old nodes for the LAST chunk
-
-                IF( I<NREMOV(N) ) THEN
-                    NBR_EXTRA = NREMOV(N) - I
-                    REMNODE(OFFSET+1:OFFSET+NBR_EXTRA) = INTBUF_TAB(N)%REMNODE(I+1:NREMOV(N))
-                ENDIF
-                ID=NOM_OPT(1,N)
-                CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
-                CALL ANCMSG(MSGID=3014,
-     .                  MSGTYPE=MSGINFO,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=NNREM)
-                !       update of NNREM and deallocation / allocation of the new array
-                NNREM = NNREM + NREMOV(N)
+          IF( I<NREMOV(N) ) THEN
+            NBR_EXTRA = NREMOV(N) - I
+            REMNODE(OFFSET+1:OFFSET+NBR_EXTRA) = INTBUF_TAB(N)%REMNODE(I+1:NREMOV(N))
+          ENDIF
+          ID=NOM_OPT(1,N)
+          CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
+          CALL ANCMSG(MSGID=3014,
+     .            MSGTYPE=MSGINFO,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            I1=ID,
+     .            C1=TITR,
+     .            I2=NNREM)
+          !       update of NNREM and deallocation / allocation of the new array
+          NNREM = NNREM + NREMOV(N)
 C----         no need, done in UPGRADE_REMNODE2 IPARI(63,N) = 2
-                CALL UPGRADE_REMNODE2(N,NNREM,INTBUF_TAB(N),NTY)
-                INTBUF_TAB(N)%REMNODE(1:NNREM) = REMNODE(1:NNREM)
-                INTBUF_TAB(N)%KREMNODE(2:NRTM+1) = KREMNODE_SAVE(1:NRTM)
-                INTBUF_TAB(N)%KREMNODE(1)=0
-C----------used for Iedge=1     
-                NREMOV(N) = NNREM
-            END IF !IF (NNREM>0) THEN
-            IF(ALLOCATED(REMNODE)) DEALLOCATE( REMNODE )  
-            IF(ALLOCATED(INSERTED_NODE)) DEALLOCATE( INSERTED_NODE )  
- 
+          CALL UPGRADE_REMNODE2(N,NNREM,INTBUF_TAB(N),NTY)
+          INTBUF_TAB(N)%REMNODE(1:NNREM) = REMNODE(1:NNREM)
+          INTBUF_TAB(N)%KREMNODE(2:NRTM+1) = KREMNODE_SAVE(1:NRTM)
+          INTBUF_TAB(N)%KREMNODE(1)=0
+C----------used for Iedge=1
+          NREMOV(N) = NNREM
+        END IF !IF (NNREM>0) THEN
+        IF(ALLOCATED(REMNODE)) DEALLOCATE( REMNODE )
+        IF(ALLOCATED(INSERTED_NODE)) DEALLOCATE( INSERTED_NODE )
+
 C
 
-            DEALLOCATE( NBR_INSERT_II )
-            DEALLOCATE( ADRESS_II )
-            DEALLOCATE( KREMNODE_SAVE ) 
-        END DO 
+        DEALLOCATE( NBR_INSERT_II )
+        DEALLOCATE( ADRESS_II )
+        DEALLOCATE( KREMNODE_SAVE )
+      END DO
 
-        DEALLOCATE(TAGD,TAGNOD)
+      DEALLOCATE(TAGD,TAGNOD)
 C----
-        RETURN
-        END
+      RETURN
+      END
