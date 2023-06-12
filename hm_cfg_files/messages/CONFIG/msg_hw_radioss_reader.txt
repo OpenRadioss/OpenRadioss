@@ -318,4 +318,9 @@ Only one %s card is allowed
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200035/DESCRIPTION
 %s (id: %u, name: %s) : Inflator nozzles can be defined only by shells VID=-1 or VID=-2
+
+/MESSAGE/200036/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200036/DESCRIPTION
+%s (id: %u, name: %s) : Not existing node(s) used
 #------------------------------------------------------------------------------
