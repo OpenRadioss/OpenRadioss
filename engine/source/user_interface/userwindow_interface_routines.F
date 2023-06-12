@@ -157,7 +157,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(USER_WINDOWS_),INTENT(INOUT)        :: USER_WINDOWS
+      TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS
       INTEGER ,INTENT(IN) :: ISPMD
       INTEGER ,INTENT(IN) :: NSPMD
       INTEGER ,INTENT(IN) :: NUMNOD
