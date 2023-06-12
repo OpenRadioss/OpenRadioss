@@ -498,83 +498,52 @@ C     + DEF + TFEXT + DELTAE + TFEXT_MD
        ENDIF
        EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
 C-----------------------------------------------
-C       /STATE/LSENSOR
+C      /STATE/LSENSOR
 C-----------------------------------------------
-        IF (SENSORS%NSTAT  > 0) THEN
-          MSTATT = 0
-          DO I=1,SENSORS%NSTAT
-             ISENS = SENSORS%STAT(I)
-             TS = SENSORS%SENSOR_TAB(ISENS)%TSTART      
-             IF (TT >= TS) THEN
-               MSTAT(I) = MSTAT(I)+1    
-             ENDIF
-             IF (MSTAT(I)==1) MSTATT=1
-          ENDDO
-        ENDIF
+      IF (SENSORS%NSTAT  > 0) THEN
+        MSTATT = 0
+        DO I=1,SENSORS%NSTAT
+           ISENS = SENSORS%STAT(I)
+           TS = SENSORS%SENSOR_TAB(ISENS)%TSTART      
+           IF (TT >= TS) THEN
+             MSTAT(I) = MSTAT(I)+1    
+           ENDIF
+           IF (MSTAT(I)==1) MSTATT=1
+        ENDDO
+      ENDIF
 C-----------------------------------------------
-C       /OUTP/LSENSOR
+C     /OUTP/LSENSOR
 C-----------------------------------------------
-        IF (SENSORS%NOUTP > 0) THEN
-          MOUTPT = 0
-          DO I=1,SENSORS%NOUTP
-             ISENS = SENSORS%OUTP(I)
-             TS = SENSORS%SENSOR_TAB(ISENS)%TSTART     
-             IF (TT >= TS) THEN
-                MOUTP(I) = MOUTP(I)+1    
-             ENDIF
-             IF(MOUTP(I)==1)  MOUTPT=1
-          ENDDO
-        ENDIF
+      IF (SENSORS%NOUTP > 0) THEN
+        MOUTPT = 0
+        DO I=1,SENSORS%NOUTP
+           ISENS = SENSORS%OUTP(I)
+           TS = SENSORS%SENSOR_TAB(ISENS)%TSTART     
+           IF (TT >= TS) THEN
+              MOUTP(I) = MOUTP(I)+1    
+           ENDIF
+           IF(MOUTP(I)==1)  MOUTPT=1
+        ENDDO
+      ENDIF
 C-----------------------------------------------
-C       STOP OR KILL 
+C     STOP OR KILL 
 C-----------------------------------------------
-C       /STOP/LSENSOR
+C     /STOP/LSENSOR
 C-----------------------------------------------
-        IF (SENSORS%NSTOP > 0) THEN
-          DO I=1,SENSORS%NSTOP
-             ISENS = SENSORS%STOP(I)
-             IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
-                CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
-     .                      I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
-                IWARN=IWARN+1
-                MSTOP=1
-                MREST=1
-                IF(NSTH/=0)THEN  !IF THIST FILE
-                   THIS= TT
-                   IPRI= 0
-                ENDIF
-                IF(NSABF/=0)THEN  !IF ABF FILE
-                   DO J=1,10 
-                     IF(ABFILE(J)/=0) THEN
-                        TABFIS(J) = TT
-                        TABFWR(J) = TT
-                     ENDIF
-                   ENDDO
-                ENDIF
-                IF(NSANIM/=0)THEN !IF ANIM FILE 
-                   MDESS = 1
-                   TANIM = TT
-                   IPRI  = 0
-                ENDIF 
-                IF(NSSTAT/=0)THEN !IF STAT FILE 
-                   TSTAT = TT
-                   IPRI  = 0
-                ENDIF 
-                IF(NSOUTP/=0)THEN !IF OUTP FILE 
-                  TOUTP = TT
-                  IPRI  = 0
-               ENDIF 
-                IF(NSH3D/=0)THEN !IF H3D FILE 
-                   H3D_DATA%TH3D = TT
-                   IPRI  = 0
-                ENDIF 
-                IF(NSDYNANIN/=0)THEN !IF DYNAIN FILE 
-                   DYNAIN_DATA%TDYNAIN = TT
-                   IPRI  = 0
-                ENDIF 
-            ENDIF
-          ENDDO
-       ENDIF
+      IF (SENSORS%NSTOP > 0) THEN
+        DO I=1,SENSORS%NSTOP
+          ISENS = SENSORS%STOP(I)
+          IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
+            CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
+     .                  I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
+            IWARN = IWARN+1
+            MSTOP = 1
+            MREST = 1
+            IPRI  = 0
+            IF (NSANIM/=0) MDESS = 1
+          ENDIF
+        ENDDO
+      ENDIF
 C
        IF((NERR_POSIT==0.AND.ABS(ERR)>DEMXK).OR.
      .    (NERR_POSIT==1.AND.ERR>DEMXK))THEN
