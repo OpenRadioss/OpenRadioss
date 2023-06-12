@@ -187,8 +187,10 @@ c-----------------------------------------------------------------------
 c-------------------------
           CASE (36) 
 c------------------
-            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
-     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )        
+           MTAG => MLAW_TAG(IMAT)
+           CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
+     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD  ,
+     .                     MTAG  )        
 c-------------------------
           CASE (42) 
 c------------------
