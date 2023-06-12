@@ -31,12 +31,14 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NUPARAM,UPARAM ,
-     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )
+     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    ,
+     .                     MTAG   )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
+      USE ELBUFTAG_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +55,7 @@ C-----------------------------------------------
       INTEGER NPC(*)
       my_real UPARAM(NUPARAM),PLD(*)
       CHARACTER*nchartitle  :: TITR
+      TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -96,11 +99,15 @@ c
         IF (EPSLAST < EPSMAX) UPARAM(2*NRATE + 7 ) = EPSLAST
         IF (IFAIL == 0)       UPARAM(2*NRATE + 27) = 1    ! IFAIL
         UPARAM(2*NRATE + 28) = 1    ! YLDCHECK
+        MTAG%G_DMG = 1
+        MTAG%L_DMG = 1        
       ELSE IF (Y1 > Y2) THEN                 ! yield function slope is negative 
         EPSLAST = (X2*Y1 - X1*Y2) / (Y1 - Y2)
         IF (EPSLAST < EPSMAX) UPARAM(2*NRATE + 7 ) = EPSLAST
         IF (IFAIL == 0)       UPARAM(2*NRATE + 27) = 1    ! IFAIL
         UPARAM(2*NRATE + 28) = 1    ! YLDCHECK
+        MTAG%G_DMG = 1
+        MTAG%L_DMG = 1        
       ENDIF                                      
 c-----------------------------------------------------------------------    
 c     Check if yield curves for different strain rates do not intersect
