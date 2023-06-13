@@ -28,7 +28,7 @@ Chd|        I2FOR3PN                      source/interfaces/interf/i2for3p.F
 Chd|-- calls ---------------
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
-      SUBROUTINE I2FORCES_2D(X      ,V       ,A       ,MS      ,NSL     ,
+      SUBROUTINE I2FORCES_2D(X      ,A        ,NSL     ,
      .                       IRECT  ,H       ,NIR     ,FSAV    ,FNCONT  ,
      .                       FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C-----------------------------------------------
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER , INTENT(IN) :: NSL,IRECT(4),NIR,WEIGHT(NUMNOD)
-      my_real , INTENT(IN) :: X(3,NUMNOD),V(3,NUMNOD),A(3,NUMNOD),MS(NUMNOD),
+      my_real , INTENT(IN) :: X(3,NUMNOD),A(3,NUMNOD),
      .                        H(4)
       my_real , INTENT(INOUT) :: FSAV(6),FNCONT(3,NUMNOD),FNCONTP(3,NUMNOD),
      .                           FTCONTP(3,NUMNOD)

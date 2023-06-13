@@ -636,7 +636,7 @@ C-----------------------------------------------
       USE TIME_MOD
       USE PINCHTYPE_MOD
       USE CHECK_MOD
-      USE ACCELERATION_DP_MOD   !   --> only useful for SP+parith/off
+      USE ACCELERATION_DP_MOD 
       USE ALE_CONNECTIVITY_MOD
       USE DYNLIB_MOD
       USE MONVOL_STRUCT_MOD
@@ -660,6 +660,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
       USE DT_MOD
       USE FORINT_MOD
 C-----------------------------------------------
@@ -8437,7 +8438,9 @@ C Regular animation
         IF(DEBUG(MACRO_DEBUG_CHKSM) >0) THEN
           IF(MOD(NCYCLE,DEBUG(MACRO_DEBUG_CHKSM)) == 0  ) THEN
         ! Print checksum
-            CALL SPMD_FLUSH_ACCEL(A,ITAB,WEIGHT,NODGLOB,NUMNODG)
+          CALL SPMD_FLUSH_ACCEL(NCYCLE,  ISPMD,   NSPMD, NUMNOD,
+     .                          NUMNODG, NUMNODM, A,     ITAB,
+     .                          WEIGHT,  NODGLOB)
           ENDIF
         ENDIF
         CALL SORTIE_MAIN(

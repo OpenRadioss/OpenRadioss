@@ -141,12 +141,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
        SOL8TNL(28,1) = .0000016610 !.0000021385 
        TET4TNL(28,1) = .0000002680 !.0000003168 
        TET10TNL(28,1)= .0000011490 !.0000013620 
-!     LAW 33	0 fct
+!     LAW 33  0 fct
        SOL1TNL(33,1) = .0000002991 !.0000004453 
        SOL8TNL(33,1) = .0000019190 !.0000021870 
        TET4TNL(33,1) = .0000002858 !.0000004027 
        TET10TNL(33,1)= .0000011570 !.0000015750 
-!     LAW 33	1 fct
+!     LAW 33  1 fct
        SOL1TNL(33,2) = .0000004217  !.0000006103 
        SOL8TNL(33,2) = .0000027120  !.0000025320 
        TET4TNL(33,2) = .0000004088 !.0000005659
@@ -1246,7 +1246,7 @@ C Temps de traitement de la partie elementaire sans la loi materielle fonction d
          RUPTURE_SOL12(1,1)  = .00000017710     
          RUPTURE_TET4(1,1)   = .00000008021     
          RUPTURE_TET10(1,1)  = .00000033420     
-	 ! MLN >=28 or /=49
+   ! MLN >=28 or /=49
          RUPTURE_SOL(1,2)    = .00000002696     
          RUPTURE_SOL12(1,2)  = .00000015790     
          RUPTURE_TET4(1,2)   = .00000002663     

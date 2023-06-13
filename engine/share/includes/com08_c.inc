@@ -28,7 +28,7 @@ C
      .               TABFIS(10),TABFWR(10),XMIN_GLOB,XMAX_GLOB,
      .    YMIN_GLOB,YMAX_GLOB,
      .    ZMIN_GLOB,ZMAX_GLOB
-	  COMMON /COM08DP/TT_DP
+      COMMON /COM08DP/TT_DP
 C     REAL ou REAL*8
       my_real
      .    TT,DT1, DT2, DT12, DT2OLD, TSTOP, 

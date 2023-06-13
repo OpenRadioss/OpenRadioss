@@ -35,7 +35,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE SENSOR_MOD
+      USE SENSOR_MOD , ONLY : SENSORS_, SENSOR_STR_, LOGICAL_SENSORS_LIST, 
+     .                        ISENBUF, LSENBUF, NSENPARR, NSENPARI, LOGICAL_SENSOR_COUNT
+      USE WRITE_MOD, ONLY : WRITE_INTEGER
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,12 +59,12 @@ C-----------------------------------------------
       CHARACTER(LEN = nchartitle) :: TITLE
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
-      IF (SENSORS%NSENSOR > 0) THEN 
+      IF (SENSORS%NSENSOR > 0) THEN
         NFIX = 11
 c
         DO ISEN=1,SENSORS%NSENSOR
           SENSOR => SENSORS%SENSOR_TAB(ISEN)
-          TYP   = SENSOR%TYPE 
+          TYP   = SENSOR%TYPE
           NPARI = SENSOR%NPARI
           NPARR = SENSOR%NPARR
           NVAR  = SENSOR%NVAR
@@ -93,23 +95,23 @@ c         update node system N° after renumbering for sensors using nodes
               LTEMP(4) = NODLOCAL(SENSOR%IPARAM(4))
               LTEMP(5) = NODLOCAL(SENSOR%IPARAM(5))
             END IF
-          END IF        
-c          
+          END IF
+c
           LEN = NFIX + NPARI + NPARR + NVAR
           ALLOCATE (RBUF(LEN) )
 c
           IAD = 0
-          RBUF(IAD+1) = SENSOR%TYPE    
-          RBUF(IAD+2) = SENSOR%SENS_ID 
-          RBUF(IAD+3) = SENSOR%STATUS  
-          RBUF(IAD+4) = SENSOR%TCRIT 
-          RBUF(IAD+5) = SENSOR%TMIN  
+          RBUF(IAD+1) = SENSOR%TYPE
+          RBUF(IAD+2) = SENSOR%SENS_ID
+          RBUF(IAD+3) = SENSOR%STATUS
+          RBUF(IAD+4) = SENSOR%TCRIT
+          RBUF(IAD+5) = SENSOR%TMIN
           RBUF(IAD+6) = SENSOR%TDELAY
           RBUF(IAD+7) = SENSOR%TSTART
-          RBUF(IAD+8) = SENSOR%VALUE 
-          RBUF(IAD+9) = SENSOR%NPARI 
-          RBUF(IAD+10)= SENSOR%NPARR 
-          RBUF(IAD+11)= SENSOR%NVAR  
+          RBUF(IAD+8) = SENSOR%VALUE
+          RBUF(IAD+9) = SENSOR%NPARI
+          RBUF(IAD+10)= SENSOR%NPARR
+          RBUF(IAD+11)= SENSOR%NVAR
           IAD = IAD + NFIX
 c
           IF (NPARI > 0) THEN
@@ -123,7 +125,7 @@ c
               RBUF(IAD+I) = SENSOR%RPARAM(I)
             END DO
             IAD = IAD + NPARR
-          END IF        
+          END IF
           IF (NVAR > 0) THEN
             DO I = 1,NVAR
               RBUF(IAD+I) = SENSOR%VAR(I)
@@ -131,9 +133,9 @@ c
             IAD = IAD + NVAR
           END IF
 c
-          CALL WRITE_DB (RBUF,LEN)
-          DEALLOCATE (RBUF)
-          DEALLOCATE (LTEMP)
+          CALL WRITE_DB(RBUF,LEN)
+          DEALLOCATE(RBUF)
+          DEALLOCATE(LTEMP)
 c
 c         write sensor title
           CALL FRETITL(TITLE,ITITLE,LTITR)
@@ -143,9 +145,8 @@ c
             CALL WRITE_I_C(SENSOR%INTEGER_USERPARAM,NSENPARI)
             CALL WRITE_I_C(SENSOR%INTEGER_USERBUF,ISENBUF)
 
-            CALL WRITE_DB (SENSOR%FLOAT_USERPARAM,NSENPARR)
-            CALL WRITE_DB (SENSOR%FLOAT_USERBUF,LSENBUF)
-
+            CALL WRITE_DB(SENSOR%FLOAT_USERPARAM,NSENPARR)
+            CALL WRITE_DB(SENSOR%FLOAT_USERBUF,LSENBUF)
           ENDIF
 c
         END DO
@@ -153,7 +154,7 @@ c---------------------------------------
 c       Write Logical sensor index array
 c---------------------------------------
 
-        CALL WRITE_I_C(LOGICAL_SENSOR_COUNT,1)
+        CALL WRITE_INTEGER(LOGICAL_SENSOR_COUNT)
         CALL WRITE_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
 
 c---------------------------------------
@@ -161,9 +162,8 @@ c       Write spmd/PON exchange arrays
 c---------------------------------------
 
         CALL WRITE_DPDB(SENSORS%FSAV,12*6*SENSORS%SFSAV)
-        CALL WRITE_I_C (SENSORS%TABSENSOR,SENSORS%STABSEN)
-
-      END IF 
+        CALL WRITE_I_C(SENSORS%TABSENSOR,SENSORS%STABSEN)
+      END IF
 c-----------
       RETURN
       END
