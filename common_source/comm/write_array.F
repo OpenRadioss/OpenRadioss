@@ -34,32 +34,23 @@ C This function is recording a given integer array
 C from range ARRAY(IDX1,IDX2)
 C inside TABVINT array which will we used to transmit
 C data from Strater/Engine
-C Of course only non zero values are stored.
-C Non zero values are first counted. This size is also stored.
-C Then array is scan to store only non zero values.
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C
+C Only nonzero values are stored.
+C Nonzero values are first counted. This size is also stored.
+C Then array is parsed to store only non zero values.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "scr14_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C
+#include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER,INTENT(IN)    :: ARRAY(*)
        INTEGER,INTENT(IN)    :: IDX1,IDX2   
        INTEGER,INTENT(INOUT) :: LVARINT,TABVINT(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

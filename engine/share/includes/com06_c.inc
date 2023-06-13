@@ -33,7 +33,7 @@ C
      .               DWMAD,T1SH,SHFTBUCK,DTSTAT,
      .               TSTAT,DTABF(10),DTABFWR(10),DTFACX,
      .               ECONTD,ECONT_CUMU
-	  COMMON /COM06DP/TFEXT 
+      COMMON /COM06DP/TFEXT 
 C     REAL ou REAL*8
       my_real
      .                DTFAC, DTMIN, VOLMIN,

@@ -20,51 +20,54 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE CHECKSUM_MOD
+      INTEGER, PARAMETER :: ROOT = 65521
+      INTEGER, PARAMETER :: TWO_POWER_16 = 65536
+      CONTAINS
+!! \brief Returns Adler32 checksum of A(1:SIZ2,1:SIZ1) 
 Chd|====================================================================
-Chd|  READ_ARRAY                    comm/read_array.F             
+Chd|  REAL_NODE_CHECKSUM                source/mpi/output/node_checksum.F                  
 Chd|-- called by -----------
-Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        SPMD_FLUSH_ACCEL              source/mpi/output/spmd_flush_accel.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE READ_ARRAY(ARRAY,TABVINT, LVARINT, M_CHECK)
-C-----------------------------------------------
-C   Description
-C-----------------------------------------------
-C This function is reading array in TAVINT
-C TABVINT(LVARINT) = SIZE
-C output ARRAY(1:SIZE) = TABVINT(LVARINT+1:LVARINT+SIZE)
+      FUNCTION  DOUBLE_ARRAY_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "scr14_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER,INTENT(INOUT) :: ARRAY(*),LVARINT
-       INTEGER,INTENT(IN)    :: TABVINT(*),M_CHECK
+      INTEGER, INTENT(IN) :: SIZ1,SIZ2 !< sizes
+      DOUBLE PRECISION, INTENT(IN) :: A(SIZ2,SIZ1) !< 2D array of real values
+      INTEGER :: CHECKSUM !< return value, Adler 32 checksum of A
 C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
+C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LB,UB
-      INTEGER NUM
-      INTEGER I
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TMP !< temporary array
+      INTEGER :: I,S1,S2
+      INTEGER :: PREC ! simple or double precision
+      INTEGER :: SIZ
 C-----------------------------------------------
-C   S o u r c e   L i n e s 
-C-----------------------------------------------
-      LVARINT=LVARINT+1
-      NUM=TABVINT(LVARINT)
-      
-      IF(M_CHECK/=0)THEN
-        DO I=1,NUM
-          LVARINT=LVARINT+1
-          ARRAY(TABVINT(LVARINT))=1
-        ENDDO
-      ELSE
-        LVARINT=LVARINT+NUM      
-      ENDIF
+      S1 = 1
+      S2 = 0
+      PREC = 2
+C  If A is in simple precision
+      IF(SIZEOF(A(1,1)) == 4) PREC = 1
+      SIZ = SIZ1*SIZ2 * PREC
+      ALLOCATE(TMP(SIZ))
+      TMP(1:SIZ) = 0
+c     Convert A in integer
+      TMP = TRANSFER(A(1:SIZ2,1:SIZ1),S1,SIZ)
+      DO I = 1,SIZ
+        S1 = MOD(S1 + TMP(I),ROOT)
+        S2 = MOD(S1 + S2    ,ROOT)
+      ENDDO
+C     (s2 << 16) | s1
+      IF(S1 < 0) S1 = S1 + TWO_POWER_16
+      CHECKSUM = IOR(ISHFT(S2, 16), IAND(S1, (TWO_POWER_16-1)))
+      DEALLOCATE(TMP)
+      END
+      END MODULE CHECKSUM_MOD
 
-      RETURN 
-
-C-----------------------------------------------
-      END SUBROUTINE READ_ARRAY

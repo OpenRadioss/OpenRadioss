@@ -94,7 +94,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS,NINTRI
 C=======================================================================
-      DATA MESS/'RETRACTOR DEFINITION                     '/
+      DATA MESS/'RETRACTOR DEFINITION                    '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
