@@ -129,44 +129,45 @@ c
         XINT = ZERO
         YINT = ZERO
         FUNC = IFUNC(1)
-        FUND = IFUNC(NL + 1)
-        FAC1 = UPARAM(11  )
-        FAC2 = UPARAM(11 + 2*NL  )
+        IF(NFUNC > NL ) THEN
+           FUND = IFUNC(NL + 1)
+           FAC1 = UPARAM(11  )
+           FAC2 = UPARAM(11 + 2*NL  )
 C intersection pt of tension if existing
-        UPARAM(NV + 1) = 0  ! not existing
-        CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
-     .                     FAC2   ,NPC    ,PLD    ,XINT  ,YINT  )
-        UPARAM(NV + 2) = XINT   
-        UPARAM(NV + 3) = YINT
-        IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension 
+           UPARAM(NV + 1) = 0  ! not existing
+           IF(FUNC /= 0 .AND. FUND /= 0) THEN
+               CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
+     .                            FAC2   ,NPC    ,PLD    ,XINT  ,YINT  )
+               UPARAM(NV + 2) = XINT   
+               UPARAM(NV + 3) = YINT
+               IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension 
 C intersection pt of compression if existing 
-        CALL FUNC_INTERS_C(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
-     .                     FAC2   ,NPC    ,PLD    ,XINC  ,YINC  )
-        UPARAM(NV + 4) = XINC   
-        UPARAM(NV + 5) = YINC
-        IF(XINC*YINC /= ZERO ) THEN
-           IF(INT(UPARAM(NV + 1)) == 0 )THEN
-              UPARAM(NV + 1) = -1  ! only compression 
-            ELSE  
-               UPARAM(NV + 1) = 2  ! tension & compression
-            ENDIF
-          ENDIF
-          IF(UPARAM(NV + 1) /= 2 .AND. ITENS == -2) THEN
-              CALL ANCMSG(MSGID=2040,                        
-     .              MSGTYPE=MSGERROR,                             
-     .              ANMODE=ANINFO,                                
-     .              I1=MAT_ID,                                    
-     .              C1=TITR,                                      
-     .              I2=FUNC_ID(FUNC),   ! Id function             
-     .              I3=FUNC_ID(FUND) ) ! Id_function              
-             CALL ARRET(2)
-        ENDIF
-              
+               CALL FUNC_INTERS_C(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
+     .                            FAC2   ,NPC    ,PLD    ,XINC  ,YINC  )
+               UPARAM(NV + 4) = XINC   
+               UPARAM(NV + 5) = YINC
+               IF(XINC*YINC /= ZERO ) THEN
+                  IF(INT(UPARAM(NV + 1)) == 0 )THEN
+                     UPARAM(NV + 1) = -1  ! only compression 
+                   ELSE  
+                      UPARAM(NV + 1) = 2  ! tension & compression
+                   ENDIF
+               ENDIF
+               IF(UPARAM(NV + 1) /= 2 .AND. ITENS == -2) THEN
+                     CALL ANCMSG(MSGID=2040,                        
+     .                     MSGTYPE=MSGERROR,                             
+     .                     ANMODE=ANINFO,                                
+     .                     I1=MAT_ID,                                    
+     .                     C1=TITR,                                      
+     .                     I2=FUNC_ID(FUNC),   ! Id function             
+     .                     I3=FUNC_ID(FUND) ) ! Id_function              
+                    CALL ARRET(2)
+               ENDIF
+           ENDIF  
+        ENDIF 
         WRITE(IOUT,1000)
-         
-         IF(XINT*YINT > ZERO) WRITE(IOUT,1600) XINT,YINT
-         IF(XINC*YINC > ZERO) WRITE(IOUT,1700) XINC,YINC
-            
+        IF(XINT*YINT > ZERO) WRITE(IOUT,1600) XINT,YINT
+        IF(XINC*YINC > ZERO) WRITE(IOUT,1700) XINC,YINC
 c----- ------
  1000 FORMAT
      & (5X,'TABULATED OGDEN LAW',/,
