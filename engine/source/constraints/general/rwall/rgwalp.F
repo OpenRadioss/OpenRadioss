@@ -327,12 +327,14 @@ C        POINT SECND TIED
          V(N1)=VXW+DVX
          V(N2)=VYW+DVY
          V(N3)=VZW+DVZ
-          IF (IMP_S==1.AND.NDOF(N)>0) THEN
-            JJ=IDDL(N)+1
-            IF (IKC(JJ)==0)IKC(JJ)=3
-            IF (IKC(JJ+1)==0)IKC(JJ+1)=3
-            IF (IKC(JJ+2)==0)IKC(JJ+2)=3
-          ENDIF
+         IF (IMP_S==1)THEN
+              IF(NDOF(N)>0) THEN
+                JJ=IDDL(N)+1
+                IF (IKC(JJ)==0)IKC(JJ)=3
+                IF (IKC(JJ+1)==0)IKC(JJ+1)=3
+                IF (IKC(JJ+2)==0)IKC(JJ+2)=3
+              ENDIF
+         ENDIF
        ELSE
 C        POINT SECND SLIDING
          FCOE=FRIC*SQRT(FNDFN/MAX(EM20,FTDFT))
@@ -345,13 +347,15 @@ C        POINT SECND SLIDING
          V(N1)=V(N1)-DV*RWL(1)+DVX
          V(N2)=V(N2)-DV*RWL(2)+DVY
          V(N3)=V(N3)-DV*RWL(3)+DVZ
-          IF (IMP_S==1.AND.NDOF(N)>0) THEN
-            V(N1)=-DV
-            A(N1)=RWL(1)
-            A(N2)=RWL(2)
-            A(N3)=RWL(3)    
-            JJ=IDDL(N)+1
-            IF (IKC(JJ)==0)IKC(JJ)=10
+          IF (IMP_S==1)THEN
+            IF (NDOF(N)>0) THEN
+              V(N1)=-DV
+              A(N1)=RWL(1)
+              A(N2)=RWL(2)
+              A(N3)=RWL(3)    
+              JJ=IDDL(N)+1
+              IF (IKC(JJ)==0)IKC(JJ)=10
+            ENDIF
           ENDIF
          TFXT=TFXT-
      .      ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
