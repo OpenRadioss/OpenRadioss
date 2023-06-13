@@ -353,8 +353,8 @@ c---------------------------------------------------------------------
           END IF
         END IF
 c
-        DO II = 1,NINDX
-          I = INDX(II)
+        DO I = 1,NEL ! loop over all element for non local
+
           TRIAX = ZERO
           FACT = ONE
           FACR = ONE + D_JC * JCR_LOG(I)  ! total strain rate factor on damage

@@ -472,8 +472,7 @@ c---------------------------------------------------------------------
           END IF
         END IF
 c
-        DO II = 1,NINDX
-          I = INDX(II)
+        DO I = 1,NEL
 c
           TRIAX = ZERO
           FACT = ONE
