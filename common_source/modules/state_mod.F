@@ -47,6 +47,7 @@ Chd|        READ_DYNAIN                   engine/source/output/dynain/read_dynai
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        STOP_SENSOR                   engine/source/tools/sensor/stop_sensor.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRCOMR                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F

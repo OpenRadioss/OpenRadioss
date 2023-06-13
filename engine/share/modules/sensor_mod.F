@@ -194,6 +194,7 @@ Chd|        SPMD_I7XVCOM2                 source/mpi/interfaces/spmd_i7xvcom2.F
 Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
 Chd|        SPMD_IFRONT_STAMP             source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
+Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|        THSENS                        source/output/th/thsens.F     
 Chd|        TH_TIME_OUTPUT                source/output/th/th_time_output.F

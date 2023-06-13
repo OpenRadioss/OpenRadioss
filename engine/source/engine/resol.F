@@ -395,6 +395,7 @@ Chd|        STACK_WREST                   source/output/restart/wrrest.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STATIC                        source/general_controls/damping/static.F
 Chd|        STOPTIME                      source/system/timer.F         
+Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|        STORE_ACCEL_FIELD             source/output/reactions.F     
 Chd|        STORE_ACCEL_FIELD_TH          source/output/store_accel_field_th.F
 Chd|        STORE_FORCES                  source/output/reactions.F     

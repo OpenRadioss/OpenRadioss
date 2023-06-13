@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_SYAZWAN_S                 source/materials/fail/biquad/fail_syazwan_s.F
+Chd|  FAIL_SYAZWAN_S                source/materials/fail/syazwan/fail_syazwan_s.F
 Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        source/materials/mat_share/mmain8.F

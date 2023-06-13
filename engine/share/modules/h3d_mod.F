@@ -291,6 +291,7 @@ Chd|        SPMD_TRI20GAT                 source/mpi/interfaces/spmd_i7crit.F
 Chd|        SPMD_TRI24GAT                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_tri25gat.F
 Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
+Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|        TBILAN                        source/elements/truss/tbilan.F
 Chd|        TFORC3                        source/elements/truss/tforc3.F
 Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
