@@ -1205,6 +1205,42 @@ void readRadiossAnim(char *fileName)
             cout << "\n";
         }
 
+        for (int iefun = 0; iefun < nbTors1D; iefun++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                replaceUnderscore(tText1DA[iefun]);
+                if (j == 0) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "F1" << " float 1" << "\n";
+                if (j == 1) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "F2" << " float 1" << "\n";
+                if (j == 2) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "F3" << " float 1" << "\n";
+                if (j == 3) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "M1" << " float 1" << "\n";
+                if (j == 4) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "M2" << " float 1" << "\n";
+                if (j == 5) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "M3" << " float 1" << "\n";
+                if (j == 6) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "M4" << " float 1" << "\n";
+                if (j == 7) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "M5" << " float 1" << "\n";
+                if (j == 8) cout << "SCALARS 1DELEM_" << tText1DA[iefun] << "M6" << " float 1" << "\n";
+                cout << "LOOKUP_TABLE default"
+                     << "\n";
+                for (int iel = 0; iel < nbElts1D; iel++)
+                {
+                    cout << torsVal1DA[(9 * iefun * nbElts1D) + iel * 9 + j] << "\n";
+                }
+                for (int iel = 0; iel < nbFacets; iel++)
+                {
+                    cout << 0 << "\n";
+                }
+                for (int iel = 0; iel < nbElts3D; iel++)
+                {
+                    cout << 0 << "\n";
+                }
+                for (int iel = 0; iel < nbEltsSPH; iel++)
+                {
+                    cout << 0 << "\n";
+                }
+                cout << "\n";
+            }
+        }
+
         for (int iefun = 0; iefun < nbEFunc; iefun++)
         {
             replaceUnderscore(fTextA[iefun + nbFunc]);
