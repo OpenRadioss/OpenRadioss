@@ -133,8 +133,7 @@ c       Write spmd/PON exchange arrays
 c--------------------------------------
 
         CALL WRITE_DPDB(SENSORS%FSAV,12*6*SENSORS%SFSAV)
-        CALL WRITE_I_C (SENSORS%TABSENSOR,SENSORS%STABSEN)
-
+        CALL WRITE_I_C(SENSORS%TABSENSOR,SENSORS%STABSEN)
 c--------------------------------------
 c       Write sensor lists in engine output options (/STOP/LSENSOR, /STAT/LSENSOR...)
 c       in case of chkpoint restart

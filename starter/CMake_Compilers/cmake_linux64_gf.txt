@@ -8,7 +8,6 @@
 
 set ( RELNAME ${arch}  )
 
-
 # General machine flag setting
 set ( cppmach "-DCPP_mach=CPP_p4linux964" )
 set ( cpprel  "-DCPP_rel=80" )
@@ -59,13 +58,22 @@ if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 
 endif()
 if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
-set( portability " -fallow-argument-mismatch -g  -fallow-invalid-boz -std=legacy")
+set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
 endif()
+
+#set( strict "-Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only ") 
+set( strict "-Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Wsurprising  -Werror=tabs") 
+
 
 if ( debug STREQUAL "1" )
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wunused-dummy-argument -Wdo-subscript ${ADF} ${portability}" )
+#set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}" )
+
+set( legacy_flags " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
+
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none ${ADF} " )
+
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g -fopenmp " )
@@ -76,13 +84,17 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSAN
 else ()
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -O2 -ffp-contract=off -frounding-math -fopenmp -ffixed-line-length-none  ${ADF} ${portability} " )
+#set_source_files_properties( ${legacy_source_files}  PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set( legacy_flags "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -O2 -ffp-contract=off -frounding-math -fopenmp -ffixed-line-length-none  ${ADF} ${portability} ") 
+
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag}  ${strict} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -O2 -ffp-contract=off -frounding-math -fopenmp -ffixed-line-length-none  ${ADF}" )
+
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -fopenmp " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -fopenmp " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -fopenmp -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O2 -fopenmp -std=c++11  " )
 
 endif()
 
@@ -96,8 +108,14 @@ else()
 set (LINK "dl  ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -Wunused-function"  )
 endif()
 
+
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
+
+# legacy fortran files
+include (CMake_Compilers/legacy_fortran.cmake)
+
+
 set (F_O0_compiler_flags " -O0 ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -ffixed-line-length-none ${portability}")
 if ( debug STREQUAL "0" )
 #inimsg.F
