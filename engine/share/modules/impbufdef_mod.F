@@ -311,6 +311,7 @@ Chd|        RBE2COR                       source/constraints/general/rbody/rgbco
 Chd|        RBE2COR0                      source/constraints/general/rbody/rgbcor.F
 Chd|        RBYCOR                        source/constraints/general/rbody/rbycor.F
 Chd|        RGBCOR                        source/constraints/general/rbody/rgbcor.F
+Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|        WFV_IMP                       source/constraints/general/impvel/fv_imp0.F
 Chd|-- calls ---------------
 Chd|====================================================================

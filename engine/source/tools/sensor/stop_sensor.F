@@ -21,9 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  STOP_SENSOR                            
+Chd|  STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|-- called by -----------
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE STOP_SENSOR(SENSORS   ,H3D_DATA  ,DYNAIN_DATA)
 C-----------------------------------------------
