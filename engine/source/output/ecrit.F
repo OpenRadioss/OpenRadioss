@@ -476,138 +476,137 @@ C     ENCIN + ENINT + ENROT + ENCIN2 + ENROT2
 C     ENTOT1B =
 C     (NC=0,ENCIN + ENINT + ENROT - TFEXT - TFEXT_MD) 
 C     + DEF + TFEXT + DELTAE + TFEXT_MD       
-
-      IF(ISPMD==0) THEN
-       ENTOT = ENCIN + ENINT + ENROT
-       ENTOTB = ENTOT + ENCIN2 + ENROT2       
-       IF(NCYCLE==0) THEN
-        ENTOT0=ENTOT - TFEXT - TFEXT_MD
-        DELTAE=ENCIN2 + ENROT2                
-        MASS0 = XMASS - DMAS
-       ENDIF
-       MASS0 = MASS0  + DMF
-       ENTOT0= ENTOT0 + DEF       
-       ENTOT1=ENTOT0 + TFEXT
-       ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
-       IF(ABS(ENTOT1B)>EM20)THEN
-         ERR = ENTOTB/ENTOT1B - ONE
-         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
-       ELSE
-        ERR = ZERO
-        ERR1 =ZERO
-       ENDIF
-       EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
+c----------------------------------------------------
+      IF (ISPMD == 0) THEN
+c
+        ENTOT = ENCIN + ENINT + ENROT
+        ENTOTB = ENTOT + ENCIN2 + ENROT2       
+        IF(NCYCLE==0) THEN
+         ENTOT0=ENTOT - TFEXT - TFEXT_MD
+         DELTAE=ENCIN2 + ENROT2                
+         MASS0 = XMASS - DMAS
+        ENDIF
+        MASS0 = MASS0  + DMF
+        ENTOT0= ENTOT0 + DEF       
+        ENTOT1=ENTOT0 + TFEXT
+        ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
+        IF(ABS(ENTOT1B)>EM20)THEN
+          ERR = ENTOTB/ENTOT1B - ONE
+          ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
+        ELSE
+         ERR = ZERO
+         ERR1 =ZERO
+        ENDIF
+        EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
 C-----------------------------------------------
-C      /STATE/LSENSOR
+C       /STATE/LSENSOR
 C-----------------------------------------------
-      IF (SENSORS%NSTAT  > 0) THEN
-        MSTATT = 0
-        DO I=1,SENSORS%NSTAT
-           ISENS = SENSORS%STAT(I)
-           TS = SENSORS%SENSOR_TAB(ISENS)%TSTART      
-           IF (TT >= TS) THEN
-             MSTAT(I) = MSTAT(I)+1    
-           ENDIF
-           IF (MSTAT(I)==1) MSTATT=1
-        ENDDO
-      ENDIF
+        IF (SENSORS%NSTAT  > 0) THEN
+          MSTATT = 0
+          DO I=1,SENSORS%NSTAT
+             ISENS = SENSORS%STAT(I)
+             TS = SENSORS%SENSOR_TAB(ISENS)%TSTART    
+             IF (TT >= TS) THEN
+               MSTAT(I) = MSTAT(I)+1    
+             ENDIF
+             IF (MSTAT(I)==1) MSTATT=1
+          ENDDO
+        ENDIF
 C-----------------------------------------------
-C     /OUTP/LSENSOR
+C       /OUTP/LSENSOR
 C-----------------------------------------------
-      IF (SENSORS%NOUTP > 0) THEN
-        MOUTPT = 0
-        DO I=1,SENSORS%NOUTP
-           ISENS = SENSORS%OUTP(I)
-           TS = SENSORS%SENSOR_TAB(ISENS)%TSTART     
-           IF (TT >= TS) THEN
-              MOUTP(I) = MOUTP(I)+1    
-           ENDIF
-           IF(MOUTP(I)==1)  MOUTPT=1
-        ENDDO
-      ENDIF
+        IF (SENSORS%NOUTP > 0) THEN
+          MOUTPT = 0
+          DO I=1,SENSORS%NOUTP
+             ISENS = SENSORS%OUTP(I)
+             TS = SENSORS%SENSOR_TAB(ISENS)%TSTART    
+             IF (TT >= TS) THEN
+                MOUTP(I) = MOUTP(I)+1    
+             ENDIF
+             IF(MOUTP(I)==1)  MOUTPT=1
+          ENDDO
+        ENDIF
 C-----------------------------------------------
-C     STOP OR KILL 
+C       /STOP/LSENSOR
 C-----------------------------------------------
-C     /STOP/LSENSOR
-C-----------------------------------------------
-      IF (SENSORS%NSTOP > 0) THEN
-        DO I=1,SENSORS%NSTOP
-          ISENS = SENSORS%STOP(I)
-          IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
-            CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
-     .                  I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
-            IWARN = IWARN+1
-            MSTOP = 1
-            MREST = 1
-            IPRI  = 0
-            IF (NSANIM/=0) MDESS = 1
+        IF (SENSORS%NSTOP > 0) THEN
+          DO I=1,SENSORS%NSTOP
+            ISENS = SENSORS%STOP(I)
+            IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
+              CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
+     .                    I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
+              IWARN = IWARN+1
+              MSTOP = 1
+              MREST = 1
+              IPRI  = 0
+              IF (NSANIM/=0) MDESS = 1
+            ENDIF
+          ENDDO
+        ENDIF
+C
+        IF((NERR_POSIT==0.AND.ABS(ERR)>DEMXK).OR.
+     .     (NERR_POSIT==1.AND.ERR>DEMXK))THEN
+          CALL ANCMSG(MSGID=205,ANMODE=ANINFO)
+          IERR=IERR+1
+          MSTOP=1
+          IF(NTH/=0)THEN
+           THIS= TT
+           IPRI= 0
           ENDIF
-        ENDDO
-      ENDIF
+          IF(NANIM/=0)THEN
+           MDESS = 1
+           TANIM = TT
+           IPRI  = 0
+          ENDIF                 
+        ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
+     .         (NERR_POSIT==1.AND.ERR>DEMXS))THEN
+          CALL ANCMSG(MSGID=206,ANMODE=ANINFO)
+          IWARN=IWARN+1
+          MSTOP=1
+          MREST=1
+          IF(NTH/=0)THEN
+           THIS= TT
+           IPRI= 0
+          ENDIF
+          IF(NANIM/=0)THEN
+           MDESS = 1
+           TANIM = TT
+           IPRI  = 0
+          ENDIF 
+        ENDIF
 C
-       IF((NERR_POSIT==0.AND.ABS(ERR)>DEMXK).OR.
-     .    (NERR_POSIT==1.AND.ERR>DEMXK))THEN
-         CALL ANCMSG(MSGID=205,ANMODE=ANINFO)
-         IERR=IERR+1
-         MSTOP=1
-         IF(NTH/=0)THEN
-          THIS= TT
-          IPRI= 0
-         ENDIF
-         IF(NANIM/=0)THEN
-          MDESS = 1
-          TANIM = TT
-          IPRI  = 0
-         ENDIF                 
-       ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
-     .        (NERR_POSIT==1.AND.ERR>DEMXS))THEN
-         CALL ANCMSG(MSGID=206,ANMODE=ANINFO)
-         IWARN=IWARN+1
-         MSTOP=1
-         MREST=1
-         IF(NTH/=0)THEN
-          THIS= TT
-          IPRI= 0
-         ENDIF
-         IF(NANIM/=0)THEN
-          MDESS = 1
-          TANIM = TT
-          IPRI  = 0
-         ENDIF 
-       ENDIF
-C
-       IF(EMASS>DMTMXK)THEN
-         CALL ANCMSG(MSGID=207,ANMODE=ANINFO)
-         IERR=IERR+1
-         MSTOP=1
-         IF(NTH/=0)THEN
-          THIS= TT
-          IPRI = 0
-         ENDIF
-         IF(NANIM/=0)THEN
-          MDESS = 1
-          TANIM = TT
-          IPRI  = 0
-         ENDIF 
-       ELSEIF(EMASS>DMTMXS)THEN
-         CALL ANCMSG(MSGID=208,ANMODE=ANINFO)
-         IWARN=IWARN+1
-         MSTOP=1
-         MREST=1
-         IF(NTH/=0)THEN
-          THIS= TT
-          IPRI = 0
-         ENDIF
-         IF(NANIM/=0)THEN
-          MDESS = 1
-          TANIM = TT
-          IPRI  = 0
-         ENDIF 
-       ENDIF
-      ENDIF
-C
+        IF(EMASS>DMTMXK)THEN
+          CALL ANCMSG(MSGID=207,ANMODE=ANINFO)
+          IERR=IERR+1
+          MSTOP=1
+          IF(NTH/=0)THEN
+           THIS= TT
+           IPRI = 0
+          ENDIF
+          IF(NANIM/=0)THEN
+           MDESS = 1
+           TANIM = TT
+           IPRI  = 0
+          ENDIF 
+        ELSEIF(EMASS>DMTMXS)THEN
+          CALL ANCMSG(MSGID=208,ANMODE=ANINFO)
+          IWARN=IWARN+1
+          MSTOP=1
+          MREST=1
+          IF(NTH/=0)THEN
+           THIS= TT
+           IPRI = 0
+          ENDIF
+          IF(NANIM/=0)THEN
+           MDESS = 1
+           TANIM = TT
+           IPRI  = 0
+          ENDIF 
+        ENDIF
+      ENDIF  ! ISPMD == 0
+C---------------------------------
 C     Communication MSTOP & MREST
-C
+C---------------------------------
       IF (NSPMD > 1) THEN
         IF (ISPMD==0) THEN
           RTMP(1)  = MSTOP
