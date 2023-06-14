@@ -33,71 +33,60 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE FAIL_SYAZWAN_S(
      1     NEL     ,UPARAM   ,NUPARAM ,UVAR    ,NUVAR   ,
-     2     TIME    ,NGL      ,IP      ,DPLA    ,PLA     ,
+     2     TIME    ,NGL      ,IPG     ,DPLA    ,TDELE   ,
      3     SIGNXX  ,SIGNYY   ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     4     DFMAX   ,NFUNC    ,IFUNC   ,ALDT    ,FOFF    ,
-     5     NPF     ,TF      )
+     4     DFMAX   ,NFUNC    ,IFUNC   ,ALDT    ,OFF     ,
+     5     NPF     ,TF       ,UELR    ,NPG     ,LOFF    )
 C!-----------------------------------------------
 C!   I m p l i c i t   T y p e s
 C!-----------------------------------------------
 #include      "implicit_f.inc"
-C!---------+---------+---+---+--------------------------------------------
-C! VAR     | SIZE    |TYP| RW| DEFINITION
-C!---------+---------+---+---+--------------------------------------------
-C! NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C! NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C! NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C!---------+---------+---+---+--------------------------------------------
-C! MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C! KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C! NPF     |  *      | I | R | FUNCTION ARRAY   
-C! TF      |  *      | F | R | FUNCTION ARRAY 
-C!---------+---------+---+---+--------------------------------------------
-C! TIME    |  1      | F | R | CURRENT TIME
-C! TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C! UPARAM  | NUPARAM | F | R | USER FAILURE PARAMETER ARRAY
-C!---------+---------+---+---+--------------------------------------------
-C! SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
-C! SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
-C! ...     |         |   |   |
-C! ...     |         |   |   |
-C!---------+---------+---+---+--------------------------------------------
-C! UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C! FOFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
-C!---------+---------+---+---+--------------------------------------------
-#include "mvsiz_p.inc"
-#include "scr17_c.inc"
-#include "units_c.inc"
-#include "comlock.inc"
-#include "param_c.inc"
-C!-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IP,NFUNC, IFUNC(NFUNC)
-      my_real TIME,UPARAM(NUPARAM),
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+#include      "scr17_c.inc"
+#include      "units_c.inc"
+#include      "comlock.inc"
+#include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   I N P U T   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER, INTENT(IN) :: 
+     .   NEL    ,NUPARAM,NUVAR,NGL(NEL),IPG ,
+     .   NFUNC  ,IFUNC(NFUNC) ,NPG
+      my_real, INTENT(IN) :: 
+     .   TIME   ,UPARAM(NUPARAM),DPLA(NEL)  ,
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
-     .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),UVAR(NEL,NUVAR),
-     .   DPLA(NEL),EPSP(NEL),FOFF(NEL),DFMAX(NEL),TDELE(NEL),
-     .   PLA(NEL) ,ALDT(NEL)   
+     .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
+     .   ALDT(NEL)
+C-----------------------------------------------
+C   I N P U T   O U T P U T   A r g u m e n t s 
+C-----------------------------------------------
+      my_real, INTENT(INOUT) :: 
+     .   UVAR(NEL,NUVAR),LOFF(NEL),OFF(NEL),
+     .   DFMAX(NEL),TDELE(NEL),UELR(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPF(*)
-      my_real, INTENT(IN) :: TF(*)
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
       my_real
      .         FINTER
       EXTERNAL FINTER
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,J,NINDX,INST,DINIT,IFORM
-      INTEGER, DIMENSION(MVSIZ) :: INDX
+      INTEGER I,J,NINDX,NINDX2,FAILIP
+      INTEGER, DIMENSION(NEL) :: INDX,INDX2
       my_real
-     .   C1     ,C2     ,C3     ,C4     ,C5     ,C6     ,
-     .   N_VAL  ,SOFTEXP,REF_LEN,REG_SCALE,DAM_SF,MAX_DAM
+     .   C1     ,C2       ,C3      ,C4     ,C5     ,
+     .   C6     ,REF_LEN  ,REG_SCALE
       my_real
-     .   LAMBDA ,DYDX   ,FAC(NEL),DC(NEL),P      ,SVM    ,
-     .   TRIAX  ,COS3THETA,LODEP ,EPSFAIL,
-     .   DET    ,XI  ,SXX     ,SYY    ,SZZ       ,EPFMIN
-
+     .   LAMBDA ,DYDX     ,FAC(NEL),P      ,SVM    ,
+     .   TRIAX  ,COS3THETA,LODEP   ,EPSFAIL,
+     .   DET    ,SXX      ,SYY     ,SZZ    ,EPFMIN
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
@@ -108,16 +97,10 @@ C!-----------------------------------------------
       C4        = UPARAM(4) 
       C5        = UPARAM(5)
       C6        = UPARAM(6)
-      IFORM     = NINT(UPARAM(7))
-      DINIT     = NINT(UPARAM(8))
-      DAM_SF    = UPARAM(9)
-      MAX_DAM   = UPARAM(10)
-      INST      = NINT(UPARAM(11))
-      N_VAL     = UPARAM(12) 
-      SOFTEXP   = UPARAM(13) 
       REF_LEN   = UPARAM(14) 
       REG_SCALE = UPARAM(15) 
       EPFMIN    = UPARAM(16)
+      FAILIP    = MIN(NINT(UPARAM(17)),NPG)
 c
       ! At first timestep, initialization of the critical damage and 
       ! the element size scaling factor
@@ -135,10 +118,10 @@ c
 c
       DO I=1,NEL
         ! Recover element size scaling
-        FAC(I)   = UVAR(I,1)
+        FAC(I) = UVAR(I,1)
+        IF (OFF(I) < EM01) OFF(I) = ZERO
+        IF (OFF(I) < ONE .AND. OFF(I) > ZERO) OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
-c
-C-----------------------------------------------
 c
       !====================================================================
       ! - COMPUTATION OF THE DAMAGE VARIABLE EVOLUTION
@@ -146,11 +129,13 @@ c
       ! Initialization of element failure index
       NINDX = 0  
       INDX(1:NEL) = 0
+      NINDX2 = 0
+      INDX2(1:NEL) = 0
 c
       ! Loop over the elements 
       DO I=1,NEL
 c
-        IF (FOFF(I) /= 0 .AND. DPLA(I) > ZERO) THEN
+        IF (LOFF(I) == ONE .AND. DPLA(I) > ZERO .AND. OFF(I) == ONE) THEN
 c
           ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
           P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))     
@@ -161,15 +146,16 @@ c
      .         + SIGNXY(I)**2+ SIGNZX(I)**2 + SIGNYZ(I)**2    
           SVM = SQRT(THREE*SVM) 
           TRIAX = P/MAX(EM20,SVM)
+          IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
+          IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD
 c
           ! Computation of Lode parameter
           DET = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)- 
      .          SXX*SIGNYZ(I)**2-SZZ*SIGNXY(I)**2-SYY*SIGNZX(I)**2
-          COS3THETA = ONE/MAX(EM20,SVM**3)
-          COS3THETA = HALF*TWENTY7*DET*XI         
+          COS3THETA = HALF*TWENTY7*DET/MAX(EM20,SVM**3)
           IF(COS3THETA < -ONE) COS3THETA = -ONE
-          IF(COS3THETA > ONE) COS3THETA = ONE
-          LODEP = ONE - TWO*ACOS(XI)/PI
+          IF(COS3THETA > ONE)  COS3THETA = ONE
+          LODEP = ONE - TWO*ACOS(COS3THETA)/PI
 c
           ! Computation of the plastic strain at failure
           EPSFAIL = C1 + C2*TRIAX + C3*LODEP + C4*(TRIAX**2) + 
@@ -183,28 +169,46 @@ c
 c              
           ! Check element failure    
           IF (DFMAX(I) >= ONE) THEN
-            FOFF(I)     = 0
+            LOFF(I)     = ZERO
             NINDX       = NINDX + 1
             INDX(NINDX) = I
+            UELR(I)     = UELR(I) + ONE
+            IF (NINT(UELR(I)) >= FAILIP) THEN 
+              OFF(I)    = FOUR_OVER_5
+              IDEL7NOK  = 1   
+              TDELE(I)  = TIME
+              NINDX2    = NINDX2 + 1 
+              INDX2(NINDX2) = I
+            ENDIF
           ENDIF
         ENDIF
       ENDDO
-c     
-c------------------------
-      
-       IF(NINDX>0)THEN
-         DO J=1,NINDX
+c
+      !====================================================================
+      ! - PRINTOUT DATA ABOUT FAILED ELEMENTS
+      !====================================================================
+      IF (NINDX>0) THEN
+        DO J=1,NINDX
           I = INDX(J)     
 #include "lockon.inc"
-          WRITE(IOUT, 1000) NGL(I),TIME
-          WRITE(ISTDO,1100) NGL(I),TIME
+          WRITE(IOUT, 1000) NGL(I),IPG,TIME
+          WRITE(ISTDO,1000) NGL(I),IPG,TIME
 #include "lockoff.inc"
-         END DO
-       END IF         
+        END DO
+      ENDIF    
+      IF (NINDX2>0) THEN
+        DO J=1,NINDX2
+          I = INDX2(J)     
+#include "lockon.inc"
+          WRITE(IOUT, 2000) NGL(I),TIME
+          WRITE(ISTDO,2000) NGL(I),TIME
+#include "lockoff.inc"
+        END DO
+      ENDIF       
 C------------------
- 1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (SYAZWAN) el#',I10,
+ 1000 FORMAT(1X,'FOR SOLID ELEMENT NUMBER el#',I10,
+     .          ' FAILURE (SYAZWAN) AT GAUSS POINT ',I5,
+     .          ' AT TIME :',1PE12.4)
+ 2000 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT :',I10,
      .          ' AT TIME :',1PE12.4)     
- 1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (SYAZWAN) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
-      RETURN
       END
