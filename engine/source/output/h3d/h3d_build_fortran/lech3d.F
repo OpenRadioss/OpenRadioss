@@ -149,7 +149,7 @@ C-----------------------------------------------
      .        ISHELL_NPT_CHECK,ICSTR,NPTR,NPTS,NPTT,IS_CORNER_DATA,ISH_NPT0,
      .        IS_MDSVAR_DEF,NMDSVAR_MAX,IS_MDSVAR,IS_MDSVAR_ALL,IMDSVAR,
      .        IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
-     .        IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IRUP,IFAIL
+     .        IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2
       INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
       CHARACTER  KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, KEY6*ncharkey,
      .           KEY7*ncharkey,KEY8*ncharkey,KEY3_GLOB*ncharline,KEY3_READ*ncharline, 
@@ -161,7 +161,8 @@ C-----------------------------------------------
      .      LAYER_INPUT,IPT_INPUT,PLY_INPUT,UVAR_INPUT,GAUSS_INPUT,
      .      IR_INPUT,IS_INPUT,IT_INPUT,IS_AVAILABLE_KEY,INTER_INPUT,
      .      MDSVAR_INPUT,MDSVAR_INPUT1,MDSVAR_INPUT_TMP,MDSVAR_INPUT1_TMP,
-     .      MDSVAR_INPUT2,MDSVAR_INPUT2_TMP,ID_MAT_MDS,INDEX_MAT_MDS,IDS_INPUT
+     .      MDSVAR_INPUT2,MDSVAR_INPUT2_TMP,ID_MAT_MDS,INDEX_MAT_MDS,IDS_INPUT,
+     .      IRUP_ALL,IRUP_ID_ALL,IRUP_H3D
 c
       TYPE (H3D_KEYWORD) H3D_KEYWORD_NODE,H3D_KEYWORD_SHELL,H3D_KEYWORD_SOLID,H3D_KEYWORD_QUAD,H3D_KEYWORD_ONED
 c
@@ -189,6 +190,7 @@ c
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY 
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IS_LAYER_MAT 
+      LOGICAL :: FOUND
       CHARACTER*64 TEST_CHAIN
       CHARACTER*10 FAIL_NAME(50)
       DATA  FAIL_NAME/
@@ -224,6 +226,8 @@ c
       NB_ALL = 0
       IS_SKING = 0
       NLAY_MAX = 0
+      ALLOCATE(IRUP_ALL(1))
+      IRUP_ALL(1) = 0
 
       ALLOCATE(H3D_DATA%N_SKID_INTER(NINTER))
       H3D_DATA%N_SKID_INTER(1:NINTER) = 0
@@ -1038,7 +1042,6 @@ C----special case for thick-shell Isolid=14  :
         END IF ! IF ((IS_IR_ALL + IS_IS_ALL+IS_IT_ALL)>0)      
 
 c 
-            
         ID_MAX = 0                          
         IF (IS_ID_ALL == 1) THEN            
           DO K=1,NUMMAT                     
@@ -1051,7 +1054,117 @@ c
            ENDIF                            
           ENDDO                             
         ENDIF 
-
+c
+        ! /H3D/ELEM/FAILURE definition
+        IF (KEY3_GLOB == 'FAILURE') THEN
+c
+          ! All failure IDs are asked by user
+          IF (IS_ID_ALL > 0) THEN 
+c 
+            ! First count of the failure model            
+            CPT_IRUP = 0
+            DO NG=1,NGROUP
+              NLAY = ELBUF_STR(NG)%NLAY
+              DO J = 1,NLAY
+                DO K = 1, ELBUF_STR(NG)%BUFLY(J)%NPTT
+                  DO L = 1,ELBUF_STR(NG)%NPTR
+                    DO M = 1,ELBUF_STR(NG)%NPTS
+                      FBUF => ELBUF_STR(NG)%BUFLY(J)%FAIL(L,M,K)
+                      CPT_IRUP = CPT_IRUP + ELBUF_STR(NG)%BUFLY(J)%NFAIL
+                    ENDDO
+                  ENDDO
+                ENDDO 
+              ENDDO
+            ENDDO
+c
+            ! Save all IDs (might be doubled)
+            IF (ALLOCATED(IRUP_ALL)) DEALLOCATE(IRUP_ALL)
+            ALLOCATE(IRUP_ALL(CPT_IRUP))
+            IRUP_ALL(1:CPT_IRUP) = 0
+            CPT_IRUP = 0
+            DO NG=1,NGROUP
+              NLAY = ELBUF_STR(NG)%NLAY
+              DO J = 1,NLAY
+                DO K = 1, ELBUF_STR(NG)%BUFLY(J)%NPTT
+                  DO L = 1,ELBUF_STR(NG)%NPTR
+                    DO M = 1,ELBUF_STR(NG)%NPTS
+                      FBUF => ELBUF_STR(NG)%BUFLY(J)%FAIL(L,M,K)
+                      DO IFAIL = 1,ELBUF_STR(NG)%BUFLY(J)%NFAIL
+                        CPT_IRUP = CPT_IRUP + 1
+                        IRUP_ALL(CPT_IRUP) = FBUF%FLOC(IFAIL)%IDFAIL
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO 
+              ENDDO
+            ENDDO
+c
+            ! Remove doubled failure IDs
+            ALLOCATE(IRUP_ID_ALL(CPT_IRUP))
+            IRUP_ID_ALL(1:CPT_IRUP) = 0            
+            CPT_IRUP2 = 0
+            DO J = 1,CPT_IRUP 
+              FOUND = .FALSE.
+              DO K = 1,CPT_IRUP2
+                IF (IRUP_ID_ALL(K) == IRUP_ALL(J) .AND. IRUP_ALL(J) /= 0) FOUND = .TRUE.
+              ENDDO
+              IF (.NOT.FOUND) THEN 
+                CPT_IRUP2 = CPT_IRUP2 + 1
+                IRUP_ID_ALL(CPT_IRUP2) = IRUP_ALL(J)
+              ENDIF
+            ENDDO
+c
+            ! Save corresponding failure models
+            IF (ALLOCATED(IRUP_ALL)) DEALLOCATE(IRUP_ALL)
+            ALLOCATE(IRUP_ALL(CPT_IRUP2))
+            IRUP_ALL(1:CPT_IRUP2) = 0
+            DO O = 1,CPT_IRUP2
+              DO NG=1,NGROUP
+                NLAY = ELBUF_STR(NG)%NLAY
+                DO J = 1,NLAY
+                  DO K = 1, ELBUF_STR(NG)%BUFLY(J)%NPTT
+                    DO L = 1,ELBUF_STR(NG)%NPTR
+                      DO M = 1,ELBUF_STR(NG)%NPTS
+                        FBUF => ELBUF_STR(NG)%BUFLY(J)%FAIL(L,M,K)
+                        DO IFAIL = 1,ELBUF_STR(NG)%BUFLY(J)%NFAIL
+                          IF (FBUF%FLOC(IFAIL)%IDFAIL == IRUP_ID_ALL(O)) THEN 
+                            IRUP_ALL(O) = FBUF%FLOC(IFAIL)%ILAWF
+                          ENDIF
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO 
+                ENDDO
+              ENDDO
+            ENDDO
+c 
+            ! Maximal number of IDs
+            ID_MAX = CPT_IRUP2
+c            
+          ! Only a specific failure ID is asked by the user
+          ELSEIF (IS_ID > 0) THEN 
+c
+            ! Look if ID is found for the element group
+            DO NG=1,NGROUP
+              NLAY = ELBUF_STR(NG)%NLAY
+              DO J = 1,NLAY
+                DO K = 1, ELBUF_STR(NG)%BUFLY(J)%NPTT
+                  DO L = 1,ELBUF_STR(NG)%NPTR
+                    DO M = 1,ELBUF_STR(NG)%NPTS
+                      FBUF => ELBUF_STR(NG)%BUFLY(J)%FAIL(L,M,K)
+                      DO IFAIL = 1,ELBUF_STR(NG)%BUFLY(J)%NFAIL
+                        IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
+                          IRUP_ALL(1) = FBUF%FLOC(IFAIL)%ILAWF
+                        ENDIF
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO 
+              ENDDO
+            ENDDO
+c
+          ENDIF
+        ENDIF
 c
   	    ALLOCATE (LAYER_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
      .     	      MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)))
@@ -1079,6 +1192,8 @@ c
      .     	      MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)))
   	    ALLOCATE (IDS_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
      .     	      MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)))
+        ALLOCATE (IRUP_H3D(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
+     .     	      MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)))
 C--------------------------------------------------
             CPT = 0
   	    ALLOCATE (MDSVAR_INPUT_TMP(MAX(1,NMDSVAR_MAX)))
@@ -1098,6 +1213,7 @@ C--------------------------------------------------
             MDSVAR_INPUT1(:) = 0
             MDSVAR_INPUT2(:) = 0
             IDS_INPUT(:) = 0
+            IRUP_H3D(:) = 0
         
             IF (IS_MDSVAR_ALL == 1) THEN
               IF(KEY3_GLOB(1:3) == 'MDS' ) THEN
@@ -1164,36 +1280,6 @@ c
               ENDDO
             ENDDO
           ENDIF
-c
-          IF (KEY3_GLOB == 'FAILURE' .AND. IS_ID > 0) THEN
-            IRUP = 0
-            DO NG=1,NGROUP
-
-              CALL INITBUF (IPARG    ,NG     ,                    
-     2             MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3             NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
-     4             JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5             NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6             IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
-     7             ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-
-              NLAY = ELBUF_STR(NG)%NLAY
-              DO J = 1,NLAY
-                DO K = 1, ELBUF_STR(NG)%BUFLY(J)%NPTT
-                  DO L = 1,ELBUF_STR(NG)%NPTR
-                    DO M = 1,ELBUF_STR(NG)%NPTS
-                      FBUF => ELBUF_STR(NG)%BUFLY(J)%FAIL(L,M,K)
-                      DO IFAIL = 1,ELBUF_STR(NG)%BUFLY(J)%NFAIL
-                        IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
-                          IRUP = FBUF%FLOC(IFAIL)%ILAWF
-                        ENDIF
-                      ENDDO
-                    ENDDO
-                  ENDDO
-                ENDDO 
-              ENDDO
-            ENDDO
-          ENDIF
 C-------------------------------------------------- 
           IF(KEY2 == 'SHELL' .OR. KEY2 =='ELEM') THEN
 C-------------------------------------------------- 
@@ -1255,6 +1341,9 @@ C
 
            	    IF(H3D_KEYWORD_SHELL%IS_ID == 1) THEN
            	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
+                  IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                    IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
+                  ENDIF
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SHELL%IS_MDSVAR == 1) THEN
@@ -1265,7 +1354,7 @@ C
                       ENDIF
            	    ENDIF
            	  ELSE
-	 	   IF(NLAY_MAX + MAX(1,NIP_MAX) + NPLY_MAX + NUVAR_MAX + NMDSVAR_MAX /= 0)THEN
+	 	   IF(NLAY_MAX + MAX(1,NIP_MAX) + NPLY_MAX + NUVAR_MAX + NMDSVAR_MAX + ID_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_IPT_ALL*MAX(NIP_MAX,1))
 	 	  	 DO M=1,MAX(1,IS_PLY_ALL*MAX(NPLY_MAX,1))
@@ -1317,6 +1406,14 @@ c
 	 	  	         IDS_INPUT(CPT_H3D) = -1
 	 	  	         IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = P
 	 	  	         IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
+                 IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                   IF (IS_ID_ALL == 1) THEN 
+                     IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(P)
+                     IRUP_H3D(CPT_H3D)  = IRUP_ALL(P)
+                   ELSE 
+                     IRUP_H3D(CPT_H3D)  = IRUP_ALL(1)
+                   ENDIF
+                 ENDIF
 c
 	 	  	         GAUSS_INPUT(CPT_H3D) = -1
 c
@@ -1404,7 +1501,7 @@ c
  
                    IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
                      TEST_CHAIN = ''
-                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP)),'Damage'
+                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                      H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
                    ENDIF
                     
@@ -1448,18 +1545,18 @@ C--------------------------------------------------
           IF(KEY2 == 'SOLID' .OR. KEY2 == 'BRICK' .OR.KEY2 =='ELEM') THEN
 C-------------------------------------------------- 
             JMAX=MAX(H3D_NUM_KEY%SOLID_SCALAR, H3D_NUM_KEY%SOLID_VECTOR, H3D_NUM_KEY%SOLID_TENSOR)
-	    DO J=1,JMAX
+	          DO J=1,JMAX
               CPT_H3D = 0
               IS_SCALAR = 0
               IS_VECTOR = 0
               IS_TENSOR = 0
-	      IF ( KEY3_GLOB == H3D_KEYWORD_SOLID_SCALAR(J)%KEY3) IS_SCALAR = 1
+	            IF ( KEY3_GLOB == H3D_KEYWORD_SOLID_SCALAR(J)%KEY3) IS_SCALAR = 1
               IF ( KEY3_GLOB == H3D_KEYWORD_SOLID_VECTOR(J)%KEY3) IS_VECTOR = 1
               IF ( KEY3_GLOB == H3D_KEYWORD_SOLID_TENSOR(J)%KEY3) IS_TENSOR = 1
 
               IS_CORNER_DATA = H3D_KEYWORD_SOLID_TENSOR(J)%IS_CORNER_DATA
 
-	      IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TENSOR == 1 ) THEN
+	            IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TENSOR == 1 ) THEN
 
            	IF(IS_SCALAR == 1) H3D_KEYWORD_SOLID = H3D_KEYWORD_SOLID_SCALAR(J)
            	IF(IS_VECTOR == 1) H3D_KEYWORD_SOLID = H3D_KEYWORD_SOLID_VECTOR(J)
@@ -1528,11 +1625,14 @@ C--------------------------------------------------
 
            	    IF(H3D_KEYWORD_SOLID%IS_ID == 1) THEN
            	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
+                  IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                    IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
+                  ENDIF
            	    ENDIF
 
            	  ELSE
-C------ LAYER is not available for /SOLID/TENS/ in manuel, might be removed in the loop                  
-	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + NMDSVAR_MAX  /= 0)THEN
+C------ LAYER is not available for /SOLID/TENS/ in manuel, might be removed in the loop            
+	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + NMDSVAR_MAX + ID_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_UVAR_ALL*MAX(NUVAR_MAX,1))
 	 	  	 DO M=1,MAX(1,IS_IR_ALL*MAX(IR_MAX,1))
@@ -1584,6 +1684,14 @@ c
 	 	  	           IDS_INPUT(CPT_H3D) = -1
 	 	  	           IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = Q
 	 	  	           IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
+                   IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                     IF (IS_ID_ALL == 1) THEN 
+                       IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(Q)
+                       IRUP_H3D(CPT_H3D)  = IRUP_ALL(Q)
+                     ELSE 
+                       IRUP_H3D(CPT_H3D)  = IRUP_ALL(1)
+                     ENDIF
+                   ENDIF
 	 	  	           GAUSS_INPUT(CPT_H3D) = -1
 c
            		           IS_AVAILABLE_KEY(CPT_H3D) = 1 
@@ -1634,7 +1742,7 @@ c
  
                     IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
                       TEST_CHAIN = ''
-                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP)),'Damage'
+                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                       H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
                     ENDIF
 
@@ -1803,9 +1911,10 @@ C--------------------------------------------------
      .     	   H3D_KEYWORD_QUAD%IS_IR /= 0 .OR.
      .     	   H3D_KEYWORD_QUAD%IS_IS /= 0 .OR.
      .     	   H3D_KEYWORD_QUAD%IS_IT /= 0 .OR. 
-     .     	   H3D_KEYWORD_QUAD%IS_UVAR /= 0  ) THEN
+     .     	   H3D_KEYWORD_QUAD%IS_UVAR /= 0 .OR. 
+     .         H3D_KEYWORD_QUAD%IS_ID /= 0  ) THEN
            	  IF(IS_LAYER_ALL == 0 .AND. IS_IR_ALL == 0 .AND. IS_IS_ALL == 0 .AND.
-     .     	     IS_IT_ALL == 0 .AND. IS_UVAR_ALL == 0)THEN
+     .     	     IS_IT_ALL == 0 .AND. IS_UVAR_ALL == 0 .AND. IS_ID_ALL ==0)THEN
 
            	    CPT_H3D = CPT_H3D + 1
            	    LAYER_INPUT(CPT_H3D) = -1
@@ -1849,15 +1958,18 @@ C--------------------------------------------------
 
            	    IF(H3D_KEYWORD_QUAD%IS_ID == 1) THEN
            	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
+                  IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                    IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
+                  ENDIF
            	    ENDIF
-
            	  ELSE
-	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX /= 0)THEN
+	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + ID_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_UVAR_ALL*MAX(NUVAR_MAX,1))
 	 	  	 DO M=1,MAX(1,IS_IR_ALL*MAX(IR_MAX,1))
 	 	  	   DO N=1,MAX(1,IS_IS_ALL*MAX(IS_MAX,1))
 	 	  	     DO O=1,MAX(1,IS_IT_ALL*MAX(IT_MAX,1))
+              DO P=1,MAX(1,IS_ID_ALL*MAX(ID_MAX,1))
 	 	  	       CPT_H3D = CPT_H3D + 1
 c
 	 	  	       LAYER_INPUT(CPT_H3D) = -1
@@ -1877,11 +1989,20 @@ c
 
            	   IDS_INPUT(CPT_H3D) = -1
            	   IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
+               IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                 IF (IS_ID_ALL == 1) THEN 
+                   IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(P)
+                   IRUP_H3D(CPT_H3D)  = IRUP_ALL(P)
+                 ELSE 
+                   IRUP_H3D(CPT_H3D)  = IRUP_ALL(1)
+                 ENDIF
+               ENDIF
 c
 	 	  	       GAUSS_INPUT(CPT_H3D) = -1
 c
            		       IS_AVAILABLE_KEY(CPT_H3D) = 1 
 c
+              ENDDO
            		    ENDDO
            		   ENDDO
            		 ENDDO
@@ -1916,7 +2037,7 @@ c
 
                    IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
                      TEST_CHAIN = ''
-                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP)),'Damage'
+                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                      H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1 = TEST_CHAIN
                    ENDIF
 
@@ -1966,6 +2087,7 @@ C--------------------------------------------------
             DEALLOCATE (IS_INPUT)
             DEALLOCATE (IT_INPUT)
             DEALLOCATE (IDS_INPUT)
+            DEALLOCATE (IRUP_H3D)
             DEALLOCATE (IS_AVAILABLE_KEY)
             DEALLOCATE (MDSVAR_INPUT)
             DEALLOCATE (MDSVAR_INPUT1)
@@ -2028,6 +2150,8 @@ C
       DEALLOCATE(H3D_KEYWORD_QUAD_VECTOR)
       DEALLOCATE(H3D_KEYWORD_QUAD_TENSOR)
       DEALLOCATE(ID_MAT_MDS)
+      IF (ALLOCATED(IRUP_ALL))    DEALLOCATE (IRUP_ALL)
+      IF (ALLOCATED(IRUP_ID_ALL)) DEALLOCATE (IRUP_ID_ALL)
 C    
       RETURN
       END
