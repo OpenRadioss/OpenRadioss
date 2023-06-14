@@ -498,13 +498,12 @@ C---------------Incrementation of Variables for future GRNOD---------C
      .                   C2="FOR DOMAIN",
      .                   I1=ISUBDOM(1,P))
            ENDIF   
-      ENDIF
+c
+           IF (NLOC_DMG%IMOD > 0) THEN
+             DEALLOCATE(TAG_NLOCAL)
+           ENDIF
+        ENDIF
       END DO
-
-      IF (NLOC_DMG%IMOD > 0) THEN
-        DEALLOCATE(TAG_NLOCAL)
-      ENDIF
-
 C--------------------------------------------------------------------C
 C----- Recopy of other groups in IGROUP_TEMP-------------------------C
 C--------------------------------------------------------------------C

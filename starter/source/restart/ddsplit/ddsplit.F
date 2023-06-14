@@ -1354,7 +1354,7 @@ C--------------------------------------
      5             SDD_R2R_ELEM,ADDCSRECT,CSRECT  ,NBDDNORT_L,NBDDNOR_MAX_L,
      6             NBCCNOR_L,NBCCFR25_L,NBDDEDGT_L,NBDDEDG_MAX_L,NRTMX25_L ,
      7             IPARI    ,INTBUF_TAB,INTERCEP  ,NODGLOB      ,NODLOCAL  ,
-     8             NUMNOD_L)
+     8             NUMNOD_L ,NLOC_DMG)
       NBDDNOD = NBDDACC+NBDDKIN
 C--------------------------------------
 C counts Parith/ON SPMD
@@ -2481,7 +2481,7 @@ C--------------------------------------
      K   CSRECT  ,NBDDNORT_L,NBDDNOR_MAX_L,NBCCFR25_L,NBCCNOR_L,
      L   NUMNOR_L ,NBDDEDGT_L,NBDDEDG_MAX_L,INTERCEP ,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM,SENSORS%NSENSOR)
+     N   SIZE_ALE_ELM,SENSORS%NSENSOR,NLOC_DMG)
       DEALLOCATE(ITABI2M)
       DEALLOCATE(ITABRBE3M)
       DEALLOCATE(ITABRBE2M)

@@ -54,15 +54,15 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE ::      
      .      SOCKET,DBNO,NBELTN_R2R,TCNELT,TCNELTDB,TYPLNK,  
      .      OFFSET,NBELT_R2R,ROTLNK,RBYLNK,TAG_RBY,ADD_RBY,
-     .      KINLNK,TAGEL_R2R_SEND,NLLNK,NBDOF_NL,IADD_NL       
-
+     .      KINLNK,TAGEL_R2R_SEND,NLLNK,NBDOF_NL,IADD_NL
+      
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
      .      DBN,NBEL,NBELN,TBCNEL,TBCNELDB
      
       DOUBLE PRECISION, ALLOCATABLE ::
      .      R2R_KINE(:,:) 
      
-      INTEGER R2R_FDR,R2R_FDW,R2R_IPID
+      INTEGER R2R_FDR,R2R_FDW,R2R_IPID,DD_R2R_NL(2)
           
 C-----------------------------------------------
       END MODULE RAD2R_MOD
