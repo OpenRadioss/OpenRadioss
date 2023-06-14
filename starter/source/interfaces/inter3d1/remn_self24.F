@@ -21,6 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
+Chd|-- called by -----------
+Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
+Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        INSOL3ET                      source/interfaces/inter3d1/i24sti3.F
+Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|====================================================================
       SUBROUTINE REMN_SELF24(
      .               X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .               KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,

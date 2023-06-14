@@ -40,6 +40,7 @@ Chd|        ITAGSL12                      source/interfaces/inter3d1/inintr2.F
 Chd|        ITAGSL2                       source/interfaces/inter3d1/itagsl2.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
+Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|        RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F

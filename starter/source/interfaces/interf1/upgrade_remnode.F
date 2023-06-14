@@ -106,6 +106,7 @@ Chd|  UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
 Chd|-- called by -----------
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
+Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFMOD                     share/modules1/restart_mod.F  
