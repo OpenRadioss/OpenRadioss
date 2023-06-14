@@ -1178,11 +1178,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), SIZE, LENR,
-     .        DD_R2R(NSPMD+1,2),DD_R2R_ELEM(*),FLAG 
+     .        DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),FLAG 
       my_real
      .        A(3,*),AR(3,*),STIFN(*),STIFR(*),MS(*)
 C-----------------------------------------------
@@ -1357,11 +1358,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), SIZE, LENR,
-     .        DD_R2R(NSPMD+1,2),DD_R2R_ELEM(*),FLAG,
+     .        DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),FLAG,
      .        WEIGHT(*) 
       my_real
      .        A(3,*),AR(3,*), V(3,*),VR(3,*),MS(*),IN(*),
@@ -1566,11 +1568,12 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), SIZE, LENR,
-     .        DD_R2R(NSPMD+1,2),DD_R2R_ELEM(*),
+     .        DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),
      .        NPBY(NNPBY,*) 
       my_real
      .        RBY(NRBY,*)
@@ -1867,11 +1870,12 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*),
-     .        DD_R2R(NSPMD+1,2),DD_R2R_ELEM(*),FLAG,
+     .        DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),FLAG,
      .        ITAG(*),LENR 
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1990,11 +1994,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*),
-     .        DD_R2R(NSPMD+1,2),DD_R2R_ELEM(*),LENR
+     .        DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),LENR
       my_real
      .        A(3,*)
 C-----------------------------------------------
@@ -2116,11 +2121,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER OFF_SPH_R2R(*),IAD_ELEM(2,*),
-     .        FR_ELEM(*),DD_R2R(NSPMD+1,2),DD_R2R_ELEM(*),LENR
+     .        FR_ELEM(*),DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),LENR
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2210,4 +2216,4 @@ C
 
 #endif
       RETURN
-      END                   
+      END

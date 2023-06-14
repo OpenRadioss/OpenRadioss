@@ -366,6 +366,7 @@ void syserr();
          com->tagelr = shmv ;
          com->tagels = shmv + shmvr_size;
 
+         bid = 0;
          writer(fidw, (void *) &bid, sizeof(int)); 
 }
 
@@ -443,6 +444,7 @@ void r2r_sem_c()
 {
 int bid;
 
+      bid = 0;
       writer(fidw, (void *) &bid,sizeof(int));    
 }
 
@@ -674,8 +676,8 @@ int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*info,*typ,*cdt,*cdr,*pr
 my_real_c *x,*dx;
 {init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx);}
 
-void init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+void init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
 my_real_c *x,*dx;
 {
 int i,j,tt,nn,lbuf,lbuf1,init_buf[6],id;
@@ -684,6 +686,7 @@ my_real_c *crd;
 
     /************************coupling for non local dof***************************/
     /*****************************************************************************/
+    flagrot  = (int *) malloc(*nlnk*2*sizeof(int));
     lbuf = *nb_tot_dof*sizeof(my_real_c);
     crd  = (my_real_c *) malloc(3*lbuf);
     lbuf1  = *nb_tot_dof*sizeof(int);   
@@ -724,24 +727,24 @@ my_real_c *crd;
     free(bcs);                   
 }
 
-void _FCALL  INIT_LINK_NL_C (igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+void _FCALL  INIT_LINK_NL_C (igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
 my_real_c *x,*dx;
 {
-    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof);
+    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);
 }
 
-void _FCALL init_link_nl_c_(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+void _FCALL init_link_nl_c_(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
 my_real_c *x,*dx;
 {
-    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof);
+    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);
 }
 
-void _FCALL init_link_nl_c__(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof;
+void _FCALL init_link_nl_c__(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
+int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
 my_real_c *x,*dx;
-{init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof);}
+{init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);}
 
 
 void init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob)
@@ -1903,6 +1906,10 @@ int i, j, k, nn, nm, chunk;
 my_real_c df, dm, wfl,wf2l,wml,wm2l;
 
     rest = *nng;
+    wfl = 0;
+    wf2l = 0;
+    wml = 0;
+    wm2l = 0;
 
     if (*iex == 1) off_link = 0;
     

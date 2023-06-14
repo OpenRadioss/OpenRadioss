@@ -63,7 +63,7 @@ Chd|====================================================================
      K   CSRECT,NBDDNORT ,NBDDNOR_MAX,NBCCFR25 ,NBCCNOR ,
      L   NUMNOR_L,NBDDEDGT,NBDDEDG_MAX,INTERCEP,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM,NSENSOR) 
+     N   SIZE_ALE_ELM,NSENSOR,NLOC_DMG) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE SPLIT_CFD_MOD
       USE ALE_CONNECTIVITY_MOD
       USE USER_WINDOWS_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -130,6 +131,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: SIZE_ALE_ELM  
       TYPE(split_cfd_type), INTENT(IN) :: ALE_ELM 
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (NLOCAL_STR_), TARGET, INTENT(IN)  :: NLOC_DMG
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -267,6 +269,11 @@ C---------------------------------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: PROC_REM25  !(MAX(NBDDNOR_MAX,NBDDEDG_MAX))
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGS  !(NSPMD,SEGINDX)
       INTEGER, DIMENSION(:), ALLOCATABLE :: PROC_REM_CYL_JOINT
+      INTEGER :: COMPTR_NL,COMPTS_NL
+      INTEGER :: NDOF_NLOCAL,OFFSET_S_NL,OFFSET_R_NL
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ISOM_R2R_R_NL  !(NSPMD)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ISOM_R2R_S_NL  !(NSPMD)
+      INTEGER, POINTER, DIMENSION(:) :: IDXI,POSI
 
       ALLOCATE(ACCKIN(NBDDACC+NBDDKIN))
       ALLOCATE(ADDCSRECT_L(NUMNOR_L+1))
@@ -428,7 +435,8 @@ C-- Domdec Multidomaines hmpp
         COMPTS = 0
         COMPTR = 0
         ISOM_R2R_S = 0
-        ISOM_R2R_R = 0        
+        ISOM_R2R_R = 0
+c        
         DO I = 1, NBDDNOD
           P =  PROC_REM(I)
           N = NODGLOB(DD_ELEM(I))
@@ -443,14 +451,57 @@ C-- Domdec Multidomaines hmpp
               COMPTR = COMPTR + 1
             ENDIF             
           ENDIF                   
-        ENDDO      
-        DD_R2R(1,1) = 1
-        DD_R2R(1,2) = 1
+        ENDDO
+C      
+        DD_R2R(1,1:4) = 1
         DO P = 1, NSPMD
           DD_R2R(P+1,1) = DD_R2R(P,1) + ISOM_R2R_S(P)
           DD_R2R(P+1,2) = DD_R2R(P,2) + ISOM_R2R_R(P) 
         ENDDO 
+C
+C--     specific exhcanges for Nlocal dof
+        
+        IF (NLOC_DMG%IMOD > 0) THEN
+          IDXI => NLOC_DMG%IDXI(1:NUMNOD)
+          POSI => NLOC_DMG%POSI(1:NLOC_DMG%NNOD)
+          ALLOCATE(ISOM_R2R_R_NL(NSPMD))
+          ALLOCATE(ISOM_R2R_S_NL(NSPMD))
+          ISOM_R2R_S_NL = 0
+          ISOM_R2R_R_NL = 0
+          COMPTR_NL = 0
+          COMPTS_NL = 0
+          DO I = 1, NBDDNOD
+            P =  PROC_REM(I)
+            N = NODGLOB(DD_ELEM(I))
+            NN = IDXI(N)
+            NDOF_NLOCAL = POSI(NN+1)-POSI(NN)
+            IF (FRONTB_R2R(N,PROC)==-1) THEN
+              IF (FRONTB_R2R(N,P)>0) THEN  
+                ISOM_R2R_S_NL(P) = ISOM_R2R_S_NL(P) + NDOF_NLOCAL
+              ENDIF             
+            ENDIF    
+            IF (FRONTB_R2R(N,PROC)>0) THEN
+              IF (FRONTB_R2R(N,P)==-1) THEN 
+                ISOM_R2R_R_NL(P) = ISOM_R2R_R_NL(P) + NDOF_NLOCAL
+              ENDIF             
+            ENDIF                  
+          ENDDO
+          DO P = 1, NSPMD
+            COMPTS_NL = COMPTS_NL+ISOM_R2R_S_NL(P)
+            COMPTR_NL = COMPTS_NL+ISOM_R2R_R_NL(P)
+            DD_R2R(P+1,3) = DD_R2R(P,3) + ISOM_R2R_S_NL(P)
+            DD_R2R(P+1,4) = DD_R2R(P,4) + ISOM_R2R_R_NL(P)
+          ENDDO
+          DEALLOCATE(ISOM_R2R_R_NL,ISOM_R2R_S_NL)
+        ELSE
+          DO P = 1, NSPMD
+            DD_R2R(P+1,3) = 0
+            DD_R2R(P+1,4) = 0
+          ENDDO
+        ENDIF
+c
         ALLOCATE (DD_R2R_ELEM(SDD_R2R_ELEM),STAT=IERR)
+        DD_R2R_ELEM(1:SDD_R2R_ELEM) = 0
         IF (IERR /= 0) THEN
           WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
           WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
@@ -473,7 +524,37 @@ C-- Domdec Multidomaines hmpp
               DD_R2R_ELEM(OFFSET+COMPTR) = DD_ELEM(I)
             ENDIF  
           ENDIF            
-        ENDDO     
+        ENDDO
+C
+C--     specific exhcanges for Nlocal dof
+        IF (NLOC_DMG%IMOD > 0) THEN
+          OFFSET_S_NL = COMPTS + COMPTR
+          OFFSET_R_NL = COMPTS + COMPTR + COMPTS_NL
+          COMPTR_NL = 0
+          COMPTS_NL = 0
+          DO I = 1, NBDDNOD
+            N = NODGLOB(DD_ELEM(I))
+            P =  PROC_REM(I)  
+            NN = IDXI(N)
+            NDOF_NLOCAL = POSI(NN+1)-POSI(NN)
+            IF (FRONTB_R2R(N,PROC)==-1) THEN
+              IF (FRONTB_R2R(N,P)>0) THEN      
+                DO KK = 1,NDOF_NLOCAL    
+                  COMPTS_NL = COMPTS_NL+1
+                  DD_R2R_ELEM(OFFSET_S_NL+COMPTS_NL) = DD_ELEM(I)
+                ENDDO
+              ENDIF  
+            ELSEIF (FRONTB_R2R(N,PROC)>0) THEN
+              IF (FRONTB_R2R(N,P)==-1) THEN            
+                DO KK = 1,NDOF_NLOCAL    
+                  COMPTR_NL = COMPTR_NL+1
+                  DD_R2R_ELEM(OFFSET_R_NL+COMPTR_NL) = DD_ELEM(I)
+                ENDDO
+              ENDIF  
+            ENDIF 
+          ENDDO
+        ENDIF
+C     
       ENDIF      
 C
       IF (NSPMD>1.AND.(NBDDACC+NBDDKIN)>0) THEN

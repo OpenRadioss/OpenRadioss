@@ -171,7 +171,14 @@ C--  70 -> nlocal link - nodes already defined in link type 4
                 IF (NLOCAL(NJ,K)/=1) CALL IFRONTPLUS(NJ,K)               
               ENDDO
               IF (FL_EXIT==1) EXIT
-            END DO    
+            END DO 
+          ELSE
+            DO J=1,IGRNOD(IDG)%NENTITY
+              NJ = IGRNOD(IDG)%ENTITY(J)
+              DO K=1,NSPMD
+                 IF (FRONTB_R2R(NJ,K) > 0) FRONTB_R2R(NJ,K) = FRONTB_R2R(NJ,K) + NGRNOD*IDG
+              END DO               
+            END DO   
           ENDIF                  
         END DO
         CLOSE(UNIT=REF,STATUS='KEEP')     
