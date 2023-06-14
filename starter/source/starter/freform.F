@@ -1648,6 +1648,7 @@ Chd|        RCHECKMASS                    source/elements/spring/rcheckmass.F
 Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
+Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|        RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
 Chd|        RIGID_MAT                     source/materials/mat/mat019/rigid_mat.F
 Chd|        RINI33_RB                     source/elements/joint/rjoint/rini33_rb.F

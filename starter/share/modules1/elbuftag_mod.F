@@ -183,6 +183,7 @@ Chd|        INI_EOS_VARS                  source/elements/elbuf_init/ini_eos_var
 Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
 Chd|        INI_PROP_VARS                 source/elements/elbuf_init/ini_prop_vars.F
 Chd|        LAW104_UPD                    source/materials/mat/mat104/law104_upd.F
+Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        M20DCOD                       source/system/fsdcod.F        

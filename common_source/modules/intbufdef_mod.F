@@ -116,6 +116,7 @@ Chd|        REMN_I2OP                     starter/source/interfaces/inter3d1/i7r
 Chd|        REMN_I2OP_EDG25               starter/source/interfaces/int25/i25remlin.F
 Chd|        REMN_I2_EDG                   starter/source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2_EDGOP                 starter/source/interfaces/inter3d1/i7remnode.F
+Chd|        REMN_SELF24                   starter/source/interfaces/inter3d1/remn_self24.F
 Chd|        RESET_GAP                     starter/source/interfaces/interf1/reset_gap.F
 Chd|        RI2_INT24P_INI                starter/source/interfaces/inter3d1/i7remnode.F
 Chd|        SCRINT                        starter/source/interfaces/interf1/scrint.F

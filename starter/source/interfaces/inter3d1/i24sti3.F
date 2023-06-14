@@ -919,6 +919,7 @@ Chd|  INSOL3ET                      source/interfaces/inter3d1/i24sti3.F
 Chd|-- called by -----------
 Chd|        I24STI3                       source/interfaces/inter3d1/i24sti3.F
 Chd|        I25STI3                       source/interfaces/inter3d1/i25sti3.F
+Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INSOL3ET(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,

@@ -727,6 +727,7 @@ Chd|        REALLOC_IFRONT                source/spmd/node/ddtools.F
 Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
+Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|        RIGID_MAT                     source/materials/mat/mat019/rigid_mat.F
 Chd|        RIGMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        RINI32                        source/properties/spring/hm_read_prop32.F
