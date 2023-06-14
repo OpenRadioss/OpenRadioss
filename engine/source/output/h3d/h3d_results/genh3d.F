@@ -143,7 +143,8 @@ Chd|====================================================================
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
      4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
-     6                  CSEFRIC_STAMP,CSEFRICG_STAMP)
+     6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,
+     7                  LOADS    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -164,6 +165,8 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE H3D_INC_MOD
       USE OUTPUTS_MOD
+      USE TABLE_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -251,6 +254,7 @@ C-----------------------------------------------
       INTEGER LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),IBCL(NIBCLD,*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER ,DIMENSION(LISKN,NUMFRAM+1), INTENT(IN) :: IFRAME
       my_real
      .       FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -264,6 +268,8 @@ C-----------------------------------------------
       TYPE (SUBSET_) , TARGET, DIMENSION(NSUBS) :: SUBSET
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
+      TYPE (LOADS_)   , INTENT(IN) :: LOADS
+      TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
       my_real , INTENT(IN) :: AR(SAR)
       my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
@@ -1395,14 +1401,14 @@ C-------------nodal_pid used for PLOAD---
         CALL GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
      .                        IXC, IXTG, IXS,IXS10,IXS16,IXS20,
      .                        NODAL_IPART)
-        CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP)
+        CALL H3D_SKIN_PRE_MAP(IBCL  ,ILOADP  ,LLOADP ,IMAPSKP,LOADS)
       END IF
       IF(H3D_DATA%IH3D == 1 .AND. NUMSKING>0 ) THEN
 C----create connectivity IXSKIN_P(NIXQ,NUMSKING),IPARTSKIN_P(NUMSKING)
         IXSKIN_TMP = 0
         CALL H3D_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                       ITAB ,IXSKIN_TMP  ,TAG_SKINS6,
-     .                       IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP)
+     .                       IBCL,ILOADP,LLOADP,NODAL_IPART,IMAPSKP,LOADS)
 c--------IXSKIN_TMP(1,i) :ipart (instead of mid)--IXSKIN_TMP(2-5,i) : Nj(user_id)
         IF(NSPMD > 1) THEN
 C
@@ -2838,7 +2844,7 @@ c-----
      6                    IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                    NSENSOR,SENSORS%SENSOR_TAB,TAGNCONT,LOADP_HYD_INTER,XFRAME,FORC  ,
-     9                    NODAL_IPART ,IMAPSKP )
+     9                    NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME)
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
@@ -2870,11 +2876,11 @@ c-----
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
           INFO1 = H3D_DATA%OUTPUT_LIST(I)%INFO1
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
-
-          CALL H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,NSENSOR,
+           CALL H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,NSENSOR,
      .                   IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,KEYWORD ,
      .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSORS%SENSOR_TAB,
-     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP)
+     .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP,LOADS ,
+     .                   TABLE,IFRAME)
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

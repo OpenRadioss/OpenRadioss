@@ -28,12 +28,13 @@ Chd|-- calls ---------------
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
-      SUBROUTINE H3D_SKIN_PRE_MAP(IB     ,ILOADP    ,LLOADP ,IMAPSKP)
+      SUBROUTINE H3D_SKIN_PRE_MAP(IB     ,ILOADP    ,LLOADP ,IMAPSKP,LOADS)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE PINCHTYPE_MOD 
       USE H3D_INC_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +55,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(SLLOADP), INTENT(IN)  :: LLOADP
       INTEGER, DIMENSION(NIBCLD,NCONLD), INTENT(IN)  :: IB
       INTEGER, DIMENSION(NUMSKINP0), INTENT(OUT)  :: IMAPSKP
+      TYPE (LOADS_)   , INTENT(IN) :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -142,6 +144,53 @@ C
                 N3 = LLOADP(IAD+4*(N-1)+2)
                 N4 = LLOADP(IAD+4*(N-1)+3)
 		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+                IF (N4==0) N4 = N3
+                NP0 = NP0 +1
+                IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
+                   NP = NP +1
+                   ITAGN(N1) = 1
+                   ITAGN(N2) = 1
+                   ITAGN(N3) = 1
+                   ITAGN(N4) = 1
+                   IRECT(1,NP) = N1
+                   IRECT(2,NP) = N2
+                   IRECT(3,NP) = N3
+                   IRECT(4,NP) = N4
+                   IMAPSKP(NP0) = NP         
+                ELSE
+                  IXST = 0
+                  J = 0
+                  DO WHILE (IXST==0 .AND. J < NP)
+                    J = J + 1
+                    IF (N1 /= IRECT(1,J)) CYCLE
+                    IF (N2 /= IRECT(2,J)) CYCLE
+                    IF (N3 /= IRECT(3,J)) CYCLE
+                    IF (N4 /= IRECT(4,J)) CYCLE
+                    IXST = 1
+                    IMAPSKP(NP0) = J         
+                  END DO
+                  IF (IXST == 0 )THEN
+                    NP = NP +1
+                    ITAGN(N1) = 1
+                    ITAGN(N2) = 1
+                    ITAGN(N3) = 1
+                    ITAGN(N4) = 1
+                    IRECT(1,NP) = N1
+                    IRECT(2,NP) = N2
+                    IRECT(3,NP) = N3
+                    IRECT(4,NP) = N4
+                    IMAPSKP(NP0) = NP         
+                  END IF
+                END IF 
+              ENDDO
+           END DO 
+C           
+           DO  NL=1,LOADS%NLOAD_CYL
+              DO N=1, LOADS%LOAD_CYL(NL)%NSEG
+                N1 = LOADS%LOAD_CYL(NL)%SEGNOD(N,1)
+                N2 = LOADS%LOAD_CYL(NL)%SEGNOD(N,2)
+                N3 = LOADS%LOAD_CYL(NL)%SEGNOD(N,3)
+                N4 = LOADS%LOAD_CYL(NL)%SEGNOD(N,4)
                 IF (N4==0) N4 = N3
                 NP0 = NP0 +1
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
