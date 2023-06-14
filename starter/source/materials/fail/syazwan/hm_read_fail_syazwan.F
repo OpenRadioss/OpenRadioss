@@ -101,7 +101,7 @@ C-----------------------------------------------
      .        EPF_SHEAR,EPF_TENS,EPF_PLSTRN,EPF_BIAX
       my_real TRIAX,LODEP,COS3THETA,EPSFAIL
       DOUBLE PRECISION :: EPF(6),MAT(6,6)
-      INTEGER ICARD,IFORM,DINIT,INST,REG_FUNC,INFO,IPIV(6),I
+      INTEGER ICARD,IFORM,DINIT,INST,REG_FUNC,INFO,IPIV(6),I,FAILIP
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,NEGATIVE
 C-----------------------------------------------    
       IS_ENCRYPTED = .FALSE.
@@ -118,6 +118,7 @@ C--------------------------------------------------
       IF (ICARD <= 0) ICARD = 1
       ICARD = MIN(ICARD,2)
       CALL HM_GET_FLOATV ('EPFMIN'   ,EPFMIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV   ('FAILIP'   ,FAILIP  ,IS_AVAILABLE,LSUBMODEL)
       ! 2nd Line : failure criterion parameters
       IF (ICARD == 1) THEN 
         CALL HM_GET_FLOATV ('C1'        ,C1        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -270,6 +271,8 @@ C--------------------------------------------------
      .              C1=TITR,
      .              R1=EPFMIN)
       ENDIF
+      ! Default value for NUMFIP
+      IF (FAILIP == 0) FAILIP = 1
 C--------------------------------------------------
 C SAVE PARAMETERS
 C--------------------------------------------------
@@ -277,7 +280,7 @@ C--------------------------------------------------
       NFUNC      = 1
       IFUNC(1)   = REG_FUNC
       ! Number of parameters
-      NUPARAM    = 16
+      NUPARAM    = 17
       UPARAM(1)  = C1
       UPARAM(2)  = C2
       UPARAM(3)  = C3
@@ -294,6 +297,7 @@ C--------------------------------------------------
       UPARAM(14) = REF_LEN
       UPARAM(15) = REG_SCALE
       UPARAM(16) = EPFMIN
+      UPARAM(17) = FAILIP
       ! Number of internal variables
       NUVAR      = 3
 C--------------------------------------------------
@@ -310,7 +314,7 @@ C--------------------------------------------------
         ELSE 
           WRITE(IOUT,1200) C1,C2,C3,C4,C5,C6
         ENDIF
-        WRITE(IOUT,1300) EPFMIN
+        WRITE(IOUT,1300) EPFMIN,FAILIP
         WRITE(IOUT,1400) DINIT,DAM_SF,MAX_DAM
         WRITE(IOUT,1500) INST,IFORM,N_VAL,SOFTEXP
         IF (REG_FUNC > 0) THEN 
@@ -345,7 +349,8 @@ C
      & 5X,'5TH FAILURE PARAMETER (C5). . . . . . . . . . . . . . . =',1PG20.13/
      & 5X,'6TH FAILURE PARAMETER (C6). . . . . . . . . . . . . . . =',1PG20.13/)
  1300 FORMAT(
-     & 5X,'MINIMUM PLASTIC STRAIN AT FAILURE (EPFMIN)  . . . . . . =',1PG20.13/)
+     & 5X,'MINIMUM PLASTIC STRAIN AT FAILURE (EPFMIN)  . . . . . . =',1PG20.13/
+     & 5X,'NUM. OF FAILED INTG. PTS. PRIOR TO SOLID ELM. DELETION. =',I10/)
  1400 FORMAT(
      & 5X,'DAMAGE VARIABLE INITIALIZATION FLAG (DINIT) . . . . . . =',I10/,
      & 5X,'   DINIT = 0: NO DAMAGE INITIALIZATION                   ',/,
