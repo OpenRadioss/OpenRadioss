@@ -120,7 +120,8 @@ Chd|====================================================================
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
-     t            OUTPUT    ,DT          ,FSAVSURF    ,NSEG_LOADP )  
+     t            OUTPUT    ,DT          ,FSAVSURF    ,NSEG_LOADP,TABLE   ,
+     u            LOADS     )  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -151,6 +152,8 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE OUTPUT_MOD
       USE DT_MOD
+      USE TABLE_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -267,7 +270,9 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN)  :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS     
-      TYPE(DT_),  INTENT(INOUT)             :: DT     
+      TYPE(DT_),        INTENT(INOUT)       :: DT     
+      TYPE (LOADS_)   , INTENT(IN)          :: LOADS
+      TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -763,7 +768,7 @@ c
      3             MDS_MATID  ,FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP    ,
      4             LLOADP     ,LOADP     ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5             XFRAME     ,FORC      ,AR          ,CSEFRIC     ,CSEFRICG  ,
-     6             CSEFRIC_STAMP,CSEFRICG_STAMP)
+     6             CSEFRIC_STAMP,CSEFRICG_STAMP,TABLE ,IFRAME      ,LOADS   )
       ENDIF
       IF(ALLOCATED(CSEFRIC)) DEALLOCATE(CSEFRIC)
       IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)

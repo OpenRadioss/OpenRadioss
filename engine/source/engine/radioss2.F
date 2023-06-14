@@ -1538,7 +1538,7 @@ C------------------------------------------------
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA,DT )
+     I              DYNAIN_DATA,DT ,LOADS )
 
 C------------------------------------------------
 C Close & Delete scratch file

@@ -47,7 +47,7 @@ Chd|====================================================================
      6                  IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                  NPF   ,TF    ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                  NSENSOR,SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC    ,
-     9                  NODAL_IPART ,IMAPSKP ) 
+     9                  NODAL_IPART ,IMAPSKP ,LOADS  ,TABLE, IFRAME) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,6 +58,8 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE SENSOR_MOD
       USE H3D_INC_MOD        
+      USE TABLE_MOD        
+      USE LOADS_MOD        
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +94,9 @@ C-----------------------------------------------
       CHARACTER*ncharline KEYWORD
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (H3D_DATABASE) :: H3D_DATA
+      TYPE (LOADS_)   , INTENT(IN) :: LOADS
+      INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
+      TYPE (TTABLE)  ,DIMENSION(NTABLE)   ,INTENT(IN) :: TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -496,7 +501,7 @@ C------for solid elements
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME ,X ,V ,
-     .                   IMAPSKP,NSKIN ,NSENSOR)
+     .                   IMAPSKP,NSKIN ,NSENSOR,LOADS ,TABLE, IFRAME)
 C-----------------------------------------------
       RETURN
       END
@@ -517,7 +522,7 @@ Chd|====================================================================
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
-     .                   IMAPSKP, NSKIN ,NSENSOR )
+     .                   IMAPSKP, NSKIN ,NSENSOR ,LOADS ,TABLE,IFRAME)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -526,6 +531,8 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE SENSOR_MOD
       USE H3D_INC_MOD        
+      USE LOADS_MOD        
+      USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -563,10 +570,13 @@ C-----------------------------------------------
       my_real
      .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE (LOADS_)   , INTENT(IN) :: LOADS
+      INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
+      TYPE (TTABLE)  ,DIMENSION(NTABLE)   ,INTENT(IN) :: TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, 
+      INTEGER NL, N1, ISK, N2, N3, N4, N5,
      .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N1FRAM,DIR_HSP,I,N
       INTEGER K1, K2, K3, ISENS,K,LL,IERR,
      .        N_OLD, ISMOOTH,IDEL,NINTERP ,NPL,TAGN1,TAGN2,TAGN3,TAGN4,
@@ -579,21 +589,17 @@ C-----------------------------------------------
      .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
      .   FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,NORM
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
-      my_real
-     .   LAMBDA,VSEGX, VSEGY, VSEGZ,
-     .   cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z, 
-     .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
-     .   WAVE_refl,WAVE_inci, W13, P0, T_,Phi_DB,bound1,bound2
+c
       my_real COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,Dx,Dy,Dz,NORMD, P,
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, T0INF_LOC, TA_SHIFT, TT_STAR
       
-      DOUBLE PRECISION A_,B_,Z0_
-      
-      my_real DECAY_inci,DECAY_refl,ZETA,ZETA2,ZETA3,TMP,TMP2,TMP3,TMP4,FUNCT,DIFF,RES,TOL,T_INF,T_FIN,T_ZERO
-      my_real H00,H10,H01,H11,pP0,pP1,pM0,pM1,kk,m2,PI_,Ic,alpha,diff_t0_inci,diff_t0_refl
-      
-      DATA PI_/3.141592653589793238462643D0/
+C      
+      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT
+       my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
+     .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS
+      my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
+     
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
 C---- fill SKIN_SCALAR(*) w/ IS_WRITTEN_SKIN(*)=1
@@ -628,10 +634,10 @@ C--------default zero
          ENDDO
          IF(ISENS==0)THEN
             TS=TT
+         ELSE
             TS = TT-SENSOR_TAB(ISENS)%TSTART
-            IF(TS < ZERO) CYCLE
          ENDIF
-         IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
+         IF(IDEL > 0 .OR. TS < ZERO) CYCLE  ! SEGMENT DELETED,SENSOR
          IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
            ISMOOTH = 0
            IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
@@ -645,7 +651,7 @@ C--------default zero
            X_OLD = TS
          ENDIF
          AA = FCY*F1*XSENS
-		 SKIN_SCALAR(NSKIN)=AA
+         SKIN_SCALAR(NSKIN)=AA
        END DO 
 C----------load_pressure	
        DO NP=1,NLOADP_HYD
@@ -674,7 +680,6 @@ C
             TS=TT
          ELSE
             TS = TT-SENSOR_TAB(ISENS)%TSTART
-            IF(TS<ZERO) CYCLE
          ENDIF    
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
@@ -684,6 +689,7 @@ C
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 
 		   NP0 = NP0 + 1
+           IF(TS<ZERO) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0)
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
            AA = FCY*F1  
@@ -766,7 +772,6 @@ C--------default zero
             TS=TT
          ELSE                        
             TS = TT-SENSOR_TAB(ISENS)%TSTART
-            IF(TS < ZERO) CYCLE     
          ENDIF
          DO I = 1,ISIZ_SEG
            N1=LLOADP(ILOADP(4,NL)+4*(I-1))
@@ -775,6 +780,7 @@ C--------default zero
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 		   NP0 = NP0 + 1
+           IF(TS < ZERO) CYCLE     
            NSKIN = NSKIN0+ IMAPSKP(NP0)
 C        
            AA = ZERO
@@ -914,23 +920,111 @@ C--------default zero
          IL             = NL-NLOADP_F
          TDET           = FAC(01,NL)
          ID             = ILOADP(08,NL) !user_id
-         IF(TT<TDET)CYCLE
+         DO I = 1,ISIZ_SEG
+           NP0 = NP0 + 1
+           IF (TT<TDET) CYCLE     
+           NSKIN = NSKIN0+ IMAPSKP(NP0)
+           P = PBLAST_TAB(IL)%PRES(I)                                                           
+           SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-P
+         ENDDO!next I
+       END DO 
+C---------/LOAD/PCYL	
+       DO NL=1,LOADS%NLOAD_CYL
+C--------default zero        
+         ISIZ_SEG  = LOADS%LOAD_CYL(NL)%NSEG 
+         DO N=1, ISIZ_SEG
+           N1 = LOADS%LOAD_CYL(NL)%SEGNOD(N,1)
+           N2 = LOADS%LOAD_CYL(NL)%SEGNOD(N,2)
+           N3 = LOADS%LOAD_CYL(NL)%SEGNOD(N,3)
+           N4 = LOADS%LOAD_CYL(NL)%SEGNOD(N,4)
+           IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+           NSKIN = NSKIN0+ IMAPSKP(NP0+N)
+           IF (NODAL_IPART(N1)>0) THEN
+             IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+           END IF
+         ENDDO
+         ISENS = LOADS%LOAD_CYL(NL)%ISENS
+         IIOUT = 0
+         IF (ISENS > 0) THEN
+           IF (SENSOR_TAB(ISENS)%STATUS == 0) THEN
+              NP0 = NP0 + ISIZ_SEG
+              CYCLE
+           END IF
+         END IF
+         IFRA = LOADS%LOAD_CYL(NL)%IFRAME + 1
+         XFACR= LOADS%LOAD_CYL(NL)%XSCALE_R
+         XFACT= LOADS%LOAD_CYL(NL)%XSCALE_T
+         YFAC = LOADS%LOAD_CYL(NL)%YSCALE
+         IFUN = LOADS%LOAD_CYL(NL)%ITABLE
+         NDIM = TABLE(IFUN)%NDIM
+         NPOINT = SIZE(TABLE(IFUN)%X(1)%VALUES)
+         RMAX = TABLE(IFUN)%X(1)%VALUES(NPOINT)
+         M1   = IFRAME(1,IFRA)
+         M2   = IFRAME(2,IFRA)
+         DIRX = X(1,M1) - X(1,M2)
+         DIRY = X(2,M1) - X(2,M2)
+         DIRZ = X(3,M1) - X(3,M2)
+         LEN  = SQRT(DIRX**2 + DIRY**2 + DIRZ**2)
+         ! SEGP beam axis
+         DIR(1) = DIRX / LEN
+         DIR(2) = DIRY / LEN
+         DIR(3) = DIRZ / LEN
+         P0(1)  = X(1,M2)
+         P0(2)  = X(2,M2)
+         P0(3)  = X(3,M2)
          !---------------------------------------------
          !   LOOP ON SEGMENTS (4N or 3N)
          !---------------------------------------------      
-         DO I = 1,ISIZ_SEG
-           N1=LLOADP(ILOADP(4,NL)+4*(I-1))
-           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
-           N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
-           N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3) 
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE           
-		   NP0 = NP0 + 1
+         DO N = 1,ISIZ_SEG
+           N1 = LOADS%LOAD_CYL(NL)%SEGNOD(N,1)
+           N2 = LOADS%LOAD_CYL(NL)%SEGNOD(N,2)
+           N3 = LOADS%LOAD_CYL(NL)%SEGNOD(N,3)
+           N4 = LOADS%LOAD_CYL(NL)%SEGNOD(N,4)
+           PRESS = ZERO
+           A(1) = X(1,N1)
+           A(2) = X(2,N1)
+           A(3) = X(3,N1)
+           B(1) = X(1,N2)
+           B(2) = X(2,N2)
+           B(3) = X(3,N2)
+           C(1) = X(1,N3)
+           C(2) = X(2,N3)
+           C(3) = X(3,N3)
+           NP0 = NP0 + 1
+           IF (N4 == 0) THEN    ! 3 node segment
+             CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
+     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+             PRESS = SEGP * ONE_OVER_6
+             PRESS = PRESS * YFAC
+c          
+           ELSE                ! 4 node segment
+             D(1) = X(1,N4)
+             D(2) = X(2,N4)
+             D(3) = X(3,N4)
+             M(1) = (X(1,N1) + X(1,N2) + X(1,N3) + X(1,N4)) * FOURTH
+             M(2) = (X(2,N1) + X(2,N2) + X(2,N3) + X(2,N4)) * FOURTH
+             M(3) = (X(3,N1) + X(3,N2) + X(3,N3) + X(3,N4)) * FOURTH
+c            1st internal triangle 
+             CALL PRESS_SEG3(A       ,B      ,M      ,P0      ,DIR    , 
+     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+             PRESS = PRESS + SEGP * FOURTH
+c            2nd internal triangle 
+             CALL PRESS_SEG3(B       ,C      ,M      ,P0      ,DIR    , 
+     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+             PRESS = PRESS + SEGP * FOURTH
+c            3rd internal triangle 
+             CALL PRESS_SEG3(C       ,D      ,M      ,P0      ,DIR    , 
+     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+             PRESS = PRESS + SEGP * FOURTH
+c            4th internal triangle 
+             CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
+     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+             PRESS = PRESS + SEGP * FOURTH
+             PRESS = ABS(PRESS) * YFAC * ONE_OVER_8
+           END IF  !  seg 4 node
            NSKIN = NSKIN0+ IMAPSKP(NP0)
-           !Dist                                                                                                          
-           
-           P = PBLAST_TAB(IL)%PRES(I)                                                           
-		   SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-P
-         ENDDO!next I
+           SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-PRESS
+         ENDDO!next N
        END DO 
 C
       RETURN
