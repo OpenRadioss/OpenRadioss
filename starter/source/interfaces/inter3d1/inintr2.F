@@ -234,7 +234,8 @@ C
         ENDIF
       END DO
 C
-       IF (N2D==0 ) THEN      
+       IF (N2D==0 ) THEN 
+         NREMN(1:NINTER) = 0       
          IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN)
          CALL REMN_SELF24(X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .                KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,

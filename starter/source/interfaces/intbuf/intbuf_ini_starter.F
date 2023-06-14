@@ -1324,9 +1324,10 @@ C----   size integers arrays
             INTBUF_TAB(NIN)%S_INFLG_SUBS  = NISUBS 
             INTBUF_TAB(NIN)%S_INFLG_SUBM  = NISUBM 
           ENDIF
-C--- remove FLAGREMNODE=2 condition to for self-contact (solid element) 
+          IF (FLAGREMNODE == 2 ) THEN
             INTBUF_TAB(NIN)%S_KREMNODE = 2*(NRTM + 1)
             INTBUF_TAB(NIN)%S_REMNODE  = NREMNODE 
+          ENDIF
           IF (IEDGE4 > 0) THEN
             INTBUF_TAB(NIN)%S_IRTSE    = 5*NRTSE 
             INTBUF_TAB(NIN)%S_IS2SE    = 2*NSNE 

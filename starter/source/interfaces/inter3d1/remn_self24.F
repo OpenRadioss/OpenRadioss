@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, DIMENSION(NPARI,NINTER)    ,INTENT(IN) :: IPARI
+      INTEGER, DIMENSION(NPARI,NINTER)    ,INTENT(INOUT) :: IPARI
       INTEGER, DIMENSION(NIXS,NUMELS)     ,INTENT(IN) :: IXS
       INTEGER, DIMENSION(6,NUMELS10)      ,INTENT(IN) :: IXS10
       INTEGER, DIMENSION(8,NUMELS16)      ,INTENT(IN) :: IXS16
@@ -191,8 +191,9 @@ C--------dim first
         ENDDO
         IFLAG =0
         NREMOV(N) = IPARI(62,N)
+        FLAGREMNODE=IPARI(63,N)
         IADA= 1
-        KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
+        IF(NREMOV(N)>0) KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
 
         SIZE_INSERTED_NODE = MAX_INSERTED_NODE*NRTM
         MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE)
@@ -200,12 +201,14 @@ C--------dim first
         DO II=1,NRTM
           NNREM_SAVE = NNREM
 C
-          KI = INTBUF_TAB(N)%KREMNODE(II)+1
-          KL = INTBUF_TAB(N)%KREMNODE(II+1)
-          DO J=KI,KL
-            NS = INTBUF_TAB(N)%REMNODE(J)
-            TAGD(NS)=1
-          END DO
+          IF (FLAGREMNODE==2)THEN
+            KI = INTBUF_TAB(N)%KREMNODE(II)+1
+            KL = INTBUF_TAB(N)%KREMNODE(II+1)
+            DO J=KI,KL
+              NS = INTBUF_TAB(N)%REMNODE(J)
+              TAGD(NS)=1
+            END DO
+          END IF !IF(FLAGREMNODE==2)THEN
 C
           CALL INSOL3ET(X   ,INTBUF_TAB(N)%IRECTM,IXS   ,
      .                  N   ,E_ID,II,AREA ,
@@ -262,10 +265,12 @@ C-----reset    TAGD=0
               IF(TAGD(NI)==1) TAGD(NI)=0
             END IF
           END DO
-          DO J=KI,KL
-            NS = INTBUF_TAB(N)%REMNODE(J)
-            TAGD(NS)=0
-          END DO
+          IF (FLAGREMNODE==2)THEN
+            DO J=KI,KL
+              NS = INTBUF_TAB(N)%REMNODE(J)
+              TAGD(NS)=0
+            END DO
+          END IF 
 C
         END DO !II=1,NRTM
 
