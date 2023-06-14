@@ -54,6 +54,7 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr07_c.inc"
 #include      "scr16_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,7 +68,7 @@ C-----------------------------------------------
 C=======================================================================
 C     /STOP/LSENSOR : set output timer flags after sensor activation
 C-----------------------------------------------
-      IF (SENSORS%NSTOP > 0) THEN
+      IF (SENSORS%NSTOP > 0 .and. ISPMD == 0) THEN
         DO I=1,SENSORS%NSTOP
           ISENS = SENSORS%STOP(I)
           IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
