@@ -261,6 +261,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
+#include      "com04_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -286,7 +287,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,IGU,NOD,NNOD,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
-     .        R2R_SHARE,L_GROUP,ERR,ITITLE3(LTITR),NNOD_LOC(NGR)
+     .        R2R_SHARE,L_GROUP,ERR,ITITLE3(LTITR),NNOD_LOC(NGR),
+     .        IGU1,IGU2
+      my_real
+     .        CODE
       CHARACTER TITR*nchartitle
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  IGROUP_L
 C-----------------------------------------------
@@ -309,7 +313,14 @@ C-----------------------------------------------
           IF (NOD > 0) THEN
 !---------multidomaines -> modif domdec
             IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
-              IF (FRONTB_R2R(NOD,PROC+1)==IGU) CYCLE
+              IF (FRONTB_R2R(NOD,PROC+1)==IGU) THEN
+                CYCLE
+              ELSEIF (FRONTB_R2R(NOD,PROC+1) > NGRNOD) THEN
+                CODE = FRONTB_R2R(NOD,PROC+1)/NGRNOD
+                IGU1 = NINT(CODE)
+                IGU2 = FRONTB_R2R(NOD,PROC+1) - IGU1*NGRNOD
+                IF ((IGU==IGU1).OR.(IGU==IGU2)) CYCLE
+             ENDIF
             ENDIF
 !---------
             IF( NODLOCAL(NOD)/=0.AND.NODLOCAL(NOD)<=NUMNOD_L ) NNOD_LOC(IGU) = NNOD_LOC(IGU) + 1
@@ -355,7 +366,14 @@ C-----------------------------------------------
           IF (NOD > 0) THEN
 !---------multidomaines -> modif domdec
             IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
-              IF (FRONTB_R2R(NOD,PROC+1)==IGU) CYCLE
+              IF (FRONTB_R2R(NOD,PROC+1)==IGU) THEN
+                CYCLE
+              ELSEIF (FRONTB_R2R(NOD,PROC+1) > NGRNOD) THEN
+                CODE = FRONTB_R2R(NOD,PROC+1)/NGRNOD
+                IGU1 = NINT(CODE)
+                IGU2 = FRONTB_R2R(NOD,PROC+1) - IGU1*NGRNOD
+                IF ((IGU==IGU1).OR.(IGU==IGU2)) CYCLE
+              ENDIF
             ENDIF
 !---------
             IF( NODLOCAL(NOD)/=0.AND.NODLOCAL(NOD)<=NUMNOD_L ) THEN

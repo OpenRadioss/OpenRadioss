@@ -39,13 +39,14 @@ Chd|====================================================================
      5                   SDD_R2R_ELEM,ADDCSRECT,CSRECT,NBDDNORT,NBDDNOR_MAX,
      6                   NBCCNOR,NBCCFR25,NBDDEDGT  ,NBDDEDG_MAX,NRTMX25   ,
      7                   IPARI  ,INTBUF_TAB,INTERCEP,NODGLOB    ,NODLOCAL  ,
-     8                   NUMNOD_L)
+     8                   NUMNOD_L,NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FRONT_MOD
       USE INTBUFDEF_MOD
-      USE USER_WINDOWS_MOD
+      USE USER_WINDOWS_MOD  
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +74,7 @@ C-----------------------------------------------
        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: NODLOCAL
        TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
        TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
+       TYPE (NLOCAL_STR_), TARGET, INTENT(IN)  :: NLOC_DMG
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       NODGLOB   : integer, dimension=NUMNOD_L
 !                   gives the global ID of a local element
@@ -138,7 +140,11 @@ C Frontiere Multidomaines
 C      
       SDD_R2R_ELEM = 0       
       IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
-        SDD_R2R_ELEM = 2*(NBDDKIN + NBDDACC)       
+        IF (NLOC_DMG%IMOD > 0) THEN
+          SDD_R2R_ELEM = 4*(NBDDKIN + NBDDACC)
+        ELSE
+          SDD_R2R_ELEM = 2*(NBDDKIN + NBDDACC)
+        ENDIF       
       ENDIF     
 C
 C Frontiere RBY (main nodes)

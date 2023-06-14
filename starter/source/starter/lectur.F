@@ -2322,7 +2322,7 @@ C--------------------------------------------
         ALLOCATE(TAG_PART(NPART),IPART_R2R(4,NPART))
         TAG_PART(:)=0
         CALL R2R_VOID(IPART)
-        NL_DDR2R = 2
+        NL_DDR2R = 4
         R2R_SIU = 1
 c       complete mlaw_tag for new void materials
         IF (NUMMAT > NUMMAT0) THEN

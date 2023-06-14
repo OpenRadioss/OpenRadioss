@@ -248,7 +248,7 @@ C------
         IF (NLLNK(IEX)==1) THEN
 C-------- Coupling of non local dof
           IDXI => NLOC_DMG%IDXI(1:NUMNOD)
-          POSI => NLOC_DMG%POSI(1:NLOC_DMG%NNOD)
+          POSI => NLOC_DMG%POSI(1:NLOC_DMG%NNOD+1)
           COMPT = 0
           MY_ALLOCATE(NDOF_NL,NNG)
           DO I=1,NNG
@@ -266,8 +266,19 @@ C-------- Coupling of non local dof
               IADD_NL(COMPT) = J
             ENDDO
           ENDDO   
-          CALL INIT_LINK_NL_C(IDP,NNG,ITAB,GRNOD,X,NCPRI,DX,NDOF_NL,NBDOF_NL(IEX))
+          CALL INIT_LINK_NL_C(IDP,NNG,ITAB,GRNOD,X,NCPRI,DX,NDOF_NL,NBDOF_NL(IEX),NBK)
           DEALLOCATE(NDOF_NL)
+C
+          IF ((NSPMD > 1).AND.(SDD_R2R_ELEM>0)) THEN
+            DD_R2R_NL(1:2) = 0
+            DO I=1,NSPMD
+              DD_R2R_NL(1) = DD_R2R_NL(1) + DD_R2R(I+1,3)-DD_R2R(I,3)
+            ENDDO
+            DO I=1,NSPMD
+              DD_R2R_NL(2) = DD_R2R_NL(2) + DD_R2R(I+1,4)-DD_R2R(I,4)
+            ENDDO
+          ENDIF
+C
         ELSE
           CALL INIT_LINK_C(IDP,NNG,ITAB,GRNOD,X,ADDCNEL,CNEL,IXC,
      .        	OFC,INFO,TYPLNK(IEX),ICODT,ICODR,NCPRI,IRODDL,NBK,DX)

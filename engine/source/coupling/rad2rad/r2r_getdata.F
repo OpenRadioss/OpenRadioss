@@ -84,9 +84,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IEX, IDP, IDG, NNG, NB,NGLOB,LENR,SIZE,BID
-      INTEGER NBD,NL_FLAG
+      INTEGER NBD,NL_FLAG,SBUF_SIZE,RBUF_SIZE,PSP
       my_real
-     .        WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B  
+     .        WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B,ANN,VNN,ARN,VRN
 C
       INTEGER, DIMENSION(:), POINTER :: GRNOD
       my_real, POINTER, DIMENSION(:) :: MSNL,FNL  
@@ -104,6 +104,7 @@ C-----------------------------------------------------------------------
         IDP  = IEXLNK(2,IEX)
         NNG  = IGRNOD(IDG)%NENTITY
         GRNOD => IGRNOD(IDG)%ENTITY
+
 	IF (NLLNK(IEX)==1) THEN
 C-------Non local coupling interface--------------------------
           NL_FLAG = 1
@@ -117,6 +118,7 @@ C-------Non local coupling interface--------------------------
      .                     MS     ,IN     ,X      ,XDP    ,DX     ,TYPLNK(IEX),
      .                     KINLNK(IEX),WEIGHT  ,IEX    ,IRESP, TFEXT)
         ENDIF
+C
         IF (R2R_ON == 1)  THEN
           CALL GET_DISPL_C(IDP,NNG,GRNOD,X)
         ENDIF
@@ -125,16 +127,27 @@ C-------Non local coupling interface--------------------------
 C----------New rad2rad HMPP - synchro SPMD-----------------------------                 
        IF (NSPMD>1) THEN
          IF (SDD_R2R_ELEM>0) THEN        
-           SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)         
-           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)         
-           CALL SPMD_EXCH_R2R_2(A ,AR,V , VR  ,MS   ,IN,
-     2                          IAD_ELEM,FR_ELEM,SIZE , WF, WF2,
-     3                          LENR    ,DD_R2R,DD_R2R_ELEM,WEIGHT,FLAG_KINE)
+           IF (NL_FLAG == 0) THEN
+             SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)         
+             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)         
+             CALL SPMD_EXCH_R2R_2(A ,AR,V , VR  ,MS   ,IN,
+     2                            IAD_ELEM,FR_ELEM,SIZE , WF, WF2,
+     3                            LENR    ,DD_R2R,DD_R2R_ELEM,WEIGHT,FLAG_KINE)
+           ELSE
+             SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)         
+             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)   
+             SBUF_SIZE = SIZE*LENR + DD_R2R_NL(1)
+             RBUF_SIZE = SIZE*LENR + DD_R2R_NL(2)
+             CALL SPMD_EXCH_R2R_NL(A ,AR,V , VR  ,MS   ,
+     2                             IN,IAD_ELEM,FR_ELEM,SIZE ,
+     3                             SBUF_SIZE,RBUF_SIZE,WF, WF2,DD_R2R,
+     4                             DD_R2R_ELEM,WEIGHT,FLAG_KINE,NLOC_DMG)
+           ENDIF
          ENDIF
          CALL SPMD_EXCH_WORK(WF, WF2)
          CALL SPMD_EXCH_WORK(WM, WM2)
        END IF
-
+C
       ELSE
 C      
        DO IEX = 1, NR2RLNK
