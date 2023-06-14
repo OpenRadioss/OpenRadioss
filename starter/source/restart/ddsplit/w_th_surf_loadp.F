@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NSEGP, NSEGPL, NL, NS, K
+      INTEGER I, J, NSEGP, NSEGPL, NL, NS, K, ADCEP
       INTEGER, DIMENSION(:),ALLOCATABLE :: KSEGS_L, SEGS_L
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -80,11 +80,12 @@ C-----------------------------------------------
       SEGS_L = 0
       NSEGP  = 0      
       NSEGPL = 0
+      ADCEP  = 0
       DO I = 1, NLOADP
         NL = ILOADP(1,I)
-        NSEGP = NSEGP + 1
         DO J = 1, NL/4
-          IF(CEP(J+OFF)==PROC) THEN
+          NSEGP = NSEGP + 1
+          IF(CEP(J+OFF+ADCEP)==PROC) THEN
             NSEGPL = NSEGPL + 1
             NS = TH_SURF%LOADP_KSEGS (NSEGP+1) - TH_SURF%LOADP_KSEGS (NSEGP)
             KSEGS_L(NSEGPL+1) =KSEGS_L(NSEGPL)+ NS
@@ -93,6 +94,7 @@ C-----------------------------------------------
             ENDDO
           ENDIF
         ENDDO
+        ADCEP = ADCEP + NL/4
       ENDDO
 
       CALL WRITE_I_C(NSEGPL+1,1)
