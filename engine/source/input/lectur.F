@@ -89,7 +89,7 @@ Chd|====================================================================
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I                  DYNAIN_DATA,DT )
+     I                  DYNAIN_DATA,DT ,LOADS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
       USE DT_MOD
+      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -192,6 +193,7 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)  :: DYNAIN_DATA
       TYPE (DT_), INTENT(INOUT)              :: DT
+      TYPE (LOADS_), INTENT(IN)              :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -701,7 +703,7 @@ C     .h3d files
 C-------------------------------------------
       CALL LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP)
+     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS)
 c
       IF(H3D_DATA%N_OUTP_H3D /= 0 .AND. ISPMD == 0)THEN
         WRITE(IOUT,5000)H3D_DATA%TH3D,H3D_DATA%DTH3D
