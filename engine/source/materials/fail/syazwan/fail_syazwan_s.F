@@ -24,9 +24,7 @@ Chd|====================================================================
 Chd|  FAIL_SYAZWAN_S                source/materials/fail/syazwan/fail_syazwan_s.F
 Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
-Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   

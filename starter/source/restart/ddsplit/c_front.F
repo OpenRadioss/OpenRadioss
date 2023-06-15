@@ -30,6 +30,7 @@ Chd|        C_IFRONT                      source/spmd/node/ddtools.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE C_FRONT(PROC     ,NBDDACC,NBDDKIN,NBDDNRB,
