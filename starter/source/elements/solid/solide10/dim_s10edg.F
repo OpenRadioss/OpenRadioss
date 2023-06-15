@@ -682,59 +682,49 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,ID,IPR
-      INTEGER IS1,IS2
+      INTEGER IS1,IS2,ISMIN
 C     REAL
 C------treatment for /BCS ----------------------------
       IPR = 0
       DO N=1,NUMNOD
        IF (ICODE(N)>0 .AND. ITAGND(N) /=0 ) THEN
-        ID = IABS(ITAGND(N))
-	ND = ICNDS10(1,ID)
-	N1 = ICNDS10(2,ID)
-	N2 = ICNDS10(3,ID)
-	IS1 = ICODE(N1)
-	IS2 = ICODE(N2)
-c	IF (IS1==IS2.AND.ICODE(N)==IS1) THEN
-C----remove Nd from ICNDS10
-c         ITAGND(N) = ITAGND(N) + NS10E	
-c-----no need warning like gravity-----	 
-c          CALL ANCMSG(MSGID=1205,
-c     .                MSGTYPE=MSGINFO,
-c     .                ANMODE=ANINFO_BLIND_1,
-c     .                C1='Boundary conditions ',
-c     .                I1=IU,
-c     .                I2=ITAB(ND),
-c     .                I3=ITAB(ND))
-	IF (IS1/=ICODE(N).AND.IS2/=ICODE(N)) THEN
-C----error out	ND is along in /BCS
-          CALL ANCMSG(MSGID=1208,
+         ID = IABS(ITAGND(N))
+         ND = ICNDS10(1,ID)
+         N1 = ICNDS10(2,ID)
+         N2 = ICNDS10(3,ID)
+         IS1 = ICODE(N1)
+         IS2 = ICODE(N2)
+         ISMIN = MIN(IS1,IS2)
+         IF (IS1/=ICODE(N).AND.IS2/=ICODE(N).AND.ISMIN<ICODE(N)) THEN
+C----error out	ND has more /BCS than edge node
+            CALL ANCMSG(MSGID=1208,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ITAB(ND),
      .                C1='Boundary conditions ',
      .                C2='Boundary conditions')
-	ELSE
+         ELSE
 C----remove Nd from /BCS +degenerating	
-         ICODE(N) = 0
-         IPR = 1
-         IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
-         IF (IPRI>=5)
-     .    CALL ANCMSG(MSGID=1207,
+           ICODE(N) = 0
+           IPR = 1
+           IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
+           IF (IPRI>=5)
+     .     CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ITAB(ND),
      .                PRMOD=MSG_CUMU)
-	END IF
+         END IF
        END IF
       ENDDO 
-       IF (IPR >0.AND.IPRI>=5) THEN
+      IF (IPR >0.AND.IPRI>=5) THEN
           CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
      .                C1='Boundary conditions ',
      .                C2='Boundary conditions',
      .                PRMOD=MSG_PRINT)
-       END IF 
+      END IF 
 C
       RETURN
       END
