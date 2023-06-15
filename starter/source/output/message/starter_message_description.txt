@@ -10759,7 +10759,7 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
 /MESSAGE/1208/TITLE
 ** ERROR: INCOMPATIBILITY BETWEEN TETRA10, ITETRA10=2 AND KINEMATIC CONDITIONS
 /MESSAGE/1208/DESCRIPTION
-   The middle node %d of TETRA10 is defined alone in %s ,
+   The middle node %d of TETRA10 has more BCS than his edge node in %s ,
    Removing it from %s or setting ITETRA10=0
 
 # CATEGORY 4 : FORMAT NOK BUT NOT TOP PRIORITY
