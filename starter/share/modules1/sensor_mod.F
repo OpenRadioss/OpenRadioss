@@ -172,10 +172,20 @@ c
       ! -----------------------------------
       TYPE SENSORS_
       
-        INTEGER NSENSOR
+        INTEGER :: NSENSOR
+        INTEGER :: STABSEN
+        INTEGER :: SFSAV
+        INTEGER :: NSTOP
+        INTEGER :: NSTAT
+        INTEGER :: NOUTP
+        INTEGER :: NANIM
 
-        TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TAB
+
+        TYPE (SENSOR_STR_) ,DIMENSION(:)     ,ALLOCATABLE :: SENSOR_TAB
             
+        DOUBLE PRECISION   ,DIMENSION(:,:,:) ,ALLOCATABLE :: FSAV  ! smpd communication array for "force" sensors
+        INTEGER            ,DIMENSION(:)     ,ALLOCATABLE :: TABSENSOR  
+
       END TYPE SENSORS_
 
       

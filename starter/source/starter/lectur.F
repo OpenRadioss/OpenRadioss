@@ -9048,33 +9048,13 @@ C----------------------------------
       IF(ALLOCATED(SEATBELT_SHELL_TO_SPRING)) DEALLOCATE(SEATBELT_SHELL_TO_SPRING)
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     INIT DES SENSORS (REMPLACEMENT DES NOS EXTERNES PAR LES NOS SYSTEMES)
+C     SENSORS INITIALIZATION
 C--------------------------------------------
-      IF (SENSORS%NSENSOR > 0) THEN
-        CALL INISEN(SENSORS%SENSOR_TAB ,IPARI,NOM_OPT,INOM_OPT(5),
-     .              INOM_OPT(8),SFSAV6,IPARSENS,INOM_OPT(4),
-     .              IXR        ,R_SKEW   ,SENSORS%NSENSOR)
-        IF(IPARSENS/=0) THEN
-          STABSEN=NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
-          ALLOCATE(TABSENSOR(STABSEN)  , STAT=stat)
-          ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-          CALL INIPARSEN(SENSORS%SENSOR_TAB,SFSAV6,SENSORS%NSENSOR,STABSEN,TABSENSOR,FBSAV6)
-        ELSE
-          SFSAV6=0
-          STABSEN=0
-          ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat)
-          ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-          TABSENSOR=0
-          FBSAV6=0
-        ENDIF
-      ELSE
-        SFSAV6=0
-        STABSEN=0
-        ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat)
-        ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-        TABSENSOR=0
-        FBSAV6=0
-      ENDIF
+c
+      CALL INISEN(SENSORS ,IPARI,NOM_OPT,INOM_OPT(5),
+     .            INOM_OPT(8),INOM_OPT(4),IXR ,R_SKEW ,NUMELR,
+     .            NSECT   ,NINTER ,NINTSUB ,NRWALL   ,NRBODY  )
+c
 C----------------------------------
 C     LECTURE DES JOINTS
 C----------------------------------
@@ -9495,7 +9475,6 @@ c-----
      D       IPARTG   ,IPARTX   ,IPARTSP  ,IPARTIG3D,LITHBUFMX,
      E       MAP_TABLES, 2,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
-
 C
         MY_ALLOCATE(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
         OUTPUT%TH%ITHBUFB = ITHBUFTMP(1:OUTPUT%TH%SITHBUFB)
@@ -10726,7 +10705,7 @@ c
      M         I11FLAG      ,XFEM_TAB    ,LENTHGR        ,RTHBUF      ,
      N         IXIG3D       ,KXIG3D      ,KNOT           ,IPARTIG3D   ,WIGE       ,
      O         NCRKPART     ,INDX_CRK    ,CRKLVSET       ,CRKSHELL    ,CRKSKY     ,
-     P         CRKAVX       ,CRKEDGE     ,FBSAV6         ,TABSENSOR   ,SENSORS    ,
+     P         CRKAVX       ,CRKEDGE     ,SENSORS        ,
      Q         STACK        ,XFEM_PHANTOM, INTERT8       ,TAB_UMP     ,POIN_UMP   ,
      R         SOL2SPH_TYP  ,ADDCSRECT   ,CSRECT         ,DRAPE       ,LOADS      ,
      S         ITAGND         ,ICNDS10     ,ADDCNCND   ,

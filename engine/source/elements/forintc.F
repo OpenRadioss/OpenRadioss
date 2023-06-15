@@ -75,8 +75,8 @@ Chd|====================================================================
      M    INOD_CRK  ,IEL_CRK   ,IADC_CRK  ,ELCUTC    ,NODENR    ,
      N    IBORDNODE ,NODEDGE   ,CRKNODIAD ,ELBUF_TAB ,
      O    XFEM_TAB  ,CONDN     ,CONDNSKY  ,CRKEDGE   ,
-     P    DIMFB     , FBSAV6   ,STABSEN   ,TABSENSOR ,STACK     ,ITAB ,
-     S    DRAPE_SH4N  ,DRAPE_SH3N  ,SUBSET    ,XDP       ,VPINCH,
+     P    STACK     ,ITAB      ,
+     S    DRAPE_SH4N,DRAPE_SH3N,SUBSET    ,XDP       ,VPINCH    ,
      T    APINCH    ,STIFPINCH ,DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -133,7 +133,7 @@ C-----------------------------------------------
      .   NGROUC,GRTH(*),IGRTH(*),KNOD2ELC(*),
      .   INOD_CRK(*),IEL_CRK(*),IADC_CRK(*),ELCUTC(2,*),
      .   NODENR(*),IBORDNODE(*),NODEDGE(2,*),CRKNODIAD(*),
-     .   DIMFB, STABSEN,TABSENSOR(STABSEN),ITAB(*)
+     .   ITAB(*)
 C     REAL
       my_real
      .   X(3,*)    ,D(3,*)  ,V(3,*)   ,VR(3,*),
@@ -150,7 +150,6 @@ C     REAL
      .   MS_PLY(*), ZI_PLY(*),GRESAV(*),
      .   MSTG(*), DMELTG(*), MSC(*), DMELC(*),CONDN(*),CONDNSKY(*),
      .   PTG(3,*),MSZ2(*),APINCH(3,*),STIFPINCH(*),VPINCH(3,*)
-      DOUBLE PRECISION,TARGET :: FBSAV6(12,6,DIMFB)
       DOUBLE PRECISION :: XDP(3,*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
@@ -165,7 +164,7 @@ C     REAL
       TYPE (DRAPE_)    :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_)               :: DRAPEG
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -460,11 +459,11 @@ C
      .            +2*NSTRF(K0+7)+2*NSTRF(K0+8)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOC(JFT,JLT,NFT,NSTRF(K0+9),NSTRF(K0+3),
@@ -611,11 +610,11 @@ c
      2          +2*NSTRF(K0+10)+2*NSTRF(K0+11)+2*NSTRF(K0+12)
                IPARSENS=0
                ISECT=0
-               IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+               IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                CALL SECTIO3N(JFT,JLT,NFT,NSTRF(K0+13),NSTRF(K0+3),

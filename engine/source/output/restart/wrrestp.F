@@ -1056,10 +1056,6 @@ C--------------------------------------
 
          CALL WRITE_DB(FSAV,SFSAV)
 
-         CALL WRITE_DB(FBSAV6,12*6*SFSAV6)
-
-         CALL WRITE_I_C(TABSENSOR,STABSEN)
-
          CALL WRITE_I_C(TAB_UMP,7*TAILLE)
 
          CALL WRITE_I_C(POIN_UMP,NUMMAT)

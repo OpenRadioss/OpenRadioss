@@ -343,7 +343,7 @@ Chd|====================================================================
      M   I11FLAG      ,XFEM_TAB     ,LENTHGR        ,RTHBUF       ,
      N   IXIG3D       ,KXIG3D       ,KNOT           ,IPARTIG3D    ,WIGE        ,
      O   NCRKPART     ,INDX_CRK     ,CRKLVSET       ,CRKSHELL     ,CRKSKY      ,
-     P   CRKAVX       ,CRKEDGE      ,FBSAV6         ,TABSENSOR    ,SENSORS     ,
+     P   CRKAVX       ,CRKEDGE      ,SENSORS        ,
      Q   STACK        ,XFEM_PHANTOM ,T8             ,TAB_UMP      ,POIN_UMP    ,
      R   SOL2SPH_TYP  ,ADDCSRECT    ,CSRECT         ,DRAPE        ,LOADS       ,
      S   ITAGND       ,ICNDS10      ,ADDCNCND       ,
@@ -503,7 +503,7 @@ C-----------------------------------------------
      .        NODLEVXF(*),FRONTB_R2R(SFRONTB_R2R,*),
      .        SPH2SOL(*), SOL2SPH(*), IRST(*),ELCUTC(2,*),NODENR(*),
      .        KXFENOD2ELC(*),ENRTAG(*),IXIG3D(*),KXIG3D(*),
-     .        IPARTIG3D(*),INDX_CRK(*),TABSENSOR(STABSEN),
+     .        IPARTIG3D(*),INDX_CRK(*),
      .        POIN_UMP(NUMMAT),SOL2SPH_TYP(*), ADDCSRECT(*), CSRECT(*),
      .        ITAGND(*),ICNDS10(*),
      .        ADDCNCND(0:*), CEPCND(*), CELCND(*),CNCND(*),NATIV_SMS(*),
@@ -548,7 +548,6 @@ C-----------------------------------------------
      .       DIAG_SMS(*),LOADP(*),GAUGE(*),DFLOW(*),VFLOW(*),WFLOW(*),
      .       RTHBUF(*),KNOT(*),WIGE(*),TAB_UMP(7,TAILLE),
      .       KNOTLOCPC(*),KNOTLOCEL(*)
-      DOUBLE PRECISION, DIMENSION(12,6,SFSAV6) :: FBSAV6
       TYPE (INTSTAMP_DATA) INTSTAMP(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -1756,7 +1755,7 @@ C--------------------------------------------
      2   NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS%NSENSOR,LOADS_PER_PROC%NLOAD_CYL)
+     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS)
@@ -2900,11 +2899,6 @@ C--------------------------------------------
       LEN_AM = LEN_AM + NTHVKI*
      .        (NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+
      .         NFXBODY+NINTSUB)
-
-      CALL WRITE_DB(FBSAV6,12*6*SFSAV6)
-
-      CALL WRITE_I_C(TABSENSOR,STABSEN)
-
 C--------------------------------------------
 C TIMER MAT/PROP and WEIGHT
 C--------------------------------------------
@@ -2953,9 +2947,7 @@ C--------------------------------------------
 C--------------------------------------------
 C Sensors
 C--------------------------------------------
-      IF (SENSORS%NSENSOR > 0) THEN
-        CALL WRITE_SENSOR_TAB(SENSORS,NODLOCAL)
-      END IF
+      CALL WRITE_SENSORS(SENSORS,NUMNOD,NODLOCAL)
 C--------------------------------------------
 C RBM
 C--------------------------------------------

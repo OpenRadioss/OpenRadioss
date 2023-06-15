@@ -984,10 +984,6 @@ C--------------------------------------
 
         CALL READ_DB(FSAV,SFSAV)
 
-        CALL READ_DB(FBSAV6,12*6*SFSAV6)
-
-        CALL READ_I_C(TABSENSOR,STABSEN)
-
         CALL READ_I_C(TAB_UMP,7*TAILLE)
 
         CALL READ_I_C(POIN_UMP,NUMMAT)

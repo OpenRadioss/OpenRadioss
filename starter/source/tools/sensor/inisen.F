@@ -30,9 +30,9 @@ Chd|        SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_senso
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE INISEN(SENSOR_TAB, IPARI ,NOM_OPT,PTR_NOPT_RWALL,
-     .                  PTR_NOPT_SECT,NBR_SENS,IPARSENS,PTR_NOPT_INTER,
-     .                  IXR    ,R_SKEW   ,NSENSOR)
+      SUBROUTINE INISEN(SENSORS , IPARI ,NOM_OPT ,PTR_NOPT_RWALL,
+     .                  PTR_NOPT_SECT ,PTR_NOPT_INTER  ,IXR    ,R_SKEW   ,NUMELR,
+     .                  NSECT   ,NINTER ,NINTSUB ,NRWALL   ,NRBODY  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -46,27 +46,30 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER ,INTENT(IN) :: NUMELR,NSECT,NINTER,NINTSUB,NRWALL,NRBODY
       INTEGER IPARI(NPARI,NINTER)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RWALL,PTR_NOPT_SECT,
      .        PTR_NOPT_INTER
       INTEGER ,DIMENSION(NUMELR)      :: R_SKEW
       INTEGER ,DIMENSION(NIXR,NUMELR) :: IXR
-      INTEGER NBR_SENS,IPARSENS,JSUB
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(INOUT) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET  :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IN,IS1,IS2,SENS_TYPE,SENS_ID,SPRING_ID
+      INTEGER I,J,K,IN,NSENSOR,IPARSENS,STABSEN,SFSAV,STAT,
+     .        IS1,IS2,SENS_TYPE,SENS_ID,SPRING_ID
       CHARACTER TITR*nchartitle
+      TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
 c=======================================================================
 C     INIT DES PARAMETRES DE SENSOR
 C---------------------------------------------
+      NSENSOR    =  SENSORS%NSENSOR
+      SENSOR_TAB => SENSORS%SENSOR_TAB(1:NSENSOR)
+c
       DO K=1,NSENSOR
         IS1  = 0
         IS2  = 0
@@ -273,25 +276,47 @@ C-------------------------------------
 c---
         ENDIF ! SENSOR TYPE
       ENDDO
-C-------------------------------------
-C   Traitement special sensors type force + parit/on
-C-------------------------------------
-      IPARSENS=0        ! Flag pour sensor type force
-      NBR_SENS=0
-      DO I=1,NSENSOR
-        SENS_TYPE = SENSOR_TAB(I)%TYPE
-        IF (SENS_TYPE== 6  .OR. SENS_TYPE== 7 .OR. SENS_TYPE== 11 .OR.
-     .      SENS_TYPE== 12 .OR. SENS_TYPE== 13) THEN 
-          NBR_SENS = NBR_SENS+1
-          IPARSENS = 1
-        ENDIF
-      ENDDO
+c
 c----------------------------------------------------------------------
 c     Logical sensors : AND, OR, NOT, SENS - create a dependancy order
 c----------------------------------------------------------------------
+
       CALL SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)
 
+c----------------------------------------------------------------------
+c     Allocate sensor arrays for PARITH_ON/SMPD exchange
+c----------------------------------------------------------------------
+      IPARSENS = 0        ! Flag pour sensor type force
+      SFSAV    = 0
+      STABSEN  = 0
+c
+      IF (NSENSOR > 0) THEN
+        DO I=1,NSENSOR
+          SENS_TYPE = SENSOR_TAB(I)%TYPE
+          IF (SENS_TYPE== 6  .OR. SENS_TYPE== 7 .OR. SENS_TYPE== 11 .OR.
+     .        SENS_TYPE== 12 .OR. SENS_TYPE== 13) THEN 
+            SFSAV = SFSAV + 1
+            IPARSENS = 1
+          ENDIF
+        ENDDO
+        IF (IPARSENS == 1) STABSEN = NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
+      END IF
+c
+      ALLOCATE(SENSORS%TABSENSOR(STABSEN) , STAT=stat)
+      ALLOCATE(SENSORS%FSAV(12,6,SFSAV)   , STAT=stat)
+      SENSORS%STABSEN   = STABSEN
+      SENSORS%SFSAV     = SFSAV
+      SENSORS%TABSENSOR = 0
+      SENSORS%FSAV      = ZERO
 
+      SENSORS%NSTOP = 0
+      SENSORS%NSTAT = 0
+      SENSORS%NOUTP = 0
+      SENSORS%NANIM = 0
+c
+      IF (IPARSENS == 1) THEN
+        CALL INIPARSEN(SENSORS,NSECT,NINTER,NINTSUB,NRWALL,NRBODY)
+      END IF
 c-----------
       RETURN
       END

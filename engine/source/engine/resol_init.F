@@ -129,7 +129,7 @@ Chd|====================================================================
      f  MCP     ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g  ADSKY_PXFEM,ICODT,ICODR    ,IBFV      ,ADMSMS    ,
      h  NODREAC  ,IGROUC  ,NGROUC  ,IGROUNC   ,NGROUNC ,
-     i  FR_RBY   ,FR_RBY6 ,NPBY    ,NSENSOR   ,
+     i  FR_RBY   ,FR_RBY6 ,NPBY    ,
      j  NOM_SECT ,MCPC    ,MCPTG   ,GRTH      ,IGRTH     ,
      k  NELEM    ,LAG_SEC ,NPRW    ,DIAG_SMS  ,DMELC     ,
      l  DMELTG   ,NGRTH   ,NFT2    ,DMELS     ,DMELTR    ,
@@ -141,13 +141,13 @@ Chd|====================================================================
      r  ADSKY_CRKXFEM,PROCNE_CRKXFEM,ISENDP_CRKXFEM,IRECVP_CRKXFEM,
      s  IADSDP_CRKXFEM,IADRCP_CRKXFEM ,INT24USE,NDAMA2  ,
      t  IGROUPC  ,IGROUPTG ,IGROUPS ,IGROUPFLG ,DMINT2  ,IRBKIN_L,
-     u  NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSOR_TAB,DD_R2R_ELEM,
+     u  NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSORS ,DD_R2R_ELEM,
      v  SDD_R2R_ELEM ,KINET, WEIGHT_MD,DMSPH ,IOLDSECT,LBUFIDEL24,
      w  INTBUF_TAB   ,NUMSPH_GLO_R2R, FLG_SPHINOUT_R2R,I15K,
      y  CONDN    ,CONDNSKY ,KXFENOD2ELC  ,ELCUTC ,NODEDGE,
      z  IAD_EDGE ,CRKNODIAD,FR_EDGE     ,FR_NBEDGE ,NODLEVXF,
      x  CRKEDGE  ,XFEM_TAB   ,ISENSINT  , NISUBMAX,
-     1  STABSEN  ,TABSENSOR,INTLIST25  ,INT24E2EUSE  ,TABMP_L   , 
+     1  INTLIST25  ,INT24E2EUSE  ,TABMP_L   , 
      2  I87N ,TAB_MAT,H3D_DATA,TAGTRIMC,TAGTRIMTG,
      3  IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
@@ -216,7 +216,6 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER ITASK, NBINTC, NODFT, NODLT, LINDIDEL, LBUFIDEL,
      .        NUMNTHREAD, NDTASK, NFIA, NFEA, NFOA ,NDMA, NFNCA, NFTCA,
      .        NDMA2,NDIN,N1,N2,N3,IGTYP,NPARTL,NGROUC,NGROUNC,
@@ -265,8 +264,8 @@ C-----------------------------------------------
      .        IGROUPC(*),IGROUPTG(*),IGROUPS(*),IGROUPFLG(2),
      .        IRBKIN_L(*), KINDRBY(*), DD_R2R_ELEM(*),SDD_R2R_ELEM,
      .        KINET(*),WEIGHT_MD(*),NUMSPH_GLO_R2R,FLG_SPHINOUT_R2R,
-     .        ISENSINT(NISUBMAX+1,NINTER),NISUBMAX,STABSEN,
-     .        TABSENSOR(STABSEN), INTLIST25(NINTER25) ,INT24E2EUSE ,FXVEL_FGEO,
+     .        ISENSINT(NISUBMAX+1,NINTER),NISUBMAX,
+     .        INTLIST25(NINTER25) ,INT24E2EUSE ,FXVEL_FGEO,
      .        TAGSLV_RBY(NUMNOD)
 !     INT7ITIED : check if an interface type 7 with ITIED /= 0 is used
 !                 in order to force the communication of a list of candidate nodes 
@@ -301,7 +300,7 @@ C
       TYPE (XFEM_EDGE_)   , DIMENSION(*)           :: CRKEDGE
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (PINCH) :: PINCH_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (SENSORS_) :: SENSORS
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
@@ -324,10 +323,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMUEL, I, J, K, NG, NINT7,NNOD,K2S,K0,IAD1,IDUM,LLL,
      .        LRBUF, LIBUF, ITY, IAD, NNBEM, ITYP,IROTG,NS,LF,LT,LL,L,
-     .        L1,L2,ISECTR,NFR,IC,ICR,NISUB, NI25,NBR
+     .        L1,L2,ISECTR,NFR,IC,ICR,NISUB, NI25,NBR,NSENSOR
       INTEGER JD(50),KD(50),JFI,KFI,NMN,II,NINOUT,NNO,NEL,IFLGADM,
      .        NAD_SMS(NUMNOD),MAD_SMS(NUMNOD),N,JJ,KK, NFT, ISOLNOD,NBS
-      INTEGER, DIMENSION(NSENSOR) :: INDEX_SENSOR
+      INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDEX_SENSOR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISEND,IRECV
       INTEGER :: ITIED
       my_real
@@ -337,7 +336,8 @@ C-----------------------------------------------
 C=======================================================================
        IDUM = 0 
        RDUM = ZERO
-       ISECTR = 0         
+       ISECTR  = 0  
+       NSENSOR = SENSORS%NSENSOR       
 C-----------------------------------------------
 C //
 C-----------------------------------------------
@@ -422,7 +422,7 @@ C
      5       LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6       ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7       FR_RBY6 ,NPBY    ,IRBKIN_L,NRBYKIN_L,KINDRBY,
-     8       NSENSOR ,SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
+     8       NSENSOR ,SENSORS%SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
      9       SORT_COMM)
 C
         IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
@@ -827,10 +827,10 @@ C-----------------------
 C-----------------------
 C SENSOR INTERFACE
 C-----------------------
-      IF (STABSEN /= 0) THEN 
+      IF (SENSORS%STABSEN > 0) THEN 
         DO N=1,NINTER
           NISUB =IPARI(36,N)
-          ISENSINT(1,N) = TABSENSOR(N+1 + NSECT) - TABSENSOR(N + NSECT)
+          ISENSINT(1,N) = SENSORS%TABSENSOR(N+1 + NSECT) - SENSORS%TABSENSOR(N + NSECT)
 C
           IF (IPARI(71,N)>0) THEN
 C--         sensor associated to all interfaces of type19
@@ -838,8 +838,8 @@ C--         sensor associated to all interfaces of type19
           ENDIF
 C
           DO I=1,NISUB
-            ISENSINT(I+1,N) = TABSENSOR(I +1 + NSECT + NINTER) -
-     .                        TABSENSOR(I + NSECT + NINTER)
+            ISENSINT(I+1,N) = SENSORS%TABSENSOR(I +1 + NSECT + NINTER) -
+     .                        SENSORS%TABSENSOR(I + NSECT + NINTER)
           ENDDO
         ENDDO
       ENDIF

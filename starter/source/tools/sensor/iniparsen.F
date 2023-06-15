@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE INIPARSEN(SENSOR_TAB,NBR_SENS,NSENSOR,STABSEN,TABSENSOR,FBSAV6)
+      SUBROUTINE INIPARSEN(SENSORS,NSECT,NINTER,NINTSUB,NRWALL,NRBODY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -41,14 +41,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
+c#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN)  :: NBR_SENS,STABSEN,NSENSOR
-      INTEGER, INTENT(OUT) :: TABSENSOR(STABSEN)
-      DOUBLE PRECISION, INTENT(OUT) :: FBSAV6(12,6,NBR_SENS)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      INTEGER, INTENT(IN) :: NSECT,NINTER,NINTSUB,NRWALL,NRBODY
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -62,29 +60,29 @@ C     par les sensors type force
 c=======================================================================
       TABLOCAL(:) = 0
 c
-      DO I=1,NSENSOR
-        SENS_TYPE = SENSOR_TAB(I)%TYPE
+      DO I=1,SENSORS%NSENSOR
+        SENS_TYPE = SENSORS%SENSOR_TAB(I)%TYPE
         IF (SENS_TYPE == 12 ) THEN         ! sensort type section
-          ISECT = SENSOR_TAB(I)%IPARAM(1)
+          ISECT = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           TABLOCAL(ISECT) = I
         ELSEIF (SENS_TYPE == 6) THEN       ! sensort type interface
-          INT_ID = SENSOR_TAB(I)%IPARAM(1)
+          INT_ID = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           IINT   = INT_ID + NSECT
           TABLOCAL(IINT) = I
         ELSEIF (SENS_TYPE == 7) THEN       ! sensort type rwall
-          RWAL_ID = SENSOR_TAB(I)%IPARAM(1)
+          RWAL_ID = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           IRWAL   = RWAL_ID + NSECT + NINTER+ NINTSUB
           TABLOCAL(IRWAL) = I
         ELSEIF (SENS_TYPE == 11) THEN      ! sensort type rbody
-          RBOD_ID = SENSOR_TAB(I)%IPARAM(1)
+          RBOD_ID = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           IRBOD   = RBOD_ID + NSECT + NINTER+ NINTSUB + NRWALL
           TABLOCAL(IRBOD) = I
         ELSEIF (SENS_TYPE == 13) THEN      ! sensort type work
-          SECT_ID = SENSOR_TAB(I)%IPARAM(3)
-          INT_ID  = SENSOR_TAB(I)%IPARAM(4)
-          SUB_ID  = SENSOR_TAB(I)%IPARAM(5)
-          RWAL_ID = SENSOR_TAB(I)%IPARAM(6)
-          RBOD_ID = SENSOR_TAB(I)%IPARAM(7)
+          SECT_ID = SENSORS%SENSOR_TAB(I)%IPARAM(3)
+          INT_ID  = SENSORS%SENSOR_TAB(I)%IPARAM(4)
+          SUB_ID  = SENSORS%SENSOR_TAB(I)%IPARAM(5)
+          RWAL_ID = SENSORS%SENSOR_TAB(I)%IPARAM(6)
+          RBOD_ID = SENSORS%SENSOR_TAB(I)%IPARAM(7)
         
           ISECT = SECT_ID
           IF (ISECT > 0) TABLOCAL(ISECT) = I
@@ -108,25 +106,17 @@ c------------
       ENDDO
 C
       DO I=1,NOSYS
-        TABSENSOR(I)=TABLOCAL(NOSYS)
+        SENSORS%TABSENSOR(I) = TABLOCAL(NOSYS)
       ENDDO
 C
       COMPTEUR=1
-      DO I=NOSYS,NSECT+NINTER+NINTSUB+NRWALL+NRBODY
+      DO I = NOSYS, NSECT+NINTER+NINTSUB+NRWALL+NRBODY
         IF (TABLOCAL(I)==0) THEN
-          TABSENSOR(I+1)=TABSENSOR(I)
+          SENSORS%TABSENSOR(I+1) = SENSORS%TABSENSOR(I)
         ELSE
-          TABSENSOR(I+1)=TABSENSOR(I)+COMPTEUR
+          SENSORS%TABSENSOR(I+1) = SENSORS%TABSENSOR(I) + COMPTEUR
           COMPTEUR=COMPTEUR+1
         ENDIF
-      ENDDO
-C
-      DO I=1,NBR_SENS
-        DO J=1,6
-          DO K=1,12
-            FBSAV6(K,J,I) = ZERO
-          ENDDO
-        ENDDO
       ENDDO
 C------------
       RETURN
