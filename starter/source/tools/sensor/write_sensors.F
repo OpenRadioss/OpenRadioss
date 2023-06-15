@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_SENSORS                 source/output/restart/write_sensors.F
+Chd|  WRITE_SENSORS              source/tools/sensor/write_sensors.F
 Chd|-- called by -----------
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
+Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        FRETITL                       source/input/freform.F        
-Chd|        WRITE_DB                      source/output/tools/write_db.F
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        FRETITL                       source/starter/freform.F      
+Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================
-      SUBROUTINE WRITE_SENSORS(SENSORS)
+      SUBROUTINE WRITE_SENSORS(SENSORS,NUMNOD,NODLOCAL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -39,34 +39,61 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-#include "scr07_c.inc"
 #include "scr17_c.inc"
-#include "task_c.inc"
-#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
+      INTEGER ,INTENT(IN) :: NUMNOD
+      INTEGER ,DIMENSION(NUMNOD) ,INTENT(IN) :: NODLOCAL
+      TYPE (SENSORS_) ,TARGET ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP
+      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,N1,N2,TYP
       INTEGER, DIMENSION(LTITR) :: ITITLE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LTEMP
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       CHARACTER(LEN = nchartitle) :: TITLE
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
-      NFIX = 11
+      IF (SENSORS%NSENSOR > 0) THEN 
+        NFIX = 11
 c
-      IF (SENSORS%NSENSOR > 0) THEN
-        DO ISEN = 1,SENSORS%NSENSOR
+        DO ISEN=1,SENSORS%NSENSOR
           SENSOR => SENSORS%SENSOR_TAB(ISEN)
           TYP   = SENSOR%TYPE 
           NPARI = SENSOR%NPARI
           NPARR = SENSOR%NPARR
           NVAR  = SENSOR%NVAR
           TITLE = SENSOR%TITLE
-          
+          ALLOCATE (LTEMP(NPARI))
+          LTEMP(1:NPARI) = SENSOR%IPARAM(1:NPARI)
+c         update node system N° after renumbering for sensors using nodes
+          IF (TYP == 2) THEN   ! /sens/disp
+            N1 = NODLOCAL(SENSOR%IPARAM(1))
+            N2 = NODLOCAL(SENSOR%IPARAM(2))
+            LTEMP(1) = N1
+            LTEMP(2) = N2
+          ELSE IF (TYP == 9) THEN  ! /sens/vel
+            N1 = NODLOCAL(SENSOR%IPARAM(1))
+            LTEMP(1) = N1
+          ELSE IF (TYP == 13) THEN  ! /sens/work
+            N2 = SENSOR%IPARAM(2)
+            N1 = NODLOCAL(SENSOR%IPARAM(1))
+            IF (N2 > 0) THEN
+              N2 = NODLOCAL(SENSOR%IPARAM(2))
+            END IF
+            LTEMP(1) = N1
+            LTEMP(2) = N2
+          ELSE IF (TYP == 15) THEN  ! /sens/dist_surf
+            LTEMP(1) = NODLOCAL(SENSOR%IPARAM(1))
+            IF (SENSOR%IPARAM(2) == 0) THEN
+              LTEMP(3) = NODLOCAL(SENSOR%IPARAM(3))
+              LTEMP(4) = NODLOCAL(SENSOR%IPARAM(4))
+              LTEMP(5) = NODLOCAL(SENSOR%IPARAM(5))
+            END IF
+          END IF        
+c          
           LEN = NFIX + NPARI + NPARR + NVAR
           ALLOCATE (RBUF(LEN) )
 c
@@ -86,7 +113,7 @@ c
 c
           IF (NPARI > 0) THEN
             DO I = 1,NPARI
-              RBUF(IAD+I) = SENSOR%IPARAM(I)
+              RBUF(IAD+I) = LTEMP(I)
             END DO
             IAD = IAD + NPARI
           END IF
@@ -105,6 +132,7 @@ c
 c
           CALL WRITE_DB (RBUF,LEN)
           DEALLOCATE (RBUF)
+          DEALLOCATE (LTEMP)
 c
 c         write sensor title
           CALL FRETITL(TITLE,ITITLE,LTITR)
@@ -118,33 +146,23 @@ c
             CALL WRITE_DB (SENSOR%FLOAT_USERBUF,LSENBUF)
 
           ENDIF
-        END DO
 c
-c--------------------------------------
+        END DO
+c---------------------------------------
 c       Write Logical sensor index array
-c--------------------------------------
+c---------------------------------------
 
         CALL WRITE_I_C(LOGICAL_SENSOR_COUNT,1)
         CALL WRITE_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
-c
-c--------------------------------------
+
+c---------------------------------------
 c       Write spmd/PON exchange arrays
-c--------------------------------------
+c---------------------------------------
 
         CALL WRITE_DB (SENSORS%FSAV,12*6*SENSORS%SFSAV)
         CALL WRITE_I_C(SENSORS%TABSENSOR,SENSORS%STABSEN)
 
-c--------------------------------------
-c       Write sensor lists in engine output options (/STOP/LSENSOR, /STAT/LSENSOR...)
-c       in case of chkpoint restart
-        IF (ISPMD == 0 .and. MREST == 1) THEN
-          CALL WRITE_I_C(SENSORS%STOP ,SENSORS%NSTOP)
-          CALL WRITE_I_C(SENSORS%STAT ,SENSORS%NSTAT)
-          CALL WRITE_I_C(SENSORS%OUTP ,SENSORS%NOUTP)
-          CALL WRITE_I_C(SENSORS%ANIM ,SENSORS%NANIM)
-        END IF
-c
-      END IF
+      END IF 
 c-----------
       RETURN
       END

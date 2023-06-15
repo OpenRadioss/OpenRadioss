@@ -72,8 +72,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*),
-     .        NELTST,ITYPTST,NBINTC,INTLIST(*),
-     .        NEWFRONT(*), ITAB(*),
+     .        NELTST,ITYPTST,NBINTC,INTLIST(*),NEWFRONT(*), ITAB(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*),DELTA_PMAX_GAP_NODE(*),IDEL7NOK_SAV
       my_real :: DT2T
       my_real :: XSLV(18,*), XMSR(12,*), VSLV(6,*), VMSR(6,*),

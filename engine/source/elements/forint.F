@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FORINT_MOD
+      CONTAINS
 Chd|====================================================================
 Chd|  FORINT                        source/elements/forint.F      
 Chd|-- called by -----------
@@ -103,7 +105,7 @@ Chd|====================================================================
      R    PHI2      ,MSF       ,NODFT      ,NODLT     ,
      S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,VARNOD    ,
      T    KXIG3D    ,IXIG3D    ,KNOT       ,WIGE      ,CONDN     ,
-     U    CONDNSKY  ,DIMFB     , FBSAV6    ,STABSEN   ,TABSENSOR ,
+     U    CONDNSKY  ,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ) 
@@ -150,7 +152,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),ITAB(*),
+      INTEGER IXS(NIXS,*),ITAB(*),FLG_KJ2,
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IGEO(NPROPGI,NUMGEO),IPARI(NPARI,*),
      .   IPM(NPROPMI,NUMMAT),NPC(*), IPARG(NPARG,NGROUP), 
@@ -165,7 +167,7 @@ C-----------------------------------------------
      .   NGROUNC,GRTH(*),IGRTH(*),NBSDVOIS(*),NERCVOIS(*),
      .   NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),NODFT, NODLT,
      .   ICONTACT(*),IFOAM(*),KXIG3D(NIXIG3D,*),IXIG3D(*),
-     .   DIMFB, STABSEN, TABSENSOR(STABSEN),IGRV(*),LGRAV(*),
+     .   IGRV(*),LGRAV(*),
      .   TAGPRT_SMS(*),ITAGND(*),NALE(*),FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
       my_real
      .   X(3,*),V(3,*),VR(3,*),D(3,*),MS(*),IN(*),A(3,*),AR(3,*),
@@ -180,7 +182,7 @@ C-----------------------------------------------
      .   TEMP(*),FTHE(*), FTHESKY(*),
      .   GRESAV(*), MSSA(*), DMELS(*), MSTR(*), DMELTR(*),
      .   MSP(*), DMELP(*), MSRT(*), DMELRT(*),VF(3,*),AF(3,*),FFSKY(*),
-     .   PHI1(*),PHI2(*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),FLG_KJ2,
+     .   PHI1(*),PHI2(*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
      .   POR(*) ,VARNOD(*),KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
      .   MS_2D(*),STRESSMEAN(6,*),KNOTLOCPC(*),KNOTLOCEL(*)
       DOUBLE PRECISION XDP(3,*)
@@ -188,11 +190,10 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT) :: MATPARAM_TAB 
-      DOUBLE PRECISION,TARGET :: FBSAV6(12,6,DIMFB)
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER, INTENT(IN) :: IFTHE, ICONDN
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
       TYPE (DT_) ,  INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -359,11 +360,11 @@ C
                K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                IPARSENS=0
                ISECT=0
-               IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+               IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
-                IF(ISECT/=0) THEN
+                IF (ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C               
                CALL SECTIOS4(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),      
@@ -403,11 +404,11 @@ c
                K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                IPARSENS=0
                ISECT=0
-               IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+               IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C                
                CALL SECTIOS4(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),      
@@ -487,11 +488,11 @@ c
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -572,11 +573,11 @@ c
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -622,11 +623,11 @@ c
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS6(JFT, JLT, NFT, NSTRF(K0+7), NSTRF(K0+3),
@@ -672,11 +673,11 @@ C
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -741,11 +742,11 @@ c
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -808,11 +809,11 @@ C
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -883,11 +884,11 @@ C
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -991,11 +992,11 @@ C
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -1032,11 +1033,11 @@ C-------------------------
                 K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                 IPARSENS=0
                 ISECT=0
-                IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+                IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                 CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
@@ -1117,11 +1118,11 @@ C
      1           +2*NSTRF(K0+7)+2*NSTRF(K0+8)+2*NSTRF(K0+9)
                IPARSENS=0
                ISECT=0
-               IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+               IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                CALL SECTIOT(JFT,JLT,NFT,NSTRF(K0+10),NSTRF(K0+3),
@@ -1170,11 +1171,11 @@ C
      2           +2*NSTRF(K0+10)
                IPARSENS=0
                ISECT=0
-               IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+               IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                CALL SECTIOP(JFT,JLT,NFT,NSTRF(K0+11),NSTRF(K0+3),
@@ -1244,11 +1245,11 @@ C
      2           +2*NSTRF(K0+10)+2*NSTRF(K0+11)
                IPARSENS=0
                ISECT=0
-               IF(STABSEN/=0) ISECT=TABSENSOR(I+1)-TABSENSOR(I)
+               IF (SENSORS%STABSEN > 0) ISECT=SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
                 NULLIFY(pFBSAV6)
                 IF(ISECT/=0) THEN
                   IPARSENS=1
-                  pFBSAV6=>FBSAV6(1,1,ISECT)
+                  pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
                CALL SECTIOR(JFT,JLT,NFT,NSTRF(K0+12),NSTRF(K0+3),
@@ -1346,6 +1347,9 @@ C             ROTATION IF COROTA SYSTEM
 C
       DEALLOCATE(FX,FY,FZ,MX,MY,MZ)
 
-C----6---------------------------------------------------------------7---------8
+C-----------
       RETURN
       END
+C-----------
+      END MODULE FORINT_MOD
+

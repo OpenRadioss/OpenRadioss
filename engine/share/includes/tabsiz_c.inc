@@ -128,7 +128,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .  SW16,   SDRETRIO, SLBVRS, SPV,SRCONX, SRCONTACT,
      .  SXLS,SXLEVSET,
      .  SFRBE3,SFNOISE,SKVOL,SRXTAB,SCFIELD,
-     .  SLOADP, SFSKYD, SDMSPH,SFSAV6,STABSEN,NBR_GPMP,
+     .  SLOADP, SFSKYD, SDMSPH,NBR_GPMP,
      .  TAILLE,TABMP_L
 
 
@@ -152,7 +152,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .  SW16,   SDRETRIO, SLBVRS, SPV,SRCONX, SRCONTACT,
      .  SXLS,SXLEVSET,
      .  SFRBE3,SFNOISE,SKVOL,SRXTAB,SCFIELD,
-     .  SLOADP, SFSKYD, SDMSPH,SFSAV6,STABSEN,NBR_GPMP,
+     .  SLOADP, SFSKYD, SDMSPH,NBR_GPMP,
      .  TAILLE,TABMP_L
 
       INTEGER   LMXVINTG
