@@ -1156,14 +1156,6 @@ C
         IF (IERR/=0) GOTO 1000
         FSAV = 0 
 
-        ALLOCATE (FBSAV6(12,6,SFSAV6),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FBSAV6 = 0
-
-        ALLOCATE (TABSENSOR(STABSEN),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        TABSENSOR = 0
-
         ALLOCATE (TAB_UMP(7,TAILLE),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         TAB_UMP = 0

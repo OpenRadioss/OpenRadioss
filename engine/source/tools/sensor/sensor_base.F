@@ -47,9 +47,8 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_BASE(NSENSOR  ,SENSOR_TAB,TIME      ,TIMESTEP  ,
-     .           XSENS     ,IPARSENS  ,TABS      ,STABS     ,IPARI     ,
-     .           SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
+      SUBROUTINE SENSOR_BASE(SENSORS  ,TIME      ,TIMESTEP  ,
+     .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,
      .           SUBSET    ,IGRSURF   ,IGRNOD    )
 C-----------------------------------------------
@@ -72,32 +71,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR,SFSAV6,STABS,IPARSENS
-      my_real ,INTENT(IN) :: TIME,TIMESTEP
       INTEGER ,DIMENSION(NPARI,NINTER)  ,INTENT(IN) :: IPARI
       INTEGER ,DIMENSION(*)             ,INTENT(IN) :: NPRW
-      INTEGER ,DIMENSION(STABS)         ,INTENT(IN) :: TABS
-      my_real ,DIMENSION(12,NSENSOR)    ,INTENT(IN) :: XSENS
       my_real ,DIMENSION(3,NUMNOD)      ,INTENT(IN) :: X,V,A
+      my_real ,DIMENSION(12,NSENSOR)    ,INTENT(IN) :: XSENS
       my_real ,DIMENSION(LLACCELM,*)    ,INTENT(IN) :: ACC
       my_real ,DIMENSION(NTHVKI,*)      ,INTENT(IN) :: FSAV
       my_real ,DIMENSION(LLGAUGE,*)     ,INTENT(IN) :: GAUGE
       my_real ,DIMENSION(2,*)           ,INTENT(IN) :: PARTSAV2
+      my_real ,INTENT(IN) :: TIME,TIMESTEP
       TYPE (SUBSET_) ,DIMENSION(NSUBS)  ,INTENT(IN) :: SUBSET
       TYPE(SURF_)    ,DIMENSION(NSURF)  ,INTENT(IN) :: IGRSURF
       TYPE(GROUP_)   ,DIMENSION(NGRNOD) ,INTENT(IN) :: IGRNOD
-      TYPE (SENSOR_STR_)  ,DIMENSION(NSENSOR)       :: SENSOR_TAB
-      DOUBLE PRECISION ,DIMENSION(12,6,SFSAV6)      :: FBSAV6
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER TYP,ISENS,SENS_ID,SIZE
+      INTEGER TYP,NSENSOR,ISENS,SENS_ID,SIZE,STABS,SFSAV
       CHARACTER(LEN=256) :: OPTION
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C     this routine checks activation condition of all basic sensor types
 C=======================================================================
+      STABS   = SENSORS%STABSEN 
+      SFSAV   = SENSORS%SFSAV
+      NSENSOR = SENSORS%NSENSOR
+
+c--------------------------------------------------
 c     Parallel loop over sensor list
 c--------------------------------------------------
 
@@ -106,63 +107,63 @@ c--------------------------------------------------
 c--------------------------------------------------
       DO ISENS = 1,NSENSOR
 
-        TYP = SENSOR_TAB(ISENS)%TYPE
+        TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
 C--------------------------------
 C       SENSOR - TIME
 C--------------------------------
         IF (TYP == 0) THEN
 
-          CALL SENSOR_TIME(SENSOR_TAB(ISENS) ,TIME   ,TIMESTEP)
+          CALL SENSOR_TIME(SENSORS%SENSOR_TAB(ISENS) ,TIME   ,TIMESTEP)
 
 C--------------------------------
 C       SENSOR - ACCELEROMETER
 C--------------------------------
         ELSEIF (TYP == 1) THEN
 c
-          CALL SENSOR_ACC(SENSOR_TAB(ISENS) ,ACC)
+          CALL SENSOR_ACC(SENSORS%SENSOR_TAB(ISENS) ,ACC)
 c
 C--------------------------------
 C       SENSOR - DISTANCE
 C--------------------------------
         ELSEIF (TYP == 2) THEN
 c
-          CALL SENSOR_DIST(SENSOR_TAB(ISENS) ,X    ,XSENS(1,ISENS))
+          CALL SENSOR_DIST(SENSORS%SENSOR_TAB(ISENS) ,X    ,XSENS(1,ISENS))
 c
 C--------------------------------
 C       SENSOR - CONTACT
 C--------------------------------
         ELSEIF (TYP == 6)THEN
-          CALL SENSOR_CONTACT(SENSOR_TAB(ISENS),
-     .         IPARI    ,SFSAV6   ,STABS   ,TABS   ,FBSAV6)
+          CALL SENSOR_CONTACT(SENSORS%SENSOR_TAB(ISENS),
+     .         IPARI    ,SFSAV   ,STABS   ,SENSORS%TABSENSOR   ,SENSORS%FSAV)
 
 C--------------------------------
 C       SENSOR - RWALL
 C--------------------------------
         ELSEIF(TYP == 7)THEN
 
-          CALL SENSOR_RWALL(SENSOR_TAB(ISENS) ,
-     .         NPRW    ,SFSAV6   ,STABS   ,TABS   ,FBSAV6)
+          CALL SENSOR_RWALL(SENSORS%SENSOR_TAB(ISENS) ,
+     .         NPRW    ,SFSAV   ,STABS   ,SENSORS%TABSENSOR   ,SENSORS%FSAV)
 
 C--------------------------------
 C       SENSOR - NODAL VELOCITY
 C--------------------------------
         ELSEIF(TYP == 9)THEN
 
-          CALL SENSOR_VEL(SENSOR_TAB(ISENS),V)
+          CALL SENSOR_VEL(SENSORS%SENSOR_TAB(ISENS),V)
 
 C--------------------------------
 C       SENSOR - GAUGE
 C--------------------------------
         ELSEIF (TYP == 10) THEN
 
-          CALL SENSOR_GAUGE(SENSOR_TAB(ISENS) ,GAUGE)
+          CALL SENSOR_GAUGE(SENSORS%SENSOR_TAB(ISENS) ,GAUGE)
 
 C--------------------------------
 C       SENSOR - RBODY
 C--------------------------------
         ELSEIF (TYP == 11) THEN
 
-          CALL SENSOR_RBODY(SENSOR_TAB(ISENS),SFSAV6   ,STABS   ,TABS   ,FBSAV6)
+          CALL SENSOR_RBODY(SENSORS%SENSOR_TAB(ISENS),SFSAV   ,STABS   ,SENSORS%TABSENSOR,SENSORS%FSAV)
 
 
 C--------------------------------
@@ -170,58 +171,58 @@ C       SENSOR - SECTION
 C--------------------------------
         ELSEIF (TYP == 12) THEN
 
-          CALL SENSOR_SECTION(SENSOR_TAB(ISENS),
-     .         IPARSENS,SFSAV6   ,STABS   ,TABS   ,FSAV      ,FBSAV6  )
+          CALL SENSOR_SECTION(SENSORS%SENSOR_TAB(ISENS),
+     .         SFSAV   ,STABS   ,SENSORS%TABSENSOR   ,FSAV   ,SENSORS%FSAV  )
 
 C--------------------------------
 C       SENSOR WORK
 C--------------------------------
         ELSEIF (TYP == 13)THEN
 
-          CALL SENSOR_WORK(SENSOR_TAB(ISENS),X   ,XSENS(1,ISENS)   ,
-     .         SFSAV6   ,STABS   ,TABS      ,FBSAV6  )
+          CALL SENSOR_WORK(SENSORS%SENSOR_TAB(ISENS),X   ,XSENS(1,ISENS)   ,
+     .         SFSAV   ,STABS   ,SENSORS%TABSENSOR      ,SENSORS%FSAV  )
 c
 c--------------------------------
 c       SENSOR --- ENERGY ---
 c--------------------------------        
         ELSEIF (TYP == 14) THEN
  
-          CALL SENSOR_ENERGY(SENSOR_TAB(ISENS),ISENS ,SUBSET    ,PARTSAV2 )
+          CALL SENSOR_ENERGY(SENSORS%SENSOR_TAB(ISENS),ISENS ,SUBSET    ,PARTSAV2 )
 c
 c--------------------------------
 c       SENSOR Distance to surface
 C--------------------------------
         ELSEIF (TYP == 15) THEN
 c
-          CALL SENSOR_DIST_SURF(SENSOR_TAB(ISENS) ,X   ,IGRSURF  )
+          CALL SENSOR_DIST_SURF(SENSORS%SENSOR_TAB(ISENS) ,X   ,IGRSURF  )
 c
 c--------------------------------
 c       SENSOR HIC
 c--------------------------------
         ELSEIF (TYP == 16) THEN
 c
-          CALL SENSOR_HIC(SENSOR_TAB(ISENS) ,A   ,ACC  )
+          CALL SENSOR_HIC(SENSORS%SENSOR_TAB(ISENS) ,A   ,ACC  )
 c
 c--------------------------------
 c       SENSOR TEMPERATURE
 c--------------------------------
         ELSEIF (TYP == 17) THEN
 c
-          CALL SENSOR_TEMP(SENSOR_TAB(ISENS) ,ISENS ,IGRNOD)
+          CALL SENSOR_TEMP(SENSORS%SENSOR_TAB(ISENS) ,ISENS ,IGRNOD)
 c
 c--------------------------------
         ELSEIF (TYP == 19) THEN
 c--------------------------------
 c       SENSOR NIC-Nij
 c
-          CALL SENSOR_NIC(SENSOR_TAB(ISENS) )
+          CALL SENSOR_NIC(SENSORS%SENSOR_TAB(ISENS) )
 c
 c--------------------------------
         ELSEIF (TYP == 29) THEN
 c--------------------------------
 c       USER SENSOR TYPE 29
 
-          SENS_ID  = SENSOR_TAB(ISENS)%SENS_ID
+          SENS_ID  = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
 
           IF (USERL_AVAIL==1) THEN
               CALL ENG_USERLIB_USER_SENS(TYP,SENS_ID)
@@ -239,7 +240,7 @@ c--------------------------------
 c--------------------------------
 c       USER SENSOR TYPE 30
 
-          SENS_ID  = SENSOR_TAB(ISENS)%SENS_ID
+          SENS_ID  = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
 
           IF (USERL_AVAIL==1) THEN
               CALL ENG_USERLIB_USER_SENS(TYP,SENS_ID)
@@ -257,7 +258,7 @@ c--------------------------------
 c--------------------------------
 c       USER SENSOR TYPE 31
 
-          SENS_ID  = SENSOR_TAB(ISENS)%SENS_ID
+          SENS_ID  = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
 
           IF (USERL_AVAIL==1) THEN
               CALL ENG_USERLIB_USER_SENS(TYP,SENS_ID)
@@ -280,7 +281,7 @@ c     END of parallel loop
 !$OMP END PARALLEL DO
 
 c--------------------------------------------------
-      IF (IPARSENS > 0) FBSAV6(1:12,1:6,1:SFSAV6) = ZERO
+      IF (STABS > 0) SENSORS%FSAV(1:12,1:6,1:SFSAV) = ZERO
 
 c-----------
       RETURN

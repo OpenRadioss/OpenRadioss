@@ -70,8 +70,8 @@ Chd|====================================================================
      H       WA        ,SENSOR_TAB ,QFRICINT   ,NCONT     ,INDEXCONT       ,
      I       TAGCONT   ,INOD_PXFEM ,MS_PLY     ,WAGAP     ,ELBUF_TAB       ,
      J       CONDN     ,CONDNSKYI  ,INTBUF_TAB ,NV46      ,
-     K       DIMFB      ,FBSAV6    ,STABSEN_   ,
-     L       TABSENSOR ,ISENSINT   ,NISUBMAX   ,NB25_CANDT,NB25_IMPCT      ,
+     K       SFBSAV6   ,FBSAV6     ,
+     L       ISENSINT  ,NISUBMAX   ,NB25_CANDT,NB25_IMPCT      ,
      M       NB25_DST1 ,NB25_DST2  ,IXIG3D     ,KXIG3D    ,WIGE     ,
      N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      P       PSKIDS    ,T2MAIN_SMS ,FORNEQS    ,KNOTLOCPC,KNOTLOCEL,
@@ -118,7 +118,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST,NEWFRONT(*),NSTRF(*),
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
-     .        IRLEN20E, ISLEN20E,INT18ADD(*),NCONT,NV46,DIMFB, STABSEN_,IGROUPS(NUMELS)
+     .        IRLEN20E, ISLEN20E,INT18ADD(*),NCONT,NV46,SFBSAV6,IGROUPS(NUMELS)
       INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*),
      .        ISKY(*), JTASK, NISKYFI(*),ICONTACT(*),
      .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,*)
@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),NT_IMP
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER WEIGHT(*), ISKYI_SMS(*), NODNX_SMS(*), NODGLOB(*), NPC(*)
-      INTEGER INDEXCONT(*),TAGCONT(*),TABSENSOR(STABSEN_),
+      INTEGER INDEXCONT(*),TAGCONT(*),
      .        IPARSENS,NISUB,I,NISUBMAX,
      .        NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
      .        NB25_DST1(PARASIZ) ,NB25_DST2(PARASIZ)
@@ -156,7 +156,7 @@ C-----------------------------------------------
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      DOUBLE PRECISION FBSAV6(12,6,DIMFB)
+      DOUBLE PRECISION FBSAV6(12,6,SFBSAV6)
       INTEGER ISENSINT(NISUBMAX+1,NINTER)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT), TARGET :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -303,7 +303,7 @@ C
      E  PM             ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS      ,MS0            ,QFRICINT         ,NPC             ,TF          ,
      G  CONDN          ,CONDNSKYI      ,INTBUF_TAB(N)    ,
-     H  FBSAV6         ,ISENSINT(1,N)  ,DIMFB            ,IXIG3D          ,
+     H  FBSAV6         ,ISENSINT(1,N)  ,SFBSAV6            ,IXIG3D          ,
      I  KXIG3D         ,WIGE           ,KNOT             ,IGEO            ,MULTI_FVM   , 
      J  H3D_DATA       ,INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
      K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
@@ -327,7 +327,7 @@ C
      E  PM        ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0            ,QFRICINT         ,NPC             ,TF          ,
      G  CONDN      ,CONDNSKYI     ,INTBUF_TAB(N)    ,
-     H  FBSAV6     ,ISENSINT(1,N) ,DIMFB            ,IXIG3D          ,              
+     H  FBSAV6     ,ISENSINT(1,N) ,SFBSAV6            ,IXIG3D          ,              
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,     
      J  H3D_DATA   ,INTBUF_FRIC_TAB,KNOTLOCPC       ,KNOTLOCEL       ,JTASK       ,
      K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
@@ -360,7 +360,7 @@ C
      .                                                     +NFXBODY)  ,
      9      IDUM      ,IDUM         ,IDUM         ,IDUM      ,FNCONT  ,
      A      FTCONT    ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS ,
-     B      ICONTACT  ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),DIMFB       ,
+     B      ICONTACT  ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
      C      H3D_DATA  )
           ELSE
            CALL I10MAINF(
@@ -374,7 +374,7 @@ C
      .                                                     +NFXBODY)  ,
      9     NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD),FNCONT  ,
      A      FTCONT   ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS   ,
-     B      ICONTACT ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),DIMFB       ,
+     B      ICONTACT ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
      C      H3D_DATA )
            IAD=IAD+NUM_IMP(N)
           ENDIF
@@ -396,7 +396,7 @@ C
      7  IDUM       ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS,ICONTACT    ,
      8  INTBUF_TAB(N),PM         ,TEMP         , FTHE        ,FTHESKYI,
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
-     A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
+     A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
      C  DGAPLOADINT,S_LOADPINTER )
           ELSE
@@ -410,7 +410,7 @@ C
      7  NE_IMP(IAD),MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS,ICONTACT    ,
      8  INTBUF_TAB(N),PM         ,TEMP         , FTHE    ,FTHESKYI    , 
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
-     A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
+     A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
      C  DGAPLOADINT,S_LOADPINTER )
           ENDIF
@@ -448,7 +448,7 @@ C
      E  PM        ,IPARG        ,IAD17        ,WEIGHT     ,NISKYFIE(N) ,
      F  IRLEN20   ,ISLEN20      ,IRLEN20T     ,ISLEN20T   ,IRLEN20E    ,
      G  ISLEN20E  ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS  ,NPC         ,
-     H  TF        ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N)     ,DIMFB       ,
+     H  TF        ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N)     ,SFBSAV6       ,
      I  H3D_DATA  )
 
           IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
@@ -476,7 +476,7 @@ C
      9  ISKYI_SMS ,NODNX_SMS    ,NODGLOB    ,NPC          ,TF          ,
      A  QFRICINT  ,NCONT        ,INDEXCONT  ,TAGCONT      ,CONDN       ,
      B  CONDNSKYI ,DT2T         ,NELTST     ,ITYPTST      ,KINET       ,
-     C  FBSAV6    ,ISENSINT(1,N),DIMFB      ,NISKYFI(N)   ,H3D_DATA    ,
+     C  FBSAV6    ,ISENSINT(1,N),SFBSAV6      ,NISKYFI(N)   ,H3D_DATA    ,
      D  PSKIDS    ,TAGNCONT     ,KLOADPINTER,LOADPINTER   ,LOADP_HYD_INTER,
      E  DGAPLOADINT,S_LOADPINTER,INTEREFRIC )
 C-----------------------------------------------------------------------
@@ -504,7 +504,7 @@ C
      D  PCONTACT    ,TEMP          ,FTHE              ,FTHESKYI         ,
      E  PM          ,IPARG         ,IAD17             ,MSKYI_SMS        ,ISKYI_SMS   ,
      F  NODNX_SMS   ,MS0         ,ELBUF_TAB           ,NV46             ,FBSAV6      ,
-     G  ISENSINT(1,N),DIMFB      ,H3D_DATA            )
+     G  ISENSINT(1,N),SFBSAV6      ,H3D_DATA            )
 
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 23) THEN
@@ -526,7 +526,7 @@ C
      7  FTCONT    ,RCONTACT     ,ACONTACT     ,PCONTACT   ,KINET       ,
      8  WEIGHT    ,MSKYI_SMS   ,ISKYI_SMS     ,NODNX_SMS  ,NODGLOB     ,
      9  NPC       ,TF          ,NISKYFI(N)    ,NEWFRONT(N),WA          ,
-     A  FBSAV6,ISENSINT(1,N)   ,DIMFB         ,DT2T       ,H3D_DATA    )
+     A  FBSAV6,ISENSINT(1,N)   ,SFBSAV6         ,DT2T       ,H3D_DATA    )
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 24.AND.TT>=TS) THEN
 C----------------------------------------------------------------------- 
@@ -556,7 +556,7 @@ C
      E  PM         ,IPARG       ,IAD17       ,MSKYI_SMS   ,ISKYI_SMS   ,
      F  NODNX_SMS  ,MS0         ,INOD_PXFEM  ,MS_PLY      ,WAGAP       ,
      G  FBSAV6      ,ISENSINT(1,N),
-     H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
+     H  SFBSAV6      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
      K  INTERFACES)
@@ -578,7 +578,7 @@ C
      E  PM        ,IPARG        ,IAD17        ,MSKYI_SMS  ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0          ,INOD_PXFEM   ,MS_PLY     ,WAGAP       ,
      G  FBSAV6     ,ISENSINT(1,N),
-     H  DIMFB     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
+     H  SFBSAV6     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
      K  INTERFACES)
@@ -616,7 +616,7 @@ C
      E  PM         ,IPARG       ,IAD17       ,MSKYI_SMS   ,ISKYI_SMS   ,
      F  NODNX_SMS  ,MS0         ,INOD_PXFEM  ,MS_PLY      ,WAGAP       ,
      G  FBSAV6     ,ISENSINT(1,N),
-     H  DIMFB      ,H3D_DATA    ,INTBUF_FRIC_TAB,NISKYFIE(N),
+     H  SFBSAV6    ,H3D_DATA    ,INTBUF_FRIC_TAB,NISKYFIE(N),
      I  APINCH     ,STIFPINCH   ,NPC         ,TF         , CONDN      ,
      J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER  ,
      K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,INTERFACES)

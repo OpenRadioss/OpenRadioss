@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP,NSENSOR
+      INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP,NSENSOR,IERR
       INTEGER, DIMENSION(LTITR) :: ITITLE
       my_real, DIMENSION(:), ALLOCATABLE :: HEAD,RBUF
       CHARACTER(LEN = nchartitle) :: TITLE
@@ -139,13 +139,24 @@ c
 
         END DO
 c
-C       Read Logical sensor index array
+c--------------------------------------
+c       Read Logical sensor index array
+c
         CALL READ_I_C(LOGICAL_SENSOR_COUNT,1)
 
         ALLOCATE(LOGICAL_SENSORS_LIST(LOGICAL_SENSOR_COUNT))
         CALL READ_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
 c
-        DEALLOCATE (HEAD)
+c--------------------------------------
+c       Read spmd/PON exchange arrays
+c
+        ALLOCATE (SENSORS%FSAV(12,6,SENSORS%SFSAV)  ,STAT=IERR)
+        ALLOCATE (SENSORS%TABSENSOR(SENSORS%STABSEN),STAT=IERR)
+
+        CALL READ_DB(SENSORS%FSAV,12*6*SENSORS%SFSAV)
+
+        CALL READ_I_C(SENSORS%TABSENSOR,SENSORS%STABSEN)
+
 c--------------------------------------
         IF (MCHECK /= 0) THEN
           CALL READ_I_C(SENSORS%STOP ,SENSORS%NSTOP)
@@ -153,6 +164,8 @@ c--------------------------------------
           CALL READ_I_C(SENSORS%OUTP ,SENSORS%NOUTP)
           CALL READ_I_C(SENSORS%ANIM ,SENSORS%NANIM)
         END IF 
+c
+        DEALLOCATE (HEAD)
 c
       END IF ! NSENSOR > 0
 c--------------------------------------

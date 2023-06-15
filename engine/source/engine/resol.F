@@ -571,7 +571,7 @@ Chd|====================================================================
      9  DMSPH     ,WAGAP   ,XFEM_TAB,ELCUTC  ,NODENR  ,
      A  KXFENOD2ELC,ENRTAG,INTBUF_TAB, 
      B  RTHBU    F,KXIG3D ,IXIG3D ,KNOT, WIGE,
-     C  TABSENSOR ,FBSAV6,WSMCOMP,STACK,
+     C  WSMCOMP,STACK,
      D  CPUTIME_MP_GLOB, CPUTIME_MP ,TAB_UMP,POIN_UMP ,SOL2SPH_TYP,
      E  IRUNN_BIS,ADDCSRECT, IAD_FRNOR,FR_NOR  ,PROCNOR,
      F  IAD_FREDG,FR_EDG   ,DRAPE_SH4N  , DRAPE_SH3N ,TAB_MAT, 
@@ -660,6 +660,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE INTERFACES_MOD
       USE DT_MOD
+      USE FORINT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -776,7 +777,7 @@ C-----------------------------------------------
      .   NODEDGE(*),IAD_EDGE(*),FR_EDGE(*),FR_NBEDGE(*),
      .   CRKNODIAD(*), LGAUGE(3,*), IGAUP(*), NGAUP(*),NODLEVXF(*),
      .   NODGLOBXFE(*),ELCUTC(2,*),NODENR(*),KXFENOD2ELC(*),
-     .   ENRTAG(NUMNOD,*),KXIG3D(*),IXIG3D(*),TABSENSOR(STABSEN),
+     .   ENRTAG(NUMNOD,*),KXIG3D(*),IXIG3D(*),
      .   NATIV0_SMS(*), SEGQUADFR(*), TAGSLV_RBY(*),
      .   KLOADPINTER(NINTER+1)  ,LOADPINTER(NINTER*NLOADP_HYD) 
       INTEGER IDATA(*), IBFTEMP(*), IBCV(*), IBFFLUX(*), WEIGHT_RM(*),
@@ -847,7 +848,6 @@ c     .   X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
       my_real :: DT2R
 C
       DOUBLE PRECISION XDP(3,*),DDP(3,*)
-      DOUBLE PRECISION, DIMENSION(12,6,SFSAV6) :: FBSAV6
 C     Mat + Prop timers     
       INTEGER, DIMENSION(NUMMAT) :: POIN_UMP
       my_real, DIMENSION(NBR_GPMP,NSPMD+1) ::  CPUTIME_MP_GLOB
@@ -998,7 +998,7 @@ C----
      .       , DIMENSION(:), ALLOCATABLE :: WRBEM
       SAVE LWIBEM, LWRBEM, WIBEM, WRBEM
       INTEGER NKCOND, NDDLG, NRP, NCP, NKCOND_INI, NT_IMP_OLD
-      INTEGER LWIFLOW, LWRFLOW,IPARSENS
+      INTEGER LWIFLOW, LWRFLOW
       INTEGER, DIMENSION(:), ALLOCATABLE :: WIFLOW
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: WRFLOW
@@ -2035,7 +2035,7 @@ C
      f   MCP      ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g   ADSKY_PXFEM,ICODT  ,ICODR    ,IBFV     ,ADMSMS    ,
      h   NODREAC  ,IGROUC   ,NGROUC   ,IGROUNC  ,NGROUNC  ,
-     i   FR_RBY   ,FR_RBY6  ,NPBY     ,NSENSOR  ,
+     i   FR_RBY   ,FR_RBY6  ,NPBY     ,
      j   NOM_SECT ,MCPC     ,MCPTG    ,GRTH     ,IGRTH     ,
      k   NELEM    ,LAG_SEC  ,NPRW     ,DIAG_SMS ,DMELC     ,
      l   DMELTG   ,NGRTH    ,NFT2     ,DMELS    ,DMELTR    ,
@@ -2047,13 +2047,13 @@ C
      r   ADSKY_CRK,PROCNE_CRK,ISENDP_CRK,IRECVP_CRK,
      s   IADSDP_CRK,IADRCP_CRK ,INT24USE,NDAMA2    ,
      t   IGROUPC  ,IGROUPTG ,IGROUPS   ,IGROUPFLG ,DMINT2  ,IRBKIN_L ,
-     u   NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSORS%SENSOR_TAB,DD_R2R_ELEM,
+     u   NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSORS ,DD_R2R_ELEM,
      v   SDD_R2R_ELEM,KINET, WEIGHT_MD ,DMSPH   ,IOLDSECT,LBUFSEGLO,
      w   INTBUF_TAB  ,NUMSPH_GLO_R2R, FLG_SPHINOUT_R2R,I15K,
      y   CONDN       ,CONDNSKY,KXFENOD2ELC  ,ELCUTC ,NODEDGE,
      z   IAD_EDGE ,CRKNODIAD,FR_EDGE     ,FR_NBEDGE ,NODLEVXF,
      x   CRKEDGE  ,XFEM_TAB  ,ISENSINT ,NISUBMAX  ,
-     1   STABSEN  ,TABSENSOR, INTLIST25 ,INT24E2EUSE,TABMP_L ,
+     1   INTLIST25 ,INT24E2EUSE,TABMP_L ,
      2   I87N ,TAB_MAT,H3D_DATA,TAGTRIMC,TAGTRIMTG ,
      3   IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
@@ -4056,8 +4056,8 @@ C Init var parallel SMP
      H     WA                ,SENSORS%SENSOR_TAB     ,QFRICINT       ,NCONT           ,INDEXCONT       , 
      I     TAGCONT           ,INOD_PXFEM     ,MS_PLY         ,WAGAP           ,ELBUF_TAB       ,
      J     CONDN(IDX_CONDN)  ,CONDNSKYI      ,INTBUF_TAB     ,NV46            ,
-     K     SFSAV6         ,FBSAV6          ,STABSEN        ,
-     L     TABSENSOR         ,ISENSINT       ,NISUBMAX       ,NB25_CANDT      ,NB25_IMPCT      ,
+     K     SENSORS%SFSAV     ,SENSORS%FSAV   ,
+     L     ISENSINT          ,NISUBMAX       ,NB25_CANDT      ,NB25_IMPCT      ,
      M     NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE            ,
      N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,INTBUF_FRIC_TAB ,
      P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
@@ -4399,7 +4399,7 @@ C Init var parallel SMP
      L   INOD_CRK     ,IEL_CRK         ,IADC_CRK        ,ELCUTC        ,NODENR        ,
      M   IBORDNODE    ,NODEDGE         ,CRKNODIAD       ,ELBUF_TAB     ,
      N   XFEM_TAB     ,CONDN(IDX_CONDN),CONDNSKY        ,CRKEDGE       ,
-     O   SFSAV6       ,FBSAV6          ,STABSEN         ,TABSENSOR     ,STACK         ,ITAB  ,
+     O   STACK        ,ITAB            ,
      Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
      R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  )     
 #include "lockon.inc"
@@ -4516,7 +4516,7 @@ C
      R PHIE           ,MSF           ,NODFTSK     ,NODLTSK    ,
      S FLG_KJ2        ,POR           ,IFOAM_CONT  ,IFOAM      ,VARNOD          ,
      T KXIG3D         ,IXIG3D        ,KNOT        ,WIGE       ,CONDN(IDX_CONDN),
-     U CONDNSKY       ,SFSAV6        ,FBSAV6      ,STABSEN    ,TABSENSOR       ,
+     U CONDNSKY       ,
      V TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
      Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT    )
@@ -5750,8 +5750,8 @@ C===============================================================================
      3      LPBY     ,NPBY   ,WEIGHT ,MS   ,V             ,
      4      IGRSURF  ,BUFSF  ,ICODR  ,ISKEW,SKEW          ,
      5      KINDRBY  ,IAD_RBY,FR_RBY6,RBY6 ,IRBKIN_L      ,
-     6      NRBYKIN_L,NATIV_SMS,SFSAV6,FBSAV6,STABSEN     ,
-     7      TABSENSOR,NODREAC,FTHREAC,CPTREAC)
+     6      NRBYKIN_L,NATIV_SMS,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN     ,
+     7      SENSORS%TABSENSOR,NODREAC,FTHREAC,CPTREAC)
 
 !$OMP END PARALLEL
           IF (IMON>0) CALL STOPTIME(4,1)
@@ -6737,7 +6737,7 @@ C-----------------------------------------------
      2        SECFCUM,A             ,AR    ,SECBUF,MS      ,IN     ,
      3        X      ,FANI(1,NFOA+1),WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
      4        RG_CUT ,IAD_CUT       ,FR_CUT,WEIGHT_MD,IOLDSECT,
-     5        STABSEN,SFSAV6        ,TABSENSOR   ,FBSAV6  )
+     5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR,SENSORS%FSAV)
             IF(IMON>0) CALL STOPTIME(7,1)
           ENDIF
         ENDIF ! ILAG+IALE+IEULER/=0
@@ -6786,17 +6786,13 @@ C
 C--------------------
 C       SENSOR //  IN IMPLICIT
 C-----------------------------------------------
-C       Exchange FBSAV6 if sensor 6/12 activated 
+C       Exchange SENSORS%FSAV for sensors 6-13
 C-----------------------------------------------
         IF (NSENSOR > 0) THEN
-          IPARSENS=0
-          IF(STABSEN/=0) THEN
-             IPARSENS=1
-          ENDIF
-          IF((NSPMD>1).AND.(IPARSENS/=0)) THEN
+          IF (NSPMD > 1 .AND. SENSORS%STABSEN > 0) THEN
             DIM6=12
-            DIM_EXCH=SFSAV6
-            CALL SPMD_EXSUM_FB6(DIM6,DIM_EXCH,FBSAV6)
+            DIM_EXCH = SENSORS%SFSAV
+            CALL SPMD_EXSUM_FB6(DIM6,DIM_EXCH,SENSORS%FSAV)
           ENDIF
         ENDIF
 c
@@ -6820,10 +6816,8 @@ c
           ENDIF      
 c
           ! check activation condition of base sensors
-          CALL SENSOR_BASE(
-     .         NSENSOR   ,SENSORS%SENSOR_TAB   ,TT        ,DT2       ,
-     .         XSENS     ,IPARSENS  ,TABSENSOR ,STABSEN   ,IPARI     ,
-     .         SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
+          CALL SENSOR_BASE(SENSORS  ,TT        ,DT2       ,
+     .         XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .         X         ,V         ,A         ,ACCELM    ,NPRW      ,
      .         SUBSETS   ,IGRSURF   ,IGRNOD    )
 c
@@ -7691,14 +7685,14 @@ C         Obsolete
      2     NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FANI(1,1+NFOA+2*(NSECT+NRBODY)),
      4     RWSAV       ,WEIGHT   ,FRWL6   ,NODXI_SMS, WEIGHT_MD,
-     5     SFSAV6      ,FBSAV6   ,STABSEN ,TABSENSOR)
+     5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR)
         ELSE
             CALL RGWAL0(
      1     X           ,A        ,V      ,RWBUF   ,LPRW,
      2     NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FANI(1,1+NFOA+2*(NSECT+NRBODY)),
      4     RWSAV       ,WEIGHT   ,FRWL6   ,NATIV_SMS, WEIGHT_MD,
-     5     SFSAV6      ,FBSAV6   ,STABSEN ,TABSENSOR)
+     5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR)
         ENDIF
 
 !$OMP END PARALLEL
@@ -7735,7 +7729,7 @@ C---------------
      2        SECFCUM,A             ,AR    ,SECBUF,MS      ,IN     ,
      3        X      ,FANI(1,NFOA+1),WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
      4        RG_CUT ,IAD_CUT       ,FR_CUT,WEIGHT_MD,IOLDSECT,
-     5        STABSEN,SFSAV6         ,TABSENSOR ,FBSAV6  )
+     5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR ,SENSORS%FSAV  )
           IF(IMON>0) CALL STOPTIME(7,1)
         ENDIF
 
@@ -8088,17 +8082,13 @@ C------------------------------------------
 C       SENSORS 
 C-- // --------------
 C-----------------------------------------------
-C   Exchange FBSAV6 if sensor 6/12 activated 
+C     Exchange SENSORS%FSAV for sensors 6-13
 C-----------------------------------------------
       IF (NSENSOR> 0 ) THEN
-         IPARSENS=0
-         IF(STABSEN/=0) THEN
-            IPARSENS=1
-         ENDIF
-         IF (NSPMD > 1 .AND. IPARSENS /= 0) THEN
+         IF (NSPMD > 1 .AND. SENSORS%STABSEN > 0) THEN
            DIM6=12
-           DIM_EXCH=SFSAV6
-           CALL SPMD_EXSUM_FB6(DIM6,DIM_EXCH,FBSAV6)
+           DIM_EXCH = SENSORS%SFSAV
+           CALL SPMD_EXSUM_FB6(DIM6,DIM_EXCH,SENSORS%FSAV)
          ENDIF
       ENDIF
 c
@@ -8123,10 +8113,8 @@ c
         ENDIF
 c       
         ! check activation condition of base sensors
-        CALL SENSOR_BASE(
-     .       NSENSOR   ,SENSORS%SENSOR_TAB   ,TT        ,DT2       ,
-     .       XSENS     ,IPARSENS  ,TABSENSOR ,STABSEN   ,IPARI     ,
-     .       SFSAV6    ,FSAV      ,FBSAV6    ,PARTSAV2  ,GAUGE     ,
+        CALL SENSOR_BASE(SENSORS  ,TT        ,DT2       ,
+     .       XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .       X         ,V         ,A         ,ACCELM    ,NPRW      ,
      .       SUBSETS   ,IGRSURF   ,IGRNOD    )
 c       
@@ -8657,7 +8645,7 @@ C===============================================================================
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
      N  DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
-     P  WEIGHT_MD, STACK,SFSAV6  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N  , 
+     P  WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , 
      Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
      R  DRAPEG ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
          MSTOP=2
@@ -8697,7 +8685,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      U  IAD_RBE3M,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
      W  IKINE  ,DIAG_SMS,ICFIELD,LCFIELD,CFIELD,COUNT_REMSLV,
      X  COUNT_REMSLVE,ELBUF_TAB,ELBUF_IMP,XDP,WEIGHT_MD , STACK  ,        
-     Y  SFSAV6  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
+     Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
      B  INTERFACES,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
@@ -8739,8 +8727,8 @@ C
      T LRBE2          ,IAD_RBE2       , FR_RBE2   ,WEIGHT_MD,
      U CLUSTER        ,FCLUSTER       , MCLUSTER  ,XFEM_TAB  ,
      V ALE_CONNECTIVITY    ,W              , NV46      ,NERCVOIS  ,     NESDVOIS ,
-     W LERCVOIS       ,LESDVOIS       ,CRKEDGE    ,STACK     ,     SFSAV6   ,
-     X FBSAV6         ,STABSEN        ,TABSENSOR  ,INDX_CRK  ,XEDGE4N       ,
+     W LERCVOIS       ,LESDVOIS       ,CRKEDGE    ,STACK     ,SENSORS%SFSAV   ,
+     X SENSORS%FSAV   ,SENSORS%STABSEN,SENSORS%TABSENSOR,INDX_CRK  ,XEDGE4N       ,
      Y XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_SH4N , 
      Z DRAPE_SH3N     ,H3D_DATA       ,SUBSETS    ,IGRNOD    ,     FCONT_MAX,
      A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB ,DRAPEG  )

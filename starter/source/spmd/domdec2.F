@@ -121,8 +121,7 @@ C-----------------------------------------------
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
 !                       where the SKEW is stuck
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-      my_real
-     .        GEO(NPROPG,*)
+      my_real :: GEO(NPROPG,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF

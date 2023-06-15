@@ -323,6 +323,8 @@ c
       TYPE SENSORS_
       
         INTEGER :: NSENSOR
+        INTEGER :: STABSEN
+        INTEGER :: SFSAV
         INTEGER :: NSTOP
         INTEGER :: NSTAT
         INTEGER :: NOUTP
@@ -340,6 +342,9 @@ c
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP_TMP
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT_TMP
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: ANIM_TMP
+
+        INTEGER, DIMENSION(:) ,ALLOCATABLE :: TABSENSOR  
+        DOUBLE PRECISION ,DIMENSION(:,:,:) ,ALLOCATABLE :: FSAV  ! smpd communication array for "force" sensors
             
       END TYPE SENSORS_
 

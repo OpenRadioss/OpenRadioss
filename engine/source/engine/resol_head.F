@@ -257,7 +257,7 @@ C
      9  DMSPH           ,WAGAP          ,XFEM_TAB       ,ELCUTC         ,NODENR         ,
      A  KXFENOD2ELC     ,ENRTAG         ,INTBUF_TAB     ,
      B  RTHBUF          ,KXIG3D         ,IXIG3D         ,KNOT           ,WIGE           ,
-     C  TABSENSOR       ,FBSAV6         ,WSMCOMP        ,STACK          ,
+     C  WSMCOMP        ,STACK          ,
      D  CPUTIME_MP_GLOB ,CPUTIME_MP     ,TAB_UMP        ,POIN_UMP       ,SOL2SPH_TYP    ,
      E  IRUNN_BIS       ,ADDCSRECT      ,IAD_FRNOR      ,FR_NOR         ,PROCNOR        ,
      F  IAD_FREDG       ,FR_EDG         ,DRAPE_SH4N     ,DRAPE_SH3N       ,TAB_MAT        , 

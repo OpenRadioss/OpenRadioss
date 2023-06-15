@@ -78,7 +78,7 @@ Chd|====================================================================
      2   NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,NSENSOR,NLOAD_CYL)
+     5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,6 +94,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
       USE PARAMETERS_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,7 +102,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER LMXVINT,LVARINT,TABVINT(*),
      .        NGROUP_L, LBUFEL_L, LENWA_L, NUMELQ_L, NUMELS_L,
      .        NUMELC_L, NUMELT_L, NUMELR_L, NUMELP_L, NUMELX_L,
@@ -145,7 +145,8 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
-      TYPE (PARAMETERS_) ,INTENT(INOUT):: INTER_PARAMETERS
+      TYPE (PARAMETERS_) ,INTENT(INOUT)     :: INTER_PARAMETERS
+      TYPE (SENSORS_)    ,INTENT(IN)        :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -605,7 +606,7 @@ C-----
       TABVINT(267)=NFACX
       TABVINT(268)=NUMPOR
       TABVINT(269)=NACCELM
-      TABVINT(270)=NSENSOR
+      TABVINT(270)=SENSORS%NSENSOR
       TABVINT(271)=NPRETEN
       TABVINT(272)=NVOLU
       TABVINT(273)=NPART
@@ -1122,9 +1123,9 @@ C
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=0
       END IF
-      IF(NSENSOR>0)THEN
+      IF(SENSORS%NSENSOR>0)THEN
         LVARINT=LVARINT+1
-        TABVINT(LVARINT)=NSENSOR*2          !  ISENSP
+        TABVINT(LVARINT)=SENSORS%NSENSOR*2   !  ISENSP
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=NSPMD              !  NSENSP
       ELSE
@@ -1564,10 +1565,10 @@ C
       TABVINT(LVARINT) = NFILSOL
 C
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = SFSAV6
+      TABVINT(LVARINT) = SENSORS%SFSAV
 C
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = STABSEN
+      TABVINT(LVARINT) = SENSORS%STABSEN
 C Stack info
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IPART_STACK 
@@ -1810,13 +1811,13 @@ C I_SUPG_ON_OFF
       TABVINT(LVARINT) = INISPRI
 !
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=0 ! NSTOPSENS
+      TABVINT(LVARINT) = SENSORS%NSTOP
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=0 ! NSTATSENS
+      TABVINT(LVARINT) = SENSORS%NSTAT
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=0 ! NOUTPSENS
+      TABVINT(LVARINT) = SENSORS%NOUTP
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=0 ! IANISENS
+      TABVINT(LVARINT) = SENSORS%NANIM
 !
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NIBCLD
