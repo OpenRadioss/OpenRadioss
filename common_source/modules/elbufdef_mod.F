@@ -521,6 +521,7 @@ Chd|        S4ALESFEM                     engine/source/elements/solid/solide4_s
 Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
 Chd|        S4KE3                         engine/source/elements/solid/solide4/s4ke3.F
 Chd|        S4LAGSFEM                     engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+Chd|        S6CFINT_REG                   engine/source/elements/thickshell/solide6c/s6cfint_reg.F
 Chd|        S6CFORC3                      engine/source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        S6CKE3                        engine/source/elements/thickshell/solide6c/s6cke3.F
 Chd|        S8CFORC3                      engine/source/elements/thickshell/solide8c/s8cforc3.F
@@ -535,6 +536,7 @@ Chd|        S8SKE3                        engine/source/elements/solid/solide8s/
 Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
 Chd|        S8ZKE3                        engine/source/elements/solid/solide8z/s8zke3.F
 Chd|        S8_IS17JAC_I                  engine/source/elements/solid/solide8e/s8_is17jac_i.F
+Chd|        SCFINT_REG                    engine/source/elements/thickshell/solidec/scfint_reg.F
 Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
 Chd|        SCHLIEREN                     engine/source/output/anim/generate/schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/schlieren_buffer_gathering.F

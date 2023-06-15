@@ -31,6 +31,7 @@ Chd|        GET_FORCE_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        GET_FORCE_NL_C                source/coupling/rad2rad/rad2rad_c.c
 Chd|        GET_FORCE_SPMD                source/coupling/rad2rad/r2r_getdata.F
 Chd|        SPMD_EXCH_R2R_2               source/mpi/r2r/spmd_r2r.F     
+Chd|        SPMD_EXCH_R2R_NL              source/mpi/r2r/spmd_exch_r2r_nl.F
 Chd|        SPMD_EXCH_WORK                source/mpi/r2r/spmd_r2r.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F

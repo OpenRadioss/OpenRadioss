@@ -33,6 +33,7 @@ Chd|        SCDEFC3                       source/elements/thickshell/solidec/scd
 Chd|        SCDEFO3                       source/elements/thickshell/solidec/scdefo3.F
 Chd|        SCDERI3                       source/elements/thickshell/solidec/scderi3.F
 Chd|        SCFINT3                       source/elements/thickshell/solidec/scfint3.F
+Chd|        SCFINT_REG                    source/elements/thickshell/solidec/scfint_reg.F
 Chd|        SCHOUR3_1                     source/elements/thickshell/solidec/schour3_1.F
 Chd|        SCORDEF3                      source/elements/thickshell/solidec/scordef3.F
 Chd|        SCROTO_SIG                    source/elements/thickshell/solidec/scroto_sig.F
