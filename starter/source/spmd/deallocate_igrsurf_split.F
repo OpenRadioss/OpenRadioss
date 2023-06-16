@@ -20,6 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!> \brief This routine deallocates the local IGSURF_PROC arrays
+!!
+!! \details loop over the NVOLU airbaig and NSURF surfaces to deallote the structure
+!!
 Chd|====================================================================
 Chd|  DEALLOCATE_IGRSURF_SPLIT      source/spmd/deallocate_igrsurf_split.F
 Chd|-- called by -----------
@@ -65,14 +69,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: NV,IS,NN,J
-        INTEGER :: ITY,II,PROC,K1
-        INTEGER :: OFFC,OFFTG   
-        INTEGER, DIMENSION(NSPMD) :: JJ
+        INTEGER :: NV,IS
+        INTEGER :: PROC,K1
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-        !       --------------------------------------
+        ! --------------------------------------
+        ! Airbag
         K1 = 1
         DO NV=1,NVOLU                   !       NVOLU = number of volume
                 IS = T_MONVOL(NV)%EXT_SURFID  
@@ -88,7 +91,19 @@ C-----------------------------------------------------
                 ! deallocation of NUMBER_TRI_PER_PROC :
                  DEALLOCATE( T_MONVOL(NV)%NUMBER_TRI_PER_PROC )
                 ! --------------------
-        ENDDO        
-        !       --------------------------------------
+        ENDDO   
+        ! --------------------------------------  
+
+
+        ! --------------------------------------    
+        ! Surface 
+        DO IS=1,NSURF
+            DO PROC=1,NSPMD
+                IF(ALLOCATED( IGRSURF_PROC(IS,PROC)%LOCAL_SEG )) DEALLOCATE( IGRSURF_PROC(IS,PROC)%LOCAL_SEG )
+                IF(ALLOCATED( IGRSURF_PROC(IS,PROC)%ELTYP ))DEALLOCATE( IGRSURF_PROC(IS,PROC)%ELTYP ) 
+                IF(ALLOCATED( IGRSURF_PROC(IS,PROC)%ELEM ))DEALLOCATE( IGRSURF_PROC(IS,PROC)%ELEM ) 
+            ENDDO
+        ENDDO
+        ! --------------------------------------
         RETURN
         END SUBROUTINE DEALLOCATE_IGRSURF_SPLIT

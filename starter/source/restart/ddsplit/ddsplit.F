@@ -266,7 +266,7 @@ Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE DDSPLIT(
-     1   P            ,CEP          ,CEL            ,IGEO         ,MATPARAM_TAB,
+     1   P            ,CEP          ,CEL           ,IGEO         ,MATPARAM_TAB,
      2   IPM          ,ICODE        ,ISKEW          ,ISKN         ,INSEL       ,
      3   IBCSLAG      ,IPART        ,IPARTS         ,IPARTQ       ,IPARTC      ,
      4   IPARTT       ,IPARTP       ,IPARTR         ,IPARTTG     ,
@@ -452,14 +452,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
-      INTEGER, INTENT(IN) :: LEN_CEP ! size of CEP
+      INTEGER, INTENT(IN) :: LEN_CEP !< size of CEP
+      INTEGER, DIMENSION(SCEL), INTENT(IN) :: CEL !< connectivity global element id --> local element 
       INTEGER P,
      .        LIBAGALE, LENTHG, LENLAS, NPTS,LEN,
      .        LBUFMAT, LBUFGEO, LBUFSF, LENXLAS, LNOM_OPT,
      .        LENVOLU, NTHWA, NAIRWA, NMNT, I2NSNT,
      .        L_MUL_LAG1, L_MUL_LAG, LWASPIO,PM1SPH,
      .        LCNI2G, PM1SHF, I11FLAG,LENTHGR,NCRKPART,
-     .        CEP(LEN_CEP),CEL(*),IGEO(*), IPM(*),
+     .        CEP(LEN_CEP),IGEO(*), IPM(*),
      .        ICODE(*),ISKEW(*),ISKN(*),INSEL(*),IBCSLAG(*),
      .        IPART(*),IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
      .        IPARTP(*),IPARTR(*),IPARTTG(*),IPARTX(*),
@@ -1133,8 +1134,8 @@ C--------------------------------------
      3         CEL         ,NODLOCAL    ,P-1         ,LENIGRNOD_L,LENIGRBRIC_L ,
      4         LENIGRQUAD_L,LENIGRSH4N_L,LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,
      5         LENIGRSH3N_L,FRONTB_R2R  ,NUMNOD_L)
-      CALL C_ISURF_STR(IGRSURF ,LEN_IA    ,CEP  ,CEL  ,P-1,
-     .                 NODLOCAL,LENISURF_L)
+      CALL C_ISURF_STR(P-1,LENISURF_L,NSPMD,IGRSURF_PROC)
+
       CALL C_ISLIN_STR(IGRSLIN ,P-1, LENISLIN_L)
 C--------------------------------------------
 C count Buffer interface
@@ -2081,8 +2082,11 @@ C--------------------------------------
      .                 IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRPART   ,
      .                 CEP     ,CEL      ,NODLOCAL,P-1       ,FRONTB_R2R,
      .                 NUMNOD_L )
-      CALL W_ISURF_STR(IGRSURF ,LEN_IA ,CEP  ,CEL  ,P-1,
-     .                 NODLOCAL,LENISURF_L)
+      CALL W_ISURF_STR(LEN_IA,P-1,NUMNOD,NSURF,NUMELS,
+     .                 NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,
+     .                 NODLOCAL,SCEL,CEL,LTITR,LENISURF_L,
+     .                 NSPMD,IGRSURF,IGRSURF_PROC)
+
       CALL W_ISLIN_STR(IGRSLIN ,LEN_IA , P-1, NODLOCAL)
 C--------------------------------------
 C Elem multi-brins

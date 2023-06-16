@@ -33,6 +33,7 @@ using namespace std;
 #define union_2_sorted_sets_ UNION_2_SORTED_SETS
 #define intersect_2_sorted_sets_ INTERSECT_2_SORTED_SETS
 #define difference_2_sorted_sets_ DIFFERENCE_2_SORTED_SETS
+#define count_member_list_ COUNT_MEMBER_LIST
 
 
 #endif
@@ -140,6 +141,33 @@ extern "C" {
                               result);
     
     *result_size = fin-result;
+  }
+/* -----------------------------------------------------------------------------------------------------
+    count_member_list : count the number of appeareance of union_list's members in the merged_list
+   -----------------------------------------------------------------------------------------------------
+    int * union_list : input - size=size_union_list
+    int * size_union_list : input - size of union_list
+    int * merged_list : input - size=size_merged_list
+    int * size_merged_list : input - size of merged_list
+    int * number_appearance : output - number of appearance of the union_list's members in the merged_list
+    int * proc_id : output - processor id of the segment
+   ------------------------------------------------------------------------------------------------ */
+  void _FCALL count_member_list_(int * union_list, int * size_union_list,
+                                 int * merged_list, int * size_merged_list,
+                                 int * number_appearance, int * proc_id )
+  {
+    int max_number_appearance = 0 ; 
+    for(int i=0; i<*size_union_list ; i++)
+    {
+        int my_value = union_list[i] ;
+        int mycount = std::count ( merged_list,  merged_list+ *size_merged_list, my_value);
+        number_appearance[i] = mycount ;
+        if(max_number_appearance<mycount)
+        {
+            *proc_id = i+1 ;
+            max_number_appearance = mycount;
+        }
+    }
   }
 
 
