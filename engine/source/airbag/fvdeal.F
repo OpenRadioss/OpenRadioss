@@ -29,6 +29,11 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|====================================================================
       SUBROUTINE FVDEAL()            
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C DEALLOCATE 
+C   (FVDATA data structure)
+C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE FVBAG_MOD
@@ -105,6 +110,10 @@ C
      .              DEALLOCATE(FVDATA(I)%CPEPOLH)
             IF (ASSOCIATED(FVDATA(I)%CPFPOLH)) 
      .              DEALLOCATE(FVDATA(I)%CPFPOLH)
+            IF (ASSOCIATED(FVDATA(I)%SSPPOLH)) 
+     .              DEALLOCATE(FVDATA(I)%SSPPOLH)
+            IF (ASSOCIATED(FVDATA(I)%CENTROID_POLH)) 
+     .              DEALLOCATE(FVDATA(I)%CENTROID_POLH)     
          ENDDO
          DEALLOCATE(FVDATA)
       ENDIF
@@ -173,6 +182,10 @@ C
      .              DEALLOCATE(FVDATA_OLD(I)%CPEPOLH)
             IF (ASSOCIATED(FVDATA_OLD(I)%CPFPOLH)) 
      .              DEALLOCATE(FVDATA_OLD(I)%CPFPOLH)
+            IF (ASSOCIATED(FVDATA_OLD(I)%SSPPOLH)) 
+     .              DEALLOCATE(FVDATA_OLD(I)%SSPPOLH)   
+            IF (ASSOCIATED(FVDATA_OLD(I)%CENTROID_POLH)) 
+     .              DEALLOCATE(FVDATA_OLD(I)%CENTROID_POLH)      
          ENDDO
          DEALLOCATE(FVDATA_OLD)
       ENDIF

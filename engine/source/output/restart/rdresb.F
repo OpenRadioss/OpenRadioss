@@ -1924,6 +1924,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "param_c.inc"
 #include      "tabsiz_c.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1935,11 +1936,30 @@ C-----------------------------------------------
      .        LENP_ANIM, NPOLH_ANIM, LENH_ANIM, NNS_ANIM, NN_L, NNA_L,
      .        NNSA_L, NSA, NELSA, NNI_L, IFV, ID_DT_OPTION, K1, ITYP, 
      .        ID_BAG, ID_BAG_INPUT, N
-      INTEGER COLOR,KEY
+      INTEGER COLOR,KEY, IH3D_FLAG
       LOGICAL lFOUND
+      my_real TMP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+
+C----------------------------------------------------------
+C   CONSTANT INIT. : VISUALIZATION OF FVBAG RESULTS
+C----------------------------------------------------------       
+       !---AIRBAGS_TOTAL_FVM_IN_H3D
+       AIRBAGS_TOTAL_FVM_IN_H3D = 0 !number of polyhedra to display for visualization subroutines (Sum FVDATA%NPOLH_ANIM)
+       
+       !---AIRBAGS_NODE_ID_SHIFT
+       ! first node identifier used to plot polyhedron centroids is 1+AIRBAGS_NODE_ID_SHIFT
+       TMP = NUMNOD
+       AIRBAGS_NODE_ID_SHIFT = 1 + 1+FLOOR(LOG10(TMP))    !first index for virtual node identifiers (next available power of 10)
+       IF (AIRBAGS_NODE_ID_SHIFT > 10) THEN                             ! example :                  NUMNOD =   123,456
+                                                                        !   ->        AIRBAGS_NODE_ID_SHIFT = 1,000,000
+          WRITE(ISTDO,'(A)')" WARNING FVMBAG VISUALIZATION : INDEX SHIFT IS MORE THAN 10 DIGITS"
+          WRITE(IOUT ,'(A)')" WARNING FVMBAG VISUALIZATION : INDEX SHIFT IS MORE THAN 10 DIGITS" 
+                   
+       ENDIF
+       AIRBAGS_NODE_ID_SHIFT = 10**AIRBAGS_NODE_ID_SHIFT
 
 C--------------------------------------
 C     READING SIZES
@@ -1966,7 +1986,9 @@ C--------------------------------------
      *          FVDATA_OLD(I)%CPDPOLH,FVDATA_OLD(I)%CPEPOLH,
      *          FVDATA_OLD(I)%CPFPOLH,FVDATA_OLD(I)%DTPOLH,
      *          FVDATA_OLD(I)%RMWPOLH,FVDATA_OLD(I)%VPOLH_INI,
-     *          FVDATA_OLD(I)%QPOLH )
+     *          FVDATA_OLD(I)%QPOLH,
+     *          FVDATA_OLD(I)%SSPPOLH,     
+     *          FVDATA_OLD(I)%CENTROID_POLH )
 
         FVDATA_OLD(I)%L_TYPE = 0
         FVDATA_OLD(I)%ID_DT_OPTION = -1
@@ -2097,7 +2119,6 @@ C
          FVDATA_OLD(I)%NPOLH_ANIM=NPOLH_ANIM
          FVDATA_OLD(I)%NNS_ANIM=NNS_ANIM
          FVDATA_OLD(I)%ID=TABI(11)
-
 C
          ALLOCATE(FVDATA_OLD(I)%IFVNOD(3,NNS),
      .            FVDATA_OLD(I)%RFVNOD(2,NNS),
@@ -2123,7 +2144,10 @@ C
      .            FVDATA_OLD(I)%CPFPOLH(NPOLH),
      .            FVDATA_OLD(I)%RMWPOLH(NPOLH),
      .            FVDATA_OLD(I)%VPOLH_INI(NPOLH),
-     .            FVDATA_OLD(I)%DTPOLH(NPOLH))
+     .            FVDATA_OLD(I)%DTPOLH(NPOLH),
+     .            FVDATA_OLD(I)%SSPPOLH(NPOLH),     
+     .            FVDATA_OLD(I)%CENTROID_POLH(3,NPOLH) )
+     
          IF (NPOLH_ANIM>0)
      .      ALLOCATE(FVDATA_OLD(I)%IFVPOLY_ANIM(LENP_ANIM),
      .               FVDATA_OLD(I)%IFVTADR_ANIM(NPOLY+1),
@@ -2131,7 +2155,8 @@ C
      .               FVDATA_OLD(I)%IFVPADR_ANIM(NPOLH_ANIM+1),
      .               FVDATA_OLD(I)%IFVTRI_ANIM(6,NNTR),
      .               FVDATA_OLD(I)%REDIR_ANIM(NNS_ANIM),
-     .               FVDATA_OLD(I)%NOD_ANIM(3,NNS_ANIM))
+     .               FVDATA_OLD(I)%NOD_ANIM(3,NNS_ANIM) )
+
 
 C--------------------------------------
 C     READING INTEGERS
@@ -2185,8 +2210,26 @@ C--------------------------------------
             LEN=3*NNS_ANIM
             CALL READ_DB(FVDATA_OLD(I)%NOD_ANIM,LEN)
          ENDIF
+         !FVDATA_OLD(I)%SSPPOLH       not read : H3D only. Generated if needed.
+         !FVDATA_OLD(I)%CENTROID_POLH not read : H3D only. Generated if needed.
 C
-      ENDDO
+         K1 = 1
+         IH3D_FLAG = 0
+         !Looping over all existing bags to check which one is matching : collect IHED_FLAG
+         DO N=1,NVOLU                                                          
+           IFV = MONVOL(K1-1 + 45)         
+           IF(IFV==I)THEN                  
+             IH3D_FLAG = MONVOL(K1-1 + 75)
+             IF(IH3D_FLAG==1)THEN
+               AIRBAGS_TOTAL_FVM_IN_H3D = AIRBAGS_TOTAL_FVM_IN_H3D + NPOLH_ANIM
+             ENDIF 
+             EXIT                          
+           ENDIF                                                                                                       
+           K1=K1+NIMV                                                           
+         ENDDO !next N  
+           
+C
+      ENDDO !next FVBAG
       
 
 C--------------------------------------

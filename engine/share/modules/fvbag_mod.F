@@ -136,8 +136,11 @@ C-----------------------------------------------
      .                                    RPOLH,   GPOLH,   TPOLH,
      .                                    CPAPOLH, CPBPOLH, CPCPOLH, 
      .                                    CPDPOLH, CPEPOLH, CPFPOLH,
-     .                                    RMWPOLH, VPOLH_INI
-        my_real, DIMENSION(:,:), POINTER :: QPOLH
+     .                                    RMWPOLH, VPOLH_INI,
+     .                                    SSPPOLH !SSPPOLH : output purpose only (sound speed in polyhedra)          
+        my_real, DIMENSION(:,:), POINTER :: QPOLH     
+        my_real, DIMENSION(:,:), POINTER :: CENTROID_POLH !output purpose only (centroids positions)
+        
         !---------------------------
         ! Variables stabilite
         !---------------------------
@@ -174,6 +177,9 @@ C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s   D e f i n i t i o n
 C-----------------------------------------------
       INTEGER NFVBAG
+      INTEGER AIRBAGS_TOTAL_FVM_IN_H3D ! number of polyhedra/centroids at first cycle (upper bound for following cycle due to merging) Visualization purpose only. 
+      INTEGER AIRBAGS_NODE_ID_SHIFT    ! first index for virtual node identifiers is 1+AIRBAGS_NODE_ID_SHIFT
+      
       TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA, FVDATA_OLD
       TYPE(FVBAG_SPMD), DIMENSION(:), ALLOCATABLE :: FVSPMD
 C-----------------------------------------------      

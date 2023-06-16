@@ -33,27 +33,35 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_NODAL_VECTOR(
-     .                  ELBUF_TAB, NODAL_VECTOR, IFUNC          , IPARG      , GEO      ,
-     .                  MASS     , PM          , ANIN           , ITAB       , NODE_ID  ,
-     .                  INFO1    , INFO2       , IS_WRITTEN_NODE, H3D_PART   , IPARTC   ,
-     .                  IPARTTG  , IXC         , IXTG           , TEMP       , IFLOW    ,
-     .                  RFLOW    , IXS         , IXQ            , NV46,MONVOL, VOLMON   ,
-     .                  DIAG_SMS , MS          , PDAMA2         , X          , 
-     .                  STIFR    , STIFN       , A              , D          , V        , 
-     .                  CONT     , FCONTG      , FINT           , FEXT       , KEYWORD  ,
-     .                  FNCONT   , FNCONTG     , FTCONT         , FTCONTG    , FNCONT2  , 
-     .                  DR       , DXANCG      , FANREAC        , FCLUSTER   , MCLUSTER ,
-     .                  VR       , FOPT        , NPBY           , VGAZ     ,
-     .                  IPARI    , IGRNOD      , WEIGHT         , NODGLOB    , FCONT_MAX, 
-     .                  FNCONTP2 , FTCONTP2    , AR             , IPARTSP    , IPARTR   ,
-     .                  IPARTP   , IPARTT      , IPARTS         , IPARTQ     ,KXSP      ,
-     .                  IXR      , IXP         , IXT            , N_H3D_PART_LIST ) 
+     .                  ELBUF_TAB          ,NODAL_VECTOR            ,IFUNC          ,IPARG           ,GEO             , 
+     .                  MASS               ,PM                      ,ANIN           ,ITAB            ,NODE_ID         , 
+     .                  INFO1              ,INFO2                   ,IS_WRITTEN_NODE,H3D_PART        ,IPARTC          , 
+     .                  IPARTTG            ,IXC                     ,IXTG           ,TEMP            ,IFLOW           , 
+     .                  RFLOW              ,IXS                     ,IXQ            ,NV46            ,MONVOL          , 
+     .                  DIAG_SMS           ,MS                      ,PDAMA2         ,X               ,VOLMON          , 
+     .                  STIFR              ,STIFN                   ,A              ,D               ,V               , 
+     .                  CONT               ,FCONTG                  ,FINT           ,FEXT            ,KEYWORD         , 
+     .                  FNCONT             ,FNCONTG                 ,FTCONT         ,FTCONTG         ,FNCONT2         , 
+     .                  DR                 ,DXANCG                  ,FANREAC        ,FCLUSTER        ,MCLUSTER        , 
+     .                  VR                 ,FOPT                    ,NPBY           ,VGAZ            ,                  
+     .                  IPARI              ,IGRNOD                  ,WEIGHT         ,NODGLOB         ,FCONT_MAX       , 
+     .                  FNCONTP2           ,FTCONTP2                ,AR             ,IPARTSP         ,IPARTR          , 
+     .                  IPARTP             ,IPARTT                  ,IPARTS         ,IPARTQ          ,KXSP            , 
+     .                  IXR                ,IXP                     ,IXT            ,N_H3D_PART_LIST ,NODAL_VECTOR_FVM, 
+     .                  IS_WRITTEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D,SMONVOL        ,SVOLMON         ,ISPMD           ,
+     .                  FVDATA_P) 
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is storing relevant vector values requested
+C for H3D export by /H3D/NODA/... keywords
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
       USE OUTMAX_MOD
+      USE FVBAG_MOD , only : FVBAG_DATA, NFVBAG
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,20 +80,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SMONVOL, SVOLMON, ISPMD
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       my_real
-     .   NODAL_VECTOR(*),MASS(*),GEO(NPROPG,*),
-     .   PM(NPROPM,*),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
-     .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),A(3,*),D(3,*),V(3,*), CONT(3,*),
-     .   FCONTG(3,*), FINT(3,*), FEXT(3,*),FNCONT(3,*),FNCONTG(3,*),
-     .   FTCONT(3,*),FTCONTG(3,*),FNCONT2(3,*), DR(3,*),DXANCG(3,*),
-     .   FANREAC(6,*),FCLUSTER(3,*),MCLUSTER(3,*),VR(3,*),FOPT(6,*),VGAZ(3,*),
+     .   NODAL_VECTOR(3*NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
+     .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
+     .   PDAMA2(2,*),X(3*NUMNOD),STIFR(*),STIFN(NUMNOD),A(3,NUMNOD),D(3,NUMNOD),V(3,NUMNOD), CONT(3,*),
+     .   FCONTG(3,*), FINT(3,NUMNOD), FEXT(3,NUMNOD),FNCONT(3,*),FNCONTG(3,*),
+     .   FTCONT(3,*),FTCONTG(3,*),FNCONT2(3,*), DR(3,NUMNOD),DXANCG(3,*),
+     .   FANREAC(6,*),FCLUSTER(3,*),MCLUSTER(3,*),VR(3,NUMNOD),FOPT(6,*),VGAZ(3,*),
      .   FCONT_MAX(3,*),FNCONTP2(3,*),FTCONTP2(3,*)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),
-     .   INFO1,INFO2,IS_WRITTEN_NODE(*),H3D_PART(*),ITAB(*),
-     .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTTG(*),IFLOW(*),
-     .   IXS(NIXS,*),IXQ(NIXQ,*),NV46,MONVOL(*),NPBY(NNPBY,*),
-     .   IPARI(NPARI,*),WEIGHT(*),NODGLOB(*)
+     .   INFO1,INFO2,IS_WRITTEN_NODE(NUMNOD),H3D_PART(*),ITAB(NUMNOD),
+     .   IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),IPARTC(*),IPARTTG(*),IFLOW(*),
+     .   IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),NV46,MONVOL(SMONVOL),NPBY(NNPBY,*),
+     .   IPARI(NPARI,NINTER),WEIGHT(*),NODGLOB(*)
       CHARACTER*ncharline KEYWORD
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       my_real , INTENT(IN) :: AR(3,NUMNOD)
@@ -93,13 +102,15 @@ C-----------------------------------------------
      .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
       INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH),IXR(NIXR,NUMELR),IXP(NIXP,NUMELP),
      .                       IXT(NIXT,NUMELT)
-      INTEGER ,INTENT(IN) :: N_H3D_PART_LIST
+      INTEGER ,INTENT(IN) :: N_H3D_PART_LIST, AIRBAGS_TOTAL_FVM_IN_H3D
+      my_real, INTENT(INOUT) :: NODAL_VECTOR_FVM(3,AIRBAGS_TOTAL_FVM_IN_H3D)
+      INTEGER, INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)   
+      TYPE(FVBAG_DATA),INTENT(IN) ::  FVDATA_P  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,IOK_PART(NUMNOD)
-      my_real
-     .   VALUE(3)
+      my_real VALUE(3)
 C-----------------------------------------------
 C
       VALUE = ZERO
@@ -186,6 +197,19 @@ C--------------------------------------------------
           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
         ENDDO
+        
+        !------------------------------------------
+        !  /MONVOL/FVMBAG*
+        !     set velocity from polyhedra centroids
+        !------------------------------------------
+        IF(AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
+          IS_WRITTEN_NODE_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D)=0
+          IF(NFVBAG>0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
+            CALL ANIM_NODAL_VECTOR_FVMBAGS('VEL ' , NODAL_VECTOR_FVM,MONVOL, VOLMON                  , FVDATA_P, NFVBAG   ,
+     .                                     SMONVOL, SVOLMON                , AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM )        
+          ENDIF
+        ENDIF
+        
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DIS') THEN
 C--------------------------------------------------

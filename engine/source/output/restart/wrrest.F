@@ -624,29 +624,31 @@ C--------------------------------------
          CALL WRITE_DB(FVDATA(I)%PDISP_OLD,LEN)
          CALL WRITE_DB(FVDATA(I)%PDISP,LEN)
          LEN=2*NNS
-           CALL WRITE_DB(FVDATA(I)%RFVNOD,LEN)
-           CALL WRITE_DB(FVDATA(I)%MPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%RFVNOD,LEN)
+         CALL WRITE_DB(FVDATA(I)%MPOLH,NPOLH)
          LEN=3*NPOLH
-           CALL WRITE_DB(FVDATA(I)%QPOLH,LEN)
-           CALL WRITE_DB(FVDATA(I)%EPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%PPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%RPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%GPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%TPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%CPAPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%CPBPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%CPCPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%CPDPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%CPEPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%CPFPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%RMWPOLH,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%VPOLH_INI,NPOLH)
-           CALL WRITE_DB(FVDATA(I)%DLH,1)
-           CALL WRITE_DB(FVDATA(I)%DTPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%QPOLH,LEN)
+         CALL WRITE_DB(FVDATA(I)%EPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%PPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%RPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%GPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%TPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%CPAPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%CPBPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%CPCPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%CPDPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%CPEPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%CPFPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%RMWPOLH,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%VPOLH_INI,NPOLH)
+         CALL WRITE_DB(FVDATA(I)%DLH,1)
+         CALL WRITE_DB(FVDATA(I)%DTPOLH,NPOLH)
          IF (NPOLH_ANIM>0) THEN
-            LEN=3*NNS_ANIM
-              CALL WRITE_DB(FVDATA(I)%NOD_ANIM,LEN)
+           LEN=3*NNS_ANIM
+           CALL WRITE_DB(FVDATA(I)%NOD_ANIM,LEN)
          ENDIF
+         !FVDATA(I)%SSPPOLH       not written. used for H3D only. Generated if needed
+         !FVDATA(I)%CENTROID_POLH not written. used ofr H3D only. Generated if needed                
 C
       ENDDO
       
@@ -675,8 +677,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .    MCP(*),TEMP(*)
+      my_real MCP(*),TEMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -715,8 +716,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .    FORNEQS(*)
+      my_real FORNEQS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -757,8 +757,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IBCV(*)
-      my_real
-     .    FCONV(*)
+      my_real FCONV(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -800,8 +799,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IBCR(*)
-      my_real
-     .    FRADIA(*)
+      my_real FRADIA(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -843,8 +841,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IBFT(*)
-      my_real
-     .    FBFT(*)
+      my_real FBFT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -885,8 +882,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBYM(*)    ,LCRBYM(*),WEIGHT_RM(*)
-      my_real
-     .    RBYM(*)
+      my_real RBYM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -928,8 +924,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .    MS_PLY(*),ZI_PLY(*),MSZ2(*)
+      my_real MS_PLY(*),ZI_PLY(*),MSZ2(*)
       INTEGER ICODE(*),ISKEW(*),IEL(*),INOD(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

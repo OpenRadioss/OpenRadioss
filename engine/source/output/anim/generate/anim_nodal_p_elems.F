@@ -21,31 +21,29 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  NODALD                        source/output/anim/generate/nodald.F
+Chd|  NODALP                        source/output/anim/generate/nodalp.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        H3D_NODAL_SCALAR              source/output/h3d/h3d_results/h3d_nodal_scalar.F
 Chd|-- calls ---------------
+Chd|        ANINFLOW                      source/output/anim/generate/aninflow.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE NODALD(IFUNC    , WA4      , WA4_FVM, IFLOW  , RFLOW,  
-     .                  IPARG    , ELBUF_TAB, IX     , NIX    , NUMEL, 
-     .                  ITAB     , NV46     , MONVOL , VOLMON , AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                  IS_WRITTEN_NODE,IS_WRITTEN_NODE_FVM, ISPMD, FVDATA_P, SWA4)
+      SUBROUTINE ANIM_NODAL_P_ELEMS(IFUNC, WA4, IPARG,  ELBUF_TAB, IX , NIX  , NUMEL, ITAB , NV46, IS_WRITTEN_NODE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C   This subroutine defines & writes nodal Density requested by Engine keywords /ANIM/NODA/DENS or /H3D/NODA/DENS
-C   /INTER/TYPE22   (nodal Density from polyhedra, specific buffer).
-C   /MONVOL/FVMBAG* (nodal Density from polyhedra, specific buffer).
-C   DEFAULT         (nodal PresDensitysure from adjacent elems)
+C     This suroutine computes nodal pressure for
+C     ALE elements. In case of CEL coupling (inter22)
+C     result is also calculated from cut cells.
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
-C     none
+C     Tested below during NG LOOP : IALEL > 0 
+C        where IALEL =IPARG(7,NG)+IPARG(11,NG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,9 +51,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE I22BUFBRIC_MOD   
       USE I22EDGE_MOD    
-      USE I22TRI_MOD       
-      USE FVBAG_MOD , only:FVBAG_DATA,NFVBAG  
-      USE GROUPDEF_MOD , only:GROUP_           
+      USE I22TRI_MOD           
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,83 +64,76 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "inter22.inc"
-#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NUMEL, IFUNC, NIX, NV46,ITAB(NUMNOD),ISPMD, SWA4
-      INTEGER,INTENT(IN) :: IFLOW(*),IPARG(NPARG,NGROUP),IX(NIX,NUMEL)
-      my_real,INTENT(IN) :: RFLOW(*)
-      INTEGER,INTENT(IN) :: AIRBAGS_TOTAL_FVM_IN_H3D 
-      REAL,INTENT(INOUT) :: WA4(SWA4),WA4_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
-      TYPE (ELBUF_STRUCT_), INTENT(IN), DIMENSION(NGROUP), TARGET :: ELBUF_TAB    
-      INTEGER,INTENT(IN) :: MONVOL(SMONVOL)
-      my_real,INTENT(IN) :: VOLMON(SVOLMON)
-      INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D),IS_WRITTEN_NODE(NUMNOD)
-      TYPE(FVBAG_DATA),INTENT(IN) :: FVDATA_P
+      INTEGER,INTENT(IN) :: IFUNC, IPARG(NPARG,NGROUP),IX(NIX,NUMEL),ITAB(NUMNOD),NIX,NV46,NUMEL
+      REAL,INTENT(INOUT) :: WA4(*)
+      TYPE (ELBUF_STRUCT_),INTENT(IN), DIMENSION(NGROUP), TARGET :: ELBUF_TAB 
+      INTEGER, INTENT(INOUT) :: IS_WRITTEN_NODE(NUMNOD)  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,
+      INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, NELv,II1, II2,
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
      .        IALEL,NNOD,IPOS,IV,NGv,IDLOCv,J1,J2,IBV
-      INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
+      INTEGER MLW, NG, KCVT, II(6), NBF, NBL, IB, ICELL, NIN, MCELL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
-      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
-      my_real D,V
+      my_real, ALLOCATABLE, DIMENSION(:) :: SUM_WEIGHT    
+      my_real P, WEIGHT
+      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK      
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C   This subroutine write nodal pressures OR nodal potential in animation files.
-C   /BEM/FLOW      (nodal Pressure & nodal Potential).
-C   /INTER/TYPE22  (nodal Pressure only).
-C
+C   This subroutine is setting nodal pressure requested by Engine keyword /ANIM/NODA/P
+C   Several situation are possible. This one is dealing with nodal pressure from adjacent elements.
+C     + LOOP OVER ELEM
+C     |   GET ITS PRESSURE FROM ELEM BUFFER
+C     |   USE ELEM TO SET MEAN PRESSURE ON ELEM NODES (WEIGHT = VOLUME)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
 
+         ALLOCATE(SUM_WEIGHT(NUMNOD))      
+         SUM_WEIGHT = 0
          NNOD = NIX-3   !8-node brick or 4-node quad
 
-C------------------------------------------------------------------
-C        DEFAULT - ALL ELEMS (HEXA,PENTA, SHELL, QUAD, ..)
-C           expand elem pressure to elem nodes
-C------------------------------------------------------------------      
          IF(INT22==0)THEN
-           ALLOCATE(COUNT_VOL(NUMNOD))                 
-           COUNT_VOL(:) = 0                           
+         !---------------------------------------------------------!         
+         !         EXPAND ELEM PRESSURE TO NODES                   !
+         !---------------------------------------------------------!                                
            DO NG = 1, NGROUP
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
-             ITYP  =IPARG(5,NG)
-             !IALEL =IPARG(7,NG)+IPARG(11,NG)             
+             ITYP  =IPARG(5,NG)            
              IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
-             !IF(IALEL==0)CYCLE
-             GBUF => ELBUF_TAB(NG)%GBUF                       
+             GBUF => ELBUF_TAB(NG)%GBUF
+             IF(GBUF%G_SIG > 0)THEN    !this may not be allocated (example : /MAT/VOID)             
               DO I=1,NEL
-                D = GBUF%RHO(I)   
-                V = GBUF%VOL(I)                            
+                P = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
+                P = -P*THIRD   
+                WEIGHT = GBUF%VOL(I)                            
                 DO J=2,NNOD+1
                   JJ=IX(J,NFT+I)
-                  WA4(JJ)=WA4(JJ)+V*D               !cumulated mass
-                  COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume  
-                  IS_WRITTEN_NODE(JJ)=1               
+                  IS_WRITTEN_NODE(JJ)=1
+                  WA4(JJ)=WA4(JJ)+WEIGHT*P                 
+                  SUM_WEIGHT(JJ) = SUM_WEIGHT(JJ) + WEIGHT !cumulated volume                 
                 ENDDO            
-              ENDDO
-           ENDDO
-           !applying weight factor
-           DO I=1,NUMNOD
-             IF(COUNT_VOL(I)/=ZERO)THEN
-               WA4(I)=WA4(I)/COUNT_VOL(I)
-             ENDIF
-           ENDDO                 
-           DEALLOCATE(COUNT_VOL)             
+              ENDDO!next I
+             END IF
+           ENDDO           
+
          
-C------------------------------------------------------------------
-C        CUT CELLS (INTER TYPE 22)
-C------------------------------------------------------------------      
          ELSEIF(INT22>0)THEN 
-           ALLOCATE(COUNT_VOL(NUMNOD))      
-           COUNT_VOL = 0
+         !---------------------------------------------------------!         
+         !      /INTER/TYPE22                                      !
+         !        specific case due to generic polyhedra           !
+         !---------------------------------------------------------!       
+         !1. TAG FOR CUT CELLS                                     !
+         !2. COMPUTE NODAL PRESSURE                                !
+         !     NOT INTERSECTED : NODAL P COMPUTED FROM GLOBAL BUF  !
+         !         INTERSECTED : NODAL P COMPUTED FROM SUBVOLUME   !
+         !---------------------------------------------------------!                 
            !---1. TAG FOR INTERSECTED BRICKS---!
            !NBF = 1+ITASK*NB/NTHREAD
            !NBL = (ITASK+1)*NB/NTHREAD
@@ -156,12 +145,12 @@ C------------------------------------------------------------------
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
              ITYP  =IPARG(5,NG)
-             IALEL =IPARG(7,NG)+IPARG(11,NG)             
+             IALEL =IPARG(7,NG)+IPARG(11,NG)   
+             GBUF => ELBUF_TAB(NG)%GBUF                        
              IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
-             IF(IALEL==0)CYCLE             
-             GBUF => ELBUF_TAB(NG)%GBUF 
+             IF(IALEL==0)CYCLE         
+             IF(GBUF%G_SIG==0)CYCLE     
               DO I=1,NEL
-C                print *, "treating brick id=", IX(11,I+NFT)
                 IB = NINT(GBUF%TAG22(I))
                 !---------------------------!                
                 ! NOT A CUT CELL            !
@@ -170,20 +159,14 @@ C                print *, "treating brick id=", IX(11,I+NFT)
                   IF(BRICK_LIST(NIN,IB)%NBCUT==0)IB=0 !in cut cell buffer but not partitioned (because it is adjacent to a cut cell)
                 ENDIF             
                 IF(IB==0)THEN                
-                  D = GBUF%RHO(I)   
-                  V = GBUF%VOL(I)                           
+                  P = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
+                  P = -P*THIRD   
+                  WEIGHT = GBUF%VOL(I)                           
                   DO J=2,NNOD+1
                     JJ=IX(J,NFT+I)
-                    WA4(JJ)=WA4(JJ)+ D*V              !cumulated mass
-                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume 
                     IS_WRITTEN_NODE(JJ)=1
-c                   if(ibug22_nodalp==1)then                    
-c                       print *, "adding on node", itab(JJ)
-c                       print *, "    D=", D
-c                       print *, "    V=", V 
-c                       print *, "   WA=", WA4(JJ)
-c                       print *, " sumV=", COUNT_VOL(JJ)
-c                   endif
+                    WA4(JJ)=WA4(JJ)+ P*WEIGHT
+                    SUM_WEIGHT(JJ) = SUM_WEIGHT(JJ) + WEIGHT !cumulated volume 
                   ENDDO            
                 !---------------------------!
                 !        CUT CELL           !
@@ -192,55 +175,55 @@ c                   endif
                   NIN   = 1 
                   IB    = NINT(GBUF%TAG22(I))
                   MCELL = BRICK_LIST(NIN,IB)%MainID
+                  NEL   = IPARG(2,NG)
                   DO J=2,NNOD+1
                     JJ=IX(J,NFT+I)
                     IS_WRITTEN_NODE(JJ)=1
                     ICELL=BRICK_LIST(NIN,IB)%NODE(J-1)%WhichCell
                     IF(ICELL == MCELL)THEN
-                      D = GBUF%RHO(I)   
-                      V = GBUF%VOL(I)                      
+                      P  = GBUF%SIG(NEL*(1-1)+I)+GBUF%SIG(NEL*(2-1)+I)+GBUF%SIG(NEL*(3-1)+I)   
+                      P  = -P*THIRD   
+                      WEIGHT  = GBUF%VOL(I)                      
                     ELSE
-                      IPOS     =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1) 
+                      pAdjBRICK  => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)       
+                      IPOS       =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)                    
                       IF(IPOS<=NV46)THEN
                         IV     =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,1)
                         NGv    =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,2)
-                        IDLOCv =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,3)                      
+                        IDLOCv =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,3) 
+                        NELv   =  IPARG(2,NGv)                      
                       ELSE
                         J1     =  IPOS/10
                         J2     =  MOD(IPOS,10)
                         IBv    =  BRICK_LIST(NIN,IB )%Adjacent_Brick(J1,4)
                         IV     =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,1)
                         NGv    =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,2)
-                        IDLOCv =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,3)                                                 
-                      ENDIF
+                        IDLOCv =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,3) 
+                        NELv   =  IPARG(2,NGv)                                                
+                      ENDIF                      
                       GBUFv    => ELBUF_TAB(NGv)%GBUF
-                      D        =  GBUFv%RHO(IDLOCv) 
-                      V        =  GBUFv%VOL(IDLOCv)                                             
+                      P        =  GBUFv%SIG(NELv*(1-1)+IDLOCv)+GBUFv%SIG(NELv*(2-1)+IDLOCv)+GBUFv%SIG(NELv*(3-1)+IDLOCv)
+                      P        = -P*THIRD   
+                      WEIGHT   =  GBUFv%VOL(IDLOCv)                                             
                     ENDIF
-                    WA4(JJ)=WA4(JJ)+D*V
-                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + V
+                    WA4(JJ)=WA4(JJ)+P*WEIGHT
+                    SUM_WEIGHT(JJ) = SUM_WEIGHT(JJ) + WEIGHT
                   ENDDO            
                 ENDIF
               ENDDO
-           ENDDO
-           !applying weight factor
-           DO I=1,NUMNOD
-             IF(COUNT_VOL(I)/=ZERO)THEN
-               WA4(I)=WA4(I)/COUNT_VOL(I)
-             ENDIF
-           ENDDO
-           DEALLOCATE(COUNT_VOL)                  
+           ENDDO                 
          ENDIF
-                  
-
-C------------------------------------------------------------------
-C        /MONVOL/FVMBAG*
-C           set density from polyhedra centroids
-C------------------------------------------------------------------
-        IF(NFVBAG > 0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
-          CALL ANIM_NODAL_CONTOUR_FVMBAGS('DENS', WA4_FVM, MONVOL , VOLMON                  , FVDATA_P             , 
-     .                                    NFVBAG, SMONVOL, SVOLMON, AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM)
-        ENDIF
-
+         
+C-----------------------------------------------
+         !divinding by sum of weights to get finally weighting factors
+         DO I=1,NUMNOD
+           IF(SUM_WEIGHT(I)/=ZERO)THEN
+             WA4(I)=WA4(I)/SUM_WEIGHT(I)                    
+           ENDIF
+         ENDDO
+         
+         DEALLOCATE(SUM_WEIGHT)          
+C-----------------------------------------------
+      
       RETURN
       END

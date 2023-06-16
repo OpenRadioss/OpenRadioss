@@ -37,18 +37,24 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_NODAL_SCALAR(
-     .                  ELBUF_TAB ,NODAL_SCALAR ,IFUNC           ,IPARG    ,GEO     ,
-     .                  MASS      ,PM           ,ANIN            ,ITAB     ,NODE_ID ,
-     .                  INFO1     ,INFO2        ,IS_WRITTEN_NODE ,H3D_PART ,IPARTC  ,
-     .                  IPARTTG   ,IXC          ,IXTG            ,TEMP     ,IFLOW   ,
-     .                  RFLOW     ,IXS          ,IXQ             ,NV46     ,MONVOL  ,
-     .                  VOLMON    ,ALE_CONNECT  ,DIAG_SMS        ,MS       ,PDAMA2  ,
-     .                  X         ,STIFR        ,STIFN           ,KEYWORD  ,H3D_DATA,
-     .                  NPBY      ,RBY          ,INTERSKID       ,NINTERSKID,PSKIDS ,
-     .                  NODGLOB   ,ITYSKID      ,IPARTSP         ,IPARTR   ,IPARTP  , 
-     .                  IPARTT    ,IPARTS       ,IPARTQ          ,KXSP     ,IXR     ,
-     .                  IXP       ,IXT          ,N_H3D_PART_LIST ,INTERFRIC,CSEFRIC ,
-     .                  CSEFRICG  ,CSEFRIC_STAMP,CSEFRICG_STAMP  ) 
+     .                  ELBUF_TAB ,NODAL_SCALAR ,IFUNC           ,IPARG            ,GEO     ,
+     .                  MASS      ,PM           ,ANIN            ,ITAB             ,NODE_ID ,
+     .                  INFO1     ,INFO2        ,IS_WRITTEN_NODE ,H3D_PART         ,IPARTC  ,
+     .                  IPARTTG   ,IXC          ,IXTG            ,TEMP             ,IFLOW   ,
+     .                  RFLOW     ,IXS          ,IXQ             ,NV46             ,MONVOL  ,
+     .                  VOLMON    ,ALE_CONNECT  ,DIAG_SMS        ,MS               ,PDAMA2  ,
+     .                  X         ,STIFR        ,STIFN           ,KEYWORD          ,H3D_DATA,
+     .                  NPBY      ,RBY          ,INTERSKID       ,NINTERSKID       ,PSKIDS ,
+     .                  NODGLOB   ,ITYSKID      ,IPARTSP         ,IPARTR           ,IPARTP  ,
+     .                  IPARTT    ,IPARTS       ,IPARTQ          ,KXSP             ,IXR     ,
+     .                  IXP       ,IXT          ,N_H3D_PART_LIST ,INTERFRIC        ,CSEFRIC ,
+     .                  CSEFRICG  ,CSEFRIC_STAMP,CSEFRICG_STAMP  ,NODAL_SCALAR_FVM ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                  IS_WRITTEN_NODE_FVM, ISPMD, FVDATA_P) 
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is storing relevant scalar values requested
+C for H3D export by /H3D/NODA/... keywords
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +62,8 @@ C-----------------------------------------------
       USE H3D_MOD 
       USE ALE_CONNECTIVITY_MOD
       USE OUTPUTS_MOD
+      USE GROUPDEF_MOD , only: GROUP_
+      USE FVBAG_MOD , only : FVBAG_DATA
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,15 +82,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: AIRBAGS_TOTAL_FVM_IN_H3D,ISPMD
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       my_real
-     .   NODAL_SCALAR(*),MASS(*),GEO(NPROPG,*),
-     .   PM(NPROPM,*),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
+     .   NODAL_SCALAR(NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
+     .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
      .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),RBY(NRBY,*),PSKIDS(NINTERSKID,*)
+      my_real,INTENT(INOUT) :: NODAL_SCALAR_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),
-     .   INFO1,INFO2,IS_WRITTEN_NODE(*),H3D_PART(*),ITAB(*),
-     .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTTG(*),IFLOW(*),
-     .   IXS(NIXS,*),IXQ(NIXQ,*),NV46,MONVOL(*),NPBY(NNPBY,*),
+     .   INFO1,INFO2,IS_WRITTEN_NODE(NUMNOD),H3D_PART(*),ITAB(NUMNOD),
+     .   IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),IPARTC(*),IPARTTG(*),IFLOW(*),
+     .   IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),NV46,MONVOL(*),NPBY(NNPBY,*),
      .   NODGLOB(*),
      .   INTERSKID,NINTERSKID,ITYSKID
       INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),
@@ -96,18 +106,35 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: INTERFRIC
       my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
+      INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
+      TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA_P
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M,N,IOK_PART(NUMNOD),IS_WRITTEN_VALUE(NUMNOD)
-      my_real
-     .   VALUE(NUMNOD),VALUE_NUMNOD(NUMNOD)
+      INTEGER I,J,K,M,N
+      
+      ! H3D export for /NODE entities. Number : NUMNOD
+      INTEGER IOK_PART(NUMNOD)
+      INTEGER IS_WRITTEN_VALUE(NUMNOD)
+      my_real VALUE(NUMNOD)
+      my_real VALUE_NUMNOD(NUMNOD)
       REAL VALUE_NUMNOD_REAL(NUMNOD)
+      
+      ! H3D export for FVMBAG (virtual nodes located at polyhedra centroids). Number : AIRBAGS_TOTAL_FVM_IN_H3D
+      INTEGER IOK_PART_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
+      my_real VALUE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)      
+      my_real VALUE_NUMNOD_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
+      REAL VALUE_NUMNOD_REAL_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
 C-----------------------------------------------
 C
       VALUE(1:NUMNOD) = ZERO
       VALUE_NUMNOD_REAL(1:NUMNOD) = ZERO
       VALUE_NUMNOD(1:NUMNOD) = ZERO
+c
+      VALUE_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D) = ZERO
+      VALUE_NUMNOD_REAL_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D) = ZERO
+      VALUE_NUMNOD_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D) = ZERO
+      IOK_PART_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D) = 0  ! virtual nodes do not belong to any PART.
 c
       DO  I=1,NUMNOD 
         NODE_ID(I) = ITAB(I)
@@ -182,9 +209,9 @@ c
       ENDIF
 C
 C--------------------------------------------------
-      IF(KEYWORD == 'DT' .OR. KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN 
+      IF(KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN 
 C--------------------------------------------------
-        IF(KEYWORD == 'DT') K = 0
+        !IF(KEYWORD == 'DT') K = 0
         IF(KEYWORD == 'DMASS') K = MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) * NUMNOD
         IF(KEYWORD == 'DINER') K =(MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) +
      .                            MIN(1,ANIM_N(2)+H3D_DATA%N_SCAL_DMAS) ) * NUMNOD
@@ -205,9 +232,9 @@ C--------------------------------------------------
         ENDDO
 C--------------------------------------------------
       ELSEIF( KEYWORD == 'P'     .OR. KEYWORD == 'DENS'  .OR. KEYWORD == 'ENER'  .OR.
-     .        KEYWORD == 'TEMP'  .OR. KEYWORD == 'SSP'   .OR.
+     .        KEYWORD == 'TEMP'  .OR. KEYWORD == 'SSP'   .OR. KEYWORD == 'DT'    .OR.
      .        KEYWORD == 'NVAR1' .OR. KEYWORD == 'NVAR2' .OR. KEYWORD == 'NVAR3' .OR. 
-     .        KEYWORD == 'NVAR4' .OR. KEYWORD == 'NVAR5') THEN  
+     .        KEYWORD == 'NVAR4' .OR. KEYWORD == 'NVAR5' .OR. KEYWORD == 'VOL') THEN  
 C--------------------------------------------------
        IF(KEYWORD == 'TEMP' .AND. (ITHERM_FE  > 0  )) THEN
          DO I=1,NUMNOD
@@ -225,35 +252,97 @@ c
          IF(KEYWORD == 'NVAR3') IFUNC = 9
          IF(KEYWORD == 'NVAR4') IFUNC = 10
          IF(KEYWORD == 'NVAR5') IFUNC = 11
-         IF(KEYWORD == 'SSP') IFUNC = 30         
-         !ALE Nodal Pressure
+         IF(KEYWORD == 'SSP') IFUNC = 30
+         IF(KEYWORD == 'VOL') IFUNC = 0 !useless         
+         IF(KEYWORD == 'DT') THEN
+           IFUNC = 0 !not 
+           K = 0    
+           DO I=1,NUMNOD
+             VALUE(I) = ANIN(I+K)			 
+             IS_WRITTEN_VALUE(I) = 1
+           ENDDO                  
+         ENDIF
+         !Nodal Pressure
          IF (KEYWORD == 'P') THEN
-           IF(N2D==0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-           IF(N2D/=0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+           IF(N2D==0)CALL NODALP(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                           IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
+     .                           ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                           IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+           IF(N2D/=0)CALL NODALP(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
+     .                           IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
+     .                           ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                           IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
          ENDIF
-         !ALE Nodal Density
+         !Nodal Density
          IF (KEYWORD == 'DENS') THEN
-           IF(N2D==0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
-           IF(N2D/=0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
+           IF(N2D==0)CALL NODALD(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                           IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
+     .                           ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                           IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD) 
+           IF(N2D/=0)CALL NODALD(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                           IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
+     .                           ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                           IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD) 
          ENDIF
-         !ALE Nodal Temperature
+         !Nodal Temperature
          IF (KEYWORD == 'TEMP') THEN
-           IF(N2D==0)CALL NODALT(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-           IF(N2D/=0)CALL NODALT(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+           IF(N2D==0)CALL NODALT(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                           IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
+     .                           ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                           IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+           IF(N2D/=0)CALL NODALT(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
+     .                           IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
+     .                           ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                           IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
          ENDIF
+         !Nodal Sound Speed
+         IF (KEYWORD == 'SSP') THEN
+           IF(N2D==0)CALL NODALSSP(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                             IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
+     .                             ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                             IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+           IF(N2D/=0)CALL NODALSSP(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
+     .                             IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
+     .                             ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                             IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+         ENDIF   
+         !Nodal Sound Speed
+         IF (KEYWORD == 'DT') THEN
+           IF(N2D==0)CALL NODALDT(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                            IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
+     .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+           IF(N2D/=0)CALL NODALDT(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
+     .                            IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
+     .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+         ENDIF  
+         !Nodal Sound Speed
+         IF (KEYWORD == 'VOL') THEN
+           IF(N2D==0)CALL NODALVOL(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
+     .                            IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
+     .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+           IF(N2D/=0)CALL NODALVOL(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
+     .                            IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
+     .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P, NUMNOD)
+         ENDIF                        
          !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
          CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, MONVOL, VOLMON, 1)
          DO I=1,NUMNOD
            VALUE(I)=VALUE_NUMNOD_REAL(I) 
-           IS_WRITTEN_VALUE(I) = 1
+           IS_WRITTEN_VALUE(I) = IS_WRITTEN_NODE(I)
          ENDDO
 c
        ENDIF
 C--------------------------------------------------
       ELSEIF (KEYWORD == 'FPOT') THEN
 C--------------------------------------------------
-        CALL NODALP
-     .   (13, NODAL_SCALAR, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+        CALL NODALP(13                 , NODAL_SCALAR        , VALUE_NUMNOD_REAL_FVM, IFLOW    , RFLOW,
+     .              IPARG              , ELBUF_TAB           , IXS                  , NIXS     , NUMELS,
+     .              ITAB               , NV46                , MONVOL               , VOLMON   , AIRBAGS_TOTAL_FVM_IN_H3D,
+     .               IS_WRITTEN_NODE   ,IS_WRITTEN_NODE_FVM  , ISPMD                , FVDATA_P , NUMNOD)
         DO I=1,NUMNOD 
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
@@ -366,8 +455,16 @@ C--------------------------------------------------
         ENDIF
       ENDIF
 c	 
-      CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_NODE,NODAL_SCALAR,NUMNOD,0,0,
-     .                                    VALUE,IS_WRITTEN_VALUE)
+      CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_NODE,NODAL_SCALAR,NUMNOD,0,0,VALUE,IS_WRITTEN_VALUE)
+
+      IF(AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
+        DO I=1,AIRBAGS_TOTAL_FVM_IN_H3D
+          VALUE_FVM(I)=VALUE_NUMNOD_REAL_FVM(I) 
+        ENDDO
+        CALL H3D_WRITE_SCALAR(IOK_PART_FVM, IS_WRITTEN_NODE_FVM, NODAL_SCALAR_FVM, AIRBAGS_TOTAL_FVM_IN_H3D,0, 0,
+     .                        VALUE_FVM   , IS_WRITTEN_NODE_FVM)
+      ENDIF
+
 
       RETURN
       END

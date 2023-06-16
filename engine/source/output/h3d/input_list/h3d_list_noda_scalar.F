@@ -222,6 +222,11 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Surface frictional contact energy'
       H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Node Energy density (Sum of all contacts) '
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'VOL'
+      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Volumes'
+      H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Volume at element centroid (FVMBAG)'
+c-----------------------------------------------
 
       NKEY=I
       END
