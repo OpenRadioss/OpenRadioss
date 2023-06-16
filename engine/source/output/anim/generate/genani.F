@@ -366,7 +366,7 @@ C-----------------------------------------------
      .        SZ16,SHFT16,IADGPS,NSN,IADISO     , IG3DSOLID(SIG3DSOLID),
      .        FIRST_NODE_IG3D
       REAL
-     .       , DIMENSION(:), ALLOCATABLE :: WA4, MAS4
+     .       , DIMENSION(:), ALLOCATABLE :: WA4, MAS4, WA4_FVM
       my_real
      .   X_TEMP(3,64*NUMELIG3D),D_TEMP(3,64*NUMELIG3D),
      .   V_TEMP(3,64*NUMELIG3D),A_TEMP(3,64*NUMELIG3D),TABSTRESL(6,64*NUMELIG3D),
@@ -459,6 +459,8 @@ C
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2048) :: TMP_NAME
       LOGICAL :: CONDITION
+      INTEGER :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
+      INTEGER :: IS_WRITTEN_NODE(NUMNOD)
 C=======================================================================
       ALLOCATE(WAFT(SWAFT)   , MAS(SMAS)     , XNORM(SXNORM) ,
      .         XMASS1(SMASS1), XMASS2(SMASS2), XMASS3(SMASS3),
@@ -467,6 +469,7 @@ C=======================================================================
       WAFT(1:SWAFT) = ZERO
  
       ALLOCATE (WA4(SWA4), MAS4(SMAS))
+      ALLOCATE (WA4_FVM(AIRBAGS_TOTAL_FVM_IN_H3D))
 
       ALLOCATE(VFLU(3,NUMNOD), VVAR1(3,NUMNOD), AFLU(3,NUMNOD),
      .        VFLU_ALE(3,NUMNOD),FANREACT(3,NUMNOD),FANREACR(3,NUMNOD))
@@ -2555,29 +2558,36 @@ C-----------------------------------------------
               WA4(N)=TEMP(N)
              ENDDO
            ELSE
-             !ALE Nodal Pressure
+             ! Nodal Pressure (from elems and/or fvmbags)
              IF (I==3) THEN
-               IF(N2D==0)CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-               IF(N2D/=0)CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+               IF(N2D==0)CALL NODALP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4)
+               IF(N2D/=0)CALL NODALP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4)
              ENDIF
-             !ALE Nodal Density
+             ! Nodal Density (from elems and/or fvmbags)
              IF (I==4) THEN
-               IF(N2D==0)CALL NODALD(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
-               IF(N2D/=0)CALL NODALD(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
+               IF(N2D==0)CALL NODALD(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
+     .                               AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4) 
+               IF(N2D/=0)CALL NODALD(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4) 
              ENDIF
-             !ALE Nodal Temperature
+             ! Nodal Temperature (from elems and/or fvmbags)
              IF (I==6) THEN
-               IF(N2D==0)CALL NODALT(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-               IF(N2D/=0)CALL NODALT(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+               IF(N2D==0)CALL NODALT(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
+     .                               AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4)
+               IF(N2D/=0)CALL NODALT(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4)
              ENDIF
 
              !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
              CALL ANIMBALE(I, WA4, MONVOL, VOLMON ,2)
            ENDIF
 
-          !Nodal Potential
+          !Nodal Potential (/BEM/FLOW)
           ELSEIF (I==13) THEN
-            CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+            CALL NODALP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4)
      
 C------------ams : diagonale mass change
           ELSEIF(I==14)THEN
@@ -6606,6 +6616,7 @@ C
      .            XFUNC1,XFUNC2,XFUNC3,XUSR)
  
        DEALLOCATE(WA4,MAS4)
+       DEALLOCATE(WA4_FVM)
 
        DEALLOCATE(VFLU,VVAR1,AFLU,VFLU_ALE,FANREACT,FANREACR)
 

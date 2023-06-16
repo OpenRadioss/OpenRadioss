@@ -43,29 +43,29 @@ Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE FVBAG1(NN     , NEL    , IBUF     , ELEM   , NJET    ,
-     2                  IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,
-     3                  P      , RHO    , TK       , U      , SSPK    ,
-     4                  X      , V      , A        , NSENSOR ,SENSOR_TAB,
-     5                  FSAV   , NPC    , TF       , IVOLU  , RVOLU   ,
-     6                  MPOLH  , QPOLH  , EPOLH    , 
-     7                  PPOLH  , RPOLH  , GPOLH    ,
-     8                  NPOLH  , IFVNOD , RFVNOD   , IFVTRI ,
-     9                  IFVPOLY, IFVTADR, IFVPOLH  ,
-     A                  IFVPADR, INFO   , NNS      , NNTR   , IFV     ,
-     B                  NPOLHA , DLH    , CPAPOLH  ,
-     C                  CPBPOLH, CPCPOLH, RMWPOLH  ,
-     D                  ITAGEL , ELSINI , ICONTACT , IDPOLH ,
-     E                  ELFMASS, ELFVEL , IBUFA    , ELEMA  , TAGELA  ,
-     F                  PA     , RHOA   , TKA      , UA     , BRNA    ,
-     G                  NNA    , NTGA   , IBPOLH   , DTPOLH , NNT     ,
-     H                  NELT   , XXXA   , VVVA     , NCONA  , POROSITY,
-     I                  LGAUGE , GAUGE  , ITYP     , IGEO   , SSPKA   ,
-     J                  GEO    , PM     , IPM      , TPOLH  , ELFEHPY ,
-     K                  CPDPOLH, CPEPOLH, CPFPOLH  ,
-     L                  ELTG   , IPARG  , MATTG    ,
-     M                  IGROUPTG,IGROUPC, ELBUF_TAB, FEXT ,CFL_COEF,
-     N                  PDISP_OLD, PDISP)
+      SUBROUTINE FVBAG1(NN       , NEL    , IBUF     , ELEM          , NJET    ,
+     2                  IBAGJET  , RBAGJET, NVENT    , IBAGHOL       , RBAGHOL ,
+     3                  P        , RHO    , TK       , U             , SSPK    ,
+     4                  X        , V      , A        , NSENSOR       ,SENSOR_TAB,
+     5                  FSAV     , NPC    , TF       , IVOLU         , RVOLU    ,
+     6                  MPOLH    , QPOLH  , EPOLH    , CENTROID_POLH , 
+     7                  PPOLH    , RPOLH  , GPOLH    , SSPPOLH       ,
+     8                  NPOLH    , IFVNOD , RFVNOD   , IFVTRI        ,
+     9                  IFVPOLY  , IFVTADR, IFVPOLH  ,
+     A                  IFVPADR  , INFO   , NNS      , NNTR          , IFV     ,
+     B                  NPOLHA   , DLH    , CPAPOLH  ,
+     C                  CPBPOLH  , CPCPOLH, RMWPOLH  ,
+     D                  ITAGEL   , ELSINI , ICONTACT , IDPOLH        , 
+     E                  ELFMASS  , ELFVEL , IBUFA    , ELEMA         , TAGELA  ,
+     F                  PA       , RHOA   , TKA      , UA            , BRNA    ,
+     G                  NNA      , NTGA   , IBPOLH   , DTPOLH        , NNT     ,
+     H                  NELT     , XXXA   , VVVA     , NCONA         , POROSITY,
+     I                  LGAUGE   , GAUGE  , ITYP     , IGEO          , SSPKA   ,
+     J                  GEO      , PM     , IPM      , TPOLH         , ELFEHPY ,
+     K                  CPDPOLH  , CPEPOLH, CPFPOLH  ,
+     L                  ELTG     , IPARG  , MATTG    ,
+     M                  IGROUPTG , IGROUPC, ELBUF_TAB, FEXT          , CFL_COEF ,
+     N                  PDISP_OLD, PDISP  , H3D_DATA , ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE SENSOR_MOD
       USE ANIM_MOD
+      USE H3D_MOD , only:H3D_DATABASE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,31 +98,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER ,INTENT(IN) :: NSENSOR, NPOLH
       INTEGER NN, NEL, IBUF(*), ELEM(3,*), NJET, IBAGJET(NIBJET,*),
      .        NVENT, IBAGHOL(NIBHOL,*),
-     .        NPC(*), IVOLU(*), NPOLH, IFVNOD(3,*), IFVTRI(6,*),
+     .        NPC(*), IVOLU(*),  IFVNOD(3,*), IFVTRI(6,*),
      .        IFVPOLY(*),IFVTADR(*), IFVPOLH(*), IFVPADR(*), INFO,
      .        NNS, NNTR, IFV, NPOLHA, ITAGEL(*), ICONTACT(*),
-     .        IDPOLH(*), IBUFA(*), ELEMA(3,*), TAGELA(*), BRNA(8,*),
-     .        NNA, NTGA, IBPOLH(*), NNT, NELT, NCONA(16,*),
-     .        LGAUGE(3,*), ITYP, IGEO(NPROPGI,*)
+     .        IDPOLH(NPOLH), IBUFA(*), ELEMA(3,*), TAGELA(*), BRNA(8,*),
+     .        NNA, NTGA, IBPOLH(NPOLH), NNT, NELT, NCONA(16,*),
+     .        LGAUGE(3,NBGAUGE), ITYP, IGEO(NPROPGI,NUMGEO)
       INTEGER ELTG(*)
-      INTEGER IPM(NPROPMI,*), IPARG(NPARG,*)
-      INTEGER MATTG(*), IGROUPTG(*), IGROUPC(*)
+      INTEGER IPM(NPROPMI,NUMMAT), IPARG(NPARG,NGROUP)
+      INTEGER MATTG(*), IGROUPTG(NUMELTG), IGROUPC(NUMELC)
 
       my_real RBAGJET(NRBJET,*), RBAGHOL(NRBHOL,*), P(*), RHO(*),
-     .        TK(*), U(3,*), SSPK(*), X(3,*), V(3,*), A(3,*),
-     .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(*), QPOLH(3,*),
-     .        EPOLH(*), PPOLH(*), RPOLH(*), GPOLH(*), RFVNOD(2,*), DLH,
-     .        CPAPOLH(*), CPBPOLH(*), CPCPOLH(*), RMWPOLH(*), ELSINI(*),
+     .        TK(*), U(3,*), SSPK(*), X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD),
+     .        FSAV(NTHVKI), TF(*), RVOLU(*), MPOLH(NPOLH), QPOLH(3,NPOLH),
+     .        EPOLH(NPOLH), PPOLH(NPOLH), RPOLH(NPOLH), GPOLH(NPOLH), RFVNOD(2,*), DLH,
+     .        CPAPOLH(NPOLH), CPBPOLH(NPOLH), CPCPOLH(NPOLH), RMWPOLH(NPOLH), ELSINI(*),
      .        ELFMASS(*), ELFVEL(*), PA(*), RHOA(*), TKA(*),SSPKA(*), UA(3,*),
-     .        DTPOLH(*), XXXA(3,*), VVVA(3,*), POROSITY(*),
-     .        GAUGE(LLGAUGE,*), GEO(NPROPG,*), PM(NPROPM,*), ELFEHPY(*),
-     .        TPOLH(*), CPDPOLH(*), CPEPOLH(*), CPFPOLH(*), FEXT(3,*), CFL_COEF,
+     .        DTPOLH(NPOLH), XXXA(3,*), VVVA(3,*), POROSITY(*),
+     .        GAUGE(LLGAUGE,NBGAUGE), GEO(NPROPG,NUMGEO), PM(NPROPM,NUMMAT), ELFEHPY(*),
+     .        TPOLH(NPOLH), CPDPOLH(NPOLH), CPEPOLH(NPOLH), CPFPOLH(NPOLH), FEXT(3,NUMNOD), CFL_COEF,
      .        PDISP_OLD, PDISP
+      my_real, INTENT(INOUT) :: SSPPOLH(NPOLH)
+      
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE(H3D_DATABASE) :: H3D_DATA
+      INTEGER,INTENT(IN)::ITAB(NUMNOD)
+      my_real, INTENT(INOUT) :: CENTROID_POLH(3,NPOLH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -168,7 +174,7 @@ C-----------------------------------------------
      .        CPD, CPE, CPF, TEMP0, TT1, PEL(NELT), PSTAG, VOLNO,TSTOPE,
      .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM, TMP_VEC(3), VMAT(3),SSP1,SSP2,SSPt,NTRIA_TOT,
-     .        PRES_AV, RHO_AV, TEMP_AV, CP_AV, CV_AV, RGAS_AV
+     .        PRES_AV, RHO_AV, TEMP_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
 
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
       LOGICAL :: UP_SWITCH
@@ -177,7 +183,7 @@ C
       EXTERNAL FINTER, GET_U_FUNC
       CHARACTER*20 VENTTITLE
       MY_REAL :: DTOLD, PARAM_LAMBDA
-      INTEGER :: PARAM_L_TYPE
+      INTEGER :: PARAM_L_TYPE, NNODES,nodeID
 
 C-----------------------------------------------
 C   C o m m e n t s
@@ -1275,6 +1281,7 @@ C---------------------------------------------------
             SSP=QX+SQRT(QX*QX+SSP*SSP)
             VV=SQRT(PU(1,I)**2+PU(2,I)**2+PU(3,I)**2)
             DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
+            SSPPOLH(I)=SSP
           ENDIF
         ENDDO
 !$OMP END DO
@@ -1332,6 +1339,7 @@ C---------------------------------------------------
               VV=SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3))
               ! 4.time step
               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
+              SSPPOLH(I)=SSP
             ENDIF
           ENDDO
 !$OMP END DO
@@ -1383,6 +1391,7 @@ C---------------------------------------------------
               SSP=QX+SQRT(QX*QX+SSP*SSP)
               ! 3.time step
               DTPOLH(I)=CFL_COEF*DLS(I)/(denom_max)
+              SSPPOLH(I)=SSP
             ENDIF
           ENDDO
 !$OMP END DO
@@ -2164,6 +2173,74 @@ C
         ENDDO
         FSAV(18)=FSAV(18)+TFEXT-TFEXT0
       ENDIF
+      
+      
+      
+      !------------------------------------------------------------!
+      ! ANIM / H3D : LOCATE POLYHEDRA CENTROIDS                    !
+      !------------------------------------------------------------!
+      !whenever output file is required
+      IF((TT>=TANIM         .AND. TT<=TANIM_STOP)         .OR. TT>=TOUTP .OR.
+     .   (TT>=H3D_DATA%TH3D .AND. TT<=H3D_DATA%TH3D_STOP) .OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0)THEN
+     
+        !check if IH3D_FLAG ENABLES OUTPUT. OTHERWISE CALCULATION OF CENTROID IS USELESS 
+        IF(IVOLU(75)==1)THEN
+
+          DO I=1,NPOLH !loop over polyhedra composing the airbag mesh                                                            
+            CENTROID(1:3)=ZERO                                                                                                                                                                                                 
+            DENOM=ZERO                                                                                                           
+            DO J=IFVPADR(I),IFVPADR(I+1)-1 !loop over polygons composing the polyhedron                                          
+              JJ=IFVPOLH(J)                                                                                                      
+              DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1 !loop over triangles composing the polygon                                        
+                KK  =IFVPOLY(K)                                                                                                  
+                IF(KK>0)THEN                                                                                                     
+                  NTRIA=NTRIA+1                                                                                                  
+                  !triangle nodes                                                                                                
+                  N1=IFVTRI(1,KK)                                                                                                
+                  N2=IFVTRI(2,KK)                                                                                                
+                  N3=IFVTRI(3,KK)                                                                                                
+                  !coordinates                                                                                                   
+                  X1=PNOD(1,N1)                                                                                                  
+                  Y1=PNOD(2,N1)                                                                                                  
+                  Z1=PNOD(3,N1)                                                                                                  
+                  X2=PNOD(1,N2)                                                                                                  
+                  Y2=PNOD(2,N2)                                                                                                  
+                  Z2=PNOD(3,N2)                                                                                                  
+                  X3=PNOD(1,N3)                                                                                                  
+                  Y3=PNOD(2,N3)                                                                                                  
+                  Z3=PNOD(3,N3)                                                                                                  
+                  !normal vector                                                                                                 
+                  NX= (Y2-Y1)*(Z3-Z1)-(Z2-Z1)*(Y3-Y1)                                                                            
+                  NY= (Z2-Z1)*(X3-X1)-(X2-X1)*(Z3-Z1)                                                                            
+                  NZ= (X2-X1)*(Y3-Y1)-(Y2-Y1)*(X3-X1)                                                                            
+                  AREA=HALF*SQRT(NX*NX + NY*NY + NZ*NZ)                                                                          
+                  DENOM=DENOM+AREA                                                                                               
+                  NX=HALF*NX                                                                                                     
+                  NY=HALF*NY                                                                                                     
+                  NZ=HALF*NZ
+                  !centroid x,y,z                                                                                                                         
+                  CENTROID(1) = CENTROID(1)+ AREA*( THIRD*(X1+X2+X3) )                                                           
+                  CENTROID(2) = CENTROID(2)+ AREA*( THIRD*(Y1+Y2+Y3) )                                                           
+                  CENTROID(3) = CENTROID(3)+ AREA*( THIRD*(Z1+Z2+Z3) )                                                           
+                ENDIF                                                                                                            
+              ENDDO! next K (triangle)                                                                                           
+            ENDDO! next J (polygon)                                                                                              
+            IF(DENOM>ZERO)THEN                                                                                                   
+              CENTROID(1) = CENTROID(1)/DENOM                                                                                    
+              CENTROID(2) = CENTROID(2)/DENOM                                                                                    
+              CENTROID(3) = CENTROID(3)/DENOM                                                                                    
+            ENDIF                                                                                                                
+                                                                                                                                                      
+            CENTROID_POLH(1,I) = CENTROID(1)                                                                                
+            CENTROID_POLH(2,I) = CENTROID(2)                                                                                
+            CENTROID_POLH(3,I) = CENTROID(3)                                                                                                                                                                                            
+                                                                                                                                 
+          ENDDO! next I (next polyhedron) 
+
+        ENDIF !IH3D_FLAG
+      ENDIF! H3D/ANIM CRITERION
+            
 C----------------------
 C     TH Gauges output
 C----------------------

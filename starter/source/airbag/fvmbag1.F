@@ -445,8 +445,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IBUF(*), IBUFA(*), TAGELA(*)
       my_real, INTENT(INOUT) :: LX, LY, LZ
       CHARACTER(LEN = nchartitle), INTENT(IN) :: TITR
-      my_real
-     .     X(3,*), VX3, VY3, VZ3, VX1, VY1, VZ1, XB0, YB0, ZB0
+      my_real X(3,NUMNOD), VX3, VY3, VZ3, VX1, VY1, VZ1, XB0, YB0, ZB0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -454,7 +453,9 @@ C-----------------------------------------------
       my_real
      .        NORM, SS, VX2, VY2, VZ2, LXMAX, LYMAX, XX, YY, ZZ, XL, YL,
      .        LZMAX, ZL, LX_OLD, LY_OLD, LZ_OLD
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NORM=SQRT(VX3**2+VY3**2+VZ3**2)
       IF (NORM==ZERO) THEN
         CALL ANCMSG(MSGID=630,
@@ -659,7 +660,7 @@ C-----------------------------------------------
       ENDDO
       T_MONVOLN%NNI = NNB
 
-      CALL INTVECTOR_COPY_TO(VEC_PTR_SURFINT, T_MONVOLN%NODES(NNS + 1))
+      IF(NNB>0)CALL INTVECTOR_COPY_TO(VEC_PTR_SURFINT, T_MONVOLN%NODES(NNS + 1))
 
       CALL INTVECTOR_DELETE(VEC_PTR_SURFINT)
       DEALLOCATE(BUFNODE)

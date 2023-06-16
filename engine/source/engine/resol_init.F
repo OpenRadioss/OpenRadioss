@@ -342,25 +342,23 @@ C-----------------------------------------------
 C //
 C-----------------------------------------------
 C
-C Partie Sequentielle
+C Sequential part
 C
       IF (ITASK == 0)THEN
-C Initialisation ITYPTS a 0 pour DTIX
+C zeroing ITYPTS for DTIX
 C
         ITYPTS=0
 C
-C initialisation tableau de conditions cinematique 
-C (actuellement utilise uniquement pour RBY et INT20)
+C kinematic conditions : arrays init. (RBY & INT20)
 C
       CALL INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY)
 C
-C initialisation tableau de noeuds pour forces de reaction
+C reaction force (node array)
 C
         CPTREAC = 0
-        IF (IREAC == 1 ) 
-     .      CALL INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF)
+        IF (IREAC == 1 ) CALL INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF)
 C
-C initialisation tableau d elements pour TH de GROUPE D ELEMENTS
+C TH init for group of elems
 C
         NGRTH = 0
         IF (IGRELEM == 1 ) THEN
@@ -374,7 +372,7 @@ C----- reset initial mass
           IF (IRODDL /=0) IN(1:NUMNOD)=IN0(1:NUMNOD)
         END IF
 C
-C initialisation des structures paralleles
+C parallel structures init.
 C
         IROTG=0
         DO I=1,NRBE3
@@ -411,7 +409,7 @@ C---------RBE2----
         ENDIF
 
 c        
-C Initialisation IRBE2
+C  IRBE2 init.
         CALL RBE2_INIT(IRBE2   ,LRBE2   ,NMRBE2 ,FR_RBE2 ,FR_RBE2M,NFR)
 C
         CALL MPP_INIT(
@@ -530,10 +528,8 @@ C----------------------------
 C---------------------------- 
         IF (ISPMD==0)THEN
           CALL DATE_AND_TIME(STARTDATE, STARTTIME, ZONE, VALUES)
-          WRITE(ISTDO,'(A,I2.2,A,I2.2,A,I4.4)') 
-     *     ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
-          WRITE(IOUT,'(A,I2.2,A,I2.2,A,I4.4)') 
-     *     ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
+          WRITE(ISTDO,'(A,I2.2,A,I2.2,A,I4.4)') ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
+          WRITE(IOUT,'(A,I2.2,A,I2.2,A,I4.4)') ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
         END IF
 C
         MANIM = 0
@@ -635,14 +631,13 @@ C------------------------
 C--------------------------
 C     FIND GROUP FOR SHELLS
 C--------------------------
-        IF(IGROUPFLG(1) == 1 )
-     1          CALL FINDGROUPC(IPARG, IGROUC, NGROUC, IGROUPC, IGROUPTG)
+        IF(IGROUPFLG(1) == 1 ) CALL FINDGROUPC(IPARG, IGROUC, NGROUC, IGROUPC, IGROUPTG)
 C--------------------------
 C     FIND GROUP FOR BRICKS
 C--------------------------
         IF(IGROUPFLG(2) == 1 ) CALL FINDGROUPS(IPARG, IGROUPS)
 C----------------------------------------------------------
-C   ON TAGUE TOUS LES NOEUDS DE TOUTES LES SECTIONS
+C   TAG : NODES FROM ALL SECTIONS
 C----------------------------------------------------------
         IF(ISECUT/=0)THEN
           K0=NSTRF(25)
@@ -659,7 +654,7 @@ C----------------------------------------------------------
           CALL SECT_INI(NSTRF,SECBUF,NOM_SECT,ISECTR,NSECT,IOLDSECT)
         ENDIF
 C-----------------------------------------------------
-C   Calcul SQRT H1, H2, H3 pour elements coques
+C  SQRT H1, H2, H3 for shell elements
 C-----------------------------------------------------
         DO I = 1, NUMGEO      
           IGTYP = IGEO(11,I)  
@@ -670,7 +665,7 @@ C-----------------------------------------------------
           ENDIF                                                
         ENDDO                                                  
 C-----------------------------------------------------
-C   Calcul optionel SQRT(G), SQRT(A11) SQRT(A12), SQRT(NU), SQRT(SHF) pour ancien restart
+C   optionnal SQRT(G), SQRT(A11) SQRT(A12), SQRT(NU), SQRT(SHF) forformer restart file
 C-----------------------------------------------------
         IF(PMINVER<6)THEN
           DO I = 1, NUMGEO
@@ -699,7 +694,7 @@ C----------------------------------------------------------
           ENDDO
        ENDIF          
 C----------------------------------------------------------
-C   LONGUEUR DES TABLEAUX DE TRAVAIL POUR AIRBAG BEM
+C   LWORKING ARRAY SIZES - AIRBAG BEM
 C----------------------------------------------------------
        IAD=0
        LWIBEM=0
@@ -714,7 +709,7 @@ C----------------------------------------------------------
           IAD=IAD+NIMV
        ENDDO
 C----------------------------------------------------------
-C   LONGUEUR DES TABLEAUX DE TRAVAIL POUR FLOW BEM
+C   WORKING ARRAY SIZES - FLOW BEM
 C----------------------------------------------------------
        IAD=0
        LWIFLOW=0
@@ -754,7 +749,7 @@ C   INIT MULTIPLICATEURS LAGRANGES (sequentielle)
 C----------------------------------------------------------
        IF(LAG_NCF+LAG_NCL > 0)THEN
          LAG_SEC=0
-C compatibilisation des options non supportees si NSPMD > 1
+C numbering incompatible options if NSPMD > 1
          DO I = 1, NINTER
            IF(IPARI(33,I)/=0)LAG_SEC=1
          END DO
@@ -787,22 +782,6 @@ C-----------------------
         ENDIF
         IF(ITYP==10) INT7ITIED = 1
       ENDDO
-C-----------------------
-C INTERFACE TYPE 22 CEL
-C-----------------------       
-!      !Interface22: counting the number of int22 and buffer size for allocation
-!      II = 0
-!      J  = 0
-!      DO I=1,NINTER
-!         !NBRIC_G = IPARI(32,I)
-!         !NBRIC_L = IGRN(2, IPARI(45,I) )
-!         IF(IPARI(7,I)==22)THEN
-!           II=II+1
-!           J = MAX( J , IGRN(2,IPARI(45,I)) )     
-!         END IF
-!      ENDDO
-!      INT22  = II  !number of int22 interfaces.
-!      I22LEN = J   !maximum nb of 3D elem.
 C-----------------------
 C INTERFACE TYPE 24 FLAG
 C-----------------------
@@ -868,17 +847,14 @@ C-----------------------
 
       ENDIF   ! ITASK==0
 C-----------------------------------------------------
-C Fin partie sequentielle
+C END OF SEQUENTIAL PART
 C-----------------------------------------------------
-C
-C Partie Parallelle
 C
       CALL MY_BARRIER()
 C--- // --------------------------------------
-C         INITIALISATION DES FORCES ET MOMENTS
+C         FORCE & MOMENTUM INIT
 C---------------------------------------------
-      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) 
-     .               CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
+      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
         CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
         CALL ZEROR(FANI(1,NFTCA+NODFT),NUMNTHREAD)

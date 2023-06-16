@@ -56,7 +56,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K1, N, ITYP, IFV, NNS, NNTR, NPOLY, NPOLH, 
      .        LENP, LENH, I, J, IMESH, LENP_ANIM, NPOLH_ANIM,
-     .        LENH_ANIM, NNS_ANIM,NFVBAG_MAX
+     .        LENH_ANIM, NNS_ANIM,NFVBAG_MAX,KK
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 
 
 C ========= 
@@ -109,7 +112,9 @@ C
      .              FVDATA_OLD(I)%TPOLH,
      .              FVDATA_OLD(I)%CPDPOLH,
      .              FVDATA_OLD(I)%CPEPOLH,
-     .              FVDATA_OLD(I)%CPFPOLH)
+     .              FVDATA_OLD(I)%CPFPOLH,
+     .              FVDATA_OLD(I)%SSPPOLH,     
+     .              FVDATA_OLD(I)%CENTROID_POLH)
         ENDDO
 
         DO I=1,NFVBAG_MAX
@@ -170,39 +175,42 @@ C
      .              FVDATA(I)%TPOLH,
      .              FVDATA(I)%CPDPOLH,
      .              FVDATA(I)%CPEPOLH,
-     .              FVDATA(I)%CPFPOLH)
+     .              FVDATA(I)%CPFPOLH,
+     .              FVDATA(I)%SSPPOLH,     
+     .              FVDATA(I)%CENTROID_POLH)
          ENDDO
-        DO I=1,NFVBAG_MAX
-            FVDATA(I)%L_TYPE = ZERO
-            FVDATA(I)%ID_DT_OPTION = ZERO
-            FVDATA(I)%LAMBDA = ZERO
-            FVDATA(I)%DTOLD = ZERO
+         
+         DO I=1,NFVBAG_MAX
+           FVDATA(I)%L_TYPE = ZERO
+           FVDATA(I)%ID_DT_OPTION = ZERO
+           FVDATA(I)%LAMBDA = ZERO
+           FVDATA(I)%DTOLD = ZERO
 
-            FVDATA(I)%CFL_COEF = ZERO
-            FVDATA(I)%DTMIN = ZERO
-            FVDATA(I)%PDISP_OLD = ZERO
-            FVDATA(I)%PDISP = ZERO
-            FVDATA(I)%DLH = ZERO
+           FVDATA(I)%CFL_COEF = ZERO
+           FVDATA(I)%DTMIN = ZERO
+           FVDATA(I)%PDISP_OLD = ZERO
+           FVDATA(I)%PDISP = ZERO
+           FVDATA(I)%DLH = ZERO
 
-            FVDATA(I)%NNS = 0
-            FVDATA(I)%NNTR = 0
-            FVDATA(I)%LENP = 0
-            FVDATA(I)%NPOLY = 0
-            FVDATA(I)%LENH = 0
-            FVDATA(I)%NPOLH = 0
+           FVDATA(I)%NNS = 0
+           FVDATA(I)%NNTR = 0
+           FVDATA(I)%LENP = 0
+           FVDATA(I)%NPOLY = 0
+           FVDATA(I)%LENH = 0
+           FVDATA(I)%NPOLH = 0
 
-            FVDATA(I)%NPOLH_ANIM = 0
-            FVDATA(I)%NNS_ANIM = 0
-            FVDATA(I)%ID = 0
+           FVDATA(I)%NPOLH_ANIM = 0
+           FVDATA(I)%NNS_ANIM = 0
+           FVDATA(I)%ID = 0
         ENDDO
       ENDIF
 C
       K1=1
       IFV=0
       DO N=1,NVOLU
-         ITYP=MONVOL(K1-1+2)
+         ITYP = MONVOL(K1-1+2)
          IF (ITYP==6.OR.ITYP==8) THEN
-            IFV = MONVOL(K1-1+45)                   
+            IFV = MONVOL(K1-1+45)                  
             IMESH=MONVOL(K1-1+56)
 C
             NNS=MONVOL(K1-1+46)
@@ -232,7 +240,9 @@ C
      .                     FVDATA_OLD(I)%TPOLH(0),
      .                     FVDATA_OLD(I)%CPDPOLH(0),
      .                     FVDATA_OLD(I)%CPEPOLH(0),
-     .                     FVDATA_OLD(I)%CPFPOLH(0))
+     .                     FVDATA_OLD(I)%CPFPOLH(0),
+     .                     FVDATA_OLD(I)%SSPPOLH(0),     
+     .                     FVDATA_OLD(I)%CENTROID_POLH(3,0))
                   GOTO 1999
                ENDIF
                IF (ASSOCIATED(FVDATA_OLD(IFV)%IFVNOD)) 
@@ -278,6 +288,11 @@ C
      .                   DEALLOCATE(FVDATA_OLD(IFV)%CPEPOLH)
                IF (ASSOCIATED(FVDATA_OLD(IFV)%CPFPOLH)) 
      .                   DEALLOCATE(FVDATA_OLD(IFV)%CPFPOLH)
+C     
+               IF (ASSOCIATED(FVDATA_OLD(IFV)%SSPPOLH)) 
+     .                   DEALLOCATE(FVDATA_OLD(IFV)%SSPPOLH) 
+               IF (ASSOCIATED(FVDATA_OLD(IFV)%CENTROID_POLH)) 
+     .                   DEALLOCATE(FVDATA_OLD(IFV)%CENTROID_POLH)     
 C
                LENP=FVDATA(IFV)%LENP
                LENH=FVDATA(IFV)%LENH
@@ -309,7 +324,10 @@ C
      .                  FVDATA_OLD(IFV)%TPOLH(NPOLH),
      .                  FVDATA_OLD(IFV)%CPDPOLH(NPOLH),
      .                  FVDATA_OLD(IFV)%CPEPOLH(NPOLH),
-     .                  FVDATA_OLD(IFV)%CPFPOLH(NPOLH))
+     .                  FVDATA_OLD(IFV)%CPFPOLH(NPOLH),
+     .                  FVDATA_OLD(IFV)%SSPPOLH(NPOLH),     
+     .                  FVDATA_OLD(IFV)%CENTROID_POLH(3,NPOLH)     )
+     
 C
                DO I=1,NNS
                   FVDATA_OLD(IFV)%IFVNOD(1,I)=FVDATA(IFV)%IFVNOD(1,I)
@@ -353,7 +371,13 @@ C
                   FVDATA_OLD(IFV)%CPDPOLH(I)=FVDATA(IFV)%CPDPOLH(I)
                   FVDATA_OLD(IFV)%CPEPOLH(I)=FVDATA(IFV)%CPEPOLH(I)
                   FVDATA_OLD(IFV)%CPFPOLH(I)=FVDATA(IFV)%CPFPOLH(I)
+                  FVDATA_OLD(IFV)%SSPPOLH(I)=FVDATA(IFV)%SSPPOLH(I)
                ENDDO
+               DO KK=1,3
+                 DO I=1,NPOLH
+                    FVDATA_OLD(IFV)%CENTROID_POLH(KK,I)=FVDATA(IFV)%CENTROID_POLH(KK,I)
+                 ENDDO 
+               ENDDO              
 C
             ELSEIF ((IMESH==0.AND.NCYCLE==0).OR. 
      .              (IMESH==0.AND.MCHECK > 0)) THEN
@@ -389,7 +413,9 @@ C
      .                     FVDATA(IFV)%IFVPADR_ANIM(0),
      .                     FVDATA(IFV)%IFVTRI_ANIM(6,0),
      .                     FVDATA(IFV)%REDIR_ANIM(0),
-     .                     FVDATA(IFV)%NOD_ANIM(3,0))
+     .                     FVDATA(IFV)%NOD_ANIM(3,0),
+     .                     FVDATA(IFV)%SSPPOLH(0),
+     .                     FVDATA(IFV)%CENTROID_POLH(3,0))
                   GOTO 1999
                ENDIF 
                LENP=FVDATA_OLD(IFV)%LENP
@@ -440,7 +466,10 @@ C
      .                  FVDATA(IFV)%IFVPADR_ANIM(NPOLH_ANIM+1),
      .                  FVDATA(IFV)%IFVTRI_ANIM(6,NNTR),
      .                  FVDATA(IFV)%REDIR_ANIM(NNS_ANIM),
-     .                  FVDATA(IFV)%NOD_ANIM(3,NNS_ANIM))
+     .                  FVDATA(IFV)%NOD_ANIM(3,NNS_ANIM),
+     .                  FVDATA(IFV)%SSPPOLH(NPOLH),
+     .                  FVDATA(IFV)%CENTROID_POLH(3,NPOLH))
+     
 C
                FVDATA(IFV)%L_TYPE = FVDATA_OLD(IFV)%L_TYPE
                FVDATA(IFV)%ID_DT_OPTION = FVDATA_OLD(IFV)%ID_DT_OPTION
@@ -532,7 +561,15 @@ C
                   FVDATA(IFV)%CPDPOLH(I)=FVDATA_OLD(IFV)%CPDPOLH(I)
                   FVDATA(IFV)%CPEPOLH(I)=FVDATA_OLD(IFV)%CPEPOLH(I)
                   FVDATA(IFV)%CPFPOLH(I)=FVDATA_OLD(IFV)%CPFPOLH(I)
-               ENDDO
+                  FVDATA(IFV)%SSPPOLH(I)=FVDATA_OLD(IFV)%SSPPOLH(I)
+               ENDDO   
+               DO KK=1,3
+                 DO I=1,NPOLH
+                    FVDATA(IFV)%CENTROID_POLH(KK,I)=FVDATA_OLD(IFV)%CENTROID_POLH(KK,I)
+                 ENDDO 
+               ENDDO              
+
+                                          
                FVDATA(IFV)%DLH=FVDATA_OLD(IFV)%DLH
 C
                DEALLOCATE(FVDATA_OLD(IFV)%IFVNOD,
@@ -566,7 +603,9 @@ C
      .                    FVDATA_OLD(IFV)%IFVPADR_ANIM,
      .                    FVDATA_OLD(IFV)%IFVTRI_ANIM,
      .                    FVDATA_OLD(IFV)%REDIR_ANIM,
-     .                    FVDATA_OLD(IFV)%NOD_ANIM)
+     .                    FVDATA_OLD(IFV)%NOD_ANIM,
+     .                    FVDATA_OLD(IFV)%SSPPOLH,     
+     .                    FVDATA_OLD(IFV)%CENTROID_POLH)
             ENDIF
          ENDIF
  1999    CONTINUE
