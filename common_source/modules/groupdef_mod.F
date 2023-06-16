@@ -735,6 +735,7 @@ C-----------------------------------------------------------------------
         INTEGER   , DIMENSION(:,:), ALLOCATABLE :: NODES  ! dim =(NSEG,4) -SURF
 !                                                         ! dim =(NSEG,2) -LINE
         INTEGER   , DIMENSION(:),   ALLOCATABLE :: PROC   ! dim = (NSEG)
+        INTEGER   , DIMENSION(:),   ALLOCATABLE :: LOCAL_SEG   ! dim = (NSEG)
 !                               field to store the processor ID  (/LINE only)
 !
 !   1. Set processor only when no element is set in lines

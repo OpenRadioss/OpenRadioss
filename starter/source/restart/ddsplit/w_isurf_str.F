@@ -29,12 +29,14 @@ Chd|        FRETITL                       source/starter/freform.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE W_ISURF_STR(IGRSURF ,LEN_IA ,CEP  ,CEL  ,PROC,
-     .                       NODLOCAL,LENISURF_L)
+        SUBROUTINE W_ISURF_STR( LEN_IA,PROC,NUMNOD,NSURF,NUMELS,
+     .                          NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,
+     .                          NODLOCAL,SCEL,CEL,LTITR,LENISURF_L,
+     .                          NSPMD,IGRSURF,IGRSURF_PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE GROUPDEF_MOD
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,150 +44,130 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr17_c.inc"
+#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LEN_IA,CEP(*),CEL(*),PROC,NODLOCAL(*),LENISURF_L
-!
-      TYPE (SURF_) , DIMENSION(NSURF) :: IGRSURF
+        INTEGER, INTENT(INOUT) :: LEN_IA!< size of the restart
+        INTEGER, INTENT(IN) :: PROC !< processor id
+        INTEGER, INTENT(IN) :: NUMNOD !< number of node
+        INTEGER, INTENT(IN) :: NSURF  !< number of surface
+        INTEGER, INTENT(IN) :: NUMELS !< number of solid
+        INTEGER, INTENT(IN) :: NUMELQ !< number of quad
+        INTEGER, INTENT(IN) :: NUMELC !< number of shell
+        INTEGER, INTENT(IN) :: NUMELT !< number of truss
+        INTEGER, INTENT(IN) :: NUMELP !< number of beam
+        INTEGER, INTENT(IN) :: NUMELR !< number of spring
+        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: NODLOCAL !< array to convert global node id to local node id
+        INTEGER, INTENT(IN) :: SCEL !< size of CEL
+        INTEGER, DIMENSION(SCEL), INTENT(IN) :: CEL !< connectivity global element id --> local element id
+        INTEGER, INTENT(IN) :: LENISURF_L !< size of surface buffer written in the restart
+        INTEGER, INTENT(IN) :: LTITR !< size of ititle integer array
+        INTEGER, INTENT(IN) :: NSPMD !<  number of processor
+        TYPE (SURF_) , DIMENSION(NSURF) :: IGRSURF !< surface structure, size =NSURF
+        TYPE(SURF_), DIMENSION(NSURF,NSPMD), INTENT(IN) :: IGRSURF_PROC !< surface structure per proc, size =NSURF*NSPMS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU,I,J,K,ERR,NSEG,ELTYP,ELEM,ESHIFT,
-     .        L_SURF,ID,TYPE,ID_MADYMO,IAD_BUFR,
-     .        NB_MADYMO,TYPE_MADYMO,LEVEL,TH_SURF,ISH4N3N,NSEG_R2R_ALL,
-     .        NSEG_R2R_SHARE,NOD,ITITLE(LTITR),NSEG_L(NSURF)
-      CHARACTER(LEN=nchartitle) :: TITR
-      INTEGER, ALLOCATABLE, DIMENSION (:)  ::  IGRSURF_L
+        INTEGER :: ISU,J,K,ERR,NSEG
+        INTEGER :: L_SURF,ID,TYPE,ID_MADYMO,IAD_BUFR
+        INTEGER :: NB_MADYMO,TYPE_MADYMO,LEVEL,TH_SURF,ISH4N3N,NSEG_R2R_ALL
+        INTEGER :: NSEG_R2R_SHARE
+        INTEGER, DIMENSION(LTITR) :: ITITLE
+        INTEGER, DIMENSION(NSURF) :: NSEG_L
+        CHARACTER(LEN=nchartitle) :: TITR
+        INTEGER, ALLOCATABLE, DIMENSION (:)  ::  IGRSURF_L
+
+        INTEGER :: JJ
+        INTEGER :: NODE_ID,LOCAL_NODE_ID,ELEM,ELTYP
+        INTEGER, DIMENSION(0:7) :: OFFSET ! offset array
 C-----------------------------------------------
 !=======================================================================
-      DO ISU=1,NSURF
-        TITR    = IGRSURF(ISU)%TITLE
-        CALL FRETITL(TITR,ITITLE,LTITR)
-        CALL WRITE_I_C(ITITLE,LTITR)
-      ENDDO ! DO ISU=1,NSURF
-      LEN_IA = LEN_IA + NSURF
+        OFFSET(0:7) = 0
+        OFFSET(1) = 0 ! offset for solid
+        OFFSET(2) = NUMELS ! offset for quad
+        OFFSET(3) = NUMELS+NUMELQ ! offset for shell   
+        OFFSET(7) = NUMELS+NUMELQ+ NUMELC+NUMELT+NUMELP+NUMELR ! offset for triangle
+
+        DO ISU=1,NSURF
+            TITR    = IGRSURF(ISU)%TITLE
+            CALL FRETITL(TITR,ITITLE,LTITR)
+            CALL WRITE_I_C(ITITLE,LTITR)
+        ENDDO ! DO ISU=1,NSURF
+        LEN_IA = LEN_IA + NSURF
 !
-      ERR = 0
-      ALLOCATE (IGRSURF_L(LENISURF_L), STAT=ERR)
+        ERR = 0
+        ALLOCATE (IGRSURF_L(LENISURF_L), STAT=ERR)
 !
 ! COUNT LOCAL SEGMENTS "NSEG_L"
 !
-      DO ISU=1,NSURF
-        NSEG      = IGRSURF(ISU)%NSEG
-        NSEG_L(ISU) = 0
-        DO J=1,NSEG
-          ELTYP = IGRSURF(ISU)%ELTYP(J)
-          ELEM  = IGRSURF(ISU)%ELEM(J)
-          IF (ELEM > 0) THEN
-            IF (ELTYP == 1) THEN
-              ESHIFT = 0
-            ELSEIF (ELTYP == 2) THEN
-              ESHIFT = NUMELS
-            ELSEIF (ELTYP == 3) THEN
-              ESHIFT = NUMELS+NUMELQ
-            ELSEIF (ELTYP == 7) THEN
-              ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
-            ENDIF
-            ELEM = ELEM + ESHIFT
-            IF (CEP(ELEM) == PROC) NSEG_L(ISU) = NSEG_L(ISU) + 1
-          ELSEIF (PROC == 0) THEN  !!! all the rest
-            NSEG_L(ISU) = NSEG_L(ISU) + 1
-          ENDIF ! IF (ELEM > 0) THEN
-        ENDDO ! DO J=1,NSEG
-      ENDDO ! DO ISU=1,NSURF
+        DO ISU=1,NSURF
+            NSEG      = IGRSURF(ISU)%NSEG
+            NSEG_L(ISU) = IGRSURF_PROC(ISU,PROC+1)%NSEG
+        ENDDO
+        L_SURF = 0
 !
-      L_SURF = 0
-!
-      DO ISU=1,NSURF
-        ID          = IGRSURF(ISU)%ID
-        NSEG        = IGRSURF(ISU)%NSEG
-        TYPE        = IGRSURF(ISU)%TYPE
-        ID_MADYMO   = IGRSURF(ISU)%ID_MADYMO
-        IAD_BUFR    = IGRSURF(ISU)%IAD_BUFR
-        NB_MADYMO   = IGRSURF(ISU)%NB_MADYMO
-        TYPE_MADYMO = IGRSURF(ISU)%TYPE_MADYMO
-        LEVEL       = IGRSURF(ISU)%LEVEL
-        TH_SURF     = IGRSURF(ISU)%TH_SURF
-        ISH4N3N     = IGRSURF(ISU)%ISH4N3N
-        NSEG_R2R_ALL   = IGRSURF(ISU)%NSEG_R2R_ALL
-        NSEG_R2R_SHARE = IGRSURF(ISU)%NSEG_R2R_SHARE
+        DO ISU=1,NSURF
+            ID          = IGRSURF(ISU)%ID
+            NSEG        = IGRSURF(ISU)%NSEG
+            TYPE        = IGRSURF(ISU)%TYPE
+            ID_MADYMO   = IGRSURF(ISU)%ID_MADYMO
+            IAD_BUFR    = IGRSURF(ISU)%IAD_BUFR
+            NB_MADYMO   = IGRSURF(ISU)%NB_MADYMO
+            TYPE_MADYMO = IGRSURF(ISU)%TYPE_MADYMO
+            LEVEL       = IGRSURF(ISU)%LEVEL
+            TH_SURF     = IGRSURF(ISU)%TH_SURF
+            ISH4N3N     = IGRSURF(ISU)%ISH4N3N
+            NSEG_R2R_ALL   = IGRSURF(ISU)%NSEG_R2R_ALL
+            NSEG_R2R_SHARE = IGRSURF(ISU)%NSEG_R2R_SHARE
 !
 ! surf storage
 !
-        IGRSURF_L(L_SURF+1) = ID
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = NSEG_L(ISU)
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = TYPE
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = ID_MADYMO
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = IAD_BUFR
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = NB_MADYMO
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = TYPE_MADYMO
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = LEVEL
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = TH_SURF
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = ISH4N3N
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = NSEG_R2R_ALL
-          L_SURF = L_SURF+1
-        IGRSURF_L(L_SURF+1) = NSEG_R2R_SHARE
-          L_SURF = L_SURF+1
-!
-! SURF ENTITIES (NODES, ELTYP, ELEM)
-!
-        DO J=1,NSEG
-          ELTYP = IGRSURF(ISU)%ELTYP(J)
-          ELEM  = IGRSURF(ISU)%ELEM(J)
-          IF (ELEM > 0) THEN
-            IF (ELTYP == 1) THEN
-              ESHIFT = 0
-            ELSEIF (ELTYP == 2) THEN
-              ESHIFT = NUMELS
-            ELSEIF (ELTYP == 3) THEN
-              ESHIFT = NUMELS+NUMELQ
-            ELSEIF (ELTYP == 7) THEN
-              ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
-            ENDIF
-            ELEM = ELEM + ESHIFT
-            IF (CEP(ELEM) == PROC) THEN
-              DO K=1,4
-                NOD = IGRSURF(ISU)%NODES(J,K)
-                IF(NOD > 0)THEN;IGRSURF_L(L_SURF+1) = NODLOCAL(NOD)
-	        ELSE;           IGRSURF_L(L_SURF+1) = 0
-	        ENDIF
+            IGRSURF_L(L_SURF+1) = ID
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = NSEG_L(ISU)
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = TYPE
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = ID_MADYMO
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = IAD_BUFR
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = NB_MADYMO
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = TYPE_MADYMO
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = LEVEL
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = TH_SURF
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = ISH4N3N
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = NSEG_R2R_ALL
+            L_SURF = L_SURF+1
+            IGRSURF_L(L_SURF+1) = NSEG_R2R_SHARE
+            L_SURF = L_SURF+1
+            DO JJ=1,IGRSURF_PROC(ISU,PROC+1)%NSEG
+                J = IGRSURF_PROC(ISU,PROC+1)%LOCAL_SEG(JJ)
+                DO K=1,4
+                    NODE_ID = IGRSURF(ISU)%NODES(J,K)
+                    IF(NODE_ID/=0) THEN
+                        LOCAL_NODE_ID = NODLOCAL(NODE_ID)
+                    ELSE
+                        LOCAL_NODE_ID = 0
+                    ENDIF
+                    IGRSURF_L(L_SURF+1) = LOCAL_NODE_ID
+                    L_SURF = L_SURF+1
+                ENDDO
+                ELTYP = IGRSURF_PROC(ISU,PROC+1)%ELTYP(JJ)
+                ELEM = IGRSURF_PROC(ISU,PROC+1)%ELEM(JJ) + OFFSET(ELTYP)
+                IF(ELEM/=0) ELEM = CEL(ELEM)           
+                IGRSURF_L(L_SURF+1) = ELTYP
                 L_SURF = L_SURF+1
-              ENDDO
-              IGRSURF_L(L_SURF+1) = ELTYP
-              L_SURF = L_SURF+1
-              IGRSURF_L(L_SURF+1) = CEL(ELEM)
-              L_SURF = L_SURF+1
-            ENDIF ! IF (CEP(ELEM) == PROC)
-          ELSE  !!! all the rest
-            IF (PROC == 0) THEN
-              DO K=1,4
-                NOD = IGRSURF(ISU)%NODES(J,K)
-                IF(NOD > 0)THEN;IGRSURF_L(L_SURF+1) = NODLOCAL(NOD)
-	        ELSE;           IGRSURF_L(L_SURF+1) = 0
-	        ENDIF
+                IGRSURF_L(L_SURF+1) = ELEM
                 L_SURF = L_SURF+1
-              ENDDO
-              IGRSURF_L(L_SURF+1) = 0
-              L_SURF = L_SURF+1
-              IGRSURF_L(L_SURF+1) = 0
-              L_SURF = L_SURF+1
-            ENDIF ! IF (PROC == 0)
-          ENDIF ! IF (ELEM > 0) THEN
-        ENDDO ! DO J=1,NSEG
-      ENDDO ! DO ISU=1,NSURF
+            ENDDO
+        ENDDO
 !---------
       CALL WRITE_I_C(IGRSURF_L,L_SURF)
 !---------
@@ -194,4 +176,4 @@ C-----------------------------------------------
       LEN_IA = LEN_IA + L_SURF
 !---------
       RETURN
-      END
+      END SUBROUTINE W_ISURF_STR
