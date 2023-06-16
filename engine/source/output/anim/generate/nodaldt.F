@@ -32,18 +32,15 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cu
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE NODALP(IFUNC          , WA4                , WA4_FVM, IFLOW   , RFLOW,  
-     .                  IPARG          , ELBUF_TAB          , IX     , NIX     , NUMEL, 
-     .                  ITAB           , NV46               , MONVOL , VOLMON  , AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                  IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD  , FVDATA_P, SWA4)
+      SUBROUTINE NODALDT(IFUNC          , WA4                , WA4_FVM, IFLOW   , RFLOW,  
+     .                   IPARG          , ELBUF_TAB          , IX     , NIX     , NUMEL, 
+     .                   ITAB           , NV46               , MONVOL , VOLMON  , AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                   IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD  , FVDATA_P, SWA4)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C   This subroutine defines & writes nodal pressure requested by Engine keywords /ANIM/NODA/P or /H3D/NODA/P
-C   /BEM/FLOW       (nodal Pressure & nodal Potential).
-C   /INTER/TYPE22   (nodal Pressure from polyhedra, specific buffer).
-C   /MONVOL/FVMBAG* (nodal Pressure from polyhedra, specific buffer).
-C   DEFAULT         (nodal Pressure from adjacent elems)
+C   This subroutine defines & writes nodal time step requested by Engine keyword /H3D/NODA/DT
+C      application :  /MONVOL/FVMBAG* (nodal time step from polyhedra, specific buffer).
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -70,16 +67,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NUMEL, IFUNC, NIX, NV46,ITAB(NUMNOD),ISPMD, SWA4
+      INTEGER,INTENT(IN) :: NUMEL, IFUNC, NIX, NV46,ITAB(NUMNOD), ISPMD, SWA4
       INTEGER,INTENT(IN) :: IFLOW(*),IPARG(NPARG,NGROUP),IX(NIX,NUMEL)
       my_real,INTENT(IN) :: RFLOW(*)
       INTEGER, INTENT(IN) :: AIRBAGS_TOTAL_FVM_IN_H3D
       REAL,INTENT(INOUT) :: WA4(SWA4), WA4_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
-      TYPE (ELBUF_STRUCT_), INTENT(IN), DIMENSION(NGROUP), TARGET :: ELBUF_TAB    
+      TYPE (ELBUF_STRUCT_), INTENT(IN), DIMENSION(NGROUP) :: ELBUF_TAB    
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL) 
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
-      INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D), IS_WRITTEN_NODE(NUMNOD)
-      TYPE(FVBAG_DATA),INTENT(IN) :: FVDATA_P(NFVBAG)      
+      INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D),IS_WRITTEN_NODE(NUMNOD)
+      TYPE(FVBAG_DATA),INTENT(IN) :: FVDATA_P(NFVBAG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,7 +86,7 @@ C-----------------------------------------------
       INTEGER MLW, NG, KCVT, II(6), NBF, NBL, IB, ICELL, NIN, MCELL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
-      my_real P,V
+      my_real SSP,V
       INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK      
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -99,23 +96,16 @@ C------------------------------------------------------------------
 C        DEFAULT - ALL ELEMS (HEXA,PENTA, SHELL, QUAD, ..)
 C           expand elem pressure to elem nodes
 C------------------------------------------------------------------      
-        CALL ANIM_NODAL_P_ELEMS(IFUNC, WA4, IPARG, ELBUF_TAB, IX, NIX, NUMEL, ITAB, NV46, IS_WRITTEN_NODE)
-
+         !not available - post-processing can expand elemen value to nodes
+         
 C------------------------------------------------------------------
 C        /MONVOL/FVMBAG*
 C           set pressure from polyhedra centroids
 C------------------------------------------------------------------
         IF(NFVBAG > 0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
-          CALL ANIM_NODAL_CONTOUR_FVMBAGS('PRES', WA4_FVM, MONVOL , VOLMON                  , FVDATA_P           , 
+          CALL ANIM_NODAL_CONTOUR_FVMBAGS('DT  ', WA4_FVM, MONVOL , VOLMON                  , FVDATA_P           , 
      .                                    NFVBAG, SMONVOL, SVOLMON, AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM)
-        
         ENDIF
-        
-C------------------------------------------------------------------
-C        /BEM/FLOW
-C           set pressure from specific data structure
-C------------------------------------------------------------------
-        IF(NFLOW > 0) CALL ANINFLOW(IFUNC,WA4,IFLOW,RFLOW)
                
 C-----------------------------------------------
       RETURN

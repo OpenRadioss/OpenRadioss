@@ -4289,14 +4289,14 @@ C
           CALL FVCOPY(MONVOL)
           CALL FVMESH0(MONVOL,  X, VOLMON, IXS)
           CALL FVREZONE0(MONVOL, X)
-          CALL FVUPD0(MONVOL, X, V, VOLMON)
+          CALL FVUPD0(MONVOL, X, V, VOLMON, SMONVOL, SVOLMON)
           N=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
-          CALL FVBAG0(MONVOL,    VOLMON,  X,         SENSORS%SENSOR_TAB,   V,
-     .                A,         NPC,     TF,        NSENSOR,
-     .                FSAV(1,N), IFVMESH, ICONTACT_OLD,  LGAUGE,
-     .                GAUGE    , IGEO,    GEO,       PM,       IPM,
-     .                IPARG    , IGROUPTG,IGROUPC,   ELBUF_TAB,FEXT,
-     .                1        , H3D_DATA )
+          CALL FVBAG0(MONVOL   , VOLMON,   X,            SENSORS%SENSOR_TAB, V   ,
+     .                A        , NPC,      TF,           NSENSOR           , 
+     .                FSAV(1,N), IFVMESH,  ICONTACT_OLD, LGAUGE            ,
+     .                GAUGE    , IGEO,     GEO,          PM                , IPM ,
+     .                IPARG    , IGROUPTG, IGROUPC,      ELBUF_TAB         , FEXT,
+     .                1        , H3D_DATA, ITAB)
 C
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(50,1)
@@ -4660,12 +4660,12 @@ C----------------------------------------------
           ENDIF
 C
           N=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
-          CALL FVBAG0(MONVOL,    VOLMON,  X,         SENSORS%SENSOR_TAB,   V,
-     .                A,         NPC,     TF,        NSENSOR ,
-     .                FSAV(1,N), IFVMESH, ICONTACT_OLD,  LGAUGE,
-     .                GAUGE    , IGEO,    GEO,       PM,       IPM,
-     .                IPARG    , IGROUPTG,IGROUPC,   ELBUF_TAB,FEXT,
-     .                2        , H3D_DATA )
+          CALL FVBAG0(MONVOL,    VOLMON,  X,           SENSORS%SENSOR_TAB,  V,
+     .                A,         NPC,     TF,          NSENSOR           ,  
+     .                FSAV(1,N), IFVMESH, ICONTACT_OLD,LGAUGE,
+     .                GAUGE    , IGEO,    GEO,         PM,                  IPM,
+     .                IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           FEXT,
+     .                2        , H3D_DATA,ITAB )
            CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,X_A            ,A         ,
      2      NPC        ,TF         ,V              ,WA        ,

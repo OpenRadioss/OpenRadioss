@@ -49,10 +49,14 @@ Chd|====================================================================
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .     LSUBMODEL)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Reader for options "/MONVOL/FVMBAG2"
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE GROUPDEF_MOD
+      USE GROUPDEF_MOD , only:GROUP_,SURF_
       USE MESSAGE_MOD
       USE MONVOL_STRUCT_MOD
       USE SUBMODEL_MOD
@@ -126,7 +130,7 @@ C-----------------------------------------------
       my_real TSWITCH, PARAM, LX, LY, LZ, CNMERG, QA, QB, PTOLE,HMIN, CFL_COEF, DTMIN, SJET, CGMERG
       my_real NX, NY, NZ, XX, YY, ZZ, X13, Y13, Z13, X24, Y24, Z24
       my_real ORIGX, ORIGY, ORIGZ, DIR2X, DIR2Y, DIR2Z, DIR, DS, DIRX, DIRY, DIRZ, TMP
-      INTEGER :: KMESH,ID_DT_OPTION
+      INTEGER :: KMESH,ID_DT_OPTION, IH3D_FLAG
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C     E x t e r n a l   F u n c t i o n s
@@ -146,13 +150,16 @@ C     =======
       CALL HM_GET_INTV('surf_IDex', SURFID, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('surf_IDin', SURFID_INT, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('HEAT_T0',HCONV, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV('IH3D', IH3D_FLAG, IS_AVAILABLE, LSUBMODEL)
+
 !     Line 2
       CALL HM_GET_INTV('mat_ID', MID_INI, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Pext', PEXT, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('T0', TI, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('Ittf', ITTF, IS_AVAILABLE, LSUBMODEL)
 !     Injectors
-      CALL HM_GET_INTV('Njet', NJET, IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV('Njet', NJET, IS_AVAILABLE, LSUBMODEL) 
+           
       T_MONVOLN%NJET = NJET
       T_MONVOLN%IVOLU(8) = NJET
       IF (NJET > 0) THEN
@@ -435,7 +442,13 @@ C     internal surface check
       IF(T_MONVOLN%INT_SURFID/=0) SURFID_INT=IGRSURF(T_MONVOLN%INT_SURFID)%ID
                       
    !-----------------------------------------------   
- 
+
+      !IH3D_FLAG
+      IF(IH3D_FLAG /= 0)THEN
+        IF(IH3D_FLAG /= -1 .AND. IH3D_FLAG /= 1)THEN
+          IH3D_FLAG = -1
+        ENDIF
+      ENDIF    
 
 C     ==============
 C     Default values
@@ -561,6 +574,7 @@ C     =====
       T_MONVOLN%IVOLU(60)=IGMERG 
       T_MONVOLN%IVOLU(65)=NBZ
       T_MONVOLN%IVOLU(74) = AUTO_UP_SWITCH !Parameter for autoswitching to uniform pressure airbag
+      T_MONVOLN%IVOLU(75) = IH3D_FLAG
 
       T_MONVOLN%RVOLU(19) = HCONV
       T_MONVOLN%RVOLU(26) = ONE / SCAL_T
@@ -1096,6 +1110,12 @@ C     =========
             ENDIF
          ENDIF
       ENDDO
+      
+      IF(T_MONVOLN%IVOLU(75) == 1)THEN
+        WRITE(IOUT,3001)1
+      ENDIF
+      
+            
 C     ===================
 C     Memory deallocation
 C     ===================
@@ -1376,4 +1396,9 @@ C-----------------------------------------------
      .     /15X,'DT SCALE FACTOR . . . . . . . . . . . .=',1PG20.13,
      .     /15X,'MINIMUM TIMESTEP. . . . . . . . . . . .=',1PG20.13)      
  2435 FORMAT(15X,'INCOMING GAS VELOCITY. . . . . . . . .=',1PG20.13)
+ 3001 FORMAT(
+     .     /5X,'DEBUG OPTIONS',
+     .     /5X,'-------------',
+     .     /5X,'   IH3D_FLAG (H3D OUTPUT). . . . . . . .=', I10)
+      
       END SUBROUTINE HM_READ_MONVOL_TYPE11
