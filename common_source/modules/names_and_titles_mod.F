@@ -1,0 +1,80 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
+Copyright>
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>
+Copyright>
+Copyright>        Commercial Alternative: Altair Radioss Software
+Copyright>
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  TITLES_MOD             
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      MODULE NAMES_AND_TITLES_MOD
+C-----------------------------------------------
+            ! Global parameters for strings
+            PARAMETER (NCHARKEY      = 20)
+            PARAMETER (NCHARLINE     = 100)
+            PARAMETER (NCHARTITLE    = 500)
+            PARAMETER (LINE120       = 120)
+            PARAMETER (NCHARFIELD    = 20)
+
+            ! Parameters for NAMES_AND_TITLES type
+            PARAMETER (LTITLE        = 80)
+            PARAMETER (LROOTNAME     = 80)
+            PARAMETER (LCHRUN        = 4)
+            PARAMETER (LCHRUN0       = 2)
+            PARAMETER (LPATH         = 2048)
+            PARAMETER (LVERS         = 32)
+            PARAMETER (LIMVW_REFPATH = 100)
+
+C-----------------------------------------------
+            TYPE NAMES_AND_TITLES_
+                CHARACTER(LEN=LTITLE)        :: TITLE           ! Title of Model from /TITLE option.
+                CHARACTER(LEN=LROOTNAME)     :: ROOTNAME        ! ROOTNAME : Name of Input Deck
+                CHARACTER(LEN=LCHRUN)        :: CHRUN           ! Run Number : 0 in starter [1-N] in Engine
+                CHARACTER(LEN=LCHRUN0)       :: CHRUN0          ! Run Number0 
+                CHARACTER(LEN=LVERS)         :: VERS            ! Radioss version number
+                CHARACTER(LEN=LIMVW_REFPATH) :: IMVW_REFPATH    ! Refsta Directory
+                INTEGER                      :: ROOTNAME_LENGTH ! LEN of ROOTNAME as in input
+            END TYPE NAMES_AND_TITLES_
+
+
+      CONTAINS
+Chd|====================================================================
+Chd|  STARTER0                      source/starter/starter0.F     
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+        SUBROUTINE NAMES_AND_TITLE_INIT(NAMES_AND_TITLES)
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+          TYPE(NAMES_AND_TITLES_),INTENT(OUT) :: NAMES_AND_TITLES
+C-----------------------------------------------
+          NAMES_AND_TITLES%TITLE=''
+          NAMES_AND_TITLES%ROOTNAME=''
+          NAMES_AND_TITLES%ROOTNAME_LENGTH=0
+          NAMES_AND_TITLES%CHRUN=''
+          NAMES_AND_TITLES%CHRUN0=''
+          NAMES_AND_TITLES%VERS=''
+        END SUBROUTINE NAMES_AND_TITLE_INIT
+
+      END MODULE NAMES_AND_TITLES_MOD
+
+      
