@@ -10088,7 +10088,7 @@ c build structure surfaces specific Inlet Outlet
 !     Split the surface & add the MONVOL nodes
 !     on a given processor
 !--------------------------------------------
-          IF(NVOLU>0) CALL IGRSURF_SPLIT(CEP,T_MONVOL,IGRSURF,IGRSURF_PROC)
+      CALL IGRSURF_SPLIT(SCEP,CEP,T_MONVOL,IGRSURF,IGRSURF_PROC)
 C--------------------------------------------
 C     DOMAIN DECOMPOSITION 2 (DEFINITION DES FRONTIERES)
 C--------------------------------------------
@@ -10649,7 +10649,7 @@ c
 
 
           CALL DDSPLIT(
-     1         P            ,CEP         ,CEL            ,IGEO        ,MATPARAM_TAB,
+     1         P            ,CEP         ,CEL           ,IGEO        ,MATPARAM_TAB,
      2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
      3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
      4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG     ,
@@ -10686,7 +10686,7 @@ c
      Z                       KXSP        ,IXSP           ,NOD2SP      ,CEPSP      ,    
      a         NTHWA        ,NAIRWA      ,NMNT           ,L_MUL_LAG1  ,L_MUL_LAG  ,    
      b         LWASPIO      ,IPARTSP     ,ISPCOND        ,PM1SPH      ,                
-     c         WMA          ,    
+     c         WMA          ,
      d         EIGIPM       ,EIGIBUF     ,EIGRPM         ,    
      e         IFLOW        ,RFLOW       ,pMEMFLOW       ,IEXLNK      ,FASOLFR    ,    
      f         IPARTTH      ,    
@@ -10753,10 +10753,8 @@ c
       ENDIF     ! <-- end of restart file writing
 !   -------------------------------------------------------------
 C
-      IF(NVOLU>0) THEN
-        CALL DEALLOCATE_IGRSURF_SPLIT(T_MONVOL,IGRSURF_PROC)
-        DEALLOCATE( IGRSURF_PROC )
-      ENDIF
+      CALL DEALLOCATE_IGRSURF_SPLIT(T_MONVOL,IGRSURF_PROC)
+      DEALLOCATE( IGRSURF_PROC )
 
       IF( (NUMELS>0).AND.(IALE+IEULER+ITHERM+IALELAG/=0) ) CALL DEALLOCATE_SPLIT_CFD_SOLIDE(ALE_ELM)
       DEALLOCATE( ALE_ELM )
