@@ -573,7 +573,8 @@ C          IGTYP=NINT(GEO(12,PID))
      .                  MSGTYPE=MSGERROR,
      .                  I1=IGEO(1,PID),
      .                  C1=TITR,
-     .                  I2=ISHEL)
+     .                  I2=ISHEL,
+     .                  PRMOD=MSG_CUMU)
           ENDIF
 c-------- check xfem compatibility
 c          IF (ICRACK3D > 0) THEN
@@ -1057,6 +1058,10 @@ c
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3007,                 
+     .            ANMODE=ANINFO,
+     .            MSGTYPE=MSGERROR,
+     .            PRMOD=MSG_PRINT)       
 C-----------
       WRITE(IOUT,1000) 
       DO  N=NGR1,NGROUP
