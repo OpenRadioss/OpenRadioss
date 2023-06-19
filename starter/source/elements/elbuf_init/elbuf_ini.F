@@ -271,10 +271,7 @@ c              plan = (r,s), layers = t
 c              ICS=ICSIG/100
 c              ICT=MOD(ICSIG/10,10)
 c              ICR=MOD(ICSIG,10)
-              IF (TSH_ORT == 0) THEN
-                NLAY = NPTT
-                NPTT = 1
-              ELSEIF (ICSTR == 1) THEN   
+              IF (ICSTR == 1) THEN   
                  NLAY = NPTR
                  NPTR = NPTS
                  NPTS = NPTT
