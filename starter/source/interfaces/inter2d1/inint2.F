@@ -86,7 +86,7 @@ C-----------------------------------------------
      .   K13, K14, KFI, J10, J11, J12, JFI, K16, K21, K23, J20, L17,
      .   L20, L22, J21, J22, L16, L21, L23, K15, K17, K18, K19, K20,
      .   K22, J13, J14, J15, J16, J17, J18, J19, IWPENE, K24, K25,K48,
-     .   IBIDON
+     .   IBIDON,I
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -156,6 +156,11 @@ C
        WRITE(IOUT,2200)
        CALL I1TID2(X,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      1     INSCR(L16),INTBUF_TAB%IRTLM,NSN,ITAB ,ID,TITR)
+C Projection on edges is used only for the distribution of masses and inertia to avoid negative masses / inertia on MAIN nodes
+       DO I=1,NSN
+         INTBUF_TAB%CSTS_BIS(2*(I-1)+1)=MIN(ONE,MAX(-1*ONE,INTBUF_TAB%CSTS(2*(I-1)+1)))
+         INTBUF_TAB%CSTS_BIS(2*(I-1)+2)=INTBUF_TAB%CSTS(2*(I-1)+2)
+       ENDDO
 C selection main nodes utiles et recompactage buffer interface
        CALL I2MAIN(INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRECTM,IPARI,
      .  	     MWA,MWA(NUMNOD+1),INTBUF_TAB)
