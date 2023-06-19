@@ -524,7 +524,8 @@ C
      .                  MSGTYPE=MSGERROR,
      .                  I1=IGEO(1,PID),
      .                  C1=TITR,
-     .                  I2=ISH3N)
+     .                  I2=ISH3N,
+     .                  PRMOD=MSG_CUMU)
           ENDIF
           NLEVXF = 0
           IXFEM = 0
@@ -994,6 +995,10 @@ C-----------
      .            PRMOD=MSG_PRINT)       
       CALL ANCMSG(MSGID=772,                 
      .            ANMODE=ANINFO_BLIND_2,
+     .            MSGTYPE=MSGWARNING,
+     .            PRMOD=MSG_PRINT)       
+      CALL ANCMSG(MSGID=3008,                 
+     .            ANMODE=ANINFO,
      .            MSGTYPE=MSGWARNING,
      .            PRMOD=MSG_PRINT)       
 C-----------
