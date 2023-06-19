@@ -853,14 +853,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I,J,K,NOD
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
 C ----------------------------------------
       ALLOCATE(IBUF(DIM1*DIM2))
+      IBUF = 0
       DO I=1, DIM1
         K=TAG_SEG(I)
         DO J=1,DIM2
-          IBUF(DIM2*(I-1)+J) = NODLOCAL(TAB(DIM2*(K-1)+J))
+          NOD = TAB(DIM2*(K-1)+J)
+          IF (NOD > 0) THEN
+            IBUF(DIM2*(I-1)+J) = NODLOCAL(NOD)
+          ENDIF
         ENDDO
       ENDDO
       CALL WRITE_I_C(IBUF,DIM1*DIM2)

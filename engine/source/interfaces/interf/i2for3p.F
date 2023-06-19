@@ -70,66 +70,82 @@ C-----------------------------------------------
       IF (NIR==2) THEN
 #include "vectorize.inc"
         DO II=1,NSN
-         I=NSV(II)
-         IF(I>0)THEN
-          L=IRTL(II)
-          I3=3*I
-          I2=I3-1
-          I1=I2-1
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
+            I3=3*I
+            I2=I3-1
+            I1=I2-1
 Cel traitement 1er noeud secnd
-          IF (WEIGHT(I)==1) THEN
+            IF (WEIGHT(I)==1) THEN
 C
-           XMSI=MS(I)
-           FXI=A(I1)
-           FYI=A(I2)
-           FZI=A(I3)
+              XMSI=MS(I)
+              FXI=A(I1)
+              FYI=A(I2)
+              FZI=A(I3)
 C
-           SS=CRST(1,II)
-           ST=CRST(2,II)
-           SP=ONE + SS
-           SM=ONE - SS
-           TP=FOURTH*(ONE + ST)
-           TM=FOURTH*(ONE - ST)
-           H(1)=TM*SM
-           H(2)=TM*SP
+              SS=CRST(1,II)
+              ST=CRST(2,II)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + ST)
+              TM=FOURTH*(ONE - ST)
+              H(1)=TM*SM
+              H(2)=TM*SP
+C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
+              SS=CSTS_BIS(1,II)
+              ST=CSTS_BIS(2,II)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + ST)
+              TM=FOURTH*(ONE - ST)
+              H2(1)=TM*SM
+              H2(2)=TM*SP
+              H2(3)=TP*SP
+              H2(4)=TP*SM
 C
-           I0 = I0 + 1
-           NN = IADI2(1,I0)
-           FSKYI2(1,NN) = FXI*H(1)
-           FSKYI2(2,NN) = FYI*H(1)
-           FSKYI2(3,NN) = FZI*H(1)
-           FSKYI2(4,NN) = XMSI*H(1)
-           FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
+              I0 = I0 + 1
+              NN = IADI2(1,I0)
+              FSKYI2(1,NN) = FXI*H(1)
+              FSKYI2(2,NN) = FYI*H(1)
+              FSKYI2(3,NN) = FZI*H(1)
+              FSKYI2(4,NN) = XMSI*H2(1)
+              FSKYI2(5,NN) = ABS(STIFN(I)*H(1))
 C
-           NN = IADI2(2,I0)
-           FSKYI2(1,NN) = FXI*H(2)
-           FSKYI2(2,NN) = FYI*H(2)
-           FSKYI2(3,NN) = FZI*H(2)
-           FSKYI2(4,NN) = XMSI*H(2)
-           FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
-          ENDIF
-          STIFN(I)=EM20
-          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
-          MS(I)=ZERO
-          A(I1)=ZERO
-          A(I2)=ZERO
-          A(I3)=ZERO
+              NN = IADI2(2,I0)
+              FSKYI2(1,NN) = FXI*H(2)
+              FSKYI2(2,NN) = FYI*H(2)
+              FSKYI2(3,NN) = FZI*H(2)
+              FSKYI2(4,NN) = XMSI*H2(2)
+              FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
+            ENDIF
+C---      output of tied contact forces
+ 	    CALL I2FORCES_2D(X      ,V	,A	 ,MS	  ,I	  ,
+     .	                   IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+     .                     FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+c
+            STIFN(I)=EM20
+            IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+            MS(I)=ZERO
+            A(I1)=ZERO
+            A(I2)=ZERO
+            A(I3)=ZERO
 C stokage ZERO pour noeuds delete par idel2
-         ELSEIF(WEIGHT(-I)==1) THEN
-           I0 = I0 + 1
-           NN = IADI2(1,I0)
-           FSKYI2(1,NN) = ZERO
-           FSKYI2(2,NN) = ZERO
-           FSKYI2(3,NN) = ZERO
-           FSKYI2(4,NN) = ZERO
-           FSKYI2(5,NN) = ZERO
-           NN = IADI2(2,I0)
-           FSKYI2(1,NN) = ZERO
-           FSKYI2(2,NN) = ZERO
-           FSKYI2(3,NN) = ZERO
-           FSKYI2(4,NN) = ZERO
-           FSKYI2(5,NN) = ZERO
-         ENDIF
+          ELSEIF(WEIGHT(-I)==1) THEN
+            I0 = I0 + 1
+            NN = IADI2(1,I0)
+            FSKYI2(1,NN) = ZERO
+            FSKYI2(2,NN) = ZERO
+            FSKYI2(3,NN) = ZERO
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ZERO
+            NN = IADI2(2,I0)
+            FSKYI2(1,NN) = ZERO
+            FSKYI2(2,NN) = ZERO
+            FSKYI2(3,NN) = ZERO
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ZERO
+          ENDIF
         ENDDO
 Cel NIR = 4
       ELSE
@@ -724,141 +740,254 @@ C     MINER(II) initialise a MS(J) dans resol_init
         IN(J)=MAX(EM20,IN(J))
       ENDDO
 C
+      IF (NIR == 2) THEN
 #include "vectorize.inc"
-      DO II=1,NSN
-       I=NSV(II)
-       IF(I>0)THEN
-        IF (WEIGHT(I)==1) THEN
-         L=IRTL(II)
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            IF (WEIGHT(I)==1) THEN
+              L=IRTL(II)
 C
-         SS=CRST(1,II)
-         ST=CRST(2,II)
-         SP=ONE + SS
-         SM=ONE - SS
-         TP=FOURTH*(ONE + ST)
-         TM=FOURTH*(ONE - ST)
-         H(1)=TM*SM
-         H(2)=TM*SP
-         H(3)=TP*SP
-         H(4)=TP*SM
+              SS=CRST(1,II)
+              ST=CRST(2,II)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + ST)
+              TM=FOURTH*(ONE - ST)
+              H(1)=TM*SM
+              H(2)=TM*SP
 
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-         SS=CSTS_BIS(1,II)
-         ST=CSTS_BIS(2,II)
-         SP=ONE + SS
-         SM=ONE - SS
-         TP=FOURTH*(ONE + ST)
-         TM=FOURTH*(ONE - ST)
-         H2(1)=TM*SM
-         H2(2)=TM*SP
-         H2(3)=TP*SP
-         H2(4)=TP*SM
+              SS=CSTS_BIS(1,II)
+              ST=CSTS_BIS(2,II)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + ST)
+              TM=FOURTH*(ONE - ST)
+              H2(1)=TM*SM
+              H2(2)=TM*SP
 C
-         X0 = X(1,I)
-         Y0 = X(2,I)
-         Z0 = X(3,I)
+              X0 = X(1,I)
+              Y0 = X(2,I)
+              Z0 = X(3,I)
 C
-         X1 = X(1,IRECT(1,L))
-         Y1 = X(2,IRECT(1,L))
-         Z1 = X(3,IRECT(1,L))
-         X2 = X(1,IRECT(2,L))
-         Y2 = X(2,IRECT(2,L))
-         Z2 = X(3,IRECT(2,L))
-         X3 = X(1,IRECT(3,L))
-         Y3 = X(2,IRECT(3,L))
-         Z3 = X(3,IRECT(3,L))
-         X4 = X(1,IRECT(4,L))
-         Y4 = X(2,IRECT(4,L))
-         Z4 = X(3,IRECT(4,L))
+              X1 = X(1,IRECT(1,L))
+              Y1 = X(2,IRECT(1,L))
+              Z1 = X(3,IRECT(1,L))
+              X2 = X(1,IRECT(2,L))
+              Y2 = X(2,IRECT(2,L))
+              Z2 = X(3,IRECT(2,L))
 C
-         XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
-         YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
-         ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4)
+              XC = X1 * H(1) + X2 * H(2)
+              YC = Y1 * H(1) + Y2 * H(2)
+              ZC = Z1 * H(1) + Z2 * H(2)
 C
-         XC0=X0-XC
-         YC0=Y0-YC
-         ZC0=Z0-ZC
+              XC0=X0-XC
+              YC0=Y0-YC
+              ZC0=Z0-ZC
 C
-         AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
-         INS = IN(I) + AA * MS(I)
-         STF = STIFR(I) + AA * STIFN(I)
+              AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
+              INS = IN(I) + AA * MS(I)
+              STF = STIFR(I) + AA * STIFN(I)
 C
-         IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
-           AI=AA * MS(I)
-           ADI(IRECT(1,L))=ADI(IRECT(1,L))+AI*H(1)
-           ADI(IRECT(2,L))=ADI(IRECT(2,L))+AI*H(2)
-           ADI(IRECT(3,L))=ADI(IRECT(3,L))+AI*H(3)
-           ADI(IRECT(4,L))=ADI(IRECT(4,L))+AI*H(4)
-         END IF
+              IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
+                AI=AA * MS(I)
+                ADI(IRECT(1,L))=ADI(IRECT(1,L))+AI*H(1)
+                ADI(IRECT(2,L))=ADI(IRECT(2,L))+AI*H(2)
+              END IF
 C
-         FXI=A(1,I)
-         FYI=A(2,I)
-         FZI=A(3,I)
+              FXI=A(1,I)
+              FYI=A(2,I)
+              FZI=A(3,I)
 C
-         MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
-         MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
-         MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+              MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
+              MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
+              MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
 C
-         I0 = I0 + 1
-         DO J = 1,NIR
-           IF (IN(IRECT(J,L)) > EM20) THEN
-             NN = IADI2(J,I0)
-             FSKYI2(6,NN) = MXI*H(J)
-             FSKYI2(7,NN) = MYI*H(J)
-             FSKYI2(8,NN) = MZI*H(J)
-             FSKYI2(9,NN) = INS*H2(J)
-             FSKYI2(10,NN)= ABS(STF*H(J))
+              I0 = I0 + 1
+              DO J = 1,NIR
+                IF (IN(IRECT(J,L)) > EM20) THEN
+                  NN = IADI2(J,I0)
+                  FSKYI2(6,NN) = MXI*H(J)
+                  FSKYI2(7,NN) = MYI*H(J)
+                  FSKYI2(8,NN) = MZI*H(J)
+                  FSKYI2(9,NN) = INS*H2(J)
+                  FSKYI2(10,NN)= ABS(STF*H(J))
 C
-           ELSE
-             NN = IADI2(J,I0)
-             FSKYI2(6,NN) = ZERO
-             FSKYI2(7,NN) = ZERO
-             FSKYI2(8,NN) = ZERO
-             FSKYI2(9,NN) = ZERO
-             FSKYI2(10,NN)= ZERO
+                ELSE
+                  NN = IADI2(J,I0)
+                  FSKYI2(6,NN) = ZERO
+                  FSKYI2(7,NN) = ZERO
+                  FSKYI2(8,NN) = ZERO
+                  FSKYI2(9,NN) = ZERO
+                  FSKYI2(10,NN)= ZERO
 C
-           END IF
-         ENDDO
-        ENDIF
-        STIFR(I)=EM20
-        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
-        IN(I)=ZERO
-        STIFN(I)=EM20
-        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
-        MS(I)=ZERO
-        A(1,I)=ZERO
-        A(2,I)=ZERO
-        A(3,I)=ZERO
+                END IF
+              ENDDO
+            ENDIF
+            STIFR(I)=EM20
+            IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
+            IN(I)=ZERO
+            STIFN(I)=EM20
+            IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+            MS(I)=ZERO
+            A(1,I)=ZERO
+            A(2,I)=ZERO
+            A(3,I)=ZERO
 C stokage ZERO pour noeuds delete par idel2
-        ELSEIF(WEIGHT(-I)==1) THEN
-          I0 = I0 + 1
-          NN = IADI2(1,I0)
-          FSKYI2(6,NN) = ZERO
-          FSKYI2(7,NN) = ZERO
-          FSKYI2(8,NN) = ZERO
-          FSKYI2(9,NN) = ZERO
-          FSKYI2(10,NN) = ZERO
-          NN = IADI2(2,I0)
-          FSKYI2(6,NN) = ZERO
-          FSKYI2(7,NN) = ZERO
-          FSKYI2(8,NN) = ZERO
-          FSKYI2(9,NN) = ZERO
-          FSKYI2(10,NN) = ZERO
-          NN = IADI2(3,I0)
-          FSKYI2(6,NN) = ZERO
-          FSKYI2(7,NN) = ZERO
-          FSKYI2(8,NN) = ZERO
-          FSKYI2(9,NN) = ZERO
-          FSKYI2(10,NN) = ZERO
-          NN = IADI2(4,I0)
-          FSKYI2(6,NN) = ZERO
-          FSKYI2(7,NN) = ZERO
-          FSKYI2(8,NN) = ZERO
-          FSKYI2(9,NN) = ZERO
-          FSKYI2(10,NN) = ZERO
-       ENDIF
-      ENDDO
+          ELSEIF(WEIGHT(-I)==1) THEN
+            I0 = I0 + 1
+            NN = IADI2(1,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN) = ZERO
+            NN = IADI2(2,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN) = ZERO
+          ENDIF
+        ENDDO
+      ELSE
+#include "vectorize.inc"
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            IF (WEIGHT(I)==1) THEN
+              L=IRTL(II)
 C
+              SS=CRST(1,II)
+              ST=CRST(2,II)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + ST)
+              TM=FOURTH*(ONE - ST)
+              H(1)=TM*SM
+              H(2)=TM*SP
+              H(3)=TP*SP
+              H(4)=TP*SM
+
+C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
+              SS=CSTS_BIS(1,II)
+              ST=CSTS_BIS(2,II)
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + ST)
+              TM=FOURTH*(ONE - ST)
+              H2(1)=TM*SM
+              H2(2)=TM*SP
+              H2(3)=TP*SP
+              H2(4)=TP*SM
+C
+              X0 = X(1,I)
+              Y0 = X(2,I)
+              Z0 = X(3,I)
+C
+              X1 = X(1,IRECT(1,L))
+              Y1 = X(2,IRECT(1,L))
+              Z1 = X(3,IRECT(1,L))
+              X2 = X(1,IRECT(2,L))
+              Y2 = X(2,IRECT(2,L))
+              Z2 = X(3,IRECT(2,L))
+              X3 = X(1,IRECT(3,L))
+              Y3 = X(2,IRECT(3,L))
+              Z3 = X(3,IRECT(3,L))
+              X4 = X(1,IRECT(4,L))
+              Y4 = X(2,IRECT(4,L))
+              Z4 = X(3,IRECT(4,L))
+C
+              XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
+              YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
+              ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4)
+C
+              XC0=X0-XC
+              YC0=Y0-YC
+              ZC0=Z0-ZC
+C
+              AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
+              INS = IN(I) + AA * MS(I)
+              STF = STIFR(I) + AA * STIFN(I)
+C
+              IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
+                AI=AA * MS(I)
+                ADI(IRECT(1,L))=ADI(IRECT(1,L))+AI*H(1)
+                ADI(IRECT(2,L))=ADI(IRECT(2,L))+AI*H(2)
+                ADI(IRECT(3,L))=ADI(IRECT(3,L))+AI*H(3)
+                ADI(IRECT(4,L))=ADI(IRECT(4,L))+AI*H(4)
+              END IF
+C
+              FXI=A(1,I)
+              FYI=A(2,I)
+              FZI=A(3,I)
+C
+              MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
+              MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
+              MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+C
+              I0 = I0 + 1
+              DO J = 1,NIR
+                IF (IN(IRECT(J,L)) > EM20) THEN
+                  NN = IADI2(J,I0)
+                  FSKYI2(6,NN) = MXI*H(J)
+                  FSKYI2(7,NN) = MYI*H(J)
+                 FSKYI2(8,NN) = MZI*H(J)
+                  FSKYI2(9,NN) = INS*H2(J)
+                  FSKYI2(10,NN)= ABS(STF*H(J))
+C
+                ELSE
+                  NN = IADI2(J,I0)
+                  FSKYI2(6,NN) = ZERO
+                  FSKYI2(7,NN) = ZERO
+                  FSKYI2(8,NN) = ZERO
+                  FSKYI2(9,NN) = ZERO
+                  FSKYI2(10,NN)= ZERO
+C
+                END IF
+              ENDDO
+            ENDIF
+            STIFR(I)=EM20
+            IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
+            IN(I)=ZERO
+            STIFN(I)=EM20
+            IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+            MS(I)=ZERO
+            A(1,I)=ZERO
+            A(2,I)=ZERO
+            A(3,I)=ZERO
+C stokage ZERO pour noeuds delete par idel2
+          ELSEIF(WEIGHT(-I)==1) THEN
+            I0 = I0 + 1
+            NN = IADI2(1,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN) = ZERO
+            NN = IADI2(2,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN) = ZERO
+            NN = IADI2(3,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN) = ZERO
+            NN = IADI2(4,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN) = ZERO
+          ENDIF
+        ENDDO
+C
+      ENDIF   
 C
 C Traitement specifique pour ADI
 C

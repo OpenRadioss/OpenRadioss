@@ -218,6 +218,10 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
@@ -230,13 +234,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
-     .   NN
+     .   NN,NIR
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,INM,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   NX,NY,NZ,X13,X24,Y13,Y24,Z13,Z24,XC0,YC0,ZC0,SP,SM,TP,TM,
      .   XC,YC,ZC,VMXX,VMYY,VMZZ
 C-----------------------------------------------
+C
+      NIR=2
+      IF(N2D==0)NIR=4
 C
       DO 70 II=1,NSN
        I=NSV(II)
@@ -265,7 +272,7 @@ C
         VMY=ZERO
         VMZ=ZERO     
 C
-        DO JJ=1,4
+        DO JJ=1,NIR
 C          J=MSR(IRECT(JJ,L))
           J=IRECT(JJ,L)
           AMX=AMX+AR(1,J)*H(JJ)

@@ -71,148 +71,213 @@ Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
 Cel sauvegarde de la masse initiale
 C
       IF(IMPL_S>0) THEN
-      DO II=1,NSN
-       I=NSV(II)
-       IF(I>0)THEN
-        L=IRTL(II)
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
 C
-        I3=3*I
-        I2=I3-1
-        I1=I2-1
+            I3=3*I
+            I2=I3-1
+            I1=I2-1
 C
-        XMSI=MS(I)*WEIGHT(I)
-        FXI=A(I1)*WEIGHT(I)
-        FYI=A(I2)*WEIGHT(I)
-        FZI=A(I3)*WEIGHT(I)
+            XMSI=MS(I)*WEIGHT(I)
+            FXI=A(I1)*WEIGHT(I)
+            FYI=A(I2)*WEIGHT(I)
+            FZI=A(I3)*WEIGHT(I)
 C
-        SS=CRST(1,II)
-        ST=CRST(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H(1)=TM*SM
-        H(2)=TM*SP
-        H(3)=TP*SP
-        H(4)=TP*SM
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H(1)=TM*SM
+            H(2)=TM*SP
+            H(3)=TP*SP
+            H(4)=TP*SM
 C
 C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-        SS=CSTS_BIS(1,II)
-        ST=CSTS_BIS(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H2(1)=TM*SM
-        H2(2)=TM*SP
-        H2(3)=TP*SP
-        H2(4)=TP*SM
+            SS=CSTS_BIS(1,II)
+            ST=CSTS_BIS(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H2(1)=TM*SM
+            H2(2)=TM*SP
+            H2(3)=TP*SP
+            H2(4)=TP*SM
 C
-        IF(IRECT(3,L)==IRECT(4,L)) THEN
-	 NIR = 3
-         H(3)=ONE-H(1)-H(2)
-         H(4)=ZERO
-         H2(3)=ONE-H2(1)-H2(2)
-         H2(4)=ZERO        
-        ELSE
-         NIR=4
-        ENDIF
+            IF(IRECT(3,L)==IRECT(4,L)) THEN
+	      NIR = 3
+              H(3)=ONE-H(1)-H(2)
+              H(4)=ZERO
+              H2(3)=ONE-H2(1)-H2(2)
+              H2(4)=ZERO        
+            ELSE
+              NIR=4
+            ENDIF
 C
-        DO JJ=1,NIR
-         J=IRECT(JJ,L)
-         J3=3*J
-         J2=J3-1
-         J1=J2-1
-         A(J1)=A(J1)+FXI*H(JJ)
-         A(J2)=A(J2)+FYI*H(JJ)
-         A(J3)=A(J3)+FZI*H(JJ)
-         MS(J)=MS(J)+XMSI*H2(JJ)
-         STIFN(J)=STIFN(J)+ABS(STIFN(I)*H(JJ)*WEIGHT(I))
-        ENDDO
+            DO JJ=1,NIR
+              J=IRECT(JJ,L)
+              J3=3*J
+              J2=J3-1
+              J1=J2-1
+              A(J1)=A(J1)+FXI*H(JJ)
+              A(J2)=A(J2)+FYI*H(JJ)
+              A(J3)=A(J3)+FZI*H(JJ)
+              MS(J)=MS(J)+XMSI*H2(JJ)
+              STIFN(J)=STIFN(J)+ABS(STIFN(I)*H(JJ)*WEIGHT(I))
+            ENDDO
 C
-C---    output of tied contact forces
- 	CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
-     .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+C---        output of tied contact forces
+ 	    CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
+     .	                  IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+     .                    FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C      
-        IF(IRODDL==0)THEN
-          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
-          MS(I)=ZERO
-          STIFN(I)=EM20
-          A(I1)=ZERO
-          A(I2)=ZERO
-          A(I3)=ZERO
-        ENDIF              
+            IF(IRODDL==0)THEN
+              IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+              MS(I)=ZERO
+              STIFN(I)=EM20
+              A(I1)=ZERO
+              A(I2)=ZERO
+              A(I3)=ZERO
+            ENDIF              
 
-       ENDIF
+          ENDIF
 C----
-      ENDDO
-      ELSE
-      DO II=1,NSN
-       I=NSV(II)
-       IF(I>0)THEN
-        L=IRTL(II)
-C
-        I3=3*I
-        I2=I3-1
-        I1=I2-1
-C
-        XMSI=MS(I)*WEIGHT(I)
-        FXI=A(I1)*WEIGHT(I)
-        FYI=A(I2)*WEIGHT(I)
-        FZI=A(I3)*WEIGHT(I)
-C
-        SS=CRST(1,II)
-        ST=CRST(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H(1)=TM*SM
-        H(2)=TM*SP
-        H(3)=TP*SP
-        H(4)=TP*SM
-C
-C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-        SS=CSTS_BIS(1,II)
-        ST=CSTS_BIS(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H2(1)=TM*SM
-        H2(2)=TM*SP
-        H2(3)=TP*SP
-        H2(4)=TP*SM
-C
-        DO JJ=1,NIR
-         J=IRECT(JJ,L)
-         J3=3*J
-         J2=J3-1
-         J1=J2-1
-         A(J1)=A(J1)+FXI*H(JJ)
-         A(J2)=A(J2)+FYI*H(JJ)
-         A(J3)=A(J3)+FZI*H(JJ)
-         MS(J)=MS(J)+XMSI*H2(JJ)
-         STIFN(J)=STIFN(J)+ABS(STIFN(I)*H(JJ)*WEIGHT(I))
         ENDDO
 C
-C---    output or tied contact forces
- 	CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
-     .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+      ELSEIF (N2D > 0) THEN
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
 C
-        IF(IRODDL==0)THEN
-          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
-          MS(I)=ZERO
-          STIFN(I)=EM20
-          A(I1)=ZERO
-          A(I2)=ZERO
-          A(I3)=ZERO
-        ENDIF
+            I3=3*I
+            I2=I3-1
+            I1=I2-1
+C
+            XMSI=MS(I)*WEIGHT(I)
+            FXI=A(I1)*WEIGHT(I)
+            FYI=A(I2)*WEIGHT(I)
+            FZI=A(I3)*WEIGHT(I)
+C
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H(1)=TM*SM
+            H(2)=TM*SP
+C
+C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
+            SS=CSTS_BIS(1,II)
+            ST=CSTS_BIS(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H2(1)=TM*SM
+            H2(2)=TM*SP
+C
+            DO JJ=1,NIR
+              J=IRECT(JJ,L)
+              J3=3*J
+              J2=J3-1
+              J1=J2-1
+              A(J1)=A(J1)+FXI*H(JJ)
+              A(J2)=A(J2)+FYI*H(JJ)
+              A(J3)=A(J3)+FZI*H(JJ)
+              MS(J)=MS(J)+XMSI*H2(JJ)
+              STIFN(J)=STIFN(J)+ABS(STIFN(I)*H(JJ)*WEIGHT(I))
+            ENDDO
+C
+C---        output or tied contact forces
+ 	    CALL I2FORCES_2D(X      ,V	,A	 ,MS	  ,I	  ,
+     .	                     IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+     .                       FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+C
+ 	    IF(IRODDL==0)THEN
+              IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+              MS(I)=ZERO
+              STIFN(I)=EM20
+              A(I1)=ZERO
+              A(I2)=ZERO
+              A(I3)=ZERO
+            ENDIF
 C----
-       ENDIF
-      ENDDO
+          ENDIF
+        ENDDO
+C
+      ELSE
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
+C
+            I3=3*I
+            I2=I3-1
+            I1=I2-1
+C
+            XMSI=MS(I)*WEIGHT(I)
+            FXI=A(I1)*WEIGHT(I)
+            FYI=A(I2)*WEIGHT(I)
+            FZI=A(I3)*WEIGHT(I)
+C
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H(1)=TM*SM
+            H(2)=TM*SP
+            H(3)=TP*SP
+            H(4)=TP*SM
+C
+C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
+            SS=CSTS_BIS(1,II)
+            ST=CSTS_BIS(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H2(1)=TM*SM
+            H2(2)=TM*SP
+            H2(3)=TP*SP
+            H2(4)=TP*SM
+C
+            DO JJ=1,NIR
+              J=IRECT(JJ,L)
+              J3=3*J
+              J2=J3-1
+              J1=J2-1
+              A(J1)=A(J1)+FXI*H(JJ)
+              A(J2)=A(J2)+FYI*H(JJ)
+              A(J3)=A(J3)+FZI*H(JJ)
+              MS(J)=MS(J)+XMSI*H2(JJ)
+              STIFN(J)=STIFN(J)+ABS(STIFN(I)*H(JJ)*WEIGHT(I))
+            ENDDO
+C
+C---        output or tied contact forces
+ 	    CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
+     .	                  IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+     .                    FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+C
+ 	    IF(IRODDL==0)THEN
+              IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+              MS(I)=ZERO
+              STIFN(I)=EM20
+              A(I1)=ZERO
+              A(I2)=ZERO
+              A(I3)=ZERO
+            ENDIF
+C----
+          ENDIF
+        ENDDO
+C
       ENDIF
 C
       RETURN
@@ -654,6 +719,7 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "impl1_c.inc"
+#include      "com01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -674,199 +740,287 @@ C     NMAS(II) initialise a MS(J) dans resol_init
       ENDIF
 C
       IF(IMPL_S>0) THEN
-      DO II=1,NSN
-       I=NSV(II)
-       IF(I>0)THEN
-        L=IRTL(II)
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
 C
-        SS=CRST(1,II)
-        ST=CRST(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H(1)=TM*SM
-        H(2)=TM*SP
-        H(3)=TP*SP
-        H(4)=TP*SM
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H(1)=TM*SM
+            H(2)=TM*SP
+            H(3)=TP*SP
+            H(4)=TP*SM
 C
 C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-        SS=CSTS_BIS(1,II)
-        ST=CSTS_BIS(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H2(1)=TM*SM
-        H2(2)=TM*SP
-        H2(3)=TP*SP
-        H2(4)=TP*SM
+            SS=CSTS_BIS(1,II)
+            ST=CSTS_BIS(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H2(1)=TM*SM
+            H2(2)=TM*SP
+            H2(3)=TP*SP
+            H2(4)=TP*SM
 C
-        IF (IRECT(3,L)==IRECT(4,L)) THEN
-         NIR=3
-         H(3)=ONE-H(1)-H(2)
-         H(4)=ZERO
-         H2(3)=ONE-H2(1)-H2(2)
-         H2(4)=ZERO
-        ELSE
-         NIR=4
-        ENDIF
+            IF (IRECT(3,L)==IRECT(4,L)) THEN
+              NIR=3
+              H(3)=ONE-H(1)-H(2)
+              H(4)=ZERO
+              H2(3)=ONE-H2(1)-H2(2)
+              H2(4)=ZERO
+            ELSE
+              NIR=4
+            ENDIF
 C
-        XC=ZERO
-        YC=ZERO
-        ZC=ZERO
-        DO JJ=1,NIR
-          J=IRECT(JJ,L)
-          XC=XC+X(1,J)*H(JJ)
-          YC=YC+X(2,J)*H(JJ)
-          ZC=ZC+X(3,J)*H(JJ)
+            XC=ZERO
+            YC=ZERO
+            ZC=ZERO
+            DO JJ=1,NIR
+              J=IRECT(JJ,L)
+              XC=XC+X(1,J)*H(JJ)
+              YC=YC+X(2,J)*H(JJ)
+              ZC=ZC+X(3,J)*H(JJ)
+            ENDDO
+C
+            X0 = X(1,I)
+            Y0 = X(2,I)
+            Z0 = X(3,I)
+C
+            XC0=X0-XC
+            YC0=Y0-YC
+            ZC0=Z0-ZC
+C
+            AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
+            INS = IN(I) + AA * MS(I)
+            STF = STIFR(I) + AA * STIFN(I)
+C
+            FXI=A(1,I)
+            FYI=A(2,I)
+            FZI=A(3,I)
+C
+            MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
+            MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
+            MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+C
+            W = WEIGHT(I)
+            AI=AA * MS(I) * W
+            IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
+              DO JJ=1,NIR
+                J=IRECT(JJ,L)
+                ADI(J)=ADI(J)+AI*H(JJ)
+              END DO
+            END IF
+            DO JJ=1,NIR
+              J=IRECT(JJ,L)
+              IF (MINER(J)>EM20) THEN
+                AR(1,J)=AR(1,J)+MXI*H(JJ)*W
+                AR(2,J)=AR(2,J)+MYI*H(JJ)*W
+                AR(3,J)=AR(3,J)+MZI*H(JJ)*W
+                IN(J)=IN(J)+INS*H2(JJ)*W
+                STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
+              END IF
+            ENDDO
+            STIFR(I)=EM20
+            IF(IDEL2/=0.AND.IN(I)/=ZERO)SINER(II)=IN(I)
+            IN(I)=ZERO
+            STIFN(I)=EM20
+            IF(IDEL2/=0.AND.MS(I)/=ZERO)SMASS(II)=MS(I)
+            MS(I)=ZERO
+            A(1,I)=ZERO
+            A(2,I)=ZERO
+            A(3,I)=ZERO
+          ENDIF
+C
         ENDDO
 C
-        X0 = X(1,I)
-        Y0 = X(2,I)
-        Z0 = X(3,I)
+      ELSEIF (N2D > 0) THEN
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
 C
-        XC0=X0-XC
-        YC0=Y0-YC
-        ZC0=Z0-ZC
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H(1)=TM*SM
+            H(2)=TM*SP
 C
-        AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
-        INS = IN(I) + AA * MS(I)
-        STF = STIFR(I) + AA * STIFN(I)
+C       Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
+            SS=CSTS_BIS(1,II)
+            ST=CSTS_BIS(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H2(1)=TM*SM
+            H2(2)=TM*SP
 C
-        FXI=A(1,I)
-        FYI=A(2,I)
-        FZI=A(3,I)
+            X0 = X(1,I)
+            Y0 = X(2,I)
+            Z0 = X(3,I)
 C
-        MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
-        MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
-        MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+            X1 = X(1,IRECT(1,L))
+            Y1 = X(2,IRECT(1,L))
+            Z1 = X(3,IRECT(1,L))
+            X2 = X(1,IRECT(2,L))
+            Y2 = X(2,IRECT(2,L))
 C
-        W = WEIGHT(I)
-        AI=AA * MS(I) * W
-        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
-          DO JJ=1,NIR
-            J=IRECT(JJ,L)
-            ADI(J)=ADI(J)+AI*H(JJ)
-          END DO
-        END IF
-        DO JJ=1,NIR
-         J=IRECT(JJ,L)
-         IF (MINER(J)>EM20) THEN
-          AR(1,J)=AR(1,J)+MXI*H(JJ)*W
-          AR(2,J)=AR(2,J)+MYI*H(JJ)*W
-          AR(3,J)=AR(3,J)+MZI*H(JJ)*W
-          IN(J)=IN(J)+INS*H2(JJ)*W
-          STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
-         END IF
+            XC = X1 * H(1) + X2 * H(2)
+            YC = Y1 * H(1) + Y2 * H(2)  
+            ZC = Z1 * H(1) + Z2 * H(2)
+C
+            XC0=X0-XC
+            YC0=Y0-YC
+            ZC0=Z0-ZC
+C
+            AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
+            INS = IN(I) + AA * MS(I)
+            STF = STIFR(I) + AA * STIFN(I)
+C
+            FXI=A(1,I)
+            FYI=A(2,I)
+            FZI=A(3,I)
+C
+            MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
+            MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
+            MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+C
+            W = WEIGHT(I)
+            AI=AA * MS(I) * W
+            IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
+              DO JJ=1,2
+                J=IRECT(JJ,L)
+                ADI(J)=ADI(J)+AI*H(JJ)
+              END DO
+            END IF
+            DO JJ=1,2
+              J=IRECT(JJ,L)
+              IF (MINER(J)>EM20) THEN
+                AR(1,J)=AR(1,J)+MXI*H(JJ)*W
+                AR(2,J)=AR(2,J)+MYI*H(JJ)*W
+                AR(3,J)=AR(3,J)+MZI*H(JJ)*W
+                IN(J)=IN(J)+INS*H2(JJ)*W
+                STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
+              END IF
+            ENDDO
+            STIFR(I)=EM20
+            IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
+            IN(I)=ZERO
+            STIFN(I)=EM20
+            IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+            MS(I)=ZERO
+            A(1,I)=ZERO
+            A(2,I)=ZERO
+            A(3,I)=ZERO
+          ENDIF
+C
         ENDDO
-        STIFR(I)=EM20
-        IF(IDEL2/=0.AND.IN(I)/=ZERO)SINER(II)=IN(I)
-        IN(I)=ZERO
-        STIFN(I)=EM20
-        IF(IDEL2/=0.AND.MS(I)/=ZERO)SMASS(II)=MS(I)
-        MS(I)=ZERO
-        A(1,I)=ZERO
-        A(2,I)=ZERO
-        A(3,I)=ZERO
-       ENDIF
 C
-      ENDDO
       ELSE
-      DO II=1,NSN
-       I=NSV(II)
-       IF(I>0)THEN
-        L=IRTL(II)
+        DO II=1,NSN
+          I=NSV(II)
+          IF(I>0)THEN
+            L=IRTL(II)
 C
-        SS=CRST(1,II)
-        ST=CRST(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H(1)=TM*SM
-        H(2)=TM*SP
-        H(3)=TP*SP
-        H(4)=TP*SM
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H(1)=TM*SM
+            H(2)=TM*SP
+            H(3)=TP*SP
+            H(4)=TP*SM
 C
-        SS=CRST(1,II)
-        ST=CRST(2,II)
-        SP=ONE + SS
-        SM=ONE - SS
-        TP=FOURTH*(ONE + ST)
-        TM=FOURTH*(ONE - ST)
-        H2(1)=TM*SM
-        H2(2)=TM*SP
-        H2(3)=TP*SP
-        H2(4)=TP*SM
+            SS=CRST(1,II)
+            ST=CRST(2,II)
+            SP=ONE + SS
+            SM=ONE - SS
+            TP=FOURTH*(ONE + ST)
+            TM=FOURTH*(ONE - ST)
+            H2(1)=TM*SM
+            H2(2)=TM*SP
+            H2(3)=TP*SP
+            H2(4)=TP*SM
 C
-        X0 = X(1,I)
-        Y0 = X(2,I)
-        Z0 = X(3,I)
+            X0 = X(1,I)
+            Y0 = X(2,I)
+            Z0 = X(3,I)
 C
-        X1 = X(1,IRECT(1,L))
-        Y1 = X(2,IRECT(1,L))
-        Z1 = X(3,IRECT(1,L))
-        X2 = X(1,IRECT(2,L))
-        Y2 = X(2,IRECT(2,L))
-        Z2 = X(3,IRECT(2,L))
-        X3 = X(1,IRECT(3,L))
-        Y3 = X(2,IRECT(3,L))
-        Z3 = X(3,IRECT(3,L))
-        X4 = X(1,IRECT(4,L))
-        Y4 = X(2,IRECT(4,L))
-        Z4 = X(3,IRECT(4,L))
+            X1 = X(1,IRECT(1,L))
+            Y1 = X(2,IRECT(1,L))
+            Z1 = X(3,IRECT(1,L))
+            X2 = X(1,IRECT(2,L))
+            Y2 = X(2,IRECT(2,L))
+            Z2 = X(3,IRECT(2,L))
+            X3 = X(1,IRECT(3,L))
+            Y3 = X(2,IRECT(3,L))
+            Z3 = X(3,IRECT(3,L))
+            X4 = X(1,IRECT(4,L))
+            Y4 = X(2,IRECT(4,L))
+            Z4 = X(3,IRECT(4,L))
 C
-        XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
-        YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
-        ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4) 
+            XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
+            YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
+            ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4) 
 C
-        XC0=X0-XC
-        YC0=Y0-YC
-        ZC0=Z0-ZC
+            XC0=X0-XC
+            YC0=Y0-YC
+            ZC0=Z0-ZC
 C
-        AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
-        INS = IN(I) + AA * MS(I)
-        STF = STIFR(I) + AA * STIFN(I)
+            AA = XC0*XC0 + YC0*YC0 + ZC0*ZC0
+            INS = IN(I) + AA * MS(I)
+            STF = STIFR(I) + AA * STIFN(I)
 C
-        FXI=A(1,I)
-        FYI=A(2,I)
-        FZI=A(3,I)
+            FXI=A(1,I)
+            FYI=A(2,I)
+            FZI=A(3,I)
 C
-        MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
-        MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
-        MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
+            MXI = AR(1,I) + YC0 * FZI - ZC0 * FYI
+            MYI = AR(2,I) + ZC0 * FXI - XC0 * FZI
+            MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
 C
-        W = WEIGHT(I)
-        AI=AA * MS(I) * W
-        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
-          DO JJ=1,4
-            J=IRECT(JJ,L)
-            ADI(J)=ADI(J)+AI*H(JJ)
-          END DO
-        END IF
-        DO JJ=1,4
-         J=IRECT(JJ,L)
-         IF (MINER(J)>EM20) THEN
-           AR(1,J)=AR(1,J)+MXI*H(JJ)*W
-           AR(2,J)=AR(2,J)+MYI*H(JJ)*W
-           AR(3,J)=AR(3,J)+MZI*H(JJ)*W
-           IN(J)=IN(J)+INS*H2(JJ)*W
-           STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
-         END IF
+            W = WEIGHT(I)
+            AI=AA * MS(I) * W
+            IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
+              DO JJ=1,4
+                J=IRECT(JJ,L)
+                ADI(J)=ADI(J)+AI*H(JJ)
+              END DO
+            END IF
+            DO JJ=1,4
+              J=IRECT(JJ,L)
+              IF (MINER(J)>EM20) THEN
+                AR(1,J)=AR(1,J)+MXI*H(JJ)*W
+                AR(2,J)=AR(2,J)+MYI*H(JJ)*W
+                AR(3,J)=AR(3,J)+MZI*H(JJ)*W
+                IN(J)=IN(J)+INS*H2(JJ)*W
+                STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
+              END IF
+            ENDDO
+            STIFR(I)=EM20
+            IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
+            IN(I)=ZERO
+            STIFN(I)=EM20
+            IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
+            MS(I)=ZERO
+            A(1,I)=ZERO
+            A(2,I)=ZERO
+            A(3,I)=ZERO
+          ENDIF
+C
         ENDDO
-        STIFR(I)=EM20
-        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
-        IN(I)=ZERO
-        STIFN(I)=EM20
-        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
-        MS(I)=ZERO
-        A(1,I)=ZERO
-        A(2,I)=ZERO
-        A(3,I)=ZERO
-       ENDIF
 C
-      ENDDO
       ENDIF
 C
 C Traitement specifique pour ADI

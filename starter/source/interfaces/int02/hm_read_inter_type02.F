@@ -243,7 +243,16 @@ C
       IF ((ILEV/=0 .AND. ILEV/=1 .AND. ILEV/=5 .AND. ILEV/=25 .AND. ILEV/=26 .AND. ILEV/=27 .AND. ILEV/=28)) IDEL2 = 0
       IF (N2D == 1)  IDEL2 = 0
       IPARI(17) = IDEL2
-
+C
+      IF ((N2D > 0).AND.(ILEV/=0)) THEN
+        CALL ANCMSG(MSGID=3015,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              MSGTYPE=MSGERROR,
+     .              I1=NOINT,
+     .              C1=TITR,
+     .              I2=ILEV)
+      ENDIF
+C
       IF(IBUC==0)IBUC=2
       IPARI(12) = IBUC
 
