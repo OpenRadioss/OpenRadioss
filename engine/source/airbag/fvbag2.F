@@ -213,6 +213,19 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
          UP_SWITCH = UP_SWITCH .OR. AUTO_SWITCH
          FVDATA(IFV)%PDISP_OLD = FVDATA(IFV)%PDISP
       ENDIF
+      
+      IF (UP_SWITCH .AND. IVOLU(74)==2)THEN
+        !criteria is reached, so let's start to merge polyhedra (cgmerg=RVOLU(31)=100%)
+        IVOLU(74) = 0
+        RVOLU(31) = ONE !100%
+        UP_SWITCH = .FALSE.
+        IF(ISPMD+1 == FVSPMD(IFV)%PMAIN) THEN
+               WRITE(IOUT,'(A,I10,A,E12.4/)') 
+     .              ' ** MONITORED VOLUME ID: ',IVOLU(1),
+     .              ' ALL POLYHEDRA ARE GOING TO BE MERGED ',TT
+        ENDIF
+      ENDIF
+            
       IF (UP_SWITCH) THEN
          IF (IVOLU(74) == 0 .OR. IVOLU(74) == 1) THEN
             DO I=1,NVENT
