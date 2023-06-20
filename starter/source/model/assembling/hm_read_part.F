@@ -269,7 +269,9 @@ C--------------------------------------------------
          !check compatibility between material law and property
          IF (((IGTYP==43) .and. ((ILAW/=59 .and. ILAW/=83 .and. ILAW/=116 .and. ILAW/=117 .AND. ILAW /=120) .and. 
      .       (USER_LAW .eqv. .false. ) ).eqv. .true.) .or.
-     .       ((ILAW==59 .or. ILAW==83 .or. ILAW==116 .or. ILAW==117) .and. IGTYP/=43) .eqv. .true.) THEN
+     .       ((ILAW==59 .or. ILAW==83 .or. ILAW==116 .or. ILAW==117) .and. IGTYP/=43) .or.
+     .        (ILAW==1 .and. (IGTYP==9.OR.IGTYP==10.OR.IGTYP==11.OR.IGTYP==16.OR.
+     .                        IGTYP==17.OR.IGTYP==51.OR.IGTYP==52) .eqv. .true.) .eqv. .true.) THEN
            CALL ANCMSG(MSGID=658,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
