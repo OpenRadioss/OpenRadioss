@@ -98,6 +98,7 @@ C-------------------------------------------------
       CALL HM_GET_INTV('def_orth', IGEO(49), IS_AVAILABLE, LSUBMODEL)
       
       IF (IGEO(4) <= 0) IGEO(4) = 1   ! default value
+      IGEO(44) = IGEO(4) ! Used with drape for OUPT
       IF (GEO(212) == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('orientangle2',FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          GEO(212) = NINTY * FAC_GEN ! default value   

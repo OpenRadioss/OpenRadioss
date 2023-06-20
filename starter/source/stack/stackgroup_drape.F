@@ -36,7 +36,7 @@ Chd|====================================================================
      .                     IGRSH3N    ,IGRSH4N  ,IXC   ,IXTG ,
      .                     IGEO       ,GEO      ,THK    ,STACK   ,
      .                     IGEO_STACK ,GEO_STACK ,  STACK_INFO ,
-     .                     NUMGEO_STACK,NPROP_STACK)
+     .                     NUMGEO_STACK,NPROP_STACK , PLY_INFO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,NUMELTG),IGEO(NPROPGI,NUMGEO),IWORKSH(3,NUMELC+NUMELTG),
      .        IGEO_STACK(NPROPGI,NUMSTACK + NUMPLY),NUMGEO_STACK(NUMGEO+NUMSTACK),
      .        NPROP_STACK
+      INTEGER  , INTENT(INOUT) :: PLY_INFO(2,NUMPLY)
       my_real
      .       GEO(NPROPG,NUMGEO),THK(NUMELC+NUMELTG),GEO_STACK(NPROPG,NUMSTACK + NUMPLY)
 C-----------------------------------------------
@@ -243,6 +244,7 @@ C #####################################################"
                     IDPLY = IWORK_T(II)%PLYID(J) 
                     ICSH(II) = ICSH(II) + NSLICE*IDPLY*IDPLY
                     IWORK_T(II)%NPT_LAY(J) = NSLICE
+                    IGEO(44,IDPLY) = MAX(IGEO(4,IDPLY),NSLICE)
                  ELSE
                     IDPLY = IWORK_T(II)%PLYID(J)
                     NPT_LAY = IGEO(4,IDPLY) 
@@ -500,6 +502,7 @@ C #####################################################"
                     IDPLY = IWORK_T(II)%PLYID(J) 
                     ICSH(II) = ICSH(II) + NSLICE*IDPLY*IDPLY
                     IWORK_T(II)%NPT_LAY(J) = NSLICE
+                    PLY_INFO(2,IDPLY - NUMSTACK)  =  MAX(PLY_INFO(2,IDPLY - NUMSTACK),NSLICE)
                  ELSE
                     IDPLY = IWORK_T(II)%PLYID(J) 
                     NPT_LAY = IGEO_STACK(4,IDPLY)

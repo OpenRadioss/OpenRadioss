@@ -356,7 +356,7 @@ C
          CPTPLY = 0
          DO I=1,NUMGEO
            IF(IGEO(11,I) == 19) THEN
-             DO IPT=1,IGEO(4,I)
+             DO IPT=1,IGEO(44,I)
                CPTPLY = CPTPLY + 1
                PLY_ANIM_STRESS( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
                PLY_ANIM_STRESS( 3 * (CPTPLY - 1) + 2) = 2
@@ -391,7 +391,7 @@ C
          CPTPLY = 0
          DO I=1,NUMGEO
            IF(IGEO(11,I) == 19) THEN
-             DO IPT=1,IGEO(4,I)
+             DO IPT=1,IGEO(44,I)
                CPTPLY = CPTPLY + 1
                PLY_ANIM_STRAIN( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
                PLY_ANIM_STRAIN( 3 * (CPTPLY - 1) + 2) = 3
@@ -426,7 +426,7 @@ C
          CPTPLY = 0
          DO I=1,NUMGEO
            IF(IGEO(11,I) == 19) THEN
-             DO IPT=1,IGEO(4,I)
+             DO IPT=1,IGEO(44,I)
                CPTPLY = CPTPLY + 1
                PLY_ANIM_EPSDOT( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
                PLY_ANIM_EPSDOT( 3 * (CPTPLY - 1) + 2) = 6
@@ -551,7 +551,7 @@ C
          CPTPLY = 0
          DO I=1,NUMGEO
            IF(IGEO(11,I) == 19) THEN
-             DO IPT=1,IGEO(4,I)
+             DO IPT=1,IGEO(44,I)
                CPTPLY = CPTPLY + 1
                PLY_ANIM_EPSP( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
                PLY_ANIM_EPSP( 3 * (CPTPLY - 1) + 2) = 5
@@ -586,7 +586,7 @@ C
          CPTPLY = 0
          DO I=1,NUMGEO
            IF(IGEO(11,I) == 19) THEN
-             DO IPT=1,IGEO(4,I)
+             DO IPT=1,IGEO(44,I)
                CPTPLY = CPTPLY + 1
                PLY_ANIM_DAMA( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
                PLY_ANIM_DAMA( 3 * (CPTPLY - 1) + 2) = 5
@@ -654,7 +654,7 @@ c
         NPTT= 1
         IGTYP15 = 0
         DO I=1,NUMGEO
-          NPT = IGEO(4,I)
+          NPT = IGEO(44,I)
           IHBE = IGEO(10,I)
           IGTYP = IGEO(11,I)
           ICSTR= IGEO(14,I)
@@ -713,10 +713,11 @@ C              IGTYP15 = 1
 C       
        NPTT_PLY = 0
        DO I=1,NUMGEO
-           NPT = IGEO(4,I)
-           IGTYP = IGEO(11,I)
-           IF(IGTYP == 19 .OR. IGTYP == 52)  NPTT_PLY = MAX (NPTT_PLY, NPT)
+           IF(IGTYP == 19)  NPTT_PLY = MAX (NPTT_PLY, IGEO(44,I))
        ENDDO
+       DO I=1,NUMPLY
+           NPTT_PLY = MAX( NPTT_PLY, PLY_INFO(2,I))
+       ENDDO   
 C       
        IF (IWPLAALL == 1)THEN
          IDX =   13247 + 4*MX_PLY_ANIM
