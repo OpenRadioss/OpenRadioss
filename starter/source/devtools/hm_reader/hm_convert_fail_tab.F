@@ -69,7 +69,7 @@ C INPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NBFAILTAB,OFFSET,ISFIRST,IS_CONVERT
+      INTEGER I,NBFAILTAB,OFFSET,ISFIRST,IS_CONVERT,CPT
       CHARACTER KEY*ncharline
 C-----------------------------------------------
       IS_CONVERT = 0
@@ -89,16 +89,19 @@ C-----------------------------------------------
 C--------------------------------------------------
 C DELETE /FAIL/TAB ENTITIES
 C--------------------------------------------------
+      CPT = 0
       IF (IS_CONVERT == 1) THEN
         DO I=1,NBFAILTAB
           CALL HM_OPTION_START('/FAIL/TAB')
           KEY  = '' 
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          KEYWORD2    = KEY )
-          DO WHILE ((KEY == 'TAB1').OR.(KEY == 'TAB2'))
+          CPT = 1
+          DO WHILE (((KEY == 'TAB1').OR.(KEY == 'TAB2')) .AND. CPT < NBFAILTAB)
             KEY  = '' 
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          KEYWORD2    = KEY )
+            CPT = CPT + 1
           ENDDO
           IF ((KEY /= 'TAB1').AND.(KEY /= 'TAB2')) CALL CPP_DELETE_ENTITY()
         ENDDO
