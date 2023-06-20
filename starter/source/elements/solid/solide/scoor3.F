@@ -375,6 +375,11 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .  SAV(NEL,3*(NPE-1))
 C-----------------------------------------------
+C   E x t e r n a l  F u n c t i o n s
+C-----------------------------------------------
+      my_real
+     .   CHECKVOLUME_4N
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N
@@ -387,6 +392,17 @@ C-----------------------------------------------
 C
       NPE1=NPE-1
       IF (NPE==4) THEN
+        DO I=LFT,LLT
+          IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
+C           renumber connectivity
+            NC(I,2)=IXS(6,I)
+            NC(I,4)=IXS(4,I)
+            IXS(4,I)=NC(I,2)
+            IXS(6,I)=NC(I,4)
+            IXS(5,I)=NC(I,2)
+            IXS(9,I)=NC(I,4)
+          ENDIF
+       ENDDO
        DO I=LFT,LLT
         NC(I,1)=IXS(2,I)
         NC(I,2)=IXS(4,I)
