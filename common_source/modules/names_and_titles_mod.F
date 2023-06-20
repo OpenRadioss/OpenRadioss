@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TITLES_MOD             
+Chd|  NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -57,7 +57,7 @@ C-----------------------------------------------
 
       CONTAINS
 Chd|====================================================================
-Chd|  STARTER0                      source/starter/starter0.F     
+Chd|  NAMES_AND_TITLE_INIT          modules/names_and_titles_mod.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================

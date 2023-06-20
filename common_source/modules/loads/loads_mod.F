@@ -33,6 +33,17 @@ Chd|        HM_READ_PCYL                  starter/source/loads/general/load_pcyl
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        SPLIT_PCYL                    starter/source/loads/general/load_pcyl/split_pcyl.F
 Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
+Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
+Chd|        H3D_PRE_SKIN_IXSKIN           engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_PRE_SKIN_SCALAR           engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|        H3D_SKIN_DIM                  engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_IXSKIN               engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_PRE_DIM              engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_PRE_MAP              engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
+Chd|        H3D_SKIN_SCALAR               engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|        H3D_SKIN_VECTOR               engine/source/output/h3d/h3d_results/h3d_skin_vector.F
+Chd|        LECH3D                        engine/source/output/h3d/h3d_build_fortran/lech3d.F
+Chd|        LECTUR                        engine/source/input/lectur.F  
 Chd|        PRESSURE_CYL                  engine/source/loads/general/load_pcyl/pressure_cyl.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
@@ -41,6 +52,7 @@ Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        READ_PCYL                     engine/source/output/restart/read_pcyl.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRITE_PCYL                    engine/source/output/restart/write_pcyl.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F

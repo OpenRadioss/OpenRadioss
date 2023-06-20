@@ -1,6 +1,8 @@
 Chd|====================================================================
 Chd|  PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
 Chd|-- called by -----------
+Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
 Chd|        PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
 Chd|-- calls ---------------
 Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
