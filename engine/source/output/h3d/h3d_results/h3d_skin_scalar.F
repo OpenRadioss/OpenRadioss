@@ -34,9 +34,11 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE H3D_SKIN_SCALAR(
      .                  ELBUF_TAB       ,SKIN_SCALAR  ,IFUNC     ,IPARG       ,GEO         ,
@@ -510,13 +512,16 @@ Chd|  H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scala
 Chd|-- called by -----------
 Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|-- calls ---------------
+Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE H3D_PRE_SKIN_SCALAR(SKIN_SCALAR,NODAL_IPART,
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,

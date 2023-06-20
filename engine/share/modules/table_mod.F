@@ -51,6 +51,10 @@ Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_t
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FORINTC                       source/elements/forintc.F     
 Chd|        FORINTP                       source/elements/forintp.F     
+Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
+Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
+Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
 Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
 Chd|        LECFUN                        source/tools/curve/lecfun.F   
@@ -123,6 +127,7 @@ Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F
 Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
 Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
 Chd|        SUFORC3                       source/user_interface/suforc3.F
 Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F

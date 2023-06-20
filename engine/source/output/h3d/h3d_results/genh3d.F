@@ -96,6 +96,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
@@ -103,6 +104,7 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE GENH3D(X        ,D        ,V           ,A           ,BUFEL    ,
      2                  IXS      ,IXQ      ,IXC         ,IXT         ,IXP      ,
