@@ -213,25 +213,51 @@ C
             MPT   = MAX(1,NPT)
             IF(NPT == 0) MPT = 0
 C
-            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-              NPT_ALL = 0
-              DO IPT=1,NLAY
-                NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(IPT)%NPTT
-              ENDDO
-              IF (NLAY == 1) MPT  = MAX(1,NPT_ALL)
-            ENDIF
-c
+            IF( IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
+              NPT = 1
+              MPT = NPT 
+            ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
+              IF(LAYER_INPUT == -2) THEN
+                NPT= ELBUF_TAB(NG)%BUFLY(1)%NPTT
+              ELSEIF(LAYER_INPUT == -3) THEN
+                NPT= ELBUF_TAB(NG)%BUFLY(NLAY)%NPTT
+              ELSEIF(LAYER_INPUT > 0 .AND. LAYER_INPUT <= NLAY) THEN
+                NPT= ELBUF_TAB(NG)%BUFLY(LAYER_INPUT)%NPTT
+              ENDIF  
+              IF( PLY_INPUT > 0) THEN
+                DO J=1,NLAY
+                      ID_PLY = 0
+                      IF (IGTYP == 51) THEN
+	                ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                      ELSEIF (IGTYP == 52) THEN
+                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                      ENDIF
+                      IF (ID_PLY  == PLY_INPUT ) THEN
+                         NPT= ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                         EXIT  
+                      ENDIF
+                ENDDO
+              ENDIF 
+              MPT = MAX(1,NPT)     
+            ENDIF 
+c           
             ILAY = LAYER_INPUT
             IPT = IPT_INPUT
             IPLY = PLY_INPUT
 c            IG = IGAUSS_INPUT
             IUVAR = IUVAR_INPUT
-            IF (ILAY == -2) ILAY = 1   !Lower
-            IF (ILAY == -3) ILAY = NLAY  !Upper
-            IF (IPT == -2) IPT = 1
-            IF (IPT == -3) IPT = NPT 
-  
 c
+            IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+              IF (ILAY == -2) ILAY = 1 !Lower
+              IF (ILAY == -3) ILAY = NLAY!Upper
+              IF (IPT  == -2) IPT  = 1
+              IF (IPT  == -3) IPT  = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+            ELSE
+              IF (ILAY == -2) ILAY = 1
+              IF (ILAY == -3) ILAY = NLAY
+              IF (IPT  == -2) IPT  = 1
+              IF (IPT  == -3) IPT  = MAX(1,NPT)    
+            ENDIF 
             DO I=1,NEL      
               DO K=1,5      
               SIGE(I,K) = ZERO  
