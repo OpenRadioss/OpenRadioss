@@ -183,6 +183,7 @@ C      LAYERS WITH : -VARIABLE THICKNESS
 C                    -VARIABLE MATERIAL  (BUT LAW 25 OR 27 ONLY)
 C                    -VARIABLE NUMBER OF INTEGRATION POINTS THROUGH ONE LAYER
 C---------------------------------------------------------------- 
+          CALL FRETITL(IDTITL,IGEO_STACK(NPROPGI-LTITR+1,I),LTITR)    
           NUMS = NUMGEO_STACK(NUMGEO + I)
           CALL HM_READ_STACK(
      .           GEO_STACK(1,I) ,IGEO_STACK(1,I) ,PM       ,IPM      ,ISKN     ,
@@ -267,7 +268,7 @@ C tag if the ply is in the  stack
                     IDS = IGEO_STACK(42,NUMSTACK  + K)
                     IGEO_STACK(42 ,NUMSTACK + K) = I
                     IF(IDS > 0 .AND. IDS /= I) THEN 
-                       CALL FRETITL2(TITR1,IGEO_STACK(NPROPGI-LTITR+1,NUMSTACK+I),LTITR)
+                       CALL FRETITL2(TITR1,IGEO_STACK(NPROPGI-LTITR+1,NUMSTACK+K),LTITR)
                        CALL ANCMSG(MSGID=1148,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                    I1=IGEO_STACK(1,NUMSTACK + K), I2= IGEO_STACK(1,IDS), I3= IGEO_STACK(1,I),
      .                    C1=TITR1, C2='PLY')
