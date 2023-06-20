@@ -43,9 +43,12 @@ Chd|====================================================================
      .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD     ,
      .                  NOM_OPT   ,IBFFLUX   )  
 C-----------------------------------------------
-C     SOUS PROGRAMME DE DECODAGE DES NOS USERS DES SKEW ET FCTS
-C          ENTREES NOS USER DES SKEW ET FCTS
-C          SORTIES NOS SYSTEME DES SKEW ET FCTS STOCKES AU MEME ENDROIT
+C   D e s c r i p t i o n
+C-----------------------------------------------C     
+C CONVERTING USER IDENTIFIER INTO INTERNAL IDENTIFIERS (/SKEW, /FUNCT, /TABLE, /SENSOR, ...)
+C    user_funct_id -> [1, NFUNCT]
+C    user_skew_id  -> [1, NSKEW]
+C    ...
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,17 +134,19 @@ C-----------------------------------------------
 C
       DATA MESS/'11TH MATERIAL LAW DEFINITION            '/
       DATA PUN/0.1/
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IFLAG1=0
       IFLAG2=0
 C----------------------------
-C     (I) TRAITEMENT DES FCTS
+C     (I) FUNCTIONS (/FUNCT)
 C----------------------------
 C
 C
  15   CONTINUE
 C
-C         2) LOIS 11 18 20 21 28-31
+C         2) MATERIAL LAWS 11 18 20 21 28-31
 C
       DO 300 I=1,NUMMAT
 C
@@ -151,7 +156,7 @@ C
 C
         IF(ILAW == 11) THEN
 C
-C         CHANGEMENT DU NO DE NOEUD
+C         UPDATING NODE IDENTIFIER
           IF(NINT(PM(51,I))/=0)THEN
             PM(51,I) = USR2SYS(NINT(PM(51,I)),ITABM1,MESS,ID)+PUN
           ENDIF
@@ -164,13 +169,30 @@ C
               DO J=1,NFUNCT
                 IF(ISERV(K) == NPC1(J)) THEN
                   IPM(10+K,I)=J
+                  
+                  !check density function : IPM(11)
+                  IF(K == 1)THEN
+                    IC1 = NPC(J)
+                    IC2 = NPC(J+1)
+                    JJ=0
+                    DO II = IC1,IC2-2,2
+                      JJ = JJ+1
+                      Y0 = PLD(II+1)
+                      IF(Y0 <= ZERO)THEN
+                        CALL ANCMSG(MSGID=132,MSGTYPE=MSGERROR,ANMODE=ANINFO,
+     .                              I1=ID, I2=ISERV(K), I3=JJ,
+     .                              C1=TITR,
+     .                              R1=Y0)
+                        EXIT
+                      ENDIF
+                    ENDDO
+                  ENDIF ! !end check 
+                                 
                   GOTO 230
                 ENDIF
               ENDDO!next J
               IPM(10+K,I) = 0 !function does not exist. Avoid check bounds issues
-              CALL ANCMSG(MSGID=126,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO_BLIND_1,
+              CALL ANCMSG(MSGID=126,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=ISERV(K))
@@ -1927,7 +1949,7 @@ c      END IF
 
 C=======================================================================
 C
-C    (II) SENSOR NUMBERING
+C    (III) SENSOR NUMBERING
 C
 C=======================================================================
 C----------------------------
@@ -2041,7 +2063,7 @@ C---------------------
       ENDDO
 c
 C----------------------------
-C     (III) TRAITEMENT DES TABLES
+C     (IV) TRAITEMENT DES TABLES
 C----------------------------
 C
 C         1) LOIS 73
