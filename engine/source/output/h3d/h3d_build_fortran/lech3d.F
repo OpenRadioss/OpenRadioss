@@ -1502,7 +1502,8 @@ c
  
                    IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
                      TEST_CHAIN = ''
-                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
+                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
+     *                     TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                      H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
                    ENDIF
                     
@@ -1743,7 +1744,8 @@ c
  
                     IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
                       TEST_CHAIN = ''
-                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
+                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
+     *                      TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                       H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
                     ENDIF
 
@@ -2038,7 +2040,8 @@ c
 
                    IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
                      TEST_CHAIN = ''
-                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
+                     WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
+     *                     TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                      H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1 = TEST_CHAIN
                    ENDIF
 
