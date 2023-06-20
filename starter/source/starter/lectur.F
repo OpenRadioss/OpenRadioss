@@ -3689,11 +3689,11 @@ C-------------------------
         IF(ALLOCATED(IDRAPEID)) DEALLOCATE(IDRAPEID)
      
          IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
-            CALL STACKGROUP_DRAPE(DRAPE, DRAPEG , IWORK_T, IWORKSH,
+            CALL STACKGROUP_DRAPE(DRAPE, DRAPEG , IWORK_T   , IWORKSH  ,
      .                   IGRSH3N    ,IGRSH4N    ,IXC        ,IXTG      ,
      .                   IGEO       ,GEO        ,THKE       , STACK    ,
      .                   IGEO_STACK ,GEO_STACK , STACK_INFO ,
-     .                   NUMGEOSTACK,NPROP_STACK)
+     .                   NUMGEOSTACK,NPROP_STACK,PLY_INFO)
          ELSE
             ALLOCATE(STACK%GEO(0,0))
             ALLOCATE(STACK%IGEO(0,0))

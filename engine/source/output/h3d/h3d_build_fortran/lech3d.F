@@ -890,7 +890,7 @@ C
                    NIP_MAX = MAX(NIP_MAX,IGEO(4,K))
                    IF (IGEO(4,K)==0) ISH_NPT0=1
                  ELSEIF(IGEO(11,K) == 19 )THEN  ! 
-                   NIP_MAX = MAX(NIP_MAX,IGEO(4,K))
+                   NIP_MAX = MAX(NIP_MAX,IGEO(44,K))
                  ELSEIF(IGEO(11,K) == 18)THEN
                    NIP_MAX = MAX(NIP_MAX,IGEO(3,K))
                  ENDIF
