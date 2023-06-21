@@ -45,7 +45,8 @@ Chd|====================================================================
      3           INOM_OPT,RESERVEP,NALE_R2R,NSPCOND0,
      4           SUBSET ,IGRSURF,IGRNOD  ,IGRBRIC,IGRQUAD,
      5           IGRSH4N,IGRSH3N,IGRTRUSS,IGRBEAM,IGRSPRING,
-     6           IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN,IWORKSH)
+     6           IGRPART,IGRSLIN,LSUBMODEL,RBY_MSN,IWORKSH,
+     7           SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,6 +84,8 @@ C-----------------------------------------------
      .   IXR_KJ(*),INOM_OPT(*),RESERVEP(*),NALE_R2R(ALE%GLOBAL%SNALE),
      .   NSPCOND0,RBY_MSN(2,*)
       INTEGER, INTENT(INOUT) ::  IWORKSH(3,NUMELC+NUMELTG)
+      INTEGER ,INTENT(IN) :: NB_SEATBELT_SHELLS
+      INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
       TYPE (SUBSET_) , DIMENSION(NSUBS)   :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN
@@ -1478,9 +1481,10 @@ C------Prereading and tag of SECTIONS-------------------------------------------
 C----------------------------------------------------------------------------------C
 
          CALL PRELECSEC(
-     1                  NUL,NUL,ITABM1,2,NOM_OPT(LNOPT1*INOM_OPT(8)+1),
-     2                  IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N  ,IGRTRUSS,
-     3                  IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL )
+     1   NUL,NUL,ITABM1,2,NOM_OPT(LNOPT1*INOM_OPT(8)+1),
+     2   IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N  ,IGRTRUSS,
+     3   IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL ,SEATBELT_SHELL_TO_SPRING,
+     4   NB_SEATBELT_SHELLS)
 
 C----------------------------------------------------------------------------------C
 C------Split of GAUGES-------------------------------------------------------------C
