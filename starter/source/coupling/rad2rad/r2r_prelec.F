@@ -58,7 +58,7 @@ Chd|====================================================================
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
-     8           DETONATORS,NSENSOR)
+     8           DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +96,8 @@ C-----------------------------------------------
      .   IPARTR(*),COMPT_T2,MODIF,PASSE,INOM_OPT(*),IPARTSP(*),NSPCONDN,
      .   NSPHION,IPART_L(LIPART1,*),MEMTR(*),IWORKSH(*),NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,
      .   NEW_NINIVOL,IXS10(*), IXS16(*), IXS20(*)
+      INTEGER ,INTENT(IN) :: NB_SEATBELT_SHELLS
+      INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
       my_real
      .  PM_STACK(*)
 C-----------------------------------------------
@@ -187,7 +189,8 @@ C--------------------------------------------------------------------C
         CALL PRELECSEC(
      1  NUL     ,NUL       ,ITABM1  ,1        ,NOM_OPT(LNOPT1*INOM_OPT(8)+1),
      2  IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N  ,IGRTRUSS,
-     3  IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL  )
+     3  IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL , SEATBELT_SHELL_TO_SPRING,
+     4  NB_SEATBELT_SHELLS)
 				
 C--------------------------------------------------------------------C
 C------Prereading and tag of Accelerometers--------------------------C
