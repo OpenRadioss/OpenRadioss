@@ -34,7 +34,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_SOLID(IXS   ,PM     ,ITAB ,ITABM1,
      .                  IPART,IPARTS,ISOLNOD,IXS10 ,IXS20,IXS16 ,
-     .                  IGEO ,LSUBMODEL,IS_DYNA)
+     .                  IGEO ,LSUBMODEL,IS_DYNA,X  )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -87,6 +87,7 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IS_DYNA
       my_real,
      .  INTENT(IN)::PM(NPROPM,*)
+      my_real, DIMENSION(3,NUMNOD), INTENT(IN):: X
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::ISOLNOD(*)
@@ -106,6 +107,11 @@ C-----------------------------------------------
      .   BID 
       CHARACTER MESS*40, MESS2*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SOL
+C-----------------------------------------------
+C   E x t e r n a l  F u n c t i o n s
+C-----------------------------------------------
+      my_real
+     .   CHECKVOLUME_4N
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -142,6 +148,14 @@ C--------------------------------------------------
           IXS(4,I)=IXS(3,I)
           IXS(3,I)=IXS(2,I)
           ISOLNOD(I)=4
+          IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
+            IC2=IXS(6,I)
+            IC4=IXS(4,I)
+            IXS(4,I)=IC2
+            IXS(6,I)=IC4
+            IXS(5,I)=IC2
+            IXS(9,I)=IC4
+          END IF
         ELSEIF(IXS(8,I)+IXS(9,I)==0)THEN
           IXS(9,I)=IXS(5,I)
           IXS(8,I)=IXS(7,I)
@@ -225,6 +239,14 @@ C--------------------------------------------------
         IXS(4,I)=IXS(3,I)
         IXS(3,I)=IXS(2,I)
         ISOLNOD(I)=4
+        IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
+          IC2=IXS(6,I)
+          IC4=IXS(4,I)
+          IXS(4,I)=IC2
+          IXS(6,I)=IC4
+          IXS(5,I)=IC2
+          IXS(9,I)=IC4
+        END IF
       ENDDO
 C--------------------------------------------------
 C      READING PENTA6 INPUTS IN HM STRUCTURE
