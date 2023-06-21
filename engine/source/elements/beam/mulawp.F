@@ -32,9 +32,9 @@ Chd|        SIGEPS71PI                    source/materials/mat/mat071/sigeps71pi
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MULAWP(ELBUF_STR,
-     1                  JFT     ,JLT     ,NEL     ,NPT     ,MTN,
-     2                  MAT     ,PID     ,NGL     ,PM      ,IPM,
-     3                  GEO     ,IGEO    ,OFF     ,FOR     ,MOM,
+     1                  NEL     ,NPT     ,MTN     ,IMAT    ,
+     2                  PID     ,NGL     ,PM      ,IPM     ,
+     3                  GEO     ,OFF     ,FOR     ,MOM,
      4                  EINT    ,AL      ,EPSP    ,BUFMAT  ,NPF,
      5                  TF      ,EXX     ,EXY     ,EXZ     ,KXX,
      6                  KYY     ,KZZ     ,JTHE    ,TEMPEL)
@@ -59,8 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NEL,MTN,NPT,JTHE    
-      INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),PID(*),MAT(*),NPF(*),NGL(*)
+      INTEGER NEL,MTN,IMAT,NPT,JTHE    
+      INTEGER IPM(NPROPMI,*),PID(*),NPF(*),NGL(*)
       my_real 
      .   PM(NPROPM,*),GEO(NPROPG,*),EPSP(*),BUFMAT(*),
      .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ), 
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .   SIGOXX(MVSIZ),SIGOXY(MVSIZ),SIGOXZ(MVSIZ),
      .   SIGNXX(MVSIZ),SIGNXY(MVSIZ),SIGNXZ(MVSIZ)
       my_real :: SHFACT,DFXX,DFXY,DFXZ
-      my_real ,DIMENSION(NEL) :: EPSXX,EPSXY,EPSXZ
+      my_real ,DIMENSION(NEL) :: EPSXX,EPSXY,EPSXZ,DPLA
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -95,11 +95,11 @@ C=======================================================================
       IPA  = 400        
       SHFACT = FIVE_OVER_6
 C--------------------------------------   
-      IADBUF = IPM(7,MAT(1))
-      NUPARAM= IPM(9,MAT(1))       
-      NFUNC  = IPM(10,MAT(1))
+      IADBUF = IPM(7,IMAT)
+      NUPARAM= IPM(9,IMAT)       
+      NFUNC  = IPM(10,IMAT)
       DO I=1,NFUNC
-        IFUNC(I)=IPM(10+I,MAT(1))
+        IFUNC(I)=IPM(10+I,IMAT)
       ENDDO
 C
       DO I=1,3
@@ -120,15 +120,14 @@ C--------------------------------------
         NUVAR =  BUFLY%NVAR_MAT
         NVARTMP= BUFLY%NVARTMP
 
-
 C---    Coordonnees du point d'integration
-        DO I=JFT,JLT                                 
+        DO I=1,NEL                                 
           YPT(I) = GEO(IPY+IPT,PID(I))              
           ZPT(I) = GEO(IPZ+IPT,PID(I))           
           APT(I) = GEO(IPA+IPT,PID(I))    
         ENDDO                                        
 C
-        DO I=JFT,JLT
+        DO I=1,NEL
           SIGNXX(I) = ZERO           
           SIGNXY(I) = ZERO           
           SIGNXZ(I) = ZERO
@@ -138,7 +137,7 @@ C
           SIGOXZ(I) = LBUF%SIG(II(3)+I)
         ENDDO
 c---    Deformations Incrementales
-        DO I = JFT,JLT
+        DO I = 1,NEL
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
           DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
           DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
@@ -147,12 +146,12 @@ c---    Deformations Incrementales
         ENDDO
 c---    Total strain   
         IF (BUFLY%L_STRA > 0) THEN
-          DO I= JFT,JLT
+          DO I = 1,NEL
             LBUF%STRA(II(1)+I) = LBUF%STRA(II(1)+I) + DEPSXX(I)
             LBUF%STRA(II(2)+I) = LBUF%STRA(II(2)+I) + DEPSXY(I)
             LBUF%STRA(II(3)+I) = LBUF%STRA(II(3)+I) + DEPSXZ(I)
           ENDDO
-          DO I= JFT,JLT
+          DO I = 1,NEL
             EPSXX(I) = LBUF%STRA(II(1)+I)
             EPSXY(I) = LBUF%STRA(II(2)+I)
             EPSXZ(I) = LBUF%STRA(II(3)+I)
@@ -166,7 +165,7 @@ C------------------------------------------
 C---
           CASE (34)
             CALL SIGEPS34PI(
-     1         JLT      ,NUPARAM  ,BUFMAT   ,IPM      ,MAT      ,
+     1         NEL      ,NUPARAM  ,BUFMAT   ,IPM      ,IMAT     ,
      2         NUVAR    ,UVAR     ,DEPSXX   ,DEPSXY   ,DEPSXZ   ,
      3         EPSXX    ,SIGOXX   ,SIGOXY   ,SIGOXZ   ,
      4         SIGNXX   ,SIGNXY   ,SIGNXZ   ,DT1      ,
@@ -174,16 +173,16 @@ C---
 C---
           CASE (36)
             CALL SIGEPS36PI(
-     1         JLT      ,IFUNC    ,IPT      ,NPF     ,TF       ,
+     1         NEL      ,IFUNC    ,IPT      ,NPF      ,TF       ,
      2         NGL      ,TT       ,DT1      ,BUFMAT   ,IPM     ,
-     3         MAT      ,E        ,G        ,OFF      ,DEPSXX  ,
+     3         IMAT     ,E        ,G        ,OFF      ,DEPSXX  ,
      4         DEPSXY   ,DEPSXZ   ,SIGOXX   ,SIGOXY   ,SIGOXZ  ,
      5         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,LBUF%PLA,
      6         EPSP     ,NVARTMP  ,VARTMP)
 C---
           CASE (44)
             CALL SIGEPS44PI(
-     1         JLT      ,NUPARAM  ,BUFMAT   ,IPM      ,MAT      ,
+     1         NEL      ,NUPARAM  ,BUFMAT   ,IPM      ,IMAT     ,
      2         OFF      ,LBUF%PLA ,DEPSXX   ,DEPSXY   ,DEPSXZ   ,
      3         SIGOXX   ,SIGOXY   ,SIGOXZ   ,EPSXX    ,EPSP     ,
      4         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,NUVAR    ,
@@ -192,14 +191,14 @@ C---
 C---
           CASE (71)
             CALL SIGEPS71PI(
-     1         JLT      ,NUPARAM  ,BUFMAT   ,IPM      ,MAT      ,
+     1         NEL      ,NUPARAM  ,BUFMAT   ,IPM      ,IMAT     ,
      2         OFF      ,DEPSXX   ,DEPSXY   ,DEPSXZ   ,
      3         SIGOXX   ,SIGOXY   ,SIGOXZ   ,EPSXX    ,EPSXY  ,
      4         EPSXZ    ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,
      5         NUVAR    ,UVAR     ,IFUNC    ,NPF      ,
      6         TF       ,NFUNC    ,JTHE     ,TEMPEL   ,LBUF%FRAC,
      7         LBUF%PLA) !transformation starin is stored in PLA
-               DO I= JFT,JLT
+               DO I = 1,NEL
                 GBUF%MAXFRAC(I)      = MAX(GBUF%MAXFRAC(I)      , LBUF%FRAC(I) )
                 GBUF%MAXEPS(II(1)+I) = MAX(GBUF%MAXEPS(II(1)+I) , ABS(EPSXX(I)))
                 GBUF%MAXEPS(II(2)+I) = MAX(GBUF%MAXEPS(II(2)+I) , ABS(EPSXY(I)))
@@ -211,7 +210,7 @@ C---
         END SELECT
 C----------------------------------------------------------------
 C---    Save stress components
-        DO I=JFT,JLT
+        DO I=1,NEL
           LBUF%SIG(II(1)+I) = SIGNXX(I)
           LBUF%SIG(II(2)+I) = SIGNXY(I)
           LBUF%SIG(II(3)+I) = SIGNXZ(I)
@@ -219,7 +218,7 @@ C---    Save stress components
 C-----------------------
 C      FORCES ET MOMENTS
 C-----------------------
-        DO I=JFT,JLT
+        DO I=1,NEL
           DFXX = APT(I)*SIGNXX(I)
           DFXY = APT(I)*SIGNXY(I)
           DFXZ = APT(I)*SIGNXZ(I)

@@ -114,7 +114,8 @@ Chd|====================================================================
      U    CONDNSKY  ,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT) 
+     Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
+     Z    SBUFMAT   ,SNPC      ,STF        ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -175,6 +176,9 @@ C-----------------------------------------------
      .   ICONTACT(*),IFOAM(*),KXIG3D(NIXIG3D,*),IXIG3D(*),
      .   IGRV(*),LGRAV(*),
      .   TAGPRT_SMS(*),ITAGND(*),NALE(*),FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
+      INTEGER ,INTENT(IN) :: SBUFMAT
+      INTEGER ,INTENT(IN) :: SNPC
+      INTEGER ,INTENT(IN) :: STF
       my_real
      .   X(3,*),V(3,*),VR(3,*),D(3,*),MS(*),IN(*),A(3,*),AR(3,*),
      .   DR(3,*),W(3,*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
@@ -207,7 +211,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       DOUBLE PRECISION, POINTER :: pFBSAV6
       INTEGER INDXOF(MVSIZ), IERROR, NV46
-      INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,
+      INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,IFAIL,
      .   K1, K2, KAD,NF1,IPRI, NELEM, OFFSET, NSGRP, K,
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
      .   JJ19,NPE,NIPMAX,ICNOD,NFT1,IBID,NN,
@@ -309,6 +313,7 @@ C
         ISOLNOD = IPARG(28,NG)                                        
         KFTS    = IPARG(30,NG)                                        
         ISTRA   = IPARG(44,NG)                                        
+        IFAIL   = IPARG(43,NG)
         IMATVIS = IPARG(45,NG)                                        
         IEXPAN  = IPARG(49,NG)                                        
         IGRE    = IPARG(51,NG)                                        
@@ -1166,8 +1171,10 @@ C
      C   GRTH,                IGRTH(OFF_IGRTH+NF1),MSP(NF1),            DMELP(NF1),
      D   IPRI,                ITASK,               JTHE,                TEMP,
      E   FTHE,                FTHESKY,             IEXPAN,              H3D_DATA,
-     F   JSMS,                IGRE,                NFT)
-C
+     F   JSMS,                IGRE,                NFT   ,              IFAIL   ,
+     G   SBUFMAT             ,SNPC                ,STF                 ,NUMMAT   ,
+     H   NUMGEO              )
+C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
               N=NINTER+NRWALL+NRBODY

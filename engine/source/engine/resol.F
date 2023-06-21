@@ -4524,7 +4524,8 @@ C
      U CONDNSKY       ,
      V TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
-     Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT)
+     Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
+     Z SBUFMAT        ,SNPC          ,STF         ) 
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN

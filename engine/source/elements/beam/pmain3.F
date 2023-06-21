@@ -30,13 +30,15 @@ Chd|        MULAWP                        source/elements/beam/mulawp.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PMAIN3(ELBUF_STR,
-     1                  JFT     ,JLT     ,NEL     ,NPT     ,MTN,
-     2                  MAT     ,PID     ,NGL     ,PM      ,IPM,
-     3                  GEO     ,IGEO    ,OFF     ,FOR     ,MOM,
-     4                  EINT    ,AL      ,EPSP    ,BUFMAT  ,NPF,
-     5                  TF      ,EXX     ,EXY     ,EXZ     ,KXX,
-     6                  KYY     ,KZZ     ,F1      ,F2      ,F3 ,
-     7                  M1      ,M2      ,M3      ,JTHE    ,TEMPEL)
+     1                  NEL     ,NPT     ,MTN     ,IMAT    ,
+     2                  PID     ,NGL     ,PM      ,IPM     ,
+     3                  GEO     ,IGEO    ,OFF     ,FOR     ,MOM   ,
+     4                  EINT    ,AL      ,EPSP    ,BUFMAT  ,NPF   ,
+     5                  TF      ,EXX     ,EXY     ,EXZ     ,KXX   ,
+     6                  KYY     ,KZZ     ,F1      ,F2      ,F3    ,
+     7                  M1      ,M2      ,M3      ,JTHE    ,TEMPEL,
+     8                  IFAIL   ,SBUFMAT ,SNPC    ,STF     ,NUMMAT,
+     9                  NUMGEO  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,8 +64,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NEL,MTN,NPT,JTHE    
-      INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),PID(*),MAT(*),NPF(*),NGL(*)
+      INTEGER ,INTENT(IN) :: IMAT
+      INTEGER ,INTENT(IN) :: NEL,MTN,NPT,JTHE,IFAIL  
+      INTEGER ,INTENT(IN) :: SBUFMAT
+      INTEGER ,INTENT(IN) :: SNPC
+      INTEGER ,INTENT(IN) :: STF
+      INTEGER ,INTENT(IN) :: NUMMAT
+      INTEGER ,INTENT(IN) :: NUMGEO
+      INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),PID(*),NPF(*),NGL(*)
       my_real 
      .   PM(NPROPM,*),GEO(NPROPG,*),EPSP(MVSIZ),BUFMAT(*),
      .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ), 
@@ -76,31 +84,31 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I1(MVSIZ),IFUNC(100)
-      INTEGER I,J1,IPT,JPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA
+      INTEGER IFUNC(100)
+      INTEGER I,J,IPT,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ
       my_real 
      .   DEGMB(MVSIZ),DEGSH(MVSIZ),DEGFX(MVSIZ),YPT(MVSIZ),ZPT(MVSIZ),
      .   APT(MVSIZ),IXX(MVSIZ),IYY(MVSIZ),IZZ(MVSIZ),ETSE(MVSIZ),
-     .   G(MVSIZ),E(MVSIZ),EPSPL(MVSIZ)
-      my_real 
-     .   DTINV,ASRATE,EPSPI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,DMM,DMPFL
+     .   G(MVSIZ),E(MVSIZ)
+      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA
+      my_real :: DTINV,ASRATE,EPSPI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,DMM,DMPFL
 C=======================================================================
 C       STRAIN RATE
 C-------------------
-      DO I=JFT,JLT                                              
+      ISRATE = IPM(3,IMAT)                             
+      ASRATE = MIN(ONE, PM(9,IMAT)*DT1)
+c
+      DO I = 1,NEL                                              
         EPSPI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
         EPSPI  = AL(I)*SQRT(THREE*EPSPI)/THREE_HALF                         
-        ISRATE = IPM(3,MAT(I))                             
         IF (ISRATE > 0) THEN                                    
-          ASRATE = MIN(ONE, PM(9,MAT(I))*DT1)
           EPSP(I)= ASRATE*EPSPI + (ONE - ASRATE)*EPSP(I)
         ELSE       
           EPSP(I)= EPSPI
         ENDIF                                                   
-        EPSPL(I) = EPSP(I)                                     
       ENDDO                      
 C-------------------
-      DO I=JFT,JLT
+      DO I = 1,NEL
         EXX(I) = EXX(I)*DT1
         EXY(I) = EXY(I)*DT1
         EXZ(I) = EXZ(I)*DT1
@@ -109,14 +117,14 @@ C-------------------
         KZZ(I) = KZZ(I)*DT1
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I = 1,NEL
         DEGMB(I) = FOR(I,1)*EXX(I)
         DEGSH(I) = FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
         DEGFX(I) = MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I)
       ENDDO
 C
       IF (ISIGI == 0 .OR. (ISIGI /= 0 .AND. TT /= ZERO)) THEN
-        DO I=JFT,JLT
+        DO I = 1,NEL
           FOR(I,1) = ZERO
           FOR(I,2) = ZERO
           FOR(I,3) = ZERO
@@ -125,25 +133,52 @@ C
           MOM(I,3) = ZERO
         ENDDO
       ENDIF
+      IPLA = ELBUF_STR%BUFLY(1)%L_PLA
+      ALLOCATE (DPLA(NEL*IPLA,NPT*IPLA))
+      IF (IFAIL > 0 .and. IPLA > 0) THEN
+        DO I = 1,NEL
+          DO J=1,NPT
+            DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I)
+          ENDDO
+        ENDDO
+      ENDIF
 C-----------------      
       IF (MTN == 2) THEN
         CALL M2LAWPI(ELBUF_STR,
-     1               JFT    ,JLT    ,NPT    ,PM     ,GEO, 
-     2               FOR    ,MOM    ,EINT   ,OFF    ,MAT,   
-     3               PID    ,EPSPL  ,EXX    ,EXY    ,EXZ,  
+     1               1      ,NEL    ,NPT    ,PM     ,GEO, 
+     2               FOR    ,MOM    ,EINT   ,OFF    ,IMAT,   
+     3               PID    ,EPSP   ,EXX    ,EXY    ,EXZ,  
      4               KXX    ,KYY    ,KZZ    ,AL     ,NEL)
-      ELSEIF (MTN > 28) THEN   
-C---    User laws
+c
+      ELSE
+c
         CALL MULAWP(ELBUF_STR,
-     1              JFT     ,JLT     ,NEL     ,NPT     ,MTN,
-     2              MAT     ,PID     ,NGL     ,PM      ,IPM,	 
-     3              GEO     ,IGEO    ,OFF     ,FOR     ,MOM,	 
-     4              EINT    ,AL      ,EPSPL   ,BUFMAT  ,NPF,
+     1              NEL     ,NPT     ,MTN     ,IMAT     ,
+     2              PID     ,NGL     ,PM      ,IPM,	 
+     3              GEO     ,OFF     ,FOR     ,MOM,	 
+     4              EINT    ,AL      ,EPSP    ,BUFMAT  ,NPF,
      5              TF      ,EXX     ,EXY     ,EXZ     ,KXX,
      6              KYY     ,KZZ     ,JTHE    ,TEMPEL)
-       ENDIF      
+      ENDIF
 C-------------------------------------
-      DO I=JFT,JLT
+      IF (IFAIL > 0) THEN
+        IF (IPLA > 0) THEN
+          DO I = 1,NEL
+            DO J=1,NPT
+              DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) - DPLA(I,J)
+            ENDDO
+          ENDDO
+        END IF
+c
+        CALL BEAM_FAIL(ELBUF_STR     ,NUMMAT  ,NUMGEO  ,NPROPM  ,
+     .              NPROPMI ,NPROPG  ,SBUFMAT ,SNPC    ,STF     ,
+     .              NEL     ,NPT     ,IMAT    ,PID(1)  ,JTHE    ,
+     .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,	 
+     .              OFF     ,EPSP    ,BUFMAT  ,NPF     ,TF      ,
+     .              EINT    ,TT      ,IOUT    ,ISTDO   )
+      END IF
+C-------------------------------------
+      DO I = 1,NEL
         FOR(I,1)=FOR(I,1)*OFF(I)
         FOR(I,2)=FOR(I,2)*OFF(I)
         FOR(I,3)=FOR(I,3)*OFF(I)
@@ -157,10 +192,10 @@ C---------------------------
       DTINV = DT1/MAX(DT1**2,EM20)  
       IF (IMPL_S > 0 .AND. IDYNA == 0) DTINV = ZERO
 C
-      DO I=JFT,JLT                                             
-        E(I)  = PM(20,MAT(I))                    
-        G(I)  = PM(22,MAT(I))                    
-        RHO   = PM(1 ,MAT(I))
+      DO I = 1,NEL                                             
+        E(I)  = PM(20,IMAT)                    
+        G(I)  = PM(22,IMAT)                    
+        RHO   = PM(1 ,IMAT)
         IXX(I)= GEO(4,PID(I))
         IYY(I)= GEO(2,PID(I))
         IZZ(I)= GEO(18,PID(I))
@@ -181,7 +216,7 @@ C
         M3(I) = MOM(I,3) + DMPFL*KZZ(I)*SPE*IZZ(I)
       ENDDO                 
 C-------------------------------------
-      DO I=JFT,JLT
+      DO I = 1,NEL
         DEGMB(I) = DEGMB(I) + FOR(I,1)*EXX(I)
         DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
         DEGFX(I) = DEGFX(I) 
@@ -193,7 +228,7 @@ C-------------------------------------
 C----------------------------
 C     TEST DE RUPTURE
 C---------converged implicit-------------------
-      DO I=JFT,JLT
+      DO I = 1,NEL
         IF (OFF(I) == FOUR_OVER_5 .AND. IMCONV == 1) THEN 
           IDEL7NOK = 1            
 #include "lockon.inc"
@@ -203,10 +238,11 @@ C---------converged implicit-------------------
         ENDIF
       ENDDO
 C      
-      DO I=JFT,JLT
+      DO I = 1,NEL
         IF (OFF(I) < EM01)  OFF(I) = ZERO
         IF (OFF(I) < ONE  )  OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO      
+      DEALLOCATE (DPLA)
 C------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT :',I10,' AT TIME :',G11.4)
