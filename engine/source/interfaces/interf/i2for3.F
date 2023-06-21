@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
 Chd|-- calls ---------------
 Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
+Chd|        I2FORCES_2D                   source/interfaces/interf/i2forces_2D.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE I2FOR3N(NSN    ,NMN    ,A      ,IRECT  ,CRST   ,

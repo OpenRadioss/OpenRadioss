@@ -131,6 +131,7 @@ Chd|-- called by -----------
 Chd|        C_IRBE2                       source/restart/ddsplit/c_irbe2.F
 Chd|        DOMAIN_DECOMPOSITION_PCYL     source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 Chd|        GET_SIZE_NUMNOD_LOCAL         source/spmd/get_size_tag.F    
+Chd|        IGRSURF_SPLIT                 source/spmd/igrsurf_split.F   
 Chd|        PREPARE_SPLIT_I21             source/restart/ddsplit/inter_tools.F
 Chd|        R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
 Chd|        SPLIT_CAND_I20                source/restart/ddsplit/inter_tools.F
