@@ -27,7 +27,7 @@ Chd|        MULAWP                        source/elements/beam/mulawp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIGEPS71PI(
-     1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,MAT     ,
+     1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,IMAT    ,
      2               OFF     ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,        
      3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPSXX   ,EPSXY  ,    
      4               EPSXZ   ,SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,
@@ -48,10 +48,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: IMAT
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,
      .   NFUNC,IFUNC(NFUNC),NPF(*),JTHE
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
-      INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPSXX,EPSXY,EPSXZ,
      .   DEPSXX,DEPSXY,DEPSXZ,SIGOXX,SIGOXY,SIGOXZ,TEMPEL
       my_real ,DIMENSION(*) ,INTENT(IN) :: UPARAM
@@ -85,8 +85,8 @@ C=======================================================================
 
       SHFACT = FIVE_OVER_6       
       SQDT   = SQRT(TWO/THREE)
+      IADBUF       = IPM(7,IMAT)-1               
       DO I=1,NEL                                 
-        IADBUF       = IPM(7,MAT(I))-1               
         E(I)         = UPARAM(IADBUF+1)                        
         G(I)         = UPARAM(IADBUF+3)              
         K(I)         = UPARAM(IADBUF+4)                  

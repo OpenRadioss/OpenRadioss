@@ -5768,7 +5768,7 @@ C---------------------------
       NUMSPHK8     =    NUMSPH
 ! working int8 to avoid integer overflow for large models
       EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,29*NUMELSK8+1,18*NUMELRK8,
-     .           17*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,
+     .           18*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
       ALLOCATE (IPARGTMP(NPARG,NUMEL)    ,STAT=stat)
@@ -6043,13 +6043,13 @@ C
       ENDIF
 C
 C-----
-      IF(NUMELP/=0) THEN
+      IF (NUMELP > 0) THEN
        K1 = 8*NUMELP
        K2 = 9*NUMELP
        K3 = 10*NUMELP+1
        K4 = 12*NUMELP+1
-       K5 = 16*NUMELP+1
-       K6 = 17*NUMELP+1
+       K5 = 17*NUMELP+1
+       K6 = 18*NUMELP+1
       !warning: please also update any index change
       !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
@@ -6060,11 +6060,10 @@ C-----
        ITRI1  => IWORK(K4+1:K5)
        XEP    => IWORK(K5+1:K6)
        CALL PGRHEAD(
-     1   IXP      ,PM       ,GEO      ,INUM     ,BID13    ,
+     1   IXP      ,PM       ,GEO      ,INUM     ,
      2   ITR1     ,EADD     ,INDEX1   ,ITRI1    ,IPARTP   ,
-     4   ND       ,IGRSURF  ,IGRBEAM  ,CEP(OFF) ,
-     5   XEP      ,IGEO     ,IPOUOFF  ,
-     6   TAGPRT_SMS , IPM )
+     3   ND       ,IGRSURF  ,IGRBEAM  ,CEP(OFF) ,
+     4   XEP      ,IGEO     ,IPOUOFF  ,TAGPRT_SMS , IPM )
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------

@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE M2LAWPI(ELBUF_STR,
      1                  JFT    ,JLT    ,NPT    ,PM     ,GEO,
-     2                  FOR    ,MOM    ,EINT   ,OFF    ,MAT,
+     2                  FOR    ,MOM    ,EINT   ,OFF    ,IMAT,
      3                  PID    ,EPSP   ,EXX    ,EXY    ,EXZ,
      4                  KXX    ,KYY    ,KZZ    ,AL     ,NEL)
 C-----------------------------------------------
@@ -54,8 +54,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: IMAT
       INTEGER JFT,JLT,NPT,NEL
-      INTEGER MAT(MVSIZ),PID(MVSIZ)
+      INTEGER PID(MVSIZ)
 C     REAL
       my_real
      .   EXX(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), 
@@ -68,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
-      INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
+      INTEGER I, J, J1, J2, NPIF, IPT, IPY,IPZ,IPA,NINDX,
      .        IR,IS,ILAYER,II(3)
 C     REAL
       my_real
@@ -98,24 +99,23 @@ C=======================================================================
 !
 C---
       DO I=JFT,JLT                             
-        MX = MAT(I)                            
-        E(I)    = PM(20,MX)                    
-        G(I)    = PM(22,MX)                    
-        CA(I)   = PM(38,MX)                    
-        CB(I)   = PM(39,MX)                    
-        CN(I)   = PM(40,MX)                    
-        EPMX(I) = PM(41,MX)                    
-        YMAX(I) = PM(42,MX)                    
-        CC(I)   = PM(43,MX)                    
-        EPDR(I) = MAX(EM20,PM(44,MX)*DT1)  
+        E(I)    = PM(20,IMAT)                    
+        G(I)    = PM(22,IMAT)                    
+        CA(I)   = PM(38,IMAT)                    
+        CB(I)   = PM(39,IMAT)                    
+        CN(I)   = PM(40,IMAT)                    
+        EPMX(I) = PM(41,IMAT)                    
+        YMAX(I) = PM(42,IMAT)                    
+        CC(I)   = PM(43,IMAT)                    
+        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)  
         EPIF    = MAX(EPIF,CC(I))              
-        ICC(I)  = NINT(PM(49,MX))              
-        IRTY(I) = NINT(PM(50,MX))              
+        ICC(I)  = NINT(PM(49,IMAT))              
+        IRTY(I) = NINT(PM(50,IMAT))              
         NPIF    = NPIF + IRTY(I)               
-        Z3(I)   = PM(51,MX)                    
-        Z4(I)   = PM(52,MX)                    
-        CP(I)   = PM(53,MX)                    
-        T(I)    = PM(54,MX)                    
+        Z3(I)   = PM(51,IMAT)                    
+        Z4(I)   = PM(52,IMAT)                    
+        CP(I)   = PM(53,IMAT)                    
+        T(I)    = PM(54,IMAT)                    
         EPSP(I) = MAX(EPSP(I),EPDR(I))
         VOL(I)  = AL(I)*GEO(1,PID(I))              
       ENDDO                                    
@@ -175,9 +175,9 @@ C
         ENDDO                                    
         DO I=JFT,JLT
           ETSE(I) = ONE
-          CA(I)   = PM(38,MAT(I))                  
-          CB(I)   = PM(39,MAT(I))                  
-          YMAX(I) = PM(42,MAT(I))                  
+          CA(I)   = PM(38,IMAT)                  
+          CB(I)   = PM(39,IMAT)                  
+          YMAX(I) = PM(42,IMAT)                  
         ENDDO
 C--     Yield 
         IF (EPIF /= ZERO) THEN

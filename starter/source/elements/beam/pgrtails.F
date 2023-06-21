@@ -262,7 +262,6 @@ C---
      .                      I2=ID,
      .                      C2=TITR)
               ENDIF
-
               !!
               NUVAR  = 0
               DO J = 1,NE1
@@ -283,12 +282,16 @@ c                                        other groups using old buffer
               IPARG(38,NGROUP) = IGTYP
               !---reperage groupe/processeur
               IPARG(32,NGROUP)= P-1
-C         flag for group of duplicated elements in multidomains
+C             flag for group of duplicated elements in multidomains
               IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
-C         thermal material expansion
+C             thermal material expansion
               IPARG(49,NGROUP) = 0
               IF(IPM(218,MID) > 0 .AND. MLN /= 0 .AND. MLN /=13) THEN
                 IPARG(49,NGROUP) = 1
+              ENDIF
+              ! check failure models
+              IF (IGTYP == 18 .and. IPM(220,MID) >  0) THEN                                
+                IPARG(43,NGROUP) = 1   ! IFAIL flag                      
               ENDIF
 
               JSMS=0

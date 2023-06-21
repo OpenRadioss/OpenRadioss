@@ -49,21 +49,23 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE PFORC3(
-     1   ELBUF_STR,JFT,      JLT,      NEL,
-     2   MTN,      ISMSTR,   PM,       NCC,
-     3   X,        F,        M,        V,
-     4   R,        GEO,      PARTSAV,  DT2T,
-     5   NELTST,   ITYPTST,  STIFN,    STIFR,
-     6   FSKY,     IADP,     OFFSET,   IPARTP,
-     7   TANI,     FX1,      FX2,      FY1,
-     8   FY2,      FZ1,      FZ2,      MX1,
-     9   MX2,      MY1,      MY2,      MZ1,
-     A   MZ2,      IGEO,     IPM,      BUFMAT,
-     B   NPT,      NPF,      TF,       GRESAV,
-     C   GRTH,     IGRTH,    MSP,      DMELP,
-     D   IOUTPRT,  ITASK,    JTHE,     TEMP,
-     E   FTHE,     FTHESKY,  IEXPAN,   H3D_DATA,
-     F   JSMS,     IGRE,     NFT)
+     1   ELBUF_STR,JFT      ,JLT      ,NEL      ,
+     2   MTN      ,ISMSTR   ,PM       ,NCC      ,
+     3   X        ,F        ,M        ,V        ,
+     4   R        ,GEO      ,PARTSAV  ,DT2T     ,
+     5   NELTST   ,ITYPTST  ,STIFN    ,STIFR    ,
+     6   FSKY     ,IADP     ,OFFSET   ,IPARTP   ,
+     7   TANI     ,FX1      ,FX2      ,FY1      ,
+     8   FY2      ,FZ1      ,FZ2      ,MX1      ,
+     9   MX2      ,MY1      ,MY2      ,MZ1      ,
+     A   MZ2      ,IGEO     ,IPM      ,BUFMAT   ,
+     B   NPT      ,NPF      ,TF       ,GRESAV   ,
+     C   GRTH     ,IGRTH    ,MSP      ,DMELP    ,
+     D   IOUTPRT  ,ITASK    ,JTHE     ,TEMP     ,
+     E   FTHE     ,FTHESKY  ,IEXPAN   ,H3D_DATA ,
+     F   JSMS     ,IGRE     ,NFT      ,IFAIL    ,
+     G   SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
+     H   NUMGEO   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,9 +89,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NFT
-      INTEGER, INTENT(IN) :: IGRE
-      INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(IN) :: NFT,IGRE,JSMS,IFAIL
+      INTEGER ,INTENT(IN) :: SBUFMAT
+      INTEGER ,INTENT(IN) :: SNPC
+      INTEGER ,INTENT(IN) :: STF
+      INTEGER ,INTENT(IN) :: NUMMAT
+      INTEGER ,INTENT(IN) :: NUMGEO
       INTEGER NCC(NIXP,*),IADP(2,*),IPARTP(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),NPF(*),GRTH(*),IGRTH(*)
       INTEGER JFT,JLT,NELTST,ITYPTST,OFFSET,NEL,JTHE,
@@ -253,15 +258,17 @@ c
      .    F2      ,F3      ,M1      ,M2      ,M3  )
 C----
       ELSEIF (IGTYP == 18) THEN  
-C----   Poutre a section intergree
+C----   Integrated beams
         CALL PMAIN3(ELBUF_STR,
-     1              JFT       ,JLT         ,NEL       ,NPT      ,MTN     ,
-     2               MAT     ,PID     ,NGL     ,PM      ,IPM     ,
+     1              NEL       ,NPT         ,MTN       ,MAT(1)   ,
+     2              PID       ,NGL         ,PM        ,IPM      ,
      3              GEO       ,IGEO        ,OFF       ,GBUF%FOR ,GBUF%MOM,
      4              GBUF%EINT ,GBUF%LENGTH ,GBUF%EPSD ,BUFMAT   ,NPF     ,
      5              TF        ,EXX         ,EXY       ,EXZ      ,KXX     ,
      6              KYY       ,KZZ         ,F1        ,F2       ,F3      ,
-     7              M1        ,M2          ,M3        ,JTHE    ,TEMPEL)
+     7              M1        ,M2          ,M3        ,JTHE     ,TEMPEL  ,
+     8              IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,
+     9              NUMGEO    )
       ENDIF
 C  
 C      Expanson

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS44PI(
-     1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,MAT     ,
+     1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,IMAT    ,
      2               OFF     ,PLA     ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,        
      3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPST    ,EPSP    ,      
      4               SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,NUVAR   ,
@@ -48,10 +48,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: IMAT
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,
      .   NFUNC,IFUNC(NFUNC),NPF(*),NVARTMP
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
-      INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPST,
      .   DEPSXX,DEPSXY,DEPSXZ,SIGOXX,SIGOXY,SIGOXZ
       my_real ,DIMENSION(*) ,INTENT(IN) :: UPARAM
@@ -76,8 +76,8 @@ C=======================================================================
       SHFACT = FIVE_OVER_6
       EPIF   = ZERO
 c
+      IADBUF   = IPM(7,IMAT)-1
       DO I=1,NEL
-        IADBUF   = IPM(7,MAT(I))-1
         E(I)     = UPARAM(IADBUF+1)
         NU(I)    = UPARAM(IADBUF+2)
         CA(I)    = UPARAM(IADBUF+3)
