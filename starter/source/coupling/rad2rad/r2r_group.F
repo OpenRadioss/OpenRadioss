@@ -55,7 +55,8 @@ Chd|====================================================================
      5           PM_STACK ,IWORKSH  ,IGRBRIC2,IGRQUAD2  ,IGRSH4N2,
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
      7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_,
-     7           NLOC_DMG ,DETONATORS,NSENSOR)
+     8           NLOC_DMG ,DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,
+     9           NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +102,8 @@ C-----------------------------------------------
      .   IPARTC(*),IPARTT(*),IPARTP(*),IPARTR(*),
      .   IPARTG(*),IXR_KJ(*),INOM_OPT(*),IPART_L(*),IAD,
      .   NALE_R2R(*),FLG_R2R_ERR,IWORKSH(*),ALE_EULER
+      INTEGER ,INTENT(IN) :: NB_SEATBELT_SHELLS
+      INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
       my_real :: PM_STACK(*)
       TYPE (NLOCAL_STR_) ,INTENT(IN)  :: NLOC_DMG
       TYPE(DETONATOR_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
@@ -325,7 +328,7 @@ C---------------Prereading of options for tag of nodes---------------C
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
-     8           DETONATORS,NSENSOR)
+     8           DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS)
         ENDIF
 C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
         IF (COMPT_T2>0) THEN
