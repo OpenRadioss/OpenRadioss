@@ -2376,7 +2376,7 @@ C--------------------------------------------
 
        CALL HM_READ_SOLID(IXS    ,PM      ,ITAB    ,ITABM1  ,
      .             IPART  ,IPARTS  ,EANI    ,IXS10   ,IXS20   ,IXS16   ,
-     .             IGEO   ,LSUBMODEL,IS_DYNA)
+     .             IGEO   ,LSUBMODEL,IS_DYNA,X     )
 
       ENDIF
       CALL TRACE_OUT1()
