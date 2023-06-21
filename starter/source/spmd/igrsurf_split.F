@@ -25,7 +25,11 @@ Chd|  IGRSURF_SPLIT                 source/spmd/igrsurf_split.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
+Chd|        ALLOC_1D_ARRAY                ../common_source/modules/array_mod.F
+Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
+Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================

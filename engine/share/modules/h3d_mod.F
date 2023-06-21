@@ -174,6 +174,7 @@ Chd|        I2FOR3P                       source/interfaces/interf/i2for3p.F
 Chd|        I2FOR3PN                      source/interfaces/interf/i2for3p.F
 Chd|        I2FOR3PO                      source/interfaces/interf/i2for3p.F
 Chd|        I2FORCES                      source/interfaces/interf/i2forces.F
+Chd|        I2FORCES_2D                   source/interfaces/interf/i2forces_2D.F
 Chd|        I2MOM27P_CIN                  source/interfaces/interf/i2mom27p_cin.F
 Chd|        I2MOM27_CIN                   source/interfaces/interf/i2mom27_cin.F
 Chd|        I2MOM3N                       source/interfaces/interf/i2for3.F
