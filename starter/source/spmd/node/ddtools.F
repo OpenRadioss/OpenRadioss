@@ -173,7 +173,7 @@ C-----------------------------------------------
       TAB(1:NSPMD) = -1
       CPT=0
       IAD=IFRONT%IENTRY(N)
-
+      IF(IAD==-1) RETURN
 c if no proc set for this node     
 c nothing to do as init has been done to -1 
 
