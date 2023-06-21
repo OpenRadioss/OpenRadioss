@@ -106,7 +106,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
             AREAC =AREA
 C
@@ -202,7 +202,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
             AREAC =AREA
 C
