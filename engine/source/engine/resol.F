@@ -6816,7 +6816,7 @@ c
           ENDIF      
 c
           ! check activation condition of base sensors
-          CALL SENSOR_BASE(SENSORS  ,TT        ,DT2       ,
+          CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .         XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .         X         ,V         ,A         ,ACCELM    ,NPRW      ,
      .         SUBSETS   ,IGRSURF   ,IGRNOD    )
@@ -8113,7 +8113,7 @@ c
         ENDIF
 c       
         ! check activation condition of base sensors
-        CALL SENSOR_BASE(SENSORS  ,TT        ,DT2       ,
+        CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .       XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .       X         ,V         ,A         ,ACCELM    ,NPRW      ,
      .       SUBSETS   ,IGRSURF   ,IGRNOD    )
