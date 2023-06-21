@@ -47,7 +47,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_BASE(SENSORS  ,TIME      ,TIMESTEP  ,
+      SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,
      .           SUBSET    ,IGRSURF   ,IGRNOD    )
@@ -71,6 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER                           ,INTENT(IN) :: NSENSOR
       INTEGER ,DIMENSION(NPARI,NINTER)  ,INTENT(IN) :: IPARI
       INTEGER ,DIMENSION(*)             ,INTENT(IN) :: NPRW
       my_real ,DIMENSION(3,NUMNOD)      ,INTENT(IN) :: X,V,A
@@ -87,7 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER TYP,NSENSOR,ISENS,SENS_ID,SIZE,STABS,SFSAV
+      INTEGER TYP,ISENS,SENS_ID,SIZE,STABS,SFSAV
       CHARACTER(LEN=256) :: OPTION
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -96,8 +97,6 @@ C     this routine checks activation condition of all basic sensor types
 C=======================================================================
       STABS   = SENSORS%STABSEN 
       SFSAV   = SENSORS%SFSAV
-      NSENSOR = SENSORS%NSENSOR
-
 c--------------------------------------------------
 c     Parallel loop over sensor list
 c--------------------------------------------------
