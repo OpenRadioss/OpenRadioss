@@ -32,7 +32,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE LECINP(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .                  SENSORS ,DT )
+     .                  SENSORS ,DT, OUTPUT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE SENSOR_MOD
       USE DT_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +53,8 @@ C-----------------------------------------------
       TYPE(DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE(SENSORS_), INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(INOUT) :: DT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -66,7 +69,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      CHARACTER CART*ncharline
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -82,7 +84,7 @@ C
 C
       IFREEF=1
       CALL FREFORM(IRUN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .             SENSORS,DT )
+     .             SENSORS,DT,OUTPUT)
 C
       REWIND IIN
 C

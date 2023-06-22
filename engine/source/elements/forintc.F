@@ -76,8 +76,8 @@ Chd|====================================================================
      N    IBORDNODE ,NODEDGE   ,CRKNODIAD ,ELBUF_TAB ,
      O    XFEM_TAB  ,CONDN     ,CONDNSKY  ,CRKEDGE   ,
      P    STACK     ,ITAB      ,
-     S    DRAPE_SH4N,DRAPE_SH3N,SUBSET    ,XDP       ,VPINCH    ,
-     T    APINCH    ,STIFPINCH ,DRAPEG)
+     S    DRAPE_SH4N  ,DRAPE_SH3N  ,SUBSET    ,XDP       ,VPINCH,
+     T    APINCH    ,STIFPINCH ,DRAPEG,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE RUPTURE_MOD
       USE DRAPE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,6 +166,7 @@ C     REAL
       TYPE (DRAPEG_)               :: DRAPEG
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,15 +194,15 @@ C======================================================================|
       ITG2 = 2*NUMELC
       ITG3 = 1+NUMELC
       IPRI = 0
-      IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT >= THIS.OR.
-     +       MDESS /= 0.OR.TT >= THIS1(1).OR.TT >= THIS1(2).
-     +       OR.TT >= THIS1(3) .OR.TT >= THIS1(4).OR.TT >= THIS1(5).
-     +       OR.TT >= THIS1(6) .OR.TT >= THIS1(7).OR.TT >= THIS1(8).
-     +       OR.TT >= THIS1(9) .OR.NTH /= 0.OR.NANIM/=0.
-     +       OR.TT >= TABFIS(1).OR.TT >= TABFIS(2).
-     +       OR. TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5).
-     +       OR. TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8).
-     +       OR. TT >= TABFIS(9).OR. TT >= TABFIS(10).OR.
+      IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT >= OUTPUT%TH%THIS.OR.
+     +       MDESS /= 0.OR.TT >= OUTPUT%TH%THIS1(1).OR.TT >= OUTPUT%TH%THIS1(2)
+     +       .OR.TT >= OUTPUT%TH%THIS1(3) .OR.TT >= OUTPUT%TH%THIS1(4).OR.TT >= OUTPUT%TH%THIS1(5)
+     +       .OR.TT >= OUTPUT%TH%THIS1(6) .OR.TT >= OUTPUT%TH%THIS1(7).OR.TT >= OUTPUT%TH%THIS1(8)
+     +       .OR.TT >= OUTPUT%TH%THIS1(9) .OR.NTH /= 0.OR.NANIM/=0
+     +       .OR.TT >= TABFIS(1).OR.TT >= TABFIS(2)
+     +       .OR. TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5)
+     +       .OR. TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8)
+     +       .OR. TT >= TABFIS(9).OR. TT >= TABFIS(10).OR.
      +       ISHSUB /= 0 .OR. ISTAT==3) IPRI=1
 !
       ISENS_ENERGY = 0
@@ -416,7 +418,8 @@ c
      P   NODENR,             IADC_CRK,           NODEDGE,            CRKNODIAD,
      Q   CONDN,              CONDNSKY,           STACK,              ISUBSTACK,
      R   XFEM_TAB(NG,1:NXEL),CRKEDGE,            DRAPE_SH4N,         IPRI,
-     S   NLOC_DMG,           DRAPEG%INDX_SH4N,   IGRE,               JTUR)
+     S   NLOC_DMG,           DRAPEG%INDX_SH4N,   IGRE,               JTUR,
+     T   OUTPUT)
 c
          IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL

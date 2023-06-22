@@ -94,7 +94,7 @@ Chd|====================================================================
      C    NGROUNC   ,IGROUNC   ,IXS       ,IRST      ,SOL2SPH   ,
      D    SPH2SOL   ,FSKYV     ,FSKY      ,IGEO      ,TEMP      ,
      E    FTHE      ,FTHESKYI  ,SPHG_F6   ,WSMCOMP   ,SOL2SPH_TYP,
-     F    MATPARAM_TAB)
+     F    MATPARAM_TAB,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -105,6 +105,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE NLOCAL_REG_MOD
       USE MATPARAM_DEF_MOD
+      USE OUTPUT_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,6 +157,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       DOUBLE PRECISION SPHG_F6(4,6,NBGAUGE)
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -642,7 +644,7 @@ C-----------------------------------------------
      6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7    GRTH      ,IGRTH     ,TABLE     ,ISTRA     ,VOLN      ,
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MATPARAM_TAB,IBID)
+     9    MATPARAM_TAB,IBID,OUTPUT)
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO

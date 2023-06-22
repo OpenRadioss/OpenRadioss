@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
@@ -32,7 +32,7 @@ Chd|        FXBWREST                      source/output/restart/wrrest.F
 Chd|        INTFRIC_WRESTI                share/modules/intbuf_fric_mod.F
 Chd|        INTFRIC_WRESTR                share/modules/intbuf_fric_mod.F
 Chd|        INTSTAMP_WRESTI               share/modules/intstamp_mod.F  
-Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F  
+Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F
 Chd|        OPEN_C                        source/output/tools/sortie_c.c
 Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
 Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   
@@ -169,7 +169,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
       TYPE(DYNAIN_DATABASE) ,INTENT(IN)                   :: DYNAIN_DATA
       TYPE(USER_WINDOWS_)   ,INTENT(IN)                   :: USER_WINDOWS
-      TYPE(OUTPUT_)         ,INTENT(IN)                   :: OUTPUT
+      TYPE(OUTPUT_)         ,INTENT(IN)                   :: OUTPUT !< output structure
       TYPE(INTERFACES_)     ,INTENT(IN)                   :: INTERFACES
       TYPE(SENSORS_)        ,INTENT(IN)                   :: SENSORS
       TYPE(LOADS_)          ,INTENT(IN)                   :: LOADS
@@ -221,7 +221,6 @@ C-----------------------------------------------
       my_real
      .          TABVREA(LMXVREA), ENTMP(100)
       INTEGER MY_ILEN,MY_RLEN,LTABLE, LENI, LENR
-      INTEGER NBT8
 
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2048) :: TMP_NAME
@@ -283,7 +282,8 @@ C
         IF(ISPMD==0) ALE%GRID%VGZ = ENTMP(1)
       ENDIF
 C
-      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS)
+      CALL WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS,
+     .            OUTPUT)
 C--------------------------------------
 C     OPEN
 C--------------------------------------
@@ -1060,7 +1060,7 @@ C--------------------------------------
 
          CALL WRITE_I_C(POIN_UMP,NUMMAT)
 
-	        CALL WRITE_DB(TAB_MAT,STAB_MAT)
+         CALL WRITE_DB(TAB_MAT,STAB_MAT)
 
          CALL WRITE_DB(FZERO,SFZERO)
 
@@ -1178,11 +1178,11 @@ C on a besoin car les restart sont les memes des check restart
         CALL WRITE_I_C (IADRL,LLLINK*MIN(1,IPARIT))
         !CALL WRITE_I_C (LINALE,LLINAL)
 C       section
-	       CALL WRITE_I_C(NEFLSW,NSFLSW)
-	       CALL WRITE_I_C(NNFLSW,8*NTFLSW)
-	       CALL WRITE_I_C(ICUT,44*NCUTS)
-	       CALL WRITE_DB (CRFLSW,9*NSFLSW)
-	       CALL WRITE_DB (XCUT,7*NCUTS)
+        CALL WRITE_I_C(NEFLSW,NSFLSW)
+        CALL WRITE_I_C(NNFLSW,8*NTFLSW)
+        CALL WRITE_I_C(ICUT,44*NCUTS)
+        CALL WRITE_DB (CRFLSW,9*NSFLSW)
+        CALL WRITE_DB (XCUT,7*NCUTS)
 C--------------------------------------
         IF(NADMESH /= 0 .OR. IREST_MSELT /= 0)THEN
           CALL WRITE_DB(MSC,NUMELC)

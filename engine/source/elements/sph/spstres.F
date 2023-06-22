@@ -53,7 +53,7 @@ Chd|====================================================================
      6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7    GRTH      ,IGRTH     ,TABLE     ,ISTRAIN   ,VOLN      ,
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MATPARAM_TAB,H3D_STRAIN)
+     9    MATPARAM_TAB,H3D_STRAIN,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE OUTPUT_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,6 +100,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -250,7 +252,7 @@ C--------------------------
 C     SUBMATERIALS SYNTHESIS
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG==0.OR.TT>=THIS.OR.MDESS/=0 .OR.TT>=TABFIS(1).
+      IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS/=0 .OR.TT>=TABFIS(1).
      .   OR.TT>=TABFIS(2).OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).
      .   OR.TT>=TABFIS(5).OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).
      .   OR.TT>=TABFIS(8).OR.TT>=TABFIS(9).OR.TT>=TABFIS(10))THEN
