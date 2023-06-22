@@ -249,7 +249,6 @@ Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|        ININTR_ORTHDIRFRIC            source/interfaces/interf1/inintr_orthdirfric.F
 Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
 Chd|        ININTSUB                      source/interfaces/interf1/inintsub.F
-Chd|        INIPARSEN                     source/tools/sensor/iniparsen.F
 Chd|        INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        INISEN                        source/tools/sensor/inisen.F  
 Chd|        INISMS                        source/general_controls/computation/hm_read_sms.F
