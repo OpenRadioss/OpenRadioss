@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C
 Chd|====================================================================
 Chd|  W_FRONT                       source/restart/ddsplit/w_front.F
 Chd|-- called by -----------
@@ -264,6 +263,7 @@ C---------------------------------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI  !(3,NBDDACC+NBDDKIN) 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI2  !(2,NBDDNRB)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI25  !(3,MAX(NBDDNOR_MAX,NBDDEDG_MAX))
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI25_NORMAL  !(5,MAX(NBDDNOR_MAX,NBDDEDG_MAX))
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI3  !(2,NBDDNCJ)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI4  !(2,NBCFD)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI5  !(2,NBDDNRBYM)
@@ -354,6 +354,7 @@ C---------------------------------------------------------------------
       ALLOCATE(ITRI(3,NBDDACC+NBDDKIN)) 
       ALLOCATE(ITRI2(2,NBDDNRB))
       ALLOCATE(ITRI25(3,MAX(NBDDNOR_MAX,NBDDEDG_MAX)))
+      ALLOCATE(ITRI25_NORMAL(5,MAX(NBDDNOR_MAX,NBDDEDG_MAX)))
       ALLOCATE(ITRI3(2,NBDDNCJ))
       ALLOCATE(ITRI4(2,NBCFD))
       ALLOCATE(ITRI5(2,NBDDNRBYM))
@@ -2578,11 +2579,18 @@ C     Frontiers vs edges
                    FR_SAV(2,NBDDEDG) = J
                    PROC_REM25(NBDDEDG) = P
                    ! Tri des aretes frontieres vs S1, S2 <=> ordre unique
-                   ITRI25(1,NBDDEDG) =  P
+                   ITRI25_NORMAL(1,NBDDEDG) =  P
                    N1=INTBUF_TAB(NI)%ADMSR(4*(N-1)+J)
                    N2=INTBUF_TAB(NI)%ADMSR(4*(N-1)+MOD(J,4)+1)
-                   ITRI25(2,NBDDEDG) =  MIN(N1,N2)
-                   ITRI25(3,NBDDEDG) =  MAX(N1,N2)
+C                  there seems to be a bug in ADMSR. N1 and N2 may not be symmetric here
+C                  in case of T shape. This causes a wrong behaviour in SPMD
+C                  (send and reception buffers are not symmetric)
+C                  A workaround is to add the sorting keys on the
+C                  id of the two segments.
+                   ITRI25_NORMAL(2,NBDDEDG) =  MIN(K,N)
+                   ITRI25_NORMAL(3,NBDDEDG) =  MAX(K,N)
+                   ITRI25_NORMAL(4,NBDDEDG) =  MIN(N1,N2)
+                   ITRI25_NORMAL(5,NBDDEDG) =  MAX(N1,N2)
                  ENDIF
               END IF
             ENDDO
@@ -2591,9 +2599,9 @@ C
           DO I = 1, NBDDEDG
             INDEX25(I) = I
           ENDDO
-          CALL MY_ORDERS(0,WORK,ITRI25,INDEX25,NBDDEDG,3)
+          CALL MY_ORDERS(0,WORK,ITRI25_NORMAL,INDEX25,NBDDEDG,5)
           DO I = 1, NBDDEDG
-            PROC_REM25(I)      = ITRI25(1,INDEX25(I))
+            PROC_REM25(I)      = ITRI25_NORMAL(1,INDEX25(I))
             FR_EDG(1,LSHIFT+I) = FR_SAV(1,INDEX25(I))
             FR_EDG(2,LSHIFT+I) = FR_SAV(2,INDEX25(I))
           ENDDO
@@ -2873,6 +2881,7 @@ C
         DEALLOCATE( ITRI  )!(3,NBDDACC+NBDDKIN) 
         DEALLOCATE( ITRI2  )!(2,NBDDNRB)
         DEALLOCATE( ITRI25  )!(3,MAX(NBDDNOR_MAX,NBDDEDG_MAX))
+        DEALLOCATE( ITRI25_NORMAL  )!(5,MAX(NBDDNOR_MAX,NBDDEDG_MAX))
         DEALLOCATE( ITRI3  )!(2,NBDDNCJ)
         DEALLOCATE( ITRI4  )!(2,NBCFD)
         DEALLOCATE( ITRI5  )!(2,NBDDNRBYM)
