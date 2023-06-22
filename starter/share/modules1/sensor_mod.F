@@ -89,7 +89,8 @@ Chd|        SORT_LOGICAL_SENSORS          source/tools/sensor/sort_logical_senso
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
 Chd|        UPDMAT                        source/materials/updmat.F     
-Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
+Chd|        WRCOMIP                       source/restart/ddsplit/wrcommp.F
+Chd|        WRITE_SENSORS                 source/tools/sensor/write_sensors.F
 Chd|        SET_U_SENS_FPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_IPAR               source/user_interface/uaccess.F
 Chd|        SET_U_SENS_SPMD_NODE_LIST     source/tools/sensor/set_u_sens_spmd_node_list.F

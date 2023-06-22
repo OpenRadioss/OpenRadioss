@@ -124,7 +124,7 @@ Chd|        WRITE_JOINT                   source/constraints/general/cyl_joint/w
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/restart/ddsplit/write_nloc_struct.F
 Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F
-Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
+Chd|        WRITE_SENSORS                 source/tools/sensor/write_sensors.F
 Chd|        WRITE_TH_BUFFER               source/restart/ddsplit/write_th_buffer.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        WRWEIGHT_RM                   source/restart/ddsplit/wrweight_rm.F

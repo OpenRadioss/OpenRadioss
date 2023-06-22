@@ -56,7 +56,7 @@ Chd|        WRITE_ELGROUP_PARAM           source/restart/ddsplit/write_elgroup_p
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/restart/ddsplit/write_nloc_struct.F
 Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F
-Chd|        WRITE_SENSOR_TAB              source/tools/sensor/write_sensor_tab.F
+Chd|        WRITE_SENSORS                 source/tools/sensor/write_sensors.F
 Chd|        W_ALELAG                      source/restart/ddsplit/w_alelag.F
 Chd|        W_ANIM_CRK                    source/restart/ddsplit/w_anim_crk.F
 Chd|        W_AVUPLY                      source/restart/ddsplit/w_avuply.F

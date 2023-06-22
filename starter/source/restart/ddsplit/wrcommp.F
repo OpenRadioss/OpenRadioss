@@ -36,6 +36,7 @@ Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_cyl_mod.F
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE WRCOMIP(
