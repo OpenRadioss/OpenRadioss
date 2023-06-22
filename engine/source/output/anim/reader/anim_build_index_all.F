@@ -713,6 +713,7 @@ C              IGTYP15 = 1
 C       
        NPTT_PLY = 0
        DO I=1,NUMGEO
+           IGTYP = IGEO(11,I)
            IF(IGTYP == 19)  NPTT_PLY = MAX (NPTT_PLY, IGEO(44,I))
        ENDDO
        DO I=1,NUMPLY
