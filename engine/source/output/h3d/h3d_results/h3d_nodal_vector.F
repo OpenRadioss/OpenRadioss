@@ -240,10 +240,9 @@ C------------------------------------------------------------------------------
          ENDDO
        ELSE
          DO I=1,NUMNOD
-            K=NODGLOB(I)
-            VALUE(1) = FCONT_MAX(1,K)
-            VALUE(2) = FCONT_MAX(2,K)
-            VALUE(3) = FCONT_MAX(3,K)
+            VALUE(1) = ZERO
+            VALUE(2) = ZERO
+            VALUE(3) = ZERO
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
          ENDDO
@@ -392,10 +391,9 @@ C------------------------------------------------------------------------------
          ENDDO
        ELSE
          DO I=1,NUMNOD
-            K=NODGLOB(I)
-            VALUE(1) = FNCONT_MAX(3*(K-1)+1)
-            VALUE(2) = FNCONT_MAX(3*(K-1)+2)
-            VALUE(3) = FNCONT_MAX(3*(K-1)+3)
+            VALUE(1) = ZERO
+            VALUE(2) = ZERO
+            VALUE(3) = ZERO
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
          ENDDO
@@ -436,10 +434,9 @@ C------------------------------------------------------------------------------
          ENDDO
        ELSE
          DO I=1,NUMNOD
-            K=NODGLOB(I)
-            VALUE(1) = FTCONT_MAX(3*(K-1)+1)
-            VALUE(2) = FTCONT_MAX(3*(K-1)+2)
-            VALUE(3) = FTCONT_MAX(3*(K-1)+3)
+            VALUE(1) = ZERO
+            VALUE(2) = ZERO
+            VALUE(3) = ZERO
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
          ENDDO
