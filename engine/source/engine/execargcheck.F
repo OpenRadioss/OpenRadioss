@@ -60,12 +60,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER ARGN,J,K,L
+       INTEGER ARGN
+       CHARACTER(LEN=256) :: ARGP
        INTEGER PHELPI,PEXECI,PINPUTI, PNTHI,PUSERLNAMI,MDS_PATHI
        INTEGER I,STRL,STRLN,ERR,LENLIST,ISIN,BEGIN,IERRMSG
        INTEGER IDUM
-       CHARACTER*2096  ARGS,INPUTC,INPUTR,ARGP,MSG,STRING,INPUTE,
-     .                 ARGREAD
+       CHARACTER*2096  ARGS,INPUTC,INPUTR,MSG,STRING
        LOGICAL :: CONDITION
        CHARACTER C
        INTEGER IARGC,CDL_CASE,IJK
@@ -522,7 +522,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER  STLEN,LS,LC
+       INTEGER  LS,LC
 C
        LS = LEN (STRING)
 C
@@ -591,7 +591,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ICODE
+      INTEGER IERROR
       INTEGER MYRANK, NNODES
       INTEGER KEY, IERR
 #endif
@@ -630,10 +630,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        CHARACTER*256 RFLEXNAM,GPUTITLE,ARCHTIT*66
-        INTEGER LEN,LBT
+        INTEGER LBT
 C machine.inc include
-        INTEGER RDFLEXCOMP
         INTEGER IDUM
 C-----------------------------------------------
 #include "machine.inc"
@@ -672,13 +670,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ERRN,STRLN,SMSG
+      INTEGER ERRN,SMSG
       CHARACTER*256 ARGP,EMSG*256
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ICODE
+      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       INTEGER MYRANK, NNODES
       INTEGER KEY, IERR
 #endif
@@ -720,8 +718,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ERRN,SMSG,STRLNA
-      CHARACTER EMSG*256, ARGP*256
+      INTEGER ERRN,SMSG
+      CHARACTER EMSG*256
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

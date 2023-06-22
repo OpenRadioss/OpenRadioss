@@ -81,7 +81,7 @@ Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .                   SENSORS,DT )
+     .                   SENSORS,DT,OUTPUT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE SENSOR_MOD
       USE DT_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +114,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(INOUT) :: DT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -181,8 +183,8 @@ C-----------------------------------------------
       INTEGER :: BCS_SK_FR(10000),VEL_SK_FR(10000),NSLASH(NKEY)
       INTEGER :: NBALEOFF, NBALEON, NBPARTALEON, NBPARTALEOFF     
       my_real
-     .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, ALP, GAM,
-     .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS,
+     .   TSTOP0,DTFAC0, DTMIN0, ALP, GAM,
+     .   A1, A2, A3, VM, DTFACA,DTMINA, vt, TMP,DTFAC_AMS,
      .   LAMBDA,L_TYPE
       CHARACTER KEY(9)*5, TITLE*81, KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
       CHARACTER(LEN=ncharline) :: KEYA
@@ -192,6 +194,8 @@ C-----------------------------------------------
       CHARACTER(LEN=5), DIMENSION(24)  ::  KEYALE
       CHARACTER(len=ncharline) :: STRING_RESTART
       LOGICAL :: lFOUND
+      REAL(KIND=8) :: DTHIS0
+      REAL(KIND=8), DIMENSION(9) :: DTHIS01
 C-----------------------------------------------
       INTEGER LEN_IUSC1_FN,LEN_IUSC2_FN,LEN_IUSCTMP_FN
       CHARACTER(LEN=10192) :: IUSC1_FN,IUSC2_FN,IUSCTMP_FN
@@ -1391,7 +1395,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(1)
       ELSE
        DTHIS01(1)=EP30
-       THIS1(1)= EP30
+       OUTPUT%TH%THIS1(1)= EP30
       ENDIF
       
 C--------------------------
@@ -1404,7 +1408,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(2)
       ELSE
        DTHIS01(2)=EP30
-       THIS1(2)=EP30
+       OUTPUT%TH%THIS1(2)=EP30
       ENDIF
       
 C--------------------------
@@ -1417,7 +1421,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(3)
       ELSE
        DTHIS01(3)=EP30
-       THIS1(3)=EP30
+       OUTPUT%TH%THIS1(3)=EP30
       ENDIF
       
 C--------------------------
@@ -1430,7 +1434,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(4)
       ELSE
        DTHIS01(4)=EP30
-       THIS1(4)=EP30
+       OUTPUT%TH%THIS1(4)=EP30
       ENDIF
       
 C--------------------------
@@ -1443,7 +1447,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(5)
       ELSE
        DTHIS01(5)=EP30
-       THIS1(5)=EP30
+       OUTPUT%TH%THIS1(5)=EP30
       ENDIF
       
 C--------------------------
@@ -1456,7 +1460,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(6)
       ELSE
        DTHIS01(6)=EP30
-       THIS1(6)=EP30
+       OUTPUT%TH%THIS1(6)=EP30
       ENDIF
       
 C--------------------------
@@ -1469,7 +1473,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(7)
       ELSE
        DTHIS01(7)=EP30
-       THIS1(7)=EP30
+       OUTPUT%TH%THIS1(7)=EP30
       ENDIF
       
 C--------------------------
@@ -1482,7 +1486,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(8)
       ELSE
        DTHIS01(8)=EP30
-       THIS1(8)=EP30
+       OUTPUT%TH%THIS1(8)=EP30
       ENDIF
       
 C--------------------------
@@ -1495,7 +1499,7 @@ C--------------------------
        READ(IUSC2,*,ERR=9990,END=9990)DTHIS01(9)
       ELSE
        DTHIS01(9)=EP30
-       THIS1(9)=EP30
+       OUTPUT%TH%THIS1(9)=EP30
       ENDIF
       
 C--------------------------

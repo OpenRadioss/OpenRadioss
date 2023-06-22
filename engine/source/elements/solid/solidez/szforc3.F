@@ -106,7 +106,7 @@ Chd|====================================================================
      G                   CONDN    ,CONDNSKY  ,
      H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
      I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN,
-     J                   DT       )
+     J                   DT       ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_MOD
       USE DT_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -181,6 +182,7 @@ C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       TYPE(DT_),     INTENT(INOUT) :: DT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -929,21 +931,21 @@ C Does not include upwind SUPG or TG
 C
 C Energy, momentum, mass balance per part in case of output
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG == 0.OR.TT >= THIS.OR.MDESS /= 0.                             
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS).                  
-     .  OR.TT >= THIS1(1).OR.TT >= THIS1(2).                     
-     .  OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).   
-     .  OR.TT >= THIS1(6).OR.TT >= THIS1(7).OR.TT >= THIS1(8).   
-     .  OR.TT >= THIS1(9).OR.NTH /= 0.OR.NANIM /= 0.             
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).              
-     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)))THEN          
+      IF(IFLAG == 0.OR.TT >= OUTPUT%TH%THIS.OR.MDESS /= 0.                             
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS).                  
+     .  OR.TT >= OUTPUT%TH%THIS1(1).OR.TT >= OUTPUT%TH%THIS1(2).                     
+     .  OR.TT >= OUTPUT%TH%THIS1(3).OR.TT >= OUTPUT%TH%THIS1(4).OR.TT >= OUTPUT%TH%THIS1(5).   
+     .  OR.TT >= OUTPUT%TH%THIS1(6).OR.TT >= OUTPUT%TH%THIS1(7).OR.TT >= OUTPUT%TH%THIS1(8).   
+     .  OR.TT >= OUTPUT%TH%THIS1(9).OR.NTH /= 0.OR.NANIM /= 0.             
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(1)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(2)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(3)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(4)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(5)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(6)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(7)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(8)).              
+     .  OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(9)))THEN          
         IF (MTN == 11) THEN                                      
           EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                     
         ELSE                                                     

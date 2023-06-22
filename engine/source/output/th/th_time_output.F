@@ -27,11 +27,12 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE TH_TIME_OUTPUT(ITHOUT,SENSORS)
+      SUBROUTINE TH_TIME_OUTPUT(ITHOUT,SENSORS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SENSOR_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER         ,INTENT(INOUT) :: ITHOUT
       TYPE (SENSORS_) ,INTENT(IN)    :: SENSORS
+      TYPE(OUTPUT_) ,INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -58,7 +60,7 @@ C--------------------------------------------------------------------------
 
 C ******  IF /STOP/LSENSOR *****
 
-       THIS_L = THIS
+       THIS_L = OUTPUT%TH%THIS
        TABFIS_L(1:10) =TABFIS(1:10)
        IF (SENSORS%NSTOP > 0) THEN
           DO I=1,SENSORS%NSTOP
@@ -85,10 +87,10 @@ C ******  IF /STOP/LSENSOR *****
 C
 
          IF(TT>=THIS_L.
-     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
-     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
-     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
-     .   OR.TT>=THIS1(9).
+     .   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
+     .   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
+     .   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
+     .   OR.TT>=OUTPUT%TH%THIS1(9).
      .   OR.TT>=TABFIS_L(1).OR.TT>=TABFIS_L(2).
      .   OR.TT>=TABFIS_L(3).OR.TT>=TABFIS_L(4).OR.TT>=TABFIS_L(5).
      .   OR.TT>=TABFIS_L(6).OR.TT>=TABFIS_L(7).OR.TT>=TABFIS_L(8).

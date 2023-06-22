@@ -67,13 +67,13 @@ Chd|====================================================================
      2                   A      ,V      ,MS     ,W      ,FLUX    ,
      3                   FLU1   ,VEUL   ,FV     ,ALE_CONNECT  ,IPARG   ,
      4                   JPARG  ,FILL   ,DFILL  ,IMS    ,NLOC_DMG,
-     5                   IFILL  ,TF     ,NPF    ,BUFMAT ,PARTSAV ,
+     5                   TF     ,NPF    ,BUFMAT ,PARTSAV ,
      6                   DT2T   ,NELTST ,ITYPTST,STIFN  ,OFFSET  ,
      7                   EANI   ,IPARTQ ,NEL    ,IADQ   ,FSKY    ,
      8                   IPM    ,BUFVOIS,
      9                   GRESAV ,GRTH   ,IGRTH  ,TABLE  ,IGEO    ,
      O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MATPARAM_TAB,
-     B                   H3D_STRAIN)
+     B                   H3D_STRAIN,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,7 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFILL,OFFSET,NEL,NG
+      INTEGER OFFSET,NEL,NG
       INTEGER IC(*), IPARG(NPARG,*), JPARG(*), IMS(*), 
      .        NPF(*),IPARTQ(*),IPM(*),IGEO(*),ITASK,H3D_STRAIN
       INTEGER NELTST,ITYPTST, IADQ(4,*),GRTH(*),IGRTH(*)
@@ -122,6 +123,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,7 +161,7 @@ C FORCE DE TRANSPORT BIMATERIAU
      . MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(1)
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       my_real
      . DALPH1(MVSIZ), DALPH2(MVSIZ)
       my_real
@@ -394,11 +396,11 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG==0.OR.TT>=THIS.OR.MDESS/=0.
-     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
-     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
-     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
-     .   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+      IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS/=0.
+     .   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
+     .   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
+     .   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
+     .   OR.TT>=OUTPUT%TH%THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
      .   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
      .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
@@ -607,11 +609,11 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG==0.OR.TT>=THIS.OR.MDESS/=0.
-     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
-     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
-     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
-     .   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+      IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS/=0.
+     .   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
+     .   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
+     .   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
+     .   OR.TT>=OUTPUT%TH%THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
      .   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
      .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).

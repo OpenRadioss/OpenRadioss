@@ -42,7 +42,9 @@ Chd|====================================================================
      C   Y4,       Z1,       Z2,       Z3,
      D   Z4,       IPARTC,   IADC,     FSKY,
      E   FSKYV,    GRESAV,   GRTH,     IGRTH,
-     F   ITASK,    GVOL,     ACTIFXFEM,IGRE)
+     F   ITASK,    GVOL,     ACTIFXFEM,IGRE ,
+     G   OUTPUT)
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +83,7 @@ C     REAL
      .   DTC(*),AREA(*),VR(3,*),DT1C(*),DT2C(*),THKE(*),
      .   FSKYV(LSKY,8), FSKY(8,LSKY),GRESAV(*)
       my_real, INTENT(IN) :: GVOL(MVSIZ)
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -101,11 +104,11 @@ C-------------------------------
          IF(T0(1)+DTC(1)>TT + 1.2*DT1)THEN
 C
           IFLAG=MOD(NCYCLE,NCPRI)
-          IF(IFLAG==0.OR.TT>=THIS.OR.MDESS/=0.
-     +   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
-     +   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
-     +   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
-     +   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+          IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS/=0.
+     +   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
+     +   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
+     +   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
+     +   OR.TT>=OUTPUT%TH%THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
      +   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
      +   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      +   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
@@ -234,11 +237,11 @@ C-------------------------
           ENDDO
 C
           IFLAG=MOD(NCYCLE,NCPRI)
-          IF(IFLAG==0.OR.TT>=THIS.
-     +   OR.MDESS/=0.OR.TT>=THIS1(1).OR.TT>=THIS1(2).
-     +   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
-     +   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
-     +   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+          IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.
+     +   OR.MDESS/=0.OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
+     +   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
+     +   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
+     +   OR.TT>=OUTPUT%TH%THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
      +   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
      .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).

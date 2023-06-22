@@ -102,7 +102,8 @@ Chd|====================================================================
      P   NODENR,      IADC_CRK,    NODEDGE,     CRKNODIAD,
      Q   CONDN,       CONDNSKY,    STACK,       ISUBSTACK,
      R   XFEM_STR,    CRKEDGE,     DRAPE_SH4N,  IPRI,
-     S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR)
+     S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
+     T   OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,6 +116,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE DRAPE_MOD
       USE SENSOR_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -172,6 +174,7 @@ C
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -376,7 +379,8 @@ C Y1G-> Y1,Y2G-> Y2,Y3G-> Y3,Y4G-> Y4,Z1G-> Z1,Z2G-> Z2,Z3G-> Z3,Z4G-> Z4
      C   Y4G,      Z1G,      Z2G,      Z3G,
      D   Z4G,      IPARTC,   IADC,     FSKY,
      E   FSKY,     GRESAV,   GRTH,     IGRTH,
-     F   ITASK,    GBUF%VOL, ACTIFXFEM,IGRE)
+     F   ITASK,    GBUF%VOL, ACTIFXFEM,IGRE,
+     G   OUTPUT)
         IF(JLT < JFT)RETURN
       ENDIF
 C

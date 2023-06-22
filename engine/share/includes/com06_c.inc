@@ -25,23 +25,23 @@ C...mis a zero par defaut en spmd
       INTEGER LCOM06
       PARAMETER (LCOM06 = 60)
 C
-      COMMON /COM06/ DTHIS, DTFAC, DTMIN, VOLMIN,
+      COMMON /COM06/ DTFAC, DTMIN, VOLMIN,
      .               REINT,
      .                      UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  EPOR, 
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
-     .               DTHIS1(9),DWMAD,T1SH,SHFTBUCK,DTSTAT,
+     .               DWMAD,T1SH,SHFTBUCK,DTSTAT,
      .               TSTAT,DTABF(10),DTABFWR(10),DTFACX,
      .               ECONTD,ECONT_CUMU
 	  COMMON /COM06DP/TFEXT 
 C     REAL ou REAL*8
       my_real
-     .               DTHIS, DTFAC, DTMIN, VOLMIN,
+     .                DTFAC, DTMIN, VOLMIN,
      .               REINT,
      .                      UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  EPOR, 
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
-     .               DTHIS1,DWMAD ,T1SH,  SHFTBUCK,DTSTAT,
+     .               DWMAD ,T1SH,  SHFTBUCK,DTSTAT,
      .               TSTAT,DTABF,DTABFWR ,DTFACX,ECONTD  ,
      .               ECONT_CUMU
       DOUBLE PRECISION TFEXT

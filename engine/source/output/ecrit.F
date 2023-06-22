@@ -40,12 +40,12 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE ECRIT(PARTSAV    ,MS        ,V	       ,IN       ,R          ,
-     2                 RBY        ,NPBY      ,DMAS     ,DINER    ,WEIGHT     ,
+      SUBROUTINE ECRIT(PARTSAV    ,MS        ,V        ,IN       ,R          ,
+     2                 DMAS     ,WEIGHT     ,
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
      4                 XMOM_SMS   ,SENSORS   ,QFRICINT ,IPARI    ,WEIGHT_MD  ,
      5                 TFEXTH     ,IFLAG     ,MS_2D    ,MULTI_FVM,MAS_ND     ,
-     6                 KEND       ,H3D_DATA  ,DYNAIN_DATA,USREINT)
+     6                 KEND       ,H3D_DATA  ,DYNAIN_DATA,USREINT,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ANIM_MOD
       USE STATE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,23 +91,23 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFLAG
-      INTEGER NPBY(NNPBY,*),
-     .        WEIGHT(NUMNOD),FXBIPM(NBIPM,*),
+      INTEGER WEIGHT(NUMNOD),FXBIPM(NBIPM,*),
      .        IPARI(NPARI,NINTER),WEIGHT_MD(NUMNOD)
       INTEGER MONVOL(*)
-      my_real DMAS,DINER,TFEXTH,
+      my_real DMAS,TFEXTH,
      .   PARTSAV(NPSAV,*), MS(NUMNOD), V(3,NUMNOD), A(3,NUMNOD), 
-     .   IN(NUMNOD), R(3,NUMNOD), RBY(NRBY,*), AR(3,NUMNOD),FXBRPM(*),
+     .   IN(NUMNOD), R(3,NUMNOD), AR(3,NUMNOD),FXBRPM(*),
      .   XMOM_SMS(3,*),QFRICINT(*),MS_2D(*),KEND,MAS_ND
       my_real, INTENT(IN) :: USREINT
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE), INTENT(INOUT)  :: H3D_DATA
       TYPE (SENSORS_)    ,INTENT(IN)     :: SENSORS
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPRI, INFO, I, J, M, JPRI, ILIGN, K, ITHIS, ADRRPM, ISENS,
+      INTEGER IPRI, INFO, I,M, JPRI, ILIGN,ITHIS, ADRRPM, ISENS,
      .         NTY,INTHE,IABFIS
       my_real
      .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,
@@ -152,7 +153,7 @@ C=======================================================================
       INFO=MDESS-MANIM
       ITHIS=0
       IABFIS=0
-      IF(TT<THIS)ITHIS=1
+      IF(TT<OUTPUT%TH%THIS)ITHIS=1
       IF(TT<TABFIS(1))IABFIS=1
 C--------Multidomains : control of time history for subdomains-----------
       IF ((IRAD2R==1).AND.(R2R_SIU==1).AND.(IDDOM/=0)) THEN
@@ -550,7 +551,7 @@ C
           IERR=IERR+1
           MSTOP=1
           IF(NTH/=0)THEN
-           THIS= TT
+           OUTPUT%TH%THIS= TT
            IPRI= 0
           ENDIF
           IF(NANIM/=0)THEN
@@ -565,7 +566,7 @@ C
           MSTOP=1
           MREST=1
           IF(NTH/=0)THEN
-           THIS= TT
+           OUTPUT%TH%THIS= TT
            IPRI= 0
           ENDIF
           IF(NANIM/=0)THEN
@@ -580,7 +581,7 @@ C
           IERR=IERR+1
           MSTOP=1
           IF(NTH/=0)THEN
-           THIS= TT
+           OUTPUT%TH%THIS= TT
            IPRI = 0
           ENDIF
           IF(NANIM/=0)THEN
@@ -594,7 +595,7 @@ C
           MSTOP=1
           MREST=1
           IF(NTH/=0)THEN
-           THIS= TT
+           OUTPUT%TH%THIS= TT
            IPRI = 0
           ENDIF
           IF(NANIM/=0)THEN
@@ -613,7 +614,7 @@ C---------------------------------
           RTMP(2)  = MREST
           RTMP(3)  = MDESS
           RTMP(4)  = TANIM
-          RTMP(5)  = THIS
+          RTMP(5)  = OUTPUT%TH%THIS
           RTMP(6)  = TSTAT
           RTMP(7)  = TOUTP
           RTMP(8)  = INFO
@@ -627,7 +628,7 @@ C
           MREST = NINT(RTMP(2))
           MDESS = NINT(RTMP(3))
           TANIM = RTMP(4)
-          THIS =  RTMP(5)
+          OUTPUT%TH%THIS =  RTMP(5)
           TSTAT = RTMP(6)
           TOUTP = RTMP(7)
           H3D_DATA%TH3D = RTMP(9)

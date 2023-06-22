@@ -184,7 +184,7 @@ C-----------------------------------------------
       TYPE(t_ebcs_tab), INTENT(INOUT)                      :: EBCS_TAB
       TYPE(DYNAIN_DATABASE) ,INTENT(INOUT)                 :: DYNAIN_DATA
       TYPE(USER_WINDOWS_)   ,INTENT(INOUT)                 :: USER_WINDOWS
-      TYPE(OUTPUT_)         ,INTENT(INOUT)                 :: OUTPUT
+      TYPE(OUTPUT_)         ,INTENT(INOUT)                 :: OUTPUT !< output structure
       TYPE(INTERFACES_)     ,INTENT(INOUT)                 :: INTERFACES
       TYPE(SENSORS_)        ,INTENT(INOUT)                 :: SENSORS
       TYPE(LOADS_)          ,INTENT(INOUT)                 :: LOADS
@@ -192,7 +192,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  IDUMM(MVSIZ)
-      INTEGER  I,J,I86B,I86C,I86D, LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,JJ,NS_DIFF
+      INTEGER  I,J,LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,NS_DIFF
       PARAMETER (LMXVREA=1000+30*MAXLAW+30)
       my_real TABVREA(LMXVREA)
       INTEGER, DIMENSION(:), ALLOCATABLE::IBID
@@ -877,7 +877,8 @@ C-----
       CALL READ_DB(TABVREA,LVARREA)
 C
 C-----
-      CALL RDCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS)
+      CALL RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS,
+     .            OUTPUT)
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
@@ -1099,7 +1100,7 @@ C     Utilise pour les checks point restart.
           !CALL READ_I_C(LINALE,LLINAL)
           CALL READ_I_C(NEFLSW,NSFLSW)
           CALL READ_I_C(NNFLSW,8*NTFLSW)
-	         CALL READ_I_C(ICUT,44*NCUTS)
+          CALL READ_I_C(ICUT,44*NCUTS)
           CALL READ_DB(CRFLSW,9*NSFLSW)
           CALL READ_DB(XCUT,7*NCUTS)
         ENDIF
@@ -1559,7 +1560,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRECM, IRCM, NBN, NBM, IAD, LREC, I, J, RCLEN,TLEN
+      INTEGER NRECM, IRCM, NBN, NBM, LREC, I, J, RCLEN,TLEN
       my_real
      .        VV(6)
       CHARACTER(LEN=10) :: CPID
@@ -1854,7 +1855,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ND,IDYNA0
+      INTEGER ND,IDYNA0
       my_real
      . A(3*NUMNOD),AR(3*NUMNOD)
 C--------------------------------------
@@ -2184,8 +2185,8 @@ C--------------------------------------
 C     READING REALS
 C--------------------------------------
          LEN = 1
-	 CALL READ_DB(FVDATA_OLD(I)%PDISP_OLD,LEN)
-	 CALL READ_DB(FVDATA_OLD(I)%PDISP,LEN)
+         CALL READ_DB(FVDATA_OLD(I)%PDISP_OLD,LEN)
+         CALL READ_DB(FVDATA_OLD(I)%PDISP,LEN)
          LEN=2*NNS
          CALL READ_DB(FVDATA_OLD(I)%RFVNOD,LEN)
          CALL READ_DB(FVDATA_OLD(I)%MPOLH,NPOLH)
@@ -2728,7 +2729,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,ELSZ,NDSZ
+      INTEGER K,ELSZ,NDSZ
 C-----------------------------------------------
       IF(IPLYXFEM == 0) THEN
 ! Those array be used as dummy argument
@@ -2882,7 +2883,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
 C=======================================================================
       CALL READ_I_C(INOD_CRKXFEM,NUMNOD)
       CALL READ_I_C(IEL_CRKXFEM,NUMELC+NUMELTG)
@@ -2917,7 +2917,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NN,LEN,ELSZ,NDSZ,NENR,ELSZC,ELSZTG,NCRKXFE_G,
+      INTEGER K,LEN,ELSZ,NENR,ELSZC,ELSZTG,NCRKXFE_G,
      .        CRKNUMNODS
 C=======================================================================
       IF(ICRACK3D == 0) THEN
@@ -3126,7 +3126,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NOSZ
+      INTEGER NOSZ
 C-----------------------------------------------
         ALLOCATE (VFLOW(3*NUMNOD), DFLOW(3*NUMNOD),WFLOW(3*NUMNOD))
         NOSZ = 3*NUMNOD
@@ -3323,7 +3323,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
@@ -3396,7 +3395,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(DRAPE_),   DIMENSION(*) ,TARGET       :: DRAPE_SH4N,DRAPE_SH3N
         TYPE(DRAPEG_)                              :: DRAPEG
-        INTEGER , DIMENSION(:)    :: INDX_SH4N(NUMELC),INDX_SH3N(NUMELTG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3410,7 +3408,6 @@ C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
 C     4 node Shell 
-      !!ALLOCATE(DRAPEG%INDX_SH4N(NUMELC),DRAPEG%INDX_SH3N(NUMELTG))
       SCDRAPE = 0
       STDRAPE = 0
       IF(NUMELC_DRAPE > 0) THEN
@@ -3482,7 +3479,6 @@ C     3 Node Shell
         CALL READ_I_C(INDX_PLY,NDIM_INDX_PLY)  
         CALL READ_I_C(ITMP,2*NDIM)            
         CALL READ_DB(RTMP,2*NDIM)
-        !!INDX_SH3N(1:NUMELTG) = INDX(1:NUMELTG)
         NDIM_INDX_PLY = 0
         NDIM_SLICE = 0
         NDIM = 0

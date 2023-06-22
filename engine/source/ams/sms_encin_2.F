@@ -58,7 +58,7 @@ Chd|====================================================================
      D        LRBE3    ,FRBE3    ,IAD_RBE3M,FR_RBE3M  ,FR_RBE3MP ,
      E        RRBE3    ,RRBE3_PON,IAD_RBY  ,FR_RBY6   ,RBY6      ,
      F        LPBY     ,TAGMSR_RBY_SMS,R3SIZE,NODII_SMS,INDX2_SMS,
-     G        IBCSCYC  ,LBCSCYC  )
+     G        IBCSCYC  ,LBCSCYC  ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
       USE SENSOR_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,6 +113,7 @@ C-----------------------------------------------
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -134,7 +136,7 @@ C-----------------------------------------------
       IF(T1S==TT)IPRI=MOD(NCYCLE,IABS(NCPRI))
       INFO=MDESS-MANIM
       ITHIS=0
-      IF(TT<THIS)ITHIS=1
+      IF(TT<OUTPUT%TH%THIS)ITHIS=1
       IF(IPRI/=0.AND.ITHIS/=0.AND.
      .   INFO<=0.AND.ISTAT==0
      .   .AND.NTH==0.AND.NANIM==0) RETURN

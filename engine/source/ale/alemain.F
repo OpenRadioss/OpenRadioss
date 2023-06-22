@@ -98,7 +98,7 @@ Chd|====================================================================
      K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSORS   ,
      L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
      M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
-     N         DIFFUSION   , MATPARAM_TAB,H3D_DATA      ,DT   )
+     N         DIFFUSION   , MATPARAM_TAB,H3D_DATA      ,DT   ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE ALE_MOD
       USE DT_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -203,6 +204,7 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
       my_real, INTENT(INOUT) :: XCELL(3,SXCELL)
       TYPE (DT_) ,INTENT(INOUT)  :: DT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -233,25 +235,25 @@ C-----------------------------------------------
 
 C  IOUTPRT (assembly report)   
          IOUTPRT = 0
-         IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= THIS.OR.MDESS /= 0.
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS).
-     .   OR.TT >= THIS1(1).OR.TT >= THIS1(2).
-     .   OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).
-     .   OR.TT >= THIS1(6).OR.TT >= THIS1(7).OR.TT >= THIS1(8).
-     .   OR.TT >= THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
+         IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= OUTPUT%TH%THIS.OR.MDESS /= 0.
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS).
+     .   OR.TT >= OUTPUT%TH%THIS1(1).OR.TT >= OUTPUT%TH%THIS1(2).
+     .   OR.TT >= OUTPUT%TH%THIS1(3).OR.TT >= OUTPUT%TH%THIS1(4).OR.TT >= OUTPUT%TH%THIS1(5).
+     .   OR.TT >= OUTPUT%TH%THIS1(6).OR.TT >= OUTPUT%TH%THIS1(7).OR.TT >= OUTPUT%TH%THIS1(8).
+     .   OR.TT >= OUTPUT%TH%THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
      .   OR.TT >= TABFIS(1).OR.TT >= TABFIS(2).
      .   OR.TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5).
      .   OR.TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8).
      .   OR.TT >= TABFIS(9).OR.TT >= TABFIS(10).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)).OR.ISTAT==3) IOUTPRT=1
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(1)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(2)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(3)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(4)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(5)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(6)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(7)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(8)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(9)).OR.ISTAT==3) IOUTPRT=1
       
       ALLOCATE(QMV(2*NV46,LENQMV)) !MM-ALE 51 only                       !OPTIM : SHOULD BE ALLOCATED IN ARRALOC
       IF(M51_IFLG6 == 1)SBUFVOIS = M51_IFLG6_SIZE
@@ -842,13 +844,13 @@ c
      2              A           ,V     ,MS     ,W         ,WA          ,
      3              VAL2        ,VEUL  ,FV     ,ALE_CONNECTIVITY     ,IPARG       ,
      4              IPARG(1,NG) ,FILL  ,DFILL  ,IMS       ,NLOC_DMG    ,
-     5              IFILL       ,TF    ,NPC    ,BUFMAT    ,PARTSAV     ,
+     5              TF    ,NPC    ,BUFMAT    ,PARTSAV     ,
      6              DT2T        ,NELTST,ITYPTST,STIFN     ,OFFSET      ,
      7              EANI        ,IPARTQ(1+NFT),NEL,IADQ   ,FSKY        ,
      8              IPM ,BUFVOIS,
      9              GRESAV,GRTH ,IGRTH ,TABLE  ,IGEO,
      O              VOLN  ,ITASK,MS_2D ,FSKYM  ,MATPARAM_TAB,
-     B              IBID)
+     B              IBID,OUTPUT)
                  ENDIF
                 ENDIF
               ENDIF
@@ -996,13 +998,13 @@ c
      2            A          ,V         ,MS      ,W         ,WA        ,  
      3            VAL2       ,VEUL      ,FV      ,ALE_CONNECTIVITY     ,IPARG     ,  
      4            IPARG(1,NG),FILL      ,DFILL   ,IMS       ,NLOC_DMG  ,             
-     5            IFILL      ,TF        ,NPC     ,BUFMAT    ,PARTSAV   ,       
+     5            TF        ,NPC     ,BUFMAT    ,PARTSAV   ,       
      5            DT2T       ,NELTST    ,ITYPTST ,STIFN     ,OFFSET    ,       
      6            EANI       ,IPARTQ(1+NFT),NEL  ,IADQ      ,FSKY      ,       
      7            IPM        ,BUFVOIS   ,
      8            GRESAV     ,GRTH      ,IGRTH   ,TABLE     ,IGEO      ,
      9            VOLN       ,ITASK     ,MS_2D   ,FSKYM     ,MATPARAM_TAB,
-     B            IBID)
+     B            IBID,OUTPUT)
 
                  ENDIF
                 ENDIF

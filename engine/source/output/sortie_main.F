@@ -103,7 +103,7 @@ Chd|====================================================================
      X            FASOLFR   ,FNCONT      ,FTCONT     ,IPARTH    ,         
      Y            FR_MV     ,IPART_STATE ,SH4TREE    ,SH3TREE   ,TEMP,              
      Z            THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,                             
-     a            INOD_PXFEM,FTHREAC     ,NODREAC    ,CPTREAC   ,GRESAV   ,         
+     a            INOD_PXFEM,FTHREAC     ,NODREAC    ,GRESAV   ,         
      b            DIAG_SMS  ,SH4TRIM     ,SH3TRIM    ,FNCONT2   ,XMOM_SMS ,         
      c            IRBE2     ,IRBE3       ,LRBE2      ,LRBE3     ,FR_RBE2  ,         
      d            FR_RBE3M  ,IAD_RBE2    ,DXANCG     ,IEL_PXFEM ,ZI_PLY   ,         
@@ -230,7 +230,7 @@ C-----------------------------------------------
      .   FEXT(3,*) ,FOPT(6,*),ANIN(*),RWBUF(*),TANI(*),
      .   AR(3,*),TF(*),FCONT_MAX(*)
       my_real
-     .   DIFF,FSAVD(NTHVKI,*),
+     .   FSAVD(NTHVKI,*),
      .   DR(3,*),VOLMON(*),
      .   FXBRPM(*),FXBDEP(*),FXBVIT(*),FXBACC(*), RFLOW(*),
      .   FNCONT(3,*),FTCONT(3,*),TEMP(*),THKE(*),DXANCG(3,*),
@@ -243,7 +243,7 @@ C-----------------------------------------------
      .   FNCONTP2(3,*)  ,FTCONTP2(3,*)  
       INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),FR_WALL(*),
      .   NODREAC(*),IAD_RBE2(4,*),INDEXCONT(*),NCONT,ITY
-      INTEGER CPTREAC,NPC(*),MDS_MATID(*)
+      INTEGER NPC(*),MDS_MATID(*)
       INTEGER LLOADP(*),ILOADP(SIZLOADP,*),IBCL(NIBCLD,*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
       my_real
@@ -278,32 +278,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1,N2,N3,N4,N5,N6,N7,N8,N9,N10,I,M,JALE,NEL,NFACE,
+      INTEGER N1,N2,N3,N4,N5,N6,N7,N8,N9,N10,I,M,NEL,NFACE,
      .        K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11,K12,
-     .        NEL1D,NEL2D,NEL3D, L1, IFIL, IFILABF, CPTFILE,
+     .        NEL1D,NEL2D,NEL3D, L1, IFIL, CPTFILE,
      .        IAD, J, THUPDT,IFLAG, IFV,ITHFLAG,NSENSOR
-      INTEGER
-     .    KUIX, KXUSR ,KFACPTX,KXEDGE,KXFACET,KXSOLID,KNUMX1,KNUMX2,
-     .    KNUMX3,KOFFX1,KOFFX2,KOFFX3,KMASS1,KMASS2,KMASS3,
-     .    KFUNC1,KFUNC2,KFUNC3,KFIN,IFLAG_ANIPCONT
+      INTEGER :: IFLAG_ANIPCONT
       INTEGER
      .  SN1,SN2,SN3,SN4,SN5,SN6,SN7,SN8,SN9,NELG,
      .  SKUIX, SKXUSR ,SKFACPTX,SKXEDGE,SKXFACET,SKXSOLID,SKNUMX1,
      .  SKNUMX2,SKNUMX3,SKOFFX1,SKOFFX2,SKOFFX3,SKMASS1,SKMASS2,
-     .  SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID,IERROR
+     .  SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID
       INTEGER
      .  LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ
       INTEGER SIZE_MES,LONG,LONG_TMP,N
-      INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
       my_real
-     .   TFEXTH,t1,t2
+     .   TFEXTH
       my_real
      .   TABFWR0(10),BID
       my_real
      .      ,  DIMENSION(:),ALLOCATABLE :: VMCDN
       my_real
      .      ,  DIMENSION(:),ALLOCATABLE :: CSEFRIC,CSEFRIC_STAMP,CSEFRICG,CSEFRICG_STAMP
-      CHARACTER FILNAMABF*100,FILNAMABF_TMP*100
 
       INTEGER :: LEN_TMP_NAME,LEN_TMP_NAME2
       CHARACTER(len=100) :: TMP_NAME,TMP_NAME2   
@@ -334,25 +329,25 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
         CALL CNDMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS ,V  ,A   ,
      1                WEIGHT ,MAS_ND ,KEND  )
         CALL ECRIT(PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     , 
-     2             RBY      ,NPBY    ,DMAS   ,DINER    ,WEIGHT ,
+     2             DMAS   ,WEIGHT ,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
-     6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT)
+     6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
         DEALLOCATE(VMCDN)
        ELSE
         BID = ZERO
         CALL ECRIT(PARTSAV  ,MS      ,V      ,IN       ,VR     , 
-     2             RBY      ,NPBY    ,DMAS   ,DINER    ,WEIGHT ,
+     2             DMAS   ,WEIGHT ,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
-     6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT)
+     6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
        ENDIF
 C---------------------------------------
 C       CALCUL DU FLUX ET DE LA ROTATION
 C---------------------------------------
-        IF(TT>=THIS .AND. NSFLSW/=0)
+        IF(TT>=OUTPUT%TH%THIS .AND. NSFLSW/=0)
      .  CALL FLUXSW(NSFLSW,NEFLSW,  NNFLSW,  CRFLSW,  FLSW  ,
      .              X     ,V       ,ELBUF  )
 C-----------------------------------------------
@@ -584,43 +579,43 @@ C
          K12=K11+NUMELIG3D
          L1=1+6*(NUMELC+NUMELTG)*IEPSDOT
 c
-	 CALL GENANI(
-     1  	   X	      ,D	 ,V	      ,A	   ,ELBUF     ,
-     2  	   IXS        ,IXQ	 ,IXC	      ,IXT	   ,IXP       ,
-     3  	   IXR        ,IXTG	 ,SN1	      ,SN2	   ,SN3       ,
-     4  	   SN4        ,IPARG	 ,PM	      ,GEO	   ,MS        ,
-     5  	   SN5        ,CONT	 ,SN6	      ,ICUT	   ,SKEW      ,
-     6  	   XCUT       ,FINT	 ,ITAB        ,SN7	   ,FEXT      ,
-     7  	   FOPT       ,ANIN	 ,LPBY        ,NPBY	   ,NSTRF     ,
-     8  	   RWBUF      ,NPRW	 ,TANI	   ,ELBUF_TAB ,
-     A  	   DD_IAD     ,WEIGHT	 ,EANI        ,IPART	   ,CLUSTER   ,
-     B  	   IPART(K1)  ,IPART(K2) ,IPART(K3)   ,IPART(K4)   ,IPART(K5) ,
-     C  	   IPART(K6)  ,IPART(K7) ,IPART(K8)   ,
-     D  	   RBY        ,SN3	 ,TANI(L1)    ,NOM_OPT     ,IGRSURF   ,
-     E  	   BUFSF      ,IDATA	 ,RDATA       ,SN9	   ,BUFMAT    ,
-     F  	   BUFGEO     ,KXX	 ,IXX	      ,IPART(K9)   ,SKUIX     ,
-     G  	   SKXUSR     ,SKFACPTX  ,SKXEDGE     ,SKXFACET    ,SKXSOLID  ,
-     H  	   SKNUMX1    ,SKNUMX2   ,SKNUMX3     ,SKOFFX1     ,SKOFFX2   ,
-     I  	   SKOFFX3    ,SKMASS1   ,SKMASS2     ,SKMASS3     ,SKFUNC1   ,
-     J  	   SKFUNC2    ,SKFUNC3   ,KXSP        ,IXSP	   ,NOD2SP    ,
-     K  	   IPART(K10) ,SPBUF	 ,IXS10       ,IXS20	   ,IXS16     ,
-     L  	   VR	      ,MONVOL	 ,VOLMON      ,IPM	   ,IGEO,NODGLOB,
-     M  	   IAD_ELEM   ,FR_ELEM   ,FR_SEC      ,FR_RBY2     ,IAD_RBY2  ,
-     N  	   FR_WALL    ,IFLOW	 ,RFLOW       ,FNCONT	   ,FTCONT    ,
-     O  	   TEMP       ,THKE	 ,ERR_THK_SH4 ,ERR_THK_SH3 ,DIAG_SMS,
-     P  	   IPARI      ,FNCONT2   ,DR	      ,ALE_CONNECT	   ,
-     Q  	   IRBE2      ,IRBE3	 ,LRBE2       ,LRBE3	   ,FR_RBE2   ,
-     R  	   FR_RBE3M   ,IAD_RBE2  ,DXANCG      ,INOD_PXFEM  ,IEL_PXFEM,
-     S  	   ZI_PLY     ,VGAZ	 ,FCONTG      ,FNCONTG     ,FTCONTG  ,
-     T  	   FANREAC    ,INOD_CRK  ,IEL_CRK     ,ELCUTC	   ,IADC_CRK ,
-     U  	   PDAMA2     ,RES_SMS   ,WEIGHT_MD   ,NODGLOBXFE  ,NODEDGE  ,
-     V  	   FCLUSTER   ,MCLUSTER  ,XFEM_TAB    ,W	   ,
-     W  	   NV46       ,IPART(K11),KXIG3D      ,IXIG3D	   ,SIG3DSOLID,
-     X  	   KNOT       ,WIGE	 ,NERCVOIS    ,NESDVOIS    ,LERCVOIS  ,
-     Y  	   LESDVOIS   ,CRKEDGE   ,INDX_CRK    ,XEDGE4N     ,XEDGE3N   ,
-     Z  	   STACK      ,SPH2SOL   ,STIFN       ,STIFR	   ,IGRNOD    ,
-     1             H3D_DATA   ,SUBSET    ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
-     2             FCONT_MAX  ,FNCONTP2  ,FTCONTP2    )
+         CALL GENANI(
+     1         X          ,D     ,V           ,A       ,ELBUF     ,
+     2         IXS        ,IXQ     ,IXC          ,IXT       ,IXP       ,
+     3         IXR        ,IXTG     ,SN1          ,SN2       ,SN3       ,
+     4         SN4        ,IPARG     ,PM          ,GEO       ,MS        ,
+     5         SN5        ,CONT     ,SN6          ,ICUT       ,SKEW      ,
+     6         XCUT       ,FINT     ,ITAB        ,SN7       ,FEXT      ,
+     7         FOPT       ,ANIN     ,LPBY        ,NPBY       ,NSTRF     ,
+     8         RWBUF      ,NPRW     ,TANI       ,ELBUF_TAB ,
+     A         DD_IAD     ,WEIGHT     ,EANI        ,IPART       ,CLUSTER   ,
+     B         IPART(K1)  ,IPART(K2) ,IPART(K3)   ,IPART(K4)   ,IPART(K5) ,
+     C         IPART(K6)  ,IPART(K7) ,IPART(K8)   ,
+     D         RBY        ,SN3     ,TANI(L1)    ,NOM_OPT     ,IGRSURF   ,
+     E         BUFSF      ,IDATA     ,RDATA       ,SN9       ,BUFMAT    ,
+     F         BUFGEO     ,KXX     ,IXX          ,IPART(K9)   ,SKUIX     ,
+     G         SKXUSR     ,SKFACPTX  ,SKXEDGE     ,SKXFACET    ,SKXSOLID  ,
+     H         SKNUMX1    ,SKNUMX2   ,SKNUMX3     ,SKOFFX1     ,SKOFFX2   ,
+     I         SKOFFX3    ,SKMASS1   ,SKMASS2     ,SKMASS3     ,SKFUNC1   ,
+     J         SKFUNC2    ,SKFUNC3   ,KXSP        ,IXSP       ,NOD2SP    ,
+     K         IPART(K10) ,SPBUF     ,IXS10       ,IXS20       ,IXS16     ,
+     L         VR          ,MONVOL     ,VOLMON      ,IPM       ,IGEO,NODGLOB,
+     M         IAD_ELEM   ,FR_ELEM   ,FR_SEC      ,FR_RBY2     ,IAD_RBY2  ,
+     N         FR_WALL    ,IFLOW     ,RFLOW       ,FNCONT       ,FTCONT    ,
+     O         TEMP       ,THKE     ,ERR_THK_SH4 ,ERR_THK_SH3 ,DIAG_SMS,
+     P         IPARI      ,FNCONT2   ,DR          ,ALE_CONNECT       ,
+     Q         IRBE2      ,IRBE3     ,LRBE2       ,LRBE3       ,FR_RBE2   ,
+     R         FR_RBE3M   ,IAD_RBE2  ,DXANCG      ,INOD_PXFEM  ,IEL_PXFEM,
+     S         ZI_PLY     ,VGAZ     ,FCONTG      ,FNCONTG     ,FTCONTG  ,
+     T         FANREAC    ,INOD_CRK  ,IEL_CRK     ,ELCUTC       ,IADC_CRK ,
+     U         PDAMA2     ,RES_SMS   ,WEIGHT_MD   ,NODGLOBXFE  ,NODEDGE  ,
+     V         FCLUSTER   ,MCLUSTER  ,XFEM_TAB    ,W       ,
+     W         NV46       ,IPART(K11),KXIG3D      ,IXIG3D       ,SIG3DSOLID,
+     X         KNOT       ,WIGE     ,NERCVOIS    ,NESDVOIS    ,LERCVOIS  ,
+     Y         LESDVOIS   ,CRKEDGE   ,INDX_CRK    ,XEDGE4N     ,XEDGE3N   ,
+     Z         STACK      ,SPH2SOL   ,STIFN       ,STIFR       ,IGRNOD    ,
+     1         H3D_DATA   ,SUBSET    ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
+     2         FCONT_MAX  ,FNCONTP2  ,FTCONTP2    )
 c
        ENDIF
       IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM
@@ -971,27 +966,27 @@ C
 c check if an update of any output (TH,tha,thb,abf,..) is done  
 c in this case set flag to 1    
         THUPDT = 0
-        IF(TT>=THIS) THEN
-	  THUPDT = 1
-	ELSEIF(NABFILE/=0)THEN
-	  IF(TT>=TABFIS(1)) THUPDT = 1
-	ENDIF
-	IF(THUPDT==0)THEN	
-     	  DO I=1,9
-	    IF(TT>=THIS1(I)) THEN
-	      THUPDT = 1
-	    ELSEIF(NABFILE/=0)THEN
-	      IF(TT>=TABFIS(I+1)) THUPDT = 1
-	    ENDIF
-	  ENDDO
-	ENDIF
+        IF(TT>=OUTPUT%TH%THIS) THEN
+            THUPDT = 1
+        ELSEIF(NABFILE/=0)THEN
+            IF(TT>=TABFIS(1)) THUPDT = 1
+        ENDIF
+        IF(THUPDT==0)THEN    
+            DO I=1,9
+                IF(TT>=OUTPUT%TH%THIS1(I)) THEN
+                    THUPDT = 1
+                ELSEIF(NABFILE/=0)THEN
+                    IF(TT>=TABFIS(I+1)) THUPDT = 1
+                ENDIF
+            ENDDO
+        ENDIF
 
         IF (ILASTANIM/=1.AND.ILASTANIM/=2) THEN
 C         to avoid double points
           IF (NTHGRP01(1)/=0)THEN
             IUNIT = IUHI(1)
             IFIL = IUNIT
-            IF (TT>=THIS1(1))THEN
+            IF (TT>=OUTPUT%TH%THIS1(1))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1008,7 +1003,7 @@ C         to avoid double points
      B                 NPARTSAV,AR   ,VR    ,DR,
      D                 FSAVD ,IXRI   ,RIVET  ,IXP      ,
      E                 ISKWN ,IFRAME ,XFRAME ,IXC      ,IXQ ,
-     F                 DTHIS1(1), THIS1(1), IFIL, NTHGRP1(1),IXTG ,
+     F                 OUTPUT%TH%DTHIS1(1),OUTPUT%TH%THIS1(1), IFIL, NTHGRP1(1),IXTG ,
      G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH ,2     ,1     ,
@@ -1078,14 +1073,14 @@ C         to avoid double points
             ENDIF
 
           ELSE
-            THIS1(1)= EP30
+            OUTPUT%TH%THIS1(1)= EP30
             TABFIS(2)= EP30
           ENDIF
 C
           IF(NTHGRP01(2)/=0)THEN
             IUNIT = IUHI(2)
             IFIL = IUNIT
-            IF (TT>=THIS1(2))THEN
+            IF (TT>=OUTPUT%TH%THIS1(2))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1102,7 +1097,7 @@ C
      B                 NPARTSAV,AR   ,VR    ,DR,
      D                 FSAVD ,IXRI   ,RIVET  ,IXP ,
      E                 ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                 DTHIS1(2), THIS1(2), IFIL, NTHGRP1(2),IXTG ,
+     F                 OUTPUT%TH%DTHIS1(2),OUTPUT%TH%THIS1(2), IFIL, NTHGRP1(2),IXTG ,
      G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH(1,(NPART+NTHPART)+1),2,1,
@@ -1112,6 +1107,7 @@ C
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB,
      Q                 FSAVSURF,NSEG_LOADP)
+
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
      
@@ -1170,7 +1166,7 @@ C
 
 
           ELSE
-            THIS1(2)= EP30
+            OUTPUT%TH%THIS1(2)= EP30
             TABFIS(3)= EP30
           ENDIF
 C
@@ -1178,7 +1174,7 @@ C
             IUNIT = IUHI(3)
             IFIL = IUNIT
 !
-            IF (TT>=THIS1(3))THEN
+            IF (TT>=OUTPUT%TH%THIS1(3))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1195,7 +1191,7 @@ C
      B                 NPARTSAV,AR   ,VR    ,DR,
      D                 FSAVD ,IXRI   ,RIVET  , IXP , 
      E                 ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                 DTHIS1(3), THIS1(3), IFIL, NTHGRP1(3),IXTG ,
+     F                 OUTPUT%TH%DTHIS1(3),OUTPUT%TH%THIS1(3), IFIL, NTHGRP1(3),IXTG ,
      G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH(1,2*(NPART+NTHPART)+1),2,1,
@@ -1260,7 +1256,7 @@ C
               TABFIS(4)= EP30
             ENDIF
           ELSE
-            THIS1(3)= EP30
+            OUTPUT%TH%THIS1(3)= EP30
             TABFIS(4)= EP30
           ENDIF
 C
@@ -1268,7 +1264,7 @@ C
             IUNIT = IUHI(4)
             IFIL = IUNIT
 !
-            IF (TT>=THIS1(4))THEN
+            IF (TT>=OUTPUT%TH%THIS1(4))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1285,7 +1281,7 @@ C
      B                 NPARTSAV,AR   ,VR    ,DR,
      D                 FSAVD ,IXRI   ,RIVET  , IXP,
      E                 ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                 DTHIS1(4), THIS1(4), IFIL, NTHGRP1(4),IXTG ,
+     F                 OUTPUT%TH%DTHIS1(4),OUTPUT%TH%THIS1(4), IFIL, NTHGRP1(4),IXTG ,
      G                 IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                 FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                 IPARTH(1,3*(NPART+NTHPART)+1),2,1,
@@ -1295,6 +1291,7 @@ C
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD,
      Q                 FSAVSURF,NSEG_LOADP)
+
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
      *     ISPMD==0 )CALL file_size(MULTITHFILESIZE(4))
@@ -1350,7 +1347,7 @@ C
               TABFIS(5)= EP30
             ENDIF
           ELSE
-            THIS1(4)= EP30
+            OUTPUT%TH%THIS1(4)= EP30
             TABFIS(5)= EP30
           ENDIF
 C
@@ -1358,7 +1355,7 @@ C
             IUNIT = IUHI(5)
             IFIL = IUNIT
 !
-            IF (TT>=THIS1(5))THEN
+            IF (TT>=OUTPUT%TH%THIS1(5))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1375,7 +1372,7 @@ C
      B                NPARTSAV,AR   ,VR    ,DR,
      D                FSAVD ,IXRI   ,RIVET  , IXP , 
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                DTHIS1(5), THIS1(5), IFIL, NTHGRP1(5),IXTG ,
+     F                OUTPUT%TH%DTHIS1(5),OUTPUT%TH%THIS1(5), IFIL, NTHGRP1(5),IXTG ,
      G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,4*(NPART+NTHPART)+1),2,1,
@@ -1385,6 +1382,7 @@ C
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE,
      Q                FSAVSURF,NSEG_LOADP)
+
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(5))
@@ -1440,14 +1438,14 @@ C
               TABFIS(6)= EP30
             ENDIF
           ELSE
-            THIS1(5)= EP30
+            OUTPUT%TH%THIS1(5)= EP30
             TABFIS(6)= EP30
           ENDIF
 C
           IF(NTHGRP01(6)/=0)THEN
             IUNIT = IUHI(6)
             IFIL = IUNIT
-            IF (TT>=THIS1(6))THEN
+            IF (TT>=OUTPUT%TH%THIS1(6))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1464,7 +1462,7 @@ C
      B                NPARTSAV,AR   ,VR    ,DR,
      D                FSAVD ,IXRI   ,RIVET  , IXP , 
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                DTHIS1(6), THIS1(6), IFIL, NTHGRP1(6),IXTG ,
+     F                OUTPUT%TH%DTHIS1(6),OUTPUT%TH%THIS1(6), IFIL, NTHGRP1(6),IXTG ,
      G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,5*(NPART+NTHPART)+1),2,1,
@@ -1530,7 +1528,7 @@ C
               TABFIS(7)= EP30
             ENDIF
           ELSE
-            THIS1(6)= EP30
+            OUTPUT%TH%THIS1(6)= EP30
             TABFIS(7)= EP30
           ENDIF
 C
@@ -1538,7 +1536,7 @@ C
             IUNIT = IUHI(7)
             IFIL = IUNIT
 !
-             IF (TT>=THIS1(7))THEN
+             IF (TT>=OUTPUT%TH%THIS1(7))THEN
                SIZE_MES=1
              ELSE
                SIZE_MES=0
@@ -1555,7 +1553,7 @@ C
      B                NPARTSAV,AR   ,VR    ,DR,
      D                FSAVD ,IXRI   ,RIVET  ,IXP , 
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                DTHIS1(7), THIS1(7), IFIL, NTHGRP1(7),IXTG ,
+     F                OUTPUT%TH%DTHIS1(7),OUTPUT%TH%THIS1(7), IFIL, NTHGRP1(7),IXTG ,
      G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,6*(NPART+NTHPART)+1),2,1,
@@ -1565,6 +1563,7 @@ C
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG,
      Q                FSAVSURF,NSEG_LOADP)
+
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(7))
@@ -1620,7 +1619,7 @@ C
               TABFIS(8)= EP30
             ENDIF
           ELSE
-            THIS1(7)= EP30
+            OUTPUT%TH%THIS1(7)= EP30
             TABFIS(8)= EP30
           ENDIF
 C
@@ -1628,7 +1627,7 @@ C
             IUNIT = IUHI(8)
             IFIL = IUNIT
 !
-            IF (TT>=THIS1(8))THEN
+            IF (TT>=OUTPUT%TH%THIS1(8))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1645,7 +1644,7 @@ C
      B                NPARTSAV,AR   ,VR    ,DR,
      D                FSAVD ,IXRI   ,RIVET  , IXP , 
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                DTHIS1(8), THIS1(8), IFIL, NTHGRP1(8),IXTG ,
+     F                OUTPUT%TH%DTHIS1(8),OUTPUT%TH%THIS1(8), IFIL, NTHGRP1(8),IXTG ,
      G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,7*(NPART+NTHPART)+1),2,1,
@@ -1655,6 +1654,7 @@ C
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
      Q                FSAVSURF,NSEG_LOADP)
+
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
@@ -1710,14 +1710,14 @@ C
               TABFIS(9)= EP30
             ENDIF
           ELSE
-            THIS1(8)= EP30
+            OUTPUT%TH%THIS1(8)= EP30
             TABFIS(9)= EP30
           ENDIF
 C
           IF(NTHGRP01(9)/=0)THEN
             IUNIT = IUHI(9)
             IFIL = IUNIT
-            IF (TT>=THIS1(9))THEN
+            IF (TT>=OUTPUT%TH%THIS1(9))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1734,7 +1734,7 @@ C
      B                NPARTSAV,AR   ,VR    ,DR,
      D                FSAVD ,IXRI   ,RIVET  ,IXP , 
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ ,
-     F                DTHIS1(9), THIS1(9), IFIL, NTHGRP1(9),IXTG   ,
+     F                OUTPUT%TH%DTHIS1(9),OUTPUT%TH%THIS1(9), IFIL, NTHGRP1(9),IXTG   ,
      G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                IPARTH(1,8*(NPART+NTHPART)+1),2,1,
@@ -1744,6 +1744,7 @@ C
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
      Q                FSAVSURF,NSEG_LOADP)
+
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
@@ -1798,13 +1799,13 @@ C
               TABFIS(10)= EP30
             ENDIF
           ELSE
-            THIS1(9)= EP30
+            OUTPUT%TH%THIS1(9)= EP30
             TABFIS(10)= EP30
           ENDIF
 C
         IUNIT = IUHIS
         IFIL = 1
-        IF (TT>=THIS)THEN
+        IF (TT>=OUTPUT%TH%THIS)THEN
           SIZE_MES=1
         ELSE
           SIZE_MES=0
@@ -1821,7 +1822,7 @@ C
      B                NPARTSAV,AR   ,VR    ,DR,
      D                FSAVD ,IXRI   ,RIVET  , IXP , 
      E                ISKWN ,IFRAME ,XFRAME,IXC    ,IXQ,
-     F                DTHIS ,   THIS,IFIL  , NTHGRP,IXTG   ,
+     F                OUTPUT%TH%DTHIS ,OUTPUT%TH%THIS,IFIL  , NTHGRP,IXTG   ,
      G                IGEO   ,IPM   ,FXBIPM, FXBDEP, FXBVIT,
      H                FXBACC ,IPARTL,NPARTL, IACCP , NACCP ,
      I                IPART ,LIPART1    ,8      ,
@@ -1893,7 +1894,7 @@ C     to avoid double points (end of ilastanim/=2)
 C----------------------------------------------
 C     Driver to QAPRINT 
 C----------------------------------------------
-      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT )
+      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT)
 C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------
