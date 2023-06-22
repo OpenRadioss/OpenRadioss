@@ -88,8 +88,6 @@ C-----------------------------------------------
          IS = NGR2USR(ISU,INGR2USR,NSURF)
          IF(IS > 0)THEN
            NUMLOADP = NUMLOADP + IGRSURF(IS)%NSEG*4
-          ELSE
-           NUMLOADP = 0 
          ENDIF
       ENDDO
 
