@@ -117,7 +117,7 @@ C-----------------------------------------------
       my_real P_inci,P_refl,P_inci_,P_refl_,decay_inci,decay_refl,I_inci,I_refl,I_inci_,I_refl_     
       my_real DT_0,DT_0_,ZETA,TOL,TMP2,TMP3,DIFF,RES,TSTOP 
              
-      INTEGER I,J,K,NN
+      INTEGER I,J,K,NUMSEG
       INTEGER IAD,ID,SURF_ID,internal_SURF_ID
       INTEGER IABAC,PHI_I,IADPL,itmp,IS,SUB_ID
       INTEGER ITA_SHIFT
@@ -129,7 +129,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o n s t a n t   V a l u e s
 C-----------------------------------------------   
-      CHARACTER :: char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2 ,MESS*40
+      CHARACTER :: MESS*40
       my_real :: cst_180
       my_real PI_,Z1_ !tmp
       my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, FAC_unit
@@ -139,12 +139,6 @@ C-----------------------------------------------
       DATA log10_ /2.30258509299405000000/      
       DATA Z1_/0.50000000000000000/            
       DATA FAC_unit/3.966977216838196139019/     
-      DATA char_X/'X'/
-      DATA char_Y/'Y'/
-      DATA char_Z/'Z'/
-      DATA char_XX/'XX'/
-      DATA char_YY/'YY'/
-      DATA char_ZZ/'ZZ'/
       DATA MESS/'BLAST LOADING DEFINITION                '/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -167,7 +161,7 @@ C     ILOADP(1:SIZLOADP,K) : INTEGER STORAGE (option parameters)
 C----------------------------------------------------------------------------------      
 C                     K=1,NLOADP_F                                    K=1+NLOADP_F,NLOADP_F+NLOADP_B 
 C
-C     ILOADP(1,K) :   4*NN (4 * Nb of segments)                       4*NN 
+C     ILOADP(1,K) :   4*NUMSEG (4 * Nb of segments)                   4*NUMSEG
 C     ILOADP(2,K) :   ID                                              IS
 C     ILOADP(3,K) :   -                                               -
 C     ILOADP(4,K) :   IAD  Address of segments in LLOADP              IAD         
@@ -222,8 +216,8 @@ C-----------------------------------------------
       
       !Init.
       TAINF_PBLAST = EP20
-      NN           = ZERO
-      ILD_PBLAST   = 0 !denombrement 
+      NUMSEG = 0
+      ILD_PBLAST = 0 !numbering 
       alpha_zc = ZERO 
       HC = ZERO
       BOOL_SKIP_CALC = .FALSE.
@@ -231,1126 +225,1128 @@ C-----------------------------------------------
       CALL HM_OPTION_START('/LOAD/PBLAST')
      
       DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, SUBMODEL_ID = SUB_ID)                 
-            IAD = NUMLOADP + 1
-            SURF_ID = 0 !target surface id
-            SURF_ID_GROUND = 0 !ground surface id
-            internal_SURF_ID = 0  
-            SEG_UNDERGROUND = 0
-            BOOL_UNDERGROUND_CURRENT_LOAD = .FALSE.
-            ! detonation point          
-            XDET  = ZERO
-            YDET  = ZERO
-            ZDET  = ZERO
-            TDET  = ZERO
-            TSTOP = ZERO
-            WTNT  = ZERO
-            
-            !--------------------------------------------------------------
-            !   R e a d i n g   I n p u t   P a r a m e t e r s
-            !--------------------------------------------------------------      
-            !input reading
-            !---line-1
-            CALL HM_GET_INTV('surf_ID', SURF_ID, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('Exp_data', IABAC, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('I_tshift', ITA_SHIFT, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('Ndt', NDT, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('IZ', IZ_UPDATE, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('Imodel', IMODEL, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('Node_id', NODE_ID, IS_AVAILABLE, LSUBMODEL)
-            !---line-2
-            CALL HM_GET_FLOATV('Xdet', XDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('Ydet', YDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('Zdet', ZDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('Tdet', TDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('WTNT', WTNT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            !---line-3
-            CALL HM_GET_FLOATV('Pmin', PMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE_TSTOP, LSUBMODEL, UNITAB)
-            !---line-4
-            CALL HM_GET_INTV('surf_ground_ID', SURF_ID_GROUND, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, SUBMODEL_ID = SUB_ID)                 
+        IAD = NUMLOADP + 1
+        SURF_ID = 0 !target surface id
+        SURF_ID_GROUND = 0 !ground surface id
+        internal_SURF_ID = 0  
+        SEG_UNDERGROUND = 0
+        BOOL_UNDERGROUND_CURRENT_LOAD = .FALSE.
+        ! detonation point          
+        XDET  = ZERO
+        YDET  = ZERO
+        ZDET  = ZERO
+        TDET  = ZERO
+        TSTOP = ZERO
+        WTNT  = ZERO
+        
+        !--------------------------------------------------------------
+        !   R e a d i n g   I n p u t   P a r a m e t e r s
+        !--------------------------------------------------------------      
+        !input reading
+        !---line-1
+        CALL HM_GET_INTV('surf_ID', SURF_ID, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Exp_data', IABAC, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('I_tshift', ITA_SHIFT, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Ndt', NDT, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('IZ', IZ_UPDATE, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Imodel', IMODEL, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Node_id', NODE_ID, IS_AVAILABLE, LSUBMODEL)
+        !---line-2
+        CALL HM_GET_FLOATV('Xdet', XDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Ydet', YDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Zdet', ZDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Tdet', TDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('WTNT', WTNT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        !---line-3
+        CALL HM_GET_FLOATV('Pmin', PMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE_TSTOP, LSUBMODEL, UNITAB)
+        !---line-4
+        CALL HM_GET_INTV('surf_ground_ID', SURF_ID_GROUND, IS_AVAILABLE, LSUBMODEL)
 
-            BOOL_COORD=.FALSE.
-            IF(XDET/=ZERO .OR. YDET/=ZERO .OR. ZDET/=ZERO)THEN
-              BOOL_COORD=.TRUE.
-            ENDIF
-            
-            IF(SUB_ID /= 0)CALL SUBROTPOINT(XDET,YDET,ZDET,RTRANS,SUB_ID,LSUBMODEL)
-            
-            !units
-            FAC_M_bb = FAC_MASS*EP03                          
-            FAC_L_bb = FAC_LENGTH*EP02                        
-            FAC_T_bb = FAC_TIME*EP06                          
-            FAC_P_bb = FAC_M_bb/FAC_L_bb/FAC_T_bb/FAC_T_bb    
-            FAC_I_bb = FAC_P_bb*FAC_T_bb/FAC_M_bb**THIRD      
-            W13      = (WTNT*FAC_M_bb)**THIRD                 
+        BOOL_COORD=.FALSE.
+        IF(XDET/=ZERO .OR. YDET/=ZERO .OR. ZDET/=ZERO)THEN
+          BOOL_COORD=.TRUE.
+        ENDIF
+        
+        IF(SUB_ID /= 0)CALL SUBROTPOINT(XDET,YDET,ZDET,RTRANS,SUB_ID,LSUBMODEL)
+        
+        !units
+        FAC_M_bb = FAC_MASS*EP03                          
+        FAC_L_bb = FAC_LENGTH*EP02                        
+        FAC_T_bb = FAC_TIME*EP06                          
+        FAC_P_bb = FAC_M_bb/FAC_L_bb/FAC_T_bb/FAC_T_bb    
+        FAC_I_bb = FAC_P_bb*FAC_T_bb/FAC_M_bb**THIRD      
+        W13      = (WTNT*FAC_M_bb)**THIRD                 
 
-            !--------------------------------------------------------------
-            !   D e f a u l t   V a l u e s 
-            !--------------------------------------------------------------      
-            
-            IF(TSTOP == ZERO)TSTOP=EP20
-            IF(PMIN == ZERO)PMIN=-EP20
-            
-            IF(Node_id > 0)THEN                                                                
-              NODE_ID=USR2SYS(NODE_ID,ITABM1,MESS,ID)                                                
-              IF(NODE_ID > 0)THEN                                                                
-                XDET = X(1,NODE_ID)                                                                 
-                YDET = X(2,NODE_ID)                                                                 
-                ZDET = X(3,NODE_ID)                                                                 
-              ENDIF 
-              IF(BOOL_COORD)THEN
-                MSGOUT1=''
-                MSGOUT1='NODE IDENTIFIER IS PROVIDED.'     
-                MSGOUT2=''
-                MSGOUT2='COORDINATES (XDET,YDET,ZDET) WILL BE IGNORED'     
-                CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1, C3=MSGOUT2)              
-              ENDIF
-            ENDIF
+        !--------------------------------------------------------------
+        !   D e f a u l t   V a l u e s 
+        !--------------------------------------------------------------      
+        
+        IF(TSTOP == ZERO)TSTOP=EP20
+        IF(PMIN == ZERO)PMIN=-EP20
+        
+        IF(Node_id > 0)THEN                                                                
+          NODE_ID=USR2SYS(NODE_ID,ITABM1,MESS,ID)                                                
+          IF(NODE_ID > 0)THEN                                                                
+            XDET = X(1,NODE_ID)                                                                 
+            YDET = X(2,NODE_ID)                                                                 
+            ZDET = X(3,NODE_ID)                                                                 
+          ENDIF 
+          IF(BOOL_COORD)THEN
+            MSGOUT1=''
+            MSGOUT1='NODE IDENTIFIER IS PROVIDED.'     
+            MSGOUT2=''
+            MSGOUT2='COORDINATES (XDET,YDET,ZDET) WILL BE IGNORED'     
+            CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1, C3=MSGOUT2)              
+          ENDIF
+        ENDIF
 
-            INGR2USR => IGRSURF(1:NSURF)%ID
-            internal_SURF_ID = NGR2USR(SURF_ID,INGR2USR,NSURF)
-            internal_SURF_ID_GROUND = NGR2USR(SURF_ID_GROUND,INGR2USR,NSURF)
-            
-            IF(IABAC >= 2 .AND. SURF_ID_GROUND /= 0)THEN
-              IF(internal_SURF_ID_GROUND == 0)THEN
-                !user surface not found in input file
-                !display error message : ground_id not found
-                MSGOUT1=''                                                                                              
-                MSGOUT1='SURFACE IDENTIFIER FOR GROUND DEFINITION WAS NOT FOUND'                                                                                                                                       
-                MSGOUT2=''                                                                                                                                                                                 
-                MSGOUT2='SURF ID:'
-                WRITE(MSGOUT2(9:19),FMT='(I10)') SURF_ID_GROUND
-                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
-                BOOL_SKIP_CALC = .TRUE.
-              ENDIF
-            ENDIF
-            
-            IF(SURF_ID == 0)THEN
-              !user forgot to input surf_id
-              ! display error message : surf_id missing
-                MSGOUT1=''                                                                                              
-                MSGOUT1='MISSING SURFACE IDENTIFIER'                                            
-                MSGOUT2=''                                                                                                                                                                                                                                                                           
-                MSGOUT2='SURF_ID MUST BE PROVIDED'
-                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
-                BOOL_SKIP_CALC = .TRUE.
+        INGR2USR => IGRSURF(1:NSURF)%ID
+        internal_SURF_ID = NGR2USR(SURF_ID,INGR2USR,NSURF)
+        internal_SURF_ID_GROUND = NGR2USR(SURF_ID_GROUND,INGR2USR,NSURF)
+        
+        IF(IABAC >= 2 .AND. SURF_ID_GROUND /= 0)THEN
+          IF(internal_SURF_ID_GROUND == 0)THEN
+            !user surface not found in input file
+            !display error message : ground_id not found
+            MSGOUT1=''                                                                                              
+            MSGOUT1='SURFACE IDENTIFIER FOR GROUND DEFINITION WAS NOT FOUND'                                                                                                                                       
+            MSGOUT2=''                                                                                                                                                                                 
+            MSGOUT2='SURF ID:'
+            WRITE(MSGOUT2(9:19),FMT='(I10)') SURF_ID_GROUND
+            CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+            BOOL_SKIP_CALC = .TRUE.
+          ENDIF
+        ENDIF
+        
+        IF(SURF_ID == 0)THEN
+          !user forgot to input surf_id
+          ! display error message : surf_id missing
+          MSGOUT1=''                                                                                              
+          MSGOUT1='SURFACE IDENTIFIER IS NOT PROVIDED'
+          MSGOUT2=''                                                                                                                                                                                                                                                                           
+          MSGOUT2='BLAST CALCULATION WILL BE SKIPPED'
+          CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+          BOOL_SKIP_CALC = .TRUE.
+        ELSE
+          IF(internal_SURF_ID == 0)THEN
+            !surface is not existing
+            ! display error message : surf_id not found
+            MSGOUT1=''                                                                                              
+            MSGOUT1='INVALID SURFACE IDENTIFIER'                                            
+            MSGOUT2=''                                                                                                                                                                                                                                                                           
+            MSGOUT2='SURF ID:'
+            WRITE(MSGOUT2(9:19),FMT='(I10)') SURF_ID
+            CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+            BOOL_SKIP_CALC = .TRUE.
+          ENDIF
+        ENDIF 
+        
+        
+        IF(ITA_SHIFT==0) ITA_SHIFT = 1
+        IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
+        
+        ! IMODEL : flag for blast model
+        !---1:Friedlander
+        !---2:modified Friedlander
+        IF(IMODEL <= 0 .OR. IMODEL > 2)IMODEL=2
+
+        IF(IZ_UPDATE /= 1)IZ_UPDATE=0 !0:update scaled distance  
+
+        !              1 : update scaled distance with time
+        ! otherwise => 0 : do not update
+        
+        IF(IABAC <= 0)IABAC=1 
+        IF(IABAC >= 4)IABAC=1
+
+        !--------------------------------------------------------------
+        !   S u r f a c e   S e g m e n t s 
+        !--------------------------------------------------------------      
+        IF(internal_SURF_ID /= 0)THEN                                          
+           NUMSEG = IGRSURF(internal_SURF_ID)%NSEG
+           DO J=1,NUMSEG                                               
+             LLOADP(IAD+4*(J-1))   = IGRSURF(internal_SURF_ID)%NODES(J,1)
+             LLOADP(IAD+4*(J-1)+1) = IGRSURF(internal_SURF_ID)%NODES(J,2)
+             LLOADP(IAD+4*(J-1)+2) = IGRSURF(internal_SURF_ID)%NODES(J,3)
+             LLOADP(IAD+4*(J-1)+3) = IGRSURF(internal_SURF_ID)%NODES(J,4)
+             IF(IGRSURF(internal_SURF_ID)%ELTYP(J)==7)LLOADP(IAD+4*(J-1)+3)  = 0
+           ENDDO
+        ELSE
+          NUMSEG = 0
+        ENDIF  
+        
+        !--------------------------------------------------------------
+        !   Normal Vector for ground (IABAC==2 or 3)
+        !   Scaled Height of Charge (IABAC==3) 
+        !--------------------------------------------------------------      
+        ZC = ZERO
+        IF(IABAC >= 2 )THEN !AIR BURST ONLY
+          IF(SURF_ID_GROUND == 0)THEN
+            Base_X=ZERO                                           
+            Base_y=ZERO                                           
+            Base_z=ZERO                                          
+            Nx_SURF=ZERO
+            Ny_SURF=ZERO
+            Nz_SURF=-Zdet   !Vector from ground projection to det point
+            IF(ZDET == ZERO)THEN
+              MSGOUT1=''                                                                                              
+              MSGOUT1='ZDET IS NULL. IT IS NOT POSSIBLE TO DETERMINE DEFAULT SURFACE FOR GROUND DEFINITION'                                            
+              MSGOUT2=''                                                                                                                                                                                                                                                                           
+              MSGOUT2='SURFACE IDENTIFIER MUST BE INPUT FOR GROUND DEFINITION'
+              CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+              BOOL_SKIP_CALC = .TRUE.
+              Nz_SURF=-ONE ! Starter must go on up to normal termination
+              NN2=ONE
+              NORM=ONE
             ELSE
-              IF(internal_SURF_ID == 0)THEN
-                !surface is not existing
-                ! display error message : surf_id not found
-                MSGOUT1=''                                                                                              
-                MSGOUT1='INVALID SURFACE IDENTIFIER'                                            
-                MSGOUT2=''                                                                                                                                                                                                                                                                           
-                MSGOUT2='SURF ID:'
-                WRITE(MSGOUT2(9:19),FMT='(I10)') SURF_ID
-                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
-                BOOL_SKIP_CALC = .TRUE.
-              ENDIF
-            ENDIF 
-            
-            
-            IF(ITA_SHIFT==0) ITA_SHIFT = 1
-            IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
-            
-            ! IMODEL : flag for blast model
-            !---1:Friedlander
-            !---2:modified Friedlander
-            IF(IMODEL <= 0 .OR. IMODEL > 2)IMODEL=2
-
-            IF(IZ_UPDATE /= 1)IZ_UPDATE=0 !0:update scaled distance  
-
-            !              1 : update scaled distance with time
-            ! otherwise => 0 : do not update
-            
-            IF(IABAC <= 0)IABAC=1 
-            IF(IABAC >= 4)IABAC=1
-
-            !--------------------------------------------------------------
-            !   S u r f a c e   S e g m e n t s 
-            !--------------------------------------------------------------      
-            IF(internal_SURF_ID /= 0)THEN                                          
-               NN   = IGRSURF(internal_SURF_ID)%NSEG
-               DO J=1,NN                                               
-                  LLOADP(IAD+4*(J-1))   = IGRSURF(internal_SURF_ID)%NODES(J,1)
-                  LLOADP(IAD+4*(J-1)+1) = IGRSURF(internal_SURF_ID)%NODES(J,2)
-                  LLOADP(IAD+4*(J-1)+2) = IGRSURF(internal_SURF_ID)%NODES(J,3)
-                  LLOADP(IAD+4*(J-1)+3) = IGRSURF(internal_SURF_ID)%NODES(J,4)
-                  IF(IGRSURF(internal_SURF_ID)%ELTYP(J)==7)LLOADP(IAD+4*(J-1)+3)  = 0
-               ENDDO
-            ENDIF  
-            
-            !--------------------------------------------------------------
-            !   Normal Vector for ground (IABAC==2 or 3)
-            !   Scaled Height of Charge (IABAC==3) 
-            !--------------------------------------------------------------      
-            ZC = ZERO
-            IF(IABAC >= 2 )THEN !AIR BURST ONLY
-              IF(SURF_ID_GROUND == 0)THEN
-                Base_X=ZERO                                           
-                Base_y=ZERO                                           
-                Base_z=ZERO                                          
-                Nx_SURF=ZERO
-                Ny_SURF=ZERO
-                Nz_SURF=-Zdet   !Vector from ground projection to det point
-                IF(ZDET == ZERO)THEN
-                  MSGOUT1=''                                                                                              
-                  MSGOUT1='ZDET IS NULL. IT IS NOT POSSIBLE TO DETERMINE DEFAULT SURFACE FOR GROUND DEFINITION'                                            
-                  MSGOUT2=''                                                                                                                                                                                                                                                                           
-                  MSGOUT2='SURFACE IDENTIFIER MUST BE INPUT FOR GROUND DEFINITION'
-                  CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
-                  BOOL_SKIP_CALC = .TRUE.
-                  Nz_SURF=-ONE ! Starter must go on up to normal termination
-                  NN2=ONE
-                  NORM=ONE
-                ELSE
-                  MSGOUT1=''                                                                                               
-                  MSGOUT1='MISSING GROUND_ID IDENTIFIER'   
-                  MSGOUT2=''                                                                                               
-                  MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'    
-                  CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)              
-                  NN2  = Nx_SURF*Nx_SURF+Ny_SURF*Ny_SURF+Nz_SURF*Nz_SURF                                                  
-                  NORM = SQRT(NN2)                                                                                        
-                  !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE                                   
-                                                                                       
-                  !vector to find ground basis point from charge                                                           
-                  Nx_SURF=Nx_SURF/NORM !lambda*NX_                                                                      
-                  Ny_SURF=Ny_SURF/NORM !lambda*NY_                                                                      
-                  Nz_SURF=Nz_SURF/NORM !lambda*NZ_
-                  IF(IABAC == 3)THEN
-                    !Determine Height                                                                                        
-                    ! find Projection along line generated by n (ground vector) and over the gound plan                      
-                    ! Proj=lambda.n                                                                                          
-                    ! <z-Proj,n>=0                                                                                           
-                    lambda=(Nx_SURF*XDET + Ny_SURF*YDET + Nz_SURF*ZDET - Nx_SURF*Base_X-Ny_SURF*Base_y-Nz_SURF*Base_z)/NN2   
-                    !Height is length Proj->Det. Storing Det->Proj into NN array                                             
-                    HC=lambda*NORM                    
-                    Nx_SURF=HC*Nx_SURF
-                    Ny_Surf=HC*Ny_SURF
-                    Nz_Surf=HC*Nz_SURF
-                  ENDIF                                                                     
-                  !Scaled Height of Charge                                                                                 
-                  ZC = HC/W13                                                                                              
-                ENDIF                  
-              ELSE 
-                lfound = .FALSE.                                                       
-                DO IS=1,NSURF                                                          
-                  IF (SURF_ID_GROUND == IGRSURF(IS)%ID)THEN                                       
-                    SELECT CASE(IGRSURF(IS)%TYPE)                                      
-                     CASE DEFAULT
-                      !Surface type is not matching. Setting Default ground definition   
-                      IF (Zdet <= ZERO)THEN
-                        MSGOUT1=''                                                                               
-                        MSGOUT1='SURFACE TYPE FOR GROUND DEFINITION IS NOT MATCHING'      
-                        MSGOUT2=''                                                                               
-                        MSGOUT2='EXPECTED SURFACE TYPE:/SURF/PLANE'                        
-                        CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)    
-                        BOOL_SKIP_CALC = .TRUE.                
-                      ELSE
-                        MSGOUT1=''                                                                                               
-                        MSGOUT1='EXPECTED TYPE FOR GROUND SURFACE IS /SURF/PLANE.'   
-                        MSGOUT2=''                                                                                               
-                        MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'    
-                        CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)                                    
-                      ENDIF
-                      IADPL = 0                                    
-                      lfound = .TRUE.                                                  
-                      Base_X = ZERO                                                      
-                      Base_y = ZERO                                                      
-                      Base_z = ZERO                                                      
-                      HC = Zdet
-                      ZC = HC/W13 
-                      Nx_SURF=ZERO
-                      Ny_SURF=ZERO
-                      Nz_SURF=-Zdet
-                      IF(ZDET == ZERO)THEN
-                        Nz_SURF = -ONE
-                      ENDIF                  
-                      EXIT                                                             
-                    CASE(200) 
-                      !Surface type is matching:setting ground from surface definition                                                         
-                      IADPL = IGRSURF(IS)%IAD_BUFR                                     
-                      lfound = .TRUE.                                                  
-                      Base_X  = BUFSF(IADPL+1)                                           
-                      Base_y  = BUFSF(IADPL+2)                                           
-                      Base_z  = BUFSF(IADPL+3)                                           
-                      Nx_SURF = BUFSF(IADPL+4)-Base_X                          
-                      Ny_SURF = BUFSF(IADPL+5)-Base_Y                           
-                      Nz_SURF = BUFSF(IADPL+6)-Base_Z  
-                      NN2  =  Nx_SURF*Nx_SURF+Ny_SURF*Ny_SURF+Nz_SURF*Nz_SURF                          
-                      NORM =  SQRT(NN2)  
-                      !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE 
-                      
-                      IF(NN2 == ZERO)THEN
-                        !Starter must go on up to normal termination.
-                        !ERROR ID : 891 already printed (surface definition)
-                        Nz_SURF=-ONE
-                        NN2=ONE
-                        NORM=ONE                       
-                      ENDIF                                
-
-                      !vector to find ground basis point from charge
-                      Nx_SURF=Nx_SURF/NORM !NX_
-                      Ny_SURF=Ny_SURF/NORM !NY_
-                      Nz_SURF=Nz_SURF/NORM !NZ_
-                      IF(IABAC == 3)THEN   
-                        !Determine Height
-                        ! find Projection along line generated by n (ground vector) and over the gound plan
-                        ! Proj=lambda.n
-                        ! <z-Proj,n>=0
-                        lambda=(Nx_SURF*XDET + Ny_SURF*YDET + Nz_SURF*ZDET - Nx_SURF*Base_X-Ny_SURF*Base_y-Nz_SURF*Base_z)
-                        !Height is length Proj->Det. Storing Det->Proj into NN array
-                        HC = lambda ! |N_SURF|=1.0  
-                        ! N_Surf becomes vector from detonation point to ground surface                                       
-                        Nx_SURF=-HC*Nx_SURF !lambda*NX_
-                        Ny_SURF=-HC*Ny_SURF !lambda*NY_
-                        Nz_SURF=-HC*Nz_SURF !lambda*NZ_
-                      ENDIF
-                      !Scaled Height of Charge
-                      ZC = HC/W13
-                      EXIT                                                                                                 
-                    END SELECT                                                         
-                  ENDIF                                                                
-                ENDDO                                                                  
-                ! Provided ID is referring to an nonexistent surface                                                     
-                IF (.NOT.lFOUND) THEN 
-                  Nx_Surf=Zero
-                  Ny_Surf=Zero  
-                  Nz_Surf=-one
-                  NN2=ONE
-                  NORM=ONE
-                  HC=ONE
-                  ZC=ONE                 
-                ENDIF 
-              ENDIF
-            ELSE
-               !initialized to zero but not used
-               Nx_SURF=ZERO
-               Ny_SURF=ZERO
-               Nz_SURF=ZERO
-               ZC = ZERO             
-            ENDIF   
-            
-            !check that DEtonation Point belongs the ground
-            IF(IABAC == 2)THEN
-              tmp_VAR = Nx_SURF*(Xdet-Base_X)+Ny_SURF*(Ydet-Base_Y)+Nz_SURF*(Zdet-Base_Z)
-              tmp_VAR = ABS(tmp_VAR/NORM)
-              IF(tmp_VAR > EM06)THEN
-                lambda = (Base_X-Xdet)*Nx_SURF + (Base_Y-Ydet)*Ny_SURF + (Base_Z-Zdet)*Nz_SURF
-                lambda = lambda/NN2
-                Xdet = Base_X+lambda*Nx_SURF
-                Ydet = Base_Y+lambda*Ny_SURF
-                Zdet = Base_Z+lambda*Nz_SURF
-                MSGOUT1=''                                                                                              
-                MSGOUT1=' DETONATION CENTER MUST BE ON THE GROUND'
-                MSGOUT2='   PROJECTING (Xdet,Ydet,Zdet) TO THE GROUND (         ,         ,         )'
-                WRITE(MSGOUT2(47:55),FMT='(E9.4)')Xdet
-                WRITE(MSGOUT2(57:65),FMT='(E9.4)')Ydet
-                WRITE(MSGOUT2(67:75),FMT='(E9.4)')Zdet                                                                                                                                                 
-                CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)               
-              ENDIF
-            ENDIF 
-             
-            IF(IABAC == 3)THEN                                                                                                                            
-              !Scaled Height of triple point                                                                                                              
-              ! curve_id              1    2    3    4    5    6    7    8    9   10                                                                      
-              ! 10 curves for ZC : {1.0; 1.5; 2.0; 2.5; 3.0; 3.5; 4.0; 5.0; 6.0; 7.0}                                                                     
-              !                    <--------curve_id=[2x-1]---------><----[x+3]----->                                                                     
-              !                                                                                                                                           
-              !get curve_id and interpolation factor. No matter unit system (curve_id1 and alpha_zc are dimensionless) 
-              
-              IF(HC<=ZERO)THEN
-                MSGOUT1=''                                                                                              
-                MSGOUT1=' DETONATION CENTER MUST BE ABOVE THE GROUND'
-                MSGOUT2=''                                                                                                                                               
-                CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2) 
-                BOOL_SKIP_CALC = .TRUE.                                                                                                                    
-                HC = ONE
-              ENDIF
-                                                 
-              tmp(1)=ZC                                                                                                                                   
-              ZC=ZC/FAC_unit                                                                                                                              
-              IF(ZC < 4)THEN                                                                                                                              
-                itmp = INT( 2.*(ZC)-1. )                                                                                                                  
-                curve_id1 =  max(1,itmp)                                                                                                                  
-                curve_id2 = curve_id1+1                                                                                                                   
-                if(itmp < 1)then                                                                                                                          
-                  !message out of bounds. curve 1 will be used. no extrapolation                                                                          
-                  alpha_zc = ZERO                                                                                                                         
-                else                                                                                                                                      
-                  alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) /                                                                               
-     .                              ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )                                     
-                endif                                                                                                                                     
-              ELSE                                                                                                                                        
-                itmp = INT( ZC+3. )                                                                                                                       
-                curve_id1 = INT( min(10,itmp) )                                                                                                           
-                curve_id2 = curve_id1+1                                                                                                                   
-                if(curve_id1 == 10)then                                                                                                                   
-                  !message out of bounds. curve 10 will be used. no extrapolation                                                                         
-                  alpha_zc = ZERO                                                                                                                         
-                else                                                                                                                                      
-                  alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) /                                                                               
-     .                           ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )                                     
-                endif                                                                                                                                     
-              ENDIF                                                                                                                                       
-              alpha_zc = curve_id1+alpha_zc     !integer part is curve id1,  digits are standing for interpolation factor between curve_id1 & curve_id2     
-            ENDIF                                                                                                                                        
-  
-                  
-            !--------------------------------------------------------------
-            !   B u f f e r   S t o r a g e (Transmitted to Engine) 
-            !--------------------------------------------------------------      
-            IF(internal_SURF_ID /= 0)THEN 
-               ILOADP( 1,K) = 4*NN 
-               ILOADP( 2,K) = internal_SURF_ID
-               ILOADP( 4,K) = IAD  
-               ILOADP( 5,K) = 3
-               ILOADP( 6,K) = IZ_UPDATE 
-               ILOADP( 7,K) = IABAC
-               ILOADP( 8,K) = ID 
-               ILOADP( 9,K) = ITA_SHIFT
-               ILOADP(10,K) = NDT
-               ILOADP(11,K) = IMODEL
-               !ILOADP(12,K) = curve_id1 ! getting interpolated SHTP from figure 2_13   
-               IAD = IAD + 3*NN
-               FACLOADP( 1,K) = TDET     
-               FACLOADP( 2,K) = XDET     
-               FACLOADP( 3,K) = YDET     
-               FACLOADP( 4,K) = ZDET     
-               FACLOADP( 5,K) = WTNT 
-               FACLOADP( 6,K) = PMIN   
-               FACLOADP( 7,K) = ZERO !TA_INT initialized below                 
-               FACLOADP( 8,K) = Nx_SURF                                         
-               FACLOADP( 9,K) = Ny_SURF
-               FACLOADP(10,K) = Nz_SURF
-               HC = ABS(HC)
-               FACLOADP(11,K) = HC
-               FACLOADP(12,K) = alpha_zc ! inteprolation factor for curve if on figure 2_13 in [0,1[  +  curve_id1   (no matter are units ft/lb**1/3  or cm/g**1/3)
-               FACLOADP(13,K) = TSTOP
-            ENDIF
-            
-            !--------------------------------------------------------------
-            !   C o m p u t e   W a v e   P a r a m e t e r s
-            !--------------------------------------------------------------    
-            IF(internal_SURF_ID /= 0 .AND. .NOT.BOOL_SKIP_CALC)THEN   
-               NN = IGRSURF(internal_SURF_ID)%NSEG
-               ISIZ_SEG = NN                                    
-               IAD = ILOADP(4,K) 
-               ILD_PBLAST = ILD_PBLAST + 1
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%cos_theta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%P_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%P_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%ta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%t0(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%decay_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%decay_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
-               PBLAST_TAB(ILD_PBLAST)%SIZ=ISIZ_SEG 
-               
-              !  Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary vector of the plane
-              ProjDet(1)=Xdet+ Nx_SURF
-              ProjDet(2)=Ydet+ Ny_SURF
-              ProjDet(3)=Zdet+ Nz_SURF
-                                                                  
-               DO I=1,NN  
-                  N1=IGRSURF(internal_SURF_ID)%NODES(I,1)
-                  N2=IGRSURF(internal_SURF_ID)%NODES(I,2)
-                  N3=IGRSURF(internal_SURF_ID)%NODES(I,3)
-                  N4=IGRSURF(internal_SURF_ID)%NODES(I,4)                                
-                  IF(N4 /= 0 .AND. N1 /= N2 .AND. N2 /= N3 .AND. N3 /= N4 .AND. N4 /= N1 )THEN
-                     ! 4 NODE SEGMENT
-                     NPt   = FOUR
-                     ! Segment Zentrum
-                     Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
-                     Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
-                     Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
-                     Zx = Zx*FOURTH                          
-                     Zy = Zy*FOURTH
-                     Zz = Zz*FOURTH                          
-                     ! Normal vectors
-                     Nx_SEG  = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
-                     Ny_SEG  = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
-                     Nz_SEG  = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
-                     NORM_= SQRT(Nx_SEG*Nx_SEG+Ny_SEG*Ny_SEG+Nz_SEG*Nz_SEG)
+              MSGOUT1=''                                                                                               
+              MSGOUT1='MISSING GROUND_ID IDENTIFIER'   
+              MSGOUT2=''                                                                                               
+              MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'    
+              CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)              
+              NN2  = Nx_SURF*Nx_SURF+Ny_SURF*Ny_SURF+Nz_SURF*Nz_SURF                                                  
+              NORM = SQRT(NN2)                                                                                        
+              !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE                                   
+                                                                                   
+              !vector to find ground basis point from charge                                                           
+              Nx_SURF=Nx_SURF/NORM !lambda*NX_                                                                      
+              Ny_SURF=Ny_SURF/NORM !lambda*NY_                                                                      
+              Nz_SURF=Nz_SURF/NORM !lambda*NZ_
+              IF(IABAC == 3)THEN
+                !Determine Height                                                                                        
+                ! find Projection along line generated by n (ground vector) and over the gound plan                      
+                ! Proj=lambda.n                                                                                          
+                ! <z-Proj,n>=0                                                                                           
+                lambda=(Nx_SURF*XDET + Ny_SURF*YDET + Nz_SURF*ZDET - Nx_SURF*Base_X-Ny_SURF*Base_y-Nz_SURF*Base_z)/NN2   
+                !Height is length Proj->Det. Storing Det->Proj into NN array                                             
+                HC=lambda*NORM                    
+                Nx_SURF=HC*Nx_SURF
+                Ny_Surf=HC*Ny_SURF
+                Nz_Surf=HC*Nz_SURF
+              ENDIF                                                                     
+              !Scaled Height of Charge                                                                                 
+              ZC = HC/W13                                                                                              
+            ENDIF                  
+          ELSE 
+            lfound = .FALSE.                                                       
+            DO IS=1,NSURF                                                          
+              IF (SURF_ID_GROUND == IGRSURF(IS)%ID)THEN                                       
+                SELECT CASE(IGRSURF(IS)%TYPE)                                      
+                 CASE DEFAULT
+                  !Surface type is not matching. Setting Default ground definition   
+                  IF (Zdet <= ZERO)THEN
+                    MSGOUT1=''                                                                               
+                    MSGOUT1='SURFACE TYPE FOR GROUND DEFINITION IS NOT MATCHING'      
+                    MSGOUT2=''                                                                               
+                    MSGOUT2='EXPECTED SURFACE TYPE:/SURF/PLANE'                        
+                    CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)    
+                    BOOL_SKIP_CALC = .TRUE.                
                   ELSE
-                     ! 3 NODE SEGMENT 
-                     NPt   = THREE 
-                     IF(N4==0)THEN
-                       ! nothing to do
-                     ELSEIF(N1 == N2)THEN
-                        N2 = N3
-                        N3 = N4
-                        N4 = 0
-                     ELSEIF(N2 == N3)THEN
-                        N3 = N4
-                        N4 = 0
-                     ELSEIF(N3 == N4)THEN
-                        N4 = 0
-                     ELSEIF(N4 == N1)THEN
-                        N4 = 0
-                     ENDIF
-                     ! Segment Zentrum
-                     Zx = X(1,N1)+X(1,N2)+X(1,N3)
-                     Zy = X(2,N1)+X(2,N2)+X(2,N3)
-                     Zz = X(3,N1)+X(3,N2)+X(3,N3)
-                     Zx = Zx*THIRD                          
-                     Zy = Zy*THIRD
-                     Zz = Zz*THIRD 
-                     Nx_SEG = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
-                     Ny_SEG = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
-                     Nz_SEG = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
-                     NORM_ = SQRT(Nx_SEG*Nx_SEG+Ny_SEG*Ny_SEG+Nz_SEG*Nz_SEG)
-                  ENDIF 
+                    MSGOUT1=''                                                                                               
+                    MSGOUT1='EXPECTED TYPE FOR GROUND SURFACE IS /SURF/PLANE.'   
+                    MSGOUT2=''                                                                                               
+                    MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'    
+                    CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)                                    
+                  ENDIF
+                  IADPL = 0                                    
+                  lfound = .TRUE.                                                  
+                  Base_X = ZERO                                                      
+                  Base_y = ZERO                                                      
+                  Base_z = ZERO                                                      
+                  HC = Zdet
+                  ZC = HC/W13 
+                  Nx_SURF=ZERO
+                  Ny_SURF=ZERO
+                  Nz_SURF=-Zdet
+                  IF(ZDET == ZERO)THEN
+                    Nz_SURF = -ONE
+                  ENDIF                  
+                  EXIT                                                             
+                CASE(200) 
+                  !Surface type is matching:setting ground from surface definition                                                         
+                  IADPL = IGRSURF(IS)%IAD_BUFR                                     
+                  lfound = .TRUE.                                                  
+                  Base_X  = BUFSF(IADPL+1)                                           
+                  Base_y  = BUFSF(IADPL+2)                                           
+                  Base_z  = BUFSF(IADPL+3)                                           
+                  Nx_SURF = BUFSF(IADPL+4)-Base_X                          
+                  Ny_SURF = BUFSF(IADPL+5)-Base_Y                           
+                  Nz_SURF = BUFSF(IADPL+6)-Base_Z  
+                  NN2  =  Nx_SURF*Nx_SURF+Ny_SURF*Ny_SURF+Nz_SURF*Nz_SURF                          
+                  NORM =  SQRT(NN2)  
+                  !NORM IS STRICTLY POSITIVE : BECAUSE THERE IS A STARTER CHECK FROM READER, ERROR MESSAGE 891 OTHERWISE 
+                  
+                  IF(NN2 == ZERO)THEN
+                    !Starter must go on up to normal termination.
+                    !ERROR ID : 891 already printed (surface definition)
+                    Nz_SURF=-ONE
+                    NN2=ONE
+                    NORM=ONE                       
+                  ENDIF                                
 
-                  ! Dist                                                                                                          
-                  Dx = (Xdet - Zx)*FAC_L_bb
-                  Dy = (Ydet - Zy)*FAC_L_bb
-                  Dz = (Zdet - Zz)*FAC_L_bb 
-                  DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz) ! *FAC_L_bb  cm->work unit    /FAC_L_bb : WORK_UNIT -> cm                    
+                  !vector to find ground basis point from charge
+                  Nx_SURF=Nx_SURF/NORM !NX_
+                  Ny_SURF=Ny_SURF/NORM !NY_
+                  Nz_SURF=Nz_SURF/NORM !NZ_
+                  IF(IABAC == 3)THEN   
+                    !Determine Height
+                    ! find Projection along line generated by n (ground vector) and over the gound plan
+                    ! Proj=lambda.n
+                    ! <z-Proj,n>=0
+                    lambda=(Nx_SURF*XDET + Ny_SURF*YDET + Nz_SURF*ZDET - Nx_SURF*Base_X-Ny_SURF*Base_y-Nz_SURF*Base_z)
+                    !Height is length Proj->Det. Storing Det->Proj into NN array
+                    HC = lambda ! |N_SURF|=1.0  
+                    ! N_Surf becomes vector from detonation point to ground surface                                       
+                    Nx_SURF=-HC*Nx_SURF !lambda*NX_
+                    Ny_SURF=-HC*Ny_SURF !lambda*NY_
+                    Nz_SURF=-HC*Nz_SURF !lambda*NZ_
+                  ENDIF
+                  !Scaled Height of Charge
+                  ZC = HC/W13
+                  EXIT                                                                                                 
+                END SELECT                                                         
+              ENDIF                                                                
+            ENDDO                                                                  
+            ! Provided ID is referring to an nonexistent surface                                                     
+            IF (.NOT.lFOUND) THEN 
+              Nx_Surf=Zero
+              Ny_Surf=Zero  
+              Nz_Surf=-one
+              NN2=ONE
+              NORM=ONE
+              HC=ONE
+              ZC=ONE                 
+            ENDIF 
+          ENDIF
+        ELSE
+           !initialized to zero but not used
+           Nx_SURF=ZERO
+           Ny_SURF=ZERO
+           Nz_SURF=ZERO
+           ZC = ZERO             
+        ENDIF   
+        
+        !check that DEtonation Point belongs the ground
+        IF(IABAC == 2)THEN
+          tmp_VAR = Nx_SURF*(Xdet-Base_X)+Ny_SURF*(Ydet-Base_Y)+Nz_SURF*(Zdet-Base_Z)
+          tmp_VAR = ABS(tmp_VAR/NORM)
+          IF(tmp_VAR > EM06)THEN
+            lambda = (Base_X-Xdet)*Nx_SURF + (Base_Y-Ydet)*Ny_SURF + (Base_Z-Zdet)*Nz_SURF
+            lambda = lambda/NN2
+            Xdet = Base_X+lambda*Nx_SURF
+            Ydet = Base_Y+lambda*Ny_SURF
+            Zdet = Base_Z+lambda*Nz_SURF
+            MSGOUT1=''                                                                                              
+            MSGOUT1=' DETONATION CENTER MUST BE ON THE GROUND'
+            MSGOUT2='   PROJECTING (Xdet,Ydet,Zdet) TO THE GROUND (         ,         ,         )'
+            WRITE(MSGOUT2(47:55),FMT='(E9.4)')Xdet
+            WRITE(MSGOUT2(57:65),FMT='(E9.4)')Ydet
+            WRITE(MSGOUT2(67:75),FMT='(E9.4)')Zdet                                                                                                                                                 
+            CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)               
+          ENDIF
+        ENDIF 
+         
+        IF(IABAC == 3)THEN                                                                                                                            
+          !Scaled Height of triple point                                                                                                              
+          ! curve_id              1    2    3    4    5    6    7    8    9   10                                                                      
+          ! 10 curves for ZC : {1.0; 1.5; 2.0; 2.5; 3.0; 3.5; 4.0; 5.0; 6.0; 7.0}                                                                     
+          !                    <--------curve_id=[2x-1]---------><----[x+3]----->                                                                     
+          !                                                                                                                                           
+          !get curve_id and interpolation factor. No matter unit system (curve_id1 and alpha_zc are dimensionless) 
+          
+          IF(HC<=ZERO)THEN
+            MSGOUT1=''                                                                                              
+            MSGOUT1=' DETONATION CENTER MUST BE ABOVE THE GROUND'
+            MSGOUT2=''                                                                                                                                               
+            CALL ANCMSG(MSGID=2047,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2) 
+            BOOL_SKIP_CALC = .TRUE.                                                                                                                    
+            HC = ONE
+          ENDIF
+                                             
+          tmp(1)=ZC                                                                                                                                   
+          ZC=ZC/FAC_unit                                                                                                                              
+          IF(ZC < 4)THEN                                                                                                                              
+            itmp = INT( 2.*(ZC)-1. )                                                                                                                  
+            curve_id1 =  max(1,itmp)                                                                                                                  
+            curve_id2 = curve_id1+1                                                                                                                   
+            IF(itmp < 1)THEN                                                                                                                          
+              !message out of bounds. curve 1 will be used. no extrapolation                                                                          
+              alpha_zc = ZERO                                                                                                                         
+            ELSE                                                                                                                                      
+              alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) /                                                                               
+     .                          ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )                                     
+            ENDIF                                                                                                                                     
+          ELSE                                                                                                                                        
+            itmp = INT( ZC+3. )                                                                                                                       
+            curve_id1 = INT( min(10,itmp) )                                                                                                           
+            curve_id2 = curve_id1+1                                                                                                                   
+            IF(curve_id1 == 10)THEN                                                                                                                   
+              !message out of bounds. curve 10 will be used. no extrapolation                                                                         
+              alpha_zc = ZERO                                                                                                                         
+            ELSE                                                                                                                                      
+              alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) /                                                                               
+     .                       ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )                                     
+            ENDIF                                                                                                                                     
+          ENDIF                                                                                                                                       
+          alpha_zc = curve_id1+alpha_zc     !integer part is curve id1,  digits are standing for interpolation factor between curve_id1 & curve_id2     
+        ENDIF                                                                                                                                        
+  
+              
+        !--------------------------------------------------------------
+        !   B u f f e r   S t o r a g e (Transmitted to Engine) 
+        !--------------------------------------------------------------      
+        IF(internal_SURF_ID /= 0)THEN 
+          ILOADP( 1,K) = 4*NUMSEG 
+          ILOADP( 2,K) = internal_SURF_ID
+          ILOADP( 4,K) = IAD  
+          ILOADP( 5,K) = 3
+          ILOADP( 6,K) = IZ_UPDATE 
+          ILOADP( 7,K) = IABAC
+          ILOADP( 8,K) = ID 
+          ILOADP( 9,K) = ITA_SHIFT
+          ILOADP(10,K) = NDT
+          ILOADP(11,K) = IMODEL
+          !ILOADP(12,K) = curve_id1 ! getting interpolated SHTP from figure 2_13   
+          IAD = IAD + 3*NUMSEG
+          FACLOADP( 1,K) = TDET     
+          FACLOADP( 2,K) = XDET     
+          FACLOADP( 3,K) = YDET     
+          FACLOADP( 4,K) = ZDET     
+          FACLOADP( 5,K) = WTNT 
+          FACLOADP( 6,K) = PMIN   
+          FACLOADP( 7,K) = ZERO !TA_INT initialized below                 
+          FACLOADP( 8,K) = Nx_SURF                                         
+          FACLOADP( 9,K) = Ny_SURF
+          FACLOADP(10,K) = Nz_SURF
+          HC = ABS(HC)
+          FACLOADP(11,K) = HC
+          FACLOADP(12,K) = alpha_zc ! inteprolation factor for curve if on figure 2_13 in [0,1[  +  curve_id1   (no matter are units ft/lb**1/3  or cm/g**1/3)
+          FACLOADP(13,K) = TSTOP
+        ENDIF
+        
+        !--------------------------------------------------------------
+        !   C o m p u t e   W a v e   P a r a m e t e r s
+        !--------------------------------------------------------------    
+        IF(internal_SURF_ID /= 0 .AND. .NOT.BOOL_SKIP_CALC)THEN   
+          NUMSEG = IGRSURF(internal_SURF_ID)%NSEG
+          ISIZ_SEG = NUMSEG                                    
+          IAD = ILOADP(4,K) 
+          ILD_PBLAST = ILD_PBLAST + 1
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%cos_theta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%P_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%P_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%ta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%t0(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%decay_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%decay_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000 
+          PBLAST_TAB(ILD_PBLAST)%SIZ=ISIZ_SEG 
+           
+          !  Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary vector of the plane
+          ProjDet(1)=Xdet+ Nx_SURF
+          ProjDet(2)=Ydet+ Ny_SURF
+          ProjDet(3)=Zdet+ Nz_SURF
+                                                              
+          DO I=1,NUMSEG  
+            N1=IGRSURF(internal_SURF_ID)%NODES(I,1)
+            N2=IGRSURF(internal_SURF_ID)%NODES(I,2)
+            N3=IGRSURF(internal_SURF_ID)%NODES(I,3)
+            N4=IGRSURF(internal_SURF_ID)%NODES(I,4)                                
+            IF(N4 /= 0 .AND. N1 /= N2 .AND. N2 /= N3 .AND. N3 /= N4 .AND. N4 /= N1 )THEN
+              ! 4 NODE SEGMENT
+              NPt   = FOUR
+              ! Segment Zentrum
+              Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
+              Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
+              Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
+              Zx = Zx*FOURTH                          
+              Zy = Zy*FOURTH
+              Zz = Zz*FOURTH                          
+              ! Normal vectors
+              Nx_SEG  = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
+              Ny_SEG  = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
+              Nz_SEG  = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
+              NORM_= SQRT(Nx_SEG*Nx_SEG+Ny_SEG*Ny_SEG+Nz_SEG*Nz_SEG)
+            ELSE
+              ! 3 NODE SEGMENT 
+              NPt   = THREE 
+              IF(N4==0)THEN
+                ! nothing to do
+                ELSEIF(N1 == N2)THEN
+                  N2 = N3
+                  N3 = N4
+                  N4 = 0
+                ELSEIF(N2 == N3)THEN
+                  N3 = N4
+                  N4 = 0
+                ELSEIF(N3 == N4)THEN
+                  N4 = 0
+                ELSEIF(N4 == N1)THEN
+                  N4 = 0
+                ENDIF
+                ! Segment Zentrum
+                Zx = X(1,N1)+X(1,N2)+X(1,N3)
+                Zy = X(2,N1)+X(2,N2)+X(2,N3)
+                Zz = X(3,N1)+X(3,N2)+X(3,N3)
+                Zx = Zx*THIRD                          
+                Zy = Zy*THIRD
+                Zz = Zz*THIRD 
+                Nx_SEG = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
+                Ny_SEG = (X(3,N3)-X(3,N1))*(X(1,N3)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N3)-X(3,N2))
+                Nz_SEG = (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
+                NORM_ = SQRT(Nx_SEG*Nx_SEG+Ny_SEG*Ny_SEG+Nz_SEG*Nz_SEG)
+              ENDIF 
 
-                  ! scaled distance 
-                  Z = DNORM / W13 !in abac unit ID  g,cm,mus  
+              ! Dist                                                                                                          
+              Dx = (Xdet - Zx)*FAC_L_bb
+              Dy = (Ydet - Zy)*FAC_L_bb
+              Dz = (Zdet - Zz)*FAC_L_bb 
+              DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz) ! *FAC_L_bb  cm->work unit    /FAC_L_bb : WORK_UNIT -> cm                    
 
-                  !finding index for TM5-1300 abacuses from bijection.                                                                                                                                        
-                  IF(Z>0.5 .and. Z<400.) then                                                                                                                                                                 
-                    Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
-                    Phi_I  = 1 + INT(Phi_DB)                                                                                                                                                                  
-                    bound1 = PBLAST_DATA%RW3(Phi_I)                                                                                                                                                           
-                    bound2 = PBLAST_DATA%RW3(Phi_I+1)                                                                                                                                                         
-                    LAMBDA = (Z-bound1) / (bound2-bound1)                                                                                                                                                     
-                  elseif(Z <= 0.5)then                                                                                                                                                                        
-                    if (N4==0)then                                                                                                                                                                            
-                      write(IOUT,FMT='(A,3I11)')                                                                                                                                                                 
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)                                                                             
-                    else                                                                                                                                                                                      
-                      write(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ", 
-     .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                    
-                    endif                                                                                                                                                                                     
-                    LAMBDA = ZERO                                                                                                                                                                             
-                    Phi_I  = 1                                                                                                                                                                                
-                  elseif(Z > 400.)then                                                                                                                                                                        
-                    if (N4==0)then                                                                                                                                                                            
-                      write(IOUT,FMT='(A,3I11)')                                                                                                                                                                 
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)                                                                             
-                    else                                                                                                                                                                                      
-                      write(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", 
-     .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                    
-                    endif                                                                                                                                                                                     
-                    LAMBDA = ONE                                                                                                                                                                               
-                    Phi_I  = 255                                                                                                                                                                              
-                  ENDIF                                                                                                                                                                                       
+              ! scaled distance 
+              Z = DNORM / W13 !in abac unit ID  g,cm,mus  
 
-                  !Angle from detonation point                                                                                                                                                                
-                  cos_theta = Dx*Nx_SEG + Dy*Ny_SEG + Dz*Nz_SEG                                                                                                                                                           
-                  cos_theta = cos_theta/MAX(EM20,NORM_*DNORM)                                                                                                                                                  
-                      
-                  P_inci  = zero                                                                                                                                                         
-                  I_inci  = zero                                                                                                                                                                      
-                  P_refl  = zero                                                                                                                                  
-                  I_refl  = zero                                                                                                                                     
-                  P_inci_ = zero                                                                                                                                      
-                  I_inci_ = zero                                                                                                                                      
-                  P_refl_ = zero                                                                                                                                       
-                  I_refl_ = zero                                                                                                                                      
-                  DT_0    = zero                                                                                                                                      
-                  DT_0_   = zero                                                                                                                                      
-                  T_A     = zero
+              !finding index for TM5-1300 abacuses from bijection.                                                                                                                                        
+              IF(Z > 0.5 .AND. Z < 400.)THEN                                                                                                                                                                 
+                Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
+                Phi_I  = 1 + INT(Phi_DB)                                                                                                                                                                  
+                bound1 = PBLAST_DATA%RW3(Phi_I)                                                                                                                                                           
+                bound2 = PBLAST_DATA%RW3(Phi_I+1)                                                                                                                                                         
+                LAMBDA = (Z-bound1) / (bound2-bound1)                                                                                                                                                     
+              ELSEIF(Z <= 0.5)THEN                                                                                                                                                                        
+                IF (N4 == 0)THEN                                                                                                                                                                            
+                  WRITE(IOUT,FMT='(A,3I11)')                                                                                                                                                                 
+     .             "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)                                                                             
+                ELSE                                                                                                                                                                                      
+                  WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ", 
+     .             ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                    
+                ENDIF                                                                                                                                                                                     
+                LAMBDA = ZERO                                                                                                                                                                             
+                Phi_I  = 1                                                                                                                                                                                
+              ELSEIF(Z > 400.)THEN                                                                                                                                                                        
+                IF (N4==0)THEN                                                                                                                                                                            
+                  WRITE(IOUT,FMT='(A,3I11)')                                                                                                                                                                 
+     .             "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)                                                                             
+                ELSE                                                                                                                                                                                      
+                  WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", 
+     .             ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                    
+                ENDIF                                                                                                                                                                                     
+                LAMBDA = ONE                                                                                                                                                                               
+                Phi_I  = 255                                                                                                                                                                              
+              ENDIF                                                                                                                                                                                       
+
+              !Angle from detonation point                                                                                                                                                                
+              cos_theta = Dx*Nx_SEG + Dy*Ny_SEG + Dz*Nz_SEG                                                                                                                                                           
+              cos_theta = cos_theta/MAX(EM20,NORM_*DNORM)                                                                                                                                                  
+                  
+              P_inci  = zero                                                                                                                                                         
+              I_inci  = zero                                                                                                                                                                      
+              P_refl  = zero                                                                                                                                  
+              I_refl  = zero                                                                                                                                     
+              P_inci_ = zero                                                                                                                                      
+              I_inci_ = zero                                                                                                                                      
+              P_refl_ = zero                                                                                                                                       
+              I_refl_ = zero                                                                                                                                      
+              DT_0    = zero                                                                                                                                      
+              DT_0_   = zero                                                                                                                                      
+              T_A     = zero
+              DECAY_inci = ONE
+              DECAY_refl = ONE
+              BOOL_UNDERGROUND_CURRENT_SEG = .FALSE.
+                                                                                                                                                                                                                
+              !--------------------------------------------------------
+              !   Free Air 
+              !--------------------------------------------------------              
+              IF(  IABAC == 1 ) THEN                                                                                                                                                                    
+              !=== SPHERICAL CHARGE IN FREE FIELD ===!                                                                                                                                                    
+                                                                                                                                                                                                          
+                !Incident upper Pressure (TM5-1300)                                                                                                                                                       
+                bound1 = PBLAST_DATA%Pso(Phi_I)                                                                                                                                                           
+                bound2 = PBLAST_DATA%Pso(Phi_I+1)                                                                                                                                                         
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                P_inci = exp(LogRes*log10_)                                                                                                                                                               
+
+                !Incident Lower Pressure (TM5-1300)                                                                                                                                                       
+                bound1 = PBLAST_DATA%Pso_(Phi_I)                                                                                                                                                          
+                bound2 = PBLAST_DATA%Pso_(Phi_I+1)                                                                                                                                                        
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                P_inci_ = exp(LogRes*log10_)                                                                                                                                                              
+                                                                                                                                                                                                          
+                !Incident upper Impulse (TM5-1300)                                                                                                                                                        
+                bound1 = PBLAST_DATA%Iso(Phi_I)                                                                                                                                                           
+                bound2 = PBLAST_DATA%Iso(Phi_I+1)                                                                                                                                                         
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                I_inci = exp(LogRes*log10_)                                                                                                                                                               
+
+                !Incident lower Impulse (TM5-1300)                                                                                                                                                        
+                bound1 = PBLAST_DATA%Iso_(Phi_I)                                                                                                                                                          
+                bound2 = PBLAST_DATA%Iso_(Phi_I+1)                                                                                                                                                        
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                I_inci_ = exp(LogRes*log10_)                                                                                                                                                              
+                                                                                                                                                                                                          
+                !Reflected upper Pressure (TM5-1300)                                                                                                                                                      
+                bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                                                                                            
+                bound2 = PBLAST_DATA%Pr(Phi_I+1)                                                                                                                                                          
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                P_refl = exp(LogRes*log10_)                                                                                                                                                               
+                                                                                                                                                                                                          
+                !Reflected lower Pressure (TM5-1300)                                                                                                                                                      
+                bound1 = PBLAST_DATA%Pr_(Phi_I)                                                                                                                                                           
+                bound2 = PBLAST_DATA%Pr_(Phi_I+1)                                                                                                                                                         
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                P_refl_ = exp(LogRes*log10_)                                                                                                                                                              
+
+                !Reflected upper Impulse (TM5-1300)                                                                                                                                                       
+                bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                                                                                         
+                bound2 = PBLAST_DATA%Irefl(Phi_I+1)                                                                                                                                                       
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                I_refl = exp(LogRes*log10_)                                                                                                                                                               
+
+                !Reflected lower Impulse (TM5-1300)                                                                                                                                                       
+                bound1 = PBLAST_DATA%Irefl_(Phi_I)                                                                                                                                                        
+                bound2 = PBLAST_DATA%Irefl_(Phi_I+1)                                                                                                                                                      
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                I_refl_ = exp(LogRes*log10_)                                                                                                                                                              
+                                                                                                                                                                                                          
+                !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
+                bound1 = PBLAST_DATA%t0(Phi_I)                                                                                                                                                            
+                bound2 = PBLAST_DATA%t0(Phi_I+1)                                                                                                                                                          
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                DT_0 = exp(LogRes*log10_)                                                                                                                                                                 
+
+                !second time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                    
+                bound1 = PBLAST_DATA%t0_(Phi_I)                                                                                                                                                           
+                bound2 = PBLAST_DATA%t0_(Phi_I+1)                                                                                                                                                         
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                DT_0_ = exp(LogRes*log10_)                                                                                                                                                                
+                                                                                                                                                                                                          
+                !Time Arrival (TM5-1300)                                                                                                                                                                  
+                bound1 = PBLAST_DATA%ta(Phi_I)                                                                                                                                                            
+                bound2 = PBLAST_DATA%ta(Phi_I+1)                                                                                                                                                          
+                LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                T_A = exp(LogRes*log10_) 
+                
+                HZ = ZERO ! not used with this formulation                                                                                                                                                                 
+                                                                                                                                                                                                          
+              !--------------------------------------------------------
+              !   Surface Burst 
+              !--------------------------------------------------------              
+              ELSEIF( IABAC == 2 ) THEN   
+                                                                                                                                                                            
+              !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!   
+
+                HZ = ( Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*Xdet - Ny_SURF*Ydet - Nz_SURF*Zdet ) 
+                
+                IF(HZ < ZERO)THEN
+                
+                  P_inci = zero
+                  I_inci = zero
+                  P_refl = zero
+                  I_refl = zero
+                  DT_0 = EP20
+                  T_A = EP20
                   DECAY_inci = ONE
                   DECAY_refl = ONE
-                  BOOL_UNDERGROUND_CURRENT_SEG = .FALSE.
-                                                                                                                                                                                                                    
-                  !--------------------------------------------------------
-                  !   Free Air 
-                  !--------------------------------------------------------              
-                  IF(  IABAC == 1 ) THEN                                                                                                                                                                    
-                  !=== SPHERICAL CHARGE IN FREE FIELD ===!                                                                                                                                                    
-                                                                                                                                                                                                              
-                    !Incident upper Pressure (TM5-1300)                                                                                                                                                       
-                    bound1 = PBLAST_DATA%Pso(Phi_I)                                                                                                                                                           
-                    bound2 = PBLAST_DATA%Pso(Phi_I+1)                                                                                                                                                         
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    P_inci = exp(LogRes*log10_)                                                                                                                                                               
+                  
+                  SEG_UNDERGROUND = SEG_UNDERGROUND + 1
+                  BOOL_UNDERGROUND_CURRENT_LOAD = .TRUE.
+                  BOOL_UNDERGROUND_CURRENT_SEG = .TRUE.
+                                      
+                ELSE
+                                                                                                                                                    
+                  !Incident Pressure (TM5-1300)                                                                                                                                                             
+                  bound1 = PBLAST_DATA%Pso_Surf(Phi_I)                                                                                                                                                         
+                  bound2 = PBLAST_DATA%Pso_Surf(Phi_I+1)                                                                                                                                                       
+                  LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                  P_inci = exp(LogRes*log10_)                                                                                                                                                                         
+                                                                                                                                                                                                            
+                  !Incident Impulse (TM5-1300)                                                                                                                                                              
+                  bound1 = PBLAST_DATA%Iso_Surf(Phi_I)                                                                                                                                                         
+                  bound2 = PBLAST_DATA%Iso_Surf(Phi_I+1)                                                                                                                                                       
+                  LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                  I_inci = exp(LogRes*log10_)                                                                                                                                                   
+                                                                                                                                                                                                            
+                  !Reflected Pressure (TM5-1300)                                                                                                                                                            
+                  bound1 = PBLAST_DATA%Pr_Surf(Phi_I)                                                                                                                                                          
+                  bound2 = PBLAST_DATA%Pr_Surf(Phi_I+1)                                                                                                                                                        
+                  LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                  P_refl = exp(LogRes*log10_)                                                                                                                                                     
+                                                                                                                                                                                                            
+                  !Reflected Impulse (TM5-1300)                                                                                                                                                             
+                  bound1 = PBLAST_DATA%Ir_Surf(Phi_I)                                                                                                                                                          
+                  bound2 = PBLAST_DATA%Ir_Surf(Phi_I+1)                                                                                                                                                        
+                  LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                  I_refl = exp(LogRes*log10_)                                                                                                                                                   
+                                                                                                                                                                                                            
+                  !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
+                  bound1 = PBLAST_DATA%t0_Surf(Phi_I)                                                                                                                                                          
+                  bound2 = PBLAST_DATA%t0_Surf(Phi_I+1)                                                                                                                                                        
+                  LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                  DT_0 = exp(LogRes*log10_)                                                                                                                                                
+                                                                                                                                                                                                            
+                  !Time Arrival (TM5-1300)                                                                                                                                                                  
+                  bound1 = PBLAST_DATA%ta_Surf(Phi_I)                                                                                                                                                          
+                  bound2 = PBLAST_DATA%ta_Surf(Phi_I+1)                                                                                                                                                        
+                  LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
+                  T_A = exp(LogRes*log10_)    
+                
+                ENDIF
+                
+              !--------------------------------------------------------
+              !   Free Air Burst 
+              !--------------------------------------------------------              
+              ELSEIF(IABAC == 3)THEN
+                !--- Determine Height of centroid (structure face) : HZ                                                        
+                
+                !Height is length Proj->Det. Storing Det->Proj into NN array                                          
+                HZ=-(Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*ProjDet(1)-Ny_SURF*ProjDet(2)-Nz_SURF*ProjDet(3))/HC 
 
-                    !Incident Lower Pressure (TM5-1300)                                                                                                                                                       
-                    bound1 = PBLAST_DATA%Pso_(Phi_I)                                                                                                                                                          
-                    bound2 = PBLAST_DATA%Pso_(Phi_I+1)                                                                                                                                                        
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    P_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                              
-                    !Incident upper Impulse (TM5-1300)                                                                                                                                                        
-                    bound1 = PBLAST_DATA%Iso(Phi_I)                                                                                                                                                           
-                    bound2 = PBLAST_DATA%Iso(Phi_I+1)                                                                                                                                                         
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    I_inci = exp(LogRes*log10_)                                                                                                                                                               
+                IF(HZ < ZERO)THEN
+                
+                  P_inci = zero
+                  I_inci = zero
+                  P_refl = zero
+                  I_refl = zero
+                  DT_0 = EP20
+                  T_A = EP20
+                  DECAY_inci = ONE
+                  DECAY_refl = ONE
+                  
+                  SEG_UNDERGROUND = SEG_UNDERGROUND + 1
+                  BOOL_UNDERGROUND_CURRENT_LOAD = .TRUE.
+                  BOOL_UNDERGROUND_CURRENT_SEG = .TRUE.
+                
+                ELSE                                                                                             
+                                   
+                  Z_struct = HZ/W13
 
-                    !Incident lower Impulse (TM5-1300)                                                                                                                                                        
-                    bound1 = PBLAST_DATA%Iso_(Phi_I)                                                                                                                                                          
-                    bound2 = PBLAST_DATA%Iso_(Phi_I+1)                                                                                                                                                        
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    I_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                              
-                    !Reflected upper Pressure (TM5-1300)                                                                                                                                                      
-                    bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                                                                                            
-                    bound2 = PBLAST_DATA%Pr(Phi_I+1)                                                                                                                                                          
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    P_refl = exp(LogRes*log10_)                                                                                                                                                               
-                                                                                                                                                                                                              
-                    !Reflected lower Pressure (TM5-1300)                                                                                                                                                      
-                    bound1 = PBLAST_DATA%Pr_(Phi_I)                                                                                                                                                           
-                    bound2 = PBLAST_DATA%Pr_(Phi_I+1)                                                                                                                                                         
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    P_refl_ = exp(LogRes*log10_)                                                                                                                                                              
+                  !Scaled Height of Charge                                                                              
+                  ZC = HC/W13                                                                                           
+ 
+                  !Horizontal Distance between Charge and Centroid : LG                                  
+                  ! ZG = scaled distance |ProjC->ProjZ|                                                                 
+                  ProjZ(1) = Zx + HZ*Nx_SURF/HC                                                                           
+                  ProjZ(2) = Zy + HZ*Ny_SURF/HC                                                                           
+                  ProjZ(3) = Zz + HZ*Nz_SURF/HC                                                                           
+                  tmp(1) = (ProjZ(1)-ProjDet(1))                                                                        
+                  tmp(2) = (ProjZ(2)-ProjDet(2))                                                                        
+                  tmp(3) = (ProjZ(3)-ProjDet(3))                                                                        
+                  LG = SQRT(TMP(1)*TMP(1)+TMP(2)*TMP(2)+TMP(3)*TMP(3))                                                  
+                  ZG = LG/W13     !scaled horizontal distance (ground) 
+                
+                  !Angle of structural face (mach wave is planar wave)
+                  cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG +  (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG                                                                          
+                  cos_theta = cos_theta/MAX(EM20,LG*NORM_)
+                                                                                                                        
+                  !determine angle of incidence at ground (AANGLE_g) and interpolation factor (alpha_angle)                                                                    
+                  tmp(1)=Xdet-ProjZ(1)                                                                                  
+                  tmp(2)=Ydet-ProjZ(2)                                                                                  
+                  tmp(3)=Zdet-ProjZ(3)                                                                                  
+                  tmp_var=SQRT( tmp(1)*tmp(1) + tmp(2)*tmp(2) + tmp(3)*tmp(3) )                                         
+                  ANGLE_g = -( Nx_SURF*tmp(1) + Ny_SURF*tmp(2) + Nz_SURF*tmp(3) ) /Hc/tmp_var  !must be between [-PI_,PI_]             
+                  ANGLE_g = min(ONE,max(-ONE,ANGLE_g)) ! bound it to expected range (epsilon) 
+                  ANGLE_g = acos(ANGLE_g)                                                                                   
+                  ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose  
+                  IF(ANGLE_g < ZERO)THEN
+                    WRITE(IOUT,*) ' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
+     .                            ' SEEMS TO BE BELOW THE GROUND'
+                    WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
+     .                            ' SEEMS TO BE BELOW THE GROUND'
+                    ANGLE_g = ZERO            
+                  ELSEIF(ANGLE_g > 85.00000)THEN
+                    WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)') 
+     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
+     .                                            '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,4I11)')
+     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
+     .                                            '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+                    ANGLE_g = 85.00000
+                  ENDIF                                                                                               
+                  tmp(1)=ANGLE_g/PBLAST_DATA%delta_angle                                                                  
+                  itmp=INT(tmp(1))                                                                                      
+                  idx1_angle = 1+itmp   ! surjection ANGLE -> idx1                                                      
+                  idx2_angle = MIN(idx1_angle+1,256)                                                                    
+                  alpha_angle = (ANGLE_g-itmp*PBLAST_DATA%delta_angle)/PBLAST_DATA%delta_angle  !interpolation factor between angle(idx1_angle) & angle(idx2_angle) 
+                
+ 
+                  !Scaled Height of triple point (Figure 2-13)                                                                       
+                  ! curve_id              1    2    3    4    5    6    7    8    9   10                                
+                  ! 10 curves for ZC : {1.0; 1.5; 2.0; 2.5; 3.0; 3.5; 4.0; 5.0; 6.0; 7.0}    ft/lb**1/3                      
+                  !                    <--------curve_id=[2x-1]---------><----[x+3]----->                               
+                  ! SHTP = f (ZC,ZG)
+                
+                  !alpha_zc is the interpolation factor for ordinate (between the two retained curves)
+                  curve_id1 = 0                                                                                         
+                  alpha_zc = zero 
+                  ZC = ZC/FAC_UNIT
+                  IF(ZC < 4)THEN                                                                                        
+                    itmp = INT( TWO*(ZC)-ONE )                                                                            
+                    curve_id1 =  max(1,itmp)                                                                       
+                    curve_id2 = curve_id1+1                                                                             
+                    IF(itmp < 1)THEN                                                                                    
+                      !message out of bounds. curve 1 will be used. no extrapolation                                    
+                      curve_id2=curve_id1 !=1                                                                           
+                      alpha_zc = ZERO  
+                      WRITE(IOUT,FMT='(A,I0,A,E10.4,A,I0)') 
+     .                ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE',ZC,' IS BELOW THE LOWER BOUND AND SET TO:'
+     .                                          ,PBLAST_DATA%Curve_val_2_13(1)
+                      WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0)')
+     .                ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE',ZC,' IS BELOW THE LOWER BOUND AND SET TO:'
+     .                                          ,PBLAST_DATA%Curve_val_2_13(1)               
+                    ELSE                                                                                                                                             
+                      alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) 
+                      alpha_zc = alpha_zc/  ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
+                    ENDIF                                                                                               
+                  ELSE                                                                                                  
+                    itmp = INT( ZC+THREE )                                                                                 
+                    curve_id1 = INT( min(10,itmp) )                                                                     
+                    curve_id2 = curve_id1+1                                                                             
+                    IF(curve_id1 == 10)THEN                                                                             
+                      !message out of bounds. curve 10 will be used. no extrapolation                                   
+                      curve_id2=curve_id1 !=10                                                                          
+                      alpha_zc = ZERO  
+                      WRITE(IOUT,FMT='(A,I0,A,E10.4,A,E10.4)') 
+     .               ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE ',ZC,' IS OVER THE UPPER BOUND AND SET TO:,',
+     .                                           PBLAST_DATA%Curve_val_2_13(10)
+                      WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,E10.4)')
+     .               ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE ',ZC,' IS OVER THE UPPER BOUND AND SET TO:,',
+     .                                           PBLAST_DATA%Curve_val_2_13(10)                
+                    ELSE                                                                                                
+                      alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) 
+                      alpha_zc = alpha_zc / ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
+                    ENDIF                                                                                               
+                  ENDIF 
 
-                    !Reflected upper Impulse (TM5-1300)                                                                                                                                                       
-                    bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                                                                                         
-                    bound2 = PBLAST_DATA%Irefl(Phi_I+1)                                                                                                                                                       
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    I_refl = exp(LogRes*log10_)                                                                                                                                                               
-
-                    !Reflected lower Impulse (TM5-1300)                                                                                                                                                       
-                    bound1 = PBLAST_DATA%Irefl_(Phi_I)                                                                                                                                                        
-                    bound2 = PBLAST_DATA%Irefl_(Phi_I+1)                                                                                                                                                      
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    I_refl_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                              
-                    !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
-                    bound1 = PBLAST_DATA%t0(Phi_I)                                                                                                                                                            
-                    bound2 = PBLAST_DATA%t0(Phi_I+1)                                                                                                                                                          
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    DT_0 = exp(LogRes*log10_)                                                                                                                                                                 
-
-                    !second time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                    
-                    bound1 = PBLAST_DATA%t0_(Phi_I)                                                                                                                                                           
-                    bound2 = PBLAST_DATA%t0_(Phi_I+1)                                                                                                                                                         
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    DT_0_ = exp(LogRes*log10_)                                                                                                                                                                
-                                                                                                                                                                                                              
-                    !Time Arrival (TM5-1300)                                                                                                                                                                  
-                    bound1 = PBLAST_DATA%ta(Phi_I)                                                                                                                                                            
-                    bound2 = PBLAST_DATA%ta(Phi_I+1)                                                                                                                                                          
-                    LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                    T_A = exp(LogRes*log10_) 
-                    
-                    HZ = ZERO ! not used with this formulation                                                                                                                                                                 
-                                                                                                                                                                                                              
-                  !--------------------------------------------------------
-                  !   Surface Burst 
-                  !--------------------------------------------------------              
-                  ELSEIF( IABAC == 2 ) THEN   
-                                                                                                                                                                                
-                  !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!   
-
-                    HZ = ( Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*Xdet - Ny_SURF*Ydet - Nz_SURF*Zdet ) 
-                    
-                    IF(HZ < ZERO)THEN
-                    
-                      P_inci = zero
-                      I_inci = zero
-                      P_refl = zero
-                      I_refl = zero
-                      DT_0 = EP20
-                      T_A = EP20
-                      DECAY_inci = ONE
-                      DECAY_refl = ONE
-                      
-                      SEG_UNDERGROUND = SEG_UNDERGROUND + 1
-                      BOOL_UNDERGROUND_CURRENT_LOAD = .TRUE.
-                      BOOL_UNDERGROUND_CURRENT_SEG = .TRUE.
-                                          
+                  !idx_zg1 is index in [1,256] for abscissa %SHTP(curve_id,1:256)
+                  ! PBLAST_DATA%SHDC(1:2,curve_id) are the SHDC bounds for a given curve_id
+                  idx_zg1 = MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1)
+                  idx_zg2 = MIN(256,idx_zg1+1)
+                  alpha_zg = zero 
+                  IF(ZG < PBLAST_DATA%SHDC(1,curve_id2))THEN
+                    ZG =  PBLAST_DATA%SHDC(1,curve_id2)
+                    WRITE(IOUT, FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
+     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
+     .                                       ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
+     .                                       curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
+                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
+     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
+     .                                       ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
+     .                                       curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
+                  ENDIF
+                  IF(ZG > PBLAST_DATA%SHDC(2,curve_id1))THEN
+                    ZG =  PBLAST_DATA%SHDC(2,curve_id1)
+                    WRITE(IOUT,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
+     .             ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
+     .                                         ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
+     .                                         curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
+                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
+     .             ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
+     .                                         ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
+     .                                         curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'         
+                  ENDIF
+                  alpha_zg = (ZG-PBLAST_DATA%SHTP_abscissa(idx_zg1))/PBLAST_DATA%dSHDC !abscissa interpolation
+                                                                                                       
+                  !Scaled Height of triple point SHTP
+                  !tmp(1) : angle interpolation on curve_id1 Figure 2_13                                                
+                  tmp(1)=PBLAST_DATA%SHTP(curve_id1,idx_zg1)
+                  tmp(2)=PBLAST_DATA%SHTP(curve_id1,idx_zg2)
+                  tmp(1) = (ONE-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
+                  !tmp(2) : interpolation on curve_id2 Figure 2_13                                                       
+                  tmp(2)=PBLAST_DATA%SHTP(curve_id2,idx_zg1)
+                  tmp(3)=PBLAST_DATA%SHTP(curve_id2,idx_zg2)
+                  tmp(2) = (ONE-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
+                  !interpolate now with scaled height of charge 
+                  SHTP = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+                  HTP = SHTP*W13            
+                 
+                  !Check if triple point is above the target centroid                                                   
+                  ! print warning otherwise ; and use FREE AIR BURST ?                                                  
+                  !                                                                                                     
+                  IF(Z_struct > SHTP)THEN
+                      WRITE(IOUT, FMT='(A,I0,A,4(I0,A1),A,E10.4,A,E10.4,A)')
+     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' TARGET FACE IS ABOVE THE TRIPLE POINT:',N1,",",N2,",",N3,",",N4," ; ",
+     .                 "Zface = ",Z_struct," > ",SHTP," = SHTP (ft/fb**1/3)"
+                      WRITE(ISTDO, FMT='(A,I0,A,4(I0,A1),A,E10.4,A,E10.4,A)')
+     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' TARGET FACE IS ABOVE THE TRIPLE POINT:',N1,",",N2,",",N3,",",N4," ; ",
+     .                 "Zface = ",Z_struct," > ",SHTP," = SHTP (ft/fb**1/3)"
+                  ENDIF
+                
+                                                                                                                        
+                  !deduce Pra from table  (figure 2_9)                                                                              
+                  ! Pra =     
+                  !here curves are plot from zc=0.3 to zc=14.3 : need to calculate alpha_zc again  
+                  idx1 = MAX(1,DICHOTOMIC_SEARCH_R_ASC(ZC, PBLAST_DATA%Curve_val_2_9, 10))
+                  calculate=.FALSE.
+                  IF(idx1 == 1)THEN
+                    IF(ZC <= PBLAST_DATA%Curve_val_2_9(1))THEN
+                      alpha_zc = zero
+                      idx1 = 1
+                      idx2 = 1
+                      WRITE(IOUT,*)
+     .        '   ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS BELOW THE RANGE, FIGURE 2-9, CURVE=',1,
+     .                                        ' HC=',ZC/FAC_UNIT,' ft/lb^0.333'
+                      WRITE(ISTDO,*)
+     .        '   ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS BELOW THE RANGE, FIGURE 2-9, CURVE=',1,
+     .                                        ' HC=',ZC/FAC_UNIT,' ft/lb^0.333'
                     ELSE
-                                                                                                                                                        
-                      !Incident Pressure (TM5-1300)                                                                                                                                                             
-                      bound1 = PBLAST_DATA%Pso_Surf(Phi_I)                                                                                                                                                         
-                      bound2 = PBLAST_DATA%Pso_Surf(Phi_I+1)                                                                                                                                                       
-                      LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                      P_inci = exp(LogRes*log10_)                                                                                                                                                                         
-                                                                                                                                                                                                                
-                      !Incident Impulse (TM5-1300)                                                                                                                                                              
-                      bound1 = PBLAST_DATA%Iso_Surf(Phi_I)                                                                                                                                                         
-                      bound2 = PBLAST_DATA%Iso_Surf(Phi_I+1)                                                                                                                                                       
-                      LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                      I_inci = exp(LogRes*log10_)                                                                                                                                                   
-                                                                                                                                                                                                                
-                      !Reflected Pressure (TM5-1300)                                                                                                                                                            
-                      bound1 = PBLAST_DATA%Pr_Surf(Phi_I)                                                                                                                                                          
-                      bound2 = PBLAST_DATA%Pr_Surf(Phi_I+1)                                                                                                                                                        
-                      LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                      P_refl = exp(LogRes*log10_)                                                                                                                                                     
-                                                                                                                                                                                                                
-                      !Reflected Impulse (TM5-1300)                                                                                                                                                             
-                      bound1 = PBLAST_DATA%Ir_Surf(Phi_I)                                                                                                                                                          
-                      bound2 = PBLAST_DATA%Ir_Surf(Phi_I+1)                                                                                                                                                        
-                      LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                      I_refl = exp(LogRes*log10_)                                                                                                                                                   
-                                                                                                                                                                                                                
-                      !first time for which P=P0 after t_arrival (TM5-1300)                                                                                                                                     
-                      bound1 = PBLAST_DATA%t0_Surf(Phi_I)                                                                                                                                                          
-                      bound2 = PBLAST_DATA%t0_Surf(Phi_I+1)                                                                                                                                                        
-                      LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                      DT_0 = exp(LogRes*log10_)                                                                                                                                                
-                                                                                                                                                                                                                
-                      !Time Arrival (TM5-1300)                                                                                                                                                                  
-                      bound1 = PBLAST_DATA%ta_Surf(Phi_I)                                                                                                                                                          
-                      bound2 = PBLAST_DATA%ta_Surf(Phi_I+1)                                                                                                                                                        
-                      LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-                      T_A = exp(LogRes*log10_)    
-                    
+                      idx1 = 1
+                      idx2 = 2
+                      calculate=.TRUE.             
                     ENDIF
-                    
-                  !--------------------------------------------------------
-                  !   Free Air Burst 
-                  !--------------------------------------------------------              
-                  ELSEIF(IABAC == 3)THEN
-                    !--- Determine Height of centroid (structure face) : HZ                                                        
-                    
-                    !Height is length Proj->Det. Storing Det->Proj into NN array                                          
-                    HZ=-(Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*ProjDet(1)-Ny_SURF*ProjDet(2)-Nz_SURF*ProjDet(3))/HC 
+                  ELSEIF(idx1 >= 10)THEN
+                      alpha_zc = zero
+                      idx1 = 10
+                      idx2 = 10           
+                      WRITE(IOUT,*)
+     .                 ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',
+     .                                            10,' HC=',ZC/FAC_UNIT
+                      WRITE(ISTDO,*)
+     .                 ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',
+     .                                            10,' HC=',ZC/FAC_UNIT
+                  ELSE
+                    idx2=idx1+1
+                    calculate=.TRUE.
+                  ENDIF 
+                  IF(calculate)THEN
+                   alpha_zc=(ZC-PBLAST_DATA%Curve_val_2_9(idx1))
+     .                       / (PBLAST_DATA%Curve_val_2_9(idx2)-PBLAST_DATA%Curve_val_2_9(idx1))
+                  ENDIF    
+                  curve_id1=idx1
+                  curve_id2=idx2                                                                                   
+                  !tmp(1) : angle interpolation on curve_id1 Figure 2_9                                                 
+                  tmp(1)=PBLAST_DATA%Pra(curve_id1,idx1_angle)                                                          
+                  tmp(2)=PBLAST_DATA%Pra(curve_id1,idx2_angle)                                                          
+                  tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
+                  !tmp(2) : interpolation on curve_id2 Figure 2_9                                                       
+                  tmp(2)=PBLAST_DATA%Pra(curve_id2,idx1_angle)                                                          
+                  tmp(3)=PBLAST_DATA%Pra(curve_id2,idx2_angle)                                                          
+                  tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
+                  !interpolate now with scaled height of charge                                                         
+                  Pra = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+                  Pra = exp(Pra*log10_)
+                                                                                                                        
+                  !deduce Ira from table                                                                                
+                  !tmp(1) : angle interpolation on curve_id1 Figure 2_10                                                 
+                  tmp(1)=PBLAST_DATA%SRI(curve_id1,idx1_angle)                                                          
+                  tmp(2)=PBLAST_DATA%SRI(curve_id1,idx2_angle)                                                          
+                  tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
+                  !tmp(2) : interpolation on curve_id2 Figure 2_10                                                      
+                  tmp(2)=PBLAST_DATA%SRI(curve_id2,idx1_angle)                                                          
+                  tmp(3)=PBLAST_DATA%SRI(curve_id2,idx2_angle)                                                          
+                  tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
+                  !interpolate now with scaled height of charge                                                         
+                  Ira = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+                  Ira = exp(Ira*log10_)
 
-                    IF(HZ < ZERO)THEN
-                    
-                      P_inci = zero
-                      I_inci = zero
-                      P_refl = zero
-                      I_refl = zero
-                      DT_0 = EP20
-                      T_A = EP20
-                      DECAY_inci = ONE
-                      DECAY_refl = ONE
-                      
-                      SEG_UNDERGROUND = SEG_UNDERGROUND + 1
-                      BOOL_UNDERGROUND_CURRENT_LOAD = .TRUE.
-                      BOOL_UNDERGROUND_CURRENT_SEG = .TRUE.
-                    
-                    ELSE                                                                                             
-                                       
-                      Z_struct = HZ/W13
+                  ! Use Pra as Pso on figure 2-7 ; determine corresponding Scaled distance ; read corresponding values Pr, Pso-, ta/W**1/3
+                  !
+                  !get Pra            
+                   ! searching in monotonic function : idx1 such as     PBLAST_DATA%Pra(idx1) <= Pra <  PBLAST_DATA%Pra(idx1+1)
+                   idx1 = MAX(1,DICHOTOMIC_SEARCH_R_DESC(Pra, PBLAST_DATA%Pso, 256))
+                   idx2 = MIN(idx1+1,256)
+                   bound1=LOG10(PBLAST_DATA%Pso(idx1))
+                   bound2=LOG10(PBLAST_DATA%Pso(idx2))
+                   LAMBDA = (LOG10(Pra)-bound1) / (bound2-bound1)
+                  !deduce Z
+                   bound1 = LOG10(PBLAST_DATA%RW3(idx1))
+                   bound2 = LOG10(PBLAST_DATA%RW3(idx2))
+                   LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
+                   Z = exp(LogRes*log10_)
+                   !deduce Pra_refl (=Pr(Z) where Z=Z(Pra) )
+                   Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
+                   Phi_I  = 1+max(1,INT(Phi_DB))
+                   bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                          
+                   bound2 = PBLAST_DATA%Pr(min(256,Phi_I+1))                                                                                        
+                   LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+                   Pra_refl = exp(LogRes*log10_)
+                   !deduce ta
+                   bound1 = PBLAST_DATA%ta(Phi_I)                                                                                          
+                   bound2 = PBLAST_DATA%ta(min(256,Phi_I+1))                                                                                        
+                   LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+                   T_A = exp(LogRes*log10_)                          
 
-                      !Scaled Height of Charge                                                                              
-                      ZC = HC/W13                                                                                           
- 
-                      !Horizontal Distance between Charge and Centroid : LG                                  
-                      ! ZG = scaled distance |ProjC->ProjZ|                                                                 
-                      ProjZ(1) = Zx + HZ*Nx_SURF/HC                                                                           
-                      ProjZ(2) = Zy + HZ*Ny_SURF/HC                                                                           
-                      ProjZ(3) = Zz + HZ*Nz_SURF/HC                                                                           
-                      tmp(1) = (ProjZ(1)-ProjDet(1))                                                                        
-                      tmp(2) = (ProjZ(2)-ProjDet(2))                                                                        
-                      tmp(3) = (ProjZ(3)-ProjDet(3))                                                                        
-                      LG = SQRT(TMP(1)*TMP(1)+TMP(2)*TMP(2)+TMP(3)*TMP(3))                                                  
-                      ZG = LG/W13     !scaled horizontal distance (ground) 
-                    
-                      !Angle of structural face (mach wave is planar wave)
-                      cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG +  (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG                                                                          
-                      cos_theta = cos_theta/MAX(EM20,LG*NORM_)
-                                                                                                                            
-                      !determine angle of incidence at ground (AANGLE_g) and interpolation factor (alpha_angle)                                                                    
-                      tmp(1)=Xdet-ProjZ(1)                                                                                  
-                      tmp(2)=Ydet-ProjZ(2)                                                                                  
-                      tmp(3)=Zdet-ProjZ(3)                                                                                  
-                      tmp_var=SQRT( tmp(1)*tmp(1) + tmp(2)*tmp(2) + tmp(3)*tmp(3) )                                         
-                      ANGLE_g = -( Nx_SURF*tmp(1) + Ny_SURF*tmp(2) + Nz_SURF*tmp(3) ) /Hc/tmp_var  !must be between [-PI_,PI_]             
-                      ANGLE_g = min(ONE,max(-ONE,ANGLE_g)) ! bound it to expected range (epsilon) 
-                      ANGLE_g = acos(ANGLE_g)                                                                                   
-                      ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose  
-                      IF(ANGLE_g < ZERO)THEN
-                        WRITE(IOUT,*) ' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
-     .                                ' SEEMS TO BE BELOW THE GROUND'
-                        WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
-     .                                ' SEEMS TO BE BELOW THE GROUND'
-                        ANGLE_g = ZERO            
-                      ELSEIF(ANGLE_g > 85.00000)THEN
-                        WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)') 
-     .                  ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
-     .                                                '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
-                        WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,4I11)')
-     .                  ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
-     .                                                '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
-                        ANGLE_g = 85.00000
-                      ENDIF                                                                                               
-                      tmp(1)=ANGLE_g/PBLAST_DATA%delta_angle                                                                  
-                      itmp=INT(tmp(1))                                                                                      
-                      idx1_angle = 1+itmp   ! surjection ANGLE -> idx1                                                      
-                      idx2_angle = MIN(idx1_angle+1,256)                                                                    
-                      alpha_angle = (ANGLE_g-itmp*PBLAST_DATA%delta_angle)/PBLAST_DATA%delta_angle  !interpolation factor between angle(idx1_angle) & angle(idx2_angle) 
-                    
- 
-                      !Scaled Height of triple point (Figure 2-13)                                                                       
-                      ! curve_id              1    2    3    4    5    6    7    8    9   10                                
-                      ! 10 curves for ZC : {1.0; 1.5; 2.0; 2.5; 3.0; 3.5; 4.0; 5.0; 6.0; 7.0}    ft/lb**1/3                      
-                      !                    <--------curve_id=[2x-1]---------><----[x+3]----->                               
-                      ! SHTP = f (ZC,ZG)
-                    
-                      !alpha_zc is the interpolation factor for ordinate (between the two retained curves)
-                      curve_id1 = 0                                                                                         
-                      alpha_zc = zero 
-                      ZC = ZC/FAC_UNIT
-                      IF(ZC < 4)THEN                                                                                        
-                        itmp = INT( TWO*(ZC)-ONE )                                                                            
-                        curve_id1 =  max(1,itmp)                                                                       
-                        curve_id2 = curve_id1+1                                                                             
-                        if(itmp < 1)then                                                                                    
-                          !message out of bounds. curve 1 will be used. no extrapolation                                    
-                          curve_id2=curve_id1 !=1                                                                           
-                          alpha_zc = ZERO  
-                          WRITE(IOUT,FMT='(A,I0,A,E10.4,A,I0)') 
-     .                    ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE',ZC,' IS BELOW THE LOWER BOUND AND SET TO:'
-     .                                              ,PBLAST_DATA%Curve_val_2_13(1)
-                          WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0)')
-     .                    ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE',ZC,' IS BELOW THE LOWER BOUND AND SET TO:'
-     .                                              ,PBLAST_DATA%Curve_val_2_13(1)               
-                        else                                                                                                                                             
-                          alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) 
-                          alpha_zc = alpha_zc/  ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
-                        endif                                                                                               
-                      ELSE                                                                                                  
-                        itmp = INT( ZC+THREE )                                                                                 
-                        curve_id1 = INT( min(10,itmp) )                                                                     
-                        curve_id2 = curve_id1+1                                                                             
-                        if(curve_id1 == 10)then                                                                             
-                          !message out of bounds. curve 10 will be used. no extrapolation                                   
-                          curve_id2=curve_id1 !=10                                                                          
-                          alpha_zc = ZERO  
-                          WRITE(IOUT,FMT='(A,I0,A,E10.4,A,E10.4)') 
-     .                   ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE ',ZC,' IS OVER THE UPPER BOUND AND SET TO:,',
-     .                                               PBLAST_DATA%Curve_val_2_13(10)
-                          WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,E10.4)')
-     .                   ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HEIGHT OF CHARGE ',ZC,' IS OVER THE UPPER BOUND AND SET TO:,',
-     .                                               PBLAST_DATA%Curve_val_2_13(10)                
-                        else                                                                                                
-                          alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1)) 
-                          alpha_zc = alpha_zc / ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
-                        endif                                                                                               
-                      ENDIF 
+                   ! Use Ira as Is on figure 2-7  ; determine corresponding Scaled distance ; read corresponding values Ir,Ir-, t0/W**1/3, t0-/W**1/3
+                   ! 
+                   ! searching in monotonic function : idx1 such as     PBLAST_DATA%Pra(idx1) <= Pra <  PBLAST_DATA%Pra(idx1+1)
+                   idx1 = MAX(1,DICHOTOMIC_SEARCH_R_DESC(Ira, PBLAST_DATA%Iso, 256))
+                   idx2 = MIN(idx1+1,256)
+                   bound1=LOG10(PBLAST_DATA%Iso(idx1))
+                   bound2=LOG10(PBLAST_DATA%Iso(idx2))
+                   LAMBDA = (LOG10(Ira)-bound1) / (bound2-bound1)
+                   !deduce Z
+                   bound1 = LOG10(PBLAST_DATA%RW3(idx1))
+                   bound2 = LOG10(PBLAST_DATA%RW3(idx2))
+                   LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
+                   Z = exp(LogRes*log10_)
+                   !deduce Ira_refl (=Pr(Z) where Z=Z(Pra) )
+                   Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
+                   Phi_I  = 1+max(1,INT(Phi_DB))
+                   bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                          
+                   bound2 = PBLAST_DATA%Irefl(min(256,Phi_I+1))                                                                                        
+                   LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+                   Ira_refl = exp(LogRes*log10_)
+                   !deduce t0
+                   bound1 = PBLAST_DATA%t0(Phi_I)                                                                                          
+                   bound2 = PBLAST_DATA%t0(min(256,Phi_I+1))                                                                                        
+                   LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+                   DT_0 = exp(LogRes*log10_)              
 
-                      !idx_zg1 is index in [1,256] for abscissa %SHTP(curve_id,1:256)
-                      ! PBLAST_DATA%SHDC(1:2,curve_id) are the SHDC bounds for a given curve_id
-                      idx_zg1 = MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1)
-                      idx_zg2 = MIN(256,idx_zg1+1)
-                      alpha_zg = zero 
-                      IF(ZG < PBLAST_DATA%SHDC(1,curve_id2))THEN
-                        ZG =  PBLAST_DATA%SHDC(1,curve_id2)
-                        WRITE(IOUT, FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
-     .                  ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
-     .                                           ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
-     .                                           curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
-                        WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
-     .                  ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
-     .                                           ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
-     .                                           curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
-                      ENDIF
-                      IF(ZG > PBLAST_DATA%SHDC(2,curve_id1))THEN
-                        ZG =  PBLAST_DATA%SHDC(2,curve_id1)
-                        WRITE(IOUT,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
-     .                 ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
-     .                                             ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
-     .                                             curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
-                        WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
-     .                 ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
-     .                                             ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
-     .                                             curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'         
-                      ENDIF
-                      alpha_zg = (ZG-PBLAST_DATA%SHTP_abscissa(idx_zg1))/PBLAST_DATA%dSHDC !abscissa interpolation
-                                                                                                           
-                      !Scaled Height of triple point SHTP
-                      !tmp(1) : angle interpolation on curve_id1 Figure 2_13                                                
-                      tmp(1)=PBLAST_DATA%SHTP(curve_id1,idx_zg1)
-                      tmp(2)=PBLAST_DATA%SHTP(curve_id1,idx_zg2)
-                      tmp(1) = (ONE-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
-                      !tmp(2) : interpolation on curve_id2 Figure 2_13                                                       
-                      tmp(2)=PBLAST_DATA%SHTP(curve_id2,idx_zg1)
-                      tmp(3)=PBLAST_DATA%SHTP(curve_id2,idx_zg2)
-                      tmp(2) = (ONE-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
-                      !interpolate now with scaled height of charge 
-                      SHTP = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
-                      HTP = SHTP*W13            
-                     
-                      !Check if triple point is above the target centroid                                                   
-                      ! print warning otherwise ; and use FREE AIR BURST ?                                                  
-                      !                                                                                                     
-                      IF(Z_struct > SHTP)THEN
-                          WRITE(IOUT, FMT='(A,I0,A,4(I0,A1),A,E10.4,A,E10.4,A)')
-     .                  ' ** WARNING : /LOAD/PBLAST id=',ID,' TARGET FACE IS ABOVE THE TRIPLE POINT:',N1,",",N2,",",N3,",",N4," ; ",
-     .                     "Zface = ",Z_struct," > ",SHTP," = SHTP (ft/fb**1/3)"
-                          WRITE(ISTDO, FMT='(A,I0,A,4(I0,A1),A,E10.4,A,E10.4,A)')
-     .                  ' ** WARNING : /LOAD/PBLAST id=',ID,' TARGET FACE IS ABOVE THE TRIPLE POINT:',N1,",",N2,",",N3,",",N4," ; ",
-     .                     "Zface = ",Z_struct," > ",SHTP," = SHTP (ft/fb**1/3)"
-                      ENDIF
-                    
-                                                                                                                            
-                      !deduce Pra from table  (figure 2_9)                                                                              
-                      ! Pra =     
-                      !here curves are plot from zc=0.3 to zc=14.3 : need to calculate alpha_zc again  
-                      idx1 = MAX(1,DICHOTOMIC_SEARCH_R_ASC(ZC, PBLAST_DATA%Curve_val_2_9, 10))
-                      calculate=.false.
-                      if(idx1==1)then
-                        if(ZC <= PBLAST_DATA%Curve_val_2_9(1))then
-                          alpha_zc = zero
-                          idx1 = 1
-                          idx2 = 1
-                          WRITE(IOUT,*)
-     .            '   ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS BELOW THE RANGE, FIGURE 2-9, CURVE=',1,
-     .                                            ' HC=',ZC/FAC_UNIT,' ft/lb^0.333'
-                          WRITE(ISTDO,*)
-     .            '   ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS BELOW THE RANGE, FIGURE 2-9, CURVE=',1,
-     .                                            ' HC=',ZC/FAC_UNIT,' ft/lb^0.333'
-                        else
-                          idx1 = 1
-                          idx2 = 2
-                          calculate=.true.             
-                        endif
-                      elseif(idx1>=10)then
-                          alpha_zc = zero
-                          idx1 = 10
-                          idx2 = 10           
-                          WRITE(IOUT,*)
-     .                     ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',
-     .                                                10,' HC=',ZC/FAC_UNIT
-                          WRITE(ISTDO,*)
-     .                     ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',
-     .                                                10,' HC=',ZC/FAC_UNIT
-                      else
-                        idx2=idx1+1
-                        calculate=.true.
-                      endif 
-                      if(calculate)then
-                       alpha_zc=(ZC-PBLAST_DATA%Curve_val_2_9(idx1))
-     .                           / (PBLAST_DATA%Curve_val_2_9(idx2)-PBLAST_DATA%Curve_val_2_9(idx1))
-                      endif    
-                      curve_id1=idx1
-                      curve_id2=idx2                                                                                   
-                      !tmp(1) : angle interpolation on curve_id1 Figure 2_9                                                 
-                      tmp(1)=PBLAST_DATA%Pra(curve_id1,idx1_angle)                                                          
-                      tmp(2)=PBLAST_DATA%Pra(curve_id1,idx2_angle)                                                          
-                      tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
-                      !tmp(2) : interpolation on curve_id2 Figure 2_9                                                       
-                      tmp(2)=PBLAST_DATA%Pra(curve_id2,idx1_angle)                                                          
-                      tmp(3)=PBLAST_DATA%Pra(curve_id2,idx2_angle)                                                          
-                      tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
-                      !interpolate now with scaled height of charge                                                         
-                      Pra = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
-                      Pra = exp(Pra*log10_)
-                                                                                                                            
-                      !deduce Ira from table                                                                                
-                      !tmp(1) : angle interpolation on curve_id1 Figure 2_10                                                 
-                      tmp(1)=PBLAST_DATA%SRI(curve_id1,idx1_angle)                                                          
-                      tmp(2)=PBLAST_DATA%SRI(curve_id1,idx2_angle)                                                          
-                      tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))                                                          
-                      !tmp(2) : interpolation on curve_id2 Figure 2_10                                                      
-                      tmp(2)=PBLAST_DATA%SRI(curve_id2,idx1_angle)                                                          
-                      tmp(3)=PBLAST_DATA%SRI(curve_id2,idx2_angle)                                                          
-                      tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))  
-                      !interpolate now with scaled height of charge                                                         
-                      Ira = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
-                      Ira = exp(Ira*log10_)
+                   P_inci = Pra
+                   P_refl = Pra_refl
+                   I_inci = Ira
+                   I_refl = Ira_refl
 
-                      ! Use Pra as Pso on figure 2-7 ; determine corresponding Scaled distance ; read corresponding values Pr, Pso-, ta/W**1/3
-                      !
-                      !get Pra            
-                       ! searching in monotonic function : idx1 such as     PBLAST_DATA%Pra(idx1) <= Pra <  PBLAST_DATA%Pra(idx1+1)
-                       idx1 = MAX(1,DICHOTOMIC_SEARCH_R_DESC(Pra, PBLAST_DATA%Pso, 256))
-                       idx2 = MIN(idx1+1,256)
-                       bound1=LOG10(PBLAST_DATA%Pso(idx1))
-                       bound2=LOG10(PBLAST_DATA%Pso(idx2))
-                       LAMBDA = (LOG10(Pra)-bound1) / (bound2-bound1)
-                      !deduce Z
-                       bound1 = LOG10(PBLAST_DATA%RW3(idx1))
-                       bound2 = LOG10(PBLAST_DATA%RW3(idx2))
-                       LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
-                       Z = exp(LogRes*log10_)
-                       !deduce Pra_refl (=Pr(Z) where Z=Z(Pra) )
-                       Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
-                       Phi_I  = 1+max(1,INT(Phi_DB))
-                       bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                          
-                       bound2 = PBLAST_DATA%Pr(min(256,Phi_I+1))                                                                                        
-                       LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-                       Pra_refl = exp(LogRes*log10_)
-                       !deduce ta
-                       bound1 = PBLAST_DATA%ta(Phi_I)                                                                                          
-                       bound2 = PBLAST_DATA%ta(min(256,Phi_I+1))                                                                                        
-                       LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-                       T_A = exp(LogRes*log10_)                          
+                ENDIF!(HZ >= ZERO)
+                                                                                                                                   
+              ENDIF! IABAC==3                                                                                                                                                                                       
+                                                                                                                                                                                                          
+              !switch from normalized values.      ( Pressure are not scaled by W13 in tables )  
+                                                                                                                                  
+              I_inci  = I_inci * W13                                                                                                                                                                      
+              I_inci_ = I_inci_* W13                                                                                                                                                                      
+              I_refl  = I_refl * W13                                                                                                                                                                      
+              I_refl_ = I_refl_* W13                                                                                                                                                                      
+              DT_0    = DT_0   * W13                                                                                                                                                                      
+              DT_0_   = DT_0_  * W13                                                                                                                                                                      
+              T_A     = T_A    * W13                   
 
-                       ! Use Ira as Is on figure 2-7  ; determine corresponding Scaled distance ; read corresponding values Ir,Ir-, t0/W**1/3, t0-/W**1/3
-                       ! 
-                       ! searching in monotonic function : idx1 such as     PBLAST_DATA%Pra(idx1) <= Pra <  PBLAST_DATA%Pra(idx1+1)
-                       idx1 = MAX(1,DICHOTOMIC_SEARCH_R_DESC(Ira, PBLAST_DATA%Iso, 256))
-                       idx2 = MIN(idx1+1,256)
-                       bound1=LOG10(PBLAST_DATA%Iso(idx1))
-                       bound2=LOG10(PBLAST_DATA%Iso(idx2))
-                       LAMBDA = (LOG10(Ira)-bound1) / (bound2-bound1)
-                       !deduce Z
-                       bound1 = LOG10(PBLAST_DATA%RW3(idx1))
-                       bound2 = LOG10(PBLAST_DATA%RW3(idx2))
-                       LogRes =  (ONE-lambda)*bound1+lambda*bound2                                                             
-                       Z = exp(LogRes*log10_)
-                       !deduce Ira_refl (=Pr(Z) where Z=Z(Pra) )
-                       Phi_DB =  INT(LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN)        
-                       Phi_I  = 1+max(1,INT(Phi_DB))
-                       bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                          
-                       bound2 = PBLAST_DATA%Irefl(min(256,Phi_I+1))                                                                                        
-                       LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-                       Ira_refl = exp(LogRes*log10_)
-                       !deduce t0
-                       bound1 = PBLAST_DATA%t0(Phi_I)                                                                                          
-                       bound2 = PBLAST_DATA%t0(min(256,Phi_I+1))                                                                                        
-                       LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-                       DT_0 = exp(LogRes*log10_)              
+              TAINF_PBLAST = MIN(TAINF_PBLAST, T_A/FAC_T_bb) !from cm mus g TO  Working Unit System    
+              !print *, Z,T_A/FAC_T_bb,TAINF_PBLAST 
 
-                       P_inci = Pra
-                       P_refl = Pra_refl
-                       I_inci = Ira
-                       I_refl = Ira_refl
+              IF(IMODEL == 1)THEN                                                                                                                                                                         
+                !-Friedlander                                                                                                                                                                             
+                DECAY_inci = ONE                                                                                                                                                                           
+                DECAY_refl = ONE                                                                                                                                                                           
+                                                                                                                                                                                                          
+              ELSEIF(IMODEL == 2 .AND. .NOT.BOOL_UNDERGROUND_CURRENT_SEG) THEN                                                                                                                                                                    
+                !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                            
+                !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                                    
+                ! find b such as g(b)=0                                                                                                                                                                   
+                ! NEWTON ITERATIONS                                                                                                                                                                       
+                NITER=20                                                                                                                                                                                  
+                TOL=EM06                                                                                                                                                                                  
+                ITER=0                                                                                                                                                                                    
+                ZETA=ONE                                                                                                                                                                                   
+                RES=EP20                                                                                                                                                                                  
+                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                    
+                !--initialize first iteration                                                                                                                                                             
+                kk=P_inci*DT_0                                                                                                                                                                            
+                FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA                                                                                                                                                 
+                !--iterative solving                                                                                                                                                                      
+                DO WHILE (ITER <= NITER .AND. RES > TOL)                                                                                                                                                      
+                  ITER=ITER+1                                                                                                                                                                             
+                  IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
+                    !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
+                    DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                                     
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
+                    FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci                                                                                                                                              
+                  ELSE                                                                                                                                                                                    
+                    DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)                                                                                                                          
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
+                    TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                
+                    TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                         
+                    FUNCT = TMP2 * TMP3 -I_inci                                                                                                                                                           
+                  ENDIF                                                                                                                                                                                   
+                  RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                            
+                ENDDO                                                                                                                                                                                     
+                DECAY_inci=MAX(EM06,ZETA)                                                                                                                                                                 
 
-                    ENDIF!(HZ >= ZERO)
-                                                                                                                                       
-                  ENDIF! IABAC==3                                                                                                                                                                                       
-                                                                                                                                                                                                              
-                  !switch from normalized values.      ( Pressure are not scaled by W13 in tables )  
-                                                                                                                                      
-                  I_inci  = I_inci * W13                                                                                                                                                                      
-                  I_inci_ = I_inci_* W13                                                                                                                                                                      
-                  I_refl  = I_refl * W13                                                                                                                                                                      
-                  I_refl_ = I_refl_* W13                                                                                                                                                                      
-                  DT_0    = DT_0   * W13                                                                                                                                                                      
-                  DT_0_   = DT_0_  * W13                                                                                                                                                                      
-                  T_A     = T_A    * W13                   
+                ITER=0                                                                                                                                                                                    
+                ZETA=ONE                                                                                                                                                                                   
+                RES=EP20                                                                                                                                                                                  
+                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                    
+                !--initialize first iteration                                                                                                                                                             
+                kk=P_refl*DT_0                                                                                                                                                                            
+                FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA                                                                                                                                                 
+                !--iterative solving                                                                                                                                                                      
+                DO WHILE (ITER <= NITER .AND. RES > TOL)                                                                                                                                                      
+                  ITER=ITER+1                                                                                                                                                                             
+                  IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
+                    !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
+                    DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                                     
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
+                    FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl                                                                                                                                              
+                  ELSE                                                                                                                                                                                    
+                    DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)                                                                                                                          
+                    ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
+                    TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                
+                    TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                         
+                    FUNCT = TMP2 * TMP3 -I_refl                                                                                                                                                           
+                  ENDIF                                                                                                                                                                                   
+                  RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                            
+                ENDDO                                                                                                                                                                                     
+                DECAY_refl=MAX(EM06,ZETA)                                                                                                                                                                 
+              ENDIF                                                                                                                                                                                      
 
-                  TAINF_PBLAST = MIN(TAINF_PBLAST, T_A/FAC_T_bb) !from cm mus g TO  Working Unit System    
-                  !print *, Z,T_A/FAC_T_bb,TAINF_PBLAST 
+              ! UNIT CONVERSION !                                                                                                                                                                         
+              !g,cm,mus,Bar -> Working unit system                                                                                                                                                        
+              P_inci  =  P_inci / FAC_P_bb
+              I_inci  =  I_inci / FAC_I_bb
+              P_refl  =  P_refl / FAC_P_bb
+              I_refl  =  I_refl / FAC_I_bb
+              P_inci_ =  P_inci_ / FAC_P_bb                                                                                                                                                             
+              I_inci_ =  I_inci_ / FAC_I_bb
+              P_refl_ =  P_refl_ / FAC_P_bb
+              I_refl_ =  I_refl_ / FAC_I_bb
+              DT_0    =  DT_0    / FAC_T_bb
+              DT_0_   =  DT_0_   / FAC_T_bb
+              T_A     =  T_A     / FAC_T_bb
+                                                                                                                                                                                                          
+              T_A    = T_A + TDET                                                                                                                                                                         
 
-                  IF(IMODEL == 1)THEN                                                                                                                                                                         
-                    !-Friedlander                                                                                                                                                                             
-                    DECAY_inci = ONE                                                                                                                                                                           
-                    DECAY_refl = ONE                                                                                                                                                                           
-                                                                                                                                                                                                              
-                  ELSEIF(IMODEL == 2 .AND. .NOT.BOOL_UNDERGROUND_CURRENT_SEG) THEN                                                                                                                                                                    
-                    !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                            
-                    !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                                    
-                    ! find b such as g(b)=0                                                                                                                                                                   
-                    ! NEWTON ITERATIONS                                                                                                                                                                       
-                    NITER=20                                                                                                                                                                                  
-                    TOL=EM06                                                                                                                                                                                  
-                    ITER=0                                                                                                                                                                                    
-                    ZETA=ONE                                                                                                                                                                                   
-                    RES=EP20                                                                                                                                                                                  
-                    TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                    
-                    !--initialize first iteration                                                                                                                                                             
-                    kk=P_inci*DT_0                                                                                                                                                                            
-                    FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA                                                                                                                                                 
-                    !--iterative solving                                                                                                                                                                      
-                    DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                      
-                      ITER=ITER+1                                                                                                                                                                             
-                      IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
-                        !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
-                        DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                                     
-                        ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
-                        FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci                                                                                                                                              
-                      ELSE                                                                                                                                                                                    
-                        DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)                                                                                                                          
-                        ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
-                        TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                
-                        TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                         
-                        FUNCT = TMP2 * TMP3 -I_inci                                                                                                                                                           
-                      ENDIF                                                                                                                                                                                   
-                      RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                            
-                    ENDDO                                                                                                                                                                                     
-                    DECAY_inci=MAX(EM06,ZETA)                                                                                                                                                                 
+              !--------------------------------------------------------
+              !   Storage of Wave Parameters (transmitted to Engine)
+              !--------------------------------------------------------              
+              PBLAST_TAB(ILD_PBLAST)%cos_theta(I) = cos_theta
+              PBLAST_TAB(ILD_PBLAST)%P_inci(I) = P_inci
+              PBLAST_TAB(ILD_PBLAST)%P_refl(I) = P_refl
+              PBLAST_TAB(ILD_PBLAST)%ta(I) = T_A
+              PBLAST_TAB(ILD_PBLAST)%t0(I) = DT_0
+              PBLAST_TAB(ILD_PBLAST)%decay_inci(I) = decay_inci
+              PBLAST_TAB(ILD_PBLAST)%decay_refl(I) = decay_refl 
 
-                    ITER=0                                                                                                                                                                                    
-                    ZETA=ONE                                                                                                                                                                                   
-                    RES=EP20                                                                                                                                                                                  
-                    TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                    
-                    !--initialize first iteration                                                                                                                                                             
-                    kk=P_refl*DT_0                                                                                                                                                                            
-                    FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA                                                                                                                                                 
-                    !--iterative solving                                                                                                                                                                      
-                    DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                      
-                      ITER=ITER+1                                                                                                                                                                             
-                      IF(ABS(ZETA) < EM06)THEN                                                                                                                                                                
-                        !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b?)                                                                                                                                  
-                        DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                                     
-                        ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
-                        FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl                                                                                                                                              
-                      ELSE                                                                                                                                                                                    
-                        DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)                                                                                                                          
-                        ZETA = ZETA - FUNCT/DIFF                                                                                                                                                              
-                        TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                
-                        TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                         
-                        FUNCT = TMP2 * TMP3 -I_refl                                                                                                                                                           
-                      ENDIF                                                                                                                                                                                   
-                      RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                            
-                    ENDDO                                                                                                                                                                                     
-                    DECAY_refl=MAX(EM06,ZETA)                                                                                                                                                                 
-                  ENDIF                                                                                                                                                                                      
-
-                  ! UNIT CONVERSION !                                                                                                                                                                         
-                  !g,cm,mus,Bar -> Working unit system                                                                                                                                                        
-                  P_inci  =  P_inci / FAC_P_bb
-                  I_inci  =  I_inci / FAC_I_bb
-                  P_refl  =  P_refl / FAC_P_bb
-                  I_refl  =  I_refl / FAC_I_bb
-                  P_inci_ =  P_inci_ / FAC_P_bb                                                                                                                                                             
-                  I_inci_ =  I_inci_ / FAC_I_bb
-                  P_refl_ =  P_refl_ / FAC_P_bb
-                  I_refl_ =  I_refl_ / FAC_I_bb
-                  DT_0    =  DT_0    / FAC_T_bb
-                  DT_0_   =  DT_0_   / FAC_T_bb
-                  T_A     =  T_A     / FAC_T_bb
-                                                                                                                                                                                                              
-                  T_A    = T_A + TDET                                                                                                                                                                         
-
-                  !--------------------------------------------------------
-                  !   Storage of Wave Parameters (transmitted to Engine)
-                  !--------------------------------------------------------              
-                  PBLAST_TAB(ILD_PBLAST)%cos_theta(I) = cos_theta
-                  PBLAST_TAB(ILD_PBLAST)%P_inci(I) = P_inci
-                  PBLAST_TAB(ILD_PBLAST)%P_refl(I) = P_refl
-                  PBLAST_TAB(ILD_PBLAST)%ta(I) = T_A
-                  PBLAST_TAB(ILD_PBLAST)%t0(I) = DT_0
-                  PBLAST_TAB(ILD_PBLAST)%decay_inci(I) = decay_inci
-                  PBLAST_TAB(ILD_PBLAST)%decay_refl(I) = decay_refl 
-
-               ENDDO
-               
-               IF(BOOL_UNDERGROUND_CURRENT_LOAD)THEN                                                                             
-                 MSGOUT1=''                                                                                              
-                 WRITE(MSGOUT1,FMT='(I0,A)') SEG_UNDERGROUND,' SEGMENT(S) ON TARGET SURFACE ARE BELOW THE GROUND'
-                 MSGOUT2=''                                                                                              
-                 MSGOUT2='THERE WILL NOT BE LOADED WITH BLAST PRESSURE'                                                  
-                 CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)                                                                                                                   
-               ENDIF                                                                                                     
-                              
-            ENDIF              
+           ENDDO
+           
+           IF(BOOL_UNDERGROUND_CURRENT_LOAD)THEN                                                                             
+             MSGOUT1=''                                                                                              
+             WRITE(MSGOUT1,FMT='(I0,A)') SEG_UNDERGROUND,' SEGMENT(S) ON TARGET SURFACE ARE BELOW THE GROUND'
+             MSGOUT2=''                                                                                              
+             MSGOUT2='THERE WILL NOT BE LOADED WITH BLAST PRESSURE'                                                  
+             CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)                                                                                                                   
+           ENDIF                                                                                                     
+                          
+        ENDIF              
 !
-            WRITE (IOUT,2000)
-            SELECT CASE (IABAC)
-              CASE(1)
-                WRITE(IOUT,2001)
-              CASE(2)
-                WRITE(IOUT,2002)              
-              CASE(3)
-                WRITE(IOUT,2003)                         
-            END SELECT
-            WRITE(IOUT,2010)  
-            IF(IABAC == 3) WRITE(IOUT,2023) HC        
-            WRITE (IOUT,2011)ID,SURF_ID,IABAC,IZ_UPDATE,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT,PMIN
-            IF(IS_AVAILABLE_TSTOP)WRITE (IOUT,2024)TSTOP
-            IF(NODE_ID /= 0)WRITE (IOUT,2015)NODE_ID
-            
-            IF(NDT /= 0)WRITE (IOUT,2014)NDT
-            IF(ITA_SHIFT == 2)THEN
-               WRITE (IOUT,2012)TAINF_PBLAST
-            ELSE
-               WRITE (IOUT,2013)
-            ENDIF
+        WRITE (IOUT,2000)
+        SELECT CASE (IABAC)
+          CASE(1)
+            WRITE(IOUT,2001)
+          CASE(2)
+            WRITE(IOUT,2002)              
+          CASE(3)
+            WRITE(IOUT,2003)                         
+        END SELECT
+        WRITE(IOUT,2010)  
+        IF(IABAC == 3) WRITE(IOUT,2023) HC        
+        WRITE (IOUT,2011)ID,SURF_ID,IABAC,IZ_UPDATE,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT,PMIN
+        IF(IS_AVAILABLE_TSTOP)WRITE (IOUT,2024)TSTOP
+        IF(NODE_ID /= 0)WRITE (IOUT,2015)NODE_ID
+        
+        IF(NDT /= 0)WRITE (IOUT,2014)NDT
+        IF(ITA_SHIFT == 2)THEN
+           WRITE (IOUT,2012)TAINF_PBLAST
+        ELSE
+           WRITE (IOUT,2013)
+        ENDIF
        
-            NUMLOADP=NUMLOADP+4*NN ! /LOAD/PBLAST
-         
+        NUMLOADP=NUMLOADP+4*NUMSEG ! /LOAD/PBLAST
+        
 C-----------
       ENDDO                     !next K (next /LOAD)
      
 !Set inf(T_arrival) for all blast loading      
-      DO K=1+NLOADC+NLOADP_F,NLOADC+NLOADP_F+NLOADP_B
-         FACLOADP( 7,K)    = TAINF_PBLAST 
+      DO K = 1+NLOADC+NLOADP_F, NLOADC+NLOADP_F+NLOADP_B
+         FACLOADP( 7,K) = TAINF_PBLAST 
       ENDDO
 C--------------------------------------------------------------------------------C
       RETURN
@@ -1391,9 +1387,9 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------
  1000 CONTINUE
       IF (IERR1 /= 0) THEN
-         WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION, /LOAD/PBLAST id=',ID,' '
-         WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION, /LOAD/PBLAST id=',ID,' '
-         CALL ARRET(2)
+        WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION, /LOAD/PBLAST id=',ID,' '
+        WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION, /LOAD/PBLAST id=',ID,' '
+        CALL ARRET(2)
       END IF
 C-----------------------------------------------
 
