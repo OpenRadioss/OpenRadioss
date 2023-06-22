@@ -266,39 +266,33 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITASK, ITID(PARASIZ), NBTASK(PARASIZ+1),
-     .        IFILNAM(2148), IFILNAM_TMP(2148)
-      INTEGER ITSTV1, IEXPM, IRUNN, IRFL, IRFE, IRR, IT, JT, I,
+     .        IFILNAM(2148)
+      INTEGER ITSTV1, IEXPM, IRUNN, IRFL, IRFE,IT, I,
      .        NPRELD, NPTS,NNODES,N,LEN, IOS,
-     .        I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I76A,I88A,I89A,
-     .        I40A,I40B,I40G,I78N,IO_ERR,LEN_G,LEN_M, IAD1, IAD2, IAD3,
-     .        IUN,IFUN, ITH, I76ATH(9), IFIL, IO_ERRL,
-     .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
+     .        IO_ERR,
+     .        IFIL, IO_ERRL,
+     .        RADIOSSV,RADFLEXV,RDFLEXCOMP,
      .        NB_OF_FILES,N_FAIL,IP,IRUNN_BIS,IFILTITL
       INTEGER OMP_GET_THREAD_NUM,LONG,LONG_TMP,
      .        LENV,FVERS,LFNAME,NB_INDEX_ABF
-      CHARACTER FILNAM*100, VERSDP*36,CHRUNM1*2, INPUTNAM*100,
+      CHARACTER FILNAM*100, VERSDP*36,INPUTNAM*100,
      .          CHR_OLD*2,FNAME*2048,IOFF1*3,IOFF2*3,IOFF3*3
       CHARACTER*2048 INAME
       CHARACTER*4 PROCNAM,CHRU_M1
 
-      CHARACTER*10 CPID
-      CHARACTER*6 CISPMD
       INTEGER MY_PID
 
-      CHARACTER ABC(26)*1, FILNAMTH*100, FILTH*3, LINE*256,
-     .          FILNAMABF*100,FILNAMABF_TMP*100
+      CHARACTER ABC(26)*1, FILNAMTH*100, FILTH*3, LINE*256
       DATA ABC/'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'/
   
       INTEGER LHEADER, LVARINT, LVARREA
       INTEGER PRADIOS,PRESFIL
-      INTEGER I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,
-     .        I15ATH,ITHFLAG
-      INTEGER ICH,MSGID
+      INTEGER ITHFLAG
+      INTEGER MSGID
 C Madymo Stuff
-      INTEGER IERROR,MADSTRLEN
+      INTEGER MADSTRLEN
       CHARACTER MAD_OPTION_STRING*256,RMAD_OPTION_STRING*256
-      INTEGER KMADPRT,KMADSH4,KMADSH3,KMADSOL,KMADNOD,KMADFAIL,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,K11
-      INTEGER BUFTEST(100),NB_MAN,NB_MAN_TOT,TOPINT,FLAG_MAIN,J, ILAW51,ILAW37,ILAW20
+      INTEGER NB_MAN,NB_MAN_TOT,TOPINT,J, ILAW51,ILAW37,ILAW20
 
       my_real, DIMENSION(:), ALLOCATABLE :: MCP,TEMP
       my_real, DIMENSION(:),ALLOCATABLE :: FORNEQS
@@ -310,7 +304,7 @@ C Madymo Stuff
       SAVE ITASK, IRFE, ITID
       SAVE IXDP
       INTEGER MLN,IMID,MMALE,IFAILURE_NXT,FLAG_CST_AMS
-      INTEGER  IPPID ,IPMAT,NPT, IPMAT_IPLY ,IPANG,IPTHK  ,IPPOS,IS,IPT
+      INTEGER NPT,IPTHK
       TYPE (STACK_PLY) :: STACK
       TYPE (MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE (H3D_DATABASE) :: H3D_DATA
@@ -646,7 +640,7 @@ C------------------------------------------------
 C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
-     .            SENSORS,DT )
+     .            SENSORS,DT,OUTPUT)
       NFSKYI=5
       IF(KDTINT==0 )NFSKYI=4
       
@@ -1093,11 +1087,11 @@ C--------------------------------------------
             ANIM_CE(I)=0
             NCE_ANI=NCE_ANI-1
           END IF      
-        ENDDO  	
+        ENDDO
         !/ANIM/ELEM/VFRAC not relevant in this case
-        NN_ANI     = NN_ANI - ANIM_N(20) 	
-        NN_ANI     = NN_ANI - ANIM_N(21) 
-        NN_ANI     = NN_ANI - ANIM_N(22) 
+        NN_ANI     = NN_ANI - ANIM_N(20)
+        NN_ANI     = NN_ANI - ANIM_N(21)
+        NN_ANI     = NN_ANI - ANIM_N(22)
         NN_ANI     = NN_ANI - ANIM_N(23)                         
         ANIM_N(20) = 0
         ANIM_N(21) = 0
@@ -1107,8 +1101,8 @@ C--------------------------------------------
 
       IF(MMALE==0 .OR. INT22==0)THEN
         !/ANIM/ELEM/ZVFRAC not relevant in this case               
-        NN_ANI     = NN_ANI - ANIM_N(24) 	
-        NN_ANI     = NN_ANI - ANIM_N(25) 
+        NN_ANI     = NN_ANI - ANIM_N(24)
+        NN_ANI     = NN_ANI - ANIM_N(25)
         NN_ANI     = NN_ANI - ANIM_N(26) 
         NN_ANI     = NN_ANI - ANIM_N(27)                                         
         ANIM_N(24) = 0
@@ -1165,7 +1159,7 @@ C--------------------------------------------
               ANIM_SE(285)=0
               NSE_ANI=NSE_ANI-1
             END IF      
-          ENDIF	
+          ENDIF
 	ELSEIF(N2D>0)THEN 
 	  !no 3D output	
           DO I=283,286
@@ -1538,7 +1532,7 @@ C------------------------------------------------
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA,DT ,LOADS )
+     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT)
 
 C------------------------------------------------
 C Close & Delete scratch file
@@ -1552,7 +1546,7 @@ C------------------------------------------------
       CALL TRACE_OUT(19)
 C------------------------------------------------
       IF ((IRAD2R==1).AND.(R2R_SIU==1))THEN
-        CALL R2R_INPUT_INIT(IRUNN)          
+        CALL R2R_INPUT_INIT(IRUNN,OUTPUT)          
       ENDIF         
 C------------------------------------------------
 C     Check NXT FAIL for output 

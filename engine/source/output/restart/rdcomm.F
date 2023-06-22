@@ -43,7 +43,7 @@ Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_c
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .                  INTER_PARAMETERS,SENSORS,LOADS )
 C-----------------------------------------------
 C   M o d u l e s
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      INTEGER LMXVINT,LVARINT,TABVINT(*)
+      INTEGER TABVINT(*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
@@ -696,8 +696,7 @@ C No more used        TABVINT(NEXT + 22 )
 c link
         NRLINK    = TABVINT(NEXT + 55 )
         NALELK    = TABVINT(NEXT + 56 )
-        LLLINK    = TABVINT(NEXT + 57 )
-        !!!LLINAL=TABVINT(LVARINT + 58 )   
+        LLLINK    = TABVINT(NEXT + 57 ) 
       ENDIF
 
       NEXT=NEXT+58
@@ -1781,7 +1780,8 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE RDCOMR(LMXVREA, LVARREA, TABVREA,DYNAIN_DATA,INTER_PARAMETERS)
+      SUBROUTINE RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
+     .                  OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1790,6 +1790,7 @@ C-----------------------------------------------
        USE STATE_MOD  
        USE ALE_MOD
        USE PARAMETERS_MOD
+       USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1797,10 +1798,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LMXVREA,LVARREA
+      INTEGER LMXVREA
       my_real TABVREA(LMXVREA)
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE (PARAMETERS_) ,INTENT(INOUT):: INTER_PARAMETERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1831,11 +1833,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,RVARINT,J
 C-----------------------------------------------
-C      warning to radioss developers:
-C      IF(LVARREA>LMXVREA)THEN
-C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
-C        CALL ARRET(7)
-C      ENDIF
 C-----
       TT     =TABVREA(1)
       DT1    =TABVREA(2)
@@ -1844,10 +1841,10 @@ C-----
       DT2OLD =TABVREA(5)
       TSTOP  =TABVREA(6)
       !TABVREA(7) no longer used
-      THIS   =TABVREA(8)
+      OUTPUT%TH%THIS   =TABVREA(8)
 C-----
       !TABVREA(9) no longer used
-      DTHIS  =TABVREA(10)
+      OUTPUT%TH%DTHIS  =TABVREA(10)
       DTFAC  =TABVREA(11)
       DTMIN  =TABVREA(12)
       VOLMIN =TABVREA(13)
@@ -1881,8 +1878,8 @@ C-----
        SPASORT=TABVREA(39)
        SPATRUE=TABVREA(40)
        DO I=1,9
-        DTHIS1(I) = TABVREA(40+I)
-        THIS1(I)  = TABVREA(49+I)
+        OUTPUT%TH%DTHIS1(I) = TABVREA(40+I)
+        OUTPUT%TH%THIS1(I)  = TABVREA(49+I)
        ENDDO
        MASS0 = TABVREA(59)
        ENTOT0 = TABVREA(60)

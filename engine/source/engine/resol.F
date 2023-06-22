@@ -3191,7 +3191,7 @@ C----------------------------------
 C----------------------------------
 c     /STOP/LSENSOR
 C-----------------------------------------------
-      CALL STOP_SENSOR(SENSORS,H3D_DATA,DYNAIN_DATA)
+      CALL STOP_SENSOR(SENSORS,H3D_DATA,DYNAIN_DATA,OUTPUT)
 C
 C-------------------------------------------------------------------
 C       ACTIVATION-DEACTIVATION of groups of elements
@@ -3754,7 +3754,7 @@ C
      K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS        ,
      L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM      ,IGRTRUSS        ,
      M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB       ,ALE_CONNECTIVITY, DIFFUSION,
-     N          MATPARAM_TAB,H3D_DATA,DT   )
+     N          MATPARAM_TAB,H3D_DATA,DT, OUTPUT)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4402,7 +4402,7 @@ C Init var parallel SMP
      N   XFEM_TAB     ,CONDN(IDX_CONDN),CONDNSKY        ,CRKEDGE       ,
      O   STACK        ,ITAB            ,
      Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
-     R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  )     
+     R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  ,OUTPUT)     
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -4465,6 +4465,7 @@ C-------------------------------
       LL1 = 1+8*NUMELS
       LL2 = LL1+6*NUMELS10
       LL3 = LL2+12*NUMELS20
+
 C
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -4520,7 +4521,7 @@ C
      U CONDNSKY       ,
      V TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
-     Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT    )
+     Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT)
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN
@@ -4609,7 +4610,7 @@ C----------------------------------
      C    NGROUNC       ,IGROUNC        ,IXS        ,IRST            ,SOL2SPH       ,
      D    SPH2SOL       ,FSKY           ,FSKY       ,IGEO            ,TEMP          ,
      E    FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
-     F    MATPARAM_TAB  )
+     F    MATPARAM_TAB  ,OUTPUT )
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -4619,7 +4620,6 @@ C----------------------------------
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
-
 C -------------------------------------------------------------------        
 C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
         GETUNOD_NOCOM=0
@@ -4841,7 +4841,6 @@ C assemblage Parith/OFF necessaire avant communication frontiere si multi-thread
         IF (IMON>0) CALL STOPTIME(9,1)
       ENDIF
 C Transfer of contact force from sleeping particles to solid nodes
-
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -5131,7 +5130,6 @@ C
 C
       IF (IMON>0) CALL STOPTIME(9,1)
       CALL TRACE_OUT(15)
-
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -5759,7 +5757,6 @@ C===============================================================================
           IF (IMONM > 0) CALL STOPTIME(40,1)
 C-----------------------------------------------------
       ENDIF
-
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -6671,7 +6668,6 @@ C===============================================================================
         IF (IMON>0) CALL STOPTIME(39,1)
 
       ENDIF
-      
 
       IDUM1=0
       RDUM1=ZERO
@@ -6948,7 +6944,6 @@ C===============================================================================
         IF(IPARIT == 0.AND.NSPMD > 1.AND. NLOC_DMG%IMOD > 0)THEN
             CALL SPMD_EXCH_SUB_POFF(NLOC_DMG)
         ENDIF
-       
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -7991,7 +7986,6 @@ C===============================================================================
           IF (IMONM > 0) CALL STOPTIME(48,1)
        ENDIF
 
-
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -8283,7 +8277,7 @@ C--------------------------------------------------
      D        LRBE3    ,FRBE3    ,IAD_RBE3M,FR_RBE3M  ,FR_RBE3MP ,
      E        RRBE3    ,RRBE3_PON,IAD_RBY  ,FR_RBY6   ,RBY6      ,
      F        LPBY     ,TAGMSR_RBY_SMS,R3SIZE,NODII_SMS,INDX2_SMS,
-     G        IBCSCYC  ,LBCSCYC )
+     G        IBCSCYC  ,LBCSCYC ,OUTPUT)
 
 !$OMP END PARALLEL
 
@@ -8443,7 +8437,6 @@ C Regular animation
             CALL SPMD_FLUSH_ACCEL(A,ITAB,WEIGHT,NODGLOB,NUMNODG)
           ENDIF
         ENDIF
-
         CALL SORTIE_MAIN(
      1   PM            ,D              ,V              ,ALE_CONNECTIVITY          ,W             ,
      2   ELBUF         ,IPARG          ,IXS            ,IXQ            ,IXC           ,
@@ -8472,7 +8465,7 @@ C Regular animation
      X   FASOLFR       ,FANI(1,NFNCA+1),FANI(1,NFTCA+1),IPART(I15ATH)  ,
      Y   FR_MV         ,IPART_STATE    ,SH4TREE        ,SH3TREE,TEMP   ,
      Z   THKE          ,ERR_THK_SH4    ,ERR_THK_SH3,
-     a   INOD_PXFEM    ,FTHREAC        ,NODREAC        ,CPTREAC        ,GRESAV,
+     a   INOD_PXFEM    ,FTHREAC        ,NODREAC        ,GRESAV,
      b   DIAG_SMS      ,SH4TRIM        ,SH3TRIM        ,FANI(1,1+NFT2) ,XMOM_SMS      ,
      c   IRBE2         ,IRBE3          ,LRBE2          ,LRBE3          ,FR_RBE2       ,
      d   FR_RBE3M      ,IAD_RBE2       ,DXANCG         ,IEL_PXFEM      ,ZI_PLY        ,
@@ -9128,7 +9121,6 @@ C===============================================================================
 !$OMP   END PARALLEL
 
        ENDIF
-       
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -9155,7 +9147,7 @@ C---------Computation of node areas for contact area output-----
         IF(INTERFACES%PARAMETERS%INTCAREA > 0) THEN
 C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cycle   
           ITHOUT = 0
-          CALL TH_TIME_OUTPUT(ITHOUT, SENSORS)
+          CALL TH_TIME_OUTPUT(ITHOUT, SENSORS,OUTPUT)
           IF(ITHOUT > 0) THEN
              CALL INTER_NODAL_AREAS(IXS     ,IXC     ,IXTG      ,FASOLFR   ,X          ,
      .                              IAD_ELEM,FR_ELEM ,WEIGHT    ,IXQ       ,SEGQUADFR  ,

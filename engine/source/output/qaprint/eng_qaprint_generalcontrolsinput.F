@@ -26,12 +26,13 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN)
+      SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +59,7 @@ C-----------------------------------------------
       INTEGER I
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -113,7 +115,7 @@ C     QA PRINT FOR TFILE INPUT
 C-----------------------------------------------
       IF (MYQAKEY('/TFILE')) THEN
         WRITE(VARNAME,'(A)') 'DTHIS'
-        TEMP_DOUBLE = DTHIS
+        TEMP_DOUBLE = OUTPUT%TH%DTHIS
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
         WRITE(VARNAME,'(A)') 'ITFORM'
@@ -121,7 +123,7 @@ C-----------------------------------------------
 
         DO I=1,9
           WRITE(VARNAME,'(A,I0)') 'DTHIS1_', I
-          TEMP_DOUBLE = DTHIS1(I)
+          TEMP_DOUBLE = OUTPUT%TH%DTHIS1(I)
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
         ENDDO
       ENDIF

@@ -78,6 +78,10 @@ Chd|====================================================================
             INTEGER  SITHGRPH
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPI
             INTEGER  SITHGRPI
+            REAL(KIND=8) :: THIS    ! time of next TH file
+            REAL(KIND=8), DIMENSION(9) :: THIS1 ! time of next TH files (aTH,bTH,...)
+            REAL(KIND=8) :: DTHIS   ! time step of TH file
+            REAL(KIND=8), DIMENSION(9) :: DTHIS1 ! time step of TH files (aTH,bTH,...)
 C
             TYPE (TH_SURF_) TH_SURF
 C

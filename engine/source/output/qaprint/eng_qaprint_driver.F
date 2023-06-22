@@ -30,13 +30,14 @@ Chd|        ENG_QAPRINT_DTINPUT           source/output/qaprint/eng_qaprint_dtin
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT )
+      SUBROUTINE ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE SENSOR_MOD
       USE DT_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,6 +49,7 @@ C-----------------------------------------------
       INTEGER IRUNN_BIS
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_)  , INTENT(INOUT) :: DT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C=======================================================================
 
       ! doqa is set in QA_OUT_MOD depending on DO_QA env variable setting
@@ -55,7 +57,7 @@ C=======================================================================
       IF ( doqa /= 1  ) RETURN
 
       IF(NCYCLE == 0) THEN ! ECRITURE QAPRINT AU CYCLE 0 ENGINE
-        CALL ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN_BIS)
+        CALL ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN_BIS,OUTPUT)
 
         CALL ENG_QAPRINT_DTINPUT(DT)
 

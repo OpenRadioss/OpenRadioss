@@ -32,7 +32,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE STOP_SENSOR(SENSORS   ,H3D_DATA  ,DYNAIN_DATA)
+      SUBROUTINE STOP_SENSOR(SENSORS   ,H3D_DATA  ,DYNAIN_DATA,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ANIM_MOD
       USE STATE_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +62,7 @@ C-----------------------------------------------
       TYPE (SENSORS_)       ,INTENT(IN)    :: SENSORS
       TYPE (H3D_DATABASE)   ,INTENT(INOUT) :: H3D_DATA
       TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
+      TYPE(OUTPUT_) ,INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -72,7 +74,7 @@ C-----------------------------------------------
         DO I=1,SENSORS%NSTOP
           ISENS = SENSORS%STOP(I)
           IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
-            IF (NSTH   > 0) THIS  = TT
+            IF (NSTH   > 0) OUTPUT%TH%THIS  = TT
             IF (NSANIM > 0) TANIM = TT
             IF (NSSTAT > 0) TSTAT = TT
             IF (NSOUTP > 0) TOUTP = TT

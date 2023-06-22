@@ -90,7 +90,7 @@ Chd|====================================================================
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I                  DYNAIN_DATA,DT ,LOADS )
+     I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,6 +113,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE DT_MOD
       USE LOADS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -195,6 +196,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)  :: DYNAIN_DATA
       TYPE (DT_), INTENT(INOUT)              :: DT
       TYPE (LOADS_), INTENT(IN)              :: LOADS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -219,8 +221,8 @@ C-----------------------------------------------
      .     ALEON_PARTIDS_TMP, ALEON_PARTIDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALELIN_ON_OFF
       my_real
-     .   TITLE(20), TFI, DTH, DTF, DTM, ALP, GAM,
-     .   CV1, CV2, CV3, VOLM, TSTART, TFIN, DTH1(9),CS1(2), DT_INPUT, DT_CRIT
+     .   TITLE(20), TFI,  DTF, DTM, ALP, GAM,
+     .   CV1, CV2, CV3, VOLM, TSTART, TFIN, CS1(2), DT_INPUT, DT_CRIT
        CHARACTER*9 Cale1,Cale2,ALEform(0:6),CHAR1,CHAR2
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
        CHARACTER CARTE*ncharline,LINE*ncharline
@@ -228,6 +230,8 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER :: OFFG
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
       LOGICAL IS_ALREADY_PRINTED
+      REAL(KIND=8) :: DTH
+      REAL(KIND=8), DIMENSION(9) :: DTH1
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -320,9 +324,9 @@ C abf files
       ENDDO
       IF (ABFILE(1) /= 0) TABFIS(1) = TT
 C
-      IF(DTH /= ZERO.AND.MCHECK == 0) DTHIS=DTH
+      IF(DTH /= ZERO.AND.MCHECK == 0) OUTPUT%TH%DTHIS=DTH
       DO I= 1, 9
-       IF(DTH1(I) /= ZERO.AND.MCHECK == 0) DTHIS1(I)=DTH1(I)
+       IF(DTH1(I) /= ZERO.AND.MCHECK == 0) OUTPUT%TH%DTHIS1(I)=DTH1(I)
       ENDDO
 c h3d files
       H3D_DATA%DTH3D = ZERO
@@ -478,7 +482,7 @@ C
       MIN_ASPECT = DT%BRICK_CST_COL_MIN
       MIN_DEFV = DT%BRICK_CST_DEFV_MIN
       IF(ISPMD == 0.AND.MCHECK == 0)
-     .  WRITE(IOUT,1100)TSTOP,DTHIS,DTFAC,DTMIN
+     .  WRITE(IOUT,1100)TSTOP,OUTPUT%TH%DTHIS,DTFAC,DTMIN
       IF(NODADT == 0)THEN
        IF ((MIN_ASPECT+MIN_DEFV)>ZERO) THEN
          IF(ISPMD == 0.AND.MCHECK == 0)THEN

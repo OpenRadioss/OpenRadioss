@@ -1745,7 +1745,8 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS)
+      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
+     .                  OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1754,6 +1755,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE ALE_MOD
       USE PARAMETERS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1765,6 +1767,7 @@ C-----------------------------------------------
       my_real TABVREA(*)
       TYPE (DYNAIN_DATABASE), INTENT(IN) :: DYNAIN_DATA
       TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1807,10 +1810,10 @@ C-----
       TABVREA(5)=DT2OLD
       TABVREA(6)=TSTOP
       TABVREA(7)=0 !no longer used
-      TABVREA(8)=THIS
+      TABVREA(8)=OUTPUT%TH%THIS
 C-----
       TABVREA(9)=0 !no longer used
-      TABVREA(10)=DTHIS
+      TABVREA(10)=OUTPUT%TH%DTHIS
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
@@ -1845,8 +1848,8 @@ C      SPAOLD is not written into Rfile.
       TABVREA(39)=SPASORT
       TABVREA(40)=SPATRUE
       DO I=1,9
-        TABVREA(40+I) = DTHIS1(I)
-        TABVREA(49+I) = THIS1(I)
+        TABVREA(40+I) = OUTPUT%TH%DTHIS1(I)
+        TABVREA(49+I) = OUTPUT%TH%THIS1(I)
       ENDDO
       TABVREA(59) = MASS0
       TABVREA(60) = ENTOT0

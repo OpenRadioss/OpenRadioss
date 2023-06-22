@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HIST2                         source/output/th/hist2.F      
 Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        BUFMONV                       source/output/th/hist2.F      
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
@@ -150,10 +150,11 @@ C-----------------------------------------------
      .   FSAV(NTHVKI,*), FLSW(9,*), SKEW(LSKEW,*), PARTSAV(NPSAV,*),
      .   ACCELM(LLACCELM,*), GEO(NPROPG,*),SPBUF(*),XFRAME(NXFRAME,*),
      .   AR(3,NUMNOD),VR(3,NUMNOD),DR(3,NUMNOD),FSAVD(NTHVKI,*),
-     .   RIVET(NRIVF,*), THIS0, DTHIS0,THKE(*),
+     .   RIVET(NRIVF,*), THKE(*),
      .   RIVOFF(NRIVET), FXBDEP(*), FXBVIT(*), FXBACC(*), VOLMON(*),
      .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
      .   VSPHIO(*), W(3,NUMNOD)
+      REAL(KIND=8), INTENT(INOUT) :: THIS0, DTHIS0
       INTEGER, DIMENSION(NIXP,NUMELP) ,INTENT(IN):: IXP
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER)    :: CLUSTER
@@ -182,9 +183,12 @@ C-----------------------------------------------
      .        ARRAY(5)                                    
       DATA FIRST/0/
       SAVE FIRST
+      REAL(KIND=8) :: THIS0_DOUBLE,TT_DOUBLE
+      REAL(KIND=8) :: DTHIS0_DOUBLE,DT1_DOUBLE,THISC_DOUBLE
 C=======================================================================
       ID_HIST = ITHFLAG
       THISC = THIS0
+      THISC_DOUBLE = THIS0
       SEEK_ID = IUNIT-29
       IF (IUNIT == 3) SEEK_ID = 1                   
 C--------Multidomains : control of time history for subdomains-----------
@@ -197,7 +201,9 @@ C--------Multidomains : control of time history for subdomains-----------
             THISC = EP30
             SIZE_MES = 0
           ELSEIF (R2R_TH_MAIN(SEEK_ID)==1) THEN
-            THISC = TT-EM20
+            THISC_DOUBLE = TT
+            THISC_DOUBLE = THISC_DOUBLE - EM20
+            THISC = THISC_DOUBLE
             SIZE_MES = 1
           ENDIF
         ENDIF
@@ -208,12 +214,18 @@ C---------------------------
         IF (IDDOM == 0) R2R_TH_MAIN(SEEK_ID) = 1
         R2R_TH_FLAG(SEEK_ID) = 1          
 C---------------------------
+        THIS0_DOUBLE = THIS0
+        DTHIS0_DOUBLE = DTHIS0
+        TT_DOUBLE = TT
         IF (IMPL_S>0) THEN
-          THIS0=MAX(TT,THIS0+MAX(DTHIS0,DT1))
-          THIS0=MIN(TSTOP,THIS0)
+          DT1_DOUBLE = DT1
+          THIS0_DOUBLE=MAX(TT_DOUBLE,THIS0_DOUBLE+MAX(DTHIS0_DOUBLE,DT1_DOUBLE))
+          THIS0_DOUBLE=MIN(TSTOP,THIS0_DOUBLE)
+          THIS0 = THIS0_DOUBLE
         ELSE
-          THIS0=MAX(TT,THIS0+DTHIS0)
-          THIS0=MIN(TSTOP,THIS0)
+          THIS0_DOUBLE=MAX(TT_DOUBLE,THIS0_DOUBLE+DTHIS0_DOUBLE)
+          THIS0_DOUBLE=MIN(TSTOP,THIS0_DOUBLE)
+          THIS0 = THIS0_DOUBLE
         ENDIF    
 C---------------------------                  
         IF(ITTYP==3) CALL CUR_FIL_C(IFIL)
@@ -1346,8 +1358,9 @@ C---------------------------------------
 C remise a zero apres gather sur toute les parts ou on ne cumule pas
               DO I=1,NPSAV
                 IF((I<23.OR.I>26.OR.I==25).AND.I/=8 .AND. NABFILE==0
-     .               .AND. (MSTOP /= 1 .OR. ICTLSTOP == 1) )
-     .            PARTSAV(I,M)=0
+     .               .AND. (MSTOP /= 1 .OR. ICTLSTOP == 1) ) then
+                 PARTSAV(I,M)=0
+                ENDIF
               END DO
             END DO
            END IF
@@ -1360,6 +1373,7 @@ C-------------------------
         DO II=1,NPARTL
           ! zeroing on current PART on local domain
           M = IPARTL(II) !local parts (present on current domain)
+
           IMID = IPART(1,M)
           IPID = IPART(2,M)
           JALE_FROM_MAT = NINT(PM(72,IMID))
@@ -1429,7 +1443,7 @@ C-----------------------------------------------
       INTEGER N,ITYP,NVENT,IVENTTOT,RADHOL,IV,PMAIN
 C-----------------------------------------------
       DO N=1,NVOLU
-        ITYP	=IVOLU(2,N)
+        ITYP =IVOLU(2,N)
         IF(ITYP>=4.AND.ITYP<=9)THEN
           PMAIN = FR_MV(NSPMD+2,N)
           IF(ISPMD+1==PMAIN)THEN

@@ -114,7 +114,7 @@ Chd|====================================================================
      U    CONDNSKY  ,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ) 
+     Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -130,6 +130,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE ALE_MOD
       USE DT_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -201,6 +202,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IFTHE, ICONDN
       TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
       TYPE (DT_) ,  INTENT(INOUT) :: DT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -229,25 +231,25 @@ C======================================================================|
        END IF
 C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cycle   
          IPRI = 0
-         IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT>=THIS.OR.MDESS /= 0.
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS).
-     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
-     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
-     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
-     .   OR.TT>=THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
+         IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS /= 0.
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS).
+     .   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
+     .   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
+     .   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
+     .   OR.TT>=OUTPUT%TH%THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
      .   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
      .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
      .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
      .   OR.TT>=TABFIS(9).OR.TT>=TABFIS(10).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(1)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(2)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(3)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(4)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(5)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(6)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(7)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(8)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=THIS1(9)).OR.ISTAT==3) IPRI=1
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(1)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(2)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(3)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(4)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(5)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(6)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(7)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(8)).
+     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S>=OUTPUT%TH%THIS1(9)).OR.ISTAT==3) IPRI=1
 !
       ISENS_ENERGY = 0
       DO I=1,SENSORS%NSENSOR
@@ -952,7 +954,8 @@ C
      F         MSSA(NF1),DMELS(NF1),TABLE,IGEO    ,XDP    ,
      G         CONDN     ,CONDNSKY  ,
      H         D         ,TAGPRT_SMS,SENSORS  ,IPRI      ,
-     I         NALE      ,NLOC_DMG  ,MATPARAM_TAB,IBID,DT)
+     I         NALE      ,NLOC_DMG  ,MATPARAM_TAB,IBID,
+     J         DT, OUTPUT)
 C
             ELSE
 C-------------------------
