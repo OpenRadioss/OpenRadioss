@@ -1259,14 +1259,14 @@ c
                 IF (MLW == 58 .or. MLW == 158) THEN                                                        
                   DO I=LFT,LLT                                                             
                     DO IR = 1, NPTR                                                        
-                     DO IS = 1, NPTS                                                       
-                      UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR                     
-                      IF(IUS==3.OR.IUS==4)THEN                                             
-                       EVAR(I) = EVAR(I) + LOG(UVAR(I1 + I)+ONE)/NPG                       
-                      ELSE                                                                 
-                       EVAR(I) = EVAR(I) + UVAR(I1 + I)/NPG                               
-                      ENDIF                                                                
-                     ENDDO                                                                 
+                      DO IS = 1, NPTS                                                      
+                        UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR                   
+                        IF (IUS==3 .OR. IUS==4) THEN  ! convert true to eng strain                                           
+                          EVAR(I) = EVAR(I) + EXP(UVAR(I1+I) - ONE) / NPG                     
+                        ELSE                                                               
+                          EVAR(I) = EVAR(I) + UVAR(I1 + I) / NPG                             
+                        ENDIF                                                              
+                      ENDDO                                                                
                     ENDDO                                                                  
                   ENDDO                                                                    
                 ELSE                                                                       
