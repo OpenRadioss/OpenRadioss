@@ -92,8 +92,8 @@ C
               IF ((MTYP == 114).AND.(TAG_RES(ELEM_TEST) == 0)) THEN
                 NRES_FOUND = NRES_FOUND + 1
                 IF(NRES_FOUND > 1) THEN
-                  IF (NSLIPRING+NRETRACTOR > 0) THEN
-C--                 in case of sliprings and retractors bifurcation is not allowded
+                  IF (FLAG > 0) THEN
+C--                 loop inisde retractor : bifurcation is not allowded inside retractor or at entry
                     CALL ANCMSG(MSGID=2005,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO,
