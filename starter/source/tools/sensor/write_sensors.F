@@ -159,8 +159,8 @@ c---------------------------------------
 c       Write spmd/PON exchange arrays
 c---------------------------------------
 
-        CALL WRITE_DB (SENSORS%FSAV,12*6*SENSORS%SFSAV)
-        CALL WRITE_I_C(SENSORS%TABSENSOR,SENSORS%STABSEN)
+        CALL WRITE_DPDB(SENSORS%FSAV,12*6*SENSORS%SFSAV)
+        CALL WRITE_I_C (SENSORS%TABSENSOR,SENSORS%STABSEN)
 
       END IF 
 c-----------
