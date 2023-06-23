@@ -4206,7 +4206,7 @@ C     REAL
      .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
      .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),EVAR_T10(6,10),A_HEPH(3,8)
       INTEGER 
-     .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2
+     .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ITSH
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C======================================================================= 
@@ -4353,12 +4353,17 @@ C
          IF (JHBE == 24) THEN
            CALL PRE_HEPH(X,IXS,JR0,JS0,JT0,PM,MAT,NU,NFT,NEL)
          ENDIF
+         IF(IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
+           ITSH=1
+         ELSE
+           ITSH=0
+         ENDIF
 C----------
          IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
-          IF(NLAY > 1 .AND. JHBE /= 14) THEN
+          IF(ITSH>0 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              N = I + NFT
              IF (KCVT /= 0) THEN
@@ -4555,9 +4560,7 @@ C------       orthotropic laws will be treated later
                  GAMA(6)=ZERO
                END IF
              END IF
-             IF(IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
-               NPTT = NLAY
-             ENDIF
+             IF(ITSH>0) NPTT = NLAY
              DO J=1,MIN(8,ISOLNOD)
                DO K=1,MIN(8,ISOLNOD)
                  IF (SOL_NODE(1,K) == -1 .AND. SOL_NODE(1,J) == -1)
