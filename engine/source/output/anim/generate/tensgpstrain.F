@@ -107,7 +107,7 @@ C     REAL
      .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
       INTEGER 
-     .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2
+     .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ITSH
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C======================================================================= 
@@ -240,6 +240,11 @@ C
          NLAY   = ELBUF_TAB(NG)%NLAY
          NPT = NPTR*NPTS*NPTT
          NNOD = ISOLNOD
+         IF(IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
+           ITSH=1
+         ELSE
+           ITSH=0
+         ENDIF
          IF (JHBE == 24) THEN
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
            NPTR = 2
@@ -253,7 +258,7 @@ C----------
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
-          IF(NLAY > 1 .AND. JHBE /= 14) THEN
+          IF(ITSH > 0 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              II = 6*(I-1) 
              N = I + NFT
@@ -408,9 +413,7 @@ c       STRHG(NEL,6,8)
                  GAMA(6)=ZERO
                END IF
              END IF
-             IF(IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
-               NPTT = NLAY
-             ENDIF
+             IF(ITSH>0) NPTT = NLAY
              DO J=1,8
                DO K=1,8
                  IF (SOL_NODE(1,K) == -1 .AND. SOL_NODE(1,J) == -1)
