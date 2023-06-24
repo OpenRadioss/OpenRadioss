@@ -36,6 +36,7 @@ Chd|        ALE51_INIT                    source/ale/ale51/ale51_init.F
 Chd|        ALEFLUX                       source/ale/porous/aleflux.F   
 Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
+Chd|        ANIM_NODAL_P_ELEMS            source/output/anim/generate/anim_nodal_p_elems.F
 Chd|        AREZON                        source/ale/arezon.F           
 Chd|        ATHERM                        source/ale/atherm.F           
 Chd|        CUTFUNCE                      source/tools/sect/cutfunce.F  
@@ -99,9 +100,12 @@ Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.
 Chd|        MULTI_UPDATE_GLOBAL           source/multifluid/multi_update_global.F
 Chd|        MULTI_UPDATE_PARTIAL          source/multifluid/multi_update_partial.F
 Chd|        NODALD                        source/output/anim/generate/nodald.F
+Chd|        NODALDT                       source/output/anim/generate/nodaldt.F
 Chd|        NODALP                        source/output/anim/generate/nodalp.F
+Chd|        NODALSSP                      source/output/anim/generate/nodalssp.F
 Chd|        NODALT                        source/output/anim/generate/nodalt.F
 Chd|        NODALVFRAC                    source/output/anim/generate/nodalvfrac.F
+Chd|        NODALVOL                      source/output/anim/generate/nodalvol.F
 Chd|        NODALZVOL                     source/output/anim/generate/nodalzvol.F
 Chd|        NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
 Chd|        OUTP_SP_S                     source/output/sty/outp_sp_s.F 

@@ -35,6 +35,7 @@ Chd|        GET_NODAL_IPART               source/output/h3d/h3d_results/h3d_skin
 Chd|        H3DLIB_LOAD                   source/output/h3d/h3d_build_cpp/h3d_dl.c
 Chd|        H3D_CONSTIT                   source/output/h3d/h3d_build_fortran/h3d_constit.F
 Chd|        H3D_CREATE_DATATYPE           source/output/h3d/h3d_build_fortran/h3d_create_datatype.F
+Chd|        H3D_CREATE_FVMBAG_CENTROIDS   source/output/h3d/h3d_build_fortran/h3d_create_fvmbag_centroids.F
 Chd|        H3D_CREATE_RBE2_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
 Chd|        H3D_CREATE_RBE3_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
 Chd|        H3D_CREATE_RBODIES_IMPI       source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
@@ -69,6 +70,7 @@ Chd|        H3D_SOLID_VECTOR              source/output/h3d/h3d_results/h3d_soli
 Chd|        H3D_SPH_OFF                   source/output/h3d/spmd/spmd_h3d_sph_off.F
 Chd|        H3D_SPH_SCALAR                source/output/h3d/h3d_results/h3d_sph_scalar.F
 Chd|        H3D_SPH_TENSOR                source/output/h3d/h3d_results/h3d_sph_tensor.F
+Chd|        H3D_UPDATE_FVMBAG_CENTROIDS   source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
 Chd|        SCANOR                        source/output/anim/generate/scanor.F
 Chd|        SPMD_H3D_GATHER_I             source/output/h3d/spmd/spmd_h3d_gather_i.F
 Chd|        SPMD_H3D_GATHER_I_NODE        source/output/h3d/spmd/spmd_h3d_gather_i_node.F

@@ -470,6 +470,7 @@ Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        GENANI                        engine/source/output/anim/generate/genani.F
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
 Chd|        GROUP_INI                     engine/source/groups/group_ini.F
+Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
 Chd|        H3D_VELVECZ22                 engine/source/output/h3d/h3d_results/h3d_velvecz22.F
 Chd|        HIST1                         engine/source/output/th/hist1.F
@@ -544,6 +545,12 @@ Chd|        MONV_PREM                     engine/source/airbag/monv_imp0.F
 Chd|        MPP_INIT                      engine/source/mpi/interfaces/spmd_i7tool.F
 Chd|        MV_MATV                       engine/source/airbag/monv_imp0.F
 Chd|        NL_SOLV                       engine/source/implicit/nl_solv.F
+Chd|        NODALD                        engine/source/output/anim/generate/nodald.F
+Chd|        NODALDT                       engine/source/output/anim/generate/nodaldt.F
+Chd|        NODALP                        engine/source/output/anim/generate/nodalp.F
+Chd|        NODALSSP                      engine/source/output/anim/generate/nodalssp.F
+Chd|        NODALT                        engine/source/output/anim/generate/nodalt.F
+Chd|        NODALVOL                      engine/source/output/anim/generate/nodalvol.F
 Chd|        PBLAST                        engine/source/loads/pblast/pblast.F
 Chd|        PBLAST_1                      engine/source/loads/pblast/pblast_1.F
 Chd|        PBLAST_2                      engine/source/loads/pblast/pblast_2.F
