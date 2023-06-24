@@ -193,6 +193,7 @@ Chd|        ALLOCBUF_AUTO                 engine/source/elements/elbuf/allocbuf_
 Chd|        ALLOC_ELBUF_IMP               engine/source/elements/elbuf/alloc_elbuf_imp.F
 Chd|        ANIMIG3D                      engine/source/output/anim/generate/animig3d.F
 Chd|        ANIMX                         engine/source/output/anim/generate/animx.F
+Chd|        ANIM_NODAL_P_ELEMS            engine/source/output/anim/generate/anim_nodal_p_elems.F
 Chd|        ANIOFF0                       engine/source/output/anim/generate/anioff0.F
 Chd|        ANIOFFC                       engine/source/output/anim/generate/anioffc.F
 Chd|        ANIOFFC_CRK                   engine/source/output/anim/generate/anioffc_crk.F
@@ -453,9 +454,12 @@ Chd|        MULTI_UPDATE_GLOBAL           engine/source/multifluid/multi_update_
 Chd|        MULTI_UPDATE_PARTIAL          engine/source/multifluid/multi_update_partial.F
 Chd|        MULTI_VAR2BUF                 engine/source/multifluid/multi_var2buf.F
 Chd|        NODALD                        engine/source/output/anim/generate/nodald.F
+Chd|        NODALDT                       engine/source/output/anim/generate/nodaldt.F
 Chd|        NODALP                        engine/source/output/anim/generate/nodalp.F
+Chd|        NODALSSP                      engine/source/output/anim/generate/nodalssp.F
 Chd|        NODALT                        engine/source/output/anim/generate/nodalt.F
 Chd|        NODALVFRAC                    engine/source/output/anim/generate/nodalvfrac.F
+Chd|        NODALVOL                      engine/source/output/anim/generate/nodalvol.F
 Chd|        NODALZVOL                     engine/source/output/anim/generate/nodalzvol.F
 Chd|        NODAL_SCHLIEREN               engine/source/output/anim/generate/nodal_schlieren.F
 Chd|        NOISE                         engine/source/general_controls/computation/noise.F
