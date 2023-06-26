@@ -1205,6 +1205,8 @@ C-------------------------------------------------------------------------------
         INTEGER :: SIZE_ADDCNEL ! size of addcnel array
         INTEGER :: SIZE_CNEL ! size of cnel array
         LOGICAL :: GLOBAL_ACTIVE_ALE_ELEMENT
+
+        INTEGER :: SIZE_NPBY
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -1273,6 +1275,7 @@ c
 C-----------------------------------------------
 C     I N I T I A L I S A T I O N S
 C----------------------------------------------
+      SIZE_NPBY = SNPBY/NNPBY
       ALLOCATE(IKINE(NUMNOD))
 C -------------------------------------------------------------------        
 C User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
@@ -6966,10 +6969,10 @@ C-----------------------------------------------
      2                       NODFTSK, NODLTSK, ITAB, MSNF , MS   ,
      3                       ALE_CONNECTIVITY%NALE     )     
         ENDIF
-
+        
         CALL ACCELE(A       ,AR      ,V    ,MS     ,IN     ,
-     2              NODFTSK ,NODLTSK ,ITAB ,ALE_CONNECTIVITY%NALE   ,MS_2D  ,
-     3              NPBY   )
+     2              NODFTSK ,NODLTSK ,ALE%GLOBAL%SNALE ,ALE_CONNECTIVITY%NALE   ,MS_2D  ,
+     3              SIZE_NPBY,NPBY   )
 C
         IF(IPLYXFEM > 0 )
      .    CALL PLY_ACCELE(INOD_PXFEM,MS_PLY,ZI_PLY,MS,
