@@ -379,14 +379,14 @@ C
      .  FDELTAX(MVSIZ) ,FLUX0(MVSIZ,6),FLU01(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real :: DT2T_lay(2)
-      my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ)
+      my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ)
       my_real, DIMENSION(:), POINTER :: EINT
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C
-      INTEGER IALEFVM_FLG, IFVM22, IMAT, INLOC, L_NLOC, J, IPOS(8)
+      INTEGER IALEFVM_FLG, IFVM22, IMAT, INLOC, L_NLOC, J, IPOS(8),PID,NN_DEL
 C
       INTEGER IBOLTP,NBPRELD,ISM12_11  ! IBOLTP Flag Bolt Preloading
       my_real, DIMENSION(:), POINTER :: BPRELD
@@ -471,6 +471,11 @@ C Gather nodal variables Belytschko co-rotational formulation
      .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA,IPARG1,
      .   GBUF%GAMA_R) 
       ENDIF  ! JCVT == 0
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=8
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
 C
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
 C Gather initial coordinates total strain formulation
@@ -983,8 +988,17 @@ C Compute Strains for output
       ENDIF
       IF ((IMON_MAT==1).AND. ITASK == 0) CALL STOPTIME(35,1)
 C
-      ITET = 0
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
+      IF (NN_DEL >0) THEN
+        CALL SDLENMAX(L_MAX, 
+     1   X1,      X2,      X3,      X4,      
+     2   X5,      X6,      X7,      X8,      
+     3   Y1,      Y2,      Y3,      Y4,      
+     4   Y5,      Y6,      Y7,      Y8,      
+     5   Z1,      Z2,      Z3,      Z4,      
+     6   Z5,      Z6,      Z7,      Z8,      
+     7   NEL)
+       CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL )
+      END IF
 C Small Strain
       CALL SMALLB3(
      1   GBUF%OFF,OFF,     NEL,     ISMSTR)
