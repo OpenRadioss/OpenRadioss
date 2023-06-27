@@ -61,7 +61,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER ARGN
-       CHARACTER(LEN=256) :: ARGP
        INTEGER PHELPI,PEXECI,PINPUTI, PNTHI,PUSERLNAMI,MDS_PATHI
        INTEGER I,STRL,STRLN,ERR,LENLIST,ISIN,BEGIN,IERRMSG
        INTEGER IDUM
@@ -70,8 +69,8 @@ C-----------------------------------------------
        CHARACTER C
        INTEGER IARGC,CDL_CASE,IJK
        CHARACTER :: LAST_LETTER,SEPARATOR
-       character(len=2096) ARGS2,ARGS_REDUCE
-       CHARACTER(len=4096) ULIBC
+       CHARACTER(LEN=2096) ARGS2,ARGS_REDUCE,ARGP
+       CHARACTER(LEN=4096) ULIBC
        PARAMETER (LENLIST=18)
        CHARACTER(LEN=12):: ARGLIST(LENLIST)
        EXTERNAL IARGC
