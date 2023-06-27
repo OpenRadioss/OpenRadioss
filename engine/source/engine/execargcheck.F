@@ -629,8 +629,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LBT
+        CHARACTER*256 RFLEXNAM,GPUTITLE,ARCHTIT*66
+        INTEGER LEN,LBT
 C machine.inc include
+        INTEGER RDFLEXCOMP
         INTEGER IDUM
 C-----------------------------------------------
 #include "machine.inc"
