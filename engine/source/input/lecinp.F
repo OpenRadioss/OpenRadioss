@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        FREFORM                       source/input/freform.F        
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================

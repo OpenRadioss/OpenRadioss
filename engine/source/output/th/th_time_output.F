@@ -25,6 +25,7 @@ Chd|  TH_TIME_OUTPUT                source/output/th/th_time_output.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE TH_TIME_OUTPUT(ITHOUT,SENSORS,OUTPUT)

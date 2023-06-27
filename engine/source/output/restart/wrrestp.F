@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
@@ -32,7 +32,7 @@ Chd|        FXBWREST                      source/output/restart/wrrest.F
 Chd|        INTFRIC_WRESTI                share/modules/intbuf_fric_mod.F
 Chd|        INTFRIC_WRESTR                share/modules/intbuf_fric_mod.F
 Chd|        INTSTAMP_WRESTI               share/modules/intstamp_mod.F  
-Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F
+Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F  
 Chd|        OPEN_C                        source/output/tools/sortie_c.c
 Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
 Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   

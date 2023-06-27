@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|-- calls ---------------
 Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|====================================================================
       SUBROUTINE CSUBC3(
      1   JFT,      JLT,      X,        IXC,
