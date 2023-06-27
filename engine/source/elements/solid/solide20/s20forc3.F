@@ -175,7 +175,7 @@ C-----------------------------------------------
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
      .  DXY(MVSIZ),DYX(MVSIZ),
      .  DYZ(MVSIZ),DZY(MVSIZ),VOLG(MVSIZ),
-     .  DZX(MVSIZ),DXZ(MVSIZ),BID(MVSIZ),AA,WI,BB, MBID(1),LL8(MVSIZ)
+     .  DZX(MVSIZ),DXZ(MVSIZ),BID(MVSIZ),AA,WI,BB, MBID(1),LL8(MVSIZ),L_MAX(MVSIZ)
       my_real VARNL(NEL)
       DOUBLE PRECISION
      .  VOLDP(MVSIZ,NIPMAX)
@@ -460,7 +460,6 @@ C--------------------------
       ENDDO
 C      
       IF ( NN_DEL> 0) THEN
-        ITET = 0
         CALL SDLEN8(LL8,VOLG,IXS(1,NF1),
      .              XX(1,1), XX(1,2), XX(1,3), XX(1,4),
      .              XX(1,5), XX(1,6), XX(1,7), XX(1,8),
@@ -468,7 +467,14 @@ C
      .              YY(1,5), YY(1,6), YY(1,7), YY(1,8),
      .              ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
      .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8), NEL)
-        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
+        CALL SDLENMAX(L_MAX, 
+     .              XX(1,1), XX(1,2), XX(1,3), XX(1,4),
+     .              XX(1,5), XX(1,6), XX(1,7), XX(1,8),
+     .              YY(1,1), YY(1,2), YY(1,3), YY(1,4),
+     .              YY(1,5), YY(1,6), YY(1,7), YY(1,8),
+     .              ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
+     .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8), NEL)
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL )
       END IF !( NN_DEL> 0) THEN
 C--------------------------
 C     BILANS PAR MATERIAU

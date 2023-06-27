@@ -277,7 +277,7 @@ C 8-nodes solid connectivities
      .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),R4_FREE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
-     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),CNS2,RHO0_1
+     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),CNS2,RHO0_1,L_MAX(MVSIZ)
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
 C-----
@@ -286,7 +286,7 @@ C-----
 C-----
 C----- 
 C     IBOLTP : flag bolt preloading
-      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,MX
+      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,MX,NN_DEL,PID
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)      
@@ -343,6 +343,11 @@ C Gather nodal variables and compute rotation
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
 C
+      NN_DEL = 0
+      PID = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
+     .        NN_DEL=8
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       CNS2 = ZERO
       IF (ICP==1.AND.MTN==1.AND.ISMSTR==12) THEN
          MX = MXT(LFT)
@@ -699,7 +704,17 @@ C
       ENDIF
 C
       ITET = 0
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
+      IF (NN_DEL >0) THEN
+        CALL SDLENMAX(L_MAX, 
+     1   X1,      X2,      X3,      X4,      
+     2   X5,      X6,      X7,      X8,      
+     3   Y1,      Y2,      Y3,      Y4,      
+     4   Y5,      Y6,      Y7,      Y8,      
+     5   Z1,      Z2,      Z3,      Z4,      
+     6   Z5,      Z6,      Z7,      Z8,      
+     7   NEL)
+       CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL )
+      END IF
 C
 C Small strain formulation is activated:
 C           a) by minimum time step in MMAIN

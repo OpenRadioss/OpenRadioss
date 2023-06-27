@@ -639,7 +639,8 @@ C--------------------------
 C
       IF(JLAG+JALE+JEUL == 0)RETURN
       ITET = 1
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),ITET,DT,NEL )
+      BID(LFT:LLT)=ZERO
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),BID,DT,NEL )
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
