@@ -47,6 +47,7 @@ Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        RUPTURE_MOD                   share/modules/rupture_mod.F   
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

@@ -1777,6 +1777,7 @@ Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================

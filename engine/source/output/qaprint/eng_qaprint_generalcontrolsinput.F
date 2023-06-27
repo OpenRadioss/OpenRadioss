@@ -25,6 +25,7 @@ Chd|  ENG_QAPRINT_GENERALCONTROLSINPUTsource/output/qaprint/eng_qaprint_generalc
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|====================================================================
       SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT)
 C-----------------------------------------------

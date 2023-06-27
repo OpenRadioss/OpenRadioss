@@ -40,6 +40,7 @@ Chd|        SPMD_LIST_SMS                 source/mpi/ams/spmd_sms.F
 Chd|        SPMD_MIJ_SMS                  source/mpi/ams/spmd_sms.F     
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SMS_ENCIN_2(

@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HIST2                         source/output/th/hist2.F      
 Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
 Chd|        BUFMONV                       source/output/th/hist2.F      
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
