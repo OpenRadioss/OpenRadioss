@@ -2890,7 +2890,7 @@ c
                 BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                 IF (ITY == 3) THEN
                   IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                    LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
+                    LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1) 
                     IF (MLW /= 0 .AND. MLW /= 13) THEN   
                       DO I=LFT,LLT                                                
                         N = I + NFT                                               
@@ -3119,7 +3119,7 @@ c
                 
                   ELSEIF (ITY == 7) THEN
                     IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN  
-                     LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
+                     LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1) 
                      IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=LFT,LLT                                              
                         N = I + NFT                                             
