@@ -511,7 +511,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, J,
-     .        IAD ,NP ,IFUNC ,NPRES ,N,NSKIN_I,NSKINP0,IERR,IXST
+     .        IAD ,NP ,IFUNC ,NPRES ,N,NSKIN_I,NSKINP0,IERR,IXST,SHIFT
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
       INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
 C=======================================================================
@@ -526,7 +526,8 @@ C
 		 IF (N1>0.AND.N2>0.AND.N3>0.AND.N4/=-1) NSKIN = NSKIN + 1
        END DO 
 C----------load_pressure
-       DO  NL=1,NLOADP_HYD
+       SHIFT = 	NLOADP_F+NLOADP_B
+       DO NL=1+SHIFT,NLOADP_HYD+SHIFT
            IAD = ILOADP(4,NL)
            DO N=1, ILOADP(1,NL)/4
               N1 = LLOADP(IAD+4*(N-1))
@@ -581,7 +582,8 @@ C
            IRECT(1:4,NP) = IB(1:4,NL)
          END DO 
 C----add only not existing           
-           DO  NL=1,NLOADP_HYD
+           SHIFT = 	NLOADP_F+NLOADP_B
+           DO NL=1+SHIFT,NLOADP_HYD+SHIFT
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
                 N1 = LLOADP(IAD+4*(N-1))
@@ -759,7 +761,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, 
-     .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N,I,PID0
+     .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N,I,PID0,SHIFT
 C=======================================================================
 C-----IXSKIN(1,*):ipart;IXSKIN(2:5,*):N1-4,IXSKIN(6,*):pid;IXSKIN(7,*):usr_id
        PID0 =0
@@ -788,7 +790,8 @@ C
        END DO 
        NSKIN1 = NSKIN
 C----------load_pressure	   
-       DO NL=1,NLOADP_HYD
+       SHIFT = 	NLOADP_F+NLOADP_B
+       DO NL=1+SHIFT,NLOADP_HYD+SHIFT
          IAD = ILOADP(4,NL)
          DO N=1, ILOADP(1,NL)/4
            N1 = LLOADP(IAD+4*(N-1))

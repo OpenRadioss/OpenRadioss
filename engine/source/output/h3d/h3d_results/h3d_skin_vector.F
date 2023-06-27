@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        LOADP_HYD_INTER(NLOADP_HYD),NODAL_IPART(*)
       my_real
-     .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
+     .   FAC(LFACLOAD,NLOADP),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (LOADS_)   , INTENT(IN) :: LOADS
       INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
@@ -112,7 +112,7 @@ C-----------------------------------------------
       my_real COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,Dx,Dy,Dz,NORMD, P,
      .        T0INF_LOC, TA_SHIFT, TT_STAR
-      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT
+      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT
        my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
      .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
@@ -173,7 +173,8 @@ C--------default zero
          SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
        END DO 
 C----------load_pressure	   
-       DO NP=1,NLOADP_HYD
+       SHIFT = 	NLOADP_F+NLOADP_B
+       DO NP=1+SHIFT,NLOADP_HYD+SHIFT
          ISIZ_SEG = ILOADP(1,NP)/4 
          IFUNC = ILOADP(3,NP)
          IAD = ILOADP(4,NP)
@@ -255,8 +256,8 @@ C----------------
 C---------pfluid	   
        DO NL=1,NLOADP_F
 C--------default zero        
-         ISIZ_SEG = ILOADP(1,NP)/4 
-         IAD = ILOADP(4,NP)
+         ISIZ_SEG = ILOADP(1,NL)/4 
+         IAD = ILOADP(4,NL)
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
            N2 = LLOADP(IAD+4*(N-1)+1)
@@ -374,6 +375,7 @@ C
             ELSEIF(N3 == N4)THEN
               N4 = 0
             ENDIF
+            IF (N4==0) N4=N3
 Csv         true triangles.
             IF(FUN_HSP /=0)THEN
                K1=3*DIR_HSP-2
@@ -524,8 +526,7 @@ C--------default zero
            IF (N4 == 0) THEN    ! 3 node segment
              CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
      .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-             PRESS = SEGP * ONE_OVER_6
-             PRESS = PRESS * YFAC
+             PRESS = ABS(SEGP) * YFAC
 c          
            ELSE                ! 4 node segment
              D(1) = X(1,N4)
@@ -550,10 +551,10 @@ c            4th internal triangle
              CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
      .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
              PRESS = PRESS + SEGP * FOURTH
-             PRESS = ABS(PRESS) * YFAC * ONE_OVER_8
+             PRESS = ABS(PRESS) * YFAC
            END IF  !  seg 4 node
            NSKIN = NSKIN0+ IMAPSKP(NP0)
-           SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) -PRESS
+           SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) +PRESS
          ENDDO!next N
        END DO 
 C

@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, J,IXST,
-     .        IAD ,NP ,NP0 ,NPRES ,N,NSKIN_I,NSKINP0,IERR
+     .        IAD ,NP ,NP0 ,NPRES ,N,NSKIN_I,NSKINP0,IERR,SHIFT
       INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
 C=======================================================================
@@ -88,7 +88,8 @@ C
          END DO
          NP0 = NP         
 C----add only not existing           
-           DO  NL=1,NLOADP_HYD
+           SHIFT = 	NLOADP_F+NLOADP_B
+           DO NL=1+SHIFT,NLOADP_HYD+SHIFT
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
                 N1 = LLOADP(IAD+4*(N-1))

@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER ILOADP(SIZLOADP,*),IBCL(NIBCLD,*),NODAL_IPART(*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
       my_real
-     .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(*)
+     .   FAC(LFACLOAD,NLOADP),XFRAME(NXFRAME,*),FORC(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER*ncharline KEYWORD
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
@@ -573,7 +573,7 @@ C-----------------------------------------------
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        LOADP_HYD_INTER(NLOADP_HYD),NODAL_IPART(*)
       my_real
-     .   FAC(LFACCLD,*),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
+     .   FAC(LFACLOAD,NLOADP),XFRAME(NXFRAME,*),FORC(LFACCLD,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (LOADS_)   , INTENT(IN) :: LOADS
       INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
@@ -600,7 +600,7 @@ c
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, T0INF_LOC, TA_SHIFT, TT_STAR
       
 C      
-      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT
+      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT
        my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
      .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
@@ -658,8 +658,9 @@ C--------default zero
          AA = FCY*F1*XSENS
          SKIN_SCALAR(NSKIN)=AA
        END DO 
-C----------load_pressure	
-       DO NP=1,NLOADP_HYD
+C----------load_pressure
+       SHIFT = 	NLOADP_F+NLOADP_B
+       DO NP=1+SHIFT,NLOADP_HYD+SHIFT
          ISIZ_SEG = ILOADP(1,NP)/4 
          IFUNC = ILOADP(3,NP)
          IAD = ILOADP(4,NP)
@@ -737,11 +738,11 @@ c                IF (FP==ZERO) FP = ONE
              SKIN_SCALAR(NSKIN)=SKIN_SCALAR(NSKIN)+AA*FP
          END DO !N=1, NPRES/4
        END DO !NP=1,NLOADP_HYD
-C---------pfluid	   
+C---------pfluid
        DO NL=1,NLOADP_F
 C--------default zero        
-         ISIZ_SEG = ILOADP(1,NP)/4 
-         IAD = ILOADP(4,NP)
+         ISIZ_SEG = ILOADP(1,NL)/4 
+         IAD = ILOADP(4,NL)
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
            N2 = LLOADP(IAD+4*(N-1)+1)
@@ -750,7 +751,7 @@ C--------default zero
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN+N)=1
+		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          FUN_HSP=ILOADP(7,NL)
@@ -859,6 +860,7 @@ C
             ELSEIF(N3 == N4)THEN
               N4 = 0
             ENDIF
+            IF (N4==0) N4=N3
 Csv         true triangles.
             IF(FUN_HSP /=0)THEN
                K1=3*DIR_HSP-2
@@ -999,8 +1001,7 @@ C--------default zero
            IF (N4 == 0) THEN    ! 3 node segment
              CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
      .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-             PRESS = SEGP * ONE_OVER_6
-             PRESS = PRESS * YFAC
+             PRESS = ABS(SEGP) * YFAC
 c          
            ELSE                ! 4 node segment
              D(1) = X(1,N4)
@@ -1024,11 +1025,10 @@ c            3rd internal triangle
 c            4th internal triangle 
              CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
      .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
-             PRESS = PRESS + SEGP * FOURTH
-             PRESS = ABS(PRESS) * YFAC * ONE_OVER_8
+             PRESS = ABS(PRESS) * YFAC
            END IF  !  seg 4 node
            NSKIN = NSKIN0+ IMAPSKP(NP0)
-           SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-PRESS
+           SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)+PRESS
          ENDDO!next N
        END DO 
 C
