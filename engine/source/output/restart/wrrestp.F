@@ -169,7 +169,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(t_ebcs_tab), INTENT(INOUT)                     :: EBCS_TAB
       TYPE(DYNAIN_DATABASE) ,INTENT(IN)                   :: DYNAIN_DATA
       TYPE(USER_WINDOWS_)   ,INTENT(IN)                   :: USER_WINDOWS
-      TYPE(OUTPUT_)         ,INTENT(IN)                   :: OUTPUT !< output structure
+      TYPE(OUTPUT_)         ,INTENT(INOUT)                :: OUTPUT !< output structure
       TYPE(INTERFACES_)     ,INTENT(IN)                   :: INTERFACES
       TYPE(SENSORS_)        ,INTENT(IN)                   :: SENSORS
       TYPE(LOADS_)          ,INTENT(IN)                   :: LOADS
