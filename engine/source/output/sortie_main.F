@@ -280,7 +280,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,N5,N6,N7,N8,N9,N10,I,M,NEL,NFACE,
      .        K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11,K12,
-     .        NEL1D,NEL2D,NEL3D, L1, IFIL, CPTFILE,
+     .        NEL1D,NEL2D,NEL3D, L1, IFIL, CPTFILE,IFILABF,
      .        IAD, J, THUPDT,IFLAG, IFV,ITHFLAG,NSENSOR
       INTEGER :: IFLAG_ANIPCONT
       INTEGER
@@ -291,6 +291,7 @@ C-----------------------------------------------
       INTEGER
      .  LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ
       INTEGER SIZE_MES,LONG,LONG_TMP,N
+      INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
       my_real
      .   TFEXTH
       my_real
