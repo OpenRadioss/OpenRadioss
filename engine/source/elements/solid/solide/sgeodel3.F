@@ -35,7 +35,7 @@ Chd|-- calls ---------------
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,ITET,DT,NEL)
+      SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,L_MAX,DT,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,17 +55,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN)  :: ITET,NEL
+      INTEGER ,INTENT(IN)  :: NEL
       INTEGER ,DIMENSION(MVSIZ) ,INTENT(IN)  :: NGL
       my_real, DIMENSION(NPROPG) , INTENT(IN)  :: GEO 
       my_real, DIMENSION(NEL) , INTENT(IN)  :: VOLG0 
-      my_real, DIMENSION(MVSIZ) , INTENT(IN)  :: VOLG,DELTAX 
+      my_real, DIMENSION(MVSIZ) , INTENT(IN)  :: VOLG,DELTAX,L_MAX 
       my_real, DIMENSION(NEL) , INTENT(INOUT)  :: OFFG 
       TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ICOUNT,LIST(MVSIZ)
+      INTEGER I,J,ICOUNT,LIST(MVSIZ),ITET
       my_real
      .   TET_COLLA(MVSIZ),DEF_V(MVSIZ),APS_R(MVSIZ),
      .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
@@ -84,6 +84,11 @@ C-----
      .                   ASPMAX = DT%BRICK_DEL_ASP_MAX 
       C_MIN = ONE
       C_MAX = ONE
+      IF (L_MAX(1) >ZERO) THEN
+        ITET = 0
+      ELSE
+        ITET = 1
+      END IF
 C--- tet      
       IF (ITET >0) THEN
        C_MAX = 1.24*SQR3
@@ -147,12 +152,27 @@ C
         END IF !(ICOUNT > 0) THEN
       END IF 
 C--- Hexa : APS_r=lmax/lmin lmax~sqrt(Amax); lmin~lc & V~ lc*Amax -> 
-C---        APS_r~sqrt(Amax/lc^2)=sqrt(V/lc^3)     
+C---        APS_r~sqrt(Amax/lc^2)=sqrt(V/lc^3) ; now we compute L_max for Hexa   
+        IF ((ASPMAX+COLMIN) >ZERO) THEN
+          IF (ITET ==0) THEN
+            DO I=1,NEL
+              IF (OFFG(I)==ZERO) CYCLE
+              APS_R(I) = L_MAX(I)/DELTAX(I)
+              TET_COLLA(I) = DELTAX(I) / L_MAX(I)
+            END DO
+          ELSE
+            DO I=1,NEL
+              IF (OFFG(I)==ZERO) CYCLE
+              AL = SQRT(VOLG(I)/DELTAX(I)**3)
+              APS_R(I) = C_MAX*AL
+              TET_COLLA(I) = C_MIN / AL
+            END DO
+          END IF
+        END IF
         IF (ASPMAX>ZERO) THEN
           ICOUNT = 0
           DO I=1,NEL
            IF (OFFG(I)==ZERO) CYCLE
-           APS_R(I) = C_MAX*SQRT(VOLG(I)/DELTAX(I)**3)
            IF (APS_R(I) > ASPMAX) THEN
             OFFG(I) = ZERO
             ICOUNT=ICOUNT+1
@@ -181,7 +201,6 @@ C---        TET_c =1/ASP_r
           ICOUNT = 0
           DO I=1,NEL
            IF (OFFG(I)==ZERO) CYCLE
-           TET_COLLA(I) = C_MIN * SQRT(DELTAX(I)**3 / VOLG(I))
            IF (TET_COLLA(I) < COLMIN) THEN
             OFFG(I) = ZERO
             ICOUNT=ICOUNT+1
