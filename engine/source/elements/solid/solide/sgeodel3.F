@@ -90,11 +90,17 @@ C--- tet
        C_MIN = ONE/C_MAX
       END IF
 C
+      IF ((VDEFMIN+VDEFMAX) >ZERO) THEN
+        DO I=1,NEL
+          IF (OFFG(I)==ZERO) CYCLE
+          DEF_V(I) = VOLG(I)/VOLG0(I)
+        END DO
+      END IF
+C      
       IF (VDEFMIN >ZERO) THEN
        ICOUNT = 0
        DO I=1,NEL
         IF (OFFG(I)==ZERO) CYCLE
-        DEF_V(I) = VOLG(I)/VOLG0(I)
         IF (DEF_V(I) < VDEFMIN) THEN
          OFFG(I) = ZERO
          ICOUNT=ICOUNT+1
