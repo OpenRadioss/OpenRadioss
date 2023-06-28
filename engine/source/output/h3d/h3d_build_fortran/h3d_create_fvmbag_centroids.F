@@ -27,7 +27,7 @@ Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
-      SUBROUTINE H3D_CREATE_FVMBAG_CENTROIDS(MONVOL,VOLMON, FVDATA, NFVBAG, SMONVOL, SVOLMON)
+      SUBROUTINE H3D_CREATE_FVMBAG_CENTROIDS(MONVOL,VOLMON, FVDATA, NFVBAG, SMONVOL, SVOLMON, AIRBAGS_NODE_ID_SHIFT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -40,7 +40,7 @@ C     none
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE FVBAG_MOD , only:FVBAG_DATA, AIRBAGS_NODE_ID_SHIFT !data structure definition
+      USE FVBAG_MOD , only:FVBAG_DATA !data structure definition
       USEGROUPDEF_MOD , only:GROUP_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,7 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON
+      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL, SVOLMON
+      INTEGER,INTENT(IN) :: AIRBAGS_NODE_ID_SHIFT
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL)
       TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA(NFVBAG)                     
@@ -76,7 +77,6 @@ C-----------------------------------------------
       my_real :: VALUE_X   !< polyhedron centroid X-value
       my_real :: VALUE_Y   !< polyhedron centroid Y-value
       my_real :: VALUE_Z   !< polyhedron centroid Z-value            
-      my_real :: VAL_MIN   !< minimum contour value
       
       INTEGER, ALLOCATABLE,DIMENSION(:) :: ITAB_FVMBAG,TAGNOD_FVMBAG
       my_real, ALLOCATABLE,DIMENSION(:,:) :: XYZ_FVMBAG,DISP_FVMBAG
@@ -101,7 +101,6 @@ C-----------------------------------------------
               NPOLH = FVDATA(IFV)%NPOLH
               
               IF(NPOLH > 0)THEN ! if there are any polyhedron
-                 VAL_MIN=EP20
 
                  ALLOCATE(ITAB_FVMBAG(NPOLH))
                  ALLOCATE(TAGNOD_FVMBAG(NPOLH))
@@ -118,7 +117,7 @@ C-----------------------------------------------
                    DISP_FVMBAG(2,II) = ZERO! -FVDATA(IFV)%CENTROID_POLH(2,II)
                    DISP_FVMBAG(3,II) = ZERO! -FVDATA(IFV)%CENTROID_POLH(3,II)                                      
 
-                   ITAB_FVMBAG(II) = AIRBAGS_NODE_ID_SHIFT+II
+                   ITAB_FVMBAG(II) = AIRBAGS_NODE_ID_SHIFT + NNODES + II
                    TAGNOD_FVMBAG(II) = 1
                    
                  ENDDO! next I (next polyhedron)

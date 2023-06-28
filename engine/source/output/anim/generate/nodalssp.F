@@ -34,7 +34,8 @@ Chd|====================================================================
       SUBROUTINE NODALSSP(IFUNC          , WA4               , WA4_FVM, IFLOW   , RFLOW,  
      .                    IPARG          , ELBUF_TAB         , IX     , NIX     , NUMEL, 
      .                    ITAB           , NV46              , MONVOL , VOLMON  , AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                    IS_WRITTEN_NODE,IS_WRITTEN_NODE_FVM, ISPMD  , FVDATA_P, SWA4)
+     .                    IS_WRITTEN_NODE,IS_WRITTEN_NODE_FVM, ISPMD  , FVDATA_P,
+     .                    SWA4           , AIRBAGS_NODE_ID_SHIFT) 
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NUMEL, IFUNC, NIX, NV46,ITAB(NUMNOD), ISPMD, SWA4
+      INTEGER,INTENT(IN) :: NUMEL, IFUNC, NIX, NV46,ITAB(NUMNOD), ISPMD, SWA4, AIRBAGS_NODE_ID_SHIFT
       INTEGER,INTENT(IN) :: IFLOW(*),IPARG(NPARG,NGROUP),IX(NIX,NUMEL)
       my_real,INTENT(IN) :: RFLOW(*)
       INTEGER, INTENT(IN) :: AIRBAGS_TOTAL_FVM_IN_H3D
@@ -103,7 +104,8 @@ C           set pressure from polyhedra centroids
 C------------------------------------------------------------------
         IF(NFVBAG > 0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
           CALL ANIM_NODAL_CONTOUR_FVMBAGS('SSP ', WA4_FVM, MONVOL , VOLMON                  , FVDATA_P           , 
-     .                                    NFVBAG, SMONVOL, SVOLMON, AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM)
+     .                                    NFVBAG, SMONVOL, SVOLMON, AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM,
+     .                                    AIRBAGS_NODE_ID_SHIFT)
         
         ENDIF
         

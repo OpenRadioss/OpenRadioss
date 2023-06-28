@@ -33,7 +33,7 @@ Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
       SUBROUTINE ANIM_NODAL_CONTOUR_FVMBAGS(KEY, WA4, MONVOL,VOLMON, FVDATA_P, NFVBAG, SMONVOL, SVOLMON, AIRBAGS_TOTAL_FVM,
-     .                                      IS_WRITTEN_NODE_FVM)
+     .                                      IS_WRITTEN_NODE_FVM, AIRBAGS_NODE_ID_SHIFT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C     none
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE FVBAG_MOD , only:FVBAG_DATA,AIRBAGS_NODE_ID_SHIFT !data structure definition
+      USE FVBAG_MOD , only:FVBAG_DATA !data structure definition
       USEGROUPDEF_MOD , only:GROUP_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*4, INTENT(IN) :: KEY
-      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON, AIRBAGS_TOTAL_FVM
+      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON, AIRBAGS_TOTAL_FVM, AIRBAGS_NODE_ID_SHIFT
       REAL,INTENT(INOUT) :: WA4(AIRBAGS_TOTAL_FVM)
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL)
@@ -83,9 +83,7 @@ C-----------------------------------------------
       INTEGER :: IH3D_FLAG !< node group identifier
       INTEGER :: NNODES    !< number of nodes in group
       INTEGER :: IFV       !< FVMBAG identifier in [1, NFVBAG] where NFVBAG <= NVOLU
-      INTEGER :: nodeID    !< node identifier (internal)
       my_real :: VALUE     !< polyhedron value
-      my_real :: VAL_MIN   !< minimum contour value
       INTEGER :: K_SHIFT   !< shift value for index : sum of previous NPOLH
       INTEGER :: INDX
 C-----------------------------------------------
@@ -106,16 +104,12 @@ C-----------------------------------------------
             IF(IH3D_FLAG == 1 .AND. IFV /= 0)THEN
               
               IF(FVDATA_P(IFV)%NPOLH > 0)THEN !if GRNOD is not empty and if there are any polyhedron
-                 
-                 VAL_MIN=EP20
                                  
                  SELECT CASE (TRIM(KEY))
                  
                    CASE('P','PRES')
                      DO II=1,FVDATA_P(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                        VALUE = FVDATA_P(IFV)%PPOLH(II)
-                       VAL_MIN = MIN(VALUE,VAL_MIN) 
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(K_SHIFT+II) = VALUE
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)
@@ -123,8 +117,6 @@ C-----------------------------------------------
                    CASE('T','TEMP')
                      DO II=1, FVDATA_P(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                        VALUE = FVDATA_P(IFV)%TPOLH(II)
-                       VAL_MIN = MIN(VALUE,VAL_MIN) 
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(K_SHIFT+II) = VALUE
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)
@@ -132,8 +124,6 @@ C-----------------------------------------------
                    CASE('D','DENS')
                      DO II=1, FVDATA_P(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                        VALUE = FVDATA_P(IFV)%RPOLH(II)
-                       VAL_MIN = MIN(VALUE,VAL_MIN) 
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(K_SHIFT+II) = VALUE
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)
@@ -141,8 +131,6 @@ C-----------------------------------------------
                    CASE('SSP')
                      DO II=1, FVDATA_P(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                        VALUE = FVDATA_P(IFV)%SSPPOLH(II)
-                       VAL_MIN = MIN(VALUE,VAL_MIN) 
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(K_SHIFT+II) = VALUE
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)           
@@ -150,8 +138,6 @@ C-----------------------------------------------
                    CASE('DT')
                      DO II=1, FVDATA_P(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                        VALUE = FVDATA_P(IFV)%DTPOLH(II)
-                       VAL_MIN = MIN(VALUE,VAL_MIN) 
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(K_SHIFT+II) = VALUE
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)                               
@@ -162,8 +148,6 @@ C-----------------------------------------------
                        IF(ABS(FVDATA_P(IFV)%RPOLH(II)) > EM20 )THEN
                          VALUE = FVDATA_P(IFV)%MPOLH(II) / FVDATA_P(IFV)%RPOLH(II)
                        ENDIF
-                       VAL_MIN = MIN(VALUE,VAL_MIN) 
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(K_SHIFT+II) = VALUE
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)                                                    
@@ -174,7 +158,7 @@ C-----------------------------------------------
 
               ENDIF !NPOLH>0>0 
             ENDIF !IH3D_FLAG>0
-            K_SHIFT = K_SHIFT+FVDATA_P(IFV)%NPOLH
+            K_SHIFT = K_SHIFT + FVDATA_P(IFV)%NPOLH
          ENDIF ! ITYP
          K1=K1+NIMV
 
@@ -182,10 +166,9 @@ C-----------------------------------------------
       
       ! set minimum value to other nodes in the group (otherwise visualization may lead to unsuitable color legend/gradient)          
       IF(K_SHIFT < AIRBAGS_TOTAL_FVM)THEN                                                                       
-        DO II= 1,AIRBAGS_TOTAL_FVM-AIRBAGS_NODE_ID_SHIFT-K_SHIFT                                                                      
-          nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II                                                                                   
-          WA4(K_SHIFT+II) = VAL_MIN      
-          IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 0                                                                                                 
+        DO II= K_SHIFT+1,AIRBAGS_TOTAL_FVM                                                                      
+          WA4(II) = ZERO      
+          IS_WRITTEN_NODE_FVM(II) = 0                                                                                                 
         ENDDO                                                                                                                         
       ENDIF        
 

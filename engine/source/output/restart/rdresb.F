@@ -1939,7 +1939,6 @@ C-----------------------------------------------
      .        ID_BAG, ID_BAG_INPUT, N
       INTEGER COLOR,KEY, IH3D_FLAG
       LOGICAL lFOUND
-      my_real TMP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -1950,18 +1949,6 @@ C----------------------------------------------------------
        !---AIRBAGS_TOTAL_FVM_IN_H3D
        AIRBAGS_TOTAL_FVM_IN_H3D = 0 !number of polyhedra to display for visualization subroutines (Sum FVDATA%NPOLH_ANIM)
        
-       !---AIRBAGS_NODE_ID_SHIFT
-       ! first node identifier used to plot polyhedron centroids is 1+AIRBAGS_NODE_ID_SHIFT
-       TMP = NUMNOD
-       AIRBAGS_NODE_ID_SHIFT = 1 + 1+FLOOR(LOG10(TMP))    !first index for virtual node identifiers (next available power of 10)
-       IF (AIRBAGS_NODE_ID_SHIFT > 10) THEN                             ! example :                  NUMNOD =   123,456
-                                                                        !   ->        AIRBAGS_NODE_ID_SHIFT = 1,000,000
-          WRITE(ISTDO,'(A)')" WARNING FVMBAG VISUALIZATION : INDEX SHIFT IS MORE THAN 10 DIGITS"
-          WRITE(IOUT ,'(A)')" WARNING FVMBAG VISUALIZATION : INDEX SHIFT IS MORE THAN 10 DIGITS" 
-                   
-       ENDIF
-       AIRBAGS_NODE_ID_SHIFT = 10**AIRBAGS_NODE_ID_SHIFT
-
 C--------------------------------------
 C     READING SIZES
 C--------------------------------------
