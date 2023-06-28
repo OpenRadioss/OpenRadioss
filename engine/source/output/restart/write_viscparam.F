@@ -95,12 +95,11 @@ c     write viscosity parameter array
         CALL WRITE_I_C(VISC%IPARAM ,NIPARAM)
       END IF      
 c      
-c     write viscosity law tables if necessary
+c     write viscosity law tables
 c
       NUMTABL  = VISC%NTABLE
       IF (NUMTABL > 0) THEN
-        CALL TABLE_WRESTI_MAT(VISC%TABLE, NUMTABL)
-        CALL TABLE_WRESTR_MAT(VISC%TABLE, NUMTABL)
+        CALL WRITE_MAT_TABLE(VISC%TABLE, NUMTABL)
       END IF
 c-----------
       RETURN

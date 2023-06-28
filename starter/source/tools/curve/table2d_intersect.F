@@ -55,6 +55,9 @@ c     Check segment intersections between 2 functions
 
       XINT  = ZERO
       YINT  = ZERO
+      
+c     I1 = index of first  strain rate 
+c     I2 = index of second strain rate 
 c
       J1 = (I1 - 1)*NPT
       J2 = (I2 - 1)*NPT

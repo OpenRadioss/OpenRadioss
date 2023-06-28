@@ -90,7 +90,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(SNPC), FUNC_ID(*), IPM(NPROPMI,NUMMAT)
+      INTEGER NPC(SNPC), FUNC_ID(*)
+      INTEGER, DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
       my_real PM(NPROPM,NUMMAT), PLD(STF),BUFMAT(SBUFMAT)
       TARGET IPM,BUFMAT
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
@@ -104,8 +105,7 @@ C-----------------------------------------------
       INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
      .        NPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO,
      .        IADD_VISC , NPARAM_VISC,IVISC,NPRONY,J,ITYPE_VISC,FORM
-      my_real
-     .  GAMA_INF
+      my_real :: GAMA_INF,EMAX
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
       INTEGER, DIMENSION(MAXTAB)     :: TABLE_ID
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
@@ -168,7 +168,7 @@ C
         ILAW    = NINT(PM(19,IMAT))
 c
         IF (ILAW < 29.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
-     .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==70.or.ILAW==75.or.
+     .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==75.or.
      .      ILAW==77.or.ILAW==78 ) CYCLE
 c
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
@@ -247,12 +247,27 @@ c------------------
      .                    PM(1,IMAT),IPM(1,IMAT),GAMA_INF)
 c          
 c------------------
+          CASE (70) 
+c------------------
+            CALL LAW70_UPD(MATPARAM ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
+     .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,EMAX     ,
+     .                     IOUT     )       
+            PM(24,IMAT) = EMAX
+c          
+c------------------
           CASE (76) 
 c------------------
             CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
      .                     IFUNC  ,NPC     ,PLD      )       
 c
+c------------------
+          CASE (77) 
+c------------------
+            CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
+     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )       
+c
+c          
 c------------------
           CASE (87) !BARLAT 2D
 c------------------

@@ -31,14 +31,17 @@ Chd|====================================================================
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
      3     VOLUME ,EINT   ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
-     8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
-     B     PM     ,IPM    , MAT    ,EPSP    )
+     4     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     6     SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
+     7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     8     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
+     9     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
+     A     PM     ,IPM    , MAT    ,MATPARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,8 +69,6 @@ C RHO0    | NEL     | F | R | INITIAL DENSITY
 C RHO     | NEL     | F | R | DENSITY
 C VOLUME  | NEL     | F | R | VOLUME
 C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
-C EPSPXX  | NEL     | F | R | STRAIN RATE XX
-C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
 C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
 C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
@@ -98,15 +99,14 @@ C
       my_real
      .   TIME,TIMESTEP,UPARAM(*),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
-     .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
-     .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
      .   DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIG0XX(NEL),SIG0YY(NEL),SIG0ZZ(NEL),
      .   SIG0XY(NEL),SIG0YZ(NEL),SIG0ZX(NEL),
-     .   PM(NPROPM,*),EPSP(NEL)
+     .   PM(NPROPM,*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -139,22 +139,27 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,I1,I2,IADBUF,NC,NFUNC,ILOAD(MVSIZ),
-     .        IFUNC(MVSIZ,100),NLOAD(MVSIZ),NUNLOAD(MVSIZ),
-     .         IE_CST(MVSIZ),ILOAD0,IDAMAGE,IFLAG,IETANG,IPFUNC
+      INTEGER I,J,J1,J2,I1,I2,II,IADBUF,NC,NFUNC,ILOAD(MVSIZ),
+     .        IFUNC(MVSIZ,100),NLOAD,NUNLOAD,
+     .        IE_CST(MVSIZ),ILOAD0,IDAMAGE,IFLAG,IETANG,IPFUNC,NUMTABL
+      INTEGER :: NINDEX_EPSSM,NINDEX_EPST
+      INTEGER, DIMENSION(MVSIZ) :: INDEX_EPSSM,INDEX_EPST
       my_real
      .        R,FAC,YP1,YP2,YN1,YN2,COEFF,RMIN,RMAX,
      .        E,E1,E2,E3,E4,E5,E6,DF,BB,CC,DELTA,ALPHA,X1,X2,SVM2,
-     .        SVM,
+     .        SVM,INTER_0,
      .        E0(MVSIZ),G(MVSIZ),NU(MVSIZ),AA1(MVSIZ),AA2(MVSIZ),
      .        FAIL(MVSIZ),
      .        EPST(MVSIZ),AA(MVSIZ),YLDMIN(MVSIZ),YLDMAX(MVSIZ),
-     .        YLD(MVSIZ),RATE(MVSIZ,2),
+     .        RATE(MVSIZ,2),
      .        YFAC(MVSIZ,2),SIG0(MVSIZ),EPS0(MVSIZ),EPSS(MVSIZ),
-     .        EMAX,EPSSMAX(MVSIZ),DF1,DF2,DAV,
+     .        EMAX,EPSSMAX,DF1,DF2,DAV,
      .        EPS_MAX,DSIG ,YLDELAS(MVSIZ),P,SVM1(MVSIZ),EXPO,HYS,
      .        ETAN(MVSIZ), DFMIN(MVSIZ), DFMAX(MVSIZ),DFELAS(MVSIZ),
      .        EOLD,DAM,DD,A0,A1,DE,YFACC,MU
+      INTEGER, DIMENSION(NEL,2) :: IPOS
+      my_real, DIMENSION(NEL,2) :: XVEC
+      my_real, DIMENSION(MVSIZ) :: YLD,DFC
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -166,22 +171,24 @@ C
         ENDDO
       ENDDO
 C     
+      IADBUF  = IPM(7,MAT(1))-1
+      NLOAD   = UPARAM(IADBUF+7)
+      NUNLOAD = UPARAM(IADBUF+8)
+      INTER_0 = UPARAM(2*NFUNC + 15)
+      EPSSMAX= UPARAM(IADBUF+4)
       DO I=1,NEL
-        IADBUF    = IPM(7,MAT(I))-1
         E0(I)     = UPARAM(IADBUF+2)
         AA(I)     = UPARAM(IADBUF+3)
-        EPSSMAX(I)= UPARAM(IADBUF+4)
         G(I)      = UPARAM(IADBUF+5)
         NU(I)     = UPARAM(IADBUF+6)
-        NLOAD(I)  = UPARAM(IADBUF+7)
-        NUNLOAD(I)= UPARAM(IADBUF+8)
         IDAMAGE   = UPARAM(IADBUF+ 2*NFUNC + 9)
-        EXPO = UPARAM(IADBUF+ 2*NFUNC + 10)
-        HYS  = UPARAM(IADBUF+ 2*NFUNC + 11)
+        EXPO  = UPARAM(IADBUF+ 2*NFUNC + 10)
+        HYS   = UPARAM(IADBUF+ 2*NFUNC + 11)
         EMAX  = UPARAM(IADBUF+ 2*NFUNC + 12)
-        IFLAG  = UPARAM(IADBUF+ 2*NFUNC + 13)
-        YFACC =  UPARAM(IADBUF+ 8 + 2*NFUNC )
+        IFLAG = UPARAM(IADBUF+ 2*NFUNC + 13)
+        YFACC = UPARAM(IADBUF+ 8 + 2*NFUNC )
       ENDDO
+      NUMTABL = MATPARAM%NTABLE
 C-----------------------------------------------
       DO I=1,NEL
 C-------------------
@@ -200,144 +207,81 @@ C-------------------
 C-------------------
 C CRITERE
 C-------------------
+      NINDEX_EPST  = 0
+      NINDEX_EPSSM = 0
       DO I=1,NEL
-C YLD_elast
-          IADBUF = IPM(7,MAT(I))-1
-          RATE(I,1)=UPARAM(IADBUF + 9)
-          YFAC(I,1)=UPARAM(IADBUF + 9 + NFUNC )
-          IF(EPST(I) >= EPSSMAX(I)) THEN
-            YLDELAS(I)=YFAC(I,1)*FINTER(IFUNC(I,1),EPSSMAX(I),NPF,TF,DF)
-            YLDELAS(I)=EMAX*(EPST(I) - EPSSMAX(I)) +  YLDELAS(I)  
-          ELSE
-            YLDELAS(I) = YFAC(I,1)*FINTER(IFUNC(I,1),EPST(I),NPF,TF,DF)
-          ENDIF  
-C  yld_max
-          NC = NLOAD(I)
-          J1 = 1
-          DO J=2,NC-1
-           IADBUF = IPM(7,MAT(I)) - 1        
-           IF(ABS(EPSP(I)) >= ABS(UPARAM(IADBUF+ 8 + J )))THEN
-            J1 = J
-           ENDIF
-          ENDDO    
-          IADBUF = IPM(7,MAT(I))-1
-          RATE(I,1)=UPARAM(IADBUF + 8 + J1)
-          YFAC(I,1)=UPARAM(IADBUF + 8 + NFUNC + J1)
-C          
-          IF(EPST(I) >= EPSSMAX(I)) THEN
-           IF(NC > 1)THEN   
-            J2 = J1+1      
-            RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-            YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-C
-            YP1 = YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF1)
-            YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPSSMAX(I),NPF,TF,DF2)     
-C          
-            FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-            YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)   
-  
-               
-            YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX(I)) +  YLDMAX(I)  
-C           
-           ELSE
-            YLDMAX(I) = 
-     .        YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF)    
-            YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX(I)) +  YLDMAX(I) 
-           ENDIF          
-          
-          ELSE
-           IF(NC > 1)THEN   
-            J2 = J1+1      
-            RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-            YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-C
-            YP1 = YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF1)
-            YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPST(I),NPF,TF,DF2)
-        
-C           
-            FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-            YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
-           ELSE
-            YLDMAX(I) = YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF)
-           ENDIF
-          ENDIF  
-C  yld_min  
-          NC = NUNLOAD(I)
-          J1 = 1 + NLOAD(I)
-          YLDMIN(I) = ZERO
-          IF(NC > 0 ) THEN
-           DO J=2,NC-1
-             IADBUF = IPM(7,MAT(I)) - 1        
-             IF(ABS(EPSP(I)) >= 
-     .                     ABS(UPARAM(IADBUF+ NLOAD(I) + 8 + J )))THEN 
-               J1 = NLOAD(I) + J
-             ENDIF
-           ENDDO
-C         
-           RATE(I,1)=UPARAM(IADBUF + 8 + J1)
-           YFAC(I,1)=UPARAM(IADBUF + 8 + NFUNC + J1)
-
-           IF(EPST(I) >= EPSSMAX(I)) THEN
-             IF(NC > 1)THEN   
-               J2 = J1+1      
-                RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-                YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-C
-                YP1 =YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF1)
-                YP2 =YFAC(I,2)*FINTER(IFUNC(I,J2),EPSSMAX(I),NPF,TF,DF2)  
-C            
-                IF(YP2 < YP1 ) THEN          
-                  FAC    = (RATE(I,2) - EPSP(I))/(RATE(I,2) - RATE(I,1))
-                  YLDMIN(I) = MAX(YP2 + FAC*(YP1-YP2), EM20)
-               ELSE
-                  FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-                  YLDMIN(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
-               ENDIF
-                YLDMIN(I) =  EMAX*(EPST(I) - EPSSMAX(I)) + YLDMIN(I)
-             ELSE
-              YLDMIN(I)= 
-     .          YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF) 
-                YLDMIN(I) =  EMAX*(EPST(I) - EPSSMAX(I)) + YLDMIN(I)
-             ENDIF           
-            
-           ELSE
-             IF(NC > 1)THEN   
-              J2 = J1+1      
-              RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-              YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-C
-               YP1 = YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF1)
-               YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPST(I),NPF,TF,DF2)       
-C                           
-               IF(YP2 < YP1 ) THEN          
-                  FAC    = (RATE(I,2) - EPSP(I))/(RATE(I,2) - RATE(I,1))
-                  YLDMIN(I) = MAX(YP2 + FAC*(YP1-YP2), EM20)
-                
-               ELSE
-                  FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-                  YLDMIN(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
-               ENDIF
-             ELSE
-               YLDMIN(I)=YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF)
-             ENDIF
-            ENDIF  
-           ENDIF        
-         ENDDO 
-C
-         IF(IFLAG > 0) THEN
-           DO I=1,NEL
-             ALPHA = ONE/MAX(EM20,UVAR(I,10))
-             SIG0XX(I) = ALPHA*SIG0XX(I)
-             SIG0YY(I) = ALPHA*SIG0YY(I)
-             SIG0ZZ(I) = ALPHA*SIG0ZZ(I)
-             SIG0XY(I) = ALPHA*SIG0XY(I)
-             SIG0ZX(I) = ALPHA*SIG0ZX(I)
-             SIG0YZ(I) = ALPHA*SIG0YZ(I)
-           ENDDO 
-         ENDIF
-C                 
+c       YLD_elast
+        IF (EPST(I) >= EPSSMAX) THEN
+          YLDELAS(I)= INTER_0
+          YLDELAS(I)= YLDELAS(I) + EMAX*(EPST(I) - EPSSMAX)
+          NINDEX_EPSSM = NINDEX_EPSSM + 1
+          INDEX_EPSSM(NINDEX_EPSSM) = I  
+        ELSE
+          NINDEX_EPST = NINDEX_EPST + 1
+          INDEX_EPST(NINDEX_EPST) = I
+        ENDIF
+      ENDDO
+c
+      IF (NINDEX_EPST > 0) THEN
+        DO II=1,NINDEX_EPST
+          I = INDEX_EPST(II)
+          IPOS(II,1) = NINT(UVAR(I,11))
+          IPOS(II,2) = 1  
+          XVEC(II,1) = EPST(I)
+          XVEC(II,2) = UPARAM(IADBUF + 9) ! static strain rate
+        ENDDO
+c
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,YLD,DFC)
+c
+        DO II=1,NINDEX_EPST
+          I = INDEX_EPST(II)
+          YLDELAS(I) = YLD(II)
+          UVAR(I,11) = IPOS(II,1)
+        ENDDO
+      ENDIF
+c        
+c     yld_max
+c       
+      DO I=1,NEL
+        IPOS(I,1) = NINT(UVAR(I,11))
+        IPOS(I,2) = 1  
+        XVEC(I,1) = EPST(I)
+        XVEC(I,2) = UPARAM(IADBUF + 9) ! static strain rate
+      ENDDO
+c
+      CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,IPOS,XVEC,YLDMAX,DFC)
+c
+c        
+c     yld_min
+c     
+      IF (NUNLOAD > 0) THEN
+        DO I=1,NEL
+          IPOS(I,1) = NINT(UVAR(I,11))
+          IPOS(I,2) = 1  
+          XVEC(I,1) = EPST(I)
+          XVEC(I,2) = UPARAM(IADBUF + 9 + NLOAD) ! static strain rate
+        ENDDO
+c
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,IPOS,XVEC,YLDMIN,DF)
+c
+      ELSE
+        YLDMIN(1:NEL) = YLDMAX(1:NEL)
+      END IF
+c-----------------------------------------------------
+      IF(IFLAG > 0) THEN
+        DO I=1,NEL
+          ALPHA = ONE/MAX(EM20,UVAR(I,10))
+          SIG0XX(I) = ALPHA*SIG0XX(I)
+          SIG0YY(I) = ALPHA*SIG0YY(I)
+          SIG0ZZ(I) = ALPHA*SIG0ZZ(I)
+          SIG0XY(I) = ALPHA*SIG0XY(I)
+          SIG0ZX(I) = ALPHA*SIG0ZX(I)
+          SIG0YZ(I) = ALPHA*SIG0YZ(I)
+        ENDDO 
+      ENDIF
+C              
 C =====================================================
-         DO I = 1,NEL
+      DO I = 1,NEL
           ILOAD0 = UVAR(I,5)        
           IE_CST(I)= 0
           DELTA = EPST(I) - UVAR(I,4)
@@ -357,10 +301,7 @@ C
           EPSS(I) = EPST(I) - YLD(I)/ E
           EPSS(I) = MAX(ZERO, EPSS(I))  
           DE = AA(I)*(EPSS(I) - UVAR(I,1))
-C          E = E0(I) + AA(I)*EPSS(I)
-c          IF(ILOAD(I) == 1)  THEN
-c            IF(ILOAD0 == 1) E = MAX(E, UVAR(I,3))
-c          ENDIF
+c
           IF(ILOAD(I) == 1) THEN
              E = E + MAX(DE, ZERO)
              IF(ILOAD0 == -1) E= UVAR(I,3)
@@ -370,10 +311,9 @@ c          ENDIF
              IF(ILOAD0 == 1) E= UVAR(I,3)
              UVAR(I,1) = MIN(EPSS(I),UVAR(I,1))
           ENDIF
-CC          UVAR(I,1) = EPSS(I)
-           E = MIN(E, EMAX)
-           E = MAX(E, E0(I))
-           UVAR(I,3) = E
+          E = MIN(E, EMAX)
+          E = MAX(E, E0(I))
+          UVAR(I,3) = E
 C==================================================       
           AA1(I) = E*(ONE-NU(I))/(ONE + NU(I))/(ONE - TWO*NU(I))
           AA2(I) = AA1(I)*NU(I)/(ONE - NU(I))  
@@ -407,20 +347,6 @@ C sound velocity
           VISCMAX(I) = ZERO  
 C            
          IF(IDAMAGE == 0 ) THEN
-!!           IF(SVM >= YLDMAX(I) )THEN
-!!             YLD(I) = YLDMAX(I)
-!!             IF(DELTA < ZERO ) YLD(I) = YLDMIN(I)
-!!           ELSEIF(SVM <= YLDMIN(I).AND. ILOAD(I) == -1) THEN
-!!             YLD(I) = YLDMIN(I)
-C           
-!!           ELSE
-!!            YLD(I) = SVM
-!!            IE_CST(I) = 1
-!!            IF(DELTA < ZERO .AND. DSIG > YLDMIN(I) .AND. DSIG > SVM)THEN
-!!             YLD(I) = YLDMIN(I)
-!!             IE_CST(I) = 0
-!!            ENDIF
-!!           ENDIF
             IF(DELTA >= ZERO ) THEN
                  YLD(I) = MIN(YLDMAX(I),SVM)
             ELSEIF(DELTA < ZERO) THEN
@@ -435,14 +361,13 @@ C
           ELSE
              YLD(I) = YLDMAX(I)
               IF(DELTA > ZERO .AND. SVM < YLDMAX(I))YLD(I)=SVM
-cc              IF(DELTA < ZERO .AND. SVM > YLDMAX(I)
-cc     .                         .AND. DSIG < SVM )YLD(I) = SVM    
               UVAR(I,8) = UVAR(I,8) + 
      .                    HALF*(YLD(I) + UVAR(I,6))*DELTA
               UVAR(I,8) = MAX(ZERO, UVAR(I,8))
               UVAR(I,2) = MAX(UVAR(I,2) , UVAR(I,8))  
           ENDIF
-         ENDDO 
+
+      ENDDO 
 C 
 C-------------------
 C projection spherique
@@ -467,27 +392,18 @@ C
         SIGNXY(I)=SIGNXY(I)*R                                
         SIGNYZ(I)=SIGNYZ(I)*R                                
         SIGNZX(I)=SIGNZX(I)*R     
-c        E = E0(I) + AA(I)*EPS0(I)
-c        EPSS(I) = EPST(I) - YLD(I)/E
-c        EPSS(I) = MAX(EPSS(I), ZERO)        
-c        UVAR(I,1) = EPSS(I)
-c        E = E0(I) + AA(I)*EPSS(I)
-c        UVAR(I,3) = E 
 C                  
         IF(IE_CST(I) == 1) THEN
          ILOAD0 = INT(UVAR(I,5))
          IF(ILOAD0 /= ILOAD(I))THEN
            ILOAD(I)  = ILOAD0
            UVAR(I,1) = EPS0(I)
-cc           UVAR(I,3) = E0(I) + AA(I)*EPS0(I)
          ENDIF
         ENDIF   
         UVAR(I,4) = EPST(I)
         UVAR(I,2) = SVM*R
         UVAR(I,5) = ILOAD(I)
         UVAR(I,6) = YLD(I)
-        UVAR(I,7) = EPSP(I)
-cc        UVAR(I,9) = ONE
        ENDDO
       ELSEIF(IDAMAGE == 1) THEN
        DO I=1,NEL
@@ -520,22 +436,14 @@ C
             SIGNXY(I)=SIGNXY(I)*R                             
             SIGNYZ(I)=SIGNYZ(I)*R                             
             SIGNZX(I)=SIGNZX(I)*R
-cc            UVAR(I,9) = R
           ENDIF        
 C        
          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)        
      .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
          SVM =SQRT(SVM2)                                          
-c         E = E0(I) + AA(I)*EPS0(I)                                
-c         EPSS(I) = EPST(I) - YLD(I)/E
-c         EPSS(I) = MAX(EPSS(I), ZERO)                  
-c         E = E0(I) + AA(I)*EPSS(I)
-c         UVAR(I,1) = EPSS(I) 
-c         UVAR(I,3) = E
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
-         UVAR(I,7) = EPSP(I)       
         ENDDO
        ELSEIF(IDAMAGE == 2 ) THEN
         DO I=1,NEL
@@ -566,21 +474,14 @@ C
             SIGNXY(I)=SIGNXY(I)*R                             
             SIGNYZ(I)=SIGNYZ(I)*R                             
             SIGNZX(I)=SIGNZX(I)*R
-CC            UVAR(I,9) = R
           ENDIF        
 C        
          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)        
      .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
          SVM =SQRT(SVM2)                                          
-c         E = E0(I) + AA(I)*EPS0(I)                                
-c         EPSS(I) = EPST(I) - YLD(I)/E
-c         EPSS(I) = MAX(EPSS(I), ZERO)                                    
-c         UVAR(I,3) = E0(I) + AA(I)*EPSS(I)  
-c         UVAR(I,1) = EPSS(I)  
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
-         UVAR(I,7) = EPSP(I)
         ENDDO       
 
       ELSEIF(IDAMAGE == 3) THEN
@@ -614,19 +515,11 @@ C
             SIGNXY(I)=SIGNXY(I)*R                             
             SIGNYZ(I)=SIGNYZ(I)*R                             
             SIGNZX(I)=SIGNZX(I)*R
-CC            UVAR(I,9) = R
           ENDIF        
 C                             
-c         E = E0(I) + AA(I)*EPS0(I)                                
-c         EPSS(I) = EPST(I) - YLD(I)/E
-c         EPSS(I) = MAX(EPSS(I), ZERO)                  
-c         E = E0(I) + AA(I)*EPSS(I)
-c         UVAR(I,1) = EPSS(I)    
-c         UVAR(I,3) = E                                            
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
-         UVAR(I,7) = EPSP(I)
         ENDDO
       ELSEIF(IDAMAGE == 4) THEN
        DO I=1,NEL
@@ -658,13 +551,10 @@ C
             SIGNXY(I)=SIGNXY(I)*R                             
             SIGNYZ(I)=SIGNYZ(I)*R                             
             SIGNZX(I)=SIGNZX(I)*R
-cc            UVAR(I,9) = R
           ENDIF   
-c         UVAR(I,3) = E 
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
-         UVAR(I,7) = EPSP(I)
         ENDDO                           
       ENDIF
 C
@@ -685,7 +575,7 @@ C
              SIGNYZ(I) = ALPHA*SIGNYZ(I)
              UVAR(I,10) = ALPHA
          ENDDO     
-       ENDIF 
+      ENDIF 
 C------------------------------------ 
       RETURN
       END

@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE_WRESTR_MAT              source/materials/tools/table_wrestr_mat.F
+Chd|  WRITE_MAT_TABLE              source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE TABLE_WRESTR_MAT(TABLE, NUMTABL, LENR)
+      SUBROUTINE WRITE_MAT_TABLE(TABLE, NUMTABL)
 C-----------------------------------------------
       USE TABLE4D_MOD
 C-----------------------------------------------
@@ -41,40 +41,72 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN)    :: NUMTABL
-      INTEGER ,INTENT(INOUT) :: LENR
-      TYPE(TABLE_4D_) ,DIMENSION(NUMTABL) ,INTENT(IN) :: TABLE
+      TYPE(TABLE_4D_) ,INTENT(IN) :: TABLE(NUMTABL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N, K, NDIM
-      INTEGER NXK(4)
+      INTEGER I,J,K,L,M,N,LEN,NPT,NDIM
+      INTEGER LDIM(4)
+      my_real, DIMENSION(:) ,ALLOCATABLE :: YTMP
 c===============================================
-      LENR=0
       DO N=1,NUMTABL
-        IF (TABLE(N)%NOTABLE > 0) THEN
-          NDIM = TABLE(N)%NDIM
-          DO K=1,NDIM
-            NXK(K) = SIZE(TABLE(N)%X(K)%VALUES)
-            LEN = NXK(K)
-            CALL WRITE_DB(TABLE(N)%X(K)%VALUES,LEN)
-            LENR =  LENR + LEN
+        LEN  = 1
+        CALL WRITE_I_C(TABLE(N)%NOTABLE,LEN)
+        NDIM = TABLE(N)%NDIM
+        CALL WRITE_I_C(NDIM,LEN)
+        DO I=1,NDIM
+          NPT = SIZE(TABLE(N)%X(I)%VALUES)
+          CALL WRITE_I_C(NPT , LEN)
+          CALL WRITE_DB(TABLE(N)%X(I)%VALUES,NPT)
+          LDIM(I) = NPT 
+        END DO
+c
+        NPT = LDIM(1)
+        IF (NDIM == 1) THEN
+          CALL WRITE_DB(TABLE(N)%Y1D,NPT)
+          LEN = NPT
+        ELSE IF (NDIM == 2) THEN
+          LEN = LDIM(1)*LDIM(2)
+          ALLOCATE(YTMP(LEN))
+          M = 0
+          DO J=1,LDIM(2)
+            DO I=1,NPT
+              M = M+1
+              YTMP(M) = TABLE(N)%Y2D(I,J)
+            END DO
           END DO
-          IF (NDIM == 1) THEN
-            LEN = SIZE( TABLE(N)%Y1D)
-            CALL WRITE_DB(TABLE(N)%Y1D,LEN)
-          ELSE IF (NDIM == 2) THEN
-            LEN = SIZE( TABLE(N)%Y2D)
-            CALL WRITE_DB(TABLE(N)%Y2D,LEN)
-          ELSE IF (NDIM == 3) THEN
-            LEN = SIZE( TABLE(N)%Y3D)
-            CALL WRITE_DB(TABLE(N)%Y3D,LEN)
-          ELSE IF (NDIM == 4) THEN
-            LEN = SIZE( TABLE(N)%Y4D)
-            CALL WRITE_DB(TABLE(N)%Y4D,LEN)
-          END IF
-          LENR=LENR+LEN
+          CALL WRITE_DB(YTMP, LEN)
+        ELSE IF (NDIM == 3) THEN
+          LEN = LDIM(1)*LDIM(2)*LDIM(3)
+          ALLOCATE(YTMP(LEN))
+          M = 0
+          DO K=1,LDIM(3)
+            DO J=1,LDIM(2)
+              DO I=1,NPT
+                M = M+1
+                YTMP(M) = TABLE(N)%Y3D(I,J,K)
+              END DO
+            END DO
+          END DO
+          CALL WRITE_DB(YTMP, LEN)
+        ELSE IF (NDIM == 4) THEN
+          LEN = LDIM(1)*LDIM(2)*LDIM(3)*LDIM(4)
+          ALLOCATE(YTMP(LEN))
+          M = 0
+          DO L=1,LDIM(4)
+            DO K=1,LDIM(3)
+              DO J=1,LDIM(2)
+                DO I=1,NPT
+                  M = M+1
+                  YTMP(M) = TABLE(N)%Y4D(I,J,K,L)
+                END DO
+              END DO
+            END DO
+          END DO
+          CALL WRITE_DB(YTMP, LEN)
         END IF
+        IF (ALLOCATED(YTMP)) DEALLOCATE(YTMP)
       END DO
 c-----------
       RETURN
-      END SUBROUTINE TABLE_WRESTR_MAT
+      END SUBROUTINE WRITE_MAT_TABLE

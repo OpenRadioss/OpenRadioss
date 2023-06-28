@@ -110,10 +110,7 @@ C
      2         NPF   ,TF      , BUFMAT(IADBUF),RHO0    ,VOL ,  
      3         EINT  ,UVAR    ) 
           ELSEIF (MTN == 70) THEN
-            CALL M70INIT(
-     1         NEL   ,NPAR    ,NUVAR   ,NFUNC  ,IFUNC  ,
-     2         NPF   ,TF      ,BUFMAT(IADBUF),RHO0    ,VOL ,  
-     3         EINT  ,UVAR    ) 
+            CALL M70INIT(NEL,NPAR,NUVAR,BUFMAT(IADBUF),UVAR) 
           ENDIF
         END DO
       ENDIF

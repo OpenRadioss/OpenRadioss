@@ -1222,20 +1222,18 @@ C
      1   NEL,     NPAR,    NUVAR,   NFUNC,
      2   IFUNC,   NPF,     TF,      TT,
      3   DT1,     BUFMAT,  RHO0,    RHO,
-     4   VOLN,    EINT,    OFFG,    RHOREF,
-     5   RHOSP,   EP1,     EP2,     EP3,
-     6   EP4,     EP5,     EP6,     DE1,
+     4   OFFG,    RHOREF,
+     5   RHOSP,   DE1,
      7   DE2,     DE3,     DE4,     DE5,
      8   DE6,     ES1,     ES2,     ES3,
      9   ES4,     ES5,     ES6,     SO1,
      A   SO2,     SO3,     SO4,     SO5,
      B   SO6,     S1,      S2,      S3,
-     C   S4,      S5,      S6,      SV1,
-     D   SV2,     SV3,     SV4,     SV5,
-     E   SV6,     SSP,     VIS,     UVAR,
-     F   OFF,     NGL,     PM,      IPM,
+     C   S4,      S5,      S6,      
+     E   SSP,     VIS,     UVAR,
+     F   OFF,     NGL,     IPM,
      G   MAT,     EPSD,    ET,      ISMSTR,
-     H   IHET,    JSMS)
+     H   IHET,    JSMS,    MATPARAM )
 C
       ELSEIF (MTN == 71) THEN
         CALL SIGEPS71(NEL ,NPAR,NUVAR,NFUNC,IFUNC,

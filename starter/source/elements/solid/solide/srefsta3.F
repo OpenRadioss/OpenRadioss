@@ -44,12 +44,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SREFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG  ,
      .                    IPM      ,IGEO    ,SKEW   ,X       ,XREFS  ,
-     .                    NEL      ,IPARTS  ,IPART  ,BUFMAT  ,
+     .                    NEL      ,IPARTS  ,IPART  ,BUFMAT  ,MATPARAM,
      .                    NPF      ,TF      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD
       USE MESSAGE_MOD             
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,6 +76,7 @@ C     REAL
      .   PM(NPROPM,*), X(3,*), XREFS(8,3,*), GEO(NPROPG,*),
      .   SKEW(LSKEW,*), BUFMAT(*), TF(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -627,7 +628,7 @@ C-----------
 C-----------
           CALL MMAIN(PM   ,ELBUF_STR,IXS    ,NIXS    ,X      ,
      2             GEO    ,IPARG    ,NEL    ,SKEW    ,BUFMAT ,
-     3             IPART   ,IPARTS ,
+     3             IPART  ,IPARTS   ,MATPARAM,
      4             MAT    ,IPM      ,NGL    ,PID     ,NPF    ,
      5             TF     ,MFXX     ,MFXY   ,MFXZ    ,MFYX   ,
      6             MFYY   ,MFYZ     ,MFZX   ,MFZY    ,MFZZ   ,

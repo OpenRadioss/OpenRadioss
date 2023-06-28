@@ -122,8 +122,7 @@ c     read function tables
 c
       IF (NUMTABL > 0) THEN
         ALLOCATE (FAIL%TABLE(NUMTABL))
-        CALL TABLE_RRESTI_MAT(FAIL%TABLE, NUMTABL)
-        CALL TABLE_RRESTR_MAT(FAIL%TABLE, NUMTABL)
+        CALL READ_MAT_TABLE(FAIL%TABLE, NUMTABL)
       END IF
 c-----------
       RETURN
