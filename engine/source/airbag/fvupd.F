@@ -676,9 +676,18 @@ C Volume moyen
       IF(NPA>0)THEN
         VM=VM/NPA
       ENDIF
-      IF (IVMIN==1) THEN
-         VOLUMIN=VM*RVOLU(31)
-      ELSE
+      
+      !RVOLU(31) : cgmerg
+      !RVOLU(33) : VM(from starter)
+      !IVOLU(60) : IVMIN/Igmerg
+      IF (IVMIN == 1) THEN
+         ! mean volume is current one
+         VOLUMIN=VM*RVOLU(31) 
+      ELSEIF (IVMIN == -1)THEN
+         ! specific case : Iswitch=2 : full merging request on Tswitch/Pswitch criteria
+         VOLUMIN = EP20
+      ELSE 
+         ! mean volume is initial one
          VOLUMIN=RVOLU(33)*RVOLU(31)
       ENDIF
 
