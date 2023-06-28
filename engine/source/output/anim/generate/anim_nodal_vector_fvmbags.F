@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
       SUBROUTINE ANIM_NODAL_VECTOR_FVMBAGS(KEY, WA4, MONVOL,VOLMON, FVDATA, NFVBAG, SMONVOL, SVOLMON,
-     .                                     AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM)
+     .                                     AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM, AIRBAGS_NODE_ID_SHIFT )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USEGROUPDEF_MOD , only:GROUP_
-      USE FVBAG_MOD , only:FVBAG_DATA,AIRBAGS_NODE_ID_SHIFT !data structure definition
+      USE FVBAG_MOD , only:FVBAG_DATA !data structure definition
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*4, INTENT(IN) :: KEY
-      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON,AIRBAGS_TOTAL_FVM_IN_H3D
+      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON,AIRBAGS_TOTAL_FVM_IN_H3D, AIRBAGS_NODE_ID_SHIFT
       my_real,INTENT(INOUT) :: WA4(3,AIRBAGS_TOTAL_FVM_IN_H3D)
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL)
@@ -77,7 +77,6 @@ C-----------------------------------------------
       INTEGER :: IFV       !< FVMBAG identifier in [1, NFVBAG] where NFVBAG <= NVOLU
       INTEGER :: nodeID    !< node identifier (internal)
       my_real :: VALUE(3)  !< polyhedron value
-      my_real :: VAL_MIN   !< minimum contour value
       INTEGER :: K_SHIFT   !< shift value for index : sum of previous NPOLH
       INTEGER :: INDX
 C-----------------------------------------------
@@ -97,9 +96,7 @@ C-----------------------------------------------
             !check if grnod_id was provided, otherwise skip
             IF(IH3D_FLAG == 1 .AND. IFV /= 0)THEN
               
-              IF(FVDATA(IFV)%NPOLH > 0)THEN !if GRNOD is not empty and if there are any polyhedron
-                 
-                 VAL_MIN=EP20
+              IF(FVDATA(IFV)%NPOLH > 0)THEN !if GRNOD is not empty and if there are any polyhedrong
                                  
                  SELECT CASE (TRIM(KEY))
                  
@@ -111,7 +108,6 @@ C-----------------------------------------------
                          VALUE(2) = FVDATA(IFV)%QPOLH(2,II) / FVDATA(IFV)%MPOLH(II)
                          VALUE(3) = FVDATA(IFV)%QPOLH(3,II) / FVDATA(IFV)%MPOLH(II)                                                  
                        ENDIF
-                       nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II
                        WA4(1:3,K_SHIFT+II) = VALUE(1:3)
                        IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 1
                     ENDDO! next I (next polyhedron)                                        
@@ -128,10 +124,9 @@ C-----------------------------------------------
       
       ! set minimum value to other nodes in the group (otherwise visualization may lead to unsuitable color legend/gradient)          
       IF(K_SHIFT < AIRBAGS_TOTAL_FVM_IN_H3D)THEN                                                                       
-        DO II= 1,AIRBAGS_TOTAL_FVM_IN_H3D-AIRBAGS_NODE_ID_SHIFT-K_SHIFT                                                                      
-          nodeID = AIRBAGS_NODE_ID_SHIFT+K_SHIFT+II                                                                                   
-          WA4(1:3, K_SHIFT+II) = ZERO
-          IS_WRITTEN_NODE_FVM(K_SHIFT+II) = 0                                                                                                 
+        DO II= K_SHIFT+1, AIRBAGS_TOTAL_FVM_IN_H3D
+          WA4(1:3, II) = ZERO
+          IS_WRITTEN_NODE_FVM(II) = 0                                                                                                 
         ENDDO                                                                                                                         
       ENDIF        
 

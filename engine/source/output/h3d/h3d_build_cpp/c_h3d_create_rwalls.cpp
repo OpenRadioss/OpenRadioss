@@ -79,7 +79,7 @@ extern "C"
 void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *NRWALL, int *MAX_NOD_ID,
                           my_real *XWL, my_real *YWL , my_real *ZWL, my_real *V1, my_real *V2, my_real *V3, 
                           my_real *VV1, my_real *VV2 , my_real *VV3 , my_real *XL , my_real *XN, my_real *YN,
-                          my_real *ZN )
+                          my_real *ZN , int *NUM_ADDED_NODES)
 {
     try {
 
@@ -441,7 +441,8 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
 
         }
 
-
+        *NUM_ADDED_NODES = id_node - *MAX_NOD_ID;
+        
     } // end of try
 
     catch(...) {
@@ -453,22 +454,22 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
 void _FCALL C_H3D_CREATE_RWALLS(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *NRWALL, int *MAX_NOD_ID,
                           my_real *XWL, my_real *YWL , my_real *ZWL, my_real *V1, my_real *V2, my_real *V3, 
                           my_real *VV1, my_real *VV2 , my_real *VV3, my_real *XL , my_real *XN, my_real *YN , 
-                          my_real *ZN)
+                          my_real *ZN, int *NUM_ADDED_NODES)
 {c_h3d_create_rwalls_ (NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, MAX_NOD_ID,
-                          XWL, YWL, ZWL, V1, V2, V3, VV1, VV2 , VV3, XL, XN, YN , ZN  );}
+                          XWL, YWL, ZWL, V1, V2, V3, VV1, VV2 , VV3, XL, XN, YN , ZN ,NUM_ADDED_NODES );}
 
 void c_h3d_create_rwalls__ (int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *NRWALL, int *MAX_NOD_ID,
                           my_real *XWL, my_real *YWL , my_real *ZWL, my_real *V1, my_real *V2, my_real *V3, 
                           my_real *VV1, my_real *VV2 , my_real *VV3, my_real *XL, my_real *XN, my_real *YN , 
-                          my_real *ZN  )
+                          my_real *ZN  ,int *NUM_ADDED_NODES)
 {c_h3d_create_rwalls_ (NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, MAX_NOD_ID,
-                          XWL, YWL, ZWL, V1, V2, V3, VV1, VV2 , VV3, XL, XN, YN , ZN   );}
+                          XWL, YWL, ZWL, V1, V2, V3, VV1, VV2 , VV3, XL, XN, YN , ZN  ,NUM_ADDED_NODES );}
 
 void c_h3d_create_rwalls (int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *NRWALL, int *MAX_NOD_ID,
                           my_real *XWL, my_real *YWL , my_real *ZWL, my_real *V1, my_real *V2, my_real *V3, 
                           my_real *VV1, my_real *VV2 , my_real *VV3, my_real *XL, my_real *XN, my_real *YN , 
-                          my_real *ZN )
+                          my_real *ZN ,int *NUM_ADDED_NODES)
 {c_h3d_create_rwalls_ (NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, MAX_NOD_ID,
-                          XWL, YWL, ZWL, V1, V2, V3, VV1, VV2 , VV3, XL , XN, YN , ZN  );}
+                          XWL, YWL, ZWL, V1, V2, V3, VV1, VV2 , VV3, XL , XN, YN , ZN ,NUM_ADDED_NODES );}
 
 }
