@@ -624,17 +624,16 @@ C---------------------------------
         ENDIF
 C
         CALL SPMD_RBCAST(RTMP,RTMP,10,1,0,2)
-        IF (ISPMD/=0) THEN
-          MSTOP = NINT(RTMP(1))
-          MREST = NINT(RTMP(2))
-          MDESS = NINT(RTMP(3))
-          TANIM = RTMP(4)
-          OUTPUT%TH%THIS =  RTMP(5)
-          TSTAT = RTMP(6)
-          TOUTP = RTMP(7)
-          H3D_DATA%TH3D = RTMP(9)
-          DYNAIN_DATA%TDYNAIN = RTMP(10)
-        ENDIF
+
+        MSTOP = NINT(RTMP(1))
+        MREST = NINT(RTMP(2))
+        MDESS = NINT(RTMP(3))
+        TANIM = RTMP(4)
+        OUTPUT%TH%THIS =  RTMP(5)
+        TSTAT = RTMP(6)
+        TOUTP = RTMP(7)
+        H3D_DATA%TH3D = RTMP(9)
+        DYNAIN_DATA%TDYNAIN = RTMP(10)
 
         IF(INFO > 0) CALL SPMD_EXCH_FVSTATS(MONVOL)
 
