@@ -153,7 +153,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE FVBAG_MOD , only:FVBAG_DATA, FVDATA, NFVBAG, AIRBAGS_TOTAL_FVM_IN_H3D, AIRBAGS_NODE_ID_SHIFT
+      USE FVBAG_MOD , only:FVBAG_DATA, FVDATA, NFVBAG, AIRBAGS_TOTAL_FVM_IN_H3D, FVSPMD
       USE PLYXFEM_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
@@ -278,8 +278,8 @@ C-----------------------------------------------
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
       my_real , INTENT(IN) :: AR(SAR)
-      my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
-     .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
+      my_real , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
+     .                        CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -463,12 +463,44 @@ C
       
       TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA_P
       my_real, DIMENSION(:), ALLOCATABLE :: FVDATA_1D_ARRAY,FVDATA_1D_ARRAY_P
+      my_real TMP
+      INTEGER ITMP
        
-C=======================================================================
+      TYPE USER_NOD_ID_
+        !VIRTUAL NODES MANAGMENT
+        !some option are writing virtual entities in H3D files. it requires to generate nodes which must have identifiers.
+        !
+        !  +-----------------USER NODE IDENTIFIERS----------------------------------------------+
+        !  | INPUT FILE        | FVMBAG                      | ... | RWALL                      |
+        !  +-------------------+-----------------------------+-----|----------------------------+
+        !  | (real nodes)      | (virtual added nodes)       | ... | (virtual added nodes)      |
+        !  +-------------------+-----------------------------+-----|----------------------------+        
+        !  |    NUMNOD         | %FVMBAG_LEN                 | ... |  %RWALL_LEN                |  numbering
+        !  |     n/a           | %FVMBAG_SHIFT+1             | ... |  %RWALL_SHIFT+1            |  min identifier
+        !  |   %INPUT_MAX      | %FVMBAG_SHIFT+%FVMBAG_LEN   | ... |  %RWALL_SHIFT+%RWALL_LEN   |  max identifier        
+        !  +-------------------+-----------------------------+-----+----------------------------+
+        INTEGER INPUT_MAX     !input file maximum user identifier (/NODE)
+        INTEGER RWALL_SHIFT   !RWALL virtual nodes starts from uID = %RWALL_SHIFT + 1
+        INTEGER RWALL_LEN     !RWALL virtual nodes numbering
+        INTEGER FVMBAG_SHIFT  !FVMBAG has virtual nodes from uID = %FVMBAG_SHIFT+1
+        INTEGER FVMBAG_LEN    !FVMBAG virtual nodes numbering
+      END TYPE
+      
+      TYPE(USER_NOD_ID_) :: USER_NOD_ID
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       CALL STARTIME(MACRO_TIMER_GENH3D,1)
+      
+      USER_NOD_ID%INPUT_MAX=0
+      USER_NOD_ID%RWALL_SHIFT=0
+      USER_NOD_ID%RWALL_LEN=0
+      USER_NOD_ID%FVMBAG_SHIFT=0
+      USER_NOD_ID%FVMBAG_LEN=0                  
+      
       NDMA2 = NUMNOD*(MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
-     .              +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
-     .              +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
+     .               +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
+     .               +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
       NSENSOR = SENSORS%NSENSOR
       ALLOCATE(MAS(SMAS))
       ALLOCATE(SUB_NCHILD(NSUBS))
@@ -842,8 +874,8 @@ c*******************************************************************************
 C CREATE NODES
 C**********************************************************************************************
 c
+      MAX_NOD_ID = 0
       IF(NSPMD > 1 .AND. ISPMD==0)THEN
-        MAX_NOD_ID = 0
         DO I=1,NUMNODG
           MAX_NOD_ID = MAX(MAX_NOD_ID,ITAB_P(I))
         ENDDO
@@ -853,6 +885,7 @@ c
           MAX_NOD_ID = MAX(MAX_NOD_ID,ITAB(I))
         ENDDO
       ENDIF
+      USER_NOD_ID%INPUT_MAX = MAX_NOD_ID
       
       !Create /NODE entities
       IF(NSPMD > 1 .AND. ISPMD==0 .AND. H3D_DATA%IH3D == 1 )THEN
@@ -867,122 +900,142 @@ c
       DEALLOCATE(X_P)      
       
       !Create virtual nodes (FVMBAG polyhedra centroids)
+      AIRBAGS_TOTAL_FVM_IN_H3D_G = 0     
+              
+      USER_NOD_ID%FVMBAG_SHIFT = MAX_NOD_ID
+      USER_NOD_ID%FVMBAG_LEN = 0
+      
+      IF(NSPMD > 1)THEN
+        IF(NFVBAG >0 )THEN                                                                       
+          ALLOCATE (FVDATA_P(NFVBAG))
+          AIRBAGS_TOTAL_FVM_IN_H3D_G = 0  
+          DO J=1,NFVBAG 
+            !get %NPOLH form ISPMD=1 ; currently FVMBAG are stored on ISPMD=1. To be changed later                                                                
+            NPOLH = 0; IF(ISPMD == FVSPMD(J)%PMAIN-1)NPOLH = FVDATA(J)%NPOLH 
+            NPOLH_P(:) = 0   
+            CALL SPMD_H3D_GATHER_I(NPOLH, 1,NPOLH_P, NSPMD)        
+            NPOLHG = NPOLH_P(FVSPMD(J)%PMAIN-1) ! index 1 because NPOLH is on ISPMD == FVSPMD(J)%PMAIN-1 ; otherwise sum of NPOLH_P                                                      
 
-      IF(NSPMD > 1)THEN                                                                       
-        ALLOCATE (FVDATA_P(NFVBAG))
-        AIRBAGS_TOTAL_FVM_IN_H3D_G = 0        
-        DO J=1,NFVBAG 
-          !get %NPOLH form ISPMD=1 ; currently FVMBAG are stored on ISPMD=1. To be changed later                                                                  
-          NPOLH = 0; IF(ISPMD==1)NPOLH = FVDATA(J)%NPOLH    
-          CALL SPMD_H3D_GATHER_I(NPOLH, 1,NPOLH_P, NSPMD)        
-          NPOLHG = NPOLH_P(1) ! index 1 because NPOLH is on ISPMD == 1 ; otherwise sum of NPOLH_P                                                        
+            !get %NPOLH_ANIM form (FVSPMD(J)%PMAIN-1)=1 ; currently FVMBAG are stored on ISPMD=1. To be changed later                                                                
+            NPOLH_ANIM = 0; IF(ISPMD == FVSPMD(J)%PMAIN-1)NPOLH_ANIM = FVDATA(J)%NPOLH_ANIM
+            NPOLH_P(:) = 0
+            CALL SPMD_H3D_GATHER_I(NPOLH_ANIM, 1,NPOLH_P, NSPMD)        
+            NPOLH_ANIM_G = NPOLH_P(FVSPMD(J)%PMAIN-1) ! index 1 because NPOLH is on (FVSPMD(J)%PMAIN-1) == 1 ; otherwise sum of NPOLH_P
+           
+            !get AIRBAGS_TOTAL_FVM_IN_H3D
+            NPOLH_P(:) = 0
+            CALL SPMD_H3D_GATHER_I(AIRBAGS_TOTAL_FVM_IN_H3D, 1,NPOLH_P, NSPMD)         
+            IF(ISPMD == 0)THEN
+              DO JJ=1,NSPMD
+                AIRBAGS_TOTAL_FVM_IN_H3D_G = AIRBAGS_TOTAL_FVM_IN_H3D_G + NPOLH_P(JJ-1)   !sum NPOLH_ANIM
+              ENDDO             
+            ENDIF                                           
 
-          !get %NPOLH_ANIM form ISPMD=1 ; currently FVMBAG are stored on ISPMD=1. To be changed later                                                                  
-          NPOLH_ANIM = 0; IF(ISPMD==1)NPOLH_ANIM = FVDATA(J)%NPOLH_ANIM
-          CALL SPMD_H3D_GATHER_I(NPOLH_ANIM, 1,NPOLH_P, NSPMD)        
-          NPOLH_ANIM_G = NPOLH_P(1) ! index 1 because NPOLH is on ISPMD == 1 ; otherwise sum of NPOLH_P
-         
-          !get AIRBAGS_TOTAL_FVM_IN_H3D
-          CALL SPMD_H3D_GATHER_I(AIRBAGS_TOTAL_FVM_IN_H3D, 1,NPOLH_P, NSPMD)         
-          IF(ISPMD == 0)THEN
-            DO JJ=1,NSPMD
-              AIRBAGS_TOTAL_FVM_IN_H3D_G = AIRBAGS_TOTAL_FVM_IN_H3D_G + NPOLH_P(JJ-1)   !sum NPOLH_ANIM
-            ENDDO             
-          ENDIF                                           
+            !FVDATA data structure in a 1D array  
+            NPOLH = MAX(1, NPOLH)
+            ALLOCATE(FVDATA_1D_ARRAY(12*NPOLH))
+            
+            IF(NPOLH > 0)THEN
+              FVDATA_1D_ARRAY(00*NPOLH+1:01*NPOLH) = FVDATA(J)%CENTROID_POLH(1,1:NPOLH)
+              FVDATA_1D_ARRAY(01*NPOLH+1:02*NPOLH) = FVDATA(J)%CENTROID_POLH(2,1:NPOLH)
+              FVDATA_1D_ARRAY(02*NPOLH+1:03*NPOLH) = FVDATA(J)%CENTROID_POLH(3,1:NPOLH)
+              FVDATA_1D_ARRAY(03*NPOLH+1:04*NPOLH) = FVDATA(J)%QPOLH(1,1:NPOLH)
+              FVDATA_1D_ARRAY(04*NPOLH+1:05*NPOLH) = FVDATA(J)%QPOLH(2,1:NPOLH)
+              FVDATA_1D_ARRAY(05*NPOLH+1:06*NPOLH) = FVDATA(J)%QPOLH(3,1:NPOLH)
+              FVDATA_1D_ARRAY(06*NPOLH+1:07*NPOLH) = FVDATA(J)%PPOLH(1:NPOLH)
+              FVDATA_1D_ARRAY(07*NPOLH+1:08*NPOLH) = FVDATA(J)%SSPPOLH(1:NPOLH)
+              FVDATA_1D_ARRAY(08*NPOLH+1:09*NPOLH) = FVDATA(J)%DTPOLH(1:NPOLH)
+              FVDATA_1D_ARRAY(09*NPOLH+1:10*NPOLH) = FVDATA(J)%MPOLH(1:NPOLH)
+              FVDATA_1D_ARRAY(10*NPOLH+1:11*NPOLH) = FVDATA(J)%RPOLH(1:NPOLH)
+              FVDATA_1D_ARRAY(11*NPOLH+1:12*NPOLH) = FVDATA(J)%TPOLH(1:NPOLH)
+            ENDIF               
 
-          !FVDATA data structure in a 1D array  
-          ALLOCATE(FVDATA_1D_ARRAY(12*NPOLH))
-          ALLOCATE(FVDATA_1D_ARRAY_P(12*NPOLHG))
-          IF(NPOLH > 0)THEN
-            FVDATA_1D_ARRAY(00*NPOLH+1:01*NPOLH) = FVDATA(J)%CENTROID_POLH(1,1:NPOLH)
-            FVDATA_1D_ARRAY(01*NPOLH+1:02*NPOLH) = FVDATA(J)%CENTROID_POLH(2,1:NPOLH)
-            FVDATA_1D_ARRAY(02*NPOLH+1:03*NPOLH) = FVDATA(J)%CENTROID_POLH(3,1:NPOLH)
-            FVDATA_1D_ARRAY(03*NPOLH+1:04*NPOLH) = FVDATA(J)%QPOLH(1,1:NPOLH)
-            FVDATA_1D_ARRAY(04*NPOLH+1:05*NPOLH) = FVDATA(J)%QPOLH(2,1:NPOLH)
-            FVDATA_1D_ARRAY(05*NPOLH+1:06*NPOLH) = FVDATA(J)%QPOLH(3,1:NPOLH)
-            FVDATA_1D_ARRAY(06*NPOLH+1:07*NPOLH) = FVDATA(J)%PPOLH(1:NPOLH)
-            FVDATA_1D_ARRAY(07*NPOLH+1:08*NPOLH) = FVDATA(J)%SSPPOLH(1:NPOLH)
-            FVDATA_1D_ARRAY(08*NPOLH+1:09*NPOLH) = FVDATA(J)%DTPOLH(1:NPOLH)
-            FVDATA_1D_ARRAY(09*NPOLH+1:10*NPOLH) = FVDATA(J)%MPOLH(1:NPOLH)
-            FVDATA_1D_ARRAY(10*NPOLH+1:11*NPOLH) = FVDATA(J)%RPOLH(1:NPOLH)
-            FVDATA_1D_ARRAY(11*NPOLH+1:12*NPOLH) = FVDATA(J)%TPOLH(1:NPOLH)
-          ENDIF               
-
-          ! spmd gathering of 1d array
-          CALL SPMD_H3D_GATHER_R(FVDATA_1D_ARRAY, 12*NPOLH,FVDATA_1D_ARRAY_P, 12*NPOLHG)
+            ! spmd gathering of 1d array
+            NPOLHG = MAX(NPOLHG,1)
+            ALLOCATE(FVDATA_1D_ARRAY_P(12*NPOLHG))
+            FVDATA_1D_ARRAY_P(:) = 0
+            CALL SPMD_H3D_GATHER_R(FVDATA_1D_ARRAY, 12*NPOLH,FVDATA_1D_ARRAY_P, 12*NPOLHG)
    
-          ! on relevant domain (ispmd==0) retrieve FVBAG data structure from 1d array    
-          IF(ISPMD==0)THEN 
-            ALLOCATE (FVDATA_P(J)%CENTROID_POLH(3,NPOLHG))
-            ALLOCATE (FVDATA_P(J)%QPOLH(3,NPOLHG))
-            ALLOCATE (FVDATA_P(J)%PPOLH(NPOLHG))
-            ALLOCATE (FVDATA_P(J)%SSPPOLH(NPOLHG))
-            ALLOCATE (FVDATA_P(J)%DTPOLH(NPOLHG))
-            ALLOCATE (FVDATA_P(J)%MPOLH(NPOLHG))
-            ALLOCATE (FVDATA_P(J)%RPOLH(NPOLHG))
-            ALLOCATE (FVDATA_P(J)%TPOLH(NPOLHG)) 
-            FVDATA_P(J)%NPOLH = NPOLHG
-            FVDATA_P(J)%NPOLH_ANIM = NPOLH_ANIM_G                                                                       
-            FVDATA_P(J)%CENTROID_POLH(1,1:NPOLHG) = FVDATA_1D_ARRAY_P(00*NPOLHG+1:01*NPOLHG)   
-            FVDATA_P(J)%CENTROID_POLH(2,1:NPOLHG) = FVDATA_1D_ARRAY_P(01*NPOLHG+1:02*NPOLHG)   
-            FVDATA_P(J)%CENTROID_POLH(3,1:NPOLHG) = FVDATA_1D_ARRAY_P(02*NPOLHG+1:03*NPOLHG)   
-            FVDATA_P(J)%QPOLH(1,1:NPOLHG)         = FVDATA_1D_ARRAY_P(03*NPOLHG+1:04*NPOLHG)   
-            FVDATA_P(J)%QPOLH(2,1:NPOLHG)         = FVDATA_1D_ARRAY_P(04*NPOLHG+1:05*NPOLHG)   
-            FVDATA_P(J)%QPOLH(3,1:NPOLHG)         = FVDATA_1D_ARRAY_P(05*NPOLHG+1:06*NPOLHG)   
-            FVDATA_P(J)%PPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(06*NPOLHG+1:07*NPOLHG)   
-            FVDATA_P(J)%SSPPOLH(1:NPOLHG)         = FVDATA_1D_ARRAY_P(07*NPOLHG+1:08*NPOLHG)   
-            FVDATA_P(J)%DTPOLH(1:NPOLHG)          = FVDATA_1D_ARRAY_P(08*NPOLHG+1:09*NPOLHG)   
-            FVDATA_P(J)%MPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(09*NPOLHG+1:10*NPOLHG)   
-            FVDATA_P(J)%RPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(10*NPOLHG+1:11*NPOLHG)   
-            FVDATA_P(J)%TPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(11*NPOLHG+1:12*NPOLHG)   
-          ENDIF  
-          
-          DEALLOCATE(FVDATA_1D_ARRAY) 
-          DEALLOCATE(FVDATA_1D_ARRAY_P)
+            ! on relevant domain (ispmd==0) retrieve FVBAG data structure from 1d array    
+            IF(ISPMD==0)THEN 
+              print *, "NPOLHG=", NPOLHG
+              ALLOCATE (FVDATA_P(J)%CENTROID_POLH(3,NPOLHG))
+              ALLOCATE (FVDATA_P(J)%QPOLH(3,NPOLHG))
+              ALLOCATE (FVDATA_P(J)%PPOLH(NPOLHG))
+              ALLOCATE (FVDATA_P(J)%SSPPOLH(NPOLHG))
+              ALLOCATE (FVDATA_P(J)%DTPOLH(NPOLHG))
+              ALLOCATE (FVDATA_P(J)%MPOLH(NPOLHG))
+              ALLOCATE (FVDATA_P(J)%RPOLH(NPOLHG))
+              ALLOCATE (FVDATA_P(J)%TPOLH(NPOLHG)) 
+              FVDATA_P(J)%NPOLH = NPOLHG
+              FVDATA_P(J)%NPOLH_ANIM = NPOLH_ANIM_G 
+              IF(NPOLHG > 0)THEN                                                                      
+                FVDATA_P(J)%CENTROID_POLH(1,1:NPOLHG) = FVDATA_1D_ARRAY_P(00*NPOLHG+1:01*NPOLHG) 
+                FVDATA_P(J)%CENTROID_POLH(2,1:NPOLHG) = FVDATA_1D_ARRAY_P(01*NPOLHG+1:02*NPOLHG) 
+                FVDATA_P(J)%CENTROID_POLH(3,1:NPOLHG) = FVDATA_1D_ARRAY_P(02*NPOLHG+1:03*NPOLHG) 
+                FVDATA_P(J)%QPOLH(1,1:NPOLHG)         = FVDATA_1D_ARRAY_P(03*NPOLHG+1:04*NPOLHG) 
+                FVDATA_P(J)%QPOLH(2,1:NPOLHG)         = FVDATA_1D_ARRAY_P(04*NPOLHG+1:05*NPOLHG) 
+                FVDATA_P(J)%QPOLH(3,1:NPOLHG)         = FVDATA_1D_ARRAY_P(05*NPOLHG+1:06*NPOLHG) 
+                FVDATA_P(J)%PPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(06*NPOLHG+1:07*NPOLHG)
+                FVDATA_P(J)%SSPPOLH(1:NPOLHG)         = FVDATA_1D_ARRAY_P(07*NPOLHG+1:08*NPOLHG) 
+                FVDATA_P(J)%DTPOLH(1:NPOLHG)          = FVDATA_1D_ARRAY_P(08*NPOLHG+1:09*NPOLHG) 
+                FVDATA_P(J)%MPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(09*NPOLHG+1:10*NPOLHG) 
+                FVDATA_P(J)%RPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(10*NPOLHG+1:11*NPOLHG) 
+                FVDATA_P(J)%TPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY_P(11*NPOLHG+1:12*NPOLHG)
+              ENDIF 
+              USER_NOD_ID%FVMBAG_LEN = USER_NOD_ID%FVMBAG_LEN + NPOLHG 
+            ENDIF  
+            
+            DEALLOCATE(FVDATA_1D_ARRAY) 
+            DEALLOCATE(FVDATA_1D_ARRAY_P)
 
-        ENDDO
+          ENDDO
+        ENDIF!NFVBAG > 0 
         
-      ELSE
+      ELSE !IF NSPMD==1
         
         AIRBAGS_TOTAL_FVM_IN_H3D_G = AIRBAGS_TOTAL_FVM_IN_H3D
-
-        ALLOCATE (FVDATA_P(NFVBAG))
-        DO J=1,NFVBAG
-          NPOLH = FVDATA(J)%NPOLH
-          NPOLH_ANIM = FVDATA(J)%NPOLH
-          ALLOCATE (FVDATA_P(J)%CENTROID_POLH(3,NPOLH))
-          ALLOCATE (FVDATA_P(J)%QPOLH(3,NPOLH))
-          ALLOCATE (FVDATA_P(J)%PPOLH(NPOLH))
-          ALLOCATE (FVDATA_P(J)%SSPPOLH(NPOLH))
-          ALLOCATE (FVDATA_P(J)%DTPOLH(NPOLH))
-          ALLOCATE (FVDATA_P(J)%MPOLH(NPOLH))
-          ALLOCATE (FVDATA_P(J)%RPOLH(NPOLH))
-          ALLOCATE (FVDATA_P(J)%TPOLH(NPOLH))
-          ! 10*NPOLH                                                                                                                     
-          FVDATA_P(J)%NPOLH = NPOLH 
-          FVDATA_P(J)%NPOLH_ANIM = NPOLH_ANIM                                                         
-          FVDATA_P(J)%CENTROID_POLH(1,1:NPOLH) = FVDATA(J)%CENTROID_POLH(1,1:NPOLH)   
-          FVDATA_P(J)%CENTROID_POLH(2,1:NPOLH) = FVDATA(J)%CENTROID_POLH(2,1:NPOLH)   
-          FVDATA_P(J)%CENTROID_POLH(3,1:NPOLH) = FVDATA(J)%CENTROID_POLH(3,1:NPOLH)   
-          FVDATA_P(J)%QPOLH(1,1:NPOLH)         = FVDATA(J)%QPOLH(1,1:NPOLH)                
-          FVDATA_P(J)%QPOLH(2,1:NPOLH)         = FVDATA(J)%QPOLH(2,1:NPOLH)                
-          FVDATA_P(J)%QPOLH(3,1:NPOLH)         = FVDATA(J)%QPOLH(3,1:NPOLH)                
-          FVDATA_P(J)%PPOLH(1:NPOLH)           = FVDATA(J)%PPOLH(1:NPOLH)                
-          FVDATA_P(J)%SSPPOLH(1:NPOLH)         = FVDATA(J)%SSPPOLH(1:NPOLH)              
-          FVDATA_P(J)%DTPOLH(1:NPOLH)          = FVDATA(J)%DTPOLH(1:NPOLH)               
-          FVDATA_P(J)%MPOLH(1:NPOLH)           = FVDATA(J)%MPOLH(1:NPOLH)                
-          FVDATA_P(J)%RPOLH(1:NPOLH)           = FVDATA(J)%RPOLH(1:NPOLH)                
-          FVDATA_P(J)%TPOLH(1:NPOLH)           = FVDATA(J)%TPOLH(1:NPOLH)             
-        ENDDO 
-                                                                                                                                                                    
+        IF(NFVBAG > 0)THEN
+          ALLOCATE (FVDATA_P(NFVBAG))
+          DO J=1,NFVBAG
+            NPOLH = FVDATA(J)%NPOLH
+            NPOLH_ANIM = FVDATA(J)%NPOLH
+            NPOLH = MAX(1,NPOLH) !allocation size 1 if no polyhedron
+            ALLOCATE (FVDATA_P(J)%CENTROID_POLH(3,NPOLH))
+            ALLOCATE (FVDATA_P(J)%QPOLH(3,NPOLH))
+            ALLOCATE (FVDATA_P(J)%PPOLH(NPOLH))
+            ALLOCATE (FVDATA_P(J)%SSPPOLH(NPOLH))
+            ALLOCATE (FVDATA_P(J)%DTPOLH(NPOLH))
+            ALLOCATE (FVDATA_P(J)%MPOLH(NPOLH))
+            ALLOCATE (FVDATA_P(J)%RPOLH(NPOLH))
+            ALLOCATE (FVDATA_P(J)%TPOLH(NPOLH))
+            ! 10*NPOLH                                                                                                                   
+            FVDATA_P(J)%NPOLH = NPOLH 
+            FVDATA_P(J)%NPOLH_ANIM = NPOLH_ANIM                                                       
+            FVDATA_P(J)%CENTROID_POLH(1,1:NPOLH) = FVDATA(J)%CENTROID_POLH(1,1:NPOLH) 
+            FVDATA_P(J)%CENTROID_POLH(2,1:NPOLH) = FVDATA(J)%CENTROID_POLH(2,1:NPOLH) 
+            FVDATA_P(J)%CENTROID_POLH(3,1:NPOLH) = FVDATA(J)%CENTROID_POLH(3,1:NPOLH) 
+            FVDATA_P(J)%QPOLH(1,1:NPOLH)         = FVDATA(J)%QPOLH(1,1:NPOLH)              
+            FVDATA_P(J)%QPOLH(2,1:NPOLH)         = FVDATA(J)%QPOLH(2,1:NPOLH)              
+            FVDATA_P(J)%QPOLH(3,1:NPOLH)         = FVDATA(J)%QPOLH(3,1:NPOLH)              
+            FVDATA_P(J)%PPOLH(1:NPOLH)           = FVDATA(J)%PPOLH(1:NPOLH)              
+            FVDATA_P(J)%SSPPOLH(1:NPOLH)         = FVDATA(J)%SSPPOLH(1:NPOLH)            
+            FVDATA_P(J)%DTPOLH(1:NPOLH)          = FVDATA(J)%DTPOLH(1:NPOLH)             
+            FVDATA_P(J)%MPOLH(1:NPOLH)           = FVDATA(J)%MPOLH(1:NPOLH)              
+            FVDATA_P(J)%RPOLH(1:NPOLH)           = FVDATA(J)%RPOLH(1:NPOLH)              
+            FVDATA_P(J)%TPOLH(1:NPOLH)           = FVDATA(J)%TPOLH(1:NPOLH) 
+            USER_NOD_ID%FVMBAG_LEN = USER_NOD_ID%FVMBAG_LEN + NPOLH   
+          ENDDO 
+        ENDIF ! NFVBAG > 0
       ENDIF 
+      
+      MAX_NOD_ID = MAX_NOD_ID + USER_NOD_ID%FVMBAG_LEN !incrementing MAX_NOD_ID for next option which is generating virtual nodes
             
       IF(NFVBAG > 0 .AND. ISPMD==0 .AND. H3D_DATA%IH3D == 1)THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-        CALL H3D_CREATE_FVMBAG_CENTROIDS(MONVOL,VOLMON, FVDATA_P, NFVBAG, SMONVOL, SVOLMON)
+        CALL H3D_CREATE_FVMBAG_CENTROIDS(MONVOL,VOLMON, FVDATA_P, NFVBAG, SMONVOL, SVOLMON, USER_NOD_ID%FVMBAG_SHIFT)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ENDIF
-      
 
 c**********************************************************************************************
 C CREATE SPH
@@ -1319,10 +1372,13 @@ C
 
 
         IF(ISPMD==0) THEN
+          USER_NOD_ID%RWALL_SHIFT = USER_NOD_ID%FVMBAG_SHIFT + USER_NOD_ID%FVMBAG_LEN
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-          CALL C_H3D_CREATE_RWALLS(NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, MAX_NOD_ID,
-     .                           XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN)
+          USER_NOD_ID%RWALL_SHIFT = MAX_NOD_ID
+          CALL C_H3D_CREATE_RWALLS(NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, USER_NOD_ID%RWALL_SHIFT,
+     .                           XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN, USER_NOD_ID%RWALL_LEN )
           CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
+          MAX_NOD_ID = MAX_NOD_ID + USER_NOD_ID%RWALL_LEN !incrementing MAX_NOD_ID for next option which is generating virtual nodes          
         ENDIF
 
       ENDIF
@@ -1621,7 +1677,7 @@ c
       IF(NSPMD > 1 .AND. ISPMD==0)THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
-     .                          ITAB_P,NUMNODG,D_P, NRWALL, MAX_NOD_ID,
+     .                          ITAB_P,NUMNODG,D_P, NRWALL, USER_NOD_ID%RWALL_SHIFT,
      .                          XWL ,YWL , ZWL, V1, V2,
      .                          V3, VV1, VV2, VV3,KXSP_P,
      .                          NISP,NUMSPHG,TAGNOD_P,NPRW)
@@ -1629,7 +1685,7 @@ c
       ELSEIF(ISPMD==0 )THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
-     .                          ITAB,NUMNOD,D, NRWALL, MAX_NOD_ID,
+     .                          ITAB,NUMNOD,D, NRWALL, USER_NOD_ID%RWALL_SHIFT,
      .                          XWL ,YWL , ZWL, V1, V2,
      .                          V3, VV1, VV2, VV3,KXSP_P,
      .                          NISP,NUMSPHG,TAGNOD_P,NPRW)
@@ -1640,9 +1696,10 @@ c
       !  FVMBAGS
       IF(NFVBAG > 0 .AND. ISPMD==0)THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-        CALL H3D_UPDATE_FVMBAG_CENTROIDS(H3DTITLE,LEN_H3DTITLE,H3D_DATA%IH3D,MONVOL,VOLMON, NFVBAG, SMONVOL, SVOLMON, FVDATA_P)
+        CALL H3D_UPDATE_FVMBAG_CENTROIDS(H3DTITLE,LEN_H3DTITLE,H3D_DATA%IH3D,MONVOL,VOLMON, NFVBAG, SMONVOL, SVOLMON, 
+     .                                   FVDATA_P, USER_NOD_ID%FVMBAG_SHIFT)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
-      ENDIF      
+      ENDIF 
 c
 c**********************************************************************************************
 C OUTPUT RESULTS
@@ -2053,7 +2110,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   IPARTT            ,IPARTS        ,IPARTQ         ,KXSP                         ,IXR     ,
      .                   IXP               ,IXT           ,N_H3D_PART_LIST,INTERFRIC                    ,CSEFRIC ,
      .                   CSEFRICG          ,CSEFRIC_STAMP ,CSEFRICG_STAMP ,NODAL_SCALAR_FVM             ,AIRBAGS_TOTAL_FVM_IN_H3D_G,
-     .                   IS_WRITEN_NODE_FVM,ISPMD         ,FVDATA_P)
+     .                   IS_WRITEN_NODE_FVM,ISPMD         ,FVDATA_P       ,USER_NOD_ID%FVMBAG_SHIFT )
 
 c
           IF (NSPMD > 1 ) THEN
@@ -2114,7 +2171,7 @@ c
           IF(ISPMD == 0) THEN
             IF(AIRBAGS_TOTAL_FVM_IN_H3D_G > 0)THEN
               DO J=1,AIRBAGS_TOTAL_FVM_IN_H3D_G
-                NODE_ID_FVM(J) = AIRBAGS_NODE_ID_SHIFT + J
+                NODE_ID_FVM(J) = USER_NOD_ID%FVMBAG_SHIFT + J
               ENDDO
               CALL STARTIME(MACRO_TIMER_LIBH3D,1)
               CALL C_H3D_UPDATE_NODAL_FVMBAG_SCALAR(TT,H3D_DATA%IH3D,AIRBAGS_TOTAL_FVM_IN_H3D_G,NODAL_SCALAR_FVM,NODE_ID_FVM,
@@ -2156,7 +2213,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   IPARTP            ,IPARTT                   , IPARTS        ,IPARTQ                      ,KXSP            ,
      .                   IXR               ,IXP                      , IXT           ,N_H3D_PART_LIST             ,NODAL_VECTOR_FVM,
      .                   IS_WRITEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D_G,SMONVOL      ,SVOLMON                     ,ISPMD         ,
-     .                   FVDATA_P)
+     .                   FVDATA_P          ,USER_NOD_ID%FVMBAG_SHIFT)
 
 c
           IF (NSPMD > 1 ) THEN
@@ -2223,7 +2280,7 @@ c
           IF(ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D_G > 0) THEN
             CALL STARTIME(MACRO_TIMER_LIBH3D,1)
             DO J=1,AIRBAGS_TOTAL_FVM_IN_H3D_G
-              NODE_ID_FVM(J) = AIRBAGS_NODE_ID_SHIFT + J
+              NODE_ID_FVM(J) = USER_NOD_ID%FVMBAG_SHIFT + J
             ENDDO            
             CALL C_H3D_UPDATE_NODAL_VECTOR(TT,H3D_DATA%IH3D,ITAB,AIRBAGS_TOTAL_FVM_IN_H3D_G,NODAL_VECTOR_FVM,NODE_ID_FVM,
      .                           N_OUTP_DATA,IS_WRITEN_NODE_FVM)
@@ -3135,25 +3192,41 @@ c
         ENDIF
       ENDDO
 
-
+c-----
+c virtual nodes
+c-----
+      !A POSTERIORI CHECK ---
+      !CHECK IF MAXIMUM VIRTUAL NODE IDENTIFIER IS WITHIN [0,2147483647=HUGE]
+      ITMP = USER_NOD_ID%FVMBAG_LEN + USER_NOD_ID%RWALL_LEN   !total number of virtual nodes
+      IF(ITMP > 0)THEN
+        IF(ITMP >= HUGE(ITMP) - USER_NOD_ID%INPUT_MAX)THEN      !test is in fact ( USER_NOD_ID%INPUT_MAX + ITMP >= HUGE)   but LHS might be over HUGE written like this.        
+          CALL ANCMSG(MSGID=305,ANMODE=ANINFO)
+          CALL ARRET(2)
+        END IF
+      ENDIF
+c-----
+c deallocate
+c-----
       ! FVMBAG visualization
-      DEALLOCATE(NODAL_SCALAR_FVM)      
-      DEALLOCATE(NODAL_VECTOR_FVM)
-      DEALLOCATE(NODE_ID_FVM)
-      DEALLOCATE(IS_WRITEN_NODE_FVM)
+      IF(ALLOCATED(NODAL_SCALAR_FVM))DEALLOCATE(NODAL_SCALAR_FVM)      
+      IF(ALLOCATED(NODAL_VECTOR_FVM))DEALLOCATE(NODAL_VECTOR_FVM)
+      IF(ALLOCATED(NODE_ID_FVM))DEALLOCATE(NODE_ID_FVM)
+      IF(ALLOCATED(IS_WRITEN_NODE_FVM))DEALLOCATE(IS_WRITEN_NODE_FVM)
       
       ! FVDATA_P deallocate
-      DO J=1,NFVBAG
-        IF(ASSOCIATED(FVDATA_P(J)%CENTROID_POLH))DEALLOCATE (FVDATA_P(J)%CENTROID_POLH)
-        IF(ASSOCIATED(FVDATA_P(J)%PPOLH))DEALLOCATE (FVDATA_P(J)%PPOLH)
-        IF(ASSOCIATED(FVDATA_P(J)%SSPPOLH))DEALLOCATE (FVDATA_P(J)%SSPPOLH)
-        IF(ASSOCIATED(FVDATA_P(J)%DTPOLH))DEALLOCATE (FVDATA_P(J)%DTPOLH)
-        IF(ASSOCIATED(FVDATA_P(J)%QPOLH))DEALLOCATE (FVDATA_P(J)%QPOLH)
-        IF(ASSOCIATED(FVDATA_P(J)%MPOLH))DEALLOCATE (FVDATA_P(J)%MPOLH)
-        IF(ASSOCIATED(FVDATA_P(J)%RPOLH))DEALLOCATE (FVDATA_P(J)%RPOLH)
-        IF(ASSOCIATED(FVDATA_P(J)%TPOLH))DEALLOCATE (FVDATA_P(J)%TPOLH)
-      ENDDO
-      DEALLOCATE(FVDATA_P)
+      IF(ALLOCATED(FVDATA_P))THEN
+        DO J=1,NFVBAG
+          IF(ASSOCIATED(FVDATA_P(J)%CENTROID_POLH))DEALLOCATE (FVDATA_P(J)%CENTROID_POLH)
+          IF(ASSOCIATED(FVDATA_P(J)%PPOLH))DEALLOCATE (FVDATA_P(J)%PPOLH)
+          IF(ASSOCIATED(FVDATA_P(J)%SSPPOLH))DEALLOCATE (FVDATA_P(J)%SSPPOLH)
+          IF(ASSOCIATED(FVDATA_P(J)%DTPOLH))DEALLOCATE (FVDATA_P(J)%DTPOLH)
+          IF(ASSOCIATED(FVDATA_P(J)%QPOLH))DEALLOCATE (FVDATA_P(J)%QPOLH)
+          IF(ASSOCIATED(FVDATA_P(J)%MPOLH))DEALLOCATE (FVDATA_P(J)%MPOLH)
+          IF(ASSOCIATED(FVDATA_P(J)%RPOLH))DEALLOCATE (FVDATA_P(J)%RPOLH)
+          IF(ASSOCIATED(FVDATA_P(J)%TPOLH))DEALLOCATE (FVDATA_P(J)%TPOLH)
+        ENDDO
+        DEALLOCATE(FVDATA_P)
+      ENDIF
       
       DEALLOCATE(NODAL_SCALAR) 
       DEALLOCATE(NODAL_VECTOR)

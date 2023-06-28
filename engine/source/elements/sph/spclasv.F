@@ -133,7 +133,7 @@ C
                M=JK/(NSPCOND+1)
                JS=ISPSYM(NC,M)
                DJ=SPBUF(1,M)
-             ELSE		       ! particule symetrique de particule remote
+             ELSE  ! symetrical particle from remote one
               NC=MOD(-JK,NSPCOND+1)
               M =-JK/(NSPCOND+1)
               JS=ISPSYMR(NC,M)

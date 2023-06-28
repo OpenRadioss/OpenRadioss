@@ -27,7 +27,8 @@ Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
-      SUBROUTINE H3D_UPDATE_FVMBAG_CENTROIDS(H3DTITLE,LEN_H3DTITLE,IH3D,MONVOL,VOLMON, NFVBAG, SMONVOL, SVOLMON, FVDATA_P)
+      SUBROUTINE H3D_UPDATE_FVMBAG_CENTROIDS(H3DTITLE,LEN_H3DTITLE,IH3D,MONVOL,VOLMON, NFVBAG, SMONVOL, SVOLMON,
+     .                                       FVDATA_P, AIRBAGS_NODE_ID_SHIFT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -40,7 +41,7 @@ C     none
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE FVBAG_MOD , only: FVBAG_DATA, AIRBAGS_TOTAL_FVM_IN_H3D, AIRBAGS_NODE_ID_SHIFT !data structure definition
+      USE FVBAG_MOD , only: FVBAG_DATA, AIRBAGS_TOTAL_FVM_IN_H3D
       USEGROUPDEF_MOD , only:GROUP_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON
+      INTEGER,INTENT(IN) :: NFVBAG, SMONVOL,SVOLMON, AIRBAGS_NODE_ID_SHIFT
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL) 
       CHARACTER*80,INTENT(IN):: H3DTITLE  
@@ -72,12 +73,10 @@ C-----------------------------------------------
       INTEGER :: IH3D_FLAG !< flag for H3D output
       INTEGER :: NNODES    !< number of centroids
       INTEGER :: IFV       !< FVMBAG identifier in [1, NFVBAG] where NFVBAG <= NVOLU
-      INTEGER :: nodeID    !< node identifier (internal)
       INTEGER :: NPOLH     !< number of polyhedra for a given airbag
       my_real :: VALUE_X   !< polyhedron centroid X-value
       my_real :: VALUE_Y   !< polyhedron centroid Y-value
       my_real :: VALUE_Z   !< polyhedron centroid Z-value            
-      my_real :: VAL_MIN   !< minimum contour value
       INTEGER :: ILEN      !< loop upper bound
       
       INTEGER, ALLOCATABLE,DIMENSION(:) :: ITAB_FVMBAG
@@ -101,7 +100,6 @@ C-----------------------------------------------
               NPOLH = FVDATA_P(IFV)%NPOLH
               
               IF(NPOLH > 0)THEN ! if there are any polyhedron
-                 VAL_MIN=EP20
 
                  ALLOCATE(ITAB_FVMBAG(NPOLH))
                  ALLOCATE(DISP_FVMBAG(3,NPOLH))
@@ -112,8 +110,7 @@ C-----------------------------------------------
                    DISP_FVMBAG(2,II) = FVDATA_P(IFV)%CENTROID_POLH(2,II)
                    DISP_FVMBAG(3,II) = FVDATA_P(IFV)%CENTROID_POLH(3,II)
 
-                   ITAB_FVMBAG(II) = AIRBAGS_NODE_ID_SHIFT+II
-                   
+                   ITAB_FVMBAG(II) = AIRBAGS_NODE_ID_SHIFT+NNODES+II
                  ENDDO! next I (next polyhedron)
 
                  CALL C_H3D_UPDATE_FVMBAG_NODES(H3DTITLE,LEN_H3DTITLE,IH3D,ITAB_FVMBAG,NPOLH,DISP_FVMBAG)
@@ -134,8 +131,8 @@ C-----------------------------------------------
       
       !loop from NNODES +1 to AIRBAGS_TOTAL_FVM_IN_H3D : locate them to  0,0,0
       ILEN = AIRBAGS_TOTAL_FVM_IN_H3D - NNODES
-      ALLOCATE(ITAB_FVMBAG(ILEN))
-      ALLOCATE(DISP_FVMBAG(3,ILEN))
+      ALLOCATE(ITAB_FVMBAG(ILEN+1))
+      ALLOCATE(DISP_FVMBAG(3,ILEN+1))
 
       DO II=1,ILEN
         ITAB_FVMBAG(II) = AIRBAGS_NODE_ID_SHIFT+NNODES+II
@@ -145,6 +142,9 @@ C-----------------------------------------------
       ENDDO 
 
       CALL C_H3D_UPDATE_FVMBAG_NODES(H3DTITLE,LEN_H3DTITLE,IH3D,ITAB_FVMBAG,ILEN,DISP_FVMBAG)
+
+      DEALLOCATE(ITAB_FVMBAG)
+      DEALLOCATE(DISP_FVMBAG)
 
       
       RETURN

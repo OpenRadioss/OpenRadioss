@@ -51,7 +51,7 @@ Chd|====================================================================
      .                  IPARTP             ,IPARTT                  ,IPARTS         ,IPARTQ          ,KXSP            , 
      .                  IXR                ,IXP                     ,IXT            ,N_H3D_PART_LIST ,NODAL_VECTOR_FVM, 
      .                  IS_WRITTEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D,SMONVOL        ,SVOLMON         ,ISPMD           ,
-     .                  FVDATA_P) 
+     .                  FVDATA_P           ,AIRBAGS_NODE_ID_SHIFT) 
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: SMONVOL, SVOLMON, ISPMD
+      INTEGER,INTENT(IN) :: SMONVOL, SVOLMON, ISPMD,AIRBAGS_NODE_ID_SHIFT, AIRBAGS_TOTAL_FVM_IN_H3D
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       my_real
      .   NODAL_VECTOR(3*NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
@@ -104,7 +104,7 @@ C-----------------------------------------------
      .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
       INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH),IXR(NIXR,NUMELR),IXP(NIXP,NUMELP),
      .                       IXT(NIXT,NUMELT)
-      INTEGER ,INTENT(IN) :: N_H3D_PART_LIST, AIRBAGS_TOTAL_FVM_IN_H3D
+      INTEGER ,INTENT(IN) :: N_H3D_PART_LIST
       my_real, INTENT(INOUT) :: NODAL_VECTOR_FVM(3,AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER, INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)   
       TYPE(FVBAG_DATA),INTENT(IN) ::  FVDATA_P  
@@ -208,7 +208,8 @@ C--------------------------------------------------
           IS_WRITTEN_NODE_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D)=0
           IF(NFVBAG>0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
             CALL ANIM_NODAL_VECTOR_FVMBAGS('VEL ' , NODAL_VECTOR_FVM,MONVOL, VOLMON                  , FVDATA_P, NFVBAG   ,
-     .                                     SMONVOL, SVOLMON                , AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM )        
+     .                                     SMONVOL, SVOLMON                , AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM,
+     .                                     AIRBAGS_NODE_ID_SHIFT )        
           ENDIF
         ENDIF
         
