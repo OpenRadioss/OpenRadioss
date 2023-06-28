@@ -215,9 +215,9 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
       ENDIF
       
       IF (UP_SWITCH .AND. IVOLU(74)==2)THEN
-        !criteria is reached, so let's start to merge polyhedra (cgmerg=RVOLU(31)=100%)
-        IVOLU(74) = 0
-        RVOLU(31) = ONE !cgmerg=100%
+        !Iswitch=2 : full merging request on Tswitch/Pswitch criteria
+        IVOLU(74) = 0  ! Iswitch reset to 0
+        IVOLU(60) = -1 ! Igmerg/Ivmin => VOLUMIN=EP20 in fvupd.F => merge erverything     
         RVOLU(70) = EP20 ! TSWITCH=infinity to prevent from any switch to Uniform Pressure
         RVOLU(73) = ZERO ! PSWITCH RATIO=0 to prevent from any switch to Uniform Pressure
         UP_SWITCH = .FALSE.
