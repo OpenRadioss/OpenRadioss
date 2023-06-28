@@ -31,7 +31,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE MMAIN(PM      ,ELBUF_STR,IX   ,NIX    ,X       ,
      2                  GEO    ,IPARG  ,NEL    ,SKEW   ,BUFMAT  ,
-     3                  IPART  ,IPARTEL ,
+     3                  IPART  ,IPARTEL,MATPARAM,
      4                  MAT    ,IPM    ,NGL    ,PID    ,NPF     ,
      5                  TF     ,MFXX   ,MFXY   ,MFXZ   ,MFYX    ,
      6                  MFYY   ,MFYZ   ,MFZX   ,MFZY   ,MFZZ    ,
@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
      .   S1(*)    ,S2(*)    ,S3(*) ,
      .   S4(*)    ,S5(*)    ,S6(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -116,7 +117,7 @@ C
      G             TZ       ,                              ISMSTR ,
      H             MFXX     ,MFXY     ,MFXZ     ,MFYX     ,MFYY   ,
      I             MFYZ     ,MFZX     ,MFZY     ,MFZZ     ,IPM    ,
-     J             ISORTH   ,NEL      )
+     J             ISORTH   ,NEL      ,MATPARAM)
       ENDIF
 C------------
       RETURN

@@ -121,8 +121,7 @@ c     write function tables
 c
       NUMTABL  = FAIL%NTABLE
       IF (NUMTABL > 0) THEN
-        CALL TABLE_WRESTI_MAT(FAIL%TABLE, NUMTABL, LENI)
-        CALL TABLE_WRESTR_MAT(FAIL%TABLE, NUMTABL, LENR)
+        CALL WRITE_MAT_TABLE(FAIL%TABLE, NUMTABL, LENI,  LENR)
         LEN = LEN + LENI + LENR
       END IF
 c-----------

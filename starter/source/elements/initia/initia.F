@@ -195,12 +195,12 @@ Chd|====================================================================
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
      L                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY      , DRAPEG ,
-     M                  IPARI      ,INTBUF_TAB   ,INTERFACES)
+     M                  IPARI      ,INTBUF_TAB   ,INTERFACES   ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
       USE SUBMODEL_MOD
-      USE ELBUFDEF_MOD      
+      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD      
       USE STACK_MOD
       USE MULTI_FVM_MOD
@@ -333,6 +333,7 @@ C
       TYPE (FVM_INIVEL_STRUCT), INTENT(IN) :: FVM_INIVEL(*)
       TYPE (NLOCAL_STR_)   :: NLOC_DMG 
       TYPE (GROUP_PARAM_), DIMENSION(NGROUP)  :: GROUP_PARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -1030,7 +1031,7 @@ C Element types
                   CALL S4REFSTA3(
      1                 ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
      2                 IPM        ,IGEO       ,SKEW       ,X        ,XREFS      ,
-     3                 NEL          ,IPART(I15A),IPART    ,BUFMAT     ,
+     3                 NEL          ,IPART(I15A),IPART    ,BUFMAT   ,MATPARAM  ,
      4                 NPC          ,PLD        )
 C Case total strain
                   IF (ISTOT == 1) THEN
@@ -1238,7 +1239,7 @@ C Case total strain
             CALL SREFSTA3(
      1        ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),  
      2        IPM        ,IGEO       ,SKEW       ,X        ,XREFS     ,
-     3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,              
+     3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,MATPARAM,              
      6        NPC          ,PLD        )
 C
 C Case total strain: conf_ref <- XREF

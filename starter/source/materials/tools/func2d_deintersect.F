@@ -21,43 +21,58 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE_WRESTI_MAT              source/materials/tools/table_wresti_mat.F
+Chd|  TABLE2D_INTERSECT             source/tools/curve/table2d_intersect.F
 Chd|-- called by -----------
-Chd|        WRITE_FAILPARAM               source/output/restart/write_failparam.F
-Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
-Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE TABLE_WRESTI_MAT(TABLE, NUMTABL)
-C-----------------------------------------------
-      USE TABLE4D_MOD
+      SUBROUTINE FUNC2D_DEINTERSECT(NPT, LMAX ,NRATE  ,YY    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER         ,INTENT(IN)    :: NUMTABL
-      TYPE(TABLE_4D_) ,INTENT(IN)    :: TABLE(NUMTABL)
+      INTEGER ,INTENT(IN)  :: NPT
+      INTEGER ,INTENT(IN)  :: LMAX
+      INTEGER ,INTENT(IN)  :: NRATE
+      my_real ,DIMENSION(LMAX,NRATE) ,INTENT(INOUT):: YY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N, K, NDIM
-c=======================================================================
-      LEN = 1
-      DO N=1,NUMTABL
-        CALL WRITE_I_C(TABLE(N)%NOTABLE,LEN)
-        IF (TABLE(N)%NOTABLE > 0) THEN
-          NDIM = TABLE(N)%NDIM
-          CALL WRITE_I_C(NDIM,LEN)
-          DO K=1,NDIM
-            CALL WRITE_I_C( SIZE(TABLE(N)%X(K)%VALUES) ,LEN)
+      INTEGER :: IPT,IRATE,I1,I2,J1,J2
+      my_real :: T1,T2,Y1,Y2,DY1,DY2
+      my_real ,DIMENSION(LMAX) :: YTMP
+      my_real ,PARAMETER :: EPS = 1.0E-1
+c-----------------------------------------------
+c     Check and correct segment intersections between 2 functions with same abscissas
+c     with respect to the second independent variable
+C=======================================================================
+      YTMP(:) = ZERO   
+      IF (NRATE > 1) THEN 
+        DO IRATE = 2,NRATE
+          J1 = IRATE - 1
+          J2 = IRATE
+          YTMP(1) = YY(1,J2)
+          DO IPT = 2,NPT
+            I1 = IPT - 1
+            I2 = IPT
+c
+            T1 = YY(I1,J1)
+            Y1 = YY(I1,J2)
+            T2 = YY(I2,J1)
+            Y2 = YY(I2,J2)
+            DY1 = Y1 - T1
+            DY2 = Y2 - T2
+            IF (DY1*DY2 < 0) THEN
+              ! segment intersection, needs correction
+              Y2 = T2 *(ONE + EPS)
+              YY(I2,J2) = Y2
+            ENDIF
+            YTMP(IPT) = Y2
           END DO
-        END IF
-      END DO
+          YY(1:NPT,J2) = YTMP(1:NPT)
+        END DO
+      END IF
 c-----------
       RETURN
-      END SUBROUTINE TABLE_WRESTI_MAT
+      END

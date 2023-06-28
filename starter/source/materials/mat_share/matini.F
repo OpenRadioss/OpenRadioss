@@ -333,10 +333,8 @@ c
      .                 ALE_CONNECTIVITY   ,BUFMAT     ,RHO0     ,
      .                 GBUF               ,NEL        ,SIG)
         ELSEIF (MTN == 70) THEN
-          CALL M70INIT(
-     1       NEL   ,NPAR   ,NUVAR    ,NFUNC  ,IFUNC  ,
-     2       NPF   ,TF     ,UPARAM   ,RHO0   ,VOL    ,
-     3       EINT  ,MBUF%VAR)
+          CALL M70INIT(NEL   ,NPAR   ,NUVAR    ,UPARAM   ,MBUF%VAR)
+
         ELSEIF (MTN == 75) THEN
           ID=IPM(1,MAT(1))
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MAT(1)),LTITR)

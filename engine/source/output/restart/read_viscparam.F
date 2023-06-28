@@ -111,8 +111,7 @@ c       read viscosity law function tables
         NUMTABL  = VISC%NTABLE        
         IF (NUMTABL > 0) THEN
           ALLOCATE (VISC%TABLE(NUMTABL))
-          CALL TABLE_RRESTI_MAT(VISC%TABLE, NUMTABL)
-          CALL TABLE_RRESTR_MAT(VISC%TABLE, NUMTABL)
+          CALL READ_MAT_TABLE(VISC%TABLE, NUMTABL)
         END IF
 c      
       ELSE ! initialize VISC structure 

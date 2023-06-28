@@ -49,7 +49,11 @@ Chd|====================================================================
      G                 TZ    ,                      ISMSTR ,
      H                 MFXX  ,MFXY  ,MFXZ   ,MFYX  ,MFYY   , 
      I                 MFYZ  ,MFZX  ,MFZY   ,MFZZ  ,IPM    ,
-     J                 ISORTH,NEL   )
+     J                 ISORTH,NEL   ,MATPARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +90,7 @@ C
      .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)   ,
      .   MFXX(*)  ,MFXY(*)  ,MFXZ(*)  ,MFYX(*) ,MFYY(*)   ,MFYZ(*)   ,
      .   MFZX(*)  ,MFZY(*)  ,MFZZ(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -260,14 +265,13 @@ C ====================================================================
         CALL SIGEPS70(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
      3                  RHO0,RHO ,VOLN,EINT,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     A                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
-     B                  PM  ,IPM ,MAT ,EPSD )
+     4                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
+     5                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
+     6                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
+     7                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
+     8                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
+     9                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
+     A                  PM  ,IPM ,MAT ,MATPARAM)
       ELSEIF(MTN==90)THEN
         CALL SIGEPS90(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,

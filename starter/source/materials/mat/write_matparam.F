@@ -121,13 +121,12 @@ c
         LEN = LEN + NUPARAM + NIPARAM
       END DO
 c
-c     write local 4D function tables
+c     write function tables 4D
 c      
       DO IMAT = 1,NUMMAT
         NUMTABL = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE
         IF (NUMTABL > 0) THEN
-          CALL TABLE_WRESTI_MAT(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL, LENI)
-          CALL TABLE_WRESTR_MAT(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL, LENR)
+          CALL WRITE_MAT_TABLE(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL, LENI, LENR)
           LEN = LEN + LENI + LENR
         END IF
       END DO      

@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        JREC, NPTS, STAT, IDS, LL, LX(2), NOK(4)
       INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
-      INTEGER IERROR, NF, IDFUNC, NP, NPT, 
+      INTEGER IERROR, NF, IDFUNC, NP, NFUN, 
      .        KK, IDEB, IFIN, IOK, NN, N1, N2, N11, N12, N13, KK1
 C     REAL
       my_real
@@ -128,15 +128,15 @@ C-----------------------------------------------
      .                         C1='TABLE')
        LX(1)=0
        LX(2)=0
-       CALL HM_GET_INTV('curverows', NPT, IS_AVAILABLE, LSUBMODEL) !number of functions
-       IF (NPT  == 1) THEN
+       CALL HM_GET_INTV('curverows', NFUN, IS_AVAILABLE, LSUBMODEL) !number of functions
+       IF (NFUN  == 1) THEN
            CALL ANCMSG(MSGID=778,  MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .                      I1=ID,
      .                      C1=TITR,
-     .                      I2=NPT)
+     .                      I2=NFUN)
        END IF
        
-       DO J = 1, NPT
+       DO J = 1, NFUN
           CALL HM_GET_INT_ARRAY_INDEX ('tableentityarray',IDFUNC,J,IS_AVAILABLE,LSUBMODEL)
           LX(2)=LX(2)+1
           DO NF=1,NTABLE
@@ -154,7 +154,7 @@ C-----------------------------------------------
      .                  I2=IDFUNC)        
  110      CONTINUE                       
 
-       ENDDO !J = 1, NPT
+       ENDDO !J = 1, NFUN
        ALLOCATE(XV1(LX(1)),XSTOR1(LX(1)),JPERM1(LX(1)),
      .       XV2(LX(2),NDIM),XSTOR2(LX(2)),JPERM2(LX(2)),
      .       STAT=stat)
@@ -165,7 +165,7 @@ C-----------------------------------------------
        LX(2)=0                                                                                        
        XMIN =  EP30                                                                                   
        XMAX = -EP30                                                                                   
-       DO J = 1, NPT                                                                                  
+       DO J = 1, NFUN                                                                                  
          CALL HM_GET_INT_ARRAY_INDEX  ('tableentityarray',IDFUNC ,J,IS_AVAILABLE,LSUBMODEL)           
          CALL HM_GET_FLOAT_ARRAY_INDEX ('A'              ,X234(1),J,IS_AVAILABLE,LSUBMODEL,UNITAB)    
          CALL HM_GET_FLOAT_ARRAY_INDEX ('B'              ,X234(2),J,IS_AVAILABLE,LSUBMODEL,UNITAB)    
@@ -185,7 +185,7 @@ C-----------------------------------------------
              EXIT                                                                                     
            END IF                                                                                     
          END DO                                                                                       
-       END DO  !J = 1, NPT    
+       END DO  !J = 1, NFUN    
 C
        CALL MYQSORT(LX(1),XV1,JPERM1,IERROR)     
        DO K=1,LX(1)                              
@@ -247,10 +247,10 @@ C
 C
        DEALLOCATE(XV1,XSTOR1,JPERM1,XV2,XSTOR2,JPERM2)
 
-       DO J = 1, NPT
+       DO J = 1, NFUN
           CALL HM_GET_INT_ARRAY_INDEX  ('tableentityarray',IDFUNC ,J,IS_AVAILABLE,LSUBMODEL)          
           CALL HM_GET_FLOAT_ARRAY_INDEX ('A'              ,X2     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-       END DO !J = 1, NPT
+       END DO !J = 1, NFUN
 C
        ALLOCATE(TABLE(L)%Y,STAT=stat)                           
        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,      
@@ -272,7 +272,7 @@ C
      .                            MSGTYPE=MSGERROR,             
      .                     C1='ITAG')                           
        ITAG=0                                                   
-       DO J = 1, NPT
+       DO J = 1, NFUN
          CALL HM_GET_INT_ARRAY_INDEX  ('tableentityarray',IDFUNC ,J,IS_AVAILABLE,LSUBMODEL)           
          CALL HM_GET_FLOAT_ARRAY_INDEX ('A'              ,X234(1),J,IS_AVAILABLE,LSUBMODEL,UNITAB)    
          CALL HM_GET_FLOAT_ARRAY_INDEX ('B'              ,X234(2),J,IS_AVAILABLE,LSUBMODEL,UNITAB)    
@@ -332,7 +332,7 @@ C aiguille
             END IF                                                    
           END DO                                                      
 C
-       END DO!J = 1, NPT
+       END DO!J = 1, NFUN
 C interpolation
        DO KK=1,NX(2)*MAX(1,NX(3))*MAX(1,NX(4))    
          N11=1                                    

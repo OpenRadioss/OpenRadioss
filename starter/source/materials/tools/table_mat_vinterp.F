@@ -39,7 +39,6 @@ Chd|====================================================================
         SUBROUTINE TABLE_MAT_VINTERP(TABLE,NEL,IPOS,XX,YY,DYDX)
 C-----------------------------------------------
         USE TABLE4D_MOD
-        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,11 +65,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL,4) :: FAC
 c=======================================================================
       NDIM = TABLE%NDIM
-      IF (SIZE(XX,2) < NDIM ) THEN
-        CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
-     .              C1='TABLE INTERPOLATION')
-        CALL ARRET(2)
-      END IF
 C-----
       DO K=1,NDIM
         LDIM(K) = SIZE(TABLE%X(K)%VALUES)

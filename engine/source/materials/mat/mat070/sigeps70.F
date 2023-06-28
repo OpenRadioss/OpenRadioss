@@ -32,20 +32,22 @@ Chd|====================================================================
      1   NEL,     NUPARAM, NUVAR,   MFUNC,
      2   KFUNC,   NPF,     TF,      TIME,
      3   TIMESTEP,UPARAM,  RHO0,    RHO,
-     4   VOLUME,  EINT,    OFFG,    RHOREF,
-     5   RHOSP,   EPSPXX,  EPSPYY,  EPSPZZ,
-     6   EPSPXY,  EPSPYZ,  EPSPZX,  DEPSXX,
+     4   OFFG,    RHOREF,
+     5   RHOSP,   DEPSXX,
      7   DEPSYY,  DEPSZZ,  DEPSXY,  DEPSYZ,
      8   DEPSZX,  EPSXX,   EPSYY,   EPSZZ,
      9   EPSXY,   EPSYZ,   EPSZX,   SIG0XX,
      A   SIG0YY,  SIG0ZZ,  SIG0XY,  SIG0YZ,
      B   SIG0ZX,  SIGNXX,  SIGNYY,  SIGNZZ,
-     C   SIGNXY,  SIGNYZ,  SIGNZX,  SIGVXX,
-     D   SIGVYY,  SIGVZZ,  SIGVXY,  SIGVYZ,
-     E   SIGVZX,  SOUNDSP, VISCMAX, UVAR,
-     F   OFF,     NGL,     PM,      IPM,
+     C   SIGNXY,  SIGNYZ,  SIGNZX,  
+     E   SOUNDSP, VISCMAX, UVAR,
+     F   OFF,     NGL,     IPM,
      G   MAT,     EPSP,    ET,      ISMSTR,
-     H   IHET,    JSMS)
+     H   IHET,    JSMS,    MATPARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,10 +74,6 @@ C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C RHO0    | NEL     | F | R | INITIAL DENSITY
 C RHO     | NEL     | F | R | DENSITY
-C VOLUME  | NEL     | F | R | VOLUME
-C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
-C EPSPXX  | NEL     | F | R | STRAIN RATE XX
-C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
 C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
 C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
@@ -90,9 +88,6 @@ C---------+---------+---+---+--------------------------------------------
 C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
-C SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
-C SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
-C ...     |         |   |   |
 C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
 C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
@@ -102,30 +97,27 @@ C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
 #include      "sms_c.inc"
 #include      "impl1_c.inc"
-C
+C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR, IHET, JSMS
       INTEGER NEL, NUPARAM, NUVAR,IPT,
      .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
       my_real
      .   TIME,TIMESTEP,UPARAM(*),
-     .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
-     .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
-     .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
+     .   RHO(NEL),RHO0(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
      .   DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIG0XX(NEL),SIG0YY(NEL),SIG0ZZ(NEL),
      .   SIG0XY(NEL),SIG0YZ(NEL),SIG0ZX(NEL),
-     .   PM(NPROPM,*),EPSP(NEL)
+     .   EPSP(NEL)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MATPARAM
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .    SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .    SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .    SIGVXX(NEL),SIGVYY(NEL),SIGVZZ(NEL),
-     .    SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
      .    SOUNDSP(NEL),VISCMAX(NEL),ET(NEL),
      .    RHOSP(MVSIZ)
 C-----------------------------------------------
@@ -154,7 +146,7 @@ C-----------------------------------------------
       INTEGER I,J,J1,J2,I1,I2,IADBUF,NC,NFUNC,ILOAD(MVSIZ),
      .        IFUNC(100),NLOAD,NUNLOAD,MX,
      .         IE_CST(MVSIZ),ILOAD0,IDAMAGE,IFLAG,IETANG,IPFUNC,
-     .         I2017_2
+     .         I2017_2,NUMTABL
       my_real
      .        R,FAC,YP1,YP2,YN1,YN2,COEFF,RMIN,RMAX,
      .        E,E1,E2,E3,E4,E5,E6,DF,BB,CC,DELTA,X1,X2,SVM2,
@@ -163,7 +155,7 @@ C-----------------------------------------------
      .        FAIL(MVSIZ),
      .        EPST(MVSIZ),AA,YLDMIN(MVSIZ),YLDMAX(MVSIZ),
      .        YLD(MVSIZ),RATE(MVSIZ,2),
-     .        YFAC(MVSIZ,2),SIG0(MVSIZ),EPS0(MVSIZ),EPSS(MVSIZ),
+     .        SIG0(MVSIZ),EPS0(MVSIZ),EPSS(MVSIZ),
      .        EMAX,EPSSMAX,DF1,DF2,DAV,
      .        EPS_MAX,DSIG ,YLDELAS(MVSIZ),P,SVM1(MVSIZ),EXPO,HYS,
      .        ETAN(MVSIZ), DFMIN(MVSIZ), DFMAX(MVSIZ),DFELAS(MVSIZ),
@@ -178,263 +170,210 @@ C-----------------------------------------------
       my_real :: INTER_0
       my_real, DIMENSION(MVSIZ) :: ALPHA_1
       my_real, DIMENSION(MVSIZ) :: TAB_LOC1, TAB_LOC2
-      my_real, DIMENSION(MVSIZ) :: DF_INTER1,INTER1
+      my_real, DIMENSION(MVSIZ) :: DF_INTER1,INTER1,DFC
       my_real, DIMENSION(MVSIZ) :: DF_INTER2,INTER2
+      INTEGER, DIMENSION(NEL,2) :: IPOS
+      my_real, DIMENSION(NEL,2) :: XVEC
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
 C
-        MX = MAT(1)
-        NFUNC  = IPM(10,MX)
-        DO J=1,NFUNC
-                IFUNC(J)=IPM(10+J,MX)
-        ENDDO
+      MX = MAT(1)
+      NFUNC  = IPM(10,MX)
+      DO J=1,NFUNC
+        IFUNC(J)=IPM(10+J,MX)
+      ENDDO
 C     
-        IADBUF    = IPM(7,MX)-1
-        E0     = UPARAM(IADBUF+2)
-        AA     = UPARAM(IADBUF+3)
-        EPSSMAX= UPARAM(IADBUF+4)
-        NU     = UPARAM(IADBUF+6)
-        NLOAD  = UPARAM(IADBUF+7)
-        NUNLOAD= UPARAM(IADBUF+8)
-        IDAMAGE   = UPARAM(IADBUF+ 2*NFUNC + 9)
-        EXPO = UPARAM(IADBUF+ 2*NFUNC + 10)
-        HYS  = UPARAM(IADBUF+ 2*NFUNC + 11)
-        EMAX  = UPARAM(IADBUF+ 2*NFUNC + 12)
-        IFLAG  = UPARAM(IADBUF+ 2*NFUNC + 13)
-        I2017_2  = UPARAM(IADBUF+ 2*NFUNC + 14)
-        YFACC =  UPARAM(IADBUF+ 8 + 2*NFUNC )
-        DO I=1,NEL
-                G(I)      = UPARAM(IADBUF+5)
-        ENDDO
+      IADBUF = IPM(7,MX)-1
+      E0     = UPARAM(IADBUF+2)
+      AA     = UPARAM(IADBUF+3)
+      EPSSMAX= UPARAM(IADBUF+4)
+      NU     = UPARAM(IADBUF+6)
+      NLOAD  = NINT(UPARAM(IADBUF+7))
+      NUNLOAD= NINT(UPARAM(IADBUF+8))
+      IDAMAGE   = NINT(UPARAM(IADBUF+ 2*NFUNC + 9))
+      EXPO = UPARAM(IADBUF+ 2*NFUNC + 10)
+      HYS  = UPARAM(IADBUF+ 2*NFUNC + 11)
+      EMAX  = UPARAM(IADBUF+ 2*NFUNC + 12)
+      IFLAG  = NINT(UPARAM(IADBUF+ 2*NFUNC + 13))
+      I2017_2 = NINT(UPARAM(IADBUF+ 2*NFUNC + 14))
+      INTER_0 = UPARAM(2*NFUNC + 15)
+      YFACC =  UPARAM(IADBUF+ 8 + 2*NFUNC )
+      DO I=1,NEL
+        G(I) = UPARAM(IADBUF+5)
+      ENDDO
+      NUMTABL = MATPARAM%NTABLE
 C-----------------------------------------------
-        DO I=1,NEL
+      DO I=1,NEL
 C-------------------
 C     epst_spherique
 C-------------------       
-                EPST(I) = EPSXX(I)**2+EPSYY(I)**2 + EPSZZ(I)**2 +
-     .                    HALF*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
-                EPST(I) = SQRT(EPST(I)) 
+        EPST(I) = EPSXX(I)**2+EPSYY(I)**2 + EPSZZ(I)**2 +
+     .            HALF*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
+        EPST(I) = SQRT(EPST(I)) 
 C-------------------
 C     estimation elastique
 C-------------------
-                EPS0(I) = UVAR(I,1)
-                SIG0(I) = UVAR(I,2)
-        ENDDO            
+        EPS0(I) = UVAR(I,1)
+        SIG0(I) = UVAR(I,2)
+      ENDDO            
 C-------------------
 C CRITERE
 C-------------------
-        MX = MAT(1)
-        IADBUF = IPM(7,MX)-1
-        INTER_0 = FINTER(IFUNC(1),EPSSMAX,NPF,TF,DF)
-        NINDEX_EPST = 0
-        NINDEX_EPSSM = 0
-        DO I=1,NEL
-C YLD_elast
-                RATE(I,1)=UPARAM(IADBUF + 9)
-                YFAC(I,1)=UPARAM(IADBUF + 9 + NFUNC )
-                IF(EPST(I) >= EPSSMAX) THEN
-                        YLDELAS(I)=YFAC(I,1)*INTER_0
-                        YLDELAS(I)=EMAX*(EPST(I) - EPSSMAX) +  YLDELAS(I)
-                        NINDEX_EPSSM = NINDEX_EPSSM + 1
-                        INDEX_EPSSM(NINDEX_EPSSM) = I  
-                ELSE
-                        NINDEX_EPST = NINDEX_EPST + 1
-                        INDEX_EPST(NINDEX_EPST) = I
-                        IPOSP1(NINDEX_EPST) = NINT(UVAR(I,11))
-                        IADP1(NINDEX_EPST)  = NPF(IFUNC(1)) / 2 + 1
-                        ILENP1(NINDEX_EPST) = NPF(IFUNC(1)+1) / 2 - IADP1(NINDEX_EPST) - IPOSP1(NINDEX_EPST)
-                        TAB_LOC1(NINDEX_EPST) = EPST(I)
-                ENDIF
-        ENDDO
-
-        IF(NINDEX_EPST>0) THEN
-                CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPST,TAB_LOC1,DF_INTER1,INTER1)
-                DO II=1,NINDEX_EPST
-                        I = INDEX_EPST(II)
-                        YLDELAS(I) = YFAC(I,1) * INTER1(II)
-                        UVAR(I,11) = IPOSP1(II)
-                ENDDO
+      NINDEX_EPST = 0
+      NINDEX_EPSSM = 0
+c
+      DO I=1,NEL
+c       YLD_elast
+        RATE(I,1)=UPARAM(IADBUF + 9)
+        IF (EPST(I) >= EPSSMAX) THEN
+          YLDELAS(I)= INTER_0
+          YLDELAS(I)= YLDELAS(I) + EMAX*(EPST(I) - EPSSMAX)
+          NINDEX_EPSSM = NINDEX_EPSSM + 1
+          INDEX_EPSSM(NINDEX_EPSSM) = I  
+        ELSE
+          NINDEX_EPST = NINDEX_EPST + 1
+          INDEX_EPST(NINDEX_EPST) = I
         ENDIF
-
-!       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-!       Loading case
-!       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        JJ(1:MVSIZ) = 1
-        NC = NLOAD      !       number of function
-        DO J=2,NC-1
-                DO I=1,NEL                                                                            
-                        IF(ABS(EPSP(I)) >= ABS(UPARAM(IADBUF+ 8 + J ))) JJ(I) = J     
-                ENDDO 
+      ENDDO
+c
+      IF (NINDEX_EPST > 0) THEN
+        DO II=1,NINDEX_EPST
+          I = INDEX_EPST(II)
+          IPOS(II,1) = NINT(UVAR(I,11))
+          IPOS(II,2) = 1  
+          XVEC(II,1) = EPST(I)
+          XVEC(II,2) = UPARAM(IADBUF + 9) ! static strain rate
         ENDDO
-        DO I=1,NEL
-                J1 = JJ(I)
-                RATE(I,1)=UPARAM(IADBUF + 8 + J1)
-                YFAC(I,1)=UPARAM(IADBUF + 8 + NFUNC + J1)
+c
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,INTER1,DF_INTER1)
+c
+        DO II=1,NINDEX_EPST
+          I = INDEX_EPST(II)
+          YLDELAS(I) = INTER1(II)
+          UVAR(I,11) = IPOS(II,1)
         ENDDO
-!       ------------------------------------------
-!       end of case EPST(I) >= EPSSMAX
-        IF(NINDEX_EPSSM>0) THEN
-                ! ------------------------
-                ! case NC > 1
-                IF( NC > 1 ) THEN
-                        ! ------------------------
-#include "vectorize.inc"
-                        DO II=1,NINDEX_EPSSM
-                                I = INDEX_EPSSM(II)
-                                J1 = JJ(I)    
-                                J2 = JJ(I) + 1  
-        
-                                RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-                                YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-        
-                                IPOSP1(II) = NINT(UVAR(I,12))
-                                IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                TAB_LOC1(II) = EPSSMAX
-                
-                                IPOSP2(II) = NINT(UVAR(I,12))
-                                IADP2(II)  = NPF(IFUNC(J2)) / 2 + 1
-                                ILENP2(II) = NPF(IFUNC(J2)+1) / 2 - IADP2(II) - IPOSP2(II)
-                                TAB_LOC2(II) = EPSSMAX
-                        ENDDO
-                        ! ------------------------
-                        CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPSSM,TAB_LOC1,DF_INTER1,INTER1)
-                        CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_EPSSM,TAB_LOC2,DF_INTER2,INTER2)
-                        ! ------------------------
-#include "vectorize.inc"
-                        DO II=1,NINDEX_EPSSM
-                                I = INDEX_EPSSM(II)                        
-                                YP1 = YFAC(I,1)*INTER1(II)
-                                YP2 = YFAC(I,2)*INTER2(II)
-                                FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-                                YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)                
-                                YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX) +  YLDMAX(I) 
-                        ENDDO
+      ENDIF
 
-                        DO II=1,NINDEX_EPSSM  
-                                I = INDEX_EPSSM(II)       
-                                J1 = JJ(I)
-                                J2 = J1+1                                 
-                                UVAR(I,12) = IPOSP1(II)
-                                UVAR(I,12) = IPOSP2(II)
-                        ENDDO
-                        ! end of case NC > 1  
-                        ! ------------------------                      
-                ELSE
-                        ! ------------------------
-                        ! case NC <= 1
+!     -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+!     Loading case
+!     -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      JJ(1:MVSIZ) = 1
+      NC = NLOAD      !       number of function
+      DO J=2,NC-1
+        DO I=1,NEL                                                                            
+          IF (ABS(EPSP(I)) >= ABS(UPARAM(IADBUF+ 8 + J ))) JJ(I) = J     
+        ENDDO 
+      ENDDO
+      DO I=1,NEL
+        J1 = JJ(I)
+        RATE(I,1) = UPARAM(IADBUF + 8 + J1)
+      ENDDO
+!     ------------------------------------------
+!     end of case EPST(I) >= EPSSMAX
+c
+      IF (NINDEX_EPSSM > 0) THEN
+        ! ------------------------
+        ! case NC > 1
+        IF( NC > 1 ) THEN
+          ! ------------------------
 #include "vectorize.inc"
-                        DO II=1,NINDEX_EPSSM
-                                I = INDEX_EPSSM(II)
-                                J1 = JJ(I)    
-        
-                                IPOSP1(II) = NINT(UVAR(I,12))
-                                IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                TAB_LOC1(II) = EPSSMAX
-                        ENDDO
-                        ! ------------------------
-                        CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPSSM,TAB_LOC1,DF_INTER1,INTER1)
-                        ! ------------------------
+          DO II=1,NINDEX_EPSSM
+            I = INDEX_EPSSM(II)
+            IPOS(II,1) = NINT(UVAR(I,12))
+            IPOS(II,2) = 1   ! latest strain rate position
+            XVEC(II,1) = EPSSMAX
+            XVEC(II,2) = EPSP(I)
+          ENDDO
+c
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPSSM,IPOS,XVEC,YLDMAX,DFC)
+c
 #include "vectorize.inc"
-                        DO II=1,NINDEX_EPSSM
-                                I = INDEX_EPSSM(II)                        
-                                YLDMAX(I) = YFAC(I,1)*INTER1(II)
-                                YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX) +  YLDMAX(I)  
-                        ENDDO
-
-                        DO II=1,NINDEX_EPSSM  
-                                I = INDEX_EPSSM(II)       
-                                J1 = JJ(I)                              
-                                UVAR(I,12) = IPOSP1(II)
-                        ENDDO  
-                        ! ------------------------
-                ENDIF
-                        ! end of case NC <= 1
-                        ! ------------------------
+          DO II=1,NINDEX_EPSSM  
+            I = INDEX_EPSSM(II)       
+            UVAR(I,12) = IPOS(II,1)
+          ENDDO
+          ! end of case NC > 1  
+          ! ------------------------                      
+c
+        ELSE   ! case NC <= 1
+c                       
+#include "vectorize.inc"
+          DO II=1,NINDEX_EPSSM
+            I = INDEX_EPSSM(II)
+            IPOS(II,1) = NINT(UVAR(I,12))
+            IPOS(II,2) = 1   !  strain rate position
+            XVEC(II,1) = EPSSMAX
+            XVEC(II,2) = UPARAM(IADBUF + 8 + JJ(I))
+          ENDDO
+c
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
+c
+#include "vectorize.inc"
+            DO II=1,NINDEX_EPSSM
+              I = INDEX_EPSSM(II)                        
+              YLDMAX(I) = INTER1(II) + EMAX*(EPST(I) - EPSSMAX)   
+              UVAR(I,12)= IPOS(II,1)
+            ENDDO
+           ! ------------------------
+          ENDIF
+                      ! end of case NC <= 1
+                      ! ------------------------
         ENDIF
 !       end of case EPST(I) >= EPSSMAX
 !       ------------------------------------------
 
 !       ------------------------------------------
 !       case EPST(I) < EPSSMAX
-        IF(NINDEX_EPST>0) THEN
-                ! ------------------------
-                ! case NC > 1
-                IF( NC > 1 ) THEN
+        IF (NINDEX_EPST > 0) THEN
+          ! ------------------------
+          ! case NC > 1
+          IF( NC > 1 ) THEN
                         ! ------------------------
 #include "vectorize.inc"
-                        DO II=1,NINDEX_EPST
-                                I = INDEX_EPST(II)
-                                J1 = JJ(I)    
-                                J2 = JJ(I) + 1  
-        
-                                RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-                                YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-        
-                                IPOSP1(II) = NINT(UVAR(I,13))
-                                IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                TAB_LOC1(II) = EPST(I)
-                
-                                IPOSP2(II) = NINT(UVAR(I,13))
-                                IADP2(II)  = NPF(IFUNC(J2)) / 2 + 1
-                                ILENP2(II) = NPF(IFUNC(J2)+1) / 2 - IADP2(II) - IPOSP2(II)
-                                TAB_LOC2(II) = EPST(I)
-                        ENDDO
-                        CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPST,TAB_LOC1,DF_INTER1,INTER1)
-                        CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_EPST,TAB_LOC2,DF_INTER2,INTER2)
-                        ! ------------------------
+          DO II=1,NINDEX_EPST
+            I = INDEX_EPST(II)
+            IPOS(II,1) = NINT(UVAR(I,13))
+            IPOS(II,2) = 1   !  strain rate position
+            XVEC(II,1) = EPST(I)
+            XVEC(II,2) = EPSP(I)
+          ENDDO
+c
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+c
 #include "vectorize.inc"
-                        DO II=1,NINDEX_EPST
-                                I = INDEX_EPST(II)                        
-                                YP1 = YFAC(I,1)*INTER1(II)
-                                YP2 = YFAC(I,2)*INTER2(II)
-                                FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-                                YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
-                        ENDDO
-
-                        DO II=1,NINDEX_EPST  
-                                I = INDEX_EPST(II)       
-                                J1 = JJ(I)
-                                J2 = J1+1                                 
-                                UVAR(I,13) = IPOSP1(II)
-                                UVAR(I,13) = IPOSP2(II)
-                        ENDDO       
-                        ! ------------------------    
-                ! end of case NC > 1             
-                ! ------------------------
-                ELSE
-                ! ------------------------
-                ! case NC <= 1             
-                        ! ------------------------
+            DO II=1,NINDEX_EPST
+              I = INDEX_EPST(II)                        
+              YLDMAX(I) = INTER1(II)
+              UVAR(I,13)= IPOS(II,1)
+            ENDDO
+            ! ------------------------    
+            ! end of case NC > 1             
+            ! ------------------------
+          ELSE
+            ! ------------------------
+            ! case NC <= 1             
+            ! ------------------------
 #include "vectorize.inc"
-                        DO II=1,NINDEX_EPST
-                                I = INDEX_EPST(II)
-                                J1 = JJ(I)    
-        
-                                IPOSP1(II) = NINT(UVAR(I,13))
-                                IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                TAB_LOC1(II) = EPST(I)
-                        ENDDO
-                        ! ------------------------
-                        CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPST,TAB_LOC1,DF_INTER1,INTER1)
-                        ! ------------------------
+            DO II=1,NINDEX_EPST
+              I = INDEX_EPST(II)
+              J1 = JJ(I)    
+              IPOS(II,1) = NINT(UVAR(I,13))
+              IPOS(II,2) = 1   !  strain rate position
+              XVEC(II,1) = EPST(I)
+              XVEC(II,2) = UPARAM(IADBUF + 8 + J1)
+            ENDDO
+c
+            CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+c
 #include "vectorize.inc"
-                        DO II=1,NINDEX_EPST
-                                I = INDEX_EPST(II)                        
-                                YLDMAX(I) = YFAC(I,1)*INTER1(II)
-                        ENDDO
-
-                        DO II=1,NINDEX_EPST  
-                                I = INDEX_EPST(II)       
-                                J1 = JJ(I)                              
-                                UVAR(I,13) = IPOSP1(II)
-                        ENDDO  
-                        ! ------------------------
-                ENDIF
+            DO II=1,NINDEX_EPST
+              I = INDEX_EPST(II)                        
+              YLDMAX(I) = INTER1(II)
+              UVAR(I,13)= IPOS(II,1)
+            ENDDO
+            ! ------------------------
+          ENDIF
                 ! end of case NC <= 1             
                 ! ------------------------
         ENDIF
@@ -445,222 +384,155 @@ C YLD_elast
 !       end of loading case
 !       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-        YLDMIN(1:NEL) = ZERO
-        JJ(1:MVSIZ) = 1 + NLOAD
-        NC = NUNLOAD    !       number of function         
 !       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 !       Unloading case
 !       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        IF( NC > 0 ) THEN                                     
-                DO J=2,NC-1
-                        DO I=1,NEL                                                                            
-                                IF(ABS(EPSP(I)) >= ABS(UPARAM(IADBUF+ NLOAD + 8 + J ))) JJ(I) = NLOAD + J
-                        ENDDO 
-                ENDDO
-                DO I=1,NEL
-                        J1 = JJ(I)
-                        RATE(I,1)=UPARAM(IADBUF + 8 + J1)
-                        YFAC(I,1)=UPARAM(IADBUF + 8 + NFUNC + J1)
-                ENDDO
 
-!       ------------------------------------------
-!       case EPST(I) >= EPSSMAX
-                IF(NINDEX_EPSSM>0) THEN
-                        ! ------------------------
-                        ! case NC > 1             
-                        IF( NC > 1 ) THEN
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPSSM
-                                        I = INDEX_EPSSM(II)
-                                        J1 = JJ(I)    
-                                        J2 = JJ(I) + 1  
-        
-                                        RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-                                        YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-                
-                                        IPOSP1(II) = NINT(UVAR(I,14))
-                                        IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                        ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                        TAB_LOC1(II) = EPSSMAX
-                        
-                                        IPOSP2(II) = NINT(UVAR(I,14))
-                                        IADP2(II)  = NPF(IFUNC(J2)) / 2 + 1
-                                        ILENP2(II) = NPF(IFUNC(J2)+1) / 2 - IADP2(II) - IPOSP2(II)
-                                        TAB_LOC2(II) = EPSSMAX
-                                ENDDO
-                                ! ------------------------
-                                CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPSSM,TAB_LOC1,DF_INTER1,INTER1)
-                                CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_EPSSM,TAB_LOC2,DF_INTER2,INTER2)
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPSSM
-                                        I = INDEX_EPSSM(II)                        
-                                        YP1 =YFAC(I,1)*INTER1(II)
-                                        YP2 =YFAC(I,2)*INTER2(II)
-C               
-                                        IF(YP2 < YP1 ) THEN          
-                                                FAC    = (RATE(I,2) - EPSP(I))/(RATE(I,2) - RATE(I,1))
-                                                YLDMIN(I) = MAX(YP2 + FAC*(YP1-YP2), EM20)
-                                        ELSE
-                                                FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-                                                YLDMIN(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
-                                        ENDIF
-                                        YLDMIN(I) =  EMAX*(EPST(I) - EPSSMAX) + YLDMIN(I)
-                                ENDDO
-        
-                                DO II=1,NINDEX_EPSSM  
-                                        I = INDEX_EPSSM(II)       
-                                        J1 = JJ(I)
-                                        J2 = J1+1                                 
-                                        UVAR(I,14) = IPOSP1(II)
-                                        UVAR(I,14) = IPOSP2(II)
-                                ENDDO  
-                                ! ------------------------   
-                        ! end of case NC > 1                 
-                        ! ------------------------               
-                        ELSE
-                        ! ------------------------
-                        ! case NC <= 1     
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPSSM
-                                        I = INDEX_EPSSM(II)
-                                        J1 = JJ(I)    
-                
-                                        IPOSP1(II) = NINT(UVAR(I,14))
-                                        IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                        ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                        TAB_LOC1(II) = EPSSMAX
-                                ENDDO
-                                ! ------------------------
-                                CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPSSM,TAB_LOC1,DF_INTER1,INTER1)
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPSSM
-                                        I = INDEX_EPSSM(II)            
-                                        YLDMIN(I)= YFAC(I,1)*INTER1(II)
-                                        YLDMIN(I) =  EMAX*(EPST(I) - EPSSMAX) + YLDMIN(I)
-                                ENDDO
-        
-                                DO II=1,NINDEX_EPSSM  
-                                        I = INDEX_EPSSM(II)       
-                                        J1 = JJ(I)                              
-                                        UVAR(I,14) = IPOSP1(II)
-                                ENDDO  
-                                ! ------------------------        
-                        ! end of case NC <= 1     
-                        ! ------------------------
-                        ENDIF
-                ENDIF   
-!       end of case EPST(I) >= EPSSMAX
-!       ------------------------------------------
-!       case EPST(I) < EPSSMAX
-                IF(NINDEX_EPST>0) THEN               
-                        ! ------------------------
-                        ! case NC > 1     
-                        IF( NC > 1 ) THEN
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPST
-                                        I = INDEX_EPST(II)
-                                        J1 = JJ(I)    
-                                        J2 = JJ(I) + 1  
-                
-                                        RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
-                                        YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
-        
-                                        IPOSP1(II) = NINT(UVAR(I,15))
-                                        IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                        ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                        TAB_LOC1(II) = EPST(I)
-                
-                                        IPOSP2(II) = NINT(UVAR(I,15))
-                                        IADP2(II)  = NPF(IFUNC(J2)) / 2 + 1
-                                        ILENP2(II) = NPF(IFUNC(J2)+1) / 2 - IADP2(II) - IPOSP2(II)
-                                        TAB_LOC2(II) = EPST(I)
-                                ENDDO
-                                ! ------------------------
-                                CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPST,TAB_LOC1,DF_INTER1,INTER1)
-                                CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_EPST,TAB_LOC2,DF_INTER2,INTER2)
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPST
-                                        I = INDEX_EPST(II)                        
-                                        YP1 = YFAC(I,1)*INTER1(II)
-                                        YP2 = YFAC(I,2)*INTER2(II)
-                                        IF(YP2 < YP1 ) THEN          
-                                                FAC    = (RATE(I,2) - EPSP(I))/(RATE(I,2) - RATE(I,1))
-                                                YLDMIN(I) = MAX(YP2 + FAC*(YP1-YP2), EM20)
-                        
-                                        ELSE
-                                                FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-                                                YLDMIN(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
-                                        ENDIF
-                                ENDDO
+        YLDMIN(1:NEL) = ZERO
+        JJ(1:MVSIZ) = 1 + NLOAD
+        NC = NUNLOAD    !       number of function         
 
-                                DO II=1,NINDEX_EPST  
-                                        I = INDEX_EPST(II)       
-                                        J1 = JJ(I)
-                                        J2 = J1+1                                 
-                                        UVAR(I,15) = IPOSP1(II)
-                                        UVAR(I,15) = IPOSP2(II)
-                                ENDDO  
-                                ! ------------------------      
-                        ! end of case NC > 1                     
-                        ! ------------------------
-                        ELSE
-                        ! ------------------------
-                        ! case NC <= 1     
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPST
-                                        I = INDEX_EPST(II)
-                                        J1 = JJ(I)    
-                
-                                        IPOSP1(II) = NINT(UVAR(I,15))
-                                        IADP1(II)  = NPF(IFUNC(J1)) / 2 + 1
-                                        ILENP1(II) = NPF(IFUNC(J1)+1) / 2 - IADP1(II) - IPOSP1(II)
-                                        TAB_LOC1(II) = EPST(I)
-                                ENDDO
-                                ! ------------------------
-                                CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_EPST,TAB_LOC1,DF_INTER1,INTER1)
-                                ! ------------------------
-#include "vectorize.inc"
-                                DO II=1,NINDEX_EPST
-                                        I = INDEX_EPST(II)                                          
-                                        YLDMIN(I)=YFAC(I,1)*INTER1(II)
-                                ENDDO
-        
-                                DO II=1,NINDEX_EPST  
-                                        I = INDEX_EPST(II)       
-                                        J1 = JJ(I)                              
-                                        UVAR(I,15) = IPOSP1(II)
-                                ENDDO  
-                        ENDIF
-                        ! end of case NC <= 1     
-                        ! ------------------------
-                ENDIF
-!       end of case EPST(I) < EPSSMAX
-!       ------------------------------------------
-        ENDIF
+        IF (NC > 0 ) THEN                                     
+          DO J=2,NC-1
+            DO I=1,NEL                                                                            
+              IF(ABS(EPSP(I)) >= ABS(UPARAM(IADBUF+ NLOAD + 8 + J ))) JJ(I) = NLOAD + J
+            ENDDO 
+          ENDDO
+          DO I=1,NEL
+            J1 = JJ(I)
+            RATE(I,1) = UPARAM(IADBUF + 8 + J1)
+          ENDDO
 
+!         ------------------------------------------
+!         case EPST(I) >= EPSSMAX
+          IF (NINDEX_EPSSM > 0) THEN
+            ! ------------------------
+            ! case NC > 1             
+            IF( NC > 1 ) THEN
+              ! ------------------------
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPSSM
+                I = INDEX_EPSSM(II)
+                IPOS(II,1) = NINT(UVAR(I,14))
+                IPOS(II,2) = 1
+                XVEC(II,1) = EPSSMAX
+                XVEC(II,2) = EPSP(I)
+              ENDDO
+c
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
+c
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPSSM  
+                I = INDEX_EPSSM(II)     
+                YLDMIN(I)  = INTER1(II) +  EMAX*(EPST(I) - EPSSMAX)
+                UVAR(I,14) = IPOS(II,1)
+              ENDDO
+              ! ------------------------   
+              ! end of case NC > 1                 
+              ! ------------------------               
+            ELSE
+              ! ------------------------
+              ! case NC <= 1     
+              ! ------------------------
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPSSM
+                I  = INDEX_EPSSM(II)
+                J1 = JJ(I)    
+                IPOS(II,1) = NINT(UVAR(I,14))
+                IPOS(II,2) = 1
+                XVEC(II,1) = EPSSMAX
+                XVEC(II,2) = UPARAM(IADBUF + 8 + J1)
+              ENDDO
+c
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
+c
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPSSM  
+                I = INDEX_EPSSM(II)     
+                YLDMIN(I)  = INTER1(II) +  EMAX*(EPST(I) - EPSSMAX)
+                UVAR(I,14) = IPOS(II,1)
+              ENDDO
+              ! ------------------------        
+              ! end of case NC <= 1     
+              ! ------------------------
+            ENDIF
+                
+          ENDIF   
+          ! end of case EPST(I) >= EPSSMAX
+          ! ------------------------------------------
+
+!          case EPST(I) < EPSSMAX
+          IF (NINDEX_EPST > 0) THEN               
+            ! ------------------------
+            ! case NC > 1     
+            IF( NC > 1 ) THEN
+              ! ------------------------
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPST
+                I = INDEX_EPST(II)
+                IPOS(II,1) = NINT(UVAR(I,15))
+                IPOS(II,2) = 1
+                XVEC(II,1) = EPST(I)
+                XVEC(II,2) = EPSP(I)
+              ENDDO
+c
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+c
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPST  
+                I = INDEX_EPST(II)     
+                YLDMIN(I)  = INTER1(II)
+                UVAR(I,15) = IPOS(II,1)
+              ENDDO
+              ! ------------------------      
+              ! end of case NC > 1                     
+              ! ------------------------
+            ELSE
+              ! ------------------------
+              ! case NC <= 1     
+              ! ------------------------
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPST
+                I  = INDEX_EPST(II)
+                J1 = JJ(I)    
+                IPOS(II,1) = NINT(UVAR(I,15))
+                IPOS(II,2) = 1
+                XVEC(II,1) = EPST(I)
+                XVEC(II,2) = UPARAM(IADBUF + 8 + J1)
+              ENDDO
+c
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+c
+#include "vectorize.inc"
+              DO II=1,NINDEX_EPST  
+                I = INDEX_EPST(II)     
+                YLDMIN(I)  = INTER1(II)
+                UVAR(I,15) = IPOS(II,1)
+              ENDDO
+C
+            ENDIF
+            ! end of case NC <= 1     
+            ! ------------------------
+          ENDIF
+!         end of case EPST(I) < EPSSMAX
+C
 !       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-!       end of unloading case
-!       -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
+      ENDIF
+!     end of unloading case
+!     -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+C =====================================================
+c
         IF(IFLAG > 0) THEN
-                DO I=1,NEL
-                        ALPHA = ONE/MAX(EM20,UVAR(I,10))
-                        SIG0XX(I) = ALPHA*SIG0XX(I)
-                        SIG0YY(I) = ALPHA*SIG0YY(I)
-                        SIG0ZZ(I) = ALPHA*SIG0ZZ(I)
-                        SIG0XY(I) = ALPHA*SIG0XY(I)
-                        SIG0ZX(I) = ALPHA*SIG0ZX(I)
-                        SIG0YZ(I) = ALPHA*SIG0YZ(I)
-                ENDDO 
+           DO I=1,NEL
+                   ALPHA = ONE/MAX(EM20,UVAR(I,10))
+                   SIG0XX(I) = ALPHA*SIG0XX(I)
+                   SIG0YY(I) = ALPHA*SIG0YY(I)
+                   SIG0ZZ(I) = ALPHA*SIG0ZZ(I)
+                   SIG0XY(I) = ALPHA*SIG0XY(I)
+                   SIG0ZX(I) = ALPHA*SIG0ZX(I)
+                   SIG0YZ(I) = ALPHA*SIG0YZ(I)
+           ENDDO 
         ENDIF
-
 C                 
 C =====================================================
         DO I = 1,NEL
@@ -1018,48 +890,53 @@ c         UVAR(I,3) = E
                         UVAR(I,7) = EPSP(I)
                 ENDDO                           
         ENDIF
+C-------------------------------------------------------
+      IF (IFLAG > 0 ) THEN
+        IPFUNC = IFUNC(NFUNC)
+        ALPHA_1(1:MVSIZ) = ONE
+        NINDEX_MU = 0
 C
-        IF(IFLAG > 0 ) THEN
-                IPFUNC = IFUNC(NFUNC)
-                ALPHA_1(1:MVSIZ) = ONE
-                NINDEX_MU = 0
-                DO I=1,NEL
-                        MU = 1 - RHO(I)/RHO0(I) 
-                        IF(MU > 0) THEN
-                                NINDEX_MU = NINDEX_MU + 1
-                                INDEX_MU(NINDEX_MU) = I
-                                IPOSP1(NINDEX_MU) = NINT(UVAR(I,16))
-                                IADP1(NINDEX_MU)  = NPF(IFUNC(NFUNC)) / 2 + 1
-                                ILENP1(NINDEX_MU) = NPF(IFUNC(NFUNC)+1) / 2 - IADP1(NINDEX_MU) - IPOSP1(NINDEX_MU)
-                                TAB_LOC1(NINDEX_MU) = MU
-                        ENDIF
-                ENDDO
-                IF ( NINDEX_MU > 0 ) THEN
-                        CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_MU,TAB_LOC1,DF_INTER1,INTER1)
-                        DO II=1,NINDEX_MU
-                                I = INDEX_MU(II)        
-                                ALPHA_1(I) = YFACC*INTER1(II)
-                                ALPHA_1(I) = MAX(ZERO, ALPHA_1(I))
-                        ENDDO
-                        UVAR(INDEX_MU(1:NINDEX_MU),16) = IPOSP1(1:NINDEX_MU)
-                ENDIF
-                DO I=1,NEL
-                        SIGNXX(I) = ALPHA_1(I)*SIGNXX(I)
-                        SIGNYY(I) = ALPHA_1(I)*SIGNYY(I)
-                        SIGNZZ(I) = ALPHA_1(I)*SIGNZZ(I)
-                        SIGNXY(I) = ALPHA_1(I)*SIGNXY(I)
-                        SIGNZX(I) = ALPHA_1(I)*SIGNZX(I)
-                        SIGNYZ(I) = ALPHA_1(I)*SIGNYZ(I)
-                        UVAR(I,10) = ALPHA_1(I)
-                        ET(I) = ALPHA_1(I)*ET(I)
-                ENDDO     
-        ENDIF 
+        DO I=1,NEL
+          MU = 1 - RHO(I)/RHO0(I) 
+          IF (MU > 0) THEN
+            NINDEX_MU = NINDEX_MU + 1
+            INDEX_MU(NINDEX_MU) = I
+            IPOSP1(NINDEX_MU) = NINT(UVAR(I,16))
+            IADP1(NINDEX_MU)  = NPF(IFUNC(NFUNC)) / 2 + 1
+            ILENP1(NINDEX_MU) = NPF(IFUNC(NFUNC)+1) / 2 - IADP1(NINDEX_MU) - IPOSP1(NINDEX_MU)
+            TAB_LOC1(NINDEX_MU) = MU
+          ENDIF
+        ENDDO
 C
-        IF (IMPL_S > 0 .OR. IHET > 1) THEN       
-           DO I=1,NEL
-              ET(I) = MIN(ONE , ET(I))
-           ENDDO
-        ENDIF 
-C------------------------------------ 
-        RETURN
-        END SUBROUTINE
+        IF ( NINDEX_MU > 0 ) THEN
+
+          CALL VINTER2(TF,IADP1,IPOSP1,ILENP1,NINDEX_MU,TAB_LOC1,DF_INTER1,INTER1)
+
+          DO II=1,NINDEX_MU
+            I = INDEX_MU(II)        
+            ALPHA_1(I) = YFACC*INTER1(II)
+            ALPHA_1(I) = MAX(ZERO, ALPHA_1(I))
+          ENDDO
+          UVAR(INDEX_MU(1:NINDEX_MU),16) = IPOSP1(1:NINDEX_MU)
+        ENDIF
+C
+        DO I=1,NEL
+          SIGNXX(I) = ALPHA_1(I)*SIGNXX(I)
+          SIGNYY(I) = ALPHA_1(I)*SIGNYY(I)
+          SIGNZZ(I) = ALPHA_1(I)*SIGNZZ(I)
+          SIGNXY(I) = ALPHA_1(I)*SIGNXY(I)
+          SIGNZX(I) = ALPHA_1(I)*SIGNZX(I)
+          SIGNYZ(I) = ALPHA_1(I)*SIGNYZ(I)
+          UVAR(I,10) = ALPHA_1(I)
+          ET(I) = ALPHA_1(I)*ET(I)
+        ENDDO     
+      ENDIF 
+C-----------------------------------------------------
+      IF (IMPL_S > 0 .OR. IHET > 1) THEN       
+         DO I=1,NEL
+            ET(I) = MIN(ONE , ET(I))
+         ENDDO
+      ENDIF 
+C---------------------------------- 
+      RETURN
+      END SUBROUTINE
