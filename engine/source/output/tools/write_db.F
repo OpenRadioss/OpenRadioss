@@ -144,6 +144,7 @@ Chd|        ADD_ELAPSED_TIME_MON_OFF      source/system/timer.F
 Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F  
 Chd|        PRINTIME                      source/system/timer.F         
 Chd|        RESOL                         source/engine/resol.F         
+Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|        W_ELBUF_STR                   source/elements/elbuf/w_elbuf_str.F
 Chd|-- calls ---------------

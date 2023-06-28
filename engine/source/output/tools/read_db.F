@@ -148,6 +148,7 @@ Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
 Chd|        INTSTAMP_RRESTR               share/modules/intstamp_mod.F  
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RDRESB                        source/output/restart/rdresb.F
+Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|-- calls ---------------
 Chd|        READ_DB_C                     source/output/tools/sortie_c.c
 Chd|====================================================================

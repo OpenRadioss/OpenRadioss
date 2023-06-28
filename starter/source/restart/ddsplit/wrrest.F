@@ -165,6 +165,7 @@ Chd|  WRITE_DPDB                    source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        INTSTAMP_WRESTR               share/modules1/intstamp_mod.F 
+Chd|        WRITE_SENSORS                 source/tools/sensor/write_sensors.F
 Chd|        W_ELBUF_STR                   source/restart/ddsplit/w_elbuf_str.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB_C                    source/output/tools/write_routines.c

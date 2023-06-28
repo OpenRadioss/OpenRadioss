@@ -21,6 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  SDLENMAX                      source/elements/solid/solide/sdlenmax.F
+Chd|-- called by -----------
+Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
+Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
+Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
+Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SDLENMAX(LM_MAX, 
      1   X1,      X2,      X3,      X4,      
      2   X5,      X6,      X7,      X8,      
