@@ -73,6 +73,7 @@ Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        SDERIT3                       source/elements/solid/solide/sderit3.F
 Chd|        SDERITO3                      source/elements/solid/solide/sderito3.F
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
+Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F
 Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
 Chd|        SFINT3                        source/elements/solid/solide/sfint3.F
 Chd|        SFINT3B                       source/elements/solid/solide/sfint3b.F

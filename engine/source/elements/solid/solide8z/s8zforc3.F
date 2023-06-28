@@ -58,6 +58,7 @@ Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
 Chd|        SCOOR_CP2SP                   source/elements/solid/solidez/scoor_cp2sp.F
 Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
 Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
+Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F
 Chd|        SDLEN_DEGE                    source/elements/solid/solide/sdlen_dege.F
 Chd|        SDLEN_SM11                    source/elements/solid/solide/sdlen_sm11.F
 Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F

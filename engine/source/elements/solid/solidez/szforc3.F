@@ -47,6 +47,7 @@ Chd|        SDEFO3                        source/elements/solid/solide/sdefo3.F
 Chd|        SDEFOT3                       source/elements/solid/solide/sdefot3.F
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|        SDLEN8                        source/elements/solid/solidez/sdlen8.F
+Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F
 Chd|        SDLEN_SMS                     source/elements/solid/solidez/sdlen_sms.F
 Chd|        SFILLOPT                      source/elements/solid/solide/sfillopt.F
 Chd|        SFINT3                        source/elements/solid/solide/sfint3.F

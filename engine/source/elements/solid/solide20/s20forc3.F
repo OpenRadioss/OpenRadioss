@@ -37,6 +37,7 @@ Chd|        S20RST                        source/elements/solid/solide20/s20rst.
 Chd|        S20TEMPCG                     source/elements/solid/solide20/s20tempcg.F
 Chd|        S20THERM                      source/elements/solid/solide20/s20therm.F
 Chd|        SDLEN8                        source/elements/solid/solidez/sdlen8.F
+Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F
 Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SMALLA3                       source/elements/solid/solide/smalla3.F
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
