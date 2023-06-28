@@ -380,7 +380,7 @@ set_source_files_properties( ${source_directory}/source/output/qaprint/st_qaprin
 set_source_files_properties( ${source_directory}/source/output/gauge/hm_read_gauge.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/message/summsg.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/output/message/stock_msg.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-# set_source_files_properties( ${source_directory}/source/output/message/inimsg.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/output/message/inimsg.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/output/message/fredec2im.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/output/message/fredec3m.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/message/message.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
