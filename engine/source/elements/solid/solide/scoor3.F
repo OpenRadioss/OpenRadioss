@@ -69,18 +69,18 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,*),NG,NEL
       my_real
-     .X(3,*),V(3,*),W(3,*), VIS(*),VR(3,*),VXR(*),VYR(*),VZR(*),
-     .X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
-     .Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
-     .VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
-     .VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
-     .VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
-     .VDX1(*),VDX2(*),VDX3(*),VDX4(*),VDX5(*),VDX6(*),VDX7(*),VDX8(*),
-     .VDY1(*),VDY2(*),VDY3(*),VDY4(*),VDY5(*),VDY6(*),VDY7(*),VDY8(*),
-     .VDZ1(*),VDZ2(*),VDZ3(*),VDZ4(*),VDZ5(*),VDZ6(*),VDZ7(*),VDZ8(*),
-     .VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),RHO(*),
-     .RHOO(*),GAMA0(NEL,6),GAMA(MVSIZ,6),FR_WAVE(*),FR_WAV(*)
+     .  X(3,*),V(3,*),W(3,*), VIS(*),VR(3,*),VXR(*),VYR(*),VZR(*),
+     .  X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
+     .  Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .  Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
+     .  VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
+     .  VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
+     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
+     .  VDX1(*),VDX2(*),VDX3(*),VDX4(*),VDX5(*),VDX6(*),VDX7(*),VDX8(*),
+     .  VDY1(*),VDY2(*),VDY3(*),VDY4(*),VDY5(*),VDY6(*),VDY7(*),VDY8(*),
+     .  VDZ1(*),VDZ2(*),VDZ3(*),VDZ4(*),VDZ5(*),VDZ6(*),VDZ7(*),VDZ8(*),
+     .  VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),RHO(*),
+     .  RHOO(*),GAMA0(NEL,6),GAMA(MVSIZ,6),FR_WAVE(*),FR_WAV(*)
 
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
      .        NC5(*), NC6(*), NC7(*), NC8(*), MXT(*), NGL(*),NGEO(*)
