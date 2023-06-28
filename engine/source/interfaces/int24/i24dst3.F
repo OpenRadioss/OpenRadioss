@@ -3394,10 +3394,12 @@ C-----peneref for nonlinear stif (quadratic...)
         ENDDO
       ELSE
         DO I=1,JLT
-          IF(PENE(I) == ZERO) CYCLE
-          PENREF(I) = ONE_FIFTH*SQRT(AREA(I))
+          IF(PENE(I) == ZERO.OR.IKNON(I)==0) CYCLE
+          N=CAND_N(I)
+          L=CAND_E(I)
+          GAP2 = GAPS(I)+GAP_M(L)
+          PENREF(I) = ONE_FIFTH*MAX(SQRT(AREA(I)),GAP2)
           JG = NSVG(I)
-          N  = CAND_N(I)
           IF(JG > 0)THEN
             PENE_SH = PENE_OLD(5,N)
           ELSE
@@ -3405,6 +3407,8 @@ C-----peneref for nonlinear stif (quadratic...)
             PENE_SH = PENE_OLDFI(NIN)%P(5,JG)
           ENDIF
           PENREF(I) = MAX(PENREF(I),PENE_SH)
+          IF(IKNON(I)==1) PENREF(I) = TEN*PENREF(I)
+          IF(IKNON(I)>2) PENREF(I) = ONE_FIFTH*PENREF(I)
         ENDDO
       END IF
 C

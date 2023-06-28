@@ -470,7 +470,7 @@ C
 C....* Card3  *.............
 C
 
-        IF(IGSTI>1)THEN
+        IF(IGSTI>1 .OR. IGSTI==-1)THEN
             I7STIFS=1
             IF(STMAX==ZERO)STMAX=EP30
           ELSE
@@ -630,8 +630,9 @@ C bmult augmente pour les tres gros modeles et interface 7 ou 20
         FRIGAP(4)=BUMULT
 
 C---------
-        IF(IPSTIF >0 .OR.IGSTI==7) IPARI(97)   = 1
+        IF(IPSTIF >0 .OR.IGSTI==7.AND.IGSTI/=-1) IPARI(97)   = 1
         IF(IGSTI==7.AND.IPSTIF ==0) IPSTIF = 1
+        IF(IGSTI==-1) IPSTIF = 0
         IPARI(98) = IPSTIF
         IF(STFACM == ZERO.AND.IPARI(97) > 0) STFACM = EM01
         IF(IPARI(97) > 0) THEN

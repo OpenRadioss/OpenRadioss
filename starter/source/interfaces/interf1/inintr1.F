@@ -87,7 +87,7 @@ C
          END IF
        ELSEIF (NTY==24)THEN
          IGSTI=IPARI(34,N)
-         IF(IGSTI>1)THEN
+         IF(IGSTI>1 .OR. IGSTI==-1)THEN
            CALL I24STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N),STFAC(N))
          ENDIF
