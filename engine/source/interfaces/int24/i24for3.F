@@ -74,7 +74,7 @@ Chd|====================================================================
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
      1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,INTCAREA,
-     2    PARAMETERS  ,PENREF   )
+     2    PARAMETERS  ,PENREF    ,KMAX       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -170,6 +170,7 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: PENREF
+      my_real, INTENT(IN) :: KMAX
 
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (PARAMETERS_) ,INTENT(IN):: PARAMETERS
@@ -271,6 +272,7 @@ C---------------------
       END IF
       FNON = EP02
       FMAX = EP03
+      IF (IGSTI==-1) FMAX = KMAX
 C-------------------------------------------
 C     PENE Offset removed to i24dst3.F
 C-------------------------------------------
@@ -423,6 +425,21 @@ C---- nonlinear stif
             FACN = MIN(FMAX,(ONE+FNON*PENDR))
             STIFKT(I)= STIFKT(I)*FACKT
             STIF(I)= STIF(I)*FACN
+          END IF
+          FNI(I)= -STIF(I) * PENE(I)
+        ENDDO
+      ELSEIF (IGSTI==-1.AND.IMPL_S==0) THEN
+c----- first version w/o force jump treatment      
+        DO I=1,JLT
+          IF(PENE(I) == ZERO)CYCLE
+          STIF(I) = STIF0(I)
+C---- nonlinear stif          
+          IF(PENREF(I) > ZERO) THEN
+            PENDR  = (PENE(I)/PENREF(I))**2
+            FACN = MIN(FMAX,(ONE+FNON*PENDR))
+            STIF(I)= MIN(KMAX,STIF(I)*FACN)
+            FACKT = THREE*(STIF(I)/STIF0(I)-ONE)
+            STIFKT(I)= MAX(STIF(I),STIFKT(I)*FACKT)
           END IF
           FNI(I)= -STIF(I) * PENE(I)
         ENDDO
@@ -3458,7 +3475,7 @@ ctmp+1 mic only
       ENDIF
 
 C
-      IF (INACTI==-1.AND.IMPL_S==0) STIF(1:JLT)=MAX(STIF(1:JLT),STIFKT(1:JLT))
+      IF (INACTI==-1.OR.IGSTI==-1) STIF(1:JLT)=MAX(STIF(1:JLT),STIFKT(1:JLT))
       IF(IPARIT==3)THEN
         stop 789
       ELSEIF(IPARIT==0)THEN

@@ -994,7 +994,21 @@ C--- fixing min(stif) with Inacti=-1
             STIF_S =ABS(STIFI(NIN)%P(NN))
           END IF
 c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
-		  STIF(I) = MIN(STIF_S,STF(L))
+          STIF(I) = MIN(STIF_S,STF(L))
+         ENDDO
+      ELSEIF (IGSTI==-1)THEN
+         DO I=1,JLT
+           L  = CAND_E(I)
+           NI = CAND_N(I)
+           IF(NI<=NSN)THEN
+             STIF_S =ABS(STFN(NI))
+           ELSE
+             NN = NI - NSN
+             STIF_S =ABS(STIFI(NIN)%P(NN))
+           END IF
+           STIF_R(I) = MIN(STIF_S,STF(L))/MAX(STIF_S,STF(L))
+           STIF(I) = MIN(STIF_S,STF(L))
+           STIF(I) = MAX(KMIN,STIF(I))
          ENDDO
       END IF
       IF(NCFIT>0)THEN
@@ -1006,6 +1020,16 @@ c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
          IF (FB >ZERO) IKNON(1:JLT) = 1 ! -> nonlinear stiff
       ELSEIF (INACTI==-1)THEN
          IKNON(1:JLT) = 1 
+      ELSEIF (IGSTI ==-1)THEN
+         DO I=1,JLT
+           IF (STIF_R(I) > 0.9 ) THEN
+             IKNON(I) = 1 
+           ELSEIF (STIF_R(I) < EM03) THEN
+             IKNON(I) = 3
+           ELSE             
+             IKNON(I) = 2
+           END IF
+         ENDDO
       END IF
 C
       RETURN

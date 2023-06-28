@@ -606,7 +606,7 @@ C-------------------------------------------------------------------------------
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
      1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC ,INTCAREA ,
-     2  INTERFACES%PARAMETERS ,PENREF ) 
+     2  INTERFACES%PARAMETERS ,PENREF ,KMAX   ) 
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(
