@@ -20,17 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  CHECKSUM_MOD                  source/mpi/output/node_checksum.F
+Chd|-- called by -----------
+Chd|        SPMD_FLUSH_ACCEL              source/mpi/output/spmd_flush_accel.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE CHECKSUM_MOD
       INTEGER, PARAMETER :: ROOT = 65521
       INTEGER, PARAMETER :: TWO_POWER_16 = 65536
       CONTAINS
 !! \brief Returns Adler32 checksum of A(1:SIZ2,1:SIZ1) 
-Chd|====================================================================
-Chd|  REAL_NODE_CHECKSUM                source/mpi/output/node_checksum.F                  
-Chd|-- called by -----------
-Chd|        SPMD_FLUSH_ACCEL              source/mpi/output/spmd_flush_accel.F
-Chd|-- calls ---------------
-Chd|====================================================================
       FUNCTION  DOUBLE_ARRAY_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -26,6 +26,10 @@ Chd|-- called by -----------
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
+Chd|        WRITE_REAL                    ../common_source/comm/write_mod.F
+Chd|        WRITE_REAL_1D                 ../common_source/comm/write_mod.F
+Chd|        WRITE_REAL_2D                 ../common_source/comm/write_mod.F
+Chd|        WRITE_REAL_3D                 ../common_source/comm/write_mod.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        ALELAG_WREST                  source/output/restart/wrrest.F
 Chd|        CONVWREST                     source/output/restart/wrrest.F
@@ -140,6 +144,10 @@ C
 Chd|====================================================================
 Chd|  WRITE_DPDB                    source/output/tools/write_db.F
 Chd|-- called by -----------
+Chd|        WRITE_DOUBLE                  ../common_source/comm/write_mod.F
+Chd|        WRITE_DOUBLE_1D               ../common_source/comm/write_mod.F
+Chd|        WRITE_DOUBLE_2D               ../common_source/comm/write_mod.F
+Chd|        WRITE_DOUBLE_3D               ../common_source/comm/write_mod.F
 Chd|        ADD_ELAPSED_TIME_MON_OFF      source/system/timer.F         
 Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F  
 Chd|        PRINTIME                      source/system/timer.F         

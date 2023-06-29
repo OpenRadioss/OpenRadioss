@@ -26,6 +26,10 @@ Chd|-- called by -----------
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
+Chd|        WRITE_REAL                    ../common_source/comm/write_mod.F
+Chd|        WRITE_REAL_1D                 ../common_source/comm/write_mod.F
+Chd|        WRITE_REAL_2D                 ../common_source/comm/write_mod.F
+Chd|        WRITE_REAL_3D                 ../common_source/comm/write_mod.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        CONVWREST                     source/restart/ddsplit/wrrest.F
 Chd|        COPY_RVAL                     source/restart/ddsplit/inter_tools.F
@@ -163,6 +167,10 @@ C
 Chd|====================================================================
 Chd|  WRITE_DPDB                    source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
+Chd|        WRITE_DOUBLE                  ../common_source/comm/write_mod.F
+Chd|        WRITE_DOUBLE_1D               ../common_source/comm/write_mod.F
+Chd|        WRITE_DOUBLE_2D               ../common_source/comm/write_mod.F
+Chd|        WRITE_DOUBLE_3D               ../common_source/comm/write_mod.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        INTSTAMP_WRESTR               share/modules1/intstamp_mod.F 
 Chd|        WRITE_SENSORS                 source/tools/sensor/write_sensors.F
