@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        FRETITL                       source/starter/freform.F      
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DPDB                    source/restart/ddsplit/wrrest.F
+Chd|        WRITE_INTEGER                 ../common_source/comm/write_mod.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|====================================================================

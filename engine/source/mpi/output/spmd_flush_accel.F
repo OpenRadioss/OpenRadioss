@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  DEBUG_CHKSM_MOD               source/mpi/output/spmd_flush_accel.F
+Chd|-- called by -----------
+Chd|        RESOL                         source/engine/resol.F         
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE DEBUG_CHKSM_MOD
 
       CONTAINS
@@ -27,9 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_FLUSH_ACCEL              source/mpi/output/spmd_flush_accel.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        PRINT_CHECKSUM                source/mpi/output/spmd_flush_accel.F
+Chd|        CHECKSUM_MOD                  source/mpi/output/node_checksum.F
 Chd|====================================================================
       SUBROUTINE SPMD_FLUSH_ACCEL(NCYCLE,  ISPMD,   NSPMD, NUMNOD,
      .                          NUMNODG, NUMNODM, A,     ITAB,

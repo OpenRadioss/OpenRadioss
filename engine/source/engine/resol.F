@@ -438,6 +438,7 @@ Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
+Chd|        DEBUG_CHKSM_MOD               source/mpi/output/spmd_flush_accel.F
 Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F 
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   

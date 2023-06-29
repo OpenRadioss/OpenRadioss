@@ -20,12 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  WRITE_MOD                     comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE WRITE_MOD
 #include "my_real.inc"
       CONTAINS
 !! \brief Wrapper routine to WRITE_I_C, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_INT
+Chd|  WRITE_INTEGER                 comm/write_mod.F              
+Chd|-- called by -----------
+Chd|        WRITE_SENSORS                 starter/source/tools/sensor/write_sensors.F
+Chd|-- calls ---------------
+Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER(A)
 C-----------------------------------------------
@@ -45,7 +55,11 @@ C-----------------------------------------------
         CALL WRITE_I_C(A,ONE)
         END SUBROUTINE
 Chd|====================================================================
-Chd|    WRITE_INT_1D
+Chd|  WRITE_INTEGER_1D              comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER_1D(A,N)
 C-----------------------------------------------
@@ -60,7 +74,11 @@ C-----------------------------------------------
         CALL WRITE_I_C(A,N)
         END SUBROUTINE
 Chd|====================================================================
-Chd|    WRITE_INT_1D
+Chd|  WRITE_INTEGER_2D              comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER_2D(A,N,M)
 C-----------------------------------------------
@@ -81,7 +99,11 @@ C-----------------------------------------------
         CALL WRITE_I_C(A,D)
         END SUBROUTINE
 Chd|====================================================================
-Chd|    WRITE_INTEGER_3D
+Chd|  WRITE_INTEGER_3D              comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER_3D(A,L,N,M)
 C-----------------------------------------------
@@ -106,7 +128,11 @@ C-----------------------------------------------
 
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_REAL
+Chd|  WRITE_REAL                    comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_REAL(A)
 C-----------------------------------------------
@@ -127,7 +153,11 @@ C-----------------------------------------------
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_REAL_2D
+Chd|  WRITE_REAL_1D                 comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_REAL_1D(A,N)
 C-----------------------------------------------
@@ -149,7 +179,11 @@ C-----------------------------------------------
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_REAL_2D
+Chd|  WRITE_REAL_2D                 comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_REAL_2D(A,M,N)
 C-----------------------------------------------
@@ -171,7 +205,11 @@ C-----------------------------------------------
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_REAL
+Chd|  WRITE_REAL_3D                 comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_REAL_3D(A,L,M,N)
 C-----------------------------------------------
@@ -193,7 +231,11 @@ C-----------------------------------------------
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_DOUBLE
+Chd|  WRITE_DOUBLE                  comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE(A)
 C-----------------------------------------------
@@ -215,7 +257,11 @@ C-----------------------------------------------
 
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_DOUBLE
+Chd|  WRITE_DOUBLE_1D               comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE_1D(A,N)
 C-----------------------------------------------
@@ -237,7 +283,11 @@ C-----------------------------------------------
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_DOUBLE_2D
+Chd|  WRITE_DOUBLE_2D               comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE_2D(A,M,N)
 C-----------------------------------------------
@@ -259,7 +309,11 @@ C-----------------------------------------------
         END SUBROUTINE
 !! \brief Wrapper routine to WRITE_DPDB, to be used in order to avoid dummy-argument mismatch at error at compile tile
 Chd|====================================================================
-Chd|    WRITE_DOUBLE_3D
+Chd|  WRITE_DOUBLE_3D               comm/write_mod.F              
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE_3D(A,L,M,N)
 C-----------------------------------------------
