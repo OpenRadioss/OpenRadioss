@@ -285,6 +285,13 @@ c              IF(NTY == 24 .AND. INTNITSCHE > 0 ) LENI = LENI + 3
               IF(NB>0) THEN
                 L = L + NB*LENI
               ENDIF
+              IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN
+                  IFSUB_CAREA = .TRUE.
+                  IF(NB>0) THEN
+                     L = L + NB
+                  ENDIF
+              ENDIF
+
 C ajout partie edge pour type 20
               IF(NTY==20)THEN
                 NB = NSNFIE(NIN)%P(P)
@@ -295,14 +302,6 @@ C ajout partie edge pour type 25
                 NB = NSNFIE(NIN)%P(P)
                 IF(NB>0) L = L + NB*LEN25E
               END IF
-
-
-              IF((NTY == 25.OR.NTY==24).AND.INTERFACES%PARAMETERS%INTCAREA > 0.AND.NISUB > 0) THEN
-                  IFSUB_CAREA = .TRUE.
-                  IF(NB>0) THEN
-                     L = L + NB
-                  ENDIF
-              ENDIF
 
             ENDDO
             SIZ = L+1-ADD 
