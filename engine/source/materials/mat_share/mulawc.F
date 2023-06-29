@@ -1006,7 +1006,7 @@ C------------------------------------------
 !
           ELSEIF (ILAW == 15) THEN
             CALL SIGEPS15C(
-     1                 JFT      ,JLT     ,PM       ,LBUF%DAM   ,DIR_A(JDIR),
+     1                 JFT      ,JLT     ,PM       ,LBUF%DAM   ,
      2                 IMAT     ,SHF     ,NGL      ,EPSPL      ,DMG_FLAG   ,
      3                 ILAYER   ,NEL     ,ISRATE   ,LBUF%PLA   ,SIGDMG     ,
      4                 DEPSXX   ,DEPSYY  ,DEPSXY   ,DEPSYZ     ,DEPSZX     ,
