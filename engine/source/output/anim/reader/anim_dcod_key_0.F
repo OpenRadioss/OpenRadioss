@@ -337,9 +337,9 @@ c---
             ELSE    
               ! /TESNSOR/MSTRESS/ILAY
               READ(KEY5(1:5),'(I5)') ILAY
-              IDX = 3120 + 3*MX_PLY_ANIM + 3
               IF (ILAY > 0 .AND. ILAY <= 100) THEN
-                ANIM_STRESS(IDX+ILAY) = 1
+                ANIM_CT(IDX+ILAY) = 1
+                ANIM_STRESS(ILAY) = 1
               ELSE
                 IXITKEY=IXITKEY+1
               ENDIF
