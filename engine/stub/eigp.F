@@ -46,7 +46,7 @@ Chd|====================================================================
      6                   PM          , GEO         , CONT     , ICUT      , SKEW    ,
      7                   XCUT        , FINT        , ITAB     , FEXT      , FOPT    ,
      8                   ANIN        , LPBY        , NPBY     , NSTRF     , RWBUF   ,
-     9                   NPRW        , TANI        , ELBUF_TAB, DD_IAD    ,
+     9                   NPRW        , TANI        , ELBUF_TAB, MATPARAM_TAB,DD_IAD    ,
      A                   FR_IAD      , DD_FRONT    , WEIGHT   , EANI      , IPART   ,
      B                   RBY         , NOM_OPT     , IGRSURF  ,
      C                   BUFSF       , IDATA       , RDATA    , BUFMAT    , BUFGEO  ,
@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE DRAPE_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,6 +144,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)  :: IGRSURF
       TYPE (DRAPE_)   :: DRAPE_Q4, DRAPE_T3
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

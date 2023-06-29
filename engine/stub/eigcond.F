@@ -47,7 +47,7 @@ Chd|====================================================================
      6                   PM          , GEO       , CONT    , ICUT      , SKEW        ,
      7                   XCUT        , FINT      , ITAB    , FEXT      , FOPT        ,
      8                   ANIN        , LPBY      , NPBY    , NSTRF     , RWBUF       ,
-     9                   NPRW        , TANI    , ELBUF_TAB , DD_IAD      ,
+     9                   NPRW        , TANI      , ELBUF_TAB ,DD_IAD  ,
      A                   FR_IAD      , DD_FRONT  , WEIGHT  , EANI      , IPART       ,
      B                   RBY         , NOM_OPT   , IGRSURF ,
      C                   BUFSF       , IDATA     , RDATA   , BUFMAT    , BUFGEO      ,
@@ -70,7 +70,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE DSGRAPH_MOD
-      USE GENANI_MOD
       USE ELBUFDEF_MOD         
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD
