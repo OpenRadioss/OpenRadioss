@@ -2782,7 +2782,7 @@ C------ one routine for EIG
      6                   PM          , GEO         , FANI     , ICUT      , SKEW    ,
      7                   XCUT        ,FANI(1,1+NFIA), ITAB    ,FANI(1,1+NFEA),FANI(1,1+NFOA),
      8                   ANIN        , LPBY        , NPBY     , NSTRF     , RWBUF   ,
-     9                   NPRW        , TANI     , ELBUF_TAB , DD_IAD  ,
+     9                   NPRW        , TANI        , ELBUF_TAB ,MATPARAM_TAB, DD_IAD  ,
      A                   IAD_ELEM    , FR_ELEM     , WEIGHT   , EANI      , IPART   ,
      B                   RBY         , NOM_OPT     , IGRSURF  ,
      C                   BUFSF       , IDATA       , RDATA    , BUFMAT    , BUFGEO  ,
