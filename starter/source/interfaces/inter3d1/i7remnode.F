@@ -1604,8 +1604,7 @@ C--------dim first
                                 DO J=1,NNOD
                                     NM = INTBUF_TAB(N)%IRECTM(4*(II-1)+J)
                                     IF (POINTS_I2N(NM,1)==0) CYCLE
-                                    MAX_INSERTED_NODE = MAX( MAX_INSERTED_NODE,POINTS_I2N(NM,2)-POINTS_I2N(NM,1) )
-                                    
+                                    MAX_INSERTED_NODE = MAX( MAX_INSERTED_NODE,POINTS_I2N(NM,2)-POINTS_I2N(NM,1)+1 )                                    
                                 ENDDO
                             ENDDO
 
@@ -1614,9 +1613,6 @@ C--------dim first
                             ELSE
                               SIZE_INSERTED_NODE =  4 * NRTM *MAX_INSERTED_NODE
                             ENDIF
-C FOR TESTING ONLY: uncomment the following line to force reallocation
-C                          SIZE_INSERTED_NODE = MAX_INSERTED_NODE
-C
 
                             MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE) 
 
@@ -1639,10 +1635,10 @@ C
                                     NNOD=4
                                 END IF   
                                
-                                IF(JJJ + MAX_INSERTED_NODE > SIZE_INSERTED_NODE) THEN
+                                IF(JJJ + NNOD * MAX_INSERTED_NODE > SIZE_INSERTED_NODE) THEN
 C extend INSERTED_NODE if needed
                                   OLDSIZE = SIZE_INSERTED_NODE
-                                  SIZE_INSERTED_NODE = SIZE_INSERTED_NODE  + MAX(NRTM,MAX_INSERTED_NODE)
+                                  SIZE_INSERTED_NODE = SIZE_INSERTED_NODE  + MIN(NRTM,10*NNOD*MAX_INSERTED_NODE)
                                   MY_ALLOCATE(TMP,SIZE_INSERTED_NODE)
                                   TMP(1:OLDSIZE) = INSERTED_NODE(1:OLDSIZE)
 !                                 move_alloc deallocates TMP
