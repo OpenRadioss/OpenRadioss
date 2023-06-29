@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, ISENS, SENS_ID , SENS_TYPE
+      INTEGER :: I, J, ISENS, SENS_ID 
       my_real :: THIS_L, TS, TABFIS_L(10)
 C---------------------------------------------------------------------------
 C   ITHOUT : flag to check if TH file will be written for CAREA output
@@ -66,9 +66,7 @@ C ******  IF /STOP/LSENSOR *****
        IF (SENSORS%NSTOP > 0) THEN
           DO I=1,SENSORS%NSTOP
              ISENS = SENSORS%STOP(I)
-             SENS_TYPE = SENSORS%SENSOR_TAB(ISENS)%TYPE
              TS = EP20
-             SENS_ID = SENSORS%SENSOR_TAB(ISENS)%SENS_ID  
              IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
              IF (TT >= TS) THEN
                 IF(NSTH/=0)THEN  !IF THIST FILE
