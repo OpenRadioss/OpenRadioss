@@ -100,7 +100,7 @@ Chd|====================================================================
      Y                    XEDGE3N     ,SPH2SOL      ,STIFN     ,STIFR     ,DRAPE_SH4N   ,
      Z                    DRAPE_SH3N    ,H3D_DATA     ,SUBSET    ,IGRNOD    ,FCONT_MAX  ,
      a                    FNCONTP2    ,FTCONTP2     ,NDDL0     ,NNZK0     ,IMPBUF_TAB ,
-     b                    DRAPEG      ,MATPARAM_TAB )
+     b                    DRAPEG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,7 +121,6 @@ C-----------------------------------------------
       USE IMPBUFDEF_MOD
       USE SENSOR_MOD
       USE ANIM_MOD
-      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -209,7 +208,6 @@ C-----------------------------------------------
       TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(DRAPEG_)    :: DRAPEG
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -855,7 +853,7 @@ C
      5             SN5        ,CONT      ,SN6        ,ICUT        ,SKEW      ,
      6             XCUT       ,FINT      ,ITAB       ,SN7         ,FEXT      ,
      7             FOPT       ,ANIN      ,LPBY       ,NPBY        ,NSTRF     ,
-     8             RWBUF      ,NPRW      ,TANI       ,ELBUF_TAB   ,MATPARAM_TAB,
+     8             RWBUF      ,NPRW      ,TANI        ,ELBUF_TAB ,
      A             DD_IAD     ,WEIGHT    ,EANI       ,IPART       ,CLUSTER   ,
      B             IPART(K1)  ,IPART(K2) ,IPART(K3)  ,IPART(K4)   ,IPART(K5) ,
      C             IPART(K6)  ,IPART(K7) ,IPART(K8)  ,

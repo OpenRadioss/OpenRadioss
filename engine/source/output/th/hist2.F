@@ -70,7 +70,7 @@ Chd|====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG    ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER   ,
-     5                 PARTSAV ,ACCELM    ,LOUT     ,NSENSOR  ,MATPARAM_TAB, 
+     5                 PARTSAV ,ACCELM    ,LOUT     ,NSENSOR  ,
      6                 IPARI   ,WEIGHT    ,IPART    ,IGRSURF  ,
      7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
      8                 KXX     ,IXR       ,
@@ -100,7 +100,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE SEATBELT_MOD  
       USE SENSOR_MOD
-      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,7 +164,6 @@ C-----------------------------------------------
       TYPE (PINCH) :: PINCH_DATA
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 C-----------------------------------------------
@@ -791,7 +789,7 @@ C-------------------------------------------------------
 !   TH optimization for shell/shell3n elements
         !   initialization of local array
         WA_COQ(ID_HIST)%WA_REAL( 1:WA_COQ_SIZE(ID_HIST) ) = ZERO
-        CALL THCOQ(ELBUF_TAB,MATPARAM_TAB,NTHGRP2 , ITHGRP ,
+        CALL THCOQ(ELBUF_TAB,NTHGRP2 , ITHGRP ,
      .                 IPARG,ITHBUF,WA_COQ(ID_HIST)%WA_REAL,
      .                 IPM,IGEO,IXC,IXTG ,PM,
      .                 RTHBUF ,THKE ,STACK)

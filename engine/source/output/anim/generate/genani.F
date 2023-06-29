@@ -210,7 +210,7 @@ Chd|====================================================================
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
      7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
-     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MATPARAM_TAB,
+     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
      C                  IPARTR   ,IPARTUR  ,IPARTTG     ,
@@ -255,7 +255,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD 
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -349,7 +348,6 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)  :: IGRSURF
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -779,7 +777,7 @@ C
        NBF_PXFEMG  = 0
        NFNOD_PXFEMG = 0
 
-       IF (ANIM_PLY > 0 ) THEN
+       IF(ANIM_PLY > 0 ) THEN
 
          IF (NSPMD > 1) THEN
 C Xfem init for NSPMD > 1
@@ -3598,7 +3596,7 @@ C   2D TENSOR TEXT
 C-----------------------------------------------
 C  en spmd localement NBF = 0 mais pas la somme sur p0 !
 C  sur p0 nbf global
-      IF (ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)THEN
+       IF(ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)THEN
         IF(ANIM_CT(1)==1) CALL ANI_TXT('Stress (membrane)',17)
         IF(ANIM_CT(2)==1) CALL ANI_TXT('Stress (moment/t^2)',19)
         IF(ANIM_CT(3)==1) CALL ANI_TXT('Stress (upper)',14)
@@ -3776,84 +3774,55 @@ C-----------------------------------------------
             END IF
           ENDDO
         ENDDO
-
-c-----------------------------------------------------------
-c       Stress output in material (orthotropic) coordinates
-c-----------------------------------------------------------
-        IDX = 3120 + 3*MX_PLY_ANIM
-
-        IF (ANIM_CT(IDX+1)==1) CALL ANI_TXT('Mstress (membrane)',17)
-        IF (ANIM_CT(IDX+2)==1) CALL ANI_TXT('Mstress (upper)',14)
-        IF (ANIM_CT(IDX+3)==1) CALL ANI_TXT('Mstress (lower)',14)
-c
-        IDX = 3120 + 3*MX_PLY_ANIM + 3
-        DO I = IDX+1,IDX+100
-         IF (ANIM_CT(I)==1) THEN
-           WRITE(MES,'(A,I3,A)')'Mstress (layer',I,')'
-           CALL ANI_TXT(MES,18)
-         ENDIF
-        ENDDO
-c
-c       /ANIM/SHELL/IDPLY/MSTRESS/KEY5/KEY6  (prop type 17, 51 and 52 only)
-c
-        IDX = 3120 + 3*MX_PLY_ANIM + 103
-        DO I = IDX+1,IDX + MX_PLY_ANIM
-          IF (ANIM_CT(I) == 1) THEN
-            WRITE(MES,'(A,I10,X,I3,A)')
-     .      'Mstress (PLY/IPT',PLY_ANIM_STRESS( 3 * (I - 1) + 1),
-     .      PLY_ANIM_STRESS(3 * (I - 1) + 3),')'
-            CALL ANI_TXT(MES,30)
-          END IF
-        ENDDO
 !
-      ENDIF  ! IF(ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)
+       ENDIF  ! IF(ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)
 C-----------------------------------------------
 C   2D TENSOR
 C-----------------------------------------------
-      DO I = 1,MX_ANI
-        IFUNC = I
-        IF (ANIM_CT(I) == 1) THEN
-          CALL TENSORC(ELBUF_TAB,IPARG ,IFUNC ,INVERT,NELCUT,
-     .                 EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
-     .                 NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
-     .                 IGEO     ,IXTG  ,IPM   ,STACK ,MATPARAM_TAB)
-          IF (ISPMD==0) THEN
-            R4 = ZERO
-            DO J=1,NESBW2
-             CALL WRITE_R_C(R4,1)
-             CALL WRITE_R_C(R4,1)
-             CALL WRITE_R_C(R4,1)
-            ENDDO
+       DO I = 1,MX_ANI
+         IFUNC = I
+         IF(ANIM_CT(I)==1)THEN
+           CALL TENSORC(ELBUF_TAB,IPARG ,IFUNC ,INVERT,NELCUT,
+     .                  EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
+     .                  NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
+     .                  IGEO     ,IXTG  ,IPM   ,STACK )
+           IF (ISPMD==0) THEN
+             R4 = ZERO
+             DO J=1,NESBW2
+              CALL WRITE_R_C(R4,1)
+              CALL WRITE_R_C(R4,1)
+              CALL WRITE_R_C(R4,1)
+             ENDDO
+           ENDIF
+C
+           IF(ANIM_PLY > 0 .AND. ANIM_CT(I) == 1) THEN
+              CALL TENSORC_PLY( IPLY,    NEL_PLY,  ELBUF_TAB ,IPARG,
+     .                          IFUNC,   INVERT,   EL2FA_PLY ,NBF_PXFEM,
+     .                          WAFT_PLY,TANI,     IAD,       PLYNUMC,
+     .                          NBPART,  IAD_PLYG, X,         IXC,
+     .                          IGEO,    IXTG,     NBF_PXFEMG,IPM, STACK )
           ENDIF
 C
-          IF (ANIM_PLY > 0) THEN    ! prop type 17 only
-             CALL TENSORC_PLY(IPLY,    NEL_PLY,  ELBUF_TAB ,IPARG,
-     .                        IFUNC,   INVERT,   EL2FA_PLY ,NBF_PXFEM,
-     .                        WAFT_PLY,TANI,     IAD,       PLYNUMC,
-     .                        NBPART,  IAD_PLYG, X,         IXC,
-     .                        IGEO,    IXTG,     NBF_PXFEMG,IPM, STACK )
-          ENDIF
-C
-          IF (ANIM_CRK > 0) THEN
-             CALL TENSORC_CRK(
-     .               ELBUF_TAB,XFEM_TAB ,IPARG    ,IPM         ,
-     .               IFUNC    ,INVERT   ,EL2FA_CRK,NBF_CRKXFEMG,
-     .               LEN_CRKX ,TANI     ,IAD      ,NBF_CRKXFEM ,
-     .               NBPART   ,IAD_CRKG ,X        ,IXC         ,
-     .               IGEO     ,IXTG     ,IEL_CRK  ,IADC_CRK    ,
-     .               CRKEDGE  ,INDX_CRK )
+           IF(ANIM_CRK > 0 .AND. ANIM_CT(I) == 1) THEN
+              CALL TENSORC_CRK(
+     .                ELBUF_TAB,XFEM_TAB ,IPARG    ,IPM         ,
+     .                IFUNC    ,INVERT   ,EL2FA_CRK,NBF_CRKXFEMG,
+     .                LEN_CRKX ,TANI     ,IAD      ,NBF_CRKXFEM ,
+     .                NBPART   ,IAD_CRKG ,X        ,IXC         ,
+     .                IGEO     ,IXTG     ,IEL_CRK  ,IADC_CRK    ,
+     .                CRKEDGE  ,INDX_CRK )
           ENDIF
 C
           IF (ISPMD==0.AND.NFVTR>0) THEN
-            R4 = ZERO
-            DO J=1,NFVTR
-               CALL WRITE_R_C(R4,1)
-               CALL WRITE_R_C(R4,1)
-               CALL WRITE_R_C(R4,1)
-            ENDDO
-          ENDIF
-        ENDIF
-      ENDDO
+              R4=ZERO
+              DO J=1,NFVTR
+                 CALL WRITE_R_C(R4,1)
+                 CALL WRITE_R_C(R4,1)
+                 CALL WRITE_R_C(R4,1)
+              ENDDO
+           ENDIF
+         ENDIF
+       ENDDO
 
 C-----------------------------------------------
 C   ELEMENT MASS

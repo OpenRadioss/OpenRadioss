@@ -40,46 +40,47 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NUMMAT
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM_TAB
-      TARGET :: MATPARAM_TAB 
+      INTEGER :: NUMMAT
+      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT), TARGET :: MATPARAM_TAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IMAT,NUMTABL,IAD,LEN
-      INTEGER ,DIMENSION(:)   ,ALLOCATABLE :: IBUF
-      TYPE (MATPARAM_STRUCT_) ,POINTER     :: MATPARAM
+      my_real :: HEAD
+      my_real, DIMENSION(:), ALLOCATABLE :: RBUF
+      TYPE (MATPARAM_STRUCT_) , POINTER  :: MATPARAM
 C=======================================================================
 c     read MATPARAM data
 c
-      CALL READ_I_C(LEN, 1)
-      ALLOCATE (IBUF(LEN) )
-      CALL READ_I_C(IBUF, LEN)
+      CALL READ_DB(HEAD, 1)
+      LEN = NINT(HEAD)
+      ALLOCATE (RBUF(LEN) )
+      CALL READ_DB(RBUF, LEN)
 c      
       IAD = 0
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
         IAD = IAD+1
-          MATPARAM%ILAW               = IBUF(IAD)
+          MATPARAM%ILAW = NINT(RBUF(IAD))
         IAD = IAD+1
-          MATPARAM%MAT_ID             = IBUF(IAD)
+          MATPARAM%MAT_ID = NINT(RBUF(IAD))
         IAD = IAD+1
-          MATPARAM%NTABLE             = IBUF(IAD)
+          MATPARAM%COMPRESSIBILITY = NINT(RBUF(IAD))
         IAD = IAD+1
-          MATPARAM%COMPRESSIBILITY    = IBUF(IAD)
+          MATPARAM%SMSTR = NINT(RBUF(IAD))
         IAD = IAD+1
-          MATPARAM%SMSTR              = IBUF(IAD)
+          MATPARAM%STRAIN_FORMULATION = NINT(RBUF(IAD))
         IAD = IAD+1
-          MATPARAM%STRAIN_FORMULATION = IBUF(IAD)
+          MATPARAM%NTABLE = NINT(RBUF(IAD))
         IAD = IAD+1
-          MATPARAM%IPRES              = IBUF(IAD)
-        IAD = IAD+1
-          MATPARAM%ORTHOTROPY         = IBUF(IAD)
+          MATPARAM%IPRES = NINT(RBUF(IAD))
       END DO
 c
-      DEALLOCATE( IBUF )
+      DEALLOCATE( RBUF )
 c
 c     read material law tables if necessary
       

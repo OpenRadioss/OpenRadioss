@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT58(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM       ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
+     .           PM       ,LSUBMODEL,MAT_ID   ,TITR     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,7 +45,6 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -80,7 +79,6 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -317,8 +315,6 @@ c--------------------------
       PM(1)  = RHOR
       PM(89) = RHO0
       PM(23) = YOUNG
-c--------------------------
-      CALL INIT_MAT_KEYWORD(MATPARAM,"ANISOTROPIC")
 c--------------------------
       MTAG%L_ANG  = 1
 c--------------------------------------------------

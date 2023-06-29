@@ -2404,7 +2404,6 @@ c
                     DO IL=1,NLAY
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                       BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-                      IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                       IADR = (IL-1)*NEL
                       DO IT=1,NPTT
                         DO I=1,NEL
@@ -2419,8 +2418,8 @@ c
                                 DAM1(I)=LBUF%DAM(JJ(1)+I)                          
                                 DAM2(I)=LBUF%DAM(JJ(2)+I)                          
                                 WPLA(I) = WPLA(I) + ABS(LBUF%PLA(I))/NPG           
-                                DMAX(I) = PM(64,IMAT)                     
-                                WPMAX(I)= PM(41,IMAT)                     
+                                DMAX(I) = PM(64,MATLY(J))                     
+                                WPMAX(I)= PM(41,MATLY(J))                     
                                IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I)  
      .                             .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))  
      .                             FAILG(IL,I) = FAILG(IL,I) + 1                 
@@ -2442,7 +2441,6 @@ c
                     DO IL=1,NLAY
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                       BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-                      IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                       IADR = (IL-1)*NEL
                       DO IT=1,NPTT
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(1,1,IT)
@@ -2452,8 +2450,8 @@ c
                             DAM1(I)=LBUF%DAM(JJ(1)+I)			       
                             DAM2(I)=LBUF%DAM(JJ(2)+I)  
                             WPLA(I) = ABS(LBUF%PLA(I))                         
-                            DMAX(I) = PM(64,IMAT)                        
-                            WPMAX(I)= PM(41,IMAT)                        
+                            DMAX(I) = PM(64,MATLY(J))                        
+                            WPMAX(I)= PM(41,MATLY(J))                        
                             IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.  
      .                          WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))          
      .                      FAIL(I) = FAIL(I) + ONE  

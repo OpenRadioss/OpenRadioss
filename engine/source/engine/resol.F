@@ -8457,7 +8457,7 @@ C Regular animation
      B   FSAV          ,SKEW           ,ELBUF_TAB      ,CLUSTER        ,
      C   VR            ,IN             ,WEIGHT         ,FCLUSTER       ,MCLUSTER      ,
      D   DD_IAD        ,DMAS           ,DINER          ,ACCELM         ,GAUGE         ,
-     E   IPARI         ,EANI           ,IPART          ,MATPARAM_TAB   ,
+     E   IPARI         ,EANI           ,IPART          ,
      F   IGRNOD        ,SUBSETS        ,
      G   NOM_OPT       ,AR             ,IGRSURF        ,BUFSF          ,IDATA         ,
      H   RDATA         ,KXX            ,IXX            ,BUFMAT         ,BUFGEO        ,
@@ -8732,8 +8732,7 @@ C
      X SENSORS%FSAV   ,SENSORS%STABSEN,SENSORS%TABSENSOR,INDX_CRK  ,XEDGE4N       ,
      Y XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_SH4N , 
      Z DRAPE_SH3N     ,H3D_DATA       ,SUBSETS    ,IGRNOD    ,     FCONT_MAX,
-     A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB ,
-     B DRAPEG         ,MATPARAM_TAB   )
+     A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB ,DRAPEG  )
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)

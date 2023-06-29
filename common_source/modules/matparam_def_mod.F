@@ -192,13 +192,12 @@ c
       TYPE MATPARAM_STRUCT_
         integer     :: ILAW    
         integer     :: MAT_ID
-        character   :: TITLE*nchartitle
-        integer     :: NTABLE
         integer     :: COMPRESSIBILITY      ! "compressible","incompressible","elasto_plastic"
         integer     :: SMSTR                ! "small_strain", "large_strain"
         integer     :: STRAIN_FORMULATION   ! "total", "incremental"
+        character   :: TITLE*nchartitle
+        integer     :: NTABLE
         integer     :: IPRES                ! "hydrostatic",hydro_eos","hook"
-        integer     :: ORTHOTROPY           ! "isotropic", "orthotropic", "anisotropic"
         TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! local table of functions
       END TYPE MATPARAM_STRUCT_
 c=======================================================================      

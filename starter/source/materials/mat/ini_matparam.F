@@ -47,12 +47,11 @@ C-----------------------------------------------
       INTEGER IMAT
 C=======================================================================
       DO IMAT=1,NUMMAT
-        MATPARAM_TAB(IMAT)%ILAW               = 0
-        MATPARAM_TAB(IMAT)%MAT_ID             = 0
-        MATPARAM_TAB(IMAT)%COMPRESSIBILITY    = 3  ! elsto_plastic
-        MATPARAM_TAB(IMAT)%SMSTR              = 2  ! large strain
+        MATPARAM_TAB(IMAT)%ILAW    = 0
+        MATPARAM_TAB(IMAT)%MAT_ID  = 0
+        MATPARAM_TAB(IMAT)%COMPRESSIBILITY = 3     ! elsto_plastic
+        MATPARAM_TAB(IMAT)%SMSTR = 2               ! large strain
         MATPARAM_TAB(IMAT)%STRAIN_FORMULATION = 1  ! incremental
-        MATPARAM_TAB(IMAT)%ORTHOTROPY         = 1  ! isotropic
         MATPARAM_TAB(IMAT)%NTABLE = 0              ! number of local function tables
         MATPARAM_TAB(IMAT)%IPRES = 1               ! hydrostatic using AMU
       END DO

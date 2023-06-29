@@ -146,6 +146,8 @@ C
           EPS(I,3)=EXY(I) + ZT*KXY(I) + PLY_EXY(I,IPT)
           EPS(I,4)=EYZ(I) 
           EPS(I,5)=EXZ(I) 
+!          EPS(4,I)=EYZ(I) + PLY_EYZ(I,J)
+!          EPS(5,I)=EXZ(I) + PLY_EXZ(I,J) 
           STRN1(I)= GSTR(I,1)+ ZT*GSTR(I,6)
           STRN2(I)= GSTR(I,2)+ ZT*GSTR(I,7)
           STRN3(I)=(GSTR(I,3)+ ZT*GSTR(I,8))*HALF  

@@ -43,45 +43,42 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER , INTENT(IN)    :: NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM_TAB
-      TARGET :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT), TARGET :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMAT,IAD,LEN,NPARAM,NUMTABL
-      INTEGER, DIMENSION(:)  ,ALLOCATABLE :: IBUF
-      TYPE(MATPARAM_STRUCT_) ,POINTER     :: MATPARAM
+      my_real, DIMENSION(:), ALLOCATABLE :: RBUF
+      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
 C=======================================================================
-      NPARAM = 8
+      NPARAM = 7
       LEN = NPARAM*NUMMAT + 1
-      ALLOCATE (IBUF(LEN) )
+      ALLOCATE (RBUF(LEN) )
 c
       IAD = 1
-      IBUF(IAD) = LEN-1
+      RBUF(IAD) = LEN-1
 c
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%ILAW 
+          RBUF(IAD) = MATPARAM%ILAW 
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%MAT_ID
+          RBUF(IAD) = MATPARAM%MAT_ID
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%NTABLE
+          RBUF(IAD) = MATPARAM%COMPRESSIBILITY
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%COMPRESSIBILITY
+          RBUF(IAD) = MATPARAM%SMSTR
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%SMSTR
+          RBUF(IAD) = MATPARAM%STRAIN_FORMULATION
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%STRAIN_FORMULATION
+          RBUF(IAD) = MATPARAM%NTABLE
         IAD = IAD+1
-          IBUF(IAD) = MATPARAM%IPRES
-        IAD = IAD+1
-          IBUF(IAD) = MATPARAM%ORTHOTROPY
+          RBUF(IAD) = MATPARAM%IPRES
       END DO
 c
-      CALL WRITE_I_C(IBUF,LEN)
+      CALL WRITE_DB(RBUF,LEN)
 c
-      DEALLOCATE(IBUF)
+      DEALLOCATE( RBUF )
       
 c     write material law tables if necessary
       
