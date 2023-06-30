@@ -71,24 +71,24 @@ Chd|====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG    ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER   ,
-     5                 PARTSAV ,ACCELM    ,LOUT     ,NSENSOR  ,MATPARAM_TAB, 
-     6                 IPARI   ,WEIGHT    ,IPART    ,IGRSURF  ,
+     5                 PARTSAV ,ACCELM    ,NSENSOR  ,MATPARAM_TAB, 
+     6                 WEIGHT    ,IPART    ,IGRSURF  ,
      7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
      8                 KXX     ,IXR       ,
      9                 KXSP    ,NOD2SP    ,SPBUF    ,
-     B                 NPARTSAV,AR        ,VR       ,DR       ,
-     D                 FSAVD   ,LRIVET    ,RIVET    ,IXP      ,
+     B                 AR        ,VR       ,DR       ,
+     D                 LRIVET    ,RIVET    ,IXP      ,
      E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC      ,IXQ       ,
      F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2  ,IXTG      ,
      G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP   ,FXBVIT    ,
      H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP    ,NACCP     ,
      I                 IPARTH  ,NPARTH    ,NVPARTH  ,
-     J                 NVSUBTH ,MONVOL    ,VOLMON   ,FR_MV    ,TEMP,INOD ,
+     J                 MONVOL    ,VOLMON   ,FR_MV    ,TEMP,INOD ,
      K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE    ,
-     L                 IGAUP   ,NGAUP     ,ITTYP    ,WEIGHT_MD,SIZE_MES  ,
+     L                 IGAUP   ,NGAUP     ,ITTYP    ,SIZE_MES  ,
      M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO    ,
      N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W        ,SITHBUF   ,
-     Q                 FSAVSURF,NSEG_LOADP)
+     Q                 FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -133,25 +133,23 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: SITHBUF,NSENSOR
-      INTEGER MBUFFER, NPARTL
-      LOGICAL LOUT
+      INTEGER NPARTL
       INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),
-     .   NPARTSAV,
-     .   IPARI(NPARI,NINTER),IGEO(NPROPGI,NUMGEO),
+     .   IGEO(NPROPGI,NUMGEO),
      .   WEIGHT(NUMNOD),IPART(LIPART1,*),
      .   ITHGRP(NITHGR,*),ITHBUF(*),
      .   IXR(NIXR,*),KXSP(NISP,*),NOD2SP(*),LRIVET(4,*),IPM(NPROPMI,NUMMAT),
      .   ISKWN(LISKN,*),IFRAME(LISKN,*),IXC(NIXC,NUMELC),IXQ(NIXQ,NUMELQ),
      .   IXTG(NIXTG,*),IFIL,NTHGRP2,FXBIPM(*),IPARTL(*),IACCP(*),
      .   NACCP(*),NPARTH,IPARTH(NPARTH,*),NVPARTH,
-     .   NVSUBTH, MONVOL(*), FR_MV(*),INOD(*),
+     .   MONVOL(*), FR_MV(*),INOD(*),
      .   NODREAC(*),KXX(NIXX,*),IGAUP(*),NGAUP(*),ITTYP,
-     .   WEIGHT_MD(NUMNOD),SIZE_MES,ISPHIO(NISPHIO,*),ITHFLAG
+     .   SIZE_MES,ISPHIO(NISPHIO,*),ITHFLAG
       my_real
      .   PM(NPROPM,NUMMAT), D(3,NUMNOD), X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), BUFEL(*), WA(*),
      .   FSAV(NTHVKI,*), FLSW(9,*), SKEW(LSKEW,*), PARTSAV(NPSAV,*),
      .   ACCELM(LLACCELM,*), GEO(NPROPG,*),SPBUF(*),XFRAME(NXFRAME,*),
-     .   AR(3,NUMNOD),VR(3,NUMNOD),DR(3,NUMNOD),FSAVD(NTHVKI,*),
+     .   AR(3,NUMNOD),VR(3,NUMNOD),DR(3,NUMNOD),
      .   RIVET(NRIVF,*), THKE(*),
      .   RIVOFF(NRIVET), FXBDEP(*), FXBVIT(*), FXBACC(*), VOLMON(*),
      .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
@@ -169,23 +167,23 @@ C-----------------------------------------------
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      LOGICAL, INTENT(INOUT) :: NEED_TO_REINIT_FSAV !< boolean to re-initialize PARTSAV array 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL ICOND,RIVET_BOOL
       
-      INTEGER I,J,K,L,M,N,II,JJ,IP,NP,NN,NG,ITY,NEL,NFT,N1,N2,NPT,NRWA,
-     .        JALE,FSAVMAX,PROC,NVAR,IAD,ITYP,IADV,FIRST,KRBHOL,ISKN,NNOD, ID_HIST, SEEK_ID,
-     .        MY_SIZE,IMID,IPID,JALE_FROM_MAT,JALE_FROM_PROP
+      INTEGER I,J,K,L,M,N,II,JJ,NP,NN,N1,NRWA,
+     .        JALE,FSAVMAX,NVAR,IAD,ITYP,IADV,KRBHOL,ID_HIST, SEEK_ID,
+     .        IMID,IPID,JALE_FROM_MAT,JALE_FROM_PROP
 
-      my_real XFN,SUBSAV(100),XX,YY,ZZ,XY,YZ,ZX,DET,XXMOM,YYMOM,ZZMOM,NORM, 
+      my_real XX,YY,ZZ,DET,XXMOM,YYMOM,ZZMOM, 
      .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,                   
-     .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,XM,YM,ZM,             
+     .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,          
      .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
-     .        VX(3),VY(3),VN(3),X1(3),X2(3),X3(3),FLOC(3),MLOC(3),FAC ,     
-     .        ARRAY(5)                                    
-      DATA FIRST/0/
-      SAVE FIRST
+     .        FAC,ARRAY(5)                            
+      my_real, DIMENSION(100) :: SUBSAV  
+      my_real, DIMENSION(1) :: WA_LOCAL      
       REAL(KIND=8) :: THIS0_DOUBLE,TT_DOUBLE
       REAL(KIND=8) :: DTHIS0_DOUBLE,DT1_DOUBLE,THISC_DOUBLE
 C=======================================================================
@@ -213,6 +211,7 @@ C--------Multidomains : control of time history for subdomains-----------
       ENDIF      
 C-----------------------------------------------------------------------    
       IF (TT>=THISC) THEN
+        NEED_TO_REINIT_FSAV = .TRUE.
 C---------------------------
         IF (IDDOM == 0) R2R_TH_MAIN(SEEK_ID) = 1
         R2R_TH_FLAG(SEEK_ID) = 1          
@@ -250,8 +249,9 @@ C--------Multidomains : offset for th file------------------------------
               CALL FSEEK_C(SEEKC(SEEK_ID))          
             ENDIF
           ENDIF
-C-----------------------------------------------------------------------                  
-          CALL WRTDES(TT,TT,1,ITTYP,1)
+C-----------------------------------------------------------------------              
+          WA_LOCAL(1) = TT    
+          CALL WRTDES(WA_LOCAL,WA_LOCAL,1,ITTYP,1)
 C------------------------
 C         VARIABLES GLOBALES
 C------------------------
@@ -271,15 +271,6 @@ C------------------------
           WA(II+13)= ECONT+ECONT_CUMU !Contact Elastic Energy
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
-
-!   Version 2018 not released 
-c          WA(II+13)=EAMS
-c          WA(II+14)= ARRAY(1)
-c          WA(II+15)= ARRAY(2)
-c          WA(II+16)= ARRAY(3)
-c          WA(II+17)= ARRAY(4)
-c          WA(II+18)= ARRAY(5)
-
 C         NGLOBTH depends on /TH/VERS
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
@@ -425,12 +416,8 @@ C-----------------------------
        IF(NSUBS>0.AND.ISPMD==0) THEN
          II=0
          DO I=1,NSUBS
-!!           NVAR=ISUBTH(NVSUBTH,I)
-!!           IAD =ISUBTH(NVSUBTH+1,I)
            NVAR=SUBSET(I)%NVARTH(ITHFLAG)
            IAD =SUBSET(I)%THIAD
-!!           NP  =ISUBS(8,I)
-!!           IP  =ISUBS(9,I)
            NP = SUBSET(I)%NTPART
            IF(NVAR>0)THEN
              DO K=1,NPSAV

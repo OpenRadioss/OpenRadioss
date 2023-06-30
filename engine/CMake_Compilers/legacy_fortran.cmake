@@ -624,7 +624,7 @@ set_source_files_properties( ${source_directory}/source/output/th/thtrus_count.F
 # set_source_files_properties( ${source_directory}/source/output/th/thres.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/output/th/thmonv.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/th/thrnur.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/output/th/hist2.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+#set_source_files_properties( ${source_directory}/source/output/th/hist2.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/output/th/thpout.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/th/thcoq_count.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/output/th/bcs1th_imp.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
