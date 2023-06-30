@@ -60,6 +60,7 @@ Chd|        HM_READ_MAT124                starter/source/materials/mat/mat124/hm
 Chd|        HM_READ_MAT13                 starter/source/materials/mat/mat013/hm_read_mat13.F
 Chd|        HM_READ_MAT14                 starter/source/materials/mat/mat014/hm_read_mat14.F
 Chd|        HM_READ_MAT15                 starter/source/materials/mat/mat015/hm_read_mat15.F
+Chd|        HM_READ_MAT158                starter/source/materials/mat/mat158/hm_read_mat158.F
 Chd|        HM_READ_MAT16                 starter/source/materials/mat/mat016/hm_read_mat16.F
 Chd|        HM_READ_MAT18                 starter/source/materials/mat/mat018/hm_read_mat18.F
 Chd|        HM_READ_MAT19                 starter/source/materials/mat/mat019/hm_read_mat19.F
@@ -83,6 +84,7 @@ Chd|        HM_READ_MAT50                 starter/source/materials/mat/mat050/hm
 Chd|        HM_READ_MAT51                 starter/source/materials/mat/mat051/hm_read_mat51.F
 Chd|        HM_READ_MAT53                 starter/source/materials/mat/mat053/hm_read_mat53.F
 Chd|        HM_READ_MAT57                 starter/source/materials/mat/mat057/hm_read_mat57.F
+Chd|        HM_READ_MAT58                 starter/source/materials/mat/mat058/hm_read_mat58.F
 Chd|        HM_READ_MAT59                 starter/source/materials/mat/mat059/hm_read_mat59.F
 Chd|        HM_READ_MAT60                 starter/source/materials/mat/mat060/hm_read_mat60.F
 Chd|        HM_READ_MAT62                 starter/source/materials/mat/mat062/hm_read_mat62.F
@@ -144,7 +146,12 @@ Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_cr
 Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        FORINTP                       engine/source/elements/forintp.F
+Chd|        GENANI                        engine/source/output/anim/generate/genani.F
+Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
+Chd|        H3D_SHELL_TENSOR              engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
+Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
 Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
@@ -170,8 +177,11 @@ Chd|        SCFORC3                       engine/source/elements/thickshell/soli
 Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SIGEPS76                      engine/source/materials/mat/mat076/sigeps76.F
 Chd|        SIGEPS76C                     engine/source/materials/mat/mat076/sigeps76c.F
+Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
 Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
+Chd|        TENSORC                       engine/source/output/anim/generate/tensorc.F
+Chd|        THCOQ                         engine/source/output/th/thcoq.F
 Chd|        WRITE_ELGROUP_PARAM           engine/source/output/restart/write_elgroup_param.F
 Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F

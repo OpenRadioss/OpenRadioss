@@ -24,8 +24,6 @@ Chd|====================================================================
 Chd|  SIGROTA                       source/output/anim/generate/sigrota.F
 Chd|-- called by -----------
 Chd|        DFUNCC_PLY                    source/output/anim/generate/dfuncc_ply.F
-Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
-Chd|        TENSORC                       source/output/anim/generate/tensorc.F
 Chd|        TENSORC_PLY                   source/output/anim/generate/tensorc_ply.F
 Chd|-- calls ---------------
 Chd|        UROTOV                        source/airbag/uroto.F         

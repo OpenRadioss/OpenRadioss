@@ -67,13 +67,11 @@ C
 Chd|====================================================================
 Chd|  UROTOV                        source/airbag/uroto.F         
 Chd|-- called by -----------
-Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        M32PLAS                       source/materials/mat/mat032/m32plas.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        SIGROTA                       source/output/anim/generate/sigrota.F
 Chd|        SIGROTA_XFE                   source/output/anim/generate/sigrota_xfe.F
-Chd|        TENSORC                       source/output/anim/generate/tensorc.F
 Chd|        TENSORC_CRK                   source/output/anim/generate/tensorc_crk.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
