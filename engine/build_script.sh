@@ -210,7 +210,7 @@ else
 
        if [ "$arg" == "-c" ]
        then
-         com=1 
+         com=1
          dc="-DCOM=1"
          cf="_c"
          vers=`cat CMake_Compilers_c/cmake_eng_version.txt | awk -F '\"' '{print $2}' `
@@ -300,9 +300,27 @@ cd ${build_directory}
 # Get compiler settings
 if [ $com = 1 ]
 then
-    source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
+    if [ -f ../CMake_Compilers_c/cmake_${arch}_compilers.sh ]
+    then
+      source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
+    else
+      echo "-- Error: -arch=${arch} does not exist"
+      echo "-- See help bellow"
+      echo " " 
+      my_help
+      exit 1
+    fi
 else
-    source ../CMake_Compilers/cmake_${arch}_compilers.sh
+    if [ -f ../CMake_Compilers/cmake_${arch}_compilers.sh ]
+    then
+      source ../CMake_Compilers/cmake_${arch}_compilers.sh
+    else
+      echo "-- Error: -arch=${arch} does not exist"
+      echo "-- See help bellow"
+      echo " " 
+      my_help
+      exit 1
+    fi
 fi
 
 Fortran_path=`which $Fortran_comp`
@@ -322,6 +340,22 @@ then
   cmake.exe -G "Unix Makefiles"  -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release   -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la} .. 
 else
   cmake -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root}   -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} .. 
+fi
+
+return_value=$?
+if [ $return_value -ne 0 ]
+then
+   echo " " 
+   echo " " 
+   echo "-- Errors in Cmake found"
+   cd ..
+   if [ -d ${build_directory} ]
+   then
+     echo "-- Cleaning ${build_directory} directory"
+     rm -rf ./${build_directory}
+   fi
+   echo " " 
+   exit 1
 fi
 
 make -j ${threads} ${verbose}
