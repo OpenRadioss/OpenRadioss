@@ -62,6 +62,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
 Chd|        IMP_WORKG                     share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

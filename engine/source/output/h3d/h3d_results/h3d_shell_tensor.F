@@ -26,11 +26,15 @@ Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        H3D_WRITE_SH_TENSOR           source/output/h3d/h3d_results/h3d_write_sh_tensor.F
+Chd|        H3D_WRITE_SH_TENSOR_ARRAY     source/output/h3d/h3d_results/h3d_write_sh_tensor_array.F
+Chd|        ROTO_TENS2D                   source/materials/tools/roto_tens2d.F
+Chd|        ROTO_TENS2D_ANISO             source/materials/tools/roto_tens2d_aniso.F
 Chd|        SH3_TSTRAIN                   source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        SH4_TSTRAIN                   source/output/h3d/h3d_results/h3d_shell_tensor.F
-Chd|        SIGROTA                       source/output/anim/generate/sigrota.F
-Chd|        UROTOV                        source/airbag/uroto.F         
+Chd|        UROTO_TENS2D                  source/materials/tools/uroto_tens2d.F
+Chd|        UROTO_TENS2D_ANISO            source/materials/tools/uroto_tens2d_aniso.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR,IPARG ,ITENS ,INVERT,NELCUT,

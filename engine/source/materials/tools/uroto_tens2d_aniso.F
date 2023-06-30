@@ -21,8 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  UROTO_TENS2D_ANISO                               
+Chd|  UROTO_TENS2D_ANISO            source/materials/tools/uroto_tens2d_aniso.F
 Chd|-- called by -----------
+Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
+Chd|        TENSORC                       source/output/anim/generate/tensorc.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UROTO_TENS2D_ANISO(NEL,TENS,DIR_A,DIR_B)

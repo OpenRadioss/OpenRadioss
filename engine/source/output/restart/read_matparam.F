@@ -25,7 +25,7 @@ Chd|  READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
