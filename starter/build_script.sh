@@ -113,15 +113,6 @@ else
          static_link=1
        fi
 
-       if [ "$arg" == "-c" ]
-       then
-         com=1
-         dc="-DCOM=1"
-         cf="_c"
-         vers=`cat CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
-         st_vers="s_${vers}"
-       fi
-
        if [ "$arg" == "-verbose" ]
        then
          verbose="VERBOSE=1"
@@ -132,6 +123,15 @@ else
          clean=1
        fi
 
+       if [ "$arg" == "-c" ]
+       then
+         com=1
+         dc="-DCOM=1"
+         cf="_c"
+         vers=`cat CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
+         st_vers="s_${vers}"
+       fi
+
    done
 
    if [ $got_arch == 0 ] 
@@ -139,7 +139,8 @@ else
      echo " " 
      echo " --- Error "
      echo " No architecture flag set ! "
-     echo " " 
+     echo " -arch=[architecture]" 
+     echo "       Available arch:"
      my_help
      exit 1
    fi
@@ -216,11 +217,29 @@ cd ${build_directory}
 # Get compiler settings
 if [ $com = 1 ]
 then
-    source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
+    if [ -f ../CMake_Compilers_c/cmake_${arch}_compilers.sh ]
+    then
+      source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
+    else
+      echo "-- Error: -arch=${arch} does not exist"
+      echo "-- See help bellow"
+      echo " " 
+      my_help
+      exit 1
+    fi
 else
-    source ../CMake_Compilers/cmake_${arch}_compilers.sh
+    if [ -f ../CMake_Compilers/cmake_${arch}_compilers.sh ]
+    then
+      source ../CMake_Compilers/cmake_${arch}_compilers.sh
+    else
+      echo "-- Error: -arch=${arch} does not exist"
+      echo "-- See help bellow"
+      echo " " 
+      my_help
+      exit 1
+    fi
 fi
-  
+
 Fortran_path=`which $Fortran_comp`
 C_path=`which $C_comp`
 CPP_path=`which $CPP_comp`
@@ -228,6 +247,7 @@ CXX_path=`which $CXX_comp`
 
 
 # Apply cmake
+
 if [ ${arch} = "win64" ]
 then
   Fortran_path_w=`cygpath.exe -m "${Fortran_path}"`
@@ -239,8 +259,23 @@ else
   cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
 fi
 
+return_value=$?
+if [ $return_value -ne 0 ]
+then
+   echo " " 
+   echo " " 
+   echo "-- Errors in Cmake found"
+   cd ..
+   if [ -d ${build_directory} ]
+   then
+     echo "-- Cleaning ${build_directory} directory"
+     rm -rf ./${build_directory}
+   fi
+   echo " " 
+   exit 1
+fi
 
-make -j ${threads}  ${verbose}
+make -j ${threads} ${verbose}
 
 
 echo " "
@@ -252,5 +287,4 @@ fi
 
 cd ..
 echo " "
-
 
