@@ -112,8 +112,13 @@ jobs:
           mkdir exec
           cd ${{ matrix.binary }}
 
-          eval $cmd
-
+          eval $cmd 2>&1 |tee build.log
+          if [ -f build.log ]; then
+            if grep -E 'Warning' build.log; then
+              echo "There are warnings"
+              exit 1
+            fi
+          fi
           cd ..
           md5sum exec/* || exit 1
 
