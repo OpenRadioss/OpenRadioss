@@ -8456,7 +8456,7 @@ C Regular animation
      9   NNFLSW        ,CRFLSW         ,FLSW           ,LOUT           ,
      B   FSAV          ,SKEW           ,ELBUF_TAB      ,CLUSTER        ,
      C   VR            ,IN             ,WEIGHT         ,FCLUSTER       ,MCLUSTER      ,
-     D   DD_IAD        ,DMAS           ,DINER          ,ACCELM         ,GAUGE         ,
+     D   DD_IAD        ,DMAS           ,ACCELM         ,GAUGE         ,
      E   IPARI         ,EANI           ,IPART          ,MATPARAM_TAB   ,
      F   IGRNOD        ,SUBSETS        ,
      G   NOM_OPT       ,AR             ,IGRSURF        ,BUFSF          ,IDATA         ,
