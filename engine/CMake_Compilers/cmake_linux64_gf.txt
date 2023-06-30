@@ -128,7 +128,7 @@ endif()
 
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
 #set( strict "-fallow-argument-mismatch -Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only") 
-set( strict " -fallow-argument-mismatch -Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -Wsurprising ") 
+set( strict " -Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ") 
 
 
 if ( debug STREQUAL "1" )
