@@ -25,7 +25,6 @@ Chd|  GENANI_MOD                    source/output/anim/generate/genani.F
 Chd|-- called by -----------
 Chd|        EIG                           stub/eig.F                    
 Chd|        EIG1                          stub/eig1.F                   
-Chd|        EIGCOND                       stub/eigcond.F                
 Chd|        EIGP                          stub/eigp.F                   
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
