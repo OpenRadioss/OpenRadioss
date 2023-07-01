@@ -143,6 +143,9 @@ Chd|        CMAIN3                        engine/source/materials/mat_share/cmai
 Chd|        CMAIN3PINCH                   engine/source/elements/shell/coqueba/cmain3pinch.F
 Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
+Chd|        EIG                           engine/stub/eig.F             
+Chd|        EIG1                          engine/stub/eig1.F            
+Chd|        EIGP                          engine/stub/eigp.F            
 Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        FORINTP                       engine/source/elements/forintp.F
