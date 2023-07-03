@@ -32,7 +32,7 @@ Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
-        SUBROUTINE CHECK_REMOTE_SURFACE_STATE( ITASK,SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
+        SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,IAD_ELEM,SHOOT_STRUCT )
 !$COMMENT
 !       CHECK_SURFACE_STATE description
@@ -65,7 +65,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: ITASK ! omp thread ID
         INTEGER, INTENT(in) :: SURFARCE_NB  ! number of local deactivated surface
         INTEGER, DIMENSION(SURFARCE_NB), INTENT(in) :: SURFACE_ID  ! id of surface that need to be deactivated
         INTEGER, DIMENSION(NINTER+1,2), INTENT(in) :: SHIFT_INTERFACE ! interface shift
@@ -76,11 +75,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        LOGICAL :: DEACTIVATION
         INTEGER :: I,K,J,IJK,FIRST,LAST
         INTEGER :: NIN,ID_INTER,NUMBER_INTER,NRTM ! related to the surface : interface id, number of surface...
         INTEGER :: ITY,IDEL
-        INTEGER :: N1,N2,N3,N4
         INTEGER :: NODE_ID
         INTEGER :: SHIFT
         INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function

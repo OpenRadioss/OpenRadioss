@@ -54,8 +54,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,IAD,IANIM,ISENS,IFUN,IFRA,N1,N2,N3,N4,M1,M2,
      .   NSEG,NDIM,NPOINT
-      my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
-     .   ALPHA,BETA,GAMMA,F1,F2,R,S,RMAX,XFACR,XFACT,YFAC,
+      my_real :: LEN,DIRX,DIRY,DIRZ,
+     .   RMAX,XFACR,XFACT,YFAC,
      .   NX,NY,NZ,FX,FY,FZ,SEGP,PRESS,TFEXTT
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
 c=======================================================================
@@ -110,7 +110,7 @@ c
 c
           IF (N4 == 0) THEN    ! 3 node segment
             CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
             NX = (C(2)-A(2))*(C(3)-B(3)) - (C(3)-A(3))*(C(2)-B(2))
             NY = (C(3)-A(3))*(C(1)-B(1)) - (C(1)-A(1))*(C(3)-B(3))
             NZ = (C(1)-A(1))*(C(2)-B(2)) - (C(2)-A(2))*(C(1)-B(1))
@@ -133,19 +133,19 @@ c
             M(3) = (X(3,N1) + X(3,N2) + X(3,N3) + X(3,N4)) * FOURTH
 c           1st internal triangle 
             CALL PRESS_SEG3(A       ,B      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           2nd internal triangle 
             CALL PRESS_SEG3(B       ,C      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           3rd internal triangle 
             CALL PRESS_SEG3(C       ,D      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           4th internal triangle 
             CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           normal to segment = vector prod of 2 diagonals  
             NX = (C(2)-A(2))*(D(3)-B(3)) - (C(3)-A(3))*(D(2)-B(2))

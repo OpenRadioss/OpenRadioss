@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                     DEACTIVATION,GEO,IXS,IXC,
-     .                                     IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,
+     .                                     IXT,IXP,IXR,IXTG,ADDCNEL,CNEL,
      .                                     TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       CHECK_ACTIVE_ELEM_EDGE description
@@ -62,7 +62,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
@@ -71,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         LOGICAL :: STILL_COMPUTE,STILL_ALIVE
-        INTEGER :: I,J,K
+        INTEGER :: I,K
         INTEGER :: NEXT
         INTEGER :: ELEM_ID,NODE_ID,OTHER_NODE
         INTEGER :: OFFSET_SOLID,OFFSET_QUAD,OFFSET_SHELL

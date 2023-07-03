@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
-        SUBROUTINE FIND_EDGE_INTER( ITASK,ITAB,SHOOT_STRUCT,IXS,IXS10,
+        SUBROUTINE FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS10,
      1                              IXC,IXTG,IXQ,IXT,IXP,
      2                              IXR,GEO )
 !$COMMENT
@@ -56,7 +56,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: ITASK ! omp thread ID
         INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
         INTEGER, DIMENSION(6,NUMELS10),TARGET, INTENT(in) :: IXS10  ! tetra10 array
         INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array

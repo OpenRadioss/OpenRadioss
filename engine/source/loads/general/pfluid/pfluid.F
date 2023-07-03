@@ -31,8 +31,8 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE PFLUID(ILOADP     ,RLOAD   ,NPC    ,TF     ,A          ,
-     2                  V          ,X       ,XFRAME ,AR     ,VR         ,
-     3                  NSENSOR    ,SENSOR_TAB ,WEIGHT,TFEXC,IADC       ,
+     2                  V          ,X       ,XFRAME ,       
+     3                  NSENSOR    ,SENSOR_TAB ,TFEXC,IADC       ,
      4                  FSKY       ,FSKYV   ,LLOADP ,FEXT   ,H3D_DATA   ,
      5                  TH_SURF    ,FSAVSURF,NSEG_LOADP)
 C-----------------------------------------------
@@ -104,8 +104,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(SNPC),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,NLOADP)
-      INTEGER WEIGHT(SWEIGHT), IADC(DSNCOL)
-      my_real RLOAD(LFACLOAD,NLOADP), TF(STF), A(3,NUMNOD), V(3,NUMNOD), AR(3,NUMNOD), VR(3,NUMNOD),
+      INTEGER IADC(DSNCOL)
+      my_real RLOAD(LFACLOAD,NLOADP), TF(STF), A(3,NUMNOD), V(3,NUMNOD),
      .        X(3,NUMNOD), XFRAME(NXFRAME,NUMFRAM+1),TFEXC,
      .        FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -116,13 +116,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, FUN_HSP, K1, K2, K3, ISENS,K,LL,
-     .        IERR,ICODE,IAD,N_OLD,IFRA1,N1FRAM,DIR_HSP,I,
+      INTEGER NL, N1, N2, N3, N4, FUN_HSP, K1, K2, K3, ISENS,K,
+     .        IAD,N_OLD,IFRA1,DIR_HSP,I,
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,NS,KSURF,NSEGPL
-      my_real NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .        SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY, VSEGX, VSEGY, VSEGZ,
-     .        FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,FINTER,
-     .        CENTROID_DEPTH,YMEAN,ZMEAN,PVEL,NORM,NSIGN,AREA,PA
+      my_real NX, NY, NZ, AA,FX, FY, FZ, DYDX, TS,
+     .        SIXTH,TFEXTT,X_OLD,XSENS,FCX,FCY,
+     .        FCX1,FCY1,FCX2,FCY2,VEL,VSEG,FINTER,
+     .        CENTROID_DEPTH,PVEL,NORM,NSIGN,AREA,PA
       EXTERNAL FINTER
 C-----------------------------------------------
 C   S o u r c e   L i n e s

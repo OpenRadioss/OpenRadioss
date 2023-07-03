@@ -78,7 +78,7 @@ C-----------------------------------------------
         INTEGER :: NIN
         INTEGER :: IX,IY,IZ
         INTEGER :: SIZE_INDEX_CELL,TOTAL_NB_CELL
-        INTEGER :: NSN,NMN,NRTM,NRTM_T
+        INTEGER :: NRTM,NRTM_T
         INTEGER :: ADRESS,ESHIFT,SHIFT
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_CELL
         LOGICAL :: TYPE18
@@ -147,7 +147,7 @@ C-----------------------------------------------
      3                 GAPMIN ,GAPMAX,INTBUF_TAB(NIN)%GAP_M(1+ESHIFT) ,
      4                 INTBUF_TAB(NIN)%IRECTM(1+4*ESHIFT),GAP,INTBUF_TAB(NIN)%VARIABLES(7),DRAD,
      5                 NB_LOCAL_CELL(ITASK+1),SIZE_INDEX_CELL,INDEX_CELL,
-     6                 NIN,COARSE_GRID,SORT_COMM(NIN)%MAIN_COARSE_GRID,DGAPLOAD)
+     6                 COARSE_GRID,SORT_COMM(NIN)%MAIN_COARSE_GRID,DGAPLOAD)
 
             CALL MY_BARRIER()
             ! --------------------   

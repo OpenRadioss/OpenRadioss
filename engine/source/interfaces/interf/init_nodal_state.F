@@ -101,7 +101,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: NIN,ITY,NSN,NMN,NRTM,NRTS,IDEL,IDELKEEP
-        INTEGER :: I,J,K
+        INTEGER :: I,J
         INTEGER :: NODE_ID,SHIFT,SHIFT_INTER,NEXT_INTER
         INTEGER :: TMP_,MY_ERROR,NB_PROC,NB_NODE_SURF,NB_SURF,NB_REAL_NODE
         INTEGER :: NB_EDGE,NB_EDGE_2

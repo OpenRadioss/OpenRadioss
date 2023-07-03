@@ -33,7 +33,7 @@ Chd|====================================================================
         SUBROUTINE CHECK_EDGE_STATE( ITASK,M_EDGE_NB,S_EDGE_NB,M_EDGE_ID,S_EDGE_ID,
      .                               SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                               IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                               ADDCNEL,ITABM1,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
+     .                               ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 !$COMMENT
 !       CHECK_EDGE_STATE description
 !           check the state of an edge (active or not)
@@ -74,7 +74,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
@@ -89,7 +88,6 @@ C-----------------------------------------------
         INTEGER :: ITY,IDEL
         INTEGER :: N1,N2,N3,N4
         INTEGER :: NUMBER_NODE
-        INTEGER :: SHIFT
         INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function
 C-----------------------------------------------
         IF(ITASK==-1) THEN
@@ -130,7 +128,7 @@ C-----------------------------------------------
                     IF(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K)<1) THEN
                         CALL CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                               DEACTIVATION,GEO,IXS,IXC,
-     .                                               IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,
+     .                                               IXT,IXP,IXR,IXTG,ADDCNEL,CNEL,
      .                                               TAG_NODE,TAG_ELEM )
                     ELSE
                         DEACTIVATION = .FALSE.
@@ -179,7 +177,7 @@ C-----------------------------------------------
                     IF(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(K)<1) THEN
                         CALL CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                               DEACTIVATION,GEO,IXS,IXC,
-     .                                               IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,
+     .                                               IXT,IXP,IXR,IXTG,ADDCNEL,CNEL,
      .                                               TAG_NODE,TAG_ELEM )
                     ELSE
                         DEACTIVATION = .FALSE.

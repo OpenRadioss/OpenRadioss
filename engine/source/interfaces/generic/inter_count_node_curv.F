@@ -35,7 +35,7 @@ Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_COUNT_NODE_CURV( NIN,ITASK,IPARI,INTBUF_TAB,
-     1                                    X,WEIGHT,INTER_STRUCT)
+     1                                    X,INTER_STRUCT)
 !$COMMENT
 !       INTER_COUNT_NODE_CURV description :
 !       compute the number of main node & compute the curv for each interface       
@@ -71,7 +71,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
         TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB    ! interface data
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X            !   position
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT !   flag for secondary nodes (1= current proc is the master proc)
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

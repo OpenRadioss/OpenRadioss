@@ -2285,8 +2285,8 @@ C Init var parallel SMP
           ! ---------------------
           ! check if a surface/edge must be deactivated and save the surface/edge id 
           IF(ITSK==0) THEN 
-                CALL FIND_SURFACE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),IXC,IXTG )
-                CALL FIND_EDGE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),
+                CALL FIND_SURFACE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),IXC,IXTG )
+                CALL FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),
      1                                IXC,IXTG,IXQ,IXT,IXP,
      2                                IXR,GEO )
           ENDIF
@@ -2320,15 +2320,14 @@ C Init var parallel SMP
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                           ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
           ! ---------------------
           ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
           ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
           IF(INT24USE>0.OR.NINTER25/=0) THEN 
-            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
-     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
+            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
@@ -3234,7 +3233,7 @@ C-------------------------------------------------------------------
         IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FORCE(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
      2               V      ,X       ,SKEW   ,AR      ,VR        ,
-     3               NSENSOR,SENSORS%SENSOR_TAB ,WEIGHT ,TFEXC   ,IADS(I87J),
+     3               NSENSOR,SENSORS%SENSOR_TAB ,TFEXC   ,IADS(I87J),
      4               FSKY   , FSKY   ,FEXT   ,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC ,OUTPUT%TH%TH_SURF ,FSAVSURF   ,
      6               NSEG_LOADP)
@@ -3276,8 +3275,8 @@ C-------------------------------------------------------------------
         IF (IMONM > 0) CALL STARTIME(41,1)
 !$OMP PARALLEL
           CALL PFLUID(ILOADP  ,LOADP   ,NPC        ,TF        ,A         ,
-     2                V       ,X       ,XFRAME     ,AR        ,VR        ,
-     3                NSENSOR,SENSORS%SENSOR_TAB,WEIGHT,TFEXC,IADS(I87M) ,
+     2                V       ,X       ,XFRAME     ,
+     3                NSENSOR,SENSORS%SENSOR_TAB,TFEXC,IADS(I87M) ,
      4                FSKY    ,FSKY    ,LLOADP     ,FEXT     ,H3D_DATA   ,
      5                OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
 !$OMP END PARALLEL
@@ -4787,7 +4786,7 @@ C
             CALL LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP  ,NPC    ,TF       ,
      2                          A         ,V         ,X       ,SKEW   ,SENSORS%SENSOR_TAB,
      3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
-     4                          KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,H3D_DATA ,
+     4                          LOADP_HYD_INTER,H3D_DATA ,
      5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,FSAVSURF,
      6                          NSEG_LOADP )
 
@@ -5401,8 +5400,8 @@ C WA local  : utilise de 1 a NUMNOD
           ! ---------------------
           ! check if a surface/edge must be deactivated and save the surface/edge id 
           IF(ITSK==0) THEN 
-                CALL FIND_SURFACE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),IXC,IXTG )
-                CALL FIND_EDGE_INTER( ITSK,ITAB,SHOOT_STRUCT,IXS,IXS(L1),
+                CALL FIND_SURFACE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),IXC,IXTG )
+                CALL FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),
      1                                IXC,IXTG,IXQ,IXT,IXP,
      2                                IXR,GEO )
           ENDIF
@@ -5436,15 +5435,14 @@ C WA local  : utilise de 1 a NUMNOD
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                           ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
           ! ---------------------
           ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
           ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
           IF(INT24USE>0.OR.NINTER25/=0) THEN 
-            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( ITSK,
-     .                                                   SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
+            IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
@@ -7180,8 +7178,7 @@ C===============================================================================
             CALL GRAVIT(
      1                  IGRV    ,AGRV   ,NPC   ,TF       ,A     ,
      2                  V       ,X      ,SKEW  ,MS       ,SENSORS%SENSOR_TAB,
-     3                  WEIGHT ,LGRAV ,ITSK     ,ALE_CONNECTIVITY%NALE  ,ITAB   ,
-     4                  NSENSOR)
+     3                  WEIGHT ,LGRAV   ,ITSK  ,NSENSOR)
          ENDIF
 !$OMP END PARALLEL
 
