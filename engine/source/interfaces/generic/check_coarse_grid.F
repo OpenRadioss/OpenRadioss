@@ -62,8 +62,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------       
         LOGICAL :: KEEP_THIS_PROC,BREAK_
         INTEGER :: I,J,IJK
-        INTEGER :: IX,IY,IZ
-        INTEGER :: IX_R,IY_R,IZ_R
         INTEGER :: ID_PROC,DISPL        
 !   ----------------------------------------
 

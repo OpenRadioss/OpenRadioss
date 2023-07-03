@@ -77,7 +77,7 @@ C-----------------------------------------------
         my_real :: TS,STARTT,STOPT,DIST
         LOGICAL TYPE18
         LOGICAL :: IS_SORTING_NEEDED
-        INTEGER :: KK,N,NRTM
+        INTEGER :: KK,N
 !   ----------------------------------------
         NB_INTER_SORTED = 0
         ! --------------------------

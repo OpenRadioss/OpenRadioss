@@ -110,7 +110,6 @@ C-----------------------------------------------
         LOGICAL :: TYPE18
         INTEGER :: KK,N
         INTEGER :: INACTI,NTY
-        INTEGER :: SIZE_X
         INTEGER :: NB_REQUEST_COARSE_CELL   ! number of request for coarse cell comm
         INTEGER, DIMENSION(NB_INTER_SORTED) :: ARRAY_REQUEST_COARSE_CELL ! array of request
         INTEGER, DIMENSION(NB_INTER_SORTED) :: LIST_INTER_COARSE_CELL ! list of interface
@@ -129,7 +128,7 @@ C-----------------------------------------------
                 TYPE18 = .FALSE.
                 IF(NTY == 7 .AND. INACTI ==7)TYPE18=.TRUE.
                 CALL INTER_COUNT_NODE_CURV( N,ITASK,IPARI,INTBUF_TAB,
-     1                                      X,WEIGHT,INTER_STRUCT)
+     1                                      X,INTER_STRUCT)
             ENDDO
             ! ---------------------
             ! compute the min/max position (all nodes)
@@ -226,7 +225,7 @@ C-----------------------------------------------
             ! wait comm R "exchange of number of colored cells" & send/rcv the colored cells
             IF(NSPMD>1.AND.NEED_TO_SORT>0)THEN
                 IF(ITASK==0) THEN
-                    CALL INTER_VOXEL_CREATION(ITASK,IPARI,INTBUF_TAB,X,N,SORT_COMM)! create the voxel of secondary nodes
+                    CALL INTER_VOXEL_CREATION(IPARI,INTBUF_TAB,X,N,SORT_COMM)! create the voxel of secondary nodes
                     CALL SPMD_CELL_LIST_EXCHANGE(IRECVFROM,ISENDTO,2,WEIGHT,IAD_ELEM,
      .                 FR_ELEM,X,V,MS,TEMP,
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,

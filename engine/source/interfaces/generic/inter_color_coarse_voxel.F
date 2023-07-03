@@ -75,8 +75,6 @@ C-----------------------------------------------
         INTEGER :: IX,IY,IZ
         INTEGER :: NSN
         INTEGER :: FIRST,LAST
-        INTEGER :: ADRESS,ESHIFT,SHIFT
-        INTEGER, DIMENSION(:,:), ALLOCATABLE :: INDEX_CELL
         my_real :: VALUE
         my_real :: XMINB,YMINB,ZMINB
         my_real :: XMAXB,YMAXB,ZMAXB

@@ -38,7 +38,7 @@ Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th
 Chd|====================================================================
       SUBROUTINE FORCE (IB      ,FAC       ,NPC     ,TF      ,A      ,
      2                  V       ,X         ,SKEW    ,AR      ,VR     ,
-     3                  NSENSOR ,SENSOR_TAB,WEIGHT  ,TFEXC   ,IADC   ,
+     3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
      4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
      5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
      6                  NSEG_LOADP) 
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),CPTREAC,NODREAC(*)
       INTEGER IB(NIBCLD,*)
-      INTEGER WEIGHT(*), IADC(4,*)
+      INTEGER IADC(4,*)
       my_real
      .   FAC(LFACCLD,*), TF(*), A(3,*), V(3,*), AR(3,*), VR(3,*),
      .   X(3,*), SKEW(LSKEW,*), TFEXC,
@@ -93,14 +93,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, K1, K2, K3, ISENS,K,LL,IERR,
-     .        ICODE,IAD,N_OLD, Bric(2), Face(2), NumBric, IBRIC, IANIM,I,
+      INTEGER NL, N1, ISK, N2, N3, N4, N5, K1, K2, K3, ISENS,K,
+     .        IAD,N_OLD,IANIM,
      .        ISMOOTH,IDEL,KSURF,NS,NSEGPL
       INTEGER :: UP_BOUND
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,AREA
-      my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
+     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,AREA
+      my_real FINTER, FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
       SIXTH  = ONE_OVER_6

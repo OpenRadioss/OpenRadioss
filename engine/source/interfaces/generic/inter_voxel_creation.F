@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|====================================================================
-        SUBROUTINE INTER_VOXEL_CREATION(ITASK,IPARI,INTBUF_TAB,X,NIN,SORT_COMM)
+        SUBROUTINE INTER_VOXEL_CREATION(IPARI,INTBUF_TAB,X,NIN,SORT_COMM)
 !$COMMENT
 !       INTER_VOXEL_CREATION description :
 !
@@ -53,7 +53,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
-        INTEGER, INTENT(in) :: ITASK ! thread ID
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
         TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB    ! interface data
         my_real, DIMENSION(3,NUMNOD), INTENT(in), TARGET :: X            !   position
@@ -61,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: KK,I,J
+        INTEGER :: I,J
         INTEGER :: NSN
         INTEGER :: FIRST, LAST
         my_real :: XMINB,XMAXB

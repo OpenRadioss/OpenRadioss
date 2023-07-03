@@ -90,7 +90,6 @@ C-----------------------------------------------
         INTEGER :: ITY,IDEL
         INTEGER :: N1,N2,N3,N4
         INTEGER :: NUMBER_NODE
-        INTEGER :: SHIFT
         INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function
         INTEGER :: MY_REAL_TASK_ID ! real task id : itask is used in a strange way here : -1 if there is no omp // (in the mpi comm)
         INTEGER, DIMENSION(:), ALLOCATABLE :: NUMBER_SAVED_SURFACE_TYP24_25 ! number of deactivated surface for interface type 24 or 25

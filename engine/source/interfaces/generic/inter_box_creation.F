@@ -58,8 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: KK
-        INTEGER :: NIN
         INTEGER :: LEADING_DIMENSION
         my_real :: DX_BOX,DY_BOX,DZ_BOX
         my_real :: RATIO,SIZE_CELL,DIST_MAX

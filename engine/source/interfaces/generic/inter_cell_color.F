@@ -32,7 +32,7 @@ Chd|====================================================================
      2              TZINF  ,CURV_MAX,
      3              GAPMIN ,GAPMAX,GAP_M ,
      4             IRECT  ,GAP     ,BGAPSMX,DRAD  ,NB_INDEX_CELL,SIZE_INDEX_CELL,INDEX_CELL,
-     5             NIN,NEEDED,MAIN_COARSE_GRID,DGAPLOAD)
+     5             NEEDED,MAIN_COARSE_GRID,DGAPLOAD)
 !$COMMENT
 !       INTER_CELL_COLOR description :
 !       color the fine cell & coarse cell with main nodes
@@ -62,7 +62,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         LOGICAL, INTENT(in) :: NEEDED
-        INTEGER, INTENT(in) :: NIN
         INTEGER :: IGAP, NRTM, IRECT(4,NRTM)
         my_real :: X(3,NUMNOD),STF(NRTM), GAP_M(NRTM), BGAPSMX,DRAD
         my_real :: TZINF,GAPMIN,GAPMAX,GAP,CURV_MAX(NRTM)
@@ -78,11 +77,10 @@ C-----------------------------------------------
      .        NBX,NBY,NBZ,NE,M1,M2,M3,M4,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
         my_real
-     .        RATIO, AAA, MARGE,
+     .        AAA, MARGE,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .        XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
-        INTEGER TMP
         INTEGER :: IX_COARSE,IY_COARSE,IZ_COARSE
         my_real :: VALUE
 C-----------------------------------------------

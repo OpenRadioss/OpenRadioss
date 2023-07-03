@@ -34,8 +34,8 @@ Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-        SUBROUTINE INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
-     1                          NSENSOR,IRECVFROM,INTBUF_TAB,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
+        SUBROUTINE INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,
+     1                          NSENSOR,IRECVFROM,SENSOR_TAB,INTER_STRUCT,SORT_COMM )
 !$COMMENT
 !       INTER_DEALLOCATE_WAIT description
 !       wait the message "send the secondary nodes" & deallocation of array
@@ -74,17 +74,16 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: NSENSOR
       INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
       INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
-      INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 
-      TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
+      INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: IRECVFROM 
       TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: KK,N,ESHIFT,P
+        INTEGER :: KK,N,P
         INTEGER :: NTY,INACTI,ISENS
-        INTEGER :: NRTM_T,NSN,NMN
+        INTEGER :: NSN,NMN
         LOGICAL :: TYPE18
 #ifdef MPI
         INTEGER :: IERROR,STATUS(MPI_STATUS_SIZE)
