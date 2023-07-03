@@ -85,9 +85,9 @@ C
        IAFUNC  = LAS(K1+4)
        ITYP    = LAS(K1+5)
        IF(ITYP==1)THEN
-         CALL LASER3(NL        ,N1      ,N2   ,IFUNC    ,IAFUNC    ,
+         CALL LASER3(NL        ,IFUNC    ,
      .               LAS(K1+6) ,XLAS(K2),X    ,ELBUF_TAB,PM        ,
-     .               WA        ,IPARG   ,IXQ  ,TF       ,NPF       )
+     .               IPARG   ,IXQ  ,TF       ,NPF       )
        ELSE
          CALL LASER2(NL       ,N1      ,N2   ,IFUNC    ,IAFUNC    ,
      .              LAS(K1+6) ,XLAS(K2),X    ,ELBUF_TAB,PM        ,

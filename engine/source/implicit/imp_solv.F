@@ -528,7 +528,7 @@ C
 C         --en spmd force est traite comme elements---
           CALL FORCE(IBCL   ,FORC    ,NPC    ,TF    ,AC     ,
      2               V      ,X       ,SKEW   ,ACR   ,VR     ,
-     3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
+     3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F ,FSKY    ,FSKY   ,RBID,H3D_DATA,
      5               CPTREAC ,FTHREAC,NODREAC ,TH_SURF ,FSAVSURF,
      6               NSEG_LOADP)
@@ -3330,7 +3330,7 @@ C----------------------------------
          IF(NCONLD/=0) THEN
           CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,AC    ,
      2               V     ,X     ,SKEW  ,ACR ,VR    ,
-     3               NSENSOR,SENSOR_TAB,WEIGHT,TFEXC,
+     3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
      6               NSEG_LOADP)

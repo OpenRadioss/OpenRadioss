@@ -33,7 +33,7 @@ Chd|====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP   ,NPC     ,TF        ,
      2                          A         ,V         ,X       ,SKEW     ,SENSOR_TAB,
      3                          IADC      ,FSKY      ,FEXT    ,TAGNCONT ,NSENSOR   ,
-     4                          KLOADPINTER,LOADPINTER,LOADP_HYD_INTER  , H3D_DATA ,
+     4                          LOADP_HYD_INTER  , H3D_DATA ,
      5                          NPRESLOAD  ,LOADP_TAGDEL,TH_SURF,FSAVSURF,NSEG_LOADP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -72,7 +72,6 @@ C-----------------------------------------------
       INTEGER NPC(*),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  IADC(*) 
       my_real
@@ -87,15 +86,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, NG1, NG2, NG3, NG4, ISENS,K,LL,IERR,
+      INTEGER N1, ISK, N2, N3, N4, ISENS,
      .        IAD ,NP ,IFUNC ,NPRES ,NINTERP ,IDIR ,INORM ,NPL ,IANIM,IFLOAD,
      .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4,NUMPRESLOAD,
      .        IDEL, NSEGPL, NS, KSURF,NIDXLOAD
       my_real
-     .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,FCX,FCY,NORM,AREA 
-      my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
-      EXTERNAL FINTER,FINTER_SMOOTH
+     .   NX, NY, NZ,  AA, FX, FY, FZ, DYDX, TS,
+     .   TFEXTT,F1, FCX,FCY,NORM,AREA 
+      my_real FINTER
+      EXTERNAL FINTER
 C=======================================================================
 C---------------------------------------------------------------------
 C   D e s c r i p t i o n
@@ -119,7 +118,7 @@ C code SPMD Parith/OFF or SMP
            IFUNC = ILOADP(3,NIDXLOAD+NP)
            IAD = ILOADP(4,NIDXLOAD+NP)
            NINTERP = ILOADP(5,NIDXLOAD+NP)
-	   IDIR = ILOADP(6,NIDXLOAD+NP)   
+           IDIR = ILOADP(6,NIDXLOAD+NP)   
            ISENS =  ILOADP(7,NIDXLOAD+NP) 
            ISK = ILOADP(8,NIDXLOAD+NP)    
            INORM = ILOADP(9,NIDXLOAD+NP)
@@ -463,7 +462,7 @@ C-------------------------
            IFUNC = ILOADP(3,NIDXLOAD+NP)
            IAD = ILOADP(4,NIDXLOAD+NP)
            NINTERP = ILOADP(5,NIDXLOAD+NP)
-	   IDIR = ILOADP(6,NIDXLOAD+NP)   
+           IDIR = ILOADP(6,NIDXLOAD+NP)   
            ISENS =  ILOADP(7,NIDXLOAD+NP) 
            ISK = ILOADP(8,NIDXLOAD+NP)    
            INORM = ILOADP(9,NIDXLOAD+NP)

@@ -10,7 +10,7 @@ Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_c
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE PRESS_SEG3(A     ,B     ,C     ,N1    ,DIR    ,
-     .                      IFUNC ,TABLE ,XFACR ,XFACT ,PRESS  )
+     .                      IFUNC ,TABLE ,XFACR ,PRESS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -29,7 +29,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IFUNC
-      my_real ,INTENT(IN) :: XFACR,XFACT
+      my_real ,INTENT(IN) :: XFACR
       my_real ,DIMENSION(3) ,INTENT(IN)  :: A,B,C,N1,DIR
       TYPE (TTABLE), DIMENSION(NTABLE) ,INTENT(IN)       :: TABLE
       my_real ,INTENT(OUT) :: PRESS

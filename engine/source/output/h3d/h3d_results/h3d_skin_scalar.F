@@ -1000,7 +1000,7 @@ C--------default zero
            NP0 = NP0 + 1
            IF (N4 == 0) THEN    ! 3 node segment
              CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
-     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                       IFUN    ,TABLE  ,XFACR  ,SEGP   )
              PRESS = ABS(SEGP) * YFAC
 c          
            ELSE                ! 4 node segment
@@ -1012,19 +1012,19 @@ c
              M(3) = (X(3,N1) + X(3,N2) + X(3,N3) + X(3,N4)) * FOURTH
 c            1st internal triangle 
              CALL PRESS_SEG3(A       ,B      ,M      ,P0      ,DIR    , 
-     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                       IFUN    ,TABLE  ,XFACR  ,SEGP   )
              PRESS = PRESS + SEGP * FOURTH
 c            2nd internal triangle 
              CALL PRESS_SEG3(B       ,C      ,M      ,P0      ,DIR    , 
-     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                       IFUN    ,TABLE  ,XFACR  ,SEGP   )
              PRESS = PRESS + SEGP * FOURTH
 c            3rd internal triangle 
              CALL PRESS_SEG3(C       ,D      ,M      ,P0      ,DIR    , 
-     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                       IFUN    ,TABLE  ,XFACR  ,SEGP   )
              PRESS = PRESS + SEGP * FOURTH
 c            4th internal triangle 
              CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
-     .                       IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
+     .                       IFUN    ,TABLE  ,XFACR  ,SEGP   )
              PRESS = ABS(PRESS) * YFAC
            END IF  !  seg 4 node
            NSKIN = NSKIN0+ IMAPSKP(NP0)

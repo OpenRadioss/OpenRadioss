@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,J,K,NODE_ID
+        INTEGER :: I,J,NODE_ID
         INTEGER :: MY_SIZE
         INTEGER :: NB_EDGE_R_PROC_M,NB_EDGE_R_PROC_S
         INTEGER, DIMENSION(2) :: LOCAL_NODE,GLOBAL_NODE
@@ -201,7 +201,7 @@ C-----------------------------------------------
      .                         LIST_EDGE_R_PROC(1),LIST_EDGE_R_PROC(1+NB_EDGE_R_PROC_M),
      .                         SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                         IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                         ADDCNEL,ITABM1,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
+     .                         ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 
         DEALLOCATE( LIST_EDGE_R_PROC )
         DEALLOCATE( RESULT_INTERSECT )

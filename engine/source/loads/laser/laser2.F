@@ -60,18 +60,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IL, NG, I, NEL, NFT, II, M3,
-     .   M4, M11, M12, NP1, NPOINT, IC, NELC, NB1C, NFTC, M4C, M13C,
-     .   M2, M6, MX, M11C
+      INTEGER IL, NG, I, NEL, NFT, II, 
+     .   NP1, NPOINT, IC, NELC, NB1C, NFTC, M4C, M13C,
+     .   MX, M11C
       INTEGER  MTN,IAD,ITY,NPT,JALE,ISMSTR,
      .   JEUL,JTUR,JTHE,JLAG,NVAUX,JMULT,JHBE,JIVF,JPOR,JPLA,JCLOSE,
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
      .   JSMS
       my_real
      .   CHALEUR, FI, ALPHA, Z1, Z2, Z3, Z4, ZZ, T, DDFI,
-     .   DFI, DE, AF, BID, RHOC, C0, ZM, ZMC, Y1, Y2, Y3, Y4, A1, A2,
-     .   AIRE, D, VM, SZ, DAR, FI0, VOL, XKZZ, RHOA2, RHO0,
-     .   TC, DFI1, SY, SX, P, DP, XK0,HNUK,XK,ATOM,RHO,Z,TE,TSCAL,FIFUN
+     .   DFI, DE, BID, RHOC, C0, ZM, ZMC, Y1, Y2, Y3, Y4, 
+     .   D, VM, DAR, FI0, VOL, XKZZ, RHOA2, RHO0,
+     .   A1,A2,AIRE,ATOM,AF,TC, DFI1, XK0,HNUK,XK,RHO,Z,TE,TSCAL,FIFUN
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
 C-----------------------------------------------
@@ -254,9 +254,9 @@ Chd|        INTERP                        source/tools/curve/interp.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE LASER3(NL ,N1   ,N2   ,IFUNC ,IAFUNC ,
+      SUBROUTINE LASER3(NL ,IFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB ,PM     ,
-     .                 WA  ,IPARG,IXQ  ,TF    ,NPF    )
+     .                 IPARG,IXQ  ,TF    ,NPF    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -276,27 +276,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NL, N1, N2, IFUNC, IAFUNC
+      INTEGER NL, IFUNC
       INTEGER LAS(2,*), IPARG(NPARG,*), IXQ(7,*), NPF(*)
       my_real
-     .   XLAS(*),X(3,*),WA(3,*),TF(*),PM(NPROPM,*)
+     .   XLAS(*),X(3,*),TF(*),PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IL, NG, I, NEL, NFT, II, M3,
-     .   M4, M11, M12, NP1, NPOINT, IC, NELC, NB1C, NFTC, M4C, M13C,
-     .   M2, M6, MX, M11C
+      INTEGER IL, NG, I, NEL, NFT, II,
+     .   NPOINT,
+     .   MX
       INTEGER  MTN,IAD,ITY,NPT,JALE,ISMSTR,
      .   JEUL,JTUR,JTHE,JLAG,NVAUX,JMULT,JHBE,JIVF,JPOR,JPLA,JCLOSE,
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
      .   JSMS
       my_real
-     .   FI, Z1, Z2, Z3, Z4, ZZ, T, DDFI,
-     .   DFI, DE, AF, BID, RHOC, C0, ZM, ZMC, Y1, Y2, Y3, Y4, A1, A2,
-     .   AIRE, D, VM, SZ, VOL, RHOA2, RHO0,
-     .   TC, DFI1, SY, SX, P, DP, TSCAL,FIFUN,
-     .   XK0,HNUK,XK,ATOM,RHO,Z,TE,ENERLIM,ENER
+     .   FI, Z1, Z2, Z3, Z4, ZZ, 
+     .   DFI, DE, BID, Y1, Y2, Y3, Y4, 
+     .   VOL, RHO0,
+     .   TSCAL,FIFUN,
+     .   RHO,TE,ENERLIM,ENER
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
       ENERLIM   = XLAS(1)

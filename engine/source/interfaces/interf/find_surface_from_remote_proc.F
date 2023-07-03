@@ -79,13 +79,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,J,K,NODE_ID
+        INTEGER :: I,J,NODE_ID
         INTEGER :: NB_SURFACE_R_PROC
         INTEGER, DIMENSION(4) :: LOCAL_NODE,GLOBAL_NODE
         INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_SURFACE_R_PROC
 
         INTEGER :: SHIFT
-        INTEGER :: NODE_SURF_NB,EVERAL_SURF
+        INTEGER :: NODE_SURF_NB
         INTEGER :: NB_RESULT_INTERSECT,NB_SURFACE_1,NB_SURFACE_2
         INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT_INTERSECT,INTERSECT_1,INTERSECT_2
         INTEGER, DIMENSION(:), ALLOCATABLE :: TMP_ARRAY

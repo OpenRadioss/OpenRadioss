@@ -11,6 +11,7 @@
 set ( cppmach "-DCPP_mach=CPP_p4linux964" ) 
 set ( cpprel  "-DCPP_rel=80" )
 
+set( unused_dummy_arg "") 
 
 # MPI
 # ---
@@ -19,7 +20,7 @@ if ( DEFINED MPI )
   if ( mpiver STREQUAL "smp")
      set (mpi_suf "" )
   elseif ( mpiver STREQUAL "ompi")
-
+      set( unused_dummy_arg "-Werror=unused-dummy-argument") 
       set (mpi_inc "-I/opt/openmpi/include/")
       set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
 
@@ -128,13 +129,16 @@ endif()
 
 set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
 #set( strict "-fallow-argument-mismatch -Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only") 
-set( strict " -Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ") 
+set( strict " -Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ")
+set( strict_wo_mpi " -Werror=aliasing ${unused_dummy_arg} -Werror=do-subscript -Werror=array-bounds -Werror=tabs -Werror=surprising ") 
 
 
 if ( debug STREQUAL "1" )
 # Fortran
 
 set( legacy_flags "${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ")
+
+set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${opt_flag} ${strict_wo_mpi} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ")
 
 set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${opt_flag} ${strict} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
 
@@ -150,6 +154,8 @@ else ()
 # Fortran
 
 set( legacy_flags "-w -O3 -fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF} " )
+
+set( unused_dummy_arg_strict_flags " -O3 -fdec-math  ${opt_flag} ${strict_wo_mpi} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} ")
 
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3 -fdec-math  ${opt_flag} ${strict} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} " )
 
