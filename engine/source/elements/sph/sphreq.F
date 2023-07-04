@@ -348,7 +348,7 @@ C
             XI =X(1,IN)-DT_OLD*V(1,IN)
             YI =X(2,IN)-DT_OLD*V(2,IN)
             ZI =X(3,IN)-DT_OLD*V(3,IN)
-C	  
+C
             DO KS=NSZ(IBZ-1)+1,NSZ(IBZ)
               NS=ISZ(KS)
               DO J=1,4
@@ -375,7 +375,7 @@ C
           XI =X(1,IN)
           YI =X(2,IN)
           ZI =X(3,IN)
-C	  
+C
           DO KS=NSZ(IBZ-1)+1,NSZ(IBZ)
             NS=ISZ(KS)
             DO J=1,4
