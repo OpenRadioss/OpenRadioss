@@ -27,7 +27,7 @@ Chd|        HIST2                         source/output/th/hist2.F
 Chd|-- calls ---------------
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|====================================================================
-      SUBROUTINE THSURF(J1  ,J2  ,L1   ,L2   ,ITHBUF,
+      SUBROUTINE THSURF(J1  ,J2        ,L1    ,L2   ,ITHBUF,
      .                  WA  ,FSAVSURF  ,IFORM )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -40,16 +40,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER J1,J2,L1,L2
-      INTEGER ITHBUF(*),IFORM
-      my_real
-     .        WA(*),FSAVSURF(5,*)
+      INTEGER,INTENT(IN) :: J1,J2,L1,L2
+      INTEGER,INTENT(IN) :: ITHBUF(*),IFORM
+      my_real, INTENT(INOUT) :: WA(*)
+      my_real, INTENT(IN) :: FSAVSURF(5,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,II
-C------------------------------------
-C GATHER DEJA EFFECTUE, SEUL P0 ECRIT 
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+C GATHERING DONE. PROC/ISPMD==0 IS WRITING 
 C------------------------------------
       IF (ISPMD == 0) THEN
         II = 0
@@ -63,11 +65,13 @@ C
         II = 0
         DO J=J1,J2
              I=ITHBUF(J)
-             DO L=L1,L2
-                K=ITHBUF(L) 
-                II=II+1
-                WA(II)=FSAVSURF(K,I)
-             ENDDO
+             IF(I > 0)THEN
+               DO L=L1,L2
+                  K=ITHBUF(L) 
+                  II=II+1
+                  WA(II)=FSAVSURF(K,I)
+               ENDDO
+             ENDIF
         ENDDO
         IF(II>0)CALL WRTDES(WA,WA,II,IFORM,1)
       ENDIF
