@@ -82,7 +82,7 @@ C-----------------------------------------------
           ! for /INISHE/FAIL, fail_ID in /FAIL card is mandatory
           ! check if fail_ID is defined in failure model
           !-------------
-          IF ( IP > 0 .and. STAT_C(8) == 1) THEN
+          IF ( STAT_C(8) == 1) THEN
 !---
             DO NG=1,NGROUP
               ITY = IPARG(5,NG)

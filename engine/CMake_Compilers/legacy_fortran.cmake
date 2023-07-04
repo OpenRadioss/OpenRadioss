@@ -60,7 +60,7 @@ set_source_files_properties( ${source_directory}/source/input/read5p.F PROPERTIE
 # set_source_files_properties( ${source_directory}/source/input/fredamp.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/input/frerbo.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/input/rdele.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-# set_source_files_properties( ${source_directory}/source/input/freform.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/input/freform.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/input/lecdamp.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/input/frefxinp.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/input/redkey1_h3d.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
