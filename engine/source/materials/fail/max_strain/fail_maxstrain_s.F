@@ -138,7 +138,7 @@ c
 c
           ! Damage variable update
           FINDEX   = MAX(ZERO,FINDEX)
-          DFMAX(I) = MIN(ONE ,FINDEX) 
+          DFMAX(I) = MIN(ONE ,MAX(FINDEX,DFMAX(I))) 
           IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX+1                                    
             INDX(NINDX) = I                                    
