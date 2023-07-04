@@ -996,7 +996,11 @@ c
      .                IGTYP == 52 ) THEN
                     IF (MLW /= 0 .AND. MLW /= 13) THEN    
                      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
+                      IF(IPT <= BUFLY%NPTT ) THEN 
+                         LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT) 
+                      ELSE
+                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   
+                      ENDIF   
                       DO I=1,NEL                                                
                         N = I + NFT          
                         X21 = X(1,IXC(3,N))-X(1,IXC(2,N)) 
@@ -1105,7 +1109,7 @@ c
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                         IS_WRITTEN_VALUE(I) = 1				
-                      ENDDO      
+                      ENDDO 
                      ELSE     ! IDRAPE               
                       DO I=1,NEL                                                
                         N = I + NFT                                               
@@ -1227,7 +1231,11 @@ C
      .                IGTYP == 52 ) THEN
                     IF (MLW /= 0 .AND. MLW /= 13) THEN      
                      IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   
+                      IF(IPT <= BUFLY%NPTT ) THEN
+                         LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT) 
+                      ELSE
+                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   
+                      ENDIF     
                       DO I=1,NEL                                                         
                         N = I + NFT                                                      
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                              
@@ -1381,7 +1389,11 @@ c
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                       IF (MLW /= 0 .AND. MLW /= 13) THEN
                        IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   	
+                         IF(IPT <= BUFLY%NPTT ) THEN
+                            LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
+                         ELSE
+                            LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   
+                        ENDIF       	
                 	DO I=1,NEL						                        
                 	  N = I + NFT						    
                 	  X21 = X(1,IXC(3,N))-X(1,IXC(2,N))			    
@@ -1613,7 +1625,11 @@ c
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                       IF (MLW /= 0 .AND. MLW /= 13) THEN
                        IF(IDRAPE > 0 .AND. IGTYP == 17) THEN 
-                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1) 
+                        IF(IPT <= BUFLY%NPTT ) THEN
+                            LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
+                        ELSE
+                           LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   
+                        ENDIF      
                 	DO I=1,NEL						
                 	  N = I + NFT						  
                 	  X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))			  
