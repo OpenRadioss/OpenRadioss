@@ -86,7 +86,7 @@ C
          IADI=IADI+IFLOW(IADI+14)  
          IADR=IADR+IFLOW(IADI+15)
       ENDDO
-C	  
+C
       RETURN
       END
       
