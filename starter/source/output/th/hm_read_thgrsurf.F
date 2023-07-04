@@ -39,17 +39,21 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_THGRSURF(
-     1      ITYP  ,KEY    ,
-     3      IAD   ,IFI    ,ITHGRP,ITHBUF ,
-     4      NV    ,VARE  ,NUM    ,VARG  ,NVG    ,
-     5      IVARG ,NSNE,NV0,ITHVAR,FLAGABF,NVARABF,
-     6      IGRSURF,IGS,LSUBMODEL)
+     1      ITYP   ,KEY    ,
+     3      IAD    ,IFI    ,ITHGRP   ,ITHBUF ,
+     4      NV     ,VARE   ,NUM      ,VARG   ,NVG     ,
+     5      IVARG  ,NSNE   ,NV0      ,ITHVAR ,FLAGABF ,NVARABF,
+     6      IGRSURF,IGS    ,LSUBMODEL)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Starter Reader for option /TH/SURF
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
-      USE MESSAGE_MOD
-      USE SUBMODEL_MOD
+      USE GROUPDEF_MOD , only : SURF_
+      USE MESSAGE_MOD , only : ANCMSG, aninfo_blind_1, MSGERROR
+      USE SUBMODEL_MOD , only : SUBMODEL_DATA
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,20 +71,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITYP,
-     .        ITHGRP(NITHGR),ITHBUF(*),
-     .        IFI,IAD,NV,NUM,NVG,NSNE  ,IVARG(18,*),
-     .        NV0,ITHVAR(*),FLAGABF,NVARABF,IGS
-      CHARACTER*10 VARE(NV),KEY,VARG(NVG)
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
+      INTEGER,INTENT(IN) :: ITYP,NV,NUM,NVG,IVARG(18,*),NV0,FLAGABF
+      INTEGER,INTENT(INOUT) :: ITHGRP(NITHGR), IGS, IFI, IAD, NSNE, NVARABF, ITHVAR(*), ITHBUF(*)
+      CHARACTER*10,INTENT(IN) :: VARE(NV),KEY,VARG(NVG)
+      TYPE (SURF_),INTENT(INOUT), DIMENSION(NSURF)   :: IGRSURF
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,NTOT,KK,IER,
      .        OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,ITITLE(LTITR),
-     .        IDS,IDSMAX,AIRBAG_OUTPUT
+     .        IDS,IDSMAX,AIRBAG_OUTPUT,
+     .        NUM_FOUND
       CHARACTER TITR*nchartitle,MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -90,8 +93,7 @@ C-----------------------------------------------
       INTEGER R2R_LISTCNT,R2R_EXIST
       DATA MESS/'TH GROUP DEFINITION                     '/
 C-----------------------------------------------
-C
-C
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       ID=ITHGRP(1)
       CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
@@ -105,12 +107,9 @@ C-----------------------------------------------
       IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR ,LSUBMODEL)                       
 
       IF(NVAR == 0) THEN
-        IF(ITYP /= 116)
-     .    CALL ANCMSG(MSGID=1109,
-     .      MSGTYPE=MSGERROR,
-     .      ANMODE=ANINFO_BLIND_1,
-     .      I1=ID,
-     .      C1=TITR )
+        IF(ITYP /= 116)THEN
+         CALL ANCMSG(MSGID=1109,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR )
+        ENDIF
         IGS = IGS - 1
         ITHGRP(1:NITHGR)=0
       ELSE
@@ -130,55 +129,51 @@ C-----------------------------------------------
         AIRBAG_OUTPUT = 0
         DO JJ = ITHGRP(7),ITHGRP(5)
             IF(ITHBUF(JJ) ==2.OR.ITHBUF(JJ) ==3) AIRBAG_OUTPUT = 1
-         ENDDO
+        ENDDO
       
 C
-          DO K = 1,IDSMAX
-            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
-
-            IF(IDS/=0)THEN
-              IF (NSUBDOM>0) THEN
-C----------->Multidomaines - on saute si l'entite n'existe plus--------	
-	       IF(R2R_EXIST(ITYP,IDS)==0) GOTO 150
-	      ENDIF
-C----------------------------------------------------------------------		  
-              N=0
-              DO J=1,NUM
-                IF(IDS == IGRSURF(J)%ID)THEN
-                   N=J
-                   IGRSURF(J)%TH_SURF=1          
-                   IF(AIRBAG_OUTPUT > 0) IGRSURF(J)%TH_SURF=2
-                ENDIF
-              ENDDO
-              IF(N==0)THEN
-                 CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-                 CALL ANCMSG(MSGID=257,
-     .                       MSGTYPE=MSGERROR,
-     .                       ANMODE=ANINFO_BLIND_1,
-     .                       I1=ITHGRP(1),
-     .                       C1=TITR,
-     .                       C2=KEY,
-     .                       I2=IDS)
-              ENDIF 
-              NSNE=NSNE+1
-              ITHBUF(IAD)=N
-              IAD=IAD+1
-            ENDIF
-150	    CONTINUE
-          ENDDO
+        NUM_FOUND=0
+        DO K = 1,IDSMAX
+          CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
+          N=0
+          IF(IDS/=0)THEN
+            IF (NSUBDOM>0) THEN
+              ! Multidomain : skip if entity does not exist---------------	
+              IF(R2R_EXIST(ITYP,IDS)==0) CYCLE !next K
+	    ENDIF		  
+            DO J=1,NUM
+              IF(IDS == IGRSURF(J)%ID)THEN
+                 N=J
+                 IGRSURF(J)%TH_SURF=1          
+                 IF(AIRBAG_OUTPUT > 0) IGRSURF(J)%TH_SURF=2
+                 NUM_FOUND=NUM_FOUND+1
+                 EXIT
+              ENDIF
+            ENDDO
+            NSNE=NSNE+1
+            ITHBUF(IAD)=N
+            IAD=IAD+1
+          ENDIF
+          IF(N == 0)THEN
+            CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+            CALL ANCMSG(MSGID=257, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1, I1=ITHGRP(1), I2=IDS, C1=TITR, C2=KEY)
+          ENDIF             
+        ENDDO !next K
 C
         IAD = ITHGRP(5)
-        CALL HORD(ITHBUF(IAD),NNE)
+        CALL HORD(ITHBUF(IAD),NUM_FOUND)
 C
         DO I=1,NNE
           N=ITHBUF(IAD)
-          ITHBUF(IAD+2*NNE)=IGRSURF(N)%ID
-          DO J=1,40
-            CALL FRETITL(IGRSURF(N)%TITLE,ITITLE,LTITR)
-            ITHBUF(IAD2+J-1)=ITITLE(J)
-          ENDDO
-          IAD=IAD+1
-          IAD2=IAD2+40
+          IF(N > 0)THEN
+            ITHBUF(IAD+2*NNE)=IGRSURF(N)%ID
+            DO J=1,40
+              CALL FRETITL(IGRSURF(N)%TITLE,ITITLE,LTITR)
+              ITHBUF(IAD2+J-1)=ITITLE(J)
+            ENDDO
+            IAD=IAD+1
+            IAD2=IAD2+40
+          ENDIF
         ENDDO
 C
         IAD=IAD2

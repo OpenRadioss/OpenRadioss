@@ -52,21 +52,21 @@ Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_THGROU(
-     1      ITHGRP,ITHBUF,ITAB   ,ITABM1 ,IXTG  ,
-     2      IXS   ,IXQ   ,IXC    ,IXT   ,IXP   ,IXR   ,
-     3      KXX   ,IXX   ,IPART  ,IFI   ,
-     4      NTHWA ,KXSP  ,IXRI  ,ISKWN ,IFRAME ,
-     5      NTHGRP2 ,PATHID ,SUTHID ,FXBIPM ,IPARTH ,NPARTH ,
-     6      NVPARTH ,NVSUBTH,IMERGE ,ITHVAR ,
-     7      FLAGABF,NVARABF ,NOM_OPT,PTR_NOPT_FXBY,PTR_NOPT_INTER,
-     8      PTR_NOPT_RWALL,PTR_NOPT_SECT,PTR_NOPT_JOINT,
-     9      PTR_NOPT_MONV,PTR_NOPT_ACC,PTR_NOPT_SKW,PTR_NOPT_GAU,
-     A      PTR_NOPT_CLUS,PTR_NOPT_SPHIO,ISPHIO,RFI,T_MONVOL,
-     B      IGRSURF ,SUBSET ,ITHFLAG,NPBY,LSUBMODEL,IPARG,
-     C      IPARTS  ,IPARTQ ,IPARTC ,IPARTT  ,IPARTP  ,IPARTR ,
-     D      IPARTG  ,IPARTX ,IPARTSP ,IPARTIG3D, LITHBUFMX,
-     E      MAP_TABLES, IFLAG,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSORS,
-     F      INTERFACES,IPARI)
+     1      ITHGRP        ,ITHBUF        ,ITAB             ,ITABM1            ,IXTG          ,
+     2      IXS           ,IXQ           ,IXC              ,IXT               ,IXP           ,
+     3      IXR           ,KXX           ,IXX              ,IPART             ,IFI           ,
+     4      NTHWA         ,KXSP          ,IXRI             ,ISKWN             ,IFRAME        ,
+     5      NTHGRP2       ,PATHID        ,SUTHID           ,FXBIPM            ,IPARTH        ,
+     6      NPARTH        ,NVPARTH       ,NVSUBTH          ,IMERGE            ,ITHVAR        ,
+     7      FLAGABF       ,NVARABF       ,NOM_OPT          ,PTR_NOPT_FXBY     ,PTR_NOPT_INTER,
+     8      PTR_NOPT_RWALL,PTR_NOPT_SECT ,PTR_NOPT_JOINT   ,
+     9      PTR_NOPT_MONV ,PTR_NOPT_ACC  ,PTR_NOPT_SKW     ,PTR_NOPT_GAU,
+     A      PTR_NOPT_CLUS ,PTR_NOPT_SPHIO,ISPHIO           ,RFI               ,T_MONVOL      ,
+     B      IGRSURF       ,SUBSET        ,ITHFLAG          ,NPBY              ,LSUBMODEL     ,IPARG,
+     C      IPARTS        ,IPARTQ        ,IPARTC           ,IPARTT            ,IPARTP        ,IPARTR ,
+     D      IPARTG        ,IPARTX        ,IPARTSP          ,IPARTIG3D         ,LITHBUFMX     ,
+     E      MAP_TABLES    ,IFLAG         ,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSORS       ,
+     F      INTERFACES    ,IPARI)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
@@ -96,13 +96,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: LITHBUFMX
-      INTEGER ITAB(*),ITABM1(*), IFLAG,
-     .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXT(NIXT,*),
-     .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),KXX(NIXX,*),
+      INTEGER ITAB(NUMNOD),ITABM1(*), IFLAG,
+     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXT(NIXT,NUMELT),
+     .        IXP(NIXP,NUMELP),IXR(NIXR,NUMELR),IXTG(NIXTG,NUMELTG),KXX(NIXX,*),
      .        IXX(*),IPART(LIPART1,*),ITHGRP(NITHGR,*),ITHBUF(LITHBUFMX),
      .        IMERGE(*),
      .        IFI,NTHWA,KXSP(NISP,*),IXRI(4,*),
-     .        IFRAME(LISKN,*), NTHGRP2,PATHID(*),SUTHID(*),
+     .        IFRAME(LISKN,NUMFRAM+1), NTHGRP2,PATHID(*),SUTHID(*),
      .        FXBIPM(NBIPM,*),ISKWN(LISKN,*),
      .        NPARTH,IPARTH(NPARTH,*),NVPARTH,ITYP,
      .        NVSUBTH,ITHVAR(*),FLAGABF,NVARABF,
@@ -134,7 +134,6 @@ C-----------------------------------------------
      .        NVALL,TAGP,TAGS,IFIX_TMP,IBID,NIN
       CHARACTER TITR*nchartitle,MESS*40,KEY*ncharline,COPT*ncharline,
      .        TITR1*nchartitle
-C
       INTEGER NVARN,NVARS,NVARC,NVART,NVARP,NVARR,NVARUR
       INTEGER NVARNS,NVARSPH
       INTEGER NVARIN,NVARRW,NVARRB,NVARAC,NVARSE,NVARJO,NVARFX,NVARFXM
@@ -555,6 +554,7 @@ C
      .'IE_MAT2 ','DEN_MAT2','VOL_MAT2','PLA_MAT2','TEM_MAT2'/
 C Definition of VARS6 : strain for /PROP/TYPE22
 C=======================================================================
+      
       DO J=1,200
         IF (J <= 9) THEN
           WRITE(CHJ,'(I1.1)')J
@@ -1653,6 +1653,7 @@ C=======================================================================
       TAGS=0
       IBID = 0
       BID = 0
+      NSNE = 0
 C-----------------------------------------------
 C  Brick
 C ------------------------------------------
