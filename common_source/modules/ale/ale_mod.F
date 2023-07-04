@@ -90,7 +90,6 @@ Chd|        FREFORM                       engine/source/input/freform.F
 Chd|        FREUPWIND                     engine/source/input/freupwind.F
 Chd|        FREUPWM                       engine/source/input/freupwm.F 
 Chd|        FRHO3                         engine/source/elements/solid/solide/frho3.F
-Chd|        GRAVIT                        engine/source/loads/general/grav/gravit.F
 Chd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
 Chd|        I12M2S                        engine/source/interfaces/interf/i12m2s.F
 Chd|        I12NOD3                       engine/source/interfaces/interf/i12nod3.F
