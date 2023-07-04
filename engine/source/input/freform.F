@@ -532,11 +532,6 @@ c
         SENSORS%OUTP_TMP(:) = 0 
         SENSORS%STAT_TMP(:) = 0 
         SENSORS%ANIM_TMP(:) = 0     
-      ELSE  ! rerun afrer chkpoint restart => use previous run settings
-        ALLOCATE (SENSORS%STOP(SENSORS%NSTOP))
-        ALLOCATE (SENSORS%OUTP(SENSORS%NOUTP))
-        ALLOCATE (SENSORS%STAT(SENSORS%NSTAT))
-        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
       END IF     
 C--------------------
 C     INPUT VERSION

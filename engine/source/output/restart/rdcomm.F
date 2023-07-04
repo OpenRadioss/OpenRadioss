@@ -1662,11 +1662,19 @@ C  Pinching
       SENS_NOUTP = TABVINT(NEXT)
       NEXT = NEXT + 1
       SENS_NANIM = TABVINT(NEXT)
-      IF (MCHECK /= 0) THEN
+      IF (MCHECK /= 0) THEN   ! rerun after chkpoint restart => use previous run settings
         SENSORS%NSTOP = SENS_NSTOP
         SENSORS%NSTAT = SENS_NSTAT
         SENSORS%NOUTP = SENS_NOUTP
         SENSORS%NANIM = SENS_NANIM
+        ALLOCATE (SENSORS%STOP(SENSORS%NSTOP))
+        ALLOCATE (SENSORS%OUTP(SENSORS%NOUTP))
+        ALLOCATE (SENSORS%STAT(SENSORS%NSTAT))
+        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
+        SENSORS%STOP = 0  
+        SENSORS%OUTP = 0 
+        SENSORS%STAT = 0 
+        SENSORS%ANIM = 0      
       END IF
 !
       NEXT       = NEXT + 1
