@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE GRAVIT(IGRV  ,AGRV  ,NPC   ,TF   ,A     ,
