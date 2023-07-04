@@ -45,6 +45,7 @@ C-----------------------------------------------
 #include "scr07_c.inc"
 #include "scr17_c.inc"
 #include "nchar_c.inc"
+#include "task_c.inc"
 #include "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -159,7 +160,7 @@ c
         CALL READ_I_C(SENSORS%TABSENSOR,SENSORS%STABSEN)
 
 c--------------------------------------
-        IF (MCHECK /= 0) THEN
+        IF (MCHECK /= 0 .and. ISPMD == 0) THEN
           CALL READ_I_C(SENSORS%STOP ,SENSORS%NSTOP)
           CALL READ_I_C(SENSORS%STAT ,SENSORS%NSTAT)
           CALL READ_I_C(SENSORS%OUTP ,SENSORS%NOUTP)
