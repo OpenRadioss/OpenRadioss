@@ -117,7 +117,7 @@ C-----------------------------------------------
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(MVSIZ),
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,NPT_ALL,IPLY,ITRIMAT,IPOS,
      .        ISUBMAT, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH,
-     .        IMAT_TILLOTSON, NTILLOTSON,NVAREOS,IEOS,IDRAPE
+     .        IMAT_TILLOTSON, NTILLOTSON,NVAREOS,IEOS,IDRAPE,IVAR
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
@@ -152,7 +152,6 @@ C-----------------------------------------------
       ENDIF!(IFUNC==10672)
 
 C-----------------------------------------------
-
       DO NG=1,NGROUP
        CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
@@ -1365,7 +1364,7 @@ c
                     IF (MLW /= 0 .AND. MLW /= 13) THEN 
                         
                      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1) 
+                      LBUF_DIR => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(1) 
                       DO I=LFT,LLT                                                                     
                         N = I + NFT                                                                    
                         X21 = X(1,IXC(3,N))-X(1,IXC(2,N))                         
@@ -1598,7 +1597,7 @@ C
      .                IGTYP == 52 ) THEN
                     IF (MLW /= 0 .AND. MLW /= 13) THEN
                      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                     LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)
+                     LBUF_DIR => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(1)
                       DO I=LFT,LLT                                                             
                         N = I + NFT                                             
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                     
@@ -2876,7 +2875,9 @@ C--------------------------------------------------
             ELSE IF (IFUNC> 11925+MX_PLY_ANIM .AND. IFUNC < 11925+(2*MX_PLY_ANIM)+1)THEN 
             !/ANIM/SHELL/IDPLY/PHI
 c------------------------------------
-	      IPLY = IFUNC - (11925+MX_PLY_ANIM)
+              IVAR = IFUNC - (11925+MX_PLY_ANIM)
+              IPLY = PLY_ANIM_PHI( 3 * (IVAR - 1) + 1)
+              IPT  = PLY_ANIM_PHI( 3 * (IVAR - 1) + 3)      
 c
 	      DO J=1,NLAY
                ID_PLY = 0
@@ -2886,11 +2887,15 @@ c
                  ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                ENDIF
 c
-               IF (ID_PLY  == PLY_ANIM_PHI( 3 * (IPLY - 1) + 1) ) THEN
+               IF (ID_PLY  == IPLY ) THEN
                 BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                 IF (ITY == 3) THEN
                   IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                    LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1) 
+                    IF(IPT <= BUFLY%NPTT ) THEN 
+                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
+                     ELSE
+                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   
+                    ENDIF   
                     IF (MLW /= 0 .AND. MLW /= 13) THEN   
                       DO I=LFT,LLT                                                
                         N = I + NFT                                               
@@ -3001,7 +3006,7 @@ c
                         IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
                       ENDDO                                                       
-                    ENDIF  ! MLW                               
+                    ENDIF  ! MLW                            
                  ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                      BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     IF (MLW /= 0 .AND. MLW /= 13) THEN   
@@ -3119,7 +3124,11 @@ c
                 
                   ELSEIF (ITY == 7) THEN
                     IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN  
-                     LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1) 
+                      IF(IPT <= BUFLY%NPTT ) THEN 
+                         LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
+                      ELSE
+                        LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   
+                      ENDIF   
                      IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=LFT,LLT                                              
                         N = I + NFT                                             

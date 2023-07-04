@@ -522,28 +522,34 @@ c
          CPTPLY = 0
          DO I=1,NUMGEO
            IF(IGEO(11,I) == 19) THEN
-             CPTPLY = CPTPLY + 1
-             PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
-             PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 2) = 4
+            DO IPT=1,IGEO(44,I)
+              CPTPLY = CPTPLY + 1
+              PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 1) = IGEO(1,I)
+              PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 2) = 4
+              PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 3) = IPT
              IF( CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CE( (11925 + MX_PLY_ANIM) + CPTPLY) = 1
                NCE_ANI = NCE_ANI + 1 
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
+            ENDDO  
            ENDIF
          ENDDO
 c
          DO I=1,NUMPLY
+           DO IPT=1,PLY_INFO(2,I)
            CPTPLY = CPTPLY + 1
            PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 1) = PLY_INFO(1,I)
            PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 2) = 4
+           PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 3) = IPT
            IF( CPTPLY < 11925) THEN
              ANIM_CE( (11925 + MX_PLY_ANIM) + CPTPLY) = 1
              NCE_ANI = NCE_ANI + 1 
            ELSE
              CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
            ENDIF
+          ENDDO 
          ENDDO
        ENDIF !
 C
