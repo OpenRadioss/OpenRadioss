@@ -892,7 +892,7 @@ C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        MY_ALLOCATE (SENSORS%STAT,SENSORS%NSTOP)
+        MY_ALLOCATE (SENSORS%STAT,SENSORS%NSTAT)
         SENSORS%STAT(:) = 0
       END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
@@ -954,7 +954,7 @@ C-------------------------------------------
           IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
            DO I=1,SENSORS%NSENSOR
               IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
-                H3D_DATA%LSENS_H3D(K)=I
+               H3D_DATA%LSENS_H3D(K)=I
                IOK = 1
                EXIT
              ENDIF
