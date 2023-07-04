@@ -2312,7 +2312,7 @@ C Init var parallel SMP
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI,GEO,
      .                              IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                              ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                              ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -5427,7 +5427,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI,GEO,
      .                              IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                              ADDCNEL,ITABM1,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                              ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
