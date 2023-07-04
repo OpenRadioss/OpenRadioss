@@ -154,7 +154,7 @@ C-----------------------------------------------
         CALL CHECK_SURFACE_STATE( -1,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                            IPARI,GEO,
      .                            IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                            ADDCNEL,ITABM1,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
+     .                            ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 
         DEALLOCATE( LIST_SURFACE_R_PROC )
         DEALLOCATE( RESULT_INTERSECT )
