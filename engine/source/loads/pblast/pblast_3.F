@@ -388,8 +388,8 @@ C-----------------------------------------------
 
             !idx_zg1 is index in [1,256] for abscissa %SHTP(curve_id,1:256)                                                                                                                          
             ! PBLAST_DATA%SHDC(1:2,curve_id) are the SHDC bounds for a given curve_id                                                                                                                
-            idx_zg1 = MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1)                                                                                                                                       
-            idx_zg2 = MIN(256,idx_zg1+1)                                                                                                                                                             
+            idx_zg1 = MIN(256,MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1))                                                                                                                                      
+            idx_zg2 = MAX(1,MIN(256,idx_zg1+1))                              
             alpha_zg = zero                                                                                                                                                                          
             IF(ZG < PBLAST_DATA%SHDC(1,curve_id2))THEN                                                                                                                                               
               ZG =  PBLAST_DATA%SHDC(1,curve_id2)                                                                                                                                                    
