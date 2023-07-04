@@ -465,7 +465,7 @@ C
       my_real, DIMENSION(:), ALLOCATABLE :: FVDATA_1D_ARRAY,FVDATA_1D_ARRAY_P
       my_real TMP
       INTEGER ITMP
-       
+
       TYPE USER_NOD_ID_
         !VIRTUAL NODES MANAGMENT
         !some option are writing virtual entities in H3D files. it requires to generate nodes which must have identifiers.
@@ -485,7 +485,7 @@ C
         INTEGER FVMBAG_SHIFT  !FVMBAG has virtual nodes from uID = %FVMBAG_SHIFT+1
         INTEGER FVMBAG_LEN    !FVMBAG virtual nodes numbering
       END TYPE
-      
+
       TYPE(USER_NOD_ID_) :: USER_NOD_ID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -1358,6 +1358,9 @@ c*******************************************************************************
 C CREATE RWALLS
 C**********************************************************************************************
 c
+      MAX_NOD_ID = USER_NOD_ID%FVMBAG_SHIFT + USER_NOD_ID%FVMBAG_LEN
+      USER_NOD_ID%RWALL_SHIFT = MAX_NOD_ID
+      
       IF(H3D_DATA%IH3D  == 1 .AND. NRWALL>0) THEN
 
         CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
@@ -1372,9 +1375,7 @@ C
 
 
         IF(ISPMD==0) THEN
-          USER_NOD_ID%RWALL_SHIFT = USER_NOD_ID%FVMBAG_SHIFT + USER_NOD_ID%FVMBAG_LEN
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
-          USER_NOD_ID%RWALL_SHIFT = MAX_NOD_ID
           CALL C_H3D_CREATE_RWALLS(NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, USER_NOD_ID%RWALL_SHIFT,
      .                           XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN, USER_NOD_ID%RWALL_LEN )
           CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
