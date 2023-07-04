@@ -539,10 +539,10 @@ C-----------------------------------------------
             Zdet = Base_Z+lambda*Nz_SURF
             MSGOUT1=''                                                                                              
             MSGOUT1=' DETONATION CENTER MUST BE ON THE GROUND'
-            MSGOUT2='   PROJECTING (Xdet,Ydet,Zdet) TO THE GROUND (         ,         ,         )'
-            WRITE(MSGOUT2(47:55),FMT='(E9.4)')Xdet
-            WRITE(MSGOUT2(57:65),FMT='(E9.4)')Ydet
-            WRITE(MSGOUT2(67:75),FMT='(E9.4)')Zdet                                                                                                                                                 
+            MSGOUT2='   PROJECTING (Xdet,Ydet,Zdet) TO THE GROUND (          ,          ,          )'
+            WRITE(MSGOUT2(47:56),FMT='(E10.3)')Xdet
+            WRITE(MSGOUT2(58:67),FMT='(E10.3)')Ydet
+            WRITE(MSGOUT2(69:78),FMT='(E10.3)')Zdet                                                                                                                                                 
             CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)               
           ENDIF
         ENDIF 
@@ -1019,8 +1019,8 @@ C-----------------------------------------------
 
                   !idx_zg1 is index in [1,256] for abscissa %SHTP(curve_id,1:256)
                   ! PBLAST_DATA%SHDC(1:2,curve_id) are the SHDC bounds for a given curve_id
-                  idx_zg1 = MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1)
-                  idx_zg2 = MIN(256,idx_zg1+1)
+                  idx_zg1 = MIN(MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1),256)
+                  idx_zg2 = MAX(1,MIN(256,idx_zg1+1))
                   alpha_zg = zero 
                   IF(ZG < PBLAST_DATA%SHDC(1,curve_id2))THEN
                     ZG =  PBLAST_DATA%SHDC(1,curve_id2)
@@ -1028,18 +1028,18 @@ C-----------------------------------------------
      .              ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
      .                                       ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
      .                                       curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
-                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
+                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
      .              ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
      .                                       ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
      .                                       curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
                   ENDIF
                   IF(ZG > PBLAST_DATA%SHDC(2,curve_id1))THEN
                     ZG =  PBLAST_DATA%SHDC(2,curve_id1)
-                    WRITE(IOUT,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
+                    WRITE(IOUT,FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
      .             ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
      .                                         ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
      .                                         curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
-                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.14,A)')
+                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
      .             ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
      .                                         ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
      .                                         curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'         
