@@ -67,7 +67,7 @@ C-----------------------------------------------
      .        IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        IRTLM(4,NSN),MSEGLO(*),COUNT_REMSLV(*), ITAB(*),
      .        MSEGTYP(*), CAND_OPT_E(*), CAND_OPT_N(*), SIZOPT
-      INTEGER , INTENT(OUT) :: ICONT_I(NSN)
+      INTEGER , INTENT(INOUT) :: ICONT_I(NSN)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .        GAP,PMAX_GAP,
