@@ -27,7 +27,7 @@ Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|-- calls ---------------
 Chd|        S8_IS17JAC_I                  source/elements/solid/solide8e/s8_is17jac_i.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S8FUPD11T12(ELBUF_TAB, OFFG   ,OFFG0  ,X  ,XDP  ,
      .     NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8  ,NEL)

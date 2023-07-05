@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        C3INIT3                       source/elements/sh3n/coque3n/c3init3.F
 Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE C3DERII(JFT,JLT,PM    ,GEO  ,PX1,
      .                   PY1,PY2,STIFN ,STIFR,IXTG,

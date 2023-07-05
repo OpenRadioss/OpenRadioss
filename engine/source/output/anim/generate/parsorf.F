@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SPMD_IGET_PARTN               source/mpi/anim/spmd_iget_partn.F
 Chd|        SPMD_IGLOB_PARTN              source/mpi/anim/spmd_iglob_partn.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PARSORF(ELBUF_TAB,
      .                   X      ,D     ,IADD   ,CDG   ,IPARG    ,

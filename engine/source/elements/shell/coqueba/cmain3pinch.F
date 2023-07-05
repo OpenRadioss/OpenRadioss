@@ -27,9 +27,9 @@ Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3
 Chd|-- calls ---------------
 Chd|        MULAWGLCPINCH                 source/elements/shell/coqueba/mulawglcpinch.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PINCH_LOCAL_MOD               share/modules/pinch_local_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

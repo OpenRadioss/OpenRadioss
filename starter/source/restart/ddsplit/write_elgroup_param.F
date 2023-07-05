@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,IPARG,PROC,NGROUP_L,LEN)
 C-----------------------------------------------

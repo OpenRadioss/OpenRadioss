@@ -25,7 +25,7 @@ Chd|  CDKFINT_REG                   source/elements/sh3n/coquedk/cdkfint_reg.F
 Chd|-- called by -----------
 Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
       SUBROUTINE CDKFINT_REG(

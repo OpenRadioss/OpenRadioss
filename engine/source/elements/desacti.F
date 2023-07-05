@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        CONVECOFF                     source/constraints/thermic/convecoff.F
 Chd|        ELOFF                         source/elements/eloff.F       
 Chd|        RADIATOFF                     source/constraints/thermic/radiatoff.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

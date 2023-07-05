@@ -25,7 +25,7 @@ Chd|  INIEBCS_DP                    source/boundary_conditions/ebcs/iniebcs_dp.F
 Chd|-- called by -----------
 Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|====================================================================
       SUBROUTINE INIEBCS_DP(NSEG,NOD,ISEG,IELEM,IRECT,LISTE,

@@ -32,7 +32,7 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        ZEROIN                        source/system/zeroin.F        
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      

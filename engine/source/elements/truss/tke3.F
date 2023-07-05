@@ -32,7 +32,7 @@ Chd|        R4SUMG3                       source/elements/spring/r4sumg3.F
 Chd|        TCOORK3                       source/elements/truss/tcoork3.F
 Chd|        TKEG3                         source/elements/truss/tkeg3.F 
 Chd|        TMAT3                         source/elements/truss/tmat3.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TKE3(JFT    ,JLT      ,PM      ,GEO    ,NCT   ,
      1                X      ,ELBUF_TAB,NEL     ,OFFSET ,IKGEO ,

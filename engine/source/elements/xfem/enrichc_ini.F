@@ -29,7 +29,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
 Chd|        LSINT4                        source/elements/xfem/crklayer4n_adv.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ENRICHC_INI(ELBUF_STR,XFEM_STR,
      .      IXC      ,NFT     ,JFT     ,JLT    ,NXLAY   ,

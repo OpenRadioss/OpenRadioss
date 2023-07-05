@@ -27,8 +27,11 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_MATPARAM(MATPARAM,NUMMAT,LEN)
 C-----------------------------------------------

@@ -33,7 +33,7 @@ Chd|        TENSGPS1                      source/output/anim/generate/tensor6.F
 Chd|        TENSGPS2                      source/output/anim/generate/tensor6.F
 Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
 Chd|        TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_NODAL_TENSOR(

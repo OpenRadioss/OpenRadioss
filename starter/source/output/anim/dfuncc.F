@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/write_routines.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DFUNCC(ELBUF_TAB,BUFEL,FUNC ,IFUNC,IPARG,                
      .                  IXQ      ,IXC  ,IXTG ,PM   ,EL2FA,                    

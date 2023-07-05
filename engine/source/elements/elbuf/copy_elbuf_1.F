@@ -25,7 +25,7 @@ Chd|  COPY_ELBUF_1                  source/elements/elbuf/copy_elbuf_1.F
 Chd|-- called by -----------
 Chd|        COPY_ELBUF                    source/elements/elbuf/copy_elbuf.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_ELBUF_1(ELBUF_SRC,ELBUF_TGT,IPARG,NGROUP,NG)
 C-----------------------------------------------

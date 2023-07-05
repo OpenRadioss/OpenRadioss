@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  MULAWC_MOD                    source/materials/mat_share/mulawc.F
+Chd|-- called by -----------
+Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE MULAWC_MOD
       CONTAINS
 Chd|====================================================================
@@ -126,10 +132,9 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UROTOV                        source/airbag/uroto.F         
 Chd|        XFEM_CRK_DIR                  source/elements/xfem/xfem_crk_dir.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        LAW_USERSH                    source/user_interface/law_usersh.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

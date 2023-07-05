@@ -316,6 +316,7 @@ Chd|        RDELE                         source/input/rdele.F
 Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        READ_DYNAIN                   source/output/dynain/read_dynain.F
+Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_MSGFILE                  source/output/message/read_msgfile.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|        REALLOCATE_FI1                source/mpi/interfaces/spmd_i25slide.F

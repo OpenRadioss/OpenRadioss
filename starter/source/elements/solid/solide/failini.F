@@ -35,7 +35,7 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
 Chd|-- calls ---------------
 Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FAILINI(
      .   ELBUF_STR,NPTR,NPTS,NPTT,NLAY,IPM,SIGSP,NSIGI,FAIL_INI,

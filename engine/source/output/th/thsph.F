@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE THSPH(ELBUF_TAB, NTHGRP2, ITHGRP, IPARG, ITHBUF,

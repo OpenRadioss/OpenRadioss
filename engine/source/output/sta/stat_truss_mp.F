@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        GENSTAT                       source/output/sta/genstat.F   
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STAT_TRUSS_MP(ITAB   ,IPART     ,IXT   ,IPARTT   ,IPART_STATE,
      .                         NODTAG ,STAT_INDXT,IPARG ,ELBUF_TAB,IDEL       )

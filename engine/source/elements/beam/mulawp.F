@@ -29,7 +29,7 @@ Chd|        SIGEPS34PI                    source/materials/mat/mat034/sigeps34pi
 Chd|        SIGEPS36PI                    source/materials/mat/mat036/sigeps36pi.F
 Chd|        SIGEPS44PI                    source/materials/mat/mat044/sigeps44pi.F
 Chd|        SIGEPS71PI                    source/materials/mat/mat071/sigeps71pi.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MULAWP(ELBUF_STR,
      1                  JFT     ,JLT     ,NEL     ,NPT     ,MTN,

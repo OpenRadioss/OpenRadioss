@@ -27,7 +27,7 @@ Chd|        ADMDIV                        source/model/remesh/admdiv.F
 Chd|        ADMINI                        source/model/remesh/admini.F  
 Chd|        ADMREGUL                      source/model/remesh/admregul.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
 Chd|====================================================================
       SUBROUTINE ADMMAP3(N      ,IXTG   ,X      ,IPARG  ,ELBUF_TAB,

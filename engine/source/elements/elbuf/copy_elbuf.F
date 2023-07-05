@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CP_IMPBUF                     source/implicit/produt_v.F    
 Chd|-- calls ---------------
 Chd|        COPY_ELBUF_1                  source/elements/elbuf/copy_elbuf_1.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_ELBUF(ELBUF_SRC,ELBUF_TGT,IPARG,NGROUP)
 C-----------------------------------------------

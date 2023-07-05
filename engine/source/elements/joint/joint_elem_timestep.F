@@ -25,7 +25,7 @@ Chd|  JOINT_ELEM_TIMESTEP           source/elements/joint/joint_elem_timestep.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE JOINT_ELEM_TIMESTEP(MS,IN,STIFN,STIFR,IXR,IPART,
      1                               IPARTR,IGEO,GEO,NPBY,IPARG,ELBUF_TAB,

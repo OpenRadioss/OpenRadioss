@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
 Chd|        INITBUF                       source/output/anim/initbuf.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DMASANIS(ELBUF_TAB,IPARG   ,       
      2              IXS     ,MAS     ,PM      ,EL2FA   ,NBF     ,       

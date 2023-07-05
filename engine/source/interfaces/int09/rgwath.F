@@ -29,7 +29,7 @@ Chd|        RGWAT2                        source/interfaces/int09/rgwat2.F
 Chd|        RGWAT3                        source/interfaces/int09/rgwat3.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
 Chd|        SUM_6_FLOAT                   source/system/parit.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RGWATH(
      1               X      ,V      ,W        ,RWL     ,NSW     ,

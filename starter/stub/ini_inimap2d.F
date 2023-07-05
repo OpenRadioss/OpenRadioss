@@ -26,7 +26,7 @@ Chd|  INI_INIMAP2D                  stub/ini_inimap2d.F
 Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 

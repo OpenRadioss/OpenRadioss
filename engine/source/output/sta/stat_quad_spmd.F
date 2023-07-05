@@ -25,7 +25,7 @@ Chd|  STAT_QUAD_SPMD                source/output/sta/stat_quad_spmd.F
 Chd|-- called by -----------
 Chd|        GENSTAT                       source/output/sta/genstat.F   
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STAT_QUAD_SPMD(ITAB,IPART,IGEO,IXQ,IPARTQ,
      .                     IPART_STATE,NODTAG,STAT_INDXQ,

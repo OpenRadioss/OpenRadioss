@@ -81,7 +81,7 @@ Chd|        WRITE_S_C                     source/output/tools/write_routines.c
 Chd|        XYZ16                         source/output/anim/genani1.F  
 Chd|        XYZNOR                        source/output/anim/xyznor.F   
 Chd|        XYZNOR16                      source/output/anim/genani1.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        M38INIT                       source/materials/mat/mat038/m38init.F
 Chd|        M70INIT                       source/materials/mat/mat070/m70init.F
 Chd|        SROTA6_M1                     source/output/anim/srota6_M1.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGIN3B(MAT     ,PM      ,IPM     ,SIG     ,VOL     ,
      2                   SIGSP   ,SIGI    ,EINT    ,RHO     ,

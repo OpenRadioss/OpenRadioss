@@ -187,7 +187,7 @@ Chd|-- called by -----------
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|-- calls ---------------
 Chd|        COUNT_ARSZ_ST                 source/output/sty/outp_s_t.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE OUTP_ARSZ_ST(IPARG,DD_IAD,WASZ,WASZ_WR,P0ARS)
 C-----------------------------------------------
@@ -258,7 +258,7 @@ Chd|-- called by -----------
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|-- calls ---------------
 Chd|        COUNT_ARSZ_CT                 source/output/sty/outp_c_t.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE OUTP_ARSZ_CT(IPARG,DD_IAD,WASZ,WASZP,WASZ_WR,ELBUF_TAB)
 C-----------------------------------------------

@@ -29,7 +29,7 @@ Chd|        INITBUF                       share/resol/initbuf.F
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
 Chd|        XFORC3                        source/elements/xelem/xforc3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE FORINTS(

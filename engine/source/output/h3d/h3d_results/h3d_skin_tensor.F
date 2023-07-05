@@ -29,7 +29,7 @@ Chd|        H3D_SOL_SKIN_TENSOR           source/output/h3d/h3d_results/h3d_sol_
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        ROTO_SIG2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|        TSH_DIR2                      source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE H3D_SKIN_TENSOR(

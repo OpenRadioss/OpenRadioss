@@ -25,7 +25,7 @@ Chd|  SPMD_FVB_SWITCH               source/mpi/airbags/spmd_fvb_switch.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
       SUBROUTINE SPMD_FVB_SWITCH(MONVOL)

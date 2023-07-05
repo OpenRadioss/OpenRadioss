@@ -63,6 +63,7 @@ Chd|        THCWREST                      source/output/restart/wrrest.F
 Chd|        USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|        WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
 Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
+Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struct.F
 Chd|        WRITE_PCYL                    source/output/restart/write_pcyl.F
 Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F

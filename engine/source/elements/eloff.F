@@ -29,7 +29,7 @@ Chd|        S10NXT4                       source/elements/solid/solide10/s10nxt4
 Chd|        S4VOLUME                      source/elements/solid/solide4/s4volume.F
 Chd|        S8ETEMPER                     source/elements/solid/solide8e/s8etemper.F
 Chd|        S8EVOLUME                     source/elements/solid/solide8e/s8evolume.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
        SUBROUTINE ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,

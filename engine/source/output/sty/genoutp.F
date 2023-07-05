@@ -63,7 +63,7 @@ Chd|        OUTP_S_T                      source/output/sty/outp_s_t.F
 Chd|        OUTP_S_TT                     source/output/sty/outp_s_t.F  
 Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

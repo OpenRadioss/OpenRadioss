@@ -28,7 +28,7 @@ Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
 Chd|        NGR2USRN                      source/system/nintrr.F        
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE FAIL_WINDSHIELD_INIT(

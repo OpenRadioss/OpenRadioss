@@ -34,7 +34,7 @@ Chd|        R4CUM3                        source/elements/spring/r4cum3.F
 Chd|        R4CUM3P                       source/elements/spring/r4cum3p.F
 Chd|        R4EVEC3                       source/elements/spring/r4evec3.F
 Chd|        R4TORS                        source/elements/spring/r4tors.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

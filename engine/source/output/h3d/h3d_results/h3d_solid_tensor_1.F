@@ -34,7 +34,7 @@ Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        STRN_TENSCOR3                 source/output/h3d/h3d_results/h3d_strn_tenscor3.F
 Chd|        STRS_TENSCOR3                 source/output/h3d/h3d_results/strs_tenscor3.F
 Chd|        T4_TSTRAIN                    source/output/h3d/h3d_results/h3d_solid_tensor_1.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

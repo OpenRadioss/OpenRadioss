@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|-- calls ---------------
 Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CEVEC3(ELBUF_STR,DIR_A  ,DIR_B  ,
      1    JFT,JLT,X1 ,X2 ,X3 ,X4 ,Y1 ,Y2 ,Y3 ,Y4  ,

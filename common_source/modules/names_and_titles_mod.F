@@ -23,6 +23,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
 Chd|-- called by -----------
+Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
+Chd|        READ_MATPARAM                 engine/source/output/restart/read_matparam.F
+Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE NAMES_AND_TITLES_MOD

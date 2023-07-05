@@ -30,7 +30,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SOLTOSPH_MOD                  share/modules/soltosph_mod.F  
 Chd|====================================================================

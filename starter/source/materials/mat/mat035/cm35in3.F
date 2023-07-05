@@ -28,7 +28,7 @@ Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3
 Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CM35IN3(ELBUF_STR,THK ,AREA,NEL,NLAY,
      .                   NPTR,NPTS,NPTT,IGTYP)

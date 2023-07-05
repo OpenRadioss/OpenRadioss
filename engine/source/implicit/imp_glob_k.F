@@ -44,7 +44,7 @@ Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        TKE3                          source/elements/truss/tke3.F  
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
@@ -2872,7 +2872,7 @@ Chd|        GRPREORDER                    source/implicit/imp_glob_k.F
 Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
@@ -3077,7 +3077,7 @@ Chd|        S8ZKE3                        source/elements/solid/solide8z/s8zke3.
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        TKE3                          source/elements/truss/tke3.F  
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

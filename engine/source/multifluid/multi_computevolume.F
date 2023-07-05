@@ -28,7 +28,7 @@ Chd|        MULTI_TIMEEVOLUTION           source/multifluid/multi_timeevolution.
 Chd|-- calls ---------------
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
 Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_COMPUTEVOLUME(NEL, NG, IPARG, SYM, 
      .     ELBUF_TAB, IXS, IXQ, IXTG, VOLNEW, XGRID)

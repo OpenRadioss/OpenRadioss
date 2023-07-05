@@ -25,7 +25,7 @@ Chd|  S6CFINT_REG                   source/elements/thickshell/solide6c/s6cfint_
 Chd|-- called by -----------
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
       SUBROUTINE S6CFINT_REG(

@@ -34,7 +34,7 @@ Chd|        EBCS6                         source/boundary_conditions/ebcs/ebcs6.
 Chd|        EBCS7                         source/boundary_conditions/ebcs/ebcs7.F
 Chd|        EBCS_VOL2SEG                  source/boundary_conditions/ebcs/ebcs_vol2seg.F
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================

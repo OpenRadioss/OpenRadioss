@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE I9GRD2(IERR  ,AREA  ,TSTIF    ,T      ,VOL     ,

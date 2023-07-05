@@ -25,7 +25,7 @@ Chd|  C3FINT_REG                    source/elements/sh3n/coque3n/c3fint_reg.F
 Chd|-- called by -----------
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
       SUBROUTINE C3FINT_REG(

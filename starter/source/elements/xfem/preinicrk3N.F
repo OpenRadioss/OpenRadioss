@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        LSLOCAL                       source/elements/xfem/lslocal.F
 Chd|-- calls ---------------
 Chd|        LSINTX                        source/elements/xfem/preinicrk4N.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE PREINICRK3N(ELBUF_STR,XFEM_STR,

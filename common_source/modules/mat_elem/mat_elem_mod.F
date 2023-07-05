@@ -21,9 +21,58 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MATERIAL & ELEMENTS                      
+Chd|  MAT_ELEM_MOD                  modules/mat_elem/mat_elem_mod.F
 Chd|-- called by -----------
+Chd|        CONTRL                        starter/source/starter/contrl.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
+Chd|        STARTER0                      starter/source/starter/starter0.F
+Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
+Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F
+Chd|        C3FORC3_CRK                   engine/source/elements/xfem/c3forc3_crk.F
+Chd|        CBAFORC3                      engine/source/elements/shell/coqueba/cbaforc3.F
+Chd|        CDK6FORC3                     engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+Chd|        CDKFORC3                      engine/source/elements/sh3n/coquedk/cdkforc3.F
+Chd|        CFORC3                        engine/source/elements/shell/coque/cforc3.F
+Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk.F
+Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F
+Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
+Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
+Chd|        FORINT                        engine/source/elements/forint.F
+Chd|        FORINTC                       engine/source/elements/forintc.F
+Chd|        FORINTP                       engine/source/elements/forintp.F
+Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
+Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
+Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
+Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
+Chd|        Q4FORC2                       engine/source/elements/solid_2d/quad4/q4forc2.F
+Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        RDRESA                        engine/source/output/restart/rdresa.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        READ_MATPARAM                 engine/source/output/restart/read_matparam.F
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        S10FORC3                      engine/source/elements/solid/solide10/s10forc3.F
+Chd|        S16FORC3                      engine/source/elements/thickshell/solide16/s16forc3.F
+Chd|        S20FORC3                      engine/source/elements/solid/solide20/s20forc3.F
+Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
+Chd|        S6CFORC3                      engine/source/elements/thickshell/solide6c/s6cforc3.F
+Chd|        S8CFORC3                      engine/source/elements/thickshell/solide8c/s8cforc3.F
+Chd|        S8EFORC3                      engine/source/elements/solid/solide8e/s8eforc3.F
+Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/s8sforc3.F
+Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
+Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
+Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
+Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
+Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
+Chd|        ELBUFDEF_MOD                  modules/mat_elem/elbufdef_mod.F
+Chd|        GROUP_PARAM_MOD               modules/mat_elem/group_param_mod.F
+Chd|        MATPARAM_DEF_MOD              modules/mat_elem/matparam_def_mod.F
+Chd|        PROP_PARAM_MOD                modules/mat_elem/prop_param_mod.F
 Chd|====================================================================
       MODULE MAT_ELEM_MOD
         USE ELBUFDEF_MOD

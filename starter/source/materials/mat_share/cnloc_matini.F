@@ -29,7 +29,7 @@ Chd|        CDKFINT_REG_INI               source/elements/sh3n/coquedk/cdkfint_r
 Chd|        CFINT_REG_INI                 source/elements/shell/coque/cfint_reg_ini.F
 Chd|-- calls ---------------
 Chd|        CNLOC_MAT104_INI              source/materials/mat/mat104/cnloc_mat104_ini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE CNLOC_MATINI(ELBUF_STR,NEL      ,IPM      ,

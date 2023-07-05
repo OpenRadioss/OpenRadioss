@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ALECONVE                      source/ale/porous/aleconv.F   
 Chd|        ALEFLUX                       source/ale/porous/aleflux.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFLOW(
      .         PM    ,IPM      ,MAT         ,X      ,IPARG   ,

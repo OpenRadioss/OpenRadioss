@@ -25,7 +25,7 @@ Chd|  CGSHELL4                      source/implicit/cgshell.F
 Chd|-- called by -----------
 Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CGSHELL4(ELBUF_STR,JFT,JLT ,PM   ,IXC ,
      +                    X   ,MAS,XC ,YC ,ZC )
@@ -96,7 +96,7 @@ Chd|  CGSHELL3                      source/implicit/cgshell.F
 Chd|-- called by -----------
 Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CGSHELL3(ELBUF_STR,JFT,JLT ,PM   ,IXTG ,
      +                    X   ,MAS,XC ,YC ,ZC )

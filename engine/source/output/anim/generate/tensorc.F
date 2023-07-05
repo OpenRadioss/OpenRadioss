@@ -29,8 +29,8 @@ Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        UROTO_TENS2D                  source/materials/tools/uroto_tens2d.F
 Chd|        UROTO_TENS2D_ANISO            source/materials/tools/uroto_tens2d_aniso.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE TENSORC(ELBUF_TAB,IPARG ,ITENS ,INVERT,NELCUT,
@@ -1391,7 +1391,7 @@ Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        SHLROTG                       source/output/anim/generate/tensor6.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TENCGPS1(ELBUF_TAB ,IPARG,ITENS,TENS1 ,TENS2  ,
      .                    X     ,IXC  ,IGEO ,IXTG  ,ITAGPS )
@@ -1551,7 +1551,7 @@ Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        SHLROTG                       source/output/anim/generate/tensor6.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TENCGPS2(ELBUF_TAB ,IPARG,ITENS,TENS1 ,TENS2  ,
      .                    X     ,IXC  ,IGEO ,IXTG  ,GEO    ,

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
 Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE SIGEPS37_SINGLE_CELL (

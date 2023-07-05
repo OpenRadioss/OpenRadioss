@@ -25,7 +25,7 @@ Chd|  KINE_SEATBELT_VEL             source/tools/seatbelts/kine_seatbelt_vel.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
       SUBROUTINE KINE_SEATBELT_VEL(A,V,X,XDP)

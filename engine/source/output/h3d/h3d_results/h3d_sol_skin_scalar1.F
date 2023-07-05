@@ -29,7 +29,7 @@ Chd|        DAM_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_
 Chd|        IDX_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        TENS3DTO2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR1(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,

@@ -25,7 +25,7 @@ Chd|  THICKVAR                      source/interfaces/interf1/inintr_thkvar.F
 Chd|-- called by -----------
 Chd|        ININTR_THKVAR                 source/interfaces/interf1/inintr_thkvar.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THICKVAR(ELBUF_TAB,IPARG,THKSH4_VAR,THKSH3_VAR,THKNOD,
      .                    IXC  ,IXTG     )
@@ -93,7 +93,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        ININT3_THKVAR                 source/interfaces/inter3d1/inint3_thkvar.F
 Chd|        THICKVAR                      source/interfaces/interf1/inintr_thkvar.F
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F

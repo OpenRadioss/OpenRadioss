@@ -48,7 +48,7 @@ Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        TCOORI                        source/elements/truss/tcoori.F
 Chd|        TMASS                         source/elements/truss/tmass.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================

@@ -32,7 +32,7 @@ Chd|        PKEG3                         source/elements/beam/pke3.F
 Chd|        R13MAT3                       source/elements/spring/r13mat3.F
 Chd|        R13SUMG3                      source/elements/spring/r13sumg3.F
 Chd|        R4COORK3                      source/elements/spring/r4coork3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE R13KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                  GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,

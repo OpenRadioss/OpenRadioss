@@ -29,7 +29,7 @@ Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
 Chd|        LAYINI_XFE                    source/elements/xfem/cbufxfe.F
 Chd|        THICK_ILEV                    source/elements/xfem/thick_ilev.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE CBUFXFE(ELBUF_STR,XFEM_STR,ISUBSTACK,STACK   ,
@@ -127,7 +127,7 @@ Chd|  LAYINI_XFE                    source/elements/xfem/cbufxfe.F
 Chd|-- called by -----------
 Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE LAYINI_XFE(ELBUF_STR     ,ISUBSTACK,STACK   ,

@@ -38,7 +38,7 @@ Chd|        VOLPVGA                       source/airbag/volpvg.F
 Chd|        VOLPVGB                       source/airbag/volpvg.F        
 Chd|        VOLP_LFLUID                   source/airbag/volp_lfluid.F   
 Chd|        VOLUM0                        source/airbag/volum0.F        
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F

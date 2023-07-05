@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|        REORDER_I                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_ELEMS1(
      1    IGEO      ,ELBUF     ,IPARG     ,IXS       ,IXQ       ,
@@ -321,7 +321,7 @@ Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F
 Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -615,7 +615,7 @@ Chd|-- called by -----------
 Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_ELEMS2(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -951,7 +951,7 @@ Chd|-- called by -----------
 Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -1299,7 +1299,7 @@ Chd|        IND_FR_K                      source/mpi/implicit/imp_fri.F
 Chd|        INI_FR_K                      source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -1600,7 +1600,7 @@ Chd|-- called by -----------
 Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|        DIM_ELEMS3                    source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_ELEMAX(
      1    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
@@ -3159,7 +3159,7 @@ Chd|        KIN_NRMAX                     source/mpi/implicit/imp_fri.F
 Chd|        KIN_NRMAX0                    source/mpi/implicit/imp_fri.F 
 Chd|        RMDIM_IMP                     source/model/remesh/rm_imp0.F 
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINMAX(
@@ -3346,7 +3346,7 @@ Chd|        MONV_PREM                     source/airbag/monv_imp0.F
 Chd|        NDOF_FV                       source/implicit/ind_glob_k.F  
 Chd|        SET_IKIN2G                    source/mpi/implicit/imp_fri.F 
 Chd|        SPMD_NDOF                     source/mpi/implicit/imp_spmd.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
@@ -3708,7 +3708,7 @@ Chd|        REORDER_L                     source/implicit/ind_glob_k.F
 Chd|        SET_IND_K                     source/implicit/ind_glob_k.F  
 Chd|        SPC_FR_K                      source/mpi/implicit/imp_fri.F 
 Chd|        ZERO_IKIN2G                   source/mpi/implicit/imp_fri.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_GLOB_K(NPBY,LPBY,

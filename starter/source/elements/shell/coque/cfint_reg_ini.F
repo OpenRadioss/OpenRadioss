@@ -27,7 +27,7 @@ Chd|        NLOCAL_INIT_STA               source/materials/fail/nlocal_init_sta.
 Chd|-- calls ---------------
 Chd|        CEVECI                        source/elements/shell/coque/ceveci.F
 Chd|        CNLOC_MATINI                  source/materials/mat_share/cnloc_matini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================

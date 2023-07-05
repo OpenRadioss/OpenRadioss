@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S16FORC3                      source/elements/thickshell/solide16/s16forc3.F
 Chd|-- calls ---------------
 Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S16SIGP3(LFT,LLT,NEL,NPTR,NLAY,NPTT,ICP,MTN,
      .                    NPE,NIPMAX, PX, PY, PZ, VX, VY, VZ, 

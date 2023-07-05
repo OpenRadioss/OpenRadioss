@@ -30,7 +30,7 @@ Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SROTA6_S8S                    source/output/anim/generate/srota6_s8s.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE TENSORS(ELBUF_TAB,IPARG   ,ITENS   ,IXS     ,PM       ,
@@ -3630,7 +3630,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SHLROTG                       source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE TENSGPS1(FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
@@ -3875,7 +3875,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SHLROTG                       source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE TENSGPS2(FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
@@ -4130,7 +4130,7 @@ Chd|        INITBUF                       share/resol/initbuf.F
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
@@ -4956,7 +4956,7 @@ Chd|        INITBUF                       share/resol/initbuf.F
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE TENSGPS_SKIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,

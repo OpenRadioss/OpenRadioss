@@ -25,7 +25,7 @@ Chd|  THTRUS                        source/output/th/thtrus.F
 Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THTRUS(IPARG,NTHGRP2 , ITHGRP ,
      .                  ITHBUF ,ELBUF_TAB,WA   )

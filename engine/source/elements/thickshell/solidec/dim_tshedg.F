@@ -25,7 +25,7 @@ Chd|  DIM_TSHEDG                    source/elements/thickshell/solidec/dim_tshed
 Chd|-- called by -----------
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_TSHEDG(ELBUF_STR,NEDG, IXS ,IPARG )
 C=======================================================================

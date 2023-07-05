@@ -27,7 +27,7 @@ Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebc
 Chd|-- calls ---------------
 Chd|        EBCS_SET_TCARP                source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|====================================================================
       SUBROUTINE INIEBCS_NRF_TCAR(EBCS_TAB, 

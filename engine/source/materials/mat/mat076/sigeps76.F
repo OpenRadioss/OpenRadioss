@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
 Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS76(

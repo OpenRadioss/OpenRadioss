@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVBAG2                        source/airbag/fvbag2.F        
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

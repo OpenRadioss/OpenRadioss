@@ -137,7 +137,7 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CRKOFFC(ELBUF_STR,XFEM_STR  ,
      .                   JFT      ,JLT       ,NFT    ,IR      ,IS        ,
@@ -212,7 +212,7 @@ Chd|-- called by -----------
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CRKOFFTG(ELBUF_STR,XFEM_STR  ,
      .                    JFT      ,JLT       ,NFT    ,IR      ,IS        ,

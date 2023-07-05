@@ -33,7 +33,7 @@ Chd|        XANIM29                       source/output/anim/generate/xanim29.F
 Chd|        XANIM30                       source/output/anim/generate/xanim30.F
 Chd|        XANIM31                       source/output/anim/generate/xanim31.F
 Chd|        XCOOR3                        source/elements/xelem/xcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ANIMX(ELBUF_TAB,

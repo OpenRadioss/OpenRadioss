@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
 Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPENRIC3_N4(XFEM_TAB,
      .                   IPARG  ,IXC     ,NFT    ,JFT     ,JLT  ,
@@ -128,7 +128,7 @@ Chd|-- called by -----------
 Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
 Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPENRIC3_N3(XFEM_TAB,
      .                    IPARG  ,IXTG     ,NFT    ,JFT     ,JLT  ,

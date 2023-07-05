@@ -28,7 +28,7 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
 Chd|-- calls ---------------
 Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CNVEC3(ELBUF_STR,DIR_A  ,DIR_B  ,
      1           JFT     ,JLT    ,IREP   ,IGTYP  ,NLAY   ,       

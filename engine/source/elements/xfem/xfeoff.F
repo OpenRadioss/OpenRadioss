@@ -33,7 +33,7 @@ Chd|        STOPTIMEG                     source/system/timer.F
 Chd|        UPOFFC                        source/elements/xfem/upoffc.F 
 Chd|        UPOFFTG                       source/elements/xfem/upofftg.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE XFEOFF(XFEM_TAB ,
      .                  IPARG    ,IXC      ,NGROUC   ,IGROUC  ,IEL_CRK ,

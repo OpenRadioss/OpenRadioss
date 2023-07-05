@@ -36,7 +36,6 @@ Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        EIG_MOD                       share/modules/eig_mod.F       
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
@@ -45,7 +44,7 @@ Chd|        INTBUFMOD                     share/modules/restart_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F

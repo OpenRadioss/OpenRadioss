@@ -25,7 +25,7 @@ Chd|  SCFINT_REG                    source/elements/thickshell/solidec/scfint_re
 Chd|-- called by -----------
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
       SUBROUTINE SCFINT_REG(

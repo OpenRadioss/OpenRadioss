@@ -25,7 +25,7 @@ Chd|  DMASANI0                      source/output/anim/dmasani0.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DMASANI0(ELBUF_TAB   ,IPARG   ,       
      2              MAS     ,PM      ,EL2FA   ,IPART   ,IPARTSP )       

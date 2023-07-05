@@ -73,7 +73,7 @@ Chd|        RUSER36                       source/elements/spring/ruser36.F
 Chd|        RUSER44                       source/elements/spring/ruser44.F
 Chd|        RUSER46                       source/elements/spring/ruser46.F
 Chd|        SET_SPRING_ELNUM              source/user_interface/uaccess.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

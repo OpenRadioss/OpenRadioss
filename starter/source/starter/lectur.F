@@ -451,7 +451,7 @@ Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        DSGRAPH_MOD                   share/modules1/dsgraph_mod.F  
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
@@ -480,7 +480,7 @@ Chd|        IXINTMOD                      share/modules1/restart_mod.F
 Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESHSURFIG3D_MOD              source/elements/ige3d/meshsurfig3d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  

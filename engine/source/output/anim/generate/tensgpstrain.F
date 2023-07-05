@@ -30,7 +30,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
@@ -671,7 +671,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE GPSSTRAIN_SKIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,

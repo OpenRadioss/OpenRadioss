@@ -27,7 +27,7 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        MAT112_XIA_NEWTON             source/materials/mat/mat112/mat112_xia_newton.F
 Chd|        MAT112_XIA_NICE               source/materials/mat/mat112/mat112_xia_nice.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

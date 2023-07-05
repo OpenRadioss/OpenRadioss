@@ -25,7 +25,7 @@ Chd|  CBAPINCHPROJ                  source/elements/shell/coqueba/cbapinchproj.F
 Chd|-- called by -----------
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
       SUBROUTINE CBAPINCHPROJ(

@@ -59,7 +59,7 @@ Chd|        DT51LAW                       source/materials/time_step/dt51law.F
 Chd|        DT5LAW                        source/materials/time_step/dt5law.F
 Chd|        DT6LAW                        source/materials/time_step/dt6law.F
 Chd|        DT70LAW                       source/materials/time_step/dt70law.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DTMAIN(GEO  ,PM   ,IPM   ,PID   ,MAT   ,FV    ,
      .                  EINT ,TEMP ,DELTAX,RK    ,RE    ,BUFMAT, DDELTAX, AIRE, VOL, DTX,

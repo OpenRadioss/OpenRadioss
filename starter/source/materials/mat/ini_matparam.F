@@ -25,7 +25,7 @@ Chd|  INI_MATPARAM                  source/materials/mat/ini_matparam.F
 Chd|-- called by -----------
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE INI_MATPARAM(MAT_PARAM,NUMMAT)
 C-----------------------------------------------
