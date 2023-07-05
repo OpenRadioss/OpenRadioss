@@ -27,7 +27,7 @@ Chd|        TENSORC_CRK                   source/output/anim/generate/tensorc_cr
 Chd|-- calls ---------------
 Chd|        UROTOV                        source/airbag/uroto.F         
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGROTA_XFE(ELBUF_STR,XFEM_STR,
      1               JFT   ,JLT    ,NFT     ,ILAY     ,NEL  ,

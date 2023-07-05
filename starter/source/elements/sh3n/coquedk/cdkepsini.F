@@ -30,7 +30,7 @@ Chd|        CDKEVEC3                      source/elements/sh3n/coquedk/cdkevec3.
 Chd|        CDKPXPYI                      source/elements/sh3n/coquedk/cdkinit3.F
 Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
 Chd|        CORTH3                        source/elements/shell/coque/corth3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CDKEPSINI(ELBUF_STR,
      1           JFT  ,JLT   ,ISMSTR,ILAW  ,ITHK   ,

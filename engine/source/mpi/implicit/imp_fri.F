@@ -3316,7 +3316,7 @@ Chd|        REORDER_A                     source/implicit/ind_glob_k.F
 Chd|        SPMD_ICOL                     source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_NROW                     source/mpi/implicit/imp_spmd.F
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE DIM_FR_K(
@@ -3515,7 +3515,7 @@ Chd|-- calls ---------------
 Chd|        DIM_ELEMSP                    source/implicit/ind_glob_k.F  
 Chd|        IND_FR_K0                     source/mpi/implicit/imp_fri.F 
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE IND_FR_K(
@@ -3869,7 +3869,7 @@ Chd|        REORDER_A                     source/implicit/ind_glob_k.F
 Chd|        SPMD_ICOL                     source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_NROW                     source/mpi/implicit/imp_spmd.F
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE INI_FR_K(

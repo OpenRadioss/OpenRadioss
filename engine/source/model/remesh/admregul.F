@@ -30,7 +30,7 @@ Chd|        ADMMAP4                       source/model/remesh/admmap4.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        SYNC_DATA                     source/system/machine.F       
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
 Chd|====================================================================
       SUBROUTINE ADMREGUL(IXC  ,IPARTC  ,IXTG ,IPARTTG,IPART,

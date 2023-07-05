@@ -27,7 +27,7 @@ Chd|        INTAL3                        source/ale/inter/intal3.F
 Chd|-- calls ---------------
 Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
 Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I9WALE(IPARI,INTBUF_TAB,X        ,V      ,

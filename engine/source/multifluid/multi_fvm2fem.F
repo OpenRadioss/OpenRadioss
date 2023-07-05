@@ -36,7 +36,7 @@ Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
 Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
 Chd|        SNORM3                        source/multifluid/snorm3.F    
 Chd|        SNORM3T                       source/multifluid/snorm3t.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================

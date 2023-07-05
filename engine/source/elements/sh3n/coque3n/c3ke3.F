@@ -37,7 +37,7 @@ Chd|        C3SUMG3                       source/elements/sh3n/coque3n/c3sumg3.F
 Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
 Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE C3KE3(

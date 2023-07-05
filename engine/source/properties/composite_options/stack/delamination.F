@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        DELM01LAW                     source/properties/composite_options/stack/delm01law.F
 Chd|        DELM02LAW                     source/properties/composite_options/stack/delm02law.F
 Chd|        DELM24LAW                     source/properties/composite_options/stack/delm24law.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DELAMINATION(ELBUF_STR,
      1           JFT      ,JLT     ,IR     ,IS     ,NPT      ,

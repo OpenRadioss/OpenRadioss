@@ -33,7 +33,7 @@ Chd|        CORTHDIR                      source/elements/shell/coque/corthdir.F
 Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
 Chd|        LAW158_INIT                   source/materials/mat/mat158/law158_init.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================

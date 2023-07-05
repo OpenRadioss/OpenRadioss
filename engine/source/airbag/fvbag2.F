@@ -27,7 +27,7 @@ Chd|        FVBAG0                        source/airbag/fvbag0.F
 Chd|-- calls ---------------
 Chd|        SPMD_IBCAST_SUBCOMM           source/mpi/generic/spmd_ibcast_subcomm.F
 Chd|        SPMD_RBCAST_SUBCOMM           source/mpi/generic/spmd_rbcast_subcomm.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

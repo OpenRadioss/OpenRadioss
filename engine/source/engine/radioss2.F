@@ -123,10 +123,11 @@ Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        ELBUF_MOD                     share/modules/elbuf_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_MOD                     share/modules/group_mod.F     
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        INTBUFFRIC_MOD                share/modules/restart_mod.F   
@@ -136,7 +137,7 @@ Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/in
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        LINEAR_SOLVER_MOD             share/modules/linear_solver_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F

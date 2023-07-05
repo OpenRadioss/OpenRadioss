@@ -25,7 +25,7 @@ Chd|  THICK_ILEV                    source/elements/xfem/thick_ilev.F
 Chd|-- called by -----------
 Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THICK_ILEV(ELBUF_STR,XFEM_STR,
      .                      LFT      ,LLT  ,NLAY  ,IR  ,IS  ,

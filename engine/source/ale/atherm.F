@@ -35,7 +35,7 @@ Chd|        M26TH                         source/materials/mat/mat026/m26th.F
 Chd|        M51TH                         source/materials/mat/mat051/heat51.F
 Chd|        SPMD_EVOIS                    source/mpi/fluid/spmd_cfd.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE ATHERM(

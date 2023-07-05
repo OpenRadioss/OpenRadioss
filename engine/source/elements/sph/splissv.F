@@ -52,7 +52,7 @@ Chd|        STARTIMEG                     source/system/timer.F
 Chd|        STOPTIMEG                     source/system/timer.F         
 Chd|        WEIGHT0                       source/elements/sph/weight.F  
 Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MOD_SPLISSV                   source/elements/sph/splissv.F 
 Chd|        SPHBOX                        share/modules/sphbox.F        

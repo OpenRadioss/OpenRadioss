@@ -29,7 +29,7 @@ Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.
 Chd|        SZETFAC                       source/elements/solid/solidez/szetfac.F
 Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
 Chd|        SZSVM                         source/elements/solid/solidez/szsvm.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SZHOUR3(
      1   ELBUF_STR,PM,       RHO,      OFF,

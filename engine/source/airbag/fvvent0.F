@@ -32,7 +32,7 @@ Chd|        PORFORM4                      source/airbag/porfor4.F
 Chd|        PORFORM5                      source/airbag/porfor5.F       
 Chd|        PORFORM6                      source/airbag/porfor6.F       
 Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FVVENT0(

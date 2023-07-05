@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        XFEOFF                        source/elements/xfem/xfeoff.F 
 Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPOFFTG(XFEM_TAB ,NG      ,
      .                   NFT      ,JFT     ,JLT      ,IXFEM    ,IEL_CRK ,

@@ -23,7 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TABLE_MOD                     share/modules1/table_mod.F    
 Chd|-- called by -----------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        CALC_UNIAX                    source/materials/mat/mat098/lossfun_98.F
 Chd|        CALC_UNIAX_2                  source/materials/mat/mat098/lossfun_98.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F

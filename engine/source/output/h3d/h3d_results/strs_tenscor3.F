@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        PRE_HEPH                      source/output/anim/generate/tensor6.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSIGPARA                     source/elements/solid/solidez/szsigpara.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STRS_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,
      .                        PM        ,KCVT    ,NEL      ,EVAR    )

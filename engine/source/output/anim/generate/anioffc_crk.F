@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SPMD_IGET_PARTN               source/mpi/anim/spmd_iget_partn.F
 Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ANIOFFC_CRK( 
      .                  XFEM_TAB ,IPARG  ,IPART,IPARTC,IPARTTG ,

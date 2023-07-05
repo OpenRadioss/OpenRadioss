@@ -30,7 +30,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SIG2D2PIN                     source/output/outmaxsubr.F    
 Chd|        SIG3D2PIN                     source/output/outmaxsubr.F    
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

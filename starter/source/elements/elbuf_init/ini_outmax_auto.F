@@ -25,7 +25,7 @@ Chd|  INI_OUTMAX_AUTO               source/elements/elbuf_init/ini_outmax_auto.F
 Chd|-- called by -----------
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE INI_OUTMAX_AUTO(ELBUF_STR,ITY,NG)

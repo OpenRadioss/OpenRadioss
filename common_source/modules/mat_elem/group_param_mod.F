@@ -21,8 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  GROUP_PARAM              
+Chd|  GROUP_PARAM_MOD               modules/mat_elem/group_param_mod.F
 Chd|-- called by -----------
+Chd|        MAT_ELEM_MOD                  common_source/modules/mat_elem/mat_elem_mod.F
+Chd|        C3DERII                       starter/source/elements/sh3n/coque3n/c3derii.F
+Chd|        C3INIT3                       starter/source/elements/sh3n/coque3n/c3init3.F
+Chd|        CBAINIT3                      starter/source/elements/shell/coqueba/cbainit3.F
+Chd|        CDKDERII                      starter/source/elements/sh3n/coquedk/cdkderii.F
+Chd|        CDKINIT3                      starter/source/elements/sh3n/coquedk/cdkinit3.F
+Chd|        CDLENI                        starter/source/elements/shell/coque/cdleni.F
+Chd|        CINIT3                        starter/source/elements/shell/coque/cinit3.F
+Chd|        CNDLENI                       starter/source/elements/shell/coqueba/cndleni.F
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        INIRIG_MAT                    starter/source/elements/initia/inirig_mat.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        OUTPART5                      starter/source/elements/initia/initia.F
+Chd|        SET_ELGROUP_PARAM             starter/source/elements/shell/coque/set_elgroup_param.F
+Chd|        WRITE_ELGROUP_PARAM           starter/source/restart/ddsplit/write_elgroup_param.F
+Chd|        CMAIN3PINCH                   engine/source/elements/shell/coqueba/cmain3pinch.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        READ_ELGROUP_PARAM            engine/source/output/restart/read_elgroup_param.F
+Chd|        WRITE_ELGROUP_PARAM           engine/source/output/restart/write_elgroup_param.F
+Chd|-- calls ---------------
 Chd|====================================================================
       MODULE GROUP_PARAM_MOD
 C----------------------------------------------------------------------- 

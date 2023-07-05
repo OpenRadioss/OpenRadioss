@@ -27,7 +27,7 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        FACNOR                        source/output/anim/facnor.F   
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PARSORC(X    ,D    ,XNORM,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXQ  ,IXC  ,IXTG ,

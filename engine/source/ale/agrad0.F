@@ -33,7 +33,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        TGRAD2                        source/ale/ale2d/tgrad2.F     
 Chd|        TGRAD3                        source/ale/ale3d/tgrad3.F     
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE AGRAD0(IPARG    ,IXS      ,IXQ       ,X       ,ALE_CONNECT   ,
      .                  GRAD     ,VEUL     ,ELBUF_STR ,ITASK   )

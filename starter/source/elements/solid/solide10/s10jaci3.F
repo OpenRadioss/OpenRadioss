@@ -27,7 +27,7 @@ Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        S10JACOB                      source/elements/solid/solide10/s10deri3.F
 Chd|        S10PIJSAV                     source/elements/solid/solide10/s10deri3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S10JACI3(ELBUF_STR,SAV,NPT,NEL)
 C-----------------------------------------------

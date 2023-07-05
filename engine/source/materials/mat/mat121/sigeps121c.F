@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MAT121C_NEWTON                source/materials/mat/mat121/mat121c_newton.F
 Chd|        MAT121C_NICE                  source/materials/mat/mat121/mat121c_nice.F
 Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS121C(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,

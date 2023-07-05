@@ -29,7 +29,7 @@ Chd|        ANIM_NODAL_VECTOR_FVMBAGS     source/output/anim/generate/anim_nodal
 Chd|        H3D_VELVECC22                 source/output/h3d/h3d_results/h3d_velvecc22.F
 Chd|        H3D_VELVECZ22                 source/output/h3d/h3d_results/h3d_velvecz22.F
 Chd|        H3D_WRITE_VECTOR              source/output/h3d/h3d_results/h3d_write_vector.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F

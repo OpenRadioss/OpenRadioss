@@ -30,7 +30,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
 Chd|        SPMD_LIST_SMS                 source/mpi/ams/spmd_sms.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

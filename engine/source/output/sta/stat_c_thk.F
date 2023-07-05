@@ -27,7 +27,7 @@ Chd|        GENSTAT                       source/output/sta/genstat.F
 Chd|-- calls ---------------
 Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
 Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STAT_C_THK(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXC ,
      2                      IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,

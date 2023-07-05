@@ -25,7 +25,7 @@ Chd|  INIEBCSP                      source/boundary_conditions/ebcs/iniebcsp.F
 Chd|-- called by -----------
 Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebcsp0.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INIEBCSP(NSEG,NOD,ISEG,IELEM,IRECT,LISTE,
      .                    LA,IPARG,ELBUF_STR,P0,RHO,X)

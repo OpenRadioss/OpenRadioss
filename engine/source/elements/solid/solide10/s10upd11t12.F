@@ -27,7 +27,7 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|        S10PIJ12                      source/elements/solid/solide10/s10pij12.F
 Chd|        S10PIJSAV12                   source/elements/solid/solide10/s10pijsav12.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S10UPD11T12(
      1   ELBUF_TAB,OFFG,     OFFG0,    NC,

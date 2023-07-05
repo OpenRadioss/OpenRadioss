@@ -447,7 +447,6 @@ Chd|        DT_MOD                        share/modules/dt_mod.F
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        ERROR_MOD                     share/modules/error_mod.F     
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        FORINT_MOD                    source/elements/forint.F      
@@ -470,7 +469,7 @@ Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F

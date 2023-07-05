@@ -122,16 +122,16 @@ Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
 Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
 Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
@@ -3303,7 +3303,7 @@ Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE OUTPART5(GROUP_PARAM_TAB,IPART,IPARTS,IPARG,IGEO, GEO ,PM )
 C-----------------------------------------------

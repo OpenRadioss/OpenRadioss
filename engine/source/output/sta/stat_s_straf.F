@@ -31,7 +31,7 @@ Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
 Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE STAT_S_STRAF(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXS ,

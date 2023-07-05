@@ -32,7 +32,7 @@ Chd|        MULTI_I18_FORCE_POFF          source/interfaces/int18/multi_i18_forc
 Chd|        MULTI_I18_FORCE_PON           source/interfaces/int18/multi_i18_force_pon.F
 Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       

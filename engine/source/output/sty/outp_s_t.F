@@ -27,7 +27,7 @@ Chd|        GENOUTP                       source/output/sty/genoutp.F
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE OUTP_S_T(NBX   ,KEY,TEXT,ELBUF_TAB,IPARG,
@@ -186,7 +186,7 @@ Chd|        GENOUTP                       source/output/sty/genoutp.F
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE OUTP_S_TT(NBX   ,KEY ,TEXT,ELBUF_TAB,IPARG,
@@ -1008,7 +1008,7 @@ Chd|-- called by -----------
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|        OUTP_ARSZ_ST                  source/mpi/interfaces/spmd_outp.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COUNT_ARSZ_ST(IPARG,DD_IAD,WASZ,SZP0)
 C-----------------------------------------------

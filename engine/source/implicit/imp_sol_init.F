@@ -39,7 +39,7 @@ Chd|        IMP_TRANS0                    source/output/restart/wrrest.F
 Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
 Chd|        SPMD_MSTOP                    source/mpi/init/spmd_mstop.F  
 Chd|        ZERO1                         source/system/zero.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

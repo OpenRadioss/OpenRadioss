@@ -27,7 +27,7 @@ Chd|        CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pi
 Chd|-- calls ---------------
 Chd|        SIGEPS01GPINCH                source/materials/mat/mat001/sigeps01gpinch.F
 Chd|        SIGEPS91GPINCH                source/materials/mat/mat091/sigeps91gpinch.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE MULAWGLCPINCH(ELBUF_STR,

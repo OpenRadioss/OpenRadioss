@@ -25,7 +25,7 @@ Chd|  CNLOC_MAT104_INI              source/materials/mat/mat104/cnloc_mat104_ini
 Chd|-- called by -----------
 Chd|        CNLOC_MATINI                  source/materials/mat_share/cnloc_matini.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CNLOC_MAT104_INI(
      .          NEL      ,IPG      ,IPT      ,NUPARAM  ,NUVAR    ,UPARAM   ,

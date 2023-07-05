@@ -69,7 +69,7 @@ Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        DTDC_MOD                      share/modules/dtdc_mod.F      
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   

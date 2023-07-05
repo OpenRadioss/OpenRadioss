@@ -32,7 +32,7 @@ Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
 Chd|        VFLUID                        source/elements/solid/solide/vfluid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE PRELECFLOW(ELBUF_TAB,NGROUNC,IGROUNC,IPARG  ,NBSDVOIS,

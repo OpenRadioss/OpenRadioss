@@ -27,7 +27,7 @@ Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|        NOD_SMS_DT                    source/ams/sms_auto_dt.F      
 Chd|        NOD_SMS_DT_SOL                source/ams/sms_auto_dt.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_AUTO_DT(DTELEM,NATIV_SMS,
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,

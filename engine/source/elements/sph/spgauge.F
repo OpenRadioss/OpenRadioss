@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
 Chd|        SUM_6_FLOAT                   source/system/parit.F         
 Chd|        WEIGHT0                       source/elements/sph/weight.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================

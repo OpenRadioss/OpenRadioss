@@ -36,7 +36,7 @@ Chd|        CZLKEN3                       source/elements/shell/coquez/czlken3.F
 Chd|        CZLKENR3                      source/elements/shell/coquez/czlken3.F
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
        SUBROUTINE CZKEL3 (
      1            JFT    ,JLT    ,NFT    ,NPT    ,MTN    ,

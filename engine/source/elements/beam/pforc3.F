@@ -45,7 +45,7 @@ Chd|        SIGEPS44P                     source/materials/mat/mat044/sigeps44p.
 Chd|        THERMEXPPG                    source/elements/beam/thermexpp.F
 Chd|        THERMEXPPI                    source/elements/beam/thermexpp.F
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE PFORC3(

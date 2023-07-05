@@ -27,7 +27,7 @@ Chd|        GENSTAT                       source/output/sta/genstat.F
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        SPMD_IGET_PARTN_STA           source/mpi/output/spmd_stat.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STAT_BEAM_SPMD(ITAB   ,IPART     ,IXP   ,IPARTP,IPART_STATE,
      .                          NODTAG ,STAT_INDXP,LENGP ,IPARG ,ELBUF_TAB  ,

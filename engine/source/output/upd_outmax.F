@@ -43,7 +43,7 @@ Chd|        TM_VONM_SHELL                 source/output/outmaxsubr.F
 Chd|        TM_VONM_SOLID                 source/output/outmaxsubr.F    
 Chd|        UPD_TMNORM2                   source/output/outmaxsubr.F    
 Chd|        UPD_TMTENS                    source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

@@ -31,7 +31,7 @@ Chd|  SIGEPS22G                     source/materials/mat/mat022/sigeps22g.F
 Chd|-- called by -----------
 Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,

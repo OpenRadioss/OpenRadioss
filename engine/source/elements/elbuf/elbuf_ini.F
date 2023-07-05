@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        ELBUF_MOD                     share/modules/elbuf_mod.F     
 Chd|====================================================================
       SUBROUTINE ELBUF_INI(NGROUP, IPARG)  

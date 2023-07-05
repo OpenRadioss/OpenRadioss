@@ -60,7 +60,7 @@ Chd|        SPSYMP                        source/elements/sph/spsym.F
 Chd|        SPSYM_ALLOC                   source/elements/sph/spsym_alloc.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SPH_STRUCT_MOD                share/modules/sph_struct_mod.F

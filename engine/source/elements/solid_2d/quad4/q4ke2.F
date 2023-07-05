@@ -39,7 +39,7 @@ Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
 Chd|        QRCOOR2                       source/elements/solid_2d/quad/qrcoor2.F
 Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
 Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE Q4KE2(
      1   PM,       GEO,      IXQ,      X,

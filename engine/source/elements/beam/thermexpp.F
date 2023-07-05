@@ -25,7 +25,7 @@ Chd|  THERMEXPPI                    source/elements/beam/thermexpp.F
 Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THERMEXPPI(ELBUF_STR,
      1                  NEL    ,NPT    ,MAT    , PID    ,

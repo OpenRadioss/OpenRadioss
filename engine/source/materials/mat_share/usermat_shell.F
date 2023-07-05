@@ -82,7 +82,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UROTOV                        source/airbag/uroto.F         
 Chd|        XFEM_CRK_DIR                  source/elements/xfem/xfem_crk_dir.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        LAW_USERSH                    source/user_interface/law_usersh.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -23,7 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TABLE_MOD                     share/modules/table_mod.F     
 Chd|-- called by -----------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
 Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F

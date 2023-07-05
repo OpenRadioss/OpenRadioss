@@ -37,7 +37,7 @@ Chd|        SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

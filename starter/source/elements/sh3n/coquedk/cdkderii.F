@@ -25,7 +25,7 @@ Chd|  CDKDERII                      source/elements/sh3n/coquedk/cdkderii.F
 Chd|-- called by -----------
 Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE CDKDERII(JFT   ,JLT,PM ,GEO ,PX2,PY2,PX3,PY3,
      .                    STIFN ,STIFR  ,IXTG ,THK ,SH3TREE ,

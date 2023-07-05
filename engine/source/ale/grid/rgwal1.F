@@ -27,7 +27,7 @@ Chd|        ALEWDX                        source/ale/grid/alewdx.F
 Chd|-- calls ---------------
 Chd|        INTERP                        source/tools/curve/interp.F   
 Chd|        RGWATH                        source/interfaces/int09/rgwath.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RGWAL1(X       ,A	,V	  ,W	  ,RWBUF   ,
      2                  LPRW    ,NPRW	, 

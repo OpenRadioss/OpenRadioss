@@ -25,7 +25,7 @@ Chd|  CONVECOFF                     source/constraints/thermic/convecoff.F
 Chd|-- called by -----------
 Chd|        DESACTI                       source/elements/desacti.F     
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CONVECOFF(IBCV, FCONV, IPARG, IGROUPS, IXS, ELBUF_TAB)
 C-----------------------------------------------

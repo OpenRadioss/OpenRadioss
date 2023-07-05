@@ -32,7 +32,7 @@ Chd|        UPENRIC1_N4                   source/elements/xfem/upenric1_n4.F
 Chd|        UPENRIC2_N3                   source/elements/xfem/upenric2_n3.F
 Chd|        UPENRIC2_N4                   source/elements/xfem/upenric2_n4.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPXFEM1(XFEM_TAB,
      .                   IPARG    ,IXC     ,NGROUC  ,IGROUC  ,IXTG    ,

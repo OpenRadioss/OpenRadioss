@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        DYNA_INI                      source/implicit/imp_dyna.F    
 Chd|        KTBUF_INI                     source/implicit/imp_init.F    
 Chd|        ZEROR                         source/system/zero.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
@@ -163,7 +163,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        GRPREORDER                    source/implicit/imp_glob_k.F  
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

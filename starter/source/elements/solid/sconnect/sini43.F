@@ -25,7 +25,7 @@ Chd|  SINI43                        source/elements/solid/sconnect/sini43.F
 Chd|-- called by -----------
 Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SINI43(ELBUF_STR,
      1           MLW   ,NEL   ,AREA  ,VOLG  ,RHOG  ,

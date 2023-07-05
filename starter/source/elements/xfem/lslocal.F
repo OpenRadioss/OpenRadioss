@@ -37,7 +37,7 @@ Chd|        PREINICRK3N                   source/elements/xfem/preinicrk3N.F
 Chd|        PREINICRK4N                   source/elements/xfem/preinicrk4N.F
 Chd|        XYZLOC3N                      source/elements/xfem/lslocal.F
 Chd|        XYZLOC4N                      source/elements/xfem/lslocal.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================

@@ -32,7 +32,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW6( 
      1     X             ,D             , V       ,W       ,WA      ,

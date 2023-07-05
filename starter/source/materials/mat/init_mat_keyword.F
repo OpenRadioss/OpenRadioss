@@ -73,7 +73,7 @@ Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_ma
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE INIT_MAT_KEYWORD(MATPARAM,KEYWORD)
 C-----------------------------------------------

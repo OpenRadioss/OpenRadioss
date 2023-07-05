@@ -25,7 +25,7 @@ Chd|  INIPHASE                      source/initial_conditions/inivol/iniphase.F
 Chd|-- called by -----------
 Chd|        INIFILL                       source/initial_conditions/inivol/inifill.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE INIPHASE(IXS      ,IPART_    ,IPHASE    ,IDP      ,

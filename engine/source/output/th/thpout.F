@@ -25,7 +25,7 @@ Chd|  THPOUT                        source/output/th/thpout.F
 Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THPOUT(IPARG , NTHGRP2  , ITHGRP ,GEO,  IXP,  
      .                  ITHBUF, ELBUF_TAB, WA     )

@@ -27,7 +27,7 @@ Chd|        GENOUTP                       source/output/sty/genoutp.F
 Chd|-- calls ---------------
 Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
 Chd|        S_USER                        source/output/sty/s_user.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE OUTP_C_S(NBXX,KEY,TEXT,ELBUF_TAB,IPARG ,EANI,
      .                    IPM ,IGEO,IXC ,IXTG ,DD_IAD,SIZLOC,SIZP0,THKE,SIZ_WR)

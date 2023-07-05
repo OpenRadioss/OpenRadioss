@@ -30,7 +30,7 @@ Chd|        M11VS3                        source/materials/mat/mat011/m11vs3.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M11LAW(PM   ,OFF ,SIG   ,EINT     ,RHO    ,
      2                  T    ,RK  ,RE    ,VO       ,

@@ -32,7 +32,7 @@ Chd|        SPMD_EXCH_IEDGE               source/mpi/elements/spmd_xfem.F
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INIXFEM(ELBUF_TAB,XFEM_TAB ,
      .                   IPARG    ,IXC      ,IXTG     ,NGROUC   ,IGROUC    ,

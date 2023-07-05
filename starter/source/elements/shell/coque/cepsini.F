@@ -30,7 +30,7 @@ Chd|        CEVECI                        source/elements/shell/coque/ceveci.F
 Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
 Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        CPXPYI                        source/elements/shell/coque/cepsini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CEPSINI(ELBUF_STR,
      1           JFT    ,JLT   ,ISMSTR,MTN    ,ITHK    ,
@@ -273,7 +273,7 @@ Chd|-- calls ---------------
 Chd|        CM19INI                       source/elements/shell/coque/cepsini.F
 Chd|        CM1INI                        source/elements/shell/coque/cepsini.F
 Chd|        CM58_REFSTA                   source/materials/mat/mat058/cm58_refsta.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CMLAWI(JFT,JLT,MTN,ITHK,PM,
      2                  FOR,THK,EINT,GSTR,DIR1,

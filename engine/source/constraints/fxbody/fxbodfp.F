@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FXBDEPLA                      source/constraints/fxbody/fxbdepla.F
 Chd|        FXBMAJP1                      source/constraints/fxbody/fxbodfp.F
 Chd|        FXBSGMAJ                      source/constraints/fxbody/fxbsgmaj.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FXBODFP1(FXBIPM , FXBRPM, FXBNOD  , FXBMOD  , FXBDEP ,
      .                    FXBVIT , FXBACC, A       , AR      , NME    ,

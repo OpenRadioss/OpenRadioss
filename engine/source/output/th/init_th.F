@@ -37,7 +37,7 @@ Chd|        THSOL_COUNT                   source/output/th/thsol_count.F
 Chd|        THSPH_COUNT                   source/output/th/thsph_count.F
 Chd|        THTRUS_COUNT                  source/output/th/thtrus_count.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        

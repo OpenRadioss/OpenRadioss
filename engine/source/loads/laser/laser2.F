@@ -27,7 +27,7 @@ Chd|        LASER1                        source/loads/laser/laser1.F
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE LASER2(NL ,N1   ,N2   ,IFUNC    ,IAFUNC ,
@@ -251,7 +251,7 @@ Chd|        LASER1                        source/loads/laser/laser1.F
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        INTERP                        source/tools/curve/interp.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE LASER3(NL ,IFUNC ,

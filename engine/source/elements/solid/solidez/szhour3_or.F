@@ -32,7 +32,7 @@ Chd|        MMOD_NORM                     source/elements/solid/solidez/mmod_nor
 Chd|        SZETFAC                       source/elements/solid/solidez/szetfac.F
 Chd|        SZSTRAINHG                    source/elements/solid/solidez/szstrainhg.F
 Chd|        SZSVM_OR                      source/elements/solid/solidez/szsvm_or.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SZHOUR3_OR(
      1   ELBUF_STR,PM,       RHO,      OFF,

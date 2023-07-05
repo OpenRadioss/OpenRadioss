@@ -35,7 +35,7 @@ Chd|        TDEFO3                        source/elements/truss/tdefo3.F
 Chd|        TDLEN3                        source/elements/truss/tdlen3.F
 Chd|        TFCUM3                        source/elements/truss/tfcum3.F
 Chd|        TFCUM3P                       source/elements/truss/tfcum3p.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE TFORC3(

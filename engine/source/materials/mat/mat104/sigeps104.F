@@ -31,7 +31,7 @@ Chd|        MAT104_NLDAM_NEWTON           source/materials/mat/mat104/mat104_nld
 Chd|        MAT104_NLDAM_NICE             source/materials/mat/mat104/mat104_nldam_nice.F
 Chd|        MAT104_NODAM_NEWTON           source/materials/mat/mat104/mat104_nodam_newton.F
 Chd|        MAT104_NODAM_NICE             source/materials/mat/mat104/mat104_nodam_nice.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS104(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   , 

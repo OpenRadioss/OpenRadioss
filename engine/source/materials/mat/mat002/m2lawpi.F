@@ -25,7 +25,7 @@ Chd|  M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
 Chd|-- called by -----------
 Chd|        PMAIN3                        source/elements/beam/pmain3.F 
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M2LAWPI(ELBUF_STR,
      1                  JFT    ,JLT    ,NPT    ,PM     ,GEO,

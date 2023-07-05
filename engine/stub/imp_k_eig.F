@@ -32,7 +32,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
 Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================

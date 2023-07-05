@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
 Chd|-- calls ---------------
 Chd|        SETUVARW                      source/elements/shell/coqueba/cbawarpoff.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
        SUBROUTINE CBAL58WARP(ELBUF_STR,NEL,
      1                       X,IXC,E3X   ,E3Y   ,E3Z  ,OFFG ,ZLLC2 )

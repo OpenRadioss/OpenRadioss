@@ -25,7 +25,7 @@ Chd|  S10DERITO3                    source/elements/solid/solide10/s10derito3.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        S10JACOBT                     source/elements/solid/solide10/s10jacobt.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S10DERITO3(

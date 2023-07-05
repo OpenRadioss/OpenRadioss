@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
 Chd|-- calls ---------------
 Chd|        ROTO                          source/airbag/roto.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PORFOR5(SVTFAC,IM,IPM,PM,ELBUF_STR,P,PEXT,IEL,NEL)
 C-----------------------------------------------
@@ -115,7 +115,7 @@ Chd|-- called by -----------
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|-- calls ---------------
 Chd|        ROTO                          source/airbag/roto.F          
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PORFORM5(SVTFAC,IM,IPM,PM,ELBUF_STR,P,PEXT,IEL,NEL)
 C-----------------------------------------------

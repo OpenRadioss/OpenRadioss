@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
 Chd|-- calls ---------------
 Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE S4VOLN_M(
      1   VARNOD,  NC1,     NC2,     NC3,

@@ -25,7 +25,7 @@ Chd|  SHELL_ROTA                    source/output/dynain/shell_rota.F
 Chd|-- called by -----------
 Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SHELL_ROTA(I        ,ILAY    ,NEL    ,IORTH  ,ITY      ,
      2                      IGTYP    ,MLW     ,JDIR   ,SIG    ,ELBUF_STR,
@@ -217,7 +217,7 @@ Chd|-- called by -----------
 Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SHELL_LOCAL_FRAME(JFT    , JLT   ,ITY      ,IHBE     ,IGTYP   ,
      2                             IXC    ,IXTG   ,NFT      ,X        ,OFFG    ,

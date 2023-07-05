@@ -25,7 +25,7 @@ Chd|  SET_ELGROUP_PARAM             source/elements/shell/coque/set_elgroup_para
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE SET_ELGROUP_PARAM(
      .           GROUP_PARAM_TAB,IPARG    ,NGROUP   ,N2D      ,

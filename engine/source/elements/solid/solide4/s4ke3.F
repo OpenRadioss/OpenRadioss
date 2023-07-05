@@ -37,7 +37,7 @@ Chd|        S4KGEO3                       source/elements/solid/solide4/s4kgeo3.
 Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
 Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S4KE3(
      1   PM,      GEO,     IXS,     X,

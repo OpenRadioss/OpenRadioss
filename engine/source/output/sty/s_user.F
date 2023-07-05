@@ -25,7 +25,7 @@ Chd|  S_USER                        source/output/sty/s_user.F
 Chd|-- called by -----------
 Chd|        OUTP_C_S                      source/output/sty/outp_c_s.F  
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S_USER(NBX,IMX,IHBE,NEL,NPT,MLW,IPM,IGEO, IXC,
      .                  ITY,JJ,ELBUF_TAB,WA,NFT, FUNC,

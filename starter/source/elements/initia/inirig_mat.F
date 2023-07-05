@@ -47,8 +47,8 @@ Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
 Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE INIRIG_MAT(IXC ,IXS    ,IXTG   ,IXS10  ,X      ,

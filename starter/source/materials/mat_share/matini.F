@@ -67,7 +67,7 @@ Chd|        M97INIT                       source/materials/mat/mat097/m97init.F
 Chd|        MATING                        source/materials/mat_share/mating.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE MATINI(PM       ,IX     ,NIX         ,X         ,

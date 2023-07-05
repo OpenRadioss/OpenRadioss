@@ -31,7 +31,7 @@ Chd|        R1COORK3                      source/elements/spring/r1coork3.F
 Chd|        R4SUMG3                       source/elements/spring/r4sumg3.F
 Chd|        RUSER32MAT3                   source/elements/spring/ruser32mat3.F
 Chd|        TKEG3                         source/elements/truss/tkeg3.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RUSER32KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                  GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,

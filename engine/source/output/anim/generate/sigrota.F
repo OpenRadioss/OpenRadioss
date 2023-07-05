@@ -27,7 +27,7 @@ Chd|        DFUNCC_PLY                    source/output/anim/generate/dfuncc_ply
 Chd|        TENSORC_PLY                   source/output/anim/generate/tensorc_ply.F
 Chd|-- calls ---------------
 Chd|        UROTOV                        source/airbag/uroto.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGROTA(JFT     ,JLT     ,NFT     ,IPT      ,NEL      ,
      2                   NS1     ,X       ,IXC     ,ELBUF_STR,

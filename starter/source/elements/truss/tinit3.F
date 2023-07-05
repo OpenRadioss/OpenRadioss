@@ -32,7 +32,7 @@ Chd|        TCOORI                        source/elements/truss/tcoori.F
 Chd|        TIBUF3                        source/elements/truss/tibuf3.F
 Chd|        TMASS                         source/elements/truss/tmass.F 
 Chd|        TSIGINI                       source/elements/truss/tsigini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE TINIT3(ELBUF_STR,

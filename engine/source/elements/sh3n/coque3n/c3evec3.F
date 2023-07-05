@@ -27,7 +27,7 @@ Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE C3EVEC3(ELBUF_STR,DIR_A    ,DIR_B   ,JFT      ,JLT      ,
      .                   IREP     ,E1X0     ,E1Y0    ,E1Z0     ,E2X0     ,

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        ELBUF_INI                     source/elements/elbuf/elbuf_ini.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       MODULE ELBUF_MOD
 

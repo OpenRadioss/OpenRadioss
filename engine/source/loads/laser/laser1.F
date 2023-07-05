@@ -27,7 +27,7 @@ Chd|        ALEWDX                        source/ale/grid/alewdx.F
 Chd|-- calls ---------------
 Chd|        LASER2                        source/loads/laser/laser2.F   
 Chd|        LASER3                        source/loads/laser/laser2.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LASER1(LAS ,XLAS ,MS    ,X    ,V     ,
      .                  W   ,WA   ,IPARG ,IXQ  ,PM    , 

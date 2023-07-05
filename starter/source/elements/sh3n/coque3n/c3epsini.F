@@ -32,7 +32,7 @@ Chd|        C3PXPYI                       source/elements/sh3n/coque3n/c3epsini.
 Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
 Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        SHTROTO3                      source/elements/sh3n/coque3n/c3epsini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE C3EPSINI(ELBUF_STR,
      1           JFT    ,JLT    ,ISMSTR ,MTN   ,ITHK   ,

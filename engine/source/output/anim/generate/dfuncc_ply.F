@@ -29,7 +29,7 @@ Chd|        INITBUF                       share/resol/initbuf.F
 Chd|        SIGROTA                       source/output/anim/generate/sigrota.F
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

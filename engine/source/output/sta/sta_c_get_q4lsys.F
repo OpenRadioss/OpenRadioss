@@ -27,7 +27,7 @@ Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
 Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE GET_Q4LSYS(JFT    ,JLT    ,IXC    ,X    ,OFFG   ,
      .                        IREL   ,VQ     ,NLAY   ,IREP ,NEL    ,

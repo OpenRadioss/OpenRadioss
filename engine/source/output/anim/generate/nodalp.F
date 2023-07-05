@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ANIM_NODAL_CONTOUR_FVMBAGS    source/output/anim/generate/anim_nodal_contour_fvmbags.F
 Chd|        ANIM_NODAL_P_ELEMS            source/output/anim/generate/anim_nodal_p_elems.F
 Chd|        ANINFLOW                      source/output/anim/generate/aninflow.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
