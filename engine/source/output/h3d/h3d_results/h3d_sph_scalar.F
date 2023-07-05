@@ -460,13 +460,16 @@ C--------------------------------------------------
 C--------------------------------------------------        
               ELSEIF(KEYWORD == 'DAMA') THEN
 C--------------------------------------------------
+                 DO I = 1,NEL
+                   VALUE(I) = ZERO
+                 ENDDO
                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL  
                  DO IR=1,NFAIL  											  
                    DFMAX=>
      .               ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%DAMMX
                    DO I=1,NEL					
-                       VALUE(I) = DFMAX(I)
-                       IS_WRITTEN_VALUE(I) = 1  	
+                     VALUE(I) = MAX(DFMAX(I),VALUE(I))
+                     IS_WRITTEN_VALUE(I) = 1  	
                    ENDDO
                  ENDDO 
 C--------------------------------------------------
