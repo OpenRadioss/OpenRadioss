@@ -154,8 +154,9 @@ c-----------------------------------------------
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Burn Fraction'
 c-----------------------------------------------
       I = I + 1
-      H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'DAMA'
-      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'MAX DAMAGE ELEMENT'
+      H3D_KEYWORD_SPH_SCALAR(I)%KEY3    = 'DAMA'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1   = 'MAX DAMAGE'
+      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT = 'maximum of damage over time and of all failure criteria acting in one material'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'DOMAIN'
