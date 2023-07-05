@@ -304,6 +304,14 @@ c
                   SIGE(I,3) =  GBUF%FOR(JJ(3)+I) + SIX*GBUF%MOM(JJ(3)+I) * FACTOR                  
                 ENDDO 
 c
+              ELSE IF (ILAY == -1 .AND. IPLY == -1 .AND. IPT == -1) THEN
+                ISELECT = 1  
+                DO I=1,NEL
+                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I)
+                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I)
+                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I)                 
+                ENDDO 
+c
               ELSEIF (ILAY == -1 .AND. IPLY > 0 .AND. IPT > 0) THEN 
 c               /TENS/STRESS/PLY=.../NPT=...
                 DO J=1,NLAY                          ! shells type 17,19,51 and 52 only
@@ -598,20 +606,12 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MPT == 0) THEN !  ILAYER=NULL, NPT=NULL
                 ISELECT = 1
-                DO I=1,NEL
+                IF (IPT == 1) THEN 
                   FACTOR = -HALF*GBUF%THK(I)
-                  VALUE(1) =  GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) 
-                  VALUE(2) =  GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) 
-                  VALUE(3) =  GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I)
-                  VALUE(3) = VALUE(3) * HALF 
-                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                     SHELL_TENSOR,I,OFFSET,NFT,VALUE)    
-                ENDDO  
-
-              ELSEIF (MPT == 0 .AND. IPT_INPUT == -3 ) THEN
-                ISELECT = 1
+                ELSE 
+                  FACTOR =  HALF*GBUF%THK(I)
+                ENDIF
                 DO I=1,NEL
-                  FACTOR = HALF*GBUF%THK(I)
                   VALUE(1) =  GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) 
                   VALUE(2) =  GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) 
                   VALUE(3) =  GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I)
@@ -622,9 +622,6 @@ C--------------------------------------------------
 c
               ELSE IF (ILAY == -1 .AND. IPLY == -1 .AND. IPT == -1) THEN  
                 DO I=1,NEL
-                  N = I + NFT
-                  THK = GBUF%THK(I)
-                  J  = EL2FA(NNI+N)
                   VALUE(1) = GBUF%STRA(JJ(1)+I)
                   VALUE(2) = GBUF%STRA(JJ(2)+I)
                   VALUE(3) = GBUF%STRA(JJ(3)+I)
