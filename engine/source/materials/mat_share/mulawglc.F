@@ -35,7 +35,7 @@ Chd|        SIGEPS56G                     source/materials/mat/mat056/sigeps56g.
 Chd|        SIGEPS60G                     source/materials/mat/mat060/sigeps60g.F
 Chd|        SIGEPS86G                     source/materials/mat/mat086/sigeps86g.F
 Chd|        UROTO                         source/airbag/uroto.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE MULAWGLC(ELBUF_STR,

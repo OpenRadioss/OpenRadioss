@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
 Chd|-- calls ---------------
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE DYNAIN_SIZE_C(IPARG ,ELBUF_TAB, P0ARS   ,WASZ  ,DYNAIN_DATA)

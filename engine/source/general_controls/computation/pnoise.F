@@ -27,7 +27,7 @@ Chd|        NOISE                         source/general_controls/computation/no
 Chd|-- calls ---------------
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
 C-----------------------------------------------

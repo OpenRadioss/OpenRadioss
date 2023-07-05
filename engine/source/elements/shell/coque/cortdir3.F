@@ -36,7 +36,7 @@ Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
 Chd|        GET_Q4LSYS                    source/output/sta/sta_c_get_q4lsys.F
 Chd|        GET_T3LSYS                    source/output/sta/sta_c_get_t3lsys.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CORTDIR3(ELBUF_STR,DIR_A  ,DIR_B  ,JFT    ,JLT    ,
      .                    NLAY     ,IREP   ,RX     ,RY     ,RZ     ,

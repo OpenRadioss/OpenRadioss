@@ -33,7 +33,7 @@ Chd|        XINI29                        source/elements/xelem/xini29.F
 Chd|        XINI2U                        source/elements/xelem/xinit3.F
 Chd|        XINI30                        source/elements/xelem/xini30.F
 Chd|        XINI31                        source/elements/xelem/xini31.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE XINIT3(ELBUF_STR,KXX    ,IXX    ,X      ,V      ,

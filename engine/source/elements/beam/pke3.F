@@ -32,7 +32,7 @@ Chd|        PEOFF                         source/elements/beam/peoff.F
 Chd|        PKEG3                         source/elements/beam/pke3.F   
 Chd|        PMAT3                         source/elements/beam/pmat3.F  
 Chd|        PSUMG3                        source/elements/beam/psumg3.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PKE3(JFT   ,JLT    ,NEL  ,MTN      ,ISMSTR,
      1                 PM   ,NCC    ,X    ,ELBUF_TAB,GEO   ,

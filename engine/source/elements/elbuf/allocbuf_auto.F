@@ -27,7 +27,7 @@ Chd|        ELBUF_INI                     source/elements/elbuf/elbuf_ini.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_DPDB                     source/output/tools/read_db.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)

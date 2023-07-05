@@ -21,9 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_MOD               
+Chd|  FAIL_PARAM_MOD                modules/mat_elem/fail_param_mod.F
 Chd|-- called by -----------
+Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
 Chd|-- calls ---------------
+Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
+Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
 Chd|====================================================================
       MODULE FAIL_PARAM_MOD
       USE TABLE_MOD

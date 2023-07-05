@@ -25,7 +25,7 @@ Chd|  DMASANIF                      source/output/anim/generate/dmasanif.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DMASANIF(ELBUF_TAB,X   ,D    ,GEO  ,IPARG,
      .                    IXT     ,IXP  ,IXR  ,MAS  ,PM   ,

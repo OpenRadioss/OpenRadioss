@@ -29,7 +29,7 @@ Chd|        FOAT_TO_6_FLOAT               source/system/parit.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
 Chd|        SPMD_EXCH_VOL                 source/mpi/nodes/spmd_exch_vol.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,

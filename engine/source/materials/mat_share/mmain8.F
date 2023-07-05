@@ -43,7 +43,7 @@ Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE MMAIN8(PM     ,GEO      ,ELBUF_STR,

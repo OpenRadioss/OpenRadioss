@@ -21,8 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ELBUFDEF_MOD                  modules/elbufdef_mod.F        
+Chd|  ELBUFDEF_MOD                  modules/mat_elem/elbufdef_mod.F
 Chd|-- called by -----------
+Chd|        MAT_ELEM_MOD                  common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MULTI_FVM_MOD                 common_source/modules/ale/multi_fvm_mod.F
 Chd|        ALLOCBUF_AUTO                 starter/source/elements/elbuf_init/allocbuf_auto.F
 Chd|        ANIOFF0                       starter/source/output/anim/anioff0.F
@@ -185,7 +186,6 @@ Chd|        ALE51_UPWIND3_INT22           engine/source/ale/alefvm/cut_cells/ale
 Chd|        ALEFLOW                       engine/source/ale/porous/aleflow.F
 Chd|        ALEFVM_MAIN                   engine/source/ale/alefvm/alefvm_main.F
 Chd|        ALEFVM_STRESS_INT22           engine/source/ale/alefvm/alefvm_stress_int22.F
-Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        ALETHE                        engine/source/ale/alethe.F    
 Chd|        ALEW6                         engine/source/ale/grid/alew6.F
 Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
@@ -207,33 +207,25 @@ Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        C3COORK3                      engine/source/elements/sh3n/coque3n/c3coork3.F
 Chd|        C3EVEC3                       engine/source/elements/sh3n/coque3n/c3evec3.F
 Chd|        C3FINT_REG                    engine/source/elements/sh3n/coque3n/c3fint_reg.F
-Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F
-Chd|        C3FORC3_CRK                   engine/source/elements/xfem/c3forc3_crk.F
 Chd|        C3KE3                         engine/source/elements/sh3n/coque3n/c3ke3.F
 Chd|        CBACOOR                       engine/source/elements/shell/coqueba/cbacoor.F
 Chd|        CBACOORK                      engine/source/elements/shell/coqueba/cbacoork.F
 Chd|        CBACOORT                      engine/source/elements/shell/coqueba/cbacoor.F
 Chd|        CBAFINT_REG                   engine/source/elements/shell/coqueba/cbafint_reg.F
-Chd|        CBAFORC3                      engine/source/elements/shell/coqueba/cbaforc3.F
 Chd|        CBAKE3                        engine/source/elements/shell/coqueba/cbake3.F
 Chd|        CBAL58WARP                    engine/source/elements/shell/coqueba/cbawarpoff.F
 Chd|        CBAPINCHPROJ                  engine/source/elements/shell/coqueba/cbapinchproj.F
 Chd|        CDK6COOR3                     engine/source/elements/sh3n/coquedk6/cdk6coor3.F
 Chd|        CDK6FINT_REG                  engine/source/elements/sh3n/coquedk6/cdk6fint_reg.F
-Chd|        CDK6FORC3                     engine/source/elements/sh3n/coquedk6/cdk6forc3.F
 Chd|        CDKCOOR3                      engine/source/elements/sh3n/coquedk/cdkcoor3.F
 Chd|        CDKFINT_REG                   engine/source/elements/sh3n/coquedk/cdkfint_reg.F
-Chd|        CDKFORC3                      engine/source/elements/sh3n/coquedk/cdkforc3.F
 Chd|        CEVEC3                        engine/source/elements/shell/coque/cevec3.F
 Chd|        CFINT_REG                     engine/source/elements/shell/coque/cfint_reg.F
-Chd|        CFORC3                        engine/source/elements/shell/coque/cforc3.F
-Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk.F
 Chd|        CGSHELL3                      engine/source/implicit/cgshell.F
 Chd|        CGSHELL4                      engine/source/implicit/cgshell.F
 Chd|        CHECK_ALE_COMM                engine/source/ale/check_ale_comm.F
 Chd|        CHKSTFN3N                     engine/source/interfaces/interf/chkstfn3.F
 Chd|        CLUSTERF                      engine/source/output/cluster/clusterf.F
-Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F
 Chd|        CMAIN3PINCH                   engine/source/elements/shell/coqueba/cmain3pinch.F
 Chd|        CMATC3                        engine/source/elements/shell/coqueba/cmatc3.F
 Chd|        CNCOEFORT                     engine/source/elements/sh3n/coquedk/cncoef3.F
@@ -254,8 +246,6 @@ Chd|        CZCOORK3                      engine/source/elements/shell/coquez/cz
 Chd|        CZCORC1                       engine/source/elements/shell/coquez/czcorc.F
 Chd|        CZCORCHT                      engine/source/elements/shell/coquez/czcorc.F
 Chd|        CZCORCT                       engine/source/elements/shell/coquez/czcorc.F
-Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
-Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
 Chd|        CZKE3                         engine/source/elements/shell/coquez/czke3.F
 Chd|        CZKEL3                        engine/source/elements/shell/coquez/czkel3.F
 Chd|        C_TF_NE                       engine/source/output/sty/c_tf_ne.F
@@ -308,9 +298,6 @@ Chd|        FAIL_GENE1_S                  engine/source/materials/fail/gene1/fai
 Chd|        FAIL_SETOFF_C                 engine/source/materials/fail/fail_setoff_c.F
 Chd|        FAIL_SETOFF_NPG_C             engine/source/materials/fail/fail_setoff_npg_c.F
 Chd|        FAIL_SETOFF_WIND_FRWAVE       engine/source/materials/fail/fail_setoff_wind_frwave.F
-Chd|        FORINT                        engine/source/elements/forint.F
-Chd|        FORINTC                       engine/source/elements/forintc.F
-Chd|        FORINTP                       engine/source/elements/forintp.F
 Chd|        FORINTS                       engine/source/elements/forints.F
 Chd|        FVBAG0                        engine/source/airbag/fvbag0.F 
 Chd|        FVBAG1                        engine/source/airbag/fvbag1.F 
@@ -381,7 +368,6 @@ Chd|        I9GRD3                        engine/source/interfaces/int09/i9grd3.
 Chd|        I9WAL2                        engine/source/interfaces/int09/i9wal2.F
 Chd|        I9WAL3                        engine/source/interfaces/int09/i9wal3.F
 Chd|        I9WALE                        engine/source/interfaces/int09/i9wale.F
-Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        IMP_CHKM                      engine/source/implicit/imp_solv.F
 Chd|        IMP_GLOB_K                    engine/source/implicit/imp_glob_k.F
@@ -429,12 +415,9 @@ Chd|        M51VOIS3                      engine/source/materials/mat/mat051/m51
 Chd|        MATERIAL_FLOW                 engine/source/tools/seatbelts/material_flow.F
 Chd|        MDAMA24                       engine/source/elements/solid/solidez/mdama24.F
 Chd|        MEOS8                         engine/source/materials/mat_share/meos8.F
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        engine/source/materials/mat_share/mmain8.F
 Chd|        MONVOL0                       engine/source/airbag/monvol0.F
-Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        engine/source/materials/mat_share/mulaw8.F
-Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
 Chd|        MULAWGLC                      engine/source/materials/mat_share/mulawglc.F
 Chd|        MULAWGLCPINCH                 engine/source/elements/shell/coqueba/mulawglcpinch.F
 Chd|        MULAWP                        engine/source/elements/beam/mulawp.F
@@ -486,9 +469,7 @@ Chd|        PORFOR5                       engine/source/airbag/porfor5.F
 Chd|        PORFORM5                      engine/source/airbag/porfor5.F
 Chd|        PRELECFLOW                    engine/source/elements/solid/solide/prelecflow.F
 Chd|        PROJECIG3D                    engine/source/elements/ige3d/projecig3d.F
-Chd|        Q4FORC2                       engine/source/elements/solid_2d/quad4/q4forc2.F
 Chd|        Q4KE2                         engine/source/elements/solid_2d/quad4/q4ke2.F
-Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
 Chd|        R12KE3                        engine/source/elements/spring/r12ke3.F
 Chd|        R13KE3                        engine/source/elements/spring/r13ke3.F
 Chd|        R23FORC3                      engine/source/elements/spring/r23forc3.F
@@ -502,8 +483,6 @@ Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RBYONF                        engine/source/constraints/general/rbody/rbyonf.F
 Chd|        RBYPID                        engine/source/constraints/general/rbody/rbypid.F
 Chd|        RBYSENS                       engine/source/constraints/general/rbody/rbyonf.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        RFORC3                        engine/source/elements/spring/rforc3.F
 Chd|        RGWAL1                        engine/source/ale/grid/rgwal1.F
@@ -513,41 +492,30 @@ Chd|        RGWATH                        engine/source/interfaces/int09/rgwath.
 Chd|        RUSER32KE3                    engine/source/elements/spring/ruser32ke3.F
 Chd|        S10DERIT3                     engine/source/elements/solid/solide10/s10derit3.F
 Chd|        S10DERITO3                    engine/source/elements/solid/solide10/s10derito3.F
-Chd|        S10FORC3                      engine/source/elements/solid/solide10/s10forc3.F
 Chd|        S10KE3                        engine/source/elements/solid/solide10/s10ke3.F
 Chd|        S10UPD11T12                   engine/source/elements/solid/solide10/s10upd11t12.F
 Chd|        S10VOLNODT3                   engine/source/elements/solid/solide4_sfem/s10volnodt3.F
-Chd|        S16FORC3                      engine/source/elements/thickshell/solide16/s16forc3.F
 Chd|        S16SIGP3                      engine/source/elements/thickshell/solide16/s16sigp3.F
-Chd|        S20FORC3                      engine/source/elements/solid/solide20/s20forc3.F
 Chd|        S20KE3                        engine/source/elements/solid/solide20/s20ke3.F
 Chd|        S4ALESFEM                     engine/source/elements/solid/solide4_sfem/s4alesfem.F
-Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
 Chd|        S4KE3                         engine/source/elements/solid/solide4/s4ke3.F
 Chd|        S4LAGSFEM                     engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        S6CFINT_REG                   engine/source/elements/thickshell/solide6c/s6cfint_reg.F
-Chd|        S6CFORC3                      engine/source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        S6CKE3                        engine/source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S8CFORC3                      engine/source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        S8CKE3                        engine/source/elements/thickshell/solide8c/s8cke3.F
-Chd|        S8EFORC3                      engine/source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8E_SIGP                      engine/source/elements/solid/solide8e/s8e_sig.F
 Chd|        S8FINT3                       engine/source/elements/solid/solide8/s8fint3.F
 Chd|        S8FORC3                       engine/source/elements/solid/solide8/s8forc3.F
 Chd|        S8FUPD11T12                   engine/source/elements/solid/solide8e/s8fupd11t12.F
-Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/s8sforc3.F
 Chd|        S8SKE3                        engine/source/elements/solid/solide8s/s8ske3.F
-Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
 Chd|        S8ZKE3                        engine/source/elements/solid/solide8z/s8zke3.F
 Chd|        S8_IS17JAC_I                  engine/source/elements/solid/solide8e/s8_is17jac_i.F
 Chd|        SCFINT_REG                    engine/source/elements/thickshell/solidec/scfint_reg.F
-Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
 Chd|        SCHLIEREN                     engine/source/output/anim/generate/schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SCONNECT_OFF                  engine/source/elements/solid/sconnect/sconnect_off.F
 Chd|        SEATBELT_REDUCTION_FACTOR     engine/source/tools/seatbelts/seatbelt_reduction_factor.F
 Chd|        SEGGETV                       engine/source/interfaces/interf/seggetv.F
-Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SHELL_LOCAL_FRAME             engine/source/output/dynain/shell_rota.F
 Chd|        SHELL_ROTA                    engine/source/output/dynain/shell_rota.F
 Chd|        SIGEPS02G                     engine/source/materials/mat/mat002/sigeps02g.F
@@ -586,7 +554,6 @@ Chd|        SPMD_L51VOIS                  engine/source/mpi/fluid/spmd_cfd.F
 Chd|        SPONFPRS                      engine/source/elements/sph/sponfprs.F
 Chd|        SPONOF1                       engine/source/elements/sph/sponof1.F
 Chd|        SPONOF2                       engine/source/elements/sph/sponof2.F
-Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
 Chd|        SPWFVIS                       engine/source/elements/sph/spwfvis.F
 Chd|        STAT_BEAM_MP                  engine/source/output/sta/stat_beam_mp.F
 Chd|        STAT_BEAM_SPMD                engine/source/output/sta/stat_beam_spmd.F
@@ -630,7 +597,6 @@ Chd|        STRS_TENSCOR3                 engine/source/output/h3d/h3d_results/s
 Chd|        SUFORC3                       engine/source/user_interface/suforc3.F
 Chd|        SUSER43                       engine/source/elements/solid/sconnect/suser43.F
 Chd|        SWITCH_TO_DTNODA              engine/source/time_step/switch_to_dtnoda.F
-Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
 Chd|        SZHOUR3                       engine/source/elements/solid/solidez/szhour3.F
 Chd|        SZHOUR3_OR                    engine/source/elements/solid/solidez/szhour3_or.F
 Chd|        S_USER                        engine/source/output/sty/s_user.F
@@ -687,7 +653,6 @@ Chd|        VOLN22                        engine/source/interfaces/int22/voln22.
 Chd|        VOLPVGB                       engine/source/airbag/volpvg.F 
 Chd|        WRITE_BUF_LAW51               engine/source/materials/mat/mat051/write_buf_law51.F
 Chd|        WRITE_CUT_CELL_BUFFER         engine/source/interfaces/int22/write_cut_cell_buffer.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        W_ELBUF_STR                   engine/source/elements/elbuf/w_elbuf_str.F
 Chd|        XFEOFF                        engine/source/elements/xfem/xfeoff.F
 Chd|        XFORC3                        engine/source/elements/xelem/xforc3.F

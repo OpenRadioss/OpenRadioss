@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|-- calls ---------------
 Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE OUTP_C_T(ITENS ,KEY   ,TEXT  ,ELBUF_TAB,
      .                    IPARG ,EPSDOT,DD_IAD,SIZLOC   ,SIZP0,SIZ_WR)
@@ -373,7 +373,7 @@ Chd|-- calls ---------------
 Chd|        C_TF_NE                       source/output/sty/c_tf_ne.F   
 Chd|        SPMD_RGATHER9_1COMM           source/mpi/interfaces/spmd_outp.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE OUTP_C_TF(ITENS ,KEY   ,TEXT  ,ELBUF_TAB,IPARG,
@@ -948,7 +948,7 @@ Chd|-- called by -----------
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|        OUTP_ARSZ_CT                  source/mpi/interfaces/spmd_outp.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COUNT_ARSZ_CT(IPARG,DD_IAD,WASZ,SIZ_WRITE,ELBUF_TAB)
 C-----------------------------------------------

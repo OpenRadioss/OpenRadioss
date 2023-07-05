@@ -25,7 +25,7 @@ Chd|  CDLENI                        source/elements/shell/coque/cdleni.F
 Chd|-- called by -----------
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE CDLENI(PM  ,GEO ,STIFN ,STIFR,IXC,
      .                  PX1 ,PX2 ,PY1   ,PY2  ,THK,

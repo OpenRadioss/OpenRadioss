@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THERMEXPC(ELBUF_STR,
      1                       JFT  ,JLT  ,FORTH  ,FOR    ,EINT  ,

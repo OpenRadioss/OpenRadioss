@@ -29,7 +29,7 @@ Chd|        FOAT_TO_6_FLOAT               source/system/parit.F
 Chd|        JACOB_J33                     source/elements/solid/solide8e/jacob_j33.F
 Chd|        S10DEFOT3                     source/elements/solid/solide10/s10defot3.F
 Chd|        S10PIJTO3                     source/elements/solid/solide10/s10pijto3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S10VOLNODT3(
      1   ELBUF_TAB,VOLNOD6,  X,        NC,

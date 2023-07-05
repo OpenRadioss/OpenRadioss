@@ -31,7 +31,7 @@ Chd|        M24DMAX                       source/materials/mat/mat024/m24dmax.F
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MNSVIS                        source/materials/mat_share/mnsvis.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M24LAW(
      1   LBUF,    PM,      OFF,     SIG,

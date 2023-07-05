@@ -27,7 +27,7 @@ Chd|        ADMERR                        source/model/remesh/admerr.F
 Chd|        ERR_THK                       source/elements/shell/err_thk.F
 Chd|-- calls ---------------
 Chd|        SPMD_EXCH_NODAREA             source/mpi/anim/spmd_exch_nodarea.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
 Chd|====================================================================
       SUBROUTINE ADMTHKE(

@@ -31,7 +31,7 @@ Chd|        CG2LEPS                       source/elements/shell/coqueba/scigini4
 Chd|        CG2LSIG                       source/elements/shell/coqueba/scigini4.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        LOC2ORTH                      source/elements/shell/coqueba/scigini4.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE CSIGINI(ELBUF_STR,

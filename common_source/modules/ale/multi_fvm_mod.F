@@ -203,7 +203,7 @@ Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        MULTI_MUSCL_FLUXES_COMPUTATIONengine/source/multifluid/multi_muscl_fluxes_computation.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  modules/elbufdef_mod.F        
+Chd|        ELBUFDEF_MOD                  modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       MODULE MULTI_FVM_MOD
       USE ELBUFDEF_MOD

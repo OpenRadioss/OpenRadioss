@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        FXBODFP1                      source/constraints/fxbody/fxbodfp.F
 Chd|-- calls ---------------
 Chd|        SCHREP                        source/constraints/fxbody/fxbsgmaj.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FXBSGMAJ(ELBUF, FXBELM , FXBSIG, FXBDEP, FXBIPM ,
      .                    EIEL , PARTSAV, RT    , ITN   , IPARG  ,

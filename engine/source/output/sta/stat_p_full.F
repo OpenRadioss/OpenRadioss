@@ -27,7 +27,7 @@ Chd|        GENSTAT                       source/output/sta/genstat.F
 Chd|-- calls ---------------
 Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
 Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STAT_P_FULL(
      1                  ELBUF_TAB ,IPARG ,GEO    ,IGEO        ,IXP       ,

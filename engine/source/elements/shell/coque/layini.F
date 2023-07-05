@@ -33,7 +33,7 @@ Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
 Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
 Chd|-- calls ---------------
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE LAYINI(

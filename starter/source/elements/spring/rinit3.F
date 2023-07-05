@@ -51,7 +51,7 @@ Chd|        RUINI                         source/elements/spring/rinit3.F
 Chd|        ST_USERLIB_RINIUSER           source/user_interface/dyn_userlib.c
 Chd|        USER_OUTPUT                   source/user_interface/user_output.F
 Chd|        STRR                          source/tools/univ/strr.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================

@@ -1025,7 +1025,7 @@ Chd|        COPY_ELBUF                    source/elements/elbuf/copy_elbuf.F
 Chd|        COPY_INTBUF_TAB               ../common_source/interf/copy_intbuf_tab.F
 Chd|        CP_IFRONT                     source/implicit/produt_v.F    
 Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_I7CP                      share/modules/imp_intm.F      
 Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

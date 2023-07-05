@@ -25,7 +25,7 @@ Chd|  CDK6FINT_REG                  source/elements/sh3n/coquedk6/cdk6fint_reg.F
 Chd|-- called by -----------
 Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================
       SUBROUTINE CDK6FINT_REG(

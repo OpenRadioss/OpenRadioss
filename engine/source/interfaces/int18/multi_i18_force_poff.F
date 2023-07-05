@@ -25,7 +25,7 @@ Chd|  MULTI_I18_FORCE_POFF          source/interfaces/int18/multi_i18_force_poff
 Chd|-- called by -----------
 Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

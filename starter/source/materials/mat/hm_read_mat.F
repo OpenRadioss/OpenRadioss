@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  HM_READ_MAT_MOD               source/materials/mat/hm_read_mat.F
+Chd|-- called by -----------
+Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE HM_READ_MAT_MOD
       CONTAINS
 Chd|====================================================================
@@ -144,7 +150,7 @@ Chd|        VDOUBLE                       source/system/sysfus.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        LAW_USER                      source/user_interface/law_user.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

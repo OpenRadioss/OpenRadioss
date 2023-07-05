@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  EIGOFF                        source/output/anim/generate/eigoff.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE EIGOFF(
      .            IXS      ,IXQ      ,IXC       ,IXT       ,IXP       ,

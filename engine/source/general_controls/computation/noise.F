@@ -31,7 +31,7 @@ Chd|        INITNOISE2                    source/general_controls/computation/in
 Chd|        PNOISE                        source/general_controls/computation/pnoise.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        WRTDES                        source/output/th/wrtdes.F     
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE NOISE(
      1   DT2R  ,IN,J     ,BUF  ,V     ,

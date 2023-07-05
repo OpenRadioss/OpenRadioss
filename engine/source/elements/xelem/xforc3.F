@@ -36,7 +36,7 @@ Chd|        XFORC28                       source/elements/xelem/xforc28.F
 Chd|        XFORC29                       source/elements/xelem/xforc29.F
 Chd|        XFORC30                       source/elements/xelem/xforc30.F
 Chd|        XFORC31                       source/elements/xelem/xforc31.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE XFORC3(
      1   NFT,      NEL,      GEO,      PM,

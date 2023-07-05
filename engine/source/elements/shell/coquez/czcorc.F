@@ -31,7 +31,7 @@ Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
 Chd|        CZCORP5                       source/elements/shell/coquez/czcorc.F
 Chd|        CZCORP5V                      source/elements/shell/coquez/czcorc.F
 Chd|        CZCORP5X                      source/elements/shell/coquez/czcorc.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE CZCORC1(ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,
@@ -2314,7 +2314,7 @@ Chd|-- called by -----------
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE CZCORCT(ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,
@@ -2646,7 +2646,7 @@ Chd|-- called by -----------
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE CZCORCHT(ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,

@@ -25,7 +25,7 @@ Chd|  SCONNECT_OFF                  source/elements/solid/sconnect/sconnect_off.
 Chd|-- called by -----------
 Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SCONNECT_OFF(ELBUF_STR,OFFG     ,NEL    ,NPG    ,NGL     ,
      .                        ISOLID   ,TIME     )

@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        CBATRAN3V                     source/elements/solid/solidez/cbatran3v.F
 Chd|        GETTRANSV                     source/elements/solid/solidez/gettransv.F
 Chd|        MMODUL24C                     source/elements/solid/solidez/mmodul24c.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MDAMA24(ELBUF_STR,JFT     ,JLT     ,PM    ,MAT    ,
      .                   DAMA_G )

@@ -25,7 +25,7 @@ Chd|  CNDLENI                       source/elements/shell/coqueba/cndleni.F
 Chd|-- called by -----------
 Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE CNDLENI(PM      ,GEO     ,STIFN    ,STIFR   ,IXC     ,
      .           THK     ,IHBE    ,IGEO    ,SH4TREE ,ALDT    ,                 

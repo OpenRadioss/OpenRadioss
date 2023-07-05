@@ -25,7 +25,7 @@ Chd|  THRES                         source/output/th/thres.F
 Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THRES(IPARG,ITHBUF,ELBUF_TAB,WA,IGEO,
      .                      IXR,NTHGRP2,ITHGRP,X)

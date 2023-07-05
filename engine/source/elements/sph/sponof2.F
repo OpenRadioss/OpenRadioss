@@ -30,7 +30,7 @@ Chd|        SPHREQS                       source/elements/sph/sphreq.F
 Chd|        SPH_NODSEG                    source/elements/sph/sph_nodseg.F
 Chd|        SPMD_SPHGETIMP                source/mpi/elements/spmd_sph.F
 Chd|        SPMD_SPHGETVOIS_OFF           source/mpi/elements/spmd_sph.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        SPHBOX                        share/modules/sphbox.F        

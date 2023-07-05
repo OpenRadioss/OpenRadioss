@@ -27,7 +27,7 @@ Chd|        H3D_SOLID_TENSOR_1            source/output/h3d/h3d_results/h3d_soli
 Chd|-- calls ---------------
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        SZSTRAINGPS                   source/elements/solid/solidez/szstraingps.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE STRN_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,

@@ -30,7 +30,7 @@ Chd|        M5IN3                         source/initial_conditions/detonation/m
 Chd|        NRF51INI                      source/materials/mat/mat051/nrf51ini.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M51INIT(
      .               IPM                ,DETONATORS ,PM      ,

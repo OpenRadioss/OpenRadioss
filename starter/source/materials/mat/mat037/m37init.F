@@ -25,7 +25,7 @@ Chd|  M37INIT                       source/materials/mat/mat037/m37init.F
 Chd|-- called by -----------
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M37INIT(
      .               IPM     ,PM        ,

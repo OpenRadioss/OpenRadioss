@@ -26,7 +26,7 @@ Chd|  M3LAW8                        source/materials/mat/mat003/m3law8.F
 Chd|-- called by -----------
 Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE M3LAW8(
      1   PM,      OFF,     SIG,     EPSEQ,

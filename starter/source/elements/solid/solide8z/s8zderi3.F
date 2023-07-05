@@ -922,7 +922,7 @@ Chd|        S8EDERI_BIJ                   source/elements/solid/solide8z/s8zderi
 Chd|        S8EGETPIJ                     source/elements/solid/solide8z/s8zderi3.F
 Chd|        S8ESELECSH                    source/elements/solid/solide8z/s8zderi3.F
 Chd|        SETMATRANS                    source/elements/solid/solide8z/s8zderi3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S8E_PIJ(NPTR,NPTS,NPTT,NNPT,NEL,
      .                   PXC1, PXC2, PXC3, PXC4, 

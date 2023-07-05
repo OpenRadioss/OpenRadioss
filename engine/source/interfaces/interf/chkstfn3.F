@@ -560,7 +560,7 @@ Chd|        SPMD_EXCH_R2R_ITAG            source/mpi/r2r/spmd_r2r.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_R2R_TAGEL                source/mpi/r2r/spmd_r2r.F     
 Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
@@ -1270,7 +1270,7 @@ Chd|        SETMSR2                       source/interfaces/interf/chkstfn3.F
 Chd|        SETMSR3                       source/interfaces/interf/chkstfn3.F
 Chd|        SPMD_EXCHMSR_IDEL             source/mpi/interfaces/spmd_exchmsr_idel.F
 Chd|        SPMD_INIT_IDEL                source/mpi/interfaces/spmd_init_idel.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CHKSTFN3N(

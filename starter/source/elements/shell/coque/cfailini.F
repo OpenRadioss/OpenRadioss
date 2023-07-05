@@ -28,7 +28,7 @@ Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
 Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CFAILINI(
      .   ELBUF_STR,IX      ,NIX     ,NPTT    ,NLAY    ,
@@ -178,7 +178,7 @@ Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3
 Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
 Chd|-- calls ---------------
 Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CFAILINI4(
      .   ELBUF_STR,IX      ,NIX     ,NPTR    ,NPTS    ,

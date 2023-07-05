@@ -31,7 +31,7 @@ Chd|        SCORTHO31                     source/elements/thickshell/solidec/sco
 Chd|        SORTHO31                      source/elements/solid/solide/sortho31.F
 Chd|        SROTA6                        source/output/anim/generate/srota6.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================

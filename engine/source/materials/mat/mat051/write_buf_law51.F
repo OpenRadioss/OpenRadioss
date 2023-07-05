@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  WRITE_BUF_LAW51               source/materials/mat/mat051/write_buf_law51.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_BUF_LAW51 (

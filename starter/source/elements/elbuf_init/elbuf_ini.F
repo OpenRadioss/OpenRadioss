@@ -29,7 +29,7 @@ Chd|        ALLOCBUF_AUTO                 source/elements/elbuf_init/allocbuf_au
 Chd|        INITVARS_AUTO                 source/elements/elbuf_init/initvars_auto.F
 Chd|        INI_OUTMAX_AUTO               source/elements/elbuf_init/ini_outmax_auto.F
 Chd|        ZEROVARS_AUTO                 source/elements/elbuf_init/zerovars_auto.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    

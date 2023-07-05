@@ -40,7 +40,7 @@ Chd|        S8ZLKE3                       source/elements/solid/solide8z/s8zlke3
 Chd|        S8ZLKEP3                      source/elements/solid/solide8z/s8zlkep3.F
 Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
 Chd|        SRCOORK                       source/elements/solid/solide8z/srcoork.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S8CKE3(
      1   PM,       GEO,      IXS,      X,

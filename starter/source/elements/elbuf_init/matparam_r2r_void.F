@@ -25,7 +25,7 @@ Chd|  MATPARAM_R2R_VOID             source/elements/elbuf_init/matparam_r2r_void
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE MATPARAM_R2R_VOID(MATPARAM_TAB, MATPARAM_INI, NUMMAT0  ,NUMMAT  )
 C-----------------------------------------------

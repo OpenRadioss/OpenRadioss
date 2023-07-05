@@ -32,7 +32,7 @@ Chd|        CEPSINI                       source/elements/shell/coque/cepsini.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CNEPSINI                      source/elements/shell/coqueba/cnepsini.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,JFT    ,JLT    ,
      .                  NLAY     ,IREP    ,NEL     ,

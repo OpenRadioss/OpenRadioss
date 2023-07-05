@@ -25,7 +25,7 @@ Chd|  S8FINT3                       source/elements/solid/solide8/s8fint3.F
 Chd|-- called by -----------
 Chd|        S8FORC3                       source/elements/solid/solide8/s8forc3.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S8FINT3(BUFLY,VOLGP,QVIS,
      .                   PX1,PX2,PX3,PX4,PX5,PX6,PX7,PX8,

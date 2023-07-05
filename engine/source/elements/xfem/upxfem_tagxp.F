@@ -32,7 +32,7 @@ Chd|        STOPTIMEG                     source/system/timer.F
 Chd|        UPENRIC3_N3                   source/elements/xfem/upenric3_nx.F
 Chd|        UPENRIC3_N4                   source/elements/xfem/upenric3_nx.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPXFEM_TAGXP(XFEM_TAB,
      .                        IPARG    ,IXC     ,NGROUC  ,IGROUC  ,IXTG    ,

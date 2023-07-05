@@ -27,7 +27,7 @@ Chd|        PFORC3                        source/elements/beam/pforc3.F
 Chd|-- calls ---------------
 Chd|        M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
 Chd|        MULAWP                        source/elements/beam/mulawp.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PMAIN3(ELBUF_STR,
      1                  JFT     ,JLT     ,NEL     ,NPT     ,MTN,

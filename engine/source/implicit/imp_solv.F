@@ -122,7 +122,7 @@ Chd|        ZERO1                         source/system/zero.F
 Chd|        ZEROR_HP                      source/implicit/produt_v.F    
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
@@ -3101,7 +3101,7 @@ Chd|        ZERO1                         source/system/zero.F
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
 Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
@@ -7472,7 +7472,7 @@ Chd|        SPB_REFSH4ID                  source/implicit/imp_solv.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE SPBRM_PRE(ITAB ,

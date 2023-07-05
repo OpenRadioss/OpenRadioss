@@ -25,7 +25,7 @@ Chd|  ZEROVARS_AUTO                 source/elements/elbuf_init/zerovars_auto.F
 Chd|-- called by -----------
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|====================================================================
       SUBROUTINE ZEROVARS_AUTO(ELBUF_STR)

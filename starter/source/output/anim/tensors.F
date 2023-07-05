@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        INITBUF                       source/output/anim/initbuf.F  
 Chd|        SROTA6                        source/output/anim/srota6.F   
 Chd|        WRITE_R_C                     source/output/tools/write_routines.c
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TENSORS(ELBUF_TAB,IPARG   ,ITENS   ,IXS     ,PM      ,    
      2                   EL2FA   ,NBF     ,TENS    ,                      

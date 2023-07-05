@@ -27,7 +27,7 @@ Chd|        UPD_TMAX                      source/output/upd_outmax.F
 Chd|-- calls ---------------
 Chd|        SPMD_EXCH_V                   source/mpi/generic/spmd_exch_v.F
 Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GPS_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -121,7 +121,7 @@ Chd|-- calls ---------------
 Chd|        SPMD_EXCH_N                   source/mpi/generic/spmd_exch_n.F
 Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
 Chd|        TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GPSTRA_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -450,7 +450,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|        TM_VONM_SOLID                 source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SEQ_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,IVISC,VALUE,NEL)
 C-----------------------------------------------
@@ -503,7 +503,7 @@ Chd|  TM_DMG_SOLID                  source/output/outmaxsubr.F
 Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_DMG_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,VALUE,NEL)
 C-----------------------------------------------
@@ -554,7 +554,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|        SIG3DPIN2                     source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SIG_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,IVISC,
      .                        TEN1,TEN3,P2,NEL)
@@ -623,7 +623,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|        SIG3DPIN2                     source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_STRA_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                         TEN1,TEN3,P2,NEL) 
@@ -728,7 +728,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|        TM_VONM_SHELL                 source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SEQ_SHELL(ELBUF_TAB,NLAY,NPTR,NPTS,VALUE,NEL)
 C-----------------------------------------------
@@ -782,7 +782,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|        SIG2DPIN2                     source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SIG_SHELL(ELBUF_TAB,NLAY,NPTR,NPTS,TEN1,TEN3,P2,NEL)
 C-----------------------------------------------
@@ -847,7 +847,7 @@ Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|        SIG2DPIN2                     source/output/outmaxsubr.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_STRA_SHELL(ELBUF_TAB,NPTR,NPTS,TEN1,TEN3,P2,NEL)
 C-----------------------------------------------
@@ -926,7 +926,7 @@ Chd|  TM_DMG_SHELLS                 source/output/outmaxsubr.F
 Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_DMG_SHELLS(ELBUF_TAB,NLAY,NPTR,NPTS,VALUE,NEL)
 C-----------------------------------------------
@@ -976,7 +976,7 @@ Chd|  TM_DMGL25_SHELL               source/output/outmaxsubr.F
 Chd|-- called by -----------
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_DMGL25_SHELL(ELBUF_TAB,NLAY,NPTR,NPTS,IGTYP,
      .                           PM,MATLY,VALUE,NEL)

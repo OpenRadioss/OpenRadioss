@@ -36,7 +36,7 @@ Chd|        S6CLKE3                       source/elements/thickshell/solide6c/s6
 Chd|        S6RCOORK                      source/elements/thickshell/solide6c/s6rcoork.F
 Chd|        S8EOFF                        source/elements/solid/solide8/s8eoff.F
 Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S6CKE3(
      1   PM,       GEO,      IXS,      X,

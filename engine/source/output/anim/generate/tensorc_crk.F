@@ -30,7 +30,7 @@ Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        UROTOV                        source/airbag/uroto.F         
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TENSORC_CRK(ELBUF_TAB,XFEM_TAB,IPARG     ,IPM     ,
      1                       ITENS    ,INVERT  ,EL2FA     ,NBF     ,

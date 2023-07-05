@@ -30,7 +30,7 @@ Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
 Chd|        CNEVECI                       source/elements/shell/coqueba/cneveci.F
 Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        CPXPYI                        source/elements/shell/coque/cepsini.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CNEPSINI(ELBUF_STR,
      1           JFT    ,JLT    ,ISMSTR,MTN   ,ITHK   ,

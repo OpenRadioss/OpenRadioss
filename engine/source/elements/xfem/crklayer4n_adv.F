@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        LSINT4                        source/elements/xfem/crklayer4n_adv.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CRKLAYER4N_ADV(
      .           XFEM_STR  ,NEL       ,NFT       ,IXC       ,ELCUTC    ,

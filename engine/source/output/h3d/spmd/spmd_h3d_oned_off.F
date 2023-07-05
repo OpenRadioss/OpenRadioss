@@ -25,7 +25,7 @@ Chd|  H3D_ONED_OFF                  source/output/h3d/spmd/spmd_h3d_oned_off.F
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
        SUBROUTINE H3D_ONED_OFF(ELBUF_TAB, IPARG, IXT, IXP, IXR, ONED_SCALAR, ID_ELEM, ITY_ELEM,
      .                         IPART , IPARTT  ,IPARTP  ,IPARTR)

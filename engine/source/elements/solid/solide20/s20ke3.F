@@ -37,7 +37,7 @@ Chd|        S20KGEO3                      source/elements/solid/solide20/s20kgeo
 Chd|        S20RST                        source/elements/solid/solide20/s20rst.F
 Chd|        SORTHDIR3                     source/elements/solid/solide/sorthdir3.F
 Chd|        SREPLOC3                      source/elements/solid/solide/sreploc3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S20KE3(
      1   PM,       GEO,      IXS,      IXS20,

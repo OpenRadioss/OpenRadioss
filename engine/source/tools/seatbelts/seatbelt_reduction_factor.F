@@ -25,7 +25,7 @@ Chd|  SEATBELT_REDUCTION_FACTOR     source/tools/seatbelts/seatbelt_reduction_fa
 Chd|-- called by -----------
 Chd|        FORINTC                       source/elements/forintc.F     
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SEATBELT_REDUCTION_FACTOR(ELBUF_STR,JFT,JLT,IXC,NEL,X,NFT)
 C-----------------------------------------------

@@ -30,7 +30,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SPHREQS                       source/elements/sph/sphreq.F  
 Chd|        GET_U_GEO                     source/user_interface/upidmid.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
