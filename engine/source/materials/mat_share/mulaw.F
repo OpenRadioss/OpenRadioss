@@ -180,7 +180,7 @@ Chd|====================================================================
      Z   ETOTSH,      ISELECT,     TSTAR,       MUOLD,
      1   DPDM,        RHOREF,      RHOSP,       NVARTMP,
      2   VARTMP,      EINTTH,      MAT_ELEM,    NLOC_DMG,
-     3   ITY,         JTUR,        JSMS)
+     3   ITY,         JTUR,        JSMS,        IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -212,10 +212,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITY
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,NVARTMP,
      .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
      .        IX(*), JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
-      INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,*),
+      INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT),
      .        IPARG(NPARG,NGROUP),IGEO(NPROPGI,NUMGEO),ITASK,ISELECT
       TARGET  :: IPM
 C 
@@ -223,7 +224,7 @@ C
       my_real :: PM(NPROPM,NUMMAT), GAMA(*),PNEW(NEL),VARNL(NEL),
      .   OFF(*), SIG(NEL,6), SIGL(NEL,6), STRAIN(NEL,6), EINT(*), 
      .   RHO(*),QOLD(*), VOL(*), BUFMAT(*), TF(*),VK(*),
-     .   OFFG(*),STIFN(*),GEO(NPROPG,*),EPSD(*),
+     .   OFFG(*),STIFN(*),GEO(NPROPG,NUMGEO),EPSD(*),
      .   WXX(*), WYY(*), WZZ(*), MUMAX(*), SSP(*),
      .   AIRE(*) ,VOLN(*) ,VD2(*) ,DELTAX(*),VIS(*) ,  
      .   SOLD1(MVSIZ) ,SOLD2(MVSIZ) ,SOLD3(MVSIZ) ,
@@ -232,12 +233,12 @@ C
      .   Q(MVSIZ),SSP_EQ(*),DVOL(MVSIZ),
      .   RX(MVSIZ)    ,RY(MVSIZ)    ,RZ(MVSIZ),
      .   SX(MVSIZ)    ,SY(MVSIZ)    ,SZ(MVSIZ)    ,
-     .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)   , V(*), W(*), 
+     .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)   , V(3*NUMNOD), W(3*NUMNOD), 
      .   MFXX(MVSIZ)  ,MFXY(MVSIZ)  ,MFXZ(MVSIZ)  ,MFYX(MVSIZ) ,MFYY(MVSIZ)   ,MFYZ(MVSIZ)   ,
      .   MFZX(MVSIZ)  ,MFZY(MVSIZ)  ,MFZZ(MVSIZ), FQVIS(*),FSSP(*),
      .   SIGV(NEL,6), SIGY(*),DEFP(NEL), 
      .   DXY(MVSIZ) ,DYX(MVSIZ) ,DYZ(MVSIZ) ,DZY(MVSIZ) ,DZX(MVSIZ) ,DXZ(MVSIZ), SIGDD(NEL,6),
-     .   FR_WAV(*),X(*),ET(*), MSSA(*), DMELS(*),FVD2(*),FDELTAX(*),
+     .   FR_WAV(*),X(3*NUMNOD),ET(*), MSSA(*), DMELS(*),FVD2(*),FDELTAX(*),
      .   AL_IMP(MVSIZ),SIGNOR(MVSIZ,6),VDX(*),VDY(*),VDZ(*),EINTTH(MVSIZ),
      .   SVISC(NEL,6),AMU(MVSIZ),DPDM(MVSIZ),VOL_AVG(MVSIZ),EPSTH(NEL),EPSTH3(MVSIZ),
      .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
@@ -1288,18 +1289,14 @@ c
         CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
      .                    EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)
 c
-          CALL SIGEPS79(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TT  ,DT1  ,UPARAM,
-     3                  RHO0,RHO ,VOLN,EINT ,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     A                  SSP ,VIS ,UVAR,OFF  ,DVOL ,VOL ,
-     B                  IPM ,MAT ,EPSD,SIGY ,DPLA ,DEFP,
-     C                  AMU ,LBUF%DMG)
+        CALL SIGEPS79(
+     1                NEL      ,NPAR     ,NUVAR    ,TT       ,DT1      ,UPARAM   ,
+     2                RHO0     ,RHO      ,NGL      ,SIGY     ,DPLA     ,DEFP     , 
+     3                DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
+     4                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6      ,
+     5                S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     6                EPSD     ,LBUF%DMG ,SSP      ,UVAR     ,OFF      ,AMU      ,
+     7                GBUF%UELR,LBUF%OFF ,IPG      ,NPG      ,IDEL7NOK )
 C 
       ELSEIF (MTN == 80) THEN
         CALL SIGEPS80(
