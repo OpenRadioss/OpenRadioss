@@ -43,8 +43,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,OFFSET,NFT,ISELECT
       INTEGER ,DIMENSION(NEL)   ,INTENT(IN)    :: IOK_PART
       my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: VALUE
-      my_real ,DIMENSION(3,NEL) ,INTENT(OUT)   :: TENSOR
-      INTEGER ,DIMENSION(NUMELC+NUMELTG) ,INTENT(INOUT) :: IS_WRITTEN
+      my_real ,DIMENSION(3,NUMELC+NUMELTG) ,INTENT(INOUT) :: TENSOR
+      INTEGER ,DIMENSION(NUMELC+NUMELTG)   ,INTENT(INOUT) :: IS_WRITTEN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
