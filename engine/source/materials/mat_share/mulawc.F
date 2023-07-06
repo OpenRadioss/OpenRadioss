@@ -490,8 +490,8 @@ c
         NUVARV = BUFLY%NVAR_VISC
         ISEQ   = BUFLY%L_SEQ
         IADBUF = MAX(1,IPM(7,IMAT))
-        NUPARAM0=  IPM(9,IMAT)                   ! old uparam stored in BUFMAT   
-        UPARAM0 => BUFMAT(IADBUF:IADBUF+NUPARAM) ! old uparam stored in BUFMAT   
+        NUPARAM0=  IPM(9,IMAT)                    ! old uparam stored in BUFMAT   
+        UPARAM0 => BUFMAT(IADBUF:IADBUF+NUPARAM0) ! old uparam stored in BUFMAT   
         NFUNC  = IPM(10,IMAT) 
         NUMTABL= IPM(226,IMAT) 
         ITABLE => IPM(226+1:226+NUMTABL,IMAT)    
@@ -1836,7 +1836,7 @@ c
               CASE (2)     !    Tuler Butcher                                               
                 IF (IXFEM == 0) THEN
                   CALL FAIL_TBUTCHER_C(
-     1               NEL       ,NUPARAM   ,NVARF     ,UPARAM    ,UVARF     , 
+     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     , 
      2               TT        ,DT1C      ,IPG       ,ILAYER    ,IT        , 
      3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    , 
      4               NGL       ,OFF       ,FOFF ,PTHKF(ILAYER,IFL),DFMAX   , 
