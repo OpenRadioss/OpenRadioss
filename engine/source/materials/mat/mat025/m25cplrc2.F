@@ -207,7 +207,7 @@ C
        CNN=CN(I)-ONE
        IF(WPLA(I)>ZERO) WVEC(I)=EPSP(I)*WPLA(I)**CNN
        YLD(I) = FYLD
-       TSAIWU(I) = MIN(WVEC(I)/FYLD,ONE)
+       TSAIWU(I) = MAX(MIN(WVEC(I)/FYLD,ONE),TSAIWU(I))
       ENDDO
 C
       DO I=JFT,JLT

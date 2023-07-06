@@ -520,7 +520,7 @@ C---------------------
      .    + TWO*F12(I)*T1(I)*T2(I) + TWO*F13(I)*T1(I)*T3(I)
      .    + TWO*F23(I)*T2(I)*T3(I)
          DAM(I,4)=WVEC(I)
-         TSAIWU(I)=MIN(WVEC(I)/SIGMY(I),ONE)
+         TSAIWU(I)=MAX(MIN(WVEC(I)/SIGMY(I),ONE),TSAIWU(I))
 !!        CRITERION / (EQUIVALENT STRESS) FOR OUTPUT - TSAI-WU -
 !!         SEQ_OUTPUT(I) = WVEC(I)
       ENDDO
