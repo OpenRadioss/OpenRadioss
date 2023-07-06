@@ -1726,7 +1726,7 @@ c
      Z   GBUF%ETOTSH, ISELECT,     TSTAR,       LBUF%MU,
      1   DPDM,        RHOREF,      RHOSP,       NVARTMP,
      2   MBUF%VARTMP, LBUF%EINTTH, MAT_ELEM,    NLOC_DMG,
-     3   ITY,         JTUR,        JSMS)
+     3   ITY,         JTUR,        JSMS,        IDEL7NOK)
 
       ENDIF 
 C-----------------------------------
