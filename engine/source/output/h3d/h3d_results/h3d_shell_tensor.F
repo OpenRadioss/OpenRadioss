@@ -606,12 +606,12 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MPT == 0) THEN !  ILAYER=NULL, NPT=NULL
                 ISELECT = 1
-                IF (IPT == 1) THEN 
-                  FACTOR = -HALF*GBUF%THK(I)
-                ELSE 
-                  FACTOR =  HALF*GBUF%THK(I)
-                ENDIF
                 DO I=1,NEL
+                  IF (IPT == 1) THEN 
+                    FACTOR = -HALF*GBUF%THK(I)
+                  ELSE 
+                    FACTOR =  HALF*GBUF%THK(I)
+                  ENDIF
                   VALUE(1) =  GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) 
                   VALUE(2) =  GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) 
                   VALUE(3) =  GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I)
