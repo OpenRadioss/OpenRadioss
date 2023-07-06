@@ -27,139 +27,72 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE SIGEPS79(
-     1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,                                                                                                               
-     2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
-     3      VNEW   , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
-     5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
-     6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
-     7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
-     8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
-     9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
-     A      SOUNDSP, VISCMAX, UVAR    , OFF   , DVOL  , VOL0  ,
-     B      IPM    , MAT    , EPSD    , SIGY  , DPLA  , DEFP  ,
-     C      AMU    , DMG    )
+     1      NEL      ,NUPARAM  ,NUVAR    ,TIME     ,TIMESTEP ,UPARAM   ,                                                                                                          
+     2      RHO0     ,RHO      ,NGL      ,SIGY     ,DPLA     ,DEFP     ,
+     3      DEPSXX   ,DEPSYY   ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
+     4      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
+     5      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     6      EPSD     ,DMG      ,SOUNDSP  ,UVAR     ,OFF      ,AMU      ,
+     7      UELR     ,LOFF     ,IPG      ,NPG      ,IDEL7NOK )      
 C
-C---------+---------+---+---+--------------------------------------------
-C VAR     | SIZE    |TYP| RW| DEFINITION
-C---------+---------+---+---+--------------------------------------------
-C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
-C---------+---------+---+---+--------------------------------------------
-C TIME    |  1      | F | R | CURRENT TIME
-C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C RHO0    | NEL     | F | R | INITIAL DENSITY
-C RHO     | NEL     | F | R | DENSITY
-C VNEW    | NEL     | F | R | VOLUME
-C VOL0    | NEL     | F | R | VOLUME INITIAL (LAGRANGE)
-C         |         | F | R | VOLUME (ALE)
-C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
-C EPSPXX  | NEL     | F | R | STRAIN RATE XX
-C EPSPYY  | NEL     | F | R | STRAIN RATE YY
-C ...     |         |   |   |
-C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
-C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
-C ...     |         |   |   |
-C EPSXX   | NEL     | F | R | STRAIN XX
-C EPSYY   | NEL     | F | R | STRAIN YY
-C ...     |         |   |   |
-C SIGOXX  | NEL     | F | R | OLD ELASTO PLASTIC STRESS XX 
-C SIGOYY  | NEL     | F | R | OLD ELASTO PLASTIC STRESS YY
-C ...     |         |   |   |    
-C EPSD    | NEL     | F | R | STRAIN RATE
-C---------+---------+---+---+--------------------------------------------
-C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
-C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
-C ...     |         |   |   |
-C SIGVXX  | NEL     | F | W | VISCOUS STRESS XX
-C SIGVYY  | NEL     | F | W | VISCOUS STRESS YY
-C ...     |         |   |   |
-C SIGY    | NEL     | F | W | YIELD STRESS
-C DPLA    | NEL     | F | W | INCREMENT OF PLASTIC STRAIN
-C DEFP    | NEL     | F | W | PLASTIC STRAIN
-C ...     |         |   |   |    
-C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
-C---------+---------+---+---+--------------------------------------------
-C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
-C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G L O B A L   P A R A M E T E R S
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
 C   C O M M O N 
 C-----------------------------------------------
 #include "param_c.inc"
+#include "comlock.inc"
+#include "units_c.inc"
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR, IPM(NPROPMI,*), MAT(NEL)
-C
-      my_real
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
-     .      RHO   (NEL), RHO0  (NEL), VNEW(NEL), EINT(NEL),
-     .      EPSPXX(NEL), EPSPYY(NEL), EPSPZZ(NEL),
-     .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
-     .      DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL),
-     .      DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
-     .      EPSXX (NEL), EPSYY (NEL), EPSZZ (NEL),
-     .      EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
-     .      SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
-     .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
-     .      DVOL(NEL)  , VOL0(NEL)  , EPSD(NEL)  ,
-     .      AMU(NEL)    
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: DMG(NEL)  
+      INTEGER,INTENT(IN) :: 
+     .      NEL,NUPARAM,NUVAR,NGL(NEL),IPG,NPG
+      INTEGER, INTENT(INOUT) :: 
+     .      IDEL7NOK 
+      my_real,INTENT(IN) :: 
+     .      TIME,TIMESTEP,UPARAM(NUPARAM),RHO0(NEL),RHO(NEL),
+     .      DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
+     .      DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
+     .      SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
+     .      SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
+     .      EPSD(NEL),AMU(NEL)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real
-     .      SIGNXX (NEL), SIGNYY (NEL), SIGNZZ(NEL),
-     .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
-     .      SIGVXX (NEL), SIGVYY (NEL), SIGVZZ(NEL),
-     .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
-     .      SIGY(NEL)   , DPLA(NEL)   , DEFP(NEL)  ,
-     .      SOUNDSP(NEL), VISCMAX(NEL)
+      my_real,INTENT(OUT) ::
+     .      SIGY(NEL),DPLA(NEL),SOUNDSP(NEL),
+     .      SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
+     .      SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
-C----------------------------------------------------------------
-C  VARIABLES FOR FUNCTION INTERPOLATION 
-C----------------------------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
-      EXTERNAL FINTER,FINTTE
+      my_real,INTENT(INOUT) :: 
+     .      UVAR(NEL,NUVAR),LOFF(NEL),OFF(NEL),DMG(NEL),
+     .      DEFP(NEL),UELR(NEL)
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
-      INTEGER I
+      INTEGER I,J,NINDX,INDX(NEL),NINDX2,INDX2(NEL),IDEL,FAILIP
       my_real
-     .   G     , G2   , AA   , BB     , MM   ,
-     .   NN    , CC   , EPS0 , SIGFMAX,
-     .   TSTAR , PHEL , SHEL , BETA   ,
-     .   D1    , D2   , K1   , K2     , K3
+     .   G     , G2   , AA    , BB     , MM   ,
+     .   NN    , CC   , EPS0  , SIGFMAX,
+     .   TSTAR , PHEL , SHEL  , BETA   ,
+     .   D1    , D2   , EPSMAX, K1     , K2     , K3
       my_real
-     .   MU(MVSIZ),MU2(MVSIZ), POLD(MVSIZ), VM(MVSIZ),
-     .   DELTAP(MVSIZ), PNEW(MVSIZ), PSTAR(MVSIZ), SCALE(MVSIZ), 
-     .   SIGYI(MVSIZ),  SIGYF(MVSIZ), SIGYOLD(MVSIZ), DMG_OLD(MVSIZ)
+     .   MU(NEL),MU2(NEL),POLD(NEL),VM(NEL),
+     .   DELTAP(NEL),PNEW(NEL),PSTAR(NEL),SCALE(NEL), 
+     .   SIGYI(NEL),SIGYF(NEL),SIGYOLD(NEL),DMG_OLD(NEL)
       my_real
      .   DAV, CE, SIGSTAR, EPFAIL, P1, YIELD, DELTAU, DPDMU,
      .   PMIN, RATIO, J2
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+C
+      !=======================================================================
+      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=======================================================================
+      ! Recovering model parameters
       G       = UPARAM(1)
       G2      = UPARAM(2)
       AA      = UPARAM(3)
@@ -178,154 +111,239 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       K2      = UPARAM(16)
       K3      = UPARAM(17)
       BETA    = UPARAM(18)
+      IDEL    = NINT(UPARAM(19))
+      FAILIP  = NINT(UPARAM(20))
+      FAILIP  = MIN(FAILIP,NPG)
+      EPSMAX  = UPARAM(21)
+c
+      ! Recovering internal variables
+      DO I=1,NEL
+        IF (OFF(I) < EM01) OFF(I) = ZERO
+        IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5
+        DELTAP(I)  = UVAR(I,1)
+        SIGYOLD(I) = UVAR(I,2)/SHEL
+        DMG_OLD(I) = DMG(I)
+        MU(I)      = AMU(I)
+        MU2(I)     = MU(I)*MU(I)
+      ENDDO
+c
+      !========================================================================
+      ! - COMPUTATION OF ELASTIC DEVIATORIC STRESSES AND EQUIVALENT STRESS
+      !========================================================================
+      DO I=1,NEL
+        DAV       = (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
+        POLD(I)   = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
+        SIGNXX(I) = SIGOXX(I)+POLD(I)+G2*(DEPSXX(I)-DAV)
+        SIGNYY(I) = SIGOYY(I)+POLD(I)+G2*(DEPSYY(I)-DAV)
+        SIGNZZ(I) = SIGOZZ(I)+POLD(I)+G2*(DEPSZZ(I)-DAV)
+        SIGNXY(I) = SIGOXY(I)+G*DEPSXY(I)
+        SIGNYZ(I) = SIGOYZ(I)+G*DEPSYZ(I)
+        SIGNZX(I) = SIGOZX(I)+G*DEPSZX(I)
+        J2        = HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
+     .               +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
+        VM(I)     = SQRT(THREE*J2)
+      ENDDO
+c
+      !========================================================================
+      ! - COMPUTATION OF THE PRESSURE
+      !========================================================================
+      DO I=1,NEL
+        PNEW(I) = K1*MU(I) + DELTAP(I)
+        IF (MU(I) > ZERO) THEN
+          PNEW(I) = PNEW(I) + K2*MU2(I) + K3*MU2(I)*MU(I)
+        ELSEIF (IDEL /= 1) THEN
+          PMIN=-TSTAR*PHEL*(ONE-DMG(I))
+          PNEW(I)=MAX(PNEW(I),PMIN)
+        ENDIF
+        PSTAR(I) = PNEW(I)/PHEL
+      ENDDO
+c
+      !========================================================================
+      ! - COMPUTATION OF THE YIELD STRESS
+      !========================================================================
+      DO I=1,NEL
+        IF (NN == ZERO) THEN
+          SIGYI(I) = AA
+        ELSEIF ((PSTAR(I)+TSTAR) > ZERO) THEN
+          SIGYI(I) = AA*(PSTAR(I)+TSTAR)**NN
+        ELSE
+          SIGYI(I) = ZERO
+        ENDIF
 C
-      DO I=1,NEL
-         DELTAP(I)  = UVAR(I,1)
-         SIGYOLD(I) = UVAR(I,2)/SHEL
-         DMG_OLD(I) = DMG(I)
-         POLD(I)    = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
-c         MU(I)     = RHO(I)/RHO0(I)-ONE
-         MU(I)      = AMU(I)
-         MU2(I)     = MU(I)*MU(I)
-      ENDDO
-C--------------------------------
-C     ELASTIC DEVIATORIC STRESSES
-C--------------------------------
-      DO I=1,NEL
-         DAV = (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
-         SIGNXX(I)=SIGOXX(I)+POLD(I)+G2*(DEPSXX(I)-DAV)
-         SIGNYY(I)=SIGOYY(I)+POLD(I)+G2*(DEPSYY(I)-DAV)
-         SIGNZZ(I)=SIGOZZ(I)+POLD(I)+G2*(DEPSZZ(I)-DAV)
-         SIGNXY(I)=SIGOXY(I)+G*DEPSXY(I)
-         SIGNYZ(I)=SIGOYZ(I)+G*DEPSYZ(I)
-         SIGNZX(I)=SIGOZX(I)+G*DEPSZX(I)
-      ENDDO
-C-------------------------------
-C     EQUIVALENT STRESS
-C-------------------------------
-      DO I=1,NEL
-         J2   =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
-     .                +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
-         VM(I)=SQRT(THREE*J2)
-      ENDDO
-C-------------------------------
-C     PRESSURE
-C-------------------------------
-      DO I=1,NEL
-         PNEW(I)=K1*MU(I)+DELTAP(I)
-         IF(MU(I)>ZERO) THEN
-           PNEW(I)=PNEW(I)+K2*MU2(I)+K3*MU2(I)*MU(I)
-         ELSE
-           PMIN=-TSTAR*PHEL*(ONE-DMG(I))
-           PNEW(I)=MAX(PNEW(I),PMIN)
-         ENDIF
-         PSTAR(I)=PNEW(I)/PHEL
-      ENDDO
-C-------------------------------
-C     CRITERE
-C-------------------------------
-      DO I=1,NEL
-         IF(NN == ZERO) THEN
-           SIGYI(I) = AA
-         ELSEIF((PSTAR(I)+TSTAR) > ZERO) THEN
-           SIGYI(I) = AA*(PSTAR(I)+TSTAR)**NN
-         ELSE
-           SIGYI(I) = ZERO
-         ENDIF
+        IF (MM == ZERO) THEN
+          SIGYF(I) = BB
+        ELSEIF (PSTAR(I) > ZERO) THEN
+          SIGYF(I) = BB*(PSTAR(I))**MM
+        ELSE
+          SIGYF(I) = ZERO
+        ENDIF
 C
-         IF(MM == ZERO) THEN
-           SIGYF(I) = BB
-         ELSEIF(PSTAR(I) > ZERO) THEN
-           SIGYF(I) = BB*(PSTAR(I))**MM
-         ELSE
-           SIGYF(I) = ZERO
-         ENDIF
+        IF (EPSD(I)<=EPS0) THEN
+          CE = ONE
+        ELSE
+          CE = ONE + CC*LOG(EPSD(I)/EPS0)
+        ENDIF
 C
-         IF(EPSD(I)<=EPS0) THEN
-           CE = ONE
-         ELSE
-           CE = ONE + CC*LOG(EPSD(I)/EPS0)
-         ENDIF
-C
-         SIGYI(I)  = CE*SIGYI(I)
-         SIGYF(I)  = MIN(CE*SIGYF(I),SIGFMAX)
-         SIGY(I)   = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
+        SIGYI(I) = CE*SIGYI(I)
+        SIGYF(I) = MIN(CE*SIGYF(I),SIGFMAX)
+        SIGY(I)  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
       ENDDO
-C-------------------------------
-C     PROJECTION
-C-------------------------------
+c
+      !========================================================================
+      ! - RADIAL RETURN
+      !========================================================================
       DO I=1,NEL
-         SIGSTAR=VM(I)/SHEL
-         IF(SIGSTAR < SIGY(I)) THEN
-           SCALE(I)=ONE
-         ELSEIF(VM(I) > ZERO) THEN
-           SCALE(I)=SIGY(I)/SIGSTAR
-         ELSE
-           SCALE(I)=ZERO
-         ENDIF
+        IF (LOFF(I) == ONE .AND. OFF(I) == ONE) THEN 
+          SIGSTAR = VM(I)/SHEL
+          IF (SIGSTAR < SIGY(I)) THEN
+            SCALE(I) = ONE
+          ELSEIF (VM(I) > ZERO) THEN
+            SCALE(I) = SIGY(I)/SIGSTAR
+          ELSE
+            SCALE(I) = ZERO
+          ENDIF
+          SIGNXX(I) = SCALE(I)*SIGNXX(I)
+          SIGNYY(I) = SCALE(I)*SIGNYY(I)
+          SIGNZZ(I) = SCALE(I)*SIGNZZ(I)
+          SIGNXY(I) = SCALE(I)*SIGNXY(I)
+          SIGNYZ(I) = SCALE(I)*SIGNYZ(I)
+          SIGNZX(I) = SCALE(I)*SIGNZX(I)
+        ENDIF
       ENDDO
-C
+c
+      !========================================================================
+      ! - UPDATE PLASTIC STRAIN AND DAMAGE
+      !========================================================================
+      NINDX = 0
+      INDX(1:NEL) = 0
+      NINDX2 = 0
+      INDX2(1:NEL) = 0 
       DO I=1,NEL
-         SIGNXX(I)=SCALE(I)*SIGNXX(I)
-         SIGNYY(I)=SCALE(I)*SIGNYY(I)
-         SIGNZZ(I)=SCALE(I)*SIGNZZ(I)
-         SIGNXY(I)=SCALE(I)*SIGNXY(I)
-         SIGNYZ(I)=SCALE(I)*SIGNYZ(I)
-         SIGNZX(I)=SCALE(I)*SIGNZX(I)
-      ENDDO
-C-----------------------------
-C NEW DAMAGE - PLASTIC STRAIN
-C-----------------------------
+        IF (LOFF(I) == ONE .AND. OFF(I) == ONE) THEN 
+c
+          ! Compute plastic strain at failure
+          IF (D2 == ZERO) THEN
+            EPFAIL = D1
+          ELSEIF ((PSTAR(I)+TSTAR) >= ZERO) THEN
+            EPFAIL = D1*(PSTAR(I)+TSTAR)**D2
+          ELSE
+            EPFAIL = ZERO
+          ENDIF
+c
+          ! Update plastic strain and damage
+          ! -> When damage parameters are defined, progressive failure + plastic strain
+          IF (EPFAIL > ZERO) THEN 
+            DPLA(I) = (ONE - SCALE(I))*VM(I)/(THREE*SQRT(THREE)*G)
+            DEFP(I) = DEFP(I) + DPLA(I)  
+            DMG(I)  = DMG(I)  + DPLA(I)/EPFAIL
+            DMG(I)  = MIN(DMG(I),ONE)
+          ! -> When damage parameters are not defined, no plastic strain and instant failure
+          ELSEIF (SCALE(I)<ONE) THEN 
+            DMG(I)  = ONE
+          ENDIF
+c 
+          ! Check element deletion
+          IF (IDEL == 1) THEN 
+            IF ((PSTAR(I)+TSTAR) < ZERO) THEN 
+              LOFF(I) = ZERO
+              NINDX   = NINDX + 1
+              INDX(NINDX) = I
+              UELR(I) = UELR(I) + ONE 
+              IF (NINT(UELR(I)) == FAILIP) THEN 
+                OFF(I)   = FOUR_OVER_5
+                NINDX2   = NINDX2 + 1
+                INDX2(NINDX2) = I
+                IDEL7NOK = 1
+              ENDIF
+            ENDIF 
+          ELSEIF (IDEL == 2) THEN 
+            IF (DEFP(I) > EPSMAX) THEN 
+              LOFF(I) = ZERO
+              NINDX   = NINDX + 1
+              INDX(NINDX) = I
+              UELR(I) = UELR(I) + ONE 
+              IF (NINT(UELR(I)) == FAILIP) THEN 
+                OFF(I)   = FOUR_OVER_5
+                NINDX2   = NINDX2 + 1
+                INDX2(NINDX2) = I
+                IDEL7NOK = 1
+              ENDIF
+            ENDIF
+          ELSEIF (IDEL == 3) THEN 
+            IF (DMG(I) == ONE) THEN 
+              LOFF(I) = ZERO
+              NINDX   = NINDX + 1
+              INDX(NINDX) = I
+              UELR(I) = UELR(I) + ONE 
+              IF (NINT(UELR(I)) == FAILIP) THEN 
+                OFF(I)   = FOUR_OVER_5
+                NINDX2   = NINDX2 + 1
+                INDX2(NINDX2) = I
+                IDEL7NOK = 1
+              ENDIF
+            ENDIF            
+          ENDIF
+        ENDIF
+      ENDDO    
+c  
+      !========================================================================
+      ! - COMPUTE PRESSURE INCREMENT
+      !========================================================================
       DO I=1,NEL
-         IF(D2 == ZERO) THEN
-           EPFAIL = D1
-         ELSEIF((PSTAR(I)+TSTAR) >= ZERO) THEN
-           EPFAIL = D1*(PSTAR(I)+TSTAR)**D2
-         ELSE
-           EPFAIL = ZERO
-         ENDIF
-C
-         IF(EPFAIL > ZERO) THEN
-           DPLA(I) = (ONE -SCALE(I))*VM(I)/(THREE*SQRT(THREE)*G)
-           DEFP(I) = DEFP(I)+DPLA(I)   
-           DMG(I)  = MIN(ONE,DMG(I)+DPLA(I)/EPFAIL)
-         ELSEIF(SCALE(I) < ONE) THEN
-           DMG(I)  = ONE
-         ENDIF
-      ENDDO      
-C------------
-C NEW DELTAP
-C------------
-      DO I=1,NEL
-        IF(MU(I) <= ZERO) CYCLE
-        IF(DMG(I) > DMG_OLD(I)) THEN
-         P1=K1*MU(I)
-         YIELD  =(ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
-         DELTAU =(SIGYOLD(I)*SIGYOLD(I)-YIELD*YIELD)/(SIX*G)
-         IF(DELTAU > ZERO) THEN
-           DELTAU=DELTAU*SHEL*SHEL
-           DELTAP(I)=-P1+
+        IF ((DMG(I) > DMG_OLD(I)).AND.(MU(I) > ZERO).AND.
+     .      (LOFF(I) == ONE).AND. (OFF(I) == ONE)) THEN
+          P1     = K1*MU(I)
+          YIELD  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
+          DELTAU = (SIGYOLD(I)*SIGYOLD(I)-YIELD*YIELD)/(SIX*G)
+          IF (DELTAU > ZERO) THEN
+            DELTAU = DELTAU*SHEL*SHEL
+            DELTAP(I) = -P1+
      .               SQRT((DELTAP(I)+P1)**2+TWO*BETA*K1*DELTAU)
-         ENDIF
+          ENDIF
         ENDIF
       ENDDO
 C
+      !========================================================================
+      ! - UPDATE STRESS TENSOR AND SOUND SPEED
+      !========================================================================
       DO I=1,NEL
-         UVAR(I,1)=DELTAP(I)
-         UVAR(I,2)=SIGY(I)*SHEL
-         SIGNXX(I)=SIGNXX(I)-PNEW(I)
-         SIGNYY(I)=SIGNYY(I)-PNEW(I)
-         SIGNZZ(I)=SIGNZZ(I)-PNEW(I)
-C----------------
-C SET SOUND SPEED
-C----------------
-         DPDMU=K1+TWO*K2*MAX(ZERO,MU(I))+THREE*K3*MU2(I)
-         SOUNDSP(I)=SQRT((DPDMU+FOUR_OVER_3*G)/RHO0(I))
-C----------------------
-C SET MAXIMUM VISCOSITY
-C----------------------
-         VISCMAX(I)=ZERO
+        UVAR(I,1)  = DELTAP(I)
+        UVAR(I,2)  = SIGY(I)*SHEL
+        SIGNXX(I)  = SIGNXX(I)-PNEW(I)
+        SIGNYY(I)  = SIGNYY(I)-PNEW(I)
+        SIGNZZ(I)  = SIGNZZ(I)-PNEW(I)
+        IF (MU(I) > ZERO) THEN 
+          DPDMU    = K1+TWO*K2*MU(I)+THREE*K3*MU2(I)
+        ELSE 
+          DPDMU    = K1
+        ENDIF
+        SOUNDSP(I) = SQRT((DPDMU+FOUR_OVER_3*G)/RHO0(I))
       ENDDO
 C
-      RETURN
+      !========================================================================
+      ! - PRINT OUT ELEMENT DELETION DATA
+      !========================================================================
+      IF (NINDX>0)THEN
+        DO J=1,NINDX
+#include "lockon.inc"
+          WRITE(IOUT, 1000) NGL(INDX(J)),IPG,TIME
+          WRITE(ISTDO,1000) NGL(INDX(J)),IPG,TIME
+#include "lockoff.inc"
+        ENDDO
+      ENDIF
+c
+      IF (NINDX2>0)THEN
+        DO J=1,NINDX2
+#include "lockon.inc"
+          WRITE(IOUT, 2000) NGL(INDX2(J)),TIME
+          WRITE(ISTDO,2000) NGL(INDX2(J)),TIME
+#include "lockoff.inc"
+        ENDDO
+      ENDIF
+C
+ 1000 FORMAT(1X,'FOR SOLID ELEMENT NUMBER el#',I10,
+     .          ' FAILURE (J-HOLMQUIST) AT GAUSS POINT ',I5,
+     .          ' AT TIME :',1PE12.4)
+ 2000 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)     
+C
       END
