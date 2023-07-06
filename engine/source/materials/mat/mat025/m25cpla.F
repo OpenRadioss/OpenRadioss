@@ -685,7 +685,7 @@ C-------------------------------------------------------------------
            WVEC(I) = F1(I) *T1(I)       + F2(I) *T2(I) +
      .               F11(I)*T1(I)*T1(I) + F22(I)*T2(I)*T2(I) +
      .               F33(I)*T3(I)*T3(I) + TWO*F12(I)*T1(I)*T2(I)
-           TSAIWU(I) = MIN(WVEC(I)/FYLD(I),ONE)
+           TSAIWU(I) = MAX(MIN(WVEC(I)/FYLD(I),ONE),TSAIWU(I))
 !!c    equiv crit for output
 !!            SEQ_OUTPUT(I) = WVEC(I)
          ENDDO

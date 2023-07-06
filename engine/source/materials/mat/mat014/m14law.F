@@ -457,7 +457,7 @@ C---------------------
      .          F55(I)*T5(I)*T5(I)+F44(I)*(T4(I)*T4(I)+T6(I)*T6(I))+
      .          TWO*F12(I)*(T1(I)*T2(I)+T1(I)*T3(I))+2*F23(I)*T2(I)*T3(I)
         DAM(I,4)=WVEC(I)
-        TSAIWU(I)=MIN(WVEC(I)/SIGMY(I),ONE)
+        TSAIWU(I)=MAX(MIN(WVEC(I)/SIGMY(I),ONE),TSAIWU(I))
 !!        SEQ_OUTPUT(I) = WVEC(I)
       ENDDO
 C
