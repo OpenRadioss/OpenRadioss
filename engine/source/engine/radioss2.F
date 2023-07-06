@@ -1539,7 +1539,7 @@ C------------------------------------------------
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
      D              IFRAME,XFRAME,ELBUF_TAB,IGEO,INTBUF_TAB,
-     E              IPM   ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
+     E              IPM   ,H3D_DATA, MULTI_FVM,
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,

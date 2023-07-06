@@ -78,7 +78,7 @@ set_source_files_properties( ${source_directory}/source/input/read10.F PROPERTIE
 # set_source_files_properties( ${source_directory}/source/input/freint.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/input/lecfvbag1.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/input/redkey1.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/input/lectur.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+#set_source_files_properties( ${source_directory}/source/input/lectur.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/input/errmsg.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/input/freoutp.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/input/lecfvbag.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

@@ -88,7 +88,7 @@ Chd|====================================================================
      B                  PARTSAV,IPART  ,PM    ,
      C                  MONVOL  ,VOLMON,IPART_STATE,GEO,TABLE ,
      D                  IFRAME  ,XFRAME,ELBUF_STR,IGEO ,INTBUF_TAB,
-     E                  IPM     ,H3D_DATA, MULTI_FVM,FLAG_CST_AMS,
+     E                  IPM     ,H3D_DATA, MULTI_FVM,
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
@@ -177,7 +177,7 @@ C-----------------------------------------------
      .   LPBY(*),KXSP(NISP,*),WEIGHT(*),FR_RBY2(*),
      .   FR_RL(NSPMD+2,*),
      .   IPART(*), MONVOL(*), IPART_STATE(*),IFRAME(LISKN,*),
-     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),FLAG_CST_AMS,TAG_SKINS6(*),
+     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),TAG_SKINS6(*),
      .   ICFIELD(SIZFIELD,*), LCFIELD(*), TAGSLV_RBY(*),
      .   MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR),MDS_NMAT,MAX_DEPVAR,
      .   MDS_NDEPSVAR(*),IBCL(*),ILOADP(*),LLOADP(*)
@@ -203,21 +203,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NLEC(16), I, IBID, NSLIOF, NELSOF, NELQOF, NDAMPN,
+      INTEGER NLEC(16), I, NSLIOF, NELSOF, NELQOF, NDAMPN,
      .   NELCOF, NELTOF, NELPOF, NELROF, NINTCH, NUBCSN, ITFOR0, IRFE0,
-     .   IRFL0, K, NELOF, NN, NBC, IL, II, J, KLG, KUG, NBLK, KI, NG,
+     .   IRFL0, K, NELOF, NN, NBC, IL, II, J, KLG, KUG, NBLK, NG,
      .   ITY, NEL, NFT, IAD, IGOF, K1, K2, N, I1, I2, I3, IR1, IR2, IR3,
      .   ISK, IC, ICR, M1, M2, IM, NOINT, NSEARCH, JPRI, NPTS,
-     .   NRBYON, NRBYOF, NELTGOF,NINIV,IHBE,NSLIOFN,NSLIOFS,KK,NTY,
-     .   NSN,NRTS,NRTM,NMN,IANIS0,L,NCPRI1,NRLINK0,NALELK0,
-     .   NSPHOF,IWIOUT,NLECSPH(10),NFXINP,NCRST1,IPRECP,NEIGOFF,NEOFF,
-     .   NALEOF,NEULEROF,NTHERMOF,IBSOL,NFVMESH,MLW,LL,ISK1,ISK2,NIPMAX,
-     .   NFVMODI,IOK, ALEStrL(0:6),NLYMAX, NALELINK0, GR_ID,
-     .   NALELK_starter, uID, NALELK_removed, JALE,NIPMAX_SOL,USERL_COUNT,
-     .   IUS,CPTPLY,IPT,IGTYP,NPT,NPTR,NPTT,IGTYP15,IDEL2,IS,
-     .   IDX,WORK(70000),CPT,STEXT1,STEXT2,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
-     .   NINTERSKID,INTER_INPUT,NPTT_PLY,NMAX,IVOLU,IFV,IFV_TYPE,ISTATG_P,
-     .   NIPMAX_BEAM,K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI
+     .   NRBYON, NRBYOF, NELTGOF,NINIV,NSLIOFN,NSLIOFS,KK,NTY,
+     .   NSN,NRTS,NRTM,NMN,L,NCPRI1,NRLINK0,NALELK0,
+     .   NSPHOF,IWIOUT,NLECSPH(10),NFXINP,NCRST1,NEIGOFF,NEOFF,
+     .   NALEOF,NEULEROF,NTHERMOF,NFVMESH,MLW,LL,ISK1,ISK2,
+     .   NFVMODI,IOK, ALEStrL(0:6), NALELINK0, GR_ID,
+     .   NALELK_starter, uID, NALELK_removed, JALE,USERL_COUNT,
+     .   IDEL2,IS,
+     .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
+     .   NINTERSKID,IVOLU,IFV,IFV_TYPE,ISTATG_P,
+     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI
 
       INTEGER :: NBPARTALEON, NBPARTALEOFF, PARTID, ISON, ION, IOFF, NBALEON_PART, NBALEOFF_PART
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS,
@@ -225,10 +225,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALELIN_ON_OFF
       my_real
      .   TITLE(20), TFI,  DTF, DTM, ALP, GAM,
-     .   CV1, CV2, CV3, VOLM, TSTART, TFIN, CS1(2), DT_INPUT, DT_CRIT
+     .   CV1, CV2, CV3, VOLM, TSTART, TFIN,DT_INPUT, DT_CRIT
        CHARACTER*9 Cale1,Cale2,ALEform(0:6),CHAR1,CHAR2
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
-       CHARACTER CARTE*ncharline,LINE*ncharline
       my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
       my_real, DIMENSION(:), POINTER :: OFFG
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
@@ -464,7 +463,7 @@ C When Dynamical user libraries are used, add a print in 0001.out file
       IF (USERL_AVAIL==1)THEN
        IF(ISPMD==0)THEN
         WRITE(IOUT,4500)
-	WRITE(IOUT,4600) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
+        WRITE(IOUT,4600) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
        ENDIF
       ENDIF
 C --------------------------------------------------------------------
@@ -754,36 +753,36 @@ c
 c
             STEXT1 = H3D_DATA%OUTPUT_LIST(I)%S_STRING1
             WRITE(IOUT,*)  '       |----'//CHAR1//' '//CHAR2//' : '
-c            WRITE(IOUT,*)  '	    |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+c            WRITE(IOUT,*)  '       |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
             WRITE(IOUT,*)  '       |    '//H3D_DATA%OUTPUT_LIST(I)%STRING1(1:STEXT1)
 
             IF (H3D_DATA%OUTPUT_LIST(I)%IUVAR > 0)
      .        WRITE(IOUT,*)  '       |        UVAR=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%IUVAR
+     .        H3D_DATA%OUTPUT_LIST(I)%IUVAR
 
             IF (H3D_DATA%OUTPUT_LIST(I)%PLY > 0)
      .        WRITE(IOUT,*)  '       |        PLY=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%PLY
+     .        H3D_DATA%OUTPUT_LIST(I)%PLY
 
             IF (H3D_DATA%OUTPUT_LIST(I)%LAYER > 0)
      .        WRITE(IOUT,*)  '       |        LAYER=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%LAYER
+     .        H3D_DATA%OUTPUT_LIST(I)%LAYER
 
             IF (H3D_DATA%OUTPUT_LIST(I)%IPT > 0)
      .        WRITE(IOUT,*)  '       |        IPT=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%IPT
+     .        H3D_DATA%OUTPUT_LIST(I)%IPT
 
             IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
      .        WRITE(IOUT,*)   '       |        IR=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%IR
+     .        H3D_DATA%OUTPUT_LIST(I)%IR
 
             IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
      .        WRITE(IOUT,*)   '       |        IS=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%IS
+     .        H3D_DATA%OUTPUT_LIST(I)%IS
 
             IF (H3D_DATA%OUTPUT_LIST(I)%IT > 0)
      .        WRITE(IOUT,*)   '       |        IT=',
-     .     	H3D_DATA%OUTPUT_LIST(I)%IT
+     .        H3D_DATA%OUTPUT_LIST(I)%IT
 
             WRITE(IOUT,*)'       |'
           ENDIF
@@ -1020,7 +1019,7 @@ C----------------------------------------
          IF(ALE%UPWIND%UPW_UPDATE/=0 )THEN
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
-             JALE=PM(72,K)  ! JALE from PROP (IGEO(62,IPID)) is not checked since this option /UPWIND is obsolete
+             JALE=INT(PM(72,K))  ! JALE from PROP (IGEO(62,IPID)) is not checked since this option /UPWIND is obsolete
              IF(JALE /= 0)THEN
                IF(PM(15,K)/=ALE%UPWIND%UPWMG2.OR.PM(16,K)/=ALE%UPWIND%UPWOG2)THEN
                  ALE%UPWIND%UPW_UPDATE = 2
@@ -1040,7 +1039,7 @@ C----------------------------------------
            ALE%UPWIND%UPWSM2=ONE
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
-             JALE=PM(72,K)
+             JALE=INT(PM(72,K))
              IF(JALE /= 0)THEN
                IF(PM(15,K)/=ALE%UPWIND%UPWMG2.OR.PM(16,K)/=ALE%UPWIND%UPWOG2 .OR.ALE%UPWIND%UPWSM /= ALE%UPWIND%UPWSM2)THEN
                  ALE%UPWIND%UPWMG2 = PM(15,K)
@@ -1122,7 +1121,7 @@ C----------------------------------------
          ELSE
            ALE%GRID%NWALE = ALE%GRID%NWALE_RST
          ENDIF
-         Label9='                '
+         Label9(:)='     '
          Label9(1:9)=ALEform(ALE%GRID%NWALE)
          eta1=ALE%UPWIND%UPWMG2
          eta2=ALE%UPWIND%UPWOG2
@@ -1297,26 +1296,26 @@ C-----------------------
          NN=(NELSOF+4)/5
          NBC=5
 C
-       DO 110 IL=1,NN
-          READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 110 J=1,NBC
-         KLG=NLEC(2*J-1)
-         KUG=NLEC(2*J  )
-         IF(KLG<=0) GO TO 120
-         NBLK=(IL-1)*NBC+J
-         DO L=1,NUMELS
-           IF(IXS(NIXS,L)>=KLG.AND.IXS(NIXS,L)<=KUG) THEN
-             DO K=KLG,KUG
-               IF(IXS(NIXS,L) == K) THEN
-                 IXS(1,L)=-IABS(IXS(1,L))
-                 GOTO 111
-               ENDIF
-             ENDDO
-           ENDIF
-111        CONTINUE
-         ENDDO
-  110  CONTINUE
+       DO IL=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 120
+                NBLK=(IL-1)*NBC+J
+                DO L=1,NUMELS
+                    IF(IXS(NIXS,L)>=KLG.AND.IXS(NIXS,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXS(NIXS,L) == K) THEN
+                                IXS(1,L)=-IABS(IXS(1,L))
+                                GOTO 111
+                            ENDIF
+                        ENDDO
+                    ENDIF
+111                 CONTINUE
+                ENDDO
+            ENDDO
+       ENDDO
   120  CONTINUE
        K=0
        DO J=1,NUMELS
@@ -1360,26 +1359,26 @@ C-----------------------
          NBC=5
        ENDIF
 C
-       DO 210 I=1,NN
-          READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 210 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 220
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMELQ
-          IF(IXQ(NIXQ,L)>=KLG.AND.IXQ(NIXQ,L)<=KUG) THEN
-            DO K=KLG,KUG
-              IF(IXQ(NIXQ,L) == K) THEN
-                IXQ(1,L)=-IABS(IXQ(1,L))
-                GOTO 211
-              ENDIF
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 220
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMELQ
+                    IF(IXQ(NIXQ,L)>=KLG.AND.IXQ(NIXQ,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXQ(NIXQ,L) == K) THEN
+                                IXQ(1,L)=-IABS(IXQ(1,L))
+                                GOTO 211
+                            ENDIF
+                        ENDDO
+                    ENDIF
+  211               CONTINUE
+                ENDDO
             ENDDO
-          ENDIF
-  211     CONTINUE
-        ENDDO
-  210  CONTINUE
+       ENDDO
   220  CONTINUE
        K=0
        DO J=1,NUMELQ
@@ -1418,25 +1417,26 @@ C-----------------------
          NN=(NELCOF+4)/5
          NBC=5
 C
-       DO 310 I=1,NN
-          READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-        DO 310 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 320
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMELC
-          IF(IXC(NIXC,L)>=KLG.AND.IXC(NIXC,L)<=KUG) THEN
-            DO K=KLG,KUG
-              IF(IXC(NIXC,L) == K) THEN
-                IXC(1,L)=-IABS(IXC(1,L))
-                GOTO 311
-              ENDIF
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 320
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMELC
+                    IF(IXC(NIXC,L)>=KLG.AND.IXC(NIXC,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXC(NIXC,L) == K) THEN
+                                IXC(1,L)=-IABS(IXC(1,L))
+                                GOTO 311
+                            ENDIF
+                        ENDDO
+                    ENDIF
+  311               CONTINUE
+                ENDDO
             ENDDO
-          ENDIF
-  311   CONTINUE
-        ENDDO
-  310  CONTINUE
+       ENDDO
   320  CONTINUE
        K=0
        DO J=1,NUMELC
@@ -1475,26 +1475,26 @@ C-----------------------
          NN=(NELTOF+4)/5
          NBC=5
 C
-       DO 410 I=1,NN
-          READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 410 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 420
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMELT
-          IF(IXT(NIXT,L)>=KLG.AND.IXT(NIXT,L)<=KUG) THEN
-            DO K=KLG,KUG
-              IF(IXT(NIXT,L) == K) THEN
-                IXT(1,L)=-IABS(IXT(1,L))
-                GOTO 411
-              ENDIF
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 420
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMELT
+                    IF(IXT(NIXT,L)>=KLG.AND.IXT(NIXT,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXT(NIXT,L) == K) THEN
+                                IXT(1,L)=-IABS(IXT(1,L))
+                                GOTO 411
+                            ENDIF
+                        ENDDO
+                    ENDIF
+  411               CONTINUE
+                ENDDO
             ENDDO
-          ENDIF
-  411     CONTINUE
-        ENDDO
-  410  CONTINUE
+       ENDDO
   420  CONTINUE
        K=0
        DO J=1,NUMELT
@@ -1533,26 +1533,26 @@ C-----------------------
        NN=(NELPOF+4)/5
        NBC=5
 C
-       DO 510 I=1,NN
-        READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 510 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 520
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMELP
-          IF(IXP(NIXP,L)>=KLG.AND.IXP(NIXP,L)<=KUG) THEN
-            DO K=KLG,KUG
-              IF(IXP(NIXP,L) == K) THEN
-                IXP(1,L)=-IABS(IXP(1,L))
-                GOTO 511
-              ENDIF
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 520
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMELP
+                    IF(IXP(NIXP,L)>=KLG.AND.IXP(NIXP,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXP(NIXP,L) == K) THEN
+                                IXP(1,L)=-IABS(IXP(1,L))
+                                GOTO 511
+                            ENDIF
+                        ENDDO
+                    ENDIF
+  511               CONTINUE
+                ENDDO
             ENDDO
-          ENDIF
-  511     CONTINUE
-        ENDDO
-  510  CONTINUE
+       ENDDO
   520  CONTINUE
        K=0
        DO J=1,NUMELP
@@ -1591,26 +1591,26 @@ C-----------------------
        NN=(NELROF+4)/5
        NBC=5
 C
-       DO 610 I=1,NN
-        READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 610 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 620
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMELR
-          IF(IXR(NIXR,L)>=KLG.AND.IXR(NIXR,L)<=KUG) THEN
-            DO K=KLG,KUG
-              IF(IXR(NIXR,L) == K) THEN
-                IXR(1,L)=-IABS(IXR(1,L))
-                GOTO 611
-              ENDIF
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 620
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMELR
+                    IF(IXR(NIXR,L)>=KLG.AND.IXR(NIXR,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXR(NIXR,L) == K) THEN
+                                IXR(1,L)=-IABS(IXR(1,L))
+                                GOTO 611
+                            ENDIF
+                        ENDDO
+                    ENDIF
+  611               CONTINUE
+                ENDDO
             ENDDO
-          ENDIF
-  611     CONTINUE
-        ENDDO
-  610  CONTINUE
+       ENDDO
   620  CONTINUE
        K=0
        DO J=1,NUMELR
@@ -1649,26 +1649,26 @@ C-----------------------
          NN=(NELTGOF+4)/5
          NBC=5
 C
-       DO 630 I=1,NN
-          READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 630 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 640
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMELTG
-          IF(IXTG(NIXTG,L)>=KLG.AND.IXTG(NIXTG,L)<=KUG) THEN
-            DO K=KLG,KUG
-              IF(IXTG(NIXTG,L) == K) THEN
-                IXTG(1,L)=-IABS(IXTG(1,L))
-                GOTO 631
-              ENDIF
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 640
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMELTG
+                    IF(IXTG(NIXTG,L)>=KLG.AND.IXTG(NIXTG,L)<=KUG) THEN
+                        DO K=KLG,KUG
+                            IF(IXTG(NIXTG,L) == K) THEN
+                                IXTG(1,L)=-IABS(IXTG(1,L))
+                                GOTO 631
+                            ENDIF
+                        ENDDO
+                    ENDIF
+  631               CONTINUE
+                ENDDO
             ENDDO
-          ENDIF
-  631     CONTINUE
-        ENDDO
-  630  CONTINUE
+       ENDDO
   640  CONTINUE
        K=0
        DO J=1,NUMELTG
@@ -1709,37 +1709,34 @@ C-----------------------
          NBC=5
 C
        K=0
-       DO 730 I=1,NN
-          READ (IIN,'(10I10)') (NLEC(II),II=1,10)
-C
-        DO 730 J=1,NBC
-        KLG=NLEC(2*J-1)
-        KUG=NLEC(2*J  )
-        IF(KLG<=0) GO TO 732
-        NBLK=(I-1)*NBC+J
-        DO L=1,NUMSPH
-          IF(KXSP(NISP,L)>=KLG.AND.KXSP(NISP,L)<=KUG) THEN
+       DO I=1,NN
+            READ (IIN,'(10I10)') (NLEC(II),II=1,10)
+            DO J=1,NBC
+                KLG=NLEC(2*J-1)
+                KUG=NLEC(2*J  )
+                IF(KLG<=0) GO TO 732
+                NBLK=(I-1)*NBC+J
+                DO L=1,NUMSPH
+                    IF(KXSP(NISP,L)>=KLG.AND.KXSP(NISP,L)<=KUG) THEN
 C           number of the related group :
-            NG =MOD(ABS(KXSP(2,L)),NGROUP+1)
-            IF(NG /= 0)THEN
-c             ITY=IPARG(5,NG)
-c             NEL=IPARG(2,NG)
-              NFT=IPARG(3,NG)
-              IAD=IPARG(4,NG)
-              II=L-NFT
-              ELBUF_STR(NG)%GBUF%OFF(II) = ZERO
-              KXSP(2,L) = 0
-              K=K+1
-              NLECSPH(K) = KXSP(NISP,L)
-              IF(K == 10)THEN
-              IF(MCHECK == 0)
-     .            WRITE (IOUT,'(5I10)') (NLECSPH(II),II=1,K)
-                K=0
-              END IF
-            END IF
-          ENDIF
-        ENDDO
-  730  CONTINUE
+                        NG =MOD(ABS(KXSP(2,L)),NGROUP+1)
+                        IF(NG /= 0)THEN
+                            NFT=IPARG(3,NG)
+                            IAD=IPARG(4,NG)
+                            II=L-NFT
+                            ELBUF_STR(NG)%GBUF%OFF(II) = ZERO
+                            KXSP(2,L) = 0
+                            K=K+1
+                            NLECSPH(K) = KXSP(NISP,L)
+                            IF(K == 10)THEN
+                                IF(MCHECK == 0) WRITE (IOUT,'(5I10)') (NLECSPH(II),II=1,K)
+                                K=0
+                            END IF
+                        END IF
+                    ENDIF
+                ENDDO
+            ENDDO
+       ENDDO
   732  CONTINUE
        IF(K > 0) THEN
          IF(MCHECK == 0)
@@ -1984,6 +1981,7 @@ C-------------------------------------------
        IF(ISPMD == 0.AND.MCHECK == 0)
      .  WRITE(IOUT,'(10I10)')  (LLINK(K2+I-1),I=1,N)
        IF ( ISK  /=  0) THEN
+         ISK1 = 0
          ISK2 = 0
          DO LL=0,NUMSKW
            IF(ISK == ISKWN(4,LL+1)) THEN
@@ -2529,6 +2527,7 @@ C-------------------------------------------
         DO 950 I=1,NINTCH
             READ(IIN,'(2I8,2F16.0)')NOINT,NSEARCH,TSTART,TFIN
             IF(TFIN == 0.0)TFIN=1.E30
+            JPRI = -1
             DO 949 J=1,NINTER
               IF(NOINT == IPARI(15,J)) THEN
                 IF(NSEARCH /= 0) IPARI(13,J)=NSEARCH
@@ -2537,8 +2536,11 @@ C-------------------------------------------
                 JPRI=J
               ENDIF
  949        CONTINUE
-             IF(ISPMD == 0.AND.MCHECK == 0)
-     .       WRITE(IOUT,2300)NOINT,IPARI(13,JPRI),TSTART,TFIN
+            IF(JPRI/=-1) THEN
+                IF(ISPMD == 0.AND.MCHECK == 0) WRITE(IOUT,2300)NOINT,IPARI(13,JPRI),TSTART,TFIN
+            ELSE
+                IF(ISPMD == 0.AND.MCHECK == 0) WRITE(IOUT,2301)NOINT
+            ENDIF
  950    CONTINUE
       ENDIF
 C
@@ -2959,11 +2961,6 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' GLOBAL CONVERGENCE PRECISION . . . . . . . . . . ',G14.7/
      .  ' INCREMENTAL CONVERGENCE PRECISION. . . . . . . . ',G14.7/
      .  ' MAXIMUM NUMBER OF ITERATIONS . . . . . . . . . . ',I5)
- 1170 FORMAT(/
-     .  ' DYNAMIC RELAXATION  '   /
-     .  ' DISCRET RELAXATION FLAG. . . . . . . . . . . . . ',I5/
-     .  ' BETA . . . . . . . . . . . . . . . . . . . . . . ',G14.7/
-     .  ' PERIOD . . . . . . . . . . . . . . . . . . . . . ',G14.7)
  1171 FORMAT(/
      .  ' DYNAMIC RELAXATION  '   /
      .  ' NODE GROUP ID (=0 ALL NODES) . . . . . . . . . . ',I10/
@@ -2972,11 +2969,6 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
  1172 FORMAT(/
      .  ' KINEMATIC RELAXATION  '   /
      .  ' NODE GROUP ID (=0 ALL NODES) . . . . . . . . . . ',I10)
- 1173 FORMAT(/
-     .  ,'alpha M + beta K DAMPING                         '/
-     .  ' NODE GROUP ID (=0 ALL NODES) . . . . . . . . . . ',I10/
-     .  ' ALPHA  . . . . . . . . . . . . . . . . . . . . . ',G14.7/
-     .  ' BETA . . . . . . . . . . . . . . . . . . . . . . ',G14.7)
  1180 FORMAT(/
      .  ' PARALLEL ARITHMETIC OFF')
  1181 FORMAT(/
@@ -2985,8 +2977,6 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' PARALLEL ARITHMETIC FLAG . . . . . . . . . . . . ',I5)
  1196 FORMAT(/
      .  ' QUASI-COMPRESSIBLE FORMULATION ON (/INCMP)')
- 1197 FORMAT(
-     .  '          MOMENTUM : SURFACE INTEGRATION')
  1198 FORMAT(
      .  '          MOMENTUM : MIXED INTEGRATION')
  1199 FORMAT(
@@ -3042,7 +3032,6 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
  1860 FORMAT(///' LIST OF ELIMINATED SPRING ELEMENTS ')
  1870 FORMAT(///' LIST OF ELIMINATED SH_3N  ELEMENTS ')
  1880 FORMAT(///' LIST OF ELIMINATED   SPH PARTICLES ')
- 1900 FORMAT(/' BLOCK     FIRST ELEMENT   LAST ELEMENT ')
  2000 FORMAT(/' INTERFACE NUMBER',I10,'    IS ELIMINATED')
  2100 FORMAT(/' RIGID LINK:',I5,
      .        ' TRANSLATION X,Y,Z',3(1X,I1),
@@ -3063,12 +3052,10 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' SEARCH OF CLOSEST NODES EACH NSEARCH TIME STEPS. ',I5/
      .  ' START TIME . . . . . . . . . . . . . . . . . . . ',G14.7/
      .  ' STOP  TIME . . . . . . . . . . . . . . . . . . . ',G14.7)
- 3000 FORMAT(///' ERROR IN NUMBER OF LOAD CURVE '/
-     .          '------- NEW NUMBER OF LOAD CURVE       : ',I5/
-     .          '------- LAST NUMBER OF LOAD CURVE      : ',I5/)
- 3100 FORMAT(///' ERROR IN TOTAL NUMBER OF LOAD CURVE POINTS'/
-     .          '------- NEW NUMBER OF POINTS           : ',I5/
-     .          '------- LAST NUMBER OF POINTS          : ',I5/)
+
+ 2301 FORMAT(/' ERROR IN INTERFACE CHANGES'/
+     .  ' INTERFACE NB IS NOT EXISTING . . . . . . . . . . ',I10)
+
  4000 FORMAT(/
      .  ' SPMD PARALLEL RESTART READING (PREAD) ACTIVATED')
  4100 FORMAT(/
@@ -3231,7 +3218,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,NTY,IPRINT,IBID,ISOL,NDDL_MIN
+      INTEGER J,NTY,IPRINT,IBID,ISOL
       my_real
      .   CS1(2),S
       REAL FLMIN
@@ -3331,7 +3318,7 @@ C----- default solver-> MUMPS
        IF (ISOLV == 0) ISOLV = 2
 C-------ISOLV=2 --> use MUMPS anyway
        IMUMPSV = 0
-	   IF (ISOLV > 1 .AND. ISOLV <9 ) IMUMPSV = 1
+       IF (ISOLV > 1 .AND. ISOLV <9 ) IMUMPSV = 1
        IF (ISOLV == 2 .OR. ISOLV ==3 ) THEN
         IMUMPSV = 1
         ISOLV = 3
@@ -4022,18 +4009,6 @@ C
      .  ' MAXIMUM REFERENCE FORCE RESIDUAL . . . . ',2X,G14.7//)
  8010 FORMAT(
      .  ' SMALL DISPLACEMENT OPTION(0:OFF,1:ON) . . .. . .',2X,I5/)
- 8300 FORMAT(
-     .  ' FSI WETTED SURFACE ELEMENT GROUP . . . . .',2X,I5/
-     .  ' FSI WETTED SURFACE SURFACE GROUP . . . . .',2X,I5/
-     .  ' FSI PORT NUMBER. . . . . . . . . . . . . .',2X,I5/
-     .  ' FSI MINIMUM NUMBER OF EXCHANGES. . . . . .',2X,I5/
-     .  ' FSI MAXIMUM NUMBER OF EXCHANGES. . . . . .',2X,I5/
-     .  ' FSI USE DATA TAGS SWITCH . . . . . . . . .',2X,I5/
-     .  ' FSI DATA EXCHANGE CODE . . . . . . . . . .',2X,I5/
-     .  ' FSI MESSAGE LEVEL. . . . . . . . . . . . .',2X,I5/
-     .  ' FSI WAIT TIME. . . . . . . . . . . . . . .',2X,I5/
-     .  ' FSI DISPLACEMENT CONVERGENCE TOLERANCE. ',2X,G14.7/
-     .  ' FSI FORCE CONVERGENCE TOLERANCE . . . . ',2X,G14.7//)
  8400 FORMAT(
      .  ' NUMBER OF PROJECTION VECTORS OF PCG . . . ',2X,I5/
      .  ' PROJECTION VECTOR INITIALIZATION METHOD . ',2X,I5/)
