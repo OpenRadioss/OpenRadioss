@@ -148,7 +148,7 @@ C-----------------------------------------------
       TYPE (DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
