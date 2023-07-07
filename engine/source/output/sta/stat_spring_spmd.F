@@ -31,7 +31,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE STAT_SPRING_SPMD(ITAB   ,IPART     ,IXR   ,IPARTR,IPART_STATE,
      .                            NODTAG ,STAT_INDXR,LENGR ,IPARG ,ELBUF_TAB  ,
-     .                            SIZP0  ,IDEL      )
+     .                            IDEL      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),IPART(LIPART1,*),IXR(NIXR,*),IPARTR(*),
      .        IPART_STATE(*),NODTAG(*), STAT_INDXR(*),IPARG(NPARG,*)
-      INTEGER LENGR,SIZP0,IDEL
+      INTEGER LENGR,IDEL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -74,7 +74,6 @@ C-----------------------------------------------
       IADD = 0
       NPGLOB(1:7*LENGR) = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
       JJ = 0
       II = 0
       DO NG=1,NGROUP
