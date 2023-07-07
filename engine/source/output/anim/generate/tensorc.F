@@ -1008,15 +1008,14 @@ C
                 ENDDO
 c
               ELSE IF (ITENS > 600 .AND. ITENS <  1611)  THEN
-c               /TENS/STRESS/ILAY/IPT
-                IF ((IGTYP == 51 .OR. IGTYP == 52)) THEN
-                  INPUT_ERROR = 1
-                ELSE
+c               /TENS/STRESS/ILAY - only compatible with IGTYP 10,11,16
+                IF ((IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16)) THEN
                   IUS  = ITENS - 600
                   ILAY = INT((IUS - 1)/10)
                   IF (ILAY == 0) ILAY = 100
-                  IL = ILAY
-                  IT = IUS - 10*IL
+                  IL = MIN(ILAY, ELBUF_TAB(NG)%NLAY)
+c                  IT = IUS - 10*IL 
+                  IPT = 1
                   IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
                   IVISC = IPM(222,IMAT)    
 C
@@ -1068,25 +1067,24 @@ c------------------------------------
 
                 IF (IGTYP == 17 .or. IGTYP == 51 .or. IGTYP == 52) THEN
                   SIGE(1:NEL,1:3) = ZERO
-                  IL  = ITENS - 1610
-                  IF (PLY_ANIM_STRESS(3*(IL - 1) + 2) == 2) THEN
-                    IPT = PLY_ANIM_STRESS(3*(IL - 1) + 3) 
+                  IPLY  = ITENS - 1610
+                  IF (PLY_ANIM_STRESS(3*(IPLY - 1) + 2) == 2) THEN
+                    IPT = PLY_ANIM_STRESS(3*(IPLY - 1) + 3) 
 c
-                    DO J=1,NLAY
+                    DO IL=1,NLAY
                       IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-                        ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                        ID_PLY = IGEO(1,STACK%IGEO(2+IL,ISUBSTACK))
                       ELSE IF (IGTYP == 52) THEN
-                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK) - NUMSTACK)
+                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK) - NUMSTACK)
                       END IF
                       IF (ID_PLY == IPLY) THEN
-                        ILAY  = J
-                        IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
+                        IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
                         IVISC = IPM(222,IMAT)    
-                        IF (IPT <= ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT) THEN 
+                        IF (IPT <= ELBUF_TAB(NG)%BUFLY(IL)%NPTT) THEN 
                           DO I=1,NEL                               
                             DO IR=1,NPTR                                        
                               DO IS=1,NPTS 
-                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
+                                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IPT) 
                                 SIGE(I,1) = SIGE(I,1) + LBUF%SIG(JJ(1) + I) / NPG
                                 SIGE(I,2) = SIGE(I,2) + LBUF%SIG(JJ(2) + I) / NPG
                                 SIGE(I,3) = SIGE(I,3) + LBUF%SIG(JJ(3) + I) / NPG
@@ -1097,11 +1095,11 @@ c
                           MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                           IF (MAT_ORTH > 0) THEN                 
                             IF (IDRAPE > 0 ) THEN
-                              DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRA
-                              DIR_B => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRB
+                              DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRA
+                              DIR_B => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRB
                             ELSE                                            
-                              DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                              DIR_B => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRB
+                              DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA
+                              DIR_B => ELBUF_TAB(NG)%BUFLY(IL)%DIRB
                             ENDIF                       
                           END IF
                           IF (MAT_ORTH == 2) THEN                 
@@ -1255,25 +1253,24 @@ c------------------------------------
 
                 IF (IGTYP == 17 .or. IGTYP == 51 .or. IGTYP == 52) THEN
                   SIGE(1:NEL,1:3) = ZERO
-                  IL  = ITENS - IDX_IDPLY_MSTRESS
-                  IF (PLY_ANIM_STRESS(3*(IL - 1) + 2) == 3) THEN
+                  IPLY  = ITENS - IDX_IDPLY_MSTRESS
+                  IF (PLY_ANIM_STRESS(3*(IPLY - 1) + 2) == 3) THEN
 c
-                    IPT = PLY_ANIM_STRESS(3*(IL - 1) + 3)
-                    DO J=1,NLAY
+                    IPT = PLY_ANIM_STRESS(3*(IPLY - 1) + 3)
+                    DO IL=1,NLAY
                       IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-                        ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                        ID_PLY = IGEO(1,STACK%IGEO(2+IL,ISUBSTACK))
                       ELSE IF (IGTYP == 52) THEN
-                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK) - NUMSTACK)
+                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK) - NUMSTACK)
                       END IF
                       IF (ID_PLY == IPLY) THEN
-                        ILAY  = J
-                        IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
+                        IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
                         IVISC = IPM(222,IMAT)    
-                        IF (IPT <= ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT) THEN 
+                        IF (IPT <= ELBUF_TAB(NG)%BUFLY(IL)%NPTT) THEN 
                           DO I=1,NEL                               
                             DO IR=1,NPTR                                        
                               DO IS=1,NPTS 
-                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
+                                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IPT) 
                                 SIGE(I,1) = SIGE(I,1) + LBUF%SIG(JJ(1) + I) / NPG
                                 SIGE(I,2) = SIGE(I,2) + LBUF%SIG(JJ(2) + I) / NPG
                                 SIGE(I,3) = SIGE(I,3) + LBUF%SIG(JJ(3) + I) / NPG
