@@ -284,7 +284,7 @@ c
      .                         ITAB,ITABG,LENG,IPART,IGEO,                  
      .                         IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,         
      .                         NODTAG,STAT_INDXC,STAT_INDXTG,LENGC,LENGTG,  
-     .                         IPARG ,ELBUF_TAB,THKE,SIZP0,STAT_C(9))       
+     .                         IPARG ,ELBUF_TAB,THKE,STAT_C(9))       
         !  - solids -
         CALL STAT_BRICK_SPMD(
      .                         ITAB,IPART,IGEO,IXS,IPARTS,
@@ -301,17 +301,17 @@ c
         CALL STAT_SPRING_SPMD(
      .                          ITAB   ,IPART     ,IXR   ,IPARTR,IPART_STATE,
      .                          NODTAG ,STAT_INDXR,LENGR ,IPARG ,ELBUF_TAB  ,
-     .                          SIZP0  ,STAT_R(2) )
+     .                          STAT_R(2) )
         !  - beams -
         CALL STAT_BEAM_SPMD(
      .                        ITAB   ,IPART     ,IXP   ,IPARTP,IPART_STATE,
      .                        NODTAG ,STAT_INDXP,LENGP ,IPARG ,ELBUF_TAB  ,
-     .                        SIZP0  ,STAT_P(2) )
+     .                        STAT_P(2) )
         !  - trusses -
         CALL STAT_TRUSS_SPMD(
      .                         ITAB   ,IPART     ,IXT   ,IPARTT,IPART_STATE,
      .                         NODTAG ,STAT_INDXT,LENGT ,IPARG ,ELBUF_TAB  ,
-     .                         SIZP0  ,STAT_T(2) )
+     .                         STAT_T(2) )
       END IF
 
       !  - inimap1d -  (generic subroutine : SMP or SPMD)
