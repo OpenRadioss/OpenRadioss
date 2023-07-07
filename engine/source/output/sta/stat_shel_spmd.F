@@ -33,15 +33,17 @@ Chd|====================================================================
       SUBROUTINE STAT_SHEL_SPMD(ITAB,ITABG,LENG,IPART,IGEO,
      .            IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,
      .            NODTAG,STAT_INDXC,STAT_INDXTG,LENGC,LENGTG,
-     .            IPARG ,ELBUF_TAB,THKE,SIZP0,IDEL)
+     .            IPARG ,ELBUF_TAB,THKE,IDEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -60,7 +62,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*), IXC(NIXC,*), IXTG(NIXTG,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
      .        NODTAG(*), STAT_INDXC(*), STAT_INDXTG(*),
-     .        LENGC, LENGTG, IPARG(NPARG,*),SIZP0,IDEL
+     .        LENGC, LENGTG, IPARG(NPARG,*),IDEL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       my_real
      .   THKE(*)
@@ -73,16 +75,27 @@ C-----------------------------------------------
       INTEGER NP(MAX(7*NUMELC,6*NUMELTG)),
      .        NPGLOB(MAX(7*LENGC,6*LENGTG)),
      .        WORK(70000),CLEF(2,MAX(NUMELCG,NUMELTGG))
-      double precision   
-     .   THK(MAX(1,MAX(NUMELC,NUMELTG))),THK0(MAX(1,MAX(NUMELCG,NUMELTGG)))
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      INTEGER THK_LEN,THK0_LEN
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: THK    ! Gather Thickness from Shell & Triangle elements
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: THK0   ! ISPMD=0 : Shell & Triangle Thicknesses after gather.
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF   
+C-----------------------------------------------
+C INITIALIZATION
+C-----------------------------------------------
+      THK_LEN = MAX(1,MAX(NUMELC,NUMELTG))
+      MY_ALLOCATE(THK,THK_LEN)
+      IF (ISPMD == 0) THEN
+            THK0_LEN = MAX(1,MAX(NUMELCG,NUMELTGG))
+      ELSE
+            THK0_LEN=1
+      ENDIF
+      MY_ALLOCATE(THK0,THK0_LEN)
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
       IADD = 0
       NPGLOB(1:MAX(7*LENGC,6*LENGTG)) = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
       JJ = 0
       II = 0
       DO NG=1,NGROUP
@@ -134,7 +147,7 @@ C-----
       CALL SPMD_IGET_PARTN_STA(7,STAT_NUMELC,STAT_NUMELC_G,LENGC,NP,
      .  		       IADG,NPGLOB,STAT_INDXC)
       LEN = 0
-      CALL SPMD_RGATHER9_DP(THK,II,THK0,SIZP0,LEN)
+      CALL SPMD_RGATHER9_DP(THK,II,THK0,THK0_LEN,LEN)
 
 C-----
       IF (ISPMD==0) THEN
@@ -169,7 +182,6 @@ C     3-NODE SHELLS
 C-----------------------------------------------
       IADD = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
       JJ = 0
       II = 0
       DO NG=1,NGROUP
@@ -221,7 +233,7 @@ C-----
       CALL SPMD_IGET_PARTN_STA(6,STAT_NUMELTG,STAT_NUMELTG_G,LENGTG,NP,
      .  		       IADG,NPGLOB,STAT_INDXTG)
       LEN = 0
-      CALL SPMD_RGATHER9_DP(THK,II,THK0,SIZP0,LEN)
+      CALL SPMD_RGATHER9_DP(THK,II,THK0,THK0_LEN,LEN)
 C-----
       IF (ISPMD==0) THEN
         DO N=1,STAT_NUMELTG_G
@@ -250,6 +262,9 @@ C-----
           ENDIF
         END DO
       ENDIF
+
+      DEALLOCATE(THK)
+      DEALLOCATE(THK0)
 C-----------------------------------------------
       RETURN
       END
