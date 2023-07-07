@@ -35,9 +35,9 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|====================================================================
       SUBROUTINE SPGRTAILS(KXSP   , IPARG , PM  ,IPART ,
      2                     IPARTSP, EADD,   ND  , CEPSP, DD_IAD,
-     3                     IDX,     LB_MAX,   IXSP, IPM  , IGEO,
+     3                     IDX,   IXSP, IPM  , IGEO,
      4                     SPBUF,SPH2SOL,SOL2SPH,
-     5                     IRST   , NOD2SP )
+     5                     IRST   , NOD2SP ,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,11 +62,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDX, LB_MAX, ND,
+      INTEGER IDX,ND,
      .        KXSP(NISP,*),IPARG(NPARG,*),DD_IAD(NSPMD+1,*),EADD(*),
      .        IPART(LIPART1,*),IPARTSP(*),CEPSP(*),IXSP(KVOISPH,NUMSPH),
      .        IPM(NPROPMI,*), IGEO(NPROPGI,*),
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,*), NOD2SP(*)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       my_real
      .        PM(NPROPM,*), SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------
@@ -85,7 +86,6 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
       DATA IUN/1/
-      INTEGER, DIMENSION(:), ALLOCATABLE :: MINDEXSPH2
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -158,11 +158,11 @@ c retri spbuf
           KXSP(8,I+NFT)=INUM(9,INDEX(I))
 
 c tri SPBUF
- 	  DO K=1,NSPBUF
-           SPBUF(K,I+NFT)=RNUM(K,INDEX(I))
+          DO K=1,NSPBUF
+            SPBUF(K,I+NFT)=RNUM(K,INDEX(I))
           END DO
-
         END DO
+
         DO I = 1, NEL
           DO J = 1, KVOISPH
             IXSP(J,I+NFT) = IXSPS(J,INDEX(I))
@@ -278,6 +278,7 @@ C ngroup global
           NGROUP=NGROUP+1
           II = EADD(N)+NFT
           IPRT  =IPARTSP(II)
+          IPARTR2R = 0
           IF (NSUBDOM>0) IPARTR2R = TAG_PART(IPRT)          
           MT    =IPART(1,IPRT)
           MLN   =NINT(PM(19,ABS(MT)))
@@ -286,7 +287,7 @@ C ngroup global
           ISORTH= MAX(IGEO(17,IG),MIN(IUN,IGEO(2,IG)))
           ISRAT = IPM(3,MT)
           IEOS  = IPM(4,MT)
-          IORDER=GET_U_GEO(5,IG)
+          IORDER=INT(GET_U_GEO(5,IG))
           ISLEEP=KXSP(2,II)
           
           JALE_FROM_MAT = NINT(PM(72,MT))
@@ -412,24 +413,24 @@ C
       NSPGROUP = NSPGROUP + ND
 C
       ! rebuild NOD2SP after KXSP renumerotation
-      NOD2SP(1:NUMNOD) = ZERO
+      NOD2SP(1:NUMNOD) = 0
       DO I = 1, NUMSPH
         NOD = KXSP(3,I)
         NOD2SP(NOD) = I
       END DO 
 C
-      WRITE(IOUT,1000)
-      WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
+      IF(PRINT_FLAG>6) THEN
+          WRITE(IOUT,1000)
+          WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                   IPARG(4,N),IPARG(5,N),IPARG(55,N),
      +                 N=NGR1,NGROUP)
-c      WRITE(IOUT,1002) LBUFEL
+      ENDIF
 C
  1000 FORMAT(10X,' 3D - SPH CELL GROUPS '/
      +       10X,' -------------------- '/
      +' GROUP   CELL       CELL      FIRST    BUFFER   CELL     IEOS'/
      +'         MATERIAL   NUMBER    CELL     ADDRESS  TYPE     TYPE'/)
  1001 FORMAT(7(1X,I7,1X))
- 1002 FORMAT(' BUFFER LENGTH : ',I10 )
 C-----------
       DEALLOCATE(IXSPS)
 C-----------

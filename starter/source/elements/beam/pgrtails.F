@@ -36,11 +36,11 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|====================================================================
       SUBROUTINE PGRTAILS(
      1    IXP    ,IPARG  ,PM       ,GEO      ,
-     2    EADD   ,ND     ,DD_IAD   ,IDX      ,LB_MAX     ,
-     3    INUM   ,INDEX  ,CEP      ,IPARTP   ,NELP       ,
+     2    EADD   ,ND     ,DD_IAD   ,IDX      ,
+     3    INUM   ,INDEX  ,CEP      ,IPARTP   ,
      4    ITR1   ,IGRSURF,IGRBEAM  ,IGEO     ,
      5    IPM    ,IPOUOFF,TAGPRT_SMS ,
-     6    NOD2EL1D)
+     6    NOD2EL1D,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,10 +80,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDX,LB_MAX,ND
-      INTEGER NELP(*),ITR1(*),IXP(6,*),IPARG(NPARG,*),EADD(*),IPARTP(*),
+      INTEGER ITR1(*),IXP(6,*),IPARG(NPARG,*),EADD(*),IPARTP(*),
      .        DD_IAD(NSPMD+1,*),CEP(*),INUM(8,*),INDEX(*),
      .        IPM(NPROPMI,*),IPOUOFF(*),
      .        TAGPRT_SMS(*),NOD2EL1D(*),IGEO(NPROPGI,*)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*)
 C-----------------------------------------------
@@ -93,13 +94,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGR1, NG, ISSN, MLN, I, NE1, N, NFIX,
-     .        MID, PID, NEL_PREC, LB_L, II, P, NEL,NB,NIP,IGTYP,
-     .        MODE,NN,IAD1,NGROU, J, K,
+     .        MID, PID, NEL_PREC, II, P, NEL,NB,NIP,IGTYP,
+     .        MODE,NN, J,
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
      .        NGP(NSPMD+1),IPARTR2R,NUVAR,IE,ID1
       INTEGER ID
       CHARACTER*nchartitle,
-     .   TITR,TITR1,TITR2
+     .   TITR,TITR1
       INTEGER WORK(70000)
       DATA NFIX/13/
 C=======================================================================
@@ -231,8 +232,9 @@ cc       LB_L = LBUFEL
               NGROUP=NGROUP+1
               II = EADD(N)+NFT
               MID= IXP(1,II)
-              MLN= PM(19,MID)
+              MLN= INT(PM(19,MID))
               PID= IXP(5,II)
+              IPARTR2R = 0
               IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
               ISSN=0
               IF(GEO(5,PID)/=ZERO)ISSN=1
@@ -316,11 +318,12 @@ c
 
       NSPGROUP = NSPGROUP + ND
 
-      WRITE(IOUT,1000)
-      WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
+      IF(PRINT_FLAG>6) THEN
+          WRITE(IOUT,1000)
+          WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                 IPARG(5,N),
      +                 N=NGR1,NGROUP)
-
+      ENDIF
  1000 FORMAT(/
      +       /6X,'3D - BEAM ELEMENT GROUPS'/
      +        6X,'-------------------------'/

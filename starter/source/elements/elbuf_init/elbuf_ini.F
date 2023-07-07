@@ -38,9 +38,9 @@ Chd|====================================================================
      .           ELBUF_TAB ,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
      .           IGEO      ,IPM      ,PM       ,IPARG    ,IPART     ,
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .           KXSP      ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
+     .           FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .           IXT       ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .           EOS_TAG   ,MAXEOS   ,ISTR_24  )
+     .           EOS_TAG   ,MAXEOS   ,ISTR_24  ,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,9 +74,10 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP),IPART(LIPART1,*),
      .        IPARTSP(*),IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
-     .        KXSP(NISP,*),FLAG_XFEM,IPARTIG3D(*),IGEO_STACK(NPROPGI,*),
+     .        FLAG_XFEM,IPARTIG3D(*),IGEO_STACK(NPROPGI,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),KXX(NIXX,*),MAXEOS
       my_real :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
@@ -87,35 +88,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IL,IR,IS,IT,NG,BUFLEN,IRUPT,IPID,IMID,IPRT,IAD,
+      INTEGER I,J,IL,IR,IS,IT,NG,BUFLEN,IRUPT,IPID,IMID,IPRT,IAD,
      .   NEL,NPT,NPG,MLW,ISORTH,ISRATE,ISROT,IREP,ISVIS,NLAY,
-     .   ISTRA,IFAIL,NFAIL,NGFAIL,IEOS,IXFEM,NPTR,NPTS,NPTT,ISHPLYXFEM,
+     .   ISTRA,IFAIL,NFAIL,IEOS,IXFEM,NPTR,NPTS,NPTT,ISHPLYXFEM,
      .   NFT,NFT0,KFTS,ITY,JALE,OFF,ISMSTR,ICPRE,NSG,ICNOD,ISNOD,JEUL,
-     .   JTUR,JTHE,JLAG,IRS,IRE,ICSTR,NVC,JMULT,IADM1,IADM2,IADM3,
-     .   MMAT1,MMAT2,MMAT3,JHBE,JIVF,JPOR,IPLA,PROC,JCLOS,CODCONV,
+     .   JTUR,JTHE,JLAG,IRS,IRE,ICSTR,NVC,JMULT,IADM1,IADM2,
+     .   MMAT1,MMAT2,JHBE,JIVF,JPOR,IPLA,PROC,JCLOS,CODCONV,
      .   IINT,JCVT,ICSEN,ILEV,IEXPAN,IGRE,JSMS,MAXFLAY,IVISC,LAW_VIS,
-     .   NUVAR,NUVARM,NVARTMP,NUVARF,NUVARV,IGTYP,TSHELL,TSH_ORT,LINTLOC,
+     .   NUVAR,NUVARM,NVARTMP,NUVARV,IGTYP,TSHELL,TSH_ORT,LINTLOC,
      .   LINTLAY,LINTPAR,NPAR_LAY,NPAR_TAB,NPAR_LBUF,NIP_LAY,NINTLAY,LIMAT,
      .   LIFAIL,LGLOB,LLAY,LLOC,LFAIL,LVISC,LMAT,LPORO,LEOS,NCTRL,
-     .   ISUBSTACK,IIGEO,IADI,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
-     .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,LAW,IBOLTP,CRKDIR,INLOC,LNLOC,
+     .   ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
+     .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
      .   IPNPT_LAY,IDFAIL,LNLOCTS
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
-      TYPE(ELBUF_STRUCT_), POINTER :: ELBUF
-      TYPE(BUF_MAT_)     , POINTER :: MATBUF
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
-      TYPE(BUF_VISC_)    , POINTER :: VISCBUF
       TYPE(G_BUFEL_)     , POINTER :: GBUF
-      TYPE(L_BUFEL_)     , POINTER :: LBUF
-      TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
-      TYPE(PROP_TAG_)    , POINTER :: PTAG
       TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE(BUF_NLOC_)    , POINTER :: BUFNL
       TYPE(BUF_NLOCTS_)  , POINTER :: BUFNLTS
-      TYPE (L_BUFEL_DIR_), POINTER :: LBUF_DIR  
 C=======================================================================
 c      Element Buffer Routine (Solid) 
 c------
@@ -124,7 +118,7 @@ c      2) allocation de la structure ELBUF_TAB
 C=======================================================================
       DEBUG_PRINT = 0
 c      
-      WRITE(IOUT, 1001)
+      IF(PRINT_FLAG>6) WRITE(IOUT, 1001)
 c
       DO NG = 1,NGROUP 
 c---      read IPARG
@@ -326,12 +320,12 @@ c---------
               NPTS = 1
               NPTT = 1
             ENDIF
-	           IF (N2D>0 .AND.(JHBE==17.OR.JHBE==22)) THEN
+            IF (N2D>0 .AND.(JHBE==17.OR.JHBE==22)) THEN
               NPTS = 2
               NPTT = 1
               NPTR = 2
               NPG  = NPT
-	           END IF
+            END IF
           ENDIF
 c---------
 c
@@ -668,7 +662,7 @@ c
 c
                   FLOC%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
                   MY_ALLOCATE(FLOC%INDX,FLOC%LF_INDX*NEL)
-                  FLOC%INDX = ZERO                                                               
+                  FLOC%INDX = 0                                                               
                   LFAIL = LFAIL + FLOC%LF_INDX*NEL + 1 
 c
                   FLOC%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
@@ -693,7 +687,7 @@ c----------------------------------------------------
            ELSEIF (ITY == 1)THEN                     
             IF (ISNOD == 10 .OR. ISNOD == 16 .OR. ISNOD == 20 ) THEN                     
               GBUF%G_SMSTR = 3*ISNOD
-C------for the future small strain option w/ Itetra=1	      
+C------for the future small strain option w/ Itetra=1      
             ELSEIF (ISNOD == 4  .AND.ISROT == 1) THEN                     
               GBUF%G_SMSTR = 3*(ISNOD+6)                                   
             ELSE                                                       
@@ -711,17 +705,17 @@ C------
           IF ((ISMSTR == 10.OR.ISMSTR == 12).AND.ITY == 1)THEN
            IF (ISNOD == 10.OR.(ISNOD==4 .AND. ISROT==1)) THEN 
             GBUF%G_JAC_I = 0    
-            ELBUF_TAB(NG)%BUFLY(1)%L_JAC_I=0	      
-            ELBUF_TAB(NG)%BUFLY(1)%L_PIJ=3*10	      
+            ELBUF_TAB(NG)%BUFLY(1)%L_JAC_I=0     
+            ELBUF_TAB(NG)%BUFLY(1)%L_PIJ=3*10     
            ELSEIF (ISNOD == 8.AND.JHBE == 17 ) THEN 
             GBUF%G_JAC_I = 9 + 1    
-            ELBUF_TAB(NG)%BUFLY(1)%L_JAC_I=0	      
-            ELBUF_TAB(NG)%BUFLY(1)%L_PIJ=3*ISNOD	      
+            ELBUF_TAB(NG)%BUFLY(1)%L_JAC_I=0     
+            ELBUF_TAB(NG)%BUFLY(1)%L_PIJ=3*ISNOD      
             IF (IINT == 2.AND.ICPRE == 0 ) ELBUF_TAB(NG)%BUFLY(1)%L_PIJ=9*ISNOD 
             IF (IINT == 2) GBUF%G_ETOTSH = 6
            ELSE           
             GBUF%G_JAC_I = 9 + 1    
-            ELBUF_TAB(NG)%BUFLY(1)%L_JAC_I=GBUF%G_JAC_I	      
+            ELBUF_TAB(NG)%BUFLY(1)%L_JAC_I=GBUF%G_JAC_I      
 c            IF (JHBE == 17) GBUF%G_ETOTSH = 6
            END IF !(ISNOD == 10 ) THEN 
 C----- thickshell will be checked later----           
@@ -732,7 +726,7 @@ C----- thickshell will be checked later----
           IF (JEUL+JALE /= 0 .AND. ISNOD >= 4) GBUF%G_MOM = 3
           IF (JHBE == 15 .OR. JHBE == 24) GBUF%G_HOURG = 12
           IF (JHBE == 15 .AND. ISNOD == 6) GBUF%G_HOURG = 2
-C------------- for strain output, to 3*6	  
+C------------- for strain output, to 3*6 
           IF (JHBE == 24) GBUF%G_STRHG = 3*6
 c           Allocate thermal stress and Thermal internal energy
           IF(IEXPAN > 0) THEN
@@ -822,8 +816,8 @@ c           LGLOB = LGLOB + GBUF%G_SMSTR
           LGLOB = LGLOB + GBUF%G_COR_NF
           LGLOB = LGLOB + GBUF%G_COR_FR
           LGLOB = LGLOB + GBUF%G_COR_XR
-          LGLOB = LGLOB + GBUF%G_MAXFRAC	
-          LGLOB = LGLOB + GBUF%G_MAXEPS	    
+          LGLOB = LGLOB + GBUF%G_MAXFRAC
+          LGLOB = LGLOB + GBUF%G_MAXEPS   
           LGLOB = LGLOB + GBUF%G_AMU 
 
           IF (NPG > 1) THEN
@@ -842,7 +836,7 @@ C
           ENDIF
 C
           IF (NPT /= 1) THEN 
-            LGLOB = LGLOB + GBUF%G_BFRAC	    
+            LGLOB = LGLOB + GBUF%G_BFRAC
             LGLOB = LGLOB + GBUF%G_OFF   
             LGLOB = LGLOB + GBUF%G_EINT  
             LGLOB = LGLOB + GBUF%G_EINS  
@@ -1364,7 +1358,7 @@ c
 c
                   FLOC%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
                   MY_ALLOCATE(FLOC%INDX,FLOC%LF_INDX*NEL)
-                  FLOC%INDX = ZERO
+                  FLOC%INDX = 0
                   LFAIL = LFAIL + FLOC%LF_INDX*NEL + 1 
 c
                   FLOC%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
@@ -1623,8 +1617,8 @@ C-------G_THK_I =  G_THK
           LGLOB = LGLOB + GBUF%G_STRW 
           GBUF%G_THK_I = GBUF%G_THK
           LGLOB = LGLOB + GBUF%G_THK_I
-          LGLOB = LGLOB + GBUF%G_MAXFRAC	
-          LGLOB = LGLOB + GBUF%G_MAXEPS	    
+          LGLOB = LGLOB + GBUF%G_MAXFRAC
+          LGLOB = LGLOB + GBUF%G_MAXEPS    
           IF (NPG > 1) THEN
             LGLOB = LGLOB + GBUF%G_FORPG
             LGLOB = LGLOB + GBUF%G_MOMPG
@@ -1648,7 +1642,7 @@ c
           ENDIF
 C
           IF (NPTTOT /= 1) THEN 
-            LGLOB = LGLOB + GBUF%G_BFRAC	    
+            LGLOB = LGLOB + GBUF%G_BFRAC    
             LGLOB = LGLOB + GBUF%G_OFF   
             LGLOB = LGLOB + GBUF%G_EINT  
             LGLOB = LGLOB + GBUF%G_EINS  
@@ -1884,7 +1878,7 @@ c---------
           ENDDO
           IPARG(66,NG) = BUFLEN    !  size of restart transfer table 
  
-          WRITE(IOUT,1002) NG, BUFLEN
+          IF(PRINT_FLAG>6) WRITE(IOUT,1002) NG, BUFLEN
 c
 c-------------------------------------------------
 c          print*,' elbuf_ini : NG, buflen=',NG,buflen,ITY,IGTYP
@@ -2076,8 +2070,8 @@ C-------G_THK_I =  G_THK
           LGLOB = LGLOB + GBUF%G_STRW 
           GBUF%G_THK_I = GBUF%G_THK
           LGLOB = LGLOB + GBUF%G_THK_I
-          LGLOB = LGLOB + GBUF%G_MAXFRAC	
-          LGLOB = LGLOB + GBUF%G_MAXEPS	    
+          LGLOB = LGLOB + GBUF%G_MAXFRAC
+          LGLOB = LGLOB + GBUF%G_MAXEPS    
 
           IF (NPG > 1) THEN
             LGLOB = LGLOB + GBUF%G_FORPG
@@ -2093,7 +2087,7 @@ C
             LGLOB = LGLOB + GBUF%G_STRWPG
           ENDIF
 C
-          LGLOB = LGLOB + GBUF%G_BFRAC	    
+          LGLOB = LGLOB + GBUF%G_BFRAC    
           LGLOB = LGLOB + GBUF%G_OFF   
           LGLOB = LGLOB + GBUF%G_EINT  
           LGLOB = LGLOB + GBUF%G_EINS  
@@ -2259,7 +2253,7 @@ c
 c-------------------------------------------------
           IPARG(66,NG) = BUFLEN    !  size of restart transfer table 
 c 
-          WRITE(IOUT,1002) NG, BUFLEN
+          IF(PRINT_FLAG>6) WRITE(IOUT,1002) NG, BUFLEN
 c-------------------------------------------------
           CALL ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                       NINTLAY,NEL,NPT,NG,NGROUP,ITY,
