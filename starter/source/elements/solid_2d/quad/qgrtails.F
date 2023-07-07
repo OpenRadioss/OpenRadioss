@@ -37,10 +37,10 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|====================================================================
       SUBROUTINE QGRTAILS(
      1       IXQ    ,PM      ,IPARG  ,GEO    ,
-     2       EADD   ,ND      ,DD_IAD ,IDX    ,LB_MAX ,
-     3       INUM   ,INDEX   ,CEP    ,IPARTQ ,NELQ   ,
+     2       EADD   ,ND      ,DD_IAD ,IDX    ,
+     3       INUM   ,INDEX   ,CEP    ,IPARTQ ,
      4       ITR1   ,IGRSURF ,IGRQUAD,
-     5       IGEO   ,IPM     ,IQUAOFF,INIVOL)
+     5       IGEO   ,IPM     ,IQUAOFF,INIVOL,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,7 +62,6 @@ C     INUM(8,NUMELQ)     TABLEAU DE TRAVAIL                         E/S
 C     INDEX(NUMELQ)      TABLEAU DE TRAVAIL                         E/S
 C     CEP(NUMELQ)        TABLEAU DE TRAVAIL                         E/S
 C     IPARTQ(NUMELQ)     TABLEAU DE TRAVAIL                         E/S
-C     NELQ(NUMELQ)       TABLEAU DE TRAVAIL                         E/S
 C     ITR1(NSELQ)        TABLEAU DE TRAVAIL                         E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -82,11 +81,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER ND, IDX, LB_MAX
+      INTEGER ND, IDX
       INTEGER IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT), IXQ(NIXQ,NUMELQ),IPARG(NPARG,*),
      .        EADD(*),DD_IAD(NSPMD+1,*),INUM(9,*),INDEX(*),
-     .        CEP(*),IPARTQ(*),NELQ(*),ITR1(*),
+     .        CEP(*),IPARTQ(*),ITR1(*),
      .        IQUAOFF(*)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
       MY_REAL PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
@@ -100,8 +100,8 @@ C-----------------------------------------------
      .   P, NEL_PREC, LB_L, IGT, JHBE, I,
      .   ML1, ML2, MT1, MT2,NB,INEG,IEOS,
      .   MODE, WORK(70000),NN,J,
-     .   IPLAST, IALEL, MT,IFAIL,NFAIL,FAILMODEL,
-     .   NGP(NSPMD+1),ICPRE,NMTV_MAX,IPARTR2R,ISMST,TAG_INVOL,
+     .   IPLAST,IFAIL,NFAIL,
+     .   NGP(NSPMD+1),ICPRE,IPARTR2R,ISMST,TAG_INVOL,
      .   JALE_FROM_MAT,JALE_FROM_PROP
       INTEGER ID,MFT,ILOC,JJ
       CHARACTER*nchartitle, TITR
@@ -229,6 +229,7 @@ C ngroup global
           II = EADD(N)+NFT
           MID = IXQ(1,II)
           PID = IXQ(6,II)
+          IPARTR2R = 0
           IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           NPT =1
           JHBE=0
@@ -237,6 +238,8 @@ C ngroup global
           ISORTH=0
           IPLAST=IPLA_DS-1
           ICPRE=0
+          ISMST = 0
+          IGT = 0
           IF(PID/=0)THEN
             IF(IGEO(10,PID)==17 .OR.
      .         (N2D==1.AND.IGEO(10,PID)==22)) THEN
@@ -442,14 +445,15 @@ C Traitement CFD sur MID negatif sur tous les solides si ineg=1
         ENDDO
       ENDIF
 C
-      WRITE(IOUT,1000)
-      WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
+      IF(PRINT_FLAG>6) THEN
+          WRITE(IOUT,1000)
+          WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(4,N),IPARG(6,N),IPARG(7,N),IPARG(11,N),    
      +                IPARG(12,N),IPARG(13,N),IPARG(23,N),
      +                IPARG(24,N),IPARG(18,N),IPARG(27,N),
      +                IPARG(29,N)+1,IPARG(43,N),IPARG(55,N),
      +                N=NGR1,NGROUP)
-c      WRITE(IOUT,1002) LBUFEL
+      ENDIF
        CALL ANCMSG(MSGID=1222,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -468,7 +472,6 @@ C
      +'      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG',
      +'       MID    MEDIUM      FLAG      FLAG      TYPE   '/)
  1001 FORMAT(17(I10))
- 1002 FORMAT(' BUFFER LENGTH : ',I10 )
 C
       RETURN
       END

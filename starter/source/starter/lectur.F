@@ -5843,13 +5843,14 @@ C
         GRSOL_ID1 = NGROUP
         CALL SGRTAILS(
      1       IXS      ,PM       ,IPARGTMP ,GEO      ,
-     2       EADD     ,ND       ,BID13    ,IPARTS   ,DD_TMP(IDX),
-     3       IDX      ,EANI     ,LB_MAX   ,INUM     ,INDEX1   ,
+     2       EADD     ,ND       ,IPARTS   ,DD_TMP(IDX),
+     3       IDX      ,EANI     ,INUM     ,INDEX1   ,
      4       CEP(OFF) ,ITRI1    ,IXS10    ,IGRSURF  ,IGRBRIC  ,
      5       IXS20    ,IXS16    ,IGEO     ,IDDLEVEL,
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
      7       TAGPRT_SMS,USER_INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
-     8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
+     8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
+     9       IPRI)
         GRSOL_ID2 = NGROUP
         NGR_SOL   = GRSOL_ID2 - GRSOL_ID1
 C
@@ -5910,10 +5911,10 @@ C test non depassement de LDD_IAD
 C
           CALL QGRTAILS(
      1      IXQ       ,PM       ,IPARGTMP   ,GEO     ,
-     2      EADD      ,ND       ,DD_TMP(IDX),IDX     ,LB_MAX   ,
-     3      INUM      ,INDEX1   ,CEP(OFF)   ,IPARTQ  ,BID13    ,
+     2      EADD      ,ND       ,DD_TMP(IDX),IDX     ,
+     3      INUM      ,INDEX1   ,CEP(OFF)   ,IPARTQ  ,
      4      ITR1      ,IGRSURF  ,IGRQUAD    ,
-     5      IGEO      ,IPM      ,IQUAOFF    ,USER_INIVOL)
+     5      IGEO      ,IPM      ,IQUAOFF    ,USER_INIVOL, IPRI)
           OFF = OFF + NUMELQ
        ENDIF
 C
@@ -5973,14 +5974,15 @@ C test non depassement de LDD_IAD
 C
          CALL CGRTAILS(
      1        IXC      ,PM       ,IPARGTMP ,GEO     ,
-     2        EADD     ,ND       ,BID13    ,IPARTC  ,DD_TMP     ,
-     3        IDX      ,LB_MAX   ,INUM     ,ITR1    ,ITR2       ,
-     4        INDEX1   ,ITRI1    ,CEP(OFF) ,THKE    ,XNUM       ,
+     2        EADD     ,ND       ,IPARTC  ,DD_TMP     ,
+     3        IDX      ,INUM     ,ITR1    ,
+     4        INDEX1   ,CEP(OFF) ,THKE    ,XNUM       ,
      5        IGRSURF  ,IGRSH4N  ,IGEO     ,IPM     ,
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
      8        STACK    ,DRAPE   ,RNOISE  ,MAT_ELEM%MAT_PARAM,
-     9        SH4ANG, IDDLEVEL , DRAPEG)
+     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI)
+
          OFF = OFF + NUMELC
 
          DO I=1,NUMELC
@@ -6033,10 +6035,10 @@ C test non depassement de LDD_IAD
 C
           CALL TGRTAILS(
      1      IXT    ,IPARGTMP,PM       ,GEO     ,
-     2      EADD   ,ND      ,DD_TMP   ,IDX     ,LB_MAX  ,
-     3      INUM   ,INDEX1  ,CEP(OFF) ,IPARTT  ,BID13   ,
+     2      EADD   ,ND      ,DD_TMP   ,IDX     ,
+     3      INUM   ,INDEX1  ,CEP(OFF) ,IPARTT  ,
      4      ITR1   ,IGRSURF ,IGRTRUSS ,ITRUOFF  ,
-     5      TAGPRT_SMS,NOD2EL1D)
+     5      TAGPRT_SMS,NOD2EL1D,IPRI)
           OFF = OFF + NUMELT
       ENDIF
 C
@@ -6082,11 +6084,11 @@ C test non depassement de LDD_IAD
 C
           CALL PGRTAILS(
      1      IXP    ,IPARGTMP,PM         ,GEO     ,
-     2      EADD   ,ND      ,DD_TMP     ,IDX     ,LB_MAX  ,
-     3      INUM   ,INDEX1  ,CEP(OFF)   ,IPARTP  ,BID13   ,
+     2      EADD   ,ND      ,DD_TMP     ,IDX     ,
+     3      INUM   ,INDEX1  ,CEP(OFF)   ,IPARTP  ,
      4      ITR1   ,IGRSURF ,IGRBEAM    ,IGEO    ,
      5      IPM    ,IPOUOFF ,TAGPRT_SMS,
-     6      NOD2EL1D)
+     6      NOD2EL1D, IPRI)
           OFF = OFF + NUMELP
         ENDIF
 C
@@ -6134,10 +6136,10 @@ C test non depassement de LDD_IAD
 C
           CALL RGRTAILS(
      1      IXR      ,IPARGTMP   ,GEO      ,EADD      ,IGEO     ,
-     2      ND       ,DD_TMP     ,IDX      ,LB_MAX    ,INUM     ,
-     3      INDEX1   ,CEP(OFF)   ,IPARTR   ,BID13     ,ITR1     ,
+     2      ND       ,DD_TMP     ,IDX      ,INUM     ,
+     3      INDEX1   ,CEP(OFF)   ,IPARTR   ,ITR1     ,
      4      IGRSURF  ,IGRSPRING  ,IRESOFF  ,TAGPRT_SMS ,NOD2EL1D,
-     5      IPM , CLUSTERS,R_SKEW)
+     5      IPM , CLUSTERS,R_SKEW,IPRI)
           OFF = OFF + NUMELR
         ENDIF
 C
@@ -6210,25 +6212,25 @@ C
          IF(N2D==0)THEN
            CALL C3GRTAILS(
      1          IXTG     ,PM       ,IPARGTMP ,GEO      ,
-     2          EADD     ,ND       ,BID13    ,IPARTG   ,DD_TMP     ,
-     3          IDX      ,LB_MAX   ,INUM     ,INDEX1   ,CEP(OFF)   ,
+     2          EADD     ,ND       ,IPARTG   ,DD_TMP     ,
+     3          IDX      ,INUM     ,INDEX1   ,CEP(OFF)   ,
      4          THKEC    ,XNUM     ,ITR1     ,IGRSURF  ,IGRSH3N    ,
      5          EANIT    ,IGEO     ,IPM      ,IXTG1    ,
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,
-     9          MULTI_FVM,MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG)
+     9          MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG,IPRI )
          ELSE
            CALL T3GRTAILS(
      1          IXTG     ,PM       ,IPARGTMP ,GEO      ,
-     2          EADD     ,ND       ,BID13    ,IPARTG   ,DD_TMP     ,
-     3          IDX      ,LB_MAX   ,INUM     ,INDEX1   ,CEP(OFF)   ,
+     2          EADD     ,ND       ,IPARTG   ,DD_TMP     ,
+     3          IDX      ,INUM     ,INDEX1   ,CEP(OFF)   ,
      4          THKEC    ,XNUM     ,ITR1     ,IGRSURF  ,IGRSH3N    ,
      5          EANIT    ,IGEO     ,IPM      ,IXTG1    ,
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
-     8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,MULTI_FVM,USER_INIVOL,
-     9          SH3ANG ,DRAPEG)
+     8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,USER_INIVOL,
+     9          SH3ANG ,DRAPEG,IPRI)
          ENDIF
          OFF = OFF + NUMELTG
          DO I=1,NUMELTG
@@ -6273,9 +6275,9 @@ C test non depassement de LDD_IAD
 C
           CALL SPGRTAILS(KXSP    ,IPARGTMP,PM      ,IPART      ,
      2                   IPARTSP ,EADD    ,ND      ,CEPSP,DD_TMP     ,
-     3                   IDX     ,LB_MAX  ,IXSP    ,IPM  , IGEO      ,
+     3                   IDX     ,IXSP    ,IPM  , IGEO      ,
      4                   SPBUF   ,SPH2SOL,SOL2SPH  ,
-     5                   IRST    ,NOD2SP  )
+     5                   IRST    ,NOD2SP  ,IPRI)
         ENDIF
 C---------------------------------
       IF(NUMELX>0) THEN
@@ -8056,9 +8058,9 @@ C
       CALL ELBUF_INI(ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .               KXSP     ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
+     .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .               EOS_TAG  ,MAXEOS   ,ISTR_24  )
+     .               EOS_TAG  ,MAXEOS   ,ISTR_24  ,IPRI)
 C---
 C  if xfem
 c---
@@ -8072,9 +8074,9 @@ c
      .         XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG,
      .         IGEO                   ,IPM      ,PM       ,IPARG    ,IPART     ,
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .         KXSP                   ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
+     .         FLAG_XFEM              ,IPARTIG3D,STACK    ,IGEO_STACK,
      .         IXT                    ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .         EOS_TAG                ,MAXEOS   ,ISTR_24  )
+     .         EOS_TAG                ,MAXEOS   ,ISTR_24  ,IPRI)
         ENDDO
       ELSE
         ALLOCATE (XFEM_TAB(0,0), STAT=Stat)
