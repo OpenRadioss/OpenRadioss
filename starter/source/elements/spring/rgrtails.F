@@ -34,10 +34,10 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|====================================================================
       SUBROUTINE RGRTAILS(
      1    IXR     ,IPARG    ,GEO     ,EADD     ,IGEO    ,
-     2    ND      ,DD_IAD   ,IDX     ,LB_MAX   ,INUM    ,
-     3    INDEX   ,CEP      ,IPARTR  ,NELR     ,ITR1    ,
+     2    ND      ,DD_IAD   ,IDX     ,INUM    ,
+     3    INDEX   ,CEP      ,IPARTR  ,ITR1    ,
      4    IGRSURF ,IGRSPRING,IRESOFF ,TAGPRT_SMS,NOD2EL1D,
-     5    IPM     ,CLUSTERS ,R_SKEW)
+     5    IPM     ,CLUSTERS ,R_SKEW,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,10 +74,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDX,LB_MAX, ND,NELR(*),ITR1(*), IGEO(NPROPGI,*),
+      INTEGER IDX,ND,ITR1(*), IGEO(NPROPGI,*),
      .        IXR(NIXR,*), IPARG(NPARG,*),EADD(*),IPARTR(*),
      .        DD_IAD(NSPMD+1,*),INUM(9,*),INDEX(*),CEP(*),
      .        IRESOFF(*),TAGPRT_SMS(*),NOD2EL1D(*),IPM(NPROPMI,*),R_SKEW(*)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       my_real
      .   GEO(NPROPG,*)
 C-----------------------------------------------
@@ -88,8 +89,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C      INTEGER NMTV(4), NGR1, NG, ISSN, MTNN, I, NE1, N, NFIX,
-      INTEGER NGR1, NG, ISSN, MTNN, I, NE1, N, NFIX,
-     .        PID, NEL_PREC, LB_L, II, P, NEL, IGTYP,NB,
+      INTEGER NGR1, NG, ISSN, MTNN, I, NE1, N,
+     .        PID, NEL_PREC, II, P, NEL, IGTYP,NB,
      .        MODE, WORK(70000),NN,J,MID,
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
      .        NGP(NSPMD+1),IPARTR2R
@@ -306,9 +307,10 @@ C
 C
       NSPGROUP = NSPGROUP + ND
 C
-      WRITE(IOUT,1000)
-      WRITE(IOUT,1001)(N,IGTYP,IPARG(2,N),IPARG(3,N)+1,IPARG(5,N),
-     +                 N=NGR1,NGROUP)
+      IF(PRINT_FLAG>6) THEN
+        WRITE(IOUT,1000)
+        WRITE(IOUT,1001)(N,IGTYP,IPARG(2,N),IPARG(3,N)+1,IPARG(5,N),N=NGR1,NGROUP)
+      ENDIF
 C
  1000 FORMAT(/
      +       /6X,'3D - SPRING ELEMENT GROUPS'/

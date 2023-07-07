@@ -41,21 +41,20 @@ Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|====================================================================
       SUBROUTINE C3GRTAILS(
      1       IXTG    ,PM     ,IPARG   ,GEO    ,
-     2       EADD    ,ND     ,NELTG   ,IPARTTG,DD_IAD ,
-     3       IDX     ,LB_MAX ,INUM    ,INDEX  ,CEP    ,
+     2       EADD    ,ND     ,IPARTTG,DD_IAD ,
+     3       IDX     ,INUM    ,INDEX  ,CEP    ,
      4       THK     ,XNUM   ,ITR1    ,IGRSURF,IGRSH3N,
      5       ICNOD   ,IGEO   ,IPM     ,IXTG1  ,
      6       IPART   ,SH3TREE,NOD2ELTG,ITRIOFF,
      7       SH3TRIM,TAGPRT_SMS,IWORKSH, STACK,
-     8       DRAPE  ,RNOISE, MULTI_FVM,
-     9       MATPARAM_TAB, SH3ANG,DRAPEG)
+     8       DRAPE  ,RNOISE,
+     9       MATPARAM_TAB, SH3ANG,DRAPEG,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE R2R_MOD
       USE STACK_MOD
-      USE MULTI_FVM_MOD
       USE REORDER_MOD
       USE GROUPDEF_MOD
       USE MATPARAM_DEF_MOD
@@ -98,17 +97,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER ND, IDX, LB_MAX,
+      INTEGER ND, IDX, 
      .        IXTG(NIXTG,*), IPARG(NPARG,*), EADD(*), IXTG1(4,*),
-     .        DD_IAD(NSPMD+1,*),IPARTTG(*), NELTG(*),
+     .        DD_IAD(NSPMD+1,*),IPARTTG(*),
      .        INUM(10,*),ITR1(*),INDEX(*),CEP(*),ICNOD(*),IPM(NPROPMI,NUMMAT),
      .        ITRIOFF(*), SH3TRIM(*),IGEO(NPROPGI,NUMGEO),
      .        IPART(LIPART1,*), SH3TREE(KSH3TREE,*), NOD2ELTG(*) ,
      .        TAGPRT_SMS(*),IWORKSH(3,*)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       MY_REAL PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),THK(*),XNUM(*),RNOISE(NPERTURB,*), SH3ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE (DRAPE_)  , TARGET         :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_)                                :: DRAPEG,XNUM_DRAPEG
       TYPE (DRAPE_)  , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
@@ -120,22 +119,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, K, NGR1, MLN, NG, ISMST,NN,IAD1,NGROU,ICSEN,NLEVXF,
-     .   NPN, N, MID, PID,II, J, MIDN, NSG, NEL, NE1, ITHK, ITHK0,
-     .   IPLA, IGTYP, P, NEL_PREC, NB,MODE,KCNOD,PRT,PRTN, NELTG3,IPT,
-     .   ILEV, IE, MPT, NUVARR,IPIDL, IADM, MY_NVSIZ, JLEV,IXFEM_ERR,
-     .   MLNLY,IMATLY,IRUP,IXFEM,IPTUN,IREP,IFWV,
-     .   ISUBSTACK,IIGEO,IADI,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
-     .   STAT, MT, IALEL,IGMAT,ISM0,JALE_FROM_MAT, JALE_FROM_PROP,IP,NSLICE,KK,NPT_DRP,
+      INTEGER I, K, NGR1, MLN,ISMST,NN,ICSEN,NLEVXF,
+     .   NPN, N, MID, PID,II, J, MIDN, NSG, NEL, NE1, ITHK,
+     .   IPLA, IGTYP, P, NEL_PREC, NB,MODE,KCNOD,PRT,NELTG3,IPT,
+     .   ILEV, IE, MPT, NUVARR,IADM, MY_NVSIZ,IXFEM_ERR,
+     .   IMATLY,IXFEM,IPTUN,IREP,IFWV,
+     .   ISUBSTACK,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
+     .   STAT, IGMAT,ISM0,JALE_FROM_MAT, JALE_FROM_PROP,NSLICE,KK,NPT_DRP,
      .   IDRAPE, JJ,IEL,IEL0
       INTEGER WORK(70000),NGP(NSPMD+1)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
       INTEGER ID,IPARTR2R
       CHARACTER*nchartitle :: TITR,TITR1
-      INTEGER, DIMENSION(:), ALLOCATABLE :: MINDEXTG2
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
-      my_real, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       my_real :: ANGLE(NUMELTG)
 C
@@ -295,6 +293,7 @@ C
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         IF(NDRAPE > 0 .AND. NUMELTG_DRAPE > 0) THEN
+          IEL = 0
           DO I = 1, NEL
              PERMUTATION%TRIANGLE(I+NFT) = INDEX2(INDEX(I)+NFT)
             IPARTTG(I+NFT)=INUM(1,INDEX(I))
@@ -503,6 +502,7 @@ C
           MID = IXTG(1,II)
           MLN = NINT(PM(19,MID))
           PID = IXTG(5,II)
+          IPARTR2R = 0
           IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           NPN = IGEO(4,PID)
           ISMST = IGEO(5,PID)
@@ -783,14 +783,9 @@ C-------------
             ENDDO 
 c--------
           ELSEIF(IGTYP == 17) THEN
-!!            IIGEO   =  40 + 5*(ISUBSTACK - 1) 
-!!            IADI    = IGEO(IIGEO + 3,PID)
-!!            IPPID   = IADI
             IPPID = 2
             IPMAT   = IPPID + NPN
             DO IPT = 1, NPN
-!!              IPID = IGEO(100+IPT,PID)
-!!              IMATLY  = IGEO(101,IPID)
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
               IF(IPM(220,IMATLY) >  0)THEN
                 IPARG(43,NGROUP) = 1
@@ -1002,13 +997,15 @@ C-----------
      .            MSGTYPE=MSGWARNING,
      .            PRMOD=MSG_PRINT)       
 C-----------
-      WRITE(IOUT,1000) 
-      DO  N=NGR1,NGROUP
-       MLN = IPARG(1,N)
-       WRITE(IOUT,1001)N,MLN,IPARG(2,N),IPARG(3,N)+1,
+      IF(PRINT_FLAG>6) THEN
+        WRITE(IOUT,1000) 
+        DO  N=NGR1,NGROUP
+            MLN = IPARG(1,N)
+            WRITE(IOUT,1001)N,MLN,IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(5,N),IABS(IPARG(6,N)),
      +                IPARG(9,N),IPARG(10,N),IPARG(44,N),IPARG(43,N)
-      ENDDO
+        ENDDO
+      ENDIF
 C-----------
  1000 FORMAT(
      +       /10X,' 3D - TRIANGULAR SHELL ELEMENT GROUPS'/

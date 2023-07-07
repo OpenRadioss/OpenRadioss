@@ -32,10 +32,10 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|====================================================================
       SUBROUTINE TGRTAILS(
      1    IXT     ,IPARG  ,PM      ,GEO       ,
-     2    EADD    ,ND     ,DD_IAD  ,IDX       ,LB_MAX  ,
-     3    INUM    ,INDEX  ,CEP     ,IPARTT    ,NELT    ,
+     2    EADD    ,ND     ,DD_IAD  ,IDX       ,
+     3    INUM    ,INDEX  ,CEP     ,IPARTT    ,
      4    ITR1    ,IGRSURF,IGRTRUSS,ITRUOFF   ,
-     5    TAGPRT_SMS,NOD2EL1D)
+     5    TAGPRT_SMS,NOD2EL1D,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,11 +71,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDX,LB_MAX, ND,NELT(*),ITR1(*),
+      INTEGER IDX,ND,ITR1(*),
      .        IXT(5,*), IPARG(NPARG,*),EADD(*),IPARTT(*),
      .        DD_IAD(NSPMD+1,*), INUM(7,*), INDEX(*), CEP(*),
      .        ITRUOFF(*),
      .        TAGPRT_SMS(*),NOD2EL1D(*)
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*)
 C-----------------------------------------------
@@ -85,8 +86,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGR1, NG, ISSN, MLN, I, NE1, N, NFIX,
-     .        MID, PID, NEL_PREC, LB_L, II, P, NEL,NB,
-     .        MODE, WORK(70000),NN,NGROU, J, K,
+     .        MID, PID, NEL_PREC, II, P, NEL,NB,
+     .        MODE, WORK(70000),NN, J,
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
      .        NGP(NSPMD+1),IPARTR2R
       DATA NFIX/5/
@@ -217,8 +218,9 @@ C ngroup global
               NGROUP=NGROUP+1
               II = EADD(N)+NFT
               MID= IXT(1,II)
-              MLN= PM(19,MID)
+              MLN= INT(PM(19,MID))
               PID= IXT(4,II)
+              IPARTR2R = 0
               IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
               ISSN=0
               IF(GEO(5,PID)/=0.)ISSN=1
@@ -265,9 +267,10 @@ C
 C
       NSPGROUP = NSPGROUP + ND
 C
-      WRITE(IOUT,1000)
-      WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,IPARG(5,N),
-     +                 N=NGR1,NGROUP)
+      IF(PRINT_FLAG>6) THEN
+        WRITE(IOUT,1000)
+        WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,IPARG(5,N),N=NGR1,NGROUP)
+      ENDIF
 C
  1000 FORMAT(/
      +       /6X,'3D - TRUSS ELEMENT GROUPS'/

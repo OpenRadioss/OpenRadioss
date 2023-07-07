@@ -40,14 +40,14 @@ Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|====================================================================
       SUBROUTINE CGRTAILS(
      1       IXC    ,PM      ,IPARG     ,GEO     ,
-     2       EADD   ,ND      ,NELC      ,IPARTC  ,DD_IAD,
-     3       IDX    ,LB_MAX  ,INUM      ,ITR1    ,ITR2,
-     4       INDEX  ,ITRI2   ,CEP       ,THK     ,XNUM,
+     2       EADD   ,ND      ,IPARTC  ,DD_IAD,
+     3       IDX    ,INUM      ,ITR1    ,
+     4       INDEX  ,CEP       ,THK     ,XNUM,
      5       IGRSURF,IGRSH4N ,IGEO      ,IPM     ,
      6       IPART  ,SH4TREE ,NOD2ELC   ,ISHEOFF ,
      7       SH4TRIM ,TAGPRT_SMS,LGAUGE  ,IWORKSH ,
      8       STACK   ,DRAPE    ,RNOISE  ,MATPARAM_TAB,
-     9       SH4ANG, IDDLEVEL , DRAPEG)
+     9       SH4ANG, IDDLEVEL , DRAPEG,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,9 +72,7 @@ C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
 C     IPARTC                                                        E/S
 C     INUM(9,NUMELC)     TABLEAU DE TRAVAIL                         E/S
 C     ITR1(NSELC)        TABLEAU DE TRAVAIL                         E/S
-C     ITR2(NSELC)        TABLEAU DE TRAVAIL                         E/S
 C     INDEX(NUMELC)      TABLEAU DE TRAVAIL                         E/S
-C     ITRI2(NUMELC)      TABLEAU DE TRAVAIL                         E/S
 C     THK(NUMELC)        TABLEAU EPAISSEUR                          E/S
 C     XNUM(NUMELC)       TABLEAU DE TRAVAIL                         E/S
 C     CEP(NUMELC)        TABLEAU DE TRAVAIL                         E/S
@@ -101,14 +99,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER ND, IDX, LB_MAX
+      INTEGER ND, IDX
       INTEGER IXC(NIXC,*),IPARG(NPARG,*),EADD(*),IGEO(NPROPGI,*),
-     .    DD_IAD(NSPMD+1,*),IPARTC(*), NELC(*), SH4TRIM(*),
-     .    INUM(9,*),ITR1(*),ITR2(*),INDEX(*),ITRI2(*),CEP(*),
+     .    DD_IAD(NSPMD+1,*),IPARTC(*),SH4TRIM(*),
+     .    INUM(9,*),ITR1(*),INDEX(*),CEP(*),
      .    IPM(NPROPMI,*), IPART(LIPART1,*), SH4TREE(KSH4TREE,*), 
-     .    ISHEOFF(*),MINDEXC(NUMELC), TAGPRT_SMS(*),LGAUGE(3,*),
+     .    ISHEOFF(*),TAGPRT_SMS(*),LGAUGE(3,*),
      .    NOD2ELC(*),IWORKSH(3,*)
       INTEGER, INTENT(IN) :: IDDLEVEL
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       MY_REAL
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*),THK(*),RNOISE(NPERTURB,*),
      .    SH4ANG(*)
@@ -125,22 +124,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, K, NGR1, MLN, NG, ISMST, ICSEN, JLEV, MY_NVSIZ, IADM,NLEVXF,
-     .   NPN, N, MID, PID, IHBE,NPT1,NPT2,NPG,IXFEM_ERR,
-     .   II, J, MIDN, PIDN, NSG, NEL, NE1, ITHK, ITHK0,
-     .   IPLA, IGTYP, KFTS, P, NEL_PREC,
-     .   NELGR,IDEBGR,IFINGR,IDEB,IFIN,NPASS,NELTRI,L,NEL1,NB,
-     .   NN,IAD1,NGROU,PRT,PRTN,
-     .   IMATLY, IPT,MLNLY, ILEV,MPT, IE, NUVARR,IPIDL,
-     .   NGP(NSPMD+1),N1,IRUP,NVARV,IVISC,IFWV,IXFEM,IPTUN,IMID,IREP,
-     .   INUM_R2R(1+R2R_SIU*NUMELC),ISUBSTACK,IIGEO,IADI,IPMAT, IPPID,
+      INTEGER I,K,NGR1,MLN,ISMST, ICSEN, JLEV, MY_NVSIZ, IADM,NLEVXF,
+     .   NPN, N, MID, PID, IHBE,NPG,IXFEM_ERR,
+     .   II, J, MIDN, PIDN, NSG, NEL, NE1, ITHK,
+     .   IPLA, IGTYP, KFTS, P, NEL_PREC,NB,
+     .   NN,PRT,
+     .   IMATLY, IPT,ILEV,MPT, IE, NUVARR,
+     .   NGP(NSPMD+1),N1,NVARV,IVISC,IFWV,IXFEM,IPTUN,IREP,
+     .   INUM_R2R(1+R2R_SIU*NUMELC),ISUBSTACK,IPMAT, IPPID,
      .   IPARTR2R,NB_LAW58,IPERT,STAT,IGMAT,IPINCH,ISM0,ISEATBELT,
-     .   IP,NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0,ISHEL
+     .   NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0,ISHEL
       my_real
      .  ANGLE(NUMELC)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
 
-      INTEGER MODE,WORK(70000),NPTEL(NUMELC)
+      INTEGER MODE,WORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR,INUM_WORKSH
 C     REAL OU REAL*8
       INTEGER ID
@@ -398,18 +396,18 @@ C
             ENDDO
         ENDIF   ! NDRAPE  
 
- 	IF(NADMESH/=0)THEN
- 	  DO  K=1,KSH4TREE
- 	    DO  I=1,NEL
- 	      SH4TREE(K,I+NFT)=ISTOR(K,INDEX(I))
- 	    ENDDO
- 	  ENDDO
- 	  IF(LSH4TRIM/=0)THEN
- 	    DO  I=1,NEL
- 	      SH4TRIM(I+NFT)=ISTOR(KSH4TREE+1,INDEX(I))
- 	    ENDDO
- 	  END IF
- 	END IF
+        IF(NADMESH/=0)THEN
+            DO  K=1,KSH4TREE
+                DO  I=1,NEL
+                    SH4TREE(K,I+NFT)=ISTOR(K,INDEX(I))
+                ENDDO
+            ENDDO
+            IF(LSH4TRIM/=0)THEN
+                DO  I=1,NEL
+                    SH4TRIM(I+NFT)=ISTOR(KSH4TREE+1,INDEX(I))
+                ENDDO
+            END IF
+        END IF
 
 C dd-iad
         P = CEP(NFT+INDEX(1))
@@ -527,6 +525,7 @@ C ngroup global
           MID = IXC(1,II)
           MLN = NINT(PM(19,MID))
           PID = IXC(6,II)
+          IPARTR2R = 0
           IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
 c          NPN = NINT(GEO(6,PID))
           NPN   = IGEO(4,PID)
@@ -813,7 +812,7 @@ C
             ITHK = 1
           ENDIF
 C---------Drilling dof---ISHELL=12(QBAT uses NB4)--------         
-         IF (ISROT>0.AND.IHBE<11) THEN    	
+         IF (ISROT>0.AND.IHBE<11) THEN
           CALL ANCMSG(MSGID=854,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -1063,15 +1062,17 @@ c
      .            MSGTYPE=MSGERROR,
      .            PRMOD=MSG_PRINT)       
 C-----------
-      WRITE(IOUT,1000) 
-      DO  N=NGR1,NGROUP
-        MLN = IPARG(1,N)       
+      IF(PRINT_FLAG>6) THEN
+        WRITE(IOUT,1000) 
+        DO  N=NGR1,NGROUP
+            MLN = IPARG(1,N)       
 c
-        WRITE(IOUT,1001)N,MLN,IPARG(2,N),IPARG(3,N)+1,
+            WRITE(IOUT,1001)N,MLN,IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(5,N),IABS(IPARG(6,N)),
      +                IPARG(9,N),IPARG(10,N),IPARG(44,N),
      +                IPARG(23,N),IPARG(43,N),IPARG(90,N)   
-      ENDDO
+        ENDDO
+      ENDIF
 C-----------
  1000 FORMAT(/
      +       /6X,'3D - SHELL ELEMENT GROUPS'/

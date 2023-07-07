@@ -42,13 +42,14 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|====================================================================
       SUBROUTINE SGRTAILS(
      1       IXS    ,PM     ,IPARG  ,GEO     ,
-     2       EADD   ,ND     ,NELS   ,IPARTS  ,DD_IAD  ,
-     3       IDX    ,ISOLNOD,LB_MAX ,INUM    ,INDEX   ,
+     2       EADD   ,ND     ,IPARTS  ,DD_IAD  ,
+     3       IDX    ,ISOLNOD,INUM    ,INDEX   ,
      4       CEP    ,ITR1   ,IXS10  ,IGRSURF ,IGRBRIC ,
      5       IXS20  ,IXS16  ,IGEO    , IDDLEVEL,
      6       IPM    ,NOD2ELS,ISOLOFF,ISOLNOD1,
      7       TAGPRT_SMS,INIVOL,SPH2SOL ,SOL2SPH,SOL2SPH_TYP,
-     8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB,RNOISE)
+     8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB,RNOISE,
+     9       PRINT_FLAG)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -100,15 +101,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER ND, IDX, LB_MAX
+      INTEGER ND, IDX
       INTEGER IXS(11,*),IPARG(NPARG,*),EADD(*), ISOLNOD(*),
-     .        DD_IAD(NSPMD+1,*),IPARTS(*), NELS(*),
+     .        DD_IAD(NSPMD+1,*),IPARTS(*),
      .        INUM(16,*), INDEX(*),CEP(*),ITR1(*),IXS10(6,*),IXS20(12,*),
      .        IXS16(8,*),IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),
      .        NOD2ELS(*), ISOLOFF(*),ISOLNOD1(*),
      .        TAGPRT_SMS(*),SPH2SOL(*),
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
       INTEGER, INTENT(IN) :: IDDLEVEL
+      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
       MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
 C-----------------------------------------------
@@ -123,7 +125,7 @@ C-----------------------------------------------
      .   NGR1, MLN, NG, ISSN, ISSN_, N, MID, PID, II,ILOC,IL,NEL, NE1,IREP,IINT,
      .   P, NEL_PREC, IGT, JHBE, I, IKSNOD0,NB,IEOS,NLAY,
      .   MODE, WORK(70000), NN, J, NPTR,NPTS,NPTT,NPG,
-     .   IPLAST,NUVARP, IALEL, MT, INEG, JIVF,ICPRE,ICSTR,
+     .   IPLAST,NUVARP, IALEL, INEG, JIVF,ICPRE,ICSTR,
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
@@ -459,6 +461,7 @@ C Bolt preloading
           IF (NPRELOAD > 0) THEN
            IBOLTP=IFLAG_BPRELOAD(II)
           ENDIF
+          IPARTR2R = 0
           IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           ID = IGEO(1,PID)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
@@ -484,6 +487,8 @@ C de plus ISOLNOD remis a 0 real dans lectur
           IVISC = 0
           ITSH = 0
           IT10 = 0
+          ITET4 = 0
+          ITET10 = 0
 C-------------------------
 C         PARAMETRE GROUPE
           IF (PID/=0) THEN
@@ -1497,7 +1502,7 @@ C
           IXS(1,I) = ABS(IXS(1,I))
         ENDDO
       ENDIF
-      WRITE(IOUT,1010) 
+      IF(PRINT_FLAG>6) WRITE(IOUT,1010) 
 c-----------
       DO N=NGR1,NGROUP
         JHBE=IPARG(23,N)
@@ -1518,12 +1523,14 @@ c-----------
         ELSE
          NPTS=NPT
         ENDIF
-        WRITE(IOUT,1011)N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
+        IF(PRINT_FLAG>6) THEN
+            WRITE(IOUT,1011)N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(4,N),NPTS,IPARG(7,N),IPARG(11,N),    
      +                IPARG(12,N),IPARG(13,N),IPARG(23,N),
      +                IPARG(24,N),IPARG(18,N),IPARG(27,N),
      +                IPARG(29,N)+1,
      +                IPARG(33,N),IPARG(34,N),IPARG(43,N),IPARG(55,N)
+        ENDIF
       ENDDO
       CALL ANCMSG(MSGID=758,
      .                  MSGTYPE=MSGWARNING,
@@ -1608,7 +1615,6 @@ c------------------------------------------------------------
      +'       MID    MEDIUM      FLAG      FLAG              FLAG',
      +'      TYPE' )
  1011 FORMAT(19(I10))
- 1002 FORMAT(' BUFFER LENGTH : ',I10 )
 c-----------
       RETURN
       END
