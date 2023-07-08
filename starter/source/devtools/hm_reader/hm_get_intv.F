@@ -281,6 +281,7 @@ Chd|        HM_READ_MAT75                 source/materials/mat/mat075/hm_read_ma
 Chd|        HM_READ_MAT76                 source/materials/mat/mat076/hm_read_mat76.F
 Chd|        HM_READ_MAT77                 source/materials/mat/mat077/hm_read_mat77.F
 Chd|        HM_READ_MAT78                 source/materials/mat/mat078/hm_read_mat78.F
+Chd|        HM_READ_MAT79                 source/materials/mat/mat079/hm_read_mat79.F
 Chd|        HM_READ_MAT80                 source/materials/mat/mat080/hm_read_mat80.F
 Chd|        HM_READ_MAT81                 source/materials/mat/mat081/hm_read_mat81.F
 Chd|        HM_READ_MAT82                 source/materials/mat/mat082/hm_read_mat82.F
