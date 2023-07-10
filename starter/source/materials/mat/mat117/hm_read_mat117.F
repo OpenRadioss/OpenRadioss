@@ -138,11 +138,31 @@ c-------------------
       IF (GAMA  == ZERO)   GAMA   = ONE
       IF (EXP_G  == ZERO) EXP_G   = TWO
       IF (E_ELAS_S == ZERO) E_ELAS_S = E_ELAS_N
+      IF ( GIC < (TMAX_N**2 / TWO/E_ELAS_N )  ) THEN
+        GIC = TMAX_N**2 / TWO/E_ELAS_N
+        CALL ANCMSG(MSGID=3016,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .                I1 = MAT_ID,
+     .                C1 = TITR )
+      END IF
+      IF ( GIIC < (TMAX_S**2 / TWO/E_ELAS_S )  ) THEN
+        GIIC = TMAX_S**2 / TWO/E_ELAS_S
+        CALL ANCMSG(MSGID=3017,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .                I1 = MAT_ID,
+     .                C1 = TITR )
+      END IF
+
+
+
+
       DELTA0N  = TMAX_N/E_ELAS_N !single mode damage initiation normal
       DELTA0S  = TMAX_S/E_ELAS_S !single mode damage initiation tangential
 
       UND  = TWO*GIC /(DELTA0N *E_ELAS_N)! ultimate displacement in normal direction (UND)
       UTD  = TWO*GIIC/(DELTA0S *E_ELAS_S)! ultimate displacement in tangential direction (UTD)
+
+
+
+
 C-------------------------------------------
 C User Material Parameters Definition
 C-------------------------------------------
