@@ -176,6 +176,7 @@ C initialisation dd_iad
        END DO
       ENDDO
 C
+      IEL = 0
       NELTG3 = NUMELTG-NUMELTG6
       IF(NDRAPE > 0) IEL = DRAPEG%NUMSH4
       DO N=1,ND
@@ -293,7 +294,6 @@ C
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         IF(NDRAPE > 0 .AND. NUMELTG_DRAPE > 0) THEN
-          IEL = 0
           DO I = 1, NEL
              PERMUTATION%TRIANGLE(I+NFT) = INDEX2(INDEX(I)+NFT)
             IPARTTG(I+NFT)=INUM(1,INDEX(I))
