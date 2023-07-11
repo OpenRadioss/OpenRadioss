@@ -76,7 +76,7 @@ int main( int argc, char *argv[] )
 
     if (argc == 2)
     {
-        printf("\n T01 TO CSV CONVERTOR\n\n");
+        printf("\n T01 TO CSV CONVERTER\n\n");
         printf("FILE    = %s\n", argv[1]);
         printf("OUTPUT FILE    = %s.csv",argv[1]);
         printf("\n");
@@ -112,7 +112,7 @@ int main( int argc, char *argv[] )
      END
 -----------------------------*/
     printf(" ** CONVERSION COMPLETED\n");
-    return 1;         
+    return 0;         
 }
 
 /***************************************************************************/
