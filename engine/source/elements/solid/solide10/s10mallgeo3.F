@@ -84,7 +84,7 @@ C---------------------------------------------
       IDELM = DT%IDEL_BRICK
       IF(IDELM ==0.AND.DELM==ZERO) IDELM = 0
       IF((IDELM+ICST) >0) THEN
-        IF(ISROT == 0)THEN
+        IF(ISROT /= 1)THEN
           DO I=1,NEL
             A1X = RY(I)*SZ(I)-RZ(I)*SY(I)
             A1Y = RZ(I)*SX(I)-RX(I)*SZ(I)
