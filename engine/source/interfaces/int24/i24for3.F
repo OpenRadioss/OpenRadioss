@@ -3475,7 +3475,7 @@ ctmp+1 mic only
       ENDIF
 
 C
-      IF (INACTI==-1.OR.IGSTI==-1) STIF(1:JLT)=MAX(STIF(1:JLT),STIFKT(1:JLT))
+      IF (IMPL_S ==0.AND.(INACTI==-1.OR.IGSTI==-1)) STIF(1:JLT)=MAX(STIF(1:JLT),STIFKT(1:JLT))
       IF(IPARIT==3)THEN
         stop 789
       ELSEIF(IPARIT==0)THEN
