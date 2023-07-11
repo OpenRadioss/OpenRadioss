@@ -184,7 +184,8 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /VISC : Visco elastic  Models
 c-------------------------------------------------------------------    
-      CALL HM_READ_VISC(VISC_TAG, IPM, PM, BUFMAT, BUFLEN, IADBUF, UNITAB, LSUBMODEL, TABLE)
+      CALL HM_READ_VISC(MAT_ELEM%MAT_PARAM ,VISC_TAG, IPM, PM, 
+     .                  BUFMAT, BUFLEN, IADBUF, UNITAB, LSUBMODEL, TABLE)
 
 c-------------------------------------------------------------------
 c     /LEAK : Fabric Leakage Models

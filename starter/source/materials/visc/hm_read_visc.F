@@ -37,13 +37,14 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE HM_READ_VISC(
-     .           VISC_TAG ,IPM      ,PM         ,BUFMAT   ,BUFLEN   ,
+     .           MAT_PARAM   ,VISC_TAG ,IPM      ,PM         ,BUFMAT   ,BUFLEN   ,
      .           IADBUF   ,UNITAB   ,LSUBMODEL  ,TABLE    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE ELBUFTAG_MOD            
+      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD           
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -73,6 +74,7 @@ C-----------------------------------------------
       TYPE(VISC_TAG_) ,DIMENSION(0:MAXVISC) ,INTENT(INOUT) :: VISC_TAG
       TYPE(SUBMODEL_DATA) ,DIMENSION(*)     ,INTENT(IN)    :: LSUBMODEL
       TYPE(TTABLE) TABLE(NTABLE)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -146,7 +148,7 @@ c--------------------------------------------------
 C--------------------------------------------------
 C          CHECK VISCOSITY MODEL
 C--------------------------------------------------
-        IF(KEY(1:5) == 'PRONY')THEN
+        IF (KEY(1:5) == 'PRONY')THEN
               IVISC=1 
         ELSE
               IVISC=0
@@ -172,10 +174,11 @@ c--------------------------------------------
             SELECT CASE (IVISC)
 c--------------------------------------------      
             CASE (1)     
-              CALL HM_READ_VISC_PRONY( UPARAM ,MAXPARAM, NUPARAM, 
-     .                                 NUVAR  ,IFUNC   , MAXFUNC,
-     .                                 NFUNC  ,UNITAB  , LSUBMODEL,
-     .                                 TABLE  ,MAT_ID  )
+              CALL HM_READ_VISC_PRONY(
+     .             MAT_PARAM(IMAT), UPARAM ,MAXPARAM, NUPARAM, 
+     .             NUVAR  ,IFUNC   , MAXFUNC,
+     .             NFUNC  ,UNITAB  , LSUBMODEL,
+     .             TABLE  ,MAT_ID  )
 
               IF (IPM(216  ,I)>0) THEN
                IPM(216  ,I) = 3

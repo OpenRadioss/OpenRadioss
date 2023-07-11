@@ -141,6 +141,7 @@ Chd|====================================================================
 c
       USE TABLE_MOD
       USE FAIL_PARAM_MOD
+      USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
@@ -191,12 +192,15 @@ c
         INTEGER     :: ILAW                 ! Material law number (type)    
         INTEGER     :: MAT_ID               ! Material law ID   
         CHARACTER(LEN=NCHARTITLE) :: TITLE  ! Material law title
-        INTEGER     :: NUPARAM
-        INTEGER     :: NIPARAM
-        INTEGER     :: NFUNC
-        INTEGER     :: NTABLE
-        INTEGER     :: NSUBMAT
-        INTEGER     :: NFAIL
+        INTEGER     :: NUPARAM              ! number of real value material paraameters
+        INTEGER     :: NIPARAM              ! number of int value material parameters
+        INTEGER     :: NFUNC                ! number of local functions in material
+        INTEGER     :: NTABLE               ! number of local function tables
+        INTEGER     :: NSUBMAT              ! number of submaterials (multi-mat law51)
+        INTEGER     :: NFAIL                ! number of failure models
+        INTEGER     :: IVISC                ! viscosity model number
+        INTEGER     :: IEOS                 ! eos model number
+        INTEGER     :: ITHERM               ! therm model number                       
         ! -------  material characteristics flags
         INTEGER     :: COMPRESSIBILITY      ! "compressible","incompressible","elasto_plastic"
         INTEGER     :: SMSTR                ! "small_strain", "large_strain"
@@ -215,9 +219,9 @@ c
         TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE       ! local function tables
 c                
         TYPE (FAIL_PARAM_) ,DIMENSION(:) ,ALLOCATABLE :: FAIL   ! NFAIL
+        TYPE (VISC_PARAM_)                            :: VISC   ! viscosity model          
 
 c        TYPE (EOS_PARAM_)    :: EOS      ! to be defined      
-c        TYPE (VISC_PARAM_)   :: VISC     ! to be defined           
 c        TYPE (THERM_PARAM_)  :: THERM    ! to be defined          
 
         ! TYPE (SUBMAT_)     ,DIMENSION(:) ,ALLOCATABLE :: SUBMAT  ! multi materials
