@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        EBCS_MOD                      common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ALELEC                        starter/source/ale/alelec.F   
 Chd|        C3GRHEAD                      starter/source/elements/sh3n/coque3n/c3grhead.F
-Chd|        C3GRTAILS                     starter/source/elements/sh3n/coque3n/c3grtails.F
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        C_IXFLOC                      starter/source/restart/ddsplit/c_ixfloc.F
 Chd|        C_MULTI_VEL                   starter/source/restart/ddsplit/c_multi_vel.F
@@ -91,7 +90,6 @@ Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_INITIAL_CONDITIONS starter/source/output/qaprint/st_qaprint_initial_conditions.F
 Chd|        T3GRHEAD                      starter/source/elements/solid_2d/tria/t3grhead.F
-Chd|        T3GRTAILS                     starter/source/elements/solid_2d/tria/t3grtails.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        W_FI                          starter/source/restart/ddsplit/w_fi.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F

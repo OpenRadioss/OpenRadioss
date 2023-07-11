@@ -470,6 +470,7 @@ Chd|        STAT_INIMAP1D_FILE_SPMD       source/output/sta/stat_inimap1d_file_s
 Chd|        STAT_INIMAP1D_SPMD            source/output/sta/stat_inimap1d_spmd.F
 Chd|        STAT_INIMAP2D_FILE_SPMD       source/output/sta/stat_inimap2d_file_spmd.F
 Chd|        STAT_INIMAP2D_SPMD            source/output/sta/stat_inimap2d_spmd.F
+Chd|        STAT_SHEL_SPMD                source/output/sta/stat_shel_spmd.F
 Chd|        STOCK_MSG                     source/output/message/stock_msg.F
 Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|        SUBSET_INI                    source/groups/subset_ini.F    
