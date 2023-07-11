@@ -90,6 +90,7 @@ c
         IAD = IAD+1
           IBUF(IAD) = MATPARAM(IMAT)%IPRES
         IAD = IAD+1
+          IBUF(IAD) = MATPARAM(IMAT)%ORTHOTROPY
 c
       END DO
 c
