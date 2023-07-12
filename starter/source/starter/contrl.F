@@ -2042,6 +2042,7 @@ C---- read ipart_id if there are
              IF(CARTE(1:1) == '#' .OR. CARTE(1:1) == '$') CYCLE
              IC = 0
              LEN_C = LEN_TRIM(CARTE)
+             IF(CARTE(LEN_C:LEN_C)==CHAR(13)) LEN_C = LEN_C - 1
              IF (CARTE(1:1) == '/' .OR. LEN_C==0) THEN
              ELSE
                J=1
@@ -2050,7 +2051,7 @@ C---- read ipart_id if there are
                  DO WHILE (J <= LEN_C)
                   IF(CARTE(J:J) /= ' ') THEN
                     K=J
-                    DO WHILE(CARTE(K:K) /= ' ' .AND. K <= LEN_C)
+                    DO WHILE(CARTE(K:K) /= ' ' .AND. K < LEN_C)
                       K=K+1
                     ENDDO
                     NPRT = NPRT + 1
@@ -2062,6 +2063,7 @@ C---- read ipart_id if there are
                  END DO
                  READ(71,FMT='(A)',ERR=20,END=20) CARTE
                  LEN_C = LEN_TRIM(CARTE)
+                 IF(CARTE(LEN_C:LEN_C)==CHAR(13)) LEN_C = LEN_C - 1
                END DO
      	       IF (NPRT==0) THEN
                  NPRT = NPART
