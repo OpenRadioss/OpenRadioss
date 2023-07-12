@@ -120,10 +120,6 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       TYPE(MATPARAM_STRUCT_)  :: MATPARAM
 C----------------------------------------------------------------
-c    VARIABLES FOR FUNCTION INTERPOLATION 
-C----------------------------------------------------------------
-      EXTERNAL FINTER
-C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER I,IK,IJ 
