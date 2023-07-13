@@ -1298,7 +1298,7 @@ c
      4                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6      ,
      5                S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      6                EPSD     ,LBUF%DMG ,SSP      ,UVAR     ,OFF      ,AMU      ,
-     7                GBUF%UELR,LBUF%OFF ,IPG      ,NPG      ,IDEL7NOK )
+     7                IDEL7NOK )
 C 
       ELSEIF (MTN == 80) THEN
         CALL SIGEPS80(

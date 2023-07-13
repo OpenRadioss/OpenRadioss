@@ -33,7 +33,7 @@ Chd|====================================================================
      4      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      5      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6      EPSD     ,DMG      ,SOUNDSP  ,UVAR     ,OFF      ,AMU      ,
-     7      UELR     ,LOFF     ,IPG      ,NPG      ,IDEL7NOK )      
+     7      IDEL7NOK )      
 C
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -49,7 +49,7 @@ C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER,INTENT(IN) :: 
-     .      NEL,NUPARAM,NUVAR,NGL(NEL),IPG,NPG
+     .      NEL,NUPARAM,NUVAR,NGL(NEL)
       INTEGER, INTENT(INOUT) :: 
      .      IDEL7NOK 
       my_real,INTENT(IN) :: 
@@ -70,12 +70,12 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real,INTENT(INOUT) :: 
-     .      UVAR(NEL,NUVAR),LOFF(NEL),OFF(NEL),DMG(NEL),
-     .      DEFP(NEL),UELR(NEL)
+     .      UVAR(NEL,NUVAR),OFF(NEL),DMG(NEL),
+     .      DEFP(NEL)
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
-      INTEGER I,J,NINDX,INDX(NEL),NINDX2,INDX2(NEL),IDEL,FAILIP
+      INTEGER I,J,NINDX,INDX(NEL),IDEL
       my_real
      .   G     , G2   , AA    , BB     , MM   ,
      .   NN    , CC   , EPS0  , SIGFMAX,
@@ -112,9 +112,7 @@ C
       K3      = UPARAM(17)
       BETA    = UPARAM(18)
       IDEL    = NINT(UPARAM(19))
-      FAILIP  = NINT(UPARAM(20))
-      FAILIP  = MIN(FAILIP,NPG)
-      EPSMAX  = UPARAM(21)
+      EPSMAX  = UPARAM(20)
 c
       ! Recovering internal variables
       DO I=1,NEL
@@ -184,16 +182,17 @@ C
           CE = ONE + CC*LOG(EPSD(I)/EPS0)
         ENDIF
 C
-        SIGYI(I) = CE*SIGYI(I)
-        SIGYF(I) = MIN(CE*SIGYF(I),SIGFMAX)
-        SIGY(I)  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
+         SIGYI(I) = CE*SIGYI(I)
+         SIGYF(I) = CE*SIGYF(I)
+         SIGYF(I) = MIN(SIGYF(I),SIGFMAX)
+         SIGY(I)  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
       ENDDO
 c
       !========================================================================
       ! - RADIAL RETURN
       !========================================================================
       DO I=1,NEL
-        IF (LOFF(I) == ONE .AND. OFF(I) == ONE) THEN 
+        IF (OFF(I) == ONE) THEN 
           SIGSTAR = VM(I)/SHEL
           IF (SIGSTAR < SIGY(I)) THEN
             SCALE(I) = ONE
@@ -216,10 +215,8 @@ c
       !========================================================================
       NINDX = 0
       INDX(1:NEL) = 0
-      NINDX2 = 0
-      INDX2(1:NEL) = 0 
       DO I=1,NEL
-        IF (LOFF(I) == ONE .AND. OFF(I) == ONE) THEN 
+        IF (OFF(I) == ONE) THEN 
 c
           ! Compute plastic strain at failure
           IF (D2 == ZERO) THEN
@@ -245,42 +242,24 @@ c
           ! Check element deletion
           IF (IDEL == 1) THEN 
             IF ((PSTAR(I)+TSTAR) < ZERO) THEN 
-              LOFF(I) = ZERO
-              NINDX   = NINDX + 1
+              OFF(I) = FOUR_OVER_5
+              NINDX  = NINDX + 1
               INDX(NINDX) = I
-              UELR(I) = UELR(I) + ONE 
-              IF (NINT(UELR(I)) == FAILIP) THEN 
-                OFF(I)   = FOUR_OVER_5
-                NINDX2   = NINDX2 + 1
-                INDX2(NINDX2) = I
-                IDEL7NOK = 1
-              ENDIF
+              IDEL7NOK = 1
             ENDIF 
           ELSEIF (IDEL == 2) THEN 
             IF (DEFP(I) > EPSMAX) THEN 
-              LOFF(I) = ZERO
-              NINDX   = NINDX + 1
+              OFF(I) = FOUR_OVER_5
+              NINDX  = NINDX + 1
               INDX(NINDX) = I
-              UELR(I) = UELR(I) + ONE 
-              IF (NINT(UELR(I)) == FAILIP) THEN 
-                OFF(I)   = FOUR_OVER_5
-                NINDX2   = NINDX2 + 1
-                INDX2(NINDX2) = I
-                IDEL7NOK = 1
-              ENDIF
+              IDEL7NOK = 1
             ENDIF
           ELSEIF (IDEL == 3) THEN 
             IF (DMG(I) == ONE) THEN 
-              LOFF(I) = ZERO
-              NINDX   = NINDX + 1
+              OFF(I) = FOUR_OVER_5
+              NINDX  = NINDX + 1
               INDX(NINDX) = I
-              UELR(I) = UELR(I) + ONE 
-              IF (NINT(UELR(I)) == FAILIP) THEN 
-                OFF(I)   = FOUR_OVER_5
-                NINDX2   = NINDX2 + 1
-                INDX2(NINDX2) = I
-                IDEL7NOK = 1
-              ENDIF
+              IDEL7NOK = 1
             ENDIF            
           ENDIF
         ENDIF
@@ -290,8 +269,7 @@ c
       ! - COMPUTE PRESSURE INCREMENT
       !========================================================================
       DO I=1,NEL
-        IF ((DMG(I) > DMG_OLD(I)).AND.(MU(I) > ZERO).AND.
-     .      (LOFF(I) == ONE).AND. (OFF(I) == ONE)) THEN
+        IF ((DMG(I) > DMG_OLD(I)).AND.(MU(I) > ZERO).AND.(OFF(I) == ONE)) THEN     
           P1     = K1*MU(I)
           YIELD  = (ONE-DMG(I))*SIGYI(I)+DMG(I)*SIGYF(I)
           DELTAU = (SIGYOLD(I)*SIGYOLD(I)-YIELD*YIELD)/(SIX*G)
@@ -326,24 +304,12 @@ C
       IF (NINDX>0)THEN
         DO J=1,NINDX
 #include "lockon.inc"
-          WRITE(IOUT, 1000) NGL(INDX(J)),IPG,TIME
-          WRITE(ISTDO,1000) NGL(INDX(J)),IPG,TIME
-#include "lockoff.inc"
-        ENDDO
-      ENDIF
-c
-      IF (NINDX2>0)THEN
-        DO J=1,NINDX2
-#include "lockon.inc"
-          WRITE(IOUT, 2000) NGL(INDX2(J)),TIME
-          WRITE(ISTDO,2000) NGL(INDX2(J)),TIME
+          WRITE(IOUT, 1000) NGL(INDX(J)),TIME
+          WRITE(ISTDO,1000) NGL(INDX(J)),TIME
 #include "lockoff.inc"
         ENDDO
       ENDIF
 C
- 1000 FORMAT(1X,'FOR SOLID ELEMENT NUMBER el#',I10,
-     .          ' FAILURE (J-HOLMQUIST) AT GAUSS POINT ',I5,
-     .          ' AT TIME :',1PE12.4)
- 2000 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)     
+ 1000 FORMAT(1X,'-- RUPTURE (J-HOLMQUIST) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)     
 C
       END
