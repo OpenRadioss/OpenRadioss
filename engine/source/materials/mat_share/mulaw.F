@@ -305,12 +305,13 @@ C----
       INTEGER                          :: DMG_FLAG
 !
       CHARACTER OPTION*256
-      INTEGER SIZE,NVAREOS
+      INTEGER SIZE,NVAREOS,NVARVIS
 C=======================================================================
       GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
       EBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%EOS(IPTR,IPTS,IPTT)
       NVAREOS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_EOS
+      NVARVIS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_VISC
       LOGICAL_USERL_AVAIL=.FALSE.
       IF (USERL_AVAIL>0) LOGICAL_USERL_AVAIL=.TRUE.
       NPTR   = ELBUF_TAB(NG)%NPTR
@@ -345,16 +346,6 @@ C=======================================================================
       UPARAM => BUFMAT(IADBUF:IADBUF+NPAR) 
       IFUNC  => IPM(10+1:10+NFUNC,MX)      
       ITABLE => IPM(226+1:226+NUMTABL,MX)
-      IVISC  = IPM(222,MX)
-      NUPARV = IPM(224,MX)
-      NUVARV = IPM(225,MX)
-      IADVIS = IPM(223,MX)
-      IF (IVISC > 0) THEN
-        UPARVIS => BUFMAT(IADVIS:IADVIS+NUPARV)
-      ELSE
-        ALLOCATE (BUFZERO(0))
-        UPARVIS => BUFZERO
-      END IF
       MATPARAM => MAT_ELEM%MAT_PARAM(MX)
       !==================================================  
       ! Recovering data from MATPARAM data structure
@@ -1155,6 +1146,17 @@ c
      .                  IPM ,MAT ,AMU   )
 c
       ELSEIF (MTN == 69) THEN
+          IVISC  = IPM(222,MX)
+          NUPARV = IPM(224,MX)
+          NUVARV = IPM(225,MX)
+          IADVIS = IPM(223,MX)
+          IF (IVISC > 0) THEN
+            UPARVIS => BUFMAT(IADVIS:IADVIS+NUPARV)
+          ELSE
+            ALLOCATE (BUFZERO(0))
+            UPARVIS => BUFZERO
+          END IF
+
           CALL SIGEPS69(NEL  ,NPAR,NUVAR,NFUNC,IFUNC,NPF  ,
      .                  TF   ,TT,DT1,UPARAM,RHO0 ,RHO  ,
      .                  VOLN ,EINT,IVISC,NUPARV,UPARVIS ,
@@ -2160,26 +2162,30 @@ c
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(121,1)
-C     viscous stress (/VISC models)  !!!
-      IVISC = IPM(222,MX)
-      IF ((IVISC ==1 .OR. (IVISC == 2 .AND.(ISMSTR== 10 .OR. ISMSTR== 12))) 
-     .                                   .AND. MTN /= 24) THEN
-         CALL VISCMAIN(
-     .        NEL     ,MX      ,IVISC   ,IPM     ,BUFMAT  ,
-     .        VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
+c----------------------------------
+c     viscous stress (/VISC models) 
+c----------------------------------
+
+      IF (MATPARAM%IVISC == 1 .or. 
+     .   (MATPARAM%IVISC == 2 .and. (ISMSTR == 10 .or. ISMSTR == 12))) THEN
+c
+         CALL VISCMAIN(MATPARAM%VISC    ,NEL     ,
+     .        NVARVIS ,VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
      .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .        MFZX    ,MFZY    ,MFZZ    ,
      .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
        ENDIF 
-C  viscosity ( Navier-Stokes)
+c
+c     viscosity (Navier-Stokes)
+c
       IF (ISVIS > 0) THEN
-      CALL NSVISUL(NEL     ,PM      ,OFF     ,RHO     ,GEO    ,
-     2             PID     ,SSP     ,AIRE    ,VOLN    ,EP1    ,
-     3             EP2     ,EP3     ,EP4     ,EP5     ,EP6    ,
-     4             SV1     ,SV2     ,SV3     ,SV4     ,SV5    ,
-     5             SV6     ,S3      ,ES3     ,RHO0    ,RHOREF )
+        CALL NSVISUL(NEL     ,PM      ,OFF     ,RHO     ,GEO    ,
+     2               PID     ,SSP     ,AIRE    ,VOLN    ,EP1    ,
+     3               EP2     ,EP3     ,EP4     ,EP5     ,EP6    ,
+     4               SV1     ,SV2     ,SV3     ,SV4     ,SV5    ,
+     5               SV6     ,S3      ,ES3     ,RHO0    ,RHOREF )
       ENDIF 
 C=======================================================================
 c--------------------------------------------------------
@@ -2329,15 +2335,15 @@ C
             SIGV(I,6) = SVIS(I,6)
           ENDDO
       ENDIF 
-       IF (IVISC > 0) THEN
-         DO I=1,NEL  
-           SVISC(I,1) = SVIS(I,1)
-           SVISC(I,2) = SVIS(I,2)
-           SVISC(I,3) = SVIS(I,3)
-           SVISC(I,4) = SVIS(I,4)
-           SVISC(I,5) = SVIS(I,5)
-           SVISC(I,6) = SVIS(I,6)
-        ENDDO    
+      IF (MATPARAM%IVISC > 0) THEN
+        DO I=1,NEL  
+          SVISC(I,1) = SVIS(I,1)
+          SVISC(I,2) = SVIS(I,2)
+          SVISC(I,3) = SVIS(I,3)
+          SVISC(I,4) = SVIS(I,4)
+          SVISC(I,5) = SVIS(I,5)
+          SVISC(I,6) = SVIS(I,6)
+       ENDDO    
       ENDIF  
 C------------------------------------------------------------
 C     Variable to regularize with Non-local

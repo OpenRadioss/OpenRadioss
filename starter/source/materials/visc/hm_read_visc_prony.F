@@ -38,12 +38,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE HM_READ_VISC_PRONY(UPARAM ,MAXUPARAM,NUPARAM,
-     .                  NUVAR,IFUNC,MAXFUNC,NFUNC,UNITAB,LSUBMODEL,
-     .                  TABLE,MAT_ID)
+      SUBROUTINE HM_READ_VISC_PRONY(VISC     ,IVISC    ,NTABLE  ,TABLE   ,MAT_ID   ,
+     .                              UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE VISC_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -53,54 +53,42 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C----------+---------+---+---+--------------------------------------------
-C VAR      | SIZE    |TYP| RW| DEFINITION
-C----------+---------+---+---+--------------------------------------------
-C IIN      |  1      | I | R | INPUT FILE UNIT (D00 file) 
-C IOUT     |  1      | I | R | OUTPUT FILE UNIT (L00 file)
-C UPARAM   | NUPARAM | F | W | USER FAILURE MODEL PARAMETER ARRAY
-C MAXUPARAM|  1      | I | R | MAXIMUM SIZE OF UPARAM 
-C NUPARAM  |  1      | I | W | SIZE OF UPARAM =< MAXUPARAM
-C NUVAR    |  1      | I | W | NUMBER OF USER  VARIABLES
-C----------+---------+---+---+--------------------------------------------
-C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
-C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
-C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
-C----------+---------+---+---+--------------------------------------------
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include      "units_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      INTEGER MAXUPARAM,NUPARAM,NUVAR,MAXFUNC,NFUNC,
-     .        IFUNC(MAXFUNC),IUNIT,MAT_ID
-      my_real   UPARAM(MAXUPARAM) 
-      TYPE(TTABLE) TABLE(NTABLE)
+      INTEGER ,INTENT(IN)    :: IVISC
+      INTEGER ,INTENT(IN)    :: NTABLE
+      INTEGER ,INTENT(IN)    :: MAT_ID
+      TYPE (VISC_PARAM_)  ,INTENT(INOUT) :: VISC
+      TYPE (UNIT_TYPE_)   ,INTENT(IN)    :: UNITAB 
+      TYPE (SUBMODEL_DATA),INTENT(IN)    :: LSUBMODEL(*)
+      TYPE (TTABLE)       ,INTENT(INOUT) :: TABLE(NTABLE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: FctID_G,FctID_K,ITAB,ISHAPE,
-     .           FctID_Gs,FctID_Ks,FctID_Gl,FctID_Kl
-      INTEGER I,NPRONY,IFLAG,IMOD
-      my_real 
-     . KV,G(100),BETA(100),K(100),BETAK(100),
+      INTEGER :: I,NUPARAM,NIPARAM,NPRONY,NUVAR,IFLAG,IMOD,ITAB,ISHAPE,
+     .   FctID_G,FctID_K,FctID_Gs,FctID_Ks,FctID_Gl,FctID_Kl
+      my_real :: G(100),BETA(100),K(100),BETAK(100)
+      my_real :: KV,COSTFG,COSTFK,DERIVG,DERIVK,GINFINI,KINFINI,
      . XGscale,XKscale,XGscale_UNIT,XKscale_UNIT,
      . YGscale,YKscale,YGscale_UNIT,YKscale_UNIT,
      . XGs_scale,YGs_scale,XGs_scale_UNIT,YGs_scale_UNIT,
      . XGl_scale,YGl_scale,XGl_scale_UNIT,YGl_scale_UNIT,
      . XKs_scale,YKs_scale,XKs_scale_UNIT,YKs_scale_UNIT,
-     . XKl_scale,YKl_scale,XKl_scale_UNIT,YKl_scale_UNIT,
-     . COSTFG,COSTFK,DERIVG,DERIVK,GINFINI,KINFINI
+     . XKl_scale,YKl_scale,XKl_scale_UNIT,YKl_scale_UNIT
 C      
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C======================================   
+      VISC%ILAW = IVISC
 C     
       ! Table initialization
       G(1:100)     = ZERO
@@ -117,7 +105,7 @@ C
       IF (ITAB > 2) ITAB = 0
       CALL HM_GET_INTV   ('MAT_Ishape'  ,ISHAPE ,IS_AVAILABLE,LSUBMODEL) 
 C
-      IF (NPRONY == 0)CALL ANCMSG(MSGID=2026,MSGTYPE=MSGERROR,
+      IF (NPRONY == 0) CALL ANCMSG(MSGID=2026,MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO_BLIND_1,I1=MAT_ID)    
 C
       IF (ISHAPE > 1) ISHAPE = 0
@@ -258,25 +246,33 @@ C
       IF ((ITAB /= 0) .AND. (ISHAPE == 1)) THEN 
         NPRONY = NPRONY + 1
       ENDIF
-C
-      ! Storing parameters in UPARAM table
+c-------------------------------------------------
+c     Storing parameters in UPARAM/IPARAM tables
+c-------------------------------------------------
+      
+      NUVAR   = 7*NPRONY
+      NIPARAM = 2
+      NUPARAM = 4*NPRONY + 1
+      ALLOCATE (VISC%UPARAM(NUPARAM))
+      ALLOCATE (VISC%IPARAM(NIPARAM))
+      VISC%NUVAR   = NUVAR
+      VISC%NUPARAM = NUPARAM
+      VISC%NIPARAM = NIPARAM
+      
       IMOD = 0
-      UPARAM(1) = KV
-      UPARAM(2) = NPRONY
+      VISC%UPARAM(1) = KV
       DO I=1,NPRONY 
-        UPARAM(2 + I) = G(I)
-        UPARAM(2 + NPRONY + I) = BETA(I)  
-        UPARAM(2 + 2*NPRONY + I) = K(I)
-        UPARAM(2 + 3*NPRONY + I) = BETAK(I)
-        IF(K(I) > ZERO) IMOD  = 1
+        VISC%UPARAM(1 + I)            = G(I)
+        VISC%UPARAM(1 + NPRONY + I)   = BETA(I)  
+        VISC%UPARAM(1 + 2*NPRONY + I) = K(I)
+        VISC%UPARAM(1 + 3*NPRONY + I) = BETAK(I)
+        IF (K(I) > ZERO) IMOD  = 1
       ENDDO 
-      NUPARAM = 3 + 4*NPRONY 
-      NUPARAM = 4 + 4*NPRONY 
-      UPARAM(NUPARAM) = IMOD
-      NUVAR =  7*NPRONY
-C
-      NFUNC = 0
-C
+      VISC%IPARAM(1) = NPRONY
+      VISC%IPARAM(2) = IMOD
+c-----------------------------------------------------------------------
+c     Output
+c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN                                
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     

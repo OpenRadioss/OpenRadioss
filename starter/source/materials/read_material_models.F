@@ -53,7 +53,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE READ_MATERIAL_MODELS(
-     .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG  ,
+     .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
      .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
      .             TABLE       ,NPC      )
@@ -109,7 +109,6 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT) :: MLAW_TAG
       TYPE(EOS_TAG_)  ,DIMENSION(0:MAXEOS) , INTENT(INOUT) :: EOS_TAG
       TYPE(FAIL_TAG_) ,DIMENSION(0:MAXFAIL), INTENT(INOUT) :: FAIL_TAG
-      TYPE(VISC_TAG_) ,DIMENSION(0:MAXVISC), INTENT(INOUT) :: VISC_TAG
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(FAILWAVE_STR_) :: FAILWAVE 
       TYPE(NLOCAL_STR_) :: NLOC_DMG 
@@ -136,7 +135,7 @@ C=======================================================================
       CALL INI_MATPARAM (MAT_ELEM%MAT_PARAM, MAT_ELEM%NUMMAT)
     
       !Set default parameters used in material laws
-      CALL INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,VISC_TAG ,NUMMAT)  ! attention ca ne marchera pas
+      CALL INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,NUMMAT)  ! attention ca ne marchera pas
       CALL INI_EOS_VARS (EOS_TAG,  MAXEOS )
 c----------      
       ILAW    = 0
@@ -184,7 +183,8 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /VISC : Visco elastic  Models
 c-------------------------------------------------------------------    
-      CALL HM_READ_VISC(VISC_TAG, IPM, PM, BUFMAT, BUFLEN, IADBUF, UNITAB, LSUBMODEL, TABLE)
+      CALL HM_READ_VISC(MAT_ELEM%MAT_PARAM ,IPM, PM, 
+     .                  BUFMAT, BUFLEN, IADBUF, UNITAB, LSUBMODEL, TABLE)
 
 c-------------------------------------------------------------------
 c     /LEAK : Fabric Leakage Models

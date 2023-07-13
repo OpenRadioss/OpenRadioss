@@ -30,14 +30,17 @@ Chd|-- calls ---------------
 Chd|        VISC_PRONY                    source/materials/visc/visc_prony.F
 Chd|        VISC_PRONY_LSTRAIN            source/materials/visc/visc_prony_lstrain.F
 Chd|====================================================================
-      SUBROUTINE VISCMAIN(
-     .           NEL     ,IMAT    ,IVISC   ,IPM     ,UPARAM  ,
-     .           UVAR    ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 
+      SUBROUTINE VISCMAIN(VISC    ,NEL     ,
+     .           NVARVIS ,UVARVIS ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .           MFZX    ,MFZY    ,MFZZ    ,
      .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VISC_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,44 +52,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,IMAT,IVISC,IADBUF,NUPARAM
-      INTEGER IPM(NPROPMI,*)
-      my_real
-     .   UPARAM(*),UVAR(*)
-!     
-       my_real, DIMENSION(NEL) :: RHO,VISCMAX,SOUNDSP,EPSPXX,EPSPYY,EPSPZZ, 
-     .                            EPSPXY,EPSPYZ,EPSPZX,
-     .                            SV1,SV2,SV3,SV4,SV5,SV6, 
-     .                            S1  ,S2  ,S3  ,S4  ,S5  ,S6  ,
-     .                            MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,
-     .                            MFZX,MFZY,MFZZ
-      my_real
-     .   TIMESTEP
+      INTEGER ,INTENT(IN) :: NEL,NVARVIS
+      my_real ,INTENT(IN) :: TIMESTEP
+      my_real, DIMENSION(NEL) :: RHO,VISCMAX,SOUNDSP,EPSPXX,EPSPYY,EPSPZZ, 
+     .   EPSPXY,EPSPYZ,EPSPZX,SV1,SV2,SV3,SV4,SV5,SV6,S1,S2,S3,S4,S5,S6,
+     .   MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ
+      my_real, DIMENSION(NEL*NVARVIS) ,INTENT(INOUT) :: UVARVIS
+      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J IADBUF, NUVAR, NPRONY
+      INTEGER :: NPRONY
 C=======================================================================        
-       IADBUF = IPM(223,IMAT)  
-       NUVAR  = IPM(225,IMAT)  
-       NUPARAM = IPM(224,IMAT)
-       !
-       IF (IVISC == 1) THEN
-         NPRONY  = NINT(UPARAM(IADBUF + 1))
-         CALL VISC_PRONY(
-     .           NEL     ,NUVAR   ,NPRONY  ,IADBUF  ,UPARAM  ,UVAR    ,
+       IF (VISC%ILAW == 1) THEN
+c
+         NPRONY = VISC%IPARAM(1)
+         CALL VISC_PRONY(VISC     ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP )
-       ELSEIF(IVISC == 2) THEN
-         NPRONY  = NINT(UPARAM(IADBUF ))
+c
+       ELSEIF (VISC%ILAW == 2) THEN
+c
+         NPRONY  = VISC%IPARAM(1)
          CALL VISC_PRONY_LSTRAIN(
-     .           NEL     ,NUVAR   ,NPRONY  ,IADBUF  ,NUPARAM   ,UPARAM  ,
-     .           UVAR    , TIMESTEP    ,
-     .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
-     .           MFZX    ,MFZY    ,MFZZ   ,
-     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )  
-       ENDIF       
-c------------
-       RETURN
-       END
+     .           VISC    ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
+     .           TIMESTEP,MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,
+     .           MFYZ    ,MFZX    ,MFZY    ,MFZZ    ,
+     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
+      ENDIF       
+c-----------
+      RETURN
+      END

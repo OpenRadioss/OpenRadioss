@@ -27,7 +27,7 @@ Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.
 Chd|-- calls ---------------
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|====================================================================
-      SUBROUTINE INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,VISC_TAG ,NUMMAT)
+      SUBROUTINE INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,NUMMAT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -47,14 +47,12 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT  )   :: MLAW_TAG
       TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
-      TYPE(VISC_TAG_)    ,TARGET ,DIMENSION(0:MAXVISC ) :: VISC_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMAT,ILAW
       TYPE(MLAW_TAG_)    , POINTER :: MTAG
       TYPE(FAIL_TAG_)    , POINTER :: FTAG
-      TYPE(VISC_TAG_)    , POINTER :: VTAG
 C=======================================================================
 C     Set default variables used in all matarial laws
 C=======================================================================

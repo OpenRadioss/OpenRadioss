@@ -45,7 +45,12 @@ Chd|====================================================================
      D                    ISRATE   ,UVARV   ,ISHPLYXFEM,IPT    ,SEQ_OUTP,
      E                    PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
      F                    PLY_F    ,PLA     ,DAMT     ,CRAK    ,IERR    ,
-     G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  )
+     G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  ,
+     H                    VISC     )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VISC_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,17 +89,18 @@ C     REAL
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),
      .   SIGOZX(NEL),PLA(NEL),DAMT(NEL,2),CRAK(NEL,2),SEQ_OUTP(NEL),
      .   OFFL(NEL),SIGV(NEL,5),DT_INV(MVSIZ),SIGPLY(NEL,3),TSAIWU(NEL)
+      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,IADBUF,NPMAX,MX,IOFF,JOFF,FAILNPT,NPRONY
       INTEGER II(5)
 C
-      my_real ZT,RATIO
+      my_real ZT,RATIO,KV
       my_real
      .   EPS(MVSIZ,5),STRN1(MVSIZ),STRN2(MVSIZ),STRN3(MVSIZ),
      .   STRP1(MVSIZ),STRP2(MVSIZ),SIGE(MVSIZ,5),
-     .   DTINV,KV(MVSIZ),EPSPXX(MVSIZ),ETSE(MVSIZ),YLD(MVSIZ),
+     .   DTINV,EPSPXX(MVSIZ),ETSE(MVSIZ),YLD(MVSIZ),
      .   EPSPYY(MVSIZ),EPSPXY(MVSIZ),EPSPYZ(MVSIZ),EPSPZX(MVSIZ),
      .   SIG(NEL,5),SIGPE(MVSIZ,5)
       my_real
@@ -108,19 +114,13 @@ C
 C  Check visco elastic model 
 C             
       NPMAX = 0
-      IF (IPRONY > 0) THEN 
-        IADBUF = IPM(223,IMATLY)
-        DO I=JFT,JLT    
-          KV(I) = UPARAM(IADBUF)
-          NPRONY = INT(UPARAM(IADBUF+1))
-          NPMAX = MAX(NPRONY,NPMAX)
-        ENDDO   
-        ALLOCATE(GV(NPMAX),BETA(NPMAX))
-        GV(1:NPMAX) = ZERO
-        BETA(1:NPMAX) = ZERO
-        DO JJ=1,NPRONY
-          GV(JJ)   = UPARAM(IADBUF + 1 + JJ)
-          BETA(JJ) = UPARAM(IADBUF + 1 + NPRONY + JJ)
+      IF (VISC%ILAW == 1) THEN   ! PRONY model
+        NPRONY = VISC%IPARAM(1)
+        KV     = VISC%UPARAM(1)
+        ALLOCATE(GV(NPRONY),BETA(NPRONY))
+        DO I=1,NPRONY
+          GV(I)   = VISC%UPARAM(1 + I)         
+          BETA(I) = VISC%UPARAM(1 + NPRONY + I)
         ENDDO 
       ELSE
         ALLOCATE(GV(0),BETA(0))
@@ -152,7 +152,7 @@ C
         ENDDO
       ENDIF
 C
-      IF (IPRONY > 0) THEN 
+      IF (VISC%ILAW == 1) THEN 
         DO I=JFT,JLT
           DTINV = DT_INV(I)
           EPSPXX(I) = EPS(I,1)*DTINV
@@ -207,8 +207,8 @@ C-----------------------
 C
 C  visco elastic model 
 C             
-      IF (IPRONY > 0) THEN 
-        CALL PRONY25C(JLT      ,NPRONY ,NPMAX    ,BETA    ,KV    ,
+      IF (VISC%ILAW == 1 ) THEN 
+        CALL PRONY25C(JLT      ,NPRONY ,BETA     ,KV      ,
      1                GV       ,DT1C   ,RHO0     ,OFF     ,DIR   ,   
      2                EPSPXX   ,EPSPYY ,EPSPXY   ,EPSPYZ  ,EPSPZX,
      3                SIGVXX   ,SIGVYY ,SIGVXY   ,SIGVYZ  ,SIGVZX,

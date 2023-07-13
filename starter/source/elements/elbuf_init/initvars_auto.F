@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|====================================================================
       SUBROUTINE INITVARS_AUTO(
-     .                         ELBUF_STR,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG ,
+     .                         ELBUF_STR,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .                         GMAT     ,GLAW     ,IGTYP    ,JMULT    ,IFAIL    , 
      .                         IEOS     ,MAXEOS   ,EOS_TAG  ,ISNOD)
 C-----------------------------------------------
@@ -57,7 +57,6 @@ C-----------------------------------------------
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
       TYPE(PROP_TAG_)    ,TARGET ,DIMENSION(0:MAXPROP)  :: PROP_TAG
       TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
-      TYPE(VISC_TAG_)    ,TARGET ,DIMENSION(0:MAXVISC ) :: VISC_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

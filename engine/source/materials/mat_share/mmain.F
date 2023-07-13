@@ -263,7 +263,7 @@ C-----------------------------------------------
       INTEGER I,IPG,NUVAR,NPARAM,NFUNC,IFUNC_ALPHA,ILAW,
      .   NVARF,NFAIL,IR,IP,IRUPT,IVISC,EOSTYP,NPTS,NPTT,NPTR,NPG,ISVIS,
      .   MX,NVARTMP,NLAY,INLOC
-      INTEGER IFUNC(MAXFUNC),ISELECT,IBPRELD,NVAREOS
+      INTEGER IFUNC(MAXFUNC),ISELECT,IBPRELD,NVAREOS,NVARVIS
       my_real
      .   FACQ0,E1,E2,E3,E4,E5,E6,ALPHA,T0,TM
       my_real
@@ -419,6 +419,7 @@ C compatibility with deprecated law 20
       NLAY  = ELBUF_TAB(NG)%NLAY
       NPG   = NPTS*NPTT*NPTR
       NVAREOS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_EOS 
+      NVARVIS = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_VISC
       IPG   = IPTR + ((IPTS-1) + (IPTT-1)*NPTS)*NPTR
 
       DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
@@ -1681,7 +1682,7 @@ c
      Z   LBUF%FORTH, LBUF%VISC,  NEL,        GBUF%ETOTSH,
      1   ISELECT,    TSTAR,      LBUF%MU,    AMU2,
      2   DPDM,       RHOREF,     RHOSP,      NLOC_DMG,
-     3   ITY,        JTUR)
+     3   ITY,        JTUR,       MAT_ELEM    )
 c
       ELSE   ! 'user type' Radioss material laws 
 C---
@@ -1837,9 +1838,8 @@ C-----------------------------------------------------------------------
           ENDDO
         ENDIF
 c---        
-         CALL VISCMAIN(
-     .        NEL     ,MAT(1)  ,IVISC   ,IPM     ,BUFMAT  ,
-     .        VBUF%VAR,RHO0    ,VIS     ,CXX     ,DT1     , 
+         CALL VISCMAIN(MAT_ELEM%MAT_PARAM(MAT(1))%VISC    ,NEL     ,
+     .        NVARVIS ,VBUF%VAR,RHO0    ,VIS     ,CXX     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
      .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,

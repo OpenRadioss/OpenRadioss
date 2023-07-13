@@ -34,17 +34,17 @@ Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
-      SUBROUTINE ELBUF_INI(
-     .           ELBUF_TAB ,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+      SUBROUTINE ELBUF_INI(ELBUF_TAB ,MAT_PARAM,
+     .           MLAW_TAG  ,PROP_TAG ,FAIL_TAG ,
      .           IGEO      ,IPM      ,PM       ,IPARG    ,IPART     ,
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .           FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
+     .           FLAG_XFEM ,IPARTIG3D,STACK    ,IGEO_STACK,
      .           IXT       ,IXP      ,IXR      ,KXX      ,GEO       ,
      .           EOS_TAG   ,MAXEOS   ,ISTR_24  ,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD       
       USE STACK_MOD
@@ -79,11 +79,11 @@ C-----------------------------------------------
       my_real :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
       TYPE(PROP_TAG_)    ,TARGET ,DIMENSION(0:MAXPROP)  :: PROP_TAG
       TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
-      TYPE(VISC_TAG_)    ,TARGET ,DIMENSION(0:MAXVISC ) :: VISC_TAG
       TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   NFT,NFT0,KFTS,ITY,JALE,OFF,ISMSTR,ICPRE,NSG,ICNOD,ISNOD,JEUL,
      .   JTUR,JTHE,JLAG,IRS,IRE,ICSTR,NVC,JMULT,IADM1,IADM2,
      .   MMAT1,MMAT2,JHBE,JIVF,JPOR,IPLA,PROC,JCLOS,CODCONV,
-     .   IINT,JCVT,ICSEN,ILEV,IEXPAN,IGRE,JSMS,MAXFLAY,IVISC,LAW_VIS,
+     .   IINT,JCVT,ICSEN,ILEV,IEXPAN,IGRE,JSMS,MAXFLAY,IVISC,
      .   NUVAR,NUVARM,NVARTMP,NUVARV,IGTYP,TSHELL,TSH_ORT,LINTLOC,
      .   LINTLAY,LINTPAR,NPAR_LAY,NPAR_TAB,NPAR_LBUF,NIP_LAY,NINTLAY,LIMAT,
      .   LIFAIL,LGLOB,LLAY,LLOC,LFAIL,GFAIL,LVISC,LMAT,LPORO,LEOS,NCTRL,
@@ -409,7 +409,6 @@ c
             DO IL = 1,NLAY                            
               IMAT(IL) = IGEO(100+IL,IPID)                                        
               ILAW(IL) = IPM(2,IMAT(IL)) 
-              LAW_VIS  = IPM(222,IMAT(IL))
               NUVAR    = MLAW_TAG(IMAT(IL))%NUVAR
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
@@ -419,14 +418,13 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)        
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)        
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS        
-              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= LAW_VIS
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= MAT_PARAM(IMAT(IL))%VISC%ILAW
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0        
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL= NFAIL  
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT= NUVAR
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS= NUVAREOS
-              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC= VISC_TAG(LAW_VIS)%NUVAR
-c              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC= 0
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS  = NUVAREOS
+              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = NVARTMP
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
               DO J = 1, NFAIL                                            
                 IRUPT  = IPM(111 + (J-1)*15,IMAT(IL))   ! modele de rupture
                 IDFAIL = IPM(236 + J,IMAT(IL)) 
@@ -486,7 +484,6 @@ c---
             DO IL = 1,NLAY
               IMAT(IL) = IPM(20+IL,IMID)   ! submaterial MID                         
               ILAW(IL) = IPM(2,IMAT(IL))  ! submaterial law type
-              LAW_VIS  = IPM(222,IMID)
               NUVAR   = MLAW_TAG(IMID)%NUVAR                                
               NVARTMP = MLAW_TAG(IMID)%NVARTMP 
               NUVAREOS = 0  
@@ -496,11 +493,11 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)       
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS_TYPE ! submaterial eos type       
-              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= LAW_VIS        
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT= NUVAR
-              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS= NUVAREOS              
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=VISC_TAG(LAW_VIS)%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= MAT_PARAM(IMAT(IL))%VISC%ILAW      
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = NVARTMP
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS  = NUVAREOS              
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
@@ -518,18 +515,17 @@ c---
             DO IL = 1,NLAY
               IMAT(IL) = IMID   ! global MID in all pts                          
               ILAW(IL) = MLW    ! same law type everywhere
-              LAW_VIS  = IPM(222,IMID)
               NUVAR   = MLAW_TAG(IMID)%NUVAR                                
               NVARTMP = MLAW_TAG(IMID)%NVARTMP                                
               NFAIL    = IPM(220,IMAT(IL))
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = MLW
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMID       
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS        
-              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= LAW_VIS        
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= MAT_PARAM(IMID)%VISC%ILAW   
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT= NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = NVARTMP
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS= 0
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=VISC_TAG(LAW_VIS)%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=MAT_PARAM(IMID)%VISC%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
@@ -581,15 +577,14 @@ c---
             IEOS_TYPE = IPM(4,IMID)
             IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR                                
             NFAIL   = IPM(220,IMID)
-            LAW_VIS = IPM(222,IMID)
             ELBUF_TAB(NG)%BUFLY(1)%ILAW = MLW                                          
             ELBUF_TAB(NG)%BUFLY(1)%IMAT = IMID                                        
             ELBUF_TAB(NG)%BUFLY(1)%IEOS = IEOS                                        
             ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT= NUVAR
             ELBUF_TAB(NG)%BUFLY(1)%NVARTMP = NVARTMP
             ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS= NUVAREOS
-            ELBUF_TAB(NG)%BUFLY(1)%IVISC= LAW_VIS                                     
-            ELBUF_TAB(NG)%BUFLY(1)%NVAR_VISC = VISC_TAG(LAW_VIS)%NUVAR
+            ELBUF_TAB(NG)%BUFLY(1)%IVISC   = MAT_PARAM(IMID)%VISC%ILAW                                  
+            ELBUF_TAB(NG)%BUFLY(1)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR
             ELBUF_TAB(NG)%BUFLY(1)%IPORO= 0                                           
             ELBUF_TAB(NG)%BUFLY(1)%NFAIL = NFAIL                                     
             DO J = 1,NFAIL                                                             
@@ -782,7 +777,7 @@ c        Corotational reference coordinates (isolid 19)
 C                            
 c----------------------------------------------------
           CALL INITVARS_AUTO(
-     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,MAXEOS   ,EOS_TAG  ,ISNOD    )  
 c-------------------------------------------------
@@ -1271,7 +1266,6 @@ c-----------------------------------------------
             ENDDO
           ELSE     
             DO IL = 1,NLAY
-              LAW_VIS  = IPM(222,IMAT(IL)) 
               NFAIL    = IPM(220,IMAT(IL))
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
@@ -1279,14 +1273,13 @@ c-----------------------------------------------
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW  = ILAW(IL)        
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT  = IMAT(IL)
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS  = IEOS        
-              ELBUF_TAB(NG)%BUFLY(IL)%IVISC = LAW_VIS
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC = MAT_PARAM(IMAT(IL))%VISC%ILAW
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = MLAW_TAG(IMAT(IL))%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = MLAW_TAG(IMAT(IL))%NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = VISC_TAG(LAW_VIS)%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS = NUVAREOS              
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0        
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL  
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = 0
 
               DO J = 1, NFAIL                                            
                 IRUPT  = IPM(111 + (J-1)*15,IMAT(IL))   ! modele de rupture 
@@ -1399,10 +1392,6 @@ C old stack IGEO(500+IL,IPID)
             ELBUF_TAB(NG)%INTLAY(IL)%IMAT = IMAT(IL)                          
             ELBUF_TAB(NG)%INTLAY(IL)%NFAIL= NFAIL                             
             ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR          
-c            LAW_VIS  = IPM(222,IMAT(IL))                                     
-c            ELBUF_TAB(NG)%INTLAY(IL)%IVISC= LAW_VIS                          
-c            ELBUF_TAB(NG)%INTLAY(IL)%NVAR_VISC=VISC_TAG(LAW_VIS)%NUVAR       
-c            ELBUF_TAB(NG)%INTLAY(IL)%NVAR_VISC = 0                           
             DO J = 1, NFAIL                                                   
               IRUPT  = IPM(111 + (J-1)*15, IMAT(IL))   ! modele de rupture           
               IDFAIL = IPM(236 + J, IMAT(IL))
@@ -1550,7 +1539,7 @@ c           Allocate Orthotropic Beta angle (dyna input format)
           ENDIF                   
 c----------------------------------------------------
           CALL INITVARS_AUTO(
-     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,MAXEOS   ,EOS_TAG  ,ISNOD    )  
 c-------------------------------------------------
@@ -1977,7 +1966,6 @@ c
             DO IL = 1,NLAY
               IMAT(IL) = IMID                                                      
               ILAW(IL) = MLW
-              LAW_VIS  = IPM(222,IMAT(IL))
               NFAIL    = IPM(220,IMAT(IL))                                      
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
@@ -1985,10 +1973,10 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = MLW                                   
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMID                                  
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS                                  
-              ELBUF_TAB(NG)%BUFLY(IL)%IVISC = LAW_VIS                               
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC = MAT_PARAM(IMID)%VISC%ILAW                              
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = MLAW_TAG(IMAT(IL))%NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = VISC_TAG(LAW_VIS)%NUVAR  
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR  
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS = NUVAREOS           
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL
@@ -2077,7 +2065,7 @@ c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
           CALL INITVARS_AUTO(
-     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG,
+     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,MAXEOS   ,EOS_TAG  ,ISNOD    )  
 C---

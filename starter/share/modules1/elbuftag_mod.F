@@ -437,10 +437,5 @@ C
         INTEGER ::   LF_OFF
         INTEGER ::   LF_DIR
       END TYPE FAIL_TAG_               
- 
-C
-      TYPE VISC_TAG_   
-        INTEGER ::   NUVAR
-      END TYPE VISC_TAG_               
 c---------------
       END MODULE ELBUFTAG_MOD

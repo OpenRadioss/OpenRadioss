@@ -26,46 +26,30 @@ Chd|-- called by -----------
 Chd|        VISCMAIN                      source/materials/visc/viscmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE VISC_PRONY(
-     .           NEL     ,NUVAR   ,NPRONY  ,IADBUF  ,UPARAM  ,UVAR    ,
+      SUBROUTINE VISC_PRONY(VISC  ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VISC_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C---------+---------+---+---+--------------------------------------------
-C VAR     | SIZE    |TYP| RW| DEFINITION
-C---------+---------+---+---+--------------------------------------------
-C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C RHO     | NEL     | F | R | INITIAL DENSITY
-C EPSPXX  | NEL     | F | R | STRAIN RATE XX
-C EPSPYY  | NEL     | F | R | STRAIN RATE YY
-C ...     |         |   |   |
-C ...     |         |   |   |
-C VISC    | NEL*6   | F | W | VISCOUS  STRESS 
-C ...     |         |   |   |
-C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
-C---------+---------+---+---+--------------------------------------------
-C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C---------+---------+---+---+--------------------------------------------
-C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,NPRONY,IADBUF
+      INTEGER ,INTENT(IN) :: NEL,NVARVIS,NPRONY
       my_real
      .   TIME,TIMESTEP
       my_real
-     .   UPARAM(*),RHO(NEL),
+     .   RHO(NEL),
      .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   SV1(NEL),SV2(NEL),SV3(NEL),SV4(NEL),SV5(NEL),SV6(NEL)
+      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -74,12 +58,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real
-     .    UVAR(NEL,NUVAR),VISC(6,NEL)
+      my_real ,INTENT(INOUT) :: UVARVIS(NEL,NVARVIS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,IFLAG,IMOD,NUVARJ
+      INTEGER I,J,II,IMOD
       my_real 
      .  KV0,P,G,DAV,EPXX,EPYY,EPZZ
       my_real 
@@ -87,44 +70,26 @@ C-----------------------------------------------
      .  AAK(NPRONY),BBK(NPRONY),BETAK(NPRONY),KV(NPRONY),HP0,
      .  TRACE,RBULK,HP
 C=======================================================================
-      NUVARJ = NUVAR/NPRONY
       G  = ZERO
       RBULK = ZERO
-      KV0 = UPARAM(IADBUF)
-      IFLAG = INT(UPARAM(IADBUF + 4*NPRONY + 2))
-      IMOD = INT(UPARAM(IADBUF + 4*NPRONY + 3))
-      IF(IFLAG < 0) THEN
-C old formulation      
-        DO J=1,NPRONY                                  
-          GV(J)   = UPARAM(IADBUF + 1 + J)            
-          BETA(J) = UPARAM(IADBUF + 1 + NPRONY + J)
-          KV(J)   = UPARAM(IADBUF + 1 + 2*NPRONY + J)            
-          BETAK(J) = UPARAM(IADBUF + 1 + 3*NPRONY + J)
-C             
-          G = G + GV(J)     
-          RBULK = RBULK + KV(J)
-          AA(J) = EXP(-BETA(J)*TIMESTEP)
-          BB(J) = TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP)
-C          
-          AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)     
-        ENDDO
-      ELSE
-        DO J=1,NPRONY                                  
-          GV(J)   = UPARAM(IADBUF + 1 + J)            
-          BETA(J) = UPARAM(IADBUF + 1 + NPRONY + J)
-          KV(J)   = UPARAM(IADBUF + 1 + 2*NPRONY + J)            
-          BETAK(J) = UPARAM(IADBUF + 1 + 3*NPRONY + J)
-          G = G + GV(J)   
-          RBULK = RBULK + KV(J)
-          AA(J) = EXP(-BETA(J)*TIMESTEP)
-          BB(J) = TWO*TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP) 
-C          
-          AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)   
-        ENDDO 
-      ENDIF 
-C     
+      IMOD  = VISC%IPARAM(2)
+      KV0   = VISC%UPARAM(1)
+      VISCMAX(1:NEL) = ZERO                                            
+
+      DO J=1,NPRONY                                  
+        GV(J)    = VISC%UPARAM(1 + J)            
+        BETA(J)  = VISC%UPARAM(1 + J + NPRONY  )
+        KV(J)    = VISC%UPARAM(1 + J + NPRONY*2)            
+        BETAK(J) = VISC%UPARAM(1 + J + NPRONY*3)
+        G = G + GV(J)   
+        RBULK = RBULK + KV(J)
+        AA(J) = EXP(-BETA(J)*TIMESTEP)
+        BB(J) = TWO*TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP) 
+C        
+        AAK(J) = EXP(-BETAK(J)*TIMESTEP)
+        BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)   
+      ENDDO 
+C    
       IF(IMOD > 0) THEN        
          DO I=1,NEL                                                     
 c       spheric part 
@@ -145,15 +110,15 @@ C
            SV6(I) = ZERO
 C            
            DO J= 1,NPRONY  
-             II = NUVARJ*(J-1)
+             II = (J-1)*NVARVIS/NPRONY
 C                                                                    
-             H0(1) = UVAR(I,II + 1)                         
-             H0(2) = UVAR(I,II + 2)                         
-             H0(3) = UVAR(I,II + 3)                         
-             H0(4) = UVAR(I,II + 4)                         
-             H0(5) = UVAR(I,II + 5)                         
-             H0(6) = UVAR(I,II + 6)                          
-             HP0    = UVAR(I,II + 7)                         
+             H0(1) = UVARVIS(I,II + 1)                         
+             H0(2) = UVARVIS(I,II + 2)                         
+             H0(3) = UVARVIS(I,II + 3)                         
+             H0(4) = UVARVIS(I,II + 4)                         
+             H0(5) = UVARVIS(I,II + 5)                         
+             H0(6) = UVARVIS(I,II + 6)                          
+             HP0    = UVARVIS(I,II + 7)                         
 C
              H(1) = AA(J)*H0(1) + BB(J)*EPXX                     
              H(2) = AA(J)*H0(2) + BB(J)*EPYY                     
@@ -163,13 +128,13 @@ C
              H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)                    
              HP = AAK(J)*HP0 + BBK(J)*TRACE           
 C
-             UVAR(I,II + 1) = H(1)                        
-             UVAR(I,II + 2) = H(2)                        
-             UVAR(I,II + 3) = H(3)                        
-             UVAR(I,II + 4) = H(4)                        
-             UVAR(I,II + 5) = H(5)                        
-             UVAR(I,II + 6) = H(6)                          
-             UVAR(I,II + 7) = HP                      
+             UVARVIS(I,II + 1) = H(1)                        
+             UVARVIS(I,II + 2) = H(2)                        
+             UVARVIS(I,II + 3) = H(3)                        
+             UVARVIS(I,II + 4) = H(4)                        
+             UVARVIS(I,II + 5) = H(5)                        
+             UVARVIS(I,II + 6) = H(6)                          
+             UVARVIS(I,II + 7) = HP                      
 c
              SV1(I) = SV1(I) + H(1)                                    
              SV2(I) = SV2(I) + H(2)                                    
@@ -184,7 +149,6 @@ c
            SV2(I) = SV2(I) - P                                       
            SV3(I) = SV3(I) - P                                       
 C                                                                       
-           VISCMAX(I) = ZERO                                            
            SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
           ENDDO  !   I=1,NEL
        ELSE
@@ -206,15 +170,15 @@ C
            SV6(I) = ZERO
 C            
            DO J= 1,NPRONY  
-             II = NUVARJ*(J-1)
+             II = (J-1)*NVARVIS/NPRONY
 C                                                                    
-             H0(1) = UVAR(I,II + 1)                         
-             H0(2) = UVAR(I,II + 2)                         
-             H0(3) = UVAR(I,II + 3)                         
-             H0(4) = UVAR(I,II + 4)                         
-             H0(5) = UVAR(I,II + 5)                         
-             H0(6) = UVAR(I,II + 6)                          
-             HP0    = UVAR(I,II + 7)                         
+             H0(1) = UVARVIS(I,II + 1)                         
+             H0(2) = UVARVIS(I,II + 2)                         
+             H0(3) = UVARVIS(I,II + 3)                         
+             H0(4) = UVARVIS(I,II + 4)                         
+             H0(5) = UVARVIS(I,II + 5)                         
+             H0(6) = UVARVIS(I,II + 6)                          
+             HP0    = UVARVIS(I,II + 7)                         
 C
              H(1) = AA(J)*H0(1) + BB(J)*EPXX                     
              H(2) = AA(J)*H0(2) + BB(J)*EPYY                     
@@ -223,12 +187,12 @@ C
              H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)         
              H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)
 C
-             UVAR(I,II + 1) = H(1)                        
-             UVAR(I,II + 2) = H(2)                        
-             UVAR(I,II + 3) = H(3)                        
-             UVAR(I,II + 4) = H(4)                        
-             UVAR(I,II + 5) = H(5)                        
-             UVAR(I,II + 6) = H(6)                   
+             UVARVIS(I,II + 1) = H(1)                        
+             UVARVIS(I,II + 2) = H(2)                        
+             UVARVIS(I,II + 3) = H(3)                        
+             UVARVIS(I,II + 4) = H(4)                        
+             UVARVIS(I,II + 5) = H(5)                        
+             UVARVIS(I,II + 6) = H(6)                   
 c
              SV1(I) = SV1(I) + H(1)                                    
              SV2(I) = SV2(I) + H(2)                                    
@@ -242,7 +206,6 @@ c
            SV2(I) = SV2(I) - P                                       
            SV3(I) = SV3(I) - P                                       
 C                                                                       
-           VISCMAX(I) = ZERO                                            
            SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
           ENDDO  !   I=1,NEL 
        ENDIF                                                         

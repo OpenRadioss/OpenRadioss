@@ -862,7 +862,7 @@ C-------------
               IF(IPM(220,IMATLY) >  0)THEN                         
                  IPARG(43,NGROUP) = 1                              
               ENDIF                                                
-              IF (IPM(222,IMATLY) > 0 ) IVISC =  1                 
+              IF (MATPARAM_TAB(IMATLY)%IVISC > 0 ) IVISC =  1                 
               IF (IPM(254,IMATLY) > 0)  IFWV = 1                         
            ENDDO                                                   
 C-------------
@@ -879,7 +879,7 @@ C-------------
                 IF(IPM(220,IMATLY) >  0)THEN
                  IPARG(43,NGROUP) = 1
                 ENDIF
-                IF( IPM(222,IMATLY) > 0 ) IVISC =  1  
+                IF( MATPARAM_TAB(IMATLY)%IVISC > 0 ) IVISC =  1  
                ENDDO 
 C---
 C new shell property (variable NPT through each layer)
@@ -893,7 +893,7 @@ C---
                  IF (IPM(220,IMATLY) >  0) THEN
                    IPARG(43,NGROUP) = 1
                  ENDIF
-                 IF (IPM(222,IMATLY) > 0) IVISC =  1  
+                 IF (MATPARAM_TAB(IMATLY)%IVISC > 0) IVISC =  1  
                  IF (IPM(254,IMATLY) > 0) IFWV = 1                         
 C --- PID 51 combined with LAW58 ---
                  IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
@@ -909,7 +909,7 @@ C-------------
             IF(IPM(220 ,MID) > 0.AND.MLN /= 0 .AND. MLN /=13)THEN
               IPARG(43,NGROUP) = 1
             ENDIF
-            IF (IPM(222,MID) > 0 ) IVISC =  1  
+            IF (MATPARAM_TAB(MID)%IVISC > 0 ) IVISC =  1  
             IF (IPM(254,MID) > 0)  IFWV = 1                         
          ENDIF ! IGTYP 
 C-------------

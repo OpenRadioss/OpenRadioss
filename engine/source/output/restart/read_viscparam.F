@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  READ_MATPARAM                 source/output/restart/read_matparam.F
+Chd|  READ_VISCPARAM                 source/output/restart/read_viscparam.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
@@ -34,12 +34,12 @@ Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|====================================================================
-      SUBROUTINE READ_MATPARAM(MAT_ELEM,NUMMAT)
+      SUBROUTINE READ_VISCPARAM(VISC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE MAT_ELEM_MOD
+      USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,107 +52,81 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NUMMAT
-      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE(VISC_PARAM_) ,INTENT(INOUT) :: VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IMAT,NUMTABL,NUPARAM,IAD,LEN
-      INTEGER ,DIMENSION(1) :: ILEN
+      INTEGER :: I,NUPARAM,NIPARAM,NUMTABL,IAD,LEN
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
+      INTEGER ,DIMENSION(1) :: ILEN
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+C-----------------------------------------------
+c     read viscosity model parameters
 C=======================================================================
-c     read MATPARAM data
-      MAT_ELEM%NUMMAT = NUMMAT
-      MY_ALLOCATE(MAT_ELEM%MAT_PARAM ,NUMMAT)
-c
       CALL READ_I_C(ILEN, 1)
       LEN = ILEN(1)
       ALLOCATE (IBUF(LEN) )
       CALL READ_I_C(IBUF, LEN)
-c      
       IAD = 0
-      DO IMAT=1,NUMMAT
-        
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%ILAW               = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID             = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM            = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM            = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%NFUNC              = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%NTABLE             = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%NSUBMAT            = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%NFAIL              = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%IVISC              = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%IEOS               = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%ITHERM             = IBUF(IAD)
-
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY    = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%SMSTR              = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%STRAIN_FORMULATION = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%IPRES              = IBUF(IAD)
-        IAD = IAD+1
-          MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY         = IBUF(IAD)
-      END DO
+c      
+      IAD = IAD+1
+        VISC%ILAW    = IBUF(IAD)
+      IAD = IAD+1
+        VISC%NUPARAM = IBUF(IAD)
+      IAD = IAD+1
+        VISC%NIPARAM = IBUF(IAD)
+      IAD = IAD+1
+        VISC%NUVAR   = IBUF(IAD)
+      IAD = IAD+1
+        VISC%NFUNC   = IBUF(IAD)
+      IAD = IAD+1
+        VISC%NTABLE  = IBUF(IAD)
 c
       DEALLOCATE( IBUF )
+      
+      IF (VISC%ILAW > 0) THEN
 c
-c     read material title
+c       read material title
 
-      DO IMAT=1,NUMMAT      
         CALL READ_C_C(NAME,NCHARTITLE)
         DO I=1,NCHARTITLE
-          MAT_ELEM%MAT_PARAM(IMAT)%TITLE(I:I) = CHAR(NAME(I))
+          VISC%TITLE(I:I) = CHAR(NAME(I))
         END DO
-      END DO
       
-c     read material parameter array
-
-      DO IMAT=1,NUMMAT
-      
-        NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
-        MY_ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)
+c       read viscosity parameter arrays
+        NUPARAM = VISC%NUPARAM
+        NIPARAM = VISC%NIPARAM
+        MY_ALLOCATE(VISC%UPARAM ,NUPARAM)
+        MY_ALLOCATE(VISC%IPARAM ,NIPARAM)
 
         IF (NUPARAM > 0) THEN
-          CALL READ_DB(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)
-          LEN = LEN + NUPARAM
+          CALL READ_DB(VISC%UPARAM  ,NUPARAM)
         END IF
-      
-      END DO
+        IF (NIPARAM > 0) THEN
+          CALL READ_I_C(VISC%IPARAM ,NIPARAM)
+        END IF
 c
-c     read material law tables
+c       read viscosity law function tables
       
-      DO IMAT=1,NUMMAT
-        NUMTABL  = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE
-        
+        NUMTABL  = VISC%NTABLE        
         IF (NUMTABL > 0) THEN
-          ALLOCATE (MAT_ELEM%MAT_PARAM(IMAT)%TABLE(NUMTABL))
-          CALL TABLE_RRESTI_MAT(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL)
-          CALL TABLE_RRESTR_MAT(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL)
+          ALLOCATE (VISC%TABLE(NUMTABL))
+          CALL TABLE_RRESTI_MAT(VISC%TABLE, NUMTABL)
+          CALL TABLE_RRESTR_MAT(VISC%TABLE, NUMTABL)
         END IF
-      END DO      
-c           
-c     read viscosity model parameters
+c      
+      ELSE ! initialize VISC structure 
 c
-      DO IMAT=1,NUMMAT
-        IF (MAT_ELEM%MAT_PARAM(IMAT)%IVISC > 0) THEN
-          CALL READ_VISCPARAM(MAT_ELEM%MAT_PARAM(IMAT)%VISC)
-        END IF
-      END DO      
+        VISC%TITLE = " "
+        LEN = 0
+        ALLOCATE (VISC%UPARAM(LEN))
+        ALLOCATE (VISC%IPARAM(LEN))
+        ALLOCATE (VISC%FUNC(LEN))
+        ALLOCATE (VISC%TABLE(LEN))
+        VISC%UPARAM = 0
+        VISC%IPARAM = 0
+
+      END IF    
 c-----------
       RETURN
       END

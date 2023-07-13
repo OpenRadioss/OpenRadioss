@@ -27,7 +27,7 @@ Chd|        SIGEPS66C                     source/materials/mat/mat066/sigeps66c.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRONY_MODELC(
-     1     NEL   ,NUPARAM,NUVAR  ,NV,TIME   ,TIMESTEP,
+     1     NEL   ,NUPARAM,NUVAR  ,TIME   ,TIMESTEP,
      2     NPRONY   ,KV     ,GI , BETA     ,RHO0  ,
      3     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      4     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,NPRONY,NV
+      INTEGER NEL, NUPARAM, NUVAR,NPRONY
       my_real
      .   TIME,TIMESTEP(NEL),KV,GI(NPRONY),BETA(NPRONY),
      .   RHO0(NEL),
@@ -129,7 +129,7 @@ C
 C
 C  for computing epszz_dot (sigzz=0)
 C
-          H0(3) = UVAR(I,NV + (J - 1)*6 + 3)
+          H0(3) = UVAR(I, (J - 1)*6 + 3)
           A1(I)  = A1(I) +  AA(I,J)*H0(3) 
           A2(I)  = A2(I) +  BB(I,J)
          ENDDO
@@ -154,12 +154,12 @@ c deviatorique part
 C  
           DO J= 1,NPRONY
 C         
-           H0(1) = UVAR(I,NV + (J - 1)*6 + 1)
-           H0(2) = UVAR(I,NV + (J - 1)*6 + 2)
-           H0(3) = UVAR(I,NV + (J - 1)*6 + 3)
-           H0(4) = UVAR(I,NV + (J - 1)*6 + 4)
-           H0(5) = UVAR(I,NV + (J - 1)*6 + 5)
-           H0(6) = UVAR(I,NV + (J - 1)*6 + 6)
+           H0(1) = UVAR(I, (J - 1)*6 + 1)
+           H0(2) = UVAR(I, (J - 1)*6 + 2)
+           H0(3) = UVAR(I, (J - 1)*6 + 3)
+           H0(4) = UVAR(I, (J - 1)*6 + 4)
+           H0(5) = UVAR(I, (J - 1)*6 + 5)
+           H0(6) = UVAR(I, (J - 1)*6 + 6)
 C
            
            H(1,J) =    AA(I,J)*H0(1) + BB(I,J)*EPXX
@@ -170,12 +170,12 @@ C
            H(6,J) =    AA(I,J)*H0(6) + HALF*BB(I,J)*EPSPZX(I)
 C
 
-           UVAR(I,NV + (J - 1)*6 + 1) = H(1,J)
-           UVAR(I,NV + (J - 1)*6 + 2) = H(2,J)
-           UVAR(I,NV + (J - 1)*6 + 3) = H(3,J)
-           UVAR(I,NV + (J - 1)*6 + 4) = H(4,J)
-           UVAR(I,NV + (J - 1)*6 + 5) = H(5,J)
-           UVAR(I,NV + (J - 1)*6 + 6) = H(6,J)  
+           UVAR(I, (J - 1)*6 + 1) = H(1,J)
+           UVAR(I, (J - 1)*6 + 2) = H(2,J)
+           UVAR(I, (J - 1)*6 + 3) = H(3,J)
+           UVAR(I, (J - 1)*6 + 4) = H(4,J)
+           UVAR(I, (J - 1)*6 + 5) = H(5,J)
+           UVAR(I, (J - 1)*6 + 6) = H(6,J)  
            
          ENDDO 
 C     

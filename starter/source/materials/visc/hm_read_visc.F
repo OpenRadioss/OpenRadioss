@@ -38,13 +38,14 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE HM_READ_VISC(
-     .           VISC_TAG ,IPM      ,PM         ,BUFMAT   ,BUFLEN   ,
-     .           IADBUF   ,UNITAB   ,LSUBMODEL  ,TABLE    )
+     .           MAT_PARAM   ,IPM      ,PM         ,BUFMAT      ,
+     .           BUFLEN      ,IADBUF   ,UNITAB   ,LSUBMODEL  ,TABLE       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE ELBUFTAG_MOD            
+      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD           
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -71,25 +72,16 @@ C-----------------------------------------------
 
       my_real ,DIMENSION(NPROPM ,NUMMAT)    ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(*)                 ,INTENT(INOUT) :: BUFMAT
-      TYPE(VISC_TAG_) ,DIMENSION(0:MAXVISC) ,INTENT(INOUT) :: VISC_TAG
       TYPE(SUBMODEL_DATA) ,DIMENSION(*)     ,INTENT(IN)    :: LSUBMODEL
       TYPE(TTABLE) TABLE(NTABLE)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,MAT_ID,IMID,UID,IUNIT,FLAGUNIT,NFUNC,NUPARAM,NUVAR,
-     .   MAXPARAM,MAXFUNC,NV,IMAT,IVISC,ILAW,MTN,N_NET,IADD,HM_NVISC,FLAGMAT,
-     .   IFORM
-      PARAMETER (MAXPARAM = 1000)
-      PARAMETER (MAXFUNC  = 100)   
-      INTEGER ,DIMENSION(MAXFUNC)   :: IFUNC
-      my_real ,DIMENSION(MAXPARAM)  :: UPARAM
-      CHARACTER TITR*nchartitle,KEY*ncharkey
+      INTEGER I,J,NV,IMAT,MAT_ID,IMID,ILAW,IVISC,UID,IUNIT,FLAGUNIT,
+     .   N_NET,IADD,HM_NVISC,FLAGMAT,IMATVIS
+      CHARACTER KEY*ncharkey
 c======================================================================-       
-      VISC_TAG(:)%NUVAR = 0
-c
-
-c--------------------------------------------------
 c     COUNT VISCOSITY MODELS USING CFG FILES
 c--------------------------------------------------
 c      
@@ -146,88 +138,56 @@ c--------------------------------------------------
      .                C2='VISCOSITY MODEL',
      .                C3='')                              
         ENDIF
-C--------------------------------------------------
-C          CHECK VISCOSITY MODEL
-C--------------------------------------------------
-        IF(KEY(1:5) == 'PRONY')THEN
-              IVISC = 1 
-        ELSEIF(KEY(1:6) == 'LPRONY') THEN
-              IVISC = 2      
-        ELSE
-              IVISC=0
-        ENDIF      
 c--------------------------------------------------
-c       Read Viscosity model
-c--------------------------------------------------
-        UPARAM(:) = ZERO
-        NFUNC   = 0 
-        NUVAR   = 0
-        NUPARAM = 0
-c----      
-c--------------------------------------------      
-c       CALL Viscosity MODEL READING ROUTINES FOR EACH MATERIAL LAW
+c       Read Viscosity models
 c--------------------------------------------      
         DO I=1,NUMMAT-1
           IMID  = IPM(1,I)
+          ILAW  = IPM(2,I)
           IF (IMID == MAT_ID) THEN
             WRITE(IOUT,1000) TRIM(KEY),MAT_ID
 c
-c-----------------------------
+            IMATVIS = IPM(216,I)
 c--------------------------------------------      
-            SELECT CASE (IVISC)
-c--------------------------------------------      
-            CASE (1)     
-              CALL HM_READ_VISC_PRONY( UPARAM ,MAXPARAM, NUPARAM, 
-     .                                 NUVAR  ,IFUNC   , MAXFUNC,
-     .                                 NFUNC  ,UNITAB  , LSUBMODEL,
-     .                                 TABLE  ,MAT_ID  )
-              IF (IPM(216 ,I) > 0) THEN
-               IPM(216  ,I) = 3
-              ELSE
-               IPM(216  ,I) = 1
-              END IF
-            CASE (2) 
-               CALL HM_READ_VISC_LPRONY( UPARAM ,MAXPARAM, NUPARAM, 
-     .                                   NUVAR  ,UNITAB  ,LSUBMODEL,
-     .                                   MAT_ID  )
-              IF (IPM(216 ,I) > 0) THEN
-               IPM(216  ,I) = 3
-              ELSE
-               IPM(216  ,I) = 1
-              END IF
-            CASE DEFAULT
-              IVISC = 0        
-            END SELECT
-c-------------------------
-            MTN = INT(PM(19,I))      
-            IF (IVISC >= 1 .AND . MTN == 100) THEN
-             IADD    = IPM(7,I)
-             N_NET = NINT(BUFMAT(IADD) )
-             IF (N_NET /= 0) 
-     .          CALL ANCMSG(MSGID=1568 ,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=IMID)
+            IF (KEY(1:5) == 'PRONY')THEN 
+c           -----------------------------------   
+              IVISC = 1 
+              CALL HM_READ_VISC_PRONY(
+     .             MAT_PARAM(IMAT)%VISC,IVISC ,
+     .             NTABLE   ,TABLE    ,MAT_ID   ,UNITAB  ,LSUBMODEL)
 
-             ENDIF
+              IF (IMATVIS > 0) THEN
+                IMATVIS = 3
+              ELSE
+                IMATVIS = 1
+              END IF
+c           -----------------------------------   
+            ELSE IF (KEY(1:6) == 'LPRONY') THEN 
+c           -----------------------------------   
+              IVISC = 2
+              CALL HM_READ_VISC_LPRONY(
+     .             MAT_PARAM(IMAT)%VISC,IVISC ,MAT_ID   ,UNITAB  ,LSUBMODEL)
+c              
+            END IF  ! visc model
+c-------------------------
+            MAT_PARAM(IMAT)%IVISC = IVISC
+c
+            IF (IVISC == 1 .AND. ILAW == 100) THEN
+              IADD = IPM(7,I)  ! number of networks in law 100
+              N_NET = NINT(BUFMAT(IADD) )
+              IF (N_NET /= 0) CALL ANCMSG(MSGID=1568 ,MSGTYPE=MSGERROR,  
+     .                                    ANMODE=ANINFO_BLIND_2, I1=IMID    )
+            ENDIF
 c-----------------------------
-          ILAW = NINT(PM(19,I))
-          IPM(222 ,I) = IVISC
-          IPM(223 ,I) = IADBUF
-          IPM(224 ,I) = NUPARAM
-          IPM(225 ,I) = NUVAR
-c 
-          VISC_TAG(IVISC)%NUVAR = NUVAR
-c-------------------------  
-          DO J=1,NUPARAM
-            BUFMAT(IADBUF+J-1) = UPARAM(J) 
-          END DO
-          IADBUF  = IADBUF + NUPARAM  
-          BUFLEN =  BUFLEN + NUPARAM
+c           duplicate storage for compatibility with old code and output until cleaning
+c-----------------------------
+            IPM(216 ,I) = IMATVIS
+            IPM(222 ,I) = IVISC
+            IPM(225 ,I) = MAT_PARAM(IMAT)%VISC%NUVAR
 c--------------------------------------------------
-         ENDIF   !IMID == MAT_ID
+          ENDIF   !IMID == MAT_ID
 c--------------------------------------------------
-        END DO !NUMMAT
+        END DO ! NUMMAT
 c--------------------------------------------------
 c
       ENDDO      !  HM_NVISC

@@ -276,7 +276,7 @@ C 8-nodes solid connectivities
      .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),R4_FREE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
-     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),CNS2,RHO0_1,L_MAX(MVSIZ)
+     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),CNS2,RHO0_1,NU,L_MAX(MVSIZ)
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
 C-----
@@ -285,7 +285,7 @@ C-----
 C-----
 C----- 
 C     IBOLTP : flag bolt preloading
-      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,MX,NN_DEL,PID
+      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)      
@@ -343,14 +343,15 @@ C Gather nodal variables and compute rotation
      .   GBUF%GAMA_R) 
 C
       NN_DEL = 0
-      PID = NGEO(1)
+      PID  = NGEO(1)
+      IMAT = MXT(1)  
+
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       CNS2 = ZERO
       IF (ICP==1.AND.MTN==1.AND.ISMSTR==12) THEN
-         MX = MXT(LFT)
-         RHO0_1 =PM( 1,MX)
+         RHO0_1 =PM( 1,IMAT)
          CNS2 = ZEP02
          IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
       END IF
@@ -771,14 +772,15 @@ C ALE or EULER : update masses
       ENDIF
 C
 C Update ET for /VISC/PRONY
-      IF (IMATVIS>2) THEN
-       IVISC = ELBUF_TAB(NG)%BUFLY(ILAY)%IVISC
-       IF (IVISC>0) THEN
-            CALL VISC_ET(
-     .           NEL     ,MXT     ,IPM     ,BUFMAT  ,CXX     ,PM      ,
-     .           ET      )
+      IF (IMATVIS > 2) THEN
+        IVISC = ELBUF_TAB(NG)%BUFLY(ILAY)%IVISC
+        IF (IVISC == 1) THEN    ! /VISC/PRONY only
+          RHO0_1 = PM(1 ,IMAT)
+          NU     = PM(21,IMAT)
+          CALL VISC_ET(NEL     ,MAT_ELEM%MAT_PARAM(IMAT)%VISC,
+     .                 RHO0_1  ,NU     ,CXX     ,ET      )
 
-       END IF
+        END IF
       END IF
 C
 C Anti hourglass forces
@@ -997,7 +999,6 @@ C Compute nodal internal forces
 C
 C Virtual internal forces of regularized non local dof 
       IF (INLOC > 0) THEN  
-        IMAT = MXT(LFT)  
         CALL SFINT_REG(
      1   NLOC_DMG,VAR_REG, NEL,     OFF,
      2   VOLN,    NC1,     NC2,     NC3,
