@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MATS,IFLAG1,IFLAG2,ITEMAX,IDEL,FAILIP
+      INTEGER MATS,IFLAG1,IFLAG2,ITEMAX,IDEL
       my_real
      .        SHEAR, AA, BB, MM, NN, CC, EPS0, SIGFMAX, TMAX, HEL, PHEL,
      .        D1, D2, K1, K2, K3, BETA, YOUNG, NU, RHO0, RHOR, ASRATE,
@@ -117,7 +117,6 @@ C     #D1 D2 IDEL EPSMAX
       CALL HM_GET_FLOATV('D1' , D1, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('D2' , D2, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('IDEL',IDEL, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV  ('FAILIP',FAILIP, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('EPSMAX',EPSMAX, IS_AVAILABLE, LSUBMODEL, UNITAB)
 C----------------------------------------------------------------
 C     #K1 K2 K3 BETA
@@ -148,8 +147,6 @@ C
       ! Check flag for element deletion
       IDEL = MIN(IDEL,3)
       IDEL = MAX(0,IDEL)
-      ! Number of failed integration points prior to solid deletion
-      FAILIP = MAX(1,FAILIP)
       ! Critical plastic strain
       IF (EPSMAX == ZERO) EPSMAX = INFINITY
       !----------------------------------------------------------
@@ -218,9 +215,8 @@ C
       UPARAM(17)= K3
       UPARAM(18)= BETA
       UPARAM(19)= IDEL
-      UPARAM(20)= FAILIP
-      UPARAM(21)= EPSMAX
-      NUPARAM= 21
+      UPARAM(20)= EPSMAX
+      NUPARAM= 20
 C
       NU=(THREE*K1-TWO*SHEAR)/(SIX*K1+TWO*SHEAR)
       YOUNG=NINE*K1*SHEAR/(THREE*K1+SHEAR)
@@ -237,7 +233,7 @@ C
       ELSE
        WRITE(IOUT,1050) RHO0
        WRITE(IOUT,1100) SHEAR, AA, BB, MM, NN, CC, EPS0, SIGFMAX
-       WRITE(IOUT,1200) TMAX, HEL, PHEL, D1, D2, IDEL, FAILIP, EPSMAX
+       WRITE(IOUT,1200) TMAX, HEL, PHEL, D1, D2, IDEL, EPSMAX
        WRITE(IOUT,1300) K1, K2, K3, BETA
        WRITE(IOUT,1400) YOUNG, NU 
        IF (ISRATE > 0) WRITE(IOUT,1500) ASRATE
@@ -274,7 +270,6 @@ C
      &  5X,'  IDEL = 1: ELEMENT DELETION IN TENSION ONLY           ',/,
      &  5X,'  IDEL = 2: ELEMENT DELETION IF PLASTIC STRAIN > EPSMAX',/,
      &  5X,'  IDEL = 3: ELEMENT DELETION IF DAMAGE = 1.0           ',/,
-     &  5X,'FAILED INT. PT. FOR ELEM. DELETION (FAILIP)=',I10/,
      &  5X,'CRITICAL PLASTIC STRAIN (EPSMAX). . . . . .=',1PG20.13/)
  1300 FORMAT(
      &  5X,'BULK MODULUS (K1) . . . . . . . . . . . . .=',1PG20.13/
