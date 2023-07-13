@@ -36,7 +36,8 @@ Chd|====================================================================
      8                  HARDM  ,NEL    ,DEPSXX   ,DEPSYY   ,DEPSXY  ,
      9                  DEPSYZ ,DEPSZX ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
      A                  SIGNYZ ,SIGNZX ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
-     B                  SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ   ,SIGOZX  )
+     B                  SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
+     C                  VP     ,PLAP   ,TIMESTEP,ASRATE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,7 +55,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, IPLA,NPIF,IRTY,ISRATE,NEL
+      INTEGER,INTENT(IN) :: VP
 C     REAL
+      my_real ,DIMENSION(NEL)   ,INTENT(INOUT) :: PLAP
+      my_real ,INTENT(IN) :: TIMESTEP,ASRATE
       my_real
      .   EZZ(*), OFF(*), EPSEQ(*),T(*),Z3,Z4,
      .   EPIF, ETSE(*),GS(*),EPSP(*)
@@ -75,15 +79,15 @@ C-----------------------------------------------
       INTEGER I, J, N, NINDX, INDEX(MVSIZ), NMAX,IKFLG
 C     REAL
       my_real
-     .   A(MVSIZ), B(MVSIZ), DPLA_I(MVSIZ), DPLA_J(MVSIZ), DR(MVSIZ),
-     .   H(MVSIZ), NU1(MVSIZ), NU2(MVSIZ), P(MVSIZ), Q(MVSIZ), 
-     .   SVM(MVSIZ),CA(MVSIZ), CB(MVSIZ), YMAX(MVSIZ),
-     .   SVM2(MVSIZ),YLD2(MVSIZ),
+     .   A(MVSIZ), B(MVSIZ)  , DPLA_I(MVSIZ), DPLA_J(MVSIZ), DR(MVSIZ),
+     .   H(MVSIZ), NU1(MVSIZ), NU2(MVSIZ)   , P(MVSIZ)     , Q(MVSIZ), 
+     .   SVM(MVSIZ),CA(MVSIZ), CB(MVSIZ)    , YMAX(MVSIZ)  ,
+     .   SVM2(MVSIZ),YLD2(MVSIZ),HI(MVSIZ)  ,HK(MVSIZ)     ,LOGEP(MVSIZ),
+     .   NU11(MVSIZ),NU21(MVSIZ),ANU1(MVSIZ),BNU2(MVSIZ),H2(MVSIZ),
      .   ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,YLD_I,NNU1,NNU2,
      .   NU3,NU4,NU5,NU6,SIGZ,PP,AA,BB,C,S11,S22,S12,S1S2,S122,UMR,
-     .   VM2,QQ,SMALL,MT,TM,BETA,HI(MVSIZ),HK(MVSIZ),AAA ,
-     .   NU11(MVSIZ),NU21(MVSIZ),ANU1(MVSIZ),BNU2(MVSIZ),H2(MVSIZ),
-     .   HKIN,ALPHA
+     .   VM2,QQ,SMALL,MT,TM,BETA,AAA ,HKIN,ALPHA,PLAP1
+         
       DATA NMAX/3/
 C------------------------------------------------------------------
       SMALL = EM7
@@ -123,22 +127,34 @@ C---------------------------
         SIGNYZ(I)=SIGNYZ(I)+GS(I)*DEPSYZ(I)
         SIGNZX(I)=SIGNZX(I)+GS(I)*DEPSZX(I)
       ENDDO
+      DO I=JFT,JLT
+        LOGEP(I) = ZERO
+      ENDDO
+
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (EPIF /= ZERO) THEN
-        IF (NPIF == ZERO) THEN
+        IF (NPIF == ZERO) THEN      
+          IF (VP == 1)THEN
+            DO I=JFT,JLT
+              IF(PLAP(I) >EPDR(I)) LOGEP(I) = LOG(PLAP(I)/EPDR(I))
+            ENDDO
+          ELSE
+            DO I=JFT,JLT
+              IF (ISRATE == 0) EPSP(I) = 
+     .           MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
+              EPSP(I)  = MAX(EPSP(I),EPDR(I))
+              LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+            ENDDO
+          ENDIF
 #include "vectorize.inc" 
           DO I=JFT,JLT
-            IF (ISRATE == 0) EPSP(I) = 
-     .         MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-            EPSP(I) = MAX(EPSP(I),EPDR(I))
             MT=MAX(EM20,Z3)
             IF (TSTAR(I) == ZERO) THEN
-              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
+              Q(I) = (ONE + CC * LOGEP(I))
             ELSE
-              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))*
-     .                             (ONE-EXP(MT*LOG(TSTAR(I))))             
+              Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR(I))))             
             ENDIF
             Q(I) = MAX(Q(I),EM20)
             CA(I) = CA(I) * Q(I)
@@ -146,11 +162,20 @@ C-------------
             IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
           ENDDO
         ELSEIF (NPIF == JLT) THEN
-          DO I=JFT,JLT
-            IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)),
+          IF(VP==1)THEN
+            DO I=JFT,JLT
+              IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
+            ENDDO
+          ELSE
+            DO I=JFT,JLT
+              IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)),
      .                   ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-            EPSP(I) = MAX(EPSP(I),EM20)
-            Q(I) = LOG(EPSP(I)/EPDR(I))
+              EPSP(I) = MAX(EPSP(I),EM20)
+              LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+            ENDDO
+          ENDIF
+          DO I=JFT,JLT
+            Q(I) = LOGEP(I)! LOG(EPSP(I)/EPDR(I))
             Q(I)= CC*EXP((-Z3+Z4 * Q(I))*T(I))
             IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
             CA(I) = CA(I) + Q(I)
@@ -158,26 +183,36 @@ C-------------
         ELSE
           DO I=JFT,JLT
             IF (IRTY == 0) THEN
-              IF (ISRATE == 0) EPSP(I) = 
+              IF(VP==1)THEN
+                IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
+              ELSE
+                IF (ISRATE == 0) EPSP(I) = 
      .          MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-              EPSP(I) = MAX(EPSP(I),EPDR(I))
+                EPSP(I) = MAX(EPSP(I),EPDR(I))
+                LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+              ENDIF
               MT=MAX(EM20,Z3)
               IF (TSTAR(I) == ZERO) THEN
-                Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
+                Q(I) = (ONE + CC * LOGEP(I))
               ELSE
-                Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
-     .                            *(ONE-EXP(MT*LOG(TSTAR(I))))                
+                Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR(I))))                                           
               ENDIF
               Q(I) = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
               CB(I) = CB(I) * Q(I)
               IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
             ELSE
-              IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)), 
+              IF(VP==1)THEN
+                IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
+              ELSE
+                IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)), 
      .                    ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-              EPSP(I) = MAX(EPSP(I),EM20)
-              Q(I) = LOG(EPSP(I)/EPDR(I))
-              Q(I)= CC*EXP((-Z3+Z4 * Q(I))*T(I))
+                EPSP(I)  = MAX(EPSP(I),EM20)
+                LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+              ENDIF
+
+              Q(I) = LOGEP(I)  
+              Q(I) = CC*EXP((-Z3+Z4 * Q(I))*T(I))
               IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
               CA(I) = CA(I) + Q(I)
             ENDIF ! IF (IRTY == 0)
@@ -386,9 +421,9 @@ C     CRITERE DE VON MISES
 C-------------------------
         DO I=JFT,JLT
           SVM2(I)= SIGNXX(I)*SIGNXX(I)
-     .  	  +SIGNYY(I)*SIGNYY(I)
-     .  	  -SIGNXX(I)*SIGNYY(I)
-     .  	  +THREE*SIGNXY(I)*SIGNXY(I)
+     .       +SIGNYY(I)*SIGNYY(I)
+     .       -SIGNXX(I)*SIGNYY(I)
+     .       +THREE*SIGNXY(I)*SIGNXY(I)
           SVM(I)=SQRT(SVM2(I))  
         END DO
 C-------------------------
@@ -420,7 +455,7 @@ C
             AA=(SVM2(I)-YLD2(I))
      .        /(FIVE*SVM2(I)+THREE*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
             S1=(ONE-TWO*AA)*SIGNXX(I)+	     AA*SIGNYY(I)
-            S2=	       AA*SIGNXX(I)+(ONE-TWO*AA)*SIGNYY(I)
+            S2=AA*SIGNXX(I)+(ONE-TWO*AA)*SIGNYY(I)
             S3=(ONE-THREE*AA)*SIGNXY(I)
             SIGNXX(I)=S1
             SIGNYY(I)=S2
@@ -500,7 +535,17 @@ C
           SIGNYY(I)=SIGNYY(I) + SIGBAKYY(I)
           SIGNXY(I)=SIGNXY(I) + SIGBAKXY(I)
         ENDDO
+
       END IF !(IKFLG > 0) THEN
+C--------------------------------------------
+c  update and filter plastic strain rate
+C--------------------------------------------
+      IF (VP == 1) THEN 
+        DO I=JFT,JLT
+          PLAP1   = DPLA(I) / MAX(EM20,TIMESTEP)
+          PLAP(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
+        ENDDO
+      ENDIF
 C
 C--------------------------------
 C     HARDENING MODULUS

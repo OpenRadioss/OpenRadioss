@@ -723,7 +723,8 @@ C
      F   SIGNOR,   CONDE,    GBUF%DT,  GBUF%G_DT,
      G   NEL,      IPM,      RHOREF,   RHOSP,
      H   IPG,      LBUF%DMG, ITY,      JTUR,
-     I   JTHE,     JSPH,     ISMSTR,   JSMS)
+     I   JTHE,     JSPH,     ISMSTR,   JSMS,
+     J   LBUF%EPSQ)
 !----------------
         IF (ISTRAIN > 0 .AND.
      .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1 )) THEN

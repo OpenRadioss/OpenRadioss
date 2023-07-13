@@ -37,7 +37,9 @@ Chd|====================================================================
      7                  SIGOXX   ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      8                  SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      9                  DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
-     A                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   )
+     A                  EPSPXX   ,EPSPYY  ,EPSPXY   ,EPSPYZ    ,EPSPZX   ,
+     B                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   ,
+     C                  VP       ,NUVAR    ,UVAR     ,ASRATE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,6 +57,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
       INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
+      INTEGER, INTENT(IN) :: NUVAR ,VP
+      my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX   ,EPSPYY  ,EPSPXY   ,EPSPYZ    ,EPSPZX
+      my_real ,INTENT(IN) :: ASRATE
 !---
 C     REAL
       my_real
@@ -79,8 +85,12 @@ C-----------------------------------------------
       INTEGER ICC,IRTY,I,J,NPIF
 C     REAL
       my_real
-     .   EPMX,CA,CB,CN,YMAX(MVSIZ),CP,CC,EPDR(MVSIZ),YLD(MVSIZ),
-     .   T(MVSIZ),Z3,Z4,FISOKIN,EPIF,YOUNG,TI,TM,G,A11,A12,NU
+     .   EPMX,CA,CB,CN,CP,CC,
+     .   DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
+     .   EPIF,YOUNG,TI,TM,G,A11,A12,NU,
+     .   YMAX(MVSIZ),PLAP(MVSIZ),
+     .   EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),
+     .   T(MVSIZ)
 C-----------------------------------------------
       EPIF = ZERO
       NPIF = 0
@@ -104,14 +114,23 @@ C-----------------------------------------------
       CP     = PM(53,IMAT)
       TI     = PM(54,IMAT)
       FISOKIN= PM(55,IMAT)
-!
+
+       
       EPIF   = MAX( EPIF, CC )
 !
-      DO I=JFT,JLT          
-        EPDR(I) = MAX( EM20, PM(44,IMAT)*DT1C(I) )
-        NPIF	= NPIF + IRTY
-        T(I)	= TI
+
+      DO I=JFT,JLT              
+        EPDR(I) = MAX( EM20, PM(44,IMAT)*DT1C(I) )        
+        NPIF      = NPIF + IRTY
+        T(I)      = TI
+        PLAP(I)   = ZERO
       ENDDO
+      IF(VP == 1) THEN
+        DO I=JFT,JLT          
+          EPDR(I) = MAX( EM20, PM(44,IMAT))
+          PLAP(I) = UVAR(I,1)
+        ENDDO
+      ENDIF
 !
       IF ( JTHE <= 0 ) THEN      
         TM=Z4  
@@ -120,12 +139,42 @@ C-----------------------------------------------
           TSTAR(I) = MAX( ZERO, (T(I)-TI)/(TM-TI) )
         ENDDO
       ENDIF
+      IF (VP == 3) THEN
+        IF (ISRATE > 0) THEN 
+          DO I=JFT,JLT
+            DAV    = (EPSPXX(I)+EPSPYY(I))*THIRD
+            DEVE1  = EPSPXX(I) - DAV
+            DEVE2  = EPSPYY(I) - DAV
+            DEVE3  = - DAV
+            DEVE4  = HALF*EPSPXY(I)
+            EPSDOT(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+            EPSDOT(I)   = SQRT(THREE*EPSDOT(I))/THREE_HALF             
+            EPSDOT(I)   = ASRATE*EPSDOT(I) + (ONE - ASRATE)*UVAR(I,1)
+            UVAR(I,1)   = EPSDOT(I)
+          ENDDO
+        ELSEIF (ISRATE == 0) THEN
+          DO I=JFT,JLT
+             DAV = (EPSPXX(I)+EPSPYY(I))*THIRD
+             DEVE1  = EPSPXX(I) - DAV
+             DEVE2  = EPSPYY(I) - DAV
+             DEVE3  = - DAV
+             DEVE4  = HALF*EPSPXY(I)
+             EPSDOT(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
+             EPSDOT(I)   = SQRT(THREE*EPSDOT(I))/THREE_HALF             
+             UVAR(I,1)   = EPSDOT(I)
+           ENDDO
+         ENDIF
+      ELSE
+        DO I=JFT,JLT  
+         EPSDOT(I)  = EPSPDT(I)    
+        ENDDO     
+      ENDIF
 !----------------------------
 !         CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 !----------------------------
       CALL M2CPLR(JFT     ,JLT     ,EZZ      ,OFF_OLD  ,PLA     ,
      2            IPLA    ,T       ,Z3       ,Z4       ,EPIF    ,
-     3            NPIF    ,IRTY    ,ETSE     ,GS       ,EPSPDT  ,
+     3            NPIF    ,IRTY    ,ETSE     ,GS       ,EPSDOT  ,
      4            ISRATE  ,YLD     ,G        ,A11      ,A12     ,
      5            NU      ,CA      ,CB       ,CN       ,YMAX    ,
      6            EPCHK   ,YOUNG   ,CC       ,EPDR     ,ICC     ,
@@ -133,8 +182,15 @@ C-----------------------------------------------
      8            HARDM   ,NEL     ,DEPSXX   ,DEPSYY   ,DEPSXY  ,
      9            DEPSYZ  ,DEPSZX  ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
      A            SIGNYZ  ,SIGNZX  ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
-     B            SIGOXX  ,SIGOYY  ,SIGOXY   ,SIGOYZ   ,SIGOZX  )
+     B            SIGOXX  ,SIGOYY  ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
+     C            VP      ,PLAP    ,DT1C     ,ASRATE)
 !
+      IF(VP == 1) THEN
+        DO I=JFT,JLT
+          UVAR(I,1) = PLAP(I) 
+        ENDDO
+      ENDIF
+
       DO I=JFT,JLT
         SIGY(I) = SIGY(I) + YLD(I)/NPTT
       ENDDO

@@ -47,7 +47,8 @@ Chd|====================================================================
      F   SIGNOR,  CONDE,   DTEL,    G_DT,
      G   NEL,     IPM,     RHOREF,  RHOSP,
      H   IPG,     DMG,     ITY,     JTUR,
-     I   JTHE,    JSPH,    ISMSTR,  JSMS)
+     I   JTHE,    JSPH,    ISMSTR,  JSMS,
+     J   PLAP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,6 +77,7 @@ C-----------------------------------------------
 C
       INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL,IPG
       INTEGER MAT(*),NGL(*),IPLA, IPM(NPROPMI,*)
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: PLAP
       my_real
      .   DT2T
 C
@@ -98,10 +100,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC,IRTY,ISRATE,
+      INTEGER ICC,IRTY,ISRATE,VP,IDEV,
      .   I, J, MX , NPIF,IBID,IKFLG,NINDX,INDX(NEL)
       my_real
-     .   RHO0, 
+     .   RHO0, PLAP1,
      .   EPD(MVSIZ),
      .   G(MVSIZ), AK(MVSIZ),
      .   PC(MVSIZ), QH(MVSIZ), C1,T(MVSIZ),
@@ -147,6 +149,7 @@ C
       CB_1    = PM(39,MX)
       SIGMX_1 = PM(42,MX)
       T_1     = PM(54,MX)
+      VP      = IPM(255,MX)
       DO I=1,NEL
         G(I)    =G_1*OFF(I)
 c     --constants a,b,n of the hardening function
@@ -213,27 +216,25 @@ c     --  storing elastic predictors for stiffness computation
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
-      IF (ISRATE > 0) THEN
-        DO I=1,NEL
-          EPD(I) = HALF*((D1(I)+DAV(I))**2+(D2(I)+DAV(I))**2
-     .                                  +(D3(I)+DAV(I))**2) 
-     .           + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)
-          EPD(I) = SQRT(THREE*EPD(I))/THREE_HALF
-          EPSD(I) = ASRATE*EPD(I) + (ONE -ASRATE)*EPSD(I)
-        ENDDO
-      ELSE
-        DO I=1,NEL
-          EPSD(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)),
-     .      HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
-        ENDDO
-      ENDIF   ! israte
+      IDEV = VP - 2
+      CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
+     .                  D1,      D2,      D3,      D4,       D5,      D6)
+
       EPSP(1:NEL) = EPSD(1:NEL)                   
 c
+
       IF (EPIF/=0.0)THEN
-        DO I=1,NEL
-           EPD(I)= MAX(EPSD(I),EM15)
-           EPD(I)= LOG(EPD(I)/EPDR)
-        ENDDO
+        IF(VP == 1)THEN
+          DO I=1,NEL
+            EPD(I)= MAX(PLAP(I),EPDR)
+            EPD(I)= LOG(EPD(I)/EPDR)  
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            EPD(I)= MAX(EPSD(I),EM15)
+            EPD(I)= LOG(EPD(I)/EPDR)  
+          ENDDO
+        ENDIF ! VP
         IF(JTHE >= 0 ) THEN     
           TM=Z4
           IF(TM==ZERO)TM=EP30   
@@ -264,7 +265,7 @@ c
           DO I=1,NEL
            IF(IRTY==0)THEN
              MT=Z3
-           EPD(I)= MAX(ZERO,EPD(I))
+             EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE +CC * EPD(I))*(ONE -TSTAR(I)**MT)
              IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
            ELSE
@@ -601,6 +602,16 @@ c ...... Parameter alpha of consistent matrix
         ENDIF
        ENDDO
       ENDIF
+
+
+c     update and filter plastic strain rate for VP=1
+      IF (VP== 1) THEN
+        DO I=1,NEL       
+          PLAP1   = DPLA1(I)/MAX(EM20,DT1)
+          PLAP(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
+        ENDDO
+      ENDIF
+
 C
       ! Printout element deletion
       IF(NINDX>0)THEN
