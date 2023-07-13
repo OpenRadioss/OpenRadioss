@@ -33,11 +33,12 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_VISC_LPRONY(UPARAM ,MAXUPARAM,NUPARAM,
-     .                  NUVAR,UNITAB,LSUBMODEL,MAT_ID)
+      SUBROUTINE HM_READ_VISC_LPRONY(
+     .           VISC     ,IVISC   ,MAT_ID   ,UNITAB  ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE VISC_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -66,32 +67,31 @@ C----------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      INTEGER MAXUPARAM,NUPARAM,NUVAR,MAT_ID
-      my_real   UPARAM(MAXUPARAM)
+      INTEGER ,INTENT(IN) :: IVISC,MAT_ID
+      TYPE (VISC_PARAM_)  ,INTENT(INOUT) :: VISC
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) ::UNITAB 
+      TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER I,NUPARAM,NIPARAM,NUVAR,NPRONY,IMOD,IVISC_FLAG,FORM
       INTEGER :: FctID_G,FctID_K,ITAB,ISHAPE,
      .           FctID_Gs,FctID_Ks,FctID_Gl,FctID_Kl
-      INTEGER I,NPRONY,IFLAG,IMOD,IVISC_FLAG, FORM
-      my_real 
-     .   GAMA(100),TAU(100)
+      my_real :: GAMA(100),TAU(100)
 C      
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C======================================   
+      VISC%ILAW = IVISC
 C     
       !  initialization
       GAMA(1:100) = ZERO
       TAU(1:100)  = ZERO
 C
-      !IFLAG = 0 this flag was dedicated to keep old fomrulation for version older than
       ! 1st Card - Flags and prony order 
       CALL HM_GET_INTV   ('Model_Order' ,NPRONY ,IS_AVAILABLE,LSUBMODEL) 
       CALL HM_GET_INTV   ('FORM'        ,FORM   ,IS_AVAILABLE,LSUBMODEL) 
@@ -106,25 +106,33 @@ C
       ! =======================================================================================
       !  -> Itab = 0 ! classical input of prony series
      
-      IF(NPRONY > 0) THEN
+      IF (NPRONY > 0) THEN
           DO I=1,NPRONY
             CALL HM_GET_FLOAT_ARRAY_INDEX('GAMAI' ,GAMA(I)  ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('TAUI'  ,TAU(I) ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           ENDDO
       ENDIF
-C
-      ! Storing parameters in UPARAM table
-      UPARAM(1) = NPRONY
-      UPARAM(2) = FORM
-      UPARAM(3) = IVISC_FLAG
-      !!
+c-------------------------------------------------
+c     Storing parameters in UPARAM / IPARAM tables
+c-------------------------------------------------
+      NUVAR   = (1 + NPRONY)*6
+      NIPARAM = 3
+      NUPARAM = 2*NPRONY
+      ALLOCATE (VISC%UPARAM(NUPARAM))
+      ALLOCATE (VISC%IPARAM(NIPARAM))
+      VISC%NUVAR     = NUVAR
+      VISC%NUPARAM   = NUPARAM
+      VISC%NIPARAM   = NIPARAM
+      VISC%IPARAM(1) = NPRONY
+      VISC%IPARAM(2) = FORM
+      VISC%IPARAM(3) = IVISC_FLAG
       DO I=1,NPRONY 
-        UPARAM(3 + I) = GAMA(I)
-        UPARAM(3 + NPRONY + I) = TAU(I)  
-      ENDDO 
-      NUPARAM = 3 + 2*NPRONY 
-      NUVAR = (1 + NPRONY)*6
-C
+        VISC%UPARAM(I)          = GAMA(I)
+        VISC%UPARAM(NPRONY + I) = TAU(I)  
+      ENDDO   
+c-----------------------------------------------------------------------
+c     Output
+c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN                                
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 

@@ -27,11 +27,11 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE NSVISUL(NEL,PM  ,OFF  ,RHO ,GEO ,
-     2                  PID ,SSP ,AIRE ,VOL ,D1  ,
-     3                  D2  ,D3  ,D4   ,D5  ,D6  ,
-     4                  SV1 ,SV2 ,SV3  ,SV4 ,SV5 ,
-     5                  SV6 ,S3 , E3   ,RHO0,RHOREF)
+      SUBROUTINE NSVISUL(NEL ,OFF ,RHO  ,GEO ,
+     2                   PID ,SSP ,AIRE ,VOL ,D1  ,
+     3                   D2  ,D3  ,D4   ,D5  ,D6  ,
+     4                   SV1 ,SV2 ,SV3  ,SV4 ,SV5 ,
+     5                   SV6 ,S3  ,E3   ,RHO0,RHOREF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER NEL
       INTEGER PID(*)
       my_real
-     .   PM(NPROPM,*), OFF(*), RHO(*),GEO(NPROPG,*), SSP(*),
+     .   OFF(*), RHO(*),GEO(NPROPG,*), SSP(*),
      .   AIRE(*), VOL(*), D1(*), D2(*), D3(*),
      .   D4(*), D5(*), D6(*),SV1(*), SV2(*), SV3(*),
      .   SV4(*), SV5(*), SV6(*),S3(*),E3(*),RHO0(*),RHOREF(*)
