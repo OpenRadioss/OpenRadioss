@@ -97,13 +97,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,J  ,ISIZ 
+      INTEGER :: I,J  ,ISIZ ,VP,ISRAT
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, C1,
      .   E1MN2, EN1N2, SDSP,C3,C4,CP,TI,TM,MT,FCUT,FISOKIN,CB0,RM,AG,CN0,
-     .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T
+     .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
       CHARACTER PREDEF*16
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -128,11 +128,12 @@ C-----------------------------------------------
       CA      = ZERO
       CB      = ZERO
       CN      = ZERO
-      NUVAR   = 0
+      NUVAR   = 1
       NUPARAM = 0
       NFUNC   = 0
       RHOR    = ZERO
       SDSP    = ZERO
+      VP      = 0
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       
@@ -170,6 +171,7 @@ C-----------------------------------------------
         !line-2
         CALL HM_GET_FLOATV('E'        ,YOUNG  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Nu'       ,ANU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_INTV  ('MAT_VP'   ,VP      ,IS_AVAILABLE, LSUBMODEL)
         !line-3
         CALL HM_GET_FLOATV('C0'       ,CA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('C5'       ,CB     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -198,6 +200,7 @@ C-----------------------------------------------
         !line-2
         CALL HM_GET_FLOATV('E'      ,YOUNG    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Nu'     ,ANU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_INTV  ('MAT_VP' ,VP       ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV  ('Iflag'  ,IFLAG    ,IS_AVAILABLE, LSUBMODEL) 
         !line-3
         IF (IFLAG == 1) THEN
@@ -218,7 +221,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('EPS_DOT_0'      ,EPS0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('ICC'            ,ICC       ,IS_AVAILABLE, LSUBMODEL) 
         CALL HM_GET_INTV  ('Fsmooth'        ,ISRATE    ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_FLOATV('F_cut'          ,FCUT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('F_cut'          ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Chard'          ,FISOKIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('m'              ,C3        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -230,6 +233,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDIF
+      IF(VP==0)VP = 2
 
       IF(MFLAG == 0) THEN
         ! Exponent must be set to one if equals to zero in the input
@@ -348,15 +352,15 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
         ENDIF
       ENDIF       
 C-----
-      IF(CC > ZERO .AND. EPS0 > ZERO  .AND. FCUT == ZERO) THEN
+      IF(CC > ZERO .AND. EPS0 > ZERO  .AND. ASRATE == ZERO .AND.VP/=1) THEN
            CALL ANCMSG(MSGID=1220,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID, 
      .                 C1=TITR)
       ENDIF
-      !FCUT = FCUT / FAC_T
-      IF (FCUT == ZERO) FCUT=EP20
+      IF(ASRATE/=ZERO)ASRATE = ASRATE / FAC_T
+     
       IF(RHOR==ZERO) RHOR=RHO0
 C-----
       IF (ANU == HALF) ANU=ZEP499
@@ -386,6 +390,34 @@ C-----
       IF (YOUNG<=ZERO) THEN
         CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
+
+      
+      IF (VP == 1) THEN
+        ! If plastic strain is chosen, filtering by default
+        ISRAT     = 1
+        ISRATE    = MAX(ISRATE,ISRAT) 
+        ASRATE    = 10000.0D0*FAC_T_WORK
+      ELSE
+        IF (ASRATE /= ZERO) THEN
+          ! If a filtering frequency is given by the user
+          ISRAT     = 1
+          ISRATE    = MAX(ISRATE,ISRAT)
+          ASRATE    = ASRATE*TWO*PI 
+        ELSE
+          ! If no filtering frequency is given but the flag is activated
+          IF (ISRATE /= 0) THEN
+            ISRAT     = 1
+            ISRATE    = MAX(ISRATE,ISRAT) 
+            ASRATE    = EP20
+          ELSE
+          ! If no filtering frequency and no flag is activated => no filtering
+            ISRAT     = 0
+            ISRATE    = 0
+            ASRATE    = ZERO
+          ENDIF
+        ENDIF
+      ENDIF
+      !FCUT = ASRATE
 C-----
       PM(1) =RHOR
       PM(89)=RHO0      
@@ -411,7 +443,10 @@ C-----
       PM(43)=CC
       PM(44)=EPS0
       PM(49)=ICC
-      PM(9)=FCUT*TWO*PI   
+      PM(9) = ASRATE! FCUT*TWO*PI   
+
+      IPM(255) = VP
+
             
 C
       IF(TI<=ZERO) TI=TWOHUNDRED98
@@ -422,7 +457,8 @@ c
       MTAG%G_PLA   = 1   
       MTAG%G_DMG   = 1
 c
-      MTAG%L_EPSD  = 1   
+      MTAG%L_EPSD  = 1  
+      MTAG%L_EPSQ  = 1 
       MTAG%L_PLA   = 1   
       MTAG%L_SIGB  = 6
       MTAG%L_DMG   = 1
@@ -500,7 +536,7 @@ C--------------------------------
         IF(TM == ZERO)TM=EP20
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          ISRAT1 = 1
-         WRITE(IOUT,1600)CC,EPS0,ICC,ISRAT1,FCUT,MT,TM,CP,TI
+         WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRAT1,ASRATE,MT,TM,CP,TI
         ENDIF
         PM(50)=ZERO
         PM(51)=MT
@@ -509,7 +545,7 @@ C--------------------------------
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          WRITE(IOUT,1410)CA,CB,CN,EPSM,SIGM,FISOKIN
          ISRAT1 = 1
-         WRITE(IOUT,1610)ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,CP,TI
+         WRITE(IOUT,1610)VP,ICC,ISRAT1,ASRATE,EPS0,CC,C3,C4,CP,TI
         ENDIF
         PM(50)=ONE
         PM(51)=C3
@@ -586,7 +622,7 @@ C-----------
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',1PG20.13//)
+     & 5X,'SHEAR MODULUS. . . . . . . . . . . . . .=',1PG20.13//)
  1400 FORMAT(
      & 5X,'JOHNSON COOK MODEL :',/,
      & 5X,'YIELD COEFFICIENT A . . . . . . . . . .=',1PG20.13/,
@@ -609,8 +645,8 @@ C-----------
  1407 FORMAT(
      & 5X,'PREDEFINED VALUES USED FOR. . . . . . .: ',A/,
      & 5X,'DENSITY . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'YOUNG''S MODULUS. . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'YIELD STRESS. . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'ULTIMATE STRESS (UTS) . . . . . . . . .=',1PG20.13/,
@@ -624,6 +660,10 @@ C-----------
      & 5X,'SIG-MAX . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'ISO-KINEMATIC HARDENING FACTOR. . . . .=',1PG20.13//)
  1600 FORMAT(
+     & 5X,'FLAG FOR STRAIN RATE DEPENDENCY TYPE. .=',I10/,  
+     & 5X,'   VP=1  EQUIVALENT PLASTIC STRAIN RATE'/
+     & 5X,'   VP=2  TOTAL STRAIN RATE (DEFAULT)'/
+     & 5X,'   VP=3  DEVIATORIC STRAIN RATE'/
      & 5X,'STRAIN RATE COEFFICIENT CC. . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE STRAIN RATE . . . . . . . . .=',1PG20.13/,
      & 5X,'FLAG FOR STRAIN RATE ON SIG-MAX . . . .=',I10/,
@@ -634,6 +674,10 @@ C-----------
      & 5X,'SPECIFIC HEAT Rho*Cp. . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL TEMPERATURE K . . . . . . . . .=',1PG20.13//)
  1610 FORMAT(
+     & 5X,'FLAG FOR STRAIN RATE DEPENDENCY TYPE. .=',I10/,  
+     & 5X,'   VP=1  EQUIVALENT PLASTIC STRAIN RATE'/
+     & 5X,'   VP=2  TOTAL STRAIN RATE (DEFAULT)'/
+     & 5X,'   VP=3  DEVIATORIC STRAIN RATE'/
      & 5X,'FLAG FOR STRAIN RATE ON SIG-MAX . . . .=',I10/,
      & 5X,'SMOOTH STRAIN RATE OPTION . . . . . . .=',I10/,
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . .=',1PG20.13/,

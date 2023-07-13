@@ -233,7 +233,7 @@ C-----------------------------------------------
      .   IPTX,ILAYER,IROT,DMG_FLAG,
      .   IGMAT,IPGMAT,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
      .   FAILNPT,JOFF,SIZNUL,PLY_ID,ISEQ,PROGRESSIVE_CRACK,
-     .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE
+     .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE,VP
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
       INTEGER :: IJ(5),IFLAG(1)
       INTEGER ,DIMENSION(MAXFUNC) :: IFUNC,IFUNC1
@@ -999,6 +999,7 @@ C------------------------------------------
      4                     THKN      ,THKLYL   ,OFF      ,PM       ,ISMSTR   ,
      5                     EPSXX     ,EPSYY    ,EPSXY    )
           ELSEIF (ILAW == 2) THEN
+            VP =  IPM(255,IMAT)
             CALL SIGEPS02C(
      1                  JFT        ,JLT       ,PM       ,EINT     ,THKN     ,
      2                  OFF        ,SIGY      ,DT1C     ,IPLA     ,NEL      ,
@@ -1009,8 +1010,9 @@ C------------------------------------------
      7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      8                  SIGNXX     ,SIGNYY    ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      9                  DEPSXX     ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
-     A                  LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,
-     B                  VARNL(1,IT))
+     A                  EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX ,
+     B                  LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,VARNL(1,IT),
+     C                  VP        ,NUVAR     ,UVAR     ,ASRATE)
 !
           ELSEIF (ILAW == 15) THEN
             CALL SIGEPS15C(

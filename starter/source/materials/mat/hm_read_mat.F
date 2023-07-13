@@ -1248,7 +1248,7 @@ c-----------------------------------------------------------------------
         ENDIF
 c--------------------------------------------      
         ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
-        ASRATE = PARMAT(5)*TWO*PI             ! ASRATE = 2*PI*FCUT
+        IF(ILAW/=2)ASRATE = PARMAT(5)*TWO*PI             ! ASRATE = 2*PI*FCUT
 !!        IF (ASRATE == ZERO) ASRATE = EP20
 c--------------------------------------------      
         MATPARAM%ILAW   = ILAW
@@ -1325,7 +1325,7 @@ c
         IPM(3,I)   = ISRATE
 c
         PM(8,I)    = ISRATE          ! double stockage - a nettoyer
-        IF (PM(9,I) == ZERO) PM(9,I) = ASRATE    ! old mat laws fill it directly
+        IF (PM(9,I) == ZERO.AND.ILAW /=2 ) PM(9,I) = ASRATE    ! old mat laws fill it directly
         PM(19,I)   = ILAW + EM01     ! double stockage - a nettoyer
         PM(70,I)   = JTUR + EM01
         PM(71,I)   = JTHE + EM01
