@@ -57,6 +57,7 @@ Chd|        HM_READ_MAT158                starter/source/materials/mat/mat158/hm
 Chd|        HM_READ_MAT16                 starter/source/materials/mat/mat016/hm_read_mat16.F
 Chd|        HM_READ_MAT18                 starter/source/materials/mat/mat018/hm_read_mat18.F
 Chd|        HM_READ_MAT19                 starter/source/materials/mat/mat019/hm_read_mat19.F
+Chd|        HM_READ_MAT190                starter/source/materials/mat/mat190/hm_read_mat190.F
 Chd|        HM_READ_MAT22                 starter/source/materials/mat/mat022/hm_read_mat22.F
 Chd|        HM_READ_MAT23                 starter/source/materials/mat/mat023/hm_read_mat23.F
 Chd|        HM_READ_MAT25                 starter/source/materials/mat/mat025/hm_read_mat25.F
@@ -111,6 +112,7 @@ Chd|        HM_READ_MAT97                 starter/source/materials/mat/mat097/hm
 Chd|        INIT_MAT_KEYWORD              starter/source/materials/mat/init_mat_keyword.F
 Chd|        INI_MATPARAM                  starter/source/materials/mat/ini_matparam.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
+Chd|        LAW190_UPD                    starter/source/materials/mat/mat190/law190_upd.F
 Chd|        LAW76_UPD                     starter/source/materials/mat/mat076/law76_upd.F
 Chd|        MATPARAM_R2R_VOID             starter/source/elements/elbuf_init/matparam_r2r_void.F
 Chd|        SGRTAILS                      starter/source/elements/solid/solide/sgrtails.F
@@ -125,6 +127,7 @@ Chd|        H3D_SHELL_TENSOR              engine/source/output/h3d/h3d_results/h
 Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        S4VOLN_M                      engine/source/elements/solid/solide4_sfem/s4voln_m.F
+Chd|        SIGEPS190                     engine/source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS76                      engine/source/materials/mat/mat076/sigeps76.F
 Chd|        SIGEPS76C                     engine/source/materials/mat/mat076/sigeps76c.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F

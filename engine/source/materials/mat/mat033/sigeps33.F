@@ -1887,6 +1887,7 @@ Chd|====================================================================
 Chd|  VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
 Chd|        SIGEPS124                     source/materials/mat/mat124/sigeps124.F
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS33                      source/materials/mat/mat033/sigeps33.F
 Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
 Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F

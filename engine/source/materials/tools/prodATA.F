@@ -23,7 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C This subroutines computes C(NEL,3,3) which is the product [C] = [A]t[A]
 Chd|====================================================================
 Chd|  PRODATA                       source/materials/tools/prodATA.F
-Chd|-- called by ----------
+Chd|-- called by -----------
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRODATA(A, C, E, NEL)

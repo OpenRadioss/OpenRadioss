@@ -21,8 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c-----------------------------------------------
+Chd|====================================================================
+Chd|  CONDAMAGE_MOD                 source/materials/mat/mat190/condamage.F
+Chd|-- called by -----------
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
+Chd|-- calls ---------------
+Chd|====================================================================
        MODULE CONDAMAGE_MOD
        CONTAINS 
+Chd|====================================================================
+Chd|  CONDAMAGE                     source/materials/mat/mat190/condamage.F
+Chd|-- called by -----------
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
+Chd|-- calls ---------------
+Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|====================================================================
         SUBROUTINE CONDAMAGE 
      .         (ZXX,ZYY,ZZZ,ZXY,ZZX,ZYZ,
      .         DAMAGE,NEL,HU,SHAPE,WHYSMAX,

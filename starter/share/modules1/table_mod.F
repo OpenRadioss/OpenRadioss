@@ -42,6 +42,7 @@ Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_f
 Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
 Chd|        HM_READ_FUNCT                 source/tools/curve/hm_read_funct.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
+Chd|        HM_READ_MAT190                source/materials/mat/mat190/hm_read_mat190.F
 Chd|        HM_READ_MAT76                 source/materials/mat/mat076/hm_read_mat76.F
 Chd|        HM_READ_MAT80                 source/materials/mat/mat080/hm_read_mat80.F
 Chd|        HM_READ_MAT90                 source/materials/mat/mat090/hm_read_mat90.F
@@ -66,6 +67,7 @@ Chd|        LAW114_UPD                    source/materials/mat/mat114/law114_upd
 Chd|        LAW119_UPD                    source/materials/mat/mat119/law119_upd.F
 Chd|        LAW120_UPD                    source/materials/mat/mat120/law120_upd.F
 Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
+Chd|        LAW190_UPD                    source/materials/mat/mat190/law190_upd.F
 Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW42_UPD                     source/materials/mat/mat042/law42_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
@@ -131,6 +133,7 @@ Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        HM_READ_TABLE2                source/tools/curve/hm_read_table.F
 Chd|        HM_READ_TABLE2_0              source/tools/curve/hm_read_table2_0.F
 Chd|        HM_READ_TABLE2_1              source/tools/curve/hm_read_table2_1.F
+Chd|        LAW190_UPD                    source/materials/mat/mat190/law190_upd.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INTERFACE_TABLE_MOD

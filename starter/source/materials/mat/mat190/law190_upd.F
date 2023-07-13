@@ -21,17 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LAW190_UPD                     source/materials/mat/mat190/law190_upd.F
+Chd|  LAW190_UPD_MOD                source/materials/mat/mat190/law190_upd.F
 Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       MODULE LAW190_UPD_MOD
       CONTAINS 
+Chd|====================================================================
+Chd|  LAW190_UPD                    source/materials/mat/mat190/law190_upd.F
+Chd|-- called by -----------
+Chd|        UPDMAT                        source/materials/updmat.F     
+Chd|-- calls ---------------
+Chd|        INTERFACE_TABLE_MOD           share/modules1/table_mod.F    
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|====================================================================
       SUBROUTINE LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE       )
 C----------------------------------------------- 
 C   M o d u l e s

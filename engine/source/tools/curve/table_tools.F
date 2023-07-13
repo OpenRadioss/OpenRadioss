@@ -756,6 +756,8 @@ Chd|  TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
 Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
+Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
 Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F

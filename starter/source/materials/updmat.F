@@ -38,6 +38,7 @@ Chd|        LAW114_UPD                    source/materials/mat/mat114/law114_upd
 Chd|        LAW119_UPD                    source/materials/mat/mat119/law119_upd.F
 Chd|        LAW120_UPD                    source/materials/mat/mat120/law120_upd.F
 Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
+Chd|        LAW190_UPD                    source/materials/mat/mat190/law190_upd.F
 Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW42_UPD                     source/materials/mat/mat042/law42_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
@@ -51,6 +52,7 @@ Chd|        LAW92_UPD                     source/materials/mat/mat092/law92_upd.
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|        MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
+Chd|        LAW190_UPD_MOD                source/materials/mat/mat190/law190_upd.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F

@@ -21,11 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SIGEPS190                      source/materials/mat/mat190/sigeps190.F
+Chd|  SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
+Chd|        PRODATA                       source/materials/tools/prodATA.F
+Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
+Chd|        CONDAMAGE_MOD                 source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION_MOD                source/materials/mat/mat190/conversion.F
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS190(
      1     NEL    ,NUVAR   ,TIME   ,RHO   ,

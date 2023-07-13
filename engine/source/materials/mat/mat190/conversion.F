@@ -21,8 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 c===========================================================================
+Chd|====================================================================
+Chd|  CONVERSION_MOD                source/materials/mat/mat190/conversion.F
+Chd|-- called by -----------
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
+Chd|-- calls ---------------
+Chd|====================================================================
        MODULE CONVERSION_MOD
        CONTAINS 
+Chd|====================================================================
+Chd|  CONVERSION                    source/materials/mat/mat190/conversion.F
+Chd|-- called by -----------
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
+Chd|-- calls ---------------
+Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|====================================================================
        SUBROUTINE CONVERSION (ZXX,  ZYY,  ZZZ,   ZXY,  ZYZ,  ZZX,   
      .                      CIJKL,DFIRST,DRATE,  SCAL, NEL,  JAC, 
      .                     SLOPE ,NUMTABL ,TABLE,NVARTMP,VARTMP)

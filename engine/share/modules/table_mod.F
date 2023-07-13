@@ -38,6 +38,8 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|        CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pinch.F
+Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
@@ -119,6 +121,7 @@ Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_
 Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
 Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
 Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
@@ -179,6 +182,8 @@ Chd|  INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|-- called by -----------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
 Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
+Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
 Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
@@ -225,6 +230,7 @@ Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_
 Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
+Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
 Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
 Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
