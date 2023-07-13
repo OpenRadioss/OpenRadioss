@@ -26,48 +26,41 @@ Chd|-- called by -----------
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE VISC_ET(
-     .           NEL     ,MXT     ,IPM     ,UPARAM  ,CXX     ,PM      ,
-     .           ET      )
+      SUBROUTINE VISC_ET(NEL ,VISC ,RHO ,NU ,CXX ,ET )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VISC_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,MXT(*)
-      INTEGER IPM(NPROPMI,*)
-      my_real
-     .   UPARAM(*),CXX(*),ET(*),PM(NPROPM,*)
+      INTEGER ,INTENT(IN)  :: NEL
+      my_real ,INTENT(IN)  :: RHO,NU
+      my_real ,INTENT(IN)  :: CXX(NEL)
+      my_real ,INTENT(OUT) :: ET(NEL)
+      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J ,IADBUF, NPRONY,IMAT
-      my_real
-     .   GG,GV,RHO0,NU,GV_MAX,NU1
+      INTEGER :: I,NPRONY
+      my_real :: GG,GV,GV_MAX,NU1
 C=======================================================================        
-      IMAT = MXT(1)
-      IADBUF = IPM(223,IMAT)  
-      NPRONY  = NINT(UPARAM(IADBUF + 1))
-C
+      NPRONY = VISC%IPARAM(1)
       GV  = ZERO
-      DO J=1,NPRONY                                  
-       GV   = GV  +  UPARAM(IADBUF + 1 + J)            
+      DO I= 1,NPRONY                                  
+       GV = GV + VISC%UPARAM(1 + I)
       ENDDO
 C
-      RHO0=PM(1,IMAT)
-      NU=PM(21,IMAT)
       GV_MAX = THIRD*(ONE+NU)/(ONE -TWO*NU)
-      NU1= RHO0*(ONE -TWO*NU)/(ONE-NU)
+      NU1    = RHO * (ONE -TWO*NU)/(ONE-NU)
 C
       DO I=1,NEL
-       GG = CXX(I)*CXX(I)*NU1    
-       ET(I)= ET(I) + MIN(GV_MAX,GV/GG)
+        GG   = CXX(I)*CXX(I)*NU1    
+        ET(I)= ET(I) + MIN(GV_MAX,GV/GG)
       ENDDO
 C------------
       RETURN

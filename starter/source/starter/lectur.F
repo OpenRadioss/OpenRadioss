@@ -936,7 +936,6 @@ c---  Element Buffer  --------------------------------------------------
       TYPE(EOS_TAG_)     ,DIMENSION(:)  ,ALLOCATABLE :: EOS_TAG
       TYPE(PROP_TAG_)    ,DIMENSION(0:MAXPROP)       :: PROP_TAG
       TYPE(FAIL_TAG_)    ,DIMENSION(0:MAXFAIL)       :: FAIL_TAG
-      TYPE(VISC_TAG_)    ,DIMENSION(0:MAXVISC)       :: VISC_TAG
 c---- Xfem ------------------------------------------------------------
       TYPE (XFEM_SHELL_) ,DIMENSION(:), ALLOCATABLE :: CRKSHELL     ! NLEVMAX
       TYPE (XFEM_LVSET_) ,DIMENSION(:), ALLOCATABLE :: CRKLVSET     ! NLEVMAX
@@ -2016,7 +2015,7 @@ c------------------------------------
       NLOC_DMG%IMOD = 0
 c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
-     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG   ,
+     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG   ,
      .     RWORK       ,SBUFMAT  ,IPM      ,PM       ,UNITAB    ,
      .     MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
      .     TABLE       ,NPC      )
@@ -8055,7 +8054,8 @@ c
       FLAG_XFEM = 0
       ALLOCATE(ELBUF_TAB(NGROUP), STAT=Stat)
 C
-      CALL ELBUF_INI(ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+      CALL ELBUF_INI(ELBUF_TAB,MAT_ELEM%MAT_PARAM,
+     .               MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
@@ -8070,8 +8070,8 @@ c---
         ALLOCATE(XFEM_TAB(NGROUP,NXEL), STAT=Stat)
 c
         DO IXEL=1,NXEL
-          CALL ELBUF_INI(
-     .         XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG,
+          CALL ELBUF_INI(XFEM_TAB(1:NGROUP,IXEL),MAT_ELEM%MAT_PARAM,
+     .         MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IGEO                   ,IPM      ,PM       ,IPARG    ,IPART     ,
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .         FLAG_XFEM              ,IPARTIG3D,STACK    ,IGEO_STACK,
@@ -8556,7 +8556,7 @@ C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
           DEALLOCATE(DTELEM)
           FLAG_XFEM = 0
           CALL DEALLOCATE_ELBUF(
-     .               ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+     .               ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .               KXSP     ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
@@ -8567,7 +8567,7 @@ C       XFEM buffer deallocation
             FLAG_XFEM = 1
             DO IXEL=1,NXEL
               CALL DEALLOCATE_ELBUF(
-     .               XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+     .               XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .               KXSP     ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,

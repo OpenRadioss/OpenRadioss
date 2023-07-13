@@ -32,7 +32,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE DEALLOCATE_ELBUF(
-     .           ELBUF_TAB ,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
+     .           ELBUF_TAB ,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .           IGEO      ,IPM      ,PM       ,IPARG    ,IPART     ,
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .           KXSP      ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
@@ -72,7 +72,6 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(PROP_TAG_)    ,TARGET ,DIMENSION(0:MAXPROP)  :: PROP_TAG
       TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
-      TYPE(VISC_TAG_)    ,TARGET ,DIMENSION(0:MAXVISC ) :: VISC_TAG
       TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

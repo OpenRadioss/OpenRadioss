@@ -21,59 +21,82 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INI_MATPARAM                  source/materials/mat/ini_matparam.F
+Chd|  WRITE_VISCPARAM
 Chd|-- called by -----------
-Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_MATPARAM(MAT_PARAM,NUMMAT)
+      SUBROUTINE WRITE_VISCPARAM(VISC,LEN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD
-C============================================================================
+      USE VISC_PARAM_MOD
+      USE NAMES_AND_TITLES_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MAT_PARAM
+      TYPE(VISC_PARAM_) ,INTENT(IN)    :: VISC
+      INTEGER           ,INTENT(INOUT) :: LEN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT
+      INTEGER :: I,IAD,NFIX,LENI,LENR,NUPARAM,NIPARAM,NUMTABL
+      INTEGER ,DIMENSION(NCHARTITLE) :: NAME
+      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
-      DO IMAT=1,NUMMAT
-        MAT_PARAM(IMAT)%ILAW    = 0
-        MAT_PARAM(IMAT)%MAT_ID  = 0
-        MAT_PARAM(IMAT)%NUPARAM = 0              ! number of real value material paraameters
-        MAT_PARAM(IMAT)%NIPARAM = 0              ! number of int value material parameters
-        MAT_PARAM(IMAT)%NFUNC   = 0              ! number of local functions in material
-        MAT_PARAM(IMAT)%NTABLE  = 0              ! number of local function tables
-        MAT_PARAM(IMAT)%NSUBMAT = 0              ! number of submaterials (multi-mat law51)
-        MAT_PARAM(IMAT)%NFAIL   = 0              ! number of failure models
-        MAT_PARAM(IMAT)%IVISC   = 0              ! viscosity model number
-        MAT_PARAM(IMAT)%IEOS    = 0              ! eos model number
-        MAT_PARAM(IMAT)%ITHERM  = 0              ! therm model number
+      NFIX = 6
+      ALLOCATE (IBUF(NFIX + 1))
 c
-        MAT_PARAM(IMAT)%COMPRESSIBILITY    = 3   ! elsto_plastic
-        MAT_PARAM(IMAT)%SMSTR              = 2   ! large strain
-        MAT_PARAM(IMAT)%STRAIN_FORMULATION = 1   ! incremental
-        MAT_PARAM(IMAT)%IPRES              = 1   ! hydrostatic using AMU
-        MAT_PARAM(IMAT)%ORTHOTROPY         = 1   ! isotropic
+      IAD = 1
+      IBUF(IAD) = NFIX
 c
-c       init viscosity models
+      IAD = IAD+1
+        IBUF(IAD) = VISC%ILAW
+      IAD = IAD+1
+        IBUF(IAD) = VISC%NUPARAM
+      IAD = IAD+1
+        IBUF(IAD) = VISC%NIPARAM
+      IAD = IAD+1
+        IBUF(IAD) = VISC%NUVAR
+      IAD = IAD+1
+        IBUF(IAD) = VISC%NFUNC
+      IAD = IAD+1
+        IBUF(IAD) = VISC%NTABLE
+      IAD = IAD+1
 c
-        MAT_PARAM(IMAT)%VISC%ILAW    = 0
-        MAT_PARAM(IMAT)%VISC%NUPARAM = 0
-        MAT_PARAM(IMAT)%VISC%NIPARAM = 0
-        MAT_PARAM(IMAT)%VISC%NUVAR   = 0
-        MAT_PARAM(IMAT)%VISC%NFUNC   = 0
-        MAT_PARAM(IMAT)%VISC%NTABLE  = 0
+      CALL WRITE_I_C(IBUF,NFIX+1)
+      DEALLOCATE(IBUF)
+      
+c     write viscosity model title
+
+      DO I=1,NCHARTITLE
+        NAME(I) = ICHAR(VISC%TITLE(I:I))
       END DO
+      CALL WRITE_C_C(NAME,NCHARTITLE)
+c           
+c     write viscosity parameter array
+
+      NUPARAM = VISC%NUPARAM
+      NIPARAM = VISC%NIPARAM
+      IF (NUPARAM > 0) THEN
+        CALL WRITE_DB(VISC%UPARAM ,NUPARAM)
+      END IF      
+      IF (NIPARAM > 0) THEN
+        CALL WRITE_I_C(VISC%IPARAM ,NIPARAM)
+      END IF      
+      LEN = LEN + NUPARAM + NIPARAM
+c      
+c     write viscosity law tables if necessary
+c
+      NUMTABL  = VISC%NTABLE
+      IF (NUMTABL > 0) THEN
+        CALL TABLE_WRESTI_MAT(VISC%TABLE, NUMTABL, LENI)
+        CALL TABLE_WRESTR_MAT(VISC%TABLE, NUMTABL, LENR)
+        LEN = LEN + NFIX + LENI + LENR
+      END IF
 c-----------
       RETURN
-      END 
+      END

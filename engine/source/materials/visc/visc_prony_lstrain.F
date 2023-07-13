@@ -27,11 +27,14 @@ Chd|        VISCMAIN                      source/materials/visc/viscmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE VISC_PRONY_LSTRAIN(
-     .           NEL     ,NUVAR   ,NPRONY  ,IADBUF  ,NUPARAM, UPARAM  ,
-     .           UVAR    , TIMESTEP  ,
-     .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
-     .           MFZX    ,MFZY    ,MFZZ    ,
+     .           VISC    ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
+     .           TIMESTEP,MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,
+     .           MFYZ    ,MFZX    ,MFZY    ,MFZZ    ,
      .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE VISC_PARAM_MOD
 C----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,29 +59,19 @@ C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C---------+---------+---+---+--------------------------------------------
-C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,NPRONY,IADBUF,NUPARAM
-      my_real
-     .       TIMESTEP
-      my_real, INTENT(IN) :: UPARAM(NUPARAM)
+      INTEGER ,INTENT(IN) :: NEL,NVARVIS,NPRONY
+      my_real :: TIMESTEP
       my_real, DIMENSION(NEL), INTENT(IN) :: MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ ,
-     .                                         MFZX,MFZY,MFZZ
+     .                                       MFZX,MFZY,MFZZ
       my_real, DIMENSION(NEL), INTENT(INOUT) ::   S1  ,S2  ,S3  ,S4  ,S5  ,S6  
-C-----------------------------------------------
-C   O U T P U T   A r g u m e n t s
-C-----------------------------------------------
-!!      my_real , INTENT(INOUT) ::   SOUNDSP(NEL)
-C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
-C-----------------------------------------------
-      my_real
-     .    UVAR(NEL,NUVAR)
+      my_real ,INTENT(INOUT) :: UVARVIS(NEL,NVARVIS)
+      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,II,IFLAG,IMOD,NUVARI,N, FLAG_VISC
+      INTEGER :: I,J,II,N, FLAG_VISC
       my_real ::  
      . DTINV,FAC,INVDT,RHELP,GSTARD,GAMADSTAR,TTT,
      , MFXX1,MFYY1,MFZZ1
@@ -91,12 +84,12 @@ C-----------------------------------------------
      .          QINT(NEL,6,NPRONY),QINTLD(NEL,6,NPRONY), TEMP(NEL,9),
      .          QBAR(NEL,6),TEMP6(NEL,6),SHYP(NEL,6)
 C=======================================================================
-      FLAG_VISC = INT(UPARAM(IADBUF + 2))
+      FLAG_VISC  = VISC%IPARAM(3)
       GAMADSTAR  = ZERO
       DTINV = TIMESTEP /MAX(EM20,TIMESTEP**2) 
       DO J=1,NPRONY                                  
-          GAMAD(J)   = UPARAM(IADBUF + 2 + J)            
-          TAUD(J)    = UPARAM(IADBUF + 2 + NPRONY + J)  
+          GAMAD(J) = VISC%UPARAM(I)         
+          TAUD(J)  = VISC%UPARAM(NPRONY + I)
       ENDDO 
       GSTARD = ZERO
       DO I = 1, NPRONY
@@ -169,23 +162,23 @@ C Computing the inverse of F
             STRS1(I,5) = SHYP(I,5)
             STRS1(I,6) = SHYP(I,6)
             !!
-            STRS0(I,1) = UVAR(I,1)
-            STRS0(I,2) = UVAR(I,2)
-            STRS0(I,3) = UVAR(I,3)
-            STRS0(I,4) = UVAR(I,4)
-            STRS0(I,5) = UVAR(I,5)
-            STRS0(I,6) = UVAR(I,6) 
+            STRS0(I,1) = UVARVIS(I,1)
+            STRS0(I,2) = UVARVIS(I,2)
+            STRS0(I,3) = UVARVIS(I,3)
+            STRS0(I,4) = UVARVIS(I,4)
+            STRS0(I,5) = UVARVIS(I,5)
+            STRS0(I,6) = UVARVIS(I,6) 
       ENDDO
       !!  From cauchy to PK2
        DO N=1,NPRONY
          II = 6*N  !  6 + 6*(N - 1)  
          DO I=1,NEL                                                  
-             QINT(I,1,N) = UVAR(I,II + 1)                         
-             QINT(I,2,N) = UVAR(I,II + 2)                         
-             QINT(I,3,N) = UVAR(I,II + 3)                         
-             QINT(I,4,N) = UVAR(I,II + 4)                         
-             QINT(I,5,N) = UVAR(I,II + 5)                         
-             QINT(I,6,N) = UVAR(I,II + 6)
+             QINT(I,1,N) = UVARVIS(I,II + 1)                         
+             QINT(I,2,N) = UVARVIS(I,II + 2)                         
+             QINT(I,3,N) = UVARVIS(I,II + 3)                         
+             QINT(I,4,N) = UVARVIS(I,II + 4)                         
+             QINT(I,5,N) = UVARVIS(I,II + 5)                         
+             QINT(I,6,N) = UVARVIS(I,II + 6)
              !!
              QINTLD(I,1,N) = EPSILD(N)*QINT(I,1,N) + BETAD(N)*STRS0(I,1)
              QINTLD(I,2,N) = EPSILD(N)*QINT(I,2,N) + BETAD(N)*STRS0(I,2)
@@ -228,12 +221,12 @@ c
      .                                                  + TEMP(I,9)*DEFGI(I,8))
             STRS0(I,6) = JDEFG(I)*(TEMP(I,3)*DEFGI(I,1) + TEMP(I,6)*DEFGI(I,4) 
      .                                                  + TEMP(I,9)*DEFGI(I,7))
-            UVAR(I,1) = STRS0(I,1)
-            UVAR(I,2) = STRS0(I,2)
-            UVAR(I,3) = STRS0(I,3)
-            UVAR(I,4) = STRS0(I,4)
-            UVAR(I,5) = STRS0(I,5)
-            UVAR(I,6) = STRS0(I,6)
+            UVARVIS(I,1) = STRS0(I,1)
+            UVARVIS(I,2) = STRS0(I,2)
+            UVARVIS(I,3) = STRS0(I,3)
+            UVARVIS(I,4) = STRS0(I,4)
+            UVARVIS(I,5) = STRS0(I,5)
+            UVARVIS(I,6) = STRS0(I,6)
        ENDDO
        DO N = 1, NPRONY
           II = 6*N  ! 6 + 6*(N-1)   
@@ -245,12 +238,12 @@ c
             QINT(I,5,N) = QINTLD(I,5,N) + ALPHAD(N)*STRS0(I,5)
             QINT(I,6,N) = QINTLD(I,6,N) + ALPHAD(N)*STRS0(I,6)
             !!             
-              UVAR(I,II + 1) = QINT(I,1,N)
-              UVAR(I,II + 2) = QINT(I,2,N)
-              UVAR(I,II + 3) = QINT(I,3,N)
-              UVAR(I,II + 4) = QINT(I,4,N)
-              UVAR(I,II + 5) = QINT(I,5,N)
-              UVAR(I,II + 6) = QINT(I,6,N)
+              UVARVIS(I,II + 1) = QINT(I,1,N)
+              UVARVIS(I,II + 2) = QINT(I,2,N)
+              UVARVIS(I,II + 3) = QINT(I,3,N)
+              UVARVIS(I,II + 4) = QINT(I,4,N)
+              UVARVIS(I,II + 5) = QINT(I,5,N)
+              UVARVIS(I,II + 6) = QINT(I,6,N)
           ENDDO
         ENDDO
       !  total viscous stress 
