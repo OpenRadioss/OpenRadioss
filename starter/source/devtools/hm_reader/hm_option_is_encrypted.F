@@ -240,6 +240,7 @@ Chd|        HM_READ_TABLE1_1              source/tools/curve/hm_read_table1_1.F
 Chd|        HM_READ_TABLE2_0              source/tools/curve/hm_read_table2_0.F
 Chd|        HM_READ_TABLE2_1              source/tools/curve/hm_read_table2_1.F
 Chd|        HM_READ_THPART                source/output/thpart/hm_read_thpart.F
+Chd|        HM_READ_VISC_LPRONY           source/materials/visc/hm_read_visc_lprony.F
 Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
 Chd|        LAW100_UPD_AB                 source/materials/mat/mat100/law100_upd.F
 Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F

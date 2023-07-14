@@ -28,6 +28,7 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|        VISC_PRONY                    source/materials/visc/visc_prony.F
+Chd|        VISC_PRONY_LSTRAIN            source/materials/visc/visc_prony_lstrain.F
 Chd|====================================================================
       SUBROUTINE VISCMAIN(
      .           NEL     ,IMAT    ,IVISC   ,IPM     ,UPARAM  ,

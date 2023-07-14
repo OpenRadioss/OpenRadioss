@@ -465,6 +465,7 @@ Chd|        HM_READ_TRUSS                 source/elements/reader/hm_read_truss.F
 Chd|        HM_READ_UNIT                  source/general_controls/computation/hm_read_unit.F
 Chd|        HM_READ_UPWIND                source/general_controls/computation/hm_read_upwind.F
 Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
+Chd|        HM_READ_VISC_LPRONY           source/materials/visc/hm_read_visc_lprony.F
 Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_prony.F
 Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
 Chd|        HM_READ_XELEM                 source/elements/reader/hm_read_xelem.F

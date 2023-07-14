@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  VISC_PRONY                    source/materials/visc/visc_prony.F
+Chd|  VISC_PRONY_LSTRAIN            source/materials/visc/visc_prony_lstrain.F
 Chd|-- called by -----------
 Chd|        VISCMAIN                      source/materials/visc/viscmain.F
 Chd|-- calls ---------------
