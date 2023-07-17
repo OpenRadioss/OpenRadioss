@@ -85,8 +85,9 @@ C
          MUBETA(J) = MU(J)*BETA(J)
          NU(J) = ONE*BETA(J)/(ONE + TWO*BETA(J))
        ENDDO
+       GS = ZERO
+       BULK = ZERO
        IF(GAMA_INF /= ONE) THEN
-          GS = ZERO
           DO J= 1,NORDRE
              UPARAM(6 + J) =  MU(J) 
              GS = GS + MU(J)

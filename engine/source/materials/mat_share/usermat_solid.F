@@ -1628,7 +1628,10 @@ C-----------------------------------------------------------------------
      .        LLT     ,MX  ,IVISC   ,IPM     ,BUFMAT  ,
      .        VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
-     .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     )
+     .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
+     .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
+     .        MFZX    ,MFZY    ,MFZZ    ,
+     .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
        ENDIF 
 C---------------------------
 C

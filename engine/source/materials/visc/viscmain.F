@@ -37,9 +37,7 @@ Chd|====================================================================
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .           MFZX    ,MFZY    ,MFZZ    ,
-     .           SO1     ,SO2     ,SO3     ,SO4     ,SO5     ,SO6     ,
-     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
-     .           NGL     )
+     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,IMAT,IVISC,IADBUF,NGL(NEL),NUPARAM
+      INTEGER NEL,IMAT,IVISC,IADBUF,NUPARAM
       INTEGER IPM(NPROPMI,*)
       my_real
      .   UPARAM(*),UVAR(*)
@@ -59,7 +57,6 @@ C-----------------------------------------------
        my_real, DIMENSION(NEL) :: RHO,VISCMAX,SOUNDSP,EPSPXX,EPSPYY,EPSPZZ, 
      .                            EPSPXY,EPSPYZ,EPSPZX,
      .                            SV1,SV2,SV3,SV4,SV5,SV6, 
-     .                            SO1 ,SO2 ,SO3 ,SO4 ,SO5 ,SO6 ,
      .                            S1  ,S2  ,S3  ,S4  ,S5  ,S6  ,
      .                            MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,
      .                            MFZX,MFZY,MFZZ
