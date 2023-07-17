@@ -87,7 +87,7 @@ C-----------------------------------------------
      .  AAK(NPRONY),BBK(NPRONY),BETAK(NPRONY),KV(NPRONY),HP0,
      .  TRACE,RBULK,HP
 C=======================================================================
-      NUVARJ = (NUVAR-6)/NPRONY
+      NUVARJ = NUVAR/NPRONY
       G  = ZERO
       RBULK = ZERO
       KV0 = UPARAM(IADBUF)

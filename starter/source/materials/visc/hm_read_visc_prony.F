@@ -273,7 +273,7 @@ C
       NUPARAM = 3 + 4*NPRONY 
       NUPARAM = 4 + 4*NPRONY 
       UPARAM(NUPARAM) = IMOD
-      NUVAR = 6 + 7*NPRONY
+      NUVAR =  7*NPRONY
 C
       NFUNC = 0
 C

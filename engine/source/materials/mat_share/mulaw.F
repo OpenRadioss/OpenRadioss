@@ -2171,9 +2171,7 @@ C     viscous stress (/VISC models)  !!!
      .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .        MFZX    ,MFZY    ,MFZZ    ,
-     .        SO1     ,SO2     ,SO3     ,SO4     ,SO5     ,SO6     ,
-     .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
-     .        NGL     )
+     .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
        ENDIF 
 C  viscosity ( Navier-Stokes)
       IF (ISVIS > 0) THEN
