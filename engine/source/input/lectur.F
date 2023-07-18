@@ -115,6 +115,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE LOADS_MOD
       USE OUTPUT_MOD
+      USE FXB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2595,7 +2596,9 @@ C     REINITIALISATION DES VITESSES
 C-------------------------------------------------
       IF (NINIV  /=  0) THEN
 C
-        CALL LECINV (NINIV,X,V,VR,ITAB,IFRAME,XFRAME,IGRNOD)
+        CALL LECINV (NINIV ,X, V ,VR  ,ITAB  ,
+     .               IFRAME,XFRAME, IGRNOD, FXBIPM, FXBVIT,
+     .               FXBRPM)
 C
       END IF
 C---------------------------------------------------------
