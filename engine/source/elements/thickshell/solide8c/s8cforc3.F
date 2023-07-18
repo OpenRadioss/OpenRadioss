@@ -92,7 +92,8 @@ Chd|====================================================================
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT   ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS  ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSORS,
-     M                    IOUTPRT  ,MAT_ELEM,H3D_STRAIN,DT )
+     M                    IOUTPRT  ,MAT_ELEM,H3D_STRAIN,DT  ,NODADT ,
+     N                    DTFAC1   ,DTMIN1, IDTMIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -128,6 +129,8 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),IADS(8,*),IOUTPRT,H3D_STRAIN
+      INTEGER, INTENT(IN) :: NODADT,IDTMIN(102)
+      my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
      .        ICSIG, NVC,ITASK, ISTRAIN, IEXPAN ,NNPT,NG
@@ -309,7 +312,16 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
 C-----
-      my_real VARNL(NEL)
+      my_real,
+     .  DIMENSION(:,:), ALLOCATABLE :: 
+     .    VAR_REG,PXX1,PXX2,PXX3,PXX4,PXX5,PXX6,PXX7,PXX8,
+     .    PYY1,PYY2,PYY3,PYY4,PYY5,PYY6,PYY7,PYY8,
+     .    PZZ1,PZZ2,PZZ3,PZZ4,PZZ5,PZZ6,PZZ7,PZZ8
+      INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8)
+      my_real,
+     .  DIMENSION(:), POINTER :: DNL
+      my_real 
+     .  H(8),PR(8),PS(8),PT(8)
       my_real
      .   EV(mvsiz),evd(mvsiz)    !!!!   BIDON !!!!!
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -494,6 +506,17 @@ C---------R,S,T->S,T,R-------------
       NPTS=ELBUF_TAB(NG)%NPTS
       NPTT=ELBUF_TAB(NG)%NPTT
       IT = 1
+      INLOC = IPARG(78,NG) 
+      ALLOCATE(VAR_REG(NEL,NPTR*NPTS*NLAY))
+      IF (INLOC > 0) ALLOCATE(
+     .  PXX1(NEL,NPTR*NPTS*NLAY),PXX2(NEL,NPTR*NPTS*NLAY),PXX3(NEL,NPTR*NPTS*NLAY),
+     .  PXX4(NEL,NPTR*NPTS*NLAY),PXX5(NEL,NPTR*NPTS*NLAY),PXX6(NEL,NPTR*NPTS*NLAY),
+     .  PXX7(NEL,NPTR*NPTS*NLAY),PXX8(NEL,NPTR*NPTS*NLAY),PYY1(NEL,NPTR*NPTS*NLAY),
+     .  PYY2(NEL,NPTR*NPTS*NLAY),PYY3(NEL,NPTR*NPTS*NLAY),PYY4(NEL,NPTR*NPTS*NLAY),
+     .  PYY5(NEL,NPTR*NPTS*NLAY),PYY6(NEL,NPTR*NPTS*NLAY),PYY7(NEL,NPTR*NPTS*NLAY),
+     .  PYY8(NEL,NPTR*NPTS*NLAY),PZZ1(NEL,NPTR*NPTS*NLAY),PZZ2(NEL,NPTR*NPTS*NLAY),
+     .  PZZ3(NEL,NPTR*NPTS*NLAY),PZZ4(NEL,NPTR*NPTS*NLAY),PZZ5(NEL,NPTR*NPTS*NLAY),
+     .  PZZ6(NEL,NPTR*NPTS*NLAY),PZZ7(NEL,NPTR*NPTS*NLAY),PZZ8(NEL,NPTR*NPTS*NLAY))
 c---------------------------      
       CALL S8ZDERIC3(
      1   OFFL,      VOLG,      NGL,       XD1,
@@ -591,34 +614,33 @@ C-------------------------------------------
 C
 C-----------Constant SIG traitement-----
 C-----------dans ce cas unique constant direction- EV(NB2) est dans ortho. sys------
-      IF (IOR_TSH > 0) THEN    ! Thick shell property - ortho or composite
-        PID=NGEO(LFT)
-        DO IR=1,NPTR
-          DO IS=1,NPTS
-            DO I=LFT,LLT
-              SIGM(I) = ZERO
-              VOLM(I) = ZERO
-            ENDDO
-            DO IL=1,NLAY                                    
-              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)         
-              DO I=LFT,LLT                                         
-               SIGM(I) = SIGM(I)+LBUF%SIG(II(3)+I)*LBUF%VOL(I)         
-               VOLM(I) = VOLM(I)+LBUF%VOL(I)                       
-              ENDDO                                                
-            ENDDO                                                  
-            DO IL=1,NLAY                                        
-              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)         
-              IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
-              DO I=LFT,LLT                                         
-                SMTT(I,IP)=(LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)  
-              ENDDO                                                
-            ENDDO 
+      PID=NGEO(LFT)
+      DO IR=1,NPTR
+        DO IS=1,NPTS
+          DO I=LFT,LLT
+            SIGM(I) = ZERO
+            VOLM(I) = ZERO
+          ENDDO
+          DO IL=1,NLAY                                    
+            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)         
+            DO I=LFT,LLT                                         
+              SIGM(I) = SIGM(I)+LBUF%SIG(II(3)+I)*LBUF%VOL(I)         
+              VOLM(I) = VOLM(I)+LBUF%VOL(I)                       
+            ENDDO                                                
+          ENDDO                                                  
+          DO IL=1,NLAY                                        
+            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)         
+            IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
+            DO I=LFT,LLT                                         
+              SMTT(I,IP)=(LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)  
+            ENDDO                                                
           ENDDO 
-        ENDDO
+        ENDDO 
+      ENDDO
 c------------------
 C       
-        IF (IGTYP == 21) THEN                                           
-          CALL SCTORTH3(
+      IF (IGTYP == 21) THEN                                           
+        CALL SCTORTH3(
      1   LFT,      LLT,      ICSIG,    NEL,
      2   RX,       RY,       RZ,       SX,
      3   SY,       SZ,       TX,       TY,
@@ -629,94 +651,15 @@ C
      8   G3X,      G3Y,      G3Z,      GBUF%GAMA,
      9   IREP)
 c     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,EV(NBGAMA)) 
-        ELSEIF (IGTYP == 22) THEN                                       
-          IPTHK = IPANG+NLYMAX                                          
-          IPPOS = IPTHK+NLYMAX                                          
-          MTN0=MTN                                                      
-          DO I=LFT,LLT                                                  
-            MXT0(I)=MXT(I)                                               
-            SHF(I)=GEO(38,NGEO(I))                                       
-          ENDDO                                                         
-        ENDIF                                                           
-c---------
-      ELSE  ! IOR_TSH == 0 = Isotropic thick shell
-C-------------R--direction------
-        IF (ICR == 1) THEN     ! normal = local X direction
-          DO IS=1,NPTS
-            DO IL=1,NLAY
-              DO I=LFT,LLT                                       
-               SIGM(I) = ZERO                                    
-               VOLM(I) = ZERO                                    
-              ENDDO                                              
-              DO IR=1,NPTR                                     
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-                DO I=LFT,LLT                                     
-                  SIGM(I) = SIGM(I) + LBUF%SIG(II(1)+I)*LBUF%VOL(I)  
-                  VOLM(I) = VOLM(I) + LBUF%VOL(I)                
-                ENDDO                                            
-              ENDDO                                              
-              DO IR=1,NPTR                                     
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR               
-                DO I=LFT,LLT                                          
-                  SMR(I,IP) = (LBUF%SIG(II(1)+I)-SIGM(I)/VOLM(I))*USB(I)  
-                ENDDO                                                 
-              ENDDO                                                   
-            ENDDO                                                     
-          ENDDO
-        ENDIF                                                     
-C--------------S--direction--
-        IF (ICS == 1) THEN     ! normal = local Y direction
-          DO IL=1,NLAY                                       
-            DO IR=1,NPTR                                           
-              DO I=LFT,LLT                                       
-               SIGM(I) = ZERO                                    
-               VOLM(I) = ZERO                                    
-              ENDDO                                              
-              DO IS=1,NPTS                                         
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-                DO I=LFT,LLT                                     
-                  SIGM(I) = SIGM(I) + LBUF%SIG(II(2)+I)*LBUF%VOL(I)  
-                  VOLM(I) = VOLM(I) + LBUF%VOL(I)                
-                ENDDO                                            
-              ENDDO                                              
-              DO IS=1,NPTS                                         
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR               
-                DO I=LFT,LLT                                          
-                  SMS(I,IP) = (LBUF%SIG(II(2)+I)-SIGM(I)/VOLM(I))*USB(I)  
-                ENDDO                                                 
-              ENDDO                                                   
-            ENDDO                                                     
-          ENDDO                                                       
-        ENDIF                                                     
-C------------T--direction--
-        IF (ICT == 1) THEN     ! normal = local Z direction
-          DO IR=1,NPTR                                           
-            DO IS=1,NPTS                                         
-              DO I=LFT,LLT                                       
-               SIGM(I) = ZERO                                    
-               VOLM(I) = ZERO                                    
-              ENDDO                                              
-              DO IL=1,NLAY                                       
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-                DO I=LFT,LLT                                     
-                  SIGM(I) = SIGM(I) + LBUF%SIG(II(3)+I)*LBUF%VOL(I)  
-                  VOLM(I) = VOLM(I) + LBUF%VOL(I)                
-                ENDDO                                            
-              ENDDO                                              
-              DO IL=1,NLAY                                            
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR               
-                DO I=LFT,LLT                                          
-                  SMT(I,IP) = (LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)  
-                ENDDO                                                 
-              ENDDO                                                   
-            ENDDO                                                     
-          ENDDO                                                     
-        ENDIF                                                     
-C----------
-      ENDIF ! IF (IOR_TSH  > 0)
+      ELSEIF (IGTYP == 22) THEN                                       
+        IPTHK = IPANG+NLYMAX                                          
+        IPPOS = IPTHK+NLYMAX                                          
+        MTN0=MTN                                                      
+        DO I=LFT,LLT                                                  
+          MXT0(I)=MXT(I)                                               
+          SHF(I)=GEO(38,NGEO(I))                                       
+        ENDDO                                                         
+      ENDIF                                                           
 C---------------------------------
       IF ((ICT+ICR+ICS) >= 1) THEN
         IF (DT1 ==  ZERO) THEN
@@ -739,9 +682,6 @@ c
       DO IR=1,NPTR
        DO IS=1,NPTS
         DO IL=1,NLAY
-c         IF (ICR == 1) ILAY = IR
-c         IF (ICS == 1) ILAY = IS
-c         IF (ICT == 1) ILAY = IT
           IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
           LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
 C-----avoid multi-print	  
@@ -753,8 +693,7 @@ C-----avoid multi-print
 C-----------
 c         IF (IFAILURE > 0)  ILAY = IP
 C----------------
-         IF (IOR_TSH > 0) THEN  !  thick shell property
-           IF (IGTYP == 22) THEN
+          IF (IGTYP == 22) THEN
             WT = GEO(IPTHK+IL,PID)
             ZZ = GEO(IPPOS+IL,PID)
             MID=IGEO(IPMAT+IL,PID)
@@ -762,30 +701,49 @@ C----------------
             DO I=LFT,LLT
              MXT(I)=MID
             ENDDO
-           ELSE
+          ELSE
             ZZ = A_GAUSS(IL,NLAY)
             WT = W_GAUSS(IL,NLAY)
-	          ENDIF
-           IF (ICT == 1) THEN
+	        ENDIF
+          IF (ICT == 1) THEN
             ZR = A_GAUSS(IR,NPTR)
             ZS = A_GAUSS(IS,NPTS)
             ZT = ZZ
-           ELSEIF (ICS == 1) THEN
+          ELSEIF (ICS == 1) THEN
             ZR = A_GAUSS(IR,NPTR)
             ZS = ZZ
             ZT = A_GAUSS(IS,NPTS)
-           ELSEIF (ICR == 1) THEN
+          ELSEIF (ICR == 1) THEN
             ZR = ZZ
             ZS = A_GAUSS(IR,NPTR)
             ZT = A_GAUSS(IS,NPTS)
-           ENDIF 
-         ELSE  !  solid property
-          ZR = A_GAUSS(IR,NPTR)
-          ZS = A_GAUSS(IS,NPTS)
-          ZT = A_GAUSS(IL,NLAY)
-          WT = W_GAUSS(IL,NLAY)
-         ENDIF ! IF (IOR_TSH)
+          ENDIF 
          WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*WT    
+c
+c-------------------------------------------
+c    COMPUTE Regularized non local variable in Gauss point
+c-------------------------------------------
+         IF (INLOC > 0) THEN
+           L_NLOC = NLOC_DMG%L_NLOC
+           DNL => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
+           CALL BASIS8 (ZR,ZS,ZT,H,PR,PS,PT)
+           DO I=LFT,LLT
+             INOD(1) = NLOC_DMG%IDXI(NC1(I))
+             INOD(2) = NLOC_DMG%IDXI(NC2(I))
+             INOD(3) = NLOC_DMG%IDXI(NC3(I))
+             INOD(4) = NLOC_DMG%IDXI(NC4(I))
+             INOD(5) = NLOC_DMG%IDXI(NC5(I))
+             INOD(6) = NLOC_DMG%IDXI(NC6(I))
+             INOD(7) = NLOC_DMG%IDXI(NC7(I))
+             INOD(8) = NLOC_DMG%IDXI(NC8(I))
+             DO J = 1, 8
+               IPOS(J) = NLOC_DMG%POSI(INOD(J))+IL-1
+             ENDDO
+             VAR_REG(I,IP) = H(1)*DNL(IPOS(1)) + H(2)*DNL(IPOS(2)) + H(3)*DNL(IPOS(3))
+     .                     + H(4)*DNL(IPOS(4)) + H(5)*DNL(IPOS(5)) + H(6)*DNL(IPOS(6))
+     .                     + H(7)*DNL(IPOS(7)) + H(8)*DNL(IPOS(8))
+           ENDDO
+         ENDIF
 c
          CALL S8ZDERI3(
      1   OFFL,    OFF,     VOLN,    NGL,
@@ -833,16 +791,14 @@ c
      8   AJ1,     AJ2,     AJ3,     AJ4,
      9   AJ5,     AJ6,     SMAX,    DELTAX,
      A   NU1,     ICP,     IDEG,    VOLDP,
-     B   NEL,     MTN,     ISMSTR,  JHBE)
+     B   NEL,     MTN,     ISMSTR,  JHBE) 
 C
-         IF (IGTYP == 22) THEN
-           IF (ICT == 1) THEN
-             SMT(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
-           ELSEIF (ICS == 1) THEN
-             SMS(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
-           ELSEIF (ICR == 1) THEN
-             SMR(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
-           ENDIF 
+         IF (ICT == 1) THEN
+           SMT(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
+         ELSEIF (ICS == 1) THEN
+           SMS(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
+         ELSEIF (ICR == 1) THEN
+           SMR(LFT:LLT,IP) = SMTT(LFT:LLT,IP)
          ENDIF 
          CALL S8CDEFO3(
      1   PXC1,       PXC2,       PXC3,       PXC4,
@@ -1015,7 +971,7 @@ c
      N   DMELS,       IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
-     Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
+     Q   ITASK,       NLOC_DMG,    VAR_REG(1,IP),MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        OPT_MTN=MTN,
      S   OPT_JCVT=JCVT,OPT_ISORTH=ISORTH,       OPT_ISORTHG=ISORTHG)
 C    
@@ -1156,10 +1112,71 @@ C--------------------------
      B   THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C   IPARTS,  LBUF%VOL,NEL)
           ENDIF 
+c
+C-------------------------
+c    Save shape function derivatives value for non-local
+C--------------------------
+          IF (INLOC > 0) THEN 
+            PXX1(1:NEL,IP) = PX1(1:NEL)
+            PXX2(1:NEL,IP) = PX2(1:NEL)
+            PXX3(1:NEL,IP) = PX3(1:NEL)
+            PXX4(1:NEL,IP) = PX4(1:NEL)
+            PXX5(1:NEL,IP) = PX5(1:NEL)
+            PXX6(1:NEL,IP) = PX6(1:NEL)
+            PXX7(1:NEL,IP) = PX7(1:NEL)
+            PXX8(1:NEL,IP) = PX8(1:NEL)
+            PYY1(1:NEL,IP) = PY1(1:NEL)
+            PYY2(1:NEL,IP) = PY2(1:NEL)
+            PYY3(1:NEL,IP) = PY3(1:NEL)
+            PYY4(1:NEL,IP) = PY4(1:NEL)
+            PYY5(1:NEL,IP) = PY5(1:NEL)
+            PYY6(1:NEL,IP) = PY6(1:NEL)
+            PYY7(1:NEL,IP) = PY7(1:NEL)
+            PYY8(1:NEL,IP) = PY8(1:NEL)
+            PZZ1(1:NEL,IP) = PZ1(1:NEL)
+            PZZ2(1:NEL,IP) = PZ2(1:NEL)
+            PZZ3(1:NEL,IP) = PZ3(1:NEL)
+            PZZ4(1:NEL,IP) = PZ4(1:NEL)
+            PZZ5(1:NEL,IP) = PZ5(1:NEL)
+            PZZ6(1:NEL,IP) = PZ6(1:NEL)
+            PZZ7(1:NEL,IP) = PZ7(1:NEL)
+            PZZ8(1:NEL,IP) = PZ8(1:NEL)
+          ENDIF
         ENDDO  ! IL=1,NLAY
        ENDDO   ! IS=1,NPTS
       ENDDO    ! IR=1,NPTR
 C-----------End integrating points-----
+c
+c-------------------------
+c     Virtual internal forces of regularized non local ddl 
+c--------------------------
+      IF (INLOC > 0) THEN  
+        CALL SDLENSH8(VOLG,LLSH,AREA ,
+     .   X1, X2, X3, X4, X5, X6, X7, X8,
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,ICSIG,NEL)
+        DO IR = 1,NPTR
+          DO IS = 1,NPTS            
+            CALL S8CFINT_REG(
+     1        NLOC_DMG,     VAR_REG,      NEL,          GBUF%OFF,
+     2        VOLG,         NC1,          NC2,          NC3,
+     3        NC4,          NC5,          NC6,          NC7,
+     4        NC8,          PXX1,         PXX2,         PXX3,
+     5        PXX4,         PXX5,         PXX6,         PXX7,
+     6        PXX8,         PYY1,         PYY2,         PYY3,
+     7        PYY4,         PYY5,         PYY6,         PYY7,
+     8        PYY8,         PZZ1,         PZZ2,         PZZ3,
+     9        PZZ4,         PZZ5,         PZZ6,         PZZ7,
+     A        PZZ8,         MXT(LFT),     ITASK,        DT2T,
+     B        GBUF%VOL,     NFT,          NLAY,         NPTR,         
+     C        NPTS,         IR,           IS,           W_GAUSS,
+     D        A_GAUSS,      ICR,          ICS,          ICT,
+     E        ELBUF_TAB(NG)%NLOCTS(IR,IS),AREA,         NODADT,
+     F        DT1,          DT12,         DTFAC1,       DTMIN1, 
+     G        IDTMIN)
+          ENDDO
+        ENDDO
+      ENDIF 
 c
       IF (IOFFS == 1) THEN
         DO I=LFT,LLT
@@ -1315,5 +1332,31 @@ C----------------------------
      3   NC7,     NC8,     NEL)
       END IF        
 C-----------
+
+      IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
+      IF (ALLOCATED(PXX1))    DEALLOCATE(PXX1)
+      IF (ALLOCATED(PXX2))    DEALLOCATE(PXX2)
+      IF (ALLOCATED(PXX3))    DEALLOCATE(PXX3)
+      IF (ALLOCATED(PXX4))    DEALLOCATE(PXX4)
+      IF (ALLOCATED(PXX5))    DEALLOCATE(PXX5)
+      IF (ALLOCATED(PXX6))    DEALLOCATE(PXX6)
+      IF (ALLOCATED(PXX7))    DEALLOCATE(PXX7)
+      IF (ALLOCATED(PXX8))    DEALLOCATE(PXX8)
+      IF (ALLOCATED(PYY1))    DEALLOCATE(PYY1)
+      IF (ALLOCATED(PYY2))    DEALLOCATE(PYY2)
+      IF (ALLOCATED(PYY3))    DEALLOCATE(PYY3)
+      IF (ALLOCATED(PYY4))    DEALLOCATE(PYY4)
+      IF (ALLOCATED(PYY5))    DEALLOCATE(PYY5)
+      IF (ALLOCATED(PYY6))    DEALLOCATE(PYY6)
+      IF (ALLOCATED(PYY7))    DEALLOCATE(PYY7)
+      IF (ALLOCATED(PYY8))    DEALLOCATE(PYY8)
+      IF (ALLOCATED(PZZ1))    DEALLOCATE(PZZ1)
+      IF (ALLOCATED(PZZ2))    DEALLOCATE(PZZ2)
+      IF (ALLOCATED(PZZ3))    DEALLOCATE(PZZ3)
+      IF (ALLOCATED(PZZ4))    DEALLOCATE(PZZ4)
+      IF (ALLOCATED(PZZ5))    DEALLOCATE(PZZ5)
+      IF (ALLOCATED(PZZ6))    DEALLOCATE(PZZ6)
+      IF (ALLOCATED(PZZ7))    DEALLOCATE(PZZ7)
+      IF (ALLOCATED(PZZ8))    DEALLOCATE(PZZ8)
       RETURN
       END

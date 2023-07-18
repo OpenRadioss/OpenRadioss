@@ -204,15 +204,26 @@ C
         NPG = NPT
         NLY = NPT
       CASE(14,16)                                          
-c        NPT = NPTR*100+NPTS*10+ NPTT     
+c        NPT = NPTR*100+NPTS*10+ NPTT   
         IF (NPT == 0) THEN
          NPT = 222
          NPTR = 2 
          NPTS = 2
          NPTT = 2     
         END IF         
-        NPG = NPTR*NPTS*NPTT   
-        NLY = 0                                 
+        NPG = NPTR*NPTS*NPTT 
+        NLY = 0  
+        IF (IHBE == 14) THEN
+          SELECT CASE(ICSTR)
+            CASE(1)
+              NLY = NPTT
+            CASE(10)
+              NLY = NPTS
+            CASE(100)
+              NLY = NPTR
+          END SELECT 
+        ENDIF
+                                    
         IF (IHBE == 14 .AND.                               
      .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.     
      .      NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN   

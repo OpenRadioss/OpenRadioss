@@ -37,7 +37,7 @@ Chd|====================================================================
      6   PY4,     PZ1,     PZ2,     PZ3,
      7   PZ4,     IMAT,    ITASK,  DT2T,
      8   VOL0,    NFT ,    NLAY ,    WS,
-     9   AS  ,    AREA,  BUFNLTS)
+     9   AS  ,    AREA,    BUFNLTS)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -171,9 +171,9 @@ C=======================================================================
       VNL0 => NLOC_DMG%VNL_OLD(1:L_NLOC)
       UNL  => NLOC_DMG%UNL(1:L_NLOC)
 c
-      !-----------------------------------------------------------------------
-      ! Computation of the element volume and the BtB matrix product
-      !-----------------------------------------------------------------------
+      !--------------------------------------------------------------------------------
+      ! Computation of the position of the non-local d.o.fs and the BtB matrix product
+      !--------------------------------------------------------------------------------
       ! Loop over elements
 # include "vectorize.inc"
       DO I=1,NEL
@@ -354,7 +354,7 @@ c
       !-----------------------------------------------------------------------
       ! Computation of non-local forces
       !-----------------------------------------------------------------------
-      ! Loop over elements
+      ! Loop over layers
       DO K = 1,NLAY
 c
         ! Loop over elements
@@ -612,7 +612,7 @@ c
             DTNL = (TWO*(MIN((VOL(I))**THIRD,LE_MAX))*SQRT(THREE*ZETA))/
      .              SQRT(TWELVE*L2 + (MIN((VOL(I))**THIRD,LE_MAX))**2)
             ! Non-local critical time-step in the thickness
-            IF (NLAY > 1) THEN 
+            IF ((L2>ZERO).AND.(NLAY > 1)) THEN 
               DTNL_TH = (TWO*(MIN(LTHK(I),LE_MAX))*SQRT(THREE*ZETA))/
      .                SQRT(TWELVE*L2 + (MIN(LTHK(I),LE_MAX))**2)
             ELSE 
