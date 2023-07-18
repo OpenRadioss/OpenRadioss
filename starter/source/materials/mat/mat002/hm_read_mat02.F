@@ -117,7 +117,7 @@ C-----------------------------------------------
       CC      = ZERO
       EPS0    = ZERO
       ICC     = 0
-      FCUT    = ZERO
+      ASRATE  = ZERO
       FISOKIN = ZERO
       C3      = ZERO
       C4      = ZERO
@@ -183,7 +183,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('EPS_0'    ,EPS0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('ICC'      ,ICC    ,IS_AVAILABLE, LSUBMODEL) 
         CALL HM_GET_INTV  ('Fsmooth'  ,ISRATE ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_FLOATV('Fcut'     ,FCUT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Fcut'     ,ASRATE ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('C3'       ,C3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('C4'       ,C4      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -359,7 +359,6 @@ C-----
      .                 I1=ID, 
      .                 C1=TITR)
       ENDIF
-      IF(ASRATE/=ZERO)ASRATE = ASRATE / FAC_T
      
       IF(RHOR==ZERO) RHOR=RHO0
 C-----
@@ -397,11 +396,13 @@ C-----
         ISRAT     = 1
         ISRATE    = MAX(ISRATE,ISRAT) 
         ASRATE    = 10000.0D0*FAC_T_WORK
+        FCUT      = ASRATE
       ELSE
         IF (ASRATE /= ZERO) THEN
           ! If a filtering frequency is given by the user
           ISRAT     = 1
           ISRATE    = MAX(ISRATE,ISRAT)
+          FCUT      = ASRATE
           ASRATE    = ASRATE*TWO*PI 
         ELSE
           ! If no filtering frequency is given but the flag is activated
@@ -409,15 +410,17 @@ C-----
             ISRAT     = 1
             ISRATE    = MAX(ISRATE,ISRAT) 
             ASRATE    = EP20
+            FCUT      = ASRATE
           ELSE
           ! If no filtering frequency and no flag is activated => no filtering
             ISRAT     = 0
             ISRATE    = 0
             ASRATE    = ZERO
+            FCUT      = ASRATE
           ENDIF
         ENDIF
       ENDIF
-      !FCUT = ASRATE
+
 C-----
       PM(1) =RHOR
       PM(89)=RHO0      
@@ -443,7 +446,7 @@ C-----
       PM(43)=CC
       PM(44)=EPS0
       PM(49)=ICC
-      PM(9) = ASRATE! FCUT*TWO*PI   
+      PM(9) = ASRATE  
 
       IPM(255) = VP
 
@@ -536,7 +539,7 @@ C--------------------------------
         IF(TM == ZERO)TM=EP20
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          ISRAT1 = 1
-         WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRAT1,ASRATE,MT,TM,CP,TI
+         WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRAT1,FCUT,MT,TM,CP,TI
         ENDIF
         PM(50)=ZERO
         PM(51)=MT
@@ -545,7 +548,7 @@ C--------------------------------
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          WRITE(IOUT,1410)CA,CB,CN,EPSM,SIGM,FISOKIN
          ISRAT1 = 1
-         WRITE(IOUT,1610)VP,ICC,ISRAT1,ASRATE,EPS0,CC,C3,C4,CP,TI
+         WRITE(IOUT,1610)VP,ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,CP,TI
         ENDIF
         PM(50)=ONE
         PM(51)=C3
