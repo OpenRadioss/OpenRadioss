@@ -175,32 +175,31 @@ c--------------------------
       ! Solid elements deletion
       IF (IGURSON>0) THEN 
         NINDX = 0
+        INDX(1:NEL) = 0
         DO I=1,NEL
           !Integration point failure
           IF (LOFF(I) == FOUR_OVER_5) THEN
-            NINDX       = NINDX+1
-            INDX(NINDX) = I
-            UELR(I)     = UELR(I) + 1
+            UELR(I) = UELR(I) + ONE
             ! If all integration points have failed, element is deleted
             IF (NINT(UELR(I)) == NPG) THEN 
-              OFF(I)   = ZERO
-              IDEL7NOK = 1
+              NINDX       = NINDX+1
+              INDX(NINDX) = I
+              OFF(I)      = ZERO
+              IDEL7NOK    = 1
             ENDIF
           ENDIF
         ENDDO
         IF((NINDX>0).AND.(IMCONV==1))THEN
           DO J=1,NINDX
 #include "lockon.inc"
-            WRITE(IOUT, 1000) NGL(INDX(J)),IPG
-            WRITE(ISTDO,1100) NGL(INDX(J)),IPG,TT
+            WRITE(IOUT, 1000) NGL(INDX(J)),TT
+            WRITE(ISTDO,1000) NGL(INDX(J)),TT
 #include "lockoff.inc"
           ENDDO
         ENDIF
       ENDIF
 c
- 1000 FORMAT(1X,'RUPTURE (GURSON) IN SOLID ELEMENT NUMBER ',I10,1X,',GAUSS PT',I2,1X)
- 1100 FORMAT(1X,'RUPTURE (GURSON) IN SOLID ELEMENT NUMBER ',I10,1X,',GAUSS PT',I2,1X,
-     .          ' AT TIME :',G11.4)  
+ 1000 FORMAT(1X,'-- RUPTURE (GURSON) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)  
 c  
 c-----------
       RETURN

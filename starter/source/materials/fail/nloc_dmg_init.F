@@ -385,6 +385,11 @@ c
             ISOLID = IPARG(23,NG)
             ! For brick elements
             IF (ITY == 1) THEN
+              ! Non-supported property
+              IF ((IGTYP /= 14).AND.(IGTYP /= 6).AND.(IGTYP /= 20).AND.(IGTYP /= 21)) THEN 
+                CALL ANCMSG(MSGID=1661,MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND,I1=IGTYP)               
+              ENDIF
               ! To detect tetra elements
               ISOLNOD = IPARG(28,NG)
               ! Volume of the element
@@ -461,8 +466,6 @@ c
                 ENDDO
               ! Brick element
               ELSEIF (ISOLNOD == 8) THEN
-                ! Supported formulations
-                IF ((ISOLID/=16).OR.(ISOLID/=14)) THEN
                   ! Loop over elements
                   DO I = 1,NEL
                     ! Loop over brick nodes
@@ -477,7 +480,7 @@ c
                       ! If already written and different => error
                       IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
                         CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+     .                 ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
                       ENDIF
                       ! Tag the material law id of the node
                       TAGNOD(INOD,3) = IMAT
@@ -486,17 +489,16 @@ c
                     ENDDO      
                   ENDDO
                 ELSE
-                  ! Formulations not supported
+                ! Quadratic formulations not supported
                   CALL ANCMSG(MSGID=1659,MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,I1=ISOLID)                 
+     .                     ANMODE=ANINFO_BLIND)                 
                 ENDIF
-              ENDIF  
             ! For 4-nodes shell elements
             ELSEIF (ITY == 3) THEN
               ! Non-supported property
               IF ((IGTYP /= 1).AND.(IGTYP /= 9)) THEN 
                 CALL ANCMSG(MSGID=1662,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=IGTYP)               
+     .                   ANMODE=ANINFO_BLIND,I1=IGTYP)               
               ENDIF
               ! Beginning value in index table
               IDEB = NUMELS
@@ -545,7 +547,7 @@ c
               ! Non-supported property
               IF ((IGTYP /= 1).AND.(IGTYP /= 9)) THEN 
                 CALL ANCMSG(MSGID=1662,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=IGTYP)               
+     .                   ANMODE=ANINFO_BLIND,I1=IGTYP)               
               ENDIF
               ! Beginning value in index table
               IDEB = NUMELS+NUMELC
@@ -592,7 +594,7 @@ c
             ! For all other types of elements
             ELSE
               CALL ANCMSG(MSGID=1658,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=ITY)   
+     .                   ANMODE=ANINFO_BLIND,I1=ITY)   
             ENDIF
           ENDIF
         ENDDO
@@ -962,8 +964,10 @@ c
                   DO I=1,NEL                                   
                     MASSTH(I,K)   = MASSTH(I,K)   + 
      .                   (NTH1**2 + NTH1*NTH2)*DENS*VOL(I)*HALF*W_GAUSS(K,NPTT)
+     .                   *HALF*W_GAUSS(IR,NPTR)*HALF*W_GAUSS(IS,NPTS)
                     MASSTH(I,K+1) = MASSTH(I,K+1) + 
      .                   (NTH2**2 + NTH1*NTH2)*DENS*VOL(I)*HALF*W_GAUSS(K,NPTT)
+     .                   *HALF*W_GAUSS(IR,NPTR)*HALF*W_GAUSS(IS,NPTS)
                   ENDDO
                 ENDDO
               ENDDO

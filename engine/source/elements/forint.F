@@ -115,7 +115,8 @@ Chd|====================================================================
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
-     Z    SBUFMAT   ,SNPC      ,STF        ) 
+     Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
+     .    DTMIN1    ,IDTMIN    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -206,6 +207,8 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
       TYPE (DT_) ,  INTENT(INOUT) :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      INTEGER, INTENT(IN) :: NODADT,IDTMIN(102)
+      my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -810,7 +813,8 @@ c
      J         FTHESKY  ,IEXPAN    ,IGEO    ,NPT     ,GRESAV  ,
      K         GRTH     ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE,
      L         XDP      ,VOLN      ,CONDN    ,CONDNSKY,SENSORS,
-     M         IPRI     ,MAT_ELEM  ,IBID  ,DT )
+     M         IPRI     ,MAT_ELEM  ,IBID  ,DT ,NODADT,  DTFAC1,
+     N         DTMIN1   ,IDTMIN    )
 C
             IF (NSECT > 0) THEN
               K0=NSTRF(25)

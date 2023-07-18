@@ -338,7 +338,6 @@ C-----------
           L_PLA = ELBUF_STR%BUFLY(IL)%L_PLA
           L_SIGB= ELBUF_STR%BUFLY(IL)%L_SIGB
 C
-         IF (IGTYP == 21.OR.IGTYP == 22) THEN
           IF (IGTYP == 22) THEN
             WT = GEO(IPTHK+IL,IG)
             ZZ = GEO(IPPOS+IL,IG)
@@ -366,12 +365,6 @@ C----------------
             ZS = A_GAUSS(IR,NPTR)
             ZT = A_GAUSS(IS,NPTS)
           ENDIF
-         ELSE
-           ZR = A_GAUSS(IR,NPTR)
-           ZS = A_GAUSS(IS,NPTS)
-           ZT = A_GAUSS(IL,NLAY)
-           WT = W_GAUSS(IL,NLAY)
-         ENDIF
          IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
          WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*WT
 C
