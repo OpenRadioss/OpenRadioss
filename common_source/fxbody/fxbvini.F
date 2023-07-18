@@ -39,9 +39,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER FXBIPM(NBIPM,*)
-      my_real
-     .   FXBVIT(*), FXBRPM(*), V(3,*), VR(3,*)
+      INTEGER, INTENT(IN) :: FXBIPM(NBIPM,NFXBODY)
+      my_real, INTENT(IN) :: FXBRPM(LENRPM),V(3,NUMNOD),VR(3,NUMNOD)
+      my_real, INTENT(INOUT) :: FXBVIT(LENVAR)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
