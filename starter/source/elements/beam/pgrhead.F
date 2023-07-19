@@ -46,7 +46,7 @@ C     INUM(7,NUMELP)    TABLEAU DE TRAVAIL                         E/S
 C     ITR1(NSELP)       TABLEAU DE TRAVAIL                         E/S
 C     EADD(NUMELP)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
 C     INDEX(NUMELP)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(6,NUMELP)    TABLEAU DE TRAVAIL                         E/S
+C     ITRI(5,NUMELP)    TABLEAU DE TRAVAIL                         E/S
 C     IPARTP(NUMELP)    TABLEAU PART                               E/S
 C     CEP(NUMELP)    TABLEAU PROC                               E/S
 C     XEP(NUMELP)    TABLEAU PROC                               E/S
@@ -196,17 +196,17 @@ C         DETERMINATION DES SUPER_GROUPES
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELP
-        II=ITRI(1,INDEX(I))
-        JJ=ITRI(1,INDEX(I-1))
-        II2=ITRI(2,INDEX(I))
-        JJ2=ITRI(2,INDEX(I-1))
-        II3=ITRI(3,INDEX(I))
-        JJ3=ITRI(3,INDEX(I-1))
-        II4=ITRI(5,INDEX(I))
-        JJ4=ITRI(5,INDEX(I-1))
-        II5=ITRI(6,INDEX(I))
-        JJ5=ITRI(6,INDEX(I-1))
-        IF (II/=JJ .OR. II2/=JJ2 .OR. II3/=JJ3 .OR.II4 /= JJ4.OR.II5 /= JJ5) THEN
+        II  = ITRI(1,INDEX(I))
+        JJ  = ITRI(1,INDEX(I-1))
+        II2 = ITRI(2,INDEX(I))
+        JJ2 = ITRI(2,INDEX(I-1))
+        II3 = ITRI(3,INDEX(I))
+        JJ3 = ITRI(3,INDEX(I-1))
+        II4 = ITRI(4,INDEX(I))
+        JJ4 = ITRI(4,INDEX(I-1))
+        II5 = ITRI(5,INDEX(I))
+        JJ5 = ITRI(5,INDEX(I-1))
+        IF (II/=JJ .OR. II2/=JJ2 .OR. II3/=JJ3 .OR. II4/=JJ4 .OR. II5/=JJ5) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF
