@@ -65,7 +65,7 @@ C-----------------------------------------------
       my_real GEO(NPROPG,*),POSLY(MVSIZ,*),THK(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_), DIMENSION(:), TARGET  :: DRAPE
+      TYPE (DRAPE_), DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE), TARGET  :: DRAPE
       INTEGER , DIMENSION(NUMEL_DRAPE) :: INDX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -84,7 +84,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,KK,M1,ISHELL,ISH3N,ISMSTR,ISROT,ISTRAIN,IINT,ITHK,
      .   IORTH,IPOS,IGMAT,ISHEAR,IPLAST,NPLY,NP,NSUB,NISUB,IGTYP,IMID,
-     .   ISK,IDSK,PLY_ID,IPID0,IDSUB,INTER,IS,LAMIN,IPID1,IPID2,NPT_SUB,IRP
+     .   ISK,IDSK,PLY_ID,IPID0,IDSUB,INTER,IS,LAMIN,IPID1,IPID2,NPT_SUB,IRP,
+     .   NPLY_MAX
       my_real :: PTHK,ZSHIFT,HM,HF,HR,DM,DN,ASHEAR,VX,VY,VZ,FAILEXP,CVIS,
      .           NORM,ANG,POS,PTHKLY,WEIGHT
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
@@ -155,19 +156,21 @@ c
           STACK_INFO%SUB(2*(IS-1) + 2) = NPT_SUB  
 c
           DO I = 1,NPT_SUB
-            NPLY = NPLY + 1
             CALL HM_GET_INT_ARRAY_2INDEXES('plyidlist',PLY_ID,IS,I,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('LAM_Stack_phi',ANG,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('LAM_Stack_Zi',POS,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('P_thick_fail_lam',PTHKLY,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('F_weight_i',WEIGHT,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-            IF (PTHKLY == ZERO) PTHKLY = EM03
-            IF (WEIGHT == ZERO) WEIGHT = ONE
-            STACK_INFO%PID(NPLY) = PLY_ID
-            STACK_INFO%ANG(NPLY) = ANG
-            STACK_INFO%POS(NPLY) = POS
-            STACK_INFO%THKLY(NPLY)  = PTHKLY
-            STACK_INFO%WEIGHT(NPLY) = WEIGHT
+            IF(PLY_ID > 0) THEN
+                NPLY = NPLY + 1
+               IF (PTHKLY == ZERO) PTHKLY = EM03
+               IF (WEIGHT == ZERO) WEIGHT = ONE
+               STACK_INFO%PID(NPLY) = PLY_ID
+               STACK_INFO%ANG(NPLY) = ANG
+               STACK_INFO%POS(NPLY) = POS
+               STACK_INFO%THKLY(NPLY)  = PTHKLY
+               STACK_INFO%WEIGHT(NPLY) = WEIGHT
+           ENDIF    
           END DO
         END DO
 c
@@ -180,22 +183,25 @@ c
           END DO
         END IF  
       ELSE  ! property defined by a list of plies
-        CALL HM_GET_INTV('plyidlistmax' ,NPLY ,IS_AVAILABLE ,LSUBMODEL)
-        DO I=1,NPLY
+        CALL HM_GET_INTV('plyidlistmax' ,NPLY_MAX ,IS_AVAILABLE ,LSUBMODEL)
+        NPLY =  0
+        DO I=1,NPLY_MAX
           CALL HM_GET_INT_ARRAY_INDEX  ('plyidlist' ,PLY_ID,I,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('LAM_Stack_phi',ANG,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
           CALL HM_GET_FLOAT_ARRAY_INDEX('LAM_Stack_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
           CALL HM_GET_FLOAT_ARRAY_INDEX('P_thick_fail_lam' ,PTHKLY,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
           CALL HM_GET_FLOAT_ARRAY_INDEX('F_weight_i' ,WEIGHT,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-c
-          IF (PTHKLY == ZERO) PTHKLY = EM03
-          IF (WEIGHT == ZERO) WEIGHT = ONE
-          STACK_INFO%PID(I) = PLY_ID
-          STACK_INFO%ANG(I) = ANG
-          STACK_INFO%POS(I) = POS
-          STACK_INFO%THKLY(I)  = PTHKLY
-          STACK_INFO%WEIGHT(I) = WEIGHT
-          ! old format of interply not supported
+c       
+          IF(PLY_ID > 0) THEN
+             NPLY = NPLY + 1
+             IF (PTHKLY == ZERO) PTHKLY = EM03
+             IF (WEIGHT == ZERO) WEIGHT = ONE
+             STACK_INFO%PID(NPLY) = PLY_ID
+             STACK_INFO%ANG(NPLY) = ANG
+             STACK_INFO%POS(NPLY) = POS
+             STACK_INFO%THKLY(NPLY)  = PTHKLY
+             STACK_INFO%WEIGHT(NPLY) = WEIGHT
+          ENDIF
         END DO
       END IF
 c--------------------------------------------

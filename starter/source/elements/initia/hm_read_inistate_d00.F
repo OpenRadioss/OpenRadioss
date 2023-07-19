@@ -2669,27 +2669,6 @@ C---------
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(2,I) = 0
                   SIGSH(3,I) = THK
-!
-c---
-C  check for incompatibility with /DRAPE option
-c---
-                  IF (NDRAPE > 0) THEN
-                    NIP = IGEO(4,IG)
-                    DO JJ=1,NIP
-                      JDRP_ID = IDRAPE(JJ,IE)
-                      IF (JDRP_ID > 0) THEN
-                        CALL ANCMSG(MSGID=1156,
-     .                              MSGTYPE=MSGERROR,
-     .                              ANMODE=ANINFO,
-     .                              C1='/INISHE/THICK',
-     .                              C2='SHELL',
-     .                              I1=ID_ELEM,
-     .                              C3='/INISHE/THICK',
-     .                              I2=JDRP_ID)
-                          EXIT
-                      ENDIF ! IF (JDRP_ID > 0)
-                    ENDDO ! DO JJ=1,NIP
-                  ENDIF ! IF (NDRAPE > 0)
                 ENDIF ! IF (IE == 0)
               ENDDO ! DO J=1,NB_ELEMENTS
 C---------
@@ -2749,25 +2728,6 @@ C---------
      .                                     C1='/INISHE/ORTHO',
      .                                     C2='SHELL')
                   ELSE
-c---
-C  check for incompatibility with /DRAPE option
-c---
-                    IF (NDRAPE > 0) THEN
-                      DO JJ=1,NIP
-                        JDRP_ID = IDRAPE(JJ,IE)
-                        IF (JDRP_ID > 0) THEN
-                          CALL ANCMSG(MSGID=1156,
-     .                                MSGTYPE=MSGERROR,
-     .                                ANMODE=ANINFO,
-     .                                C1='/INISHE/ORTHO',
-     .                                C2='SHELL',
-     .                                I1=ID_ELEM,
-     .                                C3='/INISHE/ORTHO',
-     .                                I2=JDRP_ID)
-                          EXIT
-                        ENDIF ! IF (JDRP_ID > 0)
-                      ENDDO ! DO JJ=1,NIP
-                    ENDIF ! IF (NDRAPE > 0)
 !
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
@@ -2839,25 +2799,6 @@ c---
      .                                     C1='/INISHE/ORTH_LOC',
      .                                     C2='SHELL')
                   ELSE
-c---
-C  check for incompatibility with /DRAPE option
-c---
-                    IF (NDRAPE > 0) THEN
-                      DO JJ=1,NIP
-                        JDRP_ID = IDRAPE(JJ,IE)
-                        IF (JDRP_ID > 0) THEN
-                          CALL ANCMSG(MSGID=1156,
-     .                                MSGTYPE=MSGERROR,
-     .                                ANMODE=ANINFO,
-     .                                C1='/INISHE/ORTH_LOC',
-     .                                C2='SHELL',
-     .                                I1=ID_ELEM,
-     .                                C3='/INISHE/ORTH_LOC',
-     .                                I2=JDRP_ID)
-                          EXIT
-                        ENDIF ! IF (JDRP_ID > 0)
-                      ENDDO ! DO JJ=1,NIP
-                    ENDIF ! IF (NDRAPE > 0)
 !
                     IG    = IXC(6,IE)
                     IHBE  = IGEO(10,IG)
@@ -3854,27 +3795,6 @@ C---------
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(2,I) = 0
                   SIGSH(3,I) = THK
-!
-c---
-C  check for incompatibility with /DRAPE option
-c---
-                  IF (NDRAPE > 0) THEN
-                    NIP = IGEO(4,IG)
-                    DO JJ=1,NIP
-                      JDRP_ID = IDRAPE(JJ,IE)
-                      IF (JDRP_ID > 0) THEN
-                        CALL ANCMSG(MSGID=1156,
-     .                              MSGTYPE=MSGERROR,
-     .                              ANMODE=ANINFO,
-     .                              C1='/INISH3/THICK',
-     .                              C2='SH3N',
-     .                              I1=ID_ELEM,
-     .                              C3='/INISH3/THICK',
-     .                              I2=JDRP_ID)
-                          EXIT
-                      ENDIF ! IF (JDRP_ID > 0)
-                    ENDDO ! DO JJ=1,NIP
-                  ENDIF ! IF (NDRAPE > 0)
                 ENDIF ! IF (IE == 0)
               ENDDO ! DO J=1,NB_ELEMENTS
 C---------
@@ -3933,25 +3853,6 @@ C---------
      .                                     C1='/INISH3/ORTHO',
      .                                     C2='SH3N')
                   ELSE
-c---
-C  check for incompatibility with /DRAPE option
-c---
-                    IF (NDRAPE > 0) THEN
-                      DO JJ=1,NIP
-                        JDRP_ID = IDRAPE(JJ,IE)
-                        IF (JDRP_ID > 0) THEN
-                          CALL ANCMSG(MSGID=1156,
-     .                                MSGTYPE=MSGERROR,
-     .                                ANMODE=ANINFO,
-     .                                C1='/INISH3/ORTHO',
-     .                                C2='SHELL',
-     .                                I1=ID_ELEM,
-     .                                C3='/INISH3/ORTHO',
-     .                                I2=JDRP_ID)
-                          EXIT
-                        ENDIF ! IF (JDRP_ID > 0)
-                      ENDDO ! DO JJ=1,NIP
-                    ENDIF ! IF (NDRAPE > 0)
 !
                     IG   = IXTG(5,IE)
                     ISH3N = IGEO(18,IG)
@@ -4023,25 +3924,6 @@ c---
      .                                     C1='/INISH3/ORTH_LOC',
      .                                     C2='SH3N')
                   ELSE
-c---
-C  check for incompatibility with /DRAPE option
-c---
-                    IF (NDRAPE > 0) THEN
-                      DO JJ=1,NIP
-                        JDRP_ID = IDRAPE(JJ,IE)
-                        IF (JDRP_ID > 0) THEN
-                          CALL ANCMSG(MSGID=1156,
-     .                                MSGTYPE=MSGERROR,
-     .                                ANMODE=ANINFO,
-     .                                C1='/INISH3/ORTH_LOC',
-     .                                C2='SH3N',
-     .                                I1=ID_ELEM,
-     .                                C3='/INISH3/ORTH_LOC',
-     .                                I2=JDRP_ID)
-                          EXIT
-                        ENDIF ! IF (JDRP_ID > 0)
-                      ENDDO ! DO JJ=1,NIP
-                    ENDIF ! IF (NDRAPE > 0)
 !
                     IG    = IXTG(5,IE)
                     ISH3N = IGEO(18,IG)
