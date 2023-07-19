@@ -142,9 +142,7 @@ C-----------------------------------------------
       INTEGER IORTHLOC(MVSIZ),MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),JJ(6),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ)
       my_real
-     .   VX(MVSIZ),VY(MVSIZ),VZ(MVSIZ),PHI1(NPT,MVSIZ),PHI2(NPT,MVSIZ),
-     .   COOR1(NPT,MVSIZ),COOR2(NPT,MVSIZ),COOR3(NPT,MVSIZ),
-     .   COOR4(NPT,MVSIZ),ALDT(MVSIZ),AREA(MVSIZ)
+     .   VX(MVSIZ),VY(MVSIZ),VZ(MVSIZ),ALDT(MVSIZ),AREA(MVSIZ)
       my_real,
      .   DIMENSION(MVSIZ) :: PX1G,PY1G,PY2G,X2S,X3S,Y3S,DT
       my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ) ,X4(MVSIZ),
@@ -159,7 +157,8 @@ C-----------------------------------------------
       CHARACTER*nchartitle,
      .   TITR
       my_real, 
-     .    ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B
+     .    ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B,PHI1,PHI2,
+     .                                 COOR1,COOR2,COOR3,COOR4
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDX     
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
@@ -196,12 +195,6 @@ C
       VX   = ZERO
       VY   = ZERO
       VZ   = ZERO
-      PHI1 = ZERO
-      PHI2 = ZERO
-      COOR1 = ZERO
-      COOR2 = ZERO
-      COOR3 = ZERO
-      COOR4 = ZERO
       IORTHLOC = 0
       ITG = 1+NUMELC
 C---
@@ -212,23 +205,43 @@ C---
       NPTT = ELBUF_STR%NPTT
 C      
       NPT_ALL = 0
-      DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
-      ENDDO
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+        DO IL=1,NLAY
+          NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+        ENDDO  
+      ENDIF  
       MPT  = MAX(1,NPT_ALL)
+      IF(NPT_ALL == 0 .OR. IDRAPE == 0) NPT_ALL = NLAY
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
          ALLOCATE(DIR_A(NPT_ALL*NEL*2))
          ALLOCATE(DIR_B(NPT_ALL*NEL*2))
          DIR_A = ZERO
-         DIR_B = ZERO
+         DIR_B = ZERO 
+         ALLOCATE(PHI1(MVSIZ*NPT_ALL))
+         ALLOCATE(PHI2(NVSIZ*NPT_ALL))
+         PHI1  = ZERO
+         PHI2  = ZERO
       ELSE
          ALLOCATE(DIR_A(NLAY*NEL*2))
          ALLOCATE(DIR_B(NLAY*NEL*2))
          DIR_A = ZERO
-         DIR_B = ZERO
+         DIR_B = ZERO  
+         ALLOCATE(PHI1(NLAY*MVSIZ))
+         ALLOCATE(PHI2(NLAY*MVSIZ))
+         PHI1  = ZERO
+         PHI2  = ZERO
          NPT_ALL = NLAY
-      ENDIF
+      ENDIF 
+      !
+      ALLOCATE(COOR1(NPT_ALL*MVSIZ))
+      COOR1 = ZERO
+      ALLOCATE(COOR2(NPT_ALL*MVSIZ))
+      COOR2 = ZERO
+      ALLOCATE(COOR3(NPT_ALL*MVSIZ))
+      COOR3 = ZERO
+      ALLOCATE(COOR4(NPT_ALL*MVSIZ))
+      COOR4 = ZERO
 C
       DO J=1,6
         JJ(J) = NEL*(J-1)

@@ -201,10 +201,13 @@ C
       LENS = NEL*GBUF%G_STRPG/NPG
     
       NPT_ALL = 0
-      DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
-      ENDDO   
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEn
+         DO IL=1,NLAY
+           NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+         ENDDO   
+      ENDIF   
       MPT  = MAX(1,NPT_ALL)
+      IF(NPT_ALL == 0 .OR. IDRAPE == 0) NPT_ALL = NLAY
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
          ALLOCATE(DIR_A(NPT_ALL*NEL*2))
