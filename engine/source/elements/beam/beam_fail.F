@@ -98,10 +98,8 @@ C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step
       bidon = eint(1,1)
-      bidon = epsp(1)
       bidon = npf(1)
       bidon = tf(1)
-      bidon = off(1)
 c-----------------------------------------------------
       IPY  = 200        
       IPZ  = 300        
@@ -113,6 +111,13 @@ C--------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
       COUNT(1:NEL) = 0
+      NPARAM  = IPM(112, IMAT)
+      NFUNC   = IPM(115, IMAT)
+      IADBUF  = IPM(114 ,IMAT)
+      UPARAMF => BUFMAT(IADBUF:IADBUF+NPARAM)
+      DO I=1,NFUNC                
+        IFUNC(I) = IPM(115 + I,IMAT)
+      ENDDO 
 C---------------------------------------
 C     START LOOP OVER INTEGRATION POINTS
 C---------------------------------------
@@ -125,13 +130,6 @@ C---------------------------------------
         DFMAX  => FBUF%FLOC(IFL)%DAMMX 
         TDEL   => FBUF%FLOC(IFL)%TDEL   
         FOFF   => FBUF%FLOC(IFL)%OFF
-        NPARAM  = IPM(112 + IPT, IMAT)
-        NFUNC   = IPM(115 + IPT, IMAT)
-        IADBUF  = IPM(114 + IPT ,IMAT)
-        UPARAMF => BUFMAT(IADBUF:IADBUF+NPARAM)
-        DO I=1,NFUNC                
-          IFUNC(I) = IPM(115 + IPT + I,IMAT)
-        ENDDO 
 
         DPLA(1:NEL) = ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%PLA(1:NEL)
 c
@@ -158,46 +156,45 @@ c------------------------------------
         SELECT CASE (IRUPT)                                            
 c------------------------------------            
 c
-          CASE (1)     !    Johnson-Cook                                                   
-           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
-           IF (JTHE > 0) THEN
-             T0 = PM(79, IMAT) 
-             TM = PM(80, IMAT) 
-             DO I=1,NEL  
-               TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-             ENDDO
-           ELSE
-             TSTAR(1:NEL) = ZERO
-           ENDIF
-!
-!              CALL FAIL_JOHNSON_B(
-!     .           NEL       ,NGL       ,IPT       ,NPARAM    ,UPARAMF   ,
-!     .           TT        ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
-!     .           DPLA      ,EPSPL     ,OFF       ,FOFF      ,DFMAX     ,
-!     .           TDEL      )
+        CASE (1)     !    Johnson-Cook                                                   
+          !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
+          IF (JTHE > 0) THEN
+            T0 = PM(79, IMAT) 
+            TM = PM(80, IMAT) 
+            DO I=1,NEL  
+              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
+            ENDDO
+          ELSE
+            TSTAR(1:NEL) = ZERO
+          ENDIF
+
+          CALL FAIL_JOHNSON_PI(
+     .         NEL       ,NGL       ,IPT       ,NPARAM    ,UPARAMF   ,
+     .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
+     .         DPLA      ,EPSP      ,OFF       ,FOFF      ,DFMAX     ,
+     .         TDEL      ,IOUT      ,ISTDO     )
 c
-          IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
 c-------------
         END SELECT
 C-------------------------------------
-c       END LOOP OVER INTEGRATION POINTS
-C-------------------------------------
-      ENDDO
+      ENDDO   ! IPT = 1,NPT :  END LOOP OVER INTEGRATION POINTS
 c-------------------------------------
 c     Check element erosion      
 c-------------------------------------
         DO I= 1,NEL
-          IF (COUNT(I) == NPT) THEN
+          IF (OFF(I) == ONE .and. COUNT(I) == NPT) THEN
             ELBUF_STR%GBUF%OFF(I) = FOUR_OVER_5  ! element erosion started
 #include "lockon.inc"
-            WRITE(IOUT, 1000) NGL(I)
-            WRITE(ISTDO,1100) NGL(I),TIME
+            WRITE(IOUT, 1000) NGL(I),TIME
+            WRITE(ISTDO,1000) NGL(I),TIME
 #include "lockoff.inc" 
           END IF
         END DO
 c------------------
- 1000 FORMAT(1X,'DELETED BEAM ELEMENT ',I10)
- 1100 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
+ 1000 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
 c------------------
       RETURN
       END SUBROUTINE BEAM_FAIL
