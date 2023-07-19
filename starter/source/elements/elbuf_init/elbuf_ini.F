@@ -1947,7 +1947,7 @@ c-------------------------------------------------
           ELBUF_TAB(NG)%NPTT   = NPTT
           ELBUF_TAB(NG)%IXFEM  = 0
           ELBUF_TAB(NG)%NXEL   = 0
-          ELBUF_TAB(NG)%IDRAPE   = IDRAPE
+          ELBUF_TAB(NG)%IDRAPE = 0
 c-------------------------------------------------
           MY_ALLOCATE(IMAT,NLAY)
           MY_ALLOCATE(ILAW,NLAY)
@@ -1975,6 +1975,7 @@ c
               IMAT(IL) = IMID                                                      
               ILAW(IL) = MLW
               LAW_VIS  = IPM(222,IMAT(IL))
+              NFAIL    = IPM(220,IMAT(IL))                                      
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR
@@ -1996,6 +1997,9 @@ c
               NUVARM  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
               NUVAREOS= ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS
               NPTT    = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+              NFAIL   = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
+              IF (NFAIL == 1) MY_ALLOCATE3D(BUFLY%FAIL,NPTR,NPTS,NPTT)                
+              
               DO IR = 1,NPTR                                       
                 DO IS = 1,NPTS                                      
                   DO IT = 1,NPTT
@@ -2006,6 +2010,55 @@ c
                     ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR = ZERO
                     ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR = ZERO
                     LMAT  = LMAT  + NUVARM*NEL
+
+                    IF (NFAIL == 1) THEN
+                      ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(NFAIL))
+                      FLOC   => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(1)         
+                      IRUPT  = IPM(111,IMAT(IL))   ! modele de rupture
+                      IDFAIL = IPM(236 + 1,IMAT(IL)) 
+c
+                      FLOC%ILAWF = IRUPT                                           
+                      LFAIL = LFAIL + 1 
+c
+                      FLOC%IDFAIL = IDFAIL
+                      LFAIL = LFAIL + 1
+c
+                      FLOC%NVAR  = FAIL_TAG(IRUPT)%NUVAR                              
+                      MY_ALLOCATE(FLOC%VAR,FLOC%NVAR*NEL)
+                      FLOC%VAR = ZERO     
+                      LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
+c
+                      FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
+                      MY_ALLOCATE(FLOC%DAM,FLOC%LF_DAM*NEL)
+                      FLOC%DAM = ZERO   
+                      LFAIL = LFAIL + FLOC%LF_DAM*NEL + 1 
+c
+                      FLOC%LF_DAMMX  = FAIL_TAG(IRUPT)%LF_DAMMX                       
+                      MY_ALLOCATE(FLOC%DAMMX,FLOC%LF_DAMMX*NEL) 
+                      FLOC%DAMMX = ZERO
+                      LFAIL = LFAIL + FLOC%LF_DAMMX*NEL + 1 
+c
+                      FLOC%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                      
+                      MY_ALLOCATE(FLOC%DAMINI,FLOC%LF_DAMINI*NEL) 
+                      FLOC%DAMINI = ZERO
+                      LFAIL = LFAIL + FLOC%LF_DAMINI*NEL + 1 
+c
+                      FLOC%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
+                      MY_ALLOCATE(FLOC%TDEL,FLOC%LF_TDEL*NEL)
+                      FLOC%TDEL = ZERO                                                           
+                      LFAIL = LFAIL + FLOC%LF_TDEL*NEL + 1 
+c
+                      FLOC%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
+                      MY_ALLOCATE(FLOC%INDX,FLOC%LF_INDX*NEL)
+                      FLOC%INDX = 0                                                           
+                      LFAIL = LFAIL + FLOC%LF_INDX*NEL + 1 
+c
+                      FLOC%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
+                      MY_ALLOCATE(FLOC%OFF,FLOC%LF_OFF*NEL)
+                      FLOC%OFF = 1                                                           
+                      LFAIL = LFAIL + FLOC%LF_OFF*NEL + 1 
+                    END IF
+
                   ENDDO                                                           
                 ENDDO                                                          
               ENDDO 

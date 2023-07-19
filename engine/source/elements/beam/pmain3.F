@@ -241,7 +241,7 @@ C---------converged implicit-------------------
 C      
       DO I = 1,NEL
         IF (OFF(I) < EM01)  OFF(I) = ZERO
-        IF (OFF(I) < ONE  )  OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO      
       DEALLOCATE (DPLA)
 C------------------------------------------
