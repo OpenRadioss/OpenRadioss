@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        M2ITER_IMP                    source/materials/mat/mat002/m2iter_imp.F
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
+Chd|        MSTRAIN_RATE                  source/materials/mat_share/mstrain_rate.F
 Chd|====================================================================
       SUBROUTINE M2LAW(
      1   PM,      OFF,     SIG,     EINT,
