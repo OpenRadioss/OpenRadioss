@@ -399,6 +399,12 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                   WA(II)=PARTSAV(22,I)
                 ELSEIF(K==25) THEN 
                   WA(II)=PARTSAV(25,I)
+                ELSEIF(K==29) THEN 
+                  WA(II)=PARTSAV(3,M)/MAX(PARTSAV(6,M),EM20)
+                ELSEIF(K==30) THEN 
+                  WA(II)=PARTSAV(4,M)/MAX(PARTSAV(6,M),EM20)
+                ELSEIF(K==31) THEN 
+                  WA(II)=PARTSAV(5,M)/MAX(PARTSAV(6,M),EM20)
                 ELSEIF(K > 0 .AND. SIZE(PARTSAV,1) >= K) THEN
                   WA(II)=PARTSAV(K,I)
                 ELSE 
@@ -524,9 +530,15 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                  WA(II)=SUBSAV(22)
               ELSEIF(K==25) THEN 
                  WA(II)=SUBSAV(25)
-               ELSEIF(K > 0) THEN
+              ELSEIF(K==29) THEN 
+                 WA(II)=SUBSAV(3)/MAX(SUBSAV(6),EM20)
+              ELSEIF(K==30) THEN 
+                 WA(II)=SUBSAV(4)/MAX(SUBSAV(6),EM20)
+              ELSEIF(K==31) THEN 
+                 WA(II)=SUBSAV(5)/MAX(SUBSAV(6),EM20)
+              ELSEIF(K > 0) THEN
                  WA(II)=SUBSAV(K)
-               ELSE 
+              ELSE 
                  WA(II) = 0
                ENDIF
              ENDDO

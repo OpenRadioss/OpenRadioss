@@ -157,7 +157,7 @@ C-----------------------------------------------
       PARAMETER (NVARFXM = 3)
       PARAMETER (NVARAC = 6,NVARSE =39,NVARJO = 6)
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
-      PARAMETER (NVARPA =28)
+      PARAMETER (NVARPA = 31)
       PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,
      .           NVARSURF = 5,NVARSLIP=6,NVARRET=3)
       CHARACTER*10 VARN(NVARN),VARS(NVARS),VARC(NVARC),VART(NVART)
@@ -1096,7 +1096,8 @@ C   part
      . 'ZCG     ','XXMOM   ','YYMOM   ','ZZMOM   ','IXX     ',
      . 'IYY     ','IZZ     ','IXY     ','IYZ     ','IZX     ',
      . 'RIE     ','KERB    ','RKERB   ','RKE     ','ERODED  ',
-     . 'UNUSED  ','UNUSED  ','HEAT    '/
+     . 'UNUSED  ','UNUSED  ','HEAT    ','VX      ','VY      ',
+     . 'VZ      '/
 C   rivets
       DATA VARRIV/
      . 'OFF     ','F1X     ','F1Y     ','F1Z     ','F2X     ',
