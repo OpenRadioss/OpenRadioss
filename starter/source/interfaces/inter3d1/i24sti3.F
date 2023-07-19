@@ -249,7 +249,7 @@ C
         ENDIF
        DO I=1,NSN
         NS = NSV(I)
-        IF( TAGB(NS) > 0 ) GAP_S(I) = ZERO
+        IF( TAGB(NS) > 0 ) GAP_S(I) = EM20
        ENDDO
       ENDIF
 C      

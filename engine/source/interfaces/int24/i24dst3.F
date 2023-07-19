@@ -680,8 +680,8 @@ c     .        +GAP_NM(11,CAND_E(I))+GAP_NM(12,CAND_E(I)) /= ZERO)THEN
        ELSEIF(GAP_NM(11,L)>ZERO.OR.GAP_NM(12,L)>ZERO) THEN
          ISHEL(I)=1
        END IF
-C------taking into account Igap0=1      
-       IF(GAPS(I)>=ZERO.AND.GAP_M(L)>ZERO) ISHEL(I)=2
+C-now ISHEL(I)=2 means shell-to-shell since we set GAPS=EM20 instead of 0 when Igap0=1      
+       IF(GAPS(I)>ZERO.AND.GAP_M(L)>ZERO) ISHEL(I)=2
        IF(ISHEL(I)>0) THEN
          NX1 = NXX(I,1)
          NY1 = NYY(I,1)
