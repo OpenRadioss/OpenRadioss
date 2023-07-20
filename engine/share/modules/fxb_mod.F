@@ -25,6 +25,7 @@ Chd|  FXB_MOD                       share/modules/fxb_mod.F
 Chd|-- called by -----------
 Chd|        FXBRESB                       source/output/restart/rdresb.F
 Chd|        FXBWREST                      source/output/restart/wrrest.F
+Chd|        LECTUR                        source/input/lectur.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
 Chd|        RESTALLOC                     source/output/restart/arralloc.F
 Chd|-- calls ---------------

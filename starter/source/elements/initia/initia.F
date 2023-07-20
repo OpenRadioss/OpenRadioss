@@ -47,7 +47,7 @@ Chd|        DTNODA_STIFINT                source/interfaces/inter3d1/dtnoda_stif
 Chd|        EPORIN3                       source/ale/ale3d/eporin3.F    
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        FXBSINI                       source/constraints/fxbody/fxbsini.F
-Chd|        FXBVINI                       source/constraints/fxbody/fxbvini.F
+Chd|        FXBVINI                       ../common_source/fxbody/fxbvini.F
 Chd|        GETPHASE                      source/initial_conditions/inivol/getphase.F
 Chd|        IG3DINIT3                     source/elements/ige3d/ig3dinit3.F
 Chd|        INIBOLTPREL                   source/loads/bolt/iniboltprel.F

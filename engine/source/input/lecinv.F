@@ -27,6 +27,7 @@ Chd|        LECTUR                        source/input/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
+Chd|        FXBVINI                       ../common_source/fxbody/fxbvini.F
 Chd|        NGR2USR                       source/input/freform.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

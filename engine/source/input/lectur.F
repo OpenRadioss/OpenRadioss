@@ -60,6 +60,7 @@ Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FXB_MOD                       share/modules/fxb_mod.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

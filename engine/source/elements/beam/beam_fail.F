@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  BEAM_FAIL                        source/elements/beam/mulawp.F 
+Chd|  BEAM_FAIL                     source/elements/beam/beam_fail.F
 Chd|-- called by -----------
 Chd|        PMAIN3                        source/elements/beam/pmain3.F 
 Chd|-- calls ---------------
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE BEAM_FAIL(ELBUF_STR     ,NUMMAT  ,NUMGEO  ,NPROPM  ,
      .                  NPROPMI ,NPROPG  ,SBUFMAT ,SNPC    ,STF     ,

@@ -203,6 +203,7 @@ Chd|        ANIOFFS                       engine/source/output/anim/generate/ani
 Chd|        ANISKEW                       engine/source/output/anim/generate/aniskew.F
 Chd|        AREZON                        engine/source/ale/arezon.F    
 Chd|        ATHERM                        engine/source/ale/atherm.F    
+Chd|        BEAM_FAIL                     engine/source/elements/beam/beam_fail.F
 Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        C3COORK3                      engine/source/elements/sh3n/coque3n/c3coork3.F
 Chd|        C3EVEC3                       engine/source/elements/sh3n/coque3n/c3evec3.F

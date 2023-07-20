@@ -25,6 +25,7 @@ Chd|  PMAIN3                        source/elements/beam/pmain3.F
 Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
+Chd|        BEAM_FAIL                     source/elements/beam/beam_fail.F
 Chd|        M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
 Chd|        MULAWP                        source/elements/beam/mulawp.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
