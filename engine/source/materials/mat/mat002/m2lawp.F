@@ -31,7 +31,8 @@ Chd|====================================================================
      .    OFF     ,PLA     ,EXX     ,EXY     ,EXZ,
      .    KXX     ,KYY     ,KZZ     ,AL      ,FA1,
      .    FA2     ,FA3     ,MA1     ,MA2     ,MA3,
-     .    NEL     ,MAT     ,PID     ,NGL     )
+     .    NEL     ,MAT     ,PID     ,NGL     ,IPM,
+     .    NUMMAT  ,NUVAR   ,UVAR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +54,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
+      INTEGER , INTENT(IN) :: NUMMAT,NUVAR
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
+
       my_real
      .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
      .   OFF(*), PLA(*),
@@ -69,15 +74,15 @@ C-----------------------------------------------
      .   YLDTMP(MVSIZ),YM(MVSIZ), 
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), DEGMB(MVSIZ),
      .   DEGFX(MVSIZ),ESP(MVSIZ),RHO(MVSIZ),G(MVSIZ),
-     .   DMPM(MVSIZ), DMPF(MVSIZ), SHF(MVSIZ),
+     .   DMPM(MVSIZ), DMPF(MVSIZ), SHF(MVSIZ),VP(MVSIZ),
      .   F1(MVSIZ), M1(MVSIZ), M2(MVSIZ), M3(MVSIZ),
      .   DEGSH(MVSIZ), YEQ(MVSIZ), YLD(MVSIZ), DWPLA(MVSIZ),
      .   EPMX(MVSIZ), DWELM(MVSIZ), DWELF(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),
      .   CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), YMAX(MVSIZ),
-     .   RR(MVSIZ), CC(MVSIZ), EPDR(MVSIZ), EPSP(MVSIZ),
+     .   RR(MVSIZ), CC(MVSIZ), EPDR(MVSIZ), EPSP(MVSIZ),ASRATE(MVSIZ),
      .   SH(MVSIZ), YMA2(MVSIZ), SH10(MVSIZ), SH20(MVSIZ), SH0(MVSIZ),
-     .   SH1(MVSIZ), SH2(MVSIZ), FACT, EPIF,
-     .   TMP1(MVSIZ), TMP2(MVSIZ), TMP3(MVSIZ), ETMP, 
+     .   SH1(MVSIZ), SH2(MVSIZ), FACT, EPIF,PLAP(MVSIZ),DPLA(MVSIZ),
+     .   TMP1(MVSIZ), TMP2(MVSIZ), TMP3(MVSIZ), ETMP, PLAP1,
      .   FACTPHI,YMA2PHI, SH10P, SH20P, SH1P, SH2P,SHP, SH0P,
      .   YS,YSP,GS,GSP,TRM1,TRM1P,TRM2,TRM2P,TRM3,TRM3P,YEQ0,YEQ1
 C-----------------------------------------------
@@ -96,8 +101,11 @@ C
         ENDDO 
       ENDIF                                 
 C
+
       DO I=1,NEL
-        RHO(I) =PM( 1,MAT(I))
+        VP(I)  = IPM(255,MAT(I)) 
+        RHO(I) = PM( 1,MAT(I))
+        ASRATE(I) = MIN(ONE, PM(9,MAT(I))*DT1)
         G(I)   =PM(22,MAT(I))
         YM(I)  =PM(20,MAT(I))
 C--------------------------
@@ -107,7 +115,11 @@ C--------------------------
         EPMX(I)=PM(41,MAT(I))
         YMAX(I)=PM(42,MAT(I))
         CC(I)  =PM(43,MAT(I))
-        EPDR(I)= MAX(EM20,PM(44,MAT(I))*DT1)
+        IF(VP(I) == 1)THEN
+          EPDR(I) =   MAX(EM20,PM(44,MAT(I)))
+        ELSE               
+          EPDR(I) = MAX(EM20,PM(44,MAT(I))*DT1)  
+        ENDIF
         ICC(I) =NINT(PM(49,MAT(I)))
 C-----------------------------
         A1(I)  =GEO(1,PID(I))
@@ -177,11 +189,17 @@ C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (EPIF /= ZERO) THEN
         DO I=1,NEL
-          EPSP(I)=ABS(DEGMB(I)+DEGFX(I))/(YEQ(I)+ EM20)/A1(I)
-          TMP2(I)=ABS(DEGMB(I)+DEGFX(I))
-          TMP3(I)=EPSP(I)
-          EPSP(I)= MAX(EPSP(I),EPDR(I))
-          EPSP(I)=LOG(EPSP(I)/EPDR(I))
+          IF(VP(I) == 1)THEN
+            PLAP(I) = UVAR(I,1)
+            PLAP(I) = MAX(PLAP(I),EPDR(I))
+            EPSP(I) = LOG(PLAP(I)/EPDR(I))
+          ELSE
+            EPSP(I)=ABS(DEGMB(I)+DEGFX(I))/(YEQ(I)+ EM20)/A1(I)
+            TMP2(I)=ABS(DEGMB(I)+DEGFX(I))
+            TMP3(I)=EPSP(I)
+            EPSP(I)= MAX(EPSP(I),EPDR(I))
+            EPSP(I)= LOG(EPSP(I)/EPDR(I))
+          ENDIF
         ENDDO
         IF (NPIF == ZERO) THEN
           DO I=1,NEL
@@ -261,8 +279,16 @@ C-----------------------
       DO I=1,NEL
         TMP1(I)=EPSP(I)*DWPLA(I)/YLD(I)
 c       PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,0.5*EPSP(I)*DWPLA(I)/YLD(I)/A1(I))
-        PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,HALF*TMP1(I)/A1(I))
+        DPLA(I) = MAX(ZERO,HALF*TMP1(I)/A1(I))
+        PLA(I)  = PLA(I)+OFF(I) * DPLA(I)
       ENDDO
+      DO I=1,NEL
+        IF (VP(I) == 1) THEN 
+          PLAP1     = DPLA(I) / MAX(EM20,DT1)
+          UVAR(I,1) = ASRATE(I) * PLAP1 + (ONE - ASRATE(I)) * PLAP(I)
+        ENDIF
+      ENDDO
+
 C--------------------------------
 C     TEST DE RUPTURE DUCTILE
 C--------------------------------

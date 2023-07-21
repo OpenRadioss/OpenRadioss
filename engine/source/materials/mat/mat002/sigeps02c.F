@@ -130,6 +130,10 @@ C-----------------------------------------------
           EPDR(I) = MAX( EM20, PM(44,IMAT))
           PLAP(I) = UVAR(I,1)
         ENDDO
+      ELSEIF (VP == 3) THEN
+        DO I=JFT,JLT          
+          EPDR(I) = MAX( EM20, PM(44,IMAT))
+        ENDDO        
       ENDIF
 !
       IF ( JTHE <= 0 ) THEN      

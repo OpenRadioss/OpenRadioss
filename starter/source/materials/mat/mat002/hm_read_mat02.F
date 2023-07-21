@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,J  ,ISIZ ,VP,ISRAT
+      INTEGER :: I,J  ,ISIZ ,VP
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
       my_real
@@ -393,29 +393,25 @@ C-----
       
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
-        ISRAT     = 1
-        ISRATE    = MAX(ISRATE,ISRAT) 
+        ISRATE    = 1
         ASRATE    = 10000.0D0*FAC_T_WORK
         FCUT      = ASRATE
       ELSE
-        IF (ASRATE /= ZERO) THEN
-          ! If a filtering frequency is given by the user
-          ISRAT     = 1
-          ISRATE    = MAX(ISRATE,ISRAT)
-          FCUT      = ASRATE
-          ASRATE    = ASRATE*TWO*PI 
-        ELSE
-          ! If no filtering frequency is given but the flag is activated
-          IF (ISRATE /= 0) THEN
-            ISRAT     = 1
-            ISRATE    = MAX(ISRATE,ISRAT) 
-            ASRATE    = EP20
-            FCUT      = ASRATE
-          ELSE
-          ! If no filtering frequency and no flag is activated => no filtering
-            ISRAT     = 0
+        IF (CC == ZERO)THEN
+            EPS0      = ONE
             ISRATE    = 0
             ASRATE    = ZERO
+            FCUT      = ASRATE
+        ELSE     
+          IF (ASRATE /= ZERO ) THEN
+            ! If a filtering frequency is given by the user
+            ISRATE    = 1
+            FCUT      = ASRATE
+            ASRATE    = ASRATE*TWO*PI 
+          ELSE
+            ! If no filtering frequency is given but the flag is activated
+            ISRATE    = 1 
+            ASRATE    = EP20
             FCUT      = ASRATE
           ENDIF
         ENDIF

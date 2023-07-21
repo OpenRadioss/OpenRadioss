@@ -31,7 +31,8 @@ Chd|====================================================================
      1                  JFT    ,JLT    ,NPT    ,PM     ,GEO,
      2                  FOR    ,MOM    ,EINT   ,OFF    ,IMAT,
      3                  PID    ,EPSP   ,EXX    ,EXY    ,EXZ,
-     4                  KXX    ,KYY    ,KZZ    ,AL     ,NEL)
+     4                  KXX    ,KYY    ,KZZ    ,AL     ,NEL,
+     5                  IPM    ,ASRATE ,TIMESTEP,NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,9 +55,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: IMAT
+      INTEGER ,INTENT(IN) :: IMAT,NUMMAT
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       INTEGER JFT,JLT,NPT,NEL
       INTEGER PID(MVSIZ)
+      my_real , INTENT(IN) :: TIMESTEP
+      my_real , INTENT(IN) :: ASRATE
 C     REAL
       my_real
      .   EXX(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), 
@@ -69,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
-      INTEGER I, J, J1, J2, NPIF, IPT, IPY,IPZ,IPA,NINDX,
+      INTEGER I, J, J1, J2, NPIF, IPT, IPY,IPZ,IPA,NINDX,VP,
      .        IR,IS,ILAYER,II(3)
 C     REAL
       my_real
@@ -77,11 +81,11 @@ C     REAL
      .   CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), YMAX(MVSIZ),CP(MVSIZ),
      .   T(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),CC(MVSIZ),EPDR(MVSIZ),
      .   YLD(MVSIZ),ETSE(MVSIZ),Q(MVSIZ),E(MVSIZ),G(MVSIZ),
-     .   YPT(MVSIZ),ZPT(MVSIZ),APT(MVSIZ),VOL(MVSIZ),
-     .   SIGNXX(MVSIZ),SIGNXY(MVSIZ),SIGNXZ(MVSIZ),
-     .   DEPSXX(MVSIZ),DEPSXY(MVSIZ),DEPSXZ(MVSIZ)
+     .   YPT(MVSIZ),ZPT(MVSIZ),APT(MVSIZ),VOL(MVSIZ),DPLA(MVSIZ),
+     .   SIGNXX(MVSIZ),SIGNXY(MVSIZ),SIGNXZ(MVSIZ),LOGEP(MVSIZ),
+     .   DEPSXX(MVSIZ),DEPSXY(MVSIZ),DEPSXZ(MVSIZ),PLAP(MVSIZ)
       my_real
-     .   EPIF,SVM1,GS,MT,TM,TSTAR,UMR,R,DFXX,DFXY,DFXZ,SHFACT
+     .   EPIF,SVM1,GS,MT,TM,TSTAR,UMR,R,DFXX,DFXY,DFXZ,SHFACT,PLAP1
 C
       TYPE(L_BUFEL_),POINTER :: LBUF  
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -98,7 +102,8 @@ C=======================================================================
       ENDDO
 !
 C---
-      DO I=JFT,JLT                             
+      VP   = IPM(255,IMAT) 
+      DO I=JFT,JLT                           
         E(I)    = PM(20,IMAT)                    
         G(I)    = PM(22,IMAT)                    
         CA(I)   = PM(38,IMAT)                    
@@ -106,8 +111,12 @@ C---
         CN(I)   = PM(40,IMAT)                    
         EPMX(I) = PM(41,IMAT)                    
         YMAX(I) = PM(42,IMAT)                    
-        CC(I)   = PM(43,IMAT)                    
-        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)  
+        CC(I)   = PM(43,IMAT)    
+        IF(VP == 1)THEN
+          EPDR(I) =   MAX(EM20,PM(44,IMAT))
+        ELSE               
+          EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)  
+        ENDIF
         EPIF    = MAX(EPIF,CC(I))              
         ICC(I)  = NINT(PM(49,IMAT))              
         IRTY(I) = NINT(PM(50,IMAT))              
@@ -117,7 +126,7 @@ C---
         CP(I)   = PM(53,IMAT)                    
         T(I)    = PM(54,IMAT)                    
         EPSP(I) = MAX(EPSP(I),EPDR(I))
-        VOL(I)  = AL(I)*GEO(1,PID(I))              
+        VOL(I)  = AL(I)*GEO(1,PID(I))            
       ENDDO                                    
 C
       DO I=JFT,JLT
@@ -179,6 +188,18 @@ C
           CB(I)   = PM(39,IMAT)                  
           YMAX(I) = PM(42,IMAT)                  
         ENDDO
+c---    strain rate dependency
+        IF(VP == 1)THEN
+          DO I= JFT,JLT
+            PLAP(I)  = BUFLY%MAT(IR,IS,IPT)%VAR(I)
+            PLAP(I)  = MAX(PLAP(I),EPDR(I) )
+            LOGEP(I) = LOG(PLAP(I)/EPDR(I))
+          ENDDO      
+        ELSE
+          DO I= JFT,JLT
+            LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+          ENDDO      
+        ENDIF
 C--     Yield 
         IF (EPIF /= ZERO) THEN
           IF (NPIF == 0)THEN
@@ -187,10 +208,9 @@ C--     Yield
               TM      = Z4(I)
               TSTAR   = MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
               IF (TSTAR == ZERO) THEN
-                Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
+                Q(I) = (ONE + CC(I) * LOGEP(I))
               ELSE
-                Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))*
-     .                               (ONE-EXP(MT*LOG(TSTAR)))
+                Q(I) = (ONE + CC(I) * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR)))
               ENDIF
               Q(I)  = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
@@ -199,7 +219,7 @@ C--     Yield
             ENDDO
           ELSEIF (NPIF == JLT) THEN
             DO I=JFT,JLT
-              Q(I) = LOG(EPSP(I)/EPDR(I))
+              Q(I) = LOGEP(I)
               Q(I) = CC(I)*EXP((-Z3(I)+Z4(I) * Q(I))*T(I))
               IF (ICC(I) == 1) YMAX(I)= YMAX(I) + Q(I)
               CA(I) = CA(I) + Q(I)
@@ -212,10 +232,9 @@ C               Johnson-Cook
                 TM   = Z4(I)
                 TSTAR= MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
                 IF (TSTAR==ZERO) THEN
-                   Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
+                   Q(I) = (ONE + CC(I) * LOGEP(I))
                 ELSE
-                   Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
-     .                                *(ONE-EXP(MT*LOG(TSTAR)))
+                   Q(I) = (ONE + CC(I) * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR)))
                 ENDIF
                 Q(I)  = MAX(Q(I),EM20)
                 CA(I) = CA(I) * Q(I)
@@ -223,7 +242,7 @@ C               Johnson-Cook
                 IF (ICC(I)==1) YMAX(I) = YMAX(I) * Q(I)
               ELSE
 C               Zerilli-Armstrong
-                Q(I) = LOG(EPSP(I)/EPDR(I))
+                Q(I) = LOGEP(I)
                 Q(I) = CC(I)*EXP((-Z3(I)+Z4(I) * Q(I))*T(I))
                 IF (ICC(I) == 1) YMAX(I)= YMAX(I) + Q(I)
                 CA(I) = CA(I) + Q(I)
@@ -251,11 +270,19 @@ C-------------------
             SIGNXX(I) = SIGNXX(I)*R                                  
             SIGNXY(I) = SIGNXY(I)*R                                  
             SIGNXZ(I) = SIGNXZ(I)*R                                  
-            UMR = ONE - R                                             
-            LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)*SVM1*UMR/(THREE*G(I))
+            UMR = ONE - R               
+            DPLA(I) =    SVM1*UMR/(THREE*G(I))                           
+            LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)* DPLA(I) 
 c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I)) 
           ENDIF                                   
-        ENDDO     
+        ENDDO 
+        IF (VP == 1) THEN 
+          DO I=JFT,JLT
+            PLAP1   = DPLA(I) / MAX(EM20,TIMESTEP)
+            BUFLY%MAT(IR,IS,IPT)%VAR(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
+          ENDDO
+        ENDIF
+    
         
 C  failure criteria 
 C--------------------------------
