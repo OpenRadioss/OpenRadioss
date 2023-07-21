@@ -96,8 +96,9 @@ C-----------------------------------------------
 C=======================================================================
 C       STRAIN RATE
 C-------------------
-      ISRATE = IPM(3,IMAT)                             
+      ISRATE = IPM(3,IMAT)                      
       ASRATE = MIN(ONE, PM(9,IMAT)*DT1)
+
 c
       DO I = 1,NEL                                              
         EPSPI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
@@ -149,7 +150,8 @@ C-----------------
      1               1      ,NEL    ,NPT    ,PM     ,GEO, 
      2               FOR    ,MOM    ,EINT   ,OFF    ,IMAT,   
      3               PID    ,EPSP   ,EXX    ,EXY    ,EXZ,  
-     4               KXX    ,KYY    ,KZZ    ,AL     ,NEL)
+     4               KXX    ,KYY    ,KZZ    ,AL     ,NEL,
+     5               IPM    ,ASRATE ,DT1    ,NUMMAT)
 c
       ELSE
 c

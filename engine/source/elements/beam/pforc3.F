@@ -226,12 +226,15 @@ c
      .           MAT    ,PID       )
 c
           CASE (2)  ! Johnson-Cook
+            NUVAR = GBUF%G_NUVAR
+            UVAR  => GBUF%VAR
             CALL M2LAWP(
      .           PM     ,GBUF%FOR   ,GBUF%MOM  ,GBUF%EINT  ,GEO,        
      .           OFF    ,GBUF%PLA   ,EXX       ,EXY        ,EXZ,
      .           KXX    ,KYY        ,KZZ       ,AL         ,F1 ,
      .           F2     ,F3         ,M1        ,M2         ,M3 ,
-     .           NEL    ,MAT        ,PID       ,NGL        )
+     .           NEL    ,MAT        ,PID       ,NGL        ,IPM,
+     .           NUMMAT ,NUVAR  ,UVAR )
 c
           CASE (44)  ! Cowper-Symonds
             NUVAR = GBUF%G_NUVAR

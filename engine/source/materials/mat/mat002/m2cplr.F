@@ -142,7 +142,7 @@ C-------------
             ENDDO
           ELSE
             DO I=JFT,JLT
-              IF (ISRATE == 0) EPSP(I) = 
+              IF (ISRATE == 0.AND.VP == 2) EPSP(I) = 
      .           MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
               EPSP(I)  = MAX(EPSP(I),EPDR(I))
               LOGEP(I) = LOG(EPSP(I)/EPDR(I))
@@ -168,7 +168,7 @@ C-------------
             ENDDO
           ELSE
             DO I=JFT,JLT
-              IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)),
+              IF (ISRATE == 0.AND.VP == 2) EPSP(I) = MAX( ABS(DEPSXX(I)),
      .                   ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
               EPSP(I) = MAX(EPSP(I),EM20)
               LOGEP(I) = LOG(EPSP(I)/EPDR(I))
@@ -186,7 +186,7 @@ C-------------
               IF(VP==1)THEN
                 IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
               ELSE
-                IF (ISRATE == 0) EPSP(I) = 
+                IF (ISRATE == 0.AND.VP == 2) EPSP(I) = 
      .          MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
                 EPSP(I) = MAX(EPSP(I),EPDR(I))
                 LOGEP(I) = LOG(EPSP(I)/EPDR(I))
@@ -205,7 +205,7 @@ C-------------
               IF(VP==1)THEN
                 IF(PLAP(I) >EPDR(I))LOGEP(I) = LOG(PLAP(I)/EPDR(I))
               ELSE
-                IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)), 
+                IF (ISRATE == 0 .AND.VP == 2) EPSP(I) = MAX( ABS(DEPSXX(I)), 
      .                    ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
                 EPSP(I)  = MAX(EPSP(I),EM20)
                 LOGEP(I) = LOG(EPSP(I)/EPDR(I))
