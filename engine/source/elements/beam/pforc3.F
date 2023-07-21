@@ -49,23 +49,24 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE PFORC3(
-     1   ELBUF_STR,JFT      ,JLT      ,NEL      ,
-     2   MTN      ,ISMSTR   ,PM       ,NCC      ,
-     3   X        ,F        ,M        ,V        ,
-     4   R        ,GEO      ,PARTSAV  ,DT2T     ,
-     5   NELTST   ,ITYPTST  ,STIFN    ,STIFR    ,
-     6   FSKY     ,IADP     ,OFFSET   ,IPARTP   ,
-     7   TANI     ,FX1      ,FX2      ,FY1      ,
-     8   FY2      ,FZ1      ,FZ2      ,MX1      ,
-     9   MX2      ,MY1      ,MY2      ,MZ1      ,
-     A   MZ2      ,IGEO     ,IPM      ,BUFMAT   ,
-     B   NPT      ,NPF      ,TF       ,GRESAV   ,
-     C   GRTH     ,IGRTH    ,MSP      ,DMELP    ,
-     D   IOUTPRT  ,ITASK    ,JTHE     ,TEMP     ,
-     E   FTHE     ,FTHESKY  ,IEXPAN   ,H3D_DATA ,
-     F   JSMS     ,IGRE     ,NFT      ,IFAIL    ,
-     G   SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
-     H   NUMGEO   )
+     1           ELBUF_STR,JFT      ,JLT      ,NEL      ,
+     2           MTN      ,ISMSTR   ,PM       ,NCC      ,
+     3           X        ,F        ,M        ,V        ,
+     4           R        ,GEO      ,PARTSAV  ,DT2T     ,
+     5           NELTST   ,ITYPTST  ,STIFN    ,STIFR    ,
+     6           FSKY     ,IADP     ,OFFSET   ,IPARTP   ,
+     7           TANI     ,FX1      ,FX2      ,FY1      ,
+     8           FY2      ,FZ1      ,FZ2      ,MX1      ,
+     9           MX2      ,MY1      ,MY2      ,MZ1      ,
+     A           MZ2      ,IGEO     ,IPM      ,BUFMAT   ,
+     B           NPT      ,NPF      ,TF       ,GRESAV   ,
+     C           GRTH     ,IGRTH    ,MSP      ,DMELP    ,
+     D           IOUTPRT  ,ITASK    ,JTHE     ,TEMP     ,
+     E           FTHE     ,FTHESKY  ,IEXPAN   ,H3D_DATA ,
+     F           JSMS     ,IGRE     ,NFT      ,IFAIL    ,
+     G           SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
+     H           NUMGEO   ,IOUT     ,ISTDO    ,IDEL7NOK ,
+     I           IDYNA    ,IMCONV   ,IMPL_S   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -95,6 +96,12 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: STF
       INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER ,INTENT(IN) :: NUMGEO
+      INTEGER ,INTENT(IN) :: IOUT
+      INTEGER ,INTENT(IN) :: ISTDO
+      INTEGER ,INTENT(IN) :: IMPL_S
+      INTEGER ,INTENT(IN) :: IDYNA
+      INTEGER ,INTENT(IN) :: IMCONV
+      INTEGER ,INTENT(INOUT) :: IDEL7NOK
       INTEGER NCC(NIXP,*),IADP(2,*),IPARTP(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),NPF(*),GRTH(*),IGRTH(*)
       INTEGER JFT,JLT,NELTST,ITYPTST,OFFSET,NEL,JTHE,
@@ -135,7 +142,7 @@ C-----------------------------------------------
 C
       my_real ::  KC,PHIX, CA,CB, AREA, FPHI(MVSIZ,2),DIE(MVSIZ)
       my_real ,DIMENSION(:) ,POINTER :: UVAR
-      TYPE(G_BUFEL_),POINTER :: GBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C-----------------------------------------------      
        my_real FINTER 
@@ -187,118 +194,86 @@ C-----------------------------------------------
 C---
       NUPARAM = IPM(9,MAT(1))
 C---
-       DIE(JFT:JLT)   = ZERO
-      IF(JTHE > 0) THEN 
-         DO I=JFT,JLT 
-           TEMPEL(I)    = HALF *( TEMP(NC1(I)) + TEMP(NC2(I)))  
+      DIE(1:NEL)   = ZERO
+      IF (JTHE > 0) THEN 
+         DO I=1,NEL 
+           TEMPEL(I) = HALF *( TEMP(NC1(I)) + TEMP(NC2(I)))  
            DIE(I) = GBUF%EINT(I) + GBUF%EINT(NEL + I)
          ENDDO
       ENDIF
   
       IF (IEXPAN > 0 .AND. JTHE > 0) THEN
-        IF (TT == ZERO) GBUF%TEMP(JFT:JLT) = TEMPEL(JFT:JLT)
-        DTEMP(JFT:JLT) = TEMPEL(JFT:JLT) - GBUF%TEMP(JFT:JLT)
-        GBUF%TEMP(JFT:JLT) = TEMPEL(JFT:JLT)
+        IF (TT == ZERO) GBUF%TEMP(1:NEL) = TEMPEL(1:NEL)
+        DTEMP(1:NEL) = TEMPEL(1:NEL) - GBUF%TEMP(1:NEL)
+        GBUF%TEMP(1:NEL) = TEMPEL(1:NEL)
 c      
-        DO I=JFT,JLT 
-             IFUNC_ALPHA = IPM(219, MAT(I))
-             FSCAL_ALPHA = PM(191, MAT(I))
-             ALPHA = FSCAL_ALPHA*FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
-             ETH(I) = ALPHA*DTEMP(I)
-             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
-             GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
-!!             GBUF%EINT(I) = GBUF%EINT(I) + DEINTTH
+        DO I=1,NEL 
+          IFUNC_ALPHA = IPM(219, MAT(I))
+          FSCAL_ALPHA = PM(191, MAT(I))
+          ALPHA = FSCAL_ALPHA*FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
+          ETH(I) = ALPHA*DTEMP(I)
+          DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
+          GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
         ENDDO 
       ENDIF   
 C---
       IF (IGTYP == 3) THEN
-C----   Poutre formulation globale
-c
-         
-        SELECT CASE(MTN)
-c
-          CASE (1)
-            CALL M1LAWP(
-     .           PM     ,GBUF%FOR  ,GBUF%MOM  ,GBUF%EINT  ,GEO,
-     .           OFF    ,EXX       ,EXY       ,EXZ        ,KXX,
-     .           KYY    ,KZZ       ,AL        ,F1         ,F2 ,
-     .           F3     ,M1        ,M2        ,M3         ,NEL,
-     .           MAT    ,PID       )
-c
-          CASE (2)  ! Johnson-Cook
-            NUVAR = GBUF%G_NUVAR
-            UVAR  => GBUF%VAR
-            CALL M2LAWP(
-     .           PM     ,GBUF%FOR   ,GBUF%MOM  ,GBUF%EINT  ,GEO,        
-     .           OFF    ,GBUF%PLA   ,EXX       ,EXY        ,EXZ,
-     .           KXX    ,KYY        ,KZZ       ,AL         ,F1 ,
-     .           F2     ,F3         ,M1        ,M2         ,M3 ,
-     .           NEL    ,MAT        ,PID       ,NGL        ,IPM,
-     .           NUMMAT ,NUVAR  ,UVAR )
-c
-          CASE (44)  ! Cowper-Symonds
-            NUVAR = GBUF%G_NUVAR
-            UVAR  => GBUF%VAR
-            NFUNC = IPM(10,MAT(1))
-            DO I=1,NFUNC
-              IFUNC(I) = IPM(10+I,MAT(1))
-            ENDDO
-            BUFLY   => ELBUF_STR%BUFLY(1)
-            NUVAR   =  BUFLY%NVAR_MAT
-            CALL SIGEPS44P(
-     .           NEL      ,NGL      ,MAT      ,PID      ,NUPARAM  ,BUFMAT  ,
-     .           IPM      ,GEO      ,OFF      ,GBUF%PLA ,GBUF%EINT,AL      ,
-     .           EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
-     .           F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
-     .           GBUF%FOR ,GBUF%MOM ,PM       ,NUVAR    ,UVAR     ,NFUNC   , 
-     .           IFUNC    ,TF       ,NPF      )
-c
-        END SELECT
-          CALL PDAMP3(
-     .    PM      ,GEO     ,OFF     ,MAT     ,PID,
-     .    NEL     ,NGL     ,EXX     ,EXY     ,EXZ,
-     .    KXX     ,KYY     ,KZZ     ,AL      ,F1  ,
-     .    F2      ,F3      ,M1      ,M2      ,M3  )
+        ! beams type 3 (global integration)
+        NUVAR =  GBUF%G_NUVAR
+        UVAR  => GBUF%VAR
+
+        CALL MAIN_BEAM3(
+     .       ELBUF_STR,NEL      ,MTN      ,JTHE     ,IFAIL    ,
+     .       IPM      ,PM       ,GEO      ,TEMPEL   ,OFF      ,
+     .       MAT      ,PID      ,NGL      ,TT       ,DT1      ,
+     .       AL       ,NPF      ,TF       ,EXX      ,EXY      ,
+     .       EXZ      ,KXX      ,KYY      ,KZZ      ,F1       ,
+     .       F2       ,F3       ,M1       ,M2       ,M3       ,
+     .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
+     .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
+     .       ISTDO    ,NUVAR    ,UVAR     ,GBUF%EPSD,MAT(1)   ,
+     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT)
 C----
       ELSEIF (IGTYP == 18) THEN  
-C----   Integrated beams
-        CALL PMAIN3(ELBUF_STR,
-     1              NEL       ,NPT         ,MTN       ,MAT(1)   ,
-     2              PID       ,NGL         ,PM        ,IPM      ,
-     3              GEO       ,IGEO        ,OFF       ,GBUF%FOR ,GBUF%MOM,
-     4              GBUF%EINT ,GBUF%LENGTH ,GBUF%EPSD ,BUFMAT   ,NPF     ,
-     5              TF        ,EXX         ,EXY       ,EXZ      ,KXX     ,
-     6              KYY       ,KZZ         ,F1        ,F2       ,F3      ,
-     7              M1        ,M2          ,M3        ,JTHE     ,TEMPEL  ,
-     8              IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,
-     9              NUMGEO    )
+        ! beams type 18 (integration points in the section)
+        CALL MAIN_BEAM18(ELBUF_STR,
+     1       NEL       ,NPT         ,MTN       ,MAT(1)   ,                
+     2       PID       ,NGL         ,PM        ,IPM      ,                
+     3       GEO       ,OFF         ,GBUF%FOR  ,GBUF%MOM ,                
+     4       GBUF%EINT ,GBUF%LENGTH ,GBUF%EPSD ,BUFMAT   ,NPF     ,       
+     5       TF        ,EXX         ,EXY       ,EXZ      ,KXX     ,       
+     6       KYY       ,KZZ         ,F1        ,F2       ,F3      ,       
+     7       M1        ,M2          ,M3        ,JTHE     ,TEMPEL  ,       
+     8       IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,       
+     9       NUMGEO    ,IOUT        ,ISTDO     ,NPROPMI  ,NPROPM  ,
+     A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,IMPL_S  ,
+     B       ISIGI     ,IDYNA       ,IMCONV    )                                               
       ENDIF
-C  
-C      Expanson
-C
-      IF(IEXPAN > 0 .AND. JTHE > 0) THEN
+c-----------------------------------------------------------------------  
+c     Thermal expansion
+c-----------------------------------------------------------------------  
+      IF(JTHE > 0) THEN 
+        IF (IEXPAN > 0) THEN
           IF (IGTYP == 3) THEN   
             CALL THERMEXPPG(NEL    ,MAT       ,PID          ,PM     ,GEO  ,
      .                      OFF    ,ETH       ,GBUF%FOR     ,GBUF%EINT ) 
           
           ELSEIF(IGTYP == 18) THEN
            CALL THERMEXPPI(ELBUF_STR,   
-     1              NEL     ,NPT      ,MAT       ,PID       ,PM       , 
-     2              GEO      ,AL      ,ETH       ,OFF      ,GBUF%FOR  ,
-     3              GBUF%EINT)
+     .              NEL     ,NPT      ,MAT       ,PID       ,PM       , 
+     .              GEO      ,AL      ,ETH       ,OFF      ,GBUF%FOR  ,
+     .              GBUF%EINT)
           ENDIF
 C          
-          DO I=JFT,JLT
-             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
+          DO I=1,NEL
+             DEINTTH = -HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
              GBUF%EINT(I) = GBUF%EINT(I) + DEINTTH
           ENDDO
-      ENDIF
-      IF(JTHE > 0) THEN 
-         DO I=JFT,JLT 
-           DIE(I) = (GBUF%EINT(I) + GBUF%EINT(NEL + I) - DIE(I))*PM(90,MAT(I))
-         ENDDO
-      ENDIF
-            
+        ENDIF
+        DO I=1,NEL 
+          DIE(I) = (GBUF%EINT(I) + GBUF%EINT(NEL + I) - DIE(I))*PM(90,MAT(I))
+        ENDDO
+      ENDIF            
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
@@ -330,7 +305,7 @@ c     Thermique des coques
 C--------------------------
 C
        IF (JTHE > 0) THEN
-        DO I=JFT,JLT
+        DO I=1,NEL
           CA = PM(75,MAT(I))
           CB = PM(76,MAT(I))
           AREA =GEO(1,PID(I)) 

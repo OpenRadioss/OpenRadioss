@@ -31,13 +31,13 @@ Chd|        SIGEPS44PI                    source/materials/mat/mat044/sigeps44pi
 Chd|        SIGEPS71PI                    source/materials/mat/mat071/sigeps71pi.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE MULAWP(ELBUF_STR,
-     1                  NEL     ,NPT     ,MTN     ,IMAT    ,
-     2                  PID     ,NGL     ,PM      ,IPM     ,
-     3                  GEO     ,OFF     ,FOR     ,MOM,
-     4                  EINT    ,AL      ,EPSP    ,BUFMAT  ,NPF,
-     5                  TF      ,EXX     ,EXY     ,EXZ     ,KXX,
-     6                  KYY     ,KZZ     ,JTHE    ,TEMPEL)
+      SUBROUTINE MULAW_IB(ELBUF_STR,
+     1                    NEL     ,NPT     ,MTN     ,IMAT    ,
+     2                    PID     ,NGL     ,IPM     ,
+     3                    GEO     ,OFF     ,FOR     ,MOM     ,
+     4                    EPSP    ,BUFMAT  ,NPF     ,TF      ,
+     5                    EXX     ,EXY     ,EXZ     ,KXX     ,
+     6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,10 +47,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -62,11 +58,11 @@ C-----------------------------------------------
       INTEGER NEL,MTN,IMAT,NPT,JTHE    
       INTEGER IPM(NPROPMI,*),PID(*),NPF(*),NGL(*)
       my_real 
-     .   PM(NPROPM,*),GEO(NPROPG,*),EPSP(*),BUFMAT(*),
-     .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ), 
-     .   FOR(NEL,3),MOM(NEL,3),EXX(MVSIZ),EXY(MVSIZ),
-     .   EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
-     .   TEMPEL(MVSIZ)
+     .   GEO(NPROPG,*),EPSP(*),BUFMAT(*),
+     .   OFF(*),TF(*),
+     .   FOR(NEL,3),MOM(NEL,3),EXX(NEL),EXY(NEL),
+     .   EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
+     .   TEMPEL(NEL)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: BUFMAT
@@ -77,10 +73,10 @@ C-----------------------------------------------
       INTEGER I,K,J1,IADBUF,IPT,JPLA,NFUNC,IPY,IPZ,IPA,NUVAR,NVARTMP,
      .        IR,IS,II(3),ILAYER,NUPARAM
       my_real 
-     .   YPT(MVSIZ),ZPT(MVSIZ),APT(MVSIZ),G(MVSIZ),E(MVSIZ),ETSE(MVSIZ),
-     .   DEPSXX(MVSIZ),DEPSXY(MVSIZ),DEPSXZ(MVSIZ),
-     .   SIGOXX(MVSIZ),SIGOXY(MVSIZ),SIGOXZ(MVSIZ),
-     .   SIGNXX(MVSIZ),SIGNXY(MVSIZ),SIGNXZ(MVSIZ)
+     .   YPT(NEL),ZPT(NEL),APT(NEL),G(NEL),E(NEL),ETSE(NEL),
+     .   DEPSXX(NEL),DEPSXY(NEL),DEPSXZ(NEL),
+     .   SIGOXX(NEL),SIGOXY(NEL),SIGOXZ(NEL),
+     .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL)
       my_real :: SHFACT,DFXX,DFXY,DFXZ
       my_real ,DIMENSION(NEL) :: EPSXX,EPSXY,EPSXZ,DPLA
 C
@@ -197,7 +193,8 @@ C---
      4         EPSXZ    ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,
      5         NUVAR    ,UVAR     ,IFUNC    ,NPF      ,
      6         TF       ,NFUNC    ,JTHE     ,TEMPEL   ,LBUF%FRAC,
-     7         LBUF%PLA) !transformation starin is stored in PLA
+     7         LBUF%PLA)   ! transformation strain is stored in PLA
+
                DO I = 1,NEL
                 GBUF%MAXFRAC(I)      = MAX(GBUF%MAXFRAC(I)      , LBUF%FRAC(I) )
                 GBUF%MAXEPS(II(1)+I) = MAX(GBUF%MAXEPS(II(1)+I) , ABS(EPSXX(I)))
@@ -222,12 +219,12 @@ C-----------------------
           DFXX = APT(I)*SIGNXX(I)
           DFXY = APT(I)*SIGNXY(I)
           DFXZ = APT(I)*SIGNXZ(I)
-          FOR(I,1) = FOR(I,1) + DFXX			   
-          FOR(I,2) = FOR(I,2) + DFXY			   
-          FOR(I,3) = FOR(I,3) + DFXZ	
+          FOR(I,1) = FOR(I,1) + DFXX
+          FOR(I,2) = FOR(I,2) + DFXY
+          FOR(I,3) = FOR(I,3) + DFXZ
           MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
-          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)		      
-          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)		 
+          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)
+          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)
         ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION
@@ -235,4 +232,4 @@ C-------------------------------------
       ENDDO
 C------------------------------------------
       RETURN
-      END SUBROUTINE MULAWP
+      END SUBROUTINE MULAW_IB

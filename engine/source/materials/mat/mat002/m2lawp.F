@@ -27,21 +27,17 @@ Chd|        PFORC3                        source/elements/beam/pforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M2LAWP(
-     .    PM      ,FOR     ,MOM     ,EINT    ,GEO,
-     .    OFF     ,PLA     ,EXX     ,EXY     ,EXZ,
-     .    KXX     ,KYY     ,KZZ     ,AL      ,FA1,
-     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3,
-     .    NEL     ,MAT     ,PID     ,NGL     ,IPM,
-     .    NUMMAT  ,NUVAR   ,UVAR)
+     .    PM      ,FOR     ,MOM     ,EINT    ,GEO     ,
+     .    OFF     ,PLA     ,EXX     ,EXY     ,EXZ     ,
+     .    KXX     ,KYY     ,KZZ     ,AL      ,FA1     ,
+     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
+     .    NEL     ,MAT     ,PID     ,NGL     ,IPM     ,
+     .    NUMMAT  ,NUVAR   ,UVAR    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -53,36 +49,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
-      INTEGER , INTENT(IN) :: NUMMAT,NUVAR
+      INTEGER ,INTENT(IN) :: NEL,NUMMAT,NUVAR
+      INTEGER ,INTENT(IN) :: MAT(NEL),PID(NEL),NGL(NEL)
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
-
       my_real
      .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
      .   OFF(*), PLA(*),
-     .   AL(MVSIZ),
-     .   EXX(MVSIZ),EXY(MVSIZ),EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),
-     .   KZZ(MVSIZ),FA1(MVSIZ),FA2(MVSIZ),FA3(MVSIZ),
-     .   MA1(MVSIZ),MA2(MVSIZ),MA3(MVSIZ),A1(MVSIZ)
+     .   AL(NEL),
+     .   EXX(NEL),EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),
+     .   KZZ(NEL),FA1(NEL),FA2(NEL),FA3(NEL),
+     .   MA1(NEL),MA2(NEL),MA3(NEL),A1(NEL)
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INDX(MVSIZ),ICC(MVSIZ),IRTY(MVSIZ)
+      INTEGER INDX(NEL),ICC(NEL),IRTY(NEL)
       INTEGER  I,NPIF, J, NINDX
       my_real
-     .   YLDTMP(MVSIZ),YM(MVSIZ), 
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), DEGMB(MVSIZ),
-     .   DEGFX(MVSIZ),ESP(MVSIZ),RHO(MVSIZ),G(MVSIZ),
-     .   DMPM(MVSIZ), DMPF(MVSIZ), SHF(MVSIZ),VP(MVSIZ),
-     .   F1(MVSIZ), M1(MVSIZ), M2(MVSIZ), M3(MVSIZ),
-     .   DEGSH(MVSIZ), YEQ(MVSIZ), YLD(MVSIZ), DWPLA(MVSIZ),
-     .   EPMX(MVSIZ), DWELM(MVSIZ), DWELF(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),
-     .   CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), YMAX(MVSIZ),
-     .   RR(MVSIZ), CC(MVSIZ), EPDR(MVSIZ), EPSP(MVSIZ),ASRATE(MVSIZ),
-     .   SH(MVSIZ), YMA2(MVSIZ), SH10(MVSIZ), SH20(MVSIZ), SH0(MVSIZ),
-     .   SH1(MVSIZ), SH2(MVSIZ), FACT, EPIF,PLAP(MVSIZ),DPLA(MVSIZ),
-     .   TMP1(MVSIZ), TMP2(MVSIZ), TMP3(MVSIZ), ETMP, PLAP1,
+     .   YLDTMP(NEL),YM(NEL), 
+     .   B1(NEL), B2(NEL), B3(NEL), DEGMB(NEL),
+     .   DEGFX(NEL),ESP(NEL),RHO(NEL),G(NEL),
+     .   DMPM(NEL), DMPF(NEL), SHF(NEL),
+     .   F1(NEL), M1(NEL), M2(NEL), M3(NEL),
+     .   DEGSH(NEL), YEQ(NEL), YLD(NEL), DWPLA(NEL),
+     .   EPMX(NEL), DWELM(NEL), DWELF(NEL),Z3(NEL),Z4(NEL),
+     .   CA(NEL), CB(NEL), CN(NEL), YMAX(NEL),
+     .   RR(NEL), CC(NEL), EPDR(NEL), EPSP(NEL),
+     .   SH(NEL), YMA2(NEL), SH10(NEL), SH20(NEL), SH0(NEL),
+     .   SH1(NEL), SH2(NEL), FACT, EPIF,PLAP(NEL),DPLA(NEL),
+     .   TMP1(NEL), TMP2(NEL), TMP3(NEL), ETMP,PLAP1,VP,ASRATE,
      .   FACTPHI,YMA2PHI, SH10P, SH20P, SH1P, SH2P,SHP, SH0P,
      .   YS,YSP,GS,GSP,TRM1,TRM1P,TRM2,TRM2P,TRM3,TRM3P,YEQ0,YEQ1
 C-----------------------------------------------
@@ -103,9 +98,9 @@ C
 C
 
       DO I=1,NEL
-        VP(I)  = IPM(255,MAT(I)) 
+        VP     = IPM(255,MAT(I)) 
         RHO(I) = PM( 1,MAT(I))
-        ASRATE(I) = MIN(ONE, PM(9,MAT(I))*DT1)
+        ASRATE = MIN(ONE, PM(9,MAT(I))*DT1)
         G(I)   =PM(22,MAT(I))
         YM(I)  =PM(20,MAT(I))
 C--------------------------
@@ -115,7 +110,7 @@ C--------------------------
         EPMX(I)=PM(41,MAT(I))
         YMAX(I)=PM(42,MAT(I))
         CC(I)  =PM(43,MAT(I))
-        IF(VP(I) == 1)THEN
+        IF(VP == 1)THEN
           EPDR(I) =   MAX(EM20,PM(44,MAT(I)))
         ELSE               
           EPDR(I) = MAX(EM20,PM(44,MAT(I))*DT1)  
@@ -139,15 +134,6 @@ C     DAMPING terms removed to pforce3
 C-----------------------------
       DO I=1,NEL
         ESP(I) = (EINT(I,1)+EINT(I,2))/AL(I)/A1(I)
-      ENDDO
-C
-      DO I=1,NEL
-        EXX(I)=EXX(I)*DT1
-        EXY(I)=EXY(I)*DT1
-        EXZ(I)=EXZ(I)*DT1
-        KXX(I)=KXX(I)*DT1
-        KYY(I)=KYY(I)*DT1
-        KZZ(I)=KZZ(I)*DT1
       ENDDO
 C
       DO I=1,NEL
@@ -189,7 +175,7 @@ C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (EPIF /= ZERO) THEN
         DO I=1,NEL
-          IF(VP(I) == 1)THEN
+          IF(VP == 1)THEN
             PLAP(I) = UVAR(I,1)
             PLAP(I) = MAX(PLAP(I),EPDR(I))
             EPSP(I) = LOG(PLAP(I)/EPDR(I))
@@ -247,16 +233,12 @@ C-----------------------------------
       ENDDO
 C
       DO I=1,NEL
-        TMP1(I)  = F1(I)
-        F1(I) = F1(I)*RR(I)
+        F1(I)    = F1(I)*RR(I)
         DWELM(I) =(F1(I)+FOR(I,1))*(F1(I)-FOR(I,1))/YM(I)/A1(I)
-        DEGMB(I) = DEGMB(I)+ F1(I)*EXX(I)
+        DEGMB(I) = DEGMB(I) + F1(I)*EXX(I)
       ENDDO
 C
       DO I=1,NEL
-        TMP1(I)= M1(I)
-        TMP2(I)= M2(I)
-        TMP3(I)= M3(I)
         M1(I) = M1(I)*RR(I)
         M2(I) = M2(I)*RR(I)
         M3(I) = M3(I)*RR(I)
@@ -267,9 +249,9 @@ C
       ENDDO
 C
       DO I=1,NEL
-        DWPLA(I)=DEGMB(I)+DEGFX(I)-DWELM(I)-DWELF(I)
+        DWPLA(I)= DEGMB(I)+DEGFX(I)-DWELM(I)-DWELF(I)
         DEGSH(I)= DEGSH(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
-        FACT=HALF*OFF(I)*AL(I)
+        FACT = HALF*OFF(I)*AL(I)
         EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
         EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
       ENDDO
@@ -283,9 +265,9 @@ c       PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,0.5*EPSP(I)*DWPLA(I)/YLD(I)/A1(I))
         PLA(I)  = PLA(I)+OFF(I) * DPLA(I)
       ENDDO
       DO I=1,NEL
-        IF (VP(I) == 1) THEN 
+        IF (VP == 1) THEN 
           PLAP1     = DPLA(I) / MAX(EM20,DT1)
-          UVAR(I,1) = ASRATE(I) * PLAP1 + (ONE - ASRATE(I)) * PLAP(I)
+          UVAR(I,1) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
         ENDIF
       ENDDO
 
@@ -294,7 +276,7 @@ C     TEST DE RUPTURE DUCTILE
 C--------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I)=ZERO
-        IF (OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       NINDX  = 0

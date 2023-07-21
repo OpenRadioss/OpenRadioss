@@ -116,7 +116,7 @@ Chd|====================================================================
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
-     .    DTMIN1    ,IDTMIN    )
+     .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -180,6 +180,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: SBUFMAT
       INTEGER ,INTENT(IN) :: SNPC
       INTEGER ,INTENT(IN) :: STF
+      INTEGER ,INTENT(IN) :: IOUT
+      INTEGER ,INTENT(IN) :: ISTDO
       my_real
      .   X(3,*),V(3,*),VR(3,*),D(3,*),MS(*),IN(*),A(3,*),AR(3,*),
      .   DR(3,*),W(3,*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
@@ -1159,25 +1161,27 @@ C----6---------------------------------------------------------------7---------8
 C
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .     CALL SENSOR_ENERGY_PART(IPARTP(NF1) ,SUBSET ,IPRI)
+     .      CALL SENSOR_ENERGY_PART(IPARTP(NF1) ,SUBSET ,IPRI)
+c
           CALL PFORC3(
-     1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
-     2   MTN,                 ISMSTR,              PM,                  IXP(1,NF1),
-     3   X,                   A,                   AR,                  V,
-     4   VR,                  GEO,                 PARTSAV,             DT2T,
-     5   NELTST,              ITYPTST,             STIFN,               STIFR,
-     6   FSKY,                IADP,                OFFSET,              IPARTP(NF1),
-     7   TANI(K1),            FX(1,1),             FX(1,2),             FY(1,1),
-     8   FY(1,2),             FZ(1,1),             FZ(1,2),             MX(1,1),
-     9   MX(1,2),             MY(1,1),             MY(1,2),             MZ(1,1),
-     A   MZ(1,2),             IGEO,                IPM,                 BUFMAT,
-     B   NPT,                 NPC,                 TF,                  GRESAV,
-     C   GRTH,                IGRTH(OFF_IGRTH+NF1),MSP(NF1),            DMELP(NF1),
-     D   IPRI,                ITASK,               JTHE,                TEMP,
-     E   FTHE,                FTHESKY,             IEXPAN,              H3D_DATA,
-     F   JSMS,                IGRE,                NFT   ,              IFAIL   ,
-     G   SBUFMAT             ,SNPC                ,STF                 ,NUMMAT   ,
-     H   NUMGEO              )
+     1         ELBUF_TAB(NG),JFT                 ,JLT           ,NEL        ,
+     2         MTN          ,ISMSTR              ,PM            ,IXP(1,NF1) ,
+     3         X            ,A                   ,AR            ,V          ,
+     4         VR           ,GEO                 ,PARTSAV       ,DT2T       ,
+     5         NELTST       ,ITYPTST             ,STIFN         ,STIFR      ,
+     6         FSKY         ,IADP                ,OFFSET        ,IPARTP(NF1),
+     7         TANI(K1)     ,FX(1,1)             ,FX(1,2)       ,FY(1,1)    ,
+     8         FY(1,2)      ,FZ(1,1)             ,FZ(1,2)       ,MX(1,1)    ,
+     9         MX(1,2)      ,MY(1,1)             ,MY(1,2)       ,MZ(1,1)    ,
+     A         MZ(1,2)      ,IGEO                ,IPM           ,BUFMAT     ,
+     B         NPT          ,NPC                 ,TF            ,GRESAV     ,
+     C         GRTH         ,IGRTH(OFF_IGRTH+NF1),MSP(NF1)      ,DMELP(NF1) ,
+     D         IPRI         ,ITASK               ,JTHE          ,TEMP       ,
+     E         FTHE         ,FTHESKY             ,IEXPAN        ,H3D_DATA   ,
+     F         JSMS         ,IGRE                ,NFT           ,IFAIL      ,
+     G         SBUFMAT      ,SNPC                ,STF           ,NUMMAT     ,
+     H         NUMGEO       ,IOUT                ,ISTDO         ,IDEL7NOK   ,
+     I         IDYNA        ,IMCONV              ,IMPL_S        )
 C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)

@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_JOHNSON_PI               source/materials/fail/johnson_cook/fail_johnson_pi.F
+Chd|  FAIL_JOHNSON_IB
 Chd|-- called by -----------
-Chd|        BEAM_FAIL                     source/elements/beam/beam_fail.F
+Chd|        FAIL_BEAM18
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FAIL_JOHNSON_PI(
+      SUBROUTINE FAIL_JOHNSON_IB(
      .           NEL      ,NGL      ,IPT      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,TSTAR    ,SIGNXX   ,SIGNXY   ,SIGNZX   ,
-     .           DPLA     ,EPSP     ,OFF      ,FOFF     ,DFMAX    ,
+     .           DPLA     ,EPSD     ,OFF      ,FOFF     ,DFMAX    ,
      .           TDEL     ,IOUT     ,ISTDO    )
 C-----------------------------------------------
 c    Johnson-Cook failure model for integrated beams
@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSP    ! strain rate
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR   ! normalized temperature
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
@@ -61,13 +61,13 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNZX  ! stress component
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(OUT)   :: TDEL    ! desactiovation time
+      my_real ,DIMENSION(NEL)     ,INTENT(OUT)   :: TDEL    ! desactivation time
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM
+      my_real :: D1,D2,D3,D4,D5,EPSD0,P,EPSF,SVM
 C=======================================================================
       NINDX = 0  
       D1    = UPARAM(1)
@@ -75,7 +75,7 @@ C=======================================================================
       D3    = UPARAM(3)
       D4    = UPARAM(4)
       D5    = UPARAM(5)
-      EPSP0 = UPARAM(6)
+      EPSD0 = UPARAM(6)
 c-----------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
@@ -83,7 +83,7 @@ c-----------------------------
           SVM  = SQRT(THREE*(HALF*SIGNXX(I)**2 + SIGNXY(I)**2 + SIGNZX(I)**2))
           EPSF = D3 * P / MAX(EM20, SVM)
           EPSF = D1 + D2 * EXP(EPSF)
-          IF (D4 /= ZERO)  EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+          IF (D4 /= ZERO)  EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSD(I)/EPSD0)))
           IF (D5 /= ZERO)  EPSF = EPSF * (ONE + D5*TSTAR(I))                  
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I) / EPSF  
           IF (DFMAX(I) >= ONE) THEN ! total damage in integration point
