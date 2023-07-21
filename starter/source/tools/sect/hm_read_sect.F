@@ -1251,7 +1251,7 @@ C
             IE=IGRBRIC(ISU)%ENTITY(L)
 	    IF (IE  /=  0) THEN
 	      NBNODES = ISOLNOD(IE)
-	      IF (NBNODES == 4) NBNODES = 8
+	      IF (NBNODES == 4 .OR. NBNODES == 6) NBNODES = 8
 	      TAGELEM1=0
 	      TAGELEM2=0
               TAGELEM3=0
@@ -1421,7 +1421,7 @@ c
             IE=IGRBRIC(ISU)%ENTITY(L)
 	    IF (IE  /=  0) THEN
 	      NBNODES = ISOLNOD(IE)
-	      IF (NBNODES == 4) NBNODES = 8
+	      IF (NBNODES == 4 .OR. NBNODES == 6) NBNODES = 8
 	      IF (TAGELEMS(IE) == 1) THEN
 	        DO K=2,NBNODES+1
                   IF (NBNODES == 10 .AND. K > 5) THEN
