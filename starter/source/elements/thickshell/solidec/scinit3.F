@@ -609,7 +609,7 @@ C------g1,g2 :
         ENDDO 
 C------Local elem. base:
         CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
-     .              VQ, DETA1,NEL)
+     .              VQ, DETA1,NEL ,MVSIZ)
 C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=1,NEL
           LXYZ0(1)=FOURTH*(XN(I,1)+XN(I,2)+XN(I,3)+XN(I,4))
@@ -690,7 +690,7 @@ Chd|-- called by -----------
 Chd|        SDLENSH                       source/elements/thickshell/solidec/scinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET, NEL)
+      SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET, NEL,MVSIZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -698,13 +698,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+      INTEGER ,INTENT(IN) :: NEL,MVSIZ
 C
-      my_real,DIMENSION(NEL),INTENT(IN) :: 
+      my_real,DIMENSION(MVSIZ),INTENT(IN) :: 
      .   RX , RY , RZ, 
      .   SX , SY , SZ
-      my_real,DIMENSION(NEL),INTENT(OUT) :: DET
-      my_real,DIMENSION(NEL,3,3),INTENT(OUT) :: VQ
+      my_real,DIMENSION(MVSIZ),INTENT(OUT) :: DET
+      my_real,DIMENSION(MVSIZ,3,3),INTENT(OUT) :: VQ
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
