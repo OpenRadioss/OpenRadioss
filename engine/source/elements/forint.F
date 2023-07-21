@@ -674,8 +674,6 @@ C              8 node hexa
      G         CONDN    ,CONDNSKY ,ITASK   ,IPRI        ,MAT_ELEM  ,
      H         IBID     ,DT       )
 C
-            ENDIF
-C
             IF (NSECT > 0)THEN
               K0=NSTRF(25)
               N=NINTER+NRWALL+NRBODY
@@ -701,6 +699,8 @@ C
                 K0=NSTRF(K0+24)
               ENDDO
             ENDIF
+C
+           ENDIF
           ELSEIF (JHBE == 17) THEN
 C------------------------- Isolid=19 for Salim
             IF (IPARG(36,NG)==3) THEN
