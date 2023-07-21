@@ -97,7 +97,7 @@ C-----------------------------------------------
      .   IINT,JCVT,ICSEN,ILEV,IEXPAN,IGRE,JSMS,MAXFLAY,IVISC,LAW_VIS,
      .   NUVAR,NUVARM,NVARTMP,NUVARV,IGTYP,TSHELL,TSH_ORT,LINTLOC,
      .   LINTLAY,LINTPAR,NPAR_LAY,NPAR_TAB,NPAR_LBUF,NIP_LAY,NINTLAY,LIMAT,
-     .   LIFAIL,LGLOB,LLAY,LLOC,LFAIL,LVISC,LMAT,LPORO,LEOS,NCTRL,
+     .   LIFAIL,LGLOB,LLAY,LLOC,LFAIL,GFAIL,LVISC,LMAT,LPORO,LEOS,NCTRL,
      .   ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
@@ -223,12 +223,14 @@ c
         
         IF (IXFEM == 0 .AND. FLAG_XFEM == 1) CYCLE ! no "XFEM_TAB" buffer for non xfem PARTS
 c
-c------------------------------------------------------
-        IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR. ITY == 101) THEN  ! solids, quads & SPH cells
-c------------------------------------------------------
-c          IF (MLAW_TAG(MLW)%L_PLA == 0 .and. IPARG(10,NG) == 2) THEN
-c            IPARG(10,NG) = 0  ! ICPRE
-c          ENDIF                                   
+c=======================================================================
+c
+        IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR. ITY == 101) THEN  !
+c
+c         solid, quad & SPH cell elements
+c
+c=======================================================================
+
           TSHELL  = 0
           TSH_ORT = 0
           IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22 .or. 
@@ -1030,10 +1032,13 @@ c-------------------------------------------------
           DEALLOCATE(IMAT)
           DEALLOCATE(ILAW)
 c
-c------------------------------------------------------
-c------------------------------------------------------
-        ELSEIF (ITY == 3 .OR. ITY == 7) THEN   ! shell properties
-c------------------------------------------------------
+c=======================================================================
+c
+        ELSEIF (ITY == 3 .OR. ITY == 7) THEN
+c
+c         shell elements
+c
+c=======================================================================
 c
           IF (ITY == 3) THEN
             IMID = IXC(1,NFT+1)                                                
@@ -1891,11 +1896,14 @@ c-------------------------------------------------
           DEALLOCATE(FAILID)
           DEALLOCATE(IMAT)
           DEALLOCATE(ILAW)
-c---
-c 1-D elements (TRUSS, BEAM, SPRING)
-c---
+c
+c=======================================================================
+c
         ELSEIF (ITY == 4 .OR. ITY == 5 .OR. ITY == 6 .OR. ITY == 100) THEN 
-c------------------------------------------------------
+c
+c         1-D elements (TRUSS, BEAM, SPRING)
+c
+c=======================================================================
           IF (ITY == 4) THEN      ! TRUSS
             IMID = IXT(1,NFT+1)
             IPID = IXT(4,NFT+1)
@@ -1914,23 +1922,18 @@ C----
           GBUF  => ELBUF_TAB(NG)%GBUF 
 C---
           GBUF%G_DT = 1
-          NPG = 0
-          NPTTOT = 0
 C
           NPTT = 0
           NPTR = 0
           NPTS = 0
           NLAY = 0
+          NPG  = 0
 C
-          IF (ITY == 5 .AND. NPT > 0) THEN
-            IF (IGTYP == 3) THEN  !  global formulation
-              NPTT = NPT
-            ELSEIF (IGTYP == 18) THEN  ! integrated formulation
-              NLAY = 1
-              NPTR = 1
-              NPTS = 1
-              NPTT = NPT
-            ENDIF
+          IF (IGTYP == 18) THEN  ! integrated beams
+            NLAY = 1
+            NPTR = 1
+            NPTS = 1
+            NPTT = NPT
           ENDIF
 C
           IPARG(56,NG) = NPTR                              
@@ -2102,6 +2105,8 @@ C
 c-------------------------------------------------
 c       taille du tableau local ELBUF pour restart
 c-------------------------------------------------
+          GBUF%G_THK_I = GBUF%G_THK
+
           LGLOB = 0                                 
 C
           LGLOB = LGLOB + GBUF%G_NOFF  
@@ -2119,14 +2124,12 @@ C
           LGLOB = LGLOB + GBUF%G_THK
           LGLOB = LGLOB + GBUF%G_DT
           LGLOB = LGLOB + GBUF%G_ISMS
-C-------G_THK_I =  G_THK          
           LGLOB = LGLOB + GBUF%G_STRW 
-          GBUF%G_THK_I = GBUF%G_THK
           LGLOB = LGLOB + GBUF%G_THK_I
           LGLOB = LGLOB + GBUF%G_MAXFRAC
           LGLOB = LGLOB + GBUF%G_MAXEPS    
 
-          IF (NPG > 1) THEN
+          IF (NPG > 1) THEN                    ! not actually used
             LGLOB = LGLOB + GBUF%G_FORPG
             LGLOB = LGLOB + GBUF%G_MOMPG
 C
@@ -2208,7 +2211,57 @@ C
           LGLOB = LGLOB + GBUF%G_FRAM_FACTOR
           LGLOB = LGLOB + GBUF%G_INTVAR
 c
-          BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL
+c         failure struct for beams type 3 stored in global buffer
+c
+          GFAIL = 0
+          IF (IGTYP == 3 .and. IFAIL > 0) THEN
+             ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1))
+             IRUPT  = IPM(111,IMID)   ! type of failure model
+             IDFAIL = IPM(237,IMID)   ! failure model ID
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = IRUPT                                           
+             GFAIL = GFAIL + 1 
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%IDFAIL = IDFAIL
+             GFAIL = GFAIL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR  = FAIL_TAG(IRUPT)%NUVAR                              
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%VAR,ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR*NEL)
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%VAR = ZERO     
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR*NEL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%DAM,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM*NEL)
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%DAM = ZERO   
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM*NEL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX  = FAIL_TAG(IRUPT)%LF_DAMMX                       
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMMX,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX*NEL) 
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMMX = ZERO
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX*NEL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                      
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMINI,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI*NEL) 
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMINI = ZERO
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI*NEL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%TDEL,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL*NEL)
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%TDEL = ZERO                                                           
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL*NEL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%INDX,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX*NEL)
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%INDX = 0                                                           
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX*NEL + 1
+c
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
+             MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF*NEL)
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF = 1                                                           
+             GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF*NEL + 1
+          END IF
+c
+          BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL + GFAIL
 c---------          
 c---------   layer variables       
           LLAY = 0

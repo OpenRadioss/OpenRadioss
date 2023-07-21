@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  BEAM_FAIL                     source/elements/beam/beam_fail.F
+Chd|  FAIL_BEAM3                     source/elements/beam/beam_fail.F
 Chd|-- called by -----------
 Chd|        PMAIN3                        source/elements/beam/pmain3.F 
 Chd|-- calls ---------------
-Chd|        FAIL_JOHNSON_PI               source/materials/fail/johnson_cook/fail_johnson_pi.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE BEAM_FAIL(ELBUF_STR     ,NUMMAT  ,NUMGEO  ,NPROPM  ,
-     .                  NPROPMI ,NPROPG  ,SBUFMAT ,SNPC    ,STF     ,
-     .                  NEL     ,NPT     ,IMAT    ,IPROP   ,JTHE    ,
-     .                  TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
-     .                  OFF     ,EPSP    ,BUFMAT  ,NPF     ,TF      ,
-     .                  EINT    ,TIME    ,IOUT    ,ISTDO   )
+      SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,NUMMAT  ,NPROPM  ,
+     .                  NPROPMI ,SBUFMAT ,SNPC    ,STF     ,
+     .                  NEL     ,IMAT    ,JTHE    ,DPLA    ,
+     .                  TEMPEL  ,NGL     ,PM      ,IPM     ,
+     .                  OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
+     .                  TIME    ,IOUT    ,ISTDO   ,
+     .                  SVM     ,PRESSURE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,14 +51,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL        ! size of element group
       INTEGER ,INTENT(IN) :: IMAT       ! material law number
-      INTEGER ,INTENT(IN) :: IPROP      ! beam property number
-      INTEGER ,INTENT(IN) :: NPT        ! number of integration points in beam section
       INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
       INTEGER ,INTENT(IN) :: NUMMAT     ! number of defined materials
-      INTEGER ,INTENT(IN) :: NUMGEO     ! number of defined properties   
       INTEGER ,INTENT(IN) :: NPROPM     ! size of real material parameter table
       INTEGER ,INTENT(IN) :: NPROPMI    ! size of int  material parameter table 
-      INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table   
       INTEGER ,INTENT(IN) :: SBUFMAT    ! size of material parameter array
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
@@ -69,92 +65,57 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN)    :: IPM
       my_real                            ,INTENT(IN)    :: TIME
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
-      my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN)    :: GEO
       my_real ,DIMENSION(SBUFMAT)        ,INTENT(IN)    :: BUFMAT
-      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSP
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: DPLA
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SVM
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: PRESSURE
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
-      my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
 C
       TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
-      TARGET :: BUFMAT,ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IFUNC(100)
-      INTEGER :: I,IFL,IADBUF,IPT,NFUNC,IPY,IPZ,IPA,NVARF,NPARAM,IRUPT
+      INTEGER :: I,IFL,IADBUF,NFUNC,NPARAM,IRUPT
       INTEGER :: II(3)
-      INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
-      my_real ,DIMENSION(NEL) :: SHFACT,G,E,ETSE,EPSXX,EPSXY,EPSXZ,
-     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DPLA
+      my_real ,DIMENSION(NEL) :: TSTAR
       my_real :: bidon
 C
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
-      TYPE(BUF_FAIL_),POINTER :: FBUF
-      my_real, DIMENSION(:) ,POINTER :: UPARAMF,UVARF,DFMAX,TDEL
-      INTEGER, DIMENSION(:), POINTER :: FOFF
+      my_real, DIMENSION(:) ,POINTER :: UPARAMF
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step
-      bidon = eint(1,1)
       bidon = npf(1)
       bidon = tf(1)
 c-----------------------------------------------------
-      IPY  = 200        
-      IPZ  = 300        
-      IPA  = 400   
       IFL  = 1              ! only one failure model for beams      
-      SHFACT = FIVE_OVER_6
 C--------------------------------------   
       DO I=1,3
         II(I) = NEL*(I-1)
       ENDDO
-      COUNT(1:NEL) = 0
       NPARAM  = IPM(112, IMAT)
       NFUNC   = IPM(115, IMAT)
       IADBUF  = IPM(114 ,IMAT)
-      UPARAMF => BUFMAT(IADBUF:IADBUF+NPARAM)
+      IRUPT   = IPM(242 ,IMAT)                           
+c      UPARAMF => BUFMAT(IADBUF:IADBUF+NPARAM)
       DO I=1,NFUNC                
         IFUNC(I) = IPM(115 + I,IMAT)
       ENDDO 
-C---------------------------------------
-C     START LOOP OVER INTEGRATION POINTS
-C---------------------------------------
-      DO IPT = 1,NPT
-        LBUF   => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
-        FBUF   => ELBUF_STR%BUFLY(1)%FAIL(1,1,IPT)  
-        UVARF  => FBUF%FLOC(IFL)%VAR
-        NVARF  =  FBUF%FLOC(IFL)%NVAR                                 
-        IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
-        DFMAX  => FBUF%FLOC(IFL)%DAMMX 
-        TDEL   => FBUF%FLOC(IFL)%TDEL   
-        FOFF   => FBUF%FLOC(IFL)%OFF
-
-        DPLA(1:NEL) = ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%PLA(1:NEL)
+c-------------------------------------
+c     progressive element erosion      
 c
-C---    Coordinates of integration points
-        DO I=1,NEL                                 
-          YPT(I) = GEO(IPY+IPT,IPROP)              
-          ZPT(I) = GEO(IPZ+IPT,IPROP)           
-          APT(I) = GEO(IPA+IPT,IPROP)    
-        ENDDO                                        
-C
-        DO I=1,NEL
-          SIGNXX(I) = LBUF%SIG(II(1)+I)
-          SIGNXY(I) = LBUF%SIG(II(2)+I)
-          SIGNXZ(I) = LBUF%SIG(II(3)+I)
-        ENDDO
-c---    Total strain   
-        DO I= 1,NEL
-          EPSXX(I) = LBUF%STRA(II(1)+I)
-          EPSXY(I) = LBUF%STRA(II(2)+I)
-          EPSXZ(I) = LBUF%STRA(II(3)+I)
-        END DO
-c
-c------------------------------------            
-        SELECT CASE (IRUPT)                                            
+      DO I = 1,NEL
+        IF (OFF(I) < EM01)  OFF(I) = ZERO
+        IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
+      ENDDO      
+c-----------------------------------------            
+      IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF                                
+c-----------------------------------------            
+      SELECT CASE (IRUPT)                                            
 c------------------------------------            
 c
         CASE (1)     !    Johnson-Cook                                                   
@@ -169,33 +130,13 @@ c
             TSTAR(1:NEL) = ZERO
           ENDIF
 
-          CALL FAIL_JOHNSON_PI(
-     .         NEL       ,NGL       ,IPT       ,NPARAM    ,UPARAMF   ,
-     .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
-     .         DPLA      ,EPSP      ,OFF       ,FOFF      ,DFMAX     ,
-     .         TDEL      ,IOUT      ,ISTDO     )
+          CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+     .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
+     .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
+     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT     ,ISTDO    )
 c
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
 c-------------
-        END SELECT
-C-------------------------------------
-      ENDDO   ! IPT = 1,NPT :  END LOOP OVER INTEGRATION POINTS
-c-------------------------------------
-c     Check element erosion      
-c-------------------------------------
-        DO I= 1,NEL
-          IF (OFF(I) == ONE .and. COUNT(I) == NPT) THEN
-            ELBUF_STR%GBUF%OFF(I) = FOUR_OVER_5  ! element erosion started
-#include "lockon.inc"
-            WRITE(IOUT, 1000) NGL(I),TIME
-            WRITE(ISTDO,1000) NGL(I),TIME
-#include "lockoff.inc" 
-          END IF
-        END DO
-c------------------
- 1000 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
-c------------------
+      END SELECT
+c-----------
       RETURN
-      END SUBROUTINE BEAM_FAIL
+      END SUBROUTINE FAIL_BEAM3

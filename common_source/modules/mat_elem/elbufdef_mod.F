@@ -898,6 +898,7 @@ C    - 1D - elem (TRUSS, BEAM, SPRING)
         my_real, DIMENSION(:) , POINTER ::   STRHG
         my_real, DIMENSION(:) , POINTER ::   ETOTSH
         integer, DIMENSION(:) , POINTER ::   SKEW_ID
+        TYPE (FAIL_LOC_) , DIMENSION(:) , POINTER ::   FAIL
 C
 C    -  for seatbelt elements
         integer, DIMENSION(:) , POINTER ::   SLIPRING_ID

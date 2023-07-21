@@ -1898,6 +1898,53 @@ C
       ALLOCATE (ELBUF_STR%GBUF%SKEW_ID(NEL*G_SKEW_ID)         ,STAT=ERR)
         GBUF%SKEW_ID(1:NEL*G_SKEW_ID) = NINT(RBUF(IAD+1:IAD+NEL*G_SKEW_ID))
           IAD = IAD+NEL*G_SKEW_ID
+c            
+c---
+c         failure model for beams type 3
+c---
+      IF (IGTYP == 3 .and. G_NOFF > 0) THEN
+        ALLOCATE(ELBUF_STR%GBUF%FAIL(1) ,STAT=ERR)
+          GBUF%FAIL(1)%ILAWF     = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%IDFAIL    = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%NVAR      = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%LF_DAM    = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%LF_DAMMX  = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%LF_DAMINI = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%LF_TDEL   = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%LF_INDX   = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+          GBUF%FAIL(1)%LF_OFF    = NINT(RBUF(IAD+1))
+            IAD = IAD + 1
+
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%VAR(GBUF%FAIL(1)%NVAR*NEL) ,STAT=ERR)
+            GBUF%FAIL(1)%VAR(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%NVAR)
+              IAD = IAD + NEL*GBUF%FAIL(1)%NVAR
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%DAM(GBUF%FAIL(1)%LF_DAM) ,STAT=ERR)
+            GBUF%FAIL(1)%DAM(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_DAM)
+              IAD = IAD + NEL*GBUF%FAIL(1)%LF_DAM
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%DAMMX(GBUF%FAIL(1)%LF_DAMMX) ,STAT=ERR)
+            GBUF%FAIL(1)%DAMMX(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_DAMMX)
+              IAD = IAD + NEL*GBUF%FAIL(1)%LF_DAMMX
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%DAMINI(GBUF%FAIL(1)%LF_DAMINI) ,STAT=ERR)
+            GBUF%FAIL(1)%DAMINI(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_DAMINI)
+              IAD = IAD + NEL*GBUF%FAIL(1)%LF_DAMINI
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%TDEL(GBUF%FAIL(1)%LF_TDEL) ,STAT=ERR)
+            GBUF%FAIL(1)%TDEL(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_TDEL)
+              IAD = IAD + NEL*GBUF%FAIL(1)%LF_TDEL
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%INDX(GBUF%FAIL(1)%LF_INDX) ,STAT=ERR)
+            GBUF%FAIL(1)%INDX(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_INDX)
+              IAD = IAD + NEL*GBUF%FAIL(1)%LF_INDX
+          ALLOCATE(ELBUF_STR%GBUF%FAIL(1)%OFF(GBUF%FAIL(1)%LF_OFF) ,STAT=ERR)
+            GBUF%FAIL(1)%OFF(:) = RBUF(IAD+1:IAD+NEL*GBUF%FAIL(1)%LF_OFF)
+              IAD = IAD + NEL*GBUF%FAIL(1)%LF_OFF
+      ENDIF
 c---
 c seatbelt elements
 c---

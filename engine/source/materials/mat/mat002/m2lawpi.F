@@ -43,10 +43,6 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
@@ -58,13 +54,13 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IMAT,NUMMAT
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       INTEGER JFT,JLT,NPT,NEL
-      INTEGER PID(MVSIZ)
+      INTEGER PID(NEL)
       my_real , INTENT(IN) :: TIMESTEP
       my_real , INTENT(IN) :: ASRATE
 C     REAL
       my_real
-     .   EXX(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), 
-     .   KXX(MVSIZ), KYY(MVSIZ), KZZ(MVSIZ),
+     .   EXX(NEL), EXY(NEL), EXZ(NEL), 
+     .   KXX(NEL), KYY(NEL), KZZ(NEL),
      .   PM(NPROPM,*), GEO(NPROPG,*),FOR(NEL,3), MOM(NEL,3), EINT(NEL,2),
      .   OFF(*),EPSP(*), AL(*)
 C
@@ -72,18 +68,18 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
+      INTEGER ICC(NEL),IRTY(NEL),INDX(NEL)
       INTEGER I, J, J1, J2, NPIF, IPT, IPY,IPZ,IPA,NINDX,VP,
      .        IR,IS,ILAYER,II(3)
 C     REAL
       my_real
-     .   EPMX(MVSIZ), DEGMB(MVSIZ), DEGFX(MVSIZ),
-     .   CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), YMAX(MVSIZ),CP(MVSIZ),
-     .   T(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),CC(MVSIZ),EPDR(MVSIZ),
-     .   YLD(MVSIZ),ETSE(MVSIZ),Q(MVSIZ),E(MVSIZ),G(MVSIZ),
-     .   YPT(MVSIZ),ZPT(MVSIZ),APT(MVSIZ),VOL(MVSIZ),DPLA(MVSIZ),
-     .   SIGNXX(MVSIZ),SIGNXY(MVSIZ),SIGNXZ(MVSIZ),LOGEP(MVSIZ),
-     .   DEPSXX(MVSIZ),DEPSXY(MVSIZ),DEPSXZ(MVSIZ),PLAP(MVSIZ)
+     .   EPMX(NEL), DEGMB(NEL), DEGFX(NEL),
+     .   CA(NEL), CB(NEL), CN(NEL), YMAX(NEL),CP(NEL),
+     .   T(NEL),Z3(NEL),Z4(NEL),CC(NEL),EPDR(NEL),
+     .   YLD(NEL),ETSE(NEL),Q(NEL),E(NEL),G(NEL),
+     .   YPT(NEL),ZPT(NEL),APT(NEL),VOL(NEL),DPLA(NEL),
+     .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),LOGEP(NEL),
+     .   DEPSXX(NEL),DEPSXY(NEL),DEPSXZ(NEL),PLAP(NEL)
       my_real
      .   EPIF,SVM1,GS,MT,TM,TSTAR,UMR,R,DFXX,DFXY,DFXZ,SHFACT,PLAP1
 C

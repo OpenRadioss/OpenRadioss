@@ -290,7 +290,7 @@ C             thermal material expansion
                 IPARG(49,NGROUP) = 1
               ENDIF
               ! check failure models
-              IF (IGTYP == 18 .and. IPM(220,MID) >  0) THEN                                
+              IF (IPM(220,MID) >  0) THEN                                
                 IPARG(43,NGROUP) = 1   ! IFAIL flag                      
               ENDIF
 
