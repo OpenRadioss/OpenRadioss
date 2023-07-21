@@ -132,7 +132,6 @@ Chd|====================================================================
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
 !
       EPIF   = ZERO
-      ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
       EPIF   = MAX(EPIF,PM(43,MX))
       YM     = PM(20,MX)
       C1     = PM(28,MX)
@@ -151,6 +150,7 @@ Chd|====================================================================
       CP     = PM(53,MX)
 !
       DO I=JFT,JLT
+        ASRATE = MIN(ONE,PM(9,MX)*DT1C(I))
         CA(I)  = CA_1
         CB(I)  = CB_1
         YMAX(I)= YMAX_1
