@@ -123,17 +123,6 @@ c
         DPLA(I)  = ZERO
       ENDDO
 C-----------------------------
-C     DAMPING terms removed to pforce3
-C-----------------------------
-C
-      DO I=1,NEL
-        EXX(I)=EXX(I)*DT1
-        EXY(I)=EXY(I)*DT1
-        EXZ(I)=EXZ(I)*DT1
-        KXX(I)=KXX(I)*DT1
-        KYY(I)=KYY(I)*DT1
-        KZZ(I)=KZZ(I)*DT1
-      ENDDO
 C
       DO I=1,NEL
         DEGMB(I) = FOR(I,1)*EXX(I)

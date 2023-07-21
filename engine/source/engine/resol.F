@@ -4526,7 +4526,7 @@ C
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
      Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
      Z SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
-     . DTMIN1         ,IDTMIN        ) 
+     . DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ) 
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN

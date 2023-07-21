@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_JOHNSON_PI               source/materials/fail/johnson_cook/fail_johnson_pi.F
+Chd|  FAIL_JOHNSON_B
 Chd|-- called by -----------
-Chd|        BEAM_FAIL                     source/elements/beam/beam_fail.F
+Chd|        FAIL_BEAM3
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FAIL_JOHNSON_PI(
-     .           NEL      ,NGL      ,IPT      ,NUPARAM  ,UPARAM   ,
-     .           TIME     ,TSTAR    ,SIGNXX   ,SIGNXY   ,SIGNZX   ,
-     .           DPLA     ,EPSP     ,OFF      ,FOFF     ,DFMAX    ,
+      SUBROUTINE FAIL_JOHNSON_B(
+     .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
+     .           TIME     ,TSTAR    ,SVM      ,PRESSURE ,
+     .           DPLA     ,EPSD     ,OFF      ,DFMAX    ,
      .           TDEL     ,IOUT     ,ISTDO    )
 C-----------------------------------------------
-c    Johnson-Cook failure model for integrated beams
+c    Johnson-Cook failure model for standard beams (TYPE 3)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,28 +46,25 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER                     ,INTENT(IN)    :: NEL     ! size of element group
       INTEGER                     ,INTENT(IN)    :: NUPARAM ! size of parameter array
-      INTEGER                     ,INTENT(IN)    :: IPT     ! current integration point
       INTEGER                     ,INTENT(IN)    :: IOUT    ! output file unit
       INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSP    ! strain rate
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SVM     ! Von Mises stress
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: PRESSURE! element pressure
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR   ! normalized temperature
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element desactivation flag
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXY  ! stress component
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNZX  ! stress component
-      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(OUT)   :: TDEL    ! desactiovation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM
+      my_real :: D1,D2,D3,D4,D5,EPSD0,EPSF
 C=======================================================================
       NINDX = 0  
       D1    = UPARAM(1)
@@ -75,23 +72,21 @@ C=======================================================================
       D3    = UPARAM(3)
       D4    = UPARAM(4)
       D5    = UPARAM(5)
-      EPSP0 = UPARAM(6)
+      EPSD0 = UPARAM(6)
 c-----------------------------
       DO I=1,NEL
-        IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
-          P    = THIRD*SIGNXX(I)
-          SVM  = SQRT(THREE*(HALF*SIGNXX(I)**2 + SIGNXY(I)**2 + SIGNZX(I)**2))
-          EPSF = D3 * P / MAX(EM20, SVM)
+        IF (OFF(I) == ONE .and. DPLA(I) > ZERO) THEN
+          EPSF = D3 * PRESSURE(I) / MAX(EM20, SVM(I))
           EPSF = D1 + D2 * EXP(EPSF)
-          IF (D4 /= ZERO)  EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+          IF (D4 /= ZERO)  EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSD(I)/EPSD0)))
           IF (D5 /= ZERO)  EPSF = EPSF * (ONE + D5*TSTAR(I))                  
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I) / EPSF  
           IF (DFMAX(I) >= ONE) THEN ! total damage in integration point
             NINDX = NINDX + 1
             INDX(NINDX) = I  
-            FOFF(I)     = 0
             TDEL(I)     = TIME
             DFMAX(I)    = ONE
+            OFF(I)      = FOUR_OVER_5
           ENDIF
         ENDIF 
       ENDDO      
@@ -100,14 +95,13 @@ c------------------------
         DO J=1,NINDX             
           I = INDX(J)            
 #include "lockon.inc"
-          WRITE(IOUT, 1000) NGL(I),IPT,TIME
-          WRITE(ISTDO,1000) NGL(I),IPT,TIME
+          WRITE(IOUT, 1000) NGL(I),TIME
+          WRITE(ISTDO,1000) NGL(I),TIME
 #include "lockoff.inc" 
         END DO                   
       END IF   ! NINDX             
 c------------------
- 1000 FORMAT(5X,'FAILURE (JC) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
-     .      ,2X,'AT TIME :',1PE12.4)
+ 1000 FORMAT(5X,'FAILURE (JC) OF BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
 c------------------
       RETURN
       END

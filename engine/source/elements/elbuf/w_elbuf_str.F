@@ -1531,6 +1531,53 @@ c---
             L_REL = L_REL +NEL*G_DT_PITER
           RBUF_L(L_REL+1:L_REL+NEL*G_SKEW_ID)     = GBUF%SKEW_ID(1:NEL*G_SKEW_ID)
             L_REL = L_REL +NEL*G_SKEW_ID
+c            
+c         failure model for beams type 3
+          IF (IGTYP == 3 .and. G_NOFF == 1) THEN
+             IFAIL    = ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF
+             IDFAIL   = ELBUF_TAB(NG)%GBUF%FAIL(1)%IDFAIL
+             NUVAR    = ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR
+             LF_DAM   = ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM
+             LF_DAMMX = ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX
+             LF_DAMINI= ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI
+             LF_TDEL  = ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL
+             LF_INDX  = ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX
+             LF_OFF   = ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF
+c
+             RBUF_L(L_REL+1)=IFAIL
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=IDFAIL
+               L_REL = L_REL+1                      
+             RBUF_L(L_REL+1)=NUVAR
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=LF_DAM
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=LF_DAMMX
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=LF_DAMINI
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=LF_TDEL
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=LF_INDX
+               L_REL = L_REL+1
+             RBUF_L(L_REL+1)=LF_OFF
+               L_REL = L_REL+1
+c
+             RBUF_L(L_REL+1:L_REL+NEL*NUVAR) = ELBUF_TAB(NG)%GBUF%FAIL(1)%VAR(1:NEL*NUVAR)
+               L_REL = L_REL+NEL*NUVAR
+             RBUF_L(L_REL+1:L_REL+NEL*LF_DAM) = ELBUF_TAB(NG)%GBUF%FAIL(1)%DAM(1:NEL*LF_DAM)
+               L_REL = L_REL+NEL*LF_DAM
+             RBUF_L(L_REL+1:L_REL+NEL*LF_DAMMX) = ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMMX(1:NEL*LF_DAMMX)
+               L_REL = L_REL+NEL*LF_DAMMX
+             RBUF_L(L_REL+1:L_REL+NEL*LF_DAMINI) = ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMINI(1:NEL*LF_DAMINI)
+               L_REL = L_REL+NEL*LF_DAMINI
+             RBUF_L(L_REL+1:L_REL+NEL*LF_TDEL) = ELBUF_TAB(NG)%GBUF%FAIL(1)%TDEL(1:NEL*LF_TDEL)
+               L_REL = L_REL + NEL*LF_TDEL
+             RBUF_L(L_REL+1:L_REL+NEL*LF_INDX) = ELBUF_TAB(NG)%GBUF%FAIL(1)%INDX(1:NEL*LF_INDX)
+               L_REL = L_REL + NEL*LF_INDX
+             RBUF_L(L_REL+1:L_REL+NEL*LF_OFF) = ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF(1:NEL*LF_OFF)
+               L_REL = L_REL + NEL*LF_OFF
+          END IF            
 c---
 c seatbelt elements
 c---

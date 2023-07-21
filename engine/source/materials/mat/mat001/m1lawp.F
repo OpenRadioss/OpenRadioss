@@ -37,10 +37,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
@@ -49,26 +45,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,MAT(MVSIZ),PID(MVSIZ)
+      INTEGER NEL,MAT(NEL),PID(NEL)
 C     REAL
       my_real
      .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
-     .   OFF(*),A1(MVSIZ),
-     .   AL(MVSIZ),EXX(MVSIZ),
-     .   EXY(MVSIZ),EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
-     .   F1(MVSIZ), F2(MVSIZ), F3(MVSIZ), 
-     .   M1(MVSIZ), M2(MVSIZ), M3(MVSIZ)
+     .   OFF(*),A1(NEL),
+     .   AL(NEL),EXX(NEL),
+     .   EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
+     .   F1(NEL), F2(NEL), F3(NEL), 
+     .   M1(NEL), M2(NEL), M3(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
 C     REAL
       my_real
-     .   YM(MVSIZ),SHF(MVSIZ),B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),
-     .   DEGMB(MVSIZ), DEGFX(MVSIZ), 
-     .   SH(MVSIZ), YMA2(MVSIZ), SH10(MVSIZ),
-     .   SH20(MVSIZ), SH0(MVSIZ), SH1(MVSIZ), SH2(MVSIZ),
-     .   DMPM(MVSIZ),DMPF(MVSIZ),RHO(MVSIZ),G(MVSIZ)
+     .   YM(NEL),SHF(NEL),B1(NEL),B2(NEL),B3(NEL),
+     .   DEGMB(NEL), DEGFX(NEL), 
+     .   SH(NEL), YMA2(NEL), SH10(NEL),
+     .   SH20(NEL), SH0(NEL), SH1(NEL), SH2(NEL),
+     .   DMPM(NEL),DMPF(NEL),RHO(NEL),G(NEL)
 C-----------------------------------------------
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
         DO I=1,NEL                    
@@ -93,17 +89,6 @@ C
         SHF(I) =GEO(37,PID(I))
       ENDDO
 C-----------------------------
-C     DAMPING terms removed to pforce3
-C-----------------------------
-C
-      DO I=1,NEL
-        EXX(I)=EXX(I)*DT1
-        EXY(I)=EXY(I)*DT1
-        EXZ(I)=EXZ(I)*DT1
-        KXX(I)=KXX(I)*DT1
-        KYY(I)=KYY(I)*DT1
-        KZZ(I)=KZZ(I)*DT1
-      ENDDO
 C
       DO I=1,NEL
         DEGMB(I) =(FOR(I,1)*EXX(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I))

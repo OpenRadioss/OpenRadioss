@@ -27,19 +27,16 @@ Chd|        PFORC3                        source/elements/beam/pforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PDAMP3(
-     .    PM      ,GEO     ,OFF     ,MAT     ,PID,
-     .    NEL     ,NGL     ,EXX     ,EXY     ,EXZ,
-     .    KXX     ,KYY     ,KZZ     ,AL      ,FA1,
-     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3)
+     .    PM      ,GEO     ,OFF     ,IMAT    ,IPID  ,
+     .    NEL     ,NGL     ,EXX     ,EXY     ,EXZ   ,
+     .    KXX     ,KYY     ,KZZ     ,AL      ,FA1   ,
+     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3   ,
+     .    DTIME   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -49,61 +46,49 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) ::  NEL
-      INTEGER ,DIMENSION(MVSIZ) ,INTENT(IN) :: MAT,PID,NGL
-      my_real, DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
-      my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
-      my_real, DIMENSION(NEL) , INTENT(IN):: OFF
-      my_real, DIMENSION(MVSIZ) ,INTENT(IN):: AL  ,
-     .                      EXX,EXY,EXZ,KXX,KYY,KZZ
-      my_real, DIMENSION(MVSIZ) ,INTENT(INOUT):: 
-     .                      FA1,FA2,FA3,
-     .                      MA1,MA2,MA3
+      INTEGER ,INTENT(IN) :: NEL,IMAT,IPID
+      INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
+      my_real ,INTENT(IN) :: DTIME
+      my_real ,DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
+      my_real ,DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
+      my_real ,DIMENSION(NEL) ,INTENT(IN)   :: OFF
+      my_real ,DIMENSION(NEL) ,INTENT(IN)   :: AL
+      my_real ,DIMENSION(NEL) ,INTENT(IN)   :: EXX,EXY,EXZ,KXX,KYY,KZZ
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT):: FA1,FA2,FA3,MA1,MA2,MA3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
-      my_real
-     .   YM(MVSIZ),B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), 
-     .   RHO(MVSIZ),G(MVSIZ),DMPM(MVSIZ), DMPF(MVSIZ), 
-     .   VOL(MVSIZ),RHOE(MVSIZ),RHOG(MVSIZ),DMM,A1(MVSIZ)
-C-----------------------------------------------
-C
-      DO I=1,NEL
-        RHO(I) =PM( 1,MAT(I))
-        G(I)   =PM(22,MAT(I))
-        YM(I)  =PM(20,MAT(I))
-C-----------------------------
-        A1(I)  =GEO(1,PID(I))
-        B1(I)  =GEO(2,PID(I))
-        B2(I)  =GEO(18,PID(I))
-        B3(I)  =GEO(4,PID(I))
-        VOL(I) = A1(I)*AL(I)
-        RHOE(I)= SQRT(TWO*YM(I)*RHO(I))         
-        RHOG(I)= SQRT(TWO*G(I)*RHO(I))         
-      ENDDO
-      IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=1,NEL                    
-          DMPM(I)=GEO(16,PID(I))*OFF(I)  
-          DMPF(I)=GEO(17,PID(I))*OFF(I)
-        ENDDO
-      ELSE
-        DO I=1,NEL                    
-          DMPM(I)=ZERO  
-          DMPF(I)=ZERO  
-        ENDDO 
-      ENDIF                                 
+      my_real :: RHO,RHOE,RHOG,YOUNG,G,DMM,IYY,IZZ,IXX,AREA,DMPM,DMPF,DTINV
+      my_real :: VOL(NEL)
+c=======================================================================
+      DTINV = DTIME / MAX(DTIME**2,EM20)  
+      IF (IMPL_S > 0 .AND. IDYNA == 0) DTINV = ZERO
+c
+      RHO  = PM( 1,IMAT)
+      YOUNG= PM(20,IMAT)
+      G    = PM(22,IMAT)
+      AREA = GEO(1,IPID)
+      IXX  = GEO(4,IPID)
+      IYY  = GEO(2,IPID)
+      IZZ  = GEO(18,IPID)
+      DMPM = GEO(16,IPID) 
+      DMPF = GEO(17,IPID)
+      RHOE = SQRT(TWO*YOUNG*RHO) * DTINV       
+      RHOG = SQRT(TWO*G *RHO)    * DTINV  
+c
+      VOL(1:NEL) = AREA*AL(1:NEL)
 C-----------------------------
 C     AMORTISSEMENT
 C-----------------------------
       DO I=1,NEL
-        DMM = VOL(I)*RHOE(I)
-        FA1(I) = FA1(I) + DMPM(I)*EXX(I)*DMM
-        FA2(I) = FA2(I) + DMPF(I)*EXY(I)*DMM
-        FA3(I) = FA3(I) + DMPF(I)*EXZ(I)*DMM
-        MA1(I) = MA1(I) + DMPF(I)*KXX(I)*B3(I)*AL(I)*RHOG(I)
-        MA2(I) = MA2(I) + DMPF(I)*KYY(I)*B1(I)*AL(I)*RHOE(I)
-        MA3(I) = MA3(I) + DMPF(I)*KZZ(I)*B2(I)*AL(I)*RHOE(I)
+        DMM = VOL(I)*RHOE
+        FA1(I) = FA1(I) + DMPM*EXX(I)*DMM * OFF(I) 
+        FA2(I) = FA2(I) + DMPF*EXY(I)*DMM * OFF(I)
+        FA3(I) = FA3(I) + DMPF*EXZ(I)*DMM * OFF(I)
+        MA1(I) = MA1(I) + DMPF*KXX(I)*AL(I)*IXX * RHOG * OFF(I)
+        MA2(I) = MA2(I) + DMPF*KYY(I)*AL(I)*IYY * RHOE * OFF(I)
+        MA3(I) = MA3(I) + DMPF*KZZ(I)*AL(I)*IZZ * RHOE * OFF(I)
       ENDDO
 C-----------------------------------------------
       RETURN
