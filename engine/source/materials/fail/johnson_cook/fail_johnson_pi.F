@@ -21,12 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_JOHNSON_PI
+Chd|  FAIL_JOHNSON_PI               source/materials/fail/johnson_cook/fail_johnson_pi.F
 Chd|-- called by -----------
-Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|        USERMAT_BEAM                 source/materials/mat_share/usermat_BEAM.F
+Chd|        BEAM_FAIL                     source/elements/beam/beam_fail.F
 Chd|-- calls ---------------
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|====================================================================
       SUBROUTINE FAIL_JOHNSON_PI(
      .           NEL      ,NGL      ,IPT      ,NUPARAM  ,UPARAM   ,

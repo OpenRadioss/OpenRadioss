@@ -25,6 +25,7 @@ Chd|  BEAM_FAIL                     source/elements/beam/beam_fail.F
 Chd|-- called by -----------
 Chd|        PMAIN3                        source/elements/beam/pmain3.F 
 Chd|-- calls ---------------
+Chd|        FAIL_JOHNSON_PI               source/materials/fail/johnson_cook/fail_johnson_pi.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE BEAM_FAIL(ELBUF_STR     ,NUMMAT  ,NUMGEO  ,NPROPM  ,
