@@ -112,7 +112,7 @@ C     REAL
      .   SIGYC2,SIGYT12,ALPHA,
      .   SOFT(3),STRP12,COEFA,COEFB,DELTA,DWPLA,WPLAMXT1(MVSIZ),
      .   WPLAMXT2(MVSIZ),WPLAMXC1(MVSIZ),WPLAMXC2(MVSIZ),
-     .   WPLAMXT12(MVSIZ),WPLA1,WPLA2,WPLA3,HT,
+     .   WPLAMXT12(MVSIZ),WPLA1,WPLA2,WPLA3,NORM1,NORM2,NORM3,HT,
      .   EPSPLY(MVSIZ,5), EPLY(MVSIZ,3)
 C=======================================================================
       IF(TT == ZERO) THEN
@@ -996,52 +996,67 @@ C Direction 1
                  WPLA1 = WPLAMXT1(I)
                  ID = 1
               ELSEIF(T1(I) <= -SIGYC1) THEN
-                  WPLA1 = WPLAMXC1(I)
-                  ID =-1
+                 WPLA1 = WPLAMXC1(I)
+                 ID =-1
               ENDIF 
 C                           
-             IF(WPLA1 < WPLAMX(I)) THEN
-                WPLAMX(I) = WPLA1
-                ICAS(I) = ID
-             ENDIF
+              IF(WPLA1 < WPLAMX(I)) THEN
+                 WPLAMX(I) = WPLA1
+                 ICAS(I) = ID
+              ENDIF
 C Direction 2             
-             WPLA2 = EP30
-             IF(T2(I) >= SIGYT2  ) THEN
-                WPLA2 = WPLAMXT2(I)
-                ID =  2
-             ELSEIF(T2(I) <= -SIGYC2)THEN
-                WPLA2 = WPLAMXC2(I)
-                ID = -2
-             ENDIF
-             IF(WPLA2 < WPLAMX(I) ) THEN
-               WPLAMX(I) = WPLA2
-               ICAS(I) = ID
-             ENDIF
+              WPLA2 = EP30
+              IF(T2(I) >= SIGYT2  ) THEN
+                 WPLA2 = WPLAMXT2(I)
+                 ID =  2
+              ELSEIF(T2(I) <= -SIGYC2)THEN
+                 WPLA2 = WPLAMXC2(I)
+                 ID = -2
+              ENDIF
+              IF(WPLA2 < WPLAMX(I) ) THEN
+                 WPLAMX(I) = WPLA2
+                 ICAS(I) = ID
+              ENDIF
 C shear 
-             WPLA3 = EP30
-             IF(ABS(T3(I)) >= SIGYT12) THEN
-                WPLA3 = WPLAMXT12(I)
-                ID = 3
-             ENDIF          
-             IF( WPLA3 < WPLAMX(I) )THEN               
-               WPLAMX(I) = WPLA3
-               ICAS(I) = ID
-             ENDIF
-          ELSEIF( IFLAG(I) == 1 .AND. IMODWP(I) > 0 ) THEN  
-             ID = 1
-             IF(ABS(T2(I)) > ABS(T1(I)))THEN
-                ID = 2
-                IF(ABS(T3(I)) > ABS(T2(I))) ID = 3
-             ELSEIF( ABS(T3(I)) > ABS(T1(I))) THEN
-                ID = 3
-             ENDIF
-             SELECT CASE(ID)
+              WPLA3 = EP30
+              IF(ABS(T3(I)) >= SIGYT12) THEN
+                 WPLA3 = WPLAMXT12(I)
+                 ID = 3
+              ENDIF          
+              IF( WPLA3 < WPLAMX(I) )THEN               
+                 WPLAMX(I) = WPLA3
+                 ICAS(I) = ID
+              ENDIF
+            ELSEIF( IFLAG(I) == 1 .AND. IMODWP(I) > 0 ) THEN  
+              ID = 1
+              ICAS(I) = SIGN(ONE,T1(I))
+              IF(ICAS(I) > 0 ) THEN
+                 NORM1 = ((T1(I))/SIGYT1)
+              ELSE 
+                 NORM1 = ((ABS(T1(I))/SIGYC1))
+              ENDIF
+              ICAS(I) = SIGN(ONE,T2(I))
+              IF(ICAS(I) > 0 ) THEN
+                 NORM2 = ((T2(I))/SIGYT2)
+              ELSE 
+                 NORM2 = ((ABS(T2(I))/SIGYC2))
+              ENDIF
+              IF(NORM2 > NORM1)THEN
+                 ID = 2
+              ENDIF
+              NORM3 = ((ABS(T3(I))/SIGYT12))
+                 IF(NORM3 >= NORM2) THEN
+                 ID = 3
+                 ELSEIF(NORM3 >= NORM1) THEN
+                 ID = 3
+              ENDIF
+              SELECT CASE(ID)
                CASE(1)
                 ICAS(I) = SIGN(ONE,T1(I)) 
                 IF(ICAS(I) > 0 ) THEN
                    WPLAMX(I) = MIN(WPLAMX(I),WPLAMXT1(I))
                 ELSE
-                   WPLAMX(I)  = MIN(WPLAMX(I),WPLAMXC1(I))
+                   WPLAMX(I) = MIN(WPLAMX(I),WPLAMXC1(I))
                 ENDIF 
                CASE(2)
                 ICAS(I) = SIGN(TWO,T2(I)) 
@@ -1053,7 +1068,7 @@ C shear
                CASE(3)
                  ICAS(I) = 3 
                  WPLAMX(I) = MIN(WPLAMX(I),WPLAMXT12(I))
-             END SELECT 
+              END SELECT 
           ENDIF
         ENDDO 
       ENDIF 
@@ -1103,28 +1118,28 @@ C-----------------------------
           ENDIF    
           IF(FAIL==4.OR.FAIL==5.OR.FAIL==6)THEN
              IF(ICAS(I) == 0)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
-     +         ' FAILURE-P ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,I10,A,1PE11.4)')
+     +         ' FAILURE-P-MAX ELEMENT #', NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT 
              ELSEIF(ICAS(I) == 1)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
-     +         ' FAILURE-P-T1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,I10,A,1PE11.4)')
+     +         ' FAILURE-P-T1 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT 
              ELSEIF(ICAS(I) == -1)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
-     +         ' FAILURE-P-C1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,I10,A,1PE11.4)')
+     +         ' FAILURE-P-C1 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT 
              ELSEIF(ICAS(I) == 2)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
-     +         ' FAILURE-P-T2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,I10,A,1PE11.4)')
+     +         ' FAILURE-P-T2 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT
              ELSEIF(ICAS(I) == -2)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
-     +         ' FAILURE-P-C2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,I10,A,1PE11.4)')
+     +         ' FAILURE-P-C2 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT 
              ELSEIF(ICAS(I) == 3)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
-     +         ' FAILURE-P-T12 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,I10,A,1PE11.4)')
+     +         ' FAILURE-P-T12 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT
             ENDIF
            ENDIF      
@@ -1151,28 +1166,28 @@ c
           ENDIF    
           IF(FAIL==4.OR.FAIL==5.OR.FAIL==6)THEN
              IF(ICAS(I) == 0)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
-     +         ' FAILURE-P ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,1PE11.4)')
+     +         ' FAILURE-P-MAX ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT 
              ELSEIF(ICAS(I) == 1)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
-     +         ' FAILURE-P-T1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,1PE11.4)')
+     +         ' FAILURE-P-T1 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT 
              ELSEIF(ICAS(I) == -1)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
-     +         ' FAILURE-P-C1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,1PE11.4)')
+     +         ' FAILURE-P-C1 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT 
              ELSEIF(ICAS(I) == 2)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
-     +         ' FAILURE-P-T2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,1PE11.4)')
+     +         ' FAILURE-P-T2 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT
              ELSEIF(ICAS(I) == -2)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
-     +         ' FAILURE-P-C2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,1PE11.4)')
+     +         ' FAILURE-P-C2 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT 
              ELSEIF(ICAS(I) == 3)THEN
-               WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
-     +         ' FAILURE-P-T12 ELEMENT #',NGL(I),', LAYER #',ILAYER,
+               WRITE(IOUT, '(A,I10,A,F8.2,A,I3,A,I3,A,1PE11.4)')
+     +         ' FAILURE-P-T12 ELEMENT #',NGL(I),', WPLA ',WPLAMX(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT
             ENDIF
            ENDIF      
