@@ -734,6 +734,27 @@ c          ENDIF
      .                      I2=MLN,
      .                      I3=ISMST,
      .                      PRMOD=MSG_CUMU)
+          ELSEIF (ISMST == 10 ) THEN
+            IF (ISHEL /=12 .AND. ISHEL /=24 ) THEN  ! not expected 
+              CALL ANCMSG(MSGID=3019,
+     .                    ANMODE=ANINFO,
+     .                    MSGTYPE=MSGWARNING,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=ISHEL,
+     .                    PRMOD=MSG_CUMU)
+              ISMST = 2
+            ENDIF
+            IF (MLN /=42 .AND. MLN /=69 .AND. MLN /=88) THEN  ! 
+              CALL ANCMSG(MSGID=3020,
+     .                    ANMODE=ANINFO,
+     .                    MSGTYPE=MSGWARNING,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=MLN,
+     .                    PRMOD=MSG_CUMU)
+              ISMST = 2
+            ENDIF
           ENDIF
 
           IF(IGTYP == 0)MLN=0
@@ -1060,6 +1081,14 @@ c
       CALL ANCMSG(MSGID=3007,                 
      .            ANMODE=ANINFO,
      .            MSGTYPE=MSGERROR,
+     .            PRMOD=MSG_PRINT)       
+      CALL ANCMSG(MSGID=3019,                 
+     .            ANMODE=ANINFO,
+     .            MSGTYPE=MSGWARNING,
+     .            PRMOD=MSG_PRINT)       
+      CALL ANCMSG(MSGID=3020,                 
+     .            ANMODE=ANINFO,
+     .            MSGTYPE=MSGWARNING,
      .            PRMOD=MSG_PRINT)       
 C-----------
       IF(PRINT_FLAG>6) THEN
