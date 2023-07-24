@@ -252,7 +252,7 @@ C------ w/ Prony, use Icpre=0 anyway
         NU3(I) =TWO_THIRD*(ONE + NU)
         NU4(I) =NU
        ENDDO
-      ELSEIF(ICP==1)THEN
+      ELSEIF(ICP==1.AND.MTN/=92)THEN
        DO I=1,NEL
         NU1(I) =FOUR_OVER_3
         NU2(I) =-TWO_THIRD
