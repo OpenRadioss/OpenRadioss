@@ -728,6 +728,27 @@ C
      .                      I2=MLN,
      .                      I3=ISMST,
      .                      PRMOD=MSG_CUMU)
+          ELSEIF (ISMST == 10 ) THEN
+            IF (ISH3N >= 30 ) THEN  ! not expected 
+              CALL ANCMSG(MSGID=3021,
+     .                    ANMODE=ANINFO,
+     .                    MSGTYPE=MSGWARNING,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=ISH3N,
+     .                    PRMOD=MSG_CUMU)
+              ISMST = 2
+            ENDIF
+            IF (MLN /=42 .AND. MLN /=69 .AND. MLN /=88) THEN  ! 
+              CALL ANCMSG(MSGID=3020,
+     .                    ANMODE=ANINFO,
+     .                    MSGTYPE=MSGWARNING,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=MLN,
+     .                    PRMOD=MSG_CUMU)
+              ISMST = 2
+            ENDIF
           ENDIF
 C---------Drilling dof--using NB4 -> no supper place needed---------         
           IF (IDROT1>0.AND.ISH3N>29) THEN
@@ -992,6 +1013,14 @@ C-----------
      .            MSGTYPE=MSGWARNING,
      .            PRMOD=MSG_PRINT)       
       CALL ANCMSG(MSGID=3008,                 
+     .            ANMODE=ANINFO,
+     .            MSGTYPE=MSGERROR,
+     .            PRMOD=MSG_PRINT)       
+      CALL ANCMSG(MSGID=3020,                 
+     .            ANMODE=ANINFO,
+     .            MSGTYPE=MSGWARNING,
+     .            PRMOD=MSG_PRINT)       
+      CALL ANCMSG(MSGID=3021,                 
      .            ANMODE=ANINFO,
      .            MSGTYPE=MSGWARNING,
      .            PRMOD=MSG_PRINT)       
