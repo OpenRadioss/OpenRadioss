@@ -418,203 +418,235 @@ c
             BTB88(I) = PX8(I,IP)**2 + PY8(I,IP)**2 + PZ8(I,IP)**2
 c  
             ! Computation of LEN**2*BTB*Unl product and NTN*UNL, NTN*VNL
-            A1 = VOL(I) * WI * (H(1)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(1)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(1)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(1)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(1)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(1)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(1)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(1)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A1 = VOL(I) * WI * (H(1)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(1)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(1)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(1)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(1)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(1)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                          H(1)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(1)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN 
-              A1 = A1 + VOL(I) * WI * XI * (H(1)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(1)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(1)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(1)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(1)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(1)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(1)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(1)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))
+              A1 = A1 + VOL(I) * WI * XI * (H(1)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(1)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) +
+     .                                      H(1)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(1)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(1)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(1)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) +
+     .                                      H(1)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(1)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))
             ELSE
-              A1 = A1 + VOL(I) * WI * XI * (H(1)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(1)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(1)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(1)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(1)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(1)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(1)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(1)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A1 = A1 + VOL(I) * WI * XI * (
+     .                  H(1)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(1)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(1)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(1)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(1)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(1)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(1)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(1)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B1 = L2 * VOL(I) * WI * ( BTB11(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB12(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB13(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB14(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB15(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB16(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB17(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB18(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B1 = L2 * VOL(I) * WI * (BTB11(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB12(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB13(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB14(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB15(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB16(I)*NLOC_DMG%UNL(POS6(I)+K-1) +
+     .                               BTB17(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB18(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C1 = VOL(I) * WI * H(1) * VAR_REG(I,IP)     
 c     
-            A2 = VOL(I) * WI * (H(2)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(2)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(2)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(2)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(2)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(2)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(2)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(2)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A2 = VOL(I) * WI * (H(2)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(2)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(2)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(2)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + 
+     .                          H(2)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(2)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                          H(2)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(2)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN 
-              A2 = A2 + VOL(I) * WI * XI * (H(2)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(2)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(2)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(2)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(2)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(2)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(2)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(2)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))
+              A2 = A2 + VOL(I) * WI * XI * (H(2)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(2)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) +
+     .                                      H(2)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(2)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(2)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(2)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                                      H(2)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(2)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))
             ELSE
-              A2 = A2 + VOL(I) * WI * XI * (H(2)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(2)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(2)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(2)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(2)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(2)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(2)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(2)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A2 = A2 + VOL(I) * WI * XI * (
+     .                  H(2)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(2)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(2)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(2)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(2)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(2)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(2)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(2)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B2 = L2 * VOL(I) * WI * ( BTB12(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB22(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB23(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB24(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB25(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB26(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB27(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB28(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B2 = L2 * VOL(I) * WI * (BTB12(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB22(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB23(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB24(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB25(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB26(I)*NLOC_DMG%UNL(POS6(I)+K-1) +
+     .                               BTB27(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB28(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C2 = VOL(I) * WI * H(2) * VAR_REG(I,IP) 
 c     
-            A3 = VOL(I) * WI * (H(3)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(3)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(3)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(3)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(3)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(3)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(3)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(3)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A3 = VOL(I) * WI * (H(3)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(3)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(3)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(3)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(3)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(3)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) +
+     .                          H(3)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(3)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN 
-              A3 = A3 + VOL(I) * WI * XI * (H(3)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(3)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(3)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(3)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(3)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(3)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(3)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(3)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1)) 
+              A3 = A3 + VOL(I) * WI * XI * (H(3)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(3)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                                      H(3)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(3)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(3)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(3)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) +
+     .                                      H(3)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(3)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1)) 
             ELSE
-              A3 = A3 + VOL(I) * WI * XI * (H(3)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(3)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(3)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(3)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(3)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(3)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(3)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(3)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A3 = A3 + VOL(I) * WI * XI * (
+     .                  H(3)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(3)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(3)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(3)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(3)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(3)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(3)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(3)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B3 = L2 * VOL(I) * WI * ( BTB13(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB23(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB33(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB34(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB35(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB36(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB37(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB38(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B3 = L2 * VOL(I) * WI * (BTB13(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB23(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB33(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB34(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB35(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB36(I)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                               BTB37(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB38(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C3 = VOL(I) * WI * H(3) * VAR_REG(I,IP) 
 c     
-            A4 = VOL(I) * WI * (H(4)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(4)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(4)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(4)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(4)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(4)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(4)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(4)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A4 = VOL(I) * WI * (H(4)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(4)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(4)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(4)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(4)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(4)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                          H(4)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(4)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN 
-              A4 = A4 + VOL(I) * WI * XI * (H(4)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(4)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(4)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(4)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(4)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(4)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(4)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(4)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))  
+              A4 = A4 + VOL(I) * WI * XI * (H(4)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(4)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                                      H(4)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(4)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(4)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(4)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) +
+     .                                      H(4)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(4)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))  
             ELSE
-              A4 = A4 + VOL(I) * WI * XI * (H(4)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(4)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(4)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(4)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(4)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(4)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(4)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(4)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A4 = A4 + VOL(I) * WI * XI * (
+     .                  H(4)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(4)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(4)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(4)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(4)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(4)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(4)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(4)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B4 = L2 * VOL(I) * WI * ( BTB14(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB24(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB34(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB44(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB45(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB46(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB47(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB48(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B4 = L2 * VOL(I) * WI * (BTB14(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB24(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB34(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB44(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB45(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB46(I)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                               BTB47(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB48(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C4 = VOL(I) * WI * H(4) * VAR_REG(I,IP)
 c     
-            A5 = VOL(I) * WI * (H(5)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(5)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(5)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(5)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(5)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(5)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(5)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(5)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A5 = VOL(I) * WI * (H(5)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(5)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(5)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(5)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(5)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(5)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                          H(5)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(5)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN
-              A5 = A5 + VOL(I) * WI * XI * (H(5)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(5)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(5)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(5)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(5)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(5)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(5)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(5)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))  
+              A5 = A5 + VOL(I) * WI * XI * (H(5)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(5)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                                      H(5)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(5)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(5)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(5)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                                      H(5)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(5)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))  
             ELSE
-              A5 = A5 + VOL(I) * WI * XI * (H(5)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(5)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(5)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(5)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(5)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(5)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(5)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(5)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A5 = A5 + VOL(I) * WI * XI * (
+     .                  H(5)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(5)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(5)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(5)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(5)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(5)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(5)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(5)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B5 = L2 * VOL(I) * WI * ( BTB15(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB25(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB35(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB45(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB55(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB56(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB57(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB58(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B5 = L2 * VOL(I) * WI * (BTB15(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB25(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB35(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB45(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB55(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB56(I)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                               BTB57(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB58(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C5 = VOL(I) * WI * H(5) * VAR_REG(I,IP)      
 c     
-            A6 = VOL(I) * WI * (H(6)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(6)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(6)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(6)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(6)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(6)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(6)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(6)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A6 = VOL(I) * WI * (H(6)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(6)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(6)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(6)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(6)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(6)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                          H(6)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(6)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN
-              A6 = A6 + VOL(I) * WI * XI * (H(6)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(6)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(6)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(6)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(6)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(6)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(6)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(6)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1)) 
+              A6 = A6 + VOL(I) * WI * XI * (H(6)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(6)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) +
+     .                                      H(6)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(6)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(6)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(6)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                                      H(6)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(6)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1)) 
             ELSE
-              A6 = A6 + VOL(I) * WI * XI * (H(6)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(6)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(6)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(6)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(6)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(6)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(6)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(6)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A6 = A6 + VOL(I) * WI * XI * (
+     .                  H(6)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(6)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(6)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(6)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(6)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(6)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(6)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(6)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B6 = L2 * VOL(I) * WI * ( BTB16(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB26(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB36(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB46(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB56(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB66(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB67(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB68(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B6 = L2 * VOL(I) * WI * (BTB16(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB26(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB36(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB46(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB56(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB66(I)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                               BTB67(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB68(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C6 = VOL(I) * WI * H(6) * VAR_REG(I,IP)      
 c     
-            A7 = VOL(I) * WI * (H(7)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(7)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(7)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(7)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(7)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(7)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(7)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(7)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A7 = VOL(I) * WI * (H(7)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(7)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(7)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(7)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(7)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(7)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) +
+     .                          H(7)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(7)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN
-              A7 = A7 + VOL(I) * WI * XI * (H(7)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(7)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(7)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(7)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(7)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(7)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(7)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(7)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))
+              A7 = A7 + VOL(I) * WI * XI * (H(7)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(7)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                                      H(7)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(7)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(7)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(7)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                                      H(7)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(7)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))
             ELSE
-              A7 = A7 + VOL(I) * WI * XI * (H(7)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(7)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(7)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(7)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(7)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(7)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(7)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(7)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A7 = A7 + VOL(I) * WI * XI * (
+     .                  H(7)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(7)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(7)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(7)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(7)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(7)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(7)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(7)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF  
 c        
-            B7 = L2 * VOL(I) * WI * ( BTB17(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB27(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB37(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB47(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB57(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB67(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB77(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB78(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B7 = L2 * VOL(I) * WI * (BTB17(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB27(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB37(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB47(I)*NLOC_DMG%UNL(POS4(I)+K-1) + 
+     .                               BTB57(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB67(I)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                               BTB77(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB78(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C7 = VOL(I) * WI * H(7) * VAR_REG(I,IP)      
 c     
-            A8 = VOL(I) * WI * (H(8)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(8)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + H(8)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                        + H(8)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) + H(8)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(8)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                        + H(8)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(8)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
+            A8 = VOL(I) * WI * (H(8)*H(1)*NLOC_DMG%UNL(POS1(I)+K-1) + H(8)*H(2)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                          H(8)*H(3)*NLOC_DMG%UNL(POS3(I)+K-1) + H(8)*H(4)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                          H(8)*H(5)*NLOC_DMG%UNL(POS5(I)+K-1) + H(8)*H(6)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                          H(8)*H(7)*NLOC_DMG%UNL(POS7(I)+K-1) + H(8)*H(8)*NLOC_DMG%UNL(POS8(I)+K-1))
 c
             IF (NODADT == 0) THEN
-              A8 = A8 + VOL(I) * WI * XI * (H(8)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(8)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + H(8)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1)
-     .                                    + H(8)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) + H(8)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(8)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1)
-     .                                    + H(8)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(8)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))  
+              A8 = A8 + VOL(I) * WI * XI * (H(8)*H(1)*NLOC_DMG%VNL(POS1(I)+K-1) + H(8)*H(2)*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                                      H(8)*H(3)*NLOC_DMG%VNL(POS3(I)+K-1) + H(8)*H(4)*NLOC_DMG%VNL(POS4(I)+K-1) +
+     .                                      H(8)*H(5)*NLOC_DMG%VNL(POS5(I)+K-1) + H(8)*H(6)*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                                      H(8)*H(7)*NLOC_DMG%VNL(POS7(I)+K-1) + H(8)*H(8)*NLOC_DMG%VNL(POS8(I)+K-1))  
             ELSE
-              A8 = A8 + VOL(I) * WI * XI * (H(8)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
-     .                                      H(8)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
-     .                                      H(8)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
-     .                                      H(8)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
-     .                                      H(8)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
-     .                                      H(8)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
-     .                                      H(8)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
-     .                                      H(8)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
+              A8 = A8 + VOL(I) * WI * XI * (
+     .                  H(8)*H(1)*(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)))*NLOC_DMG%VNL(POS1(I)+K-1) + 
+     .                  H(8)*H(2)*(SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)))*NLOC_DMG%VNL(POS2(I)+K-1) + 
+     .                  H(8)*H(3)*(SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)))*NLOC_DMG%VNL(POS3(I)+K-1) + 
+     .                  H(8)*H(4)*(SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)))*NLOC_DMG%VNL(POS4(I)+K-1) + 
+     .                  H(8)*H(5)*(SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)))*NLOC_DMG%VNL(POS5(I)+K-1) + 
+     .                  H(8)*H(6)*(SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NLOC_DMG%VNL(POS6(I)+K-1) + 
+     .                  H(8)*H(7)*(SQRT(NLOC_DMG%MASS(POS7(I)+K-1)/NLOC_DMG%MASS0(POS7(I)+K-1)))*NLOC_DMG%VNL(POS7(I)+K-1) + 
+     .                  H(8)*H(8)*(SQRT(NLOC_DMG%MASS(POS8(I)+K-1)/NLOC_DMG%MASS0(POS8(I)+K-1)))*NLOC_DMG%VNL(POS8(I)+K-1))
             ENDIF
 c        
-            B8 = L2 * VOL(I) * WI * ( BTB18(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB28(I)*NLOC_DMG%UNL(POS2(I)+K-1) + BTB38(I)*NLOC_DMG%UNL(POS3(I)+K-1)
-     .                              + BTB48(I)*NLOC_DMG%UNL(POS4(I)+K-1) + BTB58(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB68(I)*NLOC_DMG%UNL(POS6(I)+K-1)
-     .                              + BTB78(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB88(I)*NLOC_DMG%UNL(POS8(I)+K-1))
+            B8 = L2 * VOL(I) * WI * (BTB18(I)*NLOC_DMG%UNL(POS1(I)+K-1) + BTB28(I)*NLOC_DMG%UNL(POS2(I)+K-1) + 
+     .                               BTB38(I)*NLOC_DMG%UNL(POS3(I)+K-1) + BTB48(I)*NLOC_DMG%UNL(POS4(I)+K-1) +
+     .                               BTB58(I)*NLOC_DMG%UNL(POS5(I)+K-1) + BTB68(I)*NLOC_DMG%UNL(POS6(I)+K-1) + 
+     .                               BTB78(I)*NLOC_DMG%UNL(POS7(I)+K-1) + BTB88(I)*NLOC_DMG%UNL(POS8(I)+K-1))
 c     
             C8 = VOL(I) * WI * H(8) * VAR_REG(I,IP)    
 c
