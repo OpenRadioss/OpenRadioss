@@ -538,7 +538,6 @@ C
 Chd|====================================================================
 Chd|  SDLENSH                       source/elements/thickshell/solidec/scinit3.F
 Chd|-- called by -----------
-Chd|        S8CINIT3                      source/elements/thickshell/solide8c/s8cinit3.F
 Chd|        SCINIT3                       source/elements/thickshell/solidec/scinit3.F
 Chd|-- calls ---------------
 Chd|        CLSYS3                        source/elements/thickshell/solidec/scinit3.F
@@ -688,6 +687,7 @@ Chd|====================================================================
 Chd|  CLSYS3                        source/elements/thickshell/solidec/scinit3.F
 Chd|-- called by -----------
 Chd|        SDLENSH                       source/elements/thickshell/solidec/scinit3.F
+Chd|        SDLENSH14                     source/elements/thickshell/solide8c/sdlensh14.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET, NEL,MVSIZ)
