@@ -621,7 +621,7 @@ C-----------
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SHEAR MODULUS. . . . . . . . . . . . . .=',1PG20.13//)
+     & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',1PG20.13//)
  1400 FORMAT(
      & 5X,'JOHNSON COOK MODEL :',/,
      & 5X,'YIELD COEFFICIENT A . . . . . . . . . .=',1PG20.13/,
@@ -644,8 +644,8 @@ C-----------
  1407 FORMAT(
      & 5X,'PREDEFINED VALUES USED FOR. . . . . . .: ',A/,
      & 5X,'DENSITY . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'YOUNG''S MODULUS. . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR MODULUS . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'YIELD STRESS. . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'ULTIMATE STRESS (UTS) . . . . . . . . .=',1PG20.13/,
