@@ -93,6 +93,7 @@ Chd|        S4FINT_REG                    engine/source/elements/solid/solide4/s
 Chd|        S4FORC3                       engine/source/elements/solid/solide4/s4forc3.F
 Chd|        S6CFINT_REG                   engine/source/elements/thickshell/solide6c/s6cfint_reg.F
 Chd|        S6CFORC3                      engine/source/elements/thickshell/solide6c/s6cforc3.F
+Chd|        S8CFINT_REG                   engine/source/elements/thickshell/solide8c/s8cfint_reg.F
 Chd|        S8CFORC3                      engine/source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        S8EFORC3                      engine/source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/s8sforc3.F

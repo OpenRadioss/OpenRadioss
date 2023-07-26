@@ -503,6 +503,7 @@ Chd|        S4KE3                         engine/source/elements/solid/solide4/s
 Chd|        S4LAGSFEM                     engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        S6CFINT_REG                   engine/source/elements/thickshell/solide6c/s6cfint_reg.F
 Chd|        S6CKE3                        engine/source/elements/thickshell/solide6c/s6cke3.F
+Chd|        S8CFINT_REG                   engine/source/elements/thickshell/solide8c/s8cfint_reg.F
 Chd|        S8CKE3                        engine/source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8E_SIGP                      engine/source/elements/solid/solide8e/s8e_sig.F
 Chd|        S8FINT3                       engine/source/elements/solid/solide8/s8fint3.F
