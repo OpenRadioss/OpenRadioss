@@ -222,6 +222,8 @@ c        NPT = NPTR*100+NPTS*10+ NPTT
             CASE(100)
               NLY = NPTR
           END SELECT 
+        ELSE
+          NLY = NPTS
         ENDIF
                                     
         IF (IHBE == 14 .AND.                               

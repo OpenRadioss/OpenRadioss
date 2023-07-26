@@ -871,10 +871,8 @@ C
 	            DO K=1,NUMGEO
            	    IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
                   NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
-           	    ELSEIF(IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
+           	    ELSEIF(IGEO(11,K) == 20 .OR. IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
                   NLAY_MAX = MAX(NLAY_MAX,MIN(1,IGEO(30,K)))
-                ELSEIF(IGEO(11,K) == 20) THEN 
-                  NLAY_MAX = MAX(NLAY_MAX,MAX(1,IGEO(30,K)))
                 ENDIF
 	            ENDDO
               DO K=1,NS_STACK ! type17,51 & 52
