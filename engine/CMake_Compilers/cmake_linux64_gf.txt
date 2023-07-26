@@ -63,13 +63,22 @@ set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 
 
 #MUMPS linear solver, used for Implicit, FSI. 
-#  - Create and enter the directory OpenRadioss/extlib/mumps
-#  - Download, extract and build Lapack, Scalalapack and mumps. 
-#    - wget https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.10.1.tar.gz
-#    - [Optional] wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
-#    - wget https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/tags/v2.2.0.tar.gz ; (set the compiler variable to /opt/openmpi/mpif90)
-#    - wget http://mumps.enseeiht.fr/MUMPS_5.5.1.tar.gz (or wget http://ftp.mcs.anl.gov/pub/petsc/externalpackages/MUMPS_5.5.1.tar.gz)  
-# uncomment the following lines
+#  1) get MUMPS
+#     a) using a script
+#  The script ./extlib/get_and_build_mumps.sh download and bluid MUMPS. It was tested for GCC11 on ubuntu 22.04
+# ./build_script.sh -arch=linux64_gf -nt=4 -mpi=ompi -mumps_root=${absolute_path}/extlib/MUMPS_5.5.1 -scalapack_root=${absolute_path}/extlib/scalapack-2.2.0/build/lib -lapack_root=${absolute_path}/extlib/lapack-3.10.1/
+#     b) If the script fails or you want to enable more ordering methods, you may try to build it yourself:               
+#        - Create and enter the directory OpenRadioss/extlib/mumps
+#        - Download, extract and build Lapack, Scalalapack and mumps. 
+#          - wget https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.10.1.tar.gz
+#          - [Optional] wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
+#          - wget https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/tags/v2.2.0.tar.gz ; (set the compiler variable to /opt/openmpi/mpif90)
+#          - wget http://mumps.enseeiht.fr/MUMPS_5.5.1.tar.gz (or wget http://ftp.mcs.anl.gov/pub/petsc/externalpackages/MUMPS_5.5.1.tar.gz)  
+#         When compiling mumps, lapack, scalapack with a recent version of gfortran, you may need add the option "-fallow-argument-mismatch" if you are using a recent GCC version
+#  2) build OpenRadioss
+#     a) clean: if you already built OpenRadioss without mumps, you need to run:  ./build_script.sh -arch=linux64_gf -nt=4 -mpi=ompi -clean 
+#     b) To build penRadioss with MUMPS and implicit feature, you need to run the following command, replacing ${absolute_path} by the absolute path to the engine directory.
+#        ./build_script.sh -arch=linux64_gf -nt=4 -mpi=ompi -mumps_root=${absolute_path}/extlib/MUMPS_5.5.1 -scalapack_root=${absolute_path}/extlib/scalapack-2.2.0/build/lib -lapack_root=${absolute_path}/extlib/lapack-3.10.1/
 if( DEFINED mumps_root)
     set(MUMPSLIB "${mumps_root}/lib")
     set(mumps_inc "-I${mumps_root}/include")
