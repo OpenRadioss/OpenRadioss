@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,NPT,NPTR,NPTS,NPTT,
-     .    IINT,JCVT,IP,ISK,IREP,IDSK,ISTRAIN
+     .    IINT,JCVT,IP,ISK,IREP,IDSK,ISTRAIN,NLY
       my_real
      .    CVIS,QA,QB,VX,VY,VZ,ANGLE,DTMIN,PUN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       INTEGER J
@@ -195,11 +195,20 @@ C
      .                I2=NPT,
      .                I3=IHBE)
         ENDIF
+        NLY = NPT
       CASE(14)
         IF (NPT == 0) NPT = 222
         NPTR= NPT/100
         NPTS= MOD(NPT/10,10)
         NPTT= MOD(NPT,10)
+        SELECT CASE(ICSTR)
+          CASE(1)
+            NLY = NPTT
+          CASE(10)
+            NLY = NPTS
+          CASE(100)
+            NLY = NPTR
+        END SELECT 
         IF (IHBE == 14 .AND.
      .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.
      .      NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN
@@ -273,6 +282,7 @@ C
       IGEO(14) = ICSTR
       IGEO(15) = IINT
       IGEO(16) = JCVT-1
+      IGEO(30) = NLY
 C
       GEO(1)   = ANGLE
       GEO(7)   = VX

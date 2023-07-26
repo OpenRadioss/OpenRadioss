@@ -190,7 +190,7 @@ C -------------------------------
         !   -------------
         !   check if composite material is used
         COMPOSITE_OPTION = .FALSE.
-        IF(IGEO(30,PID)>0) THEN
+        IF (IGEO(30,PID)>0 .AND. IGEO(11,PID)==22) THEN
             COMPOSITE_OPTION = .TRUE.
         ENDIF
         !   -------------
