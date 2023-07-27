@@ -4280,6 +4280,7 @@ C=======================================================================
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         MLW2 = MLW
+        IF (IPARG(8,NG)==1.OR.MLW==0.OR.MLW==13) CYCLE 
         ICSIG=IPARG(17,NG)  
         ISOLNOD = IPARG(28,NG)
         LFT=1
@@ -4359,7 +4360,38 @@ C
            ITSH=0
          ENDIF
 C----------
-         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
+         IF (ISOLNOD == 8.AND. JHBE<9)THEN
+c    
+           DO I=LFT,LLT
+             N = I + NFT
+             IF (KCVT /= 0) THEN
+               IF(KCVT==2)THEN
+                 GAMA(1:6) = GBUF%GAMA(JJ(1:6) + I)
+               ELSE
+                 GAMA(1)=ONE
+                 GAMA(2)=ZERO
+                 GAMA(3)=ZERO
+                 GAMA(4)=ZERO
+                 GAMA(5)=ONE
+                 GAMA(6)=ZERO
+               END IF
+             END IF
+             N1 = ONE
+             ILAY = 1
+             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+             EVAR_TMP(1:6) = GBUF%SIG(JJ(1:6) + I)
+             IF(IVISC > 0) THEN
+                 EVAR_TMP(1:6) =EVAR_TMP(1:6)+ LBUF%VISC(JJ(1:6) + I)
+             ENDIF
+             IF (KCVT /= 0)
+     +        CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
+               DO J=1,8
+                 EVAR(1:6,NC(J,I)) = EVAR(1:6,NC(J,I)) + EVAR_TMP(1:6)
+               ENDDO
+           ENDDO
+         ELSEIF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
@@ -4519,9 +4551,9 @@ c
                END IF
              END IF
              DO J=1,8
-	         KSI = A_HEPH(1,J)
-	         ETA = A_HEPH(2,J)
-	         ZETA = A_HEPH(3,J)
+               KSI = A_HEPH(1,J)
+               ETA = A_HEPH(2,J)
+               ZETA = A_HEPH(3,J)
 c
                  ILAY = 1
 
@@ -4652,9 +4684,9 @@ c
                    ILAY = 1
                  ENDIF
 c
-	         KSI = A_GAUSS(IR,2)
-	         ETA = A_GAUSS(IS,2)
-	         ZETA = A_GAUSS(IT,2)
+                 KSI = A_GAUSS(IR,2)
+                 ETA = A_GAUSS(IS,2)
+                 ZETA = A_GAUSS(IT,2)
 
                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
 
@@ -4738,7 +4770,7 @@ c
                  EVAR(4,NC(J,I)) = EVAR(4,NC(J,I)) + N1 * EVAR_TMP(4)
                  EVAR(5,NC(J,I)) = EVAR(5,NC(J,I)) + N1 * EVAR_TMP(5)
                  EVAR(6,NC(J,I)) = EVAR(6,NC(J,I)) + N1 * EVAR_TMP(6)
-               ENDDO
+              ENDDO
            ENDDO
          ELSEIF(ISOLNOD == 10 .OR. (ISOLNOD == 4 .AND. ISROT==1))THEN
 c    
@@ -4805,7 +4837,7 @@ C
                EVAR(5,NC(J,I)) = EVAR(5,NC(J,I)) + EVAR_T10(5,J)
                EVAR(6,NC(J,I)) = EVAR(6,NC(J,I)) + EVAR_T10(6,J)
              ENDDO
-			IF(ISOLNOD == 10 ) THEN
+            IF(ISOLNOD == 10 ) THEN
               DO J=5,10
                 NN1=IPERM1(J)
                 NN2=IPERM2(J)
@@ -4819,7 +4851,7 @@ C
                EVAR(5,NC(J,I)) = EVAR(5,NC(J,I)) + EVAR_T10(5,J)
                EVAR(6,NC(J,I)) = EVAR(6,NC(J,I)) + EVAR_T10(6,J)
               ENDDO
-			END IF !(ISOLNOD == 10 ) THEN
+            END IF !(ISOLNOD == 10 ) THEN
            ENDDO
          ENDIF
          DO I=LFT,LLT

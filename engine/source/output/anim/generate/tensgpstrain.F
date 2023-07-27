@@ -171,6 +171,7 @@ C=======================================================================
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         MLW2 = MLW
+        IF (IPARG(8,NG)==1.OR.MLW==0.OR.MLW==13) CYCLE
         ICSIG=IPARG(17,NG)  
         ISOLNOD = IPARG(28,NG)
         LFT=1
@@ -254,7 +255,45 @@ C
      1   LBUF%STRA, STR_IS24,  GBUF%STRHG,NEL)
          ENDIF
 C----------
-         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
+         IF((ISOLNOD == 4.AND. ISROT/=1).OR.(ISOLNOD == 8.AND. JHBE<9))THEN
+c    
+           DO I=LFT,LLT
+             N = I + NFT
+             IF (KCVT /= 0) THEN
+               IF(KCVT==2)THEN
+                 GAMA(1) = GBUF%GAMA(JJ(1) + I)
+                 GAMA(2) = GBUF%GAMA(JJ(2) + I)
+                 GAMA(3) = GBUF%GAMA(JJ(3) + I)
+                 GAMA(4) = GBUF%GAMA(JJ(4) + I)
+                 GAMA(5) = GBUF%GAMA(JJ(5) + I)
+                 GAMA(6) = GBUF%GAMA(JJ(6) + I)
+               ELSE
+                 GAMA(1)=ONE
+                 GAMA(2)=ZERO
+                 GAMA(3)=ZERO
+                 GAMA(4)=ZERO
+                 GAMA(5)=ONE
+                 GAMA(6)=ZERO
+               END IF
+             END IF
+                   N1 = FOURTH
+                   ILAY = 1
+                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                 EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)
+                 EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)
+                 EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)
+                 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF
+                 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
+                 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
+                 IF (KCVT /= 0)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
+             DO J=1,ISOLNOD
+               EVAR(1:6,NC(J,I)) = EVAR(1:6,NC(J,I)) +EVAR_TMP(1:6)
+             ENDDO
+           ENDDO
+         ELSEIF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
@@ -537,49 +576,6 @@ c
            ENDDO
           ENDIF
 c    
-         ELSEIF(ISOLNOD == 4 )THEN
-c    
-           DO I=LFT,LLT
-             N = I + NFT
-             IF (KCVT /= 0) THEN
-               IF(KCVT==2)THEN
-                 GAMA(1) = GBUF%GAMA(JJ(1) + I)
-                 GAMA(2) = GBUF%GAMA(JJ(2) + I)
-                 GAMA(3) = GBUF%GAMA(JJ(3) + I)
-                 GAMA(4) = GBUF%GAMA(JJ(4) + I)
-                 GAMA(5) = GBUF%GAMA(JJ(5) + I)
-                 GAMA(6) = GBUF%GAMA(JJ(6) + I)
-               ELSE
-                 GAMA(1)=ONE
-                 GAMA(2)=ZERO
-                 GAMA(3)=ZERO
-                 GAMA(4)=ZERO
-                 GAMA(5)=ONE
-                 GAMA(6)=ZERO
-               END IF
-             END IF
-                   N1 = FOURTH
-                   ILAY = 1
-                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
-                 EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)
-                 EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)
-                 EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)
-                 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF
-                 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
-                 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
-                 IF (KCVT /= 0)
-     .           CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
-     2   GAMA,    JHBE,    IGTYP,   ISORTH)
-             DO J=1,4
-               EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
-               EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
-               EVAR(3,NC(J,I)) = EVAR(3,NC(J,I)) + N1 * EVAR_TMP(3)
-               EVAR(4,NC(J,I)) = EVAR(4,NC(J,I)) + N1 * EVAR_TMP(4)
-               EVAR(5,NC(J,I)) = EVAR(5,NC(J,I)) + N1 * EVAR_TMP(5)
-               EVAR(6,NC(J,I)) = EVAR(6,NC(J,I)) + N1 * EVAR_TMP(6)
-             ENDDO
-           ENDDO
          ELSEIF(ISOLNOD == 10)THEN
 c    
            ALPHA_1 = -ALPHA/(BETA-ALPHA)
@@ -721,7 +717,7 @@ C     REAL
      .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP
+     .        ICSIG,DIR,IVISC,JJ(6),IP,ITSH
       INTEGER MLW2,NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
@@ -806,6 +802,7 @@ C=======================================================================
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         MLW2 = MLW
+        IF (IPARG(8,NG)==1.OR.MLW==0.OR.MLW==13) CYCLE
         ICSIG=IPARG(17,NG)  
         ISOLNOD = IPARG(28,NG)
         LFT=1
@@ -888,6 +885,11 @@ C
          NLAY   = ELBUF_TAB(NG)%NLAY
          NPT = NPTR*NPTS*NPTT
          NNOD = ISOLNOD
+         IF(IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
+           ITSH=1
+         ELSE
+           ITSH=0
+         ENDIF
          IF (JHBE == 24) THEN
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
            NPTR = 2
@@ -897,11 +899,50 @@ C
      1   LBUF%STRA, STR_IS24,  GBUF%STRHG,NEL)
          ENDIF
 C----------
-         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
+         IF((ISOLNOD == 4.AND. ISROT/=1).OR.(ISOLNOD == 8.AND. JHBE<9))THEN
+c    
+           DO I=LFT,LLT
+             IF (ISKIN(I)==0) CYCLE
+             N = I + NFT
+             IF (KCVT /= 0) THEN
+               IF(KCVT==2)THEN
+                 GAMA(1) = GBUF%GAMA(JJ(1) + I)
+                 GAMA(2) = GBUF%GAMA(JJ(2) + I)
+                 GAMA(3) = GBUF%GAMA(JJ(3) + I)
+                 GAMA(4) = GBUF%GAMA(JJ(4) + I)
+                 GAMA(5) = GBUF%GAMA(JJ(5) + I)
+                 GAMA(6) = GBUF%GAMA(JJ(6) + I)
+               ELSE
+                 GAMA(1)=ONE
+                 GAMA(2)=ZERO
+                 GAMA(3)=ZERO
+                 GAMA(4)=ZERO
+                 GAMA(5)=ONE
+                 GAMA(6)=ZERO
+               END IF
+             END IF
+                   N1 = FOURTH
+                   ILAY = 1
+                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                 EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)
+                 EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)
+                 EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)
+                 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF
+                 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
+                 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
+                 IF (KCVT /= 0)
+     .           CALL SROTA6(
+     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
+     2   GAMA,    JHBE,    IGTYP,   ISORTH)
+             DO J=1,ISOLNOD
+               EVAR(1:6,NC(J,I)) = EVAR(1:6,NC(J,I)) + EVAR_TMP(1:6)
+             ENDDO
+           ENDDO
+         ELSEIF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
-          IF(NLAY > 1 .AND. JHBE /= 14) THEN
+          IF(ITSH > 0 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              IF (ISKIN(I)==0) CYCLE
              II = 6*(I-1) 
@@ -1058,9 +1099,7 @@ c       STRHG(NEL,6,8)
                  GAMA(6)=ZERO
                END IF
              END IF
-             IF(IGTYP == 20 .OR. IGTYP ==21 .OR. IGTYP == 22) THEN
-               NPTT = NLAY
-             ENDIF
+             IF(ITSH>0) NPTT = NLAY
              DO J=1,8
                DO K=1,8
                  IF (SOL_NODE(1,K) == -1 .AND. SOL_NODE(1,J) == -1)
@@ -1184,50 +1223,6 @@ c
            ENDDO
           ENDIF
 c    
-         ELSEIF(ISOLNOD == 4 )THEN
-c    
-           DO I=LFT,LLT
-             IF (ISKIN(I)==0) CYCLE
-             N = I + NFT
-             IF (KCVT /= 0) THEN
-               IF(KCVT==2)THEN
-                 GAMA(1) = GBUF%GAMA(JJ(1) + I)
-                 GAMA(2) = GBUF%GAMA(JJ(2) + I)
-                 GAMA(3) = GBUF%GAMA(JJ(3) + I)
-                 GAMA(4) = GBUF%GAMA(JJ(4) + I)
-                 GAMA(5) = GBUF%GAMA(JJ(5) + I)
-                 GAMA(6) = GBUF%GAMA(JJ(6) + I)
-               ELSE
-                 GAMA(1)=ONE
-                 GAMA(2)=ZERO
-                 GAMA(3)=ZERO
-                 GAMA(4)=ZERO
-                 GAMA(5)=ONE
-                 GAMA(6)=ZERO
-               END IF
-             END IF
-                   N1 = FOURTH
-                   ILAY = 1
-                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
-                 EVAR_TMP(1) = LBUF%STRA(JJ(1) + I)
-                 EVAR_TMP(2) = LBUF%STRA(JJ(2) + I)
-                 EVAR_TMP(3) = LBUF%STRA(JJ(3) + I)
-                 EVAR_TMP(4) = LBUF%STRA(JJ(4) + I)*HALF
-                 EVAR_TMP(5) = LBUF%STRA(JJ(5) + I)*HALF
-                 EVAR_TMP(6) = LBUF%STRA(JJ(6) + I)*HALF
-                 IF (KCVT /= 0)
-     .           CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
-     2   GAMA,    JHBE,    IGTYP,   ISORTH)
-             DO J=1,4
-               EVAR(1,NC(J,I)) = EVAR(1,NC(J,I)) + N1 * EVAR_TMP(1)
-               EVAR(2,NC(J,I)) = EVAR(2,NC(J,I)) + N1 * EVAR_TMP(2)
-               EVAR(3,NC(J,I)) = EVAR(3,NC(J,I)) + N1 * EVAR_TMP(3)
-               EVAR(4,NC(J,I)) = EVAR(4,NC(J,I)) + N1 * EVAR_TMP(4)
-               EVAR(5,NC(J,I)) = EVAR(5,NC(J,I)) + N1 * EVAR_TMP(5)
-               EVAR(6,NC(J,I)) = EVAR(6,NC(J,I)) + N1 * EVAR_TMP(6)
-             ENDDO
-           ENDDO
          ELSEIF(ISOLNOD == 10)THEN
 c    
            ALPHA_1 = -ALPHA/(BETA-ALPHA)
