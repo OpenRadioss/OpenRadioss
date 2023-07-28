@@ -1008,7 +1008,6 @@ c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
            END IF
            STIF_R(I) = MIN(STIF_S,STF(L))/MAX(STIF_S,STF(L))
            STIF(I) = MIN(STIF_S,STF(L))
-           STIF(I) = MAX(KMIN,STIF(I))
          ENDDO
       END IF
       IF(NCFIT>0)THEN
