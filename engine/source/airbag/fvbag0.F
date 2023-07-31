@@ -225,7 +225,7 @@ C
             KIA7=KIA6+NTGA
             KIA8=KIA7+8*NBA
 C
-            KRA1=KR9 +NNT
+            KRA1=MIN(SVOLMON, KR9 +NNT)
             KRA2=KRA1+NNA
             KRA3=KRA2+NNA
             KRA4=KRA3+NNA

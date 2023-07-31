@@ -184,7 +184,7 @@ C
             KIA7=KIA6+NTGA
             KIA8=KIA7+8*NBA
 C
-            KRA5=KR1+7*(NNS+NNI)+4*(NTG+NTGI)+6*NNA
+            KRA5=MIN(SVOLMON, KR1+7*(NNS+NNI)+4*(NTG+NTGI)+6*NNA)
             KRA6=KRA5+3*NNA
 C
             NFVMERGE(1)=0
