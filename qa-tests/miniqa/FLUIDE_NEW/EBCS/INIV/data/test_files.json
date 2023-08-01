@@ -1,0 +1,5 @@
+{
+    "enabled": 1,
+    "starter": "INIV_0000.rad",
+    "engines": ["INIV_0001.rad","INIV_0002.rad","INIV_0003.rad"]
+}

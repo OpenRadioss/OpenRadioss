@@ -1,14 +1,18 @@
 name: Developer CI
 
 on:
-  
-  pull_request:
-    paths:    
-      - '.github/workflows/*.yml'
 
-  pull_request_target:
-    paths-ignore:    
-      - '.github/workflows/*.yml'    
+  push:
+    branches:
+      - ctest_dev_study
+
+  # pull_request:
+  #   paths:    
+  #     - '.github/workflows/*.yml'
+
+  # pull_request_target:
+  #   paths-ignore:    
+  #     - '.github/workflows/*.yml'    
 
 env:
   QA_TIMEOUT_PER_TEST: 150
@@ -16,120 +20,121 @@ env:
 jobs:
 
 
-  build:
-    if: ${{ github.repository_owner == 'OpenRadioss' }}
-    # concurrency: 
-    #   group: ${{ github.ref_name }}
-    #   cancel-in-progress: true
+  # build:
+  #   if: ${{ github.repository_owner == 'OpenRadioss' }}
+  #   # concurrency: 
+  #   #   group: ${{ github.ref_name }}
+  #   #   cancel-in-progress: true
 
-    # DEV ONLY # runs-on: ["build","dev_devci"]
-    runs-on: ["build","developer_ci"]
-    container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411-devts11
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
-      volumes: 
-        - /etc/localtime:/etc/localtime:ro
+  #   # DEV ONLY # runs-on: ["build","dev_devci"]
+  #   runs-on: ["build","developer_ci"]
+  #   container: 
+  #     image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411-devts11
+  #     credentials: 
+  #       username: ${{secrets.DOCKER_REGISTRY_USER}}
+  #       password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+  #     volumes: 
+  #       - /etc/localtime:/etc/localtime:ro
 
-    env:
-      BUILD_NB_THREAD: 2
+  #   env:
+  #     BUILD_NB_THREAD: 2
 
-    strategy:
-      # If one job fails othere are canceled
-      fail-fast: true
-      matrix:
-        include:
-          - build: starter_linux64_gf
-            precision: dp
-            os: linux64
-            binary: starter
+  #   strategy:
+  #     # If one job fails othere are canceled
+  #     fail-fast: true
+  #     matrix:
+  #       include:
+  #         - build: starter_linux64_gf
+  #           precision: dp
+  #           os: linux64
+  #           binary: starter
 
-          - build: starter_linux64_gf_sp 
-            precision: sp
-            os: linux64
-            binary: starter
+  #         - build: starter_linux64_gf_sp 
+  #           precision: sp
+  #           os: linux64
+  #           binary: starter
 
-          - build: engine_linux64_gf_ompi
-            precision: dp
-            os: linux64
-            binary: engine
-            mpi: ompi
+  #         - build: engine_linux64_gf_ompi
+  #           precision: dp
+  #           os: linux64
+  #           binary: engine
+  #           mpi: ompi
 
-          - build: engine_linux64_gf_ompi_sp
-            precision: sp
-            os: linux64 
-            binary: engine
-            mpi: ompi
+  #         - build: engine_linux64_gf_ompi_sp
+  #           precision: sp
+  #           os: linux64 
+  #           binary: engine
+  #           mpi: ompi
 
-          - build: engine_linux64_gf
-            precision: dp
-            os: linux64
-            binary: engine
+  #         - build: engine_linux64_gf
+  #           precision: dp
+  #           os: linux64
+  #           binary: engine
 
-          - build: engine_linux64_gf_sp
-            precision: sp
-            os: linux64 
-            binary: engine
+  #         - build: engine_linux64_gf_sp
+  #           precision: sp
+  #           os: linux64 
+  #           binary: engine
 
-    steps:
+  #   steps:
 
-      - name: Clean local exe dir
-        run: |
-          rm -rf exec
-          md5sum exec/* || echo "Nothing in exec/" 
+  #     - name: Clean local exe dir
+  #       run: |
+  #         rm -rf exec
+  #         md5sum exec/* || echo "Nothing in exec/" 
 
-      # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v3
-        with:
-          lfs: 'true'
-          ref: refs/pull/${{ github.event.number }}/merge
+  #     # Get last git modifications, WS is not persistent here
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         lfs: 'true'
+  #         ref: refs/pull/${{ github.event.number }}/merge
 
-      - name: Running build
-        run: |
-          echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
+  #     - name: Running build
+  #       run: |
+  #         echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
           
-          mpi_opts=''
-          if [ ! -z ${{ matrix.mpi }} ]
-          then
-            mpi_opts="-mpi=${{ matrix.mpi }}"
-          fi
+  #         mpi_opts=''
+  #         if [ ! -z ${{ matrix.mpi }} ]
+  #         then
+  #           mpi_opts="-mpi=${{ matrix.mpi }}"
+  #         fi
 
-          # cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts -debug=2"
-          cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts"
-          echo "========================================="
-          echo "--  BUILD ${{ matrix.build }} --"   
-          echo "--  $cmd --"   
-          echo "========================================="
-          source /home/adminqa/.bashrc
-          chmod 755 Compiling_tools/script/*
-          chmod 755 ${{ matrix.binary }}/build_script.sh
+  #         # cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts -debug=2"
+  #         cmd="./build_script.sh -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts"
+  #         echo "========================================="
+  #         echo "--  BUILD ${{ matrix.build }} --"   
+  #         echo "--  $cmd --"   
+  #         echo "========================================="
+  #         source /home/adminqa/.bashrc
+  #         chmod 755 Compiling_tools/script/*
+  #         chmod 755 ${{ matrix.binary }}/build_script.sh
 
-          # USED for development only (avoid using lfs)
-          test ! -e extlib && ln -s /__w/_tool/extlib .
+  #         # USED for development only (avoid using lfs)
+  #         test ! -e extlib && ln -s /__w/_tool/extlib .
 
-          md5sum exec/* || echo "Nothing in exec/" 
-          mkdir exec
-          cd ${{ matrix.binary }}
+  #         md5sum exec/* || echo "Nothing in exec/" 
+  #         mkdir exec
+  #         cd ${{ matrix.binary }}
 
-          eval $cmd
+  #         eval $cmd
 
-          cd ..
-          md5sum exec/* || exit 1
+  #         cd ..
+  #         md5sum exec/* || exit 1
 
-      # Upload artifact 
-      - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: bins-${{ matrix.os }}-${{ matrix.precision }}
-          path: exec
+  #     # Upload artifact 
+  #     - name: Upload built artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: bins-${{ matrix.os }}-${{ matrix.precision }}
+  #         path: exec
 
   qa:
-    needs: build
+    # needs: build
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
-    runs-on: ["qa_${{ matrix.os }}","developer_ci"]
+    runs-on: ["qa_${{ matrix.os }}","dev"]
+    # runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:ompi411
+      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:ompi411-py3
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -159,17 +164,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           lfs: 'true'
-          ref: refs/pull/${{ github.event.number }}/merge
+          # ref: refs/pull/${{ github.event.number }}/merge
 
-      - name: Clean local exe dir
-        run: |
-          rm -rf exec
+      # - name: Clean local exe dir
+      #   run: |
+      #     rm -rf exec
 
-      # Download artifacts
-      - uses: actions/download-artifact@v3
-        with:
-          name: bins-${{ matrix.os }}-${{ matrix.precision }}
-          path: exec
+      # # Download artifacts
+      # - uses: actions/download-artifact@v3
+      #   with:
+      #     name: bins-${{ matrix.os }}-${{ matrix.precision }}
+      #     path: exec
 
       - name: Running qa
         run: |
@@ -178,42 +183,44 @@ jobs:
           test ! -e extlib && ln -s /__w/_tool/extlib .
 
           md5sum exec/* || echo "Nothing in exec/" 
-          if [ "${{ matrix.precision }}" = "dp" ]
-          then
-            precision_ext=""
-          else
-            precision_ext="_${{ matrix.precision }}"
-          fi
-
-          chmod 755 exec/*
-          cd qa-tests/scripts
-          chmod 755 or_qa_script or_radioss.pl 
-          rm -f QA.summary
-
-          source ${{ env.homeuser }}/.bashrc
-          export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
 
 
-          # cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext}_db 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --env:ASAN_OPTIONS='new_delete_type_mismatch=0:detect_leaks=0' --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
-          cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
-          echo "========================================="
-          echo "--  QA ${{ matrix.os }}_${{ matrix.precision }} --"   
-          echo "--  $cmd --"   
-          echo "========================================="
-          eval $cmd 
-          res=$? 
+          # if [ "${{ matrix.precision }}" = "dp" ]
+          # then
+          #   precision_ext=""
+          # else
+          #   precision_ext="_${{ matrix.precision }}"
+          # fi
 
-          # Getting failed test
-          nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
-          # Checking if no test has run at all (maybe exec errors)
-          nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
+          # chmod 755 exec/*
+          # cd qa-tests/scripts
+          # chmod 755 or_qa_script or_radioss.pl 
+          # rm -f QA.summary
 
-          if [ $res -gt 0 ] || [ $nbtestsfailed -gt 0 ] || [ $nbtestsok = 0 ]
-          then 
-            # If at least one test is failed we mark the CI as failed
-            echo "All tests are not OK, CI is failed"
-            exit 1
-          fi 
+          # source ${{ env.homeuser }}/.bashrc
+          # export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
+
+
+          # # cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext}_db 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --env:ASAN_OPTIONS='new_delete_type_mismatch=0:detect_leaks=0' --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
+          # cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
+          # echo "========================================="
+          # echo "--  QA ${{ matrix.os }}_${{ matrix.precision }} --"   
+          # echo "--  $cmd --"   
+          # echo "========================================="
+          # eval $cmd 
+          # res=$? 
+
+          # # Getting failed test
+          # nbtestsfailed=$(grep "# Runs Failed\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
+          # # Checking if no test has run at all (maybe exec errors)
+          # nbtestsok=$(grep "# Runs Successful\s*:" QA.summary | tail -n 1 | awk -F' ' '{print $5}')
+
+          # if [ $res -gt 0 ] || [ $nbtestsfailed -gt 0 ] || [ $nbtestsok = 0 ]
+          # then 
+          #   # If at least one test is failed we mark the CI as failed
+          #   echo "All tests are not OK, CI is failed"
+          #   exit 1
+          # fi 
 
       # DEV ONLY #
       # Delete the artifacts
