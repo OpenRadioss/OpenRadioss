@@ -193,7 +193,8 @@ Chd|====================================================================
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX,NUM_IMP,GAP_S_L ,
      C   GAP_M_L  ,INTTH   ,ITASK   ,BGAPSMX  ,I_MEM   ,  
      D   KREMNOD  ,REMNOD  ,ITAB    ,FLAGREMNODE, DRAD ,
-     E   ITIED    ,CAND_F  ,DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
+     E   ITIED    ,CAND_F  ,DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
+     F   TOTAL_NB_NRTM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -213,7 +214,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
+      INTEGER NMN,NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
+      INTEGER, INTENT(in) :: NRTM !< number of segments per threads
+      INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
       INTEGER IRECT(4,*),NSV(*),MWAG(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
@@ -374,7 +377,8 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      8   GAP_M   ,GAPMIN   ,GAPMAX   ,MARGE    ,CURV_MAX,
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
      A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  ,
-     B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
+     B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
+     C   TOTAL_NB_NRTM)
  
  234  CONTINUE
 
