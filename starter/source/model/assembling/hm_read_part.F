@@ -390,6 +390,13 @@ C----VIRTUAL THICKNESS OUTPUT  (For properties which are compatible with shell e
      .      (IGTYP == 19).OR.(IGTYP == 51).OR.(IGTYP == 52)) THEN      
           WRITE(IOUT,'(A,1PG20.13,2A)')'     VIRT. THICKN:       ',THK_PART(I)
         ENDIF
+C----VIRTUAL THICKNESS OUTPUT  (extended to /BEAM /TRUSS /SPRING) 
+        IF( THK_PART(I)>ZERO .AND. ((IGTYP == 3).OR.(IGTYP == 2).OR.
+     .      (IGTYP == 18).OR.(IGTYP == 4).OR.(IGTYP == 8).OR.
+     .      (IGTYP == 12).OR.(IGTYP == 13).OR.(IGTYP == 23).OR.
+     .      (IGTYP == 25).OR.(IGTYP == 26).OR.(IGTYP == 27))) THEN      
+          WRITE(IOUT,'(A,1PG20.13,2A)')'     VIRT. THICKN:       ',THK_PART(I)
+        ENDIF
 
 C----SPH SMOOTHING LENGTH OUTPUT ( /PROP/SPH (Type34) )   
         IF (IGEO(11,IPID) == 34) THEN

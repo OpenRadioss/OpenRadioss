@@ -50,7 +50,8 @@ Chd|====================================================================
      G PEN_OLD,IPARTNS  ,IPARTS   ,IGEO    ,FILLSOL ,
      H PM_STACK, IWORKSH ,INTFRIC ,TAGPRT_FRIC,IPARTFRICS,
      G IPARTFRICM,INTBUF_FRIC_TAB ,INTNITSCHE,NRTS,IRECTS,
-     I IELNRTS ,ADRECTS ,FACNRTS  ,NMN       ,MSR )
+     I IELNRTS ,ADRECTS ,FACNRTS  ,NMN       ,MSR ,
+     J IPARTT ,IPARTP   ,IPARTR   )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -94,6 +95,9 @@ C     REAL
      .   AREAS(*),THK(*),THK_PART(*),PEN_OLD(5,NSN), FILLSOL(*),
      .   PM_STACK(20,*)
       INTEGER ID,IPARTNS(*),IPARTS(*)
+      INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
       CHARACTER*nchartitle,
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
@@ -221,15 +225,36 @@ C-----for case of coating shell--
 C-------
       DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=HALF*SQRT(GEO(1,MG))
+        IP = IPARTT(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=HALF*THK_PART(IP)
+        ELSE
+          DX=HALF*SQRT(GEO(1,MG))
+        END IF
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
       ENDDO
       DO I=1,NUMELP
         MG=IXP(5,I)
-        DX=0.5*SQRT(GEO(1,MG))
+        IP = IPARTP(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=HALF*THK_PART(IP)
+        ELSE
+          DX=HALF*SQRT(GEO(1,MG))
+        END IF
         WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
         WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
+      ENDDO
+      DO I=1,NUMELR
+        IP = IPARTR(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          MG=IXR(1,I)
+          IGTYP = IGEO(11,MG)
+          DX=HALF*THK_PART(IP)
+          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+       END IF
       ENDDO
       DO I=1,NSN
         GAP_S(I)=GAPSCALE * WA(NSV(I))
@@ -1933,7 +1958,8 @@ Chd|====================================================================
      3 NOINT ,NSN   ,NSV   ,IXTG  ,IXT   ,
      6 IXP   ,IPART ,IPARTC,IPARTTG,THK  ,
      D THK_PART,IXR ,ITAB  ,IXS10 ,IXS16 ,
-     E IXS20 ,NMN   ,MSR   ,LL_S  ,LL_M  )
+     E IXS20 ,NMN   ,MSR   ,LL_S  ,LL_M  ,
+     J IPARTT,IPARTP,IPARTR,IGEO  )
 C-----------------------------------------------
       USE MESSAGE_MOD
 C
@@ -1957,6 +1983,10 @@ C-----------------------------------------------
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*) ,IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   ITAB(*), IXS10(6,*), IXS16(8,*), IXS20(12,*)
+      INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
+      INTEGER, DIMENSION(NPROPGI,NUMGEO) ,INTENT(IN):: IGEO
 C     REAL
       my_real
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*), WA(*),
@@ -1966,7 +1996,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IAD
+     .   IP, NLEV, MYLEV, K, P, R, T,IAD,IGTYP
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX
@@ -2013,16 +2043,37 @@ C----SHELLS ------------
 C----truss------------
       DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=SQRT(GEO(1,MG))
+        IP = IPARTT(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=THK_PART(IP)
+        ELSE
+          DX=SQRT(GEO(1,MG))
+        END IF
         WA(IXT(2,I))=MIN(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MIN(WA(IXT(3,I)),DX)
       ENDDO
 C----beam------------
       DO I=1,NUMELP
         MG=IXP(5,I)
-        DX=SQRT(GEO(1,MG))
+        IP = IPARTP(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=THK_PART(IP)
+        ELSE
+          DX=SQRT(GEO(1,MG))
+        END IF
         WA(IXP(2,I))=MIN(WA(IXP(2,I)),DX)
         WA(IXP(3,I))=MIN(WA(IXP(3,I)),DX)
+      ENDDO
+      DO I=1,NUMELR
+        IP = IPARTR(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          MG=IXR(1,I)
+          IGTYP = IGEO(11,MG)
+          DX=THK_PART(IP)
+          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+       END IF
       ENDDO
 C----solides------------     
       DO I=1,NUMELS

@@ -666,7 +666,8 @@ C----------------
      F    DRAD             ,IGEO                    ,FILLSOL          ,PM_STACK         , IWORKSH         ,
      G    IT19             ,KXIG3D                  ,IXIG3D           ,IPARI(72)        , IPARTS          ,
      H    TAGPRT_FRIC      ,INTBUF_TAB%IPARTFRICS   ,INTBUF_TAB%IPARTFRICM ,INTBUF_FRIC_TAB,NRTM_IGE      ,
-     I    IPARI(63)        ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX)
+     I    IPARI(63)        ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX        ,
+     J    IPARTT           ,IPARTP                  ,IPARTR           )
        IPARI(21) = IGAP 
 C
 C----------------
@@ -915,7 +916,8 @@ C
      F            DRAD       ,IGEO                    ,FILLSOL          ,PM_STACK        ,IWORKSH ,
      G            IT19       ,BID                     ,BID              ,IBIDON          ,IPARTS  ,
      H            IBIDON     ,IBIDON                  ,IBIDON           ,IBIDON          ,IBIDON  ,
-     I            IPARI(63)  ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX)
+     I            IPARI(63)  ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX,
+     J            IPARTT     ,IPARTP                  ,IPARTR        )
 C
 C      IL FAUT ENCORE FAIRE ONE BUCKET SORT DANS LE STARTER
 C
@@ -1511,7 +1513,8 @@ C----  INTBUF_TAB%CRIT V/A is used temporarily for sorting and Pen-max
      G INTBUF_TAB%PENE_OLD  ,IPARTNS     ,IPARTS      , IGEO      ,FILLSOL   ,
      H PM_STACK  ,IWORKSH    ,IPARI(72)  ,TAGPRT_FRIC   , INTBUF_TAB%IPARTFRICS,
      G INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IPARI(86) , NRTS   ,INTBUF_TAB%IRECTS ,
-     I INTBUF_TAB%IELNRTS,INTBUF_TAB%ADRECTS,INTBUF_TAB%FACNRTS,NMN,INTBUF_TAB%MSR )        
+     I INTBUF_TAB%IELNRTS,INTBUF_TAB%ADRECTS,INTBUF_TAB%FACNRTS,NMN,INTBUF_TAB%MSR ,
+     J IPARTT   ,IPARTP   ,IPARTR  )  
        IPARI(21) = IGAP
 C---------GAP_S for fictive nodes       
         IF (NSNE >0) THEN
@@ -1540,7 +1543,7 @@ C------------------
      4 IXP       ,IPART     ,IPARTC      ,IPARTTG    ,THK          ,
      D THK_PART  ,IXR       ,ITAB        ,IXS10      ,IXS16        ,
      E IXS20     ,NMN       ,INTBUF_TAB%MSR,INTBUF_TAB%NOD_2RY_LGTH,
-     F INTBUF_TAB%NOD_MAS_LGTH)
+     F INTBUF_TAB%NOD_MAS_LGTH,IPARTT,IPARTP,IPARTR  ,IGEO         )
         CALL I24FICS_INI(INTBUF_TAB%IRTSE   ,NSNE    ,INTBUF_TAB%IS2SE   ,INTBUF_TAB%NSV    ,
      1                  INTBUF_TAB%IS2PT ,NSN     ,INTBUF_TAB%NOD_2RY_LGTH   )
        END IF
@@ -1887,7 +1890,8 @@ C-----------------------------------------------------------
      H PM_STACK   ,IWORKSH          ,INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
      I KNOD2EL1D  ,NOD2EL1D         ,IPARI(72)       ,TAGPRT_FRIC    ,INTBUF_TAB%IPARTFRICS   ,
      J INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
-     K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          )
+     K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          ,IPARTT                 ,
+     J IPARTP     ,IPARTR   )
        IPARI(21) = IGAP
 C-----------------------------------------------------------
 C      ELEMENT NEIGHBROURS & FREE EDGES
