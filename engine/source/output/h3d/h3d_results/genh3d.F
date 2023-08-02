@@ -957,8 +957,7 @@ c
             CALL SPMD_H3D_GATHER_R(FVDATA_1D_ARRAY, 12*NPOLH,FVDATA_1D_ARRAY_P, 12*NPOLHG)
    
             ! on relevant domain (ispmd==0) retrieve FVBAG data structure from 1d array    
-            IF(ISPMD==0)THEN 
-              print *, "NPOLHG=", NPOLHG
+            IF(ISPMD==0)THEN
               ALLOCATE (FVDATA_P(J)%CENTROID_POLH(3,NPOLHG))
               ALLOCATE (FVDATA_P(J)%QPOLH(3,NPOLHG))
               ALLOCATE (FVDATA_P(J)%PPOLH(NPOLHG))

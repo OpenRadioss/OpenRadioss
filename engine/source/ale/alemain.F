@@ -103,7 +103,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE TABLE_MOD
-      USE MAt_ELEM_MOD
+      USE MAT_ELEM_MOD
       USE INTBUFDEF_MOD
       USE ALEFVM_MOD
       USE MULTI_FVM_MOD
