@@ -52,7 +52,8 @@ Chd|====================================================================
      H PM_STACK  , IWORKSH   ,PERCENT_SIZE,GAP_S_L ,GAP_M_L    ,
      I KNOD2EL1D ,NOD2EL1D   ,INTFRIC   ,TAGPRT_FRIC,IPARTFRICS,
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
-     K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      )
+     K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
+     J IPARTP    ,IPARTR   )
 C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
@@ -96,6 +97,9 @@ C     REAL
      .   AREAS(*),THK(*),THK_PART(*),PEN_OLD(5,NSN), FILLSOL(*),
      .   PM_STACK(20,*),GAP_S_L(*),GAP_M_L(*)
       INTEGER ID,IPARTS(*)
+      INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
       CHARACTER*nchartitle,
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
@@ -249,15 +253,36 @@ C       MSEGTYP==0 <=> Solide
 C-------
       DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=HALF*SQRT(GEO(1,MG))
+        IP = IPARTT(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=HALF*THK_PART(IP)
+        ELSE
+          DX=HALF*SQRT(GEO(1,MG))
+        END IF
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
       ENDDO
       DO I=1,NUMELP
         MG=IXP(5,I)
-        DX=0.5*SQRT(GEO(1,MG))
+        IP = IPARTP(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=HALF*THK_PART(IP)
+        ELSE
+          DX=HALF*SQRT(GEO(1,MG))
+        END IF
         WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
         WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
+      ENDDO
+      DO I=1,NUMELR
+        IP = IPARTR(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          MG=IXR(1,I)
+          IGTYP = IGEO(11,MG)
+          DX=HALF*THK_PART(IP)
+          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+       END IF
       ENDDO
       DO I=1,NSN
         GAP_S(I)=GAPSCALE * WA(NSV(I))

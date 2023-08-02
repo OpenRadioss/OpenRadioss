@@ -55,7 +55,8 @@ Chd|====================================================================
      E              DRAD       ,IGEO   ,FILLSOL       ,PM_STACK ,IWORKSH  ,
      F              IT19       ,KXIG3D ,IXIG3D        ,INTFRIC  ,IPARTS   ,
      G              TAGPRT_FRIC,IPARTFRICS,IPARTFRICM ,INTBUF_FRIC_TAB,NRT_IGE,
-     I              IREM_GAP   ,GAPM_MX,GAPS_MX       ,GAPM_L_MX,GAPS_L_MX)
+     I              IREM_GAP   ,GAPM_MX,GAPS_MX       ,GAPM_L_MX,GAPS_L_MX,
+     J              IPARTT     ,IPARTP ,IPARTR        )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -100,6 +101,9 @@ C-----------------------------------------------
      .   MS(*),WA(*),GAP_S(*),GAP_M(*),
      .   AREAS(*),THK(*),THK_PART(*),
      .   GAP_S_L(*),GAP_M_L(*), FILLSOL(*),PM_STACK(20,*)
+      INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
       INTEGER ID
       CHARACTER*nchartitle, TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
@@ -250,15 +254,36 @@ C------------------------------------
        ENDDO
        DO I=1,NUMELT
         MG=IXT(4,I)
-        DX=HALF*SQRT(GEO(1,MG))
+        IP = IPARTT(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=HALF*THK_PART(IP)
+        ELSE
+          DX=HALF*SQRT(GEO(1,MG))
+        END IF
         WA(IXT(2,I))=MAX(WA(IXT(2,I)),DX)
         WA(IXT(3,I))=MAX(WA(IXT(3,I)),DX)
        ENDDO
        DO I=1,NUMELP
         MG=IXP(5,I)
-        DX=0.5*SQRT(GEO(1,MG))
+        IP = IPARTP(I)
+        IF ( THK_PART(IP) > ZERO ) THEN
+          DX=HALF*THK_PART(IP)
+        ELSE
+          DX=HALF*SQRT(GEO(1,MG))
+        END IF
         WA(IXP(2,I))=MAX(WA(IXP(2,I)),DX)
         WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
+       ENDDO
+       DO I=1,NUMELR
+         IP = IPARTR(I)
+         IF ( THK_PART(IP) > ZERO ) THEN
+           MG=IXR(1,I)
+           IGTYP = IGEO(11,MG)
+           DX=HALF*THK_PART(IP)
+           WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+           WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+           IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+        END IF
        ENDDO
        DO I=1,NSN
          GAP_S(I)=GAPSCALE * WA(NSV(I))

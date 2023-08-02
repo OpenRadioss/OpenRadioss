@@ -112,7 +112,7 @@ C-----------------------------------------------
      .   GET_U_GEO,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8,
      .   XX1(4),XX2(4), XX3(4) ,FACE(6),
-     .   N_1, N_2, N_3
+     .   N_1, N_2, N_3,DX1
 C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C     Stiffness: stiffness of the shell if the segment belongs
@@ -338,10 +338,16 @@ C------------------------------------
 C
           MT=IXT(1,NELT)
           MG=IXT(4,NELT)
+          IP = IPARTT(NELT)
+          IF (THK_PART(IP) > ZERO ) THEN
+            DX1=THK_PART(IP)
+          ELSE
+            DX1=SQRT(GEO(1,MG))
+          END IF
           DX=SQRT(GEO(1,MG))
-          GAP_SM(I)=MAX(GAP_SM(I),HALF*DX)
+          GAP_SM(I)=MAX(GAP_SM(I),HALF*DX1)
           GAPS1=MAX(GAPS1,GAP_SM(I))
-          GAPMN = MIN(GAPMN,DX)
+          GAPMN = MIN(GAPMN,DX1)
           DXM=DXM+DX
           NDX=NDX+1
           IF(MT>0)THEN
@@ -388,10 +394,16 @@ C------------------------------------
 C
           MT=IXP(1,NELP)
           MG=IXP(5,NELP)
+          IP = IPARTT(NELP)
+          IF (THK_PART(IP) > ZERO ) THEN
+            DX1=THK_PART(IP)
+          ELSE
+            DX1=SQRT(GEO(1,MG))
+          END IF
           DX=SQRT(GEO(1,MG))
-          GAP_SM(I)=MAX(GAP_SM(I),HALF*DX)
+          GAP_SM(I)=MAX(GAP_SM(I),HALF*DX1)
           GAPS1=MAX(GAPS1,GAP_SM(I))
-          GAPMN = MIN(GAPMN,DX)
+          GAPMN = MIN(GAPMN,DX1)
           DXM=DXM+DX
           NDX=NDX+1
           IF(MT>0)THEN
@@ -438,6 +450,13 @@ C------------------------------------
 C
           MG=IXR(1,NELR)
           MT = IXR(5,NELR)
+          IP = IPARTT(NELR)
+          IF (THK_PART(IP) > ZERO ) THEN
+            DX1=THK_PART(IP)
+            GAP_SM(I)=MAX(GAP_SM(I),HALF*DX1)
+            GAPS1=MAX(GAPS1,GAP_SM(I))
+            GAPMN = MIN(GAPMN,DX1)
+          END IF
           IF(MG>0)THEN
             IGTYP=NINT(GEO(12,MG))
             IF(IGTYP==4.OR.IGTYP==12)THEN
