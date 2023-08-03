@@ -1143,7 +1143,7 @@ sub run_starter() {
   if ($debug_print==1) {print ">>>> script_pre=$script_pre\n";}
   if ($debug_print==1) {print ">>>> script_post=$script_post\n";}
   my $stdout_args="";
-  $stdout_args =" 2>&1 | tee -a $screen_save";
+  # $stdout_args =" 2>&1 | tee -a $screen_save";
   if ($batch) { $stdout_args =" $batch "; } 
 
   # XXXXXX DBEF QA Stabilization => disable usage of starter dbef, use standard instead
@@ -1170,7 +1170,14 @@ sub run_starter() {
     # system("echo 'rm running_pids (STARTER)' >> /tmp/trace.log") if (defined $ENV{'ENABLE_PID_PRINT'} and $ENV{'ENABLE_PID_PRINT'} eq 'ON');
     system("perl or_qa_timeout.pl $pid $timeoutscript $extract_file_name &");
   }
-  system $cmd;
+  my $res = system($cmd);
+  # print "RES is ".($res >> 8)."\n";
+  if ($res == -1) {
+    exit $res;
+  }
+  elsif ($res >> 8 != 0) {
+    exit ($res >> 8);
+  }
 }
 #===================================================================
 # run hwsolver (starter + engine)
@@ -1187,7 +1194,7 @@ sub run_hwsolver() {
   print "\n";
   
   my $stdout_args="";
-  $stdout_args =" 2>&1 | tee -a $screen_save";
+  # $stdout_args =" 2>&1 | tee -a $screen_save";
   if ($batch) { $stdout_args =" $batch "; } 
 
   my $cmd = '"'.$ENV{'TCL_EXE'}.'" "'.$ENV{'TCL_SCRIPT'}.'" -solver RD '.$input.' '.$hwsolvermanager_args;
@@ -1205,8 +1212,14 @@ sub run_hwsolver() {
     system("perl or_qa_timeout.pl $pid $timeoutscript $extract_file_name &");
   }
   print "\n";
-  system $cmd;
-
+  my $res = system($cmd);
+  # print "RES is ".($res >> 8)."\n";
+  if ($res == -1) {
+    exit $res;
+  }
+  elsif ($res >> 8 != 0) {
+    exit ($res >> 8);
+  }
   print ">>>> END run_hwsolver\n";
 }
 
@@ -1217,7 +1230,7 @@ sub run_engine() {
   if ($debug_print==1) {print ">>>> script_pre=$script_pre\n";}
   if ($debug_print==1) {print ">>>> script_post=$script_post\n";}
   my $stdout_args="";
-  $stdout_args =" 2>&1 | tee -a $screen_save";
+  # $stdout_args =" 2>&1 | tee -a $screen_save";
   if ($batch) { $stdout_args =" $batch "; } 
 #  if ($output_failures_stdout) { $stdout_args =" 2>&1 | tee $screen_save"}
   my $opt="-i";
@@ -1260,7 +1273,16 @@ sub run_engine() {
         print ">>>>  > File runcmd not found.\n";
     }
   }
-  else { system $cmd; }
+  else { 
+    my $res = system($cmd);
+    # print "RES is ".($res >> 8)."\n";
+    if ($res == -1) {
+      exit $res;
+    }
+    elsif ($res >> 8 != 0) {
+      exit ($res >> 8);
+    }
+  }
 }
 
 #===================================================================

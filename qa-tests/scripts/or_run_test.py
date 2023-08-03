@@ -121,7 +121,7 @@ if __name__ == "__main__":
             print (output)
 
             if return_code:
-                print ("ENGINE #" + str(cpt) + "FAILED (code " + str(return_code) + ")")
+                print ("ENGINE #" + str(cpt) + " FAILED (code " + str(return_code) + ")")
                 sys.exit(return_code)
             
             cpt += 1

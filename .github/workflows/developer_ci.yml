@@ -142,8 +142,8 @@ jobs:
         - /etc/localtime:/etc/localtime:ro
 
     env:
-      hm_reader_extlib: ../../extlib/hm_reader
-      hm_reader_cfgfiles: ../../hm_cfg_files
+      hm_reader_extlib: extlib/hm_reader
+      hm_reader_cfgfiles: hm_cfg_files
       homeuser: /home/adminqa
       mpi: ompi
       # DEV ONLY # QA_NB_PROC: 2
