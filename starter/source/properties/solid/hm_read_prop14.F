@@ -230,6 +230,7 @@ C--------------------------------------------------
       ELSEIF (IHBE  / =1 .AND. IHBE/=2 .AND. IHBE/=12 .AND. IHBE / =13 .AND. IHBE /= 14 .AND. IHBE /= 16 .AND. 
      .        IHBE /= 24 .AND. IHBE /= 222.AND. IHBE /= 17.AND. IHBE /= 18) THEN    
         CALL ANCMSG(MSGID=549, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IHBE,I3=14)
+        IHBE=1
       ENDIF  
       
       ! --default I_ALE_FLAG  ---
