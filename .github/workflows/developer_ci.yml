@@ -188,6 +188,7 @@ jobs:
           source ${{ env.homeuser }}/.bashrc
           export LD_LIBRARY_PATH=$(pwd)/${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
           export RAD_CFG_PATH==$(pwd)/${{ env.hm_reader_cfgfiles }}
+          echo "RAD_CFG_PATH: ${RAD_CFG_PATH}"
           export OMP_NUM_THREADS=${{ env.QA_NB_THREAD }}
           export OMP_STACKSIZE=400m
           # Not needed here, avoid to pass more unecesssary arguments to radioss.pl
