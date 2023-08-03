@@ -7,19 +7,32 @@ import shutil
 import json
 import subprocess
 
+##### TO RUN THIS SCRIPT please define the following environement variables:
+# OMP_NUM_THREADS
+# OMP_NUM_PROC
+# LD_LIBRARY_PATH (incl hm reader lib and mpiexec lib path)
+# PATH (incl mpiexec path)
+# OMP_STACKSIZE
+# RAD_CFG_PATH
+# Optional : ASAN_OPTIONS
+
+### AS an example:
+# export OMP_NUM_THREADS=2; export OMP_NUM_PROC=4; export LD_LIBRARY_PATH="/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/extlib/hm_reader/linux64:/opt/openmpi/lib:${LD_LIBRARY_PATH}"; export PATH=/opt/openmpi/bin:${PATH} export OMP_STACKSIZE="400m"; export RAD_CFG_PATH="/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/hm_cfg_files";
+
 # ===========================================
 # Global variables definition
 # ===========================================
 scriptdir = os.path.dirname(sys.argv[0])
 data_dir_name = 'data'
 
-mpirun = '/opt/openmpi-4.1.1/bin/mpirun'
-nbprocs = 4
-os.environ["RAD_CFG_PATH"] = "/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/hm_cfg_files"
-os.environ["LD_LIBRARY_PATH"] = "/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/extlib/hm_reader/linux64:" + os.environ["LD_LIBRARY_PATH"]
-os.environ["OMP_STACKSIZE"] = "400m"
-os.environ["OMP_NUM_THREADS"] = "2"
+mpirun = 'mpiexec'
+nbprocs = os.environ['QA_NB_PROC']
 
+# os.environ["RAD_CFG_PATH"] = "/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/hm_cfg_files"
+# os.environ["LD_LIBRARY_PATH"] = "/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/extlib/hm_reader/linux64:" + os.environ["LD_LIBRARY_PATH"]
+# os.environ["OMP_STACKSIZE"] = "400m"
+# os.environ["OMP_NUM_THREADS"] = "2"
+# os.environ["ASAN_OPTIONS"]='new_delete_type_mismatch=0:detect_leaks=0'"]
 # ===========================================
 # Functions definition
 # ===========================================
@@ -28,7 +41,7 @@ def remove_directory(directory_path):
     try:
         # Use shutil.rmtree() to remove the directory and its contents
         shutil.rmtree(directory_path)
-        print(f"Directory '{directory_path}' and its contents have been removed successfully.")
+        # print(f"Directory '{directory_path}' and its contents have been removed successfully.")
     except OSError as e:
         print(f"Error: {e}")
 
@@ -36,7 +49,7 @@ def copy_directory(source_directory, destination_directory):
     try:
         # Use shutil.copytree() to recursively copy the directory and its contents
         shutil.copytree(source_directory, destination_directory)
-        print(f"Directory '{source_directory}' and its contents have been copied to '{destination_directory}'.")
+        # print(f"Directory '{source_directory}' and its contents have been copied to '{destination_directory}'.")
     except OSError as e:
         print(f"Error: {e}")
 
@@ -73,7 +86,7 @@ if __name__ == "__main__":
 
     # Prepare a temporary directory with input files to run the test
     qa_scripts_dir = os.getcwd() + '/scripts'
-    exec_dir = '/work/mquinzin/temp_openradioss_exec/exec'
+    exec_dir = os.getcwd() + '/../exec'
     data_dir = scriptdir + '/'  + data_dir_name
     temp_data_dir = data_dir + '_tmp'
     if os.path.exists(temp_data_dir):

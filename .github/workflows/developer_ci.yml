@@ -134,7 +134,7 @@ jobs:
     runs-on: ["qa_${{ matrix.os }}","dev"]
     # runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:ompi411-py3
+      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:ompi411-py3-centos8
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -182,8 +182,23 @@ jobs:
           # USED for development only (avoid using lfs)
           test ! -e extlib && ln -s /__w/_tool/extlib .
 
+          cp -a /opt/bins_temp exec
           md5sum exec/* || echo "Nothing in exec/" 
 
+          source ${{ env.homeuser }}/.bashrc
+          export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
+          export RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }}
+          export OMP_NUM_THREADS=${{ env.QA_NB_THREAD }}
+          export OMP_STACKSIZE=400m
+          # Might be used for debugging
+          # export ASAN_OPTIONS='new_delete_type_mismatch=0:detect_leaks=0'
+
+          # Generate CTest file
+          cd qa-tests/
+          ./scripts/or_generate_ctest.py  --test_dir miniqa
+
+          # Run CTest
+          ctest          
 
           # if [ "${{ matrix.precision }}" = "dp" ]
           # then
@@ -199,7 +214,6 @@ jobs:
 
           # source ${{ env.homeuser }}/.bashrc
           # export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
-
 
           # # cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext}_db 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --env:ASAN_OPTIONS='new_delete_type_mismatch=0:detect_leaks=0' --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
           # cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST }}'"
