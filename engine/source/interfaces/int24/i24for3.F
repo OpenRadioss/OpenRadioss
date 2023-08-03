@@ -754,22 +754,6 @@ C           ECONTDT = ECONTDT + FF * VN(I) * DT1
               STIF(I) = MAX(STIF(I) ,CF(I)*DT1INV)
             ENDDO
           ENDIF
-        ELSEIF(IVIS2==2)THEN
-C---------------------------------
-C         VISC QUAD TYPE
-C---------------------------------
-          DO I=1,JLT
-            IF(PENE(I) == ZERO)CYCLE
-            VIS2(I) = TWO* STIF(I) * MSI(I)
-            FAC = STIF(I) / MAX(EM30,STIF(I))
-            VIS = SQRT(VIS2(I))
-            FF  = FAC * VISC * VIS
-            STIF(I) = STIF0(I) + TWO * FF * DT1INV
-            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
-            FF = FF * VN(I)
-C          ECONTDT = ECONTDT + FF * VN(I) * DT1
-            FNI(I)  = FNI(I) + FF
-          ENDDO
         ELSEIF(IVIS2==3)THEN
 C---------------------------------
 C         VISC QUAD = 0
