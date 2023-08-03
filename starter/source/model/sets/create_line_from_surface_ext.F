@@ -32,13 +32,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE SETDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -181,9 +181,9 @@ C-----------------------------------------------
       IF (ALLOCATED(CLAUSE%LINE_ELEM))  DEALLOCATE(CLAUSE%LINE_ELEM)
 !
       CLAUSE%NB_LINE_SEG = NSEG
-      MY_ALLOCATE2D(CLAUSE%LINE_NODES,NSEG,2)
-      MY_ALLOCATE(CLAUSE%LINE_ELTYP,NSEG)
-      MY_ALLOCATE(CLAUSE%LINE_ELEM,NSEG)
+      CALL MY_ALLOC(CLAUSE%LINE_NODES,NSEG,2)
+      CALL MY_ALLOC(CLAUSE%LINE_ELTYP,NSEG)
+      CALL MY_ALLOC(CLAUSE%LINE_ELEM,NSEG)
 !
       DO I=1,NSEG
         CLAUSE%LINE_NODES(I,1) = LINE_ORD(1,INDEX(I))

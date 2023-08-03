@@ -84,13 +84,13 @@ C-----------------------------------------------
 C INITIALIZATION
 C-----------------------------------------------
       THK_LEN = MAX(1,MAX(NUMELC,NUMELTG))
-      MY_ALLOCATE(THK,THK_LEN)
+      ALLOCATE(THK(THK_LEN))
       IF (ISPMD == 0) THEN
             THK0_LEN = MAX(1,MAX(NUMELCG,NUMELTGG))
       ELSE
             THK0_LEN=1
       ENDIF
-      MY_ALLOCATE(THK0,THK0_LEN)
+      ALLOCATE(THK0(THK0_LEN))
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------

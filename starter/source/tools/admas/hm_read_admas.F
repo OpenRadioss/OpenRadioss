@@ -48,6 +48,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE R2R_MOD
       USE MESSAGE_MOD
@@ -66,7 +67,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -378,8 +378,8 @@ C---
               NEL = IGRPART(IGRS)%NENTITY
               IPMAS(I)%NPART = NEL
 !    allocate only one time because of "IDDLEVEL"
-              if (.not.allocated(IPMAS(I)%PART))  MY_ALLOCATE(IPMAS(I)%PART,NEL)
-              if (.not.allocated(IPMAS(I)%PARTID))MY_ALLOCATE(IPMAS(I)%PARTID,NEL)
+              if (.not.allocated(IPMAS(I)%PART))  ALLOCATE(IPMAS(I)%PART(NEL))
+              if (.not.allocated(IPMAS(I)%PARTID))ALLOCATE(IPMAS(I)%PARTID(NEL))
             ELSE
               CALL ANCMSG(MSGID=879,
      .                    MSGTYPE=MSGERROR,
@@ -469,8 +469,8 @@ C-----------Multidomaines : les noeuds communs ne sont traits que sur 1 domaine-
           IF (FLAG == 0) THEN
             IPMAS(I)%NPART = ENTITYMAX
 !    allocate only one time because of "IDDLEVEL"
-            if (.not.allocated(IPMAS(I)%PART))  MY_ALLOCATE(IPMAS(I)%PART,ENTITYMAX)
-            if (.not.allocated(IPMAS(I)%PARTID))MY_ALLOCATE(IPMAS(I)%PARTID,ENTITYMAX)
+            if (.not.allocated(IPMAS(I)%PART))  ALLOCATE(IPMAS(I)%PART(ENTITYMAX))
+            if (.not.allocated(IPMAS(I)%PARTID))ALLOCATE(IPMAS(I)%PARTID(ENTITYMAX))
           ENDIF ! IF (FLAG == 0)
 !
           IPA = 0

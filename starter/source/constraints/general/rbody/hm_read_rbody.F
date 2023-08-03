@@ -59,6 +59,7 @@ C     LECTURE STRUCTURE RIGIDES
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE R2R_MOD
       USE MESSAGE_MOD
@@ -77,7 +78,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "my_allocate.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "scr17_c.inc"
@@ -165,7 +165,7 @@ C=======================================================================
       DATA MESS/'RIGID BODY DEFINITION                   '/
 C=======================================================================
       IF (NUMSL > 0) THEN
-        MY_ALLOCATE2D(TABSL,2,NUMSL)
+        CALL MY_ALLOC(TABSL,2,NUMSL)
         TABSL=0
       END IF
 
@@ -176,7 +176,7 @@ C--------------------------------------------------
       IS_AVAILABLE = .FALSE.
       CALL HM_OPTION_START('/RBODY')
 C
-      MY_ALLOCATE(ITAG,NUMNOD) 
+      CALL MY_ALLOC(ITAG,NUMNOD) 
       ITAG(1:NUMNOD) = 0
 C
       K=0
@@ -569,6 +569,7 @@ C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
       USE GROUPDEF_MOD
@@ -619,7 +620,7 @@ C
       END DO
 C
 C init a 0 de itag
-      MY_ALLOCATE(ITAG,NUMNOD) 
+      CALL MY_ALLOC(ITAG,NUMNOD) 
       DO I=1,NUMNOD
         ITAG(I)=0
       ENDDO
@@ -753,6 +754,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
@@ -801,7 +803,7 @@ C======================================================================|
 C
       IRBYON = 1
 C
-      MY_ALLOCATE(ITAG,NUMNOD) 
+      CALL MY_ALLOC(ITAG,NUMNOD) 
 C init initiale sur numnod
       DO I=1,NUMNOD
         ITAG(I)=0

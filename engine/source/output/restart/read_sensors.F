@@ -61,7 +61,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
       NSENSOR = SENSORS%NSENSOR
-      MY_ALLOCATE(SENSORS%SENSOR_TAB,NSENSOR)
+      ALLOCATE(SENSORS%SENSOR_TAB(NSENSOR))
       
       IF (NSENSOR > 0) THEN
         NFIX = 11

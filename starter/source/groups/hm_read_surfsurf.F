@@ -40,6 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -55,7 +56,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "my_allocate.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -216,11 +216,11 @@ C-----
                IF (SKIPFLAG == 0) THEN             
                   INSEG=INSEG+NISX*NSEG    
                   IGRSURF(IGS)%NSEG=NSEG
-                  MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG,4)
+                  CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG,4)
                   IGRSURF(IGS)%NODES(1:NSEG,1:4) = 0
-                  MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG)
                   IGRSURF(IGS)%ELTYP(1:NSEG) = 0
-                  MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG)
                   IGRSURF(IGS)%ELEM(1:NSEG) = 0
                ENDIF                                 
 C-----------
@@ -335,11 +335,11 @@ C-----------
                IF (SKIPFLAG == 0) THEN               
                   INSEG=INSEG+NISX*NSEG    
                   IGRSURF(IGS)%NSEG=NSEG
-                  MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG,4)
+                  CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG,4)
                   IGRSURF(IGS)%NODES(1:NSEG,1:4) = 0
-                  MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG)
                   IGRSURF(IGS)%ELTYP(1:NSEG) = 0
-                  MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG)
                   IGRSURF(IGS)%ELEM(1:NSEG) = 0
                ENDIF  
 C-----------
@@ -526,7 +526,7 @@ C------ for re-allocation %NODES
               ENDDO             
               IF (NSEGV /= NSEG) THEN               
                 DEALLOCATE(IGRSURF(IGS)%NODES)
-                MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEGV,4)
+                CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEGV,4)
                 IGRSURF(IGS)%NODES(1:NSEGV,1:4) = 0
               ENDIF  
               DO L=1,NSEG

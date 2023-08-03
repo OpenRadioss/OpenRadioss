@@ -51,6 +51,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD 
       USE STACK_MOD     
@@ -95,7 +96,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "r2r_c.inc"
 #include      "drape_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -157,7 +157,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         ALLOCATE( ISTOR(0,0) )
       ENDIF
 
-      MY_ALLOCATE(INDEXS2,NUMELC)
+      CALL MY_ALLOC(INDEXS2,NUMELC)
       INDEXS2(1:NUMELC)=PERMUTATION%SHELL(1:NUMELC)
 C
       IF (NPERTURB > 0) THEN

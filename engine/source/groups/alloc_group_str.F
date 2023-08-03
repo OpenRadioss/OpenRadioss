@@ -111,7 +111,7 @@ C-----------------------------------------------
 !---
 ! GROUP ENTITIES
 !
-       MY_ALLOCATE(IGR(IGU)%ENTITY,NENTITY)
+       ALLOCATE(IGR(IGU)%ENTITY(NENTITY))
 !
         DO J=1,NENTITY
           ENTITY = IGROUP(L_GROUP+1)

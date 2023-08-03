@@ -39,6 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -48,7 +49,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -74,8 +74,8 @@ C         Writting TH/SURF tabs in restart file
 C          /PLOAD option
 C-----------------------------------------------
 
-      MY_ALLOCATE(KSEGS_L,TH_SURF%S_PLOAD_KSEGS)
-      MY_ALLOCATE(SEGS_L,TH_SURF%S_PLOAD_SEGS)
+      CALL MY_ALLOC(KSEGS_L,TH_SURF%S_PLOAD_KSEGS)
+      CALL MY_ALLOC(SEGS_L,TH_SURF%S_PLOAD_SEGS)
       KSEGS_L = 0
       SEGS_L = 0
       NSEGP  = 0      

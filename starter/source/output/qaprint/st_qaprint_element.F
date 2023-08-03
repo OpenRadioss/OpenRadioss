@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +51,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "scr23_c.inc"
-#include      "my_allocate.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -84,8 +84,8 @@ C-----------------------------------------------
 C       Solid elements
 C-----------------------------------------------
 C
-        MY_ALLOCATE(INDEX,2*NUMELS)
-        MY_ALLOCATE(ITR1,NUMELS)
+        CALL MY_ALLOC(INDEX,2*NUMELS)
+        CALL MY_ALLOC(ITR1,NUMELS)
 C
         DO I=1,NUMELS8
           ITR1(I)=IXS(NIXS,I)
@@ -233,8 +233,8 @@ C-----------------------------------------------
 C       Spring elements
 C-----------------------------------------------
 C
-        MY_ALLOCATE(INDEX,2*NUMELR)
-        MY_ALLOCATE(ITR1,NUMELR)
+        CALL MY_ALLOC(INDEX,2*NUMELR)
+        CALL MY_ALLOC(ITR1,NUMELR)
 C
         DO I=1,NUMELR
           ITR1(I)=IXR(NIXR,I)
@@ -290,8 +290,8 @@ C
         IF (NUMELR > 0) THEN
 C
           NUMEL_KJ = IXR_KJ(1,NUMELR+1)
-          MY_ALLOCATE(INDEX,2*NUMEL_KJ)
-          MY_ALLOCATE(ITR1,NUMEL_KJ)
+          CALL MY_ALLOC(INDEX,2*NUMEL_KJ)
+          CALL MY_ALLOC(ITR1,NUMEL_KJ)
 C
           DO I=1,NUMEL_KJ
             ITR1(I)=IXR_KJ(4,I)
@@ -319,8 +319,8 @@ C-----------------------------------------------
 C       Beam elements
 C-----------------------------------------------
 C
-        MY_ALLOCATE(INDEX,2*NUMELP)
-        MY_ALLOCATE(ITR1,NUMELP)
+        CALL MY_ALLOC(INDEX,2*NUMELP)
+        CALL MY_ALLOC(ITR1,NUMELP)
 C
         DO I=1,NUMELP
           ITR1(I)=IXP(NIXP,I)
@@ -368,8 +368,8 @@ C-----------------------------------------------
 C       Truss elements
 C-----------------------------------------------
 C
-        MY_ALLOCATE(INDEX,2*NUMELT)
-        MY_ALLOCATE(ITR1,NUMELT)
+        CALL MY_ALLOC(INDEX,2*NUMELT)
+        CALL MY_ALLOC(ITR1,NUMELT)
 C
         DO I=1,NUMELT
           ITR1(I)=IXT(NIXT,I)
@@ -403,8 +403,8 @@ C
 C-----------------------------------------------
 C       SHELL elements
 C-----------------------------------------------
-        MY_ALLOCATE(INDEX,2*NUMELC)
-        MY_ALLOCATE(ITR1,NUMELC)
+        CALL MY_ALLOC(INDEX,2*NUMELC)
+        CALL MY_ALLOC(ITR1,NUMELC)
 C
         DO I=1,NUMELC
           ITR1(I)=IXC(NIXC,I)
@@ -442,8 +442,8 @@ C
 C-----------------------------------------------
 C       QUAD elements
 C-----------------------------------------------
-        MY_ALLOCATE(INDEX,2*NUMELQ)
-        MY_ALLOCATE(ITR1,NUMELQ)
+        CALL MY_ALLOC(INDEX,2*NUMELQ)
+        CALL MY_ALLOC(ITR1,NUMELQ)
 C
         DO I=1,NUMELQ
           ITR1(I)=IXQ(NIXQ,I)
@@ -473,8 +473,8 @@ C
 C-----------------------------------------------
 C       SH3N elements
 C-----------------------------------------------
-        MY_ALLOCATE(INDEX,2*NUMELTG)
-        MY_ALLOCATE(ITR1,NUMELTG)
+        CALL MY_ALLOC(INDEX,2*NUMELTG)
+        CALL MY_ALLOC(ITR1,NUMELTG)
 C
         DO I=1,NUMELTG
           ITR1(I)=IXTG(NIXTG,I)
@@ -513,8 +513,8 @@ C
 C-----------------------------------------------
 C       Sph elements
 C-----------------------------------------------
-        MY_ALLOCATE(INDEX,2*NUMSPH)
-        MY_ALLOCATE(ITR1,NUMSPH)
+        CALL MY_ALLOC(INDEX,2*NUMSPH)
+        CALL MY_ALLOC(ITR1,NUMSPH)
 C
         DO I=1,NUMSPH
           ITR1(I)=KXSP(NISP,I)
@@ -550,8 +550,8 @@ C
 C-----------------------------------------------
 C       Xelem elements
 C-----------------------------------------------
-        MY_ALLOCATE(INDEX,2*NUMELX)
-        MY_ALLOCATE(ITR1,NUMELX)
+        CALL MY_ALLOC(INDEX,2*NUMELX)
+        CALL MY_ALLOC(ITR1,NUMELX)
 C
         DO I=1,NUMELX
           ITR1(I)=KXX(NIXX,I)
@@ -581,8 +581,8 @@ C
 C-----------------------------------------------
 C       Rivet elements
 C-----------------------------------------------
-        MY_ALLOCATE(INDEX,2*NRIVET)
-        MY_ALLOCATE(ITR1,NRIVET)
+        CALL MY_ALLOC(INDEX,2*NRIVET)
+        CALL MY_ALLOC(ITR1,NRIVET)
 C
         DO I=1,NRIVET
           ITR1(I)=IXRI(4,I)

@@ -40,6 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
@@ -54,7 +55,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "my_allocate.inc"
 #include      "scr15_c.inc"
 #include      "units_c.inc"
 #include      "r2r_c.inc"
@@ -349,7 +349,7 @@ C--       multidomains - origianl nummat is used
         ELSE
           MATSIZE = NUMMAT
         ENDIF
-        MY_ALLOCATE2D(WARN_LENGHT,MATSIZE,3)
+        CALL MY_ALLOC(WARN_LENGHT,MATSIZE,3)
 c   
         ! Initialization of variables  
         VOLN_S(1:8,1:NUMELS)   = ZERO
@@ -812,15 +812,15 @@ c
         NLOC_DMG%NDDMAX     = NDDMAX
 c
         ! Allocation of non-local tables
-        MY_ALLOCATE(NLOC_DMG%INDX,NNOD)
-        MY_ALLOCATE(NLOC_DMG%POSI,NNOD+1)
-        MY_ALLOCATE(NLOC_DMG%IDXI,NUMNOD)
-        MY_ALLOCATE(NLOC_DMG%MASS,L_NLOC)   
-        MY_ALLOCATE(NLOC_DMG%MASS0,L_NLOC)   
-        MY_ALLOCATE(NLOC_DMG%VNL,L_NLOC)
-        MY_ALLOCATE(NLOC_DMG%VNL_OLD,L_NLOC) 
-        MY_ALLOCATE(NLOC_DMG%DNL,L_NLOC)
-        MY_ALLOCATE(NLOC_DMG%UNL,L_NLOC)
+        CALL MY_ALLOC(NLOC_DMG%INDX,NNOD)
+        CALL MY_ALLOC(NLOC_DMG%POSI,NNOD+1)
+        CALL MY_ALLOC(NLOC_DMG%IDXI,NUMNOD)
+        CALL MY_ALLOC(NLOC_DMG%MASS,L_NLOC)   
+        CALL MY_ALLOC(NLOC_DMG%MASS0,L_NLOC)   
+        CALL MY_ALLOC(NLOC_DMG%VNL,L_NLOC)
+        CALL MY_ALLOC(NLOC_DMG%VNL_OLD,L_NLOC) 
+        CALL MY_ALLOC(NLOC_DMG%DNL,L_NLOC)
+        CALL MY_ALLOC(NLOC_DMG%UNL,L_NLOC)
         IF (.NOT.ALLOCATED(NLOC_DMG%STIFNL))   ALLOCATE(NLOC_DMG%STIFNL(L_NLOC,1))
         IF (.NOT.ALLOCATED(NLOC_DMG%FNL))      ALLOCATE(NLOC_DMG%FNL(L_NLOC,1))
         IF (.NOT.ALLOCATED(NLOC_DMG%FSKY))     ALLOCATE(NLOC_DMG%FSKY(0,0))

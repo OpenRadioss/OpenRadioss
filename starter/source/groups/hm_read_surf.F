@@ -77,6 +77,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
@@ -100,7 +101,6 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "ige3d_c.inc"
-#include      "my_allocate.inc"
 #include      "sphcom.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
@@ -293,11 +293,11 @@ C             tag for surfaces defined from surface list
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=0
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
                 NSEG0 = IGRSURF(IGS)%NSEG
-                MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)
+                CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)
                 IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0
-                MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)
+                CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)
                 IGRSURF(IGS)%ELTYP(1:NSEG0) = 0
-                MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)
+                CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)
                 IGRSURF(IGS)%ELEM(1:NSEG0) = 0
               ENDIF
               IGRSURF(IGS)%LEVEL=1
@@ -374,11 +374,11 @@ C             surface with formal equation (non-meshed).
                IGRSURF(IGS)%LEVEL=1
                IF (FLAG == 1) THEN
                  NSEG0 = IGRSURF(IGS)%NSEG
-                 MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)
+                 CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)
                  IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0
-                 MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)
+                 CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)
                  IGRSURF(IGS)%ELTYP(1:NSEG0) = 0
-                 MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)
+                 CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)
                  IGRSURF(IGS)%ELEM(1:NSEG0) = 0
                ENDIF
             ELSEIF(KEY(1:6)=='SUBMOD')THEN
@@ -487,11 +487,11 @@ C
 !
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0             
               NSEG0 = IGRSURF(IGS)%NSEG                                
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)                
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)                
               IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0                      
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)                    
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)                    
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0                          
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)                     
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)                     
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                           
             ENDIF                                                      
 !
@@ -604,11 +604,11 @@ C=======================================================================
 !
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0                     
               NSEG0 = IGRSURF(IGS)%NSEG                                        
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)                        
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)                        
               IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0                              
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)                            
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)                            
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0                                  
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)                             
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)                             
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                                   
             ENDIF                                                              
 !
@@ -640,26 +640,26 @@ C=======================================================================
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0   
 !             ISOGEO                                         
               NSEG0 = IGRSURF(IGS)%NSEG_IGE                  
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES_IGE,NSEG0,4)  
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES_IGE,NSEG0,4)  
               IGRSURF(IGS)%NODES_IGE(1:NSEG0,1:4) = 0        
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP_IGE,NSEG0)      
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP_IGE,NSEG0)      
               IGRSURF(IGS)%ELTYP_IGE(1:NSEG0) = 0            
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM_IGE,NSEG0)       
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM_IGE,NSEG0)       
               IGRSURF(IGS)%ELEM_IGE(1:NSEG0) = 0             
 !
               NSEG0 = IGRSURF(IGS)%NSEG                      
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)      
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)      
               IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0            
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)          
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)          
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0                
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)           
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)           
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                 
 !
               IF (NVOLU + NMONVOL > 0) THEN               
                  NSEG0 = IGRSURF(IGS)%NSEG                   
                  !Keep track of the "reversed surface" -> when /SURF/PART comes
                  !with a negative part_id
-                 MY_ALLOCATE(IGRSURF(IGS)%REVERSED, NSEG0)                     
+                 CALL MY_ALLOC(IGRSURF(IGS)%REVERSED, NSEG0)                     
               ENDIF                                                            
             ENDIF                                                              
 !
@@ -782,17 +782,17 @@ C=======================================================================
 !
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0                         
               NSEG0 = IGRSURF(IGS)%NSEG                                            
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)                            
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)                            
               IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0                                  
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)                                
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)                                
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0                                      
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)                                 
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)                                 
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                                       
               IF (NVOLU + NMONVOL > 0) THEN                                     
                  NSEG0 = IGRSURF(IGS)%NSEG                                         
                  !Keep track of the "reversed surface" -> when /SURF/PART comes    
                  !with a negative part_id                                          
-                 MY_ALLOCATE(IGRSURF(IGS)%REVERSED, NSEG0)                         
+                 CALL MY_ALLOC(IGRSURF(IGS)%REVERSED, NSEG0)                         
               ENDIF                                                                
             ENDIF                                                                  
 !
@@ -891,18 +891,18 @@ C-----------                                              --
 !
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0  
               NSEG0 = IGRSURF(IGS)%NSEG                     
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)     
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)     
               IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0           
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)         
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)         
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0               
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)          
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)          
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                
 !
               IF (NVOLU + NMONVOL > 0) THEN              
                  NSEG0 = IGRSURF(IGS)%NSEG                  
                  !     Keep track of the "reversed surface" -> when /SURF/PART comes
                  !     with a negative part_id
-                   MY_ALLOCATE(IGRSURF(IGS)%REVERSED, NSEG0)
+                   CALL MY_ALLOC(IGRSURF(IGS)%REVERSED, NSEG0)
               ENDIF
             ENDIF
 !
@@ -923,18 +923,18 @@ C---
 !
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0                              
               NSEG0 = IGRSURF(IGS)%NSEG                                                 
-              MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG0,4)                                 
+              CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG0,4)                                 
               IGRSURF(IGS)%NODES(1:NSEG0,1:4) = 0                                       
-              MY_ALLOCATE(IGRSURF(IGS)%ELTYP,NSEG0)                                     
+              CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG0)                                     
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0                                           
-              MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)                                      
+              CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG0)                                      
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                                            
 !
               IF (NVOLU + NMONVOL > 0) THEN                                          
                  NSEG0 = IGRSURF(IGS)%NSEG                                              
                  !     Keep track of the "reversed surface" -> when /SURF/PART comes    
                  !     with a negative part_id                                          
-                 MY_ALLOCATE(IGRSURF(IGS)%REVERSED, NSEG0)                              
+                 CALL MY_ALLOC(IGRSURF(IGS)%REVERSED, NSEG0)                              
               ENDIF                                                                     
             ENDIF                                                                       
 !

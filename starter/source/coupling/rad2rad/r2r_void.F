@@ -38,6 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE RESTMOD
       USE R2R_MOD
       USE MESSAGE_MOD
@@ -56,7 +57,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "r2r_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -317,10 +317,10 @@ C---------Allocation of temporary arrays ----------------------C
       
           NB_PART = 1    
 C
-          MY_ALLOCATE2D (IGEO_TEMP,NPROPGI,NUMGEO+NB_PART) 
-          MY_ALLOCATE2D (GEO_TEMP,NPROPG,NUMGEO+NB_PART)
-          MY_ALLOCATE (NUMGEOSTACK1_TEMP,NUMGEO+NB_PART)
-          MY_ALLOCATE (NUMGEOSTACK2_TEMP,NUMSTACK)     
+          CALL MY_ALLOC (IGEO_TEMP,NPROPGI,NUMGEO+NB_PART) 
+          CALL MY_ALLOC (GEO_TEMP,NPROPG,NUMGEO+NB_PART)
+          CALL MY_ALLOC (NUMGEOSTACK1_TEMP,NUMGEO+NB_PART)
+          CALL MY_ALLOC (NUMGEOSTACK2_TEMP,NUMSTACK)     
 C
           IGEO_TEMP(:,:)=0
           GEO_TEMP(:,:)=0
@@ -379,9 +379,9 @@ C---------------Reallocation and filling of IGEO and GEO------C
           LEN2 = NPROPG*NUMGEO
 C         
           DEALLOCATE(IGEO,GEO,NUMGEOSTACK)       
-          MY_ALLOCATE (IGEO,LEN1) 
-          MY_ALLOCATE (GEO,LEN2)  
-          MY_ALLOCATE (NUMGEOSTACK,NUMGEO+NUMSTACK)  
+          CALL MY_ALLOC (IGEO,LEN1) 
+          CALL MY_ALLOC (GEO,LEN2)  
+          CALL MY_ALLOC (NUMGEOSTACK,NUMGEO+NUMSTACK)  
 C      
           DO I=1,NUMGEO
             DO J=1,NPROPGI
@@ -449,6 +449,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE RESTMOD
       USE R2R_MOD
 C-----------------------------------------------

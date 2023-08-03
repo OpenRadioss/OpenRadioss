@@ -65,7 +65,8 @@ Chd|====================================================================
      .           SKEW      ,ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  )
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------  
+C-----------------------------------------------
+      USE MY_ALLOC_MOD  
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
@@ -87,7 +88,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "sysunit.inc"
 #include      "submod_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -130,8 +130,8 @@ c---------------------------------------------
       END IF
 c---------------------------------------------
       IF (ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB)
-      MY_ALLOCATE (SENSORS%SENSOR_TAB,HM_NSENS)
-      MY_ALLOCATE (SID,HM_NSENS)
+      ALLOCATE(SENSORS%SENSOR_TAB(HM_NSENS))
+      CALL MY_ALLOC (SID,HM_NSENS)
       SENSORS%NSENSOR = HM_NSENS
 c
       CALL SENSOR_TAB_INIT(SENSORS)

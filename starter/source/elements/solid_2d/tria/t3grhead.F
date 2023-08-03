@@ -47,6 +47,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
       USE MULTI_FVM_MOD
@@ -155,7 +156,6 @@ Clef 3---------------------------------
 Clef 4---------------------------------
       DATA MSKPID /O'07777777777'/
 C-----------------------------------------------
-#include "my_allocate.inc"
 C-----------------------------------------------
 
 C
@@ -201,7 +201,7 @@ C
      .                           C1='XNUM_RNOISE')
       ENDIF
 C
-      MY_ALLOCATE(INDEX2,NUMELTG)
+      CALL MY_ALLOC(INDEX2,NUMELTG)
 
       IF(NDRAPE > 0 .AND. NUMELTG_DRAPE > 0) THEN 
          DO I=1,NUMELTG                                                          

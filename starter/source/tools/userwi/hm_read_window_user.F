@@ -59,6 +59,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -70,7 +71,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "my_allocate.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr15_c.inc"
@@ -159,8 +159,8 @@ C-----  memory (user buffer length estimation)
       USER_WINDOWS%S_USER  = NUVAR
       USER_WINDOWS%S_IUSER = NUVARI+100
 
-      MY_ALLOCATE(USER_WINDOWS%IUSER,USER_WINDOWS%S_IUSER)
-      MY_ALLOCATE(USER_WINDOWS%USER,USER_WINDOWS%S_USER)
+      CALL MY_ALLOC(USER_WINDOWS%IUSER,USER_WINDOWS%S_IUSER)
+      CALL MY_ALLOC(USER_WINDOWS%USER,USER_WINDOWS%S_USER)
 
       USER_WINDOWS%USER(1:USER_WINDOWS%S_USER) = ZERO
       USER_WINDOWS%IUSER(1:USER_WINDOWS%S_IUSER) = 0

@@ -39,6 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
 C-----------------------------------------------
@@ -52,7 +53,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -196,7 +196,7 @@ C--------dim first
         IF(NREMOV(N)>0) KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
 
         SIZE_INSERTED_NODE = MAX_INSERTED_NODE*NRTM
-        MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE)
+        CALL MY_ALLOC(INSERTED_NODE,SIZE_INSERTED_NODE)
 
         DO II=1,NRTM
           NNREM_SAVE = NNREM

@@ -146,7 +146,7 @@ C
       IF (ISPMD == 0) THEN     
 C
         TMP => DT2_L(SIZG+1:SIZG*2)
-        MY_ALLOCATE( PERM,SIZG )
+        ALLOCATE( PERM(SIZG ))
 C
 C  --- Sorting
 C

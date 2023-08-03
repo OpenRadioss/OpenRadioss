@@ -507,8 +507,8 @@ C
 C Alloc buffer
 C
           IF( NB_EDGE > 0) THEN
-            MY_ALLOCATE(IBUF_EDGE(P)%P,E_IBUF_SIZE*NB_EDGE)
-            MY_ALLOCATE(RBUF_EDGE(P)%P,E_RBUF_SIZE*NB_EDGE)
+            ALLOCATE(IBUF_EDGE(P)%P(E_IBUF_SIZE*NB_EDGE))
+            ALLOCATE(RBUF_EDGE(P)%P(E_RBUF_SIZE*NB_EDGE))
 
             L = 0
             DO J=1,NB_EDGE

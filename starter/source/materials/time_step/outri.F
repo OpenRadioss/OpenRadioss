@@ -37,6 +37,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -51,7 +52,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C=======================================================================
 C     INITIALISATION DES NOS INTERNES DES ELEMENTS AVANT TRI
 C
-      MY_ALLOCATE(PERM,NUMEL)
+      CALL MY_ALLOC(PERM,NUMEL)
       ! --------------------
       ! solid and quad
       NUM2 = 0
@@ -369,6 +369,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE R2R_MOD
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
@@ -401,8 +402,8 @@ C-----------------------------------------------
       INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 C=======================================================================
-      MY_ALLOCATE(PERM,NUMNOD)
-      MY_ALLOCATE(DT,NUMNOD)
+      CALL MY_ALLOC(PERM,NUMNOD)
+      CALL MY_ALLOC(DT,NUMNOD)
       DTNODA = EP30
 C 
       DO I=1,NUMNOD

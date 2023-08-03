@@ -95,7 +95,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "sysunit.inc"
-#include      "my_allocate.inc"
 #include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -108,10 +107,10 @@ C-----------------------------------------------
       INTEGER I,UID
       my_real FAC_M,FAC_L,FAC_T
 C----------------------------------------------- 
-      MY_ALLOCATE(UNITAB%UNIT_ID,NUNITS)
-      MY_ALLOCATE(UNITAB%FAC_M,NUNITS)
-      MY_ALLOCATE(UNITAB%FAC_L,NUNITS)
-      MY_ALLOCATE(UNITAB%FAC_T,NUNITS)
+      ALLOCATE(UNITAB%UNIT_ID(NUNITS))
+      ALLOCATE(UNITAB%FAC_M(NUNITS))
+      ALLOCATE(UNITAB%FAC_L(NUNITS))
+      ALLOCATE(UNITAB%FAC_T(NUNITS))
 
       DO I=1,NUNITS
 

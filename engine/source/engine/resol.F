@@ -1382,7 +1382,7 @@ C
         ENDIF
 C----------------------------------------------------------
         IF(INTERFACES%PARAMETERS%INTCAREA>0) THEN
-           MY_ALLOCATE(INTERFACES%PARAMETERS%INTAREAN,NUMNOD)
+           ALLOCATE(INTERFACES%PARAMETERS%INTAREAN(NUMNOD))
         ELSE
            ALLOCATE(INTERFACES%PARAMETERS%INTAREAN(0))   
         ENDIF
@@ -1390,8 +1390,8 @@ C
 C       ! /TH/SURF output
 
         IF(NSURF > 0) THEN
-           MY_ALLOCATE(FSAVSURF,5*NSURF) 
-           MY_ALLOCATE(NSEG_LOADP,NSURF) 
+           ALLOCATE(FSAVSURF(5*NSURF)) 
+           ALLOCATE(NSEG_LOADP(NSURF)) 
            NSEG_LOADP (1:NSURF)= 0          
            FSAVSURF(1:5*NSURF)=ZERO
         ELSE
@@ -1686,8 +1686,8 @@ C       Error estimation / not on Restart file.
 C--------------------------------------------
           IF(ANIM_CE(2156)/=0 .OR. IADMERRT/=0 .OR. 
      .         H3D_DATA%SH_SCAL_ERR_THK /= 0)THEN
-             MY_ALLOCATE(ERR_THK_SH4,NUMELC)
-             MY_ALLOCATE(ERR_THK_SH3,NUMELTG)
+             ALLOCATE(ERR_THK_SH4(NUMELC))
+             ALLOCATE(ERR_THK_SH3(NUMELTG))
              ERR_THK_SH4(1:NUMELC) = ZERO
              ERR_THK_SH3(1:NUMELTG) = ZERO
           ELSE
@@ -2200,7 +2200,7 @@ C
         COMPTREAC = 0
         CALL NEED_FOR_REACTIONS(NPBY,H3D_DATA,COMPTREAC) ! Look for options for anim, ... and rbody with failure
         IF(COMPTREAC == 1)THEN
-          MY_ALLOCATE(FREAC,6*NUMNOD) 
+          ALLOCATE(FREAC(6*NUMNOD)) 
           FREAC(1:6*NUMNOD)=ZERO
         ELSE
           ALLOCATE(FREAC(0))

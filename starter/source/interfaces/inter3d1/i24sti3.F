@@ -54,7 +54,8 @@ Chd|====================================================================
      J IPARTT ,IPARTP   ,IPARTR   )
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
+C-----------------------------------------------
+      USE MY_ALLOC_MOD 
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -1099,6 +1100,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
@@ -1115,7 +1117,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr08_c.inc"
 #include      "scr05_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1160,9 +1161,9 @@ C----------------------
       NREV=0
       IPGMAT = 700
       IF(NUMELS > 0) THEN
-        MY_ALLOCATE(TAGELEMS,NUMELS)
+        CALL MY_ALLOC(TAGELEMS,NUMELS)
         TAGELEMS = 0
-        MY_ALLOCATE(INDEXE,NUMELS)
+        CALL MY_ALLOC(INDEXE,NUMELS)
         INDEXE = 0
       ENDIF
       NINV = 0

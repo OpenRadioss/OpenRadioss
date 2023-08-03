@@ -116,7 +116,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -132,35 +131,35 @@ C-----------------------------------------------
            INTEGER, INTENT(IN) :: SITHGRPH, SITHBUFH
            INTEGER, INTENT(IN) :: SITHGRPI, SITHBUFI 
 C-----------------------------------------------
-           MY_ALLOCATE(TH%ITHGRP ,TH%SITHGRP)
-           MY_ALLOCATE(TH%ITHBUF ,TH%SITHBUF)
+           ALLOCATE(TH%ITHGRP (TH%SITHGRP))
+           ALLOCATE(TH%ITHBUF (TH%SITHBUF))
 
-           MY_ALLOCATE(TH%ITHGRPA,TH%SITHGRPA)
-           MY_ALLOCATE(TH%ITHBUFA,TH%SITHBUFA)
+           ALLOCATE(TH%ITHGRPA(TH%SITHGRPA))
+           ALLOCATE(TH%ITHBUFA(TH%SITHBUFA))
 
-           MY_ALLOCATE(TH%ITHGRPB,TH%SITHGRPB)
-           MY_ALLOCATE(TH%ITHBUFB,TH%SITHBUFB)
+           ALLOCATE(TH%ITHGRPB(TH%SITHGRPB))
+           ALLOCATE(TH%ITHBUFB(TH%SITHBUFB))
 
-           MY_ALLOCATE(TH%ITHGRPC,TH%SITHGRPC)
-           MY_ALLOCATE(TH%ITHBUFC,TH%SITHBUFC)
+           ALLOCATE(TH%ITHGRPC(TH%SITHGRPC))
+           ALLOCATE(TH%ITHBUFC(TH%SITHBUFC))
 
-           MY_ALLOCATE(TH%ITHGRPD,TH%SITHGRPD)
-           MY_ALLOCATE(TH%ITHBUFD,TH%SITHBUFD)
+           ALLOCATE(TH%ITHGRPD(TH%SITHGRPD))
+           ALLOCATE(TH%ITHBUFD(TH%SITHBUFD))
 
-           MY_ALLOCATE(TH%ITHGRPE,TH%SITHGRPE)
-           MY_ALLOCATE(TH%ITHBUFE,TH%SITHBUFE)
+           ALLOCATE(TH%ITHGRPE(TH%SITHGRPE))
+           ALLOCATE(TH%ITHBUFE(TH%SITHBUFE))
 
-           MY_ALLOCATE(TH%ITHGRPF,TH%SITHGRPF)
-           MY_ALLOCATE(TH%ITHBUFF,TH%SITHBUFF)
+           ALLOCATE(TH%ITHGRPF(TH%SITHGRPF))
+           ALLOCATE(TH%ITHBUFF(TH%SITHBUFF))
 
-           MY_ALLOCATE(TH%ITHGRPG,TH%SITHGRPG)
-           MY_ALLOCATE(TH%ITHBUFG,TH%SITHBUFG)
+           ALLOCATE(TH%ITHGRPG(TH%SITHGRPG))
+           ALLOCATE(TH%ITHBUFG(TH%SITHBUFG))
 
-           MY_ALLOCATE(TH%ITHGRPH,TH%SITHGRPH)
-           MY_ALLOCATE(TH%ITHBUFH,TH%SITHBUFH)
+           ALLOCATE(TH%ITHGRPH(TH%SITHGRPH))
+           ALLOCATE(TH%ITHBUFH(TH%SITHBUFH))
 
-           MY_ALLOCATE(TH%ITHGRPI,TH%SITHGRPI)
-           MY_ALLOCATE(TH%ITHBUFI,TH%SITHBUFI)
+           ALLOCATE(TH%ITHGRPI(TH%SITHGRPI))
+           ALLOCATE(TH%ITHBUFI(TH%SITHBUFI))
 
          END SUBROUTINE TH_ALLOC
 
@@ -177,7 +176,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

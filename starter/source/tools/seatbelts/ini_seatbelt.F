@@ -40,6 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE SEATBELT_MOD
       USE ELBUFDEF_MOD  
@@ -54,7 +55,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "random_c.inc"
-#include      "my_allocate.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -88,7 +88,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
 C-----Reset of TAG_RES from SEATBELT_TAB structure----------------------------------
-      MY_ALLOCATE(TAG_RES,NUMELR)
+      CALL MY_ALLOC(TAG_RES,NUMELR)
       TAG_RES(1:NUMELR) = 0
       DO I=1,N_SEATBELT
         DO J=1,SEATBELT_TAB(I)%NSPRING
@@ -170,8 +170,8 @@ C
 
 C-----------------------------------------------------------------------------------
 
-      MY_ALLOCATE(TAG_RETRACTOR,NUMELR)
-      MY_ALLOCATE(TAGN_RETRACTOR,NUMNOD)
+      CALL MY_ALLOC(TAG_RETRACTOR,NUMELR)
+      CALL MY_ALLOC(TAGN_RETRACTOR,NUMNOD)
       TAG_RETRACTOR(1:NUMELR) = 0
       TAGN_RETRACTOR(1:NUMNOD) = 0
       FLAG = 1

@@ -50,6 +50,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE RESTMOD
       USE R2R_MOD
       USE NOD2EL_MOD
@@ -72,7 +73,6 @@ C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "sphcom.inc"
 #include      "param_c.inc"
-#include      "my_allocate.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -806,7 +806,7 @@ C-------------------------------------------------------------------------------
 
 	  NUMELC0 = NUMELC
           ALLOCATE(IX_TEMP(NUMELC*NIXC),CORESC(NUMELC))
-          MY_ALLOCATE2D (IWORKSH_TEMP,3,NUMELC) 
+          CALL MY_ALLOC (IWORKSH_TEMP,3,NUMELC) 
           DO J=1,NUMELC
 	    DO K=1,NIXC
 	      IX_TEMP(NIXC*(J-1)+K)=IXC(NIXC*(J-1)+K)

@@ -41,6 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -53,7 +54,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "my_allocate.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -163,7 +163,7 @@ C                  sorted group
                 ENDIF                               
 C
                 IGRELEM(IGS)%NENTITY = NEL
-                MY_ALLOCATE(IGRELEM(IGS)%ENTITY,NEL)
+                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
                 IGRELEM(IGS)%ENTITY = 0
               ENDIF                                 
 C-----------                                             

@@ -53,6 +53,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
       USE REORDER_MOD
@@ -97,7 +98,6 @@ C-----------------------------------------------
 #include      "r2r_c.inc"
 #include      "sphcom.inc"
 #include      "boltpr_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -144,7 +144,7 @@ C-----------------------------------------------
 C--------------------------------------------------------------
 C         BORNAGE DES GROUPES DE MVSIZ
 C--------------------------------------------------------------
-      MY_ALLOCATE(INDEXS2,NUMELS)
+      CALL MY_ALLOC(INDEXS2,NUMELS)
       nullify(MATPARAM)
       INDEXS2(1:NUMELS)=PERMUTATION%SOLID(1:NUMELS)
       NGR1 = NGROUP + 1

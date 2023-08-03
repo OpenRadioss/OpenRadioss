@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE HM_OPTION_READ_MOD
       USE SETDEF_MOD
       USE MESSAGE_MOD
@@ -74,7 +75,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
 #include      "com04_c.inc"
@@ -570,9 +570,9 @@ C-----------------------------------------------
             DEALLOCATE(SET%SURF_ELTYP)
             DEALLOCATE(SET%SURF_ELEM)
 
-            MY_ALLOCATE2D(SET%SURF_NODES,NS,4)
-            MY_ALLOCATE  (SET%SURF_ELTYP,NS)
-            MY_ALLOCATE  (SET%SURF_ELEM,NS)
+            CALL MY_ALLOC(SET%SURF_NODES,NS,4)
+            CALL MY_ALLOC  (SET%SURF_ELTYP,NS)
+            CALL MY_ALLOC  (SET%SURF_ELEM,NS)
 
             SET%NB_SURF_SEG = NS
 
@@ -591,9 +591,9 @@ C-----------------------------------------------
             IF (ALLOCATED (SET%SURF_ELEM) ) DEALLOCATE(SET%SURF_ELEM)
 
             NEW_SIZE = CLAUSE%NB_SURF_SEG
-            MY_ALLOCATE2D(SET%SURF_NODES,NEW_SIZE,4)
-            MY_ALLOCATE  (SET%SURF_ELTYP,NEW_SIZE)
-            MY_ALLOCATE  (SET%SURF_ELEM,NEW_SIZE)
+            CALL MY_ALLOC(SET%SURF_NODES,NEW_SIZE,4)
+            CALL MY_ALLOC  (SET%SURF_ELTYP,NEW_SIZE)
+            CALL MY_ALLOC  (SET%SURF_ELEM,NEW_SIZE)
 
             SET%NB_SURF_SEG = NEW_SIZE
             SET%SURF_NODES(1:NEW_SIZE,1:4) = CLAUSE%SURF_NODES(1:NEW_SIZE,1:4)
@@ -655,9 +655,9 @@ C-----------------------------------------------
                 DEALLOCATE(SET%LINE_ELTYP)
                 DEALLOCATE(SET%LINE_ELEM)
 
-                MY_ALLOCATE2D(SET%LINE_NODES,NEW_SIZE,4)
-                MY_ALLOCATE  (SET%LINE_ELTYP,NEW_SIZE)
-                MY_ALLOCATE  (SET%LINE_ELEM,NEW_SIZE)
+                CALL MY_ALLOC(SET%LINE_NODES,NEW_SIZE,4)
+                CALL MY_ALLOC  (SET%LINE_ELTYP,NEW_SIZE)
+                CALL MY_ALLOC  (SET%LINE_ELEM,NEW_SIZE)
 
                 SET%NB_LINE_SEG = NEW_SIZE
 
@@ -674,9 +674,9 @@ C-----------------------------------------------
                     IF (ALLOCATED (SET%LINE_ELEM) ) DEALLOCATE(SET%LINE_ELEM)
 
                     NEW_SIZE = CLAUSE%NB_LINE_SEG
-                    MY_ALLOCATE2D(SET%LINE_NODES,NEW_SIZE,2)
-                    MY_ALLOCATE  (SET%LINE_ELTYP,NEW_SIZE)
-                    MY_ALLOCATE  (SET%LINE_ELEM,NEW_SIZE)
+                    CALL MY_ALLOC(SET%LINE_NODES,NEW_SIZE,2)
+                    CALL MY_ALLOC  (SET%LINE_ELTYP,NEW_SIZE)
+                    CALL MY_ALLOC  (SET%LINE_ELEM,NEW_SIZE)
 
                     SET%NB_LINE_SEG = NEW_SIZE
                     SET%LINE_NODES(1:NEW_SIZE,1:2) = CLAUSE%LINE_NODES(1:NEW_SIZE,1:2)
@@ -758,9 +758,9 @@ C-----------------------------------------------
         IF(ALLOCATED(SET%SURF_ELEM)) DEALLOCATE(SET%SURF_ELEM)
         IF(ALLOCATED(DELBUF%SURF))   DEALLOCATE(DELBUF%SURF)
 
-        MY_ALLOCATE2D(SET%SURF_NODES,NS,4)
-        MY_ALLOCATE  (SET%SURF_ELTYP,NS)
-        MY_ALLOCATE  (SET%SURF_ELEM,NS)
+        CALL MY_ALLOC(SET%SURF_NODES,NS,4)
+        CALL MY_ALLOC  (SET%SURF_ELTYP,NS)
+        CALL MY_ALLOC  (SET%SURF_ELEM,NS)
 
         SET%NB_SURF_SEG = NS
 
@@ -792,9 +792,9 @@ C-----------------------------------------------
         IF(ALLOCATED(SET%LINE_ELEM)) DEALLOCATE(SET%LINE_ELEM)
         IF(ALLOCATED(DELBUF%LINE))   DEALLOCATE(DELBUF%LINE)
 
-        MY_ALLOCATE2D(SET%LINE_NODES,NEW_SIZE,4)
-        MY_ALLOCATE  (SET%LINE_ELTYP,NEW_SIZE)
-        MY_ALLOCATE  (SET%LINE_ELEM,NEW_SIZE)
+        CALL MY_ALLOC(SET%LINE_NODES,NEW_SIZE,4)
+        CALL MY_ALLOC  (SET%LINE_ELTYP,NEW_SIZE)
+        CALL MY_ALLOC  (SET%LINE_ELEM,NEW_SIZE)
 
         SET%NB_LINE_SEG = NEW_SIZE
 
@@ -821,9 +821,9 @@ C-----------------------------------------------
         IF(ALLOCATED(SET%LINE_ELEM)) DEALLOCATE(SET%LINE_ELEM)
         IF(ALLOCATED(DELBUF%LINE))   DEALLOCATE(DELBUF%LINE)
 
-        MY_ALLOCATE2D(SET%LINE_NODES,NEW_SIZE,4)
-        MY_ALLOCATE  (SET%LINE_ELTYP,NEW_SIZE)
-        MY_ALLOCATE  (SET%LINE_ELEM,NEW_SIZE)
+        CALL MY_ALLOC(SET%LINE_NODES,NEW_SIZE,4)
+        CALL MY_ALLOC  (SET%LINE_ELTYP,NEW_SIZE)
+        CALL MY_ALLOC  (SET%LINE_ELEM,NEW_SIZE)
 
         SET%NB_LINE_SEG = NEW_SIZE
 

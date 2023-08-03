@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
       USE SENSOR_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -324,8 +324,8 @@ C
             ENDIF
 !     Keep track of original elements ids
             LENGTH=2 * (SIZE1 + SIZE2 + T_MONVOL(N)%NB_FILL_TRI)
-            MY_ALLOCATE(T_MONVOL(N)%FVBAG_ELEMID,LENGTH)
-            MY_ALLOCATE(T_MONVOL(N)%ELTG, (2 * (SIZE1 + SIZE2)))
+            CALL MY_ALLOC(T_MONVOL(N)%FVBAG_ELEMID,LENGTH)
+            CALL MY_ALLOC(T_MONVOL(N)%ELTG, (2 * (SIZE1 + SIZE2)))
             T_MONVOL(N)%ELTG(1:SIZE1 + SIZE2) = 0
             CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
      .           X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, T_MONVOL(N)%FVBAG_ELEMID)

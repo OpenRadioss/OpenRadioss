@@ -39,6 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
@@ -52,7 +53,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -110,7 +110,7 @@ c
 c
         IAD = IAD + 1
         IBOX(IAD)%NBOXBOX = NLIST
-        MY_ALLOCATE(IBOX(IAD)%IBOXBOX  ,NLIST)
+        CALL MY_ALLOC(IBOX(IAD)%IBOXBOX  ,NLIST)
 c
         II = 0
         IF (NBOX_POS > 0) THEN

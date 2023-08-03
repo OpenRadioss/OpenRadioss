@@ -164,7 +164,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -188,12 +187,12 @@ C-----------------------------------------------
         IF(TH_SURF%PLOAD_FLAG > 0) THEN
           CALL READ_I_C(TH_SURF%S_PLOAD_KSEGS,1)
           IF(TH_SURF%S_PLOAD_KSEGS > 0) THEN
-            MY_ALLOCATE(TH_SURF%PLOAD_KSEGS,TH_SURF%S_PLOAD_KSEGS)
+            ALLOCATE(TH_SURF%PLOAD_KSEGS(TH_SURF%S_PLOAD_KSEGS))
             CALL READ_I_C(TH_SURF%PLOAD_KSEGS,TH_SURF%S_PLOAD_KSEGS)
           ENDIF
           CALL READ_I_C(TH_SURF%S_PLOAD_SEGS,1)
           IF(TH_SURF%S_PLOAD_SEGS > 0) THEN
-            MY_ALLOCATE(TH_SURF%PLOAD_SEGS,TH_SURF%S_PLOAD_SEGS)
+            ALLOCATE(TH_SURF%PLOAD_SEGS(TH_SURF%S_PLOAD_SEGS))
             CALL READ_I_C(TH_SURF%PLOAD_SEGS,TH_SURF%S_PLOAD_SEGS)
           ENDIF
         ENDIF
@@ -201,12 +200,12 @@ C-----------------------------------------------
         IF(TH_SURF%LOADP_FLAG > 0) THEN
           CALL READ_I_C(TH_SURF%S_LOADP_KSEGS,1)
           IF(TH_SURF%S_LOADP_KSEGS > 0) THEN
-            MY_ALLOCATE(TH_SURF%LOADP_KSEGS,TH_SURF%S_LOADP_KSEGS)
+            ALLOCATE(TH_SURF%LOADP_KSEGS(TH_SURF%S_LOADP_KSEGS))
             CALL READ_I_C(TH_SURF%LOADP_KSEGS,TH_SURF%S_LOADP_KSEGS)
           ENDIF
           CALL READ_I_C(TH_SURF%S_LOADP_SEGS,1)
           IF(TH_SURF%S_LOADP_SEGS > 0) THEN
-            MY_ALLOCATE(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
+            ALLOCATE(TH_SURF%LOADP_SEGS(TH_SURF%S_LOADP_SEGS))
             CALL READ_I_C(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
           ENDIF
         ENDIF

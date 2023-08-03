@@ -63,6 +63,7 @@ C     ISOLOFF(NUMELS)      FLAG ELEM RBY ON/OFF                      E/S
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
       USE REORDER_MOD
@@ -85,7 +86,6 @@ C-----------------------------------------------
 #include      "r2r_c.inc"
 #include      "sphcom.inc"
 #include      "boltpr_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C-----------------------------------------------
 
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
   
-      MY_ALLOCATE(INDEX2,NUMELS) 
+      CALL MY_ALLOC(INDEX2,NUMELS) 
 C
       IF (NPERTURB > 0) THEN
         ALLOCATE(XNUM_RNOISE(NPERTURB,NUMELS),STAT=stat)

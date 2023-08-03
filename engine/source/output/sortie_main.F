@@ -392,33 +392,33 @@ C----------------------
      .  H3D_DATA%MH3D/=0)) THEN
 
            IF(NINEFRIC > 0) THEN
-             MY_ALLOCATE(CSEFRIC,NINEFRIC*NUMNOD) ! friction energy by surface unit
+             ALLOCATE(CSEFRIC(NINEFRIC*NUMNOD)) ! friction energy by surface unit
            ELSE
-             MY_ALLOCATE(CSEFRIC,0)
+             ALLOCATE(CSEFRIC(0))
            ENDIF   
            IF(NINEFRIC_STAMP > 0) THEN
-             MY_ALLOCATE(CSEFRIC_STAMP,NINEFRIC_STAMP*NUMNODG) ! friction energy by surface unit
+             ALLOCATE(CSEFRIC_STAMP(NINEFRIC_STAMP*NUMNODG)) ! friction energy by surface unit
 
            ELSE
-             MY_ALLOCATE(CSEFRIC_STAMP,0) 
+             ALLOCATE(CSEFRIC_STAMP(0)) 
            ENDIF 
            IF(H3D_DATA%N_SCAL_CSE_FRIC /=0) THEN
-              MY_ALLOCATE(CSEFRICG,NUMNOD) ! Global friction energy by surface unit
+              ALLOCATE(CSEFRICG(NUMNOD)) ! Global friction energy by surface unit
               CSEFRICG = ZERO
               IF(NINTSTAMP /= 0) THEN
-                 MY_ALLOCATE(CSEFRICG_STAMP,NUMNODG) ! Global friction energy by surface unit
+                 ALLOCATE(CSEFRICG_STAMP(NUMNODG)) ! Global friction energy by surface unit
               ELSE
-                 MY_ALLOCATE(CSEFRICG_STAMP,0) 
+                 ALLOCATE(CSEFRICG_STAMP(0)) 
               ENDIF
            ELSE
-              MY_ALLOCATE(CSEFRICG,0)
-              MY_ALLOCATE(CSEFRICG_STAMP,0) 
+              ALLOCATE(CSEFRICG(0))
+              ALLOCATE(CSEFRICG_STAMP(0)) 
            ENDIF
       ELSE
-         MY_ALLOCATE(CSEFRIC,0)
-         MY_ALLOCATE(CSEFRIC_STAMP,0)
-         MY_ALLOCATE(CSEFRICG,0)
-         MY_ALLOCATE(CSEFRICG_STAMP,0) 
+         ALLOCATE(CSEFRIC(0))
+         ALLOCATE(CSEFRIC_STAMP(0))
+         ALLOCATE(CSEFRICG(0))
+         ALLOCATE(CSEFRICG_STAMP(0)) 
       ENDIF
 
 

@@ -32,20 +32,20 @@ Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_
 Chd|====================================================================
       SUBROUTINE USERWI_READ(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)
 !$COMMENT
-   ! -----------------------------------------------
-   !   ROUTINE DESCRIPTION :
-   !   ===================
-   !   Read Userlib Restart
-   ! ------------------------------------------------
-   !   DUMMY ARGUMENTS DESCRIPTION:
-   !   ===================
-   !
-   !     NAME          DESCRIPTION                         
-   !
-   !     USER_WINDOWS  USER Windows type
-   !     ISPMD         Current SPMD domains
-   !     NSPMD         #SPMD domains
-   !------------------------------------------------------------------
+! -----------------------------------------------
+!   ROUTINE DESCRIPTION :
+!   ===================
+!   Read Userlib Restart
+! ------------------------------------------------
+!   DUMMY ARGUMENTS DESCRIPTION:
+!   ===================
+!
+!     NAME          DESCRIPTION                         
+!
+!     USER_WINDOWS  USER Windows type
+!     ISPMD         Current SPMD domains
+!     NSPMD         #SPMD domains
+!------------------------------------------------------------------
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
@@ -81,9 +81,9 @@ C-----------------------------------------------
              CALL READ_I_C(USER_WINDOWS%S_USER,1)
              CALL READ_I_C(USER_WINDOWS%N_USERNODS,1)
 
-             MY_ALLOCATE(USER_WINDOWS%IUSER,USER_WINDOWS%S_IUSER)
-             MY_ALLOCATE(USER_WINDOWS%USER,USER_WINDOWS%S_USER)
-             MY_ALLOCATE(USER_WINDOWS%USERNODS,USER_WINDOWS%N_USERNODS)
+             ALLOCATE(USER_WINDOWS%IUSER(USER_WINDOWS%S_IUSER))
+             ALLOCATE(USER_WINDOWS%USER(USER_WINDOWS%S_USER))
+             ALLOCATE(USER_WINDOWS%USERNODS(USER_WINDOWS%N_USERNODS))
 
              CALL READ_I_C(USER_WINDOWS%IUSER,USER_WINDOWS%S_IUSER)
              CALL READ_DB(USER_WINDOWS%USREINT,1)
@@ -92,25 +92,25 @@ C-----------------------------------------------
 
              ! SPMD Structures
              CALL READ_I_C(USER_WINDOWS%S_FR_USERW,1)
-             MY_ALLOCATE(USER_WINDOWS%IAD_USERW,NSPMD+1)
-             MY_ALLOCATE(USER_WINDOWS%FR_USERW,USER_WINDOWS%S_FR_USERW)
+             ALLOCATE(USER_WINDOWS%IAD_USERW(NSPMD+1))
+             ALLOCATE(USER_WINDOWS%FR_USERW(USER_WINDOWS%S_FR_USERW))
 
              CALL READ_I_C(USER_WINDOWS%IAD_USERW,NSPMD+1)
              CALL READ_I_C(USER_WINDOWS%FR_USERW,USER_WINDOWS%S_FR_USERW)
 
              ! SAV & AR_SAV on ispmd==0
-              MY_ALLOCATE2D(USER_WINDOWS%A_SAV,3,NUMNOD)
-              MY_ALLOCATE2D(USER_WINDOWS%AR_SAV,3,NUMNOD)
-              CALL READ_DB(USER_WINDOWS%A_SAV,3*NUMNOD)
-              CALL READ_DB(USER_WINDOWS%AR_SAV,3*NUMNOD)
+             ALLOCATE(USER_WINDOWS%A_SAV(3,NUMNOD))
+             ALLOCATE(USER_WINDOWS%AR_SAV(3,NUMNOD))
+             CALL READ_DB(USER_WINDOWS%A_SAV,3*NUMNOD)
+             CALL READ_DB(USER_WINDOWS%AR_SAV,3*NUMNOD)
 
              ! ALLOCATE WA to 3x NUMNOD
              USER_WINDOWS%S_WA = 3*NUMNOD
-             MY_ALLOCATE(USER_WINDOWS%WA,3*NUMNOD)
+             ALLOCATE(USER_WINDOWS%WA(3*NUMNOD))
          ELSE
              CALL READ_I_C(USER_WINDOWS%S_FR_USERW,1)
 
-             MY_ALLOCATE(USER_WINDOWS%FR_USERW,USER_WINDOWS%S_FR_USERW)
+             ALLOCATE(USER_WINDOWS%FR_USERW(USER_WINDOWS%S_FR_USERW))
 
              CALL READ_I_C(USER_WINDOWS%FR_USERW,USER_WINDOWS%S_FR_USERW)
 

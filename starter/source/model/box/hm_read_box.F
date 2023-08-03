@@ -42,6 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
@@ -57,7 +58,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -122,7 +122,7 @@ c
 c-----------------------------------------------
       IAD = 0
       LEN = 5*NBBOX
-      MY_ALLOCATE(BUFTMP  ,LEN)
+      CALL MY_ALLOC(BUFTMP  ,LEN)
 c--------------------------------------------------
 c
       CALL READ_BOX_SPHER(
@@ -142,7 +142,7 @@ c
 c--------------------------------------------------
 c     Recherche des ID doubles
 c
-      MY_ALLOCATE (IBOXTMP  ,NBOX )
+      CALL MY_ALLOC (IBOXTMP  ,NBOX )
       IBOXTMP(1:NBOX) = IBOX(1:NBOX)%ID
       CALL UDOUBLE_IGR(IBOXTMP,NBOX,MESS,0,ZERO)
 c

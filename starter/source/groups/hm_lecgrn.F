@@ -68,6 +68,7 @@ C !!! WARNING due to issues on ibm plateform keep IBUFTMP at the last position
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
@@ -86,7 +87,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "sphcom.inc"
 #include      "sysunit.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -247,7 +247,7 @@ c          non sorted nodes
             IGRNOD(IGS)%NENTITY=NNOD
 ! may be allocated already (prelecgrns.F) if NUMELX > 0
             IF (.NOT. ALLOCATED(IGRNOD(IGS)%ENTITY)) 
-     .                MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+     .                CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
             IGRNOD(IGS)%GRPGRP=1
             MAXNNOD = MAX(NNOD,MAXNNOD)
           ELSE 
@@ -272,7 +272,7 @@ C         groupe de noeuds
             IGRNOD(IGS)%NENTITY=NNOD
 ! may be allocated already (prelecgrns.F) if NUMELX > 0
             IF( .NOT. ALLOCATED(IGRNOD(IGS)%ENTITY)) 
-     .                MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+     .                CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
             IGRNOD(IGS)%GRPGRP=1
             MAXNNOD = MAX(NNOD,MAXNNOD)
           ELSE
@@ -432,7 +432,7 @@ C---
                 IF (BUFTMP(J) == 1) NNOD = NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
               IGRNOD(IGS)%ENTITY=0
             ELSE
               DO J=1,NUMNOD
@@ -507,7 +507,7 @@ C---
             IADBOXMAX = MAX(IADBOX,IADBOXMAX)
             IF (FLAG == 0) THEN
               IGRNOD(IGS)%NENTITY=NNOD
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
               IGRNOD(IGS)%ENTITY = 0
             ELSEIF (FLAG == 1) THEN
               IGRNOD(IGS)%NENTITY=NNOD
@@ -555,7 +555,7 @@ C---
                 IF (BUFTMP(J+NPART) /= 0) NNOD=NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
               IGRNOD(IGS)%ENTITY=0
             ELSE
               DO J=1,NUMNOD
@@ -592,7 +592,7 @@ c
      .                        TITR1   ,LSUBMODEL  ,IGRNOD(IGS),NN     )
             IF (FLAG == 0) THEN
               IGRNOD(IGS)%NENTITY=NNOD
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
               IGRNOD(IGS)%ENTITY = 0
             ENDIF
           ENDIF
@@ -660,7 +660,7 @@ C---
                 IF (BUFTMP(J) /= 0) NNOD=NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
               IGRNOD(IGS)%ENTITY = 0
             ELSE
               DO J=1,NUMNOD
@@ -718,7 +718,7 @@ C---
                 IF (BUFTMP(J) == 1) NNOD=NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
               IGRNOD(IGS)%ENTITY=0
             ELSE
               DO J=1,NUMNOD
