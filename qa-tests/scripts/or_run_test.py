@@ -9,7 +9,7 @@ import subprocess
 
 ##### TO RUN THIS SCRIPT please define the following environement variables:
 # OMP_NUM_THREADS
-# OMP_NUM_PROC
+# QA_NB_PROC
 # LD_LIBRARY_PATH (incl hm reader lib and mpiexec lib path)
 # PATH (incl mpiexec path)
 # OMP_STACKSIZE
@@ -17,7 +17,7 @@ import subprocess
 # Optional : ASAN_OPTIONS
 
 ### AS an example:
-# export OMP_NUM_THREADS=2; export OMP_NUM_PROC=4; export LD_LIBRARY_PATH="/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/extlib/hm_reader/linux64:/opt/openmpi/lib:${LD_LIBRARY_PATH}"; export PATH=/opt/openmpi/bin:${PATH} export OMP_STACKSIZE="400m"; export RAD_CFG_PATH="/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/hm_cfg_files";
+# export OMP_NUM_THREADS=2; export QA_NB_PROC=4; export LD_LIBRARY_PATH="/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/extlib/hm_reader/linux64:/opt/openmpi/lib:${LD_LIBRARY_PATH}"; export PATH=/opt/openmpi/bin:${PATH} export OMP_STACKSIZE="400m"; export RAD_CFG_PATH="/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/hm_cfg_files"; export DISABLE_COPY_ENGINE_AT_STARTER_EXEC=1
 
 # ===========================================
 # Global variables definition
@@ -28,11 +28,6 @@ data_dir_name = 'data'
 mpirun = 'mpiexec'
 nbprocs = os.environ['QA_NB_PROC']
 
-# os.environ["RAD_CFG_PATH"] = "/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/hm_cfg_files"
-# os.environ["LD_LIBRARY_PATH"] = "/work/mquinzin/GIT_Workspaces/GITHUB/mquinzin/OpenRadioss/extlib/hm_reader/linux64:" + os.environ["LD_LIBRARY_PATH"]
-# os.environ["OMP_STACKSIZE"] = "400m"
-# os.environ["OMP_NUM_THREADS"] = "2"
-# os.environ["ASAN_OPTIONS"]='new_delete_type_mismatch=0:detect_leaks=0'"]
 # ===========================================
 # Functions definition
 # ===========================================
@@ -104,7 +99,7 @@ if __name__ == "__main__":
     input_files = read_input_file_datas()
 
     # Run starter
-    command_to_run = qa_scripts_dir + '/or_radioss.pl 0 ' + exec_dir + '/engine_linux64_gf_ompi ' + mpirun + ' -np ' + str(nbprocs) + ' ' + input_files['starter'] + ' -starter --fem_file_path=./ --full_test_id=1 --ignore_check_errors=0 last_go=1'
+    command_to_run = qa_scripts_dir + '/or_radioss.pl 0 ' + exec_dir + '/engine_linux64_gf_ompi ' + mpirun + ' -np ' + str(nbprocs) + ' ' + input_files['starter'] + ' -starter --ignore_check_errors=0 last_go=1'
     output, return_code = run_shell_command(command_to_run)
     print(output)
 
@@ -121,7 +116,7 @@ if __name__ == "__main__":
             print ("Compare " + str(cpt) + " vs " + str(nb_engine))
             if cpt == nb_engine:
                 last_go = 0
-            command_to_run = qa_scripts_dir + '/or_radioss.pl 0 ' + exec_dir + '/engine_linux64_gf_ompi ' + mpirun + ' -np ' + str(nbprocs) + ' ' + engine + ' -engine --fem_file_path=./ --full_test_id=1 --ignore_check_errors=0 last_go=' + str(last_go)
+            command_to_run = qa_scripts_dir + '/or_radioss.pl 0 ' + exec_dir + '/engine_linux64_gf_ompi ' + mpirun + ' -np ' + str(nbprocs) + ' ' + engine + ' -engine --ignore_check_errors=0 last_go=' + str(last_go)
             output, return_code = run_shell_command(command_to_run)
             print (output)
 

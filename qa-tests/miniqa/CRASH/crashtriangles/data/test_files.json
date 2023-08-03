@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "TRITUBV4_0000.rad",
+	"engines": ["TRITUBV4_0001.rad"]
+}

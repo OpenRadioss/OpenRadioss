@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "FILE_0000.rad",
+	"engines": ["FILE_0001.rad"]
+}

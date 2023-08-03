@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "CONV_ELS_0000.rad",
+	"engines": ["CONV_ELS_0001.rad"]
+}

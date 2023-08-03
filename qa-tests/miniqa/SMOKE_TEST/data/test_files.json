@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "TWISBEAM_0000.rad",
+	"engines": ["TWISBEAM_0001.rad"]
+}

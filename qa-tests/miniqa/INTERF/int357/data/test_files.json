@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "INT357_0000.rad",
+	"engines": ["INT357_0001.rad"]
+}

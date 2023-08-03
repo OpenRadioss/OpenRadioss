@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "mapSimple_0000.rad",
+	"engines": ["mapSimple_0001.rad"]
+}

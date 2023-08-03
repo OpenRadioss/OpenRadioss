@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "1ELEM_SAMP_0000.rad",
+	"engines": ["1ELEM_SAMP_0001.rad"]
+}

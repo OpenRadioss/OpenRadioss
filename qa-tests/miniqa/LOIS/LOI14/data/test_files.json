@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "LOI14_0000.rad",
+	"engines": ["LOI14_0001.rad"]
+}

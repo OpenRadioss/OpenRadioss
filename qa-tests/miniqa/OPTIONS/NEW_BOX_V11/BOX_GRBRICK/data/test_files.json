@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "FOAM_GRBRICK_0000.rad",
+	"engines": ["FOAM_GRBRICK_0001.rad"]
+}

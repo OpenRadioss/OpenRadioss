@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "M21AV31_0000.rad",
+	"engines": ["M21AV31_0001.rad"]
+}

@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "SPECT_SUB_0000.rad",
+	"engines": ["SPECT_SUB_0001.rad"]
+}

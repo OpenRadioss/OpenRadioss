@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "FFO25SCB_0000.rad",
+	"engines": ["FFO25SCB_0001.rad"]
+}

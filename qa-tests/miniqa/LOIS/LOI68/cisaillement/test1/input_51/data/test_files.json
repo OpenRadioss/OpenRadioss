@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "CISA12_0000.rad",
+	"engines": ["CISA12_0001.rad"]
+}

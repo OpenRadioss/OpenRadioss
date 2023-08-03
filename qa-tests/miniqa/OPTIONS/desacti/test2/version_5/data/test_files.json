@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "HYPE_0000.rad",
+	"engines": ["HYPE_0001.rad"]
+}

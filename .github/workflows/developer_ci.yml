@@ -190,6 +190,8 @@ jobs:
           export RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }}
           export OMP_NUM_THREADS=${{ env.QA_NB_THREAD }}
           export OMP_STACKSIZE=400m
+          # Not needed here, avoid to pass more unecesssary arguments to radioss.pl
+          export DISABLE_COPY_ENGINE_AT_STARTER_EXEC=1
           # Might be used for debugging
           # export ASAN_OPTIONS='new_delete_type_mismatch=0:detect_leaks=0'
 

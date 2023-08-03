@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "DAMPC_0000.rad",
+	"engines": ["DAMPC_0001.rad"]
+}

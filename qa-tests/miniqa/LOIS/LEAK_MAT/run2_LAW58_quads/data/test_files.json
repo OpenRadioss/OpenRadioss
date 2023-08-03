@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "RBPLI_0000.rad",
+	"engines": ["RBPLI_0001.rad"]
+}

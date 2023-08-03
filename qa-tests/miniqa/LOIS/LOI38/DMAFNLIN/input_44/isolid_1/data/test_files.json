@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "DMAFNLIN_0000.rad",
+	"engines": ["DMAFNLIN_0001.rad"]
+}

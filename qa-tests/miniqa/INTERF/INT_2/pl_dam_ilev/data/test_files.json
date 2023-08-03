@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "PLREG41B_0000.rad",
+	"engines": ["PLREG41B_0001.rad"]
+}

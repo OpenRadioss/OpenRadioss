@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "THFRAME_0000.rad",
+	"engines": ["THFRAME_0001.rad"]
+}

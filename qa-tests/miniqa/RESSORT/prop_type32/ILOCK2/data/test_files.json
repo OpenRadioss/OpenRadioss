@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "SPR_PRE_2FLAG_0000.rad",
+	"engines": ["SPR_PRE_2FLAG_0001.rad"]
+}

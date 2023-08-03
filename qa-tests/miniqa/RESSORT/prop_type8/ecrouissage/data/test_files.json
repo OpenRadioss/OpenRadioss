@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "TYPE8H1_0000.rad",
+	"engines": ["TYPE8H1_0001.rad"]
+}

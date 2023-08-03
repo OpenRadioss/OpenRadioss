@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "B_POKE_9_0000.rad",
+	"engines": ["B_POKE_9_0001.rad"]
+}

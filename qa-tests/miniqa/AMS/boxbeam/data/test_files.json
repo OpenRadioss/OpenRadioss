@@ -1,0 +1,5 @@
+{
+	"enabled": 1,
+	"starter": "BOXBEAM_0000.rad",
+	"engines": ["BOXBEAM_0001.rad"]
+}
