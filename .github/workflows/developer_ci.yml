@@ -186,9 +186,8 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
           source ${{ env.homeuser }}/.bashrc
-          mypwd=$(pwd)
-          export LD_LIBRARY_PATH=${mypwd}/${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
-          export RAD_CFG_PATH==${mypwd}/${{ env.hm_reader_cfgfiles }}
+          export LD_LIBRARY_PATH=$(pwd)/${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
+          export RAD_CFG_PATH==$(pwd)/${{ env.hm_reader_cfgfiles }}
           export OMP_NUM_THREADS=${{ env.QA_NB_THREAD }}
           export OMP_STACKSIZE=400m
           # Not needed here, avoid to pass more unecesssary arguments to radioss.pl
