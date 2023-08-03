@@ -100,7 +100,7 @@ C-----------------------------------------------
         !                              the ALE elements)
         !   INT18_GLOBAL_LIST --> true if /INT18 + LAW151 for the NIN interface
         MULTI_FVM%INT18_GLOBAL_LIST(1:NINTER) = .FALSE.
-        MY_ALLOCATE(TAG,NUMELS)
+        ALLOCATE(TAG(NUMELS))
         TAG(1:NUMELS)=.FALSE.
         IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
             DO N=1,MULTI_FVM%NUMBER_INT18

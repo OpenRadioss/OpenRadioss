@@ -329,6 +329,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
 C-----------------------------------------------
@@ -353,7 +354,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -450,7 +450,7 @@ C--------------------------------------------------------------------
            ALLOCATE( NBR_INSERT_II(NRTM) )
            ALLOCATE( KREMNODE_EDG_SAVE(NRTM+1) )
            SIZE_INSERTED_EDG = MAX_INSERTED_EDG*IPARI(62,N)
-           MY_ALLOCATE(INSERTED_EDG,SIZE_INSERTED_EDG) 
+           CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG) 
            TAGD_EDG(1:NEDGE)=0
            KREMNODE_EDG_SAVE(1:NRTM+1) = 0
            NBR_INSERT_II(1:NRTM) = 0
@@ -559,7 +559,7 @@ C---------
              SIZE_INSERTED_EDG =  8 * NEDGE
           ENDIF
 C
-          MY_ALLOCATE(INSERTED_EDG,SIZE_INSERTED_EDG) 
+          CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG) 
 
           DO II=1,NEDGE
             NNREM_EDG_SAVE = NNREM_EDG
@@ -579,7 +579,7 @@ C
 C extend INSERTED_EDG if needed
                OLDSIZE = SIZE_INSERTED_EDG
                SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG*MAX_INSERTED_I2)
-               MY_ALLOCATE(TMP_EDG,SIZE_INSERTED_EDG)
+               CALL MY_ALLOC(TMP_EDG,SIZE_INSERTED_EDG)
                TMP_EDG(1:OLDSIZE) = INSERTED_EDG(1:OLDSIZE)
 !              move_alloc deallocates TMP
                CALL MOVE_ALLOC(TMP_EDG,INSERTED_EDG)

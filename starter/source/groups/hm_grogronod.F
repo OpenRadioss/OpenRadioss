@@ -42,6 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -55,7 +56,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "my_allocate.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -165,7 +165,7 @@ C                  sorted group
               ENDIF                               
 C
               IGRNOD(IGS)%NENTITY = NEL
-              MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NEL)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NEL)
               IGRNOD(IGS)%ENTITY = 0
             ENDIF ! IF (SKIPFLAG == 0)
 C-----------                                             

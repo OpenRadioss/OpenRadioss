@@ -75,7 +75,7 @@ C
       my_real
      .   T0,DT0
 C-----------------------------------------------
-      MY_ALLOCATE( DYNAIN_DATA%IPART_DYNAIN,NPART)
+      ALLOCATE( DYNAIN_DATA%IPART_DYNAIN(NPART))
       DYNAIN_DATA%IPART_DYNAIN(1:NPART) = 0 
       IF (DYNAIN_DATA%NDYNAINPRT /= 0) THEN
      	  DO I=1,DYNAIN_DATA%NDYNAINPRT

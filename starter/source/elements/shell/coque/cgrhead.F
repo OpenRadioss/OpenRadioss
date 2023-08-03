@@ -63,6 +63,7 @@ C     ISHEOFF(NUMELC)   FLAG ELEM RBY ON/OFF                       E/S
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
       USE STACK_MOD
@@ -86,7 +87,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
 #include      "drape_c.inc"
-#include       "my_allocate.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -195,7 +195,7 @@ C
      .                           C1='XNUM_RNOISE')
       ENDIF
 C    
-      MY_ALLOCATE(INDEX2,NUMELC)
+      CALL MY_ALLOC(INDEX2,NUMELC)
 
       IF(NDRAPE > 0 .AND. NUMELC_DRAPE > 0) THEN
         DO I=1,NUMELC

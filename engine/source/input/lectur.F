@@ -117,6 +117,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE OUTPUT_MOD
       USE FXB_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -866,7 +867,7 @@ C-------------------------------------------
 C     STOP/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        MY_ALLOCATE (SENSORS%STOP,SENSORS%NSTOP)
+        ALLOCATE(SENSORS%STOP(SENSORS%NSTOP))
         SENSORS%STOP(:) = 0
       END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
@@ -893,7 +894,7 @@ C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        MY_ALLOCATE (SENSORS%STAT,SENSORS%NSTAT)
+        ALLOCATE(SENSORS%STAT(SENSORS%NSTAT))
         SENSORS%STAT(:) = 0
       END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
@@ -923,7 +924,7 @@ C-------------------------------------------
 C     OUTP/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        MY_ALLOCATE (SENSORS%OUTP,SENSORS%NOUTP)
+        ALLOCATE(SENSORS%OUTP(SENSORS%NOUTP))
         SENSORS%OUTP(:) = 0
       END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
@@ -1788,19 +1789,19 @@ C
            ENDDO
          ENDIF
          IF(NINEFRIC_STAMP==NINEFRICG) THEN
-            MY_ALLOCATE2D(EFRIC_STAMP,NINEFRICG,NUMNODG)
+            CALL MY_ALLOC(EFRIC_STAMP,NINEFRICG,NUMNODG)
             EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
-            MY_ALLOCATE2D(EFRIC,0,0)
+            CALL MY_ALLOC(EFRIC,0,0)
          ELSEIF(NINEFRIC_STAMP==0) THEN
             NINEFRIC = NINEFRICG
-            MY_ALLOCATE2D(EFRIC,NINEFRIC,NUMNOD)
+            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
             EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
-            MY_ALLOCATE2D(EFRIC_STAMP,0,0)
+            CALL MY_ALLOC(EFRIC_STAMP,0,0)
          ELSE
             NINEFRIC = NINEFRICG-NINEFRIC_STAMP
-            MY_ALLOCATE2D(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
+            CALL MY_ALLOC(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
             EFRIC_STAMP(1:NINEFRIC_STAMP,1:NUMNODG) = ZERO
-            MY_ALLOCATE2D(EFRIC,NINEFRIC,NUMNOD)
+            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
             EFRIC(1:NINEFRIC,1:NUMNOD) = ZERO
             NS = 0
             NN= 0
@@ -1816,8 +1817,8 @@ C
             ENDDO
          ENDIF
       ELSEIF(S_EFRICINT==0)THEN
-            MY_ALLOCATE2D(EFRIC,0,0)
-            MY_ALLOCATE2D(EFRIC_STAMP,0,0)
+            CALL MY_ALLOC(EFRIC,0,0)
+            CALL MY_ALLOC(EFRIC_STAMP,0,0)
       ENDIF
 C-----------------------------------
 

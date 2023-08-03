@@ -51,6 +51,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
       USE STACK_MOD
@@ -92,7 +93,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "r2r_c.inc"
 #include      "drape_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C
 C-----------------------------------------------
 C   S O U R C E   L I N E S
 C-----------------------------------------------
-      MY_ALLOCATE(INDEX2,NUMELTG)
+      CALL MY_ALLOC(INDEX2,NUMELTG)
       INDEX2(1:NUMELTG)=PERMUTATION%TRIANGLE(1:NUMELTG)
 
       IF(NADMESH /= 0)THEN

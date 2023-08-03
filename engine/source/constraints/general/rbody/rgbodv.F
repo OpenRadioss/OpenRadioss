@@ -257,8 +257,8 @@ C-----------------------------------------------
 C     Reaction forces and/or failure
 C       Note : At this stage, Freac contains Fint+Fext+Fcont (Freac has not been finalized yet)
 C-----------------------------------------------
-      MY_ALLOCATE2D(R ,3,NSN)
-      MY_ALLOCATE2D(RR,3,NSN)
+      ALLOCATE(R (3,NSN))
+      ALLOCATE(RR(3,NSN))
 C
       DO I=1,NSN
         N = NOD(I)

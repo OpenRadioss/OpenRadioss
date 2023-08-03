@@ -48,6 +48,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
@@ -70,7 +71,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "my_allocate.inc"
 #include      "submod_c.inc"
 #include      "tabsiz_c.inc"
 #include      "r2r_c.inc"
@@ -182,8 +182,8 @@ C
         INIVOL(IGS)%TITLE = TITR(1:LEN_TRIM(TITR))
         INIVOL(IGS)%NBCONTY=NLIN
         INIVOL(IGS)%IPARTFILL = IPARTFILL
-        MY_ALLOCATE(INIVOL(IGS)%CONTY,NLIN)
-        MY_ALLOCATE(INIVOL(IGS)%SURFCONTY,NLIN)
+        ALLOCATE(INIVOL(IGS)%CONTY(NLIN))
+        ALLOCATE(INIVOL(IGS)%SURFCONTY(NLIN))
 
         WRITE(IOUT, '(A)') "     surf_ID ALE_PHASE FILL_OPT ICUMU          FILL_RATIO"
         DO KK=1,NLIN

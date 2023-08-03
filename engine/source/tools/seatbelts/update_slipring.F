@@ -100,10 +100,10 @@ C         Check of rbody status
             ENDIF
           ENDIF   
         ENDDO
-        MY_ALLOCATE(TAG_NOD,NUMNOD)
-        MY_ALLOCATE(CORES_SLIP,S_SLIPRING)
-        MY_ALLOCATE(CORES_FRAM,S_SLIPRING)
-        MY_ALLOCATE(CORES_RET,NRETRACTOR)
+        ALLOCATE(TAG_NOD(NUMNOD))
+        ALLOCATE(CORES_SLIP(S_SLIPRING))
+        ALLOCATE(CORES_FRAM(S_SLIPRING))
+        ALLOCATE(CORES_RET(NRETRACTOR))
       ENDIF
 C
 C----------------------------------------------------------

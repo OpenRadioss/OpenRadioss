@@ -55,7 +55,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M y  A l l o c a t e                         
 C-----------------------------------------------
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1138,7 +1137,7 @@ C----------to be cleaned later
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_ISPT2
-        MY_ALLOCATE(INTBUF_TAB(NI)%ISPT2,SIZ)
+        ALLOCATE(INTBUF_TAB(NI)%ISPT2(SIZ))
         IF(SIZ>0)THEN
           CALL READ_I_C(INTBUF_TAB(NI)%ISPT2,SIZ)
         ENDIF

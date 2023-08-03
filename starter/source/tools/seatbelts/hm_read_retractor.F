@@ -48,6 +48,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE UNITAB_MOD
       USE SEATBELT_MOD
@@ -68,7 +69,6 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "random_c.inc"
 #include      "tabsiz_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -104,7 +104,7 @@ C
 C
         WRITE(IOUT,1000)
 C
-        MY_ALLOCATE (RETRACTOR,NRETRACTOR)
+        ALLOCATE(RETRACTOR(NRETRACTOR))
         DO I=1,NRETRACTOR
           RETRACTOR(I)%ID = 0
           RETRACTOR(I)%IDG = 0

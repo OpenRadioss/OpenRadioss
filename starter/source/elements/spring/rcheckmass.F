@@ -37,6 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -48,7 +49,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -72,10 +72,10 @@ C     REAL
 C-----------------------------------------------------
 C     Check for springs with stiffness but no mass
 C-----------------------------------------------------
-      MY_ALLOCATE(INDEX,2*NUMELR)
-      MY_ALLOCATE(ITRI ,NUMELR)
+      CALL MY_ALLOC(INDEX,2*NUMELR)
+      CALL MY_ALLOC(ITRI ,NUMELR)
 C
-      MY_ALLOCATE(TAGSLV,NUMNOD)
+      CALL MY_ALLOC(TAGSLV,NUMNOD)
       TAGSLV(1:NUMNOD)=0
       DO N=1,NRBYKIN
         M  =NPBY(1,N)

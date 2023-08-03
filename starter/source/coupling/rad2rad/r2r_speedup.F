@@ -42,6 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
 C-----------------------------------------------
@@ -164,6 +165,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE R2R_MOD
       USE INOUTFILE_MOD
       USE MESSAGE_MOD
@@ -178,7 +180,6 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "scr15_c.inc"
 #include      "sphcom.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -208,7 +209,7 @@ C
       DTFAC1(:) = DTFAC
       NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
      .      +NUMELX+NUMSPH+NUMELIG3D
-      MY_ALLOCATE( PERM,NUMEL+1)
+      CALL MY_ALLOC( PERM,NUMEL+1)
   
 C-----------------------------------------------
 C     Computation of index in dtelem for each type of elements

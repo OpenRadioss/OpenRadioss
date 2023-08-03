@@ -71,7 +71,7 @@ C     REAL
 C-----------------------------------------------
 !$OMP SINGLE
        IF(NRBFAIL /= 0 .AND. NSPMD > 1)THEN
-         MY_ALLOCATE(CRIT,NRBYKIN)
+         ALLOCATE(CRIT(NRBYKIN))
          CRIT(1:NRBYKIN) = ZERO
        ELSE
          ALLOCATE(CRIT(0))

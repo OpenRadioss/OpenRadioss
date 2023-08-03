@@ -154,8 +154,8 @@ C------Cas SMP initialization---------------c
        ALLOCATE(TYPLNK(NR2RLNK),RBYLNK(NR2RLNK),KINLNK(NR2RLNK))
        ALLOCATE(ADD_RBY(NR2RLNK))              
        ALLOCATE(SOCKET(NTHREAD))
-       MY_ALLOCATE(NLLNK,NR2RLNK)
-       MY_ALLOCATE(NBDOF_NL,NR2RLNK)
+       ALLOCATE(NLLNK(NR2RLNK))
+       ALLOCATE(NBDOF_NL(NR2RLNK))
        NBDOF_NL(1:NR2RLNK) = 0
 C
        DO I = 1, ROOTLEN
@@ -250,7 +250,7 @@ C-------- Coupling of non local dof
           IDXI => NLOC_DMG%IDXI(1:NUMNOD)
           POSI => NLOC_DMG%POSI(1:NLOC_DMG%NNOD+1)
           COMPT = 0
-          MY_ALLOCATE(NDOF_NL,NNG)
+          ALLOCATE(NDOF_NL(NNG))
           DO I=1,NNG
             NN = IDXI(GRNOD(I))
             NDOF_NL(I) = POSI(NN+1)-POSI(NN)
@@ -379,7 +379,7 @@ C------Allocation of common arrays
        ALLOCATE(DBNO(NR2RLNK),TCNELT(NR2RLNK),NBELT_R2R(NR2RLNK))
        ALLOCATE(TCNELTDB(NR2RLNK),OFFSET(NSPMD),NBELTN_R2R(NR2RLNK))     
        ALLOCATE(RBYLNK(NR2RLNK),ADD_RBY(NR2RLNK),KINLNK(NR2RLNK))
-       MY_ALLOCATE(NLLNK,NR2RLNK)        
+       ALLOCATE(NLLNK(NR2RLNK))        
 C--------------------------------------- 
                     
        DO I = 1, ROOTLEN

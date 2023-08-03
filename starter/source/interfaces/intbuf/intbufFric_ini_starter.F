@@ -32,6 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD                     
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -45,7 +46,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M y  A l l o c a t e                         
 C----------------------------------------------- 
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,23 +73,23 @@ C=======================================================================
 c       ALLOCATIONS
 C=======================================================================
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC,NSET) 
+          CALL MY_ALLOC(INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC,NSET) 
           INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC(1:NSET) = 0 
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC,S_TABPARTS_FRIC) 
+          CALL MY_ALLOC(INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC,S_TABPARTS_FRIC) 
           INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC(1:S_TABPARTS_FRIC) = 0 
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC,S_TABPARTS_FRIC+1) 
+          CALL MY_ALLOC(INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC,S_TABPARTS_FRIC+1) 
           INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC(1:S_TABPARTS_FRIC+1) = 0 
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%IFRICORTH,NSET) 
+          CALL MY_ALLOC(INTBUF_FRIC_TAB(NINF)%IFRICORTH,NSET) 
           INTBUF_FRIC_TAB(NINF)%IFRICORTH(1:NSET) = 0 
 
           IF (IORTH == 0 ) THEN
-             MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC*(NSET+1)) 
+             CALL MY_ALLOC(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC*(NSET+1)) 
               INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC(1:LENC*(NSET+1)) = ZERO 
           ELSE
-             MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC+2*LENC*NSET) 
+             CALL MY_ALLOC(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC+2*LENC*NSET) 
               INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC(1:2*LENC*NSET+LENC) = ZERO 
           ENDIF
 
@@ -114,6 +114,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD                     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -192,6 +193,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD                     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -60,6 +60,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE RESTMOD
       USE R2R_MOD
       USE MESSAGE_MOD
@@ -88,7 +89,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "sphcom.inc"
 #include      "r2r_c.inc"
-#include      "my_allocate.inc"
 #include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -432,7 +432,7 @@ C
 C---------------Tag of nodes with nlocal dof-------------------------C
           IF (NLOC_DMG%IMOD > 0) THEN
             NN = 5
-            MY_ALLOCATE(TAG_NLOCAL,NUMNOD)
+            CALL MY_ALLOC(TAG_NLOCAL,NUMNOD)
             TAG_NLOCAL(1:NUMNOD) = 0
             CALL TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,
      .                         IXS16,TAG_NLOCAL,IPM)

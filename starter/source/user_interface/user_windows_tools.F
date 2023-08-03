@@ -53,6 +53,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE USER_WINDOWS_MOD
       USE USER_INTERFACE_MOD
@@ -61,7 +62,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -81,8 +81,8 @@ C-----------------------------------------------
       USERWI_ID = USER_WINDOWS%USER_WINDOWS_ID
       USER_WINDOWS%N_USERNODS = NUMBER_USERNODS
       
-      MY_ALLOCATE(USER_NDS,NUMBER_USERNODS)
-      MY_ALLOCATE(USER_WINDOWS%USERNODS,NUMBER_USERNODS)
+      CALL MY_ALLOC(USER_NDS,NUMBER_USERNODS)
+      CALL MY_ALLOC(USER_WINDOWS%USERNODS,NUMBER_USERNODS)
       
       !print*,'NUMBER_USERNODS=',NUMBER_USERNODS
       !print*,'USERNDS=',USERNODS(1:NUMBER_USERNODS)
@@ -94,9 +94,9 @@ C-----------------------------------------------
       ENDDO
 
       ! Sort Nodes
-      MY_ALLOCATE(WORK,70000)
-      MY_ALLOCATE(IDX,2*NUMBER_USERNODS)
-      MY_ALLOCATE(SORT,NUMBER_USERNODS)
+      CALL MY_ALLOC(WORK,70000)
+      CALL MY_ALLOC(IDX,2*NUMBER_USERNODS)
+      CALL MY_ALLOC(SORT,NUMBER_USERNODS)
       DO I=1,NUMBER_USERNODS
          IDX(I)=I
          SORT(I)=USER_NDS(I)
@@ -139,7 +139,8 @@ Chd|====================================================================
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------     
+C-----------------------------------------------
+      USE MY_ALLOC_MOD     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -200,13 +201,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE USER_WINDOWS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -235,8 +236,8 @@ C======================================================================|
          
            !  Send Index & Buffer
            ! ---------------------
-           MY_ALLOCATE(IAD_USERW,NSPMD+1)
-           MY_ALLOCATE(PLIST,NSPMD)
+           CALL MY_ALLOC(IAD_USERW,NSPMD+1)
+           CALL MY_ALLOC(PLIST,NSPMD)
            IAD_USERW(1:NSPMD+1)=0
 
            DO II=1,USER_WINDOWS%N_USERNODS
@@ -255,8 +256,8 @@ C======================================================================|
               IAD_USERW(NP)=IAD_USERW(NP) + IAD_USERW(NP-1)
            ENDDO
            SFR_USERWI_L = IAD_USERW(NSPMD+1)-1
-           MY_ALLOCATE(FR_USERWI_L,SFR_USERWI_L)
-           MY_ALLOCATE(IAD_USERW2,NSPMD+1)
+           CALL MY_ALLOC(FR_USERWI_L,SFR_USERWI_L)
+           CALL MY_ALLOC(IAD_USERW2,NSPMD+1)
            IAD_USERW2(1:NSPMD+1) = IAD_USERW(1:NSPMD+1)
 
            DO II=1,USER_WINDOWS%N_USERNODS
@@ -272,7 +273,7 @@ C======================================================================|
            
            !  UserNode LIST Transform
            ! -----------------------
-           MY_ALLOCATE(USERNODS_L,USER_WINDOWS%N_USERNODS)
+           CALL MY_ALLOC(USERNODS_L,USER_WINDOWS%N_USERNODS)
            DO I=1,USER_WINDOWS%N_USERNODS
                USERNODS_L(I) = NODLOCAL(USER_WINDOWS%USERNODS(I))
            ENDDO
@@ -306,7 +307,7 @@ C======================================================================|
            DEALLOCATE(DUM_SAV)
 
          ELSE                               ! Receive buffer from P=1
-           MY_ALLOCATE(FR_USERWI_L,USER_WINDOWS%N_USERNODS)
+           CALL MY_ALLOC(FR_USERWI_L,USER_WINDOWS%N_USERNODS)
            FR_USERWI_L(1:USER_WINDOWS%N_USERNODS)=0
            SFR_USERWI_L = 0
            DO II=1,USER_WINDOWS%N_USERNODS

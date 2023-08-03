@@ -113,7 +113,6 @@ c     read material parameter array
       
         NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
         ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM(NUPARAM))
-
         IF (NUPARAM > 0) THEN
           CALL READ_DB(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)
           LEN = LEN + NUPARAM

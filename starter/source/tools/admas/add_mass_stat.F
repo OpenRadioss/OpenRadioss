@@ -35,6 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -55,7 +56,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "scr18_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-------------------------------------------------------------------------------
 C     DUPLICATED FROM OUTRIN - STATS ON ADDED MASS + TARGET NODAL TIME STEP ESTIMATION
 C--------------------------------------------------------------------------------------
 C
-      MY_ALLOCATE(PERM,NUMNOD)
+      CALL MY_ALLOC(PERM,NUMNOD)
       MASS0_START = TOTMAS
       DTSCA = ZEP9
 C

@@ -39,6 +39,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_INICRACK(ITABM1   ,INICRACK ,UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE SUBMODEL_MOD
@@ -52,7 +53,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "my_allocate.inc"
 #include      "com_xfem1.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -108,9 +108,9 @@ C
         INICRACK(I)%NSEG  = NSEG
 C    
         ! Allocation of segment data structure
-        MY_ALLOCATE(INICRACK(I)%SEG,NSEG)
+        ALLOCATE(INICRACK(I)%SEG(NSEG))
         DO J = 1,NSEG
-          MY_ALLOCATE(INICRACK(I)%SEG(J)%NODES,2)
+          CALL MY_ALLOC(INICRACK(I)%SEG(J)%NODES,2)
         ENDDO
 C
         ! Filling the segment data structure

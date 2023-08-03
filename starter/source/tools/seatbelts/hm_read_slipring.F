@@ -50,6 +50,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE UNITAB_MOD
       USE SEATBELT_MOD
@@ -70,7 +71,6 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "random_c.inc"
 #include      "tabsiz_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -114,7 +114,7 @@ C
 C
         WRITE(IOUT,1000)
 C
-        MY_ALLOCATE (SLIPRING,NSLIPRING)
+        ALLOCATE(SLIPRING(NSLIPRING))
         DO I=1,NSLIPRING
           SLIPRING(I)%ID = 0
           SLIPRING(I)%IDG = 0
@@ -275,7 +275,7 @@ C--------   Initialisation of fram structure
 C
             NFRAM = 1
             SLIPRING(I)%NFRAM = 1
-            MY_ALLOCATE (SLIPRING(I)%FRAM,NFRAM)
+            ALLOCATE(SLIPRING(I)%FRAM(NFRAM))
 C
             DO J=1,NFRAM
               SLIPRING(I)%FRAM(J)%UPDATE = 0
@@ -451,7 +451,7 @@ C
 C--------   Initialisation of fram structure
 C
             SLIPRING(I)%NFRAM = NFRAM
-            MY_ALLOCATE (SLIPRING(I)%FRAM,NFRAM)
+            ALLOCATE(SLIPRING(I)%FRAM(NFRAM))
             DO J=1,NFRAM
               SLIPRING(I)%FRAM(J)%UPDATE = 0
               SLIPRING(I)%FRAM(J)%ANCHOR_NODE = 0
@@ -478,8 +478,8 @@ C
             ENDDO
 C
 C--------   Check of alignment of anchorage nodes
-            MY_ALLOCATE(DIST,NFRAM)
-            MY_ALLOCATE(JPERM,NFRAM)
+            CALL MY_ALLOC(DIST,NFRAM)
+            CALL MY_ALLOC(JPERM,NFRAM)
             JPERM(1:NFRAM) = 0
             N_FIRST = IGRNOD(GRN_LOC)%ENTITY(1)
             N_LAST = IGRNOD(GRN_LOC)%ENTITY(IGRNOD(GRN_LOC)%NENTITY)
@@ -521,13 +521,13 @@ C--------   Check of distance between anchorage nodes (sorting by distance to fi
 C
 C--------   Identification of node 2 for each frame
 C
-            MY_ALLOCATE(ELEM1_NOD,NFRAM)
-            MY_ALLOCATE(ELEM2_NOD,NFRAM)
-            MY_ALLOCATE(IPOS1_NOD,NFRAM)
-            MY_ALLOCATE(IPOS2_NOD,NFRAM)
-            MY_ALLOCATE(CORES1,NFRAM)
-            MY_ALLOCATE(CORES2,NFRAM)
-            MY_ALLOCATE(TAGNO,NUMNOD)
+            CALL MY_ALLOC(ELEM1_NOD,NFRAM)
+            CALL MY_ALLOC(ELEM2_NOD,NFRAM)
+            CALL MY_ALLOC(IPOS1_NOD,NFRAM)
+            CALL MY_ALLOC(IPOS2_NOD,NFRAM)
+            CALL MY_ALLOC(CORES1,NFRAM)
+            CALL MY_ALLOC(CORES2,NFRAM)
+            CALL MY_ALLOC(TAGNO,NUMNOD)
             CORES1(1:NFRAM) = 0
             CORES1(1:NFRAM) = 0
             IPOS1_NOD(1:NFRAM) = 0

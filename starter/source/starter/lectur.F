@@ -519,6 +519,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE DSGRAPH_MOD
       USE FVBAG_MOD
       USE RESTMOD
@@ -668,10 +669,10 @@ C-----------------------------------------------
 #include      "inigrav_c.inc"
 #include      "inter18.inc"
 #include      "inter22.inc"
-#include      "my_allocate.inc"
 #include      "eos.inc"
 #include      "ige3d_c.inc"
 #include      "random_c.inc"
+#include       "my_allocate.inc"
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -1220,43 +1221,43 @@ C     ALLOCATION TO REDUCE STACKSIZE
 C----------------------------------------------
 C INTEGER
       ALLOCATE(IWCONT(5*NUMNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IWCONT')
 
       ALLOCATE(IWCIN2(2*NUMNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IWCIN2')
 
 C
       ALLOCATE(IKINE1LAG(3*NUMNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IKINE1LAG')
         IKINE1LAG(1:3*NUMNOD)=0
 
       ALLOCATE(DSDOF(NUMNOD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DSDOF')
       DSDOF(1:NUMNOD)=0
 
       ALLOCATE( ADDCNE(0:NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ADDCNE')
 C ADDCNE_PXFEM needed when IPLYXFEM used
       ALLOCATE(ADDCNE_PXFEM(0:NUMNOD +1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='ADDCNE_PXFEM')
 C
-      IF (NFXBODY>0) THEN
+      IF(NFXBODY>0) THEN
         NBIPM = 45
         ALLOCATE(FXBTAG(NUMNOD),FXBIPM(NBIPM*NFXBODY),STAT=stat)
         FXBIPM(1:NBIPM*NFXBODY) = ZERO
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='FXBTAG')
         ! Table of FXBODY file name for QAPRINT
@@ -1264,47 +1265,47 @@ C
       ELSE
         NBIPM = 1
         ALLOCATE(FXBTAG(1),FXBIPM(1),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='FXBTAG')
         ALLOCATE(FXBFILE_TAB(0))
       ENDIF
 C
       ALLOCATE(ISOLNOD(NUMELS),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ISOLNOD')
       ALLOCATE(ISOLOFF(NUMELS),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ISOLOFF')
       ALLOCATE(ISHEOFF(NUMELC),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ISHEOFF')
       ALLOCATE(ITRUOFF(NUMELT),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ITRUOFF')
       ALLOCATE(IPOUOFF(NUMELP),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IPOUOFF')
       ALLOCATE(IRESOFF(NUMELR),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IRESOFF')
       ALLOCATE(ITRIOFF(NUMELTG),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ITRIOFF')
       ALLOCATE(IGRNRBY(NRBODY),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IGRNRBY')
       IGRNRBY(1:NRBODY) = 0
       ALLOCATE(IQUAOFF(NUMELQ),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IQUAOFF')
 C Float
@@ -1313,12 +1314,12 @@ C     ALLOC TABLES INTEGER IGEO et IPM
 C----------------------------------------------
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
-      ALLOCATE (IGEO(LEN_G),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IGEO(LEN_G),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IGEO')
-      ALLOCATE (IPM (LEN_M),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IPM (LEN_M),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IPM')
       IGEO = 0
@@ -1328,8 +1329,8 @@ C      ALLOC DDWEIGHTS ARRAY FROM MODULE
 C----------------------------------------------
       CALL INIT_MAT_WEIGHT(NUMMAT)
 C----------------------------------------------
-      ALLOCATE (IPART_STATE(NPART),STAT=stat)
-      IF (STAT /= 0) THEN
+      ALLOCATE(IPART_STATE(NPART),STAT=stat)
+      IF(STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='IPART_STATE')
       ELSE
@@ -1377,7 +1378,7 @@ C----------------------------------------------
       IENTRY2(1:NUMNOD) = -1
       FLAGKIN(1:NUMNOD) = 0
 
-c      IF (FLAG_GOTO == 1) GOTO 207 !!go to traitement rad2rad
+c      IF(FLAG_GOTO == 1) GOTO 207 !!go to traitement rad2rad
 C--------------------------------------------
 C     CALCUL ISECUT
 C--------------------------------------------
@@ -1401,19 +1402,19 @@ C--------------------------------------------
       SMS = NUMNOD
       SPINCH= NPINCH
       SIN = NUMNOD*MAX(IRODDL,IRODDL0)
-      IF (ISECUT>0 .OR. ISUB>0 .OR. MSHSUB>0 .OR. IISROT>0 .OR.
+      IF(ISECUT>0 .OR. ISUB>0 .OR. MSHSUB>0 .OR. IISROT>0 .OR.
      .   IMPOSE_DR>0 .OR. IDROT == 1) THEN
         SDR = 3*NUMNOD*MAX(IRODDL,IRODDL0)
       ELSE
         SDR = 0
       ENDIF
-      IF (FLAG_GOTO == 1) GOTO 258
+      IF(FLAG_GOTO == 1) GOTO 258
 C--------------------------------------------
-      IF (NDAMP > 0) THEN
+      IF(NDAMP > 0) THEN
         SDAMPR = NRDAMP*NDAMP
         SDAMP  = 3*(1+MAX(IRODDL,IRODDL0))*NUMNOD
-        ALLOCATE (DAMPR(SDAMPR+SDAMP)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(DAMPR(SDAMPR+SDAMP)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DAMPR')
         DAMP  => DAMPR(SDAMPR+1:SDAMPR+SDAMP)
@@ -1421,73 +1422,73 @@ C--------------------------------------------
       ELSE
         SDAMPR = 0
         SDAMP  = 0
-        ALLOCATE (DAMPR(SDAMPR)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(DAMPR(SDAMPR)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DAMPR')
-        ALLOCATE (DAMP(SDAMP)       ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(DAMP(SDAMP)       ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DAMP')
       ENDIF
-      ALLOCATE (X(SX)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(X(SX)       ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='X')
-      ALLOCATE (D(SD)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(D(SD)       ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='D')
-      ALLOCATE (V(SV)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(V(SV)       ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='V')
-      ALLOCATE (VR(SVR)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(VR(SVR)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='VR')
-      ALLOCATE (DR(SDR)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(DR(SDR)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR)
-      ALLOCATE (THKE(STHKE) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(THKE(STHKE) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='THKE')
-      ALLOCATE (MS(SMS)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(MS(SMS)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MS')
-      ALLOCATE (IN(SIN)     ,STAT=stat)
-      ALLOCATE (XYZREF(SX)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IN(SIN)     ,STAT=stat)
+      ALLOCATE(XYZREF(SX)       ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='XYZREF')
-      ALLOCATE (SH4ANG(NUMELC) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(SH4ANG(NUMELC) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='SH4ANG')
-      ALLOCATE (SH3ANG(NUMELTG) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(SH3ANG(NUMELTG) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='SH3ANG')
-      IF (NUMNOD > 0) THEN
+      IF(NUMNOD > 0) THEN
         X  = 0
         D  = 0
         V  = 0
         MS = 0
       ENDIF
-      IF (SVR > 0) VR = 0
-      IF (SDR > 0) DR = 0
-      IF (SIN > 0) IN = 0
+      IF(SVR > 0) VR = 0
+      IF(SDR > 0) DR = 0
+      IF(SIN > 0) IN = 0
 C--------------------------------------------
-258   IF (NUMELC<STHKE) THEN
+258   IF(NUMELC<STHKE) THEN
         THKEC => THKE(NUMELC+1:STHKE)
       ELSE
         THKEC => THKE
       END IF
-      IF (STHKE > 0) THKE = 0
-      IF (NUMELC > 0) SH4ANG = 0
-      IF (NUMELTG > 0) SH3ANG = 0
+      IF(STHKE > 0) THKE = 0
+      IF(NUMELC > 0) SH4ANG = 0
+      IF(NUMELTG > 0) SH3ANG = 0
 c
       CALL NBFUNCT(NFUNCT,NTABLE,NPTS,LSUBMODEL)
 C--------------------------------------------
@@ -1548,155 +1549,155 @@ c
       SNOM_OPT = SNOM_OPT1*LNOPT1+1
       SINOM_OPT= 33
       SNOM_SECT= ncharline*NSECT
-      IF (FLAG_GOTO==1) GOTO 209
+      IF(FLAG_GOTO==1) GOTO 209
 C
 C---  Allocations
-      ALLOCATE (ICODE(SICODE)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ICODE(SICODE)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ICODE')
-      ALLOCATE (LSHSUB(SLSHSUB)   ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(LSHSUB(SLSHSUB)   ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='LSHSUB')
-      ALLOCATE (ISKEW(SISKEW)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ISKEW(SISKEW)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ISKEW')
-      ALLOCATE (ISKWN(SISKWN)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ISKWN(SISKWN)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ISKWN')
-      ALLOCATE (IBCSLAG(SIBCSLAG) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IBCSLAG(SIBCSLAG) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IBCSLAG')
-      ALLOCATE (IPART(SIPART)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IPART(SIPART)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IPART')
-      ALLOCATE (NPC (SNPC)        ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(NPC (SNPC)        ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NPC')
-      ALLOCATE (IXTG(SIXTG)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXTG(SIXTG)       ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXTG')
-      ALLOCATE (IXS(SIXS)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXS(SIXS)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXS')
-      ALLOCATE (IXQ(SIXQ)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXQ(SIXQ)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXQ')
-      ALLOCATE (IXC(SIXC)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXC(SIXC)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXC')
-      ALLOCATE (IXT(SIXT)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXT(SIXT)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXT')
-      ALLOCATE (IXP(SIXP)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXP(SIXP)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXP')
-      ALLOCATE (IXR(SIXR)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXR(SIXR)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXR')
-      ALLOCATE (ITAB(SITAB)       ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ITAB(SITAB)       ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ITAB')
-      ALLOCATE (ITABM1(SITABM1)   ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ITABM1(SITABM1)   ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ITABM1')
-      ALLOCATE (GJBUFI(SGJBUFI)   ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(GJBUFI(SGJBUFI)   ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='GJBUFI')
-      ALLOCATE (LACCELM(SLACCELM) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(LACCELM(SLACCELM) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='LACCELM')
 
-      ALLOCATE (NOM_OPT(SNOM_OPT) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(NOM_OPT(SNOM_OPT) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOM_OPT')
-      ALLOCATE (INOM_OPT(0:SINOM_OPT) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(INOM_OPT(0:SINOM_OPT) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='INOM_OPT')
-      ALLOCATE (NOM_SECT(SNOM_SECT) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(NOM_SECT(SNOM_SECT) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOM_SECT')
-      ALLOCATE (IXR_KJ(5*(NUMELR+1)) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IXR_KJ(5*(NUMELR+1)) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXR_KJ')
-      ALLOCATE (IWORKSH(3,NUMELC+NUMELTG)         ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IWORKSH(3,NUMELC+NUMELTG)         ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXC')
-      IF (NUMELIG3D > 0) THEN
-        ALLOCATE (WIGE(NUMNOD) ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(NUMELIG3D > 0) THEN
+        ALLOCATE(WIGE(NUMNOD) ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                           C1='WIGE')
         DEG_MAX=0
       ELSE
-        ALLOCATE (WIGE(0) ,STAT=stat)
+        ALLOCATE(WIGE(0) ,STAT=stat)
       ENDIF
-      ALLOCATE (R_SKEW(NUMELR) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(R_SKEW(NUMELR) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='R_SKEW')
 C
 C --- Initialisations
-      IF (SICODE > 0) ICODE   = 0
-      IF (SLSHSUB > 0) LSHSUB  = 0
-      IF (SISKEW > 0) ISKEW   = 0
-      IF (SISKWN > 0) ISKWN   = 0
-      IF (SIBCSLAG > 0) IBCSLAG = 0
-      IF (SIPART > 0) IPART   = 0
-      IF (SNPC > 0) NPC     = 0
-      IF (SITAB > 0) ITAB    = 0
-      IF (SITABM1 > 0) ITABM1  = 0
-      IF (SGJBUFI > 0) GJBUFI  = 0
-      IF (SLACCELM > 0) LACCELM = 0
-      IF (SNOM_OPT > 0) NOM_OPT = 0
-      IF (SINOM_OPT > 0) INOM_OPT = 0
-      IF (NUMELR > 0) IXR_KJ = 0
+      IF(SICODE > 0) ICODE   = 0
+      IF(SLSHSUB > 0) LSHSUB  = 0
+      IF(SISKEW > 0) ISKEW   = 0
+      IF(SISKWN > 0) ISKWN   = 0
+      IF(SIBCSLAG > 0) IBCSLAG = 0
+      IF(SIPART > 0) IPART   = 0
+      IF(SNPC > 0) NPC     = 0
+      IF(SITAB > 0) ITAB    = 0
+      IF(SITABM1 > 0) ITABM1  = 0
+      IF(SGJBUFI > 0) GJBUFI  = 0
+      IF(SLACCELM > 0) LACCELM = 0
+      IF(SNOM_OPT > 0) NOM_OPT = 0
+      IF(SINOM_OPT > 0) INOM_OPT = 0
+      IF(NUMELR > 0) IXR_KJ = 0
       IF(NUMELC+NUMELTG > 0) IWORKSH = 0
-      IF (NUMELR > 0) R_SKEW = 0
+      IF(NUMELR > 0) R_SKEW = 0
 C
 C---  Pointeurs : sous-tableaux
-      IF (SISKWN-SIFRAME<SISKWN) THEN
+      IF(SISKWN-SIFRAME<SISKWN) THEN
       IFRAME => ISKWN(SISKWN-SIFRAME+1:SISKWN)
       ELSE
         IFRAME => ISKWN
       END IF
 !--- NEW DATA STRUCTE ALLOCATION FOR GROUPS OF ENTITIES
-      MY_ALLOCATE(SUBSETS,NSUBS)
+      ALLOCATE(SUBSETS(NSUBS))
       SUBSETS(1:NSUBS)%ID=0
-      MY_ALLOCATE(IGRNOD,NGRNOD+NSETS)
-      MY_ALLOCATE(IGRBRIC,NGRBRIC+NSETS)
-      MY_ALLOCATE(IGRQUAD,NGRQUAD+NSETS)
-      MY_ALLOCATE(IGRSH4N,NGRSHEL+NSETS)
-      MY_ALLOCATE(IGRSH3N,NGRSH3N+2*NSETS)
-      MY_ALLOCATE(IGRTRUSS,NGRTRUS+NSETS)
-      MY_ALLOCATE(IGRBEAM,NGRBEAM+NSETS)
-      MY_ALLOCATE(IGRSPRING,NGRSPRI+NSETS)
-      MY_ALLOCATE(IGRPART,NGRPART+NSETS)
-      MY_ALLOCATE(IGRSURF,NSURF+NSETS)
-      MY_ALLOCATE2D(IGRSURF_PROC,NSURF+NSETS,NSPMD)
-      MY_ALLOCATE(IGRSLIN,NSLIN+NSETS)
+      ALLOCATE(IGRNOD(NGRNOD+NSETS))
+      ALLOCATE(IGRBRIC(NGRBRIC+NSETS))
+      ALLOCATE(IGRQUAD(NGRQUAD+NSETS))
+      ALLOCATE(IGRSH4N(NGRSHEL+NSETS))
+      ALLOCATE(IGRSH3N(NGRSH3N+2*NSETS))
+      ALLOCATE(IGRTRUSS(NGRTRUS+NSETS))
+      ALLOCATE(IGRBEAM(NGRBEAM+NSETS))
+      ALLOCATE(IGRSPRING(NGRSPRI+NSETS))
+      ALLOCATE(IGRPART(NGRPART+NSETS))
+      ALLOCATE(IGRSURF(NSURF+NSETS))
+      ALLOCATE(IGRSURF_PROC(NSURF+NSETS,NSPMD))
+      ALLOCATE(IGRSLIN(NSLIN+NSETS))
       IGRNOD(1:NGRNOD+NSETS)%NENTITY = 0
       IGRBRIC(1:NGRBRIC+NSETS)%NENTITY = 0
       IGRQUAD(1:NGRQUAD+NSETS)%NENTITY = 0
@@ -1726,7 +1727,7 @@ C---  Pointeurs : sous-tableaux
       IGRSURF(1:NSURF+NSETS)%NSEG_R2R_ALL = 0
       IGRSURF(1:NSURF+NSETS)%NSEG_R2R_SHARE = 0
 !--
-!      IF (NBOX > 0)    MY_ALLOCATE(IGRBOX,NBOX)
+!      IF(NBOX > 0)    CALL MY_ALLOC(IGRBOX,NBOX)
 C     ipart
 216   L0 = SIPART0
       L1 = L0 + SIPARTTH
@@ -1741,83 +1742,83 @@ C     ipart
       L10= L9 + SIPARTX
       L11= L10+ SIPARTSP
       L12= L11+ SIPARTIG3D
-      IF (L1>L0) THEN
+      IF(L1>L0) THEN
       IPARTTH => IPART(L0+1:L1)
       ELSE
         IPARTTH => IPART
       END IF
-      IF (L2>L1) THEN
+      IF(L2>L1) THEN
       IPARTS => IPART(L1+1:L2)
       ELSE
         IPARTS => IPART
       END IF
-      IF (L3>L2) THEN
+      IF(L3>L2) THEN
       IPARTQ => IPART(L2+1:L3)
       ELSE
         IPARTQ => IPART
       END IF
-      IF (L4>L3) THEN
+      IF(L4>L3) THEN
       IPARTC => IPART(L3+1:L4)
       ELSE
         IPARTC => IPART
       END IF
-      IF (L5>L4) THEN
+      IF(L5>L4) THEN
       IPARTT => IPART(L4+1:L5)
       ELSE
         IPARTT => IPART
       END IF
-      IF (L6>L5) THEN
+      IF(L6>L5) THEN
       IPARTP => IPART(L5+1:L6)
       ELSE
         IPARTP => IPART
       END IF
-      IF (L7>L6) THEN
+      IF(L7>L6) THEN
       IPARTR => IPART(L6+1:L7)
       ELSE
         IPARTR => IPART
       END IF
-      IF (L9>L8) THEN
+      IF(L9>L8) THEN
       IPARTG => IPART(L8+1:L9)
       ELSE
         IPARTG => IPART
       END IF
-      IF (L10>L9) THEN
+      IF(L10>L9) THEN
       IPARTX => IPART(L9+1:L10)
       ELSE
         IPARTX => IPART
       END IF
-      IF (L11>L10) THEN
+      IF(L11>L10) THEN
       IPARTSP=> IPART(L10+1:L11)
       ELSE
         IPARTSP => IPART
       END IF
-      IF (L12>L11) THEN
+      IF(L12>L11) THEN
       IPARTIG3D=> IPART(L11+1:L12)
       ELSE
         IPARTIG3D => IPART
       END IF
-      IF (FLAG_GOTO==1) GOTO 217
+      IF(FLAG_GOTO==1) GOTO 217
 c
-      IF (NFUNCT+2<=SNPC-NFUNCT) THEN
+      IF(NFUNCT+2<=SNPC-NFUNCT) THEN
         NPC1   => NPC(NFUNCT+2:SNPC-NFUNCT)
       ELSE
         NPC1   => NPC
       END IF
 
-212      IF (SIXS0+SIXS10>SIXS0) THEN
+212      IF(SIXS0+SIXS10>SIXS0) THEN
       IXS10  => IXS(SIXS0+1:SIXS0+SIXS10)
       ELSE
 c        IXS10  => IXS
 c          NULLIFY(IXS10)
            ALLOCATE(IXS10(1))
       END IF
-      IF (SIXS0+SIXS10+SIXS20>SIXS0+SIXS10) THEN
+      IF(SIXS0+SIXS10+SIXS20>SIXS0+SIXS10) THEN
       IXS20  => IXS(SIXS0+SIXS10+1:SIXS0+SIXS10+SIXS20)
       ELSE
 c        IXS20  => IXS
           ALLOCATE(IXS20(1))
       END IF
-      IF (SIXS>SIXS0+SIXS10+SIXS20) THEN
+      IF(SIXS>SIXS0+SIXS10+SIXS20) THEN
       IXS16  => IXS(SIXS0+SIXS10+SIXS20+1:SIXS)
       ELSE
 c        IXS16  => IXS
@@ -1828,7 +1829,7 @@ c         NULLIFY(IXS16)
       PIXS20 = MIN(SIXS,SIXS0+SIXS10+1       )
       PIXS16 = MIN(SIXS,SIXS0+SIXS10+SIXS20+1)
 
-      IF (FLAG_GOTO==1) GOTO 213
+      IF(FLAG_GOTO==1) GOTO 213
 C
 C     .. TO BE MAINTAINED (cf doc/inom_opt.txt) ..
 210   INOM_OPT(1) = NRBODY
@@ -1866,10 +1867,10 @@ C
       INOM_OPT(32)= INOM_OPT(31)+ NSLIPRING
       INOM_OPT(33)= INOM_OPT(32)+ NRETRACTOR
 C
-      IF (FLAG_GOTO==1) GOTO 211
+      IF(FLAG_GOTO==1) GOTO 211
 
       CALL ANODIN( NUMNOD)
-      IF (NPART==0) THEN
+      IF(NPART==0) THEN
         CALL APARTIN(NPART+1)
       ELSE
       CALL APARTIN(NPART)
@@ -1881,25 +1882,25 @@ C--------------------------------------------
       ERR_CATEGORY='FUNCTIONS & TABLES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
-      IF (NFUNCT > 0 .OR. NTABLE > 0) THEN
+      IF(NFUNCT > 0 .OR. NTABLE > 0) THEN
 C
 C NTABLE = NFUNCT + ...
         WRITE(ISTDO,'(A)')' .. FUNCTIONS & TABLES'
-        ALLOCATE (TABLE(NTABLE) ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(TABLE(NTABLE) ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='TABLE')
         CALL TABLE_ZERO(TABLE)
-        IF (NFUNCT > 0) THEN
+        IF(NFUNCT > 0) THEN
           ERR_MSG='FUNCTIONS'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-          ALLOCATE (TF(NPTS)        ,STAT=stat)
+          ALLOCATE(TF(NPTS)        ,STAT=stat)
           ALLOCATE(FUNCRYPT(NFUNCT) ,STAT=stat)
           FUNCRYPT = 0
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='TF')
-          IF (NPTS > 0) TF = 0
+          IF(NPTS > 0) TF = 0
           CALL HM_READ_FUNCT(NPC    ,TF     ,NFUNCT ,TABLE, NPTS,
      .                NOM_OPT(LNOPT1*INOM_OPT(20)+1) ,FUNCRYPT, UNITAB, LSUBMODEL)
           CALL TRACE_OUT1()
@@ -1910,7 +1911,7 @@ C       TABLES
         CALL HM_READ_TABLE1 (NTABLE, TABLE ,NFUNCT ,NPC ,TF ,
      .                NOM_OPT(LNOPT1*INOM_OPT(20)+1), UNITAB, LSUBMODEL)
         CALL CHKFUNCT (NFUNCT, NPC,NOM_OPT(LNOPT1*INOM_OPT(20)+1))
-        IF (NFUNCT > 0) THEN
+        IF(NFUNCT > 0) THEN
           CALL HM_READ_MOVE_FUNCT(NPC    ,TF     ,NFUNCT ,TABLE, NTABLE,FUNCRYPT, UNITAB, LSUBMODEL)
           DEALLOCATE(FUNCRYPT)
         END IF
@@ -1921,8 +1922,8 @@ C       TABLES
         ERR_MSG='TABLES 0'
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
         NPTS = 0
-        ALLOCATE (TF(NPTS) ,STAT=stat)
-        ALLOCATE (TABLE(0) ,STAT=stat)
+        ALLOCATE(TF(NPTS) ,STAT=stat)
+        ALLOCATE(TABLE(0) ,STAT=stat)
         CALL TRACE_OUT1()
       ENDIF
       STF =  NPTS
@@ -1931,7 +1932,7 @@ C--------------------------------------------
 C     LECTURE DES FONCTIONS 2D
 C--------------------------------------------
       ALLOCATE(FUNC2D(NFUNC2D))
-      IF (NFUNC2D > 0) THEN
+      IF(NFUNC2D > 0) THEN
          CALL HM_READ_FUNC2D(FUNC2D, LSUBMODEL, UNITAB)
       ENDIF
 C--------------------------------------------
@@ -1942,39 +1943,39 @@ C-------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SPM = NUMMAT*NPROPM
       SSKEW = LSKEW*(NUMSKW+1)
-      IF (NSPCOND > 0) SSKEW = SSKEW + LSKEW*NUMSPH
-      IF (NSUBMOD > 0) SSKEW = SSKEW + LSKEW*NSUBMOD
+      IF(NSPCOND > 0) SSKEW = SSKEW + LSKEW*NUMSPH
+      IF(NSUBMOD > 0) SSKEW = SSKEW + LSKEW*NSUBMOD
       SXFRAME = NXFRAME*(NUMFRAM+1)
       SSKEW = SSKEW + SXFRAME
       SGEO  = NUMGEO*NPROPG
       SEANI = NUMELS+NUMELQ+NUMELC+NUMELTG
       ISHIF = NUMELS+NUMELQ+NUMELC
 
-      ALLOCATE (PM(SPM)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(PM(SPM)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='PM')
-      ALLOCATE (GEO(SGEO)   ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(GEO(SGEO)   ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='GEO')
 c dans le skew, on met tous les skew du modele
-      ALLOCATE (SKEW(SSKEW) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(SKEW(SSKEW) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='SKEW')
-      IF (SSKEW-SXFRAME<SSKEW) THEN
+      IF(SSKEW-SXFRAME<SSKEW) THEN
       XFRAME => SKEW(SSKEW-SXFRAME+1:SSKEW)
       ELSE
         XFRAME => SKEW
       END IF
-c      ALLOCATE (XFRAME(SXFRAME) ,STAT=stat)
-      ALLOCATE (EANI(SEANI) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+c      ALLOCATE(XFRAME(SXFRAME) ,STAT=stat)
+      ALLOCATE(EANI(SEANI) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='EANI')
-      IF (SEANI > 0) EANI = 0
-      IF (NUMELTG > 0) THEN
+      IF(SEANI > 0) EANI = 0
+      IF(NUMELTG > 0) THEN
         EANIT => EANI(ISHIF+1:SEANI)
       ELSE
         EANIT => EANIT2
@@ -2001,14 +2002,14 @@ C--------------------------------------------
 C
       SRWORK  = MAX(NUMMAT*10000,1000000)
       SBUFMAT = 0
-      ALLOCATE (RWORK(SRWORK)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(RWORK(SRWORK)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='RWORK')
-      IF (SRWORK > 0) RWORK = ZERO
+      IF(SRWORK > 0) RWORK = ZERO
 c------------------------------------
-      MY_ALLOCATE(MTAG_INI   ,NUMMAT)
-      MY_ALLOCATE(MPARAM_INI ,NUMMAT)
+      ALLOCATE(MTAG_INI   (NUMMAT))
+      ALLOCATE(MPARAM_INI (NUMMAT))
       CALL INIT_MLAW_TAG(MTAG_INI,NUMMAT)
       MAT_ELEM%MAT_PARAM(1:NUMMAT) => MPARAM_INI(1:NUMMAT)
       MLAW_TAG(1:NUMMAT) => MTAG_INI(1:NUMMAT)
@@ -2020,12 +2021,12 @@ c---------------------------------------------------------------
      .     MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
      .     TABLE       ,NPC      )
 c---------------------------------------------------------------
-      ALLOCATE (BUFMAT(SBUFMAT)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(BUFMAT(SBUFMAT)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='BUFMAT')
       BUFMAT = RWORK(1:SBUFMAT)
-      IF (ALLOCATED(RWORK)) DEALLOCATE(RWORK)
+      IF(ALLOCATED(RWORK)) DEALLOCATE(RWORK)
       CALL TRACE_OUT1()
 c
       ERR_MSG='STORAGE'
@@ -2053,8 +2054,8 @@ C     NODES
       ERR_MSG='NODES'
       ERR_CATEGORY='NODES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ALLOCATE (CMERGE(NUMCNOD),STAT=stat)
-      IF (STAT /= 0) THEN
+      ALLOCATE(CMERGE(NUMCNOD),STAT=stat)
+      IF(STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='CMERGE')
       ENDIF
@@ -2070,16 +2071,16 @@ C     LECTURE DES SUBMODELS & TRANSFORMATION DE SUBMODEL
 C--------------------------------------------
       ERR_MSG='SUBMODELS'
       ERR_CATEGORY='SUBMODELS'
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR)
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SRTRANS = NRTRANS * NTRANSF
-      ALLOCATE (RTRANS(SRTRANS)     ,STAT=stat)
-      IF (SRTRANS > 0) RTRANS = ZERO
+      ALLOCATE(RTRANS(SRTRANS)     ,STAT=stat)
+      IF(SRTRANS > 0) RTRANS = ZERO
 
-      IF (NSUBMOD > 0)THEN
+      IF(NSUBMOD > 0)THEN
         WRITE(ISTDO,'(A)')' .. SUBMODELS'
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='RTRANS')
         CALL LECTRANSSUB(X      ,IGRNOD  ,ITAB   ,ITABM1 ,UNITAB,
@@ -2109,9 +2110,9 @@ C
 C--------------------------------------------
 C     PRELECTURE DES DRAPE
 C--------------------------------------------
-      IF (NDRAPE > 0) THEN
+      IF(NDRAPE > 0) THEN
         ALLOCATE(IDRAPEID(NDRAPE)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='DRAPE')
         IDRAPEID = 0
@@ -2133,17 +2134,17 @@ C     PROPERTIES
       ERR_CATEGORY='PROPERTIES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
-      IF (NUMGEO > 0)THEN
+      IF(NUMGEO > 0)THEN
         WRITE(ISTDO,'(A)')TITRE(31)
         SRWORK  = NUMGEO*(BGEOSIZE+MAXFUNC+MAXMAT+MAXPID+MAXTAB)
         SBUFGEO = 0
-        ALLOCATE (DBRWORK(SRWORK)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(DBRWORK(SRWORK)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DBRWORK')
         DBRWORK = ZERO
-        ALLOCATE (KNOT(SKNOT)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KNOT(SKNOT)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KNOT')
         CALL SAV_BUF_POINT(DBRWORK,4)
@@ -2155,20 +2156,20 @@ C
      .                          PROP_TAG   , IPART       , KNOT     , IDRAPEID ,STACK_INFO,
      .                          NUMGEOSTACK, NPROP_STACK , MULTI_FVM, IADGEO)
 C
-        ALLOCATE (BUFGEO(SBUFGEO)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(BUFGEO(SBUFGEO)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='BUFGEO')
         BUFGEO(1:SBUFGEO) = DBRWORK(1:SBUFGEO)
         DEALLOCATE(DBRWORK)
         CALL SAV_BUF_POINT(BUFGEO,4)
       ELSE
-        ALLOCATE (BUFGEO(SBUFGEO)    ,STAT=stat)
+        ALLOCATE(BUFGEO(SBUFGEO)    ,STAT=stat)
       ENDIF
 C
       IF(NUMPLY /= 0) THEN
-        ALLOCATE (PLY_INFO(2,NUMPLY),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PLY_INFO(2,NUMPLY),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                            C1='PLY')
         PLY_INFO = 0
@@ -2179,25 +2180,25 @@ c
       IF(NUMSTACK > 0) THEN
 C prelecture
          LEN_G = NPROPGI*(NUMSTACK + NUMPLY)
-         ALLOCATE (IGEO_STACK(LEN_G),STAT=stat)
+         ALLOCATE(IGEO_STACK(LEN_G),STAT=stat)
          IGEO_STACK = 0
          LEN_G = NPROPG*(NUMSTACK + NUMPLY )
-         ALLOCATE (GEO_STACK(LEN_G),STAT=stat)
+         ALLOCATE(GEO_STACK(LEN_G),STAT=stat)
          GEO_STACK = ZERO
          CALL LECSTACK_PLY(GEO_STACK ,X          ,IXC       ,PM   ,ITABM1  ,
      .                     ISKWN     ,IGEO_STACK ,IPM       ,NPC  ,TF      ,
      .                     UNITAB    , RTRANS    ,LSUBMODEL,IPART ,IDRAPEID,
      .                     PLY_INFO  ,STACK_INFO,NUMGEOSTACK, NPROP_STACK)
         ELSE
-             ALLOCATE (IGEO_STACK(0),STAT=stat)
-             ALLOCATE (GEO_STACK(0),STAT=stat)
+             ALLOCATE(IGEO_STACK(0),STAT=stat)
+             ALLOCATE(GEO_STACK(0),STAT=stat)
       ENDIF
 C-----allocate DR if necessary------
-      IF (SDR==0 .AND. IDROT == 1) THEN
+      IF(SDR==0 .AND. IDROT == 1) THEN
        SDR = 3*NUMNOD*MAX(IRODDL,IRODDL0)
        IF(ALLOCATED(DR)) DEALLOCATE(DR)
-       ALLOCATE (DR(SDR)     ,STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(DR(SDR)     ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR)
        DR = ZERO
       ENDIF
@@ -2206,24 +2207,24 @@ C
 C      print*, 'NPINCH', NPINCH, 'NUMNOD', NUMNOD
       SPINCH= NPINCH
 C      print*, SPINCH
-        ALLOCATE (PINCH_DATA%XPINCH(3,SPINCH)       ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PINCH_DATA%XPINCH(3,SPINCH)       ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='XPINCH')
-        ALLOCATE (PINCH_DATA%DPINCH(3,SPINCH)       ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PINCH_DATA%DPINCH(3,SPINCH)       ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DPINCH')
-        ALLOCATE (PINCH_DATA%VPINCH(3,SPINCH)       ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PINCH_DATA%VPINCH(3,SPINCH)       ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='VPINCH')
-        ALLOCATE (PINCH_DATA%MSPINCH(SPINCH)       ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PINCH_DATA%MSPINCH(SPINCH)       ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MSPINCH')
 C
-      IF (NPINCH > 0) THEN
+      IF(NPINCH > 0) THEN
         PINCH_DATA%XPINCH(1:3,1:SPINCH) = ZERO
         PINCH_DATA%DPINCH(1:3,1:SPINCH) = ZERO
         PINCH_DATA%VPINCH(1:3,1:SPINCH) = ZERO
@@ -2243,12 +2244,12 @@ C-----------------------------------------------------
       SIWORK  = MAX(2*NUMELS,2*NUMELQ,3*(NPART+NTHPART),3*NUMSKW,NUMELS,
      *              NUMELC,NUMELTG,NUMMAT+NUMGEO,NUMELT+NUMELP+NUMELR+
      *              NUMELX+NUMELIG3D)
-      ALLOCATE (IWORK(SIWORK)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IWORK(SIWORK)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IWORK')
       IWORK = 0
-      ALLOCATE (THK_PART(NPART)    ,STAT=stat)
+      ALLOCATE(THK_PART(NPART)    ,STAT=stat)
 C
       CALL HM_READ_PART(IPART  ,PM      ,GEO       ,IPM     ,IGEO ,IWORK ,THK_PART,
      .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG)
@@ -2263,25 +2264,25 @@ C--------------------------------------------
       SIFILL = NMULT*NUMNOD
       SIMS   = NMULT*NUMNOD
 C---
-      ALLOCATE (IFILL(SIFILL),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
+      ALLOCATE(IFILL(SIFILL),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID   = 268,
      .                           ANMODE  = ANINFO,
      .                           MSGTYPE = MSGERROR,
      .                           C1      = 'IFILL')
 
-      ALLOCATE (IMS(SIMS),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
+      ALLOCATE(IMS(SIMS),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID   = 268,
      .                           ANMODE  = ANINFO,
      .                           MSGTYPE = MSGERROR,
      .                           C1      = 'IMS')
 
 
-      IF (SIFILL > 0) IFILL = 0
-      IF (SIMS   > 0) IMS   = 0
+      IF(SIFILL > 0) IFILL = 0
+      IF(SIMS   > 0) IMS   = 0
 
-      ALLOCATE (DFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
-      ALLOCATE (VFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
-      ALLOCATE (WFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
+      ALLOCATE(DFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
+      ALLOCATE(VFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
+      ALLOCATE(WFLOW(3*NUMNOD*IALELAG)      ,STAT=stat)
 
       IF(IALELAG > 0) THEN
        DFLOW = ZERO
@@ -2290,7 +2291,7 @@ C---
       ENDIF
 
       IF(ALEFVM_Param%IEnabled > 0)THEN
-        ALLOCATE (ALEFVM_Buffer%FCELL(6,NUMELS)   ,STAT=stat)
+        ALLOCATE(ALEFVM_Buffer%FCELL(6,NUMELS)   ,STAT=stat)
         ALEFVM_Buffer%FCELL(:,:) = ZERO
       ENDIF
 
@@ -2304,9 +2305,9 @@ C--------------------------------------------
       NR2R = 5
       R2R_SIU = 0
       SIEXLNK = NR2R*NR2RLNK
-      IF ((NR2RLNK+NSUBDOM)>0) THEN
-        ALLOCATE (IEXLNK(SIEXLNK)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF((NR2RLNK+NSUBDOM)>0) THEN
+        ALLOCATE(IEXLNK(SIEXLNK)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IEXLNK')
         IEXLNK = 0
@@ -2314,18 +2315,18 @@ C--------------------------------------------
         CALL LECEXTLNK(IEXLNK,IPART,LSUBMODEL)
         NL_DDR2R = NR2RLNK
       ELSE
-        ALLOCATE (IEXLNK(0))
+        ALLOCATE(IEXLNK(0))
       ENDIF
-      IF (NSUBDOM > 0) THEN
+      IF(NSUBDOM > 0) THEN
         ALLOCATE(TAG_PART(NPART),IPART_R2R(4,NPART))
         TAG_PART(:)=0
         CALL R2R_VOID(IPART)
         NL_DDR2R = 4
         R2R_SIU = 1
 c       complete mlaw_tag for new void materials
-        IF (NUMMAT > NUMMAT0) THEN
-         MY_ALLOCATE(MTAG_R2R   ,NUMMAT)
-         MY_ALLOCATE(MPARAM_R2R ,NUMMAT)
+        IF(NUMMAT > NUMMAT0) THEN
+         ALLOCATE(MTAG_R2R(NUMMAT))
+         ALLOCATE(MPARAM_R2R(NUMMAT))
          CALL INIT_MLAW_TAG(MTAG_R2R   ,NUMMAT)
          MTAG_R2R(1:NUMMAT0) = MTAG_INI(1:NUMMAT0)
          CALL MATPARAM_R2R_VOID(MPARAM_R2R, MPARAM_INI   ,NUMMAT0 ,NUMMAT)
@@ -2347,7 +2348,7 @@ C--------------------------------------------
       TABMP_L = 10
 C
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='PARTS')
 
@@ -2393,7 +2394,7 @@ C--------------------------------------------
 C     LECTURE DES COQUES
 C--------------------------------------------
        ALLOCATE(ITAG(NUMNOD),STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='ITAG')
       ITAG=0
@@ -2469,7 +2470,7 @@ C--------------------------------------------
       ENDIF
 C--------------------------------------------
 C     Check XFEM FLAG
-      IF (NUMELTG + NUMELC == 0) ICRACK3D = 0
+      IF(NUMELTG + NUMELC == 0) ICRACK3D = 0
 C--------------------------------------------
 C     LECTURE DES ELEMENTS ISO-GEOMETRIQUES
 C--------------------------------------------
@@ -2481,12 +2482,12 @@ C--------------------------------------------
 
        CALL PRELECIG3D(SIXIG3D)
 
-       ALLOCATE (KXIG3D(SKXIG3D)    ,STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(KXIG3D(SKXIG3D)    ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                        C1='KXIG3D')
-       ALLOCATE (IXIG3D(SIXIG3D+ADDSIXIG3D)    ,STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(IXIG3D(SIXIG3D+ADDSIXIG3D)    ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                        C1='IXIG3D')
        ALLOCATE(TABCONPATCH(NBPART_IG3D),STAT=stat)
@@ -2501,25 +2502,25 @@ C--------------------------------------------
 
        SKNOTLOCPC = DEG_MAX*3*(NUMNOD+L_TAB_NEWFCT)*NUMGEO  ! IL FAUDRAIT AVOIR ONE NOMBRE DE POINT IGE ET DES INDICES
 cc Sknotlocpc est un peu surdimmensionne car il prend en compte les points de travail temporaire
-       IF (SKNOTLOCPC > INTMAX .OR. SKNOTLOCPC < ZERO) THEN ! L_TAB_NEWFCT pour se laisser la taille de travail
+       IF(SKNOTLOCPC > INTMAX .OR. SKNOTLOCPC < ZERO) THEN ! L_TAB_NEWFCT pour se laisser la taille de travail
          SKNOTLOCPC = INTMAX
        ELSE
          SKNOTLOCPC = INT(SKNOTLOCPC)
        ENDIF
-       ALLOCATE (KNOTLOCPC(SKNOTLOCPC)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(KNOTLOCPC(SKNOTLOCPC)    ,STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                          C1='KNOTLOCPC')
        KNOTLOCPC(:)=0
 
        SKNOTLOCEL = 2*3*NUMELIG3D
-       IF (SKNOTLOCEL > INTMAX .OR. SKNOTLOCEL < ZERO) THEN
+       IF(SKNOTLOCEL > INTMAX .OR. SKNOTLOCEL < ZERO) THEN
          SKNOTLOCEL = INTMAX
        ELSE
          SKNOTLOCEL = INT(SKNOTLOCEL)
        ENDIF
-       ALLOCATE (KNOTLOCEL(SKNOTLOCEL)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(KNOTLOCEL(SKNOTLOCEL)    ,STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                          C1='KNOTLOCEL')
        KNOTLOCEL(:)=0
@@ -2530,19 +2531,19 @@ cc Sknotlocpc est un peu surdimmensionne car il prend en compte les points de tr
      .                 X,V,D,MS,WIGE,TABCONPATCH,1)
 c
        SIXIG3D=SIXIG3D+ADDSIXIG3D
-       ALLOCATE (MSIG3D(NUMELIG3D*NCTRLMAX)     ,STAT=stat)
+       ALLOCATE(MSIG3D(NUMELIG3D*NCTRLMAX)     ,STAT=stat)
        MSIG3D(1:NUMELIG3D*NCTRLMAX) = ZERO
       ELSE
-        ALLOCATE (KXIG3D(0)    ,STAT=stat)
-        ALLOCATE (MSIG3D(0)    ,STAT=stat)
-        ALLOCATE (IXIG3D(0)    ,STAT=stat)
-        ALLOCATE (KNOTLOCEL(0) ,STAT=stat)
-        ALLOCATE (KNOTLOCPC(0) ,STAT=stat)
+        ALLOCATE(KXIG3D(0)    ,STAT=stat)
+        ALLOCATE(MSIG3D(0)    ,STAT=stat)
+        ALLOCATE(IXIG3D(0)    ,STAT=stat)
+        ALLOCATE(KNOTLOCEL(0) ,STAT=stat)
+        ALLOCATE(KNOTLOCPC(0) ,STAT=stat)
       ENDIF
 C--------------------------------------------
 C     PRELECTURE GRNOD/NODENS
 C--------------------------------------------
-      IF (NUMELX > 0 .AND. NGRNOD > 0 )THEN
+      IF(NUMELX > 0 .AND. NGRNOD > 0 )THEN
         WRITE(ISTDO,'(A)')' .. NODENS GROUP '
         CALL HM_PRELECGRNS(ITABM1 ,IGRNOD, LSUBMODEL)
       ENDIF
@@ -2552,35 +2553,35 @@ C---------------------------------------------
       ERR_MSG='MULTI-PURPOSE ELEMENTS'
       ERR_CATEGORY='MULTI-PURPOSE ELEMENTS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NUMELX > 0) THEN
+      IF(NUMELX > 0) THEN
         SKXX = NIXX*NUMELX
         CALL HM_PREREAD_XELEM(SIXX, IGRNOD,LSUBMODEL)
-        ALLOCATE (KXX(SKXX)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KXX(SKXX)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KXX')
-        ALLOCATE (IXX(SIXX+150)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IXX(SIXX+150)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXX')
         KXX = 0
         IXX = 0
-        ALLOCATE (LELX(NUMELX)    ,STAT=stat)
+        ALLOCATE(LELX(NUMELX)    ,STAT=stat)
         LELX(1:NUMELX) = ZERO
         CALL HM_READ_XELEM(IGRNOD  ,ITAB   ,ITABM1 ,IPART ,IPARTX,
      .              IPM     ,IGEO   ,KXX    ,IXX   ,LSUBMODEL)
       ELSE
         SKXX = 0
         SIXX = 0
-        ALLOCATE (KXX(SKXX)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KXX(SKXX)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KXX')
-        ALLOCATE (IXX(SIXX)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IXX(SIXX)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXX')
-        ALLOCATE (LELX(NUMELX)    ,STAT=stat)
+        ALLOCATE(LELX(NUMELX)    ,STAT=stat)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -2595,23 +2596,23 @@ C--------------------------------------------
       IF(NADMESH/=0)THEN
 
         ALLOCATE(SH4TREE(KSH4TREE,NUMELC),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SH4TREE')
         SH4TREE=0
         ALLOCATE(SH3TREE(KSH3TREE,NUMELTG),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SH3TREE')
         SH3TREE=0
         ALLOCATE(IPADMESH(KIPADMESH,NPART),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IPADMESH')
         IPADMESH=0
 
         ALLOCATE(PADMESH(KPADMESH,NPART),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='PADMESH')
         PADMESH=ZERO
@@ -2621,13 +2622,13 @@ C--------------------------------------------
         IF(IADMSTAT/=0)THEN
           LSH4TRIM=NUMELC
           ALLOCATE(SH4TRIM(LSH4TRIM),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SH4TRIM')
           SH4TRIM=0
           LSH3TRIM=NUMELTG
           ALLOCATE(SH3TRIM(LSH3TRIM),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SH3TRIM')
           SH3TRIM=0
@@ -2651,7 +2652,7 @@ C--------------------------------------------
 
       IF(ISTATCND/=0)THEN
         ALLOCATE(MSCND(NUMNOD),INCND(NUMNOD),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='MSCND')
         MSCND=ZERO
@@ -2686,10 +2687,10 @@ C--------------------------------------------
 C     TABLEAUX X-FEM (SHELL 4-N + SHELL 3-N)
 C     xfem for crack propagation (mono + multi layer shells)
 C--------------------------------------------
-      IF (ICRACK3D > 0) THEN
+      IF(ICRACK3D > 0) THEN
         NXEL   = 3  ! nb of phantom elements within one layer (change to NXEL=3)
         XFEMON = 1
-        IF (IPARI0 /= 1) IPARI0=1 ! force flag parith/on pour XFEM (pareil engine)
+        IF(IPARI0 /= 1) IPARI0=1 ! force flag parith/on pour XFEM (pareil engine)
       ELSE
         NXEL   = 0
         XFEMON = 0
@@ -2701,26 +2702,26 @@ C-----
 C-----
       LEN = XFEMON*NUMNOD
       ALLOCATE(ADDCNE_CRKXFEM(0:LEN+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='ADDCNE_CRKXFEM')
       ADDCNE_CRKXFEM(0:LEN+1) = 0
 c
       ALLOCATE(ITAGN(LEN),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='ITAGN')
       ALLOCATE(INOD_CRKXFEM(LEN),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='INOD_CRKXFEM')
       ALLOCATE(IBORDNODE(LEN),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
      .                           MSGTYPE=MSGERROR,C1='IBORDNODE')
       LEN = XFEMON*(NUMELC+NUMELTG)
       SITAGE=LEN
       ALLOCATE(ITAGE(LEN),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='ITAGE')
       ALLOCATE(IEL_CRKXFEM(LEN),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='IEL_CRKXFEM')
 c
       ITAGN          = 0
@@ -2745,84 +2746,84 @@ C Create IXTG1 array and set to 0
       CALL COMPUTE_CONNECT_PARTELM(IPARTS ,IPARTQ ,IPARTC   ,IPARTT ,IPARTP,
      .                             IPARTG ,IPARTR ,INV_GROUP)
       ! -------------------
-      IF (NUMELTG6 ==0 )THEN
+      IF(NUMELTG6 ==0 )THEN
         SIXTG1  = 0
       ELSE
         SIXTG1 = 4*NUMELTG
       ENDIF
       ALLOCATE(IXTG1(SIXTG1), STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IXTG1')
       IXTG1 = 0
 
 214   ALLOCATE(KNOD2ELS(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='KNOD2ELS')
       KNOD2ELS=0
       ALLOCATE(KNOD2ELC(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR)
       KNOD2ELC=0
       ALLOCATE(KNOD2ELTG(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='KNOD2ELTG')
       KNOD2ELTG=0
       ALLOCATE(KNOD2EL1D(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='KNOD2EL1D')
       KNOD2EL1D=0
 
       ALLOCATE(KNOD2ELQ(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR)
       KNOD2ELQ=0
 
 
       S_NOD2ELS = 8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16
       ALLOCATE(NOD2ELS(S_NOD2ELS),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELS')
       NOD2ELS=0
       ALLOCATE(NOD2ELC(4*NUMELC),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELC')
       NOD2ELC=0
       S_NOD2ELTG = 3*NUMELTG+3*NUMELTG6
       ALLOCATE(NOD2ELTG(S_NOD2ELTG),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELTG')
       NOD2ELTG=0
       S_NOD2EL1D=2*NUMELT+2*NUMELP+3*NUMELR+2*SIXX
       ALLOCATE(NOD2EL1D(S_NOD2EL1D),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2EL1D')
       NOD2EL1D=0
       ALLOCATE(KNOD2ELIG3D(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='KNOD2ELIG3D')
       KNOD2ELIG3D=0
       ALLOCATE(NOD2ELIG3D(NCTRLMAX*NUMELIG3D),
      .         STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELIG3D')
       NOD2ELIG3D=0
       ALLOCATE(NOD2ELQ(4*NUMELQ),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2ELQ')
       NOD2ELQ=0
 
-      IF (FLAG_GOTO==1) GOTO 215
+      IF(FLAG_GOTO==1) GOTO 215
 
 C--------------------------------------------
       CALL BUILD_CNEL(
@@ -2833,7 +2834,7 @@ C--------------------------------------------
      6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
      7   IXIG3D     ,KXIG3D     ,KNOD2ELIG3D,NOD2ELIG3D,KNOD2ELQ,
      8   NOD2ELQ    )
-      IF (ALLOCATED(IWORK)) DEALLOCATE(IWORK)
+      IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES PARAMETRES GLOBAUX + PARTICULES SPH.
@@ -2842,45 +2843,45 @@ C---------------------------------------------
       ERR_CATEGORY='SPH'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(NSPHSOL/=0)THEN
-        ALLOCATE (SPH2SOL(NUMSPH)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SPH2SOL(NUMSPH)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPH2SOL')
         SPH2SOL=0
-        ALLOCATE (SOL2SPH(2*NUMELS8)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SOL2SPH(2*NUMELS8)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SOL2SPH')
         SOL2SPH=0
-        ALLOCATE (IRST(3*NSPHSOL)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IRST(3*NSPHSOL)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IRST')
         IRST=0
-        ALLOCATE (SOL2SPH_TYP(NUMELS8)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SOL2SPH_TYP(NUMELS8)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SOL2SPH_TYP')
         SOL2SPH_TYP=0
       ELSE
         ALLOCATE(SPH2SOL(0)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPH2SOL')
-        ALLOCATE (SOL2SPH(0)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SOL2SPH(0)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SOL2SPH')
-        ALLOCATE (IRST(0)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IRST(0)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IRST')
-        ALLOCATE (SOL2SPH_TYP(0)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SOL2SPH_TYP(0)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SOL2SPH_TYP')
       END IF
-      IF (NUMSPH > 0) THEN
+      IF(NUMSPH > 0) THEN
         SSPBUF  = NSPBUF*NUMSPH
         SKXSP   = NISP*NUMSPH
         SIXSP   = KVOISPH*NUMSPH
@@ -2898,26 +2899,26 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
         ENDIF
 
         SNOD2SP = NUMNOD
-        ALLOCATE (KXSP(SKXSP)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KXSP(SKXSP)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KXSP')
-        ALLOCATE (IXSP(KVOISPH,NUMSPH)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IXSP(KVOISPH,NUMSPH)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXSP')
-        ALLOCATE (NOD2SP(SNOD2SP)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(NOD2SP(SNOD2SP)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='NOD2SP')
-        ALLOCATE (SPBUF(SSPBUF)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SPBUF(SSPBUF)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPBUF')
 
         IF(NSPHIO>0.AND.NBPARTINLET>0)THEN
           ALLOCATE(RESERVEP(NBPARTINLET)    ,STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,
      .                               ANMODE=ANSTOP,
      .                               MSGTYPE=MSGERROR,
      .                         C1='RESERVEP')
@@ -2942,20 +2943,20 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
         SKXSP   = 0
         SIXSP   = 0
         SNOD2SP = 0
-        ALLOCATE (KXSP(SKXSP)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KXSP(SKXSP)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KXSP')
-        ALLOCATE (IXSP(0,0)      ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IXSP(0,0)      ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXSP')
-        ALLOCATE (NOD2SP(SNOD2SP)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(NOD2SP(SNOD2SP)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='NOD2SP')
-        ALLOCATE (SPBUF(SSPBUF)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SPBUF(SSPBUF)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPBUF')
       ENDIF
@@ -2969,7 +2970,7 @@ C--------------------------------------------
       ERR_MSG='SUBSETS'
       ERR_CATEGORY='SUBSETS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NSUBS > 0) THEN
+      IF(NSUBS > 0) THEN
         WRITE(ISTDO,'(A)')' .. SUBSETS'
 !
         CALL HM_READ_SUBSET(SUBSETS,IPART,NSUBS,NPART,LSUBMODEL)
@@ -2986,8 +2987,8 @@ C--------------------------------------------
       ERR_CATEGORY='BOXES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
-      MY_ALLOCATE (IBOX ,NBBOX)
-      IF (NBBOX > 0) THEN
+      ALLOCATE(IBOX (NBBOX))
+      IF(NBBOX > 0) THEN
         WRITE(ISTDO,'(A)')' .. BOX '
 c
         CALL HM_READ_BOX(IBOX   ,UNITAB ,ITABM1   ,ISKWN    ,SKEW     ,
@@ -3092,7 +3093,7 @@ C    LECTURE DES SURFACES
 C--------------------------------------------
 
       ! allocation for pre-read of Rbody needed for /SET
-      IF (NRBODY > 0) THEN
+      IF(NRBODY > 0) THEN
         ALLOCATE(RBY_MSN(2,NRBODY))
         CALL PREREAD_RBODY_SET(LSUBMODEL,ITABM1,RBY_MSN)
       ELSE
@@ -3110,11 +3111,11 @@ C--------------------------------------------
 
 
       SBUFSF = 0
-      IF (NSURF > 0)THEN
+      IF(NSURF > 0)THEN
         WRITE(ISTDO,'(A)')' .. SURFACES '
         ERR_CATEGORY='SURFACES DEFINITION'
-        ALLOCATE (RWORK(LISURF1*NSURF)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(RWORK(LISURF1*NSURF)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='RWORK')
 c
@@ -3124,52 +3125,52 @@ C- Isogeometric Elements
         IDXIGE1 = 0
         IDXIGE2 = 1
         RNIGE=(1+NSURF*NUMELIG3D*16*6)
-        IF (RNIGE > INTMAX .OR. RNIGE < ZERO) THEN
+        IF(RNIGE > INTMAX .OR. RNIGE < ZERO) THEN
           SNIGE = INTMAX
         ELSE
         SNIGE = INT(RNIGE)
         ENDIF
-        ALLOCATE (NIGE_TMP(IDXIGE1)%ptr(SNIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        ALLOCATE(NIGE_TMP(IDXIGE1)%ptr(SNIGE)   ,STAT=stat)
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
      .                C1='NIGE')
         ENDIF
         RRIGE=(1+NSURF*NUMELIG3D*3*16*6)
-        IF (RRIGE > INTMAX .OR. RRIGE < ZERO) THEN
+        IF(RRIGE > INTMAX .OR. RRIGE < ZERO) THEN
           SRIGE = INTMAX
         ELSE
           SRIGE = INT(RRIGE)
         ENDIF
-        ALLOCATE (RIGE_TMP(IDXIGE1)%ptr2(SRIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        ALLOCATE(RIGE_TMP(IDXIGE1)%ptr2(SRIGE)   ,STAT=stat)
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
      .                C1='RIGE')
         ENDIF
         RXIGE=(1+NSURF*NUMELIG3D*3*16*6)
-        IF (RXIGE > INTMAX .OR. RXIGE < ZERO) THEN
+        IF(RXIGE > INTMAX .OR. RXIGE < ZERO) THEN
           SXIGE = INTMAX
         ELSE
           SXIGE = INT(RXIGE)
         ENDIF
-        ALLOCATE (XIGE_TMP(IDXIGE1)%ptr2(SXIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        ALLOCATE(XIGE_TMP(IDXIGE1)%ptr2(SXIGE)   ,STAT=stat)
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
      .                C1='XIGEO')
         ENDIF
         RVIGE=(1+NSURF*NUMELIG3D*3*16*6)
-        IF (RVIGE > INTMAX .OR. RVIGE < ZERO) THEN
+        IF(RVIGE > INTMAX .OR. RVIGE < ZERO) THEN
           SVIGE = INTMAX
         ELSE
           SVIGE = INT(RVIGE)
         ENDIF
-        ALLOCATE (VIGE_TMP(IDXIGE1)%ptr2(SVIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        ALLOCATE(VIGE_TMP(IDXIGE1)%ptr2(SVIGE)   ,STAT=stat)
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3210,7 +3211,7 @@ C
 C
 C- Isogeometric Elements
         ALLOCATE(NIGE_TMP(IDXIGE2)%ptr(SNIGE+NUMFAKENODIGEO)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANSTOP,
@@ -3220,7 +3221,7 @@ C- Isogeometric Elements
         DEALLOCATE(NIGE_TMP(IDXIGE1)%ptr)
 
         ALLOCATE(RIGE_TMP(IDXIGE2)%ptr2(SRIGE+3*NUMFAKENODIGEO)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3230,7 +3231,7 @@ C- Isogeometric Elements
         DEALLOCATE(RIGE_TMP(IDXIGE1)%ptr2)
 
         ALLOCATE(XIGE_TMP(IDXIGE2)%ptr2(SXIGE+3*NUMFAKENODIGEO)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3240,7 +3241,7 @@ C- Isogeometric Elements
         DEALLOCATE(XIGE_TMP(IDXIGE1)%ptr2)
 
         ALLOCATE(VIGE_TMP(IDXIGE2)%ptr2(SVIGE+3*NUMFAKENODIGEO)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3271,8 +3272,8 @@ C       fill, 1st level surfaces
      G       NOD2ELQ   ,SUBSETS   ,IGRBRIC   ,IGRSH4N   ,IGRSH3N   ,
      H       KNOTLOCPC ,KNOTLOCEL ,NSETS     ,MAP_TABLES)
 C
-c        IF (NUMELIG3D>0) THEN
-        IF (NUMFAKENODIGEO>0) THEN
+c        IF(NUMELIG3D>0) THEN
+        IF(NUMFAKENODIGEO>0) THEN
         ALLOCATE(PERMIGE(NUMFAKENODIGEO)   ,STAT=stat)
 c        ALLOCATE(PERMIGE(IADTABIGE)   ,STAT=stat)
 c
@@ -3280,7 +3281,7 @@ c
 c        CALL MYQSORT3D(IADTABIGE,XIGE_TMP(IDXIGE2)%ptr2,PERMIGE)
 c
         ALLOCATE(NIGE_TMP(IDXIGE1)%ptr(SNIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3288,7 +3289,7 @@ c
         ENDIF
 
         ALLOCATE(RIGE_TMP(IDXIGE1)%ptr2(SRIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3296,7 +3297,7 @@ c
         ENDIF
 
         ALLOCATE(XIGE_TMP(IDXIGE1)%ptr2(SXIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3304,7 +3305,7 @@ c
         ENDIF
 
         ALLOCATE(VIGE_TMP(IDXIGE1)%ptr2(SVIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3339,7 +3340,7 @@ c        SXIGE = SXIGE - 3*NDOUBLONIGE
 c        SVIGE = SVIGE - 3*NDOUBLONIGE
 c
         ALLOCATE(NIGE_TMP(IDXIGE2)%ptr(SNIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3350,7 +3351,7 @@ c
         ENDDO
 c
         ALLOCATE(RIGE_TMP(IDXIGE2)%ptr2(SRIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3361,7 +3362,7 @@ c
         ENDDO
 c
         ALLOCATE(XIGE_TMP(IDXIGE2)%ptr2(SXIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3372,7 +3373,7 @@ c
         ENDDO
 c
         ALLOCATE(VIGE_TMP(1)%ptr2(SVIGE)   ,STAT=stat)
-        IF (STAT /= 0) THEN
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3407,17 +3408,17 @@ C---      fill next level
           CALL HM_READ_SURFSURF(IGRSURF, INSEG, FLAGG, ICOUNT, ITER, NSETS, LSUBMODEL)
 C---
         ENDDO
-        ALLOCATE (BUFSF(SBUFSF)       ,STAT=stat)
-        IF (STAT /= 0) THEN
+        ALLOCATE(BUFSF(SBUFSF)       ,STAT=stat)
+        IF(STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
      .                C1='BUFSF')
         ENDIF
-        IF (SBUFSF > 0) BUFSF = RWORK(1:SBUFSF)
-        IF (ALLOCATED(RWORK)) DEALLOCATE (RWORK)
+        IF(SBUFSF > 0) BUFSF = RWORK(1:SBUFSF)
+        IF(ALLOCATED(RWORK)) DEALLOCATE(RWORK)
       ELSE
-        ALLOCATE (BUFSF(SBUFSF)       ,STAT=stat)
+        ALLOCATE(BUFSF(SBUFSF)       ,STAT=stat)
       ENDIF
 
       NSEGS=NPART
@@ -3457,7 +3458,7 @@ C---
 C--------------------------------------------
 C     LECTURE DES LIGNES
 C--------------------------------------------
-      IF (NSLIN > 0) THEN
+      IF(NSLIN > 0) THEN
         WRITE(ISTDO,'(A)')' .. LINES '
         ERR_CATEGORY='LINES'
         FLAGG = 0
@@ -3506,12 +3507,12 @@ C---
 C--------------------------------------------
 C     LECTURE DES INIITAL CRACKS
 C--------------------------------------------
-      IF (NINICRACK > 0) THEN
+      IF(NINICRACK > 0) THEN
         WRITE(ISTDO,'(A)')' .. INITIAL CRACK '
         ERR_CATEGORY='INITIAL CRACKS'
         SILEVSET = NINICRACK
-        ALLOCATE (INICRACK(SILEVSET)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(INICRACK(SILEVSET)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='INICRACK')
         ! Reading /INICRACK cards
@@ -3525,7 +3526,7 @@ C
 C--------------------------------------------
 C     LECTURE DES GROUPES DE NOEUDS
 C--------------------------------------------
-      IF (NGRNOD > 0)THEN
+      IF(NGRNOD > 0)THEN
         WRITE(ISTDO,'(A)')' .. NODE GROUP'
         ERR_CATEGORY='NODE GROUPS'
         INNOD = 0
@@ -3584,8 +3585,8 @@ C     /SET
 C--------------------------------------------
       CALL STARTIME(17,1)
 
-      MY_ALLOCATE (SET        ,NSETS)
-      IF (NSETS > 0)THEN
+      ALLOCATE(SET (NSETS))
+      IF(NSETS > 0)THEN
         WRITE(ISTDO,'(A)')' .. SET'
         ERR_CATEGORY='SET'
 
@@ -3614,7 +3615,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
        NUMELC_DRAPE = 0
        NUMELTG_DRAPE = 0
-      IF (NDRAPE > 0) THEN
+      IF(NDRAPE > 0) THEN
         WRITE(ISTDO,'(A)')' .. DRAPE'
         ALLOCATE(DRAPE_WRK(NUMELC + NUMELTG),DRAPEG%INDX(NUMELC + NUMELTG))
         DRAPEG%INDX = 0  
@@ -3715,7 +3716,7 @@ C-------------------------
          ENDIF  
       ENDIF
 C--------------------------------------------
-      IF (NSUBDOM==0) GOTO 218
+      IF(NSUBDOM==0) GOTO 218
 C--------------------------------------------
 C     MULTIDOMAINS - INTERFACES
 C--------------------------------------------
@@ -3732,13 +3733,13 @@ C--------------------------------------------
          NSPCOND0 = NSPCOND
 ! tmp +++
          RSIBUFSSG=NUMNOD+NSUBDOM
-         IF (RSIBUFSSG > INTMAX .OR. RSIBUFSSG < ZERO) THEN
+         IF(RSIBUFSSG > INTMAX .OR. RSIBUFSSG < ZERO) THEN
            SIBUFSSG = INTMAX
          ELSE
            SIBUFSSG = INT(RSIBUFSSG)
          ENDIF
          ALLOCATE(IBUFTMP(IDX1)%ptr(SIBUFSSG),STAT=stat)
-          IF (STAT /= 0) THEN
+          IF(STAT /= 0) THEN
             CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANSTOP,
@@ -3747,17 +3748,17 @@ C--------------------------------------------
 ! tmp ---
 C---
          ALLOCATE(TAGNO(2*NUMNOD+NPART),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='TAGNO')
          TAGNO(:) = 0
-         ALLOCATE (NALE_R2R(ALE%GLOBAL%SNALE),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(NALE_R2R(ALE%GLOBAL%SNALE),STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='NALE_R2R')
          NALE_R2R(:) = 1
-         ALLOCATE (DT_R2R(4*NSUBDOM),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(DT_R2R(4*NSUBDOM),STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='DT_R2R')
          DT_R2R(:) = 0
@@ -3774,7 +3775,7 @@ C---  Premiere Passe -> comptage
      9        NB_SEATBELT_SHELLS)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
-         IF (STAT /= 0) THEN
+         IF(STAT /= 0) THEN
             CALL ANCMSG(MSGID=727,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANSTOP,
@@ -3831,8 +3832,8 @@ C--------------------------------------------
          DEALLOCATE(KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,KNOD2ELIG3D,KNOD2ELQ)
          DEALLOCATE(NOD2ELS,NOD2ELC,NOD2ELTG,NOD2EL1D,NOD2ELIG3D,NOD2ELQ)
          DEALLOCATE(XYZREF)
-         ALLOCATE (XYZREF(3*NUMNOD)       ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(XYZREF(3*NUMNOD)       ,STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='XYZREF')
          FLAG_GOTO = 1
@@ -3895,7 +3896,7 @@ C-----on recalcule les connectivit   s inverses--------
      6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
      7   IXIG3D     ,KXIG3D     ,KNOD2ELIG3D,NOD2ELIG3D,KNOD2ELQ,
      8   NOD2ELQ    )
-         IF (ALLOCATED(IWORK)) DEALLOCATE(IWORK)
+         IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
 
 C-----on reinitialise les pointeurs utilisateurs-------
          CALL SAV_BUF_POINT(PM     ,1)
@@ -3909,20 +3910,20 @@ C-----on reinitialise les pointeurs utilisateurs-------
 C--------------------------------------------
 
 218   CONTINUE
-         IF(.NOT. ALLOCATED(TAGNO)) ALLOCATE (TAGNO(0))
-         IF(.NOT. ALLOCATED(NALE_R2R)) ALLOCATE (NALE_R2R(0))
-         IF(.NOT. ALLOCATED(DT_R2R)) ALLOCATE (DT_R2R(0))
+         IF(.NOT. ALLOCATED(TAGNO)) ALLOCATE(TAGNO(0))
+         IF(.NOT. ALLOCATED(NALE_R2R)) ALLOCATE(NALE_R2R(0))
+         IF(.NOT. ALLOCATED(DT_R2R)) ALLOCATE(DT_R2R(0))
 C--------------------------------------------
 C     MULTIDOMAINS - CHECK DES INTERFACES
 C--------------------------------------------
 
 C---  Check multidomains datas
-      IF (NR2RLNK/=0) THEN
+      IF(NR2RLNK/=0) THEN
          CALL R2R_CHECK(IEXLNK,IGRNOD,IPART)
       ENDIF
 C---  Allocation de FRONTB_R2R
       ALLOCATE(FRONTB_R2R(SFRONTB_R2R,NSPMD),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='FRONT_R2R')
       FRONTB_R2R = 0
@@ -3941,7 +3942,7 @@ C--------------------------------------------
      6                IGRQUAD ,IGRBRIC  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS,
      7                IGRBEAM ,IGRSPRING,IGRPART  )
       CALL TRACE_OUT1()
-      DEALLOCATE (KXX,IXX,LELX)
+      DEALLOCATE(KXX,IXX,LELX)
 C--------------------------------------------
 C     TRANSFORMATIONS
 C--------------------------------------------
@@ -3966,11 +3967,11 @@ C
       MERGE_NODE_TOL = ZERO
       NMERGE_NODE_CAND = 0
       NMERGE_NODE_DEST = 0
-      IF (STAT /= 0) THEN
+      IF(STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='IMERGE')
       ENDIF
-      IF (NB_MERGE_NODE > 0) THEN
+      IF(NB_MERGE_NODE > 0) THEN
         CALL HM_READ_MERGE_NODE(X,LSUBMODEL,UNITAB,IGRNOD,MERGE_NODE_TAB,
      .                          MERGE_NODE_TOL,NMERGE_NODE_CAND,NMERGE_NODE_DEST)
       ENDIF
@@ -3987,7 +3988,7 @@ C
       ALLOCATE(IMERGE(3*NMERGE_TOT),STAT=stat)
       ALLOCATE(IMERGE2(NUMNOD+1),STAT=stat)
       ALLOCATE(IADMERGE2(NUMNOD+1),STAT=stat)
-      IF (STAT /= 0) THEN
+      IF(STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='IMERGE')
       ENDIF
@@ -3998,13 +3999,13 @@ C
       NMERGED = 0
 C
 C--   CNODE merging
-      IF (NUMCNOD > 0)
+      IF(NUMCNOD > 0)
      .    CALL MERGE(X    ,ITAB   ,ITABM1  ,CMERGE ,IMERGE,
      .               IMERGE2,IADMERGE2,NMERGE_TOT)
       DEALLOCATE(CMERGE)
 C
 C--   /MERGE/NODE merging
-      IF (NB_MERGE_NODE > 0)
+      IF(NB_MERGE_NODE > 0)
      .    CALL MERGE_NODE(X    ,ITAB   ,ITABM1  ,IMERGE,IMERGE2,
      .                    IADMERGE2,NMERGE_TOT,MERGE_NODE_TAB,MERGE_NODE_TOL,
      .                    NMERGE_NODE_CAND,NMERGE_NODE_DEST,IXS,IXS10,IXS20,
@@ -4017,7 +4018,7 @@ C     Reinitialize merged connectivities / groups
 C--------------------------------------------
       ERR_MSG='REINIT CONNECTIVITY'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NMERGED > 0) THEN
+      IF(NMERGED > 0) THEN
         CALL RECONNECT(
      .           IXS      ,IXS10    ,IXS20    ,IXS16    ,IXQ      ,
      .           IXC      ,IXT      ,IXP      ,IXR      ,IXTG     ,
@@ -4047,7 +4048,7 @@ C
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-      IF (MSHSUB /= 0)
+      IF(MSHSUB /= 0)
      .  CALL SHSUB(LSHSUB  ,IXS     ,IXS10   ,IXS20   ,IXS16   ,
      .             IXC     ,IXT     ,IXP     ,IXR     ,IXTG    )
 C--------------------------------------------
@@ -4060,9 +4061,9 @@ C--------------------------------------------
       CALL INIT_RANDOM( )
 
       IF(RAND_STRUCT%CMD) NRAND = NRAND + 1
-      ALLOCATE (IRAND(NRAND),STAT=stat)
-      ALLOCATE (ALEA(NRAND) ,STAT=stat)
-      ALLOCATE (XSEED(NRAND),STAT=stat)
+      ALLOCATE(IRAND(NRAND),STAT=stat)
+      ALLOCATE(ALEA(NRAND) ,STAT=stat)
+      ALLOCATE(XSEED(NRAND),STAT=stat)
 
       CALL HM_READ_RAND(X     ,IGRNOD   ,ITAB,IRAND,ALEA,XSEED,
      .                  UNITAB,LSUBMODEL)
@@ -4085,12 +4086,12 @@ C
       CALL HM_OPTION_COUNT('/MAT/SH_SEATBELT',NB_MAT)
       NB_MAT_SEATBELT = NB_MAT_SEATBELT + NB_MAT
 C
-      IF (NSLIPRING + NRETRACTOR > 0) WRITE(ISTDO,'(A)')' .. SLIPRING/RETRACTOR'
-      IF (NSLIPRING > 0) CALL HM_READ_SLIPRING(
+      IF(NSLIPRING + NRETRACTOR > 0) WRITE(ISTDO,'(A)')' .. SLIPRING/RETRACTOR'
+      IF(NSLIPRING > 0) CALL HM_READ_SLIPRING(
      1                                          LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      2                                          X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(31)+1),ALEA,IGRNOD,
      2                                          IGRSH4N,IXC,IPM)
-      IF (NRETRACTOR > 0) CALL HM_READ_RETRACTOR(
+      IF(NRETRACTOR > 0) CALL HM_READ_RETRACTOR(
      1                                           LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      2                                           X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(32)+1),ALEA,IPM)
       CALL TRACE_OUT1()
@@ -4100,11 +4101,11 @@ C--------------------------------------------
       ERR_MSG='BCS'
       ERR_CATEGORY='BCS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NBCSCYC>0) THEN
+      IF(NBCSCYC>0) THEN
         CALL HM_PREREAD_BCSCYC(IGRNOD ,NOM_OPT(LNOPT1*INOM_OPT(16)+1),LSUBMODEL,SLBCSCYC)
       END IF
       SIBCSCYC = 4*NBCSCYC
-      ALLOCATE (IBCSCYC(SIBCSCYC),LBCSCYC(SLBCSCYC),STAT=stat)
+      ALLOCATE(IBCSCYC(SIBCSCYC),LBCSCYC(SLBCSCYC),STAT=stat)
       LBCSCYC = 0
       IF(NUMBCS /= 0 .OR. NALEBCS /= 0 .OR. NUMBCSN /= 0) THEN
         WRITE(ISTDO,'(A)')TITRE(13)
@@ -4146,21 +4147,21 @@ C--------------------------------------------------------------------------
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SIWORK = 2*MAX(NUMELS,NUMELQ)
-      ALLOCATE (IWORK(SIWORK)  ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IWORK(SIWORK)  ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IWORK')
-      IF (NUMELS /= 0)
+      IF(NUMELS /= 0)
      .  CALL LCE16S3(
      .            IXS    ,BID13   ,PM      ,IWORK   ,ITAB    ,ITABM1  ,
      .            ICODE  ,IPARTS  ,IGRBRIC ,GEO     ,EANI    ,
      .            IXS10  ,IPART   ,IXS20   ,IXS16   ,KNOD2ELS,NOD2ELS ,
      .            IGRSURF,SPH2SOL ,SOL2SPH )
-      IF (NUMELQ /= 0)
+      IF(NUMELQ /= 0)
      .  CALL LCE16Q3(
      .            IXQ    ,BID13   ,PM      ,IWORK   ,ITAB    ,ITABM1  ,
      .            ICODE  ,IPARTQ  ,IGRQUAD ,IPM     ,IGEO    )
-      IF (ALLOCATED(IWORK)) DEALLOCATE (IWORK)
+      IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
       CALL TRACE_OUT1()
 C------------------------------------------------------------------
 C     RAYLEIGH DAMPING
@@ -4168,7 +4169,7 @@ C--------------------------------------------
       ERR_MSG='DAMPING'
       ERR_CATEGORY='DAMPING'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NDAMP > 0) CALL HM_READ_DAMP(DAMPR   ,IGRNOD  ,ISKWN,LSUBMODEL,UNITAB)
+      IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR   ,IGRNOD  ,ISKWN,LSUBMODEL,UNITAB)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     MULTI-POINT CONSTRAINTS (1)
@@ -4176,17 +4177,17 @@ C--------------------------------------------
       ERR_MSG='MPCS 1'
       ERR_CATEGORY='MPCS 1'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NUMMPC > 0) THEN
+      IF(NUMMPC > 0) THEN
         CALL HM_READ_MPC0 (LMPC,LSUBMODEL)
       ELSE
         LMPC=0
       ENDIF
       SRBMPC = LMPC
-      ALLOCATE (RBMPC(SRBMPC)  ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(RBMPC(SRBMPC)  ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='RBMPC')
-      IF (SRBMPC > 0) RBMPC = ZERO
+      IF(SRBMPC > 0) RBMPC = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     STOCKAGE DYNAMIQUE REEL
@@ -4204,17 +4205,17 @@ C--------------------------------------------
       SDFILL  = NMULT*NUMNOD
       SALPH   = 2*NMULT*(NUMELQ+NUMELS)
       SWB     = 0
-      IF (ALE%GRID%NWALE == 2) THEN
+      IF(ALE%GRID%NWALE == 2) THEN
         SWB  = 3*NUMNOD
-      ELSEIF (ALE%GRID%NWALE == 4) THEN
+      ELSEIF(ALE%GRID%NWALE == 4) THEN
         SWB  = 4*NUMNOD
       ENDIF
-      ALLOCATE (WB(SWB)          ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(WB(SWB)          ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='WB')
-      IF (SWB > 0) WB = ZERO
-      IF (ALE%GRID%NWALE == 4) THEN
+      IF(SWB > 0) WB = ZERO
+      IF(ALE%GRID%NWALE == 4) THEN
         WMA => WB(3*NUMNOD+1:SWB)
       ELSE
         WMA => WB
@@ -4227,7 +4228,7 @@ C
       SSTSAVE  = 0
       SSTRSAVE = 0
       SFSAVSAV = 0
-      IF (MSHSUB == 1)THEN
+      IF(MSHSUB == 1)THEN
         SDSAVE   = 3*NUMNOD
         SDRSAVE  = 6*NUMNOD
         SASAVE   = 3*NUMNOD
@@ -4235,75 +4236,75 @@ C
         SSTSAVE  = NUMNOD
         SSTRSAVE = NUMNOD
         SFSAVSAV = NTHVKI*NSECT
-      ELSEIF (ILAG == 1 .AND. (IALE+IEULER) > 0) THEN
+      ELSEIF(ILAG == 1 .AND. (IALE+IEULER) > 0) THEN
         SDSAVE  = 3*NUMNOD
         SASAVE  = 3*NUMNOD
       ENDIF
-      ALLOCATE (GJBUFR(SGJBUFR)  ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(GJBUFR(SGJBUFR)  ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='GJBUFR')
-      ALLOCATE (W(SW)            ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(W(SW)            ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='W')
-      ALLOCATE (VEUL(SVEUL8)      ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(VEUL(SVEUL8)      ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='VEUL')
-      ALLOCATE (FILL(SFILL)      ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(FILL(SFILL)      ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='FILL')
-      ALLOCATE (DFILL(SDFILL)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(DFILL(SDFILL)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DFILL')
-      ALLOCATE (ALPH(SALPH)      ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ALPH(SALPH)      ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ALPH')
-      ALLOCATE (DSAVE(SDSAVE)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(DSAVE(SDSAVE)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DSAVE')
-      ALLOCATE (DRSAVE(SDRSAVE)  ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(DRSAVE(SDRSAVE)  ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DRSAVE')
-      ALLOCATE (ASAVE(SASAVE)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ASAVE(SASAVE)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ASAVE')
-      ALLOCATE (ARSAVE(SARSAVE)  ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ARSAVE(SARSAVE)  ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ARSAVE')
-      ALLOCATE (STSAVE(SSTSAVE)  ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(STSAVE(SSTSAVE)  ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='STSAVE')
-      ALLOCATE (STRSAVE(SSTRSAVE),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(STRSAVE(SSTRSAVE),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='STRSAVE')
-      ALLOCATE (FSAVSAV(SFSAVSAV),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(FSAVSAV(SFSAVSAV),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='FSAVSAV')
-      IF (SGJBUFR > 0)  GJBUFR  = ZERO
-      IF (SW > 0)       W       = ZERO
-      IF (SVEUL8 > 0)    VEUL    = ZERO
-      IF (SFILL > 0)    FILL    = ZERO
-      IF (SDFILL > 0)   DFILL   = ZERO
-      IF (SALPH > 0)    ALPH    = ZERO
-      IF (SDSAVE > 0)   DSAVE   = ZERO
-      IF (SDRSAVE > 0)  DRSAVE  = ZERO
-      IF (SASAVE > 0)   ASAVE   = ZERO
-      IF (SARSAVE > 0)  ARSAVE  = ZERO
-      IF (SSTSAVE > 0)  STSAVE  = ZERO
-      IF (SSTRSAVE > 0) STRSAVE = ZERO
-      IF (SFSAVSAV > 0) FSAVSAV = ZERO
+      IF(SGJBUFR > 0)  GJBUFR  = ZERO
+      IF(SW > 0)       W       = ZERO
+      IF(SVEUL8 > 0)    VEUL    = ZERO
+      IF(SFILL > 0)    FILL    = ZERO
+      IF(SDFILL > 0)   DFILL   = ZERO
+      IF(SALPH > 0)    ALPH    = ZERO
+      IF(SDSAVE > 0)   DSAVE   = ZERO
+      IF(SDRSAVE > 0)  DRSAVE  = ZERO
+      IF(SASAVE > 0)   ASAVE   = ZERO
+      IF(SARSAVE > 0)  ARSAVE  = ZERO
+      IF(SSTSAVE > 0)  STSAVE  = ZERO
+      IF(SSTRSAVE > 0) STRSAVE = ZERO
+      IF(SFSAVSAV > 0) FSAVSAV = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES JOINTS COMPLEXES (GJOINT)
@@ -4332,7 +4333,7 @@ C--------------------------------------------
         LLINAL = 7 * NALELK
         SLINALE=LLINAL
         ALLOCATE(LINALE(SLINALE),STAT=stat)
-        IF (IERR/=0) THEN
+        IF(IERR/=0) THEN
           WRITE(IOUT,*) ' ** ERROR IN MEMORY ALLOCATION'
           WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
         ENDIF
@@ -4352,7 +4353,7 @@ C--------------------------------------------
 C     ---------------------------------------------------------------
 C     Unplug neighbor elements in case of direct lagrangian coupling
 C     ---------------------------------------------------------------
-       IF (MULTI_FVM%IS_USED) THEN
+       IF(MULTI_FVM%IS_USED) THEN
           CALL MULTI_UNPLUG_NEIGHBORS(ALE_CONNECTIVITY, IXS, IXQ, IXTG)
        ENDIF
       CALL TRACE_OUT1()
@@ -4388,35 +4389,35 @@ C---------------------------------------------
       ERR_MSG='MULTI-PURPOSE ELEMENTS'
       ERR_CATEGORY='MULTI-PURPOSE ELEMENTS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NUMELX > 0) THEN
+      IF(NUMELX > 0) THEN
         SKXX = NIXX*NUMELX
         CALL HM_PREREAD_XELEM(SIXX, IGRNOD,LSUBMODEL)
-        ALLOCATE (KXX(SKXX)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KXX(SKXX)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KXX')
-        ALLOCATE (IXX(SIXX+150)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IXX(SIXX+150)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXX')
         KXX = 0
         IXX = 0
-        ALLOCATE (LELX(NUMELX)    ,STAT=stat)
+        ALLOCATE(LELX(NUMELX)    ,STAT=stat)
         LELX(1:NUMELX) = 0
         CALL HM_READ_XELEM(IGRNOD  ,ITAB   ,ITABM1 ,IPART ,IPARTX,
      .              IPM     ,IGEO   ,KXX    ,IXX   ,LSUBMODEL)
       ELSE
         SKXX = 0
         SIXX = 0
-        ALLOCATE (KXX(SKXX)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KXX(SKXX)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KXX')
-        ALLOCATE (IXX(SIXX)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IXX(SIXX)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXX')
-        ALLOCATE (LELX(NUMELX)    ,STAT=stat)
+        ALLOCATE(LELX(NUMELX)    ,STAT=stat)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -4427,15 +4428,15 @@ C---------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SISPSYM  = NSPCOND*NUMSPH
       SISPCOND = NSPCOND*NISPCOND
-      ALLOCATE (ISPSYM(SISPSYM)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ISPSYM(SISPSYM)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='ISPSYM')
-      ALLOCATE (ISPCOND(SISPCOND)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ISPCOND(SISPCOND)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='ISPCOND')
-      IF (NSPCOND > 0) THEN
+      IF(NSPCOND > 0) THEN
         ISPSYM  = 0
         ISPCOND = 0
          WRITE(ISTDO,'(A)')' .. SPH SYMMETRY CONDITIONS'
@@ -4453,29 +4454,29 @@ C---------------------------------------------
       LWASPIO=0
       SISPHIO = NISPHIO*NSPHIO
       SSPHVELN= NSPHIO*NUMSPH*2
-      ALLOCATE (ISPHIO(SISPHIO)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ISPHIO(SISPHIO)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='ISPHIO')
-      ALLOCATE (SPHVELN(SSPHVELN)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(SPHVELN(SSPHVELN)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPHVELN')
       LVSPHIO = 0
-      IF (NSPHIO > 0)THEN
+      IF(NSPHIO > 0)THEN
          WRITE(ISTDO,'(A)')' .. SPH INLET/OUTLET DEFINITION'
          ISPHIO = 0
          NSEG_IO = 0
          CALL HM_PREREAD_SPHIO(IGRSURF   ,SVSPHIO      ,
      .                   NOM_OPT(LNOPT1*INOM_OPT(22)+1),
      .                   LSUBMODEL)
-         ALLOCATE (VSPHIO(SVSPHIO)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(VSPHIO(SVSPHIO)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='VSPHIO')
          VSPHIO(1:SVSPHIO)=ZERO
 
-c         ALLOCATE (VSPHIO2(SVSPHIO2)  ,STAT=stat)
+c         ALLOCATE(VSPHIO2(SVSPHIO2)  ,STAT=stat)
 c         VSPHIO2(1:SVSPHIO2)=ZERO
 
          CALL HM_READ_SPHIO(ISPHIO   ,VSPHIO   ,IPART    ,IGRSURF  ,
@@ -4487,12 +4488,12 @@ C        PREPARATION de la LISTE TRIEE des PARTICULES ON/OFF par PART.
 C---------------------------------------------
          SLPRTSPH = 2*(NPART+1)
          SLONFSPH = NUMSPH
-         ALLOCATE (LPRTSPH(SLPRTSPH)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(LPRTSPH(SLPRTSPH)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='LPRTSPH')
-         ALLOCATE (LONFSPH(SLONFSPH)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(LONFSPH(SLONFSPH)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='LONFSPH')
          LPRTSPH = 0
@@ -4509,12 +4510,12 @@ c           CALL ANCERR(755,ANINFO)
          SLONFSPH = 0
          SVSPHIO  = 0
 c         SVSPHIO2  = 0
-         ALLOCATE (LPRTSPH(SLPRTSPH)    ,STAT=stat)
-         ALLOCATE (LONFSPH(SLONFSPH)    ,STAT=stat)
-         ALLOCATE (VSPHIO(SVSPHIO)      ,STAT=stat)
-c         ALLOCATE (VSPHIO2(SVSPHIO2)      ,STAT=stat)
+         ALLOCATE(LPRTSPH(SLPRTSPH)    ,STAT=stat)
+         ALLOCATE(LONFSPH(SLONFSPH)    ,STAT=stat)
+         ALLOCATE(VSPHIO(SVSPHIO)      ,STAT=stat)
+c         ALLOCATE(VSPHIO2(SVSPHIO2)      ,STAT=stat)
       ENDIF
-      IF (NUMSPH > 0)THEN
+      IF(NUMSPH > 0)THEN
 C---------------------------------------------
 C        REMPLISSAGE de SPBUF(2) = H
 C---------------------------------------------
@@ -4533,8 +4534,8 @@ C---------------------------------------------
       ERR_CATEGORY='FLUID NODAL MASSES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SMSNF = NUMNOD*MAX(IALE,IEULER,IALELAG)
-      ALLOCATE (MSNF(SMSNF)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(MSNF(SMSNF)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='MSNF')
       MSNF = ZERO
@@ -4547,20 +4548,20 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       NUMCLD  = NCONLD
       NUMPRES = NPRELD
-      IF (NSUBDOM>0) ALLOCATE(NNCL(NCONLD+NPRELD))
+      IF(NSUBDOM>0) ALLOCATE(NNCL(NCONLD+NPRELD))
       CALL HM_PREREAD_CLOAD(NUMCLD, IGRNOD ,IGRSURF,LSUBMODEL)
       CALL HM_PREREAD_PLOAD(NUMPRES,IGRNOD ,IGRSURF,LSUBMODEL)
       SIBCL = (NUMCLD + NUMPRES)*NIBCLD
       SFORC = (NUMCLD + NUMPRES)*LFACCLD
-      ALLOCATE (IBCL(SIBCL)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(IBCL(SIBCL)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IBCL')
-      ALLOCATE (FORC(SFORC)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(FORC(SFORC)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='FORC')
-      IF (NUMPRES>0) THEN
+      IF(NUMPRES>0) THEN
         IPRES  => IBCL(NUMCLD*NIBCLD+1:SIBCL)
       ELSE
         IPRES  => IBCL
@@ -4575,13 +4576,13 @@ C--------------------------------------------
 C       NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
         CALL HM_READ_CLOAD(IBCL   ,FORC   ,NCONLD,ITAB   ,ITABM1 ,
      .              IGRNOD ,IBCL   ,UNITAB,ISKWN ,LSUBMODEL  )
-        IF (NCONLD*LFACCLD<SFORC) THEN
+        IF(NCONLD*LFACCLD<SFORC) THEN
         PRES => FORC(NCONLD*LFACCLD+1:SFORC)
         ELSE
           PRES => FORC
       ENDIF
       ENDIF
-      IF (NCONLD*LFACCLD<SFORC) THEN
+      IF(NCONLD*LFACCLD<SFORC) THEN
       PRES => FORC(NCONLD*LFACCLD+1:SFORC)
       ELSE
         PRES => FORC
@@ -4601,7 +4602,7 @@ C--------------------------------------------
       ENDIF
 C NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
       CALL TRACE_OUT1()
-      IF (NSUBDOM>0) DEALLOCATE(NNCL)
+      IF(NSUBDOM>0) DEALLOCATE(NNCL)
 c
 c     pressure load in cylindrical coordintes
 c
@@ -4646,7 +4647,7 @@ c     Output : NFXVEL = number of imposed nodes (disp + vel + acc)
 c
 c---  Calculate number of nodes with imposed disp, vel, acc for allocation
 c
-      IF (NFXVEL > 0) THEN
+      IF(NFXVEL > 0) THEN
         NFV0 = NFXVEL
 c
         CALL HM_PREREAD_IMPDISP(NIMPDISP  ,IGRNOD  ,IPART   ,IPARTR   ,
@@ -4669,13 +4670,13 @@ c---
       SIBFV   = NFXVEL * NIFV
       SVEL    = NFXVEL * LFXVELR
       NFXVEL0 = NFXVEL
-      ALLOCATE (IBFV(SIBFV)    ,STAT=stat)
-      ALLOCATE (VEL(SVEL    )  ,STAT=stat)
+      ALLOCATE(IBFV(SIBFV)    ,STAT=stat)
+      ALLOCATE(VEL(SVEL    )  ,STAT=stat)
       IBFV(1:SIBFV) = 0
       VEL (1:SVEL)  = ZERO
 c------------------------------------------------------
 c
-      IF (NFXVEL > 0) THEN
+      IF(NFXVEL > 0) THEN
 c
         WRITE(ISTDO,'(A)')TITRE(44)
 c
@@ -4689,7 +4690,7 @@ c
 c------------------------------------------------------
 c     IMPOSED ACCELERATIONS
 c------------------------------------------------------
-      IF (NIMPACC > 0) THEN
+      IF(NIMPACC > 0) THEN
         CALL HM_READ_IMPACC(
      .             VEL      ,IBFV     ,NFXVEL0  ,ITAB     ,ITABM1   ,
      .             D        ,IGRNOD   ,ISKWN    ,UNITAB   ,LSUBMODEL,
@@ -4698,14 +4699,14 @@ c------------------------------------------------------
 c
 C /BCS/CYCLIC ini&check
       IF(NBCSCYC > 0) THEN
-        ALLOCATE (ITAGCYC(NUMNOD)  ,STAT=stat)
+        ALLOCATE(ITAGCYC(NUMNOD)  ,STAT=stat)
         CALL INI_BCSCYC(IBCSCYC,LBCSCYC,SKEW,X,ITAB,ICODE,IBFV,ITAGCYC)
       ELSE
-        ALLOCATE (ITAGCYC(0))
+        ALLOCATE(ITAGCYC(0))
       END IF
 C--------------------------------------------
       SFSAV = NTHVKI * (NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NMONVOL+NFXBODY+NINTSUB)
-      ALLOCATE (FSAV(SFSAV)  ,STAT=stat)
+      ALLOCATE(FSAV(SFSAV)  ,STAT=stat)
       FSAV = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -4715,7 +4716,7 @@ C--------------------------------------------
       ERR_CATEGORY='INITIAL VELOCITIES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
-      IF (NRBODY > 0) THEN
+      IF(NRBODY > 0) THEN
         ALLOCATE(RBY_INIAXIS(7,NRBODY))
         RBY_INIAXIS = ZERO
       ELSE
@@ -4724,7 +4725,7 @@ C
 C
       IF(NINVEL/=0.OR.ISIGI>=3)THEN
         SIWORK = NINVEL
-        ALLOCATE (IWORK(SIWORK)  ,STAT=stat)
+        ALLOCATE(IWORK(SIWORK)  ,STAT=stat)
         IWORK = 0
        WRITE(ISTDO,'(A)')TITRE(35)
        ALLOCATE(FVM_INIVEL(NINVEL))
@@ -4739,14 +4740,14 @@ C
      .              FVM_INIVEL,IGRQUAD ,IGRSH3N  ,RBY_MSN ,RBY_INIAXIS)
         CALL INIVEL(V       ,VR      ,SVR_1 ,ITABM1     )
 C
-        IF (ALLOCATED(IWORK)) DEALLOCATE(IWORK)
+        IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
         NINVEL  = SIWORK
 C
       ELSE
         ALLOCATE(FVM_INIVEL(0:0))
       ENDIF
 C
-      IF (ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
+      IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
 C
       CALL TRACE_OUT1()
 
@@ -4754,8 +4755,8 @@ C     *****************************************************************    C
 C     Check if ALE or EULER materials are used with lagrangian thermics
 C     *****************************************************************    C
 
-      IF (IALE + IEULER /= 0) THEN
-         IF (ITHERM_FE == 0 .AND. (NIMTEMP /= 0 .OR. NINTEMP /=0)) THEN
+      IF(IALE + IEULER /= 0) THEN
+         IF(ITHERM_FE == 0 .AND. (NIMTEMP /= 0 .OR. NINTEMP /=0)) THEN
             CALL ANCMSG(MSGID=1724, ANMODE=ANINFO, MSGTYPE=MSGWARNING)
          ENDIF
       ENDIF
@@ -4798,7 +4799,7 @@ c
      .            IBFFLUX(NITFLUX*NFXFLUX),FBFFLUX(LFACTHER*NFXFLUX),
      .            IBCR(NIRADIA*NUMRADIA),  FRADIA(LFACTHER*NUMRADIA),
      .            STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                              C1='THERMAL DATA')
           IBCR(1:NIRADIA*NUMRADIA) = 0
@@ -4813,14 +4814,14 @@ C
            CALL HM_READ_RADIATION(IBCR,FRADIA,ITAB,IXS,IGRSURF,UNITAB,LSUBMODEL)
          ENDIF
 C
-         IF (NFXTEMP > 0) THEN
+         IF(NFXTEMP > 0) THEN
            IBFTEMP = 0
            FBFTEMP = ZERO
            CALL HM_READ_IMPTEMP(IBFTEMP,FBFTEMP,NFXTEMP,ITABM1,
      .                    IGRNOD ,IBFTEMP,ITAB   ,UNITAB,LSUBMODEL)
          ENDIF
 C
-         IF (NFXFLUX > 0 ) THEN
+         IF(NFXFLUX > 0 ) THEN
            IBFFLUX = 0
            FBFFLUX = ZERO
            CALL HM_READ_IMPFLUX(IBFFLUX ,FBFFLUX ,ITAB   ,IXS    ,IGRSURF   ,
@@ -4853,8 +4854,8 @@ C--------------------------------------------
       ELSE
         SFZERO = 0
       ENDIF
-      ALLOCATE (FZERO(SFZERO)  ,STAT=stat)
-      IF (SFZERO > 0) FZERO = ZERO
+      ALLOCATE(FZERO(SFZERO)  ,STAT=stat)
+      IF(SFZERO > 0) FZERO = ZERO
 C--------------------------------------------
 C     LECTURE DES IMPACT LASER
 C--------------------------------------------
@@ -4873,7 +4874,7 @@ C-------------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
       CALL READ_EBCS(IGRSURF,MULTI_FVM,NPC1,(LNOPT1*INOM_OPT(24)+1),LSUBMODEL,EBCS_TAB)
-      IF (NEBCS > 0)THEN
+      IF(NEBCS > 0)THEN
         !allocate & count
         IF(.NOT. ALLOCATED(SENSOR_TMP)) ALLOCATE( SENSOR_TMP(0) )
         CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG,
@@ -4889,9 +4890,9 @@ C--------------------------------------------
       ERR_CATEGORY='ACCELEROMETERS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SACCELM = NACCELM * LLACCELM
-      ALLOCATE (ACCELM(SACCELM)    ,STAT=stat)
-      IF (SACCELM > 0) ACCELM = ZERO
-      IF (NACCELM > 0) CALL LECACC(
+      ALLOCATE(ACCELM(SACCELM)    ,STAT=stat)
+      IF(SACCELM > 0) ACCELM = ZERO
+      IF(NACCELM > 0) CALL LECACC(
      1          LACCELM,ACCELM ,ITABM1 ,UNITAB,IXC,
      2          ISKWN,NOM_OPT(LNOPT1*INOM_OPT(1)+1), LSUBMODEL)
       CALL TRACE_OUT1()
@@ -4901,17 +4902,17 @@ C--------------------------------------------
       ERR_MSG='GAUGES'
       ERR_CATEGORY='GAUGES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ALLOCATE (LGAUGE(3*NBGAUGE) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(LGAUGE(3*NBGAUGE) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='LGAUGE')
       IF(NBGAUGE > 0) LGAUGE=0
-      ALLOCATE (GAUGE(LLGAUGE*NBGAUGE) ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(GAUGE(LLGAUGE*NBGAUGE) ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='GAUGE')
-      IF (NBGAUGE > 0) GAUGE=ZERO
-      IF (NBGAUGE > 0) CALL HM_READ_GAUGE(
+      IF(NBGAUGE > 0) GAUGE=ZERO
+      IF(NBGAUGE > 0) CALL HM_READ_GAUGE(
      1          LGAUGE,GAUGE ,ITABM1 ,UNITAB,IXC,
      2          ISKWN,NOM_OPT(LNOPT1*INOM_OPT(27)+1),LSUBMODEL)
       CALL TRACE_OUT1()
@@ -4935,8 +4936,8 @@ c
       ! check if a user sensor is used with a list of node
       ! convert the list of User node ID into Local node ID
 
-      IF (SENSOR_USER_STRUCT%IS_USED) THEN
-          IF (SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
+      IF(SENSOR_USER_STRUCT%IS_USED) THEN
+          IF(SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
               CALL SENSOR_USER_CONVERT_LOCAL_ID(
      .         ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
      .         SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
@@ -4953,12 +4954,12 @@ C--------------------------------------------
 c
 
       NUMPRELOAD  = NPRELOAD
-      IF (NPRELOAD /= 0) THEN
+      IF(NPRELOAD /= 0) THEN
        IF(NSECT /= 0)THEN
         CALL PRELECSEC4BOLT(SNSTRF,SSECBUF,IGRNOD,ITABM1,0,
      .                      NOM_OPT(LNOPT1*INOM_OPT(8)+1),IGRBRIC,LSUBMODEL)
-        ALLOCATE (NSTRF(SNSTRF)    ,STAT=stat)
-        ALLOCATE (SECBUF(SSECBUF)  ,STAT=stat)
+        ALLOCATE(NSTRF(SNSTRF)    ,STAT=stat)
+        ALLOCATE(SECBUF(SSECBUF)  ,STAT=stat)
         NSTRF  = 0
         SECBUF = ZERO
         CALL LECSEC4BOLT(IXS    ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
@@ -4971,16 +4972,16 @@ c
        CALL HM_PRE_READ_PRELOAD(NSTRF,LSUBMODEL) !to calculate NUMPRELOAD = NUMPRELOAD + NN (NN = NSTRF(K0+7) = NSEGS)
        SIPRELOAD = 3*NUMPRELOAD               !! sb - A ajuster
        SPRELOAD  = 6*NUMPRELOAD               !! sb - A ajuster
-       ALLOCATE (IPRELOAD(SIPRELOAD)    ,STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(IPRELOAD(SIPRELOAD)    ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IPRELOAD')
-       ALLOCATE (PRELOAD(SPRELOAD)    ,STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+       ALLOCATE(PRELOAD(SPRELOAD)    ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='PRELOAD')
-       ALLOCATE (IFLAG_BPRELOAD(NUMELS)    ,STAT=stat)
-       IF (STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
+       ALLOCATE(IFLAG_BPRELOAD(NUMELS)    ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
        IPRELOAD       = 0
@@ -4997,16 +4998,16 @@ c
        SNSTRF  = 0
        SSECBUF = 0
       ELSE
-        ALLOCATE (IPRELOAD(0)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IPRELOAD(0)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IPRELOAD')
-        ALLOCATE (PRELOAD(0)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PRELOAD(0)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='PRELOAD')
-        ALLOCATE (IFLAG_BPRELOAD(0)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
+        ALLOCATE(IFLAG_BPRELOAD(0)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
       ENDIF
@@ -5020,11 +5021,11 @@ C--------------------------------------------
       CALL HM_PRE_READ_LINK(NUMLINK, IGRNOD,LSUBMODEL)
       SNNLINK = 10*NLINK
       SLNLINK = NUMLINK
-      ALLOCATE (NNLINK(SNNLINK)    ,STAT=stat)
-      ALLOCATE (LNLINK(SLNLINK)    ,STAT=stat)
-      IF (SNNLINK > 0) NNLINK = 0
-      IF (SLNLINK > 0) LNLINK = 0
-      IF (NLINK > 0) THEN
+      ALLOCATE(NNLINK(SNNLINK)    ,STAT=stat)
+      ALLOCATE(LNLINK(SLNLINK)    ,STAT=stat)
+      IF(SNNLINK > 0) NNLINK = 0
+      IF(SLNLINK > 0) LNLINK = 0
+      IF(NLINK > 0) THEN
       CALL HM_READ_LINK(
      1        NNLINK  ,LNLINK ,ITAB    ,ITABM1  ,D       ,
      2        IGRNOD  ,ISKWN  ,IFRAME  ,NOM_OPT(LNOPT1*INOM_OPT(9)+1),LSUBMODEL)
@@ -5034,14 +5035,14 @@ C
       SGRAV    = LFACGRV*NGRAV
       SFR_WAVE = NUMNOD*IFRWV
       SPARTS0  = NPART
-      ALLOCATE (FBVEL(SFBVEL)        ,STAT=stat)
-      ALLOCATE (GRAV   (SGRAV   )    ,STAT=stat)
-      ALLOCATE (FR_WAVE(SFR_WAVE)    ,STAT=stat)
-      ALLOCATE (PARTS0(SPARTS0)      ,STAT=stat)
-      IF (SFBVEL > 0) FBVEL   = ZERO
-      IF (SGRAV  > 0) GRAV    = ZERO
-      IF (SFR_WAVE > 0) FR_WAVE = ZERO
-      IF (SPARTS0  > 0) PARTS0  = ZERO
+      ALLOCATE(FBVEL(SFBVEL)        ,STAT=stat)
+      ALLOCATE(GRAV   (SGRAV   )    ,STAT=stat)
+      ALLOCATE(FR_WAVE(SFR_WAVE)    ,STAT=stat)
+      ALLOCATE(PARTS0(SPARTS0)      ,STAT=stat)
+      IF(SFBVEL > 0) FBVEL   = ZERO
+      IF(SGRAV  > 0) GRAV    = ZERO
+      IF(SFR_WAVE > 0) FR_WAVE = ZERO
+      IF(SPARTS0  > 0) PARTS0  = ZERO
 c--------------------------------------------
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -5083,7 +5084,7 @@ C--------------------------------------------
       ERR_CATEGORY='USER WINDOWS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
-      IF (USER_WINDOWS%HAS_USER_WINDOW /= 0 ) THEN
+      IF(USER_WINDOWS%HAS_USER_WINDOW /= 0 ) THEN
 !
 !==============
         CALL HM_READ_WINDOW_USER(USER_WINDOWS,LSUBMODEL,ITAB,
@@ -5128,7 +5129,7 @@ C---------------------------------------------
       ERR_MSG='FLEXIBLE BODIES ON'
       ERR_CATEGORY='FLEXIBLE BODIES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NFXBODY > 0)THEN
+      IF(NFXBODY > 0)THEN
         LENMOD=0
         CALL HM_SETFXRBYON(ITABM1,IXS,ISOLOFF,IXC,ISHEOFF,
      1                     IXT,ITRUOFF,IXP,IPOUOFF,IXR,IRESOFF,
@@ -5140,7 +5141,7 @@ C     LECTURE DES CLUSTERS DES ELEMENTS
 C--------------------------------------------
       ERR_MSG='CLUSTERS'
       ERR_CATEGORY='CLUSTERS'
-      ALLOCATE (CLUSTERS(NCLUSTER), STAT=Stat)
+      ALLOCATE(CLUSTERS(NCLUSTER), STAT=Stat)
       CALL HM_READ_CLUSTER(
      .       CLUSTERS ,UNITAB   ,ISKWN    ,IGRBRIC  ,IGRSPRING,
      .       IXS      ,IXR      ,NOM_OPT(LNOPT1*INOM_OPT(28)+1),
@@ -5185,7 +5186,7 @@ C----------------------------------
       NVENTTOT = 0
       ALLOCATE(T_MONVOL(NVOLU + NMONVOL))
       CALL MONVOL_ALLOCATE(NVOLU + NMONVOL, T_MONVOL, T_MONVOL_METADATA)
-      IF (NVOLU + NMONVOL> 0) THEN
+      IF(NVOLU + NMONVOL> 0) THEN
         WRITE(ISTDO,'(A)') ' .. MONITORED VOLUMES '
 
         CALL READ_MONVOL(T_MONVOL, T_MONVOL_METADATA, ITAB, ITABM1, IPM, IGEO,
@@ -5213,22 +5214,22 @@ C----------------------------------
            LRBAGJET = LRBAGJET + NRBJET * T_MONVOL(II)%NJET
            LIBAGHOL = LIBAGHOL + NIBHOL * T_MONVOL(II)%NVENT
            LRBAGHOL = LRBAGHOL + NRBHOL * T_MONVOL(II)%NVENT
-           IF (T_MONVOL(II)%TYPE == 5 .OR. T_MONVOL(II)%TYPE == 9) THEN
+           IF(T_MONVOL(II)%TYPE == 5 .OR. T_MONVOL(II)%TYPE == 9) THEN
               LRCBAG = LRCBAG + T_MONVOL(II)%NCA * NRCBAG
            ENDIF
         ENDDO
 
         SVOLMON0 = NRVOLU * NVOLU + LRCBAG + LRBAGJET + LRBAGHOL
         SVOLMON = SVOLMON0 + SBUFALE + 1
-        ALLOCATE (VOLMON(SVOLMON), STAT = stat)
+        ALLOCATE(VOLMON(SVOLMON), STAT = stat)
         VOLMON(1:SVOLMON) = ZERO
 
         SMONVOL = NIMV * NVOLU + LICBAG + LIBAGJET + LIBAGHOL + LIBAGALE
-        ALLOCATE (MONVOL(SMONVOL), STAT = stat)
+        ALLOCATE(MONVOL(SMONVOL), STAT = stat)
         MONVOL(1:SMONVOL) = 0
       ELSE
-        ALLOCATE (MONVOL(0))
-        ALLOCATE (VOLMON(0))
+        ALLOCATE(MONVOL(0))
+        ALLOCATE(VOLMON(0))
       ENDIF
       CALL TRACE_OUT1()
 C---------------------------
@@ -5397,19 +5398,19 @@ CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
       CALL INIT_PERMUTATION()
 C
-      IF (IDDLEVEL==1) THEN
+      IF(IDDLEVEL==1) THEN
         TOTADDMAS = ZERO
         MS = ZERO
         IN = ZERO
         MCP = ZERO
         MSNF = ZERO
 C
-        IF ((NSUBDOM>0)) THEN
+        IF((NSUBDOM>0)) THEN
 C       For multidomains - Mass and inertia must be nonzero for coupled nodes
           DO I=1,NUMNOD
-            IF (TAGNO(I+N_PART) > 1) THEN
+            IF(TAGNO(I+N_PART) > 1) THEN
               MS(I)=1e-20
-              IF (IRODDL==1) IN(I)=1e-20
+              IF(IRODDL==1) IN(I)=1e-20
             ENDIF
           END DO
         ENDIF
@@ -5421,7 +5422,7 @@ c     Create seatbelt entities + domdec
 c-----------------------------------------------------------------------
 C
       N_SEATBELT = 0
-      IF (NB_MAT_SEATBELT > 0) THEN
+      IF(NB_MAT_SEATBELT > 0) THEN
         ERR_MSG='SEATBELTS'
         ERR_CATEGORY='SEATBELTS'
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
@@ -5445,14 +5446,14 @@ C
         ERR_MSG='AMS'
         ERR_CATEGORY='AMS'
         WRITE(ISTDO,'(A)')' .. AMS INITIALIZATION'
-        IF (IDDLEVEL==0) THEN
+        IF(IDDLEVEL==0) THEN
 C
           ERR_MSG='AMS INITIALIZATION PHASE I'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
           ALLOCATE(TAGPRT_SMS(NPART),NATIV_SMS(NUMNOD),T2MAIN_SMS(4,NUMNOD),STAT=stat)
 C
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='TAGPRT_SMS / NATIV_SMS / T2MAIN_SMS')
           TAGPRT_SMS=0
@@ -5473,7 +5474,7 @@ C
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
           ALLOCATE(KINWORK(NUMNOD),STAT=STAT)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='KINWORK')
           CALL KINREM(D       ,KINWORK ,RWBUF   ,ITAB   ,NPRW   ,
@@ -5488,7 +5489,7 @@ C
      .                JADR_SMS(3*NUMELR),
      .                JADTG_SMS(3*NUMELTG), JADRB_SMS(NRBODY),
      .             STAT=STAT)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='TAGREL_SMS')
 C
@@ -5519,7 +5520,7 @@ C
 C
           ALLOCATE(KDI_SMS(KNZ_SMS),PK_SMS(KNZ_SMS),
      .             STAT=STAT)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='KDI_SMS')
 C
@@ -5535,7 +5536,7 @@ C
      A             INTBUF_TAB,LAD_SMS ,IPART   ,IGEO     ,NATIV_SMS)
 C
           ALLOCATE(IDI_SMS(NNZ_SMS),JDI_SMS(NNZ_SMS),STAT=STAT)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='JDI_SMS')
 C
@@ -5608,7 +5609,7 @@ C
           CALL TRACE_OUT1()
 C
 C         If no element selected AMS is deactivated
-          IF ((ISMS_SELEC >= 2).AND.(NNZ_SMS == 0)) ISMS_SELEC = 0
+          IF((ISMS_SELEC >= 2).AND.(NNZ_SMS == 0)) ISMS_SELEC = 0
 C
         END IF
 C
@@ -5619,7 +5620,7 @@ C-----
 C
 
       ALLOCATE(IELEM21(NELEM),STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IELEM21')
       IELEM21=0
@@ -5627,7 +5628,7 @@ C
       ERR_MSG='DOMAIN DECOMPOSITION'
       ERR_CATEGORY='DOMAIN DECOMPOSITION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (IDDLEVEL==1) THEN
+      IF(IDDLEVEL==1) THEN
          NGROUP = 0
          LBUFEL = 0
          SEGINDX=0
@@ -5644,7 +5645,7 @@ C        Remise a jour de FRONT pour les procs differents de 0
 C        IL faut prendre en compte les options ou front(i,p) = 1, p<>1
 C        les sensors de type 2 modifient front sur p<>1
       ELSEIF(IDDLEVEL==0) THEN
-         IF (NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLCFIELD>0) THEN
+         IF(NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLCFIELD>0) THEN
            SCEP = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
            SCEL = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
            ALLOCATE(CEP(SCEP))
@@ -5668,12 +5669,12 @@ C        les sensors de type 2 modifient front sur p<>1
       K8 = K7 + NELEM
 C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/2
       LDD_IAD =  ((NELEM+NUMSPH)/NVSIZ/2)*(NSPMD+1)
-      ALLOCATE (DD_TMP(LDD_IAD) ,STAT=stat)
+      ALLOCATE(DD_TMP(LDD_IAD) ,STAT=stat)
       DD_TMP = 0
       IDX    = 1
 
-      ALLOCATE (IWORK(K8) ,STAT=stat)
-      IF (EMAX>0) THEN
+      ALLOCATE(IWORK(K8) ,STAT=stat)
+      IF(EMAX>0) THEN
         ITRI1  => IWORK(1:K2)
         ITRI2  => IWORK(K2+1:K3)
         INDEX1 => IWORK(K3+1:K4)
@@ -5684,7 +5685,7 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
         INDEX1 => IWORK
         INDEX2 => IWORK
       END IF
-      IF (NELEM>0) THEN
+      IF(NELEM>0) THEN
         INUM   => IWORK(K5+1:K6)
         IWD    => IWORK(K6+1:K7)
         IWEIG  => IWORK(K7+1:K8)
@@ -5718,19 +5719,19 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
      8     EBCS_TAG_CELL_SPMD,NPBY,LPBY)
 
-      DEALLOCATE (IWORK)
+      DEALLOCATE(IWORK)
 C---------------------------
 C     Domdec SPH
 C---------------------------
-      IF (NUMSPH > 0)THEN
+      IF(NUMSPH > 0)THEN
           IF(IDDLEVEL==0) THEN
             ALLOCATE(CEPSP(NUMSPH),STAT=stat)
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                 MSGTYPE=MSGERROR,
      .                             C1='CEPSP')
 
             ALLOCATE(CELSPH(NUMSPH),STAT=stat)
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                 MSGTYPE=MSGERROR,
      .                             C1='CELSPH')
           END IF
@@ -5771,17 +5772,17 @@ C---------------------------
      .           18*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
-      ALLOCATE (IPARGTMP(NPARG,NUMEL)    ,STAT=stat)
+      ALLOCATE(IPARGTMP(NPARG,NUMEL)    ,STAT=stat)
       IPARGTMP = 0
-      ALLOCATE (IWORK(EMAX) ,STAT=stat)
-      IF (STAT /= 0) THEN
+      ALLOCATE(IWORK(EMAX) ,STAT=stat)
+      IF(STAT /= 0) THEN
         CALL ANCMSG(MSGID=727,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANSTOP,
      .              C1='IPARG')
       ENDIF
 C     REMPLACEMENT DES NOS EXTERNES DES SS-MATERIAUX PAR LES NOS SYSTEMES
-      IF (IDDLEVEL == 0) CALL M20DCOD(MLAW_TAG,IPM, PM)
+      IF(IDDLEVEL == 0) CALL M20DCOD(MLAW_TAG,IPM, PM)
 C
 C adresse temporaire de DD_IAD
 C nombre de super groupes
@@ -5794,7 +5795,7 @@ C---------------------------------
 C-  PRE TRI + SUPER GROUPES
 C---------------------------------
       NGR_SOL = 0
-      IF (NUMELS/=0) THEN
+      IF(NUMELS/=0) THEN
         K0 = 1
         K1 = K0 + NUMELS*16
         K2 = K1 + NUMELS
@@ -5942,7 +5943,7 @@ C---------------------------------
        INDEX1 => IWORK(K3+1:K4)
        ITRI1  => IWORK(K4+1:K5)
        XEP    => IWORK(K5+1:K6)
-       ALLOCATE (XNUM(NUMELC) ,STAT=stat)
+       ALLOCATE(XNUM(NUMELC) ,STAT=stat)
        XNUM = ZERO
 C
        CALL CGRHEAD(
@@ -6043,7 +6044,7 @@ C
       ENDIF
 C
 C-----
-      IF (NUMELP > 0) THEN
+      IF(NUMELP > 0) THEN
        K1 = 8*NUMELP
        K2 = 9*NUMELP
        K3 = 10*NUMELP+1
@@ -6164,7 +6165,7 @@ C---------------------------------
        ITRI1  => IWORK(K4+1:K5)
        XEP    => IWORK(K5+1:K6)
 
-       ALLOCATE (XNUM(NUMELTG) ,STAT=stat)
+       ALLOCATE(XNUM(NUMELTG) ,STAT=stat)
        XNUM = ZERO
 
        IF(NUMELTG6>0) THEN
@@ -6237,10 +6238,10 @@ C
             PERMUTATION%TRIANGLE(NUMELTG+N)=I
          ENDDO
 
-       DEALLOCATE (XNUM)
+       DEALLOCATE(XNUM)
       ENDIF
 
-      IF (TETRAMESHER_USED) THEN
+      IF(TETRAMESHER_USED) THEN
          CALL APPLYSORT2FVM(T_MONVOL, IXS_TEMP, IXC, IXTG,
      .        ITAB, NOM_OPT(LNOPT1*INOM_OPT(2)+1), NB_TOTAL_NODE)
       ELSE
@@ -6412,39 +6413,39 @@ C--------------------------------------------
 C
       XYZREF = X
 C
-      IF (IDDLEVEL==0)THEN
+      IF(IDDLEVEL==0)THEN
 
         IF(NXREF > 0 .OR. NEREF > 0 .OR. IREFSTA > 0) THEN
           ALLOCATE(XREFC(4,3,NUMELC))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='XREFC')
           ALLOCATE(XREFTG(3,3,NUMELTG))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='XREFTG')
           ALLOCATE(XREFS(8,3,NUMELS8))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='XREFS')
           ALLOCATE(TAGXREF(NUMNOD))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='TAGXREF')
           ALLOCATE(TAGREFSTA(NUMNOD))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='TAGREFSTA')
         ELSE
           ALLOCATE(XREFC(1,1,1))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='XREFC')
           ALLOCATE(XREFTG(1,1,1))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='XREFTG')
           ALLOCATE(XREFS(1,1,1))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='XREFS')
           ALLOCATE(TAGXREF(1))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='TAGXREF')
           ALLOCATE(TAGREFSTA(1))
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,C1='TAGREFSTA')
         ENDIF
       ENDIF
@@ -6452,36 +6453,36 @@ C
       TAGXREF = 0
       TAGREFSTA = 0
 C
-      IF (NXREF > 0) THEN
+      IF(NXREF > 0) THEN
         WRITE(ISTDO,'(A)')' .. REFERENCE STATE (XREF)'
         CALL HM_READ_XREF(ITABM1   ,IPART    ,IPARTC   ,IPARTG   ,IPARTS    ,
      .                    UNITAB   ,IXC      ,IXTG     ,IXS      ,X         ,
      .                    XREFC    ,XREFTG   ,XREFS    ,RTRANS   ,LSUBMODEL ,
      .                    TAGXREF  ,IDDLEVEL ,EANI     ,IPM      ,IGEO )
       ENDIF
-      IF (IREFSTA > 0) THEN
+      IF(IREFSTA > 0) THEN
         WRITE(ISTDO,'(A)')' .. REFERENCE STATE (REFSTA)'
         CALL LECREFSTA(ITABM1  ,UNITAB  ,IXC     ,IXTG  ,IXS     ,
      .                 XYZREF  ,XREFC   ,XREFTG  ,XREFS ,TAGXREF ,
      .                 IDDLEVEL,TAGREFSTA )
 C
-        IF (IDDLEVEL==0 .AND. ((NINTER > 0).OR.(ISMS == 1))) THEN
+        IF(IDDLEVEL==0 .AND. ((NINTER > 0).OR.(ISMS == 1))) THEN
           REWIND(IIN6)
         ELSE
-          IF (IPID /= 0) CLOSE(IIN6)
+          IF(IPID /= 0) CLOSE(IIN6)
           IREFSTA = 0
 C          NXREF   = NXREF + 1
           NXREF   = 1
         ENDIF
       ENDIF
-      IF (NEREF > 0 ) THEN
+      IF(NEREF > 0 ) THEN
         WRITE(ISTDO,'(A)')' .. REFERENCE STATE (EREF)'
         CALL HM_READ_EREF(ITABM1  ,IPART   ,IPARTC  ,IPARTG  ,IPARTS  ,
      .                    IXC     ,IXTG    ,IXS     ,X       ,XREFC   ,
      .                    XREFTG  ,XREFS   ,LSUBMODEL,IDDLEVEL,ITAB    ,
      .                    TAGXREF ,TAGREFSTA )
 C
-        IF (IDDLEVEL ==1 .OR. ((NINTER == 0).AND.(ISMS == 0))) NXREF = 1
+        IF(IDDLEVEL ==1 .OR. ((NINTER == 0).AND.(ISMS == 0))) NXREF = 1
       ENDIF
 C-------------------------------------------------
       !check if a law 151 is associated to any PART
@@ -6511,7 +6512,7 @@ C-------------------------------------------------
       !copy IPARG <- IPARGTMP, and Deallocate IPARGTMP
       SIPARG = NPARG*NGROUP
       IF(ALLOCATED(IPARG))DEALLOCATE(IPARG)
-      ALLOCATE (IPARG(SIPARG)    ,STAT=stat)
+      ALLOCATE(IPARG(SIPARG)    ,STAT=stat)
       DO J=1,NPARG
        DO I=1,NGROUP
         IPARG((I-1)*NPARG + J) = IPARGTMP(J,I)
@@ -6531,8 +6532,8 @@ C provisoire
 c-----------------------------------------------------------------------
 c     set default material/property parameters by element group
 c-----------------------------------------------------------------------
-      IF (ALLOCATED(GROUP_PARAM_TAB)) DEALLOCATE(GROUP_PARAM_TAB)
-      ALLOCATE (GROUP_PARAM_TAB(NGROUP)   ,STAT=stat)
+      IF(ALLOCATED(GROUP_PARAM_TAB)) DEALLOCATE(GROUP_PARAM_TAB)
+      ALLOCATE(GROUP_PARAM_TAB(NGROUP)   ,STAT=stat)
 c
       CALL SET_ELGROUP_PARAM(GROUP_PARAM_TAB  ,IPARG    ,NGROUP   ,N2D       ,
      .                       IPM     ,IGEO    ,PM       ,GEO      ,BUFMAT    )
@@ -6541,14 +6542,14 @@ C-------------------------------------------------
 C--------------------------------------------
 C     Itet=2 of S10 : dynamic condensation
 C--------------------------------------------
-      IF (NUMELS10>0) THEN
+      IF(NUMELS10>0) THEN
        IF(ALLOCATED(ITAGND)) DEALLOCATE(ITAGND)
-       ALLOCATE (ITAGND(NUMNOD),STAT=stat)
+       ALLOCATE(ITAGND(NUMNOD),STAT=stat)
        ITAGND(1:NUMNOD)=0
        CALL DIM_S10EDG(NS10E, IXS10 ,IPARG,ITAGND)
-       IF (NS10E>0) THEN
+       IF(NS10E>0) THEN
         IF(ALLOCATED(ICNDS10)) DEALLOCATE(ICNDS10)
-        ALLOCATE (ICNDS10(3*NS10E),STAT=stat)
+        ALLOCATE(ICNDS10(3*NS10E),STAT=stat)
         ICNDS10(1:3*NS10E)=0
         ITAGND(1:NUMNOD)=0
         CALL IND_S10EDG(ICNDS10, IXS, IXS10 ,IPARG,ITAGND)
@@ -6556,7 +6557,7 @@ C--------------------------------------------
        END IF
       ELSE
        IF(ALLOCATED(ITAGND)) DEALLOCATE(ITAGND)
-       ALLOCATE (ITAGND(0),STAT=stat)
+       ALLOCATE(ITAGND(0),STAT=stat)
       END IF
 
 C--------------------------------------------
@@ -6567,7 +6568,7 @@ C si NSPMD = 1 il faut qd meme construire dd_iad et fr_iad
       ERR_CATEGORY='DOMAIN DECOMPOSITION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SDD_IAD = (NSPMD+1)*NSPGROUP
-      ALLOCATE (DD_IAD(SDD_IAD)    ,STAT=stat)
+      ALLOCATE(DD_IAD(SDD_IAD)    ,STAT=stat)
       DD_IAD = 0
       CALL DOMDEC1(
      1       IPARG  ,IXS    ,IXQ       ,IXC     ,IXT     ,
@@ -6576,14 +6577,14 @@ C si NSPMD = 1 il faut qd meme construire dd_iad et fr_iad
      4       IXS16  ,KXX    ,IXX       ,KXSP    ,IXSP    ,
      5       CEPSP  ,IXTG1)
 C
-      DEALLOCATE (DD_TMP)
+      DEALLOCATE(DD_TMP)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     Multidomains -> modif domdec
 C--------------------------------------------
       ERR_MSG='MULTIDOMAINS'
       ERR_CATEGORY='MULTIDOMAINS'
-      IF ((NSUBDOM>0).AND.(IDDOM==0).AND.(FLG_R2R_ERR==0)) THEN
+      IF((NSUBDOM>0).AND.(IDDOM==0).AND.(FLG_R2R_ERR==0)) THEN
         WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DOMDEC SYNCHRONIZATION '
         CALL R2R_DOMDEC(IEXLNK,IGRNOD,FRONTB_R2R,DT_R2R,0)
       ENDIF
@@ -6594,8 +6595,8 @@ C--------------------------------------------
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SELBUF = LBUFEL
-      ALLOCATE (ELBUF(SELBUF)    ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(ELBUF(SELBUF)    ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ELBUF')
       ELBUF = ZERO
@@ -6611,12 +6612,12 @@ c      CALL PRELECGRAV(NUMGRAV ,IGRNOD)
       SIGRV = NIGRV*NGRAV
       SLGRAV = NUMGRAV
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (IGRV(SIGRV)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IGRV(SIGRV)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IGRV')
-        ALLOCATE (LGRAV(SLGRAV)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(LGRAV(SLGRAV)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='LGRAV')
       END IF
@@ -6631,19 +6632,19 @@ C----------------------------------
       ERR_MSG='INIGRAV'
       ERR_CATEGORY='GRAVITY'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NINIGRAV > 0) SINIGRAV = NINIGRAV
-      IF (IDDLEVEL == 0) THEN
-        ALLOCATE (INIGRV(04,SINIGRAV)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(NINIGRAV > 0) SINIGRAV = NINIGRAV
+      IF(IDDLEVEL == 0) THEN
+        ALLOCATE(INIGRV(04,SINIGRAV)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='INIGRV')
-        ALLOCATE (LINIGRAV(11,SINIGRAV)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(LINIGRAV(11,SINIGRAV)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='LINIGRAV')
       END IF
-      IF (NINIGRAV > 0) THEN
-        IF (IDDLEVEL == 0) THEN
+      IF(NINIGRAV > 0) THEN
+        IF(IDDLEVEL == 0) THEN
           INIGRV = 0
           WRITE(ISTDO,'(A)') ' .. INITIAL GRAVITY LOADING'
           CALL HM_READ_INIGRAV(IGRV     ,LGRAV    ,GRAV     ,ITAB     ,ITABM1   ,
@@ -6663,10 +6664,10 @@ C----------------------------------
 
       IF(IDDLEVEL==0)THEN
         ALLOCATE(INIMAP1D(NINIMAP1D))
-        IF (NINIMAP1D > 0) THEN
+        IF(NINIMAP1D > 0) THEN
           CALL HM_READ_INIMAP1D(INIMAP1D ,NPC     , ITABM1, X, IGRBRIC,
      .                      IGRQUAD  ,IGRSH3N, MULTI_FVM, UNITAB, LSUBMODEL)
-           IF (.NOT. MULTI_FVM%IS_USED) THEN
+           IF(.NOT. MULTI_FVM%IS_USED) THEN
               DO KK = 1, NINIMAP1D
                  ALLOCATE(INIMAP1D(KK)%TAGNODE(NUMNOD))
                  INIMAP1D(KK)%TAGNODE(1:NUMNOD) = 0
@@ -6683,10 +6684,10 @@ C----------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(IDDLEVEL==0)THEN
         ALLOCATE(INIMAP2D(NINIMAP2D))
-        IF (NINIMAP2D > 0) THEN
+        IF(NINIMAP2D > 0) THEN
           CALL HM_READ_INIMAP2D(INIMAP2D, FUNC2D, ITABM1, X, IGRBRIC,
      .                      IGRQUAD , IGRSH3N, UNITAB, LSUBMODEL)
-           IF (.NOT. MULTI_FVM%IS_USED) THEN
+           IF(.NOT. MULTI_FVM%IS_USED) THEN
               DO KK = 1, NINIMAP2D
                  ALLOCATE(INIMAP2D(KK)%TAGNODE(NUMNOD))
                  INIMAP2D(KK)%TAGNODE(1:NUMNOD) = 0
@@ -6706,11 +6707,11 @@ C--------------------------------------------
 C
 C        Centrifugal Loads
          ALLOCATE(ICFIELD(SICFIELD)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ICFIELD')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ICFIELD')
          ALLOCATE(LCFIELD(SLCFIELD)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LCFIELD')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LCFIELD')
          ALLOCATE(CFIELD(SCFIELD)      ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='CFIELD')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='CFIELD')
 !INITIALIZATIONS
          IF(ALLOCATED(ICFIELD)) ICFIELD(:) = 0
          IF(ALLOCATED(LCFIELD)) LCFIELD(:) = 0
@@ -6724,27 +6725,27 @@ C        Centrifugal Loads
 C
 C        PFLUID & PBLAST & LOAD PRESSURE
          ALLOCATE(ILOADP(SILOADP)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ILOADP')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ILOADP')
          ALLOCATE(LLOADP(SLLOADP)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LLOADP')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LLOADP')
          ALLOCATE(LOADP(SLOADP)      ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LOADP')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LOADP')
          ALLOCATE(INTERLOADP(NINTLOADP)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INTERLOADP')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INTERLOADP')
          ALLOCATE(INTGAPLOADP(NINTLOADP)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INTGAPLOADP')
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INTGAPLOADP')
 
          S_LOADPINTER = 0
          IF(NINTLOADP > 0) THEN
             S_LOADPINTER = NINTER*NLOADP_HYD            
             ALLOCATE(KLOADPINTER(NINTER + 1)    ,STAT=stat)
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KLOADPINTER')
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KLOADPINTER')
             ALLOCATE(LOADPINTER(S_LOADPINTER)    ,STAT=stat)
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LOADPINTER')
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='LOADPINTER')
             ALLOCATE(DGAPINT(NINTER)    ,STAT=stat)
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DGAPINT')
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DGAPINT')
             ALLOCATE(DGAPLOADINT(S_LOADPINTER)    ,STAT=stat)
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DGAPLOADINT')
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DGAPLOADINT')
          ELSE
             ALLOCATE(KLOADPINTER(0))
             ALLOCATE(LOADPINTER(0))
@@ -6795,18 +6796,18 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL HM_PREREAD_RBE2(SIRBE2,SLRBE2,IGRNOD,LSUBMODEL)
        IF(IDDLEVEL==0)THEN
-        ALLOCATE (IRBE2(SIRBE2)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IRBE2(SIRBE2)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IRBE2')
        END IF
        IF(IDDLEVEL==0)THEN
-        ALLOCATE (LRBE2(SLRBE2)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(LRBE2(SLRBE2)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='LRBE2')
        END IF
-       IF (SIRBE2 > 0) THEN
+       IF(SIRBE2 > 0) THEN
         IRBE2 = 0
         LRBE2 = 0
         CALL HM_READ_RBE2(
@@ -6833,16 +6834,16 @@ C--------------------------------------------
        SLRBE3 = 2*SLRBE3
        SFRBE3 = (3+1)*SLRBE3
        IF(IDDLEVEL==0)THEN
-        ALLOCATE (IRBE3(SIRBE3)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IRBE3(SIRBE3)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IRBE3')
-        ALLOCATE (LRBE3(SLRBE3), FRBE3(SFRBE3)   ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(LRBE3(SLRBE3), FRBE3(SFRBE3)   ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='LRBE3')
        END IF
-       IF (SIRBE3 > 0) THEN
+       IF(SIRBE3 > 0) THEN
         IRBE3 = 0
         LRBE3 = 0
         FRBE3 = ZERO
@@ -6870,7 +6871,7 @@ C---------------------------------------------
 C    CHECK ENGINE FILE DYNAIN or STATE if to use F.I. total strain for QEPH
 C-------------------------------------------
       ISTR_24 = 0
-      IF (NUMELC/=0) CALL CHECK_QEPH_STRA(ISTR_24)
+      IF(NUMELC/=0) CALL CHECK_QEPH_STRA(ISTR_24)
 C--------------------------------------------
 C     LECTURE DES ELEMENTS DESACTIVABLES
 C--------------------------------------------
@@ -6879,24 +6880,24 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SIACTIV = LACTIV*NACTIV
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (IACTIV(SIACTIV), FACTIV(LRACTIV*NACTIV) ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IACTIV(SIACTIV), FACTIV(LRACTIV*NACTIV) ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR, C1='IACTIV')
       END IF
       IACTIV = 0
-      IF (NACTIV > 0) CALL HM_READ_ACTIV(IACTIV   ,FACTIV  ,SENSORS,IGRBRIC,
+      IF(NACTIV > 0) CALL HM_READ_ACTIV(IACTIV   ,FACTIV  ,SENSORS,IGRBRIC,
      .                             IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS,IGRBEAM,
      .                             IGRSPRING,LSUBMODEL,UNITAB)
 C--------------------------------------------
       SIBMPC = NUMMPC + LMPC*3
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (IBMPC(SIBMPC)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IBMPC(SIBMPC)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IBMPC')
       END IF
       IBMPC  = 0
-      IF (LMPC>0) THEN
+      IF(LMPC>0) THEN
       IBMPC2 => IBMPC(NUMMPC+1:NUMMPC+LMPC)
       IBMPC3 => IBMPC(NUMMPC+LMPC+1:NUMMPC+LMPC*2)
       IBMPC4 => IBMPC(NUMMPC+LMPC*2+1:SIBMPC)
@@ -6908,8 +6909,8 @@ C--------------------------------------------
 
       SKINET = NUMNOD
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (KINET(SKINET)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(KINET(SKINET)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='KINET')
       END IF
@@ -6917,8 +6918,8 @@ C--------------------------------------------
 
       SIPARI = NPARI*NINTER
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (IPARI(SIPARI)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(IPARI(SIPARI)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IPARI')
       END IF
@@ -6930,15 +6931,15 @@ C--------------------------------------------
       ERR_MSG='SOLID ELEMENTS FACES'
       ERR_CATEGORY='SOLID ELEMENTS FACES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ALLOCATE (FASTAG(NUMELS)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(FASTAG(NUMELS)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='FASTAG')
       CALL ANI_FASOLFR1(IXS,IXC,IXTG,FASTAG,ISOLNOD)
       SFASOLFR = 2*NFASOLFR
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (FASOLFR(SFASOLFR),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(FASOLFR(SFASOLFR),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='FASOLFR')
       END IF
@@ -6951,16 +6952,16 @@ C--------------------------------------------
       ERR_MSG='QUAD ELEMENTS SEGS'
       ERR_CATEGORY='QUAD ELEMENTS SEGS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ALLOCATE (SEGTAG(4*NUMELQ)  ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(SEGTAG(4*NUMELQ)  ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SEGTAG')
        SEGTAG (1:4*NUMELQ) = 0
       CALL ANI_SEGQUADFR1(IXQ ,SEGTAG ,KNOD2ELQ ,NOD2ELQ ,X ,NSEGQUADFR)
       SSEGQUADFR = 2*NSEGQUADFR
       IF(IDDLEVEL==0)THEN
-        ALLOCATE (SEGQUADFR(SSEGQUADFR),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(SEGQUADFR(SSEGQUADFR),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SEGTAG')
       END IF
@@ -6973,7 +6974,7 @@ C--------------------------------------------
       ERR_MSG='MPCS 2'
       ERR_CATEGORY='MPCS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NUMMPC > 0) CALL HM_READ_MPC (
+      IF(NUMMPC > 0) CALL HM_READ_MPC (
      1           RBMPC   ,IBMPC  ,IBMPC2  ,IBMPC3  ,IBMPC4  ,
      2           ISKWN   ,ITAB   ,ITABM1  ,LAG_NCF ,LAG_NKF ,
      3           LAG_NHF ,D      ,IKINE1LAG,
@@ -6984,7 +6985,7 @@ C--------------------------------------------
 C     OPTIMIZATION (Part 3 & 4)
 C--------------------------------------------
        IF(ALLOCATED(TAGPRT_FRIC)) DEALLOCATE(TAGPRT_FRIC)
-       ALLOCATE (TAGPRT_FRIC(NPART),STAT=stat)
+       ALLOCATE(TAGPRT_FRIC(NPART),STAT=stat)
        TAGPRT_FRIC(1:NPART) = 0
 
 C--------------------------------------------!
@@ -6992,15 +6993,15 @@ C    FRICTION MODEL :  BUFFER STRUCTURE ALLOCATION, Lectur of option
 C--------------------------------------------!
         IORTHFRICMAX = 0
         NPFRICORTH = 0
-        IF (NINTERFRIC > 0) THEN
+        IF(NINTERFRIC > 0) THEN
 
-           IF (IDDLEVEL == 0) ALLOCATE (INTBUF_FRIC_TAB(NINTERFRIC), STAT=Stat)
+           IF(IDDLEVEL == 0) ALLOCATE(INTBUF_FRIC_TAB(NINTERFRIC), STAT=Stat)
 
 C  1st step : counting number of set of parts in friction models
-            ALLOCATE (TABCOUPLEPARTS_FRIC_TMP(1),STAT=stat)
-            ALLOCATE (TABCOEF_FRIC_TMP(1),STAT=stat)
-            ALLOCATE (IFRICORTH_TMP(1),STAT=stat)
-            ALLOCATE (LENGRPF(NPART),STAT=stat)
+            ALLOCATE(TABCOUPLEPARTS_FRIC_TMP(1),STAT=stat)
+            ALLOCATE(TABCOEF_FRIC_TMP(1),STAT=stat)
+            ALLOCATE(IFRICORTH_TMP(1),STAT=stat)
+            ALLOCATE(LENGRPF(NPART),STAT=stat)
             LENGRPF(1:NPART) = 0
 
             LENG = 0
@@ -7020,18 +7021,18 @@ C  1st step : counting number of set of parts in friction models
      3        FLAGF    ,COEFSLEN      , IORTHFRICMAX    ,IFRICORTH_TMP   ,NGRPF      ,
      4        LENGRPF  ,LENG          , NSETMAX         ,LSUBMODEL )
 
-            DEALLOCATE (TABCOUPLEPARTS_FRIC_TMP)
-            DEALLOCATE (TABCOEF_FRIC_TMP)
-            DEALLOCATE (IFRICORTH_TMP)
+            DEALLOCATE(TABCOUPLEPARTS_FRIC_TMP)
+            DEALLOCATE(TABCOEF_FRIC_TMP)
+            DEALLOCATE(IFRICORTH_TMP)
 
 C  2nd step : storing parts ids and coefficients in temperarly tabs  :
-            ALLOCATE (TABCOUPLEPARTS_FRIC_TMP(2*NINTERFRIC*NSETMAX),STAT=stat)
+            ALLOCATE(TABCOUPLEPARTS_FRIC_TMP(2*NINTERFRIC*NSETMAX),STAT=stat)
             COEFSLEN = NINTERFRIC*(2*NSETMAX+1)
-            ALLOCATE (TABCOEF_FRIC_TMP(8*COEFSLEN),STAT=stat)
+            ALLOCATE(TABCOEF_FRIC_TMP(8*COEFSLEN),STAT=stat)
             TABCOUPLEPARTS_FRIC_TMP(1:2*NINTERFRIC*NSETMAX) = 0
             TABCOEF_FRIC_TMP(1:8*COEFSLEN) = ZERO
 
-            ALLOCATE (IFRICORTH_TMP(NINTERFRIC*NSETMAX),STAT=stat)
+            ALLOCATE(IFRICORTH_TMP(NINTERFRIC*NSETMAX),STAT=stat)
             IFRICORTH_TMP(1:NINTERFRIC*NSETMAX) = 0
 
             FLAGF = 1
@@ -7048,8 +7049,8 @@ C  2nd step : storing parts ids and coefficients in temperarly tabs  :
 C  3rd step : Tri of tabs
 
             COEFSLEN = NINTERFRIC*(2*NSETMAX+1)
-            ALLOCATE (NSETINIT(NINTERFRIC),STAT=stat)
-            ALLOCATE (TABPARTS_FRIC_TMP(2*NINTERFRIC*NSETMAX),STAT=stat)
+            ALLOCATE(NSETINIT(NINTERFRIC),STAT=stat)
+            ALLOCATE(TABPARTS_FRIC_TMP(2*NINTERFRIC*NSETMAX),STAT=stat)
             NSETINIT(1:NINTERFRIC) = 0
             TABPARTS_FRIC_TMP (1:2*NINTERFRIC*NSETMAX) = 0
 
@@ -7060,20 +7061,20 @@ C  3rd step : Tri of tabs
 
 C   4th step :  ALLOCATION OF NEW BUFFER FOR INTERFACE FRICTION
 
-             IF (IDDLEVEL == 0) CALL INTBUF_FRIC_INI_STARTER(INTBUF_FRIC_TAB )
+             IF(IDDLEVEL == 0) CALL INTBUF_FRIC_INI_STARTER(INTBUF_FRIC_TAB )
 
 C    4th step :    Final storing of structures in buffer
              CALL INTBUF_FRIC_COPY(
      .          TABCOUPLEPARTS_FRIC_TMP  ,TABCOEF_FRIC_TMP,TABPARTS_FRIC_TMP   ,
      .           NSETINIT                ,IFRICORTH_TMP   , INTBUF_FRIC_TAB    )
 
-             DEALLOCATE (TABCOUPLEPARTS_FRIC_TMP)
-             DEALLOCATE (TABCOEF_FRIC_TMP)
-             DEALLOCATE (TABPARTS_FRIC_TMP )
+             DEALLOCATE(TABCOUPLEPARTS_FRIC_TMP)
+             DEALLOCATE(TABCOEF_FRIC_TMP)
+             DEALLOCATE(TABPARTS_FRIC_TMP )
 
              DEALLOCATE( NSETINIT )
-             DEALLOCATE (IFRICORTH_TMP)
-             DEALLOCATE (LENGRPF )
+             DEALLOCATE(IFRICORTH_TMP)
+             DEALLOCATE(LENGRPF )
 
 C------/FRICTION/ORIENTATION READING FOR ORTHOTROPIC FRICTION
 
@@ -7082,10 +7083,10 @@ C------/FRICTION/ORIENTATION READING FOR ORTHOTROPIC FRICTION
                 FLAGF = 0
                 NPFRICORTH = 0
 c               KFRICORIENT = 0
-                IF(.NOT.ALLOCATED(PFRICORTH))ALLOCATE (PFRICORTH(NPART),STAT=stat)
-                IF(.NOT.ALLOCATED(IREPFORTH))ALLOCATE (IREPFORTH(1),STAT=stat)
-                IF(.NOT.ALLOCATED(VFORTH))ALLOCATE (VFORTH(1),STAT=stat)
-                IF(.NOT.ALLOCATED(PHIFORTH))ALLOCATE (PHIFORTH(1),STAT=stat)
+                IF(.NOT.ALLOCATED(PFRICORTH))ALLOCATE(PFRICORTH(NPART),STAT=stat)
+                IF(.NOT.ALLOCATED(IREPFORTH))ALLOCATE(IREPFORTH(1),STAT=stat)
+                IF(.NOT.ALLOCATED(VFORTH))ALLOCATE(VFORTH(1),STAT=stat)
+                IF(.NOT.ALLOCATED(PHIFORTH))ALLOCATE(PHIFORTH(1),STAT=stat)
 
                 PFRICORTH(1:NPART) = 0
 
@@ -7094,11 +7095,11 @@ c               KFRICORIENT = 0
      2                 IREPFORTH  ,ISKWN       ,PHIFORTH    ,VFORTH    ,SKEW    ,
      3                 FLAGF      ,TAGPRT_FRIC ,RTRANS      ,LSUBMODEL ,UNITAB  )
 
-                DEALLOCATE (IREPFORTH,VFORTH,PHIFORTH)
+                DEALLOCATE(IREPFORTH,VFORTH,PHIFORTH)
 
-                ALLOCATE (IREPFORTH(NPFRICORTH),STAT=stat)
-                ALLOCATE (VFORTH(3*NPFRICORTH),STAT=stat)
-                ALLOCATE (PHIFORTH(NPFRICORTH),STAT=stat)
+                ALLOCATE(IREPFORTH(NPFRICORTH),STAT=stat)
+                ALLOCATE(VFORTH(3*NPFRICORTH),STAT=stat)
+                ALLOCATE(PHIFORTH(NPFRICORTH),STAT=stat)
 
                 IREPFORTH(1:NPFRICORTH) = 0
                 VFORTH(1:3*NPFRICORTH) = ZERO
@@ -7111,20 +7112,20 @@ c               KFRICORIENT = 0
      3                 FLAGF      ,TAGPRT_FRIC ,RTRANS     ,LSUBMODEL  ,UNITAB  )
               ENDIF
 
-         ELSEIF (IDDLEVEL == 0) THEN !NINTERFRIC = 0
-              ALLOCATE (INTBUF_FRIC_TAB(0))
+         ELSEIF(IDDLEVEL == 0) THEN !NINTERFRIC = 0
+              ALLOCATE(INTBUF_FRIC_TAB(0))
          ENDIF
-         IF(.NOT.ALLOCATED(PFRICORTH))ALLOCATE (PFRICORTH(0))
-         IF(.NOT.ALLOCATED(IREPFORTH))ALLOCATE (IREPFORTH(1))
-         IF(.NOT.ALLOCATED(VFORTH))   ALLOCATE (VFORTH(1))
-         IF(.NOT.ALLOCATED(PHIFORTH)) ALLOCATE (PHIFORTH(1))
+         IF(.NOT.ALLOCATED(PFRICORTH))ALLOCATE(PFRICORTH(0))
+         IF(.NOT.ALLOCATED(IREPFORTH))ALLOCATE(IREPFORTH(1))
+         IF(.NOT.ALLOCATED(VFORTH))   ALLOCATE(VFORTH(1))
+         IF(.NOT.ALLOCATED(PHIFORTH)) ALLOCATE(PHIFORTH(1))
 
 
 C--------------------------------------------
 C     ALE CONNECTIVITY
 C--------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
-      IF (ALE_CONNECTIVITY%has_ne_connect) THEN
+      IF(ALE_CONNECTIVITY%has_ne_connect) THEN
          CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(NUMNOD, NUMELQ, NUMELTG, NUMELS,
      .        NIXQ, NIXTG, NIXS, ITAB,
      .        IXQ, IXTG, IXS)
@@ -7135,9 +7136,9 @@ C--------------------------------------------
      .     NIXQ  , NIXTG , NIXS  , ITAB   ,
      .     IXQ   , IXTG  , IXS   )
 C
-      IF (NSUBDOM > 0) THEN
+      IF(NSUBDOM > 0) THEN
 C---------------Deactivation of ALE flags if no more ALE elements in domain -------------C
-        IF (ALE_EULER == 0) THEN
+        IF(ALE_EULER == 0) THEN
           IALE = 0
           IEULER = 0
         ENDIF
@@ -7161,15 +7162,15 @@ C PROBINT egalement initialisee dans ENGINE (rdresa)
      .                  ANMODE=ANINFO_BLIND_1)
       ENDIF
 
-      IF (NINTER > 0)THEN
+      IF(NINTER > 0)THEN
        IF(IDDLEVEL == 0) THEN
-         ALLOCATE (XFILTR(NINTER)       ,STAT=stat)
-         ALLOCATE (STFAC(NINTER)        ,STAT=stat)
-         ALLOCATE (FRIC_P(10*NINTER)    ,STAT=stat)
-         ALLOCATE (I2RUPT(6*NINTER)     ,STAT=stat)
-         ALLOCATE (AREASL(NINTER)       ,STAT=stat)
-         ALLOCATE (FRIGAP(NPARIR*NINTER),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(XFILTR(NINTER)       ,STAT=stat)
+         ALLOCATE(STFAC(NINTER)        ,STAT=stat)
+         ALLOCATE(FRIC_P(10*NINTER)    ,STAT=stat)
+         ALLOCATE(I2RUPT(6*NINTER)     ,STAT=stat)
+         ALLOCATE(AREASL(NINTER)       ,STAT=stat)
+         ALLOCATE(FRIGAP(NPARIR*NINTER),STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                              C1='XFILTR')
        END IF
@@ -7232,7 +7233,7 @@ C
          !--------------------------------------------!
          !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
          !--------------------------------------------!
-         ALLOCATE (INTBUF_TAB(NINTER), STAT=Stat)
+         ALLOCATE(INTBUF_TAB(NINTER), STAT=Stat)
          !--------------------------------------------!
 
          !--------------------------------------------!
@@ -7260,15 +7261,15 @@ C-----Allocation structures INTSTAMP
 C
        IF(NINTSTAMP/=0)THEN
          IF(IDDLEVEL == 0) THEN
-           ALLOCATE (INTSTAMP(NINTSTAMP)    ,STAT=stat)
-           IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+           ALLOCATE(INTSTAMP(NINTSTAMP)    ,STAT=stat)
+           IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                MSGTYPE=MSGERROR,
      .                         C1='INTSTAMP')
            CALL INTSTAMP_ZERO(INTSTAMP)
          END IF
        ELSE
          IF(IDDLEVEL == 0) THEN
-           ALLOCATE (INTSTAMP(0))
+           ALLOCATE(INTSTAMP(0))
          ENDIF
        END IF
 C
@@ -7299,8 +7300,8 @@ c      CALL ANCHECK(IDS)
        ENDIF
 C----
        IF(IDDLEVEL == 0) THEN
-         ALLOCATE (INSCR(NINTER)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         ALLOCATE(INSCR(NINTER)    ,STAT=stat)
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='INSCR')
 
@@ -7311,8 +7312,8 @@ C----
        IF(IDDLEVEL == 0) THEN
 
          DO I=1,NINTER
-           ALLOCATE (INSCR(I)%WA(INSCR(I)%SINSCR) ,STAT=stat)
-           IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+           ALLOCATE(INSCR(I)%WA(INSCR(I)%SINSCR) ,STAT=stat)
+           IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                MSGTYPE=MSGERROR,
      .                           C1='INSCR')
            INSCR(I)%WA = 0
@@ -7353,8 +7354,8 @@ C-----
      .        + MAXNSNE,NS_I2)
 C
        SRWORK = MAX(6000,NUMNOD)
-       ALLOCATE (IWORK(SIWORK)    ,STAT=stat)
-       ALLOCATE (RWORK(SRWORK)    ,STAT=stat)
+       ALLOCATE(IWORK(SIWORK)    ,STAT=stat)
+       ALLOCATE(RWORK(SRWORK)    ,STAT=stat)
        IWORK = 0
        RWORK = ZERO
 C-----
@@ -7362,8 +7363,8 @@ C-----
      .   LIXINT = LIXINT + LXINTD
        IF(IDDLEVEL==0)THEN
          IF( ALLOCATED(IXINT) ) DEALLOCATE( IXINT )
-         ALLOCATE (IXINT(LIXINT))
-         ALLOCATE (XTMP(3*NUMNOD)    ,STAT=stat)
+         ALLOCATE(IXINT(LIXINT))
+         ALLOCATE(XTMP(3*NUMNOD)    ,STAT=stat)
          XTMP = D(1:3*NUMNOD)
        ENDIF
        IFIXIN = IFIP
@@ -7409,17 +7410,17 @@ C
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 
-        DEALLOCATE (T2_NB_CONNEC)
-        DEALLOCATE (RWORK)
-        DEALLOCATE (IWORK)
+        DEALLOCATE(T2_NB_CONNEC)
+        DEALLOCATE(RWORK)
+        DEALLOCATE(IWORK)
 
-        IF (IDDLEVEL==1)  THEN
+        IF(IDDLEVEL==1)  THEN
           DEALLOCATE(XFILTR)
           DEALLOCATE(FRIC_P)
           DEALLOCATE(FRIGAP)
         END IF
 C-------------RBE3 use IXINT--pour opt.
-        IF (LXINTD>0.AND.NSPMD>1)THEN
+        IF(LXINTD>0.AND.NSPMD>1)THEN
          IF(LIXINT+LXINTD > SIXINT)THEN
            LXINTD2=LXINTD/6
            CALL UPGRADE_IXINT(SIXINT,NELEMINT,LXINTD2)
@@ -7430,18 +7431,18 @@ C-------------RBE3 use IXINT--pour opt.
 C-----
         IF(IDDLEVEL==0)THEN
           D(1:3*NUMNOD) = XTMP(1:3*NUMNOD)
-          DEALLOCATE (XTMP)
+          DEALLOCATE(XTMP)
         END IF
 C
-      ELSEIF (IDDLEVEL == 0) THEN !NINTER = 0
+      ELSEIF(IDDLEVEL == 0) THEN !NINTER = 0
 
         SINSCR = 0
-        ALLOCATE (INTSTAMP(0))
+        ALLOCATE(INTSTAMP(0))
 
         !--------------------------------------------!
         !   NEW INTERFACE BUFFER STRUCTURE ALLOCATION
         !--------------------------------------------!
-        ALLOCATE (INTBUF_TAB(0), STAT=Stat)
+        ALLOCATE(INTBUF_TAB(0), STAT=Stat)
         !--------------------------------------------!
 C
       ENDIF
@@ -7456,21 +7457,21 @@ C--------------------------------------------
         SNPRW  = NRWALL*NNPRW
         SIWORK = NRWALL*NUMNOD
         SLPRW  = 0
-        IF (IDDLEVEL==0) THEN
-          ALLOCATE (NPRW(SNPRW)    ,STAT=stat)
+        IF(IDDLEVEL==0) THEN
+          ALLOCATE(NPRW(SNPRW)    ,STAT=stat)
         END IF
-        ALLOCATE (IWORK(SIWORK)  ,STAT=stat)
+        ALLOCATE(IWORK(SIWORK)  ,STAT=stat)
         NPRW  = 0
         IWORK = 0
 C
         SRWBUF = NRWLP*NRWALL
         SRWSAV = 0
         SRWORK = 3*NUMNOD*NRWALL+SRWBUF
-        ALLOCATE (RWORK(SRWORK)    ,STAT=stat)
+        ALLOCATE(RWORK(SRWORK)    ,STAT=stat)
         RWORK = ZERO
         NRWLAG = 0
 c
-        IF (NRWALL > 0) THEN
+        IF(NRWALL > 0) THEN
           WRITE(ISTDO,'(A)')TITRE(39)
           CALL READ_RWALL(
      1         RWORK    ,NPRW     ,IWORK    ,SLPRW    ,MS       ,
@@ -7482,14 +7483,14 @@ c
         ENDIF
 C
 
-        IF (IDDLEVEL==0) THEN
-          ALLOCATE (LPRW(SLPRW)  ,STAT=stat)
+        IF(IDDLEVEL==0) THEN
+          ALLOCATE(LPRW(SLPRW)  ,STAT=stat)
         END IF
         LPRW = IWORK(1:SLPRW)
         DEALLOCATE(IWORK)
-        IF (IDDLEVEL==0) THEN
-          ALLOCATE (RWBUF(SRWBUF)  ,STAT=stat)
-          IF (STAT /= 0) THEN
+        IF(IDDLEVEL==0) THEN
+          ALLOCATE(RWBUF(SRWBUF)  ,STAT=stat)
+          IF(STAT /= 0) THEN
             CALL ANCMSG(MSGID=727,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANSTOP,
@@ -7499,7 +7500,7 @@ C
         RWBUF = RWORK(1:SRWBUF)
         DEALLOCATE(RWORK)
         IF(ALLOCATED(RWSAV)) DEALLOCATE(RWSAV)
-        ALLOCATE (RWSAV(SRWSAV)  ,STAT=stat)
+        ALLOCATE(RWSAV(SRWSAV)  ,STAT=stat)
         CALL TRACE_OUT1()
 C
 C--------------------------------------------
@@ -7508,13 +7509,13 @@ C--------------------------------------------
         ERR_MSG='ADDED MASSES'
         ERR_CATEGORY='ADDED MASSES'
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-        IF (NODMAS > 0)THEN
+        IF(NODMAS > 0)THEN
            WRITE(ISTDO,'(A)')TITRE(43)
-          IF (IDDLEVEL==0) THEN
+          IF(IDDLEVEL==0) THEN
             ALLOCATE(IPMAS(NODMAS),STAT=stat)
             IPMAS(1:NODMAS)%NPART = 0
             IPMAS(1:NODMAS)%WEIGHT_FLAG = 0
-            IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                 MSGTYPE=MSGERROR,
      .                                 C1='IPMAS')
           ENDIF
@@ -7533,11 +7534,11 @@ C--------------------------------------------
      .                  IPART   ,IPMAS    ,TOTADDMAS,FLAGG  ,IGRPART,
      .                  X       ,LSUBMODEL)
 !---
-           IF (NS10E>0) CALL ADDMAST10(ICNDS10,  MS    )
+           IF(NS10E>0) CALL ADDMAST10(ICNDS10,  MS    )
 C---
         ELSE
-          IF (IDDLEVEL==0) THEN
-            ALLOCATE (IPMAS(0))
+          IF(IDDLEVEL==0) THEN
+            ALLOCATE(IPMAS(0))
           ENDIF
         ENDIF
         CALL TRACE_OUT1()
@@ -7555,41 +7556,41 @@ C--------------------------------------------
         SNRBODY = SNPBY + SNPBYL
         SLRBODY = SLPBY + SLPBYL
         SRBY    = NRBY*NRBODY
-        IF (IDDLEVEL==0) THEN
+        IF(IDDLEVEL==0) THEN
           IF(ALLOCATED(NPBY)) DEALLOCATE(NPBY)
           IF(ALLOCATED(LPBY)) DEALLOCATE(LPBY)
           IF(ALLOCATED(RBY)) DEALLOCATE(RBY)
-          ALLOCATE (NPBY(SNRBODY),STAT=stat)
-          ALLOCATE (LPBY(SLRBODY),STAT=stat)
-          ALLOCATE (RBY(SRBY)    ,STAT=stat)
+          ALLOCATE(NPBY(SNRBODY),STAT=stat)
+          ALLOCATE(LPBY(SLRBODY),STAT=stat)
+          ALLOCATE(RBY(SRBY)    ,STAT=stat)
         END IF
-        IF (NRBMERGE > 0) THEN
-          ALLOCATE (MGRBY(NMGRBY*SMGRBY),STAT=stat)
+        IF(NRBMERGE > 0) THEN
+          ALLOCATE(MGRBY(NMGRBY*SMGRBY),STAT=stat)
         ELSE
-          ALLOCATE (MGRBY(0),STAT=stat)
+          ALLOCATE(MGRBY(0),STAT=stat)
         ENDIF
         NPBY  = 0
         LPBY  = 0
         MGRBY = 0
         RBY   = ZERO
-        IF (SNPBY<SNRBODY) THEN
+        IF(SNPBY<SNRBODY) THEN
           NPBYL => NPBY(SNPBY+1:SNRBODY)
         ELSE
           NPBYL => NPBY
         END IF
-        IF (SLPBY<SLRBODY) THEN
+        IF(SLPBY<SLRBODY) THEN
         LPBYL => LPBY(SLPBY+1:SLRBODY)
         ELSE
           LPBYL => LPBY
         END IF
-        IF (NRBY *NRBYKIN<SRBY) THEN
+        IF(NRBY *NRBYKIN<SRBY) THEN
           RBYL  => RBY(NRBY *NRBYKIN+1:SRBY)
         ELSE
           RBYL  => RBY
         END IF
 C
-        IF (NRBODY  > 0) WRITE(ISTDO,'(A)')TITRE(41)
-        IF (NRBYKIN > 0) THEN
+        IF(NRBODY  > 0) WRITE(ISTDO,'(A)')TITRE(41)
+        IF(NRBYKIN > 0) THEN
             CALL HM_READ_RBODY(
      1       RBY       ,NPBY    ,LPBY    ,ITAB    ,ITABM1    ,
      2       IGRNOD    ,IGRSURF ,IBFV    ,IGRV    ,LGRAV     ,
@@ -7601,7 +7602,7 @@ C
 C--------------------------------------------
 C     LECTURE DES FUSIONS DE RIGID BODY
 C--------------------------------------------
-        IF (NRBMERGE > 0) THEN
+        IF(NRBMERGE > 0) THEN
           CALL HM_READ_MERGE(
      .      MGRBY,SMGRBY ,NPBY,LPBY   ,SLRBODY,
      .      RBY  ,NOM_OPT,INOM_OPT(30),IGRNOD ,
@@ -7611,7 +7612,7 @@ C--------------------------------------------
 C--------------------------------------------
 C     CHECK DES STRUCTURES RIGIDES
 C--------------------------------------------
-        IF (NRBYKIN > 0) THEN
+        IF(NRBYKIN > 0) THEN
           CALL CHECKRBY(
      1       RBY    ,NPBY    ,LPBY   ,ITAB   ,
      2       D      ,IDDLEVEL,NOM_OPT,SLRBODY)
@@ -7619,14 +7620,14 @@ C--------------------------------------------
 C--------------------------------------------
 C     LECTURE RB LAGRANGE
 C--------------------------------------------
-        IF (NRBYLAG > 0) THEN
+        IF(NRBYLAG > 0) THEN
          CALL HM_READ_RBODY_LAGMUL(RBYL    ,NPBYL   ,LPBYL   ,IGRNOD   ,LSUBMODEL ,
      .                             ITAB    ,ITABM1  ,D       ,IKINE1LAG,NOM_OPT)
         ENDIF
 C
         CALL TRACE_OUT1()
 C--------------------------------------------
-      IF (NINTER > 0) THEN
+      IF(NINTER > 0) THEN
 C--------------------------------------------
 C
         IF(NINTSTAMP/=0)THEN
@@ -7666,7 +7667,7 @@ C     set I11FLAG to 1
       DEALLOCATE(IELEM21)
 C
 C---------------------------------
-      IF ((SEANI > 0).AND.(IDDLEVEL==1))  EANI = 0
+      IF((SEANI > 0).AND.(IDDLEVEL==1))  EANI = 0
 C---------------------------------
 #ifdef DNC
 C--------------------------------------------
@@ -7676,20 +7677,20 @@ C--------------------------------------------
       ERR_MSG='MADYMO INTERFACED FEM'
       ERR_CATEGORY='MADYMO INTERFACED FEM'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NEXMAD/=0) THEN
+      IF(NEXMAD/=0) THEN
         SIWORK2 = MAX(NPART,NUMNOD,2*NUMNOD+NUMELC+NUMELTG+NUMELS)
         SIWORK  = NPART+NUMNOD+2*(NUMELC+NUMELTG+NUMELS)
 
-        ALLOCATE (IWORK(SIWORK+SIWORK2),STAT=stat)
+        ALLOCATE(IWORK(SIWORK+SIWORK2),STAT=stat)
         IWORK  = 0
-        IF (SIWORK<SIWORK+SIWORK2) THEN
+        IF(SIWORK<SIWORK+SIWORK2) THEN
         IWORK2 => IWORK(SIWORK+1:SIWORK+SIWORK2)
         ELSE
           IWORK2 => IWORK
         ENDIF
       ENDIF
       IF(ALLOCATED(ICONX)) DEALLOCATE(ICONX)
-      IF (NEXMAD/=0) THEN
+      IF(NEXMAD/=0) THEN
        WRITE(ISTDO,'(A)')' .. FEM INTERFACED TO MADYMO'
         CALL HM_READ_MADYMO_EXFEM(IWORK(7*NCONX+1),ITAB ,ITABM1   ,IPART   ,IPARTC,
      .               IPARTG   ,IPARTS   ,IXC      ,IXTG    ,IXS     ,
@@ -7710,15 +7711,15 @@ C--------------------------------------------
      .              + NUMELC+NUMELTG+NUMELS
 
         SICONX =   7*NCONX+SIEXMAD+SIEXTAG
-        ALLOCATE (ICONX(SICONX),STAT=stat)
+        ALLOCATE(ICONX(SICONX),STAT=stat)
         ICONX(1:SICONX) = 0
         DO I=1,7*NCONX+SIEXMAD
             ICONX(I) = IWORK(I)
         ENDDO
       ELSE
         SICONX  = 7*NCONX
-        ALLOCATE (ICONX(SICONX),STAT=stat)
-        IF (SICONX > 0)THEN
+        ALLOCATE(ICONX(SICONX),STAT=stat)
+        IF(SICONX > 0)THEN
           ICONX(1:7*NCONX)=IWORK(1:7*NCONX)
         ENDIF
       ENDIF
@@ -7736,7 +7737,7 @@ C---------------------------------------------
 C
 
       IF(NFXBODY == 0) THEN
-         IF (IDDLEVEL==0) THEN
+         IF(IDDLEVEL==0) THEN
            ALLOCATE(FXBNOD(0),FXB_MATRIX(0),FXB_MATRIX_ADD(4,0))
            ALLOCATE(FXBGLM(0), FXBCPM(0) , FXBRPM(0),
      .              FXBCPS(0) , FXBLM(0)  , FXBFLS(0),
@@ -7744,9 +7745,9 @@ C
      .              FXBACC(0), FXBMOD(0), FXBELM(0),
      .              FXBSIG(0), FXBGRVI(0), FXBGRVR(0))
          ENDIF
-      ELSE IF (NFXBODY>0) THEN
+      ELSE IF(NFXBODY>0) THEN
 C
-         IF (IDDLEVEL==1) THEN
+         IF(IDDLEVEL==1) THEN
 C--      length must be reset for second pass
            LENGLM=0
            LENCP=0
@@ -7762,7 +7763,7 @@ C--      length must be reset for second pass
            LENGRVR=0
          ENDIF
 C
-         IF (IDDLEVEL==0) THEN
+         IF(IDDLEVEL==0) THEN
            INQUIRE(IOLENGTH=RCLEN) FLREC6
            OPEN(UNIT=IFXM,STATUS='SCRATCH',
      .        ACCESS='DIRECT',RECL=RCLEN)
@@ -7801,7 +7802,7 @@ C
             FXBIPM(AIPM+25)=NLGRAV
          ENDDO
 C
-         IF (IDDLEVEL==0) THEN
+         IF(IDDLEVEL==0) THEN
            ALLOCATE(FXBGLM(LENGLM), FXBCPM(LENCP) , FXBRPM(LENRPM),
      .              FXBCPS(LENCP) , FXBLM(LENLM)  , FXBFLS(LENFLS),
      .              FXBDLS(LENDLS), FXBDEP(LENVAR), FXBVIT(LENVAR),
@@ -7815,7 +7816,7 @@ C
             ANOD=FXBIPM(AIPM+6)
             NBNO=FXBIPM(AIPM+3)
             ALM=FXBIPM(AIPM+19)
-            IF (FXBIPM(AIPM+4)>0) CALL FXBELNUM(
+            IF(FXBIPM(AIPM+4)>0) CALL FXBELNUM(
      .              FXBNOD(ANOD), NBNO,    IPARG  , FXBTAG, FXBELM(ALM),
      .              IXS    ,      IXC    , IXTG   , IPARTS ,IPARTC   ,
      .              IPARTG  ,     IXT    , IXP    , IPARTT  ,IPARTP    )
@@ -7827,7 +7828,7 @@ C
      .                LSUBMODEL)
 C
 C
-      ELSEIF (IDDLEVEL==0) THEN
+      ELSEIF(IDDLEVEL==0) THEN
          ALLOCATE(FXBNOD(0) , FXBMOD(0), FXBGLM(0), FXBGRVI(0),
      .            FXBCPM(0) , FXBCPS(0), FXBLM(0) , FXBFLS(0) ,
      .            FXBDLS(0) , FXBDEP(0), FXBVIT(0), FXBACC(0) ,
@@ -7839,7 +7840,7 @@ C
       ERR_MSG='EIGEN MODES'
       ERR_CATEGORY='EIGEN MODES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NEIG>0) THEN
+      IF(NEIG>0) THEN
 C
          INQUIRE(IOLENGTH=RCLEN) FLREC6
          OPEN(UNIT=IEIGM,STATUS='SCRATCH',
@@ -7850,7 +7851,7 @@ C
          NEIPM=17
          NERPM=4
          LEIBUF = NNT
-         IF (IDDLEVEL==0) THEN
+         IF(IDDLEVEL==0) THEN
            ALLOCATE(EIGIPM(NEIPM*NEIG), EIGIBUF(NNT))
            ALLOCATE(EIGRPM(NERPM*NEIG))
            EIGIPM = 0
@@ -7860,16 +7861,16 @@ C
 C
          CALL HM_READ_EIG(EIGIPM, EIGIBUF, EIGRPM, IGRNOD   ,ITABM1   ,
      .                       UNITAB, LSUBMODEL)
-      ELSEIF (IDDLEVEL==0) THEN
+      ELSEIF(IDDLEVEL==0) THEN
          ALLOCATE(EIGIPM(0), EIGIBUF(0))
          ALLOCATE(EIGRPM(0))
       ENDIF
       CALL TRACE_OUT1()
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NDSOLV==1) THEN
+      IF(NDSOLV==1) THEN
         WRITE(6,*) "ERROR Deprecated Linear solver"
         CALL ARRET(5)
-      ELSEIF (IDDLEVEL==0) THEN
+      ELSEIF(IDDLEVEL==0) THEN
          NSLEVEL=0
          ALLOCATE(CEPTMP(0), NELDOM(0), ELDOM(0,0,0),
      .            ELSUB(0,0))
@@ -7882,40 +7883,40 @@ C
       ERR_CATEGORY='COMPOSITE SHELLS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
-      IF (IDDLEVEL==0) THEN
+      IF(IDDLEVEL==0) THEN
        IF(IPLYXFEM > 0) THEN
          ALLOCATE(MS_PLY0(NUMNOD*NPLYMAX),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='MS_PLY0')
          MS_PLY0=ZERO
          ALLOCATE(ZI_PLY0(NUMNOD*NPLYMAX),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='ZI_PLY0')
          ZI_PLY0=ZERO
          ALLOCATE(MSZ20(NUMNOD),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='MSZ20')
          MSZ20=ZERO
          ALLOCATE(ITAGND_SHXFEM(NUMNOD),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='ITAGND_SHXFEM')
          ITAGND_SHXFEM=0
          ALLOCATE(ITAGSH(NUMELC),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='ITAGSH')
          ITAGSH=0
          ALLOCATE(INOD_PXFEM(NUMNOD),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='INOD_PXFEM')
          INOD_PXFEM=0
          ALLOCATE(IEL_PXFEM(NUMELC),STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='IEL_PXFEM')
          IEL_PXFEM=0
@@ -7935,38 +7936,38 @@ C
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
 C     tab masse
-      IF (IDDLEVEL == 0) THEN
-        ALLOCATE (MSC(NUMELC)   ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      IF(IDDLEVEL == 0) THEN
+        ALLOCATE(MSC(NUMELC)   ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MSC')
-        ALLOCATE (MSTG(NUMELTG)   ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(MSTG(NUMELTG)   ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MSTG')
-        ALLOCATE (INC(NUMELC)   ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(INC(NUMELC)   ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='INC')
-        ALLOCATE (INTG(NUMELTG)   ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(INTG(NUMELTG)   ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='INTG')
-        ALLOCATE (PTG(3,NUMELTG)    ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        ALLOCATE(PTG(3,NUMELTG)    ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='PTG')
         IF(ITHERM_FE > 0)THEN
-          ALLOCATE (MCPC(NUMELC)    ,STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          ALLOCATE(MCPC(NUMELC)    ,STAT=stat)
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MCPC')
-          ALLOCATE (MCPTG(NUMELTG)  ,STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          ALLOCATE(MCPTG(NUMELTG)  ,STAT=stat)
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MCPTG')
         ELSE
-          ALLOCATE (MCPC(0),MCPTG(0))
+          ALLOCATE(MCPC(0),MCPTG(0))
         END IF
       ENDIF
 C
@@ -7980,31 +7981,31 @@ C
 C
 C-------------------------------------------------------
 C
-      IF (IDDLEVEL == 0) THEN
+      IF(IDDLEVEL == 0) THEN
         IF(IREST_MSELT/=0)THEN
-          ALLOCATE (MSSA(NUMELS)     ,STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          ALLOCATE(MSSA(NUMELS)     ,STAT=stat)
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='MSSA')
-          ALLOCATE (MSRT(NUMELR)     ,STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          ALLOCATE(MSRT(NUMELR)     ,STAT=stat)
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='MSRT')
         ELSE
-          ALLOCATE (MSSA(0)          ,STAT=stat)
-          ALLOCATE (MSRT(0)          ,STAT=stat)
+          ALLOCATE(MSSA(0)          ,STAT=stat)
+          ALLOCATE(MSRT(0)          ,STAT=stat)
         ENDIF
 C-------------------------------------------------------
         IF(I7STIFS/=0)THEN
-          ALLOCATE (STIFINT(NUMNOD+NUMFAKENODIGEO)    ,STAT=stat)
-          ALLOCATE (STIFINTR(NUMNOD)   ,STAT=stat)
+          ALLOCATE(STIFINT(NUMNOD+NUMFAKENODIGEO)    ,STAT=stat)
+          ALLOCATE(STIFINTR(NUMNOD)   ,STAT=stat)
         ELSE
-          ALLOCATE (STIFINT(0)    ,STAT=stat)
-          ALLOCATE (STIFINTR(0)   ,STAT=stat)
+          ALLOCATE(STIFINT(0)    ,STAT=stat)
+          ALLOCATE(STIFINTR(0)   ,STAT=stat)
         ENDIF
 C-------------------------------------------------------
         IF(IRIGID_MAT > 0) THEN
-           ALLOCATE (SLNRBM(NUMNOD) ,NSLNRBM(NUMNOD))
+           ALLOCATE(SLNRBM(NUMNOD) ,NSLNRBM(NUMNOD))
            ALLOCATE( RMSTIFN(NUMNOD), RMSTIFR(NUMNOD))
          ELSE
            ALLOCATE( SLNRBM(0),NSLNRBM(0),RMSTIFN(0), RMSTIFR(0))
@@ -8013,28 +8014,28 @@ C-------------------------------------------------------
 C-------------------------------------------------------
         ALLOCATE(FXANI(2,NMANIM), MBUFEL(LBUFEL,NMANIM),
      .         MDEPL(3*NUMNOD,NMANIM))
-        ALLOCATE (STIFFN(NUMNOD*2)            ,STAT=stat)
+        ALLOCATE(STIFFN(NUMNOD*2)            ,STAT=stat)
       ENDIF
 C
       STIFINT = ZERO
       STIFINTR = ZERO
       SLNRBM= 0
       NSLNRBM=0
-      IF (NUMNOD  > 0) STIFFN  = EM20
+      IF(NUMNOD  > 0) STIFFN  = EM20
 C
       CALL TRACE_OUT1()
 C--------------------------------------------
       ! still need for *Y00, *sty files - not yet covered by CFG files (hm_reader)
-      IF (IDDLEVEL == 0) CALL YCTRL(IGRBRIC)
+      IF(IDDLEVEL == 0) CALL YCTRL(IGRBRIC)
 !
-      IF (IDDLEVEL == 0) CALL HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC)
+      IF(IDDLEVEL == 0) CALL HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC)
 C
 C----------------------------------------------------------
 C
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C  The following is executed with iddlevel=0 only for AMS with automatic element selection
 C  or if no contact interfaces and no ams
-      IF ((IDDLEVEL == 1).OR.(ISMS_SELEC >= 3).OR.((NINTER == 0).AND.(ISMS == 0))) THEN
+      IF((IDDLEVEL == 1).OR.(ISMS_SELEC >= 3).OR.((NINTER == 0).AND.(ISMS == 0))) THEN
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
 C--------------------------------------------
@@ -8052,7 +8053,7 @@ C     NEW ELEMENT BUFFER STRUCTURE ALLOCATION
 C--------------------------------------------
 c
       FLAG_XFEM = 0
-      ALLOCATE (ELBUF_TAB(NGROUP), STAT=Stat)
+      ALLOCATE(ELBUF_TAB(NGROUP), STAT=Stat)
 C
       CALL ELBUF_INI(ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,VISC_TAG  ,
      .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
@@ -8063,10 +8064,10 @@ C
 C---
 C  if xfem
 c---
-      IF (ICRACK3D > 0) THEN
+      IF(ICRACK3D > 0) THEN
         FLAG_XFEM = 1
 
-        ALLOCATE (XFEM_TAB(NGROUP,NXEL), STAT=Stat)
+        ALLOCATE(XFEM_TAB(NGROUP,NXEL), STAT=Stat)
 c
         DO IXEL=1,NXEL
           CALL ELBUF_INI(
@@ -8078,12 +8079,12 @@ c
      .         EOS_TAG                ,MAXEOS   ,ISTR_24  ,IPRI)
         ENDDO
       ELSE
-        ALLOCATE (XFEM_TAB(0,0), STAT=Stat)
+        ALLOCATE(XFEM_TAB(0,0), STAT=Stat)
       ENDIF
 C--------------------------------------------
 C     CHECK COMPATIBILITY /DTTSH
 C--------------------------------------------
-      IF (NUMELS>0) THEN
+      IF(NUMELS>0) THEN
        CALL CHK_DTTSH(ELBUF_TAB,IXS ,IPARG ,D   )
       END IF
 C
@@ -8119,7 +8120,7 @@ C
      .         NVSOLID5 + NVSOLID6 + 7
 
 
-        IF (IABS(ISIGI) == 3 .OR. IABS(ISIGI) == 4 .OR.
+        IF(IABS(ISIGI) == 3 .OR. IABS(ISIGI) == 4 .OR.
      .      IABS(ISIGI) == 5) THEN
           LSIGSH  = NUMSHEL+NUMSH3N
           LSIGSP  = MAX(NUMSOL+NUMQUAD,NUMELS+NUMELQ)
@@ -8156,14 +8157,14 @@ C
 C
 C------- refsta
       IF(ABS(ISIGI)==3.OR.ABS(ISIGI)==4.OR.ABS(ISIGI)==5)THEN
-        ALLOCATE (PTSHEL(NUMELC)   ,STAT=stat)
-        ALLOCATE (PTSH3N(NUMELTG)  ,STAT=stat)
-        ALLOCATE (PTSOL(NUMELS)    ,STAT=stat)
-        ALLOCATE (PTQUAD(NUMELQ)   ,STAT=stat)
-        ALLOCATE (PTSPH(NUMSPH)    ,STAT=stat)
-        ALLOCATE (PTSPRI(NUMELR)   ,STAT=stat)
-        ALLOCATE (PTBEAM(NUMELP)   ,STAT=stat)
-        ALLOCATE (PTTRUSS(NUMELT)  ,STAT=stat)
+        ALLOCATE(PTSHEL(NUMELC)   ,STAT=stat)
+        ALLOCATE(PTSH3N(NUMELTG)  ,STAT=stat)
+        ALLOCATE(PTSOL(NUMELS)    ,STAT=stat)
+        ALLOCATE(PTQUAD(NUMELQ)   ,STAT=stat)
+        ALLOCATE(PTSPH(NUMSPH)    ,STAT=stat)
+        ALLOCATE(PTSPRI(NUMELR)   ,STAT=stat)
+        ALLOCATE(PTBEAM(NUMELP)   ,STAT=stat)
+        ALLOCATE(PTTRUSS(NUMELT)  ,STAT=stat)
         PTSHEL = 0
         PTSH3N = 0
         PTSOL  = 0
@@ -8173,34 +8174,34 @@ C------- refsta
         PTBEAM = 0
         PTTRUSS= 0
       ELSE
-        ALLOCATE (PTSHEL(0)  ,STAT=stat)
-        ALLOCATE (PTSH3N(0)  ,STAT=stat)
-        ALLOCATE (PTSOL(0)   ,STAT=stat)
-        ALLOCATE (PTQUAD(0)  ,STAT=stat)
-        ALLOCATE (PTSPH(0)   ,STAT=stat)
-        ALLOCATE (PTSPRI(0)  ,STAT=stat)
-        ALLOCATE (PTBEAM(0)  ,STAT=stat)
-        ALLOCATE (PTTRUSS(0) ,STAT=stat)
+        ALLOCATE(PTSHEL(0)  ,STAT=stat)
+        ALLOCATE(PTSH3N(0)  ,STAT=stat)
+        ALLOCATE(PTSOL(0)   ,STAT=stat)
+        ALLOCATE(PTQUAD(0)  ,STAT=stat)
+        ALLOCATE(PTSPH(0)   ,STAT=stat)
+        ALLOCATE(PTSPRI(0)  ,STAT=stat)
+        ALLOCATE(PTBEAM(0)  ,STAT=stat)
+        ALLOCATE(PTTRUSS(0) ,STAT=stat)
       END IF
 C
       ICO = 0
       ITET4_10=0
       CALL TET4_10(IGEO,ITET4_10)
-      IF (NUMELS10/=0.OR.NUMELS16/=0.OR.NUMELS20/=0.OR.ITET4_10/=0) THEN
+      IF(NUMELS10/=0.OR.NUMELS16/=0.OR.NUMELS20/=0.OR.ITET4_10/=0) THEN
         ICO=12
       ENDIF
 C
 C non optimise (12 max(8,10,12)
-      ALLOCATE (MSS(8*NUMELS)     ,STAT=stat)
-      ALLOCATE (MSSX(ICO*NUMELS)  ,STAT=stat)
-      ALLOCATE (MSSF(8*NUMELS*MAX(IALE,IEULER,IALELAG))  ,STAT=stat)
-      ALLOCATE (MSQ(NUMELQ)       ,STAT=stat)
-      IF(.NOT.ALLOCATED(MSTR)) ALLOCATE (MSTR(NUMELT)      ,STAT=stat)
-      IF(.NOT.ALLOCATED(MSP)) ALLOCATE (MSP(NUMELP)       ,STAT=stat)
-      ALLOCATE (MSR(NUMELR*3)     ,STAT=stat)
-      ALLOCATE (INP(NUMELP)       ,STAT=stat)
-      ALLOCATE (INR(NUMELR*3)     ,STAT=stat)
-      ALLOCATE (INS(NUMELS*8)     ,STAT=stat)
+      ALLOCATE(MSS(8*NUMELS)     ,STAT=stat)
+      ALLOCATE(MSSX(ICO*NUMELS)  ,STAT=stat)
+      ALLOCATE(MSSF(8*NUMELS*MAX(IALE,IEULER,IALELAG))  ,STAT=stat)
+      ALLOCATE(MSQ(NUMELQ)       ,STAT=stat)
+      IF(.NOT.ALLOCATED(MSTR)) ALLOCATE(MSTR(NUMELT)      ,STAT=stat)
+      IF(.NOT.ALLOCATED(MSP)) ALLOCATE(MSP(NUMELP)       ,STAT=stat)
+      ALLOCATE(MSR(NUMELR*3)     ,STAT=stat)
+      ALLOCATE(INP(NUMELP)       ,STAT=stat)
+      ALLOCATE(INR(NUMELR*3)     ,STAT=stat)
+      ALLOCATE(INS(NUMELS*8)     ,STAT=stat)
       MSS   = ZERO
       MSSX  = ZERO
       MSSF  = ZERO
@@ -8213,37 +8214,37 @@ C non optimise (12 max(8,10,12)
       INS   = ZERO
 C------
 C      ELSE
-C        ALLOCATE (MSS(0)     ,STAT=stat)
-C        ALLOCATE (MSSX(0)    ,STAT=stat)
-C        ALLOCATE (MSSF(0)    ,STAT=stat)
-C        ALLOCATE (MSQ(0)     ,STAT=stat)
-C        ALLOCATE (MSTR(0)    ,STAT=stat)
-C        ALLOCATE (MSP(0)     ,STAT=stat)
-C        ALLOCATE (MSR(0)     ,STAT=stat)
-C        ALLOCATE (INP(0)     ,STAT=stat)
-C        ALLOCATE (INR(0)     ,STAT=stat)
-C        ALLOCATE (INS(0)     ,STAT=stat)
+C        ALLOCATE(MSS(0)     ,STAT=stat)
+C        ALLOCATE(MSSX(0)    ,STAT=stat)
+C        ALLOCATE(MSSF(0)    ,STAT=stat)
+C        ALLOCATE(MSQ(0)     ,STAT=stat)
+C        ALLOCATE(MSTR(0)    ,STAT=stat)
+C        ALLOCATE(MSP(0)     ,STAT=stat)
+C        ALLOCATE(MSR(0)     ,STAT=stat)
+C        ALLOCATE(INP(0)     ,STAT=stat)
+C        ALLOCATE(INR(0)     ,STAT=stat)
+C        ALLOCATE(INS(0)     ,STAT=stat)
 C      ENDIF
 C----
-      ALLOCATE (XELEMWA(MAXNX*16)     ,STAT=stat)
+      ALLOCATE(XELEMWA(MAXNX*16)     ,STAT=stat)
       XELEMWA = ZERO
-      IF (I7STIFS/=0) THEN
+      IF(I7STIFS/=0) THEN
         ICO = 0
-        IF (NUMELS10/=0.OR.NUMELS16/=0.OR.NUMELS20/=0.OR.ITET4_10/=0) THEN
+        IF(NUMELS10/=0.OR.NUMELS16/=0.OR.NUMELS20/=0.OR.ITET4_10/=0) THEN
           ICO=12
         ENDIF
-        ALLOCATE (VNS(NUMELS*8+NUMELIG3D*NCTRLMAX)     ,STAT=stat)
-        ALLOCATE (VNSX(NUMELS*ICO)  ,STAT=stat)
-        ALLOCATE (STC(NUMELC)       ,STAT=stat)
-        ALLOCATE (STT(NUMELT)       ,STAT=stat)
-        ALLOCATE (STP(NUMELP)       ,STAT=stat)
-        ALLOCATE (STR(NUMELR)       ,STAT=stat)
-        ALLOCATE (STTG(NUMELTG)     ,STAT=stat)
-        ALLOCATE (STUR(0)           ,STAT=stat)
-        ALLOCATE (BNS(NUMELS*8+NUMELIG3D*NCTRLMAX)     ,STAT=stat)
-        ALLOCATE (BNSX(NUMELS*ICO)  ,STAT=stat)
-        ALLOCATE (VNIGE(NUMELIG3D*NCTRLMAX)     ,STAT=stat)
-        ALLOCATE (BNIGE(NUMELIG3D*NCTRLMAX)     ,STAT=stat)
+        ALLOCATE(VNS(NUMELS*8+NUMELIG3D*NCTRLMAX)     ,STAT=stat)
+        ALLOCATE(VNSX(NUMELS*ICO)  ,STAT=stat)
+        ALLOCATE(STC(NUMELC)       ,STAT=stat)
+        ALLOCATE(STT(NUMELT)       ,STAT=stat)
+        ALLOCATE(STP(NUMELP)       ,STAT=stat)
+        ALLOCATE(STR(NUMELR)       ,STAT=stat)
+        ALLOCATE(STTG(NUMELTG)     ,STAT=stat)
+        ALLOCATE(STUR(0)           ,STAT=stat)
+        ALLOCATE(BNS(NUMELS*8+NUMELIG3D*NCTRLMAX)     ,STAT=stat)
+        ALLOCATE(BNSX(NUMELS*ICO)  ,STAT=stat)
+        ALLOCATE(VNIGE(NUMELIG3D*NCTRLMAX)     ,STAT=stat)
+        ALLOCATE(BNIGE(NUMELIG3D*NCTRLMAX)     ,STAT=stat)
         VNS = ZERO
         VNSX = ZERO
         STC = ZERO
@@ -8257,24 +8258,24 @@ C----
         VNIGE = ZERO
         BNIGE = ZERO
       ELSE
-        ALLOCATE (VNS(0))
-        ALLOCATE (VNSX(0))
-        ALLOCATE (STC(0))
-        ALLOCATE (STT(0))
-        ALLOCATE (STP(0))
-        ALLOCATE (STR(0))
-        ALLOCATE (STTG(0))
-        ALLOCATE (STUR(0))
-        ALLOCATE (BNS(0))
-        ALLOCATE (BNSX(0))
-        ALLOCATE (VNIGE(0))
-        ALLOCATE (BNIGE(0))
+        ALLOCATE(VNS(0))
+        ALLOCATE(VNSX(0))
+        ALLOCATE(STC(0))
+        ALLOCATE(STT(0))
+        ALLOCATE(STP(0))
+        ALLOCATE(STR(0))
+        ALLOCATE(STTG(0))
+        ALLOCATE(STUR(0))
+        ALLOCATE(BNS(0))
+        ALLOCATE(BNSX(0))
+        ALLOCATE(VNIGE(0))
+        ALLOCATE(BNIGE(0))
       ENDIF
       IF(I7STIFS/=0)THEN
-        ALLOCATE (VOLNOD(NUMNOD+NUMFAKENODIGEO)     ,STAT=stat)
-        ALLOCATE (BVOLNOD(NUMNOD+NUMFAKENODIGEO)    ,STAT=stat)
-        ALLOCATE (ETNOD(NUMNOD)      ,STAT=stat)
-        ALLOCATE (NSHNOD(NUMNOD)     ,STAT=stat)
+        ALLOCATE(VOLNOD(NUMNOD+NUMFAKENODIGEO)     ,STAT=stat)
+        ALLOCATE(BVOLNOD(NUMNOD+NUMFAKENODIGEO)    ,STAT=stat)
+        ALLOCATE(ETNOD(NUMNOD)      ,STAT=stat)
+        ALLOCATE(NSHNOD(NUMNOD)     ,STAT=stat)
         VOLNOD  = ZERO
         BVOLNOD = ZERO
         ETNOD   = ZERO
@@ -8282,35 +8283,35 @@ C----
         STIFINT = ZERO
         STIFINTR = ZERO
       ELSE
-        ALLOCATE (VOLNOD(0)     ,STAT=stat)
-        ALLOCATE (BVOLNOD(0)    ,STAT=stat)
-        ALLOCATE (ETNOD(0)      ,STAT=stat)
-        ALLOCATE (NSHNOD(0)     ,STAT=stat)
+        ALLOCATE(VOLNOD(0)     ,STAT=stat)
+        ALLOCATE(BVOLNOD(0)    ,STAT=stat)
+        ALLOCATE(ETNOD(0)      ,STAT=stat)
+        ALLOCATE(NSHNOD(0)     ,STAT=stat)
       ENDIF
 
 C-- Rot. Stiffness parithon computation -> allocated even if no interfaces, to avoid "if" in element routines
-      ALLOCATE (STRC(NUMELC)       ,STAT=stat)
-      ALLOCATE (STRP(NUMELP)       ,STAT=stat)
-      ALLOCATE (STRR(NUMELR)       ,STAT=stat)
-      ALLOCATE (STRTG(NUMELTG)       ,STAT=stat)
+      ALLOCATE(STRC(NUMELC)       ,STAT=stat)
+      ALLOCATE(STRP(NUMELP)       ,STAT=stat)
+      ALLOCATE(STRR(NUMELR)       ,STAT=stat)
+      ALLOCATE(STRTG(NUMELTG)       ,STAT=stat)
       STRC = ZERO
       STRP = ZERO
       STRR = ZERO
       STRTG = ZERO
 C---
-      ALLOCATE (INDEX(SINDEX)    ,STAT=stat)
-      ALLOCATE (ITRI(SITRI)      ,STAT=stat)
-      ALLOCATE (KSYSUSR(2*JMAX)  ,STAT=stat)
-      ALLOCATE (ISPTAG(NUMSPH)   ,STAT=stat)
-      IF (SINDEX > 0) INDEX = 0
-      IF (SITRI  > 0) ITRI  = 0
-      IF (JMAX   > 0) KSYSUSR = 0
-      IF (NUMSPH > 0) ISPTAG  = 0
+      ALLOCATE(INDEX(SINDEX)    ,STAT=stat)
+      ALLOCATE(ITRI(SITRI)      ,STAT=stat)
+      ALLOCATE(KSYSUSR(2*JMAX)  ,STAT=stat)
+      ALLOCATE(ISPTAG(NUMSPH)   ,STAT=stat)
+      IF(SINDEX > 0) INDEX = 0
+      IF(SITRI  > 0) ITRI  = 0
+      IF(JMAX   > 0) KSYSUSR = 0
+      IF(NUMSPH > 0) ISPTAG  = 0
 C
-      IF (NRBYKIN>0) THEN
-         ALLOCATE (IWA(NUMNOD),STAT=stat)
+      IF(NRBYKIN>0) THEN
+         ALLOCATE(IWA(NUMNOD),STAT=stat)
       ELSE
-         ALLOCATE (IWA(0),STAT=stat)
+         ALLOCATE(IWA(0),STAT=stat)
       ENDIF
 C
       CALL TRACE_OUT1()
@@ -8323,27 +8324,27 @@ C----------------------------------
 C -- LECTURE OF INITIAL STATE DATA
 C----------------------------------
 C
-      ALLOCATE (SIGI(NSIGS,LSIGI)                  ,STAT=stat)
-      ALLOCATE (SIGSH(MAX(1,NSIGSH),MAX(1,LSIGSH)) ,STAT=stat)
-      ALLOCATE (SIGSP(NSIGI,LSIGSP)                ,STAT=stat)
-      ALLOCATE (SIGSPH(NSIGSPH,LSIGSPH)            ,STAT=stat)
-      ALLOCATE (SIGRS(NSIGRS,LSIGRS)               ,STAT=stat)
-      ALLOCATE (SIGBEAM(NSIGBEAM,LSIGBEAM)         ,STAT=stat)
-      ALLOCATE (SIGTRUSS(NSIGTRUSS,LSIGTRUSS)      ,STAT=stat)
-      ALLOCATE (STRSGLOB(NUMELS)                   ,STAT=stat)
-      ALLOCATE (STRAGLOB(NUMELS)                   ,STAT=stat)
-      ALLOCATE (ORTHOGLOB(NUMELS)                  ,STAT=stat)
+      ALLOCATE(SIGI(NSIGS,LSIGI)                  ,STAT=stat)
+      ALLOCATE(SIGSH(MAX(1,NSIGSH),MAX(1,LSIGSH)) ,STAT=stat)
+      ALLOCATE(SIGSP(NSIGI,LSIGSP)                ,STAT=stat)
+      ALLOCATE(SIGSPH(NSIGSPH,LSIGSPH)            ,STAT=stat)
+      ALLOCATE(SIGRS(NSIGRS,LSIGRS)               ,STAT=stat)
+      ALLOCATE(SIGBEAM(NSIGBEAM,LSIGBEAM)         ,STAT=stat)
+      ALLOCATE(SIGTRUSS(NSIGTRUSS,LSIGTRUSS)      ,STAT=stat)
+      ALLOCATE(STRSGLOB(NUMELS)                   ,STAT=stat)
+      ALLOCATE(STRAGLOB(NUMELS)                   ,STAT=stat)
+      ALLOCATE(ORTHOGLOB(NUMELS)                  ,STAT=stat)
 C
-      IF (LSIGI   > 0) SIGI   = ZERO
-      IF (LSIGSH  > 0) SIGSH  = ZERO
-      IF (LSIGSP  > 0) SIGSP  = ZERO
-      IF (LSIGSPH > 0) SIGSPH = ZERO
-      IF (LSIGRS  > 0) SIGRS  = ZERO
-      IF (LSIGBEAM > 0)SIGBEAM= ZERO
-      IF (LSIGTRUSS > 0)SIGTRUSS= ZERO
-      IF (NUMELS  > 0) STRSGLOB  = -1
-      IF (NUMELS  > 0) STRAGLOB  = -1
-      IF (NUMELS  > 0) ORTHOGLOB  = 0
+      IF(LSIGI   > 0) SIGI   = ZERO
+      IF(LSIGSH  > 0) SIGSH  = ZERO
+      IF(LSIGSP  > 0) SIGSP  = ZERO
+      IF(LSIGSPH > 0) SIGSPH = ZERO
+      IF(LSIGRS  > 0) SIGRS  = ZERO
+      IF(LSIGBEAM > 0)SIGBEAM= ZERO
+      IF(LSIGTRUSS > 0)SIGTRUSS= ZERO
+      IF(NUMELS  > 0) STRSGLOB  = -1
+      IF(NUMELS  > 0) STRAGLOB  = -1
+      IF(NUMELS  > 0) ORTHOGLOB  = 0
 C
 
       IF(.NOT. ALLOCATED(IDRAPE)) ALLOCATE(IDRAPE(0))
@@ -8365,12 +8366,12 @@ C----------------------------------
 C -- ELEMENT INITIALIZATION
 C----------------------------------
 C
-      ALLOCATE (DTELEM(2*NUMEL)  ,STAT=stat)
+      ALLOCATE(DTELEM(2*NUMEL)  ,STAT=stat)
       IF(STAT/=0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='DTELEM')
       ENDIF
-      IF (NUMEL   > 0) DTELEM = ZERO
+      IF(NUMEL   > 0) DTELEM = ZERO
 C
       CALL STARTIME(14,1)
         
@@ -8433,7 +8434,7 @@ C
      M            IPARI   ,INTBUF_TAB ,INTERFACES) 
 
 
-      IF (NINTER>0.AND.NUMELIG3D>0) THEN
+      IF(NINTER>0.AND.NUMELIG3D>0) THEN
         CALL FICTIVMASSIGEO(INTBUF_TAB,NCTRLMAX,MSIG3D  ,KXIG3D)
         IF(I7STIFS/=0)THEN
           CALL BULKFAKEIGEO3(ELBUF_TAB,IPARG,PM,KXIG3D,IGRSURF,STIFINT)
@@ -8463,70 +8464,70 @@ C--------------------------------------------
       CALL TRACE_OUT1()
 C---
 C
-!!      DEALLOCATE (SIGI)
-!!      DEALLOCATE (SIGSH)
-!!      DEALLOCATE (SIGSP)
-      DEALLOCATE (SIGSPH)
-!!      DEALLOCATE (SIGRS)
-!!      DEALLOCATE (SIGBEAM)
-!!      DEALLOCATE (SIGTRUSS)
-      DEALLOCATE (XELEMWA)
-      DEALLOCATE (STRSGLOB)
-      DEALLOCATE (STRAGLOB)
-      DEALLOCATE (ORTHOGLOB)
+!!      DEALLOCATE(SIGI)
+!!      DEALLOCATE(SIGSH)
+!!      DEALLOCATE(SIGSP)
+      DEALLOCATE(SIGSPH)
+!!      DEALLOCATE(SIGRS)
+!!      DEALLOCATE(SIGBEAM)
+!!      DEALLOCATE(SIGTRUSS)
+      DEALLOCATE(XELEMWA)
+      DEALLOCATE(STRSGLOB)
+      DEALLOCATE(STRAGLOB)
+      DEALLOCATE(ORTHOGLOB)
 C
-      DEALLOCATE (PTSHEL)
-      DEALLOCATE (PTSH3N)
-      DEALLOCATE (PTSOL)
-      DEALLOCATE (PTQUAD)
-      DEALLOCATE (PTSPH)
-      DEALLOCATE (PTSPRI)
-      DEALLOCATE (PTBEAM)
-      DEALLOCATE (PTTRUSS)
-      DEALLOCATE (MSS)
-      DEALLOCATE (MSSX)
-      DEALLOCATE (MSSF)
-      DEALLOCATE (MSQ)
-      DEALLOCATE (MSR)
-      IF(ALLOCATED(MSIG3D)) DEALLOCATE (MSIG3D)
-      IF(ALLOCATED(TABCONPATCH)) DEALLOCATE (TABCONPATCH)
-      DEALLOCATE (INP)
-      DEALLOCATE (INR)
-      DEALLOCATE (INS)
-      DEALLOCATE (VNS)
-      DEALLOCATE (VNSX)
-      DEALLOCATE (STC)
-      DEALLOCATE (STT)
-      DEALLOCATE (STP)
-      DEALLOCATE (STR)
-      DEALLOCATE (STTG)
-      DEALLOCATE (STUR)
-      DEALLOCATE (BNS)
-      DEALLOCATE (BNSX)
-      DEALLOCATE (VOLNOD)
-      DEALLOCATE (BVOLNOD)
-      DEALLOCATE (ETNOD)
-      DEALLOCATE (NSHNOD)
-      DEALLOCATE (VNIGE)
-      DEALLOCATE (BNIGE)
-      DEALLOCATE (STRC)
-      DEALLOCATE (STRP)
-      DEALLOCATE (STRR)
-      DEALLOCATE (STRTG)
-      DEALLOCATE (ISPTAG)
-      DEALLOCATE (INDEX)
-      DEALLOCATE (ITRI)
-      DEALLOCATE (KSYSUSR)
-      DEALLOCATE (IWA)
+      DEALLOCATE(PTSHEL)
+      DEALLOCATE(PTSH3N)
+      DEALLOCATE(PTSOL)
+      DEALLOCATE(PTQUAD)
+      DEALLOCATE(PTSPH)
+      DEALLOCATE(PTSPRI)
+      DEALLOCATE(PTBEAM)
+      DEALLOCATE(PTTRUSS)
+      DEALLOCATE(MSS)
+      DEALLOCATE(MSSX)
+      DEALLOCATE(MSSF)
+      DEALLOCATE(MSQ)
+      DEALLOCATE(MSR)
+      IF(ALLOCATED(MSIG3D)) DEALLOCATE(MSIG3D)
+      IF(ALLOCATED(TABCONPATCH)) DEALLOCATE(TABCONPATCH)
+      DEALLOCATE(INP)
+      DEALLOCATE(INR)
+      DEALLOCATE(INS)
+      DEALLOCATE(VNS)
+      DEALLOCATE(VNSX)
+      DEALLOCATE(STC)
+      DEALLOCATE(STT)
+      DEALLOCATE(STP)
+      DEALLOCATE(STR)
+      DEALLOCATE(STTG)
+      DEALLOCATE(STUR)
+      DEALLOCATE(BNS)
+      DEALLOCATE(BNSX)
+      DEALLOCATE(VOLNOD)
+      DEALLOCATE(BVOLNOD)
+      DEALLOCATE(ETNOD)
+      DEALLOCATE(NSHNOD)
+      DEALLOCATE(VNIGE)
+      DEALLOCATE(BNIGE)
+      DEALLOCATE(STRC)
+      DEALLOCATE(STRP)
+      DEALLOCATE(STRR)
+      DEALLOCATE(STRTG)
+      DEALLOCATE(ISPTAG)
+      DEALLOCATE(INDEX)
+      DEALLOCATE(ITRI)
+      DEALLOCATE(KSYSUSR)
+      DEALLOCATE(IWA)
 
 C
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
-      ENDIF !IF ((IDDLEVEL == 1).OR.(ISMS_SELEC >= 3))
+      ENDIF !IF((IDDLEVEL == 1).OR.(ISMS_SELEC >= 3))
 C
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
-      IF ((IDDLEVEL == 0).AND.((NINTER > 0).OR.(ISMS == 1))) THEN
+      IF((IDDLEVEL == 0).AND.((NINTER > 0).OR.(ISMS == 1))) THEN
         IDDLEVEL = 1
         WRITE(ISTDO,*)
      .  '.. RETURNS TO DOMAIN DECOMPOSITION FOR OPTIMIZATION'
@@ -8548,7 +8549,7 @@ C
         DEALLOCATE(ELBUF)
         DEALLOCATE(DD_IAD)
 C
-        IF (ISMS_SELEC >= 3) THEN
+        IF(ISMS_SELEC >= 3) THEN
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C       Additional treatments for big loop - element buffer deallocation
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -8562,7 +8563,7 @@ C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
      .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       )
           DEALLOCATE(ELBUF_TAB)
 C       XFEM buffer deallocation
-          IF (ICRACK3D > 0) THEN
+          IF(ICRACK3D > 0) THEN
             FLAG_XFEM = 1
             DO IXEL=1,NXEL
               CALL DEALLOCATE_ELBUF(
@@ -8625,10 +8626,10 @@ C
       ERR_MSG='DEALLOCATION'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      DEALLOCATE (SLNRBM,NSLNRBM,RMSTIFN,RMSTIFR )
+      DEALLOCATE(SLNRBM,NSLNRBM,RMSTIFN,RMSTIFR )
 C----
-      IF(ALLOCATED(MSIG3D)) DEALLOCATE (MSIG3D)
-      IF (ALLOCATED(ITAG)) DEALLOCATE (ITAG)
+      IF(ALLOCATED(MSIG3D)) DEALLOCATE(MSIG3D)
+      IF(ALLOCATED(ITAG)) DEALLOCATE(ITAG)
 C
 C xfem for compostie
 C
@@ -8653,18 +8654,18 @@ C
           ENDIF
         ENDDO
           ALLOCATE(MS_PLY(NPLYXFE*NPLYMAX),STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='MS_PLY')
           MS_PLY=ZERO
           ALLOCATE(ZI_PLY(NPLYXFE*NPLYMAX),STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='ZI_PLY')
           ZI_PLY=ZERO
 C
           ALLOCATE(MSZ2(NPLYXFE),STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                         C1='MSZ2')
           MSZ2=ZERO
@@ -8706,9 +8707,9 @@ c
       ECRKXFEC = 0  ! Nombre des shells 4N xfem
       ECRKXFETG= 0  ! Nombre des shells 3N xfem
 c------------------------------
-      IF (ICRACK3D > 0) THEN
+      IF(ICRACK3D > 0) THEN
 c-----
-        IF (ICRACK3D == 1) THEN
+        IF(ICRACK3D == 1) THEN
           WRITE(ISTDO,'(A)')' .. XFEM MULTI-LAYER SHELL'
         ELSEIF(ICRACK3D == 2)THEN
           WRITE(ISTDO,'(A)')' .. XFEM MONO-LAYER SHELL'
@@ -8729,14 +8730,14 @@ c       build xfem sky adress table
 c--------------------------------------------------
 c       ADDCNE_CRKXFEM = tableau adresses sky Xfem
         LCNE_CRKXFEM = ADDCNE_CRKXFEM(NCRKXFE+1) - 1    ! longueur tableau sky CNE_CRKXFEM
-        ALLOCATE (CRKNODIAD(LCNE_CRKXFEM)    ,STAT=stat)
-        ALLOCATE (CNE_CRKXFEM(LCNE_CRKXFEM)  ,STAT=stat)
-        ALLOCATE (CEL_CRKXFEM(ECRKXFE)       ,STAT=stat)
-        ALLOCATE (CEP_CRKXFEM(ECRKXFE)       ,STAT=stat)
-        ALLOCATE (NODLEVXF(NCRKXFE)          ,STAT=stat)
-        ALLOCATE (CRKEDGE(NXLAYMAX)          ,STAT=stat)
-        ALLOCATE (XFEM_PHANTOM(NXLAYMAX)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='NODLEVXF')
+        ALLOCATE(CRKNODIAD(LCNE_CRKXFEM)    ,STAT=stat)
+        ALLOCATE(CNE_CRKXFEM(LCNE_CRKXFEM)  ,STAT=stat)
+        ALLOCATE(CEL_CRKXFEM(ECRKXFE)       ,STAT=stat)
+        ALLOCATE(CEP_CRKXFEM(ECRKXFE)       ,STAT=stat)
+        ALLOCATE(NODLEVXF(NCRKXFE)          ,STAT=stat)
+        ALLOCATE(CRKEDGE(NXLAYMAX)          ,STAT=stat)
+        ALLOCATE(XFEM_PHANTOM(NXLAYMAX)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='NODLEVXF')
         CRKNODIAD   = 0
         CNE_CRKXFEM = 0
         CEL_CRKXFEM = 0
@@ -8758,23 +8759,23 @@ C
         NUMEDGES = 0   ! nb des edges glob (pareil tous les plis)
         SIEDGESH = 4*ECRKXFEC + 3*ECRKXFETG
 c
-        ALLOCATE (IEDGESH(SIEDGESH),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IEDGESH')
-        ALLOCATE (IBORDEDGE(SIEDGESH)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IBORDEDGE')
-        ALLOCATE (NODEDGE(2*SIEDGESH),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='NODEDGE')
-        ALLOCATE (IEDGE(SIEDGESH),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IEDGE')
-        ALLOCATE (IEDGE_TMP0(SIEDGESH),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IEDGE_TMP0')
+        ALLOCATE(IEDGESH(SIEDGESH),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IEDGESH')
+        ALLOCATE(IBORDEDGE(SIEDGESH)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IBORDEDGE')
+        ALLOCATE(NODEDGE(2*SIEDGESH),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='NODEDGE')
+        ALLOCATE(IEDGE(SIEDGESH),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IEDGE')
+        ALLOCATE(IEDGE_TMP0(SIEDGESH),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,MSGTYPE=MSGERROR,C1='IEDGE_TMP0')
         IEDGESH   = 0
         IBORDEDGE = 0
         NODEDGE   = 0
         IEDGE     = 0
         IEDGE_TMP0= 0
 !
-        IF (ECRKXFEC > 0) THEN
+        IF(ECRKXFEC > 0) THEN
           IEDGESH4 => IEDGESH(1:4*ECRKXFEC)
           IELCRK4  => IEL_CRKXFEM(1:NUMELC)
         ELSE
@@ -8782,7 +8783,7 @@ c
           IELCRK4  => IEL_CRKXFEM
         ENDIF
 !
-        IF (ECRKXFETG > 0) THEN
+        IF(ECRKXFETG > 0) THEN
           IEDGESH3 => IEDGESH(1+4*ECRKXFEC:SIEDGESH)
           IELCRK3  => IEL_CRKXFEM(1+NUMELC:NUMELC+NUMELTG)
         ELSE
@@ -8798,17 +8799,17 @@ c
         CALL ALLOCXFEM(IXC    ,IXTG  ,IPARG  ,LCNE_CRKXFEM,CRKLVSET,
      .                 CRKSKY ,CRKAVX,CRKEDGE,XFEM_PHANTOM)
 c--------------------------------------------------
-        IF (NINICRACK > 0)   ! initial cracks
+        IF(NINICRACK > 0)   ! initial cracks
      .    CALL INICRKFILL (ELBUF_TAB,XFEM_TAB,
      .         IXC     ,IXTG       ,IPARG       ,INICRACK,
      .         X       ,IEL_CRKXFEM,INOD_CRKXFEM,XREFC   ,XREFTG  ,
      .         IEDGESH4  ,IEDGESH3,NODEDGE ,CRKLVSET,
      .         CRKSHELL,CRKEDGE    ,XFEM_PHANTOM         ,ITAB  )
 c--------------------------------------------------
-        ALLOCATE (IEDGE_TMP(3,NUMEDGES),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+        ALLOCATE(IEDGE_TMP(3,NUMEDGES),STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
      .                             MSGTYPE=MSGERROR,C1='IEDGE_TMP')
-        IF (NUMEDGES > 0) THEN
+        IF(NUMEDGES > 0) THEN
           DO I=1,NUMEDGES
             IEDGE_TMP(1,I) = 0
             IEDGE_TMP(2,I) = 0
@@ -8817,23 +8818,23 @@ c--------------------------------------------------
         ENDIF
         DEALLOCATE(IEDGE_TMP0)
 C---
-        ALLOCATE (ELCUTC(2*(NUMELC+NUMELTG))     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+        ALLOCATE(ELCUTC(2*(NUMELC+NUMELTG))     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
      .                             MSGTYPE=MSGERROR,C1='ELCUTC')
         ELCUTC = 0
 C---
-        ALLOCATE (NODENR(NCRKXFE)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+        ALLOCATE(NODENR(NCRKXFE)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
      .                             MSGTYPE=MSGERROR,C1='NODENR')
         NODENR = 0
 C---
-        ALLOCATE (KXFENOD2ELC(NCRKXFE)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+        ALLOCATE(KXFENOD2ELC(NCRKXFE)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
      .                             MSGTYPE=MSGERROR,C1='KXFENOD2ELC')
         KXFENOD2ELC = 0
 C---
-        ALLOCATE (ENRTAG(NUMNOD*IENRNOD)     ,STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
+        ALLOCATE(ENRTAG(NUMNOD*IENRNOD)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANSTOP,
      .                             MSGTYPE=MSGERROR,C1='ENRTAG')
         ENRTAG = 0
 C---
@@ -8851,10 +8852,10 @@ C---
         ALLOCATE(NODLEVXF(0))
         ALLOCATE(CRKEDGE(0))
 C
-        ALLOCATE (ELCUTC(0))
-        ALLOCATE (NODENR(0))
-        ALLOCATE (KXFENOD2ELC(0))
-        ALLOCATE (ENRTAG(0))
+        ALLOCATE(ELCUTC(0))
+        ALLOCATE(NODENR(0))
+        ALLOCATE(KXFENOD2ELC(0))
+        ALLOCATE(ENRTAG(0))
       ENDIF   !   ICRACK3D > 0  (Xfem)
 C----------------------------------
       CALL TRACE_OUT1()
@@ -8889,8 +8890,8 @@ C-----
         NS_I21 = 2*NUMNOD + 2002 + 4*AUX
         SIWORK = NS_I21
         SRWORK = MAX(6000,NUMNOD)
-        ALLOCATE (IWORK(SIWORK)    ,STAT=stat)
-        ALLOCATE (RWORK(SRWORK)    ,STAT=stat)
+        ALLOCATE(IWORK(SIWORK)    ,STAT=stat)
+        ALLOCATE(RWORK(SRWORK)    ,STAT=stat)
         IWORK = 0
         RWORK = ZERO
 C-----
@@ -8903,13 +8904,13 @@ C-----
      6               INTSTAMP,SKEW     ,MS     ,IN       ,V       ,
      7               VR      ,RBY      ,NPBY   ,LPBY     ,IPARTS  ,
      8               IPARTC  ,IPARTG,THK_PART,NOM_OPT,INOM_OPT(3))
-        DEALLOCATE (RWORK)
-        DEALLOCATE (IWORK)
+        DEALLOCATE(RWORK)
+        DEALLOCATE(IWORK)
 C-----
       END IF
 C-----
 
-      DEALLOCATE (THK_PART)
+      DEALLOCATE(THK_PART)
       CALL TRACE_OUT1()
 C-------------------------------------------------------------
 C     Set INTERCEP only for INTERFACE24 (flag=0)
@@ -8945,11 +8946,11 @@ C--------FRICTION OROTHTROPIC DIRECTIONS COMPUTATION -----
      D       KNOD2ELTG,NOD2ELTG ,NOD2ELC      ,IWORKSH  ,PM      ,
      E       STACK%PM ,THKE    ,SKEW          ,ITAB     ,IPART   )
 
-c        DEALLOCATE (PFRICORTH ,IREPFORTH , VFORTH ,PHIFORTH  )
+c        DEALLOCATE(PFRICORTH ,IREPFORTH , VFORTH ,PHIFORTH  )
 
       ENDIF
 
-        DEALLOCATE (TAGPRT_FRIC)
+        DEALLOCATE(TAGPRT_FRIC)
 C---------------------------
 C     IMPACTS LASER TRAITEMENT SPMD 2eme Phase
 C---------------------------
@@ -8968,8 +8969,8 @@ C----------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SLRIVET = NRIVET*4
       SRIVET  = NRIVET*NRIVF
-      ALLOCATE (LRIVET(SLRIVET)    ,STAT=stat)
-      ALLOCATE (RIVET(SRIVET)      ,STAT=stat)
+      ALLOCATE(LRIVET(SLRIVET)    ,STAT=stat)
+      ALLOCATE(RIVET(SRIVET)      ,STAT=stat)
       LRIVET = 0
       RIVET  = ZERO
 C
@@ -8985,7 +8986,7 @@ C----------------------------------
 C     SEATBELT 2D->1D for SECTIONS
 C----------------------------------
         IF(NB_SEATBELT_SHELLS /= 0)THEN
-          MY_ALLOCATE2D(SEATBELT_SHELL_TO_SPRING,NUMELC,2)
+          CALL MY_ALLOC(SEATBELT_SHELL_TO_SPRING,NUMELC,2)
           IF(NUMELC > 0)THEN
             SEATBELT_SHELL_TO_SPRING(1:NUMELC,1) = 0
             SEATBELT_SHELL_TO_SPRING(1:NUMELC,2) = 0
@@ -9015,7 +9016,7 @@ c
             
           ENDDO
         ELSE
-          MY_ALLOCATE2D(SEATBELT_SHELL_TO_SPRING,1,2)
+          CALL MY_ALLOC(SEATBELT_SHELL_TO_SPRING,1,2)
           SEATBELT_SHELL_TO_SPRING(1,1) = 0
           SEATBELT_SHELL_TO_SPRING(1,2) = 0
         ENDIF
@@ -9032,8 +9033,8 @@ C----------------------------------
      2      IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
      3      IGRBEAM ,IGRSPRING ,IGRNOD  ,LSUBMODEL, SEATBELT_SHELL_TO_SPRING,
      4      NB_SEATBELT_SHELLS)
-        ALLOCATE (NSTRF(SNSTRF)    ,STAT=stat)
-        ALLOCATE (SECBUF(SSECBUF)  ,STAT=stat)
+        ALLOCATE(NSTRF(SNSTRF)    ,STAT=stat)
+        ALLOCATE(SECBUF(SSECBUF)  ,STAT=stat)
         NSTRF  = 0
         SECBUF = ZERO
         CALL LECSEC42(IXS    ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
@@ -9047,8 +9048,8 @@ C----------------------------------
       ELSE
         SNSTRF  = 0
         SSECBUF = 0
-        ALLOCATE (NSTRF(SNSTRF)    ,STAT=stat)
-        ALLOCATE (SECBUF(SSECBUF)  ,STAT=stat)
+        ALLOCATE(NSTRF(SNSTRF)    ,STAT=stat)
+        ALLOCATE(SECBUF(SSECBUF)  ,STAT=stat)
       ENDIF
       IF(ALLOCATED(SEATBELT_SHELL_TO_SPRING)) DEALLOCATE(SEATBELT_SHELL_TO_SPRING)
       CALL TRACE_OUT1()
@@ -9067,7 +9068,7 @@ C----------------------------------
       ERR_CATEGORY='JOINTS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL HM_PRELECJOI(SLJOINT ,IGRNOD,LSUBMODEL)
-      ALLOCATE (LJOINT(SLJOINT)    ,STAT=stat)
+      ALLOCATE(LJOINT(SLJOINT)    ,STAT=stat)
       LJOINT  = 0
 
       ALLOCATE( CYL_JOIN(NJOINT) )
@@ -9086,7 +9087,7 @@ C-------------------------------------------------
       ERR_MSG='BLOCK BOUNDARY MATERIAL NODES'
       ERR_CATEGORY='BLOCK BOUNDARY MATERIAL NODES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (IALE+IEULER /= 0 .AND. NUMELQ+NUMELS  > 0) THEN
+      IF(IALE+IEULER /= 0 .AND. NUMELQ+NUMELS  > 0) THEN
         CALL NODM11(PM,IXS,IXQ,ICODE)
       ENDIF
       CALL TRACE_OUT1()
@@ -9098,17 +9099,17 @@ C-------------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(IALE+IEULER /=0 .AND. NUMELQ+NUMELS >0)THEN
         SIWORK = NUMNOD+4*NFACX
-        ALLOCATE (IWORK(SIWORK)    ,STAT=stat)
+        ALLOCATE(IWORK(SIWORK)    ,STAT=stat)
         SIWORK = 0
         CALL PORNOD(GEO    ,IXS    ,IXQ    ,IWORK  ,ICODE  ,
      +              ITAB   ,NPBY   ,LPBY   ,IGEO)
         SNODPOR = NUMPOR
-        ALLOCATE (NODPOR(SNODPOR)    ,STAT=stat)
+        ALLOCATE(NODPOR(SNODPOR)    ,STAT=stat)
         NODPOR = IWORK(1:SNODPOR)
         DEALLOCATE(IWORK)
       ELSE
         SNODPOR = 0
-        ALLOCATE (NODPOR(SNODPOR)    ,STAT=stat)
+        ALLOCATE(NODPOR(SNODPOR)    ,STAT=stat)
       ENDIF
       CALL TRACE_OUT1()
 C---
@@ -9141,7 +9142,7 @@ C
       ERR_MSG='FVMBAG MESHING'
       ERR_CATEGORY='FVMBAG MESHING'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (TETRAMESHER_USED) THEN
+      IF(TETRAMESHER_USED) THEN
          CALL FVMESH0(T_MONVOL, NODE_COORD,  IXS_TEMP, IXC, IXTG, PM,
      .        IPM, ITAB,  IGRSURF, XYZREF  ,
      .        NOM_OPT(LNOPT1*INOM_OPT(2)+1), NB_TOTAL_NODE)
@@ -9162,7 +9163,7 @@ C
 C----------------------------------
 C     LECTURE DES ECOULEMENTS (FLUIDE INCOMPRESSIBLE OU THERMIQUE)
 C----------------------------------
-      IF (NFLOW>0) THEN
+      IF(NFLOW>0) THEN
          CALL HM_PREREAD_BEM(IGRSURF, IGRNOD , NNFT  ,
      .                 UNITAB , NOM_OPT(LNOPT1*INOM_OPT(12)+1), LSUBMODEL)
 C
@@ -9187,7 +9188,7 @@ C
       ERR_CATEGORY='EULERIAN BOUNDARY CONDITIONS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
-      IF (NEBCS > 0)THEN
+      IF(NEBCS > 0)THEN
          SEGINDX = 0
          !update due to domain decomposition
          CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG,
@@ -9214,7 +9215,7 @@ C--------------------------------------------
       ALLOCATE(IADLL(LAG_NCF + 1))
       ALLOCATE(LLL(LAG_NKF))
       ALLOCATE(JLL(LAG_NKF))
-      IF (LAG_NCF > 0) THEN
+      IF(LAG_NCF > 0) THEN
 C---
         CALL LAGM_INI(LAG_NHF ,IADHF   ,IADLL   ,JLL     ,LLL     ,
      2                IPARI   ,INTBUF_TAB,IGRNOD,         IBCSLAG ,
@@ -9235,31 +9236,31 @@ C---
         LAGBUF = 0
         LAGBUF(1:L1)    = IADHF(1:LAG_NCF + 1)
         LAGBUF(L1+1:L2) = JCIHF(1:LAG_NHF)
-        DEALLOCATE (JLL)
-        DEALLOCATE (IADHF)
-        DEALLOCATE (JCIHF)
+        DEALLOCATE(JLL)
+        DEALLOCATE(IADHF)
+        DEALLOCATE(JCIHF)
         ELSE
         SLAGBUF = 0
         ALLOCATE(LAGBUF(SLAGBUF))
       ENDIF
 C---
-      IF (NRWLAG>0)
+      IF(NRWLAG>0)
      .  CALL LGMINI_RWL(NPRW   , LPRW     , MS     , ITAB,
      .                  NOM_OPT(LNOPT1*INOM_OPT(5)+1))
-      IF (NINTER>0)
+      IF(NINTER>0)
      .  CALL LGMINI_I7(IPARI   ,INTBUF_TAB   , MS     , ITAB   , IGRNOD,
      .                 NOM_OPT(LNOPT1*INOM_OPT(3)+1))
       NHMAX = LAG_NHF + LAG_NHL
       LWAT  = 0
       IF(LAG_NCL/=0) LWAT  = MAX(6*(NUMELS16+NUMELS20),6*NUMNOD)
       L_MUL_LAG1 = 2*NCMAX + 4*NKMAX + LWAT + NUMNOD + 2
-      IF (NCMAX>0) THEN
+      IF(NCMAX>0) THEN
           L_MUL_LAG = MAX(L_MUL_LAG1,
      .                11*NCMAX + 4*NKMAX + 3*NHMAX + 6*NUMNOD + 2)
       ENDIF
       SLAMBDA = NCMAX
       ALLOCATE(LAMBDA(SLAMBDA),  STAT=stat)
-      IF (SLAMBDA > 0)  LAMBDA = ZERO
+      IF(SLAMBDA > 0)  LAMBDA = ZERO
       CALL TRACE_OUT1()
 C----------------------------------
 C     CALCUL FORCES GRAVITE MODALES
@@ -9267,7 +9268,7 @@ C----------------------------------
       ERR_MSG='GRAVITY NODAL FORCES'
       ERR_CATEGORY='GRAVITY NODAL FORCES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NFXBODY>0) THEN
+      IF(NFXBODY>0) THEN
          DO NFX=1,NFXBODY
             AIPM=(NFX-1)*NBIPM
             ANOD=FXBIPM(AIPM+6)
@@ -9275,7 +9276,7 @@ C----------------------------------
             AGRVI=FXBIPM(AIPM+26)
             AGRVR=FXBIPM(AIPM+27)
             AMOD=FXBIPM(AIPM+7)
-            IF (NLGRAV>0)
+            IF(NLGRAV>0)
      .         CALL FXBGRAV(
      . IGRV   , LGRAV  , FXBIPM(AIPM+18), FXBNOD(ANOD),
      . FXBGRVI(AGRVI), FXBGRVR(AGRVR), FXBIPM(AIPM+3), FXBMOD(AMOD),
@@ -9291,7 +9292,7 @@ C--------------------------------------------
       ERR_MSG='TIME HISTORY PARTS'
       ERR_CATEGORY='TIME HISTORY'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NTHPART >0) THEN
+      IF(NTHPART >0) THEN
         CALL HM_READ_THPART(IPART    ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N,
      .                      IGRTRUSS ,IGRBEAM ,IGRSPRING, LSUBMODEL)
       ENDIF
@@ -9365,7 +9366,7 @@ c
       ALLOCATE(ITHBUFTMP(LITHBUFMX),  STAT=stat)
       ALLOCATE(ITHVAR(SITHVAR)     ,  STAT=stat)
       IF(SITHVAR > 0) ITHVAR(1:SITHVAR) = 0
-      MY_ALLOCATE(OUTPUT%TH%ITHGRP,OUTPUT%TH%SITHGRP)
+      CALL MY_ALLOC(OUTPUT%TH%ITHGRP,OUTPUT%TH%SITHGRP)
 c
       OUTPUT%TH%ITHGRP(1:OUTPUT%TH%SITHGRP)    = 0
       ITHPART   = 0
@@ -9393,7 +9394,7 @@ c-----
      E       MAP_TABLES, 0,INOM_OPT(31),INOM_OPT(32),SENSORS   ,
      F       INTERFACES,IPARI   )
 C
-      MY_ALLOCATE(OUTPUT%TH%ITHBUF,OUTPUT%TH%SITHBUF)
+      CALL MY_ALLOC(OUTPUT%TH%ITHBUF,OUTPUT%TH%SITHBUF)
       OUTPUT%TH%ITHBUF(1:OUTPUT%TH%SITHBUF) = ITHBUFTMP(1:OUTPUT%TH%SITHBUF)
 
       If (LITHBUFMX < OUTPUT%TH%SITHBUF) then
@@ -9406,9 +9407,9 @@ C
 C--------
 C ithgrpa
 C--------
-      IF (NTHGRP01(1) > 0) THEN
+      IF(NTHGRP01(1) > 0) THEN
        OUTPUT%TH%SITHGRPA = (NTHGRP01(1)+NBR_TH_MONVOL)*NITHGR
-       MY_ALLOCATE(OUTPUT%TH%ITHGRPA,OUTPUT%TH%SITHGRPA)
+       CALL MY_ALLOC(OUTPUT%TH%ITHGRPA,OUTPUT%TH%SITHGRPA)
        OUTPUT%TH%ITHGRPA   = 0
        ITHPART   = 0
        ITHSUB    = 0
@@ -9416,7 +9417,7 @@ C--------
        OUTPUT%TH%SITHBUFA  = 0
        ITHFLAG   = 1
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1:2*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9438,20 +9439,20 @@ c-----
      E       MAP_TABLES, 1,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
         OUTPUT%TH%ITHBUFA = ITHBUFTMP(1:OUTPUT%TH%SITHBUFA)
       ELSE
             OUTPUT%TH%SITHGRPA = 0
             OUTPUT%TH%SITHBUFA = 0
-            MY_ALLOCATE(OUTPUT%TH%ITHGRPA,OUTPUT%TH%SITHGRPA)
-            MY_ALLOCATE(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
+            CALL MY_ALLOC(OUTPUT%TH%ITHGRPA,OUTPUT%TH%SITHGRPA)
+            CALL MY_ALLOC(OUTPUT%TH%ITHBUFA,OUTPUT%TH%SITHBUFA)
       ENDIF
 C--------
 C ithgrpb
 C--------
-      IF (NTHGRP01(2) > 0) THEN
+      IF(NTHGRP01(2) > 0) THEN
         OUTPUT%TH%SITHGRPB = (NTHGRP01(2)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPB,OUTPUT%TH%SITHGRPB)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPB,OUTPUT%TH%SITHGRPB)
         OUTPUT%TH%ITHGRPB   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9459,7 +9460,7 @@ C--------
         OUTPUT%TH%SITHBUFB  = 0
         ITHFLAG   = 2
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+2*(NPART+NTHPART):4*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9481,20 +9482,20 @@ c-----
      E       MAP_TABLES, 2,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
         OUTPUT%TH%ITHBUFB = ITHBUFTMP(1:OUTPUT%TH%SITHBUFB)
       ELSE
             OUTPUT%TH%SITHGRPB = 0
             OUTPUT%TH%SITHBUFB = 0
-            MY_ALLOCATE(OUTPUT%TH%ITHGRPB,OUTPUT%TH%SITHGRPB)
-            MY_ALLOCATE(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
+            CALL MY_ALLOC(OUTPUT%TH%ITHGRPB,OUTPUT%TH%SITHGRPB)
+            CALL MY_ALLOC(OUTPUT%TH%ITHBUFB,OUTPUT%TH%SITHBUFB)
       ENDIF
 C--------
 C ithgrpc
 C--------
-      IF (NTHGRP01(3) > 0) THEN
+      IF(NTHGRP01(3) > 0) THEN
         OUTPUT%TH%SITHGRPC = (NTHGRP01(3)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPC,OUTPUT%TH%SITHGRPC)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPC,OUTPUT%TH%SITHGRPC)
         OUTPUT%TH%ITHGRPC   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9502,7 +9503,7 @@ C--------
         OUTPUT%TH%SITHBUFC  = 0
         ITHFLAG   = 3
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+4*(NPART+NTHPART):6*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9524,20 +9525,20 @@ c-----
      E       MAP_TABLES, 3,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
         OUTPUT%TH%ITHBUFC(1:OUTPUT%TH%SITHBUFC) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFC)
       ELSE
         OUTPUT%TH%SITHGRPC = 0
         OUTPUT%TH%SITHBUFC = 0
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPC, OUTPUT%TH%SITHGRPC)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFC, OUTPUT%TH%SITHBUFC)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPC, OUTPUT%TH%SITHGRPC)
       ENDIF
 C--------
 C ithgrpd
 C--------
-      IF (NTHGRP01(4) > 0) THEN
+      IF(NTHGRP01(4) > 0) THEN
         OUTPUT%TH%SITHGRPD = (NTHGRP01(4)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPD,OUTPUT%TH%SITHGRPD)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPD,OUTPUT%TH%SITHGRPD)
         OUTPUT%TH%ITHGRPD   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9545,7 +9546,7 @@ C--------
         OUTPUT%TH%SITHBUFD  = 0
         ITHFLAG   = 4
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+6*(NPART+NTHPART):8*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9567,7 +9568,7 @@ c-----
      E       MAP_TABLES, 4,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFD,OUTPUT%TH%SITHBUFD)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFD,OUTPUT%TH%SITHBUFD)
         OUTPUT%TH%ITHBUFD(1:OUTPUT%TH%SITHBUFD) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFD)
       ELSE
         OUTPUT%TH%SITHGRPD = 0
@@ -9578,9 +9579,9 @@ C
 C--------
 C ithgrpe
 C--------
-      IF (NTHGRP01(5) > 0) THEN
+      IF(NTHGRP01(5) > 0) THEN
         OUTPUT%TH%SITHGRPE = (NTHGRP01(5)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPE,OUTPUT%TH%SITHGRPE)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPE,OUTPUT%TH%SITHGRPE)
         OUTPUT%TH%ITHGRPE   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9588,7 +9589,7 @@ C--------
         OUTPUT%TH%SITHBUFE  = 0
         ITHFLAG   = 5
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+8*(NPART+NTHPART):10*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9611,20 +9612,20 @@ c-----
      E       MAP_TABLES, 5,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
         OUTPUT%TH%ITHBUFE = ITHBUFTMP(1:OUTPUT%TH%SITHBUFE)
       ELSE
         OUTPUT%TH%SITHGRPE = 0
         OUTPUT%TH%SITHBUFE = 0
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPE,OUTPUT%TH%SITHGRPE)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFE,OUTPUT%TH%SITHBUFE)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPE,OUTPUT%TH%SITHGRPE)
       ENDIF
 C--------
 C ithgrpf
 C--------
-      IF (NTHGRP01(6) > 0) THEN
+      IF(NTHGRP01(6) > 0) THEN
         OUTPUT%TH%SITHGRPF = (NTHGRP01(6)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPF,OUTPUT%TH%SITHGRPF)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPF,OUTPUT%TH%SITHGRPF)
         OUTPUT%TH%ITHGRPF   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9632,7 +9633,7 @@ C--------
         OUTPUT%TH%SITHBUFF  = 0
         ITHFLAG   = 6
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+10*(NPART+NTHPART):12*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9654,20 +9655,20 @@ c-----
      E       MAP_TABLES, 6,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
         OUTPUT%TH%ITHBUFF(1:OUTPUT%TH%SITHBUFF) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFF)
       ELSE
         OUTPUT%TH%SITHGRPF = 0
         OUTPUT%TH%SITHBUFF = 0
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPF,OUTPUT%TH%SITHGRPF)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFF,OUTPUT%TH%SITHBUFF)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPF,OUTPUT%TH%SITHGRPF)
       ENDIF
 C--------
 C ithgrpg
 C--------
-      IF (NTHGRP01(7) > 0) THEN
+      IF(NTHGRP01(7) > 0) THEN
         OUTPUT%TH%SITHGRPG = (NTHGRP01(7)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPG,OUTPUT%TH%SITHGRPG)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPG,OUTPUT%TH%SITHGRPG)
         OUTPUT%TH%ITHGRPG = 0
         OUTPUT%TH%SITHBUFG = 0
         ITHPART   = 0
@@ -9675,7 +9676,7 @@ C--------
         ITHBUFTMP = 0
         ITHFLAG   = 7
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+12*(NPART+NTHPART):14*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9697,20 +9698,20 @@ c-----
      E       MAP_TABLES, 7,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
         OUTPUT%TH%ITHBUFG(1:OUTPUT%TH%SITHBUFG) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFG)
       ELSE
         OUTPUT%TH%SITHGRPG = 0
         OUTPUT%TH%SITHBUFG = 0
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPG,OUTPUT%TH%SITHGRPG)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFG,OUTPUT%TH%SITHBUFG)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPG,OUTPUT%TH%SITHGRPG)
       ENDIF
 C--------
 C ithgrph
 C--------
-      IF (NTHGRP01(8) > 0) THEN
+      IF(NTHGRP01(8) > 0) THEN
         OUTPUT%TH%SITHGRPH = (NTHGRP01(8)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPH,OUTPUT%TH%SITHGRPH)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPH,OUTPUT%TH%SITHGRPH)
         OUTPUT%TH%ITHGRPH   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9718,7 +9719,7 @@ C--------
         OUTPUT%TH%SITHBUFH  = 0
         ITHFLAG   = 8
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+14*(NPART+NTHPART):16*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9740,20 +9741,20 @@ c-----
      E       MAP_TABLES, 8,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
         OUTPUT%TH%ITHBUFH(1:OUTPUT%TH%SITHBUFH) = ITHBUFTMP(1:OUTPUT%TH%SITHBUFH)
       ELSE
         OUTPUT%TH%SITHGRPH = 0
         OUTPUT%TH%SITHBUFH = 0
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPH,OUTPUT%TH%SITHGRPH)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFH,OUTPUT%TH%SITHBUFH)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPH,OUTPUT%TH%SITHGRPH)
       ENDIF
 C--------
 C ithgrpi
 C--------
-      IF (NTHGRP01(9) > 0) THEN
+      IF(NTHGRP01(9) > 0) THEN
         OUTPUT%TH%SITHGRPI = (NTHGRP01(9)+NBR_TH_MONVOL)*NITHGR
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPI,OUTPUT%TH%SITHGRPI)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPI,OUTPUT%TH%SITHGRPI)
         OUTPUT%TH%ITHGRPI   = 0
         ITHPART   = 0
         ITHSUB    = 0
@@ -9761,7 +9762,7 @@ C--------
         OUTPUT%TH%SITHBUFI  = 0
         ITHFLAG   = 9
 c-----
-        IF (NPART+NTHPART>0) THEN
+        IF(NPART+NTHPART>0) THEN
         IPARTTHI=>IPARTTH(1+16*(NPART+NTHPART):18*(NPART+NTHPART))
         ELSE
           IPARTTHI=>IPARTTH
@@ -9783,19 +9784,19 @@ c-----
      E       MAP_TABLES, 9,INOM_OPT(31),INOM_OPT(32),SENSORS,
      F       INTERFACES,IPARI   )
 C
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
         OUTPUT%TH%ITHBUFI = ITHBUFTMP(1:OUTPUT%TH%SITHBUFI)
       ELSE
         OUTPUT%TH%SITHGRPI = 0
         OUTPUT%TH%SITHBUFI = 0
-        MY_ALLOCATE(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
-        MY_ALLOCATE(OUTPUT%TH%ITHGRPI,OUTPUT%TH%SITHGRPI)
+        CALL MY_ALLOC(OUTPUT%TH%ITHBUFI,OUTPUT%TH%SITHBUFI)
+        CALL MY_ALLOC(OUTPUT%TH%ITHGRPI,OUTPUT%TH%SITHGRPI)
       ENDIF
 C
 
-      IF (ALLOCATED(ITHPART))   DEALLOCATE(ITHPART)
-      IF (ALLOCATED(ITHSUB))    DEALLOCATE(ITHSUB)
-      IF (ALLOCATED(ITHBUFTMP)) DEALLOCATE(ITHBUFTMP)
+      IF(ALLOCATED(ITHPART))   DEALLOCATE(ITHPART)
+      IF(ALLOCATED(ITHSUB))    DEALLOCATE(ITHSUB)
+      IF(ALLOCATED(ITHBUFTMP)) DEALLOCATE(ITHBUFTMP)
 C
 C -------------------------------------------------
 C Check des surfaces pour les sorties TH
@@ -9858,38 +9859,38 @@ C affectation du numero de processeur (spmd)
 C
       CALL THPINIT(OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,IPARG  ,DD_IAD ,LRIVET ,
      .             0       ,NTHGRP )
-      IF (NTHGRP01(1) > 0)
+      IF(NTHGRP01(1) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPA,OUTPUT%TH%ITHBUFA,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(1)   )
-      IF (NTHGRP01(2) > 0)
+      IF(NTHGRP01(2) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(2)   )
-      IF (NTHGRP01(3) > 0)
+      IF(NTHGRP01(3) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(3)   )
-      IF (NTHGRP01(4) > 0)
+      IF(NTHGRP01(4) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(4)   )
-      IF (NTHGRP01(5) > 0)
+      IF(NTHGRP01(5) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(5)   )
-      IF (NTHGRP01(6) > 0)
+      IF(NTHGRP01(6) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(6)   )
-      IF (NTHGRP01(7) > 0)
+      IF(NTHGRP01(7) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(7)   )
-      IF (NTHGRP01(8) > 0)
+      IF(NTHGRP01(8) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(8)   )
-      IF (NTHGRP01(9) > 0)
+      IF(NTHGRP01(9) > 0)
      .  CALL THPINIT(OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,IPARG     ,DD_IAD ,LRIVET ,
      .               I      ,NTHGRP1(9)   )
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     Multidomains -> deallocation des tableaux.
 C--------------------------------------------
-      IF (NSUBDOM>0) THEN
+      IF(NSUBDOM>0) THEN
         DEALLOCATE(TAG_PART,TAGMON,TAGRBY,TAGINT,TAGCYL,TAGLNK)
         DEALLOCATE(TAGRB3,TAGRB2,TAGJOIN,TAGMPC,TAG_MAT)
       ENDIF
@@ -9900,12 +9901,12 @@ C--------------------------------------------
       ERR_CATEGORY='DYNAMIC STORAGE MADYMO LINK'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       SRCONX = NCONX*NRCNX
-      ALLOCATE (RCONX(SRCONX)    ,STAT=stat)
+      ALLOCATE(RCONX(SRCONX)    ,STAT=stat)
       RCONX = ZERO
 C--------------------------------------------
 C     RECALCUL DE NRBODY (NRBYKIN MIS A JOUR EN AMONT)
 C---------------------------------------------------------------------
-      IF (NRBMERGE > 0) THEN
+      IF(NRBMERGE > 0) THEN
         NRBODY = NRBYKIN + NRBYLAG
       ENDIF
 C--------------------------------------------
@@ -9936,15 +9937,15 @@ C---------------------------------------------------------------------
 C     Mass and inertia are not modified - a specific array is used
       ALLOCATE(MS_B(NUMNOD),STAT=stat)
       MS_B(1:NUMNOD)=MS(1:NUMNOD)
-      IF (IRODDL==1) THEN
+      IF(IRODDL==1) THEN
         ALLOCATE(IN_B(NUMNOD),STAT=stat)
         IN_B(1:NUMNOD)=IN(1:NUMNOD)
       ELSE
         ALLOCATE(IN_B(1))
       ENDIF
 C
-      IF (NS10E>0.AND.N2D==0) CALL STIFN0_ND(ICNDS10,STIFFN)
-      IF (NINTER > 0) THEN
+      IF(NS10E>0.AND.N2D==0) CALL STIFN0_ND(ICNDS10,STIFFN)
+      IF(NINTER > 0) THEN
        CALL ININTR2(IPARI   ,INSCR   ,X       ,
      .               IXS     ,IXQ     ,IXC     ,PM      ,GEO     ,
      .               INSCR   ,ITAB    ,MS      ,NPBY    ,LPBY    ,
@@ -9959,8 +9960,8 @@ C
 C---------------------------------------------
 C     Update of STIFFN for TETRA10 for time step estimation
 C--------------------------------------------
-      IF (NS10E>0.AND.N2D==0) CALL STIFN1_ND(ICNDS10,STIFFN)
-      IF (NDAMP>0) CALL DAMPDTNODA(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),
+      IF(NS10E>0.AND.N2D==0) CALL STIFN1_ND(ICNDS10,STIFFN)
+      IF(NDAMP>0) CALL DAMPDTNODA(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),
      1                            IGRNOD,DAMPR )
 C--------------------------------------------
 C     TRI ET IMPRESSION DES DT ELEM
@@ -9977,22 +9978,22 @@ C--------------------------------------------
       ERR_MSG='ADDED MASS ESTIMATION'
       ERR_CATEGORY='ADDED MASS ESTIMATION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (N2D==0) CALL ADD_MASS_STAT(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),ITAB,TOTMAS)
+      IF(N2D==0) CALL ADD_MASS_STAT(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),ITAB,TOTMAS)
 C---------------------------------
 C     MULTIDOMAINS SPEEDUP ESTIMATION
 C---------------------------------
-      IF (NSUBDOM>0) THEN
+      IF(NSUBDOM>0) THEN
         CALL R2R_SPEEDUP(DTELEM,DTNODA,DT_R2R,COST_R2R,ISOLOFF,
      .                   ISHEOFF,ITRUOFF ,IPOUOFF ,IRESOFF ,ITRIOFF,
      .                   IQUAOFF)
       ENDIF
 C--------------------------------------------
-      DEALLOCATE (STIFFN)
-      DEALLOCATE (STIFINT)
-      DEALLOCATE (STIFINTR)
-      DEALLOCATE (MS_B)
-      DEALLOCATE (IN_B)
-      DEALLOCATE (DTELEM)
+      DEALLOCATE(STIFFN)
+      DEALLOCATE(STIFINT)
+      DEALLOCATE(STIFINTR)
+      DEALLOCATE(MS_B)
+      DEALLOCATE(IN_B)
+      DEALLOCATE(DTELEM)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     INI & CHECK RBE3
@@ -10000,7 +10001,7 @@ C--------------------------------------------
       ERR_MSG='RBE3 INITIALIZATION'
       ERR_CATEGORY='RBE3'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (SIRBE3 > 0) THEN
+      IF(SIRBE3 > 0) THEN
         CALL INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
      .               MS     ,IN     ,
      .               NOM_OPT(LNOPT1*INOM_OPT(14)+1))
@@ -10013,7 +10014,7 @@ C--------------------------------------------
 C--------------------------------------------
 C     traitement for 2nd pass /RBODY/RBE2 /BCS /IMPVEL w/ Itet2 of S10
 C--------------------------------------------
-      IF (NS10E>0) THEN
+      IF(NS10E>0) THEN
        CALL RIGMODIF1_ND(NPBY,LPBY,ITAGND)
        CALL RBE2MODIF1_ND(IRBE2,LRBE2,ITAGND)
        CALL BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB)
@@ -10045,8 +10046,8 @@ C--------------------------------------------
       ERR_MSG='MASS ARRAY ALLOCATION'
       ERR_CATEGORY='INIIAL MASS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ALLOCATE (MS0(NUMNOD)     ,STAT=stat)
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+      ALLOCATE(MS0(NUMNOD)     ,STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='MS0')
       MS0(1:NUMNOD)=MS(1:NUMNOD)
@@ -10055,10 +10056,10 @@ C--------------------------------------------
 C     Inlet / Outlet
 C--------------------------------------------
 c build structure surfaces specific Inlet Outlet
-      IF (NSPHIO > 0)THEN
+      IF(NSPHIO > 0)THEN
          SIBUFSSG_IO = 4*NSEG_IO
          ALLOCATE(IBUFSSG_IO(SIBUFSSG_IO)    ,STAT=stat)
-         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='IBUFSSG_IO')
          IBUFSSG_IO(1:SIBUFSSG_IO) = ZERO
@@ -10135,7 +10136,7 @@ C      ENDIF
 C--------------------------------------------
 C     traitement for DOMDEC, P/ON w/ Itet2 of S10
 C--------------------------------------------
-      IF (NS10E>0) THEN
+      IF(NS10E>0) THEN
        IF(IPARI0/=0) THEN
         ALLOCATE(CELCND(NS10E))
         ALLOCATE(CEPCND(NS10E))
@@ -10154,7 +10155,7 @@ Cvf Preparation traitement SPMD des ecoulements par BEM
       ERR_MSG='PROCESS BEM FOR SPMD'
       ERR_CATEGORY='PROCESS BEM FOR SPMD'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (NFLOW>0 .AND. NSPMD > 1) CALL FLOWDEC(IFLOW)
+      IF(NFLOW>0 .AND. NSPMD > 1) CALL FLOWDEC(IFLOW)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     FERMETURE DU FICHIER INPUT TMP
@@ -10162,7 +10163,7 @@ C--------------------------------------------
       ERR_MSG='CLOSING TMP INPUT FILE'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF (IPID/=0) CLOSE (UNIT=IIN)
+      IF(IPID/=0) CLOSE (UNIT=IIN)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     ECRITURE FICHIER DESSIN
@@ -10181,7 +10182,7 @@ C--------------------------------------------
 C     ECRITURE FICHIER ANIM
 C--------------------------------------------
       IFVANI=0
-      IF (ANIM_VERS>=40.AND.(DSANIM==1.OR.
+      IF(ANIM_VERS>=40.AND.(DSANIM==1.OR.
      .                         DECANI==1.OR.
      .                         NMANIM>0.OR.IFVANI>0))   THEN
          NEL3D = NUMELS + NUMSPH + 3*NUMELS16 + 27*NUMELIG3D
@@ -10197,7 +10198,7 @@ C
          SEL2FA=NEL+1
          SXNORM=3*NUMNOD+2*NUMELS16
          SINVERT=NEL2D
-         IF (NUMELX>0) THEN
+         IF(NUMELX>0) THEN
             SNFACPTX=NPART
             SIXEDGE=2*NANIM1D
             SOFFX1=NANIM1D
@@ -10215,7 +10216,7 @@ C
          NELEM=NUMELC+NUMELTG+NUMELS+NUMELR +
      .         NUMELP+NUMELT +NUMELQ+NUMELX
 C
-         MY_ALLOCATE(DNULL,3*NUMNOD)
+         CALL MY_ALLOC(DNULL,3*NUMNOD)
          DO I=1,3*NUMNOD
             DNULL(I)=ZERO
          ENDDO
@@ -10263,7 +10264,7 @@ C----------------------------------------------
 C     Driver to reader of so-called "engine cards"
 C----------------------------------------------
 C      NGINE = 0 ! Number of Engine "cards", to be counted in contrl.F
-      IF ((IS_DYNA /= 0 .OR. NB_DYNA_INCLUDE /= 0).AND.(NGINE+NANIM_ENG/=0)) 
+      IF((IS_DYNA /= 0 .OR. NB_DYNA_INCLUDE /= 0).AND.(NGINE+NANIM_ENG/=0)) 
      .          CALL READ_ENGINE_DRIVER(IGRPART,IS_DYNA,NB_DYNA_INCLUDE)
 C----------------------------------------------
 C     Driver to QAPRINT
@@ -10314,42 +10315,42 @@ C----------------------------------------------
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
      M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT )
 !
-      DEALLOCATE (SIGI)
-      DEALLOCATE (SIGSH)
-      DEALLOCATE (SIGSP)
-      DEALLOCATE (SIGRS)
-      DEALLOCATE (SIGBEAM)
-      DEALLOCATE (SIGTRUSS)
+      DEALLOCATE(SIGI)
+      DEALLOCATE(SIGSH)
+      DEALLOCATE(SIGSP)
+      DEALLOCATE(SIGRS)
+      DEALLOCATE(SIGBEAM)
+      DEALLOCATE(SIGTRUSS)
 C--------------------------------------------
 C     DELETE HM_MODEL IN MEMORY
 C--------------------------------------------
       CALL CPP_DELETE_MODEL()
 C
-      IF (NINTER > 0) THEN
+      IF(NINTER > 0) THEN
         DEALLOCATE(I2RUPT)
         DEALLOCATE(AREASL)
       ENDIF
-      IF (NRBMERGE > 0) THEN
+      IF(NRBMERGE > 0) THEN
         DEALLOCATE(MGRBY)
       ENDIF
 C     -------------------
 C     Memory deallocation
 C     -------------------
-      IF (NFUNC2D > 0) THEN
+      IF(NFUNC2D > 0) THEN
          DO KK = 1, NFUNC2D
             DEALLOCATE(FUNC2D(KK)%XVAL, FUNC2D(KK)%FVAL)
          ENDDO
          DEALLOCATE(FUNC2D)
       ENDIF
-      IF (ALLOCATED(RNOISE))  DEALLOCATE(RNOISE)
-      IF (ALLOCATED(PERTURB)) DEALLOCATE(PERTURB)
-      IF (ALLOCATED(QP_IPERTURB)) DEALLOCATE(QP_IPERTURB)
-      IF (ALLOCATED(QP_RPERTURB)) DEALLOCATE(QP_RPERTURB)
+      IF(ALLOCATED(RNOISE))  DEALLOCATE(RNOISE)
+      IF(ALLOCATED(PERTURB)) DEALLOCATE(PERTURB)
+      IF(ALLOCATED(QP_IPERTURB)) DEALLOCATE(QP_IPERTURB)
+      IF(ALLOCATED(QP_RPERTURB)) DEALLOCATE(QP_RPERTURB)
 
 C--------FRICTION OROTHTROPIC DIRECTIONS dealloc now after qa print -----
       IF(NINTER > 0 .AND.NINTERFRIC >0.AND. IORTHFRICMAX > 0) THEN
 
-        DEALLOCATE (PFRICORTH ,IREPFORTH , VFORTH ,PHIFORTH  )
+        DEALLOCATE(PFRICORTH ,IREPFORTH , VFORTH ,PHIFORTH  )
 
       ENDIF
 C
@@ -10369,7 +10370,7 @@ C Matrice de connectivite globale
 C--------------------------------------------
           ILEN = MAX(NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,NUMELTG)
           IF(LCNE>0) ALLOCATE(CNE(LCNE),STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='CNE')
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='CNE')
           CALL FILLCNE(
      1      CNE    ,LCNE   ,IXS    ,IXS10   ,IXS20   ,
      2      IXS16  ,IXQ    ,IXC    ,IXT     ,IXP     ,
@@ -10402,9 +10403,9 @@ Clongueur BUFMAT et BUFGEO
 
 C----------------------------------------------------------------------
           ! Allocation and filling of specific ADDCNE and CNE for non-local
-          IF (NLOC_DMG%IMOD>0) THEN
+          IF(NLOC_DMG%IMOD>0) THEN
             ! Allocation of ADDCNE for non-local nodes
-            IF (.NOT.ALLOCATED(NLOC_DMG%ADDCNE)) ALLOCATE(NLOC_DMG%ADDCNE(0:NLOC_DMG%NNOD+1))
+            IF(.NOT.ALLOCATED(NLOC_DMG%ADDCNE)) ALLOCATE(NLOC_DMG%ADDCNE(0:NLOC_DMG%NNOD+1))
             NLOC_DMG%ADDCNE(0:NLOC_DMG%NNOD+1) = 0
             ! Filling ADDCNE for non-local nodes
             CALL BUILD_ADDCNEL_SUB(ADDCNE  ,CNE      ,NLOC_DMG%ADDCNE,NLOC_DMG%INDX,NLOC_DMG%NNOD)
@@ -10413,7 +10414,7 @@ C----------------------------------------------------------------------
 !             WRITE(*,*) "NLOC_DMG%ADDCNE(FIN) = ", NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1-8:NLOC_DMG%NNOD+1)
 !             WRITE(*,*) "ADDCNE(FIN) = ", ADDCNE(NUMNOD+1-8:NUMNOD+1)
             ! Allocation of CNE for non-local nodes
-            IF (.NOT.ALLOCATED(NLOC_DMG%CNE)) ALLOCATE(NLOC_DMG%CNE(NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1))
+            IF(.NOT.ALLOCATED(NLOC_DMG%CNE)) ALLOCATE(NLOC_DMG%CNE(NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1))
             NLOC_DMG%CNE(1:NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1) = 0
 !             WRITE(*,*) 'SIZE NL = ', SIZE(NLOC_DMG%CNE)
 !             WRITE(*,*) 'SIZE_L = ', SIZE(CNE)
@@ -10428,9 +10429,9 @@ C----------------------------------------------------------------------
 C--------------------------------------------
 C     Multidomains -> transfert de la domdec
 C--------------------------------------------
-          IF ((NSUBDOM>0).AND.(FLG_R2R_ERR==0)) THEN
+          IF((NSUBDOM>0).AND.(FLG_R2R_ERR==0)) THEN
             CALL R2R_CLEAN_INTER(IPARI,INTBUF_TAB,IPARTC,IPARTG,IPARTS,ISOLNOD)
-            IF (IDDOM>0) THEN
+            IF(IDDOM>0) THEN
            WRITE(ISTDO,'(A)')' .. MULTIDOMAINS DOMDEC SYNCHRONIZATION '
               CALL R2R_DOMDEC(IEXLNK,IGRNOD,FRONTB_R2R,DT_R2R,1)
             ELSE
@@ -10476,7 +10477,7 @@ C         and Initialization of IRT>LM(3:4,1:NSN)
 
 C
           ALLOCATE(ADDCSRECT(NUMNOR+1),CSRECT(4*NRTMT_25),STAT=stat)
-          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                               MSGTYPE=MSGERROR,
      .                          C1='CSRECT')
           ADDCSRECT(1:NUMNOR+1)=0
@@ -10512,7 +10513,7 @@ C This routine computes array sizes for Animation file.
 C There should not be any call to frontplus beside this point.
 C--------------------------------------------
           CALL GLOBVARS(IGEO,IXR    ,NSTRF  )
-          IF (NPLYMAX > 0)THEN
+          IF(NPLYMAX > 0)THEN
              CALL SPMD_ANIM_PLY_INIT(IGEO, GEO  ,IPARG  ,IXC  ,IXTG ,
      .                          IPARTC,IPARTQ,IPARTG ,STACK )
           ENDIF
@@ -10625,7 +10626,7 @@ C----- create TAG_SKINS6 for /H3D/STRESS/TENS/OUTER
           ITASK = OMP_GET_THREAD_NUM()
 #endif
 c
-          IF (P > NSPMD) GOTO 221
+          IF(P > NSPMD) GOTO 221
           !Sending clean addresses for unallocated arrays in case P=0
           NULLIFY(pMEMFLOW) ; IF(NSPMD  > 0)  pMEMFLOW => MEMFLOW(1,P)    !MEMFLOW(2,1:NSPMD)   ; NSPMD =0 => MEMFLOW(1,0) is undefined
 
@@ -10759,7 +10760,7 @@ C Deallocation
 C
           DEALLOCATE(ICONTACT)
 C
-          IF (NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP>0)THEN
+          IF(NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP>0)THEN
             DEALLOCATE(CEP)
             DEALLOCATE(CEL)
           END IF
@@ -10784,7 +10785,7 @@ C
           DEALLOCATE(EIGIPM, EIGIBUF, EIGRPM)
           DEALLOCATE(TAG_SKN)
           DEALLOCATE(MULTIPLE_SKEW)
-          IF (IDDLEVEL ==1 .OR. ((NINTER == 0).AND.(ISMS == 0))) THEN
+          IF(IDDLEVEL ==1 .OR. ((NINTER == 0).AND.(ISMS == 0))) THEN
             DEALLOCATE(TAGXREF)
             DEALLOCATE(TAGREFSTA)
           ENDIF
@@ -10798,18 +10799,18 @@ C
           ENDIF
           DEALLOCATE(CELSPH)
 C
-          IF (LAG_NCF > 0) THEN
+          IF(LAG_NCF > 0) THEN
             DEALLOCATE(IADLL)
             DEALLOCATE(LLL)
           END IF
 C
-C          IF (ALLOCATED(FVSPMD)) DEALLOCATE(FVSPMD)
+C          IF(ALLOCATED(FVSPMD)) DEALLOCATE(FVSPMD)
 C
           DEALLOCATE(ADDCSRECT)
           DEALLOCATE(CSRECT)
-          DEALLOCATE (IGEO_STACK,GEO_STACK)
+          DEALLOCATE(IGEO_STACK,GEO_STACK)
           IF(ALLOCATED(PLY_INFO))DEALLOCATE(PLY_INFO)
-          IF (ALLOCATED(FXBFILE_TAB)) DEALLOCATE(FXBFILE_TAB)
+          IF(ALLOCATED(FXBFILE_TAB)) DEALLOCATE(FXBFILE_TAB)
 
           IF(ALLOCATED(TAB_UMP)) DEALLOCATE(TAB_UMP)
           IF(ALLOCATED(TAB_UMP_OLD)) DEALLOCATE(TAB_UMP_OLD)
@@ -10841,32 +10842,32 @@ C
             DEALLOCATE(CELCND)
             DEALLOCATE(CEPCND)
             DEALLOCATE(ADDCNCND)
-            IF (LCNCND>0) DEALLOCATE(CNCND)
+            IF(LCNCND>0) DEALLOCATE(CNCND)
           END IF
           IF(ALLOCATED(ITAGND)) DEALLOCATE(ITAGND)
           IF(NS10E>0) DEALLOCATE(ICNDS10)
           CALL MONVOL_DEALLOCATE(NVOLU, T_MONVOL)
-          IF (ALLOCATED(T_MONVOL)) DEALLOCATE(T_MONVOL)
+          IF(ALLOCATED(T_MONVOL)) DEALLOCATE(T_MONVOL)
           DEALLOCATE(IBCSCYC,LBCSCYC)
           IF(NBCSCYC>0) DEALLOCATE(ITAGCYC)
-          IF (ALLOCATED(FVM_INIVEL)) DEALLOCATE(FVM_INIVEL)
+          IF(ALLOCATED(FVM_INIVEL)) DEALLOCATE(FVM_INIVEL)
 C
 C--       Seatblet structures deallocation
-          IF (N_SEATBELT > 0) THEN
+          IF(N_SEATBELT > 0) THEN
             DO I=1,N_SEATBELT
               DEALLOCATE(SEATBELT_TAB(I)%SPRING)
             ENDDO
             DEALLOCATE(SEATBELT_TAB)
           ENDIF
 C
-          IF (NSLIPRING > 0) THEN
+          IF(NSLIPRING > 0) THEN
             DO I=1,NSLIPRING
               DEALLOCATE(SLIPRING(I)%FRAM)
             ENDDO
             DEALLOCATE(SLIPRING)
           ENDIF
 C
-          IF (NRETRACTOR > 0) THEN
+          IF(NRETRACTOR > 0) THEN
             DO I=1,NRETRACTOR
               DEALLOCATE(RETRACTOR(I)%INACTI_NODE)
             ENDDO
@@ -10905,13 +10906,13 @@ C
       DEALLOCATE(RBYM  ,IRBYM    ,LNRBYM,WEIGHT_RM)
       DEALLOCATE(MS_PLY,ZI_PLY,ICODE,ISKEW)
 c
-      IF(ALLOCATED(KNOTLOCPC))DEALLOCATE (KNOTLOCPC)
-      IF(ALLOCATED(KNOTLOCEL))DEALLOCATE (KNOTLOCEL)
+      IF(ALLOCATED(KNOTLOCPC))DEALLOCATE(KNOTLOCPC)
+      IF(ALLOCATED(KNOTLOCEL))DEALLOCATE(KNOTLOCEL)
 c
       CALL TRACE_OUT1()
       IF(ALLOCATED(IPMAS))DEALLOCATE(IPMAS)
 c---------------------------
-      IF (ICRACK3D > 0) THEN
+      IF(ICRACK3D > 0) THEN
         DEALLOCATE(INOD_CRKXFEM,IEL_CRKXFEM)
         DEALLOCATE(CNE_CRKXFEM)
         DEALLOCATE(CEL_CRKXFEM)
@@ -10955,31 +10956,31 @@ C
       IF(ALLOCATED(SH3ANG))  DEALLOCATE(SH3ANG)
       IF(ALLOCATED(SH4ANG))  DEALLOCATE(SH4ANG)
       IF(ALLOCATED(NATIV_SMS))  DEALLOCATE(NATIV_SMS)
-      IF (ALLOCATED(MULTI_FVM%VEL)) DEALLOCATE(MULTI_FVM%VEL)
+      IF(ALLOCATED(MULTI_FVM%VEL)) DEALLOCATE(MULTI_FVM%VEL)
       CALL ALE_CONNECTIVITY%ALE_DEALLOCATE_CONNECTIVITY()
 !!      DEALLOCATE(STACK)
-      IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0)DEALLOCATE (STACK_INFO)
+      IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0)DEALLOCATE(STACK_INFO)
       IF(ALLOCATED(IPRELOAD)) DEALLOCATE(IPRELOAD)
       IF(ALLOCATED(PRELOAD))  DEALLOCATE(PRELOAD)
       IF(ALLOCATED(IFLAG_BPRELOAD))  DEALLOCATE(IFLAG_BPRELOAD)
       IF(ALLOCATED(EOS_TAG))DEALLOCATE(EOS_TAG)
       CALL C_DELETE_HASH(H_NODE)
       CALL DEALLOCATE_DETONATORS(DETONATORS)
-      IF (ALLOCATED(XSEED)) DEALLOCATE (XSEED)
-      IF (ALLOCATED(ALEA))  DEALLOCATE (ALEA)
-      IF (ALLOCATED(IRAND)) DEALLOCATE (IRAND)
-      IF (ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB )
-      IF (ALLOCATED(LOGICAL_SENSORS_LIST)) DEALLOCATE(LOGICAL_SENSORS_LIST)
+      IF(ALLOCATED(XSEED)) DEALLOCATE(XSEED)
+      IF(ALLOCATED(ALEA))  DEALLOCATE(ALEA)
+      IF(ALLOCATED(IRAND)) DEALLOCATE(IRAND)
+      IF(ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB )
+      IF(ALLOCATED(LOGICAL_SENSORS_LIST)) DEALLOCATE(LOGICAL_SENSORS_LIST)
 C
       CALL EBCS_TAB%destroy()
-      IF (NINIMAP1D > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
+      IF(NINIMAP1D > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
          DO KK = 1, NINIMAP1D
             DEALLOCATE(INIMAP1D(KK)%TAGNODE)
          ENDDO
       ENDIF
       DEALLOCATE(INIMAP1D)
 
-      IF (NINIMAP2D > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
+      IF(NINIMAP2D > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
          DO KK = 1, NINIMAP2D
             DEALLOCATE(INIMAP2D(KK)%TAGNODE)
          ENDDO
@@ -10991,7 +10992,7 @@ C
 
       CALL DEALLOCATE_JOINT( )
 
-      IF (NFXBODY>0) THEN
+      IF(NFXBODY>0) THEN
          CLOSE(IFXM)
          CLOSE(IFXS) 
       ENDIF
@@ -11044,7 +11045,7 @@ C-----------------------------------------------
 
       DO N=1,NSPHIO
         ITYPE = ISPHIO(1,N)
-        IF (ISPHIO(12,N)==0) THEN
+        IF(ISPHIO(12,N)==0) THEN
           ISU = ISPHIO(3,N)
           NSEG= IGRSURF(ISU)%NSEG
           ISPHIO(10,N) = NSEG
@@ -11066,7 +11067,7 @@ C-----------------------------------------------
             ENDDO
           ENDDO
           IAD2 = IAD2 + 4*NSEG
-        ELSEIF (ISPHIO(12,N)==2) THEN
+        ELSEIF(ISPHIO(12,N)==2) THEN
           IN1 = ISPHIO(13,N)
           IN2 = ISPHIO(14,N)
           IN3 = ISPHIO(15,N)
@@ -11146,7 +11147,7 @@ C-----------------------------------------------
         DO I=1,NUMGEO
          IGTYP =IGEO(11,I)
          ITET4 =IGEO(20,I)
-         IF ((IGTYP==14.OR.IGTYP==6).AND.ITET4==1) ITET4_10 = 1
+         IF((IGTYP==14.OR.IGTYP==6).AND.ITET4==1) ITET4_10 = 1
         ENDDO
 
       RETURN

@@ -47,6 +47,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SETDEF_MOD
@@ -58,7 +59,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C-----------------------------------------------
       IF (NELEM == 0) IGRELE(IGRE)%SET_GROUP = 1
 !
       IF (NELEM > 0) THEN
-        MY_ALLOCATE(IGRELE(IGRE)%ENTITY,NELEM)
+        CALL MY_ALLOC(IGRELE(IGRE)%ENTITY,NELEM)
         IGRELE(IGRE)%ENTITY(1:NELEM) = GETELEM(1:NELEM)
       ENDIF
 
@@ -134,6 +134,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SETDEF_MOD
@@ -190,9 +191,9 @@ C-----------------------------------------------
         IF (ALLOCATED(IGRSURF(IGRS)%ELTYP)) DEALLOCATE(IGRSURF(IGRS)%ELTYP)
         IF (ALLOCATED(IGRSURF(IGRS)%ELEM))  DEALLOCATE(IGRSURF(IGRS)%ELEM)
 !
-        MY_ALLOCATE2D(IGRSURF(IGRS)%NODES,NSEG,4)
-        MY_ALLOCATE(IGRSURF(IGRS)%ELTYP,NSEG)
-        MY_ALLOCATE(IGRSURF(IGRS)%ELEM,NSEG)
+        CALL MY_ALLOC(IGRSURF(IGRS)%NODES,NSEG,4)
+        CALL MY_ALLOC(IGRSURF(IGRS)%ELTYP,NSEG)
+        CALL MY_ALLOC(IGRSURF(IGRS)%ELEM,NSEG)
 !
         IGRSURF(IGRS)%NODES(1:NSEG,1) = SET%SURF_NODES(1:NSEG,1)
         IGRSURF(IGRS)%NODES(1:NSEG,2) = SET%SURF_NODES(1:NSEG,2)
@@ -234,6 +235,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SETDEF_MOD
@@ -284,10 +286,10 @@ C-----------------------------------------------
         IF (ALLOCATED(IGRSLIN(IGRL)%ELEM))  DEALLOCATE(IGRSLIN(IGRL)%ELEM)
         IF (ALLOCATED(IGRSLIN(IGRL)%PROC))  DEALLOCATE(IGRSLIN(IGRL)%PROC)
 !
-        MY_ALLOCATE2D(IGRSLIN(IGRL)%NODES,NSEG,2)
-        MY_ALLOCATE(IGRSLIN(IGRL)%ELTYP,NSEG)
-        MY_ALLOCATE(IGRSLIN(IGRL)%ELEM,NSEG)
-        MY_ALLOCATE(IGRSLIN(IGRL)%PROC,NSEG)
+        CALL MY_ALLOC(IGRSLIN(IGRL)%NODES,NSEG,2)
+        CALL MY_ALLOC(IGRSLIN(IGRL)%ELTYP,NSEG)
+        CALL MY_ALLOC(IGRSLIN(IGRL)%ELEM,NSEG)
+        CALL MY_ALLOC(IGRSLIN(IGRL)%PROC,NSEG)
 !
         IGRSLIN(IGRL)%NODES(1:NSEG,1) = SET%LINE_NODES(1:NSEG,1)
         IGRSLIN(IGRL)%NODES(1:NSEG,2) = SET%LINE_NODES(1:NSEG,2)

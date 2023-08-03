@@ -32,6 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE FAILWAVE_MOD
 C-----------------------------------------------
@@ -43,7 +44,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -122,10 +122,10 @@ c
         FAILWAVE%NNOD = NNOD
         FAILWAVE%SIZE = SIZE
         FAILWAVE%NDDL = NDDL
-        MY_ALLOCATE (FAILWAVE%INDX,NNOD)
-        MY_ALLOCATE (FAILWAVE%IDXI,NUMNOD)
-        MY_ALLOCATE (FAILWAVE%MAXLEV,0)
-        MY_ALLOCATE (FAILWAVE%MAXLEV_STACK,0)
+        CALL MY_ALLOC (FAILWAVE%INDX,NNOD)
+        CALL MY_ALLOC (FAILWAVE%IDXI,NUMNOD)
+        CALL MY_ALLOC (FAILWAVE%MAXLEV,0)
+        CALL MY_ALLOC (FAILWAVE%MAXLEV_STACK,0)
         ALLOCATE (FAILWAVE%FWAVE_NOD(NDDL,NUMNOD,SIZE))
         ALLOCATE (FAILWAVE%FWAVE_NOD_STACK(NDDL,NUMNOD,SIZE))
 c

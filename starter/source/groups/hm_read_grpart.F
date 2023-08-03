@@ -43,6 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE GROUPDEF_MOD
@@ -57,7 +58,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "submod_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -219,7 +219,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                                    
               ENDDO                                                                                              
               IGRPART(IGS)%NENTITY=NEL                                                                           
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                               
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                               
               IGRPART(IGS)%ENTITY = 0                                                                            
             ELSEIF (FLAG == 1) THEN                                                                              
               DO J=1,NPART                                                                                       
@@ -265,7 +265,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                      
               ENDDO                                                                                
               IGRPART(IGS)%NENTITY=NEL                                                             
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                 
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                 
               IGRPART(IGS)%ENTITY = 0                                                              
             ELSEIF (FLAG == 1) THEN                                                                
               DO J=1,NPART                                                                         
@@ -304,7 +304,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                                     
               ENDDO                                                                                               
               IGRPART(IGS)%NENTITY=NEL                                                                            
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                                
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                                
               IGRPART(IGS)%ENTITY = 0                                                                             
             ELSEIF (FLAG == 1) THEN                                                                               
               DO J=1,NPART                                                                                        
@@ -364,7 +364,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                           
               ENDDO                                                                                     
               IGRPART(IGS)%NENTITY=NEL                                                                  
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                      
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                      
               IGRPART(IGS)%ENTITY = 0                                                                   
             ELSEIF (FLAG == 1) THEN                                                                     
               DO J=1,NPART                                                                              

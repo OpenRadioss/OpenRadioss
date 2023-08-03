@@ -43,6 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -56,7 +57,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -113,9 +113,9 @@ C-----------------------------------------------
       DATA KPERM1/1,3,5,7/
       DATA KPERM2/2,4,6,8/
 C-----------------------------------------------
-      MY_ALLOCATE(ITAG,NUMNOD)
-      MY_ALLOCATE(NTAG,4*NRTM)
-      MY_ALLOCATE(ROOT,4*NRTM)
+      CALL MY_ALLOC(ITAG,NUMNOD)
+      CALL MY_ALLOC(NTAG,4*NRTM)
+      CALL MY_ALLOC(ROOT,4*NRTM)
 C
       DO I=1,NRTM
         MSEGLO(I)=I      

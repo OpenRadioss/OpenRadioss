@@ -55,9 +55,9 @@ Chd|====================================================================
      K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
      J IPARTP    ,IPARTR   )
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -724,7 +724,7 @@ Chd|====================================================================
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
-C
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -737,7 +737,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "scr08_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -783,9 +782,9 @@ C----------------------
       NREV=0
       IPGMAT = 700
       IF(NUMELS > 0) THEN
-        MY_ALLOCATE(TAGELEMS,NUMELS)
+        CALL MY_ALLOC(TAGELEMS,NUMELS)
         TAGELEMS = 0
-        MY_ALLOCATE(INDEXE,NUMELS)
+        CALL MY_ALLOC(INDEXE,NUMELS)
         INDEXE = 0
       ENDIF
       NINV = 0

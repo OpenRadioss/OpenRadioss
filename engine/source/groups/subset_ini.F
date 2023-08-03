@@ -58,10 +58,10 @@ C=======================================================================
 C=======================================================================
 !
       IF (NSUBS > 0)THEN 
-        MY_ALLOCATE(SUBSETS,NSUBS)
+        ALLOCATE(SUBSETS(NSUBS))
         CALL ALLOC_SUBSET_STR(SUBSETS)
       ELSE           
-        MY_ALLOCATE(SUBSETS,0)
+        ALLOCATE(SUBSETS(0))
       ENDIF
 !---------
       RETURN

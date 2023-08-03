@@ -3777,8 +3777,8 @@ C INT 25
         ALLOCATE (ISKEW_FI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
         IF(PARAMETERS%ISTIF_DT > 0) THEN
-           MY_ALLOCATE(STIF_MSDT_FI,NINTER)
-           MY_ALLOCATE(STIFE_MSDT_FI,NINTER)
+           ALLOCATE(STIF_MSDT_FI(NINTER))
+           ALLOCATE(STIFE_MSDT_FI(NINTER))
         ENDIF
 C
         IF(INTHEAT > 0 ) THEN
@@ -3858,12 +3858,12 @@ C
         ALLOCATE(EFRICGFI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
 
-C       MY_ALLOCATE(MAIN_FIE,NINTER)
-        MY_ALLOCATE(GAPE_L_FIE,NINTER)
-        MY_ALLOCATE(EDG_BISECTOR_FIE,NINTER)
-        MY_ALLOCATE(VTX_BISECTOR_FIE,NINTER)
-        MY_ALLOCATE(X_SEG_FIE,NINTER)
-        MY_ALLOCATE(LEDGE_FIE,NINTER)
+C       ALLOCATE(MAIN_FIE(NINTER))
+        ALLOCATE(GAPE_L_FIE(NINTER))
+        ALLOCATE(EDG_BISECTOR_FIE(NINTER))
+        ALLOCATE(VTX_BISECTOR_FIE(NINTER))
+        ALLOCATE(X_SEG_FIE(NINTER))
+        ALLOCATE(LEDGE_FIE(NINTER))
 
 
 C
@@ -4414,7 +4414,7 @@ C
                  IERROR = IERROR + IERROR1
 
                  IF(IPARI(97,I) > 0) THEN
-                    MY_ALLOCATE(STIF_MSDT_FI(I)%P,LENR)
+                    ALLOCATE(STIF_MSDT_FI(I)%P(LENR))
                     STIF_MSDT_FI(I)%P(1:LENR)=ZERO
                  ENDIF
 
@@ -4741,7 +4741,6 @@ C
                   ALLOCATE(ISKYFIE(I)%P(LSKYFI),STAT=IERROR1)
                   IERROR = IERROR + IERROR1
                   IF(KDTINT==0) THEN
-C                   ALLOCATE(FSKYFIE(I)%P(8,LSKYFI),STAT=IERROR1)
                     ALLOCATE(FSKYFIE(I)%P(8,LSKYFI),STAT=IERROR1)
                   ELSE
                     ALLOCATE(FSKYFIE(I)%P(8,LSKYFI),STAT=IERROR1)
@@ -4749,21 +4748,20 @@ C                   ALLOCATE(FSKYFIE(I)%P(8,LSKYFI),STAT=IERROR1)
                   IERROR = IERROR + IERROR1
                 ENDIF
                 IF(LENR_EDGE>0) THEN
-                  MY_ALLOCATE(NSVFIE(I)%P,LENR_EDGE) !ok
-                  MY_ALLOCATE(ITAFIE(I)%P,LENR_EDGE*2)
-C                 MY_ALLOCATE(MAIN_FIE(I)%P,LENR_EDGE)
-                  MY_ALLOCATE2D(LEDGE_FIE(I)%P,E_LEDGE_SIZE,LENR_EDGE) !ok
-                  MY_ALLOCATE2D(XFIE(I)%P,3,LENR_EDGE*2) !ok
-                  MY_ALLOCATE2D(VFIE(I)%P,3,LENR_EDGE*2) !ok
-                  MY_ALLOCATE(MSFIE(I)%P,LENR_EDGE*2) !ok
-                  MY_ALLOCATE(GAPFIE(I)%P,LENR_EDGE) !ok
+                  ALLOCATE(NSVFIE(I)%P(LENR_EDGE)) 
+                  ALLOCATE(ITAFIE(I)%P(LENR_EDGE*2))
+                  ALLOCATE(LEDGE_FIE(I)%P(E_LEDGE_SIZE,LENR_EDGE)) 
+                  ALLOCATE(XFIE(I)%P(3,LENR_EDGE*2)) 
+                  ALLOCATE(VFIE(I)%P(3,LENR_EDGE*2)) 
+                  ALLOCATE(MSFIE(I)%P(LENR_EDGE*2)) 
+                  ALLOCATE(GAPFIE(I)%P(LENR_EDGE)) 
                   IF( IGAP == 3) THEN
-                    MY_ALLOCATE(GAPE_L_FIE(I)%P,LENR_EDGE) !ok
+                    ALLOCATE(GAPE_L_FIE(I)%P(LENR_EDGE)) 
                   ENDIF
-                  MY_ALLOCATE(STIFIE(I)%P,LENR_EDGE) !ok
-                  ALLOCATE(EDG_BISECTOR_FIE(I)%P(3,3,LENR_EDGE)) !ok
-                  ALLOCATE(VTX_BISECTOR_FIE(I)%P(3,4,LENR_EDGE)) !ok
-                  ALLOCATE(X_SEG_FIE(I)%P(3,4,LENR_EDGE)) !ok
+                  ALLOCATE(STIFIE(I)%P(LENR_EDGE)) 
+                  ALLOCATE(EDG_BISECTOR_FIE(I)%P(3,3,LENR_EDGE)) 
+                  ALLOCATE(VTX_BISECTOR_FIE(I)%P(3,4,LENR_EDGE)) 
+                  ALLOCATE(X_SEG_FIE(I)%P(3,4,LENR_EDGE)) 
                   EDG_BISECTOR_FIE(I)%P(1:3,1:3,1:LENR_EDGE) = 0
                   VTX_BISECTOR_FIE(I)%P(1:3,1:4,1:LENR_EDGE) = 0
                   X_SEG_FIE(I)%P(1:3,1:4,1:LENR_EDGE) = 0
@@ -4777,7 +4775,7 @@ C                 MY_ALLOCATE(MAIN_FIE(I)%P,LENR_EDGE)
                      CALL READ_I_C(IPARTFRIC_FIE(I)%P,LENR_EDGE)
                   ENDIF
                   IF(IPARI(97,I) > 0) THEN
-                    MY_ALLOCATE(STIFE_MSDT_FI(I)%P,LENR_EDGE)
+                    ALLOCATE(STIFE_MSDT_FI(I)%P(LENR_EDGE))
                     STIFE_MSDT_FI(I)%P(1:LENR_EDGE)=ZERO
                   ENDIF
 
@@ -5148,16 +5146,16 @@ C
                 CALL READ_R_C(VTX_BISECTOR_FIE(I)%P(1,1,1),3*4*LENR)
                 CALL READ_DB(X_SEG_FIE(I)%P(1,1,1),3*4*LENR)
                 IF(IDTMINS_OLD == 2) THEN
-                 MY_ALLOCATE(NODNXFIE(I)%P,LENR*2)
+                 ALLOCATE(NODNXFIE(I)%P(LENR*2))
                  CALL READ_I_C(NODNXFIE(I)%P(1),LENR*2)
-                 MY_ALLOCATE(NODAMSFIE(I)%P,LENR*2)
+                 ALLOCATE(NODAMSFIE(I)%P(LENR*2))
                  CALL READ_I_C(NODAMSFIE(I)%P(1),LENR*2)
-                 MY_ALLOCATE(PROCAMSFIE(I)%P,LENR*2)
+                 ALLOCATE(PROCAMSFIE(I)%P(LENR*2))
                  CALL READ_I_C(PROCAMSFIE(I)%P(1),LENR*2)
                 ELSEIF(IDTMINS_INT_OLD /= 0) THEN
-                 MY_ALLOCATE(NODAMSFIE(I)%P,LENR*2)
+                 ALLOCATE(NODAMSFIE(I)%P(LENR*2))
                  CALL READ_I_C(NODAMSFIE(I)%P(1),LENR*2)
-                 MY_ALLOCATE(PROCAMSFIE(I)%P,LENR*2)
+                 ALLOCATE(PROCAMSFIE(I)%P(LENR*2))
                  CALL READ_I_C(PROCAMSFIE(I)%P(1),LENR*2)
                 ENDIF
 
