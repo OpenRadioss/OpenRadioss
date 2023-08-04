@@ -1,5 +1,6 @@
 {
 	"enabled": 1,
 	"starter": "9BRICKS_0000.rad",
-	"engines": ["9BRICKS_0001.rad"]
+	"engines": ["9BRICKS_0001.rad"],
+	"np": 1
 }

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from optparse import OptionParser,OptionGroup
 import sys
 import os
 import shutil
@@ -79,11 +80,25 @@ def read_input_file_datas():
 
 if __name__ == "__main__":
 
+    usage = "usage: %prog [options]\nRun '%prog --help' to list the options"
+    parser = OptionParser(usage=usage)
+
+    # MANDATORY
+    mandatory = OptionGroup(parser, "Mandatory Options")
+    mandatory.add_option("--path", dest="path",action="store", type="string",
+            help="The directory where the tests are located (mandatory)")
+    parser.add_option_group(mandatory)
+
+    (options, args) = parser.parse_args()
+
+    if not options.path:
+        parser.error('some mandatory options are missing')
+
     # Prepare a temporary directory with input files to run the test
     qa_scripts_dir = os.getcwd() + '/scripts'
     exec_dir = os.getcwd() + '/../exec'
-    data_dir = scriptdir + '/'  + data_dir_name
-    temp_data_dir = data_dir + '_tmp'
+    data_dir = options.path + '/'  + data_dir_name
+    temp_data_dir = os.getcwd() + '/' + data_dir + '_tmp'
     if os.path.exists(temp_data_dir):
         remove_directory(temp_data_dir)
     copy_directory(data_dir,temp_data_dir)
@@ -99,6 +114,11 @@ if __name__ == "__main__":
     input_files = read_input_file_datas()
 
     # Run starter
+    if 'np' in input_files:
+        nbprocs = input_files['np']
+    if 'nt' in input_files:
+        os.environ['OMP_NUM_THREADS'] = str(input_files['nt'])
+
     command_to_run = qa_scripts_dir + '/or_radioss.pl 0 ' + exec_dir + '/engine_linux64_gf_ompi ' + mpirun + ' -np ' + str(nbprocs) + ' ' + input_files['starter'] + ' -starter --ignore_check_errors=0 last_go=1'
     output, return_code = run_shell_command(command_to_run)
     print(output)

@@ -4,9 +4,7 @@
 from optparse import OptionParser,OptionGroup
 import sys
 import os
-# import shutil
 import json
-# import subprocess
 
 # ===========================================
 # Global variables definition
@@ -14,7 +12,7 @@ import json
 scriptdir = os.path.dirname(sys.argv[0])
 json_file_name = 'test_files.json'
 ctest_file_name = 'CTestTestfile.cmake'
-run_test_script_name = 'or_run_test.py'
+run_test_script_name = 'scripts/or_run_test.py'
 
 # ===========================================
 # Functions definition
@@ -63,21 +61,7 @@ def prepare_test(file_path, my_array):
 
             # Convert the array to a string and write it to the file
             for elem in my_array:
-                run_test_script = elem + '/' + run_test_script_name
-
-                # Create the run_test script link
-                create_link = 1
-                if os.path.exists(run_test_script):
-                    if os.path.islink(run_test_script):
-                        create_link = 0
-                    else:
-                        remove_file(run_test_script)
-                    
-                if create_link:
-                    create_symlink(os.getcwd() + '/' + scriptdir + '/' + run_test_script_name,run_test_script)
-
-                # Write the line into the ctest file
-                cur_str = 'add_test(' + elem + ' ' + run_test_script + ")\n"
+                cur_str = 'add_test(' + elem + ' ' + run_test_script_name + ' --path ' + elem + ")\n"
                 file.write(cur_str)
 
     except IOError as e:
