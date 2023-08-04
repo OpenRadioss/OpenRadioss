@@ -70,8 +70,8 @@ C-----------------------------------------------
      .                                         X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
       my_real
      .   GEO(NPROPG,*),VX(*),VY(*),VZ(*),PHI1(NPT_ALL,*),PHI2(NPT_ALL,*),
-     .   COOR1(NPT_ALL,MVSIZ),COOR2(NPT_ALL,MVSIZ),
-     .   COOR3(NPT_ALL,MVSIZ),COOR4(NPT_ALL,MVSIZ),
+     .   COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),
+     .   COOR3(NLAY,MVSIZ),COOR4(NLAY,MVSIZ),
      .   GEO_STACK(NPROPG,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY):: STACK
@@ -261,14 +261,14 @@ C-------
                        DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP                     
                    ENDIF                                           
                    IF (IORTHLOC(I) /= 0) THEN                                
-                     DIR1(I)     = COOR1(IPT,I)                               
-                     DIR1(I+NEL) = COOR2(IPT,I)                               
+                     DIR1(I)     = COOR1(IL,I)                               
+                     DIR1(I+NEL) = COOR2(IL,I)                               
                    ENDIF                                                     
                  ENDDO    
                ENDDO ! NPPT
              ELSE
                DO IT = 1, NPTT  
-                  LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                  LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                   DIR1 => LBUF_DIR%DIRA
                   IPT = IPT_ALL + IT 
                   DO I=LFT,LLT                                               
@@ -277,15 +277,15 @@ C-------
                     DIR1(I)     = VR(I)*CSP-VS(I)*SNP                        
                     DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP                 
                     IF (IORTHLOC(I) /= 0) THEN                                
-                     DIR1(I)     = COOR1(IPT,I)                               
-                     DIR1(I+NEL) = COOR2(IPT,I)                               
+                     DIR1(I)     = COOR1(IL,I)                               
+                     DIR1(I+NEL) = COOR2(IL,I)                               
                     ENDIF                                                     
                  ENDDO    
                ENDDO ! NPPT
              ENDIF !
              IPT_ALL = IPT_ALL + NPTT                                                    
-            ENDDO ! NLAY
-          IF(IREP == 1) THEN
+            ENDDO
+          IF (IREP == 1) THEN
             DO I=LFT,LLT
               U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)
               U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)
@@ -296,16 +296,14 @@ C-------
               W2Y = U1X/DET
               W1Y = -U1Y/DET
               W2X = -U2X/DET
-              IPT_ALL = 0
               DO IL=1,NLAY
-                LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
-                DIR1 => LBUF_DIR%DIRA
-                NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+               DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
+               NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+               DIR1 => ELBUF_STR%BUFLY(IL)%DIRA   
                DO IT = 1,NPTT
-                IPT = IPT_ALL + IT 
                 IF (IORTHLOC(I) /= 0) THEN
-                  DIR1(I)     = COOR1(IPT,I) ! il --> It 
-                  DIR1(I+NEL) = COOR2(IPT,I) 
+                  DIR1(I)     = COOR1(IL,I) ! il --> It 
+                  DIR1(I+NEL) = COOR2(IL,I) 
                 ENDIF
                 D1 = DIR1(I)
                 D2 = DIR1(I+NEL)
@@ -322,7 +320,7 @@ C---      Axe I d'anisotropie
             DO IL=1,NLAY
               NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
               DO IT = 1, NPTT  
-                  LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                   DIR1 => LBUF_DIR%DIRA
                   DIR2 => LBUF_DIR%DIRB
                  IPT = IPT_ALL + IT
@@ -350,16 +348,16 @@ C---
             DO IL=1,NLAY
               NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
               DO IT = 1, NPTT  
-                 LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                  DIR1 => LBUF_DIR%DIRA
                  DIR2 => LBUF_DIR%DIRB
                  IPT = IPT_ALL + IT
                  DO I=LFT,LLT  
                    IF (IORTHLOC(I) /= 0) THEN                               
-                     DIR1(I)     =  COOR1(IPT,I) !! IL ou ipt
-                     DIR1(I+NEL) =  COOR2(IPT,I)
-                     DIR2(I)     =  COOR3(IPT,I)
-                     DIR2(I+NEL) =  COOR4(IPT,I)
+                     DIR1(I)     =  COOR1(IL,I) !! IL ou ipt
+                     DIR1(I+NEL) =  COOR2(IL,I)
+                     DIR2(I)     =  COOR3(IL,I)
+                     DIR2(I+NEL) =  COOR4(IL,I)
                    ENDIF  
                  ENDDO  
               ENDDO ! NPTT
@@ -380,7 +378,7 @@ C---
               DO IL=1,NLAY  
                NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
                DO IT = 1, NPTT  
-                 LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                  DIR1 => LBUF_DIR%DIRA
                  DIR2 => LBUF_DIR%DIRB
                  IPT = IPT_ALL + IT
@@ -411,7 +409,7 @@ C   mixing law58 with other user laws with IREP = 0 within PID51
               NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
              IF (ILAW == 58) THEN         
                DO IT = 1, NPTT  
-                 LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                  DIR1 => LBUF_DIR%DIRA
                  DIR2 => LBUF_DIR%DIRB
                  IPT = IPT_ALL + IT
@@ -434,10 +432,10 @@ C---      Axe II d'anisotropie
 C---
                   DO I=LFT,LLT  
                     IF (IORTHLOC(I) /= 0) THEN                                
-                      DIR1(I)     =  COOR1(IPT,I)  ! to check
-                      DIR1(I+NEL) =  COOR2(IPT,I)
-                      DIR2(I)     =  COOR3(IPT,I) 
-                      DIR2(I+NEL) =  COOR4(IPT,I) 
+                      DIR1(I)     =  COOR1(IL,I)  ! to check
+                      DIR1(I+NEL) =  COOR2(IL,I)
+                      DIR2(I)     =  COOR3(IL,I) 
+                      DIR2(I+NEL) =  COOR4(IL,I) 
                     ENDIF  
                   ENDDO
 C---
@@ -472,7 +470,7 @@ C---          dir II
                  IPT_ALL  = IPT_ALL + NPTT 
               ELSE  ! IREP = 0 within PID51
                  DO IT = 1, NPTT  
-                  LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                  LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                   DIR1 => LBUF_DIR%DIRA
                   DIR2 => LBUF_DIR%DIRB
                   IPT = IPT_ALL + IT
@@ -482,8 +480,8 @@ C---          dir II
                     DIR1(I)     = VR(I)*CSP-VS(I)*SNP
                     DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
                     IF (IORTHLOC(I) /= 0) THEN
-                      DIR1(I)     = COOR1(IPT,I) 
-                      DIR1(I+NEL) = COOR2(IPT,I) 
+                      DIR1(I)     = COOR1(IL,I) 
+                      DIR1(I+NEL) = COOR2(IL,I) 
                     ENDIF
                   ENDDO
                 ENDDO
@@ -497,7 +495,7 @@ C   mixing law58 with other user laws with IREP = 1 within PID51
               ILAW = ELBUF_STR%BUFLY(IL)%ILAW
               IF (ILAW == 58) THEN
                DO IT = 1, NPTT  
-                 LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                  DIR1 => LBUF_DIR%DIRA
                  DIR2 => LBUF_DIR%DIRB
                  IPT = IPT_ALL + IT
@@ -520,10 +518,10 @@ C---      Axe II d'anisotropie
 C---
                 DO I=LFT,LLT  
                   IF (IORTHLOC(I) /= 0) THEN                                  
-                    DIR1(I)     =  COOR1(IPT,I) 
-                    DIR1(I+NEL) =  COOR2(IPT,I)
-                    DIR2(I)     =  COOR3(IPT,I) 
-                    DIR2(I+NEL) =  COOR4(IPT,I) 
+                    DIR1(I)     =  COOR1(IL,I) 
+                    DIR1(I+NEL) =  COOR2(IL,I)
+                    DIR2(I)     =  COOR3(IL,I) 
+                    DIR2(I+NEL) =  COOR4(IL,I) 
                   ENDIF  
                 ENDDO
 C---
@@ -558,7 +556,7 @@ C---          dir II
                IPT_ALL = IPT_ALL + NPTT
               ELSE  ! Ilaw
                DO IT = 1, NPTT  
-                 LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
+                 LBUF_DIR => ELBUF_STR%BUFLY(I)%LBUF_DIR(IT)    
                  DIR1 => LBUF_DIR%DIRA
                  DIR2 => LBUF_DIR%DIRB
                  IPT = IPT_ALL + IT
@@ -573,8 +571,8 @@ C---          dir II
                     W1Y = -U1Y/DET
                     W2X = -U2X/DET
                     IF (IORTHLOC(I) /= 0) THEN
-                      DIR1(I)     = COOR1(IPT,I) 
-                      DIR1(I+NEL) = COOR2(IPT,I) 
+                      DIR1(I)     = COOR1(IL,I) 
+                      DIR1(I+NEL) = COOR2(IL,I) 
                     ENDIF
                     D1 = DIR1(I)
                     D2 = DIR1(I+NEL)

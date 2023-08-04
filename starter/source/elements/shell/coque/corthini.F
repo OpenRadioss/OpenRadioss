@@ -79,8 +79,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(*)  :: INDX  
       my_real
      . GEO(NPROPG,*),SKEW(LSKEW,*),SIGSH(NSIGSH,*),VX(*),VY(*),VZ(*),
-     . PHI1(NPT_ALL,*),PHI2(NPT_ALL,*),COOR1(NPT_ALL,MVSIZ),COOR2(NPT_ALL,MVSIZ),
-     . COOR3(NPT_ALL,MVSIZ),COOR4(NPT_ALL,MVSIZ),
+     . PHI1(NPT_ALL,*),PHI2(NPT_ALL,*),COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),
+     . COOR3(NLAY,MVSIZ),COOR4(NLAY,MVSIZ),
      . ANGLE(*),GEO_STACK(NPROPG,*),X(3,*),BETAORTH(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: E3X,E3Y,E3Z,X1,X2,Y1,Y2,Z1,Z2
 C------------------------------------------------------     
@@ -203,7 +203,7 @@ C---    read property data
                  IF(STACK%IGEO(2+J,ISUBSTACK) /= 0) THEN        
                    IF(IGEO(49,STACK%IGEO(2+J,ISUBSTACK)) == 1)THEN                                 
                         PHI1(J,I)   = GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)                    
-                        DEF_ORTH(I) = DEF_ORTH(I) - 1
+                        DEF_ORTH(I) = DEF_ORTH(I) - 1                                                                                               
                    ENDIF 
                  ENDIF                              
                  IF (IREP >= 2) PHI2(J,I)= STACK%GEO(IPDIR+J,ISUBSTACK) !!! ???
@@ -564,11 +564,7 @@ C---    Overwrite with optional element data__ ORTH_LOC
             END IF
 C
             NPT  = NINT(GEO(6,IX(NIX-1,I)))
-            IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP==52)) THEN
-              NPT = NPT_ALL
-            ELSEIF (IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-              NPT = NLAY
-            ENDIF  
+            IF (IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) NPT = NLAY
             NPTI = NINT(SIGSH(2,II))
             IF (NPT /= NPTI) THEN
               IPID   = IX(NIX-1,I)

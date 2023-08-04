@@ -1388,7 +1388,7 @@ c
                     IF (ITY == 3) THEN
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                       IF (MLW /= 0 .AND. MLW /= 13) THEN
-                       IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
+                       IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
                          IF(IPT <= BUFLY%NPTT ) THEN
                             LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
                          ELSE
@@ -1624,11 +1624,11 @@ c
                     ELSEIF (ITY == 7) THEN
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                       IF (MLW /= 0 .AND. MLW /= 13) THEN
-                       IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN 
+                       IF(IDRAPE > 0 .AND. IGTYP == 17) THEN 
                         IF(IPT <= BUFLY%NPTT ) THEN
                             LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
                         ELSE
-                            LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)  
+                           LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   
                         ENDIF      
                 	DO I=1,NEL						
                 	  N = I + NFT						  

@@ -91,8 +91,8 @@ C-----------------------------------------------
       my_real
      .   VX(MVSIZ),VY(MVSIZ),VZ(MVSIZ),PHI1(NPT_ALL,MVSIZ),PHI2(NPT_ALL,MVSIZ)
       my_real
-     .   COOR1(NPT_ALL,MVSIZ),COOR2(NPT_ALL,MVSIZ),COOR3(NPT_ALL,MVSIZ),
-     .   COOR4(NPT_ALL,MVSIZ)
+     .   COOR1(NLAY,MVSIZ),COOR2(NLAY,MVSIZ),COOR3(NLAY,MVSIZ),
+     .   COOR4(NLAY,MVSIZ)
       CHARACTER*nchartitle,
      .   TITR,TITR1
       my_real,
