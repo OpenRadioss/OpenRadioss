@@ -94,16 +94,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IXC(NIXC,*), IXTG(NIXTG,*), NSTRF(*), ITAB(*),
-     .        ITABM1(*),IXS(NIXS,*), IXQ(NIXQ,*), IXT(NIXT,*),
-     .        IXP(NIXP,*), IXR(NIXR,*), IPARI(NPARI,*),
+      INTEGER IXC(NIXC,NUMELC), IXTG(NIXTG,NUMELTG), NSTRF(*), ITAB(NUMNOD),
+     .        ITABM1(*),IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ), IXT(NIXT,NUMELT),
+     .        IXP(NIXP,NUMELP), IXR(NIXR,NUMELR), IPARI(NPARI,NINTER),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),ISKN(LISKN,*),
      .        ISOLNOD(*),NOM_SECT(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-      my_real
-     .   X0(3,*),SECBUF(*),XFRAME(NXFRAME,*),
-     .   RTRANS(NTRANSF,*)
+      my_real X0(3,*),SECBUF(*),XFRAME(NXFRAME,NUMFRAM+1), RTRANS(NTRANSF,NRTRANS)
       INTEGER,INTENT(IN):: NB_SEATBELT_SHELLS
       INTEGER,INTENT(IN)::SEATBELT_SHELL_TO_SPRING(NUMELC,2)
 C-----------------------------------------------
@@ -134,9 +132,8 @@ C-----------------------------------------------
      .   DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,POS,R,MAXDT
       CHARACTER MESS*40,TITR*nchartitle,CHAR8*ncharline
       CHARACTER KEY2*ncharfield
-      my_real
-     .   BID, XM, YM, ZM, X1, Y1, Z1, X2, Y2, Z2, NORM,
-     .   X3, Y3, Z3, N3, PNOR1, PNOR2, PNORM1, DET, DET1, DET2, DET3
+      my_real BID, XM, YM, ZM, X1, Y1, Z1, X2, Y2, Z2, NORM
+      my_real X3, Y3, Z3, N3, PNOR1, PNOR2, PNORM1, DET, DET1, DET2, DET3
       LOGICAL :: IS_AVAILABLE
       INTEGER :: NUMSECT,SNSTRF1
 C-----------------------------------------------
@@ -148,7 +145,9 @@ C
 C
       DATA MESS/'SECTION DEFINITION                      '/
       DATA IUN/1/
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   F i l e s
+C-----------------------------------------------
       SNSTRF1 = 0
       NOPRINT = 0
       NFRAM = 0
@@ -178,7 +177,7 @@ C file record flip/flop
 
 
       CALL HM_OPTION_START('/SECT')
-               
+
       DO I=1,NSECT
 C
        ISTYP = 0
@@ -206,11 +205,11 @@ C
        IGUTG=0
        NBINTER=0
        IFRAM=0
-C----------Multidomaines --> on ignore les sections non tagees----
+C----------Multidomaines --> skip sections which are not taged----
        IF(NSUBDOM > 0) THEN
           IF((TAGSEC(NG) == 0))CALL HM_SZ_R2R(TAGSEC,NG,LSUBMODEL)
        ENDIF
-C----------------------------------------------------------------- 
+C-----------------------------------------------------------------
 C
        LREC = LREC+3
        K1 = K0+30
@@ -218,26 +217,18 @@ C
 
         NOM_OPT(1,I)=ID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1, I),LTITR)
-      
-        CALL HM_GET_INTV('Axis_Origin_Node_N1', NSTRF(K0+3), IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N2', NSTRF(K0+4), IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N3', NSTRF(K0+5), IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('ISAVE', NSTRF(K0), IS_AVAILABLE, LSUBMODEL)  
-C 
+
+        CALL HM_GET_INTV('Axis_Origin_Node_N1', NSTRF(K0+3), IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N2', NSTRF(K0+4), IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N3', NSTRF(K0+5), IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('ISAVE', NSTRF(K0), IS_AVAILABLE, LSUBMODEL)
+C
         IF (SUB_ID > 0) THEN
 C--       Warning for use with submodels
           IF ((NSTRF(K0) == 1).OR.(NSTRF(K0) == 2)) THEN
-            CALL ANCMSG(MSGID=1743,                                                                                         
-     .               MSGTYPE=MSGWARNING,                                                                                
-     .               ANMODE=ANINFO_BLIND_1,                                                                             
-     .               I1=ID,                                                                                             
-     .               C1=TITR)
+            CALL ANCMSG(MSGID=1743, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR)
           ELSEIF ((NSTRF(K0) == 100).OR.(NSTRF(K0) == 101)) THEN
-            CALL ANCMSG(MSGID=1744,                                                                                         
-     .               MSGTYPE=MSGWARNING,                                                                                
-     .               ANMODE=ANINFO_BLIND_1,                                                                             
-     .               I1=ID,                                                                                             
-     .               C1=TITR)
+            CALL ANCMSG(MSGID=1744, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR)
           ENDIF
         ENDIF
 C
@@ -247,7 +238,7 @@ C
         IF(ILEN >= 0 .AND. ILEN < ncharline)THEN
           DO K=ILEN+1,ncharline
             CHAR8(K:K)=' '
-          ENDDO       
+          ENDDO
         ENDIF
 
         IF(KEY2(1:5) == 'PARAL') THEN
@@ -256,296 +247,283 @@ C
           ISTYP = 2
         ELSE
           ISTYP = 0
-          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)  
-          CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)  
-        ENDIF 
-
-        IFLAGUNIT = 0                                            
-        DO J=1,NUNITS        
-            IF (UNITAB%UNIT_ID(J) == UID) THEN    
-              FAC_T = UNITAB%FAC_T(J)          
-              IFLAGUNIT = 1                                        
-              EXIT                                                 
-           ENDIF                                                  
-        ENDDO                                                    
-        IF (UID /= 0.AND.IFLAGUNIT == 0) THEN                    
-          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,  
-     .                I2=UID,I1=ID,C1='SECTION',                 
-     .                C2='SECTION',                              
-     .                C3=TITR)                                   
-        ENDIF                                                    
-
-       SECTIDS(I)=ID                                                                                                    
-
-       CALL HM_GET_FLOATV('detltaT', DELTAT, IS_AVAILABLE, LSUBMODEL, UNITAB)                                           
-       CALL HM_GET_FLOATV('alpha', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)                                              
-
-       IF(IGU == 0 .AND. NFRAM == 0 .AND. ISTYP == 0) THEN                                                              
-         CALL ANCMSG(MSGID=507,                                                                                         
-     .               MSGTYPE=MSGWARNING,                                                                                
-     .               ANMODE=ANINFO_BLIND_1,                                                                             
-     .               I1=ID,                                                                                             
-     .               C1=TITR)                                                                                           
-       ENDIF                                                                                                            
-
-       DO J=1,ncharline                                                                                                 
-         NOM_SECT((I-1)*ncharline+J) = ICHAR(CHAR8(J:J))                                                                
-       ENDDO                                                                                                            
-                                                                                                                        
-       IGUQ = 0                                                                                                         
-       CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)                                                    
-       CALL HM_GET_INTV('grshel_id', IGUC, IS_AVAILABLE, LSUBMODEL)                                                     
-       CALL HM_GET_INTV('grtrus_id', IGUT, IS_AVAILABLE, LSUBMODEL)                                                     
-       CALL HM_GET_INTV('grbeam_id', IGUP, IS_AVAILABLE, LSUBMODEL)                                                     
-       CALL HM_GET_INTV('grsprg_id', IGUR, IS_AVAILABLE, LSUBMODEL)                                                     
-       CALL HM_GET_INTV('grtria_id', IGUTG, IS_AVAILABLE, LSUBMODEL)                                                    
-       CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)                                                      
-       CALL HM_GET_INTV('Iframe', IFRAM, IS_AVAILABLE, LSUBMODEL)                                                       
-
-        IF (NBINTER < 0 .OR. NBINTER > 10) THEN                    
-          CALL ANCMSG(MSGID=124,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=TITR) 
+          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)
         ENDIF
-                  
-       IF((IGUS == 0).AND.(IGUQ == 0).AND.(IGUC == 0).AND.(IGUT == 0).                                                  
-     .    AND.(IGUP == 0).AND.(IGUR == 0).AND.(IGUTG == 0).AND.                                                         
-     .   (NBINTER == 0))THEN                                                                                            
-         CALL ANCMSG(MSGID=600,                                                                                         
-     .               MSGTYPE=MSGWARNING,                                                                                
-     .               ANMODE=ANINFO_BLIND_1,                                                                             
-     .               I1=ID,                                                                                             
-     .               C1=TITR)                                                                                           
-       END IF                                                                                                           
-                                                                                                                        
-       DO J=1,NBINTER                                                                                                   
-         CALL HM_GET_INT_ARRAY_INDEX('int_id' ,NSTRF(K1-1+J) ,J ,IS_AVAILABLE, LSUBMODEL)                               
-       ENDDO                                                                                                            
 
-       IF (ISTYP == 1) THEN                                                                                             
-         CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                               
-         CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                               
-         CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                   
-         IF(SUB_ID  /=  0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)                                            
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
+              FAC_T = UNITAB%FAC_T(J)
+              IFLAGUNIT = 1
+              EXIT
+           ENDIF
+        ENDDO
+        IF (UID /= 0.AND.IFLAGUNIT == 0) THEN
+          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                I2=UID,I1=ID,C1='SECTION',
+     .                C2='SECTION',
+     .                C3=TITR)
+        ENDIF
 
-         CALL HM_GET_FLOATV('cnode1_x', X1, IS_AVAILABLE, LSUBMODEL, UNITAB)                                            
-         CALL HM_GET_FLOATV('cnode1_y', Y1, IS_AVAILABLE, LSUBMODEL, UNITAB)                                            
-         CALL HM_GET_FLOATV('cnode1_z', Z1, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                    
-         IF(SUB_ID  /=  0)CALL SUBROTPOINT(X1,Y1,Z1,RTRANS,SUB_ID,LSUBMODEL)                                            
+       SECTIDS(I)=ID
 
-         CALL HM_GET_FLOATV('cnode2_x', X2, IS_AVAILABLE, LSUBMODEL, UNITAB)                                            
-         CALL HM_GET_FLOATV('cnode2_y', Y2, IS_AVAILABLE, LSUBMODEL, UNITAB)                                            
-         CALL HM_GET_FLOATV('cnode2_z', Z2, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                     
-         IF(SUB_ID  /=  0)CALL SUBROTPOINT(X2,Y2,Z2,RTRANS,SUB_ID,LSUBMODEL)                                            
-         D = XM                                                                                                         
-         E = YM                                                                                                         
-         F = ZM                                                                                                         
-         A = ((Y1-YM)*(Z2-ZM))-((Y2-YM)*(Z1-ZM))                                                                        
-         B = ((X2-XM)*(Z1-ZM))-((X1-XM)*(Z2-ZM))                                                                        
-         C = ((X1-XM)*(Y2-YM))-((X2-XM)*(Y1-YM))                                                                        
-         NORM = A*A+B*B+C*C                                                                                             
-         A = A/SQRT(NORM)                                                                                               
-         B = B/SQRT(NORM)                                                                                               
-         C = C/SQRT(NORM)                                                                                               
-       ELSEIF (ISTYP == 2) THEN                                                                                         
-         CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                               
-         CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                               
-         CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                   
-         IF(SUB_ID  /=  0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)                                            
-                                                                                                                        
-         CALL HM_GET_FLOATV('Normal_x', A, IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
-         CALL HM_GET_FLOATV('Normal_y', B, IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
-         CALL HM_GET_FLOATV('Normal_z', C, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                   
-         IF(SUB_ID  /=  0)CALL SUBROTVECT(A,B,C,RTRANS,SUB_ID,LSUBMODEL)                                                
+       CALL HM_GET_FLOATV('detltaT', DELTAT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+       CALL HM_GET_FLOATV('alpha', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-         CALL HM_GET_FLOATV('Radius', R, IS_AVAILABLE, LSUBMODEL, UNITAB)                                               
+       IF(IGU == 0 .AND. NFRAM == 0 .AND. ISTYP == 0) THEN
+         CALL ANCMSG(MSGID=507, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR)
+       ENDIF
 
-         D = XM                                                                                                         
-         E = YM                                                                                                         
-         F = ZM                                                                                                         
-         NORM = A*A+B*B+C*C                                                                                             
-         A = A/SQRT(NORM)                                                                                               
-         B = B/SQRT(NORM)                                                                                               
-         C = C/SQRT(NORM)                                                                                               
-       ENDIF                                                                                                            
+       DO J=1,ncharline
+         NOM_SECT((I-1)*ncharline+J) = ICHAR(CHAR8(J:J))
+       ENDDO
+
+       IGUQ = 0
+       CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('grshel_id', IGUC, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('grtrus_id', IGUT, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('grbeam_id', IGUP, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('grsprg_id', IGUR, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('grtria_id', IGUTG, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('Iframe', IFRAM, IS_AVAILABLE, LSUBMODEL)
+
+        IF (NBINTER < 0 .OR. NBINTER > 10) THEN
+          CALL ANCMSG(MSGID=124,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=TITR)
+        ENDIF
+
+       IF((IGUS == 0).AND.(IGUQ == 0).AND.(IGUC == 0).AND.(IGUT == 0).
+     .    AND.(IGUP == 0).AND.(IGUR == 0).AND.(IGUTG == 0).AND.
+     .   (NBINTER == 0))THEN
+         CALL ANCMSG(MSGID=600,
+     .               MSGTYPE=MSGWARNING,
+     .               ANMODE=ANINFO_BLIND_1,
+     .               I1=ID,
+     .               C1=TITR)
+       END IF
+
+       DO J=1,NBINTER
+         CALL HM_GET_INT_ARRAY_INDEX('int_id' ,NSTRF(K1-1+J) ,J ,IS_AVAILABLE, LSUBMODEL)
+       ENDDO
+
+       IF (ISTYP == 1) THEN
+         CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         IF(SUB_ID  /=  0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)
+
+         CALL HM_GET_FLOATV('cnode1_x', X1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('cnode1_y', Y1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('cnode1_z', Z1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         IF(SUB_ID  /=  0)CALL SUBROTPOINT(X1,Y1,Z1,RTRANS,SUB_ID,LSUBMODEL)
+
+         CALL HM_GET_FLOATV('cnode2_x', X2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('cnode2_y', Y2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('cnode2_z', Z2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         IF(SUB_ID  /=  0)CALL SUBROTPOINT(X2,Y2,Z2,RTRANS,SUB_ID,LSUBMODEL)
+         D = XM
+         E = YM
+         F = ZM
+         A = ((Y1-YM)*(Z2-ZM))-((Y2-YM)*(Z1-ZM))
+         B = ((X2-XM)*(Z1-ZM))-((X1-XM)*(Z2-ZM))
+         C = ((X1-XM)*(Y2-YM))-((X2-XM)*(Y1-YM))
+         NORM = A*A+B*B+C*C
+         A = A/SQRT(NORM)
+         B = B/SQRT(NORM)
+         C = C/SQRT(NORM)
+       ELSEIF (ISTYP == 2) THEN
+         CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         IF(SUB_ID  /=  0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)
+
+         CALL HM_GET_FLOATV('Normal_x', A, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('Normal_y', B, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('Normal_z', C, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         IF(SUB_ID  /=  0)CALL SUBROTVECT(A,B,C,RTRANS,SUB_ID,LSUBMODEL)
+
+         CALL HM_GET_FLOATV('Radius', R, IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+         D = XM
+         E = YM
+         F = ZM
+         NORM = A*A+B*B+C*C
+         A = A/SQRT(NORM)
+         B = B/SQRT(NORM)
+         C = C/SQRT(NORM)
+       ENDIF
 
        WRITE (IOUT,2900)I,ID,TRIM(TITR),NSTRF(K0),CHAR8(1:ILEN),DELTAT,ALPHA,IFRAM,NBINTER
-       WRITE (IOUT,'(10I10)')(NSTRF(K1-1+J),J=1,MAX(0,MIN(10,NBINTER))) 
-       DO J=1,NBINTER                                                                                                   
-        DO L=1,NINTER                                                                                                   
-         IF(NSTRF(K1-1+J) == IPARI(15,L))THEN                                                                           
-           IPARI(28,L) = IPARI(28,L) + 1                                                                                
-C numero interne      NSTRF(K1-1+J) = L                                                                                 o 
-         ENDIF                                                                                                          
-        ENDDO                                                                                                           
-       ENDDO                                                                                                            
+       WRITE (IOUT,'(10I10)')(NSTRF(K1-1+J),J=1,MAX(0,MIN(10,NBINTER)))
+       DO J=1,NBINTER
+        DO L=1,NINTER
+         IF(NSTRF(K1-1+J) == IPARI(15,L))THEN
+           IPARI(28,L) = IPARI(28,L) + 1
+C internal identifier      NSTRF(K1-1+J) = L                                                                                 o
+         ENDIF
+        ENDDO
+       ENDDO
 C
-C Noeuds concernes par la section (si NFRAM /= 0)
-C Noeuds concerns :
-C au dessus du plan N2N3 du frame (suivant la direction +Z)
-C & dans le plan N2N3 du frame
+C Nodes related to section (if NFRAM /= 0)
+C over plane N2N3 (along +Z direction)
+C & in plane N2N3 for the given frame
 C
-       IF (ISTYP >= 1 .OR. NFRAM > 0) THEN                             
-         IF(ISTYP == 0) THEN                                           
-          DO K=1,NUMFRAM                                               
-            J=K+1                                                      
-            JJ=(NUMSKW+1)+NSUBMOD+MIN(IUN,NSPCOND)*NUMSPH+K+1          
-            IF(NFRAM == ISKN(4,JJ)) THEN                               
-              A = XFRAME(7,J)                                         
-              B = XFRAME(8,J)                                         
-              C = XFRAME(9,J)                                         
-              D = XFRAME(10,J)                                         
-              E = XFRAME(11,J)                                         
-              F = XFRAME(12,J)                                         
-              N1 = ISKN(1,JJ)                                         
-              IF (NSTRF(K0+3) == 0 ) THEN                              
-                IF (ISKN(1,JJ)  /=  0) THEN                            
-                  NSTRF(K0+3) = ITAB(ISKN(1,JJ))                       
-                ELSE                                                   
-                  CALL ANCMSG(MSGID=742,                               
-     .                        MSGTYPE=MSGERROR,                        
-     .                        ANMODE=ANINFO,                           
-     .                        I1=ID,                                   
-     .                        C1=TITR,                                 
-     .                        C2='N1',                                 
-     .                        I2=NFRAM)                                
-                ENDIF                                                  
-              ENDIF                                                    
-              IF (NSTRF(K0+4) == 0 ) THEN                              
-                IF (ISKN(2,JJ)  /=  0) THEN                            
-                  NSTRF(K0+4) = ITAB(ISKN(2,JJ))                       
-                ELSE                                                   
-                  CALL ANCMSG(MSGID=742,                               
-     .                        MSGTYPE=MSGERROR,                        
-     .                        ANMODE=ANINFO,                           
-     .                        I1=ID,                                   
-     .                        C1=TITR,                                 
-     .                        C2='N2',                                 
-     .                        I2=NFRAM)                                
-                ENDIF                                                  
-              ENDIF                                                    
-              IF (NSTRF(K0+5) == 0 ) THEN                              
-                IF (ISKN(3,JJ)  /=  0) THEN                            
-                  NSTRF(K0+5) = ITAB(ISKN(3,JJ))                       
-                ELSE                                                   
-                  CALL ANCMSG(MSGID=742,                               
-     .                        MSGTYPE=MSGERROR,                        
-     .                        ANMODE=ANINFO,                           
-     .                        I1=ID,                                   
-     .                        C1=TITR,                                 
-     .                        C2='N3',                                 
-     .                        I2=NFRAM)                                
-                ENDIF                                                  
-              ENDIF                                                    
-            ENDIF                                                      
-          ENDDO                                                        
-         ENDIF                                                         
-         KK=1+NGRNOD                                                   
-         NNOD = 0                                                     
-         CPT = 1                                                      
-         CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,          
-     2                 B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,           
-     3                 NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,              
-     4                 CPT,NODTAG,ISOLNOD,TAGELEMS,                    
-     5                 X1,Y1,Z1,X2,Y2,Z2,R)                            
+       IF (ISTYP >= 1 .OR. NFRAM > 0) THEN
+         IF(ISTYP == 0) THEN
+          DO K=1,NUMFRAM
+            J=K+1
+            JJ=(NUMSKW+1)+NSUBMOD+MIN(IUN,NSPCOND)*NUMSPH+K+1
+            IF(NFRAM == ISKN(4,JJ)) THEN
+              A = XFRAME(7,J)
+              B = XFRAME(8,J)
+              C = XFRAME(9,J)
+              D = XFRAME(10,J)
+              E = XFRAME(11,J)
+              F = XFRAME(12,J)
+              N1 = ISKN(1,JJ)
+              IF (NSTRF(K0+3) == 0 ) THEN
+                IF (ISKN(1,JJ)  /=  0) THEN
+                  NSTRF(K0+3) = ITAB(ISKN(1,JJ))
+                ELSE
+                  CALL ANCMSG(MSGID=742, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        C2='N1',
+     .                        I2=NFRAM)
+                ENDIF
+              ENDIF
+              IF (NSTRF(K0+4) == 0 ) THEN
+                IF (ISKN(2,JJ)  /=  0) THEN
+                  NSTRF(K0+4) = ITAB(ISKN(2,JJ))
+                ELSE
+                  CALL ANCMSG(MSGID=742, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        C2='N2',
+     .                        I2=NFRAM)
+                ENDIF
+              ENDIF
+              IF (NSTRF(K0+5) == 0 ) THEN
+                IF (ISKN(3,JJ)  /=  0) THEN
+                  NSTRF(K0+5) = ITAB(ISKN(3,JJ))
+                ELSE
+                  CALL ANCMSG(MSGID=742,  MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        C2='N3',
+     .                        I2=NFRAM)
+                ENDIF
+              ENDIF
+            ENDIF
+          ENDDO
+         ENDIF
+         KK=1+NGRNOD
+         NNOD = 0
+         CPT = 1
+         CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,
+     2                 B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,
+     3                 NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,
+     4                 CPT,NODTAG,ISOLNOD,TAGELEMS,
+     5                 X1,Y1,Z1,X2,Y2,Z2,R)
 
-         KK=KK+NGRBRIC                                                 
-         CALL SEC_NODES(IGUQ,ISTYP,NGRQUAD,IGRQUAD,X0,A,              
-     2                 B,C,D,E,F,ITAB,IXQ,NIXQ,KK,NNOD,NSTRF,          
-     3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS),  
-     4                 X1,Y1,Z1,X2,Y2,Z2,R)                            
-         KK=KK+NGRQUAD                                                 
-         CALL SEC_NODES(IGUC,ISTYP,NGRSHEL,IGRSH4N,X0,A,              
-     2                 B,C,D,E,F,ITAB,IXC,NIXC,KK,NNOD,NSTRF,          
-     3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS    
-     .               +NUMELQ),                                         
-     4               X1,Y1,Z1,X2,Y2,Z2,R)                              
-         KK=KK+NGRSHEL                                                 
-         CALL SEC_NODES(IGUT,ISTYP,NGRTRUS,IGRTRUSS,X0,A,             
-     2                 B,C,D,E,F,ITAB,IXT,NIXT,KK,NNOD,NSTRF,          
-     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS    
-     .              +NUMELQ+NUMELC),                                   
-     4               X1,Y1,Z1,X2,Y2,Z2,R)                              
-         KK=KK+NGRTRUS                                                 
-         CALL SEC_NODES(IGUP,ISTYP,NGRBEAM,IGRBEAM,X0,A,              
-     2                 B,C,D,E,F,ITAB,IXP,NIXP,KK,NNOD,NSTRF,          
-     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS    
-     .              +NUMELQ+NUMELC+NUMELT),                            
-     4               X1,Y1,Z1,X2,Y2,Z2,R)                              
-         KK=KK+NGRBEAM                                                 
-         CALL SEC_NODES(IGUR,ISTYP,NGRSPRI,IGRSPRING,X0,A,            
-     2                 B,C,D,E,F,ITAB,IXR,NIXR,KK,NNOD,NSTRF,          
-     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS    
-     .              +NUMELQ+NUMELC+NUMELT+NUMELP),                     
-     4               X1,Y1,Z1,X2,Y2,Z2,R)                              
-         KK=KK+NGRSPRI                                                 
-         CALL SEC_NODES(IGUTG,ISTYP,NGRSH3N,IGRSH3N,X0,A,             
-     2                B,C,D,E,F,ITAB,IXTG,NIXTG,KK,NNOD,NSTRF,         
-     3                 NBINTER,N1,K1,3,CPT,NODTAG,TAGELEMS(1+NUMELS    
-     .              +NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR),              
-     4               X1,Y1,Z1,X2,Y2,Z2,R)                              
-       ENDIF                                                           
-C
-       K2=K1+NBINTER                                                   
-C
-       IF (NFRAM == 0 .AND. ISTYP == 0) THEN                           
-          NNOD=NODGRNR5(IGU,IGS,NSTRF(K2),IGRNOD,ITABM1,MESS) 
-       ENDIF                                                           
-C
-       WRITE (IOUT,3000)NNOD                                           
-       WRITE (IOUT,'(10I10)')(ITAB(NSTRF(K2+J-1)),J=1,NNOD)            
-       IF (NNOD == 0)                                                  
-     .   CALL ANCMSG(MSGID=1113,                                       
-     .              MSGTYPE=MSGWARNING,                                
-     .              ANMODE=ANINFO_BLIND_1,                             
-     .              I1=ID,                                             
-     .              C1=TITR)                                           
-C
-       K3=K2+NNOD                                                      
-       NSEGS=ELEGROR(IGUS,IGRBRIC,NGRBRIC,'BRIC',                      
-     .               NSTRF(K3),2,MESS,NFRAM,TAGELEMS,ISTYP,            
-     .               ID,TITR)                                          
-       K4=K3+2*NSEGS                                                   
-       NSEGQ=ELEGROR(IGUQ,IGRQUAD,NGRQUAD,'QUAD',                      
-     .               NSTRF(K4),2,MESS,NFRAM,TAGELEMS(1+NUMELS),ISTYP,  
-     .               ID,TITR)                                          
-       K5=K4+2*NSEGQ                                                   
-       NSEGC=ELEGROR(IGUC,IGRSH4N,NGRSHEL,'SHEL',                      
-     .               NSTRF(K5),2,MESS,NFRAM,TAGELEMS(1+NUMELS          
-     .              +NUMELQ),ISTYP,                                    
-     .               ID,TITR)                                          
-       K6=K5+2*NSEGC                                                   
-       NSEGT=ELEGROR(IGUT,IGRTRUSS,NGRTRUS,'TRUS',                     
-     .               NSTRF(K6),2,MESS,NFRAM,TAGELEMS(1+NUMELS          
-     .              +NUMELQ+NUMELC),ISTYP,                             
-     .               ID,TITR)                                          
-       K7=K6+2*NSEGT                                                   
-       NSEGP=ELEGROR(IGUP,IGRBEAM,NGRBEAM,'BEAM',                      
-     .               NSTRF(K7),2,MESS,NFRAM,TAGELEMS(1+NUMELS          
-     .              +NUMELQ+NUMELC+NUMELT),ISTYP,                      
-     .               ID,TITR)                                          
-       K8=K7+2*NSEGP                                                   
-       NSEGR=ELEGROR(IGUR,IGRSPRING,NGRSPRI,'SPRI',                    
-     .               NSTRF(K8),2,MESS,NFRAM,TAGELEMS(1+NUMELS          
-     .              +NUMELQ+NUMELC+NUMELT+NUMELP),ISTYP,               
-     .               ID,TITR)                                               
-       
+         KK=KK+NGRBRIC
+         CALL SEC_NODES(IGUQ,ISTYP,NGRQUAD,IGRQUAD,X0,A,
+     2                 B,C,D,E,F,ITAB,IXQ,NIXQ,KK,NNOD,NSTRF,
+     3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS),
+     4                 X1,Y1,Z1,X2,Y2,Z2,R)
+         KK=KK+NGRQUAD
+         CALL SEC_NODES(IGUC,ISTYP,NGRSHEL,IGRSH4N,X0,A,
+     2                 B,C,D,E,F,ITAB,IXC,NIXC,KK,NNOD,NSTRF,
+     3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS
+     .               +NUMELQ),
+     4               X1,Y1,Z1,X2,Y2,Z2,R)
+         KK=KK+NGRSHEL
+         CALL SEC_NODES(IGUT,ISTYP,NGRTRUS,IGRTRUSS,X0,A,
+     2                 B,C,D,E,F,ITAB,IXT,NIXT,KK,NNOD,NSTRF,
+     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC),
+     4               X1,Y1,Z1,X2,Y2,Z2,R)
+         KK=KK+NGRTRUS
+         CALL SEC_NODES(IGUP,ISTYP,NGRBEAM,IGRBEAM,X0,A,
+     2                 B,C,D,E,F,ITAB,IXP,NIXP,KK,NNOD,NSTRF,
+     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC+NUMELT),
+     4               X1,Y1,Z1,X2,Y2,Z2,R)
+         KK=KK+NGRBEAM
+         CALL SEC_NODES(IGUR,ISTYP,NGRSPRI,IGRSPRING,X0,A,
+     2                 B,C,D,E,F,ITAB,IXR,NIXR,KK,NNOD,NSTRF,
+     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC+NUMELT+NUMELP),
+     4               X1,Y1,Z1,X2,Y2,Z2,R)
+         KK=KK+NGRSPRI
+         CALL SEC_NODES(IGUTG,ISTYP,NGRSH3N,IGRSH3N,X0,A,
+     2                B,C,D,E,F,ITAB,IXTG,NIXTG,KK,NNOD,NSTRF,
+     3                 NBINTER,N1,K1,3,CPT,NODTAG,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR),
+     4               X1,Y1,Z1,X2,Y2,Z2,R)
+       ENDIF
+
+       K2=K1+NBINTER
+
+       IF (NFRAM == 0 .AND. ISTYP == 0) THEN
+          NNOD=NODGRNR5(IGU,IGS,NSTRF(K2),IGRNOD,ITABM1,MESS)
+       ENDIF
+
+       WRITE (IOUT,3000)NNOD
+       WRITE (IOUT,'(10I10)')(ITAB(NSTRF(K2+J-1)),J=1,NNOD)
+       IF (NNOD == 0)
+     .   CALL ANCMSG(MSGID=1113,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=ID,
+     .              C1=TITR)
+
+       K3=K2+NNOD
+       NSEGS=ELEGROR(IGUS,IGRBRIC,NGRBRIC,'BRIC',
+     .               NSTRF(K3),2,MESS,NFRAM,TAGELEMS,ISTYP,
+     .               ID,TITR)
+       K4=K3+2*NSEGS
+       NSEGQ=ELEGROR(IGUQ,IGRQUAD,NGRQUAD,'QUAD',
+     .               NSTRF(K4),2,MESS,NFRAM,TAGELEMS(1+NUMELS),ISTYP,
+     .               ID,TITR)
+       K5=K4+2*NSEGQ
+       NSEGC=ELEGROR(IGUC,IGRSH4N,NGRSHEL,'SHEL',
+     .               NSTRF(K5),2,MESS,NFRAM,TAGELEMS(1+NUMELS
+     .              +NUMELQ),ISTYP,
+     .               ID,TITR)
+       K6=K5+2*NSEGC
+       NSEGT=ELEGROR(IGUT,IGRTRUSS,NGRTRUS,'TRUS',
+     .               NSTRF(K6),2,MESS,NFRAM,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC),ISTYP,
+     .               ID,TITR)
+       K7=K6+2*NSEGT
+       NSEGP=ELEGROR(IGUP,IGRBEAM,NGRBEAM,'BEAM',
+     .               NSTRF(K7),2,MESS,NFRAM,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC+NUMELT),ISTYP,
+     .               ID,TITR)
+       K8=K7+2*NSEGP
+       NSEGR=ELEGROR(IGUR,IGRSPRING,NGRSPRI,'SPRI',
+     .               NSTRF(K8),2,MESS,NFRAM,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC+NUMELT+NUMELP),ISTYP,
+     .               ID,TITR)
+
        IF (NB_SEATBELT_SHELLS /=0) THEN
          SNSTRF1 = GRSIZE_ELE_TRANS(IGUC,IGRSH4N,NGRSHEL,SEATBELT_SHELL_TO_SPRING)
-         NSEGR=NSEGR+ELEGROR_SEATBELT(IGUC,IGRSH4N,NGRSHEL,                    
-     .               NSTRF(K8),2,SNSTRF1,NFRAM,TAGELEMS(1+NUMELS          
-     .              +NUMELQ),ISTYP,               
-     .               SEATBELT_SHELL_TO_SPRING)   
+         NSEGR=NSEGR+ELEGROR_SEATBELT(IGUC,IGRSH4N,NGRSHEL,
+     .               NSTRF(K8),2,SNSTRF1,NFRAM,TAGELEMS(1+NUMELS
+     .              +NUMELQ),ISTYP,
+     .               SEATBELT_SHELL_TO_SPRING)
        ENDIF
-                                        
-       K9=K8+2*NSEGR                                                   
-       NSEGTG=ELEGROR(IGUTG,IGRSH3N,NGRSH3N,'SH3N',                    
-     .                NSTRF(K9),2,MESS,NFRAM,TAGELEMS(1+NUMELS         
-     .              +NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR),ISTYP,        
-     .               ID,TITR)                                          
+
+       K9=K8+2*NSEGR
+       NSEGTG=ELEGROR(IGUTG,IGRSH3N,NGRSH3N,'SH3N',
+     .                NSTRF(K9),2,MESS,NFRAM,TAGELEMS(1+NUMELS
+     .              +NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR),ISTYP,
+     .               ID,TITR)
 C
        IF(NSEGS+NSEGQ+NSEGC+NSEGT+NSEGP+NSEGR+NSEGTG==0)THEN
-         CALL ANCMSG(MSGID=1813,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO,
+         CALL ANCMSG(MSGID=1813, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .               I1= ID,
      .               C1= TITR)
        END IF
@@ -561,52 +539,45 @@ C
        NSTRF(K0+10)=NSEGT
        NSTRF(K0+11)=NSEGP
        NSTRF(K0+12)=NSEGR
-       NSTRF(K0+13) = NSEGTG
-       NSTRF(K0+26) = IFRAM
-         DO L=K0+3,K0+5
-           IF (NSTRF(L) /= 0) THEN
-             NSTRF(L)=USR2SYS(NSTRF(L),ITABM1,MESS,ID)
-             CALL ANODSET(NSTRF(L), CHECK_USED)
-           ENDIF
-         ENDDO
-       NNSK1=ITAB(NSTRF(K0+3))
-       NNSK2=ITAB(NSTRF(K0+4))
-       NNSK3=ITAB(NSTRF(K0+5))
-       X1=X0(1,NSTRF(K0+4))-X0(1,NSTRF(K0+3))
-       Y1=X0(2,NSTRF(K0+4))-X0(2,NSTRF(K0+3))
-       Z1=X0(3,NSTRF(K0+4))-X0(3,NSTRF(K0+3))
-       X2=X0(1,NSTRF(K0+5))-X0(1,NSTRF(K0+4))
-       Y2=X0(2,NSTRF(K0+5))-X0(2,NSTRF(K0+4))
-       Z2=X0(3,NSTRF(K0+5))-X0(3,NSTRF(K0+4))
-       X3=Y1*Z2-Z1*Y2
-       Y3=Z1*X2-Z2*X1
-       Z3=X1*Y2-X2*Y1
-       N3=X3*X3+Y3*Y3+Z3*Z3
-c
-       PNOR1=SQRT(X1*X1+Y1*Y1+Z1*Z1)
-       IF (PNOR1 < EM20) THEN
-          CALL ANCMSG(MSGID=508,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR)
-       ELSE
-         PNOR2=SQRT(N3)
-         IF (PNOR2 > EM20) THEN
-           PNORM1=ONE/(PNOR1*PNOR2)
-           DET1=ABS((Y3*Z1-Z3*Y1)*PNORM1)
-           DET2=ABS((Z3*X1-X3*Z1)*PNORM1)
-           DET3=ABS((X3*Y1-Y3*X1)*PNORM1)
-           DET= MAX(DET1,DET2,DET3)
-         ELSE
-           DET=ZERO
+       NSTRF(K0+13)=NSEGTG
+       NSTRF(K0+26)=IFRAM
+       DO L=K0+3,K0+5
+         IF (NSTRF(L) /= 0) THEN
+           NSTRF(L)=USR2SYS(NSTRF(L),ITABM1,MESS,ID)
+           CALL ANODSET(NSTRF(L), CHECK_USED)
          ENDIF
-         IF (DET < EM5) THEN
-           CALL ANCMSG(MSGID=508,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR)
+       ENDDO
+       !NNSK1=ITAB(NSTRF(K0+3))
+       !NNSK2=ITAB(NSTRF(K0+4))
+       !NNSK3=ITAB(NSTRF(K0+5))
+       IF(NSTRF(K0+3)/=0 .AND. NSTRF(K0+3)/=0 .AND. NSTRF(K0+3)/=0)THEN
+         X1=X0(1,NSTRF(K0+4))-X0(1,NSTRF(K0+3))
+         Y1=X0(2,NSTRF(K0+4))-X0(2,NSTRF(K0+3))
+         Z1=X0(3,NSTRF(K0+4))-X0(3,NSTRF(K0+3))
+         X2=X0(1,NSTRF(K0+5))-X0(1,NSTRF(K0+4))
+         Y2=X0(2,NSTRF(K0+5))-X0(2,NSTRF(K0+4))
+         Z2=X0(3,NSTRF(K0+5))-X0(3,NSTRF(K0+4))
+         X3=Y1*Z2-Z1*Y2
+         Y3=Z1*X2-Z2*X1
+         Z3=X1*Y2-X2*Y1
+         N3=X3*X3+Y3*Y3+Z3*Z3
+         PNOR1=SQRT(X1*X1+Y1*Y1+Z1*Z1)
+         IF (PNOR1 < EM20) THEN
+           CALL ANCMSG(MSGID=508,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR)
+         ELSE
+           PNOR2=SQRT(N3)
+           IF (PNOR2 > EM20) THEN
+             PNORM1=ONE/(PNOR1*PNOR2)
+             DET1=ABS((Y3*Z1-Z3*Y1)*PNORM1)
+             DET2=ABS((Z3*X1-X3*Z1)*PNORM1)
+             DET3=ABS((X3*Y1-Y3*X1)*PNORM1)
+             DET= MAX(DET1,DET2,DET3)
+           ELSE
+             DET=ZERO
+           ENDIF
+           IF (DET < EM5) THEN
+             CALL ANCMSG(MSGID=508,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR)
+           ENDIF
          ENDIF
        ENDIF
 C
@@ -615,44 +586,44 @@ C      SOLIDES
 C--------------------------------------------------------------
        WRITE (IOUT,3300) NSEGS
        CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,
-     2              NSTRF(K2),NNOD,ITAB,I,NOPRINT)
+     .              NSTRF(K2),NNOD,ITAB,I,NOPRINT)
 C-------------------------------------------------------------
 C      QUADS
 C--------------------------------------------------------------
        WRITE (IOUT,3400) NSEGQ
        CALL SEC_TRI(NSEGQ,NSTRF(K4),IXQ,NIXQ,4,NSTRF(K2),
-     2              NNOD,ITAB,NUMELQ,I,' QUADS')
+     .              NNOD,ITAB,NUMELQ,I,' QUADS')
 C-------------------------------------------------------------
 C      COQUES
 C--------------------------------------------------------------
        WRITE (IOUT,3100) NSEGC
        CALL SEC_TRI(NSEGC,NSTRF(K5),IXC,NIXC,4,NSTRF(K2),
-     2              NNOD,ITAB,NUMELC,I,' SHELLS')
+     .              NNOD,ITAB,NUMELC,I,' SHELLS')
 C-------------------------------------------------------------
 C      BARRES
 C--------------------------------------------------------------
        WRITE (IOUT,3500) NSEGT
        CALL SEC_TRI(NSEGT,NSTRF(K6),IXT,NIXT,2,NSTRF(K2),
-     2              NNOD,ITAB,NUMELT,I,' TRUSSES')
+     .              NNOD,ITAB,NUMELT,I,' TRUSSES')
 C-------------------------------------------------------------
 C      POUTRES
 C--------------------------------------------------------------
        WRITE (IOUT,3600) NSEGP
        CALL SEC_TRI(NSEGP,NSTRF(K7),IXP,NIXP,2,NSTRF(K2),
-     2              NNOD,ITAB,NUMELP,I,' BEAMS')
+     .              NNOD,ITAB,NUMELP,I,' BEAMS')
 C-------------------------------------------------------------
 C      RESSORTS
 C--------------------------------------------------------------
        WRITE (IOUT,3700) NSEGR
        CALL SEC_TRI(NSEGR,NSTRF(K8),IXR,NIXR,2,NSTRF(K2),
-     2              NNOD,ITAB,NUMELR,I,' SPRINGS')
+     .              NNOD,ITAB,NUMELR,I,' SPRINGS')
 C-------------------------------------------------------------
 C      COQUES 3N
 C--------------------------------------------------------------
        WRITE (IOUT,3200) NSEGTG
        CALL SEC_TRI(NSEGTG,NSTRF(K9),IXTG,NIXTG,3,NSTRF(K2),
-     2              NNOD,ITAB,NUMELTG,I,' 3 NODES SHELLS')
-                   
+     .              NNOD,ITAB,NUMELTG,I,' 3 NODES SHELLS')
+
 C-------------------------------------------------------------
 C
        IF(NSTRF(K0) >= 102)THEN
@@ -673,7 +644,7 @@ C
          IF(SECBUF(1) == ZERO)THEN
            SECBUF(1) = DELTAT
          ELSE
-           MAXDT=MAX(SECBUF(1),DELTAT)          
+           MAXDT=MAX(SECBUF(1),DELTAT)
            IF(ABS((SECBUF(1)-DELTAT)/SECBUF(1)) > EM06 )THEN
             CALL ANCMSG(MSGID=356,
      .                  MSGTYPE=MSGERROR,
@@ -686,7 +657,6 @@ C
 C
        IF(NSTRF(K0) >= 1.AND.NSTRF(K0) <= 10)THEN
          NSTRF(1)=NSTRF(1)+1
-c       ELSEIF(NSTRF(K0) >= 101.AND.NSTRF(K0) <= 200)THEN
        ELSEIF(NSTRF(K0) >= 100.AND.NSTRF(K0) <= 200)THEN
          NSTRF(2)=NSTRF(2)+1
          DO J=1,8
@@ -716,7 +686,7 @@ C-------------------------------------------------------------
 
 C file rec length
       NSTRF(6)=LREC*4
-      
+
 C-------------------------------------------------------------
  2900 FORMAT(/' SECTION',I10,' ID',I10/
      +        ' ---------------'/
@@ -769,7 +739,7 @@ Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SECSTRI(NSEG,ISECBUF,IXS,IXS10,IXS16,IXS20,
-     2                   NOD ,NNOD ,ITAB ,ISEC, NOPRINT )
+     .                   NOD ,NNOD ,ITAB ,ISEC, NOPRINT )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -779,12 +749,12 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-C
-      INTEGER NSEG,ISECBUF(2,*),IXS(NIXS,*),
+
+      INTEGER NSEG,ISECBUF(2,*),IXS(NIXS,NUMELS),
      .        IXS10(6,*),IXS16(8,*),IXS20(12,*),
-     .        NOD(*),NNOD,ITAB(*),ISEC,NOPRINT
+     .        NOD(*),NNOD,ITAB(NUMNOD),ISEC,NOPRINT
       INTEGER I,J,JJ,K,N,NN,L,POWER2(20)
-C
+
       DATA POWER2/1,2,4,8,16,32,64,128,256,512,
      .            1024,2048,4096,8192,16384,
      .            32768,65536,131072,262144,524288/
@@ -797,9 +767,9 @@ C--------------------------------------------------------------
          DO JJ=J,NSEG
            NN = ISECBUF(1,JJ)
            IF(NN < N)THEN
-               ISECBUF(1,J)  = NN
-               ISECBUF(1,JJ) = N
-               N = ISECBUF(1,J)
+             ISECBUF(1,J)  = NN
+             ISECBUF(1,JJ) = N
+             N = ISECBUF(1,J)
            ENDIF
          ENDDO
        ENDDO
@@ -892,7 +862,6 @@ C
        RETURN
        END
 
-C=========================================================================
 Chd|====================================================================
 Chd|  SEC_TRI                       source/tools/sect/hm_read_sect.F
 Chd|-- called by -----------
@@ -900,7 +869,7 @@ Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SEC_TRI(NSEG,ISECBUF,IX,NIX,NNE,NOD,
-     2                   NNOD,ITAB   ,NUMEL,ISEC,TXT)
+     .                   NNOD,ITAB   ,NUMEL,ISEC,TXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -918,7 +887,9 @@ C
       DATA POWER2/1,2,4,8,16,32,64,128,256,512/
       DATA IFIRST/0/
       SAVE IFIRST,UNPACK
-C
+C-----------------------------------------------
+C   S o u r c e   F i l e s
+C-----------------------------------------------
       IF(IFIRST == 0)THEN
        IFIRST=1
        DO I=1,10
@@ -965,20 +936,21 @@ C--------------------------------------------------------------
 C
        RETURN
        END
+
 Chd|====================================================================
 Chd|  LECSEC0                       source/tools/sect/hm_read_sect.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE LECSEC0(LSUBMODEL)
 C-----------------------------------------------
-C   M o d u l e s 
+C   M o d u l e s
 C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -995,7 +967,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1004,7 +976,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*ncharline TITR
 C-----------------------------------------------
-C   S o u r c e   C o d e
+C   S o u r c e   F i l e s
 C-----------------------------------------------
 
       ISECUT=0
@@ -1012,8 +984,8 @@ C-----------------------------------------------
       IF(NSECT /= 0)CALL HM_OPTION_START('/SECT')
       DO I=1,NSECT
        CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID,OPTION_TITR = TITR)
-       CALL HM_GET_INTV('ISAVE', TYPE, IS_AVAILABLE, LSUBMODEL)  
-       CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)  
+       CALL HM_GET_INTV('ISAVE', TYPE, IS_AVAILABLE, LSUBMODEL)
+       CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)
        IF(TYPE > 0)ISECUT=1
        IF(NBINTER > 0)ISECUT=1
       ENDDO
@@ -1048,23 +1020,20 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGU1,ISTYP,NGRELE,NIX,KK,NNOD,NBINTER,N1,K1,NBNODES,J
-      INTEGER ITAB(*),IX(NIX,*), NSTRF(*),
-     .        NODTAG(NUMNOD),TAGELEMS(*)
-      my_real
-     .   X0(3,*),A,B,C,D,E,F,X1,Y1,Z1,X2,Y2,Z2,R
+      INTEGER ITAB(NUMNOD), IX(NIX,*), NSTRF(*),  NODTAG(NUMNOD),TAGELEMS(*)
+      my_real  X0(3,*),A,B,C,D,E,F,X1,Y1,Z1,X2,Y2,Z2,R
 C-----------------------------------------------
       TYPE (GROUP_)  ,DIMENSION(NGRELE)   :: IGRELE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3,
-     .   TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART),NBPROJOK
-      my_real
-     .        POS,PROJX,PROJY,PROJZ,P1,P2
-C=======================================================================
+      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3,TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART),NBPROJOK
+      my_real  POS,PROJX,PROJY,PROJZ,P1,P2
+C-----------------------------------------------
+C   S o u r c e   F i l e s
+C-----------------------------------------------
 C
-C Determine les noeuds concernes par la section si on utilise un
-C frame pour definir la section
+C List nodes related to section.
 C
         TAGNDOUBL = 0
 	TAGNODES  = 0
@@ -1082,10 +1051,8 @@ C
               TAGELEM3=0
               NBPROJOK = 0
               DO K=2,NBNODES+1
-C             tag les noeuds connectes a l'element
-                POS = (X0(1,IX(K,IE))-D)*A +
-     .  	      (X0(2,IX(K,IE))-E)*B +
-     .  	      (X0(3,IX(K,IE))-F)*C
+C             taging nodes connected to elem
+                POS = (X0(1,IX(K,IE))-D)*A + (X0(2,IX(K,IE))-E)*B + (X0(3,IX(K,IE))-F)*C
                 IF (ISTYP == 1) THEN
                   PROJX = X0(1,IX(K,IE))-POS*A
                   PROJY = X0(2,IX(K,IE))-POS*B
@@ -1094,48 +1061,29 @@ C             tag les noeuds connectes a l'element
                   PROJY = PROJY-E
                   PROJZ = PROJZ-F
 c
-                  IF ( (X2-D) /=  ZERO .AND.
-     .              (Y1-E)-(X1-D)*(Y2-E) /=  ZERO)THEN
-                    P1 = (PROJY-PROJX*(Y2-E)/(X2-D))/
-     .                ((Y1-E)-(X1-D)*(Y2-E)/(X2-D))
-                  ELSEIF( (Y2-E) /=  ZERO .AND.
-     .              (Z1-F)-(Y1-E)*(Z2-F) /=  ZERO)THEN
-                    P1 = (PROJZ-PROJY*(Z2-F)/(Y2-E))/
-     .                ((Z1-F)-(Y1-E)*(Z2-F)/(Y2-E))
-                  ELSEIF( (Z2-F) /=  ZERO .AND.
-     .              (X1-D)-(Y1-E)*(X2-D) /=  ZERO)THEN
-                    P1 = (PROJX-PROJZ*(X2-D)/(Z2-F))/
-     .                ((X1-D)-(Y1-E)*(X2-D)/(Z2-F))
+                  IF ( (X2-D) /=  ZERO .AND. (Y1-E)-(X1-D)*(Y2-E) /=  ZERO)THEN
+                    P1 = (PROJY-PROJX*(Y2-E)/(X2-D))/ ((Y1-E)-(X1-D)*(Y2-E)/(X2-D))
+                  ELSEIF( (Y2-E) /=  ZERO .AND. (Z1-F)-(Y1-E)*(Z2-F) /=  ZERO)THEN
+                    P1 = (PROJZ-PROJY*(Z2-F)/(Y2-E))/ ((Z1-F)-(Y1-E)*(Z2-F)/(Y2-E))
+                  ELSEIF( (Z2-F) /=  ZERO .AND. (X1-D)-(Y1-E)*(X2-D) /=  ZERO)THEN
+                    P1 = (PROJX-PROJZ*(X2-D)/(Z2-F))/ ((X1-D)-(Y1-E)*(X2-D)/(Z2-F))
                   ENDIF
-                  IF ( (X1-D) /=  ZERO .AND.
-     .              (Y2-E)-(X2-D)*(Y1-E)  /=  ZERO)THEN
-                    P2 = (PROJY-PROJX*(Y1-E)/(X1-D))/
-     .                ((Y2-E)-(X2-D)*(Y1-E)/(X1-D))
-                  ELSEIF ( (Y1-E) /=  ZERO .AND.
-     .              (Z2-F)-(Y2-E)*(Z1-F)  /=  ZERO)THEN
-                    P2 = (PROJZ-PROJY*(Z1-F)/(Y1-E))/
-     .                ((Z2-F)-(Y2-E)*(Z1-F)/(Y1-E))
-                  ELSEIF ( (Z1-F) /=  ZERO .AND.
-     .              (X2-D)-(X1-D)*(Y2-E)  /=  ZERO)THEN
-                    P2 = (PROJX-PROJZ*(X1-D)/(Z1-F))/
-     .                ((X2-D)-(Y2-E)*(X1-D)/(Z1-F))
+                  IF ( (X1-D) /=  ZERO .AND. (Y2-E)-(X2-D)*(Y1-E)  /=  ZERO)THEN
+                    P2 = (PROJY-PROJX*(Y1-E)/(X1-D))/ ((Y2-E)-(X2-D)*(Y1-E)/(X1-D))
+                  ELSEIF ( (Y1-E) /=  ZERO .AND. (Z2-F)-(Y2-E)*(Z1-F)  /=  ZERO)THEN
+                    P2 = (PROJZ-PROJY*(Z1-F)/(Y1-E))/ ((Z2-F)-(Y2-E)*(Z1-F)/(Y1-E))
+                  ELSEIF ( (Z1-F) /=  ZERO .AND. (X2-D)-(X1-D)*(Y2-E)  /=  ZERO)THEN
+                    P2 = (PROJX-PROJZ*(X1-D)/(Z1-F))/ ((X2-D)-(Y2-E)*(X1-D)/(Z1-F))
                   ENDIF
 c
-                  IF((X2-D)== ZERO .AND. (X1-D)/= ZERO) 
-     .                     P1 = PROJX / (X1-D) 
-                  IF((X1-D)== ZERO .AND. (X2-D)/= ZERO)  
-     .                     P2 = PROJX / (X2-D)
-                  IF((Y2-E)== ZERO .AND. (Y1-E)/= ZERO)  
-     .                     P1 = PROJY / (Y1-E)
-                  IF((Y1-E)== ZERO .AND. (Y2-E)/= ZERO)  
-     .                     P2 = PROJY / (Y2-E)
-                  IF((Z2-F)== ZERO .AND. (Z1-F)/= ZERO)  
-     .                     P1 = PROJZ / (Z1-F)
-                  IF((Z1-F)== ZERO .AND. (Z2-F)/= ZERO)  
-     .                     P2 = PROJZ / (Z2-F)
-C
-                  IF( P1 <= 1 .AND. P1 >= 0 .AND. P2 <= 1 .AND. P2 >= 0)
-     .                 NBPROJOK = NBPROJOK + 1
+                  IF((X2-D)== ZERO .AND. (X1-D)/= ZERO) P1 = PROJX / (X1-D)
+                  IF((X1-D)== ZERO .AND. (X2-D)/= ZERO) P2 = PROJX / (X2-D)
+                  IF((Y2-E)== ZERO .AND. (Y1-E)/= ZERO) P1 = PROJY / (Y1-E)
+                  IF((Y1-E)== ZERO .AND. (Y2-E)/= ZERO) P2 = PROJY / (Y2-E)
+                  IF((Z2-F)== ZERO .AND. (Z1-F)/= ZERO) P1 = PROJZ / (Z1-F)
+                  IF((Z1-F)== ZERO .AND. (Z2-F)/= ZERO) P2 = PROJZ / (Z2-F)
+                  IF( P1 <= 1 .AND. P1 >= 0 .AND. P2 <= 1 .AND. P2 >= 0) NBPROJOK = NBPROJOK + 1
+
                 ELSEIF (ISTYP == 2) THEN
                   PROJX = X0(1,IX(K,IE))-POS*A
                   PROJY = X0(2,IX(K,IE))-POS*B
@@ -1218,25 +1166,23 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGU1,ISTYP,NGR,NIX,KK,NNOD,NBINTER,N1,K1,J
-      INTEGER ITAB(*),IXS(NIX,*), NSTRF(*),
+      INTEGER ITAB(NUMNOD),IXS(NIX,NUMELS), NSTRF(*),
      .        NODTAG(NUMNOD), IXS10(6,*),IXS16(8,*),IXS20(12,*),
      .        ISOLNOD(*),TAGELEMS(*)
-      my_real
-     .   X0(3,*),A,B,C,D,E,F,X1,Y1,Z1,X2,Y2,Z2,R
+      my_real X0(3,*),A,B,C,D,E,F,X1,Y1,Z1,X2,Y2,Z2,R
 C-----------------------------------------------
       TYPE (GROUP_)  ,DIMENSION(NGRBRIC)  :: IGRBRIC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3,
-     .   NBNODES,NBPROJOK,OFFSET
+      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3, NBNODES,NBPROJOK,OFFSET
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNDOUBL,TAGNODES
-      my_real
-     .        POS,PROJX,PROJY,PROJZ,P1,P2
-C=======================================================================
+      my_real POS,PROJX,PROJY,PROJZ,P1,P2
+C-----------------------------------------------
+C   S o u r c e   F i l e s
+C-----------------------------------------------
 C
-C Determine les noeuds concernes par la section si on utilise un
-C frame pour dfinir la section
+C List nodes related to section if frame is used
 C
         ALLOCATE( TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART) )
         TAGNDOUBL = 0
@@ -1288,7 +1234,7 @@ C            	tag les noeuds connectes a l'element
                     PROJY = X0(2,IXS20(K-9,IE-OFFSET))-POS*B
                     PROJZ = X0(3,IXS20(K-9,IE-OFFSET))-POS*C
                   ENDIF
-             	ELSE 
+             	ELSE
              	  POS = (X0(1,IXS(K,IE))-D)*A +
      .     	  	(X0(2,IXS(K,IE))-E)*B +
      .     	  	(X0(3,IXS(K,IE))-F)*C
@@ -1330,23 +1276,14 @@ c
      .                ((X2-D)-(Y2-E)*(X1-D)/(Z1-F))
                   ENDIF
 c
-                  IF((X2-D)== ZERO .AND. (X1-D)/= ZERO) 
-     .                     P1 = PROJX / (X1-D) 
-                  IF((X1-D)== ZERO .AND. (X2-D)/= ZERO)  
-     .                     P2 = PROJX / (X2-D)
-                  IF((Y2-E)== ZERO .AND. (Y1-E)/= ZERO)  
-     .                     P1 = PROJY / (Y1-E)
-                  IF((Y1-E)== ZERO .AND. (Y2-E)/= ZERO)  
-     .                     P2 = PROJY / (Y2-E)
-                  IF((Z2-F)== ZERO .AND. (Z1-F)/= ZERO)  
-     .                     P1 = PROJZ / (Z1-F)
-                  IF((Z1-F)== ZERO .AND. (Z2-F)/= ZERO)  
-     .                     P2 = PROJZ / (Z2-F)
-C
+                  IF((X2-D)== ZERO .AND. (X1-D)/= ZERO) P1 = PROJX / (X1-D)
+                  IF((X1-D)== ZERO .AND. (X2-D)/= ZERO) P2 = PROJX / (X2-D)
+                  IF((Y2-E)== ZERO .AND. (Y1-E)/= ZERO) P1 = PROJY / (Y1-E)
+                  IF((Y1-E)== ZERO .AND. (Y2-E)/= ZERO) P2 = PROJY / (Y2-E)
+                  IF((Z2-F)== ZERO .AND. (Z1-F)/= ZERO) P1 = PROJZ / (Z1-F)
+                  IF((Z1-F)== ZERO .AND. (Z2-F)/= ZERO) P2 = PROJZ / (Z2-F)
+                  IF( P1 <= 1 .AND. P1 >= 0 .AND. P2 <= 1 .AND. P2 >= 0)NBPROJOK = NBPROJOK + 1
 
-c
-                  IF( P1 <= 1 .AND. P1 >= 0 .AND. P2 <= 1 .AND. P2 >= 0)
-     .                 NBPROJOK = NBPROJOK + 1
                 ELSEIF (ISTYP == 2) THEN
                   PROJX = PROJX - D
                   PROJY = PROJY - E
