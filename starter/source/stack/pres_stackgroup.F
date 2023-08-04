@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER :: NBFI,IPPID, NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3
      
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
-      INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX
+      INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX,ICSH_STACK
       CHARACTER*nchartitle,
      .   TITR,TITR1
 C----------------------------f-------------------    
@@ -381,7 +381,10 @@ C !GR  T3
                 ENDIF  
               ENDDO
              ENDIF  ! ID > 0           
-11      CONTINUE        
+11      CONTINUE 
+C tag of ply element        
+          ALLOCATE(ICSH_STACK(NUMELC + NUMELTG) )
+          IF(NUMELC + NUMELTG > 0)ICSH_STACK = 0       
 C   compteur by element               
             DO I= 1,NPLY
               J   = IDGR4N(I)
@@ -401,7 +404,8 @@ C element type Q4
                      IF(IWORK_T(IDSHEL)%IDSTACK == 0) THEN 
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                           IWORK_T(IDSHEL)%IDSTACK = IDS
-                      ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
+                          ICSH_STACK(IDSHEL) = IDS
+                      ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                       ELSE
 C  message d'erreur      
@@ -425,7 +429,8 @@ C  message d'erreur
 C element type T3 
                 ITY = IGRSH3N(J)%GRTYPE
                  DO 222 II = 1,NEL
-! 
+! c a verifier l'id du triangle
+
                    ISH3N = IGRSH3N(J)%ENTITY(II)
                    PID = IXTG(5,ISH3N)
                    IGTYP = IGEO(11,PID)
@@ -438,7 +443,7 @@ C element type T3
                           IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                       ELSE
 C  message d'erreur
-                        IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
+                        IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
                         NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
      .                    MSGTYPE=MSGERROR,
@@ -458,7 +463,6 @@ C
              NPT = IWORKSH(1,I)
              ALLOCATE(IWORK_T(I)%PLYID(NPT) )
              IWORK_T(I)%PLYID = 0
-             IWORK_T(I)%IDSTACK = 0
              IWORKSH(1,I) = 0
            ENDDO
 C
@@ -488,7 +492,7 @@ C element type Q4
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                       ELSE
 C  message d'erreur      
-                        IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
+                        IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
                         NGL =IXC(NIXC,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
      .                    MSGTYPE=MSGERROR,
@@ -496,7 +500,7 @@ C  message d'erreur
      .                    I1=NGL,
 !!     .                    C2='SHELL',
      .                    I2= IGEO_STACK(1,IDS),
-     .                    I3=  IGEO_STACK(1,IPID_1) )
+     .                    I3=  IGEO_STACK(1,IPID_1) )                 
                       ENDIF
                     ENDIF 
                 ENDDO
@@ -520,13 +524,13 @@ C element type T3
                           NPT = IWORKSH(1,IDSHEL)
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                           IWORK_T(IDSHEL)%IDSTACK= IDS
-                      ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
+                      ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
                            IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                            NPT = IWORKSH(1,IDSHEL)
                            IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                       ELSE
 C  message d'erreur
-                        IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
+                        IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
                         NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
      .                    MSGTYPE=MSGERROR,

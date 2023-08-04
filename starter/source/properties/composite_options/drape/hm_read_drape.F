@@ -946,7 +946,7 @@ C---
             IGR    = IGRSH3N_DRP(J,1)
             IDRP   = IGRSH3N_DRP(J,2)
             NSLICE = IGRSH3N_DRP(J,3)
-            DO JJ=1, NGRSH3N
+            DO JJ=1,NGRSHEL
               OFFC = NGRNOD + NGRBRIC + NGRQUAD + NGRSHEL + NGRTRUS + 
      .               NGRBEAM + NGRSPRI + JJ
               JGR = IGRSH3N(JJ)%ID

@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,II,JJ,LEN, IOFF, IREP,NG, NEL, NFT, ITY, LFT, NPT,
-     .        LLT, MLW,NDIR,NLAY,IHBE,ISH3N,IDRAPE,NPTT, NPLY_MAX,IPT,
+     .        LLT, MLW,NDIR,NLAY,IHBE,ISH3N,IDRAPE,
      .        IGTYP, ID, IPRT0, IPRT,NPG,IPG,IE, FLAGDEG,IDEL,ILAY,ILAW
       INTEGER PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G)),
      .        PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),IFRAM_OLD
@@ -111,14 +111,6 @@ C
          IREP = IPARG(35,NG)
          NLAY = ELBUF_TAB(NG)%NLAY
          IDRAPE = ELBUF_TAB(NG)%IDRAPE
-         NPLY_MAX = 0
-         IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-          NPLY_MAX = 0
-          DO J = 1,NLAY
-           NPLY_MAX  = NPLY_MAX + ELBUF_TAB(NG)%BUFLY(J)%NPTT
-          ENDDO  
-         ENDIF
-         NPT = MAX (NPLY_MAX, NPT)
          NDIR = 1
          IF (IREP > 1) NDIR = 2                  
          LFT=1
@@ -239,144 +231,141 @@ C
           JJ = JJ + 1
           WA(JJ) = IREP
           IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-            DO J=1,NLAY 
-              NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
-              DO IPT = 1, NPTT
-                 LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT)                             
-                 DIR1_1 = LBUF_DIR%DIRA(I)
-                 DIR1_2 = LBUF_DIR%DIRA(I+NEL)
-                 ILAW = ELBUF_TAB(NG)%BUFLY(J)%ILAW
-                 IF (IREP == 1) THEN
-                   AA = DIR1_1
-                   BB = DIR1_2
-                   V1 = AA*RX + BB*SX         
-                   V2 = AA*RY + BB*SY         
-                   V3 = AA*RZ + BB*SZ         
-                   VR = V1*E1X+ V2*E1Y + V3*E1Z
-                   VS = V1*E2X+ V2*E2Y + V3*E2Z
-                   SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)              
-                   DIR1_1 = VR/SUMA                                                
-                   DIR1_2 = VS/SUMA
-                 ELSEIF (IREP == 2) THEN
+            DO J=1,NLAY  
+              LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)                                
+              DIR1_1 = LBUF_DIR%DIRA(I)
+              DIR1_2 = LBUF_DIR%DIRA(I+NEL)
+              ILAW = ELBUF_TAB(NG)%BUFLY(J)%ILAW
+              IF (IREP == 1) THEN
+                AA = DIR1_1
+                BB = DIR1_2
+                V1 = AA*RX + BB*SX         
+                V2 = AA*RY + BB*SY         
+                V3 = AA*RZ + BB*SZ         
+                VR = V1*E1X+ V2*E1Y + V3*E1Z
+                VS = V1*E2X+ V2*E2Y + V3*E2Z
+                SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                DIR1_1 = VR/SUMA                                                   
+                DIR1_2 = VS/SUMA
+              ELSEIF (IREP == 2) THEN
 C---        Axe I
-                   AA = DIR1_1
-                   BB = DIR1_2
-                   V1 = AA*RX + BB*SX         
-                   V2 = AA*RY + BB*SY         
-                   V3 = AA*RZ + BB*SZ         
-                   VR = V1*E1X+ V2*E1Y + V3*E1Z
-                   VS = V1*E2X+ V2*E2Y + V3*E2Z
-                   SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)              
-                   DIR1_1 = VR/SUMA                                                
-                   DIR1_2 = VS/SUMA
+                AA = DIR1_1
+                BB = DIR1_2
+                V1 = AA*RX + BB*SX         
+                V2 = AA*RY + BB*SY         
+                V3 = AA*RZ + BB*SZ         
+                VR = V1*E1X+ V2*E1Y + V3*E1Z
+                VS = V1*E2X+ V2*E2Y + V3*E2Z
+                SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                DIR1_1 = VR/SUMA                                                   
+                DIR1_2 = VS/SUMA
 C---        Axe II
-                   AA = LBUF_DIR%DIRB(I)                             
-                   BB = LBUF_DIR%DIRB(I + NEL)                       
-                   V1 = AA*RX + BB*SX                                            
-                   V2 = AA*RY + BB*SY                                            
-                   V3 = AA*RZ + BB*SZ                                            
-                   VR = V1*E1X+ V2*E1Y + V3*E1Z                                  
-                   VS = V1*E2X+ V2*E2Y + V3*E2Z                                  
-                   SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)              
-                   DIR2_1 = VR/SUMA                                              
-                   DIR2_2 = VS/SUMA
-                 ELSEIF (IREP == 3) THEN
-C   mixing law   58 with other user laws with IREP = 0 within PID51
-                   IF (ILAW == 58) THEN
+                AA = LBUF_DIR%DIRB(I)	 			    
+                BB = LBUF_DIR%DIRB(I + NEL)			   
+                V1 = AA*RX + BB*SX                                               
+                V2 = AA*RY + BB*SY                                               
+                V3 = AA*RZ + BB*SZ                                               
+                VR = V1*E1X+ V2*E1Y + V3*E1Z                                     
+                VS = V1*E2X+ V2*E2Y + V3*E2Z                                     
+                SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                DIR2_1 = VR/SUMA                                                 
+                DIR2_2 = VS/SUMA
+              ELSEIF (IREP == 3) THEN
+C   mixing law58 with other user laws with IREP = 0 within PID51
+                IF (ILAW == 58) THEN
 C---        Axe I
-                     AA = DIR1_1
-                     BB = DIR1_2
-                     V1 = AA*RX + BB*SX         
-                     V2 = AA*RY + BB*SY         
-                     V3 = AA*RZ + BB*SZ         
-                     VR = V1*E1X+ V2*E1Y + V3*E1Z
-                     VS = V1*E2X+ V2*E2Y + V3*E2Z
-                     SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)             
-                     DIR1_1 = VR/SUMA                                                
-                     DIR1_2 = VS/SUMA
+                  AA = DIR1_1
+                  BB = DIR1_2
+                  V1 = AA*RX + BB*SX         
+                  V2 = AA*RY + BB*SY         
+                  V3 = AA*RZ + BB*SZ         
+                  VR = V1*E1X+ V2*E1Y + V3*E1Z
+                  VS = V1*E2X+ V2*E2Y + V3*E2Z
+                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                  DIR1_1 = VR/SUMA                                                   
+                  DIR1_2 = VS/SUMA
 C---        Axe II
-                     AA = LBUF_DIR%DIRB(I)                             
-                     BB = LBUF_DIR%DIRB(I + NEL)                      
-                     V1 = AA*RX + BB*SX                                            
-                     V2 = AA*RY + BB*SY                                            
-                     V3 = AA*RZ + BB*SZ                                            
-                     VR = V1*E1X+ V2*E1Y + V3*E1Z                                  
-                     VS = V1*E2X+ V2*E2Y + V3*E2Z                                  
-                     SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)             
-                     DIR2_1 = VR/SUMA                                              
-                     DIR2_2 = VS/SUMA
-                   ELSE  ! IREP = 0 within PID51
+                  AA = LBUF_DIR%DIRB(I)	   			       
+                  BB = LBUF_DIR%DIRB(I + NEL)			      
+                  V1 = AA*RX + BB*SX                                               
+                  V2 = AA*RY + BB*SY                                               
+                  V3 = AA*RZ + BB*SZ                                               
+                  VR = V1*E1X+ V2*E1Y + V3*E1Z                                     
+                  VS = V1*E2X+ V2*E2Y + V3*E2Z                                     
+                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                  DIR2_1 = VR/SUMA                                                 
+                  DIR2_2 = VS/SUMA
+                ELSE  ! IREP = 0 within PID51
 C     DIR1_1 and DIT1_2 already got
-                   ENDIF
-                 ELSEIF (IREP == 4) THEN
-C   mixing law   58 with other user laws with IREP = 1 within PID51
-                   IF (ILAW == 58) THEN
+                ENDIF
+              ELSEIF (IREP == 4) THEN
+C   mixing law58 with other user laws with IREP = 1 within PID51
+                IF (ILAW == 58) THEN
 C---        Axe I
-                     AA = DIR1_1
-                     BB = DIR1_2
-                     V1 = AA*RX + BB*SX         
-                     V2 = AA*RY + BB*SY         
-                     V3 = AA*RZ + BB*SZ         
-                     VR = V1*E1X+ V2*E1Y + V3*E1Z
-                     VS = V1*E2X+ V2*E2Y + V3*E2Z
-                     SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)             
-                     DIR1_1 = VR/SUMA                                                
-                     DIR1_2 = VS/SUMA
+                  AA = DIR1_1
+                  BB = DIR1_2
+                  V1 = AA*RX + BB*SX         
+                  V2 = AA*RY + BB*SY         
+                  V3 = AA*RZ + BB*SZ         
+                  VR = V1*E1X+ V2*E1Y + V3*E1Z
+                  VS = V1*E2X+ V2*E2Y + V3*E2Z
+                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                  DIR1_1 = VR/SUMA                                                   
+                  DIR1_2 = VS/SUMA
 C---        Axe II
-                     AA = LBUF_DIR%DIRB(I)                             
-                     BB = LBUF_DIR%DIRB(I + NEL)                      
-                     V1 = AA*RX + BB*SX                                            
-                     V2 = AA*RY + BB*SY                                            
-                     V3 = AA*RZ + BB*SZ                                            
-                     VR = V1*E1X+ V2*E1Y + V3*E1Z                                  
-                     VS = V1*E2X+ V2*E2Y + V3*E2Z                                  
-                     SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)             
-                     DIR2_1 = VR/SUMA                                              
-                     DIR2_2 = VS/SUMA
-                   ELSE  ! IREP = 1 within PID51
-                     AA = DIR1_1
-                     BB = DIR1_2
-                     V1 = AA*RX + BB*SX         
-                     V2 = AA*RY + BB*SY         
-                     V3 = AA*RZ + BB*SZ         
-                     VR = V1*E1X+ V2*E1Y + V3*E1Z
-                     VS = V1*E2X+ V2*E2Y + V3*E2Z
-                     SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)             
-                     DIR1_1 = VR/SUMA                                                
-                     DIR1_2 = VS/SUMA
-                   ENDIF
-                 ENDIF
+                  AA = LBUF_DIR%DIRB(I)	   			       
+                  BB = LBUF_DIR%DIRB(I + NEL)			      
+                  V1 = AA*RX + BB*SX                                               
+                  V2 = AA*RY + BB*SY                                               
+                  V3 = AA*RZ + BB*SZ                                               
+                  VR = V1*E1X+ V2*E1Y + V3*E1Z                                     
+                  VS = V1*E2X+ V2*E2Y + V3*E2Z                                     
+                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                  DIR2_1 = VR/SUMA                                                 
+                  DIR2_2 = VS/SUMA
+                ELSE  ! IREP = 1 within PID51
+                  AA = DIR1_1
+                  BB = DIR1_2
+                  V1 = AA*RX + BB*SX         
+                  V2 = AA*RY + BB*SY         
+                  V3 = AA*RZ + BB*SZ         
+                  VR = V1*E1X+ V2*E1Y + V3*E1Z
+                  VS = V1*E2X+ V2*E2Y + V3*E2Z
+                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
+                  DIR1_1 = VR/SUMA                                                   
+                  DIR1_2 = VS/SUMA
+                ENDIF
+              ENDIF
 C
-                 JJ = JJ + 1
-                 WA(JJ) = ILAW
+              JJ = JJ + 1
+              WA(JJ) = ILAW
 C  charging all directions
-                 JJ = JJ + 1                                                       
-                 IF (MLW /= 0 .AND. MLW /= 13) THEN                            
-                   WA(JJ) = DIR1_1                                                 
-                 ELSE                                                              
-                   WA(JJ) = ZERO                                                   
-                 ENDIF                                                             
-                 JJ = JJ + 1                                                       
-                 IF (MLW /= 0 .AND. MLW /= 13) THEN                            
-                   WA(JJ) = DIR1_2                                                 
-                 ELSE                                                              
-                   WA(JJ) = ZERO                                                   
-                 ENDIF
-                 IF (IREP > 1 .AND. ILAW == 58) THEN
-                   JJ = JJ + 1                                                     
-                   IF (MLW /= 0 .AND. MLW /= 13) THEN                          
-                     WA(JJ) = DIR2_1                                               
-                   ELSE                                                            
-                     WA(JJ) = ZERO                                                 
-                   ENDIF                                                           
-                   JJ = JJ + 1                                                     
-                   IF (MLW /= 0 .AND. MLW /= 13) THEN                          
-                     WA(JJ) = DIR2_2                                               
-                   ELSE                                                            
-                     WA(JJ) = ZERO                                                 
-                   ENDIF
-                 ENDIF !  IF (IREP > 1) THEN
-               ENDDO ! NPTT
+              JJ = JJ + 1                                                          
+              IF (MLW /= 0 .AND. MLW /= 13) THEN                               
+                WA(JJ) = DIR1_1                                                    
+              ELSE                                                                 
+                WA(JJ) = ZERO                                                      
+              ENDIF                                                                
+              JJ = JJ + 1                                                          
+              IF (MLW /= 0 .AND. MLW /= 13) THEN                               
+                WA(JJ) = DIR1_2                                                    
+              ELSE                                                                 
+                WA(JJ) = ZERO                                                      
+              ENDIF
+              IF (IREP > 1 .AND. ILAW == 58) THEN
+                JJ = JJ + 1                                                        
+                IF (MLW /= 0 .AND. MLW /= 13) THEN                             
+                  WA(JJ) = DIR2_1                                                  
+                ELSE                                                               
+                  WA(JJ) = ZERO                                                    
+                ENDIF                                                              
+                JJ = JJ + 1                                                        
+                IF (MLW /= 0 .AND. MLW /= 13) THEN                             
+                  WA(JJ) = DIR2_2                                                  
+                ELSE                                                               
+                  WA(JJ) = ZERO                                                    
+                ENDIF
+              ENDIF !  IF (IREP > 1) THEN
             ENDDO  !  DO J=1,NLAY   
           ELSEIF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR.
      .        IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
@@ -675,15 +664,6 @@ C
          NPG  = ELBUF_TAB(NG)%NPTR*ELBUF_TAB(NG)%NPTS
          IREP = IPARG(35,NG)
          NLAY = ELBUF_TAB(NG)%NLAY
-         IDRAPE = ELBUF_TAB(NG)%IDRAPE
-         NPLY_MAX = 0
-         IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-          NPLY_MAX = 0
-          DO J = 1,NLAY
-           NPLY_MAX  = NPLY_MAX + ELBUF_TAB(NG)%BUFLY(J)%NPTT
-          ENDDO  
-         ENDIF
-         NPT = MAX (NPLY_MAX, NPT)
          NDIR = 1
          IF (ISH3N==3.AND.ISH3NFRAM==0) THEN
           IFRAM_OLD =0
@@ -693,7 +673,6 @@ C
          IF (IREP > 1) NDIR = 2
          LFT=1
          LLT=NEL
-
 c------------------------------------------
          DO I=LFT,LLT
           N  = I + NFT
@@ -781,147 +760,6 @@ C
           IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR.
      .        IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .        IGTYP == 52 ) THEN
-           IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-            DO J=1,NLAY 
-              NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
-              DO IPT = 1, NPTT
-                LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT)                                                          
-                DIR1_1 = LBUF_DIR%DIRA(I)
-                DIR1_2 = LBUF_DIR%DIRA(I + NEL)
-                ILAW = ELBUF_TAB(NG)%BUFLY(J)%ILAW
-                IF (IREP == 1) THEN
-                  AA = DIR1_1
-                  BB = DIR1_2
-                  V1 = AA*RX + BB*SX         
-                  V2 = AA*RY + BB*SY         
-                  V3 = AA*RZ + BB*SZ         
-                  VR = V1*E1X+ V2*E1Y + V3*E1Z
-                  VS = V1*E2X+ V2*E2Y + V3*E2Z
-                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                  DIR1_1 = VR/SUMA                                                   
-                  DIR1_2 = VS/SUMA
-                ELSEIF (IREP == 2) THEN
-C---        Axe I
-                  AA = DIR1_1
-                  BB = DIR1_2
-                  V1 = AA*RX + BB*SX         
-                  V2 = AA*RY + BB*SY         
-                  V3 = AA*RZ + BB*SZ         
-                  VR = V1*E1X+ V2*E1Y + V3*E1Z
-                  VS = V1*E2X+ V2*E2Y + V3*E2Z
-                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                  DIR1_1 = VR/SUMA                                                   
-                  DIR1_2 = VS/SUMA
-C---        Axe II
-                  AA = LBUF_DIR%DIRB(I)                                 
-                  BB = LBUF_DIR%DIRB(I + NEL)                          
-                  V1 = AA*RX + BB*SX                                               
-                  V2 = AA*RY + BB*SY                                               
-                  V3 = AA*RZ + BB*SZ                                               
-                  VR = V1*E1X+ V2*E1Y + V3*E1Z                                     
-                  VS = V1*E2X+ V2*E2Y + V3*E2Z                                     
-                  SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                  DIR2_1 = VR/SUMA                                                 
-                  DIR2_2 = VS/SUMA
-                ELSEIF (IREP == 3) THEN
-C   mixing law  58 with other user laws with IREP = 0 within PID51
-                  IF (ILAW == 58) THEN
-C---        Axe I
-                    AA = DIR1_1
-                    BB = DIR1_2
-                    V1 = AA*RX + BB*SX         
-                    V2 = AA*RY + BB*SY         
-                    V3 = AA*RZ + BB*SZ         
-                    VR = V1*E1X+ V2*E1Y + V3*E1Z
-                    VS = V1*E2X+ V2*E2Y + V3*E2Z
-                    SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                    DIR1_1 = VR/SUMA                                                   
-                    DIR1_2 = VS/SUMA
-C---        Ax  e II
-                    AA = LBUF_DIR%DIRB(I)                                
-                    BB = LBUF_DIR%DIRB(I + NEL)                         
-                    V1 = AA*RX + BB*SX                                               
-                    V2 = AA*RY + BB*SY                                               
-                    V3 = AA*RZ + BB*SZ                                               
-                    VR = V1*E1X+ V2*E1Y + V3*E1Z                                     
-                    VS = V1*E2X+ V2*E2Y + V3*E2Z                                     
-                    SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                    DIR2_1 = VR/SUMA                                                 
-                    DIR2_2 = VS/SUMA
-                  ELSE  ! IREP = 0 within PID51
-C     DIR1_1 and DIT1_2 already got
-                  ENDIF
-                ELSEIF (IREP == 4) THEN
-C   mixing law  58 with other user laws with IREP = 1 within PID51
-                  IF (ILAW == 58) THEN
-C---        Axe I
-                    AA = DIR1_1
-                    BB = DIR1_2
-                    V1 = AA*RX + BB*SX         
-                    V2 = AA*RY + BB*SY         
-                    V3 = AA*RZ + BB*SZ         
-                    VR = V1*E1X+ V2*E1Y + V3*E1Z
-                    VS = V1*E2X+ V2*E2Y + V3*E2Z
-                    SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                    DIR1_1 = VR/SUMA                                                   
-                    DIR1_2 = VS/SUMA
-C---        Axe II
-                    AA = LBUF_DIR%DIRB(I)                                 
-                    BB = LBUF_DIR%DIRB(I + NEL)                          
-                    V1 = AA*RX + BB*SX                                               
-                    V2 = AA*RY + BB*SY                                               
-                    V3 = AA*RZ + BB*SZ                                               
-                    VR = V1*E1X+ V2*E1Y + V3*E1Z                                     
-                    VS = V1*E2X+ V2*E2Y + V3*E2Z                                     
-                    SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                    DIR2_1 = VR/SUMA                                                 
-                    DIR2_2 = VS/SUMA
-                  ELSE  ! IREP = 1 within PID51
-                    AA = DIR1_1
-                    BB = DIR1_2
-                    V1 = AA*RX + BB*SX         
-                    V2 = AA*RY + BB*SY         
-                    V3 = AA*RZ + BB*SZ         
-                    VR = V1*E1X+ V2*E1Y + V3*E1Z
-                    VS = V1*E2X+ V2*E2Y + V3*E2Z
-                    SUMA=MAX(SQRT(VR*VR + VS*VS) , EM20)                
-                    DIR1_1 = VR/SUMA                                                   
-                    DIR1_2 = VS/SUMA
-                  ENDIF
-                ENDIF
-C
-                JJ = JJ + 1
-                WA(JJ) = ILAW
-C  charging all directions
-                JJ = JJ + 1                                                          
-                IF (MLW /= 0 .AND. MLW /= 13) THEN                               
-                  WA(JJ) = DIR1_1                                                    
-                ELSE                                                                 
-                  WA(JJ) = ZERO                                                      
-                ENDIF                                                                
-                JJ = JJ + 1                                                          
-                IF (MLW /= 0 .AND. MLW /= 13) THEN                               
-                  WA(JJ) = DIR1_2                                                    
-                ELSE                                                                 
-                  WA(JJ) = ZERO                                                      
-                ENDIF
-                IF (IREP > 1 .AND. ILAW == 58) THEN
-                  JJ = JJ + 1                                                        
-                  IF (MLW /= 0 .AND. MLW /= 13) THEN                             
-                    WA(JJ) = DIR2_1                                                  
-                  ELSE                                                               
-                    WA(JJ) = ZERO                                                    
-                  ENDIF                                                              
-                  JJ = JJ + 1                                                        
-                  IF (MLW /= 0 .AND. MLW /= 13) THEN                             
-                    WA(JJ) = DIR2_2                                                  
-                  ELSE                                                               
-                    WA(JJ) = ZERO                                                    
-                  ENDIF
-                ENDIF !  IF (IREP > 1) THEN
-              ENDDO ! NPTT
-            ENDDO  !  DO J=1,NLAY        
-           ELSE ! Idrape == 0
             DO J=1,NLAY                                                            
               DIR1_1 = ELBUF_TAB(NG)%BUFLY(J)%DIRA(I)
               DIR1_2 = ELBUF_TAB(NG)%BUFLY(J)%DIRA(I + NEL)
@@ -1057,7 +895,6 @@ C  charging all directions
                 ENDIF
               ENDIF !  IF (IREP > 1) THEN
             ENDDO  !  DO J=1,NLAY
-           ENDIF ! IDRAPE 
           ENDIF  !  IF ( IGTYP )
 c
           IE=IE+1

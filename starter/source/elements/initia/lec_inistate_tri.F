@@ -84,7 +84,6 @@ C
         NUMSHEL0=NUMSHEL
         IF(NUMSHEL>0)THEN
 C        tri des elts du Y000 par ID croissant
-          
           DO ISYS = 1, NUMSHEL
             ITRI(ISYS) =ID_SIGSH(ISYS)
           END DO
