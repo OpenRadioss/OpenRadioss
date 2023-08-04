@@ -202,9 +202,10 @@ C
     
       NPT_ALL = 0
       DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+           NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
       ENDDO   
       MPT  = MAX(1,NPT_ALL)
+      IF(NPT_ALL == 0 ) NPT_ALL = NLAY
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
          ALLOCATE(DIR_A(NPT_ALL*NEL*2))
@@ -330,6 +331,7 @@ c---------------------------
           PTM = (IPG-1)*LENM
           PTS = (IPG-1)*LENS
 c
+
           CALL CMAINI3(ELBUF_STR,PM       ,GEO      ,NEL       ,NLAY     ,
      .                 SKEW     ,IGEO     ,IXC(1,NFT+1),NIXC   ,NUMELC   ,
      .                 NSIGSH   ,SIGSH    ,PTSHEL   ,IGTYP     ,IORTHLOC ,
@@ -350,7 +352,6 @@ c
      .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .             IDRAPE, IGTYP)
-           IF(MPT < 3) stop
            CALL CSIGINI4(ELBUF_STR,IHBE     ,
      1          LFT      ,LLT      ,NFT      ,MPT      ,ISTRAIN,
      2          GBUF%THK ,GBUF%EINT,GBUF%STRPG(PTS+1),GBUF%HOURG,

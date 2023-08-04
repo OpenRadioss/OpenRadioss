@@ -157,8 +157,6 @@ C-----------------------------------------------
       TYPE(L_BUFEL_DIR_), POINTER :: LBUF_DIR
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
-      
-     
 c
       IMAT  = IXC(1,1+NFT)         ! mat N
       IPROP = IXC(NIXC-1,1+NFT)    ! property N
@@ -184,10 +182,10 @@ C
       IDRAPE = ELBUF_STR%IDRAPE
       NPT_ALL = 0
       DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+         NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
       ENDDO
       MPT  = MAX(1,NPT_ALL)
-      IF(NPT_ALL == 0) NPT_ALL = NLAY
+      IF(NPT_ALL == 0 ) NPT_ALL = NLAY
 C----- NPT=0 for some cases      
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
          ALLOCATE(PHI1(MVSIZ*NPT_ALL))
@@ -198,6 +196,14 @@ C----- NPT=0 for some cases
          PHI2  = ZERO
          DIR_A = ZERO
          DIR_B = ZERO
+         ALLOCATE(COOR1(NPT_ALL*MVSIZ))
+         ALLOCATE(COOR2(NPT_ALL*MVSIZ))
+         ALLOCATE(COOR3(NPT_ALL*MVSIZ))
+         ALLOCATE(COOR4(NPT_ALL*MVSIZ))
+         COOR1 = ZERO
+         COOR2 = ZERO
+         COOR3 = ZERO
+         COOR4 = ZERO
       ELSE
          ALLOCATE(PHI1(NLAY*MVSIZ))
          ALLOCATE(PHI2(NLAY*MVSIZ))
@@ -207,16 +213,16 @@ C----- NPT=0 for some cases
          PHI2  = ZERO
          DIR_A = ZERO
          DIR_B = ZERO
+         ALLOCATE(COOR1(NLAY*MVSIZ))
+         ALLOCATE(COOR2(NLAY*MVSIZ))
+         ALLOCATE(COOR3(NLAY*MVSIZ))
+         ALLOCATE(COOR4(NLAY*MVSIZ))
+         COOR1 = ZERO
+         COOR2 = ZERO
+         COOR3 = ZERO
+         COOR4 = ZERO
          NPT_ALL = NLAY
       ENDIF
-      ALLOCATE(COOR1(NLAY*MVSIZ))
-      COOR1 = ZERO
-      ALLOCATE(COOR2(NLAY*MVSIZ))
-      COOR2 = ZERO
-      ALLOCATE(COOR3(NLAY*MVSIZ))
-      COOR3 = ZERO
-      ALLOCATE(COOR4(NLAY*MVSIZ))
-      COOR4 = ZERO
 C      
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C
@@ -300,6 +306,7 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------------------------------
 c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
+       print*, 'nbre of int pt defoNE',NLAY, MPT
       CALL CORTHINI(
      .   LFT        ,LLT       ,NFT       ,NLAY       ,NUMELC     ,
      .   NSIGSH     ,NIXC      ,IXC(1,NFT+1),IGEO     ,GEO        ,
@@ -462,6 +469,7 @@ C to be checked for IGTYP = 51 : ok
      .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z , 
      .             IDRAPE, IGTYP )
         END IF
+         
         CALL CSIGINI(ELBUF_STR ,
      1       LFT     ,LLT      ,NFT      ,MPT       ,ISTRAIN   ,
      2       GBUF%THK,GBUF%EINT,GBUF%STRA,GBUF%HOURG,GBUF%PLA  ,
