@@ -148,7 +148,9 @@ jobs:
       mpi: ompi
       # DEV ONLY # QA_NB_PROC: 2
       QA_NB_PROC: 4
-      QA_NB_THREAD: 2
+      # DEV ONLY # QA_NB_THREAD: 1
+      QA_NB_THREAD: 1
+      # QA_NB_THREAD: 2
       
     strategy:
       # If one job fails othere are canceled
