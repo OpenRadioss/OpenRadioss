@@ -1782,7 +1782,6 @@ set_source_files_properties( ${source_directory}/source/elements/truss/tforc3.F 
 # set_source_files_properties( ${source_directory}/source/elements/truss/tdlen3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/shell/coquez/czkel3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/shell/coquez/czsumg3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/elements/shell/coquez/czforc3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/shell/coquez/czlken3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/elements/shell/coquez/czproj.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/shell/coquez/czcoork3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

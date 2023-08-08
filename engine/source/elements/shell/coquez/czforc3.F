@@ -76,15 +76,15 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|====================================================================
       SUBROUTINE CZFORC3(
      1   ELBUF_STR,   JFT,         JLT,         NFT,
-     2   NPT,         ITAB,        IPARI,       MTN,
+     2   NPT,         ITAB,        MTN,
      3   IPRI,        ITHK,        NELTST,      ISTRAIN,
-     4   IPLA,        TT,          DT1,         DT2T,
+     4   IPLA,        DT1,         DT2T,
      5   PM,          GEO,         PARTSAV,     IXC,
      6   ITYPTST,     BUFMAT,      TF,          NPF,
-     7   IADC,        FAILWAVE,    X,           D,
+     7   IADC,        FAILWAVE,    X,
      8   DR,          V,           VR,          F,
      9   M,           STIFN,       STIFR,       FSKY,
-     A   TANI,        EANI,        INDXOF,      ISMSTR,
+     A   TANI,        INDXOF,      ISMSTR,
      B   GROUP_PARAM, IPARTC,      THKE,        NVC,
      C   IOFC,        IHBE,        F11,         F12,
      D   F13,         F14,         F21,         F22,
@@ -99,7 +99,7 @@ Chd|====================================================================
      M   XEDGE4N,     MSC,         DMELC,       JSMS,
      N   TABLE,       IPARG,       MAT_ELEM,    IXFEM,
      O   KNOD2ELC,    SENSORS,     ELCUTC,      INOD_CRK,
-     P   IEL_CRK,     IBORDNODE,   NODENR,      IADC_CRK,
+     P   IEL_CRK,     NODENR,      IADC_CRK,
      Q   NODEDGE,     CRKNODIAD,   CONDN,       CONDNSKY,
      R   STACK,       ISUBSTACK,   XFEM_STR,    CRKEDGE,
      S   DRAPE_SH4N,  NEL,         NLOC_DMG,    INDX_DRAPE,
@@ -137,13 +137,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER JFT,JLT,NFT,NPT,IPARI,MTN,IPRI,ITHK,NELTST,
+      INTEGER JFT,JLT,NFT,NPT,MTN,IPRI,ITHK,NELTST,
      .   ITYPTST ,ISTRAIN ,IPLA,NVC,JSMS,ITASK,IEXPAN,IXFEM,
      .   IOFC,IHBE,KFTS,ISMSTR,IFAILURE,JTHE,ISUBSTACK,NEL,N1,N2,N3,N4
       INTEGER IXC(NIXC,*),IADC(4,*),IPARTC(*),NPF(*),IGEO(NPROPGI,*),
      .   IPM(NPROPMI,*),INDXOF(MVSIZ),GRTH(*),IGRTH(*),IPARG(*),ITAB(*),
      .   KNOD2ELC(*),XEDGE4N(4,*),
-     .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),IBORDNODE(*),
+     .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),
      .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*),INDX_DRAPE(SCDRAPE)
       INTEGER :: IGRE,JTUR
 C     REAL OU REAL*8
@@ -155,12 +155,12 @@ C     REAL OU REAL*8
      .   M21(MVSIZ), M22(MVSIZ), M23(MVSIZ), M24(MVSIZ),
      .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ), M34(MVSIZ),
      .   TF(*),   PM(NPROPM,*),GEO(NPROPG,*),PARTSAV(*),
-     .   BUFMAT(*), X(3,*),D(*),DR(*),V(3,*),VR(3,*),F(3,*),M(3,*),
-     .   STIFN(*), STIFR(*),FSKY(*),TANI(6,*),EANI(*),THKE(*),
+     .   BUFMAT(*), X(3,*),DR(*),V(3,*),VR(3,*),F(3,*),M(3,*),
+     .   STIFN(*), STIFR(*),FSKY(*),TANI(6,*),THKE(*),
      .   FZERO(3,4,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),
      .   MSC(*), DMELC(*),CONDN(*),CONDNSKY(*)
       my_real    
-     .   TT, DT1, DT2T
+     .   DT1, DT2T
       TARGET :: BUFMAT
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -171,7 +171,6 @@ C     REAL OU REAL*8
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
-      TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (SENSORS_)  ,INTENT(IN)    :: SENSORS
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -345,8 +344,8 @@ c-------------------------------------
 C
       DO I=JFT,JLT                
         FAC1(I) = GEO(17,PID(I))
-        VF(I,1:12) =ZERO		
-        VM(I,1:8) =ZERO		
+        VF(I,1:12) =ZERO
+        VM(I,1:8) =ZERO
       ENDDO
 C      
       IMAT  = IXC(1,JFT)
@@ -680,13 +679,13 @@ c-------------------------------
      3                     G    ,RHO  ,AREA ,AMU  ,DT1  ,
      4                     VL13 ,VL24 ,VLHI ,GBUF%HOURG,
      4                     OFF  ,IPARTC,PARTSAV,KFTS  ,NEL )
-	  ELSE
+          ELSE
             CALL CZFINTNM(JFT  ,JLT  ,THK0  ,A_I   ,DHG  ,
      2                    X13  ,X24  ,Y13  ,Y24  ,VF   ,
      3                    G    ,RHO  ,AREA ,AMU  ,DT1  ,
      4                    OFF  ,IPARTC,PARTSAV,KFTS  )
-	  END IF
-	END IF
+          END IF
+        END IF
         CALL CZPROJ1(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF ,
      2            VM     ,PLAT   ,
