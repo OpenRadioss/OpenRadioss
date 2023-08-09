@@ -115,7 +115,7 @@ C-----------------------------------------------
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ, IAD ,IPFMAX,IPL,
-     .   IPFLMAX,IPG
+     .   IPFLMAX,IPG,NINV
       INTEGER JPERM(4)
       LOGICAL TYPE18
       my_real
@@ -397,6 +397,7 @@ C------------------------------------
         MY_ALLOCATE(INDEXE,NUMELS)
         INDEXE = 0
       ENDIF
+      NINV = 0
       DO I=1,NRT
         STF(I)=ZERO
         IF(INTTH > 0 ) IELES(I) = 0
@@ -641,7 +642,7 @@ C       SOLID ELEMENTS
 C----------------------
         CALL INSOL3D(X     ,IRECT ,IXS      ,NINT    ,NELS,INRT,
      .               AREA  ,NOINT ,KNOD2ELS ,NOD2ELS ,0   ,
-     .               IXS10 ,IXS16 ,IXS20    ,TAGELEMS,INDEXE)
+     .               IXS10 ,IXS16 ,IXS20    ,TAGELEMS,INDEXE,NINV)
         !----------------!
         !  NELS > 0      !
         !----------------!
@@ -915,6 +916,34 @@ C----------------------------------
       ENDDO!next I=1,NRT
   
       IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
+C
+      CALL ANCMSG(MSGID=3022,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3024,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             PRMOD=MSG_PRINT)
+      IF(NINV > 0 .AND.NINT>0)
+     .    CALL ANCMSG(MSGID=3023,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             I2=NINV)
+C
+      IF(NINV > 0 .AND.NINT< 0)
+     .    CALL ANCMSG(MSGID=3025,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             I2=NINV)
 C------------------------------------
 C     GAP STIF FACES MAIN IGE
 C------------------------------------

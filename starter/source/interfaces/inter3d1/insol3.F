@@ -189,7 +189,12 @@ Chd|        NORMA1D                       source/interfaces/inter3d1/norma1.F
 Chd|====================================================================
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
-     .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE )
+     .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE,
+     .                  NINV )
+C-----------------------------------------------
+C   M o d u l e s
+C----------------------------------------------- 
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,10 +204,11 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
+#include      "scr03_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NINT, NEL, I, NOINT,IR,J
+      INTEGER NINT, NEL, I, NOINT,IR,J,NINV
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
@@ -372,8 +378,24 @@ C
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
+c       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
+       NINV = NINV + 1
+       IF(IPRI>=5.AND.NINT>0) 
+     .         CALL ANCMSG(MSGID=3022,
+     .                         MSGTYPE=MSGWARNING,
+     .                         ANMODE=ANINFO_BLIND_1,
+     .                         I1=I,
+     .                         I2=NOINT,
+     .                         PRMOD=MSG_CUMU)
+       IF(IPRI>=5.AND.NINT< 0) 
+     .         CALL ANCMSG(MSGID=3024,
+     .                         MSGTYPE=MSGWARNING,
+     .                         ANMODE=ANINFO_BLIND_1,
+     .                         I1=I,
+     .                         I2=NOINT,
+     .                         PRMOD=MSG_CUMU)
+
        RETURN
  1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
      + ' REVERSED')
