@@ -928,11 +928,11 @@ C   2:const,1:linear,0:nonlinear
             ENDIF
             IF(STIGLO<=ZERO)THEN
               IF(INCONV==1) ECONTT = ECONTT + HALF*STIF(I)*GAPV(I)**2 *
-     .            ( FACM1 -ONE -LOG(FACM1) )
+     .            ( FACM1 -ONE -LOG(MAX(TINY(FACM1),FACM1) ))
               STIF(I) = HALF*STIF(I) * FAC
             ELSEIF(STIF(I)/=ZERO)THEN
               IF(INCONV==1)ECONTT = ECONTT + STIGLO*GAPV(I)**2 *
-     .            ( FACM1 - ONE -LOG(FACM1) )
+     .            ( FACM1 - ONE -LOG(MAX(TINY(FACM1),FACM1) ))
               STIF(I) = STIGLO * FAC
             ENDIF
             FNI(I)= -STIF(I) * PENE(I)
@@ -984,11 +984,11 @@ C   2:const,1:linear,0:nonlinear
           ENDIF
           IF(STIGLO<=ZERO)THEN
             ECONTT = ECONTT + HALF*STIF(I)*GAPV(I)**2 *( FACM1 - ONE -
-     .            LOG(FACM1) )
+     .            LOG(MAX(TINY(FACM1),FACM1)) )
             STIF(I) = HALF*STIF(I) * FAC
           ELSEIF(STIF(I)/=ZERO)THEN
             ECONTT = ECONTT + STIGLO*GAPV(I)**2 *( FACM1 - ONE -
-     .            LOG(FACM1) )
+     .            LOG(MAX(TINY(FACM1),FACM1)) )
             STIF(I) = STIGLO * FAC
           ENDIF
           FNI(I)= -STIF(I) * PENE(I)
