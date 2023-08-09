@@ -497,7 +497,13 @@ c         projection radiale
               DPLA_I(I) = OFF(I)*SVM*(ONE-R)/(G3(I)+H(I))
               PLA(I) = PLA(I) + DPLA_I(I)
               IF (INLOC == 0) THEN 
-                DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+                IF(YLD(I) .NE. 0) THEN
+                  !YLD may be 0 when SIGNXX+SIGNYY == 0, that will cause floating point
+                  !exception in debug mode
+                  DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
+                ELSE
+                  DEZZ = ZERO 
+                ENDIF
                 DEZZ=-(DEPSXX(I)+DEPSYY(I))*NU_MNU-NU3*DEZZ
                 THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
               ENDIF
