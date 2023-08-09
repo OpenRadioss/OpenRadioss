@@ -1149,7 +1149,7 @@ C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,IPL,IPG
+     .   ISUBSTACK,IPL,IPG,NINV
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
 C     REAL
       my_real
@@ -1165,6 +1165,7 @@ C----------------------
         MY_ALLOCATE(INDEXE,NUMELS)
         INDEXE = 0
       ENDIF
+      NINV = 0
       DO I=1+NSHIFT,NRT+NSHIFT
        STF(I)=ZERO
        IF(INTTH > 0 ) IELES(I) = 0
@@ -1305,7 +1306,8 @@ C-------coating shell  stif=max(sol,shell)
           IF (MSEGTYP(I)>NRTT) THEN
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
-     .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE)
+     .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
+     .            NINV)
            IF(NELS/=0) THEN
             MT=IXS(1,NELS)
             IF(MT>0)THEN
@@ -1414,7 +1416,8 @@ C-------coating shell  stif=max(sol,shell)
           IF (MSEGTYP(I)>NRTT) THEN
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
-     .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE)
+     .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE ,
+     .            NINV)
            IF(NELS/=0) THEN
             MT=IXS(1,NELS)
             IF(MT>0)THEN
@@ -1450,7 +1453,8 @@ C     ELEMENTS SOLIDES
 C----------------------
        CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
-     .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE)
+     .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
+     .            NINV)
       IF(NELS/=0) THEN
        MT=IXS(1,NELS)
        IF(INTTH > 0 ) IELES(I) = NELS
@@ -1702,6 +1706,34 @@ C      en SPMD il faut un element associe a l'arrete sinon erreur
       END DO
 C
       IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
+C
+      CALL ANCMSG(MSGID=3022,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3024,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             PRMOD=MSG_PRINT)
+      IF(NINV > 0 .AND.NINT>0)
+     .    CALL ANCMSG(MSGID=3023,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             I2=NINV)
+C
+      IF(NINV > 0 .AND.NINT< 0)
+     .    CALL ANCMSG(MSGID=3025,
+     .             MSGTYPE=MSGWARNING,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             I1=ID,
+     .             C1=TITR,
+     .             I2=NINV)
 C         
 C      IF (IPRI>=5.AND.NREV>0) WRITE (IOUT,1400) NREV,NOINT
 C----due to Cycle       ------- 
