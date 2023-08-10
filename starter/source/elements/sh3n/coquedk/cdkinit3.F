@@ -203,9 +203,10 @@ C-----------------------------------------------
       IF (MTN == 1 .OR. MTN == 3 .OR. MTN == 23) NPT = 0
       NPT_ALL = 0
       DO IL=1,NLAY
-        NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
+          NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
       ENDDO
       MPT  = MAX(1,NPT_ALL)
+      IF(NPT_ALL == 0 ) NPT_ALL = NLAY
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
