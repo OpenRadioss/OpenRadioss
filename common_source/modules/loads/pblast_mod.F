@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  PBLAST_MOD                    modules/loads/pblast_mod.F    
+Chd|  PBLAST_MOD                    modules/loads/pblast_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        HM_PREREAD_PBLAST             starter/source/loads/pblast/hm_preread_pblast.F
@@ -34,7 +34,7 @@ Chd|        PBLAST_1                      engine/source/loads/pblast/pblast_1.F
 Chd|        PBLAST_2                      engine/source/loads/pblast/pblast_2.F
 Chd|        PBLAST_3                      engine/source/loads/pblast/pblast_3.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL                         engine/source/engine/resol.F
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
@@ -46,11 +46,11 @@ Chd|====================================================================
       TYPE PBLAST_STRUCT_
         INTEGER SIZ
         LOGICAL IS_RESET
-        my_real, ALLOCATABLE,DIMENSION(:)    :: PRES      ! pressure output(workarray)
-        my_real, ALLOCATABLE,DIMENSION(:)    :: cos_theta ! angle on structural face
-        my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters  
-        my_real, DIMENSION(:)  , ALLOCATABLE :: FX,FY,FZ,NPt !working arrays (forces)
-        INTEGER, DIMENSION(:,:), ALLOCATABLE :: N !working array (normal vectors)
+        my_real, ALLOCATABLE,DIMENSION(:)    :: PRES                                      ! pressure output(workarray)
+        my_real, ALLOCATABLE,DIMENSION(:)    :: cos_theta                                 ! angle on structural face
+        my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
+        my_real, DIMENSION(:)  , ALLOCATABLE :: FX,FY,FZ,NPt                              !working arrays (forces)
+        INTEGER, DIMENSION(:,:), ALLOCATABLE :: N                                         !working array (normal vectors)
       END TYPE PBLAST_STRUCT_
 
       TYPE PBLAST_DATA_
@@ -72,7 +72,7 @@ Chd|====================================================================
        my_real ANGLE_pra(10) !x-bound Pra
        my_real ANGLE_sri(10) !x-bound SRI
        my_real SHDC(2,10),dSHDC    !X-bounds Scaled Height Distance from Charge
-       my_real Curve_val_2_9(10), Curve_val_2_13(10) !data from curve legend
+       my_real Curve_val_2_9(10), Curve_val_2_10(10), Curve_val_2_13(10) !data from curve legend
        my_real delta_angle   !85 deg - 0deg / (256 points - 1)
        !-----------------------------------------------------------!
        !            SURFACE BURST (hemispherical+ground)           !
@@ -96,12 +96,12 @@ Chd|====================================================================
        CONTAINS
 
 Chd|====================================================================
-Chd|  PBLAST_LOAD                   modules/loads/pblast_mod.F    
+Chd|  PBLAST_LOAD                   modules/loads/pblast_mod.F
 Chd|-- called by -----------
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        ARRET                         starter/source/system/arret.F 
-Chd|        ARRET                         engine/source/system/arret.F  
+Chd|        ARRET                         starter/source/system/arret.F
+Chd|        ARRET                         engine/source/system/arret.F
 Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
 Chd|        READ_DB                       engine/source/output/tools/read_db.F
 Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
@@ -164,7 +164,7 @@ C-----------------------------------------------
         ALLOCATE ( PBLAST_TAB(I)%FY(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE ( PBLAST_TAB(I)%FZ(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE ( PBLAST_TAB(I)%N(4,SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE ( PBLAST_TAB(I)%NPt(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000                                
+        ALLOCATE ( PBLAST_TAB(I)%NPt(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE(RTMP(7*SIZ))
         CALL READ_DB(RTMP,7*SIZ)
         IAD = 0
@@ -190,12 +190,12 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-      
-      
+
+
 Chd|====================================================================
-Chd|  PBLAST_DEALLOCATE             modules/loads/pblast_mod.F    
+Chd|  PBLAST_DEALLOCATE             modules/loads/pblast_mod.F
 Chd|-- called by -----------
-Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL                         engine/source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
@@ -217,7 +217,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB      
+      TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -228,9 +228,9 @@ C-----------------------------------------------
       IF(NLOADP_B<=0)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
-C-----------------------------------------------      
+C-----------------------------------------------
       DO II=1,NLOADP_B
-        IF(ALLOCATED( PBLAST_TAB(II)%cos_theta ))  DEALLOCATE ( PBLAST_TAB(II)%cos_theta ) 
+        IF(ALLOCATED( PBLAST_TAB(II)%cos_theta ))  DEALLOCATE ( PBLAST_TAB(II)%cos_theta )
         IF(ALLOCATED( PBLAST_TAB(II)%P_inci ))     DEALLOCATE ( PBLAST_TAB(II)%P_inci )
         IF(ALLOCATED( PBLAST_TAB(II)%P_refl ))     DEALLOCATE ( PBLAST_TAB(II)%P_refl )
         IF(ALLOCATED( PBLAST_TAB(II)%ta ))         DEALLOCATE ( PBLAST_TAB(II)%ta )
@@ -244,15 +244,15 @@ C-----------------------------------------------
         IF(ALLOCATED( PBLAST_TAB(II)%N ))          DEALLOCATE ( PBLAST_TAB(II)%N )
         IF(ALLOCATED( PBLAST_TAB(II)%NPt ))        DEALLOCATE ( PBLAST_TAB(II)%NPt )
       ENDDO
-      
+
       IF(ALLOCATED(PBLAST_TAB))DEALLOCATE(PBLAST_TAB)
 C-----------------------------------------------
       RETURN
       END
-            
+
 
 Chd|====================================================================
-Chd|  PBLAST_WRITE_STARTER          modules/loads/pblast_mod.F    
+Chd|  PBLAST_WRITE_STARTER          modules/loads/pblast_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
@@ -345,7 +345,7 @@ C-----------------------------------------------
 
 
 Chd|====================================================================
-Chd|  PBLAST_WRITE_ENGINE           modules/loads/pblast_mod.F    
+Chd|  PBLAST_WRITE_ENGINE           modules/loads/pblast_mod.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
@@ -419,7 +419,7 @@ C-----------------------------------------------
       END
 
 Chd|====================================================================
-Chd|  PBLAST_INIT_TABLES            modules/loads/pblast_mod.F    
+Chd|  PBLAST_INIT_TABLES            modules/loads/pblast_mod.F
 Chd|-- called by -----------
 Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
@@ -449,14 +449,13 @@ Chd|====================================================================
             ! 1.00 ft/lb**1/3 =  3,966977216838196139019  cm/g**1/3
             !
             PBLAST_DATA%Curve_val_2_9  = (/0.3, 0.6, 0.8, 1.9, 3.0, 5.3, 7.2, 8.9, 11.9, 14.3/) ! ft/lb**1/3
-            ! keeping unit ft/lb**1/3, unit translation is made when accessing to this array
-            ! ft/lb**1/3 -> cm/g**1/3             
-            !PBLAST_DATA%Curve_val_2_9(:) = PBLAST_DATA%Curve_val_2_9(:) * 3.966977216838d00
+            ! keeping unit ft/lb**1/3
+            !
+            PBLAST_DATA%Curve_val_2_10  = (/0.3, 0.5, 0.8, 1.9, 3.0, 5.3, 7.2, 8.9, 11.9, 14.3/) ! ft/lb**1/3
+            ! keeping unit ft/lb**1/3
             !
             PBLAST_DATA%Curve_val_2_13 = (/1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0 /)  ! ft/lb**1/3
-            ! keeping unit ft/lb**1/3, unit translation is made when accessing to this array            
-            ! ft/lb**1/3 -> cm/g**1/3             
-            !PBLAST_DATA%Curve_val_2_13(:) = PBLAST_DATA%Curve_val_2_13(:) * 3.966977216838d00
+            ! keeping unit ft/lb**1/3
 
 C Figure 2_7 Scaled Radius R/W**(1/3): g,cm,mus,Mbar
             PBLAST_DATA%RW3 = (/
