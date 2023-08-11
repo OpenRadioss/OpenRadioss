@@ -60,8 +60,8 @@ C-----------------------------------------------
         ENDIF
         !VAL LOWER THAN LOWER BOUND
         IF(ARRAY(LEN)>VAL)THEN        
-         RETURN
          DICHOTOMIC_SEARCH_R_DESC = LEN
+         RETURN
         ENDIF        
         !VAL IS BETWEEN THE BOUNDS
         DO WHILE (ISTART+1<IEND)        
