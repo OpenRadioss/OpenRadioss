@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
 Chd|-- called by -----------
-Chd|        PMAIN3                        source/elements/beam/pmain3.F 
+Chd|        MAIN_BEAM18                   source/elements/beam/main_beam18.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================

@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M2LAWP                        source/materials/mat/mat002/m2lawp.F
 Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
+Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M2LAWP(

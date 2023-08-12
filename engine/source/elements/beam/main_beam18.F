@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MAIN_BEAM18                        source/elements/beam/pmain3.F 
+Chd|  MAIN_BEAM18                   source/elements/beam/main_beam18.F
 Chd|-- called by -----------
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
 Chd|        FAIL_BEAM18                   source/elements/beam/fail_beam18.F
 Chd|        M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
-Chd|        MULAWP                        source/elements/beam/mulawp.F 
+Chd|        MULAW_IB                      source/elements/beam/mulaw_ib.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAIN_BEAM18(ELBUF_STR,

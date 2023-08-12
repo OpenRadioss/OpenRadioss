@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_BEAM18                     source/elements/beam/beam_fail.F
+Chd|  FAIL_BEAM18                   source/elements/beam/fail_beam18.F
 Chd|-- called by -----------
-Chd|        MAIN_BEAM18                        source/elements/beam/pmain3.F 
+Chd|        MAIN_BEAM18                   source/elements/beam/main_beam18.F
 Chd|-- calls ---------------
-Chd|        FAIL_JOHNSON_PI               source/materials/fail/johnson_cook/fail_johnson_pi.F
+Chd|        FAIL_JOHNSON_IB               source/materials/fail/johnson_cook/fail_johnson_ib.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FAIL_BEAM18(ELBUF_STR,NUMMAT   ,NUMGEO   ,NPROPM   ,

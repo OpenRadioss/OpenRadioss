@@ -21,9 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MAIN_BEAM3 
+Chd|  MAIN_BEAM3                    source/elements/beam/main_beam3.F
 Chd|-- called by -----------
+Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
+Chd|        FAIL_BEAM3                    source/elements/beam/fail_beam3.F
+Chd|        M1LAWP                        source/materials/mat/mat001/m1lawp.F
+Chd|        M2LAWP                        source/materials/mat/mat002/m2lawp.F
+Chd|        PDAMP3                        source/elements/beam/pdamp3.F 
+Chd|        SIGEPS44P                     source/materials/mat/mat044/sigeps44p.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAIN_BEAM3(
      .       ELBUF_STR,NEL      ,ILAW     ,JTHE     ,IFAIL    ,

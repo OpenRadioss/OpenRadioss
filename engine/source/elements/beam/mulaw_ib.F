@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MULAWP                        source/elements/beam/mulawp.F 
+Chd|  MULAW_IB                      source/elements/beam/mulaw_ib.F
 Chd|-- called by -----------
-Chd|        PMAIN3                        source/elements/beam/pmain3.F 
+Chd|        MAIN_BEAM18                   source/elements/beam/main_beam18.F
 Chd|-- calls ---------------
 Chd|        SIGEPS34PI                    source/materials/mat/mat034/sigeps34pi.F
 Chd|        SIGEPS36PI                    source/materials/mat/mat036/sigeps36pi.F

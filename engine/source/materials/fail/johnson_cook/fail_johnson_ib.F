@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_JOHNSON_IB
+Chd|  FAIL_JOHNSON_IB               source/materials/fail/johnson_cook/fail_johnson_ib.F
 Chd|-- called by -----------
-Chd|        FAIL_BEAM18
+Chd|        FAIL_BEAM18                   source/elements/beam/fail_beam18.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_JOHNSON_IB(

@@ -203,7 +203,6 @@ Chd|        ANIOFFS                       engine/source/output/anim/generate/ani
 Chd|        ANISKEW                       engine/source/output/anim/generate/aniskew.F
 Chd|        AREZON                        engine/source/ale/arezon.F    
 Chd|        ATHERM                        engine/source/ale/atherm.F    
-Chd|        BEAM_FAIL                     engine/source/elements/beam/beam_fail.F
 Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        C3COORK3                      engine/source/elements/sh3n/coque3n/c3coork3.F
 Chd|        C3EVEC3                       engine/source/elements/sh3n/coque3n/c3evec3.F
@@ -294,6 +293,8 @@ Chd|        ELOFF                         engine/source/elements/eloff.F
 Chd|        ENRICHC_INI                   engine/source/elements/xfem/enrichc_ini.F
 Chd|        ENRICHTG_INI                  engine/source/elements/xfem/enrichtg_ini.F
 Chd|        ERR_THK                       engine/source/elements/shell/err_thk.F
+Chd|        FAIL_BEAM18                   engine/source/elements/beam/fail_beam18.F
+Chd|        FAIL_BEAM3                    engine/source/elements/beam/fail_beam3.F
 Chd|        FAIL_GENE1_C                  engine/source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  engine/source/materials/fail/gene1/fail_gene1_s.F
 Chd|        FAIL_SETOFF_C                 engine/source/materials/fail/fail_setoff_c.F
@@ -413,6 +414,8 @@ Chd|        M2LAWPI                       engine/source/materials/mat/mat002/m2l
 Chd|        M3LAW8                        engine/source/materials/mat/mat003/m3law8.F
 Chd|        M51VOIS2                      engine/source/materials/mat/mat051/m51vois2.F
 Chd|        M51VOIS3                      engine/source/materials/mat/mat051/m51vois3.F
+Chd|        MAIN_BEAM18                   engine/source/elements/beam/main_beam18.F
+Chd|        MAIN_BEAM3                    engine/source/elements/beam/main_beam3.F
 Chd|        MATERIAL_FLOW                 engine/source/tools/seatbelts/material_flow.F
 Chd|        MDAMA24                       engine/source/elements/solid/solidez/mdama24.F
 Chd|        MEOS8                         engine/source/materials/mat_share/meos8.F
@@ -421,7 +424,7 @@ Chd|        MONVOL0                       engine/source/airbag/monvol0.F
 Chd|        MULAW8                        engine/source/materials/mat_share/mulaw8.F
 Chd|        MULAWGLC                      engine/source/materials/mat_share/mulawglc.F
 Chd|        MULAWGLCPINCH                 engine/source/elements/shell/coqueba/mulawglcpinch.F
-Chd|        MULAWP                        engine/source/elements/beam/mulawp.F
+Chd|        MULAW_IB                      engine/source/elements/beam/mulaw_ib.F
 Chd|        MULTI_BUF2VAR                 engine/source/multifluid/multi_buf2var.F
 Chd|        MULTI_COMPUTEVOLUME           engine/source/multifluid/multi_computevolume.F
 Chd|        MULTI_COMPUTE_DT              engine/source/multifluid/multi_compute_dt.F
@@ -464,7 +467,6 @@ Chd|        PARSORC                       engine/source/output/anim/generate/par
 Chd|        PARSORF                       engine/source/output/anim/generate/parsorf.F
 Chd|        PFORC3                        engine/source/elements/beam/pforc3.F
 Chd|        PKE3                          engine/source/elements/beam/pke3.F
-Chd|        PMAIN3                        engine/source/elements/beam/pmain3.F
 Chd|        PNOISE                        engine/source/general_controls/computation/pnoise.F
 Chd|        PORFOR5                       engine/source/airbag/porfor5.F
 Chd|        PORFORM5                      engine/source/airbag/porfor5.F
