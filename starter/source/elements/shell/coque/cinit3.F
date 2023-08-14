@@ -306,7 +306,6 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------------------------------
 c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
-       print*, 'nbre of int pt defoNE',NLAY, MPT
       CALL CORTHINI(
      .   LFT        ,LLT       ,NFT       ,NLAY       ,NUMELC     ,
      .   NSIGSH     ,NIXC      ,IXC(1,NFT+1),IGEO     ,GEO        ,
