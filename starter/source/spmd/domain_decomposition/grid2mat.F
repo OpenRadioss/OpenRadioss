@@ -68,6 +68,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE CONSIDER_EDGE_MOD , ONLY : CONSIDER_EDGE, MAX_NB_NODES_PER_ELT, SORT_DESCENDING
       USE MESSAGE_MOD
       USE R2R_MOD
       USE CLUSTER_MOD
@@ -159,10 +160,12 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: XADJ, ADJNCY,IWD,IWD2, 
      .        IENDT,ITRI,INDEX,DOMCLUSTER,ELEMCLUST,
      .        XADJ_OLD, ADJNCY_OLD, COLORS, ROOTS,
-     .        POINTER_NEIB,CONNECT_WEIGHT,TAGELEM,CNE,
+     .        POINTER_NEIGH,CONNECT_WEIGHT,TAGELEM,CNE,
      .        IWD_COPY
       INTEGER TAILLE_LOCAL,PREV_NEIGH,C_NEIGH,POINT_DELETE,
-     .        ELEMNODES(20),OFFELEM(10),WGHT 
+     .        ELEMNODES(MAX_NB_NODES_PER_ELT),OFFELEM(10),WGHT 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: CONNECTIVITY
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NB_NODES_MINI 
       REAL, DIMENSION(:),ALLOCATABLE :: RWD,WD_COPY
       CHARACTER FILNAM*109, KEYA*80, CHLEVEL*1
       REAL    FAC, UBVEC(15), SCAL
@@ -1344,32 +1347,42 @@ C
       IF(EDGE_FILTERING == 1 .AND. (NUMELS > NELEM / 3 .OR. ICFSI > 0 )) THEN 
         WRITE(IOUT,'(A)') "** INFO: SIMPLIFIED DOMAIN DECOMPOSITION" 
 C+------------------------------------------------------------+
-C| Domain decomposition for very big models                   |
-C|      dectivated via Domdec = -3 in /SPMD card               |
+C| Domain decomposition for models with solids                |
+C|      dectivated via Domdec = -3 in /SPMD card              |
 C+------------------------------------------------------------+
+        ALLOCATE(CONNECTIVITY(MAX_NB_NODES_PER_ELT,NELEM))
+        ALLOCATE(NB_NODES_MINI(NELEM)) ! minimum number of shared nodes to consider the edge
+        CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,1:NELEM) = 0
+        NB_NODES_MINI(1:NELEM) = 3
+        DO I = 1 , NELEM
+          CALL FIND_NODES(I     ,CONNECTIVITY(1,I),TAGELEM,IXS,IXS10,
+     1                    IXQ   ,IXC      ,IXT    ,IXP,IXR,
+     2                    IXTG  ,KXX    ,IXX,KXIG3D,
+     3                    IXIG3D,GEO      ,OFFELEM,NB_NODES_MINI(I))
+          CALL SORT_DESCENDING(CONNECTIVITY(1,I))
+        ENDDO
+
         ALLOCATE(CONNECT_WEIGHT(NELEM))
-        ALLOCATE(POINTER_NEIB(NELEM))
+        ALLOCATE(POINTER_NEIGH(NELEM))
         DO I =1,NELEM
            CONNECT_WEIGHT(I)=0
-           POINTER_NEIB(I)=0
+           POINTER_NEIGH(I)=0
         ENDDO
         NELMIN = 0
         DO I = 1 , NELEM
-          CALL FIND_NODES(I     ,ELEMNODES,TAGELEM,IXS,IXS10,
-     1                    IXQ   ,IXC      ,IXT    ,IXP,IXR,
-     2                    IXTG  ,KXX    ,IXX,KXIG3D,
-     3                    IXIG3D,GEO      ,OFFELEM,NELMIN)
+          NELMIN = NB_NODES_MINI(I)
+          ELEMNODES(1:MAX_NB_NODES_PER_ELT) = CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,I)
           PREV_NEIGH = 0
           C_NEIGH = 0
           J = 0 
-          DO K=1,20
+          DO K=1,MAX_NB_NODES_PER_ELT
             IF ( ELEMNODES(K)/=0 ) THEN
               DO L=ADSKY(ELEMNODES(K)), ADSKY(ELEMNODES(K)+1)-1
-                IF( CNE(L)  > 0) THEN
+                IF( CNE(L)  > 0 .AND. CNE(L) > I) THEN
                   CONNECT_WEIGHT(CNE(L)) =
      .            CONNECT_WEIGHT(CNE(L)) + 1
                   IF( CONNECT_WEIGHT(CNE(L)) == 1 ) THEN
-                    POINTER_NEIB(CNE(L))=PREV_NEIGH
+                    POINTER_NEIGH(CNE(L))=PREV_NEIGH
                     C_NEIGH = C_NEIGH + 1
                     PREV_NEIGH = CNE(L)
                   ENDIF  
@@ -1381,25 +1394,26 @@ C+------------------------------------------------------------+
           ! if NELMIN is not defined by FIND_NODES, we keep edges 
           ! between elements that have 3 or more nodes in common
           IF(NELMIN == 0) NELMIN = 3 
-C         C_NEIGH_MAX = MAX(C_NEIGH_MAX,C_NEIGH)
           IF (C_NEIGH > 0 ) THEN 
             DO J=1,C_NEIGH
               IF(I /= PREV_NEIGH) THEN
-c              WRITE(6,*) I,"--",PREV_NEIGH,"=",CONNECT_WEIGHT(PREV_NEIGH)
-                IF(CONNECT_WEIGHT(PREV_NEIGH)>=NELMIN) THEN
+                IF(CONSIDER_EDGE(CONNECTIVITY,NB_NODES_MINI,NELEM,I,PREV_NEIGH)) THEN
                   CALL IDDCONNECTPLUS(I,PREV_NEIGH,NELEM)
                   CALL IDDCONNECTPLUS(PREV_NEIGH,I,NELEM)
                 ENDIF
               ENDIF
               POINT_DELETE=PREV_NEIGH
-              PREV_NEIGH = POINTER_NEIB(PREV_NEIGH)
-              POINTER_NEIB(POINT_DELETE) = 0
+              PREV_NEIGH = POINTER_NEIGH(PREV_NEIGH)
+              POINTER_NEIGH(POINT_DELETE) = 0
               CONNECT_WEIGHT(POINT_DELETE) = 0
             ENDDO
           ENDIF
         ENDDO
         DEALLOCATE(CONNECT_WEIGHT)
-        DEALLOCATE(POINTER_NEIB)
+        DEALLOCATE(POINTER_NEIGH)
+        DEALLOCATE(NB_NODES_MINI)
+        DEALLOCATE(CONNECTIVITY)
+
       ELSE                                               
 C+------------------------------------------------------------+
 C| Classical domain decomposition without edge filtering      |
@@ -1473,27 +1487,25 @@ C cep temporairement utilise comme flag
           CEP(I) = 0
         ENDDO
 C
-Cel hierarchy : type 2 now, contacts after (type 7 & others)
-        DO I = 1, NELEMINT
-          N=IXINT(5,I)
-          IF (N<=NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
-            NUMG1=ABS(CNE(ADSKY(N)))
-Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
-            NUMG2=NUMG1
-            ITYPINT=ABS(IXINT(6,I))
-            IF(ITYPINT==2) THEN
-             IF(ADSKY(N+1)-ADSKY(N)>0)THEN
-              N=IXINT(1,I)
-              N1=IXINT(2,I)
-              N2=IXINT(3,I)
-              DO I1 = ADSKY(N), ADSKY(N+1)-1
-                NUMG2=ABS(CNE(I1))
-                DO I2 = ADSKY(N1), ADSKY(N1+1)-1
+        DO I = 1, NELEMINT ! Loop over the the pair of candidates
+          N=IXINT(5,I) !N is the secondary node
+          IF (N<=NUMNOD) THEN  !  
+            NUMG1=ABS(CNE(ADSKY(N))) ! NUMG1 is the first element found connected to node N
+            NUMG2=NUMG1 
+            ITYPINT=ABS(IXINT(6,I)) 
+            IF(ITYPINT==2) THEN ! Type 2 interface (tied contact)
+             IF(ADSKY(N+1)-ADSKY(N)>0)THEN ! number of elements connected to node N
+              N=IXINT(1,I) ! 1st node of the main segment
+              N1=IXINT(2,I) ! 2nd node of the main segment
+              N2=IXINT(3,I) ! 3td ode of the main segment
+              DO I1 = ADSKY(N), ADSKY(N+1)-1 ! loop over the elements connected to node N
+                NUMG2=ABS(CNE(I1)) ! NUMG2 = id of the current element connected to node N
+                DO I2 = ADSKY(N1), ADSKY(N1+1)-1 ! loop over elts connected to N1 
                   NUMG3=ABS(CNE(I2))
-                  IF(NUMG3==NUMG2) THEN
+                  IF(NUMG3==NUMG2) THEN 
                     DO I3 = ADSKY(N2), ADSKY(N2+1)-1
                       NUMG4=ABS(CNE(I3))
-                      IF(NUMG4==NUMG2) GOTO 100
+                      IF(NUMG4==NUMG2) GOTO 100 !Found one element connected to N,N1,N2 
                     ENDDO
                   ENDIF
                 ENDDO
@@ -4133,7 +4145,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
-     
+       USE CONSIDER_EDGE_MOD , ONLY : MAX_NB_NODES_PER_ELT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4150,7 +4162,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
      .        KXX(NIXX,NUMELX),IXX(*),IXS10(6,*),KXIG3D(NIXIG3D,NUMELIG3D),
-     .        IXIG3D(*),ELEMNODES(20),TAGELEM(*),OFFELEM(10)
+     .        IXIG3D(*),ELEMNODES(MAX_NB_NODES_PER_ELT),TAGELEM(*),OFFELEM(10)
       INTEGER ELEMN0,NELMIN
       my_real  GEO(NPROPG,*)
 C----------------------------------------------
@@ -4159,7 +4171,7 @@ C---------------------------------------------
       INTEGER K,N,ADDX,NELX,J,NELIG3D,I,ELEM
 C---------------------------------------------
       NELMIN = 3
-      DO I=1,20 
+      DO I=1,MAX_NB_NODES_PER_ELT 
         ELEMNODES(I)=0
       ENDDO
 
@@ -4244,7 +4256,7 @@ C---------------------------------------------
            ELEM = ELEM - OFFELEM(I)
         ENDDO
         NELX=KXX(3,ELEM)
-        DO K=1,NELX
+        DO K=1,MIN(NELX,10)
           ADDX = KXX(4,ELEM)+K-1
           N=IXX(ADDX)
           ELEMNODES(K) = N
@@ -4254,28 +4266,20 @@ C---------------------------------------------
            ELEM = ELEM - OFFELEM(I)
         ENDDO
         NELIG3D=KXIG3D(3,ELEM)
-        DO K=1,NELIG3D
+        DO K=1,MIN(NELIG3D,10)
           ADDX = KXIG3D(4,ELEM)+K-1
           N=IXIG3D(ADDX)
           ELEMNODES(K) = N
         ENDDO
       END SELECT
-C     TRI ELEMNODES + UNIQ 
-
-      DO K=2,20 
-      DO I=1,K-1
+C     Set duplicates to 0                     
+      DO K=2,MAX_NB_NODES_PER_ELT 
+        DO I=1,K-1
          IF(ELEMNODES(K) == ELEMNODES(I)) ELEMNODES(K) = 0
-      ENDDO
+        ENDDO
       ENDDO
 
       END
-
-
-
-
-
-
-
 
 Chd|====================================================================
 Chd|  FVBAG_VERTEX                  source/spmd/domain_decomposition/grid2mat.F
