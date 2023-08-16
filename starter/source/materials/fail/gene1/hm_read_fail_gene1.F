@@ -264,7 +264,7 @@ C===============================================================================
       IF (MAXPRES == ZERO) MAXPRES = INFINITY
       IF (SIGP1   == ZERO) SIGP1   = INFINITY
       IF (TMAX    == ZERO) TMAX    = INFINITY
-      IF (DTMIN   == ZERO) DTMIN   = EM20
+      IF (DTMIN   == ZERO) DTMIN   = -INFINITY
       ! Card 2 
       IF (fct_IDsm > 0) THEN
         IF (EPSDOT_SM == ZERO) THEN
