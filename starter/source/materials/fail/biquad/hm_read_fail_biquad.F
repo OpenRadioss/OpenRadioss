@@ -198,17 +198,16 @@ c---------------------------------------------------
       UPARAM(12) = INST
       UPARAM(9)  = C3
       UPARAM(10) = MFLAG
-      UPARAM(13) = REF_LEN
+      UPARAM(13) = REF_LEN    
 c-------------------------
-      IFUNC(1) = REG_FUNC
-c-------------------------
-      NFUNC   = 1
       NUPARAM = 13
 c
       IF (REG_FUNC == 0) THEN
         NUVAR = 2
         IF (NPERTURB /= 0) NUVAR = 8
       ELSE
+        IFUNC(1) = REG_FUNC
+        NFUNC = 1
         NUVAR = 3
         IF (NPERTURB /= 0) NUVAR = 9
       ENDIF
