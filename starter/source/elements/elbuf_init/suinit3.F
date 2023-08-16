@@ -345,7 +345,7 @@ C----------------------------------------
       CALL SUMASS3(MS,PARTSAV,X,V,IPARTS(NF1),MSS(1,NF1),
      2             MAS,INN,GBUF%VOL,VOLU,MASS,IN,
      3             NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8,
-     4             INS,GBUF%FILL)
+     4             INS(1,NF1),GBUF%FILL)
 C----------------------------------------
 c Failure model initialisation
 C----------------------------------------
