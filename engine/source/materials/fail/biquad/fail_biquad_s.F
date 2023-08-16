@@ -166,15 +166,15 @@ C-------------------
            IF (triaxs>TWO_THIRD)  triaxs =  TWO_THIRD
            IF (triaxs <= THIRD) THEN
               EPS_FAIL =   X_1(1) +  X_1(2) * triaxs + X_1(3) * triaxs**2
-              IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
-              IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+              IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+              IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
            ELSE
 
               SELECT CASE (SEL)
                CASE(1)
                  EPS_FAIL   =   X_2(1) +  X_2(2) * triaxs + X_2(3) * triaxs**2
-                 IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
-                 IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                 IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                 IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                CASE(2)
                  IF (triaxs <= ONE/SQR3) THEN                     ! triax < 0.57735
                    P1X      = THIRD
@@ -185,8 +185,8 @@ C-------------------
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
-                   IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ELSE                                             ! triax > 0.57735
                    P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
@@ -196,8 +196,8 @@ C-------------------
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
-                   IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ENDIF
                END SELECT
            ENDIF

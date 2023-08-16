@@ -173,12 +173,12 @@ C-----------------------------------------------
              DAMAGE = UVAR(I,1)
              IF (triaxs <= THIRD) THEN     ! triax < 1/3
                EPS_FAIL =   X_1(1) +  X_1(2) * triaxs + X_1(3) * triaxs**2
-               IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+               IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
              ELSE                          ! triax > 1/3
               SELECT CASE (SEL)
                CASE(1)
                  EPS_FAIL   =   X_2(1) +  X_2(2) * triaxs + X_2(3) * triaxs**2
-                 IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                 IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                CASE(2)
                  IF (triaxs <= ONE/SQR3) THEN                     ! triax < 0.57735
                    P1X      = THIRD
@@ -189,7 +189,7 @@ C-----------------------------------------------
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                  ELSE                                             ! triax > 0.57735
                    P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
@@ -199,7 +199,7 @@ C-----------------------------------------------
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                  ENDIF
                CASE(3)
                  IF (triaxs <= ONE/SQR3) THEN                       ! triax < 0.57735
@@ -215,9 +215,9 @@ C-----------------------------------------------
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                    EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2   ! INSTABILITY
-                   IF (NUVAR == 3) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
+                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
                  ELSE                          ! triax > 0.57735
                    P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
@@ -231,9 +231,9 @@ C-----------------------------------------------
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                    EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2   ! INSTABILITY
-                   IF (NUVAR == 3) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
+                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
                  ENDIF
                  IF (EPS_FAIL2> ZERO) THEN
                    DAMAGE = DAMAGE + DPLA(I)/EPS_FAIL2
@@ -277,12 +277,12 @@ C-----------------------------------------------
            DAMAGE = UVAR(I,1)
              IF (triaxs <= THIRD) THEN
         	   EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triaxs + UVAR(I,5) * triaxs**2
-               IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+             IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
              ELSE           ! triax > 1/3
              SELECT CASE (SEL)
                CASE(1)
          	    EPS_FAIL =   UVAR(I,6) +  UVAR(I,7) * triaxs + UVAR(I,8) * triaxs**2
-                IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                CASE(2)
                  IF (triaxs <= ONE/SQR3) THEN
                    P1X      = THIRD
@@ -293,7 +293,7 @@ C-----------------------------------------------
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ELSE 
                    P1X      = TWO * THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
@@ -303,7 +303,7 @@ C-----------------------------------------------
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                  ENDIF
                CASE(3)
                  IF (triaxs <= ONE/SQR3) THEN
@@ -319,9 +319,9 @@ C-----------------------------------------------
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                    EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2
-                   IF (NUVAR == 9) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
+                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
                  ELSE 
                    P1X      = TWO * THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
@@ -335,9 +335,9 @@ C-----------------------------------------------
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                    EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2
-                   IF (NUVAR == 9) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
+                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
                  ENDIF
                  IF (EPS_FAIL2> ZERO) THEN
                    DAMAGE = DAMAGE + DPLA(I)/EPS_FAIL2
