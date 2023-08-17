@@ -29,7 +29,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE SIGEPS44P(
      .    NEL     ,NGL     ,MAT     ,PID     ,NUPARAM ,UPARAM  ,
-     .    IPM     ,GEO     ,OFF     ,PLA     ,EINT    ,AL      ,
+     .    GEO     ,OFF     ,PLA     ,EINT    ,AL      ,
      .    EXX     ,EXY     ,EXZ     ,KXX     ,KYY     ,KZZ     ,
      .    FA1     ,FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
      .    FOR     ,MOM     ,PM      ,NUVAR   ,UVAR    ,NFUNC   , 
@@ -54,7 +54,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN)  :: NEL,NUPARAM,NUVAR,NFUNC,IFUNC(NFUNC),
      .                        NPF(*)
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT,PID,NGL
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN) :: PM
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN) :: GEO
       my_real ,DIMENSION(NUPARAM)        ,INTENT(IN) :: UPARAM
@@ -70,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDX,ICC,ISRATE,VFLAG,IPOS,IAD,ILEN
-      INTEGER :: I,J,IPID,IADBUF,NINDX
+      INTEGER :: I,J,IPID,NINDX
       my_real :: DMG,FACT,EPIF,FRATE,ALPHA,EPSDOT
       my_real ,DIMENSION(NEL) :: E,G,G3,CA,CB,CN,CP,A1,B1,B2,B3,SHF,
      .   DEGMB,DEGFX,DMPM,DMPF,F1,M1,M2,M3,DEGSH,YEQ,YLD,YMA2,YLDMAX,
@@ -92,26 +91,25 @@ C
       ENDIF                                 
 C
       DO I=1,NEL
-        IADBUF   = IPM(7,MAT(I))-1
         IPID     = PID(I)
-        E(I)     = UPARAM(IADBUF+1)
-        CA(I)    = UPARAM(IADBUF+3)
-        YLDMAX(I)= UPARAM(IADBUF+4)
-        EPMAX(I) = UPARAM(IADBUF+5)
-        EPSR1(I) = UPARAM(IADBUF+6)
-        EPSR2(I) = UPARAM(IADBUF+7)
-        CB(I)    = UPARAM(IADBUF+8)
-        CN(I)    = UPARAM(IADBUF+9)
-        ICC(I)   = NINT(UPARAM(IADBUF+10))
-        EPDR(I)  = UPARAM(IADBUF+11)
+        E(I)     = UPARAM(1)
+        CA(I)    = UPARAM(3)
+        YLDMAX(I)= UPARAM(4)
+        EPMAX(I) = UPARAM(5)
+        EPSR1(I) = UPARAM(6)
+        EPSR2(I) = UPARAM(7)
+        CB(I)    = UPARAM(8)
+        CN(I)    = UPARAM(9)
+        ICC(I)   = NINT(UPARAM(10))
+        EPDR(I)  = UPARAM(11)
         EPIF     = MAX(EPIF,EPDR(I))              
-        CP(I)    = UPARAM(IADBUF+12)
-        G(I)     = UPARAM(IADBUF+16)
-        G3(I)    = UPARAM(IADBUF+18)
-        ISRATE(I)= NINT(UPARAM(IADBUF+13))
-        ASRATE(I)= UPARAM(IADBUF+14)
-        VFLAG(I) = NINT(UPARAM(IADBUF+23))
-        YSCALE(I)= UPARAM(IADBUF+24)
+        CP(I)    = UPARAM(12)
+        G(I)     = UPARAM(16)
+        G3(I)    = UPARAM(18)
+        ISRATE(I)= NINT(UPARAM(13))
+        ASRATE(I)= UPARAM(14)
+        VFLAG(I) = NINT(UPARAM(23))
+        YSCALE(I)= UPARAM(24)
 c
         RHO(I)   = PM(1,MAT(I))
 c

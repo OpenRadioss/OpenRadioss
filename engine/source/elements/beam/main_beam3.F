@@ -96,7 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IFUNC(100)
+      INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
       my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI
       my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE
 c=======================================================================
@@ -157,17 +157,19 @@ c
      .         NUMMAT ,NUVAR      ,UVAR     )
 c
         CASE (44)  ! Cowper-Symonds
-          NFUNC = IPM(10,IMAT)
+          IADBUF  = IPM(7 ,IMAT)
+          NUPARAM = IPM(9 ,IMAT)       
+          NFUNC   = IPM(10,IMAT)
           DO I=1,NFUNC
             IFUNC(I) = IPM(10+I,IMAT)
           ENDDO
           CALL SIGEPS44P(
-     .         NEL      ,NGL      ,MAT      ,PID      ,NUPARAM  ,BUFMAT  ,
-     .         IPM      ,GEO      ,OFF      ,ELBUF_STR%GBUF%PLA ,EINT    ,AL      ,
+     .         NEL      ,NGL      ,MAT      ,PID      ,NUPARAM  ,BUFMAT(IADBUF)   ,
+     .         GEO      ,OFF      ,ELBUF_STR%GBUF%PLA ,EINT     ,AL      ,
      .         EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
      .         F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
-     .         FOR      ,MOM      ,PM       ,NUVAR    ,
-     .         UVAR     ,NFUNC    ,IFUNC    ,TF       ,NPF      )
+     .         FOR      ,MOM      ,PM       ,NUVAR    ,UVAR     ,NFUNC   ,
+     .         IFUNC    ,TF       ,NPF      )
 c
       END SELECT
 c
@@ -216,8 +218,7 @@ c---------------------------
       CALL PDAMP3(PM      ,GEO     ,OFF     ,IMAT    ,IPID ,
      .            NEL     ,NGL     ,EXX     ,EXY     ,EXZ  ,
      .            KXX     ,KYY     ,KZZ     ,AL      ,F1   ,
-     .            F2      ,F3      ,M1      ,M2      ,M3   ,
-     .            DTIME   )
+     .            F2      ,F3      ,M1      ,M2      ,M3   )
 C-----------------------------------------------
       RETURN
       END SUBROUTINE MAIN_BEAM3
