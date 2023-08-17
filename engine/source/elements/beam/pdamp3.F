@@ -30,8 +30,7 @@ Chd|====================================================================
      .    PM      ,GEO     ,OFF     ,IMAT    ,IPID  ,
      .    NEL     ,NGL     ,EXX     ,EXY     ,EXZ   ,
      .    KXX     ,KYY     ,KZZ     ,AL      ,FA1   ,
-     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3   ,
-     .    DTIME   )
+     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +47,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,IMAT,IPID
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
-      my_real ,INTENT(IN) :: DTIME
       my_real ,DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
       my_real ,DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
       my_real ,DIMENSION(NEL) ,INTENT(IN)   :: OFF
@@ -59,12 +57,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
-      my_real :: RHO,RHOE,RHOG,YOUNG,G,DMM,IYY,IZZ,IXX,AREA,DMPM,DMPF,DTINV
-      my_real :: VOL(NEL)
+      my_real :: RHO,RHOE,RHOG,YOUNG,G,DMM,IYY,IZZ,IXX,AREA
+      my_real ,DIMENSION(NEL) :: VOL,DMPM,DMPF
 c=======================================================================
-      DTINV = DTIME / MAX(DTIME**2,EM20)  
-      IF (IMPL_S > 0 .AND. IDYNA == 0) DTINV = ZERO
-c
       RHO  = PM( 1,IMAT)
       YOUNG= PM(20,IMAT)
       G    = PM(22,IMAT)
@@ -72,24 +67,34 @@ c
       IXX  = GEO(4,IPID)
       IYY  = GEO(2,IPID)
       IZZ  = GEO(18,IPID)
-      DMPM = GEO(16,IPID) 
-      DMPF = GEO(17,IPID)
-      RHOE = SQRT(TWO*YOUNG*RHO) * DTINV       
-      RHOG = SQRT(TWO*G *RHO)    * DTINV  
+      RHOE = SQRT(TWO*YOUNG*RHO)  
+      RHOG = SQRT(TWO*G *RHO)   
 c
       VOL(1:NEL) = AREA*AL(1:NEL)
+c
+      IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
+        DO I=1,NEL                    
+          DMPM(I)=GEO(16,IPID)*OFF(I)  
+          DMPF(I)=GEO(17,IPID)*OFF(I)
+        ENDDO
+      ELSE
+        DO I=1,NEL                    
+          DMPM(I)=ZERO  
+          DMPF(I)=ZERO  
+        ENDDO 
+      ENDIF                                 
 C-----------------------------
 C     AMORTISSEMENT
 C-----------------------------
       DO I=1,NEL
         DMM = VOL(I)*RHOE
-        FA1(I) = FA1(I) + DMPM*EXX(I)*DMM * OFF(I) 
-        FA2(I) = FA2(I) + DMPF*EXY(I)*DMM * OFF(I)
-        FA3(I) = FA3(I) + DMPF*EXZ(I)*DMM * OFF(I)
-        MA1(I) = MA1(I) + DMPF*KXX(I)*AL(I)*IXX * RHOG * OFF(I)
-        MA2(I) = MA2(I) + DMPF*KYY(I)*AL(I)*IYY * RHOE * OFF(I)
-        MA3(I) = MA3(I) + DMPF*KZZ(I)*AL(I)*IZZ * RHOE * OFF(I)
+        FA1(I) = FA1(I) + DMPM(I)*EXX(I)*DMM
+        FA2(I) = FA2(I) + DMPF(I)*EXY(I)*DMM
+        FA3(I) = FA3(I) + DMPF(I)*EXZ(I)*DMM
+        MA1(I) = MA1(I) + DMPF(I)*KXX(I)*AL(I)*IXX*RHOG
+        MA2(I) = MA2(I) + DMPF(I)*KYY(I)*AL(I)*IYY*RHOE
+        MA3(I) = MA3(I) + DMPF(I)*KZZ(I)*AL(I)*IZZ*RHOE
       ENDDO
-C-----------------------------------------------
+C-----------
       RETURN
       END SUBROUTINE PDAMP3
