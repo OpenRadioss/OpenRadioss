@@ -1798,7 +1798,7 @@ c---
             DO IFL = 1, NFAIL      ! loop over fail models in current layer                                      
               IP   = (IFL - 1)*15                                             
               UVARF  => FBUF%FLOC(IFL)%VAR
-              NVARF  =  FBUF%FLOC(IFL)%NVAR                                 
+              NVARF  =  IPM(113 + IP ,IMAT)     
               IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
               DAM    => FBUF%FLOC(IFL)%DAM
               DFMAX  => FBUF%FLOC(IFL)%DAMMX 
