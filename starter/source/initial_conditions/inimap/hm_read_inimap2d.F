@@ -329,7 +329,7 @@ C     ==============
             INIMAP2D(KK)%NODEID3 = LNODID3
          ENDIF
 
-         IF (LNODID1 * LNODID2 * LNODID3 == 0) THEN
+         IF (LNODID1==0 .or. LNODID2==0 .or. LNODID3==0) THEN
 C       Error here, we need 3 nodes to define a plane
          ELSE
             X0(1:3) = XGRID(1:3, LNODID1)
