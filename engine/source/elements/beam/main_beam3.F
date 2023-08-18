@@ -204,14 +204,23 @@ c
      .              SVM     ,PRESSURE)
       END IF
 C-------------------------------------
-      DO I = 1,NEL
-        FOR(I,1) = FOR(I,1)*OFF(I)
-        FOR(I,2) = FOR(I,2)*OFF(I)
-        FOR(I,3) = FOR(I,3)*OFF(I)
-        MOM(I,1) = MOM(I,1)*OFF(I)
-        MOM(I,2) = MOM(I,2)*OFF(I)
-        MOM(I,3) = MOM(I,3)*OFF(I)
+      DO I=1,NEL
+        FOR(I,1)=F1(I)*OFF(I)
+        FOR(I,2)=FOR(I,2)*OFF(I)
+        FOR(I,3)=FOR(I,3)*OFF(I)
+        MOM(I,1)=M1(I)*OFF(I)
+        MOM(I,2)=M2(I)*OFF(I)
+        MOM(I,3)=M3(I)*OFF(I)
       ENDDO
+C
+      DO I=1,NEL
+        F1(I) =  FOR(I,1)
+        F2(I) =  FOR(I,2) 
+        F3(I) =  FOR(I,3)  
+        M1(I) =  MOM(I,1) 
+        M2(I) =  MOM(I,2) 
+        M3(I) =  MOM(I,3) 
+      ENDDO               
 c---------------------------
 c     element damping
 c---------------------------
