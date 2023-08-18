@@ -221,6 +221,12 @@ c-----------------------------------------------
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Region identifier in p,v diagram'
       H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = '1:compressed, 2:expanded cold, 3:transition, 4:hot expansion'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SPH_SCALAR(I)%KEY3    = 'FAILURE'
+      H3D_KEYWORD_SPH_SCALAR(I)%IS_ID   = 1
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1   = 'Failure'
+      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT = 'Damage of current failure criterion'
+c-----------------------------------------------
 
 
 
