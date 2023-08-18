@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cel|         I17MAIN_TRI                       /int17/i17main_lag.F
+C  |         I17MAIN_TRI                       /int17/i17main_lag.F
 Chd|====================================================================
 Chd|  I17XSAVE                      source/interfaces/int17/i17xsave.F
 Chd|-- called by -----------

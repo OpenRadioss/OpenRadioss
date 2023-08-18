@@ -575,7 +575,7 @@ C
           ELSEIF(ITY==24)THEN
 C
 C----NLS1_L,NLS2_L, NLN_L will be calculated after MBINFLG in w_ipari
-Cmis a jour dans w_ipari          
+C  s a jour dans w_ipari          
 c          IPARI_L(35,NI) = NLN_L
 c          IPARI_L(51,NI) = NLINS_L
 c          IPARI_L(52,NI) = NLINM_L
@@ -1398,18 +1398,18 @@ C-----------------
           IPARI_L(18,NI) = NCONT
           IPARI_L(23,NI)= MULTIMP
           IPARI_L(24,NI) = 0
-Cmis a jour dans w_ipari          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)
-Cmis a jour dans w_ipari     .      IPARI_L(24,NI)= NSNR
-Cmis a jour dans w_ipari          IPARI_L(25,NI) = 0
+C  s a jour dans w_ipari          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)
+C  s a jour dans w_ipari     .      IPARI_L(24,NI)= NSNR
+C  s a jour dans w_ipari          IPARI_L(25,NI) = 0
           IPARI_L(35,NI) = NLN_L
           IPARI_L(51,NI) = NLINS_L
           IPARI_L(52,NI) = NLINM_L
-Cmis a jour dans w_ipari          IPARI_L(53,NI) = NLINSA_L
-Cmis a jour dans w_ipari          IPARI_L(54,NI) = NLINMA_L
+C  s a jour dans w_ipari          IPARI_L(53,NI) = NLINSA_L
+C  s a jour dans w_ipari          IPARI_L(54,NI) = NLINMA_L
           IPARI_L(55,NI) = NSNE_L
           IPARI_L(56,NI) = NMNE_L
-Cmis a jour dans w_ipari          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)
-Cmis a jour dans w_ipari     .      IPARI_L(57,NI)= NLINSR
+C  s a jour dans w_ipari          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)
+C  s a jour dans w_ipari     .      IPARI_L(57,NI)= NLINSR
           IF(NISUB>0) THEN
             IPARI_L(37,NI)= NISUBS_L
             IPARI_L(38,NI)= NISUBM_L

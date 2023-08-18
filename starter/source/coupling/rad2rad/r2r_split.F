@@ -218,7 +218,7 @@ C-        ----->Full domain --> inversion of tag of parts<---
 
 C---------------Tag of subsets-----------------------------------------------------C
 !
-Cmi   --- TAG_SUBS  ---> ATTENTION not used
+C     --- TAG_SUBS  ---> ATTENTION not used
 !
 !        DO J=1,NSUBS
 !	  IAD3 = ISUBS(LISUB1*(J-1)+9)

@@ -286,7 +286,7 @@ C
         ENCIN2T=ZERO        
         ENROT2T=ZERO
 C
-Cel vectorisation si nsn>=10 ou si imach = 3 et p/on active
+C   vectorisation si nsn>=10 ou si imach = 3 et p/on active
         IF(N2D==0) THEN
          IF (NSN>=10.OR.IPARIT>0) THEN
            DO I=1,NSN
@@ -710,7 +710,7 @@ C
      .           + VG(2)*VG(2)
      .           + VG(3)*VG(3))*IN(M)*WEIGHT_MD(M)*IROT
          END IF !(IRODDL/=0) THEN
-Cel vectorisation si nsn>=10 ou si imach = 3 et p/on active
+C   vectorisation si nsn>=10 ou si imach = 3 et p/on active
         IF (NSL>=10.OR.IPARIT>0) THEN
           DO I=1,NSL
 C

@@ -3808,7 +3808,7 @@ C-----------------------------------------------
             IF(DIFFADD==0) THEN
               K1 = K1 + 1
               VIND1(K1) = N
-Cel 20 valeur seuil pour appel a qsort (20 = NBCC)
+C   20 valeur seuil pour appel a qsort (20 = NBCC)
             ELSEIF(DIFFADD>=1.AND.DIFFADD<NBCC) THEN
               K2 = K2 + 1
               VIND2(K2) = N
@@ -3930,7 +3930,7 @@ C
 C pas plus de 20 contributions
 C
           IF (IVECTOR==0) THEN
-Cel ANCIEN CODE
+C   ANCIEN CODE
             DO 800 IJK=1,K2
               N = VIND2(IJK)
               NN = N-1
@@ -4580,7 +4580,7 @@ C                Iply is the position of ply in contact
 C
   801       CONTINUE
           ENDIF
-Cel FIN NOUVEAUX TRAITEMENTS VECTORIELS
+C   FIN NOUVEAUX TRAITEMENTS VECTORIELS
 C
 C plus de 20 contributions
 C

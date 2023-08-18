@@ -965,7 +965,7 @@ C
         END DO
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
        IF(IAD_EDGE(I+1)-IAD_EDGE(I) > 0)

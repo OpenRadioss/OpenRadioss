@@ -77,7 +77,7 @@ C
 c      M   =NBY(1)
 C rajout optimisation pour spmd
       IF (M<0) RETURN
-Cel premiere passe : calcul de force sur tous les r.b.
+C   premiere passe : calcul de force sur tous les r.b.
       IF (IFLAG==1) THEN
 
 C CORRECTION DE L'INERTIE DU RIGID BODY POUR DT NODAL

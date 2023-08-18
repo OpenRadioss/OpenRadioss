@@ -2208,9 +2208,9 @@ C=======================================================================
         Q3   = VQ3
         Q4   = VQ4
 
-Cts        if     (ix(11,I+NFT) == ibug_id(1))then
-Cts          write (*,FMT='(A,5E30.16)')"Q1,Q2,Q3,Q4, Q0 =", Q1,Q2,Q3,Q4,Q0
-Cts        endif
+C          if     (ix(11,I+NFT) == ibug_id(1))then
+C            write (*,FMT='(A,5E30.16)')"Q1,Q2,Q3,Q4, Q0 =", Q1,Q2,Q3,Q4,Q0
+C          endif
 
         SSP1 = ZERO
         SSP2 = ZERO
@@ -2218,7 +2218,7 @@ Cts        endif
         SSP4 = ZERO
 
 C------------------------------------------------------------C
-Cts                 INTEGER UNEPHASE                         C
+C                   INTEGER UNEPHASE                         C
 C                   ----------------                         C
 C                                                            C
 C    ___Description_____________________________________     C
@@ -3150,13 +3150,13 @@ C         IF(V4/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
         !               POST-TREATMENT (DEBUG)
         !     must be commented in official releases
         !===================================================
-Cts        IF(IX(11,I+NFT)==ibug_ID(1) .OR. IX(11,I+NFT)==ibug_ID(2)) THEN
-Cts          CALL WRITE_BUF_LAW51(IX    , NFT     , NUVAR    , NEL      , UVAR     ,
-Cts     .                         I     , UNEPHASE, DD       , dbVOLD   , dbVOLD_f ,
-Cts     .                         VOLUME, VOLD    , EPSPXX   , EPSPYY   , EPSPZZ   ,
-Cts     .                         TAG22 ,BFRAC(I) , RHO10    , RHO20    , RHO30    ,
-Cts     .                         RHO40)
-Cts        ENDIF
+C          IF(IX(11,I+NFT)==ibug_ID(1) .OR. IX(11,I+NFT)==ibug_ID(2)) THEN
+C            CALL WRITE_BUF_LAW51(IX    , NFT     , NUVAR    , NEL      , UVAR     ,
+C       .                         I     , UNEPHASE, DD       , dbVOLD   , dbVOLD_f ,
+C       .                         VOLUME, VOLD    , EPSPXX   , EPSPYY   , EPSPZZ   ,
+C       .                         TAG22 ,BFRAC(I) , RHO10    , RHO20    , RHO30    ,
+C       .                         RHO40)
+C          ENDIF
 
 
       ENDDO  !DO I=1,NEL

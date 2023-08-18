@@ -943,7 +943,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
-Cel new routine called right after domdec1 to be used by interface sorting
+C   new routine called right after domdec1 to be used by interface sorting
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------      

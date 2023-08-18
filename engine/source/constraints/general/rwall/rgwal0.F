@@ -152,7 +152,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-Cel si proc concerne par le rgwall
+C   si proc concerne par le rgwall
                   IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -334,7 +334,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-Cel si proc concerne par le rgwall
+C   si proc concerne par le rgwall
                   IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -496,7 +496,7 @@ C
       ENDIF
 C
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-Cel changement formulation F et XMT stockoques dans RWL et appliques debut cycle suivant
+C   changement formulation F et XMT stockoques dans RWL et appliques debut cycle suivant
          RWL(17)=(FXN+FXT)*DIVDT12
          RWL(18)=(FYN+FYT)*DIVDT12
          RWL(19)=(FZN+FZT)*DIVDT12

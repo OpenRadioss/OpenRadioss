@@ -186,7 +186,7 @@ C
           IF(IS > 0 .AND. IS <= NUMELS+NUMELQ+NUMELTG)THEN
                PHI(IS)= IG 
 C
-Csm            PHI(IS)=I
+C              PHI(IS)=I
 c penetration ratio within element (initialisation)
             GAUGE(5,IG)=ZERO
           ENDIF

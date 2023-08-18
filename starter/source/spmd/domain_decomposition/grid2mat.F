@@ -290,7 +290,7 @@ C
           ADSKY(N) = ADSKY(N) + 1
  150  CONTINUE
 C
-Cel traitement a part du 3eme noeud optionnel sauf type 12
+C   traitement a part du 3eme noeud optionnel sauf type 12
       DO K=2,3
         DO I=1,NUMELR
           N = IXR(K,I) + 1
@@ -372,7 +372,7 @@ C
              IF(KEYA(1:1)=='#')GOTO 30
              IF(KEYA(1:1)=='$')GOTO 30
                IF(KEYA(1:1)=='/')GOTO 11
-Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
+C   ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              REWIND(72)
              WRITE(72,'(A)')KEYA
              REWIND(72)
@@ -395,7 +395,7 @@ Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              IF(KEYA(1:1)=='#')GOTO 60
              IF(KEYA(1:1)=='$')GOTO 60
              IF(KEYA(1:1)=='/')GOTO 11
-Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
+C   ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              REWIND(72)
              WRITE(72,'(A)')KEYA
              REWIND(72)
@@ -419,7 +419,7 @@ C
              IF(KEYA(1:1)=='#')GOTO 90
              IF(KEYA(1:1)=='$')GOTO 90
              IF(KEYA(1:1)=='/')GOTO 11
-Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
+C   ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              REWIND(72)
              WRITE(72,'(A)')KEYA
              REWIND(72)
@@ -533,7 +533,7 @@ C
         END IF
       END DO
 C
-Cel test pour by-passer la creation du niveau "elem deletes" et eviter cas de plantage si elemd=1
+C   test pour by-passer la creation du niveau "elem deletes" et eviter cas de plantage si elemd=1
 C
       IF (NELEM > 0) THEN
        IF(FLOAT(NELEM-ELEMD)/FLOAT(NELEM)>ZEP95) ELEMD = 0
@@ -941,7 +941,7 @@ C poids Metis suivant
       DO I = 1, NCOND*NELEM
         RWD(I) = 0
       ENDDO
-Cel optimisation des poids par defaut
+C   optimisation des poids par defaut
       CALL INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
      .            KXX,IGEO,ISOLNOD,IARCH,
@@ -1062,7 +1062,7 @@ C
 C-----------------------------------------------
 C
       OFF = NUMELS
-Cel poids interface = 0 en 2D
+C   poids interface = 0 en 2D
 C
       OFF = OFF + NUMELQ
 C
@@ -1556,7 +1556,7 @@ C             ENDIF
 
 
 C
-Cel hierarchy : type 2 before, contact now
+C   hierarchy : type 2 before, contact now
         DO II = 1, NELEMINT
           I = INDEX_SORT(II)
           N=IXINT(5,I)
@@ -1572,7 +1572,7 @@ C searching for the first connected element not seen
               ENDIF
               IF(CEP_MIN == 0) EXIT
             END DO
-Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
+C   initialisation numg2 pour cas ou facette non trouvee (erreur)
             NUMG2=-1
             ITYPINT=ABS(IXINT(6,I))
             IF(ITYPINT==7) THEN
@@ -1609,11 +1609,11 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
 C test to limit number of edges added for contact interfaces
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
                   CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
-Cel                  IF(IXINT(6,I)<0)THEN   
-Cel                    EDGEWT(NEWEDGE) = 1   ! near contact
-Cel                  ELSE
-Cel                    EDGEWT(NEWEDGE) = 1   ! candidate only
-Cel                  END IF
+C                    IF(IXINT(6,I)<0)THEN   
+C                      EDGEWT(NEWEDGE) = 1   ! near contact
+C                    ELSE
+C                      EDGEWT(NEWEDGE) = 1   ! candidate only
+C                    END IF
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
                 ELSE 
@@ -1707,14 +1707,14 @@ cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
                   CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
 C test to limit number of edges added for contact interfaces
-Cel                  IF(IXINT(6,I)<0 .AND. ICCAND > 0)THEN
-Cel                    IWD(NCOND*(NUMG2-1)+ICCAND)=1
-Cel     +              IWD(NCOND*(NUMG2-1)+ICCAND)+2 ! contact proche effectif
-Cel                  ELSEIF(ICCAND > 0)THEN
-Cel                    IWD(NCOND*(NUMG2-1)+ICCAND)=1
-Cel     +              IWD(NCOND*(NUMG2-1)+ICCAND)+1 ! contact potentiel
+C                    IF(IXINT(6,I)<0 .AND. ICCAND > 0)THEN
+C                      IWD(NCOND*(NUMG2-1)+ICCAND)=1
+C       +              IWD(NCOND*(NUMG2-1)+ICCAND)+2 ! contact proche effectif
+C                    ELSEIF(ICCAND > 0)THEN
+C                      IWD(NCOND*(NUMG2-1)+ICCAND)=1
+C       +              IWD(NCOND*(NUMG2-1)+ICCAND)+1 ! contact potentiel
 C les autres elt sont a 1
-Cel                  END IF
+C                    END IF
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
                 ELSE 
@@ -2087,7 +2087,7 @@ C poids interface deja calcul
         END IF
         IF(ICDEL>0)THEN
           DO I = 1, NELEM
-Celem delete
+C  em delete
             IF(WD(I)==0.0001)THEN
               IWD(NCOND*(I-1)+ICDEL) = 1
             ELSE
@@ -2584,7 +2584,7 @@ C
      .    NINT(DMIN(12)),NINT(DMAX(12)),
      .    NINT(AVERAGE(12)),NINT(DEVIATION(12))
       ELSE
-Cel un seul element ou elements non connectes ou un seul proc
+C   un seul element ou elements non connectes ou un seul proc
         DEALLOCATE(CNE)
         DEALLOCATE(IDDCONNECT%PDOM)
         DEALLOCATE(IDDCONNECT%IENTRYDOM) 

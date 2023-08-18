@@ -94,9 +94,9 @@ C--------------------------------------------------
         CALL HM_GET_INTV('node_ID',NOD,IS_AVAILABLE,LSUBMODEL)
 !
         NODSYS = USR2SYS(NOD,ITABM1,MESS,ID)
-Cmi+++
+C  +++
 !      print*,'MIRC RBODY NODE',ITABM1(NODSYS)
-Cmi---
+C  ---
         RBY_MSN(2,NRB) = NODSYS
       ENDDO ! DO N=1,NRBYKIN
 !---

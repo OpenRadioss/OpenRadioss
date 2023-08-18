@@ -203,7 +203,7 @@ C======================================================================|
         IF (IBFV(8,N)/=0) THEN
          NNO = IABS(IBFV(1,N))
          IF(WEIGHT(NNO)==1) THEN  ! une seule fois en SPMD
-Cel numerotation globale
+C   numerotation globale
           FACX   = VEL(5,N)
           TS = (TT + HALF*DT2)*FACX
           NNO = NODGLOB(NNO)

@@ -122,8 +122,8 @@ C       WRITE(IOUT,1000)PEN
      .             R1=PEN)
       ENDIF
       IF(IPRI>=1)THEN
-Cst013   format I5 remplace par I8
-Cst013   WRITE(IOUT,'(I5,2I9,2I5,F10.6)')
+C  013   format I5 remplace par I8
+C  013   WRITE(IOUT,'(I5,2I9,2I5,F10.6)')
 C     . ITAB(I),ITAB(K),L,
 C     . ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L))),SS
        WRITE(IOUT,FMT=FMW_5I_F)
@@ -137,7 +137,7 @@ C
       GO TO 150
  110  CONTINUE
       IF(IPRI>=1)THEN
-Cst013       WRITE(IOUT,'(I5,2I9,2I5)')ITAB(I),ITAB(K),L,
+C  013       WRITE(IOUT,'(I5,2I9,2I5)')ITAB(I),ITAB(K),L,
 C     .       ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
 C  121       WRITE(IOUT,'(I8,2I9,2I8)')ITAB(I),ITAB(K),L,
        WRITE(IOUT,FMT=FMW_5I)ITAB(I),ITAB(K),L,

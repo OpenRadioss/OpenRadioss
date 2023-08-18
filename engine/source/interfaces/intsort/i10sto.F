@@ -102,7 +102,7 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
-Cel attention au shift
+C   attention au shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 100
@@ -133,7 +133,7 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
-Cel attention au shift
+C   attention au shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 200

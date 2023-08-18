@@ -376,7 +376,7 @@ C
               N4 = 0
             ENDIF
             IF (N4==0) N4=N3
-Csv         true triangles.
+C           true triangles.
             IF(FUN_HSP /=0)THEN
                K1=3*DIR_HSP-2
                K2=3*DIR_HSP-1

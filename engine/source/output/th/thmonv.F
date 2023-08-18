@@ -49,7 +49,7 @@ C
       INTEGER I,J,L,II,IADVENT,IV,KV,NVENT,ID_VENT,K1
       CHARACTER TITR1*40,ID_TITR1*2
 C
-Cel gather deja effectue, seul p0 ecrit 
+C   gather deja effectue, seul p0 ecrit 
       IF (IMACH/=3.OR.ISPMD==0) THEN
         II = 0
         DO J=J1,J2

@@ -57,12 +57,9 @@ C-----------------------------------------------
      .   LWA,NEL,NFT
       my_real
      .   WWA(100),XFN
-C-------------------------
-C           ELEMENTS RENAULT
-C-------------------------
       II=0
       IH=IAD
-Cel specifique spmd
+C   specifique spmd
       IF (IMACH==3) THEN
         LWA = NN*NVAR
         DO I = 1, LWA
@@ -77,7 +74,7 @@ C decalage IH
       ENDIF
 C
       DO NG=1,NGROUP
-Cel        IF(IMACH==3) IWA(NG) = II+1
+C          IF(IMACH==3) IWA(NG) = II+1
         ITY=IPARG(5,NG)
         IF(ITY==50) THEN
           MTE=IPARG(1,NG)
@@ -97,7 +94,7 @@ C
 C
             IF (K==N)THEN
               IH=IH+1
-Cel traitement specifique spmd
+C   traitement specifique spmd
               IF (IMACH==3) THEN
 C recherche du ii correct
                 II = ((IH-1) - IAD)*NVAR
@@ -109,7 +106,7 @@ C    .                   (IH<=IAD+NN))
               ENDIF
 C
               IF(IH>IAD+NN) RETURN
-Cel           IF (IP==ISPMD)THEN
+C             IF (IP==ISPMD)THEN
 C
               M1=NB2+3*I-3
               M2=NB5+3*I-3
@@ -132,7 +129,7 @@ C
                 II=II+1
                 WA(II)=WWA(K)
               ENDDO
-Cel           ENDIF
+C             ENDIF
             ENDIF
           ENDDO 
         ENDIF

@@ -76,7 +76,7 @@ C-----------------------------------------------
          DO N = 1, N_MULT
            IADLL(N+1) = IADLL(N)+NINT(LAGCOMC(1,N))
            BLL(N)   = LAGCOMC(2,N)
-Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
+C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
            ICFTAG(N) = N
            JCFTAG(N) = N
          END DO
@@ -85,7 +85,7 @@ Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
            JLL(N) = NINT(LAGCOMK(2,N))
            SLL(N) = NINT(LAGCOMK(3,N))
            XLL(N) = LAGCOMK(4,N)
-Cel mise a jour du flag directement ici et non dans LTAG_FXV
+C   mise a jour du flag directement ici et non dans LTAG_FXV
            COMNTAG(LLL(N)) = COMNTAG(LLL(N))+1
          END DO     
 C
@@ -102,7 +102,7 @@ C
                IADLL(N_MULT+N+1) = IADLL(N_MULT+N)
      +                            +NINT(LAGCOMC(1,N_MULT+N))
                BLL(N_MULT+N)     = LAGCOMC(2,N_MULT+N)
-Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
+C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
                ICFTAG(N_MULT+N) = N_MULT+N
                JCFTAG(N_MULT+N) = N_MULT+N
              END DO
@@ -118,7 +118,7 @@ C
                JLL(N_IK+N) = NINT(LAGCOMK(2,N_IK+N))
                SLL(N_IK+N) = NINT(LAGCOMK(3,N_IK+N))
                XLL(N_IK+N) = LAGCOMK(4,N_IK+N)
-Cel mise a jour du flag directement ici et non dans LTAG_FXV
+C   mise a jour du flag directement ici et non dans LTAG_FXV
                COMNTAG(LLL(N_IK+N)) = COMNTAG(LLL(N_IK+N))+1
              END DO
              N_IK = N_IK + IKL
@@ -669,7 +669,7 @@ C on recupere le bon noeud en fct de sa position relative dans fr_elem, liste tr
          ENDIF
        ENDIF
       ENDDO
-Cel wait terminaison isend
+C   wait terminaison isend
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)/=0)
      .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
@@ -729,7 +729,7 @@ C-----------------------------------------------
       DO N = 1, N_MULT
         IADLL(N+1) = IADLL(N)+NINT(LAGCOMC(1,N))
         BLL(N)   = LAGCOMC(2,N)
-Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
+C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
         ICFTAG(N) = N
         JCFTAG(N) = N
       END DO
@@ -738,7 +738,7 @@ Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
         JLL(N) = NINT(LAGCOMK(2,N))
         SLL(N) = NINT(LAGCOMK(3,N))
         XLL(N) = LAGCOMK(4,N)
-Cel mise a jour du flag directement ici et non dans LTAG_FXV
+C   mise a jour du flag directement ici et non dans LTAG_FXV
         COMNTAG(LLL(N)) = COMNTAG(LLL(N))+1
       END DO     
 C

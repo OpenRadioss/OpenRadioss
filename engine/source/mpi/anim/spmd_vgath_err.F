@@ -127,9 +127,9 @@ c
            END IF
          END DO
 
-Csv a cause de la version simple precision, on ne peux pas metre l'entier
-Csv dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-Csv de noeuds au max
+C   a cause de la version simple precision, on ne peux pas metre l'entier
+C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+C   de noeuds au max
 
          MSGTYP = MSGOFF
          CALL MPI_SEND(IDNOD0,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -172,7 +172,7 @@ Csv de noeuds au max
 
           DO I=2,NSPMD
 
-Csv Reception 
+C   Reception 
             MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -182,7 +182,7 @@ Csv Reception
             CALL MPI_RECV(IDNOD0,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-Csv Reception
+C   Reception
 
             MSGTYP = MSGOFF2 
             CALL MPI_RECV(MAXV0,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,

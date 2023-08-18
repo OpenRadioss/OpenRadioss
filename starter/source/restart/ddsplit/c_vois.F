@@ -124,7 +124,7 @@ C
          NEL = IPARG(2,NG)
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
-Cel voir autres types solides
+C   voir autres types solides
          ISOLNOD = IPARG(28,NG)
          IF(ITY==1) THEN
            DO I = 1, NEL
@@ -132,7 +132,7 @@ Cel voir autres types solides
              IE_LOC = CEL(IE)
              IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
-Cel IVOIS
+C   IVOIS
              DO J = 1, LGTH
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IF (IV>0) THEN
@@ -158,7 +158,7 @@ C IV < 0 : SEGMENT INT12
              ENDDO
            ENDDO
          ELSEIF(ITY==2) THEN
-Cel 2D
+C   2D
             DO I = 1, NEL
                IE = I+NFT
                IE_LOC = CEL(IE)
@@ -214,12 +214,12 @@ C
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
          P = IPARG(32,NG)+1
-Cel voir autres types solides
+C   voir autres types solides
          ISOLNOD = IPARG(28,NG)
          IF(ITY==1) THEN
            DO I = 1, NEL
              IE = I+NFT
-Cel IVOIS
+C   IVOIS
              IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              DO J = 1, LGTH

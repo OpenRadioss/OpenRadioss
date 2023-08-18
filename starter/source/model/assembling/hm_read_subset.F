@@ -455,14 +455,14 @@ c     ligne subset
       ELSE
         K = 3
       ENDIF
-Cmi+++
+C  +++
 !      if (ID == 50000005)then
 !        write(iout,*)'MIRC_STOP_SUBSETS',ID,ISU,NIVEAU,L
 !        write(iout,*)'MIRC_STOP_SUBSETS',LEN(SUBSET(ISU)%TITLE),
 !     . SUBSET(ISU)%TITLE
 !        stop
 !      endif
-Cmi---
+C  ---
       DO I=1,NIVEAU-1
         LIGNE(K:K+L-1)=BAR(I)(1:L)
         K=K+L

@@ -548,7 +548,7 @@ C          not a user's defined skew.
         ENDDO
       ENDIF
 C-------------------------------------------------------------
-Csv begin   building SKEWS for SUBMODEL (Rotation Transformation)
+C   begin   building SKEWS for SUBMODEL (Rotation Transformation)
 C-------------------------------------------------------------
       IF(NSUBMOD/=0)THEN
         WRITE (IOUT,'(A)')TITRE(118)
@@ -597,7 +597,7 @@ C-------------------------------------------------------------
           IF(LSUBMODEL(IDSUB)%NBTRANS /=0)
      .      CALL SUBROTPOINT(SKEW(10,J),SKEW(11,J),SKEW(12,J),
      .        RTRANS,LSUBMODEL(IDSUB)%NOSUBMOD,LSUBMODEL)
-Csv          not a user's defined skew.
+C            not a user's defined skew.
              ISKN(4,J)=1000000001 + (J-NUMSKW-NUMSPH_TMP-2)
           WRITE(IOUT,'(1X,I10,1X,3F16.7,3F16.7)')ISKN(4,J),
      .                (SKEW(K,J),K=1,3),(SKEW(K,J),K=10,12)

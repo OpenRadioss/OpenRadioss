@@ -326,7 +326,7 @@ C------------------------------------
 C           REBOND
 C------------------------------------
             IF(PENE(I)==ZERO)THEN
-Cel on ne devrait plus passer par ici (teste dans i10dst3)
+C   on ne devrait plus passer par ici (teste dans i10dst3)
               CAND_F(1,INDEX(I)) =ZERO
             ELSE
               CAND_F(1,INDEX(I)) = SIGN(EM30,CAND_F(1,INDEX(I)))
@@ -644,7 +644,7 @@ C
 C
   160 CONTINUE
 C
-Cel spmd : identification des noeuds interf. utiles a envoyer (exchange_a)
+C   spmd : identification des noeuds interf. utiles a envoyer (exchange_a)
       IF (NSPMD>1) THEN
 Ctmp+1 mic only to avoid compiler bug
 #include "mic_lockon.inc"

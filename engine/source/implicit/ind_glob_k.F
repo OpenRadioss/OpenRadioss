@@ -416,7 +416,7 @@ C-----------------------
           NC(J)=IXS(J+1,EP)
          ENDDO 
          
-Czg add solid element 20
+C   add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
@@ -711,7 +711,7 @@ C-----------------------
           NC(J)=IXS(J+1,EP)
          ENDDO 
          
-Czg add solid element 20
+C   add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
@@ -1048,7 +1048,7 @@ C-----------------------
           NC(J)=IXS(J+1,EP)
          ENDDO 
          
-Czg add solid element 20
+C   add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
@@ -1394,7 +1394,7 @@ C-----------------------
           NC(J)=IXS(J+1,EP)
          ENDDO 
          
-Czg add solid element 20
+C   add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
@@ -2314,14 +2314,8 @@ C-----Due to hierarchy----
            K12 = NROW(NS)-NROWI(NKS)
            DO M=1,NNOD
             NM=LRBE3(IAD+M)
-C  ----          not sufficient
             NROW(NM)=NROW(NM)+ K12 + K12
            ENDDO
-C-----------bug fixing Pi_215563,216361          
-C           DO NK=1,NROWI(NKS)
-C            NJ=ICOK(NK,NKS)
-C            NROW(NJ)=NROW(NJ)+ K12
-C           END DO
          END IF
 C-----with Kij (i,j -> NSi,NSj-----
         DO I1=I+1,NRBE3

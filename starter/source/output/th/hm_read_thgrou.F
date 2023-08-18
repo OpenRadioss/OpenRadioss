@@ -2057,7 +2057,7 @@ C pinching
 C  
 C to ctrole the value of ivcg                    
 C icvg = 30882  
-Csm end . ivcg = ivcg  + 4*99*60 + 5 + 99  + 100
+C   end . ivcg = ivcg  + 4*99*60 + 5 + 99  + 100
 C--------------fin --------------------
 C--------------fin --------------------
 C  ---- node + displacement by ply for shell

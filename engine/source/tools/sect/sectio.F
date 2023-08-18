@@ -3427,7 +3427,7 @@ c ncharline of starter =500
          K0  = NSTRF(K0+24)
         ENDDO
         IF(NSTRF(1)>=1 .AND. IOLDSECT == 1)THEN
-Csm  FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
+C    FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
           WRITE(LCHRUN,'(I2.2)')IRUN      
           FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//LCHRUN
           LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 4      
@@ -3635,11 +3635,11 @@ C
          TMP(4) = SECBUF(3)
          TMP(5) = SECBUF(4)
          LEN = 5
-Cel 2*LEN necessaire pour communication !!!
+C   2*LEN necessaire pour communication !!!
          CALL SPMD_RBCAST(TMP,TMP,LEN,1,0,2)
        ELSE
          LEN = 5
-Cel 2*LEN necessaire pour communication !!!
+C   2*LEN necessaire pour communication !!!
          CALL SPMD_RBCAST(TMP,TMP,LEN,1,0,2)
          NSTRF(4) = TMP(1)
          NSTRF(5) = TMP(2)
@@ -4869,9 +4869,9 @@ C-----------------------------------------------
 C READ FILE dans l'ordre des sections lues sur le fichier
 C  TTT = TT ou TT + DT2
 C-----------------------------------------------
-Cel debranchement pi <> p0
+C   debranchement pi <> p0
       IF(ISPMD/=0) GO TO 100
-Cel Init buffer communication 
+C   Init buffer communication 
       DO I = 1, NSECT
         BUFCOM(I) = ZERO
         BUFCOM(I+NSECT) = ZERO
@@ -5824,7 +5824,7 @@ C
         XXC=0.
         YYC=0.
         ZZC=0.
-Cel attention : il faut penser a maj de X avant forint
+C   attention : il faut penser a maj de X avant forint
         DO I=1,NNOD
           N=NOD(I)
           XXC=XXC+X(1,N)
@@ -5839,7 +5839,7 @@ Cel attention : il faut penser a maj de X avant forint
         YYC=0.
         ZZC=0.
         MAS=1.E-30
-Cel attention : il faut penser a maj de X & M avant forint
+C   attention : il faut penser a maj de X & M avant forint
         DO I=1,NNOD
           N=NOD(I)
           XXC=XXC+X(1,N)*MS(N)

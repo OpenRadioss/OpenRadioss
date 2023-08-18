@@ -90,9 +90,9 @@ C-----------------------------------------------
      .        NCT,DIFFADD,NDLT,NDFT,LMOD,LJ,KKEND,JJ,NSTART,
      .        KKSTART,KMAX,KSPLIT,IC(NBCC+1),NN_A(VSIZE),IARRAY(VSIZE),
      .        IVSIZE
-Cel attention 21   = NBCC+1   == nb contact critiques + 1 (test qsort ci-dessous)
-Cel attention NBCC+1 utilisee dans REALLY_ORDER_V
-Cel attention 8192 = VSIZE  == taille vecteurs travail boucle interface
+C   attention 21   = NBCC+1   == nb contact critiques + 1 (test qsort ci-dessous)
+C   attention NBCC+1 utilisee dans REALLY_ORDER_V
+C   attention 8192 = VSIZE  == taille vecteurs travail boucle interface
       my_real 
      .        FF, FSKYT(NISKY)
       COMMON /ASSP2/ LDONE, IDONE, IBAR
@@ -2596,7 +2596,7 @@ C-----------------------------------------------
          IF(DIFFADD==0) THEN
            VIND1(NDFT+K1) = N
            K1 = K1 + 1
-Cel 20 valeur seuil pour appel a qsort (20 = NBCC)
+C   20 valeur seuil pour appel a qsort (20 = NBCC)
          ELSEIF(DIFFADD>=1.AND.DIFFADD<NBCC) THEN
            VIND2(NDFT+K2) = N
            K2 = K2 + 1
@@ -3095,10 +3095,10 @@ C  003      NUM7 = 7*NPART
       NUM7 = NPSAV*NPART
 C
       KM = 0
-Celdev036#include "vectorize.inc"
+C  dev036#include "vectorize.inc"
       DO 950 K=1,NTHREAD-1
           KM = KM + NUM7
-Celdev036+1
+C  dev036+1
 #include "vectorize.inc"
           DO 940 I=PARTFT,PARTLT
            PARTSAV(I) = PARTSAV(I) + PARTSAV(I+KM)
@@ -3111,7 +3111,7 @@ C
       RETURN
       END
 C
-Cel routines de vectorisation de asspar2
+C   routines de vectorisation de asspar2
 Chd|====================================================================
 Chd|  ORDER_V                       source/assembly/asspar2.F     
 Chd|-- called by -----------

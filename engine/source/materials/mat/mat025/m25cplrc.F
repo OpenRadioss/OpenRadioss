@@ -291,7 +291,7 @@ C-----------------------------
         EPS(I,4)=TWO*EPS(I,4)
         EPS(I,5)=TWO*EPS(I,5)
       ENDDO
-Cst CRASURV +++
+C   CRASURV +++
 C.....STRAINS IN ORTHOTROPIC DIRECTIONS
       DO 30 I=JFT,JLT
       STRP1(I) = DIR(I,1)*DIR(I,1)*STRN1(I)
@@ -301,7 +301,7 @@ C.....STRAINS IN ORTHOTROPIC DIRECTIONS
      .          +DIR(I,1)*DIR(I,1)*STRN2(I)
      .     -TWO*DIR(I,2)*DIR(I,1)*STRN3(I)
    30 CONTINUE
-Cst CRASURV ---
+C   CRASURV ---
 C-------------------------------------------------------------------
 C     DEFORMATIONS ELASTIQUES
 C-----------------------------
@@ -519,7 +519,7 @@ C-------------------------------------------------------------------
            SIGYC2=MIN(SIGYC2,PM(159,IMATLY))
            SIGYT12=MIN(SIGYT12,PM(164,IMATLY))
          ENDIF
-Cst CRASURV +++
+C   CRASURV +++
 C-------------------------------------------------------------------
 C     SOFTENING 
 C-------------------------------------------------------------------
@@ -555,7 +555,7 @@ C Direction 12
          SIGYT12=MIN(SIGYT12,(ONE - SOFT(3))*SIGYT12 + SOFT(3)*SIGRST12(I))
          IF(SOFT(1) /= ZERO .OR. SOFT(2) /= ZERO .OR. SOFT(3) /= ZERO) 
      .         ISOFT(I) =1
-Cst CRASURV ---
+C   CRASURV ---
 C
          F1(I)  = ONE/SIGYT1-ONE/SIGYC1
          F2(I)  = ONE/SIGYT2-ONE/SIGYC2
@@ -676,7 +676,7 @@ C
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
-Cst CRASURV +++
+C   CRASURV +++
         DO 110 I=JFT,JLT                                                       
           BETA(I)= ONE                                                          
           IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 110                       
@@ -733,7 +733,7 @@ C        BETA(I)=1.
            SO2(I)=BETA(I)*SIG(I,2)
            SO3(I)=BETA(I)*SIG(I,3)
         ENDDO
-Cst CRASURV ---
+C   CRASURV ---
 C
         DO 120 I=JFT,JLT
           DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
@@ -760,7 +760,7 @@ C
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
-Cst CRASURV +++
+C   CRASURV +++
         DO  111 I=JFT,JLT                                                       
           BETA(I)=ONE                                                           
           IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 111                       
@@ -1271,7 +1271,7 @@ C
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
-Cst CRASURV +++
+C   CRASURV +++
         DO 222 I=JFT,JLT                                                       
           BETA(I)= ONE                                                          
           IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 222                       
@@ -1320,7 +1320,7 @@ C--1-----|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10-
            SO2(I)=BETA(I)*T2(I)
            SO3(I)=BETA(I)*T3(I)
         ENDDO
-Cst CRASURV ---
+C   CRASURV ---
       DO  I=JFT,JLT
           DP1(I)=F1(I)+TWO*F11(I)*SO1(I)+TWO*F12(I)*SO2(I)
           DP2(I)=F2(I)+TWO*F22(I)*SO2(I)+TWO*F12(I)*SO1(I)

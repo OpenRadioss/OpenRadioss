@@ -206,7 +206,7 @@ Ctmp---
 C inbuf == cand_n
               INTBUF_TAB(NIN)%CAND_N(I) = -INTBUF_TAB(NIN)%CAND_N(I)
             ELSE
-Cel remise a 0 de cand_p
+C   remise a 0 de cand_p
               INTBUF_TAB(NIN)%CAND_P(I) = ZERO
             ENDIF
           ENDDO

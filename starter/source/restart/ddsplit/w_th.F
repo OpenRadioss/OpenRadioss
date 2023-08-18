@@ -79,7 +79,7 @@ C
         IAD =ITHGRP(5,NT)
         IF ((ITYP>=1.AND.ITYP<=7).OR.
      .       ITYP==50.OR.ITYP==51.OR.ITYP==100) THEN
-Cel elements
+C   elements
           DO IH = 1, NNE
             K = ITHBUF_L(IAD-1+IH)
             P = ITHBUF_L(IAD+NNE-1+IH)+1
@@ -109,14 +109,14 @@ Cel elements
             ENDIF
           ENDDO
         ELSEIF (ITYP==0) THEN
-Cel noeuds
+C   noeuds
           DO IH = 1, NNE
             K = ITHBUF_L(IAD-1+IH)
             IF(NLOCAL(K,PROC)==1) THEN
-Cel noeud present => nodlocal
+C   noeud present => nodlocal
               ITHBUF_L(IAD-1+IH) = NODLOCAL(K)
             ELSE
-Cel noeud abscent => 0
+C   noeud abscent => 0
               ITHBUF_L(IAD-1+IH) = 0
             ENDIF
           ENDDO

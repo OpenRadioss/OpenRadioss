@@ -364,7 +364,7 @@ C
           IX2(JLT_NEW)  = IX2(I)
           IX3(JLT_NEW)  = IX3(I)
           IX4(JLT_NEW)  = IX4(I)
-Cel rajout specifique type 10
+C   rajout specifique type 10
           X1(JLT_NEW)  = X1(I)
           X2(JLT_NEW)  = X2(I)
           X3(JLT_NEW)  = X3(I)
@@ -377,7 +377,7 @@ Cel rajout specifique type 10
           Z2(JLT_NEW)  = Z2(I)
           Z3(JLT_NEW)  = Z3(I)
           Z4(JLT_NEW)  = Z4(I)
-Cel
+C  
           NSVG(JLT_NEW) = NSVG(I)
           NX1(JLT_NEW)  = NX1(I)
           NX2(JLT_NEW)  = NX2(I)
@@ -492,7 +492,7 @@ C ---------
           IX2(JLT_NEW)  = IX2(I)
           IX3(JLT_NEW)  = IX3(I)
           IX4(JLT_NEW)  = IX4(I)
-Cel rajout specifique type 10
+C   rajout specifique type 10
           X1(JLT_NEW)  = X1(I)
           X2(JLT_NEW)  = X2(I)
           X3(JLT_NEW)  = X3(I)
@@ -505,7 +505,7 @@ Cel rajout specifique type 10
           Z2(JLT_NEW)  = Z2(I)
           Z3(JLT_NEW)  = Z3(I)
           Z4(JLT_NEW)  = Z4(I)
-Cel
+C  
           NSVG(JLT_NEW) = NSVG(I)
           NX1(JLT_NEW)  = NX1(I)
           NX2(JLT_NEW)  = NX2(I)

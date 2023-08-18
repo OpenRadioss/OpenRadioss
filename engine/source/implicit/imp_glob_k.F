@@ -986,7 +986,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,K,EP,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT---------------7--------
-Cel lock par element trop penalisant pour perf
+C   lock par element trop penalisant pour perf
 #include "lockon.inc"
       DO EP = 1,NEL
           IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -2624,7 +2624,7 @@ C-----------------------------------------------
 C----6---used only for shell due to npt=1 -> NDOF=3-------
       INTEGER N,K,EP,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT---------------7--------
-Cel lock par element trop penalisant pour perf
+C   lock par element trop penalisant pour perf
 #include "lockon.inc"
       DO EP = 1,NEL
           IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -2720,7 +2720,7 @@ C---- s'il y a des elms degeneres--------------
      . CALL ASSEMC_KII(NN    ,NELD  ,IDDL  ,IADK  ,K_DIAG,
      .                 K_LT  ,KIJD  ,ND    ,OFFD  ,NDOF  )
 C----6---------------------------------------------------------------7---------8
-Cel lock par element trop penalisant pour perf
+C   lock par element trop penalisant pour perf
 #include "lockon.inc"
       IF (IKPAT==0) THEN
           DO EP = 1,NEL

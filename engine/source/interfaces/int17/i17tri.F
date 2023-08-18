@@ -309,7 +309,7 @@ C      1.1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
 C          VIRER LES INUTILES
 C
 C       NCAND_PROV=NB_EC*NB_NC
-Cel NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
+C   NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
 C
         IF(NB_EC+NB_NC<=128) THEN
           NCAND_PROV = NB_EC*NB_NC
@@ -318,7 +318,7 @@ C
         ENDIF
 C
         IF(DSUP<MINBOX.OR.NB_NC<=NB_N_B.OR.NCAND_PROV<=128)THEN
-Cel necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
+C   necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
             NCAND_PROV = NB_EC*NB_NC
             DO L=1,NCAND_PROV
               I = 1+(L-1)/NB_NC

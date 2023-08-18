@@ -56,7 +56,7 @@ C
       DO I = NSNF, NSNL
 C si tag nul sur noeuds secnds alors stifn = 0.
         IF (ITAG(NSV(I)) == 0.AND.STFN(I) > ZERO) THEN
-Cel       STFN(I) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
+C         STFN(I) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
           STFN(I) = -STFN(I)
           NEWFRONT = -1
         ENDIF
@@ -197,7 +197,7 @@ C
       DO I = NSNF, NSNL
 C si tag nul sur noeuds secnds alors stifn = 0.
         IF (ITAG(NLG(NSV(I))) == 0.AND.STFA(NSV(I)) > ZERO) THEN
-Cel       STFA(NSV(I)) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
+C         STFA(NSV(I)) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
           STFA(NSV(I)) = -STFA(NSV(I))
           NEWFRONT = -1
         ENDIF
@@ -2051,7 +2051,7 @@ C
          END IF
        END DO
 C
-Cel on a rien trouve, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   on a rien trouve, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -2411,7 +2411,7 @@ C
          END IF
        END DO
 C
-Cel on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -2892,7 +2892,7 @@ C suivant facette main ou second
          END IF
         END DO
 C
-Cel on a rien trouver, il faut voir sur les autres procs en SPMD
+C   on a rien trouver, il faut voir sur les autres procs en SPMD
         IF(NSPMD > 1) THEN
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -3591,7 +3591,7 @@ C
          END IF
        END DO
 C
-Cel on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1

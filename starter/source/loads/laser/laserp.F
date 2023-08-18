@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cel46d11+++
+C  46d11+++
 Chd|====================================================================
 Chd|  LASERP1                       source/loads/laser/laserp.F   
 Chd|-- called by -----------
@@ -89,7 +89,7 @@ C--------------------------------------------------
           IF(IXQ(7,II)==NEXT) THEN
 C           LAS(1,IL) = NG
 C           LAS(2,IL) = I
-Cel46d11 on force les elements laser sur p0
+C  46d11 on force les elements laser sur p0
             CEP(II) = 0
             GOTO 180
           ENDIF

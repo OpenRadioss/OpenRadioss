@@ -1473,7 +1473,7 @@ C fin /DT/INTER/AMS
          ENDIF
         END IF
         LSKYFI = NN*MULTIMAX
-Cel nsnr nouveau utile pour inacti
+C   nsnr nouveau utile pour inacti
         NSNR = NN
       ENDIF
 C
@@ -2574,10 +2574,10 @@ C fin /DT/INTER/AMS
           NSNFIE(NIN)%P(P) = NN-NNP
          END IF
         ENDDO
-Cel facteur 2 car 2 noeuds par segment => pris en compte au niveau
-Cel de la 1ere dimension allouee
+C   facteur 2 car 2 noeuds par segment => pris en compte au niveau
+C   de la 1ere dimension allouee
         LSKYFI = NN*MULTIMAX
-Cel nrtsr nouveau utile pour inacti et noeuds encrage
+C   nrtsr nouveau utile pour inacti et noeuds encrage
         NRTSR = NN
       ENDIF
 C
@@ -2908,7 +2908,7 @@ C
         ENDDO
 C facteur 16 ?
         LSKYFI = NN*MULTIMAX
-Cel nmesr inutile ici
+C   nmesr inutile ici
         NMESR = NN
       ENDIF
 C

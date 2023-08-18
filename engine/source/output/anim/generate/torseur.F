@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cel|         SPMD_R4GATHER_PART              /spe/spmd_anim.F
+C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
 Chd|====================================================================
 Chd|  TORSEUR                       source/output/anim/generate/torseur.F
 Chd|-- called by -----------

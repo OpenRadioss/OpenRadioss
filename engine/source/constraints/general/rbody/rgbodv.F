@@ -105,8 +105,8 @@ C
         AM1 = A(1,M)
         AM2 = A(2,M)
         AM3 = A(3,M)
-Cel vectorisation si nsn>=10 ou si p/on active
-Cel sinon attention aux differences en mode vectoriel !
+C   vectorisation si nsn>=10 ou si p/on active
+C   sinon attention aux differences en mode vectoriel !
         IF (NSN>=10.OR.IPARIT>0) THEN
           DO I=1,NSN
             N = NOD(I)
@@ -167,8 +167,8 @@ C
         AM1 = ZERO
         AM2 = A(2,M)
         AM3 = A(3,M)
-Cel vectorisation si nsn>=10 ou si p/on active
-Cel sinon attention aux differences en mode vectoriel !
+C   vectorisation si nsn>=10 ou si p/on active
+C   sinon attention aux differences en mode vectoriel !
         IF (NSN>=10.OR.IPARIT>0) THEN
          DO I=1,NSN
            N = NOD(I)
@@ -208,8 +208,8 @@ C
         AM1 = ZERO
         AM2 = A(2,M)
         AM3 = A(3,M)
-Cel vectorisation si nsn>=10 ou si p/on active
-Cel sinon attention aux differences en mode vectoriel !
+C   vectorisation si nsn>=10 ou si p/on active
+C   sinon attention aux differences en mode vectoriel !
         IF (NSN>=10.OR.IPARIT>0) THEN
          DO I=1,NSN
            N = NOD(I)

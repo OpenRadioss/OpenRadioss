@@ -140,7 +140,7 @@ C       GMAX = GMAX + AL(I)*MU(I)
         ENDDO 
       ENDIF 
 !!      IF(IVISC == 1 .AND.  ITYPE >= 2 ) IVISC = 2 
-Csm +1
+C   +1
        GMAX = TWO*GMAX      
 C iniialisation des variabesl users 
       IF(TIME==ZERO)THEN

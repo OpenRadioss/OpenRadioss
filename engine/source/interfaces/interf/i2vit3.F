@@ -107,7 +107,7 @@ C
 C-----------
       RETURN
       END
-Cel|         INTTI12V                        /interf/intti12.F
+C  |         INTTI12V                        /interf/intti12.F
 Chd|====================================================================
 Chd|  I2VIT3                        source/interfaces/interf/i2vit3.F
 Chd|-- called by -----------
@@ -170,7 +170,7 @@ C
         VMX=ZERO
         VMY=ZERO
         VMZ=ZERO    
-Cel   XMSI=MS(I)*WEIGHT(I)
+C     XMSI=MS(I)*WEIGHT(I)
 C
         DO JJ=1,NIR
 C          J3=3*MSR(IRECT(JJ,L))
@@ -185,7 +185,7 @@ C          J3=3*MSR(IRECT(JJ,L))
           VMY=VMY+V(J2)*H(JJ)
           VMZ=VMZ+V(J3)*H(JJ)
 CFP (RESET MASSE MAIN)
-Cel     MS(J)=MS(J)-XMSI*H(JJ)
+C       MS(J)=MS(J)-XMSI*H(JJ)
         ENDDO
         A(I1)=AMX
         A(I2)=AMY
@@ -197,7 +197,7 @@ Cel     MS(J)=MS(J)-XMSI*H(JJ)
 C
  70   CONTINUE
 C
-Cel restitution de la masse initiale sur noeuds main
+C   restitution de la masse initiale sur noeuds main
       DO II=1,NMN
         J=MSR(II)
         MS(J)=MMASS(II)

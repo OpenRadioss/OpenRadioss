@@ -775,7 +775,7 @@ C
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
-Cst CRASURV +++
+C   CRASURV +++
         DO  111 I=JFT,JLT                                                       
           BETA(I)=ONE                                                           
           IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 111                       
@@ -814,7 +814,7 @@ C        BETA(I)=1.
           SO2(I)=BETA(I)*S2(I)
           SO3(I)=BETA(I)*S4(I)
         ENDDO
-Cst CRASURV ---
+C   CRASURV ---
 C
         DO  I=JFT,JLT
           DP1(I)=TWO*F11(I)*SO1(I) +  F12(I)*SO2(I)

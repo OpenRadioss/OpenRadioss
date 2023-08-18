@@ -159,7 +159,7 @@ C-----------------------------------------------
      .       NX,NY,NZ,
      .       VXS,VYS,VZS,VN
 C-----------------------------------------------
-Cel routine simplifiee (traitement sur XSPSYM effectue ds SPADASM0)
+C   routine simplifiee (traitement sur XSPSYM effectue ds SPADASM0)
       DO NC=1,NSPCOND
         IS=ISPCOND(3,NC)
         IC=ISPCOND(2,NC)

@@ -781,7 +781,7 @@ C
             ENDIF
           ENDIF
         ENDDO
-Cel tag DD_RBY(3) a negatif pour reperage des rb sans echange.
+C   tag DD_RBY(3) a negatif pour reperage des rb sans echange.
         IF(ISLOCAL==0) DD_RBY2(3,N) = -PMAIN
 C
         K = K + NSL
@@ -887,7 +887,7 @@ C
           ENDIF
         ENDDO
 
-Cel tag DD_RBY(3) a negatif pour reperage des r material sans echange.
+C   tag DD_RBY(3) a negatif pour reperage des r material sans echange.
         IF(ISLOCAL==0) DD_RBYM2(3,N) = -PMAIN
         K = K + NSL
       ENDDO
@@ -1176,7 +1176,7 @@ C
             ENDIF
           ENDIF
         ENDDO
-Cel tag DD_RBY(3) a negatif pour reperage des rb sans echange.
+C   tag DD_RBY(3) a negatif pour reperage des rb sans echange.
         IF(ISLOCAL==0) DD_RBM2(3,N) = -PMAIN
 C
         K = K + NSL
@@ -1703,19 +1703,19 @@ C
         DO NG=1,NGROUP
           JTUR=IPARG(12,NG)
           JTHE=IPARG(13,NG)
-Cel test agrad0
+C   test agrad0
           IF(IPARG(32,NG)+1==PROC) THEN
             NEL = IPARG(2,NG)
             NFT = IPARG(3,NG)
             ITY = IPARG(5,NG)
-Cel voir autres types solides
+C   voir autres types solides
             ISOLNOD = IPARG(28,NG)
-Cel 3D
+C   3D
             IF(ITY==1) THEN
               DO I = 1, NEL
                 IE = I+NFT
                 IE_LOC = CEL(IE)
-Cel IVOIS
+C   IVOIS
                 IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 DO J = 1, LGTH
@@ -1753,14 +1753,14 @@ C IV < 0 : SEGMENT INT12
                   END IF
                 END DO
               END DO
-Cel 2D
+C   2D
             ELSEIF(ITY==2) THEN
               DO I = 1, NEL
                 IE = I+NFT
                 IE_LOC = CEL(IE)
                 IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
-Cel IVOIS
+C   IVOIS
                 DO J = 1, LGTH
                   IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                   IF (IV>0) THEN
@@ -1787,14 +1787,14 @@ C no elt frontiere > no elt interne
                   END IF
                 END DO
               END DO
-Cel 2D -> triangles
+C   2D -> triangles
             ELSEIF(ITY==7 .AND. (N2D /= 0 .AND. MULTI_FVM%IS_USED)) THEN
               DO I = 1, NEL
                 IE = I+NFT
                 IE_LOC = CEL(IE)
                 IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
-Cel IVOIS
+C   IVOIS
                 DO J = 1, LGTH
                   IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                   IF (IV>0) THEN
@@ -1829,13 +1829,13 @@ C
             ITY = IPARG(5,NG)
             P = IPARG(32,NG)+1
             IF(P/=PROC) THEN
-Cel voir autres types solides
+C   voir autres types solides
              ISOLNOD = IPARG(28,NG)
-Cel 3D
+C   3D
              IF(ITY==1) THEN
               DO I = 1, NEL
                 IE = I+NFT
-Cel IVOIS
+C   IVOIS
                 IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 DO J = 1, LGTH
@@ -2208,7 +2208,7 @@ C
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             DO K=1,NRTM
-Cel TAGE flag servant pour inacti
+C   TAGE flag servant pour inacti
               N1 = INTBUF_TAB(N)%IRECTM(4*(K-1)+1)
               N2 = INTBUF_TAB(N)%IRECTM(4*(K-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(K-1)+3)
@@ -2701,7 +2701,7 @@ C
       CALL WRITE_I_C(DD_R2R_ELEM,SDD_R2R_ELEM)
       LEN_IA = LEN_IA + SDD_R2R_ELEM        
       ENDIF
-Csm
+C  
       CALL WRITE_I_C(DD_RBYM,NBDDNRBYM)
       LEN_IA = LEN_IA + NBDDNRBYM
       CALL WRITE_I_C(DD_RBYM2,3*NRBYM)

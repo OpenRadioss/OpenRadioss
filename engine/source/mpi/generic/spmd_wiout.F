@@ -120,7 +120,7 @@ C IWIOUT est utilise pour connaitre le nb max de characteres a echanger
             P = PROC_RCV(INDX)
             SIZ = IWIOUT_SPMD(P)
             DO N = 1, SIZ, LEN
-Cel traitement special pour eliminer les blancs de fin de chaine
+C   traitement special pour eliminer les blancs de fin de chaine
                 I = LEN
                 IBLANC = ICHAR(' ')
                 DO WHILE (IWA(DISPLACEMENT(INDX)+N+I)==IBLANC.AND.I>1)

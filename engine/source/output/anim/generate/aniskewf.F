@@ -62,10 +62,10 @@ C-----------------------------------------------
 C      SKEW
 C-----------------------------------------------
       ISK=NUMSKW-1
-Cel spmd
+C   spmd
 c      IF (IMACH==3) THEN
         II = 0
-Cel pb sur ISK : incremente par pour ts les elem !
+C   pb sur ISK : incremente par pour ts les elem !
         MSGTAG = 1000
         IF (NSPMD > 1 .AND. ISPMD/=0) THEN
 

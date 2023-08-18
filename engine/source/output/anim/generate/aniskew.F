@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C      SKEW
 C-----------------------------------------------
-Cel seul proc0 ecrit en spmd
+C   seul proc0 ecrit en spmd
       IF (ISPMD==0) THEN
        DO I=1,NUMSKW
          ISK(1)=NINT(SKEW(1,I)*S3000)
@@ -85,7 +85,7 @@ Cel seul proc0 ecrit en spmd
 C-----------------------------------------------
 C      SKEW ELEMENT 1D
 C-----------------------------------------------
-Cel il faut recuperer les donnees sur les procs
+C   il faut recuperer les donnees sur les procs
 c      IF (IMACH==3) THEN
         II = 0
 c      ENDIF

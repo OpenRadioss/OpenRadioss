@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cel|         INTTI12F                        /interf/intti12.F
+C  |         INTTI12F                        /interf/intti12.F
 Chd|====================================================================
 Chd|  I12FOR3                       source/interfaces/interf/i12for3.F
 Chd|-- called by -----------

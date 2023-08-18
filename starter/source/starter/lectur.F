@@ -10150,7 +10150,7 @@ C--------------------------------------------
         END IF
        END IF
       END IF
-Cvf Preparation traitement SPMD des ecoulements par BEM
+C   Preparation traitement SPMD des ecoulements par BEM
       CALL TRACE_OUT1()
       ERR_MSG='PROCESS BEM FOR SPMD'
       ERR_CATEGORY='PROCESS BEM FOR SPMD'

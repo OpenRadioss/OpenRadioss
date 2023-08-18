@@ -132,9 +132,9 @@ C
          NEL = IPARG(2,NG)
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
-Cel voir autres types solides
+C   voir autres types solides
          ISOLNOD = IPARG(28,NG)
-Cel 3D
+C   3D
          IF(ITY==1) THEN
            DO I = 1, NEL
              IE = I+NFT
@@ -142,7 +142,7 @@ Cel 3D
              IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              TAGE(IE) = CEL(IE)
-Cel IVOIS
+C   IVOIS
              DO J = 1, LGTH
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IAD2 = ee_connect_l%iad_connect(IE_LOC) + J - 1
@@ -150,11 +150,11 @@ Cel IVOIS
                  PROC2 = CEP(IV)
                  IV_LOC = CEL(IV)
                  IF(PROC2/=PROC) THEN
-Cel element frontiere
+C   element frontiere
                    IF(TAGE(IV)==0) THEN
                      IFS = IFS + 1
                      TAGE(IV) = NUMELS_L+IFS
-Cel recopie IXS + chgt no local des noeuds
+C   recopie IXS + chgt no local des noeuds
                      DO K = 1,1
                        IXSF(K,IFS) = IXS(K,IV)
                      ENDDO
@@ -165,7 +165,7 @@ Cel recopie IXS + chgt no local des noeuds
                        IXSF(K,IFS) = IXS(K,IV)
                      ENDDO
                    ENDIF
-Cel ivois     
+C   ivois     
                    ee_connect_l%connected(IAD2) = TAGE(IV)
                    
                    ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! pas sur le proc courant
@@ -175,7 +175,7 @@ Cel ivois
                         ENDIF                     
                    ENDDO
                  ELSE
-Cel element interne
+C   element interne
                    ee_connect_l%connected(IAD2) = IV_LOC
                    ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! sur le proc courant
                  ENDIF
@@ -189,14 +189,14 @@ Cel element interne
            ENDDO
            NFT_LOC = NFT_LOC + NEL
          ELSEIF(ITY==2) THEN
-Cel 2D
+C   2D
            DO I = 1, NEL
              IE = I+NFT
              IE_lOC = I+NFT_LOC
              IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              TAGE(IE) = CEL(IE)
-Cel IVOIS
+C   IVOIS
              DO J = 1, LGTH
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IAD2 = ee_connect_l%iad_connect(IE_LOC) + J - 1
@@ -204,11 +204,11 @@ Cel IVOIS
                  PROC2  = CEP(IV)
                  IV_LOC = CEL(IV)
                  IF(PROC2/=PROC) THEN
-Cel element frontiere
+C   element frontiere
                    IF(TAGE(IV)==0) THEN
                      IFQ = IFQ + 1
                      TAGE(IV) = NUMELQ_L+IFQ
-Cel recopie IXQ + chgt no local des noeuds
+C   recopie IXQ + chgt no local des noeuds
                      DO K = 1,1
                        IXQF(K,IFQ) = IXQ(K,IV)
                      ENDDO
@@ -219,7 +219,7 @@ Cel recopie IXQ + chgt no local des noeuds
                        IXQF(K,IFQ) = IXQ(K,IV)
                      ENDDO
                    ENDIF
-Cel ivois
+C   ivois
                    ee_connect_l%connected(IAD2) = TAGE(IV)
                    ID_GLOBAL_VOIS( (IE_LOC-1)*4+J ) = IXQ(NIXQ,IV)
                    DO K=1,INDX_Q(IE)
@@ -228,7 +228,7 @@ Cel ivois
                         ENDIF                       
                    ENDDO
                  ELSE
-Cel element interne
+C   element interne
                    ee_connect_l%connected(IAD2) = IV_LOC 
                    ID_GLOBAL_VOIS( (IE_LOC-1)*4+J ) = IXQ(NIXQ,IV)
                  ENDIF
@@ -242,14 +242,14 @@ Cel element interne
            ENDDO
            NFT_LOC = NFT_LOC + NEL
          ELSEIF(ITY==7 .AND. (N2D /= 0 .AND. MULTI_FVM%IS_USED)) THEN
-Cel 2D
+C   2D
            DO I = 1, NEL
              IE = I+NFT
              IE_lOC = I+NFT_LOC
              IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
              TAGE(IE) = CEL(IE)
-Cel IVOIS
+C   IVOIS
              DO J = 1, 3
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IAD2 = ee_connect_l%iad_connect(IE_LOC) + J - 1
@@ -257,11 +257,11 @@ Cel IVOIS
                  PROC2  = CEP(IV)
                  IV_LOC = CEL(IV)
                  IF(PROC2/=PROC) THEN
-Cel element frontiere
+C   element frontiere
                    IF(TAGE(IV)==0) THEN
                      IFTG = IFTG + 1
                      TAGE(IV) = NUMELTG_L+IFTG
-Cel recopie IXQ + chgt no local des noeuds
+C   recopie IXQ + chgt no local des noeuds
                      DO K = 1,1
                        IXTGF(K,IFTG) = IXTG(K,IV)
                      ENDDO
@@ -272,7 +272,7 @@ Cel recopie IXQ + chgt no local des noeuds
                        IXTGF(K,IFTG) = IXTG(K,IV)
                      ENDDO
                    ENDIF
-Cel ivois
+C   ivois
                    ee_connect_l%connected(IAD2) = TAGE(IV)
                    ID_GLOBAL_VOIS( (IE_LOC-1)*3+J ) = IXTG(NIXTG,IV)
 
@@ -283,7 +283,7 @@ Cel ivois
                    ENDDO
 
                  ELSE
-Cel element interne
+C   element interne
                    ee_connect_l%connected(IAD2) = IV_LOC
                    ID_GLOBAL_VOIS( (IE_LOC-1)*3+J ) = IXTG(NIXTG,IV)
                  ENDIF

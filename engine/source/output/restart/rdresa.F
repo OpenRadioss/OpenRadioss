@@ -366,7 +366,7 @@ C FSKY DMASS
         ELSE
            SFSKYD = 0
         ENDIF
-Cel PROBINT egalement initialisee dans STARTER (lectur)
+C   PROBINT egalement initialisee dans STARTER (lectur)
         PROBINT=0.5
 
         LSKYI = MAX(NINT(5*MAX(4*NUMNOD,IMAXIMP)*PROBINT)

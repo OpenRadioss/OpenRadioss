@@ -68,8 +68,8 @@ C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
 C
-Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
-Cel sauvegarde de la masse initiale
+C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
+C   sauvegarde de la masse initiale
 C
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -283,7 +283,7 @@ C
 C
       RETURN
       END
-Cel|         INTTI12F                        /interf/intti12.F
+C  |         INTTI12F                        /interf/intti12.F
 Chd|====================================================================
 Chd|  I2FOR3                        source/interfaces/interf/i2for3.F
 Chd|-- called by -----------
@@ -332,10 +332,10 @@ C=======================================================================
       NIR=2
       IF(N2D==0)NIR=4
 C
-Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
+C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
       IF (IMACH==3) THEN
       ELSE
-Cel sauvegarde de la masse initiale
+C   sauvegarde de la masse initiale
         DO II=1,NMN
           J=MSR(II)
           MMASS(II)=MS(J)
@@ -532,10 +532,10 @@ C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
 C
-Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
+C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
       IF (IMACH==3) THEN
       ELSE
-Cel sauvegarde de la masse initiale
+C   sauvegarde de la masse initiale
         DO II=1,NMN
           J=MSR(II)
           MMASS(II)=MS(J)
