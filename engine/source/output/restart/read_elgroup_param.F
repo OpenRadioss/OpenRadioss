@@ -28,11 +28,11 @@ Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
-      SUBROUTINE READ_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
+      SUBROUTINE READ_ELGROUP_PARAM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,21 +40,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NGROUP
-      TYPE(GROUP_PARAM_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG,LEN
+      INTEGER NG,NGROUP,LEN
       my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
 C=======================================================================
+c     allocation of element group parameters
+      NGROUP = MAT_ELEM%NGROUP
+      ALLOCATE (MAT_ELEM%GROUP_PARAM(NGROUP) )
+
       LEN = 2
       ALLOCATE(RBUF(NGROUP,LEN))
       CALL READ_DB(RBUF, LEN*NGROUP)
 c
       DO NG = 1, NGROUP
-        GROUP_PARAM_TAB(NG)%VISC_DM = RBUF(NG,1)
-        GROUP_PARAM_TAB(NG)%VISC_DN = RBUF(NG,2)
+        MAT_ELEM%GROUP_PARAM(NG)%VISC_DM = RBUF(NG,1)
+        MAT_ELEM%GROUP_PARAM(NG)%VISC_DN = RBUF(NG,2)
       ENDDO
 c
       DEALLOCATE( RBUF )

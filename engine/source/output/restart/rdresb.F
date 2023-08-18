@@ -96,7 +96,7 @@ Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
-     .                   MULTI_FVM        ,H3D_DATA ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA , 
+     .                   MULTI_FVM        ,H3D_DATA ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
      .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   )
 C-----------------------------------------------
@@ -176,8 +176,6 @@ C-----------------------------------------------
       DOUBLE PRECISION XDP(*)
       TYPE(MULTI_FVM_STRUCT)                               :: MULTI_FVM
       TYPE(H3D_DATABASE)                                   :: H3D_DATA
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)          :: MATPARAM_TAB
-      TYPE(GROUP_PARAM_)      , DIMENSION(NGROUP)          :: GROUP_PARAM_TAB
       TYPE(PINCH)                                          :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT)              :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_),DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
@@ -911,9 +909,9 @@ C--------------------------------------
 
         CALL READ_DB(PM,SPM)
 
-        CALL READ_MATPARAM(MAT_ELEM,NUMMAT)
+        CALL READ_MATPARAM(MAT_ELEM)
 
-        CALL READ_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
+        CALL READ_ELGROUP_PARAM(MAT_ELEM)
 
         CALL READ_DB(SKEW,SSKEW)
 
@@ -1020,7 +1018,7 @@ C--------------------------------------
 
         CALL READ_DB(ELBUF,SELBUF)
 
-        CALL ELBUF_INI(NGROUP, IPARG)
+        CALL ELBUF_INI(MAT_ELEM,NGROUP, IPARG)  ! allocate, read and initialize element buffer
 
         CALL READ_CLUSTER(CLUSTER)
 

@@ -100,7 +100,7 @@ Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_
 Chd|====================================================================
       SUBROUTINE WRRESTP(AF    ,IAF       ,XDP       ,ICH       ,ADDCNE,
      .           ELBUF_TAB     ,XFEM_TAB  ,INTBUF_TAB, MULTI_FVM,MAT_ELEM,
-     .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
      .           INTERFACES    ,LOADS     )
@@ -159,8 +159,6 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(H3D_DATABASE), INTENT(IN)                      :: H3D_DATA
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBSET_), TARGET, DIMENSION(NSUBS)             :: SUBSET
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT)         :: MATPARAM_TAB
-      TYPE(GROUP_PARAM_)      , DIMENSION(NGROUP)         :: GROUP_PARAM_TAB
       TYPE(PINCH)                                         :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN)                :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN)  :: T_MONVOL
@@ -982,7 +980,7 @@ C--------------------------------------
 
          CALL WRITE_MATPARAM(MAT_ELEM%MAT_PARAM,NUMMAT)
 
-         CALL WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
+         CALL WRITE_ELGROUP_PARAM(MAT_ELEM%GROUP_PARAM,NGROUP)
 
          CALL WRITE_DB(SKEW,SSKEW)
 

@@ -139,6 +139,7 @@ C-----------------------------------------------
       !IUSERWI =TABVINT(3)
       IALE    =TABVINT(4)
       NGROUP  =TABVINT(5)
+      MAT_ELEM%NGROUP = NGROUP
       NCYCLE  =TABVINT(6)
       IRUN    =TABVINT(7)
       IGER    =TABVINT(8)
