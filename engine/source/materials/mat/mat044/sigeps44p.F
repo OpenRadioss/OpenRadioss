@@ -314,22 +314,13 @@ c--------------------------------
       ENDIF
 C
       DO I=1,NEL
-        FOR(I,1)=F1(I)*OFF(I)
-        FOR(I,2)=FOR(I,2)*OFF(I)
-        FOR(I,3)=FOR(I,3)*OFF(I)
-        MOM(I,1)=M1(I)*OFF(I)
-        MOM(I,2)=M2(I)*OFF(I)
-        MOM(I,3)=M3(I)*OFF(I)
+        FA1(I) = F1(I)
+        FA2(I) = FOR(I,2) 
+        FA3(I) = FOR(I,3)  
+        MA1(I) = M1(I) 
+        MA2(I) = M2(I) 
+        MA3(I) = M3(I) 
       ENDDO
-C
-      DO I=1,NEL
-        FA1(I) =  FOR(I,1)
-        FA2(I) =  FOR(I,2) 
-        FA3(I) =  FOR(I,3)  
-        MA1(I) =  MOM(I,1) 
-        MA2(I) =  MOM(I,2) 
-        MA3(I) =  MOM(I,3) 
-      ENDDO               
 c-----------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT :',I10,' AT TIME :',G11.4)
