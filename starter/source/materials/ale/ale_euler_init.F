@@ -186,7 +186,8 @@ C-----------------------------------------------
         ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler 
         ! ITHERM : 1 => there are elements which require temperature at centroids
         ! ITHERM_FE : 1 => there are elements which require for temperature at nodes
-        JTHE = NINT(PM(71,IMID))
+        JTHE = 0
+        IF(IMID > 0) JTHE = NINT(PM(71,IMID))
         IF( JTHE > 0 )THEN
           IF(JALE_FROM_PROP>0 .OR. JALE_FROM_MAT>0)THEN
             ITHERM = 1
@@ -198,7 +199,8 @@ C-----------------------------------------------
         !################################################################!
         !  /THERM/STRESS                                                 !
         !################################################################!  
-        IEXPAN=IPM(218,IMID)
+        IEXPAN=0
+        IF(IMID > 0) IEXPAN=IPM(218,IMID)
         IF(IEXPAN > 0)THEN
           IF(JALE_FROM_PROP>0 .OR. JALE_FROM_MAT>0)THEN
              CALL ANCMSG(MSGID=1723,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMAT,C1=TITR)    
@@ -208,23 +210,25 @@ C-----------------------------------------------
         !################################################################!
         !  SOUND SPEED BUFFER  
         !################################################################!       
-        IF(JALE_FROM_PROP > 0 .OR. JALE_FROM_MAT > 0)THEN               
-          MLAW_TAG(IMID)%L_SSP = 1 
-          IF(ILAW == 20)THEN
-            uID1 = NINT(PM(21,IMID))
-            uID2 = NINT(PM(22,IMID))
-            MID1 = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
-            MID2 = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
-            ILAW1 = IPM(2,MID1)
-            ILAW2 = IPM(2,MID2)                        
-            ILAW2 = IPM(2,MID2)   
-            PM(15,MID1) = ALE%UPWIND%UPWMG
-            PM(15,MID2) = ALE%UPWIND%UPWMG
-            PM(16,MID1) = ALE%UPWIND%UPWOG
-            PM(16,MID2) = ALE%UPWIND%UPWOG                        
-            MLAW_TAG(MID1)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
-            MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F) 
-          ENDIF                                                    
+        IF(JALE_FROM_PROP > 0 .OR. JALE_FROM_MAT > 0)THEN
+          IF(IMID > 0)THEN
+            MLAW_TAG(IMID)%L_SSP = 1
+            IF(ILAW == 20)THEN
+              uID1 = NINT(PM(21,IMID))
+              uID2 = NINT(PM(22,IMID))
+              MID1 = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
+              MID2 = NINTRI(uID2,IPM,NPROPMI,NUMMAT,1)
+              ILAW1 = IPM(2,MID1)
+              ILAW2 = IPM(2,MID2)
+              ILAW2 = IPM(2,MID2)
+              PM(15,MID1) = ALE%UPWIND%UPWMG
+              PM(15,MID2) = ALE%UPWIND%UPWMG
+              PM(16,MID1) = ALE%UPWIND%UPWOG
+              PM(16,MID2) = ALE%UPWIND%UPWOG
+              MLAW_TAG(MID1)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
+              MLAW_TAG(MID2)%L_SSP = 1 ! boundary layer material (ilaw updated later in sgrtail.F)
+            ENDIF !ILAW==20
+          ENDIF! IMID > 0
         ENDIF 
         
         !################################################################!     
@@ -262,7 +266,8 @@ C-----------------------------------------------
         !################################################################!      
         !  TURBULENCY 
         !################################################################!                                                            
-        JTUR = NINT(PM(70,IMID))
+        JTUR=0
+        IF(IMID > 0) JTUR = NINT(PM(70,IMID))
         IF (ILAW /= 50) ITURB = MAX(ITURB ,JTUR)
 
         !################################################################!      
