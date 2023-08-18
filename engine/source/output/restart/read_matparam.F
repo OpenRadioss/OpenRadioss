@@ -34,7 +34,7 @@ Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|====================================================================
-      SUBROUTINE READ_MATPARAM(MAT_ELEM,NUMMAT)
+      SUBROUTINE READ_MATPARAM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,24 +46,19 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "my_allocate.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NUMMAT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IMAT,NUMTABL,NUPARAM,IAD,LEN
+      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,IAD,LEN
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
 c     read MATPARAM data
-      MAT_ELEM%NUMMAT = NUMMAT
-      MY_ALLOCATE(MAT_ELEM%MAT_PARAM ,NUMMAT)
+      NUMMAT = MAT_ELEM%NUMMAT
+      ALLOCATE(MAT_ELEM%MAT_PARAM(NUMMAT))
 c
       CALL READ_I_C(LEN, 1)
       ALLOCATE (IBUF(LEN) )
@@ -117,7 +112,7 @@ c     read material parameter array
       DO IMAT=1,NUMMAT
       
         NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
-        MY_ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)
+        ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM(NUPARAM))
 
         IF (NUPARAM > 0) THEN
           CALL READ_DB(MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,NUPARAM)

@@ -507,7 +507,7 @@ Chd|====================================================================
      1  ICODE  ,ISKEW  ,ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2  IXTG   ,IXS     ,IXQ    ,IXC    ,IXT    ,IXP    ,IXR    ,
      3          ITAB   ,ITABM1  ,IFILL  ,MAT_ELEM,
-     4  IMS    ,NPC    ,IBCL    ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
+     4  IMS    ,NPC    ,IBCL    ,
      5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
      6  IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
@@ -873,8 +873,6 @@ C     Mat + Prop timers
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
 c
       TYPE(NLOCAL_STR_)  :: NLOC_DMG
-      TYPE(MATPARAM_STRUCT_)  ,DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE(GROUP_PARAM_)      ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
@@ -2780,7 +2778,7 @@ C------ one routine for EIG
      6                   PM          , GEO         , FANI     , ICUT      , SKEW    ,
      7                   XCUT        ,FANI(1,1+NFIA), ITAB    ,FANI(1,1+NFEA),FANI(1,1+NFOA),
      8                   ANIN        , LPBY        , NPBY     , NSTRF     , RWBUF   ,
-     9                   NPRW        , TANI        , ELBUF_TAB ,MATPARAM_TAB, DD_IAD  ,
+     9                   NPRW        , TANI        , ELBUF_TAB ,MAT_ELEM%MAT_PARAM, DD_IAD  ,
      A                   IAD_ELEM    , FR_ELEM     , WEIGHT   , EANI      , IPART   ,
      B                   RBY         , NOM_OPT     , IGRSURF  ,
      C                   BUFSF       , IDATA       , RDATA    , BUFMAT    , BUFGEO  ,
@@ -4392,7 +4390,7 @@ C Init var parallel SMP
      8   IPARG        ,NPC             ,IXC             ,IXTG           ,NELTSTT      , 
      9   IPARI        ,ITYPTSTT        ,NSTRF           ,        
      A   IPART        ,IPART(K3)       ,IPART(K8)       ,SECFCUM        ,                  
-     B   FSAVD        ,GROUP_PARAM_TAB , 
+     B   FSAVD        ,MAT_ELEM%GROUP_PARAM , 
      E   FZERO        ,IXTG1           ,IADS(LLT1)      ,IGEO           ,IPM          ,
      F   MADFAIL      ,XSEC            ,FSAVSAV         ,ITSK           ,MCP          ,
      G   TEMP         ,FTHE(IDX_FTHE)       ,FTHESKY         ,
@@ -8455,7 +8453,7 @@ C Regular animation
      B   FSAV          ,SKEW           ,ELBUF_TAB      ,CLUSTER        ,
      C   VR            ,IN             ,WEIGHT         ,FCLUSTER       ,MCLUSTER      ,
      D   DD_IAD        ,DMAS           ,ACCELM         ,GAUGE         ,
-     E   IPARI         ,EANI           ,IPART          ,MATPARAM_TAB   ,
+     E   IPARI         ,EANI           ,IPART          ,MAT_ELEM%MAT_PARAM   ,
      F   IGRNOD        ,SUBSETS        ,
      G   NOM_OPT       ,AR             ,IGRSURF        ,BUFSF          ,IDATA         ,
      H   RDATA         ,KXX            ,IXX            ,BUFMAT         ,BUFGEO        ,
@@ -8731,7 +8729,7 @@ C
      Y XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_SH4N , 
      Z DRAPE_SH3N     ,H3D_DATA       ,SUBSETS    ,IGRNOD    ,     FCONT_MAX,
      A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB ,
-     B DRAPEG         ,MATPARAM_TAB   )
+     B DRAPEG         ,MAT_ELEM%MAT_PARAM   )
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -9299,7 +9297,7 @@ C--------------------------------------------------------
           IF (RESTART_FILE==1) THEN
           CALL WRRESTP(AF        , IAF        ,XDP        ,ICH        ,ADSKY          ,
      .                 ELBUF_TAB , XFEM_TAB   ,INTBUF_TAB , MULTI_FVM ,MAT_ELEM       ,
-     .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSORS   , EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT        ,
      .                 INTERFACES, LOADS      )
@@ -9569,7 +9567,7 @@ C--------------------------------------------------------
 
           CALL WRRESTP(AF         ,IAF             ,XDP       ,ICH         ,ADSKY          ,
      .                 ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB, MULTI_FVM  ,MAT_ELEM       ,
-     .                 H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSETS   ,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                 H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSETS   ,
      .                 PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                 SENSORS    ,EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
      .                 INTERFACES ,LOADS           )
@@ -9707,7 +9705,7 @@ C--------------------------------------------------------
               ICH = 1
               CALL WRRESTP(AF        ,IAF            ,XDP          ,ICH        ,ADSKY          ,
      .                    ELBUF_TAB  ,XFEM_TAB       ,INTBUF_TAB   ,MULTI_FVM  ,MAT_ELEM       ,
-     .                    H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS     ,MATPARAM_TAB,GROUP_PARAM_TAB,
+     .                    H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS     ,
      .                    PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                    SENSORS    ,EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,
      .                    INTERFACES ,LOADS         )

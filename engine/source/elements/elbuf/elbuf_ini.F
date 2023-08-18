@@ -26,15 +26,12 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        ELBUF_MOD                     share/modules/elbuf_mod.F     
 Chd|====================================================================
-      SUBROUTINE ELBUF_INI(NGROUP, IPARG)  
+      SUBROUTINE ELBUF_INI(MAT_ELEM ,NGROUP ,IPARG)  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE ELBUF_MOD            
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,8 +44,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NGROUP
-      INTEGER IPARG(NPARG,NGROUP)
+      INTEGER ,INTENT(IN)            :: NGROUP
+      INTEGER ,INTENT(INOUT)         :: IPARG(NPARG,NGROUP)
+      TYPE(MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,7 +58,7 @@ c      1) taille du tableau ELBUF pour restart
 c      2) allocation de la structure ELBUF_STR
 C=======================================================================
       ERR = 0
-      ALLOCATE (ELBUF_TAB(NGROUP), STAT=ERR)
+      ALLOCATE (MAT_ELEM%ELBUF(NGROUP), STAT=ERR)
       IF (ERR /= 0) THEN
       ENDIF 
 c-------------------------------------------------
@@ -81,14 +79,14 @@ c          print*,'  NG =',ng
         IF (ITY==1 .or. ITY==2   .or. ITY==51 .or. ITY==3 .or.
      .      ITY==7 .or. ITY==101 .or. ITY==4  .or. ITY==5 .or.
      .      ITY==6 .or. ITY==100)THEN
-          CALL ALLOCBUF_AUTO(ELBUF_TAB(NG),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)
+          CALL ALLOCBUF_AUTO(MAT_ELEM%ELBUF(NG),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)
           IPARG(66,NG)=NEWLEN
         END IF
       ENDDO   ! NG = 1,NGROUP
 C-----------
       IF (ICRACK3D > 0) THEN
         ERR = 0
-        ALLOCATE (XFEM_TAB(NGROUP,NXEL), STAT=ERR)
+        ALLOCATE (MAT_ELEM%XFEM_TAB(NGROUP,NXEL), STAT=ERR)
 c        IF (ERR /= 0) THEN
 c        ENDIF
         DO IXEL=1,NXEL
@@ -103,13 +101,13 @@ c----
 c      if xfem, count buffer's length only in the groups with xfem phantom elements  
 c----
             IF (IXFEM > 0 .and. (ITY==3 .or. ITY==7)) THEN
-              CALL ALLOCBUF_AUTO(XFEM_TAB(NG,IXEL),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)
+              CALL ALLOCBUF_AUTO(MAT_ELEM%XFEM_TAB(NG,IXEL),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)
               IPARG(66,NG)=NEWLEN
             ENDIF
           ENDDO
         ENDDO
       ELSE
-        ALLOCATE (XFEM_TAB(0,0), STAT=ERR)  
+        ALLOCATE (MAT_ELEM%XFEM_TAB(0,0), STAT=ERR)  
       ENDIF
 C-----------
       RETURN

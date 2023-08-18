@@ -124,10 +124,8 @@ Chd|        DT_MOD                        share/modules/dt_mod.F
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        ELBUF_MOD                     share/modules/elbuf_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_MOD                     share/modules/group_mod.F     
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        INTBUFFRIC_MOD                share/modules/restart_mod.F   
@@ -170,8 +168,6 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE TABLE_GLOB_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD      
-      USE ELBUF_MOD      
       USE RAD2R_MOD
       USE SOLTOSPH_MOD
       USE STACK_MOD
@@ -182,7 +178,6 @@ C-----------------------------------------------
       USE GROUP_MOD
       USE GROUPDEF_MOD
       USE MAT_ELEM_MOD
-      USE GROUP_PARAM_MOD
       USE TIME_MOD
       USE PINCHTYPE_MOD
       USE CHECK_MOD
@@ -317,8 +312,6 @@ C Madymo Stuff
       TYPE (STACK_PLY) :: STACK
       TYPE (MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE (H3D_DATABASE) :: H3D_DATA
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(:), ALLOCATABLE :: MATPARAM_TAB     ! NUMMAT
-      TYPE(GROUP_PARAM_) , DIMENSION(:), ALLOCATABLE :: GROUP_PARAM_TAB  ! NGROUP
 
       TYPE (PINCH)  :: PINCH_DATA
       TYPE(DRAPE_), DIMENSION(:), ALLOCATABLE        :: DRAPE_SH4N,DRAPE_SH3N
@@ -994,10 +987,6 @@ C     allocations structure TABLE
       ELSE
         ALLOCATE(TABLE(0))
       END IF
-c     allocation of material parameters
-      ALLOCATE (MATPARAM_TAB(NUMMAT) )
-c     allocation of element group parameters
-      ALLOCATE (GROUP_PARAM_TAB(NGROUP) )
 !     allocation of engine time array
       ALLOCATE(GLOBAL_COMP_TIME%ENGINE_TIME(IRUNN))
 c
@@ -1008,7 +997,7 @@ c
      .   ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0001.rst'
 c
       CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
-     .            MULTI_FVM        ,H3D_DATA  ,MATPARAM_TAB ,GROUP_PARAM_TAB ,PINCH_DATA,
+     .            MULTI_FVM        ,H3D_DATA  ,PINCH_DATA,
      .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
      .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           ,MAT_ELEM   )
 
@@ -1499,7 +1488,7 @@ C     ... Switch for cohesive elements should also be done here ...
 C-----------------------------------------------------
       IF(MCHECK==0)THEN
         CALL SWITCH_TO_DTNODA(
-     .                    IXR      ,GEO      ,PM       ,IPARG    ,ELBUF_TAB,
+     .                    IXR      ,GEO      ,PM       ,IPARG    ,MAT_ELEM%ELBUF,
      .                    MS       ,IN       ,ITAB     ,IGEO     ,IPM    ,
      .                    BUFMAT   ,IPART    ,IGRNOD   ,IGRPART)
       END IF
@@ -1538,7 +1527,7 @@ C------------------------------------------------
      A              IGRNOD ,KXSP,WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
-     D              IFRAME,XFRAME,ELBUF_TAB,IGEO,INTBUF_TAB,
+     D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTBUF_TAB,
      E              IPM   ,H3D_DATA, MULTI_FVM,
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
@@ -2196,7 +2185,7 @@ c
 #endif
         ENDIF
       ENDIF
-      CALL INIT_TH0( IPARG,ELBUF_TAB,IGEO,IXR,OUTPUT%TH,WEIGHT)
+      CALL INIT_TH0( IPARG,MAT_ELEM%ELBUF,IGEO,IXR,OUTPUT%TH,WEIGHT)
       CALL TRACE_OUT(18)
 C---------------------------------------------------------------------
 #ifdef DNC
@@ -2231,11 +2220,11 @@ C---------------------------------------------------------------------
 
          CALL RESOL_HEAD(ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,MCP        ,TEMP      ,
-     .                   ELBUF_TAB    ,XFEM_TAB        ,INTBUF_TAB      ,STACK      ,IRUNN_BIS ,
+     .                   INTBUF_TAB   ,STACK           ,IRUNN_BIS       ,
      .                   MULTI_FVM    ,H3D_DATA        ,INTBUF_FRIC_TAB ,SUBSETS    ,IGRNOD    ,
      .                   IGRBRIC      ,IGRQUAD         ,IGRSH4N         ,IGRSH3N    ,IGRTRUSS  ,
      .                   IGRBEAM      ,IGRSPRING       ,IGRPART         ,IGRSURF    ,IGRSLIN   ,
-     .                   FORNEQS      ,MATPARAM_TAB    ,GROUP_PARAM_TAB ,PINCH_DATA ,ALE_CONNECTIVITY,
+     .                   FORNEQS      ,PINCH_DATA      ,ALE_CONNECTIVITY,
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  )

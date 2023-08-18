@@ -63,11 +63,11 @@ Chd|====================================================================
       SUBROUTINE RESOL_HEAD(
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
-     .           ELBUF_TAB   ,XFEM_TAB    ,INTBUF_TAB     ,STACK      ,IRUNN_BIS       ,
+     .           INTBUF_TAB  ,STACK       ,IRUNN_BIS      ,
      .           MULTI_FVM   ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS    ,IGRNOD          ,
      .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    ,IGRTRUSS        ,
      .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    ,IGRSLIN         , 
-     .           FORNEQS     ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA ,ALE_CONNECTIVITY,
+     .           FORNEQS     ,PINCH_DATA  ,ALE_CONNECTIVITY,
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        )
@@ -127,8 +127,6 @@ C     REAL
      .   FORNEQS(*)
       DOUBLE PRECISION XDP(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
-      TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER) :: INTBUF_TAB
       TYPE (STACK_PLY) :: STACK
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -147,8 +145,6 @@ C     REAL
       TYPE(GROUP_)  ,DIMENSION(NGRPART) :: IGRPART
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSLIN
-      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE(GROUP_PARAM_)    ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
@@ -191,7 +187,7 @@ C
      1  ICODE           ,ISKEW          ,ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
      2  IXTG            ,IXS            ,IXQ            ,IXC            ,IXT            ,IXP         ,IXR       ,
      3                   ITAB           ,ITABM1         ,IFILL          ,MAT_ELEM       ,
-     4  IMS             ,NPC            ,IBCL           ,MATPARAM_TAB   ,GROUP_PARAM_TAB,
+     4  IMS             ,NPC            ,IBCL           ,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
      6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
@@ -249,11 +245,11 @@ C
      2  INOD_CRKXFEM    ,IEL_CRKXFEM    ,IADC_CRKXFEM   ,ADSKY_CRKXFEM  ,
      3  CNE_CRKXFEM     ,PROCNE_CRKXFEM ,IADSDP_CRKXFEM ,IADRCP_CRKXFEM ,IBUFSSG_IO     ,
      4  IBC_PLY         ,DMINT2         ,IBORDNODE      ,
-     5  ELBUF_TAB       ,POR ,NODEDGE   ,IAD_EDGE       ,
+     5  MAT_ELEM%ELBUF  ,POR            ,NODEDGE        ,IAD_EDGE       ,
      6  FR_EDGE         ,FR_NBEDGE      ,CRKNODIAD      ,LGAUGE         ,GAUGE          ,
      7  IGAUP           ,NGAUP          ,NODLEVXF       ,DD_R2R_ELEM    ,WEIGHT_MD      ,
      8  NODGLOBXFE      ,SPH2SOL        ,SOL2SPH        ,IRST           ,FSKYD          ,
-     9  DMSPH           ,WAGAP          ,XFEM_TAB       ,ELCUTC         ,NODENR         ,
+     9  DMSPH           ,WAGAP          ,MAT_ELEM%XFEM_TAB,ELCUTC       ,NODENR         ,
      A  KXFENOD2ELC     ,ENRTAG         ,INTBUF_TAB     ,
      B  RTHBUF          ,KXIG3D         ,IXIG3D         ,KNOT           ,WIGE           ,
      C  WSMCOMP        ,STACK          ,
