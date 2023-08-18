@@ -293,7 +293,7 @@ C-----------------------------------------------
      .   ALOGEY(MVSIZ), POLD(MVSIZ),
      .   P01(MVSIZ), P02(MVSIZ), E01(MVSIZ), E02(MVSIZ),
      .   ER1V(MVSIZ), ER2V(MVSIZ), WDR1V(MVSIZ), WDR2V(MVSIZ),W1(MVSIZ),
-     .   HEAT_MECA_L
+     .   HEAT_MECA_L,VOLG(MVSIZ)
       my_real
      .   Q1,Q2,Q3,STR1,STR2,STR3,STR4,STR5,STR6,WXXF,WYYF,WZZF
       my_real, DIMENSION(NEL), TARGET :: LE_MAX
@@ -1779,14 +1779,14 @@ C
 C---------------------------------------------------------------------
 C   calcul of viscosity ( Navier-Stokes) 
 C---------------------------------------------------------------------
-      IF( (MTN < 28 .AND. MTN /= 24) .OR. MTN == 49) THEN
+      IF(ISVIS > 0.AND. ((MTN < 28 .AND. MTN /= 24) .OR. MTN == 49)) THEN
+        VOLG(1:NEL)=NPG*VOLN(1:NEL)
         CALL MNSVIS(
      1   PM,      OFF,     LBUF%RHO,GEO,
-     2   PID,     CXX,     AIRE,    VOLN,
+     2   PID,     CXX,     AIRE,    VOLG,
      3   DXX,     DYY,     DZZ,     D4,
      4   D5,      D6,      MAT,     ISVIS,
      5   RHOREF,  NEL)
-        IF (ISVIS > 0) THEN
           DO  I=1,NEL                                                 
             VOL(I)  = LBUF%VOL(I)                                       
             EINT(I) = LBUF%EINT(I)                                      
@@ -1801,7 +1801,6 @@ C---------------------------------------------------------------------
             EINT(I)=EINT(I)/MAX(EM20,VOL(I))                            
             LBUF%EINT(I) = EINT(I)     
           ENDDO     
-        ENDIF  
       ENDIF    
 C-----------------------------------------------------------------------
 C     viscous stress (/VISC models) 

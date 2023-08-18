@@ -286,7 +286,7 @@ C-----------------------------------------------
      *        UPSXX(MVSIZ),UPSYY(MVSIZ),UPSZZ(MVSIZ),UPSXY(MVSIZ),
      *        UPSYZ(MVSIZ),UPSXZ(MVSIZ),TREPSTH(MVSIZ)
       my_real 
-     .   RHO0(MVSIZ),BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,POLD
+     .   RHO0(MVSIZ),BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,POLD,VOLG(MVSIZ)
       my_real TT_LOCAL
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
@@ -2175,8 +2175,9 @@ C     viscous stress (/VISC models)  !!!
        ENDIF 
 C  viscosity ( Navier-Stokes)
       IF (ISVIS > 0) THEN
+        VOLG(1:NEL)=NPG*VOLN(1:NEL)
       CALL NSVISUL(NEL     ,PM      ,OFF     ,RHO     ,GEO    ,
-     2             PID     ,SSP     ,AIRE    ,VOLN    ,EP1    ,
+     2             PID     ,SSP     ,AIRE    ,VOLG    ,EP1    ,
      3             EP2     ,EP3     ,EP4     ,EP5     ,EP6    ,
      4             SV1     ,SV2     ,SV3     ,SV4     ,SV5    ,
      5             SV6     ,S3      ,ES3     ,RHO0    ,RHOREF )
