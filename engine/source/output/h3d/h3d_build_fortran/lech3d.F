@@ -858,7 +858,7 @@ c          ENDIF
 C-------------------------------------------------- 
           IF(KEY2 == 'SHELL' .OR. KEY2 =='ELEM'.OR. KEY2 =='SOLID' .OR.
      .       KEY2 == 'BRICK' .OR. KEY2 =='QUAD'.OR. KEY2 =='BEAM ' .OR.
-     .       KEY2 == 'SPRING'.OR. KEY2 =='TRUSS') THEN
+     .       KEY2 == 'SPRING'.OR. KEY2 =='TRUSS'.OR. KEY2 =='SPH') THEN
 C-------------------------------------------------- 
             NLAY_MAX = 0
             NIP_MAX = 0
@@ -1797,13 +1797,59 @@ C--------------------------------------------------
 C--------------------------------------------------
             JMAX=MAX(H3D_NUM_KEY%SPH_SCALAR, H3D_NUM_KEY%SPH_TENSOR)
 	    DO J=1,JMAX
+        CPT_H3D = 0
+        IF (H3D_KEYWORD_SPH_SCALAR(J)%IS_ID /= 0 ) THEN
+          IF (IS_ID_ALL == 0) THEN
+            CPT_H3D = CPT_H3D + 1
+            IDS_INPUT(CPT_H3D) = -1
+            IF (H3D_KEYWORD_SPH_SCALAR(J)%IS_ID == 1) THEN
+              IF (ID /= 0) IDS_INPUT(CPT_H3D) = ID
+              IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
+              ENDIF
+            ENDIF
+          ELSE
+            IF (ID_MAX /= 0) THEN
+              DO Q=1,MAX(1,IS_ID_ALL*MAX(ID_MAX,1))
+                CPT_H3D = CPT_H3D + 1
+                IDS_INPUT(CPT_H3D) = -1
+                IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = Q
+                IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
+                IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                  IF (IS_ID_ALL == 1) THEN 
+                    IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(Q)
+                    IRUP_H3D(CPT_H3D)  = IRUP_ALL(Q)
+                  ELSE 
+                    IRUP_H3D(CPT_H3D)  = IRUP_ALL(1)
+                  ENDIF
+                ENDIF
+              ENDDO 
+            ENDIF
+          ENDIF
+        ELSEIF(H3D_KEYWORD_SHELL%IS_ID == 0 .AND. IS_ID == 0) THEN
+          CPT_H3D = CPT_H3D + 1
+          IDS_INPUT(CPT_H3D) = -1
+        ENDIF
 
 	      IF ( KEY3_GLOB == H3D_KEYWORD_SPH_SCALAR(J)%KEY3 )THEN
-               
-           	CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
-     .     				   TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),
-     .                                     H3D_KEYWORD_SPH_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
-     .                                     IUVAR)
+
+            IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+              DO K=1,CPT_H3D
+                TEST_CHAIN = ''
+                WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
+     .                TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
+                H3D_KEYWORD_SPH_SCALAR(J)%TEXT1 = TEST_CHAIN
+                CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
+     .     				     TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),
+     .                                       H3D_KEYWORD_SPH_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
+     .                                       IUVAR,IDS_INPUT(K))
+              ENDDO
+            ELSE
+           	  CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
+     .     				     TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),
+     .                                       H3D_KEYWORD_SPH_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
+     .                                       IUVAR,IDS_INPUT(1))
+            ENDIF
            	IOK_H3DKEY = 1
 	      ENDIF
 c
@@ -2078,7 +2124,7 @@ c
 C-------------------------------------------------- 
           IF(KEY2 == 'SHELL' .OR. KEY2 =='ELEM'.OR. KEY2 =='SOLID' .OR.
      .       KEY2 == 'BRICK' .OR. KEY2 =='QUAD'.OR. KEY2 =='BEAM ' .OR.
-     .       KEY2 == 'SPRING'.OR. KEY2 =='TRUSS') THEN
+     .       KEY2 == 'SPRING'.OR. KEY2 =='TRUSS'.OR.KEY2 =='SPH') THEN
 C-------------------------------------------------- 
             DEALLOCATE (LAYER_INPUT)
             DEALLOCATE (IPT_INPUT)

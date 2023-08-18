@@ -69,7 +69,7 @@ extern "C"
 /*=================================================================*/
 
 void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                       char *comment, int *s_comment)
+                                       char *comment, int *s_comment, int *id)
 {
     char *cname,*cname2,*ccomment;
     int cname_len,cname_len1,ccomment_len;
@@ -110,6 +110,8 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
     MID_STRING[0] ='\0'; 
     char * RES_STRING = new char [100];
     RES_STRING[0] ='\0'; 
+    char * ID_STRING = new char [100];
+    ID_STRING[0] ='\0'; 
 
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
@@ -129,6 +131,15 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
 #endif
     }
 
+    if(*id > 0)
+    {
+        sprintf(ID_STRING, " id %d",*id);
+#ifdef _WIN64
+        strcat_s(RES_STRING,100,ID_STRING);
+#else
+        RES_STRING = strcat(RES_STRING,ID_STRING);
+#endif
+    }
 
     char edata_type[50];
 //
@@ -190,14 +201,14 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
 
 
 void _FCALL C_H3D_CREATE_SPH_SCALAR_DATATYPE(int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                             char *comment, int *s_comment)
-{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment);}
+                                             char *comment, int *s_comment, int *id)
+{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id);}
 
 void c_h3d_create_sph_scalar_datatype__ (int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                         char *comment, int *s_comment)
-{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment);}
+                                         char *comment, int *s_comment, int *id)
+{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id);}
 
 void c_create_sph_scalar_datatype (int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                   char *comment, int *s_comment)
-{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment);}
+                                   char *comment, int *s_comment, int *id)
+{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id);}
 }

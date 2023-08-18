@@ -29,7 +29,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE CREATE_H3D_SPH_SCALAR(H3D_DATA,ID_SPH_SCALAR,ID_INPUT,TEXT1,STEXT1,
-     .                                 COMMENT, SCOMMENT, IPART,KEY3_GLOB,IUVAR)
+     .                                 COMMENT, SCOMMENT, IPART,KEY3_GLOB,IUVAR,ID)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C-----------------------------------------------
       CHARACTER(LEN=STEXT1) ::  TEXT1
       CHARACTER(LEN=ncharline) :: KEY3_GLOB
       CHARACTER(LEN=SCOMMENT) :: COMMENT
+      INTEGER,INTENT(IN) :: ID
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,6 +76,7 @@ C=========================================================================
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%STRING1(1:STEXT1) = TEXT1(1:STEXT1)
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_COMMENT = SCOMMENT
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%COMMENT(1:SCOMMENT) = COMMENT(1:SCOMMENT)
+      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OBJECT_ID = ID
 
       N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_H3D_PART_LIST = N_H3D_PART

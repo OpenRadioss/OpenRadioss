@@ -41,7 +41,7 @@ Chd|====================================================================
      .                  INVERT    ,X         ,V         ,W           ,
      .                  NV46      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
      .                  STACK     ,ID_ELEM   ,IPARTSP   ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SPH,INFO1,KEYWORD    ,SPBUF       )
+     .                  IS_WRITTEN_SPH,INFO1,KEYWORD    ,SPBUF       ,ID          )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
+      INTEGER, INTENT(IN) :: ID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -471,6 +472,23 @@ C--------------------------------------------------
                      VALUE(I) = MAX(DFMAX(I),VALUE(I))
                      IS_WRITTEN_VALUE(I) = 1  	
                    ENDDO
+                 ENDDO 
+C--------------------------------------------------        
+              ELSEIF(KEYWORD == 'FAILURE') THEN
+C--------------------------------------------------
+                 DO I = 1,NEL
+                   VALUE(I) = ZERO
+                 ENDDO
+                 NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL  
+                 DO IR=1,NFAIL 
+                   IF (ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%IDFAIL == ID) THEN	
+                     DFMAX=>
+     .                ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%DAMMX
+                     DO I=1,NEL					
+                       VALUE(I) = DFMAX(I)
+                       IS_WRITTEN_VALUE(I) = 1  	
+                     ENDDO
+                   ENDIF
                  ENDDO 
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'DOMAIN')THEN

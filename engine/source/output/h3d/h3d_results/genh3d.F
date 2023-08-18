@@ -2840,6 +2840,7 @@ c-----
           IUVAR = H3D_DATA%OUTPUT_LIST(I)%IUVAR
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
           KEYWORD = H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+          OBJECT_ID = H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID
 c          IF(ISPMD == 0)  print *,'SPH scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
           CALL H3D_SPH_SCALAR(
@@ -2851,7 +2852,8 @@ c          IF(ISPMD == 0)  print *,'SPH scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1
      .                    INVERT    ,X         ,V             ,W            ,
      .                    NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                    STACK     ,SPH_ID  ,IPARTSP      ,IUVAR      ,
-     .                    H3D_DATA%OUTPUT_LIST(I)%PART,IS_WRITEN_SPH,INFO1,KEYWORD,SPBUF  )
+     .                    H3D_DATA%OUTPUT_LIST(I)%PART,IS_WRITEN_SPH,INFO1,KEYWORD,SPBUF,
+     .                    OBJECT_ID )
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
