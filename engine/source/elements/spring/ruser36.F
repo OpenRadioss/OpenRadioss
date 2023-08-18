@@ -39,23 +39,12 @@ Chd|====================================================================
      5             XL      ,VX      ,RY1    ,RZ1    ,RX     ,
      6             RY2     ,RZ2     )
 C-------------------------------------------------------------------------
-C  PROJET PREDIT - MECALOG  (NOVEMBRE98 - NOVEMBRE 2000)
-C 
-C  ROUTINE USER POUR RESSORT SPECIFIQUE PREDIT
-C
-C  Modele : A . Combescure
-C  Implementation initiale :   Q.Zeng / C. Benoit
-C  Mises a jour : Q. Zeng / F. Delcroix
-C-------------------------------------------------------------------------
-C   I M P L I C I T   T Y P E S
+C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
 C----------------------------------------------------------
-C   D U M M Y   A R G U M E N T S   A N D   F U N C T I O N
+C   d u m m y   a r g u m e n t s   a n d   f u n c t i o n
 C----------------------------------------------------------
       INTEGER NEL,NUVAR,IPROP,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,

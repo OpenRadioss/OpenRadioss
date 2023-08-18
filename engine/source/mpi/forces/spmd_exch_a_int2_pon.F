@@ -424,7 +424,7 @@ C
 
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO L=1,NBISEND
         CALL MPI_WAITANY(NBISEND,REQ_S,INDEXI,STATUS,IERROR)

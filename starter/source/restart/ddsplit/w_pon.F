@@ -1395,7 +1395,7 @@ C
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             DO K=1,NRTM
-Cel TAGE flag servant pour inacti
+C   TAGE flag servant pour inacti
               N1 = INTBUF_TAB(N)%IRECTM(4*(K-1)+1)
               N2 = INTBUF_TAB(N)%IRECTM(4*(K-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(K-1)+3)

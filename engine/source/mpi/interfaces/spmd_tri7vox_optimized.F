@@ -154,7 +154,7 @@ C
          END DO
       END IF
 C
-Cel boite minmax pour le tri provenant de i7buce BMINMA
+C   boite minmax pour le tri provenant de i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -229,11 +229,11 @@ C
       ENDIF
 
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
 
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -663,7 +663,7 @@ C reset old tag for next P
 C
       IF(ITYP==25) DEALLOCATE(ITAGNSNFI)
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0

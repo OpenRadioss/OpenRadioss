@@ -191,7 +191,7 @@ C
               L = L + E_LEN
             END DO
            ENDIF
-Cel D est a envoyer pour sorties
+C   D est a envoyer pour sorties
           ELSEIF(NEW_D==1) THEN
            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
@@ -264,7 +264,7 @@ Cel D est a envoyer pour sorties
               L = L + E_LEN
             END DO
            ENDIF
-Cel NEW_D==2 => Envoyer D et W
+C   NEW_D==2 => Envoyer D et W
           ELSE
            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
@@ -387,7 +387,7 @@ C----------------------------------------------------------------------------
          ENDIF
 C----------------------------------------------------------------------------
        ENDDO
-Cel wait terminaison isend
+C   wait terminaison isend
        DO I = 1, NSPMD
          IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
            CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
@@ -479,7 +479,7 @@ C
                 L = L + E_LEN
               END DO
             ENDIF
-Cel D a recevoir
+C   D a recevoir
           ELSEIF(NEW_D==1) THEN
             IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"

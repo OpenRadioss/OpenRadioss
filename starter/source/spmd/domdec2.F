@@ -655,7 +655,7 @@ C-----------------------------------------------------
             ENDIF
           ENDDO
         ENDDO
-Cel traitement noeuds non connectes
+C   traitement noeuds non connectes
         DO N = 1, NRBE2
           NSN = IRBE2(5,N)
           M   = IRBE2(3,N)
@@ -805,7 +805,7 @@ C--------------------------------------------------------------
           ENDDO
           K = K + NSN
         ENDDO
-Cel traitement noeuds non connectes
+C   traitement noeuds non connectes
         K=0
         DO N = 1, NRBYKIN
           NSN = NPBY(2,N)
@@ -923,7 +923,7 @@ C-----------------------------------------------------
           ENDDO
           K = K + NSN
         ENDDO
-Cel traitement noeuds non connectes
+C   traitement noeuds non connectes
         K=0
         DO N = 1, NIBVEL
           NSN = IBVEL(3,N)
@@ -1376,7 +1376,7 @@ C
         ENDDO
       ENDDO
 C
-Cel traitement a part du 3eme noeud optionnel sauf type 12
+C   traitement a part du 3eme noeud optionnel sauf type 12
       DO K=2,3
         DO I=1,NUMELR
           N = IXR(K,I) + 1
@@ -1406,7 +1406,7 @@ C elem penta6
       END IF
 C
 C--------------------------------------
-Cel prise en compte des forces des mv
+C   prise en compte des forces des mv
 C--------------------------------------
       IF (NVOLU>0) THEN
         K3 = 1 + NIMV * NVOLU + NICBAG * NVOLU * NVOLU
@@ -1625,7 +1625,7 @@ C-----------------------------------------------
             NIN = 0
             ITY_OLD = ITY
           ENDIF
-Cel SPH non pris en comp
+C   SPH non pris en comp
           IF(ITY/=51) THEN
            IF (P==PROC) THEN
             DO I = 1, NEL
@@ -2293,7 +2293,7 @@ C
       OFF = OFF + NUMELX
 C
 C---------------------------------------------
-Cel mv
+C   mv
       IF (NVOLU>0) THEN
         K1 = 1
         DO N = 1, NVOLU

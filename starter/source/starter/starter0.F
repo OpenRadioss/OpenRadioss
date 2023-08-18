@@ -232,7 +232,6 @@ C
 C CODVERS : VERSION CODE        = 2019 IF RELEASE 2019
 C IMINVER : MINOR VERSION CODE  = 1 IF MINOR RELEASE A(A~1) OF 4.4 RELEASE
 C ISRCVER : SOURCE VERSION CODE = 41*100+9
-C                                   IF RELEASE WAS BUILT FROM SOURCE Bug41i
 C-------------------------------------------------------------------
       CODVERS          = 2023
       IMINVER          = 1

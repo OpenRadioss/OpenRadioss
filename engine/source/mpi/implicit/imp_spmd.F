@@ -1651,7 +1651,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(ND_FR(I)>0)THEN
@@ -1883,7 +1883,7 @@ C--------------------------------------------------------------------
         IAD =IAD + ND_FR(I)+1
        ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(SIZ(I)>0)THEN
@@ -1967,7 +1967,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(I/=LOC_PROC)THEN
@@ -2060,7 +2060,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(I/=LOC_PROC)THEN
@@ -2190,7 +2190,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
@@ -2311,7 +2311,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
@@ -2433,7 +2433,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
@@ -2530,7 +2530,7 @@ C--------------------------------------------------------------------
        ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF((IAD_ELEM(1,I+1)-IAD_ELEM(1,I))>0)THEN
@@ -2646,7 +2646,7 @@ C--------------------------------------------------------------------
        ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_S(I+1)-IAD_S(I)>0)THEN
@@ -2742,7 +2742,7 @@ C--------------------------------------------------------------------
        ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF((IAD_ELEM(I+1)-IAD_ELEM(I))>0)THEN
@@ -2891,7 +2891,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
@@ -2987,7 +2987,7 @@ C--------------------------------------------------------------------
        ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF((IAD_ELEM(1,I+1)-IAD_ELEM(1,I))>0)THEN
@@ -3391,7 +3391,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_S(I+1)-IAD_S(I)>0)THEN
@@ -3507,7 +3507,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_S(I+1)-IAD_S(I)>0)THEN
@@ -3621,7 +3621,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_S(I+1)-IAD_S(I)>0)THEN
@@ -3734,7 +3734,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
@@ -3849,7 +3849,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
@@ -3964,7 +3964,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
@@ -4080,7 +4080,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
@@ -4192,7 +4192,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
@@ -4713,7 +4713,7 @@ C--------------------------------------------------------------------
        ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF((IAD_ELEM(I+1)-IAD_ELEM(I))>0)THEN
@@ -4931,7 +4931,7 @@ C--------------------------------------------------------------------
         ENDIF
       ENDDO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
         IF(ND_FR(I)>0)THEN

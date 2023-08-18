@@ -201,10 +201,10 @@ C
  	       CALL SPMD_GLOB_ISUM9(ICOMERR,ILEN)
  	       CALL SPMD_GLOB_ISUM9(ICOMNGR,ILEN)
  	       CALL SPMD_GLOB_ISUM9(ICOMNEL,ILEN)
-Cel partie noeud sur P0 uniquement
+C   partie noeud sur P0 uniquement
  	    IF(ISPMD/=0) GOTO 900
        END IF
-Cel interface traitee par p0
+C   interface traitee par p0
       ELSE
        IF(ISPMD/=0) RETURN
       ENDIF

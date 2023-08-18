@@ -979,7 +979,7 @@ C-----------------------------
 C-----------------------------
 C           ACCELEROMETRE
 C-----------------------------
-Cel en spmd seul p0 ecrit accelerometres
+C   en spmd seul p0 ecrit accelerometres
             IF (ISPMD==0) THEN
               II = 0
               DO J=IAD,IAD+NN-1

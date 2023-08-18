@@ -201,7 +201,7 @@ C poutre
         IP_L = IP_L + 2*NSELP_S_L
         IP = IP + 2*NSELP_S
         OFF = OFF + NUMELP
-Cel ressort
+C   ressort
         DO J = 1, NSELR_S
           K = NSTRF(IP + J*2 - 1)
           IF(CEP(K+OFF)==PROC) THEN
@@ -214,7 +214,7 @@ Cel ressort
         IP_L = IP_L + 2*NSELR_S_L
         IP = IP + 2*NSELR_S
         OFF = OFF + NUMELR
-Cel triangle
+C   triangle
         DO J = 1, NSELTG_S
           K = NSTRF(IP + J*2 - 1)
           IF(CEP(K+OFF)==PROC) THEN

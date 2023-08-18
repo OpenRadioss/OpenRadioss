@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Celdev023 routine duale de i2for3 pour parith/on spmd
+C  dev023 routine duale de i2for3 pour parith/on spmd
 Chd|====================================================================
 Chd|  I2FOR3PN                      source/interfaces/interf/i2for3p.F
 Chd|-- called by -----------
@@ -77,7 +77,7 @@ C-----------------------------------------------
             I3=3*I
             I2=I3-1
             I1=I2-1
-Cel traitement 1er noeud secnd
+C   traitement 1er noeud secnd
             IF (WEIGHT(I)==1) THEN
 C
               XMSI=MS(I)
@@ -148,7 +148,7 @@ C stokage ZERO pour noeuds delete par idel2
             FSKYI2(5,NN) = ZERO
           ENDIF
         ENDDO
-Cel NIR = 4
+C   NIR = 4
       ELSE
 #include "vectorize.inc"
         DO II=1,NSN
@@ -158,7 +158,7 @@ Cel NIR = 4
             I3=3*I
             I2=I3-1
             I1=I2-1
-Cel traitement 1er noeud secnd
+C   traitement 1er noeud secnd
             IF (WEIGHT(I)==1) THEN
 C
               XMSI=MS(I)
@@ -315,7 +315,7 @@ C     REAL
      .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,H2(4)
 C=======================================================================
       L = 0
-Cel sauvegarde de la masse initiale
+C   sauvegarde de la masse initiale
       DO II=1,NMN
         J=MSR(II)
         MMASS(II)=MS(J)
@@ -330,7 +330,7 @@ C
         I3=3*I
         I2=I3-1
         I1=I2-1
-Cel traitement 1er noeud secnd
+C   traitement 1er noeud secnd
           IF (WEIGHT(I)==1) THEN
 C
         SS=CRST(1,II)
@@ -383,7 +383,7 @@ C
         FSKYI2(5,NN) = ZERO
         END IF
         ENDDO
-Cel NIR = 4
+C   NIR = 4
       ELSE
 #include "vectorize.inc"
         DO II=1,NSN
@@ -393,7 +393,7 @@ Cel NIR = 4
         I3=3*I
         I2=I3-1
         I1=I2-1
-Cel traitement 1er noeud secnd
+C   traitement 1er noeud secnd
         IF (WEIGHT(I)==1) THEN
 C
         XMSI=MS(I)
@@ -542,7 +542,7 @@ C     REAL
      .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
      .   H(4),H2(4)
 C-----------------------------------------------
-Cel sauvegarde de la masse initiale
+C   sauvegarde de la masse initiale
       DO II=1,NMN
         J=MSR(II)
         MMASS(II)=MS(J)
@@ -555,7 +555,7 @@ C
           I3=3*I
           I2=I3-1
           I1=I2-1
-Cel traitement 1er noeud secnd
+C   traitement 1er noeud secnd
           IF (WEIGHT(I)==1) THEN
 C
             SS=CRST(1,II)
@@ -593,7 +593,7 @@ C
           A(I2)=ZERO
           A(I3)=ZERO
         ENDDO
-Cel NIR = 4
+C   NIR = 4
       ELSE
 #include "vectorize.inc"
         DO II=1,NSN
@@ -602,7 +602,7 @@ Cel NIR = 4
           I3=3*I
           I2=I3-1
           I1=I2-1
-Cel traitement 1er noeud secnd
+C   traitement 1er noeud secnd
           IF (WEIGHT(I)==1) THEN
 C
             XMSI=MS(I)
@@ -1002,7 +1002,7 @@ C
 C
       RETURN
       END
-Celdev023 routine duale de i2mom3 pour parith/on spmd
+C  dev023 routine duale de i2mom3 pour parith/on spmd
 Chd|====================================================================
 Chd|  I2MOM3P                       source/interfaces/interf/i2for3p.F
 Chd|-- called by -----------
@@ -1186,7 +1186,7 @@ C
 C
       RETURN
       END
-Celdev023 routine duale de i2fomo3 pour parith/on spmd
+C  dev023 routine duale de i2fomo3 pour parith/on spmd
 C==========================================================================
 Chd|====================================================================
 Chd|  I2FOMO3P                      source/interfaces/interf/i2for3p.F

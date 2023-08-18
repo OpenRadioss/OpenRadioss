@@ -304,7 +304,7 @@ C
          END DO
       END IF
 C
-Cel boite minmax pour le tri provenant de i7buce BMINMA
+C   boite minmax pour le tri provenant de i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -316,7 +316,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -337,7 +337,7 @@ C
         ENDDO
       ENDIF
 C
-Cel reception voxel + boites min-max
+C   reception voxel + boites min-max
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -361,7 +361,7 @@ C
         ENDDO
       ENDIF
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -787,7 +787,7 @@ C reset old tag for next P
 C
       IF(ITYP==25) DEALLOCATE(ITAGNSNFI)
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -1001,7 +1001,7 @@ C
          END DO
       END IF
 C
-Cel boite minmax pour le tri provenant de i7buce BMINMA
+C   boite minmax pour le tri provenant de i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -1013,7 +1013,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -1034,7 +1034,7 @@ C
         ENDDO
       ENDIF
 C
-Cel reception voxel + boites min-max
+C   reception voxel + boites min-max
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -1058,7 +1058,7 @@ C
         ENDDO
       ENDIF
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -1299,7 +1299,7 @@ C
       ENDIF       
 C
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -1524,7 +1524,7 @@ C
          END DO
       END IF
 C
-Cel boite minmax pour le tri provenant de i7buce BMINMA
+C   boite minmax pour le tri provenant de i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -1536,7 +1536,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -1560,7 +1560,7 @@ C
         ENDDO
       ENDIF
 C
-Cel reception voxel + boites min-max
+C   reception voxel + boites min-max
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -1584,7 +1584,7 @@ C
         ENDDO
       ENDIF
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -2130,7 +2130,7 @@ C NITSCHE
         ENDDO
       ENDIF       
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -2820,7 +2820,7 @@ C NITSCHE
         ENDDO  ! end do NSPMD        	
 	
         LSKYFI = NN2*MULTIMAX
-Cel nsnr nouveau utile pour inacti
+C   nsnr nouveau utile pour inacti
         NSNR = NN2
       ENDIF
 C
@@ -3399,7 +3399,7 @@ C We Store PENE_OLD(3 in PENE_OLD(4 during sorting
         ENDDO  ! end do NSPMD        	
 	
         LSKYFI = NN2*MULTIMAX
-Cel nsnr nouveau utile pour inacti
+C   nsnr nouveau utile pour inacti
         NSNR = NN2
       ENDIF
 C
@@ -3660,7 +3660,7 @@ C
 C
       LOC_PROC = ISPMD + 1
 C
-Cel boite minmax pour le tri provenant de i10buce BMINMA
+C   boite minmax pour le tri provenant de i10buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -3671,7 +3671,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi boite
+C   envoi boite
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -3686,7 +3686,7 @@ C
         ENDDO
       ENDIF
 C
-Cel reception des boites min-max
+C   reception des boites min-max
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -3704,7 +3704,7 @@ C
         ENDDO
       ENDIF
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 c general case
       RSIZ = 8    
@@ -3868,7 +3868,7 @@ C -- IDTMINS_INT /= 0
         ENDDO
       ENDIF
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -4182,7 +4182,7 @@ C -- IDTMINS_INT /= 0
           ENDDO  ! fin do NSPMD   	
 	
         LSKYFI = NN2*MULTIMAX
-Cel nsnr nouveau utile pour inacti
+C   nsnr nouveau utile pour inacti
         NSNR = NN2
       ENDIF
 C
@@ -4529,7 +4529,7 @@ C
 C
 C
 C
-Cel boite minmax pour le tri provenant de i11uce BMINMA
+C   boite minmax pour le tri provenant de i11uce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -4541,7 +4541,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -4562,7 +4562,7 @@ C
         ENDDO
       ENDIF
 C
-Cel reception voxel + boites min-max
+C   reception voxel + boites min-max
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -4586,7 +4586,7 @@ C
         ENDDO
       ENDIF
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 c general case
       RSIZ = 15
@@ -4884,7 +4884,7 @@ C
       ENDIF !ENDIF SENDTO(NIN,LOC_PROC)/=0
 C
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NRTSR = 0
@@ -5324,8 +5324,8 @@ C
 
         ENDDO ! end do NSPMD 
 	
-Cel facteur 2 car 2 noeuds par segement => pris en compte au niveau
-Cel de la 1ere dimension allouee
+C   facteur 2 car 2 noeuds par segement => pris en compte au niveau
+C   de la 1ere dimension allouee
         LSKYFI = NN2*MULTIMAX
         NRTSR = NN2
       ENDIF

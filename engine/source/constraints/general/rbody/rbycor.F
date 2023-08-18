@@ -95,7 +95,7 @@ C-------------------------------------
 C CALCUL FORCE RIGID BODIES CLASSIQUES (multi-thread)
 C-------------------------------------
 C
-Cel optimisation locks
+C   optimisation locks
       ENROT_T=ZERO
       ENCIN_T=ZERO
       XMASS_T=ZERO

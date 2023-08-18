@@ -698,7 +698,7 @@ C----6----------KII is always triag_sup whatever IKPAT---------------7--------
        N = NI
        ID = IDDL(N)
        IF (IKPAT==0) THEN
-Cel minimize lockon/lockoff
+C   minimize lockon/lockoff
 #include "lockon.inc"
         DO K=1,ND
 c#include "lockon.inc"
@@ -778,7 +778,7 @@ C---------find l'adress dans LT-----
            ENDIF
           ENDDO 
  100      CONTINUE
-Cel minimize lockon/lockoff
+C   minimize lockon/lockoff
 #include "lockon.inc"
           DO L=1,ND
 c#include "lockon.inc"

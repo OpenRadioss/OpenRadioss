@@ -1262,7 +1262,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1278,7 +1278,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1320,7 +1320,7 @@ C ---
 C
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
@@ -1442,7 +1442,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1458,7 +1458,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1529,7 +1529,7 @@ C ---
 C
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
@@ -1644,7 +1644,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1660,7 +1660,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1688,7 +1688,7 @@ C ---
 C
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
@@ -1926,7 +1926,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1942,7 +1942,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1959,7 +1959,7 @@ C ---
 C
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
@@ -2086,7 +2086,7 @@ C ---
 C
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(DD_R2R(I+1,2)-DD_R2R(I,2)>0)THEN
@@ -2205,7 +2205,7 @@ C ---
 C
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(DD_R2R(I+1,2)-DD_R2R(I,2)>0)THEN

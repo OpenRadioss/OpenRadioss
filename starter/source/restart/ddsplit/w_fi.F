@@ -129,7 +129,7 @@ C
         IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
      .    (ITYP==17.AND.IPARI(33,NI)==0).OR.ITYP==20.OR.
      .    ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.ITYP==25)THEN
-Cel ecriture nsnsi : 0
+C   ecriture nsnsi : 0
           DO P = 1, NSPMD
             NSNFI(P) = 0
           END DO
@@ -138,7 +138,7 @@ Cel ecriture nsnsi : 0
           INACTI = IPARI(22,NI)
           IF(((INACTI/=5.AND.INACTI/=6.AND.INACTI/=7).OR.
      .        ITYP==10).AND.ITYP/=23.AND.INACTI/=-1) THEN
-Cel ecriture nsnfi : 0 si inacti # 5, 6 et 7
+C   ecriture nsnfi : 0 si inacti # 5, 6 et 7
             CALL WRITE_I_C(NSNFI,NSPMD) ! nsnfi at engine
             LEN_IA = LEN_IA + NSPMD
           ELSE
@@ -343,15 +343,15 @@ C
 
             CALL WRITE_I_C(ITAFI,NODFI) !ITAFI
             LEN_IA = LEN_IA + NODFI
-Cel ecriture bidon kinfi
+C   ecriture bidon kinfi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-Cel Void writing for MATSFI
+C   Void writing for MATSFI
             IF (INTTH>0) THEN
                CALL WRITE_I_C(NSVFI,NODFI)
                LEN_IA = LEN_IA + NODFI
             ENDIF
-Cel Void writing for IPARTFRICSFI
+C   Void writing for IPARTFRICSFI
             IF (INTFRIC>0) THEN
                CALL WRITE_I_C(NSVFI,NODFI)
                LEN_IA = LEN_IA + NODFI
@@ -518,16 +518,16 @@ C
 C
             CALL WRITE_I_C(NSNFI,NSPMD)
             CALL WRITE_I_C(NSVFI,NODFI)
-Cel ecriture bidon itafi n1
+C   ecriture bidon itafi n1
             CALL WRITE_I_C(NSVFI,NODFI)
-Cel ecriture bidon itafi n2
+C   ecriture bidon itafi n2
             CALL WRITE_I_C(NSVFI,NODFI)
-Cel Void writing for MATSFI
+C   Void writing for MATSFI
             IF (INTTH>0) THEN
                CALL WRITE_I_C(NSVFI,NODFI)
                LEN_IA = LEN_IA + NODFI
             ENDIF
-Cel Void writing for IPARTSFI
+C   Void writing for IPARTSFI
             IF (INTFRIC>0) THEN
                CALL WRITE_I_C(NSVFI,NODFI)
                LEN_IA = LEN_IA + NODFI
@@ -641,16 +641,16 @@ C
             LEN_IA = LEN_IA + NSPMD
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-Cel ecriture bidon itafi
+C   ecriture bidon itafi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-Cel ecriture bidon kinfi
+C   ecriture bidon kinfi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-Cel ecriture bidon nbinflfi
+C   ecriture bidon nbinflfi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-Cel Void writing for MATSFI
+C   Void writing for MATSFI
             IF (INTTH>0) THEN
                CALL WRITE_I_C(NSVFI,NODFI)
                LEN_IA = LEN_IA + NODFI
@@ -665,14 +665,14 @@ C fin interface de contact inacti
           END IF
 C Type20 ajout pour edge
           IF (ITYP==20)THEN
-Cel ecriture nsnsie : 0
+C   ecriture nsnsie : 0
              DO P = 1, NSPMD
                NSNFI(P) = 0
              END DO
              CALL WRITE_I_C(NSNFI,NSPMD)
              INACTI = IPARI(22,NI)
              IF(INACTI/=5.AND.INACTI/=6.AND.INACTI/=7) THEN
-Cel ecriture nsnfie : 0 si inacti # 5, 6 et 7
+C   ecriture nsnfie : 0 si inacti # 5, 6 et 7
                CALL WRITE_I_C(NSNFI,NSPMD)
              ELSE
                NRTS   = IPARI(3,NI)
@@ -785,9 +785,9 @@ C
 C
                CALL WRITE_I_C(NSNFI,NSPMD)
                CALL WRITE_I_C(NSVFI,NODFI)
-Cel ecriture bidon itafi n1
+C   ecriture bidon itafi n1
                CALL WRITE_I_C(NSVFI,NODFI)
-Cel ecriture bidon itafi n2
+C   ecriture bidon itafi n2
                CALL WRITE_I_C(NSVFI,NODFI)
 C
                DEALLOCATE(NRTSLOCAL)
@@ -844,7 +844,7 @@ C LEDGE_FIE
               ENDDO
               NSNE =  E_IBUF_SIZE*NEDGE_KEPT
               CALL WRITE_I_C(LEDGE_FIE,NSNE) ! LEDGE_FIE
-Cel Void writing for IPARTFRIC_FIE
+C   Void writing for IPARTFRIC_FIE
               IF (INTFRIC>0) THEN
                   CALL WRITE_I_C(I25_FIE(NI,PROC+1)%ID(1:NEDGE_KEPT),NEDGE_KEPT)
                ENDIF
@@ -869,13 +869,13 @@ C
         IF(ITYP==21 ) THEN
           INTTH = IPARI(47,NI)
           IF(INTTH==2.OR.IPARI(95,NI) > 0) THEN
-Cel ecriture NMNSI : 0
+C   ecriture NMNSI : 0
           DO P = 1, NSPMD
             NMNFI(P) = 0
           END DO
           CALL WRITE_I_C(NMNFI,NSPMD)
           LEN_IA = LEN_IA + NSPMD
-Cel ecriture nmnfi : 0
+C   ecriture nmnfi : 0
           CALL WRITE_I_C(NMNFI,NSPMD)
           LEN_IA = LEN_IA + NSPMD
 C

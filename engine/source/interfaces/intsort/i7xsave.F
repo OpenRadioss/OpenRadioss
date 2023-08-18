@@ -20,9 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cel|         I10MAIN_TRI                       /intsort/i10main_tri.F
-Cel|         I11MAIN_TRI                       /intsort/i11main_tri.F
-Cel|         I24MAIN_TRI                       /intsort/i24main_tri.F
+C  |         I10MAIN_TRI                       /intsort/i10main_tri.F
+C  |         I11MAIN_TRI                       /intsort/i11main_tri.F
+C  |         I24MAIN_TRI                       /intsort/i24main_tri.F
 Chd|====================================================================
 Chd|  I7XSAVE                       source/interfaces/intsort/i7xsave.F
 Chd|-- called by -----------

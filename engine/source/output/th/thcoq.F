@@ -103,7 +103,7 @@ C=======================================================================
 !   ------------------------------- 
       II=0
       IH=IAD
-Cel specifique spmd
+C   specifique spmd
       IF (IMACH == 3) THEN
 C decalage IH
         DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))

@@ -288,8 +288,8 @@ C-----------------------------------------------
 C Optimisation vectorielle de asspar4
 C-----------------------------------------------
       IF (IVECTOR==1) THEN
-Cel index : 2*numnod
-Cel indsky : numnod
+C   index : 2*numnod
+C   indsky : numnod
         DO N = 1, NUMNOD
           INDSKY(N) = ADDCNE(N+1) - ADDCNE(N)
           INDEX(N) = N

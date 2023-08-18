@@ -346,7 +346,7 @@ C
          CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL0,EPST,DYDX1,Y1)     
 C
 
-Cel remplacer par les sous cas :
+C   remplacer par les sous cas :
 
         DO I=1,NEL0
          J1 = JJ(I) +1

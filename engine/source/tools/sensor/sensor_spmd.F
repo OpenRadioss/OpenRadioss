@@ -276,7 +276,7 @@ C
         CALL SPMD_GLOB_ISUM9(IBUF,LEN)
         CALL SPMD_IBCAST(IBUF,IBUF,LEN,1,0,2)
 C
-Cel il faut corrige la reduction et l'affecter au ipari/nprw
+C   il faut corrige la reduction et l'affecter au ipari/nprw
         LEN = 0
         DO K=1,NSENSOR
          TYP = SENSOR_TAB(K)%TYPE

@@ -95,7 +95,7 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc main (celui qui fait joue le role de P0)
+C   determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (isendto(NIN,K)/=0.OR.
@@ -210,7 +210,7 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc main (celui qui fait joue le role de P0)
+C   determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K)/=0.OR.
@@ -257,7 +257,7 @@ Candidat frontiere
       IENVOI(LOC_PROC) = LEN
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
@@ -360,7 +360,7 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc main (celui qui fait joue le role de P0)
+C   determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K)/=0.OR.
@@ -393,7 +393,7 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
       IENVOI(LOC_PROC) = LEN
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
@@ -498,7 +498,7 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc main (celui qui fait joue le role de P0)
+C   determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K)/=0.OR.
@@ -545,7 +545,7 @@ Candidat frontiere
       IENVOI(LOC_PROC) = LEN
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
@@ -650,7 +650,7 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc main (celui qui fait joue le role de P0)
+C   determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K)/=0.OR.
@@ -697,7 +697,7 @@ Candidat frontiere
       IENVOI(LOC_PROC) = LEN
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
@@ -802,7 +802,7 @@ C
         RETURN
       ENDIF
 C
-Cel determination du proc main (celui qui fait joue le role de P0)
+C   determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
         IF (ISENDTO(NIN,K)/=0.OR.
@@ -849,7 +849,7 @@ Candidat frontiere
       IENVOI(LOC_PROC) = LEN
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
@@ -985,7 +985,7 @@ Candidat frontiere
       END IF
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN>0) THEN
@@ -1122,7 +1122,7 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
       END DO
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN>0) THEN
@@ -1276,7 +1276,7 @@ Candidat frontiere
       END IF
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN>0) THEN
@@ -1443,7 +1443,7 @@ Candidat frontiere
       ENDIF
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN>0) THEN
@@ -1620,7 +1620,7 @@ Candidat frontiere
       ENDIF
 C
       IF (LOC_PROC/=PMAIN) THEN
-Cel pack des candidats ayant stifness negative
+C   pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
         IF(LEN>0) THEN

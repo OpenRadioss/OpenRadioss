@@ -224,7 +224,7 @@ C-----------------------------------------------
  500  CONTINUE
 c      ENDIF
       IF (NSPMD > 1) THEN
-Cel construction tableau global des parts sur p0
+C   construction tableau global des parts sur p0
 
         IF (ISPMD == 0) THEN
 

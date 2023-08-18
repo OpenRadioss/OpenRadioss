@@ -96,7 +96,7 @@ C-----------------------------------------------
         
           IF(ITYP==6) THEN
             IH=IAD
-Cel specifique spmd
+C   specifique spmd
             IF (IMACH == 3) THEN
 C decalage IH
                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
@@ -130,7 +130,7 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-Cel traitement specifique spmd
+C   traitement specifique spmd
                                 IF (IMACH == 3) THEN
 C recherche du ii correct
                                     II = ((IH-1) - IAD)*NVAR
@@ -355,7 +355,7 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-Cel traitement specifique spmd
+C   traitement specifique spmd
                                 IF (IMACH == 3) THEN
 C recherche du ii correct
                                     II = ((IH-1) - IAD)*NVAR
@@ -416,7 +416,7 @@ C
 C
                                     IF (K == N) THEN
                                         IH=IH+1
-Cel traitement specifique spmd
+C   traitement specifique spmd
                                         IF (IMACH == 3) THEN
 C recherche du ii correct
                                             II = ((IH-1) - IAD)*NVAR
@@ -548,7 +548,7 @@ c
 C
                                     IF (K == N) THEN
                                         IH=IH+1
-Cel traitement specifique spmd
+C   traitement specifique spmd
                                         IF (IMACH == 3) THEN
 C recherche du ii correct
                                             II = ((IH-1) - IAD)*NVAR
@@ -601,7 +601,7 @@ C
 C
                                     IF (K == N) THEN
                                         IH=IH+1
-Cel traitement specifique spmd
+C   traitement specifique spmd
                                         IF (IMACH == 3) THEN
 C recherche du ii correct
                                             II = ((IH-1) - IAD)*NVAR

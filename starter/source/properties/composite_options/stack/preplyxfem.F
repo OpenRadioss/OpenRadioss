@@ -66,7 +66,7 @@ C-----------------------------------------------
               DO J=1,NPLYMAX
                  MS_PLY(II,J) = MS_PLY0(I,J)
                  ZI_PLY(II,J) = ZI_PLY0(I,J)
-Celementary compute
+C  ementary compute
 cc                 MSZ2(II) = MSZ20(I)  
 c nodale compute                 
                  MSZ2(II) = MSZ2(II) + 

@@ -354,7 +354,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-Cel si proc concerne par le rgwall
+C   si proc concerne par le rgwall
                   IF(FR_WALL(ISPMD+1,N)/=0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF

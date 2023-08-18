@@ -134,7 +134,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       SEND_SIZE_BMINMA = 6
       RCV_SIZE_BMINMA = 6
@@ -161,7 +161,7 @@ C
      .                         REQUEST_CRVOX,MPI_COMM_WORLD)
 !   -------------------------
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 
 #if _PLMPI
@@ -497,7 +497,7 @@ c      IF (IMONM > 0) CALL STARTIME(25,1)
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       DO P = 1, NSPMD
             IF(P/=LOC_PROC) THEN
@@ -514,7 +514,7 @@ C
             ENDIF
       ENDDO
 C
-Cel reception voxel + boites min-max
+C   reception voxel + boites min-max
 C
       NBIRECV=0
       DO P = 1, NSPMD
@@ -534,7 +534,7 @@ C
             ENDIF
       ENDDO
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
       IDEB = 1
       DO KK = 1, NBIRECV

@@ -153,7 +153,7 @@ C
                 ADDR(P) = ADD
                 SIZ = 0
                 IF(P/=LOC_PROC)THEN
-Cel test en plus pour savoir si com globale necessaire entre les 2 procs
+C   test en plus pour savoir si com globale necessaire entre les 2 procs
                     DO II=1,MULTI_FVM%NUMBER_INT18
                         NIN = MULTI_FVM%INT18_LIST(II)
                         NB = NSNSI(NIN)%P(P)

@@ -534,7 +534,7 @@ C a optimiser
           IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
            IF(IVECTOR==1) THEN
-Cel cas 3D seul possible
+C   cas 3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -561,8 +561,8 @@ Cel cas 3D seul possible
                END DO
              ENDIF
            ELSE
-Cel ivec  tor = 0
-Cel cas   3D seul possible
+C   ivec  tor = 0
+C   cas   3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -597,7 +597,7 @@ C
 C prepar  ation envoi partie fixe (elem) a proc I
 C
            IF(IVECTOR==1) THEN
-Cel cas   3D seul possible
+C   cas   3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -626,8 +626,8 @@ Cel cas   3D seul possible
                 END DO
              ENDIF
            ELSE
-Cel ivec  tor = 0
-Cel cas   3D seul possible
+C   ivec  tor = 0
+C   cas   3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -664,7 +664,7 @@ C
           IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
            IF(IVECTOR==1) THEN
-Cel cas 3D seul possible
+C   cas 3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -865,7 +865,7 @@ C
           IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
            IF(IVECTOR==1) THEN
-Cel cas 3D seul possible
+C   cas 3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -902,8 +902,8 @@ C
                END DO
              ENDIF
            ELSE
-Cel ivec  tor = 0
-Cel cas   3D seul possible
+C   ivec  tor = 0
+C   cas   3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -948,7 +948,7 @@ C
 C prepar  ation envoi partie fixe (elem) a proc I
 C
            IF(IVECTOR==1) THEN
-Cel cas   3D seul possible
+C   cas   3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -987,8 +987,8 @@ cc                 SBUF(L+8) = FSKYM(CC)
                 END DO
              ENDIF
            ELSE
-Cel ivec  tor = 0
-Cel cas   3D seul possible
+C   ivec  tor = 0
+C   cas   3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -1033,7 +1033,7 @@ C
           IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
            IF(IVECTOR==1) THEN
-Cel cas 3D seul possible
+C   cas 3D seul possible
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -2282,7 +2282,7 @@ C
      4    CONDNSKYIF,FSKYIF_PXFEM)
       END IF
 C      
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)

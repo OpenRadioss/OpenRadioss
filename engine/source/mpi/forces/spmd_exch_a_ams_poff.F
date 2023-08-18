@@ -188,7 +188,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -309,7 +309,7 @@ C decompactage
 C
       DO I = 1, NSPMD
        IF(I/=LOC_PROC)THEN
-Cel test si msg necessaire a envoyer a completer par test interface
+C   test si msg necessaire a envoyer a completer par test interface
          NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(NB_NOD>0)THEN
            CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -458,7 +458,7 @@ C --- /CONT/MAX output
        ENDIF
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN

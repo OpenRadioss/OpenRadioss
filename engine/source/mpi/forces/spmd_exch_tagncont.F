@@ -154,7 +154,7 @@ C
 
       END DO
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
 
       DO I = 1, NSPMD

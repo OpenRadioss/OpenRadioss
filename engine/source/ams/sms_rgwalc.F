@@ -172,7 +172,7 @@ C
         M3=3*MSR
         M2=M3-1
         M1=M2-1
-Cel changement formulation : plus d'impasse sur contribution force
+C   changement formulation : plus d'impasse sur contribution force
         VXW=V(M1)+A(M1)*DT12
         VYW=V(M2)+A(M2)*DT12
         VZW=V(M3)+A(M3)*DT12
@@ -307,7 +307,7 @@ C
         M3=3*MSR
         M2=M3-1
         M1=M2-1
-Cel changement formulation : plus d'impasse sur contribution force
+C   changement formulation : plus d'impasse sur contribution force
         VXW=V(M1)+A(M1)*DT12
         VYW=V(M2)+A(M2)*DT12
         VZW=V(M3)+A(M3)*DT12
@@ -461,7 +461,7 @@ C
         M3=3*MSR
         M2=M3-1
         M1=M2-1
-Cel changement formulation : plus d'impasse sur contribution force
+C   changement formulation : plus d'impasse sur contribution force
         VXW=V(M1)+A(M1)*DT12
         VYW=V(M2)+A(M2)*DT12
         VZW=V(M3)+A(M3)*DT12

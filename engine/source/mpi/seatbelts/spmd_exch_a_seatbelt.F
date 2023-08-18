@@ -143,7 +143,7 @@ C ---
         END DO
       ENDIF
 C
-Cel wait terminaison isend
+C   wait terminaison isend
 C
       IF (N_ANCHOR_REMOTE_SEND > 0) THEN
         DO I = 1, NSPMD

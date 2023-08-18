@@ -238,10 +238,10 @@ C------------------------
       IF(DVDP1<TWO*DVDP1I)THEN
 !!!        DVDP1 = TWO*DVDP1I
 
-Cts   In some case of slow and difficult convergency it could happen :
-Cts   |DVDP(k=NITER)| = 2^NITER |DVDP(k=0)|  => |P(k=NITER)| >> |P(k=0)|
-Cts   unstable      ELSEIF(DVDP1>ZERO)THEN
-Cts   unstable        DVDP1 = TWO*DVDP1I
+C     In some case of slow and difficult convergency it could happen :
+C     |DVDP(k=NITER)| = 2^NITER |DVDP(k=0)|  => |P(k=NITER)| >> |P(k=0)|
+C     unstable      ELSEIF(DVDP1>ZERO)THEN
+C     unstable        DVDP1 = TWO*DVDP1I
 
       ELSEIF(DVDP1>HALF*DVDP1I)THEN
 !!        DVDP1 = HALF*DVDP1I

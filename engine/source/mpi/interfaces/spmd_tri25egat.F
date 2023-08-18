@@ -303,7 +303,7 @@ C Simple -> double -> simple = pb PON?
           NSNFIE(NIN)%P(P) = NN-NNP 
         ENDDO  ! end do NSPMD           
         LSKYFI = NN*MULTIMAX
-Cel nsnr nouveau utile pour inacti
+C   nsnr nouveau utile pour inacti
         NEDGE_REMOTE = NN
 C      WRITE(6,*) ISPMD,"EDGE REMOTE kept=",NEDGE_REMOTE
 

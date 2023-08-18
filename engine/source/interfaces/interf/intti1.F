@@ -163,7 +163,7 @@ C      Calcul flag de rupture pour interface type 2 user
          ENDIF                                           
        ENDDO                                            
 C
-Cel correction pb poff si main dans plusieurs interfaces type2
+C   correction pb poff si main dans plusieurs interfaces type2
       IF (IMACH == 3 .AND. IPARIT == 0) THEN                     
         IF (NHIN2 == 0) THEN                                  
           DO N=1,NINTER                                       

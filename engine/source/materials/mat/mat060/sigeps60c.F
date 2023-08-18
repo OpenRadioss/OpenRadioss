@@ -334,7 +334,7 @@ C-------------------
          JJ(I) = 1
        ENDDO
        IADBUF = IPM(7,MAT(1)) - 1
-Cel inversion boucles
+C   inversion boucles
        DO J=2,NRATE1-1
          DO I=1,NEL0
            IF(EPSP(I)>=UPARAM(IADBUF+6+J)) JJ(I) = J
@@ -730,7 +730,7 @@ C
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-Cel test bypass
+C   test bypass
        IF (FISOKIN1/=ZERO) THEN
         DO I=1,NEL0
           DSXX = SIGEXX(I) - SIGNXX(I)

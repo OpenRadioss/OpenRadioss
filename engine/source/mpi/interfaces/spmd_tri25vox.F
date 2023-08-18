@@ -190,7 +190,7 @@ C
          END DO
       END IF
 C
-Cel boite minmax pour le tri provenant de i7buce BMINMA
+C   boite minmax pour le tri provenant de i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -202,7 +202,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-Cel envoi voxel + boite min/max
+C   envoi voxel + boite min/max
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -223,7 +223,7 @@ C
         ENDDO
       ENDIF
 C
-Cel reception voxel + boites min-max
+C   reception voxel + boites min-max
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -247,7 +247,7 @@ C
         ENDDO
       ENDIF
 C
-Cel envoi de XREM
+C   envoi de XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -971,7 +971,7 @@ C
         DEALLOCATE(INDEX_EDGE) 
       ENDIF
 C
-Cel reception  des donnees XREM
+C   reception  des donnees XREM
 C
       NEDGE_REMOTE = 0
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN

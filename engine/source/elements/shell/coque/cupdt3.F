@@ -1121,7 +1121,7 @@ C$DIR PREFETCH FSKY(8,IADC(4,I+4))
 C
 c  End of Prefetch
 C
-Cel  prefetch FSKY
+C    prefetch FSKY
           K = IADC(1,I)
           FSKY(1,K)=-F11(I)
           FSKY(2,K)=-F21(I)

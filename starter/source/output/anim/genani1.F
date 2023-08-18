@@ -195,7 +195,7 @@ Cf51e11 +2
       CHARACTER*80 STRZZ
 C
         LTITL = 40
-Cvf      ENDIF
+C        ENDIF
       IF(ANIM_VERS<44)THEN
        ISPH3D=1
       ELSE

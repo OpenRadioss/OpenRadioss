@@ -193,7 +193,7 @@ C inbuf == cand_n
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
           ELSE
-Cel remise a 0 de cand_f de 1, 2, 3    
+C   remise a 0 de cand_f de 1, 2, 3    
             INTBUF_TAB%CAND_F(6*(I-1)+1) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+2) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+3) = ZERO    

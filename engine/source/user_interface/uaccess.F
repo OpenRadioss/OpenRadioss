@@ -210,7 +210,7 @@ C-----------------------------------------------
      .                I1=IU,C1=MESS)
         IERR=IERR+1
        END IF
-Cel en SPMD la valeur 0 n indique pas une erreur mais l absence du noeud sur le proc
+C   en SPMD la valeur 0 n indique pas une erreur mais l absence du noeud sur le proc
        GET_U_NUMNOD=0
        RETURN
       ENDIF
@@ -243,8 +243,8 @@ Chd|        SPMD_GLOB_DSUM                source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NOD_X(NOD, X,Y,Z)
-Cel En SPMD, tous les procs doivent appeler cette fonction
-Cel sinon blocage
+C   En SPMD, tous les procs doivent appeler cette fonction
+C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -270,8 +270,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF (NOD>0) THEN
        IF(NSPMD>1) THEN
-Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
-Cel weight : pointeur 18 (cf resol.F)
+C   get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
+C   weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
@@ -334,8 +334,8 @@ Chd|        SPMD_GLOB_DSUM                source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NOD_D(NOD, DX,DY,DZ)
-Cel En SPMD, tous les procs doivent appeler cette fonction
-Cel sinon blocage
+C   En SPMD, tous les procs doivent appeler cette fonction
+C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -361,8 +361,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF (NOD>0) THEN
        IF(NSPMD>1) THEN
-Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
-Cel weight : pointeur 18 (cf resol.F)
+C   get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
+C   weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
@@ -425,8 +425,8 @@ Chd|        SPMD_GLOB_DSUM                source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NOD_V(NOD, VX,VY,VZ)
-Cel En SPMD, tous les procs doivent appeler cette fonction
-Cel sinon blocage
+C   En SPMD, tous les procs doivent appeler cette fonction
+C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -454,8 +454,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF (NOD>0) THEN
        IF(NSPMD>1) THEN
-Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
-Cel weight : pointeur 18 (cf resol.F)
+C   get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
+C   weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
@@ -518,8 +518,8 @@ Chd|        SPMD_GLOB_DSUM                source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|====================================================================
       INTEGER FUNCTION GET_U_NOD_A(NOD, AX,AY,AZ)
-Cel En SPMD, tous les procs doivent appeler cette fonction
-Cel sinon blocage
+C   En SPMD, tous les procs doivent appeler cette fonction
+C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -545,8 +545,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF (NOD>0) THEN
        IF(NSPMD>1) THEN
-Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
-Cel weight : pointeur 18 (cf resol.F)
+C   get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
+C   weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
