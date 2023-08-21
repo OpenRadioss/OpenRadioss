@@ -2375,7 +2375,7 @@ C
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
 !------------------------------------------------
       ELSE
         CALL MDTSPH(

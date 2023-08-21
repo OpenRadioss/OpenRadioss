@@ -43,7 +43,7 @@ Chd|====================================================================
      C   AMU,     VOL_AVG, DTEL,    G_DT,
      D   OFF,     IPM,     RHOREF,  RHOSP,
      E   VOL0DP,  ISMSTR,  JSPH,    JTUR,
-     F   ITY,     JTHE,    JSMS)
+     F   ITY,     JTHE,    JSMS,    NPG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITY
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: ISMSTR
-      INTEGER, INTENT(IN) :: JSPH
+      INTEGER, INTENT(IN) :: JSPH,NPG
 C
       INTEGER NEL
       my_real
@@ -142,7 +142,7 @@ C
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS)
+     C   JSMS,    NPG )
       ELSE
        CALL MDTSPH(
      1   PM,      OFF,     RHO,     BID1,
