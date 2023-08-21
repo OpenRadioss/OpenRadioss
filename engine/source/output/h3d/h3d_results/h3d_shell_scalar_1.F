@@ -424,36 +424,40 @@ C--------------------------------------------------
                      IS_WRITTEN_VALUE(I) = 1
                   ENDDO
                ELSE
-                  DO I=1,NEL
-                     N = I + NFT
-                     IF(N2D == 0)THEN
-                        VALUE(I) = (GBUF%EINT(I)+ GBUF%EINT(I+NEL))/MAX(EM20,MASS(I))
-                     ELSE
-                        VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I)
-                     ENDIF
+                 IF(N2D == 0)THEN
+                   DO I=1,NEL
+                     VALUE(I) = (GBUF%EINT(I)+ GBUF%EINT(I+NEL))/MAX(EM20,MASS(I))
                      IS_WRITTEN_VALUE(I) = 1
-                  ENDDO                  
+                   ENDDO
+                 ELSE
+                   DO I=1,NEL
+                     VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ENDIF
                ENDIF
 C--------------------------------------------------
 c temporary (tria entity is not yet created)
             ELSEIF (KEYWORD == 'EINTV')THEN  !SI:J/m^3
 C-------------------------------------------------- 
                IF (MLW == 151) THEN
-                  DO I = 1, NEL
-                     VALUE(I) = MULTI_FVM%EINT(I + NFT)
-                     IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
+                 DO I = 1, NEL
+                   VALUE(I) = MULTI_FVM%EINT(I + NFT)
+                   IS_WRITTEN_VALUE(I) = 1
+                 ENDDO
                ELSE
-                  DO I=1,NEL
-                     N = I + NFT
-                     IF(N2D == 0)THEN
-                        VALUE(I) = (GBUF%EINT(I)+ GBUF%EINT(I+NEL))*RHO0(I)/MASS(I)
-                     ELSE
-                        VALUE(I) = GBUF%EINT(I)
-                     ENDIF
+                 IF(N2D == 0)THEN
+                   DO I=1,NEL
+                     VALUE(I) = (GBUF%EINT(I)+ GBUF%EINT(I+NEL))*RHO0(I)/MASS(I)
                      IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-               ENDIF                  
+                   ENDDO
+                 ELSE
+                   DO I=1,NEL
+                     VALUE(I) = GBUF%EINT(I)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ENDIF
+               ENDIF
 C--------------------------------------------------
 c temporary (tria entity is not yet created)
 C-------------------------------------------------- 
@@ -471,53 +475,48 @@ C--------------------------------------------------
                !GBUF%EINT is rho.e           
                IF(KEYWORD == 'ENTH')THEN
                  IF (MLW == 151) THEN
-                     DO I = 1, NEL
-                        VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I) !
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
-                  ELSE
+                   DO I = 1, NEL
+                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I) !
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ELSE
+                   IF(N2D == 0)THEN
                      DO I=1,NEL
-                        N = I + NFT
-                        IF(N2D == 0)THEN
-                        ELSE
-                           VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I) ! 
-                           IS_WRITTEN_VALUE(I) = 1
-                        ENDIF
+                       VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I)
+                       IS_WRITTEN_VALUE(I) = 1
                      ENDDO
+                    ENDIF
                   ENDIF                
                ELSEIF(KEYWORD == 'ENTHV')THEN
                  IF (MLW == 151) THEN
-                     DO I = 1, NEL
-                        VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
-                  ELSE
+                   DO I = 1, NEL
+                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ELSE
+                   IF(N2D == 0)THEN
                      DO I=1,NEL
-                        N = I + NFT
-                        IF(N2D == 0)THEN
-                        ELSE
-                           VALUE(I) = GBUF%EINT(I)/GBUF%VOL(I)/GBUF%RHO(I) + PRES(I)  !
-                           IS_WRITTEN_VALUE(I) = 1
-                        ENDIF
+                       N = I + NFT
+                       VALUE(I) = GBUF%EINT(I)/GBUF%VOL(I)/GBUF%RHO(I) + PRES(I)
+                       IS_WRITTEN_VALUE(I) = 1
                      ENDDO
-                  ENDIF                                
+                   ENDIF
+                 ENDIF                                
                ELSEIF(KEYWORD == 'ENTHM')THEN
                  IF (MLW == 151) THEN
-                     DO I = 1, NEL
-                        MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
-                        VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
+                   DO I = 1, NEL
+                     MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
+                     VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
+                     IS_WRITTEN_VALUE(I) = 1
+                    ENDDO
                   ELSE
-                     DO I=1,NEL
-                        N = I + NFT
-                        IF(N2D == 0)THEN
-                        ELSE
-                           MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)
-                           VALUE(I) = (GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I))/MASS(I)
-                           IS_WRITTEN_VALUE(I) = 1
-                        ENDIF
-                     ENDDO
+                    IF(N2D == 0)THEN
+                      DO I=1,NEL
+                        MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)
+                        VALUE(I) = (GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I))/MASS(I)
+                        IS_WRITTEN_VALUE(I) = 1
+                      ENDDO
+                    ENDIF
                   ENDIF                                 
                ENDIF                               
 C--------------------------------------------------
@@ -558,7 +557,7 @@ C--------------------------------------------------
                 S2 = GBUF%FOR(JJ(2)+I)
                 S12= GBUF%FOR(JJ(3)+I)
                 VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
-		VALUE(I) = SQRT(VONM2)		 
+                VALUE(I) = SQRT(VONM2)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO
 C--------------------------------------------------
@@ -609,14 +608,14 @@ C--------------------------------------------------
             ELSEIF (KEYWORD == 'SIGX') THEN   ! Sigx - global
 C--------------------------------------------------
               DO I=1,NEL                      
-                VALUE(I) = GBUF%FOR(JJ(1)+I)			 
+                VALUE(I) = GBUF%FOR(JJ(1)+I)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO 
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'SIGY') THEN   ! Sigy - global
 C--------------------------------------------------
               DO I=1,NEL                      
-                VALUE(I) = GBUF%FOR(JJ(2)+I)			 
+                VALUE(I) = GBUF%FOR(JJ(2)+I)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO 
 C--------------------------------------------------
@@ -635,21 +634,21 @@ C--------------------------------------------------
             ELSEIF (KEYWORD == 'SIGXY') THEN   ! Sigxy - global
 C--------------------------------------------------
               DO I=1,NEL                      
-                VALUE(I) = GBUF%FOR(JJ(3)+I)			 
+                VALUE(I) = GBUF%FOR(JJ(3)+I)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO                      
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'SIGYZ') THEN   ! Sigyz - global
 C--------------------------------------------------
               DO I=1,NEL                      
-                VALUE(I) = GBUF%FOR(JJ(4)+I)			 
+                VALUE(I) = GBUF%FOR(JJ(4)+I)
                 IS_WRITTEN_VALUE(I) = 1 
               ENDDO   
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'SIGZX') THEN   ! Sigzx - global
 C--------------------------------------------------
               DO I=1,NEL                      
-                VALUE(I) = GBUF%FOR(JJ(5)+I)			 
+                VALUE(I) = GBUF%FOR(JJ(5)+I)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO 
 C--------------------------------------------------
@@ -657,7 +656,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (ITY == 3) THEN
                 DO I=1,NEL
-                  VALUE(I) = EHOUR(NFT+I+NUMELS)/MAX(EM20,MASS(I))			 
+                  VALUE(I) = EHOUR(NFT+I+NUMELS)/MAX(EM20,MASS(I))
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO  
             ENDIF     
@@ -684,8 +683,8 @@ C--------------------------------------------------
                   ENDDO      
                 ELSE
                   DO I=1,NEL
-                    VALUE(I) = GBUF%EPSD(I)			 
-                    IS_WRITTEN_VALUE(I) = 1			
+                    VALUE(I) = GBUF%EPSD(I)
+                    IS_WRITTEN_VALUE(I) = 1
                   ENDDO                                   
                 ENDIF
               ENDIF  
@@ -744,8 +743,8 @@ C--------------------------------------------------
            ELSEIF(KEYWORD == 'THIN')THEN
 C--------------------------------------------------
               DO I=1,NEL
-                VALUE(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)			 
-                IS_WRITTEN_VALUE(I) = 1			
+                VALUE(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)
+                IS_WRITTEN_VALUE(I) = 1
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'USER' .OR. KEYWORD == 'MDS') THEN
@@ -754,16 +753,16 @@ C--------------------------------------------------
 c ILAYER=NULL NPT=NULL (mid-layer)
               IF(IPT == -1 .AND. ILAY == -1 .AND. IPLY == -1 .AND. IUVAR > 0 ) THEN
                 IF (MLW==29 .OR. MLW==30 .OR. MLW==31 .OR. MLW>=33) THEN
-c							       
-                  IF (NLAY > 1) THEN							     
-                    IL  = IABS(NLAY)/2 + 1						     
-                    IPT = IABS(NPT)/2 + 1								     
-                  ELSE  								     
-                    IL  = 1								     
-                    IPT =  IABS(NPT)/2 + 1						     
+c
+                  IF (NLAY > 1) THEN
+                    IL  = IABS(NLAY)/2 + 1
+                    IPT = IABS(NPT)/2 + 1
+                  ELSE
+                    IL  = 1
+                    IPT =  IABS(NPT)/2 + 1
                   ENDIF 
                   IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                  NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT					     
+                  NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
 c
                   IF(KEYWORD == 'USER') USER_OK = 1
                   IF(IDMDS > 0)THEN
@@ -805,19 +804,19 @@ c
                 ENDIF
 c PLY=IPLY NPT=IPT
               ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 .AND. IUVAR > 0) THEN
-c		     
-	        DO J=1,NLAY
+c
+                DO J=1,NLAY
                   NUVAR = ELBUF_TAB(NG)%BUFLY(J)%NVAR_MAT
                   IF(IUVAR <= NUVAR) THEN
                     ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-	              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
 c
                     IF (ID_PLY  == IPLY ) THEN
-                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT					     
+                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
@@ -855,19 +854,19 @@ c
 c PLY=IPLY NPT=NULL
               ELSEIF ( IPLY > 0  .AND. IPT ==-1 .AND. IUVAR > 0) THEN
 c 
-	        DO J=1,NLAY
+                DO J=1,NLAY
                   NUVAR = ELBUF_TAB(NG)%BUFLY(J)%NVAR_MAT
                   IF(IUVAR <= NUVAR) THEN
                     ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-	              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
 c
                     IF (ID_PLY  == IPLY ) THEN
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
-                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT					     
+                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
@@ -877,7 +876,7 @@ c
                       IF(USER_OK == 1)THEN
                         IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                           NPTT = BUFLY%NPTT 
-	                  DO IPT=1,NPTT
+                          DO IPT=1,NPTT
                             IF( NPG > 1 ) THEN
                               DO IR=1,NPTR
                                 DO IS=1,NPTS
@@ -907,7 +906,7 @@ c ILAYER=IL NPT=IPT
                   IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
                     NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
                     BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                    IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT					     
+                    IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
 c
                     IF(KEYWORD == 'USER') USER_OK = 1
                     IF(IDMDS > 0)THEN
@@ -930,7 +929,7 @@ c
 c ILAYER=IL NPT=NULL
               ELSEIF ( ILAY <= NLAY .AND. ILAY > 0 .AND. IUVAR > 0) THEN
                 NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
-                IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT				     
+                IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
 c
                 IF(KEYWORD == 'USER') USER_OK = 1
                 IF(IDMDS > 0)THEN
@@ -1108,7 +1107,7 @@ c
                         VALUE(I) = PHI
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                        IS_WRITTEN_VALUE(I) = 1				
+                        IS_WRITTEN_VALUE(I) = 1
                       ENDDO 
                      ELSE     ! IDRAPE               
                       DO I=1,NEL                                                
@@ -1218,7 +1217,7 @@ C
                         VALUE(I) = PHI
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                        IS_WRITTEN_VALUE(I) = 1				
+                        IS_WRITTEN_VALUE(I) = 1
                       ENDDO      
                      ENDIF ! IDRAPE                                                  
                     ENDIF  ! MLW                                                  
@@ -1300,7 +1299,7 @@ C
                         VALUE(I) = PHI
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                        IS_WRITTEN_VALUE(I) = 1				
+                        IS_WRITTEN_VALUE(I) = 1
                       ENDDO 
                     ELSE                
                       DO I=1,NEL                                              
@@ -1367,7 +1366,7 @@ C
                         VALUE(I) = PHI
                         IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
                         IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
-                        IS_WRITTEN_VALUE(I) = 1				
+                        IS_WRITTEN_VALUE(I) = 1
                       ENDDO      
                      ENDIF    ! IDRAPE                                            
                     ENDIF                                                       
@@ -1375,10 +1374,10 @@ C
                 ENDIF
 c
               ELSEIF (IPLY > 0) THEN
-	         DO J=1,NLAY
+                DO J=1,NLAY
                    ID_PLY = 0
                    IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-	     	     ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                     ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                    ELSEIF (IGTYP == 52) THEN
                     ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                   ENDIF
@@ -1399,30 +1398,30 @@ c
                 	  X21 = X(1,IXC(3,N))-X(1,IXC(2,N))			    
                 	  X32 = X(1,IXC(4,N))-X(1,IXC(3,N))			    
                 	  X34 = X(1,IXC(4,N))-X(1,IXC(5,N))			    
-                	  X41 = X(1,IXC(5,N))-X(1,IXC(2,N))			    
+                	  X41 = X(1,IXC(5,N))-X(1,IXC(2,N))
 
-                	  Y21 = X(2,IXC(3,N))-X(2,IXC(2,N))			    
-                	  Y32 = X(2,IXC(4,N))-X(2,IXC(3,N))			    
-                	  Y34 = X(2,IXC(4,N))-X(2,IXC(5,N))			    
-                	  Y41 = X(2,IXC(5,N))-X(2,IXC(2,N))			    
+                	  Y21 = X(2,IXC(3,N))-X(2,IXC(2,N))
+                	  Y32 = X(2,IXC(4,N))-X(2,IXC(3,N))
+                	  Y34 = X(2,IXC(4,N))-X(2,IXC(5,N))
+                	  Y41 = X(2,IXC(5,N))-X(2,IXC(2,N))
 
-                	  Z21 = X(3,IXC(3,N))-X(3,IXC(2,N))			    
-                	  Z32 = X(3,IXC(4,N))-X(3,IXC(3,N))			    
-                	  Z34 = X(3,IXC(4,N))-X(3,IXC(5,N))			    
-                	  Z41 = X(3,IXC(5,N))-X(3,IXC(2,N))			    
-                								    
-                	  E1X = (X21+X34)					    
-                	  E1Y = (Y21+Y34)					    
-                	  E1Z = (Z21+Z34)					    
+                	  Z21 = X(3,IXC(3,N))-X(3,IXC(2,N))
+                	  Z32 = X(3,IXC(4,N))-X(3,IXC(3,N))
+                	  Z34 = X(3,IXC(4,N))-X(3,IXC(5,N))
+                	  Z41 = X(3,IXC(5,N))-X(3,IXC(2,N))
 
-                	  E2X = (X32+X41)					    
-                	  E2Y = (Y32+Y41)					    
-                	  E2Z = (Z32+Z41)					    
-                   
-                	  E3X = E1Y*E2Z-E1Z*E2Y 				    
-                	  E3Y = E1Z*E2X-E1X*E2Z 				    
-                	  E3Z = E1X*E2Y-E1Y*E2X 
-			    
+                	  E1X = (X21+X34)
+                	  E1Y = (Y21+Y34)
+                	  E1Z = (Z21+Z34)
+
+                	  E2X = (X32+X41)
+                	  E2Y = (Y32+Y41)
+                	  E2Z = (Z32+Z41)
+
+                	  E3X = E1Y*E2Z-E1Z*E2Y
+                	  E3Y = E1Z*E2X-E1X*E2Z
+                	  E3Z = E1X*E2Y-E1Y*E2X
+
                 	  IF (IREP > 0) THEN					    
                 	    RX = E1X						    
                 	    RY = E1Y						    

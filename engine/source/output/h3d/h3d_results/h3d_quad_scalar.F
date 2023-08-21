@@ -1052,65 +1052,74 @@ C--------------------------------------------------
                !LAG: GBUF%VOL = V0,    GBUF%EINT=rho0.e
                IF (MLW == 151) THEN
                   DO I = 1, NEL
-                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I)  !
-                     IS_WRITTEN_VALUE(I) = 1
+                    VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I)
+                    IS_WRITTEN_VALUE(I) = 1
                   ENDDO
                ELSE
-                  DO I=1,NEL
+                 IALEL=IPARG(7,NG)+IPARG(11,NG)
+                 IF(IALEL == 0)THEN
+                   DO I=1,NEL
                      N = I + NFT
-                     IALEL=IPARG(7,NG)+IPARG(11,NG)
-                     IF(IALEL == 0)THEN
-                        MT=IXQ(1,N)
-                        VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT))   !
-                     ELSE
-                        VALUE(I) = GBUF%EINT(I)/MAX(EM20,GBUF%RHO(I))  !
-                     ENDIF
+                     MT=IXQ(1,N)
+                     VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT))
                      IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
+                   ENDDO
+                 ELSE
+                   DO I=1,NEL
+                     VALUE(I) = GBUF%EINT(I)/MAX(EM20,GBUF%RHO(I))
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ENDIF
                ENDIF
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINTV')THEN
 C-------------------------------------------------- 
                IF (MLW == 151) THEN
-                  DO I = 1, NEL
-                     VALUE(I) = MULTI_FVM%EINT(I + NFT)
-                     IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
+                 DO I = 1, NEL
+                   VALUE(I) = MULTI_FVM%EINT(I + NFT)
+                   IS_WRITTEN_VALUE(I) = 1
+                 ENDDO
                ELSE
-                  DO I=1,NEL
+                 IALEL=IPARG(7,NG)+IPARG(11,NG)
+                 IF(IALEL == 0)THEN
+                   DO I=1,NEL
                      N = I + NFT
-                     IALEL=IPARG(7,NG)+IPARG(11,NG)
-                     IF(IALEL == 0)THEN
-                        MT=IXQ(1,N)
-                        VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT))*GBUF%RHO(I)
-                     ELSE
-                        VALUE(I) = GBUF%EINT(I)
-                     ENDIF
+                     MT=IXQ(1,N)
+                     VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT))*GBUF%RHO(I)
                      IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
+                   ENDDO
+                 ELSE
+                   DO I=1,NEL
+                     VALUE(I) = GBUF%EINT(I)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ENDIF
                ENDIF
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINT')THEN
 C-------------------------------------------------- 
               IF (MLW == 151) THEN
-                  DO I = 1, NEL
-                     VALUE(I) = MULTI_FVM%EINT(I + NFT) * GBUF%VOL(I)
-                     IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-               ELSE
+                DO I = 1, NEL
+                  VALUE(I) = MULTI_FVM%EINT(I + NFT) * GBUF%VOL(I)
+                  IS_WRITTEN_VALUE(I) = 1
+                ENDDO
+              ELSE
+                IALEL=IPARG(7,NG)+IPARG(11,NG)
+                IF(IALEL == 0)THEN
                   DO I=1,NEL
-                     N = I + NFT
-                     IALEL=IPARG(7,NG)+IPARG(11,NG)
-                     IF(IALEL == 0)THEN
-                        MT=IXQ(1,N)
-                        VOL=GBUF%VOL(I)*PM(89,MT)/GBUF%RHO(I)
-                        VALUE(I) = GBUF%EINT(I)/PM(89,MT)*GBUF%RHO(I)*VOL
-                     ELSE
-                        VALUE(I) = GBUF%EINT(I)*GBUF%VOL(I)
-                     ENDIF
-                     IS_WRITTEN_VALUE(I) = 1
+                    N = I + NFT
+                    MT=IXQ(1,N)
+                    VOL=GBUF%VOL(I)*PM(89,MT)/GBUF%RHO(I)
+                    VALUE(I) = GBUF%EINT(I)/PM(89,MT)*GBUF%RHO(I)*VOL
+                    IS_WRITTEN_VALUE(I) = 1
                   ENDDO
-               ENDIF
+                ELSE
+                  DO I=1,NEL
+                    VALUE(I) = GBUF%EINT(I)*GBUF%VOL(I)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ENDIF
+              ENDIF
 C-------------------------------------------------- 
               ELSEIF (KEYWORD(1:4) == 'ENTH')THEN
 C-------------------------------------------------- 
@@ -1124,73 +1133,85 @@ C--------------------------------------------------
                   ENDDO
                ENDIF    
                !GBUF%EINT is rho.e           
+C-------------------------------------------------- 
                IF(KEYWORD == 'ENTH')THEN
                  IF (MLW == 151) THEN
-                     DO I = 1, NEL
-                        VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I) !
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
-                  ELSE
+                   DO I = 1, NEL
+                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I)
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ELSE
+                   IALEL=IPARG(7,NG)+IPARG(11,NG)
+                   IF(IALEL == 0)THEN
                      DO I=1,NEL
-                        N = I + NFT
-                        IALEL=IPARG(7,NG)+IPARG(11,NG)
-                        IF(IALEL == 0)THEN
-                           MT=IXQ(1,N)
-                           MASS0=GBUF%VOL(I)*PM(89,MT)
-                           VOL=MASS0/MAX(EM20,GBUF%RHO(I))
-                           VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT)) + PRES(I)*VOL   !
-                        ELSE
-                           VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I) ! 
-                        ENDIF
-                        IS_WRITTEN_VALUE(I) = 1
+                       N=I+NFT
+                       MT=IXQ(1,N)
+                       MASS0=GBUF%VOL(I)*PM(89,MT)
+                       VOL=MASS0/MAX(EM20,GBUF%RHO(I))
+                       VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT)) + PRES(I)*VOL
+                       IS_WRITTEN_VALUE(I) = 1
                      ENDDO
-                  ENDIF                
+                   ELSE
+                     DO I=1,NEL
+                       VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I)
+                       IS_WRITTEN_VALUE(I) = 1
+                     ENDDO
+                   ENDIF!IALEL
+                 ENDIF!MLW
+C-------------------------------------------------- 
                ELSEIF(KEYWORD == 'ENTHV')THEN
                  IF (MLW == 151) THEN
-                     DO I = 1, NEL
-                        VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
-                  ELSE
+                   DO I = 1, NEL
+                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ELSE
+                   IALEL=IPARG(7,NG)+IPARG(11,NG)
+                   IF(IALEL == 0)THEN
                      DO I=1,NEL
-                        N = I + NFT
-                        IALEL=IPARG(7,NG)+IPARG(11,NG)
-                        IF(IALEL == 0)THEN
-                           MT=IXQ(1,N)
-                           MASS0=GBUF%VOL(I)*PM(89,MT)
-                           VOL=MASS0/MAX(EM20,GBUF%RHO(I))
-                           VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT))/VOL + PRES(I)  !
-                        ELSE
-                           VALUE(I) = GBUF%EINT(I)/GBUF%VOL(I)/GBUF%RHO(I) + PRES(I)  !
-                        ENDIF
-                        IS_WRITTEN_VALUE(I) = 1
+                       N=I+NFT
+                       MT=IXQ(1,N)
+                       MASS0=GBUF%VOL(I)*PM(89,MT)
+                       VOL=MASS0/MAX(EM20,GBUF%RHO(I))
+                       VALUE(I) = GBUF%EINT(I)/MAX(EM20,PM(89,MT))/VOL + PRES(I)
+                       IS_WRITTEN_VALUE(I) = 1
                      ENDDO
-                  ENDIF                                
+                   ELSE
+                    DO I=1,NEL
+                       VALUE(I) = GBUF%EINT(I)/GBUF%VOL(I)/GBUF%RHO(I) + PRES(I)
+                       IS_WRITTEN_VALUE(I) = 1
+                     ENDDO
+                   ENDIF!IALEL
+                ENDIF!MLW
+C-------------------------------------------------- 
                ELSEIF(KEYWORD == 'ENTHM')THEN
                  IF (MLW == 151) THEN
-                     DO I = 1, NEL
-                        MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
-                        VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
-                        IS_WRITTEN_VALUE(I) = 1
-                     ENDDO
-                  ELSE
+                   DO I = 1, NEL
+                     MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
+                     VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
+                 ELSE
+                   IALEL=IPARG(7,NG)+IPARG(11,NG)
+                   IF(IALEL == 0)THEN
                      DO I=1,NEL
-                        N = I + NFT
-                        IALEL=IPARG(7,NG)+IPARG(11,NG)
-                        IF(IALEL == 0)THEN
-                           MT=IXQ(1,N)
-                           MASS0=GBUF%VOL(I)*PM(89,MT)
-                           VOL=MASS0/MAX(EM20,GBUF%RHO(I))
-                           MASS(I)=MASS0
-                           VALUE(I) = (GBUF%EINT(I)/MAX(EM20,PM(89,MT)) + PRES(I)*VOL)/MASS(I)  !
-                        ELSE
-                           MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)
-                           VALUE(I) = (GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I))/MASS(I)
-                        ENDIF
-                        IS_WRITTEN_VALUE(I) = 1
+                       N=I+NFT
+                       MT=IXQ(1,N)
+                       MASS0=GBUF%VOL(I)*PM(89,MT)
+                       VOL=MASS0/MAX(EM20,GBUF%RHO(I))
+                       MASS(I)=MASS0
+                       VALUE(I) = (GBUF%EINT(I)/MAX(EM20,PM(89,MT)) + PRES(I)*VOL)/MASS(I)
+                       IS_WRITTEN_VALUE(I) = 1
                      ENDDO
-                  ENDIF                                 
-               ENDIF         
+                   ELSE
+                    DO I=1,NEL
+                      MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)
+                      VALUE(I) = (GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I))/MASS(I)
+                      IS_WRITTEN_VALUE(I) = 1
+                     ENDDO
+                   ENDIF!IALEL
+                 ENDIF!MLW
+               ENDIF!keyword subcase
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'OFF')THEN  
 C--------------------------------------------------                     
