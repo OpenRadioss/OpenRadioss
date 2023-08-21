@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: J,IFLAG,SENS_TYPE,PART_ID,SUB_ID,PARTN,SUBN,NPARIS,NPARRS,NVAR
+      INTEGER :: J,ICONST,SENS_TYPE,PART_ID,SUB_ID,PARTN,SUBN,NPARIS,NPARRS,NVAR
       my_real :: TDEL,TMIN,IEMIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
@@ -76,7 +76,7 @@ C     SENSOR BASED ON PART ENERGY
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       SENS_TYPE    = 14
-      IFLAG        = 0    ! const energy option
+      ICONST        = 0    ! const energy option
 c--------------------------------------------------
 card1
       CALL HM_GET_FLOATV('Tdelay'     ,TDEL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -97,15 +97,13 @@ card4
 c--------------------------------------------------
 c     Defaults
 c--------------------------------------------------
-      IF (IETOL > ZERO .or. KETOL > ZERO .or. IETIME > ZERO .or. KETIME > ZERO) THEN
-        IFLAG = 1  ! constant energy option active
+      IF (IETOL > ZERO .and. IETIME > ZERO .or. KETOL > ZERO .and. KETIME > ZERO) THEN
+        ICONST = 1  ! constant energy option active
       END IF
       IF (IEMAX  == ZERO) IEMAX  = INFINITY
       IF (KEMAX  == ZERO) KEMAX  = INFINITY
       IF (IETIME == ZERO) IETIME = INFINITY
       IF (KETIME == ZERO) KETIME = INFINITY
-      IF (IETOL  == ZERO) IETOL  = 0.01
-      IF (KETOL  == ZERO) KETOL  = 0.01
 c--------------------------------------------------
 c     Check Part_ID, Sub_ID
 c--------------------------------------------------
@@ -166,7 +164,7 @@ c     sensor data structure
 c--------------------------------------------------
       NPARIS = 3
       NPARRS = 8
-      NVAR   = 10
+      NVAR   = 8
 c
       ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
       ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
@@ -178,16 +176,16 @@ c
       SENSOR_PTR%NPARR   = NPARRS
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
-      SENSOR_PTR%STATUS  = 0      ! status = deactivated
+      SENSOR_PTR%STATUS  = 0         ! status = deactivated
       SENSOR_PTR%TSTART  = INFINITY
       SENSOR_PTR%TCRIT   = INFINITY
       SENSOR_PTR%TMIN    = TMIN
-      SENSOR_PTR%TDELAY  = TDEL           ! time delay before activation
+      SENSOR_PTR%TDELAY  = TDEL      ! time delay before activation
       SENSOR_PTR%VALUE   = ZERO
 c
       SENSOR_PTR%IPARAM(1) = PARTN   ! PART number
       SENSOR_PTR%IPARAM(2) = SUBN    ! SUBSET number
-      SENSOR_PTR%IPARAM(3) = IFLAG   ! const energy option
+      SENSOR_PTR%IPARAM(3) = ICONST  ! const energy option
 c
       SENSOR_PTR%RPARAM(1) = IEMIN 
       SENSOR_PTR%RPARAM(2) = IEMAX 
