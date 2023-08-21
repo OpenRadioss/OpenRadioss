@@ -68,14 +68,14 @@ C   IREAC FLAG
 C
 C   *** IREAC = 1 ***
 C   ORIGINAL 2-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM
-C     IGNITION TERM : ratei = rki * (1.-fc)**ex * (etar-1.)**ri     , if P>0
-C     GROWTH TERM   : rateg = rkg * (1.-fc)**ex * fc**yg * pres**zg , if P>0
+C     IGNITION TERM : ratei = I * (1.-F)**b * (etar-1.)**x     , if P>0
+C     GROWTH TERM   : rateg = G1 * (1.-F)**b * F**d * pres**y  , if P>0
 C
 C   *** IREAC = 2 ***
 C   EXTENDED 3-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM 1 + GROWTH TERM 2
-C        IGNITION TERM :  ratei = rki * (1.-fc+tol)**ex * abs(etar-1.-ccrit)**ri       , if 0<f<fmxig & P>0 & compression thresold (etar-1>=ccrit)
-C        GROWTH TERM 1 : rateg1 = grow1 * (1.-fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1 , if 0<f<fmxgr & P>0
-C        GROWTH TERM 2 : rateg2 = grow2 * (1.-fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2 , if 0<f<fmngr & P>0
+C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<F<Figmax & P>0 & compression thresold (etar-1>=ccrit)
+C        GROWTH TERM 1 : rateg1 = G1 * (1.-F+tol)**c * (F+tol)**d * pres**y     , if 0<F<FG1max & P>0
+C        GROWTH TERM 2 : rateg2 = G2 * (1.-F+tol)**e * (F+tol)**g * pres**z     , if FG2min<F<1 & P>0
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -114,15 +114,14 @@ C-----------------------------------------------
       my_real AR, BR, R1R, R2R, R3R, WR,
      .        AP, BP, R1P, R2P, R3P, WP,
      .        CVR, CVP,
-     .        ENQ, EPSILON, FC, RKI, EX, RI, RKG, YG, ZG, CAPPA, CHI, TOL,
-     .        CCRIT, GROW2, EX1, EX2, YG2, ZG2, FMXIG, FMXGR, FMNGR, SHR, T,
+     .        ENQ, EPSILON, FTOL, I_, B_, X_, G1, D_, Y_, CAPPA, CHI, TOL,
+     .        CCRIT, G2, C_, E_, G_, Z_, Figmax, FG1max, FG2min, SHR, T,
      .        RHO0, RHOR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
-!     Check input encryption
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       NUPARAM = 40
 
@@ -160,30 +159,30 @@ C-----------------------------------------------
     
       CALL HM_GET_INTV('NITRS', ITER, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Epsilon_0', EPSILON, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('check', FC, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('ftol', FTOL, IS_AVAILABLE, LSUBMODEL, UNITAB)
                                   
-      CALL HM_GET_FLOATV('rki', RKI, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('ex', EX, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('ri', RI, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('I_', I_, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('b_', B_, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('x_', X_, IS_AVAILABLE, LSUBMODEL, UNITAB)
       
-      CALL HM_GET_FLOATV('rkg', RKG, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('yg', YG, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('zg', ZG, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('ex1', EX1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('g1', G1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('d_', D_, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('y_', Y_, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('c_', C_, IS_AVAILABLE, LSUBMODEL, UNITAB)
                                      
       CALL HM_GET_FLOATV('Kn', CAPPA, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('chi', CHI, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_Tol', TOL, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('grow2', GROW2, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('ex2', EX2, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('yg2', YG2, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('zg2', ZG2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('g2', G2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('e_', E_, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('g_', G_, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('z_', Z_, IS_AVAILABLE, LSUBMODEL, UNITAB)
                                    
       CALL HM_GET_FLOATV('ccrit', CCRIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('fmxig', FMXIG, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('fmxgr', FMXGR, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('fmngr', FMNGR, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('figmax', Figmax, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('fg1max', FG1max, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('fg2min', FG2min, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('MAT_G0', SHR, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('T_Initial', T, IS_AVAILABLE, LSUBMODEL, UNITAB) 
@@ -199,7 +198,7 @@ C-----------------------------------------------
       WP = R3P/CVP   !SI : both units are J/m3/K (=Pa/K) ; WR is dimensionless (JWL EoS param)
       IF (EPSILON==ZERO) EPSILON = EM3
       IF (ITER==0) ITER = 80
-      IF (FC==ZERO) FC = EM5
+      IF (FTOL==ZERO) FTOL = EM5
       IF (CAPPA==ZERO) CAPPA = EIGHTY19                               
       IF (CHI==ZERO) CHI = EIGHTY19                                   
       NFUNC = 0                                                              
@@ -227,25 +226,25 @@ C-----------------------------------------------
       UPARAM(16) = ENQ                                                       
       UPARAM(17) = EPSILON                                                   
       UPARAM(18) = ITER                                                      
-      UPARAM(19) = FC           
-      UPARAM(20) = rki                                                       
-      UPARAM(21) = ex                                                        
-      UPARAM(22) = ri                                                        
-      UPARAM(23) = RKG                                                       
-      UPARAM(24) = YG                                                        
-      UPARAM(25) = ZG                                                        
-      UPARAM(31) = EX1                                                       
+      UPARAM(19) = FTOL
+      UPARAM(20) = I_                                                       
+      UPARAM(21) = B_                                                        
+      UPARAM(22) = X_                                                        
+      UPARAM(23) = G1                                                       
+      UPARAM(24) = D_                                                        
+      UPARAM(25) = Y_                                                        
+      UPARAM(31) = C_                                                       
       UPARAM(26) = CAPPA                                                     
       UPARAM(27) = CHI                                                       
       UPARAM(28) = TOL
-      UPARAM(32) = EX2                                                       
-      UPARAM(33) = YG2                                                       
-      UPARAM(34) = ZG2                                                       
-      UPARAM(30) = GROW2
+      UPARAM(32) = E_                                                       
+      UPARAM(33) = G_                                                       
+      UPARAM(34) = Z_                                                       
+      UPARAM(30) = G2
       UPARAM(29) = CCRIT                                                     
-      UPARAM(35) = FMXIG                                                     
-      UPARAM(36) = FMXGR                                                     
-      UPARAM(37) = FMNGR 
+      UPARAM(35) = Figmax                                                     
+      UPARAM(36) = FG1max                                                     
+      UPARAM(37) = FG2min 
       UPARAM(38) = SHR                                                       
       UPARAM(39) = T                                                         
       UPARAM(40) = ZERO                                                            
@@ -278,7 +277,9 @@ c-----------------
  1000 FORMAT(
      & 5X,'  LEE TARVER REACTIVE EXPLOSIVE         ',/,
      & 5X,'  -----------------------------         ',/,
-     & 5X,'REAC(1: LEE-TARVER 2:DYNA). . . . . . . =',1PG20.13/,
+     & 5X,'IREAC FLAG. . . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X, '   1:ORIGINAL 2-TERM-MODEL (1980)      ',/,     
+     & 5X, '   2:EXTENDED 3-TERM-MODEL (1985)      ',/,     
      & 5X,'  REACTIVES JWL EQUATION OF STATES :    ',/,
      & 5X,'AR COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'BR COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
@@ -300,31 +301,31 @@ c-----------------
      & /,
      & 5X,'EPSILON . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'MAXIMUM NUMBER OF ITERATIONS. . . . . . =',1PG20.13/,
-     & 5X,'FC CHECK. . . . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'FTOL  . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'  KINETICAL PARAMETERS                   :    ',/,
-     & 5X,'  IGNITION PHASE :                        ',/,
-     & 5X,'RKI COEFFICIENT . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'EX COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'RI COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'  GROWTH PHASE (LEE-TARVER):             ',/,
-     & 5X,'RKG COEFFICIENT . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'YG COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'ZG COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'  IGNITION TERM :                        ',/,
+     & 5X,'I COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'b COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'x COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'  GROWTH TERM 1 :                        ',/,
+     & 5X,'G1 COEFFICIENT  . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'d COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'y COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'  NUMERICAL LIMITORS                       ',/,
      & 5X,'CAPPA . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'CHI . . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'TOL . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'CCRIT . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'  GROWTH PHASE  (DYNA-2D MODEL) :        ',/,
-     & 5X,'EX1 COEFFICIENT . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'GROW2 . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'EX2 COEFFICIENT . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'YG2 COEFFICIENT . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'ZG2 COEFFICIENT . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'a COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'  GROWTH TERM 2                          ',/,
+     & 5X,'c COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'G2 COEFFICIENT. . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'e COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'g COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'z COEFFICIENT . . . . . . . . . . . . . =',1PG20.13/,
      & /,
-     & 5X,'FMXIG . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'FMXGR . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'FMNGR . . . . . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'Figmax (LIMITER FOR IGNITIONT TERM) . . =',1PG20.13/,
+     & 5X,'FG1max (LIMITER FOR GROWTH TERM 1). . . =',1PG20.13/,
+     & 5X,'FG2min (LIMITER FOR GROWTH TERM 2). . . =',1PG20.13/,
      & /,
      & 5X,'SHEAR MODULUS . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'INITIAL TEMPERATURE (K) . . . . . . . . =',1PG20.13//)

@@ -57,14 +57,14 @@ C   IREAC FLAG
 C
 C   *** IREAC = 1 ***
 C   ORIGINAL 2-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM
-C     IGNITION TERM : ratei = rki * (1.-fc)**ex * (etar-1.)**ri     , if P>0
-C     GROWTH TERM   : rateg = rkg * (1.-fc)**ex * fc**yg * pres**zg , if P>0
+C     IGNITION TERM : ratei = I * (1.-F)**b * (etar-1.)**x     , if P>0
+C     GROWTH TERM   : rateg = G1 * (1.-F)**b * F**d * pres**y  , if P>0
 C
 C   *** IREAC = 2 ***
 C   EXTENDED 3-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM 1 + GROWTH TERM 2
-C        IGNITION TERM :  ratei = rki * (1.-fc+tol)**ex * abs(etar-1.-ccrit)**ri       , if 0<f<fmxig & P>0 & compression thresold (etar-1>=ccrit)
-C        GROWTH TERM 1 : rateg1 = grow1 * (1.-fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1 , if 0<f<fmxgr & P>0
-C        GROWTH TERM 2 : rateg2 = grow2 * (1.-fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2 , if 0<f<fmngr & P>0
+C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<f<Figmax & P>0 & compression thresold (etar-1>=ccrit)
+C        GROWTH TERM 1 : rateg1 = G1 * (1.-F+tol)**c * (F+tol)**d * pres**y     , if 0<f<FG1max & P>0
+C        GROWTH TERM 2 : rateg2 = G2 * (1.-F+tol)**e * (F+tol)**g * pres**z     , if FG2min<f<1 & P>0
 C
 C   ________________________________
 C   NOTATION
@@ -163,11 +163,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real ar,br,r1r,r2r,r3r,cvr,etar,
      .        ap,bp,r1p,r2p,r3p,cvp,etap,
-     .        epsil,check, tmp,
-     .        rki,ex,ri,rkg,yg,zg,grow2,
-     .        zg2,yg2,ex1,ex2,fmxig,fmxgr,fmngr,
+     .        epsil,ftol, tmp,
+     .        I_,B_,X_,G1,D_,Y_,G2,
+     .        Z_,G_,C_,E_,Figmax,FG1max,FG2min,
      .        cappa,chi,ccrit,tol,cv,dedv,
-     .        artvisc,dt,pres,fc,cburn,enq,shr,vol_rel,dvol_rel
+     .        artvisc,dt,pres,fc,cburn,enq,SHEAR,vol_rel,dvol_rel
       my_real oldfc,tem1,tem2,chydro,chydro2,dpdmu,dpde,heat
       my_real mt,pold,er,tfextt,wr,wp
       integer  itrmax,i_reac,i
@@ -207,26 +207,26 @@ C-----------------------------------------------
       cvp = uparam(15)
       enq = uparam(16)
       epsil = uparam(17)
-      check = uparam(19)
-      rki = uparam(20)
-      ex = uparam(21)
-      ri = uparam(22)
-      rkg = uparam(23)
-      yg = uparam(24)
-      zg = uparam(25)
+      ftol = uparam(19)
+      I_ = uparam(20)
+      B_ = uparam(21)
+      X_ = uparam(22)
+      G1 = uparam(23)
+      D_ = uparam(24)
+      Y_ = uparam(25)
       cappa = uparam(26)
       chi = uparam(27)
       tol = uparam(28)
       ccrit = uparam(29)
-      grow2 = uparam(30)
-      ex1 = uparam(31)
-      ex2 = uparam(32)
-      yg2 = uparam(33)
-      zg2 = uparam(34)
-      fmxig = uparam(35)
-      fmxgr = uparam(36)
-      fmngr = uparam(37)
-      shr = uparam(38)
+      G2 = uparam(30)
+      C_ = uparam(31)
+      E_ = uparam(32)
+      G_ = uparam(33)
+      Z_ = uparam(34)
+      Figmax = uparam(35)
+      FG1max = uparam(36)
+      FG2min = uparam(37)
+      SHEAR = uparam(38)
 c
       do i=1,nel
         vol_rel = RHO0(i) / RHO(i) !no unit
@@ -260,7 +260,7 @@ c  hydrodynamic state (pass 1)
         dpde=ZERO
         CALL MIXTURE_EQUILIBRIUM(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dpdmu,dpde,epsil,check,itrmax,enq,
+     .           dpdmu,dpde,epsil,ftol,itrmax,enq,
      .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta)
 c
 c  hydrodynamic state (pass 2)
@@ -268,18 +268,18 @@ c  hydrodynamic state (pass 2)
         tmp = tmp - HALF*(tem2-tem1)*dvol_rel    ! (Cv  SI:J/m3/K = Pa/K)
         CALL MIXTURE_EQUILIBRIUM(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dpdmu,dpde,epsil,check,itrmax,enq,
+     .           dpdmu,dpde,epsil,ftol,itrmax,enq,
      .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta)
 c
 c  dF/dt (F function)
         !ORIGINAL 2-TERM-MODEL
-        if (i_reac == 1) CALL BURN_FRACTION_IREAC1(rki,ex,ri,rkg,yg,zg,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
+        if (i_reac == 1) CALL BURN_FRACTION_IREAC1(I_,B_,X_,G1,D_,Y_,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
         !EXTENDED 3-TERM-MODEL
-        if (i_reac == 2) CALL BURN_FRACTION_IREAC2(rki,ex,ri,rkg,yg,zg,grow2,zg2,yg2,ex1,ex2,fmxig,fmxgr,fmngr,
+        if (i_reac == 2) CALL BURN_FRACTION_IREAC2(I_,B_,X_,G1,D_,Y_,G2,Z_,G_,C_,E_,Figmax,FG1max,FG2min,
      .                             cappa,chi,ccrit,tol,artvisc,dt,pres,etar,fc,cburn,oldfc)
         tmp = tmp + (fc - oldfc) * heat/cv
 c  sound speed (time step criteria)
-        chydro2 = dpdmu + abs(pres)*(vol_rel*vol_rel)*dpde + ONEP33*shr
+        chydro2 = dpdmu + abs(pres)*(vol_rel*vol_rel)*dpde + ONEP33*SHEAR
         chydro2=max(chydro2,max(wr+ONE,wp+ONE)*abs(pres)/max(em30,RHO(I)))
         chydro = sqrt(chydro2)
 c
@@ -328,13 +328,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 C-----------------------------------------------
-      SUBROUTINE BURN_FRACTION_IREAC1(rki,ex,ri,rkg,yg,zg,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
+      SUBROUTINE BURN_FRACTION_IREAC1(I_,B_,X_,G1,D_,Y_,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-c   LEE-TARVER ORIGINAL 2-TERM-MODEL
-c     IGNITION TERM :  ratei = rki * (1.-fc)**ex * (etar-1.)**ri       , P>0
-c     GROWTH TERM :    rateg = rkg * (1.-fc)**ex * fc**yg * pres**zg   , P>0
+
+C   *** IREAC = 1 ***
+C   ORIGINAL 2-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM
+C     IGNITION TERM : ratei = I * (1.-F)**b * (etar-1.)**x     , if P>0
+C     GROWTH TERM   : rateg = G1 * (1.-F)**b * F**d * pres**y  , if P>0
 c
 c    bounds :
 c    -dfc limited during 1 cycle (chi)
@@ -352,7 +354,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   rki,ex,ri,rkg,yg,zg,cappa,
+     .   I_,B_,X_,G1,D_,Y_,cappa,
      .   artvisc,dt,pres,etar,fc,cburn,oldfc
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -369,11 +371,11 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       cburn = ZERO
 c     ignition term
-      ratei = rki * (ONE -fc)**ex * (etar-ONE)**ri
+      ratei = I_ * (ONE -fc)**B_ * (etar-ONE)**X_
       if ((etar - ONE) <= ZERO) ratei=ZERO
       dfci = ratei * dt
 c     growth term
-      rateg =  rkg * (ONE - fc)**ex * fc**yg * pres**zg
+      rateg =  G1 * (ONE - fc)**B_ * fc**D_ * pres**Y_
       dfcg = rateg * dt
 c     F function  (0. < F < 1.)
       fc = oldfc + max(dfci,zero) + max(dfcg,zero)
@@ -385,15 +387,16 @@ C-----------------------------------------------
 
 
 C-----------------------------------------------
-      SUBROUTINE BURN_FRACTION_IREAC2(rki,ex,ri,rkg,yg,zg,grow2,zg2,yg2,ex1,ex2,fmxig,fmxgr,fmngr,cappa,chi,ccrit,tol,
+      SUBROUTINE BURN_FRACTION_IREAC2(I_,B_,X_,G1,D_,Y_,G2,Z_,G_,C_,E_,Figmax,FG1max,FG2min,cappa,chi,ccrit,tol,
      .                 artvisc,dt,pres,etar,fc,cburn,oldfc)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-c   LEE TARVER EXTENDED 3-TERM-MODEL
-c        IGNITION TERM :     ratei = rki * (1.-fc+tol)**ex * abs(etar-1.-ccrit)**ri        , 0<f<fmxig & P>0 & compression thresold (etar-1>=ccrit)
-c        GROWTH TERM 1 :    rateg1 = grow1 * (1.-fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1  , 0<f<fmxgr & P>0
-c        GROWTH TERM 2 :    rateg2 = grow2 * (1.-fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2  , 0<f<fmngr & P>0
+C   *** IREAC = 2 ***
+C   EXTENDED 3-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM 1 + GROWTH TERM 2
+C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<f<Figmax & P>0 & compression thresold (etar-1>=ccrit)
+C        GROWTH TERM 1 : rateg1 = G1 * (1.-F+tol)**c * (F+tol)**d * pres**y , if 0<f<FG1max & P>0
+C        GROWTH TERM 2 : rateg2 = G2 * (1.-F+tol)**e * (F+tol)**g * pres**z     , if FG2min<f<1 & P>0
 c
 c    bounds :
 c    - dfc limited during 1 cycle (chi)
@@ -410,39 +413,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real rki,ex,ri,rkg,yg,zg,grow2,zg2,yg2,ex1,ex2,
-     .        fmxig,fmxgr,fmngr,cappa,chi,ccrit,tol,
+      my_real I_,B_,X_,G1,D_,Y_,G2,Z_,G_,C_,E_,
+     .        Figmax,FG1max,FG2min,cappa,chi,ccrit,tol,
      .        artvisc,dt,pres,etar,fc,cburn,oldfc
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real ratei,rateg,rateg1,rateg2,dfci,dfcg,grow1,yg1,zg1
+      my_real ratei,rateg,rateg1,rateg2,dfci,dfcg,grow1
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 c   initi.
       cburn = ZERO
-      grow1 = rkg
-      yg1 = yg
-      zg1 = zg
       if (pres <= ZERO) return
       if (fc == ONE) return
       if (artvisc >= (cappa*pres)) return
-      if (fc <= fmxig) then
+      if (fc <= Figmax) then
        ! ignition term
-        ratei = rki * (ONE-fc+tol)**ex * abs(etar-ONE-ccrit)**ri
+        ratei = I_ * (ONE-fc+tol)**B_ * abs(etar-ONE-ccrit)**X_
         if ((etar- ONE -ccrit)<=ZERO) ratei = ZERO
         dfci = ratei * dt
         fc = oldfc + max(dfci,zero)
-        if (fc > fmxig) fc = fmxig
+        if (fc > Figmax) fc = Figmax
       endif
 
       ! growth term 1
-      rateg1 = grow1 * (ONE -fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1
-      if (fc > fmxgr) rateg1 = ZERO
+      rateg1 = G1 * (ONE -fc+tol)**C_ * (fc+tol)**D_ * pres**Y_
+      if (fc > FG1max) rateg1 = ZERO
       ! growth term 2
-      rateg2 = grow2 * (ONE -fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2
-      if (fc < fmngr) rateg2 = ZERO
+      rateg2 = G2 * (ONE -fc+tol)**E_ * (fc+tol)**G_ * pres**Z_
+      if (fc < FG2min) rateg2 = ZERO
       ! F function  (0. < F < 1.)
       rateg = rateg1 + rateg2
       dfcg = rateg * dt
@@ -459,7 +459,7 @@ C-----------------------------------------------
       SUBROUTINE MIXTURE_EQUILIBRIUM(
      .               ar   ,br   ,r1r    ,r2r  ,r3r   ,cvr ,etar,
      .               ap   ,bp   ,r1p    ,r2p  ,r3p   ,cvp ,etap,
-     .               dpdmu,dpde ,epsil  ,check,itrmax,enq ,
+     .               dpdmu,dpde ,epsil  ,ftol,itrmax,enq ,
      .               tmp  ,heat ,vol_rel,fc,cv,dedv  ,pres, beta)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -482,7 +482,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .        ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .        epsil,check,heat,dpdmu,dpde,enq, tmp,
+     .        epsil,ftol,heat,dpdmu,dpde,enq, tmp,
      .        vol_rel ,fc,cv,dedv,pres, beta
       integer  itrmax
 C-----------------------------------------------
@@ -501,7 +501,7 @@ C-----------------------------------------------
 c   initi.
       etac = ONE/vol_rel
       fc1 = ONE -fc
-      if (fc < check) then
+      if (fc < ftol) then
 c       reaction has not started : F=0., beta=Vfrac(reagent)=1.
         etar = fc1 * etac
         CALL JWL_EOS_STATE(ar,br,r1r,r2r,r3r,cvr,etar,tmp,dedvr,pres,bthr,dpdtr,enr)
@@ -515,7 +515,7 @@ c       reaction has not started : F=0., beta=Vfrac(reagent)=1.
         heat = enq-enp+enr
         return
 c
-      elseif (fc > (ONE -check)) then
+      elseif (fc > (ONE -ftol)) then
 c       reaction has finished : F=1., beta=Vfrac(reagent)=0.
         etap = fc * etac
         CALL JWL_EOS_STATE(ap,bp,r1p,r2p,r3p,cvp,etap,tmp,dedvp,pres,bthp,dpdtp,enp )
