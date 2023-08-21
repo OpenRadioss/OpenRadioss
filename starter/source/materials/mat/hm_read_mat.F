@@ -597,7 +597,7 @@ c-------
             CALL HM_READ_MAT41(UPARAM, MAXUPARAM, NUPARAM,
      .           NUVAR, IFUNC, MAXFUNC, NFUNC, PARMAT,
      .           MAT_ID, TITR, UNITAB, LSUBMODEL, PM(1, I),
-     .           MATPARAM )
+     .           MATPARAM, MTAG )
 c-------
           CASE ('LAW42','OGDEN')
             ILAW = 42  
