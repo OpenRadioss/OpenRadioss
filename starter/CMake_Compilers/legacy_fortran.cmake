@@ -1355,7 +1355,7 @@ set_source_files_properties( ${source_directory}/source/materials/mat/mat042/law
 # set_source_files_properties( ${source_directory}/source/materials/mat/mat121/hm_read_mat121.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/materials/mat/mat110/hm_read_mat110.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/materials/mat/mat001/hm_read_mat01.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/materials/mat/mat041/hm_read_mat41.F.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/materials/mat/mat041/hm_read_mat41.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat098/lossfun_98.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat106/hm_read_mat106.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/materials/mat/mat076/hm_read_mat76.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

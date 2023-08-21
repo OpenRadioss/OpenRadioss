@@ -32,10 +32,10 @@ Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT41(UPARAM ,MAXUPARAM,NUPARAM,
-     .                  NUVAR,IFUNC,MAXFUNC,NFUNC    ,STIFINT,
-     .                  ID   ,TITR ,UNITAB, LSUBMODEL, PM    ,
-     .                  MATPARAM )
+      SUBROUTINE HM_READ_MAT41(UPARAM  ,MAXUPARAM ,NUPARAM ,
+     .                        NUVAR    ,IFUNC     ,MAXFUNC ,NFUNC     ,STIFINT,
+     .                        ID       ,TITR      ,UNITAB  ,LSUBMODEL ,PM    ,
+     .                        MATPARAM ,MTAG)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,12 +63,27 @@ C----------+---------+---+---+--------------------------------------------
 C STIFINT  |  1      | F | W | STIFNESS MODULUS FOR INTERFACE
 C----------+---------+---+---+--------------------------------------------
 C
+C   ________________________________
+C   IREAC FLAG
+C
+C   *** IREAC = 1 ***
+C   ORIGINAL 2-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM
+C     IGNITION TERM : ratei = rki * (1.-fc)**ex * (etar-1.)**ri     , if P>0
+C     GROWTH TERM   : rateg = rkg * (1.-fc)**ex * fc**yg * pres**zg , if P>0
+C
+C   *** IREAC = 2 ***
+C   EXTENDED 3-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM 1 + GROWTH TERM 2
+C        IGNITION TERM :  ratei = rki * (1.-fc+tol)**ex * abs(etar-1.-ccrit)**ri       , if 0<f<fmxig & P>0 & compression thresold (etar-1>=ccrit)
+C        GROWTH TERM 1 : rateg1 = grow1 * (1.-fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1 , if 0<f<fmxgr & P>0
+C        GROWTH TERM 2 : rateg2 = grow2 * (1.-fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2 , if 0<f<fmngr & P>0
+C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,27 +97,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      character*40 nom
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER MAXUPARAM,NUPARAM,NUVAR,MAXFUNC,NFUNC,
-     .        IFUNC(MAXFUNC),IUNIT
-      my_real   UPARAM(MAXUPARAM),STIFINT
-
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER,INTENT(IN) :: MAXUPARAM,MAXFUNC,IFUNC(MAXFUNC)
+      INTEGER,INTENT(INOUT) :: NUPARAM,NFUNC,NUVAR
+      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM),STIFINT
+      INTEGER,INTENT(IN) :: ID
+      CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM     
+      my_real, INTENT(INOUT) :: PM(NPROPM)
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s 
 C-----------------------------------------------
-      INTEGER ITER,IREAC,I
-      my_real
-     .     AR, BR, R1R, R2R, R3R, WR, AP, BP, R1P, R2P, R3P, WP, CVR, CVP,
-     .     ENQ, EPSILON, FC, RKI, EX, RI, RKG, YG, ZG, CAPPA, CHI, TOL,
-     .     CCRIT, GROW2, EX1, EX2, YG2, ZG2, FMXIG, FMXGR, FMNGR, SHR, T,
-     .     RHO0, RHOR
+      INTEGER ITER,IREAC
+      my_real AR, BR, R1R, R2R, R3R, WR,
+     .        AP, BP, R1P, R2P, R3P, WP,
+     .        CVR, CVP,
+     .        ENQ, EPSILON, FC, RKI, EX, RI, RKG, YG, ZG, CAPPA, CHI, TOL,
+     .        CCRIT, GROW2, EX1, EX2, YG2, ZG2, FMXIG, FMXGR, FMNGR, SHR, T,
+     .        RHO0, RHOR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -110,11 +124,16 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
 !     Check input encryption
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      NUPARAM = 40  
+      NUPARAM = 40
+
+!     Automatic Allocation for Elem Buffer : Burn Fraction
+      MTAG%G_BFRAC  = 1
+      MTAG%L_BFRAC  = 1
              
 !     Initial and reference density
-      CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_RHO', RHO0, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho', RHOR, IS_AVAILABLE, LSUBMODEL, UNITAB)
+
       IF (RHOR == ZERO) THEN
          RHOR = RHO0
       ENDIF
@@ -173,14 +192,14 @@ C-----------------------------------------------
       !------------------------!
       !       DEFAULTS         !
       !------------------------!
-      !IREAC=1 : LEE-TARVER ORIGINAL METHOD                                  
-      !IREAC=2 : MODIFIED METHOD                                             
+      !IREAC=1 : ORIGINAL 2 TERM MODEL (ignition + growth)
+      !IREAC=2 : EXTENDED MODEL (3 TERM : ignition, growth1, growth2)
       IF(IREAC/=1 .AND. IREAC /=2)IREAC=1                                    
-      WR = R3R/CVR                                                           
-      WP = R3P/CVP                                                           
-      IF (EPSILON==ZERO) EPSILON = EM3                                     
-      IF (ITER==0) ITER = 80                                               
-      IF (FC==ZERO) FC = EM5                                               
+      WR = R3R/CVR   !SI : both units are J/m3/K (=Pa/K) ; WR is dimensionless (JWL EoS param)
+      WP = R3P/CVP   !SI : both units are J/m3/K (=Pa/K) ; WR is dimensionless (JWL EoS param)
+      IF (EPSILON==ZERO) EPSILON = EM3
+      IF (ITER==0) ITER = 80
+      IF (FC==ZERO) FC = EM5
       IF (CAPPA==ZERO) CAPPA = EIGHTY19                               
       IF (CHI==ZERO) CHI = EIGHTY19                                   
       NFUNC = 0                                                              
