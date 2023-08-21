@@ -46,7 +46,7 @@ Chd|====================================================================
      E   VOL_AVG, DTEL,    G_DT,    NEL,
      F   D4,      D5,      D6,      RHOREF,
      G   RHOSP,   ISMSTR,  ITY,     JSMS,
-     H   JTUR,    JTHE)
+     H   JTUR,    JTHE  ,  NPG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITY
       INTEGER, INTENT(IN) :: JSMS
       INTEGER, INTENT(IN) :: JTUR
-      INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: JTHE,NPG
       INTEGER LFT,LLT,NFT,MTN, NUVAR,MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT),G_DT,NEL
       INTEGER NELTST, ITYPTST,JLAG
       my_real DT2T
@@ -174,7 +174,7 @@ C-----------------------
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS)
+     C   JSMS,    NPG )
 C
       DO I=LFT,LLT
         P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))/THREE

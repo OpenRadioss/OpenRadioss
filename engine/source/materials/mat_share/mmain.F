@@ -644,7 +644,7 @@ C-----------------------------------
      C   AMU,        VOL_AVG,    GBUF%DT,    GBUF%G_DT,
      D   OFF,        IPM,        RHOREF,     RHOSP,
      E   LBUF%VOL0DP,ISMSTR,     JSPH,       JTUR,
-     F   ITY,        JTHE,       JSMS)
+     F   ITY,        JTHE,       JSMS,       NPG )
       ELSE IF (MTN == 1) THEN
 C
         IF (JHBE==17.AND.IINT==3.AND.ISMSTR == 1) THEN
@@ -663,7 +663,7 @@ C
      C   VOL_AVG,  GBUF%DT,  GBUF%G_DT,NEL,
      D   IPM,      RHOREF,   RHOSP,    ITY,
      E   JTUR,     JTHE,     JSPH,     ISMSTR,
-     F   JSMS)
+     F   JSMS,     NPG )
         ELSE IF(ISMSTR >= 10.AND.ISMSTR <= 12)THEN
           CALL M1LAWTOT(
      1   PM,         OFF,        LBUF%SIG,   LBUF%EINT,
@@ -683,7 +683,8 @@ C
      F   GBUF%DT,    GBUF%G_DT,  NEL,        GBUF%ETOTSH,
      G   ISELECT,    IPM,        RHOREF,     RHOSP,
      H   LBUF%SIGL,  ITY,        ISMSTR,     JTUR,
-     I   JTHE,       JCVT,       JSPH,       JSMS)
+     I   JTHE,       JCVT,       JSPH,       JSMS,
+     J   NPG )
         ELSE 
           CALL M1LAW(
      1   PM,       OFF,      LBUF%SIG, LBUF%EINT,
@@ -700,7 +701,7 @@ C
      C   VOL_AVG,  GBUF%DT,  GBUF%G_DT,NEL,
      D   IPM,      RHOREF,   RHOSP,    ITY,
      E   JTUR,     JTHE,     JSPH,     ISMSTR,
-     F   JSMS)
+     F   JSMS,     NPG )
         END IF
 C
       ELSEIF (MTN == 2) THEN
@@ -724,7 +725,7 @@ C
      G   NEL,      IPM,      RHOREF,   RHOSP,
      H   IPG,      LBUF%DMG, ITY,      JTUR,
      I   JTHE,     JSPH,     ISMSTR,   JSMS,
-     J   LBUF%EPSQ)
+     J   LBUF%EPSQ,NPG )
 !----------------
         IF (ISTRAIN > 0 .AND.
      .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1 )) THEN
@@ -852,7 +853,7 @@ C---------------------------
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -897,7 +898,7 @@ C
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1045,7 +1046,7 @@ C
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1089,7 +1090,7 @@ C
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1151,7 +1152,7 @@ c     .             LBUF%QVIS,LBUF%VOL,MBUF%VAR,STIFN   )
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1220,7 +1221,7 @@ C       TSAI 3D Complet
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1264,7 +1265,7 @@ C       TSAI 3D Complet
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1306,7 +1307,7 @@ C       TSAI 3D Complet
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1348,7 +1349,7 @@ c
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1409,7 +1410,7 @@ c
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1451,7 +1452,7 @@ c
      E   GBUF%DT,  GBUF%G_DT,NEL,      IPM,
      F   RHOREF,   RHOSP,    NFT,      JSPH,
      G   ITY,      JTUR,     JTHE,     ISMSTR,
-     H   JSMS)
+     H   JSMS,     NPG )
       ELSEIF (MTN == 23) THEN
         CALL M22LAW(
      1   PM,       OFF,      LBUF%SIG, LBUF%EINT,
@@ -1470,7 +1471,7 @@ c
      E   GBUF%DT,  GBUF%G_DT,NEL,      IPM,
      F   RHOREF,   RHOSP,    NFT,      JSPH,
      G   ITY,      JTUR,     JTHE,     ISMSTR,
-     H   JSMS)
+     H   JSMS,     NPG )
       ELSEIF (MTN == 24) THEN
         CALL M24LAW(
      1   LBUF,     PM,       OFF,      LBUF%SIG,
@@ -1490,7 +1491,7 @@ c
      F   GBUF%G_DT,IPM,      RHOREF,   RHOSP,
      G   LBUF%EPSD,ITY,      JTUR,     JTHE,
      H   JHBE,     JCVT,     JSPH,     ISMSTR,
-     I   JSMS)
+     I   JSMS,     NPG )
 C     like law25 for shell + S33 = EPS33*E33
       ELSEIF (MTN == 25) THEN
         CALL M25LAW(
@@ -1520,7 +1521,7 @@ C     like law25 for shell + S33 = EPS33*E33
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,
@@ -1593,7 +1594,7 @@ C     like law25 for shell + S33 = EPS33*E33
      E   VOL_AVG,  GBUF%DT,  GBUF%G_DT,NEL,
      F   D4,       D5,       D6,       RHOREF,
      G   RHOSP,    ISMSTR,   ITY,      JSMS,
-     H   JTUR,     JTHE)
+     H   JTUR,     JTHE,     NPG )
 C
       ELSEIF (MTN == 49) THEN
         CALL M49LAW (MAT      ,PM       ,OFF     ,LBUF%SIG,LBUF%PLA,
@@ -1614,7 +1615,7 @@ C
      9   FACQ0,    CONDE,    GBUF%DT,  GBUF%G_DT,
      A   IPM,      RHOREF,   RHOSP,    NEL,
      B   ITY,      ISMSTR,   JTUR,     JTHE,
-     C   JSMS)
+     C   JSMS,     NPG )
         ELSE
           CALL MDTSPH(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,

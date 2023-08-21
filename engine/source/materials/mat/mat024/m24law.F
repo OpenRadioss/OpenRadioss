@@ -51,7 +51,7 @@ Chd|====================================================================
      F   G_DT,    IPM,     RHOREF,  RHOSP,
      G   EPSD,    ITY,     JTUR,    JTHE,
      H   JHBE,    JCVT,    JSPH,    ISMSTR,
-     I   JSMS)
+     I   JSMS,    NPG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JHBE
       INTEGER, INTENT(IN) :: JCVT
-      INTEGER, INTENT(IN) :: JSPH
+      INTEGER, INTENT(IN) :: JSPH,NPG
       INTEGER MAT(NEL),NGL(NEL),PID(NEL),G_DT, IPM(NPROPMI,*)
       INTEGER NELTST,ITYPTST,OFFSET,NEL
       my_real DT2T
@@ -101,7 +101,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IMAT,IBID,ISVIS
       my_real E1, E2, E3, E4, E5, E6,BID1,BID2,BID3,FACQ0
-      my_real, DIMENSION(NEL) :: R11,R12,R13,R21,R22,R23,R31,R32,R33
+      my_real, DIMENSION(NEL) :: R11,R12,R13,R21,R22,R23,R31,R32,R33,VOLG
 C=======================================================================
       ISVIS = 0
       FACQ0 = ONE
@@ -155,11 +155,12 @@ C
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS)
+     C   JSMS,    NPG )
 C
+       VOLG(1:NEL)=NPG*VOLN(1:NEL)
        CALL MNSVIS(
      1   PM,      OFF,     RHO,     GEO,
-     2   PID,     SSP,     AIRE,    VOLN,
+     2   PID,     SSP,     AIRE,    VOLG,
      3   D1,      D2,      D3,      D4,
      4   D5,      D6,      MAT,     ISVIS,
      5   RHOREF,  NEL)

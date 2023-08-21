@@ -45,7 +45,7 @@ Chd|====================================================================
      E   DTEL,    G_DT,    NEL,     IPM,
      F   RHOREF,  RHOSP,   NFT,     JSPH,
      G   ITY,     JTUR,    JTHE,    ISMSTR,
-     H   JSMS)
+     H   JSMS,    NPG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: NFT
-      INTEGER, INTENT(IN) :: JSPH
+      INTEGER, INTENT(IN) :: JSPH,NPG
       INTEGER NELTST,ITYPTST ,PID(*), G_DT
       INTEGER MAT(*),NGL(*),IPLA,NEL,IPM(NPROPMI,*)
       my_real
@@ -386,7 +386,7 @@ C-----------------------------------------------
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS)
+     C   JSMS,    NPG )
       ELSE
        CALL MDTSPH(
      1   PM,      OFF,     RHO,     BID1,

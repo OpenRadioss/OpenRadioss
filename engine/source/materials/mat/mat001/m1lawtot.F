@@ -48,7 +48,8 @@ Chd|====================================================================
      F   DTEL,    G_DT,    NEL,     ETOTSH,
      G   ISELECT, IPM,     RHOREF,  RHOSP,
      H   SIGL,    ITY,     ISMSTR,  JTUR,
-     I   JTHE,    JCVT,    JSPH,    JSMS)
+     I   JTHE,    JCVT,    JSPH,    JSMS,
+     J   NPG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +74,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JCVT
       INTEGER, INTENT(IN) :: JSPH
-      INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(IN) :: JSMS,NPG
 C
       INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL,ISELECT
       INTEGER MAT(*),NGL(*),IPM(NPROPMI,*)
@@ -372,7 +373,7 @@ C
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS)
+     C   JSMS,    NPG  )
       ELSE
        CALL MDTSPH(
      1   PM,      OFF,     RHO,     BID1,
