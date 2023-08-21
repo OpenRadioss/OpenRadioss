@@ -49,6 +49,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
+#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -101,7 +102,7 @@ C
          OFFG(I) = ZERO
          ICOUNT=ICOUNT+1
          LIST(ICOUNT)=I
-        END IF	
+        END IF
        END DO
        IF (ICOUNT > 0) THEN
 #include "lockon.inc"
@@ -115,6 +116,7 @@ C
          WRITE(IOUT,*)
          WRITE(ISTDO,*)
 #include "lockoff.inc"
+         IDEL7NOK = 1
        END IF !(ICOUNT > 0) THEN
       END IF 
 C       
@@ -126,7 +128,7 @@ C
          OFFG(I) = ZERO
          ICOUNT=ICOUNT+1
          LIST(ICOUNT)=I
-        END IF	
+        END IF
        END DO
         IF (ICOUNT > 0) THEN
 #include "lockon.inc"
@@ -140,6 +142,7 @@ C
          WRITE(IOUT,*)
          WRITE(ISTDO,*)
 #include "lockoff.inc"
+         IDEL7NOK = 1
         END IF !(ICOUNT > 0) THEN
       END IF 
 C--- Hexa : APS_r=lmax/lmin lmax~sqrt(L_SH); lmin~A/lmax  -> 
@@ -153,7 +156,7 @@ C---        APS_r~lmax^2/A
             OFFG(I) = ZERO
             ICOUNT=ICOUNT+1
             LIST(ICOUNT)=I
-           END IF	
+           END IF
           END DO
           IF (ICOUNT > 0) THEN
 #include "lockon.inc"
@@ -167,6 +170,7 @@ C---        APS_r~lmax^2/A
              WRITE(IOUT,*)
              WRITE(ISTDO,*)
 #include "lockoff.inc"
+            IDEL7NOK = 1
           END IF !(ICOUNT > 0) THEN
         END IF
 C
@@ -180,7 +184,7 @@ C---        TET_c =1/ASP_r
             OFFG(I) = ZERO
             ICOUNT=ICOUNT+1
             LIST(ICOUNT)=I
-           END IF	
+           END IF
           END DO
           IF (ICOUNT > 0) THEN
 #include "lockon.inc"
@@ -194,6 +198,7 @@ C---        TET_c =1/ASP_r
             WRITE(IOUT,*)
             WRITE(ISTDO,*)
 #include "lockoff.inc"
+            IDEL7NOK = 1
           END IF !(ICOUNT > 0) THEN
         END IF
 C
