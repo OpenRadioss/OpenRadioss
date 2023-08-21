@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER I, J, IE_L, NG, NG_L,
      .        KXSP_L(NISP,NUMSPH_L),
      .        SUIVSPH_L,IPRT,
-     .        N,STAT, INULL, IUN
+     .        N,STAT, INULL, IUN, NUMSPH_EL
       INTEGER, DIMENSION(:), ALLOCATABLE ::  NOD2SP_L,NGLOCAL,ISPHIO_L
 C-----------------------------------------------
 !     allocate 1d array
@@ -271,12 +271,15 @@ c
 C
         IE_L = 0
         DO I=1,NUMELS8
-          IF(CEP(I)==PROC)THEN
+          IF (CEP(I)==PROC) THEN
             IE_L = IE_L + 1
-C           SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
-            SOL2SPH_L(1,IE_L)=CELSPH(SOL2SPH(1,I)+1)-1
-            SOL2SPH_L(2,IE_L)=CELSPH(SOL2SPH(2,I))
-            SOL2SPH_TYPL(IE_L)=SOL2SPH_TYP(I)
+            NUMSPH_EL = SOL2SPH(2,I) - SOL2SPH(1,I)
+            IF (NUMSPH_EL > 0) THEN
+C             SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
+              SOL2SPH_L(1,IE_L)=CELSPH(SOL2SPH(1,I)+1)-1
+              SOL2SPH_L(2,IE_L)=CELSPH(SOL2SPH(2,I))
+              SOL2SPH_TYPL(IE_L)=SOL2SPH_TYP(I)
+            ENDIF
           END IF
         END DO
 C
