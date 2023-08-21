@@ -133,13 +133,14 @@ C
           IX3(K) = IRECT(3,L)                                       
           IX4(K) = IRECT(4,L)
 C
-          IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
-C-- shell main segment --
-            IROT = ONE
-          ELSE
 C-- solid main segment --
-            IROT = ZERO
-          ENDIF 
+          IROT = ZERO
+          IF ((MSEGTYP2(L)==1)) THEN
+C-- shell main segment --
+            IF(IN(I) > EM20) THEN
+              IROT = ONE
+            ENDIF 
+          ENDIF
 C
           IF (IX3(K) == IX4(K)) THEN
 C--        Shape functions of triangles
