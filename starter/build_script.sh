@@ -16,11 +16,15 @@ function my_help()
   then
        cat CMake_Compilers_c/platforms.txt 
   fi
-  echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
-  echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
-  echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
+  echo " -prec=[dp|sp]                       : set precision - dp (default) |sp "
+  echo " -static-link                        : Fortran, C & C++ runtime are linked in binary"
+  echo " -debug=[0|1|2]                      : debug version for gfortran"
+  echo "                                          0 : no debug flags (default)"
+  echo "                                          1 : usual debug flag"
+  echo "                                          2 : gfortran sanitizer"
+  echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
-  echo " " 
+  echo " "
   echo " Execution control "
   echo " -nt=[threads]      : number of threads for build "
   echo " -verbose           : Verbose build"
@@ -40,6 +44,8 @@ prec=dp
 threads=1
 got_arch=0
 debug=0
+ddebug=""
+sanitize=0
 jenkins_release=0
 no_rr_clean=0
 changelist=00000
@@ -47,9 +53,6 @@ cf=""
 dc=""
 qd=""
 ADF=""
-debug=0
-sanitize=0
-ddebug=""
 static_link=0
 number_of_arguments=$#
 clean=0
@@ -92,15 +95,17 @@ else
        if [ "$arg" == "-debug" ]
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
-         if [ $debug == 2 ]
-         then
-           debug=1
-           sanitize=1
-         fi 
+         ddebug=_${debug}
          if [ $debug == 1 ]
          then
            ddebug="_db"
          fi
+         if [ $debug == 2 ]
+         then
+           debug=1
+           sanitize=1
+           ddebug="_db2"
+         fi 
        fi
 
        if [ "$arg" == "-nt" ]
@@ -145,6 +150,8 @@ else
      exit 1
    fi
 
+starter_exec=${st_vers}_${arch}${dmpi}${suffix}${ddebug}
+build_directory=cbuild_${starter_exec}
 
    echo " " 
    echo " Build OpenRadioss Starter "
@@ -154,6 +161,8 @@ else
    echo " precision =            : " $prec
    echo " debug =                : " $debug
    echo " static_link =          : " $static_link
+   echo " " 
+   echo " Executable name        : " ${starter_exec}
    if [[ -v ad ]]  
    then
       echo " Addflag                : \""$ad "\" "
@@ -162,11 +171,6 @@ else
    echo " #threads for Makefile : " $threads
    echo " "
 fi
-
-
-
-
-build_directory=cbuild_${arch}${suffix}${cf}${ddebug}
 
 if [ $clean = 1 ]
 then
@@ -181,7 +185,6 @@ then
    exit 0
 fi
 
-
 # create build directory
 if [ ! -d ../exec ] 
 then
@@ -194,8 +197,6 @@ then
    mkdir ${build_directory}
 fi
 
-starter_exec=${st_vers}_${arch}${dmpi}${suffix}${ddebug}
-echo " " 
 
 if [ -f ${build_directory}/${starter_exec} ]
 then
@@ -210,7 +211,6 @@ then
   rm ../exec/${starter_exec}
 fi
 echo " "
-
 
 cd ${build_directory}
 
@@ -254,9 +254,9 @@ then
   C_path_w=`cygpath.exe -m "${C_path}"`
   CPP_path_w=`cygpath.exe -m "${CPP_path}"`
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
-  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
+  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
 else
-  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
+  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
 fi
 
 return_value=$?
@@ -277,13 +277,6 @@ fi
 
 make -j ${threads} ${verbose}
 
-
-echo " "
-if [ -f ${starter_exec} ]
-then
-  echo " -- Copy ${starter_exec} in ../exec "
-  cp  ${starter_exec} ../../exec
-fi
 
 cd ..
 echo " "

@@ -2,6 +2,8 @@ echo OFF
 
 REM Variable setting
 set arch=win64
+set dc=
+set dc_suf=
 set prec=dp
 set debug=0
 set static=0
@@ -37,6 +39,11 @@ IF (%1) == () GOTO END_ARG_LOOP
        set clean=1
    )
 
+   IF %1==-c (
+       set dc="-DCOM=1"
+       set dc_suf=_c
+   )
+
    IF %1==-nt (
        set jobs=%2
        set jobsv=%2
@@ -55,14 +62,14 @@ if %jobsv%==all ( set jobs=0)
 Rem Starter name
 if %prec%==sp ( set sp_suffix=_sp)
 if %debug%==1 ( set debug_suffix=_db)
-if %debug%==2 ( set debug_suffix=_db)
+if %debug%==2 ( set debug_suffix=_db2)
 
-set starter=starter_%arch%%sp_suffix%%debug_suffix%.exe
+set starter=starter_%arch%%sp_suffix%%debug_suffix%%dc_suf%
 
 Rem Create build directory
 
 
-set build_directory=cbuild_%arch%%sp_suffix%%debug_suffix%_ninja
+set build_directory=cbuild_%starter%_ninja
 
 Ren clean
 if %clean%==1 (
@@ -110,7 +117,7 @@ if %debug%==0 (
     set build_type=Debug
 )
 
-cmake -G Ninja -DVS_BUILD=1 -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%starter% -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
 ninja %verbose% -j %jobs%
 
 cd ..
@@ -145,6 +152,7 @@ set jobs=
 set jobsv=
 set debug_suffix=
 set build_type=
+set dc=
 
 echo Terminating
 echo.

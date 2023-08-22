@@ -156,11 +156,6 @@ else ()
 endif ()
 
 #
-# executable name
-# ---------------------------------
-set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
-
-#
 # Print some configuration messages
 # ---------------------------------
 message (" " )
@@ -230,7 +225,7 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/engine_message_description.inc
          COMMAND 
-            perl ../../Compiling_tools/script/build_message.pl ${source_directory}/source/output/message/engine_message_description.txt > ${Build_includes_directory}/engine_message_description.inc
+            python ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${source_directory}/source/output/message/engine_message_description.txt -outfile=${Build_includes_directory}/engine_message_description.inc
          DEPENDS 
               ${source_directory}/source/output/message/engine_message_description.txt
          )
@@ -240,9 +235,8 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
-            ${Build_includes_directory}/btag.inc
          COMMAND 
-            bash ../../Compiling_tools/script/compile_info_cm.sh linux64 0 e 0 linux64  > ${Build_includes_directory}/build_info.inc
+            python ${source_directory}/../Compiling_tools/script/build_info.py -version=${version} -titlevers=${titlevers} -arch=${arch} -solver=E -outfile=${Build_includes_directory}/build_info.inc
          )
 endif()
 
@@ -258,13 +252,11 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )
 
-if(DEFINED VS_BUILD)
-  add_custom_command(TARGET ${EXEC_NAME}
+add_custom_command(TARGET ${EXEC_NAME}
                    POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E make_directory ${source_directory}/../exec
                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${EXEC_NAME}> ${source_directory}/../exec
                   )
-endif()
 
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
 target_link_libraries(${EXEC_NAME} ${LINK} )
