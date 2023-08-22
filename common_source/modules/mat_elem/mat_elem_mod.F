@@ -39,6 +39,7 @@ Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk
 Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F
 Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
+Chd|        ELBUF_INI                     engine/source/elements/elbuf/elbuf_ini.F
 Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        FORINTP                       engine/source/elements/forintp.F
@@ -52,6 +53,7 @@ Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESA                        engine/source/output/restart/rdresa.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        READ_ELGROUP_PARAM            engine/source/output/restart/read_elgroup_param.F
 Chd|        READ_MATPARAM                 engine/source/output/restart/read_matparam.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F

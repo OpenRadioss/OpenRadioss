@@ -53,7 +53,7 @@ Chd|        HM_READ_MAT28                 source/materials/mat/mat028/hm_read_ma
 Chd|        HM_READ_MAT33                 source/materials/mat/mat033/hm_read_mat33.F
 Chd|        HM_READ_MAT38                 source/materials/mat/mat038/hm_read_mat38.F
 Chd|        HM_READ_MAT40                 source/materials/mat/mat040/hm_read_mat40.F
-Chd|        HM_READ_MAT41                 source/materials/mat/mat041/hm_read_mat41.F.F
+Chd|        HM_READ_MAT41                 source/materials/mat/mat041/hm_read_mat41.F
 Chd|        HM_READ_MAT42                 source/materials/mat/mat042/hm_read_mat42.F
 Chd|        HM_READ_MAT50                 source/materials/mat/mat050/hm_read_mat50.F
 Chd|        HM_READ_MAT53                 source/materials/mat/mat053/hm_read_mat53.F

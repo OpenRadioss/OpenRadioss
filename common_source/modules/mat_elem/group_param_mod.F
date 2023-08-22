@@ -39,8 +39,6 @@ Chd|        OUTPART5                      starter/source/elements/initia/initia.
 Chd|        SET_ELGROUP_PARAM             starter/source/elements/shell/coque/set_elgroup_param.F
 Chd|        WRITE_ELGROUP_PARAM           starter/source/restart/ddsplit/write_elgroup_param.F
 Chd|        CMAIN3PINCH                   engine/source/elements/shell/coqueba/cmain3pinch.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        READ_ELGROUP_PARAM            engine/source/output/restart/read_elgroup_param.F
 Chd|        WRITE_ELGROUP_PARAM           engine/source/output/restart/write_elgroup_param.F
 Chd|-- calls ---------------
 Chd|====================================================================

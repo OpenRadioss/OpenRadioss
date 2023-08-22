@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE READ_ELGROUP_PARAM(MAT_ELEM)
 C-----------------------------------------------

@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE ELBUF_INI(MAT_ELEM ,NGROUP ,IPARG)  
 C-----------------------------------------------

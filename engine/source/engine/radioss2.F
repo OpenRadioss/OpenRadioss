@@ -123,7 +123,6 @@ Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F    
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_MOD                     share/modules/group_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

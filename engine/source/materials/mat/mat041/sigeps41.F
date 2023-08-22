@@ -26,6 +26,9 @@ Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
+Chd|        BURN_FRACTION_IREAC1          source/materials/mat/mat041/sigeps41.F
+Chd|        BURN_FRACTION_IREAC2          source/materials/mat/mat041/sigeps41.F
+Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|====================================================================
       SUBROUTINE SIGEPS41 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
@@ -328,6 +331,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 C-----------------------------------------------
+Chd|====================================================================
+Chd|  BURN_FRACTION_IREAC1          source/materials/mat/mat041/sigeps41.F
+Chd|-- called by -----------
+Chd|        SIGEPS41                      source/materials/mat/mat041/sigeps41.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE BURN_FRACTION_IREAC1(I_,B_,X_,G1,D_,Y_,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -387,6 +396,12 @@ C-----------------------------------------------
 
 
 C-----------------------------------------------
+Chd|====================================================================
+Chd|  BURN_FRACTION_IREAC2          source/materials/mat/mat041/sigeps41.F
+Chd|-- called by -----------
+Chd|        SIGEPS41                      source/materials/mat/mat041/sigeps41.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE BURN_FRACTION_IREAC2(I_,B_,X_,G1,D_,Y_,G2,Z_,G_,C_,E_,Figmax,FG1max,FG2min,cappa,chi,ccrit,tol,
      .                 artvisc,dt,pres,etar,fc,cburn,oldfc)
 C-----------------------------------------------
@@ -456,6 +471,14 @@ C-----------------------------------------------
 
 
 C-----------------------------------------------
+Chd|====================================================================
+Chd|  MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
+Chd|-- called by -----------
+Chd|        SIGEPS41                      source/materials/mat/mat041/sigeps41.F
+Chd|-- calls ---------------
+Chd|        FTNCH                         source/materials/mat/mat041/sigeps41.F
+Chd|        JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
+Chd|====================================================================
       SUBROUTINE MIXTURE_EQUILIBRIUM(
      .               ar   ,br   ,r1r    ,r2r  ,r3r   ,cvr ,etar,
      .               ap   ,bp   ,r1p    ,r2p  ,r3p   ,cvp ,etap,
@@ -670,6 +693,13 @@ C-----------------------------------------------
 
 
 C-----------------------------------------------
+Chd|====================================================================
+Chd|  FTNCH                         source/materials/mat/mat041/sigeps41.F
+Chd|-- called by -----------
+Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
+Chd|-- calls ---------------
+Chd|        JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
+Chd|====================================================================
       SUBROUTINE FTNCH(
      .           ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr,
@@ -714,6 +744,13 @@ C-----------------------------------------------
 
 
 C-----------------------------------------------
+Chd|====================================================================
+Chd|  JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
+Chd|-- called by -----------
+Chd|        FTNCH                         source/materials/mat/mat041/sigeps41.F
+Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE JWL_EOS_STATE(a,b,r1,r2 ,r3,cv ,eta,tmp,dedv,p,bth,dpdt,en )
 C-----------------------------------------------
 C   D e s c r i p t i o n
