@@ -33,15 +33,22 @@ function my_help()
   echo "           2. -mpi-root=[directory]               : set rootname to link with specific MPI installation"
   echo "           3. -mpi-include=[directory]            : set include directory where to find mpif.h and mpi.h"
   echo "              -mpi-libdir=[directory]             : set library directory where to find mpi libraries"  
-  echo " " 
-  echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
-  echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
-  echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
+  echo " "
+  echo " -prec=[dp|sp]                       : set precision - dp (default) |sp "
+  echo " -static-link                        : Fortran, C & C++ runtime are linked in binary"
+  echo " -debug=[0|1|2]                      : debug version for gfortran"
+  echo "                                          0 : no debug flags (default)"
+  echo "                                          1 : usual debug flag"
+  echo "                                          2 : gfortran sanitizer"
+  echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
+  echo " "
+  echo " Execution control "
   echo " -nt=[threads]      : number of threads for build "
   echo " -verbose           : Verbose build"
   echo " -clean             : clean build directory"
-  echo "        MUMPS linear solver: available only for dp, with mpi" 
+  echo " " 
+  echo "  MUMPS linear solver: available only for dp, with mpi" 
   echo " -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist"
   echo " -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist" 
   echo " -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist" 
@@ -60,6 +67,7 @@ prec=dp
 threads=1
 got_arch=0
 debug=0
+ddebug=""
 sanitize=0
 jenkins_release=0
 no_rr_clean=0
@@ -70,16 +78,14 @@ qd=""
 ADF=""
 MPI="-DMPI=smp"
 pmpi="SMP Only"
-debug=0
 clean=0
 mpi_os=0
 mpi_root=""
 mpi_libdir=""
 mpi_incdir=""
-ddebug=""
 number_of_arguments=$#
-eng_vers="engine"
 verbose=""
+eng_vers="engine"
 mumps_root=""
 scalapack_root=""
 lapack_root=""
@@ -173,19 +179,20 @@ else
          export ADFL=${ad}
        fi
 
-
        if [ "$arg" == "-debug" ]
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
-         if [ $debug == 2 ]
-         then
-           debug=1
-           sanitize=1
-         fi 
+         ddebug=_${debug}
          if [ $debug == 1 ]
          then
            ddebug="_db"
          fi
+         if [ $debug == 2 ]
+         then
+           debug=1
+           sanitize=1
+           ddebug="_db2"
+         fi 
        fi
 
        if [ "$arg" == "-nt" ]
@@ -230,6 +237,8 @@ else
      exit 1
    fi
 
+engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${ddebug}
+build_directory=cbuild_${engine_exec}
 
    echo " " 
    echo " Build OpenRadioss Engine "
@@ -241,6 +250,8 @@ else
    echo " precision =            : " $prec
    echo " debug =                : " $debug
    echo " static_link =          : " $static_link
+   echo " " 
+   echo " Executable name        : " ${engine_exec}
    if [[ -v ad ]]  
    then
       echo " Addflag               : \""$ad "\" "
@@ -249,9 +260,6 @@ else
    echo " #threads for Makefile : " $threads
    echo " "
 fi
-
-
-build_directory=cbuild_${arch}${dmpi}${suffix}${cf}${ddebug}
 
 if [ $clean = 1 ]
 then
@@ -278,8 +286,6 @@ then
    mkdir ${build_directory}
 fi
 
-engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${ddebug}
-echo " " 
 
 if [ -f ${build_directory}/${engine_exec} ]
 then
@@ -337,9 +343,10 @@ then
   C_path_w=`cygpath.exe -m "${C_path}"`
   CPP_path_w=`cygpath.exe -m "${CPP_path}"`
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
-  cmake.exe -G "Unix Makefiles"  -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release   -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la} .. 
+  cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release   -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la}
 else
-  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root}   -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} ${la} 
+  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root}   -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la}
+
 fi
 
 return_value=$?
@@ -359,13 +366,6 @@ then
 fi
 
 make -j ${threads} ${verbose}
-
-echo " "
-if [ -f ${engine_exec} ]
-then
-  echo " -- Copy ${engine_exec} in ../exec "
-  cp  ${engine_exec} ../../exec
-fi
 
 cd ..
 echo " "
