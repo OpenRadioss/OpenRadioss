@@ -35,10 +35,74 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE THSOL(ELBUF_TAB,NTHGRP2 , ITHGRP , 
-     .                 IPARG   ,ITHBUF   ,WA      ,
-     .                 IXS     ,X        ,IPM    ,PM     ,IGEO    ,
-     .                 MULTI_FVM,V       ,W      )
+      SUBROUTINE THSOL(ELBUF_TAB, NTHGRP2, ITHGRP ,
+     .                 IPARG    , ITHBUF , WA     ,
+     .                 IXS      , X      , IPM    , PM    , IGEO,
+     .                 MULTI_FVM, V      , W      ,
+     .                 NUMELS   , NUMMAT , NUMGEO , NUMNOD, SITHBUF)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C
+C             /TH/BRIC : BUFFER FOR TIME HISTORY OUTPUT
+C
+C This subroutine is writing buffer related to /TH/BRIC option in
+C order to be written in Time History files : T01, T02, etc...
+C Each channel (index) is standing for a given physical quantity as desbibed below
+C Time History file is requested with Engine option /TFILE
+C
+C-------------------------
+C CHANNEL     KEY    DESCRIPTION   [MAT LAW]
+C
+C       1     OFF
+C       2     SX     SIGX
+C       3     SY     SIGY
+C       4     SZ     SIGZ
+C       5     SXY    SIGXY
+C       6     SYZ    SIGYZ
+C       7     SXZ    SIGZX
+C       8     IE     INTERNAL ENERGIE / VOLUME0
+C       9     DENS   DENSITY
+C      10     BULK   BULK VISCOSITY
+C      11     VOL    VOLUME (ALE) OR INITIAL VOLUME (LAG)
+C      12     PLAS   EPS PLASTIQUE [2,3,4,7,8,9,16,22,23,26,33-38]
+C      13     TEMP   TEMPERATURE   [4,6,7,8,9,11,16,17,26,33-38]
+C      14     PLSR   STRAIN RATE   [4,7,8,9,16,26,33-38]
+C      15     DAMA1  DAMAGE 1      [14]
+C      16     DAMA2  DAMAGE 2      [14]
+C      17     DAMA3  DAMAGE 3      [14]
+C      18     DAMA4  DAMAGE 4      [14]
+C      19     DAMA   DAMAGE        [24]
+C      20(14) SA1    STRESS RE1    [24]
+C      21(15) SA2    STRESS RE2    [24]
+C      22(16) SA3    STRESS RE3    [24]
+C      23(17) CR     CRACKS VOL    [24]
+C      24(18) CAP    CAP PARAM     [24]   (ROB)
+C      25(13) K0     HARD. PARAM   [24]
+C      26(12) RK     TURBUL. ENER. [6,11,17] ,VK  [24]
+C      27(14) TD     TURBUL. DISS. [6,11,17]
+C      28(14) EFIB   FIBER STRAIN  [14]
+C      29(16) ISTA   PHASE STATE   [16]
+C      30(12) VPLA   VOL. EPS PLA. [10,21]
+C      31(12) BFRAC  BURN FRACTION [5,41,51,97,151]
+C      32(12) WPLA   PLAS. WORK    [14]
+C      35     LSX    SIGMA-X IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
+C      36     LSY    SIGMA-Y IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
+C      37     LSZ    SIGMA-Z IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
+C      38     LSXY   SIGMA-XY IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
+C      39     LSYZ   SIGMA-YZ IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
+C      40     LSXZ   SIGMA-XZ IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
+C     ...
+C     137     UVAR   User variables
+C     ...
+C  239547     VX     X-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR COLOCATED SCHEME)
+C  239548     VY     Y-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR COLOCATED SCHEME)
+C  239549     VZ     Z-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR COLOCATED SCHEME)
+C  239550     SSP    SOUND SPEED
+C  239551     MACH   MACH NUMBER
+C
+C  labels are detialed in Reader subroutine : hm_read_thgrou.F
+C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,17 +126,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,NGROUP),ITHBUF(*),
-     .        IXS(NIXS,*), IPM(NPROPMI,*),IGEO(NPROPGI,*),NTHGRP2
-      INTEGER, DIMENSION(NITHGR,*), INTENT(in) :: ITHGRP
-      my_real
-     .   WA(*), X(3,*)  ,PM(NPROPM,*)
+      INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS), IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO)
+      INTEGER,INTENT(IN) :: ITHBUF(SITHBUF)
+      INTEGER,INTENT(IN) :: NTHGRP2, NUMELS, NUMMAT, NUMGEO, NUMNOD, SITHBUF
+      INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
+      my_real WA(*), X(3,NUMNOD)  ,PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,I,J,JJ,K,L,N, IH, NG, MTE,LWA,NEL,
+      INTEGER II,I,J,JJ,K,L,N, IH, NG, MTE,NEL,
      .   NUVAR, IP,IPT,ISOLNOD,ITENS,IPWWA,ISPAU,IUWWA,
      .   IT,IR,IS,J1,J2,J3,NPTG,NPTR,NPTT,NPTS,NLAY,NFAIL,NVARF,
      .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,KHBE,KCVT,NUVARTH,
@@ -85,19 +149,18 @@ C-----------------------------------------------
      .   T11,T22,T33,T12,T21,T23,T32,T13,T31,
      .   L11,L22,L33,L12,L21,L23,L32,L13,L31,
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
-     .   X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8, CS,SN,VAR,PLAG,
-     .   SSP
-        my_real 
+     .   X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8, CS,SN,VAR,PLAG
+        my_real
      .   WWA(239554),A_GAUSS(9,9),SIGP(7,81,9), USER(100),
      .   STRAIN(6),GAMA(6),EVAR_TMP(6),EVAR(6),SIGG(6),
-     .   TMP(3,8),VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3)
-C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
-      TYPE(FAIL_LOC_),POINTER :: FBUF  
-C--------------------------------------------    
-            DATA A_GAUSS / 
+     .   VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3),BFRAC
+C----
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
+      TYPE(FAIL_LOC_),POINTER :: FBUF
+C--------------------------------------------
+            DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -125,51 +188,10 @@ C--------------------------------------------
      9 -.968160239507626,-.836031107326636,-.613371432700590,
      9 -.324253423403809,0.               ,0.324253423403809,
      9 0.613371432700590,0.836031107326636,0.968160239507626/
-C======================================================================|
-C             BRICKS - ELEMENTS SOLIDES
-C-------------------------
-C VAR(OLD) KEY    DESCRIPTION   [MAT LAW]
-C
-C    1     OFF
-C    2     SX     SIGX
-C    3     SY     SIGY
-C    4     SZ     SIGZ
-C    5     SXY    SIGXY
-C    6     SYZ    SIGYZ
-C    7     SXZ    SIGZX
-C    8     IE     INTERNAL ENERGIE / VOLUME0
-C    9     DENS   DENSITY
-C   10     BULK   BULK VISCOSITY
-C   11     VOL    VOLUME (ALE) OR INITIAL VOLUME (LAG)
-C   12     PLAS   EPS PLASTIQUE [2,3,4,7,8,9,16,22,23,26,33-38] 
-C   13     TEMP   TEMPERATURE   [4,6,7,8,9,11,16,17,26,33-38] 
-C   14     PLSR   STRAIN RATE   [4,7,8,9,16,26,33-38] 
-C   15     DAMA1  DAMAGE 1      [14] 
-C   16     DAMA2  DAMAGE 2      [14] 
-C   17     DAMA3  DAMAGE 3      [14] 
-C   18     DAMA4  DAMAGE 4      [14] 
-C   19     DAMA   DAMAGE        [24] 
-C   20(14) SA1    STRESS RE1    [24] 
-C   21(15) SA2    STRESS RE2    [24] 
-C   22(16) SA3    STRESS RE3    [24] 
-C   23(17) CR     CRACKS VOL    [24] 
-C   24(18) CAP    CAP PARAM     [24]   (ROB)
-C   25(13) K0     HARD. PARAM   [24] 
-C   26(12) RK     TURBUL. ENER. [6,11,17] ,VK  [24]
-C   27(14) TD     TURBUL. DISS. [6,11,17]
-C   28(14) EFIB   FIBER STRAIN  [14] 
-C   29(16) ISTA   PHASE STATE   [16] 
-C   30(12) VPLA   VOL. EPS PLA. [10,21] 
-C   31(12) BFRAC  BURN FRACTION [5,51] 
-C   32(12) WPLA   PLAS. WORK    [14] 
-C   35     LSX    SIGMA-X IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
-C   36     LSY    SIGMA-Y IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
-C   37     LSZ    SIGMA-Z IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
-C   38     LSXY   SIGMA-XY IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
-C   39     LSYZ   SIGMA-YZ IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
-C   40     LSXZ   SIGMA-XZ IN LOCAL SYSTEM (ONLY 8-NODES BRICKS)
-C   137    UVAR   User variables
-C======================================================================|
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+
         IJK = 0
         DO NITER=1,NTHGRP2
             ITYP=ITHGRP(2,NITER)
@@ -188,15 +210,15 @@ C======================================================================|
             SIGP(J1,J2,J3) = ZERO
           ENDDO
         ENDDO
-      ENDDO 
+      ENDDO
       NUVAR = 0
       IH=IADB
-                               
-C     decalage IH                             
-      DO WHILE((ITHBUF(IH+NN) /= ISPMD).AND.(IH < IADB+NN))                
-        IH = IH + 1                           
-      ENDDO                                   
-      IF (IH >= IADB+NN) GOTO 666               
+
+C     IH shift
+      DO WHILE((ITHBUF(IH+NN) /= ISPMD).AND.(IH < IADB+NN))
+        IH = IH + 1
+      ENDDO
+      IF (IH >= IADB+NN) GOTO 666
 C
 c      ENDIF
 C----------------------------------------------------------
@@ -209,22 +231,22 @@ c
          GBUF => ELBUF_TAB(NG)%GBUF
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
          MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-         NLAY = ELBUF_TAB(NG)%NLAY                       
-         NPTR = ELBUF_TAB(NG)%NPTR                        
-         NPTS = ELBUF_TAB(NG)%NPTS                        
+         NLAY = ELBUF_TAB(NG)%NLAY
+         NPTR = ELBUF_TAB(NG)%NPTR
+         NPTS = ELBUF_TAB(NG)%NPTS
          NPTT = ELBUF_TAB(NG)%NPTT
 C------
-         CALL INITBUF( IPARG    ,NG      ,                    
-     2          MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,KHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,  
+         CALL INITBUF( IPARG    ,NG      ,
+     2          MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,KHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
-     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )  
-         TSHELL  = 0                                             
-         TSH_ORT = 0                                             
-         IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
-         IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1               
+     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+         TSHELL  = 0
+         TSH_ORT = 0
+         IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1
+         IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1
 !
          DO I=1,6
            KK(I) = NEL*(I-1)
@@ -243,12 +265,12 @@ C         KCVT  2 CO-ROTATIONAL FORMULATION, ORTHOTROPIC CASE
           IF (KCVT == 1 .AND. ISORTH > 0) KCVT= 2
           IF (MTE >=28) NUVAR  = IPM(8,IXS(1,NFT+1))
 C------------------------------------
-C-------------------------------------------------- 
-          IF(IS_ALE /= 0)THEN   
+C--------------------------------------------------
+          IF(IS_ALE /= 0)THEN
           !ale
-            TMP_2(1:MVSIZ,1:3) = ZERO     
-            DO J=1,8          
-             DO  I=1,NEL    
+            TMP_2(1:MVSIZ,1:3) = ZERO
+            DO J=1,8
+             DO  I=1,NEL
               TMP_2(I,1)=TMP_2(I,1) + V(1,IXS(J+1,I+NFT))-W(1,IXS(J+1,I+NFT))
               TMP_2(I,2)=TMP_2(I,2) + V(2,IXS(J+1,I+NFT))-W(2,IXS(J+1,I+NFT))
               TMP_2(I,3)=TMP_2(I,3) + V(3,IXS(J+1,I+NFT))-W(3,IXS(J+1,I+NFT))
@@ -256,14 +278,14 @@ C--------------------------------------------------
             ENDDO
           ELSE
           !euler and lagrange
-            TMP_2(1:MVSIZ,1:3) = ZERO     
-            DO J=1,8          
-             DO  I=1,NEL  
-              TMP_2(I,1)=TMP_2(I,1)+V(1,IXS(J+1,I+NFT))               
-              TMP_2(I,2)=TMP_2(I,2)+V(2,IXS(J+1,I+NFT))               
-              TMP_2(I,3)=TMP_2(I,3)+V(3,IXS(J+1,I+NFT))  
+            TMP_2(1:MVSIZ,1:3) = ZERO
+            DO J=1,8
+             DO  I=1,NEL
+              TMP_2(I,1)=TMP_2(I,1)+V(1,IXS(J+1,I+NFT))
+              TMP_2(I,2)=TMP_2(I,2)+V(2,IXS(J+1,I+NFT))
+              TMP_2(I,3)=TMP_2(I,3)+V(3,IXS(J+1,I+NFT))
              ENDDO
-            ENDDO 
+            ENDDO
           ENDIF
 C------------------------------------
 C
@@ -278,12 +300,11 @@ c
 C
             IF (K == N)THEN
               IH=IH+1
-C             traitement specifique spmd
+C             spmd treatment
               IF (IMACH == 3) THEN
-C               recherche du ii correct
+C               get related 'ii'
                 II = ((IH-1) - IADB)*NVAR
-                DO WHILE((ITHBUF(IH+NN) /= ISPMD).AND.
-     .                   (IH < IADB+NN))
+                DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IADB+NN))
                   IH = IH + 1
                 ENDDO
               ENDIF
@@ -310,7 +331,22 @@ c
                 WWA(11)=GBUF%VOL(I) * PM(89,IXS(1,NFT+I))/GBUF%RHO(I)    ! GBUF%VOL(I) = V0 for lagrangian solids ; (rho is optional for void material law)
               ENDIF
 C-----------
-C             STRESSES COMPUTING IN GLOBAL OR CONVECTED SYSTEM.
+C             SOUND SPEED, MATERIAL VELOCITY, AND MACH NUMBER.
+C-----------
+              !general case is treated here.
+              !  specific cases may erase these values below (law151, alefvm, ...)
+              VEL(1) = TMP_2(I,1)*ONE_OVER_8
+              VEL(2) = TMP_2(I,2)*ONE_OVER_8
+              VEL(3) = TMP_2(I,3)*ONE_OVER_8
+              WWA(239547)= VEL(1)
+              WWA(239548)= VEL(2)
+              WWA(239549)= VEL(3)
+              IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
+                WWA(239550)= LBUF%SSP(I) !sound speed
+                WWA(239551)=  SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)   !mach number
+              ENDIF
+C-----------
+C             STRESSES COMPUTED IN GLOBAL OR CONVECTED SYSTEM.
 C-----------
               S11 = GBUF%SIG(KK(1)+I)
               S22 = GBUF%SIG(KK(2)+I)
@@ -318,7 +354,7 @@ C-----------
               S12 = GBUF%SIG(KK(4)+I)
               S23 = GBUF%SIG(KK(5)+I)
               S13 = GBUF%SIG(KK(6)+I)
-C             just for isotropic 
+C             just for isotropic
               IF (ISVIS == 1.AND. MTE >=28 )THEN
                 S11=S11 + LBUF%SIGV(KK(1)+I)
                 S22=S22 + LBUF%SIGV(KK(2)+I)
@@ -327,7 +363,7 @@ C             just for isotropic
                 S23=S23 + LBUF%SIGV(KK(5)+I)
                 S13=S13 + LBUF%SIGV(KK(6)+I)
               ENDIF
-              
+
               IF (IVISC > 0  )THEN
                 S11=S11 + LBUF%VISC(KK(1)+I)
                 S22=S22 + LBUF%VISC(KK(2)+I)
@@ -335,7 +371,7 @@ C             just for isotropic
                 S12=S12 + LBUF%VISC(KK(4)+I)
                 S23=S23 + LBUF%VISC(KK(5)+I)
                 S13=S13 + LBUF%VISC(KK(6)+I)
-              ENDIF 
+              ENDIF
               NC1=IXS(2,N)
               NC2=IXS(3,N)
               NC3=IXS(4,N)
@@ -376,7 +412,7 @@ C             KCVT  1 CO-ROTATIONAL FORMULATION, ISOTROPIC CASE
 C             KCVT  2 CO-ROTATIONAL FORMULATION, ORTHOTROPIC OR ISOTROPIC CASE
 C                                                                        (gama(1)=1000)
 C------------------------------------------------------------------------------
-C                 1- TH tab filling with stresses in the global (WA(2:7) 
+C                 1- TH tab filling with stresses in the global (WA(2:7)
 C                                              and local system(WA(35:40)
 C------------------------------------------------------------------------------
               IF (KCVT > 0) THEN
@@ -384,10 +420,10 @@ C
 c               ELEMENT CO-ROTATIONNEL.
 C
                 IF (IGTYP == 43) THEN   ! solid spotweld
-                  CALL SCOOR431(                                  
-     .              X1, X2, X3, X4, X5, X6, X7, X8,               
-     .              Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,               
-     .              Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,               
+                  CALL SCOOR431(
+     .              X1, X2, X3, X4, X5, X6, X7, X8,
+     .              Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .              Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .              R11, R12, R13, R21, R22, R23, R31, R32, R33)
 c
                   IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
@@ -405,12 +441,12 @@ c
                   WWA(38)=S12
                   WWA(39)=S23
                   WWA(40)=S13
-                  L11=S11*R11+S12*R12+S13*R13 
-                  L12=S11*R21+S12*R22+S13*R23 
+                  L11=S11*R11+S12*R12+S13*R13
+                  L12=S11*R21+S12*R22+S13*R23
                   L13=S11*R31+S12*R32+S13*R33
                   L21=S12*R11+S22*R12+S23*R13
                   L22=S12*R21+S22*R22+S23*R23
-                  L23=S12*R31+S22*R32+S23*R33 
+                  L23=S12*R31+S22*R32+S23*R33
                   L31=S13*R11+S23*R12+S33*R13
                   L32=S13*R21+S23*R22+S33*R23
                   L33=S13*R31+S23*R32+S33*R33
@@ -434,7 +470,7 @@ c
      .               Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .               R11, R12, R13, R21, R22, R23, R31, R32, R33)
                  ELSE
-c                  KHBE=15 :valeurs moyennes est dans rep. corota
+c                  KHBE=15 : mean values already in co-rot system
                    CALL SCORTHO31(
      .               X1, X2, X3, X4, X5, X6, X7, X8,
      .               Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -468,7 +504,7 @@ c                     REPERE ORTHOTROPE.
                        G32=ZERO
                        G33=ONE
                      END IF
-C                    MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
+C                    TRANSFER MATRIX (CHANGE OF BASIS) -> ORTHOTROPIC.
                      T11=R11*G11+R12*G21+R13*G31
                      T12=R11*G12+R12*G22+R13*G32
                      T13=R11*G13+R12*G23+R13*G33
@@ -505,12 +541,12 @@ c
                  WWA(38)=S12
                  WWA(39)=S23
                  WWA(40)=S13
-                 L11=S11*R11+S12*R12+S13*R13 
-                 L12=S11*R21+S12*R22+S13*R23 
+                 L11=S11*R11+S12*R12+S13*R13
+                 L12=S11*R21+S12*R22+S13*R23
                  L13=S11*R31+S12*R32+S13*R33
                  L21=S12*R11+S22*R12+S23*R13
                  L22=S12*R21+S22*R22+S23*R23
-                 L23=S12*R31+S22*R32+S23*R33 
+                 L23=S12*R31+S22*R32+S23*R33
                  L31=S13*R11+S23*R12+S33*R13
                  L32=S13*R21+S23*R22+S33*R23
                  L33=S13*R31+S23*R32+S33*R33
@@ -544,13 +580,13 @@ c
                    G33=G11*G22-G21*G12
 C                  KHBE=14 : mean values are in local co-rot reference axis
                    ! transfer from local to orthotropic axis
-                   IF (KHBE == 14) THEN 
-                     L11=S11*G11+S12*G12+S13*G13 
-                     L12=S11*G21+S12*G22+S13*G23 
+                   IF (KHBE == 14) THEN
+                     L11=S11*G11+S12*G12+S13*G13
+                     L12=S11*G21+S12*G22+S13*G23
                      L13=S11*G31+S12*G32+S13*G33
                      L21=S12*G11+S22*G12+S23*G13
                      L22=S12*G21+S22*G22+S23*G23
-                     L23=S12*G31+S22*G32+S23*G33 
+                     L23=S12*G31+S22*G32+S23*G33
                      L31=S13*G11+S23*G12+S33*G13
                      L32=S13*G21+S23*G22+S33*G23
                      L33=S13*G31+S23*G32+S33*G33
@@ -597,12 +633,12 @@ c
                  WWA(38)=S12
                  WWA(39)=S23
                  WWA(40)=S13
-                 L11=S11*R11+S12*R12+S13*R13 
-                 L12=S11*R21+S12*R22+S13*R23 
+                 L11=S11*R11+S12*R12+S13*R13
+                 L12=S11*R21+S12*R22+S13*R23
                  L13=S11*R31+S12*R32+S13*R33
                  L21=S12*R11+S22*R12+S23*R13
                  L22=S12*R21+S22*R22+S23*R23
-                 L23=S12*R31+S22*R32+S23*R33 
+                 L23=S12*R31+S22*R32+S23*R33
                  L31=S13*R11+S23*R12+S33*R13
                  L32=S13*R21+S23*R22+S33*R23
                  L33=S13*R31+S23*R32+S33*R33
@@ -622,11 +658,8 @@ c
 C------------------------------------
               ELSE    ! KCVT <= 0
 C------------------------------
-C
 c               element non-corotationnel : no rotation SX,SY,SZ,SXY,SXZ,SYZ
 C                      and LSX,LSY,LSZ,LSXY,LSXZ,LSYZ are in both in global system
-C
-c
                 WWA(2)=S11
                 WWA(3)=S22
                 WWA(4)=S33
@@ -648,8 +681,7 @@ C-----------------------------------------------------
               IF (MTE == 2) THEN
                 WWA(12)=GBUF%PLA(I)
                 IF ( JTHE  ==  0 ) THEN
-                  WWA(13)= PM(54,IXS(1,NFT+I)) + 
-     .            WWA(8) * WWA(11) * PM(53,IXS(1,NFT+I))
+                  WWA(13)= PM(54,IXS(1,NFT+I)) + WWA(8) * WWA(11) * PM(53,IXS(1,NFT+I))
                 ENDIF
               ELSEIF (MTE == 3) THEN
                 WWA(12)=GBUF%PLA(I)
@@ -658,7 +690,7 @@ C-----------------------------------------------------
                 WWA(12)=GBUF%PLA(I)
                 WWA(13)=GBUF%TEMP(I)
                 WWA(14)=GBUF%EPSD(I)
-              ELSEIF (MTE == 5) THEN
+              ELSEIF (MTE == 5 .OR. MTE == 41 .OR. MTE == 97) THEN
                 WWA(13)=GBUF%TEMP(I)
                 WWA(31)=GBUF%BFRAC(I)
               ELSEIF (MTE == 6) THEN
@@ -716,7 +748,7 @@ C-----------------------------------------------------
                 WWA(25)=LBUF%VK(I) ! K0 in /TH/BRICK
                 WWA(239552)=LBUF%RK(I) ! VK in /TH/BRICK
                 WWA(12)=LBUF%PLA(I)
-                WWA(30)=GBUF%PLA(I)                                 
+                WWA(30)=GBUF%PLA(I)
               ELSEIF (MTE == 26) THEN
                 WWA(12)=LBUF%PLA(I)
                 WWA(13)=LBUF%TEMP(I)
@@ -728,24 +760,24 @@ C-----------------------------------------------------
               ELSEIF (MTE == 46.OR.MTE == 47) THEN
                 WWA(12)=MBUF%VAR(I)
                 WWA(13)=MBUF%VAR(I+NEL)
-c                WWA(14)=MBUF%VAR(I+NEL*2)    
+c                WWA(14)=MBUF%VAR(I+NEL*2)
               ELSEIF (MTE == 49) THEN
                 WWA(12)=LBUF%PLA(I)
                 WWA(13)=LBUF%TEMP(I)
                 WWA(14)=LBUF%EPSD(I)
               ELSEIF (MTE == 28) THEN
               ELSEIF (MTE == 33) THEN
-              ELSEIF (MTE == 51) THEN              
+              ELSEIF (MTE == 51) THEN
                IF(GBUF%G_PLA>0)  WWA(12)=GBUF%PLA(I)
                                  WWA(13)=GBUF%TEMP(I)
                IF(GBUF%G_EPSD>0) WWA(14)=GBUF%EPSD(I)
                IF(GBUF%G_BFRAC>0)WWA(31)=GBUF%BFRAC(I) !Means Explosive submaterial is used
                IF(GBUF%G_EPSQ>0) THEN                  !Means Drucker-Prager criteria is used
                                  WWA(12)=GBUF%EPSQ(I)
-                                 WWA(30)=GBUF%PLA(I)                                 
+                                 WWA(30)=GBUF%PLA(I)
                ENDIF
               ELSEIF (MTE == 59) THEN
-C               Solid spotwelds : damage  DAMA1 ...DAMA4               
+C               Solid spotwelds : damage  DAMA1 ...DAMA4
                 NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
                 DO J=1,NPTR
                   DO K=1,NFAIL
@@ -768,20 +800,20 @@ C               Solid spotwelds : damage  DAMA1 ...DAMA4
                 NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
                 DO J=1,NPTR
                   MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(J,1,1)
-                  DO L=1,NUVAR                                                
+                  DO L=1,NUVAR
                     VAR = MBUF%VAR((L-1)*NEL+I)
-                    WWA(136+L) = MAX(WWA(136+L), VAR)                         
-                  ENDDO                                                       
+                    WWA(136+L) = MAX(WWA(136+L), VAR)
+                  ENDDO
                 ENDDO
               ELSEIF (MTE == 116) THEN
                 WWA(12) = GBUF%PLA(I)
                 NUVAR   = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
                 DO J=1,NPTR
                   MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(J,1,1)
-                  DO L=1,NUVAR                                                
+                  DO L=1,NUVAR
                     VAR = MBUF%VAR((L-1)*NEL+I)
-                    WWA(136+L) = MAX(WWA(136+L), VAR)                         
-                  ENDDO                                                       
+                    WWA(136+L) = MAX(WWA(136+L), VAR)
+                  ENDDO
                 ENDDO
               ELSEIF (MTE == 67) THEN
 C               Temperature
@@ -820,8 +852,16 @@ C               User laws for solids - max 60 user variables.
                 ENDDO
               ENDIF
 C------------------------------------------------------------------------------
-C                    
-              IF (MTE==151) THEN
+C
+              IF (MTE==151) THEN !specific buffer with colocated scheme, generic storage from above are erased
+C BFRAC
+                IF(ALLOCATED(MULTI_FVM%BFRAC))THEN
+                  BFRAC = ZERO
+                  DO IR=1,MULTI_FVM%NBMAT
+                    BFRAC = MAX(BFRAC, MULTI_FVM%BFRAC(IR,N))
+                  ENDDO
+                  WA(31)=BFRAC
+               ENDIF
 C VX / VY / VZ
                 WWA(239547)= MULTI_FVM%VEL(1, N)
                 WWA(239548)= MULTI_FVM%VEL(2, N)
@@ -831,74 +871,64 @@ C SSP
 C MACH NUMBER
                 WWA(239551)= SQRT(MULTI_FVM%VEL(1, N)*MULTI_FVM%VEL(1, N)+
      .                       MULTI_FVM%VEL(2, N)*MULTI_FVM%VEL(2, N)+
-     .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) / 
+     .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) /
      .                       MULTI_FVM%SOUND_SPEED(N)
 
-              ELSEIF(ALEFVM_Param%ISOLVER>1)THEN
+              ELSEIF(ALEFVM_Param%ISOLVER>1)THEN !specific buffer (ALEFVM, obsolete)
 C SSP
-                WWA(239550)= LBUF%SSP(I)                                 
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   
-                  VEL(1) = GBUF%MOM(I) / GBUF%RHO(I) 
+                WWA(239550)= LBUF%SSP(I)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
+                  VEL(1) = GBUF%MOM(I) / GBUF%RHO(I)
                   VEL(2) = GBUF%MOM(NEL + I) / GBUF%RHO(I)
-                  VEL(3) = GBUF%MOM(2*NEL+ I) / GBUF%RHO(I) 
+                  VEL(3) = GBUF%MOM(2*NEL+ I) / GBUF%RHO(I)
                   WWA(239547)= VEL(1)
                   WWA(239548)= VEL(2)
                   WWA(239549)= VEL(3)
-                  WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                ENDIF                     
-
-              ELSE IF (MTE==51) THEN
-C SSP
-                WWA(239550)= LBUF%SSP(I)                                                      
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN 
-                   VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP(1,1:8))*ONE_OVER_8              
-                   VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP(2,1:8))*ONE_OVER_8              
-                   VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP(3,1:8))*ONE_OVER_8   
-                   WWA(239547)= VEL(1)
-                   WWA(239548)= VEL(2)
-                   WWA(239549)= VEL(3)            
-                   WWA(239551)=  SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                  WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                 ENDIF
+
+              ELSE
+                !other cases already treated above
               ENDIF
 c
               ! Non-local plastic strain and non-local plastic strain rate
-              IF (GBUF%G_PLANL  > 0) THEN 
+              IF (GBUF%G_PLANL  > 0) THEN
                 NPTG = NPTR * NPTS * NPTT
                 WWA(239553) = ZERO
                 DO IR=1,NPTR
                   DO IS=1,NPTS
                     DO IT=1,NPTT
-                      WWA(239553) = WWA(239553) + 
+                      WWA(239553) = WWA(239553) +
      .                    ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%PLANL(I)/NPTG
                     ENDDO
                   ENDDO
                 ENDDO
               ENDIF
-              IF (GBUF%G_EPSDNL > 0) THEN 
+              IF (GBUF%G_EPSDNL > 0) THEN
                 NPTG = NPTR * NPTS * NPTT
                 WWA(239554) = ZERO
                 DO IR=1,NPTR
                   DO IS=1,NPTS
                     DO IT=1,NPTT
-                      WWA(239554) = WWA(239554) + 
+                      WWA(239554) = WWA(239554) +
      .                    ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%EPSDNL(I)/NPTG
                     ENDDO
                   ENDDO
                 ENDDO
               ENDIF
 C------------------------------------------------------------------------------
-C                 2- TH tab filling with stresses  and stain in element 
+C                 2- TH tab filling with stresses  and stain in element
 C                           and per intergation point
 C                    *** Property Type22: output SIG_IK_J =>  WA(120338)
 C                                                EPS_IK_J =>  WA(1646)
 C                    *** Solid 16 nodes, 20nodes, 8 nodes (KHBE 14,17), 8 nodes and 6 nodes
 C                        SXIJK,SYIJK,SZIJK,SXYIJK,SXZIJK,SYZIIJK EPIJK  => WA(196)
 C                        EPSXIJK,EPSYIJK,EPSZIJK,EPSXYIJK,EPSXZIJK,EPSYZIIJK => WWA(239060)
-C                    ***  All solids 
+C                    ***  All solids
 C                        EPSXX,EPSYY,EPSZZ,EPSXY,EPSXZ,EPSYZ  =>  WWA(1618)
 C                        L_EPSXX,L_EPSYY,L_EPSZZ,L_EPSXY,LEPSXZ,LEPSYZ  => WWA(239030)
 C------------------------------------------------------------------------------
-              IF (KCVT > 0) THEN   
+              IF (KCVT > 0) THEN
 C
 c               ELEMENT CO-ROTATIONNEL.
 C
@@ -906,20 +936,20 @@ C
 C
                 ELSEIF (ISOLNOD == 10) THEN
 C
-                ELSEIF (ISOLNOD == 8.AND. IGTYP == 43) THEN  
+                ELSEIF (ISOLNOD == 8.AND. IGTYP == 43) THEN
 c----------------------------------------------------------------------------
 C------------------------Output EPS L_EPS---------------------
 C---------------------------------------------------------------------------
-                  DO IPT=1,NPT                                       
-                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)   
+                  DO IPT=1,NPT
+                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)
                     DO J=1,3
-                       STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPT 
-                    ENDDO  
+                       STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPT
+                    ENDDO
                   ENDDO
-              
+
                   WWA(239030 + 3) = STRAIN(3) ! mean strain in local skew
                   WWA(239030 + 2) = STRAIN(2)
-                  WWA(239030 + 1) = STRAIN(1)    
+                  WWA(239030 + 1) = STRAIN(1)
 c---------------------Rotation to the global system for EPSXX.. ------
                   GAMA(1)=ONE
                   GAMA(2)=ZERO
@@ -934,29 +964,29 @@ c---------------------Rotation to the global system for EPSXX.. ------
 
                   DO J=1,3
                     WWA(1618 + J) = STRAIN(J)  ! mean stress in global skew
-                  ENDDO  
+                  ENDDO
 c---------------
                 ELSEIF (ISOLNOD==8 .AND. KHBE/=14 .AND. KHBE/=15 .AND.
-     .                                   KHBE/=17) THEN     
+     .                                   KHBE/=17) THEN
 c----------------------------------------------------------------------------
 C------------------------Output SIJK EPS L_EPS-------------------------------
 C---------------------------------------------------------------------------
 c
-c                 brick 8 noeuds std
+c                 8-node bricks (std)
 c---------------
                   IF (NPT == 8)THEN
-                    JJ = 6*(I-1) 
+                    JJ = 6*(I-1)
                     IF (ELBUF_TAB(NG)%BUFLY(1)%L_SIGL > 0) THEN
                       DO IPT=1,NPT
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)
 C-----------------------------------
 c                     CO-ROTATIONAL FORMULATION ONLY:
-c                      88+I     LSX au point de Gauss I
-c                      96+I     LSY au point de Gauss I
-c                     104+I     LSZ au point de Gauss I
-c                     112+I     LSXY au point de Gauss I
-c                     120+I     LSYZ au point de Gauss I
-c                     128+I     LSXZ au point de Gauss I
+c                      88+I     LSX at Gauss point I
+c                      96+I     LSY at Gauss point I
+c                     104+I     LSZ at Gauss point I
+c                     112+I     LSXY at Gauss point I
+c                     120+I     LSYZ at Gauss point I
+c                     128+I     LSXZ at Gauss point I
 C-----------------------------------
                         WWA( 88+IPT) = LBUF%SIGL(KK(1)+I)
                         WWA( 96+IPT) = LBUF%SIGL(KK(2)+I)
@@ -1009,8 +1039,8 @@ C-----------------------------------
                       ENDIF
                     ENDIF
                     IF(KHBE == 12)THEN
-                      DO IPT=1,NPT                                    
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)  
+                      DO IPT=1,NPT
+                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
                           STRAIN(1) = STRAIN(1) + LBUF%STRA(KK(1)+I)*ONE_OVER_8
                           STRAIN(2) = STRAIN(2) + LBUF%STRA(KK(2)+I)*ONE_OVER_8
@@ -1021,8 +1051,8 @@ C-----------------------------------
                         ENDIF
                       ENDDO
                     ELSE
-                      DO IPT=1,NPT                                    
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)  
+                      DO IPT=1,NPT
+                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
                           STRAIN(1) = STRAIN(1) + LBUF%STRA(KK(1)+I)*ONE_OVER_8
                           STRAIN(2) = STRAIN(2) + LBUF%STRA(KK(2)+I)*ONE_OVER_8
@@ -1064,7 +1094,7 @@ C-----------------in global ref : EPSX............-----------
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
                      WWA(1618 + 4) = STRAIN(4)
                      WWA(1618 + 5) = STRAIN(6)
-                     WWA(1618 + 6) = STRAIN(5)  
+                     WWA(1618 + 6) = STRAIN(5)
 
 c--------
                   ELSEIF (NPT == 1) THEN
@@ -1088,7 +1118,7 @@ c--------
                         STRAIN(J) = LBUF%STRA(KK(J)+I)*HALF
                       ENDDO
 
-                    ENDIF 
+                    ENDIF
 
 C-----------------in local ref : L_EPSX............-----------
                     DO J= 1,6
@@ -1117,7 +1147,7 @@ C-----------------in global ref : EPSX............-----------
 
                     DO J=1,3
                        WWA(1618 + J) = STRAIN(J)  ! mean stress in global skew
-                    ENDDO  
+                    ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
                      WWA(1618 + 4) = STRAIN(4)
                      WWA(1618 + 5) = STRAIN(6)
@@ -1143,15 +1173,15 @@ C---------------------------------------------------------------------------
                      IF (MTE == 12 .OR. MTE == 14)THEN
                        DO J=1,3
                         EVAR_TMP(J) = LBUF%EPE(KK(J)+I)
-                       ENDDO 
+                       ENDDO
                        EVAR_TMP(3:6) = ZERO
-                     ENDIF       
-       
+                     ENDIF
+
                      IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
 
                      IF (IPT  <= NPTG .AND. IR <= NPTR .AND. IS <= NPTS
      .                    .AND. IT <= NLAY) THEN
-                      IF (ELBUF_TAB(NG)%BUFLY(IT)%L_STRA > 0) THEN 
+                      IF (ELBUF_TAB(NG)%BUFLY(IT)%L_STRA > 0) THEN
                        LBUF => ELBUF_TAB(NG)%BUFLY(IT)%LBUF(IR,IS,1)
                        EVAR_TMP(1) = LBUF%STRA(KK(1)+I)
                        EVAR_TMP(2) = LBUF%STRA(KK(2)+I)
@@ -1161,15 +1191,15 @@ C---------------------------------------------------------------------------
                        EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF
                       ENDIF
 
-                      DO J = 1, 6                    
+                      DO J = 1, 6
                            STRAIN(J) = STRAIN(J) + EVAR_TMP(J)/NPTG
-                       ENDDO 
+                       ENDDO
 
 C                        STRAIN TENSOR IN GLOBAL SYSTEM
-                       ICSIG=IPARG(17,NG)  
+                       ICSIG=IPARG(17,NG)
                        IF (KHBE == 14.AND.ICSIG > 0) THEN
-                           SELECT CASE (ICSIG)                                            
-                           CASE (1)          
+                           SELECT CASE (ICSIG)
+                           CASE (1)
                                  IF(KCVT==2)THEN
                                    GAMA(1)= ZERO
                                    GAMA(2)= LBUF%GAMA(KK(1)+I)
@@ -1185,7 +1215,7 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                                    GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
-                           CASE (10)           
+                           CASE (10)
                                  IF(KCVT==2)THEN
                                    GAMA(1)= LBUF%GAMA(KK(1)+I)
                                    GAMA(2)= LBUF%GAMA(KK(2)+I)
@@ -1201,7 +1231,7 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                                    GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
-                           CASE (100)          
+                           CASE (100)
                                  IF(KCVT==2)THEN
                                    GAMA(1)= LBUF%GAMA(KK(2)+I)
                                    GAMA(2)= ZERO
@@ -1217,23 +1247,23 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                                    GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
-                           END SELECT     
+                           END SELECT
                          ELSE
 
-                           IF(KCVT==2)THEN				   
-                             GAMA(1)=GBUF%GAMA(KK(1) + I)			
-                             GAMA(2)=GBUF%GAMA(KK(2) + I)			
-                             GAMA(3)=GBUF%GAMA(KK(3) + I)			
-                             GAMA(4)=GBUF%GAMA(KK(4) + I)			
-                             GAMA(5)=GBUF%GAMA(KK(5) + I)			
-                             GAMA(6)=GBUF%GAMA(KK(6) + I)			
-                           ELSE					   
-                             GAMA(1)=ONE				   
-                             GAMA(2)=ZERO				   
-                             GAMA(3)=ZERO				   
-                             GAMA(4)=ZERO				   
-                             GAMA(5)=ONE				   
-                             GAMA(6)=ZERO				   
+                           IF(KCVT==2)THEN
+                             GAMA(1)=GBUF%GAMA(KK(1) + I)
+                             GAMA(2)=GBUF%GAMA(KK(2) + I)
+                             GAMA(3)=GBUF%GAMA(KK(3) + I)
+                             GAMA(4)=GBUF%GAMA(KK(4) + I)
+                             GAMA(5)=GBUF%GAMA(KK(5) + I)
+                             GAMA(6)=GBUF%GAMA(KK(6) + I)
+                           ELSE
+                             GAMA(1)=ONE
+                             GAMA(2)=ZERO
+                             GAMA(3)=ZERO
+                             GAMA(4)=ZERO
+                             GAMA(5)=ONE
+                             GAMA(6)=ZERO
                           END IF
 
                         ENDIF
@@ -1241,10 +1271,10 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
                         CALL SROTA6(
      1   X,       IXS(1,N),KCVT,    EVAR_TMP,
      2   GAMA,    KHBE,    IGTYP,   ISORTH)
-                                                        
-                         DO J = 1, 6                    
+
+                         DO J = 1, 6
                            EVAR(J) = EVAR(J) + EVAR_TMP(J)/NPTG
-                         ENDDO 
+                         ENDDO
 C
                         IF(IGTYP == 22) THEN
 C------------------------Output SIG_IK_J---------------------
@@ -1290,11 +1320,11 @@ c S33
                             WWA(1646+CPT+6)  =  ZERO
                          ENDIF
 C
-                       ELSE ! No IGTYP 22 
+                       ELSE ! No IGTYP 22
 C------------------------Output SIJK---------------------
 
                          MBUF => ELBUF_TAB(NG)%BUFLY(IT)%MAT(IR,IS,1)
-                        IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7          
+                        IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7
                          DO J=1,6
                             SIGG(J) = LBUF%SIG(KK(J)+I)
                          ENDDO
@@ -1306,26 +1336,26 @@ C------------------------Output SIJK---------------------
 
 C                       Deformation plastique
                         IF (MTE >= 28) THEN
-                          IF (NUVAR > 0) THEN    
+                          IF (NUVAR > 0) THEN
                             PLAG = MBUF%VAR(I)
                           ENDIF
                         ELSE
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN
                             PLAG = LBUF%PLA(I)
                           ENDIF
-                        ENDIF     
+                        ENDIF
 
                         CALL SROTA6(
      1   X,       IXS(1,N),KCVT,    SIGG,
      2   GAMA,    KHBE,    IGTYP,   ISORTH)
 
-C-----------------in global ref : SXIJK............-----------                                          
+C-----------------in global ref : SXIJK............-----------
                         DO J=1,6
                             WWA(196+IPWWA +J) = SIGG(J)
                         ENDDO
 C-----------------in global ref : PLAIJK............-----------
                         WWA(196+IPWWA +7) = PLAG
-C-----------------in global ref : EPSIJK............----------- 
+C-----------------in global ref : EPSIJK............-----------
                         DO J=1,6
                             WWA(239060+IPWWA +J) = EVAR_TMP(J)
                         ENDDO
@@ -1372,63 +1402,63 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                WWA(1618 + 6) = EVAR(5)
 
 c---------------
-              ELSEIF (ISOLNOD == 8.AND.(KHBE == 14.OR.KHBE == 17))THEN 
+              ELSEIF (ISOLNOD == 8.AND.(KHBE == 14.OR.KHBE == 17))THEN
 c----------------------------------------------------------------------------
 C------------------------Output SIJK EPS L_EPS---------------------
 C---------------------------------------------------------------------------
 c---------------
                  JJ = 6*(I-1)
-                 NPTG=NPTT*NPTS*NPTR                              
+                 NPTG=NPTT*NPTS*NPTR
                   DO J=1, 100
                     USER(J) = ZERO
-                  ENDDO        
+                  ENDDO
 C-----------------
 
-                  DO IS=1,NPTS  
-                    ISPAU= 1                    
+                  DO IS=1,NPTS
+                    ISPAU= 1
                     DO IT=1,NPTT
-                      DO IR=1,NPTR       
-c               
+                      DO IR=1,NPTR
+c
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
                         MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(IR,IS,IT)
 c
 C                       IPWWA calcule sur la base de 3*9*3 points d'integration (r*s*t)
                         IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
 C                       IPWWA calcule sur la base de 3*9*3 points d'integration (s*t*r)
-                        IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7 
+                        IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7
                         IUWWA = (IR-1)*3*9*9 + (IT-1)*3*9 + (IS-1)*9
-c 
+c
                         DO ITENS=1,6
 c                          WWA(196+IPWWA+ITENS)=LBUF%SIG(KK(ITENS)+I)
                           SIGP(ITENS,ISPAU,IS)=LBUF%SIG(KK(ITENS)+I)
                           SIGG(ITENS) =  LBUF%SIG(KK(ITENS)+I)
-                        ENDDO  
+                        ENDDO
 
                         IF(IVISC > 0) then
                           DO ITENS=1,6
                            SIGP(ITENS,ISPAU,IS)=SIGP(ITENS,ISPAU,IS) +
-     .                                              LBUF%VISC(KK(ITENS)+I) 
-                           SIGG(ITENS) =  SIGG(ITENS) + LBUF%VISC(KK(ITENS)+I) 
-                         ENDDO  
-                        ENDIF     
-c   
+     .                                              LBUF%VISC(KK(ITENS)+I)
+                           SIGG(ITENS) =  SIGG(ITENS) + LBUF%VISC(KK(ITENS)+I)
+                         ENDDO
+                        ENDIF
+c
 C                       Deformation plastique
                         IF (MTE >= 28) THEN
-                          IF (NUVAR > 0) THEN    
+                          IF (NUVAR > 0) THEN
                             SIGP(7,ISPAU,IS)   = MBUF%VAR(I)
                             PLAG = MBUF%VAR(I)
                           ENDIF
-C                          
-C                         we can get just 9 user variables by integration point                                              
-                          NUVARTH = MIN(9,NUVAR)                          
+C
+C                         we can get just 9 user variables by integration point
+                          NUVARTH = MIN(9,NUVAR)
                           DO J = 1,NUVARTH
                             WWA(889+J+IUWWA) = MBUF%VAR((J-1)*NEL+I)
                           ENDDO
-C                         we can get just 60 average user variables                                                
+C                         we can get just 60 average user variables
                           NUVARTH = MIN(60,NUVAR)
                           DO J=1, NUVARTH
                             USER(J) = USER(J) +
-     .                              + MBUF%VAR(I + (J-1)*NEL )/NPT 
+     .                              + MBUF%VAR(I + (J-1)*NEL )/NPT
                             WWA(889 + J + IUWWA) =
      .                                MBUF%VAR(I + (J-1)*NEL )
                           ENDDO
@@ -1439,7 +1469,7 @@ C                         we can get just 60 average user variables
                              EVAR_TMP(3) = LBUF%STRA(KK(3)+I)
                              EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*HALF
                              EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*HALF
-                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF                             
+                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF
                           ENDIF
                         ELSE
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN
@@ -1450,28 +1480,28 @@ C                         we can get just 60 average user variables
                           IF (MTE == 12 .OR. MTE == 14)THEN
                             DO J=1,3
                                EVAR_TMP(J) = LBUF%EPE(KK(J)+I)
-                            ENDDO     
-                            EVAR_TMP(3:6) = ZERO             
+                            ENDDO
+                            EVAR_TMP(3:6) = ZERO
                           ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
                              EVAR_TMP(1) = LBUF%STRA(KK(1)+I)
                              EVAR_TMP(2) = LBUF%STRA(KK(2)+I)
                              EVAR_TMP(3) = LBUF%STRA(KK(3)+I)
                              EVAR_TMP(4) = LBUF%STRA(KK(4)+I)*HALF
                              EVAR_TMP(5) = LBUF%STRA(KK(5)+I)*HALF
-                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF                                                              
+                             EVAR_TMP(6) = LBUF%STRA(KK(6)+I)*HALF
                           ENDIF
                         ENDIF
                         ISPAU=ISPAU+1
 
-                        DO J = 1, 6                    
+                        DO J = 1, 6
                            STRAIN(J) = STRAIN(J) + EVAR_TMP(J)/NPTG
                         ENDDO
 C-----------------in global ref : SXIJK EPIJK............-----------
 
-                        ICSIG=IPARG(17,NG)  
+                        ICSIG=IPARG(17,NG)
                         IF (KHBE == 14.AND.ICSIG > 0) THEN
-                           SELECT CASE (ICSIG)                                            
-                           CASE (1)          
+                           SELECT CASE (ICSIG)
+                           CASE (1)
                                  IF(KCVT==2)THEN
                                    GAMA(1)= ZERO
                                    GAMA(2)= LBUF%GAMA(KK(1)+I)
@@ -1487,7 +1517,7 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                    GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
-                           CASE (10)           
+                           CASE (10)
                                  IF(KCVT==2)THEN
                                    GAMA(1)= LBUF%GAMA(KK(1)+I)
                                    GAMA(2)= LBUF%GAMA(KK(2)+I)
@@ -1503,7 +1533,7 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                    GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
-                           CASE (100)          
+                           CASE (100)
                                  IF(KCVT==2)THEN
                                    GAMA(1)= LBUF%GAMA(KK(2)+I)
                                    GAMA(2)= ZERO
@@ -1519,27 +1549,27 @@ C-----------------in global ref : SXIJK EPIJK............-----------
                                    GAMA(5)=ONE
                                    GAMA(6)=ZERO
                                  END IF
-                           END SELECT   
+                           END SELECT
 
                           ELSE
 
-                           IF(KCVT==2)THEN				   
-                             GAMA(1)=GBUF%GAMA(KK(1) + I)			
-                             GAMA(2)=GBUF%GAMA(KK(2) + I)			
-                             GAMA(3)=GBUF%GAMA(KK(3) + I)			
-                             GAMA(4)=GBUF%GAMA(KK(4) + I)			
-                             GAMA(5)=GBUF%GAMA(KK(5) + I)			
-                             GAMA(6)=GBUF%GAMA(KK(6) + I)			
-                           ELSE					   
-                             GAMA(1)=ONE				   
-                             GAMA(2)=ZERO				   
-                             GAMA(3)=ZERO				   
-                             GAMA(4)=ZERO				   
-                             GAMA(5)=ONE				   
-                             GAMA(6)=ZERO				   
+                           IF(KCVT==2)THEN
+                             GAMA(1)=GBUF%GAMA(KK(1) + I)
+                             GAMA(2)=GBUF%GAMA(KK(2) + I)
+                             GAMA(3)=GBUF%GAMA(KK(3) + I)
+                             GAMA(4)=GBUF%GAMA(KK(4) + I)
+                             GAMA(5)=GBUF%GAMA(KK(5) + I)
+                             GAMA(6)=GBUF%GAMA(KK(6) + I)
+                           ELSE
+                             GAMA(1)=ONE
+                             GAMA(2)=ZERO
+                             GAMA(3)=ZERO
+                             GAMA(4)=ZERO
+                             GAMA(5)=ONE
+                             GAMA(6)=ZERO
                            END IF
 
-                                           
+
                           ENDIF
 
                           CALL SROTA6(
@@ -1555,21 +1585,21 @@ C-----------------in global ref : SXIJK............-----------
                         ENDDO
 C-----------------in global ref : PLAIJK............-----------
                         WWA(196+IPWWA +7) = PLAG
-C-----------------in global ref : EPSIJK............----------- 
+C-----------------in global ref : EPSIJK............-----------
                         DO J=1,6
                             WWA(239060+IPWWA+J) = EVAR_TMP(J)
                         ENDDO
 
-                         DO J = 1, 6                    
+                         DO J = 1, 6
                            EVAR(J) = EVAR(J) + EVAR_TMP(J)/NPTG
-                         ENDDO 
+                         ENDDO
 
                       ENDDO
                     ENDDO
                   ENDDO
 C-----------------
                   IF (MTE >= 28)THEN
-C we can get just 60 user variables 
+C we can get just 60 user variables
                    NUVARTH = MIN(60,NUVAR)
                     DO J=1, NUVARTH
                       WWA(136 + J) = USER(J)
@@ -1579,13 +1609,13 @@ C we can get just 60 user variables
 
 C
 C-----------------in local ref : L_EPSX............-----------
-                  DO J = 1, 6                    
+                  DO J = 1, 6
                      WWA(239030 + J) = STRAIN(J)
-                  ENDDO				   
+                  ENDDO
 C-----------------in global ref : EPSX............-----------
-                  DO J = 1, 3                    
+                  DO J = 1, 3
                      WWA(1618 + J) = EVAR(J)
-                  ENDDO	
+                  ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
                   WWA(1618 + 4) = EVAR(4)
                   WWA(1618 + 5) = EVAR(6)
@@ -1596,19 +1626,19 @@ C-----------------------------------
               ELSE  ! KCVT = 0
 C-----------------------------------
 C                        GLOBAL FORMULATION ONLY :
-C               40+I     SX au point de Gauss I
-C               48+I     SY au point de Gauss I
-C               56+I     SZ au point de Gauss I
-C               64+I     SXY au point de Gauss I
-C               72+I     SYZ au point de Gauss I
-C               80+I     SXZ au point de Gauss I
+C               40+I     SX at Gauss point I
+C               48+I     SY at Gauss point I
+C               56+I     SZ at Gauss point I
+C               64+I     SXY at Gauss point I
+C               72+I     SYZ at Gauss point I
+C               80+I     SXZ at Gauss point I
 C-----------------------------------
                 IF (ISOLNOD == 4) THEN
 c----------------------------------------------------------------------------
 C------------------------Output SXI .. EPSXI.. EPS L_EPS---------------------
 C---------------------------------------------------------------------------
                   IF(ISROT == 1 )THEN
-                    JJ = 6*(I-1) 
+                    JJ = 6*(I-1)
                     DO IPT=1,NPT
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)
                       MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(IPT,1,1)
@@ -1625,32 +1655,32 @@ C---------------------------------------------------------------------------
                          WWA(64+IPT)=WWA(64+IPT) + LBUF%VISC(KK(4)+I)
                          WWA(72+IPT)=WWA(72+IPT) + LBUF%VISC(KK(5)+I)
                          WWA(80+IPT)=WWA(80+IPT) + LBUF%VISC(KK(6)+I)
-                      ENDIF 
+                      ENDIF
 
-                      IF(MTE == 12 .OR. MTE == 14) THEN                                  
-                         DO J = 1, 3                                          
+                      IF(MTE == 12 .OR. MTE == 14) THEN
+                         DO J = 1, 3
                             STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPT    !NB14
                          ENDDO
-                         WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
-                         WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
-                         WWA(239044+IPT)=LBUF%STRA(KK(3)+I)                                      
+                         WWA(239036+IPT)=LBUF%STRA(KK(1)+I)
+                         WWA(239040+IPT)=LBUF%STRA(KK(2)+I)
+                         WWA(239044+IPT)=LBUF%STRA(KK(3)+I)
                       ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                          DO J = 1, 6                          
-                             STRAIN(J)= STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT   
-                          ENDDO  
-C-----------------in global ref : EPSXI............-----------  
-                          WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
-                          WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
-                          WWA(239044+IPT)=LBUF%STRA(KK(3)+I)    
-                          WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF                           
-                          WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF                            
-                          WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF                                
+                          DO J = 1, 6
+                             STRAIN(J)= STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT
+                          ENDDO
+C-----------------in global ref : EPSXI............-----------
+                          WWA(239036+IPT)=LBUF%STRA(KK(1)+I)
+                          WWA(239040+IPT)=LBUF%STRA(KK(2)+I)
+                          WWA(239044+IPT)=LBUF%STRA(KK(3)+I)
+                          WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF
+                          WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF
+                          WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF
                       ENDIF  ! MTN
                     ENDDO    ! LOOP OVER NPT, ISOLNOD = 4 and Isrot =
-c     
+c
 
 C-----------------in Global ref : EPSX............-----------
-                    DO J = 1, 3                    
+                    DO J = 1, 3
                         WWA(1618 + J) = STRAIN(J)
                     ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
@@ -1658,7 +1688,7 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                      WWA(1618 + 5) = STRAIN(6)
                      WWA(1618 + 6) = STRAIN(5)
 C-----------------in local ref : L_EPSX............-----------
-                    DO J = 1, 6                    
+                    DO J = 1, 6
                       WWA(239030 + J) = STRAIN(J)
                     ENDDO
 c----
@@ -1669,15 +1699,15 @@ c
                     IF (MTE == 12 .OR. MTE == 14) THEN
                       DO J= 1,3
                         STRAIN(J) = LBUF%EPE(KK(J)+I)
-                      ENDDO                                           
+                      ENDDO
                     ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                      DO J= 1,6                     
-                        STRAIN(J) = LBUF%STRA(KK(J)+I)                  
-                      ENDDO  
+                      DO J= 1,6
+                        STRAIN(J) = LBUF%STRA(KK(J)+I)
+                      ENDDO
                    ENDIF
 
 C-----------------in Global ref : EPSX............-----------
-                   DO J = 1, 3                    
+                   DO J = 1, 3
                      WWA(1618 + J) = STRAIN(J)
                    ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
@@ -1685,7 +1715,7 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                    WWA(1618 + 5) = STRAIN(6)
                    WWA(1618 + 6) = STRAIN(5)
 C-----------------in local ref : L_EPSX............-----------
-                   DO J = 1, 6                    
+                   DO J = 1, 6
                      WWA(239030 + J) = STRAIN(J)
                    ENDDO
 
@@ -1716,55 +1746,55 @@ C---------------------------------------------------------------------------
                        WWA(64+IPT)=WWA(64+IPT) + LBUF%VISC(KK(4)+I)
                        WWA(72+IPT)=WWA(72+IPT) + LBUF%VISC(KK(5)+I)
                        WWA(80+IPT)=WWA(80+IPT) + LBUF%VISC(KK(6)+I)
-                    ENDIF 
-                    IF (MTE >= 28) THEN                   
+                    ENDIF
+                    IF (MTE >= 28) THEN
                       NUVARTH = MIN(60,NUVAR)
                       DO J=1, NUVARTH
                         USER(J) = USER(J) +
-     .                  MBUF%VAR(I + (J-1)*NEL )/NPT 
+     .                  MBUF%VAR(I + (J-1)*NEL )/NPT
                       ENDDO
                       IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                        DO J = 1, 6                          
-                          STRAIN(J)= STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT   
+                        DO J = 1, 6
+                          STRAIN(J)= STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT
                         ENDDO
-                        WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
-                        WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
-                        WWA(239044+IPT)=LBUF%STRA(KK(3)+I)    
-                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF                           
-                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF                           
-                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF                                                  
-                      ENDIF                                
-                    ELSEIF(MTE == 12 .OR. MTE == 14) THEN                                  
-                      DO J = 1, 3                                          
+                        WWA(239036+IPT)=LBUF%STRA(KK(1)+I)
+                        WWA(239040+IPT)=LBUF%STRA(KK(2)+I)
+                        WWA(239044+IPT)=LBUF%STRA(KK(3)+I)
+                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF
+                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF
+                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF
+                      ENDIF
+                    ELSEIF(MTE == 12 .OR. MTE == 14) THEN
+                      DO J = 1, 3
                         STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPT    !NB14
-                      ENDDO  
-                        WWA(239036+IPT)=LBUF%EPE(KK(1)+I) 
-                        WWA(239040+IPT)=LBUF%EPE(KK(2)+I)              
-                        WWA(239044+IPT)=LBUF%EPE(KK(3)+I)                                                   
+                      ENDDO
+                        WWA(239036+IPT)=LBUF%EPE(KK(1)+I)
+                        WWA(239040+IPT)=LBUF%EPE(KK(2)+I)
+                        WWA(239044+IPT)=LBUF%EPE(KK(3)+I)
                     ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                       DO J= 1,6                               
-                            STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPTG                   
-                       ENDDO 
-  
-                        WWA(239036+IPT)=LBUF%STRA(KK(1)+I) 
-                        WWA(239040+IPT)=LBUF%STRA(KK(2)+I)              
-                        WWA(239044+IPT)=LBUF%STRA(KK(3)+I)    
-                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF                            
-                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF                           
-                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF                                 
+                       DO J= 1,6
+                            STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPTG
+                       ENDDO
+
+                        WWA(239036+IPT)=LBUF%STRA(KK(1)+I)
+                        WWA(239040+IPT)=LBUF%STRA(KK(2)+I)
+                        WWA(239044+IPT)=LBUF%STRA(KK(3)+I)
+                        WWA(239048+IPT)=LBUF%STRA(KK(4)+I) *HALF
+                        WWA(239052+IPT)=LBUF%STRA(KK(5)+I) *HALF
+                        WWA(239056+IPT)=LBUF%STRA(KK(6)+I) *HALF
                     ENDIF  ! MTN
                   ENDDO    ! LOOP OVER NPT, ISOLNOD = 10
 c
                   IF ( MTE >= 28) THEN
-C                   User laws for solids we can have just 60 user variables.  
-                    NUVARTH = MIN(60,NUVAR)                                   
-                    DO J=1,NUVARTH                                            
+C                   User laws for solids we can have just 60 user variables.
+                    NUVARTH = MIN(60,NUVAR)
+                    DO J=1,NUVARTH
                       WWA(136+J)= USER(J)
                     ENDDO
-                  ENDIF        
+                  ENDIF
 
 C-----------------in Global ref : EPSX............-----------
-                  DO J = 1, 3                    
+                  DO J = 1, 3
                      WWA(1618 + J) = STRAIN(J)
                   ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
@@ -1772,30 +1802,30 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                   WWA(1618 + 5) = STRAIN(6)
                   WWA(1618 + 6) = STRAIN(5)
 C-----------------in local ref : L_EPSX............-----------
-                  DO J = 1, 6                    
+                  DO J = 1, 6
                      WWA(239030 + J) = STRAIN(J)
                   ENDDO
 
 c----
                 ELSEIF( ISOLNOD == 16.OR.ISOLNOD == 20.OR.
-     .            (ISOLNOD == 8.AND.(KHBE == 14.OR.KHBE == 17)))THEN 
+     .            (ISOLNOD == 8.AND.(KHBE == 14.OR.KHBE == 17)))THEN
 c----------------------------------------------------------------------------
 C------------------------Output SIJK EPS L_EPS---------------------
 C---------------------------------------------------------------------------
-c 
+c
 
                   JJ = 6*(I-1)
-                  NPTG=NPTT*NPTS*NPTR*NLAY                            
+                  NPTG=NPTT*NPTS*NPTR*NLAY
                   DO J=1, 100
                     USER(J) = ZERO
-                  ENDDO 
-  
+                  ENDDO
+
                   DO IL =1,NLAY
-                
-                   DO IS=1,NPTS  
-                    ISPAU= 1                    
+
+                   DO IS=1,NPTS
+                    ISPAU= 1
                     DO IT=1,NPTT
-                      DO IR=1,NPTR                      
+                      DO IR=1,NPTR
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
 c
@@ -1803,27 +1833,27 @@ C                       IPWWA calcule sur la base de 3*9*3 points d'integration 
                          CPT=(IT-1)*99*6+((IR-1)*9+IS-1)*6
 
                         IPT   = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
-                        IPWWA = (IT-1)*3*9*7 + (IS-1)*3*7 + (IR-1)*7 
-                        IUWWA = (IT-1)*3*9*9 + (IS-1)*3*9 + (IR-1)*9 
+                        IPWWA = (IT-1)*3*9*7 + (IS-1)*3*7 + (IR-1)*7
+                        IUWWA = (IT-1)*3*9*9 + (IS-1)*3*9 + (IR-1)*9
                         IF(ISOLNOD == 8)THEN
-                          IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7 
-                          IUWWA = (IR-1)*3*9*9 + (IT-1)*3*9 + (IS-1)*9 
+                          IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7
+                          IUWWA = (IR-1)*3*9*9 + (IT-1)*3*9 + (IS-1)*9
                         ENDIF
                         IF(ISOLNOD == 16)THEN
                            IPT   = IR + ( (IL-1) + (IT-1)*NLAY )*NPTR
-                           IPWWA = (IT-1)*3*9*7 + (IL-1)*3*7 + (IR-1)*7 
-                           IUWWA = (IT-1)*3*9*9 + (IL-1)*3*9 + (IR-1)*9 
+                           IPWWA = (IT-1)*3*9*7 + (IL-1)*3*7 + (IR-1)*7
+                           IUWWA = (IT-1)*3*9*9 + (IL-1)*3*9 + (IR-1)*9
                         ENDIF
 c
                         DO ITENS=1,6
                            WWA(196+IPWWA+ITENS) = LBUF%SIG(KK(ITENS)+I)
                            SIGP(ITENS,ISPAU,IS) = LBUF%SIG(KK(ITENS)+I)
-                        ENDDO 
+                        ENDDO
 C                       Deformation plastique
                         IF (MTE >= 28) THEN
                           IF (NUVAR > 0) THEN
                             WWA(196+IPWWA+7) = MBUF%VAR(I)
-                            SIGP(7,ISPAU,IS) = MBUF%VAR(I) 
+                            SIGP(7,ISPAU,IS) = MBUF%VAR(I)
                           ENDIF
 C                         just 9 user variables by integration point
                           NUVARTH = MIN(9,NUVAR)
@@ -1837,35 +1867,35 @@ C                         60 average user variable
                             WWA(889+J+IUWWA) =MBUF%VAR(I+(J-1)*NEL)
                           ENDDO
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0)THEN
-                            DO J = 1, 3                     
-                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)              
+                            DO J = 1, 3
+                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPTG
+                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)
                             ENDDO
-                            DO J = 4, 6                     
-                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *HALF            
+                            DO J = 4, 6
+                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPTG
+                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *HALF
                             ENDDO
                           ENDIF
-c                          
+c
                         ELSE ! IF MTE
 c
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN
-                            WWA(196 + IPWWA + 7)=LBUF%PLA(I) 
+                            WWA(196 + IPWWA + 7)=LBUF%PLA(I)
                             SIGP(7,ISPAU,IS)=    LBUF%PLA(I)
                           ENDIF
                           IF (MTE==12 .OR. MTE == 14) THEN
                             DO J=1,3
-                              STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%EPE(KK(J)+I)               
-                            ENDDO 
-                          ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0)THEN
-                            DO J = 1, 3                     
-                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)              
+                              STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPTG
+                              WWA(239060+IPWWA+J)=LBUF%EPE(KK(J)+I)
                             ENDDO
-                            DO J = 4, 6                     
-                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPTG 
-                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *HALF            
+                          ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0)THEN
+                            DO J = 1, 3
+                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPTG
+                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)
+                            ENDDO
+                            DO J = 4, 6
+                              STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPTG
+                              WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)  *HALF
                             ENDDO
                           ENDIF
                         ENDIF
@@ -1878,7 +1908,7 @@ c
 
                   IF (MTE >= 28) THEN
 C                   just 60 average user variable
-                    NUVARTH =  MIN(60,NUVAR)                  
+                    NUVARTH =  MIN(60,NUVAR)
                     DO J=1, NUVARTH
                       WWA(136 + J) = USER(J)
                     ENDDO
@@ -1896,12 +1926,12 @@ C-----------------in local ref : L_EPSX............-----------
      1   X,       IXS(1,N),2,       STRAIN,
      2   GAMA,    KHBE,    IGTYP,   ISORTH)
                     ENDIF
-                  ENDIF 
-                  DO J = 1, 6                    
+                  ENDIF
+                  DO J = 1, 6
                     WWA(239030 + J) = STRAIN(J)
                   ENDDO
 C-----------------in Global ref : EPSX............-----------
-                  DO J = 1, 3                    
+                  DO J = 1, 3
                      WWA(1618 + J) = STRAIN(J)
                   ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
@@ -1910,8 +1940,8 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                   WWA(1618 + 6) = STRAIN(5)
 
 C
-c                 CALCUL DES CONTRAINTES SUR LES FACES SUPERIEURE ET INFERIEURE
-C    
+C                 STRESS VALUES AT FACES (TOP & BOTTOM)
+C
                   IF(ISOLNOD == 16 ) THEN
                     NPTL = NLAY
                   ELSE
@@ -1920,27 +1950,27 @@ C
 
 
                  IF (NPT < 0) THEN
-C                  POUR LES POINTS D'INTEGRATION DE LOBATTO
+C                  LOBATTO INTEGRATION POINTS
                    ISPAU=1
                    DO IT=1,NPTT
-                      DO IR=1,NPTR 
-                        IPWWA =  (IT-1)*3*7 + (IR-1)*7                  
+                      DO IR=1,NPTR
+                        IPWWA =  (IT-1)*3*7 + (IR-1)*7
                         DO ITENS=1,7
-                          WWA(826+ITENS+IPWWA) = SIGP(ITENS,ISPAU,1)       
+                          WWA(826+ITENS+IPWWA) = SIGP(ITENS,ISPAU,1)
                           WWA(763+ITENS+IPWWA) = SIGP(ITENS,ISPAU,NPTS)
                         ENDDO
                         ISPAU=ISPAU+1
-                      ENDDO  
+                      ENDDO
                    ENDDO
                  ELSE
-                  IF (NPTL > 2) THEN 
-                    ISPAU=1                                       
+                  IF (NPTL > 2) THEN
+                    ISPAU=1
                     DO IT=1,NPTT
-                      DO IR=1,NPTR 
-                        IPWWA =  (IT-1)*3*7 + (IR-1)*7                  
+                      DO IR=1,NPTR
+                        IPWWA =  (IT-1)*3*7 + (IR-1)*7
                         DO ITENS=1,7
 c
-                          WWA(826+ITENS+IPWWA) = SIGP(ITENS,ISPAU,1)  
+                          WWA(826+ITENS+IPWWA) = SIGP(ITENS,ISPAU,1)
      .                      +(SIGP(ITENS,ISPAU,2)-SIGP(ITENS,ISPAU,1))
      .                      *(-1 - A_GAUSS(1,NPTL))
      .                      /(A_GAUSS(2,NPTL)-A_GAUSS(1,NPTL))
@@ -1953,33 +1983,33 @@ c
 c
                         ENDDO
                         ISPAU=ISPAU+1
-                      ENDDO  
+                      ENDDO
                     ENDDO
                    ELSE
-                    ISPAU=1     
+                    ISPAU=1
                     DO IT=1,NPTT
-                      DO IR=1,NPTR 
-                        IPWWA =  (IT-1)*3*7 + (IR-1)*7        
+                      DO IR=1,NPTR
+                        IPWWA =  (IT-1)*3*7 + (IR-1)*7
                         DO ITENS=1,7
 c
-                          WWA(826+ITENS+IPWWA) 
-     .                      = SIGP(ITENS,ISPAU,1) 
+                          WWA(826+ITENS+IPWWA)
+     .                      = SIGP(ITENS,ISPAU,1)
      .                      +(SIGP(ITENS,ISPAU,2)-SIGP(ITENS,ISPAU,1))
      .                      *(-1 - A_GAUSS(1,NPTL))
      .                      /(A_GAUSS(2,NPTL)-A_GAUSS(1,NPTL))
 c
-                             WWA(763 + ITENS + IPWWA) 
-     .                      = SIGP(ITENS,ISPAU,1)  
+                             WWA(763 + ITENS + IPWWA)
+     .                      = SIGP(ITENS,ISPAU,1)
      .                      +(SIGP(ITENS,ISPAU,2)-SIGP(ITENS,ISPAU,1))
      .                      *(1 - A_GAUSS(1,NPTL))
      .                      /(A_GAUSS(2,NPTL)-A_GAUSS(1,NPTL))
 c
                         ENDDO
                         ISPAU=ISPAU+1
-                      ENDDO  
-                    ENDDO 
+                      ENDDO
+                    ENDDO
                   ENDIF
-                ENDIF  
+                ENDIF
 
 c---------------
               ELSEIF ((ISOLNOD==6 .OR. ISOLNOD==8) .AND. KHBE==15) THEN
@@ -1990,87 +2020,85 @@ C
                   JJ = 6*(I-1)
                   DO J=1, 100
                     USER(J) = ZERO
-                  ENDDO         
-                  NPTS = NPT                                 
-C                   
-                  DO IPT=1,NPTS                                       
+                  ENDDO
+                  NPTS = NPT
+C
+                  DO IPT=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)
                       MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(IPT,1,1)
-c                   IPWWA calcule sur la base de 3*9*3 points d'integration (r*s*t)
-c                   pour ce type de solide les sorties sont dans 1*NPTS*1,  NPTS = 9 (en max)                        
-                    IPWWA =  (IPT-1)*3*7                  
-                    IUWWA =  (IPT-1)*3*9                  
-                    DO ITENS=1,6                          
+c                   IPWWA calculated using 3*9*3 integration points (r*s*t)
+c                   for this type of elem output are in 1*NPTS*1,  NPTS = 9 (max)
+                    IPWWA =  (IPT-1)*3*7
+                    IUWWA =  (IPT-1)*3*9
+                    DO ITENS=1,6
                       WWA(196+IPWWA+ITENS)=LBUF%SIG(KK(ITENS)+I)
                       SIGP(ITENS,1,IPT)=   LBUF%SIG(KK(ITENS)+I)
-                    ENDDO   
+                    ENDDO
                     IF(IVISC > 0 ) THEN
-                      DO ITENS=1,6                          
-                        WWA(196+IPWWA+ITENS)= WWA(196+IPWWA+ITENS) + 
-     .                                            LBUF%VISC(KK(ITENS)+I)		    
-                        SIGP(ITENS,1,IPT)=  SIGP(ITENS,1,IPT)+ 
-     .                                            LBUF%VISC(KK(ITENS)+I)		      
-                      ENDDO  
-                    ENDIF                
-c                   Deformation plastique                                   
-                    IF (MTE >= 28) THEN                                       
-                      IF (NUVAR > 0) THEN                                  
+                      DO ITENS=1,6
+                        WWA(196+IPWWA+ITENS)= WWA(196+IPWWA+ITENS) + LBUF%VISC(KK(ITENS)+I)
+                        SIGP(ITENS,1,IPT)=  SIGP(ITENS,1,IPT)+ LBUF%VISC(KK(ITENS)+I)
+                      ENDDO
+                    ENDIF
+c                   PLastic Deformation
+                    IF (MTE >= 28) THEN
+                      IF (NUVAR > 0) THEN
                         WWA(196+IPWWA+7) = MBUF%VAR(I)
                         SIGP(7, 1   ,IPT)= MBUF%VAR(I)
                       ENDIF
-C                     just 9 user variables par integration point                              
-                      NUVARTH = MIN(9,NUVAR)                                              
-                      DO J=1, NUVARTH                                                     
-                        WWA(889  + J + IUWWA) = MBUF%VAR(I + (J-1)*NEL )                  
-                      ENDDO                                                               
-C                      just 60 average user variables                                     
-                      NUVARTH = MIN(60,NUVAR)                                             
-                      DO J=1, NUVARTH                                                     
-                        USER(J) = USER(J) + MBUF%VAR(I+(J-1)*NEL)/NPT    
-                        WWA(889+J+IUWWA)  = MBUF%VAR(I+(J-1)*NEL)        
-                      ENDDO                                             
+C                     just 9 user variables par integration point
+                      NUVARTH = MIN(9,NUVAR)
+                      DO J=1, NUVARTH
+                        WWA(889  + J + IUWWA) = MBUF%VAR(I + (J-1)*NEL )
+                      ENDDO
+C                      just 60 average user variables
+                      NUVARTH = MIN(60,NUVAR)
+                      DO J=1, NUVARTH
+                        USER(J) = USER(J) + MBUF%VAR(I+(J-1)*NEL)/NPT
+                        WWA(889+J+IUWWA)  = MBUF%VAR(I+(J-1)*NEL)
+                      ENDDO
                       IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                        DO J= 1,3                             
-                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT    
-                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)                                 
-                        ENDDO  
-                        DO J= 4,6                             
-                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPT    
-                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*HALF                                 
-                        ENDDO  
-                      ENDIF                          
-                    ELSE  ! mte < 28                                                  
-                      IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN                                  
-                        WWA(196 + IPWWA + 7)= LBUF%PLA(I) 
-                        SIGP(7, 1   ,IPT)   = LBUF%PLA(I) 
+                        DO J= 1,3
+                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT
+                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)
+                        ENDDO
+                        DO J= 4,6
+                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPT
+                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*HALF
+                        ENDDO
                       ENDIF
-                      IF (MTE == 12 .OR. MTE == 14) THEN                           
-                        DO J=1,3                                  
-                          STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPT  
-                          WWA(239060+IPWWA+J)=LBUF%EPE(KK(J)+I)                           
-                        ENDDO                                                                      
-                      ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN                    
-                        DO J= 1,3                             
-                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT    
-                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)                                 
-                        ENDDO  
-                        DO J= 4,6                             
-                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPT    
-                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*HALF                                 
-                        ENDDO                                 
+                    ELSE  ! mte < 28
+                      IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN
+                        WWA(196 + IPWWA + 7)= LBUF%PLA(I)
+                        SIGP(7, 1   ,IPT)   = LBUF%PLA(I)
+                      ENDIF
+                      IF (MTE == 12 .OR. MTE == 14) THEN
+                        DO J=1,3
+                          STRAIN(J) = STRAIN(J) + LBUF%EPE(KK(J)+I)/NPT
+                          WWA(239060+IPWWA+J)=LBUF%EPE(KK(J)+I)
+                        ENDDO
+                      ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
+                        DO J= 1,3
+                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)/NPT
+                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)
+                        ENDDO
+                        DO J= 4,6
+                          STRAIN(J) = STRAIN(J) + LBUF%STRA(KK(J)+I)*HALF/NPT
+                          WWA(239060+IPWWA+J)=LBUF%STRA(KK(J)+I)*HALF
+                        ENDDO
                      ENDIF
                     ENDIF  ! mte < 28
                   ENDDO  ! IPT
 C
-                  IF (MTE >= 28)THEN                
+                  IF (MTE >= 28)THEN
 C we can get just 60 average user variables
-                      NUVARTH = MIN(60,NUVAR)        
+                      NUVARTH = MIN(60,NUVAR)
                       DO J=1, NUVARTH
                        WWA(136 + J) = USER(J)
                       ENDDO
                      ENDIF
 C-----------------in Global ref : EPSX............-----------
-                  DO J = 1, 3                    
+                  DO J = 1, 3
                      WWA(1618 + J) = STRAIN(J)
                   ENDDO
 C Problem of order of output EPSZX before EPSYZ (see THGROU)
@@ -2078,14 +2106,14 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                   WWA(1618 + 5) = STRAIN(6)
                   WWA(1618 + 6) = STRAIN(5)
 C-----------------in local ref : L_EPSX............-----------
-                  DO J = 1, 6                    
+                  DO J = 1, 6
                      WWA(239030 + J) = STRAIN(J)
                   ENDDO
-CC                        
-                   IF(NPTS > 2) THEN                                                                       
-                        IPWWA =  0                  
+CC
+                   IF(NPTS > 2) THEN
+                        IPWWA =  0
                         DO ITENS=1,7
-                          WWA(826+ITENS + IPWWA) = SIGP(ITENS,1,1)  
+                          WWA(826+ITENS + IPWWA) = SIGP(ITENS,1,1)
      .                      +(SIGP(ITENS,1,2)-SIGP(ITENS,1,1))
      .                      *(-1 - A_GAUSS(1,NPTS))
      .                      /(A_GAUSS(2,NPTS)-A_GAUSS(1,NPTS))
@@ -2094,29 +2122,29 @@ CC
      .                      - SIGP(ITENS,1,NPTS-1))
      .                      *(1 - A_GAUSS(NPTS-1,NPTS))
      .                      /(A_GAUSS(NPTS,NPTS)-A_GAUSS(NPTS-1,NPTS))
-                        ENDDO        
+                        ENDDO
                     ELSE
-                        IPWWA =  0               
+                        IPWWA =  0
                         DO ITENS=1,7
-                          WWA(826+ITENS+IPWWA) = SIGP(ITENS,1,1) 
+                          WWA(826+ITENS+IPWWA) = SIGP(ITENS,1,1)
      .                      +(SIGP(ITENS,1,2)-SIGP(ITENS,1,1))
      .                      *(-1 - A_GAUSS(1,NPTS))
      .                      /(A_GAUSS(2,NPTS)-A_GAUSS(1,NPTS))
-                             WWA(763 + ITENS + IPWWA) = SIGP(ITENS,1,1)  
+                             WWA(763 + ITENS + IPWWA) = SIGP(ITENS,1,1)
      .                      +(SIGP(ITENS,1,2)-SIGP(ITENS,1,1))
      .                      *(1 - A_GAUSS(1,NPTS))
      .                      /(A_GAUSS(2,NPTS)-A_GAUSS(1,NPTS))
                         ENDDO
-                    ENDIF                                
+                    ENDIF
 c
                 ELSEIF (ISOLNOD == 8.AND.KHBE /= 14.AND.KHBE /= 24) THEN
 c
                   JJ = 6*(I-1)
                  IF (NPT == 8) THEN
-                    NLAY = ELBUF_TAB(NG)%NLAY       
-                    NPTR = ELBUF_TAB(NG)%NPTR       
-                    NPTS = ELBUF_TAB(NG)%NPTS       
-                    NPTT = ELBUF_TAB(NG)%NPTT       
+                    NLAY = ELBUF_TAB(NG)%NLAY
+                    NPTR = ELBUF_TAB(NG)%NPTR
+                    NPTS = ELBUF_TAB(NG)%NPTS
+                    NPTT = ELBUF_TAB(NG)%NPTT
                     NPT  = NPTR * NPTS * NPTT * NLAY
                     DO IT=1,NPTT   !1,2
                      DO IS=1,NPTS  !1,2
@@ -2137,7 +2165,7 @@ c
                          WWA(64+IPT)=WWA(64+IPT) + LBUF%VISC(KK(4)+I)
                          WWA(72+IPT)=WWA(72+IPT) + LBUF%VISC(KK(5)+I)
                          WWA(80+IPT)=WWA(80+IPT) + LBUF%VISC(KK(6)+I)
-                        ENDIF 
+                        ENDIF
                         !tenseur de contrainte sur chaque points de gauss
                         IPWWA = (IT-1)*3*9*7 + (IS-1)*3*7 + (IR-1)*7
                         IUWWA = (IT-1)*3*9*9 + (IS-1)*3*9 + (IR-1)*9
@@ -2148,20 +2176,19 @@ c
                         IF(IVISC > 0 ) THEN
                          DO ITENS = 1,6
                             JJ = 6*(I-1)
-                            WWA(196+IPWWA+ITENS)=WWA(196+IPWWA+ITENS) + 
-     .                                                 LBUF%VISC(KK(ITENS)+I)
+                            WWA(196+IPWWA+ITENS)=WWA(196+IPWWA+ITENS) + LBUF%VISC(KK(ITENS)+I)
                           ENDDO
-                        ENDIF 
-                        IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) 
-     .                      WWA(196+IPWWA+ 7 ) = LBUF%PLA(I) 
-                        IF (MTE >= 28) THEN                                                   
+                        ENDIF
+                        IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0)
+     .                      WWA(196+IPWWA+ 7 ) = LBUF%PLA(I)
+                        IF (MTE >= 28) THEN
                           IF (NUVAR>0) THEN
                             WWA(196+IPWWA+ 7 ) = MBUF%VAR(I)
                           ENDIF
-C we can get just 9 user variables by integration point                          
+C we can get just 9 user variables by integration point
                           NUVARTH = MIN(9,NUVAR)
                           DO J=1,NUVARTH
-                            WWA(889 + IUWWA + J) = MBUF%VAR(I+(J-1)*NEL)                       
+                            WWA(889 + IUWWA + J) = MBUF%VAR(I+(J-1)*NEL)
                           ENDDO
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
                             STRAIN(1)=STRAIN(1) + LBUF%STRA(KK(1)+I)*ONE_OVER_8
@@ -2169,12 +2196,12 @@ C we can get just 9 user variables by integration point
                             STRAIN(3)=STRAIN(3) + LBUF%STRA(KK(3)+I)*ONE_OVER_8
                             STRAIN(4)=STRAIN(4) + LBUF%STRA(KK(4)+I)*ONE_OVER_8
                             STRAIN(5)=STRAIN(5) + LBUF%STRA(KK(5)+I)*ONE_OVER_8
-                            STRAIN(6)=STRAIN(6) + LBUF%STRA(KK(6)+I)*ONE_OVER_8                                  
+                            STRAIN(6)=STRAIN(6) + LBUF%STRA(KK(6)+I)*ONE_OVER_8
                           ENDIF
                         ENDIF
                       ENDDO
                      ENDDO
-                    ENDDO                              
+                    ENDDO
 c
                   ELSEIF(NPT == 1)THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -2183,16 +2210,16 @@ c
                       DO J= 1,3
                         STRAIN(J) = LBUF%EPE(KK(J)+I)
                       ENDDO
-                                             
+
                     ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
-                      DO J= 1,3                     
-                        STRAIN(J) = LBUF%STRA(KK(J)+I)                  
-                      ENDDO  
-                      DO J= 4,6                     
-                        STRAIN(J) = LBUF%STRA(KK(J)+I) *HALF                
-                      ENDDO  
+                      DO J= 1,3
+                        STRAIN(J) = LBUF%STRA(KK(J)+I)
+                      ENDDO
+                      DO J= 4,6
+                        STRAIN(J) = LBUF%STRA(KK(J)+I) *HALF
+                      ENDDO
                    ENDIF
-                  ENDIF   ! NPT 
+                  ENDIF   ! NPT
 
 C-----------------in local ref : L_EPSX............-----------
                   IF (KCVT==-1) THEN
@@ -2203,8 +2230,8 @@ C-----------------in local ref : L_EPSX............-----------
                     GAMA(5)=GBUF%GAMA(KK(5) + I)
                     GAMA(6)=GBUF%GAMA(KK(6) + I)
                     CALL SROTA6(
-     1   X,       IXS(1,N),2,       STRAIN,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+     1                           X   , IXS(1,N), 2    , STRAIN,
+     2                           GAMA, KHBE    , IGTYP, ISORTH)
                   ENDIF
                   DO J = 1, 6                    
                     WWA(239030 + J) = STRAIN(J)
