@@ -565,6 +565,7 @@ CE0
             ET(I) = YLD(I)/MAX(EM20,EPST(I))
 !!            ET(I) = MIN(ONE , ET(I)/UVAR(I,8))
             ET(I) = MIN(ONE , ET(I)/E_MAX)
+            IF(ET(I) == ZERO) ET(I) = ONE
          ENDDO
         ENDIF
 C------------------------------------ 
