@@ -583,7 +583,8 @@ c
      8    SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6   ,
      9    S1       ,S2       ,S3       ,S4       ,S5       ,S6    ,
      A    SV1      ,SV2      ,SV3      ,SV4      ,SV5      ,SV6   ,
-     B    SSPP     ,VIS      ,UVAR     ,OFF      ,DVOL     ,LBUF%BFRAC)
+     B    SSPP     ,VIS      ,UVAR     ,OFF      ,DVOL     ,LBUF%BFRAC,
+     .    LBUF%TEMP)
       ELSEIF(MTN == 42)THEN
         CALL SIGEPS42(
      1       LLT     ,NPAR    ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
