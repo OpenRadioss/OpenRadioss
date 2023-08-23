@@ -136,7 +136,7 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
           JJ(I) = NEL*(I-1)
         ENDDO
 !
-        DO I=LFT,LLT          
+        DO I=1,MVSIZ        
           DO J=1,5            
             SIGE(I,J) = ZERO  
           ENDDO               
@@ -777,7 +777,7 @@ c
                   IL  = 1
                 END IF
                 IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
-                IVISC = IPM(222,IMAT)    
+                IVISC = IPM(222,IMAT)
                 DO I=1,NEL  
                   DO IR=1,NPTR                
                     DO IS=1,NPTS 
@@ -803,7 +803,7 @@ c
                 MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                 IF (MAT_ORTH == 2) THEN
                   DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                  CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                  CALL UROTO_TENS2D(MVSIZ,SIGE,DIR_A)
                 END IF
 c
                 DO I=LFT,LLT
@@ -872,7 +872,7 @@ c
                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH == 2) THEN
                     DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                    CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                    CALL UROTO_TENS2D(MVSIZ,SIGE,DIR_A)
                   END IF
 c
                   DO I=LFT,LLT
@@ -934,7 +934,7 @@ c
                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH == 2) THEN
                     DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                    CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                    CALL UROTO_TENS2D(MVSIZ,SIGE,DIR_A)
                   END IF
 C
                   DO I=LFT,LLT                                            
@@ -993,7 +993,7 @@ c
                 MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                 IF (MAT_ORTH == 2) THEN
                   DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                  CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                  CALL UROTO_TENS2D(MVSIZ,SIGE,DIR_A)
                 END IF
 C
                 DO I=LFT,LLT                                            
@@ -1047,7 +1047,7 @@ c
                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH == 2) THEN
                     DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                    CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                    CALL UROTO_TENS2D(MVSIZ,SIGE,DIR_A)
                   END IF
 C
                   DO I=LFT,LLT                                            
@@ -1103,7 +1103,7 @@ c
                             ENDIF                       
                           END IF
                           IF (MAT_ORTH == 2) THEN                 
-                            CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                            CALL UROTO_TENS2D(MVSIZ,SIGE,DIR_A)
                           ELSE IF (MAT_ORTH == 3) THEN   ! anisotropic (law 58,158 only)
                             CALL UROTO_TENS2D_ANISO(NEL,SIGE,DIR_A,DIR_B)
                           END IF
