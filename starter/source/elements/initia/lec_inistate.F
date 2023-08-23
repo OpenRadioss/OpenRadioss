@@ -43,7 +43,8 @@ Chd|====================================================================
      8                  SIGI       ,SIGSH        ,SIGSP        ,SIGSPH       ,SIGRS    ,
      9                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB,
      A                  ISIGSH     ,IYLDINI      ,KSIGSH3      ,FAIL_INI     ,IUSOLYLD ,
-     B                  IUSER      ,IGRBRIC      ,MAP_TABLES   ,IPARG        )
+     B                  IUSER      ,IGRBRIC      ,MAP_TABLES   ,IPARG        ,STACK    ,
+     C                  IWORKSH )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -51,6 +52,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE MAPPING_OPTION_MOD
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,6 +89,8 @@ C
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C
       TYPE(MAPPING_STRUCT_) :: MAP_TABLES
+      TYPE (STACK_PLY) :: STACK
+      INTEGER,  INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,12 +126,12 @@ C
       ALLOCATE (ID_SIGTRUSS(NUMTRUS)          ,STAT=stat)
       ALLOCATE (WORK(70000)                   ,STAT=stat)
 C
-      ID_SIGSH(1:NUMSHEL+NUMSH3N) = 0
-      ID_SOLID_SIGI(1:NUMSOL) = 0
-      ID_QUAD_SIGI(1:NUMQUAD) = 0
-      ID_SIGSPRI(1:NUMSPRI)  = 0
-      ID_SIGBEAM(1:NUMBEAM)  = 0
-      ID_SIGTRUSS(1:NUMTRUS) = 0
+      IF(NUMSHEL+NUMSH3N > 0) ID_SIGSH(1:NUMSHEL+NUMSH3N) = 0
+      IF(NUMSOL          > 0 )ID_SOLID_SIGI(1:NUMSOL) = 0
+      IF(NUMQUAD         > 0 )ID_QUAD_SIGI(1:NUMQUAD) = 0
+      IF(NUMSPRI         > 0 )ID_SIGSPRI(1:NUMSPRI)  = 0
+      IF(NUMBEAM         > 0 )ID_SIGBEAM(1:NUMBEAM)  = 0
+      IF(NUMTRUS         > 0 )ID_SIGTRUSS(1:NUMTRUS) = 0
       WORK(1:70000) = 0
 C
       IF (ABS(ISIGI) == 3.OR.ABS(ISIGI) == 4.OR.ABS(ISIGI) == 5) THEN
@@ -176,7 +180,6 @@ C     CONTRAINTES INITIALES FICHIER D00
 C-----------------------------------------
       IF (ISIGI == -3.OR.ISIGI == -4.OR.ISIGI == -5) THEN
          ISIGI = -ISIGI
-
 !         CALL LEC_INISTATE_D00 (
 !     1                  IXS        ,IXQ          ,IXC          ,IXT          ,IXP       ,
 !     2                  IXR        ,GEO          ,PM           ,IXTG         ,INDEX     ,
@@ -188,8 +191,7 @@ C-----------------------------------------
 !     8                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB ,
 !     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     , 
 !     A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
-!     B                  ID_SIGTRUSS,WORK         ,IGRBRIC )
-
+!     B                  ID_SIGTRUSS,WORK         ,IGRBRIC )         
          CALL HM_READ_INISTATE_D00 (
      1                  IXS        ,IXQ          ,IXC          ,IXT          ,IXP       ,
      2                  IXR        ,GEO          ,PM           ,IXTG         ,INDEX     ,
@@ -203,11 +205,10 @@ C-----------------------------------------
      A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
-     D                  MAP_TABLES ,VARMAX       ,IPARG        )
-
+     D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
+     E                  STACK      ,IWORKSH )
       ENDIF
 C------------------------------------------------------------------------------------------
-
          CALL LEC_INISTATE_TRI(
      1                  IXS        ,IXQ          ,IXC          ,IXT          ,IXP       ,
      2                  IXR        ,KXSP         ,IXTG         ,INDEX        ,ITRI      ,
@@ -219,13 +220,13 @@ C-------------------------------------------------------------------------------
      8                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI ,ID_SIGBEAM  ,
      9                  ID_SIGTRUSS,WORK )
 
-C
-      DEALLOCATE (ID_SOLID_SIGI)
-      DEALLOCATE (ID_QUAD_SIGI)
-      DEALLOCATE (ID_SIGSH)
-      DEALLOCATE (ID_SIGSPRI)
-      DEALLOCATE (ID_SIGBEAM)
-      DEALLOCATE (ID_SIGTRUSS)
+C 
+      IF(NUMSOL           > 0) DEALLOCATE (ID_SOLID_SIGI)
+      IF(NUMQUAD          > 0 )DEALLOCATE (ID_QUAD_SIGI)
+      IF(NUMSHEL+NUMSH3N  > 0 )DEALLOCATE (ID_SIGSH)
+      IF(NUMSPRI         > 0 )DEALLOCATE (ID_SIGSPRI)
+      IF(NUMBEAM         > 0 )DEALLOCATE (ID_SIGBEAM)
+      IF(NUMTRUS         > 0 )DEALLOCATE (ID_SIGTRUSS)
       DEALLOCATE (WORK)
 C
       RETURN

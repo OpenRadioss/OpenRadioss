@@ -471,9 +471,11 @@ C---    read property data
 C---    Overwrite with optional element data
         IF (IORTSHEL == 1) THEN
           DO I=JFT,JLT
-            IF (ABS(ISIGI)/=3.AND.ABS(ISIGI)/=4.AND.ABS(ISIGI)/=5) THEN
-              II = I + NFT
+            IF (ABS(ISIGI) /= 3 .AND. ABS(ISIGI)/=4 .AND. ABS(ISIGI)/=5) THEN
+              !!II = I + NFT
               ID = IX(NIX,I)
+              II = PTSH(I + NFT)
+              IF(II == 0) GOTO 100
               N  = NINT(SIGSH(1,II))
               IF (N == ID) THEN
                 CONTINUE
@@ -493,8 +495,9 @@ C---    Overwrite with optional element data
               II=PTSH(JJ)
               IF (II == 0) GOTO 100
             END IF
+            IF(SIGSH(NVSHELL + NUSHELL + 5,II) == ZERO) CYCLE 
 C
-            NPTI = NINT(SIGSH(2,II))
+            NPTI = NINT(SIGSH(NVSHELL + NUSHELL + 4,II))
             IF(IGTYP == 9) NPTI = 1
             IF (NLAY /= NPTI) THEN
               IPID   = IX(NIX-1,I)
@@ -517,11 +520,11 @@ C
               ENDIF
             ENDIF
 C
-            IPT   = NVSHELL+NUSHELL
+            IPT   = NVSHELL + NUSHELL
             VX(I) = SIGSH(IPT+1,II)
             VY(I) = SIGSH(IPT+2,II)
             VZ(I) = SIGSH(IPT+3,II)
-            IPT = IPT+3
+            IPT = IPT + 5
             IF ( IGTYP == 9) THEN
                 PHI1(1,I) = SIGSH(IPT+1,II)
                 PHI2(1,I) = SIGSH(IPT+2,II)
@@ -540,9 +543,11 @@ C
 C---    Overwrite with optional element data__ ORTH_LOC
         IF (IORTSHEL == 2) THEN
           DO I=JFT,JLT
-            II = I + NFT
-            IF (ABS(ISIGI)/=3.AND.ABS(ISIGI)/=4.AND.ABS(ISIGI)/=5) THEN
+            IE = I + NFT
+            IF (ABS(ISIGI) /= 3 .AND. ABS(ISIGI) /= 4 .AND. ABS(ISIGI) /= 5) THEN
               ID = IX(NIX,I)
+              II = PTSH(IE)
+              IF(II == 0) GOTO 110
               N  = NINT(SIGSH(1,II))
               IF (N == ID) THEN
                 CONTINUE
@@ -562,14 +567,15 @@ C---    Overwrite with optional element data__ ORTH_LOC
               II=PTSH(JJ)
               IF (II == 0) GOTO 110
             END IF
+            IF(SIGSH(NVSHELL + NUSHELL + 5,II) == ZERO) CYCLE 
+            NPTI = NINT(SIGSH(NVSHELL + NUSHELL + 4,II))
 C
             NPT  = NINT(GEO(6,IX(NIX-1,I)))
             IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP==52)) THEN
               NPT = NPT_ALL
             ELSEIF (IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
               NPT = NLAY
-            ENDIF  
-            NPTI = NINT(SIGSH(2,II))
+            ENDIF 
             IF (NPT /= NPTI) THEN
               IPID   = IX(NIX-1,I)
               PID    = IGEO(1,IPID)
@@ -591,7 +597,7 @@ C
               ENDIF
             ENDIF
 C
-            IPT   = NVSHELL+NUSHELL+3
+            IPT   = NVSHELL + NUSHELL + 5
             IF (IGTYP == 9) THEN
               COOR1(1,I) = SIGSH(IPT+1,II)
               COOR2(1,I) = SIGSH(IPT+2,II)

@@ -101,16 +101,17 @@ C=======================================================================
 !
       DO I=JFT,JLT
         IF(ABS(ISIGI) /= 3.AND.ABS(ISIGI) /= 4.AND.ABS(ISIGI) /= 5)THEN
-          II = I+NFT
+          II = PTSH(I+NFT)
+          IF(II == 0 ) GOTO 100
           N = NINT(SIGSH(1,II))
-          IF(N == IX(NIX,II))THEN
-            JJ = II
+          IF(N == IX(NIX,I+NFT))THEN
+            JJ = I+NFT
           ELSE
-            JJ = II
+            JJ = I+NFT
             DO J = 1,NUMEL
               II= J
               N = NINT(SIGSH(1,II))
-	             IF (N == 0) GOTO 100
+	      IF (N == 0) GOTO 100
               IF (N == IX(NIX,JJ)) GOTO 60
             ENDDO
             GOTO 100
@@ -122,6 +123,7 @@ C=======================================================================
           II=PTSH(JJ)
           IF(II == 0)GOTO 100
         END IF
+        IF(SIGSH(NVSHELL - 1 ,II) == ZERO ) CYCLE
 c
         NPTI=NINT(SIGSH(2,II))
         IF(SIGSH(3,II) /= ZERO) THEN
@@ -136,26 +138,26 @@ c
           HH(I,3)= SIGSH(16,II)
         ENDIF
         IF(NPT /= NPTI ) THEN
-          IPID=IX(NIX-1,NFT+I)
-          PID=IGEO(1,IPID)            
-          CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
-          IF(NPTI == 0)THEN
-            CALL ANCMSG(MSGID=2020,
-     .                ANMODE=ANINFO,
-     .                MSGTYPE=MSGERROR,
-     .                C1=TITR1,
-     .                I1=PID,
-     .                I2=N,
-     .                PRMOD=MSG_CUMU)
-          ELSE
-            CALL ANCMSG(MSGID=26,
-     .                  ANMODE=ANINFO,
-     .                  MSGTYPE=MSGERROR,
-     .                  I2=N,
-     .                  I1=PID,
-     .                  C1=TITR1)
-          ENDIF
-        ENDIF
+             IPID=IX(NIX-1,NFT+I)
+             PID=IGEO(1,IPID)            
+             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
+             IF(NPTI == 0)THEN
+               CALL ANCMSG(MSGID=2020,
+     .                   ANMODE=ANINFO,
+     .                   MSGTYPE=MSGERROR,
+     .                   C1=TITR1,
+     .                   I1=PID,
+     .                   I2=N,
+     .                   PRMOD=MSG_CUMU)
+             ELSE
+               CALL ANCMSG(MSGID=26,
+     .                     ANMODE=ANINFO,
+     .                     MSGTYPE=MSGERROR,
+     .                     I2=N,
+     .                     I1=PID,
+     .                     C1=TITR1)
+             ENDIF
+        ENDIF   
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
           IF(SIGSH(17,II) == ONE)THEN
 C--- in global sys

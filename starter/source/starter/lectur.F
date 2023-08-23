@@ -8052,10 +8052,23 @@ C
 C
       CALL TRACE_OUT1()
 C--------------------------------------------
+      IF(ABS(ISIGI)==3.OR.ABS(ISIGI)==4.OR.ABS(ISIGI)==5)THEN
+        IF(.NOT.ALLOCATED(PTSHEL)) THEN
+         ALLOCATE (PTSHEL(NUMELC)   ,STAT=stat) 
+         PTSHEL = 0
+        ENDIF 
+        IF(.NOT.ALLOCATED(PTSH3N)) THEN 
+          ALLOCATE (PTSH3N(NUMELTG)  ,STAT=stat)
+           PTSH3N = 0
+         ENDIF   
+      ELSE
+        ALLOCATE (PTSHEL(0)  ,STAT=stat)
+        ALLOCATE (PTSH3N(0)  ,STAT=stat)
+      END IF
       ! still need for *Y00, *sty files - not yet covered by CFG files (hm_reader)
       IF(IDDLEVEL == 0) CALL YCTRL(IGRBRIC)
 !
-      IF(IDDLEVEL == 0) CALL HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC)
+      IF (IDDLEVEL == 0) CALL HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC,IXC,IXTG, PTSHEL,PTSH3N)
 C
 C----------------------------------------------------------
 C
@@ -8192,16 +8205,12 @@ C
 C
 C------- refsta
       IF(ABS(ISIGI)==3.OR.ABS(ISIGI)==4.OR.ABS(ISIGI)==5)THEN
-        ALLOCATE(PTSHEL(NUMELC)   ,STAT=stat)
-        ALLOCATE(PTSH3N(NUMELTG)  ,STAT=stat)
-        ALLOCATE(PTSOL(NUMELS)    ,STAT=stat)
-        ALLOCATE(PTQUAD(NUMELQ)   ,STAT=stat)
-        ALLOCATE(PTSPH(NUMSPH)    ,STAT=stat)
-        ALLOCATE(PTSPRI(NUMELR)   ,STAT=stat)
-        ALLOCATE(PTBEAM(NUMELP)   ,STAT=stat)
-        ALLOCATE(PTTRUSS(NUMELT)  ,STAT=stat)
-        PTSHEL = 0
-        PTSH3N = 0
+        ALLOCATE (PTSOL(NUMELS)    ,STAT=stat)
+        ALLOCATE (PTQUAD(NUMELQ)   ,STAT=stat)
+        ALLOCATE (PTSPH(NUMSPH)    ,STAT=stat)
+        ALLOCATE (PTSPRI(NUMELR)   ,STAT=stat)
+        ALLOCATE (PTBEAM(NUMELP)   ,STAT=stat)
+        ALLOCATE (PTTRUSS(NUMELT)  ,STAT=stat)
         PTSOL  = 0
         PTQUAD = 0
         PTSPH  = 0
@@ -8209,14 +8218,12 @@ C------- refsta
         PTBEAM = 0
         PTTRUSS= 0
       ELSE
-        ALLOCATE(PTSHEL(0)  ,STAT=stat)
-        ALLOCATE(PTSH3N(0)  ,STAT=stat)
-        ALLOCATE(PTSOL(0)   ,STAT=stat)
-        ALLOCATE(PTQUAD(0)  ,STAT=stat)
-        ALLOCATE(PTSPH(0)   ,STAT=stat)
-        ALLOCATE(PTSPRI(0)  ,STAT=stat)
-        ALLOCATE(PTBEAM(0)  ,STAT=stat)
-        ALLOCATE(PTTRUSS(0) ,STAT=stat)
+        ALLOCATE (PTSOL(0)   ,STAT=stat)
+        ALLOCATE (PTQUAD(0)  ,STAT=stat)
+        ALLOCATE (PTSPH(0)   ,STAT=stat)
+        ALLOCATE (PTSPRI(0)  ,STAT=stat)
+        ALLOCATE (PTBEAM(0)  ,STAT=stat)
+        ALLOCATE (PTTRUSS(0) ,STAT=stat)
       END IF
 C
       ICO = 0
@@ -8395,7 +8402,7 @@ C
      8            SIGI    ,SIGSH   ,SIGSP   ,SIGSPH  ,SIGRS   ,
      9            SIGBEAM ,SIGTRUSS,STRSGLOB,STRAGLOB,ORTHOGLOB,
      A            ISIGSH  ,IYLDINI ,KSIGSH3 ,FAIL_INI,IUSOLYLD,
-     B            IUSERL  ,IGRBRIC ,MAP_TABLES,IPARG )
+     B            IUSERL  ,IGRBRIC ,MAP_TABLES,IPARG ,STACK ,IWORKSH)
 C
 C----------------------------------
 C -- ELEMENT INITIALIZATION

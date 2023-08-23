@@ -58,7 +58,8 @@ Chd|====================================================================
      A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
-     D                  MAP_TABLES ,VARMAX       ,IPARG        )
+     D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
+     E                  STACK      ,IWORKSH )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE MAPPING_OPTION_MOD
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,6 +111,9 @@ C
 C
       TYPE(MAPPING_STRUCT_) :: MAP_TABLES
       INTEGER, DIMENSION(NPARG,NGROUP) ,INTENT(IN):: IPARG
+      INTEGER,   INTENT(INOUT) :: PTSHEL(NUMELC),PTSH3N(NUMELTG)
+      TYPE (STACK_PLY) :: STACK
+      INTEGER,   INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -120,7 +125,8 @@ C-----------------------------------------------
      .   NUVARD00, NDIR, NPGTMP,
      .   NPTR,NPTS,NPTT,JR,JS,JT,NFAIL(5),IMAT,ILAW,
      .   JL,NPT_MAX,MLAWLY,IPMAT,JDRP_ID,NVARBEAM,IFAIL,NEM1,
-     .   IRUPT_TYP,NVAR_RUPT,IOK,NVMAX,CPTVAR,FLAGDEG,NUM_LINES,NMAX_AUX,NMAX_FAIL
+     .   IRUPT_TYP,NVAR_RUPT,IOK,NVMAX,CPTVAR,FLAGDEG,NUM_LINES,NMAX_AUX,NMAX_FAIL,
+     .   ISUBSTACK,NSLICE,IPNPT_LAY,IPT
       INTEGER IE, KN, IR, IS, IT, BRIGLOB, SUB_ID, NLAY, ILAY, PID
       INTEGER KTRIELS, KTRIELC, KTRIELTG, KTRIELSPR, KTRIELBEAM, KTRIELTRUSS,
      .   KTRIELTQUAD
@@ -144,7 +150,7 @@ C-----------------------------------------------
      .   TMPVAL13(VARMAX)
 !
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSRS,INDEXS,ITRIS,
-     . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG
+     . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG,MLAW_LY
 
       CHARACTER KEY2*ncharkey,KEY3*ncharkey
       CHARACTER*nchartitle,TITR,TITR1  
@@ -1981,7 +1987,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
               KTRIELC=1
            ENDIF
 !---
-        DO INI=1,NB_INISHE
+        DO INI=1,NB_INISHE         
 !
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                            UNIT_ID  = UID,
@@ -2054,11 +2060,12 @@ C---------
      .                          I2=ID_ELEM)
                   ENDIF
 !
-                  I = I + 1
+                  I = PTSHEL(IE)
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(1,I) = ID_ELEM
                   SIGSH(2,I) = NIP
                   SIGSH(3,I) = THK
+                  SIGSH(NVSHELL - 1,I) = ONE
 !
                   IF (NPG <= 1) THEN
 !---
@@ -2169,8 +2176,7 @@ C------------------------------------
                     CALL HM_GET_FLOAT_ARRAY_INDEX('H2',H2,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY_INDEX('H3',H3,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    I = I + 1
-
+                    I = PTSHEL(IE)
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
@@ -2178,6 +2184,7 @@ C------------------------------------
                     SIGSH(4,I) = EM
                     SIGSH(5,I) = EB
                     SIGSH(17,I) = ONE
+                    SIGSH(NVSHELL - 1 , I) = ONE
 !----
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !----
@@ -2360,8 +2367,8 @@ C------------------------------------
                     CALL HM_GET_FLOAT_ARRAY_INDEX('H2',H2,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY_INDEX('H3',H3,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    I = I + 1
-
+                     I = PTSHEL(IE)
+                     
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
@@ -2369,6 +2376,7 @@ C------------------------------------
                     SIGSH(4,I) = EM
                     SIGSH(5,I) = EB
                     SIGSH(17,I) = ZERO
+                    SIGSH(NVSHELL - 1 , I) = ONE
 !----
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !----
@@ -2466,7 +2474,7 @@ C------------------------------------
                             SIGSH(PT+3,I) = TMPVAL4(L)
                             SIGSH(PT+4,I) = TMPVAL5(L)
                             SIGSH(PT+5,I) = TMPVAL6(L)
-!
+
                             PT = PT + 6
                           ENDDO ! DO K=1,NPG
                         ENDDO ! DO N=1,NIP
@@ -2506,12 +2514,13 @@ C-------global sys with diff format
      .                                     C1='/INISHE/STRA_F/GLOB',
      .                                     C2='SHELL')
                   ELSE
-                    I=I+1
-                    SIGSH(1,I) = ID_ELEM
+                    I = PTSHEL(IE)
+                    SIGSH(1,I)  = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
-                    SIGSH(2,I) = NIP
-                    SIGSH(3,I) = THK
+                    SIGSH(2,I)  = NIP
+                    SIGSH(3,I)  = THK
                     SIGSH(17,I) = ONE
+                    SIGSH(NVSHELL - 1 , I) = ONE
 C----
                     IF (NPG == 0 .OR. NPG == 1) THEN
                       IG   = IXC(6,IE)
@@ -2577,11 +2586,12 @@ C                     CALL ANCERR(58,ANINFO_BLIND_2)
      .                                     C1='/INISHE/STRA_F',
      .                                     C2='SHELL')
                   ELSE
-                    I=I+1
+                    I = PTSHEL(IE)
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
+                    SIGSH(NVSHELL - 1 , I) = ONE
 !
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !
@@ -2664,7 +2674,7 @@ C---------
      .                                   C1='/INISHE/THICK',
      .                                   C2='SHELL')
                 ELSE
-                  I=I+1
+                  I = PTSHEL(IE)
                   SIGSH(1,I) = ID_ELEM
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(2,I) = 0
@@ -2695,7 +2705,7 @@ C---------
      .                                   C1='/INISHE/EPSP',
      .                                   C2='SHELL')
                 ELSE
-                  I=I+1
+                  I = PTSHEL(IE)
                   SIGSH(1,I) = ID_ELEM
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(2,I) = 0
@@ -2733,12 +2743,13 @@ C---------
                     IHBE = IGEO(10,IG)
                     IGTYP=IGEO(11,IG)
                     IORTSHEL = 1
-                    I=I+1
-                    PT = NVSHELL+NUSHELL
+                    I = PTSHEL(IE)
+                    PT = NVSHELL + NUSHELL
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     IF ( IGTYP == 9) NIP = NINT(GEO(NPROPG*(IG-1)+6))
-                    SIGSH(2,I) = NIP
+                    SIGSH(PT + 4     ,I) = NIP
+                    SIGSH(PT + 5     ,I) = ONE
                     IF( IHBE==12 .OR. IHBE==24) THEN
                       SIGSH(NVSHELL,I) = 4
                     ELSE
@@ -2747,7 +2758,7 @@ C---------
                     SIGSH(PT+1,I) = VX
                     SIGSH(PT+2,I) = VY
                     SIGSH(PT+3,I) = VZ
-                    PT = PT+3
+                    PT = PT + 5
                     IF ( IGTYP == 9 ) THEN
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_1',PHI1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_2',PHI2,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -2804,23 +2815,27 @@ C---------
                     IHBE  = IGEO(10,IG)
                     IGTYP = IGEO(11,IG)
                     IORTSHEL = 2
-                    I=I+1
-                    PT = NVSHELL+NUSHELL+3
-                    SIGSH(1,I) = ID_ELEM
+                    I = PTSHEL(IE)
+                    PT = NVSHELL + NUSHELL
                     ID_SIGSH(I) = ID_ELEM
+                    SIGSH(1,I)  = ID_ELEM
                     IF (IGTYP == 9) NIP = NINT(GEO(NPROPG*(IG-1)+6))
-                    SIGSH(2,I) = NIP
+                    SIGSH(PT + 4,I) = NIP
+                    SIGSH(PT + 5,I) = ONE
                     IF( IHBE==12 .OR. IHBE==24) THEN
                       SIGSH(NVSHELL,I) = 4
                     ELSE
                       SIGSH(NVSHELL,I) = 1
                     ENDIF
 !
+                    PT = PT + 5 
                     IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-                      IPMAT = 300
+                      ISUBSTACK = IWORKSH(3, IE)
+                      NLAY = STACK%IGEO(1,ISUBSTACK)
+                      IPMAT  =  2 + NLAY 
                       IF (NDIR /= 2) THEN
-                        DO JJ = 1,NIP
-                          MLAWLY = NINT(PM(19,IGEO(IPMAT + JJ,IG)))  ! layer material
+                        DO JJ = 1,NLAY ! 
+                          MLAWLY= STACK%IGEO(IPMAT + JJ,ISUBSTACK)! layer material
                           IF (MLAWLY == 58) THEN
                             CALL ANCMSG(MSGID=1126,
      .                                  MSGTYPE=MSGERROR,
@@ -2836,6 +2851,8 @@ C---------
                     CALL HM_GET_FLOAT_ARRAY('phi_i'  ,TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY('alpha_i',TMPVAL2,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
+                    ALLOCATE(MLAW_LY(NIP))
+                    MLAW_LY = 0
                     IF (IGTYP == 9) THEN
                       ANGLE1 = TMPVAL1(1) ! one integration point
                       IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
@@ -2844,19 +2861,39 @@ C---------
                       PT = PT + 2
                     ELSEIF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR.
      .                      IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+                     IF (IGTYP == 51 .OR. IGTYP == 52)THEN
+                        ISUBSTACK = IWORKSH(3, IE) 
+                        NLAY =  STACK%IGEO(1,ISUBSTACK) !                                     
+                        IPMAT  =  2 + NLAY
+                        IPNPT_LAY = IPMAT + 2*NLAY                                    
+                        IF(NLAY /= NIP) THEN
+                          IF(NDRAPE > 0) THEN 
+                           IPT = 0                               
+                           DO JJ =1,NLAY
+                              NSLICE = STACK%IGEO(IPNPT_LAY  + JJ,ISUBSTACK)
+                              DO N = 1, NSLICE
+                                 IPT = IPT + 1
+                                  MLAW_LY(IPT)= STACK%IGEO(IPMAT + JJ,ISUBSTACK)
+                              ENDDO
+                           ENDDO                                                             
+                          ELSE
+                           ! error message
+                          ENDIF 
+                        ELSE
+                          DO JJ =1,NLAY                                                    
+                              MLAW_LY(JJ)= STACK%IGEO(IPMAT + JJ,ISUBSTACK)! layer material 
+                           ENDDO  
+                        ENDIF                                                                
+                      ENDIF 
                       DO JJ = 1,NIP
                         ANGLE1 = TMPVAL1(JJ)
                         ANGLE2 = TMPVAL2(JJ)
                         IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
                         IF(FLAGDEG == 1) ANGLE2 = ANGLE2*PI/HUNDRED80
-!
-                        MLAWLY = 0
-                        IPMAT = 300
-                        IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)
-     .                       MLAWLY = NINT(PM(19,IGEO(IPMAT+JJ,IG)))
+!                      
                         IF (IGTYP == 16 .OR.
-     .                     (IGTYP == 51  .AND. MLAWLY == 58) .OR. 
-     .                     (IGTYP == 52  .AND. MLAWLY == 58) ) THEN
+     .                     (IGTYP == 51  .AND. MLAW_LY(JJ) == 58) .OR. 
+     .                     (IGTYP == 52  .AND. MLAW_LY(JJ) == 58) ) THEN
 !
                           ANGLE2 = ANGLE2 + ANGLE1
                           SIGSH(PT+1,I) = COS(ANGLE1)
@@ -2879,6 +2916,7 @@ C---------
      .                            I2=ID_ELEM,I1=IGEO(1,IG))
                     ENDIF ! IF (IGTYP == 9)
                   ENDIF ! IF (IE == 0) THEN
+                  DEALLOCATE(MLAW_LY)
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
               CASE ( 'SCALE_YLD' )
@@ -2904,7 +2942,7 @@ C---------
      .                                     C1='/INISHE/SCALE_YLD',
      .                                     C2='SHELL')
                   ELSE
-                    I=I+1
+                    I = PTSHEL(IE)
                     SIGSH(NVSHELL + 1,I) = ID_ELEM ! elt ID
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(NVSHELL + 2,I) = NIP ! integ point
@@ -2978,7 +3016,7 @@ C----------
      .                            C3='/INISHE/AUX')
                     ENDIF
 C----------
-                    I=I+1
+                    I = PTSHEL(IE)
                     IUSER    = 1
                     NVARSH = NVSHELL + 4
                     IF (NIP == 0) NIP = 1
@@ -3046,7 +3084,7 @@ C----------
                     NLAY = MAX(1,NLAY)
                     NPT_MAX = MAX(NPTT,NLAY)
                     NVMAX = NVSHELL1 /(MAX(1,NPG)*NPT_MAX*5)
-                    IF (ID_ELEM /= NEM1) I=I+1
+                    IF (ID_ELEM /= NEM1)  I = PTSHEL(IE)
                     NEM1 = ID_ELEM
                     IOK = 0
 !
@@ -3218,12 +3256,13 @@ C---------
      .                                   C2='SH3N')
                 ELSE
 !
-                  I = I + 1 
+                  I = NUMSHEL + PTSH3N(IE)
 !
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(1,I) = ID_ELEM
                   SIGSH(2,I) = NIP
                   SIGSH(3,I) = THK
+                  SIGSH(NVSHELL - 1,I) = ONE
 !
                   IF (NPG <= 1) THEN
 !---
@@ -3318,7 +3357,7 @@ C------------------------------------
                     CALL HM_GET_FLOAT_ARRAY_INDEX('Em',EM,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY_INDEX('Eb',EB,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    I = I + 1
+                     I = NUMSHEL + PTSH3N(IE)
 !
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
@@ -3330,6 +3369,7 @@ C------------------------------------
                     SIGSH(15,I) = ZERO
                     SIGSH(16,I) = ZERO
                     SIGSH(17,I) = ONE
+                    SIGSH(NVSHELL - 1,I) = ONE
 !----
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !----
@@ -3497,8 +3537,8 @@ C---------
                     CALL HM_GET_FLOAT_ARRAY_INDEX('Em',EM,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY_INDEX('Eb',EB,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    I = I + 1
-
+                    I = NUMSHEL + PTSH3N(IE)
+                    !!
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
@@ -3509,6 +3549,7 @@ C---------
                     SIGSH(15,I) = ZERO
                     SIGSH(16,I) = ZERO
                     SIGSH(17,I) = ZERO
+                    SIGSH(NVSHELL - 1,I) = ONE
 !----
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !----
@@ -3646,13 +3687,14 @@ C-------global sys with diff format
      .                                     C1='/INISH3/STRA_F/GLOB',
      .                                     C2='SH3N')
                   ELSE
-                    I=I+1
+                    I = NUMSHEL + PTSH3N(IE)
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
                     SIGSH(17,I) = ONE
                     SIGSH(NVSHELL,I) = MAX(1,NPG)
+                    SIGSH(NVSHELL - 1,I) = ONE
 C----
                     PT = INISHVAR1
                     NPP = NIP
@@ -3709,11 +3751,12 @@ C----
      .                                     C1='/INISH3/STRA_F',
      .                                     C2='SH3N')
                   ELSE
-                    I=I+1
+                    I = NUMSHEL + PTSH3N(IE)
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
+                    SIGSH(NVSHELL - 1,I) = ONE
 !
                     IF (NPG == 0 .OR. NPG == 1) THEN
 !
@@ -3790,7 +3833,7 @@ C---------
      .                                   C1='/INISH3/THICK',
      .                                   C2='SHELL')
                 ELSE
-                  I=I+1
+                  I = NUMSHEL + PTSH3N(IE)
                   SIGSH(1,I) = ID_ELEM
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(2,I) = 0
@@ -3820,7 +3863,7 @@ C---------
      .                                   C1='/INISH3/EPSP',
      .                                   C2='INISH3')
                 ELSE
-                  I=I+1
+                  I = NUMSHEL + PTSH3N(IE)
                   SIGSH(1,I) = ID_ELEM
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(2,I) = 0
@@ -3858,12 +3901,12 @@ C---------
                     ISH3N = IGEO(18,IG)
                     IGTYP=IGEO(11,IG)
                     IORTSHEL = 1
-                    I=I+1
+                    I = NUMSHEL + PTSH3N(IE)
                     PT = NVSHELL+NUSHELL
-                    SIGSH(1,I) = ID_ELEM
+                   !! SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     IF ( IGTYP == 9) NIP = NINT(GEO(NPROPG*(IG-1)+6))
-                    SIGSH(2,I) = NIP
+                      SIGSH(PT + 4,I) = NIP  
                     IF( ISH3N == 30 ) THEN
                       SIGSH(NVSHELL,I) = 3
                     ELSE
@@ -3872,7 +3915,7 @@ C---------
                     SIGSH(PT+1,I) = VX
                     SIGSH(PT+2,I) = VY
                     SIGSH(PT+3,I) = VZ
-                    PT = PT+3
+                    PT = PT+4
                     IF ( IGTYP == 9 ) THEN
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_1',PHI1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY_INDEX('phi_2',PHI2,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -3929,23 +3972,28 @@ C---------
                     ISH3N = IGEO(18,IG)
                     IGTYP = IGEO(11,IG)
                     IORTSHEL = 2
-                    I=I+1
-                    PT = NVSHELL+NUSHELL+3
+                    I = NUMSHEL + PTSH3N(IE)
+                    PT = NVSHELL + NUSHELL 
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
                     IF (IGTYP == 9) NIP = NINT(GEO(NPROPG*(IG-1)+6))
-                    SIGSH(2,I) = NIP
+                    SIGSH(PT + 4 ,I) = NIP
+                    SIGSH(PT + 5,I)  = ONE
                     IF (ISH3N == 30) THEN
                       SIGSH(NVSHELL,I) = 3
                     ELSE
                       SIGSH(NVSHELL,I) = 1
                     ENDIF
+                    SIGSH(17, I) = -ONE
+                    PT = PT + 5 
 !
                     IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-                      IPMAT = 300
+                          ISUBSTACK = IWORKSH(3, NUMELC + IE)
+                          NLAY = STACK%IGEO(1,ISUBSTACK)
+                          IPMAT  =  2 + NLAY 
                       IF (NDIR /= 2) THEN
-                        DO JJ = 1,NIP
-                          MLAWLY = NINT(PM(19,IGEO(IPMAT + JJ,IG)))  ! layer material
+                        DO JJ = 1,NLAY
+                          MLAWLY= STACK%IGEO(IPMAT + JJ,ISUBSTACK)  ! layer material
                           IF (MLAWLY == 58) THEN
                             CALL ANCMSG(MSGID=1126,
      .                                  MSGTYPE=MSGERROR,
@@ -3957,6 +4005,8 @@ C---------
                       ENDIF
                     ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
 !
+                    ALLOCATE(MLAW_LY(NIP))
+                    MLAW_LY = 0
                     SIZE = NIP
                     CALL HM_GET_FLOAT_ARRAY('phi_i'  ,TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY('alpha_i',TMPVAL2,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -3969,19 +4019,39 @@ C---------
                       PT = PT + 2
                     ELSEIF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR.
      .                      IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+                      IF (IGTYP == 51 .OR. IGTYP == 52)THEN
+                        ISUBSTACK = IWORKSH(3, NUMELC + IE)
+                        NLAY =  STACK%IGEO(1,ISUBSTACK) !                                     
+                        IPMAT  =  2 + NLAY
+                        IPNPT_LAY = IPMAT + 2*NLAY      
+                        IF(NLAY /= NIP) THEN
+                          IF(NDRAPE > 0) THEN 
+                           IPT = 0                               
+                           DO JJ =1,NLAY
+                              NSLICE = STACK%IGEO(IPNPT_LAY  + JJ,ISUBSTACK)
+                              DO N = 1, NSLICE
+                                 IPT = IPT + 1
+                                  MLAW_LY(IPT)= STACK%IGEO(IPMAT + JJ,ISUBSTACK)
+                              ENDDO
+                           ENDDO                                                             
+                          ELSE
+                           ! error message
+                          ENDIF ! ndrape
+                        ELSE
+                          DO JJ =1,NLAY                                                    
+                              MLAW_LY(JJ)= STACK%IGEO(IPMAT + JJ,ISUBSTACK)! layer material 
+                           ENDDO  
+                        ENDIF                                                                
+                      ENDIF    
                       DO JJ = 1,NIP
                         ANGLE1 = TMPVAL1(JJ)
                         ANGLE2 = TMPVAL2(JJ)
                         IF(FLAGDEG == 1) ANGLE1 = ANGLE1*PI/HUNDRED80
                         IF(FLAGDEG == 1) ANGLE2 = ANGLE2*PI/HUNDRED80
 !
-                        MLAWLY = 0
-                        IPMAT = 300
-                        IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)
-     .                       MLAWLY = NINT(PM(19,IGEO(IPMAT+JJ,IG)))
                         IF (IGTYP == 16 .OR.
-     .                     (IGTYP == 51  .AND. MLAWLY == 58) .OR. 
-     .                     (IGTYP == 52  .AND. MLAWLY == 58) ) THEN
+     .                     (IGTYP == 51  .AND. MLAW_LY(JJ) == 58) .OR. 
+     .                     (IGTYP == 52  .AND. MLAW_LY(JJ) == 58) ) THEN
 !
                           ANGLE2 = ANGLE2 + ANGLE1
                           SIGSH(PT+1,I) = COS(ANGLE1)
@@ -4006,6 +4076,7 @@ C---------
      .                            I2=ID_ELEM,I1=IGEO(1,IG))
                     ENDIF ! IF (IGTYP == 9)
                   ENDIF ! IF (IE == 0) THEN
+                  DEALLOCATE(MLAW_LY )
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
               CASE ( 'SCALE_YLD' )
@@ -4031,7 +4102,7 @@ C---------
      .                                     C1='/INISH3/SCALE_YLD',
      .                                     C2='SH3N')
                   ELSE
-                    I=I+1
+                    I = NUMSHEL + PTSH3N(IE)
                     SIGSH(NVSHELL + 1,I) = ID_ELEM ! elt ID
                     ID_SIGSH(I) = ID_ELEM
                     SIGSH(NVSHELL + 2,I) = NIP ! integ point
@@ -4103,7 +4174,7 @@ C----------
      .                            C3='/INISH3/AUX')
                     ENDIF
 C----------
-                    I=I+1
+                    I = NUMSHEL + PTSH3N(IE)
                     IUSER    = 1
                     NVARSH = NVSHELL + 4
                     IF (NIP == 0) NIP = 1
@@ -4166,8 +4237,9 @@ C----------
                     NLAY = MAX(1,NLAY)
                     NPT_MAX = MAX(NPTT,NLAY)
                     NVMAX = NVSHELL1 /(MAX(1,NPG)*NPT_MAX*5)
-                    IF (ID_ELEM /= NEM1) I=I+1
+                    !!IF (ID_ELEM /= NEM1) I = PTSH3N(IE)
                     NEM1 = ID_ELEM
+                    I = NUMSHEL + PTSH3N(IE)
                     IOK = 0
 !
                     DO K=1,NUMMAT

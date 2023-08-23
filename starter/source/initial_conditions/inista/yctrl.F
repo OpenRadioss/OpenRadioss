@@ -75,9 +75,9 @@ C=======================================================================
       NUMBEAM=0
       NUMSPRI=0
       NUMSH3N=0
-      NVSHELL0   = 32
+      NVSHELL0   = 33
       NUSHELL0   = 4 
-      NORTSHEL0  = 3 
+      NORTSHEL0  = 5 
       NVAR_SHELL = 0
       NUBEAM0 = 4
       NUBEAM  = 0
