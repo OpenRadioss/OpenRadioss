@@ -267,7 +267,7 @@ Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
       SUBROUTINE DDSPLIT(
-     1   P            ,CEP          ,CEL           ,IGEO         ,MATPARAM_TAB,
+     1   P            ,CEP          ,CEL           ,IGEO          ,MAT_ELEM    ,
      2   IPM          ,ICODE        ,ISKEW          ,ISKN         ,INSEL       ,
      3   IBCSLAG      ,IPART        ,IPARTS         ,IPARTQ       ,IPARTC      ,
      4   IPARTT       ,IPARTP       ,IPARTR         ,IPARTTG     ,
@@ -369,7 +369,7 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE INTSTAMP_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE MESSAGE_MOD
       USE FRONT_MOD
       USE CLUSTER_MOD
@@ -388,8 +388,6 @@ C-----------------------------------------------
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
       USE SKEW_MOD
-      USE MATPARAM_DEF_MOD
-      USE GROUP_PARAM_MOD
       USE SPLIT_CFD_MOD
       USE PINCHTYPE_MOD
       USE INOUTFILE_MOD
@@ -770,7 +768,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: NODGLOBXFE
 
       TYPE(INTBUF_STRUCT_),DIMENSION(:),ALLOCATABLE :: INTBUF_TAB_L
-      TYPE(MATPARAM_STRUCT_)  ,DIMENSION(NUMMAT)    :: MATPARAM_TAB
+      TYPE(MAT_ELEM_) ,INTENT(IN) :: MAT_ELEM
       TYPE(GROUP_PARAM_)      ,DIMENSION(NGROUP)    :: GROUP_PARAM_TAB
 C-----------------------------------------------
 C     For Meshgems
@@ -2731,7 +2729,7 @@ C--------------------------------------------
       CALL WRITE_DB(PM,NPROPM*NUMMAT)
       LEN_AM = LEN_AM + NPROPM*NUMMAT
 c
-      CALL WRITE_MATPARAM(MATPARAM_TAB,NUMMAT,LEN)
+      CALL WRITE_MATPARAM(MAT_ELEM,LEN)
       LEN_AM = LEN_AM + LEN
 C--------------------------------------
 C ELGROUP_PARAM

@@ -10632,7 +10632,7 @@ c
 
 
           CALL DDSPLIT(
-     1         P            ,CEP         ,CEL            ,IGEO        ,MAT_ELEM%MAT_PARAM,
+     1         P            ,CEP         ,CEL            ,IGEO        ,MAT_ELEM   ,
      2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
      3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
      4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG     ,

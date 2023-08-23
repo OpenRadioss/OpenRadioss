@@ -145,8 +145,8 @@ Chd|====================================================================
       MODULE MATPARAM_DEF_MOD
 c
       USE TABLE_MOD
-      USE FAIL_PARAM_MOD
       USE VISC_PARAM_MOD
+      USE FAIL_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
@@ -156,19 +156,16 @@ c allocatable dimension : NUMMAT
 c=======================================================================      
 c
       ! list of index values for IPM   (integer array)
-!      INTEGER ,PARAMETER  :: IPM_ISRATE = 3
-!      INTEGER ,PARAMETER  :: IPM_EXPAN  = 218
-!      INTEGER ,PARAMETER  :: IPM_VISC   = 222
-!      INTEGER ,PARAMETER  :: IPM_MATVIS = 222
-!      INTEGER ,PARAMETER  :: IPM_THE    = 21
-!      INTEGER ,PARAMETER  :: IPM_EOS    =
-!      INTEGER ,PARAMETER  :: IPM_TUR    =
-!      INTEGER ,PARAMETER  :: IPM_ALE    =
-!      INTEGER ,PARAMETER  :: IPM_NLOC   =
-!      INTEGER ,PARAMETER  :: IPM_FAILWAVE=
-!      INTEGER ,PARAMETER  :: IPM_XFEM   =
-!      INTEGER ,PARAMETER  :: IPM_ALEFVM =
-!      INTEGER ,PARAMETER  :: IPM_FORMDT =
+!      INTEGER ,PARAMETER  :: IPM_ISRATE  = 3
+!      INTEGER ,PARAMETER  :: IPM_EXPAN   = 218
+!      INTEGER ,PARAMETER  :: IPM_VISC    = 222
+!      INTEGER ,PARAMETER  :: IPM_MATVIS  = 222
+!      INTEGER ,PARAMETER  :: IPM_THE     = 21
+!      INTEGER ,PARAMETER  :: IPM_EOS     =
+!      INTEGER ,PARAMETER  :: IPM_TUR     =
+!      INTEGER ,PARAMETER  :: IPM_ALE     =
+!      INTEGER ,PARAMETER  :: IPM_ALEFVM  =
+!      INTEGER ,PARAMETER  :: IPM_FORMDT  =
 c      
       ! list of index values for PM   (real array)
 !      INTEGER ,PARAMETER  :: PM_RHO    = 1
@@ -187,16 +184,14 @@ c
 !      INTEGER ,PARAMETER  :: PM_G      =
 !      INTEGER ,PARAMETER  :: PM_NU1    =
 !      INTEGER ,PARAMETER  :: PM_STIFF  =
-!      ! size of PM and IPM arrays 
-!      INTEGER ,PARAMETER  :: NPROPM  = 
-!      INTEGER ,PARAMETER  :: NPROPMI = 
+c
 c-----------------------------------------------------------------------      
 c
       TYPE MATPARAM_STRUCT_
       
+        CHARACTER(LEN=NCHARTITLE) :: TITLE  ! Material law title
         INTEGER     :: ILAW                 ! Material law number (type)    
         INTEGER     :: MAT_ID               ! Material law ID   
-        CHARACTER(LEN=NCHARTITLE) :: TITLE  ! Material law title
         INTEGER     :: NUPARAM              ! number of real value material paraameters
         INTEGER     :: NIPARAM              ! number of int value material parameters
         INTEGER     :: NFUNC                ! number of local functions in material
@@ -213,23 +208,21 @@ c
         INTEGER     :: IPRES                ! "hydrostatic",hydro_eos","hook"
         INTEGER     :: ORTHOTROPY           ! "isotropic", "orthotropic", "anisotropic"
         ! --------------------------------- !  
+        INTEGER     :: NLOC                 ! non-local variable regularization flag
+        INTEGER     :: IFAILWAVE            ! failwave propagation flag
+        INTEGER     :: IXFEM                ! XFEM flag
 c                        
-        my_real  ,DIMENSION(:) ,ALLOCATABLE :: UPARAM           ! NUPARAM
-        my_real  ,DIMENSION(:) ,ALLOCATABLE :: PM               ! NPROPM
-
-        INTEGER  ,DIMENSION(:) ,ALLOCATABLE :: IPARAM           ! NIPARAM
-        INTEGER  ,DIMENSION(:) ,ALLOCATABLE :: IPM              ! NPROPMI
-c
-        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IFUNC       ! local functions
+        my_real       ,DIMENSION(:) ,ALLOCATABLE :: UPARAM      ! NUPARAM
+        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IPARAM      ! NIPARAM
+        TYPE (TFUNC_) ,DIMENSION(:) ,ALLOCATABLE :: FUNC        ! local functions
         TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE       ! local function tables
 c                
-        TYPE (FAIL_PARAM_) ,DIMENSION(:) ,ALLOCATABLE :: FAIL   ! NFAIL
+        TYPE (FAIL_PARAM_) ,DIMENSION(:) ,ALLOCATABLE :: FAIL   ! failure models (NFAIL)
         TYPE (VISC_PARAM_)                            :: VISC   ! viscosity model          
 
 c        TYPE (EOS_PARAM_)    :: EOS      ! to be defined      
 c        TYPE (THERM_PARAM_)  :: THERM    ! to be defined          
-
-        ! TYPE (SUBMAT_)     ,DIMENSION(:) ,ALLOCATABLE :: SUBMAT  ! multi materials
+c        TYPE (SUBMAT_)  ,DIMENSION(:) ,ALLOCATABLE :: SUBMAT   ! multi materials
 
       END TYPE MATPARAM_STRUCT_
 c
