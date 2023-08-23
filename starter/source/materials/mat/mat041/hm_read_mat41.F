@@ -129,6 +129,8 @@ C-----------------------------------------------
 !     Automatic Allocation for Elem Buffer : Burn Fraction
       MTAG%G_BFRAC  = 1
       MTAG%L_BFRAC  = 1
+      MTAG%G_TEMP  = 1
+      MTAG%L_TEMP  = 1
              
 !     Initial and reference density
       CALL HM_GET_FLOATV('MAT_RHO', RHO0, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -171,8 +173,8 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('y_', Y_, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('c_', C_, IS_AVAILABLE, LSUBMODEL, UNITAB)
                                      
-      CALL HM_GET_FLOATV('Kn', CAPPA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('chi', CHI, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('kappa', CAPPA, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('khi', CHI, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_Tol', TOL, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('g2', G2, IS_AVAILABLE, LSUBMODEL, UNITAB)

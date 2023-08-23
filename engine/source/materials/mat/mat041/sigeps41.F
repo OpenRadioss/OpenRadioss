@@ -40,7 +40,8 @@ Chd|====================================================================
      7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,DELTVOL ,BFRAC)
+     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,DELTVOL ,BFRAC  ,
+     B     TEMP)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -154,7 +155,7 @@ C-----------------------------------------------
      .    SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .    SIGVXX(NEL),SIGVYY(NEL),SIGVZZ(NEL),
      .    SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
-     .    SOUNDSP(NEL),VISCMAX(NEL),EINT(NEL),BFRAC(NEL)
+     .    SOUNDSP(NEL),VISCMAX(NEL),EINT(NEL),BFRAC(NEL),TEMP(NEL)
 
       my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR), OFF(NEL)
 
@@ -182,12 +183,13 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       if (TIME == ZERO) then
         do i=1,nel
-          uvar(i,1) = ZERO
-          uvar(i,3) = uparam(14)
-          uvar(i,4) = ONE
-          uvar(i,5) = ZERO
-          uvar(i,6) = ZERO
-          uvar(i,7) = ONE
+          uvar(i,1) = ZERO       ! Burn Fraction (F)
+          uvar(i,2) = uparam(39) ! temperature
+          uvar(i,3) = uparam(14) ! cv mixture, volumetric heat capacity (SI: J/m3/K)
+          uvar(i,4) = ONE        ! relative volume
+          uvar(i,5) = ZERO       ! dedv
+          uvar(i,6) = ZERO       ! eta_p (eta:=rho/rho0)
+          uvar(i,7) = ONE        ! eta_r (eta:=rho/rho0)
         enddo
       endif
 
@@ -241,8 +243,8 @@ c
           UVAR(I, 1) = UVAR(I, 1) / MT
           UVAR(I, 1) = MAX(ZERO, MIN(UVAR(I, 1), ONE))
         ENDIF
-        fc   = uvar(i,1) ! F function (no unit)
-        cv   = uvar(i,3) ! volumetric heat capacity (SI: J/m3/K)
+        fc   = uvar(i,1)  ! F function (no unit)
+        cv   = uvar(i,3)  ! volumetric heat capacity (SI: J/m3/K)
         tmp  = uparam(39) ! temperature K
         if(TIME > ZERO .AND. mt > EM20) tmp  = EINT(I)/(mt*cv)
         dvol_rel = vol_rel - uvar(i,4)
@@ -257,7 +259,7 @@ c  initi
 c
 c  hydrodynamic state (pass 1)
         tem1 = (pres+dedv+artvisc) / cv  ! (Cv  SI:J/m3/K = Pa/K)
-        tmp = tmp - tem1*dvol_rel          ! (Cv  SI:J/m3/K = Pa/K)
+        tmp = tmp - tem1*dvol_rel
         heat=ZERO
         dpdmu=ZERO
         dpde=ZERO
@@ -268,7 +270,7 @@ c  hydrodynamic state (pass 1)
 c
 c  hydrodynamic state (pass 2)
         tem2 = (pres+dedv+artvisc) / cv          ! (Cv  SI:J/m3/K = Pa/K)
-        tmp = tmp - HALF*(tem2-tem1)*dvol_rel    ! (Cv  SI:J/m3/K = Pa/K)
+        tmp = tmp - HALF*(tem2-tem1)*dvol_rel
         CALL MIXTURE_EQUILIBRIUM(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dpdmu,dpde,epsil,ftol,itrmax,enq,
@@ -310,16 +312,17 @@ c       material buffer
         uvar(i,3) = cv
         uvar(i,4) = vol_rel
         uvar(i,5) = dedv
-        uvar(i,6) = etap
-        uvar(i,7) = etar
+        uvar(i,6) = etap !products:rho_p/rho0_p
+        uvar(i,7) = etar !reagents:rho_r/rho0_r
 C       Burn fraction
-        uvar(i,8) = ONE - beta
-        BFRAC = ONE - beta
+        BFRAC(I) = fc ! burn fraction (function F)
+        uvar(i,8) = ONE - beta !volume fraction of products
 C       energie released by the reaction = D(energie totale) - (-P.DV)
         er=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)  !misunderstanding between volumetric heat capacity (J/m3/K = Pa/K) and heat capacity(J/K) ? law41 to be verified.
         TFEXTT=TFEXTT+er-EINT(I)
         EINT(I)=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)
 C       EINT(I)=EINT(I)-0.5*(pres+pold)*DELTVOL(I) done in mulaw.
+        TEMP(I) = tmp !temperature
       enddo
 c
 #include "atomic.inc"
@@ -372,13 +375,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------
+      cburn = ZERO
       if (pres <= ZERO) return              !no rate to calculate for material expansion
       if (artvisc >= (cappa*pres)) return   !
       if (fc == ONE) return                 !everything alread reacted, 100% products, Fc remains 1.00
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      cburn = ZERO
 c     ignition term
       ratei = I_ * (ONE -fc)**B_ * (etar-ONE)**X_
       if ((etar - ONE) <= ZERO) ratei=ZERO
@@ -395,7 +398,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 
-C-----------------------------------------------
 Chd|====================================================================
 Chd|  BURN_FRACTION_IREAC2          source/materials/mat/mat041/sigeps41.F
 Chd|-- called by -----------
@@ -436,14 +438,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real ratei,rateg,rateg1,rateg2,dfci,dfcg,grow1
 C-----------------------------------------------
-C   S o u r c e   L i n e s
+C   P r e c o n d i t i o n s
 C-----------------------------------------------
-c   initi.
       cburn = ZERO
       if (pres <= ZERO) return
       if (fc == ONE) return
       if (artvisc >= (cappa*pres)) return
       if (fc <= Figmax) then
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
        ! ignition term
         ratei = I_ * (ONE-fc+tol)**B_ * abs(etar-ONE-ccrit)**X_
         if ((etar- ONE -ccrit)<=ZERO) ratei = ZERO
@@ -470,7 +474,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 
 
-C-----------------------------------------------
 Chd|====================================================================
 Chd|  MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|-- called by -----------
@@ -674,7 +677,7 @@ c    dedv = de/dv (for constant T & fc values)
 c    cv = de/dT(for constant V & fc values)
       cvr0 = cvr + dedr*detrdt
       cvp0 = cvp + dedp*detpdt
-      cv = fc1*cvr0 + fc*cvp0
+      cv = fc1*cvr0 + fc*cvp0 !cv mixture
 c    heat = -de/d(fc) (for constant T & V values)
       heat = enq-enp+enr - fc*dedp*detpdf-fc1*dedr*detrdf
 c    dpde = dp/de (for constant V & fc values)
@@ -751,7 +754,7 @@ Chd|        FTNCH                         source/materials/mat/mat041/sigeps41.F
 Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE JWL_EOS_STATE(a,b,r1,r2 ,r3,cv ,eta,tmp,dedv,p,bth,dpdt,en )
+      SUBROUTINE JWL_EOS_STATE(a,b,r1,r2 ,r3,cv ,eta,tmp,dedv,p,bth,dpdt,en)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
