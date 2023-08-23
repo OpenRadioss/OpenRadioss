@@ -27,11 +27,11 @@ Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.
 Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_MATPARAM(MAT_PARAM,NUMMAT)
+      SUBROUTINE INI_MAT_ELEM(MAT_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD
+      USE MAT_ELEM_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,40 +39,44 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUMMAT
-      TYPE(MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MAT_PARAM
+      TYPE(MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMAT
 C=======================================================================
-      DO IMAT=1,NUMMAT
-        MAT_PARAM(IMAT)%ILAW    = 0
-        MAT_PARAM(IMAT)%MAT_ID  = 0
-        MAT_PARAM(IMAT)%NUPARAM = 0              ! number of real value material paraameters
-        MAT_PARAM(IMAT)%NIPARAM = 0              ! number of int value material parameters
-        MAT_PARAM(IMAT)%NFUNC   = 0              ! number of local functions in material
-        MAT_PARAM(IMAT)%NTABLE  = 0              ! number of local function tables
-        MAT_PARAM(IMAT)%NSUBMAT = 0              ! number of submaterials (multi-mat law51)
-        MAT_PARAM(IMAT)%NFAIL   = 0              ! number of failure models
-        MAT_PARAM(IMAT)%IVISC   = 0              ! viscosity model number
-        MAT_PARAM(IMAT)%IEOS    = 0              ! eos model number
-        MAT_PARAM(IMAT)%ITHERM  = 0              ! therm model number
+      DO IMAT = 1,MAT_ELEM%NUMMAT
+        MAT_ELEM%MAT_PARAM(IMAT)%ILAW    = 0             ! material law number(type)
+        MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID  = 0             ! material law ID
+        MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM = 0             ! number of real value material paraameters
+        MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM = 0             ! number of int value material parameters
+        MAT_ELEM%MAT_PARAM(IMAT)%NFUNC   = 0             ! number of local functions in material
+        MAT_ELEM%MAT_PARAM(IMAT)%NTABLE  = 0             ! number of local function tables
+        MAT_ELEM%MAT_PARAM(IMAT)%NSUBMAT = 0             ! number of submaterials (multi-mat law51)
+        MAT_ELEM%MAT_PARAM(IMAT)%NFAIL   = 0             ! number of failure models
+        MAT_ELEM%MAT_PARAM(IMAT)%IVISC   = 0             ! viscosity model number
+        MAT_ELEM%MAT_PARAM(IMAT)%IEOS    = 0             ! eos model number
+        MAT_ELEM%MAT_PARAM(IMAT)%ITHERM  = 0             ! therm model number
 c
-        MAT_PARAM(IMAT)%COMPRESSIBILITY    = 3   ! elsto_plastic
-        MAT_PARAM(IMAT)%SMSTR              = 2   ! large strain
-        MAT_PARAM(IMAT)%STRAIN_FORMULATION = 1   ! incremental
-        MAT_PARAM(IMAT)%IPRES              = 1   ! hydrostatic using AMU
-        MAT_PARAM(IMAT)%ORTHOTROPY         = 1   ! isotropic
+        MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY    = 3  ! elsto_plastic
+        MAT_ELEM%MAT_PARAM(IMAT)%SMSTR              = 2  ! large strain
+        MAT_ELEM%MAT_PARAM(IMAT)%STRAIN_FORMULATION = 1  ! incremental
+        MAT_ELEM%MAT_PARAM(IMAT)%IPRES              = 1  ! hydrostatic using AMU
+        MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY         = 1  ! isotropic
 c
-c       init viscosity models
+        MAT_ELEM%MAT_PARAM(IMAT)%NLOC         = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE    = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%IXFEM        = 0
 c
-        MAT_PARAM(IMAT)%VISC%ILAW    = 0
-        MAT_PARAM(IMAT)%VISC%NUPARAM = 0
-        MAT_PARAM(IMAT)%VISC%NIPARAM = 0
-        MAT_PARAM(IMAT)%VISC%NUVAR   = 0
-        MAT_PARAM(IMAT)%VISC%NFUNC   = 0
-        MAT_PARAM(IMAT)%VISC%NTABLE  = 0
+c       initialize viscosity parameters
+c
+        MAT_ELEM%MAT_PARAM(IMAT)%VISC%ILAW    = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%VISC%NUPARAM = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%VISC%NIPARAM = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%VISC%NUVAR   = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%VISC%NFUNC   = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%VISC%NTABLE  = 0
+c        
       END DO
 c-----------
       RETURN

@@ -38,9 +38,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE HM_READ_VISC(
-     .           MAT_PARAM   ,IPM      ,PM         ,BUFMAT      ,
-     .           BUFLEN      ,IADBUF   ,UNITAB   ,LSUBMODEL  ,TABLE       )
+      SUBROUTINE HM_READ_VISC(MAT_PARAM   ,IPM        ,BUFMAT      ,
+     .                        UNITAB      ,LSUBMODEL  ,TABLE       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,10 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER :: BUFLEN,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT)    ,INTENT(INOUT) :: IPM
-
-      my_real ,DIMENSION(NPROPM ,NUMMAT)    ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(*)                 ,INTENT(INOUT) :: BUFMAT
       TYPE(SUBMODEL_DATA) ,DIMENSION(*)     ,INTENT(IN)    :: LSUBMODEL
       TYPE(TTABLE) TABLE(NTABLE)
@@ -79,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NV,IMAT,MAT_ID,IMID,ILAW,IVISC,UID,IUNIT,FLAGUNIT,
+      INTEGER I,NV,IMAT,MAT_ID,IMID,ILAW,IVISC,UID,IUNIT,FLAGUNIT,
      .   N_NET,IADD,HM_NVISC,FLAGMAT,IMATVIS
       CHARACTER KEY*ncharkey
 c======================================================================-       
