@@ -548,7 +548,8 @@ C
          SIGSH(2,I) = NIP
          SIGSH(3,I) = THKI
          SIGSH(4,I) = EM
-         SIGSH(5,I) = EB
+         SIGSH(5,I) = EB 
+         SIGSH(NVSHELL - 1,I) = ONE
         IF (NPG == 0.OR.NPG == 1)THEN
          SIGSH(14,I) = H1
          SIGSH(15,I) = H2
@@ -650,7 +651,8 @@ C
        IF(LINE(1:1) == '/')GOTO 360
          J=J+1
          I=I+1
-         IF(J>NUMSHEL+NUMSH3N) GOTO 360
+         IF(J> NUMSHEL+NUMSH3N) GOTO 360
+         SIGSH(NVSHELL - 1,I) = ONE
          IF (IOUTP_FMT == 2) THEN
            READ(LINE,'(6F12.0)')SIGSH(6,I),SIGSH(7,I),SIGSH(8,I),
      .                          SIGSH(9,I),SIGSH(10,I),SIGSH(27,I)
@@ -686,6 +688,7 @@ C
          J=J+1
          I=I+1
          IF(J>NUMSHEL+NUMSH3N) GOTO 520
+         SIGSH(NVSHELL - 1,I) = ONE
          IF (IOUTP_FMT == 2) THEN
            READ(LINE,FMT='(6F12.0)')SIGLOC
          ELSE

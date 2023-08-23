@@ -106,16 +106,17 @@ C=======================================================================
       DO I=1,8
         KK(I) = NEL*(I-1)
       ENDDO
-!
+!       
       IF (IHBE == 23) NPG=4
       DO I=JFT,JLT
         IF (ABS(ISIGI) /= 3.AND.ABS(ISIGI) /= 4.AND.ABS(ISIGI) /= 5)THEN
-          II = I+NFT
+          II = PTSH(I + NFT)
+          IF(II == 0) GOTO 100
           N = NINT(SIGSH(1,II))
-          IF (N /= IX(NIX,II)) THEN
-            JJ = II
+          IF (N /= IX(NIX,I + NFT)) THEN
+            JJ = I + NFT
             DO J = 1,NUMEL
-              II= J
+              II = J
               N = NINT(SIGSH(1,II))
               IF (N == 0) GOTO 100
               IF (N == IX(NIX,JJ)) GOTO 60
@@ -129,6 +130,7 @@ C=======================================================================
           IF (II == 0) GOTO 100
         ENDIF
         LI(I) = II
+        IF(SIGSH(NVSHELL - 1 ,II) == ZERO ) CYCLE
         NPTI=NINT(SIGSH(2,II))
         NPGI=NINT(SIGSH(NVSHELL,II))
         IF (SIGSH(3,II) /= ZERO) THEN
@@ -139,30 +141,33 @@ C=======================================================================
         EINT(I,2)=SIGSH(5,II)
 C for IGTYP == 51, NPT now =NPTI
         IF (NPT /= NPTI .OR. NPG /= NPGI) THEN
-          IPID1=IX(NIX-1,NFT+I) 
-          PID1=IGEO(1,IPID1)
-          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
-          IF (NPT >0 .AND. NPTI==0) THEN
+             IPID1=IX(NIX-1,NFT+I) 
+             PID1=IGEO(1,IPID1)
+             CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
+             IF (NPT > 0 .AND. NPTI == 0) THEN
 C----limite number of error out
-            IF (IPG<=1) CALL ANCMSG(MSGID=2020,
-     .                ANMODE=ANINFO,
-     .                MSGTYPE=MSGERROR,
-c     .                C1=TITR,
-     .                I1=PID1,
-     .                I2=N,
-     .                PRMOD=MSG_CUMU)
-          ELSE
-            CALL ANCMSG(MSGID=26,
-     .                ANMODE=ANINFO,
-     .                MSGTYPE=MSGERROR,
-     .                C1=TITR,
-     .                I1=PID1,
-     .                I2=N)
-          ENDIF
+               IF (IPG<=1) then 
+                   CALL ANCMSG(MSGID=2020,
+     .                   ANMODE=ANINFO,
+     .                   MSGTYPE=MSGERROR,
+c     .                   C1=TITR,
+     .                   I1=PID1,
+     .                   I2=N,
+     .                   PRMOD=MSG_CUMU)
+              ENDIF
+             ELSE
+               CALL ANCMSG(MSGID=26,
+     .                   ANMODE=ANINFO,
+     .                   MSGTYPE=MSGERROR,
+     .                   C1=TITR,
+     .                   I1=PID1,
+     .                   I2=N)
+
+             ENDIF
         ENDIF
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
 C--- reading in another routine for QEPH 
-          IF(SIGSH(17,II) == ONE.AND.IHBE /= 23)THEN
+          IF(SIGSH(17,II) == ONE .AND. IHBE /= 23)THEN
             PT = INISHVAR1          
             IF(NPGI <= 1.OR.IHBE == 23)THEN
              IF (NPTI==1) THEN
@@ -643,11 +648,11 @@ c---
             MOM(I,1)=SIGSH(PT+6,II)
             MOM(I,2)=SIGSH(PT+7,II)
             MOM(I,3)=SIGSH(PT+8,II)
-          ELSE  !  NPT /= 0
+          ELSE  !  NPT /= 0       
             PT = 22 + 6*(IPG -1)
             DO ILAY=1,NLAY
               NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-              L_PLA = ELBUF_STR%BUFLY(ILAY)%L_PLA
+              L_PLA = ELBUF_STR%BUFLY(ILAY)%L_PLA 
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 LBUF%SIG(KK(1)+I) = SIGSH(PT,II)
