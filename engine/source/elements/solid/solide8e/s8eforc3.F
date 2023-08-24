@@ -109,24 +109,28 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE S8EFORC3(ELBUF_TAB,NG     ,
-     1                    PM       ,GEO    ,IXS     ,X       ,
-     2                    A        ,V      ,MS      ,W       ,FLUX    ,
-     3                    FLU1     ,VEUL   ,FV      ,ALE_CONNECT   ,IPARG   ,
-     4                    TF       ,NPF    ,BUFMAT  ,PARTSAV ,NLOC_DMG,
-     5                    DT2T     ,NELTST ,ITYPTST ,STIFN   ,FSKY    ,
-     6                    IADS     ,OFFSET ,EANI    ,IPARTS  ,ICP     ,
-     7                    F11      ,F21    ,F31     ,F12     ,F22     ,
-     8                    F32      ,F13    ,F23     ,F33     ,F14     ,
-     9                    F24      ,F34    ,F15     ,F25     ,F35     ,
-     A                    F16      ,F26    ,F36     ,F17     ,F27     ,
-     B                    F37      ,F18    ,F28     ,F38     ,NEL     ,
-     C                    NVC      ,IPM    ,ITASK   ,ISTRAIN ,
-     D                    TEMP     ,FTHE   ,FTHESKY ,IEXPAN  ,GRESAV  ,
-     E                    GRTH     ,IGRTH  ,MSSA    ,DMELS   ,TABLE   ,
-     F                    IGEO     ,XDP    ,VOLN    ,CONDN   ,CONDNSKY,
-     G                    D        ,SENSORS,IOUTPRT ,MAT_ELEM,H3D_STRAIN,
-     H                    DT   )
+      SUBROUTINE S8EFORC3(
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          A,          V,
+     3   MS,         W,          FLUX,       FLU1,
+     4   VEUL,       FV,         ALE_CONNECT,IPARG,
+     5   TF,         NPF,        BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
+     7   STIFN,      FSKY,       IADS,       OFFSET,
+     8   EANI,       IPARTS,     ICP,        F11,
+     9   F21,        F31,        F12,        F22,
+     A   F32,        F13,        F23,        F33,
+     B   F14,        F24,        F34,        F15,
+     C   F25,        F35,        F16,        F26,
+     D   F36,        F17,        F27,        F37,
+     E   F18,        F28,        F38,        NEL,
+     F   NVC,        IPM,        ITASK,      ISTRAIN,
+     G   TEMP,       FTHE,       FTHESKY,    IEXPAN,
+     H   GRESAV,     GRTH,       IGRTH,      MSSA,
+     I   DMELS,      TABLE,      IGEO,       XDP,
+     J   VOLN,       CONDN,      CONDNSKY,   D,
+     K   SENSORS,    IOUTPRT,    MAT_ELEM,   H3D_STRAIN,
+     L   DT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1717,7 +1721,7 @@ c-------------------
      5   Z1,      Z2,      Z3,      Z4,      
      6   Z5,      Z6,      Z7,      Z8,      
      7   NEL)
-       CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL )
+       CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK)
       END IF
 C-----------------------------
 C     SMALL STRAIN 

@@ -76,22 +76,25 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE S4FORC3 (ELBUF_TAB ,NG      ,
-     1            PM       ,GEO     ,IXS     ,X        ,   
-     2            A        ,V       ,MS      ,W        ,FLUX     ,  
-     3            FLU1     ,VEUL    ,FV      ,ALE_CONNECT    ,IPARG    ,  
-     4            TF       ,NPF     ,BUFMAT  ,PARTSAV  ,NLOC_DMG , 
-     5            DT2T     ,NELTST  ,ITYPTST ,STIFN    ,FSKY     ,
-     6            IADS     ,OFFSET  ,EANI    ,IPARTS   ,
-     7            F11      ,F21     ,F31     ,F12      ,F22      ,
-     8            F32      ,F13     ,F23     ,F33      ,F14      ,
-     9            F24      ,F34     ,NEL     ,FSKYM    ,MSNF     ,                    
-     A            IPM      ,IGEO    ,BUFVOIS ,ISTRAIN  ,ITASK    ,      
-     B            TEMP     ,FTHE    ,FTHESKY ,IEXPAN   ,GRESAV   ,
-     C            GRTH     ,IGRTH   ,MSSA    ,DMELS    ,TABLE    ,
-     D            XDP      ,VARNOD  ,VOLN    ,CONDN    ,CONDNSKY ,
-     E            D        ,SENSORS ,IOUTPRT ,MAT_ELEM ,H3D_STRAIN,
-     F            DT       )
+      SUBROUTINE S4FORC3(
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          A,          V,
+     3   MS,         W,          FLUX,       FLU1,
+     4   VEUL,       FV,         ALE_CONNECT,IPARG,
+     5   TF,         NPF,        BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
+     7   STIFN,      FSKY,       IADS,       OFFSET,
+     8   EANI,       IPARTS,     F11,        F21,
+     9   F31,        F12,        F22,        F32,
+     A   F13,        F23,        F33,        F14,
+     B   F24,        F34,        NEL,        FSKYM,
+     C   MSNF,       IPM,        IGEO,       BUFVOIS,
+     D   ISTRAIN,    ITASK,      TEMP,       FTHE,
+     E   FTHESKY,    IEXPAN,     GRESAV,     GRTH,
+     F   IGRTH,      MSSA,       DMELS,      TABLE,
+     G   XDP,        VARNOD,     VOLN,       CONDN,
+     H   CONDNSKY,   D,          SENSORS,    IOUTPRT,
+     I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,6 +129,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
      .        GRTH(*),IGRTH(*),IOUTPRT
@@ -638,7 +642,7 @@ C
       IF(JLAG+JALE+JEUL == 0)RETURN
       ITET = 1
       BID(LFT:LLT)=ZERO
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),BID,DT,NEL )
+      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),BID,DT,NEL,IDEL7NOK )
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------
