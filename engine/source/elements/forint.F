@@ -351,22 +351,25 @@ C----6---------------------------------------------------------------7---------8
 C---------
           IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------
-            CALL S4FORC3(ELBUF_TAB,NG      ,
-     1        PM      ,GEO       ,IXS      ,X          ,
-     2        A       ,V         ,MS       ,W          ,WA      ,
-     3        VAL2    ,VEUL      ,FV       ,ALE_CONNECT      ,IPARG   ,
-     4        TF      ,NPC       ,BUFMAT   ,PARTSAV    ,NLOC_DMG,
-     5        DT2T    ,NELTST    ,ITYPTST  ,STIFN      ,FSKY    ,
-     6        IADS    ,OFFSET    ,EANI     ,IPARTS(NF1),
-     7        FX(1,1) ,FY(1,1)   ,FZ(1,1)  ,FX(1,2)    ,FY(1,2) ,
-     8        FZ(1,2) ,FX(1,3)   ,FY(1,3)  ,FZ(1,3)    ,FX(1,4) ,
-     9        FY(1,4) ,FZ(1,4)   ,NEL      ,FSKYM      ,MSNF    ,
-     A        IPM     ,IGEO      ,BID      ,ISTRA      ,ITASK   ,
-     B        TEMP    ,FTHE      ,FTHESKY  ,IEXPAN     ,GRESAV  ,
-     C        GRTH    ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE   ,
-     D        XDP     ,VARNOD    ,VOLN     ,CONDN      ,CONDNSKY,
-     E        D       ,SENSORS   ,IPRI     ,MAT_ELEM   ,IBID  ,
-     F        DT )
+            CALL S4FORC3(
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          A,          V,
+     3   MS,         W,          WA,         VAL2,
+     4   VEUL,       FV,         ALE_CONNECT,IPARG,
+     5   TF,         NPC,        BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
+     7   STIFN,      FSKY,       IADS,       OFFSET,
+     8   EANI,       IPARTS(NF1),FX(1,1),    FY(1,1),
+     9   FZ(1,1),    FX(1,2),    FY(1,2),    FZ(1,2),
+     A   FX(1,3),    FY(1,3),    FZ(1,3),    FX(1,4),
+     B   FY(1,4),    FZ(1,4),    NEL,        FSKYM,
+     C   MSNF,       IPM,        IGEO,       BID,
+     D   ISTRA,      ITASK,      TEMP,       FTHE,
+     E   FTHESKY,    IEXPAN,     GRESAV,     GRTH,
+     F   IGRTH(NF1), MSSA(NF1),  DMELS(NF1), TABLE,
+     G   XDP,        VARNOD,     VOLN,       CONDN,
+     H   CONDNSKY,   D,          SENSORS,    IPRI,
+     I   MAT_ELEM,   IBID,       DT,         IDEL7NOK)
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -396,21 +399,24 @@ C
 c---------
           ELSEIF (ISOLNOD==10 .OR. (ISOLNOD==4.AND.ISROT==1)) THEN
 c---------
-            CALL S10FORC3(ELBUF_TAB,NG    ,                            
-     1       PM   ,GEO   ,IXS    ,X          ,                         
-     2       A           ,V    ,MS    ,W      ,WA          ,           
-     3       VAL2    ,VEUL   ,FV       ,ALE_CONNECT       ,IPARG       ,         
-     4       TF      ,NPC    ,BUFMAT   ,PARTSAV     ,NLOC_DMG    ,    
-     5       DT2T ,NELTST,ITYPTST,STIFN        ,FSKY        ,          
-     6       IADS ,OFFSET,EANI     ,IPARTS(NF1) ,                      
-     7       IXS10,IADS10 ,NEL    ,FX          ,                       
-     8       FY   ,FZ    ,AR     ,VR           ,DR          ,          
-     9       IPM     ,ISTRA  ,ISOLNOD  ,                                               
-     A       ITASK   ,TEMP , FTHE , FTHESKY,IEXPAN ,                   
-     B       STIFR  ,D   ,GRESAV  ,GRTH        ,IGRTH(OFF_IGRTH+NF1),  
-     C       TABLE  ,MSSA(NF1),DMELS(NF1),IGEO ,XDP,
-     D       VOLN    ,CONDN    ,CONDNSKY  , VARNOD, 
-     E       ITAGND  ,SENSORS  ,IPRI     ,MAT_ELEM,IBID ,DT)                        
+            CALL S10FORC3(
+     1   ELBUF_TAB,           NG,                  PM,                  GEO,
+     2   IXS,                 X,                   A,                   V,
+     3   MS,                  W,                   WA,                  VAL2,
+     4   VEUL,                FV,                  ALE_CONNECT,         IPARG,
+     5   TF,                  NPC,                 BUFMAT,              PARTSAV,
+     6   NLOC_DMG,            DT2T,                NELTST,              ITYPTST,
+     7   STIFN,               FSKY,                IADS,                OFFSET,
+     8   EANI,                IPARTS(NF1),         IXS10,               IADS10,
+     9   NEL,                 FX,                  FY,                  FZ,
+     A   AR,                  VR,                  DR,                  IPM,
+     B   ISTRA,               ISOLNOD,             ITASK,               TEMP,
+     C   FTHE,                FTHESKY,             IEXPAN,              STIFR,
+     D   D,                   GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
+     E   TABLE,               MSSA(NF1),           DMELS(NF1),          IGEO,
+     F   XDP,                 VOLN,                CONDN,               CONDNSKY,
+     G   VARNOD,              ITAGND,              SENSORS,             IPRI,
+     H   MAT_ELEM,            IBID,                DT,                  IDEL7NOK)
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
@@ -476,25 +482,28 @@ C-------------------------
               L30 = L29 + MVSIZ * NPE * NIPMAX
               OFF_IGRTH = NUMELS8 + NUMELS10
 c
-              CALL S20FORC3(ELBUF_TAB,NG     ,
-     1         PM       ,GEO      ,IXS       ,X          ,
-     2         A            ,V        ,MS       ,W         ,WA         ,
-     3         VAL2     ,VEUL     ,FV        ,ALE_CONNECT      ,IPARG      ,
-     4         TF       ,NPC      ,BUFMAT    ,PARTSAV    ,NLOC_DMG   ,
-     5         DT2T     ,NELTST   ,ITYPTST   ,STIFN      ,FSKY       ,
-     6         IADS     ,OFFSET   ,EANI      ,IPARTS(NF1),
-     7         IXS20    ,IADS20   ,NEL       ,FX         ,
-     8         FY       ,FZ       ,W16(L1)   ,W16(L2)    ,W16(L3)    ,
-     9         W16(L4)  ,W16(L5)  ,W16(L6)   ,W16(L7)    ,W16(L8)    ,
-     A         W16(L9)  ,W16(L10) ,W16(L12)  ,W16(L13)   ,W16(L14)   ,
-     B         W16(L15) ,W16(L16) ,W16(L17)  ,W16(L18)   ,W16(L19)   ,
-     C         W16(L20) ,W16(L21) ,W16(L22)  ,W16(L23)   ,W16(L24)   ,
-     D         W16(L25) ,W16(L26) ,W16(L27)  ,W16(L28)   ,W16(L29)   ,
-     G         IPM      ,ISTRA    ,
-     H         TEMP     ,FTHE     ,FTHESKY   ,IEXPAN     ,GRESAV     ,
-     I         GRTH     ,IGRTH(OFF_IGRTH+NF1),TABLE      ,IGEO       ,
-     J         VOLN     ,CONDN    ,CONDNSKY  ,
-     K         ITASK    ,IPRI     ,MAT_ELEM  ,IBID     ,DT ) 
+              CALL S20FORC3(
+     1   ELBUF_TAB,           NG,                  PM,                  GEO,
+     2   IXS,                 X,                   A,                   V,
+     3   MS,                  W,                   WA,                  VAL2,
+     4   VEUL,                FV,                  ALE_CONNECT,         IPARG,
+     5   TF,                  NPC,                 BUFMAT,              PARTSAV,
+     6   NLOC_DMG,            DT2T,                NELTST,              ITYPTST,
+     7   STIFN,               FSKY,                IADS,                OFFSET,
+     8   EANI,                IPARTS(NF1),         IXS20,               IADS20,
+     9   NEL,                 FX,                  FY,                  FZ,
+     A   W16(L1),             W16(L2),             W16(L3),             W16(L4),
+     B   W16(L5),             W16(L6),             W16(L7),             W16(L8),
+     C   W16(L9),             W16(L10),            W16(L12),            W16(L13),
+     D   W16(L14),            W16(L15),            W16(L16),            W16(L17),
+     E   W16(L18),            W16(L19),            W16(L20),            W16(L21),
+     F   W16(L22),            W16(L23),            W16(L24),            W16(L25),
+     G   W16(L26),            W16(L27),            W16(L28),            W16(L29),
+     H   IPM,                 ISTRA,               TEMP,                FTHE,
+     I   FTHESKY,             IEXPAN,              GRESAV,              GRTH,
+     J   IGRTH(OFF_IGRTH+NF1),TABLE,               IGEO,                VOLN,
+     K   CONDN,               CONDNSKY,            ITASK,               IPRI,
+     L   MAT_ELEM,            IBID,                DT,                  IDEL7NOK)
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
@@ -731,23 +740,28 @@ C------------------------- Isolid=19 for Salim
 C-------------------------
 C             SOLID HE8<->HE8
 C-------------------------
-            CALL S8EFORC3(ELBUF_TAB,NG   ,
-     1         PM         ,GEO      ,IXS      ,X          ,
-     2         A          ,V        ,MS       ,W          ,WA        ,
-     3         VAL2       ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG     ,
-     4         TF         ,NPC      ,BUFMAT   ,PARTSAV    ,NLOC_DMG  ,
-     5         DT2T       ,NELTST   ,ITYPTST  ,STIFN      ,FSKY      ,
-     6         IADS       ,OFFSET   ,EANI     ,IPARTS(NF1),ICP       ,
-     7         FX(1,1)    ,FY(1,1)  ,FZ(1,1)  ,FX(1,2)    ,FY(1,2)   ,
-     8         FZ(1,2)    ,FX(1,3)  ,FY(1,3)  ,FZ(1,3)    ,FX(1,4)   ,
-     9         FY(1,4)    ,FZ(1,4)  ,FX(1,5)  ,FY(1,5)    ,FZ(1,5)   ,
-     A         FX(1,6)    ,FY(1,6)  ,FZ(1,6)  ,FX(1,7)    ,FY(1,7)   ,
-     B         FZ(1,7)    ,FX(1,8)  ,FY(1,8)  ,FZ(1,8)    ,NEL       ,
-     C         NVC        ,IPM      ,ITASK    ,ISTRA      ,
-     D         TEMP       ,FTHE     ,FTHESKY  ,IEXPAN     ,GRESAV    ,
-     E         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1),TABLE     ,
-     F         IGEO       ,XDP      ,VOLN      ,CONDN    ,CONDNSKY   ,
-     G         D          ,SENSORS  ,IPRI     ,MAT_ELEM   ,IBID,DT )
+            CALL S8EFORC3(
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          A,          V,
+     3   MS,         W,          WA,         VAL2,
+     4   VEUL,       FV,         ALE_CONNECT,IPARG,
+     5   TF,         NPC,        BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
+     7   STIFN,      FSKY,       IADS,       OFFSET,
+     8   EANI,       IPARTS(NF1),ICP,        FX(1,1),
+     9   FY(1,1),    FZ(1,1),    FX(1,2),    FY(1,2),
+     A   FZ(1,2),    FX(1,3),    FY(1,3),    FZ(1,3),
+     B   FX(1,4),    FY(1,4),    FZ(1,4),    FX(1,5),
+     C   FY(1,5),    FZ(1,5),    FX(1,6),    FY(1,6),
+     D   FZ(1,6),    FX(1,7),    FY(1,7),    FZ(1,7),
+     E   FX(1,8),    FY(1,8),    FZ(1,8),    NEL,
+     F   NVC,        IPM,        ITASK,      ISTRA,
+     G   TEMP,       FTHE,       FTHESKY,    IEXPAN,
+     H   GRESAV,     GRTH,       IGRTH(NF1), MSSA(NF1),
+     I   DMELS(NF1), TABLE,      IGEO,       XDP,
+     J   VOLN,       CONDN,      CONDNSKY,   D,
+     K   SENSORS,    IPRI,       MAT_ELEM,   IBID,
+     L   DT)
             ENDIF !(IPARG(36,NG)==3)   (IMPL_S /= 0)
 c
             IF (NSECT > 0) THEN
@@ -975,30 +989,34 @@ C-------------------------
               IF(N2D /= 0) NV46 = 4
               !
               CALL SFORC3(
-     1         ELBUF_TAB   ,NG         ,
-     2        PM           ,GEO        ,IXS         ,X  	       ,NV46      ,
-     3        A            ,V          ,MS        ,W           ,WA        ,
-     4        VAL2         ,VEUL       ,FV          ,ALE_CONNECT	     ,IPARG     ,
-     5        TF           ,NPC        ,BUFMAT    ,PARTSAV     ,ITAB      ,
-     6        DT2T         ,NELTST     ,ITYPTST   ,STIFN       ,FSKY      ,
-     7        IADS         ,OFFSET     ,EANI      ,IPARTS(NF1) ,
-     8        FX(1,1)      ,FY(1,1)    ,FZ(1,1)   ,FX(1,2)     ,FY(1,2)   ,        
-     9        FZ(1,2)      ,FX(1,3)    ,FY(1,3)   ,FZ(1,3)     ,FX(1,4)   ,        
-     A        FY(1,4)      ,FZ(1,4)    ,FX(1,5)   ,FY(1,5)     ,FZ(1,5)   ,        
-     B        FX(1,6)      ,FY(1,6)    ,FZ(1,6)   ,FX(1,7)     ,FY(1,7)   ,        
-     C        FZ(1,7)      ,FX(1,8)    ,FY(1,8)   ,FZ(1,8)     ,NEL       ,        
-     D        FSKYM        ,MSNF       ,IBID      ,BID         ,                   
-     E        NVC          ,IPM        ,IGEO      ,AR          ,VR        ,        
-     F        IN           ,FR_WAVE    ,DR        ,BID         ,        
-     G        ITASK        ,QMVBID     ,ISTRA     ,TEMP        ,FTHE      ,        
-     H        FTHESKY      ,IEXPAN     ,GRESAV    ,GRTH        ,IGRTH(NF1),        
-     I        MSSA(NF1)    ,DMELS(NF1) ,TABLE     ,PHI1        ,PHI2      ,        
-     J        VF           ,AF         ,DF        ,WF          ,FFSKY     ,        
-     K        AFGLOB       ,MSF        ,IPARG(1,NG) ,XDP        ,
-     M        POR          ,ICONTACT   ,IFOAM     ,VOLN        ,CONDN     ,
-     N        CONDNSKY     ,AGRAV      ,IGRV      ,LGRAV       ,SENSORS   ,
-     O        SKEW         ,NALE       ,D         ,IPRI        ,NLOC_DMG  ,
-     Q        MAt_ELEM     ,IBID       ,DT       )
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          NV46,       A,
+     3   V,          MS,         W,          WA,
+     4   VAL2,       VEUL,       FV,         ALE_CONNECT,
+     5   IPARG,      TF,         NPC,        BUFMAT,
+     6   PARTSAV,    ITAB,       DT2T,       NELTST,
+     7   ITYPTST,    STIFN,      FSKY,       IADS,
+     8   OFFSET,     EANI,       IPARTS(NF1),FX(1,1),
+     9   FY(1,1),    FZ(1,1),    FX(1,2),    FY(1,2),
+     A   FZ(1,2),    FX(1,3),    FY(1,3),    FZ(1,3),
+     B   FX(1,4),    FY(1,4),    FZ(1,4),    FX(1,5),
+     C   FY(1,5),    FZ(1,5),    FX(1,6),    FY(1,6),
+     D   FZ(1,6),    FX(1,7),    FY(1,7),    FZ(1,7),
+     E   FX(1,8),    FY(1,8),    FZ(1,8),    NEL,
+     F   FSKYM,      MSNF,       IBID,       BID,
+     G   NVC,        IPM,        IGEO,       AR,
+     H   VR,         IN,         FR_WAVE,    DR,
+     I   BID,        ITASK,      QMVBID,     ISTRA,
+     J   TEMP,       FTHE,       FTHESKY,    IEXPAN,
+     K   GRESAV,     GRTH,       IGRTH(NF1), MSSA(NF1),
+     L   DMELS(NF1), TABLE,      PHI1,       PHI2,
+     M   VF,         AF,         DF,         WF,
+     N   FFSKY,      AFGLOB,     MSF,        IPARG(1,NG),
+     O   XDP,        POR,        ICONTACT,   IFOAM,
+     P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
+     Q   IGRV,       LGRAV,      SENSORS,    SKEW,
+     R   NALE,       D,          IPRI,       NLOC_DMG,
+     S   MAt_ELEM,   IBID,       DT,         IDEL7NOK)
 
             ENDIF
 C

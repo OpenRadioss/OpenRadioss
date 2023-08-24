@@ -52,26 +52,28 @@ Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE S20FORC3(ELBUF_TAB,NG     ,
-     1                    PM       ,GEO    ,IXS    ,X      ,
-     2                    A        ,V      ,MS     ,W      ,FLUX   ,
-     3                    FLU1     ,VEUL    ,FV     ,ALE_CONNECT  ,IPARG   ,
-     4                    TF       ,NPF     ,BUFMAT ,PARTSAV,NLOC_DMG,
-     5                    DT2T     ,NELTST ,ITYPTST,STIFN  ,FSKY   ,
-     6                    IADS     ,OFFSET ,EANI   ,IPARTS ,
-     7                    IXS20    ,IADS20 ,NEL    ,FX     ,
-     8                    FY       ,FZ     ,VOLNP  ,RX     ,RY     , 
-     9                    RZ       ,SX     ,SY     ,SZ     ,TX     ,
-     A                    TY       ,TZ     ,STIG   ,STIN   ,UL     ,
-     B                    XX       ,YY     ,ZZ     ,VX     ,VY     , 
-     C                    VZ       ,VDXX   ,VDYY   ,VDZZ   ,DNIDR  ,
-     D                    DNIDS    ,DNIDT  ,PX     ,PY     ,PZ     ,
-     G                    IPM      ,ISTRAIN,
-     H                    TEMP     ,FTHE   ,FTHESKY,IEXPAN ,GRESAV ,
-     I                    GRTH     ,IGRTH  ,TABLE  ,IGEO   ,VOLN   ,
-     J                    CONDN    ,CONDNSKY,
-     K                    ITASK    ,IOUTPRT ,MAT_ELEM,H3D_STRAIN,
-     L                    DT       )
+      SUBROUTINE S20FORC3(
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          A,          V,
+     3   MS,         W,          FLUX,       FLU1,
+     4   VEUL,       FV,         ALE_CONNECT,IPARG,
+     5   TF,         NPF,        BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
+     7   STIFN,      FSKY,       IADS,       OFFSET,
+     8   EANI,       IPARTS,     IXS20,      IADS20,
+     9   NEL,        FX,         FY,         FZ,
+     A   VOLNP,      RX,         RY,         RZ,
+     B   SX,         SY,         SZ,         TX,
+     C   TY,         TZ,         STIG,       STIN,
+     D   UL,         XX,         YY,         ZZ,
+     E   VX,         VY,         VZ,         VDXX,
+     F   VDYY,       VDZZ,       DNIDR,      DNIDS,
+     G   DNIDT,      PX,         PY,         PZ,
+     H   IPM,        ISTRAIN,    TEMP,       FTHE,
+     I   FTHESKY,    IEXPAN,     GRESAV,     GRTH,
+     J   IGRTH,      TABLE,      IGEO,       VOLN,
+     K   CONDN,      CONDNSKY,   ITASK,      IOUTPRT,
+     L   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -107,6 +109,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IADS(8,*),IPARTS(*),IXS20(12,*),IADS20(12,*),IPM(*),
      .        GRTH(*),IGRTH(*),IGEO(*),ITASK,IOUTPRT
@@ -473,7 +476,8 @@ C
      .              YY(1,5), YY(1,6), YY(1,7), YY(1,8),
      .              ZZ(1,1), ZZ(1,2), ZZ(1,3), ZZ(1,4),
      .              ZZ(1,5), ZZ(1,6), ZZ(1,7), ZZ(1,8), NEL)
-        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL )
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,LL8,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK )
+
       END IF !( NN_DEL> 0) THEN
 C--------------------------
 C     BILANS PAR MATERIAU

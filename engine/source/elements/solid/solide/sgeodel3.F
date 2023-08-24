@@ -35,7 +35,10 @@ Chd|-- calls ---------------
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SGEODEL3(NGL, OFFG ,VOLG ,DELTAX, VOLG0 ,GEO ,L_MAX,DT,NEL)
+      SUBROUTINE SGEODEL3(
+     1   NGL,     OFFG,    VOLG,    DELTAX,
+     2   VOLG0,   GEO,     L_MAX,   DT,
+     3   NEL,     IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,10 +55,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER ,INTENT(IN)  :: NEL
       INTEGER ,DIMENSION(MVSIZ) ,INTENT(IN)  :: NGL
       my_real, DIMENSION(NPROPG) , INTENT(IN)  :: GEO 

@@ -111,30 +111,35 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE SFORC3(ELBUF_TAB,NG       ,
-     2                  PM       ,GEO      ,IXS      ,X       ,NV46    ,
-     3                  A        ,V        ,MS       ,W       ,FLUX    ,
-     4                  FLU1     ,VEUL     ,FV       ,ALE_CONNECT   ,IPARG   ,
-     5                  TF       ,NPF      ,BUFMAT   ,PARTSAV ,ITAB    ,
-     6                  DT2T     ,NELTST   ,ITYPTST  ,STIFN   ,FSKY    ,
-     7                  IADS     ,OFFSET   ,EANI     ,IPARTS   ,
-     8                  F11      ,F21      ,F31      ,F12     ,F22     ,
-     9                  F32      ,F13      ,F23      ,F33     ,F14     ,
-     A                  F24      ,F34      ,F15      ,F25     ,F35     ,
-     B                  F16      ,F26      ,F36      ,F17     ,F27     ,
-     C                  F37      ,F18      ,F28      ,F38     ,NEL     ,
-     D                  FSKYM    ,MSNF     ,ISKY     ,FSKYI   ,
-     E                  NVC      ,IPM      ,IGEO     ,AR      ,VR      ,
-     F                  IN       ,FR_WAVE  ,DR       ,BUFVOIS ,
-     G                  ITASK    ,QMV      ,ISTRAIN  ,TEMP    ,FTHE    ,
-     H                  FTHESKY  ,IEXPAN   ,GRESAV   ,GRTH    ,IGRTH   ,
-     I                  MSSA     ,DMELS    ,TABLE    ,PHI1    ,PHI2    ,
-     J                  VF       ,AF       ,DF       ,WF      ,FFSKY   ,
-     K                  AFGLOB   ,MSF      ,IPARG1   ,XDP     ,
-     M                  POR      ,ICONTACT ,IFOAM    ,VOLN    ,CONDN   ,
-     N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSORS ,
-     O                  SKEW     ,NALE     ,D        ,IOUTPRT ,NLOC_DMG,
-     Q                  MAT_ELEM ,H3D_STRAIN,DT   )     
+      SUBROUTINE SFORC3(
+     1   ELBUF_TAB,  NG,         PM,         GEO,
+     2   IXS,        X,          NV46,       A,
+     3   V,          MS,         W,          FLUX,
+     4   FLU1,       VEUL,       FV,         ALE_CONNECT,
+     5   IPARG,      TF,         NPF,        BUFMAT,
+     6   PARTSAV,    ITAB,       DT2T,       NELTST,
+     7   ITYPTST,    STIFN,      FSKY,       IADS,
+     8   OFFSET,     EANI,       IPARTS,     F11,
+     9   F21,        F31,        F12,        F22,
+     A   F32,        F13,        F23,        F33,
+     B   F14,        F24,        F34,        F15,
+     C   F25,        F35,        F16,        F26,
+     D   F36,        F17,        F27,        F37,
+     E   F18,        F28,        F38,        NEL,
+     F   FSKYM,      MSNF,       ISKY,       FSKYI,
+     G   NVC,        IPM,        IGEO,       AR,
+     H   VR,         IN,         FR_WAVE,    DR,
+     I   BUFVOIS,    ITASK,      QMV,        ISTRAIN,
+     J   TEMP,       FTHE,       FTHESKY,    IEXPAN,
+     K   GRESAV,     GRTH,       IGRTH,      MSSA,
+     L   DMELS,      TABLE,      PHI1,       PHI2,
+     M   VF,         AF,         DF,         WF,
+     N   FFSKY,      AFGLOB,     MSF,        IPARG1,
+     O   XDP,        POR,        ICONTACT,   IFOAM,
+     P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
+     Q   IGRV,       LGRAV,      SENSORS,    SKEW,
+     R   NALE,       D,          IOUTPRT,    NLOC_DMG,
+     S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -171,6 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARG,IPARTS,NPF,NALE
       INTEGER,INTENT(IN) :: NG,NEL
       INTEGER IXS(NIXS,*), IADS(8,*),IPM(NPROPMI,*),
@@ -996,7 +1002,7 @@ C
      5   Z1,      Z2,      Z3,      Z4,      
      6   Z5,      Z6,      Z7,      Z8,      
      7   NEL)
-       CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL )
+       CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK )
       END IF
 C Small Strain
       CALL SMALLB3(
