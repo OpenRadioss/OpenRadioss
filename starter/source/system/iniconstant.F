@@ -63,7 +63,7 @@ C--------------------------------------
        FOURTY      = 40.
        FOURTY5     = 45.
        FOURTY8     = 48.
-       FIVEUANTE     = 50.
+       FIFTY     = 50.
        SIXTY4     = 64.
        EIGHTY   = 80.
        NINTY= 90.

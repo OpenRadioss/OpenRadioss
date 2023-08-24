@@ -357,7 +357,7 @@ C
             ! -> A1 derivatives 
             CC = SIGS(I)/SIGC(I)/SIGT(I)
             !   -> With respect to SIGS
-            DA1_DSIGS = DIXHUIT*(SIGC(I) - SIGT(I))*CC
+            DA1_DSIGS = EIGHTEEN*(SIGC(I) - SIGT(I))*CC
             !   -> With respect to SIGC
             DA1_DSIGC = NINE*(SIGS(I)/SIGC(I))**2
             !   -> With respect to SIGT

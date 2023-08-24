@@ -294,7 +294,7 @@ c         AJOUT DILATANCE PLASTIQUE MAX fp 09/16
             DGS6=ZERO                           
           ENDIF                                 
 c         ECROUISSAGE
-          HPV = HV0*EXP( MIN(FIVEUANTE,(ROB(I)-RO0)*EXPO))
+          HPV = HV0*EXP( MIN(FIFTY,(ROB(I)-RO0)*EXPO))
           IF(SM(I)>ROK0)THEN
             HP=HBP
           ELSE
