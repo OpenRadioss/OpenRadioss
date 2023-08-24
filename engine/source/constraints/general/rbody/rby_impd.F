@@ -393,7 +393,7 @@ C---determine iteration num.
 	LSM(I) = XS*XS+YS*YS+ZS*ZS
         LMAX = MAX(LMAX,LSM(I))
        ENDDO
-       NP = RMAX*SQRT(LMAX)*FIVEUANTE
+       NP = RMAX*SQRT(LMAX)*FIFTY
        NP = MIN(ITRMAX,NP)
       IF (NP<=1) THEN
        DO I=1,NSN
