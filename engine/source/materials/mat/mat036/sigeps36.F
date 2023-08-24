@@ -159,7 +159,7 @@ C-----------------------------------------------
      .        DSXX,DSYY,DSZZ,DSXY,DSYZ,
      .        DSZX,SIGPXX,SIGPYY,SIGPXY,SIGPYZ,SIGPZX,SIGPZZ,ALPHA,
      .        EPSR1DAV,EPSR1F,VM_1,G3H,NORM_1,EPSMAX,SSP,
-     .        EINF,CE1,EPSR2,SVM,DF,F,DFSR,COEF
+     .        EINF,CE1,EPSR2,SVM,DF,F
       my_real :: FACT(NEL),
      .        C1(MVSIZ),G(MVSIZ),G2(MVSIZ),G3(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
@@ -170,7 +170,9 @@ C-----------------------------------------------
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
      .        SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ),
      .        DYDXE(MVSIZ),PLAOLD(MVSIZ),
-     .        YFAC(MVSIZ,2)
+     .        YFAC(MVSIZ,2),
+     .        COEF(MVSIZ),
+     .        DFSR(MVSIZ)
       my_real
      .       PLAP(MVSIZ),SVM2(MVSIZ),DPLA_J(MVSIZ),DPLA_I(MVSIZ),
      .       HI(MVSIZ),ESCALE12(MVSIZ),
@@ -779,7 +781,7 @@ c
                 H(I)    = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                 YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
                 H(I)   = H(I)  *MAX(ZERO,PFAC(I))          
-                DFSR   = H(I)  + MAX(ZERO,PFAC(I))*FAIL(I)*(Y2(I)-Y1(I))/
+                DFSR(I)   = H(I)  + MAX(ZERO,PFAC(I))*FAIL(I)*(Y2(I)-Y1(I))/
      .         (UPARAM(7+JJ(I))-UPARAM(6+JJ(I))) /TIMESTEP
             ENDDO
 c------------------------
@@ -795,7 +797,7 @@ c------------------------
                 SVM       = R(I)* SVM_TAB(I)                         
 
                 F = SVM -  YLD(I) - G3(I) *DPLA_I(I)                 
-                DF = - G3(I) -DFSR                                   
+                DF = - G3(I) -DFSR(I)                                   
                 DF = SIGN(MAX(ABS(DF),EM20),DF)                      
                 IF(DPLA_I(I) > ZERO) THEN                            
                   DPLA_J(I)=MAX( EM10 ,DPLA_I(I)-F/DF)               
@@ -874,6 +876,7 @@ c------------------------
               DO II=1,NINDX                                             
                 I = INDEX(II)  
                 !Y1 and Y2 for Pl SR dependency
+                ! PFAC => scale factor pression 
                 Y1(I) = YFAC(I,1) * Y1(I)
                 Y2(I) = YFAC(I,2) * Y2(I)
                 FAC   = RFAC(I)         
@@ -884,7 +887,7 @@ c------------------------
                 DYDX2(I)=DYDX2(I)*YFAC(I,2)
                 H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                 H(I)   = H(I)  *MAX(ZERO,PFAC(I))          
-                DFSR   = H(I)+ MAX(ZERO,PFAC(I))*FAIL(I)*(Y2(I)-Y1(I))
+                DFSR(I)= H(I)+ MAX(ZERO,PFAC(I))*FAIL(I)*(Y2(I)-Y1(I))
      .                 /(UPARAM(7+JJ(I))-UPARAM(6+JJ(I))) /TIMESTEP
               ENDDO
             ENDDO  !iter
@@ -1001,15 +1004,15 @@ c
               H(I)   = H(I)  *MAX(ZERO,PFAC(I))          
               HI(I)   = H(I)*(ONE-FISOKIN)
 
-              COEF    = (Y2(I)-Y1(I))/(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
-              DFSR   = H(I)+ COEF
-              DFSR   = DFSR * (ONE-FISOKIN)*MAX(ZERO,PFAC(I))  
+              COEF(I)    = (Y2(I)-Y1(I))/(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
+              DFSR(I)   = H(I)+ COEF(I)
+              DFSR(I)   = DFSR(I) * (ONE-FISOKIN)*MAX(ZERO,PFAC(I))  
               !Hardening
               Y1(I)=TF(NPF(IFUNC(J1))+1)
               Y2(I)=TF(NPF(IFUNC(J2))+1)
               Y1(I)= Y1(I)*YFAC(I,1)
               Y2(I)= Y2(I)*YFAC(I,2)
-              COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
+              COEF(I) = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .               /(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
               YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .              FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
@@ -1030,7 +1033,7 @@ c
                 R(I)      = YLD(I)/(YLD(I) +(G3(I)+FISOKIN*H(I))*DPLA_I(I))
                 SVM       = R(I)* SVM_TAB(I)
                 F         = SVM -  YLD(I) - (G3(I)+FISOKIN*H(I)) *DPLA_I(I)
-                DF        =-(G3(I)+FISOKIN*H(I)) - (DFSR + COEF )
+                DF        =-(G3(I)+FISOKIN*H(I)) - (DFSR(I) + COEF(I) )
                 DF = SIGN(MAX(ABS(DF),EM20),DF)
                 IF(DPLA_I(I) > ZERO) THEN
                   DPLA_J(I)=MAX( EM10 ,DPLA_I(I)-F/DF)
@@ -1123,13 +1126,13 @@ c
                 H(I)  = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                 H(I)  = H(I)  *MAX(ZERO,PFAC(I))          
                 HI(I) = H(I)*(ONE-FISOKIN)
-                DFSR  = HI(I)+ MAX(ZERO,PFAC(I))* (ONE-FISOKIN)*(Y2(I)-Y1(I))
+                DFSR(I)  = HI(I)+ MAX(ZERO,PFAC(I))* (ONE-FISOKIN)*(Y2(I)-Y1(I))
      .                / (UPARAM(7+JJ(I))-UPARAM(6+JJ(I))) /TIMESTEP
                 Y1(I)=TF(NPF(IFUNC(J1))+1)
                 Y2(I)=TF(NPF(IFUNC(J2))+1)
                 Y1(I)=Y1(I)*YFAC(I,1)
                 Y2(I)=Y2(I)*YFAC(I,2)
-                COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
+                COEF(I) = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .               / (UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
                 YLD(I) = (ONE-FISOKIN) * YLD(I)
      .                 + FISOKIN * (FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I))))
@@ -1249,15 +1252,15 @@ c
               H(I)  = H(I)  *MAX(ZERO,PFAC(I))          
               HI(I) = H(I)*(ONE-FISOKIN)
         
-              COEF = (Y2(I)-Y1(I))/(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
-              DFSR = H(I)+ COEF
-              DFSR = DFSR * (ONE-FISOKIN)*MAX(ZERO,PFAC(I))  
+              COEF(I) = (Y2(I)-Y1(I))/(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
+              DFSR(I) = H(I)+ COEF(I)
+              DFSR(I) = DFSR(I) * (ONE-FISOKIN)*MAX(ZERO,PFAC(I))  
               !Hardening
               Y1(I)=TF(NPF(IFUNC(J1))+1)
               Y2(I)=TF(NPF(IFUNC(J2))+1)
               Y1(I)= Y1(I)*YFAC(I,1)
               Y2(I)= Y2(I)*YFAC(I,2)
-              COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
+              COEF(I) = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .               /(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
               YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .              FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
@@ -1278,7 +1281,7 @@ c
                 R(I)      = YLD(I)/(YLD(I) +(G3(I)+FISOKIN*H(I))*DPLA_I(I))
                 SVM       = R(I)* SVM_TAB(I)
                 F         = SVM -  YLD(I) - (G3(I)+FISOKIN*H(I)) *DPLA_I(I)
-                DF        =-(G3(I)+FISOKIN*H(I)) - (DFSR + COEF )
+                DF        =-(G3(I)+FISOKIN*H(I)) - (DFSR(I) + COEF(I))
                 DF = SIGN(MAX(ABS(DF),EM20),DF)
                 IF(DPLA_I(I) > ZERO) THEN
                   DPLA_J(I)=MAX( EM10 ,DPLA_I(I)-F/DF)
@@ -1371,13 +1374,13 @@ c
                 H(I) = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
                 H(I) = H(I)  *MAX(ZERO,PFAC(I))          
                 HI(I)= H(I)*(ONE-FISOKIN)
-                DFSR = HI(I)+ MAX(ZERO,PFAC(I))* (ONE-FISOKIN)*(Y2(I)-Y1(I))
+                DFSR(I) = HI(I)+ MAX(ZERO,PFAC(I))* (ONE-FISOKIN)*(Y2(I)-Y1(I))
      .                   /(UPARAM(7+JJ(I))-UPARAM(6+JJ(I))) /TIMESTEP
                 Y1(I)=TF(NPF(IFUNC(J1))+1)
                 Y2(I)=TF(NPF(IFUNC(J2))+1)
                 Y1(I)=Y1(I)*YFAC(I,1)
                 Y2(I)=Y2(I)*YFAC(I,2)
-                COEF = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
+                COEF(I) = MAX(ZERO,PFAC(I))*FISOKIN * FAIL(I)*(Y2(I)-Y1(I))
      .                /(UPARAM(6+J2)-UPARAM(6+J1)) /TIMESTEP   
                 YLD(I) = (ONE-FISOKIN) * YLD(I) + 
      .               FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
