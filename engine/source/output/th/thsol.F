@@ -127,8 +127,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS), IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO)
-      INTEGER,INTENT(IN) :: ITHBUF(SITHBUF)
       INTEGER,INTENT(IN) :: NTHGRP2, NUMELS, NUMMAT, NUMGEO, NUMNOD, SITHBUF
+      INTEGER,INTENT(IN) :: ITHBUF(SITHBUF)
       INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
       my_real WA(*), X(3,NUMNOD)  ,PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
