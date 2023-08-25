@@ -35,7 +35,7 @@ Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th
 Chd|====================================================================
       SUBROUTINE PBLAST_3(ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
-     2                    ITAB    ,H3D_DATA ,NL      ,T0INF_LOC ,TFEXT_LOC,
+     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,TFEXT_LOC,
      4                    TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -67,11 +67,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: LLOADP(SLLOADP)
-      INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,NLOADP)
+      INTEGER,INTENT(INOUT) :: ILOADP(SIZLOADP,NLOADP)
       INTEGER,INTENT(IN) :: IADC(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),NL
-      my_real,INTENT(INOUT) :: T0INF_LOC,TFEXT_LOC
-      my_real,INTENT(IN) :: FAC(LFACLOAD,NLOADP),V(3,NUMNOD),X(3,NUMNOD)
+      my_real,INTENT(INOUT) :: DTMIN_LOC,TFEXT_LOC
+      my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
+      my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
@@ -83,8 +84,8 @@ C-----------------------------------------------
       INTEGER N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1
       INTEGER Phi_I, ID, ITA_SHIFT, NITER,ITER,IMODEL,ITMP
       INTEGER :: idx_zg1, idx_zg2, idx1_angle, idx2_angle, idx1, idx2,NS,KSURF, I_search
-      INTEGER :: curve_id1, curve_id2, NN(4)
-      LOGICAL :: calculate, BOOL_UNDERGROUND_CURRENT_SEG
+      INTEGER :: curve_id1, curve_id2, NN(4), NDT
+      LOGICAL :: calculate, BOOL_UNDERGROUND_CURRENT_SEG, IS_UPDATED
 
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz ! target face centroid and normal vector
       my_real NNx,NNy,NNz,NORM_NN, NORM2_NN, tmp_var ! ground vector
@@ -102,14 +103,15 @@ C-----------------------------------------------
       my_real :: alpha_angle !inteprolation factor
 
       my_real LAMBDA, cos_theta, alpha_inci, alpha_refl,P_inci,P_refl,Z,Phi_DB,bound1,bound2,
-     .         I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13, P0
+     .         I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13
       my_real DNORM,Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
-     .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_SHIFT, TT_STAR
+     .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR
       my_real HC ! height of charge
       my_real logRes
       my_real Z1_
       my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL,AREA
       my_real kk ,NPT
+      my_real :: TA_INF_LOC
 
       my_real PI_
       DATA PI_/3.141592653589793238462643D0/
@@ -136,10 +138,38 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutines is applying pressure load to a segment submitted to a blast wave (AIR BURST model).
 C Preussre time histories are built from "UFC 3-340-02, Dec. 5th 2008" tables which are hardcoded in unit system {g, cm, mus}
+C (table sampling : 256 points ; see pblast_mod.F)
+C
+C  T* = T + TA_INF (shift with first arrival time for all pblast option,  TA_INF=0. if ita_shift/=2)
+C  If request made to update blast profile (iz_update==2) then it is made once on T*=TDET
+C
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      IF(NLOADP_B==0)GOTO 9000
+      !--- subroutine not relevant if no /LOAD/PBLAST option
+      IF(NLOADP_B==0)RETURN
+
+      !--- time step
+      TA_FIRST = FAC(07,NL) ! arrival time for first segment to be loaded
+      IL= NL-NLOADP_F
+      TT_STAR = TT + PBLAST_DT%TA_INF
+      IZ_UPDATE = ILOADP(06,NL)
+      TDET = FAC(01,NL)
+      TA_FIRST = FAC(07,NL) ! arrival time for first segment to be loaded
+      IF(IZ_UPDATE ==1)THEN
+        !if no update during engine
+        DTMIN_LOC = (ONE+EM06)*(TA_FIRST - TT)
+        DTMIN_LOC=MAX(PBLAST_TAB(IL)%DTMIN, DTMIN_LOC) !go directly to arrival time but avoid too
+        IF(TT_STAR<TA_FIRST)RETURN ! (nothing to load for now)
+      ELSE
+        IF(TDET > TT)THEN
+          DTMIN_LOC = (ONE+EM06)*(TDET - TT)
+          DTMIN_LOC=MAX(PBLAST_TAB(IL)%DTMIN, DTMIN_LOC)!go directly to arrival time but avoid too
+        ELSE
+          DTMIN_LOC = PBLAST_TAB(IL)%DTMIN
+        ENDIF
+        IF(TT_STAR<TDET)RETURN ! (nothing to update for now)
+      ENDIF
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
@@ -157,6 +187,8 @@ C-----------------------------------------------
       FAC_P_bb = FAC_M_bb/FAC_L_bb/FAC_T_bb/FAC_T_bb
       FAC_I_bb = FAC_P_bb*FAC_T_bb !/FAC_M_bb**THIRD
 
+      IS_UPDATED=.FALSE.
+
       !-----------------------------------------------,
       !    AIR BURST
       !-----------------------------------------------
@@ -167,21 +199,22 @@ C-----------------------------------------------
       ZDET           = FAC(04,NL)
       WTNT           = FAC(05,NL)
       PMIN           = FAC(06,NL)
-      TA_SHIFT       = FAC(07,NL)
+      TA_FIRST       = FAC(07,NL)
       NNX            = FAC(08,NL)
       NNY            = FAC(09,NL)
       NNZ            = FAC(10,NL)
       HC             = FAC(11,NL)
       alpha_zc       = FAC(12,NL)  !curve_id1+alpha_zc
       T_STOP         = FAC(13,NL)
-      P0             = ZERO
       ISIZ_SEG       = ILOADP(01,NL)/4
       IS             = ILOADP(02,NL)
       IZ_UPDATE      = ILOADP(06,NL)
       ABAC_ID        = ILOADP(07,NL)
       ID             = ILOADP(08,NL) !user_id
       ITA_SHIFT      = ILOADP(09,NL)
+      NDT            = ILOADP(10,NL)
       IMODEL         = ILOADP(11,NL)
+      TA_INF_LOC     = EP20
 
       !curve_id1+alpha_zc
       curve_id1=INT(alpha_zc)
@@ -193,9 +226,6 @@ C-----------------------------------------------
       Z = ZERO
       NORM2_NN=NNX*NNx+NNy*NNy+NNz*NNz
       NORM_NN =SQRT(NORM2_NN)
-      TT_STAR = TT
-      IF(ITA_SHIFT==2)TT_STAR = TT + TA_SHIFT  !working unit
-      IF(TT<TDET)RETURN
 
       !---------------------------------------------
       !   LOOP ON SEGMENTS (4N or 3N)
@@ -262,7 +292,10 @@ C-----------------------------------------------
         ! If requested. Otherwise use Starter param. !
         ! Default : do not update:use Starter param. !
         !--------------------------------------------!
-        IF(IZ_UPDATE==1)THEN
+        IF(IZ_UPDATE == 2)THEN
+
+          DTMIN_LOC = EP20
+
           !Dist
           Dx    = (Xdet - Zx)*FAC_L_bb  ! => working unit to cm
           Dy    = (Ydet - Zy)*FAC_L_bb  ! => ... to cm
@@ -651,80 +684,73 @@ C-----------------------------------------------
             DT_0    = DT_0   * W13
             T_A     = T_A    * W13
 
-            !---DECAY
-            IF (TT_STAR>=T_A)THEN
-
-              IF(IMODEL == 1)THEN
-                !-Friedlander
-                DECAY_inci = ONE
-                DECAY_refl = ONE
-
-              ELSEIF(IMODEL == 2 .AND. .NOT.BOOL_UNDERGROUND_CURRENT_SEG) THEN
-                !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
-                !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
-                ! find b such as g(b)=0
-                ! NEWTON ITERATIONS
-                NITER=20
-                TOL=EM06
-                ITER=0
-                ZETA=ONE
-                RES=EP20
-                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
-                !--initialize first iteration
-                kk=P_inci*DT_0
-                FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
-                !--iterative solving
-                DO WHILE (ITER<=NITER .AND. RES>TOL)
-                  ITER=ITER+1
-                  IF(ABS(ZETA) < EM06)THEN
-                    !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                    DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
-                    ZETA = ZETA - FUNCT/DIFF
-                    FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
-                  ELSE
-                    DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
-                    ZETA = ZETA - FUNCT/DIFF
-                    TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
-                    TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
-                    FUNCT = TMP2 * TMP3 -I_inci
-                  ENDIF
-                  RES = ABS(FUNCT)   !g(x_new)
-                ENDDO
-                DECAY_inci=MAX(EM06,ZETA)
-
-                ITER=0
-                ZETA=ONE
-                RES=EP20
-                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
-                !--initialize first iteration
-                kk=P_refl*DT_0
-                FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
-                !--iterative solving
-                DO WHILE (ITER<=NITER .AND. RES>TOL)
-                  ITER=ITER+1
-                  IF(ABS(ZETA) < EM06)THEN
-                    !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                    DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
-                    ZETA = ZETA - FUNCT/DIFF
-                    FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
-                  ELSE
-                    DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
-                    ZETA = ZETA - FUNCT/DIFF
-                    TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
-                    TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
-                    FUNCT = TMP2 * TMP3 -I_refl
-                  ENDIF
-                  RES = ABS(FUNCT)   !g(x_new)
-                ENDDO
-                DECAY_refl=MAX(EM06,ZETA)
-              ENDIF
-
-            ELSE
-
+            !---DECAY  ('b' parameter in modified Friedlander model)
+            !    iterative solver : it can be solved in same unit system as hardcoded tables {g,cm,µs} since b has no dimension
+            IF(IMODEL == 1)THEN
+              !-Friedlander
               DECAY_inci = ONE
               DECAY_refl = ONE
 
-            ENDIF
+            ELSEIF(IMODEL == 2 .AND. .NOT.BOOL_UNDERGROUND_CURRENT_SEG) THEN
+              !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+              !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+              ! find b such as g(b)=0
+              ! NEWTON ITERATIONS
+              NITER=20
+              TOL=EM06
+              ITER=0
+              ZETA=ONE
+              RES=EP20
+              TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+              !--initialize first iteration
+              kk=P_inci*DT_0
+              FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
+              !--iterative solving
+              DO WHILE (ITER<=NITER .AND. RES>TOL)
+                ITER=ITER+1
+                IF(ABS(ZETA) < EM06)THEN
+                  !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                  DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                  ZETA = ZETA - FUNCT/DIFF
+                  FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
+                ELSE
+                  DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
+                  ZETA = ZETA - FUNCT/DIFF
+                  TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+                  TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                  FUNCT = TMP2 * TMP3 -I_inci
+                ENDIF
+                RES = ABS(FUNCT)   !g(x_new)
+              ENDDO
+              DECAY_inci=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+              ITER=0
+              ZETA=ONE
+              RES=EP20
+              TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+              !--initialize first iteration
+              kk=P_refl*DT_0
+              FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
+              !--iterative solving
+              DO WHILE (ITER<=NITER .AND. RES>TOL)
+                ITER=ITER+1
+                IF(ABS(ZETA) < EM06)THEN
+                  !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                  DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                  ZETA = ZETA - FUNCT/DIFF
+                  FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
+                ELSE
+                  DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
+                  ZETA = ZETA - FUNCT/DIFF
+                  TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+                  TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                  FUNCT = TMP2 * TMP3 -I_refl
+                ENDIF
+                RES = ABS(FUNCT)   !g(x_new)
+              ENDDO
+              DECAY_refl=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+            ENDIF!IMODEL
 
 
             !CONVERSION UNITS !
@@ -735,8 +761,8 @@ C-----------------------------------------------
             I_refl  =  I_refl / FAC_I_bb
             DT_0    =  DT_0    / FAC_T_bb
             T_A     =  T_A     / FAC_T_bb
-
             T_A    = T_A + TDET
+            TA_INF_LOC = MIN(TA_INF_LOC, T_A)
 
             !update wave parameters
             PBLAST_TAB(IL)%cos_theta(I) = cos_theta
@@ -749,6 +775,11 @@ C-----------------------------------------------
 
           ENDIF !HZ
 
+          DTMIN_LOC = MIN(DTMIN_LOC,DT_0/NDT)
+          IZ_UPDATE = 1 !update done
+          ILOADP(06,NL) = IZ_UPDATE
+          IS_UPDATED=.TRUE.
+
         ELSE
 
           !Use wave parameters from Starter
@@ -759,12 +790,9 @@ C-----------------------------------------------
           DT_0 = PBLAST_TAB(IL)%t0(I)
           decay_inci = PBLAST_TAB(IL)%decay_inci(I)
           decay_refl = PBLAST_TAB(IL)%decay_refl(I)
+          DTMIN_LOC = PBLAST_TAB(IL)%DTMIN
 
         ENDIF ! IZ_UPDATE
-
-
-
-        T0INF_LOC = MIN(T0INF_LOC,DT_0)
 
 !-------------------------------                                                                                                                                                                  ---
 
@@ -782,14 +810,14 @@ C-----------------------------------------------
         !Building pressure waves from Friedlander model. (Modified model can bu introduced later if needed)
         WAVE_INCI = ZERO
         WAVE_REFL = ZERO
-        IF(TT_STAR>=T_A)THEN
+        IF(TT_STAR >= T_A)THEN
           WAVE_INCI =  P_inci*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_inci*(TT_STAR-T_A)/DT_0)
           WAVE_REFL =  P_refl*(ONE-(TT_STAR-T_A)/DT_0)*exp(-DECAY_refl*(TT_STAR-T_A)/DT_0)
         ELSE
           WAVE_INCI = ZERO
           WAVE_REFL = ZERO
         ENDIF
-        P = P0 + alpha_refl * WAVE_REFL + alpha_inci * WAVE_INCI
+        P = alpha_refl * WAVE_REFL + alpha_inci * WAVE_INCI
         P = MAX(P,PMIN)
         IF (NUMSKINP > 0) PBLAST_TAB(IL)%PRES(I) = P
 
@@ -822,7 +850,25 @@ C----- /TH/SURF -------
       ENDDO!next I
 !$OMP END DO
 
-      CALL MY_BARRIER()
+      IF(IS_UPDATED)THEN
+#include "lockon.inc"
+        !---arrival time
+        ZETA = FAC(07,NL)
+        FAC(07,NL) = MIN(TA_INF_LOC, FAC(07,NL)) !smp min value
+        !---time step
+        DTMIN_LOC = (ONE+EM06)*(FAC(07,NL) - TT) ! go directly to trigger time
+        DTMIN_LOC=MAX(PBLAST_TAB(IL)%DTMIN, DTMIN_LOC)
+        !---no update on next cycle
+        IZ_UPDATE = 1 !update done
+        ILOADP(06,NL) = IZ_UPDATE
+#include "lockoff.inc"
+        CALL MY_BARRIER()
+!$OMP SINGLE
+        write(*,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
+     .                                         ID,' previous first arrival time :',ZETA,
+     .                                         ' is now updated to :',FAC(07,NL)
+!$OMP END SINGLE
+      ENDIF
 
       !-------------------------------------------------------------------!
       !   FORCE ASSEMBLY                                                  !
@@ -909,7 +955,6 @@ C----- /TH/SURF -------
        ENDIF
 !$OMP END SINGLE
 
- 9000 CONTINUE
       RETURN
 
 C-----------------------------------------------

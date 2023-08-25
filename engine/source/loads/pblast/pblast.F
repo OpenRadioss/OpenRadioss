@@ -74,9 +74,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER :: NL, ABAC_ID, NDT, NDT0, ID, II, IJK, NN(4), NNOD, IAD , IL, NSEGPL
-       my_real :: T0INF_LOC, TFEXT_LOC, T_STOP, TDET
+       INTEGER :: NL, ABAC_ID, ID, II, IJK, NN(4), NNOD, IAD , IL, NSEGPL
+       my_real :: DTMIN_LOC, TFEXT_LOC, T_STOP, TA_FIRST
        LOGICAL :: IS_RESET
+
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -90,9 +91,8 @@ C    AIR BURST     (ABAC_ID = 3)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-       DT_PBLAST = EP20
-       T0INF_PBLAST = EP20       
-       IDT_PBLAST = 0      
+       PBLAST_DT%DT = EP20
+       PBLAST_DT%IDT = 0
 
        IF(NLOADP_B==0)THEN
          RETURN
@@ -103,37 +103,32 @@ C   S o u r c e   C o d e
 C-----------------------------------------------
 !$OMP PARALLEL
 !$OMP+ SHARED(FAC,A,V,X,TFEXT,IADC,FSKY,FSKYV,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
-!$OMP+ SHARED(T0INF_PBLAST,PBLAST_TAB,PBLAST_DATA)
-!$OMP+ PRIVATE(ABAC_ID,ID,NDT,NDT0,T0INF_LOC,NL,TFEXT_LOC)
-       
+!$OMP+ SHARED(PBLAST_DT,PBLAST_TAB,PBLAST_DATA)
+!$OMP+ PRIVATE(ABAC_ID,ID,DTMIN_LOC,NL,TFEXT_LOC,TA_FIRST,IJK)
+
        !-----------------------------------------------
        !   LOOP OVER all /LOAD/PBLAST options
-       !----------------------------------------------- 
+       !-----------------------------------------------
+
        DO NL=NLOADP_F+1, NLOADP_F+NLOADP_B
 
          ABAC_ID  = ILOADP(07,NL)
          ID       = ILOADP(08,NL) !user_id
-         NDT      = PBLAST_NDT
-         NDT0     = ILOADP(10,NL)
-         TDET     = FAC(01,NL)
+         TA_FIRST = FAC(07,NL)
          T_STOP   = FAC(13,NL)
-         
          IL       = NL-NLOADP_F
          IS_RESET = PBLAST_TAB(IL)%IS_RESET
-
-         IF(NDT0/=0) NDT = NDT0
-                  
          TFEXT_LOC = ZERO
-         T0INF_LOC = EP20
+         DTMIN_LOC = EP20
 
-         IF(TT >= TDET .AND. TT <= T_STOP)THEN
+         IF(TT <= T_STOP)THEN
            SELECT CASE(ABAC_ID)
              CASE(1)
                !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
                CALL PBLAST_1(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC,
+     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
      4                       TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL   )
      
              CASE(2)
@@ -141,20 +136,20 @@ C-----------------------------------------------
                CALL PBLAST_2(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC,
+     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
      4                       TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL   )        
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
                CALL PBLAST_3(
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,T0INF_LOC ,TFEXT_LOC,
+     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
      4                       TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL   )
      
              END SELECT 
              
          ELSEIF(TT > T_STOP)THEN         
-         
+           DTMIN_LOC = EP20
            IF(.NOT. IS_RESET)THEN
             ! FLUSH fsky array to 0.
 !$OMP DO SCHEDULE(GUIDED,MVSIZ)           
@@ -184,10 +179,14 @@ C-----------------------------------------------
 #include "lockon.inc"
          TFEXT = TFEXT + TFEXT_LOC
          ! Time Step (DT_PBLAST) and corresponding option id (IDT_PBLAST)
-         IF(T0INF_LOC/NDT<DT_PBLAST) THEN
-           IDT_PBLAST  = ID 
-           DT_PBLAST = T0INF_LOC/NDT
-         ENDIF      
+         ! if nothing was loaded : set time step to go on arrival time (no CPU time wasted in nothing happen elsewhere)
+         ! if load has started, use positive impulse to determine a time step for this current option
+
+           IF(DTMIN_LOC < PBLAST_DT%DT)THEN
+             PBLAST_DT%IDT  = ID
+             PBLAST_DT%DT = DTMIN_LOC
+           ENDIF
+
 #include  "lockoff.inc"
 
            CALL MY_BARRIER()

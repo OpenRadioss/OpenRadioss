@@ -43,9 +43,12 @@ Chd|====================================================================
 
 #include "my_real.inc"
 
+      ! --- DATA STRUCTURE FOR BLAST PARAMETERS (EACH SEGMENT)
+      ! ------------------------------------------------------------
       TYPE PBLAST_STRUCT_
         INTEGER SIZ
         LOGICAL IS_RESET
+        my_real :: DTMIN
         my_real, ALLOCATABLE,DIMENSION(:)    :: PRES                                      ! pressure output(workarray)
         my_real, ALLOCATABLE,DIMENSION(:)    :: cos_theta                                 ! angle on structural face
         my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
@@ -53,6 +56,8 @@ Chd|====================================================================
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: N                                         !working array (normal vectors)
       END TYPE PBLAST_STRUCT_
 
+      ! --- HARDCODED TABLES {g,cm,µs,Mbar}
+      ! ------------------------------------------------------------
       TYPE PBLAST_DATA_
        !-----------------------------------------------------------!
        !            FREE AIR BURST                                 !
@@ -80,17 +85,19 @@ Chd|====================================================================
        my_real :: RW3_Surf(256),Ir_Surf(256),Iso_Surf(256),Pr_Surf(256),Pso_Surf(256),t0_Surf(256),ta_Surf(256)
       END TYPE PBLAST_DATA_
 
+      ! --- DATA STRUCTURE FOR PBLAST TIME STEP
+      ! ------------------------------------------------------------
+      TYPE PBLAST_DT_
+        INTEGER IDT
+        my_real TA_INF
+        my_real DT
+      END TYPE PBLAST_DT_
+
+      ! ------------------------------------------------------------
       TYPE(PBLAST_STRUCT_),ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB
       TYPE(PBLAST_DATA_) :: PBLAST_DATA
-
-      INTEGER PBLAST_NDT
-      PARAMETER(PBLAST_NDT = 100)
-
-      COMMON /PBLAST_I/ IDT_PBLAST
-      INTEGER IDT_PBLAST
-
-      COMMON /PBLAST_J/ T0INF_PBLAST, TAINF_PBLAST, DT_PBLAST
-      my_real T0INF_PBLAST, TAINF_PBLAST, DT_PBLAST
+      TYPE(PBLAST_DT_) :: PBLAST_DT
+      ! ------------------------------------------------------------
 
 
        CONTAINS
@@ -132,6 +139,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: SIZ,IERR1,I
       my_real,DIMENSION(:),ALLOCATABLE :: RTMP
+      my_real :: TMP(1)
       INTEGER IAD,KK
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
@@ -140,13 +148,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+      ALLOCATE (PBLAST_TAB(NLOADP_B),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+      CALL READ_DB(TMP,1)
+      PBLAST_DT%TA_INF = TMP(1)
       !--------------------------------------
       !     READING NUMBER OF LOCAL SEGMENTS
       !--------------------------------------
       DO I=1,NLOADP_B
         CALL READ_I_C(PBLAST_TAB(I)%SIZ,1)
         PBLAST_TAB(I)%IS_RESET = .FALSE.
+      ENDDO
+      !--------------------------------------
+      !     READING MINIMUM TIME STEP
+      !--------------------------------------
+      DO I=1,NLOADP_B
+        CALL READ_DB(TMP,1)
+        PBLAST_TAB(I)%DTMIN = TMP(1)
       ENDDO
       !--------------------------------------
       !     READING REAL BUFFER (local segments only)
@@ -290,6 +307,7 @@ C-----------------------------------------------
       INTEGER :: SIZ,I,NSEG_LOC,IAD,OFF,JJ
       INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
       my_real, DIMENSION(:),ALLOCATABLE :: RTMP
+      my_real :: TMP(1)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -297,6 +315,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
+      TMP(1) = PBLAST_DT%TA_INF
+      CALL WRITE_DB(TMP,1)
+      !--------------------------------------
       OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
       ALLOCATE(NSEGL(NLOADP_B))
       !--------------------------------------
@@ -312,6 +333,14 @@ C-----------------------------------------------
         NSEGL(I)=NSEG_LOC
         CALL WRITE_I_C(NSEG_LOC,1)
         OFF = OFF + PBLAST_TAB(I)%SIZ
+      ENDDO
+
+      !--------------------------------------
+      !     WRITING MINIMUM TIME STEP
+      !--------------------------------------
+      DO I=1,NLOADP_B
+        TMP(1) = PBLAST_TAB(I)%DTMIN
+        CALL WRITE_DB(TMP,1)
       ENDDO
 
       !--------------------------------------
@@ -381,6 +410,7 @@ C-----------------------------------------------
       INTEGER :: SIZ,I,IAD,JJ
       INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
       my_real, DIMENSION(:),ALLOCATABLE :: RTMP
+      my_real :: TMP(1)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -388,11 +418,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
+      TMP(1)=PBLAST_DT%TA_INF
+      CALL WRITE_DB(TMP,1)
       !--------------------------------------
       !     WRITING LOCAL SIZE (number of local segments)
       !--------------------------------------
       DO I=1,NLOADP_B
         CALL WRITE_I_C(PBLAST_TAB(I)%SIZ,1)
+      ENDDO
+      !--------------------------------------
+      !     WRITING MINIMUM TIME STEP
+      !--------------------------------------
+      DO I=1,NLOADP_B
+        TMP(1) = PBLAST_TAB(I)%DTMIN
+        CALL WRITE_DB(TMP,1)
       ENDDO
       !--------------------------------------
       !     WRITING REAL BUFFER (for local segments only)
