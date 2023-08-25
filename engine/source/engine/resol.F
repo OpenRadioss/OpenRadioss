@@ -1300,8 +1300,7 @@ C
         LISENDP_CRK = 0
         LIRECVP_CRK = 0
 C
-        T0INF_PBLAST = EP20
-        IDT_PBLAST   = 0
+        PBLAST_DT%IDT   = 0
 C
         NUMSPH_GLO_R2R = 0
         FLG_SPHINOUT_R2R = 0  
@@ -3291,19 +3290,18 @@ C----------------------------------
           IF (IMONM > 0) CALL STARTIME(41,1)
           CALL PBLAST(ILOADP     ,LOADP      ,A          ,V       ,X      ,
      1                IADS(I87M) ,FSKY       ,FSKY       ,LLOADP  ,FEXT   ,
-     2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP) 
+     2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
-          IF(DT_PBLAST<DT2T)THEN
+          IF(PBLAST_DT%DT<DT2T)THEN
             !inter22 kinematic time step
-              DT2T         = DT_PBLAST  
-              ITYPTST      = 12
-              NELTST       = IDT_PBLAST
-              DT_PBLAST    = EP20
-              T0INF_PBLAST = EP20       
-         ENDIF    
-        ENDIF    
+            DT2T         = PBLAST_DT%DT
+            ITYPTST      = 12
+            NELTST       = PBLAST_DT%IDT
+            PBLAST_DT%DT = EP20
+         ENDIF
+        ENDIF
 C-------------------------------------------------------------------
 C       LOAD PCYL
 C----------------------------------

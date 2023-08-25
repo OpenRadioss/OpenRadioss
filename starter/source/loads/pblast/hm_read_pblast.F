@@ -99,6 +99,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,lFOUND, IS_AVAILABLE_TSTOP, calculate, BOOL_COORD, BOOL_SKIP_CALC
       LOGICAL :: BOOL_UNDERGROUND_CURRENT_LOAD, BOOL_UNDERGROUND_CURRENT_SEG
+      LOGICAL :: IS_ITA_SHIFT
 
       CHARACTER*ncharline :: MSGOUT1
       CHARACTER*ncharline :: MSGOUT2
@@ -115,9 +116,12 @@ C-----------------------------------------------
       my_real Lg,SHTP,Zg,tmp_var,Z_struct,Zx,Zy,Zz,Pra,Pra_refl,ProjZ(3),ProjDet(3)
       my_real kk,FUNCT ! lb/ft**1/3 -> mm/g**1/3
       my_real P_inci,P_refl,P_inci_,P_refl_,decay_inci,decay_refl,I_inci,I_refl,I_inci_,I_refl_
-      my_real DT_0,DT_0_,ZETA,TOL,TMP2,TMP3,DIFF,RES,TSTOP
+      my_real DT_0,DT_0_,ZETA,TOL,TMP2,TMP3,DIFF,RES,TSTOP,TA_PBLAST
+      my_real b_min, b_max
+      my_real DTMIN
+      my_real,ALLOCATABLE,DIMENSION(:,:) :: OUTPUT_USER_PARAMS
 
-      INTEGER I,J,K,NUMSEG
+      INTEGER I,J,K,NUMSEG,K_BLAST
       INTEGER IAD,ID,SURF_ID,internal_SURF_ID
       INTEGER IABAC,PHI_I,IADPL,itmp,IS,SUB_ID
       INTEGER ITA_SHIFT
@@ -215,16 +219,20 @@ C-----------------------------------------------
       CALL PBLAST_INIT_TABLES(PBLAST_DATA)
 
       !Init.
-      TAINF_PBLAST = EP20
+      PBLAST_DT%TA_INF = EP20
       NUMSEG = 0
       ILD_PBLAST = 0 !numbering
       alpha_zc = ZERO
       HC = ZERO
       BOOL_SKIP_CALC = .FALSE.
+      IS_ITA_SHIFT = .FALSE.
+
+      ALLOCATE( OUTPUT_USER_PARAMS(6,NLOADP_B))
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
 
       DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
+        K_BLAST = K-NLOADP_F
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, SUBMODEL_ID = SUB_ID)
         IAD = NUMLOADP + 1
         SURF_ID = 0 !target surface id
@@ -239,6 +247,7 @@ C-----------------------------------------------
         TDET  = ZERO
         TSTOP = ZERO
         WTNT  = ZERO
+        TA_PBLAST = EP20 ! for current K, PBLAST_DT%TA_INF is global
 
         !--------------------------------------------------------------
         !   R e a d i n g   I n p u t   P a r a m e t e r s
@@ -264,6 +273,9 @@ C-----------------------------------------------
         !---line-4
         CALL HM_GET_INTV('surf_ground_ID', SURF_ID_GROUND, IS_AVAILABLE, LSUBMODEL)
 
+         OUTPUT_USER_PARAMS(1,K_BLAST)=SURF_ID
+         OUTPUT_USER_PARAMS(2,K_BLAST)=SURF_ID_GROUND
+
         BOOL_COORD=.FALSE.
         IF(XDET/=ZERO .OR. YDET/=ZERO .OR. ZDET/=ZERO)THEN
           BOOL_COORD=.TRUE.
@@ -285,6 +297,7 @@ C-----------------------------------------------
 
         IF(TSTOP == ZERO)TSTOP=EP20
         IF(PMIN == ZERO)PMIN=-EP20
+        IF(NDT == 0) NDT=100
 
         IF(WTNT == ZERO)THEN
            MSGOUT1=''
@@ -301,6 +314,7 @@ C-----------------------------------------------
             YDET = X(2,NODE_ID)
             ZDET = X(3,NODE_ID)
           ENDIF
+           OUTPUT_USER_PARAMS(5,K_BLAST)=NODE_ID
           IF(BOOL_COORD)THEN
             MSGOUT1=''
             MSGOUT1='NODE IDENTIFIER IS PROVIDED.'
@@ -351,20 +365,28 @@ C-----------------------------------------------
           ENDIF
         ENDIF
 
-
+        !ITA_SHIFT : BLAST ARRIVAL
+        !---1:no shift (default)
+        !---2:shift    loading starts from the first cycle T=0 is shift to time on which first targeted segment is reached (within all pblast options)
         IF(ITA_SHIFT==0) ITA_SHIFT = 1
         IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
+        IF(ITA_SHIFT == 2)IS_ITA_SHIFT=.TRUE.
 
         ! IMODEL : flag for blast model
         !---1:Friedlander
-        !---2:modified Friedlander
+        !---2:modified Friedlander (default)
         IF(IMODEL <= 0 .OR. IMODEL > 2)IMODEL=2
 
-        IF(IZ_UPDATE /= 1)IZ_UPDATE=0 !0:update scaled distance
+        ! IZ : Z update during Engine
+        !---1 : do not update (default)
+        !---2 : update blast characteristing during Engine (because target may have move)
+        IF(IZ_UPDATE == 0)IZ_UPDATE=1
+        IF(IZ_UPDATE >=3)IZ_UPDATE=1
 
-        !              1 : update scaled distance with time
-        ! otherwise => 0 : do not update
-
+        !IABAC flag : MODEL TYPE
+        !  1: FREE AIR (default)
+        !  2: SURFACE BURST
+        !  3: AIR BURST
         IF(IABAC <= 0)IABAC=1
         IF(IABAC >= 4)IABAC=1
 
@@ -644,7 +666,7 @@ C-----------------------------------------------
           FACLOADP( 4,K) = ZDET
           FACLOADP( 5,K) = WTNT
           FACLOADP( 6,K) = PMIN
-          FACLOADP( 7,K) = ZERO !TA_INT initialized below
+          FACLOADP( 7,K) = ZERO !TA_PBLAST initialized below
           FACLOADP( 8,K) = Nx_SURF
           FACLOADP( 9,K) = Ny_SURF
           FACLOADP(10,K) = Nz_SURF
@@ -662,13 +684,13 @@ C-----------------------------------------------
           ISIZ_SEG = NUMSEG
           IAD = ILOADP(4,K)
           ILD_PBLAST = ILD_PBLAST + 1
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%cos_theta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%P_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%P_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%ta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%t0(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%decay_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (   PBLAST_TAB(ILD_PBLAST)%decay_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%cos_theta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%ta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%t0(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
           PBLAST_TAB(ILD_PBLAST)%SIZ=ISIZ_SEG
 
           !  Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary vector of the plane
@@ -682,6 +704,9 @@ C-----------------------------------------------
             ProjDet(3) = Zdet
           ENDIF
 
+          b_min = EP20
+          b_max = -EP20
+          DTMIN = EP20
           DO I=1,NUMSEG
             N1=IGRSURF(internal_SURF_ID)%NODES(I,1)
             N2=IGRSURF(internal_SURF_ID)%NODES(I,2)
@@ -1367,12 +1392,9 @@ C-----------------------------------------------
               I_inci_ = I_inci_* W13
               I_refl  = I_refl * W13
               I_refl_ = I_refl_* W13
-              DT_0    = DT_0   * W13
-              DT_0_   = DT_0_  * W13
-              T_A     = T_A    * W13
-
-              TAINF_PBLAST = MIN(TAINF_PBLAST, T_A/FAC_T_bb) !from cm mus g TO  Working Unit System
-              !print *, Z,T_A/FAC_T_bb,TAINF_PBLAST
+              IF(DT_0 /= EP20) DT_0  = DT_0  * W13
+              IF(DT_0_ /= EP20)DT_0_ = DT_0_ * W13
+              IF(T_A /= EP20)  T_A   = T_A   * W13
 
               IF(IMODEL == 1)THEN
                 !-Friedlander
@@ -1410,7 +1432,7 @@ C-----------------------------------------------
                   ENDIF
                   RES = ABS(FUNCT)   !g(x_new)
                 ENDDO
-                DECAY_inci=MAX(EM06,ZETA)
+                DECAY_inci=MAX(ONE,ZETA)
                 ITER=0
                 ZETA=ONE
                 RES=EP20
@@ -1435,7 +1457,7 @@ C-----------------------------------------------
                   ENDIF
                   RES = ABS(FUNCT)   !g(x_new)
                 ENDDO
-                DECAY_refl=MAX(EM06,ZETA)
+                DECAY_refl=MAX(ONE,ZETA)
               ENDIF
 
               ! UNIT CONVERSION !
@@ -1448,11 +1470,13 @@ C-----------------------------------------------
               I_inci_ =  I_inci_ / FAC_I_bb
               P_refl_ =  P_refl_ / FAC_P_bb
               I_refl_ =  I_refl_ / FAC_I_bb
-              DT_0    =  DT_0    / FAC_T_bb
-              DT_0_   =  DT_0_   / FAC_T_bb
-              T_A     =  T_A     / FAC_T_bb
-
-              T_A    = T_A + TDET
+              IF(DT_0 /= EP20) DT_0  =  DT_0  / FAC_T_bb
+              IF(DT_0_ /= EP20)DT_0_ =  DT_0_ / FAC_T_bb
+              IF(T_A /= EP20)THEN
+                T_A = T_A / FAC_T_bb
+                T_A = T_A + TDET
+              ENDIF
+              TA_PBLAST = MIN(TA_PBLAST,  T_A)
 
               !--------------------------------------------------------
               !   Storage of Wave Parameters (transmitted to Engine)
@@ -1465,8 +1489,23 @@ C-----------------------------------------------
               PBLAST_TAB(ILD_PBLAST)%decay_inci(I) = decay_inci
               PBLAST_TAB(ILD_PBLAST)%decay_refl(I) = decay_refl
 
-           ENDDO
+              b_min = MIN(b_min, decay_inci)
+              b_min = MIN(b_min, decay_refl)
 
+              b_max = MAX(b_max, decay_inci)
+              b_max = MAX(b_max, decay_refl)
+
+              DTMIN = MIN(DTMIN, DT_0/NDT)
+
+           ENDDO! I=1,NUMSEG
+
+           PBLAST_TAB(ILD_PBLAST)%DTMIN = DTMIN
+
+           FACLOADP(7,K) = TA_PBLAST ! min(TDET+T_A, I=1..NUMSEG)
+           PBLAST_DT%TA_INF = MIN(PBLAST_DT%TA_INF, TA_PBLAST)!   min( [min(TDET+T_A, I=1..NUMSEG)] , K=1..'numpblast')
+           OUTPUT_USER_PARAMS(3,K_BLAST) = b_min
+           OUTPUT_USER_PARAMS(4,K_BLAST) = b_max
+           OUTPUT_USER_PARAMS(6,K_BLAST) = TA_PBLAST
            IF(BOOL_UNDERGROUND_CURRENT_LOAD)THEN
              MSGOUT1=''
              WRITE(MSGOUT1,FMT='(I0,A)') SEG_UNDERGROUND,' SEGMENT(S) ON TARGET SURFACE ARE BELOW THE GROUND'
@@ -1476,7 +1515,55 @@ C-----------------------------------------------
            ENDIF
 
         ENDIF
-!
+
+        NUMLOADP=NUMLOADP+4*NUMSEG ! /LOAD/PBLAST
+
+C-----------
+      ENDDO!next K (/LOAD/PBLAST)
+
+!Set (shifted arrival time) for all blast loading
+      IF(.NOT.IS_ITA_SHIFT)THEN
+        PBLAST_DT%TA_INF = ZERO
+      ELSE
+        DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
+          K_BLAST = K-NLOADP_F
+          ILOADP(9,K) = 2
+          TA_PBLAST = FACLOADP(7,K)
+          !shifting trigger time
+          ! arrival time for segments are not shifted, time will be translated
+          ! during engine using T* = T + T_shift
+          FACLOADP(7,K) = MAX(ZERO, TA_PBLAST-PBLAST_DT%TA_INF) !arrival time shifted if requested
+        ENDDO
+      ENDIF
+
+
+
+C-----------OUTPUT IN LISTING FILE
+C---------------------------------
+      !this output is made once all /LOAD/PBLAST options are read in order to display global parameters (min values)
+      DO K = 1+NLOADP_F, NLOADP_F+NLOADP_B
+        K_BLAST = K-NLOADP_F
+        IZ_UPDATE = ILOADP(6,K)
+        IABAC = ILOADP(7,K)
+        ID = ILOADP(8,K)
+        ITA_SHIFT = ILOADP(9,K)
+        NDT = ILOADP(10,K)
+        IMODEL = ILOADP(11,K)
+        TDET = FACLOADP(1,K)
+        XDET = FACLOADP(2,K)
+        YDET = FACLOADP(3,K)
+        ZDET = FACLOADP(4,K)
+        WTNT = FACLOADP(5,K)
+        PMIN = FACLOADP(6,K)
+        TA_PBLAST = FACLOADP(7,K)
+        HC = FACLOADP(11,K)
+        TSTOP = FACLOADP(13,K)
+        NODE_ID = INT(OUTPUT_USER_PARAMS(5,K_BLAST))
+        SURF_ID = INT(OUTPUT_USER_PARAMS(1,K_BLAST))
+        SURF_ID_GROUND = INT(OUTPUT_USER_PARAMS(2,K_BLAST))
+        DTMIN = PBLAST_TAB(ILD_PBLAST)%DTMIN
+        b_min =  OUTPUT_USER_PARAMS(3,K_BLAST)
+        b_max =  OUTPUT_USER_PARAMS(4,K_BLAST)
         WRITE (IOUT,2000)
         SELECT CASE (IABAC)
           CASE(1)
@@ -1487,63 +1574,107 @@ C-----------------------------------------------
             WRITE(IOUT,2003)
         END SELECT
         WRITE(IOUT,2010)
-        IF(IABAC == 3) WRITE(IOUT,2023) HC
-        WRITE (IOUT,2011)ID,SURF_ID,IABAC,IZ_UPDATE,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT,PMIN
-        IF(IS_AVAILABLE_TSTOP)WRITE (IOUT,2024)TSTOP
-        IF(NODE_ID /= 0)WRITE (IOUT,2015)NODE_ID
-
-        IF(NDT /= 0)WRITE (IOUT,2014)NDT
-        IF(ITA_SHIFT == 2)THEN
-           WRITE (IOUT,2012)TAINF_PBLAST
+        IF(IABAC==1)THEN
+          WRITE (IOUT,2011)ID,SURF_ID,NUMSEG,IABAC,IZ_UPDATE,IMODEL,ITA_SHIFT,XDET,YDET,ZDET,TDET,WTNT,PMIN
         ELSE
-           WRITE (IOUT,2013)
+          WRITE (IOUT,2211)ID,SURF_ID,NUMSEG,SEG_UNDERGROUND, IABAC,IZ_UPDATE,IMODEL,ITA_SHIFT,
+     .                     XDET,YDET,ZDET,TDET,WTNT,PMIN
         ENDIF
 
-        NUMLOADP=NUMLOADP+4*NUMSEG ! /LOAD/PBLAST
+        WRITE (IOUT,2033)DTMIN
+        IF(IMODEL == 2)THEN
+          WRITE (IOUT,2031)b_min
+          WRITE (IOUT,2032)b_max
+        ENDIF
+        IF(IS_AVAILABLE_TSTOP)WRITE (IOUT,2024)TSTOP
+        IF(NODE_ID /= 0)WRITE (IOUT,2015)NODE_ID
+        IF(NDT /= 0)WRITE (IOUT,2014)NDT
+        IF(IABAC >=2)THEN
+          WRITE(IOUT,2034)NX_SURF,NY_SURF,NZ_SURF
+        ENDIF
+        IF(IABAC == 3) WRITE(IOUT,2023) HC
+        IF(ITA_SHIFT == 2)THEN
+           WRITE (IOUT,2013)OUTPUT_USER_PARAMS(6,K_BLAST)
+           WRITE (IOUT,2012)TA_PBLAST
+        ELSE
+           WRITE (IOUT,2013)TA_PBLAST
+        ENDIF
+        !DISPLAY MINIMUM VALUE WITHIN ALL PBLAST OPTIONS
+        IF(NLOADP_B>=2)THEN
+          WRITE(IOUT,2035)PBLAST_DT%TA_INF
+        ENDIF
 
-C-----------
-      ENDDO                     !next K (next /LOAD)
+      ENDDO!next K (/LOAD/PBLAST)
 
-!Set inf(T_arrival) for all blast loading
-      DO K = 1+NLOADC+NLOADP_F, NLOADC+NLOADP_F+NLOADP_B
-         FACLOADP( 7,K) = TAINF_PBLAST
-      ENDDO
+
+
 C--------------------------------------------------------------------------------C
+      DEALLOCATE( OUTPUT_USER_PARAMS)
       RETURN
 C--------------------------------------------------------------------------------C
  2000 FORMAT(
      .     //
      .     '      BLAST LOADING  '/,
      .     '     --------------  '/)
- 2001 FORMAT('     FREE AIR BURST'/)
- 2002 FORMAT('     SURFACE BURST'/)
- 2003 FORMAT('     AIR BURST'/)
+ 2001 FORMAT('     FREE AIR BURST')
+ 2002 FORMAT('     SURFACE BURST')
+ 2003 FORMAT('     AIR BURST')
  2010 FORMAT('     DEFAULT UNIT SYSTEM IS {g,cm,mus}'/)
  2011 FORMAT(
-     .     5X,'CARD IDENTIFIER. . . . . . . . . . . .=',I16/,
+     .     5X,'ID . . . . . . . . . . . . . . . . . .=',I16/,
      .     5X,'SURFACE IDENTIFIER . . . . . . . . . .=',I16/,
-     .     5X,'EXPERIMENTAL DATA IDENTIFIER. . . . . =',I16/,
-     .     5X,'IZ FLAG . . . . . . . . . . . . . . . =',I16/,
-     .     5X,'MODELING FLAG(FRIEDLANDER MODEL) . . .=',I16/,
-     .     5X,'FLAG FOR TIME SHIFTING . . . . . . . .=',I16/,
+     .     5X,'   > NUMBER OF SEGMENTS  . . . . . . .=',I16/,
+     .     5X,'EXP_DATA (ALGORITHM)  . . . . . . . . =',I16/,
+     .     5X,'IZ FLAG (ENGINE UPDATE) . . . . . . . =',I16/,
+     .     5X,'IFORM FLAG (FRIEDLANDER MODEL) . . . .=',I16/,
+     .     5X,'I_TSHIFT (FLAG FOR TIME SHIFTING)  . .=',I16/,
      .     5X,'X-DET. . . . . . . . . . . . . . . . .=',E12.4/,
      .     5X,'Y-DET . . . . . . . . . . . . . . . . =',E12.4/,
      .     5X,'Z-DET . . . . . . . . . . . . . . . . =',E12.4/,
-     .     5X,'DETONATION TIME. . . . . . . . . . . .=',E12.4/,
-     .     5X,'EXPLOSIVE MASS.  . . . . . . . . . . .=',E12.4/,
-     .     5X,'MINIMUM PRESSURE . . . . . . . . . . .=',E12.4/)
+     .     5X,'TDET . . . . . . . . . . . . . . . . .=',E12.4/,
+     .     5X,'WTNT  . . . . .  . . . . . . . . . . .=',E12.4/,
+     .     5X,'PMIN . . . . . . . . . . . . . . . . .=',E12.4)
+ 2211 FORMAT(
+     .     5X,'ID . . . . . . . . . . . . . . . . . .=',I16/,
+     .     5X,'SURFACE IDENTIFIER . . . . . . . . . .=',I16/,
+     .     5X,'   > NUMBER OF SEGMENTS  . . . . . . .=',I16/,
+     .     5X,'   > UNDERGROUND SEGMENTS. . . . . . .=',I16/,
+     .     5X,'EXP_DATA (ALGORITHM)  . . . . . . . . =',I16/,
+     .     5X,'IZ FLAG (ENGINE UPDATE) . . . . . . . =',I16/,
+     .     5X,'IFORM FLAG (FRIEDLANDER MODEL) . . . .=',I16/,
+     .     5X,'I_TSHIFT (FLAG FOR TIME SHIFTING)  . .=',I16/,
+     .     5X,'X-DET. . . . . . . . . . . . . . . . .=',E12.4/,
+     .     5X,'Y-DET . . . . . . . . . . . . . . . . =',E12.4/,
+     .     5X,'Z-DET . . . . . . . . . . . . . . . . =',E12.4/,
+     .     5X,'TDET . . . . . . . . . . . . . . . . .=',E12.4/,
+     .     5X,'WTNT  . . . . .  . . . . . . . . . . .=',E12.4/,
+     .     5X,'PMIN . . . . . . . . . . . . . . . . .=',E12.4)         
  2012 FORMAT(
-     .     5X,'COMPUTED TIME SHIFT. . . . . . . . . .=',E12.4//)
+     .     5X,'TIME OF ARRIVAL (SHIFTED). . . . . . .=',E12.4)
  2013 FORMAT(
-     .     5X,'NO TIME SHIFTING'//)
+     .     5X,'TIME OF ARRIVAL . . . . . . . . . . . =',E12.4)
  2014 FORMAT(
-     .     5X,'NUMBER OF TIME INTERVALS . . . . . . .=',I10)
+     .     5X,'NDT  . . . . . . . . . . . . . . . . .=',I10)
  2015 FORMAT(
      .     5X,'NODE IDENTIFIER. . . . . . . . . . . .=',I10)
  2023 FORMAT(
      .     5X,'CHARGE HEIGHT. . . . . . . . . . . . .=',E12.4)
  2024 FORMAT(
      .     5X,'STOP TIME . . . . .. . . . . . . . . .=',E12.4/)
+ 2031 FORMAT(
+     .     5X,'COMPUTED MINIMUM DECAY PARAMETER . . .=',E12.4)
+ 2032 FORMAT(
+     .     5X,'COMPUTED MAXIMUM DECAY PARAMETER . . .=',E12.4)
+ 2033 FORMAT(
+     .     5X,'COMPUTED MINIMUM TIME STEP . . . . . .=',E12.4)
+ 2034 FORMAT(
+     .     5X,'GROUND NX  . . . . . . . . . . . . . .=',E12.4/,
+     .     5X,'GROUND NY . . . . . . . . . . . . . . =',E12.4/,
+     .     5X,'GROUND NZ . . . . . . . . . . . . . . =',E12.4)
+ 2035 FORMAT(
+     .     5X,'TIME SHIFT VALUE',/,
+     .     5X,'  (MINIMUM AMONG ALL PBLAST OPTIONS). =',E12.4//)
+
 C-----------------------------------------------
  1000 CONTINUE
       IF (IERR1 /= 0) THEN
