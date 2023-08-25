@@ -2498,9 +2498,9 @@ c          IF(OFFOLD(I)>=1.AND.OFF(I)/=OFFOLD(I).AND.OFF(I)>=0.AND.OFF(I)<1)THEN
       END IF
 C-----------  
 C-----------------------------------------------------------------  
-C  ALE/EULER  POST-TREATMENT
-C-----------------------------------------------------------------  
-        IF(IPARG(7,NG)+IPARG(11,NG) > 0 ) THEN
+C  SOUND SPEED (SSP)  POST-TREATMENT
+C-----------------------------------------------------------------
+        IF(ELBUF_TAB(NG)%BUFLY(ILAY)%L_SSP /=0 )THEN
           LBUF%SSP(1:NEL) = CXX(1:NEL)
         ENDIF
 

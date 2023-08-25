@@ -33,10 +33,64 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP , 
-     1                  IPARG    ,ITHBUF   ,WA      ,
-     2                  IPM      ,IXQ      ,IXTG    ,
-     3                  X        ,MULTI_FVM,V       ,
-     4                  W        )
+     1                  IPARG    ,ITHBUF   ,WA     ,
+     2                  IPM      ,IXQ      ,IXTG   ,
+     3                  X        ,MULTI_FVM,V      ,
+     4                  W        ,
+     .                  NUMELQ   ,NUMMAT   ,NUMNOD ,SITHBUF, NUMELTG)
+
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C
+C             /TH/QUAD : BUFFER FOR TIME HISTORY OUTPUT
+C
+C This subroutine is writing buffer related to /TH/QUAD option in
+C order to be written in Time History files : T01, T02, etc...
+C Each channel (index) is standing for a given physical quantity as desbibed below
+C Time History file is requested with Engine option /TFILE
+C
+C-------------------------
+C CHANNEL     KEY    DESCRIPTION   [MAT LAW]
+C
+C       1     OFF
+C       2     SX     SIGX
+C       3     SY     SIGY
+C       4     SZ     SIGZ
+C       5     SXY    SIGXY
+C       6     SYZ    SIGYZ
+C       7     SXZ    SIGZX
+C       8     IE     INTERNAL ENERGIE / VOLUME0
+C       9     DENS   DENSITY
+C      10     BULK   BULK VISCOSITY
+C      11     VOL    VOLUME (ALE) OR INITIAL VOLUME (LAG)
+C      12     PLAS   EPS PLASTIQUE [2,3,4,7,8,9,16,22,23,26,33-38]
+C      13     TEMP   TEMPERATURE   [4,6,7,8,9,11,16,17,26,33-38]
+C      14     PLSR   STRAIN RATE   [4,7,8,9,16,26,33-38]
+C      15     DAMA1  DAMAGE 1      [14]
+C      16     DAMA2  DAMAGE 2      [14]
+C      17     DAMA3  DAMAGE 3      [14]
+C      18     DAMA4  DAMAGE 4      [14]
+C      19     DAMA   DAMAGE        [24]
+C      20(14) SA1    STRESS RE1    [24]
+C      21(15) SA2    STRESS RE2    [24]
+C      22(16) SA3    STRESS RE3    [24]
+C      23(17) CR     CRACKS VOL    [24]
+C      24(18) CAP    CAP PARAM     [24]
+C      25(13) K0     HARD. PARAM   [24]
+C      26(12) RK     TURBUL. ENER. [6,11,17]
+C      27(14) TD     TURBUL. DISS. [6,11,17]
+C      28(14) EFIB   FIBER STRAIN  [14]
+C      29(16) ISTA   PHASE STATE   [16]
+C      30(12) VPLA   VOL. EPS PLA. [10,21]
+C      31     BFRAC  BURN FRACTION [5,41,51,97,151]
+C      32(12) WPLA   PLAS. WORK    [14]
+C        ...
+C      239547     VX     X-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR COLOCATED SCHEME)
+C      239548     VY     Y-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR COLOCATED SCHEME)
+C      239549     VZ     Z-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR COLOCATED SCHEME)
+C      239550     SSP    SOUND SPEED
+C      239551     MACH   MACH NUMBER
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,42 +113,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,NGROUP),ITHBUF(*),IXQ(NIXQ,*), IPM(NPROPMI,*),
-     .        IXTG(NIXTG,*)
-      INTEGER, INTENT(in) :: NTHGRP2
-      INTEGER, DIMENSION(NITHGR,*), INTENT(in) :: ITHGRP
-      my_real
-     .   WA(*), X(3,*), V(3,*), W(3,*)
+      INTEGER,INTENT(IN) :: NUMELQ, NUMMAT, NUMNOD ,SITHBUF, NUMELTG
+      INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP),ITHBUF(SITHBUF),IXQ(NIXQ,NUMELQ),IPM(NPROPMI,NUMMAT),IXTG(NIXTG,NUMELTG)
+      INTEGER, INTENT(IN) :: NTHGRP2
+      INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
+      my_real,INTENT(INOUT) :: WA(*)
+      my_real,INTENT(IN) :: X(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, KRK, LL, I, J, K, L ,N, IH, IP, NG, MTE, NUVAR,
-     .   NC1, NC2, NC3, NC4,  NEL, MTN1,KK(6),IJ,NPTR,NPTS,
-     .   IR,IS,JJ(6)
-      INTEGER :: NITER,IADB,NN,IADV,NVAR,ITYP,IJK,IS_ALE
-      my_real
-     .   WWA(239552),
-     .   SY , SZ, TY , TZ, SUMA,
-     .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   R11,R12,R13,R21,R22,R23,R31,R32,R33,
-     .   G22,G23,G32,G33,
-     .   T22,T23,T32,T33,
-     .   S1,S2,S3,S4,
-     .   T1,T2,T3,T4,CS,CT,EVAR(6),GAMA(6),
-     .   TMP(3,4),VEL(3)
-      my_real
-     .   BUFEL(1)   !!  Old buffer - bidon !!
-      my_real
-     .   SSP  
-C----  
+     .        NC1, NC2, NC3, NC4,  NEL, MTN1,KK(6),IJ,NPTR,NPTS,
+     .        IR,IS,JJ(6),NITER,IADB,NN,IADV,NVAR,ITYP,IJK,IS_ALE
+      my_real WWA(239552),
+     .        SY , SZ, TY , TZ, SUMA,
+     .        Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
+     .        R11,R12,R13,R21,R22,R23,R31,R32,R33,
+     .        G22,G23,G32,G33,
+     .        T22,T23,T32,T33,
+     .        S1,S2,S3,S4,
+     .        T1,T2,T3,T4,CS,CT,EVAR(6),GAMA(6),
+     .        TMP(3,4),VEL(3),SSP,BFRAC
       TYPE(L_BUFEL_) ,POINTER :: LBUF,LBUF1,LBUF2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
-C=======================================================================
-C           ELEMENTS QUADS
-C-------------------------
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
         IJK = 0
         DO NITER=1,NTHGRP2
             ITYP=ITHGRP(2,NITER)
@@ -111,7 +158,7 @@ C-------------------------
       IF(ITYP == 117) ITYP = 7
 
 
-C decalage IH
+C  IH shifting
       DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
           IH = IH + 1
         ENDDO
@@ -158,21 +205,17 @@ C
 C
             IF (K==N)THEN
               IH=IH+1
-Cel traitement specifique spmd
+              !spmd treatment
               IF (IMACH==3) THEN
-C recherche du ii correct
+                ! find related 'ii'
                 II = ((IH-1) - IADB)*NVAR
-                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.
-     .                   (IH<IADB+NN))
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
                   IH = IH + 1
                 ENDDO
               ENDIF
 c-------------------------------------
               IF (IH > IADB+NN) GOTO 666
 c-------------------------------------
-c              N1=NB10+I-1
-c              N2=NB11+I-1
-c              N3=NB12+I-1
               DO L=1,1000
                 WWA(L)=ZERO
               ENDDO
@@ -196,42 +239,63 @@ c              N3=NB12+I-1
                 GAMA(5)=GBUF%GAMA(KK(5) + I)
                 GAMA(6)=GBUF%GAMA(KK(6) + I)
               END IF
-C-------------------------
-C              QUADS
-C-------------------------
-C VAR(OLD) KEY    DESCRIPTION   [MAT LAW]
-C
-C    1     OFF
-C    2     SX     SIGX
-C    3     SY     SIGY
-C    4     SZ     SIGZ
-C    5     SXY    SIGXY
-C    6     SYZ    SIGYZ
-C    7     SXZ    SIGZX
-C    8     IE     INTERNAL ENERGIE / VOLUME0
-C    9     DENS   DENSITY
-C   10     BULK   BULK VISCOSITY
-C   11     VOL    VOLUME (ALE) OR INITIAL VOLUME (LAG)
-C   12     PLAS   EPS PLASTIQUE [2,3,4,7,8,9,16,22,23,26,33-38] 
-C   13     TEMP   TEMPERATURE   [4,6,7,8,9,11,16,17,26,33-38] 
-C   14     PLSR   STRAIN RATE   [4,7,8,9,16,26,33-38] 
-C   15     DAMA1  DAMAGE 1      [14] 
-C   16     DAMA2  DAMAGE 2      [14] 
-C   17     DAMA3  DAMAGE 3      [14] 
-C   18     DAMA4  DAMAGE 4      [14] 
-C   19     DAMA   DAMAGE        [24] 
-C   20(14) SA1    STRESS RE1    [24] 
-C   21(15) SA2    STRESS RE2    [24] 
-C   22(16) SA3    STRESS RE3    [24] 
-C   23(17) CR     CRACKS VOL    [24] 
-C   24(18) CAP    CAP PARAM     [24] 
-C   25(13) K0     HARD. PARAM   [24] 
-C   26(12) RK     TURBUL. ENER. [6,11,17] 
-C   27(14) TD     TURBUL. DISS. [6,11,17] 
-C   28(14) EFIB   FIBER STRAIN  [14] 
-C   29(16) ISTA   PHASE STATE   [16] 
-C   30(12) VPLA   VOL. EPS PLA. [10,21] 
-C   32(12) WPLA   PLAS. WORK    [14] 
+C-----------
+C             SOUND SPEED, MATERIAL VELOCITY, AND MACH NUMBER.
+C-----------
+              VEL(1:3)=ZERO
+              WWA(239547) = ZERO !VZ
+              WWA(239548) = ZERO !VY
+              WWA(239549) = ZERO !VZ
+              WWA(239551) = ZERO !SSP
+              WWA(239551) = ZERO !MACH
+              IF(IS_ALE /= 0)THEN
+c               ! ale
+                IF(ITY == 2)THEN
+                  TMP(1,1:4)=V(1,IXQ(2:5,N))-W(1,IXQ(2:5,N))
+                  TMP(2,1:4)=V(2,IXQ(2:5,N))-W(2,IXQ(2:5,N))
+                  TMP(3,1:4)=V(3,IXQ(2:5,N))-W(3,IXQ(2:5,N))
+                  VEL(1) = SUM(TMP(1,1:4))*FOURTH
+                  VEL(2) = SUM(TMP(2,1:4))*FOURTH
+                  VEL(3) = SUM(TMP(3,1:4))*FOURTH
+                ELSEIF(ITY == 7)THEN
+                  TMP(1,1:3)=V(1,IXTG(2:4,N))-W(1,IXTG(2:4,N))
+                  TMP(2,1:3)=V(2,IXTG(2:4,N))-W(2,IXTG(2:4,N))
+                  TMP(3,1:3)=V(3,IXTG(2:4,N))-W(3,IXTG(2:4,N))
+                  VEL(1) = SUM(TMP(1,1:3))*THIRD
+                  VEL(2) = SUM(TMP(2,1:3))*THIRD
+                  VEL(3) = SUM(TMP(3,1:3))*THIRD
+                ENDIF
+              ELSE
+                 !euler and lagrange
+                IF(ITY == 2)THEN
+                  TMP(1,1:4)=V(1,IXQ(2:5,N))
+                  TMP(2,1:4)=V(2,IXQ(2:5,N))
+                  TMP(3,1:4)=V(3,IXQ(2:5,N))
+                  VEL(1) = SUM(TMP(1,1:4))*FOURTH
+                  VEL(2) = SUM(TMP(2,1:4))*FOURTH
+                  VEL(3) = SUM(TMP(3,1:4))*FOURTH
+                ELSE
+                  TMP(1,1:3)=V(1,IXTG(2:4,N))
+                  TMP(2,1:3)=V(2,IXTG(2:4,N))
+                  TMP(3,1:3)=V(3,IXTG(2:4,N))
+                  VEL(1) = SUM(TMP(1,1:3))*THIRD
+                  VEL(2) = SUM(TMP(2,1:3))*THIRD
+                  VEL(3) = SUM(TMP(3,1:3))*THIRD
+                ENDIF
+              ENDIF
+
+              WWA(239547) = VEL(1)
+              WWA(239548) = VEL(2)
+              WWA(239549) = VEL(3)
+
+              IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
+                WWA(239550)= LBUF%SSP(I) !sound speed
+                WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)   !mach number
+              ENDIF
+
+              IF(ELBUF_TAB(NG)%GBUF%G_BFRAC /= 0)THEN
+                WWA(31) = GBUF%BFRAC(I)
+              ENDIF
 C------------------------------------------------------------------------------
 C       TH tab filling with stresses in the global (WA(2:7) 
 C                                         and local system(WA(35:40)
@@ -243,9 +307,7 @@ C------------------------------------------------------------------------------
                 DO J=1,6
                   WWA(2+J-1)=EVAR(J)
                 ENDDO
-                IF(ITY == 2) CALL QROTA3(
-     1   X,       IXQ(1,N),JCVT,    EVAR,
-     2   GAMA,    ISORTH)
+                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
                 DO J=1,6               
                   WWA(35+J-1)=EVAR(J)
                 ENDDO
@@ -253,9 +315,7 @@ C------------------------------------------------------------------------------
                 DO J=1,6               
                   WWA(35+J-1)=EVAR(J)
                 ENDDO
-                IF(ITY == 2) CALL QROTA3(
-     1   X,       IXQ(1,N),JCVT,    EVAR,
-     2   GAMA,    ISORTH)
+                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
                 DO J=1,6
                   WWA(2+J-1)=EVAR(J)
                 ENDDO
@@ -278,9 +338,6 @@ c
                 WWA(26)=LBUF%RK(I)
                 WWA(27)=LBUF%RE(I)
               ELSEIF (MTE==7.OR.MTE==8.OR.MTE==9) THEN
-c                WWA(12)=BUFEL(N1)
-c                WWA(13)=BUFEL(N2)
-c                WWA(14)=BUFEL(N3)
                 WWA(12)=ZERO
                 WWA(13)=ZERO
                 WWA(14)=ZERO
@@ -356,9 +413,6 @@ c                WWA(14)=BUFEL(N3)
                 WWA(12)=ZERO
                 WWA(13)=ZERO
                 WWA(14)=ZERO
-c                WWA(12)=BUFEL(N1)
-c                WWA(13)=BUFEL(N2)
-c                WWA(14)=BUFEL(N3)
               ELSEIF (MTE==46.OR.MTE==47) THEN
                 WWA(12)=MBUF%VAR(I)
                 WWA(13)=MBUF%VAR(I+NEL)
@@ -412,9 +466,7 @@ C EPS IN THE GLOBAL SYSTEM
                 DO J=1,6
                  WWA(1619+J-1)=EVAR(J)
                 ENDDO 
-                IF(ITY == 2) CALL QROTA3(
-     1   X,       IXQ(1,N),JCVT,    EVAR,
-     2   GAMA,    ISORTH)
+                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
 C LEPS IN THE LOCAL SYSTEM
                 DO J=1,6
                  WWA(239030+J-1)=EVAR(J)
@@ -424,9 +476,7 @@ C LEPS IN THE LOCAL SYSTEM
                 DO J=1,6
                  WWA(239030+J-1)=EVAR(J)
                 ENDDO
-                IF(ITY == 2) CALL QROTA3(
-     1   X,       IXQ(1,N),JCVT,    EVAR,
-     2   GAMA,    ISORTH)
+                IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
 C EPS IN THE GLOBAL SYSTEM
                 DO J=1,6
                  WWA(1619+J-1)=EVAR(J)
@@ -445,9 +495,7 @@ C EPS111, EPS121, EPS211, EPS221 IN THE GLOBAL SYSTEM
                      WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
                    ENDDO
                  ELSE
-                   IF(ITY == 2) CALL QROTA3(
-     1   X,       IXQ(1,N),JCVT,    EVAR,
-     2   GAMA,    ISORTH)
+                   IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
                    DO J=1,6      
                      WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
                    ENDDO
@@ -456,7 +504,15 @@ C EPS111, EPS121, EPS211, EPS221 IN THE GLOBAL SYSTEM
               ENDDO
 C
 C                    
-              IF (MTE==151) THEN
+              IF (MTE==151) THEN !specific buffer with colocated scheme, generic storage from above are erased
+C BFRAC
+                IF(ALLOCATED(MULTI_FVM%BFRAC))THEN
+                  BFRAC = ZERO
+                  DO IR=1,MULTI_FVM%NBMAT
+                    BFRAC = MAX(BFRAC, MULTI_FVM%BFRAC(IR,N))
+                  ENDDO
+                  WWA(31)=BFRAC
+               ENDIF
 C VX / VY / VZ
                 WWA(239547)= MULTI_FVM%VEL(1, N)
                 WWA(239548)= MULTI_FVM%VEL(2, N)
@@ -480,65 +536,9 @@ C SSP
                   WWA(239548)= VEL(2)
                   WWA(239549)= VEL(3)
                   WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                ENDIF                     
+                ENDIF
 
-              ELSE IF (MTE==51 .AND. ITY == 2) THEN
-C SSP
-                WWA(239550)= LBUF%SSP(I)                                                 
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                      
-                  IF(IS_ALE /= 0)THEN
-c                  !ale  
-                     TMP(1,1:4)=V(1,IXQ(2:5,N))-W(1,IXQ(2:5,N))
-                     TMP(2,1:4)=V(2,IXQ(2:5,N))-W(2,IXQ(2:5,N))
-                     TMP(3,1:4)=V(3,IXQ(2:5,N))-W(3,IXQ(2:5,N))                                    
-                     VEL(1) = SUM(TMP(1,1:4))*FOURTH
-                     VEL(2) = SUM(TMP(2,1:4))*FOURTH
-                     VEL(3) = SUM(TMP(3,1:4))*FOURTH
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                    ELSE
-                    !euler and lagrange                                                                           
-                     TMP(1,1:4)=V(1,IXQ(2:5,N))                                                    
-                     TMP(2,1:4)=V(2,IXQ(2:5,N))                                                    
-                     TMP(3,1:4)=V(3,IXQ(2:5,N))                                                    
-                     VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
-                     VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
-                     VEL(3) = SUM(TMP(3,1:4))*FOURTH                                          
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                  ENDIF
-                ENDIF
-              ELSEIF (MTE==51 .AND. ITY == 7) THEN
-C SSP  
-                WWA(239550)= LBUF%SSP(I)                                                   
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                      
-                  IF(IS_ALE /= 0)THEN
-                  !ale  
-                     TMP(1,1:3)=V(1,IXTG(2:4,N))-W(1,IXTG(2:4,N))
-                     TMP(2,1:3)=V(2,IXTG(2:4,N))-W(2,IXTG(2:4,N))
-                     TMP(3,1:3)=V(3,IXTG(2:4,N))-W(3,IXTG(2:4,N))                                    
-                     VEL(1) = SUM(TMP(1,1:3))*THIRD
-                     VEL(2) = SUM(TMP(2,1:3))*THIRD
-                     VEL(3) = SUM(TMP(3,1:3))*THIRD
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                    ELSE
-                    !euler and lagrange                                                                           
-                     TMP(1,1:3)=V(1,IXTG(2:4,N))
-                     TMP(2,1:3)=V(2,IXTG(2:4,N))
-                     TMP(3,1:3)=V(3,IXTG(2:4,N))
-                     VEL(1) = SUM(TMP(1,1:3))*THIRD
-                     VEL(2) = SUM(TMP(2,1:3))*THIRD
-                     VEL(3) = SUM(TMP(3,1:3))*THIRD
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                  ENDIF
-                ENDIF
-                               
-              ELSE
-                IF(SIZE(LBUF%SSP) >= I) THEN 
-                   WWA(239550)= LBUF%SSP(I)
-                ELSE
-                   WWA(239550)= 0
-                ENDIF
               ENDIF
-
 c
               DO L=IADV,IADV+NVAR-1
                 K=ITHBUF(L)

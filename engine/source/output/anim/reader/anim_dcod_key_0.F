@@ -2453,7 +2453,8 @@ C--------------------------
          ANIM_CE(10250) = 1 !vfrac phase3 (law20/51)
          ANIM_CE(10251) = 1 !vfrac phase4 (law20/51)           
       ELSEIF(KEY3(1:5)=='BFRAC')THEN
-         ANIM_SE(887)   = 1                    
+         ANIM_SE(887)   = 1
+         ANIM_CE(10252) = 1
       ELSEIF(KEY3(1:3)=='SSP')THEN
          ANIM_SE(4891)   = 1              
          ANIM_CE(10671)  = 1 

@@ -1192,13 +1192,9 @@ C--------------------------------------------
       !no need to output zero contour for ALE ANIM keywords if ALE not defined. (example: schlieren +SH3N)
       IF(IALE+IEULER+ITHERM == 0)THEN
         NCE_ANI = NCE_ANI - ANIM_CE(10672)
-        NCE_ANI = NCE_ANI - ANIM_CE(10671)
         NSE_ANI = NSE_ANI - ANIM_SE(4892)
-        NSE_ANI = NSE_ANI - ANIM_SE(4891)
         ANIM_CE(10672) = 0 !quad schlieren
         ANIM_SE(4892)  = 0 !solid schlieren
-        ANIM_CE(10671) = 0 !quad ssp
-        ANIM_SE(4891)  = 0 !solid ssp        
       ENDIF
             
       !no need to output phase contour if no law51

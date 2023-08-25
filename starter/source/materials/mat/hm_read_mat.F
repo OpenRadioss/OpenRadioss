@@ -1355,6 +1355,10 @@ c
           IF (MTAG%G_EPSD == 0) MTAG%G_EPSD = 1
           IF (MTAG%L_EPSD == 0) MTAG%L_EPSD = 1
         ENDIF
+
+        !Sound Speed
+        IF(MTAG%L_SSP == 0)MTAG%L_SSP = 1
+
 C for QEPH (shell formulation)       
         IF(IPM(2,I) /= 999)THEN ! IF ipm(2,) == 999 possible negative square root with PM(25)=CPE(gas)
           PM(12,I) = SQRT(MAX(ZERO, PM(22,I)))    ! GSR
