@@ -1418,8 +1418,7 @@ c-----------Mach Number
                            EVAR(I) = VEL(0)/LBUF%SSP(I)                                                  
                         ENDDO                                                                             
                      ENDIF                                                                                
-                ELSE  
-                  L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
+                ELSE
                   IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                          
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                     
                     IF(IS_ALE /= 0)THEN

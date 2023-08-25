@@ -130,7 +130,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NTHGRP2, NUMELS, NUMMAT, NUMGEO, NUMNOD, SITHBUF
       INTEGER,INTENT(IN) :: ITHBUF(SITHBUF)
       INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
-      my_real WA(*), X(3,NUMNOD)  ,PM(NPROPM,NUMMAT)
+      my_real,INTENT(INOUT) :: WA(*)
+      my_real,INTENT(IN) :: X(3,NUMNOD)  ,PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
@@ -338,9 +339,11 @@ C-----------
               VEL(1) = TMP_2(I,1)*ONE_OVER_8
               VEL(2) = TMP_2(I,2)*ONE_OVER_8
               VEL(3) = TMP_2(I,3)*ONE_OVER_8
-              WWA(239547)= VEL(1)
-              WWA(239548)= VEL(2)
-              WWA(239549)= VEL(3)
+              WWA(239547) = VEL(1)
+              WWA(239548) = VEL(2)
+              WWA(239549) = VEL(3)
+              WWA(239550) = ZERO
+              WWA(239551) = ZERO
               IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
                 WWA(239550)= LBUF%SSP(I) !sound speed
                 WWA(239551)=  SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)   !mach number
@@ -860,7 +863,7 @@ C BFRAC
                   DO IR=1,MULTI_FVM%NBMAT
                     BFRAC = MAX(BFRAC, MULTI_FVM%BFRAC(IR,N))
                   ENDDO
-                  WA(31)=BFRAC
+                  WWA(31)=BFRAC
                ENDIF
 C VX / VY / VZ
                 WWA(239547)= MULTI_FVM%VEL(1, N)
@@ -898,8 +901,7 @@ c
                 DO IR=1,NPTR
                   DO IS=1,NPTS
                     DO IT=1,NPTT
-                      WWA(239553) = WWA(239553) +
-     .                    ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%PLANL(I)/NPTG
+                      WWA(239553) = WWA(239553) + ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%PLANL(I)/NPTG
                     ENDDO
                   ENDDO
                 ENDDO
@@ -910,8 +912,7 @@ c
                 DO IR=1,NPTR
                   DO IS=1,NPTS
                     DO IT=1,NPTT
-                      WWA(239554) = WWA(239554) +
-     .                    ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%EPSDNL(I)/NPTG
+                      WWA(239554) = WWA(239554) + ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%EPSDNL(I)/NPTG
                     ENDDO
                   ENDDO
                 ENDDO
@@ -958,20 +959,16 @@ c---------------------Rotation to the global system for EPSXX.. ------
                   GAMA(5)=ONE
                   GAMA(6)=ZERO
 
-                  CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    STRAIN,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                  CALL SROTA6(X,IXS(1,N),KCVT,STRAIN,GAMA,KHBE,IGTYP,ISORTH)
 
                   DO J=1,3
                     WWA(1618 + J) = STRAIN(J)  ! mean stress in global skew
                   ENDDO
 c---------------
-                ELSEIF (ISOLNOD==8 .AND. KHBE/=14 .AND. KHBE/=15 .AND.
-     .                                   KHBE/=17) THEN
+                ELSEIF (ISOLNOD==8 .AND. KHBE/=14 .AND. KHBE/=15 .AND. KHBE/=17) THEN
 c----------------------------------------------------------------------------
 C------------------------Output SIJK EPS L_EPS-------------------------------
 C---------------------------------------------------------------------------
-c
 c                 8-node bricks (std)
 c---------------
                   IF (NPT == 8)THEN
@@ -1084,9 +1081,7 @@ C-----------------in global ref : EPSX............-----------
                         GAMA(6)=ZERO
                      END IF
 
-                     CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    STRAIN,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                     CALL SROTA6(X,IXS(1,N),KCVT,STRAIN,GAMA,KHBE,IGTYP,ISORTH)
 
                      DO J=1,3
                         WWA(1618 + J) = STRAIN(J)  ! mean strain in global skew
@@ -1141,9 +1136,7 @@ C-----------------in global ref : EPSX............-----------
                         GAMA(6)=ZERO
                     END IF
 
-                    CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    STRAIN,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                    CALL SROTA6(X,IXS(1,N),KCVT,STRAIN,GAMA,KHBE,IGTYP,ISORTH)
 
                     DO J=1,3
                        WWA(1618 + J) = STRAIN(J)  ! mean stress in global skew
@@ -1179,8 +1172,7 @@ C---------------------------------------------------------------------------
 
                      IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
 
-                     IF (IPT  <= NPTG .AND. IR <= NPTR .AND. IS <= NPTS
-     .                    .AND. IT <= NLAY) THEN
+                     IF (IPT  <= NPTG .AND. IR <= NPTR .AND. IS <= NPTS .AND. IT <= NLAY) THEN
                       IF (ELBUF_TAB(NG)%BUFLY(IT)%L_STRA > 0) THEN
                        LBUF => ELBUF_TAB(NG)%BUFLY(IT)%LBUF(IR,IS,1)
                        EVAR_TMP(1) = LBUF%STRA(KK(1)+I)
@@ -1268,9 +1260,7 @@ C                        STRAIN TENSOR IN GLOBAL SYSTEM
 
                         ENDIF
 
-                        CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                        CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,KHBE,IGTYP,ISORTH)
 
                          DO J = 1, 6
                            EVAR(J) = EVAR(J) + EVAR_TMP(J)/NPTG
@@ -1345,9 +1335,7 @@ C                       Deformation plastique
                           ENDIF
                         ENDIF
 
-                        CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    SIGG,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                        CALL SROTA6(X,IXS(1,N),KCVT,SIGG,GAMA,KHBE,IGTYP,ISORTH)
 
 C-----------------in global ref : SXIJK............-----------
                         DO J=1,6
@@ -1436,8 +1424,7 @@ c                          WWA(196+IPWWA+ITENS)=LBUF%SIG(KK(ITENS)+I)
 
                         IF(IVISC > 0) then
                           DO ITENS=1,6
-                           SIGP(ITENS,ISPAU,IS)=SIGP(ITENS,ISPAU,IS) +
-     .                                              LBUF%VISC(KK(ITENS)+I)
+                           SIGP(ITENS,ISPAU,IS)=SIGP(ITENS,ISPAU,IS) + LBUF%VISC(KK(ITENS)+I)
                            SIGG(ITENS) =  SIGG(ITENS) + LBUF%VISC(KK(ITENS)+I)
                          ENDDO
                         ENDIF
@@ -1457,10 +1444,8 @@ C                         we can get just 9 user variables by integration point
 C                         we can get just 60 average user variables
                           NUVARTH = MIN(60,NUVAR)
                           DO J=1, NUVARTH
-                            USER(J) = USER(J) +
-     .                              + MBUF%VAR(I + (J-1)*NEL )/NPT
-                            WWA(889 + J + IUWWA) =
-     .                                MBUF%VAR(I + (J-1)*NEL )
+                            USER(J) = USER(J) + MBUF%VAR(I + (J-1)*NEL )/NPT
+                            WWA(889 + J + IUWWA) = MBUF%VAR(I + (J-1)*NEL )
                           ENDDO
 
                           IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN
@@ -1572,12 +1557,8 @@ C-----------------in global ref : SXIJK EPIJK............-----------
 
                           ENDIF
 
-                          CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    SIGG,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
-                          CALL SROTA6(
-     1   X,       IXS(1,N),KCVT,    EVAR_TMP,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                          CALL SROTA6(X,IXS(1,N),KCVT,SIGG    ,GAMA,KHBE,IGTYP,ISORTH)
+                          CALL SROTA6(X,IXS(1,N),KCVT,EVAR_TMP,GAMA,KHBE,IGTYP,ISORTH)
 
 C-----------------in global ref : SXIJK............-----------
                         DO J=1,6
@@ -1807,8 +1788,7 @@ C-----------------in local ref : L_EPSX............-----------
                   ENDDO
 
 c----
-                ELSEIF( ISOLNOD == 16.OR.ISOLNOD == 20.OR.
-     .            (ISOLNOD == 8.AND.(KHBE == 14.OR.KHBE == 17)))THEN
+                ELSEIF( ISOLNOD == 16 .OR. ISOLNOD == 20 .OR. (ISOLNOD == 8.AND.(KHBE == 14.OR.KHBE == 17)))THEN
 c----------------------------------------------------------------------------
 C------------------------Output SIJK EPS L_EPS---------------------
 C---------------------------------------------------------------------------
@@ -1922,9 +1902,7 @@ C-----------------in local ref : L_EPSX............-----------
                       GAMA(4)=GBUF%GAMA(KK(4) + I)
                       GAMA(5)=GBUF%GAMA(KK(5) + I)
                       GAMA(6)=GBUF%GAMA(KK(6) + I)
-                      CALL SROTA6(
-     1   X,       IXS(1,N),2,       STRAIN,
-     2   GAMA,    KHBE,    IGTYP,   ISORTH)
+                      CALL SROTA6(X,IXS(1,N),2,STRAIN,GAMA,KHBE,IGTYP,ISORTH)
                     ENDIF
                   ENDIF
                   DO J = 1, 6
@@ -1938,7 +1916,6 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                   WWA(1618 + 4) = STRAIN(4)
                   WWA(1618 + 5) = STRAIN(6)
                   WWA(1618 + 6) = STRAIN(5)
-
 C
 C                 STRESS VALUES AT FACES (TOP & BOTTOM)
 C

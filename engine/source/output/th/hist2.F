@@ -774,10 +774,11 @@ C-------------------------------------------------------
 !   TH optimization for quad/tria elements
         !   initialization of local array
         WA_QUAD(ID_HIST)%WA_REAL( 1:WA_QUAD_SIZE(ID_HIST) ) = ZERO
-        CALL THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP , 
+        CALL THQUAD(ELBUF_TAB,NTHGRP2  ,ITHGRP    ,
      1              IPARG    ,ITHBUF   ,WA_QUAD(ID_HIST)%WA_REAL      ,
      2              IPM      ,IXQ      ,IXTG      ,X       ,MULTI_FVM ,
-     3              V        ,W        )
+     3              V        ,W        ,
+     .              NUMELQ   ,NUMMAT   ,NUMNOD    ,SITHBUF   ,NUMELTG)
         !   send WA_QUAD to PROC0
         IF(NSPMD>1) THEN
             CALL SPMD_GATHERV(WA_QUAD(ID_HIST)%WA_REAL,WA_QUAD_P0(ID_HIST)%WA_REAL,0,
