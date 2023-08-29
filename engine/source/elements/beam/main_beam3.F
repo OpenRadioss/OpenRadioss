@@ -201,7 +201,9 @@ c
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .              TIME    ,IOUT    ,ISTDO   ,
-     .              SVM     ,PRESSURE)
+     .              SVM     ,PRESSURE,EINT    ,AREA    ,AL      ,
+     .              F1      ,F2      ,F3      ,M1      ,M2      ,
+     .              M3 )
       END IF
 C-------------------------------------
       DO I=1,NEL

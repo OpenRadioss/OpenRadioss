@@ -193,7 +193,9 @@ c
      .              NEL     ,NPT     ,IMAT    ,IPID    ,JTHE    ,
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
-     .              DPLA    ,EINT    ,TIME    ,IOUT    ,ISTDO   )
+     .              DPLA    ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
+     .              AL      , F1     ,F2      ,F3      ,M1      ,
+     .              M2      ,M3      ,AREA)
       END IF
 C-------------------------------------
       DO I = 1,NEL

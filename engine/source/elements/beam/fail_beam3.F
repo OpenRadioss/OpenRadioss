@@ -34,7 +34,9 @@ Chd|====================================================================
      .                  TEMPEL  ,NGL     ,PM      ,IPM     ,
      .                  OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .                  TIME    ,IOUT    ,ISTDO   ,
-     .                  SVM     ,PRESSURE)
+     .                  SVM     ,PRESSURE,EINT    ,AREA    ,AL      ,
+     .                  F1      ,F2      ,F3      ,M1      ,M2      ,
+     .                  M3 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,13 +67,18 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN)    :: IPM
       my_real                            ,INTENT(IN)    :: TIME
+      my_real                            ,INTENT(IN)    :: AREA
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
       my_real ,DIMENSION(SBUFMAT)        ,INTENT(IN)    :: BUFMAT
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: DPLA
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SVM
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: PRESSURE
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
+      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: F1,F2,F3
+      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: M1,M2,M3
+      my_real ,DIMENSION(NEL,2)          ,INTENT(INOUT) :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
 C
@@ -135,6 +142,15 @@ c
      .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
      .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
      .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT     ,ISTDO    )
+c     
+        CASE (11)     ! Energy failure model                                        
+          CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+     .                        TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
+     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,IFUNC   ,
+     .                        EINT     ,AREA     ,AL       , F1      ,F2       ,F3      ,
+     .                        M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
+     .                        TF)
+C)
 c
 c-------------
       END SELECT
