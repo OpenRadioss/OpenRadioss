@@ -27,11 +27,11 @@ Chd|        SPMD_FLUSH_ACCEL              source/mpi/output/spmd_flush_accel.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE CHECKSUM_MOD
-      INTEGER, PARAMETER :: ROOT = 65521
-      INTEGER, PARAMETER :: TWO_POWER_16 = 65536
+        INTEGER, PARAMETER :: ROOT = 65521
+        INTEGER, PARAMETER :: TWO_POWER_16 = 65536
       CONTAINS
-!! \brief Returns Adler32 checksum of A(1:SIZ2,1:SIZ1) 
-      FUNCTION  DOUBLE_ARRAY_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
+!! \brief Returns Adler32 checksum of A(1:SIZ2,1:SIZ1)
+        FUNCTION  DOUBLE_ARRAY_CHECKSUM(A,SIZ1,SIZ2) RESULT(CHECKSUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,35 +39,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: SIZ1,SIZ2 !< sizes
-      DOUBLE PRECISION, INTENT(IN) :: A(SIZ2,SIZ1) !< 2D array of real values
-      INTEGER :: CHECKSUM !< return value, Adler 32 checksum of A
+          INTEGER, INTENT(IN) :: SIZ1,SIZ2 !< sizes
+          DOUBLE PRECISION, INTENT(IN) :: A(SIZ2,SIZ1) !< 2D array of real values
+          INTEGER :: CHECKSUM !< return value, Adler 32 checksum of A
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TMP !< temporary array
-      INTEGER :: I,S1,S2
-      INTEGER :: PREC ! simple or double precision
-      INTEGER :: SIZ
+          INTEGER, DIMENSION(:), ALLOCATABLE :: TMP !< temporary array
+          INTEGER :: I,S1,S2
+          INTEGER :: PREC ! simple or double precision
+          INTEGER :: SIZ
 C-----------------------------------------------
-      S1 = 1
-      S2 = 0
-      PREC = 2
-C  If A is in simple precision
-      IF(SIZEOF(A(1,1)) == 4) PREC = 1
-      SIZ = SIZ1*SIZ2 * PREC
-      ALLOCATE(TMP(SIZ))
-      TMP(1:SIZ) = 0
+          S1 = 1
+          S2 = 0
+          PREC = 2
+C     If A is in simple precision
+          IF(SIZEOF(A(1,1)) == 4) PREC = 1
+          SIZ = SIZ1*SIZ2 * PREC
+          ALLOCATE(TMP(SIZ))
+          TMP(1:SIZ) = 0
 c     Convert A in integer
-      TMP = TRANSFER(A(1:SIZ2,1:SIZ1),S1,SIZ)
-      DO I = 1,SIZ
-        S1 = MOD(S1 + TMP(I),ROOT)
-        S2 = MOD(S1 + S2    ,ROOT)
-      ENDDO
+          TMP = TRANSFER(A(1:SIZ2,1:SIZ1),S1,SIZ)
+          DO I = 1,SIZ
+            S1 = MOD(S1 + TMP(I),ROOT)
+            S2 = MOD(S1 + S2    ,ROOT)
+          ENDDO
 C     (s2 << 16) | s1
-      IF(S1 < 0) S1 = S1 + TWO_POWER_16
-      CHECKSUM = IOR(ISHFT(S2, 16), IAND(S1, (TWO_POWER_16-1)))
-      DEALLOCATE(TMP)
-      END
+          IF(S1 < 0) S1 = S1 + TWO_POWER_16
+          CHECKSUM = IOR(ISHFT(S2, 16), IAND(S1, (TWO_POWER_16-1)))
+          DEALLOCATE(TMP)
+        END
       END MODULE CHECKSUM_MOD
 

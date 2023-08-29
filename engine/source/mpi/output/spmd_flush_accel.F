@@ -150,7 +150,7 @@ C-----------------------------------------------
 
         END DO
 #endif
-        CHECKSUM = DOUBLE_ARRAY_CHECKSUM(NODES_TO_RECV,NUMNODG,3)
+        CHECKSUM = DOUBLE_ARRAY_CHECKSUM(NODES_TO_RECV,NUMNODG,4)
         WRITE(IOUT,*) NCYCLE, "CHECKSUM:",CHECKSUM
 
       ENDIF
