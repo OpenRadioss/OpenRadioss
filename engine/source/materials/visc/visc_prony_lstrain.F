@@ -71,10 +71,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,II,N, FLAG_VISC
-      my_real ::  
-     . DTINV,FAC,INVDT,RHELP,GSTARD,GAMADSTAR,TTT,
-     , MFXX1,MFYY1,MFZZ1
+      INTEGER :: I,II,N,FLAG_VISC
+      my_real :: DTINV,FAC,INVDT,RHELP,GSTARD,GAMADSTAR,TTT,MFXX1,MFYY1,MFZZ1
       my_real, DIMENSION(NPRONY) :: EPSILD,ALPHAD,BETAD,GAMAD,EPSIK,
      .                              ALPHAK,BETAK,GAMAK, TAUD,GAMAD
      .                              GAMAK,TAUK
@@ -87,9 +85,9 @@ C=======================================================================
       FLAG_VISC  = VISC%IPARAM(3)
       GAMADSTAR  = ZERO
       DTINV = TIMESTEP /MAX(EM20,TIMESTEP**2) 
-      DO J=1,NPRONY                                  
-          GAMAD(J) = VISC%UPARAM(I)         
-          TAUD(J)  = VISC%UPARAM(NPRONY + I)
+      DO I=1,NPRONY                                  
+          GAMAD(I) = VISC%UPARAM(I)         
+          TAUD(I)  = VISC%UPARAM(NPRONY + I)
       ENDDO 
       GSTARD = ZERO
       DO I = 1, NPRONY

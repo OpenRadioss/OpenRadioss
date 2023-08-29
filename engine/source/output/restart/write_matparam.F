@@ -139,7 +139,7 @@ c     write viscosity model parameters
 c
       DO IMAT=1,NUMMAT
         IF (MAT_PARAM(IMAT)%IVISC > 0) THEN
-          CALL WRITE_VISCPARAM(MAT_PARAM(IMAT)%VISC,LEN)
+          CALL WRITE_VISCPARAM(MAT_PARAM(IMAT)%VISC)
         END IF
       END DO      
 c-----------
