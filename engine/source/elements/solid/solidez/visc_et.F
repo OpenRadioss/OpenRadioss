@@ -50,6 +50,7 @@ C-----------------------------------------------
       my_real :: GG,GV,GV_MAX,NU1
 C=======================================================================        
       NPRONY = VISC%IPARAM(1)
+      ET(:)  = ZERO
       GV  = ZERO
       DO I= 1,NPRONY                                  
        GV = GV + VISC%UPARAM(1 + I)
