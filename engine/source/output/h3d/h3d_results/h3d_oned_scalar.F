@@ -74,12 +74,12 @@ C     REAL
       my_real
      .   EVAR(MVSIZ), MASS(MVSIZ) ,
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE(MVSIZ),
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
+     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM, DAMMX,    
      .   FOR, AREA, FEQ, EPLAS, RHO0, A0, XX1, YY1, ZZ1, AL0,EFRAC
       INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
-     .        NB16, LLL,NUVAR,IGTYP,
+     .        NB16, LLL,NUVAR,IGTYP,IFAIL,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
      .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ),
@@ -105,6 +105,7 @@ C
         NEL   =IPARG(2,NG)
         ITY   =IPARG(5,NG)
         IGTYP =IPARG(38,NG)
+        IFAIL =IPARG(43,NG)
 C---
         GBUF => ELBUF_TAB(NG)%GBUF
 C---
@@ -147,7 +148,7 @@ c
 C-----------------------------------------------
 C Mass computation
 C-----------------------------------------------
-            IF (KEYWORD == 'MASS') THEN
+        IF (KEYWORD == 'MASS') THEN
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
@@ -526,8 +527,25 @@ C--------------------------------------------------
               VALUE(I) = GBUF%EPSD(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO          
-           
-
+C--------------------------------------------------
+          ELSEIF (KEYWORD == 'DAMA' .and. IFAIL > 0) THEN  
+C--------------------------------------------------
+            IF (IGTYP == 3) THEN
+              DO I=1,NEL
+                VALUE(I) = GBUF%FAIL(1)%DAMMX(I)
+                IS_WRITTEN_VALUE(I) = 1
+              ENDDO
+            ELSE IF (IGTYP == 18) THEN
+              DO I=1,NEL
+                DAMMX  = ZERO
+                DO K = 1,ELBUF_TAB(NG)%BUFLY(1)%NPTT
+                  DAMMX = MAX(DAMMX ,ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,K)%FLOC(1)%DAMMX(I))
+                ENDDO
+                VALUE(I) = DAMMX
+                IS_WRITTEN_VALUE(I) = 1
+              ENDDO
+            ENDIF
+c           
           ENDIF
 C-----------------------------------------------
 C       RESSORTS

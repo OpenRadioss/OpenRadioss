@@ -74,11 +74,11 @@ C     REAL
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
-     .   FOR, AREA, FEQ, EPLAS    
+     .   FOR, AREA, FEQ, EPLAS,DAMMX   
       INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
-     .        NB16, LLL,NUVAR,IGTYP,
+     .        NB16, LLL,NUVAR,IGTYP,IFAIL,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
      .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IPT
@@ -103,6 +103,7 @@ C
         NEL   =IPARG(2,NG)
         ITY   =IPARG(5,NG)
         IGTYP =IPARG(38,NG)
+        IFAIL =IPARG(43,NG)
 C---
         GBUF => ELBUF_TAB(NG)%GBUF
 C---
@@ -308,6 +309,22 @@ C-----------------------------------------------
               N = I + NFT
               FUNC(EL2FA(NN7+N)) = GBUF%EPSD(I)
             ENDDO          
+          ELSEIF(IFUNC == 125 .and. IFAIL > 0) THEN                       
+            IF (IGTYP == 18) THEN
+              DO I=LFT,LLT
+                N = I + NFT
+                DAMMX = ZERO
+                DO J = 1,ELBUF_TAB(NG)%BUFLY(1)%NPTT
+                  DAMMX = MAX(DAMMX,ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,J)%FLOC(1)%DAMMX(I))
+                ENDDO
+                FUNC(EL2FA(NN7+N)) = DAMMX
+              ENDDO
+            ELSE IF (IGTYP == 3) THEN
+              DO I=LFT,LLT
+                N = I + NFT
+                FUNC(EL2FA(NN7+N)) = GBUF%FAIL(1)%DAMMX(I)
+              ENDDO
+            END IF         
           ELSE
             DO I=LFT,LLT
              N = I + NFT

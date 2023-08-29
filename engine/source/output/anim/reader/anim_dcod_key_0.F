@@ -2030,69 +2030,71 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
       ENDIF
 C
 C--------------------------
-C    FIL
+C     FIL
 C--------------------------
       ELSEIF(KEY2(1:4)=='TRUS'.OR.KEY2(1:4)=='BEAM'.OR.
      .        KEY2(1:5)=='SPRIN')THEN
 C--------------------------
-C     FIL:TORSEUR
+C       FIL:TORSEUR
 C--------------------------
-      IF(KEY3(1:4)=='FORC')THEN
+        IF(KEY3(1:4)=='FORC')THEN
            ANIM_FT(1) = 1
 C--------------------------
-C     FILS:SCALAIRES
+C       FILS:SCALAIRES
 C--------------------------
-!       ELSEIF(KEY3(1:4)=='EPSP')THEN
-!          ANIM_FE(1) = 1
-      ELSEIF(KEY3(1:4)=='ENER')THEN
-         ANIM_FE(3) = 1
-      ELSEIF(KEY3(1:4)=='VONM')THEN
-         ANIM_FE(7) = 1
-      ELSEIF(KEY3(1:5)=='DAM1')THEN
-         ANIM_FE(11) = 1
-      ELSEIF(KEY3(1:5)=='DAM2')THEN
-         ANIM_FE(12) = 1
-      ELSEIF(KEY3(1:5)=='DAM3')THEN
-         ANIM_FE(13) = 1
-      ELSEIF(KEY3(1:5)=='SIGX ')THEN
-         ANIM_FE(14) = 1
-      ELSEIF(KEY3(1:5)=='SIGY ')THEN
-         ANIM_FE(15) = 1
-      ELSEIF(KEY3(1:5)=='SIGZ ')THEN
-         ANIM_FE(16) = 1
-      ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
-         ANIM_FE(17) = 1
-      ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
-         ANIM_FE(18) = 1
-      ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
-         ANIM_FE(19) = 1
-      ELSEIF(KEY3(1:5)=='DT   ')THEN
-         ANIM_FE(20) = 1
-      ELSEIF(KEY3(1:3)=='AMS')THEN
-         ANIM_FE(21) = 1        
-      ELSEIF(KEY3(1:3)=='OFF')THEN
-         ANIM_FE(22) = 1         
-      ELSEIF(KEY3(1:4)=='EPSP')THEN
-        ANIM_FE(1) = 1 ! global element plastic strain
-        IF (KEY2(1:4)=='BEAM') THEN
-          N1 = 0
-          IF (KEY4(1:3) == 'ALL') THEN
-            IBEAM_EPSPALL = 1
-          ELSE
-            READ(KEY4(1:5),'(I5)')N1 !  ! global element plastic strain
-            IF (N1 > 0)  ANIM_FE(22 + N1) = 1
+        ELSEIF(KEY3(1:4)=='ENER')THEN
+           ANIM_FE(3) = 1
+        ELSEIF(KEY3(1:4)=='VONM')THEN
+           ANIM_FE(7) = 1
+        ELSEIF(KEY3(1:5)=='DAM1')THEN
+           ANIM_FE(11) = 1
+        ELSEIF(KEY3(1:5)=='DAM2')THEN
+           ANIM_FE(12) = 1
+        ELSEIF(KEY3(1:5)=='DAM3')THEN
+           ANIM_FE(13) = 1
+        ELSEIF(KEY3(1:5)=='SIGX ')THEN
+           ANIM_FE(14) = 1
+        ELSEIF(KEY3(1:5)=='SIGY ')THEN
+           ANIM_FE(15) = 1
+        ELSEIF(KEY3(1:5)=='SIGZ ')THEN
+           ANIM_FE(16) = 1
+        ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
+           ANIM_FE(17) = 1
+        ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
+           ANIM_FE(18) = 1
+        ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
+           ANIM_FE(19) = 1
+        ELSEIF(KEY3(1:5)=='DT   ')THEN
+           ANIM_FE(20) = 1
+        ELSEIF(KEY3(1:3)=='AMS')THEN
+           ANIM_FE(21) = 1        
+        ELSEIF(KEY3(1:3)=='OFF')THEN
+           ANIM_FE(22) = 1         
+        ELSEIF(KEY3(1:4)=='EPSP')THEN
+          ANIM_FE(1) = 1 ! global element plastic strain
+          IF (KEY2(1:4)=='BEAM') THEN
+            N1 = 0
+            IF (KEY4(1:3) == 'ALL') THEN
+              IBEAM_EPSPALL = 1
+            ELSE
+              READ(KEY4(1:5),'(I5)')N1 !  ! global element plastic strain
+              IF (N1 > 0)  ANIM_FE(22 + N1) = 1
+            ENDIF
+          ENDIF ! IF (KEY2(1:4)=='BEAM')
+        ELSEIF (KEY3(1:5)=='EPSX ') THEN
+          IF (KEY2(1:5)=='TRUSS') THEN
+            ANIM_FE(123) = 1
           ENDIF
-        ENDIF ! IF (KEY2(1:4)=='BEAM')
-      ELSEIF (KEY3(1:5)=='EPSX ') THEN
-        IF (KEY2(1:5)=='TRUSS') THEN
-          ANIM_FE(123) = 1
+        ELSEIF(KEY3(1:4)=='EPSD')THEN
+          ANIM_FE(124) = 1               
+        ELSEIF(KEY3(1:4)=='DAMA')THEN
+          IF (KEY2(1:4)=='BEAM') THEN
+            ANIM_FE(125) = 1 ! damage factor
+          ENDIF
+        ELSE
+          IXITKEY=IXITKEY+1
         ENDIF
-      ELSEIF(KEY3(1:4)=='EPSD')THEN
-        ANIM_FE(124) = 1               
-      ELSE
-        IXITKEY=IXITKEY+1
-      ENDIF
-C
+C--------------------------------------------
       ELSEIF(KEY2(1:4)=='ELEM')THEN
         IF (KEY3(1:5) == 'LAW51') THEN
            IF (KEY4(1:3) == 'ALL') THEN

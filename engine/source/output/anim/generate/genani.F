@@ -5133,6 +5133,7 @@ C-----------------------------------------------
 !       
        IF (ANIM_FE(123)==1) CALL ANI_TXT('Strain X ',9)! For TRUSS element only
        IF (ANIM_FE(124)==1) CALL ANI_TXT('Strain rate ',11)
+       IF (ANIM_FE(125)==1) CALL ANI_TXT('Damage ',7)
 !
       ENDIF
 C-----------------------------------------------
