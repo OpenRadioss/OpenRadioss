@@ -32,8 +32,10 @@ Chd|====================================================================
      .                       NPROPMI  ,NPROPG   ,SBUFMAT  ,SNPC     ,STF     ,
      .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,
      .                       TEMPEL   ,NGL      ,PM       ,IPM      ,GEO     ,
-     .                       OFF      ,EPSP     ,BUFMAT   ,NPF      ,TF      ,
-     .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO    )
+     .                       OFF      ,EPSD     ,BUFMAT   ,NPF      ,TF      ,
+     .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
+     .                       AL       , F1      ,F2       ,F3       ,M1      ,
+     .                       M2       ,M3       ,AREA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,11 +73,16 @@ C-----------------------------------------------
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN)    :: GEO
       my_real ,DIMENSION(SBUFMAT)        ,INTENT(IN)    :: BUFMAT
-      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSP
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AREA
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
       my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
+      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: F1,F2,F3
+      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: M1,M2,M3
+
       my_real ,DIMENSION(NEL,NPT) ,INTENT(IN) :: DPLA
 C
       TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
@@ -171,12 +178,22 @@ c
           CALL FAIL_JOHNSON_IB(
      .         NEL       ,NGL       ,IPT       ,NPARAM    ,UPARAMF   ,
      .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
-     .         DPLA      ,EPSP      ,OFF       ,FOFF      ,DFMAX     ,
+     .         DPLA      ,EPSD      ,OFF       ,FOFF      ,DFMAX     ,
      .         TDEL      ,IOUT      ,ISTDO     )
 c
+
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
+        CASE (11)     ! Energy failure model                                           
+          CALL FAIL_ENERGY_IB(
+     .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
+     .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
+     .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
+     .          EINT     ,AREA     ,AL       , F1      ,F2       ,F3      ,
+     .          M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
+     .          TF,IPT)
+
 c-------------
         END SELECT
 C-------------------------------------
