@@ -37,6 +37,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_VISC_PRONY(VISC     ,IVISC    ,NTABLE  ,TABLE   ,MAT_ID   ,
      .                              UNITAB   ,LSUBMODEL)

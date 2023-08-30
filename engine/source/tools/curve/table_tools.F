@@ -253,6 +253,7 @@ Chd|====================================================================
 Chd|  TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
+Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
@@ -316,6 +317,7 @@ Chd|====================================================================
 Chd|  TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
+Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
@@ -354,6 +356,7 @@ Chd|====================================================================
 Chd|  TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
+Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
@@ -396,6 +399,7 @@ Chd|====================================================================
 Chd|  TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
+Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

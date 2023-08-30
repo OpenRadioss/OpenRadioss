@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_MATPARAM                source/output/restart/write_MAT_PARAM.F
+Chd|  WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
@@ -30,8 +30,10 @@ Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        MAT_PARAM_DEF_MOD              ../common_source/modules/mat_elem/MAT_PARAM_def_mod.F
+Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_MATPARAM(MAT_PARAM,NUMMAT)
 C-----------------------------------------------

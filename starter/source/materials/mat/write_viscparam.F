@@ -21,9 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WRITE_VISCPARAM
+Chd|  WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- called by -----------
+Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|-- calls ---------------
+Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_VISCPARAM(VISC,LEN)
 C-----------------------------------------------

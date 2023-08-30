@@ -109,6 +109,7 @@ Chd|        HM_READ_MAT93                 starter/source/materials/mat/mat093/hm
 Chd|        HM_READ_MAT94                 starter/source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 starter/source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 starter/source/materials/mat/mat097/hm_read_mat97.F
+Chd|        HM_READ_VISC                  starter/source/materials/visc/hm_read_visc.F
 Chd|        INIT_MAT_KEYWORD              starter/source/materials/mat/init_mat_keyword.F
 Chd|        INI_MATPARAM                  starter/source/materials/mat/ini_matparam.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
@@ -139,6 +140,7 @@ Chd|        FAIL_PARAM_MOD                modules/mat_elem/fail_param_mod.F
 Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
 Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
 Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
+Chd|        VISC_PARAM_MOD                modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       MODULE MATPARAM_DEF_MOD
 c

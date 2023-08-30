@@ -319,6 +319,7 @@ Chd|        READ_DYNAIN                   source/output/dynain/read_dynain.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_MSGFILE                  source/output/message/read_msgfile.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
+Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|        REALLOCATE_FI1                source/mpi/interfaces/spmd_i25slide.F
 Chd|        REALLOCATE_FI2                source/mpi/interfaces/spmd_i25slide.F
 Chd|        REALLOCATE_I_SKYLINE          source/system/reallocate_skyline.F

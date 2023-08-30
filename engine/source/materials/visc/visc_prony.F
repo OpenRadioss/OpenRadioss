@@ -25,6 +25,7 @@ Chd|  VISC_PRONY                    source/materials/visc/visc_prony.F
 Chd|-- called by -----------
 Chd|        VISCMAIN                      source/materials/visc/viscmain.F
 Chd|-- calls ---------------
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE VISC_PRONY(VISC  ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,

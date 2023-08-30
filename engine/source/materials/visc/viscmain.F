@@ -29,6 +29,7 @@ Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_sol
 Chd|-- calls ---------------
 Chd|        VISC_PRONY                    source/materials/visc/visc_prony.F
 Chd|        VISC_PRONY_LSTRAIN            source/materials/visc/visc_prony_lstrain.F
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE VISCMAIN(VISC    ,NEL     ,
      .           NVARVIS ,UVARVIS ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 

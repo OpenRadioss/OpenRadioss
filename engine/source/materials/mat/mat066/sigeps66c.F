@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        PRONY_MODELC                  source/materials/mat/mat066/prony_modelc.F
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS66C(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,

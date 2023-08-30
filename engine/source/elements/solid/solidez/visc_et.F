@@ -25,6 +25,7 @@ Chd|  VISC_ET                       source/elements/solid/solidez/visc_et.F
 Chd|-- called by -----------
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE VISC_ET(NEL ,VISC ,RHO ,NU ,CXX ,ET )
 C-----------------------------------------------

@@ -81,7 +81,6 @@ Chd|        DMASANIC                      starter/source/output/anim/dmasanic.F
 Chd|        DMASANIF                      starter/source/output/anim/dmasanif.F
 Chd|        DMASANIS                      starter/source/output/anim/dmasanis.F
 Chd|        DTMAIN                        starter/source/materials/time_step/dtmain.F
-Chd|        ELBUF_INI                     starter/source/elements/elbuf_init/elbuf_ini.F
 Chd|        FAILINI                       starter/source/elements/solid/solide/failini.F
 Chd|        FAIL_WINDSHIELD_INIT          starter/source/materials/fail/windshield_alter/fail_windshield_init.F
 Chd|        GENANI1                       starter/source/output/anim/genani1.F
@@ -648,7 +647,6 @@ Chd|        UPOFFTG                       engine/source/elements/xfem/upofftg.F
 Chd|        UPXFEM1                       engine/source/elements/xfem/upxfem1.F
 Chd|        UPXFEM_TAGXP                  engine/source/elements/xfem/upxfem_tagxp.F
 Chd|        USERMAT_SHELL                 engine/source/materials/mat_share/usermat_shell.F
-Chd|        USERMAT_SOLID                 engine/source/materials/mat_share/usermat_solid.F
 Chd|        VELVECC22                     engine/source/output/anim/generate/velvec.F
 Chd|        VELVECZ22                     engine/source/output/anim/generate/velvecz22.F
 Chd|        VOLN22                        engine/source/interfaces/int22/voln22.F

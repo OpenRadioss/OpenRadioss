@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  MAT_ELEM_MOD                  modules/mat_elem/mat_elem_mod.F
 Chd|-- called by -----------
 Chd|        CONTRL                        starter/source/starter/contrl.F
+Chd|        ELBUF_INI                     starter/source/elements/elbuf_init/elbuf_ini.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
@@ -70,6 +71,7 @@ Chd|        SCFORC3                       engine/source/elements/thickshell/soli
 Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
 Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
+Chd|        USERMAT_SOLID                 engine/source/materials/mat_share/usermat_solid.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  modules/mat_elem/elbufdef_mod.F

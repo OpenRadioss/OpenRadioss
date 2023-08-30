@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  READ_VISCPARAM                 source/output/restart/read_viscparam.F
+Chd|  READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- called by -----------
-Chd|        RDRESB                        source/output/restart/rdresb.F
+Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|-- calls ---------------
 Chd|        READ_C_C                      source/output/tools/sortie_c.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
-Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE READ_VISCPARAM(VISC)
 C-----------------------------------------------

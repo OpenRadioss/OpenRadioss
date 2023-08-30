@@ -59,6 +59,7 @@ Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
 Chd|        READ_PCYL                     source/output/restart/read_pcyl.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
+Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|        RMATRREST                     source/output/restart/rdresb.F
 Chd|        RTHBUFREST                    source/output/restart/rdresb.F
 Chd|        R_BUFBRIC_22                  source/interfaces/int22/r_bufbric_22.F

@@ -25,6 +25,7 @@ Chd|  VISC_PRONY_LSTRAIN            source/materials/visc/visc_prony_lstrain.F
 Chd|-- called by -----------
 Chd|        VISCMAIN                      source/materials/visc/viscmain.F
 Chd|-- calls ---------------
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE VISC_PRONY_LSTRAIN(
      .           VISC    ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
