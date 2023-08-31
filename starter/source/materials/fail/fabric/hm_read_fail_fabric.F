@@ -70,7 +70,7 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: IRFUN
+      INTEGER  :: IRFUN,NDIR
       my_real  :: EPSF1,EPSR1,EPSF2,EPSR2,FAC_T
       LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -95,6 +95,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV ('Epsilon_r1'  ,EPSR1     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('Epsilon_f2'  ,EPSF2     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('Epsilon_r2'  ,EPSR2     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV   ('NDIR'        ,NDIR      ,IS_AVAILABLE,LSUBMODEL)
 c
       CALL HM_GET_INTV   ('fct_ID'      ,IRFUN     ,IS_AVAILABLE,LSUBMODEL)
 c--------------------------------------------------
@@ -104,6 +105,9 @@ c--------------------------------------------------
       IF (EPSR1 <= ZERO) EPSR1 = EP20*TWO
       IF (EPSF2 <= ZERO) EPSF2 = EP20
       IF (EPSR2 <= ZERO) EPSR2 = EP20*TWO
+      IF (NDIR == 0) NDIR = 2
+      NDIR = MIN(NDIR,2)
+      NDIR = MAX(NDIR,1)
 c          
       IF (EPSF1 > EPSR1 .or. EPSF2 > EPSR2) THEN
         CALL ANCMSG(MSGID=617,
@@ -117,17 +121,18 @@ c--------------------------------------------------
       UPARAM(3) = EPSF2
       UPARAM(4) = EPSR2
       UPARAM(5) = FAC_T   ! abscissa unit scaling factor (strain rate)
+      UPARAM(6) = NDIR
 c-----------------------------------------------------
       IFUNC(1) = IRFUN
 c-----------------------------------------------------
-      NUPARAM = 5
+      NUPARAM = 6
       NUVAR   = 2
       NFUNC   = 1
 c-----------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
       ELSE
-        WRITE(IOUT, 1100) EPSF1,EPSR1,EPSF2,EPSR2,IRFUN
+        WRITE(IOUT, 1100) EPSF1,EPSR1,EPSF2,EPSR2,NDIR,IRFUN
       ENDIF
 c-----------
       RETURN
@@ -142,6 +147,7 @@ c--------------------------------------------------
      & 5X,'RUPTURE TENSION STRAIN DIRECTION 1 . . =',E12.4/
      & 5X,'FAILURE TENSION STRAIN DIRECTION 2 . . =',E12.4/
      & 5X,'RUPTURE TENSION STRAIN DIRECTION 2 . . =',E12.4/
-     & 5X,'STRAIN RATE SCALING FUNCTION . . . . . =',I8)
+     & 5X,'NUMBER OF BROKEN DIR. FOR EL. DELETION =',I10/
+     & 5X,'STRAIN RATE SCALING FUNCTION . . . . . =',I10)
 c-------------------------------------------------- 
       END
