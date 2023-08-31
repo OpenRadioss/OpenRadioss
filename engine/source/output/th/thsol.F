@@ -154,7 +154,7 @@ C-----------------------------------------------
         my_real
      .   WWA(239554),A_GAUSS(9,9),SIGP(7,81,9), USER(100),
      .   STRAIN(6),GAMA(6),EVAR_TMP(6),EVAR(6),SIGG(6),
-     .   VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3),BFRAC
+     .   VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3),BFRAC,SSP
 C----
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -345,8 +345,11 @@ C-----------
               WWA(239550) = ZERO
               WWA(239551) = ZERO
               IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
-                WWA(239550)= LBUF%SSP(I) !sound speed
-                WWA(239551)=  SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)   !mach number
+                SSP = ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)%SSP(I)
+                WWA(239550)= SSP
+                IF(SSP > ZERO)THEN
+                  WWA(239551)=  SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/SSP   !mach number
+                ENDIF
               ENDIF
 C-----------
 C             STRESSES COMPUTED IN GLOBAL OR CONVECTED SYSTEM.
@@ -879,7 +882,8 @@ C MACH NUMBER
 
               ELSEIF(ALEFVM_Param%ISOLVER>1)THEN !specific buffer (ALEFVM, obsolete)
 C SSP
-                WWA(239550)= LBUF%SSP(I)
+                SSP = LBUF%SSP(I)
+                WWA(239550)= SSP
                 IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
                   VEL(1) = GBUF%MOM(I) / GBUF%RHO(I)
                   VEL(2) = GBUF%MOM(NEL + I) / GBUF%RHO(I)
@@ -887,7 +891,9 @@ C SSP
                   WWA(239547)= VEL(1)
                   WWA(239548)= VEL(2)
                   WWA(239549)= VEL(3)
-                  WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                  IF(SSP > ZERO)THEN
+                    WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/SSP
+                  ENDIF
                 ENDIF
 
               ELSE
