@@ -1,6 +1,8 @@
+######################################### 
+#       STARTER - Gfortran COMPILER
+#########################################
 # Compiler predefinition
 # Simplify usage for target compilation
-#########################################
 
 
 # Executable name
@@ -100,13 +102,14 @@ endif()
 # Linking flags
 set (CMAKE_EXE_LINKER_FLAGS " -rdynamic -no-pie -O2 -fopenmp ${FSANITIZE}" )
 
+
 #Libraries
 if ( static_link STREQUAL "1" )
-set (LINK "dl  ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function"  )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function" )
 else()
-set (LINK "dl  ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -Wunused-function"  )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -Wunused-function" )
 endif()
-
+string(STRIP ${LINK} LINK)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
@@ -119,5 +122,10 @@ set (F_O0_compiler_flags " -O0 ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  
 if ( debug STREQUAL "0" )
 #inimsg.F
 set_source_files_properties( ${source_directory}/source/output/message/inimsg.F PROPERTIES COMPILE_FLAGS ${F_O0_compiler_flags} )
+
 endif()
 
+if( no_python STREQUAL "1") 
+get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
+set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${existing_flags} -DPYTHON_DISABLED " )
+endif()

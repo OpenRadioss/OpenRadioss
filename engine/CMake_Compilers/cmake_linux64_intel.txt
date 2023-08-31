@@ -112,11 +112,16 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${optc_
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag}  ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
 
+
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " -static-intel -rdynamic -qopenmp -qopenmp-link=static" )
+set (CMAKE_EXE_LINKER_FLAGS " -static-intel -rdynamic -qopenmp -qopenmp-link=static " )
+string(STRIP ${CMAKE_EXE_LINKER_FLAGS} CMAKE_EXE_LINKER_FLAGS)
 
 #Libraries
-set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} -ldl -lrt -lstdc++"  )
+set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} -ldl -lrt -lstdc++ ")
+
+string(STRIP ${LINK} LINK)
+
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
@@ -136,6 +141,11 @@ set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PR
 
 set (C_BASIC "${cppmach} ${cpprel} -std=c90" )
 set_source_files_properties( ${source_directory}/source/coupling/rad2rad/sys_pipes_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
+
+if( no_python STREQUAL "1" )
+get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
+set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${exsisting_flags} -DPYTHON_DISABLED" )
+endif()
 
 
 

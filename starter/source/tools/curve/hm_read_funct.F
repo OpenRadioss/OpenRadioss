@@ -75,6 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,FUNC_ID,NPTS,STAT,N,II,ISMOOTH
+      INTEGER :: IPYTHON ! is it a FUNCT_PYTHON
 C     REAL
       my_real
      .   TIME, FUNCT, BID, F5(5)
@@ -100,7 +101,7 @@ C--------------------------------------------------
       NPC(1)=1
       L     =0
 C--------------------------------------------------
-C READING /FUNCT ( ISMOOTH = 0)
+C READING /FUNCT ( ISMOOTH = 0, IPYTHON = 0)
 C--------------------------------------------------
       CALL HM_OPTION_COUNT('/FUNCT', NB_FUNCT)
       CALL HM_OPTION_COUNT('/FUNCT_SMOOTH', NB_FUNCT_SMOOTH)
@@ -114,9 +115,11 @@ c
      .                              KEYWORD1 = KEY)
 c 
             ISMOOTH = 0
+            IPYTHON = 0
             IF(KEY(6:12) == '_SMOOTH') ISMOOTH = 1
-c
-            IF(ISMOOTH == 0)THEN
+            IF(KEY(6:12) == '_PYTHON') IPYTHON = 1
+            
+            IF(ISMOOTH == 0 .AND. IPYTHON == 0 ) THEN
               CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)   
               L = L + 1   
               CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,L),LTITR)                         

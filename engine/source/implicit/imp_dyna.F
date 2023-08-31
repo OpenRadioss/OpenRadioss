@@ -839,7 +839,7 @@ C---estimation a(t=0)----
         IF (TT==DT2) TT = ZERO
         IF(NCONLD/=0) THEN
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
-          CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,DY_A  ,
+          CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,DY_A  ,
      2               V     ,X     ,SKEW  ,DY_AR,VR    ,
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY,RBID,H3D_DATA,
@@ -1030,7 +1030,7 @@ C-----------------------------------------------
 C--------------------------------
        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(NCONLD/=0) THEN
-          CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,A     ,
+          CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,A     ,
      2               V     ,X     ,SKEW  ,AR  ,VR    ,
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,

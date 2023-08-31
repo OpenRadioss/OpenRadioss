@@ -1,0 +1,279 @@
+ test_torsion_orthstrain_shell_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                         OpenRadioss Engine                         **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+************************************************************************
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           2
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         2
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   XXXXX   Intel(R) Core(TM) i7-7820HQ CPU @ 2.90GHz (x86_64), 2903 MHz,  51345 MB RAM,  13312 MB swap
+   2   XXXXX   Intel(R) Core(TM) i7-7820HQ CPU @ 2.90GHz (x86_64), 2903 MHz,  51345 MB RAM,  13312 MB swap
+  
+************************************************************************
+
+
+ test_torsion_orthstrain_shellD01test_torsion_orthstrain_shell                   
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .  0.1500000E-02
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E-03
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ NODAL TIME STEP SCALE FACTOR,  . . . . . . . . .  0.9000000    
+ NODAL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ ADDED MASS RATIO (DM/M0) . . . . . . . . . . . .  0.5000000E-01
+ MIN. TIME FLAG . . . . . . . . . . . . . . . . .     8
+    1:STOP. . . . . . . . . . . . . . . . . . . . 
+    3:INCREASE MASS, ORIGINAL FORMULATION . . . . 
+    8:INCREASE MASS, IMPROVED FORMULATION . . . . 
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     0
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     0
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    0
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . .  -100
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .   101
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .  0.1000000E+31
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   0.000000    
+ TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . .  0.1000000E+21
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     0
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     0
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+ 03/10/2023
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.7483E-06 NODE        1053   0.0%   0.000       0.000       0.000       0.000      0.5001E-01  0.6171E-03  0.2939E-04
+     100  0.7483E-04  0.7483E-06 NODE         720  -0.0%  0.1389E-05  0.6585E-06  0.5599E-07  0.2104E-05  0.5001E-01  0.6171E-03  0.2939E-04
+     200  0.1497E-03  0.7483E-06 NODE         676  -0.0%  0.8689E-04  0.1059E-04  0.8906E-06  0.9838E-04  0.5001E-01  0.6171E-03  0.2939E-04
+     300  0.2245E-03  0.7483E-06 NODE         720  -0.0%  0.9842E-03  0.5380E-04  0.4483E-05  0.1042E-02  0.5001E-01  0.6171E-03  0.2939E-04
+     400  0.2993E-03  0.7483E-06 NODE         720  -0.0%  0.5504E-02  0.1701E-03  0.1408E-04  0.5688E-02  0.5001E-01  0.6171E-03  0.2939E-04
+     500  0.3742E-03  0.7483E-06 NODE         421  -0.0%  0.2090E-01  0.4142E-03  0.3418E-04  0.2135E-01  0.5001E-01  0.6171E-03  0.2939E-04
+     600  0.4490E-03  0.7483E-06 NODE         421  -0.0%  0.6212E-01  0.8545E-03  0.7045E-04  0.6305E-01  0.5001E-01  0.6171E-03  0.2939E-04
+     700  0.5238E-03  0.7483E-06 NODE         720  -0.0%  0.1559      0.1572E-02  0.1297E-03  0.1576      0.5001E-01  0.6171E-03  0.2939E-04
+     800  0.5987E-03  0.7483E-06 NODE         421  -0.0%  0.3459      0.2665E-02  0.2200E-03  0.3488      0.5001E-01  0.6171E-03  0.2939E-04
+     900  0.6735E-03  0.7483E-06 NODE         421  -0.0%  0.6980      0.4243E-02  0.3502E-03  0.7026      0.5001E-01  0.6171E-03  0.2939E-04
+    1000  0.7483E-03  0.7483E-06 NODE         421  -0.0%   1.308      0.6431E-02  0.5306E-03   1.315      0.5001E-01  0.6171E-03  0.2939E-04
+    1100  0.8232E-03  0.7483E-06 NODE         668  -0.0%   2.306      0.9364E-02  0.7722E-03   2.316      0.5002E-01  0.6171E-03  0.2940E-04
+    1200  0.8980E-03  0.7483E-06 NODE         220  -0.0%   3.869      0.1318E-01  0.1087E-02   3.883      0.5002E-01  0.6171E-03  0.2940E-04
+    1300  0.9728E-03  0.7483E-06 NODE         878  -0.0%   6.226      0.1804E-01  0.1488E-02   6.245      0.5003E-01  0.6171E-03  0.2940E-04
+    1400  0.1048E-02  0.7483E-06 NODE         264  -0.0%   9.668      0.2412E-01  0.1989E-02   9.694      0.5003E-01  0.6171E-03  0.2940E-04
+    1500  0.1123E-02  0.7483E-06 NODE         720  -0.0%   14.56      0.3159E-01  0.2606E-02   14.59      0.5004E-01  0.6171E-03  0.2941E-04
+    1600  0.1197E-02  0.7483E-06 NODE         218  -0.0%   21.35      0.4065E-01  0.3352E-02   21.39      0.5004E-01  0.6171E-03  0.2941E-04
+    1700  0.1272E-02  0.7483E-06 NODE         721  -0.0%   30.57      0.5150E-01  0.4246E-02   30.63      0.5005E-01  0.6171E-03  0.2942E-04
+    1800  0.1347E-02  0.7483E-06 NODE         676  -0.0%   42.88      0.6433E-01  0.5304E-02   42.95      0.5006E-01  0.6171E-03  0.2942E-04
+    1900  0.1422E-02  0.7483E-06 NODE         721  -0.0%   59.04      0.7936E-01  0.6545E-02   59.13      0.5007E-01  0.6171E-03  0.2943E-04
+    2000  0.1497E-02  0.7483E-06 NODE         389  -0.0%   79.95      0.9683E-01  0.7986E-02   80.06      0.5008E-01  0.6172E-03  0.2944E-04
+
+     RESTART FILES: test_torsion_orthstrain_shell_0001_[0001-0002].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1209E+01 .8579E-01 .2369E-01 .4247E-01 .8341E-01 .2042E-01 .1633E+01
+   2   .1219E+01 .8702E-01 .2496E-01 .3992E-01 .8224E-01 .2117E-01 .1653E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .6056E-01 .1053E-01 .0000E+00 .5975E-02 .7707E-01 .4718E+01
+   2   .5274E-01 .9842E-02 .0000E+00 .5832E-02 .6841E-01 .4139E+01
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .0000E+00     0.00 % 
+ CONTACT FORCES..............: .4777E-02     0.15 % 
+ ELEMENT FORCES..............: .2428E+01    73.89 % 
+ KINEMATIC COND..............: .1728E+00     5.26 % 
+ INTEGRATION.................: .4865E-01     1.48 % 
+ ASSEMBLING..................: .4159E-01     1.27 % 
+ OTHERS (including I/O)......: .5900E+00    17.96 % 
+ TOTAL.......................: .3286E+01   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .1307E+01 .9468E-01 .2622E-01 .4677E-01 .9149E-01 .2263E-01 .1795E+01
+   2   .1322E+01 .9590E-01 .2730E-01 .4352E-01 .8991E-01 .2319E-01 .1796E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .7331E-01 .1177E-01 .0000E+00 .6479E-02 .9156E-01 .5100E+01
+   2   .5912E-01 .1078E-01 .0000E+00 .6323E-02 .7622E-01 .4245E+01
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      173 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       87 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       86 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       86 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          3 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          3 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2023/10/03  17:51:06
+ EXECUTION COMPLETED .......................:      2023/10/03  17:51:07
+  
+ ELAPSED TIME     =          2.12 s
+                          0:00:02
+ ESTIMATED SPEEDUP=          1.55
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :    2005
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.45s (00:00:00)
+ # 001   ENGINE RUNTIME =          2.12s (00:00:02)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          2.57s (00:00:02)
+  

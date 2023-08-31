@@ -596,6 +596,8 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE READ_FUNCT_PYTHON_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -613,7 +615,6 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)                 ::NB_DYNA_INCLUDE
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
       TYPE(OUTPUT_),  INTENT(INOUT)      :: OUTPUT
-c      TYPE(SENSORS_), INTENT(INOUT)      :: SENSORS! declared as global in USER_SENSOR_MOD
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -674,7 +675,6 @@ C-----------------------------------------------
 #include      "eos.inc"
 #include      "ige3d_c.inc"
 #include      "random_c.inc"
-#include       "my_allocate.inc"
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -1028,6 +1028,7 @@ C--- INterface Friction model
       TYPE(INIMAP1D_STRUCT), DIMENSION(:), ALLOCATABLE :: INIMAP1D
       TYPE(INIMAP2D_STRUCT), DIMENSION(:), ALLOCATABLE :: INIMAP2D
       TYPE(FUNC2D_STRUCT), DIMENSION(:), ALLOCATABLE :: FUNC2D
+      TYPE(PYTHON_) :: PYTHON 
 !       DDSPLIT local arrays :
       LOGICAL :: FLAG_24_25
       INTEGER :: NINDX_NM,NINDX_SCRT,I24MAXNSNE2
@@ -1920,6 +1921,8 @@ C       TABLES
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
         CALL HM_READ_TABLE1 (NTABLE, TABLE ,NFUNCT ,NPC ,TF ,
      .                NOM_OPT(LNOPT1*INOM_OPT(20)+1), UNITAB, LSUBMODEL)
+
+        CALL HM_READ_FUNCT_PYTHON(PYTHON,NPC,SNPC,NFUNCT,LSUBMODEL,NSUBMOD)
         CALL CHKFUNCT (NFUNCT, NPC,NOM_OPT(LNOPT1*INOM_OPT(20)+1))
         IF(NFUNCT > 0) THEN
           CALL HM_READ_MOVE_FUNCT(NPC    ,TF     ,NFUNCT ,TABLE, NTABLE,FUNCRYPT, UNITAB, LSUBMODEL)
@@ -1936,7 +1939,10 @@ C       TABLES
         ALLOCATE(TABLE(0) ,STAT=stat)
         CALL TRACE_OUT1()
       ENDIF
+
+
       STF =  NPTS
+
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES FONCTIONS 2D
@@ -10739,7 +10745,7 @@ c
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
-     F         LOADS_PER_PROC(P))
+     F         LOADS_PER_PROC(P), PYTHON)
       GOTO 220
  221  CONTINUE
 

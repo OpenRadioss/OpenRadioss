@@ -109,12 +109,12 @@ set (F_O2_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel
 
 if ( debug STREQUAL "0" )
   set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
-
   set_source_files_properties( ${source_directory}/source/tools/sect/prelecsec.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags_no_omp} )
-
   set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags_no_omp} )
+else()
 endif()
 
-
-
-
+if( no_python STREQUAL "1") 
+get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
+set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${existing_flags} -DPYTHON_DISABLED " )
+endif()

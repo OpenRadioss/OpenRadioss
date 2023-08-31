@@ -39,11 +39,13 @@ Chd|====================================================================
      .                    U     , RINOUT, X      , V      , A      ,
      .                    NPC   , TF    , NSENSOR,SENSOR_TAB,
      .                    CNP   , ITAGEL, IBUFELR, IBUFELC, IPIV   ,
-     .                    HBEM  , GBEM  , IBUFIL , CNPI   , IPINT  )
+     .                    HBEM  , GBEM  , IBUFIL , CNPI   , IPINT  ,
+     .                    PYTHON )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,6 +73,7 @@ C-----------------------------------------------
      .        X(3,*), V(3,*), A(3,*), TF(*), HBEM(*),
      .        GBEM(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE(PYTHON_) , INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -147,6 +150,7 @@ C
       my_real
      .       , ALLOCATABLE :: SBUF(:), RBUF(:)
       LOGICAL L_ASSEMB
+      INTEGER :: FID ! function id
 C
       my_real
      .        FINTER,FINTER_SMOOTH
@@ -296,12 +300,15 @@ C Vitesse a l'infini
          IF (IFVINI > 0) ISMOOTH = NPC(2*NFUNCT+IFVINI+1)
          IF (TT>TSTART.AND.DT1>ZERO) THEN
             TSG=(TT-TSTART)*SCALT
-!!            VV=SFVINI*FINTER(IFVINI, TSG, NPC, TF, DYDX)
            IF (ISMOOTH == 0) THEN
              VV=SFVINI*FINTER(IFVINI, TSG, NPC, TF, DYDX)
-           ELSE
+           ELSE IF(ISMOOTH > 0) THEN
              VV=SFVINI*FINTER_SMOOTH(IFVINI, TSG, NPC, TF, DYDX)
-           ENDIF ! IF (ISMOOTH == 0)
+           ELSE 
+              FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TSG,VV)
+              VV = VV * SFVINI
+           ENDIF
          ENDIF
          RFLOW(12)=VV
          VGX=RFLOW(9)*VV
@@ -373,9 +380,13 @@ C
 !!               QI(I)=VEL*FINTER(IFUNC, TSG, NPC, TF, DYDX)
               IF (ISMOOTH == 0) THEN
                 QI(I)=VEL*FINTER(IFUNC, TSG, NPC, TF, DYDX)
-              ELSE
+              ELSE IF(ISMOOTH > 0 ) THEN
                 QI(I)=VEL*FINTER_SMOOTH(IFUNC, TSG, NPC, TF, DYDX)
-              ENDIF ! IF (ISMOOTH == 0)
+              ELSE 
+                 FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TSG,QI(I))
+                 QI(I) = QI(I) * VEL
+              ENDIF
             ENDIF
          ENDIF
       ENDDO
@@ -1065,8 +1076,12 @@ C La pression d'arret est imposee directement
 !!            PA=SFPA*FINTER(IFPA, TSG, NPC, TF, DYDX)
            IF (ISMOOTH == 0) THEN
              PA=SFPA*FINTER(IFPA, TSG, NPC, TF, DYDX)
-           ELSE
+           ELSE IF(ISMOOTH > 0) THEN
              PA=SFPA*FINTER_SMOOTH(IFPA, TSG, NPC, TF, DYDX)
+           ELSE 
+             FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+             CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TSG,PA)
+             PA = PA * SFPA
            ENDIF ! IF (ISMOOTH == 0)
          ENDIF
       ELSE
@@ -1082,11 +1097,14 @@ C La pression est imposee a une des entrees-sorties
                IF (IFPRES > 0) ISMOOTH = NPC(2*NFUNCT+IFPRES+1)
                IF (TT>TSTART.AND.DT1>ZERO) THEN
                   TSG=(TT-TSTART)*SCALT
-!!                  PIO=SFPRES*FINTER(IFPRES, TSG, NPC, TF, DYDX)
                  IF (ISMOOTH == 0) THEN
                    PIO=SFPRES*FINTER(IFPRES, TSG, NPC, TF, DYDX)
-                 ELSE
+                 ELSEIF(ISMOOTH > 0) THEN
                    PIO=SFPRES*FINTER_SMOOTH(IFPRES, TSG, NPC, TF, DYDX)
+                 ELSE
+                   FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TSG,PIO)
+                   PIO = PIO * SFPRES
                  ENDIF ! IF (ISMOOTH == 0)
                ENDIF
                PA=PIO+HALF*RHO*QI(I)**2

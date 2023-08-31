@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITYPE, IBID, NFUNCT0, NTABLE0,NTABLE1
+      INTEGER ITYPE, IBID, NFUNCT0, NTABLE0,NTABLE1, NFUNCT_PYTHON
       INTEGER I, J, K, II, N, L, NDIM, NX(4), NY,
      .        JREC, NPTS, STAT, LL
       INTEGER IERROR, NF, IDFUNC, NP
@@ -84,8 +84,10 @@ C======================================================================|
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_COUNT('/FUNCT', NFUNCT0)
+      CALL HM_OPTION_COUNT('/FUNCT_PYTHON', NFUNCT_PYTHON)
       NFUNCT0=NSLASH(KFUNCT)+NFUNCT0
-      WRITE (IOUT,2000) NTABLE-NFUNCT0
+      ! python functions are not associated with a table
+      WRITE (IOUT,2000) NTABLE-(NFUNCT0-NFUNCT_PYTHON)
 
       L      =NFUNCT0 ! total numbre /TABLE + /FUNCT
       CALL HM_OPTION_COUNT('/TABLE/0', NTABLE0)

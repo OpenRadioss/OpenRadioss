@@ -62,11 +62,13 @@ Chd|====================================================================
      7       NPBYL  ,LPBYL   ,IBFV    ,VEL      ,NPF      ,
      8       TF     ,NEWFRONT,ICONTACT,RWBUF    ,LPRW     ,
      9       NPRW   ,RBYL    ,D       ,DR       ,KINET    ,
-     A       NSENSOR,SENSOR_TAB,INTBUF_TAB ,H3D_DATA ,IGRBRIC)
+     A       NSENSOR,SENSOR_TAB,INTBUF_TAB ,H3D_DATA ,IGRBRIC,
+     B       PYTHON)
 C======================================================================|
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE PYTHON_FUNCT_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
@@ -102,6 +104,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE(PYTHON_), INTENT(IN) :: PYTHON
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -319,7 +322,7 @@ C ---------------------
      2   WAG(IP0)  ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)  ,
      3   WAG(IP5)  ,WAG(IP6)  ,LAGBUF(J3),LAGBUF(J4),MS        ,
      4   IN        ,V         ,VR        ,A         ,AR        ,
-     5   ISKIP     ,NCF_S     ,N_MULT    )
+     5   ISKIP     ,NCF_S     ,N_MULT    ,PYTHON)
 C ---------------------
       NCF_E = N_MULT
 C ---------------------
@@ -429,10 +432,11 @@ Chd|====================================================================
      9       NPRW   ,RBYL    ,D       ,DR       ,KINET    ,
      A       NODGLOB,WEIGHT  ,NBNCL   ,NBIKL    ,NBNODL   ,
      B       NBNODLR,FR_LAGF ,LLAGF   ,IAD_ELEM ,FR_ELEM  ,
-     C       INTBUF_TAB ,H3D_DATA)
+     C       INTBUF_TAB ,H3D_DATA, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -471,6 +475,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -670,7 +675,7 @@ C ---------------------
       IF(NFVLAG>0) CALL LAG_FXVP(
      1   IBFV      ,VEL        ,SKEW     ,NPF       ,TF        ,
      2   LAGCOM    ,LAGCOM(IK0),N_MULT   ,NODGLOB   ,WEIGHT    ,
-     3   N_IK      )
+     3   N_IK      ,PYTHON)
 C ---------------------
       NCF_E = N_MULT
 C ---------------------

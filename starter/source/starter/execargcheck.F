@@ -44,6 +44,7 @@ Chd|====================================================================
       USE INOUTFILE_MOD
       USE RANDOM_MOD
       USE GRP_SIZE_MOD
+      USE PYTHON_FUNCT_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
        INTEGER :: RANDM_SEED,RANDM_ALEA
        REAL(kind=8) :: RANDM_SEED_NBR,RANDM_ALEA_NBR
        INTEGER :: GOT_GRP_SIZE
-       PARAMETER (LENLIST=28)
+       PARAMETER (LENLIST=29)
        CHARACTER (LEN=12) ::  ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
@@ -94,13 +95,14 @@ C-----------------------------------------------
      .    '-MEM-MAP' ,  '-INSPIRE', '-DD_TUNING',
      .    '-INSPIRE_ALM' , '-FLUSH_RST', '-CHECK',
      .    '-HSTP_READ' , '-HSTP_WRITE', '-RXALEA', '-RSEED',
-     .    '-GRP_SIZE' /
+     .    '-GRP_SIZE' , '-PYTHON' /
 
 C-----------------------------------------------
        IDUM=-1
        ITRACE=1
        IERRMSG=0
        GLOBAL_ERROR = 0
+       PYTHON_ERROR = 1
 
        GOT_INPUT = 0
        GOT_NCPU = 0
@@ -280,6 +282,9 @@ C------------------------------------------------
                 RANDM_ALEA = I
             CASE('-RSEED')
                 RANDM_SEED = I
+            CASE('-PYTHON')
+                PYTHON_ERROR = 0
+
                 
 C------------------------------------------------
             CASE ( '-GRP_SIZE')

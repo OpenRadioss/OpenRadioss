@@ -57,9 +57,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IT,ID,NPARAM,NPT,NFUNCT0,IBID,NTABLE0,NTABLE1,NTABLETOT
 C     REAL
-      CHARACTER TITR*nchartitle,KEY*ncharfield,MESS*40
+      CHARACTER TITR*nchartitle,KEY*20,MESS*40
       DATA MESS/' FUNCTION COUNTING                      '/
       INTEGER :: IFUN,N1
+      INTEGER :: IPYTHON
       LOGICAL :: IS_AVAILABLE
 C======================================================================|
 
@@ -67,18 +68,25 @@ C======================================================================|
       NFUNCT0 = 0
       CALL HM_OPTION_COUNT('/FUNCT', NFUNCT0)
       NPTS = 0
+      NTABLE = 0
       IF (NFUNCT0 > 0) THEN
-         CALL HM_OPTION_START('/FUNCT')
-         DO IFUN = 1, NFUNCT0
-            CALL HM_OPTION_READ_KEY(LSUBMODEL)
+        CALL HM_OPTION_START('/FUNCT')
+        DO IFUN = 1, NFUNCT0
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
+     .                            KEYWORD1 = KEY)
+          IPYTHON = 0
+          IF(KEY(6:12) == '_PYTHON') IPYTHON = 1
+          IF( IPYTHON == 0 ) THEN 
+            NTABLE = NTABLE + 1
             CALL HM_GET_INTV('numberofpoints', NPT, IS_AVAILABLE, LSUBMODEL)
             NPTS = NPTS + NPT
-         ENDDO
+          ENDIF
+        ENDDO
       ENDIF
 
 !     Read tables
       NFUNCT = NFUNCT0
-      NTABLE = NFUNCT0
+c     NTABLE = NFUNCT0 
 
 
       CALL HM_OPTION_COUNT('/TABLE/0', NTABLE0)
@@ -118,6 +126,10 @@ C======================================================================|
        ENDDO
       ENDIF
       NTABLE=NTABLE+NTABLE1 + NTABLE0 
+
+C     NFUNCT0 = 0
+C     CALL HM_OPTION_COUNT('/PYTHON_FUNCT', NFUNCT0)
+C     NFUNCT = NFUNCT0 + NFUNCT
 
 
 C

@@ -98,10 +98,11 @@ Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   )
+     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE INTBUFMOD
       USE INTBUF_MOD
       USE RESTMOD
@@ -187,6 +188,7 @@ C-----------------------------------------------
       TYPE(SENSORS_)        ,INTENT(INOUT)                 :: SENSORS
       TYPE(LOADS_)          ,INTENT(INOUT)                 :: LOADS
       TYPE(MAT_ELEM_)       ,INTENT(INOUT)                 :: MAT_ELEM
+      TYPE(PYTHON_)         ,INTENT(INOUT)                 :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -201,6 +203,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: INTEGER_DATA
       INTEGER :: INT1, INT2, INT3, INT0, ITMP
       INTEGER :: MY_SIZE
+      INTEGER :: PYTHON_LEN
+      INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -243,6 +247,15 @@ C
         CALL READ_I_C(IPART,SIPART)
 
         CALL READ_I_C(NOM_OPT,SNOM_OPT)
+
+        CALL READ_I_C(PYTHON_LEN,1)
+
+        ! read python data in form of integer buffer
+        ALLOCATE(BUFFER(PYTHON_LEN))
+        BUFFER(1) = PYTHON_LEN
+        CALL READ_I_C(BUFFER(2:PYTHON_LEN), PYTHON_LEN-1)
+        CALL PYTHON_DESERIALIZE(PYTHON, BUFFER) ! fills python structure
+        DEALLOCATE(BUFFER)
 
         CALL READ_I_C(NPC,SNPC)
 

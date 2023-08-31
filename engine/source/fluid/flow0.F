@@ -34,12 +34,13 @@ Chd|====================================================================
       SUBROUTINE FLOW0(IFLOW  , RFLOW  , WIFLOW , WRFLOW, X      ,
      .                 V      , A      , NPC    , TF    , SENSOR_TAB,
      .                 NBGAUGE, LGAUGE , GAUGE  , NSENSOR, 
-     .                 IGRV   , AGRV   , NFUNCT )
+     .                 IGRV   , AGRV   , NFUNCT , PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
       USE ANIM_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
      .        RFLOW(*), WRFLOW(*), X(3,*), V(3,*), A(3,*), TF(*),
      .        GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,7 +178,8 @@ C
      .      RFLOW(IR4),  RFLOW(IR5),  X,           V,           A,        
      .      NPC,         TF        ,  NSENSOR    , SENSOR_TAB ,
      .      IFLOW(II10), IFLOW(II6),  IFLOW(II13), IFLOW(II14), WIFLOW(IADIP), 
-     .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT        ) 
+     .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT,
+     .      PYTHON) 
 C
          ELSEIF(ITYP == 3) THEN
             JFORM    = IFLOW(IADI+4)
@@ -210,7 +213,7 @@ C
      .                     RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6), 
      .                     RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
      .                     NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
-     .                     RFLOW(IR11),IFLOW(II7), NFUNCT)
+     .                     RFLOW(IR11),IFLOW(II7), NFUNCT, PYTHON)
             ELSE
               II7=II6+NNO
               II8=II7+NEL
@@ -224,7 +227,7 @@ C
      .                      RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
      .                      NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                      RFLOW(IR11),WIFLOW(IADIP), WRFLOW(IADH), IFLOW(II8), IFLOW(II9),
-     .                      NFUNCT)
+     .                      NFUNCT, PYTHON)
             ENDIF
          ENDIF
          IADR=IADR+IFLOW(IADI+15)
