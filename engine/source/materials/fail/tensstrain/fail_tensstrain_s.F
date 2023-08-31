@@ -38,7 +38,7 @@ Chd|====================================================================
      5           SIGNXX ,SIGNYY ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX ,
      6           EPSP   ,UVAR   ,OFF    ,IP      ,DFMAX  ,TDELE  ,
      7           MFXX   ,MFXY   ,MFXZ   ,MFYX    ,MFYY   ,MFYZ   ,                 
-     8           MFZX   ,MFZY   ,MFZZ   )
+     8           MFZX   ,MFZY   ,MFZZ   ,DMG_SCALE)
 C-----------------------------------------------
 C   Tensile Strain failure criterion
 C-----------------------------------------------
@@ -85,6 +85,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) :: SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   EPSXX,EPSYY,EPSZZ,EPSXY,EPSYZ,EPSZX,EPSP,ALDT,TSTAR,
      .   MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: DMG_SCALE
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -662,13 +663,8 @@ C ---
       DO I=1,NEL
         R1 = EPSF1
         R2 = EPSF2
-        IF (R1 < R2) THEN         
-          SIGNXX(I) = (ONE - DAMAGE(I))*SIGNXX(I)
-          SIGNYY(I) = (ONE - DAMAGE(I))*SIGNYY(I)
-          SIGNZZ(I) = (ONE - DAMAGE(I))*SIGNZZ(I)
-          SIGNXY(I) = (ONE - DAMAGE(I))*SIGNXY(I)
-          SIGNYZ(I) = (ONE - DAMAGE(I))*SIGNYZ(I)
-          SIGNZX(I) = (ONE - DAMAGE(I))*SIGNZX(I)
+        IF (R1 < R2) THEN    
+          DMG_SCALE(I) = ONE - DAMAGE(I)
         END IF
         DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))  ! Maximum Damage storing for output : 0 < DFMAX < 1
        ENDDO            

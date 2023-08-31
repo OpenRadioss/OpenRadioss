@@ -2171,7 +2171,7 @@ c---- strain tension
      5             SS1 ,SS2 ,SS3 ,SS4  ,SS5  ,SS6     ,
      6             EPSP,UVARF,OFF,IP   ,DFMAX,TDEL    ,
      7             MFXX   ,MFXY   ,MFXZ   ,MFYX    ,MFYY   ,MFYZ   ,                 
-     8             MFZX   ,MFZY   ,MFZZ   )
+     8             MFZX   ,MFZY   ,MFZZ   ,DMG_SCALE)
 c
           ELSEIF(IRUPT == 11)THEN                                                          
 c---- energy failure  

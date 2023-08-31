@@ -1983,7 +1983,7 @@ C---- strain tension
      5             S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      6             EPSP1,UVARF,OFF ,IP   ,DFMAX,TDEL  ,
      7             MFXX     ,MFXY     ,MFXZ     ,MFYX     ,MFYY     , MFYZ    ,                 
-     8             MFZX     ,MFZY     ,MFZZ     )
+     8             MFZX     ,MFZY     ,MFZZ     ,DMG_SCALE)
           ELSEIF (IRUPT == 11) THEN                                        
 C---- energy failure  
               CALL FAIL_ENERGY_S(NEL ,NPAR,NUVARR,NFUNC,IFUNC       ,
