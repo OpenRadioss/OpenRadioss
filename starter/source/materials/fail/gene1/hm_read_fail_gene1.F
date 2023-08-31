@@ -312,9 +312,9 @@ C===============================================================================
       IF (VOLFRAC == ZERO) VOLFRAC = HALF
       VOLFRAC = MIN(VOLFRAC,ONE)
       VOLFRAC = MAX(ZERO,VOLFRAC)
-      IF (PTHK    == ZERO) PTHK    = ONE
-      PTHK = MIN(PTHK,ONE)
-      PTHK = MAX(ZERO,PTHK)
+      IF (PTHK == ZERO) PTHK = ONE-EM06
+      PTHK = MIN(PTHK, ONE)
+      PTHK = MAX(PTHK,-ONE)
       IF (NCS     == 0   ) NCS     = 1
       IF (NCS > NCRIT_MAX) THEN
         CALL ANCMSG(MSGID=2043,MSGTYPE=MSGWARNING,
@@ -534,7 +534,9 @@ c-----------------------------------------------------
      & 5X,'SHELL THINNING AT FAILURE  . . . . . . . . . . . . .=',1PG20.13,/)
  6000 FORMAT(
      & 5X,'VOLUME FRACTION FOR SOLID ELEMENT DELETION . . . . .=',1PG20.13,/,
-     & 5X,'SHELL THICKNESS PERCENTAGE OF FAILURE  . . . . . . .=',1PG20.13,/)
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS               ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS  ',/)
  6001 FORMAT(
      & 5X,'MAXIMUM TEMPERATURE  . . . . . . . . . . . . . . . .=',1PG20.13,/)
  7000 FORMAT(

@@ -131,7 +131,7 @@ C-----------------------------------------------
        CONDITION3(1:NEL)   = 0
        NINDX        = 0  
 c---------------------------
-       IF (P_THICKFAIL > ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
+       IF (P_THICKFAIL /= ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
          PTHKF = P_THICKFAIL
        ELSEIF (IFAIL_SH == 1) THEN
          PTHKF = EM06

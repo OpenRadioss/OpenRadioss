@@ -152,7 +152,9 @@ c      IF (SUB_INDEX /= 0)
 c     .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_INDEX,LSUBMODEL)
 C----------------------
 C
-        PTHK = MIN(PTHK, ONE-EM06)
+        IF (PTHK == ZERO) PTHK = ONE-EM06
+        PTHK = MIN(PTHK, ONE)
+        PTHK = MAX(PTHK,-ONE) 
         GEO(42) = PTHK
 C----------------------
 C fixing flag and removed from input
@@ -361,7 +363,9 @@ C-----------
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-     & 5X,'% OF INTEG POINT THICKNESS TO FAIL. . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED INTG. POINTS',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10//)
@@ -379,7 +383,9 @@ C-----------
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHELL NUMERICAL DAMPING . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-     & 5X,'% OF INTEG POINT THICKNESS TO FAIL. . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED INTG. POINTS',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10//)

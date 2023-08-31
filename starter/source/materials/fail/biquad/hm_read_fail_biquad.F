@@ -129,8 +129,9 @@ c---------------------------------------------------
       CALL HM_GET_FLOATV ('R4'          ,E3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('R5'          ,E4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 c---------------------------------------------------
-      PTHK = MIN(PTHK,ONE)
-      PTHK = MAX(ZERO,PTHK)
+      PTHK = MIN(PTHK, ONE)
+      PTHK = MAX(PTHK,-ONE) 
+      IF (PTHK == ZERO)  PTHK  = EM06
       IF (SFLAG == 0)    SFLAG = 1
 c---------------------------------------------------
 c     pre definition for user-input data when only 
@@ -233,7 +234,7 @@ c---------------------------------------------------
           SFLAG = 2
           WRITE(IOUT, 1700)
         ENDIF        
-        WRITE(IOUT, 1800) ABS(PTHK),SFLAG
+        WRITE(IOUT, 1800) PTHK,SFLAG
         IF (SFLAG == 3) WRITE(IOUT, 1900) INST
         WRITE(IOUT, 2000) 
       ENDIF      
@@ -242,31 +243,31 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
  1000 FORMAT(
      & 5X,'BI-QUADRATIC FAILURE MODEL               ',/,
-     & 5X,'FAILURE MODEL ID . . . . . . . . . . . .=',I10/)
+     & 5X,'FAILURE MODEL ID . . . . . . . . . . . . . . .=',I10/)
  1100 FORMAT(
-     & 5X,' MATERIAL PARAMETER SELECTOR            =',I10)
+     & 5X,' MATERIAL PARAMETER SELECTOR                  =',I10)
  1200 FORMAT(
-     & 5X,'C1 . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'C2 . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'C3 . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'C4 . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'C5 . . . . . . . . . . . . . . . . . . .=',E12.4,/)
+     & 5X,'C1 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C2 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C3 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C4 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C5 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1300 FORMAT(
      & 5X,' COEFFICIENTS OF FIRST PARABOLA ',/,
      & 5X,' ----------------------------- ',/,
-     & 5X,'a. . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'b. . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'c. . . . . . . . . . . . . . . . . . . .=',E12.4,/)
+     & 5X,'a. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'b. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'c. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1400 FORMAT(
-     & 5X,' COEFFICIENTS OF SECOND PARABOLA ',/,
-     & 5X,' ----------------------------- ',/,
-     & 5X,'d. . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'e. . . . . . . . . . . . . . . . . . . .=',E12.4,/
-     & 5X,'f. . . . . . . . . . . . . . . . . . . .=',E12.4,/)
+     & 5X,' COEFFICIENTS OF SECOND PARABOLA               ',/,
+     & 5X,' -------------------------------               ',/,
+     & 5X,'d. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'e. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'f. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1500 FORMAT(
-     & 5X,'ELEMENT LENGTH REGULARIZATION USED:',/,
-     & 5X,'REGULARIZATION FUNCTION ID . . . . . . .=',I10,/
-     & 5X,'REFERENZE ELEMENT LENGTH . . . . . . . .=',E12.4,/)
+     & 5X,'ELEMENT LENGTH REGULARIZATION USED:            ',/,
+     & 5X,'REGULARIZATION FUNCTION ID . . . . . . . . . .=',I10,/
+     & 5X,'REFERENZE ELEMENT LENGTH . . . . . . . . . . .=',1PG20.13,/)
  1600 FORMAT(
      & 5X,' Instability value less or equal zero !  ',/
      & 5X,' Instability will be ignored and selector set to 2 !',/)
@@ -275,10 +276,12 @@ c-----------------------------------------------------------------------
      & 5X,' Instability will be ignored and selector set to 2 !',/)
  1800 FORMAT(
      & 5X,' ELEMENT DELETION :',/,
-     & 5X,' Fraction of failed IPs for shell deletion. . =',E12.4,/
+     & 5X,' Shell element deletion parameter Pthickfail .=',1PG20.13,/
+     & 5X,'   > 0.0 : Fraction of failed thickness             ',/,
+     & 5X,'   < 0.0 : Fraction of failed intg. points or layers',/,
      & 5X,' S-Flag. . . . . . . . . . . . . . . . . . . .=',I10,/)
  1900 FORMAT(
-     & 5X,'Instability strain . . . . . . . . . . . . . .=',E12.4,//)
+     & 5X,'Instability strain . . . . . . . . . . . . . .=',1PG20.13,//)
  2000 FORMAT(
      & 5X,' ---------------------------------------------- ',//)
 c-----------------------------------------------------------------------

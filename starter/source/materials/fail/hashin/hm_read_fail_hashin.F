@@ -141,7 +141,9 @@ c--------------------------------------------------
       IF (IMODEL == 0) IMODEL = 1
       IF (ISHELL == 0) ISHELL = 1
       IF (ISOLID == 0) ISOLID = 1 
-      IF (RATIO == ZERO) RATIO = ONE
+      IF (RATIO == ZERO) RATIO = ONE - EM06
+      RATIO = MIN(RATIO, ONE)
+      RATIO = MAX(RATIO,-ONE)
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
       SOFT1 = MIN(ONE,MAX(ZERO,SOFT1))
@@ -197,34 +199,36 @@ c--------------------------------------------------
      & 5X,'    ------------------------                  ',/
      & 5X,'    MAT_ID  =',I10/
      & 5X,'    FAIL_ID =',I10/
-     & 5X,'Longitudinal tensile strength. . . . . . . . =',E12.4/
-     & 5X,'Transversal tensile strength . . . . . . . . =',E12.4/
-     & 5X,'Through thickness strength.  . . . . . . . . =',E12.4/
-     & 5X,'Longitudinal compressive strength. . . . . . =',E12.4/
-     & 5X,'Transversal compressive  strength. . . . . . =',E12.4/
-     & 5X,'Crush  strength    . . . . . . . . . . . . . =',E12.4/
-     & 5X,'Fiber Mode shear strength  . . . . . . . . . =',E12.4/
-     & 5X,'Matrix mode shear strength (plane 12 ) . . . =',E12.4/
-     & 5X,'Matrix mode shear strength (plane 23 ) . . . =',E12.4/
-     & 5X,'Matrix mode shear strength (plane 13 ) . . . =',E12.4/
+     & 5X,'Longitudinal tensile strength. . . . . . . . =',1PG20.13/
+     & 5X,'Transversal tensile strength . . . . . . . . =',1PG20.13/
+     & 5X,'Through thickness strength.  . . . . . . . . =',1PG20.13/
+     & 5X,'Longitudinal compressive strength. . . . . . =',1PG20.13/
+     & 5X,'Transversal compressive  strength. . . . . . =',1PG20.13/
+     & 5X,'Crush  strength    . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'Fiber Mode shear strength  . . . . . . . . . =',1PG20.13/
+     & 5X,'Matrix mode shear strength (plane 12 ) . . . =',1PG20.13/
+     & 5X,'Matrix mode shear strength (plane 23 ) . . . =',1PG20.13/
+     & 5X,'Matrix mode shear strength (plane 13 ) . . . =',1PG20.13/
      & 5X,'Coulomb friction angle and delamination' /,
-     & 5X, '                              failure < 90°  =',E12.4/
-     & 5X,'Scale factor for delamination criteria . . . =',E12.4/     
+     & 5X, '                              failure < 90Â° =',1PG20.13/
+     & 5X,'Scale factor for delamination criteria . . . =',1PG20.13/     
      & 5X,'Material failure model: . .  . . . . . . . . =',I10 /
      & 15X,          '1: Unidirectional layer model'  ,/
      & 15X,          '2: Fabric layer model        '  ,/
-     & 5X,'Failed layer ratio for element deletion . . .=',E12.4 /
-     & 5X,'Relaxation time . . . . . .  : . .  . . . . .=',E12.4 /
+     & 5X,'Element deletion parameter ratio. . . . . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : Fraction of failed thickness             ',/,
+     & 5X,'  < 0.0 : Fraction of failed intg. points or layers',/,
+     & 5X,'Relaxation time . . . . . .  : . .  . . . . .=',1PG20.13 /
      & 5X,'Relaxation time calculation  : . .  . . . . .=',I10 /
      & 15X,          '1     : Based on timestep'  ,/
      & 15X,           'Other value : Constant   ' ,/
-     & 5X,'Ref strain rate. . . . . . . . . . . . . . . =',E12.4/     
-     & 5X,'Strain rate cutoff period. . . . . . . . . . =',E12.4/      
-     & 5X,'Low strain rate limit . . .. . . . . . . . . =',E12.4/
+     & 5X,'Ref strain rate. . . . . . . . . . . . . . . =',1PG20.13/     
+     & 5X,'Strain rate cutoff period. . . . . . . . . . =',1PG20.13/      
+     & 5X,'Low strain rate limit . . .. . . . . . . . . =',1PG20.13/
      & 5X,'Front Wave :  . . . .  . . . . . . . . . . . =',I10 /
      & 15X,          '1: No frontwave propagation        ',/
      & 15X,          '2: Isotropic propagation           ',/)
  1200 FORMAT(
-     & 5X,'Softening factor . . . .  . . . . . . . . . .=',E12.4//)
+     & 5X,'Softening factor . . . .  . . . . . . . . . .=',1PG20.13//)
 c-----------
       END

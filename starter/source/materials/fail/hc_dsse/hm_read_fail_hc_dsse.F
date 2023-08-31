@@ -2522,6 +2522,9 @@ CARD2
 C=======================================================================
       IF (NFRAC  == ZERO) NFRAC  = ONE
       IF (ISHELL == 0)    ISHELL = 1
+      IF (P_THICKFAIL == ZERO) P_THICKFAIL = ONE - EM06
+      P_THICKFAIL = MIN(P_THICKFAIL, ONE)
+      P_THICKFAIL = MAX(P_THICKFAIL,-ONE)
 
       NUPARAM = 7
       NUVAR   = 2
@@ -2542,7 +2545,7 @@ C=============================================
         UPARAM(3) = CFRAC
         UPARAM(4) = NFRAC
         UPARAM(5) = INST
-        UPARAM(6) = P_THICKFAIL - 1e-6
+        UPARAM(6) = P_THICKFAIL
         UPARAM(7) = ISHELL
       ELSE                      ! parameter fitting
         BFRAC2 = BFRAC
@@ -2570,7 +2573,7 @@ C=============================================
         UPARAM(3) = CFRAC2
         UPARAM(4) = NFRAC
         UPARAM(5) = INST2
-        UPARAM(6) = P_THICKFAIL - 1e-6
+        UPARAM(6) = P_THICKFAIL
         UPARAM(7) = ISHELL
       ENDIF
 
@@ -2598,27 +2601,28 @@ C--------------------------------------------------
      & 5X,40H    HC-DSSE FAILURE CRITERIA                  /,
      & 5X,40H    ------------------------                  /,
      & 5X,' CLASSIC INPUT METHOD:',/
-     & 5X,' COEFFICIENT A ....... =',E12.4,/
-     & 5X,' COEFFICIENT B ....... =',E12.4,/
-     & 5X,' COEFFICIENT C ....... =',E12.4,/
-     & 5X,' COEFFICIENT D ....... =',E12.4,/
-     & 5X,' COEFFICIENT Nf....... =',E12.4,//)
+     & 5X,' COEFFICIENT A ....... =',1PG20.13,/
+     & 5X,' COEFFICIENT B ....... =',1PG20.13,/
+     & 5X,' COEFFICIENT C ....... =',1PG20.13,/
+     & 5X,' COEFFICIENT D ....... =',1PG20.13,/
+     & 5X,' COEFFICIENT Nf....... =',1PG20.13,/)
  1050 FORMAT(
      & 5X,40H    HC-DSSE FAILURE CRITERIA                  /,
      & 5X,40H    ------------------------                  /,
      & 5X,' PHYSICAL INPUT METHOD:',/
-     & 5X,' SHEAR FAILURE STRAIN................... =',E12.4,/
-     & 5X,' UNIAXIAL TENSION FAILURE STRAIN ....... =',E12.4,/
-     & 5X,' PLAINSTRAIN TENSION FAILURE STRAIN..... =',E12.4,/
-     & 5X,' COEFFICIENT A ........... =',E12.4,/
-     & 5X,' COEFFICIENT B ........... =',E12.4,/
-     & 5X,' COEFFICIENT C ........... =',E12.4,/
-     & 5X,' COEFFICIENT D ........... =',E12.4,/
-     & 5X,' COEFFICIENT Nf........... =',E12.4,/
-     & 5X,' DSSE INSTABILITY STRAIN.. =',E12.4,//)
+     & 5X,' SHEAR FAILURE STRAIN................... =',1PG20.13,/
+     & 5X,' UNIAXIAL TENSION FAILURE STRAIN ....... =',1PG20.13,/
+     & 5X,' PLAINSTRAIN TENSION FAILURE STRAIN..... =',1PG20.13,/
+     & 5X,' COEFFICIENT A ........... =',1PG20.13,/
+     & 5X,' COEFFICIENT B ........... =',1PG20.13,/
+     & 5X,' COEFFICIENT C ........... =',1PG20.13,/
+     & 5X,' COEFFICIENT D ........... =',1PG20.13,/
+     & 5X,' COEFFICIENT Nf........... =',1PG20.13,/
+     & 5X,' DSSE INSTABILITY STRAIN.. =',1PG20.13,/)
  1100 FORMAT(
-     & 5X,' Percentage of failed IPs for shell deletion   ',F5.1,'%',/
-     & 5X,' --------------------------------------------------------- ',/)
+     & 5X,'PARAMETER PTHICKFAIL . . . . . . . . . . . . . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS             ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS',/)
  1200 FORMAT(
      & 5X,' SHELL ELEMENT DELETION ')
  1300 FORMAT(

@@ -33,7 +33,8 @@ Chd|====================================================================
       SUBROUTINE FAIL_SETOFF_C(ELBUF_STR,GEO      ,PID      ,NGL      ,
      .                         NEL      ,NLAY     ,NPTTOT   ,PTHKF    ,
      .                         THK_LY   ,THKLY    ,OFF      ,STACK    ,
-     .                         ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL )
+     .                         ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
+     .                         NLAY_MAX ,LAYNPT_MAX,NUMGEO  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,287 +55,294 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: NEL,NPTTOT,NLAY,PID,IGTYP,
-     .   ISUBSTACK
-      INTEGER, DIMENSION(NEL) :: NGL,FWAVE_EL
-      my_real, DIMENSION(NPTTOT*NEL) :: THKLY
-      my_real, DIMENSION(NPROPG,*) :: GEO
-      my_real, DIMENSION(NLAY,*)   :: PTHKF
-      my_real, DIMENSION(NEL   )   :: OFF
-      my_real, DIMENSION(NEL,*)    :: THK_LY
-      TYPE(ELBUF_STRUCT_), TARGET  :: ELBUF_STR
-      TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE(ELBUF_STRUCT_), INTENT(INOUT), TARGET    :: ELBUF_STR
+      my_real, DIMENSION(NPROPG,NUMGEO), INTENT(IN) :: GEO
+      INTEGER,INTENT(IN) :: PID,NEL,NLAY,NPTTOT,IGTYP,ISUBSTACK,
+     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO
+      INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL
+      my_real, DIMENSION(NLAY,100), INTENT(INOUT)   :: PTHKF
+      my_real, DIMENSION(NEL,NLAY_MAX*LAYNPT_MAX), INTENT(IN) :: THK_LY
+      my_real, DIMENSION(NPTTOT*NEL), INTENT(IN)    :: THKLY
+      my_real, DIMENSION(NEL), INTENT(INOUT)        :: OFF
+      TYPE (STACK_PLY), INTENT(IN)                  :: STACK
+      TYPE (FAILWAVE_STR_), INTENT(IN), TARGET      :: FAILWAVE 
+      INTEGER, DIMENSION(NEL), INTENT(INOUT)        :: FWAVE_EL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,NPTT,
-     .   IDMG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY
-      INTEGER, DIMENSION(NEL) :: NPTF,INDXLY  
-      INTEGER, DIMENSION(NEL,NLAY) :: OFFLY
+      INTEGER I,II,IEL,IPOS,IL,IFL,IPT,NPTT,
+     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY
+      my_real
+     .        P_THICKG,FAIL_EXP,DFAIL
+      INTEGER, DIMENSION(NEL)        :: INDXLY
       INTEGER, DIMENSION(:), POINTER :: FOFF,LAY_OFF
-      INTEGER, DIMENSION(10) :: ISTRESS
-      my_real, DIMENSION(NEL) :: UEL1,DFMAX,TDEL,NPTTF,SIGSCALE
-      my_real, DIMENSION(10) :: P_THICK,PTHKF1
-      my_real, DIMENSION(NLAY) :: WEIGHT,P_THKLY
-      my_real :: DMG,RESID_DMG,THK_LAY,P_THICKG,FAIL_EXP,DFAIL
-      my_real, DIMENSION(NEL) :: THFACT,NORM
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
+      my_real, DIMENSION(NEL)        :: THFACT,NORM,NPFAIL
+      TYPE(L_BUFEL_) ,POINTER        :: LBUF     
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
-c     NPTTF      NUMBER OF FAILED INTEGRATION POINTS IN THE LAYER
 c     NPTTOT     NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
 c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
 C=======================================================================
-      RESID_DMG = ZERO
-      IPTHKLY   = 700
-      IPWEIGHT  = 900
-      P_THICKG  = GEO(42,PID)
-      FAIL_EXP  = GEO(43,PID)     
-c                                                       
-c------------------------------------
-      IF (NLAY == 1) THEN   ! PID 1,9
-c------------------------------------
+c 
+      !=================================================================
+      ! RECOVER PARAMETERS AND INITIALIZATION
+      !=================================================================
+      P_THICKG = GEO(42,PID) ! General PTHICKFAIL 
+      FAIL_EXP = GEO(43,PID) ! Failure exponent for TYPE 51
+      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN 
+        IPTHKLY  = 1 + 4*NLAY     ! Address of PTHKLY in STACK%GEO table
+        IPWEIGHT = IPTHKLY + NLAY ! Address of WEIGHT in STACK%GEO table
+      ELSE
+        IPTHKLY  = 700 ! Address of PTHKLY in GEO table
+        IPWEIGHT = 900 ! Address of WEIGHT in GEO table
+      ENDIF
+c         
+      !=================================================================
+      ! 1 LAYER PROPERTIES - TYPE1/TYPE9
+      !=================================================================                                              
+      IF (NLAY == 1) THEN  
+c
+        ! Only 1 layer with several integration points
         IL = 1
+c
+        ! Check PTHICKFAIL coming from failure criteria
         NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
-        NPTT  = ELBUF_STR%BUFLY(IL)%NPTT        
-c
-        IF (NFAIL == 1 .and. P_THICKG > ZERO) THEN
-          PTHKF1(1) = MAX(MIN(P_THICKG,ONE-EM06),EM06)
-        ELSE
-          DO IFL = 1,NFAIL
-            PTHKF1(IFL) = MAX(MIN(PTHKF(IL,IFL),ONE-EM06),EM06)
-          ENDDO
-        ENDIF
-c------------------
         DO IFL = 1,NFAIL
-          THFACT(1:NEL) = ZERO                                                  
-          DO IPT=1,NPTT                                                         
+          ! -> Percentage of broken thickness 
+          IF (PTHKF(IL,IFL) > ZERO) THEN 
+            PTHKF(IL,IFL) = MIN(PTHKF(IL,IFL),ABS(P_THICKG))
+            PTHKF(IL,IFL) = MAX(MIN(PTHKF(IL,IFL),ONE-EM06),EM06)
+          ! -> Ratio of broken integration points
+          ELSEIF (PTHKF(IL,IFL) < ZERO) THEN
+            PTHKF(IL,IFL) = MAX(PTHKF(IL,IFL),-ABS(P_THICKG))
+            PTHKF(IL,IFL) = MIN(MAX(PTHKF(IL,IFL),-ONE+EM6),-EM06)
+          ! -> If not defined in the failure criterion, the value of the property is used by default
+          ELSE 
+            PTHKF(IL,IFL) = P_THICKG
+          ENDIF
+        ENDDO ! |-> IFL
+c
+        ! Check element failure
+        DO IFL = 1,NFAIL
+          THFACT(1:NEL) = ZERO   
+          NPFAIL(1:NEL) = ZERO    
+          NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+          ! Computation of broken fraction of thickness / 
+          ! ratio of intg. points                               
+          DO IPT=1,NPTT                                                    
             FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
-            DO IEL=1,NEL                                                        
-              IF (OFF(IEL) /= ZERO) THEN                                        
-                IF (FOFF(IEL) < ONE)  THEN     ! FOFF(IEL)<1                     
+            DO IEL=1,NEL                                                       
+              IF (OFF(IEL) == ONE) THEN                                        
+                IF (FOFF(IEL) < ONE)  THEN                
                   IPOS = (IPT-1)*NEL + IEL                                      
-                  THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)
+                  THFACT(IEL) = THFACT(IEL) + THKLY(IPOS) ! -> Percentage of broken thickness (accounting for integration weight)
+                  NPFAIL(IEL) = NPFAIL(IEL) + ONE/NPTT    ! -> Ratio of broken integration points
                 ENDIF                                                           
-              ENDIF   ! OFF(IEL)/=0                                             
-            ENDDO   ! IEL = 1-->NEL                                             
-          ENDDO   ! IPT = 1-->NPTT                                              
+              ENDIF                                               
+            ENDDO ! |-> IEL                                          
+          ENDDO ! |-> IPT
+          ! Comparison with critical value PTHICKFAIL                               
           DO IEL=1,NEL                                                          
-            IF (OFF(IEL) /= ZERO) THEN                                        
-              IF (THFACT(IEL) >= PTHKF1(IFL)) THEN  ! delete element          
+            IF (OFF(IEL) == ONE) THEN                                        
+              IF (((THFACT(IEL) >= PTHKF(IL,IFL)).AND.(PTHKF(IL,IFL) > ZERO)).OR.
+     .            ((NPFAIL(IEL) >= ABS(PTHKF(IL,IFL))).AND.(PTHKF(IL,IFL) < ZERO))) THEN
                 OFF(IEL) = FOUR_OVER_5
-                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1 ! set frontwave flag                      
-              ENDIF   ! THFACT>=PTHKF                                           
+                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1
+              ENDIF                                      
             ENDIF                                                           
-          ENDDO   ! IEL = 1-->NEL                                               
-        ENDDO     ! NFAIL
-c---------------------------------------------------
-      ELSEIF (NLAY == NPTTOT) THEN  ! PID 10,11,16,17 may be 51 and 52
-c---------------------------------------------------
+          ENDDO ! |-> IEL                                               
+        ENDDO ! |-> IFL  
+c
+      !=================================================================
+      ! MULTI LAYER PROPERTIES / 1 INTG POINT - TYPE10/11/16/17/51/52
+      !=================================================================
+      ELSEIF (NLAY == NPTTOT) THEN  
+c
+        ! Only one integration points in each layer
         IPT = 1
-c       check old Ishell settings
 c
-        IF (P_THICKG > ZERO) THEN
-          P_THICKG = MAX(MIN(P_THICKG, ONE-EM06), EM06)
-        ELSE
-          P_THICKG = ONE-EM06
-          DO IL=1,NLAY
-            DO IFL = 1,ELBUF_STR%BUFLY(IL)%NFAIL
-              IF (PTHKF(IL,IFL) > ZERO) THEN
-                P_THICKG = MIN(P_THICKG, PTHKF(IL,IFL))
-              ENDIF
-            ENDDO
-          ENDDO
-          P_THICKG = MAX(P_THICKG, EM06)
-        ENDIF
-c
+        ! Check layer failure
         DO IL=1,NLAY
-          NINDXLY  = 0
+          NINDXLY = 0
           NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
           DO IFL = 1,NFAIL
             FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
             DO IEL=1,NEL
-              IF (OFF(IEL) == ONE .and. LAY_OFF(IEL) == 1) THEN
+              IF (OFF(IEL) == ONE .AND. LAY_OFF(IEL) == 1) THEN
                 IF (FOFF(IEL) < 1)  THEN
                   NINDXLY = NINDXLY + 1    
                   INDXLY(NINDXLY) = IEL    
-                  LAY_OFF(IEL) = 0  ! layer is off
-                ENDIF ! FOFF < 1
-              ENDIF ! OFF==1 && ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1
-            ENDDO ! IEL = 1-->NEL
-          ENDDO
-c
-          IF (NINDXLY > 0) THEN                   
-            DO I = 1,NINDXLY                      
+                  LAY_OFF(IEL) = 0
+                ENDIF
+              ENDIF
+            ENDDO ! |-> IEL
+          ENDDO ! |-> IFL
+          ! Printing out layer failure message
+          IF (NINDXLY > 0) THEN             
+            DO I = 1,NINDXLY
 #include      "lockon.inc"                           
               WRITE(IOUT, 2000) IL,NGL(INDXLY(I))    
               WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT 
 #include      "lockoff.inc"                          
-            ENDDO
+            ENDDO ! |-> I
           ENDIF
-        ENDDO      ! IL=1-->NLAY
-c---------------------
-        IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-          IPTHKLY  = 1 + 4*NLAY 
-          IPWEIGHT = IPTHKLY + NLAY
-          THFACT(1:NEL) = ZERO
-          NORM(1:NEL)   = ZERO
+        ENDDO ! |-> IL
 c
-          DO IL=1,NLAY
-            LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
-            WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)
-            II = (IL-1)*NEL
-            DO IEL =1,NEL
-              IF (OFF(IEL) == ONE) THEN
-                IPOS  = II + IEL
-                DFAIL = THKLY(IPOS)*WEIGHT(IL)
-                NORM(IEL)  = NORM(IEL)  + DFAIL
-                IF (LAY_OFF(IEL) == 0) THEN
-                  THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)*WEIGHT(IL)
-                ENDIF
-              ENDIF   ! OFF == 1
-            ENDDO   ! IEL=1-->NEL
-          ENDDO        ! IL=1-->NLAY
-c
-          DO IEL =1,NEL
-            IF (OFF(IEL) == ONE) THEN
-              IF (THFACT(IEL) >= P_THICKG*NORM(IEL)) THEN      ! delete element
-                OFF(IEL) = FOUR_OVER_5                                            
-                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1  ! set frontwave flag                      
-              ENDIF   ! THFACT>= P_T*NORM
-            ENDIF   ! OFF == 1
-          ENDDO     ! IEL=1-->NEL
-c---------------------
-        ELSE ! igtyp =10,11
-c
-          THFACT(1:NEL) = ZERO
-          NORM(1:NEL)   = ZERO
-          DO IL=1,NLAY
-            WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)
-            LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
-            II = (IL-1)*NEL
-            DO IEL=1,NEL
-              IF (OFF(IEL) == ONE) THEN
-                IPOS = II + IEL
-                DFAIL = THKLY(IPOS)*WEIGHT(IL)
-                NORM(IEL)  = NORM(IEL)  + DFAIL
-                IF (LAY_OFF(IEL) == 0) THEN
-                  THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)*WEIGHT(IL)
-                ENDIF
-              ENDIF   ! OFF = 1
-            ENDDO   ! IEL=1-->NEL
-          ENDDO   ! IL=1-->NLAY
-c
-          DO IEL=1,NEL
-            IF (OFF(IEL) == ONE) THEN
-              IF (THFACT(IEL) >= P_THICKG*NORM(IEL)) THEN      ! delete element      
-                OFF(IEL) = FOUR_OVER_5                                            
-                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                
-              ENDIF
-            ENDIF   ! OFF=1
-          ENDDO   ! IEL=1-->NEL
-c
-        ENDIF  ! IGTYP
-c------------------------------------------
-      ELSE  ! NPTT per layer > 1 <=> PROP51...
-c------------------------------------------
-        IPT_ALL = 0
-        IPTHKLY  = 1 + 4*NLAY 
-        IPWEIGHT = IPTHKLY + NLAY
-c
+        ! Check element failure  
+        THFACT(1:NEL) = ZERO
+        NORM(1:NEL)   = ZERO
+        NPFAIL(1:NEL) = ZERO
+        ! Computation of broken fraction of thickness / ratio of layers 
         DO IL=1,NLAY
-          NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
-          NINDXLY  = 0                                                
-          NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL               
-          P_THKLY(IL) = STACK%GEO(IPTHKLY + IL,ISUBSTACK)          
-          WEIGHT(IL)  = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)
+          IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+            WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)
+          ELSE
+            WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)
+          ENDIF
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
           II = (IL-1)*NEL
+          DO IEL=1,NEL
+            IF (OFF(IEL) == ONE) THEN
+              IPOS = II + IEL
+              DFAIL = THKLY(IPOS)*WEIGHT(IL)
+              NORM(IEL)  = NORM(IEL)  + DFAIL
+              IF (LAY_OFF(IEL) == 0) THEN
+                THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)*WEIGHT(IL) ! -> Percentage of broken thickness
+                NPFAIL(IEL) = NPFAIL(IEL) + ONE/NLAY               ! -> Ratio of broken layers
+              ENDIF
+            ENDIF   
+          ENDDO ! |-> IEL
+        ENDDO ! |-> IL
+        ! Comparison with critical value PTHICKFAIL
+        DO IEL=1,NEL
+          IF (OFF(IEL) == ONE) THEN
+            IF (((THFACT(IEL) >= P_THICKG*NORM(IEL)).AND.(P_THICKG > ZERO)).OR.
+     .          ((NPFAIL(IEL) >= ABS(P_THICKG)).AND.(P_THICKG < ZERO))) THEN
+              OFF(IEL) = FOUR_OVER_5                                            
+              IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1
+            ENDIF
+          ENDIF
+        ENDDO ! |-> IEL
 c
+      !=======================================================================
+      ! MULTI LAYER PROPERTIES / SEVERAL INTG. POINTS - TYPE51/TYPE52
+      !=======================================================================
+      ELSE  
+c
+        ! Check PTHICKFAIL coming from failure criteria
+        DO IL = 1,NLAY
+          NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+          P_THKLY(IL) = STACK%GEO(IPTHKLY + IL,ISUBSTACK)
+          DO IFL = 1,NFAIL
+            ! -> Percentage of broken thickness 
+            IF (PTHKF(IL,IFL) > ZERO) THEN 
+              PTHKF(IL,IFL) = MIN(PTHKF(IL,IFL),ABS(P_THKLY(IL)))
+              PTHKF(IL,IFL) = MAX(MIN(PTHKF(IL,IFL),ONE-EM06),EM06)
+            ! -> Ratio of broken integration points
+            ELSEIF (PTHKF(IL,IFL) < ZERO) THEN 
+              PTHKF(IL,IFL) = MAX(PTHKF(IL,IFL),-ABS(P_THKLY(IL)))
+              PTHKF(IL,IFL) = MIN(MAX(PTHKF(IL,IFL),-ONE+EM6),-EM06)
+            ! -> If not defined in the failure criterion, the value of the property is used by default
+            ELSE 
+              PTHKF(IL,IFL) = P_THKLY(IL)
+            ENDIF
+          ENDDO ! |-> IFL
+        ENDDO ! |-> IL
+c
+        ! Check layer failure
+        DO IL=1,NLAY
+          NPTT = ELBUF_STR%BUFLY(IL)%NPTT
+          NINDXLY = 0
+          NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+          LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
+          II = (IL-1)*NEL
+          ! Computation of broken fraction of thickness / ratio of integration points
           DO IFL = 1,NFAIL
             THFACT(1:NEL) = ZERO
-            DO IPT=1,NPTT
+            NPFAIL(1:NEL) = ZERO
+            DO IPT = 1,NPTT
               FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
               DO IEL=1,NEL                                                        
                 IF (OFF(IEL) == ONE) THEN
                   IF (LAY_OFF(IEL) == 1) THEN
-                    IF (FOFF(IEL) < ONE)  THEN
-                      IP   = IPT_ALL + IPT
+                    IF (FOFF(IEL) < ONE) THEN
                       IPOS = II + IEL
-                      THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)/THK_LY(IEL,IL)
-                    ENDIF     ! FOFF<1
-                  ENDIF       ! ELBUF_S = 1
-                ENDIF ! OFF=1
-              ENDDO   ! IEL=1-->NEL
-            ENDDO   ! IPT=1-->NPTT
-c
+                      THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)/THK_LY(IEL,IL) ! -> Percentage of broken thickness
+                      NPFAIL(IEL) = NPFAIL(IEL) + ONE/NPTT                   ! -> Ratio of broken integration points
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ENDDO ! |-> IEL
+            ENDDO ! |-> IPT
+            ! Comparison with critical value PTHICKFAIL
             DO IEL=1,NEL
-              IF(OFF(IEL) == ONE) THEN
-                IF (THFACT(IEL) >= P_THKLY(IL)) THEN
-                  NINDXLY = NINDXLY + 1                                     
-                  INDXLY(NINDXLY) = IEL                                     
-                  LAY_OFF(IEL) = 0  ! layer off     
+              IF (OFF(IEL) == ONE) THEN
+                IF (((THFACT(IEL) >= PTHKF(IL,IFL)).AND.(PTHKF(IL,IFL) > ZERO)).OR.
+     .              ((NPFAIL(IEL) >= ABS(PTHKF(IL,IFL))).AND.(PTHKF(IL,IFL) < ZERO))) THEN
+                  NINDXLY = NINDXLY + 1
+                  INDXLY(NINDXLY) = IEL
+                  LAY_OFF(IEL) = 0   
                   DO IPT=1,NPTT
                     FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
                     FOFF(IEL) = 0
                   ENDDO
                 ENDIF
               ENDIF
-            ENDDO   ! IEL=1-->NEL
-          ENDDO   ! IFL = 1,NFAIL
-c
+            ENDDO ! |-> IEL
+          ENDDO ! |-> IFL
+          ! Printing out layer failure message
           IF (NINDXLY > 0) THEN                                       
             DO I = 1,NINDXLY                                          
 #include     "lockon.inc"                                             
               WRITE(IOUT, 2000) IL,NGL(INDXLY(I))                   
               WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT                
 #include     "lockoff.inc"                                            
-            ENDDO                                                   
+            ENDDO ! |-> I                                                  
           ENDIF
-          IPT_ALL = IPT_ALL + NPTT
-        ENDDO      ! IL=1,NLAY
-c-------------------
-        P_THICKG = MAX(P_THICKG, EM06)
-        P_THICKG = MIN(P_THICKG, ONE-EM06)
+        ENDDO ! |-> IL
 c        
-        IPTHKLY  = 1 + 4*NLAY 
-        IPWEIGHT = IPTHKLY + NLAY
+        ! Check element failure
         THFACT(1:NEL) = ZERO
+        NPFAIL(1:NEL) = ZERO
         NORM(1:NEL)   = ZERO
-c
+        ! Computation of broken fraction of thickness / ratio of layers 
         DO IL=1,NLAY
           WEIGHT(IL) = STACK%GEO(IPWEIGHT + IL,ISUBSTACK)
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
           DO IEL=1,NEL
             IF (OFF(IEL) == ONE) THEN
               DFAIL = (THK_LY(IEL,IL)*WEIGHT(IL))**FAIL_EXP
-              NORM(IEL)  = NORM(IEL) + DFAIL
+              NORM(IEL) = NORM(IEL) + DFAIL
               IF (LAY_OFF(IEL) == 0) THEN
-                THFACT(IEL) = THFACT(IEL)+DFAIL
+                THFACT(IEL) = THFACT(IEL) + DFAIL    ! -> Percentage of broken thickness (among layers)
+                NPFAIL(IEL) = NPFAIL(IEL) + ONE/NLAY ! -> Ratio of broken layers
               ENDIF
-            ENDIF   ! OFF==1
-          ENDDO   ! IEL=1-->NEL
-        ENDDO   ! IL=1-->NLAY
-c
+            ENDIF
+          ENDDO ! |-> IEL
+        ENDDO ! |-> IL 
+        ! Comparison with critical value PTHICKFAIL
         DO IEL=1,NEL
           IF (OFF(IEL) == ONE) THEN
             THFACT(IEL) = THFACT(IEL)**(ONE/FAIL_EXP)
             NORM(IEL)   = NORM(IEL)**(ONE/FAIL_EXP)
-            IF (THFACT(IEL) >= P_THICKG*NORM(IEL)) THEN      ! delete element
+            IF (((THFACT(IEL) >= P_THICKG*NORM(IEL)).AND.(P_THICKG > ZERO)).OR.
+     .          ((NPFAIL(IEL) >= ABS(P_THICKG)).AND.(P_THICKG < ZERO))) THEN
               OFF(IEL) = FOUR_OVER_5
-              IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1  ! set frontwave flag                      
+              IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1            
             ENDIF
-          ENDIF   ! OFF==1
-        ENDDO     ! IEL=1-->NEL
-c----------------------------------------
-      ENDIF       ! PROPERTY TYPE
-c-------------------------------
+          ENDIF 
+        ENDDO ! |-> IEL
+c
+      ENDIF ! IGTYP PROPERTY TYPE
+      !=======================================================================
+c
+      !=======================================================================
+      ! PRINTING OUT FORMATS FOR LAYERS FAILURE
+      !=======================================================================
  2000 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
  2100 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
      .       1X,'AT TIME :',G11.4)
-c-----------
-      RETURN
       END
