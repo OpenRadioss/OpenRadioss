@@ -100,7 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX1,NINDX2
+      INTEGER :: I,J,NINDX1,NINDX2,NDIR
       my_real :: XFAC,RF1,RR1,RF2,RR2,DYDX,EPSR1,EPSR2,EPSF1,EPSF2,DMG1,DMG2
       INTEGER ,DIMENSION(NEL) :: INDX1,INDX2
       my_real ,DIMENSION(NEL) :: RFAC1,RFAC2,EPSP1,EPSP2
@@ -115,6 +115,7 @@ C=======================================================================
       EPSF2 = UPARAM(3)
       EPSR2 = UPARAM(4)
       XFAC  = UPARAM(5)
+      NDIR  = NINT(UPARAM(6))
 C-------------------
 C     STRAIN 
 C-------------------
@@ -154,9 +155,16 @@ c
         UVAR(I,2) = MAX(UVAR(I,2), DMG2)
         IF (UVAR(I,1)>ZERO .and. SIG1(I)>ZERO) SIG1(I) = SIG1(I)*(ONE-UVAR(I,1))
         IF (UVAR(I,2)>ZERO .and. SIG2(I)>ZERO) SIG2(I) = SIG2(I)*(ONE-UVAR(I,2))
-        IF (UVAR(I,1) == ONE .and. UVAR(I,2) == ONE) THEN
-          FOFF(I) = 0
-          TDEL(I) = TIME                      
+        IF (NDIR == 2) THEN 
+          IF (UVAR(I,1) == ONE .AND. UVAR(I,2) == ONE) THEN
+            FOFF(I) = 0
+            TDEL(I) = TIME                      
+          ENDIF
+        ELSE
+          IF (UVAR(I,1) == ONE .OR. UVAR(I,2) == ONE) THEN
+            FOFF(I) = 0
+            TDEL(I) = TIME                      
+          ENDIF
         ENDIF
       ENDDO
 c
