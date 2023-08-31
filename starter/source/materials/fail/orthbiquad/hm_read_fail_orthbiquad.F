@@ -156,9 +156,9 @@ C===============================================================================
       CALL HM_GET_INTV   ('fct_IDel' ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'   ,REF_SIZ     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 ! Default values      
-      IF (PTHK  == ZERO) PTHK  = ONE
-      PTHK = MIN(PTHK,ONE)
-      PTHK = MAX(ZERO,PTHK)
+      IF (PTHK == ZERO) PTHK = ONE - EM06
+      PTHK = MIN(PTHK, ONE)
+      PTHK = MAX(PTHK,-ONE)
       IF (SFLAG == 0)    SFLAG = 2
 ! Units
       IF ((REF_SIZ == ZERO).AND.(REG_FUNC > 0)) THEN
@@ -553,7 +553,7 @@ c--------------------------
      &    X_1(J,3),X_1(J,2),X_1(J,1),X_2(J,3),X_2(J,2),X_2(J,1)           
           IF (SFLAG == 3) WRITE(IOUT, 1900) INST(J)
         ENDDO
-        WRITE(IOUT,1300) ABS(PTHK),SFLAG
+        WRITE(IOUT,1300) PTHK,SFLAG
         IF (REG_FUNC > 0) WRITE(IOUT,1400) REG_FUNC,REF_SIZ
         IF (EPSD0 > ZERO) THEN 
           WRITE(IOUT,1500) EPSD0,CJC
@@ -608,7 +608,9 @@ c-----------------------------------------------------
      & 5X,'  HIGH STRESS TRIAXIALITY PARABOLA PARAMETER F . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'ELEMENT DELETION :',/,
-     & 5X,'FRACTION OF FAILED IPS FOR SHELL DELETION  . . . .=',1PG20.13,/
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS             ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS',/,
      & 5X,'S-FLAG . . . . . . . . . . . . . . . . . . . . . .=',I10,/)
  1400 FORMAT(
      & 5X,'ELEMENT LENGTH REGULARIZATION USED:',/,

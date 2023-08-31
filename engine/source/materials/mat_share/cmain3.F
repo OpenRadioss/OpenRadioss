@@ -271,7 +271,7 @@ c
      F       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      G       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      H       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     I       VARNL   ,NLOC_DMG)
+     I       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX)
 cc----------------------------
       ELSE   ! User-type Radioss laws , NPT > 0
 c----------------------------
@@ -303,7 +303,7 @@ c
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   ,ETIMP   ,NLOC_DMG)
+     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND.IDT_THERM==0) THEN

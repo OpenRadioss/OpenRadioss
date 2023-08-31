@@ -186,7 +186,10 @@ c
         DMG_FLAG = 0
       ENDIF
       IF (INST_FLAG == 0 .OR. INST_FLAG > 3) INST_FLAG = 1
-      IF (P_THICKFAIL == ONE  ) P_THICKFAIL = P_THICKFAIL - EM06
+      IF (P_THICKFAIL == ONE ) P_THICKFAIL = P_THICKFAIL - EM06
+      IF (P_THICKFAIL == ZERO) P_THICKFAIL = ONE-EM06
+      P_THICKFAIL = MIN(P_THICKFAIL, ONE)
+      P_THICKFAIL = MAX(P_THICKFAIL,-ONE)
 c-----------------------------------------------------------------------
       CALL HM_GET_FLOATV_DIM('Xscale2' ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
       IF (X1SCALE == ZERO) X1SCALE = ONE*FSCAL_UNIT
@@ -283,40 +286,42 @@ c-----------------------------------------------------------------------
  1001 FORMAT(
      & 5X,'TABULATED FAILURE CRITERIA WITH DAMAGE',//,
      & 5X,'STRAIN TABLE ID . . . . . . . . . . . . . . . . . . .=',I10/
-     & 5X,'    SCALE FACTOR FOR FAILURE STRAIN . . . . . . . . .=',E12.4/
-     & 5X,'    STRAIN RATE FACTOR FOR FAILURE STRAIN . . . . . .=',E12.4)
+     & 5X,'    SCALE FACTOR FOR FAILURE STRAIN . . . . . . . . .=',1PG20.13/
+     & 5X,'    STRAIN RATE FACTOR FOR FAILURE STRAIN . . . . . .=',1PG20.13)
  1002 FORMAT(
      & 5X,'NECKING TABLE ID      . . . . . . . . . . . . . . . .=',I10/
-     & 5X,'     SCALE FACTOR FOR NECKING STRAIN. . . . . . . . .=',E12.4/
-     & 5X,'     STRAIN RATE FACTOR FOR NECKING STRAIN. . . . . .=',E12.4)
+     & 5X,'     SCALE FACTOR FOR NECKING STRAIN. . . . . . . . .=',1PG20.13/
+     & 5X,'     STRAIN RATE FACTOR FOR NECKING STRAIN. . . . . .=',1PG20.13)
  1003 FORMAT(
      & 5X,'FLAG XFEM. . . . . . . .. . . . . . . . . . . . . . .=',I10/
-     & 5X,'     XFEM ADVANCEMENT SOFTENING FACTOR. . . . . . . .=',E12.4)
+     & 5X,'     XFEM ADVANCEMENT SOFTENING FACTOR. . . . . . . .=',1PG20.13)
  1004 FORMAT(    
-     & 5X,'PER HUNDRED OF SHELL THICKNESS FAILURE . . . . . . . . .=',E12.4/
-     & 5X,'SHELL FAILURE DUE TO THINNING . . . . . . . . . . . .=',E12.4)
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL . . . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS             ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS',/,
+     & 5X,'SHELL FAILURE DUE TO THINNING . . . . . . . . . . . .=',1PG20.13)
  1005 FORMAT(
-     & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',E12.4/
-     & 5X,'DAMAGE PARAMETER D. . . . . . . . . . . . . . . . . .=',E12.4/
-     & 5X,'DAMAGE PARAMETER N. . . . . . . . . . . . . . . . . .=',E12.4/
-     & 5X,'INSTABILITY STRAIN. . . . . . . . . . . . . . . . . .=',E12.4)
+     & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DAMAGE PARAMETER D. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DAMAGE PARAMETER N. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'INSTABILITY STRAIN. . . . . . . . . . . . . . . . . .=',1PG20.13)
  1009 FORMAT(
-     & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'CRITICAL DAMAGE VALUE . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'DAMAGE EVOLUTION FUNCTION . . . . . . . . . . . . . .=',I10/
-     & 5X,'INSTABILITY STRAIN. . . . . . . . . . . . . . . . . .=',E12.4)
+     & 5X,'INSTABILITY STRAIN. . . . . . . . . . . . . . . . . .=',1PG20.13)
  1006 FORMAT(
-     & 5X,'FADE PARAMETER. . . . . . . . . . . . . . . . . . . .=',E12.4)
+     & 5X,'FADE PARAMETER. . . . . . . . . . . . . . . . . . . .=',1PG20.13)
  1007 FORMAT(
      & 5X,'FADE FUNCTION . . . . . . . . . . . . . . . . . . . .=',I10)
  1008 FORMAT(
      & 5X,'DAMAGE FLAG . . . . . . . . . . . . . . . . . . . . .=',I10/    
      & 5X,'TEMPERATURE SCALE FUNCTION. . . . . . . . . . . . . .=',I10/
-     & 5X,'SCALE FACTOR OF TEMPERATURE FUNCTION. . . . . . . . .=',E12.4/
+     & 5X,'SCALE FACTOR OF TEMPERATURE FUNCTION. . . . . . . . .=',1PG20.13/
      & 5X,'ELEMENT LENGTH FUNCTION . . . . . . . . . . . . . . .=',I10/
-     & 5X,'SCALE FACTOR OF LENGTH FUNCTION . . . . . . . . . . .=',E12.4/
-     & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . . . . . . . . .=',E12.4/
-     & 5X,'SHEAR TRIAXIALITY LIMIT FOR ELEMENT SIZE SCALING. . .=',E12.4/
-     & 5X,'BI-TRACT TRIAXIALITY LIMIT FOR ELEMENT SIZE SCALING .=',E12.4/
+     & 5X,'SCALE FACTOR OF LENGTH FUNCTION . . . . . . . . . . .=',1PG20.13/
+     & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'SHEAR TRIAXIALITY LIMIT FOR ELEMENT SIZE SCALING. . .=',1PG20.13/
+     & 5X,'BI-TRACT TRIAXIALITY LIMIT FOR ELEMENT SIZE SCALING .=',1PG20.13/
      & 5X,'REGULARIZATION FLAG . . . . . . . . . . . . . . . . .=',I10/
      & 5X,'FAILURE OPTION:')
  1100 FORMAT(

@@ -162,7 +162,9 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
          IGEO(11)=IGTYP
          GEO(12) =IGTYP+PUN
 
-         PTHK = MIN(PTHK, ONE-EM06)
+         IF (PTHK == ZERO) PTHK = ONE-EM06
+         PTHK = MIN(PTHK, ONE)
+         PTHK = MAX(PTHK,-ONE) 
          GEO(42) = PTHK
 C fixing flag and removed from input
         ISTRAIN=1
@@ -421,7 +423,9 @@ C-----------
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-     & 5X,'% OF LAYER THICKNESS TO FAIL. . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS      ',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,
@@ -443,7 +447,9 @@ C-----------
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHELL NUMERICAL DAMPING . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-     & 5X,'% OF LAYER THICKNESS TO FAIL. . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS      ',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,

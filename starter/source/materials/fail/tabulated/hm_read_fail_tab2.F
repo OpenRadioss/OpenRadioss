@@ -165,6 +165,9 @@ C-------------------------------------------------------------------------------
       ENDIF
       IF (FSCALE_SR == ZERO)   FSCALE_SR   = ONE
       IF (FSCALE_DLIM == ZERO) FSCALE_DLIM = ONE
+      IF (PTHKFAIL == ZERO) PTHKFAIL = EM06
+      PTHKFAIL = MIN(PTHKFAIL, ONE)
+      PTHKFAIL = MAX(PTHKFAIL,-ONE)
 C--------------------------------------------------------------------------------
 C     Functions and tables
 C--------------------------------------------------------------------------------
@@ -343,7 +346,9 @@ c-----------------------------------------------------------------------
      & 5X,'ELEMENT DELETION PARAMETERS:                             ',/,
      & 5X,'----------------------------                             ',/,
      & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO SOLID DELETION . =',I10/,
-     & 5X,'PERCENTAGE OF FAILED LAYERS PRIOR TO SHELL DELETION . . =',1PG20.13/) 
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL  . . . . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS                   ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS      ',/) 
  1020 FORMAT(
      & 5X,' --------------------------------------------------------',/)   
 c-----------------------------------------------------------------------

@@ -125,6 +125,9 @@ C===============================================================================
       CALL HM_GET_INTV   ('FAILIP'   ,FAILIP   ,IS_AVAILABLE,LSUBMODEL)
       IF (FAILIP == 0)  FAILIP  = 1
       CALL HM_GET_FLOATV ('PTHK'     ,PTHK     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      IF (PTHK == ZERO) PTHK = EM06
+      PTHK = MIN(PTHK, ONE)
+      PTHK = MAX(PTHK,-ONE)
 !---------------
 ! -> Card2
 !---------------
@@ -313,7 +316,9 @@ c-----------------------------------------------------
  1200 FORMAT(
      & 5X,'ELEMENT DELETION PARAMETERS:                             ',/,
      & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO SOLID DELETION . =',I10,/,
-     & 5X,'PERCENTAGE OF FAILED LAYERS PRIOR TO SHELL DELETION . . =',1PG20.13/)
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL . . . . . . =',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS                   ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS      ',/)
  1300 FORMAT(     
      & 5X,'|| INIEVO CRITERION NUMBER #',I3,/,
      & 5X,'  -------------------------------------------------     ',/,

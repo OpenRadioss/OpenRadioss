@@ -141,6 +141,7 @@ C======================================================================|
       CALL HM_GET_FLOATV('Dn',DN,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ! card3      
 !!      CALL HM_GET_INTV  ('ISTRAIN'   ,ISTRAIN   ,IS_AVAILABLE, LSUBMODEL) ! removed 
+      CALL HM_GET_FLOATV('P_Thick_Fail', PTHK   ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('THICK'     ,THK       ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('AREA_SHEAR',ASHEAR    ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_INTV  ('ITHICK'    ,ITHK      ,IS_AVAILABLE, LSUBMODEL)
@@ -176,12 +177,12 @@ c
           DO I = 1,NPLY_SUB
             CALL HM_GET_INT_ARRAY_2INDEXES  ('plyidlist',PLY_ID,IS,I,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('Prop_phi' ,ANG   ,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-            CALL HM_GET_FLOAT_ARRAY_2INDEXES('Prop_Zi'  ,POS   ,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+            CALL HM_GET_FLOAT_ARRAY_2INDEXES('Prop_Zi'  ,POS   ,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_INT_ARRAY_2INDEXES  ('Prop_mi' ,IMID_PI,IS,I,IS_AVAILABLE,LSUBMODEL) 
             ! stockage
                   STACK_INFO%PID(NPLY + I) = PLY_ID
                   STACK_INFO%ANG(NPLY + I) = ANG
-                  STACK_INFO%POS(NPLY + I) = POS  
+                  STACK_INFO%POS(NPLY + I) = POS
                   STACK_INFO%MID_IP(NPLY + I) = IMID_PI
           END DO
            NPLY = NPLY + NPLY_SUB
@@ -203,16 +204,15 @@ c
         DO I=1,NPLY
           CALL HM_GET_INT_ARRAY_INDEX  ('plyidlist' ,PLY_ID,I,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',ANG,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INT_ARRAY_INDEX  ('Prop_mi' ,IMID_PI,I,IS_AVAILABLE,LSUBMODEL) !
           !!
           STACK_INFO%PID(I) = PLY_ID
           STACK_INFO%ANG(I) = ANG
-          STACK_INFO%POS(I) = POS     
+          STACK_INFO%POS(I) = POS  
           STACK_INFO%MID_IP(I) = IMID_PI
         END DO
       END IF
-      PTHK = ZERO
 c
       IREP = IORTH
 C      IPOS = 0
@@ -220,6 +220,9 @@ C      IDSK = 0
 C----------------------
 C Default value
 C----------------------
+      IF (PTHK == ZERO) PTHK = ONE-EM06
+      PTHK = MIN(PTHK, ONE)
+      PTHK = MAX(PTHK,-ONE)
 C ISHEAR NEVER USED
         ISHEAR = 0
 C CVIS
@@ -326,7 +329,6 @@ C---
       IGEO(32) =  0  ! ISLV not used (may be needed for plyxfem)
       IF(GEO(38) == ZERO) GEO(38) = FIVE_OVER_6
        !! IF(NLY == 1) GEO(38)= ZERO
-      GEO(42) = EM03 ! default value  ! not used 
       FAIL_SHELL = 0
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN < EM10)THEN
@@ -425,6 +427,8 @@ c
       GEO(37) = ISHEAR
       GEO(38) = ASHEAR
       GEO(39) = IPLAST
+      GEO(42) = PTHK
+      GEO(43) = ONE
       GEO(171)= IHBE  ! double stockage
       GEO(199)= ZSHIFT  
 C      
@@ -472,25 +476,25 @@ C-----------------------------------------------------------------
         IF (IHBE > 11.AND.IHBE < 29) THEN
           WRITE(IOUT,2112)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,IGEO(20),
-     .               GEO(16),GEO(13),GEO(38),FAIL_SHELL,ISHEAR,ITHK,
+     .               GEO(16),GEO(13),GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,
      .               IPLAST,IREP,GEO(7),GEO(8),GEO(9),IGEO(14)
          ELSE
           WRITE(IOUT,2110)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE, ! nly de moins
      .               ISH3N,
      .               GEO(13),GEO(14),GEO(15),GEO(16),
-     .               GEO(38),FAIL_SHELL,ISHEAR,ITHK,IPLAST,IREP,
+     .               GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,IPLAST,IREP,
      .               GEO(7),GEO(8),GEO(9),IGEO(14)
          ENDIF
        ELSE
         IF (IHBE > 11.AND.IHBE < 29) THEN
           WRITE(IOUT,2113)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,IGEO(20),
-     .               GEO(16),GEO(13),GEO(38),FAIL_SHELL,ISHEAR,ITHK,
+     .               GEO(16),GEO(13),GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,
      .               IPLAST,IREP,IDSK,IGEO(14)
          ELSE
            WRITE(IOUT,2111)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,
-     .               GEO(13),GEO(14),GEO(15),GEO(16),GEO(38),
+     .               GEO(13),GEO(14),GEO(15),GEO(16),GEO(38),PTHK,
      .               FAIL_SHELL,ISHEAR,ITHK,IPLAST,IREP,IDSK,IGEO(14)
         ENDIF
        ENDIF
@@ -640,6 +644,9 @@ C----
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,     
      & 5X,'SHELL FAILURE FLAG. . . . . . . . . . .=',I10/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
@@ -664,6 +671,9 @@ C----
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHELL FAILURE FLAG. . . . . . . . . . .=',I10/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
@@ -685,6 +695,9 @@ C----
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHELL NUMERICAL DAMPING . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHELL FAILURE FLAG. . . . . . . . . . .=',I10/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
@@ -708,6 +721,9 @@ C----
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHELL NUMERICAL DAMPING . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHELL FAILURE FLAG. . . . . . . . . . .=',I10/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,

@@ -8110,6 +8110,13 @@ c
         ALLOCATE(XFEM_TAB(0,0), STAT=Stat)
       ENDIF
 C--------------------------------------------
+C     WARNING FOR PTHICKFAIL
+C--------------------------------------------
+      CALL CHECK_PTHICKFAIL(ELBUF_TAB,IPARG    ,GEO      ,BUFMAT   ,SBUFMAT  ,
+     .                      IPM      ,STACK    ,IGEO     ,NUMMAT   ,NUMGEO   ,
+     .                      NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,NPROPG   )
+C
+C--------------------------------------------
 C     CHECK COMPATIBILITY /DTTSH
 C--------------------------------------------
       IF(NUMELS>0) THEN
