@@ -526,7 +526,7 @@ C
          IF(NCONLD/=0) THEN
           IF (IMON>0) CALL STARTIME(4,1)
 C         --en spmd force est traite comme elements---
-          CALL FORCE(IBCL   ,FORC    ,NPC    ,TF    ,AC     ,
+          CALL FORCE_IMP(IBCL   ,FORC    ,NPC    ,TF    ,AC     ,
      2               V      ,X       ,SKEW   ,ACR   ,VR     ,
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F ,FSKY    ,FSKY   ,RBID,H3D_DATA,
@@ -3328,7 +3328,7 @@ C----------------------------------
          NCL_MAX=0
          R_IMP(16)=ZERO
          IF(NCONLD/=0) THEN
-          CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,AC    ,
+          CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,AC    ,
      2               V     ,X     ,SKEW  ,ACR ,VR    ,
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,

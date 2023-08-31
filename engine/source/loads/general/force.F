@@ -36,15 +36,18 @@ Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
+      MODULE FORCE_MOD
+      CONTAINS
       SUBROUTINE FORCE (IB      ,FAC       ,NPC     ,TF      ,A      ,
      2                  V       ,X         ,SKEW    ,AR      ,VR     ,
      3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
      4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
      5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
-     6                  NSEG_LOADP) 
+     6                  NSEG_LOADP, PYTHON) 
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE PYTHON_FUNCT_MOD
       USE H3D_MOD
       USE PINCHTYPE_MOD 
       USE SENSOR_MOD
@@ -90,6 +93,7 @@ C-----------------------------------------------
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      TYPE(PYTHON_), OPTIONAL :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -97,6 +101,7 @@ C-----------------------------------------------
      .        IAD,N_OLD,IANIM,
      .        ISMOOTH,IDEL,KSURF,NS,NSEGPL
       INTEGER :: UP_BOUND
+      INTEGER :: FID ! id of the python function
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,AREA
@@ -147,15 +152,20 @@ C----------------
         IF(N_OLD/=N3.OR.X_OLD/=TS) THEN
           ISMOOTH = 0
           IF (N3 > 0) ISMOOTH = NPC(2*NFUNCT+N3+1)
-!!          F1    = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
-!!          F2    = FINTER(N3,TS*FCX,NPC,TF,DYDX)
           IF (ISMOOTH == 0) THEN
             F1 = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
             F2 = FINTER(N3,TS*FCX,NPC,TF,DYDX)
-          ELSE
+          ELSE IF(ISMOOTH > 0) THEN
             F1 = FINTER_SMOOTH(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
             F2 = FINTER_SMOOTH(N3,TS*FCX,NPC,TF,DYDX)
+          ELSE
+            IF(PRESENT(PYTHON)) THEN
+              FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,(TS-DT1)*FCX,F1)
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TS*FCX,F2)
+            ENDIF
           ENDIF ! IF (ISMOOTH == 0)
+
           N_OLD = N3
           X_OLD = TS
         ENDIF
@@ -249,11 +259,15 @@ C----------------
         IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
           ISMOOTH = 0
           IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
-!!          F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
           IF (ISMOOTH == 0) THEN
             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-          ELSE
+          ELSE IF(ISMOOTH > 0) THEN
             F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
+          ELSE
+            IF(PRESENT(PYTHON)) THEN
+              FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TS*FCX,F1)
+            ENDIF
           ENDIF ! IF (ISMOOTH == 0)
           N_OLD = N5
           X_OLD = TS
@@ -350,7 +364,6 @@ C
               FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
             ENDIF
           ENDIF
-         
 !
 C
            TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
@@ -550,9 +563,15 @@ C-------------------------
              IF (ISMOOTH == 0) THEN
                F1 = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
                F2 = FINTER(N3,TS*FCX,NPC,TF,DYDX)
-             ELSE
+             ELSEIF(ISMOOTH > 0) THEN
                F1 = FINTER_SMOOTH(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
                F2 = FINTER_SMOOTH(N3,TS*FCX,NPC,TF,DYDX)
+             ELSE
+               IF(PRESENT(PYTHON)) THEN
+                 FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,(TS-DT1)*FCX,F1)
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TS*FCX,F2)
+               ENDIF
              ENDIF ! IF (ISMOOTH == 0)
              N_OLD = N3
              X_OLD = TS
@@ -652,8 +671,13 @@ C--------------------
 !!             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
              IF (ISMOOTH == 0) THEN
                F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-             ELSE
+             ELSE IF(ISMOOTH > 0) THEN
                F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
+             ELSEIF(ISMOOTH < 0) THEN
+               IF(PRESENT(PYTHON)) THEN
+                 FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TS*FCX,F1)
+               ENDIF
              ENDIF ! IF (ISMOOTH == 0)
              N_OLD = N5
              X_OLD = TS
@@ -924,14 +948,18 @@ C---------------------
            IF(N_OLD/=N3.OR.X_OLD/=TS) THEN
              ISMOOTH = 0
              IF (N3 > 0) ISMOOTH = NPC(2*NFUNCT+N3+1)
-!!             F1    = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
-!!             F2    = FINTER(N3,TS*FCX,NPC,TF,DYDX)
              IF (ISMOOTH == 0) THEN
                F1 = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
                F2 = FINTER(N3,TS*FCX,NPC,TF,DYDX)
-             ELSE
+             ELSEIF(ISMOOTH > 0) THEN
                F1 = FINTER_SMOOTH(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
                F2 = FINTER_SMOOTH(N3,TS*FCX,NPC,TF,DYDX)
+             ELSE 
+               IF(PRESENT(PYTHON)) THEN
+                 FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,(TS-DT1)*FCX,F1)
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TS*FCX,F2)
+               ENDIF
              ENDIF ! IF (ISMOOTH == 0)
              N_OLD = N3
              X_OLD = TS
@@ -1031,8 +1059,13 @@ C---------------------
 !!             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
              IF (ISMOOTH == 0) THEN
                F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-             ELSE
+             ELSE IF(ISMOOTH > 0) THEN
                F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
+             ELSE 
+               IF(PRESENT(PYTHON)) THEN
+                 FID = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+                 CALL PYTHON_CALL_FUNCT1D(PYTHON, FID,TS*FCX,F1)
+               ENDIF
              ENDIF ! IF (ISMOOTH == 0)
              N_OLD = N5
              X_OLD = TS
@@ -1267,3 +1300,5 @@ C
       ENDIF
       RETURN
       END
+      END MODULE
+

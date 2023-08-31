@@ -583,7 +583,7 @@ Chd|====================================================================
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
-     O  DT         ,LOADS     )
+     O  DT         ,LOADS     , PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -661,6 +661,8 @@ C-----------------------------------------------
       USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
       USE DT_MOD
       USE FORINT_MOD
+      USE PYTHON_FUNCT_MOD
+      USE FORCE_MOD , ONLY : FORCE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -890,6 +892,7 @@ c
       TYPE (INTERFACES_) ,INTENT(INOUT)                  :: INTERFACES
       TYPE (DT_) ,INTENT(INOUT)                          :: DT
       TYPE(MAT_ELEM_)   ,INTENT(INOUT)                   :: MAT_ELEM
+      TYPE(PYTHON_)  ,INTENT(INOUT)                     :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1146,6 +1149,7 @@ C---Nitsche Method----
       my_real
      .         DTNOD_NLOCAL
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFPDEL, NINDEXPDEL
+      DOUBLE PRECISION :: argin,argout
 C----------------------------------------------------------------------------------
 C IMPVEL/FGEO
       INTEGER FXVEL_FGEO
@@ -1209,6 +1213,7 @@ C-------------------------------------------------------------------------------
 C Uncomment for Debug - ITAB is copied in Debug Module.
 C-----------------------------------------------------------------------------------
        CALL PREPARE_DEBUG()
+
 C-----------------------------------------------------------------------------------
       BOOL_RESTART = .TRUE.
       STATE_H3D = 0 
@@ -1978,6 +1983,9 @@ C Play Time & Logical sensors.
      .                  IPART(K5) ,IPART(K6),NSENSOR,SENSORS%SENSOR_TAB,
      .                  TT        ,DT2      )
 
+C save the Python functions into the Python interpreter dictionarry
+       CALL PYTHON_REGISTER(PYTHON)
+
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -2080,7 +2088,7 @@ C===============================================================================
        CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT)
 C     End Initialisations //
        IF(NADMESH/=0.AND.IDEL7NG>=1) IDEL7NOK = 0
-C     THERMAL TIME STEP : we don't check incompatible kinematic conditions anymore
+C     THERMAL TIME STEP : we don t check incompatible kinematic conditions anymore
 c      we constraint all DDLs
        IF(IDT_THERM == 1) THEN
           CALL BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0 ,1 )
@@ -3234,7 +3242,7 @@ C-------------------------------------------------------------------
      3               NSENSOR,SENSORS%SENSOR_TAB ,TFEXC   ,IADS(I87J),
      4               FSKY   , FSKY   ,FEXT   ,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC ,OUTPUT%TH%TH_SURF ,FSAVSURF   ,
-     6               NSEG_LOADP)
+     6               NSEG_LOADP, PYTHON=PYTHON)
 C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
@@ -3397,7 +3405,7 @@ C
          CALL FLOW0(IFLOW, RFLOW,   WIFLOW, WRFLOW, X,
      .              V,     A,       NPC,    TF,     SENSORS%SENSOR_TAB,
      .              NBGAUGE,LGAUGE,  GAUGE , NSENSOR,
-     .              IGRV,   AGRV  ,NFUNCT  )
+     .              IGRV,   AGRV  ,NFUNCT  ,PYTHON)
       ENDIF
 
 C----------------------------------------
@@ -7179,12 +7187,12 @@ C===============================================================================
             CALL GRAVIT_FVM_FEM(
      1                  IGRV    ,AGRV   ,NPC   ,TF       ,A     ,
      2                  V       ,X      ,SKEW  ,MS       ,SENSORS%SENSOR_TAB,
-     3                  WEIGHT ,LGRAV ,ITSK     ,ALE_CONNECTIVITY%NALE,NSENSOR)
+     3                  WEIGHT ,LGRAV ,ITSK     ,ALE_CONNECTIVITY%NALE,NSENSOR, PYTHON)
          ELSE
             CALL GRAVIT(
      1                  IGRV    ,AGRV   ,NPC   ,TF       ,A     ,
      2                  V       ,X      ,SKEW  ,MS       ,SENSORS%SENSOR_TAB,
-     3                  WEIGHT ,LGRAV   ,ITSK  ,NSENSOR)
+     3                  WEIGHT ,LGRAV   ,ITSK  ,NSENSOR, PYTHON)
          ENDIF
 !$OMP END PARALLEL
 
@@ -7631,7 +7639,7 @@ C--------------------------
      3                   VR    ,IN    ,NSENSOR,SENSORS%SENSOR_TAB,
      4                   WEIGHT,D     ,RBY    ,IFRAME ,
      5                   XFRAME,DR    ,PTR_SMS,
-     6                   TT_DOUBLE,DDP)
+     6                   TT_DOUBLE,DDP,PYTHON)
 
              IF (FXVEL_FGEO ==1) THEN
                CALL FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF     ,
@@ -8170,7 +8178,8 @@ C Init var parallel SMP
      7       NPBYL    ,LPBYL    ,IBFV     ,VEL      ,NPC      ,
      8       TF         ,NEWFRONT ,ICONTACT ,RWBUF    ,LPRW     ,
      9       NPRW     ,RBYL     ,D        ,DR       ,KINET    ,
-     A       NSENSOR  ,SENSORS%SENSOR_TAB,INTBUF_TAB, H3D_DATA ,IGRBRIC)
+     A       NSENSOR  ,SENSORS%SENSOR_TAB,INTBUF_TAB, H3D_DATA ,IGRBRIC, 
+     B       PYTHON)
 
 !$OMP END PARALLEL
 
@@ -8202,7 +8211,7 @@ C===============================================================================
      9       NPRW     ,RBYL     ,D        ,DR       ,KINET    ,
      A       NODGLOB  ,WEIGHT   ,NBNCL    ,NBIKL    ,NBNODL   ,
      B       NBNODLR  ,FR_LAGF  ,LLAGF    ,IAD_ELEM ,FR_ELEM  ,
-     C       INTBUF_TAB ,H3D_DATA)
+     C       INTBUF_TAB ,H3D_DATA, PYTHON)
         END IF
       ENDIF
 c--------------
@@ -9315,7 +9324,7 @@ C--------------------------------------------------------
      .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSORS   , EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT        ,
-     .                 INTERFACES, LOADS      )
+     .                 INTERFACES, LOADS      ,PYTHON)
 
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
@@ -9585,7 +9594,7 @@ C--------------------------------------------------------
      .                 H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSETS   ,
      .                 PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                 SENSORS    ,EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
-     .                 INTERFACES ,LOADS           )
+     .                 INTERFACES ,LOADS           ,PYTHON)
 
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
@@ -9723,7 +9732,7 @@ C--------------------------------------------------------
      .                    H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS     ,
      .                    PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                    SENSORS    ,EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,
-     .                    INTERFACES ,LOADS         )
+     .                    INTERFACES ,LOADS         ,PYTHON)
 
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()

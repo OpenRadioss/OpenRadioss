@@ -32,7 +32,9 @@ Chd|====================================================================
      2                   BLL    ,IADLL  ,LLL    ,JLL    ,SLL    ,
      3                   XLL    ,COMNTAG,ICFTAG ,JCFTAG ,MS     ,
      4                   IN     ,V      ,VR     ,A      ,AR     ,
-     5                   ISKIP  ,NCF_S  ,NC     )
+     5                   ISKIP  ,NCF_S  ,NC     ,PYTHON)
+
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +54,7 @@ C-----------------------------------------------
       my_real
      .  XLL(*),BLL(*),SKEW(LSKEW,*),VEL(LFXVELR,*),TF(*),MS(*),IN(*),
      .  V(3,*),VR(3,*),A(3,*),AR(3,*)
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,8 +88,10 @@ C======================================================================|
           IF (IFUN > 0) ISMOOTH = NPF(2*NFUNCT+IFUN+1)
           IF (ISMOOTH == 0) THEN
             VF = FINTER(IFUN, TS, NPF, TF, DERI)
-          ELSE
+          ELSE IF (ISMOOTH > 0) THEN
             VF = FINTER_SMOOTH(IFUN, TS, NPF, TF, DERI)
+          ELSE
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TS, VF) 
           ENDIF ! IF (ISMOOTH == 0)
           NC = NC + 1
           BLL(NC) = -VF*FAC / DT12
@@ -159,7 +164,8 @@ Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|====================================================================
       SUBROUTINE LAG_FXVP(IBFV   ,VEL    ,SKEW   ,NPF    ,TF     ,
      2                    LAGCOMC,LAGCOMK,NC     ,NODGLOB,WEIGHT ,
-     3                    IK     )
+     3                    IK     ,PYTHON)
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -178,6 +184,7 @@ C-----------------------------------------------
       my_real
      .        LAGCOMK(4,*),LAGCOMC(2,*),SKEW(LSKEW,*),VEL(LFXVELR,*),
      .        TF(*)
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -216,8 +223,10 @@ C   numerotation globale
 !!          VF = FINTER(IFUN, TS, NPF, TF, DERI)
           IF (ISMOOTH == 0) THEN
             VF = FINTER(IFUN, TS, NPF, TF, DERI)
-          ELSE
+          ELSE IF(ISMOOTH > 0) THEN
             VF = FINTER_SMOOTH(IFUN, TS, NPF, TF, DERI)
+          ELSE
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TS, VF) 
           ENDIF
           NC = NC + 1
           LAGCOMC(2,NC) = -VF*FAC / DT12

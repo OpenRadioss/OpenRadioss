@@ -103,7 +103,7 @@ Chd|====================================================================
      .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
-     .           INTERFACES    ,LOADS     )
+     .           INTERFACES    ,LOADS     ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -139,6 +139,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE PYTHON_FUNCT_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -170,6 +171,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(SENSORS_)        ,INTENT(IN)                   :: SENSORS
       TYPE(LOADS_)          ,INTENT(IN)                   :: LOADS
       TYPE(MAT_ELEM_)       ,INTENT(IN)                   :: MAT_ELEM
+      TYPE(PYTHON_)         ,INTENT(INOUT)                :: PYTHON
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -224,6 +226,12 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NVOLU) :: NTRI
       INTEGER :: II, NS_DIFF, ITMP
       INTEGER :: MY_SIZE
+C-----------------------------------------------
+C     Python interface
+C-----------------------------------------------
+      INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER
+      INTEGER :: BUFFER_SIZE
+
 C-----------------------------------------------
       DATA IJK/'I','J','K','L','M','N','O','P','Q','R',
      .         'S','T','U','V','W','X','Y','Z','A','B',
@@ -396,6 +404,9 @@ C--------------------------------------
         CALL WRITE_I_C(IPART,SIPART)
 
         CALL WRITE_I_C(NOM_OPT,SNOM_OPT)
+
+        CALL PYTHON_SERIALIZE(PYTHON,BUFFER, BUFFER_SIZE)
+        CALL WRITE_I_C(BUFFER, BUFFER_SIZE)
 
         CALL WRITE_I_C(NPC,SNPC)
 

@@ -35,11 +35,13 @@ Chd|====================================================================
      .                    RFLOW,  NORMAL, TA,    AREAF,   COSG,      DIST,  
      .                    MFLE,   ACCF,   PM,    PTI, X,  V, A, NPC, TF, 
      .                    NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
-     .                    CBEM   ,IPIV_L, MFLE_L,IBUFELR, IBUFELC,NFUNCT)
+     .                    CBEM   ,IPIV_L, MFLE_L,IBUFELR, IBUFELC,NFUNCT,
+     .                    PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +64,7 @@ C-----------------------------------------------
       my_real MFLE(NEL,*), GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
       my_real CBEM(NEL,*), MFLE_L(NEL_LOC,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -337,8 +340,13 @@ C-----------------------------------------------
 !!                PP(I) = SFPRES*FINTER(IFPRES,TTA,NPC,TF,DPPDT)*RATIO*OFF(I)
                 IF (ISMOOTH == 0) THEN
                   PP(I) = SFPRES*FINTER(IFPRES,TTA,NPC,TF,DPPDT)*RATIO*OFF(I)
-                ELSE
+                ELSE IF(ISMOOTH > 0) THEN
                   PP(I) = SFPRES*FINTER_SMOOTH(IFPRES,TTA,NPC,TF,DPPDT)*RATIO*OFF(I)
+                ELSE 
+                  ISMOOTH = -ISMOOTH ! function id
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TTA,PP(I))
+                  PP(I) = PP(I)*SFPRES*RATIO*OFF(I)
+                  CALL PYTHON_DERIV_FUNCT1D(PYTHON, ISMOOTH,TTA,DPPDT)
                 ENDIF ! IF (ISMOOTH == 0)
                 DPIDT(I) = DPPDT*COSG(I)*RATIO*OFF(I)
              ELSE
@@ -354,8 +362,13 @@ C-----------------------------------------------
 !!                PP(I) = SFPRES*FINTER(IFPRES,TTA,NPC,TF,DPPDT)*OFF(I)
                 IF (ISMOOTH == 0) THEN
                   PP(I) = SFPRES*FINTER(IFPRES,TTA,NPC,TF,DPPDT)*OFF(I)
-                ELSE
+                ELSE IF (ISMOOTH > 0) THEN
                   PP(I) = SFPRES*FINTER_SMOOTH(IFPRES,TTA,NPC,TF,DPPDT)*OFF(I)
+                ELSE 
+                  ISMOOTH = -ISMOOTH ! function id
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TTA,PP(I))
+                  PP(I) = PP(I)*SFPRES*OFF(I)
+                  CALL PYTHON_DERIV_FUNCT1D(PYTHON, ISMOOTH,TTA,DPPDT)
                 ENDIF ! IF (ISMOOTH == 0)
                 DPIDT(I) = DPPDT*COSG(I)*OFF(I)
              ELSE
@@ -418,8 +431,13 @@ C-----------------------------------------------
 !!                PR(I) = -SFPRES*FINTER(IFPRES,TTA,NPC,TF,DPPDT)*RATIO*OFF(I)
                 IF (ISMOOTH == 0) THEN
                   PR(I) = -SFPRES*FINTER(IFPRES,TTA,NPC,TF,DPPDT)*RATIO*OFF(I)
-                ELSE
+                ELSE IF (ISMOOTH > 0) THEN
                   PR(I) = -SFPRES*FINTER_SMOOTH(IFPRES,TTA,NPC,TF,DPPDT)*RATIO*OFF(I)
+                ELSE 
+                  ISMOOTH = -ISMOOTH ! function id
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TTA,PR(I))
+                  PR(I) = -PR(I)*SFPRES*RATIO*OFF(I)
+                  CALL PYTHON_DERIV_FUNCT1D(PYTHON, ISMOOTH,TTA,DPPDT)
                 ENDIF ! IF (ISMOOTH == 0)
                 DPRDT(I) = DPPDT*COSG(J)*OFF(I)
              ELSE
@@ -653,8 +671,12 @@ C-----------------------------------------------
 !!        GRAVITY = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
           IF (ISMOOTH == 0) THEN
             GRAVITY = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
-          ELSE
+          ELSE IF(ISMOOTH > 0) THEN
             GRAVITY = FCY*FINTER_SMOOTH(IFUNC,TS*FCX,NPC,TF,DYDX)
+          ELSE 
+            ISMOOTH = -ISMOOTH ! function id
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TTA,GRAVITY)
+            GRAVITY = GRAVITY*FCY
           ENDIF ! IF (ISMOOTH == 0)
         ELSE
           GRAVITY   = FCY

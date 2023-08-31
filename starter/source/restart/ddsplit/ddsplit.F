@@ -358,7 +358,7 @@ Chd|====================================================================
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
-     F   LOADS_PER_PROC)
+     F   LOADS_PER_PROC, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -404,6 +404,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -446,6 +447,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)    :: DYNAIN_DATA
       TYPE (OUTPUT_),INTENT(IN)             :: OUTPUT
       TYPE (INTERFACES_)   ,INTENT(IN)      :: INTERFACES
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -784,7 +786,11 @@ C-----------------------------------------------
 C     Multifluid law
 C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: MULTI_FVM_VEL_L
-
+C-----------------------------------------------
+C     Python interface
+C-----------------------------------------------
+      INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER
+      INTEGER :: BUFFER_SIZE
 C-----------------------------------------------
 C     FILE SIZE
 C-----------------------------------------------
@@ -1874,8 +1880,13 @@ C
         LEN_IA = LEN_IA + LNOM_OPT
       ENDIF
 C
+
+      CALL PYTHON_SERIALIZE(PYTHON,BUFFER, BUFFER_SIZE)
+      CALL WRITE_I_C(BUFFER, BUFFER_SIZE)
+
       CALL WRITE_I_C(NPC,3*NFUNCT+1)
         LEN_IA = LEN_IA + 3*NFUNCT+1
+      
 C--------------------------------------------
 C Connectivity for Triangles
 C--------------------------------------------

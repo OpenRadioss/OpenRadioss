@@ -338,7 +338,7 @@ void h3dlib_load_(int * IERROR)
       if(dllpath_size > 0) {
           arch_size = GetEnvironmentVariable("ARCH",hwarch,200);
           if(arch_size >0) {
-              strcpy_s(load_libname, 20000, libh3dpath);
+              strcpy_s(load_libname,20000, libh3dpath);
               strcat_s(load_libname,20000,"\\hwsolvers\\common\\bin\\");
               strcat_s(load_libname,20000,hwarch);
               strcat_s(load_libname,20000,"\\");

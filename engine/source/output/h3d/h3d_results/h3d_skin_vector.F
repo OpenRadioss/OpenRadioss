@@ -163,8 +163,10 @@ C--------default zero
 !!           F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
            IF (ISMOOTH == 0) THEN
              F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-           ELSE
+           ELSE IF(ISMOOTH > 0) THEN
              F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
+           ELSE 
+
            ENDIF ! IF (ISMOOTH == 0)
            N_OLD = N5
            X_OLD = TS

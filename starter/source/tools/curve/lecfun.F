@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,L,NPTS,IDFUNCT
+      INTEGER I,L,NPTS,IDFUNCT,ISMOOTH
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -61,7 +61,8 @@ C======================================================================|
       L=L+1   
       NPTS=NPC(L)-NPC(L-1)
       IDFUNCT=NPC(NFUNCT+L)  
-      IF(NPTS<2)THEN
+      ISMOOTH = NPC(2 * NFUNCT+ L) 
+      IF(NPTS<2 .AND. IDFUNCT > 0 .AND. ISMOOTH >= 0)THEN
        CALL ANCMSG(MSGID=604,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_2,

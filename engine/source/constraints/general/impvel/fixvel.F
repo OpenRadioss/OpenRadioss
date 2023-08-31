@@ -34,10 +34,11 @@ Chd|====================================================================
      3                  VR    ,IN   ,NSENSOR,SENSOR_TAB,
      4                  WEIGHT,DEPLA    ,RBY   ,IFRAME,
      5                  XFRAME,DR   ,NODNX_SMS,
-     6                  TT_DOUBLE,DEPLA_DOUBLE)
+     6                  TT_DOUBLE,DEPLA_DOUBLE, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
+      USE PYTHON_FUNCT_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,6 +72,7 @@ C-----------------------------------------------
      .   SKEW(LSKEW,*), AR(3,*), VR(3,*), IN(*),
      .   RBY(NRBY,*),XFRAME(NXFRAME,*), DR(3,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -220,11 +222,15 @@ C------- First pass for impdisp with sensor - in the top of the list
                 INDEX_SMOOTH(NINDEX_SMOOTH) = II
                 TSC_SMOOTH(NINDEX_SMOOTH) = TSC(II)  
                 TSC0_SMOOTH(NINDEX_SMOOTH) = TSC0(II)  
-              ELSE
+              ELSE IF(ISMOOTH==0) THEN
                 NINDEX_WO_SMOOTH = NINDEX_WO_SMOOTH + 1
                 INDEX_WO_SMOOTH(NINDEX_WO_SMOOTH) = II          
                 TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)  
                 TSC0_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC0(II)  
+              ELSE IF(ISMOOTH<0) THEN
+                L = -ISMOOTH
+                CALL PYTHON_CALL_FUNCT1D(PYTHON,L,TSC(II),YC(II))
+                CALL PYTHON_CALL_FUNCT1D(PYTHON,L,TSC0(II),YC0(II))
               ENDIF 
             ENDIF       
         ENDDO
@@ -241,10 +247,13 @@ C------- Second pass
                 NINDEX_SMOOTH = NINDEX_SMOOTH + 1
                 INDEX_SMOOTH(NINDEX_SMOOTH) = II
                 TSC_SMOOTH(NINDEX_SMOOTH) = TSC(II) 
-              ELSE
+              ELSE IF(ISMOOTH==0) THEN
                 NINDEX_WO_SMOOTH = NINDEX_WO_SMOOTH + 1
                 INDEX_WO_SMOOTH(NINDEX_WO_SMOOTH) = II          
                 TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)  
+              ELSE IF(ISMOOTH<0) THEN
+                L = -ISMOOTH
+                CALL PYTHON_CALL_FUNCT1D(PYTHON,L,TSC(II),YC(II))
               ENDIF
             ENDIF        
         ENDDO
@@ -304,6 +313,8 @@ C------- Second pass
             IPOSC(JJ) = IPOSC_SMOOTH(II)
           ENDDO
         ENDIF
+
+
 
         IF (IVECTOR == 0) THEN
           DO II=1,IC

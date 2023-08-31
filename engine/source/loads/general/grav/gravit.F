@@ -32,11 +32,12 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE GRAVIT(IGRV  ,AGRV  ,NPC   ,TF   ,A     ,
      2                  V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                  WEIGHT,IB    ,ITASK, NSENSOR)
+     3                  WEIGHT,IB    ,ITASK, NSENSOR, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C-----------------------------------------------
      .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
      .   X(3,*), SKEW(LSKEW,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE (PYTHON_), INTENT(IN) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -109,9 +111,13 @@ C
           IF (ISMOOTH == 0) THEN
             A0   = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
             GAMA = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
-          ELSE
+          ELSE IF (ISMOOTH > 0) THEN
             A0   = FCY*FINTER_SMOOTH(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
             GAMA = FCY*FINTER_SMOOTH(IFUNC,TS*FCX,NPC,TF,DYDX)
+          ELSE 
+            ISMOOTH = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,(TS-DT1)*FCX, A0)
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TS*FCX, GAMA)
           ENDIF
         ELSE
           A0   = FCY
