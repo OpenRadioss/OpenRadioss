@@ -68,7 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: J,ICONST,SENS_TYPE,PART_ID,SUB_ID,PARTN,SUBN,NPARIS,NPARRS,NVAR
+      INTEGER :: J,ICONST,SENS_TYPE,PART_ID,SUB_ID,PARTN,SUBN,ISELECT,
+     .           NPARIS,NPARRS,NVAR
       my_real :: TDEL,TMIN,IEMIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME
       LOGICAL :: IS_AVAILABLE
 C--------------------------------
@@ -83,6 +84,7 @@ card1
 card2
       CALL HM_GET_INTV  ('Part_Id'    ,PART_ID ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('Subset_ID'  ,SUB_ID  ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV  ('Iselect'    ,ISELECT ,IS_AVAILABLE,LSUBMODEL)
 card3
       CALL HM_GET_FLOATV('IEmin'      ,IEMIN   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('IEmax'      ,IEMAX   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -104,6 +106,7 @@ c--------------------------------------------------
       IF (KEMAX  == ZERO) KEMAX  = INFINITY
       IF (IETIME == ZERO) IETIME = INFINITY
       IF (KETIME == ZERO) KETIME = INFINITY
+      IF (ISELECT == 0)   ISELECT= 1     ! sum of Part energy by default
 c--------------------------------------------------
 c     Check Part_ID, Sub_ID
 c--------------------------------------------------
@@ -132,16 +135,20 @@ c
           ENDIF
         ENDDO
         IF (.NOT. IS_AVAILABLE) SUB_ID = 0
-      ENDIF ! IF (.NOT. IS_AVAILABLE)
+      ENDIF
 c
-      IF (.NOT. IS_AVAILABLE) THEN
+      IF (.NOT. IS_AVAILABLE .and. ISELECT == 1) THEN
         ! we take global subset including all parts
         SUB_ID = SUBSET(NSUBS)%ID
-        SUBN  = NSUBS 
-      ENDIF ! IF (.NOT. IS_AVAILABLE)
+        SUBN   = NSUBS
+      ELSE IF (IS_AVAILABLE) THEN
+        ISELECT = 1
+      ENDIF
 c------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
-      IF (PART_ID > 0) THEN
+      IF (ISELECT == 2) THEN
+        WRITE (IOUT, 2400)
+      ELSE IF (PART_ID > 0) THEN
         WRITE (IOUT, 2100) PART_ID
       ELSE IF (SUB_ID > 0) THEN
         WRITE (IOUT, 2200) SUB_ID
@@ -162,7 +169,7 @@ c--------------------------------------------------
 c---------------------------
 c     sensor data structure
 c--------------------------------------------------
-      NPARIS = 3
+      NPARIS = 4
       NPARRS = 8
       NVAR   = 8
 c
@@ -186,6 +193,7 @@ c
       SENSOR_PTR%IPARAM(1) = PARTN   ! PART number
       SENSOR_PTR%IPARAM(2) = SUBN    ! SUBSET number
       SENSOR_PTR%IPARAM(3) = ICONST  ! const energy option
+      SENSOR_PTR%IPARAM(4) = ISELECT ! global system energy vs PART/SUBSET energy selector
 c
       SENSOR_PTR%RPARAM(1) = IEMIN 
       SENSOR_PTR%RPARAM(2) = IEMAX 
@@ -206,12 +214,14 @@ c------------------------------------------------------------
  2200 FORMAT(
      . 5X,'  SUBSET ID. . . . . . . . . . . . . . . . =',I10)
  2300 FORMAT(
-     . 5X,'GLOBAL SUBSET ENERGY (ALL PARTS) . . . . .')
+     . 5X,'  GLOBAL SUBSET ENERGY (ALL PARTS) . . . . .')
+ 2400 FORMAT(
+     . 5X,'  TOTAL SYSTEM ENERGY (ENTIRE MODEL) . . . .')
  3000 FORMAT(
-     . 5X,'  MINIMUM PART/SUBSET INTERNAL ENERGY. . . =',E12.4/
-     . 5X,'  MAXIMUM PART/SUBSET INTERNAL ENERGY. . . =',E12.4/
-     . 5X,'  MINIMUM PART/SUBSET KINETIC ENERGY . . . =',E12.4/
-     . 5X,'  MAXIMUM PART/SUBSET KINETIC ENERGY . . . =',E12.4/
+     . 5X,'  MINIMUM INTERNAL ENERGY. . . . . . . . . =',E12.4/
+     . 5X,'  MAXIMUM INTERNAL ENERGY. . . . . . . . . =',E12.4/
+     . 5X,'  MINIMUM KINETIC ENERGY . . . . . . . . . =',E12.4/
+     . 5X,'  MAXIMUM KINETIC ENERGY . . . . . . . . . =',E12.4/
      . 5X,'  TOLERANCE OF CONSTANT INTERNAL ENERGY. . =',E12.4/
      . 5X,'  TOLERANCE OF CONSTANT KINETIC ENERGY . . =',E12.4/
      . 5X,'  DURATION LIMIT OF MAX/MIN ENERGY . . . . =',E12.4/

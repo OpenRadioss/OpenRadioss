@@ -6816,7 +6816,7 @@ c
           CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .         XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .         X         ,V         ,A         ,ACCELM    ,NPRW      ,
-     .         SUBSETS   ,IGRSURF   ,IGRNOD    )
+     .         SUBSETS   ,IGRSURF   ,IGRNOD    ,ENINT     ,ENCIN     )
 c
           ! check activation condition of logical sensors hierarchy
           CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
@@ -8110,7 +8110,7 @@ c
         CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .       XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .       X         ,V         ,A         ,ACCELM    ,NPRW      ,
-     .       SUBSETS   ,IGRSURF   ,IGRNOD    )
+     .       SUBSETS   ,IGRSURF   ,IGRNOD    ,ENINT     ,ENCIN     )
 c       
         ! check activation condition of logical sensor hierarchy
         CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
