@@ -128,7 +128,8 @@ C-----------------------------------------------
      .  ET31M,DI,ALPHA,DAMXX,DAMYY,DAMXY,ODAMXX,ODAMYY,ODAMXY,THETA,C,S,
      .  EPSPREF,EPDOT,DEPS,DEPSM,FACT,FSCALE_SIZ,REF_SIZ,EPSD1,EPSD2,
      .  EPST1,EPST2,EPST_A,EPST_B
-      my_real ,DIMENSION(NEL) :: EPS11,EPS22,EPS12,EPSP11,EPSP22,EPSP12 
+      my_real ,DIMENSION(NEL) :: EPS11,EPS22,EPS12,EPSP11,EPSP22,EPSP12,
+     .                           EPSM1,EPSM2,EPSM3,EPSM4,EPSM5,EPSM6
       my_real ,DIMENSION(:), POINTER :: FSIZE
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
@@ -316,7 +317,7 @@ c
 		      FRATE = FRATE*FSIZE(I)
           ET1M = FRATE * ET1M
           ET1  = FRATE * ET1
-          DEPS = EPS11(I) - ET1
+          DEPS = EPS11(I) - ET1 
           IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = ET1M - ET1
             FACT  = ET1M / EPS11(I)
@@ -326,6 +327,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM1(I) = ET1M
             ENDIF
           ENDIF
 c
@@ -349,6 +351,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM2(I) = ET2M
             ENDIF
           ENDIF
 c
@@ -372,6 +375,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM3(I) = ET12M
             ENDIF
           ENDIF
 c
@@ -395,6 +399,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM4(I) = -EC1M
             ENDIF
           ENDIF
 c
@@ -418,6 +423,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM5(I) = -EC2M
             ENDIF
           ENDIF
 c
@@ -441,6 +447,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM6(I) = -EC12M
             ENDIF
           ENDIF
 c-----
@@ -460,12 +467,12 @@ c------------------------
           
           WRITE(IOUT, 1000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,1000) NGL(I),IPG,ILAY,IPT
-          IF (FMODE(I,1)==1) WRITE(IOUT, 2000) 1,EPSP(I,XX)
-          IF (FMODE(I,2)==1) WRITE(IOUT, 2000) 2,EPSP(I,YY)
-          IF (FMODE(I,3)==1) WRITE(IOUT, 2000) 3,EPSP(I,XY)
-          IF (FMODE(I,4)==1) WRITE(IOUT, 2000) 4,EPSP(I,XX)
-          IF (FMODE(I,5)==1) WRITE(IOUT, 2000) 5,EPSP(I,YY)
-          IF (FMODE(I,6)==1) WRITE(IOUT, 2000) 6,EPSP(I,XY)
+          IF (FMODE(I,1)==1) WRITE(IOUT, 2000) 1,EPS11(I),EPSM1(I),EPSP(I,XX)
+          IF (FMODE(I,2)==1) WRITE(IOUT, 2000) 2,EPS22(I),EPSM2(I),EPSP(I,YY)
+          IF (FMODE(I,3)==1) WRITE(IOUT, 2000) 3,EPS12(I),EPSM3(I),EPSP(I,XY)
+          IF (FMODE(I,4)==1) WRITE(IOUT, 2000) 4,EPS11(I),EPSM4(I),EPSP(I,XX)
+          IF (FMODE(I,5)==1) WRITE(IOUT, 2000) 5,EPS22(I),EPSM5(I),EPSP(I,YY)
+          IF (FMODE(I,6)==1) WRITE(IOUT, 2000) 6,EPS12(I),EPSM6(I),EPSP(I,XY)
 #include  "lockoff.inc"
         END DO
       END IF              
@@ -519,7 +526,8 @@ c     Update state variables
 c-----------------------------------------------------------------------
  1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)
- 2000 FORMAT(1X,'MODE',1X,I2,' STRAIN RATE',1PE12.4)
+ 2000 FORMAT(1X,'MODE',1X,I2,', STRAIN',1PE12.4,', CRITICAL VALUE',1PE12.4,
+     .       ', STRAIN RATE',1PE12.4)
 c-----------------------------------------------------------------------
       RETURN          
       END
