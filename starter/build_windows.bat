@@ -13,6 +13,7 @@ set jobs=1
 set jobsv=1
 set debug_suffix=
 set build_type=
+set cbuild=0
 
 IF (%1) == () GOTO ERROR
 
@@ -42,6 +43,7 @@ IF (%1) == () GOTO END_ARG_LOOP
    IF %1==-c (
        set dc="-DCOM=1"
        set dc_suf=_c
+       set cbuild=1
    )
 
    IF %1==-nt (
@@ -64,14 +66,17 @@ if %prec%==sp ( set sp_suffix=_sp)
 if %debug%==1 ( set debug_suffix=_db)
 if %debug%==2 ( set debug_suffix=_db2)
 
-set starter=starter_%arch%%sp_suffix%%debug_suffix%%dc_suf%
+if %cbuild%==0 (
+  set starter=starter_%arch%%sp_suffix%%debug_suffix%
+) else (
+  call CMake_Compilers_c\cmake_st_version.bat
+  set starter=s_%st_version%_%arch%%sp_suffix%%debug_suffix%
+)
 
 Rem Create build directory
+set build_directory=cbuild_%starter%_ninja%dc_suf%
 
-
-set build_directory=cbuild_%starter%_ninja
-
-Ren clean
+Rem clean
 if %clean%==1 (
   echo.
   echo Cleaning %build_directory%
@@ -107,8 +112,11 @@ if exist %build_directory% (
 )
 
 Rem Load Compiler settings
-call ..\CMake_Compilers\cmake_%arch%_compilers.bat
-
+if %cbuild%==0 (
+    call ..\CMake_Compilers\cmake_%arch%_compilers.bat
+) else (
+    call ..\CMake_Compilers_c\cmake_%arch%_compilers.bat
+)
 REM define Build type
 
 if %debug%==0 (
@@ -153,6 +161,8 @@ set jobsv=
 set debug_suffix=
 set build_type=
 set dc=
+set dc_suf=
+set cbuild=
 
 echo Terminating
 echo.

@@ -220,7 +220,7 @@ else
          com=1
          dc="-DCOM=1"
          cf="_c"
-         vers=`cat CMake_Compilers_c/cmake_eng_version.txt | awk -F '\"' '{print $2}' `
+         vers=`grep version CMake_Compilers_c/cmake_eng_version.txt | awk -F '\"' '{print $2}' `
          eng_vers="e_${vers}"
        fi
 
@@ -238,7 +238,8 @@ else
    fi
 
 engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${ddebug}
-build_directory=cbuild_${engine_exec}
+build_directory=cbuild_${engine_exec}${cf}
+
 
    echo " " 
    echo " Build OpenRadioss Engine "
