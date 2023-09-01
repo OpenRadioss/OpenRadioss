@@ -27,11 +27,12 @@ Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_drive
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_MATERIALS(IPM       ,PM        ,BUFMAT    )
+      SUBROUTINE ST_QAPRINT_MATERIALS(MAT_ELEM    ,IPM       ,PM        ,BUFMAT    )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,10 +49,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPM(NPROPMI,NUMMAT)
       my_real, INTENT(IN) ::
      .                       PM(NPROPM,NUMMAT), BUFMAT(*)
+      TYPE(MAT_ELEM_) ,INTENT(IN) :: MAT_ELEM
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NRUPT,IVISC
+      INTEGER I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NRUPT,IVISC,IVAR
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
@@ -117,16 +119,23 @@ c-----------------------------
 c-----------------------------
 c         UPARAM of /VISC
 c-----------------------------
-          IVISC = IPM(222,MY_MAT)
+          IVISC = MAT_ELEM%MAT_PARAM(MY_MAT)%IVISC
           IF (IVISC > 0) THEN
             CALL QAPRINT('** VISC_MODEL',I,0.0_8)
-            IADBUF  = IPM(223 ,MY_MAT)
-            NUPARAM = IPM(224 ,MY_MAT)
+            NUPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%VISC%NUPARAM
+            NIPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%VISC%NIPARAM
             DO J=1,NUPARAM
-              IF (BUFMAT(IADBUF+J-1) /= ZERO) THEN
+              TEMP_DOUBLE = MAT_ELEM%MAT_PARAM(MY_MAT)%VISC%UPARAM(J)
+              IF (TEMP_DOUBLE /= ZERO) THEN
                 WRITE(VARNAME,'(A,I0)') 'UPARV_',J
-                TEMP_DOUBLE = BUFMAT(IADBUF+J-1)
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              END IF
+            END DO
+            DO J=1,NIPARAM
+              IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%VISC%IPARAM(J)
+              IF (IVAR /= 0) THEN
+                WRITE(VARNAME,'(A,I0)') 'IPARV_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
               END IF
             END DO
           END IF
