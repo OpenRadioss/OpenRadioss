@@ -1858,7 +1858,8 @@ c----
           TDEL   => FBUF%FLOC(IR)%TDEL   
           NPAR   = IPM(112+IP, MX)   
           IADBUF = IPM(114+IP ,MX)
-          UPARAMF => BUFMAT(IADBUF:IADBUF+NPAR) 
+          NULLIFY(UPARAMF)
+          IF(IADBUF > 0)UPARAMF => BUFMAT(IADBUF:IADBUF+NPAR)
           NFUNC  = IPM(115+IP, MX)             
           FLD_IDX=> FBUF%FLOC(IR)%INDX
           FOFF   => FBUF%FLOC(IR)%OFF
