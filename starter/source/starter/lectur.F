@@ -10282,7 +10282,7 @@ C----------------------------------------------
      A        IBOX        ,IPMAS      ,IBFV            ,VEL           ,NIMPACC          ,
      B        LACCELM     ,ACCELM     ,NOM_SECT        ,NSTRF         ,SECBUF           ,
      C        SKEW        ,ISKWN      ,XFRAME          ,T_MONVOL      ,T_MONVOL_METADATA,
-     D        I2RUPT      ,AREASL     ,INTBUF_FRIC_TAB ,NPFRICORTH    ,
+     D        I2RUPT      ,AREASL     ,INTBUF_FRIC_TAB ,NPFRICORTH    ,MAT_ELEM         ,
      E        PFRICORTH   ,IREPFORTH  ,PHIFORTH        ,VFORTH        ,XREFC            ,
      F        XREFTG      ,XREFS      ,TAGXREF         ,IXS           ,IXC              ,
      G        IXTG        ,RWBUF      ,NPRW            ,LPRW          ,ITHVAR           ,

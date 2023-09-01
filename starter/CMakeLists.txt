@@ -140,13 +140,6 @@ if ( NOT (arch STREQUAL "none") )
    include (${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt)
 endif ()
 
-
-#
-# executable name
-# ---------------------------------
-set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
-
-
 #
 # Print some configuration messages
 # ---------------------------------
@@ -215,13 +208,9 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
-            ${Build_includes_directory}/btag.inc
          COMMAND 
-            bash ../../Compiling_tools/script/compile_info_cm.sh  linux64 0 s 0 linux64  > ${Build_includes_directory}/build_info.inc
-         COMMAND
-           ls  ${Build_includes_directory}
+            python ${source_directory}/../Compiling_tools/script/build_info.py -version=${version} -titlevers=${titlevers} -arch=${arch} -solver=S -outfile=${Build_includes_directory}/build_info.inc
          DEPENDS 
-
          )
 endif()
 
@@ -237,15 +226,14 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 
 
-add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc ${Build_includes_directory}/__foo.inc)
+add_executable (${EXEC_NAME} ${source_files} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc ${Build_includes_directory}/__foo.inc)
 
-if(DEFINED VS_BUILD)
-  add_custom_command(TARGET ${EXEC_NAME}
+add_custom_command(TARGET ${EXEC_NAME}
                    POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E make_directory ${source_directory}/../exec
                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${EXEC_NAME}> ${source_directory}/../exec
                   )
-endif()
+
 
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
 target_link_libraries(${EXEC_NAME} ${LINK} )

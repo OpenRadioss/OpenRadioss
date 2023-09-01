@@ -226,7 +226,7 @@ c-----------------------------------------------
         A0(I) = SIGS(I)*SQR3
         A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .          A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-        A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
+        A2(I) = EIGHTEEN*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
       END DO
 c-----------------------------------------------
 c     Trial stress
@@ -324,9 +324,9 @@ C
      .                             (SIGS(I)*SQR3/(SIGT(I)**2)))
 C
             A2S = -NINE*SQR3/(SIGT(I)*SIGC(I))                                           
-            A2C = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGT(I)*(SIGC(I)**2))) -
+            A2C = EIGHTEEN*((SIGS(I)*SQR3/(TWO*SIGT(I)*(SIGC(I)**2))) -
      .                              ONE/((SIGT(I)+SIGC(I))**2))                      
-            A2T = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGC(I)*(SIGT(I)**2))) -
+            A2T = EIGHTEEN*((SIGS(I)*SQR3/(TWO*SIGC(I)*(SIGT(I)**2))) -
      .                              ONE/((SIGT(I)+SIGC(I))**2))                    
 c                                                                   
             DA0 = SQR3*DFS(I)                                  
@@ -421,7 +421,7 @@ c--------------------------------------------------
             A0(I) = SIGS(I)*SQR3
             A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .             A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-            A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
+            A2(I) = EIGHTEEN*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
           END DO
 c
           ! Stress and yield surface update       

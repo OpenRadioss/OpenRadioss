@@ -53,12 +53,6 @@ set ( mpiver "${MPI}" )
 
 set ( RELNAME ${arch}${mpi_suf})
 
-#
-# executable name
-# ---------------------------------
-set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
-
-
 # Third party libraries
 # ---------------------
 

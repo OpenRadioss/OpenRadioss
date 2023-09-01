@@ -83,8 +83,8 @@ if %got_mpi%==1 ( set mpi_suffix=_%pmi%)
 
 set arch=%my_arch%
 
-set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%.exe
-set starter=starter_%arch%%sp_suffix%%debug_suffix%.exe
+set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%
+set starter=starter_%arch%%sp_suffix%%debug_suffix%
 
 Rem Create build directory
 
@@ -143,7 +143,7 @@ call ..\CMake_Compilers\cmake_%arch%_compilers.bat
 
 
 
-cmake -G Ninja -Darch=%arch% -Dbuild=%build% -DVS_BUILD=1 -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+cmake -G Ninja -Darch=%arch% -Dbuild=%build% -Dstarter=%starter% -Dengine=%engine% -DVS_BUILD=1 -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
 ninja %verbose% -j %jobs%
 
 

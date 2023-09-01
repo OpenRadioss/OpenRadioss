@@ -285,7 +285,7 @@ c
           A0(I) = SIGS(I)*SQR3
           A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .             A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-          A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
+          A2(I) = EIGHTEEN*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
         ENDDO   
       ENDIF
 c
@@ -409,7 +409,7 @@ C
               ! -> A1 derivatives 
               CC = SIGS(I)/SIGC(I)/SIGT(I)
               !   -> With respect to SIGS
-              DA1_DSIGS = DIXHUIT*(SIGC(I) - SIGT(I))*CC
+              DA1_DSIGS = EIGHTEEN*(SIGC(I) - SIGT(I))*CC
               !   -> With respect to SIGC
               DA1_DSIGC = NINE*(SIGS(I)/SIGC(I))**2
               !   -> With respect to SIGT
@@ -437,10 +437,10 @@ C
               !   -> With respect to SIGS
               DA2_DSIGS = -NINE*SQR3/(SIGT(I)*SIGC(I))
               !   -> With respect to SIGC                                         
-              DA2_DSIGC = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGT(I)*(SIGC(I)**2))) -
+              DA2_DSIGC = EIGHTEEN*((SIGS(I)*SQR3/(TWO*SIGT(I)*(SIGC(I)**2))) -
      .                              ONE/((SIGT(I)+SIGC(I))**2))
               !   -> With respect to SIGT                       
-              DA2_DSIGT = DIXHUIT*((SIGS(I)*SQR3/(TWO*SIGC(I)*(SIGT(I)**2))) -
+              DA2_DSIGT = EIGHTEEN*((SIGS(I)*SQR3/(TWO*SIGC(I)*(SIGT(I)**2))) -
      .                              ONE/((SIGT(I)+SIGC(I))**2))
             ENDIF                  
 c             
@@ -575,7 +575,7 @@ C
                 A0(I) = SIGS(I)*SQR3
                 A1(I) = THREE*(((SIGT(I)-SIGC(I))/(SIGT(I)+SIGC(I))) - 
      .                   A0(I)*((SIGT(I)-SIGC(I))/(SIGT(I)*SIGC(I))))
-                A2(I) = DIXHUIT*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
+                A2(I) = EIGHTEEN*((ONE/(SIGT(I)+SIGC(I)))-A0(I)/(TWO*SIGT(I)*SIGC(I)))       
               ENDIF
             ELSE
               A0(I) = ZERO

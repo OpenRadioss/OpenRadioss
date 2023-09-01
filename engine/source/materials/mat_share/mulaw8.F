@@ -144,7 +144,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPAR,IADBUF,NFUNC,I,J,II,IPT,JPT,IR,IP,ISRATE,
      .  IFUNC(MAXFUNC),IDUM1,IFAIL(MVSIZ),MATF(MVSIZ),IC,IFLAG,
-     .  NVARF,NVARF_MAX,MX, IEXPAN8,JJ(6),INLOC
+     .  NVARF,NVARF_MAX,MX, IEXPAN8,JJ(6),INLOC,DMG_FLAG
       my_real 
      .C1(MVSIZ),PNEW(MVSIZ),PP(MVSIZ),DEFP(MVSIZ),
      .EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),EP4(MVSIZ),EP5(MVSIZ),EP6(MVSIZ),
@@ -183,6 +183,7 @@ C=======================================================================
       NUVAR  = BUFLY%NVAR_MAT
       NVARTMP= BUFLY%NVARTMP
       UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
+      DMG_FLAG = BUFLY%L_DMGSCL
 C
       DO J=1,6
         JJ(J) = NEL*(J-1)
@@ -396,6 +397,20 @@ C------Compute of AMU as in mmain after thermal expansion computation ----------
         ENDDO 
       ENDIF
       IEXPAN8 = 0
+C
+C--------------------------------------------------------
+C     COMPUTE UNDAMAGED EFFECTIVE STRESSES
+C---------------------------------------------------------
+      IF (DMG_FLAG > 0) THEN 
+        DO I = LFT,LLT
+          SO1(I) = SO1(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO2(I) = SO2(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO3(I) = SO3(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO4(I) = SO4(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO5(I) = SO5(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO6(I) = SO6(I)/MAX(LBUF%DMGSCL(I),EM20)
+        ENDDO
+      ENDIF
 C---------------------------------------------------------------------------------
       IF(MTN == 28)THEN
         IDUM1 = 0
@@ -971,7 +986,7 @@ C----strain tension
      5              S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      6              EPSP1,UVARF   ,OFF  ,IP   ,DFMAX   ,TDELE,
      7              BIDON   ,BIDON   ,BIDON   ,BIDON    ,BIDON   ,BIDON   ,                 
-     8              BIDON   ,BIDON   ,BIDON   )
+     8              BIDON   ,BIDON   ,BIDON   ,LBUF%DMGSCL)
 c
 C----        energy failure          
               ELSEIF(IFAIL(II) == 11)THEN
@@ -1054,6 +1069,21 @@ c---------
 c---------
          ENDDO
         ENDDO ! several failur model boucle ir  
+c---------
+c--------------------------------------------------------
+c     DAMAGED STRESSES
+c---------------------------------------------------------
+        IF (DMG_FLAG > 0) THEN 
+          DO I = LFT,LLT
+            S1(I) = S1(I)*LBUF%DMGSCL(I)
+            S2(I) = S2(I)*LBUF%DMGSCL(I)
+            S3(I) = S3(I)*LBUF%DMGSCL(I)
+            S4(I) = S4(I)*LBUF%DMGSCL(I)
+            S5(I) = S5(I)*LBUF%DMGSCL(I)
+            S6(I) = S6(I)*LBUF%DMGSCL(I)
+          ENDDO
+        ENDIF
+c---------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(121,1)
 c----------
         IF (ISORTH /= 0) THEN

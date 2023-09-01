@@ -17,12 +17,15 @@ endif ()
 
 if ( ${build} STREQUAL "starter" OR ${build} STREQUAL "both" )
 message (STATUS "Building Starter ")
+set (EXEC_NAME ${starter})
 add_subdirectory(${actual_directory}/starter)
 message (STATUS "starter name : ${EXEC_NAME} ")
 endif()
 
 if ( ${build} STREQUAL "engine" OR ${build} STREQUAL "both" )
 message (STATUS "Building Engine ")
+set (EXEC_NAME ${engine})
 add_subdirectory(${actual_directory}/engine)
+message (STATUS "engine name : ${EXEC_NAME} ")
 endif()
 

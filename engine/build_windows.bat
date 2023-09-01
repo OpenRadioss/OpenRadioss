@@ -2,6 +2,8 @@ echo OFF
 
 REM Variable setting
 set arch=win64
+set dc=
+set dc_suf=
 set prec=dp
 set debug=0
 set static=0
@@ -15,7 +17,9 @@ set verbose=
 set clean=0
 set jobs=1
 set jobsv=1
+set debug_suffix=
 set build_type=
+set cbuild=0
 
 IF (%1) == () GOTO ERROR
 
@@ -48,6 +52,12 @@ IF (%1) == () GOTO END_ARG_LOOP
        set clean=1
    )
 
+   IF %1==-c (
+       set dc="-DCOM=1"
+       set dc_suf=_c
+       set cbuild=1
+   )
+
    IF %1==-nt (
        set jobs=%2
        set jobsv=%2
@@ -66,23 +76,28 @@ if %jobsv%==all ( set jobs=0)
 Rem Engine name
 if %prec%==sp   ( set sp_suffix=_sp)
 if %debug%==1   ( set debug_suffix=_db)
-if %debug%==2   ( set debug_suffix=_db)
+if %debug%==2   ( set debug_suffix=_db2)
 if %got_mpi%==1 ( set mpi_suffix=_%pmi%)
 
-
-set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%.exe
+if %cbuild%==0 (
+   set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%
+) else (
+   call CMake_Compilers_c\cmake_eng_version.bat
+   set engine=e_%eng_version%_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%
+)
 
 Rem Create build directory
 
-set build_directory=cbuild_%arch%%sp_suffix%%debug_suffix%_ninja
+set build_directory=cbuild_%engine%_ninja%dc_suf%
 
-Ren clean
+Rem clean
 if %clean%==1 (
   echo.
   echo Cleaning %build_directory%
   RMDIR /S /Q %build_directory%
   goto END
 )
+
 
 echo.
 echo Build OpenRadioss Engine
@@ -113,7 +128,12 @@ if exist %build_directory% (
 )
 
 Rem Load Compiler settings
-call ..\CMake_Compilers\cmake_%arch%_compilers.bat
+if %cbuild%==0 (
+    call ..\CMake_Compilers\cmake_%arch%_compilers.bat
+) else (
+    call ..\CMake_Compilers_c\cmake_%arch%_compilers.bat
+)
+REM define Build type
 
 if %debug%==0 (
     set build_type=Release 
@@ -121,7 +141,7 @@ if %debug%==0 (
     set build_type=Debug
 )
 
-cmake -G Ninja -DVS_BUILD=1 -Darch=%arch% -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%engine% -Darch=%arch% -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
 ninja %verbose% -j %jobs%
 
 cd ..
@@ -157,11 +177,16 @@ set pmpi=
 set got_mpi=
 set sp_suffix=
 set mpi_suffix=
-set debug_suffix=
 set verbose=
 set clean=
 set jobs=
 set jobsv=
+set debug_suffix=
 set build_type=
+set dc=
+set dc_suf=
+set cbuild=
+
+echo Terminating
 echo.
 

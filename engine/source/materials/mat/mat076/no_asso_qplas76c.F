@@ -310,7 +310,7 @@ c
 c           derivatives dAi/dlam                
             CC = SIGS(I)/SIGC(I)/SIGT(I)
 C
-            A1S =  DIXHUIT*(SIGC(I) - SIGT(I))*CC
+            A1S =  EIGHTEEN*(SIGC(I) - SIGT(I))*CC
             A1C =  NINE*(SIGS(I)/SIGC(I))**2
             A1T = -NINE*(SIGS(I)/SIGT(I))**2
 C
