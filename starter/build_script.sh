@@ -133,7 +133,7 @@ else
          com=1
          dc="-DCOM=1"
          cf="_c"
-         vers=`cat CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
+         vers=`grep version CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
          st_vers="s_${vers}"
        fi
 
@@ -151,7 +151,7 @@ else
    fi
 
 starter_exec=${st_vers}_${arch}${dmpi}${suffix}${ddebug}
-build_directory=cbuild_${starter_exec}
+build_directory=cbuild_${starter_exec}${cf}
 
    echo " " 
    echo " Build OpenRadioss Starter "
