@@ -117,7 +117,9 @@ C-----------------------------------------------
       my_real  DAM(NEL,12),ODAM(NEL,12),EPSP(NEL,6),SIGO(NEL,6),FSIZE(NEL),
      .   ESCAL(NEL),DYDX(NEL)
       my_real ,DIMENSION(NEL)  :: EPS11,EPS22,EPS33,EPS12,EPS23,EPS31,
-     .     EPSP11,EPSP22,EPSP33,EPSP12,EPSP23,EPSP31 
+     .     EPSP11,EPSP22,EPSP33,EPSP12,EPSP23,EPSP31,
+     .     EPSM1,EPSM2,EPSM3,EPSM4,EPSM5,EPSM6,
+     .     EPSM7,EPSM8,EPSM9,EPSM10,EPSM11,EPSM12
       my_real  FRATE,EPSPREF,EPDOT,ALPHA,DEPSM,DEPS,FACT,P,I1,I2,I3,Q,R,R_INTER,
      .    PHI,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
@@ -482,6 +484,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM1(I) = ET1M
             ENDIF
           ENDIF
 c
@@ -507,6 +510,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM2(I) = ET2M
             ENDIF
           ENDIF
 c		
@@ -532,6 +536,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM3(I) = ET12M
             ENDIF
           ENDIF
 c
@@ -557,6 +562,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM4(I) = -EC1M
             ENDIF
           ENDIF
 c
@@ -582,6 +588,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM5(I) = -EC2M
             ENDIF
           ENDIF
 c		
@@ -607,6 +614,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM6(I) = -EC12M
             ENDIF
           ENDIF
 c		
@@ -632,6 +640,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM7(I) = ET3M
             ENDIF
           ENDIF
 c		
@@ -657,6 +666,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM8(I) = -EC3M
             ENDIF
           ENDIF
 c		
@@ -682,6 +692,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM9(I) = ET23M
             ENDIF
           ENDIF
 c		
@@ -707,6 +718,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM10(I) = -EC23M
             ENDIF
           ENDIF
 c		
@@ -732,6 +744,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM11(I) = ET31M
             ENDIF
           ENDIF
 c		
@@ -757,6 +770,7 @@ c
               FAILI = 1
               FMODE(I,MODE) = 1
               DAM(I,MODE) = ONE
+              EPSM12(I) = -EC31M
             ENDIF
           ENDIF
 c
@@ -853,18 +867,18 @@ c------------------------
 #include  "lockon.inc"      
             WRITE(ISTDO,1000) NGL(I),IPT
             WRITE(IOUT, 2000) NGL(I),IPT
-            IF (FMODE(I,1)  == 1) WRITE(IOUT,4000) 1 ,EPSP(I,XX)
-            IF (FMODE(I,2)  == 1) WRITE(IOUT,4000) 2 ,EPSP(I,YY)
-            IF (FMODE(I,3)  == 1) WRITE(IOUT,4000) 3 ,EPSP(I,XY)
-            IF (FMODE(I,4)  == 1) WRITE(IOUT,4000) 4 ,EPSP(I,XX)
-            IF (FMODE(I,5)  == 1) WRITE(IOUT,4000) 5 ,EPSP(I,YY)
-            IF (FMODE(I,6)  == 1) WRITE(IOUT,4000) 6 ,EPSP(I,XY)
-            IF (FMODE(I,7)  == 1) WRITE(IOUT,4000) 7 ,EPSP(I,ZZ)
-            IF (FMODE(I,8)  == 1) WRITE(IOUT,4000) 8 ,EPSP(I,ZZ)
-            IF (FMODE(I,9)  == 1) WRITE(IOUT,4000) 9 ,EPSP(I,YZ)
-            IF (FMODE(I,10) == 1) WRITE(IOUT,4000) 10,EPSP(I,YZ)
-            IF (FMODE(I,11) == 1) WRITE(IOUT,4000) 11,EPSP(I,ZX)
-            IF (FMODE(I,12) == 1) WRITE(IOUT,4000) 12,EPSP(I,ZX)
+            IF (FMODE(I,1)  == 1) WRITE(IOUT,4000) 1 ,EPS11(I),EPSM1(I),EPSP(I,XX)
+            IF (FMODE(I,2)  == 1) WRITE(IOUT,4000) 2 ,EPS22(I),EPSM2(I),EPSP(I,YY)
+            IF (FMODE(I,3)  == 1) WRITE(IOUT,4000) 3 ,EPS12(I),EPSM3(I),EPSP(I,XY)
+            IF (FMODE(I,4)  == 1) WRITE(IOUT,4000) 4 ,EPS11(I),EPSM4(I),EPSP(I,XX)
+            IF (FMODE(I,5)  == 1) WRITE(IOUT,4000) 5 ,EPS22(I),EPSM5(I),EPSP(I,YY)
+            IF (FMODE(I,6)  == 1) WRITE(IOUT,4000) 6 ,EPS12(I),EPSM6(I),EPSP(I,XY)
+            IF (FMODE(I,7)  == 1) WRITE(IOUT,4000) 7 ,EPS33(I),EPSM7(I),EPSP(I,ZZ)
+            IF (FMODE(I,8)  == 1) WRITE(IOUT,4000) 8 ,EPS33(I),EPSM8(I),EPSP(I,ZZ)
+            IF (FMODE(I,9)  == 1) WRITE(IOUT,4000) 9 ,EPS23(I),EPSM9(I),EPSP(I,YZ)
+            IF (FMODE(I,10) == 1) WRITE(IOUT,4000) 10,EPS23(I),EPSM10(I),EPSP(I,YZ)
+            IF (FMODE(I,11) == 1) WRITE(IOUT,4000) 11,EPS31(I),EPSM11(I),EPSP(I,ZX)
+            IF (FMODE(I,12) == 1) WRITE(IOUT,4000) 12,EPS31(I),EPSM12(I),EPSP(I,ZX)
             IF (OFF(I) == ZERO)   WRITE(IOUT, 3000) NGL(I),TIME
 #include  "lockoff.inc"
         END DO
@@ -873,7 +887,8 @@ c-----------------------------------------------------------------------
  1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5)
  2000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5)
  3000 FORMAT(1X,'RUPTURE OF ELEMENT #',I10,1X,'AT TIME # ',1PE12.4)   
- 4000 FORMAT(1X,'MODE',1X,I2,' STRAIN RATE',1PE12.4) 
+ 4000 FORMAT(1X,'MODE',1X,I2,', STRAIN',1PE12.4,', CRITICAL VALUE',1PE12.4,
+     .       ', STRAIN RATE',1PE12.4) 
 c-----------------------------------------------------------------------
       RETURN          
       END
