@@ -70,6 +70,7 @@ Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F
 Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F

@@ -28,6 +28,8 @@ Chd|        ELBUF_INI                     starter/source/elements/elbuf_init/elb
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
+Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
+Chd|        ST_QAPRINT_MATERIALS          starter/source/output/qaprint/st_qaprint_materials.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F
