@@ -609,7 +609,7 @@ c
             IF(MLN /= 14 .AND. MLN /= 12 .AND. MLN /= 25  .AND.
      .         MLN /= 28 .AND. MLN /= 50 .AND. MLN /= 68  .AND. 
      .         MLN /= 53 .AND. MLN /= 93 .AND. MLN /= 107 .AND.
-     .         MLN /= 112) THEN
+     .         MLN /= 112.AND. MLN /= 122) THEN
             CALL ANCMSG(MSGID=1225,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,

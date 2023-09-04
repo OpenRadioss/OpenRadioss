@@ -728,7 +728,7 @@ C
             ! Soundspeed
             SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
             ! Element characteristic length
-            LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(I))            
+            LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(NUMELC + I))      
           ENDIF
           ! Recovering the non-local internal length
           LEN    = NLOC_DMG%LEN(IMAT)

@@ -1710,6 +1710,18 @@ c
      A         IPG     ,IT      ,ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,
      B         BUFLY   ,LBUF%OFF)
 c
+          ELSEIF (ILAW == 122) THEN     
+            CALL SIGEPS122C(
+     1         JLT      ,NUPARAM0 ,NUVAR    ,UPARAM0  ,UVAR     ,        
+     2         EPSXX    ,EPSYY    ,RHO      ,LBUF%PLA ,DPLA     ,
+     3         DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
+     4         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     5         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     6         THKN     ,THKLYL   ,OFF      ,SIGY     ,ETSE     ,
+     7         LBUF%DMG ,LBUF%SEQ ,SHF      ,SSP      ,
+     8         EPSP     ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
+     9         NVARTMP  ,VARTMP   )
+c
           ELSEIF (ILAW == 158) THEN
 
             CALL SIGEPS158C(
