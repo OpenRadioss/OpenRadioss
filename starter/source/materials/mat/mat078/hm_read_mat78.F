@@ -177,7 +177,7 @@ C
       ENDIF
 c---------------------------------    
       NVARTMP = 0
-      NUVAR   = 6
+      NUVAR   = 17
       NFUNC   = OPTE
       NUPARAM = 22
 c
