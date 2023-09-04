@@ -3655,6 +3655,7 @@ C-------this is done in ENGINE, should be done in Starter
           NPT =IPARG(6,NG)
           IINT = IPARG(36,NG)
           IF (IHBE==17.AND.IINT==2) IHBE=18 
+          IF (IHBE==1.AND.IINT==3) IHBE=5 
           ISMSTR=IPARG(9,NG)
           ICPRE = IPARG(10,NG)
           IF (ICPRE==0.AND.ISOLNOD==8) ICPRE=3 

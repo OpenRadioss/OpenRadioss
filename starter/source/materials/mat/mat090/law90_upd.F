@@ -64,7 +64,7 @@ C-----------------------------------------------
       my_real 
      .      STIFF,STIFFC,STIFFT, EMAX, EMIN,EINI,
      .     STIFFMIN,STIFFMAX,STIFFINI,STFAVG,SCALEFAC,E0,
-     .     EPSMAX
+     .     EPSMAX,EC_MAX
 
       COMMON /MINCFPRT/IPRINT, LP
       COMMON /INDEX_SQP/IndexDesign0
@@ -85,6 +85,7 @@ c
               EINI = MAX(EINI, STIFFINI)
           ENDDO ! NFUNC 
           E0 = UPARAM(1)
+          EC_MAX = MAX(E0,EMAX)
           IF(EMAX <= E0) THEN
             EMAX = E0
           ELSE  
@@ -93,10 +94,12 @@ c
           ENDIF   
           UPARAM(11 + 2*NFUNC) = EMAX
           UPARAM(12 + 2*NFUNC) = EPSMAX
+          PM(24) = EC_MAX
 !
          WRITE(IOUT,1000)
          WRITE(IOUT,1001) TRIM(TITR),MAT_ID,90   
          WRITE(IOUT,1002) EMAX       
+         WRITE(IOUT,1003) EC_MAX       
 c----------------
       RETURN
 1000  FORMAT(
@@ -108,5 +111,7 @@ c----------------
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
 1002   FORMAT(
      & 5X,'MAXIMAM YOUNG''S MODULUS. . . . . . . .=',1PG20.13/)
+1003   FORMAT(
+     & 5X,'YOUNG''S MODULUS FOR HG COMPUTE . . . .=',1PG20.13/)
 
       END
