@@ -12,10 +12,10 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+**                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ FR-LAP206   Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz (x86_64), 2592 MHz,  25424 MB RAM,   7168 MB swap
   
 ************************************************************************
 
@@ -38,7 +38,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /IOFLAG
 -- LINE: 0                   0         0         0         0         0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -171,7 +171,7 @@ SOLUTION :
     ----------------  
 
     STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
-    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         1
     NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
@@ -225,7 +225,7 @@ SOLUTION :
 
 
 
-         PROPERTY SETS (HM_READER)
+         PROPERTY SETS
          -------------
 
 
@@ -234,6 +234,7 @@ s1
      PROPERTY SET NUMBER . . . . . . . . . .=         7
      SOLID FORMULATION FLAG. . . . . . . . .=        18
      SMALL STRAIN FLAG . . . . . . . . . . .=         0
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -260,6 +261,7 @@ s2
      PROPERTY SET NUMBER . . . . . . . . . .=         8
      SOLID FORMULATION FLAG. . . . . . . . .=        18
      SMALL STRAIN FLAG . . . . . . . . . . .=         0
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -286,6 +288,7 @@ s3
      PROPERTY SET NUMBER . . . . . . . . . .=         9
      SOLID FORMULATION FLAG. . . . . . . . .=        18
      SMALL STRAIN FLAG . . . . . . . . . . .=         0
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -312,6 +315,7 @@ s4
      PROPERTY SET NUMBER . . . . . . . . . .=        10
      SOLID FORMULATION FLAG. . . . . . . . .=        18
      SMALL STRAIN FLAG . . . . . . . . . . .=         0
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -338,6 +342,7 @@ s5
      PROPERTY SET NUMBER . . . . . . . . . .=        11
      SOLID FORMULATION FLAG. . . . . . . . .=        18
      SMALL STRAIN FLAG . . . . . . . . . . .=         0
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -364,6 +369,7 @@ s6
      PROPERTY SET NUMBER . . . . . . . . . .=        12
      SOLID FORMULATION FLAG. . . . . . . . .=        18
      SMALL STRAIN FLAG . . . . . . . . . . .=         0
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         2
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -394,45 +400,45 @@ s6
 
 PART:        15,s1
 ----
-     PROPERTY:         7,s1
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         7 (TYPE 14),s1
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:        16,s2
 ----
-     PROPERTY:         8,s2
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         8 (TYPE 14),s2
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:        17,s3
 ----
-     PROPERTY:         9,s3
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         9 (TYPE 14),s3
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:        18,s4
 ----
-     PROPERTY:        10,s4
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :        10 (TYPE 14),s4
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:        19,s5
 ----
-     PROPERTY:        11,s5
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :        11 (TYPE 14),s5
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:        20,s6
 ----
-     PROPERTY:        12,s6
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :        12 (TYPE 14),s6
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -473,39 +479,8 @@ PART:        20,s6
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
 ** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
- NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       6
-  
-  ELEMENT NUMBER =        110
-  EDGES FOUND    =        175
-  
-#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1         14418.             0.             0.             0.             0.             0.
-   2         14952.             0.             0.             0.             0.             0.
-   3         14952.             0.             0.             0.             0.             0.
-   4         14418.             0.             0.             0.             0.             0.
-  
- STATISTICS ON DECOMPOSITION WEIGHTS
- -----------------------------------
- METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      14418     14952     14685         267
-
-
-       8-NODE ELEMENT GROUPS
-       ---------------------
-
-     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         1         1         1         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         2         1         2         2         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         3         1         2         4         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         4         1         5         6         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         5         1         2        11         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         6         1        18        13         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         7         1        25        31         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         8         1        28        56         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
-         9         1        27        84         1         8         0         0         0         0        17         0         1         0         2         0         0         0         0
 
 MESSAGE ID :   1575
 ** WARNING IN PROPERTY DEFINITION
@@ -608,11 +583,6 @@ DESCRIPTION :
                 1937      1958      1979      2000      2021      2062      2063      2084      2105      2126
 
 
-       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
-       ----------------------------------------------
-
-
-
 
  BRICK GROUP         1 VECTORIZATION CODE =    0
  BRICK GROUP         2 VECTORIZATION CODE =    0
@@ -620,9 +590,6 @@ DESCRIPTION :
  BRICK GROUP         4 VECTORIZATION CODE =    0
  BRICK GROUP         5 VECTORIZATION CODE =    0
  BRICK GROUP         6 VECTORIZATION CODE =    0
- BRICK GROUP         7 VECTORIZATION CODE =    0
- BRICK GROUP         8 VECTORIZATION CODE =    0
- BRICK GROUP         9 VECTORIZATION CODE =    0
 
 
       RIGID BODY INITIALIZATION 
@@ -713,47 +680,41 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :         15s1
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.9360000000000E-02 5.8719999999999E-02 0.7633600000000     0.7633600000000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      19.00000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :         15, s1
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  2.93600000E-02  5.87200000E-02  7.63360000E-01  7.63360000E-01  0.00000000E+00  0.00000000E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  1.90000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :         16s2
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.9360000000000E-02 5.8720000000001E-02 0.3963600000000     0.3963600000000     7.3400001632251E-09  0.000000000000     1.6298072371690E-18
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      16.00000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :         16, s2
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  2.93600000E-02  5.87200000E-02  3.96360000E-01  3.96360000E-01  7.34000016E-09  0.00000000E+00  1.62980724E-18
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  1.60000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :         17s3
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.9360000000000E-02 5.8719999999999E-02 0.4881100367000     0.4881100367000     3.6700007340000E-02  0.000000000000     1.6298072371690E-18
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      13.00000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :         17, s3
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  2.93600000E-02  5.87200000E-02  4.88110037E-01  4.88110037E-01  3.67000073E-02  0.00000000E+00  1.62980724E-18
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  1.30000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :         18s4
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.9360000000000E-02 5.8720000000000E-02 0.2936000000000     0.2936000000000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      10.00000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :         18, s4
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  2.93600000E-02  5.87200000E-02  2.93600000E-01  2.93600000E-01  0.00000000E+00  0.00000000E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  1.00000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :         19s5
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.9360000000000E-02 4.4040000000002E-02 0.2789200000000     0.2642400000000    -8.8817841970013E-16  0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      7.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :         19, s5
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  2.93600000E-02  4.40400000E-02  2.78920000E-01  2.64240000E-01 -6.66133815E-16  0.00000000E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  7.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :         20s6
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 2.9360000000000E-02 4.0369999999999E-02 0.2752500000000     0.2569000000000     9.9920072216264E-16  0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.000000000000      4.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :         20, s6
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  2.93600000E-02  4.03700000E-02  2.75250000E-01  2.56900000E-01  6.66133815E-16  0.00000000E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.00000000E+00  4.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
@@ -832,26 +793,26 @@ Part id,name:        20 s6                     Mat type:   1 Elm type: SOLID-HEX
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  2.6303087336062E-06            918
-  2.6303087336062E-06            931
-  2.6303087336062E-06            915
-  2.6303087336062E-06            916
-  2.6303087336062E-06            917
-  2.6303087336062E-06            933
-  2.6303087336062E-06            932
-  2.6303087336062E-06            913
-  2.6303087336062E-06            934
-  2.6303087336062E-06            935
-  2.6303087336062E-06            936
-  2.6303087336062E-06            914
-  2.6303087336062E-06            898
-  2.6303087336062E-06            912
-  2.6303087336062E-06            878
+  2.6303087336062E-06            904
+  2.6303087336062E-06            938
+  2.6303087336062E-06            901
+  2.6303087336062E-06            902
+  2.6303087336062E-06            903
+  2.6303087336062E-06            906
+  2.6303087336062E-06            905
+  2.6303087336062E-06            899
+  2.6303087336062E-06            907
+  2.6303087336062E-06            908
+  2.6303087336062E-06            909
+  2.6303087336062E-06            900
   2.6303087336062E-06            897
-  2.6303087336062E-06            875
-  2.6303087336062E-06            876
-  2.6303087336062E-06            877
-  2.6303087336062E-06            893
+  2.6303087336062E-06            898
+  2.6303087336062E-06            890
+  2.6303087336062E-06            896
+  2.6303087336062E-06            887
+  2.6303087336062E-06            888
+  2.6303087336062E-06            889
+  2.6303087336062E-06            892
 
 
          NODAL TIME STEP (estimation)
@@ -1054,90 +1015,10 @@ Part id,name:        20 s6                     Mat type:   1 Elm type: SOLID-HEX
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        123 MB
-
-
-
- STATISTICS ON DOMAIN DECOMPOSITION 
- ---------------------------------- 
-
-AVERAGE NB. OF BOUNDARY NODES :    14
-STANDARD DEVIATION            :     6
-
-AVERAGE NUMBER OF LOCAL NODES :      93
-STANDARD DEVIATION            :      18
-
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1            27                    18                     2
-    2            28                     6                     1
-    3            28                    10                     1
-    4            27                    22                     2
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
- ----------------------------------------------------
- NUMBER OF NODES................. :          88
- NUMBER OF SOLID ELEMENTS........ :          27
- TOTAL NUMBER OF NODES FOR COMM.. :          18
- NUMBER OF RIGID BODY COMPONENTS. :           0
- NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SECONDARY RIGID BODY NODES :           0
+    STARTER MEMORY USAGE        135 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
- ----------------------------------------------------
- NUMBER OF NODES................. :         123
- NUMBER OF SOLID ELEMENTS........ :          28
- TOTAL NUMBER OF NODES FOR COMM.. :           6
- NUMBER OF RIGID BODY COMPONENTS. :           5
- NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SECONDARY RIGID BODY NODES :          22
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
- ----------------------------------------------------
- NUMBER OF NODES................. :          82
- NUMBER OF SOLID ELEMENTS........ :          28
- TOTAL NUMBER OF NODES FOR COMM.. :          10
- NUMBER OF RIGID BODY COMPONENTS. :           1
- NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SECONDARY RIGID BODY NODES :          10
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
- ----------------------------------------------------
- NUMBER OF NODES................. :          79
- NUMBER OF SOLID ELEMENTS........ :          27
- TOTAL NUMBER OF NODES FOR COMM.. :          22
- NUMBER OF RIGID BODY COMPONENTS. :           0
- NUMBER OF R.B.M. NODES FOR COMM. :           0
- NUMBER OF SECONDARY RIGID BODY NODES :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
         MEMORY USED FOR REALS            5 MB 
         MEMORY USED FOR INTEGERS         5 MB 
@@ -1155,21 +1036,21 @@ STANDARD DEVIATION            :      18
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3922E+00   .1378E+00   .1900E-01   .0000E+00   .0000E+00   .0000E+00   .2992E-04
+.0000E+00   .9394E+00   .1292E+00   .1532E-01   .0000E+00   .0000E+00   .0000E+00   .5007E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1586E+00   .1239E-01   .0000E+00   .0000E+00   .0000E+00   .1024E-04
+.0000E+00   .1396E+05   .3327E+00   .7170E-01   .0000E+00   .0000E+00   .0000E+00   .2600E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:23:30
- EXECUTION COMPLETED    :      2022/11/23  16:23:31
+ EXECUTION STARTED      :      2023/09/04  14:19:36
+ EXECUTION COMPLETED    :      2023/09/04  14:19:43
   
- ELAPSED TIME...........=          0.62 s
-                               00:00:00
+ ELAPSED TIME...........=          7.35 s
+                               00:00:07
   
 ------------------------------------------------------------------------
 

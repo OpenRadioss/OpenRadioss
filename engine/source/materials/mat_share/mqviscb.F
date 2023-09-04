@@ -160,7 +160,6 @@ C=======================================================================
       ENDIF
 C
       IF(N2D>0) THEN
-        FACPG=ONE
         DO I=1,NEL
          IF(OFF(I)==ONE)THEN
            AL(I)=SQRT(AIRE(I))
@@ -168,12 +167,10 @@ C
          ENDIF
         ENDDO
       ELSE
-        FACPG = NPG
-        IF (FACPG>ONE) FACPG=FACPG**(REAL_ONE/REAL_THREE)
         DO I=1,NEL
          IF(OFF(I)==ONE)THEN
            IF(VOL(I) > ZERO)THEN
-              AL(I) = VOL(i)**(REAL_ONE/REAL_THREE)
+              AL(I) = (NPG*VOL(I))**(REAL_ONE/REAL_THREE)
            ELSE
              AL(I)=ZERO
            END IF
@@ -193,8 +190,8 @@ C
         DO I=1,NEL
           QA =FACQ*GEO(14,PID(1))
           QB =FACQ*GEO(15,PID(1))
-          CNS1=FACPG*GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-          CNS2=FACPG*GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+          CNS1=GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+          CNS2=GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
           PSH(I)=PM(88,MT)
           PNEW(I)=ZERO
 C
@@ -218,8 +215,8 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
           DO I=1,NEL
             QA =FACQ*GEO(14,PID(1))
             QB =FACQ*GEO(15,PID(1))
-            CNS1=FACPG*GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-            CNS2=FACPG*GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+            CNS1=GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+            CNS2=GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
             PSH(I)=PM(88,MT)
             PNEW(I)=ZERO
             QAA = QA*QA*AD(I)
