@@ -245,6 +245,20 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+       ELSEIF (MTN == 122) THEN     
+        DO I=JFT,JLT
+          CC(I,1,1) = UPARAM(58)
+          CC(I,2,2) = UPARAM(61)
+          CC(I,3,3) = UPARAM(63)
+          CC(I,1,2) = UPARAM(59)
+          CC(I,2,3) = UPARAM(62)
+          CC(I,1,3) = UPARAM(60)
+          G3(I,1)   = UPARAM(10)
+          G3(I,2)   = UPARAM(11)
+          G3(I,3)   = UPARAM(12)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )   
        ELSE
 C----------warring out isotrope effective       
         DO I=JFT,JLT

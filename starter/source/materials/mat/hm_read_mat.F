@@ -1099,6 +1099,14 @@ c-------
      .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
      .           MATPARAM )
 c-------     
+          CASE ('LAW122','MODIFIED_LADEVEZE')
+            ILAW = 122
+            CALL HM_READ_MAT122(
+     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MAXFUNC  ,
+     .           NFUNC    ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
+     .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
+     .           MATPARAM ,NVARTMP  )
+c-------     
           CASE ('LAW124','CDPM2')
            ILAW  = 124
            CALL HM_READ_MAT124(

@@ -1740,6 +1740,21 @@ c
      .                 SIGY   ,ET     ,VARNL  ,INLOC  ,GBUF%DT,
      .                 IPG    ,NPG    ,ELBUF_TAB(NG))
 c
+      ELSEIF (MTN == 122) THEN 
+c 
+        IDEV = 0
+        CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
+     .                    EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)
+c 
+        CALL SIGEPS122(NEL    ,NPAR   ,NUVAR  ,UPARAM ,UVAR   ,RHO0   ,
+     .                 ES1    ,ES2    ,ES3    ,DEFP   ,DPLA   ,      
+     .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
+     .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
+     .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
+     .                 OFF    ,SIGY   ,ET     ,LBUF%DMG,LBUF%SEQ,EPSD ,
+     .                 SSP    ,NFUNC  ,IFUNC  ,NPF    ,TF     ,NVARTMP,
+     .                 VARTMP )
+c
       ELSEIF (MTN == 124) THEN 
 c 
         IDEV = 0
