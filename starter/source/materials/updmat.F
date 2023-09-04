@@ -261,7 +261,7 @@ c-------------------------
 c------------------
 c
             CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
-     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID)
+     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT))
 c------------------
           CASE (90) 
 c------------------

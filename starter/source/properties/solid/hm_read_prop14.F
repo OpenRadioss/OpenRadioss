@@ -211,6 +211,9 @@ C--------------------------------------------------
         IF (IINT == 0) IINT = 1    ! gauss integration
       ELSEIF (N2D ==1.AND.IHBE == 17 ) THEN 
         IF (IINT == 0) IINT = 1    
+      ELSEIF (IHBE == 5 ) THEN 
+        IHBE = 1  
+        IINT = 3
       ELSE
         IF (IHBE /= 24 ) IINT = 1
       ENDIF

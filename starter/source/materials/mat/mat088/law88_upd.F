@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW88_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
-     .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID)
+     .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID,PM   )
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
@@ -47,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "param_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -55,6 +56,7 @@ C-----------------------------------------------
       INTEGER MAT_ID,IOUT,NFUNC
       INTEGER NPC(*), FUNC_ID(*),IFUNC(NFUNC)
       my_real UPARAM(*),PLD(*)
+      my_real , DIMENSION(NPROPM), INTENT(INOUT) :: PM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -63,6 +65,8 @@ C-----------------------------------------------
       my_real KC,KT,KFC,KFT,GMAX,DERI,STIFF,STIFFMIN,STIFFINI, 
      .  STIFFMAX,STIFFAVG,XINT1,YINT1,XINT2,YINT2,FAC,FAC1,FAC2,
      .  DX,DY, XINC,YINC,XINT,YINT
+      my_real 
+     .     EMAX, EMIN,EINI,SCALEFAC,E0,EC_MAX,NU,GS
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
 C=======================================================================
 C----------------------------
@@ -168,6 +172,23 @@ C intersection pt of compression if existing
         WRITE(IOUT,1000)
         IF(XINT*YINT > ZERO) WRITE(IOUT,1600) XINT,YINT
         IF(XINC*YINC > ZERO) WRITE(IOUT,1700) XINC,YINC
+C-----check E_MAX        
+           EMAX = ZERO
+           EMIN = EP20
+           EINI = ZERO
+          DO J = 1, NFUNC 
+              SCALEFAC= UPARAM(9 + 2*J )  
+              CALL FUNC_SLOPE(IFUNC(J),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)  
+              EMAX = MAX(EMAX,  STIFFMAX )
+              EMIN = MIN(EMIN,  STIFFMIN)
+              EINI = MAX(EINI, STIFFINI)
+          ENDDO ! NFUNC 
+          NU =UPARAM(2)
+          GS =UPARAM(3)
+          E0 = TWO*GS*(ONE + NU)
+          EC_MAX = MAX(E0,EMAX)
+          PM(24) = EC_MAX
+          WRITE(IOUT,1003) EC_MAX       
 c----- ------
  1000 FORMAT
      & (5X,'TABULATED OGDEN LAW',/,
@@ -179,5 +200,7 @@ c----- ------
  1700 FORMAT
      & (5X,  'STRAIN COMPRESSION OF INTERSECTION PT BETWEEN QUASISTAIC AND UNLOADING CURVES. . . . .  . . .=',1PG20.13/
      & ,5X,  'STRESS COMPRESSION OF INTERSECTION PT BETWEEN QUASISTAIC AND UNLOADING CURVES. . . . . . . . =',1PG20.13//)
+ 1003   FORMAT(
+     & 5X,'YOUNG''S MODULUS FOR HG COMPUTE . . . .=',1PG20.13/)
       RETURN
       END

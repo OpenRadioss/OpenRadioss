@@ -1093,7 +1093,30 @@ C
       IF(IALEFVM_MAT > 1)IFVM_SKIP=1
 C
 C Anti hourglass forces
-      CALL SHVIS3(
+      IF (IINT==3) THEN
+         CALL S_HG5(
+     1   PM, GBUF%RHO,     OFF,     VX1,
+     2   VX2,     VX3,     VX4,     VX5,
+     3   VX6,     VX7,     VX8,     VY1,
+     4   VY2,     VY3,     VY4,     VY5,
+     5   VY6,     VY7,     VY8,     VZ1,
+     6   VZ2,     VZ3,     VZ4,     VZ5,
+     7   VZ6,     VZ7,     VZ8,     F11,
+     8   F21,     F31,     F12,     F22,
+     9   F32,     F13,     F23,     F33,
+     A   F14,     F24,     F34,     F15,
+     B   F25,     F35,     F16,     F26,
+     C   F36,     F17,     F27,     F37,
+     D   F18,     F28,     F38,     PX1H1,
+     E   PX1H2,   PX1H3,   PX2H1,   PX2H2,
+     F   PX2H3,   PX3H1,   PX3H2,   PX3H3,
+     G   PX4H1,   PX4H2,   PX4H3,   VOLN,
+     I   GBUF%HOURG,PARTSAV,IPARTS, NFT,
+     J   MTN,     JLAG,    EANI   , NGEO ,
+     K   IVECTOR ,DT1 ,    MXT,     GEO,
+     L   NEL)
+      ELSE
+        CALL SHVIS3(
      1   PM,       GBUF%RHO, OFF,      VX1,
      2   VX2,      VX3,      VX4,      VX5,
      3   VX6,      VX7,      VX8,      VY1,
@@ -1115,6 +1138,7 @@ C Anti hourglass forces
      J   PARTSAV,  IPARTS,   GBUF%OFF, GBUF%VOL,
      K   IPARG1,   IFVM_SKIP,NEL,      NFT,
      L   MTN,      ISMSTR,   JLAG,     JHBE)
+      END IF !(IINT==3) THEN
 C
       IF (JALE == 3) THEN   ! law 77
         CALL FHVIS3(
