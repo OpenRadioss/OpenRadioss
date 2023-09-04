@@ -85,18 +85,21 @@ C-----------------------------------------------
       INTEGER :: I,J,K,OPTE,OPTR,NITER,NINDX,IPLAS,ITER
       INTEGER ,DIMENSION(NEL) :: INDEX,IPOS,ILEN,IAD2
       my_real :: 
-     .        NU,BSAT,EINF,COE,ASTA,FCT,GSIGMA,DGSIGMA,RDOT,
-     .        EINI,YIELD,BYU,MYU,HYU,CYU,RSAT,P1,P2,P3,P4,N3,CST,
+     .        NU,BSAT,EINF,COE,FCT,GSIGMA,DGSIGMA,RDOT,
+     .        EINI,YIELD,BYU,MYU,HYU,RSAT,P1,P2,P3,P4,N3,CST,
      .        CSTT,DF_DK1,DF_DK2,DK1_DSIGXX,DK1_DSIGYY,DK2_DSIGXX,
      .        DK2_DSIGYY,DK2_DSIGXY,NORMXX,NORMYY,NORMXY,DFDSIG_C_2,
      .        DFDSIG_A,DFDSIG_ALPHA,DFDSIG_BETA,DPHI_DLAM,DPLA_DLAM,
-     .        DRNIH,DMU,C1_KH,C2_KH,NORM_SP
+     .        DRNIH,DMU,C1_KH,C2_KH,NORM_SP,T1,DVXX_DLAM,DVYY_DLAM,DVXY_DLAM,
+     .        DAXX_DLAM,DAYY_DLAM,DAXY_DLAM,DU_DLAM
       REAL(KIND=8) :: DLAM,DEP_DP(NEL)
       my_real ,DIMENSION(NEL) :: 
-     .        YOUNG,SHEAR,AYU,SCALEE,H,A1,A2,AXX,AYY,AXY,K1,K2,
+     .        YOUNG,SHEAR,AYU,SCALEE,H,A1,A2,AXX,AYY,AXY,K1,K2,CYU,ASTA,CAMB,
      .        SEFF,R,RNIH,DEPSZZ,DEELZZ,DEVBOXX,DEVBOYY,DEVBOZZ,DEVBOXY,DYDXE,
      .        DEPLXX,DEPLYY,DEPLXY,DEPLZZ,DEVBXX,DEVBYY,DEVBZZ,DEVBXY,PHI,
-     .        DBXX,DBYY,DBZZ,DBXY,BQXX,BQYY,BQZZ,BQXY,YLD,MAX_ASTA
+     .        DBXX,DBYY,DBZZ,DBXY,BQXX,BQYY,BQZZ,BQXY,YLD,MAX_ASTA,CANBNXX,CANBNYY,CANBNXY,
+     .        CANNXX,CANNYY,CANNXY,DDEP,U,VXX,VYY,VXY,KA1,KA2
+      my_real ,DIMENSION(NEL,3)      :: SIGBO
 C=======================================================================
 C     SIGA  (alpha) = CENTER OF YIELD SURFACE ALPHA (Backstress)
 C     SIGB  (beta)  = CENTER OF BOUNDING SURFACE
@@ -182,11 +185,17 @@ C
         AYU(I)      = UVAR(I,3)               ! AYU variable
         MAX_ASTA(I) = UVAR(I,6)               ! Maximal value of NORM(ALPHA_STAR)
         DEP_DP(I)   = ZERO
+        DDEP(I)     = ZERO
         DEPLXX(I)   = ZERO
         DEPLYY(I)   = ZERO
         DEPLXY(I)   = ZERO
-        DEPLZZ(I)   = ZERO
+        DEPLZZ(I)   = ZERO                    ! Plastic strain increment for thickness variation
         ETIMP(I)    = YOUNG(I)/EINI        ! For implicit
+        SIGBO(I,1)  = SIGB(I,1)  
+        SIGBO(I,2)  = SIGB(I,2)     
+        SIGBO(I,3)  = SIGB(I,3)  
+        ETSE(I)     = ONE        ! For hourglassing   
+        U(I)        = ONE 
       ENDDO
 c      
       !========================================================================
@@ -207,31 +216,62 @@ c
         !   -> Hill 1948
         IF (IPLAS == 1) THEN 
           SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
+          !effective back stress alpha*
+          ASTA(I) = SQRT(SIGA(I,1)**2 - TWO*P2*SIGA(I,1)*SIGA(I,2) + P1*SIGA(I,2)**2 + P3*SIGA(I,3)**2)
         !   -> Barlat 1989
         ELSEIF (IPLAS == 2) THEN
-          K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/TWO
-          K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))*NORM_SP
-          SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
-          SEFF(I) = (HALF*MAX(SEFF(I),EM20))**(ONE/N3)
+          K1(I)   = (AXX(I) + P3*AYY(I))/TWO
+          K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)) 
+          SEFF(I) = P1*(ABS(K1(I)+K2(I))*NORM_SP)**N3 + P1*(ABS(K1(I)-K2(I))*NORM_SP)**N3 + P2*(ABS(TWO*K2(I))*NORM_SP)**N3
+          SEFF(I) = (HALF*MAX(SEFF(I),EM20))**(ONE/N3)          
+          !effective back stress alpha*
+          KA1(I)   = (SIGA(I,1) + P3*SIGA(I,2))/TWO
+          KA2(I)   = SQRT(((SIGA(I,1) - P3*SIGA(I,2))/TWO)**TWO + (P4*SIGA(I,3))**TWO)
+          ASTA(I)  = P1*ABS(KA1(I)+KA2(I))**N3 + P1*ABS(KA1(I)-KA2(I))**N3 + P2*ABS(TWO*KA2(I))**N3
+          ASTA(I)  = (HALF*MAX(EM20,ASTA(I)))**(ONE/N3)
         ENDIF
+
+        ASTA(I)   = MAX(ASTA(I),EM20)
+        MAX_ASTA(I) = MAX(MAX_ASTA(I),ASTA(I))
+        IF (MAX_ASTA(I) < BSAT - YIELD) THEN
+            CYU(I) = C1_KH
+        ELSE
+            CYU(I) = C2_KH
+        ENDIF
+        CAMB(I) = (CYU(I)*AYU(I) + MYU*BYU)/YIELD
+        ! component used in sig - alpha:
+        T1  =  CYU(I)*SQRT(AYU(I)/ASTA(I))
+        CANBNXX(I) = T1 * SIGA(I,1) + MYU*SIGB(I,1)
+        CANBNYY(I) = T1 * SIGA(I,2) + MYU*SIGB(I,2)
+        CANBNXY(I) = T1 * SIGA(I,3) + MYU*SIGB(I,3)
+
+        CANNXX(I) = T1 * SIGA(I,1)
+        CANNYY(I) = T1 * SIGA(I,2) 
+        CANNXY(I) = T1 * SIGA(I,3) 
+        !------------------------------------------
         ! Yield function value
-        PHI(I)    = SEFF(I) - YIELD*NORM_SP
-        ! Initialization of variable
-        DEP_DP(I) = ZERO      ! Plastic strain increment
-        ETSE(I)   = ONE        ! For hourglassing
-        DEPLZZ(I) = ZERO      ! Plastic strain increment for thickness variation
-      ENDDO
+        PHI(I)    = SEFF(I) /NORM_SP - YIELD 
+        !------------------------------------------
+       ENDDO
 c
       !========================================================================
       ! - CHECKING PLASTIC BEHAVIOR
       !========================================================================
       NINDX = 0
-      DO I=1,NEL
-        IF (PHI(I) >= ZERO .and. OFF(I) == ONE) THEN
+      DO I=1,NEL        
+        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE) THEN
           NINDX = NINDX+1
           INDEX(NINDX) = I
         ENDIF
       ENDDO
+#include "vectorize.inc"
+      DO J=1,NINDX
+        I = INDEX(J)   
+        VXX(I) = AXX(I)
+        VYY(I) = AYY(I)
+        VXY(I) = AXY(I)
+      ENDDO
+
 c
       !====================================================================
       ! - PLASTIC CORRECTION WITH CUTTING PLANE ALGORITHM
@@ -240,7 +280,6 @@ c
       ! Number of Newton iterations
       NITER = 3
 c
-      ! Loop over the iterations
       DO ITER = 1,NITER
 #include "vectorize.inc"
         ! Loop over yielding elements 
@@ -252,11 +291,12 @@ c
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the cutting plane method
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-	  ! -> PHI          : current value of yield function (known)
+          ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   hardening parameters
 C
+          !---------------------------------------------------------
           ! 1 - Computation of the normal to the yield surface
           !---------------------------------------------------------
           !   -> Hill 1948
@@ -267,72 +307,48 @@ C
           !   -> Barlat 1989
           ELSEIF (IPLAS == 2) THEN
             !  Computation of the derivatives
-            DF_DK1 = (SEFF(I)**(1-N3))*(P1/TWO)*(
+            DF_DK1 = ((SEFF(I)/NORM_SP)**(1-N3))*(P1/TWO)* (
      .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
      .                        +  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1)))
-            DF_DK2 = (SEFF(I)**(1-N3))*((P1/TWO)*(
+            DF_DK2 = ((SEFF(I)/NORM_SP)**(1-N3))*((P1/TWO)*(
      .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
      .                        -  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1))) 
      .                        +  P2*(ABS(TWO*K2(I))**(N3-1)))
-            DK1_DSIGXX = HALF
-            DK1_DSIGYY = P3/TWO
-            DK2_DSIGXX = (AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
-            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
-            DK2_DSIGXY = (P4**TWO)*AXY(I)*NORM_SP/MAX(K2(I),EM20)
+            DK1_DSIGXX = HALF 
+            DK1_DSIGYY = P3 /TWO
+            DK2_DSIGXX = (AXX(I)-P3*AYY(I)) /(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I)) /(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGXY = (P4**TWO)*AXY(I) /MAX(K2(I),EM20)
             !  Assembling the normal
-            NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
-            NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
+            NORMXX     = DF_DK1*DK1_DSIGXX+ DF_DK2*DK2_DSIGXX
+            NORMYY     = DF_DK1*DK1_DSIGYY+ DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY
           ENDIF
 c          
+
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
-c        
-          ! Computation of the tensor product Norm * Celas * Norm
-          DFDSIG_C_2 = NORMXX * (A1(I)*NORMXX + A2(I)*NORMYY)
-     .               + NORMYY * (A1(I)*NORMYY + A2(I)*NORMXX)
-     .               + NORMXY * NORMXY * SHEAR(I)
-c
+
+
           ! Computation of the tensor product Norm * (SigN - Alpha)
           DFDSIG_A   = NORMXX * AXX(I)
      .               + NORMYY * AYY(I)
      .               + NORMXY * AXY(I)
-c
-          ! Computation of the tensor product Norm * Alpha*     
-          DFDSIG_ALPHA = NORMXX * SIGA(I,1)
-     .                 + NORMYY * SIGA(I,2)
-     .                 + NORMXY * SIGA(I,3)
-c
-          ! Computation of the tensor product Norm * Beta   
-          DFDSIG_BETA  = NORMXX * SIGB(I,1)
-     .                 + NORMYY * SIGB(I,2)
-     .                 + NORMXY * SIGB(I,3)
-C     
-          ! Computation of the norm of Alpha* backstress
-          !   -> Hill 1948
-          IF (IPLAS == 1) THEN 
-            ASTA = SQRT(SIGA(I,1)**2 - TWO*P2*SIGA(I,1)*SIGA(I,2) + P1*SIGA(I,2)**2 + P3*SIGA(I,3)**2)
-          !   -> Barlat 1989
-          ELSEIF (IPLAS == 2) THEN            
-            K1(I)= (SIGA(I,1) + P3*SIGA(I,2))/TWO
-            K2(I)= SQRT(((SIGA(I,1) - P3*SIGA(I,2))/TWO)**TWO + (P4*SIGA(I,3))**TWO)
-            ASTA = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
-            ASTA = (HALF*MAX(EM20,ASTA))**(ONE/N3)
-          ENDIF
-          ASTA = MAX(ASTA,EM20)
-          MAX_ASTA(I) = MAX(MAX_ASTA(I),ASTA)
-          IF (MAX_ASTA(I) < BSAT - YIELD) THEN
-            CYU = C1_KH
-          ELSE
-            CYU = C2_KH
-          ENDIF
-C
-          ! Assembling the derivative
-          DPLA_DLAM = DFDSIG_A/YIELD
-          DPHI_DLAM = (- DFDSIG_C_2  
-     .                - (CYU*AYU(I)/YIELD)*DFDSIG_A*DPLA_DLAM + (CYU*SQRT(AYU(I)/ASTA))*DFDSIG_ALPHA*DPLA_DLAM
-     .                - (MYU*BYU/YIELD)*DFDSIG_A*DPLA_DLAM    + MYU*DFDSIG_BETA*DPLA_DLAM)* NORM_SP
-          !DPHI_DLAM = DPHI_DLAM * NORM_SP
+
+          DPLA_DLAM = DFDSIG_A/YIELD 
+
+          DU_DLAM   = -U(I)**2 * CAMB(I) * DPLA_DLAM 
+          DVXX_DLAM = -(A1(I)*NORMXX + A2(I)*NORMYY) + CANBNXX(I) * DPLA_DLAM
+          DVYY_DLAM = -(A1(I)*NORMYY + A2(I)*NORMXX) + CANBNYY(I) * DPLA_DLAM 
+          DVXY_DLAM = -SHEAR(I) *NORMXY              + CANBNXY(I) * DPLA_DLAM
+
+          DAXX_DLAM = DU_DLAM * VXX(I) + DVXX_DLAM * U(I)
+          DAYY_DLAM = DU_DLAM * VYY(I) + DVYY_DLAM * U(I)
+          DAXY_DLAM = DU_DLAM * VXY(I) + DVXY_DLAM * U(I)
+
+         ! Assembling the derivative dphi/dlam = dphi/dA * dA/dlam
+
+          DPHI_DLAM = NORMXX * DAXX_DLAM + NORMYY * DAYY_DLAM + NORMXY * DAXY_DLAM
           DPHI_DLAM = SIGN(MAX(ABS(DPHI_DLAM),EM20) ,DPHI_DLAM)
 
           ! 3 - Computation of plastic multiplier and variables update
@@ -349,6 +365,7 @@ c
           ! Cumulated plastic strain update
           PLA(I)    = PLA(I) + DLAM*DPLA_DLAM
 c
+          DDEP(I)   = DLAM * DPLA_DLAM
           ! Total plastic strain increment on the time step
           DEP_DP(I) = DEP_DP(I) + DLAM*DPLA_DLAM
           DEP_DP(I) = MAX(DEP_DP(I),ZERO)
@@ -357,22 +374,78 @@ c
           SIGNXX(I) = SIGNXX(I) - A1(I)*DEPLXX(I) - A2(I)*DEPLYY(I)                
           SIGNYY(I) = SIGNYY(I) - A2(I)*DEPLXX(I) - A1(I)*DEPLYY(I)               
           SIGNXY(I) = SIGNXY(I) - SHEAR(I)*DEPLXY(I)
+
+          !update a_ij = SigN - Alpha
+          U(I)   =  ONE /(ONE + CAMB(I) * DDEP(I) )
+          VXX(I) = SIGNXX(I) - SIGA(I,1) - SIGB(I,1) + CANBNXX(I) * DDEP(I)
+          VYY(I) = SIGNYY(I) - SIGA(I,2) - SIGB(I,2) + CANBNYY(I) * DDEP(I)
+          VXY(I) = SIGNXY(I) - SIGA(I,3) - SIGB(I,3) + CANBNXY(I) * DDEP(I)
+          AXX(I) =  U(I) * VXX(I)
+          AYY(I) =  U(I) * VYY(I)
+          AXY(I) =  U(I) * VXY(I)
+
 c
           ! Alpha* back stress tensor update              
-          SIGA(I,1) = SIGA(I,1) + ((CYU*AYU(I)/YIELD)*AXX(I) - CYU*SQRT(AYU(I)/ASTA)*SIGA(I,1))*DLAM*DPLA_DLAM
-          SIGA(I,2) = SIGA(I,2) + ((CYU*AYU(I)/YIELD)*AYY(I) - CYU*SQRT(AYU(I)/ASTA)*SIGA(I,2))*DLAM*DPLA_DLAM
-          SIGA(I,3) = SIGA(I,3) + ((CYU*AYU(I)/YIELD)*AXY(I) - CYU*SQRT(AYU(I)/ASTA)*SIGA(I,3))*DLAM*DPLA_DLAM 
-c
-          ! Old beta deviator
-          DEVBOXX(I) = TWO_THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
-          DEVBOYY(I) = TWO_THIRD*SIGB(I,2) - THIRD*SIGB(I,1)
-          DEVBOZZ(I) = -THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
-          DEVBOXY(I) = SIGB(I,3)
+          SIGA(I,1) = SIGA(I,1) + ((CYU(I)*AYU(I)*AXX(I)/YIELD) - CANNXX(I) ) * DDEP(I) 
+          SIGA(I,2) = SIGA(I,2) + ((CYU(I)*AYU(I)*AYY(I)/YIELD) - CANNYY(I) ) * DDEP(I) 
+          SIGA(I,3) = SIGA(I,3) + ((CYU(I)*AYU(I)*AXY(I)/YIELD) - CANNXY(I) ) * DDEP(I) 
 c
           ! Beta back stress tensor update
-          SIGB(I,1) = SIGB(I,1) + ((MYU*BYU/YIELD)*AXX(I) - MYU*SIGB(I,1))*DLAM*DPLA_DLAM
-          SIGB(I,2) = SIGB(I,2) + ((MYU*BYU/YIELD)*AYY(I) - MYU*SIGB(I,2))*DLAM*DPLA_DLAM     
-          SIGB(I,3) = SIGB(I,3) + ((MYU*BYU/YIELD)*AXY(I) - MYU*SIGB(I,3))*DLAM*DPLA_DLAM 
+          SIGB(I,1) = SIGB(I,1) + ((MYU   *BYU   *AXX(I)/YIELD) - MYU*SIGBO(I,1))* DDEP(I)  
+          SIGB(I,2) = SIGB(I,2) + ((MYU   *BYU   *AYY(I)/YIELD) - MYU*SIGBO(I,2))* DDEP(I)    
+          SIGB(I,3) = SIGB(I,3) + ((MYU   *BYU   *AXY(I)/YIELD) - MYU*SIGBO(I,3))* DDEP(I)  
+
+           ! New equivalent stress
+          !   -> Hill 1948
+          IF (IPLAS == 1) THEN 
+            SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
+          !   -> Barlat 1989
+          ELSEIF (IPLAS == 2) THEN
+            K1(I)   = (AXX(I) + P3*AYY(I))/TWO
+            K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)
+            SEFF(I) = P1*(ABS(K1(I)+K2(I))*NORM_SP)**N3 + P1*(ABS(K1(I)-K2(I))*NORM_SP)**N3 + P2*(ABS(TWO*K2(I))*NORM_SP)**N3
+            SEFF(I) = (HALF*SEFF(I))**(ONE/N3)            
+          ENDIF            
+c
+          ! New yield function value
+          PHI(I) = SEFF(I)/NORM_SP - YIELD 
+c
+          ! Thickness plastic strain update
+          IF (INLOC == 0) DEPLZZ(I) = DEPLZZ(I) - (DEPLXX(I)+DEPLYY(I)) 
+        ENDDO
+      ENDDO
+      !===================================================================
+      ! - END OF PLASTIC CORRECTION WITH NEWTON IMPLICIT ITERATIVE METHOD
+      !===================================================================
+#include "vectorize.inc"
+      ! Loop over yielding elements 
+      DO J=1,NINDX
+        ! Number of the element with plastic behaviour   
+        I = INDEX(J)         
+
+        IF (IPLAS == 1) THEN 
+            ASTA(I) = SQRT(SIGA(I,1)**2 - TWO*P2*SIGA(I,1)*SIGA(I,2) + P1*SIGA(I,2)**2 + P3*SIGA(I,3)**2)
+          !   -> Barlat 1989
+        ELSEIF (IPLAS == 2) THEN            
+            KA1(I)   = (SIGA(I,1) + P3*SIGA(I,2))/TWO
+            KA2(I)   = SQRT(((SIGA(I,1) - P3*SIGA(I,2))/TWO)**TWO + (P4*SIGA(I,3))**TWO)
+            ASTA(I)  = P1*ABS(KA1(I)+KA2(I))**N3 + P1*ABS(KA1(I)-KA2(I))**N3 + P2*ABS(TWO*KA2(I))**N3
+            ASTA(I)  = (HALF*MAX(EM20,ASTA(I)))**(ONE/N3)
+            ASTA(I)  = ASTA(I)
+        ENDIF
+        ASTA(I)   = MAX(ASTA(I),EM20)
+        MAX_ASTA(I) = MAX(MAX_ASTA(I),ASTA(I))
+        IF (MAX_ASTA(I) < BSAT - YIELD) THEN
+            CYU(I) = C1_KH
+        ELSE
+            CYU(I) = C2_KH
+        ENDIF
+
+          ! Old beta deviator
+          DEVBOXX(I) = TWO_THIRD*SIGBO(I,1) - THIRD*SIGBO(I,2)
+          DEVBOYY(I) = TWO_THIRD*SIGBO(I,2) - THIRD*SIGBO(I,1)
+          DEVBOZZ(I) = -THIRD*SIGBO(I,1)    - THIRD*SIGBO(I,2)
+          DEVBOXY(I) = SIGBO(I,3)
 c
           ! New beta deviator
           DEVBXX(I) = TWO_THIRD*SIGB(I,1) - THIRD*SIGB(I,2)
@@ -405,7 +478,7 @@ c
               RDOT = RSAT*((PLA(I)+CST)**CSTT-CST**CSTT) - R(I)
               R(I) = RSAT*((PLA(I)+CST)**CSTT-CST**CSTT)
             ELSE 
-              RDOT = MYU*(RSAT - R(I))*DLAM*DPLA_DLAM 
+              RDOT = MYU*(RSAT - R(I))*DEP_DP(I)
               R(I) = R(I) + RDOT
             ENDIF               
             AYU(I) = BSAT + R(I) - YIELD
@@ -443,33 +516,8 @@ c
               ENDIF
             ENDIF
           ENDIF 
-          !-------------------------------------------------------------------------------------
-c              
-          ! New equivalent stress
-          AXX(I) = SIGNXX(I) - SIGA(I,1) - SIGB(I,1)
-          AYY(I) = SIGNYY(I) - SIGA(I,2) - SIGB(I,2)
-          AXY(I) = SIGNXY(I) - SIGA(I,3) - SIGB(I,3)
-          !   -> Hill 1948
-          IF (IPLAS == 1) THEN 
-            SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
-          !   -> Barlat 1989
-          ELSEIF (IPLAS == 2) THEN
-            K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/TWO
-            K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)*NORM_SP
-            SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
-            SEFF(I) = (HALF*SEFF(I))**(ONE/N3)
-          ENDIF            
-c
-          ! New yield function value
-          PHI(I) = SEFF(I) - YIELD*NORM_SP
-c
-          ! Thickness plastic strain update
-          IF (INLOC == 0) DEPLZZ(I) = DEPLZZ(I) - (DEPLXX(I)+DEPLYY(I)) 
-        ENDDO
+
       ENDDO
-      !===================================================================
-      ! - END OF PLASTIC CORRECTION WITH NEWTON IMPLICIT ITERATIVE METHOD
-      !===================================================================
 C
       !============================================================
       ! - STORING NEW VALUES
@@ -488,11 +536,13 @@ C
           K2(I)  = SQRT(((SIGNXX(I) - P3*SIGNYY(I))/TWO)**TWO + (P4*SIGNXY(I))**TWO)            
           YLD(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3    
           YLD(I) = (HALF*MAX(YLD(I),EM20))**(ONE/N3) 
+          YLD(I) = YLD(I)
         ENDIF
         ! Hardening rate
         IF (DEP_DP(I) > ZERO) THEN
-          H(I) = (YLD(I)-UVAR(I,4))/DEP_DP(I)
-          H(I) = MAX(EM20,H(I))
+          H(I) = ABS(YLD(I)-UVAR(I,4))/DEP_DP(I)
+          !H(I) = MAX(EM20,H(I))
+          ETSE(I)   = H(I) / (H(I)+YOUNG(I))
         ENDIF
         ! Storing new values
         UVAR(I,1) = R(I)
@@ -500,10 +550,14 @@ C
         UVAR(I,3) = AYU(I) 
         UVAR(I,4) = YLD(I)
         UVAR(I,6) = MAX_ASTA(I)
-        ETSE(I)   = H(I) / (H(I)+YOUNG(I))
       END DO         
       ! Equivalent stress output, thickness update and soundspeed
       DO I=1,NEL
+        UVAR(I,8) = SIGA(I,1)
+        UVAR(I,9) = SIGA(I,2)
+        UVAR(I,10) = SIGB(I,1)     
+        UVAR(I,11) = SIGB(I,2)    
+
          ! New equivalent stress
         AXX(I) = SIGNXX(I) - SIGA(I,1) - SIGB(I,1)
         AYY(I) = SIGNYY(I) - SIGA(I,2) - SIGB(I,2)
@@ -516,10 +570,14 @@ C
           K1(I)   = (AXX(I) + P3*AYY(I))/TWO
           K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)
           SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
-          SEFF(I) = (HALF*SEFF(I))**(ONE/N3)
+          SEFF(I) = (HALF*SEFF(I))**(ONE/N3)         
         ENDIF   
         SEQ(I)    = SEFF(I)
         DEELZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
+
+
+
+        !NON LOCAL
         IF (INLOC > 0) THEN 
           !   -> Hill 1948
           IF (IPLAS == 1) THEN 
@@ -529,10 +587,10 @@ C
             NORMXY  = (P3*AXY(I))/(MAX(SEFF(I),EM20))
           !   -> Barlat 1989
           ELSEIF (IPLAS == 2) THEN
-            K1(I)   = (AXX(I) + P3*AYY(I))*NORM_SP/TWO
-            K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))*NORM_SP
+            K1(I)   = (AXX(I) + P3*AYY(I))/TWO
+            K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))
             SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
-            SEFF(I) = (HALF*MAX(SEFF(I),EM20))**(ONE/N3)
+            SEFF(I) = (HALF*MAX(SEFF(I),EM20))**(ONE/N3)             
             DF_DK1 = (SEFF(I)**(1-N3))*(P1/TWO)*(
      .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
      .                        +  SIGN(ONE,K1(I)-K2(I))*(ABS(K1(I)-K2(I))**(N3-1)))
@@ -542,9 +600,9 @@ C
      .                        +  P2*(ABS(TWO*K2(I))**(N3-1)))
             DK1_DSIGXX = HALF
             DK1_DSIGYY = P3/TWO
-            DK2_DSIGXX = (AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
-            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))*NORM_SP/(MAX(FOUR*K2(I),EM20))
-            DK2_DSIGXY = (P4**TWO)*AXY(I)*NORM_SP/MAX(K2(I),EM20)
+            DK2_DSIGXX = (AXX(I)-P3*AYY(I))/(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGYY = -P3*(AXX(I)-P3*AYY(I))/(MAX(FOUR*K2(I),EM20))
+            DK2_DSIGXY = (P4**TWO)*AXY(I)/MAX(K2(I),EM20)
             NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
             NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY
@@ -558,6 +616,7 @@ C
             DEPLZZ(I) = ZERO
           ENDIF
         ENDIF
+
         DEPSZZ(I)  = DEELZZ(I) + DEPLZZ(I)
         THK(I)     = THK(I) + DEPSZZ(I)*THKLY(I)*OFF(I)
         SOUNDSP(I) = SQRT(A1(I)/RHO(I))
