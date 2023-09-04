@@ -601,7 +601,7 @@ C--             Loading --
                 YY = GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),XX,DXDY)*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
                 YY = YY + PRETENS
-                CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I))
+                CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I),FB)
                 EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
                 FB = FX(I) + XK(I)*(EPSN-EPS1)
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = FB
@@ -618,7 +618,7 @@ C--             Unloading --
                 YY = GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(2),XX,DXDY)*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
                 YY = YY + PRETENS
-                CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I))
+                CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I),FB)
                 EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
                 FB = FX(I) + XK(I)*(EPSN-EPS1)
               ENDIF
@@ -846,7 +846,7 @@ Chd|-- called by -----------
 Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SOLVE_DELTA_L02(DELTA_LO,ALPHA,BETA,XK,L,L0,LMIN)
+      SUBROUTINE SOLVE_DELTA_L02(DELTA_LO,ALPHA,BETA,XK,L,L0,LMIN,FB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -855,7 +855,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real ALPHA,BETA,XK,LMIN
+      my_real ALPHA,BETA,XK,LMIN,FB
       DOUBLE PRECISION DELTA_LO,L,L0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -867,8 +867,8 @@ C      Computation of Dl0 for locked retractor
 C
 C--    equation 1 -> l0 > lmin
        AA = ALPHA
-       BB = ALPHA*L0+BETA+XK
-       CC = BETA*L0 - XK*(L-L0)
+       BB = ALPHA*L0+BETA+XK*L/L0-FB
+       CC = BETA*L0-FB*L0
        IF (ABS(AA) > EM20) THEN
          DD = BB*BB-4*AA*CC
          SOL1 = (-BB+SQRT(DD))/(2*AA)
