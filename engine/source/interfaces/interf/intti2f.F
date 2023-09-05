@@ -64,7 +64,7 @@ Chd|====================================================================
      5   FSAV   ,FNCONT ,NODNX_SMS,DMINT2 ,SAV_FOR_PENA ,
      6   MS_PENA,DT2T   ,NELTST ,ITYPTST,INTBUF_TAB,TEMP,
      7   FTHE   ,FTHESKYI2,CONDN,CONDNSKYI2,ITAB,
-     8   SAV_MINER_POFF  ,H3D_DATA,T2FAC_SMS,FNCONTP ,
+     8   SAV_INER_POFF  ,H3D_DATA,T2FAC_SMS,FNCONTP ,
      A   FTCONTP)
 C-----------------------------------------------
 C   M o d u l e s
@@ -88,7 +88,7 @@ C     REAL
      .   ADI(*), BUFGEO(*), FSAV(*),FNCONT(3,*),
      .   DMINT2(*),SAV_FOR_PENA(*),MS_PENA(*),DT2T,TEMP(*),
      .   FTHE(*),FTHESKYI2(*),CONDN(*),CONDNSKYI2(*),
-     .   SAV_MINER_POFF(*),T2FAC_SMS(*),
+     .   SAV_INER_POFF(*),T2FAC_SMS(*),
      .   FNCONTP(3,*),FTCONTP(3,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -143,7 +143,7 @@ C
      1   NSN       ,NMN       ,AR        ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,IN        ,MS        ,
      3   A         ,X         ,WEIGHT    ,STIFR     ,STIFN        ,
-     4   SAV_MINER_POFF,INTBUF_TAB%CSTS_BIS)
+     4   SAV_INER_POFF,INTBUF_TAB%CSTS_BIS)
         ENDIF
        ELSEIF (ILEV == 4)THEN
 C       FORMULATION decouplant les ddl rot
@@ -195,7 +195,7 @@ C
      .       FSAV      ,FNCONT    ,NSN       ,INTBUF_TAB%SPENALTY,INTBUF_TAB%STFR_PENALTY,
      .       INTBUF_TAB%VARIABLES(14),NOINT  ,NODNX_SMS  ,DMINT2  ,SAV_FOR_PENA,  
      .       MS_PENA   ,IN        ,DT2T      ,NELTST     ,ITYPTST ,
-     .       SAV_MINER_POFF,H3D_DATA ,FNCONTP   ,FTCONTP   )
+     .       SAV_INER_POFF,H3D_DATA ,FNCONTP   ,FTCONTP   )
        ELSEIF (ILEV == 27) THEN       
 c        formulation en penalite avec rotations
          PENFLAG = IPARI(43)
@@ -210,7 +210,7 @@ c
      .   INTBUF_TAB%SMAS,INTBUF_TAB%SINER,INTBUF_TAB%NMAS(1+NMN),SAV_FOR_PENA,MS_PENA   ,                                                              
      .   NOINT  ,NODNX_SMS  ,DMINT2  ,DT2T      ,NELTST      ,                                                      
      .   ITYPTST  ,NSN       ,NMN       ,IDEL2  , PENFLAG   ,IROT   ,INTBUF_TAB%SKEW,
-     .   SAV_MINER_POFF, H3D_DATA ,INTBUF_TAB%DPARA,
+     .   SAV_INER_POFF, H3D_DATA ,INTBUF_TAB%DPARA,
      .   INTBUF_TAB%MSEGTYP2,INTBUF_TAB%CSTS_BIS,T2FAC_SMS ,FNCONTP   ,FTCONTP   )                                                                                     
 C
        ELSEIF (ILEV == 28) THEN       
@@ -228,7 +228,7 @@ c
      .   NOINT     ,NODNX_SMS  ,DMINT2   ,DT2T      ,NELTST    ,                                                      
      .   ITYPTST   ,NSN        ,NMN      ,IDEL2     ,PENFLAG   ,
      .   IROT,INTBUF_TAB%SKEW,
-     .   INTBUF_TAB%DPARA,INTBUF_TAB%NMAS,DMAST,ADM,SAV_MINER_POFF,
+     .   INTBUF_TAB%DPARA,INTBUF_TAB%NMAS,DMAST,ADM,SAV_INER_POFF,
      .   H3D_DATA ,FNCONTP   ,FTCONTP   )                                                                                     
 C
        ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN  
@@ -255,7 +255,7 @@ C       FORMULATION AVEC MOMENT SUR MAIN
      2     INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,IN ,MS   ,
      3     A         ,X         ,WEIGHT    ,STIFR     ,STIFN     ,
      4     IDEL2     ,INTBUF_TAB%SMAS,INTBUF_TAB%SINER,INTBUF_TAB%NMAS(1+NMN),ADI,
-     5     SAV_MINER_POFF,H3D_DATA,INTBUF_TAB%CSTS_BIS)
+     5     SAV_INER_POFF,H3D_DATA,INTBUF_TAB%CSTS_BIS)
          ENDIF
 C
        ENDIF 

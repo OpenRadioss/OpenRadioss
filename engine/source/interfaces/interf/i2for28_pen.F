@@ -36,9 +36,8 @@ Chd|====================================================================
      .                   DR      ,FINI    ,FSAV    ,FNCONT  ,NSN     ,
      .                   STFN    ,STFR    ,VISC    ,PENFLAG ,IROT    ,
      .                   NOINT   ,NODNX_SMS,DMINT2 ,SAV_FOR_PENA,IRECT,
-     .                   DT2T    ,NELTST   ,ITYPTST,
-     .                   INDXP   ,MINER   ,H3D_DATA,FNCONTP ,
-     .                   FTCONTP)
+     .                   DT2T    ,NELTST  ,ITYPTST ,INDXP   ,SAV_INER_POFF,
+     .                   H3D_DATA,FNCONTP ,FTCONTP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +66,7 @@ C     REAL
      .   CRST(2,*),FSAV(*),FNCONT(3,*),
      .   DMINT2(4,*),SAV_FOR_PENA(8,*),FNCONTP(3,*)   ,FTCONTP(3,*) 
       my_real
-     .   MINER(*)
+     .   SAV_INER_POFF(*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -186,7 +185,7 @@ C------------------------------------------------
           VX4 = V(1,IX4(K))						      
           VY4 = V(2,IX4(K))						      
           VZ4 = V(3,IX4(K))
-          IF (IRODDL == 1 .AND. IN(I) > ZERO) THEN
+          IF (IRODDL == 1 .AND. SAV_INER_POFF(I) > ZERO) THEN
             VRSX = VR(1,I)
             VRSY = VR(2,I)
             VRSZ = VR(3,I) 
@@ -309,7 +308,7 @@ C
         VS(1) = VSX*E1X + VSY*E1Y + VSZ*E1Z
         VS(2) = VSX*E2X + VSY*E2Y + VSZ*E2Z
         VS(3) = VSX*E3X + VSY*E3Y + VSZ*E3Z
-        IF (IRODDL == 1 .AND. IN(I) > ZERO) THEN
+        IF (IRODDL == 1 .AND. SAV_INER_POFF(I) > ZERO) THEN
           VRS(1) = VRSX*E1X + VRSY*E1Y + VRSZ*E1Z
           VRS(2) = VRSX*E2X + VRSY*E2Y + VRSZ*E2Z
           VRS(3) = VRSX*E3X + VRSY*E3Y + VRSZ*E3Z
@@ -362,7 +361,7 @@ C---------  Vi = Vi -VR ^ MS
      .    RX   ,RY   ,RZ   ,VA   ,VB   ,
      .    VC   ,VD   ,VRM  ,VRS  ,DET  ,
      .    B1   ,B2   ,B3   ,C1   ,C2   ,
-     .    C3   ,IN(I))
+     .    C3   ,SAV_INER_POFF(I))
 C
           VRX =  VRS(1) - VRM(1)
           VRY =  VRS(2) - VRM(2)
@@ -429,22 +428,23 @@ C------------------------------------------------
 C         Calcul du Moment
 C------------------------------------------------
 C
-          IF (IRODDL == 1 .AND. IN(I) > ZERO) THEN
+          IF (IRODDL == 1 .AND. SAV_INER_POFF(I) > ZERO) THEN
 C
 C--   Secnd node shell of  spring 
 C
-          IF(IN(I)==ZERO.OR.MINER(IX1(K))==ZERO.OR.
-     .                      MINER(IX2(K))==ZERO.OR.
-     .                      MINER(IX3(K))==ZERO.OR.
-     .                      MINER(IX4(K))==ZERO)THEN
+          IF(SAV_INER_POFF(I)==ZERO.OR.SAV_INER_POFF(IX1(K))==ZERO.OR.
+     .                      SAV_INER_POFF(IX2(K))==ZERO.OR.
+     .                      SAV_INER_POFF(IX3(K))==ZERO.OR.
+     .                      SAV_INER_POFF(IX4(K))==ZERO)THEN
             INHARM = ZERO
           ELSEIF(NIR==4)THEN
-            INHARM = ONE/IN(I) + 
-     .              ONE/MINER(IX1(K)) + ONE/MINER(IX2(K)) + ONE/MINER(IX3(K)) + ONE/MINER(IX4(K))
+            INHARM = ONE/SAV_INER_POFF(I) + 
+     .               ONE/SAV_INER_POFF(IX1(K)) + ONE/SAV_INER_POFF(IX2(K)) +
+     .               ONE/SAV_INER_POFF(IX3(K)) + ONE/SAV_INER_POFF(IX4(K))
             INHARM = ONE/INHARM
           ELSE
-            INHARM = ONE/IN(I) + 
-     .              ONE/MINER(IX1(K)) + ONE/MINER(IX2(K)) + ONE/MINER(IX3(K))
+            INHARM = ONE/SAV_INER_POFF(I) + 
+     .               ONE/SAV_INER_POFF(IX1(K)) + ONE/SAV_INER_POFF(IX2(K)) + ONE/SAV_INER_POFF(IX3(K))
             INHARM = ONE/INHARM
           END IF
 C
@@ -514,7 +514,7 @@ C         for SMS ::
           STIF(K) = (ONE+STBRK)*STFN(II)
 C
           IF (IRODDL == 1) THEN
-            IF (IN(I)>ZERO) THEN 
+            IF (SAV_INER_POFF(I)>ZERO) THEN 
               SAV_FOR_PENA(5,I) = SAV_FOR_PENA(5,I) - MGX + MRX
               SAV_FOR_PENA(6,I) = SAV_FOR_PENA(6,I) - MGY + MRY  
               SAV_FOR_PENA(7,I) = SAV_FOR_PENA(7,I) - MGZ + MRZ
@@ -584,7 +584,7 @@ C------------------------------------------------
           FINI(1,II) = FLX
           FINI(2,II) = FLY
           FINI(3,II) = FLZ
-          IF (IRODDL == 1 .AND. IN(I) > ZERO) THEN
+          IF (IRODDL == 1 .AND. SAV_INER_POFF(I) > ZERO) THEN
             FINI(4,II) = MLX
             FINI(5,II) = MLY
             FINI(6,II) = MLZ
