@@ -40,7 +40,7 @@ Chd|====================================================================
      .           NOINT       ,NODNX_SMS   ,DMINT2      ,DT2T        ,NELTST      ,
      .           ITYPTST     ,NSN         ,NMN         ,IDEL2       ,PENFLAG     ,
      .           IROT        ,SKEW        ,      
-     .           MINER       ,H3D_DATA    ,DPARA       ,MSEGTYP2    ,CSTS_BIS    ,
+     .           SAV_INER_POFF,H3D_DATA   ,DPARA       ,MSEGTYP2    ,CSTS_BIS    ,
      .           T2FAC_SMS   ,FNCONTP     ,FTCONTP     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,7 +65,7 @@ C-----------------------------------------------
      .   CSTS(2,*),SMAS(*),MMAS(*),SINER(*),ADI(*),SKEW(9,*),CSTS_BIS(2,*),
      .   T2FAC_SMS(*),FNCONTP(3,*)   ,FTCONTP(3,*) 
       my_real
-     .   MINER(*),DPARA(7,*)
+     .   SAV_INER_POFF(*),DPARA(7,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -107,7 +107,7 @@ c
      2     MSR       ,NSV       ,IRTLM     ,IN       ,MS        ,
      3     A         ,X         ,WEIGHT    ,STIFR    ,STIFN     ,
      4     IDEL2     ,SMAS      ,SINER     ,MMAS     ,ADI       ,
-     5     INDXC     ,MINER     ,H3D_DATA  ,MSEGTYP2 ,CSTS_BIS)
+     5     INDXC     ,SAV_INER_POFF,H3D_DATA  ,MSEGTYP2 ,CSTS_BIS)
         ENDIF
       ENDIF
 c
@@ -119,9 +119,8 @@ c
      .       DR        ,FINI      ,FSAV      ,FNCONT      ,NSN       ,
      .       STFN_PEN  ,STFR_PEN  ,VISC      ,PENFLAG     ,IROT      ,
      .       NOINT     ,NODNX_SMS ,DMINT2    ,SAV_FOR_PENA,IRECTM    ,
-     .       DT2T      ,NELTST    ,ITYPTST   ,
-     .       INDXP     ,MINER     ,H3D_DATA    ,MSEGTYP2  ,
-     .       FNCONTP   ,FTCONTP   )                     
+     .       DT2T      ,NELTST    ,ITYPTST   ,INDXP       ,SAV_INER_POFF,
+     .       H3D_DATA  ,MSEGTYP2  ,FNCONTP   ,FTCONTP   )                     
 c
       ENDIF                                                            
 c-----------
