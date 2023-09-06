@@ -69,7 +69,6 @@ Chd|        CSIGINI4                      starter/source/elements/shell/coqueba/
 Chd|        CUSERINI                      starter/source/elements/shell/coque/cuserini.F
 Chd|        CUSERINI4                     starter/source/elements/shell/coqueba/cuserini4.F
 Chd|        C_SEATBELTS                   starter/source/restart/ddsplit/c_seatbelts.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        DEALLOCATE_ELBUF              starter/source/elements/elbuf_init/deallocate_buffer.F
 Chd|        DEALLOCATE_ONE_ELEMENT_GROUP  starter/source/elements/elbuf_init/deallocate_one_element_group.F
 Chd|        DFUNC0                        starter/source/output/anim/dfunc0.F

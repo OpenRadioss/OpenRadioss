@@ -24,12 +24,15 @@ Chd|====================================================================
 Chd|  MAT_ELEM_MOD                  modules/mat_elem/mat_elem_mod.F
 Chd|-- called by -----------
 Chd|        CONTRL                        starter/source/starter/contrl.F
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        ELBUF_INI                     starter/source/elements/elbuf_init/elbuf_ini.F
+Chd|        INI_MAT_ELEM                  starter/source/materials/mat/ini_mat_elem.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MATERIALS          starter/source/output/qaprint/st_qaprint_materials.F
+Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F
@@ -74,6 +77,7 @@ Chd|        SFORC3                        engine/source/elements/solid/solide/sf
 Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
 Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
 Chd|        USERMAT_SOLID                 engine/source/materials/mat_share/usermat_solid.F
+Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  modules/mat_elem/elbufdef_mod.F

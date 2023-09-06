@@ -39,7 +39,9 @@ Chd|        DAM_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_
 Chd|        FAIL_BIQUAD_C                 source/materials/fail/biquad/fail_biquad_c.F
 Chd|        FAIL_BIQUAD_S                 source/materials/fail/biquad/fail_biquad_s.F
 Chd|        FAIL_CONNECT                  source/materials/fail/connect/fail_connect.F
+Chd|        FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
 Chd|        FAIL_ENERGY_C                 source/materials/fail/energy/fail_energy_c.F
+Chd|        FAIL_ENERGY_IB                source/materials/fail/energy/fail_energy_ib.F
 Chd|        FAIL_ENERGY_S                 source/materials/fail/energy/fail_energy_s.F
 Chd|        FAIL_FABRIC_C                 source/materials/fail/fabric/fail_fabric_c.F
 Chd|        FAIL_FLD_C                    source/materials/fail/fld/fail_fld_c.F

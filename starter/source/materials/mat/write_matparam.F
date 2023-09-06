@@ -29,11 +29,11 @@ Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_MATPARAM(MAT_ELEM,LEN)
 C-----------------------------------------------

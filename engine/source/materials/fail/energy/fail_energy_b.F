@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_ENERGY_B                source/materials/fail/johnson_cook/fail_energy_b.F
+Chd|  FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
 Chd|-- called by -----------
 Chd|        FAIL_BEAM3                    source/elements/beam/fail_beam3.F
 Chd|-- calls ---------------
+Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FAIL_ENERGY_B(
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,

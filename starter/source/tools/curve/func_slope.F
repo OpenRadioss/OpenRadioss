@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        LAW111_UPD                    source/materials/mat/mat111/law111_upd.F
 Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
+Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
 Chd|        LAW90_UPD                     source/materials/mat/mat090/law90_upd.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -35,7 +35,7 @@ Chd|        HM_READ_THERM                 source/materials/therm/hm_read_therm.F
 Chd|        HM_READ_THERM_STRESS          source/materials/therm/hm_read_therm_stress.F
 Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
 Chd|        INI_EOS_VARS                  source/elements/elbuf_init/ini_eos_vars.F
-Chd|        INI_MATPARAM                  source/materials/mat/ini_matparam.F
+Chd|        INI_MAT_ELEM                  source/materials/mat/ini_mat_elem.F
 Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
 Chd|        MULTI_CHECK_EOS               source/multifluid/multi_check_eos.F
 Chd|        MULTI_CHECK_PSH               source/multifluid/multi_check_psh.F

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        HM_READ_VISC_LPRONY           starter/source/materials/visc/hm_read_visc_lprony.F
 Chd|        HM_READ_VISC_PRONY            starter/source/materials/visc/hm_read_visc_prony.F
-Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               starter/source/materials/mat/write_viscparam.F
 Chd|        READ_VISCPARAM                engine/source/output/restart/read_viscparam.F
 Chd|        SIGEPS25C                     engine/source/materials/mat/mat025/sigeps25c.F
@@ -35,7 +34,6 @@ Chd|        VISCMAIN                      engine/source/materials/visc/viscmain.
 Chd|        VISC_ET                       engine/source/elements/solid/solidez/visc_et.F
 Chd|        VISC_PRONY                    engine/source/materials/visc/visc_prony.F
 Chd|        VISC_PRONY_LSTRAIN            engine/source/materials/visc/visc_prony_lstrain.F
-Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|        WRITE_VISCPARAM               engine/source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
 Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F

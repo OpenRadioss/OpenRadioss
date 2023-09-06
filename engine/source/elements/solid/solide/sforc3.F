@@ -101,6 +101,7 @@ Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STHERM                        source/elements/solid/solide/stherm.F
 Chd|        STOPTIME                      source/system/timer.F         
+Chd|        S_HG5                         source/elements/solid/solide/s_hg5.F
 Chd|        VOLN22                        source/interfaces/int22/voln22.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F

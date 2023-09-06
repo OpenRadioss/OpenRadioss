@@ -27,6 +27,7 @@ Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        READ_C_C                      source/output/tools/sortie_c.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F

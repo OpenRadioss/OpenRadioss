@@ -25,6 +25,7 @@ Chd|  FAIL_BEAM3                    source/elements/beam/fail_beam3.F
 Chd|-- called by -----------
 Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
 Chd|-- calls ---------------
+Chd|        FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
 Chd|        FAIL_JOHNSON_B                source/materials/fail/johnson_cook/fail_johnson_b.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================

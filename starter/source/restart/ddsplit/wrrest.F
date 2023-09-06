@@ -57,6 +57,7 @@ Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        THCWREST                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DB_DEBUG                source/output/tools/write_debug.F
 Chd|        WRITE_ELGROUP_PARAM           source/restart/ddsplit/write_elgroup_param.F
+Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/restart/ddsplit/write_nloc_struct.F
 Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F

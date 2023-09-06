@@ -24,7 +24,11 @@ Chd|====================================================================
 Chd|  FAIL_PARAM_MOD                modules/mat_elem/fail_param_mod.F
 Chd|-- called by -----------
 Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        WRITE_FAILPARAM               starter/source/materials/fail/write_failparam.F
+Chd|        READ_FAILPARAM                engine/source/output/restart/read_failparam.F
+Chd|        WRITE_FAILPARAM               engine/source/output/restart/write_failparam.F
 Chd|-- calls ---------------
+Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
 Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
 Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
 Chd|====================================================================

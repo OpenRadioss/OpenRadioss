@@ -23,12 +23,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
 Chd|-- called by -----------
+Chd|        FAIL_PARAM_MOD                common_source/modules/mat_elem/fail_param_mod.F
 Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        VISC_PARAM_MOD                common_source/modules/mat_elem/visc_param_mod.F
+Chd|        WRITE_FAILPARAM               starter/source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               starter/source/materials/mat/write_viscparam.F
+Chd|        READ_FAILPARAM                engine/source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 engine/source/output/restart/read_matparam.F
 Chd|        READ_VISCPARAM                engine/source/output/restart/read_viscparam.F
+Chd|        WRITE_FAILPARAM               engine/source/output/restart/write_failparam.F
 Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|        WRITE_VISCPARAM               engine/source/output/restart/write_viscparam.F
 Chd|-- calls ---------------

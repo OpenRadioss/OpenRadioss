@@ -252,6 +252,7 @@ C--------------------------------------
 Chd|====================================================================
 Chd|  TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
+Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- calls ---------------
@@ -316,6 +317,7 @@ C--------------------------------------
 Chd|====================================================================
 Chd|  TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
+Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- calls ---------------
@@ -355,6 +357,7 @@ c-----------
 Chd|====================================================================
 Chd|  TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
+Chd|        WRITE_FAILPARAM               source/output/restart/write_failparam.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
@@ -398,6 +401,7 @@ c-----------
 Chd|====================================================================
 Chd|  TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
+Chd|        WRITE_FAILPARAM               source/output/restart/write_failparam.F
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|-- calls ---------------

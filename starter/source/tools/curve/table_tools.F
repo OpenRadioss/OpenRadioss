@@ -149,6 +149,7 @@ c-----------
 Chd|====================================================================
 Chd|  TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
+Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- calls ---------------
@@ -197,6 +198,7 @@ c-----------
 Chd|====================================================================
 Chd|  TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|-- called by -----------
+Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- calls ---------------

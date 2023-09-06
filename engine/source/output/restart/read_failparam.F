@@ -21,9 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  READ_FAILPARAM
+Chd|  READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|-- called by -----------
+Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|-- calls ---------------
+Chd|        READ_C_C                      source/output/tools/sortie_c.c
+Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
+Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|====================================================================
       SUBROUTINE READ_FAILPARAM(FAIL)
 C-----------------------------------------------

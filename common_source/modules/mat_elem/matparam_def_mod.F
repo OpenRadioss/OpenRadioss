@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MAT_ELEM_MOD                  common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        C3GRTAILS                     starter/source/elements/sh3n/coque3n/c3grtails.F
 Chd|        CGRTAILS                      starter/source/elements/shell/coque/cgrtails.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        FAIL_INIT                     starter/source/materials/fail/fail_init.F
 Chd|        FILL_BUFFER_51_0              starter/source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|        FUNC_COMP                     starter/source/materials/mat/mat076/law76_upd.F
 Chd|        HM_READ_MAT                   starter/source/materials/mat/hm_read_mat.F
@@ -111,14 +111,12 @@ Chd|        HM_READ_MAT95                 starter/source/materials/mat/mat095/hm
 Chd|        HM_READ_MAT97                 starter/source/materials/mat/mat097/hm_read_mat97.F
 Chd|        HM_READ_VISC                  starter/source/materials/visc/hm_read_visc.F
 Chd|        INIT_MAT_KEYWORD              starter/source/materials/mat/init_mat_keyword.F
-Chd|        INI_MATPARAM                  starter/source/materials/mat/ini_matparam.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
 Chd|        LAW190_UPD                    starter/source/materials/mat/mat190/law190_upd.F
 Chd|        LAW76_UPD                     starter/source/materials/mat/mat076/law76_upd.F
 Chd|        MATPARAM_R2R_VOID             starter/source/elements/elbuf_init/matparam_r2r_void.F
 Chd|        SGRTAILS                      starter/source/elements/solid/solide/sgrtails.F
 Chd|        UPDMAT                        starter/source/materials/updmat.F
-Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
 Chd|        EIG                           engine/stub/eig.F             
 Chd|        EIG1                          engine/stub/eig1.F            
 Chd|        EIGP                          engine/stub/eigp.F            
@@ -134,7 +132,6 @@ Chd|        SIGEPS76C                     engine/source/materials/mat/mat076/sig
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        TENSORC                       engine/source/output/anim/generate/tensorc.F
 Chd|        THCOQ                         engine/source/output/th/thcoq.F
-Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|-- calls ---------------
 Chd|        FAIL_PARAM_MOD                modules/mat_elem/fail_param_mod.F
 Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
