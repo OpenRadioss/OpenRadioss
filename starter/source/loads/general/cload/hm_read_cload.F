@@ -240,10 +240,11 @@ C-----------Multidomaines : on enleve les noeuds communs qui sont deja trait   s
         ENDIF
 C-----------
         IF (NN==0) THEN
-         CALL ANCMSG(MSGID=54,
+         CALL ANCMSG(MSGID=3026,
      .               ANMODE=ANINFO,
      .               MSGTYPE=MSGERROR,
-     .               C1=KLINE)
+     .               I1=ID,
+     .               C1=TITR)
         ENDIF
         NUM=NUM+NN
         DO J=NN,1,-1
