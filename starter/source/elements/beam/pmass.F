@@ -71,7 +71,7 @@ C-----------------------------------------------
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX,
      .   STI, E, G, AA, BB, DX,DY,DZ, ARI,INI,RYI,RZI,
-     .   STIR, PHI, SHF, DSH, DMP, SL2I, FAC
+     .   STIR, PHI, SHF, DSH, DMP, SL2I, FAC,LL
       my_real
      .   RHO(MVSIZ), EMS(MVSIZ),
      .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
@@ -133,8 +133,9 @@ C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
       DO I=LFT,LLT
+       LL = ONEP2*AL(I)
        EMS(I)=RHO(I)*AL(I)*AREA(I)* HALF
-       TIN(I)=EMS(I)*AL(I)**2*ONE_OVER_12 + RHO(I)*(AL(I)*HALF)
+       TIN(I)=ONEP2*EMS(I)*LL**2*ONE_OVER_12 + RHO(I)*(AL(I)*HALF)
      .       * MAX(TIYY(I),TIZZ(I))
        IF (FACDT(I)<ONE) TIN(I)=PHII(I)*TIN(I)
        TIN(I)= MAX(TIN(I),RHO(I)*AL(I)/TWO*TIXX(I))
