@@ -54,6 +54,7 @@ Chd|        S10THERM                      source/elements/solid/solide10/s10ther
 Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd11t12.F
 Chd|        S10_ICP                       source/elements/solid/solide4_sfem/s10_icp.F
 Chd|        S4THERM_ITET1                 source/elements/solid/solide4/s4therm-itet1.F
+Chd|        S8E_SIGP                      source/elements/solid/solide8e/s8e_sig.F
 Chd|        SGCOOR10                      source/elements/solid/solide10/sgcoor10.F
 Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
