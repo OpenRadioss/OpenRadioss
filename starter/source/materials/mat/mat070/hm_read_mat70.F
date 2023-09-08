@@ -273,6 +273,7 @@ C
         PARMAT(1) = C1
         PARMAT(2) = EMAX 
       ENDIF
+      PM(24)=EMAX
 C
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT
