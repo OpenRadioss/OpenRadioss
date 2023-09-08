@@ -50,7 +50,7 @@ Chd|====================================================================
       SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,
-     .           SUBSET    ,IGRSURF   ,IGRNOD    ,ENINT     ,ENCIN     )
+     .           SUBSET    ,IGRSURF   ,IGRNOD    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NTHVKI,*)      ,INTENT(IN) :: FSAV
       my_real ,DIMENSION(LLGAUGE,*)     ,INTENT(IN) :: GAUGE
       my_real ,DIMENSION(2,*)           ,INTENT(IN) :: PARTSAV2
-      my_real ,INTENT(IN) :: TIME,TIMESTEP,ENINT,ENCIN
+      my_real ,INTENT(IN) :: TIME,TIMESTEP
       TYPE (SUBSET_) ,DIMENSION(NSUBS)  ,INTENT(IN) :: SUBSET
       TYPE(SURF_)    ,DIMENSION(NSURF)  ,INTENT(IN) :: IGRSURF
       TYPE(GROUP_)   ,DIMENSION(NGRNOD) ,INTENT(IN) :: IGRNOD
@@ -186,8 +186,7 @@ c       SENSOR --- ENERGY ---
 c--------------------------------        
         ELSEIF (TYP == 14) THEN
  
-          CALL SENSOR_ENERGY(SENSORS%SENSOR_TAB(ISENS),ISENS ,SUBSET    ,PARTSAV2 ,
-     .                       ENINT     ,ENCIN    )
+          CALL SENSOR_ENERGY(SENSORS%SENSOR_TAB(ISENS),ISENS ,SUBSET    ,PARTSAV2 )
 c
 c--------------------------------
 c       SENSOR Distance to surface

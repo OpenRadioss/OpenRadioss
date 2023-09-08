@@ -42,7 +42,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE ECRIT(PARTSAV    ,MS        ,V        ,IN       ,R          ,
-     2                 DMAS     ,WEIGHT     ,
+     2                 DMAS       ,WEIGHT    ,ENINTOT  ,EKINTOT  ,
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
      4                 XMOM_SMS   ,SENSORS   ,QFRICINT ,IPARI    ,WEIGHT_MD  ,
      5                 TFEXTH     ,IFLAG     ,MS_2D    ,MULTI_FVM,MAS_ND     ,
@@ -111,7 +111,7 @@ C-----------------------------------------------
       INTEGER IPRI, INFO, I,M, JPRI, ILIGN,ITHIS, ADRRPM, ISENS,
      .         NTY,INTHE,IABFIS
       my_real
-     .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,
+     .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,ENINTOT,EKINTOT,
      .   VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
      .   MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
       DOUBLE PRECISION ETIME, RETIME, TT0,
@@ -500,6 +500,8 @@ c
          ERR1 =ZERO
         ENDIF
         EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
+        ENINTOT = ENINT
+        EKINTOT = ENCIN
 C-----------------------------------------------
 C       /STATE/LSENSOR
 C-----------------------------------------------

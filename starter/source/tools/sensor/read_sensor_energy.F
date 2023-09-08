@@ -103,6 +103,7 @@ c--------------------------------------------------
         ICONST = 1  ! constant energy option active
       END IF
       IF (IEMAX  == ZERO) IEMAX  = INFINITY
+      IF (KEMIN  == ZERO) KEMIN  =-INFINITY
       IF (KEMAX  == ZERO) KEMAX  = INFINITY
       IF (IETIME == ZERO) IETIME = INFINITY
       IF (KETIME == ZERO) KETIME = INFINITY
@@ -171,7 +172,11 @@ c     sensor data structure
 c--------------------------------------------------
       NPARIS = 4
       NPARRS = 8
-      NVAR   = 8
+      IF (ISELECT == 2) THEN
+        NVAR = 10   ! additional terms to save total system internal and linetic energy
+      ELSE
+        NVAR = 8
+      END IF
 c
       ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
       ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
