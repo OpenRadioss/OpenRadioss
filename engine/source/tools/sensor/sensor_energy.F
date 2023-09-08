@@ -28,8 +28,7 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
-      SUBROUTINE SENSOR_ENERGY(SENSOR   ,ISENS    ,SUBSET   ,PARTSAV2 ,
-     .                         ENINT    ,ENCIN    )
+      SUBROUTINE SENSOR_ENERGY(SENSOR   ,ISENS    ,SUBSET   ,PARTSAV2 )
 c-----------------------------------------------------------------------
 !$COMMENT
 !       SENSOR_ENERGY description
@@ -59,8 +58,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISENS
-      my_real ,INTENT(IN) :: ENINT    ! total internal energy
-      my_real ,INTENT(IN) :: ENCIN    ! total kinetic energy    
       my_real ,INTENT(IN) :: PARTSAV2(2,*)
       TYPE (SUBSET_) ,DIMENSION(NSUBS) ,INTENT(IN) :: SUBSET
       TYPE (SENSOR_STR_) ,INTENT(INOUT) :: SENSOR
@@ -82,6 +79,8 @@ c    SENSOR%VAR(5)   = Mean  EI
 c    SENSOR%VAR(6)   = Mean  EK
 c    SENSOR%VAR(7)   = Alphai
 c    SENSOR%VAR(8)   = Alphak
+c    SENSOR%VAR(9)   = current total internal energy
+c    SENSOR%VAR(10)  = current total kinetic energy
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c
@@ -114,8 +113,8 @@ c     Fetch current energy values
 c---------------------------------------------------------
       
       IF (ISELECT == 2) THEN  ! total system energy
-        EINT = ENINT
-        EKIN = ENCIN
+        EINT = SENSOR%VAR(9)
+        EKIN = SENSOR%VAR(10)
       ELSE                    ! PART / SUBSET energy
         IF (IPARIT > 0) THEN
           EINT = ZERO
@@ -229,7 +228,7 @@ c
 c
 c       Test sensor activation on constant internal energy criterion
 c
-        IF (EINT < AVG_EI + IETOL .and. EINT > AVG_EI - IETOL) ICRIT1 = 1
+        IF (EINT > ZERO .and. EINT < AVG_EI + IETOL .and. EINT > AVG_EI - IETOL) ICRIT1 = 1
 c
         IF (SENSOR%VAR(1) > TT) THEN
           IF (ICRIT1 == 0) THEN
@@ -262,7 +261,9 @@ c---------------------------------------------------------
           SENSOR%VAR(6) = AVG_EK
         END IF
 
-        IF (EKIN < AVG_EK + KETOL .and. EKIN > AVG_EK - KETOL) ICRIT2 = 1
+        IF (EKIN > ZERO .and. EKIN < AVG_EK + KETOL .and. EKIN > AVG_EK - KETOL) THEN
+          ICRIT2 = 1
+        END IF
 c
         IF (SENSOR%VAR(3) > TT) THEN
           IF (ICRIT2 == 0) THEN

@@ -296,7 +296,8 @@ C-----------------------------------------------
       INTEGER SIZE_MES,LONG,LONG_TMP,N
       INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
       my_real
-     .   TFEXTH
+     .   TFEXTH,ENINTOT,EKINTOT
+
       my_real
      .   TABFWR0(10),BID
       my_real
@@ -326,9 +327,9 @@ C----------------------
 C-----------------------
 C       ECRITURE LISTING
 C-----------------------
-C      IF(T1S==TT) THEN
-C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
-       IF (NS10E > 0) THEN
+C------- should use relative velocity for dynamic condensed nodes (Nd of S10)
+c
+      IF (NS10E > 0) THEN
         LENG = 3*NUMNOD
         ALLOCATE(VMCDN(LENG))
         VMCDN(1:LENG)=V(1:LENG)
@@ -336,21 +337,27 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
         CALL CNDMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS ,V  ,A   ,
      1                WEIGHT ,MAS_ND ,KEND  )
         CALL ECRIT(PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     , 
-     2             DMAS   ,WEIGHT ,
+     2             DMAS     ,WEIGHT  ,ENINTOT  ,EKINTOT,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
      6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
         DEALLOCATE(VMCDN)
-       ELSE
+      ELSE
         BID = ZERO
         CALL ECRIT(PARTSAV  ,MS      ,V      ,IN       ,VR     , 
-     2             DMAS   ,WEIGHT ,
+     2             DMAS     ,WEIGHT  ,ENINTOT  ,EKINTOT,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,TFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
      6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
-       ENDIF
+      ENDIF
+C-----------------------
+C     SAVE TOTAL INTERNAL AND KINETIC ENERGY FOR ENERGY SENSOR 
+C-----------------------
+c
+      CALL SENSOR_ENERGY_TOTAL(SENSORS ,ENINTOT  ,EKINTOT)  
+c
 C---------------------------------------
 C       CALCUL DU FLUX ET DE LA ROTATION
 C---------------------------------------
