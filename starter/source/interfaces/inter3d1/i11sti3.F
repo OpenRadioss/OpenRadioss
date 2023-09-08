@@ -374,7 +374,7 @@ C------------------------------------
         ELSEIF(NELP /= 0) THEN
           MT=IXP(1,NELP)
           MG=IXP(5,NELP)
-          IP = IPARTT(NELP)
+          IP = IPARTP(NELP)
           IF (THK_PART(IP) > ZERO ) THEN
             DX1=THK_PART(IP)
           ELSE
@@ -422,7 +422,7 @@ C------------------------------------
         ELSEIF(NELR /= 0) THEN
           MG=IXR(1,NELR)
           MT = IXR(5,NELR)
-          IP = IPARTT(NELR)
+          IP = IPARTR(NELR)
           IF(IP > 0)THEN
             IF (THK_PART(IP) > ZERO ) THEN
               DX1=THK_PART(IP)
