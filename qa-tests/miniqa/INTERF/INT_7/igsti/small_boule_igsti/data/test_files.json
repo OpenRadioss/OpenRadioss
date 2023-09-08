@@ -1,0 +1,10 @@
+{
+	"enabled"         : 1,
+	"starter"         : "BOULEV44_0000.rad",
+	"engines"         : ["BOULEV44_0001.rad"],
+    "TOL_CYCLE"       : ["Abs_tolerance","10"],
+    "TOL_IENERGY"     : ["Diff_tolerance","0.00239043824701195"],
+    "TOL_TSTEP"       : ["Diff_tolerance","0.00123355263157901"],
+    "TOL_KENERGYT_SP" : ["Diff_tolerance","0.05"],
+    "TOL_KENERGYR_SP" : ["Diff_tolerance","0.02"]
+}

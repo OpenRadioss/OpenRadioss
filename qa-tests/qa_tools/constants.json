@@ -1,0 +1,9 @@
+{
+    "Zero_tolerance"            : "5.E-14",
+    "Zero_tolerance_SP"         : "7.5e-7",
+    "Diff_tolerance"            : "0.00066",
+    "Diff_tolerance_SP"         : "0.005",
+    "Relative_Int_Tolerance_SP" : "0.005",
+    "Max_value_scale_factor"    : "0.02",
+    "Delta_scale_factor"        : "0.03"
+}

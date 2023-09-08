@@ -1,0 +1,13 @@
+{
+	"enabled"        : 1,
+	"starter"        : "CISA12_0000.rad",
+	"engines"        :  ["CISA12_0001.rad"],
+    "TOL_IENERGY"    :  ["Diff_tolerance","0.0029"],
+    "TOL_KENERGYT"   :  ["Abs_tolerance","0.0002"],
+    "TOL_KENERGYR"   :  ["Abs_tolerance","8.0e-05"],
+	"TOL_EXTWORK"    :  ["Diff_tolerance","0.032"],
+	"TOL_IENERGY_SP" :  ["Diff_tolerance","0.007"],
+    "TOL_KENERGYT_SP" : ["Diff_tolerance","0.0265"],
+    "TOL_EXTWORK_SP"  : ["Diff_tolerance","0.007"],
+    "TOL_KENERGYR_SP" : ["Abs_tolerance","0.12e-3"]
+}

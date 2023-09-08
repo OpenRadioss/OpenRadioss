@@ -1,0 +1,9 @@
+{
+	"enabled": 1,
+	"starter": "TEST_002_0000.rad",
+	"engines": ["TEST_002_0001.rad"],
+    "TOL_CYCLE" : ["Abs_tolerance","230"],
+    "TOL_TSTEP" : ["Abs_tolerance","3.5328e-07"],
+    "TOL_IENERGY" : ["Abs_tolerance","10100050"],
+    "TOL_KENERGYT" : ["Abs_tolerance","1304989.41"]
+}

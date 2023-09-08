@@ -1,0 +1,8 @@
+{
+    "enabled": 1,
+	"enabled_sp" : 1,
+	"starter": "R01CV3_0000.rad",
+	"engines": ["R01CV3_0001.rad"],
+    "TOL_ERROR_SP": ["Abs_tolerance","0.35"],
+    "TOL_KENERGYT_SP": ["Abs_tolerance","20."]
+}

@@ -1,0 +1,12 @@
+{
+	"enabled": 1,
+	"enabled_sp" : 1,
+	"starter": "BOULE1V4_0000.rad",
+	"engines": ["BOULE1V4_0001.rad"],
+    "TOL_TIME": ["Diff_tolerance","0.0038971161340608"],
+    "TOL_IENERGY": ["Diff_tolerance","0.0167785234899329"],
+    "TOL_TSTEP": ["Diff_tolerance","0.0102627257799673"],
+    "TOL_KENERGYT" : ["Abs_tolerance","12.5"],
+    "TOL_KENERGYR_SP": ["Abs_Tolerance","6.0"],
+    "TOL_EXTWORK_SP": ["Diff_Tolerance","0.008"]
+}

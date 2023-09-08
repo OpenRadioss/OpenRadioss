@@ -1,0 +1,18 @@
+{
+	"enabled": 1,
+	"enabled_sp" : 1,
+	"starter": "BOXBEAM_0000.rad",
+	"engines": ["BOXBEAM_0001.rad"],
+    "TOL_TIME":     ["Diff_tolerance", "0.0051"],
+    "TOL_TSTEP":    ["Diff_tolerance", "0.0051"],
+    "TOL_IENERGY":  ["Diff_tolerance", "0.0051"],
+    "TOL_KENERGYT": ["Diff_tolerance", "0.0051"],
+    "TOL_KENERGYR": ["Diff_tolerance", "0.0051"],
+    "TOL_EXTWORK":  ["Diff_tolerance", "0.0051"],
+    "TOL_IENERGY_DIS": ["Relative_Int_Tolerance", "0.0051"],
+    "TOL_KENERGYT_DIS": ["Relative_Int_Tolerance", "0.0051"],
+    "TOL_KENERGYR_DIS": ["Relative_Int_Tolerance", "0.0051"],
+    "TOL_KENERGYT_SP": ["Diff_tolerance", "0.018"],
+    "TOL_KENERGYR_SP": ["Diff_tolerance", "0.075"]
+
+}

@@ -1,5 +1,6 @@
 {
-    "enabled": 1,
-    "starter": "ACCELERO_0000.rad",
-    "engines": ["ACCELERO_0001.rad"]
+	"enabled": 1,
+	"enabled_sp" : 0,
+	"starter": "ACCELERO_0000.rad",
+	"engines": ["ACCELERO_0001.rad"]
 }
