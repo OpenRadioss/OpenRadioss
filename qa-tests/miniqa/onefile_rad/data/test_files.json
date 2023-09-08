@@ -1,0 +1,9 @@
+{
+	"enabled": 1,
+	"starter"      :  "CRA2AV4_0000.rad",
+	"engines"      : ["CRA2AV4_0000.rad"],
+    "TOL_TIME"     : ["Diff_tolerance","0.00300450676014032"],
+    "TOL_TSTEP"    : ["Diff_tolerance","0.532181357006975"],
+    "TOL_IENERGY"  : ["Diff_tolerance","0.0141006097560976"],
+    "TOL_KENERGYT" : ["Diff_tolerance","0.00318471337579618"]
+}

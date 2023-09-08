@@ -1,0 +1,15 @@
+{
+	"enabled": 1,
+	"starter": "RBPLI_0000.rad",
+	"engines": ["RBPLI_0001.rad"],
+    "TOL_IENERGY"     : ["Diff_tolerance","0.0306691449814128"],
+    "TOL_KENERGYT"    : ["Diff_tolerance","0.0082913165266106"],
+    "TOL_TIME"        : ["Diff_tolerance","0.00868104172500707"],
+    "TOL_ERROR"       : ["Diff_tolerance","0.1875"],
+    "TOL_EXTWORK"     : ["Diff_tolerance","0.00487012987012969"],
+    "TOL_ERROR_SP"    : ["Abs_tolerance","1.15"],
+    "TOL_TIME_SP"     : ["Diff_tolerance","0.0325"],
+    "TOL_TSTEP_SP"    : ["Diff_tolerance","0.13"],
+    "TOL_IENERGY_SP"  : ["Diff_tolerance","0.025"],
+    "TOL_KENERGYT_SP" : ["Diff_tolerance","0.016"]
+}

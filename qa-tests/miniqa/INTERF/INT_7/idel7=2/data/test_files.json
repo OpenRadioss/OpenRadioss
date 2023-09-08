@@ -1,0 +1,9 @@
+{
+	"enabled": 1,
+	"enabled_sp" : 1,
+	"starter": "IDEL8_0000.rad",
+	"engines": ["IDEL8_0001.rad"],
+    "TOL_KENERGYR": ["Diff_tolerance","0.000601775236949067"],
+    "TOL_ERROR_SP": ["Abs_tolerance","0.35"],
+    "TOL_KENERGYT_SP": ["Diff_tolerance","0.007"]
+}

@@ -1,5 +1,9 @@
 {
-    "enabled": 1,
-    "starter": "JETV41B_0000.rad",
-    "engines": ["JETV41B_0001.rad"]
+	"enabled": 1,
+	"enabled_sp" : 1,
+	"starter": "JETV41B_0000.rad",
+	"engines": ["JETV41B_0001.rad"],
+    "TOL_EXTWORK" : ["Diff_tolerance","0.00564875042793556"],
+    "TOL_TSTEP_SP" : ["Diff_tolerance" ,"0.0115"],
+    "TOL_KENERGYT_SP" : ["Diff_tolerance","0.012"]
 }

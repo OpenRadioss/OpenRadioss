@@ -6,6 +6,7 @@ exec
 *.swo
 *~
 *.bak
+*.pyc
 qa-tests/scripts/.qa_fail_list
 qa-tests/scripts/.qa_last_exe_name
 qa-tests/scripts/.qa-start
@@ -20,4 +21,5 @@ qa-tests/scripts/Output_files
 qa-tests/scripts/Screen_Output
 qa-tests/scripts/*.tmp
 qa-tests/scripts/my_results
+qa-tests/ctest_*
 .vscode/settings.json
