@@ -271,7 +271,7 @@ C-----------------------------------------------
       TYPE (PINCH) :: PINCH_DATA
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_)  :: DRAPEG
-      TYPE (SENSORS_)         ,INTENT(IN)   :: SENSORS
+      TYPE (SENSORS_)         ,INTENT(INOUT):: SENSORS
       TYPE (t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE(USER_WINDOWS_),INTENT(IN)        :: USER_WINDOWS     
