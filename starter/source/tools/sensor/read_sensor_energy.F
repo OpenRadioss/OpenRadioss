@@ -103,8 +103,9 @@ c--------------------------------------------------
         ICONST = 1  ! constant energy option active
       END IF
       IF (IEMAX  == ZERO) IEMAX  = INFINITY
-      IF (KEMIN  == ZERO) KEMIN  =-INFINITY
       IF (KEMAX  == ZERO) KEMAX  = INFINITY
+      IF (IEMIN  == ZERO) IEMIN  =-INFINITY
+      IF (KEMIN  == ZERO) KEMIN  =-INFINITY
       IF (IETIME == ZERO) IETIME = INFINITY
       IF (KETIME == ZERO) KETIME = INFINITY
       IF (ISELECT == 0)   ISELECT= 1     ! sum of Part energy by default
