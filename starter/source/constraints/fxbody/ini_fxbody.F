@@ -56,6 +56,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "fxbcom.inc"
+#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -74,10 +75,12 @@ C-----------------------------------------------
      .        NLIG,NRES,ILIG,ADRCP2,IR,ADRNOD,NUMNO(10),ISHELL,
      .        IC,J,INFO,IANIM, IMIN, IMAX, REF, ERR, K, L, IDN, I1,I2, J2, REF2,J1,SIZE_MAX,IDUM1,IDUM2,IDUM3,
      .        IDUM4,FLAG,IC1,IC2,BCS(6),SIZE_STIFF,ADR_STIFF,IL1,IL2,IDOF1,IDOF2,NMOD_MAX,NMST_F,NMR,
-     .        ADR_MASS,SIZE_MASS
+     .        ADR_MASS,SIZE_MASS,RELOOP,ADRMOD0,ADRLM0,ADRFLS0,LENCP0,LENLM0,LENFLS0,LENDLS0,LENVAR0,
+     .        NSAV_MODES,NSAV_MODESN,NN
       my_real 
      .        FREQ,BETA,OMEGA,DTC1,DTC2,BID,XM(3),ZZ,RHO_INVMK,UNSN,NORM,FAC,FAC2,MSTOT,TOLE,
-     .        KT,KR,RR,SKEW(9),RDUM1,MIN_DIAG_STIF,FAC2X,FAC2Y,FAC2Z
+     .        KT,KR,RR,SKEW(9),RDUM1,MIN_DIAG_STIF,FAC2X,FAC2Y,FAC2Z,DT_MINI,DT_CST,OMEGA_MIN,
+     .        INMIN,INMAX,OMEGA_MAX,MAX_FREQ,ALPHA,FREQ_RANGE,MIN_CUT_OFF_FREQ
       CHARACTER TITR*nchartitle,MESS*40,MESS1*40,NWLINE*100,
      .          FXBFILE*100
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL,ITAG_DOF
@@ -89,7 +92,7 @@ C
       INTEGER NBNOD,IROT,IDAMP,IBLO,IFILE,REDUX,PRINTOUT
       my_real, DIMENSION(:),ALLOCATABLE :: VT,VBID
       my_real, DIMENSION(:,:),ALLOCATABLE :: MASS,STIF,MODES,MODEST,MODES_RB,MODES_RBT,STIFT,
-     .                                       MTEMP,MTEMP2,MTEMP3,TT,T,VECTR
+     .                                       MTEMP,MTEMP2,MTEMP3,TT,T,VECTR,MODES_SAV
 C
       DOUBLE PRECISION  WORK1(1000)
       DOUBLE PRECISION, DIMENSION(:),  ALLOCATABLE :: WORK,WR,WI
@@ -118,7 +121,11 @@ C
       ADRDLS = FXB_LAST_ADRESS(6)
       ADRVAR = FXB_LAST_ADRESS(7)
       ADRRPM = FXB_LAST_ADRESS(8)
-      ADRMCD = FXB_LAST_ADRESS(9)    
+      ADRMCD = FXB_LAST_ADRESS(9)
+C
+      FREQ_RANGE = HUNDRED    
+C     Default min cut off frequency 1000Hz
+      MIN_CUT_OFF_FREQ = 1000.0 / FAC_TIME 
 C
       DO NFX=1,NFXBODY
 C
@@ -233,22 +240,7 @@ C-- Mass of connections nodes is added to the mass matrix
               MASS(6*(I-1)+6,6*(I-1)+6) = MASS(6*(I-1)+6,6*(I-1)+6)+IN(IDN)
             ENDDO
           ENDIF
-C
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCC                           DAMPING                                 CCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-          IDAMP = 0
-C
-          IF (IDAMP == 0) THEN
-            FXBRPM(ADRRPM)=ZERO
-            FXBRPM(ADRRPM+1)=ZERO
-            ADRRPM=ADRRPM+2
-          ENDIF
-          FXBRPM(ADRRPM)=ZERO
-          FXBRPM(ADRRPM+1)=ZERO
-          ADRRPM=ADRRPM+2                   
-C
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                         MODES RBODY                               CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -326,50 +318,6 @@ C
           ENDIF
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCC   COMPLEMENT MODES - used for othogonalisation with RB modes      CCCCC
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-          NMR = 0
-          IF (IBLO == 0) THEN
-C
-            CPT = 0
-            DO I=1,NBNOD
-              IDN = FXBNOD(ADRNOD+I-1)
-              DO J=1,6
-                DO IM=1,6
-                   VECTR(CPT+J,IM)=ZERO
-                ENDDO
-                SELECT CASE (J)
-                CASE (1)
-                  VECTR(CPT+J,1)=ONE
-                  VECTR(CPT+J,5)=X(3,IDN)-XM(3)
-                  VECTR(CPT+J,6)=-(X(2,IDN)-XM(2))
-                CASE (2)
-                  VECTR(CPT+J,2)=ONE
-                  VECTR(CPT+J,4)=-(X(3,IDN)-XM(3))
-                  VECTR(CPT+J,6)=X(1,IDN)-XM(1)
-                CASE (3)
-                  VECTR(CPT+J,3)=ONE
-                  VECTR(CPT+J,4)=X(2,IDN)-XM(2)
-                  VECTR(CPT+J,5)=-(X(1,IDN)-XM(1))
-                CASE (4)
-                  VECTR(CPT+J,4)=ONE
-                CASE (5)
-                  VECTR(CPT+J,5)=ONE
-                CASE (6)
-                  VECTR(CPT+J,6)=ONE
-                END SELECT
-              ENDDO
-              CPT=CPT+6
-            ENDDO
-C
-C---      Orthonormalisation of VECTR with mass matrix ---
-            NMR = 6
-            IF (NMST > 0) CALL ORTHRG(VECTR,MASS,NDDL,NMR)
-C
-          ENDIF
-C
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                         STATIC MODES                              CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
@@ -411,129 +359,260 @@ C---        On static mode generated per connected DOF  ---
               ENDIF
             ENDDO      
           ENDDO
-          ITAG_DOF(1:6,1:NBNOD) = 0
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCC               STATIC MODES - ORTHONORMALIZATION                   CCCCC
+CCCCC   COMPLEMENT MODES - used for othogonalisation with RB modes      CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
+          NMR = 0
+          IF (IBLO == 0) THEN
+C
+            CPT = 0
+            DO I=1,NBNOD
+              IDN = FXBNOD(ADRNOD+I-1)
+              DO J=1,6
+                DO IM=1,6
+                   VECTR(CPT+J,IM)=ZERO
+                ENDDO
+                SELECT CASE (J)
+                CASE (1)
+                  VECTR(CPT+J,1)=ONE
+                  VECTR(CPT+J,5)=X(3,IDN)-XM(3)
+                  VECTR(CPT+J,6)=-(X(2,IDN)-XM(2))
+                CASE (2)
+                  VECTR(CPT+J,2)=ONE
+                  VECTR(CPT+J,4)=-(X(3,IDN)-XM(3))
+                  VECTR(CPT+J,6)=X(1,IDN)-XM(1)
+                CASE (3)
+                  VECTR(CPT+J,3)=ONE
+                  VECTR(CPT+J,4)=X(2,IDN)-XM(2)
+                  VECTR(CPT+J,5)=-(X(1,IDN)-XM(1))
+                CASE (4)
+                  VECTR(CPT+J,4)=ONE
+                CASE (5)
+                  VECTR(CPT+J,5)=ONE
+                CASE (6)
+                  VECTR(CPT+J,6)=ONE
+                END SELECT
+              ENDDO
+              CPT=CPT+6
+            ENDDO
+C
+C---      Orthonormalisation of VECTR with mass matrix ---
+            NMR = 6
+            IF (NMST > 0) CALL ORTHRG(VECTR,MASS,NDDL,NMR)
+C
+          ENDIF 
+c
           IF ((IBLO==0).AND.(NMST > 0)) THEN
 C---      Orthonormalisation of VECTR and vector of static modes with mass matrix ---
             CALL ORTHSR(MODES,VECTR,MASS,NDDL,NMST,NMR)
           ENDIF
 C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC   LOOP -> reloop = 0 - all the modes       CCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC           reloop = 1 - reduced modal bases CCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+          RELOOP = 0
+          NSAV_MODES = 0
           NMST0 = NMST
           NMOD0 = NMOD
+          ADRMOD0 = ADRMOD
+          ADRLM0  = ADRLM
+          ADRFLS0 = ADRFLS
+          LENCP0  =LENCP
+          LENLM0  =LENLM
+          LENFLS0 =LENFLS
+          LENDLS0 =LENDLS
+          LENVAR0 =LENVAR
 C
-          IF (NMST > 0) THEN
-            NMST_F = 0
-C           TOLE = MIN_DIAG_STIF*MIN_DIAG_STIF*EM5*EM5
-            TOLE = EM4
-            CALL ORTHST(MODES,MASS,NDDL,NMST,NMST_F,TOLE)
-            NMST = NMST_F
-          ENDIF
+          DO RELOOP = 0,1
+C
+            IF (RELOOP > 0) THEN
+              NMST = NSAV_MODES
+              NMOD = NSAV_MODES
+              ADRMOD = ADRMOD0
+              ADRLM  = ADRLM0
+              ADRFLS = ADRFLS0
+              LENCP  =LENCP0
+              LENLM  =LENLM0
+              LENFLS =LENFLS0
+              LENDLS =LENDLS0
+              LENVAR =LENVAR0
+              MODES(1:NDDL,1:NMOD) = MODES_SAV(1:NDDL,1:NMOD)
+            ENDIF
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCC               STATIC MODES - ORTHONORMALIZATION                   CCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+            IF (NMST > 0) THEN
+              NMST_F = 0
+C             TOLE = MIN_DIAG_STIF*MIN_DIAG_STIF*EM5*EM5
+              TOLE = EM04
+              CALL ORTHST(MODES,MASS,NDDL,NMST,NMST_F,TOLE)
+              NMST = NMST_F
+            ENDIF
 
-C--       Number of static modes is updated
-          NMOD = NMST
-          FXBIPM(4,NFX) = NMOD
-          FXBIPM(5,NFX) = NMST
+C--         Number of static modes is updated
+            NMOD = NMST
+            FXBIPM(4,NFX) = NMOD
+            FXBIPM(5,NFX) = NMST
 C    
-          NTR = 9
-          LENCP =LENCP -NTR*NMOD0*NME+NTR*NMOD*NME
-          LENLM =LENLM -NMOD0+NMOD
-          LENFLS=LENFLS-NMST0*(2*NMOD0-NMST0+1)/2+NMST*(2*NMOD-NMST+1)/2
-          LENDLS=LENDLS-NMOD0+NMST0+NMOD+NMST
-          LENVAR=LENVAR-NMOD0+NMOD
-          FXBIPM(38,NFX)=MIN(NMOD,FXBIPM(38,NFX))
+            NTR = 9
+            LENCP =LENCP -NTR*NMOD0*NME+NTR*NMOD*NME
+            LENLM =LENLM -NMOD0+NMOD
+            LENFLS=LENFLS-NMST0*(2*NMOD0-NMST0+1)/2+NMST*(2*NMOD-NMST+1)/2
+            LENDLS=LENDLS-NMOD0+NMST0+NMOD+NMST
+            LENVAR=LENVAR-NMOD0+NMOD
+            FXBIPM(38,NFX)=MIN(NMOD,FXBIPM(38,NFX))
 C
-          DO I=1,NDDL
-            DO J=1,NMOD
-              MODEST(J,I)=MODES(I,J)
-            ENDDO
-          ENDDO        
+            DO I=1,NDDL
+              DO J=1,NMOD
+                MODEST(J,I)=MODES(I,J)
+              ENDDO
+            ENDDO        
 C
-          DO I=1,NMST
-            DO J=1,NDDL
-              FXBMOD(ADRMOD) = FAC*MODES(J,I)
-              ADRMOD=ADRMOD+1
+            DO I=1,NMST
+              DO J=1,NDDL
+                FXBMOD(ADRMOD) = FAC*MODES(J,I)
+                ADRMOD=ADRMOD+1
+              ENDDO
             ENDDO
-          ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   REDUCED DIAG MASS MATRIX                        CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-          FXBIPM(10,NFX) = ADRLM
+            FXBIPM(10,NFX) = ADRLM
 C
-          MTEMP(1:NDDL,1:NMOD) = MATMUL(MASS(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMOD))
-          MTEMP2(1:NMOD,1:NMOD) = MATMUL(MODEST(1:NMOD,1:NDDL),MTEMP(1:NDDL,1:NMOD))
+            MTEMP(1:NDDL,1:NMOD) = MATMUL(MASS(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMOD))
+            MTEMP2(1:NMOD,1:NMOD) = MATMUL(MODEST(1:NMOD,1:NDDL),MTEMP(1:NDDL,1:NMOD))
 C
-          DO I=1,NMOD
-            FXBLM(ADRLM) = FAC2*MTEMP2(I,I)
-            ADRLM=ADRLM+1
-          ENDDO
+            DO I=1,NMOD
+              FXBLM(ADRLM) = FAC2*MTEMP2(I,I)
+              ADRLM=ADRLM+1
+            ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   REDUCED FULL STIFF MATRIX                       CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-          FXBIPM(11,NFX) = ADRFLS
+            FXBIPM(11,NFX) = ADRFLS
 C
-          MTEMP(1:NDDL,1:NMST) = MATMUL(STIF(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMST))
-          MTEMP3(1:NMST,1:NMST) = MATMUL(MODEST(1:NMST,1:NDDL),MTEMP(1:NDDL,1:NMST))
+            MTEMP(1:NDDL,1:NMST) = MATMUL(STIF(1:NDDL,1:NDDL),MODES(1:NDDL,1:NMST))
+            MTEMP3(1:NMST,1:NMST) = MATMUL(MODEST(1:NMST,1:NDDL),MTEMP(1:NDDL,1:NMST))
 C
-          DO I=1,NMST
-            DO J=1,NMST
+            DO I=1,NMST
+              DO J=1,NMST
 CC-- Mat sym trian sup
-              IF (J >= I) THEN
-                FXBFLS(ADRFLS) = FAC2*MTEMP3(I,J)
-                ADRFLS=ADRFLS+1
-              ENDIF
+                IF (J >= I) THEN
+                  FXBFLS(ADRFLS) = FAC2*MTEMP3(I,J)
+                  ADRFLS=ADRFLS+1
+                ENDIF
+              ENDDO
             ENDDO
-          ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   COMPUTATION OF MAX FREQUENCY                    CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-          ALLOCATE(WI(NMST),WR(NMST),EIG_R(NMST,NMST),EIG_L(NMST,NMST),INVMK(NMST,NMST))
+            ALLOCATE(WI(NMST),WR(NMST),EIG_R(NMST,NMST),EIG_L(NMST,NMST),INVMK(NMST,NMST))
 C
-          DO I=1,NMST
-            DO J=1,NMST
-              IF (I==J) THEN
-                MTEMP2(I,J) = ONE/MAX(EM20,MTEMP2(I,J))
-              ELSE
-                MTEMP2(I,J) = ZERO
-              ENDIF
+            DO I=1,NMST
+              DO J=1,NMST
+                IF (I==J) THEN
+                  MTEMP2(I,J) = ONE/MAX(EM20,MTEMP2(I,J))
+                ELSE
+                  MTEMP2(I,J) = ZERO
+                ENDIF
+              ENDDO
             ENDDO
-          ENDDO
 C
-          INVMK(1:NMST,1:NMST) = MATMUL(MTEMP2(1:NMST,1:NMST),MTEMP3(1:NMST,1:NMST))
+            INVMK(1:NMST,1:NMST) = MATMUL(MTEMP2(1:NMST,1:NMST),MTEMP3(1:NMST,1:NMST))
 C
 #ifndef WITHOUT_LINALG
-          LWORK = -1
-          CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK1,LWORK,INFO2)
-          LWORK = MAX( 1000, INT( WORK1( 1 ) ) )
-          ALLOCATE(WORK(LWORK))
+            LWORK = -1
+            CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK1,LWORK,INFO2)
+            LWORK = MAX( 1000, INT( WORK1( 1 ) ) )
+            ALLOCATE(WORK(LWORK))
 C
-          CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK,LWORK,INFO2)
+            CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK,LWORK,INFO2)
 #else
-          INFO2 = 1
+            INFO2 = 1
 #endif
 C
-          IF( INFO2>0 ) THEN
-            WRITE(*,*)'The algorithm failed to compute eigenvalues.'
-            STOP
-          END IF
+            IF( INFO2>0 ) THEN
+              WRITE(*,*)'The algorithm failed to compute eigenvalues.'
+              STOP
+            END IF
 C
-          RHO_INVMK = ZERO
-          DO I=1,NMST
-            IF (WI(I)==ZERO) RHO_INVMK = MAX(RHO_INVMK,ABS(WR(I)))
+            RHO_INVMK = ZERO
+            OMEGA_MIN = EP30
+            DO I=1,NMST
+              IF (WI(I)==ZERO) THEN
+                OMEGA_MIN = MIN(OMEGA_MIN,SQRT(WR(I)))
+              ENDIF
+            ENDDO
+C
+            OMEGA_MAX = MAX(FREQ_RANGE*OMEGA_MIN,TWO*PI*MIN_CUT_OFF_FREQ)
+            DT_MINI = TWO/OMEGA_MAX
+            NSAV_MODESN = 0
+            DO I=1,NMST
+              IF (WI(I)==ZERO) THEN
+                RHO_INVMK = MAX(RHO_INVMK,ABS(WR(I)))
+                IF ((TWO/SQRT(ABS(WR(I))) > DT_MINI)) THEN
+                  NSAV_MODESN = NSAV_MODESN+1
+                ENDIF
+              ENDIF
+            ENDDO
+C
+            IF ((NMST - NSAV_MODESN > 0).AND.(RELOOP==0)) THEN
+              NSAV_MODES = NSAV_MODESN
+              ALLOCATE(MODES_SAV(NDDL,NSAV_MODES))
+              MODES_SAV(1:NDDL,1:NSAV_MODES) = ZERO
+              NN = 0
+              DO I=1,NMST
+                IF ((TWO/SQRT(ABS(WR(I))) > DT_MINI).AND.((WI(I)==ZERO))) THEN
+                  NN = NN + 1 
+                  DO J=1,NDDL
+                    DO K=1,NMST
+                      MODES_SAV(J,NN)=MODES_SAV(J,NN)+MODES(J,K)*EIG_R(K,I)
+                    ENDDO
+                  ENDDO  
+                ENDIF
+              ENDDO
+            ENDIF
+C
+            DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
+C
+            FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)
+C
+            IF (NMST - NSAV_MODESN == 0) EXIT
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C       
           ENDDO
 C
-          DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
+          IF (ALLOCATED(MODES_SAV))  DEALLOCATE (MODES_SAV)
 C
-          FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)      
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCC                           DAMPING                                 CCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+          IDAMP = 0
+C
+          IF (IDAMP == 0) THEN
+            FXBRPM(ADRRPM)=ZERO
+            FXBRPM(ADRRPM+1)=ZERO
+            ADRRPM=ADRRPM+2
+          ENDIF
+          FXBRPM(ADRRPM)=ZERO
+          FXBRPM(ADRRPM+1)=ZERO
+          ADRRPM=ADRRPM+2   
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   MASS MATRIX PROJ ON RB MODES                    CCCCC
@@ -630,8 +709,10 @@ C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCC                         PRINTOUT CONTROL                            CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-          WRITE(IOUT,1100) ID,TRIM(TITR),NMST,NME,FXBRPM(FXBIPM(14,NFX))
-
+C
+          WRITE(IOUT,1100) ID,TRIM(TITR),NMST,NME,NBNOD,FXBRPM(FXBIPM(14,NFX))
+          WRITE(IOUT,1200)
+          WRITE(IOUT,FMT=FMW_10I)(ITAB(FXBNOD(ADRNOD+I-1)),I=1,NBNOD)
 C
           IF (IPRI >= 5) THEN
 C
@@ -675,10 +756,20 @@ C
             REST = NBNOD-10*NLIGNE
             IF (REST > 0) WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,REST)
 C
+            MAX_FREQ = HALF*OMEGA_MAX/PI
             WRITE(REF,'(A)') '#         Mrot11          Mrot12          Mrot13          Mrot21          Mrot22'
             WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+1),FXBRPM(RPM_L+2),FXBRPM(RPM_L+3),FXBRPM(RPM_L+4),FXBRPM(RPM_L+5)
             WRITE(REF,'(A)') '#         Mrot23          Mrot31          Mrot32          Mrot33            Freq'
-            WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+6),FXBRPM(RPM_L+7),FXBRPM(RPM_L+8),FXBRPM(RPM_L+9),FXBRPM(RPM_L)
+            WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+6),FXBRPM(RPM_L+7),FXBRPM(RPM_L+8),FXBRPM(RPM_L+9),MAX_FREQ
+C
+C --- block for damping
+C
+            IF (IDAMP == 1) THEN
+              WRITE(REF,'(A)') '#   RAYLEIGH DAMPING' 
+              WRITE(REF,'(A)') ' '
+              WRITE(REF,'(A)') ' '
+              WRITE(REF,'(2(1PE16.9))') FXBRPM(ADRRPM-4),FXBRPM(ADRRPM-3)           
+            ENDIF
 C
             WRITE(REF,'(A)') '#   BLOCK5  - RB MODES' 
 C
@@ -846,12 +937,17 @@ C
 C      
 1000  FORMAT(/
      . '      FLEXIBLE BODY INITIALIZATION FROM DMIG'/
-     . '      ---------------------- '/)
+     . '      ---------------------- ')
 C
-1100  FORMAT( /5X,'FLEXIBLE BODY ID ',I10,1X,A
+1100  FORMAT( /6X,'FLEXIBLE BODY ID ',I10,1X,A
      .       /10X,'NUMBER OF MODES                         ',I10
      .       /10X,'NUMBER OF RIGID BODY MODES              ',I10
+     .       /10X,'NUMBER OF NODES                         ',I10
      .       /10X,'STABILITY TIME STEP                     ',1PE10.3)
 C
+1200  FORMAT(/
+     . '          LIST OF NODES')
+C
       END SUBROUTINE INI_FXBODY
+         
          
