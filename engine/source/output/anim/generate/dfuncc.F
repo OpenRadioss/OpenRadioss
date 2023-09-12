@@ -4242,30 +4242,54 @@ c------------------------------------ Mach Number
                    ENDIF                                                                                  
               ELSE                                                                                 
                 L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                               
+                IF(N2D/=0.AND.ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
                   IF(JALE/=0)THEN                                             
-                    DO  I=1,NEL                                                                             
-                      TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))-W(1,IXTG(2:4,I+NFT))                                                     
-                      TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))-W(2,IXTG(2:4,I+NFT))                                                     
-                      TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))-W(3,IXTG(2:4,I+NFT))                                                     
-                      VEL(1) = SUM(TMP(1,1:3))*THIRD                                                       
-                      VEL(2) = SUM(TMP(2,1:3))*THIRD                                                       
-                      VEL(3) = SUM(TMP(3,1:3))*THIRD                                                       
-                      EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)                                       
-                    ENDDO                                                                                   
+                    IF(ITY==7) THEN
+                      DO  I=1,NEL 
+                        TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))-W(1,IXTG(2:4,I+NFT))
+                        TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))-W(2,IXTG(2:4,I+NFT))
+                        TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))-W(3,IXTG(2:4,I+NFT))
+                        VEL(1) = SUM(TMP(1,1:3))*THIRD
+                        VEL(2) = SUM(TMP(2,1:3))*THIRD
+                        VEL(3) = SUM(TMP(3,1:3))*THIRD
+                        EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                      ENDDO  
+                    ELSEIF(ITY==2) THEN
+                      DO  I=1,NEL
+                        TMP(1,1:4)=V(1,IXQ(2:5,I+NFT))-W(1,IXQ(2:5,I+NFT))
+                        TMP(2,1:4)=V(2,IXQ(2:5,I+NFT))-W(2,IXQ(2:5,I+NFT))
+                        TMP(3,1:4)=V(3,IXQ(2:5,I+NFT))-W(3,IXQ(2:5,I+NFT))
+                        VEL(1) = SUM(TMP(1,1:4))*FOURTH
+                        VEL(2) = SUM(TMP(2,1:4))*FOURTH
+                        VEL(3) = SUM(TMP(3,1:4))*FOURTH
+                        EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                      ENDDO 
+                    ENDIF
                   ELSE
-                    DO  I=1,NEL                                                                             
-                      TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))                                                    
-                      TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))                                                    
-                      TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))                                                    
-                      VEL(1) = SUM(TMP(1,1:3))*THIRD                                                       
-                      VEL(2) = SUM(TMP(2,1:3))*THIRD                                                       
-                      VEL(3) = SUM(TMP(3,1:3))*THIRD                                                       
-                      EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)                                       
-                    ENDDO                                                                                   
+                    IF(ITY==7) THEN
+                        DO  I=1,NEL 
+                          TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))
+                          TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))
+                          TMP(3,1:3)=V(3,IXTG(2:4,I+NFT))          
+                          VEL(1) = SUM(TMP(1,1:3))*THIRD
+                          VEL(2) = SUM(TMP(2,1:3))*THIRD
+                          VEL(3) = SUM(TMP(3,1:3))*THIRD     
+                          EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                        ENDDO   
+                    ELSEIF(ITY==2) THEN
+                        DO  I=1,NEL
+                          TMP(1,1:4)=V(1,IXQ(2:5,I+NFT))
+                          TMP(2,1:4)=V(2,IXQ(2:5,I+NFT))
+                          TMP(3,1:4)=V(3,IXQ(2:5,I+NFT))          
+                          VEL(1) = SUM(TMP(1,1:4))*FOURTH
+                          VEL(2) = SUM(TMP(2,1:4))*FOURTH
+                          VEL(3) = SUM(TMP(3,1:4))*FOURTH     
+                          EVAR(I) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                        ENDDO   
+                    ENDIF
                   ENDIF
-                ENDIF                                                                                     
+                ENDIF
               ENDIF 
 c------------------------------------ DAMG
            ELSEIF((IFUNC >= 13547 + 4*MX_PLY_ANIM + 1000 + 4).AND.
