@@ -41,7 +41,7 @@ Chd|====================================================================
      8                  IFAIL   ,SBUFMAT ,SNPC    ,STF     ,NUMMAT   ,
      9                  NUMGEO  ,IOUT    ,ISTDO   ,NPROPMI ,NPROPM   ,
      A                  NPROPG  ,TIME    ,DTIME   ,IDEL7NOK,ISIGI    ,
-     B                  IMCONV)
+     B                  IMCONV  ,ISMSTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISTDO
       INTEGER ,INTENT(IN) :: ISIGI
       INTEGER ,INTENT(IN) :: IMCONV
+      INTEGER ,INTENT(IN) :: ISMSTR
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: PID
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
@@ -198,7 +199,7 @@ c
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .              DPLA    ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
-     .              AL      ,AREA)
+     .              AL      ,AREA    ,ISMSTR)
       END IF
 C------------------------------------
 c     resultant force and moment

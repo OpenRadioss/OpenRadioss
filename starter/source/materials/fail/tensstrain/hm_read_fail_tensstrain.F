@@ -154,7 +154,7 @@ C
 c-----------------------
       NFUNC     = 3
       NUPARAM   = 10
-      NUVAR     = 1
+      NUVAR     = 2
 c-----------------------
       UPARAM(1) = RF1 
       UPARAM(2) = RF2
@@ -167,6 +167,7 @@ c-----------------------
       UPARAM(9) = UNIT_T
       UPARAM(10)= STRDEF
 c
+       
       IFUNC(1)  = IRFUN
       IFUNC(2)  = FUNC_ID
       IFUNC(3)  = FUNC_ID2

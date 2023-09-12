@@ -37,7 +37,7 @@ Chd|====================================================================
      .                  TIME    ,IOUT    ,ISTDO   ,
      .                  SVM     ,PRESSURE,EINT    ,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
-     .                  M3 )
+     .                  M3      ,ISMSTR,EPSXX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: STF   
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
       INTEGER ,INTENT(IN) :: ISTDO      ! output file unit
+      INTEGER ,INTENT(IN) :: ISMSTR
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN)    :: IPM
@@ -76,9 +77,11 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SVM
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: PRESSURE
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSXX
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: F1,F2,F3
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: M1,M2,M3
+
       my_real ,DIMENSION(NEL,2)          ,INTENT(INOUT) :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
@@ -98,8 +101,6 @@ C
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step
-      bidon = npf(1)
-      bidon = tf(1)
 c-----------------------------------------------------
       IFL  = 1              ! only one failure model for beams      
 C--------------------------------------   
@@ -126,7 +127,7 @@ c-----------------------------------------
 c-----------------------------------------            
       SELECT CASE (IRUPT)                                            
 c------------------------------------            
-c
+c--------------- 
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
           IF (JTHE > 0) THEN
@@ -138,12 +139,33 @@ c
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
-
           CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
      .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
      .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
      .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT     ,ISTDO    )
-c     
+c---------------      
+        CASE (10)     !    Tension Strain failure model
+          IF (JTHE > 0) THEN
+            T0 = PM(79, IMAT) 
+            TM = PM(80, IMAT) 
+            DO I=1,NEL  
+              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
+            ENDDO
+          ELSE
+            TSTAR(1:NEL) = ZERO
+          ENDIF
+          
+          CALL FAIL_TENSSTRAIN_B(                                         
+     .          NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+     .          TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,  
+     .          ELBUF_STR%GBUF%FAIL(1)%TDEL,IOUT     ,ISTDO    ,IFUNC    ,
+     .          EPSXX    ,AL       ,
+     .          F1       ,F2       ,F3       ,
+     .          M1       ,M2       ,M3       ,TSTAR ,
+     .          SNPC     ,NPF      ,STF      ,
+     .          TF       ,ISMSTR   ,ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR)     
+        
+c--------------- 
         CASE (11)     ! Energy failure model                                        
           CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
      .                        TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        

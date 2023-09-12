@@ -35,7 +35,7 @@ Chd|====================================================================
      .                       TEMPEL   ,NGL      ,PM       ,IPM      ,GEO     ,
      .                       OFF      ,EPSD     ,BUFMAT   ,NPF      ,TF      ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
-     .                       AL       ,AREA )
+     .                       AL       ,AREA     ,ISMSTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: STF   
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
       INTEGER ,INTENT(IN) :: ISTDO      ! output file unit
+      INTEGER ,INTENT(IN) :: ISMSTR 
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN)    :: IPM
@@ -162,6 +163,7 @@ c------------------------------------
         SELECT CASE (IRUPT)                                            
 c------------------------------------            
 c
+c--------------- 
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
           IF (JTHE > 0) THEN
@@ -173,17 +175,34 @@ c
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
-
           CALL FAIL_JOHNSON_IB(
      .         NEL       ,NGL       ,IPT       ,NPARAM    ,UPARAMF   ,
      .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
      .         DPLA      ,EPSD      ,OFF       ,FOFF      ,DFMAX     ,
      .         TDEL      ,IOUT      ,ISTDO     )
-c
-
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
+c---------------          
+        CASE (10)     !    Tension Strain failure model
+          IF (JTHE > 0) THEN
+            T0 = PM(79, IMAT) 
+            TM = PM(80, IMAT) 
+            DO I=1,NEL  
+              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
+            ENDDO
+          ELSE
+            TSTAR(1:NEL) = ZERO
+          ENDIF
+
+          CALL FAIL_TENSSTRAIN_IB(                                         
+     .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
+     .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
+     .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
+     .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
+     .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
+     .          TF       ,IPT      ,FOFF   ,ISMSTR)
+c---------------  
         CASE (11)     ! Energy failure model                                           
           CALL FAIL_ENERGY_IB(
      .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
@@ -195,6 +214,7 @@ c
 
 c-------------
         END SELECT
+
 C-------------------------------------
       ENDDO   ! IPT = 1,NPT :  END LOOP OVER INTEGRATION POINTS
 c-------------------------------------

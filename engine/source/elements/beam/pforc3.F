@@ -229,7 +229,7 @@ C---
      .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
      .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
      .       ISTDO    ,NUVAR    ,UVAR     ,GBUF%EPSD,MAT(1)   ,
-     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT)
+     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT,ISMSTR)
 C----
       ELSEIF (IGTYP == 18) THEN  
         ! beams type 18 (integration points in the section)
@@ -244,7 +244,7 @@ C----
      8       IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,       
      9       NUMGEO    ,IOUT        ,ISTDO     ,NPROPMI  ,NPROPM  ,
      A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,ISIGI   ,
-     B       IMCONV    )                                               
+     B       IMCONV    ,ISMSTR)                                               
       ENDIF
 c---------------------------
 c     element damping

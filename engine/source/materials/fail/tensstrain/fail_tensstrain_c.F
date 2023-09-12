@@ -187,7 +187,7 @@ c------------------------------------
 c
         CASE (1,2)      ! equivalent strain criterion
           IF (STRFLAG == 1 .or. STRFLAG == 4) THEN
-            DO I=1,NEL          
+            DO I=1,NEL          !COMPUTE THE 2 PRINCIPAL VALUES
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
               EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1(I)  = EPST_A + EPST_B
@@ -373,7 +373,7 @@ c
                 IF (EPSP2 > ZERO) THEN
                   E22 = HALF*( EPSXX(I)+EPSYY(I)
      .                - SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
-     .                + EPSXY(I)*EPSXY(I) ) )
+     .                + EPSXY(I)*EPSXY(I) ) ) !PRINCIPAL STRAIN MIN
                   IF (STRFLAG == 1) THEN
                     E22 = SQRT(E22 + ONE) - ONE
                   ELSE IF (STRFLAG == 2) THEN
