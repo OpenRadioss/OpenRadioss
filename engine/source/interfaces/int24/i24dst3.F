@@ -1584,7 +1584,15 @@ c        intersection time can be different for each sub-triangle
      C                    SZ235(I) ,SZ345(I),SZ415(I),XI(I)   ,YI(I)   ,
      D                    ZI(I)    ,ZEROM   ,UNP    ,ZEROMT,UNPT   )
         IF(INTERSECT == 0.AND.ISHEL(I)>1.AND.ISPT2(I)>0)THEN
-         CALL INTERSECSH(
+         XI5 = XX0(I,5) - XI(I)
+         YI5 = YY0(I,5) - YI(I)
+         ZI5 = ZZ0(I,5) - ZI(I)
+         AAA  = ABS(SX1250(I)*XI5 + SY1250(I)*YI5 + SZ1250(I)*ZI5) 
+         AAA  = MAX(AAA,(SX2350(I)*XI5 + SY2350(I)*YI5 + SZ2350(I)*ZI5))
+         AAA  = MAX(AAA,(SX3450(I)*XI5 + SY3450(I)*YI5 + SZ3450(I)*ZI5)) 
+         AAA  = MAX(AAA,(SX4150(I)*XI5 + SY4150(I)*YI5 + SZ4150(I)*ZI5))
+         IF (AAA<FIVE*EM04)         
+     *   CALL INTERSECSH(
      1                    ISTEP(I)  ,SUBTRIA(I),IXX(I,3) ,IXX(I,4),
      1                    INTERSECT,XX(I,1),
      3                    YY(I,1)  ,ZZ(I,1),XX(I,2),YY(I,2),ZZ(I,2) ,
@@ -5114,32 +5122,32 @@ C--------edge selection: smallest pen between IJ,IK
          SELECT CASE (IEG)
            CASE (1) ! 12,41
             IF (MVOISIN(1)==0) THEN
-             CALL N2EDGE3(XX1    ,YY1      ,ZZ1    ,
-     2                    XX2    ,YY2      ,ZZ2    ,
-     3                    SX125  ,SY125    ,SZ125  ,
-     4                    XI     ,YI       ,ZI     ,PIJ )
-             IF (PIJ<ZERO) THEN 
                CALL N2EDGE3(XO1    ,YO1      ,ZO1    ,
      2                      XO2    ,YO2      ,ZO2    ,
      3                      SOX125 ,SOY125   ,SOZ125  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+             IF (PIJ0>ZERO) THEN 
+               CALL N2EDGE3L(XX1    ,YY1      ,ZZ1    ,
+     2                      XX2    ,YY2      ,ZZ2    ,
+     3                      SX125  ,SY125    ,SZ125  ,
+     4                      XI     ,YI       ,ZI     ,PIJ )
+               IF (PIJ<ZERO) THEN 
                 INTERSECT = 1
                 SUBTRIA= 20 + 1
                END IF
              END IF
             END IF !(MVOISIN(1)==0) THEN
             IF (MVOISIN(4)==0) THEN
-             CALL N2EDGE3(XX4    ,YY4      ,ZZ4    ,
-     2                    XX1    ,YY1      ,ZZ1    ,
-     3                    SX415  ,SY415    ,SZ415  ,
-     4                    XI     ,YI       ,ZI     ,PIK )
-             IF (PIK<ZERO.AND.PIK>PIJ) THEN
                CALL N2EDGE3(XO4    ,YO4      ,ZO4    ,
      2                      XO1    ,YO1      ,ZO1    ,
      3                      SOX415 ,SOY415   ,SOZ415  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+             IF (PIJ0>ZERO) THEN
+               CALL N2EDGE3L(XX4    ,YY4      ,ZZ4    ,
+     2                       XX1    ,YY1      ,ZZ1    ,
+     3                       SX415  ,SY415    ,SZ415  ,
+     4                       XI     ,YI       ,ZI     ,PIK )
+               IF (PIK<ZERO.AND.PIK>PIJ) THEN 
                 INTERSECT = 1
                 SUBTRIA= 20 + 4
                END IF
@@ -5147,32 +5155,32 @@ C--------edge selection: smallest pen between IJ,IK
             END IF 
            CASE (2) ! 23,12
             IF (MVOISIN(2)==0) THEN
-             CALL N2EDGE3(XX2    ,YY2      ,ZZ2    ,
-     2                    XX3    ,YY3      ,ZZ3    ,
-     3                    SX235  ,SY235    ,SZ235  ,
-     4                    XI     ,YI       ,ZI     ,PIJ )
-             IF (PIJ<ZERO) THEN 
                CALL N2EDGE3(XO2    ,YO2      ,ZO2    ,
      2                      XO3    ,YO3      ,ZO3    ,
      3                      SOX235 ,SOY235   ,SOZ235  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+             IF (PIJ0>ZERO) THEN 
+               CALL N2EDGE3L(XX2    ,YY2      ,ZZ2    ,
+     2                       XX3    ,YY3      ,ZZ3    ,
+     3                       SX235  ,SY235    ,SZ235  ,
+     4                       XI     ,YI       ,ZI     ,PIJ )
+               IF (PIJ<ZERO) THEN 
                 INTERSECT = 1
                 SUBTRIA= 20 + 2
                END IF
              END IF
             END IF 
             IF (MVOISIN(1)==0) THEN
-             CALL N2EDGE3(XX1    ,YY1      ,ZZ1    ,
-     2                    XX2    ,YY2      ,ZZ2    ,
-     3                    SX125  ,SY125    ,SZ125  ,
-     4                    XI     ,YI       ,ZI     ,PIK )
-             IF (PIK<ZERO.AND.PIK>PIJ) THEN
                CALL N2EDGE3(XO1    ,YO1      ,ZO1    ,
      2                      XO2    ,YO2      ,ZO2    ,
      3                      SOX125  ,SOY125    ,SOZ125  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+             IF (PIJ0>ZERO) THEN
+               CALL N2EDGE3L(XX1    ,YY1      ,ZZ1    ,
+     2                       XX2    ,YY2      ,ZZ2    ,
+     3                       SX125  ,SY125    ,SZ125  ,
+     4                       XI     ,YI       ,ZI     ,PIK )
+               IF (PIK<ZERO.AND.PIK>PIJ) THEN 
                 INTERSECT = 1
                 SUBTRIA= 20 + 1
                END IF
@@ -5181,16 +5189,16 @@ C--------edge selection: smallest pen between IJ,IK
            CASE (3) ! 34,23
              IF(IXX3 /= IXX4)THEN
                IF(MVOISIN(3)==0)THEN
-                CALL N2EDGE3(XX3    ,YY3      ,ZZ3    ,
-     2                       XX4    ,YY4      ,ZZ4    ,
-     3                       SX345  ,SY345    ,SZ345  ,
-     4                       XI     ,YI       ,ZI     ,PIJ )
-                IF (PIJ<ZERO) THEN 
                   CALL N2EDGE3(XO3    ,YO3      ,ZO3    ,
      2                         XO4    ,YO4      ,ZO4    ,
      3                         SOX345  ,SOY345    ,SOZ345  ,
      4                         XOI    ,YOI      ,ZOI    ,PIJ0)
-                  IF (PIJ0>ZERO) THEN 
+                IF (PIJ0>ZERO) THEN 
+                  CALL N2EDGE3L(XX3    ,YY3      ,ZZ3    ,
+     2                         XX4    ,YY4      ,ZZ4    ,
+     3                         SX345  ,SY345    ,SZ345  ,
+     4                         XI     ,YI       ,ZI     ,PIJ )
+                  IF (PIJ<ZERO) THEN 
                    INTERSECT = 1
                    SUBTRIA= 20 + 3
                   END IF
@@ -5198,16 +5206,16 @@ C--------edge selection: smallest pen between IJ,IK
                END IF
              ELSE   ! 3N : 41,23
               IF (MVOISIN(4)==0) THEN
-                CALL N2EDGE3(XX4    ,YY4      ,ZZ4    ,
-     2                       XX1    ,YY1      ,ZZ1    ,
-     3                       SX415  ,SY415    ,SZ415  ,
-     4                       XI     ,YI       ,ZI     ,PIJ )
-                IF (PIJ<ZERO) THEN
                   CALL N2EDGE3(XO4    ,YO4      ,ZO4    ,
      2                      XO1    ,YO1      ,ZO1    ,
      3                      SOX415  ,SOY415    ,SOZ415  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-                  IF (PIJ0>ZERO) THEN 
+                IF (PIJ0>ZERO) THEN
+                 CALL N2EDGE3L(XX4    ,YY4      ,ZZ4    ,
+     2                       XX1    ,YY1      ,ZZ1    ,
+     3                       SX415  ,SY415    ,SZ415  ,
+     4                       XI     ,YI       ,ZI     ,PIJ )
+                 IF (PIJ<ZERO) THEN 
                    INTERSECT = 1
                    SUBTRIA= 20 + 4
                   END IF
@@ -5216,49 +5224,49 @@ C--------edge selection: smallest pen between IJ,IK
              END IF 
 C--------------  23 for both 3N/4N           
               IF(MVOISIN(2)==0)THEN !23
-                CALL N2EDGE3(XX2    ,YY2      ,ZZ2    ,
-     2                       XX3    ,YY3      ,ZZ3    ,
-     3                       SX235  ,SY235    ,SZ235  ,
-     4                       XI     ,YI       ,ZI     ,PIK )
-                IF (PIK<ZERO.AND.PIK>PIJ) THEN
-                  CALL N2EDGE3(XO2    ,YO2      ,ZO2    ,
+                CALL N2EDGE3(XO2    ,YO2      ,ZO2    ,
      2                      XO3    ,YO3      ,ZO3    ,
      3                      SOX235  ,SOY235    ,SOZ235  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-                   IF (PIJ0>ZERO) THEN 
-                    INTERSECT = 1
-                    SUBTRIA= 20 + 2
-                   END IF
-                 END IF
+                IF (PIJ0>ZERO) THEN
+                  CALL N2EDGE3L(XX2    ,YY2      ,ZZ2    ,
+     2                       XX3    ,YY3      ,ZZ3    ,
+     3                       SX235  ,SY235    ,SZ235  ,
+     4                       XI     ,YI       ,ZI     ,PIK )
+                  IF (PIK<ZERO.AND.PIK>PIJ) THEN 
+                   INTERSECT = 1
+                   SUBTRIA= 20 + 2
+                  END IF
+                END IF
               END IF
            CASE (4) ! 41,34
             IF(MVOISIN(4)==0)THEN 
-             CALL N2EDGE3(XX4    ,YY4      ,ZZ4    ,
-     2                    XX1    ,YY1      ,ZZ1    ,
-     3                    SX415  ,SY415    ,SZ415  ,
-     4                    XI     ,YI       ,ZI     ,PIJ )
-             IF (PIJ<ZERO) THEN
                CALL N2EDGE3(XO4    ,YO4      ,ZO4    ,
      2                      XO1    ,YO1      ,ZO1    ,
      3                      SOX415  ,SOY415    ,SOZ415  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+             IF (PIJ0>ZERO) THEN
+               CALL N2EDGE3L(XX4    ,YY4      ,ZZ4    ,
+     2                       XX1    ,YY1      ,ZZ1    ,
+     3                       SX415  ,SY415    ,SZ415  ,
+     4                       XI     ,YI       ,ZI     ,PIJ )
+               IF (PIJ<ZERO) THEN 
                 INTERSECT = 1
                 SUBTRIA= 20 + 4
                END IF
              END IF
             END IF 
             IF(IXX3 /= IXX4.AND.MVOISIN(3)==0)THEN
-             CALL N2EDGE3(XX3    ,YY3      ,ZZ3    ,
-     2                    XX4    ,YY4      ,ZZ4    ,
-     3                    SX345  ,SY345    ,SZ345  ,
-     4                    XI     ,YI       ,ZI     ,PIK )
-                IF (PIK<ZERO.AND.PIK>PIJ) THEN 
                   CALL N2EDGE3(XO3    ,YO3      ,ZO3    ,
      2                         XO4    ,YO4      ,ZO4    ,
      3                         SOX345  ,SOY345    ,SOZ345  ,
      4                         XOI    ,YOI      ,ZOI    ,PIJ0)
-                  IF (PIJ0>ZERO) THEN 
+                IF (PIJ0>ZERO) THEN 
+                  CALL N2EDGE3L(XX3    ,YY3      ,ZZ3    ,
+     2                          XX4    ,YY4      ,ZZ4    ,
+     3                          SX345  ,SY345    ,SZ345  ,
+     4                          XI     ,YI       ,ZI     ,PIK )
+                  IF (PIK<ZERO.AND.PIK>PIJ) THEN 
                    INTERSECT = 1
                    SUBTRIA= 20 + 3
                   END IF
