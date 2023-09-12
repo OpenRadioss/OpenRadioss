@@ -42,7 +42,7 @@ Chd|====================================================================
      .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
      .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
      .       ISTDO    ,NUVAR    ,UVAR     ,EPSD     ,IMAT     ,
-     .       FOR      ,MOM      ,EINT     )
+     .       FOR      ,MOM      ,EINT     ,ISMSTR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IOUT
       INTEGER ,INTENT(IN) :: ISTDO
       INTEGER ,INTENT(IN) :: NUVAR
+      INTEGER ,INTENT(IN) :: ISMSTR
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT
@@ -119,7 +120,7 @@ c
 c-------------------
 c     STRAIN
 c-------------------
-      DO I=1,NEL
+      DO I=1,NEL       
         EXX(I) = EXX(I) * DTIME
         EXY(I) = EXY(I) * DTIME
         EXZ(I) = EXZ(I) * DTIME
@@ -203,7 +204,7 @@ c
      .              TIME    ,IOUT    ,ISTDO   ,
      .              SVM     ,PRESSURE,EINT    ,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
-     .              M3 )
+     .              M3      ,ISMSTR  ,EXX      )
       END IF
 C-------------------------------------
       DO I=1,NEL
