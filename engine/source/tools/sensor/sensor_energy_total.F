@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SENSOR_ENERGY_TOTAL                 
+Chd|  SENSOR_ENERGY_TOTAL           source/tools/sensor/sensor_energy_total.F
 Chd|-- called by -----------
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SENSOR_ENERGY_TOTAL(SENSORS ,ENINT  ,ENCIN  )  
 C-----------------------------------------------

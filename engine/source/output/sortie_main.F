@@ -44,6 +44,7 @@ Chd|        GENSTAT                       source/output/sta/genstat.F
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        NOISE                         source/general_controls/computation/noise.F
 Chd|        S10MVND                       source/elements/solid/solide10/s10cndv.F
+Chd|        SENSOR_ENERGY_TOTAL           source/tools/sensor/sensor_energy_total.F
 Chd|        SPMD_EXCH_ADM                 source/mpi/anim/spmd_exch_adm.F
 Chd|        SPMD_SD_SKW_ANIM              source/mpi/output/spmd_sd_skw.F
 Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   

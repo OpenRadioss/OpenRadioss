@@ -160,6 +160,7 @@ Chd|        SENSOR_DIST_SURF0             source/tools/sensor/sensor_dist_surf0.
 Chd|        SENSOR_ENERGY                 source/tools/sensor/sensor_energy.F
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part.F
+Chd|        SENSOR_ENERGY_TOTAL           source/tools/sensor/sensor_energy_total.F
 Chd|        SENSOR_ENER_SAV               source/tools/sensor/sensor_ener_sav.F
 Chd|        SENSOR_GAUGE                  source/tools/sensor/sensor_gauge.F
 Chd|        SENSOR_HIC                    source/tools/sensor/sensor_hic.F
