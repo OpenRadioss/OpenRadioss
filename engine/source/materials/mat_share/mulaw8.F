@@ -615,16 +615,13 @@ c
      B    SSPP     ,VIS      ,UVAR     ,OFF      )
       ELSEIF(MTN == 41)THEN
         CALL SIGEPS41(
-     2    LLT      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,
-     3    NPF      ,TF       ,TT       ,DT1      ,BUFMAT(IADBUF),
+     2    LLT      ,NPAR     ,NUVAR    ,
+     3    TT       ,DT1      ,BUFMAT(IADBUF),
      4    RHO0     ,RHO      ,VOLN     ,EINT     ,
-     5    EP1      ,EP2      ,EP3      ,EP4      ,EP5      ,EP6   ,
-     6    DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6   ,
-     7    ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6   ,
-     8    SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6   ,
+     8    SO1      ,SO2      ,SO3      ,
      9    S1       ,S2       ,S3       ,S4       ,S5       ,S6    ,
      A    SV1      ,SV2      ,SV3      ,SV4      ,SV5      ,SV6   ,
-     B    SSPP     ,VIS      ,UVAR     ,OFF      ,DVOL     ,LBUF%BFRAC,
+     B    SSPP     ,VIS      ,UVAR     ,DVOL     ,LBUF%BFRAC,
      .    LBUF%TEMP)
       ELSEIF(MTN == 42)THEN
         CALL SIGEPS42(
