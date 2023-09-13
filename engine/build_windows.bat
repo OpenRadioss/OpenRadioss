@@ -150,8 +150,15 @@ GOTO END
 
 :ERROR
 
+  echo.
+  echo Windows build_script
+  echo --------------------
+  echo.
   echo Use with arguments : 
   echo     -arch=[build architecture]          : set architecture : default  Windows 64 bit
+  echo           -arch=win64                     (SMP executable / Intel OneAPI / Windows X86-64)
+  echo           -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Windows X86-64)
+  echo .
   echo     -mpi=[smp,impi]                     : set MPI version
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary

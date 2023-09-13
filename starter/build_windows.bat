@@ -133,9 +133,14 @@ cd ..
 GOTO END
 
 :ERROR
-
+  echo.
+  echo Windows build_script
+  echo --------------------
+  echo.
   echo Use with arguments : 
   echo     -arch=[build architecture]          : set architecture : default  Windows 64 bit
+  echo            -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI)
+  echo.
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary
   echo     -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
