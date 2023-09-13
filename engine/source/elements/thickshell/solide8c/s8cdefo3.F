@@ -224,6 +224,7 @@ C
         DVCA(1:NEL) =(DXX(1:NEL)+DYY(1:NEL)+DZZ(1:NEL))*DT1
       ENDIF
 C-------------Constant stress traitement------
+       DSV(1:NEL) = ZERO
       IF (IPRES==1) THEN
 C-------------R,S,T--direction------
         IF (ICR==1) THEN
