@@ -5010,6 +5010,7 @@ Chd|-- called by -----------
 Chd|        I24DST3                       source/interfaces/int24/i24dst3.F
 Chd|-- calls ---------------
 Chd|        N2EDGE3                       source/interfaces/int24/i24dst3.F
+Chd|        N2EDGE3L                      source/interfaces/int24/n2edge3l.F
 Chd|====================================================================
       SUBROUTINE INTERSECSH(
      1                    ISTEP    ,SUBTRIA0,IXX3  ,IXX4  ,

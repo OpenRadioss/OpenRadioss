@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|       N2EDGE3L                       source/interfaces/int24/n2edge3l.F
+Chd|  N2EDGE3L                      source/interfaces/int24/n2edge3l.F
 Chd|-- called by -----------
 Chd|        INTERSECSH                    source/interfaces/int24/i24dst3.F
 Chd|-- calls ---------------
