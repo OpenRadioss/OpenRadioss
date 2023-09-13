@@ -508,8 +508,8 @@ c
 C   is a material flag   IVISC  = IGEO(34,PID)
             IPARTSPH=IGEO(38,PID)          
 C            
-            IF (ISSN == 10.OR.ISSN == 11) THEN
-               IF ((IKSNOD0/=4 .AND. IKSNOD0/=8.AND. IKSNOD0/=10) .OR. JHBE == 15 ) THEN
+            IF ((ISSN == 10.OR.ISSN == 11).AND.(IGT == 14.OR.IGT == 6)) THEN
+               IF (IKSNOD0/=4 .AND. IKSNOD0/=8.AND. IKSNOD0/=10 ) THEN
                   CALL ANCMSG(MSGID=1159,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -744,6 +744,14 @@ C--------message out
      .                      C1=TITR,
      .                      I2=ICPRE,
      .                      PRMOD=MSG_CUMU)
+            IF (ISSN >= 10) THEN
+                  CALL ANCMSG(MSGID=3027,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=ISSN)
+            ENDIF
           END IF !IF (ITSH == 1 )
 C          
           IF (IGT == 14 .OR. IGT == 6) THEN
@@ -833,6 +841,7 @@ C-------uncompressible
 C--------elasto-plastic       
               CASE(3)                                             
                ICPRE = 2
+               IF (ICPT10==3) ICPRE = 3 
              END SELECT 
 C--------message out       
              IF (ICPRE ==1 .OR. ICPRE ==2)  CALL ANCMSG(
