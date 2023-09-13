@@ -9,13 +9,13 @@ With OpenRadioss, scientists and technologists can focus their research on a sta
 
 For more information on OpenRadioss project, please visit [www.openradioss.org](https://www.openradioss.org)
 
-If you have any questions about OpenRadioss, please feel free to contact <webmaster@openradioss.org>. 
- 
+If you have any questions about OpenRadioss, please feel free to contact <webmaster@openradioss.org>.
+
 # How to Use OpenRadioss
 
 * [How to Build OpenRadioss](HOWTO.md)
 * [How to Run OpenRadioss](INSTALL.md)
-
+* [OpenRadioss Releases](RELEASES.md)
 
 # Community and Ways to Participate
 
@@ -24,9 +24,8 @@ If you have any questions about OpenRadioss, please feel free to contact <webmas
 * [How to contribute](CONTRIBUTING.md)
 * [Code of conduct](CODE_OF_CONDUCT.md)
 
-
-Community Manager   
-Marian Bulla   
+Community Manager
+Marian Bulla
 <communitymanager@openradioss.org>  
 
 # Post Processing tools
@@ -39,9 +38,11 @@ Tools are available to convert Radioss formats to VTK and CSV
 # Resources
 
 Online Help Documentation:
+
 * [Radioss online help](https://help.altair.com/hwsolvers/rad/index.htm)
 
 Help Documentation in pdf form:
+
 * [reference guide](https://2022.help.altair.com/2022/simulation/pdfs/radopen/AltairRadioss_2022_ReferenceGuide.pdf)  
 * [user guide](https://2022.help.altair.com/2022/simulation/pdfs/radopen/AltairRadioss_2022_UserGuide.pdf)  
 * [theory manual](https://2022.help.altair.com/2022/simulation/pdfs/radopen/AltairRadioss_2022_TheoryManual.pdf)  
@@ -49,4 +50,5 @@ Help Documentation in pdf form:
 [![Current status](https://github.com/OpenRadioss/OpenRadioss/actions/workflows/prmerge_ci_main.yml/badge.svg)](https://github.com/OpenRadioss/OpenRadioss/actions/workflows/prmerge_ci_main.yml)
 
 Help for contributors:
+
 * [OpenRadioss documentation](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/pages/1016047/OpenRadioss+Documentation)
