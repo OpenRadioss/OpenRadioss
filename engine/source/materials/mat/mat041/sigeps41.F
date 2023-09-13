@@ -31,17 +31,15 @@ Chd|        BURN_FRACTION_IREAC2          source/materials/mat/mat041/sigeps41.F
 Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|====================================================================
       SUBROUTINE SIGEPS41 (
-     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
+     1     NEL    ,NUPARAM,NUVAR   ,
+     2     TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
      3     VOLUME ,EINT   ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     7     SIGOXX ,SIGOYY ,SIGOZZ  ,
      8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,DELTVOL ,BFRAC  ,
+     A     SOUNDSP,VISCMAX,UVAR    ,DELTVOL ,BFRAC  ,
      B     TEMP)
+      USE ROOT_FINDING_ALGO_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -93,10 +91,6 @@ C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
-C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX
-C NPF     |  *      | I | R | FUNCTION ARRAY
-C TF      |  *      | F | R | FUNCTION ARRAY
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -107,9 +101,6 @@ C VOLUME  | NEL     | F | R | VOLUME
 C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
 C EPSPXX  | NEL     | F | R | STRAIN RATE XX
 C EPSPYY  | NEL     | F | R | STRAIN RATE YY
-C ...     |         |   |   |
-C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
-C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
 C ...     |         |   |   |
 C EPSXX   | NEL     | F | R | STRAIN XX
 C EPSYY   | NEL     | F | R | STRAIN YY
@@ -128,7 +119,6 @@ C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
 C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 C DELTVOL | NEL     | F |R  | VOLUME VARIATION
 C---------+---------+---+---+--------------------------------------------
@@ -140,14 +130,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) ::
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),
-     .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
-     .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
-     .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
-     .   DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
-     .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
-     .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
-     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   DELTVOL(NEL)
 
       my_real, INTENT(INOUT) ::
@@ -157,11 +140,7 @@ C-----------------------------------------------
      .    SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
      .    SOUNDSP(NEL),VISCMAX(NEL),EINT(NEL),BFRAC(NEL),TEMP(NEL)
 
-      my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR), OFF(NEL)
-
-
-      INTEGER,INTENT(IN) :: NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real,INTENT(IN) :: TF(*)
+      my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,11 +155,12 @@ C-----------------------------------------------
       my_real mt,pold,er,tfextt,wr,wp
       integer  itrmax,i_reac,i
       my_real :: beta !volumic fraction of reagent
+      my_real, dimension(25) :: funct_parameter
 
-      TFEXTT=ZERO
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      TFEXTT=ZERO        
       if (TIME == ZERO) then
         do i=1,nel
           uvar(i,1) = ZERO       ! Burn Fraction (F)
@@ -233,6 +213,36 @@ C-----------------------------------------------
       FG2min = uparam(37)
       SHEAR = uparam(38)
 c
+
+      funct_parameter(1:25) = zero
+      funct_parameter(1) = ar
+      funct_parameter(2) = br 
+      funct_parameter(3) = r1r 
+      funct_parameter(4) = r2r 
+      funct_parameter(5) = r3r
+      funct_parameter(6) = cvr
+      ! funct_parameter(7) = tmp output
+      ! funct_parameter(8) = dedvr output
+      ! funct_parameter(9) = preac output
+      ! funct_parameter(10) = bthr ! output
+      ! funct_parameter(11) = dpdtr! output
+      ! funct_parameter(12) = enr! output
+
+      funct_parameter(13) = ap
+      funct_parameter(14) = bp
+      funct_parameter(15) = r1p
+      funct_parameter(16) = r2p
+      funct_parameter(17) = r3p
+      funct_parameter(18) = cvp
+      ! funct_parameter(19) = dedvp
+      ! funct_parameter(20) = pprod
+      ! funct_parameter(21) = bthp
+      ! funct_parameter(22) = dpdtp
+      ! funct_parameter(23) = enp
+      ! funct_parameter(24) = etac
+      ! funct_parameter(25) = fc
+
+
       do i=1,nel
         vol_rel = RHO0(i) / RHO(i) !no unit
         pres = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I)) * THIRD ! pressure
@@ -265,16 +275,16 @@ c  hydrodynamic state (pass 1)
         dpde=ZERO
         CALL MIXTURE_EQUILIBRIUM(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dpdmu,dpde,epsil,ftol,itrmax,enq,
-     .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta)
+     .           dpdmu,dpde,ftol,enq,
+     .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta,funct_parameter)
 c
 c  hydrodynamic state (pass 2)
         tem2 = (pres+dedv+artvisc) / cv          ! (Cv  SI:J/m3/K = Pa/K)
         tmp = tmp - HALF*(tem2-tem1)*dvol_rel
         CALL MIXTURE_EQUILIBRIUM(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dpdmu,dpde,epsil,ftol,itrmax,enq,
-     .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta)
+     .           dpdmu,dpde,ftol,enq,
+     .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta,funct_parameter)
 c
 c  dF/dt (F function)
         !ORIGINAL 2-TERM-MODEL
@@ -436,7 +446,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real ratei,rateg,rateg1,rateg2,dfci,dfcg,grow1
+      my_real ratei,rateg,rateg1,rateg2,dfci,dfcg
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------
@@ -485,8 +495,9 @@ Chd|====================================================================
       SUBROUTINE MIXTURE_EQUILIBRIUM(
      .               ar   ,br   ,r1r    ,r2r  ,r3r   ,cvr ,etar,
      .               ap   ,bp   ,r1p    ,r2p  ,r3p   ,cvp ,etap,
-     .               dpdmu,dpde ,epsil  ,ftol,itrmax,enq ,
-     .               tmp  ,heat ,vol_rel,fc,cv,dedv  ,pres, beta)
+     .               dpdmu,dpde ,ftol,enq ,
+     .               tmp  ,heat ,vol_rel,fc,cv,dedv  ,pres, beta,funct_parameter)
+      USE ROOT_FINDING_ALGO_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -508,19 +519,22 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .        ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .        epsil,ftol,heat,dpdmu,dpde,enq, tmp,
+     .        ftol,heat,dpdmu,dpde,enq, tmp,
      .        vol_rel ,fc,cv,dedv,pres, beta
-      integer  itrmax
+      my_real, dimension(25), intent(inout) :: funct_parameter
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       integer iter,i1
-      my_real delta,fc1,etac,p999,guess,pmax,
+      my_real delta,fc1,etac,guess,pmax,
      .        trans,transr,transp,trans1,trans2,dbdeta,detar,detap,
      .        dedr,dedp,bth,dbdt,detrdt,detpdt,dpdt,dbdf,detrdf,
      .        detpdf,cvr0,cvp0,slope,tl,tu,a,b,c,
      .        bthp,dedvp,preac,pprod,dpdtp,dpdtr,bthr,dedvr,
      .        enp,enr
+      my_real :: lower_bound,upper_bound
+      my_real :: jwl_eos_delta
+      external :: jwl_eos_delta
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -554,97 +568,39 @@ c       reaction has finished : F=1., beta=Vfrac(reagent)=0.
         return
 c
       endif
+
+
+      funct_parameter(7) = tmp
+      funct_parameter(24) = etac
+      funct_parameter(25) = fc
+
+      funct_parameter(8) = zero !dedvr output
+      funct_parameter(9) = zero !preac output
+      funct_parameter(10) = zero !bthr ! output
+      funct_parameter(11) = zero !dpdtr! output
+      funct_parameter(12) = zero !enr! output
+
+      funct_parameter(19) = zero !dedvp
+      funct_parameter(20) = zero !pprod
+      funct_parameter(21) = zero !bthp
+      funct_parameter(22) = zero !dpdtp
+      funct_parameter(23) = zero !enp
+
+
+
       guess = fc1 * etap/(fc1*etap+fc*etar)
       beta = guess
       if (beta == ONE) beta = fc1
-C=======================================================================
-c   ITERATIVE SOLVER
-C=======================================================================
-      do iter=1,15
-        etar = fc1 * etac/beta
-        CALL JWL_EOS_STATE(ar,br,r1r,r2r,r3r,cvr,etar,tmp,dedvr,preac,bthr,dpdtr,enr )
-        etap = fc * etac/(ONE -beta)
-        CALL JWL_EOS_STATE(ap,bp,r1p,r2p,r3p,cvp,etap,tmp,dedvp,pprod,bthp,dpdtp,enp )
-        pmax = max(preac,pprod)
-        delta = preac-pprod
-        if (abs(delta/pmax) <= epsil) goto 800
-c       Newton Method
-        trans1 = bthr * etar/beta
-        trans2 = bthp * etap/(ONE - beta)
-        slope = -(trans1+trans2)
-        beta = beta - delta/slope
-        ! beta \in [0,1], so in case of convergency trouble :
-        if (beta <= ZERO) beta = - beta
-        if (beta >= ONE) beta = ONE/beta
-      enddo
-C=======================================================================
-      iter = 2
-      beta=guess - EM01
-      if(beta < EM5) beta=EM5
-      tl=beta
-      CALL FTNCH(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .           tmp,dedvr,preac,bthr,dpdtr,enr,
-     .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp,
-     .           beta,delta,fc1,etac,fc,epsil)
-      b=sign(ONE,delta)
-      beta=beta+ ONE_FIFTH
-      beta=min(beta,ZEP9999)
-      tu=beta
-      CALL FTNCH(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .           tmp,dedvr,preac,bthr,dpdtr,enr,
-     .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp,
-     .           beta,delta,fc1,etac,fc,epsil)
-      a=sign(ONE,delta)
-      if(a /= b) go to 300
-      beta=ZEP9999
-      tu=beta
-      CALL FTNCH(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .           tmp,dedvr,preac,bthr,dpdtr,enr,
-     .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp,
-     .           beta,delta,fc1,etac,fc,epsil)
-      a=sign(ONE,delta)
-      if (delta > ZERO) then
-        goto 900
-      endif
-C=======================================================================
-      do iter = 4,itrmax+1
-        beta=beta - FIVEEM2
-        beta=max(beta,em6)
-        tl=beta
-        CALL FTNCH(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .            tmp,dedvr,preac,bthr,dpdtr,enr,
-     .            ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .            dedvp,pprod,bthp,dpdtp,enp,
-     .            beta,delta,fc1,etac,fc,epsil)
-        b=sign(ONE,delta)
-        if(a /= b) goto 300
-        tu=tl
-      enddo
-      goto 900
-C=======================================================================
-  300 i1 = iter+1
-      do iter=i1,itrmax+1
-        beta=HALF*(tl+tu)
-        CALL FTNCH(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .            tmp,dedvr,preac ,bthr,dpdtr,enr,
-     .            ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .            dedvp,pprod,bthp,dpdtp,enp ,
-     .            beta,delta,fc1,etac,fc,epsil)
-        if(delta == ZERO) go to 800
-        c=sign(ONE,delta)
-        if(c == b) tl=beta
-        if(c == a) tu=beta
-      enddo
-      go to 900
-C=======================================================================
-c   END OF ITERATIVE SOLVER
-C=======================================================================
+      lower_bound = EPSILON(BETA)
+      upper_bound = ONE - EPSILON(BETA)
+      beta = BRENT_ALGO(lower_bound,upper_bound,100*epsilon(ONE),jwl_eos_delta,25,FUNCT_PARAMETER)       
 
+      etar = fc1 * etac/beta
+      CALL JWL_EOS_STATE(ar,br,r1r,r2r,r3r,cvr,etar,tmp,dedvr,preac,bthr,dpdtr,enr)
+      etap = fc*etac/(one-beta)
+      CALL JWL_EOS_STATE(ap,bp,r1p,r2p,r3p,cvp,etap,tmp,dedvp,pprod,bthp,dpdtp,enp)
 c   pressure
-  800 pres = (preac+pprod)*HALF
+      pres = (preac+pprod)*HALF
 c
 c   local derrivatives
       transr = bthr / beta
@@ -686,65 +642,11 @@ c    dpdmu = dp/d(eta) (for constant E & fc values)
       dpdmu = bth + dpdt*dedv/cv/etac**2
 C-----------------------------------------------
       RETURN
-C-----------------------------------------------
-  900 write(*,*) '** WARNING** : MIX NOT CONVERGING'
-cc      write(*,*) '    etar, etap, delta = ',etar,etap,delta
-C-----------------------------------------------
-      RETURN
       END SUBROUTINE MIXTURE_EQUILIBRIUM
 C-----------------------------------------------
 
 
 C-----------------------------------------------
-Chd|====================================================================
-Chd|  FTNCH                         source/materials/mat/mat041/sigeps41.F
-Chd|-- called by -----------
-Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
-Chd|-- calls ---------------
-Chd|        JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
-Chd|====================================================================
-      SUBROUTINE FTNCH(
-     .           ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .           tmp,dedvr,preac,bthr,dpdtr,enr,
-     .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp ,
-     .           beta,delta,fc1,etac,fc,epsil)
-C-----------------------------------------------
-C   D e s c r i p t i o n
-C-----------------------------------------------
-c  input :  fc1, etac, beta
-c  output :  delta, preac, pprod, etar, etap, derivees eos
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
-     .        ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .        tmp,dedvr,preac,bthr,dpdtr,enr ,
-     .        dedvp,pprod,bthp,dpdtp,enp,
-     .        beta,delta,fc1,etac,fc,epsil
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      my_real pmax
-C-----------------------------------------------
-C   S o u r c e   L i n e s
-C-----------------------------------------------
-      etar = fc1 * etac/beta
-      CALL JWL_EOS_STATE(ar,br,r1r,r2r,r3r,cvr,etar,tmp,dedvr,preac,bthr,dpdtr,enr)
-      etap = fc * etac/(ONE-beta)
-      CALL JWL_EOS_STATE(ap,bp,r1p,r2p,r3p,cvp,etap,tmp,dedvp,pprod,bthp,dpdtp,enp)
-      pmax = max(preac,pprod)
-      delta = preac - pprod
-      if (abs(delta/pmax) <= epsil) delta = ZERO
-C-----------------------------------------------
-      RETURN
-      END SUBROUTINE FTNCH
-C-----------------------------------------------
-
 
 C-----------------------------------------------
 Chd|====================================================================
@@ -792,3 +694,61 @@ C-----------------------------------------------
       return
       end
 C-----------------------------------------------
+
+      function jwl_eos_delta(beta,funct_parameter)     
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      my_real, intent(in) :: beta
+      my_real, dimension(25), intent(inout) :: funct_parameter
+      my_real :: jwl_eos_delta
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      my_real :: tmp
+      my_real :: ar,br,r1r,r2r,r3r,cvr,dedvr,preac,bthr,dpdtr,enr
+      my_real :: ap,bp,r1p,r2p,r3p,cvp,dedvp,pprod,bthp,dpdtp,enp
+      my_real :: etac,fc,fc1,etar,etap
+C-----------------------------------------------
+      ar = funct_parameter(1)
+      br = funct_parameter(2)
+      r1r = funct_parameter(3)
+      r2r = funct_parameter(4)
+      r3r = funct_parameter(5)
+      cvr = funct_parameter(6)
+      tmp = funct_parameter(7)
+      dedvr = funct_parameter(8)
+      preac = funct_parameter(9)
+      bthr = funct_parameter(10)
+      dpdtr = funct_parameter(11)
+      enr = funct_parameter(12)
+
+      ap = funct_parameter(13)
+      bp = funct_parameter(14)
+      r1p = funct_parameter(15)
+      r2p = funct_parameter(16)
+      r3p = funct_parameter(17)
+      cvp = funct_parameter(18)
+      dedvp = funct_parameter(19)
+      pprod = funct_parameter(20)
+      bthp = funct_parameter(21)
+      dpdtp = funct_parameter(22)
+      enp = funct_parameter(23)
+
+      etac = funct_parameter(24)
+      fc = funct_parameter(25)
+      fc1 = ONE - fc
+
+      etar = fc1 * etac/beta
+      call JWL_EOS_STATE(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
+     .           tmp,dedvr,preac,bthr,dpdtr,enr )
+      etap = fc * etac/(ONE -beta)
+      call JWL_EOS_STATE(ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
+     .           tmp,dedvp,pprod,bthp,dpdtp,enp )
+      jwl_eos_delta = preac-pprod
+      return
+      end function jwl_eos_delta
