@@ -115,7 +115,7 @@ C
         ENDDO
       ELSE
         DO I=1,NEL
-          IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = ZERO
+          DVC(I) = ZERO
         ENDDO
       END IF
 C   +++ -----partie non constante------
