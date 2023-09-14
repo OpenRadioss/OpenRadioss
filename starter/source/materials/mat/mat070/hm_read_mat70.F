@@ -233,7 +233,15 @@ C
      .                I2=IFUNC(I))
         ENDIF
       ENDDO
-C      
+C
+      IF (EMAX< E0) THEN
+          CALL ANCMSG(MSGID=3027,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND,
+     .                I1=ID,
+     .                C1=TITR)
+          EMAX = ZERO
+      END IF      
       IF(EPSMAX == ZERO) EPSMAX = ONE
       UPARAM(1)=NL
       UPARAM(2)=E0
@@ -273,7 +281,6 @@ C
         PARMAT(1) = C1
         PARMAT(2) = EMAX 
       ENDIF
-      PM(24)=EMAX
 C
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT

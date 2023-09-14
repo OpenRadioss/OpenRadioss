@@ -130,12 +130,15 @@ C------recompute modulus for law42,88,90
       E0=PM(20,MX)
       QH = GEO(13,PID(1))
       SELECT CASE (MTN)
-        CASE (70,88,90)
+        CASE (70)
           E0=PM(24,MX)
           LAMG = THIRD*(E0/(1-TWO*NU)+TWO*E0/(1+NU))
         CASE (42,69)
           C1 = THIRD*E0/(1-TWO*NU)
           G0 = HALF*G0
+          LAMG = C1+FOUR_OVER_3*G0
+        CASE (88)
+          C1 = THIRD*E0/(1-TWO*NU)
           LAMG = C1+FOUR_OVER_3*G0
         CASE DEFAULT
           LAMG = C1+FOUR_OVER_3*G0

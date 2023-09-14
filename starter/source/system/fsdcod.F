@@ -679,6 +679,7 @@ C
      .                     C1=TITR,
      .                     R1=E0)
            ENDIF
+           IF (ILAW == 70 ) PM(24,I) = EMAX
          ENDIF
 C
         ELSE IF (ILAW == 75) THEN
