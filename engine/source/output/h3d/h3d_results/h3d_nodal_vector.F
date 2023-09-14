@@ -51,7 +51,7 @@ Chd|====================================================================
      .                  IPARTP             ,IPARTT                  ,IPARTS         ,IPARTQ          ,KXSP            , 
      .                  IXR                ,IXP                     ,IXT            ,N_H3D_PART_LIST ,NODAL_VECTOR_FVM, 
      .                  IS_WRITTEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D,SMONVOL        ,SVOLMON         ,ISPMD           ,
-     .                  FVDATA_P           ,AIRBAGS_NODE_ID_SHIFT) 
+     .                  FVDATA_P           ,AIRBAGS_NODE_ID_SHIFT   ,W              ,SW)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: SMONVOL, SVOLMON, ISPMD,AIRBAGS_NODE_ID_SHIFT, AIRBAGS_TOTAL_FVM_IN_H3D
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+      INTEGER,INTENT(IN) :: SW
       my_real
      .   NODAL_VECTOR(3*NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
      .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
@@ -92,6 +93,7 @@ C-----------------------------------------------
      .   FTCONT(3,*),FTCONTG(3,*),FNCONT2(3,*), DR(3,NUMNOD),DXANCG(3,*),
      .   FANREAC(6,*),FCLUSTER(3,*),MCLUSTER(3,*),VR(3,NUMNOD),FOPT(6,*),VGAZ(3,*),
      .   FCONT_MAX(3,*),FNCONTP2(3,*),FTCONTP2(3,*)
+      my_real,INTENT(IN) :: W(3,SW/3)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),
      .   INFO1,INFO2,IS_WRITTEN_NODE(NUMNOD),H3D_PART(*),ITAB(NUMNOD),
      .   IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),IPARTC(*),IPARTTG(*),IFLOW(*),
@@ -114,22 +116,22 @@ C-----------------------------------------------
       INTEGER I,J,K,N,IOK_PART(NUMNOD)
       my_real VALUE(3)
 C-----------------------------------------------
-C
+
       VALUE = ZERO
-c
+
       DO  I=1,NUMNOD 
         NODE_ID(I) = ITAB(I)
         IOK_PART(I) = 0
         IS_WRITTEN_NODE(I) = 0
       ENDDO
-C
-      IF(N_H3D_PART_LIST .NE. 0)THEN
+
+      IF(N_H3D_PART_LIST /= 0)THEN
         DO I=1,NUMSPH
           IF ( H3D_PART(IPARTSP(I)) == 1) THEN
             IF(KXSP(2,I) > 0 )IOK_PART(KXSP(2,I)) = 1
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELR
           IF ( H3D_PART(IPARTR(I)) == 1) THEN
             DO J=2,4
@@ -137,7 +139,7 @@ c
             ENDDO
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELP
           IF ( H3D_PART(IPARTP(I)) == 1) THEN
             DO J=2,4
@@ -145,7 +147,7 @@ c
             ENDDO
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELT
           IF ( H3D_PART(IPARTT(I)) == 1) THEN
             DO J=2,4
@@ -153,7 +155,7 @@ c
             ENDDO
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELC
           IF ( H3D_PART(IPARTC(I)) == 1) THEN
             DO J=2,5
@@ -161,7 +163,7 @@ c
             ENDDO
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELTG
           IF ( H3D_PART(IPARTTG(I)) == 1) THEN
             DO J=2,4
@@ -169,7 +171,7 @@ c
             ENDDO
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELS
           IF ( H3D_PART(IPARTS(I)) == 1) THEN
             DO J=2,9
@@ -177,7 +179,7 @@ c
             ENDDO
           ENDIF
         ENDDO
-c
+
         DO I=1,NUMELQ
           IF ( H3D_PART(IPARTQ(I)) == 1) THEN
             DO J=2,5
@@ -196,8 +198,7 @@ C--------------------------------------------------
           VALUE(1) = V(1,I)
           VALUE(2) = V(2,I)
           VALUE(3) = V(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
         
         !------------------------------------------
@@ -207,9 +208,9 @@ C--------------------------------------------------
         IF(AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
           IS_WRITTEN_NODE_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D)=0
           IF(NFVBAG>0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
-            CALL ANIM_NODAL_VECTOR_FVMBAGS('VEL ' , NODAL_VECTOR_FVM,MONVOL, VOLMON                  , FVDATA_P, NFVBAG   ,
-     .                                     SMONVOL, SVOLMON                , AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM,
-     .                                     AIRBAGS_NODE_ID_SHIFT )        
+           CALL ANIM_NODAL_VECTOR_FVMBAGS('VEL ' , NODAL_VECTOR_FVM,MONVOL,VOLMON                  ,FVDATA_P, NFVBAG   ,
+     .                                    SMONVOL, SVOLMON                ,AIRBAGS_TOTAL_FVM_IN_H3D,IS_WRITTEN_NODE_FVM,
+     .                                    AIRBAGS_NODE_ID_SHIFT )
           ENDIF
         ENDIF
         
@@ -220,8 +221,7 @@ C--------------------------------------------------
           VALUE(1) = D(1,I)
           VALUE(2) = D(2,I)
           VALUE(3) = D(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ACC') THEN
@@ -230,8 +230,7 @@ C--------------------------------------------------
           VALUE(1) = A(1,I)
           VALUE(2) = A(2,I)
           VALUE(3) = A(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CONT'.AND.KEYWORD /= 'CONT/TMAX')THEN
@@ -241,8 +240,7 @@ C--------------------------------------------------
            VALUE(1) = CONT(1,I)
            VALUE(2) = CONT(2,I)
            VALUE(3) = CONT(3,I)
-           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ELSE
          DO I=1,NUMNOD
@@ -250,8 +248,7 @@ C--------------------------------------------------
            VALUE(1) = CONT(1,I) + FCONTG(1,K)
            VALUE(2) = CONT(2,I) + FCONTG(2,K)
            VALUE(3) = CONT(3,I) + FCONTG(3,K)
-           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        END IF
 C------------------------------------------------------------------------------
@@ -262,16 +259,14 @@ C------------------------------------------------------------------------------
             VALUE(1) = FCONT_MAX(1,I)
             VALUE(2) = FCONT_MAX(2,I)
             VALUE(3) = FCONT_MAX(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ELSE
          DO I=1,NUMNOD
             VALUE(1) = ZERO
             VALUE(2) = ZERO
             VALUE(3) = ZERO
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ENDIF
 C--------------------------------------------------
@@ -281,8 +276,7 @@ C--------------------------------------------------
           VALUE(1) = FINT(1,I)
           VALUE(2) = FINT(2,I)
           VALUE(3) = FINT(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FEXT') THEN
@@ -291,8 +285,7 @@ C--------------------------------------------------
           VALUE(1) = FEXT(1,I)
           VALUE(2) = FEXT(2,I)
           VALUE(3) = FEXT(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FOPT/FORCE') THEN
@@ -307,12 +300,10 @@ C--------------------------------------------------
               VALUE(1) = FOPT(1,NSECT+N)
               VALUE(2) = FOPT(2,NSECT+N)
               VALUE(3) = FOPT(3,NSECT+N)
-              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
             ENDIF
           ENDIF
         ENDDO
-C
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FOPT/MOMENT') THEN
 C--------------------------------------------------
@@ -326,12 +317,10 @@ C--------------------------------------------------
               VALUE(1) = FOPT(4,NSECT+N)
               VALUE(2) = FOPT(5,NSECT+N)
               VALUE(3) = FOPT(6,NSECT+N)
-              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
             ENDIF
           ENDIF
         ENDDO
-C
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'VROT') THEN
 C--------------------------------------------------
@@ -340,49 +329,15 @@ C--------------------------------------------------
             VALUE(1) = VR(1,I)
             VALUE(2) = VR(2,I)
             VALUE(3) = VR(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO
         ENDIF 
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FVEL') THEN
 C--------------------------------------------------
-c      IF (KEYWORD == 'FVEL') THEN
-
-c            CALL VELVEC3(VFLU,BID_TEMP,VFLU_ALE,ICBUF(MIC2),CBUF(MAC2),
-c     .                 NODCUT,NNWL,NNNSRG,NODGLOB,WEIGHT,0,NFNOD_PXFEM,
-c     .                 NFNOD_PXFEMG,NFNOD_CRKXFEMG)
-
-c         IF (NFVNOD>0) THEN
-
-c            IF (NSPMD == 1) THEN
-c               CALL ALEVEC()
-c            ELSE
-c               CALL SPMD_FVB_AVEC()
-c            ENDIF
-c         ENDIF
-c      ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FRES') THEN
 C--------------------------------------------------
-c      IF (KEYWORD == 'FRES') THEN
-c       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-c         FAC=ONE
-c         IF (IMPL_S>0.AND.IDYNA==0)FAC=ZERO 
-c          DO J=1,3
-c          DO N=1,NUMNOD
-c           VFLU(J,N)=FEXT(J,N)+FINT(J,N)-FAC*MS(N)*A(J,N)
-c          ENDDO
-c          ENDDO
-c          CALL VELVEC(VFLU,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
-c     .         NNNSRG,NODGLOB,WEIGHT,NFVNOD,11,
-c     .         NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-c        ELSE
-c          CALL VELVEC(RES_SMS,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
-c     .   	NNNSRG,NODGLOB,WEIGHT,NFVNOD,11,
-c     .   	NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-c        END IF
-c      ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT/NORMAL') THEN
 C--------------------------------------------------
@@ -391,8 +346,7 @@ C--------------------------------------------------
             VALUE(1) = FNCONT(1,I)
             VALUE(2) = FNCONT(2,I)
             VALUE(3) = FNCONT(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO  
         ELSE
           DO I=1,NUMNOD
@@ -400,11 +354,9 @@ C--------------------------------------------------
             VALUE(1) = FNCONT(1,I)+FNCONTG(1,K)
             VALUE(2) = FNCONT(2,I)+FNCONTG(2,K)
             VALUE(3) = FNCONT(3,I)+FNCONTG(3,K)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO  
         ENDIF
-
 C------------------------------------------------------------------------------
       ELSEIF(KEYWORD == 'MAXPCONT/NORMAL')THEN
 C------------------------------------------------------------------------------
@@ -413,20 +365,16 @@ C------------------------------------------------------------------------------
             VALUE(1) = FNCONT_MAX(3*(I-1)+1)
             VALUE(2) = FNCONT_MAX(3*(I-1)+2)
             VALUE(3) = FNCONT_MAX(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ELSE
          DO I=1,NUMNOD
             VALUE(1) = ZERO
             VALUE(2) = ZERO
             VALUE(3) = ZERO
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ENDIF
-
-
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT/TANGENT') THEN
 C--------------------------------------------------
@@ -435,8 +383,7 @@ C--------------------------------------------------
             VALUE(1) = FTCONT(1,I)
             VALUE(2) = FTCONT(2,I)
             VALUE(3) = FTCONT(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO  
         ELSE
           DO I=1,NUMNOD
@@ -444,8 +391,7 @@ C--------------------------------------------------
             VALUE(1) = FTCONT(1,I)+FTCONTG(1,K)
             VALUE(2) = FTCONT(2,I)+FTCONTG(2,K)
             VALUE(3) = FTCONT(3,I)+FTCONTG(3,K)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO  
         ENDIF
 C------------------------------------------------------------------------------
@@ -456,121 +402,106 @@ C------------------------------------------------------------------------------
             VALUE(1) = FTCONT_MAX(3*(I-1)+1)
             VALUE(2) = FTCONT_MAX(3*(I-1)+2)
             VALUE(3) = FTCONT_MAX(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ELSE
          DO I=1,NUMNOD
             VALUE(1) = ZERO
             VALUE(2) = ZERO
             VALUE(3) = ZERO
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
          ENDDO
        ENDIF
-
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CONT2') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FNCONT2(1,I)
-            VALUE(2) = FNCONT2(2,I)
-            VALUE(3) = FNCONT2(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FNCONT2(1,I)
+          VALUE(2) = FNCONT2(2,I)
+          VALUE(3) = FNCONT2(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT2/NORMAL') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FNCONTP2(1,I)
-            VALUE(2) = FNCONTP2(2,I)
-            VALUE(3) = FNCONTP2(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FNCONTP2(1,I)
+          VALUE(2) = FNCONTP2(2,I)
+          VALUE(3) = FNCONTP2(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT2/TANGENT') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FTCONTP2(1,I)
-            VALUE(2) = FTCONTP2(2,I)
-            VALUE(3) = FTCONTP2(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FTCONTP2(1,I)
+          VALUE(2) = FTCONTP2(2,I)
+          VALUE(3) = FTCONTP2(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CONT2/TMAX') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FCONT2_MAX(3*(I-1)+1)
-            VALUE(2) = FCONT2_MAX(3*(I-1)+2)
-            VALUE(3) = FCONT2_MAX(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FCONT2_MAX(3*(I-1)+1)
+          VALUE(2) = FCONT2_MAX(3*(I-1)+2)
+          VALUE(3) = FCONT2_MAX(3*(I-1)+3)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CONT2/TMIN') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FCONT2_MIN(3*(I-1)+1)
-            VALUE(2) = FCONT2_MIN(3*(I-1)+2)
-            VALUE(3) = FCONT2_MIN(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FCONT2_MIN(3*(I-1)+1)
+          VALUE(2) = FCONT2_MIN(3*(I-1)+2)
+          VALUE(3) = FCONT2_MIN(3*(I-1)+3)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'MAXPCONT2/NORMAL') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FNCONT2_MAX(3*(I-1)+1)
-            VALUE(2) = FNCONT2_MAX(3*(I-1)+2)
-            VALUE(3) = FNCONT2_MAX(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FNCONT2_MAX(3*(I-1)+1)
+          VALUE(2) = FNCONT2_MAX(3*(I-1)+2)
+          VALUE(3) = FNCONT2_MAX(3*(I-1)+3)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'MAXPCONT2/TANGENT') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FTCONT2_MAX(3*(I-1)+1)
-            VALUE(2) = FTCONT2_MAX(3*(I-1)+2)
-            VALUE(3) = FTCONT2_MAX(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FTCONT2_MAX(3*(I-1)+1)
+          VALUE(2) = FTCONT2_MAX(3*(I-1)+2)
+          VALUE(3) = FTCONT2_MAX(3*(I-1)+3)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'MINPCONT2/NORMAL') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FNCONT2_MIN(3*(I-1)+1)
-            VALUE(2) = FNCONT2_MIN(3*(I-1)+2)
-            VALUE(3) = FNCONT2_MIN(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FNCONT2_MIN(3*(I-1)+1)
+          VALUE(2) = FNCONT2_MIN(3*(I-1)+2)
+          VALUE(3) = FNCONT2_MIN(3*(I-1)+3)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'MINPCONT2/TANGENT') THEN
 C--------------------------------------------------
-          DO I=1,NUMNOD
-            VALUE(1) = FTCONT2_MIN(3*(I-1)+1)
-            VALUE(2) = FTCONT2_MIN(3*(I-1)+2)
-            VALUE(3) = FTCONT2_MIN(3*(I-1)+3)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-          ENDDO 
+        DO I=1,NUMNOD
+          VALUE(1) = FTCONT2_MIN(3*(I-1)+1)
+          VALUE(2) = FTCONT2_MIN(3*(I-1)+2)
+          VALUE(3) = FTCONT2_MIN(3*(I-1)+3)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DROT')THEN
 C--------------------------------------------------
-        IF( (IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .            MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0)  .AND.
-     .           IRODDL/=0) THEN
+        IF( (IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR. MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND. IRODDL/=0) THEN
           DO I=1,NUMNOD
             VALUE(1) = DR(1,I)
             VALUE(2) = DR(2,I)
             VALUE(3) = DR(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO
         ENDIF
 C--------------------------------------------------
@@ -580,8 +511,7 @@ C--------------------------------------------------
           VALUE(1) = DXANCG(1,I)
           VALUE(2) = DXANCG(2,I)
           VALUE(3) = DXANCG(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF (KEYWORD == 'GVEL') THEN
@@ -591,20 +521,18 @@ C--------------------------------------------------
             VALUE(1) = VGAZ(1,I)
             VALUE(2) = VGAZ(2,I)
             VALUE(3) = VGAZ(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO
         ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FREAC') THEN
 C--------------------------------------------------
-	DO I=1,NUMNOD
-	  VALUE(1)=FANREAC(1,I)
-	  VALUE(2)=FANREAC(2,I)
-	  VALUE(3)=FANREAC(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-	ENDDO
+	    DO I=1,NUMNOD
+	      VALUE(1)=FANREAC(1,I)
+	      VALUE(2)=FANREAC(2,I)
+	      VALUE(3)=FANREAC(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+	    ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'MREAC') THEN
 C--------------------------------------------------
@@ -612,37 +540,33 @@ C--------------------------------------------------
           VALUE(1)=FANREAC(4,I)
           VALUE(2)=FANREAC(5,I)
           VALUE(3)=FANREAC(6,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CLUSTER/FORCE') THEN
 C--------------------------------------------------
-	DO I=1,NUMNOD
-	  VALUE(1)=FCLUSTER(1,I)
-	  VALUE(2)=FCLUSTER(2,I)
-	  VALUE(3)=FCLUSTER(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-	ENDDO
+	    DO I=1,NUMNOD
+	      VALUE(1)=FCLUSTER(1,I)
+	      VALUE(2)=FCLUSTER(2,I)
+	      VALUE(3)=FCLUSTER(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+	    ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CLUSTER/MOMENT') THEN
 C--------------------------------------------------
-	DO I=1,NUMNOD
-	  VALUE(1)=MCLUSTER(1,I)
-	  VALUE(2)=MCLUSTER(2,I)
-	  VALUE(3)=MCLUSTER(3,I)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
-	ENDDO
+	    DO I=1,NUMNOD
+	      VALUE(1)=MCLUSTER(1,I)
+	      VALUE(2)=MCLUSTER(2,I)
+	      VALUE(3)=MCLUSTER(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+	    ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZVEL') THEN
         CALL H3D_VELVECC22(ELBUF_TAB,IPARG,1,IXS,IXQ,ITAB,IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
 C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZFVEL') THEN
-        CALL H3D_VELVECZ22(ELBUF_TAB,IPARG,IPARI,IGRNOD,X,IXS,IXQ,ITAB,1,
-     .                     IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
+        CALL H3D_VELVECZ22(ELBUF_TAB,IPARG,IPARI,IGRNOD,X,IXS,IXQ,ITAB,1,IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
 C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZMOM') THEN
@@ -650,8 +574,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZFP') THEN
-        CALL H3D_VELVECZ22(ELBUF_TAB,IPARG,IPARI,IGRNOD,X,IXS,IXQ,ITAB,2,
-     .                     IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
+        CALL H3D_VELVECZ22(ELBUF_TAB,IPARG,IPARI,IGRNOD,X,IXS,IXQ,ITAB,2,IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
 C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZFINT') THEN
@@ -664,8 +587,7 @@ C--------------------------------------------------
           VALUE(1) = TM_VEL(J)
           VALUE(2) = TM_VEL(J+1)
           VALUE(3) = TM_VEL(J+2)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DIS/TMAX') THEN
@@ -675,8 +597,7 @@ C--------------------------------------------------
           VALUE(1) = TM_DIS(J)
           VALUE(2) = TM_DIS(J+1)
           VALUE(3) = TM_DIS(J+2)
-          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'AROT') THEN
@@ -686,15 +607,22 @@ C--------------------------------------------------
             VALUE(1) = AR(1,I)
             VALUE(2) = AR(2,I)
             VALUE(3) = AR(3,I)
-            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .                                    VALUE)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO
-        ENDIF 
+        ENDIF
 C--------------------------------------------------
-
-
-C-------------------------------------------------- 
+      ELSEIF(KEYWORD == 'VEL/GRID') THEN
+C--------------------------------------------------
+        IF(SW > 0) THEN
+          DO I=1,NUMNOD
+            VALUE(1) = W(1,I)
+            VALUE(2) = W(2,I)
+            VALUE(3) = W(3,I)
+            CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+          ENDDO
+        ENDIF
+C--------------------------------------------------
       ENDIF
-
+C--------------------------------------------------
       RETURN
-      END
+      END SUBROUTINE H3D_NODAL_VECTOR
