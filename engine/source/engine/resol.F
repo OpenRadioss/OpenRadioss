@@ -794,7 +794,6 @@ C-----------------------------------------------
       my_real, DIMENSION(3*NUMNOD), TARGET :: X
       my_real
      .   D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
-c     .   X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
      .   MS(*)   ,IN(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),GEO(NPROPG,*),
      .   BUFMAT(*) ,W(3,*)    ,VEUL(*),FILL(NUMNOD,*),DFILL(NUMNOD,*),
      .   ALPH(*)   ,WB(3,*)   ,TF(*)       ,FORC(*)  ,VEL(*),
@@ -8927,27 +8926,28 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
+!$OMP+ SHARED (MS,V)
 
           ITSK = OMP_GET_THREAD_NUM()
           NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
           NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
              CALL ALEWDX(
-     1         GEO           ,X             ,D           ,V           ,VR         ,   
-     2         W             ,WA            ,WB          ,RBY         ,SKEW       ,   
-     3         PM            ,XLAS          ,MS          ,FSAV        ,               
-     4         A             ,AR            ,TF          ,RWBUF       ,   
-     5         IN            ,DT2SAVE        ,                                        
-     6         IPARG         ,IXS           ,IXQ         ,NODPOR       ,              
-     7         ISKEW         ,ICODT       ,ELBUF_TAB  ,   
-     8         NPC           ,LINALE        ,NPRW        ,LAS        ,   
-     9         IPARI         ,NODFTSK       ,NODLTSK     ,ITSK        ,               
-     A         IAD_ELEM      ,FR_ELEM       ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,   
-     B         LNSDVOIS      ,WEIGHT        ,ADSKY       ,FSKY        ,IADS       ,   
-     C         FR_WALL     ,NPORGEO     ,PROCNE     ,   
-     D         FR_NBCC       ,IADS(I87B)  ,XDP         ,IGRNOD     ,   
-     E         DR            ,INTBUF_TAB    ,ITAB        ,MULTI_FVM   ,            
-     F         ALE_CONNECTIVITY,DDP         ,NE_NERCVOIS ,NE_NESDVOIS, 
-     G         NE_LERCVOIS   ,NE_LESDVOIS   ,XCELL       ,XFACE)
+     1         GEO             ,X             ,D           ,V           ,VR         ,
+     2         W               ,WA            ,WB          ,RBY         ,SKEW       ,
+     3         PM              ,XLAS          ,MS          ,FSAV        ,
+     4         A               ,TF            ,RWBUF       ,
+     5         DT2SAVE         ,
+     6         IPARG           ,IXS           ,IXQ         ,NODPOR      ,
+     7         ISKEW           ,ICODT         ,ELBUF_TAB   ,
+     8         NPC             ,LINALE        ,NPRW        ,LAS         ,
+     9         IPARI           ,NODFTSK       ,NODLTSK     ,ITSK        ,
+     A         IAD_ELEM        ,FR_ELEM       ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,
+     B         LNSDVOIS        ,WEIGHT        ,ADSKY       ,FSKY        ,IADS       ,
+     C         FR_WALL         ,NPORGEO       ,PROCNE      ,
+     D         FR_NBCC         ,IADS(I87B)    ,XDP         ,IGRNOD      ,
+     E         DR              ,INTBUF_TAB    ,ITAB        ,MULTI_FVM   ,
+     F         ALE_CONNECTIVITY,DDP           ,NE_NERCVOIS ,NE_NESDVOIS ,
+     G         NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL       ,XFACE      )
 
 !$OMP END PARALLEL
 

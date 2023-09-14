@@ -174,6 +174,7 @@ C-----------------------------------------------
 #include      "timeri_c.inc"
 #include      "inter22.inc"
 #include      "scr18_c.inc"
+#include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -387,6 +388,8 @@ C
       my_real :: DT2T_lay(2)
       my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ)
       my_real, DIMENSION(:), POINTER :: EINT
+      my_real :: ELEM_MASS
+      my_real :: SUM_EPS(9),SUM_M
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -713,7 +716,7 @@ C Compute strain rates Dij
      E   DYY,     DYZ,     DZX,     DZY,
      F   DZZ,     D4,      D5,      D6,
      G   WXX,     WYY,     WZZ,     VXR,
-     H   VYR,     VZR,     IXS,     NEL,
+     H   VYR,     VZR,     NEL,
      I   NFT,     ISMSTR,  JEUL,    JHBE,
      J   JCVT,    ISROT)
 C
@@ -1092,6 +1095,41 @@ C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IFVM_SKIP=0
       IF(IALEFVM_MAT > 1)IFVM_SKIP=1
+
+      !---------------------------------------------
+      ! /ALE/GRID/MASSFLOW - BUFFER UPDATED
+      !---------------------------------------------
+      ! this grid formulation needs an averaged tensor (E=GRAD U)
+      IF(ALE%GRID%NWALE == 7)THEN
+        SUM_EPS(1:9) = ZERO
+        SUM_M = ZERO
+        DO I=1,NEL
+          ELEM_MASS = GBUF%RHO(I)*GBUF%VOL(I)
+          SUM_EPS(1) = SUM_EPS(1) + ELEM_MASS*DXX(I)
+          SUM_EPS(2) = SUM_EPS(2) + ELEM_MASS*DYY(I)
+          SUM_EPS(3) = SUM_EPS(3) + ELEM_MASS*DZZ(I)
+          SUM_EPS(4) = SUM_EPS(4) + ELEM_MASS*DXY(I)
+          SUM_EPS(5) = SUM_EPS(5) + ELEM_MASS*DXZ(I)
+          SUM_EPS(6) = SUM_EPS(6) + ELEM_MASS*DYZ(I)
+          SUM_EPS(7) = SUM_EPS(7) + ELEM_MASS*DYX(I)
+          SUM_EPS(8) = SUM_EPS(8) + ELEM_MASS*DZX(I)
+          SUM_EPS(9) = SUM_EPS(9) + ELEM_MASS*DZY(I)
+          SUM_M = SUM_M + ELEM_MASS
+        ENDDO
+#include "lockon.inc"
+      ALE%GRID%MASSFLOW_DATA%EP(1) = ALE%GRID%MASSFLOW_DATA%EP(1) + SUM_EPS(1)
+      ALE%GRID%MASSFLOW_DATA%EP(2) = ALE%GRID%MASSFLOW_DATA%EP(2) + SUM_EPS(2)
+      ALE%GRID%MASSFLOW_DATA%EP(3) = ALE%GRID%MASSFLOW_DATA%EP(3) + SUM_EPS(3)
+      ALE%GRID%MASSFLOW_DATA%EP(4) = ALE%GRID%MASSFLOW_DATA%EP(4) + SUM_EPS(4)
+      ALE%GRID%MASSFLOW_DATA%EP(5) = ALE%GRID%MASSFLOW_DATA%EP(5) + SUM_EPS(5)
+      ALE%GRID%MASSFLOW_DATA%EP(6) = ALE%GRID%MASSFLOW_DATA%EP(6) + SUM_EPS(6)
+      ALE%GRID%MASSFLOW_DATA%EP(7) = ALE%GRID%MASSFLOW_DATA%EP(7) + SUM_EPS(7)
+      ALE%GRID%MASSFLOW_DATA%EP(8) = ALE%GRID%MASSFLOW_DATA%EP(8) + SUM_EPS(8)
+      ALE%GRID%MASSFLOW_DATA%EP(9) = ALE%GRID%MASSFLOW_DATA%EP(9) + SUM_EPS(9)
+      ALE%GRID%MASSFLOW_DATA%SUM_M = ALE%GRID%MASSFLOW_DATA%SUM_M + SUM_M
+#include "lockoff.inc"
+      ENDIF!(ALE%GRID%NWALE == 7)
+
 C
 C Anti hourglass forces
       IF (IINT==3) THEN

@@ -138,6 +138,17 @@ Chd|====================================================================
         IMPLICIT NONE
 #include      "my_real.inc"
 
+        ! specific buffer for grid formulation 7 (/ALE/GRID/MASSFLOW)
+        TYPE MASSFLOW_DATA_
+          my_real :: EP(9) ! L=GRAD V
+          my_real :: LD(6) ! D = 1/2*( L + t(L) ) !strain rate
+          my_real :: LW(3) ! W = 1/2*( L - t(L) ) !rotation
+          my_real :: COG_L(3) ! mass * X accumulation
+          my_real :: MOM_L(3) ! mass * VEL accumulation
+          my_real :: SUM_M    ! mass accumulation
+        END TYPE
+
+        ! GRID FORMULATION PARAMETERS
         TYPE ALE_GRID_
           my_real ALPHA
           my_real GAMMA
@@ -149,8 +160,10 @@ Chd|====================================================================
           INTEGER NWALE_ENGINE       !        read from Engine input file with /ALE/GRID/...
           INTEGER NWALE_RST          !        read from RESTART FILE
           INTEGER NWALE              !        effective value used in numerical scheme
+          TYPE(MASSFLOW_DATA_) MASSFLOW_DATA
         END TYPE ALE_GRID_
-        
+
+        ! UPWIND PARAMETERS
         TYPE ALE_UPWIND_
           my_real UPWMG
           my_real UPWOG           
@@ -163,7 +176,8 @@ Chd|====================================================================
           INTEGER UPWM
           INTEGER UPW_UPDATE
         END TYPE ALE_UPWIND_
-                
+
+        !GLOBAL PARAMETERS
         TYPE ALE_GLOBAL_
           INTEGER NALENOVS
           INTEGER ICAA
@@ -179,7 +193,8 @@ Chd|====================================================================
           INTEGER SNALE
           INTEGER SIELVS
         END TYPE ALE_GLOBAL_
-        
+
+        !ALE SUBCCLING (obsolete)
         TYPE ALE_SUB_
           INTEGER IALESUB
           INTEGER IFSUB
@@ -189,7 +204,8 @@ Chd|====================================================================
           my_real DTFSUB
           my_real DTMSUB
         END TYPE ALE_SUB_
-                
+
+        ! GENERAL DATA STRUCTURE USED IN SOURCE CODE
         TYPE ALE_
           TYPE(ALE_GRID_)   :: GRID
           TYPE(ALE_UPWIND_) :: UPWIND
@@ -220,7 +236,13 @@ C-----------------------------------------------
             this%GRID%VGZ0 = ZERO            
             this%GRID%NWALE_ENGINE = -1
             this%GRID%NWALE_RST = 0
-            this%GRID%NWALE = 0   
+            this%GRID%NWALE = 0
+            this%GRID%MASSFLOW_DATA%EP(1:9) = ZERO
+            this%GRID%MASSFLOW_DATA%LD(1:6) = ZERO
+            this%GRID%MASSFLOW_DATA%LW(1:3) = ZERO
+            this%GRID%MASSFLOW_DATA%MOM_L(1:3) = ZERO
+            this%GRID%MASSFLOW_DATA%COG_L(1:3) = ZERO
+            this%GRID%MASSFLOW_DATA%SUM_M = ZERO
             !---ALE%UPWIND
             this%UPWIND%UPWMG = ZERO
             this%UPWIND%UPWOG = ZERO           

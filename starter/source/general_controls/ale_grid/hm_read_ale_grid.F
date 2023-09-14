@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_ALE_GRID              source/general_controls/ale_grid/hm_read_ale_grid.F
 Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
+Chd|        CONTRL                        source/starter/contrl.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
@@ -34,9 +34,22 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_ALE_GRID(DT_INPUT, ALPHA, GAMMA, VGX, VGY, VGZ, VOLMIN, LSUBMODEL, UNITAB)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Input Reader for options /ALE/GRID/...
+C  NWALE       FORMULATION
+C  0           'DONEA'
+C  1           'DISP'
+C  2           'SPRING'
+C  3           'ZERO'
+C  4           'STANDARD'
+C  5           'LAPLACIAN'
+C  6           'VOLUME'
+C  7           'MASSFLOW'
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,7 +82,9 @@ C-----------------------------------------------
       INTEGER :: NALE_GRID, II, NITER,NTETRA4
       CHARACTER :: KEY*ncharkey
       LOGICAL :: IS_AVAILABLE
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 !     Initializations
       ALE%GRID%NWALE = 0
       ALPHA = ZERO
@@ -109,9 +124,8 @@ C-----------------------------------------------
             IF (VGZ == ZERO) VGZ = ONE
          ELSEIF (KEY(1:6) == 'SPRING') THEN
             IF (N2D /= 0) THEN
-               CALL ANCMSG(MSGID = 787, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .              C1='SPRING')
-            ENDIF 
+               CALL ANCMSG(MSGID = 787, MSGTYPE=MSGERROR, ANMODE=ANINFO,C1='SPRING')
+            ENDIF
             ALE%GRID%NWALE = 2
             VGZ = ZERO
             CALL HM_GET_FLOATV('deltaT', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -133,11 +147,11 @@ C-----------------------------------------------
             IF (VGX == ZERO) VGX = EM02
             IF (VGY == ZERO) THEN
                CALL ANCMSG(MSGID = 1119, MSGTYPE = MSGERROR, ANMODE = ANINFO,
-     .              C1='** CRITICAL ELEMENT SIZE MUST BE DEFINED (4TH FIELD)')
+     .                     C1='** CRITICAL ELEMENT SIZE MUST BE DEFINED (4TH FIELD)')
             ENDIF
             IF (GAMMA < ZERO .OR. GAMMA > ONE) THEN
                CALL ANCMSG(MSGID = 1119, MSGTYPE = MSGERROR, ANMODE = ANINFO,
-     .              C1='** NON-LINEAR FACTOR MUST BE BETWEEN 0 AND 1 (2ND FIELD)')
+     .                     C1='** NON-LINEAR FACTOR MUST BE BETWEEN 0 AND 1 (2ND FIELD)')
             ENDIF
          ELSEIF (KEY(1:4) == 'ZERO') THEN
             ALE%GRID%NWALE = 3
@@ -154,19 +168,28 @@ C-----------------------------------------------
             IF (VGX <= ZERO) VGX = ONE
          ELSEIF (KEY(1:6) == 'VOLUME') THEN
             ALE%GRID%NWALE = 6
+         ELSEIF (KEY(1:8) == 'MASSFLOW') THEN
+            ALE%GRID%NWALE = 7
+            CALL HM_GET_FLOATV('SCALE_DEF', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('SCALE_ROT', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            IF (ALPHA == ZERO) ALPHA = ONE
+            IF (GAMMA == ZERO) GAMMA = ONE
+            IF (VGX == ZERO) VGX = ONE
+            IF (VGY == ZERO) VGY = ONE
+            IF (VGZ == ZERO) VGZ = ONE
          ENDIF
-        
+
       ENDDO
-      
+
        ! NO /ALE/GRID formulation => DEFAULT = DONEA & its default values are set here
        IF(ALE%GRID%NWALE==0 .OR. ALE%GRID%NWALE==-1)THEN
          ALE%GRID%NWALE=0
          CALL HM_OPTION_COUNT('/TETRA4', NTETRA4)
-         IF(NTETRA4 > 0) ALE%GLOBAL%NALENOVS=12              
+         IF(NTETRA4 > 0) ALE%GLOBAL%NALENOVS=12
          IF(GAMMA == ZERO) GAMMA=HUNDRED
          IF(VGX == ZERO)   VGX=ONE
          IF(VGY == ZERO)   VGY=ONE
          IF(VGZ == ZERO)   VGZ=ONE
-       ENDIF      
+       ENDIF
 
       END SUBROUTINE HM_READ_ALE_GRID

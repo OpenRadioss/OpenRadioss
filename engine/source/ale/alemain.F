@@ -215,7 +215,8 @@ C-----------------------------------------------
       my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),VOLN(MVSIZ) 
       my_real, TARGET  :: BID
       my_real, DIMENSION(:,:),ALLOCATABLE,TARGET  :: QMV
-      my_real, POINTER :: pQMV      
+      my_real, POINTER :: pQMV
+      my_real :: SUM_MASS
       ! SPMD array for adjacent data ALE/CFD
       my_real, DIMENSION(:,:),ALLOCATABLE ::BUFVOIS
 
@@ -734,6 +735,14 @@ C
 !$OMP END SINGLE
 
          !---------------------------------------------
+         ! /ALE/GRID/MASSFLOW - INIT BUFFER
+         !---------------------------------------------
+          IF(ALE%GRID%NWALE == 7) THEN
+             ALE%GRID%MASSFLOW_DATA%EP(1:9)=ZERO
+             ALE%GRID%MASSFLOW_DATA%SUM_M = ZERO
+          ENDIF
+
+         !---------------------------------------------
          ! ALL ELEMENTS EXPECT LAW/=11
          !---------------------------------------------
           DO NG=ITASK+1,NGROUP,NTHREAD
@@ -1026,7 +1035,7 @@ c
             ENDDO!next NG
             
           ENDIF!IF (ILAW11 /= 0) THEN
-           
+
         ENDIF!IF(IALE+IEULER+ITHERM /= 0)THEN
         IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_IFSUB0,1)
       ENDIF!IF(IFSUB == 0)THEN
