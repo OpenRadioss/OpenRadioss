@@ -234,7 +234,7 @@ C-----------------------------------------------
      .   TEMP(*), THKE(*), ERR_THK_SH4(*), ERR_THK_SH3(*), DIAG_SMS(*),
      .   FNCONT2(3,*), DR(3,*),DXANCG(3,*),ZI_PLY(*),VGAZ(*),
      .   FCONTG(*), FNCONTG(*), FTCONTG(*),FANREAC(6,*),PDAMA2(2,*),
-     .   RES_SMS(*),FCLUSTER(3,*),MCLUSTER(3,*),W(3*NUMNOD),
+     .   RES_SMS(*),FCLUSTER(3,*),MCLUSTER(3,*),W(SW),
      .   WIGE(*),KNOT(*),STIFN(*),STIFR(*),PSKIDS(*),TF(*),FCONT_MAX(*),
      .   FNCONTP2(3,*) ,FTCONTP2(3,*)
       INTEGER IPARG(NPARG,NGROUP),NSTRF(*),LPBY(*),
@@ -2213,8 +2213,8 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                   FNCONTP2          ,FTCONTP2                 , AR            ,IPARTSP                     ,IPARTR          ,
      .                   IPARTP            ,IPARTT                   , IPARTS        ,IPARTQ                      ,KXSP            ,
      .                   IXR               ,IXP                      , IXT           ,N_H3D_PART_LIST             ,NODAL_VECTOR_FVM,
-     .                   IS_WRITEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D_G,SMONVOL      ,SVOLMON                     ,ISPMD         ,
-     .                   FVDATA_P          ,USER_NOD_ID%FVMBAG_SHIFT)
+     .                   IS_WRITEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D_G,SMONVOL       ,SVOLMON                     ,ISPMD         ,
+     .                   FVDATA_P          ,USER_NOD_ID%FVMBAG_SHIFT ,W              ,SW)
 
 c
           IF (NSPMD > 1 ) THEN
