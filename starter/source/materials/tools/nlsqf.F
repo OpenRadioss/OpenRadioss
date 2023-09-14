@@ -40,7 +40,7 @@ Chd|        MRQCOF                        source/materials/tools/nlsqf.F
 Chd|====================================================================
       SUBROUTINE MRQMIN(X,Y,SIG,NDATA,A,IA,
      .                 MA,COVAR,ALPHA,NCA, ERRNOW, 
-     .                 IFUNCS,GAMMA,IRET,ICOMP)  
+     .                 IFUNCS,GAMMA,IRET,ICOMP,MMAX,ATRY )  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,45 +52,45 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER  , INTENT(IN)    :: MMAX 
+      my_real  , INTENT(INOUT) :: ATRY(MMAX)
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER MA,NCA,NDATA,IA(MA),MMAX ,ICOMP
+      INTEGER MA,NCA,NDATA,IA(MA) ,ICOMP
       my_real 
      .        GAMMA,ERRNOW,A(MA),ALPHA(NCA,NCA),
-     .        COVAR(NCA,NCA),X(NDATA),Y(NDATA),SIG(NDATA)
-      PARAMETER (MMAX=20)  
-      INTEGER J,K,L,MFIT  
-      my_real ERRPRE,ATRY(MMAX),BETA(MMAX),DA(MMAX)  
-      SAVE ERRPRE,ATRY,BETA,DA,MFIT  
+     .        COVAR(NCA,NCA),X(NDATA),Y(NDATA),SIG(NDATA)      
+      INTEGER J,K,L,MFIT ,NMAX
+      PARAMETER (NMAX = 20) ! NMAX = MMAX 
+      my_real ERRPRE,BETA(NMAX),DA(NMAX)  
+      SAVE ERRPRE,BETA,DA,MFIT  
       INTEGER IFUNCS, IRET
 C=======================================================================
 
-      IRET = 0
+      IRET = 0  
 
       IF (GAMMA < ZERO) THEN  
         MFIT=0  
         DO J=1,MA  
           IF (IA(J)/=0) MFIT=MFIT+1  
-        ENDDO  
-
+        ENDDO 
 !       in Numerical Recript, 0.001 is used, however from my tests, the
 !       difference is small (0.01 vs 0.001)
         GAMMA=0.01
-       
         CALL MRQCOF(X,Y,SIG,NDATA,
      .              A,IA,MA,ALPHA,BETA,NCA,ERRNOW,
      .              IFUNCS,ICOMP)  
 
         ERRPRE=ERRNOW  
         DO J=1,MA  
-          ATRY(J)=A(J)  
-        ENDDO  
+          ATRY(J)=A(J)
+        ENDDO 
       ENDIF  
 C
       DO J=1,MFIT  
         DO K=1,MFIT  
-          COVAR(J,K)=ALPHA(J,K)  
+          COVAR(J,K)=ALPHA(J,K) 
         ENDDO  
         COVAR(J,J)=ALPHA(J,J)*(1.+GAMMA)  
         DA(J)=BETA(J)  
@@ -116,7 +116,7 @@ C
       DO L=1,MA  
         IF(IA(L)/=0) THEN  
           J=J+1  
-          ATRY(L)=A(L)+DA(J)  
+          ATRY(L)=A(L)+DA(J) 
         ENDIF  
       ENDDO  
 
@@ -265,7 +265,7 @@ c           IF (Y(I)<EM5) DY=EM5
            ENDIF
 
            DY=Y(I)-YMOD
-           ERRNOW=ERRNOW + DY*DY
+           ERRNOW = ERRNOW + DY*DY
            J=0  
            DO  L=1,MA  
              IF(IA(L)/=0) THEN  
@@ -615,7 +615,9 @@ C-----------------------------------------------
       my_real A0(MAXA)
       my_real ERRMIN, ERRMAX, ERRAVE, ERRAVE_MIN, ERR
 
-      INTEGER ISTART, NPSAVED, IVALID,ICOMP
+      INTEGER ISTART, NPSAVED, IVALID,ICOMP, MMAX
+      PARAMETER (MMAX =20)
+      my_real  ATRY(MMAX)
 
       INTEGER ICURV
       LOGICAL lopened
@@ -751,7 +753,7 @@ c     calculate MCOF_MIN, MCOF_MAX
 
 c     initialize random number generator in LAW69_GUESS1
       IRND1 = 205
-
+      ATRY(1:MMAX) = ZERO ! Initialization of ATRY
       DO 111 WHILE ( ISTART < NSTART )
 c       get one guess point A0(1:NMUAL)        
         CALL LAW69_GUESS1(
@@ -799,7 +801,7 @@ C
         GAMMA=-1
         CALL MRQMIN(STRETCH,Y,SIG,NPT,A0,NONZERO,
      $       NMUAL,COVAR,ALPHA,MA,ERRNOW, 
-     $       IFUNCS,GAMMA,IRET,ICOMP)  
+     $       IFUNCS,GAMMA,IRET,ICOMP,MMAX,ATRY)  
         IF (IRET /= 0) GOTO 111
 
         IF (IDEBUG > 0) THEN
@@ -833,7 +835,7 @@ C
         ITER = ITER + 1
         CALL MRQMIN(STRETCH,Y,SIG,NPT,A0,NONZERO,
      $       MA,COVAR,ALPHA, MA, ERRNOW, 
-     $       IFUNCS,GAMMA,IRET,ICOMP)  
+     $       IFUNCS,GAMMA,IRET,ICOMP,MMAX,ATRY)
         IF (IRET /= 0) GOTO 111
 
         IF (IDEBUG == 1) THEN
