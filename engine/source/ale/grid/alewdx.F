@@ -21,27 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALEWDX                        source/ale/grid/alewdx.F      
+Chd|  ALEWDX                        source/ale/grid/alewdx.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        ALELIN                        source/ale/grid/alelin.F      
-Chd|        ALEW                          source/ale/grid/alew.F        
-Chd|        ALEW1                         source/ale/grid/alew1.F       
-Chd|        ALEW2                         source/ale/grid/alew2.F       
-Chd|        ALEW4                         source/ale/grid/alew4.F       
-Chd|        ALEW5                         source/ale/grid/alew5.F       
-Chd|        ALEW6                         source/ale/grid/alew6.F       
+Chd|        ALELIN                        source/ale/grid/alelin.F
+Chd|        ALEW                          source/ale/grid/alew.F
+Chd|        ALEW1                         source/ale/grid/alew1.F
+Chd|        ALEW2                         source/ale/grid/alew2.F
+Chd|        ALEW4                         source/ale/grid/alew4.F
+Chd|        ALEW5                         source/ale/grid/alew5.F
+Chd|        ALEW6                         source/ale/grid/alew6.F
 Chd|        BCS2V                         source/constraints/general/bcs/bcs2.F
-Chd|        BCS3V                         source/ale/inter/bcs3v.F      
-Chd|        INTAL3                        source/ale/inter/intal3.F     
-Chd|        LASER1                        source/loads/laser/laser1.F   
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        RGWAL1                        source/ale/grid/rgwal1.F      
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        WLAG                          source/ale/grid/wlag.F        
-Chd|        WPOR                          source/ale/grid/wpor.F        
+Chd|        BCS3V                         source/ale/inter/bcs3v.F
+Chd|        INTAL3                        source/ale/inter/intal3.F
+Chd|        LASER1                        source/loads/laser/laser1.F
+Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        RGWAL1                        source/ale/grid/rgwal1.F
+Chd|        STARTIME                      source/system/timer.F
+Chd|        STOPTIME                      source/system/timer.F
+Chd|        WLAG                          source/ale/grid/wlag.F
+Chd|        WPOR                          source/ale/grid/wpor.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
@@ -53,8 +53,8 @@ Chd|====================================================================
      1     GEO             ,X             ,D          ,V          ,VR         ,
      2     W               ,WA            ,WB         ,RBY        ,SKEW       ,
      3     PM              ,XLAS          ,MS         ,FSAV       ,
-     4     A               ,AR            ,TF         ,RWBUF      ,
-     5     IN              ,DT2SAVE       ,
+     4     A               ,TF            ,RWBUF      ,
+     5     DT2SAVE         ,
      6     IPARG           ,IXS           ,IXQ        ,NODPOR     ,
      7     ISKEW           ,ICODT         ,ELBUF_TAB  ,
      8     NPF             ,LINALE        ,NPRW       ,LAS        ,
@@ -64,22 +64,23 @@ Chd|====================================================================
      C     FR_WALL         ,NPORGEO       ,PROCNE     ,
      D     FR_NBCC         ,IADQ          ,XDP        ,IGRNOD     ,
      E     DR              ,INTBUF_TAB    ,ITAB       ,MULTI_FVM  ,
-     F     ALE_CONNECTIVITY,DDP           ,NE_NERCVOIS,NE_NESDVOIS, 
-     G     NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL      ,XFACE)
+     F     ALE_CONNECTIVITY,DDP           ,NE_NERCVOIS,NE_NESDVOIS,
+     G     NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL      ,XFACE      )
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
-! --- NWALE : INTEGER SET IN [0,6] depending on /ALE/GRID/Keyword option 
+! --- NWALE : INTEGER SET IN [0,7] depending on /ALE/GRID/Keyword option
 !
-!  NWALE   Keyword (/ALE/GRID/...)
-!   0       DONEA
-!   1       DISP
-!   2       SPRING
-!   3       ZERO
-!   4       STANDARD
-!   5       LAPLACIAN
-!   6       VOLUME
-! 
+!   NWALE   FORMULATION (/ALE/GRID/...)
+!   0       'DONEA'
+!   1       'DISP'
+!   2       'SPRING'
+!   3       'ZERO'
+!   4       'STANDARD'
+!   5       'LAPLACIAN'
+!   6       'VOLUME'
+!   7       'MASSFLOW'
+!
 ! This subroutine is switching to grid formulation depending on NWALE value.
 C
 C     X,D,V are allocated to SX,SD,DV=3*(NUMNOD_L+NUMVVOIS_L)
@@ -89,7 +90,7 @@ C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usuall
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -112,7 +113,7 @@ C-----------------------------------------------
 #include      "timeri_c.inc"
 #include      "parit_c.inc"
 #include      "tabsiz_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -122,15 +123,14 @@ C-----------------------------------------------
      .     NODPOR(*), NBRCVOIS(*),NBSDVOIS(*), PROCNE(*),FR_NBCC(*),
      .     LNRCVOIS(*),LNSDVOIS(*), NODFT ,NODLT, ITASK,
      .     WEIGHT(*), FR_ELEM(*), IAD_ELEM(*), ADSKY(*), NPORGEO(*),
-     .     IADS(*) ,FR_WALL(*), 
+     .     IADS(*) ,FR_WALL(*),
      .     IADQ(*), NIADX
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       DOUBLE PRECISION    :: XDP(3,*),DDP(3,*)
-      my_real
-     .     X(3,SX/3) ,D(3,SD/3), V(3,SV/3) ,VR(3,SVR/3) ,A(3,SA/3) ,AR(3,SAR/3), FSKY(*),
-     .     MS(*)   ,IN(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
-     .     W(3,SW/3), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
-     .     RWBUF(NRWLP,*),RBY(NRBY,*),WA(3,*),DR(3,SDR/3),XCELL(3,SXCELL), XFACE(3,6,*)
+      my_real X(3,SX/3) ,D(3,SD/3), V(3,SV/3) ,VR(3,SVR/3) ,A(3,SA/3) , FSKY(*),
+     .        MS(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
+     .        W(3,SW/3), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
+     .        RWBUF(NRWLP,*),RBY(NRBY,*),WA(3,*),DR(3,SDR/3),XCELL(3,SXCELL), XFACE(3,6,*)
       my_real DT2SAVE
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -140,7 +140,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, N, ISK, LCOD, NINDX1, NINDX2, L,INDX1(1024), INDX2(1024), SIZEN 
+      INTEGER  I, N, ISK, LCOD, NINDX1, NINDX2,INDX1(1024), INDX2(1024), SIZEN
       DOUBLE PRECISION VDT2
       my_real VDT
 C-----------------------------------------------
@@ -150,123 +150,137 @@ C-----------------------------------------------
          CALL STARTIME(5,1)
       ENDIF
 C----------------------------------------
-C     CALCUL DES VITESSES DU MAILLAGE
+C     MESH VELOCITIES DEPENDING ON USER FORMULATION
 C----------------------------------------
       IF(ALE%SUB%IFSUB == 0) THEN
-      
+
         IF(ITASK == 0)THEN
-          DT2SAVE=DT2                                              
-          IF(ALE%SUB%IALESUB /= 0)DT2=INT(DT2S/DT2SAVE)*DT2SAVE !DT2=DT2S  
-          SIZEN=0                                                  
-          IF(IPARIT == 0)SIZEN = NUMNOD 
+          DT2SAVE=DT2
+          IF(ALE%SUB%IALESUB /= 0)DT2=INT(DT2S/DT2SAVE)*DT2SAVE !DT2=DT2S
+          SIZEN=0
+          IF(IPARIT == 0)SIZEN = NUMNOD
         ENDIF
-              
-        SELECT CASE (ALE%GRID%NWALE)                                                                                     
-                                                                                                               
-          !-------------------------!                                                                             
-          !---/ALE/GRID/DONEA                                                                                     
-          !-------------------------!                                                                             
-          CASE(0)                                                                                                 
-            CALL MY_BARRIER                                                                                       
-            CALL ALEW(                                                                                            
-     1           X         ,D      ,V       ,W       ,WA      ,                                                   
+
+        SELECT CASE (ALE%GRID%NWALE)
+
+          !-------------------------!
+          !---/ALE/GRID/DONEA (0)
+          !-------------------------!
+          CASE(0)
+            CALL MY_BARRIER
+            CALL ALEW(
+     1           X         ,D      ,V       ,W       ,WA      ,
      2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE   ,NODFT   ,NODLT   ,ITASK   ,
-     3           NBRCVOIS,NBSDVOIS,LNRCVOIS ,LNSDVOIS,ITAB         )                                              
-            CALL MY_BARRIER                                                                                       
-                                                                                                                  
-          !-------------------------!                                                                             
-          !---/ALE/GRID/DISP                                                                                      
-          !-------------------------!                                                                             
-          CASE(1)                                                                                                 
-            CALL ALEW1(                                                                                           
-     1           X         ,D       ,V       ,W       ,                                                           
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,                                         
-     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB         )                                             
-            CALL MY_BARRIER                                                                                       
-                                                                                                                  
-          !---/ALE/GRID/SPRING                                                                                    
-          CASE(2)                                                                                                 
-            IF (ITASK == 0) THEN                                                                                  
-              CALL ALEW2(                                                                                         
-     1            X       ,D      ,V       ,W    ,WA   ,                                                          
-     2            ALE_CONNECTIVITY%NALE    ,IPARG  ,IXS     ,WB   ,                                                                
-     3            IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY,                                                          
-     4            PROCNE  ,FSKY   ,FSKY    ,IADS ,ITAB      )                                                     
-            ENDIF                                                                                                 
-                                                                                                                  
-          !-------------------------!                                                                             
-          !---/ALE/GRID/ZERO                                                                                      
-          !-------------------------!                                                                             
-          CASE(3)                                                                                                 
-            IF (ITASK == 0) THEN                                                                                  
-              CALL WLAG(V,W,ALE_CONNECTIVITY%NALE)                                                                                 
-            ENDIF                                                                                                 
-                                                                                                                  
-          !-------------------------!                                                                             
-          !---/ALE/GRID/STANDARD                                                                                  
-          !-------------------------!                                                                             
-          CASE(4)                                                                                                 
-            IF (ITASK == 0) THEN                                                                                  
-              IF (N2D == 0) THEN                                                                                  
-                NIADX=8                                                                                           
-                CALL ALEW4(                                                                                       
-     1               X       ,D      ,V       ,W    ,WA            ,                                              
-     2               ALE_CONNECTIVITY%NALE    ,IPARG  ,IXS     ,WB   ,                                                             
-     3               IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY         ,                                              
-     4               PROCNE  ,FSKY   ,FSKY    ,IADS ,WB(1+3*NUMNOD),                                              
-     5               NIXS    ,NIADX  ,ITAB )                                                                      
-              ELSE                                                                                                
-                NIADX=4                                                                                           
-                CALL ALEW4(                                                                                       
-     1               X       ,D      ,V       ,W    ,WA            ,                                              
-     2               ALE_CONNECTIVITY%NALE    ,IPARG  ,IXQ     ,WB   ,                                                             
-     3               IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY         ,                                              
-     4               PROCNE  ,FSKY   ,FSKY    ,IADQ ,WB(1+3*NUMNOD),                                              
-     5               NIXQ    ,NIADX  ,ITAB  )                                                                     
-              ENDIF                                                                                               
-            ENDIF                                                                                                 
-                                                                                                                  
-          !-------------------------!                                                                             
-          !---/ALE/GRID/LAPLACIAN                                                                                 
-          !-------------------------!                                                                             
-          CASE(5)                                                                                                 
-            CALL MY_BARRIER                                                                                       
-            CALL ALEW5(                                                                                           
-     1           X         ,D       ,V       ,W       ,WA       ,                                                 
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,                                         
-     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB       ,                                               
-     4           SKEW, ISKEW,ICODT)                                                                               
-            CALL MY_BARRIER                                                                                       
-                                                                                                                  
-          !-------------------------!                                                                             
-          !---/ALE/GRID/VOLUME                                                                                    
-          !-------------------------!                                                                             
-          CASE(6)                                                                                                 
-            CALL MY_BARRIER                                                                                       
-            CALL ALEW6(                                                                                           
-     1           X         ,D       ,V       ,W       ,WA       ,                                                 
-     .           XCELL, XFACE,                                                                                    
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NE_CONNECT,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,                          
-     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB,NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,   
-     4           ELBUF_TAB, IPARG, IXS, IXQ)                                                                      
-            CALL MY_BARRIER                                                                                       
-                                                                                                               
-        END SELECT                                                                                              
-         
+     3           NBRCVOIS,NBSDVOIS,LNRCVOIS ,LNSDVOIS,ITAB         )
+            CALL MY_BARRIER
+
+          !-------------------------!
+          !---/ALE/GRID/DISP (1)
+          !-------------------------!
+          CASE(1)
+            CALL ALEW1(
+     1           X         ,D       ,V       ,W       ,
+     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,
+     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB         )
+            CALL MY_BARRIER
+
+          !-------------------------!
+          !---/ALE/GRID/SPRING (2)
+          !-------------------------!
+          CASE(2)
+            IF (ITASK == 0) THEN
+              CALL ALEW2(
+     1            X       ,D      ,V       ,W    ,WA   ,
+     2            ALE_CONNECTIVITY%NALE    ,IPARG  ,IXS     ,WB   ,
+     3            IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY,
+     4            PROCNE  ,FSKY   ,FSKY    ,IADS ,ITAB      )
+            ENDIF
+
+          !-------------------------!
+          !---/ALE/GRID/ZERO (3)
+          !-------------------------!
+          CASE(3)
+            IF (ITASK == 0) THEN
+              CALL WLAG(V,W,ALE_CONNECTIVITY%NALE)
+            ENDIF
+
+          !-------------------------!
+          !---/ALE/GRID/STANDARD (4)
+          !-------------------------!
+          CASE(4)
+            IF (ITASK == 0) THEN
+              IF (N2D == 0) THEN
+                NIADX=8
+                CALL ALEW4(
+     1               X       ,D      ,V       ,W    ,WA            ,
+     2               ALE_CONNECTIVITY%NALE    ,IPARG  ,IXS     ,WB   ,
+     3               IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY         ,
+     4               PROCNE  ,FSKY   ,FSKY    ,IADS ,WB(1+3*NUMNOD),
+     5               NIXS    ,NIADX  ,ITAB )
+              ELSE
+                NIADX=4
+                CALL ALEW4(
+     1               X       ,D      ,V       ,W    ,WA            ,
+     2               ALE_CONNECTIVITY%NALE    ,IPARG  ,IXQ     ,WB   ,
+     3               IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY         ,
+     4               PROCNE  ,FSKY   ,FSKY    ,IADQ ,WB(1+3*NUMNOD),
+     5               NIXQ    ,NIADX  ,ITAB  )
+              ENDIF
+            ENDIF
+
+          !-------------------------!
+          !---/ALE/GRID/LAPLACIAN (5)
+          !-------------------------!
+          CASE(5)
+            CALL MY_BARRIER
+            CALL ALEW5(
+     1           X         ,D       ,V       ,W       ,WA       ,
+     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,
+     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB       ,
+     4           SKEW, ISKEW,ICODT)
+            CALL MY_BARRIER
+
+          !-------------------------!
+          !---/ALE/GRID/VOLUME (6)
+          !-------------------------!
+          CASE(6)
+            CALL MY_BARRIER
+            CALL ALEW6(
+     1           X         ,D       ,V       ,W       ,WA       ,
+     .           XCELL, XFACE,
+     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NE_CONNECT,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,
+     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB,NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,
+     4           ELBUF_TAB, IPARG, IXS, IXQ)
+            CALL MY_BARRIER
+
+          !-------------------------!
+          !---/ALE/GRID/MASSFLOW (7)
+          !-------------------------!
+          CASE(7)
+            CALL MY_BARRIER
+            CALL ALEW7(
+     1           X       ,V       ,W      ,MS      ,ALE_CONNECTIVITY%NALE,
+     2           NODFT   ,NODLT   ,WEIGHT ,NUMNOD  ,
+     3           SX      ,SV      ,SW     ,NSPMD)
+            CALL MY_BARRIER
+
+
+        END SELECT !CASE (ALE%GRID%NWALE)
+
         IF (ITASK == 0) THEN
           DT2=DT2SAVE
         ENDIF
       ELSE
          IF (ITASK == 0) CALL WLAG(V,W,ALE_CONNECTIVITY%NALE)
       ENDIF
-C     
+C
       CALL MY_BARRIER
-C     
+C
       IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(5,1)
       IF (ITASK == 0) THEN
 C----------------------------------------
          IF(NUMPOR > 0)
-     1        CALL WPOR(GEO,NODPOR,X                    ,V       ,VR    ,
+     1        CALL WPOR(GEO,NODPOR,X                    ,V       ,VR  ,
      2                  W  ,RBY   ,ALE_CONNECTIVITY%NALE,NPORGEO       )
 C----------------------------------------
 C     BOUNDARY CONDITIONS AT NODES
@@ -290,12 +304,12 @@ C----------------------------------------
                   ENDIF
                ENDIF
             ENDDO
-            IF (NINDX1 /= 0)
-     .           CALL BCS2V(NINDX1,INDX1,ISKEW,ICODT(NUMNOD+1),W,
-     .           SKEW)
-            IF (NINDX2 /= 0)
-     .           CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),W,
-     .           V      ,SKEW)
+            IF(NINDX1 /= 0)THEN
+              CALL BCS2V(NINDX1,INDX1,ISKEW,ICODT(NUMNOD+1),W,SKEW)
+            ENDIF
+            IF(NINDX2 /= 0)THEN
+              CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),W,V,SKEW)
+            ENDIF
          ENDDO
          IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(4,1)
 C--------------------------------
@@ -322,7 +336,6 @@ C-----------------------------------
             ENDDO
             IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(5,1)
          ENDIF
-C-----------------------------------
 C--------------------------------------
 C     /ALE/LINK/VEL
 C--------------------------------------
@@ -367,11 +380,10 @@ C-----------------------
          ENDIF
 C-----------------------
       ENDIF                     ! ITASK == 0
-      
+
 C-----------------------------------
 C     LAGRANGIAN ROTATIONS
 C-----------------------------------
-
       IF(IMPOSE_DR /= 0 .AND. IRODDL /= 0) THEN
 #include      "vectorize.inc"
          DO N=NODFT,NODLT
@@ -379,15 +391,15 @@ C-----------------------------------
             DR(2,N)=DR(2,N)+DT2*VR(2,N)
             DR(3,N)=DR(3,N)+DT2*VR(3,N)
          ENDDO
-      ENDIF      
-      
+      ENDIF
+
 C-----------------------------------
 C     GRID DISPLACEMENT
 C-----------------------------------
       IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(5,1)
-C     
+C
       CALL MY_BARRIER
-C     
+C
       IF (.NOT. MULTI_FVM%IS_USED) THEN
          IF (IRESP == 1) THEN
 #include      "vectorize.inc"
@@ -396,19 +408,19 @@ C
                DDP(1,N) = DDP(1,N)+VDT2
                D(1,N) = D(1,N)+VDT2
                XDP(1,N) = XDP(1,N)+VDT2
-               X(1,N) = XDP(1,N)   
+               X(1,N) = XDP(1,N)
 
                VDT2 = DT2*W(2,N)
                DDP(2,N) = DDP(2,N)+VDT2
                D(2,N) = D(2,N)+VDT2
                XDP(2,N) = XDP(2,N)+VDT2
-               X(2,N) = XDP(2,N)                   
-               
+               X(2,N) = XDP(2,N)
+
                VDT2 = DT2*W(3,N)
                DDP(3,N) = DDP(3,N)+VDT2
                D(3,N) = D(3,N)+VDT2
                XDP(3,N) = XDP(3,N)+VDT2
-               X(3,N) = XDP(3,N)               
+               X(3,N) = XDP(3,N)
             ENDDO
          ELSE
 #include      "vectorize.inc"
@@ -416,23 +428,23 @@ C
                VDT = DT2*W(1,N)
                D(1,N) = D(1,N)+VDT
                X(1,N) = X(1,N)+VDT
-               
+
                VDT = DT2*W(2,N)
                D(2,N) = D(2,N)+VDT
                X(2,N) = X(2,N)+VDT
-               
+
                VDT = DT2*W(3,N)
                D(3,N) = D(3,N)+VDT
                X(3,N) = X(3,N)+VDT
             ENDDO
-         ENDIF     
+         ENDIF
       ENDIF
-C     
+C-----------------------------------------------
       CALL MY_BARRIER
-C     
+C-----------------------------------------------
       IF(IMON > 0 .AND. ITASK == 0) THEN
          CALL STOPTIME(5,1)
       ENDIF
-C     
+C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE ALEWDX

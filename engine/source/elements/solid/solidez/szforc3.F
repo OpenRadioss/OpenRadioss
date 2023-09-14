@@ -563,7 +563,7 @@ c
      E   DYY,     DYZ,     DZX,     DZY,
      F   DZZ,     D4,      D5,      D6,
      G   WXX,     WYY,     WZZ,     BID,
-     H   BID,     BID,     IXS,     NEL,
+     H   BID,     BID,     NEL,
      I   NFT,     ISMSTR,  JEUL,    JHBE,
      J   JCVT,    ISROT)
       ENDIF

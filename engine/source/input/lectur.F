@@ -213,7 +213,7 @@ C-----------------------------------------------
      .   NSN,NRTS,NRTM,NMN,L,NCPRI1,NRLINK0,NALELK0,
      .   NSPHOF,IWIOUT,NLECSPH(10),NFXINP,NCRST1,NEIGOFF,NEOFF,
      .   NALEOF,NEULEROF,NTHERMOF,NFVMESH,MLW,LL,ISK1,ISK2,
-     .   NFVMODI,IOK, ALEStrL(0:6), NALELINK0, GR_ID,
+     .   NFVMODI,IOK, ALEStrL(0:7), NALELINK0, GR_ID,
      .   NALELK_starter, uID, NALELK_removed, JALE,USERL_COUNT,
      .   IDEL2,IS,
      .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
@@ -227,7 +227,7 @@ C-----------------------------------------------
       my_real
      .   TITLE(20), TFI,  DTF, DTM, ALP, GAM,
      .   CV1, CV2, CV3, VOLM, TSTART, TFIN,DT_INPUT, DT_CRIT
-       CHARACTER*9 Cale1,Cale2,ALEform(0:6),CHAR1,CHAR2
+       CHARACTER*9 Cale1,Cale2,ALEform(0:7),CHAR1,CHAR2
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
       my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
       my_real, DIMENSION(:), POINTER :: OFFG
@@ -339,7 +339,7 @@ c h3d files
       IF(H3D_DATA%TH3D_STOP0 > ZERO .AND. H3D_DATA%TH3D_STOP0 /= EP20)THEN
         H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0
       ENDIF
-      IF(H3D_DATA%DTH3D<=ZERO)  THEN 
+      IF(H3D_DATA%DTH3D<=ZERO)  THEN
         H3D_DATA%TH3D = EP30
         H3D_DATA%TH3D_STOP = EP30
       ENDIF
@@ -369,7 +369,7 @@ C
         IF(VOLM /= ZERO)VOLMIN=VOLM
         IF(INT22>0)THEN
           DTFAC22 = ONE
-          IF(DTFAC>HALF)DTFAC22 = HALF / DTFAC      
+          IF(DTFAC>HALF)DTFAC22 = HALF / DTFAC
         ENDIF
       ENDIF
 C
@@ -415,18 +415,18 @@ C
         IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         DTFACX = MIN(DTFAC1(I), DTFACX)
       ENDDO
-      
+
       IF(IDTMIN(52) == 0)IDTMIN(52) = 1
       IF(DTFAC1(52) == ZERO)DTFAC1(52) = ZEP9
       IF(DTMIN1(52) == ZERO)DTMIN1(52) = EM20
-            
+
       I=102
         IF(ALE%GLOBAL%IDT_ALE==-1)THEN
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = DTMIN
           IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         ELSE
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = ZERO
-          IF(DTFAC1(I) == ZERO)DTFAC1(I) = HALF         
+          IF(DTFAC1(I) == ZERO)DTFAC1(I) = HALF
         ENDIF
 C
       IF(NODADT == 0)THEN
@@ -481,7 +481,7 @@ C --------------------------------------------------------------------
            CALL ARRET(2)
         ENDIF
       ENDIF
-C      
+C
       MIN_ASPECT = DT%BRICK_CST_COL_MIN
       MIN_DEFV = DT%BRICK_CST_DEFV_MIN
       IF(ISPMD == 0.AND.MCHECK == 0)
@@ -592,7 +592,7 @@ C
            IF(ISPMD == 0.AND.MCHECK == 0)
      .     WRITE(IOUT,5020)DT%BRICK_DEL_COL_MIN,DT%BRICK_DEL_DEFV_MIN,
      .                     DT%BRICK_DEL_ASP_MAX,DT%BRICK_DEL_DEFV_MAX
-        END IF 
+        END IF
         IF(IDTMINS_INT/=0)THEN
          IF((IMACH /= 3.OR.ISPMD == 0).AND.MCHECK == 0)THEN
           WRITE(IOUT,1209) DTFACS_INT,DTMINS_INT
@@ -677,11 +677,11 @@ C
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
             IF (IFV_TYPE == 6 .OR. IFV_TYPE == 8 .OR. IFV_TYPE == 11) THEN
-               IF(.NOT.IS_ALREADY_PRINTED)THEN 
+               IF(.NOT.IS_ALREADY_PRINTED)THEN
                  WRITE(IOUT,1157)
                  IS_ALREADY_PRINTED=.TRUE.
                ENDIF
-            ENDIF            
+            ENDIF
             IF(IFV_TYPE == 6) WRITE(IOUT,1147)MONVOL(K1)
             IF(IFV_TYPE == 8) WRITE(IOUT,1148)MONVOL(K1)
             IF(IFV_TYPE == 11)WRITE(IOUT,1149)MONVOL(K1)
@@ -815,7 +815,7 @@ C-------------------------------------------
 C     Animations
 C-------------------------------------------
       IF(TANIM0 /= ZERO)  TANIM = TANIM0
-      IF(TANIM_STOP0/=ZERO .AND. TANIM_STOP0/=EP20)  TANIM_STOP = TANIM_STOP0      
+      IF(TANIM_STOP0/=ZERO .AND. TANIM_STOP0/=EP20)  TANIM_STOP = TANIM_STOP0
       IF(DTANIM0 > ZERO)  DTANIM= DTANIM0
       IF(DTANIM<=ZERO)  TANIM = EP30
       IF (TANIM < TT-DT2.AND.DTANIM > ZERO)TANIM = TANIM
@@ -1067,11 +1067,11 @@ C----------------------------------------
          !---ALE GRID FORMULATION CHECK---!
          IF(ALE%GRID%NWALE_ENGINE /= ALE%GRID%NWALE_RST .AND. ALE%GRID%NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch
            IF(ALE%GRID%NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO
-             ALEform=(/'DONEA    ','DISP     ','SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN' ,'VOLUME   '/)
-             ALEStrL=(/5,4,6,4,8,9,6/)
+             ALEform=(/'DONEA    ','DISP     ','SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN' ,'VOLUME   ', 'MASSFLOW '/)
+             ALEStrL=(/5,4,6,4,8,9,6,8/)
              Cale1=ALEform(ALE%GRID%NWALE_ENGINE)
              Cale2=ALEform(ALE%GRID%NWALE_RST)
-              CALL ANCMSG(MSGID=229,ANMODE=ANINFO, 
+              CALL ANCMSG(MSGID=229,ANMODE=ANINFO,
      .                    C1=Cale1(1:ALEStrL(ALE%GRID%NWALE_ENGINE)),C2=Cale2(1:ALEStrL(ALE%GRID%NWALE_RST)))
               CALL ARRET(2)
             ELSE
@@ -1115,18 +1115,19 @@ C----------------------------------------
          IF (LOWMACH_OPT == 1 .AND. MULTI_FVM%IS_USED) THEN
             MULTI_FVM%LOWMACH_OPT = .TRUE.
          ENDIF
-         ALEform=(/'DONEA    ','DISP     ','SPRING   ','ZERO     ','STANDARD ','LAPLACIAN','VOLUME   ' /)
+         ALEform=(/'DONEA    ','DISP     ','SPRING   ','ZERO     ','STANDARD ','LAPLACIAN','VOLUME   ', 'MASSFLOW ' /)
          !effective value which will be retained during numerical solving
          IF(ALE%GRID%NWALE_ENGINE /= -1)THEN
            ALE%GRID%NWALE = ALE%GRID%NWALE_ENGINE
          ELSE
            ALE%GRID%NWALE = ALE%GRID%NWALE_RST
          ENDIF
-         Label9(:)='     '
+         Label9(:)='         '
          Label9(1:9)=ALEform(ALE%GRID%NWALE)
          eta1=ALE%UPWIND%UPWMG2
          eta2=ALE%UPWIND%UPWOG2
          IF(ALE%UPWIND%UPWM>1)eta1=ALE%UPWIND%CUPWM
+         !OUTPUT NUMERICAL SCHEME AND ITS PARAMETERS
          IF(ISPMD==0 .AND. MCHECK==0)THEN
            WRITE(IOUT,1001)
            WRITE(IOUT,1002)Label1,eta1,Label2,eta2,Label3,eta2,Label4
@@ -1137,12 +1138,34 @@ C----------------------------------------
              IF(ALEMUSCL_Param%IALEMUSCL/=0)
      .       WRITE(IOUT,1005)ALEMUSCL_Param%BETA
            ENDIF
+           !OUTPUT COURANT NUMBER
            WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
-           WRITE(IOUT,1007)Label9
-           IF(ALE%GRID%NWALE == 0) WRITE(IOUT,1200) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
-           IF(ALE%GRID%NWALE == 1) WRITE(IOUT,1220) ALE%GRID%ALPHA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
-           IF(ALE%GRID%NWALE == 2) WRITE(IOUT,1250) DT_INPUT,ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,VOLMIN
-           IF(ALE%GRID%NWALE == 4) WRITE(IOUT,1254) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY
+           !OUTPUT GRID SMOOTHING FORMULATION AND ITS PARAMETERS
+           WRITE(IOUT,1007)Label9(1:9)
+           SELECT CASE (ALE%GRID%NWALE)
+             CASE(0) !DONEA
+               WRITE(IOUT,1008)
+               WRITE(IOUT,1200) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+             CASE(1) !DISP
+               WRITE(IOUT,1008)
+               WRITE(IOUT,1220) ALE%GRID%ALPHA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+             CASE(2) !SPRING
+               WRITE(IOUT,1008)
+               WRITE(IOUT,1250) DT_INPUT,ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,VOLMIN
+             CASE(3) !ZERO
+               !no parameters
+             CASE(4) !STANDARD
+               WRITE(IOUT,1008)
+                WRITE(IOUT,1254) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY
+             CASE(5)! LAPLACIAN
+               WRITE(IOUT,1008)
+               WRITE(IOUT,1254) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY
+             CASE(6) !VOLUME
+               !no parameters
+             CASE(7) !MASSFLOW
+               WRITE(IOUT,1008)
+               WRITE(IOUT,1257) ALE%GRID%ALPHA,ALE%GRID%GAMMA
+           END SELECT
          ENDIF
        ENDIF !(IALE/=0.OR.IEULER/=0)
           !---CHECK END-------------------!
@@ -1784,7 +1807,7 @@ C
          NINEFRIC = 0
          IF(NINTSTAMP/=0) THEN
            DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N) 
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
                IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC_STAMP + 1
            ENDDO
          ENDIF
@@ -1806,14 +1829,14 @@ C
             NS = 0
             NN= 0
             DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N) 
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
                IF(NI/= 0.AND.IPARI(7,N)==21) THEN
                   NS = NS+1
                   H3D_DATA%N_CSE_FRIC_INTER (N) = NINEFRIC + NS
                ELSEIF (NI/=0) THEN
                   NN = NN+1
                   H3D_DATA%N_CSE_FRIC_INTER (N) = NN
-               ENDIF     
+               ENDIF
             ENDDO
          ENDIF
       ELSEIF(S_EFRICINT==0)THEN
@@ -2773,7 +2796,8 @@ C---------------------------------------------------------
  1007 FORMAT(
      & 1X,'  |'/
      & 1X,'  +--GRID SMOOTHING'/
-     & 1X,'     +--FORMULATION       : ',A16/
+     & 1X,'     +--FORMULATION       : ',A9)
+ 1008 FORMAT(
      & 1X,'     +--PARAMETERS        :')
 
  1099 FORMAT(
@@ -2813,8 +2837,8 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' CONTACT MINIMUM TIME STEP. . . . . . . . . . . . ',G14.7/
      .  ' MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)',I5/ )
  1155 FORMAT('/DT/FVMBAG/0 OPTION')
- 1156 FORMAT('/DT/FVMBAG/1 OPTION') 
- 1157 FORMAT('FVMBAG TIME STEP SYNTHESIS')  
+ 1156 FORMAT('/DT/FVMBAG/1 OPTION')
+ 1157 FORMAT('FVMBAG TIME STEP SYNTHESIS')
  1147 FORMAT(
      .  ' FVMBAG  ID. . . . . . . . . . . . . . . . . . . . ',I10)
  1148 FORMAT(
@@ -2911,7 +2935,7 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
  1120 FORMAT(/
      .  ' TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . . ',G14.7/
      .  ' TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . . ',G14.7/
-     .  ' TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . . ',G14.7/     
+     .  ' TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . . ',G14.7/
      .  ' SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . . ',I10/
      .  ' TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. . ',G14.7//
      .  ' VARIABLE SAVED ON ANIMATION FILES (1: YES) :',/
@@ -3007,6 +3031,9 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      . 28X,' GAMMA : NON LINEARITY FACTOR . . . . . . . . . . ',G14.7/
      . 28X,' BETA  : DAMPING COEFFICIENT. . . . . . . . . . . ',G14.7/
      . 28X,' LC    : CHARACTERISTIC LENGTH. . . . . . . . . . ',G14.7//)
+ 1257 FORMAT(
+     . 28X,' SCALE_DEF : SCALE FACTOR FOR DEFORMATION . . . . ',G14.7/
+     . 28X,' SCALE_ROT : SCALE FACTOR FOR ROTATION. . . . . . ',G14.7//)
  1300 FORMAT(
      .  ' NUMBER OF INTERFACES TO BE ELIMINATED. . . . . . ',I8//
      .  ' NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED ',I8//
