@@ -553,11 +553,6 @@ C
       END DO         
       ! Equivalent stress output, thickness update and soundspeed
       DO I=1,NEL
-        UVAR(I,8) = SIGA(I,1)
-        UVAR(I,9) = SIGA(I,2)
-        UVAR(I,10) = SIGB(I,1)     
-        UVAR(I,11) = SIGB(I,2)    
-
          ! New equivalent stress
         AXX(I) = SIGNXX(I) - SIGA(I,1) - SIGB(I,1)
         AYY(I) = SIGNYY(I) - SIGA(I,2) - SIGB(I,2)
