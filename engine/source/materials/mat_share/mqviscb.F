@@ -113,6 +113,7 @@ C-----------------------------------------------
      .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
      .        ATU, QAD, QBD, QAAP, DT, NUI
       my_real TIDT,TVOL,TRHO,TAIRE,  DTMIN(MVSIZ), RHOS(MVSIZ),FACPG
+      my_real :: CNS1_0,CNS2_0,QAA_0
 #ifdef MYREAL8 
       my_real, PARAMETER :: REAL_THREE = 3.0D0
       my_real, PARAMETER :: REAL_ONE = 1.0D0
@@ -190,23 +191,26 @@ C
           RHO0(I)=PM(1,MT)
           NRHO(I)=SQRT(RHOREF(I)*RHO0(I))
         ENDDO
+        QA =FACQ*GEO(14,PID(1))
+        QB =FACQ*GEO(15,PID(1))
+        CNS1_0=FACPG*GEO(16,PID(1))
+        CNS2_0=FACPG*GEO(17,PID(1))
+        PSH(1:NEL)=PM(88,MT)
+        PNEW(1:NEL)=ZERO
+        QAA_0 = QA*QA
+        DTMIN(1:NEL) = GEO(172,PID(1)) 
         DO I=1,NEL
-          QA =FACQ*GEO(14,PID(1))
-          QB =FACQ*GEO(15,PID(1))
-          CNS1=FACPG*GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-          CNS2=FACPG*GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-          PSH(I)=PM(88,MT)
-          PNEW(I)=ZERO
+          CNS1=CNS1_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+          CNS2=CNS1_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
 C
 C   warns : Stability vs artificial viscosity should use
 C           RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I)) / MAX(EM20,RHOREF(I)*DELTAX(I))
 C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not RHO ../..
-          QAA = QA*QA*AD(I)
+          QAA = QAA_0*AD(I)
           QX(I)=QB*SSP(I)+DELTAX(I) * QAA
      .     + VISI*TWO*VIS(I)   / MAX(EM20,RHO(I)*DELTAX(I))
      .     + (CNS1+VISI*CNS2) / MAX(EM20,RHOREF(I)*DELTAX(I))
-          QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
-          DTMIN(I) = GEO(172,PID(1))      
+          QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))     
         ENDDO
        ELSE
         MT = MAT(1)
@@ -214,33 +218,35 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
           RHO0(I)=PM(1,MT)
           NRHO(I)=SQRT(RHOREF(I)*RHO0(I))
         ENDDO
+
+        QA =FACQ*GEO(14,PID(1))
+        QB =FACQ*GEO(15,PID(1))
+        PSH(1:NEL)=PM(88,MT)
+        PNEW(1:NEL)=ZERO
+        QAA_0 = QA*QA
+        DTMIN(1:NEL) = GEO(172,PID(1)) 
+
         IF(GEO(16,PID(1)) >= ZERO)THEN
+          CNS1_0=FACPG*GEO(16,PID(1))
+          CNS2_0=FACPG*GEO(17,PID(1))
           DO I=1,NEL
-            QA =FACQ*GEO(14,PID(1))
-            QB =FACQ*GEO(15,PID(1))
-            CNS1=FACPG*GEO(16,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-            CNS2=FACPG*GEO(17,PID(1))*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-            PSH(I)=PM(88,MT)
-            PNEW(I)=ZERO
-            QAA = QA*QA*AD(I)
+            CNS1=CNS1_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+            CNS2=CNS2_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+            QAA = QAA_0*AD(I)
             NUI    =RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
             QVIS(I)=NUI*AD(I)
-            QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
-            DTMIN(I) = GEO(172,PID(1))      
+            QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))   
           ENDDO
        ELSE
+          CNS1_0=ABS(GEO(16,PID(1)))
+          CNS2_0=ABS(GEO(17,PID(1)))
           DO I=1,NEL
-            QA =FACQ*GEO(14,PID(1))
-            QB =FACQ*GEO(15,PID(1))
-            CNS1=ABS(GEO(16,PID(1)))*NRHO(I)*SSP(I)**2*OFF(I)
-            CNS2=ABS(GEO(17,PID(1)))*NRHO(I)*SSP(I)**2*OFF(I)
-            PSH(I)=PM(88,MT)
-            PNEW(I)=ZERO
-            QAA = QA*QA*AD(I)
+            CNS1=CNS1_0*NRHO(I)*SSP(I)**2*OFF(I)
+            CNS2=CNS2_0*NRHO(I)*SSP(I)**2*OFF(I)
+            QAA = QAA_0*AD(I)
             NUI    =RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
             QVIS(I)=NUI*AD(I)
-            QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
-            DTMIN(I) = GEO(172,PID(1))      
+            QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))    
           ENDDO
        END IF
       ENDIF

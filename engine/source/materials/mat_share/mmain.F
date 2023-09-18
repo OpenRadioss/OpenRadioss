@@ -2212,11 +2212,11 @@ c --- ladeveze delamination damage model
 c ---   tabulated failure model
               CALL FAIL_TAB_S(
      1        LLT      ,NVARF    ,NPF      ,TF       ,TT       ,         
-     2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,EL_LEN  ,         
+     2        BUFMAT(IADBUF)     ,NGL      ,EL_LEN  ,         
      3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6     ,    
-     4        EL_PLA   ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
-     5        OFF      ,IP       ,TABLE    ,DFMAX    ,TDEL     ,
-     6        NFUNC    ,IFUNC )                                       
+     4        DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
+     5        OFF      ,TABLE    ,DFMAX    ,TDEL     ,
+     6        NFUNC    ,IFUNC )                                     
           ELSEIF (IRUPT == 24) THEN                                      
 c   --- Orthotropic strain failure
               CALL FAIL_ORTHSTRAIN(

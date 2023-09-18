@@ -29,21 +29,21 @@ Chd|        VINTER                        source/tools/curve/vinter.F
 Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS36C(
-     1     NEL    ,NUPARAM,NUVAR   ,NVARTMP ,MFUNC  ,
-     2     KFUNC  ,NPF    ,NPT0    ,IPT     ,IPLAS  ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,ASRATE  ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+     1     NEL    ,NUVAR   ,NVARTMP ,MFUNC  ,
+     2     KFUNC  ,NPF    ,IPLAS  ,
+     2     TF     ,TIMESTEP,UPARAM  ,RHO0   ,
+     3     THKLY   ,ASRATE  ,
+     4     EPSPXX ,EPSPYY ,EPSPXY  ,
      5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     6     EPSXX  ,EPSYY  ,EPSXY   ,
      7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      9     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     A     VARTMP ,OFF    ,NGL     ,IPM     ,IMAT   ,
+     A     VARTMP ,OFF    ,IPM     ,IMAT   ,
      B     ETSE   ,GS     ,YLD     ,EPSP    ,ISRATE ,
      C     DPLA_I ,GAMA_IMP,SIGNOR ,SHF     ,HARDM  ,
-     D     FACYLDI,SIGB   ,INLOC   ,DPLANL  ,DMG    ,
-     E     PLANL  )
+     D     FACYLDI,INLOC   ,DPLANL  ,DMG    ,PLANL  ,
+     E     SIGBXX,SIGBYY,SIGBXY  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,8 +62,7 @@ C---------+---------+---+---+--------------------------------------------
 C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
 C IFUNC   | NFUNC   | I | R | FUNCTION INDEX 
 C NPF     |  *      | I | R | FUNCTION ARRAY   
-C NPT0    |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
-C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
+C NPT0    |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS    
 C IPLAS   |  *      | I | R | GEOMETRICAL FLAGS   
 C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
@@ -71,8 +70,6 @@ C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C RHO0    | NEL    | F | R | INITIAL DENSITY
-C AREA    | NEL    | F | R | AREA
-C EINT    | 2*NEL  | F | R | INTERNAL ENERGY(MEMBRANE,BENDING)
 C THKLY   | NEL    | F | R | LAYER THICKNESS
 C EPSPXX  | NEL    | F | R | STRAIN RATE XX
 C EPSPYY  | NEL    | F | R | STRAIN RATE YY
@@ -105,14 +102,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR, NVARTMP,NPT0,IMAT,IPT,ISRATE,INLOC
-      INTEGER IPLAS(*),NGL(NEL),IPM(NPROPMI,*)
-      my_real :: TIME,TIMESTEP,ASRATE
-      my_real :: UPARAM(*),SIGB(*),AREA(NEL),RHO0(NEL),EINT(NEL,2),
+      INTEGER NEL, NUVAR, NVARTMP,IMAT,ISRATE,INLOC
+      INTEGER IPLAS(*),IPM(NPROPMI,*)
+      my_real :: TIMESTEP,ASRATE
+      my_real :: UPARAM(*),RHO0(NEL),
      .   THKLY(NEL),PLA(NEL),FACYLDI(NEL),
-     .   EPSPXX(NEL),EPSPYY(NEL),EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
+     .   EPSPXX(NEL),EPSPYY(NEL),EPSPXY(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
-     .   EPSXX(NEL) ,EPSYY(NEL),EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL) ,
+     .   EPSXX(NEL) ,EPSYY(NEL),EPSXY(NEL),
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   GS(NEL),EPSP(NEL),SHF(NEL),HARDM(NEL),DPLANL(NEL),DMG(NEL),
      .   PLANL(NEL)
@@ -129,6 +126,7 @@ C-----------------------------------------------
       my_real
      .    UVAR(NEL,NUVAR), OFF(NEL),THK(NEL),YLD(NEL)
       INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
+      my_real, DIMENSION(NEL), INTENT(INOUT)  :: SIGBXX,SIGBYY,SIGBXY
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -137,7 +135,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ::  I,J,K,N,II,J1,J2,NINDX,VP,IFAIL,OPTE,NINDEX_PLA,
+      INTEGER ::  I,J,N,II,J1,J2,NINDX,VP,IFAIL,OPTE,NINDEX_PLA,
      .        NITER,NRATE,IPFUN,NFUNC,PFUN,IFUNCE,FUN1,FUN2,YLDCHECK,
      .        ISMOOTH
       INTEGER IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
@@ -145,11 +143,11 @@ C-----------------------------------------------
      .        JJ(MVSIZ),INDEX(MVSIZ),IPOSP(MVSIZ),IPOSPE(MVSIZ),
      .        IFUNC(100),IADP(MVSIZ),ILENP(MVSIZ)
       INTEGER, DIMENSION(MVSIZ) :: INDEX_PLA
-      my_real :: A,B,C,P,P2,R,CC,FAC,DEZZ,SVM,
+      my_real :: A,P2,R,FAC,DEZZ,SVM,
      .        HKIN,DTINV,AAA,SOUNDSP1,ALPHA,CE,EINF,EPSP1,EPSP2,
-     .        ERR,F,DF,PLA_I,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
+     .        F,DF,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
      .        E1,A11,A21,G1,G31,NU11,NU21,NU_MNU,U_MNU,T_PNU,NUX,NU3,
-     .        EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,S1,S2,S3,DPLA,VM2,YLD0
+     .        EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,S1,S2,S3,YLD0
       my_real ::  FACT(NEL),E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RFAC(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),YFAC(MVSIZ,2),ESCALE(MVSIZ),
@@ -158,10 +156,8 @@ C-----------------------------------------------
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),
      .        SVM2(MVSIZ),YLD2(MVSIZ),HI(MVSIZ),G3(MVSIZ),EPST(MVSIZ), 
      .        PFAC(MVSIZ),P0(MVSIZ),DFDP(MVSIZ),PSCALE(MVSIZ),   
-     .        DYDXE(MVSIZ),E0(MVSIZ),PLAP(MVSIZ)
-      my_real, DIMENSION(MVSIZ) :: TAB_LOC,VECNUL
-      my_real, DIMENSION(:) ,POINTER  :: SIGBXX,SIGBYY,SIGBXY,SIGBYZ,SIGBZX
-      TARGET  :: SIGB ,VECNUL   
+     .        DYDXE(MVSIZ),PLAP(MVSIZ)
+      my_real, DIMENSION(MVSIZ) :: TAB_LOC
 c------------------
       DATA NITER/3/
 C=======================================================================
@@ -198,21 +194,6 @@ C
       YLDCHECK = NINT(UPARAM(2*NRATE + 28))
       ISMOOTH  = NINT(UPARAM(2*NRATE + 29)) ! strain rate interpolation flag
 c-----------------------------
-      IF (FISOKIN > 0) THEN
-        SIGBXX => SIGB(1       :  NEL) 
-        SIGBYY => SIGB(NEL+1  :2*NEL)
-        SIGBXY => SIGB(2*NEL+1:3*NEL)
-        SIGBYZ => SIGB(3*NEL+1:4*NEL)
-        SIGBZX => SIGB(4*NEL+1:5*NEL)
-      ELSE
-        VECNUL(1:NEL) = ZERO
-        SIGBXX => VECNUL(1:NEL)
-        SIGBYY => VECNUL(1:NEL)
-        SIGBXY => VECNUL(1:NEL)
-        SIGBYZ => VECNUL(1:NEL)
-        SIGBZX => VECNUL(1:NEL)     
-      ENDIF
-c
       NINDEX_PLA = 0 
       VISCMAX(1:NEL) = ZERO
       ETSE(1:NEL) = ONE
@@ -523,11 +504,13 @@ C-------------------------
             AA(I)= FOURTH*S1*S1
             BB(I)= THREE_OVER_4*S2*S2 + THREE*S3*S3
             SVM2(I)= AA(I)+BB(I)
-            IF (INLOC == 0) THEN   
+          ENDDO
+          IF (INLOC == 0) THEN 
+            DO I=1,NEL  
               DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU_MNU
               THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-            ENDIF
-          ENDDO
+            ENDDO
+          ENDIF
 C-------------------------
 C         GATHER PLASTIC FLOW
 C-------------------------
@@ -596,7 +579,7 @@ C------------------------------------------
                DEZZ = - NU3*DR(I)*S1/E(I) 
                THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
              ENDIF
-C-----       for kin hardening	   
+C-----       for kin hardening
              YLD(I) =YLD(I)+HI(I)*DPLA_I(I) 
             ENDDO
           ENDIF
@@ -924,7 +907,7 @@ C------------------------------------------
                DEZZ = - NU3*DR(I)*S1/E(I) 
                THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
              ENDIF
-             !-----for kin hardening	   
+             !-----for kin hardening
              YLD(I) =YLD(I)+HI(I)*DPLA_I(I) 
           ENDDO 
         ENDIF 
@@ -994,7 +977,7 @@ C     ECROUISSAGE CINE
 C------------------------------------------
       IF (FISOKIN > ZERO) THEN
         DO I=1,NEL
-	         HKIN  = FISOKIN*H(I)
+          HKIN  = FISOKIN*H(I)
           ALPHA = HKIN*DPLA_I(I)/YLD(I)
           SIGPXX = ALPHA*SIGNXX(I) 
           SIGPYY = ALPHA*SIGNYY(I) 

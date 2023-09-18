@@ -32,18 +32,17 @@ Chd|        VINTER2                       source/tools/curve/vinter.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS36(
-     1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,
+     1     NEL    ,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
+     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,
      4     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      6     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPT    ,
+     8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
      9     IPM    ,MAT    ,EPSP    ,IPLA    ,YLD     ,PLA    ,
      A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU     ,
-     B     FACYLDI,NVARTMP,VARTMP  ,SIGB    ,DMG     ,INLOC  ,
-     C     PLANL  )
+     B     FACYLDI,NVARTMP,VARTMP  ,DMG     ,INLOC  ,PLANL,
+     C     SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,8 +69,6 @@ C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C RHO0    | NEL     | F | R | INITIAL DENSITY
 C RHO     | NEL     | F | R | DENSITY
-C VOLUME  | NEL     | F | R | VOLUME
-C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
 C ...     |         |   |   |
 C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
 C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
@@ -100,12 +97,12 @@ C---------+---------+---+---+--------------------------------------------
 #include      "units_c.inc"
 #include      "impl1_c.inc"
 C=======================================================================
-      INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA,NVARTMP,INLOC
-      INTEGER ,DIMENSION(NEL) :: NGL,MAT
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) :: IPM
+      INTEGER, INTENT(IN) :: NEL, NUVAR,IPLA,NVARTMP,INLOC
+      INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL,MAT
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
       my_real
-     .   TIME,TIMESTEP,UPARAM(*),SIGB(*),
-     .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
+     .   TIME,TIMESTEP,UPARAM(*),
+     .   RHO0(NEL),
      .   EPSXX(NEL),EPSYY(NEL),EPSZZ(NEL),
      .   EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
@@ -129,6 +126,7 @@ C-----------------------------------------------
      .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL),
      .        PLA(NEL)
       INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
+      my_real, DIMENSION(NEL), INTENT(INOUT)  :: SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -179,9 +177,7 @@ C-----------------------------------------------
      .       SVM_TAB(MVSIZ)
       INTEGER :: NINDEX_PLA,NINDEX_VINTER
       INTEGER, DIMENSION(MVSIZ) :: INDEX_PLA,INDEX_VINTER
-      my_real, DIMENSION(MVSIZ) :: TAB_LOC,Y1_LOC,DYDX1_LOC, Y2_LOC,DYDX2_LOC ,VECNUL 
-      my_real, DIMENSION(:) ,POINTER  :: SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX
-      TARGET  SIGB, VECNUL      
+      my_real, DIMENSION(MVSIZ) :: TAB_LOC,Y1_LOC,DYDX1_LOC, Y2_LOC,DYDX2_LOC 
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -227,22 +223,7 @@ C
         SOUNDSP(I) = SSP
       ENDDO            
 c-----------------------------
-      IF (FISOKIN > 0) THEN
-          SIGBXX => SIGB(1      :  NEL) 
-          SIGBYY => SIGB(NEL+1  :2*NEL)
-          SIGBZZ => SIGB(2*NEL+1:3*NEL)
-          SIGBXY => SIGB(3*NEL+1:4*NEL)
-          SIGBYZ => SIGB(4*NEL+1:5*NEL)
-          SIGBZX => SIGB(5*NEL+1:6*NEL)
-      ELSE IF (IMPL_S > 0) THEN
-          VECNUL(1:NEL) = ZERO
-          SIGBXX => VECNUL(1:NEL)
-          SIGBYY => VECNUL(1:NEL)
-          SIGBZZ => VECNUL(1:NEL)
-          SIGBXY => VECNUL(1:NEL)
-          SIGBYZ => VECNUL(1:NEL)
-          SIGBZX => VECNUL(1:NEL)     
-      ENDIF
+
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
@@ -628,8 +609,8 @@ c ---       nonlinear hardening requires iterations in radial return --
               DO I=1,NEL
 C               inside M36ITER_IMP, IPOS1=0        
                 J1 = JJ(I)
-                IAD1(I)  = HALF*NPF(IFUNC(J1)) + 1
-                ILEN1(I) = HALF*NPF(IFUNC(J1)+1) - IAD1(I) 
+                IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
+                ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I) 
               ENDDO
               CALL M36ITER_IMP( SIGNXX,  SIGNYY,  SIGNZZ,
      .                          SIGNXY,  SIGNYZ,  SIGNZX,

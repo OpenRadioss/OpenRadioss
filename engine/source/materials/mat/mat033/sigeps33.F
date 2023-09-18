@@ -2450,6 +2450,7 @@ C
 C . . . . . . . . . . . . .
 C    SOLUTION DOUBLE
 C . . . . . . . . . . . . .
+#include      "vectorize.inc"
       DO N = 1, NINDEX2
         NN = INDEX2(N)
         XMAG(NN,1)=SQRT(A(NN,1,1)**2+A(NN,2,1)**2)
@@ -2530,6 +2531,7 @@ C
         VEC(NN,9)=VECDP(NN,9)
       ENDDO
 C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+#include      "vectorize.inc"
       DO N = 1, NINDEX3
         NN = INDEX3(N)
 C str utilise com tableau temporaire au lieu de scalaires temporaires
@@ -2537,6 +2539,7 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
         STR(NN,2)=VEC(NN,8)
         STR(NN,3)=VEC(NN,9)
       ENDDO
+#include      "vectorize.inc"
       DO N = 1, NINDEX3
         NN = INDEX3(N)
         VEC(NN,7)=VEC(NN,1)

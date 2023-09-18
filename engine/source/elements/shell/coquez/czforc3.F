@@ -394,7 +394,7 @@ c-------------------------------------
         ALLOCATE(DIR2_CRK(0))
       ENDIF  ! IXFEM
 C--------------------
-      CALL CZCORC1(ELBUF_STR,
+      CALL CZCORC1(NUMNOD,NUMELC    ,ELBUF_STR,
      1             JFT     ,JLT     ,X       ,V       ,VR      ,
      2             IXC     ,PM      ,PLAT    ,AREA    ,
      3             A_I     ,VL13    ,VL24    ,VLHI    ,RLXYZ   ,

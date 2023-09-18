@@ -30,10 +30,10 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
 Chd|====================================================================
       SUBROUTINE FAIL_FLD_C(
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,
-     3     UVAR     ,NGL      ,IPG      ,ILAY     ,IPTT     ,
-     4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
+     1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
+     2     NPF      ,TF       ,TIME     ,UPARAM   ,
+     3     NGL      ,IPG      ,ILAY     ,IPTT     ,
+     4     EPSXX    ,EPSYY    ,EPSXY    ,
      5     ZT       ,OFF      ,FOFF     ,PTHKF    ,TDEL     ,
      6     FLD_IDX  ,DAM      ,DFMAX    )
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
+#include "mvsiz_p.inc"
 #include  "units_c.inc"
 #include  "comlock.inc"
 C---------+---------+---+---+--------------------------------------------
@@ -53,8 +54,6 @@ C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -76,12 +75,12 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,IPG,ILAY,IPTT
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NFUNC,IPG,ILAY,IPTT
       INTEGER ,DIMENSION(NEL)   :: NGL
       INTEGER ,DIMENSION(NFUNC) :: IFUNC
       my_real TIME,ZT
-      my_real ,DIMENSION(NEL), INTENT(IN) ::  TIMESTEP,OFF,
-     .   EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX
+      my_real ,DIMENSION(NEL), INTENT(IN) ::  OFF,
+     .   EPSXX,EPSYY,EPSXY
       my_real,DIMENSION(NUPARAM) :: UPARAM
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
@@ -90,7 +89,6 @@ C-----------------------------------------------
       my_real, INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: DAM,TDEL
-      my_real UVAR(NEL,NUVAR)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -108,10 +106,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II,J,IENG,LENF,NINDX,NINDXF,IFAIL_SH,ISTRESS,IMARGIN
-      INTEGER ,DIMENSION(NEL) :: INDX,INDXF
-      my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
+      INTEGER ,DIMENSION(MVSIZ) :: INDX,INDXF
+      my_real :: RANI,R1,R2,S1,S2,SS,Q,E12,FACT_MARGIN,FACT_LOOSEMETAL
       my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
-      my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
+      my_real ,DIMENSION(MVSIZ) :: EMAJ,EMIN,EM
+
+      INTEGER, DIMENSION(MVSIZ) :: IPOS,ILENP,IADP
+      my_real, DIMENSION(MVSIZ) :: TAB_LOC,Y_LOC,DYDX_LOC
 C=======================================================================
       IFAIL_SH = INT(UPARAM(1))
       IENG     = INT(UPARAM(6))
@@ -120,6 +121,7 @@ C=======================================================================
       FACT_MARGIN     = UPARAM(3) 
       FACT_LOOSEMETAL = UPARAM(8)
 c-----------------------------
+      ISTRESS = 0
       IF (IFAIL_SH == 1) THEN
         PTHKF   = EM06
         ISTRESS = 0
@@ -135,7 +137,7 @@ c-----------------------------
       ENDIF
 c-----------------------------
       NINDX  = 0
-      NINDXF = 0  	  
+      NINDXF = 0  
       DO I = 1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           NINDX = NINDX + 1
@@ -145,6 +147,7 @@ c-----------------------------
 C
 c --- Minor and major (true) strain deformation.
 C
+#include "vectorize.inc"
       DO J = 1,NINDX
         I = INDX(J)
         E12= HALF*EPSXY(I)
@@ -170,20 +173,31 @@ c-----
           XF(I) = LOG(TF(II + I-1) + ONE)
         ENDDO
 c
+#include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
-          EM(I)    = FINTERFLD(EMIN(I),IFUNC(1),LENF,XF)
+          EM(I)    = FINTERFLD(EMIN(I),LENF,XF)
           DAM(I)   = EMAJ(I) / EM(I)
           DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
       ELSE
+#include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
-          EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
+          IPOS(J) = 1
+          IADP(J) = NPF(IFUNC(1)) / 2 + 1
+          ILENP(J) = NPF(IFUNC(1)+1) / 2 -IADP(J) - IPOS(J)
+          TAB_LOC(J) = EMIN(I)
+        ENDDO
+        CALL VINTER(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
+#include "vectorize.inc"
+        DO J = 1,NINDX
+          I = INDX(J)
+          EM(I)    = Y_LOC(J)
           DAM(I)   = EMAJ(I) / EM(I)
           DFMAX(I) = MIN(ONE, DAM(I))
-        ENDDO
+        ENDDO        
       ENDIF 
 c--------------------------------------------------------------------
 c     FLD zone index calculation for ANIM output
@@ -192,6 +206,7 @@ c
       R2 = RANI/(RANI+ONE)
       
       IF (IMARGIN == 3) THEN
+#include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
           IF (EMAJ(I) >= EM(I)) THEN
@@ -209,6 +224,7 @@ c
           ENDIF
         ENDDO
       ELSE
+#include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
           IF (EMAJ(I) >= EM(I)) THEN
@@ -228,6 +244,7 @@ c
       ENDIF
 c--------------------------------------------------------------------
       IF ((IFAIL_SH == 3 .and. ZT == ZERO) .or. IFAIL_SH < 3) THEN
+#include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
           IF (EMAJ(I) >= EM(I)) THEN
@@ -235,7 +252,7 @@ c--------------------------------------------------------------------
             INDXF(NINDXF) = I
             FOFF(I) = ISTRESS
             TDEL(I) = TIME
-	         ENDIF
+         ENDIF
         ENDDO
       ENDIF
 c
@@ -268,7 +285,7 @@ Chd|        FAIL_FLD_XFEM                 source/materials/fail/fld/fail_fld_xfe
 Chd|        IDX_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      my_real FUNCTION FINTERFLD(EPST,IFUNC,LENF,XF)
+      my_real FUNCTION FINTERFLD(EPST,LENF,XF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -276,7 +293,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFUNC,LENF
+      INTEGER LENF
       my_real XF(LENF),EPST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -284,6 +301,7 @@ C-----------------------------------------------
       INTEGER I
       my_real DX1,DX2,DERI
 C=======================================================================
+      FINTERFLD = ZERO
       DX2 = XF(1) - EPST
       DO I = 2,LENF-2,2
         DX1 = -DX2

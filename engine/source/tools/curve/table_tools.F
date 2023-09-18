@@ -799,10 +799,10 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE TABLE_VINTERP(TABLE,NEL0,IPOS,XX,YY,DYDX1)
+        SUBROUTINE TABLE_VINTERP(TABLE,NEL0,IPOS,XX,YY,DYDX1)
 C-----------------------------------------------
-      USE TABLE_MOD
-      USE MESSAGE_MOD
+        USE TABLE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -810,60 +810,98 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TTABLE) TABLE
-      INTEGER NEL0
-      INTEGER, DIMENSION(:,:) :: IPOS
-      my_real, 
+        TYPE(TTABLE) TABLE
+        INTEGER NEL0
+        INTEGER, DIMENSION(:,:) :: IPOS
+        my_real, 
      .       DIMENSION(:,:) :: XX
-      my_real
+        my_real
      .       YY(*), DYDX1(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE(TTABLE_XY), POINTER :: TY
-      INTEGER NDIM, K, NXK(4), I, IB(2,2,2,2,NEL0), 
+        LOGICAL, DIMENSION(NEL0) :: NEED_TO_COMPUTE
+        INTEGER NDIM, K, NXK(4), I, IB(NEL0,2,2,2,2), 
      .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
-      my_real 
-     .       DX1,DX2,R(4,NEL0),UNR(4,NEL0)
+        my_real :: DX2,R(NEL0,4),UNR(NEL0,4),DX2_0(NEL0)
+        INTEGER :: J
+        INTEGER :: NINDX_1,M_INDX1,NINDX_2,M_INDX2
+        INTEGER, DIMENSION(NEL0) :: INDX_1,INDX_2
 C-----------------------------------------------
-      R(1:4,1:NEL0) = zero
-      NDIM=TABLE%NDIM
-      IF( SIZE(XX,2) < TABLE%NDIM )THEN
-        CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
+        R(1:NEL0,1:4) = zero
+        NDIM=TABLE%NDIM
+        IF( SIZE(XX,2) < TABLE%NDIM )THEN
+            CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
      .              C1='TABLE INTERPOLATION')
-        CALL ARRET(2)
-      END IF
+            CALL ARRET(2)
+        END IF
 C-----
-      DO K=1,NDIM
-        NXK(K)=SIZE(TABLE%X(K)%VALUES)
-        DO I=1,NEL0
-          IPOS(I,K)=MAX(IPOS(I,K),1)
-          M = IPOS(I,K) 
-          DX2 = TABLE%X(K)%VALUES(M) - XX(I,K)
-          IF(DX2 >= ZERO)THEN
-           DO N=M-1,1,-1
-            DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
-            IF(DX2<ZERO.OR.N <=1)THEN 
-              IPOS(I,K)=MAX(N,1) !N 
-              EXIT
-            ENDIF
-           END DO
-          ELSE
-           DO N=M+1,NXK(K)
-            DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
-            IF(DX2>=ZERO.OR.N==NXK(K))THEN
-              IPOS(I,K)=N-1
-              EXIT
-            ENDIF
-           END DO
-          END IF
-          N = IPOS(I,K)
-          R(K,I)   =(TABLE%X(K)%VALUES(N+1)-XX(I,K))/
-     .              (TABLE%X(K)%VALUES(N+1)-TABLE%X(K)%VALUES(N))
+        DO K=1,NDIM
+            NXK(K)=SIZE(TABLE%X(K)%VALUES)
+        ENDDO
+
+        DO K=1,NDIM
+            IPOS(1:NEL0,K)=MAX(IPOS(1:NEL0,K),1)
+            NINDX_1 = 0
+            M_INDX1 = 0
+            NINDX_2 = 0
+            M_INDX2 = NXK(K) + 1
+#include "vectorize.inc"
+            DO I=1,NEL0
+                M = IPOS(I,K) 
+                DX2_0(I) = TABLE%X(K)%VALUES(M) - XX(I,K)
+                IF(DX2_0(I) >= ZERO)THEN
+                    NINDX_1 = NINDX_1 + 1
+                    INDX_1(NINDX_1) = I
+                    M_INDX1 = MAX(M_INDX1,M)
+                ELSE
+                    NINDX_2 = NINDX_2 + 1
+                    INDX_2(NINDX_2) = I
+                    M_INDX2 = MIN(M_INDX2,M)
+                ENDIF
+            ENDDO
+
+            NEED_TO_COMPUTE(1:NINDX_1) = .TRUE.
+            DO N=M_INDX1,1,-1
+#include "vectorize.inc"
+                DO J=1,NINDX_1
+                    IF(NEED_TO_COMPUTE(J)) THEN
+                        I = INDX_1(J)
+                        M = IPOS(I,K)
+                        DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
+                        IF(DX2<ZERO.OR.N <=1)THEN 
+                            IPOS(I,K)=MAX(N,1) !N 
+                            NEED_TO_COMPUTE(J) = .FALSE.
+                        ENDIF
+                    ENDIF
+                ENDDO
+            ENDDO
+            NEED_TO_COMPUTE(1:NINDX_2) = .TRUE.
+            DO N=M_INDX2,NXK(K)
+#include "vectorize.inc"
+                DO J=1,NINDX_2
+                    IF(NEED_TO_COMPUTE(J)) THEN
+                        I = INDX_2(J)
+                        M = IPOS(I,K) 
+                        DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
+                        IF(DX2>=ZERO.OR.N==NXK(K))THEN
+                            IPOS(I,K)=N-1
+                            NEED_TO_COMPUTE(J) = .FALSE.
+                        ENDIF
+                    ENDIF
+                ENDDO
+            ENDDO
+       ENDDO
+
+        DO K=1,NDIM
+#include "vectorize.inc"
+            DO I=1,NEL0
+                N = IPOS(I,K)
+                R(I,K)   =(TABLE%X(K)%VALUES(N+1)-XX(I,K))/
+     .                    (TABLE%X(K)%VALUES(N+1)-TABLE%X(K)%VALUES(N))
+            END DO
         END DO
-      END DO
 C-----
-      TY=>TABLE%Y
       SELECT CASE(NDIM)
 
        CASE(4)
@@ -880,53 +918,52 @@ C
                IM=N1*(IPOS(I,2)-1+M)
                DO L=0,1
                  IL=IPOS(I,1)+L
-                 IB(L+1,M+1,N+1,P+1,I)=IP+IN+IM+IL
+                 IB(I,L+1,M+1,N+1,P+1)=IP+IN+IM+IL
                END DO
              END DO
            END DO
          END DO
        END DO
 C
+       UNR(1:NEL0,1:4)=ONE-R(1:NEL0,1:4)
+#include "vectorize.inc"
        DO I=1,NEL0
-         DO K=1,4
-           UNR(K,I)=ONE-R(K,I)
-         END DO
 C
          YY(I)=
-     .     R(4,I)*(R(3,I)*(R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,1,1,I))
-     .                         +UNR(1,I)*TY%VALUES(IB(2,1,1,1,I)))
-     .                  +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,1,1,I))
-     .                        +UNR(1,I)*TY%VALUES(IB(2,2,1,1,I))))
-     .          +UNR(3,I)*(R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,2,1,I))
-     .                         +UNR(1,I)*TY%VALUES(IB(2,1,2,1,I)))
-     .                  +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,2,1,I))
-     .                       +UNR(1,I)*TY%VALUES(IB(2,2,2,1,I)))))
-     .  +UNR(4,I)*(R(3,I)*(R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,1,1,I))
-     .                         +UNR(1,I)*TY%VALUES(IB(2,1,1,1,I)))
-     .                  +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,1,1,I))
-     .                        +UNR(1,I)*TY%VALUES(IB(2,2,1,1,I))))
-     .          +UNR(3,I)*(R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,2,1,I))
-     .                         +UNR(1,I)*TY%VALUES(IB(2,1,2,1,I)))
-     .                  +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,2,1,I))
-     .                       +UNR(1,I)*TY%VALUES(IB(2,2,2,1,I)))))
+     .     R(I,4)*(R(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
+     .                         +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,1,1)))
+     .                  +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,1,1))
+     .                        +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,1,1))))
+     .          +UNR(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,2,1))
+     .                         +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,2,1)))
+     .                  +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,2,1))
+     .                       +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,2,1)))))
+     .  +UNR(I,4)*(R(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
+     .                         +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,1,1)))
+     .                  +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,1,1))
+     .                        +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,1,1))))
+     .          +UNR(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,2,1))
+     .                         +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,2,1)))
+     .                  +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,2,1))
+     .                       +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,2,1)))))
 C
          DYDX1(I)=
-     .     (R(4,I)*(R(3,I)*(R(2,I)*( TY%VALUES(IB(2,1,1,1,I))
-     .                             -TY%VALUES(IB(1,1,1,1,I)))
-     .                  +UNR(2,I)*( TY%VALUES(IB(2,2,1,1,I))
-     .                             -TY%VALUES(IB(1,2,1,1,I))))
-     .          +UNR(3,I)*(R(2,I)*( TY%VALUES(IB(2,1,2,1,I))
-     .                             -TY%VALUES(IB(1,1,2,1,I)))
-     .                  +UNR(2,I)*( TY%VALUES(IB(2,2,2,1,I))
-     .                             -TY%VALUES(IB(1,2,2,1,I)))))
-     .  +UNR(4,I)*(R(3,I)*(R(2,I)*( TY%VALUES(IB(2,1,1,1,I))
-     .                             -TY%VALUES(IB(1,1,1,1,I)))
-     .                  +UNR(2,I)*( TY%VALUES(IB(2,2,1,1,I))
-     .                             -TY%VALUES(IB(1,2,1,1,I))))
-     .          +UNR(3,I)*(R(2,I)*( TY%VALUES(IB(2,1,2,1,I))
-     .                             -TY%VALUES(IB(1,1,2,1,I)))
-     .                  +UNR(2,I)*( TY%VALUES(IB(2,2,2,1,I))
-     .                             -TY%VALUES(IB(1,2,2,1,I))))))/
+     .     (R(I,4)*(R(I,3)*(R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,1,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,1,1,1)))
+     .                  +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,1,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,2,1,1))))
+     .          +UNR(I,3)*(R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,2,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,1,2,1)))
+     .                  +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,2,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,2,2,1)))))
+     .  +UNR(I,4)*(R(I,3)*(R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,1,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,1,1,1)))
+     .                  +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,1,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,2,1,1))))
+     .          +UNR(I,3)*(R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,2,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,1,2,1)))
+     .                  +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,2,1))
+     .                             -TABLE%Y%VALUES(IB(I,1,2,2,1))))))/
      .     (TABLE%X(1)%VALUES(IPOS(I,1)+1)-TABLE%X(1)%VALUES(IPOS(I,1)))
 
        END DO
@@ -942,45 +979,35 @@ C
             IM=N1*(IPOS(I,2)-1+M)
             DO L=0,1
               IL=IPOS(I,1)+L
-              IB(L+1,M+1,N+1,1,I)=IN+IM+IL
+              IB(I,L+1,M+1,N+1,1)=IN+IM+IL
             END DO
           END DO
         END DO
        END DO
 C
+       UNR(1:NEL0,1:3)=ONE-R(1:NEL0,1:3)
+#include "vectorize.inc"
       DO I=1,NEL0
-        DO K=1,3
-          UNR(K,I)=ONE-R(K,I)
-        END DO
 C
         YY(I)=
-     .        (R(3,I)*(R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,1,1,I))
-     .                     +UNR(1,I)*TY%VALUES(IB(2,1,1,1,I)))
-     .              +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,1,1,I))
-     .                    +UNR(1,I)*TY%VALUES(IB(2,2,1,1,I))))
-     .      +UNR(3,I)*(R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,2,1,I))
-     .                     +UNR(1,I)*TY%VALUES(IB(2,1,2,1,I)))
-     .              +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,2,1,I))
-     .                   +UNR(1,I)*TY%VALUES(IB(2,2,2,1,I)))))
-c        DYDX1(I)=
-c     .        (R(3,I)*(R(2,I)*( TY%VALUES(IB(1,1,1,1,I))
-c     .                         -TY%VALUES(IB(2,1,1,1,I)))
-c     .              +UNR(2,I)*( TY%VALUES(IB(1,2,1,1,I))
-c     .                         -TY%VALUES(IB(2,2,1,1,I))))
-c     .      +UNR(3,I)*(R(2,I)*( TY%VALUES(IB(1,1,2,1,I))
-c     .                         -TY%VALUES(IB(2,1,2,1,I)))
-c     .              +UNR(2,I)*( TY%VALUES(IB(1,2,2,1,I))
-c     .                         -TY%VALUES(IB(2,2,2,1,I)))))/
+     .        (R(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
+     .                     +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,1,1)))
+     .              +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,1,1))
+     .                    +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,1,1))))
+     .      +UNR(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,2,1))
+     .                     +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,2,1)))
+     .              +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,2,1))
+     .                   +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,2,1)))))
 C
         DYDX1(I)=
-     .        (R(3,I)*(R(2,I)*( TY%VALUES(IB(2,1,1,1,I))
-     .                         -TY%VALUES(IB(1,1,1,1,I)))
-     .              +UNR(2,I)*( TY%VALUES(IB(2,2,1,1,I))
-     .                         -TY%VALUES(IB(1,2,1,1,I))))
-     .      +UNR(3,I)*(R(2,I)*( TY%VALUES(IB(2,1,2,1,I))
-     .                         -TY%VALUES(IB(1,1,2,1,I)))
-     .              +UNR(2,I)*( TY%VALUES(IB(2,2,2,1,I))
-     .                         -TY%VALUES(IB(1,2,2,1,I)))))/
+     .        (R(I,3)*(R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,1,1))
+     .                         -TABLE%Y%VALUES(IB(I,1,1,1,1)))
+     .              +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,1,1))
+     .                         -TABLE%Y%VALUES(IB(I,1,2,1,1))))
+     .      +UNR(I,3)*(R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,2,1))
+     .                         -TABLE%Y%VALUES(IB(I,1,1,2,1)))
+     .              +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,2,1))
+     .                         -TABLE%Y%VALUES(IB(I,1,2,2,1)))))/
      .     (TABLE%X(1)%VALUES(IPOS(I,1)+1)-TABLE%X(1)%VALUES(IPOS(I,1)))
 C
        END DO
@@ -993,39 +1020,37 @@ C
            IM=N1*(IPOS(I,2)-1+M)
            DO L=0,1
              IL=IPOS(I,1)+L
-             IB(L+1,M+1,1,1,I)=IM+IL
+             IB(I,L+1,M+1,1,1)=IM+IL
            END DO
          END DO
        END DO
 C
+       UNR(1:NEL0,1:2)=ONE-R(1:NEL0,1:2)
+#include "vectorize.inc"
        DO I=1,NEL0
-        DO K=1,2
-          UNR(K,I)=ONE-R(K,I)
-        END DO
 C
         YY(I)=
-     .        (R(2,I)*(R(1,I)*TY%VALUES(IB(1,1,1,1,I))
-     .             +UNR(1,I)*TY%VALUES(IB(2,1,1,1,I)))
-     .      +UNR(2,I)*(R(1,I)*TY%VALUES(IB(1,2,1,1,I))
-     .                  +UNR(1,I)*TY%VALUES(IB(2,2,1,1,I))))
+     .        (R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
+     .             +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,1,1,1)))
+     .      +UNR(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,2,1,1))
+     .                  +UNR(I,1)*TABLE%Y%VALUES(IB(I,2,2,1,1))))
         DYDX1(I)=
-     .        (R(2,I)*( TY%VALUES(IB(2,1,1,1,I))
-     .                 -TY%VALUES(IB(1,1,1,1,I)))
-     .      +UNR(2,I)*( TY%VALUES(IB(2,2,1,1,I))
-     .                 -TY%VALUES(IB(1,2,1,1,I))))/
+     .        (R(I,2)*( TABLE%Y%VALUES(IB(I,2,1,1,1))
+     .                 -TABLE%Y%VALUES(IB(I,1,1,1,1)))
+     .      +UNR(I,2)*( TABLE%Y%VALUES(IB(I,2,2,1,1))
+     .                 -TABLE%Y%VALUES(IB(I,1,2,1,1))))/
      .     (TABLE%X(1)%VALUES(IPOS(I,1)+1)-TABLE%X(1)%VALUES(IPOS(I,1)))
        END DO
 C-----
        CASE(1)
 
+       UNR(1:NEL0,1:1)=ONE-R(1:NEL0,1:1)
+#include "vectorize.inc"
        DO I=1,NEL0
-        DO K=1,1
-          UNR(K,I)=ONE-R(K,I)
-        END DO
 C
-        YY(I)=  R(1,I)*TY%VALUES(IPOS(I,1))
-     .       +UNR(1,I)*TY%VALUES(IPOS(I,1)+1)
-        DYDX1(I)=(TY%VALUES(IPOS(I,1)+1)-TY%VALUES(IPOS(I,1)))/
+        YY(I)=  R(I,1)*TABLE%Y%VALUES(IPOS(I,1))
+     .       +UNR(I,1)*TABLE%Y%VALUES(IPOS(I,1)+1)
+        DYDX1(I)=(TABLE%Y%VALUES(IPOS(I,1)+1)-TABLE%Y%VALUES(IPOS(I,1)))/
      .     (TABLE%X(1)%VALUES(IPOS(I,1)+1)-TABLE%X(1)%VALUES(IPOS(I,1)))
        END DO
 C-----

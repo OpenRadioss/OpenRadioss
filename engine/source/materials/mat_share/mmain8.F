@@ -213,7 +213,7 @@ c
      F   ISORTH,   ET,       MSSA,     DMELS,
      G   TABLE,    IHET,     SSP,      ITASK,
      H   NEL,      ITY,      JSMS,     JSPH,
-     I   JTHE,     JTUR)
+     I   JTHE,     JTUR, IMPL_S)
 C-----
       ENDIF 
 C---------------------------
@@ -314,10 +314,10 @@ C   tabulated failure model
              ELSEIF (IFAIL(II) == 23) THEN
                CALL FAIL_TAB_S(
      1         NEL      ,NVARF    ,NPF      ,TF       ,TT       ,
-     2         BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,DELTAX   ,
+     2         BUFMAT(IADBUF)     ,NGL      ,DELTAX   ,
      3         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX,
-     4         LBUF%PLA ,DPLA(J1) ,EPSP(J1) ,TSTAR,UVARF,
-     5         OFF      ,IP       ,TABLE    ,DFMAX,TDELE ,
+     4         DPLA(J1) ,EPSP(J1) ,TSTAR,UVARF,
+     5         OFF      ,TABLE    ,DFMAX,TDELE ,
      6         NFUNC    ,IFUNC )
 c ---   extended mohr coulomb failure model
              ELSEIF (IFAIL(II) == 27) THEN
