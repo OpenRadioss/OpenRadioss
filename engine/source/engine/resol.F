@@ -7526,7 +7526,7 @@ C-----------------------------------------------
 
 !$OMP SINGLE
           CALL DAMPING44(
-     .                 NODFT   ,NODLT            ,3+IRODDL*3,V       ,
+     .                 3+IRODDL*3,V       ,
      .                 VR      ,A       ,AR      ,MS        ,IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,WEIGHT    ,TAGSLV_RBY)
 !$OMP END SINGLE
@@ -7536,16 +7536,16 @@ C-----------------------------------------------
 !$OMP SINGLE
          IF (NS10E>0) THEN
            CALL DAMPING51(
-     .                 NODFT   ,NODLT            ,3+IRODDL*3,VMD     ,
+     .                 3+IRODDL*3,VMD     ,
      .                 VR      ,A       ,AR      ,MS        ,IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,WEIGHT    ,TAGSLV_RBY,
-     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB ,NODXI_SMS)
+     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB)
          ELSE
            CALL DAMPING51(
-     .                 NODFT   ,NODLT            ,3+IRODDL*3,V       ,
+     .                 3+IRODDL*3,V       ,
      .                 VR      ,A       ,AR      ,MS        ,IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,WEIGHT    ,TAGSLV_RBY,
-     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB ,NODXI_SMS)
+     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB)
          END IF
 !$OMP END SINGLE
 

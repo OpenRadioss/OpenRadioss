@@ -86,7 +86,7 @@ Chd|====================================================================
      F   ISORTH,  ET,      MSSA,    DMELS,
      G   TABLE,   IHET,    SSP,     ITASK,
      H   NEL,     ITY,     JSMS,    JSPH,
-     I   JTHE,    JTUR)
+     I   JTHE,    JTUR, IMPL_S)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,6 +118,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: IMPL_S !< 0 for explicit solution / 1 for implicit solution
       INTEGER LFT,LLT,NFT,NPT,MTN,ISORTH,IPLA,ISMSTR,NUVARR,NUVAR,NVARTMP,
      .  NELTST,ITYPTST,IHET,ITASK,NEL
       INTEGER NPF(*),MAT(MVSIZ),NC(8,MVSIZ),NGL(MVSIZ),
@@ -174,6 +175,11 @@ C-----------------------------------------------
       CHARACTER OPTION*256
       INTEGER SIZE
       CHARACTER IUSER_KEY*ncharline
+
+      INTEGER :: NRATE
+      my_real :: FISOKIN
+      my_real, DIMENSION(NEL), TARGET :: VECNUL
+      my_real, DIMENSION(:), POINTER  :: SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX
 C=======================================================================
       MX = MAT(LFT)
       INLOC  = IPM(253,MX)
@@ -545,18 +551,37 @@ C-------------------
             EPSD(I)=EPSP
           ENDIF
         ENDDO
+
+        NRATE = NINT(UPARAM(1))
+        FISOKIN = UPARAM(6+2*NRATE+8)
+        IF(FISOKIN>0) THEN
+          SIGBXX => LBUF%SIGB(1      :  NEL) 
+          SIGBYY => LBUF%SIGB(NEL+1  :2*NEL)
+          SIGBZZ => LBUF%SIGB(2*NEL+1:3*NEL)
+          SIGBXY => LBUF%SIGB(3*NEL+1:4*NEL)
+          SIGBYZ => LBUF%SIGB(4*NEL+1:5*NEL)
+          SIGBZX => LBUF%SIGB(5*NEL+1:6*NEL)
+        ELSEIF(IMPL_S>0) THEN
+          VECNUL(1:NEL) = ZERO
+          SIGBXX => VECNUL(1:NEL)
+          SIGBYY => VECNUL(1:NEL)
+          SIGBZZ => VECNUL(1:NEL)
+          SIGBXY => VECNUL(1:NEL)
+          SIGBYZ => VECNUL(1:NEL)
+          SIGBZX => VECNUL(1:NEL)
+        ENDIF
         CALL SIGEPS36(
-     2    LLT      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,
-     3    NPF      ,TF       ,TT       ,DT1      ,UPARAM   ,
-     4    RHO0     ,RHO      ,VOLN     ,EINT     ,
+     2    LLT      ,NUVAR    ,NFUNC    ,IFUNC    ,NPF ,
+     3    TF       ,TT       ,DT1      ,UPARAM   ,RHO0,
      5    DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6   ,
      6    ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6   ,
      7    SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6   ,
      8    S1       ,S2       ,S3       ,S4       ,S5       ,S6    ,
-     9    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,IPT   ,
+     9    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,
      A    IPM      ,MAT      ,EPSD     ,IPLA     ,SIGY     ,LBUF%PLA,
      B    DPLA     ,ET       ,BIDON    ,BIDON    ,AMU      ,CST1  ,
-     C    NVARTMP  ,VARTMP   ,LBUF%SIGB,LBUF%DMG ,INLOC    ,LBUF%PLANL)
+     C    NVARTMP  ,VARTMP   ,LBUF%DMG ,INLOC    ,LBUF%PLANL,
+     D    SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX )
 c
           DEFP(1:LLT)   =  LBUF%PLA(1:LLT)
 c
@@ -1000,10 +1025,10 @@ C----        energy failure
 C---- tabulated failure model
                 CALL FAIL_TAB_S(
      1          LLT      ,NVARF    ,NPF      ,TF       ,TT       ,       
-     2          BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,DELTAX   ,       
+     2          BUFMAT(IADBUF)     ,NGL      ,DELTAX   ,       
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6,   
-     4          DEFP     ,DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,       
-     5          OFF      ,IP       ,TABLE    ,DFMAX    ,TDELE    ,
+     4          DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,       
+     5          OFF      ,TABLE    ,DFMAX    ,TDELE    ,
      6          NFUNC    ,IFUNC )                                     
 C---
               ELSEIF (IFAIL(II) == 27) THEN   

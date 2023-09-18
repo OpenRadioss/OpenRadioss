@@ -1453,10 +1453,10 @@ C---- energy failure
 C---- tabulated failure model
                CALL FAIL_TAB_S(
      1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         UPARAMF  ,NGL      ,IPM      ,MAT      ,EL_LEN   ,        
+     2         UPARAMF  ,NGL      ,EL_LEN   ,        
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
-     4         DEFP     ,DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
-     5         OFF      ,IP       ,TABLE    ,DFMAX    ,TDEL  ,
+     4         DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
+     5         OFF      ,TABLE    ,DFMAX    ,TDEL  ,
      6         NFUNC    ,IFUNC )                                      
           ELSEIF (IRUPT == 24) THEN                                      
 c   --- Orthotropic strain failure

@@ -367,7 +367,7 @@ C       ! calcul coords + vit des elements fantoms au lieu de std
      A                   VRZ1 ,VRZ2 ,VRZ3 ,VRZ4   ,ILEV    ,
      B                   OFFG )
 C
-        CALL CZCORC1(XFEM_STR,
+        CALL CZCORC1(NUMNOD ,NUMELC ,XFEM_STR,
      1               JFT    ,JLT    ,X       ,V       ,VR     ,
      2               IXC    ,PM     ,PLAT    ,AREA    ,
      3               A_I    ,VL13   ,VL24    ,VLHI    ,RLXYZ  ,

@@ -38,7 +38,7 @@ Chd|====================================================================
      1           NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2           NFUNC    ,IFUNC    ,TABLE    ,NPF      ,TF       ,
      3           TIME     ,NGL      ,IPG      ,ILAY     ,IPT      ,
-     4           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     4           SIGNXX   ,SIGNYY   ,SIGNXY   ,
      5           DPLA     ,EPSP     ,THK      ,ALDT     ,TEMP     ,
      6           PTHKF    ,DMG_FLAG ,DMG_SCALE,OFF      ,FOFF     ,
      7           DFMAX    ,TDEL     ,IGTYP    ,INLOC    )
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
+#include "mvsiz_p.inc"
 #include "units_c.inc"
 #include "comlock.inc"
 C---------+---------+---+---+--------------------------------------------
@@ -95,7 +96,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,THK,ALDT,DPLA,EPSP,
-     .   TEMP,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
+     .   TEMP,SIGNXX,SIGNYY,SIGNXY
       my_real,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
@@ -123,21 +124,23 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,J,K,L,IP_THICK,NINDX,NINDXF,NINSTAB,IFAIL_SH,NDIM,
-     .  ITABLE,IFUN_EL,IFUN_TEMP,INSTABIL,ID_DD,NF_LOC,INST_FLAG,SIZE_FLAG
-      INTEGER, DIMENSION(NEL) :: INDX,INDXF,INDSTAB,IPOSV,IADP,ILENP
+      INTEGER  :: I,J,NINDX,NINDXF,NINSTAB,IFAIL_SH,NDIM,
+     .  ITABLE,IFUN_EL,IFUN_TEMP,INSTABIL,ID_DD,INST_FLAG,SIZE_FLAG
+      INTEGER, DIMENSION(MVSIZ) :: INDX,INDXF,INDSTAB,IPOSV,IADP,ILENP
       INTEGER IPOST1(NEL,1),IPOST2(NEL,2),IPOST3(NEL,3)
 C
       my_real :: SHRF,BIAXF
-      my_real, DIMENSION(NEL) :: EPSF,EPSF_N,SIGM,YYV,DXDYV,LAMBDAV
+      my_real, DIMENSION(MVSIZ) :: EPSF,EPSF_N,SIGM,YYV,DXDYV,LAMBDAV
       my_real, DIMENSION(2)   :: XX2
-      my_real, DIMENSION(3)   :: XX3
       my_real, DIMENSION(NEL,1) :: XXV1
       my_real, DIMENSION(NEL,2) :: XXV2
       my_real, DIMENSION(NEL,3) :: XXV3
       my_real  :: P,SVM,DF,FAC,LAMBDA,
      .  Y1SCALE,X1SCALE,Y2SCALE,X2SCALE,P_THINN,ECRIT,FADE_EXPO,
-     .  DCRIT,EL_REF,SC_EL,SC_TEMP,P_THICK,DP,DD,DN,YY,YY_N
+     .  DCRIT,EL_REF,SC_EL,SC_TEMP,P_THICK,DD,DN,YY_N
+      my_real, DIMENSION(MVSIZ) :: DP
+      INTEGER :: NINDX_2
+      INTEGER, DIMENSION(MVSIZ) :: INDX_2
 C-----------------------------------------------
 C Storage of initial thickness in UVAR(x,2) at time = 0.0
 C 1 = DAMAGE
@@ -208,6 +211,7 @@ C-------------------------------------------------------------------
 c
 c---  failure strain interpolation
       NDIM = TABLE(ITABLE)%NDIM
+#include "vectorize.inc"
       DO J=1,NINDX                           
         I = INDX(J)  
         P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
@@ -217,6 +221,7 @@ c---  failure strain interpolation
       ENDDO
 C----
       IF (NDIM == 3) THEN
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           XXV3(J,1) = SIGM(I)
@@ -227,6 +232,7 @@ C----
           IPOST3(J,3)= 0
         ENDDO
       ELSE IF (NDIM == 2) THEN
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           XXV2(J,1) = SIGM(I)
@@ -235,6 +241,7 @@ C----
           IPOST2(J,2)= UVAR(I,7)
         ENDDO
       ELSE IF (NDIM == 1) THEN
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           XXV1(J,1)   = SIGM(I)
@@ -243,7 +250,8 @@ C----
       END IF
 c
 c     check elements with triaxiality between SHRF and BIAXF) in case of SIZE_FLAG=1
-      IF (SIZE_FLAG == 1) THEN      
+      IF (SIZE_FLAG == 1) THEN   
+#include "vectorize.inc"   
         DO J=1,NINDX                         
           I = INDX(J)
           IF (SIGM(I) > SHRF .and. SIGM(I) < BIAXF) THEN
@@ -257,6 +265,7 @@ c
 c
         CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST3,XXV3,YYV,DXDYV)
 c
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           EPSF(I) = YYV(J) * Y1SCALE     
@@ -268,6 +277,7 @@ c
 c
         CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST2,XXV2,YYV,DXDYV)
 c
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           EPSF(I) = YYV(J) * Y1SCALE     
@@ -279,6 +289,7 @@ c
 c
         CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST1,XXV1,YYV,DXDYV)
 c
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           EPSF(I)   = YYV(J) * Y1SCALE     
@@ -381,6 +392,7 @@ c
       ENDIF
 c----   temperature scale function
       IF (IFUN_TEMP > 0) THEN
+#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           FAC = SC_TEMP*FINTER(IFUN_TEMP,TEMP(I),NPF,TF,DF) 
@@ -390,6 +402,7 @@ c----   temperature scale function
 
 c----   Fading exponent
       IF (FADE_EXPO < ZERO) THEN
+!#include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           LAMBDA = UVAR(I,5) / EL_REF
@@ -397,20 +410,37 @@ c----   Fading exponent
         ENDDO
       ENDIF
 c-----------------------------------------------------------------------------
-      DO J=1,NINDX                           
-        I = INDX(J)  
-          IF (UVAR(I,1) < DCRIT) THEN
-            ID_DD = IFUNC(4)
-            IF (ID_DD /= 0 ) THEN
-              DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
-            ELSE
-              IF (UVAR(I,1) == ZERO) THEN 
-                DP = ONE
-              ELSE
-                DP = DN*UVAR(I,1)**(ONE-ONE/DN)
-              ENDIF
+      NINDX_2 = 0
+      ID_DD = IFUNC(4)
+      IF (ID_DD /= 0 ) THEN
+#include "vectorize.inc"
+        DO J=1,NINDX                           
+            I = INDX(J)  
+            IF (UVAR(I,1) < DCRIT) THEN
+                NINDX_2 = NINDX_2 + 1
+                INDX_2(NINDX_2) = I
+                DP(I) = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
             ENDIF
-            IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP*DPLA(I)/EPSF(I)
+        ENDDO
+      ELSE
+#include "vectorize.inc"
+        DO J=1,NINDX                           
+            I = INDX(J)  
+            IF (UVAR(I,1) < DCRIT) THEN
+                NINDX_2 = NINDX_2 + 1
+                INDX_2(NINDX_2) = I
+                IF (UVAR(I,1) == ZERO) THEN 
+                    DP(I) = ONE
+                ELSE
+                    DP(I) = DN*UVAR(I,1)**(ONE-ONE/DN)
+                ENDIF      
+            ENDIF
+        ENDDO
+      ENDIF
+#include "vectorize.inc"
+      DO J=1,NINDX_2                        
+            I = INDX_2(J)  
+            IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP(I)*DPLA(I)/EPSF(I)
             IF ((P_THINN*UVAR(I,2)) > THK(I)) THEN ! Failure due to thinning
               UVAR(I,1) = DCRIT     
               FOFF(I)   = 0
@@ -421,12 +451,12 @@ c-----
 c           Damage accumulation
             IF (DMG_FLAG == 1 .AND. UVAR(I,1) <= DCRIT) THEN
               IF (EPSF_N(I) > ZERO .AND. SIGM(I) >= ZERO ) THEN 
-                UVAR(I,3) = UVAR(I,3) + DP*DPLA(I)/EPSF_N(I)
+                UVAR(I,3) = UVAR(I,3) + DP(I)*DPLA(I)/EPSF_N(I)
               ENDIF                
 c
               IF (UVAR(I,3) >= ONE) THEN                ! softening starts
                 IF (FADE_EXPO /= ZERO) THEN 
-                  UVAR(I,4) = UVAR(I,4) + DP*DPLA(I)/(EPSF(I)-EPSF_N(I))
+                  UVAR(I,4) = UVAR(I,4) + DP(I)*DPLA(I)/(EPSF(I)-EPSF_N(I))
                   IF (UVAR(I,4) > DD) THEN 
                     DMG_SCALE(I) = ONE - ((UVAR(I,4)-DD)/(ONE-DD))**FADE_EXPO
                     DMG_SCALE(I) = MAX(DMG_SCALE(I),ZERO)
@@ -447,12 +477,12 @@ c-----
                 FOFF(I) = 0
               ENDIF
             ENDIF                                                 
-          ENDIF  
       ENDDO ! IEL
 c
 c--------------------------------------------      
 c     Maximum Damage storing for output : 0 < DFMAX < 1
 c
+#include "vectorize.inc"
       DO J=1,NINDX                           
         I = INDX(J)  
         DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))

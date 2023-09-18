@@ -1455,10 +1455,10 @@ c
                 ENDDO
                 IF (IXFEM == 0) THEN
                   CALL FAIL_FLD_C(
-     1            NEL       ,NUPAR     ,NVARF     ,NFUNC1   ,IFUNC1     ,
-     2            NPF       ,TF        ,TT        ,DT1C     ,UPARAMF    ,   
-     3            UVAR      ,NGL       ,IPG       ,ILAYER   ,IT         ,
-     4            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ    ,EPSZX      ,
+     1            NEL       ,NUPAR     ,NFUNC1   ,IFUNC1     ,
+     2            NPF       ,TF        ,TT        ,UPARAMF    ,   
+     3            NGL       ,IPG       ,ILAYER   ,IT         ,
+     4            EPSXX     ,EPSYY     ,EPSXY     ,
      5            ZT        ,OFF       ,FOFF    ,PTHKF(ILAYER,IFL),TDEL ,
      6            FLD_IDX   ,DAM       ,DFMAX     )
                 ELSE
@@ -1534,7 +1534,7 @@ c
      1                NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
      2                NFUNC1    ,IFUNC1    ,TABLE     ,NPF       ,TF        ,
      3                TT        ,NGL       ,IPG       ,ILAYER    ,IT        , 
-     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,      
+     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,   
      5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
      6                PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,OFF  ,FOFF      ,
      7                DFMAX     ,TDEL      ,IGTYP     ,INLOC     )

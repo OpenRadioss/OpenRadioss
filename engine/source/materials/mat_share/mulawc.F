@@ -265,7 +265,7 @@ c
       my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN,
      .                                   EL_PLA
       my_real, DIMENSION(NLAY,100)  :: PTHKF
-      TARGET :: TEMPEL,BUFMAT,EPSXX,EPSYY,DEPSXX,DEPSYY,SCALE1,POSLY,THKLY
+      TARGET :: TEMPEL,BUFMAT,SCALE1
 c----
       TYPE(TTABLE) TABLE(*)
       TYPE(ULAWCINTBUF) :: USERBUF     
@@ -278,8 +278,8 @@ c----
 c----
       INTEGER, DIMENSION(:) ,POINTER  :: FLD_IDX,FOFF,OFFLY,ITABLE,VARTMP
       my_real, DIMENSION(:) ,POINTER  :: UVAR,UVARF,UELR,UELR1,DAM,
-     .   DFMAX,TDEL ,OFFL,UVARV,UPARAM,UPARAM0,UPARAMF,EPS1,EPS2,DEPS1,DEPS2,
-     .   DIRDMG,DIR_ORTH,ZZ,THLY,DAMINI
+     .   DFMAX,TDEL ,OFFL,UVARV,UPARAM,UPARAM0,UPARAMF,EPS1,EPS2,
+     .   DIRDMG,DIR_ORTH,DAMINI
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
 c----
       LOGICAL :: LOGICAL_USERL_AVAIL
@@ -289,6 +289,12 @@ c----
       CHARACTER OPTION*256
       INTEGER SIZE
       CHARACTER IUSER_KEY*ncharline
+
+      INTEGER :: NRATE
+      my_real :: FISOKIN
+      my_real, DIMENSION(NEL) :: DEPS1,DEPS2
+      my_real, DIMENSION(NEL), TARGET :: VECNUL
+      my_real, DIMENSION(:), POINTER  :: SIGBXX,SIGBYY,SIGBXY
 c
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -605,14 +611,14 @@ c         initial scale factor for yield stress defined per IPG,NPI
 C-----------------------------------------
 c         COORDONNEES DU POINT D'INTEGRATION IPT
 C-----------------------------------------
-          ZZ   => POSLY(1:NEL,IPT)
-          THLY => THKLY(JPOS:JPOS+NEL-1)
-          THKLYL(1:NEL) = THLY(1:NEL)*THK0(1:NEL)
+          !ZZ   => POSLY(1:NEL,IPT)
+          !THLY => THKLY(JPOS:JPOS+NEL-1)
+          THKLYL(1:NEL) = THKLY(JPOS:JPOS+NEL-1)*THK0(1:NEL)
 C
           IF (IGTYP == 1 .or. IGTYP == 9) THEN
             WMC(1:NEL) = WM(IPT,NPT)
           ELSE
-            WMC(1:NEL) = ZZ(1:NEL)*THLY(1:NEL)
+            WMC(1:NEL) = POSLY(1:NEL,IPT)*THKLY(JPOS:JPOS+NEL-1)
           ENDIF
 C-------------------------------
 C         INCREMENT DE DEFORMATIONS 
@@ -639,7 +645,7 @@ C-------------------------------
            IF (ISMSTR==10 .AND. (MTN == 1 .OR. MTN == 42 .OR.
      .                           MTN == 69.OR. MTN == 71 .OR. MTN == 88)) THEN
             DO I=JFT,JLT 
-              ZT=ZZ(I)*THK0(I)
+              ZT=POSLY(I,IPT) *THK0(I)
               DEPSXX(I)=EXX(I)+ZT*KXX(I)
               DEPSYY(I)=EYY(I)+ZT*KYY(I)
               DEPSXY(I)=EXY(I)+ZT*KXY(I)
@@ -666,7 +672,7 @@ C---------  [F]=[F_DEF]+[1]; [B]=[F][F]^t strain-----
             ENDDO
            ELSE IF (ILAW == 27) THEN
             DO I=JFT,JLT
-              ZT       = ZZ(I)*THK0(I)
+              ZT       = POSLY(I,IPT) *THK0(I)
               TENS(I,1)=EXX(I)+ZT*KXX(I)
               TENS(I,2)=EYY(I)+ZT*KYY(I)
               TENS(I,3)=HALF*(EXY(I)+ZT*KXY(I))
@@ -688,14 +694,14 @@ C
         !       /= ismstr=10 + foam laws
         !       -----------
             DO I=JFT,JLT
-              ZT=ZZ(I)*THK0(I)
+              ZT=POSLY(I,IPT) *THK0(I)
               DEPSXX(I)=EXX(I)+ZT*KXX(I)
               DEPSYY(I)=EYY(I)+ZT*KYY(I)
               DEPSXY(I)=EXY(I)+ZT*KXY(I)
             ENDDO
             IF (FLAG_EPS) THEN
               DO I=JFT,JLT
-                ZT=ZZ(I)*THK0(I)
+                ZT=POSLY(I,IPT) *THK0(I)
                 EPSXX(I)= GSTR(I,1)+ZT*GSTR(I,6)
                 EPSYY(I)= GSTR(I,2)+ZT*GSTR(I,7)
                 EPSXY(I)= GSTR(I,3)+ZT*GSTR(I,8)
@@ -718,7 +724,7 @@ c             total strain in fiber coord sys
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
 c               total strain in element coord sys   
-                ZT = ZZ(I)*THK0(I)
+                ZT = POSLY(I,IPT) *THK0(I)
                 T1 = GSTR(I,1) + ZT*GSTR(I,6)
                 T2 = GSTR(I,2) + ZT*GSTR(I,7)
                 T3 = HALF*(GSTR(I,3) + ZT*GSTR(I,8))
@@ -755,7 +761,7 @@ C---
 !                EPSYZ(I) = ZERO                     
 !                EPSZX(I) = ZERO  
 C---
-                ZT = ZZ(I)*THK0(I)
+                ZT = POSLY(I,IPT) *THK0(I)
                 T1 = EXX(I) + ZT*KXX(I)
                 T2 = EYY(I) + ZT*KYY(I)
                 T3 = HALF*(EXY(I) + ZT*KXY(I))                
@@ -779,7 +785,7 @@ c               total true strain in global coord sys
             IF (FLAG_EPS) THEN
               DO I=JFT,JLT
 c             total true strain in global coord sys
-                ZT = ZZ(I)*THK0(I)
+                ZT = POSLY(I,IPT) *THK0(I)
                 EPSXX(I)  = GSTR(I,1) + ZT*GSTR(I,6)
                 EPSYY(I)  = GSTR(I,2) + ZT*GSTR(I,7)    
               ENDDO
@@ -806,7 +812,7 @@ c             total strain in fiber coord sys
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
 c               total strain in element coord sys   
-                ZT = ZZ(I)*THK0(I)
+                ZT = POSLY(I,IPT) *THK0(I)
                 T1 = GSTR(I,1) + ZT*GSTR(I,6)
                 T2 = GSTR(I,2) + ZT*GSTR(I,7)
                 T3 = HALF*(GSTR(I,3) + ZT*GSTR(I,8))
@@ -843,7 +849,7 @@ C
 !                EPSYZ(I) = ZERO                     
 !                EPSZX(I) = ZERO  
 C---
-                ZT = ZZ(I)*THK0(I)
+                ZT = POSLY(I,IPT) *THK0(I)
                 T1 = EXX(I) + ZT*KXX(I)
                 T2 = EYY(I) + ZT*KYY(I)
                 T3 = HALF*(EXY(I) + ZT*KXY(I))
@@ -865,7 +871,7 @@ c               total true strain in global coord sys
             ENDIF ! IF (ISMSTR == 11) THEN
             IF (FLAG_EPS) THEN
                 DO I=JFT,JLT
-                        ZT = ZZ(I)*THK0(I)
+                        ZT = POSLY(I,IPT) *THK0(I)
                         T1 = GSTR(I,1) + ZT*GSTR(I,6)
                         T2 = GSTR(I,2) + ZT*GSTR(I,7)
                         EPSXX(I) = T1     
@@ -878,7 +884,7 @@ c               total true strain in global coord sys
 !               -------------------------------
            IF (ILAW /= 1 .AND. ILAW /= 2 .AND. ILAW /= 32) THEN
             DO I=JFT,JLT
-              ZT       = ZZ(I)*THK0(I)
+              ZT       = POSLY(I,IPT) *THK0(I)
               TENS(I,1)=EXX(I)+ZT*KXX(I)
               TENS(I,2)=EYY(I)+ZT*KYY(I)
               TENS(I,3)=HALF*(EXY(I)+ZT*KXY(I))
@@ -901,7 +907,7 @@ C
             ENDDO
            ELSEIF (ILAW == 1 .OR. ILAW == 2 .OR. ILAW == 32) THEN
             DO I=JFT,JLT
-              ZT       = ZZ(I)*THK0(I)
+              ZT       = POSLY(I,IPT) *THK0(I)
               DEPSXX(I)=EXX(I)+ZT*KXX(I)
               DEPSYY(I)=EYY(I)+ZT*KYY(I)
               DEPSXY(I)=EXY(I)+ZT*KXY(I)
@@ -914,7 +920,7 @@ C
             IF (ISMSTR==10 .AND. (MTN == 1 .OR. MTN == 42 .OR.
      .                            MTN == 69.OR. MTN == 71 .OR. MTN == 88)) THEN
               DO I=JFT,JLT 
-                ZT=ZZ(I)*GBUF%THK_I(I)
+                ZT=POSLY(I,IPT) *GBUF%THK_I(I)
 C
                 TENS(I,1)= F_DEF(I,1)+ZT*F_DEF(I,6)
                 TENS(I,2)= F_DEF(I,2)+ZT*F_DEF(I,7)
@@ -934,14 +940,14 @@ C--------   - [F]=[F_DEF]+[1]; [B]=[F][F]^t strain-----
               ENDDO
             ELSEIF (ILAW == 32) THEN
               DO I=JFT,JLT
-                ZT=ZZ(I)*THK0(I)
+                ZT=POSLY(I,IPT) *THK0(I)
                 EPSXX(I)= GSTR(I,1)+ZT*GSTR(I,6)
                 EPSYY(I)= GSTR(I,2)+ZT*GSTR(I,7)
                 EPSXY(I)= GSTR(I,3)+ZT*GSTR(I,8)
               ENDDO
             ELSE
               DO I=JFT,JLT
-                ZT=ZZ(I)*THK0(I)
+                ZT=POSLY(I,IPT) *THK0(I)
                 TENS(I,1)= GSTR(I,1)+ZT*GSTR(I,6)
                 TENS(I,2)= GSTR(I,2)+ZT*GSTR(I,7)
                 TENS(I,3)= HALF*(GSTR(I,3)+ZT*GSTR(I,8))
@@ -984,9 +990,9 @@ C---
           DPLA(1:MVSIZ) = ZERO
           IF (IFAILURE == 1) THEN  
            IF (ELBUF_STR%BUFLY(ILAYER)%L_PLA > 0) THEN
-             PLA0(JFT:JLT) = LBUF%PLA(JFT:JLT)
+             PLA0(1:JLT) = LBUF%PLA(1:JLT)
            ELSE
-             PLA0(JFT:JLT) = ZERO
+             PLA0(1:JLT) = ZERO
            ENDIF
           ENDIF
 C------------------------------------------
@@ -1051,7 +1057,7 @@ C------------------------------------------
      2                   GSTR     ,IMAT    ,DT1C     ,IPLA    ,SHF   ,
      3                   NGL      ,THK0    ,THKLYL   ,LBUF%CRAK,LBUF%DAM,
      4                   SIGY     ,ZCFAC   ,DPLA     ,ILAYER  ,IPT   ,
-     5                   ISRATE   ,NEL     ,ZZ       ,NPTTOT  ,EPSPDT,
+     5                   ISRATE   ,NEL     ,POSLY(1,IPT),NPTTOT  ,EPSPDT,
      6                   DEPSXX   ,DEPSYY  ,DEPSXY   ,DEPSYZ  ,DEPSZX,
      7         LBUF%SIG(IJ1),LBUF%SIG(IJ2) ,LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),             
      9                   SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ  ,SIGNZX,
@@ -1075,10 +1081,10 @@ C------------------------------------------
 !         INTEGRATION BY LAYERS
             CALL SIGEPS25C(
      1        JFT         ,JLT      ,PM          ,OFF      ,GSTR      ,
-     2        DIR_A(JDIR) ,THLY     ,IMAT        ,DT1C     ,SHF       ,
+     2        DIR_A(JDIR) ,THKLY(JPOS),IMAT        ,DT1C     ,SHF       ,
      3        IPRONY      ,NGL      ,THK0        ,EXX      ,OFF_OLD   ,
      4        EYY         ,EXY      ,EXZ         ,EYZ      ,KXX       ,
-     5        KYY         ,KXY      ,ZZ          ,EPSPL    ,RHO       ,
+     5        KYY         ,KXY      ,POSLY(1,IPT),EPSPL    ,RHO       ,
      6        SSP         ,IPM      ,BUFMAT      ,DT_INV   ,LBUF%OFF  ,
      7        SIGY        ,ZCFAC    ,NPTT        ,ILAYER   ,DAMCR     ,
      8        NFIS1       ,NFIS2    ,NFIS3       ,DMAXT    ,WPLAR     ,
@@ -1131,22 +1137,35 @@ C
      B        NGL    ,SHF    ,ETSE    ,ISRATE   ,ASRATE ,
      C        EPSP   )
           ELSEIF (ILAW == 36) THEN
+            NRATE = NINT(UPARAM0(1))
+            FISOKIN = UPARAM0(2*NRATE + 14)
+            IF(FISOKIN>0) THEN
+                SIGBXX => LBUF%SIGB(1      :  NEL) 
+                SIGBYY => LBUF%SIGB(NEL+1  :2*NEL)
+                SIGBXY => LBUF%SIGB(3*NEL+1:4*NEL)
+            ELSE
+                VECNUL(1:NEL) = ZERO
+                SIGBXX => VECNUL(1:NEL)
+                SIGBYY => VECNUL(1:NEL)
+                SIGBXY => VECNUL(1:NEL)
+            ENDIF
+
               CALL SIGEPS36C(
-     1          JLT    ,NUPARAM0,NUVAR   ,NVARTMP  ,NFUNC   ,
-     2          IFUNC  ,NPF    ,NPT     ,IPT      ,IFLAG   ,
-     2          TF     ,TT     ,DT1C    ,UPARAM0   ,RHO     ,
-     3          AREA   ,EINT   ,THKLYL  ,ASRATE   ,
-     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
+     1          JLT    ,NUVAR   ,NVARTMP  ,NFUNC   ,
+     2          IFUNC  ,NPF    ,IFLAG   ,
+     2          TF     ,DT1C    ,UPARAM0   ,RHO     ,
+     3          THKLYL  ,ASRATE   ,
+     4          EPSPXX ,EPSPYY ,EPSPXY  ,
      5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
+     6          EPSXX  ,EPSYY  ,EPSXY   ,
      7          LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
      9          SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
-     A          VARTMP ,OFF    ,NGL    ,IPM     ,IMAT     ,
+     A          VARTMP ,OFF    ,IPM     ,IMAT     ,
      B          ETSE   ,GS     ,SIGY   ,EPSPL   ,ISRATE   ,
      C          DPLA   ,G_IMP  ,SIGKSI  ,SHF      ,HARDM  ,
-     D          YLDFAC ,LBUF%SIGB,INLOC ,VARNL(1,IT),LBUF%DMG,
-     E          LBUF%PLANL) 
+     D          YLDFAC ,INLOC ,VARNL(1,IT),LBUF%DMG,LBUF%PLANL,
+     E          SIGBXX,SIGBYY,SIGBXY) 
           ELSEIF (ILAW == 42) THEN
            CALL SIGEPS42C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
@@ -1696,7 +1715,7 @@ c
      .           EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      .           LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      .           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   , 
-     .           WMC      ,THLY     ,THK0) 
+     .           WMC      ,THKLY(JPOS),THK0) 
 !          
           ELSEIF (ILAW == 121 )THEN
             CALL SIGEPS121C(
@@ -1808,7 +1827,7 @@ c
 c---
             OFFL => LBUF%OFF
             OFFLY=> BUFLY%OFF
-            ZT   = ZZ(1)
+            ZT   = POSLY(1,IPT)
 c---
             DO IFL = 1, NFAIL      ! loop over fail models in current layer                                      
               IP   = (IFL - 1)*15                                             
@@ -1963,7 +1982,7 @@ c
 c
               CASE (7)     !    FLD
                 DO I=JFT,JLT
-                  ZT=ZZ(I)*THK0(I)
+                  ZT=POSLY(I,IPT) *THK0(I)
                   EPSXX(I)= GSTR(I,1)+ZT*GSTR(I,6)
                   EPSYY(I)= GSTR(I,2)+ZT*GSTR(I,7)
                   EPSXY(I)= GSTR(I,3)+ZT*GSTR(I,8)
@@ -1972,10 +1991,10 @@ c
                 ENDDO
                 IF (IXFEM == 0) THEN
                   CALL FAIL_FLD_C(
-     1            NEL       ,NUPAR     ,NVARF     ,NFUNC1   ,IFUNC1     ,
-     2            NPF       ,TF        ,TT        ,DT1C     ,UPARAMF    ,   
-     3            UVAR      ,NGL       ,IPG       ,ILAYER   ,IT         ,
-     4            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ    ,EPSZX      ,
+     1            NEL       ,NUPAR     ,NFUNC1   ,IFUNC1     ,
+     2            NPF       ,TF        ,TT        ,UPARAMF    ,   
+     3            NGL       ,IPG       ,ILAYER   ,IT         ,
+     4            EPSXX     ,EPSYY     ,EPSXY     ,
      5            ZT        ,OFF       ,FOFF    ,PTHKF(ILAYER,IFL),TDEL ,
      6            FLD_IDX   ,DAM       ,DFMAX     )
                 ELSE
@@ -2051,7 +2070,7 @@ c
      1                NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
      2                NFUNC1    ,IFUNC1    ,TABLE     ,NPF       ,TF        ,
      3                TT        ,NGL       ,IPG       ,ILAYER    ,IT        , 
-     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,      
+     4                SIGNXX    ,SIGNYY    ,SIGNXY    ,   
      5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
      6                PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,OFF  ,FOFF      ,
      7                DFMAX     ,TDEL      ,IGTYP     ,INLOC   )
@@ -2130,22 +2149,18 @@ c
               CASE (31)     !    Anisotropic fabric failure model
 c
                 IF (ISMSTR == 11) THEN
-                  DEPS1 => DEPSXX(1:NEL)
-                  DEPS2 => DEPSYY(1:NEL)
-                  EPS1  => DEPSXX(1:NEL)
-                  EPS2  => DEPSYY(1:NEL)
+                  EPS1(1:NEL) = DEPSXX(1:NEL)
+                  EPS2(1:NEL) = DEPSYY(1:NEL)
                 ELSE
                   II = NEL*3
                   JJ = NEL + II
-                  DEPS1 => DEPSXX(1:NEL)
-                  DEPS2 => DEPSYY(1:NEL)
-                  EPS1  => UVAR(II:II+NEL)
-                  EPS2  => UVAR(JJ:JJ+NEL)
+                  EPS1(1:NEL) = UVAR(II:II+NEL)
+                  EPS2(1:NEL) = UVAR(JJ:JJ+NEL)
                 ENDIF
                 CALL FAIL_FABRIC_C(
      1               NEL      ,NGL       ,NUPAR     ,NVARF     ,NFUNC1    ,
      2               UPARAMF  ,UVARF     ,IFUNC1    ,TT        ,DT1       ,    
-     3               NPF      ,TF        ,DEPS1     ,DEPS2     ,EPS1      ,
+     3               NPF      ,TF        ,DEPSXX     ,DEPSYY     ,EPS1      ,
      4               EPS2     ,SIGNXX    ,SIGNYY    ,DFMAX     ,TDEL      ,
      5               IPG      ,ILAYER    ,IT        ,OFF       ,FOFF      )                     
 c
@@ -2170,7 +2185,7 @@ c
               CASE (36)     !    Visual failure model
                 IF (ILAW == 2) THEN
                   DO I=JFT,JLT
-                    ZT=ZZ(I)*THK0(I)
+                    ZT=POSLY(I,IPT) *THK0(I)
                     EPSXX(I)= GSTR(I,1)+ZT*GSTR(I,6)
                     EPSYY(I)= GSTR(I,2)+ZT*GSTR(I,7)
                     EPSXY(I)= GSTR(I,3)+ZT*GSTR(I,8)
@@ -2338,50 +2353,50 @@ c------------------------------------------------
             SELECT CASE (DMG_FLAG)                                               
             CASE (0)     
               IF (ILAW==58 .or. ILAW == 158 .OR. IPRONY == 1) THEN
-                FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))            
-                FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))            
-                FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))            
-                FOR(1:NEL,4) = FOR(1:NEL,4) + THLY(1:NEL)*(SIGNYZ(1:NEL)+SIGVYZ(1:NEL))            
-                FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*(SIGNZX(1:NEL)+SIGVZX(1:NEL))            
+                FOR(1:NEL,1) = FOR(1:NEL,1) + THKLY(JPOS:JPOS+NEL-1)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))            
+                FOR(1:NEL,2) = FOR(1:NEL,2) + THKLY(JPOS:JPOS+NEL-1)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))            
+                FOR(1:NEL,3) = FOR(1:NEL,3) + THKLY(JPOS:JPOS+NEL-1)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))            
+                FOR(1:NEL,4) = FOR(1:NEL,4) + THKLY(JPOS:JPOS+NEL-1)*(SIGNYZ(1:NEL)+SIGVYZ(1:NEL))            
+                FOR(1:NEL,5) = FOR(1:NEL,5) + THKLY(JPOS:JPOS+NEL-1)*(SIGNZX(1:NEL)+SIGVZX(1:NEL))            
                 MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))             
                 MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))             
                 MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))                
               ELSE
-                FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*SIGNXX(1:NEL)            
-                FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*SIGNYY(1:NEL)            
-                FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*SIGNXY(1:NEL)            
-                FOR(1:NEL,4) = FOR(1:NEL,4) + THLY(1:NEL)*SIGNYZ(1:NEL)            
-                FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*SIGNZX(1:NEL)            
+                FOR(1:NEL,1) = FOR(1:NEL,1) + THKLY(JPOS:JPOS+NEL-1)*SIGNXX(1:NEL)            
+                FOR(1:NEL,2) = FOR(1:NEL,2) + THKLY(JPOS:JPOS+NEL-1)*SIGNYY(1:NEL)            
+                FOR(1:NEL,3) = FOR(1:NEL,3) + THKLY(JPOS:JPOS+NEL-1)*SIGNXY(1:NEL)            
+                FOR(1:NEL,4) = FOR(1:NEL,4) + THKLY(JPOS:JPOS+NEL-1)*SIGNYZ(1:NEL)            
+                FOR(1:NEL,5) = FOR(1:NEL,5) + THKLY(JPOS:JPOS+NEL-1)*SIGNZX(1:NEL)            
                 MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL) *SIGNXX(1:NEL)            
                 MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *SIGNYY(1:NEL)            
                 MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *SIGNXY(1:NEL)            
               ENDIF                                                               
             CASE (1)  ! softening with DMG_LOC_SCALE from failure model          
               IF (ILAW==58 .or. ILAW == 158 .OR. IPRONY == 1) THEN
-                FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,4) = FOR(1:NEL,4) + THLY(1:NEL)*(SIGNYZ(1:NEL)+SIGVYZ(1:NEL))*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*(SIGNZX(1:NEL)+SIGVZX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,1) = FOR(1:NEL,1) + THKLY(JPOS:JPOS+NEL-1)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,2) = FOR(1:NEL,2) + THKLY(JPOS:JPOS+NEL-1)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,3) = FOR(1:NEL,3) + THKLY(JPOS:JPOS+NEL-1)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,4) = FOR(1:NEL,4) + THKLY(JPOS:JPOS+NEL-1)*(SIGNYZ(1:NEL)+SIGVYZ(1:NEL))*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,5) = FOR(1:NEL,5) + THKLY(JPOS:JPOS+NEL-1)*(SIGNZX(1:NEL)+SIGVZX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL) *(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
               ELSE                                                    
-                FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*SIGNXX(1:NEL)*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*SIGNYY(1:NEL)*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*SIGNXY(1:NEL)*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,4) = FOR(1:NEL,4) + THLY(1:NEL)*SIGNYZ(1:NEL)*DMG_LOC_SCALE(1:NEL)   
-                FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*SIGNZX(1:NEL)*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,1) = FOR(1:NEL,1) + THKLY(JPOS:JPOS+NEL-1)*SIGNXX(1:NEL)*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,2) = FOR(1:NEL,2) + THKLY(JPOS:JPOS+NEL-1)*SIGNYY(1:NEL)*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,3) = FOR(1:NEL,3) + THKLY(JPOS:JPOS+NEL-1)*SIGNXY(1:NEL)*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,4) = FOR(1:NEL,4) + THKLY(JPOS:JPOS+NEL-1)*SIGNYZ(1:NEL)*DMG_LOC_SCALE(1:NEL)   
+                FOR(1:NEL,5) = FOR(1:NEL,5) + THKLY(JPOS:JPOS+NEL-1)*SIGNZX(1:NEL)*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL) *SIGNXX(1:NEL)*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *SIGNYY(1:NEL)*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *SIGNXY(1:NEL)*DMG_LOC_SCALE(1:NEL)  
               ENDIF
             CASE (2)  ! internal damage model within law15         
-              FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*SIGDMG(1:NEL,1)
-              FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*SIGDMG(1:NEL,2)   
-              FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*SIGDMG(1:NEL,3)  
-              FOR(1:NEL,4) = FOR(1:NEL,4) + THLY(1:NEL)*SIGDMG(1:NEL,4)  
-              FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*SIGDMG(1:NEL,5)  
+              FOR(1:NEL,1) = FOR(1:NEL,1) + THKLY(JPOS:JPOS+NEL-1)*SIGDMG(1:NEL,1)
+              FOR(1:NEL,2) = FOR(1:NEL,2) + THKLY(JPOS:JPOS+NEL-1)*SIGDMG(1:NEL,2)   
+              FOR(1:NEL,3) = FOR(1:NEL,3) + THKLY(JPOS:JPOS+NEL-1)*SIGDMG(1:NEL,3)  
+              FOR(1:NEL,4) = FOR(1:NEL,4) + THKLY(JPOS:JPOS+NEL-1)*SIGDMG(1:NEL,4)  
+              FOR(1:NEL,5) = FOR(1:NEL,5) + THKLY(JPOS:JPOS+NEL-1)*SIGDMG(1:NEL,5)  
               MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL) *SIGDMG(1:NEL,1) 
               MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *SIGDMG(1:NEL,2) 
               MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *SIGDMG(1:NEL,3) 
@@ -2463,11 +2478,11 @@ C           FORCES AND MOMENTS WHEN IGTYP /= 1
 C----------------------
 #include "vectorize.inc"
             DO I=JFT,JLT                                                       
-              FOR(I,1) = FOR(I,1) + THLY(I)*TENS(I,1)                          
-              FOR(I,2) = FOR(I,2) + THLY(I)*TENS(I,2)                          
-              FOR(I,3) = FOR(I,3) + THLY(I)*TENS(I,3)                          
-              FOR(I,4) = FOR(I,4) + THLY(I)*TENS(I,4)                          
-              FOR(I,5) = FOR(I,5) + THLY(I)*TENS(I,5)                          
+              FOR(I,1) = FOR(I,1) + THKLY(JPOS-1+I)*TENS(I,1)                          
+              FOR(I,2) = FOR(I,2) + THKLY(JPOS-1+I)*TENS(I,2)                          
+              FOR(I,3) = FOR(I,3) + THKLY(JPOS-1+I)*TENS(I,3)                          
+              FOR(I,4) = FOR(I,4) + THKLY(JPOS-1+I)*TENS(I,4)                          
+              FOR(I,5) = FOR(I,5) + THKLY(JPOS-1+I)*TENS(I,5)                          
               MOM(I,1) = MOM(I,1) + WMC(I) *TENS(I,1)                          
               MOM(I,2) = MOM(I,2) + WMC(I) *TENS(I,2)                          
               MOM(I,3) = MOM(I,3) + WMC(I) *TENS(I,3)                          
@@ -2480,11 +2495,11 @@ C-----------------------------------------------
           IF (ILAW /= 2  .AND. ILAW /= 15 .AND. ILAW /= 22 .AND.
      .        ILAW /= 25 .AND. ILAW /= 27 .AND. ILAW /= 32) THEN  ! for law25 it is done inside sigeps25c.F
             IF(FLAG_ZCFAC) THEN
-                ZCFAC(JFT:JLT,1) = ZCFAC(JFT:JLT,1) + ETSE(JFT:JLT) * THLY(JFT:JLT)
+                ZCFAC(JFT:JLT,1) = ZCFAC(JFT:JLT,1) + ETSE(JFT:JLT) * THKLY(JPOS:JPOS+JLT-1)
                 ZCFAC(JFT:JLT,2) = MIN(ETSE(JFT:JLT),ZCFAC(JFT:JLT,2))  
             ENDIF
-            YLD(JFT:JLT) = YLD(JFT:JLT) + SIGY(JFT:JLT)*THLY(JFT:JLT)
-            IF(FLAG_ETIMP) ETIMP(JFT:JLT) = ETIMP(JFT:JLT) + ET_IMP(JFT:JLT)*THLY(JFT:JLT)
+            YLD(JFT:JLT) = YLD(JFT:JLT) + SIGY(JFT:JLT)*THKLY(JPOS:JPOS+JLT-1)
+            IF(FLAG_ETIMP) ETIMP(JFT:JLT) = ETIMP(JFT:JLT) + ET_IMP(JFT:JLT)*THKLY(JPOS:JPOS+JLT-1)
           ELSEIF ( ILAW == 2 ) THEN
 c------------------------------------            
             SELECT CASE (IGTYP)
@@ -2494,9 +2509,9 @@ c------------------------------------
                 ZCFAC(JFT:JLT,2) = MIN(ETSE(JFT:JLT),ZCFAC(JFT:JLT,2))
                 YLD(JFT:JLT)     = YLD(JFT:JLT) + SIGY(JFT:JLT) / NPT
               CASE DEFAULT
-                ZCFAC(JFT:JLT,1) = ZCFAC(JFT:JLT,1) + ETSE(JFT:JLT) * THLY(JFT:JLT)
+                ZCFAC(JFT:JLT,1) = ZCFAC(JFT:JLT,1) + ETSE(JFT:JLT) * THKLY(JPOS:JPOS+JLT-1)
                 ZCFAC(JFT:JLT,2) = MIN(ETSE(JFT:JLT),ZCFAC(JFT:JLT,2))
-                YLD(JFT:JLT)     = YLD(JFT:JLT) + SIGY(JFT:JLT) * THLY(JFT:JLT)
+                YLD(JFT:JLT)     = YLD(JFT:JLT) + SIGY(JFT:JLT) * THKLY(JPOS:JPOS+JLT-1)
             END SELECT
           ENDIF
 c-----------------------------------------------
