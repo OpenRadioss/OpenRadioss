@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_ALE_GRID              source/general_controls/ale_grid/hm_read_ale_grid.F
 Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F
+Chd|        CONTRL                        source/starter/contrl.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
@@ -34,7 +34,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_ALE_GRID(DT_INPUT, ALPHA, GAMMA, VGX, VGY, VGZ, VOLMIN, LSUBMODEL, UNITAB)
 C-----------------------------------------------

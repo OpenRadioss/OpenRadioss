@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_EXCH_MASSFLOW_DATA2                         source/ale/grid/spmd_exch_massflow_data2.F
+Chd|  SPMD_EXCH_MASSFLOW_DATA2      source/ale/grid/spmd_exch_massflow_data2.F
 Chd|-- called by -----------
-Chd|        ALEW7                         source/ale/grid/alew7.F
+Chd|        ALEW7                         source/ale/grid/alew7.F       
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================

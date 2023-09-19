@@ -21,10 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALEW7                         source/ale/grid/alew7.F
+Chd|  ALEW7                         source/ale/grid/alew7.F       
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/grid/alewdx.F
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        SPMD_EXCH_MASSFLOW_DATA       source/ale/grid/spmd_exch_massflow_data.F
+Chd|        SPMD_EXCH_MASSFLOW_DATA2      source/ale/grid/spmd_exch_massflow_data2.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW7(

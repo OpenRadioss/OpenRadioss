@@ -21,27 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ALEWDX                        source/ale/grid/alewdx.F
+Chd|  ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        ALELIN                        source/ale/grid/alelin.F
-Chd|        ALEW                          source/ale/grid/alew.F
-Chd|        ALEW1                         source/ale/grid/alew1.F
-Chd|        ALEW2                         source/ale/grid/alew2.F
-Chd|        ALEW4                         source/ale/grid/alew4.F
-Chd|        ALEW5                         source/ale/grid/alew5.F
-Chd|        ALEW6                         source/ale/grid/alew6.F
+Chd|        ALELIN                        source/ale/grid/alelin.F      
+Chd|        ALEW                          source/ale/grid/alew.F        
+Chd|        ALEW1                         source/ale/grid/alew1.F       
+Chd|        ALEW2                         source/ale/grid/alew2.F       
+Chd|        ALEW4                         source/ale/grid/alew4.F       
+Chd|        ALEW5                         source/ale/grid/alew5.F       
+Chd|        ALEW6                         source/ale/grid/alew6.F       
+Chd|        ALEW7                         source/ale/grid/alew7.F       
 Chd|        BCS2V                         source/constraints/general/bcs/bcs2.F
-Chd|        BCS3V                         source/ale/inter/bcs3v.F
-Chd|        INTAL3                        source/ale/inter/intal3.F
-Chd|        LASER1                        source/loads/laser/laser1.F
-Chd|        MY_BARRIER                    source/system/machine.F
-Chd|        RGWAL1                        source/ale/grid/rgwal1.F
-Chd|        STARTIME                      source/system/timer.F
-Chd|        STOPTIME                      source/system/timer.F
-Chd|        WLAG                          source/ale/grid/wlag.F
-Chd|        WPOR                          source/ale/grid/wpor.F
+Chd|        BCS3V                         source/ale/inter/bcs3v.F      
+Chd|        INTAL3                        source/ale/inter/intal3.F     
+Chd|        LASER1                        source/loads/laser/laser1.F   
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        RGWAL1                        source/ale/grid/rgwal1.F      
+Chd|        STARTIME                      source/system/timer.F         
+Chd|        STOPTIME                      source/system/timer.F         
+Chd|        WLAG                          source/ale/grid/wlag.F        
+Chd|        WPOR                          source/ale/grid/wpor.F        
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F

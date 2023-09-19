@@ -70,6 +70,7 @@ Chd|        ALEW1                         engine/source/ale/grid/alew1.F
 Chd|        ALEW2                         engine/source/ale/grid/alew2.F
 Chd|        ALEW4                         engine/source/ale/grid/alew4.F
 Chd|        ALEW5                         engine/source/ale/grid/alew5.F
+Chd|        ALEW7                         engine/source/ale/grid/alew7.F
 Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
 Chd|        AMOMT2                        engine/source/ale/ale2d/amomt2.F
 Chd|        AMOMT3                        engine/source/elements/solid/solide/amomt3.F
@@ -119,6 +120,8 @@ Chd|        SFINT3                        engine/source/elements/solid/solide/sf
 Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SHVIS3                        engine/source/elements/solid/solide/shvis3.F
 Chd|        SIGEPS46                      engine/source/materials/mat/mat046/sigeps46.F
+Chd|        SPMD_EXCH_MASSFLOW_DATA       engine/source/ale/grid/spmd_exch_massflow_data.F
+Chd|        SPMD_EXCH_MASSFLOW_DATA2      engine/source/ale/grid/spmd_exch_massflow_data2.F
 Chd|        SPMD_SD_XV                    engine/source/mpi/nodes/spmd_sd_xv.F
 Chd|        SPMD_SEGCOM                   engine/source/mpi/fluid/spmd_cfd.F
 Chd|        SRHO3                         engine/source/elements/solid/solide/srho3.F

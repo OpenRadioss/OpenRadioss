@@ -50,6 +50,7 @@ Chd|        ALETHE                        source/ale/alethe.F
 Chd|        ALEW                          source/ale/grid/alew.F        
 Chd|        ALEW5                         source/ale/grid/alew5.F       
 Chd|        ALEW6                         source/ale/grid/alew6.F       
+Chd|        ALEW7                         source/ale/grid/alew7.F       
 Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|        AL_CONSTRAINTH1               source/implicit/nl_solv.F     
 Chd|        AL_CONSTRAINTH2               source/implicit/nl_solv.F     
