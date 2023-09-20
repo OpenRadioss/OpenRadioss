@@ -342,21 +342,21 @@ c-----------------------------------------------------------------------
  1380 FORMAT(
      & 5X,'STRAIN-RATE FILTERING CUTOFF FREQUENCY.=',1PG20.13/)
  1400 FORMAT(
-     & 5X,'INITIAL YIELD STRESS FUNCTION ID. . . .=',I3/
+     & 5X,'INITIAL YIELD STRESS FUNCTION ID. . . .=',I10/
      & 5X,'STRAIN-RATE SCALE FACTOR. . . . . . . .=',1PG20.13/
      & 5X,'YIELD STRESS SCALE FACTOR . . . . . . .=',1PG20.13/)
  1500 FORMAT(
-     & 5X,'YOUNG MODULUS FUNCTION ID . . . . . . .=',I3/
+     & 5X,'YOUNG MODULUS FUNCTION ID . . . . . . .=',I10/
      & 5X,'STRAIN-RATE SCALE FACTOR. . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS SCALE FACTOR  . . . . . .=',1PG20.13/)
  1600 FORMAT(
-     & 5X,'TANGENT MODULUS FUNCTION ID . . . . . .=',I3/
+     & 5X,'TANGENT MODULUS FUNCTION ID . . . . . .=',I10/
      & 5X,'STRAIN-RATE SCALE FACTOR. . . . . . . .=',1PG20.13/
      & 5X,'TANGENT MODULUS SCALE FACTOR  . . . . .=',1PG20.13/)
  1650 FORMAT(
      & 5X,'CONSTANT TANGENT MODULUS  . . . . . . .=',1PG20.13/)
  1700 FORMAT(
-     & 5X,'FAILURE CRITERION STRESS FUNCTION ID  .=',I3/
+     & 5X,'FAILURE CRITERION STRESS FUNCTION ID  .=',I10/
      & 5X,'STRAIN-RATE SCALE FACTOR. . . . . . . .=',1PG20.13/
      & 5X,'ORDINATE SCALE FACTOR . . . . . . . . .=',1PG20.13/)
  1800 FORMAT(
