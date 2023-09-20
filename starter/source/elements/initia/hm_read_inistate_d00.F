@@ -2916,8 +2916,8 @@ C---------
      .                            C2='SHELL',
      .                            I2=ID_ELEM,I1=IGEO(1,IG))
                     ENDIF ! IF (IGTYP == 9)
+                    IF(ALLOCATED(MLAW_LY))DEALLOCATE(MLAW_LY)
                   ENDIF ! IF (IE == 0) THEN
-                  DEALLOCATE(MLAW_LY)
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
               CASE ( 'SCALE_YLD' )
@@ -4076,8 +4076,8 @@ C---------
      .                            C2='3 NODES SHELL',
      .                            I2=ID_ELEM,I1=IGEO(1,IG))
                     ENDIF ! IF (IGTYP == 9)
+                    IF(ALLOCATED(MLAW_LY))DEALLOCATE(MLAW_LY)
                   ENDIF ! IF (IE == 0) THEN
-                  DEALLOCATE(MLAW_LY )
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
               CASE ( 'SCALE_YLD' )
