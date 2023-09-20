@@ -275,7 +275,9 @@ C-----------------------------------------------
                             INTBUF_TAB(NIN)%STFM(ISURF_NIN) = ZERO
 
                           ELSEIF (INTBUF_TAB(NIN)%STFM(ISURF_NIN) < ZERO) THEN ! Internal segment on 2 elems
-                            IF(INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1) > 0.AND.INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2) > 0) THEN  ! 2 elements sharing the segment are local
+                            IF(INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1) > 0.AND.
+     .                               INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2) > 0) THEN  
+c                              ! 2 elements sharing the segment are local
                                IEL1 = INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1)
                                IEL2 = INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2)
 
