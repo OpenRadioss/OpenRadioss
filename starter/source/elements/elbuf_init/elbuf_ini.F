@@ -2336,6 +2336,10 @@ c
             LLOC = LLOC + BUFLY%L_FAC_YLD 
             LLOC = LLOC + BUFLY%L_ABURN 
             LLOC = LLOC + BUFLY%L_MU
+            LLOC = LLOC + BUFLY%L_PLANL
+            LLOC = LLOC + BUFLY%L_EPSDNL
+            LLOC = LLOC + BUFLY%L_DMGSCL
+            LLOC = LLOC + BUFLY%L_TSAIWU
 c
             BUFLEN = BUFLEN + (LLOC * NEL + NPAR_LBUF) * NIP_LAY
           ENDDO
