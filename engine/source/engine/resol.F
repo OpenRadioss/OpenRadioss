@@ -2327,7 +2327,7 @@ C Init var parallel SMP
           IF(INT24USE>0.OR.NINTER25/=0) THEN 
             IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
-     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT,INTERFACES )
+     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
             IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
               IF(ITSK==0) CALL CHECK_NEIGHBOURS_SURFACE_STATE( 
@@ -5457,7 +5457,7 @@ C WA local  : utilise de 1 a NUMNOD
           IF(INT24USE>0.OR.NINTER25/=0) THEN 
             IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
-     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT ,INTERFACES )
+     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT  )
             CALL MY_BARRIER()
             IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
                 IF(ITSK==0) CALL CHECK_NEIGHBOURS_SURFACE_STATE( 
