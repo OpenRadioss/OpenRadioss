@@ -682,8 +682,8 @@ C--------------------------------------------
               NSN_FE = NBRIC  
             ELSE
               NBRIC=IGRBRIC(ISU1)%NENTITY
-              CALL INGRBRIC_NODES(NSN_FE ,NOINT  ,IGRBRIC(GRBRIC_ID)%ENTITY   ,ITAB   ,NSV   , 
-     .                       IXS  , NBRIC, 1, NALE ,IPM, BUFMAT,S_NSV)                         
+              CALL INGRBRIC_NODES(NSN_FE ,IGRBRIC(GRBRIC_ID)%ENTITY   ,ITAB   ,NSV   ,
+     .                       IXS  , NBRIC, NALE ,IPM, BUFMAT,S_NSV)
             ENDIF
           ELSE
             NBRIC = 0
@@ -695,9 +695,9 @@ C--------------------------------------------
         
           IF(GRBRIC_ID > 0)THEN
             IS_GAP_COMPUTED = .FALSE.
-            CALL INGRBRIC_DX(NBRIC   , IGRBRIC(GRBRIC_ID)%ENTITY, FRIGAP(2,NI)   , IXS        , X,
-     .                       NOINT   , TITR                     , IS_GAP_COMPUTED, PM         ,  
-     .                       IDDLEVEL, ISTIFF                   , AUTO_RHO       , AUTO_LENGTH, IGAP    ,
+            CALL INGRBRIC_DX(NBRIC   , IGRBRIC(GRBRIC_ID)%ENTITY, FRIGAP(2,NI)   , IXS        , X     ,
+     .                       NOINT   , TITR                     , IS_GAP_COMPUTED, PM         , IPM   ,
+     .                       IDDLEVEL, ISTIFF                   , AUTO_RHO       , AUTO_LENGTH,
      .                       MULTI_FVM)
             IF(IS_GAP_COMPUTED)THEN
               WRITE(IOUT,1000)NOINT
@@ -737,7 +737,7 @@ C--------------------------------------------
               
             ELSEIF(IS1==5) THEN
                NBRIC = IGRBRIC(ISU1)%NENTITY
-               CALL INGRBRIC(NSN, NOINT, IGRBRIC(ISU1)%ENTITY, ITAB, NSV,
+               CALL INGRBRIC(NSN, IGRBRIC(ISU1)%ENTITY, NSV,
      .                       IXS, NBRIC, PM,S_NSV, IGEO)
             ENDIF
           ENDIF
@@ -751,7 +751,7 @@ C--------------------------------------------
         ELSEIF(NTYP==22) THEN
           IF(ISU1 > 0)THEN
             NBRIC=IGRBRIC(ISU1)%NENTITY
-            CALL INGRBRIC(NSN   ,NOINT  ,IGRBRIC(ISU1)%ENTITY   ,ITAB   ,NSV   , 
+            CALL INGRBRIC(NSN  , IGRBRIC(ISU1)%ENTITY ,NSV   ,
      .                    IXS  , NBRIC  ,PM, S_NSV, IGEO)
           ELSE
             NBRIC = 0

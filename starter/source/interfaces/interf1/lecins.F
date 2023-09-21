@@ -206,7 +206,7 @@ C
             IF(ISU1>0)THEN
               IF(IPRI>=1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
               NBRIC=IGRBRIC(ISU1)%NENTITY
-              CALL INGRBRIC(NSN,   NOINT,   IGRBRIC(ISU1)%ENTITY,   ITAB,  INTBUF_TAB(NI)%NSV,
+              CALL INGRBRIC(NSN,   IGRBRIC(ISU1)%ENTITY, INTBUF_TAB(NI)%NSV,
      +                      IXS,   NBRIC,   PM, INTBUF_TAB(NI)%S_NSV,IGEO)
            ENDIF
 C--------------------------------------------
@@ -263,11 +263,11 @@ c            END IF
               !INTER18 + GRBRIC_ID
               NBRIC = IGRBRIC(GRBRIC_ID)%NENTITY              
               IF (MULTI_FVM%IS_USED)THEN
-               CALL INGRBRIC_CENTROIDS(NOINT, IGRBRIC(GRBRIC_ID)%ENTITY, ITAB, INTBUF_TAB(NI)%NSV,
+               CALL INGRBRIC_CENTROIDS(IGRBRIC(GRBRIC_ID)%ENTITY, INTBUF_TAB(NI)%NSV,
      .                       IXS, NBRIC)                            
               ELSE
-               CALL INGRBRIC_NODES(    NSN_FE, NOINT, IGRBRIC(GRBRIC_ID)%ENTITY, ITAB, INTBUF_TAB(NI)%NSV,
-     .                       IXS, NBRIC, 2, NALE, IPM, BUFMAT, INTBUF_TAB(NI)%S_NSV)              
+               CALL INGRBRIC_NODES(NSN_FE, IGRBRIC(GRBRIC_ID)%ENTITY, ITAB, INTBUF_TAB(NI)%NSV,
+     .                       IXS, NBRIC, NALE, IPM, BUFMAT, INTBUF_TAB(NI)%S_NSV)
               ENDIF
             ENDIF
             IF (NTYP==3) THEN

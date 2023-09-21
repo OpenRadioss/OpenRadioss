@@ -32,7 +32,7 @@ Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE INGRBRIC_NODES(MSN,NOINT,IBUFSSG,ITAB,MSV, IXS, NBRIC,IFLAG, NALE, IPM, BUFMAT, S_MSV)
+      SUBROUTINE INGRBRIC_NODES(MSN,IBUFSSG,ITAB,MSV, IXS, NBRIC, NALE, IPM, BUFMAT, S_MSV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,10 +53,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: NOINT,NBRIC,S_MSV
+      INTEGER,INTENT(IN)    :: NBRIC,S_MSV
       INTEGER,INTENT(INOUT) :: MSN
       INTEGER,INTENT(IN)    :: IBUFSSG(NBRIC), ITAB(NUMNOD), IXS(NIXS,NUMELS)
-      INTEGER,INTENT(IN)    ::IFLAG
       INTEGER,INTENT(INOUT) :: MSV(1:S_MSV)
       INTEGER,INTENT(IN) :: NALE(NUMNOD)
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
@@ -64,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r a i b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, VALMIN, TMP, POSMIN, INOD
+      INTEGER :: I, J, TMP, INOD
       INTEGER, DIMENSION(:),ALLOCATABLE,TARGET :: MSVTMP
       my_real, DIMENSION(:), POINTER :: UPARAM
       INTEGER NPAR, IADBUF, IFORM, IMAT, IELEM, ILAW
@@ -128,7 +127,7 @@ C-----------------------------------------------
       DEALLOCATE(MSVTMP)
 
       !PRINTOUT
-      IF(IPRI>=1) THEN
+      IF(IPRI >= 1) THEN
         WRITE(IOUT,'(/,A,/)')' NODES EXTRACTED FROM SOLID ELEMENTS'
         WRITE(IOUT,FMT=FMW_10I)(ITAB(MSV(I)),I=1,MSN)
       ENDIF
