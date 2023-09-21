@@ -47,11 +47,11 @@ Chd|====================================================================
      E                    PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
      F                    PLY_F    ,PLA     ,DAMT     ,CRAK    ,IERR    ,
      G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  ,
-     H                    VISC     )
+     H                    MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE VISC_PARAM_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C     REAL
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),
      .   SIGOZX(NEL),PLA(NEL),DAMT(NEL,2),CRAK(NEL,2),SEQ_OUTP(NEL),
      .   OFFL(NEL),SIGV(NEL,5),DT_INV(MVSIZ),SIGPLY(NEL,3),TSAIWU(NEL)
-      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
+      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -115,13 +115,13 @@ C
 C  Check visco elastic model 
 C             
       NPMAX = 0
-      IF (VISC%ILAW == 1) THEN   ! PRONY model
-        NPRONY = VISC%IPARAM(1)
-        KV     = VISC%UPARAM(1)
+      IF (MAT_PARAM%IVISC == 1) THEN   ! PRONY model
+        NPRONY = MAT_PARAM%VISC%IPARAM(1)
+        KV     = MAT_PARAM%VISC%UPARAM(1)
         ALLOCATE(GV(NPRONY),BETA(NPRONY))
         DO I=1,NPRONY
-          GV(I)   = VISC%UPARAM(1 + I)         
-          BETA(I) = VISC%UPARAM(1 + NPRONY + I)
+          GV(I)   = MAT_PARAM%VISC%UPARAM(1 + I)         
+          BETA(I) = MAT_PARAM%VISC%UPARAM(1 + NPRONY + I)
         ENDDO 
       ELSE
         ALLOCATE(GV(0),BETA(0))
@@ -153,7 +153,7 @@ C
         ENDDO
       ENDIF
 C
-      IF (VISC%ILAW == 1) THEN 
+      IF (MAT_PARAM%IVISC == 1) THEN 
         DO I=JFT,JLT
           DTINV = DT_INV(I)
           EPSPXX(I) = EPS(I,1)*DTINV
@@ -208,7 +208,7 @@ C-----------------------
 C
 C  visco elastic model 
 C             
-      IF (VISC%ILAW == 1 ) THEN 
+      IF (MAT_PARAM%IVISC == 1 ) THEN 
         CALL PRONY25C(JLT      ,NPRONY ,BETA     ,KV      ,
      1                GV       ,DT1C   ,RHO0     ,OFF     ,DIR   ,   
      2                EPSPXX   ,EPSPYY ,EPSPXY   ,EPSPYZ  ,EPSPZX,

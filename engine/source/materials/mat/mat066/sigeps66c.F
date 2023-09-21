@@ -31,24 +31,24 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS66C(
-     1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0   ,IPT     ,IFLAG   ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
-     B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,ISRATE  ,INLOC  ,
-     D     DPLANL ,VISC   ,NUVARV  ,UVARV   )
+     1     NEL    ,NUPARAM  ,NUVAR   ,MFUNC   ,KFUNC  ,
+     2     NPF    ,NPT0     ,IPT     ,IFLAG   ,
+     2     TF     ,TIME     ,TIMESTEP,UPARAM  ,RHO0   ,
+     3     AREA   ,EINT     ,THKLY   ,
+     4     EPSPXX ,EPSPYY   ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+     5     DEPSXX ,DEPSYY   ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     6     EPSXX  ,EPSYY    ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     7     SIGOXX ,SIGOYY   ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     8     SIGNXX ,SIGNYY   ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     9     SIGVXX ,SIGVYY   ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
+     A     SOUNDSP,VISCMAX  ,THK     ,PLA     ,UVAR   ,
+     B     OFF    ,NGL      ,IPM     ,MAT     ,ETSE   ,
+     C     GS     ,YLD      ,EPSP    ,ISRATE  ,INLOC  ,
+     D     DPLANL ,MAT_PARAM,NUVARV  ,UVARV   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE VISC_PARAM_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,7 +125,7 @@ C-----------------------------------------------
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   GS(*),EPSP(NEL),DPLANL(NEL)
-      TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
+      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -786,13 +786,13 @@ C
 C
 C  visco elastic model (prony)
 C             
-       IF (VISC%ILAW == 1) THEN   
-         NPRONY = VISC%IPARAM(1)
-         KV     = VISC%UPARAM(1)
+       IF (MAT_PARAM%IVISC == 1) THEN   
+         NPRONY = MAT_PARAM%VISC%IPARAM(1)
+         KV     = MAT_PARAM%VISC%UPARAM(1)
 c              
         DO I=1,NPRONY
-          GV(I)   = VISC%UPARAM(1 + I)         
-          BETA(I) = VISC%UPARAM(1 + NPRONY + I)
+          GV(I)   = MAT_PARAM%VISC%UPARAM(1 + I)         
+          BETA(I) = MAT_PARAM%VISC%UPARAM(1 + NPRONY + I)
         ENDDO 
 C
         CALL PRONY_MODELC( 
