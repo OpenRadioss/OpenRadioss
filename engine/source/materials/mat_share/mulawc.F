@@ -1089,7 +1089,7 @@ C------------------------------------------
      E        PLY_EXX     ,PLY_EYY  ,PLY_EXY     ,PLY_EXZ  ,PLY_EYZ   ,
      F        PLY_F       ,LBUF%PLA ,LBUF%DAM    ,LBUF%CRAK,GBUF%IERR ,
      G        IOFF_DUCT   ,IFAILURE ,PLY_ID      ,IPG      ,LBUF%TSAIWU,
-     H        MATPARAM%VISC)
+     H        MATPARAM    )
           ELSEIF (IGTYP == 9) THEN
 !           INTEGRATION BY POINTS (through thickness)
             CALL SIGEPS25CP(
@@ -1415,7 +1415,7 @@ c
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,IPM     ,MATLY(JMLY),ETSE ,
      C        GS     ,SIGY   ,EPSPL   ,ISRATE   ,INLOC  ,
-     D        VARNL(1,IT),MATPARAM%VISC,NUVARV  ,UVARV   )
+     D        VARNL(1,IT),MATPARAM    ,NUVARV  ,UVARV   )
           ELSEIF (ILAW == 69) THEN
            CALL SIGEPS69C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
