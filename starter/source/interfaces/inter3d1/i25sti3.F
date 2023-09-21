@@ -104,7 +104,7 @@ C     REAL
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
-      INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT)
+      INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT+NRT_SH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -766,7 +766,7 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT)
+      INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRTT)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
