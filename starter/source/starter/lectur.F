@@ -55,6 +55,7 @@ Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
 Chd|        CHECKRBY                      source/constraints/general/rbody/checkrby.F
 Chd|        CHECK_DYNAIN                  source/starter/check_dynain.F 
+Chd|        CHECK_PTHICKFAIL              source/materials/fail/check_pthickfail.F
 Chd|        CHECK_QEPH_STRA               source/starter/check_qeph_stra.F
 Chd|        CHECK_SURF                    source/groups/check_surf.F    
 Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   

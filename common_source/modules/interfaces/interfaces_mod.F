@@ -28,12 +28,18 @@ Chd|        HM_READ_INTERFACES            starter/source/interfaces/reader/hm_re
 Chd|        HM_READ_INTER_STRUCT          starter/source/interfaces/reader/hm_read_inter_struct.F
 Chd|        HM_READ_THGROU                starter/source/output/th/hm_read_thgrou.F
 Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        LECINS                        starter/source/interfaces/interf1/lecins.F
+Chd|        LECINT                        starter/source/interfaces/interf1/lecint.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        CHECK_SURFACE_STATE           engine/source/interfaces/interf/check_surface_state.F
+Chd|        FIND_SURFACE_FROM_REMOTE_PROC engine/source/interfaces/interf/find_surface_from_remote_proc.F
+Chd|        FIND_SURFACE_INTER            engine/source/interfaces/interf/find_surface_inter.F
 Chd|        I24MAINF                      engine/source/interfaces/int24/i24main.F
 Chd|        I25MAINF                      engine/source/interfaces/int25/i25mainf.F
 Chd|        IMP_INTTD0                    engine/source/implicit/imp_int_k.F
 Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
 Chd|        IMP_TRIPI                     engine/source/implicit/imp_int_k.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
@@ -41,12 +47,15 @@ Chd|        RDRESA                        engine/source/output/restart/rdresa.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 Chd|        SPMD_I7FCOM_POFF              engine/source/mpi/forces/spmd_i7fcom_poff.F
 Chd|        SPMD_I7FCOM_PON               engine/source/mpi/forces/spmd_i7fcom_pon.F
 Chd|        SPMD_I7XVCOM2                 engine/source/mpi/interfaces/spmd_i7xvcom2.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        PARAMETERS_MOD                modules/interfaces/parameters_mod.F
+Chd|        SPMD_ARRAYS_MOD               modules/interfaces/spmd_arrays_mod.F
 Chd|====================================================================
         MODULE INTERFACES_MOD
 C-----------------------------------------------

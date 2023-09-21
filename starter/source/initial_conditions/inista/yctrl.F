@@ -402,6 +402,7 @@ Chd|====================================================================
 Chd|  UEL2SYS                       source/initial_conditions/inista/yctrl.F
 Chd|-- called by -----------
 Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
+Chd|        HM_YCTRL                      source/elements/initia/hm_yctrl.F
 Chd|        INIBOLTPREL                   source/loads/bolt/iniboltprel.F
 Chd|        LECFILL                       source/elements/initia/lecfill.F
 Chd|        LEC_INISTATE_TRI              source/elements/initia/lec_inistate_tri.F

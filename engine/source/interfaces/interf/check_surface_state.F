@@ -29,6 +29,7 @@ Chd|-- calls ---------------
 Chd|        CHECK_ACTIVE_ELEM_EDGE        source/interfaces/interf/check_active_elem_edge.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_SURFACE_STATE( ITASK ,SURFARCE_NB ,SURFACE_ID ,SHIFT_INTERFACE ,INTBUF_TAB ,

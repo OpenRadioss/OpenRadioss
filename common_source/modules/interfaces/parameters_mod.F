@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        INTERFACES_MOD                common_source/modules/interfaces/interfaces_mod.F
 Chd|        HM_READ_INTER_TYPE24          starter/source/interfaces/int24/hm_read_inter_type24.F
 Chd|        HM_READ_INTER_TYPE25          starter/source/interfaces/int25/hm_read_inter_type25.F
+Chd|        I25SURFI                      starter/source/interfaces/inter3d1/i25surfi.F
 Chd|        WRCOMIP                       starter/source/restart/ddsplit/wrcommp.F
 Chd|        WRCOMR                        starter/source/restart/ddsplit/wrcomm.F
 Chd|        I24COR3                       engine/source/interfaces/int24/i24cor3.F

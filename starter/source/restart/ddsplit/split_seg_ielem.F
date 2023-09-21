@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPLIT_SEG_SEGLOC              source/restart/ddsplit/inter_tools.F
+Chd|  SPLIT_SEG_IELEM               source/restart/ddsplit/split_seg_ielem.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IELEM(IELEM_M    ,PROC_MVOISIN  ,MVOISIN  ,NRTM      ,

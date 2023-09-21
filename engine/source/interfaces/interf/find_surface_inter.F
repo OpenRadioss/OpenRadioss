@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,

@@ -88,6 +88,7 @@ Chd|  SYSFUS2                       source/system/sysfus.F
 Chd|-- called by -----------
 Chd|        ALE51_SPMD2                   source/ale/ale51/ale51_spmd2.F
 Chd|        ALE51_SPMD3                   source/ale/ale51/ale51_spmd3.F
+Chd|        CHECK_NEIGHBOURS_SURFACE_STATEsource/interfaces/interf/check_neighbours_surface_state.F
 Chd|        COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_nb_elem_edge.F
 Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
 Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F

@@ -30,6 +30,7 @@ Chd|        LEC_INISTATE_TRI              source/elements/initia/lec_inistate_tr
 Chd|        LEC_INISTATE_YFILE            source/initial_conditions/inista/lec_inistate_yfile.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F
+Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE LEC_INISTATE(      IXS          ,IXQ          ,IXC          ,IXT     ,

@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
+Chd|  CHECK_NEIGHBOURS_SURFACE_STATEsource/interfaces/interf/check_neighbours_surface_state.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        ALLOC_2D_ARRAY                ../common_source/modules/array_mod.F
 Chd|        DEALLOC_2D_ARRAY              ../common_source/modules/array_mod.F
-Chd|        SURFACE_DEACTIVATION          source/interfaces/interf/surface_deactivation.F
+Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
+Chd|        SYSFUS2                       source/system/sysfus.F        
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
+Chd|        SPMD_ARRAYS_MOD               ../common_source/modules/interfaces/spmd_arrays_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_NEIGHBOURS_SURFACE_STATE( SURFARCE_NB  ,SURFACE_ID  ,SHIFT_INTERFACE ,INTBUF_TAB ,
      .                                             IPARI        ,IAD_ELEM    ,SHOOT_STRUCT    ,X          ,

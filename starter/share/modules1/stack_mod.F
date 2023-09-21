@@ -32,6 +32,7 @@ Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
 Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
 Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
+Chd|        CHECK_PTHICKFAIL              source/materials/fail/check_pthickfail.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
 Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
@@ -42,6 +43,7 @@ Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|        HM_READ_ANIM                  source/general_controls/engine/hm_read_anim.F
 Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
+Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
 Chd|        HM_READ_PROP17                source/properties/shell/hm_read_prop17.F
 Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
 Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
@@ -53,6 +55,7 @@ Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.
 Chd|        LAYINI_XFE                    source/elements/xfem/cbufxfe.F
 Chd|        LECSTACK_PLY                  source/properties/composite_options/stack/lecstack_ply.F
 Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|        PRE_STACKGROUP                source/stack/pres_stackgroup.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
 Chd|        SPMD_ANIM_PLY_INIT            source/spmd/spmd_anim_ply_init.F

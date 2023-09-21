@@ -49,6 +49,7 @@ Chd|        CEPSINI                       starter/source/elements/shell/coque/ce
 Chd|        CFAILINI                      starter/source/elements/shell/coque/cfailini.F
 Chd|        CFAILINI4                     starter/source/elements/shell/coque/cfailini.F
 Chd|        CFINT_REG_INI                 starter/source/elements/shell/coque/cfint_reg_ini.F
+Chd|        CHECK_PTHICKFAIL              starter/source/materials/fail/check_pthickfail.F
 Chd|        CHK_DTTSH                     starter/source/elements/thickshell/solidec/scdtchk3.F
 Chd|        CINIT3                        starter/source/elements/shell/coque/cinit3.F
 Chd|        CINMAS                        starter/source/elements/shell/coque/cinmas.F

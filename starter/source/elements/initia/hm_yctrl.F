@@ -31,6 +31,8 @@ Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_a
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
+Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
+Chd|        UEL2SYS                       source/initial_conditions/inista/yctrl.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
