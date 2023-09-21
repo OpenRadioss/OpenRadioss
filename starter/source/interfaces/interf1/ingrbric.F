@@ -27,9 +27,9 @@ Chd|        LECINS                        source/interfaces/interf1/lecins.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INGRBRIC(MSN,NOINT,BRICS,ITAB,MSV, IXS, NBRIC, PM,S_MSV ,IGEO)
+      SUBROUTINE INGRBRIC(MSN,BRICS, MSV, IXS, NBRIC, PM,S_MSV ,IGEO)
 C-----------------------------------------------------------------------
-C This subroutine lists all brick in the /GRBRICK 
+C This subroutine lists all brick in the /GRBRICK
 C (for example it is used with /inter/type22 which recquires a grbrick_id)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,14 +47,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER , INTENT(IN)    :: NOINT, NBRIC,S_MSV
-      INTEGER , INTENT(IN)    :: BRICS(NBRIC), ITAB(NUMNOD), IXS(NIXS,NUMELS), IGEO(NPROPGI,NUMGEO)
+      INTEGER , INTENT(IN)    :: NBRIC,S_MSV
+      INTEGER , INTENT(IN)    :: BRICS(NBRIC), IXS(NIXS,NUMELS), IGEO(NPROPGI,NUMGEO)
       INTEGER , INTENT(INOUT) :: MSN, MSV(S_MSV)
       my_real , INTENT(IN)    :: PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                 :: I, IMAT, IPID, IALE_, IF_ALE, IF_EUL, JALE_FROM_MAT, JALE_FROM_PROP
+      INTEGER  :: I, IMAT, IPID, IALE_, IF_ALE, IF_EUL, JALE_FROM_MAT, JALE_FROM_PROP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
       I22_ALEUL = 0
       IF_ALE    = 0
       IF_EUL    = 0
-      DO I=1,NBRIC	  
+      DO I=1,NBRIC
         MSV(I) = BRICS(I)
       END DO
       
@@ -85,7 +85,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF
       
-      IF(IPRI>=1) THEN
+      IF(IPRI >= 1) THEN
         WRITE(IOUT,'(/,A,/)')   ' BRICKS USED FOR FLUID DOMAIN DEFINITION'
         IF (NBRIC>0)THEN
           WRITE(IOUT,FMT=FMW_10I)(IXS(11,MSV(I)),I=1,MSN)

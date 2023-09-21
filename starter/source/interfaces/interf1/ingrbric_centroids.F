@@ -29,7 +29,7 @@ Chd|-- called by -----------
 Chd|        LECINS                        source/interfaces/interf1/lecins.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INGRBRIC_CENTROIDS(NOINT,IBUFSSG,ITAB,MSV, IXS, NBRIC)
+      SUBROUTINE INGRBRIC_CENTROIDS(IBUFSSG,MSV, IXS, NBRIC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,8 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: NOINT,NBRIC
-      INTEGER,INTENT(IN)    :: IBUFSSG(NBRIC), ITAB(NUMNOD), IXS(NIXS,NUMELS)
+      INTEGER,INTENT(IN)    :: NBRIC
+      INTEGER,INTENT(IN)    :: IBUFSSG(NBRIC), IXS(NIXS,NUMELS)
       INTEGER,INTENT(INOUT), TARGET :: MSV(1:NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r a i b l e s
@@ -60,7 +60,7 @@ C-----------------------------------------------
       ENDDO   
 
       !PRINTOUT
-      IF(IPRI>=1) THEN
+      IF(IPRI >= 1) THEN
         WRITE(IOUT,'(/,A,/)')' CENTROID EXTRACTED FROM SOLID ELEMENTS : '
         WRITE(IOUT,FMT=FMW_10I)(IXS(11,MSV(I)),I=1,NBRIC)
       ENDIF

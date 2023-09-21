@@ -30,8 +30,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE INGRBRIC_DX(NBRIC    , IBUFSSG, GLOBAL_GAP     , IXS        , X      ,  
-     .                       NOINT    , TITR   , IS_GAP_COMPUTED, PM         , 
-     .                       IDDLEVEL , ISTIFF , AUTO_RHO       , AUTO_LENGTH, IGAP   ,
+     .                       NOINT    , TITR   , IS_GAP_COMPUTED, PM         , IPM    ,
+     .                       IDDLEVEL , ISTIFF , AUTO_RHO       , AUTO_LENGTH,
      .                       MULTI_FVM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NBRIC, NOINT, IDDLEVEL,ISTIFF,IGAP
-      INTEGER,INTENT(IN) :: IBUFSSG(*), IXS(NIXS,NUMELS)
+      INTEGER,INTENT(IN) :: NBRIC, NOINT, IDDLEVEL,ISTIFF
+      INTEGER,INTENT(IN) :: IBUFSSG(*), IXS(NIXS,NUMELS), IPM(NPROPMI,NUMMAT)
       my_real,INTENT(INOUT) :: GLOBAL_GAP
       my_real,INTENT(IN) :: X(3,NUMNOD)
       CHARACTER*nchartitle,INTENT(IN) :: TITR
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r a i b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, J2, IEDG, CONNECT1(12), CONNECT2(12),IE,IMAT, ENUM
+      INTEGER :: I, J, J2, IEDG, CONNECT1(12), CONNECT2(12),IE,IMAT, ENUM, ILAW
       my_real :: MIN_X,MIN_Y,MIN_Z
       my_real :: MAX_X,MAX_Y,MAX_Z  
       my_real :: XX,YY,ZZ
@@ -135,15 +135,19 @@ C-----------------------------------------------
       ! DETERMINE GLOBAL DENSITY
       !-----------------------------------------
       RHO_MAX = ZERO
-      IF(ISTIFF==2)THEN
+      IF(ISTIFF == 2)THEN
         RHO_MAX=ZERO
         DO I=1,NBRIC
           IE=IBUFSSG(I)      
-          IF(IE==0)EXIT
-          IMAT = IXS(1,IE)
-          RHO0=PM(89,IXS(1,IE))
-          RHO_MAX=MAX(RHO_MAX, RHO0) ! loop over material density (incase of monomaterial formulation)
-          RHO_MAX=MAX(RHO0,PM(91,IMAT)) ! use rho_max in case of multi material laws
+          IF(IE == 0)EXIT
+          IMAT=IXS(1,IE)
+          RHO0=PM(89,IMAT)
+          ILAW=IPM(2,IMAT)
+          IF(ILAW == 51 .OR. ILAW == 151)THEN
+            RHO_MAX = MAX(RHO_MAX,PM(91,IMAT)) ! use rho_max(1:nsubmat) in case of multi material laws
+          ELSE
+            RHO_MAX = MAX(RHO_MAX, RHO0) ! monomaterial case
+          ENDIF
         END DO
       ENDIF  
       AUTO_RHO = RHO_MAX     
@@ -183,7 +187,7 @@ C-----------------------------------------------
             CALL ANCMSG(MSGID=1826, MSGTYPE=MSGWARNING, ANMODE=ANINFO, I1=NOINT, C1=TITR, C2=MSGTITL)
             ENUM=ENUM+1
           ENDIF
-          IF(ENUM==10)EXIT
+          IF(ENUM == 10)EXIT
         ENDDO      
       ENDIF
 C------------------------------------------------------------
