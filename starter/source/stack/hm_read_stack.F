@@ -112,7 +112,7 @@ card1
       CALL HM_GET_INTV('LAM_Ismstr', ISMSTR, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('LAM_ISH3N' , ISH3N , IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('LAM_Idrill', ISROT , IS_AVAILABLE, LSUBMODEL)
-!!      CALL HM_GET_FLOATV('P_Thick_Fail', PTHK, IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('P_Thick_Fail', PTHK, IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('LAM_Z0'          , ZSHIFT, IS_AVAILABLE, LSUBMODEL, UNITAB)
       
 card2      
@@ -163,7 +163,9 @@ c
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('F_weight_i',WEIGHT,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF(PLY_ID > 0) THEN
                 NPLY = NPLY + 1
-               IF (PTHKLY == ZERO) PTHKLY = EM03
+               IF (PTHKLY == ZERO) PTHKLY = ONE-EM06
+               PTHKLY = MIN(PTHKLY, ONE)
+               PTHKLY = MAX(PTHKLY,-ONE)
                IF (WEIGHT == ZERO) WEIGHT = ONE
                STACK_INFO%PID(NPLY) = PLY_ID
                STACK_INFO%ANG(NPLY) = ANG
@@ -194,7 +196,9 @@ c
 c       
           IF(PLY_ID > 0) THEN
              NPLY = NPLY + 1
-             IF (PTHKLY == ZERO) PTHKLY = EM03
+             IF (PTHKLY == ZERO) PTHKLY = ONE-EM06
+             PTHKLY = MIN(PTHKLY, ONE)
+             PTHKLY = MAX(PTHKLY,-ONE)
              IF (WEIGHT == ZERO) WEIGHT = ONE
              STACK_INFO%PID(NPLY) = PLY_ID
              STACK_INFO%ANG(NPLY) = ANG
@@ -207,7 +211,9 @@ c
 c--------------------------------------------
 c     Default values
 c--------------------------------------------
-!!      PTHK = MIN(PTHK, ONE-EM06)
+      IF (PTHK == ZERO) PTHK = ONE-EM06
+      PTHK = MIN(PTHK, ONE)
+      PTHK = MAX(PTHK,-ONE)
       IF (ISHELL == 0) ISHELL = IHBE_D
 c      IHBEOUTP = ISHELL
       IF (ISH3N  == 0) ISH3N = ISH3N_D
@@ -388,7 +394,7 @@ c
       GEO_STACK(37) = ISHEAR
       GEO_STACK(39) = IPLAST
       GEO_STACK(38) = ASHEAR
-      GEO_STACK(42) = ZERO
+      GEO_STACK(42) = PTHK
       GEO_STACK(43) = ONE
       GEO_STACK(199)= ZSHIFT
       GEO_STACK(212) = GEO_STACK(212) * PI / HUNDRED80
@@ -411,22 +417,22 @@ c--------------------------------------------
         IF (ISK == 0) THEN
           IF (ISHELL > 11 .AND. ISHELL < 29) THEN
             WRITE(IOUT,2100)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
-     .               GEO_STACK(16),GEO_STACK(13),GEO_STACK(38),ISHEAR,ITHK,
+     .               GEO_STACK(16),GEO_STACK(13),GEO_STACK(38),PTHK,ISHEAR,ITHK,
      .               IPLAST,IORTH,GEO_STACK(7),GEO_STACK(8),GEO_STACK(9),IGEO_STACK(47),IGEO_STACK(14)
           ELSE 
             WRITE(IOUT,2200)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
      .               HM,HF,HR,DM,ASHEAR,
-     .               ISHEAR,ITHK,IPLAST,IORTH,
+     .               PTHK,ISHEAR,ITHK,IPLAST,IORTH,
      .               VX,VY,VZ,IINT,IGEO_STACK(14)
           ENDIF
         ELSE
           IF (ISHELL > 11 .AND. ISHELL < 29) THEN 
             WRITE(IOUT,2300)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
-     .               GEO_STACK(16),GEO_STACK(13),GEO_STACK(38),ISHEAR,ITHK,
+     .               GEO_STACK(16),GEO_STACK(13),GEO_STACK(38),PTHK,ISHEAR,ITHK,
      .               IPLAST,IORTH,IDSK,IGEO_STACK(47),IGEO_STACK(14)
           ELSE
             WRITE(IOUT,2400)ISTRAIN,ISMSTR,ISHELL,ISH3N,HM,HF,HR,DM,
-     .            ASHEAR,ISHEAR,ITHK,IPLAST,IORTH,IDSK,IINT,IGEO_STACK(14)
+     .            ASHEAR,PTHK,ISHEAR,ITHK,IPLAST,IORTH,IDSK,IINT,IGEO_STACK(14)
           ENDIF
         ENDIF
 c---
@@ -480,8 +486,9 @@ c-----------------------------------------------------------------------
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHELL NUMERICAL DAMPING . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-!!     & 5X,'% OF ELEMENT THICKNESS TO FAIL. . . . .=',1PG20.13/,
-!!     & 5X,'COMPOSITE FAILURE EXPONENT. . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,
@@ -502,8 +509,9 @@ c-----------------------------------------------------------------------
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-!!     & 5X,'% OF ELEMENT THICKNESS TO FAIL. . . . .=',1PG20.13/,
-!!     & 5X,'COMPOSITE FAILURE EXPONENT. . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,
@@ -522,8 +530,9 @@ c-----------------------------------------------------------------------
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
      & 5X,'SHELL NUMERICAL DAMPING . . . . . . . .=',1PG20.13/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
-!!     & 5X,'% OF ELEMENT THICKNESS TO FAIL. . . . .=',1PG20.13/,
-!!     & 5X,'COMPOSITE FAILURE EXPONENT. . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
      & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,
@@ -540,8 +549,9 @@ c-----------------------------------------------------------------------
      & 5X,'SHELL HOURGLASS FLEXURAL DAMPING. . . .=',1PG20.13/,
      & 5X,'SHELL HOURGLASS ROTATIONAL DAMPING. . .=',1PG20.13/,
      & 5X,'SHELL MEMBRANE DAMPING. . . . . . . . .=',1PG20.13/,
-!!     & 5X,'% OF ELEMENT THICKNESS TO FAIL. . . . .=',1PG20.13/,
-!!     & 5X,'COMPOSITE FAILURE EXPONENT. . . . . . .=',1PG20.13/,
+     & 5X,'ELEMENT DELETION PARAMETER. . . . . . .=',1PG20.13/,
+     & 5X,' > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,' < 0.0 : FRACTION OF FAILED LAYERS/PLYS ',/,
      & 5X,'SHEAR AREA REDUCTION FACTOR . . . . . .=',1PG20.13/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
