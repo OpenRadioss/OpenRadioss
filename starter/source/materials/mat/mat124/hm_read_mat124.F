@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG,FAILIP
+      INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG
 C     REAL ou REAL*8
       my_real
      .   RHO0,YOUNG,NU,A,G,G2,LAM,BULK,FCUT,FC,FT,GFT,
@@ -99,7 +99,6 @@ card1 - Density
 card2 - Elasticity, flags, strain-rate effect and filtering  
       CALL HM_GET_FLOATV('MAT_E'      ,YOUNG      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'     ,NU         ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV  ('FAILIP'     ,FAILIP     ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('IRATE'      ,IRATE      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('FCUT'       ,ASRATE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 card3 - Eccentricity, strength limits and hardening
@@ -190,8 +189,6 @@ c-----------------------------
       ENDIF
       ! Friction parameter
       M0 = THREE*(((FC**2)-(FT**2))/(FC*FT))*(ECC/(ECC + ONE))
-      ! Failure flag check
-      FAILIP = MAX(FAILIP,0)
       ! Dflag check 
       IF (DFLAG == 0) DFLAG = 1
       DFLAG = MIN(MAX(1,DFLAG),4)
@@ -226,7 +223,7 @@ c--------------------------
 c     Filling buffer tables
 c-------------------------- 
       ! Number of material parameters
-      NUPARAM = 36
+      NUPARAM = 35
       ! Number of user variables 
       NUVAR = 18
 c      
@@ -270,8 +267,6 @@ c
       UPARAM(33) = EPSCMAX  ! Maximum compressive strain rate threshold
       UPARAM(34) = ALPHAS   ! Compressive strain rate effect parameter 1
       UPARAM(35) = GAMMAS   ! Compressive strain rate effect parameter 2
-      !  -> Failure flag
-      UPARAM(36) = FAILIP   ! Number of failed integration point
 c      
       ! PARMAT table
       PARMAT(1) = BULK
@@ -318,7 +313,6 @@ c--------------------------
         WRITE(IOUT,2000) DTYPE
         WRITE(IOUT,2100) IREG
         WRITE(IOUT,2200) WF,WF1,FT1,EFC
-        WRITE(IOUT,2300) FAILIP
       ENDIF     
 c-----------------------------------------------------------------------
  1000 FORMAT(/
@@ -375,7 +369,5 @@ c-----------------------------------------------------------------------
      & 5X,'WF1 (DAMAGE DISPLACEMENT THRESHOLD 1) . . . . . . . . . . . .=',1PG20.13/
      & 5X,'FT1 (UNIAXIAL STRESS THRESHOLD 1) . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'EFC (STRAIN THRESHOLD IN COMPRESSION) . . . . . . . . . . . .=',1PG20.13/)
- 2300 FORMAT(    
-     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEMENT DELETION . . .=',I10/)
 c-----------------------------------------------------------------------
       END
