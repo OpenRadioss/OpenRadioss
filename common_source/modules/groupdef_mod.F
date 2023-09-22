@@ -446,6 +446,7 @@ Chd|        ALLOC_GROUP_STR               engine/source/groups/alloc_group_str.F
 Chd|        ALLOC_LINE_STR                engine/source/groups/alloc_line_str.F
 Chd|        ALLOC_SUBSET_STR              engine/source/groups/alloc_subset_str.F
 Chd|        ALLOC_SURF_STR                engine/source/groups/alloc_surf_str.F
+Chd|        ANIM_NODAL_CONTOUR_FVMBAGS    engine/source/output/anim/generate/anim_nodal_contour_fvmbags.F
 Chd|        DAMPING                       engine/source/assembly/damping.F
 Chd|        DAMPING44                     engine/source/assembly/damping.F
 Chd|        DAMPING51                     engine/source/assembly/damping.F
