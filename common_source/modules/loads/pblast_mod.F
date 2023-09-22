@@ -56,6 +56,23 @@ Chd|====================================================================
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: N                                         !working array (normal vectors)
       END TYPE PBLAST_STRUCT_
 
+      TYPE FRIEDLANDER_PARAMS_
+        my_real :: P_inci     ! incident pressure (positive phase)
+        my_real :: P_inci_    ! incident pressure (positive phase)
+        my_real :: P_refl     ! reflected pressure (negative phase)
+        my_real :: P_refl_    ! reflected pressure (negative phase)
+        my_real :: I_inci     ! incident impulse (positive phase)
+        my_real :: I_inci_    ! incident impulse (negative phase)
+        my_real :: I_refl     ! reflected impulse (positive phase)
+        my_real :: I_refl_    ! reflected impulse (negative phase)
+        my_real :: T_A        ! arrival time
+        my_real :: DT_0       ! duiration of positive phase
+        my_real :: DT_0_      ! duration of negative phase
+        my_real :: decay_inci ! decay parameter for incident wave
+        my_real :: decay_refl ! decay parameter for reflected wave
+      END TYPE FRIEDLANDER_PARAMS_
+
+
       ! --- HARDCODED TABLES {g,cm,µs,Mbar}
       ! ------------------------------------------------------------
       TYPE PBLAST_DATA_
@@ -408,7 +425,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: SIZ,I,IAD,JJ
-      INTEGER, DIMENSION(:),ALLOCATABLE :: NSEGL
       my_real, DIMENSION(:),ALLOCATABLE :: RTMP
       my_real :: TMP(1)
 C-----------------------------------------------
@@ -3226,4 +3242,902 @@ C Figure 2_13 scale height of trople point versus scaled horizontal distance  cm
 
 
         END SUBROUTINE
+
+
+
+        SUBROUTINE PBLAST_PARAMETERS__FREE_AIR(Z, W13, TDET,
+     +                                         FAC_P_bb, FAC_I_bb, FAC_T_bb,
+     +                                         IS_DECAY_TO_BE_COMPUTED,
+     +                                         OUTPUT_PARAMS)
+C-----------------------------------------------
+C   Description
+C-----------------------------------------------
+C This Subroutine is returning blast characteristic parameters {P_inci,P_refl,ta,t0,decay_inci,decay_refl}
+c to build a blast time history. Parameters are determined from FREE AIR MODEL
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+!#include      "com04_c.inc"
+!#include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      LOGICAL,INTENT(IN) :: IS_DECAY_TO_BE_COMPUTED
+      my_real,INTENT(IN) :: Z,W13,TDET
+      my_real,INTENT(IN) :: FAC_P_bb, FAC_I_bb, FAC_T_bb
+      TYPE(FRIEDLANDER_PARAMS_), INTENT(OUT) :: OUTPUT_PARAMS
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: Phi_I,NITER,ITER
+      my_real :: bound1,bound2,Phi_DB,LAMBDA,LogRes,TOL,ZETA,RES,TMP2,TMP3,kk,FUNCT,DIFF
+      my_real :: P_inci,P_refl,I_inci,I_refl,T_A,DT_0,decay_inci,decay_refl
+      my_real :: cst_255_div_ln_Z1_on_ZN,log10_,Z1_
+      DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
+      DATA log10_ /2.30258509299405000000/
+C-----------------------------------------------
+C   P r e - C o n d i t i o n
+C-----------------------------------------------
+C      Z>0.5 .and. Z<400.
+C        Otherwise Z set to 0.5 as lower bound and 400. as upperbound
+C-----------------------------------------------
+C   S o u r c e   C o d e
+C-----------------------------------------------
+          !finding index for UFC table (Figure 2-7) using bijection.
+          Z1_ = HALF
+          IF(Z>0.5 .and. Z<400.)THEN
+            Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN
+            Phi_I  = 1 + INT(Phi_DB)
+            bound1 = PBLAST_DATA%RW3(Phi_I)
+            bound2 = PBLAST_DATA%RW3(Phi_I+1)
+            LAMBDA = (Z-bound1) / (bound2-bound1)
+          ELSEIF(Z <= 0.5)THEN
+            LAMBDA = ZERO
+            Phi_I  = 1
+          ELSEIF(Z > 400.)THEN
+            LAMBDA = ONE
+            Phi_I  = 255
+          ENDIF
+
+          !=== SPHERICAL CHARGE IN FREE FIELD ===!
+
+          !Incident upper Pressure (UFC table from Figure 2-7)
+          bound1 = PBLAST_DATA%Pso(Phi_I)
+          bound2 = PBLAST_DATA%Pso(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          P_inci = exp(LogRes*log10_)
+          !Incident Lower Pressure (UFC table from Figure 2-7)
+          !bound1 = PBLAST_DATA%Pso_(Phi_I)
+          !bound2 = PBLAST_DATA%Pso_(Phi_I+1)
+          !LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          !P_inci_ = exp(LogRes*log10_)
+
+          !Incident upper Impulse (UFC table from Figure 2-7)
+          bound1 = PBLAST_DATA%Iso(Phi_I)
+          bound2 = PBLAST_DATA%Iso(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          I_inci = exp(LogRes*log10_)
+          !Incident lower Impulse (UFC table from Figure 2-7)
+          !bound1 = PBLAST_DATA%Iso_(Phi_I)
+          !bound2 = PBLAST_DATA%Iso_(Phi_I+1)
+          !LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          !I_inci_ = exp(LogRes*log10_)
+
+          !Reflected upper Pressure (UFC table from Figure 2-7)
+          bound1 = PBLAST_DATA%Pr(Phi_I)
+          bound2 = PBLAST_DATA%Pr(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          P_refl = exp(LogRes*log10_)
+          !Reflected lower Pressure (UFC table from Figure 2-7)
+          !bound1 = PBLAST_DATA%Pr_(Phi_I)
+          !bound2 = PBLAST_DATA%Pr_(Phi_I+1)
+          !LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          !P_refl_ = exp(LogRes*log10_)
+          !Reflected upper Impulse (UFC table from Figure 2-7)
+
+          bound1 = PBLAST_DATA%Irefl(Phi_I)
+          bound2 = PBLAST_DATA%Irefl(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          I_refl = exp(LogRes*log10_)
+          !Reflected lower Impulse (UFC table from Figure 2-7)
+          !bound1 = PBLAST_DATA%Irefl_(Phi_I)
+          !bound2 = PBLAST_DATA%Irefl_(Phi_I+1)
+          !LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          !I_refl_ = exp(LogRes*log10_)
+
+          !first time for which P=P0 after t_arrival (UFC table from Figure 2-7)
+          bound1 = PBLAST_DATA%t0(Phi_I)
+          bound2 = PBLAST_DATA%t0(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          DT_0 = exp(LogRes*log10_)
+          !second time for which P=P0 after t_arrival (UFC table from Figure 2-7)
+          !bound1 = PBLAST_DATA%t0_(Phi_I)
+          !bound2 = PBLAST_DATA%t0_(Phi_I+1)
+          !LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          !DT_0_ = exp(LogRes*log10_)
+
+          !Time Arrival (UFC table from Figure 2-7)
+          bound1 = PBLAST_DATA%ta(Phi_I)
+          bound2 = PBLAST_DATA%ta(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          T_A = exp(LogRes*log10_)
+
+          !switch from normalized values. (Pressure are not scaled by W13 in tables)
+          I_inci  = I_inci * W13
+          !I_inci_ = I_inci_* W13
+          I_refl  = I_refl * W13
+          !I_refl_ = I_refl_* W13
+          IF(DT_0 /= EP20)DT_0 = DT_0 * W13
+          !IF(DT_0_ /= EP20)DT_0_ = DT_0_ * W13
+          IF(T_A /= EP20)T_A = T_A * W13
+
+          !---DECAY  ('b' parameter in modified Friedlander model)
+          !    iterative solver : it can be solved in same unit system as hardcoded tables {g,cm,µs} since b has no dimension
+          IF(.NOT. IS_DECAY_TO_BE_COMPUTED)THEN
+            !-Friedlander
+            DECAY_inci = ONE
+            DECAY_refl = ONE
+
+          ELSE
+            !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+            !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+            ! find b such as g(b)=0
+            ! NEWTON ITERATIONS
+            NITER=20
+            TOL=EM06
+            ITER=0
+            ZETA=ONE
+            RES=EP20
+            TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+            !--initialize first iteration
+            kk=P_inci*DT_0
+            FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
+            !--iterative solving
+            DO WHILE (ITER<=NITER .AND. RES>TOL)
+              ITER=ITER+1
+              IF(ABS(ZETA) < EM06)THEN
+                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
+              ELSE
+                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                FUNCT = TMP2 * TMP3 -I_inci
+              ENDIF
+              RES = ABS(FUNCT)   !g(x_new)
+            ENDDO
+            DECAY_inci=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+            ITER=0
+            ZETA=ONE
+            RES=EP20
+            TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+            !--initialize first iteration
+            kk=P_refl*DT_0
+            FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
+            !--iterative solving
+            DO WHILE (ITER<=NITER .AND. RES>TOL)
+              ITER=ITER+1
+              IF(ABS(ZETA) < EM06)THEN
+                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
+              ELSE
+                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                FUNCT = TMP2 * TMP3 -I_refl
+              ENDIF
+              RES = ABS(FUNCT)   !g(x_new)
+            ENDDO
+            DECAY_refl=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+          ENDIF
+
+          !CONVERSION UNITS !
+          !g,cm,mus,Bar -> Working unit system
+          P_inci  =  P_inci / FAC_P_bb
+          I_inci  =  I_inci / FAC_I_bb
+          P_refl  =  P_refl / FAC_P_bb
+          I_refl  =  I_refl / FAC_I_bb
+          !P_inci_ =  P_inci_ / FAC_P_bb
+          !I_inci_ =  I_inci_ / FAC_I_bb
+          !P_refl_ =  P_refl_ / FAC_P_bb
+          !I_refl_ =  I_refl_ / FAC_I_bb
+          IF(DT_0 /= EP20)DT_0    =  DT_0    / FAC_T_bb
+          !IF(DT_0_ /= EP20)DT_0_   =  DT_0_   / FAC_T_bb
+          IF(T_A /= EP20)THEN
+            T_A     =  T_A     / FAC_T_bb
+            T_A    = T_A + TDET
+          ENDIF
+
+          OUTPUT_PARAMS%P_inci = P_inci
+          OUTPUT_PARAMS%I_inci = I_inci
+          OUTPUT_PARAMS%P_refl = P_refl
+          OUTPUT_PARAMS%I_refl = I_refl
+          OUTPUT_PARAMS%DT_0 = DT_0
+          OUTPUT_PARAMS%T_A = T_A
+          OUTPUT_PARAMS%decay_inci = decay_inci
+          OUTPUT_PARAMS%decay_refl = decay_refl
+
+        END SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
+
+
+       SUBROUTINE PBLAST_PARAMETERS__SURFACE_BURST(Z, W13, TDET,
+     +                                             FAC_P_bb, FAC_I_bb, FAC_T_bb,
+     +                                             IS_DECAY_TO_BE_COMPUTED,
+     +                                             OUTPUT_PARAMS)
+C-----------------------------------------------
+C   Description
+C-----------------------------------------------
+C This Subroutine is returning blast characteristic parameters {P_inci,P_refl,ta,t0,decay_inci,decay_refl}
+c to build a blast time history. Parameters are determined from SURFACE BURST MODEL
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+!#include      "com04_c.inc"
+!#include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      LOGICAL,INTENT(IN) :: IS_DECAY_TO_BE_COMPUTED
+      my_real,INTENT(IN) :: Z,W13,TDET
+      my_real,INTENT(IN) :: FAC_P_bb, FAC_I_bb, FAC_T_bb
+      TYPE(FRIEDLANDER_PARAMS_), INTENT(OUT) :: OUTPUT_PARAMS
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: Phi_I,NITER,ITER
+      my_real :: bound1,bound2,Phi_DB,LAMBDA,LogRes,TOL,ZETA,RES,TMP2,TMP3,kk,FUNCT,DIFF
+      my_real :: P_inci,P_refl,I_inci,I_refl,T_A,DT_0,decay_inci,decay_refl
+      my_real :: cst_255_div_ln_Z1_on_ZN,log10_,Z1_
+      DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
+      DATA log10_ /2.30258509299405000000/
+C-----------------------------------------------
+C   P r e - C o n d i t i o n
+C-----------------------------------------------
+C      Z>0.5 .and. Z<400.
+C        Otherwise Z set to 0.5 as lower bound and 400. as upperbound
+C-----------------------------------------------
+C   S o u r c e   C o d e
+C-----------------------------------------------
+          !finding index for UFC table (Figure 2-7) using bijection.
+          Z1_ = HALF
+                !finding index for UFC table (Figure 2-15) using bijection.
+          IF(Z > 0.5 .AND. Z < 400.) then
+            Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN
+            Phi_I  = 1 + INT(Phi_DB)
+            bound1 = PBLAST_DATA%RW3_Surf(Phi_I)
+            bound2 = PBLAST_DATA%RW3_Surf(Phi_I+1)
+            LAMBDA = (Z-bound1) / (bound2-bound1)
+          elseif(Z <= 0.5)then
+            LAMBDA = ZERO
+            Phi_I  = 1
+          elseif(Z > 400.)then
+            LAMBDA = ONE
+            Phi_I  = 255
+          ENDIF
+
+
+          !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!
+
+          !Incident upper Pressure (UFC table from Figure 2-15)
+          bound1 = PBLAST_DATA%Pso_Surf(Phi_I)
+          bound2 = PBLAST_DATA%Pso_Surf(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          P_inci = exp(LogRes*log10_)
+
+          !Incident upper Impulse (UFC table from Figure 2-15)
+          bound1 = PBLAST_DATA%Iso_Surf(Phi_I)
+          bound2 = PBLAST_DATA%Iso_Surf(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          I_inci = exp(LogRes*log10_)
+
+          !Reflected upper Pressure (UFC table from Figure 2-15)
+          bound1 = PBLAST_DATA%Pr_Surf(Phi_I)
+          bound2 = PBLAST_DATA%Pr_Surf(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          P_refl = exp(LogRes*log10_)
+          !Reflected upper Impulse (UFC table from Figure 2-15)
+          bound1 = PBLAST_DATA%Ir_Surf(Phi_I)
+          bound2 = PBLAST_DATA%Ir_Surf(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          I_refl = exp(LogRes*log10_)
+
+          !first time for which P=P0 after t_arrival (UFC table from Figure 2-15)
+          bound1 = PBLAST_DATA%t0_Surf(Phi_I)
+          bound2 = PBLAST_DATA%t0_Surf(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          DT_0 = exp(LogRes*log10_)
+
+          !Time Arrival (UFC table from Figure 2-15)
+          bound1 = PBLAST_DATA%ta_Surf(Phi_I)
+          bound2 = PBLAST_DATA%ta_Surf(Phi_I+1)
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          T_A = exp(LogRes*log10_)
+
+          !switch from normalized values.      ( Pressure are not scaled by W13 in tables )
+          I_inci  = I_inci * W13
+          I_refl  = I_refl * W13
+          DT_0    = DT_0   * W13
+          T_A     = T_A    * W13
+
+          !---DECAY  ('b' parameter in modified Friedlander model)
+          !    iterative solver : it can be solved in same unit system as hardcoded tables {g,cm,µs} since b has no dimension
+          IF(.NOT. IS_DECAY_TO_BE_COMPUTED)THEN
+            !-Friedlander
+            DECAY_inci = ONE
+            DECAY_refl = ONE
+
+          ELSE
+            !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+            !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+            ! find b such as g(b)=0
+            ! NEWTON ITERATIONS
+            NITER=20
+            TOL=EM06
+            ITER=0
+            ZETA=ONE
+            RES=EP20
+            TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+            !--initialize first iteration
+            kk=P_inci*DT_0
+            FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
+            !--iterative solving
+            DO WHILE (ITER<=NITER .AND. RES>TOL)
+              ITER=ITER+1
+              IF(ABS(ZETA) < EM06)THEN
+                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
+              ELSE
+                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                FUNCT = TMP2 * TMP3 -I_inci
+              ENDIF
+              RES = ABS(FUNCT)   !g(x_new)
+            ENDDO
+            DECAY_inci=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+            ITER=0
+            ZETA=ONE
+            RES=EP20
+            TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+            !--initialize first iteration
+            kk=P_refl*DT_0
+            FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
+            !--iterative solving
+            DO WHILE (ITER<=NITER .AND. RES>TOL)
+              ITER=ITER+1
+              IF(ABS(ZETA) < EM06)THEN
+                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
+              ELSE
+                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                FUNCT = TMP2 * TMP3 -I_refl
+              ENDIF
+              RES = ABS(FUNCT)   !g(x_new)
+            ENDDO
+            DECAY_refl=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+          ENDIF! IS_DECAY_TO_BE_COMPUTED
+
+
+          !CONVERSION UNITS !
+          !g,cm,mus,Bar -> Working unit system
+          P_inci = P_inci / FAC_P_bb
+          I_inci = I_inci / FAC_I_bb
+          P_refl = P_refl / FAC_P_bb
+          I_refl = I_refl / FAC_I_bb
+          IF(DT_0 /= EP20)DT_0    =  DT_0    / FAC_T_bb
+          IF(T_A /= EP20)THEN
+            T_A     =  T_A     / FAC_T_bb
+            T_A    = T_A + TDET
+          ENDIF
+
+          OUTPUT_PARAMS%P_inci = P_inci
+          OUTPUT_PARAMS%I_inci = I_inci
+          OUTPUT_PARAMS%P_refl = P_refl
+          OUTPUT_PARAMS%I_refl = I_refl
+          OUTPUT_PARAMS%DT_0 = DT_0
+          OUTPUT_PARAMS%T_A = T_A
+          OUTPUT_PARAMS%decay_inci = decay_inci
+          OUTPUT_PARAMS%decay_refl = decay_refl
+
+        END SUBROUTINE PBLAST_PARAMETERS__SURFACE_BURST
+
+
+       SUBROUTINE PBLAST_PARAMETERS__AIR_BURST( Z_struct, Zc, Zg, ANGLE_g, W13, TDET,
+     +                                         FAC_P_bb, FAC_I_bb, FAC_T_bb,
+     +                                         IS_DECAY_TO_BE_COMPUTED,
+     +                                         ID,LABEL,IS_OUTPUT_ENABLED,
+     +                                         OUTPUT_PARAMS)
+C-----------------------------------------------
+C   Description
+C-----------------------------------------------
+C This Subroutine is returning blast characteristic parameters {P_inci,P_refl,ta,t0,decay_inci,decay_refl}
+c to build a blast time history. Parameters are determined from SURFACE BURST MODEL
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+!#include      "com04_c.inc"
+#include      "units_c.inc"
+#include      "nchar_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      LOGICAL,INTENT(IN) :: IS_DECAY_TO_BE_COMPUTED, IS_OUTPUT_ENABLED
+      INTEGER,INTENT(IN) :: ID
+      my_real,INTENT(IN) :: W13,TDET,ANGLE_g,Z_struct,Zc
+      my_real,INTENT(INOUT) :: Zg
+      my_real,INTENT(IN) :: FAC_P_bb, FAC_I_bb, FAC_T_bb
+      CHARACTER*4,INTENT(IN)::LABEL  !'EBCS' or 'LOAD'
+      TYPE(FRIEDLANDER_PARAMS_), INTENT(OUT) :: OUTPUT_PARAMS
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: NITER,ITER
+      my_real :: bound1,bound2,LAMBDA,LogRes,TOL,ZETA,RES,TMP2,TMP3,kk,FUNCT,DIFF
+      my_real :: P_inci,P_refl,I_inci,I_refl,T_A,DT_0,decay_inci,decay_refl
+      my_real :: cst_255_div_ln_Z1_on_ZN,log10_,Z1_
+      my_real tmp(3),alpha_angle,alpha_zc,alpha_zg,HTP,Ira,Ira_refl,Pra,Pra_refl,SHTP
+      my_real FAC_UNIT ! convert scaled distance from cm/g^1/3 to ft/lb^1/3
+      LOGICAL CALCULATE
+      INTEGER curve_id1,curve_id2,idx1,idx2,idx1_angle,idx2_angle,idx_zg1,idx_zg2,itmp
+      DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
+      DATA log10_ /2.30258509299405000000/
+      DATA FAC_unit/3.966977216838196139019/
+      CHARACTER*ncharline :: MSGOUT
+      INTEGER,EXTERNAL :: DICHOTOMIC_SEARCH_R_DESC,DICHOTOMIC_SEARCH_R_ASC
+
+C-----------------------------------------------
+C   P r e - C o n d i t i o n
+C-----------------------------------------------
+C      Z>0.5 .and. Z<400.
+C        Otherwise Z set to 0.5 as lower bound and 400. as upperbound
+C-----------------------------------------------
+C   S o u r c e   C o d e
+C-----------------------------------------------
+          !finding index for UFC table (Figure 2-7) using bijection.
+          Z1_ = HALF
+          tmp(1)=ANGLE_g/PBLAST_DATA%delta_angle
+          itmp=INT(tmp(1))
+          idx1_angle = 1+itmp   ! surjection ANGLE -> idx1
+          idx2_angle = MIN(idx1_angle+1,256)
+          alpha_angle = (ANGLE_g-itmp*PBLAST_DATA%delta_angle)/PBLAST_DATA%delta_angle  !interpolation factor between angle(idx1_angle) & angle(idx2_angle)
+
+
+          ! -----------(ZC,ZC) => SHTP (Fig 2-13) ------------ !
+          !  -- SCALED HEIGHT OF TRIPLE POINT --
+          ! curve_ids             1    2    3    4    5    6    7    8    9   10
+          ! 10 curves for ZC : {1.0; 1.5; 2.0; 2.5; 3.0; 3.5; 4.0; 5.0; 6.0; 7.0}    ft/lb**1/3
+          !                    <--------curve_id=[2x-1]---------><----[x+3]----->
+          !
+          !--------------------------------------------------------------------------------------------
+          ! --- 1. two retained curves & interpolation factor alpha_zc
+          ! --------------------------
+          curve_id1 = 0
+          alpha_zc = zero
+          IF(ZC < 4)THEN
+            itmp = INT( TWO*(ZC)-ONE )
+            curve_id1 =  max(1,itmp)
+            curve_id2 = curve_id1+1
+            IF(itmp < 1)THEN
+              !message out of bounds. curve 1 will be used. no extrapolation
+              curve_id2=curve_id1 !=1
+              alpha_zc = ZERO
+            ELSE
+              alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1))
+              alpha_zc = alpha_zc/  ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
+            ENDIF
+          ELSE
+            itmp = INT( ZC+THREE )
+            curve_id1 = INT( min(10,itmp) )
+            curve_id2 = curve_id1+1
+            IF(curve_id1 == 10)THEN
+              !message out of bounds. curve 10 will be used. no extrapolation
+              curve_id2=curve_id1 !=10
+              alpha_zc = ZERO
+            ELSE
+              alpha_zc = (ZC - PBLAST_DATA%Curve_val_2_13(curve_id1))
+              alpha_zc = alpha_zc / ( PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST_DATA%Curve_val_2_13(curve_id1) )
+            ENDIF
+          ENDIF
+
+          ! --------------------------
+          ! --- 2. abscissa (ZG) index to read the plot and interpolate (alpha_zg)  :  idx_zg1, idx_zg2
+          ! --------------------------
+          !idx_zg1 is index in [1,256] for abscissa %SHTP(curve_id,1:256)
+          ! PBLAST_DATA%SHDC(1:2,curve_id) are the SHDC bounds for a given curve_id
+          idx_zg1 = MIN(MAX(1,INT((Zg-7.9)/PBLAST_DATA%dSHDC)+1),256)  !curve on pliot 2-13 are starting from 2 ft/lb**0.333, hardcoded table start from  7.9 cm/g**0.333
+          idx_zg2 = MAX(1,MIN(256,idx_zg1+1))
+          alpha_zg = zero
+          IF(ZG < PBLAST_DATA%SHDC(1,curve_id2))THEN
+            ZG =  PBLAST_DATA%SHDC(1,curve_id2)
+            MSGOUT = ''
+            WRITE(MSGOUT, FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
+     .      ' ** WARNING : /LOAD/PBLAST id=',ID,' SCALED HORIZONTAL DISTANCE ',ZG,
+     .                               ' IS BELOW LOWER BOUND, FIGURE 2-13, CURVE=',
+     .                               curve_id2,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
+            WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+            WRITE(IOUT,FMT='(A)')MSGOUT
+            WRITE(ISTDO,FMT='(A)')MSGOUT
+          ENDIF
+          IF(ZG > PBLAST_DATA%SHDC(2,curve_id1))THEN
+            ZG =  PBLAST_DATA%SHDC(2,curve_id1)
+            IF(IS_OUTPUT_ENABLED)THEN
+              MSGOUT = ''
+              WRITE(MSGOUT,FMT='(A,I0,A,E10.4,A,I0,A,E10.4,A)')
+     .       ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HORIZONTAL DISTANCE ', ZG ,
+     .                                   ' IS ABOVE UPPER BOUND, FIGURE 2-13, CURVE=',
+     .                                   curve_id1,' SHDC=',ZG/FAC_UNIT,' ft/lb^0.333'
+              WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+              WRITE(IOUT,FMT='(A)')MSGOUT
+              WRITE(ISTDO,FMT='(A)')MSGOUT
+            ENDIF
+          ENDIF
+          alpha_zg = (ZG-PBLAST_DATA%SHTP_abscissa(idx_zg1))/PBLAST_DATA%dSHDC !abscissa interpolation
+
+          ! --------------------------
+          ! --- 3. Read and interpolate ordinate : SHTP
+          ! --------------------------
+          !Scaled Height of triple point SHTP
+          !tmp(1) : angle interpolation on curve_id1 Figure 2_13
+          tmp(1)=PBLAST_DATA%SHTP(curve_id1,idx_zg1)
+          tmp(2)=PBLAST_DATA%SHTP(curve_id1,idx_zg2)
+          tmp(1) = (ONE-alpha_zg)*tmp(1) + alpha_zg*tmp(2)
+          !tmp(2) : interpolation on curve_id2 Figure 2_13
+          tmp(2)=PBLAST_DATA%SHTP(curve_id2,idx_zg1)
+          tmp(3)=PBLAST_DATA%SHTP(curve_id2,idx_zg2)
+          tmp(2) = (ONE-alpha_zg)*tmp(2) + alpha_zg*tmp(3)
+          !interpolate now with scaled height of charge
+          SHTP = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+          HTP = SHTP*W13
+
+
+          ! --------------------------
+          ! --- 4. Compare SHTP with target height
+          ! --------------------------
+          !Check if triple point is above the target centroid
+          ! print warning otherwise and load with the same wave as below (may be updated later but in practise triple point is above the structure)
+          !
+          IF(Z_struct > SHTP .AND. IS_OUTPUT_ENABLED)THEN
+            MSGOUT = ''
+              WRITE(MSGOUT, FMT='(A,I0,A,A,E10.4,A,E10.4,A)')
+     .      ' ** WARNING : /LOAD/PBLAST id=',ID,' TARGET FACE IS ABOVE THE TRIPLE POINT:',
+     .         "Zface = ",Z_struct," > ",SHTP," = SHTP (ft/fb**1/3)"
+            WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+            WRITE(IOUT,FMT='(A)')MSGOUT
+            WRITE(ISTDO,FMT='(A)')MSGOUT
+          ENDIF
+
+
+          ! -----------(alpha,ZC) => Pra (Fig 2-9) ------------ !
+          ! -- REFLECTED PRESSURE Pra --
+          !
+          !--------------------------------------------------------------------------------------------
+          ! --- 1. two retained curves & interpolation factor alpha_zc
+          ! --------------------------
+
+          ! Pra =
+          ! here curves are plot from zc=0.3 to zc=14.3 : need to calculate alpha_zc again since 10 curves are for different ZC values : 0.3 "0.5" 0.8 etc....
+          !   ZC IN FT/LB**0.33  (10 plots on fig 2-9 depending on ZC)
+          idx1 = MAX(1,DICHOTOMIC_SEARCH_R_ASC(ZC, PBLAST_DATA%Curve_val_2_9, 10))
+          calculate=.FALSE.
+          IF(idx1 == 1)THEN
+            IF(ZC <= PBLAST_DATA%Curve_val_2_9(1))THEN
+              alpha_zc = zero
+              idx1 = 1
+              idx2 = 1
+              IF(IS_OUTPUT_ENABLED)THEN
+                MSGOUT = ''
+                WRITE(MSGOUT,FMT='(A,I0,A,I0,A,E10.4,A)')
+     .      ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS BELOW THE RANGE, FIGURE 2-9, CURVE=',1,
+     .                                  ' HC=',ZC/FAC_UNIT,' ft/lb^0.333'
+                WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+                WRITE(IOUT,FMT='(A)')MSGOUT
+                WRITE(ISTDO,FMT='(A)')MSGOUT
+              ENDIF
+            ELSE
+              idx1 = 1
+              idx2 = 2
+              calculate=.TRUE.
+            ENDIF
+          ELSEIF(idx1 >= 10)THEN
+              alpha_zc = zero
+              idx1 = 10
+              idx2 = 10
+              IF(IS_OUTPUT_ENABLED)THEN
+                MSGOUT = ''
+                WRITE(MSGOUT,FMT='(A,I0,A,I0,A,E10.4)')
+     .           ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-9, CURVE=',
+     .                                      10,' HC=',ZC/FAC_UNIT
+                WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+                WRITE(IOUT,FMT='(A)')MSGOUT
+                WRITE(ISTDO,FMT='(A)')MSGOUT
+              ENDIF
+          ELSE
+            idx2=idx1+1
+            calculate=.TRUE.
+          ENDIF
+          IF(calculate)THEN
+            alpha_zc=(ZC-PBLAST_DATA%Curve_val_2_9(idx1))
+     .                 / (PBLAST_DATA%Curve_val_2_9(idx2)-PBLAST_DATA%Curve_val_2_9(idx1)) !interpolation between 2 retained plots (out of 10 from Fig 2-9, each one for a given ZC value)
+          ENDIF
+
+          curve_id1=idx1
+          curve_id2=idx2
+          !tmp(1) : angle interpolation on curve_id1 Figure 2_9
+          tmp(1)=PBLAST_DATA%Pra(curve_id1,idx1_angle)
+          tmp(2)=PBLAST_DATA%Pra(curve_id1,idx2_angle)
+          tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))
+          !tmp(2) : interpolation on curve_id2 Figure 2_9
+          tmp(2)=PBLAST_DATA%Pra(curve_id2,idx1_angle)
+          tmp(3)=PBLAST_DATA%Pra(curve_id2,idx2_angle)
+          tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))
+          !interpolate now with scaled height of charge
+          Pra = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+          Pra = exp(Pra*log10_)
+
+          ! -----------(alpha,ZC) => Pra (Fig 2-10) ------------ !
+          ! -- SCALED REFLECTED IMPULSE --
+          !
+          !--------------------------------------------------------------------------------------------
+          ! --- 1. two retained curves & interpolation factor alpha_zc
+          ! --------------------------
+
+          idx1 = MAX(1,DICHOTOMIC_SEARCH_R_ASC(ZC, PBLAST_DATA%Curve_val_2_10, 10))
+          calculate=.FALSE.
+          IF(idx1 == 1)THEN
+            IF(ZC <= PBLAST_DATA%Curve_val_2_10(1))THEN
+              alpha_zc = zero
+              idx1 = 1
+              idx2 = 1
+              IF(IS_OUTPUT_ENABLED)THEN
+                MSGOUT = ''
+                WRITE(MSGOUT,FMT='(A,I0,A,I0,A,E10.4,A)')
+     .     '   ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS BELOW THE RANGE, FIGURE 2-10, CURVE=',1,
+     .     ' HC=',ZC/FAC_UNIT,' ft/lb^0.333'
+                WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+                WRITE(IOUT,FMT='(A)')MSGOUT
+                WRITE(ISTDO,FMT='(A)')MSGOUT
+              ENDIF
+            ELSE
+              idx1 = 1
+              idx2 = 2
+              calculate=.TRUE.
+            ENDIF
+          ELSEIF(idx1 >= 10)THEN
+               alpha_zc = zero
+               idx1 = 10
+               idx2 = 10
+               IF(IS_OUTPUT_ENABLED)THEN
+                 MSGOUT = ''
+                 WRITE(MSGOUT,FMT='(A,I0,A,I0,A,E10.4)')
+     .          ' ** WARNING : /LOAD/PBLAST id=',ID,'  SCALED HEIGHT OF CHARGE IS ABOVE THE RANGE, FIGURE 2-10, CURVE=',
+     .                                     10,' HC=',ZC/FAC_UNIT
+                 WRITE(MSGOUT(16:19),FMT='(A4)')LABEL
+                 WRITE(IOUT,FMT='(A)')MSGOUT
+                 WRITE(ISTDO,FMT='(A)')MSGOUT
+               ENDIF
+          ELSE
+            idx2=idx1+1
+            calculate=.TRUE.
+          ENDIF
+          
+          IF(calculate)THEN
+            alpha_zc=(ZC-PBLAST_DATA%Curve_val_2_10(idx1))
+     .                / (PBLAST_DATA%Curve_val_2_10(idx2)-PBLAST_DATA%Curve_val_2_10(idx1)) !interpolation between 2 retained plots (out of 10 from Fig 2-9, each one for a given ZC value)
+          ENDIF
+
+          curve_id1=idx1
+          curve_id2=idx2
+
+          ! --------------------------
+          ! --- 2. interpolate SRI on each curve
+          ! --------------------------
+          !tmp(1) : angle interpolation on curve_id1 Figure 2_10
+          tmp(1)=PBLAST_DATA%SRI(curve_id1,idx1_angle)
+          tmp(2)=PBLAST_DATA%SRI(curve_id1,idx2_angle)
+          tmp(1)=(ONE-alpha_angle)*LOG10(tmp(1))+alpha_angle*LOG10(tmp(2))
+          !tmp(2) : interpolation on curve_id2 Figure 2_10
+          tmp(2)=PBLAST_DATA%SRI(curve_id2,idx1_angle)
+          tmp(3)=PBLAST_DATA%SRI(curve_id2,idx2_angle)
+          tmp(2)=(ONE-alpha_angle)*LOG10(tmp(2))+alpha_angle*LOG10(tmp(3))
+          ! --------------------------
+          ! --- 3. interpolate SRI between 2 curves
+          ! --------------------------
+          !interpolate now with scaled height of charge
+          Ira = (ONE-alpha_zc)*tmp(1)+ alpha_zc*tmp(2)
+          Ira = exp(Ira*log10_)
+
+          ! Use Pra as Pso on figure 2-7 ; determine corresponding Scaled distance ; read corresponding values Pr, Pso-, ta/W**1/3
+          !
+          !get Pra
+          ! searching in monotonic function : idx1 such as     PBLAST_DATA%Pra(idx1) <= Pra <  PBLAST_DATA%Pra(idx1+1)
+          idx1 = MAX(1,DICHOTOMIC_SEARCH_R_DESC(Pra, PBLAST_DATA%Pso, 256))
+          idx2 = MIN(idx1+1,256)
+          bound1=LOG10(PBLAST_DATA%Pso(idx1))
+          bound2=LOG10(PBLAST_DATA%Pso(idx2))
+          LAMBDA = (LOG10(Pra)-bound1) / (bound2-bound1)
+          !!deduce Z (may be usefull for debug)
+          !---bound1 = LOG10(PBLAST_DATA%RW3(idx1))
+          !---bound2 = LOG10(PBLAST_DATA%RW3(idx2))
+          !---LogRes =  (ONE-lambda)*bound1+lambda*bound2
+          !---Z = exp(LogRes*log10_)
+          !deduce Pra_refl (=Pr(Z) where Z=Z(Pra) )
+          bound1 = PBLAST_DATA%Pr(idx1)
+          bound2 = PBLAST_DATA%Pr(min(256,idx2))
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          Pra_refl = exp(LogRes*log10_)
+          !deduce ta
+          bound1 = PBLAST_DATA%ta(idx1)
+          bound2 = PBLAST_DATA%ta(min(256,idx2))
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          T_A = exp(LogRes*log10_)
+
+               ! Use Ira as Is on figure 2-7  ; determine corresponding Scaled distance ; read corresponding values Ir,Ir-, t0/W**1/3, t0-/W**1/3
+          !
+          ! searching in monotonic function : idx1 such as     PBLAST_DATA%Pra(idx1) <= Pra <  PBLAST_DATA%Pra(idx1+1)
+          idx1 = MAX(1,DICHOTOMIC_SEARCH_R_DESC(Ira, PBLAST_DATA%Iso, 256))
+          idx2 = MIN(idx1+1,256)
+          bound1=LOG10(PBLAST_DATA%Iso(idx1))
+          bound2=LOG10(PBLAST_DATA%Iso(idx2))
+          LAMBDA = (LOG10(Ira)-bound1) / (bound2-bound1)
+          !deduce Z (may be usefull for debug)
+          !---bound1 = LOG10(PBLAST_DATA%RW3(idx1))
+          !---bound2 = LOG10(PBLAST_DATA%RW3(idx2))
+          !---LogRes =  (ONE-lambda)*bound1+lambda*bound2
+          !---Z = exp(LogRes*log10_)
+          !deduce Ira_refl (=Pr(Z) where Z=Z(Pra) )
+          bound1 = PBLAST_DATA%Irefl(idx1)
+          bound2 = PBLAST_DATA%Irefl(min(256,idx2))
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          Ira_refl = exp(LogRes*log10_)
+          !deduce t0
+          bound1 = PBLAST_DATA%t0(idx1)
+          bound2 = PBLAST_DATA%t0(min(256,idx2))
+          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
+          DT_0 = exp(LogRes*log10_)
+
+          P_inci = Pra
+          P_refl = Pra_refl
+          I_inci = Ira
+          I_refl = Ira_refl
+
+          !switch from normalized values.      ( Pressure are not scaled by W13 in tables )
+          I_inci  = I_inci * W13
+          I_refl  = I_refl * W13
+          IF(DT_0 /= EP20)DT_0    = DT_0   * W13
+          IF(T_A /= EP20)T_A     = T_A    * W13
+
+          !---DECAY  ('b' parameter in modified Friedlander model)
+          !    iterative solver : it can be solved in same unit system as hardcoded tables {g,cm,µs} since b has no dimension
+          IF(.NOT. IS_DECAY_TO_BE_COMPUTED)THEN
+            !-Friedlander
+            DECAY_inci = ONE
+            DECAY_refl = ONE
+
+          ELSE
+            !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+            !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
+            ! find b such as g(b)=0
+            ! NEWTON ITERATIONS
+            NITER=20
+            TOL=EM06
+            ITER=0
+            ZETA=ONE
+            RES=EP20
+            TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+            !--initialize first iteration
+            kk=P_inci*DT_0
+            FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
+            !--iterative solving
+            DO WHILE (ITER<=NITER .AND. RES>TOL)
+              ITER=ITER+1
+              IF(ABS(ZETA) < EM06)THEN
+                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
+              ELSE
+                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
+                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                FUNCT = TMP2 * TMP3 -I_inci
+              ENDIF
+              RES = ABS(FUNCT)   !g(x_new)
+            ENDDO
+            DECAY_inci=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+            ITER=0
+            ZETA=ONE
+            RES=EP20
+            TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+            !--initialize first iteration
+            kk=P_refl*DT_0
+            FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
+            !--iterative solving
+            DO WHILE (ITER<=NITER .AND. RES>TOL)
+              ITER=ITER+1
+              IF(ABS(ZETA) < EM06)THEN
+                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
+                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
+              ELSE
+                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
+                ZETA = ZETA - FUNCT/DIFF
+                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
+                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
+                FUNCT = TMP2 * TMP3 -I_refl
+              ENDIF
+              RES = ABS(FUNCT)   !g(x_new)
+            ENDDO
+            DECAY_refl=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+
+          ENDIF! IS_DECAY_TO_BE_COMPUTED
+
+
+          !CONVERSION UNITS !
+          !g,cm,mus,Bar -> Working unit system
+          P_inci = P_inci / FAC_P_bb
+          I_inci = I_inci / FAC_I_bb
+          P_refl = P_refl / FAC_P_bb
+          I_refl = I_refl / FAC_I_bb
+          IF(DT_0 /= EP20)DT_0    =  DT_0    / FAC_T_bb
+          IF(T_A /= EP20)THEN
+            T_A =  T_A     / FAC_T_bb
+            T_A = T_A + TDET
+          ENDIF
+
+          OUTPUT_PARAMS%P_inci = P_inci
+          OUTPUT_PARAMS%I_inci = I_inci
+          OUTPUT_PARAMS%P_refl = P_refl
+          OUTPUT_PARAMS%I_refl = I_refl
+          OUTPUT_PARAMS%DT_0 = DT_0
+          OUTPUT_PARAMS%T_A = T_A
+          OUTPUT_PARAMS%decay_inci = decay_inci
+          OUTPUT_PARAMS%decay_refl = decay_refl
+
+        END SUBROUTINE PBLAST_PARAMETERS__AIR_BURST
+
+
       END MODULE PBLAST_MOD
