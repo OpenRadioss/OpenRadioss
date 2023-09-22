@@ -78,30 +78,25 @@ C-----------------------------------------------
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF) , NSEGPL
+      TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
-     .        Phi_I, ID, ITA_SHIFT,NITER,ITER,IMODEL,NN(4),NS,KSURF,NDT
+      INTEGER :: N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
+     .           ID, ITA_SHIFT,IMODEL,NN(4),NS,KSURF,NDT
      
-      my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,AREA
+      my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,AREA,
+     .           LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,
+     .           I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
+     .           WAVE_refl,WAVE_inci, W13,
+     .           DNORM, Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
+     .           FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR, Z1_,
+     .           DECAY_inci,DECAY_refl,ZETA,
+     .           cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3), TA_INF_LOC
       
-      my_real
-     .   LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,Phi_DB,bound1,bound2, 
-     .   I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
-     .   WAVE_refl,WAVE_inci, W13
-      my_real DNORM,
-     .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
-     .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR
-      my_real Z1_
-      my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL,kk
-      my_real :: LogRes
-      my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3)
-      my_real :: TA_INF_LOC
-      
-      integer, external :: OMP_GET_THREAD_NUM
+      INTEGER, EXTERNAL :: OMP_GET_THREAD_NUM
 
-      LOGICAL IS_UPDATED
+      LOGICAL IS_UPDATED,IS_DECAY_TO_BE_COMPUTED
       
       DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
       DATA log10_ /2.30258509299405000000/
@@ -146,10 +141,10 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
+      IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT  !output
 
       !Index Bijection                                                                                  
-      Z1_ = 0.500000000000000                                                                           
+      Z1_ = HALF
 
       !translation from Working unit System to {big bang} unit system                                   
       FAC_M_bb = FAC_MASS*EP03                                                                          
@@ -164,27 +159,30 @@ C-----------------------------------------------
       !-----------------------------------------------,                                                 
       !   FREE AIR BURST                                                                                
       !-----------------------------------------------                                                  
-      IL             = NL-NLOADP_F                                                                      
-      TDET           = FAC(01,NL)                                                                       
-      XDET           = FAC(02,NL)                                                                       
-      YDET           = FAC(03,NL)                                                                       
-      ZDET           = FAC(04,NL)                                                                       
-      WTNT           = FAC(05,NL)                                                                       
-      PMIN           = FAC(06,NL)                                                                       
-      TA_FIRST       = FAC(07,NL)
-      T_STOP         = FAC(13,NL)
-      IS             = ILOADP(02,NL)                                                                    
-      IZ_UPDATE      = ILOADP(06,NL)                                                                    
-      ABAC_ID        = ILOADP(07,NL)                                                                    
-      ID             = ILOADP(08,NL) !user_id                                                           
-      ITA_SHIFT      = ILOADP(09,NL)
-      NDT            = ILOADP(10,NL)
-      IMODEL         = ILOADP(11,NL)                                                                    
-      ISIZ_SEG       = ILOADP(01,NL)/4                                                                  
-      IERR1          = 0                                                                                
-      W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g   
-      Z              = ZERO                                                                             
-      TA_INF_LOC     = EP20
+      IL         = NL-NLOADP_F
+      TDET       = FAC(01,NL)
+      XDET       = FAC(02,NL)
+      YDET       = FAC(03,NL)
+      ZDET       = FAC(04,NL)
+      WTNT       = FAC(05,NL)
+      PMIN       = FAC(06,NL)
+      TA_FIRST   = FAC(07,NL)
+      T_STOP     = FAC(13,NL)
+      IS         = ILOADP(02,NL)
+      IZ_UPDATE  = ILOADP(06,NL)
+      ABAC_ID    = ILOADP(07,NL)
+      ID         = ILOADP(08,NL) !user_id
+      ITA_SHIFT  = ILOADP(09,NL)
+      NDT        = ILOADP(10,NL)
+      IMODEL     = ILOADP(11,NL)
+      ISIZ_SEG   = ILOADP(01,NL)/4
+      IERR1      = 0
+      W13        = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
+      Z          = ZERO
+      TA_INF_LOC = EP20
+
+      IS_DECAY_TO_BE_COMPUTED = .FALSE.
+      IF(IMODEL == 2)IS_DECAY_TO_BE_COMPUTED=.TRUE.
 
       !---------------------------------------------                                                                  
       !   LOOP ON SEGMENTS (4N or 3N)                                                                  
@@ -258,202 +256,60 @@ C-----------------------------------------------
           Dz    = (Zdet - Zz)*FAC_L_bb  ! => ... to cm                                                                                                                                                
           DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)                                                                                                                                                             
 
+          !Angle from detonation point
+          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz
+          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)
+
           !scaled distance                                                                                                                                                                            
-          Z     = DNORM / W13    !in abac unit ID  g,cm,mus                                                                                                                                           
-                                                                                                                                                                                                      
-          !finding index for UFC table (Figure 2-7) using bijection.                                                                                                                                        
-          IF(Z>0.5 .and. Z<400.) then                                                                                                                                                                 
-            Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN                                                                                                                                               
-            Phi_I  = 1 + INT(Phi_DB)                                                                                                                                                                  
-            bound1 = PBLAST_DATA%RW3(Phi_I)                                                                                                                                                           
-            bound2 = PBLAST_DATA%RW3(Phi_I+1)                                                                                                                                                         
-            LAMBDA = (Z-bound1) / (bound2-bound1)                                                                                                                                                     
-          elseif(Z <= 0.5)then                                                                                                                                                                        
-            if (N4==0)then                                                                                                                                                                            
-              write(*,FMT='(A,3I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)                                                                              
-            else                                                                                                                                                                                      
-              write(*,FMT='(A,4I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
-            endif                                                                                                                                                                                     
-            LAMBDA = ZERO                                                                                                                                                                             
-            Phi_I  = 1                                                                                                                                                                                
-          elseif(Z > 400.)then                                                                                                                                                                        
-            if (N4==0)then                                                                                                                                                                            
-              write(*,FMT='(A,3I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)                                                                              
-            else                                                                                                                                                                                      
-              write(*,FMT='(A,4I11)')                                                                                                                                                                 
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)                                                                     
-            endif                                                                                                                                                                                     
-            LAMBDA = ONE                                                                                                                                                                              
-            Phi_I  = 255                                                                                                                                                                              
-          ENDIF                                                                                                                                                                                       
+          Z  = DNORM / W13    !in abac unit ID  g,cm,mus
+          !display warning message if out of bounds
+          ! precondition for SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
+          IF(Z <= 0.5)THEN
+            if (N4==0)then
+              write(*,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+            else
+              write(*,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+            endif
+          ELSEIF(Z > 400.)THEN
+              if (N4==0)then
+              write(*,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+              else
+              write(*,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+              endif
+          ENDIF
 
-          !Angle from detonation point                                                                                                                                                                
-          cos_theta = Dx*Nx + Dy*Ny + Dz*Nz                                                                                                                                                          
-          cos_theta = cos_theta/MAX(EM20,NORM*DNORM)                                                                                                                                                              
-          !=== SPHERICAL CHARGE IN FREE FIELD ===!                                                                                                                                                    
-                                                                                                                                                                                                      
-          !Incident upper Pressure (UFC table from Figure 2-7)                                                                                                                                                       
-          bound1 = PBLAST_DATA%Pso(Phi_I)                                                                                                                                                           
-          bound2 = PBLAST_DATA%Pso(Phi_I+1)                                                                                                                                                         
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          P_inci = exp(LogRes*log10_)                                                                                                                                                              
-          !Incident Lower Pressure (UFC table from Figure 2-7)                                                                                                                                                       
-          bound1 = PBLAST_DATA%Pso_(Phi_I)                                                                                                                                                          
-          bound2 = PBLAST_DATA%Pso_(Phi_I+1)                                                                                                                                                        
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          P_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                    
-          !Incident upper Impulse (UFC table from Figure 2-7)                                                                                                                                                        
-          bound1 = PBLAST_DATA%Iso(Phi_I)                                                                                                                                                           
-          bound2 = PBLAST_DATA%Iso(Phi_I+1)                                                                                                                                                         
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          I_inci = exp(LogRes*log10_)                                                                                                                                                              
-          !Incident lower Impulse (UFC table from Figure 2-7)                                                                                                                                                        
-          bound1 = PBLAST_DATA%Iso_(Phi_I)                                                                                                                                                          
-          bound2 = PBLAST_DATA%Iso_(Phi_I+1)                                                                                                                                                        
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          I_inci_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                    
-          !Reflected upper Pressure (UFC table from Figure 2-7)                                                                                                                                                      
-          bound1 = PBLAST_DATA%Pr(Phi_I)                                                                                                                                                            
-          bound2 = PBLAST_DATA%Pr(Phi_I+1)                                                                                                                                                          
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          P_refl = exp(LogRes*log10_)                                                                                                                                                               
-                                                                                                                                                                                                    
-          !Reflected lower Pressure (UFC table from Figure 2-7)                                                                                                                                                      
-          bound1 = PBLAST_DATA%Pr_(Phi_I)                                                                                                                                                           
-          bound2 = PBLAST_DATA%Pr_(Phi_I+1)                                                                                                                                                         
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          P_refl_ = exp(LogRes*log10_)                                                                                                                                                             
-          !Reflected upper Impulse (UFC table from Figure 2-7)                                                                                                                                                       
-          bound1 = PBLAST_DATA%Irefl(Phi_I)                                                                                                                                                         
-          bound2 = PBLAST_DATA%Irefl(Phi_I+1)                                                                                                                                                       
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          I_refl = exp(LogRes*log10_)                                                                                                                                                              
-          !Reflected lower Impulse (UFC table from Figure 2-7)                                                                                                                                                       
-          bound1 = PBLAST_DATA%Irefl_(Phi_I)                                                                                                                                                        
-          bound2 = PBLAST_DATA%Irefl_(Phi_I+1)                                                                                                                                                      
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          I_refl_ = exp(LogRes*log10_)                                                                                                                                                              
-                                                                                                                                                                                                    
-          !first time for which P=P0 after t_arrival (UFC table from Figure 2-7)                                                                                                                                     
-          bound1 = PBLAST_DATA%t0(Phi_I)                                                                                                                                                            
-          bound2 = PBLAST_DATA%t0(Phi_I+1)                                                                                                                                                          
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          DT_0 = exp(LogRes*log10_)                                                                                                                                                                
-          !second time for which P=P0 after t_arrival (UFC table from Figure 2-7)                                                                                                                                    
-          bound1 = PBLAST_DATA%t0_(Phi_I)                                                                                                                                                           
-          bound2 = PBLAST_DATA%t0_(Phi_I+1)                                                                                                                                                         
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          DT_0_ = exp(LogRes*log10_)                                                                                                                                                                
-                                                                                                                                                                                                    
-          !Time Arrival (UFC table from Figure 2-7)                                                                                                                                                                  
-          bound1 = PBLAST_DATA%ta(Phi_I)                                                                                                                                                            
-          bound2 = PBLAST_DATA%ta(Phi_I+1)                                                                                                                                                          
-          LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)                                                                                                                                      
-          T_A = exp(LogRes*log10_)                                                                                                                                                                                      
-                                                                                                                                                                                                      
-          !switch from normalized values. (Pressure are not scaled by W13 in tables)                                                                                                           
-          I_inci  = I_inci * W13
-          I_inci_ = I_inci_* W13
-          I_refl  = I_refl * W13
-          I_refl_ = I_refl_* W13
-          DT_0    = DT_0   * W13
-          DT_0_   = DT_0_  * W13
-          T_A     = T_A    * W13
+          !------------------------------------------------------------------!
+          CALL PBLAST_PARAMETERS__FREE_AIR(Z, W13, TDET,
+     +                                     FAC_P_bb, FAC_I_bb, FAC_T_bb,
+     +                                     IS_DECAY_TO_BE_COMPUTED,
+     +                                     FRIEDLANDER_PARAMS)
 
-          !---DECAY  ('b' parameter in modified Friedlander model)
-          !    iterative solver : it can be solved in same unit system as hardcoded tables {g,cm,µs} since b has no dimension
-          IF(IMODEL == 1)THEN                                                                                                                                                                       
-            !-Friedlander                                                                                                                                                                           
-            DECAY_inci = ONE                                                                                                                                                                        
-            DECAY_refl = ONE                                                                                                                                                                        
-                                                                                                                                                                                                    
-          ELSEIF(IMODEL == 2) THEN                                                                                                                                                                  
-            !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                         
-            !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)                                                                                                                                 
-            ! find b such as g(b)=0                                                                                                                                                                 
-            ! NEWTON ITERATIONS                                                                                                                                                                     
-            NITER=20                                                                                                                                                                                
-            TOL=EM06                                                                                                                                                                                
-            ITER=0                                                                                                                                                                                  
-            ZETA=ONE                                                                                                                                                                                
-            RES=EP20                                                                                                                                                                                
-            TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                  
-            !--initialize first iteration                                                                                                                                                           
-            kk=P_inci*DT_0                                                                                                                                                                          
-            FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA                                                                                                                                            
-            !--iterative solving                                                                                                                                                                    
-            DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                    
-              ITER=ITER+1                                                                                                                                                                           
-              IF(ABS(ZETA) < EM06)THEN                                                                                                                                                              
-                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )                                                                                                                                
-                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                          
-                ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci                                                                                                                                         
-              ELSE                                                                                                                                                                                  
-                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)                                                                                                                        
-                ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                              
-                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                     
-                FUNCT = TMP2 * TMP3 -I_inci                                                                                                                                                         
-              ENDIF                                                                                                                                                                                 
-              RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                          
-            ENDDO                                                                                                                                                                                   
-            DECAY_inci=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+          P_inci     = FRIEDLANDER_PARAMS%P_inci
+          P_inci_    = FRIEDLANDER_PARAMS%P_inci_
+          P_refl     = FRIEDLANDER_PARAMS%P_refl
+          P_refl_    = FRIEDLANDER_PARAMS%P_refl_
+          I_inci     = FRIEDLANDER_PARAMS%I_inci
+          I_inci_    = FRIEDLANDER_PARAMS%I_inci_
+          I_refl     = FRIEDLANDER_PARAMS%I_refl
+          I_refl_    = FRIEDLANDER_PARAMS%I_refl_
+          T_A        = FRIEDLANDER_PARAMS%T_A
+          DT_0       = FRIEDLANDER_PARAMS%DT_0
+          DT_0_      = FRIEDLANDER_PARAMS%DT_0_
+          decay_inci = FRIEDLANDER_PARAMS%decay_inci
+          decay_refl = FRIEDLANDER_PARAMS%decay_refl
+          !------------------------------------------------------------------!
 
-            ITER=0                                                                                                                                                                                  
-            ZETA=ONE                                                                                                                                                                                
-            RES=EP20                                                                                                                                                                                
-            TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                                  
-            !--initialize first iteration                                                                                                                                                           
-            kk=P_refl*DT_0                                                                                                                                                                          
-            FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA                                                                                                                                            
-            !--iterative solving                                                                                                                                                                    
-            DO WHILE (ITER<=NITER .AND. RES>TOL)                                                                                                                                                    
-              ITER=ITER+1                                                                                                                                                                           
-              IF(ABS(ZETA) < EM06)THEN                                                                                                                                                              
-                !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )                                                                                                                                
-                DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)                                                                                                                                          
-                ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl                                                                                                                                         
-              ELSE                                                                                                                                                                                  
-                DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)                                                                                                                        
-                ZETA = ZETA - FUNCT/DIFF                                                                                                                                                            
-                TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA                                                                                                                                              
-                TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE                                                                                                                                                     
-                FUNCT = TMP2 * TMP3 -I_refl                                                                                                                                                         
-              ENDIF                                                                                                                                                                                 
-              RES = ABS(FUNCT)   !g(x_new)                                                                                                                                                          
-            ENDDO                                                                                                                                                                                   
-            DECAY_refl=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
-          ENDIF                                                                                                                                                                                     
-                                                                                                                                                                                      
-
-          !CONVERSION UNITS !                                                                                                                                                                         
-          !g,cm,mus,Bar -> Working unit system                                                                                                                                                        
-          P_inci  =  P_inci / FAC_P_bb                                                                                                                                                                
-          I_inci  =  I_inci / FAC_I_bb                                                                                                                                                                
-          P_refl  =  P_refl / FAC_P_bb                                                                                                                                                                
-          I_refl  =  I_refl / FAC_I_bb                                                                                                                                                                
-          P_inci_ =  P_inci_ / FAC_P_bb                                                                                                                                                               
-          I_inci_ =  I_inci_ / FAC_I_bb                                                                                                                                                               
-          P_refl_ =  P_refl_ / FAC_P_bb                                                                                                                                                               
-          I_refl_ =  I_refl_ / FAC_I_bb                                                                                                                                                               
-          DT_0    =  DT_0    / FAC_T_bb                                                                                                                                                               
-          DT_0_   =  DT_0_   / FAC_T_bb                                                                                                                                                               
-          T_A     =  T_A     / FAC_T_bb
-          T_A    = T_A + TDET                                                                                                                                                                         
           TA_INF_LOC = MIN(TA_INF_LOC, T_A)
 
           !update wave parameters                                                                                                                                                                     
           PBLAST_TAB(IL)%cos_theta(I) = cos_theta
           PBLAST_TAB(IL)%P_inci(I) = P_inci
           PBLAST_TAB(IL)%P_refl(I) = P_refl
-          PBLAST_TAB(IL)%ta(I) = T_A                                                                                                                                                                 
+          PBLAST_TAB(IL)%ta(I) = T_A
           PBLAST_TAB(IL)%t0(I) = DT_0
           PBLAST_TAB(IL)%decay_inci(I) = decay_inci
           PBLAST_TAB(IL)%decay_refl(I) = decay_refl

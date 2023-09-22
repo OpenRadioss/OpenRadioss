@@ -82,24 +82,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1, N2, N3, N4, IL, IS, IAD, I, IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
-     .        Phi_I, ID, ITA_SHIFT,NS,KSURF,NDT,
-     .        NITER,ITER,IMODEL,NN(4)
+     .        ID, ITA_SHIFT,NS,KSURF,NDT,
+     .        IMODEL,NN(4)
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,NNx,NNy,NNz,Hz,AREA
-      my_real LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci,P_refl,Z,Phi_DB,bound1,bound2,
+      my_real LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci,P_refl,Z,
      .        I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13
       my_real Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
      .        P,
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR
       my_real Z1_
-      my_real DECAY_inci,DECAY_refl,ZETA,TMP2,TMP3,FUNCT,DIFF,RES,TOL
-      my_real kk
-      my_real :: LogRes
+      my_real DECAY_inci,DECAY_refl
       my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3)
       my_real :: PROJZ(3), tmp(3), LG, ZG, HC
       my_real :: Base_x,Base_y,Base_z
-      my_real :: TA_INF_LOC
-
-      LOGICAL IS_UPDATED
+      my_real :: TA_INF_LOC,ZETA
+      TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
+      LOGICAL IS_UPDATED,IS_DECAY_TO_BE_COMPUTED
 
       DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
       DATA log10_ /2.30258509299405000000/
@@ -144,7 +142,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT   !output
+      IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT  !output
 
       !Index Bijection
       Z1_ = 0.500000000000000
@@ -159,34 +157,37 @@ C-----------------------------------------------
 
       IS_UPDATED=.FALSE.
 
-      !-----------------------------------------------,
+      !-----------------------------------------------
       !   FREE AIR BURST
       !-----------------------------------------------
-      IL             = NL-NLOADP_F
-      TDET           = FAC(01,NL)
-      XDET           = FAC(02,NL)
-      YDET           = FAC(03,NL)
-      ZDET           = FAC(04,NL)
-      WTNT           = FAC(05,NL)
-      PMIN           = FAC(06,NL)
-      TA_FIRST       = FAC(07,NL)
-      NNX            = FAC(08,NL)
-      NNY            = FAC(09,NL)
-      NNZ            = FAC(10,NL)
-      HC             = FAC(11,NL)
-      T_STOP         = FAC(13,NL)
-      IS             = ILOADP(02,NL)
-      IZ_UPDATE      = ILOADP(06,NL)
-      ABAC_ID        = ILOADP(07,NL)
-      ID             = ILOADP(08,NL) !user_id
-      ITA_SHIFT      = ILOADP(09,NL)
-      NDT            = ILOADP(10,NL)
-      IMODEL         = ILOADP(11,NL)
-      ISIZ_SEG       = ILOADP(01,NL)/4
-      IERR1          = 0
-      W13            = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
-      Z              = ZERO
-      TA_INF_LOC     = EP20
+      IL         = NL-NLOADP_F
+      TDET       = FAC(01,NL)
+      XDET       = FAC(02,NL)
+      YDET       = FAC(03,NL)
+      ZDET       = FAC(04,NL)
+      WTNT       = FAC(05,NL)
+      PMIN       = FAC(06,NL)
+      TA_FIRST   = FAC(07,NL)
+      NNX        = FAC(08,NL)
+      NNY        = FAC(09,NL)
+      NNZ        = FAC(10,NL)
+      HC         = FAC(11,NL)
+      T_STOP     = FAC(13,NL)
+      IS         = ILOADP(02,NL)
+      IZ_UPDATE  = ILOADP(06,NL)
+      ABAC_ID    = ILOADP(07,NL)
+      ID         = ILOADP(08,NL) !user_id
+      ITA_SHIFT  = ILOADP(09,NL)
+      NDT        = ILOADP(10,NL)
+      IMODEL     = ILOADP(11,NL)
+      ISIZ_SEG   = ILOADP(01,NL)/4
+      IERR1      = 0
+      W13        = (WTNT*FAC_M_bb)**THIRD   ! '*FAC_M'  g->work unit    '/FAC_M' : WORK_UNIT -> g
+      Z          = ZERO
+      TA_INF_LOC = EP20
+
+      IS_DECAY_TO_BE_COMPUTED = .FALSE.
+      IF(IMODEL == 2)IS_DECAY_TO_BE_COMPUTED=.TRUE.
 
       !---------------------------------------------
       !   LOOP ON SEGMENTS (4N or 3N)
@@ -285,13 +286,8 @@ C-----------------------------------------------
             !scaled distance
             Z = ZG    !in abac unit ID  g,cm,mus
 
-            !finding index for UFC table (Figure 2-15) using bijection.
+           !checking bounds
             IF(Z > 0.5 .AND. Z < 400.) then
-              Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN
-              Phi_I  = 1 + INT(Phi_DB)
-              bound1 = PBLAST_DATA%RW3_Surf(Phi_I)
-              bound2 = PBLAST_DATA%RW3_Surf(Phi_I+1)
-              LAMBDA = (Z-bound1) / (bound2-bound1)
             elseif(Z <= 0.5)then
               if (N4==0)then
                 write(*,FMT='(A,3I11)')
@@ -300,8 +296,7 @@ C-----------------------------------------------
                 write(*,FMT='(A,4I11)')
      .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
               endif
-              LAMBDA = ZERO
-              Phi_I  = 1
+
             elseif(Z > 400.)then
               if (N4==0)then
                 write(*,FMT='(A,3I11)')
@@ -310,132 +305,23 @@ C-----------------------------------------------
                 write(*,FMT='(A,4I11)')
      .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
               endif
-              LAMBDA = ONE
-              Phi_I  = 255
             ENDIF
 
+            !------------------------------------------------------------------!
+            CALL PBLAST_PARAMETERS__SURFACE_BURST( Z, W13, TDET,
+     +                                             FAC_P_bb, FAC_I_bb, FAC_T_bb,
+     +                                             IS_DECAY_TO_BE_COMPUTED,
+     +                                             FRIEDLANDER_PARAMS )
+            P_inci     = FRIEDLANDER_PARAMS%P_inci
+            P_refl     = FRIEDLANDER_PARAMS%P_refl
+            I_inci     = FRIEDLANDER_PARAMS%I_inci
+            I_refl     = FRIEDLANDER_PARAMS%I_refl
+            T_A        = FRIEDLANDER_PARAMS%T_A
+            DT_0       = FRIEDLANDER_PARAMS%DT_0
+            decay_inci = FRIEDLANDER_PARAMS%decay_inci
+            decay_refl = FRIEDLANDER_PARAMS%decay_refl
+            !------------------------------------------------------------------!
 
-            !=== HEMISPHERICAL CHARGE WITH GROUND REFLECTION ===!
-
-            !Incident upper Pressure (UFC table from Figure 2-15)
-            bound1 = PBLAST_DATA%Pso_Surf(Phi_I)
-            bound2 = PBLAST_DATA%Pso_Surf(Phi_I+1)
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-            P_inci = exp(LogRes*log10_)
-
-            !Incident upper Impulse (UFC table from Figure 2-15)
-            bound1 = PBLAST_DATA%Iso_Surf(Phi_I)
-            bound2 = PBLAST_DATA%Iso_Surf(Phi_I+1)
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-            I_inci = exp(LogRes*log10_)
-
-            !Reflected upper Pressure (UFC table from Figure 2-15)
-            bound1 = PBLAST_DATA%Pr_Surf(Phi_I)
-            bound2 = PBLAST_DATA%Pr_Surf(Phi_I+1)
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-            P_refl = exp(LogRes*log10_)
-            !Reflected upper Impulse (UFC table from Figure 2-15)
-            bound1 = PBLAST_DATA%Ir_Surf(Phi_I)
-            bound2 = PBLAST_DATA%Ir_Surf(Phi_I+1)
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-            I_refl = exp(LogRes*log10_)
-
-            !first time for which P=P0 after t_arrival (UFC table from Figure 2-15)
-            bound1 = PBLAST_DATA%t0_Surf(Phi_I)
-            bound2 = PBLAST_DATA%t0_Surf(Phi_I+1)
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-            DT_0 = exp(LogRes*log10_)
-
-            !Time Arrival (UFC table from Figure 2-15)
-            bound1 = PBLAST_DATA%ta_Surf(Phi_I)
-            bound2 = PBLAST_DATA%ta_Surf(Phi_I+1)
-            LogRes = LOG10(bound1) + LAMBDA*LOG10(bound2/bound1)
-            T_A = exp(LogRes*log10_)
-
-            !switch from normalized values.      ( Pressure are not scaled by W13 in tables )
-            I_inci  = I_inci * W13
-            I_refl  = I_refl * W13
-            DT_0    = DT_0   * W13
-            T_A     = T_A    * W13
-
-            !---DECAY  ('b' parameter in modified Friedlander model)
-            !    iterative solver : it can be solved in same unit system as hardcoded tables {g,cm,µs} since b has no dimension
-            IF(IMODEL == 1)THEN
-              !-Friedlander
-              DECAY_inci = ONE
-              DECAY_refl = ONE
-
-            ELSEIF(IMODEL == 2) THEN
-              !SOLVE DECAY (b):    I_inci = P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
-              !     g: b-> I_inci - P_inci*DT_0/b*(ONE-(1-exp(-b))/b)
-              ! find b such as g(b)=0
-              ! NEWTON ITERATIONS
-              NITER=20
-              TOL=EM06
-              ITER=0
-              ZETA=ONE
-              RES=EP20
-              TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
-              !--initialize first iteration
-              kk=P_inci*DT_0
-              FUNCT = HALF*kk -I_inci !-ONE_OVER_6*kk*ZETA
-              !--iterative solving
-              DO WHILE (ITER<=NITER .AND. RES>TOL)
-                ITER=ITER+1
-                IF(ABS(ZETA) < EM06)THEN
-                  !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                  DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
-                  ZETA = ZETA - FUNCT/DIFF
-                  FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_inci
-                ELSE
-                  DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_inci)*(ONE + TWO/ZETA)
-                  ZETA = ZETA - FUNCT/DIFF
-                  TMP2= P_inci*DT_0*EXP(-ZETA)/ZETA/ZETA
-                  TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
-                  FUNCT = TMP2 * TMP3 -I_inci
-                ENDIF
-                RES = ABS(FUNCT)   !g(x_new)
-              ENDDO
-              DECAY_inci=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
-
-              ITER=0
-              ZETA=ONE
-              RES=EP20
-              TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
-              !--initialize first iteration
-              kk=P_refl*DT_0
-              FUNCT = HALF*kk -I_refl !-ONE_OVER_6*kk*ZETA
-              !--iterative solving
-              DO WHILE (ITER<=NITER .AND. RES>TOL)
-                ITER=ITER+1
-                IF(ABS(ZETA) < EM06)THEN
-                  !taylor expansion on 0. : g(b) = 1/2.k-1/6k.b +o(b )
-                  DIFF = kk*(-ONE_OVER_6 + ONE_OVER_12*ZETA)
-                  ZETA = ZETA - FUNCT/DIFF
-                  FUNCT = HALF*kk-ONE_OVER_6*kk*ZETA - I_refl
-                ELSE
-                  DIFF = ZETA*TMP2*EXP(ZETA) - (FUNCT+I_refl)*(ONE + TWO/ZETA)
-                  ZETA = ZETA - FUNCT/DIFF
-                  TMP2= P_refl*DT_0*EXP(-ZETA)/ZETA/ZETA
-                  TMP3 = EXP(ZETA)*(ZETA-ONE)+ONE
-                  FUNCT = TMP2 * TMP3 -I_refl
-                ENDIF
-                RES = ABS(FUNCT)   !g(x_new)
-              ENDDO
-              DECAY_refl=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
-
-            ENDIF! IMODEL
-
-
-            !CONVERSION UNITS !
-            !g,cm,mus,Bar -> Working unit system
-            P_inci = P_inci / FAC_P_bb
-            I_inci = I_inci / FAC_I_bb
-            P_refl = P_refl / FAC_P_bb
-            I_refl = I_refl / FAC_I_bb
-            DT_0 = DT_0 / FAC_T_bb
-            T_A = T_A / FAC_T_bb
-            T_A = T_A + TDET
             TA_INF_LOC = MIN(TA_INF_LOC, T_A)
 
             !update wave parameters
