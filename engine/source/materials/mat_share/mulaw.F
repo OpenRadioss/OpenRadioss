@@ -1762,7 +1762,7 @@ c
         CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
      .                    EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)
         CALL SIGEPS124(NEL    ,NGL    ,NPAR   ,NUVAR  ,DT1    ,TT     ,
-     .                 UPARAM ,UVAR   ,RHO    ,DEFP   ,DPLA   ,GBUF%UELR,
+     .                 UPARAM ,UVAR   ,RHO    ,DEFP   ,DPLA   ,
      .                 SSP    ,EPSD   ,OFF    ,LBUF%OFF,IPG   ,NPG    ,
      .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
      .                 ES1    ,ES2    ,ES3    ,ES4    ,ES5    ,ES6    ,
