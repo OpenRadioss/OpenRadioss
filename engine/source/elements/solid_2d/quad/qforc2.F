@@ -59,74 +59,33 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE QFORC2(ELBUF_TAB,NG      ,
-     1                  PM       ,GEO     ,IC      ,X        ,A       ,
-     2                  V        ,MS      ,W       ,FLUX     ,FLU1    ,
-     3                  VEUL     ,FV      ,ALE_CONNECT   ,IPARG    ,NLOC_DMG,
-     4                  TF       ,NPF     ,BUFMAT  ,PARTSAV  ,
-     5                  DT2T     ,NELTST  ,ITYPTST ,STIFN    ,OFFSET  ,
-     6                  EANI     ,IPARTQ  ,NEL     ,IADQ     ,FSKY    ,
-     9                  IPM      ,BUFVOIS ,QMV     ,
-     A                  GRESAV   ,GRTH    ,IGRTH   ,TABLE    ,IGEO    ,
-     B                  VOLN     ,ITASK   ,MS_2D   ,FSKYM    ,IOUTPRT ,
+     1                  PM       ,GEO     ,IC          ,X        ,A       ,
+     2                  V        ,MS      ,W           ,FLUX     ,FLU1    ,
+     3                  VEUL     ,FV      ,ALE_CONNECT ,IPARG    ,NLOC_DMG,
+     4                  TF       ,NPF     ,BUFMAT      ,PARTSAV  ,
+     5                  DT2T     ,NELTST  ,ITYPTST     ,STIFN    ,OFFSET  ,
+     6                  EANI     ,IPARTQ  ,NEL         ,IADQ     ,FSKY    ,
+     9                  IPM      ,BUFVOIS ,QMV         ,
+     A                  GRESAV   ,GRTH    ,IGRTH       ,TABLE    ,IGEO    ,
+     B                  VOLN     ,ITASK   ,MS_2D       ,FSKYM    ,IOUTPRT ,
      C                  MAt_ELEM ,H3D_STRAIN)
 C-----------------------------------------------
-C   M o d u l e s
+C   D e s c r i p t i o n
 C-----------------------------------------------
-      USE MMAIN_MOD
-      USE TABLE_MOD
-      USE MAT_ELEM_MOD            
-      USE NLOCAL_REG_MOD
-      USE ALE_CONNECTIVITY_MOD
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-#include      "parit_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IC(*), IPARG(NPARG,*), NPF(*),IPARTQ(*),
-     .        IPM(*), GRTH(*),IGRTH(*),IGEO(*), IADQ(4,*), ITASK
-      INTEGER OFFSET,NEL,NG,NELTST,ITYPTST,IOUTPRT,H3D_STRAIN
-      my_real
-     .   DT2T
-      my_real
-     .   PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
-     .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*), FSKY(*),
-     .   PARTSAV(*), STIFN(*),EANI(*), BUFVOIS(6,*),QMV(8,*),GRESAV(*),VOLN(MVSIZ),
-     .   MS_2D(*),FSKYM(*)
-      TYPE(TTABLE) TABLE(*)
-      TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect01_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-C=======================================================================
 c FUNCTION: Internal force compute of Quad element
 c
-c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
 c
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
 c  I   IC(7,NUM_QUAD)      connectivity and mid,pid integer data
-c  I   X(3,NUMNOD)         co-ordinate 
+c  I   X(3,NUMNOD)         co-ordinate
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
 c  IO  MS(NUMNOD)          nodal masse
 c  I   EV()                internal element(material) data
 c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
-c  I   FLU1  ,VEUL  ,IELVS used w/ ALE or EULER 
+c  I   FLU1  ,VEUL  ,IELVS used w/ ALE or EULER
 c  I   IPARG(NG)           element group data
 c  I   ELBUF()             internal element(material) data used w/ ALE or EULER
 c  I   TF() ,NPF()         Radioss function (x=Time) data
@@ -138,25 +97,64 @@ c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
 c  IO  EANI()              anim output vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
-c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemlage   
+c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemlage
 c  IO  XPHI,FPHI,VPHI,MSPHI,PV ,
 c      X0PHI ,EVD : variables for sensibility(opt) no more used
-c  I   BUFVOIS()           work table for fluide w/ SPMD 
+c  I   BUFVOIS()           work table for fluide w/ SPMD
 c  I   QMV(8,)             work table used w/ ALE or EULER
 c  I   GRESAV,GRTH,IGRTH   work table used for TH (time history) output
 c  I   TABLE               new alternative Radioss function(table) data
 c  I   IGEO                geometrical property integer data
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MMAIN_MOD
+      USE TABLE_MOD
+      USE MAT_ELEM_MOD
+      USE NLOCAL_REG_MOD
+      USE ALE_CONNECTIVITY_MOD
+      USE ALE_MOD , ONLY : ALE
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+#include      "parit_c.inc"
+#include      "param_c.inc"
+#include      "comlock.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IC(*), IPARG(NPARG,NGROUP), NPF(*),IPARTQ(NUMELQ),
+     .        IPM(*), GRTH(*),IGRTH(*),IGEO(*), IADQ(4,*), ITASK
+      INTEGER OFFSET,NEL,NG,NELTST,ITYPTST,IOUTPRT,H3D_STRAIN
+      my_real DT2T
+      my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
+     .        FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*), FSKY(*),
+     .        PARTSAV(*), STIFN(*),EANI(*), BUFVOIS(6,*),QMV(8,*),GRESAV(*),VOLN(MVSIZ),
+     .        MS_2D(*),FSKYM(*)
+      TYPE(TTABLE) TABLE(*)
+      TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
+      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "vect01_c.inc"
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LCO, NF1, IFLAG,I,II,IPTR,IPTS,IPTT,ILAY,ISTRAIN
       INTEGER IBIDON(1),IBID,N
-cmi     .   RX(1),RY(1), RZ(1), SX(1), SY(1), SZ(1), TX(1), TY(1), TZ(1)
-cmi+++
-      my_real
-     .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ)
-cmi---
+
+      my_real RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ)
+
       INTEGER, DIMENSION(MVSIZ) :: MAT,NC1,NC2,NC3,NC4,NGL,NGEO
       my_real, DIMENSION(MVSIZ) :: F11, F12, F21, F22
       my_real, DIMENSION(MVSIZ) :: AX1, AX2
@@ -170,50 +168,48 @@ cmi---
       my_real, DIMENSION(MVSIZ) :: DYZ,DZY,SSP
       my_real, DIMENSION(MVSIZ) :: EYY,EZZ,ETT,EYZ,EYT,EZT
       my_real, DIMENSION(MVSIZ) :: VDY, VDZ
-      my_real
-     .   EHOU(MVSIZ),SSP_EQ(MVSIZ)
-      my_real
-     .       WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
-C Variables utilisees en argument par les materiaux si SPH uniquement.
-      my_real
-     .       MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(1),RSDA(1)
-C  Variables void MMAIN 
-      my_real
-     . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-      my_real
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   Y234(MVSIZ),Y124(MVSIZ),BIDM(MVSIZ)
+      my_real EHOU(MVSIZ),SSP_EQ(MVSIZ)
+      my_real WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
+
+      ! SPH case
+      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(1),RSDA(1)
+      ! void MMAIN
+      my_real SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+      my_real  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
+     .         R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
+     .         R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
+     .         Y234(MVSIZ),Y124(MVSIZ),BIDM(MVSIZ)
       my_real VARNL(NEL)
-      my_real, 
-     .  DIMENSION(:), POINTER :: EINT
-C-----
+      my_real, DIMENSION(:), POINTER :: EINT
+
+      ! ale grid formulation 7 (massflow)
+      my_real :: ELEM_MASS
+      my_real :: SUM_EPS(9),SUM_M
+
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-C-----
-C
-C--------------------------------------------------------------------
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       GBUF => ELBUF_TAB(NG)%GBUF
 c
-      IBIDON=0 
-      IBID = 0    
+      IBIDON=0
+      IBID = 0
       BIDM(1:MVSIZ) = ZERO
       DO I=1,NEL
         WYY(I)=ZERO
         WZZ(I)=ZERO
-        VDX(I)=ZERO  
+        VDX(I)=ZERO
       ENDDO
 C
-      IF (ISORTH == 0) THEN 
+      IF (ISORTH == 0) THEN
 C       propriete isotrope
-        DO I=1,NEL                                            
-          GAMA(I,1) = ONE                                
-          GAMA(I,2) = ZERO                                  
+        DO I=1,NEL
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
-          GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = ONE                                  
-          GAMA(I,6) = ZERO 
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
         ENDDO
       ELSE
         DO I=1,NEL
@@ -222,10 +218,10 @@ C       propriete isotrope
           GAMA(I,3) = GBUF%GAMA(I + 2*NEL)
           GAMA(I,4) = GBUF%GAMA(I + 3*NEL)
           GAMA(I,5) = GBUF%GAMA(I + 4*NEL)
-          GAMA(I,6) = GBUF%GAMA(I + 5*NEL) 
-        ENDDO                                   
+          GAMA(I,6) = GBUF%GAMA(I + 5*NEL)
+        ENDDO
       ENDIF
-      ISTRAIN = IPARG(44,NG)                                 
+      ISTRAIN = IPARG(44,NG)
 C
       LCO=1+7*NFT
       NF1=NFT+1
@@ -238,7 +234,7 @@ C
      4   NC3,     NC4,     NGL,     MAT,
      5   NGEO,    VD2,     VIS,     NEL)
       ELSE
-C------ Co-rotational system (convective local system)      
+C------ Co-rotational system (convective local system)
 C       JCVT/=0 => JLAG/=0
         CALL QRCOOR2(
      1   X,       IC(LCO), Y1,      Y2,
@@ -366,14 +362,14 @@ C-----------
      3   NEL,     JCVT)
       ENDIF
 C-----------------------------------------------------
-C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES(Constitutive relation compute)
+C     STRESS CALCULATION (Constitutive laws)
 C-----------------------------------------------------
-C pour le fluide en SPMD : BUFVOIS LOI11
+C SPMD + FLUID : BUFVOIS LOI11
 c
-      ILAY = 1                                                
-      IPTR = 1                                                
-      IPTS = 1                                                
-      IPTT = 1                                                
+      ILAY = 1
+      IPTR = 1
+      IPTS = 1
+      IPTT = 1
 c
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
@@ -404,7 +400,7 @@ c
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C--------------------------
-C       BILANS PAR MATERIAU thermique
+C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------
       IF(JLAG+JALE+JEUL == 0)THEN
         IFLAG=MOD(NCYCLE,NCPRI)
@@ -428,7 +424,7 @@ c
         RETURN
       ENDIF
 C----------------------------------
-C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
+C     PETROV-GALERKIN PSEUDO MASSES & ALE MASSES
 C----------------------------------
       IF (IPARIT == 0)THEN
        CALL QMASS2(
@@ -442,7 +438,7 @@ C----------------------------------
       ENDIF
 C--------------------------
 C     UPDATE OF MASSES : ALE physical masses
-C----------------------------   
+C----------------------------
       IF (JALE+JEUL > 0 )THEN
          IF (IPARIT == 0)THEN
           CALL QMASSREAL2(
@@ -455,6 +451,33 @@ C----------------------------
      2   IADQ,    NEL,     NFT)
          ENDIF
       ENDIF
+
+C---------------------------------------------
+C /ALE/GRID/MASSFLOW - BUFFER UPDATED
+C---------------------------------------------
+      ! this grid formulation needs an averaged tensor (E=GRAD U)
+      IF(ALE%GRID%NWALE == 7)THEN
+        SUM_EPS(1:9) = ZERO
+        SUM_M = ZERO
+        DO I=1,NEL
+          ELEM_MASS = GBUF%RHO(I)*GBUF%VOL(I)
+          SUM_EPS(2) = SUM_EPS(2) + ELEM_MASS*EYY(I)
+          SUM_EPS(3) = SUM_EPS(3) + ELEM_MASS*EZZ(I)
+          SUM_EPS(6) = SUM_EPS(6) + ELEM_MASS*DYZ(I)
+          SUM_EPS(9) = SUM_EPS(9) + ELEM_MASS*DZY(I)
+          SUM_M = SUM_M + ELEM_MASS
+        ENDDO
+#include "lockon.inc"
+        ALE%GRID%MASSFLOW_DATA%EP(2) = ALE%GRID%MASSFLOW_DATA%EP(2) + SUM_EPS(2)
+        ALE%GRID%MASSFLOW_DATA%EP(3) = ALE%GRID%MASSFLOW_DATA%EP(3) + SUM_EPS(3)
+        ALE%GRID%MASSFLOW_DATA%EP(4) = ALE%GRID%MASSFLOW_DATA%EP(4) + SUM_EPS(4)
+        ALE%GRID%MASSFLOW_DATA%EP(6) = ALE%GRID%MASSFLOW_DATA%EP(6) + SUM_EPS(6)
+        ALE%GRID%MASSFLOW_DATA%EP(9) = ALE%GRID%MASSFLOW_DATA%EP(9) + SUM_EPS(9)
+        ALE%GRID%MASSFLOW_DATA%SUM_M = ALE%GRID%MASSFLOW_DATA%SUM_M + SUM_M
+#include "lockoff.inc"
+      ENDIF!(ALE%GRID%NWALE == 7)
+
+
 C------------------------
 C     FORCES ANTI SABLIER (HOURGLASS CONTROL)
 C------------------------
