@@ -34,7 +34,7 @@ Chd|====================================================================
       SUBROUTINE MULAW_IB(ELBUF_STR,
      1                    NEL     ,NPT     ,MTN     ,IMAT    ,
      2                    PID     ,NGL     ,IPM     ,
-     3                    GEO     ,OFF     ,FOR     ,MOM     ,
+     3                    GEO     ,OFF     , 
      4                    EPSP    ,BUFMAT  ,NPF     ,TF      ,
      5                    EXX     ,EXY     ,EXZ     ,KXX     ,
      6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  )
@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real 
      .   GEO(NPROPG,*),EPSP(*),BUFMAT(*),
      .   OFF(*),TF(*),
-     .   FOR(NEL,3),MOM(NEL,3),EXX(NEL),EXY(NEL),
+     .   EXX(NEL),EXY(NEL),
      .   EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
      .   TEMPEL(NEL)
 C
@@ -211,20 +211,6 @@ C---    Save stress components
           LBUF%SIG(II(1)+I) = SIGNXX(I)
           LBUF%SIG(II(2)+I) = SIGNXY(I)
           LBUF%SIG(II(3)+I) = SIGNXZ(I)
-        ENDDO
-C-----------------------
-C      FORCES ET MOMENTS
-C-----------------------
-        DO I=1,NEL
-          DFXX = APT(I)*SIGNXX(I)
-          DFXY = APT(I)*SIGNXY(I)
-          DFXZ = APT(I)*SIGNXZ(I)
-          FOR(I,1) = FOR(I,1) + DFXX
-          FOR(I,2) = FOR(I,2) + DFXY
-          FOR(I,3) = FOR(I,3) + DFXZ
-          MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
-          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)
-          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)
         ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION

@@ -96,13 +96,19 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ
+      INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA,II(3)
       my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
-     .           DMM,DMPFL,IXX,IYY,IZZ,G,E
-      my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX
+     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ
+      my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA
 C=======================================================================
+      IPY  = 200        
+      IPZ  = 300        
+      IPA  = 400        
       IPID = PID(1)
+      DO I=1,3
+        II(I) = NEL*(I-1)
+      ENDDO
 C-------------------
 C     STRAIN RATE
 C-------------------
@@ -161,7 +167,7 @@ c---------------------------
       IF (MTN == 2) THEN
         CALL M2LAWPI(ELBUF_STR,
      1               1      ,NEL    ,NPT    ,PM     ,GEO     ,
-     2               FOR    ,MOM    ,EINT   ,OFF    ,IMAT    ,
+     2               EINT   ,OFF    ,IMAT    ,
      3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ     ,
      4               KXX    ,KYY    ,KZZ    ,AL     ,NEL     ,
      5               IPM    ,ASRATE ,DTIME  ,NUMMAT )
@@ -171,7 +177,7 @@ c
         CALL MULAW_IB(ELBUF_STR,
      1                NEL     ,NPT     ,MTN     ,IMAT    ,
      2                PID     ,NGL     ,IPM     ,
-     3                GEO     ,OFF     ,FOR     ,MOM     ,
+     3                GEO     ,OFF     ,
      4                EPSD    ,BUFMAT  ,NPF     ,TF      ,
      5                EXX     ,EXY     ,EXZ     ,KXX     ,
      6                KYY     ,KZZ     ,JTHE    ,TEMPEL  )
@@ -194,9 +200,52 @@ c
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .              DPLA    ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
-     .              AL      , F1     ,F2      ,F3      ,M1      ,
-     .              M2      ,M3      ,AREA)
+     .              AL      ,AREA)
       END IF
+C------------------------------------
+c     resultant force and moment
+c------------------------------------
+      IF (ELBUF_STR%BUFLY(1)%L_DMGSCL > 0 ) THEN
+        DO IPT = 1,NPT        
+          DO I=1,NEL
+            YPT(I) = GEO(IPY+IPT,PID(I))              
+            ZPT(I) = GEO(IPZ+IPT,PID(I))           
+            APT(I) = GEO(IPA+IPT,PID(I))    
+            DAMAGE_LOC = ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%DMGSCL(I) 
+            DFXX       = APT(I)*ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(II(1)+I)*DAMAGE_LOC 
+            DFXY       = APT(I)*ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(II(2)+I)*DAMAGE_LOC 
+            DFXZ       = APT(I)*ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(II(3)+I)*DAMAGE_LOC 
+            FOR(I,1) = FOR(I,1) + DFXX
+            FOR(I,2) = FOR(I,2) + DFXY
+            FOR(I,3) = FOR(I,3) + DFXZ
+            MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
+            MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)
+            MOM(I,3) = MOM(I,3) - DFXX*YPT(I)
+          ENDDO
+         ENDDO
+      ELSE     
+C-----------------------
+C      FORCES ET MOMENTS
+C-----------------------
+        DO IPT = 1,NPT        
+         DO I=1,NEL
+          YPT(I) = GEO(IPY+IPT,PID(I))              
+          ZPT(I) = GEO(IPZ+IPT,PID(I))           
+          APT(I) = GEO(IPA+IPT,PID(I))    
+          DFXX = APT(I)*ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(II(1)+I)
+          DFXY = APT(I)*ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(II(2)+I)
+          DFXZ = APT(I)*ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(II(3)+I)
+          FOR(I,1) = FOR(I,1) + DFXX
+          FOR(I,2) = FOR(I,2) + DFXY
+          FOR(I,3) = FOR(I,3) + DFXZ
+          MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
+          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)
+          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)
+         ENDDO          
+        ENDDO
+      ENDIF     
+       
+
 C-------------------------------------
       DO I = 1,NEL
         FOR(I,1) = FOR(I,1)*OFF(I)

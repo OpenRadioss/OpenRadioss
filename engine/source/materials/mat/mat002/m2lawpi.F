@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE M2LAWPI(ELBUF_STR,
      1                  JFT    ,JLT    ,NPT    ,PM     ,GEO,
-     2                  FOR    ,MOM    ,EINT   ,OFF    ,IMAT,
+     2                  EINT   ,OFF    ,IMAT,
      3                  PID    ,EPSP   ,EXX    ,EXY    ,EXZ,
      4                  KXX    ,KYY    ,KZZ    ,AL     ,NEL,
      5                  IPM    ,ASRATE ,TIMESTEP,NUMMAT)
@@ -61,7 +61,7 @@ C     REAL
       my_real
      .   EXX(NEL), EXY(NEL), EXZ(NEL), 
      .   KXX(NEL), KYY(NEL), KZZ(NEL),
-     .   PM(NPROPM,*), GEO(NPROPG,*),FOR(NEL,3), MOM(NEL,3), EINT(NEL,2),
+     .   PM(NPROPM,*), GEO(NPROPG,*), EINT(NEL,2),
      .   OFF(*),EPSP(*), AL(*)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -292,18 +292,6 @@ C
           ENDIF
         ENDDO                                          
 C-----------
-C       FORCES ET MOMENTS
-        DO I=JFT,JLT
-          DFXX = APT(I)*SIGNXX(I)
-          DFXY = APT(I)*SIGNXY(I)
-          DFXZ = APT(I)*SIGNXZ(I)
-          FOR(I,1) = FOR(I,1) + DFXX			   
-          FOR(I,2) = FOR(I,2) + DFXY			   
-          FOR(I,3) = FOR(I,3) + DFXZ			     
-          MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
-          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)		      
-          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)		 
-        ENDDO
 C
         DO I=JFT,JLT                                                    
           LBUF%SIG(II(1)+I) = SIGNXX(I)

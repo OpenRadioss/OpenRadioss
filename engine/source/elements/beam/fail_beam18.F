@@ -35,8 +35,7 @@ Chd|====================================================================
      .                       TEMPEL   ,NGL      ,PM       ,IPM      ,GEO     ,
      .                       OFF      ,EPSD     ,BUFMAT   ,NPF      ,TF      ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
-     .                       AL       , F1      ,F2       ,F3       ,M1      ,
-     .                       M2       ,M3       ,AREA )
+     .                       AL       ,AREA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,8 +80,6 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
-      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: F1,F2,F3
-      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: M1,M2,M3
 
       my_real ,DIMENSION(NEL,NPT) ,INTENT(IN) :: DPLA
 C
@@ -140,6 +137,7 @@ C---------------------------------------
         DFMAX  => FBUF%FLOC(IFL)%DAMMX 
         TDEL   => FBUF%FLOC(IFL)%TDEL   
         FOFF   => FBUF%FLOC(IFL)%OFF
+        
 c
 C---    Coordinates of integration points
         DO I=1,NEL                                 
@@ -191,8 +189,8 @@ c
      .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
      .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
-     .          EINT     ,AREA     ,AL       , F1      ,F2       ,F3      ,
-     .          M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
+     .          EINT     ,AREA     ,AL       ,LBUF%DMGSCL ,
+     .          SNPC     ,NPF      ,STF     ,
      .          TF,IPT)
 
 c-------------

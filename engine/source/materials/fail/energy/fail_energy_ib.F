@@ -31,9 +31,8 @@ Chd|====================================================================
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           EINT     ,AREA     ,AL       , F1      ,
-     .           F2       ,F3       ,M1       ,M2       ,
-     .           M3       ,SNPC     ,NPF      , STF     , 
+     .           EINT     ,AREA     ,AL       , DAMSCL  ,
+     .           SNPC     ,NPF      ,STF      , 
      .           TF       ,IPT)
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 18)
@@ -64,11 +63,10 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL,2)   ,INTENT(INOUT) :: EINT    !internal energy
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: F1,F2,F3 !force
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: M1,M2,M3 !moment
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -116,13 +114,8 @@ c-----------------------------
         ENDIF 
       ENDDO     
       DO I=1,NEL
-        IF(RIEF1 < RIEF2)THEN         
-          F1(I) = (ONE - DAMAGE(I))*F1(I)
-          F2(I) = (ONE - DAMAGE(I))*F2(I)
-          F3(I) = (ONE - DAMAGE(I))*F3(I)
-          M1(I) = (ONE - DAMAGE(I))*M1(I)
-          M2(I) = (ONE - DAMAGE(I))*M2(I)
-          M3(I) = (ONE - DAMAGE(I))*M3(I)
+        IF(RIEF1 < RIEF2)THEN  
+          DAMSCL(I) = ONE - DAMAGE(I)
         END IF
       ENDDO      
 c------------------------
