@@ -20,6 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  MAT122_NICE                   source/materials/mat/mat122/mat122_nice.F
+Chd|-- called by -----------
+Chd|        SIGEPS122                     source/materials/mat/mat122/sigeps122.F
+Chd|-- calls ---------------
+Chd|        VINTER                        source/tools/curve/vinter.F   
+Chd|====================================================================
       SUBROUTINE MAT122_NICE(
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    , 
      2     EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,

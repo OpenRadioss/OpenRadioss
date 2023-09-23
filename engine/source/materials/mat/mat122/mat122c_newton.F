@@ -20,6 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  MAT122C_NEWTON                source/materials/mat/mat122/mat122c_newton.F
+Chd|-- called by -----------
+Chd|        SIGEPS122C                    source/materials/mat/mat122/sigeps122c.F
+Chd|-- calls ---------------
+Chd|        VINTER                        source/tools/curve/vinter.F   
+Chd|====================================================================
       SUBROUTINE MAT122C_NEWTON(
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,
      2     EPSXX   ,EPSYY   ,RHO     ,PLA     ,DPLA    ,

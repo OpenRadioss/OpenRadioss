@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        M25CRAK                       source/materials/mat/mat025/m25crak.F
 Chd|        PRONY25C                      source/materials/mat/mat025/prony25c.F
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS25C(
      1                    JFT      ,JLT     ,PM       ,OFF     ,GSTR    ,

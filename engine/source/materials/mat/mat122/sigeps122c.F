@@ -20,6 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  SIGEPS122C                    source/materials/mat/mat122/sigeps122c.F
+Chd|-- called by -----------
+Chd|        MULAWC                        source/materials/mat_share/mulawc.F
+Chd|-- calls ---------------
+Chd|        MAT122C_NEWTON                source/materials/mat/mat122/mat122c_newton.F
+Chd|        MAT122C_NICE                  source/materials/mat/mat122/mat122c_nice.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|====================================================================
       SUBROUTINE SIGEPS122C(
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,  
      2     EPSXX   ,EPSYY   ,RHO     ,PLA     ,DPLA    ,

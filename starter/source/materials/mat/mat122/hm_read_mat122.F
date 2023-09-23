@@ -20,6 +20,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  HM_READ_MAT122                source/materials/mat/mat122/hm_read_mat122.F
+Chd|-- called by -----------
+Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
+Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
+Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
+Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
+Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
+Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
+Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|====================================================================
       SUBROUTINE HM_READ_MAT122(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MAXFUNC  ,  
      .           NFUNC    ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,

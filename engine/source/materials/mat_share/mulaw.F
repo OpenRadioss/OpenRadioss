@@ -84,6 +84,7 @@ Chd|        SIGEPS112                     source/materials/mat/mat112/sigeps112.
 Chd|        SIGEPS115                     source/materials/mat/mat115/sigeps115.F
 Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
 Chd|        SIGEPS121                     source/materials/mat/mat121/sigeps121.F
+Chd|        SIGEPS122                     source/materials/mat/mat122/sigeps122.F
 Chd|        SIGEPS124                     source/materials/mat/mat124/sigeps124.F
 Chd|        SIGEPS187                     source/materials/mat/mat187/sigeps187.F
 Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F

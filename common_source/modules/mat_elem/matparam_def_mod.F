@@ -49,6 +49,7 @@ Chd|        HM_READ_MAT119                starter/source/materials/mat/mat119/hm
 Chd|        HM_READ_MAT12                 starter/source/materials/mat/mat012/hm_read_mat12.F
 Chd|        HM_READ_MAT120                starter/source/materials/mat/mat120/hm_read_mat120.F
 Chd|        HM_READ_MAT121                starter/source/materials/mat/mat121/hm_read_mat121.F
+Chd|        HM_READ_MAT122                starter/source/materials/mat/mat122/hm_read_mat122.F
 Chd|        HM_READ_MAT124                starter/source/materials/mat/mat124/hm_read_mat124.F
 Chd|        HM_READ_MAT13                 starter/source/materials/mat/mat013/hm_read_mat13.F
 Chd|        HM_READ_MAT14                 starter/source/materials/mat/mat014/hm_read_mat14.F
@@ -127,6 +128,8 @@ Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        S4VOLN_M                      engine/source/elements/solid/solide4_sfem/s4voln_m.F
 Chd|        SIGEPS190                     engine/source/materials/mat/mat190/sigeps190.F
+Chd|        SIGEPS25C                     engine/source/materials/mat/mat025/sigeps25c.F
+Chd|        SIGEPS66C                     engine/source/materials/mat/mat066/sigeps66c.F
 Chd|        SIGEPS76                      engine/source/materials/mat/mat076/sigeps76.F
 Chd|        SIGEPS76C                     engine/source/materials/mat/mat076/sigeps76c.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F

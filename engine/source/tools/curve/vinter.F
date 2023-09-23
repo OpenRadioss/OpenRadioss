@@ -26,6 +26,10 @@ Chd|-- called by -----------
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
 Chd|        FIXTEMP                       source/constraints/thermic/fixtemp.F
+Chd|        MAT122C_NEWTON                source/materials/mat/mat122/mat122c_newton.F
+Chd|        MAT122C_NICE                  source/materials/mat/mat122/mat122c_nice.F
+Chd|        MAT122_NEWTON                 source/materials/mat/mat122/mat122_newton.F
+Chd|        MAT122_NICE                   source/materials/mat/mat122/mat122_nice.F
 Chd|        MAT87C_TABULATED_TOTALSR      source/materials/mat/mat087/mat87c_tabulated_totalsr.F
 Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
 Chd|        SIGEPS187                     source/materials/mat/mat187/sigeps187.F

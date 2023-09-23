@@ -69,6 +69,7 @@ Chd|        HM_READ_MAT117                source/materials/mat/mat117/hm_read_ma
 Chd|        HM_READ_MAT11_K_EPS           source/materials/mat/mat011/hm_read_mat11_k_eps.F
 Chd|        HM_READ_MAT120                source/materials/mat/mat120/hm_read_mat120.F
 Chd|        HM_READ_MAT121                source/materials/mat/mat121/hm_read_mat121.F
+Chd|        HM_READ_MAT122                source/materials/mat/mat122/hm_read_mat122.F
 Chd|        HM_READ_MAT158                source/materials/mat/mat158/hm_read_mat158.F
 Chd|        HM_READ_MAT16                 source/materials/mat/mat016/hm_read_mat16.F
 Chd|        HM_READ_MAT190                source/materials/mat/mat190/hm_read_mat190.F

@@ -28,8 +28,6 @@ Chd|        HM_READ_VISC_LPRONY           starter/source/materials/visc/hm_read_
 Chd|        HM_READ_VISC_PRONY            starter/source/materials/visc/hm_read_visc_prony.F
 Chd|        WRITE_VISCPARAM               starter/source/materials/mat/write_viscparam.F
 Chd|        READ_VISCPARAM                engine/source/output/restart/read_viscparam.F
-Chd|        SIGEPS25C                     engine/source/materials/mat/mat025/sigeps25c.F
-Chd|        SIGEPS66C                     engine/source/materials/mat/mat066/sigeps66c.F
 Chd|        VISCMAIN                      engine/source/materials/visc/viscmain.F
 Chd|        VISC_ET                       engine/source/elements/solid/solidez/visc_et.F
 Chd|        VISC_PRONY                    engine/source/materials/visc/visc_prony.F

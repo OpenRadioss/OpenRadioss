@@ -529,6 +529,8 @@ Chd|        SIGEPS112                     engine/source/materials/mat/mat112/sig
 Chd|        SIGEPS112C                    engine/source/materials/mat/mat112/sigeps112c.F
 Chd|        SIGEPS121                     engine/source/materials/mat/mat121/sigeps121.F
 Chd|        SIGEPS121C                    engine/source/materials/mat/mat121/sigeps121c.F
+Chd|        SIGEPS122                     engine/source/materials/mat/mat122/sigeps122.F
+Chd|        SIGEPS122C                    engine/source/materials/mat/mat122/sigeps122c.F
 Chd|        SIGEPS22G                     engine/source/materials/mat/mat022/sigeps22g.F
 Chd|        SIGEPS37_SINGLE_CELL          engine/source/interfaces/int22/sigeps37_single_cell.F
 Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F
