@@ -47,7 +47,7 @@ Chd|====================================================================
      6       IPART  ,SH4TREE ,NOD2ELC   ,ISHEOFF ,
      7       SH4TRIM ,TAGPRT_SMS,LGAUGE  ,IWORKSH ,
      8       STACK   ,DRAPE    ,RNOISE  ,MATPARAM_TAB,
-     9       SH4ANG, IDDLEVEL , DRAPEG,PRINT_FLAG)
+     9       SH4ANG, IDDLEVEL , DRAPEG,PRINT_FLAG,PTSHEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -108,6 +108,7 @@ C-----------------------------------------------
      .    NOD2ELC(*),IWORKSH(3,*)
       INTEGER, INTENT(IN) :: IDDLEVEL
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
+      INTEGER , DIMENSION(NUMELC) , INTENT(INOUT):: PTSHEL
       MY_REAL
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*),THK(*),RNOISE(NPERTURB,*),
      .    SH4ANG(*)
@@ -136,7 +137,7 @@ C-----------------------------------------------
      .   NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0,ISHEL
       my_real
      .  ANGLE(NUMELC)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2,INUM_PTSHEL
 
       INTEGER MODE,WORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR,INUM_WORKSH
@@ -288,6 +289,12 @@ C
              ANGLE(I) = SH4ANG(NFT+I)          
            ENDDO          
         ENDIF   
+        IF(ABS(ISIGI) == 3  .OR. ABS(ISIGI) == 4 .OR. ABS(ISIGI) == 5) THEN
+          ALLOCATE(INUM_PTSHEL(NEL))
+          DO I = 1, NEL
+            INUM_PTSHEL(I)=PTSHEL(NFT+I)
+          ENDDO
+         ENDIF    
 C
         IF(NADMESH/=0)THEN
           DO  K=1,KSH4TREE
@@ -395,7 +402,13 @@ C
                SH4ANG(NFT+I) = ANGLE(INDEX(I))
             ENDDO
         ENDIF   ! NDRAPE  
-
+        
+        IF(ABS(ISIGI)==3.OR.ABS(ISIGI)== 4.OR.ABS(ISIGI)==5)THEN
+         DO I=1,NEL
+           PTSHEL(NFT+I) = INUM_PTSHEL(INDEX(I))
+         ENDDO  
+          DEALLOCATE(INUM_PTSHEL)
+        ENDIF
         IF(NADMESH/=0)THEN
             DO  K=1,KSH4TREE
                 DO  I=1,NEL

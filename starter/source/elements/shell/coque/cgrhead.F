@@ -41,7 +41,7 @@ Chd|====================================================================
      4       CEP     ,XEP     ,IGEO      ,IPM    ,
      5       IPART   ,SH4TREE ,NOD2ELC   ,ISHEOFF,SH4TRIM,
      6       TAGPRT_SMS, LGAUGE,IWORKSH,
-     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG)
+     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG, PTSHEL )
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -87,6 +87,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
 #include      "drape_c.inc"
+#include      "com01_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
@@ -97,6 +98,7 @@ C-----------------------------------------------
      .        SH4TREE(KSH4TREE,*), NOD2ELC(*), SH4TRIM(*),
      .        TAGPRT_SMS(*) ,LGAUGE(3,*),
      .        IWORKSH(3,*)
+      INTEGER , DIMENSION(NUMELC) , INTENT(INOUT):: PTSHEL
 C     REAL OU REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),XNUM(*),THK(*), RNOISE(NPERTURB,*),
@@ -130,7 +132,7 @@ C-----------------------------------------------
      .  ANGLE(NUMELC)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPIDL
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSHEL
 C     REAL OU REAL*8
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
 C
@@ -187,6 +189,12 @@ C----------------------------------------------------------
         ELSE
             ALLOCATE( XNUM_DRAPE(0) )
         ENDIF
+      IF(ABS(ISIGI) == 3 .OR. ABS(ISIGI) == 4 .OR. ABS(ISIGI) == 5) THEN
+        ALLOCATE(INUM_PTSHEL(NUMELC))
+        INUM_PTSHEL = 0
+      ELSE
+        ALLOCATE(INUM_PTSHEL(0))
+      ENDIF  
 C
       IF (NPERTURB > 0) THEN
         ALLOCATE(XNUM_RNOISE(NPERTURB,NUMELC),STAT=stat)
@@ -275,6 +283,9 @@ C
             ANGLE(I)=SH4ANG(I) 
          ENDDO
        ENDIF   
+       IF(ABS(ISIGI)==3.OR.ABS(ISIGI)== 4.OR.ABS(ISIGI)==5)THEN
+         INUM_PTSHEL(1:NUMELC) = PTSHEL(1:NUMELC)
+       ENDIF
 C
       IF(NADMESH /= 0)THEN
         DO  K=1,KSH4TREE
@@ -556,6 +567,11 @@ C
           SH4ANG(I)=ANGLE(INDEX(I))
         ENDDO
       ENDIF  
+      IF(ABS(ISIGI)==3.OR.ABS(ISIGI)== 4.OR.ABS(ISIGI)==5)THEN
+         DO I=1,NUMELC
+          PTSHEL(I) = INUM_PTSHEL(INDEX(I))
+         ENDDO  
+       ENDIF
 C
       IF(NADMESH /= 0)THEN
         DO  K=1,KSH4TREE
@@ -672,5 +688,6 @@ c
       ELSE
          DEALLOCATE( XNUM_DRAPE )      
       ENDIF
+      IF(ALLOCATED(INUM_PTSHEL))DEALLOCATE(INUM_PTSHEL)
       RETURN
       END

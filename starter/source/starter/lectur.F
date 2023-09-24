@@ -1659,6 +1659,15 @@ C---  Allocations
      .                           MSGTYPE=MSGERROR,
      .                           C1='R_SKEW')
 C
+      IF(ABS(ISIGI)==3.OR.ABS(ISIGI)== 4.OR.ABS(ISIGI)==5)THEN
+         ALLOCATE (PTSHEL(NUMELC)   ,STAT=stat) 
+         PTSHEL = 0
+         ALLOCATE (PTSH3N(NUMELTG)  ,STAT=stat)
+          PTSH3N = 0  
+      ELSE
+        ALLOCATE (PTSHEL(0)  ,STAT=stat)
+        ALLOCATE (PTSH3N(0)  ,STAT=stat)
+      END IF
 C --- Initialisations
       IF(SICODE > 0) ICODE   = 0
       IF(SLSHSUB > 0) LSHSUB  = 0
@@ -5953,7 +5962,7 @@ C
      4   CEP(OFF),XEP     ,IGEO    ,IPM     ,
      5   IPART   ,SH4TREE ,NOD2ELC ,ISHEOFF ,SH4TRIM ,
      6   TAGPRT_SMS,LGAUGE,IWORKSH ,
-     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG)
+     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG, PTSHEL)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -5982,7 +5991,7 @@ C
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
      8        STACK    ,DRAPE   ,RNOISE  ,MAT_ELEM%MAT_PARAM,
-     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI)
+     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI, PTSHEL)
 
          OFF = OFF + NUMELC
 
@@ -6180,7 +6189,7 @@ C---------------------------------
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM , SH3ANG,DRAPEG)
+     8     MULTI_FVM , SH3ANG,DRAPEG,PTSH3N)
        ELSE
          CALL T3GRHEAD(
      1     IXTG    ,PM      ,GEO      ,INUM    ,BID13   ,
@@ -6190,7 +6199,7 @@ C---------------------------------
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM ,SH3ANG,DRAPEG)
+     8     MULTI_FVM ,SH3ANG,DRAPEG,PTSH3N)
        ENDIF
 C---------------------------------
 C-  GROUPAGE SPMD
@@ -6219,7 +6228,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,
-     9          MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG,IPRI )
+     9          MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG,IPRI ,PTSH3N)
          ELSE
            CALL T3GRTAILS(
      1          IXTG     ,PM       ,IPARGTMP ,GEO      ,
@@ -6230,7 +6239,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,USER_INIVOL,
-     9          SH3ANG ,DRAPEG,IPRI)
+     9          SH3ANG ,DRAPEG,IPRI,PTSH3N)
          ENDIF
          OFF = OFF + NUMELTG
          DO I=1,NUMELTG
@@ -8055,19 +8064,6 @@ C
 C
       CALL TRACE_OUT1()
 C--------------------------------------------
-      IF(ABS(ISIGI)==3.OR.ABS(ISIGI)==4.OR.ABS(ISIGI)==5)THEN
-        IF(.NOT.ALLOCATED(PTSHEL)) THEN
-         ALLOCATE (PTSHEL(NUMELC)   ,STAT=stat) 
-         PTSHEL = 0
-        ENDIF 
-        IF(.NOT.ALLOCATED(PTSH3N)) THEN 
-          ALLOCATE (PTSH3N(NUMELTG)  ,STAT=stat)
-           PTSH3N = 0
-         ENDIF   
-      ELSE
-        ALLOCATE (PTSHEL(0)  ,STAT=stat)
-        ALLOCATE (PTSH3N(0)  ,STAT=stat)
-      END IF
       ! still need for *Y00, *sty files - not yet covered by CFG files (hm_reader)
       IF(IDDLEVEL == 0) CALL YCTRL(IGRBRIC)
 !
@@ -8521,8 +8517,8 @@ C
       DEALLOCATE(STRAGLOB)
       DEALLOCATE(ORTHOGLOB)
 C
-      DEALLOCATE(PTSHEL)
-      DEALLOCATE(PTSH3N)
+      IF(ALLOCATED(PTSHEL))DEALLOCATE(PTSHEL)
+      IF(ALLOCATED(PTSH3N))DEALLOCATE(PTSH3N)
       DEALLOCATE(PTSOL)
       DEALLOCATE(PTQUAD)
       DEALLOCATE(PTSPH)
