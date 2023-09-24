@@ -373,18 +373,18 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                   ! Reading  ---  ID_ELEM, NIP, NPG, THK  ---
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
-                  CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
-               
+                  CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)              
 !    
                  IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                 IF(IE == 0 ) CYCLE 
                  IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                   NUMSHEL = NUMSHEL + 1
                   PTSHEL(IE) = NUMSHEL 
-                  IF (NIP == 0) THEN
+                 ENDIF 
+                 IF (NIP == 0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
-                  ELSE
+                 ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-                  ENDIF
                  ENDIF 
 !
                 ENDDO ! DO J=1,NB_ELEMENTS
@@ -402,15 +402,16 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                     !
                     IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                    IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                         NUMSHEL = NUMSHEL + 1
                         PTSHEL(IE) = NUMSHEL 
-                       IF (NIP == 0) THEN
+                    ENDIF    
+                    IF (NIP == 0) THEN
                          NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
-                       ELSE
+                    ELSE
                          NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
-                       ENDIF
-                    ENDIF ! IE > 0     
+                    ENDIF  
 !
                   ENDDO ! DO J=1,NB_ELEMENTS
 !
@@ -423,18 +424,19 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                     CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
-                    IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
-                     
+                    IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)                    
 !
+
+                    IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                        NUMSHEL = NUMSHEL + 1
                        PTSHEL(IE) = NUMSHEL 
-                       IF (NIP == 0) THEN
+                    ENDIF   
+                    IF (NIP == 0) THEN
                          NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
-                       ELSE
+                    ELSE
                          NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-                       ENDIF
-                    ENDIF ! IE > 0   
+                    ENDIF   
 !
                   ENDDO ! DO J=1,NB_ELEMENTS
 !
@@ -451,10 +453,11 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                     IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                    IF (NIP==0) NIP=2
+                    IF (NIP==0) NIP=2                    
+                    IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                         NUMSHEL = NUMSHEL + 1
-                        PTSHEL(IE) = NUMSHEL  
+                        PTSHEL(IE) = NUMSHEL 
                     ENDIF ! IE > 0   
 C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1             
                     NVSH_STRA = MAX(NVSH_STRA,2*MAX(1,NPG)*7)
@@ -470,6 +473,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                     IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
+                    IF(IE == 0 ) CYCLE 
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*8)
                     IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                       NUMSHEL = NUMSHEL + 1
@@ -485,6 +489,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                  DO J=1,NB_ELEMENTS
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                      NUMSHEL = NUMSHEL + 1
                      PTSHEL(IE) = NUMSHEL 
@@ -499,6 +504,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                 DO J=1,NB_ELEMENTS
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                      NUMSHEL = NUMSHEL + 1
                      PTSHEL(IE) = NUMSHEL 
@@ -511,7 +517,8 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
 !
                 DO J=1,NB_ELEMENTS
                    CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
-                       IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                      NUMSHEL = NUMSHEL + 1
                      PTSHEL(IE) = NUMSHEL
@@ -522,6 +529,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                     NUMSHEL = NUMSHEL + 1
                     PTSHEL(IE) = NUMSHEL 
@@ -547,6 +555,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   !
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                     NUMSHEL = NUMSHEL + 1
                     PTSHEL(IE) = NUMSHEL 
@@ -571,6 +580,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   !!
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                     NUMSHEL = NUMSHEL + 1
                     PTSHEL(IE) = NUMSHEL
@@ -594,6 +604,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   !!
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                     NUMSHEL = NUMSHEL + 1
                     PTSHEL(IE) = NUMSHEL 
@@ -618,6 +629,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   !!
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSHEL(IE)== 0 ) THEN
                     NUMSHEL = NUMSHEL + 1
                     PTSHEL(IE) = NUMSHEL 
@@ -682,6 +694,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                   IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                  IF(IE == 0 ) CYCLE 
                   IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                     NUMSH3N = NUMSH3N + 1
                     PTSH3N(IE) = NUMSH3N
@@ -707,6 +720,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                     IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                    IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                        NUMSH3N = NUMSH3N + 1
                        PTSH3N(IE) = NUMSH3N
@@ -731,6 +745,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                     IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                    IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                       NUMSH3N = NUMSH3N + 1
                       PTSH3N(IE) = NUMSH3N
@@ -756,6 +771,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                     IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                    IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                       NUMSH3N = NUMSH3N + 1
                       PTSH3N(IE) = NUMSH3N
@@ -775,6 +791,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                     IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                     IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                       NUMSH3N = NUMSH3N + 1
                       PTSH3N(IE) = NUMSH3N
@@ -791,6 +808,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                  DO J=1,NB_ELEMENTS
                    CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                      PTSH3N(IE) = NUMSH3N
@@ -804,6 +822,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   DO J=1,NB_ELEMENTS
                    CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                      PTSH3N(IE) = NUMSH3N
@@ -818,6 +837,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                       PTSH3N(IE) = NUMSH3N
@@ -844,6 +864,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('ndir',NDIR,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                      PTSH3N(IE) = NUMSH3N
@@ -868,6 +889,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                      PTSH3N(IE) = NUMSH3N
@@ -891,6 +913,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('nvars',NUVAR,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                      PTSH3N(IE) = NUMSH3N
@@ -915,6 +938,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('Nvar',NVAR_RUPT,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
                    IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
+                   IF(IE == 0 ) CYCLE 
                    IF(IE > 0 .AND. PTSH3N(IE) == 0) THEN
                      NUMSH3N = NUMSH3N + 1
                      PTSH3N(IE) = NUMSH3N

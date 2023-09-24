@@ -43,7 +43,7 @@ Chd|====================================================================
      5       IGEO    ,IPM     ,IPART   ,SH3TREE ,NOD2ELTG,
      6       ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7       IWORKSH , STACK  ,DRAPE   ,RNOISE,
-     8       MULTI_FVM, SH3ANG,DRAPEG)
+     8       MULTI_FVM, SH3ANG,DRAPEG, PTSH3N )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
 C   C O M M O N   B L O C K S
 C-----------------------------------------------
 #include      "com04_c.inc"
+#include      "com01_c.inc"
 #include      "com_xfem1.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
@@ -95,6 +96,7 @@ C-----------------------------------------------
      .    IGEO(NPROPGI,*),IPM(NPROPMI,*), IPART(LIPART1,*), 
      .    SH3TREE(KSH3TREE,*), NOD2ELTG(*), SH3TRIM(*),
      .    TAGPRT_SMS(*),IWORKSH(3,*)
+      INTEGER , DIMENSION(NUMELTG) , INTENT(INOUT):: PTSH3N
 C     REAL OU REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*), THK(*), RNOISE(NPERTURB,*),
@@ -130,7 +132,7 @@ C     REAL OU REAL*8
       CHARACTER*nchartitle,
      .   TITR
 C
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
 
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
@@ -186,6 +188,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         ELSE
             ALLOCATE( XNUM_DRAPE(0) )
         ENDIF
+        IF(ABS(ISIGI) == 3 .OR. ABS(ISIGI) == 4 .OR. ABS(ISIGI) == 5) THEN
+           ALLOCATE(INUM_PTSH3N(NUMELTG))
+           INUM_PTSH3N = 0
+        ELSE
+           ALLOCATE(INUM_PTSH3N(0))
+        ENDIF 
 C
 C----------------------------------------------------------
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
@@ -277,6 +285,9 @@ C
            ANGLE(I)=SH3ANG(I)
          ENDDO
       ENDIF
+      IF(ABS(ISIGI)==3.OR.ABS(ISIGI)== 4.OR.ABS(ISIGI)==5)THEN
+         INUM_PTSH3N(1:NUMELTG) = PTSH3N(1:NUMELTG)
+       ENDIF
 C
       IF(NADMESH/=0)THEN
         DO  K=1,KSH3TREE
@@ -592,6 +603,11 @@ C
         ENDDO 
       ENDIF
       !
+      IF(ABS(ISIGI)==3.OR.ABS(ISIGI)== 4.OR.ABS(ISIGI)==5)THEN
+         DO I=1,NUMELTG
+          PTSH3N(I) = INUM_PTSH3N(INDEX(I))
+         ENDDO  
+       ENDIF
       IF(NADMESH/=0)THEN
         DO  K=1,KSH3TREE
           DO  I=1,NUMELTG
@@ -711,5 +727,6 @@ C
       ELSE
          DEALLOCATE( XNUM_DRAPE )      
       ENDIF
+      IF(ALLOCATED(INUM_PTSH3N))DEALLOCATE(INUM_PTSH3N)
       RETURN
       END
