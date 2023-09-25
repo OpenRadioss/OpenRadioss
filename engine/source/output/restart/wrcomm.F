@@ -159,7 +159,7 @@ C-----
       TABVINT(23) =NSPMD
       TABVINT(24) =LENWA
       TABVINT(25) =ISGIFL
-      TABVINT(26) =ISUB
+      TABVINT(26) =0 !no longer used
       TABVINT(27) =NNODS
       TABVINT(28) =NCNOIS
       TABVINT(29) =LCNE0
@@ -175,7 +175,7 @@ C-----
 C   -------- Tailles des tableaux entiers --------
       TABVINT(36)  = 0
       TABVINT(37)  = SICODE
-      TABVINT(38)  = SLSHSUB
+      TABVINT(38)  = 0
       TABVINT(39)  = SISKEW
       TABVINT(40)  = SISKWN
       TABVINT(41)  = SIFRAME
@@ -331,12 +331,11 @@ C
       TABVINT(187) = SALPH
       TABVINT(188) = SWB
       TABVINT(189) = SDSAVE
-      TABVINT(190) = SDRSAVE
       TABVINT(191) = SASAVE
-      TABVINT(192) = SARSAVE
-      TABVINT(193) = SSTSAVE
-      TABVINT(194) = SSTRSAVE
-      TABVINT(195) = SFSAVSAV
+      TABVINT(192) = 0 !no longer used
+      TABVINT(193) = 0 !no longer used
+      TABVINT(194) = 0 !no longer used
+      TABVINT(195) = 0 !no longer used
       TABVINT(196) = SSPBUF
       TABVINT(200) = SVSPHIO
       TABVINT(201) = SSPHVELN
@@ -825,10 +824,6 @@ C-----
       TABVINT(LVARINT)=LEIBUF
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NINTSUB
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=MSHSUB
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NSHFRONT
 C--------------------------------------
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IROOTYY

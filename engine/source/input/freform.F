@@ -143,7 +143,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "check.inc"
-#include      "subc_c.inc"
 #include      "scr19_c.inc"
 #include      "ddspmd_c.inc"
 #include      "sms_c.inc"
@@ -165,7 +164,7 @@ C-----------------------------------------------
      .   KUPWM, KMON,KDT1,KINCMP,KTH, KSTOP, KKILL,
      .   KMADYM,KSPMD,KRAD2R,KDAMP,N_DAMP, KATFIL,KBTFIL,KCTFIL,KDTFIL,
      .   KETFIL,KFTFIL,KGTFIL,KHTFIL,KITFIL, KRERUN,  KFXINP,
-     .   NFXINP,KOSHSUB,KEIG,NEIGOFF,NEOFF,KFVBAG,
+     .   NFXINP,KEIG,NEIGOFF,NEOFF,KFVBAG,
      .   NFVMESH,KSTATF,KSHVER,KABF,KDTSDE,
      .   KAABF,KBABF,KCABF,KDABF,KEABF,KFABF,KGABF,KHABF,KIABF,NFVMODI,
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
@@ -218,7 +217,7 @@ C-----------------------------------------------
      .     'SPMD '   ,'RAD2R'   ,'DAMP'    ,'ATFIL'   ,'BTFIL'   ,
      .     'CTFIL'   ,'DTFIL'   ,'ETFIL'   ,'FTFIL'   ,'GTFIL'   ,
      .     'HTFIL'   ,'ITFIL'   ,'RERUN'   ,''        ,'FXINP'   ,
-     .     'SHSUB'   ,''        ,'EIG'     ,''        ,'FVMBA'   ,
+     .     ''        ,''        ,'EIG'     ,''        ,'FVMBA'   ,
      .     ''        ,'STATE'   ,'SHVER'   ,''        ,'ABF'     ,
      .     'DTSDE'   ,'AABF'    ,'BABF'    ,'CABF'    ,'DABF'    ,
      .     'EABF '   ,'FABF'    ,'GABF'    ,'HABF'    ,'IABF'    ,
@@ -238,7 +237,7 @@ C-----------------------------------------------
      .     KSPMD/46/  ,KRAD2R/47/   ,KDAMP/48/    ,KATFIL/49/  ,KBTFIL/50/ ,
      .     KCTFIL/51/ ,KDTFIL/52/   ,KETFIL/53/   ,KFTFIL/54/  ,KGTFIL/55/ ,
      .     KHTFIL/56/ ,KITFIL/57/   ,KRERUN/58/   ,KFXINP/60/,
-     .     KOSHSUB/61/,              KEIG/63/     ,             KFVBAG/65/ ,
+     .                               KEIG/63/     ,             KFVBAG/65/ ,
      .                 KSTATF/67/   ,KSHVER/68/   ,KABF/70/  ,
      .     KDTSDE/71/ ,KAABF/72/    ,KBABF/73/    ,KCABF/74/   ,KDABF/75/  ,
      .     KEABF/76/  ,KFABF/77/    ,KGABF/78/    ,KHABF/79/   ,KIABF/80/  ,
@@ -1169,11 +1168,6 @@ C           if /DT/AMS is read later, then following definition can be erased
          DTFAC1(51) = DTFACA
          DTMIN1(51) = DTMINA
          IDTMIN(51) = IDT
-        ELSEIF(KEY2(1:5)=='SHNOD')THEN
-         ALE%SUB%DTFSUB = DTFACA
-         ALE%SUB%DTMSUB = DTMINA
-         ALE%SUB%NODSUBDT=1
-         IF(IDT==3)ALE%SUB%NODSUBDT=2
         ELSEIF(KEY2(1:5)=='FVMBA') THEN
          IF(KEY3(1:1)=='0')THEN
            ID_DT_OPTION = 0
@@ -2216,21 +2210,7 @@ C--------------------
          IF (IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 780
       ENDIF
       WRITE(IIN,'(I8)')NFXINP
-      
-C-----------------------
-C     /SHSUB (SHELLS SUB-CYCLING)
-C-----------------------
-      ISHSUB = 0
-      IKEY=KOSHSUB
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-        ISHSUB=1
-        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,I5,X,I5)',ERR=9990)NCPRISH,NCTRLSH
-        WRITE(IIN,'(2I8)')NCPRISH,NCTRLSH
-      ELSE
-        NCPRISH=0
-        NCTRLSH=0
-      ENDIF
-      
+
 C--------------------
 C    /EIG (EIGENPROBLEM DEACTIVATION)
 C--------------------

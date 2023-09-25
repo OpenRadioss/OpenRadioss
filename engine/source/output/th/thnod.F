@@ -204,24 +204,21 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 626) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                  MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                  IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 627) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(2,I)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 628) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(3,I)
                     ELSE
@@ -418,8 +415,7 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 626) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)*SKEW(1,ISK)
      .                       + DR(2,I)*SKEW(2,ISK)
@@ -428,8 +424,7 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 627) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)*SKEW(4,ISK)
      .                       + DR(2,I)*SKEW(5,ISK)
@@ -438,8 +433,7 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 628) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)*SKEW(7,ISK)
      .                       + DR(2,I)*SKEW(8,ISK)
@@ -684,24 +678,21 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 626) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 627) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(2,I)
                     ELSE
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 628) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(3,I)
                     ELSE
@@ -826,8 +817,7 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 626) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                  MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                  IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)*SKEW(1,ISK)
      .                + DR(2,I)*SKEW(2,ISK)
@@ -836,8 +826,7 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 627) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                   IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)*SKEW(4,ISK)
      .                       + DR(2,I)*SKEW(5,ISK)
@@ -846,8 +835,7 @@ C workaround for possible PGI bug
                       WA(IJK) = ZERO
                     ENDIF
                   ELSEIF(K == 628) THEN
-                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                  MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
+                    IF ((IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
      .                  IRODDL/=0 )THEN
                       WA(IJK) = DR(1,I)*SKEW(7,ISK)
      .                       + DR(2,I)*SKEW(8,ISK)

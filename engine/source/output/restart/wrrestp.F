@@ -390,8 +390,6 @@ C--------------------------------------
 
         CALL WRITE_I_C(ICODE,SICODE)
 
-        CALL WRITE_I_C(LSHSUB,SLSHSUB)
-
         CALL WRITE_I_C(ISKEW,SISKEW)
 
         CALL WRITE_I_C(ISKWN,SISKWN)
@@ -1039,17 +1037,7 @@ C--------------------------------------
 
          CALL WRITE_DB(DSAVE,SDSAVE)
 
-         CALL WRITE_DB(DRSAVE,SDRSAVE)
-
          CALL WRITE_DB(ASAVE,SASAVE)
-
-         CALL WRITE_DB(ARSAVE,SARSAVE)
-
-         CALL WRITE_DB(STSAVE,SSTSAVE)
-
-         CALL WRITE_DB(STRSAVE,SSTRSAVE)
-
-         CALL WRITE_DB(FSAVSAV,SFSAVSAV)
 
          CALL WRITE_DB(SPBUF,SSPBUF)
 

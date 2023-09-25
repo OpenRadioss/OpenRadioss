@@ -151,10 +151,6 @@ C
         TEMP_INT = IPARI0
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C
-        WRITE(VARNAME,'(A)') 'MSHSUB'
-        TEMP_INT = MSHSUB
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
-C
       END IF
 C-----------------------------------------------
 C     /DEF_SOLID

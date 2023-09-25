@@ -22,12 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR06/
       COMMON /SCR06/ INERI, IPLAST, IOFC0, ISHF, NCINP, 
-     .               ISHSUB, IREPORT,IH3DREADER,IHTML,
+     .               IREPORT,IH3DREADER,IHTML,
      .               IMVW,IMVW_REF,NINTSKIDOLD,ANIMCONT
       COMMON /SCR06R/ HVISC, HELAS, HVLIN, DT12S,
      .        DMTMXS,DMNMXS,DEMXS,DMTMXK,DMNMXK,DEMXK
       INTEGER INERI, IPLAST, IOFC0, ISHF, NCINP, 
-     .        ISHSUB, IREPORT,IH3DREADER,IHTML,
+     .        IREPORT,IH3DREADER,IHTML,
      .        IMVW,IMVW_REF,NINTSKIDOLD,ANIMCONT
       my_real 
      .        HVISC, HELAS, HVLIN, DT12S,

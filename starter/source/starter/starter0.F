@@ -614,8 +614,6 @@ C
       NMADSOL=0
       NMADNOD=0
       I7STIFS=0
-      MSHSUB  =0
-      NSHFRONT=0
       NRDAMP=21
       NIFLOW=28
       NRFLOW=24

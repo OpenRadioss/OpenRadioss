@@ -1440,9 +1440,7 @@ C-------save Fint par AC,ACR---------
           ENDIF
 C
           CALL INTEGRATOR1_HP(D_IMP ,D    )
-          IF ((ISUB>0.OR.ISECUT>0.OR.IISROT>0
-     .      .OR.ISHSUB/=0.OR.IMPOSE_DR/=0 .OR. IDROT==1)
-     .      .AND. IRODDL/=0) THEN
+          IF ((ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR/=0 .OR. IDROT==1) .AND. IRODDL/=0) THEN
            CALL INTEGRATOR1_HP(DR_IMP,DR)
           ENDIF
 C
@@ -1889,8 +1887,8 @@ C---------------------------------
           CALL IMP_DTN(IT,R_IMP(11),R_IMP(10),R_IMP(24))
           IF ( IQSTAT>0) CALL DIS_CP(NNDL,D_IMP,DR_IMP,0    )
          ENDIF
-         IF (INCONV==1 .AND. (ISUB>0.OR.ISECUT>0.OR.IISROT>0
-     .      .OR.ISHSUB/=0.OR.IMPOSE_DR/=0 .OR. IDROT==1)
+         IF (INCONV==1 .AND. (ISECUT>0.OR.IISROT>0
+     .      .OR. IMPOSE_DR/=0 .OR. IDROT==1)
      .      .AND. IRODDL/=0) THEN
            IF (IMCONV/=3) CALL INTEGRATOR1_HP(DR_IMP,DR)
          ENDIF

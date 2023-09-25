@@ -56,7 +56,7 @@ Chd|====================================================================
 #include "my_real.inc"
 
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
-     .      ICODE,   LSHSUB,  ISKEW,    ISKWN,   IFRAME,  NETH,  
+     .      ICODE,   ISKEW,    ISKWN,   IFRAME,  NETH,  
      .      IBCSLAG,
      .      IPART,   NOM_OPT, NPC,      IXTG,    IXTG1,
      .      IXS,     IXQ,     IXC,      IXT,     IXP,     IXR,
@@ -119,8 +119,8 @@ Chd|====================================================================
      .      DAMPR,   DAMP,    MS,      IN,      TF,      PM, 
      .      SKEW,    XFRAME,  GEO,     EANI,    BUFMAT,  BUFGEO,
      .      BUFSF,   RBMPC,   GJBUFR,  W,       VEUL,    FILL, 
-     .      DFILL,   ALPH,    WB,      DSAVE,   DRSAVE,  ASAVE, 
-     .      ARSAVE,  STSAVE,  STRSAVE, FSAVSAV, SPBUF,
+     .      DFILL,   ALPH,    WB,      DSAVE,   ASAVE, 
+     .      SPBUF,
      .      VSPHIO,  SPHVELN, MSNF,    FORC    ,
      .      VEL,     FSAV,    FZERO,   XLAS,   ACCELM, 
      .      FBVEL,   GRAV,    FR_WAVE, PARTS0,

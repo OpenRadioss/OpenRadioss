@@ -66,7 +66,7 @@ Chd|====================================================================
      B    IPART     ,IPARTC    ,IPARTTG   ,SECFCUM   ,
      D    FSAVD     ,GROUP_PARAM_TAB,
      F    FZERO     ,IXTG1     ,IADTG1    ,IGEO      ,IPM       ,
-     G    MADFAIL   ,XSEC      ,FSAVSAV   ,ITASK     ,MCP       ,
+     G    MADFAIL   ,XSEC      ,ITASK     ,MCP       ,
      H    TEMP      ,FTHE      ,FTHESKY   ,
      I    MS_PLY    ,ZI_PLY    ,INOD_PXFEM,XEDGE4N   ,XEDGE3N   ,
      J    IEL_PXFEM ,IADC_PXFEM,IGROUC    ,NGROUC    ,GRESAV    ,
@@ -146,7 +146,7 @@ C     REAL
      .   BUFGEO(*) ,DT2T, SECFCUM(7,NUMNOD,NSECT),
      .   FSAVD(NTHVKI,*),
      .   FZERO(3,4,(NUMELC+NUMELTG)),XSEC(4,3,NSECT),
-     .   FSAVSAV(NTHVKI,*),MCP(*),TEMP(*),FTHE(*),FTHESKY(*),
+     .   MCP(*),TEMP(*),FTHE(*),FTHESKY(*),
      .   MS_PLY(*), ZI_PLY(*),GRESAV(*),
      .   MSTG(*), DMELTG(*), MSC(*), DMELC(*),CONDN(*),CONDNSKY(*),
      .   PTG(3,*),MSZ2(*),APINCH(3,*),STIFPINCH(*),VPINCH(3,*)
@@ -201,8 +201,7 @@ C======================================================================|
      +       .OR.TT >= TABFIS(1).OR.TT >= TABFIS(2)
      +       .OR. TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5)
      +       .OR. TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8)
-     +       .OR. TT >= TABFIS(9).OR. TT >= TABFIS(10).OR.
-     +       ISHSUB /= 0 .OR. ISTAT==3) IPRI=1
+     +       .OR. TT >= TABFIS(9).OR. TT >= TABFIS(10).OR. ISTAT==3) IPRI=1
 !
       ISENS_ENERGY = 0
       DO I=1,SENSORS%NSENSOR
@@ -474,7 +473,7 @@ C
      4           FX       ,FY ,FZ ,MX ,MY ,MZ ,
      5           NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
      6           NSTRF(K2),MS,
-     8           XSEC(1,1,I) ,FSAVSAV(1,I),pFBSAV6,IPARSENS)
+     8           XSEC(1,1,I) ,pFBSAV6,IPARSENS)
                 K0 = NSTRF(K0+24)
                ENDDO
           ENDIF
@@ -625,7 +624,7 @@ C
      4         FX ,FY ,FZ  ,MX  ,MY,  MZ,
      5         NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
      6         NSTRF(K2),MS,
-     8         XSEC(1,1,I) ,FSAVSAV(1,I), pFBSAV6,IPARSENS)
+     8         XSEC(1,1,I) , pFBSAV6,IPARSENS)
                   K0=NSTRF(K0+24)
              ENDDO
            ENDIF

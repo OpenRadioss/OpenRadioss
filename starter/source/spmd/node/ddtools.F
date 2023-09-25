@@ -259,7 +259,6 @@ Chd|        C_ICNDS10                     source/restart/ddsplit/c_icnds10.F
 Chd|        C_ILOADP                      source/restart/ddsplit/c_iloadp.F
 Chd|        C_IRBE2                       source/restart/ddsplit/c_irbe2.F
 Chd|        C_IRBE3                       source/restart/ddsplit/c_irbe3.F
-Chd|        C_ISHSUB                      source/restart/ddsplit/c_ishsub.F
 Chd|        C_JOINT_SMS                   source/constraints/general/cyl_joint/write_count_joint_sms.F
 Chd|        C_LLINK                       source/restart/ddsplit/c_llink.F
 Chd|        C_MAD                         source/restart/ddsplit/c_mad.F
@@ -317,7 +316,6 @@ Chd|        W_ICNDS10                     source/restart/ddsplit/w_icnds10.F
 Chd|        W_IRBE2                       source/restart/ddsplit/w_irbe2.F
 Chd|        W_IRBE3                       source/restart/ddsplit/w_irbe3.F
 Chd|        W_IRIVET                      source/restart/ddsplit/w_irivet.F
-Chd|        W_ISHSUB                      source/restart/ddsplit/w_ishsub.F
 Chd|        W_ISKN                        source/restart/ddsplit/w_iskn.F
 Chd|        W_JOINT_SMS                   source/constraints/general/cyl_joint/write_count_joint_sms.F
 Chd|        W_LLINK                       source/restart/ddsplit/w_llink.F

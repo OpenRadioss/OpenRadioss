@@ -365,9 +365,9 @@ C             CALL QFORC2(
           ELSEIF(ITY==3)THEN
               IOFC = 0
               IF(NG/=NGROUP)THEN
-                  IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
+                  IAD2 = IPARG(4,NG+1) - 6 * NEL
               ELSE
-                  IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
+                  IAD2 = LBUFEL - 6 * NEL + 1
               ENDIF
               IF (JHBE<11) THEN
                   IF (NCYCLE==1.AND.IMCONV==1) THEN
@@ -510,9 +510,9 @@ C----6---------------------------------------------------------------7---------8
           ELSEIF(ITY==7)THEN
               IOFC = 0
               IF(NG/=NGROUP)THEN
-                  IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
+                  IAD2 = IPARG(4,NG+1) - 6 * NEL
               ELSE
-                  IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
+                  IAD2 = LBUFEL - 6 * NEL + 1
               ENDIF
               NF1 = NFT + 1
               IF(ICNOD==6)THEN
@@ -3372,9 +3372,9 @@ C----6---------------------------------------------------------------7---------8
           ELSEIF(ITY==3)THEN
               IOFC = 0
               IF(NG/=NGROUP)THEN
-                  IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
+                  IAD2 = IPARG(4,NG+1) - 6 * NEL
               ELSE
-                  IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
+                  IAD2 = LBUFEL - 6 * NEL + 1
               ENDIF
               IF (JHBE<11) THEN
                   IF (NCYCLE==1.AND.IMCONV==1) THEN
@@ -3502,9 +3502,9 @@ C----6---------------------------------------------------------------7---------8
           ELSEIF(ITY==7)THEN
               IOFC = 0
               IF(NG/=NGROUP)THEN
-                  IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
+                  IAD2 = IPARG(4,NG+1) - 6 * NEL
               ELSE
-                  IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
+                  IAD2 = LBUFEL - 6 * NEL + 1
               ENDIF
               NF1 = NFT + 1
               IF(ICNOD==6)THEN

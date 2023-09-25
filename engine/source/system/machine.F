@@ -200,7 +200,6 @@ Chd|        S10CNDF2                      source/elements/solid/solide10/s10cndf
 Chd|        S10CNDFND                     source/elements/solid/solide10/s10cndf.F
 Chd|        S10STFE_POFF                  source/elements/solid/solide10/s10cndf.F
 Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
-Chd|        SHSUB3                        source/elements/shell/subcycling/shsub3.F
 Chd|        SINIT22_FVM                   source/interfaces/int22/sinit22_fvm.F
 Chd|        SMS_ADMESH_2                  source/ams/sms_admesh.F       
 Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   

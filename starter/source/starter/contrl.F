@@ -374,10 +374,9 @@ C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C     READING OF /ANALY
 C-------------------------------------------------------------------
-      ISUB  = 0
       IPARI0= 1
       INTEG8= 0
-      CALL HM_READ_ANALY(NANALY,IPARITH,ISUB,IPARI0,MSHSUB,LSUBMODEL)
+      CALL HM_READ_ANALY(NANALY,IPARITH,IPARI0,LSUBMODEL)
       N2D   = NANALY
 C-------------------------------------------------------------------
 C     READING OF /IMPLICIT
@@ -1401,7 +1400,7 @@ C
         ENDIF
       ENDIF
 C                                                                    012
-      WRITE(IOUT,5500)INTEG8,IPARITH,ISUB,MSHSUB,USER_WINDOWS%HAS_USER_WINDOW,IHBE_DS,
+      WRITE(IOUT,5500)INTEG8,IPARITH,USER_WINDOWS%HAS_USER_WINDOW,IHBE_DS,
      .                ITET4_D,ITET10_D,ISST_DS,ICPRE_D,IHBE_D,ISST_D,ITHK_D,
      .                IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS
       WRITE(IOUT,5501)ISHFRAM
@@ -1607,9 +1606,6 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      &         4X,'----------------'//
      & 4X,'INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .',I10/
      & 4X,'IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .',I10/
-     & 4X,'ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .',I10/
-     & 4X,'MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING',/
-     & 4X,'                                     (1:YES 0:NO). . .',I10/
      & 4X,'IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .',I10/
      & 4X,'ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .',I10/
      & 4X,'ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .',I10/
