@@ -120,7 +120,6 @@ C-----------------------------------------------
       INTERFACE
        SUBROUTINE GROUPS_GET_ELEM_LIST(arg1,arg2,arg3)
         USE SUBMODEL_MOD
-#include      "submod_c.inc"
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)

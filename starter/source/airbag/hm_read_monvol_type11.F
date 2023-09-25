@@ -79,9 +79,7 @@ C     IIN
 C     LUNIT
 #include      "sysunit.inc"
 C     IPRI
-#include      "scr03_c.inc"  
-C     NSUBMOD
-#include      "submod_c.inc"
+#include      "scr03_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

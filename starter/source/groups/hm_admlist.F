@@ -50,7 +50,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "remesh_c.inc"
 #include      "scr17_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

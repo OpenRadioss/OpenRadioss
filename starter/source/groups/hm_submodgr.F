@@ -49,7 +49,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -78,7 +77,6 @@ C-----------------------------------------------
       INTERFACE
        SUBROUTINE GROUPS_GET_ELEM_LIST(arg1,arg2,arg3)
         USE SUBMODEL_MOD
-#include      "submod_c.inc"
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
@@ -190,7 +188,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -216,7 +213,6 @@ C-----------------------------------------------
       INTERFACE
        SUBROUTINE GROUPS_GET_ELEM_LIST(arg1,arg2,arg3)
         USE SUBMODEL_MOD
-#include      "submod_c.inc"
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)

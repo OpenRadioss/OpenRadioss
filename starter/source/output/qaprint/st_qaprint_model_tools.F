@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE SENSOR_MOD
       USE FUNC2D_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
-#include      "submod_c.inc"
 #include      "sphcom.inc"
 #include      "lagmult.inc"
 C-----------------------------------------------

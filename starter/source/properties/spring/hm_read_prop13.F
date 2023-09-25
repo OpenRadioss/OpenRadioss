@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "submod_c.inc"
 #include      "sphcom.inc"
 #include      "tablen_c.inc"
 C-----------------------------------------------

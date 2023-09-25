@@ -64,7 +64,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "remesh_c.inc"
 #include      "sphcom.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "drape_c.inc"
 C-----------------------------------------------

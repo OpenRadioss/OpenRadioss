@@ -65,7 +65,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include "submod_c.inc"
 #include "nchar_c.inc"
 #include "param_c.inc"
 #include "com01_c.inc"

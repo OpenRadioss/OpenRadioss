@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "submod_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------

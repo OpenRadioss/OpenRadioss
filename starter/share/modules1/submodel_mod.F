@@ -677,42 +677,24 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
-      TYPE SUBMODEL_DATA
-C---------
-C         Id of the Submodel
-C---------
-          INTEGER NOSUBMOD
-C---------
-C         UnitId of the Submodel
-C---------
-          INTEGER UID
-C---------
-C         Internal Id of father
-C---------
-          INTEGER IFATHER
-C---------
-C         Level the Submodel in the Hierarchy : 0=main_model
-C---------
-          INTEGER LEVEL
-C---------
-C         Number of Transformations applied to the Submodel
-C---------
-          INTEGER NBTRANS
-C---------
-C         array of Transformations applied to the Submodel
-C---------
-          INTEGER, DIMENSION(:), POINTER :: IDTRANS
-C---------
-C         Offsets
-C---------
-          INTEGER OFF_DEF0,OFF_NOD0,OFF_EL0,OFF_PART0,OFF_MAT0,OFF_PROP0,
-     .            OFF_SUBMOD0
-          INTEGER OFF_DEF,OFF_NOD,OFF_EL,OFF_PART,OFF_MAT,OFF_PROP,
-     .            OFF_SUBMOD
-C---------
-C         Local Skews
-C---------
-          INTEGER SKEW
-C---------
-      END TYPE SUBMODEL_DATA
+
+        ! SIZE
+        INTEGER NSUBMOD
+
+        ! DATA STRUCTURE
+        TYPE SUBMODEL_DATA
+            INTEGER NOSUBMOD                           !Id of the Submodel
+            INTEGER UID                                !UnitId of the Submodel
+            INTEGER IFATHER                            !Internal Id of father
+            INTEGER LEVEL                              !Level the Submodel in the Hierarchy : 0=main_model
+            INTEGER NBTRANS                            !Number of Transformations applied to the Submodel
+            INTEGER SKEW !                             !Local Skews
+            INTEGER, DIMENSION(:), POINTER :: IDTRANS  !array of Transformations applied to the Submodel
+            !---Offsets
+            INTEGER OFF_DEF0,OFF_NOD0,OFF_EL0,OFF_PART0,OFF_MAT0,OFF_PROP0,OFF_SUBMOD0 
+            INTEGER OFF_DEF,OFF_NOD,OFF_EL,OFF_PART,OFF_MAT,OFF_PROP,OFF_SUBMOD
+        END TYPE SUBMODEL_DATA
+
+
       END MODULE SUBMODEL_MOD
+C-----------------------------------------------

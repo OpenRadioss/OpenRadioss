@@ -139,7 +139,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "lagmult.inc"
 #include      "flowcom.inc"
-#include      "submod_c.inc"
 #include      "xtimscr_c.inc"
 #include      "sysunit.inc"
 #include      "build_info.inc"
@@ -512,7 +511,6 @@ C new composite shell pid max nbs 200
       LFACGRV = 2
       LFACLOAD = 13
       LUNIT   = 4
-      LSUBMOD = 1
       NRVOLU =73
       NICBAG=5
       NRCBAG=9
@@ -668,7 +666,7 @@ C Runnumber is taken from input name or previous treatments
 C-------------------------------------------------------------------
       IRUN = RUNN
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ALLOCATE(LSUBMODEL(LSUBMOD))
+      ALLOCATE(LSUBMODEL(1))
       CALL FREFORM(MULTI_FVM,LSUBMODEL,ISUB_HIERARCHY,TRALL_MAXVAL,DETONATORS)
       IF(ALLOCATED(LSUBMODEL)) DEALLOCATE(LSUBMODEL)
 

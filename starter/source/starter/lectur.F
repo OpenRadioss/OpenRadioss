@@ -662,7 +662,6 @@ C-----------------------------------------------
 #include      "titr_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
-#include      "submod_c.inc"
 #include      "r2r_c.inc"
 #include      "intread_c.inc"
 #include      "elbuf_c.inc"

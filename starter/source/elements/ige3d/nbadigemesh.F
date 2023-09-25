@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "remesh_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "submod_c.inc"
 #include      "tabsiz_c.inc"
 #include      "ige3d_c.inc"
 C-----------------------------------------------

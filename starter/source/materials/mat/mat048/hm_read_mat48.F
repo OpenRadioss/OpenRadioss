@@ -67,7 +67,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------

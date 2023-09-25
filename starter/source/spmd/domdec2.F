@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE EBCS_MOD
       USE LOADS_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
-#include      "submod_c.inc"
 #include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

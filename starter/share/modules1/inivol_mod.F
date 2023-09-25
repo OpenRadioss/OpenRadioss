@@ -131,7 +131,6 @@ C------------------------------------------------
          USE SETDEF_MOD   
 #include "tabsiz_c.inc"           
 #include "com04_c.inc"  
-#include "submod_c.inc"  
          TYPE (INIVOL_)  , INTENT(INOUT), DIMENSION(:), ALLOCATABLE  :: INIVOL_STRUCT
               my_real, DIMENSION(:), ALLOCATABLE, INTENT(INOUT) :: KVOL
               INTEGER, DIMENSION(SIPART) :: IPART

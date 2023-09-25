@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
 #include      "tabsiz_c.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

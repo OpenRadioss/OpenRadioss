@@ -88,7 +88,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "com01_c.inc"
-#include      "submod_c.inc"
 #include      "param_c.inc"
 #include      "mmale51_c.inc"
 #include      "scr03_c.inc"

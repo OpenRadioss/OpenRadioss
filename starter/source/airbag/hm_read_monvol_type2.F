@@ -64,8 +64,6 @@ C     NIMV, NRVOLU
 #include      "param_c.inc"
 C     IIN
 #include      "units_c.inc"
-C     NSUBMOD
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

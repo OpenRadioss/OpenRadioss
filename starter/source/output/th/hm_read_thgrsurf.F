@@ -53,7 +53,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD , only : SURF_
       USE MESSAGE_MOD , only : ANCMSG, aninfo_blind_1, MSGERROR
-      USE SUBMODEL_MOD , only : SUBMODEL_DATA
+      USE SUBMODEL_MOD , only : SUBMODEL_DATA, NSUBMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "r2r_c.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
