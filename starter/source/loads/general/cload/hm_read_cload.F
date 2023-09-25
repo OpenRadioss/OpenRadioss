@@ -67,7 +67,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
-#include      "submod_c.inc"
 #include      "r2r_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------

@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "sphcom.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------

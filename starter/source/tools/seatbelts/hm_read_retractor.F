@@ -66,7 +66,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "submod_c.inc"
 #include      "random_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------

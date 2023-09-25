@@ -63,7 +63,6 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "submod_c.inc"
 #include      "r2r_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------

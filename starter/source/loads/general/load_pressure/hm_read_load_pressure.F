@@ -72,7 +72,6 @@ C-----------------------------------------------
 #include      "r2r_c.inc"
 #include      "sysunit.inc"
 #include      "sphcom.inc"
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

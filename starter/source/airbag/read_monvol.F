@@ -83,8 +83,6 @@ C     LUNIT, NUNITS
 #include      "sysunit.inc"
 C     IOUT
 #include      "units_c.inc"
-C     NSUBMOD
-#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

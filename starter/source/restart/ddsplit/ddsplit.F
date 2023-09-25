@@ -405,6 +405,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE INTERFACES_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -435,7 +436,6 @@ C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "tablen_c.inc"
 #include      "remesh_c.inc"
-#include      "submod_c.inc"
 #include      "r2r_c.inc"
 #include      "inter22.inc"
 #include      "drape_c.inc"
@@ -1891,7 +1891,7 @@ C
 
       CALL WRITE_I_C(NPC,3*NFUNCT+1)
         LEN_IA = LEN_IA + 3*NFUNCT+1
-      
+
 C--------------------------------------------
 C Connectivity for Triangles
 C--------------------------------------------

@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr03_c.inc"
 #include      "param_c.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "r2r_c.inc"
 #include      "sphcom.inc"

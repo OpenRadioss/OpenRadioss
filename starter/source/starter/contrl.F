@@ -164,7 +164,6 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "boltpr_c.inc"
 #include      "ige3d_c.inc"
-#include      "submod_c.inc"
 #include      "com_engcards_c.inc"
 #include      "sms_c.inc"
 C-----------------------------------------------

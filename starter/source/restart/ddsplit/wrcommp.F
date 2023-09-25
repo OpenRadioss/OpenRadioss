@@ -97,6 +97,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE SENSOR_MOD
+      USE SUBMODEL_MOD , ONLY : NSUBMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -177,7 +178,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "spmd_c.inc"
-#include      "submod_c.inc"
 #include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "thermal_c.inc"
