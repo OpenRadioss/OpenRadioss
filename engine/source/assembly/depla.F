@@ -102,8 +102,7 @@ C-------------------------------------------------------------
           X(3,N)=X(3,N)+VDT
         ENDDO
       ENDIF 
-      IF((ISUB>0.OR.ISECUT>0.OR.IISROT>0.OR.ISHSUB/=0.OR.
-     .  IMPOSE_DR/=0 .OR. IDROT==1) .AND. IRODDL/=0) THEN
+      IF((ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR/=0 .OR. IDROT == 1) .AND. IRODDL /= 0) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           DR(1,N)=DR(1,N)+DT2*VR(1,N)

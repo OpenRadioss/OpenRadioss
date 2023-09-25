@@ -216,9 +216,7 @@ C
      .        ITHBUF(I) == 625)) IREAC = 1                       
          IF((ITHBUF(I) == 626 .OR. ITHBUF(I) == 627 .OR.        
      .       ITHBUF(I) == 628) .AND.                            
-     .      ((ISUB == 0.AND.ISECUT == 0.AND.IISROT == 0.AND.   
-     .       MSHSUB == 0.AND.IMPOSE_DR == 0 .AND. IDROT == 0) .OR.   
-     .       IRODDL == 0)) THEN                           
+     .      ((ISECUT == 0 .AND. IISROT == 0 .AND. IMPOSE_DR == 0 .AND. IDROT == 0) .OR. IRODDL == 0)) THEN
                IF (ITHBUF(I) == 626)DIRMSG='DRX'           
                IF (ITHBUF(I) == 627)DIRMSG='DRY'               
                IF (ITHBUF(I) == 628)DIRMSG='DRZ'            

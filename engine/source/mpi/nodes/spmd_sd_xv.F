@@ -104,7 +104,7 @@ C-----------------------------------------------
         IF(IMSCH>0) DT_CST = 1
       ENDIF
       IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
-      IF ((ALE%SUB%IALESUB/=0).OR.(IALE/=0).OR.(ISUB>0).OR.
+      IF ((ALE%SUB%IALESUB/=0).OR.(IALE/=0).OR.
      .    (TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
      .    (MANIM>=1.AND.MANIM<=15)) THEN
         NEW_D = 1
@@ -128,7 +128,7 @@ C-----------------------------------------------
       
       IF(ISPMD==0) THEN
         L = 1
-	L2 = 1
+        L2 = 1
 C
         DO I=1,NSPMD
           IF (NEW_D==0) THEN

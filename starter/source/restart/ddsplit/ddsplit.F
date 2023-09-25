@@ -63,7 +63,6 @@ Chd|        C_ILOADP                      source/restart/ddsplit/c_iloadp.F
 Chd|        C_IRADIA                      source/restart/ddsplit/c_iradia.F
 Chd|        C_IRBE2                       source/restart/ddsplit/c_irbe2.F
 Chd|        C_IRBE3                       source/restart/ddsplit/c_irbe3.F
-Chd|        C_ISHSUB                      source/restart/ddsplit/c_ishsub.F
 Chd|        C_ISLIN_STR                   source/restart/ddsplit/c_islin_str.F
 Chd|        C_ISPH                        source/restart/ddsplit/c_isph.F
 Chd|        C_ISURF_STR                   source/restart/ddsplit/c_isurf_str.F
@@ -175,7 +174,6 @@ Chd|        W_IRADIA                      source/restart/ddsplit/w_iradia.F
 Chd|        W_IRBE2                       source/restart/ddsplit/w_irbe2.F
 Chd|        W_IRBE3                       source/restart/ddsplit/w_irbe3.F
 Chd|        W_IRIVET                      source/restart/ddsplit/w_irivet.F
-Chd|        W_ISHSUB                      source/restart/ddsplit/w_ishsub.F
 Chd|        W_ISKEWSP                     source/restart/ddsplit/w_iskewsp.F
 Chd|        W_ISKN                        source/restart/ddsplit/w_iskn.F
 Chd|        W_ISLIN_STR                   source/restart/ddsplit/w_islin_str.F
@@ -298,8 +296,7 @@ Chd|====================================================================
      U   LENVOLU                    ,NPTS           ,CNE          ,LCNE        ,           
      V   ADDCNE       ,CNI2         ,LCNI2G         ,ADDCNI2      ,CEPI2       ,           
      W   CELI2        ,I2NSNT       ,PROBINT        ,DDSTAT       ,PM1SHF      ,           
-     X   DD_IAD       ,LSHSUB       ,DRSAV          ,ARSAV        ,STSAV       ,           
-     y   STRSAV       ,FSAVSAV      ,
+     X   DD_IAD       ,
      Z                 KXSP         ,IXSP           ,NOD2SP       ,CEPSP       ,
      a   NTHWA        ,NAIRWA       ,NMNT           ,L_MUL_LAG1   ,L_MUL_LAG   ,
      b   LWASPIO      ,IPARTSP      ,ISPCOND        ,PM1SPH       ,
@@ -480,7 +477,7 @@ C-----------------------------------------------
      .        ICONTACT(*), IPARTSP(*), ISPCOND(*),
      .        DDSTAT(50), CNE(*), LCNE, ADDCNE(0:*),
      .        CNI2(*), ADDCNI2(0:*), CEPI2(*), CELI2(*),
-     .        DD_IAD(*), LSHSUB(*),
+     .        DD_IAD(*),
      .        KXSP(*), IXSP(*), NOD2SP(*), CEPSP(*),
      .        EIGIPM(*), EIGIBUF(*), IFLOW(*), FASOLFR(2,*),
      .        IPARTH(*),
@@ -532,7 +529,6 @@ C-----------------------------------------------
      .       FBVEL(*), GRAVFAC(*), FR_WAVE(*), ELBUF(*),
      .       RWL(*), RWSAV(*), RBY(*), RIVET(*),
      .       SECBUF(*), RVOLU(*), PARTS0(*), RCONX(*),
-     .       DRSAV(*), ARSAV(*), STSAV(*), STRSAV(*), FSAVSAV(*),
      .       WMA(*), EIGRPM(*), RFLOW(*),
      .       PROBINT, FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*),
      .       FXBCPS(*), FXBLM(*), FXBFLS(*), FXBDLS(*), FXBDEP(*),
@@ -666,7 +662,7 @@ C-----------------------------------------------
      .        NSEGFL_L,NGROUP_L, NSTRF_L,
      .        NSLAW_L, NESLAW_L, LWSAV_L, NSLARB_L,
      .        LBUFEL_L, LENWA_L, INTBAG_L, ISUMNX_L, NUMEL_L,
-     .        NLLINK_L, LLGRAV_L, LLBVEL_L, NFXVEL_L, NSHFRONT_L, OFF1,
+     .        NLLINK_L, LLGRAV_L, LLBVEL_L, NFXVEL_L, OFF1,
      .        OFF, SHF, IUN, NUMEL, ISP0, NBDDACC, NBDDKIN, NBDDNOD,
      .        NBDDPROC, NBDDBOUN, NBDDNRB, NRBYKIN_L, NSKYRW_L,
      .        NSKYRBK_L, LENTHGT, NBDDI2M, NNMV_L, NNMVC_L, NBDDNCJ,
@@ -861,12 +857,6 @@ C--------------------------------------
 C count local NGROUP 
 C--------------------------------------
       CALL C_NGROUP(IPARG,P-1,NUMLOCGROUP,NGROUP_L)
-C--------------------------------------
-C count LSHSUB
-C--------------------------------------
-      NSHFRONT_L=0
-      IF (MSHSUB>0)
-     .  CALL C_ISHSUB(LSHSUB,NSHFRONT_L,P-1)
 C--------------------------------------------
 c count local elements 
 C--------------------------------------------
@@ -1737,7 +1727,7 @@ C--------------------------------------------
      D   NISKYI2_L ,I2NSNT    ,NCONLD_L  ,NNMV_L    ,NNMVC_L  ,
      E   NBDDNCJ   ,NBDDNRBM  ,NSKYRBM_L ,NNODT_L   ,NNODL_L  ,
      F   NMADSH4_L ,NMADSH3_L ,NMADSOL_L ,NMADNOD_L ,IMAXIMP_L,
-     G   ISP0   ,NUM16SHIFT_L ,NSHFRONT_L,NUMSPH_L  ,LWASPH_L ,
+     G   ISP0   ,NUM16SHIFT_L ,NUMSPH_L  ,LWASPH_L ,
      H   SPHSHIFT_L,NRCVVOIS  ,NSNDVOIS  ,NERVOIS  ,
      I   NESVOIS   ,ILAW11    ,NSEGFL_L  ,
      J   NBI18_L   ,NSKYI18_L ,LEIBUF_L ,
@@ -1834,11 +1824,7 @@ C--------------------------------------
       LEN_M = NPROPMI*NUMMAT
       CALL W_INLOC(ICODE,NODGLOB,NUMNOD_L,LEN_IA)
 C--------------------------------------
-C Ecriture LSHSUB
-C--------------------------------------
-      IF (MSHSUB>0)
-     .  CALL W_ISHSUB(LSHSUB,NSHFRONT_L,P-1,NODLOCAL,LEN_IA)
-C
+
       IF(NUMSPH>0.AND.NSPCOND>0)THEN
         CALL W_ISKEWSP(ISKEW,NODGLOB,NUMNOD_L,NUMSPH_L,CEPSP,P-1,LEN_IA)
       ELSE
@@ -2690,9 +2676,7 @@ C--------------------------------------------
      .  CALL W_BID(3*NRCVVOIS,LEN_AM)
       IF(IRODDL>0) THEN
         CALL W_R3NLOC(VR,NODGLOB,NUMNOD_L,LEN_AM)
-        IF(ISECUT>0.OR.ISUB>0.OR.MSHSUB>0.OR.IISROT>0.OR.
-     .     IMPOSE_DR/=0.OR.IDROT==1)
-     .    CALL W_R3NLOC(DR,NODGLOB,NUMNOD_L,LEN_AM)
+        IF(ISECUT > 0 .OR. IISROT > 0 .OR. IMPOSE_DR /= 0 .OR. IDROT == 1)CALL W_R3NLOC(DR,NODGLOB,NUMNOD_L,LEN_AM)
       ENDIF
 C--------------------------------------------
 C THKE SHELL 4-N + SHELL 3-N
@@ -2863,17 +2847,7 @@ C
         CALL W_R3NLOC(WB,NODGLOB,NUMNOD_L,LEN_AM)
         CALL W_RNLOC(WMA,NODGLOB,NUMNOD_L,LEN_AM)
       ENDIF
-      IF(MSHSUB==1)THEN
-        CALL W_R3NLOC(DSAV ,NODGLOB,NUMNOD_L,LEN_AM)
-        CALL W_R3NLOC(DRSAV,NODGLOB,NUMNOD_L,LEN_AM)
-        CALL W_R3NLOC(ASAV ,NODGLOB,NUMNOD_L,LEN_AM)
-        CALL W_R3NLOC(ARSAV,NODGLOB,NUMNOD_L,LEN_AM)
-        CALL W_RNLOC(STSAV ,NODGLOB,NUMNOD_L,LEN_AM)
-        CALL W_RNLOC(STRSAV,NODGLOB,NUMNOD_L,LEN_AM)
-C       FSAVSAV
-        CALL WRITE_DB(FSAVSAV,NTHVKI*NSECT)
-        LEN_AM = LEN_AM + NTHVKI*NSECT
-      ELSEIF(ILAG==1.AND.(IALE+IEULER)/=0)THEN
+      IF(ILAG==1.AND.(IALE+IEULER)/=0)THEN
         CALL W_R3NLOC(DSAV,NODGLOB,NUMNOD_L,LEN_AM)
         CALL W_R3NLOC(ASAV,NODGLOB,NUMNOD_L,LEN_AM)
       ENDIF
@@ -2881,13 +2855,12 @@ C--------------------------------------
 C SPH Cells partie reelle
 C--------------------------------------
       IF (NUMSPH>0)THEN
-          CALL W_RSPH(SPBUF ,NUMSPH_L,CEPSP,P-1,
-     *                VSPHIO,LEN_AM, SSPHVELN_L  )
+        CALL W_RSPH(SPBUF ,NUMSPH_L,CEPSP,P-1,VSPHIO,LEN_AM, SSPHVELN_L  )
       ENDIF
 C--------------------------------------
 C Masses nodales fluides
 C--------------------------------------
-      IF(IALE==1.OR.IEULER==1.OR.IALELAG==1) THEN
+      IF(IALE == 1 .OR. IEULER == 1 .OR. IALELAG == 1) THEN
         CALL W_RNLOC(MSNF,NODGLOB,NUMNOD_L,LEN_AM)
       ENDIF
 C--------------------------------------------
@@ -2895,22 +2868,16 @@ C Pressure & concentrated loads
 C--------------------------------------------
 c      CALL WRITE_DB(FAC,NCONLD)
 c      LEN_AM = LEN_AM + NCONLD
-      IF(NCONLD>0)
-     .  CALL W_FAC(FAC,CEP,P-1,NCONLD_L,LEN_AM)
+      IF(NCONLD>0)CALL W_FAC(FAC,CEP,P-1,NCONLD_L,LEN_AM)
 C--------------------------------------------
 C Fixvel real
 C--------------------------------------------
-      IF(NFXVEL_L>0)
-     .  CALL W_FIXVEL(VEL,NFXVEL,IBFV,NFXVEL_L,LEN_AM,P-1)
+      IF(NFXVEL_L>0)CALL W_FIXVEL(VEL,NFXVEL,IBFV,NFXVEL_L,LEN_AM,P-1)
 C--------------------------------------------
 C FSAV
 C--------------------------------------------
-      CALL WRITE_DB(FSAV,NTHVKI*
-     .     (NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+
-     .      NFXBODY+NINTSUB))
-      LEN_AM = LEN_AM + NTHVKI*
-     .        (NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+
-     .         NFXBODY+NINTSUB)
+      CALL WRITE_DB(FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NFXBODY+NINTSUB))
+      LEN_AM = LEN_AM + NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+ NFXBODY+NINTSUB)
 C--------------------------------------------
 C TIMER MAT/PROP and WEIGHT
 C--------------------------------------------

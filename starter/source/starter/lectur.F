@@ -392,7 +392,6 @@ Chd|        SET_POIN_UMP                  source/system/set_poin_ump.F
 Chd|        SGRHEAD                       source/elements/solid/solide/sgrhead.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        SHELLTHK_UPD                  source/properties/composite_options/drape/shellthk_upd.F
-Chd|        SHSUB                         source/elements/shell/subcycling/shsub.F
 Chd|        SMS_INIT                      source/ams/sms_init.F         
 Chd|        SMS_INI_JAD_1                 source/ams/sms_init.F         
 Chd|        SMS_INI_JAD_2                 source/ams/sms_init.F         
@@ -1406,8 +1405,7 @@ C--------------------------------------------
       SMS = NUMNOD
       SPINCH= NPINCH
       SIN = NUMNOD*MAX(IRODDL,IRODDL0)
-      IF(ISECUT>0 .OR. ISUB>0 .OR. MSHSUB>0 .OR. IISROT>0 .OR.
-     .   IMPOSE_DR>0 .OR. IDROT == 1) THEN
+      IF(ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0 .OR. IDROT == 1) THEN
         SDR = 3*NUMNOD*MAX(IRODDL,IRODDL0)
       ELSE
         SDR = 0
@@ -1500,10 +1498,8 @@ C     STOCKAGE DYNAMIQUE (GENERALE) ENTIER
 C--------------------------------------------
 C---  Longueurs
       SICODE  = NUMNOD
-      SLSHSUB = MSHSUB*NUMNOD
       SISKEW  = NUMNOD
-      SISKWN   = LISKN*((NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+(NUMFRAM+1)+
-     .           NSUBMOD)
+      SISKWN   = LISKN*((NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+(NUMFRAM+1)+NSUBMOD)
       SIFRAME = LISKN*(NUMFRAM+1)
 c     SNETH = 2*NSNOD+NSELS+NSELQ+NSELC+NSELT+NSELP+NSELR+NSELTG = 0
       SIBCSLAG= 5*NBCSLAG
@@ -1560,10 +1556,6 @@ C---  Allocations
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ICODE')
-      ALLOCATE(LSHSUB(SLSHSUB)   ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='LSHSUB')
       ALLOCATE(ISKEW(SISKEW)     ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -1674,7 +1666,6 @@ C
       END IF
 C --- Initialisations
       IF(SICODE > 0) ICODE   = 0
-      IF(SLSHSUB > 0) LSHSUB  = 0
       IF(SISKEW > 0) ISKEW   = 0
       IF(SISKWN > 0) ISKWN   = 0
       IF(SIBCSLAG > 0) IBCSLAG = 0
@@ -4076,10 +4067,6 @@ C
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-      IF(MSHSUB /= 0)
-     .  CALL SHSUB(LSHSUB  ,IXS     ,IXS10   ,IXS20   ,IXS16   ,
-     .             IXC     ,IXT     ,IXP     ,IXR     ,IXTG    )
-C--------------------------------------------
 C     LECTURE DE RANDOM NOISE
 C--------------------------------------------
       ERR_MSG='RANDOM NOISE'
@@ -4250,21 +4237,8 @@ C--------------------------------------------
       ENDIF
 C
       SDSAVE   = 0
-      SDRSAVE  = 0
       SASAVE   = 0
-      SARSAVE  = 0
-      SSTSAVE  = 0
-      SSTRSAVE = 0
-      SFSAVSAV = 0
-      IF(MSHSUB == 1)THEN
-        SDSAVE   = 3*NUMNOD
-        SDRSAVE  = 6*NUMNOD
-        SASAVE   = 3*NUMNOD
-        SARSAVE  = 3*NUMNOD
-        SSTSAVE  = NUMNOD
-        SSTRSAVE = NUMNOD
-        SFSAVSAV = NTHVKI*NSECT
-      ELSEIF(ILAG == 1 .AND. (IALE+IEULER) > 0) THEN
+      IF(ILAG == 1 .AND. (IALE+IEULER) > 0) THEN
         SDSAVE  = 3*NUMNOD
         SASAVE  = 3*NUMNOD
       ENDIF
@@ -4296,30 +4270,10 @@ C
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DSAVE')
-      ALLOCATE(DRSAVE(SDRSAVE)  ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='DRSAVE')
       ALLOCATE(ASAVE(SASAVE)    ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ASAVE')
-      ALLOCATE(ARSAVE(SARSAVE)  ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='ARSAVE')
-      ALLOCATE(STSAVE(SSTSAVE)  ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='STSAVE')
-      ALLOCATE(STRSAVE(SSTRSAVE),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='STRSAVE')
-      ALLOCATE(FSAVSAV(SFSAVSAV),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='FSAVSAV')
       IF(SGJBUFR > 0)  GJBUFR  = ZERO
       IF(SW > 0)       W       = ZERO
       IF(SVEUL8 > 0)    VEUL    = ZERO
@@ -4327,12 +4281,7 @@ C
       IF(SDFILL > 0)   DFILL   = ZERO
       IF(SALPH > 0)    ALPH    = ZERO
       IF(SDSAVE > 0)   DSAVE   = ZERO
-      IF(SDRSAVE > 0)  DRSAVE  = ZERO
       IF(SASAVE > 0)   ASAVE   = ZERO
-      IF(SARSAVE > 0)  ARSAVE  = ZERO
-      IF(SSTSAVE > 0)  STSAVE  = ZERO
-      IF(SSTRSAVE > 0) STRSAVE = ZERO
-      IF(SFSAVSAV > 0) FSAVSAV = ZERO
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES JOINTS COMPLEXES (GJOINT)
@@ -10697,8 +10646,7 @@ c
      U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,    
      V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,    
      W         CELI2        ,I2NSNT      ,PROBINT        ,DDSTAT(1,P) ,PM1SHF,         
-     X         DD_IAD       ,LSHSUB      ,DRSAVE         ,ARSAVE      ,STSAVE     ,    
-     Y         STRSAVE      ,FSAVSAV     ,                                             
+     X         DD_IAD       ,
      Z                       KXSP        ,IXSP           ,NOD2SP      ,CEPSP      ,    
      a         NTHWA        ,NAIRWA      ,NMNT           ,L_MUL_LAG1  ,L_MUL_LAG  ,    
      b         LWASPIO      ,IPARTSP     ,ISPCOND        ,PM1SPH      ,                

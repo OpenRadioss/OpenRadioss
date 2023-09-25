@@ -309,10 +309,6 @@ Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
 Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
 Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
-Chd|        SHSUB0                        source/elements/shell/subcycling/shsub0.F
-Chd|        SHSUB1                        source/elements/shell/subcycling/shsub1.F
-Chd|        SHSUB2                        source/elements/shell/subcycling/shsub2.F
-Chd|        SHSUB3                        source/elements/shell/subcycling/shsub3.F
 Chd|        SMP_INIT                      source/engine/resol_init.F    
 Chd|        SMS_BUILD_MAT_2               source/ams/sms_build_mat_2.F  
 Chd|        SMS_ENCIN_2                   source/ams/sms_encin_2.F      
@@ -543,8 +539,8 @@ Chd|====================================================================
      b  IAD_SEC ,IAD_CUT ,FR_CUT  ,RG_CUT  ,NEWFRONT,FR_MAD  ,NODGLOB ,
      c  FXBIPM  ,FXBRPM  ,FXBNOD  ,FXBMOD  ,FXBGLM  ,FXBCPM  ,FXBCPS  ,
      d  FXBLM   ,FXBFLS  ,FXBDLS  ,FXBDEP  ,FXBVIT  ,FXBACC  ,FXBELM  ,
-     e  FXBSIG  ,FXBGRVI ,FXBGRVR ,EIGIPM  ,EIGIBUF ,EIGRPM  ,LSHSUB  ,
-     f  DRSAVE  ,ARSAVE  ,STSAVE  ,STRSAVE ,FSAVSAV ,LNODPOR ,
+     e  FXBSIG  ,FXBGRVI ,FXBGRVR ,EIGIPM  ,EIGIBUF ,EIGRPM  ,
+     f  LNODPOR ,
      g  FR_I18  ,IADSDP  ,IADRCP  ,GRAPHE  ,IFLOW   ,RFLOW   ,
      h  LGRAV   ,DD_R2R  ,FASOLFR ,FR_LAGF ,
      j  LLAGF   ,LPRW    ,ICONTACT,RCONTACT,SH4TREE ,SH3TREE ,
@@ -714,7 +710,6 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "fxbcom.inc"
 #include      "eigcom.inc"
-#include      "subc_c.inc"
 #include      "spmd_c.inc"
 #include      "remesh_c.inc"
 #include      "com_xfem1.inc"
@@ -766,7 +761,7 @@ C-----------------------------------------------
      .   IAD_CUT(NSPMD+2,*), FR_CUT(*), RG_CUT(*), NEWFRONT(*),
      .   FR_MAD(5,*), NODGLOB(*), LNODPOR(*), FR_I18(*), 
      .   FXBIPM(NBIPM,*),FXBNOD(*),FXBELM(*), FXBGRVI(*),
-     .   EIGIPM(NEIPM,*), EIGIBUF(*), LSHSUB(*), IFLOW(*), FASOLFR(*),
+     .   EIGIPM(NEIPM,*), EIGIBUF(*), IFLOW(*), FASOLFR(*),
      .   DD_R2R(NSPMD+1,*), LGRAV(*), FR_LAGF(3,*), LLAGF(*),
      .   ICONTACT(*), SH4TREE(*), SH3TREE(*), IPADMESH(*),
      .   ISKWP(*), NSKWP(*), ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
@@ -816,12 +811,11 @@ C-----------------------------------------------
      .   SPHVELN(*),RBYL(NRBY,*),FSKYM(*), MSNF(*),VISCN(*),
      .   FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*), FXBCPS(*),
      .   FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*),
-     .   FXBACC(*), FXBSIG(*), FXBGRVR(*), EIGRPM(NERPM,*),
-     .   DRSAVE(3,*), ARSAVE(3,*), STSAVE(*), STRSAVE(*), 
+     .   FXBACC(*), FXBSIG(*), FXBGRVR(*), EIGRPM(NERPM,*),  
      .   FSKYD(*), DMSPH(*),KNOT(*),WIGE(*),MS_2D(*),
      .   KNOTLOCPC(*),KNOTLOCEL(*),XCELL(*),XFACE(*),FCONT_MAX(3,*)
       my_real
-     .   FSAVSAV(NTHVKI,*), RFLOW(*), RCONTACT(*),
+     .   RFLOW(*), RCONTACT(*),
      .   PADMESH(*), MSC(*), MSTG(*), INC(*) , INTG(*), PTG(3,*),
      .   ACONTACT(*), PCONTACT(*), FACTIV(*), TEMP(*), MCP(*),
      .   MSCND(*), INCND(*), RBYM(*), FBFFLUX(*),
@@ -1105,8 +1099,7 @@ C Communication INTERFACE TYPE25
       INTEGER, DIMENSION(:), ALLOCATABLE :: FR_I25
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IAD_I25
 C Assembling normals INTERFACE TYPE25
-      REAL*4
-     .       , DIMENSION(:,:), ALLOCATABLE :: FSKYN25
+      REAL*4 , DIMENSION(:,:), ALLOCATABLE :: FSKYN25
 C time varying gap T25
       my_real MAXDGAP(NINTER)
       INTEGER :: FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
@@ -2672,12 +2665,9 @@ C
          END IF
 C
 
-C     if no subcycling + subcycling next to restart :
 C       dt2s=0 => shells computation at 1st cycle next to restart
-        IF(ISHSUB==0 .AND. MCHECK==0) DT2S=0.0
+        IF(MCHECK==0) DT2S=0.0
         IF(MCHECK/=0) DT2SAVE = DT2
-        DT2SOLD=DT2S
-        LASTSH =0
 C------------RBE3----allocation-------------
       IF(NRBE3>0)THEN
        IF(ITASK==0)THEN
@@ -3106,28 +3096,6 @@ C--- //0 ----------------
           IF (IMON>0) CALL STARTIME(2,1)
             CALL I14IST(IPARI,INTBUF_TAB,IGRSURF,BUFSF)
           IF (IMON>0) CALL STOPTIME(2,1)
-          ENDIF
-        ENDIF
-C
-        IF(ISHSUB==1)THEN
-          IF(TT==ZERO .OR. TT+1.1*DT2OLD>T1SH+DT2S)THEN
-C kshsub=-1 shell at this cycle 
-            KSHSUB = -1
-          ELSE
-C kshsub=1  No shell at this cycle.
-            KSHSUB = 1
-            LASTSH = 0
-          ENDIF
-          IF(KSHSUB==-1)THEN
-
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-
-!$OMP PARALLEL PRIVATE(ITSK)
-          ITSK = OMP_GET_THREAD_NUM()
-          CALL SHSUB0(FSKY, FSKY, ITSK)
-!$OMP END PARALLEL
           ENDIF
         ENDIF
 
@@ -4225,59 +4193,6 @@ C===============================================================================
 !$OMP END PARALLEL
       END IF
 
-C--------------------------------------------------------
-C     SHELLS SUB-CYCLING
-C--------------------------------------------------------
-
-      IF(ISHSUB==1)THEN
-C kshsub=-1 on assemble ce qui a ete calcule jusqu'a present,
-C           avant de calculer les coques
-        IF(KSHSUB==-1) GOTO 221
-      ENDIF
-
- 20   CONTINUE
-
-      IF(ISHSUB==1)THEN
-
-          IF(KSHSUB==-1)THEN
-C kshsub=-1 on a assemble ce qui a ete calcule jusqu'a present,
-C           on va calculer les coques
-            KSHSUB = 0
-            DT1SAVC= DT1
-            DT1    = TT-T1SH
-            T1SH   = TT
-            DT2S   = EP30
-          ENDIF
-
-        IF(KSHSUB==0)THEN
-C         preparation avant de calculer les coques
-          NELTSA  = NELTST
-          ITYPTSA = ITYPTST
-          DT2SAVE = DT2T
-          DT2T    = EP30
-
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-
-!$OMP PARALLEL
-!$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK)
-          ITSK = OMP_GET_THREAD_NUM()
-          NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
-          NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-
-          CALL SHSUB1(LSHSUB,V       ,VR      ,DSAVE   ,
-     2           D        ,ITSK   ,NODFTSK   ,NODLTSK   ,
-     3      FSKY   ,FSKY    ,DR      ,DRSAVE  ,
-     4      A   ,ASAVE   ,AR      ,ARSAVE  ,
-     5      STIFN    ,STSAVE  ,STIFR   ,STRSAVE ,
-     6      FSAVSAV )
-
-!$OMP END PARALLEL
-
-        END IF
-      ENDIF
-
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -4339,9 +4254,7 @@ C
         ! Will be received after a call to  MPI_MIN_REAL_END
       ENDIF
 
-      IF(ISHSUB==0)THEN
-          T1SH=TT
-      ENDIF
+      T1SH=TT
 C
 C-----------------------------------------------------
 C     UPDATE OF SLIPRING AND RETRACTOR
@@ -4353,44 +4266,36 @@ C
 C---- // GROUPS ----------------
 C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS
 C-------------------------------
-C   no subcycling, or subcycling and KSHSUB==0 :
-      IF(KSHSUB==0)THEN
-        CALL TRACE_IN(14,0,ZERO)
-        IF (IMON>0) CALL STARTIME(3,1)
-
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
+      CALL TRACE_IN(14,0,ZERO)
+      IF (IMON>0) CALL STARTIME(3,1)
 
 C -------------------------------------------------------------------        
 C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
-        GETUNOD_NOCOM=1
+      GETUNOD_NOCOM=1
 C -------------------------------------------------------------------        
-        LLT1 = I87G+3*NUMELTG
+      LLT1 = I87G+3*NUMELTG
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
 !$OMP+ PRIVATE(GREFTSK,GRELTSK)
 !$OMP+ PRIVATE(IDX_FTHE,IDX_CONDN,IDX_PINCH)
 C Init var parallel SMP
-        CALL SMP_INIT(
-     1   ITSK  ,NODFTSK  ,NODLTSK  ,NUMNTSK,NDTSK,
-     2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
-     3      GREFTSK,GRELTSK)
-        DT2TT = DT2T
-        NELTSTT = NELTST
-        ITYPTSTT= ITYPTST
-        
-        IAD_GREL = 1
-        IF(IGRELEM == 1)IAD_GREL = K3-K1+1
-
-        IDX_FTHE = NDTSK
-        IF(NDTSK>IFTHE)IDX_FTHE=1
-        IDX_CONDN = NDTSK
-        IF(NDTSK>ICONDN)IDX_CONDN=1
-        IDX_PINCH = NDTSK
-        IF(NPINCH == 0 )IDX_PINCH = 1
-        CALL FORINTC(
+      CALL SMP_INIT(
+     1              ITSK  ,NODFTSK  ,NODLTSK  ,NUMNTSK,NDTSK,
+     2              IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
+     3              GREFTSK,GRELTSK)
+      DT2TT = DT2T
+      NELTSTT = NELTST
+      ITYPTSTT= ITYPTST
+      IAD_GREL = 1
+      IF(IGRELEM == 1)IAD_GREL = K3-K1+1
+      IDX_FTHE = NDTSK
+      IF(NDTSK>IFTHE)IDX_FTHE=1
+      IDX_CONDN = NDTSK
+      IF(NDTSK>ICONDN)IDX_CONDN=1
+      IDX_PINCH = NDTSK
+      IF(NPINCH == 0 )IDX_PINCH = 1
+      CALL FORINTC(
      1   PM           ,GEO             ,X               ,A(1,NDTSK)     ,AR(1,NDTSK)  ,
      2   V            ,VR              ,MS              ,IN             ,NLOC_DMG     , 
      3   WA(NWAFTSK)  ,STIFN(NDTSK)    ,STIFR(NDTSK)    ,FSKY           ,CRKSKY       , 
@@ -4403,8 +4308,8 @@ C Init var parallel SMP
      A   IPART        ,IPART(K3)       ,IPART(K8)       ,SECFCUM        ,                  
      B   FSAVD        ,MAT_ELEM%GROUP_PARAM , 
      E   FZERO        ,IXTG1           ,IADS(LLT1)      ,IGEO           ,IPM          ,
-     F   MADFAIL      ,XSEC            ,FSAVSAV         ,ITSK           ,MCP          ,
-     G   TEMP         ,FTHE(IDX_FTHE)       ,FTHESKY         ,
+     F   MADFAIL      ,XSEC            ,ITSK            ,MCP          ,
+     G   TEMP         ,FTHE(IDX_FTHE)  ,FTHESKY         ,
      H   MS_PLY       ,ZI_PLY          ,INOD_PXFEM      ,XEDGE4N       ,XEDGE3N       ,
      I   IEL_PXFEM    ,IADC_PXFEM      ,IGROUC          ,NGROUC        ,GRESAV(IGMTSK),
      J   GRTH         ,IGRTH(IAD_GREL) ,MSTG            ,DMELTG        ,MSC           ,
@@ -4416,59 +4321,24 @@ C Init var parallel SMP
      Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
      R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  ,OUTPUT)     
 #include "lockon.inc"
-        IF(DT2TT<DT2T)THEN
-          DT2T = DT2TT
-          NELTST = NELTSTT
-          ITYPTST= ITYPTSTT
-        END IF
-#include "lockoff.inc"
-
-!$OMP END PARALLEL
-C
-        CALL TRACE_OUT(14)
-        IF (IMON>0) CALL STOPTIME(3,1)
+      IF(DT2TT<DT2T)THEN
+         DT2T = DT2TT
+         NELTST = NELTSTT
+         ITYPTST= ITYPTSTT
       END IF
-
-C--------------------------------------------------------
-C     SHELLS SUB-CYCLING
-C--------------------------------------------------------
-
-      IF(ISHSUB==1)THEN
-          IF(KSHSUB==0) THEN
-            KSHSUB=2
-          ENDIF
-        IF(KSHSUB==1) THEN
-C kshsub=1 shells are not computed this cycle, retrieve internal forces
-
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-
-!$OMP PARALLEL
-!$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK)
-          ITSK = OMP_GET_THREAD_NUM()
-          NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
-          NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-
-          CALL SHSUB2(ITSK, NODFTSK, NODLTSK,
-     .               A, ASAVE, AR, ARSAVE,
-     .                  FSAV(1,NINTER+NRWALL+NRBODY+1),
-     .               FSAVSAV)
-
+#include "lockoff.inc"
 !$OMP END PARALLEL
-      ENDIF
+      CALL TRACE_OUT(14)
+      IF (IMON>0) CALL STOPTIME(3,1)
 
-      ENDIF
 
-      IF(ISHSUB ==1 .AND. KSHSUB==2)GOTO 22
-C  implicit barrier before asspar
+
 
 C---- // GROUPS ----------------
 C     INTERNAL FORCES OF  TRUSSES, POUTRES, RESSORTS,
 C                         SOLIDES, QUAD
 C-------------------------------
 
- 211  CONTINUE
       CALL TRACE_IN(14,0,ZERO)
       IF (IMON>0) CALL STARTIME(3,1)
       L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
@@ -4696,16 +4566,6 @@ C
         IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
         
-C     ----------------------
-C     subcycling ISHSUB==1
-C     ----------------------
-C     KSHSUB=-1 <=> Shell at this cycle  and 1st phase assembly
-C                   (contact force)                      
-C     KSHSUB=1  <=> No shell computation at this cycle 
-      IF(ISHSUB==1.AND.KSHSUB/=-1.AND.KSHSUB/=1) GOTO 22
-
- 221  CONTINUE
-
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -5248,16 +5108,7 @@ C
       IF(IALELAG > 0.AND.NSPMD>1) THEN 
         SIZE = 1
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-        CALL SPMD_EXCH_ICONT(IFOAM
-     +    ,IAD_ELEM ,FR_ELEM,SIZE,LENR)
-      ENDIF      
-C
-      IF(ISHSUB==1.AND.KSHSUB==-1) THEN
-C     Shell computed at this cycle => go to internal force computations
-        GOTO 20
-      ELSEIF(ISHSUB==1.AND.KSHSUB==2) THEN
-C     Internal forces assembled = go to timestep
-        GOTO 23
+        CALL SPMD_EXCH_ICONT(IFOAM,IAD_ELEM ,FR_ELEM,SIZE,LENR)
       ENDIF
 C
 #ifdef DNC
@@ -5926,29 +5777,6 @@ C===============================================================================
 
 C----------------------------
   23  CONTINUE
-C----------------------------
-C SHELLS SUBCYCLING
-C----------------------------
-C 23  CONTINUE
-      IF(ISHSUB==1 .AND.KSHSUB==2)THEN
-C       internal shell forces just computed 
-C       Nodal time step for shells (SHNOD)
-        IF(ALE%SUB%NODSUBDT/=0)THEN
-C         temporary save of DTFAC1(11), DTMIN1(11), IDTMIN(11)
-            DTFNOD    =DTFAC1(11)
-            DTMNOD    =DTMIN1(11)
-            IDTNOD    =IDTMIN(11)
-C
-            DTFAC1(11)=ALE%SUB%DTFSUB
-            DTMIN1(11)=ALE%SUB%DTMSUB
-            IF(ALE%SUB%NODSUBDT==2)THEN
-              IDTMIN(11)=8
-            END IF
-C         /---------------/
-        ELSE IF(NODADT==0)THEN
-          GOTO 24
-        END IF
-      END IF
 
 C----------------------------------------------------------
 C       INTER/TYPE21 TIME STEP
@@ -6155,96 +5983,7 @@ C
 C----------------------------
 C    IMPLICIT SYNCHRONISATION On DT2 FBIG
 C----------------------------
-C----------------------------
-C           Sub-cycling for shell
-C----------------------------
- 24   CONTINUE
-      IF(ISHSUB==1 .AND. KSHSUB==2)THEN
-        IF(ALE%SUB%NODSUBDT/=0)THEN
-            DTFAC1(11)=DTFNOD
-            DTMIN1(11)=DTMNOD
-            IDTMIN(11)=IDTNOD
-          END IF
 
-        IF(DT2T<DT2S)THEN
-          NELTS  = NELTST
-          ITYPTS = ITYPTST
-          DT2S   = DT2T
-        ENDIF
-
-C----------------------------
-C       write L01 (subcycling)
-C----------------------------
-        IF(NSPMD>1) THEN
-          IWIOUT = 0
-          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
-        CALL SPMD_GLOB_MIN5(DT2S ,ITYPTS,NELTS ,ICODT ,IMSCH,
-     .                     TSTOP,IWIOUT,MSTOP, ISMSCH,
-     .                     INT24USE,NBINTC,INTLIST,IPARI,INTBUF_TAB)
-        IF(IEXICODT>0) THEN
-            SIZE = 1
-            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            CALL SPMD_EXCH_ICODT(ICODT,IAD_ELEM,FR_ELEM,SIZE,LENR)
-            IEXICODT = 0
-          END IF
-        ENDIF
-
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-
-!$OMP PARALLEL
-!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
-!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
-!$OMP+ PRIVATE(GREFTSK,GRELTSK)
-
-C Init var parallel SMP
-        CALL SMP_INIT(
-     1    ITSK  ,NODFTSK  ,NODLTSK  ,NUMNTSK,NDTSK   ,
-     2    IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
-     3      GREFTSK,GRELTSK)
-
-        DT2TT = DT2T
-        NELTSTT = NELTST
-        ITYPTSTT= ITYPTST
-
-        CALL SHSUB3(
-     1    LSHSUB ,V  ,DSAVE  ,
-     2    ASAVE   ,A     ,D      ,NELTSTT,
-     3    ITYPTSTT,ITSK  ,NODFTSK,NODLTSK,DT2SAVE,
-     4    DT2TT   ,NELTSA,ITYPTSA,FSKY   ,
-     5    FSKY   ,VR   ,DR    ,AR     ,DRSAVE ,
-     6    ARSAVE ,STIFN,STSAVE,STIFR  ,STRSAVE,
-     7    IPART  ,PARTSAV,GEO ,WEIGHT )
-C
-#include "lockon.inc"
-        IF(DT2TT<DT2T)THEN
-          DT2T = DT2TT
-          NELTST = NELTSTT
-          ITYPTST= ITYPTSTT
-        END IF
-#include "lockoff.inc"
-
-!$OMP END PARALLEL
-
-C========================================================================================
-C                                     NON PARALLEL SECTION (SMP)
-C========================================================================================
-
-        KSHSUB=0
-
-C-------------------------------------------------------
-C       MAJ SPMD ecriture L01
-C-------------------------------------------------------
-        IF(NSPMD>1.AND.IWIOUT>0) THEN
-         CALL SPMD_WIOUT(IOUT,IWIOUT)
-         IWIOUT = 0
-        ENDIF
-
-C      Internal shell force computed = go back to other elements
-        GOTO 211
-
-      ENDIF
 
 C-----------------------------
       IF(ALE%SUB%IALESUB==2 .AND.ALE%SUB%IFSUB==2)THEN
@@ -6583,7 +6322,7 @@ C-----------------------------
           DT12=HALF*(DT1+DT2)
           DT3=DT1
         ENDIF
-        IF(ALE%SUB%IALESUB==0.AND.ISHSUB==0)DT2S=DT2
+        IF(ALE%SUB%IALESUB==0)DT2S=DT2
 C-----------------------------
 C       L01
 C-----------------------------

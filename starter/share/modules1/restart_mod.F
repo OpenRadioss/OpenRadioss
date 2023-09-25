@@ -61,7 +61,7 @@ Chd|====================================================================
 
         USE UNITAB_MOD
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
-     .      ICODE,   LSHSUB,  ISKEW,    ISKWN,            NETH,  
+     .      ICODE,      ISKEW,    ISKWN,            NETH,  
      .      IBCSLAG,
      .      IPART,      NOM_OPT, NPC,      IXUR,    IXTG,    IXTG1,
      .      IXS,        IXQ,     IXC,      IXT,     IXP,     IXR,
@@ -123,8 +123,8 @@ C 2D to avoid integer limitation
      .      DAMPR,            MS,      IN,      TF,      PM, 
      .      SKEW,             GEO,     EANI,    BUFMAT,  
      .      BUFSF,   RBMPC,   GJBUFR,  W,       VEUL,    FILL, 
-     .      DFILL,   ALPH,    WB,      DSAVE,   DRSAVE,  ASAVE, 
-     .      ARSAVE,  STSAVE,  STRSAVE, FSAVSAV, SPBUF ,
+     .      DFILL,   ALPH,    WB,      DSAVE,   ASAVE, 
+     .      SPBUF ,
      .      VSPHIO,  SPHVELN, MSNF,    FORC, 
      .      VEL,     FSAV,    FZERO,   XLAS,    ACCELM, 
      .      FBVEL,   GRAV,    FR_WAVE, PARTS0, 

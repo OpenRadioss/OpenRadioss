@@ -34,7 +34,7 @@ Chd|====================================================================
      3                     IXC,FOPTA,SECFCUM,
      4                     FX,FY,FZ,MX,MY,MZ,
      5                     TYPE,NSINT,IFRAM,NNOD,NOD,MS,
-     7                     XSEC,FSAVSAV,FBSAV6,IPARSENS)
+     7                     XSEC,FBSAV6,IPARSENS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER NSTRF(2,*),IXC(NIXC,*),IFRAM,NNOD,NOD(*)
       my_real
      .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),
-     .   V(3,*), VR(3,*),MS(*),XSEC(4,3), FSAVSAV(NTHVKI)
+     .   V(3,*), VR(3,*),MS(*),XSEC(4,3)
       DOUBLE PRECISION FBSAV6(12,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -491,17 +491,6 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              IF(ISHSUB/=0)THEN
-                FSAVSAV(1)=FSAVSAV(1)+FST(1)
-                FSAVSAV(2)=FSAVSAV(2)+FST(2)
-                FSAVSAV(3)=FSAVSAV(3)+FST(3)
-                FSAVSAV(4)=FSAVSAV(4)+FST(4)
-                FSAVSAV(5)=FSAVSAV(5)+FST(5)
-                FSAVSAV(6)=FSAVSAV(6)+FST(6)
-                FSAVSAV(7)=FSAVSAV(7)+FST(7)
-                FSAVSAV(8)=FSAVSAV(8)+FST(8)
-                FSAVSAV(9)=FSAVSAV(9)+FST(9)
-              END IF
               FOPTA(1) = FOPTA(1) + FST(10)
               FOPTA(2) = FOPTA(2) + FST(11)
               FOPTA(3) = FOPTA(3) + FST(12)

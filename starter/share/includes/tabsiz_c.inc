@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       COMMON /TABLESIZI/
-     .  SICODE, SLSHSUB, SISKEW, SISKWN, SIFRAME, SNETH,
+     .  SICODE, SISKEW, SISKWN, SIFRAME, SNETH,
      .  SIBCSLAG, SIPART, SNOM_OPT, SNPC, SIXUR, SIXTG,
      .  SIXTG1, SIXS, SIXQ, SIXC, SIXT, SIXP,
      .  SIXR, SITAB, SITABM1, SGJBUFI,
@@ -64,7 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
       INTEGER
-     .  SICODE, SLSHSUB, SISKEW, SISKWN, SIFRAME, SNETH,
+     .  SICODE, SISKEW, SISKWN, SIFRAME, SNETH,
      .  SIBCSLAG, SIPART, SNOM_OPT, SNPC, SIXUR, SIXTG,
      .  SIXTG1, SIXS, SIXQ, SIXC, SIXT, SIXP,
      .  SIXR, SITAB, SITABM1, SGJBUFI,

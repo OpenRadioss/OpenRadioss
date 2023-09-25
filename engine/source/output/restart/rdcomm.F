@@ -157,10 +157,10 @@ C-----------------------------------------------
       NMULT   =TABVINT(20)
       INTEG8  =TABVINT(21)
       ISIGI   =TABVINT(22)
-      NSPMD =TABVINT(23)
+      NSPMD   =TABVINT(23)
       LENWA   =TABVINT(24)
       ISGIFL  =TABVINT(25)
-      ISUB    =TABVINT(26)
+      !       =TABVINT(26)
       NNODS   =TABVINT(27)
       NCNOIS  =TABVINT(28)
       LCNE0   =TABVINT(29)
@@ -177,7 +177,7 @@ C       ITESTV = IABS(ITESTV)
 C-----
 C   -------- Size of integer arrays --------
       SICODE    = TABVINT(37)
-      SLSHSUB   = TABVINT(38)
+      !         = TABVINT(38)
       SISKEW    = TABVINT(39)
       SISKWN    = TABVINT(40)
       SIFRAME   = TABVINT(41)
@@ -333,12 +333,12 @@ C
       SALPH     = TABVINT(187)
       SWB       = TABVINT(188)
       SDSAVE    = TABVINT(189)
-      SDRSAVE	= TABVINT(190)
+      !         = TABVINT(190)
       SASAVE    = TABVINT(191)
-      SARSAVE   = TABVINT(192)
-      SSTSAVE   = TABVINT(193)
-      SSTRSAVE  = TABVINT(194)
-      SFSAVSAV  = TABVINT(195)
+      !         = TABVINT(192)
+      !         = TABVINT(193)
+      !         = TABVINT(194)
+      !         = TABVINT(195)
       SSPBUF    = TABVINT(196)
       SVSPHIO   = TABVINT(200)
       SSPHVELN  = TABVINT(201)
@@ -845,10 +845,6 @@ C       empty field
       LEIBUF=TABVINT(NEXT)
       NEXT = NEXT+1
       NINTSUB = TABVINT(NEXT)
-      NEXT = NEXT+1
-      MSHSUB   = TABVINT(NEXT)
-      NEXT = NEXT+1
-      NSHFRONT = TABVINT(NEXT)
 C--------------------------------------
       NEXT = NEXT+1
       IROOTYY = TABVINT(NEXT)

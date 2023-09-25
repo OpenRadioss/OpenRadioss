@@ -55,7 +55,7 @@ Chd|====================================================================
      D   NISKYI2_L ,I2NSNT_L  ,NCONLD_L  ,NNMV_L    ,NNMVC_L  ,
      E   NBDDNCJ_L ,NBDDNRBM_L,NSKYRBM_L ,NNODT_L   ,NNODL_L  ,
      F   NMADSH4_L ,NMADSH3_L ,NMADSOL_L ,NMADNOD_L ,IMAXIMP_L,
-     G   ISP0   ,NUM16SHIFT_L ,NSHFRONT_L,NUMSPH_L  ,LWASPH_L ,
+     G   ISP0   ,NUM16SHIFT_L ,NUMSPH_L  ,LWASPH_L ,
      H   SPHSHIFT_L,NRCVVOIS_L,NSNDVOIS_L,NERVOIS_L,
      I   NESVOIS_L ,ILAW11_L  ,NSEGFL_L  ,
      J   NBI18_L   ,NSKYI18_L ,LEIBUF_L ,
@@ -117,7 +117,7 @@ C-----------------------------------------------
      .        NSKYRW_L,NSKYRBK_L,NBDDI2M_L,LCNI2_L,NISKYI2_L,NNMV_L,
      .        NNMVC_L,NSKYLL_L,NBDDNCJ_L,NBDDNRBM_L,NSKYRBM_L, NNODT_L,
      .        NNODL_L, NMADSH4_L ,NMADSH3_L ,NMADSOL_L ,NMADNOD_L,
-     .        IMAXIMP_L, NUM16SHIFT_L ,NSHFRONT_L, NUMSPH_L, LWASPH_L,
+     .        IMAXIMP_L, NUM16SHIFT_L ,NUMSPH_L, LWASPH_L,
      .        ISP0, SPHSHIFT_L, NRCVVOIS_L, NSNDVOIS_L,
      .        NERVOIS_L, NESVOIS_L, ILAW11_L, NSEGFL_L, 
      .        NBI18_L, NSKYI18_L, 
@@ -216,7 +216,7 @@ C-----
       TABVINT(23) =NSPMD
       TABVINT(24) =LENWA_L
       TABVINT(25) =ISGIFL
-      TABVINT(26) =ISUB
+      TABVINT(26) = 0 !no longer used
       TABVINT(27) =NNODS
       TABVINT(28) =NCNOIS
       TABVINT(29) =LCNE_L
@@ -231,7 +231,7 @@ C -------- Tailles des tableaux entiers --------
 C taille locale inutile
       TABVINT(36) = 0
       TABVINT(37) = NUMNOD_L
-      TABVINT(38) = NSHFRONT_L
+      TABVINT(38) = 0 ! no longer used
       TABVINT(39) = NUMNOD_L
       TABVINT(40) = LISKN*(NUMSKW+1)+LISKN*MIN(1,NSPCOND)*NUMSPH_L+LISKN*NSUBMOD
       TABVINT(41) = LISKN*(NUMFRAM+1)
@@ -420,7 +420,7 @@ C -------- Tailles des tableaux flottants --------
       TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(165) = 3*NUMNOD_L*IRODDL
-      IF(ISECUT>0.OR.ISUB>0.OR.MSHSUB>0.OR.IISROT>0.OR.IMPOSE_DR/=0 .OR. IDROT>0)THEN
+      IF(ISECUT > 0 .OR. IISROT > 0 .OR. IMPOSE_DR /= 0 .OR. IDROT > 0)THEN
         TABVINT(166) = 3*NUMNOD_L*IRODDL
       ELSE
         TABVINT(166) = 0
@@ -471,10 +471,7 @@ C 3 tableaux multi mat spmd mono
         TABVINT(188) = 0
       END IF
 
-      IF(MSHSUB==1)THEN
-        TABVINT(189) = 3*NUMNOD_L
-        TABVINT(190) = 3*NUMNOD_L
-      ELSEIF(ILAG==1.AND.(IALE+IEULER)/=0)THEN
+      IF(ILAG==1.AND.(IALE+IEULER)/=0)THEN
         TABVINT(189) = 3*NUMNOD_L
         TABVINT(190) = 0
       ELSE
@@ -482,13 +479,7 @@ C 3 tableaux multi mat spmd mono
         TABVINT(190) = 0
       END IF
 
-      IF(MSHSUB==1)THEN
-         TABVINT(191) = 3*NUMNOD_L
-         TABVINT(192) = 3*NUMNOD_L
-         TABVINT(193) = NUMNOD_L
-         TABVINT(194) = NUMNOD_L
-         TABVINT(195) = NTHVKI*NSECT
-      ELSE IF (ILAG==1.AND.(IALE+IEULER)/=0)THEN
+      IF (ILAG==1.AND.(IALE+IEULER)/=0)THEN
          TABVINT(191) = 3*NUMNOD_L
          TABVINT(192) = 0
          TABVINT(193) = 0
@@ -972,10 +963,6 @@ c
       TABVINT(LVARINT)=LEIBUF_L
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NINTSUB
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=MSHSUB
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NSHFRONT_L
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IROOTYY
 C

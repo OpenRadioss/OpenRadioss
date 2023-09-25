@@ -496,7 +496,7 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DROT')THEN
 C--------------------------------------------------
-        IF( (IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR. MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND. IRODDL/=0) THEN
+        IF( (IDROT == 1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND. IRODDL/=0) THEN
           DO I=1,NUMNOD
             VALUE(1) = DR(1,I)
             VALUE(2) = DR(2,I)

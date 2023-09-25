@@ -154,7 +154,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "sphcom.inc"
 #include      "impl1_c.inc"
-#include      "subc_c.inc"
 #include      "tabsiz_c.inc"
 #include      "remesh_c.inc"
 #include      "sms_c.inc"
@@ -281,13 +280,6 @@ C--------------
       READ (IIN,'(I8)') NDAMPN
       READ(IIN,'(I8)') NFXINP
 C-----
-      NCPRISH=0
-      NCTRLSH=0
-      IF(ISHSUB /= 0)THEN
-        READ (IIN,'(2I8)')NCPRISH,NCTRLSH
-        IF(NCPRISH == 0) NCPRISH=1
-        IF(NCTRLSH == 0) NCTRLSH=1000
-      ENDIF
       READ(IIN,'(2I8)') NEIGOFF, NEOFF
       READ(IIN,'(2I8)') NFVMESH, NFVMODI
 C-----
@@ -801,9 +793,7 @@ C-------------------------------------------
       IF (TANIM < TT-DT2)TANIM = TANIM+DTANIM
 C-----------------------
       IF(ANIM_V(14)+H3D_DATA%N_VECT_DROT > 0 .AND.
-     .      ((ISUB == 0.AND.ISECUT == 0.AND.IISROT == 0.AND.
-     .       MSHSUB == 0.AND.IMPOSE_DR == 0 .AND. IDROT == 0)
-     .       .OR. IRODDL == 0)) THEN
+     .      ((ISECUT == 0 .AND. IISROT == 0 .AND. IMPOSE_DR == 0 .AND. IDROT == 0) .OR. IRODDL == 0)) THEN
        IF(ISPMD == 0) THEN
          WRITE(IOUT,*) ' ** WARNING ** : /ANIM/DROT OPTION USED',
      .                 '    WHILE ROTATIONAL DOF ARE NOT COMPUTED',
@@ -826,7 +816,7 @@ C-----------------------
      +       ANIM_E(1),ANIM_E(2),ANIM_E(3),ANIM_E(25),
      +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
      +       ANIM_E(7),ANIM_E(8),ANIM_E(9),
-     +        ANIM_E(10)+ANIM_E(4960)+ANIM_E(4961)+ANIM_E(4962)
+     +       ANIM_E(10)+ANIM_E(4960)+ANIM_E(4961)+ANIM_E(4962)
         WRITE(IOUT,1129) ANIM_N(3),ANIM_N(4),ANIM_N(6)
        WRITE(IOUT,1130)
      +       ANIM_V(1),ANIM_V(2),ANIM_V(3),ANIM_V(4),ANIM_V(5),
@@ -2571,50 +2561,11 @@ C---------------------------------------------------------
 C---------------------------------------------------------
       IF (IMPL_S == 1.OR.NEIG > 0) CALL LECIMPL
       IF (NFXINP > 0) CALL LECFXINP(NFXINP)
-      IF(ISHSUB /= 0)THEN
-        IF(ALE%SUB%IALESUB /= 0)THEN
-         IF(ISPMD == 0) THEN
-          CALL ANCMSG(MSGID=127,ANMODE=ANINFO_BLIND)
-         END IF
-         CALL ARRET(2)
-        ENDIF
-        IF(MSHSUB == 0)THEN
-         IF(ISPMD == 0) THEN
-          CALL ANCMSG(MSGID=128,ANMODE=ANINFO_BLIND)
-         END IF
-         CALL ARRET(2)
-        ENDIF
-        IF(ISPMD == 0) THEN
-         WRITE(IOUT,*) ' SHELLS SUBCYCLING IS ON'
-         WRITE(IOUT,1111) NCPRISH,NCTRLSH
-        END IF
-      ENDIF
       IF(ALE%SUB%NODSUBDT /= 0)THEN
-        IF(ISHSUB == 0)THEN
-         IF(ISPMD == 0) THEN
+        IF(ISPMD == 0) THEN
           CALL ANCMSG(MSGID=129,ANMODE=ANINFO_BLIND)
-         END IF
-         CALL ARRET(2)
-        ELSE IF(NODADT == 0) THEN
-         IF(ISPMD == 0) THEN
-          CALL ANCMSG(MSGID=130,ANMODE=ANINFO_BLIND)
-         END IF
-         CALL ARRET(2)
-        ELSE
-         IF(ALE%SUB%DTFSUB == 0.) ALE%SUB%DTFSUB=DTFAC1(11)
-         IF(ISPMD == 0) THEN
-          WRITE(IOUT,*)'NODAL TIME STEP FOR SHELLS SUBCYCLING IS ON'
-          WRITE(IOUT,1112) ALE%SUB%DTFSUB, ALE%SUB%DTMSUB, ALE%SUB%NODSUBDT-1
-         END IF
         END IF
-      ELSE IF(NODADT /= 0.AND.ISHSUB /= 0)THEN
-         ALE%SUB%NODSUBDT=1
-         ALE%SUB%DTFSUB=DTFAC1(11)
-         ALE%SUB%DTMSUB=DTMIN1(11)
-         IF(ISPMD == 0) THEN
-          WRITE(IOUT,*) 'NODAL TIME STEP FOR SHELLS SUBCYCLING IS ON'
-          WRITE(IOUT,1112) ALE%SUB%DTFSUB, ALE%SUB%DTMSUB, ALE%SUB%NODSUBDT-1
-         END IF
+        CALL ARRET(2)
       END IF
       IF (NEIGOFF > 0) CALL LECEIG(NEIGOFF, NEOFF)
       IF (NFVMESH > 0) CALL LECFVBAG(NFVMESH, MONVOL, VOLMON, X)
@@ -2816,11 +2767,6 @@ C---------------------------------------------------------
      .  ' MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . . ',I5   //
      .  ' INVERS: INPUT DECK VERSION . . . . . . . . . . . ',I5/
      .  ' ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . . ' ,I5/)
- 1111 FORMAT(
-     .  ' PRINTOUT SHELL SUBCYCLES FREQUENCY. . . . . . . . . . . .',
-     .    I5/
-     .  ' CONTROL NUMBER OF CONSECUTIVE SHELLS COMPUTATION CYCLES .',
-     .    I5/)
  1112 FORMAT(
      .  ' NODAL TIME STEP FOR SHELLS SCALE FACTOR. . . . . ',G14.7/
      .  ' NODAL MINIMUM TIME STEP FOR SHELLS . . . . . . . ',G14.7/

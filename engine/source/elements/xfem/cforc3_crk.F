@@ -329,28 +329,14 @@ c
           HOURGG => GBUF%HOURG
         ENDIF
 C
-        IF (ISUB == 0) THEN
-          CALL CCOOR3_CRK(JFT     ,JLT  ,NFT   ,IXC    ,NGL     ,
-     2                    PID     ,MAT  ,ILEV  ,IEL_CRK,IADC_CRK,
-     3                    OFFG    ,OFF  ,SIGY  ,THKE0  ,THK0    ,
-     4                    DT1C    ,VL1  ,VL2   ,VL3    ,VL4     ,
-     5                    VRL1    ,VRL2 ,VRL3  ,VRL4   ,X1G     ,
-     6                    X2G     ,X3G  ,X4G   ,Y1G    ,Y2G     ,
-     7                    Y3G     ,Y4G  ,Z1G   ,Z2G    ,Z3G     ,
-     8                    Z4G     )
-        ELSE
-C  a faire:
-cc        CALL CSUBC3(JFT     ,JLT    ,X    ,IXC     ,GEO ,GBUF%OFF ,
-cc     2              OFF     ,SIGY   ,PID  ,D       ,DR   ,DSUB,
-cc     3            DRSUB,VL1,VL2,VL3,VL4,VRL1,VRL2,VRL3,VRL4,NDT ,PM ,V,
-cc     4            GBUF%THK,GBUF%EINT,PARTSAV,TSUB,DTCSUB,AREAS,
-cc     5            VR     ,MAT     ,NGL   ,DT1C   ,DT2C ,THKE,THK0,
-cc     6            X1G    ,X2G     ,X3G   ,X4G    ,Y1G  ,Y2G    ,
-cc     7            Y3G    ,Y4G     ,Z1G   ,Z2G    ,Z3G  ,Z4G    ,
-cc     8            IPARTC ,NSG     ,IADC  ,FSKY   ,FSKY ,GRESAV   ,
-cc     9            GRTH   ,IGRTH   )
-cc        IF(JLT<JFT)RETURN
-        ENDIF
+        CALL CCOOR3_CRK(JFT     ,JLT  ,NFT   ,IXC    ,NGL     ,
+     2                  PID     ,MAT  ,ILEV  ,IEL_CRK,IADC_CRK,
+     3                  OFFG    ,OFF  ,SIGY  ,THKE0  ,THK0    ,
+     4                  DT1C    ,VL1  ,VL2   ,VL3    ,VL4     ,
+     5                  VRL1    ,VRL2 ,VRL3  ,VRL4   ,X1G     ,
+     6                  X2G     ,X3G  ,X4G   ,Y1G    ,Y2G     ,
+     7                  Y3G     ,Y4G  ,Z1G   ,Z2G    ,Z3G     ,
+     8                  Z4G     )
 c
         CALL CNVEC3(XFEM_STR,DIR_A   ,DIR_B   ,                     
      1     JFT     ,JLT      ,IREP    ,IGTYP   ,NXLAY   ,           

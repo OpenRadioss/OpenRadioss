@@ -354,34 +354,14 @@ C---
         ALLOCATE(DIR2_CRK(0))
       ENDIF
 C----------------------
-      IF(ISUB == 0)THEN
 C       X1G-> X1,X2G-> X2,X3G-> X3,X4G-> X4,
-C Y1G-> Y1,Y2G-> Y2,Y3G-> Y3,Y4G-> Y4,Z1G-> Z1,Z2G-> Z2,Z3G-> Z3,Z4G-> Z4
+C       Y1G-> Y1,Y2G-> Y2,Y3G-> Y3,Y4G-> Y4,
+C       Z1G-> Z1,Z2G-> Z2,Z3G-> Z3,Z4G-> Z4
         CALL CCOOR3(JFT  ,JLT  ,X    ,IXC  ,GEO  ,GBUF%OFF,
      2              OFF  ,SIGY ,PID ,V ,VR ,VL1,VL2,VL3,VL4,
      3              VRL1,VRL2,VRL3,VRL4,MAT,DT1C,THKE ,THK0 ,NGL,
      4              X1G  ,X2G  ,X3G  ,X4G  ,Y1G  ,Y2G    ,
      5              Y3G  ,Y4G  ,Z1G  ,Z2G  ,Z3G  ,Z4G    )
-      ELSE
-        CALL CSUBC3(
-     1   JFT,      JLT,      X,        IXC,
-     2   GEO,      GBUF%OFF, OFF,      SIGY,
-     3   PID,      D,        DR,       DSUB,
-     4   DRSUB,    VL1,      VL2,      VL3,
-     5   VL4,      VRL1,     VRL2,     VRL3,
-     6   VRL4,     NDT,      PM,       V,
-     7   GBUF%THK, GBUF%EINT,PARTSAV,  TSUB,
-     8   DTCSUB,   AREAS,    VR,       MAT,
-     9   NGL,      DT1C,     DT2C,     THKE,
-     A   THK0,     X1G,      X2G,      X3G,
-     B   X4G,      Y1G,      Y2G,      Y3G,
-     C   Y4G,      Z1G,      Z2G,      Z3G,
-     D   Z4G,      IPARTC,   IADC,     FSKY,
-     E   FSKY,     GRESAV,   GRTH,     IGRTH,
-     F   ITASK,    GBUF%VOL, ACTIFXFEM,IGRE,
-     G   OUTPUT)
-        IF(JLT < JFT)RETURN
-      ENDIF
 C
       ICSEN= IGEO(3,PID(1))
       IGTYP= IGEO(11,PID(1))
@@ -673,15 +653,6 @@ c--------------------------
      4   PX2,             PY2,             ELBUF_STR%NLOC(1,1),
      5   IXC(1,JFT),      NDDL,            ITASK,           DT2T,
      6   ALDT,            GBUF%THK_I,      GBUF%AREA,       NFT)
-      ENDIF 
-C--------------------------
-      IF (ISUB /= 0) THEN
-        CALL CSUBF3(JFT  ,JLT  ,NDT ,AREAS,AREA,
-     4            F11    ,F12  ,F13 ,F14  ,F21 ,
-     5            F22    ,F23  ,F24 ,F31  ,F32 ,
-     6            F33    ,F34  ,M11 ,M12  ,M13 ,
-     7            M14    ,M21  ,M22 ,M23  ,M24 ,
-     8            M31    ,M32  ,M33 ,M34  )
       ENDIF
 C--------------------------
       IF (IPARIT == 3) THEN

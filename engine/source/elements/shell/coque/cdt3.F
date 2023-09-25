@@ -114,69 +114,42 @@ C
       ENDIF
       
 C------------------------------
-      IF(NODADT==0)THEN
-        IF(ISUB==1)THEN
-C         DTC(1) = 1.E6
-          DTC(1) = DT2C(1)
-          DO I=JFT,JLT
-           IF(IXC(4,I)==IXC(5,I))THEN
-C             DTC(1)=MIN(DTC(1),0.5*DT(I),DT2C(1))
-             DTC(1)=MIN(DTC(1),HALF*DT(I))
-           ELSE
-C             DTC(1)=MIN(DTC(1),DT(I),DT2C(1))
-             DTC(1)=MIN(DTC(1),DT(I))
-           ENDIF
-          ENDDO
-        ELSEIF(ISUB==2)THEN
-          DO I=JFT,JLT
-           IF(NDT(I)/=0)THEN
-             IF(IXC(4,I)==IXC(5,I))THEN
-               DTC(I)=MIN(0.5*DT(I),DT2C(I))
-             ELSE
-               DTC(I)=MIN(DT(I),DT2C(1))
-             ENDIF
-           ELSE
-             DT(I)=EP06
-           ENDIF
-          ENDDO
-        ENDIF
-        IF(IDTMIN(3)==0)RETURN
+      IF(NODADT == 0)THEN
+        IF(IDTMIN(3) == 0)RETURN
       ENDIF
 C------------------------------
-        IF(G_DT/=ZERO)THEN
+        IF(G_DT /= ZERO)THEN
            DO I=JFT,JLT
              DTEL(I) = DT(I)
            ENDDO
         ENDIF
 C------------------------------
-      IF(IDTMIN(3)==1)THEN
+      IF(IDTMIN(3) == 1)THEN
         NINDX=IOFC
-        DO 95 I=JFT,JLT
-        IF(DT(I)>DTMIN1(3).OR.
-     .     OFF(I)<ONE.OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO) GO TO 95
+        DO I=JFT,JLT
+        IF(DT(I) > DTMIN1(3) .OR. OFF(I) < ONE .OR. OFFG(I) == TWO .OR. OFFG(I) < ZERO) CYCLE
          NINDX=NINDX+1
          INDXOF(NINDX)=I
-  95    CONTINUE
+        ENDDO
 C
-        DO 100 J=IOFC+1,NINDX
+        DO J=IOFC+1,NINDX
          I = INDXOF(J)
          TSTOP = TT
 #include "lockon.inc"
          WRITE(IOUT,1000)  NGL(I)
          WRITE(ISTDO,1000) NGL(I)
 #include "lockoff.inc"
-  100   CONTINUE
+        ENDDO
         NINDX=IOFC
       ELSEIF(IDTMIN(3)==2)THEN
         NINDX=IOFC
-        DO 120 I=JFT,JLT
-        IF(DT(I)>DTMIN1(3).OR.OFF(I)<ONE
-     .     .OR.OFFG(I)<ZERO) GO TO 120
+        DO I=JFT,JLT
+        IF(DT(I)>DTMIN1(3).OR.OFF(I)<ONE .OR.OFFG(I)<ZERO) CYCLE
          NINDX=NINDX+1
          INDXOF(NINDX)=I
-  120   CONTINUE
+        ENDDO
 C
-        DO 125 J=IOFC+1,NINDX
+        DO J=IOFC+1,NINDX
          I = INDXOF(J)
          OFF(I)=0.
          IDEL7NOK = 1         
@@ -184,43 +157,41 @@ C
          WRITE(IOUT,1200)  NGL(I)
          WRITE(ISTDO,1300) NGL(I),TT
 #include "lockoff.inc"
-  125   CONTINUE
+        ENDDO
         IOFC = NINDX
       ELSEIF(IDTMIN(3)==3.AND.ISMSTR==2)THEN
         NINDX=IOFC
-        DO 130 I=JFT,JLT
-        IF(DT(I)>DTMIN1(3).OR.
-     .     OFF(I)<ONE.OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO)GO TO 130
+        DO I=JFT,JLT
+        IF(DT(I)>DTMIN1(3).OR.OFF(I)<ONE.OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO)CYCLE
          NINDX=NINDX+1
          INDXOF(NINDX)=I
-  130   CONTINUE
+       ENDDO
 C
-        DO 140 J=IOFC+1,NINDX
+        DO J=IOFC+1,NINDX
          I = INDXOF(J)
          OFFG(I)=2.
 #include "lockon.inc"
          WRITE(IOUT,1400)  NGL(I)
          WRITE(ISTDO,1400) NGL(I)
 #include "lockoff.inc"
-  140   CONTINUE
+        ENDDO
         NINDX=IOFC
       ELSEIF(IDTMIN(3)==5)THEN
         NINDX=IOFC
-        DO 155 I=JFT,JLT
-        IF(DT(I)>DTMIN1(3).OR.
-     .     OFF(I)<ONE.OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO)GO TO 155
+        DO I=JFT,JLT
+        IF(DT(I)>DTMIN1(3).OR.OFF(I)<ONE.OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO)CYCLE
          NINDX=NINDX+1
          INDXOF(NINDX)=I
- 155    CONTINUE
+       ENDDO
 C
-        DO 160 J=IOFC+1,NINDX
+        DO J=IOFC+1,NINDX
          I = INDXOF(J)
          MSTOP = 2
 #include "lockon.inc"
          WRITE(IOUT,1000)  NGL(I)
          WRITE(ISTDO,1000) NGL(I)
 #include "lockoff.inc"
-  160   CONTINUE
+        ENDDO
         NINDX=IOFC
       ENDIF
 C

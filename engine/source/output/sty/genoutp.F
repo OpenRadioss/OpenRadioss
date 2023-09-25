@@ -235,9 +235,7 @@ C-----------------------------------------------
      .   20,FEXT,NUMNOD,ITAB,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
-      IF(OUTP_V(9) == 1 .AND. (IDROT==1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
-     .                 MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0 ) .AND.
-     .                 IRODDL/=0) 
+      IF(OUTP_V(9) == 1 .AND. (IDROT==1 .OR. ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR>0 ) .AND. IRODDL/=0)
      .                   CALL OUTP_N_V('VELO_ROT  ',
      .   ' Rotational Velocity                               ',
      .   20,VR,NUMNOD,ITAB,

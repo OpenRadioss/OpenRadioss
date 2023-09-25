@@ -206,7 +206,6 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "spmd_c.inc"
 #include      "fxbcom.inc"
-#include      "subc_c.inc"
 #include      "flowcom.inc"
 #include      "remesh_c.inc"
 #include      "sms_c.inc"
@@ -470,8 +469,7 @@ C               For multidomains inertia of main nodes on multidomains interface
         DMAS = ZERO
         DINER = ZERO
 C
-        IF(MCHECK==0)NCYCLE=  0
-        IF(MCHECK==0)NCYCLSH=0
+        IF(MCHECK==0)NCYCLE=0
         I7KGLO = 0
         NABFWR = 0
 C
@@ -499,8 +497,7 @@ C
         I35ATH=1+LISUB1*NSUBS
 C
         I87A = 1
-        I87B = I87A +  8 * NUMELS   + 6 * NUMELS10
-     .              + 12 * NUMELS20 + 8 * NUMELS16
+        I87B = I87A +  8 * NUMELS + 6 * NUMELS10 + 12 * NUMELS20 + 8 * NUMELS16
         I87C = I87B + 4 * NUMELQ
         I87D = I87C + 4 * NUMELC
         I87E = I87D + 2 * NUMELT
