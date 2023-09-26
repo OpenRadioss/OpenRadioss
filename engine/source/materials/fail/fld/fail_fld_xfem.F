@@ -168,7 +168,7 @@ c-----
         ENDDO
 c
         DO I = 1,NEL
-          EM(I)    = FINTERFLD(EMIN(I),IFUNC(1),LENF,XF)
+          EM(I)    = FINTERFLD(EMIN(I),LENF,XF)
           DAM(I)   = EMAJ(I) / EM(I)
           DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
