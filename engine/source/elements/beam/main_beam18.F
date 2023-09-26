@@ -40,8 +40,8 @@ Chd|====================================================================
      7                  M1      ,M2      ,M3      ,JTHE    ,TEMPEL   ,
      8                  IFAIL   ,SBUFMAT ,SNPC    ,STF     ,NUMMAT   ,
      9                  NUMGEO  ,IOUT    ,ISTDO   ,NPROPMI ,NPROPM   ,
-     A                  NPROPG  ,TIME    ,DTIME   ,IDEL7NOK,IMPL_S   ,
-     B                  ISIGI   ,IDYNA   ,IMCONV)
+     A                  NPROPG  ,TIME    ,DTIME   ,IDEL7NOK,ISIGI    ,
+     B                  IMCONV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,8 +67,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IOUT
       INTEGER ,INTENT(IN) :: ISTDO
       INTEGER ,INTENT(IN) :: ISIGI
-      INTEGER ,INTENT(IN) :: IMPL_S
-      INTEGER ,INTENT(IN) :: IDYNA
       INTEGER ,INTENT(IN) :: IMCONV
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: PID
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL
@@ -254,35 +252,15 @@ C-------------------------------------
         MOM(I,1) = MOM(I,1)*OFF(I)
         MOM(I,2) = MOM(I,2)*OFF(I)
         MOM(I,3) = MOM(I,3)*OFF(I)
+        F1(I) = FOR(I,1) 
+        F2(I) = FOR(I,2) 
+        F3(I) = FOR(I,3) 
+        M1(I) = MOM(I,1) 
+        M2(I) = MOM(I,2) 
+        M3(I) = MOM(I,3) 
       ENDDO
 c---------------------------
-c     element damping
-c---------------------------
-      DTINV = DTIME / MAX(DTIME**2,EM20)  
-      IF (IMPL_S > 0 .AND. IDYNA == 0) DTINV = ZERO
-C
-      E    = PM(20,IMAT)                  
-      G    = PM(22,IMAT)                  
-      RHO  = PM(1 ,IMAT)
-      IXX  = GEO(4,IPID)
-      IYY  = GEO(2,IPID)
-      IZZ  = GEO(18,IPID)
-      AREA = GEO(1 ,IPID)
-      DMPM = GEO(16,IPID)                                    
-      DMPF = GEO(17,IPID) 
-      SPE  = DTINV * SQRT(TWO*RHO*E)             
-      SPG  = DTINV * SQRT(TWO*RHO*G)
-c
-      DO I = 1,NEL                                             
-        DMM   = SPE  * AREA * AL(I)
-        DMPFL = DMPF * AL(I)
-        F1(I) = FOR(I,1) + DMPM  * EXX(I) * DMM   
-        F2(I) = FOR(I,2) + DMPF  * EXY(I) * DMM    
-        F3(I) = FOR(I,3) + DMPF  * EXZ(I) * DMM   
-        M1(I) = MOM(I,1) + DMPFL * KXX(I) * SPG*IXX
-        M2(I) = MOM(I,2) + DMPFL * KYY(I) * SPE*IYY
-        M3(I) = MOM(I,3) + DMPFL * KZZ(I) * SPE*IZZ
-      ENDDO                 
+c     element damping is removed outside with a common call 
 C---------------------------
 C     Internal energy
 C---------------------------
