@@ -392,7 +392,7 @@ C------------------------
      .                  PY1,PY2,PZ1,PZ2,
      .                  T11,T12,T13,T14,T21,T22,T23,T24, 
      .                  AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
-     .                  PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
+     .                  PARTSAV,IPARTQ,EHOU,IPARG(63,NG),JLAG)
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
@@ -605,7 +605,7 @@ C------------------------
      .            PY1,PY2,PZ1,PZ2,
      .            T11,T12,T13,T14,T21,T22,T23,T24, 
      .            AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
-     .            PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
+     .            PARTSAV,IPARTQ,EHOU,IPARG(63,NG),JLAG)
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
