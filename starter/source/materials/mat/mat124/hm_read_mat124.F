@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG
+      INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG,IDEL
 C     REAL ou REAL*8
       my_real
      .   RHO0,YOUNG,NU,A,G,G2,LAM,BULK,FCUT,FC,FT,GFT,
@@ -99,6 +99,7 @@ card1 - Density
 card2 - Elasticity, flags, strain-rate effect and filtering  
       CALL HM_GET_FLOATV('MAT_E'      ,YOUNG      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'     ,NU         ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV  ('IDEL'       ,IDEL       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('IRATE'      ,IRATE      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('FCUT'       ,ASRATE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 card3 - Eccentricity, strength limits and hardening
@@ -189,12 +190,20 @@ c-----------------------------
       ENDIF
       ! Friction parameter
       M0 = THREE*(((FC**2)-(FT**2))/(FC*FT))*(ECC/(ECC + ONE))
+      ! Element deletion flag check
+      IF (IDEL == 0) IDEL = 1
+      IDEL = MIN(IDEL,2)
+      IDEL = MAX(IDEL,1)
       ! Dflag check 
       IF (DFLAG == 0) DFLAG = 1
       DFLAG = MIN(MAX(1,DFLAG),4)
       ! Dtype check
       IF (DTYPE == 0) DTYPE = 2
       DTYPE = MIN(MAX(1,DTYPE),3)
+      ! Regularization flag check
+      IF (IREG == 0) IREG = 2
+      IREG = MIN(IREG,2)
+      IREG = MAX(IREG,1)
       ! Strain rate parameters
       FC0     = TEN*EP06*FAC_T_WORK*FAC_T_WORK*FAC_L_WORK/FAC_M_WORK
       ! -> For tension
@@ -207,8 +216,11 @@ c-----------------------------
       EPSCMAX = 30.0D0*FAC_T_WORK 
       ALPHAS  = ONE / (FIVE + NINE*(FC/FC0))
       GAMMAS  = EXP(6.156D0*ALPHAS - TWO)  
-      ! Strain rate effect activated
-      IF (IRATE > 0) THEN
+      ! Strain rate effect check
+      IF (IRATE == 0) IRATE = 1
+      IRATE = MIN(IRATE,2)
+      IRATE = MAX(IRATE,1)
+      IF (IRATE > 1) THEN
         ISRATE  = 1
         ! Strain rate filtering frequency
         IF (ASRATE == ZERO) THEN 
@@ -223,7 +235,7 @@ c--------------------------
 c     Filling buffer tables
 c-------------------------- 
       ! Number of material parameters
-      NUPARAM = 35
+      NUPARAM = 36
       ! Number of user variables 
       NUVAR = 18
 c      
@@ -267,6 +279,8 @@ c
       UPARAM(33) = EPSCMAX  ! Maximum compressive strain rate threshold
       UPARAM(34) = ALPHAS   ! Compressive strain rate effect parameter 1
       UPARAM(35) = GAMMAS   ! Compressive strain rate effect parameter 2
+      !  -> Element deletion flag
+      UPARAM(36) = IDEL 
 c      
       ! PARMAT table
       PARMAT(1) = BULK
@@ -313,6 +327,7 @@ c--------------------------
         WRITE(IOUT,2000) DTYPE
         WRITE(IOUT,2100) IREG
         WRITE(IOUT,2200) WF,WF1,FT1,EFC
+        WRITE(IOUT,2300) IDEL
       ENDIF     
 c-----------------------------------------------------------------------
  1000 FORMAT(/
@@ -330,8 +345,8 @@ c-----------------------------------------------------------------------
      & 5X,'NU (POISSON RATIO). . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
  1400 FORMAT(
      & 5X,'STRAIN RATE EFFECT FLAG IRATE . . . . . . . . . . . . . . . .=',I3/
-     & 5X,'     0: NO STRAIN RATE EFFECT'/
-     & 5X,'     1: STRAIN RATE EFFECT ACTIVATED'/)
+     & 5X,'     1: NO STRAIN RATE EFFECT (DEFAULT)                       '/
+     & 5X,'     2: STRAIN RATE EFFECT ACTIVATED                          '/)
  1500 FORMAT(
      & 5X,'STRAIN RATE FILTERING CUTOFF FREQUENCY. . . . . . . . . . . .=',1PG20.13/)
  1600 FORMAT( 
@@ -350,24 +365,28 @@ c-----------------------------------------------------------------------
      & 5X,'DF  (DILATION CONSTANT) . . . . . . . . . . . . . . . . . . .=',1PG20.13/ 
      & 5X,'BS  (DAMAGE DUCTILITY PARAMETER). . . . . . . . . . . . . . .=',1PG20.13/)
  1900 FORMAT( 
-     & 5X,'DFLAG (DAMAGE FLAG) . . . . . . . . . . . . . . . . . . . . .=',I10/
+     & 5X,'DFLAG (DAMAGE FLAG) . . . . . . . . . . . . . . . . . . . . .=',I3/
      & 5X,'     1: STANDARD MODEL WITH TWO DAMAGE VARIABLES (DEFAULT)    ',/
      & 5X,'     2: ISOTROPIC MODEL WITH ONE DAMAGE VARIABLE              ',/
      & 5X,'     3: MULTIPLICATIVE MODEL WITH TWO DAMAGE VARIABLES        ',/
      & 5X,'     4: NO DAMAGE EFFECT                                      ',/)
  2000 FORMAT( 
-     & 5X,'DTYPE (TENSION DAMAGE SHAPE)  . . . . . . . . . . . . . . . .=',I10/
+     & 5X,'DTYPE (TENSION DAMAGE SHAPE)  . . . . . . . . . . . . . . . .=',I3/
      & 5X,'     1: LINEAR SOFTENING                                      ',/
      & 5X,'     2: BILINEAR SOFTENING (DEFAULT)                          ',/
      & 5X,'     3: EXPONENTIAL SOFTENING                                 ',/)
  2100 FORMAT( 
-     & 5X,'ELEMENT LENGTH REGULARIZATION FLAG. . . . . . . . . . . . . .=',I10/
-     & 5X,'     0: NO REGULARIZATION                                     ',/
-     & 5X,'     1: REGULARIZATION ACTIVATED                              ',/)
+     & 5X,'ELEMENT LENGTH REGULARIZATION FLAG. . . . . . . . . . . . . .=',I3/
+     & 5X,'     1: NO REGULARIZATION                                     ',/
+     & 5X,'     2: REGULARIZATION ACTIVATED (DEFAULT)                    ',/)
  2200 FORMAT( 
      & 5X,'WF  (DAMAGE DISPLACEMENT THRESHOLD 0) . . . . . . . . . . . .=',1PG20.13/
      & 5X,'WF1 (DAMAGE DISPLACEMENT THRESHOLD 1) . . . . . . . . . . . .=',1PG20.13/
      & 5X,'FT1 (UNIAXIAL STRESS THRESHOLD 1) . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'EFC (STRAIN THRESHOLD IN COMPRESSION) . . . . . . . . . . . .=',1PG20.13/)
+ 2300 FORMAT( 
+     & 5X,'ELEMENT DELETION FLAG. . . . . . .. . . . . . . . . . . . . .=',I3/
+     & 5X,'     1: NO ELEMENT DELETION (DEFAULT)                         ',/
+     & 5X,'     2: ELEMENT DELETION ACTIVATED                            ',/)
 c-----------------------------------------------------------------------
       END

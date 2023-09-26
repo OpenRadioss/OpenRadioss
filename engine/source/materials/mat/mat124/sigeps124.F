@@ -71,7 +71,7 @@ Chd|====================================================================
       !      Local Variables
       !=======================================================================
       INTEGER I,J,II,ITER,NITER,NINDX,INDX(NEL),NINDX2,INDX2(NEL),
-     .        IRATE,DTYPE,DFLAG,IREG,INDX3(NEL),NINDX3
+     .        IRATE,DTYPE,DFLAG,IREG,INDX3(NEL),NINDX3,IDEL
       my_real 
      .   YOUNG,BULK,G,NU,LAM,G2,AFILTR,AH,BH,CH,DH,HP,AS,QH0,
      .   M0,ECC,DF,BS,EPSI,EPST0,EPSTMAX,DELTAS,BETAS,EPSC0,
@@ -141,6 +141,8 @@ c
       EPSCMAX    = UPARAM(33)       ! Maximum compressive strain rate threshold
       ALPHAS     = UPARAM(34)       ! Compressive strain rate effect parameter 1
       GAMMAS     = UPARAM(35)       ! Compressive strain rate effect parameter 2
+      !  -> Element deletion flag
+      IDEL       = NINT(UPARAM(36)) ! Element deletion flag
 c
       !--------------------------------------------------------------------
       ! Recovering internal variables
@@ -189,7 +191,7 @@ c
         DPYZ(I)   = ZERO ! Initialization of the YZ plastic strain increment
         DPZX(I)   = ZERO ! Initialization of the ZX plastic strain increment
         ! Regularization factor
-        IF (IREG > 0) THEN 
+        IF (IREG > 1) THEN 
           IF (UVAR(I,18) == ZERO) UVAR(I,18) = LE(I)
           H(I) = UVAR(I,18)
         ELSE
@@ -221,7 +223,7 @@ c
       ENDDO
 c
       ! Strain rate effects
-      IF (IRATE > 0) THEN 
+      IF (IRATE > 1) THEN 
         ! Computation of principal stresses and vectors
         DO I = 1,NEL
           SIGTENS(I,1) = SIGNXX(I)
@@ -906,10 +908,12 @@ c
             SIGNZX(I) = ZERO  
             DMG(I)    = ONE
             LOFF(I)   = FOUR_OVER_5
-            NINDX3    = NINDX3 + 1
-            INDX3(NINDX3) = I
-            IDEL7NOK  = 1
-            OFF(I)    = ZERO   
+            IF (IDEL > 1) THEN 
+              NINDX3   = NINDX3 + 1
+              INDX3(NINDX3) = I
+              IDEL7NOK = 1
+              OFF(I)   = ZERO 
+            ENDIF  
           ENDIF
 c
         ENDDO
@@ -940,7 +944,7 @@ c
         SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO(I))
       ENDDO
 c
-      IF (IRATE > 0) THEN 
+      IF (IRATE > 1) THEN 
 #include "vectorize.inc" 
         DO II = 1,NINDX
           I = INDX(II)
