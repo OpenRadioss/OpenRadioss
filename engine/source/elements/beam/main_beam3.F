@@ -223,13 +223,6 @@ C
         M2(I) =  MOM(I,2) 
         M3(I) =  MOM(I,3) 
       ENDDO               
-c---------------------------
-c     element damping
-c---------------------------
-      CALL PDAMP3(PM      ,GEO     ,OFF     ,IMAT    ,IPID ,
-     .            NEL     ,NGL     ,EXX     ,EXY     ,EXZ  ,
-     .            KXX     ,KYY     ,KZZ     ,AL      ,F1   ,
-     .            F2      ,F3      ,M1      ,M2      ,M3   )
 C-----------------------------------------------
       RETURN
       END SUBROUTINE MAIN_BEAM3

@@ -30,22 +30,21 @@ Chd|====================================================================
      .    PM      ,GEO     ,OFF     ,IMAT    ,IPID  ,
      .    NEL     ,NGL     ,EXX     ,EXY     ,EXZ   ,
      .    KXX     ,KYY     ,KZZ     ,AL      ,FA1   ,
-     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3   )
+     .    FA2     ,FA3     ,MA1     ,MA2     ,MA3   ,
+     .    IMPL_S  ,IDYNA   ,DT1     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,IMAT,IPID
+      INTEGER ,INTENT(IN) :: NEL,IMAT,IPID,IMPL_S,IDYNA
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,DIMENSION(NPROPG,NUMGEO) ,INTENT(IN):: GEO
       my_real ,DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
@@ -53,11 +52,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(IN)   :: AL
       my_real ,DIMENSION(NEL) ,INTENT(IN)   :: EXX,EXY,EXZ,KXX,KYY,KZZ
       my_real ,DIMENSION(NEL) ,INTENT(INOUT):: FA1,FA2,FA3,MA1,MA2,MA3
+      my_real ,INTENT(IN)                   :: DT1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
-      my_real :: RHO,RHOE,RHOG,YOUNG,G,DMM,IYY,IZZ,IXX,AREA
+      my_real :: RHO,RHOE,RHOG,YOUNG,G,DMM,IYY,IZZ,IXX,AREA,DTINV
       my_real ,DIMENSION(NEL) :: VOL,DMPM,DMPF
 c=======================================================================
       RHO  = PM( 1,IMAT)
@@ -71,11 +71,12 @@ c=======================================================================
       RHOG = SQRT(TWO*G *RHO)   
 c
       VOL(1:NEL) = AREA*AL(1:NEL)
+      DTINV = DT1/MAX(DT1**2,EM20)  
 c
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
         DO I=1,NEL                    
-          DMPM(I)=GEO(16,IPID)*OFF(I)  
-          DMPF(I)=GEO(17,IPID)*OFF(I)
+          DMPM(I)=DTINV*GEO(16,IPID)*OFF(I)  
+          DMPF(I)=DTINV*GEO(17,IPID)*OFF(I)
         ENDDO
       ELSE
         DO I=1,NEL                    

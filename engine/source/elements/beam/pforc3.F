@@ -243,9 +243,17 @@ C----
      7       M1        ,M2          ,M3        ,JTHE     ,TEMPEL  ,       
      8       IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,       
      9       NUMGEO    ,IOUT        ,ISTDO     ,NPROPMI  ,NPROPM  ,
-     A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,IMPL_S  ,
-     B       ISIGI     ,IDYNA       ,IMCONV    )                                               
+     A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,ISIGI   ,
+     B       IMCONV    )                                               
       ENDIF
+c---------------------------
+c     element damping
+c---------------------------
+      CALL PDAMP3(PM      ,GEO     ,OFF     ,MAT(1)  ,PID(1),
+     .            NEL     ,NGL     ,EXX     ,EXY     ,EXZ  ,
+     .            KXX     ,KYY     ,KZZ     ,AL      ,F1   ,
+     .            F2      ,F3      ,M1      ,M2      ,M3   ,
+     .            IMPL_S  ,IDYNA   ,DT1     )
 c-----------------------------------------------------------------------  
 c     Thermal expansion
 c-----------------------------------------------------------------------  
@@ -314,7 +322,7 @@ C
           FPHI(I,1) = HALF * DIE(I) + PHIX ! 
           FPHI(I,2) = HALF * DIE(I) - PHIX
          ENDDO
-       ENDIF
+      ENDIF     
 C-------------------------
 C     ASSEMBLAGE
 C-------------------------
