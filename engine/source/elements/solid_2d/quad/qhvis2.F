@@ -62,28 +62,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO), OFF(*), RHO(*),EANI(*),
-     .   Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
-     .   VY1(*), VY2(*), VY3(*), VY4(*), VZ1(*), VZ2(*), VZ3(*),
-     .   PY1(*), PY2(*), PZ1(*), PZ2(*),EHOU(*),
-     .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*),
-     .   VZ4(*), AREA(*), CXX(*),VD2(*),VIS(*), PARTSAV(NPSAV,*)
+      my_real PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO), OFF(*), RHO(*),EANI(*),
+     .        Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
+     .        VY1(*), VY2(*), VY3(*), VY4(*), VZ1(*), VZ2(*), VZ3(*),
+     .        PY1(*), PY2(*), PZ1(*), PZ2(*),EHOU(*),
+     .        T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*),
+     .        VZ4(*), AREA(*), CXX(*),VD2(*),VIS(*), PARTSAV(NPSAV,*)
       INTEGER MAT(*),PID(*),IPARTQ(NUMELQ), IPARG(63:63)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,MX, ISFLUID
-      my_real
-     .   CAQ(MVSIZ),
-     .   FCL(MVSIZ) , FCQ(MVSIZ),
-     .   G11(MVSIZ) , G21(MVSIZ) , G31(MVSIZ) , G41(MVSIZ),
-     .   HGY(MVSIZ), HGZ(MVSIZ), 
-     .   HY,HZ,FAC,PX1H1,PX2H1,EHOURT, ARE
+      INTEGER I,MX, ISFLUID
+      my_real CAQ(MVSIZ),
+     .        FCL(MVSIZ) , FCQ(MVSIZ),
+     .        G11(MVSIZ) , G21(MVSIZ) , G31(MVSIZ) , G41(MVSIZ),
+     .        HGY(MVSIZ), HGZ(MVSIZ),
+     .        HY,HZ,FAC,PX1H1,PX2H1,EHOURT, ARE
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------
-      IF(MTN==11 .OR. ((MTN==17.OR.MTN==47) .AND. ALE%UPWIND%UPWM==0))THEN
+      IF(MTN == 11 .OR. ((MTN == 17 .OR. MTN == 47) .AND. ALE%UPWIND%UPWM == 0))THEN
        DO I=LFT,LLT
          T11(I) = ZERO
          T12(I) = ZERO
@@ -110,7 +108,7 @@ C-----------------------------------------------
       ENDIF
 
       DO I=LFT,LLT
-        ARE = MAX(AREA(I),EM20)
+        ARE=MAX(AREA(I),EM20)
         FCQ(I)=RHO(I)*SQRT(ARE)
         FCL(I)=CAQ(I)*FCQ(I)
       ENDDO
@@ -148,18 +146,18 @@ C-----------------------------------------------
          FCQ(I)=ZERO
        ENDDO
       ENDIF
-C
+
       DO I=LFT,LLT
        IF(OFF(I) < ONE)THEN
         FCL(I)=ZERO
         FCQ(I)=ZERO
        ENDIF
       ENDDO
-C
+
       IF(JHBE == 0)THEN
-C
-C HOURGLASS HALLQUIST
-C
+       !
+       ! HOURGLASS HALLQUIST
+       !
        DO I=LFT,LLT
          HGY(I)=HALF*(VY1(I)-VY2(I)+VY3(I)-VY4(I))
          HGZ(I)=HALF*(VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I))
@@ -176,9 +174,9 @@ C
          EHOU(I)=  TWO*DT1*(T11(I)*HGY(I) + T21(I)*HGZ(I))
        ENDDO
       ELSE
-C
-C HOURGLASS BELYTSCHKO
-C
+        !
+        ! HOURGLASS BELYTSCHKO
+        !
         DO I=LFT,LLT
           HY=Y1(I)-Y2(I)+Y3(I)-Y4(I)
           HZ=Z1(I)-Z2(I)+Z3(I)-Z4(I)
@@ -208,7 +206,7 @@ C
           EHOU(I)=  TWO*DT1*(HY*HGY(I) + HZ*HGZ(I))
         ENDDO
       ENDIF
-C
+
       IF(JLAG == 1)THEN
         EHOURT = ZERO
         DO I=LFT,LLT
