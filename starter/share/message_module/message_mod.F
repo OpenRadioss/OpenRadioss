@@ -1047,6 +1047,7 @@ Chd|        R_YLD2000                     source/materials/mat/mat087/law87_upd.
 Chd|        S10COOR3                      source/elements/solid/solide10/s10coor3.F
 Chd|        S10COOR3_OLD                  source/elements/solid/solide10/s10coor3.F
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
+Chd|        S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
 Chd|        S16COOR3                      source/elements/thickshell/solide16/s16coor3.F
 Chd|        S16DERI3                      source/elements/thickshell/solide16/s16deri3.F

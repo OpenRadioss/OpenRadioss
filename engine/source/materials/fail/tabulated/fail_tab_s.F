@@ -29,7 +29,7 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
-Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

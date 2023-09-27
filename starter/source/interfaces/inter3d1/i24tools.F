@@ -86,6 +86,7 @@ Chd|        I24PENMAX                     source/interfaces/inter3d1/i24pen3.F
 Chd|        I25NEIGH_SEG_E                source/interfaces/inter3d1/i25neigh.F
 Chd|        ITAGSL2                       source/interfaces/inter3d1/itagsl2.F
 Chd|        RIGMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
+Chd|        S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
 Chd|        SEG_OPP                       source/interfaces/inter3d1/i24tools.F
 Chd|        SAME_SEG                      source/interfaces/inter3d1/i24tools.F
 Chd|-- calls ---------------

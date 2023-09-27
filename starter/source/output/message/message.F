@@ -744,6 +744,7 @@ Chd|        RIVET0                        source/elements/reader/rivet0.F
 Chd|        RKINI3                        source/elements/spring/rkini3.F
 Chd|        RM_CAND24                     source/interfaces/inter3d1/i7remnode.F
 Chd|        S10DERI3                      source/elements/solid/solide10/s10deri3.F
+Chd|        S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
 Chd|        S16DERI3                      source/elements/thickshell/solide16/s16deri3.F
 Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F

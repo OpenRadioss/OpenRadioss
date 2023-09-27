@@ -21,11 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  A3INVDP                       source/elements/shell/coquez/czcorc.F
+Chd|  A3INVDP_V                     source/elements/shell/coquez/a3invdp_v.F
 Chd|-- called by -----------
-Chd|        CZCORP5                       source/elements/shell/coquez/czcorc.F
-Chd|        CZCORP5V                      source/elements/shell/coquez/czcorc.F
-Chd|        CZCORP5X                      source/elements/shell/coquez/czcorc.F
+Chd|        CZCORP5                       source/elements/shell/coquez/czcorp5.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE A3INVDP_V(D,DI,NEL,PLAT)

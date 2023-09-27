@@ -788,7 +788,6 @@ Chd|  VALPVEC                       source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
 Chd|        EPSF2U                        source/materials/mat/mat033/sigeps33.F
 Chd|        SIGEPS88                      source/materials/mat/mat088/sigeps88.F
-Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|-- calls ---------------
 Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
 Chd|====================================================================
@@ -1107,7 +1106,6 @@ Chd|  VALPVECDP                     source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
 Chd|        EPSF2U                        source/materials/mat/mat033/sigeps33.F
 Chd|        SIGEPS88                      source/materials/mat/mat088/sigeps88.F
-Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|-- calls ---------------
 Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
 Chd|====================================================================
@@ -1895,6 +1893,7 @@ Chd|        SIGEPS62                      source/materials/mat/mat062/sigeps62.F
 Chd|        SIGEPS69                      source/materials/mat/mat069/sigeps69.F
 Chd|        SIGEPS71                      source/materials/mat/mat071/sigeps71.F
 Chd|        SIGEPS82                      source/materials/mat/mat082/sigeps82.F
+Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|        SIGEPS92                      source/materials/mat/mat092/sigeps92.F
 Chd|        SIGEPS94                      source/materials/mat/mat094/sigeps94.F
 Chd|-- calls ---------------
@@ -2220,6 +2219,7 @@ Chd|        SIGEPS62                      source/materials/mat/mat062/sigeps62.F
 Chd|        SIGEPS69                      source/materials/mat/mat069/sigeps69.F
 Chd|        SIGEPS71                      source/materials/mat/mat071/sigeps71.F
 Chd|        SIGEPS82                      source/materials/mat/mat082/sigeps82.F
+Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|        SIGEPS92                      source/materials/mat/mat092/sigeps92.F
 Chd|        SIGEPS94                      source/materials/mat/mat094/sigeps94.F
 Chd|-- calls ---------------

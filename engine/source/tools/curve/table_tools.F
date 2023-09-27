@@ -442,7 +442,6 @@ Chd|====================================================================
 Chd|  TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
-Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
 Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
 Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
 Chd|        GET_U_TABLE                   source/user_interface/utable.F
@@ -773,6 +772,7 @@ Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inie
 Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
 Chd|        FAIL_TAB2_S                   source/materials/fail/tabulated/fail_tab2_s.F
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
+Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
 Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F
 Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F

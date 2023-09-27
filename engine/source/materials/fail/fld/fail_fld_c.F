@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|        FINTERFLD                     source/materials/fail/fld/fail_fld_c.F
 Chd|====================================================================
       SUBROUTINE FAIL_FLD_C(

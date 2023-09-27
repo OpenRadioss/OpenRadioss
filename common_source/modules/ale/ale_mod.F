@@ -104,6 +104,7 @@ Chd|        MEINT                         engine/source/materials/mat_share/mein
 Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        MQVISCB                       engine/source/materials/mat_share/mqviscb.F
 Chd|        QDLEN2                        engine/source/elements/solid_2d/quad/qdlen2.F
+Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
 Chd|        QHVIS2                        engine/source/elements/solid_2d/quad/qhvis2.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F

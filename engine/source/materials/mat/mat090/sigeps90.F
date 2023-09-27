@@ -25,8 +25,8 @@ Chd|  SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
-Chd|        VALPVEC                       source/materials/mat/mat033/sigeps33.F
-Chd|        VALPVECDP                     source/materials/mat/mat033/sigeps33.F
+Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
+Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS90(

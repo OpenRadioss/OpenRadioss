@@ -370,6 +370,7 @@ Chd|        RGRHEAD                       source/elements/spring/rgrhead.F
 Chd|        RGRTAILS                      source/elements/spring/rgrtails.F
 Chd|        RIGID_MAT                     source/materials/mat/mat019/rigid_mat.F
 Chd|        RIGMODIF1_ND                  source/elements/solid/solide10/dim_s10edg.F
+Chd|        S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
 Chd|        SCRINT                        source/interfaces/interf1/scrint.F
 Chd|        SEARCHIGEO3D                  source/elements/ige3d/searchigeo3d.F
 Chd|        SENSOR_USER_CONVERT_LOCAL_ID  source/tools/sensor/sensor_user_convert_local_id.F

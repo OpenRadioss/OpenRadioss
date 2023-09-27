@@ -21,6 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  S10EDG_RLINK                  source/elements/solid/solide10/s10edg_rlink.F
+Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|====================================================================
       SUBROUTINE S10EDG_RLINK(NLINK, NUMLINK,NNLINK,LNLINK,
      .                       ITAGND,ICNDS10,ITAB,IPRI,NUMNOD,NS10E)
 C=======================================================================
