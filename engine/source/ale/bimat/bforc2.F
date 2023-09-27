@@ -109,16 +109,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER OFFSET,NEL,NG
-      INTEGER IC(*), IPARG(NPARG,*), JPARG(*), IMS(*), 
-     .        NPF(*),IPARTQ(*),IPM(*),IGEO(*),ITASK,H3D_STRAIN
+      INTEGER IC(*), IPARG(NPARG,NGROUP), JPARG(*), IMS(*), NPF(*),IPARTQ(NUMELQ),IPM(*),IGEO(*),ITASK,H3D_STRAIN
       INTEGER NELTST,ITYPTST, IADQ(4,*),GRTH(*),IGRTH(*)
-      my_real
-     .   DT2T
-      my_real
-     .   PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
-     .   FLU1(*), VEUL(*), FV(*), FILL(NUMNOD,*),EANI(*),FSKY(*),
-     .   DFILL(NUMNOD,*), TF(*), BUFMAT(*), PARTSAV(*), STIFN(*),
-     .   BUFVOIS(6,*),GRESAV(*),VOLN(MVSIZ),MS_2D(*),FSKYM(*)
+      my_real DT2T
+      my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
+     .        FLU1(*), VEUL(*), FV(*), FILL(NUMNOD,*),EANI(*),FSKY(*),
+     .        DFILL(NUMNOD,*), TF(*), BUFMAT(*), PARTSAV(*), STIFN(*),
+     .        BUFVOIS(6,*),GRESAV(*),VOLN(MVSIZ),MS_2D(*),FSKYM(*)
       TYPE (TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -132,48 +129,37 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      .        NGL(MVSIZ),NGEO(MVSIZ), IBIDV(1) ,L_TEMP, L_PLA, L_BFRAC,L_BULK
       INTEGER :: ILAY
-      my_real
-     .   SOFF
-      my_real
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   AIRE(MVSIZ),AIRES(MVSIZ),AIREM(MVSIZ),VD2(MVSIZ),DVOL(MVSIZ),
-     .   DELTAX(MVSIZ),VIS(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ), 
-     .   VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
-     .   PY1(MVSIZ), PY2(MVSIZ), PZ1(MVSIZ), PZ2(MVSIZ),
-     .   WYZ(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),QVIS(MVSIZ),SSP(MVSIZ),
-     .   S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),S5(MVSIZ),S6(MVSIZ),
-     .   EYY(MVSIZ),EZZ(MVSIZ),ETT(MVSIZ),EYZ(MVSIZ),EYT(MVSIZ),
-     .   EZT(MVSIZ),RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),
-     .   SZ(MVSIZ), TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
-      my_real
-     .   F11(MVSIZ), F12(MVSIZ), F21(MVSIZ), F22(MVSIZ),SSP_EQ(MVSIZ),
-     .   T11(MVSIZ), T12(MVSIZ), T13(MVSIZ), T14(MVSIZ), T21(MVSIZ), 
-     .   T22(MVSIZ), T23(MVSIZ),T24(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ), 
-     .   AX1(MVSIZ),AX2(MVSIZ), EHOU(MVSIZ)
-C FORCE DE TRANSPORT BIMATERIAU
-      my_real
-     .   B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ),
-     .   B21(MVSIZ), B22(MVSIZ), B23(MVSIZ), B24(MVSIZ)
-      my_real
-     .   WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
-      my_real
-     . MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(1)
-      my_real
-     . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-      my_real
-     . DALPH1(MVSIZ), DALPH2(MVSIZ)
-      my_real
-     . EYYS(MVSIZ), EZZS(MVSIZ), ETTS(MVSIZ), EYZS(MVSIZ), EYTS(MVSIZ), EZTS(MVSIZ),BIDM(MVSIZ)
+      my_real  SOFF
+      my_real Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
+     .        AIRE(MVSIZ),AIRES(MVSIZ),AIREM(MVSIZ),VD2(MVSIZ),DVOL(MVSIZ),
+     .        DELTAX(MVSIZ),VIS(MVSIZ),
+     .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ),
+     .        VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
+     .        PY1(MVSIZ), PY2(MVSIZ), PZ1(MVSIZ), PZ2(MVSIZ),
+     .        WYZ(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),QVIS(MVSIZ),SSP(MVSIZ),
+     .        S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),S5(MVSIZ),S6(MVSIZ),
+     .        EYY(MVSIZ),EZZ(MVSIZ),ETT(MVSIZ),EYZ(MVSIZ),EYT(MVSIZ),
+     .        EZT(MVSIZ),RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),
+     .        SZ(MVSIZ), TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
+      my_real F11(MVSIZ), F12(MVSIZ), F21(MVSIZ), F22(MVSIZ),SSP_EQ(MVSIZ),
+     .        T11(MVSIZ), T12(MVSIZ), T13(MVSIZ), T14(MVSIZ), T21(MVSIZ),
+     .        T22(MVSIZ), T23(MVSIZ),T24(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),
+     .        AX1(MVSIZ),AX2(MVSIZ), EHOU(MVSIZ)
+
+      my_real B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ),B21(MVSIZ), B22(MVSIZ), B23(MVSIZ), B24(MVSIZ) ! Advection term ('force')
+      my_real WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
+      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(1)
+      my_real SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6), R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+      my_real DALPH1(MVSIZ), DALPH2(MVSIZ)
+      my_real EYYS(MVSIZ), EZZS(MVSIZ), ETTS(MVSIZ), EYZS(MVSIZ), EYTS(MVSIZ), EZTS(MVSIZ),BIDM(MVSIZ)
       my_real VARNL(NEL)
 C-------------------
       TYPE(L_BUFEL_)  ,POINTER :: LBUF, LBUF1,LBUF2     
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-C--------------------------------------------------      
-C
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       GBUF  => ELBUF_TAB(NG)%GBUF
       LBUF1 => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)  ! buffer mat 1
       LBUF2 => ELBUF_TAB(NG)%BUFLY(2)%LBUF(1,1,1)  ! buffer mat 2
@@ -182,7 +168,7 @@ C=======================================================================
       NF1   = NFT + 1
       NF2   = NF1+NUMELQ
       LCO   = NFT*7 + 1
-c
+
       IBIDV=0
       IBID = 0
       BID = ZERO
@@ -192,10 +178,11 @@ c
         CALL ANCMSG(MSGID=14,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
+
       DO I=1,NEL
-       WYY(I)=ZERO
-       WZZ(I)=ZERO
-       VDX(I)=ZERO     
+        WYY(I)=ZERO
+        WZZ(I)=ZERO
+        VDX(I)=ZERO
       ENDDO
 C------------
       CALL QCOOR2(
@@ -207,7 +194,7 @@ C------------
 C------------
 C      A.L.E.
 C------------
-      IF (JALE/=0) THEN
+      IF (JALE /= 0) THEN
        CALL QVOLU2(
      1   GBUF%OFF,AIRE,    VOLN,    NGL,
      2   Y1,      Y2,      Y3,      Y4,
@@ -247,7 +234,7 @@ C------------
 C-----------
 C      EULER
 C-----------
-      ELSEIF(JEUL/=0)THEN
+      ELSEIF(JEUL /= 0)THEN
        CALL EDEFO2(GBUF%VOL,V,VEUL,
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
@@ -273,7 +260,7 @@ C-----------
      .      MAT, NC1, NC2, NC3, NC4)
       ENDIF
 C-----------------------------------------------------
-C     MULTIMATERIAUX 1
+C     SUBMATERIAL 1
 C-----------------------------------------------------
       IMULT=JMULT
       JMULT=1
@@ -284,7 +271,7 @@ C-----------------------------------------------------
       L_PLA  = ELBUF_TAB(NG)%BUFLY(JMULT)%L_PLA
       L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC 
       L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS
-c
+
       CALL BREST2(LBUF1%FRAC,GBUF%VOL,PM,
      .            LBUF1%OFF,LBUF1%VOL,SOFF,IC(LCO),VOLN,
      .            AIRE, AIRES, 
@@ -298,13 +285,12 @@ c
      .            VY1, VY2, VY3, VY4, 
      .            VZ1, VZ2, VZ3, VZ4,
      .            MAT)
-      CALL QROTA2(
-     1   LBUF1%SIG,S1,       S2,       S3,
-     2   S4,       S5,       S6,       WYZ,
-     3   NEL,      JCVT)
+      CALL QROTA2( LBUF1%SIG,S1,       S2,       S3,
+     2             S4,       S5,       S6,       WYZ,
+     3             NEL,      JCVT)
 
       IF (ISORTH == 0) THEN 
-C       propriete isotrope
+        !isotropic
         DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
@@ -324,9 +310,8 @@ C       propriete isotrope
         ENDDO
       ENDIF                                  
 C-----------------------------------------------------
-C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES
+C     STRESS TENSOR
 C-----------------------------------------------------
-C pour le fluide en SPMD : BUFVOIS LOI11
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2   FV,          ALE_CONNECT, IC,          IPARG,
@@ -356,9 +341,9 @@ C pour le fluide en SPMD : BUFVOIS LOI11
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH)
 C----------------------------------
-C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
+C     PETROV-GALERKIN PSEUDO MASSES & ALE MASSES
 C----------------------------------
-      IF (IPARIT==0) THEN
+      IF (IPARIT == 0) THEN
         CALL QMASS2(
      1   LBUF%OFF,LBUF%RHO,MS,      AIRE,
      2   NC1,     NC2,     NC3,     NC4,
@@ -384,7 +369,7 @@ C----------------------------
          ENDIF
       ENDIF
 C------------------------
-C     FORCES ANTI SABLIER
+C     ANTI-HOURGLASS FORCES
 C------------------------
       CALL QHVIS2(PM,LBUF%OFF,LBUF%RHO,
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
@@ -392,12 +377,12 @@ C------------------------
      .                  PY1,PY2,PZ1,PZ2,
      .                  T11,T12,T13,T14,T21,T22,T23,T24, 
      .                  AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
-     .                  PARTSAV,IPARTQ,EHOU,IPARG(63,NG),JLAG)
+     .                  PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
 C--------------------------
-C     BILANS PAR MATERIAU
+C     SYNTHESIS PER SUBMATERIAL
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS/=0.
+      IF(IFLAG == 0 .OR. TT >= OUTPUT%TH%THIS .OR. MDESS /= 0.
      .   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
      .   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
      .   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
@@ -417,7 +402,7 @@ C--------------------------
      8   JTUR,     JCVT,     IGRE)
 C
 C--------------------
-C     FORCES INTERNES
+C     INTERNAL FORCES
 C--------------------
       CALL QFINT2(
      1   LBUF%SIG,PY1,     PY2,     PZ1,
@@ -426,9 +411,9 @@ C--------------------
      4   AX1,     AX2,     BID,     BID,
      5   BID,     BID,     NEL,     JCVT)
 C------------------------
-C     FORCES DE TRANSPORT
+C     ADVECTION TERM (TRANSPORTATION 'FORCE')
 C------------------------
-      IF (JALE>0.AND.MTN/=11)
+      IF (JALE > 0 .AND. MTN /= 11)
      .  CALL BAMOM2(
      1   PM,        V,         W,         LBUF%RHO,
      2   LBUF1%FRAC,LBUF2%FRAC,FILL(1,1), B11,
@@ -437,7 +422,7 @@ C------------------------
      5   PY2,       PZ1,       PZ2,       AIRE,
      6   MAT,       NC1,       NC2,       NC3,
      7   NC4,       NEL)
-      IF (JEUL>0.AND.MTN/=11)
+      IF (JEUL > 0 .AND. MTN /= 11)
      .  CALL BEMOM2(
      1   PM,        V,         LBUF%RHO,  LBUF1%FRAC,
      2   LBUF2%FRAC,FILL(1,1), B11,       B12,
@@ -447,16 +432,16 @@ C------------------------
      6   NC1,       NC2,       NC3,       NC4,
      7   NEL)
 C--------------
-C     ASSEMBLE
+C     ASSEMBLY
 C--------------
-        IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(B11 ,B12 ,B13 ,B14 ,B21 ,
+        IF(JEUL+JALE /= 0) CALL CHECK_OFF_ALE(B11 ,B12 ,B13 ,B14 ,B21 ,
      1                                      B22 ,B23 ,B24 ,BIDM,BIDM,
      2                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      3                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
      5                                      1,NEL,NEL)
 
-      IF (IPARIT==0) THEN
+      IF (IPARIT == 0) THEN
       CALL BCUMU2 (LBUF1%FRAC,LBUF2%FRAC,A,FILL(1,1),
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
@@ -484,21 +469,18 @@ C--------------
       
       
 C-----------------------------------------------------
-C     MULTIMATERIAUX 2
+C     SUBMATERIAL 2
 C-----------------------------------------------------
-C     NB1:OFF /NB2:SIG(6)/NB3:ENERGIE/NB4:RHO/NB5: Q /
-C-----------------------------------------------------
-      IF(IMULT>1)THEN
-c
-      JMULT = 2
-      ILAY = -2
-      LBUF => ELBUF_TAB(NG)%BUFLY(JMULT)%LBUF(1,1,1)  ! buffer mat 2
-      MTN=JPARG(26)
-      L_TEMP = ELBUF_TAB(NG)%BUFLY(JMULT)%L_TEMP
-      L_PLA  = ELBUF_TAB(NG)%BUFLY(JMULT)%L_PLA      
-      L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC      
-      L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS  
-c
+      IF(IMULT > 1)THEN
+        JMULT = 2
+        ILAY = -2
+        LBUF => ELBUF_TAB(NG)%BUFLY(JMULT)%LBUF(1,1,1)  ! buffer mat 2
+        MTN=JPARG(26)
+        L_TEMP = ELBUF_TAB(NG)%BUFLY(JMULT)%L_TEMP
+        L_PLA  = ELBUF_TAB(NG)%BUFLY(JMULT)%L_PLA
+        L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC
+        L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS
+
       CALL BREST2(LBUF2%FRAC,GBUF%VOL,PM,
      .            LBUF%OFF,LBUF%VOL,SOFF,IC(LCO),VOLN,
      .            AIRE, AIRES, 
@@ -516,9 +498,9 @@ c
      1   LBUF%SIG,S1,      S2,      S3,
      2   S4,      S5,      S6,      WYZ,
      3   NEL,     JCVT)
-c
+
       IF (ISORTH == 0) THEN 
-C       propriete isotrope
+        !isotropic
         DO I=1,NEL                                            
           GAMA(I,1) = ONE                                
           GAMA(I,2) = ZERO                                  
@@ -538,7 +520,7 @@ C       propriete isotrope
         ENDDO
       ENDIF                                  
 C-----------------------------------------------------
-C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES
+C     STREE TENSOR
 C-----------------------------------------------------
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
@@ -569,9 +551,9 @@ C-----------------------------------------------------
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   TH_STRAIN,   JPLASOL,     JSPH)
 C----------------------------------
-C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
+C     PETROV-GALERKIN PSEUDO MASSES & MASSES ALE
 C----------------------------------
-      IF (IPARIT==0) THEN
+      IF (IPARIT == 0) THEN
       CALL QMASS2(
      1   LBUF%OFF,LBUF%RHO,MS,      AIRE,
      2   NC1,     NC2,     NC3,     NC4,
@@ -597,7 +579,7 @@ C----------------------------
          ENDIF
       ENDIF
 C------------------------
-C     FORCES ANTI SABLIER
+C     ANTI-HOURGLASS FORCES
 C------------------------
       CALL QHVIS2(PM,LBUF%OFF,LBUF%RHO,
      .            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
@@ -605,12 +587,12 @@ C------------------------
      .            PY1,PY2,PZ1,PZ2,
      .            T11,T12,T13,T14,T21,T22,T23,T24, 
      .            AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
-     .            PARTSAV,IPARTQ,EHOU,IPARG(63,NG),JLAG)
+     .            PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
 C--------------------------
-C     BILANS PAR MATERIAU
+C     SYNTHESIS PER SUBMATERIAL
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG==0.OR.TT>=OUTPUT%TH%THIS.OR.MDESS/=0.
+      IF(IFLAG == 0 .OR. TT >= OUTPUT%TH%THIS .OR. MDESS /= 0.
      .   OR.TT>=OUTPUT%TH%THIS1(1).OR.TT>=OUTPUT%TH%THIS1(2).
      .   OR.TT>=OUTPUT%TH%THIS1(3).OR.TT>=OUTPUT%TH%THIS1(4).OR.TT>=OUTPUT%TH%THIS1(5).
      .   OR.TT>=OUTPUT%TH%THIS1(6).OR.TT>=OUTPUT%TH%THIS1(7).OR.TT>=OUTPUT%TH%THIS1(8).
@@ -630,7 +612,7 @@ c
      7   IBID,     BID,      ITASK,    NEL,
      8   JTUR,     JCVT,     IGRE)
 C--------------------
-C       FORCES INTERNES
+C       INTERNAL FORCES
 C--------------------
         CALL QFINT2(
      1   LBUF%SIG,PY1,     PY2,     PZ1,
@@ -639,9 +621,9 @@ C--------------------
      4   AX1,     AX2,     BID,     BID,
      5   BID,     BID,     NEL,     JCVT)
 C------------------------
-C       FORCES DE TRANSPORT
+C       ADVECTION TERM (TRANSPORTATION 'FORCE')
 C------------------------
-        IF(JALE>0.AND.MTN/=11)
+        IF(JALE > 0 .AND. MTN /= 11)
      .    CALL BAMOM2(
      1   PM,        V,         W,         LBUF%RHO,
      2   LBUF2%FRAC,LBUF1%FRAC,FILL(1,2), B11,
@@ -650,7 +632,7 @@ C------------------------
      5   PY2,       PZ1,       PZ2,       AIRE,
      6   MAT,       NC1,       NC2,       NC3,
      7   NC4,       NEL)
-        IF(JEUL>0.AND.MTN/=11)
+        IF(JEUL > 0 .AND. MTN /= 11)
      .    CALL BEMOM2(
      1   PM,        V,         LBUF%RHO,  LBUF2%FRAC,
      2   LBUF1%FRAC,FILL(1,2), B11,       B12,
@@ -660,15 +642,15 @@ C------------------------
      6   NC1,       NC2,       NC3,       NC4,
      7   NEL)
 C--------------
-C       ASSEMBLE
+C       ASSEMBLY
 C--------------
-        IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(B11 ,B12 ,B13 ,B14 ,B21 ,
+        IF(JEUL+JALE /= 0) CALL CHECK_OFF_ALE(B11 ,B12 ,B13 ,B14 ,B21 ,
      1                                      B22 ,B23 ,B24 ,BIDM,BIDM,
      2                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      3                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
      5                                      1,NEL,NEL)
-        IF(IPARIT==0)THEN
+        IF(IPARIT == 0)THEN
           CALL BCUMU2(LBUF2%FRAC,LBUF1%FRAC,A,FILL(1,2),
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
