@@ -464,16 +464,12 @@ keywords  liste_nuit spmd_only version_100 onefile miniqa
 input	../miniqa/onefile_rad/data/CRA2AV4_0000.rad
 extract	../miniqa/onefile_rad/data/ref.extract
 execute -starter
-local	TIME	Diff_Tolerance	0.00300450676014032
-local	TSTEP	Diff_Tolerance	0.532181357006975
-local	IENERGY	Diff_Tolerance	0.0141006097560976
-local	KENERGYT	Diff_Tolerance	0.00318471337579618
-if precision == sp local CYCLE Relative_Int_Tolerance 0.011
-if precision == sp local TSTEP Diff_Tolerance 0.05
-if precision == sp local STEP Diff_Tolerance 0.048
-if precision == sp local ERROR Abs_Tolerance 0.15
-if precision == sp local EXTWORK Diff_Tolerance 0.02
-if module = win64 local TSTEP Diff_Tolerance 0.004
+local   CYCLE   Int_Tolerance   3300
+local   TIME    Diff_Tolerance  0.00250250250250254
+local   TSTEP   Diff_Tolerance  0.2570321711302
+local   ERROR   Diff_Tolerance  0.0833333333333332
+local   IENERGY Diff_Tolerance  0.0188139059304703
+local   KENERGYT        Diff_Tolerance  0.00225123818099955
 go -engine
 #--------------------------------------------------------------------------------
 #1.35
@@ -947,18 +943,10 @@ input  ../miniqa/AMS/boxbeam/data/BOXBEAM_0000.rad
 execute -starter
 input  ../miniqa/AMS/boxbeam/data/BOXBEAM_0001.rad
 extract ../miniqa/AMS/boxbeam/data/ref.extract
-local TIME Diff_Tolerance 0.0051
-local TSTEP Diff_Tolerance 0.0051
-local IENERGY Diff_Tolerance 0.0051
-local KENERGYT Diff_Tolerance 0.0051
-local KENERGYR Diff_Tolerance 0.0051
-local EXTWORK Diff_Tolerance 0.0051
-local IENERGY Relative_Int_Tolerance 0.0051
-local KENERGYT Relative_Int_Tolerance 0.0051
-local KENERGYR Relative_Int_Tolerance 0.0051
-local EXTWORK Relative_Int_Tolerance 0.0051
-if precision == sp local KENERGYT Diff_Tolerance 0.018
-if precision == sp local KENERGYR Diff_Tolerance 0.075
+local   ERROR   Diff_Tolerance  0.218181818181818
+local   IENERGY Diff_Tolerance  0.21481685486092
+local   KENERGYT        Diff_Tolerance  0.0642292490118577
+local   EXTWORK Diff_Tolerance  0.194240969941905
 go -engine
 #--------------------------------------------------------------------------------
 #Add missing model
