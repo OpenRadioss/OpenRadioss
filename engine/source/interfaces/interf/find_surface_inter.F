@@ -30,7 +30,8 @@ Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/in
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,
-     .                                IXTG  ,INTERFACES    ,INTBUF_TAB,SHIFT_INTERFACE )
+     .                                IXTG  ,INTERFACES    ,INTBUF_TAB,SHIFT_INTERFACE,
+     .                                NGROUP,NPARG,IGROUPS,IPARG )
 !$COMMENT
 !       FIND_EDGE_INTER description
 !           this routine finds the surface id and the interfaces id of a list of deleted elements
@@ -43,7 +44,7 @@ Chd|====================================================================
 !$ENDCOMMENT
         USE INTBUFDEF_MOD  
         USE SHOOTING_NODE_MOD
-        USE INTERFACES_MOD   
+        USE INTERFACES_MOD  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +62,9 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB ! array to convert local id to global id
+        INTEGER, INTENT(in) :: NGROUP,NPARG !< size of iparg
+        INTEGER, DIMENSION(NUMELS), INTENT(in) :: IGROUPS !< array to point to the element group
+        INTEGER, DIMENSION(NPARG,NGROUP), INTENT(in) :: IPARG !< element group data
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
         TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures  
         INTEGER, DIMENSION(NINTER+1,2), INTENT(in) :: SHIFT_INTERFACE ! interface shift   
@@ -73,11 +77,13 @@ C-----------------------------------------------
         INTEGER :: OFFSET_SOLID,OFFSET_QUAD,OFFSET_SHELL,OFFSET_TRUSS
         INTEGER :: OFFSET_BEAM,OFFSET_SPRING,OFFSET_TRIANGLE,OFFSET_UR
         INTEGER, DIMENSION(4,6), TARGET :: FACES ! definition of faces for solid
+        INTEGER, DIMENSION(4,5), TARGET :: FACES6 ! definition of faces for penta6
+        INTEGER, DIMENSION(3,4), TARGET :: FACES4 ! definition of faces for tetra10
         INTEGER, DIMENSION(3,16), TARGET :: FACES10 ! definition of faces for tetra10
         INTEGER, DIMENSION(4,1), TARGET :: FACES_SHELL ! definition of face for shell/quad/triangle
         INTEGER,DIMENSION(:,:), POINTER :: POINTER_FACE,IX
 
-        LOGICAL :: NO_SURF,DO_COMPUTATION
+        LOGICAL :: DO_COMPUTATION
         INTEGER :: SHIFT,SHIFT_ELM,OLD_SIZE
         INTEGER :: SURFACE_NUMBER,NUMBER_INTER 
         INTEGER :: NB_PROC_1,NB_PROC_2,NODE_SURF_NB,SEVERAL_PROC,SEVERAL_SURF
@@ -89,14 +95,28 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELEMS , RESULT_INTERSECT_25,RESULT_INTERSECT_SURF_2
         INTEGER, DIMENSION(4) :: LOCAL_NODE
         INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function
+        INTEGER :: GROUP_NUMBER
+        INTEGER :: KIND_SOLID,OLD_J,MERGED_NODE,ERROR
+        INTEGER, DIMENSION(4) :: LIST_NODE_ID,PERM_LIST_NODE_ID,NB_APPAREANCE
+        LOGICAL :: NEED_COMPUTE
+
         DATA FACES_SHELL/1,2,3,4/
 
-        DATA FACES/1,2,3,4,
-     .             1,2,6,5,
-     .             2,3,7,6,
-     .             3,4,8,7,
-     .             1,5,8,4,
-     .             5,6,7,8/
+        DATA FACES/1,2,3,4,   
+     .             1,2,6,5,  
+     .             2,3,7,6,  
+     .             3,4,8,7, 
+     .             1,5,8,4,  
+     .             5,6,7,8/  
+        DATA FACES4/2,3,6,   
+     .             2,3,5,  
+     .             2,6,5,
+     .             3,6,5/
+        DATA FACES6/1,2,3,1,   !-> tri
+     .             1,2,6,5,    !->quad
+     .             2,3,7,6,    !->quad
+     .             3,4,8,7,    !->quad
+     .             5,6,7,5/    !->tri
         DATA FACES10/1,11,14,
      .               3,11,15,
      .               5,14,15,
@@ -169,6 +189,7 @@ C-----------------------------------------------
         DO I=1,SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX
             ELEM_ID = SHOOT_STRUCT%GLOBAL_ELEM_INDEX(I) ! get the id of the deleted element
             DO_COMPUTATION = .TRUE.
+            KIND_SOLID = 0
             ! ----------------------
             IF(ELEM_ID<=NUMELS8) THEN
                 ! solid element : 8 nodes --> 6 surfaces
@@ -178,10 +199,45 @@ C-----------------------------------------------
                 !   | o++|+o
                 !   |+   |/
                 !   o----o
-                SURFACE_NUMBER = 6 ! number of surface
-                NODE_SURF_NB = 4   ! number of node per surface
+                ! penta element : 6 nodes --> 5 surfaces
+                !        o
+                !       /+\
+                !      o+  \
+                !     /\o++/o
+                !    /+ \ /
+                !   o----o
+                ! tetra4 element : 4 nodes --> 4 surfaces  
+                !       o      
+                !      /+\         
+                !     / + \  
+                !    /  +  \ 
+                !   /   o   \ 
+                !  /  +    + \
+                ! o-----------o
+                GROUP_NUMBER = IGROUPS(ELEM_ID)
+                KIND_SOLID = IPARG(28,GROUP_NUMBER)
+                ! -------------
+                ! tetra4 
+                IF(KIND_SOLID==4) THEN 
+                    SURFACE_NUMBER = 4 ! number of surface
+                    NODE_SURF_NB = 3   ! number of node per surface
+                    POINTER_FACE => FACES4(1:3,1:4)
+                ! -------------
+                ! penta6                 
+                ELSEIF(KIND_SOLID==6) THEN
+                    SURFACE_NUMBER = 5 ! number of surface
+                    NODE_SURF_NB = 4   ! number of node per surface (3 surface with 4 nodes, 2 with 3 nodes)
+                    POINTER_FACE => FACES6(1:4,1:5)
+                ! -------------
+                ! solid8 
+                ELSE
+                    KIND_SOLID = 8
+                    SURFACE_NUMBER = 6 ! number of surface
+                    NODE_SURF_NB = 4   ! number of node per surface
+                    POINTER_FACE => FACES(1:4,1:6)
+                ENDIF
+                ! -------------
                 IX => IXS(1:NIXS,1:NUMELS)
-                POINTER_FACE => FACES(1:4,1:6)
                 SHIFT_ELM = OFFSET_SOLID
             ELSEIF(ELEM_ID<=NUMELS8+NUMELS10) THEN
                 ! solid element : tetra10 --> 10 surfaces
@@ -387,9 +443,54 @@ c                              ! 2 elements sharing the segment are local
                 NB_RESULT_INTERSECT_2 = 0
                 ! loop over the surfaces of the element
                 DO K=1,SURFACE_NUMBER
-                    SEVERAL_PROC = 0
-                    SEVERAL_SURF = 0
-                    NO_SURF = .FALSE.
+                  SEVERAL_PROC = 0
+                  SEVERAL_SURF = 0
+                  NEED_COMPUTE = .TRUE.
+                  ! ---------------------------
+                  ! solid element 8 can be degenerated (penta, pyramid...)
+                  ! --> need to check if the face of the element is a real face
+                  IF(KIND_SOLID==8) THEN
+                    ! ----------------
+                    ! sort the node id list
+                    DO J=1,4
+                        N = POINTER_FACE(J,K)
+                        LIST_NODE_ID(J) = IX(N+1,ELEM_ID-SHIFT_ELM)
+                    ENDDO
+                    CALL MYQSORT_INT(4,LIST_NODE_ID,PERM_LIST_NODE_ID,ERROR)
+                    ! ----------------
+
+                    ! ----------------
+                    ! check if the face has 3 or 4 nodes
+                    NODE_ID = LIST_NODE_ID(1)
+                    OLD_J = 1
+                    NB_APPAREANCE(1) = 1
+                    NB_APPAREANCE(2:4) = 0
+                    ! ----------------
+                    ! number of appareance of the node
+                    DO J=2,4
+                        IF(NODE_ID/=LIST_NODE_ID(J)) THEN
+                            NB_APPAREANCE(J) = NB_APPAREANCE(J) + 1
+                            NODE_ID = LIST_NODE_ID(J)
+                            OLD_J = J
+                        ELSE
+                            NB_APPAREANCE(OLD_J) = NB_APPAREANCE(OLD_J) + 1
+                        ENDIF
+                    ENDDO
+                    ! ----------------
+            
+                    ! ----------------
+                    ! check the number of nodes
+                    MERGED_NODE = 0
+                    DO J=1,4
+                        IF(NB_APPAREANCE(J)>=3) NEED_COMPUTE=.FALSE. ! only 2 nodes or 1 node 
+                        IF(NB_APPAREANCE(J)==2) MERGED_NODE = MERGED_NODE + 1 ! check if there are 2 nodes
+                    ENDDO
+                    IF(MERGED_NODE>1) NEED_COMPUTE=.FALSE. ! only 2 nodes
+                    ! ----------------
+                  ENDIF
+                  ! ---------------------------
+                  IF(NEED_COMPUTE) THEN
+
                     ! ------------------
                     ! first node of the surface face(1:4,k)
                     J = 1
@@ -406,6 +507,7 @@ c                              ! 2 elements sharing the segment are local
                     ELSE
                         N4 = N3
                     ENDIF
+
                     IF( SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N1) ==0 .AND.SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N2) ==0
      .                     .AND.SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N3) ==0 .AND.SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N4) ==0) THEN
                       LOCAL_NODE(1) = NODE_ID     
@@ -533,6 +635,8 @@ c                              ! 2 elements sharing the segment are local
                         ! no surface on the current processor or on a remote processor
                       ENDIF
                     ENDIF
+                  ENDIF
+                  ! ---------------------------
                 ENDDO
                 ! end : loop over the surfaces of the element
                 ! ----------------------
