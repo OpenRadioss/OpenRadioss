@@ -31,7 +31,24 @@ Chd|====================================================================
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C       CALCUL DES  FORCES INTERNES (ANIM)
+C This subroutine is related to output of FINT and FEXT vectors.
+C   When FORANI1 is called, A is containing: FEXT
+C   When FORANI2 is called, A is containing: FEXT+FINT
+C   When FORANI3 is called, A is containing:(FEXT+FINT+FGRAV)/m
+C
+C                        forani1       forani2                   forani3
+C       FANI(:,N+NFIA) =   -FEXT  +(FEXT+FINT)                               = FINT
+C       FANI(:,N+NFEA) =   +FEXT  -(FEXT+FINT)  + [(FEXT+FINT+FRAV)/m]*m     = FEXT+FGRAV
+C-----------------------------------------------
+C
+C  ANIM_V(5)            : /ANIM/VECT/FINT
+C  OUTP_V(5)            : /OUTP/VECT/FINT
+C  H3D_DATA%N_VECT_FINT : /H3D/NODA/FINT
+C
+C  ANIM_V(6)            : /ANIM/VECT/FEXT
+C  OUTP_V(6)            : /OUTP/VECT/FEXT
+C  H3D_DATA%N_VECT_FEXT : /H3D/NODA/FEXT
+C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,21 +60,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr14_c.inc"
-#include      "scr16_c.inc"
+#include      "scr14_c.inc" !ANIM_V
+#include      "scr16_c.inc" !OUTP_V
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFIA,NFEA,NODFT,NODLT
-      my_real
-     .   A(3,*)    ,FANI(3,*)
+      my_real A(3,*),FANI(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,K
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+
       IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT > 0) THEN
+      !if FINT is requested (H3D or ANIM)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           FANI(1,N+NFIA)=FANI(1,N+NFIA) + A(1,N)
@@ -66,6 +86,7 @@ C
         ENDDO
       ENDIF
       IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
+      !if FEXT is requested (H3D or ANIM)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           FANI(1,N+NFEA)=FANI(1,N+NFEA) - A(1,N)
@@ -73,5 +94,6 @@ C
           FANI(3,N+NFEA)=FANI(3,N+NFEA) - A(3,N)
         ENDDO
       ENDIF
+C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE FORANI2
