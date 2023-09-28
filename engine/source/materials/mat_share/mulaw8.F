@@ -561,7 +561,7 @@ C-------------------
           SIGBXY => LBUF%SIGB(3*NEL+1:4*NEL)
           SIGBYZ => LBUF%SIGB(4*NEL+1:5*NEL)
           SIGBZX => LBUF%SIGB(5*NEL+1:6*NEL)
-        ELSEIF(IMPL_S>0) THEN
+        ELSE
           VECNUL(1:NEL) = ZERO
           SIGBXX => VECNUL(1:NEL)
           SIGBYY => VECNUL(1:NEL)
@@ -570,6 +570,7 @@ C-------------------
           SIGBYZ => VECNUL(1:NEL)
           SIGBZX => VECNUL(1:NEL)
         ENDIF
+
         CALL SIGEPS36(
      2    LLT      ,NUVAR    ,NFUNC    ,IFUNC    ,NPF ,
      3    TF       ,TT       ,DT1      ,UPARAM   ,RHO0,
