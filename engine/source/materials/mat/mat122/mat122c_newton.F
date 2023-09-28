@@ -184,53 +184,53 @@ C
       ! Compute strain rate dependency factor 
       DO I = 1,NEL
         ! Rate dependency in fiber direction 1 for Young modulus 
-        IF (LTYPE11 == 0) THEN
+        IF (LTYPE11 == 1) THEN
           F11(I) = D11*(ABS(EPSPL(I))/EPSD11)**N11
-        ELSEIF (LTYPE11 == 1) THEN 
-          F11(I) = D11*(ABS(EPSPL(I))/EPSD11) + N11
         ELSEIF (LTYPE11 == 2) THEN 
-          F11(I) = D11*LOG(MAX(ABS(EPSPL(I))/EPSD11,ONE)) + LOG(N11)
+          F11(I) = D11*(ABS(EPSPL(I))/EPSD11) + N11
         ELSEIF (LTYPE11 == 3) THEN 
+          F11(I) = D11*LOG(MAX(ABS(EPSPL(I))/EPSD11,ONE)) + LOG(N11)
+        ELSEIF (LTYPE11 == 4) THEN 
           F11(I) = D11*TANH(N11*(MAX(ABS(EPSPL(I))-EPSD11,ZERO)))
         ENDIF
         ! Rate dependency in matrix transverse direction 2 for Young modulus
-        IF (LTYPE12 == 0) THEN 
+        IF (LTYPE12 == 1) THEN 
           F22(I) = D22*(ABS(EPSPL(I))/EPSD12)**N22
-        ELSEIF (LTYPE12 == 1) THEN
-          F22(I) = D22*(ABS(EPSPL(I))/EPSD12) + N22
         ELSEIF (LTYPE12 == 2) THEN
-          F22(I) = D22*LOG(MAX(ABS(EPSPL(I))/EPSD12,ONE)) + LOG(N22)
+          F22(I) = D22*(ABS(EPSPL(I))/EPSD12) + N22
         ELSEIF (LTYPE12 == 3) THEN
+          F22(I) = D22*LOG(MAX(ABS(EPSPL(I))/EPSD12,ONE)) + LOG(N22)
+        ELSEIF (LTYPE12 == 4) THEN
           F22(I) = D22*TANH(N22*(MAX(ABS(EPSPL(I))-EPSD12,ZERO)))
         ENDIF
         ! Rate dependency for shear plane 12 modulus
-        IF (LTYPE12 == 0) THEN 
+        IF (LTYPE12 == 1) THEN 
           F12(I) = D12*(ABS(EPSPL(I))/EPSD12)**N12
-        ELSEIF (LTYPE12 == 1) THEN
-          F12(I) = D12*(ABS(EPSPL(I))/EPSD12) + N12
         ELSEIF (LTYPE12 == 2) THEN
-          F12(I) = D12*LOG(MAX(ABS(EPSPL(I))/EPSD12,ONE)) + LOG(N12)
+          F12(I) = D12*(ABS(EPSPL(I))/EPSD12) + N12
         ELSEIF (LTYPE12 == 3) THEN
+          F12(I) = D12*LOG(MAX(ABS(EPSPL(I))/EPSD12,ONE)) + LOG(N12)
+        ELSEIF (LTYPE12 == 4) THEN
           F12(I) = D12*TANH(N12*(MAX(ABS(EPSPL(I))-EPSD12,ZERO)))
         ENDIF 
         ! Rate dependency in fiber direction 1 for Young modulus 
-        IF (LTYPE11 == 0) THEN 
+        IF (LTYPE11 == 1) THEN 
           F11R(I) = D11U*(ABS(EPSPL(I))/EPSD11)**N11U
-        ELSEIF (LTYPE11 == 1) THEN 
-          F11R(I) = D11U*(ABS(EPSPL(I))/EPSD11) + N11U
         ELSEIF (LTYPE11 == 2) THEN 
-          F11R(I) = D11U*LOG(MAX(ABS(EPSPL(I))/EPSD11,ONE)) + LOG(N11U)
+          F11R(I) = D11U*(ABS(EPSPL(I))/EPSD11) + N11U
         ELSEIF (LTYPE11 == 3) THEN 
+          F11R(I) = D11U*LOG(MAX(ABS(EPSPL(I))/EPSD11,ONE)) + LOG(N11U)
+        ELSEIF (LTYPE11 == 4) THEN 
           F11R(I) = D11U*TANH(N11U*(MAX(ABS(EPSPL(I))-EPSD11,ZERO)))
         ENDIF        
         ! Rate dependency in fiber direction 1 for Young modulus 
-        IF (LTYPER0 == 0) THEN 
+        IF (LTYPER0 == 1) THEN 
           FR0(I) = DR0*(ABS(EPSPL(I))/EPSDR0)**NR0
-        ELSEIF (LTYPER0 == 1) THEN
-          FR0(I) = DR0*(ABS(EPSPL(I))/EPSDR0) + NR0
         ELSEIF (LTYPER0 == 2) THEN
-          FR0(I) = DR0*LOG(MAX(ABS(EPSPL(I))/EPSDR0,ONE)) + LOG(NR0)
+          FR0(I) = DR0*(ABS(EPSPL(I))/EPSDR0) + NR0
         ELSEIF (LTYPER0 == 3) THEN
+          FR0(I) = DR0*LOG(MAX(ABS(EPSPL(I))/EPSDR0,ONE)) + LOG(NR0)
+        ELSEIF (LTYPER0 == 4) THEN
           FR0(I) = DR0*TANH(NR0*(MAX(ABS(EPSPL(I))-EPSDR0,ZERO)))
         ENDIF
       ENDDO    
@@ -428,7 +428,7 @@ c
           DFT(I) = MIN(DFT(I),ONE)
           DF(I)  = DFT(I)
         ! -> Compression
-        ELSEIF ((EPSF_EQ < ZERO).AND.(IBUCK > 0)) THEN 
+        ELSEIF ((EPSF_EQ < ZERO).AND.(IBUCK > 1)) THEN 
           IF (ABS(EPSF_EQ) < EFCI(I)) THEN 
             DFC(I) = MAX(ZERO,DFC(I))
           ELSEIF ((ABS(EPSF_EQ) >= EFCI(I)).AND.(ABS(EPSF_EQ) < EFCU(I))) THEN 
@@ -462,7 +462,7 @@ c
 c
       ! -> Shear damage
       !    Linear
-      IF (ISH == 0) THEN
+      IF (ISH == 1) THEN
         DO I = 1,NEL 
           IF (Y(I)<Y0(I)) THEN 
             D(I) = ZERO
@@ -479,7 +479,7 @@ c
           D(I) = MIN(D(I), ONE) 
         ENDDO
       !    Exponential 
-      ELSEIF (ISH == 1) THEN 
+      ELSEIF (ISH == 2) THEN 
         DO I = 1,NEL 
           IF (Y(I)>Y0(I)) THEN 
             D(I) = DSAT1*(ONE - EXP((Y0(I)-Y(I))/MAX(YC(I),EM20)))
@@ -493,7 +493,7 @@ c
           D(I) = MIN(D(I), ONE) 
         ENDDO
       !    Tabulated function
-      ELSEIF (ISH == 2) THEN 
+      ELSEIF (ISH == 3) THEN 
         IPOS(1:NEL) = VARTMP(1:NEL,1)
         IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
@@ -512,7 +512,7 @@ c
 c
       ! -> Transverse damage
       !    Linear
-      IF (ITR == 0) THEN 
+      IF (ITR == 1) THEN 
         DO I = 1,NEL
           ! -> Compression damage if activated
           IF ((ICOMP > 0).AND.(EPSYY(I)<ZERO)) THEN
@@ -545,7 +545,7 @@ c
           DP(I) = MIN(DP(I), ONE)
         ENDDO
       !    Exponential 
-      ELSEIF (ITR == 1) THEN 
+      ELSEIF (ITR == 2) THEN 
         DO I = 1,NEL
           ! -> Compression damage if activated
           IF ((ICOMP > 0).AND.(EPSYY(I)<ZERO)) THEN
@@ -572,7 +572,7 @@ c
           DP(I) = MIN(DP(I), ONE)
         ENDDO
       !    Tabulated function
-      ELSEIF (ITR == 2) THEN
+      ELSEIF (ITR == 3) THEN
         ! -> Compression tabulated damage
         IF (ICOMP > 0) THEN 
           IPOS(1:NEL) = VARTMP(1:NEL,3)
