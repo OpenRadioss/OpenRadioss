@@ -3245,6 +3245,15 @@ C Figure 2_13 scale height of trople point versus scaled horizontal distance  cm
 
 
 
+Chd|====================================================================
+Chd|  PBLAST_PARAMETERS__FREE_AIR   modules/loads/pblast_mod.F    
+Chd|-- called by -----------
+Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
+Chd|        PBLAST_1                      engine/source/loads/pblast/pblast_1.F
+Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
+Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
+Chd|====================================================================
         SUBROUTINE PBLAST_PARAMETERS__FREE_AIR(Z, W13, TDET,
      +                                         FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                         IS_DECAY_TO_BE_COMPUTED,
@@ -3475,6 +3484,13 @@ C-----------------------------------------------
         END SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
 
 
+Chd|====================================================================
+Chd|  PBLAST_PARAMETERS__SURFACE_BURSTmodules/loads/pblast_mod.F    
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
+Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
+Chd|====================================================================
        SUBROUTINE PBLAST_PARAMETERS__SURFACE_BURST(Z, W13, TDET,
      +                                             FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                             IS_DECAY_TO_BE_COMPUTED,
@@ -3675,6 +3691,15 @@ C-----------------------------------------------
         END SUBROUTINE PBLAST_PARAMETERS__SURFACE_BURST
 
 
+Chd|====================================================================
+Chd|  PBLAST_PARAMETERS__AIR_BURST  modules/loads/pblast_mod.F    
+Chd|-- called by -----------
+Chd|        HM_READ_PBLAST                starter/source/loads/pblast/hm_read_pblast.F
+Chd|        PBLAST_3                      engine/source/loads/pblast/pblast_3.F
+Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
+Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
+Chd|====================================================================
        SUBROUTINE PBLAST_PARAMETERS__AIR_BURST( Z_struct, Zc, Zg, ANGLE_g, W13, TDET,
      +                                         FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                         IS_DECAY_TO_BE_COMPUTED,

@@ -26,6 +26,9 @@ Chd|-- called by -----------
 Chd|        INTBUF_INI                    ../common_source/interf/intbuf_ini.F
 Chd|        PBLAST_DEALLOCATE             ../common_source/modules/loads/pblast_mod.F
 Chd|        PBLAST_LOAD                   ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_PARAMETERS__AIR_BURST  ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_PARAMETERS__FREE_AIR   ../common_source/modules/loads/pblast_mod.F
+Chd|        PBLAST_PARAMETERS__SURFACE_BURST../common_source/modules/loads/pblast_mod.F
 Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        PLOT_CURVE                    ../common_source/sortie/plot_curve.F
