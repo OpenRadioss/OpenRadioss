@@ -2282,10 +2282,11 @@ C Init var parallel SMP
           ! check if a surface/edge must be deactivated and save the surface/edge id 
           IF(ITSK==0) THEN 
                 CALL FIND_SURFACE_INTER( ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS(L1)  ,IXC  ,
-     .                                   IXTG  ,INTERFACES    ,INTBUF_TAB,SHOOT_STRUCT%SHIFT_INTERFACE )
+     .                                   IXTG  ,INTERFACES    ,INTBUF_TAB,SHOOT_STRUCT%SHIFT_INTERFACE,
+     .                                   NGROUP,NPARG,IGROUPS,IPARG )
                 CALL FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),
      1                                IXC,IXTG,IXQ,IXT,IXP,
-     2                                IXR,GEO )
+     2                                IXR,GEO,NGROUP,IGROUPS,IPARG )
           ENDIF
           CALL MY_BARRIER( )
           ! ---------------------
@@ -5374,6 +5375,7 @@ C Attention WA utilise sur 2*NUMNOD (NUMNOD + NUMNOD SPECIFIQUE SPMD)
               INDSEGLO(1)=1
           ENDIF
 
+
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -5412,10 +5414,11 @@ C WA local  : utilise de 1 a NUMNOD
           ! check if a surface/edge must be deactivated and save the surface/edge id 
           IF(ITSK==0) THEN 
                 CALL FIND_SURFACE_INTER( ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS(L1)  ,IXC  ,
-     .                                   IXTG  ,INTERFACES    ,INTBUF_TAB,SHOOT_STRUCT%SHIFT_INTERFACE )
+     .                                   IXTG  ,INTERFACES    ,INTBUF_TAB,SHOOT_STRUCT%SHIFT_INTERFACE,
+     .                                   NGROUP,NPARG,IGROUPS,IPARG )
                 CALL FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),
      1                                IXC,IXTG,IXQ,IXT,IXP,
-     2                                IXR,GEO )
+     2                                IXR,GEO,NGROUP,IGROUPS,IPARG )
           ENDIF
           CALL MY_BARRIER( )
           ! ---------------------

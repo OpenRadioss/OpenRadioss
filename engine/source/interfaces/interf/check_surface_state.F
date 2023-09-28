@@ -48,7 +48,7 @@ Chd|====================================================================
 !$ENDCOMMENT
         USE INTBUFDEF_MOD
         USE SHOOTING_NODE_MOD
-        USE INTERFACES_MOD       
+        USE INTERFACES_MOD      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
