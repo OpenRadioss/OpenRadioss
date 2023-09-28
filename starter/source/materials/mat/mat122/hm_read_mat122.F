@@ -285,13 +285,16 @@ c
       IRES = MIN(IRES,2)
       IRES = MAX(IRES,1)
       ! Damage type
-      ISH  = MIN(ISH,2)
-      ISH  = MAX(ISH,0)
-      ITR  = MIN(ITR,2)
-      ITR  = MAX(ITR,0)
+      IF (ISH == 0) ISH = 1
+      ISH  = MIN(ISH,3)
+      ISH  = MAX(ISH,1)
+      IF (ITR == 0) ITR = 1
+      ITR  = MIN(ITR,3)
+      ITR  = MAX(ITR,1)
       ! Buckling effect
-      IBUCK = MIN(IBUCK,1)
-      IBUCK = MAX(IBUCK,0)
+      IF (IBUCK == 0) IBUCK = 1
+      IBUCK = MIN(IBUCK,2)
+      IBUCK = MAX(IBUCK,1)
 c
       ! Yield stress
       IF (SIGY0 == ZERO) SIGY0 = INFINITY
@@ -332,6 +335,8 @@ c
       IF ((IFUNCD2C > 0).AND.(Y0PC == ZERO)) THEN 
         CALL HM_GET_FLOATV_DIM('MAT_Y0PC',Y0PC,IS_AVAILABLE,LSUBMODEL,UNITAB)   
       ENDIF
+      IF (YR  == ZERO) YR  = INFINITY
+      IF (YSP == ZERO) YSP = INFINITY
 c 
       ! Check reference strain rate
       IF (EPSD11 == ZERO) THEN 
@@ -345,12 +350,15 @@ c
       ENDIF  
 c 
       ! Strain rate dependency law type flags
-      LTYPE11 = MIN(LTYPE11,3)
-      LTYPE11 = MAX(LTYPE11,0)
-      LTYPE12 = MIN(LTYPE12,3)
-      LTYPE12 = MAX(LTYPE12,0) 
-      LTYPER0 = MIN(LTYPER0,3)
-      LTYPER0 = MAX(LTYPER0,0) 
+      IF (LTYPE11 == 0) LTYPE11 = 1
+      LTYPE11 = MIN(LTYPE11,4)
+      LTYPE11 = MAX(LTYPE11,1)
+      IF (LTYPE12 == 0) LTYPE12 = 1
+      LTYPE12 = MIN(LTYPE12,4)
+      LTYPE12 = MAX(LTYPE12,1)
+      IF (LTYPER0 == 0) LTYPER0 = 1
+      LTYPER0 = MIN(LTYPER0,4)
+      LTYPER0 = MAX(LTYPER0,1) 
 c 
       ! Default strain rate cutoff frequency
       IF (FCUT == ZERO) FCUT = 5000.0D0*FAC_T_WORK
@@ -520,7 +528,7 @@ c-----------------------------------------------------------------------
      & 5X,'PLASTICITY COUPLING FACTOR A. . . . . . . . . . .=',1PG20.13/
      & 5X,'RETURN MAPPING TYPE FLAG. . . . . . . . . . . . .=',I3/
      & 5X,'  IRES = 1  NICE EXPLICIT                         '/
-     & 5X,'  IRES = 2  CUTTING PLANE SEMI-IMPLICIT           '/)
+     & 5X,'  IRES = 2  CUTTING PLANE SEMI-IMPLICIT (DEFAULT) '/)
  1500 FORMAT(
      & 5X,'FIBER (DIR. 1) DAMAGE PARAMETERS:                 ',/
      & 5X,'---------------------------------                 ',/
@@ -531,15 +539,15 @@ c-----------------------------------------------------------------------
      & 5X,'COMPRESSION FIBER ULTIMATE DAMAGE STRAIN EFCU . .=',1PG20.13/
      & 5X,'COMPRESSION FIBER ULTIMATE DAMAGE DFCU. . . . . .=',1PG20.13/
      & 5X,'BUCKLING DAMAGE MATRIX ON FIBER EFFECT FLAG . . .=',I3/
-     & 5X,'  IBUCK = 0 NOT ACTIVATED'/
-     & 5X,'  IBUCK = 1 ACTIVATED'/)
+     & 5X,'  IBUCK = 1 NOT ACTIVATED (DEFAULT)'/
+     & 5X,'  IBUCK = 2 ACTIVATED'/)
  1600 FORMAT(
      & 5X,'SHEAR MATRIX DAMAGE PARAMETERS:                   ',/
      & 5X,'-------------------------------                   ',/
      & 5X,'SHEAR DAMAGE TYPE FLAG. . . . . . . . . . . . . .=',I3/
-     & 5X,'  ISH = 0   LINEAR                                '/
-     & 5X,'  ISH = 1   EXPONENTIAL                           '/
-     & 5X,'  ISH = 2   TABULATED CURVE                       '/
+     & 5X,'  ISH = 1   LINEAR (DEFAULT)                      '/
+     & 5X,'  ISH = 2   EXPONENTIAL                           '/
+     & 5X,'  ISH = 3   TABULATED CURVE                       '/
      & 5X,'DAMAGE TABULATED FUNCTION IFUNCD1 . . . . . . . .=',I10/     
      & 5X,'DAMAGE SATURATION DSAT1 . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'INITIAL DAMAGE ENERGY THRESHOLD Y0. . . . . . . .=',1PG20.13/
@@ -555,9 +563,9 @@ c-----------------------------------------------------------------------
      & 5X,'TRANSVERSE MATRIX DAMAGE PARAMETERS:              ',/
      & 5X,'------------------------------------              ',/
      & 5X,'TRANSVERSE DAMAGE TYPE FLAG . . . . . . . . . . .=',I3/
-     & 5X,'  ITR = 0   LINEAR                                '/
-     & 5X,'  ITR = 1   EXPONENTIAL                           '/
-     & 5X,'  ITR = 2   TABULATED CURVE                       '/
+     & 5X,'  ITR = 1   LINEAR (DEFAULT)                      '/
+     & 5X,'  ITR = 2   EXPONENTIAL                           '/
+     & 5X,'  ITR = 3   TABULATED CURVE                       '/
      & 5X,'TENSILE DAMAGE TABULATED FUNCTION IFUNCD2 . . . .=',I10/     
      & 5X,'TENSILE DAMAGE SATURATION DSAT2 . . . . . . . . .=',1PG20.13/
      & 5X,'TENSILE INITIAL DAMAGE ENERGY THRESHOLD Y0P . . .=',1PG20.13/
@@ -576,10 +584,10 @@ c-----------------------------------------------------------------------
      & 5X,'1ST PARAMETER FOR RUPTURE RATE DEPENDENCY D11U. .=',1PG20.13/  
      & 5X,'2ND PARAMETER FOR RUPTURE RATE DEPENDENCY N11U. .=',1PG20.13/  
      & 5X,'RATE DEPENDENCY LAW TYPE. . . . . . . . . . . . .=',I3/     
-     & 5X,'  LTYPE11 = 0 POWER LAW                           ',/   
-     & 5X,'  LTYPE11 = 1 LINEAR LAW                          ',/   
-     & 5X,'  LTYPE11 = 2 LOGARITHMIC LAW                     ',/   
-     & 5X,'  LTYPE11 = 3 TANGENT HYPERBOLIC LAW              ',/)
+     & 5X,'  LTYPE11 = 1 POWER LAW (DEFAULT)                 ',/   
+     & 5X,'  LTYPE11 = 2 LINEAR LAW                          ',/   
+     & 5X,'  LTYPE11 = 3 LOGARITHMIC LAW                     ',/   
+     & 5X,'  LTYPE11 = 4 TANGENT HYPERBOLIC LAW              ',/)
  2000 FORMAT(
      & 5X,'TRANVERSE/SHEAR STRAIN RATE DEPENDENCY PARAMETERS:',/
      & 5X,'--------------------------------------------------',/   
@@ -589,10 +597,10 @@ c-----------------------------------------------------------------------
      & 5X,'1ST PARAMETER FOR ELASTICITY RATE DEPENDENCY D12.=',1PG20.13/  
      & 5X,'2ND PARAMETER FOR ELASTICITY RATE DEPENDENCY N12.=',1PG20.13/  
      & 5X,'RATE DEPENDENCY LAW TYPE. . . . . . . . . . . . .=',I3/     
-     & 5X,'  LTYPE12 = 0 POWER LAW                           ',/   
-     & 5X,'  LTYPE12 = 1 LINEAR LAW                          ',/   
-     & 5X,'  LTYPE12 = 2 LOGARITHMIC LAW                     ',/   
-     & 5X,'  LTYPE12 = 3 TANGENT HYPERBOLIC LAW              ',/)
+     & 5X,'  LTYPE12 = 1 POWER LAW (DEFAULT)                 ',/   
+     & 5X,'  LTYPE12 = 2 LINEAR LAW                          ',/   
+     & 5X,'  LTYPE12 = 3 LOGARITHMIC LAW                     ',/   
+     & 5X,'  LTYPE12 = 4 TANGENT HYPERBOLIC LAW              ',/)
  2100 FORMAT(
      & 5X,'YIELD STRESS STRAIN RATE DEPENDENCY PARAMETERS:   ',/
      & 5X,'-----------------------------------------------   ',/   
@@ -600,10 +608,10 @@ c-----------------------------------------------------------------------
      & 5X,'1ST PARAM. FOR YIELD STRESS RATE DEPENDENCY DR0 .=',1PG20.13/
      & 5X,'2ND PARAM. FOR YIELD STRESS RATE DEPENDENCY NR0 .=',1PG20.13/
      & 5X,'RATE DEPENDENCY LAW TYPE. . . . . . . . . . . . .=',I3/     
-     & 5X,'  LTYPER0 = 0 POWER LAW                           ',/   
-     & 5X,'  LTYPER0 = 1 LINEAR LAW                          ',/   
-     & 5X,'  LTYPER0 = 2 LOGARITHMIC LAW                     ',/   
-     & 5X,'  LTYPER0 = 3 TANGENT HYPERBOLIC LAW              ',/)
+     & 5X,'  LTYPER0 = 1 POWER LAW  (DEFAULT)                ',/   
+     & 5X,'  LTYPER0 = 2 LINEAR LAW                          ',/   
+     & 5X,'  LTYPER0 = 3 LOGARITHMIC LAW                     ',/   
+     & 5X,'  LTYPER0 = 4 TANGENT HYPERBOLIC LAW              ',/)
  2200 FORMAT(
      & 5X,'STRAIN RATE FILTERING CUTOFF FREQUENCY FCUT . . .=',1PG20.13/)
 c-----------------------------------------------------------------------
