@@ -2196,8 +2196,9 @@ C-----------------------------------------------
           ALLOCATE(FTHDTM(0))
         ENDIF
 C
+        ! OUTPUT (ANIM,OUTP,H3D,TH) set COMPTREAC TO 1 IF REQUESTED
         COMPTREAC = 0
-        CALL NEED_FOR_REACTIONS(NPBY,H3D_DATA,COMPTREAC) ! Look for options for anim, ... and rbody with failure
+        CALL REACTION_FORCES_CHECK_FOR_REQUESTED_OUTPUT(NPBY,H3D_DATA,COMPTREAC) ! Look for options for anim, ... and rbody with failure
         IF(COMPTREAC == 1)THEN
           ALLOCATE(FREAC(6*NUMNOD)) 
           FREAC(1:6*NUMNOD)=ZERO
@@ -3701,12 +3702,13 @@ C--------------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+C--- // ----------------------------------------
+C     EXTERNAL FORCES (ANIM, OUTP, H3D)
+C-----------------------------------------------
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-
         CALL FORANI1(FANI,A ,NFIA,NFEA,NFOA,NODFTSK,NODLTSK,FEXT,H3D_DATA)
 !$OMP END PARALLEL
 C
@@ -6628,14 +6630,15 @@ C===============================================================================
       NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     SAVING TOTAL FORCES (Storing Fint+Fext+Fcont in Freac) - after condensing forces to main nodes !
+C     OUTPUT (ANIM,OUTP,H3D,TH) STEP 1 ON 3 TO GET FREAC/MREAC
+C      adding FEXT+FINT
 C-----------------------------------------------
       IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
-        CALL STORE_FORCES(NODFTSK,NODLTSK,A,AR,FREAC)
+        CALL REACTION_FORCES_1(NODFTSK,NODLTSK,A,AR,FREAC)
       END IF
 
 C--- // ----------------------------------------
-C     INTERNAL FORCES (ANIM)
+C     INTERNAL FORCES (ANIM, OUTP, H3D)
 C-----------------------------------------------
       CALL FORANI2(FANI,A,NFIA,NFEA,NODFTSK,NODLTSK,H3D_DATA)
 
@@ -7168,10 +7171,12 @@ C===============================================================================
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     Gravity & other loadings <=> Needs to add external forces to Freac (Storing Fint+Fext+Fcont in Freac)
+C     OUTPUT (ANIM,OUTP,H3D,TH) STEP 2 ON 3 TO GET FREAC/MREAC
+C     additional forces
+C      when called with iflag=1 it will add (Fgrav+Fbcs_cyclic+Fcentrif) 
 C-----------------------------------------------
         IFLAG = -1
-        CALL STORE_ACCEL_FIELD(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
+        CALL REACTION_FORCES_2(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
 
@@ -7260,10 +7265,12 @@ C===============================================================================
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     Gravity & other loadings <=> Needs to add external forces to Freac (Storing Fint+Fext+Fcont in Freac)
+C     OUTPUT (ANIM,OUTP,H3D,TH) STEP 2 ON 3 TO GET FREAC/MREAC
+C     additional forces
+C      FREAC is now : FEXT+FINT + (Fgrav+Fbcs_cyclic+Fcentrif)
 C-----------------------------------------------
         IFLAG =  1
-        CALL STORE_ACCEL_FIELD(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
+        CALL REACTION_FORCES_2(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
 
@@ -7276,16 +7283,15 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
 C-----------------------------------------------
-C       EXTERNAL FORCES COMPUTATION (ANIM) before applying other kinematic conditions (BCS, ...)
+C       EXTERNAL FORCES ADDITIONAL CONTRIBUTIONS  before adding in A other kinematic conditions (BCS, ...)
+C         (ANIM, OUTP, H3D)
 C-----------------------------------------------
       IF (IMON>0) CALL STARTIME(7,1)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
-
       ITSK = OMP_GET_THREAD_NUM()
       NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
       NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
       CALL FORANI3(FANI,A,MS,NFEA,NODFTSK,NODLTSK,H3D_DATA)
-
 !$OMP END PARALLEL
       IF (IMON>0) CALL STOPTIME(7,1)
       
@@ -7494,10 +7500,12 @@ C===============================================================================
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     Damping <=> Needs to add damping forces to Freac (Storing Fint+Fext+Fcont+Fdamp in Freac)
+C     OUTPUT (ANIM,OUTP,H3D,TH) STEP 2 ON 3 TO GET FREAC/MREAC
+C     damping forces
+C      when called with iflag=1 it will add Fdamp
 C-----------------------------------------------
         IFLAG = -1
-        CALL STORE_ACCEL_FIELD(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
+        CALL REACTION_FORCES_2(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
 
@@ -7567,10 +7575,12 @@ C-----------------------------------------------
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     Damping & other loadings <=> Needs to add damping forces to Freac (Storing Fint+Fext+Fcont+Fdamp in Freac)
+C     OUTPUT (ANIM,OUTP,H3D,TH) STEP 2 ON 3 TO GET FREAC/MREAC
+C     damping forces
+C      FREAC is now : (FEXT+FINT) + (Fgrav+Fbcs_cyclic+Fcentrif) + (Fdamp)
 C-----------------------------------------------
         IFLAG =  1
-        CALL STORE_ACCEL_FIELD(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
+        CALL REACTION_FORCES_2(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
 
@@ -7593,10 +7603,11 @@ C===============================================================================
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     imposed loadings <=> Needs to add  to FTHREAC
+C    /TH/NODE (REAC) FIRST CALL WITH IFLAG=-1
+C      imposed loads
 C-----------------------------------------------
         IFLAG = -1
-        CALL STORE_ACCEL_FIELD_TH(NODFTSK,NODLTSK ,A    ,AR     ,MS    ,
+        CALL REACTION_FORCES_TH(NODFTSK,NODLTSK ,A    ,AR     ,MS    ,
      .                            IN     ,FTHREAC ,IFLAG,NODREAC)
 
 !$OMP END PARALLEL
@@ -7672,11 +7683,11 @@ C===============================================================================
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
-C     imposed loadings <=> Needs to add  to FTHREAC
-C-----------------------------------------------
+C    /TH/NODE (REAC) SECOND CALL WITH IFLAG=+1 
+C      imposed loads
+C----------------------------------------------
         IFLAG = 1
-        CALL STORE_ACCEL_FIELD_TH(NODFTSK,NODLTSK ,A    ,AR     ,MS    ,
-     .                            IN     ,FTHREAC ,IFLAG,NODREAC)
+        CALL REACTION_FORCES_TH(NODFTSK,NODLTSK ,A    ,AR     ,MS    ,IN     ,FTHREAC ,IFLAG,NODREAC)
 
 !$OMP END PARALLEL
 
@@ -8379,10 +8390,11 @@ C===============================================================================
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-C--------------------------------------------------
-C       FINALIZE REACTION FORCES Freac = MS*A - Freac     
-C--------------------------------------------------
-        CALL FINALIZE_REACTIONS(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC)
+C--- // ---------------------------------------
+C     OUTPUT (ANIM,OUTP,H3D,TH) STEP 3 ON 3 TO GET FREAC/MREAC
+C       FREAC is now : FTOTAL - (FEXT+FINT) - (Fgrav+Fbcs_cyclic+Fcentrif) - (Fdamp)
+C-----------------------------------------------
+        CALL REACTION_FORCES_3(NODFTSK,NODLTSK,A,AR,MS,IN,FREAC)
 
 !$OMP END PARALLEL
       END IF
