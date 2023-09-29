@@ -366,7 +366,7 @@ c               /TENS/STRESS/PLY=.../NPT=...
                   ENDIF  ! ID_PLY & ipt
                 ENDDO    ! NLAY
 c
-              ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1 .AND. IPT == -1) THEN  
+              ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1) THEN  
 c               /TENS/STRESS/LAYER=
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN   ! shells type 10,11,16 only   
                   ISELECT = 1
@@ -386,7 +386,7 @@ c               /TENS/STRESS/LAYER=
                     DO I=1,NEL  
                       DO IR=1,NPTR                
                         DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IPT) 
+                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1) 
                           SIGE(I,1) = SIGE(I,1) + LBUF%VISC(JJ(1) + I) / NPG
                           SIGE(I,2) = SIGE(I,2) + LBUF%VISC(JJ(2) + I) / NPG
                           SIGE(I,3) = SIGE(I,3) + LBUF%VISC(JJ(3) + I) / NPG
