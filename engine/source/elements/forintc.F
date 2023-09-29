@@ -468,7 +468,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOC(JFT,JLT,NFT,NSTRF(K0+9),NSTRF(K0+3),
+                CALL SECTION_C(JFT,JLT,NFT,NSTRF(K0+9),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K5),X,V,VR,FSAV(1,N),
      3           IXC        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I) ,
      4           FX       ,FY ,FZ ,MX ,MY ,MZ ,
@@ -619,7 +619,7 @@ c
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-               CALL SECTIO3N(JFT,JLT,NFT,NSTRF(K0+13),NSTRF(K0+3),
+               CALL SECTION_3N(JFT,JLT,NFT,NSTRF(K0+13),NSTRF(K0+3),
      2         NSTRF(K0+4),NSTRF(K0+5),NSTRF(K9),X,V,VR,FSAV(1,N),
      3         IXTG        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I) ,
      4         FX ,FY ,FZ  ,MX  ,MY,  MZ,

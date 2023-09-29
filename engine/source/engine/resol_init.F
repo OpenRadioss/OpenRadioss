@@ -651,7 +651,7 @@ C----------------------------------------------------------
             IF (NSTRF(K0) >= 100 ) ISECTR = I
             K0=NSTRF(K0+24)
           ENDDO
-          CALL SECT_INI(NSTRF,SECBUF,NOM_SECT,ISECTR,NSECT,IOLDSECT)
+          CALL SECTION_INIT(NSTRF,SECBUF,NOM_SECT,ISECTR,NSECT,IOLDSECT)
         ENDIF
 C-----------------------------------------------------
 C  SQRT H1, H2, H3 for shell elements
