@@ -210,9 +210,11 @@ C--------Multidomains : control of time history for subdomains-----------
             SIZE_MES = 1
           ENDIF
         ENDIF
-      ENDIF      
+      ENDIF   
+      TT_DOUBLE = TT
+
 C-----------------------------------------------------------------------    
-      IF (TT>=THISC) THEN
+      IF (TT>=THISC_DOUBLE) THEN
         NEED_TO_REINIT_FSAV = .TRUE.
 C---------------------------
         IF (IDDOM == 0) R2R_TH_MAIN(SEEK_ID) = 1
@@ -220,7 +222,6 @@ C---------------------------
 C---------------------------
         THIS0_DOUBLE = THIS0
         DTHIS0_DOUBLE = DTHIS0
-        TT_DOUBLE = TT
         IF (IMPL_S>0) THEN
           DT1_DOUBLE = DT1
           THIS0_DOUBLE=MAX(TT_DOUBLE,THIS0_DOUBLE+MAX(DTHIS0_DOUBLE,DT1_DOUBLE))
@@ -230,7 +231,7 @@ C---------------------------
           THIS0_DOUBLE=MAX(TT_DOUBLE,THIS0_DOUBLE+DTHIS0_DOUBLE)
           THIS0_DOUBLE=MIN(TSTOP,THIS0_DOUBLE)
           THIS0 = THIS0_DOUBLE
-        ENDIF    
+        ENDIF 
 C---------------------------                  
         IF(ITTYP==3) CALL CUR_FIL_C(IFIL)
 C Heat Outputs
