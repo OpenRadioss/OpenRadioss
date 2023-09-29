@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE STORE_ACCEL_FIELD_TH(NODFT ,NODLT ,A     ,AR    ,MS    ,
+      SUBROUTINE REACTION_FORCES_TH(NODFT ,NODLT ,A     ,AR    ,MS    ,
      2                                IN    ,FTHREAC ,IFLAG ,NODREAC)
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,11 +41,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT, NODLT, IFLAG
-      INTEGER NODREAC(*)
-      my_real
-     .   A(3,NUMNOD) , AR(3,NUMNOD), MS(NUMNOD), IN(IRODDL*NUMNOD), 
-     .   FTHREAC(6,*)
+      INTEGER,INTENT(IN) :: NODFT, NODLT, IFLAG
+      INTEGER,INTENT(IN) :: NODREAC(*)
+      my_real,INTENT(IN) :: A(3,NUMNOD) , AR(3,NUMNOD), MS(NUMNOD), IN(IRODDL*NUMNOD)
+      my_real,INTENT(INOUT) :: FTHREAC(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -54,10 +53,11 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
       
-      !-------------------------------------------------------------!
-      !       COMPUTE REACTION FORCES for /TH/NODE (FINALIZATION)   !
-      !-------------------------------------------------------------!
-
+      !---------------------------------------------------------!
+      ! ADDITIONAL CONTRIBUTION OF REACTION FORCES for /TH/NODE !
+      !   First call with iflag=1, second one with iflag=1 :    !
+      !      FADD = m(A-A~)                                     !
+      !---------------------------------------------------------!
       DO N=NODFT,NODLT
         IF (NODREAC(N) > 0) THEN
           FTHREAC(1,NODREAC(N)) = FTHREAC(1,NODREAC(N)) + IFLAG * MS(N)*A(1,N)*DT12
@@ -76,7 +76,6 @@ C-----------------------------------------------
         ENDDO
       END IF
 
-      !------------------------------------------------!
-
+C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE REACTION_FORCES_TH

@@ -77,7 +77,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT > 0) THEN
-      !if FINT is requested (H3D or ANIM)
+      !if FINT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           FANI(1,N+NFIA)=FANI(1,N+NFIA) + A(1,N)
@@ -86,7 +86,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
       IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
-      !if FEXT is requested (H3D or ANIM)
+      !if FEXT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           FANI(1,N+NFEA)=FANI(1,N+NFEA) - A(1,N)
