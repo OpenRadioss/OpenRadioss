@@ -174,8 +174,17 @@ c---------------
      .                        EINT     ,AREA     ,AL       , F1      ,F2       ,F3      ,
      .                        M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
      .                        TF)
-C)
-c
+c--------------- 
+        CASE (34)     ! cockroft failure model                                        
+                                     
+         CALL FAIL_COCKROFT_B(                                         
+     .          NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+     .          TIME     ,DPLA     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,  
+     .          ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT        ,ISTDO        ,EPSXX    ,
+     .          F1       , AREA , 
+     .          ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR)   
+ 
+
 c-------------
       END SELECT
 c-----------
