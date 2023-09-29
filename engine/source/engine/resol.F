@@ -5568,8 +5568,8 @@ C===============================================================================
 C----------------------------------
 C       FORCES EXTERNES de SECTIONS
 C----------------------------------
-      IF(ISECUT/=0)CALL SECT_FIO (
-     1        NSTRF ,V,VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
+      IF(ISECUT/=0)CALL SECTION_FIO (
+     1        NSTRF ,V,VR,
      2        A     ,AR     ,SECBUF,MS,IN,
      3        WEIGHT,IAD_CUT,FR_CUT)
 C-----------------------------------------------------
@@ -6757,7 +6757,7 @@ C         INTERNAL FORCES (ANIM)
 C-----------------------------------------------
           IF (ISECUT/=0) THEN
             IF (IMON>0) CALL STARTIME(7,1)
-              CALL SECT_IO (
+              CALL SECTION_IO (
      1        NSTRF,D,DR,V,VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
      2        SECFCUM,A             ,AR    ,SECBUF,MS      ,IN     ,
      3        X      ,FANI(1,NFOA+1),WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
@@ -7755,7 +7755,7 @@ C--------------------------
 C---------------
         IF(ISECUT/=0)THEN
           IF (IMON>0) CALL STARTIME(7,1)
-            CALL SECT_IO (
+            CALL SECTION_IO (
      1        NSTRF,D,DR,V,VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
      2        SECFCUM,A             ,AR    ,SECBUF,MS      ,IN     ,
      3        X      ,FANI(1,NFOA+1),WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,

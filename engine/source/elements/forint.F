@@ -387,7 +387,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C               
-               CALL SECTIOS4(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),      
+               CALL SECTION_S4(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2          NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),       
      3          IXS ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,        
      4          FZ  ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),  
@@ -434,7 +434,7 @@ c
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C                
-               CALL SECTIOS4(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),      
+               CALL SECTION_S4(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2          NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),       
      3          IXS ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,        
      4          FZ  ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),  
@@ -521,7 +521,7 @@ c
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2        NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3        IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4        FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -606,7 +606,7 @@ c
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2        NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3        IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4        FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -656,7 +656,7 @@ c
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS6(JFT, JLT, NFT, NSTRF(K0+7), NSTRF(K0+3),
+                CALL SECTION_S6(JFT, JLT, NFT, NSTRF(K0+7), NSTRF(K0+3),
      2           NSTRF(K0+4), NSTRF(K0+5), NSTRF(K3), X, V,
      3           FSAV(1,N), IXS, FANI(1,1+2*(I-1)), SECFCUM(1,1,I), FX,
      4           FY, FZ, NSTRF(K0), NSTRF(K0+14), NSTRF(K0+26),
@@ -704,7 +704,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2        NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3        IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4        FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -780,7 +780,7 @@ c
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3           IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4           FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -848,7 +848,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3           IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4           FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -923,7 +923,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3           IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4           FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -1036,7 +1036,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3           IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4           FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -1077,7 +1077,7 @@ C-------------------------
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-                CALL SECTIOS(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
+                CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3           IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,
      4           FZ   ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),NSTRF(K0+6),
@@ -1162,8 +1162,8 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-               CALL SECTIOT(JFT,JLT,NFT,NSTRF(K0+10),NSTRF(K0+3),
-     2          NSTRF(K0+4),NSTRF(K0+5),NSTRF(K6),X,V,VR,FSAV(1,N),
+               CALL SECTION_T(JFT,JLT,NFT,NSTRF(K0+10),NSTRF(K0+3),
+     2          NSTRF(K0+4),NSTRF(K0+5),NSTRF(K6),X,V,FSAV(1,N),
      3          IXT        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I) ,
      4          FX ,FY ,FZ ,NSTRF(K0),NSTRF(K0+14),NSTRF(K0+26),
      5          NSTRF(K0+6),NSTRF(K2) ,MS,
@@ -1219,7 +1219,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-               CALL SECTIOP(JFT,JLT,NFT,NSTRF(K0+11),NSTRF(K0+3),
+               CALL SECTION_P(JFT,JLT,NFT,NSTRF(K0+11),NSTRF(K0+3),
      2          NSTRF(K0+4),NSTRF(K0+5),NSTRF(K7),X,V,VR,FSAV(1,N),
      3          IXP        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I) ,
      4          FX ,FY ,FZ  ,MX  ,MY,  MZ,
@@ -1293,7 +1293,7 @@ C
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
 C
-               CALL SECTIOR(JFT,JLT,NFT,NSTRF(K0+12),NSTRF(K0+3),
+               CALL SECTION_R(JFT,JLT,NFT,NSTRF(K0+12),NSTRF(K0+3),
      2          NSTRF(K0+4),NSTRF(K0+5),NSTRF(K8),X,V,VR,FSAV(1,N),
      3          IXR        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I) ,
      4          FX ,FY ,FZ  ,MX  ,MY,  MZ,
