@@ -134,8 +134,8 @@ This chapter explains how to setup Windows on different build configuration
 
 4. Install Git 
 
-* Install Git for Windows from : [https://git-scm.com/downloads](https://git-scm.com/downloads)
-The Git Bash tool is not need, but can be installed.
+* Install Git for Windows from: [https://git-scm.com/downloads](https://git-scm.com/downloads).
+The Git Bash tool is not needed, but can be installed.
 
 5. Post installation tasks with git
 
