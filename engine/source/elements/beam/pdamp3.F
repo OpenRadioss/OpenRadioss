@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PDAMP3                        source/elements/beam/pdamp3.F 
 Chd|-- called by -----------
-Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
+Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PDAMP3(

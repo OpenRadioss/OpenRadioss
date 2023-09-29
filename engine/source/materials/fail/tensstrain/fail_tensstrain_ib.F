@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_TENSSTRAIN_IB                source/materials/fail/energy/fail_tensstrain_ib.F
+Chd|  FAIL_TENSSTRAIN_IB            source/materials/fail/tensstrain/fail_tensstrain_ib.F
 Chd|-- called by -----------
 Chd|        FAIL_BEAM18                   source/elements/beam/fail_beam18.F
 Chd|-- calls ---------------

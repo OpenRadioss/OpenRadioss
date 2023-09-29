@@ -64,7 +64,9 @@ Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_t
 Chd|        FAIL_TAB_OLD_XFEM             source/materials/fail/tabulated/fail_tab_old_xfem.F
 Chd|        FAIL_TAB_S                    source/materials/fail/tabulated/fail_tab_s.F
 Chd|        FAIL_TAB_XFEM                 source/materials/fail/tabulated/fail_tab_xfem.F
+Chd|        FAIL_TENSSTRAIN_B             source/materials/fail/tensstrain/fail_tensstrain_b.F
 Chd|        FAIL_TENSSTRAIN_C             source/materials/fail/tensstrain/fail_tensstrain_c.F
+Chd|        FAIL_TENSSTRAIN_IB            source/materials/fail/tensstrain/fail_tensstrain_ib.F
 Chd|        FAIL_TENSSTRAIN_S             source/materials/fail/tensstrain/fail_tensstrain_s.F
 Chd|        FAIl_TAB_OLD_S                source/materials/fail/tabulated/fail_tab_old_s.F
 Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F
