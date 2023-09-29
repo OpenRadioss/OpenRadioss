@@ -2415,7 +2415,7 @@ C--------------------------------------------------
                     END DO        
                   END IF
 c
-                  IF (IFAILURE == 0 .AND. IHBE == 11) THEN
+                  IF (IHBE == 11) THEN
                     DO IL=1,NLAY
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                       BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
@@ -2453,7 +2453,7 @@ c
                       VALUE(I) = FAIL(I)
                       IS_WRITTEN_VALUE(I) = 1
                     ENDDO
-                  ELSEIF (IFAILURE == 0) THEN
+                  ELSE
                     DO IL=1,NLAY
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                       BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
@@ -2480,59 +2480,8 @@ c
                       VALUE(I) = FAIL(I)
                       IS_WRITTEN_VALUE(I) = 1
                     ENDDO
-c                  ELSE
-c                    IF (IFAILA == 1) THEN
-c                      DO  I=1,NEL
-c                        OFF = GBUF%OFF(I)
-c                        IF (OFF<ZERO) THEN
-c                          FAIL(I)= -ONE
-c                        ELSEIF (OFF>ZERO) THEN
-c                          FAIL(I)=  ONE
-c                        ELSE
-c                          FAIL(I)=  ZERO
-c                        END IF
-c                        VALUE(I) = FAIL(I)
-c                        IS_WRITTEN_VALUE(I) = 1
-c                      END DO 
-c                    ENDIF 
                   ENDIF
-c                 
-              ELSE  ! MLW /= 25 
-c                IF (ITY == 3) THEN                                         
-c                  DO I=1,NEL                                           
-c                    MAT(I)=IXC(1,NFT+I)                                  
-c                    PID(I)=IXC(6,NFT+I)                                  
-c                  END DO                                                 
-c                ELSE                                                     
-c                  DO I=1,NEL                                           
-c                    MAT(I)=IXTG(1,NFT+I)                                 
-c                    PID(I)=IXTG(5,NFT+I)                                 
-c                  END DO                                                 
-c                END IF                                                   
-c                IF (IGTYP == 11 .OR. IGTYP == 16) THEN                     
-c                  IPMAT = 100                                            
-c                  DO N=1,NPT                                             
-c                    IADR = (N-1)*NEL                                     
-c                    DO I=1,NEL                                         
-c                      J = IADR+I                                         
-c                      MATLY(J)   = IGEO(IPMAT+N,PID(I))                  
-c                    END DO                                               
-c                  END DO                                                 
-c                ENDIF                                                    
-c                IF (IFAILURE==0 .OR.(IFAILURE /=0 .AND.IFAILA==1)) THEN
-c                  DO  I=1,NEL                                         
-c                    OFF = GBUF%OFF(I)                                  
-c                    IF (OFF<ZERO)THEN                                  
-c                      FAIL(I)= -ONE                                       
-c                    ELSEIF(OFF>ZERO)THEN                              
-c                      FAIL(I)=  ONE                                       
-c                    ELSE                                                 
-c                      FAIL(I)=  ZERO                                     
-c                    END IF    
-c                    VALUE(I) = FAIL(I)
-c                    IS_WRITTEN_VALUE(I) = 1                             
-c                  END DO                                         
-c                ENDIF                                                    
+c                                                               
               ENDIF ! MLW , IGTYP
 C-------------------------------------------------- 
             ELSE IF (KEYWORD == 'DAMA') THEN 
