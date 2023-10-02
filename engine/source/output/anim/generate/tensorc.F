@@ -78,8 +78,6 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   A1,A2,A3,THK
-      my_real
-     .   SIGE(MVSIZ,5)
       REAL R4(18)
       INTEGER I,NG,NEL,NFT,ITY,LFT,NPT,MPT,IPT,
      .        N,J,LLT,MLW,ISTRAIN,IL,IR,IS,IT,NPTR,NPTS,NLAY,
@@ -90,6 +88,7 @@ C     REAL
      .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPLY,IPANG,IPPOS,IPTHK,JJ(8),
      .        IDX,IDX_MSTRESS,IDX_IDPLY_MSTRESS,IGMAT,IDRAPE,IDIR,IMAT,MAT_ORTH
       INTEGER PID(MVSIZ),MAT(MVSIZ)
+      my_real ,DIMENSION(:,:) , ALLOCATABLE :: SIGE
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -136,11 +135,8 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
           JJ(I) = NEL*(I-1)
         ENDDO
 !
-        DO I=1,MVSIZ        
-          DO J=1,5            
-            SIGE(I,J) = ZERO  
-          ENDDO               
-        ENDDO
+        ALLOCATE(SIGE(NEL,3))
+        SIGE(1:NEL,1:3) = ZERO
 !
         IF (MLW /= 13) THEN
 C-----------------------------------------------
@@ -830,8 +826,8 @@ c
                     IL  = 1
                     IPT = MIN(IPT, ELBUF_TAB(NG)%BUFLY(1)%NPTT)
                   ELSE IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
-                    IPT = 1
                     IL  = MIN(IPT, ELBUF_TAB(NG)%NLAY)
+                    IPT = 1
                   ELSE IF (IGTYP == 17) THEN    ! defined by ply ID
                     IPLY = IPT
                     IPT = 1
@@ -1366,6 +1362,8 @@ c------------------------------------
             ENDIF  !   (STRESS) ISTRE == 1 
           ENDIF   ! IF (MLW /= 13)
         ENDIF    ! IF(ITY == 2)
+
+        DEALLOCATE(SIGE)
 c
 C-----------------------------------------------
  490  CONTINUE   ! NGROUP
