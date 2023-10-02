@@ -264,7 +264,8 @@ C---------------------------------------------------------
                ITAGM(1:NRTM) = 0
                IDX(1:NRTM) = 0
                DO I=1,NRTM
-                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+1) <= NUMELS.AND.INTBUF_TAB(NIN)%STFM(I) > ZERO.AND.INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+2)>0) THEN
+                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+1) <= NUMELS.AND.INTBUF_TAB(NIN)%STFM(I) > ZERO.AND.
+     .                     INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+2)>0) THEN
                     DO J=1,4
                         IF (INTBUF_TAB(NIN)%MVOISIN(4*(I-1)+J)==0) THEN
                           MVOISIN_CHANGE = 1 ! flag is ON if new Mvoisin is on another proc : need to update spmd arrays
