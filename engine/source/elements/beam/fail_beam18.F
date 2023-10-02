@@ -212,6 +212,17 @@ c---------------
      .          EINT     ,AREA     ,AL       ,LBUF%DMGSCL ,
      .          SNPC     ,NPF      ,STF     ,
      .          TF,IPT)
+c--------------- 
+        CASE (34)     ! cockroft failure model                                        
+                                     
+         CALL FAIL_COCKROFT_IB(                                         
+     .          NEL      ,NGL      ,NPARAM   ,UPARAMF  ,
+     .          TIME     ,DPLA     ,OFF      ,DFMAX,  
+     .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
+     .          IPT      ,SIGNXX   ,NVARF    ,UVARF    ,FOFF )   
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
 
 c-------------
         END SELECT
