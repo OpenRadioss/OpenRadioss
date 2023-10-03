@@ -356,7 +356,7 @@ Chd|        OUTP_MT                       source/output/sty/outp_mt.F
 Chd|        OUTP_N_V2                     source/output/sty/outp_n_v.F  
 Chd|        OUTP_N_VC                     source/output/sty/outp_n_v.F  
 Chd|        PNOISE                        source/general_controls/computation/pnoise.F
-Chd|        SECT_IO                       source/tools/sect/sectio.F    
+Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SMS_PCG                       source/ams/sms_pcg.F          
 Chd|        SMS_PRODUT3                   source/ams/sms_proj.F         

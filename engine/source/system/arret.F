@@ -299,8 +299,8 @@ Chd|        S8SLKE3                       source/elements/solid/solide8s/s8slke3
 Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderic3.F
 Chd|        S8ZDERICT3                    source/elements/solid/solide8z/s8zderict3.F
 Chd|        S8ZDERICTO3                   source/elements/solid/solide8z/s8zdericto3.F
-Chd|        SECT_READ                     source/tools/sect/sectio.F    
-Chd|        SECT_READP                    source/tools/sect/sectio.F    
+Chd|        SECTION_READ                  source/tools/sect/section_read.F
+Chd|        SECTION_READP                 source/tools/sect/section_readp.F
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SIGEPS53                      source/materials/mat/mat053/sigeps53.F
 Chd|        SIGEPS75                      source/materials/mat/mat075/sigeps75.F

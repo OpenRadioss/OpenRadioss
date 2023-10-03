@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SECTIO3N                      source/tools/sect/sectio.F
+Chd|  SECTION_3N                    source/tools/sect/section_3n.F
 Chd|-- called by -----------
-Chd|        FORINTC                       source/elements/forintc.F
+Chd|        FORINTC                       source/elements/forintc.F     
 Chd|-- calls ---------------
-Chd|        SEC_SKEW                      source/tools/sect/sectio.F
-Chd|        SEC_SKEWP                     source/tools/sect/sectio.F
-Chd|        SUM_6_FLOAT_SECT              source/system/parit.F
+Chd|        SECTION_SKEW                  source/tools/sect/section_skew.F
+Chd|        SECTION_SKEWP                 source/tools/sect/section_skewp.F
+Chd|        SUM_6_FLOAT_SECT              source/system/parit.F         
 Chd|====================================================================
       SUBROUTINE SECTION_3N (LFT,LLT,NFT,NSEG,N1,
      2                       N2,N3,NSTRF,X,V,VR,FSAV,

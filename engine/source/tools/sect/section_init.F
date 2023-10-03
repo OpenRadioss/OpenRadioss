@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SECT_INI                      source/tools/sect/sectio.F
+Chd|  SECTION_INIT                  source/tools/sect/section_init.F
 Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F
+Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CLOSE_C                       source/output/tools/sortie_c.c

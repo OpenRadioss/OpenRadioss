@@ -126,7 +126,6 @@ Chd|        ERR_THK                       source/elements/shell/err_thk.F
 Chd|        EULDX                         source/ale/grid/euldx.F       
 Chd|        FAIL_WIND_FRWAVE_INIT         source/materials/fail/alter/fail_wind_frwave_init.F
 Chd|        FEQUILIBRE                    source/elements/shell/fequilibre.F
-Chd|        FINALIZE_REACTIONS            source/output/reactions.F     
 Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
 Chd|        FIND_EDGE_INTER               source/interfaces/interf/find_edge_inter.F
 Chd|        FIND_SURFACE_INTER            source/interfaces/interf/find_surface_inter.F
@@ -228,7 +227,6 @@ Chd|        MPI_MIN_REAL_END              share/modules/mpi_tools_mod.F
 Chd|        MULTI_DEALLOCATE              source/multifluid/multi_deallocate.F
 Chd|        MVOLUDT                       source/airbag/mvoludt.F       
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        NEED_FOR_REACTIONS            source/output/reactions.F     
 Chd|        NEWSKW                        source/tools/skew/newskw.F    
 Chd|        NEWSKW_INIT                   source/tools/skew/newskw.F    
 Chd|        NFWREST                       source/output/restart/wrrest.F
@@ -274,6 +272,10 @@ Chd|        RBYSENS                       source/constraints/general/rbody/rbyon
 Chd|        RBYVIT                        source/constraints/general/rbody/rbyvit.F
 Chd|        RE2INT5                       source/implicit/imp_solv.F    
 Chd|        RE2INT7                       source/implicit/imp_solv.F    
+Chd|        REACTION_FORCES_1             source/output/reactions.F     
+Chd|        REACTION_FORCES_2             source/output/reactions.F     
+Chd|        REACTION_FORCES_3             source/output/reactions.F     
+Chd|        REACTION_FORCES_TH            source/output/reaction_forces_th.F
 Chd|        REALLOCATE_I_SKYLINE          source/system/reallocate_skyline.F
 Chd|        RENUM_SIZ                     source/interfaces/interf/renum_siz.F
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
@@ -296,8 +298,8 @@ Chd|        S10GETVDM                     source/elements/solid/solide10/s10cndv
 Chd|        S10STFE_POFF                  source/elements/solid/solide10/s10cndf.F
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        SAV_BUF_POINT                 source/user_interface/eng_callback_c.c
-Chd|        SECT_FIO                      source/tools/sect/sectio.F    
-Chd|        SECT_IO                       source/tools/sect/sectio.F    
+Chd|        SECTION_FIO                   source/tools/sect/section_fio.F
+Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|        SEND_FBUFDP_C                 source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_FBUF_C                   source/coupling/rad2rad/rad2rad_c.c
 Chd|        SEND_IBUF_C                   source/coupling/rad2rad/rad2rad_c.c
@@ -397,9 +399,6 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STATIC                        source/general_controls/damping/static.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
-Chd|        STORE_ACCEL_FIELD             source/output/reactions.F     
-Chd|        STORE_ACCEL_FIELD_TH          source/output/store_accel_field_th.F
-Chd|        STORE_FORCES                  source/output/reactions.F     
 Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
 Chd|        TEMPUR                        source/constraints/thermic/tempur.F
 Chd|        THBCS                         source/output/th/thbcs.F      

@@ -43,8 +43,8 @@ Chd|        MOVFRA2                       source/tools/skew/movfram.F
 Chd|        MOVFRA_IMP                    source/tools/skew/movfram.F   
 Chd|        R2R_INPUT_INIT                source/coupling/rad2rad/r2r_input_init.F
 Chd|        RESOL                         source/engine/resol.F         
-Chd|        SECT_INI                      source/tools/sect/sectio.F    
-Chd|        SECT_READP                    source/tools/sect/sectio.F    
+Chd|        SECTION_INIT                  source/tools/sect/section_init.F
+Chd|        SECTION_READP                 source/tools/sect/section_readp.F
 Chd|        SENSOR_SPMD                   source/tools/sensor/sensor_spmd.F
 Chd|        SMS_PCG                       source/ams/sms_pcg.F          
 Chd|        SMS_PRODUT3                   source/ams/sms_proj.F         

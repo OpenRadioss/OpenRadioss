@@ -229,7 +229,6 @@ Chd|        LECTUR                        source/input/lectur.F
 Chd|        LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
 Chd|        MANCTR                        source/input/manctr.F         
 Chd|        MONVOL0                       source/airbag/monvol0.F       
-Chd|        NEED_FOR_REACTIONS            source/output/reactions.F     
 Chd|        PBILAN                        source/elements/beam/pbilan.F 
 Chd|        PBLAST                        source/loads/pblast/pblast.F  
 Chd|        PBLAST_1                      source/loads/pblast/pblast_1.F
@@ -252,6 +251,7 @@ Chd|        RBE3T1                        source/constraints/general/rbe3/rbe3f.
 Chd|        RDCOMI                        source/output/restart/rdcomm.F
 Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
+Chd|        REACTION_FORCES_CHECK_FOR_REQUESTED_OUTPUTsource/output/reactions.F     
 Chd|        REALLOCATE_FI2                source/mpi/interfaces/spmd_i25slide.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    

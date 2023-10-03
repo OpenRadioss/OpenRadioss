@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SEC_SKEWP                     source/tools/sect/sectio.F
+Chd|  SECTION_SKEWP                 source/tools/sect/section_skewp.F
 Chd|-- called by -----------
-Chd|        SECTIO                        source/tools/sect/sectio.F
-Chd|        SECTIO3N                      source/tools/sect/sectio.F
-Chd|        SECTIOC                       source/tools/sect/sectio.F
-Chd|        SECTIOP                       source/tools/sect/sectio.F
-Chd|        SECTIOR                       source/tools/sect/sectio.F
-Chd|        SECTIOS                       source/tools/sect/sectio.F
-Chd|        SECTIOS4                      source/tools/sect/sectio.F
-Chd|        SECTIOS6                      source/tools/sect/sectio.F
-Chd|        SECTIOT                       source/tools/sect/sectio.F
+Chd|        SECTION                       source/tools/sect/section.F   
+Chd|        SECTION_3N                    source/tools/sect/section_3n.F
+Chd|        SECTION_C                     source/tools/sect/section_c.F 
+Chd|        SECTION_P                     source/tools/sect/section_p.F 
+Chd|        SECTION_R                     source/tools/sect/section_r.F 
+Chd|        SECTION_S                     source/tools/sect/section_s.F 
+Chd|        SECTION_S4                    source/tools/sect/section_s4.F
+Chd|        SECTION_S6                    source/tools/sect/section_s6.F
+Chd|        SECTION_T                     source/tools/sect/section_t.F 
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SECTION_SKEWP(

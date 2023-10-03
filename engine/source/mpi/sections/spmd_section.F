@@ -830,7 +830,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_WRT_CUTD                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
-Chd|        SECT_IO                       source/tools/sect/sectio.F    
+Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
@@ -1017,7 +1017,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_WRT_CUTF                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
-Chd|        SECT_IO                       source/tools/sect/sectio.F    
+Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
@@ -1215,7 +1215,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_EXCH_CUT                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
-Chd|        SECT_IO                       source/tools/sect/sectio.F    
+Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_CUT(NSTRF,SECFCUM,IAD_ELEM,FR_ELEM,SIZE,
@@ -1381,7 +1381,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_SD_CUT                   source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
-Chd|        SECT_READP                    source/tools/sect/sectio.F    
+Chd|        SECTION_READP                 source/tools/sect/section_readp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_SD_CUT(SECBUFG,NNODG  ,SECBUF1,SECBUF2,NNOD,

@@ -81,9 +81,9 @@ Chd|        PRINTIME                      engine/source/system/timer.F
 Chd|        RADIOSS0                      engine/source/engine/radioss0.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        REPORT                        engine/source/output/report/report.F
-Chd|        SECT_INI                      engine/source/tools/sect/sectio.F
-Chd|        SECT_READ                     engine/source/tools/sect/sectio.F
-Chd|        SECT_READP                    engine/source/tools/sect/sectio.F
+Chd|        SECTION_INIT                  engine/source/tools/sect/section_init.F
+Chd|        SECTION_READ                  engine/source/tools/sect/section_read.F
+Chd|        SECTION_READP                 engine/source/tools/sect/section_readp.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        SORTIE_MVW                    engine/source/output/report/sortie_mvw.F
 Chd|        SPMD_COLLECT                  engine/source/mpi/output/spmd_collect.F

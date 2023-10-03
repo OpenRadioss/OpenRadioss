@@ -21,9 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  NEED_FOR_REACTIONS            source/output/reactions.F     
+Chd|  REACTION_FORCES_CHECK_FOR_REQUESTED_OUTPUTsource/output/reactions.F     
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
@@ -115,7 +114,7 @@ C-----------------------------------------------
       END
 
 Chd|====================================================================
-Chd|  STORE_FORCES                  source/output/reactions.F     
+Chd|  REACTION_FORCES_1             source/output/reactions.F     
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
@@ -192,7 +191,7 @@ C-----------------------------------------------
       END SUBROUTINE REACTION_FORCES_1
 
 Chd|====================================================================
-Chd|  STORE_ACCEL_FIELD             source/output/reactions.F     
+Chd|  REACTION_FORCES_2             source/output/reactions.F     
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
@@ -269,7 +268,7 @@ C-----------------------------------------------
       END SUBROUTINE REACTION_FORCES_2
 
 Chd|====================================================================
-Chd|  FINALIZE_REACTIONS            source/output/reactions.F     
+Chd|  REACTION_FORCES_3             source/output/reactions.F     
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------

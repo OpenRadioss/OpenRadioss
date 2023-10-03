@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SECT_IO                       source/tools/sect/sectio.F
+Chd|  SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        FLU_FIL_C                     source/output/tools/sortie_c.c
-Chd|        SECTIO                        source/tools/sect/sectio.F
-Chd|        SECT_READ                     source/tools/sect/sectio.F
-Chd|        SECT_READP                    source/tools/sect/sectio.F
+Chd|        SECTION                       source/tools/sect/section.F   
+Chd|        SECTION_READ                  source/tools/sect/section_read.F
+Chd|        SECTION_READP                 source/tools/sect/section_readp.F
 Chd|        SPMD_EXCH_CUT                 source/mpi/sections/spmd_section.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_WRT_CUTD                 source/mpi/sections/spmd_section.F

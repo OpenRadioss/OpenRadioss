@@ -357,9 +357,9 @@ Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc
 Chd|        SCDERI3                       source/elements/thickshell/solidec/scderi3.F
 Chd|        SCHKJAB3                      source/elements/solid/solide/schkjab3.F
 Chd|        SCHKJABT3                     source/elements/solid/solide4/schkjabt3.F
-Chd|        SECT_INI                      source/tools/sect/sectio.F    
-Chd|        SECT_READ                     source/tools/sect/sectio.F    
-Chd|        SECT_READP                    source/tools/sect/sectio.F    
+Chd|        SECTION_INIT                  source/tools/sect/section_init.F
+Chd|        SECTION_READ                  source/tools/sect/section_read.F
+Chd|        SECTION_READP                 source/tools/sect/section_readp.F
 Chd|        SENSOR_BASE                   source/tools/sensor/sensor_base.F
 Chd|        SENSOR_LOGICAL                source/tools/sensor/sensor_logical.F
 Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
