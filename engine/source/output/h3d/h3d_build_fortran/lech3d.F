@@ -229,6 +229,7 @@ c
       NLAY_MAX = 0
       ALLOCATE(IRUP_ALL(1))
       IRUP_ALL(1) = 0
+      CPT_IRUP = 0
 
       ALLOCATE(H3D_DATA%N_SKID_INTER(NINTER))
       H3D_DATA%N_SKID_INTER(1:NINTER) = 0
@@ -1144,6 +1145,7 @@ c
           ELSEIF (IS_ID > 0) THEN 
 c
             ! Look if ID is found for the element group
+            CPT_IRUP = 0
             DO NG=1,NGROUP
               NLAY = ELBUF_STR(NG)%NLAY
               DO J = 1,NLAY
@@ -1154,6 +1156,7 @@ c
                       DO IFAIL = 1,ELBUF_STR(NG)%BUFLY(J)%NFAIL
                         IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
                           IRUP_ALL(1) = FBUF%FLOC(IFAIL)%ILAWF
+                          CPT_IRUP = 1
                         ENDIF
                       ENDDO
                     ENDDO
@@ -1340,7 +1343,7 @@ C
 
            	    IF(H3D_KEYWORD_SHELL%IS_ID == 1) THEN
            	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
-                  IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                  IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                     IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
                   ENDIF
            	    ENDIF
@@ -1405,7 +1408,7 @@ c
 	 	  	         IDS_INPUT(CPT_H3D) = -1
 	 	  	         IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = P
 	 	  	         IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
-                 IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                 IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                    IF (IS_ID_ALL == 1) THEN 
                      IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(P)
                      IRUP_H3D(CPT_H3D)  = IRUP_ALL(P)
@@ -1497,8 +1500,8 @@ c
      .     				       UVAR_INPUT(K))
                     IS_SKING = 1
 		   ELSE
- 
-                   IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+         
+                   IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                      TEST_CHAIN = ''
                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
      *                     TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
@@ -1625,7 +1628,7 @@ C--------------------------------------------------
 
            	    IF(H3D_KEYWORD_SOLID%IS_ID == 1) THEN
            	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
-                  IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                  IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                     IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
                   ENDIF
            	    ENDIF
@@ -1684,7 +1687,7 @@ c
 	 	  	           IDS_INPUT(CPT_H3D) = -1
 	 	  	           IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = Q
 	 	  	           IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
-                   IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                   IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                      IF (IS_ID_ALL == 1) THEN 
                        IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(Q)
                        IRUP_H3D(CPT_H3D)  = IRUP_ALL(Q)
@@ -1740,7 +1743,7 @@ c
                  ELSE
                     IF (IS_MDSVAR ==1) MDS_LABEL_TMP = MDS_LABEL(MDSVAR_INPUT1(K), MDSVAR_INPUT(K))
  
-                    IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+                    IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                       TEST_CHAIN = ''
                       WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
      *                      TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
@@ -1804,7 +1807,7 @@ C--------------------------------------------------
             IDS_INPUT(CPT_H3D) = -1
             IF (H3D_KEYWORD_SPH_SCALAR(J)%IS_ID == 1) THEN
               IF (ID /= 0) IDS_INPUT(CPT_H3D) = ID
-              IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+              IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                 IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
               ENDIF
             ENDIF
@@ -1815,7 +1818,7 @@ C--------------------------------------------------
                 IDS_INPUT(CPT_H3D) = -1
                 IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = Q
                 IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
-                IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                   IF (IS_ID_ALL == 1) THEN 
                     IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(Q)
                     IRUP_H3D(CPT_H3D)  = IRUP_ALL(Q)
@@ -1833,12 +1836,14 @@ C--------------------------------------------------
 
 	      IF ( KEY3_GLOB == H3D_KEYWORD_SPH_SCALAR(J)%KEY3 )THEN
 
-            IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+            IF((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
               DO K=1,CPT_H3D
-                TEST_CHAIN = ''
-                WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
-     .                TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
-                H3D_KEYWORD_SPH_SCALAR(J)%TEXT1 = TEST_CHAIN
+                IF (CPT_IRUP > 0) THEN 
+                  TEST_CHAIN = ''
+                  WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
+     .                  TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
+                  H3D_KEYWORD_SPH_SCALAR(J)%TEXT1 = TEST_CHAIN
+                ENDIF
                 CALL CREATE_H3D_SPH_SCALAR(H3D_DATA,H3D_KEYWORD_SPH_SCALAR(J)%ID,ID_INPUT,
      .     				     TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SPH_SCALAR(J)%TEXT1),
      .                                       H3D_KEYWORD_SPH_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
@@ -2005,7 +2010,7 @@ C--------------------------------------------------
 
            	    IF(H3D_KEYWORD_QUAD%IS_ID == 1) THEN
            	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
-                  IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+                  IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                     IRUP_H3D(CPT_H3D) = IRUP_ALL(1)
                   ENDIF
            	    ENDIF
@@ -2036,7 +2041,7 @@ c
 
            	   IDS_INPUT(CPT_H3D) = -1
            	   IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
-               IF (KEY3_GLOB(1:7) == 'FAILURE') THEN 
+               IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN 
                  IF (IS_ID_ALL == 1) THEN 
                    IDS_INPUT(CPT_H3D) = IRUP_ID_ALL(P)
                    IRUP_H3D(CPT_H3D)  = IRUP_ALL(P)
@@ -2082,7 +2087,7 @@ c
               DO K=1,CPT_H3D
 	        IF (IS_AVAILABLE_KEY(K) == 1 .AND. IS_SCALAR == 1)THEN
 
-                   IF(KEY3_GLOB(1:7) == 'FAILURE') THEN
+                   IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                      TEST_CHAIN = ''
                      WRITE(TEST_CHAIN,'(A,1X,A,1X,A)') 
      *                     TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
