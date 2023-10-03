@@ -35,7 +35,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT49(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM    ,PM,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS ,ISRATE )
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,7 +70,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(INOUT)                       :: MAT_ID
-      INTEGER, INTENT(IN)                          :: MAXEOS
       INTEGER, INTENT(INOUT)                       :: ISRATE
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR

@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE INITVARS_AUTO(
      .                         ELBUF_STR,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .                         GMAT     ,GLAW     ,IGTYP    ,JMULT    ,IFAIL    , 
-     .                         IEOS     ,MAXEOS   ,EOS_TAG  ,ISNOD)
+     .                         IEOS     ,EOS_TAG  ,ISNOD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGTYP,GMAT,GLAW,JMULT,IFAIL,IEOS,MAXEOS,ISNOD
+      INTEGER IGTYP,GMAT,GLAW,JMULT,IFAIL,IEOS,ISNOD
       TYPE(ELBUF_STRUCT_),TARGET  :: ELBUF_STR
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
@@ -106,7 +106,7 @@ c---------------------
           IF (GBUF%G_RHO    == 0) GBUF%G_RHO    = MTAG%G_RHO               
           IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX            
           IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD              
-          IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ              	  
+          IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
           IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA               
           IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                
           IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                
@@ -140,7 +140,7 @@ c---------------------
             IF (GBUF%G_RHO    == 0) GBUF%G_RHO    = MTAG%G_RHO                 
             IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX              
             IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD                
-            IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ              	
+            IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
             IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA                 
             IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                  
             IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                  
@@ -171,7 +171,7 @@ c---------------------
           IF (GBUF%G_RHO    == 0) GBUF%G_RHO    = MTAG%G_RHO                 
           IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX              
           IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD                
-          IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ              	
+          IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
           IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA                 
           IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                  
           IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                  

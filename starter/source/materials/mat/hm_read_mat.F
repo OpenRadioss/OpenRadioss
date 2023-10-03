@@ -160,11 +160,11 @@ Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT(
      .   MAT_PARAM   ,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
-     .   BUFLEN      ,IADBUF      ,MAXEOS      ,IPM         ,PM          ,
+     .   BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .   MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
+C   D e s c r i p t i o n
+C-----------------------------------------------
 C   READ MATERIALS WITH HM READER
 C-----------------------------------------------
 C   M o d u l e s
@@ -178,7 +178,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
-C============================================================================
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -198,8 +198,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER ,INTENT(IN)    :: MAXEOS
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ,INTENT(INOUT) :: BUFLEN,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
@@ -235,7 +234,10 @@ C
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
       DATA MESS/'MATERIAL DEFINITION                     '/
-C=======================================================================
+
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 
       ALLOCATE( UPARAM(MAXUPARAM) )
 
@@ -370,13 +372,13 @@ c-------
             ILAW=3
             CALL HM_READ_MAT03(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE)
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
 c-------
           CASE ('LAW4','LAW04', 'HYD_JCOOK')
             ILAW=4
             CALL HM_READ_MAT04(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE)
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
 c-------
           CASE ('JWL','LAW5','LAW05')
             ILAW = 5
@@ -390,7 +392,7 @@ c-------
             ILAW  = 6  
             CALL HM_READ_MAT06(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
      .           1 , MTAG   )
 c-------
           CASE ('K-EPS')
@@ -399,14 +401,14 @@ c-------
             PM(70,I) =JTUR+EM01
             CALL HM_READ_MAT06_KEPS(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
      .           1 , MTAG   )      
 c-------
           CASE ('LAW10','DPRAG1')
             ILAW = 10  
             CALL HM_READ_MAT10(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE)
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
 c-------
           CASE ('LAW11','BOUND')
             ILAW = 11  
@@ -426,7 +428,7 @@ c-------
             ILAW = 12  
             CALL HM_READ_MAT12(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
      .           MATPARAM  )
 c-------
           CASE ('LAW13','RIGID')
@@ -642,7 +644,7 @@ c-------
             ILAW=49
             CALL HM_READ_MAT49(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,MAXEOS    ,ISRATE)
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
 c-------
           CASE ('LAW50','VISC_HONEY')
             ILAW  = 50  

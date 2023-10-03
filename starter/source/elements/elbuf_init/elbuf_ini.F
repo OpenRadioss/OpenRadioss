@@ -40,7 +40,7 @@ Chd|====================================================================
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .           FLAG_XFEM ,IPARTIG3D,STACK    ,IGEO_STACK,
      .           IXT       ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .           EOS_TAG   ,MAXEOS   ,ISTR_24  ,PRINT_FLAG)
+     .           EOS_TAG   ,ISTR_24  ,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,9 +74,9 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: ISTR_24
       INTEGER IPARG(NPARG,NGROUP),IPART(LIPART1,*),
      .        IPARTSP(*),IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO),
-     .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
+     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),
      .        FLAG_XFEM,IPARTIG3D(*),IGEO_STACK(NPROPGI,*),
-     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),KXX(NIXX,*),MAXEOS
+     .        IXT(NIXT,NUMELT),IXP(NIXP,NUMELP),IXR(NIXR,NUMELR),KXX(NIXX,*)
       my_real :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
@@ -440,7 +440,7 @@ c---
             NUVAR   = MLAW_TAG(IMID)%NUVAR  
             NUVAREOS = 0
             IEOS_TYPE = IPM(4,IMID)
-            IF(IEOS_TYPE>0)NUVAREOS= EOS_TAG(IEOS_TYPE)%NVAR                               
+            IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR
             NVARTMP = MLAW_TAG(IMID)%NVARTMP                                
             ELBUF_TAB(NG)%BUFLY(1)%ILAW = MLW                                          
             ELBUF_TAB(NG)%BUFLY(1)%IMAT = IMID                                        
@@ -780,7 +780,7 @@ c----------------------------------------------------
           CALL INITVARS_AUTO(
      .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
-     .         IEOS         ,MAXEOS   ,EOS_TAG  ,ISNOD    )  
+     .         IEOS         ,EOS_TAG  ,ISNOD    )  
 c-------------------------------------------------
 c       taille du tableau local ELBUF pour restart
 c-------------------------------------------------
@@ -1542,7 +1542,7 @@ c----------------------------------------------------
           CALL INITVARS_AUTO(
      .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
-     .         IEOS         ,MAXEOS   ,EOS_TAG  ,ISNOD    )  
+     .         IEOS         ,EOS_TAG  ,ISNOD    )  
 c-------------------------------------------------
 !---
 !          !  equivalent stress / criterion - other then VON MISES
@@ -2068,7 +2068,7 @@ c-------------------------------------------------
           CALL INITVARS_AUTO(
      .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
-     .         IEOS         ,MAXEOS   ,EOS_TAG  ,ISNOD    )  
+     .         IEOS         ,EOS_TAG  ,ISNOD    )  
 C---
             DO IL = 1,NLAY
               BUFLY => ELBUF_TAB(NG)%BUFLY(IL)

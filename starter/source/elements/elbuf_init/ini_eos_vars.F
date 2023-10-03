@@ -27,7 +27,7 @@ Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.
 Chd|-- calls ---------------
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|====================================================================
-      SUBROUTINE INI_EOS_VARS(EOS_TAG,MAXEOS)
+      SUBROUTINE INI_EOS_VARS(EOS_TAG)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -39,7 +39,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER                                          :: MAXEOS
       TYPE(EOS_TAG_)    ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

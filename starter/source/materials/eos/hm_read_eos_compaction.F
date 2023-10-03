@@ -33,7 +33,7 @@ Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EOS_COMPACTION(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,MAXEOS)
+      SUBROUTINE HM_READ_EOS_COMPACTION(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG  
-      INTEGER,INTENT(IN) :: IEOS, MAXEOS
+      INTEGER,INTENT(IN) :: IEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

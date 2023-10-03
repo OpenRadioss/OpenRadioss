@@ -466,7 +466,7 @@ set_source_files_properties( ${source_directory}/source/elements/elbuf_init/init
 # set_source_files_properties( ${source_directory}/source/elements/elbuf_init/matparam_r2r_void.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/elbuf_init/ini_mlaw_vars.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/elbuf_init/deallocate_one_element_group.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/elements/elbuf_init/deallocate_buffer.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+#set_source_files_properties( ${source_directory}/source/elements/elbuf_init/deallocate_buffer.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/elbuf_init/suinit3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/elements/elbuf_init/suderi3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 # set_source_files_properties( ${source_directory}/source/elements/elbuf_init/ini_eos_vars.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
