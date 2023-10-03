@@ -64,7 +64,7 @@ C-----------------------------------------------
 
 c
       INTEGER N_NETWORK,N,K,ITEST,ICHECK,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,
-     .        TAB,NMUAL,IFLAG,IS,I,INDX
+     .        TAB,NMUAL,IFLAG,IS,I,INDX,LAWID
       my_real
      .   MU(5),AL(5),LAM_MIN,LAM_MAX,STRAIN_MIN,STRAIN_MAX,
      .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2
@@ -86,7 +86,7 @@ C=======================================================================
 C      
        NMUAL = 2*UPARAM(18)
        IFLAG = NINT(UPARAM(13))
-       ICHECK = NINT(UPARAM(19))
+       ICHECK = ABS(NINT(UPARAM(19)))
        NSTART = NINT(UPARAM(20))
        ERRTOL = UPARAM(21)
        ERRTOL = FIVEEM3 
@@ -113,7 +113,8 @@ C
        DO II = IC1,IC2-2,2                                   
             JJ=JJ+1                                          
             STRETCH(JJ) = PLD(II) + ONE                       
-            STRESS(JJ)  = PLD(II+1)  
+            STRESS(JJ)  = PLD(II+1)
+            IF( PLD(II) < ZERO .AND. PLD(II+1) < 0) ICHECK = -ICHECK 
               IF(PLD(II) <=  -ONE) THEN
                 CALL ANCMSG(MSGID=1175,
      .                       MSGTYPE=MSGERROR,
@@ -127,7 +128,7 @@ C
 C  check if the curve is monotonic
         DO JJ =1,NOGD - 1                                 
           DX = STRETCH(JJ+1) - STRETCH(JJ)                
-          DY = STRESS(JJ + 1) - STRESS(JJ)                
+          DY = STRESS(JJ + 1) - STRESS(JJ) 
           IF(DX <= ZERO .OR. DY <= ZERO) THEN             
             CALL ANCMSG(MSGID=1176,                      
      .             MSGTYPE=MSGERROR,                   
@@ -160,9 +161,15 @@ C  check if the curve is monotonic
        ENDIF  
 !       
        IF (IFLAG == 1 .OR. IFLAG == 2) THEN
-          CALL LAW69_NLSQF(IFLAG,STRETCH,STRESS,10,NMUAL,NOGD,MUAL,
+           LAWID = IFLAG 
+           CALL LAW69_NLSQF(LAWID,STRETCH,STRESS,10,NMUAL,NOGD,MUAL,
      $                             ICHECK, NSTART, ERRTOL,MAT_ID,TITR)
-       ENDIF 
+       ELSEIF(IFLAG == -1) THEN
+           LAWID = 2
+           CALL LAW69_NLSQF_AUTO(LAWID,STRETCH,STRESS,10,NMUAL,NOGD,MUAL,
+     $                             ICHECK, NSTART, ERRTOL,MAT_ID,TITR)
+           UPARAM(18) = NMUAL / 2    
+       ENDIF
        DEALLOCATE (STRETCH)                                                  
        DEALLOCATE (STRESS)                                                   
        IF(GAMA_INF < ONE) THEN
@@ -199,7 +206,7 @@ C     Formulation for solid elements time step computation.
        
 C                                                        
       IF(.NOT.IS_ENCRYPTED) THEN 
-         IF (UPARAM(13)/=2) THEN                                      
+         IF (LAWID /= 2) THEN                                      
            WRITE(IOUT,278)                                                   
      &  UPARAM(1),UPARAM(2),UPARAM(3),UPARAM(4),         
      &  UPARAM(5),UPARAM(6),UPARAM(7),UPARAM(8),         
