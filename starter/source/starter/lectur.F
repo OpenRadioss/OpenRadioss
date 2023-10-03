@@ -675,7 +675,6 @@ C-----------------------------------------------
 #include      "inigrav_c.inc"
 #include      "inter18.inc"
 #include      "inter22.inc"
-#include      "eos.inc"
 #include      "ige3d_c.inc"
 #include      "random_c.inc"
 C-----------------------------------------------
@@ -2047,7 +2046,7 @@ c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
      .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG   ,
      .     RWORK       ,SBUFMAT  ,IPM      ,PM       ,UNITAB    ,
-     .     MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
+     .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
      .     TABLE       ,NPC      )
 c---------------------------------------------------------------
       ALLOCATE(BUFMAT(SBUFMAT)    ,STAT=stat)
@@ -8099,7 +8098,7 @@ C
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .               EOS_TAG  ,MAXEOS   ,ISTR_24  ,IPRI)
+     .               EOS_TAG  ,ISTR_24  ,IPRI)
 C---
 C  if xfem
 c---
@@ -8115,7 +8114,7 @@ c
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .         FLAG_XFEM              ,IPARTIG3D,STACK    ,IGEO_STACK,
      .         IXT                    ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .         EOS_TAG                ,MAXEOS   ,ISTR_24  ,IPRI)
+     .         EOS_TAG                ,ISTR_24  ,IPRI)
         ENDDO
       ELSE
         ALLOCATE(XFEM_TAB(0,0), STAT=Stat)
@@ -8596,22 +8595,16 @@ C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
           DEALLOCATE(DTELEM)
           FLAG_XFEM = 0
           CALL DEALLOCATE_ELBUF(
-     .               ELBUF_TAB,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
-     .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
-     .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .               KXSP     ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
-     .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       )
+     .               ELBUF_TAB, IGEO     ,IPARG    ,IXS      ,IXC      ,IXTG     ,
+     .               IXT      ,IXP      ,IXR      ,KXX       ,GEO )
           DEALLOCATE(ELBUF_TAB)
 C       XFEM buffer deallocation
           IF(ICRACK3D > 0) THEN
             FLAG_XFEM = 1
             DO IXEL=1,NXEL
               CALL DEALLOCATE_ELBUF(
-     .               XFEM_TAB(1:NGROUP,IXEL),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
-     .               IGEO     ,IPM      ,PM       ,IPARG    ,IPART     ,
-     .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
-     .               KXSP     ,FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
-     .               IXT      ,IXP      ,IXR      ,KXX      ,GEO      )
+     .               XFEM_TAB(1:NGROUP,IXEL),IGEO     ,IPARG    ,IXS      ,IXC      ,IXTG    ,
+     .               IXT      ,IXP      ,IXR      ,KXX       ,GEO  )
             ENDDO
           ENDIF
 C

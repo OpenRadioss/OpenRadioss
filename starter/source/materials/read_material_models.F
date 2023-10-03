@@ -55,7 +55,7 @@ Chd|====================================================================
       SUBROUTINE READ_MATERIAL_MODELS(
      .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
      .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
-     .             MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
+     .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
      .             TABLE       ,NPC      )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: BUFLEN,MAXEOS
+      INTEGER :: BUFLEN
       INTEGER,INTENT(IN) :: NPC(SNPC)
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
@@ -135,7 +135,7 @@ C=======================================================================
     
       !Set default parameters used in material laws
       CALL INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,NUMMAT)  ! attention ca ne marchera pas
-      CALL INI_EOS_VARS (EOS_TAG,  MAXEOS )
+      CALL INI_EOS_VARS (EOS_TAG)
 c----------      
       ILAW    = 0
       BUFLEN  = 0
@@ -163,14 +163,14 @@ c     /MAT : Material laws (Constitutive law : sigma,epsilon)
 c-------------------------------------------------------------------      
       CALL HM_READ_MAT(
      .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
-     .     BUFLEN      ,IADBUF      ,MAXEOS      ,IPM         ,PM          ,
+     .     BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
 
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)
 c-------------------------------------------------------------------
       CALL HM_READ_EOS(IPM      ,PM       ,BUFMAT   ,BUFLEN   ,IADBUF   ,
-     .                 EOS_TAG  ,MAXEOS   ,UNITAB   ,LSUBMODEL)
+     .                 EOS_TAG  ,UNITAB   ,LSUBMODEL)
 
 c-------------------------------------------------------------------
 c     /FAIL : Failure Models

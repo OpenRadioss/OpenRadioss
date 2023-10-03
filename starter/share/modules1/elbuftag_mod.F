@@ -328,9 +328,14 @@ c---    uvar
         INTEGER ::  L_BFRAC     !  burn fraction 
         
         INTEGER ::  NVAR        !  EOS%VAR buffer size     
-      END TYPE EOS_TAG_              
+      END TYPE EOS_TAG_    
+      
+      !EOS PARAM
+      INTEGER,SAVE :: MAXEOS
+      DATA MAXEOS /17/          !Number of EOS types :'LINEAR', 'POLYNOMIAL', 'IDEAL-GAS' , etc ...
+                
 
-C 
+C
       TYPE PROP_TAG_    ! element buffer variables depending on property
 c       global variables 
         INTEGER ::  G_GAMA 
