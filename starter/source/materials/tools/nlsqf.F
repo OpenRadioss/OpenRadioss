@@ -33,6 +33,7 @@ Chd|====================================================================
 Chd|  MRQMIN                        source/materials/tools/nlsqf.F
 Chd|-- called by -----------
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/nlsqf.F
 Chd|-- calls ---------------
 Chd|        COVSRT                        source/materials/tools/nlsqf.F
 Chd|        INVERSION                     source/materials/tools/nlsqf.F
@@ -1385,4 +1386,3 @@ Chd|====================================================================
       
       RETURN
       END FUNCTION RAND1
-

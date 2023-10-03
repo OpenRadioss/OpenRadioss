@@ -131,14 +131,19 @@ C-----------------------------------------------
       NFUNC   = 2
       NUVAR   = 9
 C-----------------------------------------------
-
       ZEP495 = ZEP4 + NINE*EM02 + FIVE*EM03
-
-      IF (ICHECK == 0)     ICHECK = -3
-      IF (NSTART == 0)     NSTART = 100
-      IF (ERRTOL == ZERO ) ERRTOL = FIVEEM3
-      IF (NMUAL == 0)      NMUAL = 2
-      IF (FSCAL == ZERO)   FSCAL = ONE*FSCAL_UNIT
+      IF(ICHECK == 0    ) ICHECK = -3
+      IF(NSTART == 0    ) NSTART = 100
+      IF(ERRTOL == ZERO ) ERRTOL = FIVEEM3
+      IF(NMUAL  == 0    ) NMUAL  = 2
+      IF(FSCAL  == ZERO ) FSCAL  = ONE*FSCAL_UNIT
+      IF(LAWID  == 0    ) LAWID  = -1
+      IF(LAWID == -1) THEN
+       ICHECK = -3
+       NSTART = 100
+       ERRTOL = FIVEEM3
+       NMUAL = 2
+      ENDIF
       IF (NTABLE_ == 0) THEN
         CALL ANCMSG(MSGID=894,
      .              MSGTYPE=MSGERROR,
@@ -147,7 +152,7 @@ C-----------------------------------------------
      .              C1=TITR)
       ENDIF
       IF (LAWID == 0)  LAWID = 1
-      IF (LAWID /= 1 .AND. LAWID /= 2) THEN
+      IF (LAWID /= 1 .AND. LAWID /= 2 .AND.  LAWID /= -1 ) THEN ! New flag (automatic fitting)
         CALL ANCMSG(MSGID=882,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
