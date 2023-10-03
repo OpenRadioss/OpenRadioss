@@ -135,6 +135,7 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
           JJ(I) = NEL*(I-1)
         ENDDO
 !
+        IF (ALLOCATED(SIGE)) DEALLOCATE(SIGE)
         ALLOCATE(SIGE(NEL,3))
         SIGE(1:NEL,1:3) = ZERO
 !
@@ -1363,7 +1364,6 @@ c------------------------------------
           ENDIF   ! IF (MLW /= 13)
         ENDIF    ! IF(ITY == 2)
 
-        DEALLOCATE(SIGE)
 c
 C-----------------------------------------------
  490  CONTINUE   ! NGROUP
