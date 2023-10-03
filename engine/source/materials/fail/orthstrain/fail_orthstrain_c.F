@@ -467,12 +467,12 @@ c------------------------
           
           WRITE(IOUT, 1000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,1000) NGL(I),IPG,ILAY,IPT
-          IF (FMODE(I,1)==1) WRITE(IOUT, 2000) 1,EPS11(I),EPSM1(I),EPSP(I,XX)
-          IF (FMODE(I,2)==1) WRITE(IOUT, 2000) 2,EPS22(I),EPSM2(I),EPSP(I,YY)
-          IF (FMODE(I,3)==1) WRITE(IOUT, 2000) 3,EPS12(I),EPSM3(I),EPSP(I,XY)
-          IF (FMODE(I,4)==1) WRITE(IOUT, 2000) 4,EPS11(I),EPSM4(I),EPSP(I,XX)
-          IF (FMODE(I,5)==1) WRITE(IOUT, 2000) 5,EPS22(I),EPSM5(I),EPSP(I,YY)
-          IF (FMODE(I,6)==1) WRITE(IOUT, 2000) 6,EPS12(I),EPSM6(I),EPSP(I,XY)
+          IF (FMODE(I,1)==1) WRITE(IOUT, 2000) '1 - TRACTION XX',EPS11(I),EPSM1(I),EPSP(I,XX)
+          IF (FMODE(I,2)==1) WRITE(IOUT, 2000) '2 - TRACTION YY',EPS22(I),EPSM2(I),EPSP(I,YY)
+          IF (FMODE(I,3)==1) WRITE(IOUT, 2000) '3 - POSITIVE SHEAR XY',EPS12(I),EPSM3(I),EPSP(I,XY)
+          IF (FMODE(I,4)==1) WRITE(IOUT, 2000) '4 - COMPRESSION XX',EPS11(I),EPSM4(I),EPSP(I,XX)
+          IF (FMODE(I,5)==1) WRITE(IOUT, 2000) '5 - COMPRESSION YY',EPS22(I),EPSM5(I),EPSP(I,YY)
+          IF (FMODE(I,6)==1) WRITE(IOUT, 2000) '6 - NEGATIVE SHEAR XY',EPS12(I),EPSM6(I),EPSP(I,XY)
 #include  "lockoff.inc"
         END DO
       END IF              
@@ -526,7 +526,7 @@ c     Update state variables
 c-----------------------------------------------------------------------
  1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)
- 2000 FORMAT(1X,'MODE',1X,I2,', STRAIN',1PE12.4,', CRITICAL VALUE',1PE12.4,
+ 2000 FORMAT(1X,'MODE',1X,A,', STRAIN',1PE12.4,', CRITICAL VALUE',1PE12.4,
      .       ', STRAIN RATE',1PE12.4)
 c-----------------------------------------------------------------------
       RETURN          
