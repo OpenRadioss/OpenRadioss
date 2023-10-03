@@ -71,13 +71,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX
-      INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: RFAC,R1,R2,IE_SP,DYDX,RIEF1,RIEF2,XFAC,FINTER
+      INTEGER :: I,J,NINDX,NINDXD
+      INTEGER ,DIMENSION(NEL) :: INDX,INDXD
+      my_real :: RFAC,R1,R2,DYDX,RIEF1,RIEF2,XFAC,FINTER
       EXTERNAL FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE,VOL
+      my_real ,DIMENSION(NEL) :: DAMAGE,VOL,IE_SP
 C=======================================================================
-      NINDX = 0  
+      NINDX = 0
+      NINDXD  = 0
       RIEF1    = UPARAM(1)             
       RIEF2    = UPARAM(2)           
       XFAC     = UPARAM(4)           
@@ -96,15 +97,18 @@ c-----------------------------
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
           VOL(I) = AREA*AL(I)
-          IE_SP = (EINT(I,1) + EINT(I,2))/VOL(I)
-
-          IF (IE_SP > R1) THEN
-            DAMAGE(I) = (IE_SP-R1)/(R2-R1)
+          IE_SP(I) = (EINT(I,1) + EINT(I,2))/VOL(I)
+          IF (IE_SP(I) > R1) THEN
+            DAMAGE(I) = (IE_SP(I)-R1)/(R2-R1)
             DAMAGE(I) = MIN(ONE,DAMAGE(I))
+            IF (DFMAX(I) == ZERO) THEN
+              NINDXD = NINDXD + 1  
+              INDXD(NINDXD) = I
+            ENDIF  
             DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
           ENDIF
 
-          IF (IE_SP > R2) THEN
+          IF (IE_SP(I) > R2) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
             TDEL(I)     = TIME
@@ -119,18 +123,30 @@ c-----------------------------
         END IF
       ENDDO      
 c------------------------
+      IF (NINDXD > 0) THEN        
+        DO J=1,NINDXD             
+          I = INDXD(J)            
+#include "lockon.inc"
+          WRITE(IOUT, 2000) NGL(I),IPT,TIME,IE_SP(I)
+          WRITE(ISTDO,2000) NGL(I),IPT,TIME,IE_SP(I)
+#include "lockoff.inc" 
+        END DO                   
+      END IF   ! NINDXD             
+
       IF (NINDX > 0) THEN        
         DO J=1,NINDX             
           I = INDX(J)            
 #include "lockon.inc"
-          WRITE(IOUT, 1000) NGL(I),IPT,TIME
-          WRITE(ISTDO,1000) NGL(I),IPT,TIME
+          WRITE(IOUT, 1000) NGL(I),IPT,TIME,IE_SP(I)
+          WRITE(ISTDO,1000) NGL(I),IPT,TIME,IE_SP(I)
 #include "lockoff.inc" 
         END DO                   
       END IF   ! NINDX             
 c------------------
  1000 FORMAT(5X,'FAILURE (ENERGY) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
-     .      ,2X,'AT TIME :',1PE12.4)
+     .      ,2X,'AT TIME :',1PE12.4,1X,' , ENERGY PER VOLUME : ',1PE12.4 )
+ 2000 FORMAT(5X,'START DAMAGE (ENERGY) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
+     .      ,2X,'AT TIME :',1PE12.4,1X,' , ENERGY PER VOLUME : ',1PE12.4 )     
 c------------------
       RETURN
       END

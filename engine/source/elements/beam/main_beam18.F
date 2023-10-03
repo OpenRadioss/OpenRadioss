@@ -191,8 +191,9 @@ c---------------------------
               DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) - DPLA(I,J)
             ENDDO
           ENDDO
-        END IF
+        END IF           
 c
+        AREA = GEO(1 ,IPID)
         CALL FAIL_BEAM18(ELBUF_STR   ,NUMMAT  ,NUMGEO  ,NPROPM  ,
      .              NPROPMI ,NPROPG  ,SBUFMAT ,SNPC    ,STF     ,
      .              NEL     ,NPT     ,IMAT    ,IPID    ,JTHE    ,
