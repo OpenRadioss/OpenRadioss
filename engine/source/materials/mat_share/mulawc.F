@@ -2573,7 +2573,8 @@ c--------------------------------------------------
      .                       NEL      ,NLAY     ,NPTTOT   ,PTHKF    ,
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
-     .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  )
+     .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
+     .                       IGEO     )
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,GEO      ,PID(1)   ,NGL      ,
@@ -2581,7 +2582,8 @@ c--------------------------------------------------
      .                       NPTTOT   ,PTHKF    ,THK_LY   ,THKLY    ,
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
-     .                       LAYNPT_MAX,NUMGEO  ,IPG      )
+     .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
+     .                       IGEO     )
         ENDIF
       ENDIF  
 c---
