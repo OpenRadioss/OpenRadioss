@@ -110,7 +110,7 @@ C-----------------------------------------------
      .        ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
      .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        NPT_ALL,IPLY,
+     .        IPLY,
      .        IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
      .        IPINCH,IPG,USER_OK,IALEL
@@ -3280,19 +3280,19 @@ c ILAYER=ILAY NPT=IPT
                     NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
                     IF (IPT <= NPTT) THEN				  
                       DO I=1,NEL  
-                        DO IR = 1,NPTR							   
-                          DO IS = 1,NPTS							   
-                	          FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IPT)	
-                            DMGMX = ZERO	
+                        DO IR = 1,NPTR
+                          DO IS = 1,NPTS
+                            FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IPT)
+                            DMGMX = ZERO
                             DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
                               IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
-                                DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)	
+                                DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
                                 IS_WRITTEN_VALUE(I) = 1 
                               ENDIF
-                            ENDDO		
-                            VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)			    
+                            ENDDO
+                            VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
                           ENDDO
-                        ENDDO								  
+                        ENDDO
                       ENDDO     !  I=1,NEL
                     ENDIF
                   ENDIF
@@ -3302,30 +3302,30 @@ c ILAYER=IL NPT=NULL
                 IF (IFAILURE > 0) THEN
                   IPT = 1
                   IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
-                    DO I=1,NEL	
-                      DO IR = 1,NPTR							   
-                        DO IS = 1,NPTS							   
-                	        FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,1) 
+                    DO I=1,NEL
+                      DO IR = 1,NPTR
+                        DO IS = 1,NPTS
+                          FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,1)
                           DMGMX = ZERO
                           DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
                             IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
-                              DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)	
+                              DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
                               IS_WRITTEN_VALUE(I) = 1 
                             ENDIF
                           ENDDO
                           VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
                         ENDDO
-                      ENDDO								  
+                      ENDDO
                     ENDDO     !  I=1,NEL
 c
-                  ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN				      
+                  ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
                     NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
-                    DO I=1,NEL	
+                    DO I=1,NEL
                       DO IT = 1,NPTT
-                        DO IR = 1,NPTR							     
-                	        DO IS = 1,NPTS  						     
-                	          FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)	
-                            DMGMX = ZERO	
+                        DO IR = 1,NPTR
+                	        DO IS = 1,NPTS
+                	          FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
+                            DMGMX = ZERO
                             DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
                               IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
                                 DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
@@ -3333,8 +3333,8 @@ c
                               ENDIF
                             ENDDO
                             VALUE(I) = VALUE(I) + DMGMX/(NPTT*NPTR*NPTS)
-                	        ENDDO
-                        ENDDO								    
+                          ENDDO
+                        ENDDO
                       ENDDO  !  DO IT = 1,NPTT
                     ENDDO    !  I=1,NEL
                   ENDIF
@@ -3343,20 +3343,20 @@ c NPT=IPT
               ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
                 IF (IFAILURE > 0) THEN
                   IF (IGTYP == 1 .OR. IGTYP == 9 ) THEN 
-                    DO I=1,NEL	      
-                      DO IR = 1,NPTR							   
-                        DO IS = 1,NPTS							   
-                	        FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,IPT)  
-                          DMGMX = ZERO	
+                    DO I=1,NEL
+                      DO IR = 1,NPTR
+                        DO IS = 1,NPTS
+                          FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,IPT)
+                          DMGMX = ZERO
                           DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL
                             IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN 
                               DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
                               IS_WRITTEN_VALUE(I) = 1 
                             ENDIF
-                          ENDDO			
-                          VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)				    
+                          ENDDO
+                          VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
                         ENDDO
-                      ENDDO								  
+                      ENDDO
                     ENDDO     !  I=1,NEL
                   ENDIF
                 ENDIF
@@ -3682,13 +3682,13 @@ C--------------------------------------------------
                IF (MLW == 151) THEN
                   DO I = 1, NEL                                         
                      VALUE(I) = MULTI_FVM%SOUND_SPEED(I + NFT)
-                     IS_WRITTEN_VALUE(I) = 1		                 
+                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
                ELSE
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
                   IF(L /= 0)THEN                                       
                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
-                     DO  I=1,NEL                                 			     
+                     DO  I=1,NEL
                         VALUE(I) = LBUF%SSP(I) 
                         IS_WRITTEN_VALUE(I) = 1                
                      ENDDO                                                 
@@ -3703,13 +3703,13 @@ C--------------------------------------------------
                    EVAR(1:NEL)=ZERO  
                    LFT=1
                    LLT=NEL                                      
-                   CALL SCHLIEREN(
+                   CALL OUTPUT_SCHLIEREN(
      1                   EVAR  , IXTG , X         , V           , W       ,
      2                   IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
      3                   PM    , NG   , NIXTG     , ITY) 
                    DO  I=1,NEL 
                      VALUE(I) = EVAR(I) 
-	  	   IS_WRITTEN_VALUE(I) = 1
+                     IS_WRITTEN_VALUE(I) = 1
                    ENDDO
                  ENDIF  
                ENDIF                     
@@ -3862,8 +3862,8 @@ C--------------------------------------------------
                         DO IT = 1,NPTT
                           DO I=1,NEL 
                             VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IT)%TSAIWU(I)/(NPTT*NPTR*NPTS)
-                            IS_WRITTEN_VALUE(I) = 1	
-                          ENDDO			
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
                         ENDDO
                       ENDDO
                     ENDDO
@@ -3877,7 +3877,7 @@ C--------------------------------------------------
                       DO IS = 1,NPTS
                         DO I=1,NEL 
                           VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/(NPTR*NPTS)
-                          IS_WRITTEN_VALUE(I) = 1				
+                          IS_WRITTEN_VALUE(I) = 1
                         ENDDO
                       ENDDO
                     ENDDO
@@ -3887,7 +3887,7 @@ c
               ! -- PLY=IPLY NPT=IPT
               ELSEIF ( IPLY > 0 .AND. (IPT <= MPT .AND. IPT > 0 ) .AND. GBUF%G_TSAIWU > 0) THEN
 c
-	              DO J=1,NLAY
+                 DO J=1,NLAY
                   ID_PLY = 0
                   IF (IGTYP == 17 .OR. IGTYP == 51) THEN
 	                  ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
@@ -3903,14 +3903,14 @@ c
                 	      IF( NPG > 1 ) THEN
                 	        DO IR=1,NPTR
                 	          DO IS=1,NPTS
-                	            DO I=1,NEL 			 
+                	            DO I=1,NEL
                 	              VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/NPG  
-                                IS_WRITTEN_VALUE(I) = 1	
+                                IS_WRITTEN_VALUE(I) = 1
                 	            ENDDO  
                 	          ENDDO  
                 	        ENDDO
                 	      ELSE
-                	        DO I=1,NEL				   
+                	        DO I=1,NEL
                 	          VALUE(I) = BUFLY%LBUF(1,1,IPT)%TSAIWU(I)
                             IS_WRITTEN_VALUE(I) = 1				
                 	        ENDDO
@@ -3940,16 +3940,16 @@ c
                      	    IF (NPG > 1) THEN
                      	      DO IR=1,NPTR
                      	        DO IS=1,NPTS
-                     	    	    DO I=1,NEL			   
+                     	    	    DO I=1,NEL
                      	            VALUE(I) = VALUE(I) + BUFLY%LBUF(IR,IS,IPT)%TSAIWU(I)/(NPG*NPTT)
                             	    IS_WRITTEN_VALUE(I) = 1 
-                                ENDDO			      
+                                ENDDO
                      	        ENDDO  
                      	      ENDDO
                      	    ELSE
-                     	      DO  I=1,NEL 			     
+                     	      DO  I=1,NEL
                      	        VALUE(I) = VALUE(I) + BUFLY%LBUF(1,1,IPT)%TSAIWU(I)/NPTT
-                              IS_WRITTEN_VALUE(I) = 1				
+                              IS_WRITTEN_VALUE(I) = 1
                      	      ENDDO
                      	    ENDIF
                         ENDIF
@@ -4078,8 +4078,8 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF(GBUF%G_DT>0)THEN
                 DO I=1,NEL
-                  VALUE(I) = GBUF%DT(I) 			 
-                  IS_WRITTEN_VALUE(I) = 1				
+                  VALUE(I) = GBUF%DT(I)
+                  IS_WRITTEN_VALUE(I) = 1
                 ENDDO
               ENDIF
 C--------------------------------------------------
@@ -4087,8 +4087,8 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF(GBUF%G_ISMS>0)THEN
                 DO I=1,NEL
-                  VALUE(I) = GBUF%ISMS(I) 			 
-                  IS_WRITTEN_VALUE(I) = 1			
+                  VALUE(I) = GBUF%ISMS(I)
+                  IS_WRITTEN_VALUE(I) = 1
                 ENDDO 
               ENDIF   
 C--------------------------------------------------
@@ -4114,20 +4114,20 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF(GBUF%G_BFRAC>0)THEN
                 DO I=1,NEL
-                  VALUE(I) = GBUF%BFRAC(I) 			 
-                  IS_WRITTEN_VALUE(I) = 1			
+                  VALUE(I) = GBUF%BFRAC(I)
+                  IS_WRITTEN_VALUE(I) = 1
                 ENDDO 
               ENDIF  
 c---------------------------------------------------------------------------
             ELSEIF (KEYWORD == 'ALPHA') THEN   ! shear angle - law58
 c---------------------------------------------------------------------------
               IF ( IPLY == -1 .and. ILAY == -1) THEN  ! output mid-layer
-                IF (NLAY > 1) THEN							     
-                  IL  = IABS(NLAY)/2 + 1						     
-                  IPT = 1								     
-                ELSE  								     
+                IF (NLAY > 1) THEN
+                  IL  = IABS(NLAY)/2 + 1
+                  IPT = 1
+                ELSE
                   IL  = 1								     
-                  IPT =  IABS(NPT)/2 + 1						     
+                  IPT =  IABS(NPT)/2 + 1
                 ENDIF
                 BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
 c
@@ -4143,12 +4143,12 @@ c
                       A3 =  ABS( ATAND(LBUF3%ANG(I) ))
                       A4 =  ABS( ATAND(LBUF4%ANG(I) ))
                       VALUE(I) = FOURTH*(A1 + A2 + A3 + A4)
-                      IS_WRITTEN_VALUE(I) = 1	
+                      IS_WRITTEN_VALUE(I) = 1
                     ENDDO 
                   ELSE
                     DO I=1,NEL 
                       VALUE(I) = ABS( ATAND(BUFLY%LBUF(1,1,IPT)%ANG(I) ))
-                      IS_WRITTEN_VALUE(I) = 1	
+                      IS_WRITTEN_VALUE(I) = 1
                     ENDDO 
                   ENDIF
                 ENDIF
@@ -4167,7 +4167,7 @@ c
                     IF (BUFLY%L_ANG > 0)THEN
                       IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                         NPTT = BUFLY%NPTT
-                        IPT  = IABS(NPTT)/2 + 1	  ! middle intergation point					     
+                        IPT  = IABS(NPTT)/2 + 1
                 	       IF ( NPG > 1 ) THEN
                           LBUF1 => BUFLY%LBUF(1,1,IPT)
                           LBUF2 => BUFLY%LBUF(2,1,IPT)
@@ -4179,12 +4179,12 @@ c
                             A3 =  ABS( ATAND(LBUF3%ANG(I) ))
                             A4 =  ABS( ATAND(LBUF4%ANG(I) ))
                             VALUE(I) = FOURTH*(A1 + A2 + A3 + A4)
-                            IS_WRITTEN_VALUE(I) = 1	
+                            IS_WRITTEN_VALUE(I) = 1
                           ENDDO 
                 	       ELSE
-                	         DO  I=1,NEL				   
+                	         DO  I=1,NEL
                             VALUE(I) = ABS( ATAND(BUFLY%LBUF(1,1,IPT)%ANG(I) ))
-                            IS_WRITTEN_VALUE(I) = 1				
+                            IS_WRITTEN_VALUE(I) = 1
                 	         ENDDO
                 	       ENDIF
                       ENDIF
@@ -4196,7 +4196,7 @@ c
                 BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
                 IF (BUFLY%L_ANG > 0) THEN
                   NPTT = BUFLY%NPTT
-                  IPT  = IABS(NPTT)/2 + 1	  ! middle intergation point					     
+                  IPT  = IABS(NPTT)/2 + 1
                 	 IF ( NPG > 1 ) THEN
                     LBUF1 => BUFLY%LBUF(1,1,IPT)
                     LBUF2 => BUFLY%LBUF(2,1,IPT)
@@ -4208,12 +4208,12 @@ c
                       A3 =  ABS( ATAND(LBUF3%ANG(I) ))
                       A4 =  ABS( ATAND(LBUF4%ANG(I) ))
                       VALUE(I) = FOURTH*(A1 + A2 + A3 + A4)
-                      IS_WRITTEN_VALUE(I) = 1	
+                      IS_WRITTEN_VALUE(I) = 1
                     ENDDO 
                 	 ELSE
                 	   DO  I=1,NEL				   
                       VALUE(I) = ABS( ATAND(BUFLY%LBUF(1,1,IPT)%ANG(I) ))
-                      IS_WRITTEN_VALUE(I) = 1				
+                      IS_WRITTEN_VALUE(I) = 1
                 	   ENDDO
                 	 ENDIF
                 ENDIF
@@ -4235,7 +4235,7 @@ c---------------------------------------------------------------------------
                     IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                       DO I=1,NEL                                                      
                         VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                        IS_WRITTEN_VALUE(I) = 1	                         
+                        IS_WRITTEN_VALUE(I) = 1
                       ENDDO                                                                 
                     ENDIF                                                                   
                   ENDDO
@@ -4253,12 +4253,12 @@ c PLY=NULL ILAYER=IL NPT=NULL
                     DO IR=1,NPTR                                                                
                       DO IT=1,NPTT
                         IPT = IT
-                        FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IPT)                            
+                        FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IPT)
                         DO IFAIL=1,NFAIL                                                          
                           IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                             DO I=1,NEL
                               VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
-                              IS_WRITTEN_VALUE(I) = 1	                         
+                              IS_WRITTEN_VALUE(I) = 1
                             ENDDO                                                                 
                           ENDIF                                                                   
                         ENDDO
@@ -4278,7 +4278,7 @@ c PLY=NULL ILAYER=NULL NPT=IPT
                         IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                           DO I=1,NEL 
                             VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
-                            IS_WRITTEN_VALUE(I) = 1	                       
+                            IS_WRITTEN_VALUE(I) = 1
                           ENDDO                                                                 
                         ENDIF                                                                   
                       ENDDO                                                                    
@@ -4304,7 +4304,7 @@ c---------------------------------------------------------------------------
                         DO I=1,NEL                                                           
                           RINDX = FBUF%FLOC(IFAIL)%INDX(I)
                           VALUE(I) = MAX(VALUE(I),RINDX) 
-                          IS_WRITTEN_VALUE(I) = 1				                         
+                          IS_WRITTEN_VALUE(I) = 1
                         ENDDO                                                                 
                       ENDIF                                                                   
                     ENDDO
@@ -4328,7 +4328,7 @@ c PLY=NULL ILAYER=IL NPT=NULL
                             DO I=1,NEL                                                       
                               RINDX = FBUF%FLOC(IFAIL)%INDX(I)
                               VALUE(I) = MAX(VALUE(I),RINDX) 
-                              IS_WRITTEN_VALUE(I) = 1	                      
+                              IS_WRITTEN_VALUE(I) = 1
                             ENDDO                                                                 
                           ENDIF                                                                   
                         ENDDO
@@ -4530,7 +4530,7 @@ C--------------------------------------------------
 C--------------------------------------------------                 
               IF (MLW == 6 .OR. MLW == 17) THEN
                 DO I=1,NEL
-                  VALUE(I) = LBUF%VK(I)
+                  VALUE(I) = ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)%VK(I)
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
               ELSEIF(MLW == 46 .OR. MLW == 47)THEN
@@ -4617,12 +4617,25 @@ C--------------------------------------------------
                   DO I=1,NEL         
                     VALUE(I) = GBUF%TM_DMG(I) 
                     IS_WRITTEN_VALUE(I) = 1
-                  ENDDO   
+                  ENDDO
+C--------------------------------------------------
+              ELSEIF(KEYWORD == 'DIV(U)') THEN
+C--------------------------------------------------
+                 !2d triangles
+                 IALEL=IPARG(7,NG)+IPARG(11,NG)
+                 IF(IALEL /= 0)THEN
+                   CALL OUTPUT_DIV_U(
+     1                        EVAR   ,IXTG ,X     ,V    ,IPARG ,ELBUF_TAB ,NG ,NIXTG ,7,
+     2                        NUMELTG,NEL  ,NUMNOD,NPARG,NGROUP,N2D       ,NFT     )
+                    DO I=1,NEL
+                      VALUE(I) = EVAR(I)
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDDO
+                 ENDIF
 C--------------------------------------------------                                   
            ENDIF  ! KEYWORD
 C-------------------------------------------------- 
-           CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SHELL,SHELL_SCALAR,NEL,OFFSET,NFT,
-     .   			       VALUE,IS_WRITTEN_VALUE)
+           CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SHELL,SHELL_SCALAR,NEL,OFFSET,NFT,VALUE,IS_WRITTEN_VALUE)
          ENDIF  ! ITY 
 c
 C-----------------------------------------------

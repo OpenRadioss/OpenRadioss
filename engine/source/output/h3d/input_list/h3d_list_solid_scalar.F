@@ -598,6 +598,11 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'FLD Zone Index OUTER_AVERAGE'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = '1:HighWrinkle 2:Compression 3:LooseMetal 4:SafeZone 5:MarginToFail 6:FailureZone'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'DIV(U)'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'div(u)'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'Volumetric dilatation rate'
+c-----------------------------------------------
 
 
 c-----------------------------------------------

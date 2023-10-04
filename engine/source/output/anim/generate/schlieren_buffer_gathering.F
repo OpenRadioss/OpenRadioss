@@ -122,7 +122,7 @@ C-----------------------------------------------
       !--------------------                                                                                             
       !    SPMD EXCHANGE                                                                                                
       !--------------------    
-      IF(IALE+IEULER+ITHERM /= 0)THEN	                                                                                                
+      IF(IALE+IEULER+ITHERM /= 0)THEN
         LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)                                                                      
         IF (NSPMD>1) THEN                                                                                                                                                                                     
           CALL SPMD_E1VOIS( WA_L,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM )                                                                                                                          

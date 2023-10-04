@@ -428,15 +428,15 @@ c----           USER VARIABLES from 6 to 60
                   ENDDO 
                ELSE
                  IF(ITY==2)THEN                                                                         
-                   CALL SCHLIEREN(
-     1                   EVAR    , IXQ    , X           , V       , W       ,
+                   CALL OUTPUT_SCHLIEREN(
+     1                   EVAR    , IXQ    , X           ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
-     3                   PM      , NG     , NIXQ        , ITY)
+     3                   NG      , NIXQ   , ITY)
                  ELSEIF(ITY==7.AND.N2D/=0)THEN
-                   CALL SCHLIEREN(
-     1                   EVAR    , IXTG   , X           , V                  , W       ,
+                   CALL OUTPUT_SCHLIEREN(
+     1                   EVAR    , IXTG   , X           ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
-     3                   PM      , NG     , NIXTG       , ITY)          
+     3                   NG      , NIXTG  , ITY)
                  ENDIF 
                  DO  I=LFT,LLT 
                    FUNC(EL2FA(NN3+NFT+I)) = EVAR(I) 

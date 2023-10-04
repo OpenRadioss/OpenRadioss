@@ -553,6 +553,12 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'MAX of DAMAGE'
       H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'maximum of damage over time&ipt'
 c-----------------------------------------------
+      !2d solids (triangles)
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DIV(U)'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'div(u)'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Volumetric dilatation rate'
+c-----------------------------------------------
 
       NKEY=I
       END

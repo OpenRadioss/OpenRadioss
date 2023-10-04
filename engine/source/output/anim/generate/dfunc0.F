@@ -286,10 +286,10 @@ c-----------
              IF(IALEL == 0)THEN
                EVAR(LFT:LLT) = ZERO
              ELSE
-               CALL SCHLIEREN(
-     1                        EVAR    ,IXQ    ,X           ,V       ,W       ,
+               CALL OUTPUT_SCHLIEREN(
+     1                        EVAR    ,IXQ    ,X           ,
      2                        IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECTIVITY   ,GBUF%VOL,
-     3                        PM      ,NG     ,NIXQ        ,ITY)
+     3                        NG      ,NIXQ   ,ITY)
              ENDIF  
              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+LLT)) = EVAR(1:LLT)      
 c-----------      
