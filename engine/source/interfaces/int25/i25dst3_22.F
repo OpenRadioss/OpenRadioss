@@ -801,13 +801,7 @@ C--------exclude high pene in case of ICONT_R
            TOLE =EPS02*AAA
            IF (GAP >ZERO) TOLE =MIN(TOLE,GAP*GAP)
            IF(PENA(I,IT)*PENA(I,IT) > TOLE) THEN
-              PENA(I,IT) = ZERO 
-              N = CAND_N(I)
-              IF(N <= NSN) THEN
-                 ICONT_I(N) = -CAND_E(I)
-              ELSE
-                 ICONT_I_FI(NIN)%P(N-NSN) = -CAND_E(I)
-              ENDIF              
+              PENA(I,IT) = ZERO             
            END IF
         END IF!(ICONT_R(I) >0)THEN
 C
