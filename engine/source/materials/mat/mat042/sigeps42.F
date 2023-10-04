@@ -32,7 +32,7 @@ Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-              SUBROUTINE SIGEPS42(
+      SUBROUTINE SIGEPS42(
      1      NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
      2      TF      ,TIME    ,TIMESTEP,UPARAM  ,RHO0    ,RHO     ,
      3      VOLUME  ,EINT    ,UVAR    ,OFF     ,OFFG    ,SOUNDSP ,
@@ -49,20 +49,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G L O B A L   P A R A M E T E R S
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
+#include "mvsiz_p.inc"
 C-----------------------------------------------
 C   C O M M O N 
 C-----------------------------------------------
 #include "scr05_c.inc"
 #include "scr17_c.inc"
 #include "impl1_c.inc"
+#include "tabsiz_c.inc"
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,ISMSTR,IHET,IEXPAN
-      my_real TIME, TIMESTEP, UPARAM(NUPARAM)
-      my_real ,DIMENSION(NEL), INTENT(IN) ::RHO,RHO0,VOLUME,EINT,OFFG,
-     .  EPSTH3,EPSP1,EPSP2,EPSP3,EPSP4,EPSP5,EPSP6,                  
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,ISMSTR,IHET,IEXPAN
+      my_real, INTENT(IN) :: TIME, TIMESTEP
+      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM(NUPARAM)
+      my_real, DIMENSION(NEL), INTENT(IN) ::RHO,RHO0,VOLUME,EINT,
+     .  OFFG,EPSTH3,EPSP1,EPSP2,EPSP3,EPSP4,EPSP5,EPSP6,                  
      .  EPSXX,EPSYY,EPSZZ,EPSXY,EPSYZ,EPSZX,               
      .  MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ         
 C----------------------------------------------------------------
@@ -73,57 +75,61 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) ,ET(NEL)
+            my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR(NEL,NUVAR)
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF(NEL),ET(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
-      EXTERNAL FINTER,FINTTE
+      INTEGER NPF(SNPC),NFUNC,IFUNC(NFUNC)
+      my_real FINTER,TF(STF)
+      EXTERNAL FINTER
 C----------------------------------------------------------------
-C  L O C A L  V A R I B L E S
+C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
-      INTEGER I,II,J,K,IFLAG,KFP,KFJ,IJACOBI,NROT,NPRONY,IOLDF
-      my_real MU1,MU2,MU3,MU4,MU5,AL1,AL2,AL3,AL4,AL5
-      my_real TENSIONCUT,AMAX,GVMAX ,GMAX,FFAC,TRACE,RBULK,DPDMU,
-     .  AA,CC,FAC,INVDT,INVE,ETV,RV_PUI,LAM_AL(3)
-      my_real ,DIMENSION(NEL)   :: SUMDWDL,RV,J2THIRD,P,DWDRV,ETI  
-      my_real ,DIMENSION(NEL,3) :: T,T1,SIGPRV,EV,EVM,DWDL,CII
-      my_real ,DIMENSION(NEL,6) :: DOTB,SV,C0,C1
-      my_real ,DIMENSION(NEL,3,3) :: F,LL,BB,LB,BLT
-      my_real AL_TAB(5),MU_TAB(5)
-      my_real A(3,3),DPRA(3,3),EIGEN(3),FFT(3)   
-      my_real GI(100),TAUX(100),H0(NEL,6,100),H(NEL,6,100)
-      my_real :: AV(MVSIZ,6),EVV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
-      my_real ,DIMENSION(NEL)   :: GTMAX  
+      INTEGER I,II,J,K,KFP,NPRONY,IFORM
+      my_real TENSIONCUT,AMAX,GVMAX,GMAX,FFAC,TRACE,RBULK,DPDMU,
+     .  AA,CC,FAC,INVE,ETV,RV_PUI
+      my_real, DIMENSION(3) :: LAM_AL,FFT
+      my_real, DIMENSION(5) :: AL_TAB,MU_TAB
+      my_real, DIMENSION(100) :: GI,TAUX
+      my_real, DIMENSION(NEL) :: SUMDWDL,RV,J2THIRD,P,DWDRV,ETI,GTMAX 
+      my_real, DIMENSION(3,3) :: A
+      my_real, DIMENSION(NEL,3) :: T1,SIGPRV,EV,EVM,DWDL,CII
+      my_real, DIMENSION(NEL,6) :: DOTB,SVISC,C0,C1
+      my_real, DIMENSION(NEL,3,3) :: F,LL,BB,LB,BLT
+      my_real, DIMENSION(NEL,6,100) :: H0, H
+      my_real, DIMENSION(MVSIZ,3) :: EVV 
+      my_real, DIMENSION(MVSIZ,6) :: AV
+      my_real, DIMENSION(MVSIZ,3,3) :: DIRPRV
       DOUBLE PRECISION AMAX1
-C=======================================================================
-C SET INITIAL MATERIAL CONSTANTS
-
-      MU1=UPARAM(1)
-      MU2=UPARAM(2)
-      MU3=UPARAM(3)
-      MU4=UPARAM(4)
-      MU5=UPARAM(5)
-      AL1=UPARAM(6)
-      AL2=UPARAM(7)
-      AL3=UPARAM(8)
-      AL4=UPARAM(9)
-      AL5=UPARAM(10)
-      GMAX = MU1*AL1+MU2*AL2+MU3*AL3+MU4*AL4+MU5*AL5
+      !=======================================================================
+c  
+      !=======================================================================
+      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      !=======================================================================
+      ! Recovering model parameters
+      GMAX = ZERO
       DO I=1,5
-        AL_TAB(I) = UPARAM(5+I)
+        !  -> Shear hyperelastic modulus parameters
         MU_TAB(I) = UPARAM(I)
+        !  -> Material exponents
+        AL_TAB(I) = UPARAM(5+I)
+        !  -> Shear modulus
+        GMAX = GMAX + MU_TAB(I)*AL_TAB(I)
       ENDDO
-      RBULK=UPARAM(11)
-      TENSIONCUT=UPARAM(12)
-      IFLAG=UPARAM(13)
-      FFAC =UPARAM(15)
+      ! Bulk modulus
+      RBULK = UPARAM(11)
+      ! Cutoff stress in tension
+      TENSIONCUT = UPARAM(12)
+      ! Bulk function scale factor
+      FFAC = UPARAM(15)
+      ! Number of Prony Series
       NPRONY = UPARAM(16)
-      IOLDF  = UPARAM(17)
-      KFP=IFUNC(1)
-      KFJ=IFUNC(2)
-      INVDT = TIMESTEP/MAX(TIMESTEP**2 , EM20)
+      ! Flag for strain energy density formulation
+      IFORM  = UPARAM(17)
+      ! Tabulated bulk function ID
+      KFP   = IFUNC(1)
+      ! Prony series parameters
       GVMAX = ZERO
       ETV   = ZERO
       IF (NPRONY > 0) THEN
@@ -134,61 +140,63 @@ C SET INITIAL MATERIAL CONSTANTS
         ENDDO
         ETV = MIN(GVMAX,RBULK)/GMAX
       ENDIF
-C
+c
+      ! Fill strain tensor 
       DO I=1,NEL
-        AV(I,1)=EPSXX(I)
-        AV(I,2)=EPSYY(I)
-        AV(I,3)=EPSZZ(I)
-        AV(I,4)=EPSXY(I) * HALF
-        AV(I,5)=EPSYZ(I) * HALF
-        AV(I,6)=EPSZX(I) * HALF
+        AV(I,1) = EPSXX(I)
+        AV(I,2) = EPSYY(I)
+        AV(I,3) = EPSZZ(I)
+        AV(I,4) = EPSXY(I) * HALF
+        AV(I,5) = EPSYZ(I) * HALF
+        AV(I,6) = EPSZX(I) * HALF
       ENDDO
-C         Eigenvalues needed to be calculated in double precision
-C         for a simple precision executing
+c 
+      ! Compute principal strains 
+      ! Note: in simple precision, principal strains are computed
+      ! with double precision
       IF (IRESP == 1) THEN
         CALL VALPVECDP_V(AV,EVV,DIRPRV,NEL)
       ELSE
         CALL VALPVEC_V(AV,EVV,DIRPRV,NEL)
       ENDIF
-*ISMSTR=0-NO SMALL STRAIN OPTION:STRAINS ARE LOGARITHMIC, STRESS IS CAUCHY
-*ISMSTR=1-SMALL STRAIN OPTION:STRAINS ARE ENGINEERING, STRESS IS CAUCHY
-*ISMSTR=2-SMALL STRAIN OPTION:STRAINS ARE ENGINEERING, STRESS IS BIOT
-*ISMSTR=3-NO SMALL STRAIN OPTION:STRESS IS BIOT
-
-      IF (ISMSTR==0.OR.ISMSTR==2.OR.ISMSTR==4) THEN
+c
+      ! Compute principal stretches depending on strain formulation
+      ! (Principal stretches = lambda_i) 
+      ! -> Logarithmic strains
+      IF (ISMSTR == 0 .OR. ISMSTR == 2 .OR. ISMSTR == 4) THEN
         DO I=1,NEL
-C ---- (STRAIN IS LOGARITHMIC)
-         EV(I,1)=EXP(EVV(I,1))
-         EV(I,2)=EXP(EVV(I,2))
-         EV(I,3)=EXP(EVV(I,3))
+          EV(I,1) = EXP(EVV(I,1))
+          EV(I,2) = EXP(EVV(I,2))
+          EV(I,3) = EXP(EVV(I,3))
         ENDDO 
-      ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
+      ! -> Green-Lagrange strains
+      ELSEIF (ISMSTR == 10 .OR. ISMSTR == 12) THEN
         DO I =1,NEL
-          IF(OFFG(I)<=ONE) THEN
-            EV(I,1)=SQRT(EVV(I,1)+ ONE)
-            EV(I,2)=SQRT(EVV(I,2)+ ONE)
-            EV(I,3)=SQRT(EVV(I,3)+ ONE)
-     	  ELSE
-           EV(I,1)=EVV(I,1)+ ONE
-           EV(I,2)=EVV(I,2)+ ONE
-           EV(I,3)=EVV(I,3)+ ONE
+          IF (OFFG(I)<=ONE) THEN
+            EV(I,1) = SQRT(EVV(I,1) + ONE)
+            EV(I,2) = SQRT(EVV(I,2) + ONE)
+            EV(I,3) = SQRT(EVV(I,3) + ONE)
+     	    ELSE
+            EV(I,1) = EVV(I,1) + ONE
+            EV(I,2) = EVV(I,2) + ONE
+            EV(I,3) = EVV(I,3) + ONE
           END IF
         ENDDO 
+      ! -> Engineering strains
       ELSE
-C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
-         EV(I,1) = EVV(I,1) + ONE
-         EV(I,2) = EVV(I,2) + ONE
-         EV(I,3) = EVV(I,3) + ONE
+          EV(I,1) = EVV(I,1) + ONE
+          EV(I,2) = EVV(I,2) + ONE
+          EV(I,3) = EVV(I,3) + ONE
         ENDDO 
-
       ENDIF
-C----------------
+c
+      ! Implicit simulation - Hourglass for HEPH
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
-        DO J =1,3
-           ! ETI = sum[MU(i)*AL(i)*AMAX**(AL(i)-1)] (i=1,5)
-           ! AMAX = 0 --> ETI = 0
-           ! else     --> ETI = sum[MU(i)*AL(i)*exp( (AL(i)-1)*ln(AMAX) ) ] ; (i=1,5)
+        DO J = 1,3
+          ! ETI = sum[MU(i)*AL(i)*AMAX**(AL(i)-1)] (i=1,5)
+          ! AMAX = 0 --> ETI = 0
+          ! else     --> ETI = sum[MU(i)*AL(i)*exp( (AL(i)-1)*ln(AMAX) ) ] ; (i=1,5)
           ETI(1:NEL) = ZERO
           DO II = 1,5
            IF(MU_TAB(II)*AL_TAB(II)/=ZERO) THEN
@@ -212,28 +220,28 @@ C----------------
           ET(I)= ET(I)+ETV
         ENDDO
       ENDIF
-c
-*     RV = RHO0/RHO = RELATIVE VOLUME = DET(F) (F = GRADIENT OF DEFORMATION)
+c 
+      ! Relative volume computation 
+      ! (RHO/RHO0) = def(F) with F = Grad(Strain)
       DO I=1,NEL
         RV(I) = (EV(I,1)*EV(I,2)*EV(I,3)) 
       ENDDO
-C----THERM STRESS COMPUTATION-----
-      IF (IEXPAN > 0.AND.(ISMSTR==10.OR.ISMSTR==11.OR.ISMSTR==12)) THEN
+
+      ! Considering thermal expansion
+      IF (IEXPAN > 0 .AND. (ISMSTR == 10 .OR. ISMSTR == 11 .OR. ISMSTR == 12)) THEN
         DO I=1,NEL
-          RV(I) =  RV(I)-EPSTH3(I) 
+          RV(I) = RV(I) - EPSTH3(I) 
         ENDDO
       ENDIF
-C---------------------------------
-c     COMPUTE MODIFIED (NORMALIZED) STRETCHES - THIS UNIFIES A COMPRESSIBLE AND 
-c     INCOMPRESIBLE FORMULATIONS
+c 
+      ! Compute normalized (deviatoric) stretches and bulk modulus
+      ! (Deviatoric principal stretches = lambda_bar_i)
       DO I=1,NEL
-        ! EVM = EV*PUI
-        ! PUI = RV**(-THIRD)
-        ! RV = 0 --> PUI = 0
-        ! else   --> PUI = exp( -THIRD* ln( RV ) )
+c
+        ! Deviatoric stretches computed only if relative volume is positive
         IF (RV(I) > ZERO) THEN
-          RV_PUI = EXP((-THIRD)*LOG(RV(I)))
-          J2THIRD(I) = RV_PUI**2
+          RV_PUI = EXP((-THIRD)*LOG(RV(I))) ! -> J^(-1/3)
+          J2THIRD(I) = RV_PUI**2            ! -> (J^(-1/3))^2
         ELSE
           RV_PUI     = ZERO
           J2THIRD(I) = ZERO
@@ -241,99 +249,93 @@ c     INCOMPRESIBLE FORMULATIONS
         EVM(I,1) = EV(I,1)*RV_PUI 
         EVM(I,2) = EV(I,2)*RV_PUI
         EVM(I,3) = EV(I,3)*RV_PUI
-        
+c
+        ! Tabulated bulk modulus with respect to relative volume
         IF (KFP > 0) THEN
-c         READ BULK MODULE FROM FUNCTION
-          P(I)=RBULK*FFAC*FINTER(KFP,RV(I),NPF,TF,DPDMU)
+          P(I) = RBULK*FFAC*FINTER(KFP,RV(I),NPF,TF,DPDMU)
+        ! Constant bulk modulus
         ELSE
-c         BULK MODULE IS CONSTANT
-          P(I)=RBULK
+          P(I) = RBULK
         ENDIF
       ENDDO
-C
-C---------GTMAX=GT_MAX+GVMAX
-       GTMAX(1:NEL) = GMAX + GVMAX
-C------max of Cii : IOLDF <0 to deactivate      
-      IF (IOLDF>=0) THEN
-          ETI(1:NEL) = ZERO
-          CII(1:NEL,1:3) = ZERO
-          DO II = 1,5
-           IF(MU_TAB(II)*AL_TAB(II)/=ZERO) THEN
-              DO I=1,NEL
-               LAM_AL(1:3) = EXP(AL_TAB(II)*LOG(EVM(I,1:3)))
-               AMAX = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
-               CII(I,1:3) = CII(I,1:3) + MU_TAB(II)*AL_TAB(II) * (LAM_AL(1:3)+AMAX)
-              ENDDO
-           ENDIF
-          ENDDO
-C------2GT=3/2 Cii (factor 3 already inside CII)		  
-           AMAX1= 0.81*HALF/GMAX
+c
+      ! For HEPH Hourglass treatment and soundspeed computation
+      GTMAX(1:NEL) = GMAX + GVMAX
+      ETI(1:NEL) = ZERO
+      CII(1:NEL,1:3) = ZERO
+      DO II = 1,5
+        IF (MU_TAB(II)*AL_TAB(II) /= ZERO) THEN
           DO I=1,NEL
-           AMAX= AMAX1*MAX(CII(I,1),CII(I,2),CII(I,3))
-           ETI(I) = MAX(ONE,AMAX) 
-C---------reduce old result change		   
-           GTMAX(I) = GMAX*ETI(I) + GVMAX
-C---- see if many QA return for HEPH 		   
-           ET(I)= ETI(I)+ETV
+            LAM_AL(1:3) = EXP(AL_TAB(II)*LOG(EVM(I,1:3)))
+            AMAX = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
+            CII(I,1:3) = CII(I,1:3) + MU_TAB(II)*AL_TAB(II)*(LAM_AL(1:3)+AMAX)
           ENDDO
-      ENDIF
-* STRAIN ENERGY = W(L1,L2,L3)=SUM_OF_1_TO_P (MUP(L1**ALP+L2**ALP+L3**ALP-3-
-* ALPLN(L1*L2*L3))/ALP+.5*P(I)(J-1)**2
-
+        ENDIF
+      ENDDO
+      ! Note: 2GT=3/2 Cii (factor 3 already inside CII)		  
+      AMAX1 = 0.81*HALF/GMAX
+      DO I = 1,NEL
+        AMAX = AMAX1*MAX(CII(I,1),CII(I,2),CII(I,3))
+        ETI(I) = MAX(ONE,AMAX) 
+        GTMAX(I) = GMAX*ETI(I) + GVMAX
+        ET(I) = ETI(I)+ETV
+      ENDDO
+c
+      !=======================================================================
+      ! - NEW STRESS TENSOR COMPUTATION
+      !=======================================================================
+c 
+      ! Isochoric strain energy density derivation
+      ! Note: here, the table DWDL(:,J) corresponds to the product EVM(J)*DWDEVM(:,J)
       DO J=1,3
         DWDL(1:NEL,J)=ZERO
-* L(J).DW/DL(J)
-         ! DWDL = sum[ MU(i) * EVM(i)**AL(i) ] (i=1,5)
-         ! EVM = 0 --> DWDL = 0
-         ! else    --> DWDL = sum[MU(i) * exp(AL(i) ln( EVN(i)))] (i=1,5)
         DO II=1,5
-         IF(MU_TAB(II)/=ZERO) THEN
-          DO I=1,NEL
-           IF(EVM(I,J)/=ZERO) THEN
-            IF(AL_TAB(II)/=ZERO) THEN
-             DWDL(I,J) = DWDL(I,J) + MU_TAB(II) *
-     .                  EXP(AL_TAB(II)*LOG(EVM(I,J)))
-            ELSE
-             DWDL(I,J) = DWDL(I,J) + MU_TAB(II)
-            ENDIF
-           ENDIF
-          ENDDO
-         ENDIF
+          IF(MU_TAB(II)/=ZERO) THEN
+            DO I=1,NEL
+              IF(EVM(I,J)/=ZERO) THEN
+                IF(AL_TAB(II)/=ZERO) THEN
+                  DWDL(I,J) = DWDL(I,J) + MU_TAB(II) *
+     .                        EXP(AL_TAB(II)*LOG(EVM(I,J)))
+                ELSE
+                  DWDL(I,J) = DWDL(I,J) + MU_TAB(II)
+                ENDIF
+              ENDIF
+            ENDDO
+          ENDIF
         ENDDO
       ENDDO
-
+c 
+      ! Volumic strain energy density derivation + trace of isochoric derivative
+      ! (Volumic strain energy density equation depending on formulation flag)
       DO I=1,NEL
-* DW/RV
-        DWDRV(I)=P(I)*(RV(I)- ONE)
-* (SUM(L(J)DW/DL(J))/3
-        SUMDWDL(I)=(DWDL(I,1)+DWDL(I,2)+DWDL(I,3))* THIRD
-        
+        ! -> Standard strain energy density 
+        IF (IFORM == 1) THEN 
+          DWDRV(I) = P(I)*(RV(I)- ONE)
+        ! -> Modified strain energy density
+        ELSEIF (IFORM == 2) THEN 
+          DWDRV(I) = P(I)*(ONE - ONE/RV(I))
+        ENDIF
+        SUMDWDL(I)=(DWDL(I,1)+DWDL(I,2)+DWDL(I,3))*THIRD
       ENDDO
-
-* RV.T(J)=L(J).DW/DL(J)-(SUM_OF_1_TO_3(D(W)/D(LJ))-RV.DWDRV)
+c
+      ! Cauchy principal stresses
       DO J=1,3
         DO I=1,NEL
-            INVE = ONE/RV(I)
-            T(I,J)=(DWDL(I,J)-(SUMDWDL(I)-RV(I)*DWDRV(I)))*INVE
+          INVE = ONE/RV(I)
+          SIGPRV(I,J) = (DWDL(I,J)-(SUMDWDL(I)-RV(I)*DWDRV(I)))*INVE
         ENDDO
       ENDDO
-
+c
+      ! Biot stress tensor for tension cutoff only
       DO I=1,NEL
-* TRANSFORM FROM CAUCHY TO BIOT STRESS
-          T1(I,1)=RV(I)*T(I,1)/EV(I,1)
-          T1(I,2)=RV(I)*T(I,2)/EV(I,2)
-          T1(I,3)=RV(I)*T(I,3)/EV(I,3)
+        T1(I,1) = RV(I)*SIGPRV(I,1)/EV(I,1)
+        T1(I,2) = RV(I)*SIGPRV(I,2)/EV(I,2)
+        T1(I,3) = RV(I)*SIGPRV(I,3)/EV(I,3)
       ENDDO
-
-      DO I=1,NEL
-          SIGPRV(I,1)=T(I,1)
-          SIGPRV(I,2)=T(I,2)
-          SIGPRV(I,3)=T(I,3)
-      ENDDO
-
-* TENSION CUT
+c 
+      ! Tension cutoff stress
       DO J=1,3
-          DO I=1,NEL
+        DO I=1,NEL
           IF(OFF(I)==ZERO.OR.T1(I,J)>ABS(TENSIONCUT))THEN
             SIGPRV(I,1)=ZERO
             SIGPRV(I,2)=ZERO
@@ -341,18 +343,13 @@ C---- see if many QA return for HEPH
             IF(OFF(I)/=ZERO) IDEL7NOK = 1
             OFF(I)=ZERO
           ENDIF
-          ENDDO
+        ENDDO
       ENDDO
-
-C      GMAX = GMAX + GVMAX
-
-* TRANSFORM PRINCIPAL CAUCHY STRESSES TO GLOBAL DIRECTIONS
+c
+      ! New stress tensor, soundspeed and user-variables
       DO I=1,NEL
-* STORE VALUES FOR POST-PROCESSING
-        UVAR(I,1)=MAX(SIGPRV(I,1),SIGPRV(I,2),SIGPRV(I,3))
-        UVAR(I,2)=MIN(SIGPRV(I,1),SIGPRV(I,2),SIGPRV(I,3))
-        UVAR(I,3)=OFF(I)
-C        
+c        
+        ! Transform principal Cauchy stresses to Global directions
         SIGNXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
      .            + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
      .            + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
@@ -376,115 +373,52 @@ c
         SIGNZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
-* SET SOUND SPEED
-        SOUNDSP(I)=SQRT((TWO_THIRD*GTMAX(I)+P(I))/RHO(I))
-* SET VISCOSITY
-        VISCMAX(I)=ZERO
+c
+        ! Save user variables for post-processing
+        UVAR(I,1)  = MAX(SIGPRV(I,1),SIGPRV(I,2),SIGPRV(I,3))
+        UVAR(I,2)  = MIN(SIGPRV(I,1),SIGPRV(I,2),SIGPRV(I,3))
+        UVAR(I,3)  = OFF(I)
+        ! Soundspeed computation
+        ! Note: for Iform = 2, the constant bulk is assumed for the soundspeed computation
+        ! (if stability issue is observed, switch to non-linear bulk)
+        SOUNDSP(I) = SQRT((TWO_THIRD*GTMAX(I)+P(I))/RHO(I))
+        ! Viscosity parameter set to zero
+        VISCMAX(I) = ZERO
       ENDDO
-C
-C viscosity
-C      
+c
+      !=======================================================================
+      ! - VISCOUS STRESSES COMPUTATION (PRONY SERIES)
+      !=======================================================================  
       IF (NPRONY > 0) THEN  
-        IF (IOLDF > 0) THEN    ! Old formulation 
-          DO I=1,NEL 
-           C0(I,1) = UVAR(I,4)
-           C0(I,2) = UVAR(I,5)
-           C0(I,3) = UVAR(I,6)  
-C   
-           CC = THIRD*(EVM(I,1)**2 +  EVM(I,2)**2 + EVM(I,3)**2)
-           C1(I,1) =  EVM(I,1)**2 - CC
-           C1(I,2) =  EVM(I,2)**2 - CC
-           C1(I,3) =  EVM(I,3)**2 - CC 
-C          
-           UVAR(I,4) = C1(I,1)    
-           UVAR(I,5) = C1(I,2)
-           UVAR(I,6) = C1(I,3)
-          ENDDO
-C  
-          DO J=1,3
-              SV(1:NEL,J) = ZERO
-              DO II= 1,NPRONY 
-                FAC= -TIMESTEP/TAUX(II)
-                DO I=1,NEL 
-                 H0(I,J,II) = UVAR(I, 6 + (II - 1)*3 + J)
-                 H(I,J,II)  = EXP(FAC)*H0(I,J,II) +
-     .            EXP(HALF*FAC)*(C1(I,J) - C0(I,J))
-                 UVAR(I,  6 + (II - 1)*3 + J)=  H(I,J,II)
-                ENDDO
-              ENDDO
-C 
-C  compute cauchy visco stress
-C          
-              DO II = 1,NPRONY
-                DO I=1,NEL
-                   SV(I,J) = SV(I,J) + GI(II)*H(I,J,II) 
-                ENDDO         
-              ENDDO  
-          ENDDO
-       
-C       * TRANSFORM PRINCIPAL VISCO CAUCHY STRESSES TO GLOBAL DIRECTIONS
-          DO I=1,NEL
-           INVE = ONE/RV(I)
-           SV(I,1) = SV(I,1)*INVE
-           SV(I,2) = SV(I,2)*INVE
-           SV(I,3) = SV(I,3)*INVE
-C           
-           SIGNXX(I) = SIGNXX(I)  
-     .               + DIRPRV(I,1,1)*DIRPRV(I,1,1)*SV(I,1)
-     .               + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SV(I,2)
-     .               + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SV(I,3)     
-            SIGNYY(I) = SIGNYY(I) 
-     .               + DIRPRV(I,2,2)*DIRPRV(I,2,2)*SV(I,2)
-     .               + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SV(I,3)
-     .               + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SV(I,1)     
-            SIGNZZ(I) = SIGNZZ(I) 
-     .               + DIRPRV(I,3,3)*DIRPRV(I,3,3)*SV(I,3)
-     .               + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SV(I,1)
-     .               + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SV(I,2)     
-            SIGNXY(I) = SIGNXY(I) 
-     .               + DIRPRV(I,1,1)*DIRPRV(I,2,1)*SV(I,1)
-     .               + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SV(I,2)
-     .               + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SV(I,3)     
-            SIGNYZ(I) = SIGNYZ(I) 
-     .               + DIRPRV(I,2,2)*DIRPRV(I,3,2)*SV(I,2)
-     .               + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SV(I,3)
-     .               + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SV(I,1)     
-            SIGNZX(I) = SIGNZX(I) 
-     .               + DIRPRV(I,3,3)*DIRPRV(I,1,3)*SV(I,3)
-     .               + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SV(I,1)
-     .               + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SV(I,2) 
-            
-          ENDDO 
-c---
-        ELSEIF (ISMSTR == 10 .or. ISMSTR == 12) THEN     ! New formulation, using Dot(B)   
+        IF (ISMSTR == 10 .or. ISMSTR == 12) THEN     ! New formulation, using Dot(B)   
 c---
 c         F = deformation gradient
 c         L = velocity gradient
 c         L = D + W = sym(L) + skw(L) => LL = sym(L)
 c
           DO I=1,NEL
-             LL(I,1,1) = EPSP1(I)           ! EPSPXX
-             LL(I,2,2) = EPSP2(I)           ! EPSPYY
-             LL(I,3,3) = EPSP3(I)           ! EPSPZZ
-             LL(I,1,2) = EPSP4(I) * HALF  !(EPSPXY(I) + EPSPYX(I))/2
-             LL(I,2,3) = EPSP5(I) * HALF  !(EPSPYZ(I) + EPSPZY(I))/2
-             LL(I,1,3) = EPSP6(I) * HALF  !(EPSPZX(I) + EPSPXZ(I))/2
-             LL(I,2,1) = LL(I,1,2)
-             LL(I,3,1) = LL(I,1,3)
-             LL(I,3,2) = LL(I,2,3)
+            LL(I,1,1) = EPSP1(I)           ! EPSPXX
+            LL(I,2,2) = EPSP2(I)           ! EPSPYY
+            LL(I,3,3) = EPSP3(I)           ! EPSPZZ
+            LL(I,1,2) = EPSP4(I) * HALF    !(EPSPXY(I) + EPSPYX(I))/2
+            LL(I,2,3) = EPSP5(I) * HALF    !(EPSPYZ(I) + EPSPZY(I))/2
+            LL(I,1,3) = EPSP6(I) * HALF    !(EPSPZX(I) + EPSPXZ(I))/2
+            LL(I,2,1) = LL(I,1,2)
+            LL(I,3,1) = LL(I,1,3)
+            LL(I,3,2) = LL(I,2,3)
 c
-             F(I,1,1)  = ONE + MFXX(I)
-             F(I,2,2)  = ONE + MFYY(I)
-             F(I,3,3)  = ONE + MFZZ(I)
-             F(I,1,2)  = MFXY(I)
-             F(I,2,3)  = MFYZ(I)
-             F(I,3,1)  = MFZX(I)      
-             F(I,2,1)  = MFYX(I)
-             F(I,3,2)  = MFZY(I)
-             F(I,1,3)  = MFXZ(I)     
+            F(I,1,1)  = ONE + MFXX(I)
+            F(I,2,2)  = ONE + MFYY(I)
+            F(I,3,3)  = ONE + MFZZ(I)
+            F(I,1,2)  = MFXY(I)
+            F(I,2,3)  = MFYZ(I)
+            F(I,3,1)  = MFZX(I)      
+            F(I,2,1)  = MFYX(I)
+            F(I,3,2)  = MFZY(I)
+            F(I,1,3)  = MFXZ(I)     
           ENDDO
 c
-          CALL PRODAAT(F , BB, NEL)     ! B = F * FT
+          CALL PRODAAT(F,BB,NEL)     ! B = F * FT
 c
 c         Dev(B) = B * J^(-2/3),  J = det(F)
 c
@@ -500,9 +434,9 @@ c
             BB(I,3,1) = BB(I,1,3)
           ENDDO
 c
-          CALL PRODMAT(LL, BB, LB, NEL)     ! LB = L * B          
+          CALL PRODMAT(LL,BB,LB,NEL)     ! LB = L * B          
 c
-          CALL PRODMAT(BB, LL, BLT, NEL)    ! BLT = B * LT
+          CALL PRODMAT(BB,LL,BLT,NEL)    ! BLT = B * LT
 c
           DO I=1,NEL
             DOTB(I,1) = LB(I,1,1) + BLT(I,1,1)  ! xx
@@ -514,7 +448,7 @@ c
           ENDDO
 c
           DO J=1,6
-            SV(1:NEL,J) = ZERO
+            SVISC(1:NEL,J) = ZERO
             DO II= 1,NPRONY 
               FAC= -TIMESTEP/TAUX(II) 
               DO I=1,NEL
@@ -529,33 +463,33 @@ c          Kirchoff viscous stress
 c             
             DO II = 1,NPRONY
               DO I=1,NEL
-                SV(I,J) = SV(I,J) + GI(II)*H(I,J,II)
+                SVISC(I,J) = SVISC(I,J) + GI(II)*H(I,J,II)
               ENDDO         
             ENDDO  
           ENDDO     
 c
-c          Kirchoff -> Cauchy visc stress : sig = T / J
+c         Kirchoff -> Cauchy visc stress : sig = T / J
 c
           DO I=1,NEL
             INVE = ONE/RV(I)      
-            SV(I,1) = SV(I,1)*INVE
-            SV(I,2) = SV(I,2)*INVE
-            SV(I,3) = SV(I,3)*INVE       
-            SV(I,4) = SV(I,4)*INVE
-            SV(I,5) = SV(I,5)*INVE
-            SV(I,6) = SV(I,6)*INVE
+            SVISC(I,1) = SVISC(I,1)*INVE
+            SVISC(I,2) = SVISC(I,2)*INVE
+            SVISC(I,3) = SVISC(I,3)*INVE       
+            SVISC(I,4) = SVISC(I,4)*INVE
+            SVISC(I,5) = SVISC(I,5)*INVE
+            SVISC(I,6) = SVISC(I,6)*INVE
 c           deviatoric part of visc stress
-            TRACE = (SV(I,1) + SV(I,2) + SV(I,3)) * THIRD
-            SV(I,1) = SV(I,1) - TRACE
-            SV(I,2) = SV(I,2) - TRACE
-            SV(I,3) = SV(I,3) - TRACE      
+            TRACE = (SVISC(I,1) + SVISC(I,2) + SVISC(I,3)) * THIRD
+            SVISC(I,1) = SVISC(I,1) - TRACE
+            SVISC(I,2) = SVISC(I,2) - TRACE
+            SVISC(I,3) = SVISC(I,3) - TRACE      
 c           total stress
-            SIGNXX(I) = SIGNXX(I) + SV(I,1)
-            SIGNYY(I) = SIGNYY(I) + SV(I,2)
-            SIGNZZ(I) = SIGNZZ(I) + SV(I,3)
-            SIGNXY(I) = SIGNXY(I) + SV(I,4)
-            SIGNYZ(I) = SIGNYZ(I) + SV(I,5)
-            SIGNZX(I) = SIGNZX(I) + SV(I,6) 
+            SIGNXX(I) = SIGNXX(I) + SVISC(I,1)
+            SIGNYY(I) = SIGNYY(I) + SVISC(I,2)
+            SIGNZZ(I) = SIGNZZ(I) + SVISC(I,3)
+            SIGNXY(I) = SIGNXY(I) + SVISC(I,4)
+            SIGNYZ(I) = SIGNYZ(I) + SVISC(I,5)
+            SIGNZX(I) = SIGNZX(I) + SVISC(I,6) 
           ENDDO 
 c
         ELSE  ! ISMSTR /= 10
@@ -606,45 +540,46 @@ C
             UVAR(I,9) = C1(I,6)
           ENDDO
 C           
+          ! Viscous stresses computation
           DO J=1,6
-            SV(1:NEL,J) = ZERO
+            SVISC(1:NEL,J) = ZERO
             DO II= 1,NPRONY 
-                FAC= -TIMESTEP/TAUX(II) 
-                DO I=1,NEL
-                 H0(I,J,II) = UVAR(I, 12 + (II - 1)*6 + J)
-                 H(I,J,II)  = EXP(FAC)*H0(I,J,II) +
+              FAC= -TIMESTEP/TAUX(II) 
+              DO I=1,NEL
+                H0(I,J,II) = UVAR(I, 12 + (II - 1)*6 + J)
+                H(I,J,II)  = EXP(FAC)*H0(I,J,II) +
      .               EXP(HALF*FAC)*(C1(I,J) - C0(I,J))
-                 UVAR(I,  12 + (II - 1)*6 + J)=  H(I,J,II)
-                ENDDO
+                UVAR(I,  12 + (II - 1)*6 + J)=  H(I,J,II)
+              ENDDO
             ENDDO
 C
             DO II = 1,NPRONY
-               DO I=1,NEL
-                  SV(I,J) = SV(I,J) + GI(II)*H(I,J,II)                              
-               ENDDO         
+              DO I=1,NEL
+                SVISC(I,J) = SVISC(I,J) + GI(II)*H(I,J,II)                              
+              ENDDO         
             ENDDO  
           ENDDO     
 c
+          ! Add viscous stresses to the stress tensor
           DO I=1,NEL                        
             INVE = ONE/RV(I)                 
-            SV(I,1) = SV(I,1)*INVE          
-            SV(I,2) = SV(I,2)*INVE          
-            SV(I,3) = SV(I,3)*INVE          
-            SV(I,4) = SV(I,4)*INVE          
-            SV(I,5) = SV(I,5)*INVE          
-            SV(I,6) = SV(I,6)*INVE          
+            SVISC(I,1) = SVISC(I,1)*INVE          
+            SVISC(I,2) = SVISC(I,2)*INVE          
+            SVISC(I,3) = SVISC(I,3)*INVE          
+            SVISC(I,4) = SVISC(I,4)*INVE          
+            SVISC(I,5) = SVISC(I,5)*INVE          
+            SVISC(I,6) = SVISC(I,6)*INVE          
 C                                           
-            SIGNXX(I) = SIGNXX(I) + SV(I,1) 
-            SIGNYY(I) = SIGNYY(I) + SV(I,2) 
-            SIGNZZ(I) = SIGNZZ(I) + SV(I,3) 
-            SIGNXY(I) = SIGNXY(I) + SV(I,4) 
-            SIGNYZ(I) = SIGNYZ(I) + SV(I,5) 
-            SIGNZX(I) = SIGNZX(I) + SV(I,6)  
+            SIGNXX(I) = SIGNXX(I) + SVISC(I,1) 
+            SIGNYY(I) = SIGNYY(I) + SVISC(I,2) 
+            SIGNZZ(I) = SIGNZZ(I) + SVISC(I,3) 
+            SIGNXY(I) = SIGNXY(I) + SVISC(I,4) 
+            SIGNYZ(I) = SIGNYZ(I) + SVISC(I,5) 
+            SIGNZX(I) = SIGNZX(I) + SVISC(I,6)  
           ENDDO
 c
         ENDIF  ! ISMSTR   
       ENDIF
 C-----------      
-      RETURN
       END
 
