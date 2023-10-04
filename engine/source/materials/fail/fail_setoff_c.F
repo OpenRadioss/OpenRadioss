@@ -34,13 +34,15 @@ Chd|====================================================================
      .                         NEL      ,NLAY     ,NPTTOT   ,PTHKF    ,
      .                         THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                         ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
-     .                         NLAY_MAX ,LAYNPT_MAX,NUMGEO  )
+     .                         NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
+     .                         IGEO     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,8 +59,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), INTENT(INOUT), TARGET    :: ELBUF_STR
       my_real, DIMENSION(NPROPG,NUMGEO), INTENT(IN) :: GEO
+      INTEGER, DIMENSION(NPROPGI,NUMGEO),INTENT(IN) :: IGEO
       INTEGER,INTENT(IN) :: PID,NEL,NLAY,NPTTOT,IGTYP,ISUBSTACK,
-     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO
+     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO,NUMSTACK
       INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL
       my_real, DIMENSION(NLAY,100), INTENT(INOUT)   :: PTHKF
       my_real, DIMENSION(NEL,NLAY_MAX*LAYNPT_MAX), INTENT(IN) :: THK_LY
@@ -71,7 +74,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IPT,NPTT,
-     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY
+     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY,
+     .        ID_PLY
       my_real
      .        P_THICKG,FAIL_EXP,DFAIL
       INTEGER, DIMENSION(NEL)        :: INDXLY
@@ -180,14 +184,30 @@ c
               ENDIF
             ENDDO ! |-> IEL
           ENDDO ! |-> IFL
-          ! Printing out layer failure message
-          IF (NINDXLY > 0) THEN             
-            DO I = 1,NINDXLY
+          ! Printing out layer/ply failure message
+          IF (NINDXLY > 0) THEN 
+            ! -> Print out ply failure
+            IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN 
+              IF (IGTYP == 17 .OR. IGTYP == 51) THEN 
+                ID_PLY = IGEO(1,STACK%IGEO(2+IL,ISUBSTACK))
+              ELSE 
+                ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK)-NUMSTACK)  
+              ENDIF   
+              DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-              WRITE(IOUT, 2000) IL,NGL(INDXLY(I))    
-              WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 3000) ID_PLY,NGL(INDXLY(I))    
+                WRITE(ISTDO,3100) ID_PLY,NGL(INDXLY(I)),TT 
 #include      "lockoff.inc"                          
-            ENDDO ! |-> I
+              ENDDO ! |-> I
+            ! -> Print out layer failure
+            ELSE 
+              DO I = 1,NINDXLY
+#include      "lockon.inc"                           
+                WRITE(IOUT, 2000) IL,NGL(INDXLY(I))    
+                WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT 
+#include      "lockoff.inc"                          
+              ENDDO ! |-> I
+            ENDIF
           ENDIF
         ENDDO ! |-> IL
 c
@@ -293,12 +313,17 @@ c
               ENDIF
             ENDDO ! |-> IEL
           ENDDO ! |-> IFL
-          ! Printing out layer failure message
-          IF (NINDXLY > 0) THEN                                       
+          ! Printing out ply failure message
+          IF (NINDXLY > 0) THEN  
+            IF (IGTYP == 51) THEN 
+              ID_PLY = IGEO(1,STACK%IGEO(2+IL,ISUBSTACK))
+            ELSE 
+              ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK)-NUMSTACK)  
+            ENDIF                                   
             DO I = 1,NINDXLY                                          
 #include     "lockon.inc"                                             
-              WRITE(IOUT, 2000) IL,NGL(INDXLY(I))                   
-              WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT                
+              WRITE(IOUT, 3000) ID_PLY,NGL(INDXLY(I))                   
+              WRITE(ISTDO,3100) ID_PLY,NGL(INDXLY(I)),TT                
 #include     "lockoff.inc"                                            
             ENDDO ! |-> I                                                  
           ENDIF
@@ -340,9 +365,12 @@ c
       !=======================================================================
 c
       !=======================================================================
-      ! PRINTING OUT FORMATS FOR LAYERS FAILURE
+      ! PRINTING OUT FORMATS FOR LAYERS/PLYS FAILURE
       !=======================================================================
  2000 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
  2100 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
+     .       1X,'AT TIME :',G11.4)
+ 3000 FORMAT(1X,'-- FAILURE OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
+ 3100 FORMAT(1X,'-- FAILURE OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
      .       1X,'AT TIME :',G11.4)
       END
