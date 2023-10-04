@@ -567,8 +567,8 @@ void lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname,
                   strcpy_s(outname_local,sz_lenpath,cwd);                                              
                   strcat_s(outname_local,sz_lenpath,"\\");                                                     
 #else
-                  strcat(outname_local, "/");  
                   strcpy(outname_local,cwd);                                              
+                  strcat(outname_local, "/");
 #endif
                   free(cwd);
                 }
