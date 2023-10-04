@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCHLIEREN                     source/output/anim/generate/schlieren.F
+Chd|  OUTPUT_SCHLIEREN                     source/output/anim/generate/output_schlieren.F
 Chd|-- called by -----------
 Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
 Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
@@ -34,10 +34,10 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE SCHLIEREN(
-     1                     EVAR   , IX    , X          ,V                ,W  , 
+      SUBROUTINE OUTPUT_SCHLIEREN(
+     1                     EVAR   , IX    , X          ,
      2                     IPARG  , WA_L  , ELBUF_TAB  ,ALE_CONNECTIVITY ,VOL,
-     3                     PM     , NG    , NIX        ,ITYP    )
+     3                     NG     , NIX   ,ITYP    )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -74,15 +74,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IX(NIX,*),IPARG(NPARG,NGROUP),NIX,NG
-      my_real :: WA_L(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),EVAR(MVSIZ),VOL(MVSIZ),PM(NPROPM,NUMMAT)
+      my_real :: WA_L(*),X(3,NUMNOD),EVAR(MVSIZ),VOL(MVSIZ)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB            
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYP, J, MLW
-      INTEGER IV(6), IE 
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      INTEGER IV(6), IE
       my_real :: GRAD(3) , Xi(8), Yi(8), Zi(8) , SCH 
       INTEGER :: MAT , NC(8)
       my_real :: N(3,6,MVSIZ), RHO(6),  VALVOIS(6), AREA(MVSIZ), NX, A1, A2
@@ -224,8 +223,7 @@ C-----------------------------------------------
             A2 =Yi(2)*(Zi(4)-Zi(1))+Yi(4)*(Zi(1)-Zi(2))+Yi(1)*(Zi(2)-Zi(4))
             AREA(I)=(A1+A2)* HALF
           ELSE
-           GBUF => ELBUF_TAB(NG)%GBUF
-           AREA(I)=GBUF%AREA(I)
+           AREA(I)=ELBUF_TAB(NG)%GBUF%AREA(I)
           ENDIF
         ENDDO                                                                                                                       
       ELSEIF(N2D>0 .AND. ITYP==7)THEN !triangles
@@ -267,8 +265,7 @@ C-----------------------------------------------
             NX = HALF * ((Yi(2) - Yi(1)) * (Zi(3) - Zi(1)) - (Zi(2) - Zi(1)) * (Yi(3) - Yi(1)))
             AREA(I)=ABS(NX)  !SQRT(NX*NX+NY*NY+NZ*NZ)
           ELSE
-           GBUF => ELBUF_TAB(NG)%GBUF
-           AREA(I)=GBUF%AREA(I)
+            AREA(I)=ELBUF_TAB(NG)%GBUF%AREA(I)
           ENDIF                                                                      
         ENDDO            
       ELSE
@@ -317,7 +314,6 @@ C-----------------------------------------------
           EVAR(I) = SCH        
         ENDDO!next I
       ELSEIF(N2D>0 .AND. ITYP==2)THEN
-        GBUF => ELBUF_TAB(NG)%GBUF
         DO I=LFT,LLT
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
@@ -351,7 +347,6 @@ C-----------------------------------------------
           EVAR(I) = SCH
         ENDDO!next I
       ELSEIF(N2D>0 .AND. ITYP==7)THEN
-        GBUF => ELBUF_TAB(NG)%GBUF      
         DO I=LFT,LLT
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
@@ -386,5 +381,5 @@ C-----------------------------------------------
         EVAR(LFT:LLT)=ONE  !  exp(0.) = 1.
       ENDIF
 
-      END SUBROUTINE SCHLIEREN
+      END SUBROUTINE OUTPUT_SCHLIEREN
         

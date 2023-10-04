@@ -460,6 +460,11 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Region identifier in p,v diagram'
       H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = '1:compressed, 2:expanded cold, 3:transition, 4:hot expansion'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%KEY3  = 'DIV(U)'
+      H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'div(u)'
+      H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT  = 'Volumetric dilatation rate'
+c-----------------------------------------------
       NKEY=I
 c-----------------------------------------------
       END

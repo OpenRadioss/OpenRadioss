@@ -681,10 +681,10 @@ C--------------------------------------------------
 C--------------------------------------------------                                                   
                IALEL=IPARG(7,NG)+IPARG(11,NG)
                IF(IALEL /= 0)THEN                                         
-                 CALL SCHLIEREN(
-     1                 EVAR  , IXQ  , X         , V           , W       ,
+                 CALL OUTPUT_SCHLIEREN(
+     1                 EVAR  , IXQ  , X         ,
      2                 IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
-     3                 PM    , NG   , NIXQ      , ITY) 
+     3                 NG    , NIXQ      , ITY)
                  DO  I=1,NEL 
                    VALUE(I) = EVAR(I) 
 		   IS_WRITTEN_VALUE(I) = 1
@@ -1414,7 +1414,20 @@ C--------------------------------------------------
                        IS_WRITTEN_VALUE(I) = 1  
                      ENDDO  
                    ENDIF                      
-                 ENDIF                               
+                 ENDIF
+C--------------------------------------------------
+              ELSEIF(KEYWORD == 'DIV(U)') THEN
+C--------------------------------------------------
+                 IALEL=IPARG(7,NG)+IPARG(11,NG)
+                 IF(IALEL /= 0)THEN
+                   CALL OUTPUT_DIV_U(
+     1                        EVAR   ,IXQ  ,X      ,V    , IPARG , ELBUF_TAB , NG    ,NIXQ , 2,
+     2                        NUMELQ ,NEL  ,NUMNOD ,NPARG, NGROUP, N2D       , NFT)
+                    DO I=1,NEL
+                      VALUE(I) = EVAR(I)
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDDO
+                 ENDIF
 C---------------------------------------------------------------------------
 c            ELSEIF (KEYWORD == 'NEWKEY') THEN ! New Output Example
 C---------------------------------------------------------------------------
@@ -1447,13 +1460,12 @@ c                IF (IGTYP == 1 .OR. IGTYP == 9) THEN
 c
 c                ENDIF
 c              ENDIF
-C---------------------------------------------------------------------------
+C--------------------------------------------------
 c 
 C-------------------------------------------------- 
             ENDIF  ! KEYWORD
 C-------------------------------------------------- 
-            CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_QUAD,QUAD_SCALAR,NEL,0,NFT,
-     .   			       VALUE,IS_WRITTEN_VALUE)
+            CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_QUAD,QUAD_SCALAR,NEL,0,NFT,VALUE,IS_WRITTEN_VALUE)
           ENDIF  ! ITY 
 c
 C-----------------------------------------------

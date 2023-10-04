@@ -1674,10 +1674,10 @@ C--------------------------------------------------
 C-------------------------------------------------- 
                  IALEL=IPARG(7,NG)+IPARG(11,NG)
                  IF(IALEL /= 0)THEN
-                   CALL SCHLIEREN(
-     1                            EVAR  ,IXS  ,X         ,V           ,W       ,
+                   CALL OUTPUT_SCHLIEREN(
+     1                            EVAR  ,IXS  ,X         ,
      2                            IPARG ,WA_L ,ELBUF_TAB ,ALE_CONNECT ,GBUF%VOL,
-     3                            PM    ,NG   ,NIXS      ,ITY)
+     3                            NG    ,NIXS ,ITY)
                     DO I=1,NEL
                       VALUE(I) = EVAR(I) 
                       IS_WRITTEN_VALUE(I) = 1							  
@@ -2675,7 +2675,20 @@ C--------------------------------------------------
                        IS_WRITTEN_VALUE(I) = 1  
                      ENDDO  
                    ENDIF                      
-                 ENDIF                 
+                 ENDIF
+C--------------------------------------------------
+              ELSEIF(KEYWORD == 'DIV(U)') THEN
+C--------------------------------------------------
+                 IALEL=IPARG(7,NG)+IPARG(11,NG)
+                 IF(IALEL /= 0)THEN
+                   CALL OUTPUT_DIV_U(
+     1                        EVAR   ,IXS       ,X       ,V       , IPARG  ,ELBUF_TAB ,NG    ,NIXS      ,1,
+     2                        NUMELS ,NEL       ,NUMNOD  ,NPARG   , NGROUP ,N2D , NFT)
+                    DO I=1,NEL
+                      VALUE(I) = EVAR(I)
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDDO
+                 ENDIF
 C--------------------------------------------------  
               ENDIF
 C-------------------------------------------------- 

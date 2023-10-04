@@ -856,10 +856,10 @@ c-----------
                  IF(IALEL == 0)THEN
                    EVAR(LFT:LLT) = ZERO
                  ELSE
-                   CALL SCHLIEREN(
-     1                            EVAR    ,IXS    , X          , V      ,W,
+                   CALL OUTPUT_SCHLIEREN(
+     1                            EVAR    ,IXS    ,X           ,
      2                            IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECTIVITY   ,GBUF%VOL,
-     3                            PM      ,NG     ,NIXS        ,ITY)
+     3                            NG      ,NIXS   ,ITY)
                  ENDIF          
 c-----------  
               ELSEIF(IFUNC == 4893) THEN  
