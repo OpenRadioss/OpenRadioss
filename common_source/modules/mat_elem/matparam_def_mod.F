@@ -293,7 +293,7 @@ c
         INTEGER     :: PROP_TRUSS           ! "truss"
         INTEGER     :: PROP_SPH             ! "sph"
         INTEGER     :: COMPATIBILITY_EOS    ! "eos"
-!        INTEGER     :: COMPATIBILITY_VISC   ! "visc"
+        INTEGER     :: COMPATIBILITY_VISC   ! "visc"
 !        INTEGER     :: COMPATIBILITY_NLOC   ! "nloc"
         ! --------------------------------- !  
         INTEGER     :: NLOC                 ! non-local variable regularization flag
