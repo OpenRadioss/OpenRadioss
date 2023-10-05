@@ -61,6 +61,7 @@ Chd|        HM_PREREAD_RBE3               source/constraints/general/rbe3/hm_pre
 Chd|        HM_READ_ADMAS                 source/tools/admas/hm_read_admas.F
 Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
 Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
+Chd|        HM_READ_EBCS_INLET            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
 Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
 Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
 Chd|        HM_READ_FAIL_TAB_OLD          source/materials/fail/tabulated/hm_read_fail_tab_old.F
