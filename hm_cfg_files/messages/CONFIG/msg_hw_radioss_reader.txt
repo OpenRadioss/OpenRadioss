@@ -323,4 +323,9 @@ Only one %s card is allowed
 ** ERROR IN LS-DYNA IMPORT
 /MESSAGE/200036/DESCRIPTION
 %s (id: %u, name: %s) : Not existing node(s) used
+
+/MESSAGE/200037/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200037/DESCRIPTION
+%s (id: %u, name: %s) :  NSID is not defined, Radioss BCS will not be created
 #------------------------------------------------------------------------------
