@@ -60,8 +60,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT
-      LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS
+      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT,IVISC
+      LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS,COMPAT_VISC
       CHARACTER (LEN = 10) :: ELTYP
 c
       !===============================================================================
@@ -91,6 +91,7 @@ c
             IMAT   = ELBUF_STR(NG)%BUFLY(IL)%IMAT  ! -> Material internal ID 
             ILAW   = ELBUF_STR(NG)%BUFLY(IL)%ILAW  ! -> Material law type
             IEOS   = MAT_PARAM(IMAT)%IEOS
+            IVISC  = MAT_PARAM(IMAT)%IVISC         ! -> for viscosity 
             MAT_ID = IPM(1,IMAT) ! -> Material user ID
 c
             ! ==============================================================
@@ -98,6 +99,7 @@ c
             ! ==============================================================
             COMPAT_ELEM = .TRUE. 
             COMPAT_EOS  = .TRUE.
+            COMPAT_VISC = .TRUE.
 c
             SELECT CASE (ITY)
               ! ------------------------------------------------------------
@@ -231,6 +233,17 @@ c
              IF (IEOS > 0 .and. MAT_PARAM(IMAT)%COMPATIBILITY_EOS == 0) THEN              
                COMPAT_EOS = .FALSE.
              END IF
+           ! ==============================================================
+            ! CHECK MATERIAL LAW COMPATIBILITY AND PROPERTY COMPATIBILITY
+            !                        WITH /VISC option
+            ! ==============================================================
+             IF (IVISC > 0 .AND. MAT_PARAM(IMAT)%COMPATIBILITY_VISC == 1 .AND.
+     .           (MAT_PARAM(IMAT)%PROP_SHELL == 2 .OR. 
+     .            MAT_PARAM(IMAT)%PROP_SHELL == 3 .OR.
+     .            MAT_PARAM(IMAT)%PROP_SHELL == 4 ).AND.
+     .            ILAW /= 25 ) THEN              
+               COMPAT_VISC = .FALSE.
+             END IF
 c
           ! ==============================================================  
             ! ==============================================================
@@ -258,9 +271,23 @@ c
             ENDIF
             ! -> Not compatible with /EOS option
             IF (.NOT. COMPAT_EOS) THEN 
-              CALL ANCMSG(MSGID=824,  MSGTYPE=MSGERROR, ANMODE=ANINFO,                                                                                            
+              CALL ANCMSG(MSGID=824,  
+     .                  MSGTYPE=MSGERROR, 
+     .                  ANMODE=ANINFO,                                                                                            
      .                  I1=MAT_ID,                                                                                              
-     .                  C1=' ',I2=ILAW)                                                                                           
+     .                  C1=' ',I2=ILAW,
+     .                  PRMOD=MSG_CUMU)                                                                                           
+            ENDIF
+           ! -> Not compatible with /VISC option
+            IF (.NOT. COMPAT_VISC) THEN 
+                          CALL ANCMSG(MSGID=3054,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=PROP_ID, 
+     .                    I2=IGTYP,
+     .                    I3=MAT_ID,    
+     .                    I4=ILAW,
+     .                    PRMOD=MSG_CUMU)                                                         
             ENDIF
             ! ==============================================================
           ENDDO
@@ -401,6 +428,15 @@ c
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO_BLIND_1,
      .            PRMOD=MSG_PRINT)
-      !===============================================================================
+      CALL ANCMSG(MSGID=824,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3054,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
+      !================================
+      !===============================================
 c
       END
