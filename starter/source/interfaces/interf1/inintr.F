@@ -147,6 +147,7 @@ C-----------------------------------------------
       DOUBLE PRECISION :: main_stiff
       DOUBLE PRECISION :: min_stiff
 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ELEM_LINKED_TO_SEGMENT
        
 C
       I_MEM = 0
@@ -196,6 +197,7 @@ C--
        ENDIF
 
 C-----------------------------------------------     
+       ALLOCATE( ELEM_LINKED_TO_SEGMENT(NUMELS) )
        IWRN = 0
        NINT2 = 0
        DO 100 N=1,NINTER
@@ -278,7 +280,8 @@ c       END IF
      D              INTBUF_TAB(N),FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
      E              IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
      F              IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
-     F              T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG)
+     G              T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
+     H              ELEM_LINKED_TO_SEGMENT)
 
         IF (I_MEM /= 0) GOTO 200
        ELSE
@@ -289,6 +292,8 @@ c       END IF
      4  ID           ,TITR         ,KNOD2ELQ  ,NOD2ELQ   ,SEGQUADFR)
        ENDIF
   100 CONTINUE
+
+       DEALLOCATE( ELEM_LINKED_TO_SEGMENT )
 C      
 C--- IREM_I2 treatment has been removed at end of ININTR2 to take into account 
 C---- the compaction of type2 w/ Itetra10=2  

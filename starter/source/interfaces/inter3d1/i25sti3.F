@@ -53,7 +53,7 @@ Chd|====================================================================
      I KNOD2EL1D ,NOD2EL1D   ,INTFRIC   ,TAGPRT_FRIC,IPARTFRICS,
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
      K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
-     J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID)
+     J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
@@ -105,6 +105,7 @@ C     REAL
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT+NRT_SH)
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -421,7 +422,7 @@ C------------------------------------
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
-     J IVIS2  ,IELEM_M  ,IDEL_SOLID)
+     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
 C---------------------------
 C     GAP
 C---------------------------
@@ -722,7 +723,7 @@ Chd|====================================================================
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
-     J IVIS2  ,IELEM_M  ,IDEL_SOLID)
+     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
@@ -768,6 +769,7 @@ C     REAL
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRTT)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -776,6 +778,8 @@ C-----------------------------------------------
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG,ISOL,NINV,NSOL_INT,NELS2,MT2,OFC,OFTG
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
+      LOGICAL :: PRINT_ERROR
+      INTEGER, DIMENSION(4) :: NODE_ID
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX,
@@ -810,10 +814,28 @@ C
 C----------------------
 C      ELEMENTS SOLIDES
 C----------------------
+        PRINT_ERROR = .FALSE.
         CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .             AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .             IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .             NINV ,IELEM_M(1,I))
+     .             NINV ,IELEM_M(1,I),
+     .             ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR)
+
+        IF(PRINT_ERROR) THEN
+          NODE_ID(1:4) = ITAB(IRECT(1:4,I))
+          
+          CALL ANCMSG(MSGID=3031,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                I2=NODE_ID(1),
+     .                I3=NODE_ID(2),
+     .                I4=NODE_ID(3),
+     .                I5=NODE_ID(4),
+     .                C1=TITR ,
+     .                PRMOD=MSG_PRINT)
+        ENDIF
+
         IF(NELS/=0) THEN
           MT=IXS(1,NELS)
           IF(INTTH > 0 ) IELEM(I) = MT
