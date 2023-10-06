@@ -201,7 +201,7 @@ C
         DTMIN(1:NEL) = GEO(172,PID(1)) 
         DO I=1,NEL
           CNS1=CNS1_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
-          CNS2=CNS1_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
+          CNS2=CNS2_0*AL(I)*NRHO(I)*SSP(I)*OFF(I)
 C
 C   warns : Stability vs artificial viscosity should use
 C           RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I)) / MAX(EM20,RHOREF(I)*DELTAX(I))
