@@ -27,7 +27,7 @@ Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        CLSCONV3                      source/output/anim/generate/dfuncc.F
 Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
+Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c

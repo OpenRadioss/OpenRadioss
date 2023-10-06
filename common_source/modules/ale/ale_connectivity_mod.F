@@ -180,6 +180,7 @@ Chd|        MULTI_FLUXES_COMPUTATION      engine/source/multifluid/multi_fluxes_
 Chd|        MULTI_MUSCL_GRADIENTS         engine/source/multifluid/multi_muscl_gradients.F
 Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F
 Chd|        NODAL_SCHLIEREN               engine/source/output/anim/generate/nodal_schlieren.F
+Chd|        OUTPUT_SCHLIEREN              engine/source/output/anim/generate/output_schlieren.F
 Chd|        Q4FORC2                       engine/source/elements/solid_2d/quad4/q4forc2.F
 Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
@@ -200,7 +201,6 @@ Chd|        S8FORC3                       engine/source/elements/solid/solide8/s
 Chd|        S8SFORC3                      engine/source/elements/solid/solide8s/s8sforc3.F
 Chd|        S8ZFORC3                      engine/source/elements/solid/solide8z/s8zforc3.F
 Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
-Chd|        SCHLIEREN                     engine/source/output/anim/generate/schlieren.F
 Chd|        SEGGETV                       engine/source/interfaces/interf/seggetv.F
 Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F

@@ -25,6 +25,7 @@ Chd|  FIND_SURFACE_INTER            source/interfaces/interf/find_surface_inter.
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F

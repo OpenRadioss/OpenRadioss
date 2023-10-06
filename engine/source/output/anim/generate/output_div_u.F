@@ -21,18 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SCHLIEREN                     source/output/anim/generate/schlieren.F
+Chd|  OUTPUT_DIV_U                  source/output/anim/generate/output_div_u.F
 Chd|-- called by -----------
-Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
-Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
-Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
 Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
 Chd|        H3D_SHELL_SCALAR_1            source/output/h3d/h3d_results/h3d_shell_scalar_1.F
 Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- calls ---------------
-Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE OUTPUT_DIV_U( EVAR,IX,X,V,IPARG,ELBUF_TAB,NG, NIX,ITYP,
      .                         NUMEL, NEL, NUMNOD, NPARG, NGROUP, N2D , NFT)

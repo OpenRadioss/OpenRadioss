@@ -448,6 +448,8 @@ Chd|        NODALVOL                      engine/source/output/anim/generate/nod
 Chd|        NODALZVOL                     engine/source/output/anim/generate/nodalzvol.F
 Chd|        NODAL_SCHLIEREN               engine/source/output/anim/generate/nodal_schlieren.F
 Chd|        NOISE                         engine/source/general_controls/computation/noise.F
+Chd|        OUTPUT_DIV_U                  engine/source/output/anim/generate/output_div_u.F
+Chd|        OUTPUT_SCHLIEREN              engine/source/output/anim/generate/output_schlieren.F
 Chd|        OUTP_ARSZ_CT                  engine/source/mpi/interfaces/spmd_outp.F
 Chd|        OUTP_ARSZ_ST                  engine/source/mpi/interfaces/spmd_outp.F
 Chd|        OUTP_C_S                      engine/source/output/sty/outp_c_s.F
@@ -512,7 +514,6 @@ Chd|        S8SKE3                        engine/source/elements/solid/solide8s/
 Chd|        S8ZKE3                        engine/source/elements/solid/solide8z/s8zke3.F
 Chd|        S8_IS17JAC_I                  engine/source/elements/solid/solide8e/s8_is17jac_i.F
 Chd|        SCFINT_REG                    engine/source/elements/thickshell/solidec/scfint_reg.F
-Chd|        SCHLIEREN                     engine/source/output/anim/generate/schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SCONNECT_OFF                  engine/source/elements/solid/sconnect/sconnect_off.F
 Chd|        SEATBELT_REDUCTION_FACTOR     engine/source/tools/seatbelts/seatbelt_reduction_factor.F

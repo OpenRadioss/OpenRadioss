@@ -27,7 +27,8 @@ Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        H3D_WRITE_SCALAR              source/output/h3d/h3d_results/h3d_write_scalar.F
 Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
+Chd|        OUTPUT_DIV_U                  source/output/anim/generate/output_div_u.F
+Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F

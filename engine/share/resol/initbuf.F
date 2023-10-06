@@ -108,6 +108,7 @@ Chd|        NODALVFRAC                    source/output/anim/generate/nodalvfrac
 Chd|        NODALVOL                      source/output/anim/generate/nodalvol.F
 Chd|        NODALZVOL                     source/output/anim/generate/nodalzvol.F
 Chd|        NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
+Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
 Chd|        OUTP_SP_S                     source/output/sty/outp_sp_s.F 
 Chd|        OUTP_SP_T                     source/output/sty/outp_sp_t.F 
 Chd|        OUTP_SP_TT                    source/output/sty/outp_sp_t.F 
@@ -119,7 +120,6 @@ Chd|        RGWAT2                        source/interfaces/int09/rgwat2.F
 Chd|        RGWAT3                        source/interfaces/int09/rgwat3.F
 Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
-Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        SEGGETV                       source/interfaces/interf/seggetv.F
 Chd|        SIGEPS37_SINGLE_CELL          source/interfaces/int22/sigeps37_single_cell.F

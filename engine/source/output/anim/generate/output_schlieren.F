@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  OUTPUT_SCHLIEREN                     source/output/anim/generate/output_schlieren.F
+Chd|  OUTPUT_SCHLIEREN              source/output/anim/generate/output_schlieren.F
 Chd|-- called by -----------
 Chd|        DFUNC0                        source/output/anim/generate/dfunc0.F
 Chd|        DFUNCC                        source/output/anim/generate/dfuncc.F
