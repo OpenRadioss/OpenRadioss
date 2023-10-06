@@ -1448,7 +1448,15 @@ C---- energy failure
      3                    NGL ,IPM ,MAT ,
      5                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      6                  VOLN,EINT,EPSP1,UVARF,OFF,IP,DFMAX   ,
-     7                   TDEL )                    
+     7                   TDEL )         
+          ELSEIF (IRUPT == 13) THEN
+C---- chang - chang   
+            CALL FAIL_CHANGCHANG_S(
+     1         NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2         TT       ,IPG      ,ILAY     ,NPG      ,NGL      ,
+     3         LBUF%DMGSCL,DFMAX  ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     4         S1       ,S2       ,S3       ,S4       ,S6       ,
+     5         TDEL     )   
           ELSEIF (IRUPT == 23) THEN                                      
 C---- tabulated failure model
                CALL FAIL_TAB_S(
