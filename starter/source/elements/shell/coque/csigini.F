@@ -137,27 +137,28 @@ c
           HH(I,2)= SIGSH(15,II)
           HH(I,3)= SIGSH(16,II)
         ENDIF
+  
         IF(NPT /= NPTI ) THEN
-             IPID=IX(NIX-1,NFT+I)
-             PID=IGEO(1,IPID)            
-             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
-             IF(NPTI == 0)THEN
-               CALL ANCMSG(MSGID=2020,
-     .                   ANMODE=ANINFO,
-     .                   MSGTYPE=MSGERROR,
-     .                   C1=TITR1,
-     .                   I1=PID,
-     .                   I2=N,
-     .                   PRMOD=MSG_CUMU)
-             ELSE
-               CALL ANCMSG(MSGID=26,
-     .                     ANMODE=ANINFO,
-     .                     MSGTYPE=MSGERROR,
-     .                     I2=N,
-     .                     I1=PID,
-     .                     C1=TITR1)
-             ENDIF
-        ENDIF   
+                IPID=IX(NIX-1,NFT+I)
+                PID=IGEO(1,IPID)            
+                CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
+                IF(NPTI == 0 .AND. ITHKSHEL /= 2)THEN
+                  CALL ANCMSG(MSGID=2020,
+     .                      ANMODE=ANINFO,
+     .                      MSGTYPE=MSGERROR,
+     .                      C1=TITR1,
+     .                      I1=PID,
+     .                      I2=N,
+     .                      PRMOD=MSG_CUMU)
+                ELSE
+                  CALL ANCMSG(MSGID=26,
+     .                        ANMODE=ANINFO,
+     .                        MSGTYPE=MSGERROR,
+     .                        I2=N,
+     .                        I1=PID,
+     .                        C1=TITR1)
+                ENDIF
+         ENDIF   
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
           IF(SIGSH(17,II) == ONE)THEN
 C--- in global sys

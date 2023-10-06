@@ -2590,7 +2590,6 @@ C                     CALL ANCERR(58,ANINFO_BLIND_2)
                     I = PTSHEL(IE)
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
-                    SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
                     SIGSH(NVSHELL - 1 , I) = ONE
 !
@@ -3755,7 +3754,6 @@ C----
                     I = NUMSHEL + PTSH3N(IE)
                     SIGSH(1,I) = ID_ELEM
                     ID_SIGSH(I) = ID_ELEM
-                    SIGSH(2,I) = NIP
                     SIGSH(3,I) = THK
                     SIGSH(NVSHELL - 1,I) = ONE
 !
@@ -3985,7 +3983,6 @@ C---------
                     ELSE
                       SIGSH(NVSHELL,I) = 1
                     ENDIF
-                    SIGSH(17, I) = -ONE
                     PT = PT + 5 
 !
                     IF (IGTYP == 51 .OR. IGTYP == 52) THEN

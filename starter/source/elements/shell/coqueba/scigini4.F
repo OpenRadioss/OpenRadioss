@@ -144,7 +144,7 @@ C for IGTYP == 51, NPT now =NPTI
              IPID1=IX(NIX-1,NFT+I) 
              PID1=IGEO(1,IPID1)
              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
-             IF (NPT > 0 .AND. NPTI == 0) THEN
+             IF (NPT > 0 .AND. (NPTI == 0 .AND. ITHKSHEL /= 2)) THEN
 C----limite number of error out
                IF (IPG<=1) then 
                    CALL ANCMSG(MSGID=2020,
@@ -162,7 +162,6 @@ c     .                   C1=TITR,
      .                   C1=TITR,
      .                   I1=PID1,
      .                   I2=N)
-
              ENDIF
         ENDIF
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
@@ -321,7 +320,7 @@ C
      7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,S6    )
                  MOM(I,1:3)=S6(1:3)
-              END IF
+              END IF ! IHBE
 C------------NPG=1               
             ELSE
               S6(1:2)=SIGSH(22:23,II)
@@ -340,9 +339,9 @@ C---MOM
      7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,S6    )
               SIGSH(27:29,II)=S6(1:3)
-            END IF
+            END IF ! NPG
           ELSE
-C-------npt>1          
+C-------npt>1       
             IF (NPG>1) THEN
               IF (IHBE == 23) THEN      !  QEPH-----
                 PT = 22 
@@ -436,7 +435,7 @@ c---
             S4(1)=SIGSH(PT+27,II)
             FOR(I,1)=FOURTH*(S1(1)+S2(1)+S3(1)+S4(1))
             HH(I,1)=(S3(1)+S4(1)-TWO*FOR(I,1))*PG2I
-            HH(I,7)=-(S2(1)+S3(1)-TWO*FOR(I,1))*PG2I
+            HH(I,7)=-(S2(1)+S3(1)-TWO*FOR(I,1))*PG2I         
 
             PT = 23
             S1(1)=SIGSH(PT,II)
