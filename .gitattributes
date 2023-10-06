@@ -1,4 +1,5 @@
 extlib/**/* filter=lfs diff=lfs merge=lfs -text
 *.sh text eol=lf
+*.bash text eol=lf
 *.pl text eol=lf
-
+*.bat text eol=crlf
