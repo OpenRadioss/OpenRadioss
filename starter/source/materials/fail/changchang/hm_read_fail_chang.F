@@ -79,14 +79,14 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISHELL 
+      INTEGER ISHELL,FAILIP
       my_real 
      .    SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,BETA,TMAX
-      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C--------------------------------------------------
 C   S o u r c e   L i n e s
 C--------------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -100,14 +100,16 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV    ('Beta'       ,BETA       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Tau_max'    ,TMAX       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV      ('Ifail_sh'   ,ISHELL     ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV      ('Failip'     ,FAILIP     ,IS_AVAILABLE,LSUBMODEL)
             
-      IF (SIGT1==ZERO) SIGT1 = EP30
-      IF (SIGT2==ZERO) SIGT2 = EP30
-      IF (SIGT12==ZERO) SIGT12 = EP30
-      IF (SIGC1==ZERO) SIGC1 = EP30
-      IF (SIGC2==ZERO) SIGC2 = EP30
-      IF(TMAX==ZERO) TMAX=EP30
-      IF(ISHELL==0) ISHELL = 1               
+      IF (SIGT1  == ZERO) SIGT1  = INFINITY
+      IF (SIGT2  == ZERO) SIGT2  = INFINITY
+      IF (SIGT12 == ZERO) SIGT12 = INFINITY
+      IF (SIGC1  == ZERO) SIGC1  = INFINITY
+      IF (SIGC2  == ZERO) SIGC2  = INFINITY
+      IF (TMAX   == ZERO) TMAX   = INFINITY
+      IF (ISHELL == 0)    ISHELL = 1    
+      IF (FAILIP == 0)    FAILIP = 1           
 
       UPARAM(1) = SIGT1
       UPARAM(2) = SIGT2
@@ -117,8 +119,9 @@ C--------------------------------------------------
       UPARAM(6) = BETA
       UPARAM(7) = TMAX
       UPARAM(8) = ISHELL
+      UPARAM(9) = FAILIP
 
-      NUPARAM = 8
+      NUPARAM = 9
       NUVAR   = 1
       NFUNC   = 0
 
@@ -130,24 +133,28 @@ C--------------------------------------------------
         WRITE(IOUT, 1100)
        ELSEIF(ISHELL==2)THEN
         WRITE(IOUT, 1200)
-       ENDIF       
+       ENDIF   
+       WRITE(IOUT,1300) FAILIP    
       ENDIF
 c----------- 
  1000 FORMAT(
-     & 5X,40H    CHANG CHANG FAILURE MODEL                  /,
-     & 5X,40H    ------------------------                  /,
-     & 5X,'Longitudinal tensile strength . . . . . . . =',E12.4/
-     & 5X,'Transversal tensile strength  . . . . . . . =',E12.4/
-     & 5X,'Shear strength . . . . . . . . . . . . . .  =',E12.4/
-     & 5X,'Longitudinal compressive strength . . . . . =',E12.4/
-     & 5X,'Transversal compressive  strength  . . . .  =',E12.4/
-     & 5X,'Shear scaling factor . . . . . . . . . . .  =',E12.4/
-     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)  
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'              CHANG CHANG FAILURE MODEL                  ',/,
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'LONGITUDINAL TENSILE STRENGTH SIGMA1_T . . . . . . . . .=',1PG20.13/
+     & 5X,'TRANSVERSAL  TENSILE STRENGTH SIGMA2_T . . . . . . . . .=',1PG20.13/
+     & 5X,'SHEAR STRENGTH SIGMA_12. . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'LONGITUDINAL COMPRESSIVE STRENGTH SIGMA1_C . . . . . . .=',1PG20.13/
+     & 5X,'TRANSVERSAL  COMPRESSIVE STRENGTH SIGMA2_C . . . . . . .=',1PG20.13/
+     & 5X,'SHEAR SCALING FACTOR BETA. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'RELAXATION TIME TAU_MAX. . . . . . . . . . . . . . . . .=',1PG20.13/)  
  1100 FORMAT(
-     & 5X,'  SHELL IS DELETED IF CRITERIA IS REACHED FOR ONE LAYER ') 
+     & 5X,'SHELL IS DELETED IF CRITERIA IS REACHED FOR ONE LAYER    ') 
  1200 FORMAT(
-     & 5X,'  SHELL TENSOR STRESS IS SET TO ZERO AND SHELL IS DELETED',/  
-     & 5X,'  IF CRITERIA IS REACHED FOR ALL LAYERS' )     
+     & 5X,'SHELL TENSOR STRESS IS SET TO ZERO AND SHELL IS DELETED  ',/  
+     & 5X,'IF CRITERIA IS REACHED FOR ALL LAYERS' )     
+ 1300 FORMAT(
+     & 5X,'NUMBER OF FAILED INTG. POINT PRIOR TO SOLID DELETION . .=',I5/)  
 c----------- 
       RETURN
       END

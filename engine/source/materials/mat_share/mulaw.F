@@ -2026,7 +2026,16 @@ C---- energy failure
      3                    NGL ,IPM ,MAT ,
      5                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      6                  VOLN,EINT,EPSP1,UVARF,OFF,IP,DFMAX   ,
-     7                   TDEL )                    
+     7                   TDEL )   
+     c
+          ELSEIF (IRUPT == 13) THEN
+C---- chang - chang   
+            CALL FAIL_CHANGCHANG_S(
+     1         NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2         TT       ,IPG      ,ILAY     ,NPG      ,NGL      ,
+     3         LBUF%DMGSCL,DFMAX  ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     4         S1       ,S2       ,S3       ,S4       ,S6       ,
+     5         TDEL     )   
           ELSEIF (IRUPT == 23) THEN                                      
 C---- tabulated failure model
                CALL FAIL_TAB_S(
@@ -2166,7 +2175,7 @@ c  --- Syazwan failure model
 C---- Tsai-Wu failure model
               CALL FAIL_TSAIWU_S(
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
-     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%UELR,
+     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL)
 c
@@ -2174,7 +2183,7 @@ c
 C---- Tsai-Hill failure model
               CALL FAIL_TSAIHILL_S(
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
-     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%UELR,
+     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL)
 c 
@@ -2182,7 +2191,7 @@ c
 C---- Hoffman failure model
               CALL FAIL_HOFFMAN_S(
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
-     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%UELR,
+     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL)
 c
@@ -2190,7 +2199,7 @@ c
 C---- Maximum strain failure model
               CALL FAIL_MAXSTRAIN_S(
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
-     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%UELR,
+     2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL)
 c 

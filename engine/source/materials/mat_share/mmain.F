@@ -2180,7 +2180,15 @@ c---- energy failure
      3                    NGL ,IPM ,MAT ,
      5                    SS1 ,SS2 ,SS3 ,SS4  ,SS5  ,SS6     ,
      6                    VOLN,EINT,EPSP,UVARF,OFF  ,IP      ,
-     7                    DFMAX,TDEL )                      
+     7                    DFMAX,TDEL ) 
+          ELSEIF (IRUPT == 13) THEN
+C---- chang - chang   
+            CALL FAIL_CHANGCHANG_S(
+     1         LLT      ,NPARAM   ,NVARF    ,BUFMAT(IADBUF),UVARF,
+     2         TT       ,IPG      ,ILAY     ,NPG      ,NGL      ,
+     3         DMG_SCALE,DFMAX    ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     4         SS1      ,SS2      ,SS3      ,SS4      ,SS6      ,
+     5         TDEL     )     
           ELSEIF(IRUPT == 14)THEN                                        
 c --- Hashin    failure model
              DO I=1,NEL
