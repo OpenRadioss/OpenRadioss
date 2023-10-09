@@ -310,6 +310,10 @@ C--------switch to Ismstr11
            SIG(I,5)=G1(I)*ES5(I)
            SIG(I,6)=G1(I)*ES6(I)
           ENDDO
+          IF (ISELECT>0) CALL M1TOT_STAB11(SIG,G2_11,G,NEL )
+          IF (JCVT>0) CALL NSVIS_STAB11(SIG,C1_1 ,G2_11,VOL  ,D1   ,
+     .                                  D2,D3  ,D4    ,D5   ,D6   ,
+     .                                  RHO0,NPG  ,NEL) 
       ENDIF  ! ismstr
       IF(ISMSTR==12)THEN 
         DO I=1,NEL
