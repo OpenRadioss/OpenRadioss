@@ -173,7 +173,7 @@ C  +++ MAT Hyper-elas----Et>1
       END SELECT
 C        
 C
-      IF (MTN==1.AND.ICP==1.AND.(ISMSTR>=10)) THEN           
+      IF (MTN==1.AND.ISMSTR>=10) THEN           
         DO I=1,NEL
           FF = -MIN(SIG0(I,1),SIG0(I,2),SIG0(I,3))
           FAC1 = MAX(ONE,HALF*FF/G0)
