@@ -155,7 +155,7 @@ c     .                   C1=TITR,
      .                   I2=N,
      .                   PRMOD=MSG_CUMU)
               ENDIF
-             ELSE
+             ELSEIF(ISIGSH /= 0) THEN
                CALL ANCMSG(MSGID=26,
      .                   ANMODE=ANINFO,
      .                   MSGTYPE=MSGERROR,
