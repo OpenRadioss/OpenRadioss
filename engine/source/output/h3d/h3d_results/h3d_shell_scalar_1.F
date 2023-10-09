@@ -3705,9 +3705,9 @@ C--------------------------------------------------
                    LFT=1
                    LLT=NEL                                      
                    CALL OUTPUT_SCHLIEREN(
-     1                   EVAR  , IXTG , X         , V           , W       ,
+     1                   EVAR  , IXTG , X         ,
      2                   IPARG , WA_L , ELBUF_TAB , ALE_CONNECT , GBUF%VOL,
-     3                   PM    , NG   , NIXTG     , ITY) 
+     3                   NG    , NIXTG, ITY)
                    DO  I=1,NEL 
                      VALUE(I) = EVAR(I) 
                      IS_WRITTEN_VALUE(I) = 1
