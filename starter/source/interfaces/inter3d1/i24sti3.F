@@ -1960,17 +1960,16 @@ C------Node 2
           DO J=1,3
            NORM(J,NN(2)) = NORM(J,NN(2))+T(J)
           END DO
-C------Node 3        
-          DO J=1,3
-            R(J) = X(J,NN(4))-X(J,NN(3))
-            S(J) = X(J,NN(2))-X(J,NN(3))
-          END DO
-          CALL NORMVEC(R,S,T)
-          DO J=1,3
-            NORM(J,NN(3)) = NORM(J,NN(3))+T(J)
-          END DO
-C------Node 4
-          IF (NN(4)/=NN(3)) THEN        
+C------Node 3,4
+          IF (NN(4)/=NN(3)) THEN              
+            DO J=1,3
+              R(J) = X(J,NN(4))-X(J,NN(3))
+              S(J) = X(J,NN(2))-X(J,NN(3))
+            END DO
+            CALL NORMVEC(R,S,T)
+            DO J=1,3
+              NORM(J,NN(3)) = NORM(J,NN(3))+T(J)
+            END DO
             DO J=1,3
              R(J) = X(J,NN(1))-X(J,NN(4))
              S(J) = X(J,NN(3))-X(J,NN(4))
@@ -1978,6 +1977,10 @@ C------Node 4
             CALL NORMVEC(R,S,T)
             DO J=1,3
              NORM(J,NN(4)) = NORM(J,NN(4))+T(J)
+            END DO
+          ELSE ! norm_n3=norm_n2
+            DO J=1,3
+             NORM(J,NN(3)) = NORM(J,NN(3))+T(J)
             END DO
           END IF
         ENDIF
