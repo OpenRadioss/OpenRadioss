@@ -55,10 +55,10 @@ C-----------------------------------------------
      .   FF,FACG,FACC,FRHO,P,FACMAX,FACD,DP,SIG2(6),FAC
 C-----------------------------------------------
         DO I=1,NEL
-         FF = -1.6*MIN(SIG(I,1),SIG(I,2),SIG(I,3))
+         FF = -ONEP6*MIN(SIG(I,1),SIG(I,2),SIG(I,3))
          IF (OFFG(I)>ONE.OR.FF <=G2) CYCLE
-         FACG = MAX(ONE,SQRT(FF/G2)) + 0.15*FF/G2
-         FACD = MAX(one,0.85*FACG)
+         FACG = MAX(ONE,SQRT(FF/G2)) + ZEP15*FF/G2
+         FACD = MAX(one,ZEP85*FACG)
          SIG(I,4)=FACG*SIG(I,4)
          SIG(I,5)=FACG*SIG(I,5)
          SIG(I,6)=FACG*SIG(I,6)
@@ -69,12 +69,12 @@ C-----------------------------------------------
          G(I) = FACG*G(I)
         END DO
         IF (ISMSTR==12) THEN
-          FACMAX = 4.5
+          FACMAX = FOUR + HALF
           DO I=1,NEL
            IF (OFFG(i)<=ONE) CYCLE
            FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))
            IF (FF <=G2 ) CYCLE
-           FAC = 1.25*MAX(ONE,FF/G2)
+           FAC = ONEP25*MAX(ONE,FF/G2)
            FACG = MIN(FACMAX,FAC-ONE)
            SIG2(1) = SIG(I,1)-SIGL(I,1)
            SIG2(2) = SIG(I,2)-SIGL(I,2)
@@ -86,11 +86,11 @@ C-----------------------------------------------
            SIG(I,5)=SIG(I,5)+FACG*SIG2(5)
            SIG(I,6)=SIG(I,6)+FACG*SIG2(6)
            P = -THIRD*(SIG2(1)+SIG2(2)+SIG2(3))
-           FACD = MIN(1.2,FACG)
+           FACD = MIN(ONEP2,FACG)
            SIG(I,1)=SIG(I,1)+FACD*(SIG2(1)+P)
            SIG(I,2)=SIG(I,2)+FACD*(SIG2(2)+P)
            SIG(I,3)=SIG(I,3)+FACD*(SIG2(3)+P)
-           G(I) = FAC*G(I)
+           G(I) = (FACG+ONE)*G(I)
           END DO
         END IF !(ISMSTR==12) THEN
 C      
