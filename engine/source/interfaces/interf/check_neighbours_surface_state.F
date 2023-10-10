@@ -618,8 +618,7 @@ C---------------------------------------------------------
 
             NI25=0
             LSHIFT=0
-            DO NI =1,NBINTC
-                NIN = INTLIST(NI)
+             DO NIN=1,NINTER
                 NTY=IPARI(7,NIN)
                 NRTM = IPARI(4,NIN)
                 IF(NTY==25) THEN                   
@@ -669,11 +668,11 @@ C
                        P =  PROC_REM25(I)
                        ISOM(P) = ISOM(P) + 1
                     ENDDO
-                     SPMD_ARRAYS%IAD_FREDG((NSPMD+1)*(NI25-1)+1) = LSHIFT + 1
+                     SPMD_ARRAYS%IAD_FREDG(NI25) = LSHIFT + 1
 
                     DO P = 1, NSPMD
-                        SPMD_ARRAYS%IAD_FREDG((NSPMD+1)*(NI25-1)+P+1) = SPMD_ARRAYS%IAD_FREDG((NSPMD+1)*(NI25-1)+P) + ISOM(P)
-                    ENDDO           
+                        SPMD_ARRAYS%IAD_FREDG(P*NINTER25+NI25) = SPMD_ARRAYS%IAD_FREDG((P-1)*NINTER25+NI25) + ISOM(P)
+                    ENDDO 
                     LSHIFT=LSHIFT+NBDDEDG
                 ENDIF
             END DO
