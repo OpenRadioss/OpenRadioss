@@ -58,7 +58,7 @@ C-----------------------------------------------
          FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))
          IF (OFFG(I)>ONE .OR. FF <=G2 ) CYCLE
          FACD = MAX(ONE,SQRT(FF/G2))
-         FACG = 1.2*FACD
+         FACG = ONEP2*FACD
          SIG(I,4)=FACG*SIG(I,4)
          SIG(I,5)=FACG*SIG(I,5)
          SIG(I,6)=FACG*SIG(I,6)
@@ -73,7 +73,7 @@ C-----------------------------------------------
            FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))
            IF (FF <=G2 .OR. OFFG(I)<=ONE) CYCLE
            FACD = MAX(ONE,FF/G2)
-           IF (FACD>ONE) FACD = 1.25*FACD
+           IF (FACD>ONE) FACD = ONEP25*FACD
            FACG = FACD - ONE
            SIG2(1) = SIG(I,1)-SIGL(I,1)
            SIG2(2) = SIG(I,2)-SIGL(I,2)
