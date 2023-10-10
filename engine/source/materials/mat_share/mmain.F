@@ -2254,12 +2254,10 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
           ELSEIF (IRUPT == 30) THEN                                      
 C  --- Biquadratic failure model             
               CALL FAIL_BIQUAD_S(
-     1        LLT     ,NPARAM    ,NVARF    ,NFUNC    ,IFUNC    ,
-     2        NPF     ,TF        ,TT       ,DT1      ,BUFMAT(IADBUF)   ,
-     3        NGL     ,IPM       ,MAT      ,                   
-     4        SS1     ,SS2       ,SS3      ,SS4      ,SS5      ,SS6 ,
-     5        DPLA    ,EPSP      ,TSTAR    ,UVARF    ,OFF      ,IP  ,
-     6        DFMAX   ,TDEL      ,EL_LEN   )                     
+     1        LLT      ,NPARAM   ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
+     2        NPF      ,TF       ,TT       ,BUFMAT(IADBUF),TDEL,      
+     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,              
+     4        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      )                            
           ELSEIF (IRUPT == 34) THEN                                      
 C  --- Cockroft-Latham failure model             
               CALL FAIL_COCKROFT_S(LLT ,NPARAM,NVARF,
