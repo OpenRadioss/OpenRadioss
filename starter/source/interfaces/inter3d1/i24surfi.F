@@ -2084,12 +2084,18 @@ C=======================================================================
 C------mean value of IE        
         IF (IP==NPT) THEN
 C------mean value of NS1,NS2 
-         DO J=1,4
+         DO J=1,3
           N = ITAG(IRTSE(J,IE))
           NX = NX + FIC_V(1,N)
           NY = NY + FIC_V(2,N)
           NZ = NZ + FIC_V(3,N)
          END DO
+         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
+          N = ITAG(IRTSE(4,IE))
+          NX = NX + FIC_V(1,N)
+          NY = NY + FIC_V(2,N)
+          NZ = NZ + FIC_V(3,N)
+         END IF
         ELSE
           N = ITAG(NS1)
           NX = NX + FIC_V(1,N)
