@@ -2615,6 +2615,7 @@ C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS1,CS2,FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0 
+      INDEX3(1:NEL) =0
       C1 = HALF*SQRT(TWENTY7)      
       C2 = TWO*SQRT(THIRD)      
       DO NN = 1, NEL
@@ -2653,13 +2654,12 @@ c        CC=-SQRT(TWENTY7/MAX(EM20,AA))*BB*HALF/MAX(EM20,AA)
 
         COS_ANGP = COS(ANGP)
         SIN_ANGP = SIN(ANGP)
-        STR1(NN)=DD*COS_ANGP
-        STR2(NN)=DD*((-HALF*COS_ANGP) - (SIN_ANGP*SQRT3DMI))
-        STR3(NN)=DD*((-HALF*COS_ANGP) + (SIN_ANGP*SQRT3DMI))
-
-c       STR1(NN)=DD*COS(ANGP)
-c       STR2(NN)=DD*COS(ANGP+FTPI)
-c       STR3(NN)=DD*COS(ANGP+TTPI)
+c        STR1(NN)=DD*COS_ANGP
+c        STR2(NN)=DD*((-HALF*COS_ANGP) - (SIN_ANGP*SQRT3DMI))
+c        STR3(NN)=DD*((-HALF*COS_ANGP) + (SIN_ANGP*SQRT3DMI))
+        STR3(NN)=DD*COS_ANGP
+        STR1(NN)=DD*((-HALF*COS_ANGP) - (SIN_ANGP*SQRT3DMI))
+        STR2(NN)=-(STR1(NN)+STR3(NN))
 C
         VALDP1(NN) = STR1(NN)-PR
         VALDP2(NN) = STR2(NN)-PR
@@ -2671,9 +2671,9 @@ C renforcement de precision en compression simple----
          STR1(NN)=STR3(NN)
          STR3(NN)=AA
          INDEX3(NN) = 1
-        ELSE
-         INDEX3(NN) = 0
+         NINDEX3 = 1
         ENDIF
+      
 C . . . . . . . . . . .
 C      VECTEURS PROPRES
 C . . . . . . . . . . .
@@ -2907,20 +2907,22 @@ C
         VEC(NN,9)=VECDP9(NN)
       ENDDO
 C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
-      DO NN = 1, NEL
-        IF(INDEX3(NN) == 1) THEN
-C str utilise com tableau temporaire au lieu de scalaires temporaires
-          S1=VEC(NN,7)
-          S2=VEC(NN,8)
-          S3=VEC(NN,9)
-          VEC(NN,7)=VEC(NN,1)
-          VEC(NN,8)=VEC(NN,2)
-          VEC(NN,9)=VEC(NN,3)
-          VEC(NN,1)=-S1
-          VEC(NN,2)=-S2
-          VEC(NN,3)=-S3
-        ENDIF
-      ENDDO
+      IF (NINDEX3 > 0) THEN
+        DO NN = 1, NEL
+          IF(INDEX3(NN) == 1) THEN
+C strutilise com tableau temporaire au lieu de scalaires temporaires
+            S1=VEC(NN,7)
+            S2=VEC(NN,8)
+            S3=VEC(NN,9)
+            VEC(NN,7)=VEC(NN,1)
+            VEC(NN,8)=VEC(NN,2)
+            VEC(NN,9)=VEC(NN,3)
+            VEC(NN,1)=-S1
+            VEC(NN,2)=-S2
+            VEC(NN,3)=-S3
+          ENDIF
+        ENDDO
+      END IF !(NINDEX3 > 0) THEN
       RETURN
       END
  

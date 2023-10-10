@@ -98,7 +98,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,IBID,NLAR,INDEX(MVSIZ),NSM,IPRES
+      INTEGER I, MX, J,IBID,NLAR,INDEX(MVSIZ),NSM,IPRES,ISTAB
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
@@ -109,16 +109,19 @@ C-----------------------------------------------
      .    E1, E2, E3, E4, E5, E6, EINC,
      .    BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
      .    RHO0_1,C1_1,G2_11,
-     .    SV(3),P3,P2,
+     .    SV(3),P3,P2,NU_1,
      .    EPSTH11(MVSIZ),SIGTMP(MVSIZ,6),FACG,FF,FRHO
 C-----------------------------------------------
       FACQ0 = ONE
       MX = MAT(1)
       RHO0_1 =PM( 1,MX)
       C1_1   =PM(32,MX)
+      NU_1   =PM(21,MX)
       G2_11 = TWO*PM(22,MX)
       IPRES=0
-      IF (PM(21,MX)>0.49)IPRES=1 
+      IF (NU_1>0.49)IPRES=1 
+      ISTAB = 1
+      IF (IPRES==1.OR.ISMSTR == 11) ISTAB = 0
       DO I=1,NEL
         RHO0(I) =RHO0_1
         G(I)    =PM(22,MX)*OFF(I)
@@ -317,6 +320,29 @@ C--------switch to Ismstr11
      .                                  D2,D3  ,D4    ,D5   ,D6   ,
      .                                  RHO0,NPG  ,NEL) 
       ENDIF  ! ismstr
+      IF (ISTAB>0) THEN
+        IF (JCVT==0) THEN
+          IF (NPG>1) THEN
+            CALL M1TOT_STAB_P(SIG,G2_11,C1,NEL )
+            CALL NSVIS_STAB(SIG,C1_1 ,G2_11,VOL  ,D1   ,
+     .                     D2 ,D3  ,D4    ,D5   ,D6   ,
+     .                     RHOREF ,G    ,NPG  ,NEL) 
+          END IF
+        ELSE
+c          CALL M1TOT_STAB_S(SIG,G2_11,G,OFFG0,ISMSTR,NEL )
+          IF (NPG>1) THEN
+           CALL M1TOT_STAB18(SIG,SIGL,G2_11,G,OFFG,ISMSTR,NEL )
+           CALL NSVIS_STAB18(SIG  ,C1  ,G2_11 ,VOL ,D1   ,
+     .                      D2   ,D3  ,D4    ,D5   ,D6   ,
+     .                      RHOREF,G  ,NPG  ,NEL   ) 
+          ELSE
+           CALL M1TOT_STAB24(SIG,SIGL,G2_11,G,OFFG,ISMSTR,NEL )
+           CALL NSVIS_STAB(SIG,C1_1 ,G2_11   ,VOL ,D1   ,
+     .                      D2   ,D3  ,D4    ,D5   ,D6   ,
+     .                      RHOREF,G  ,NPG ,NEL   ) 
+          END IF
+        END IF
+      ENDIF  
       IF(ISMSTR==12)THEN 
         DO I=1,NEL
           IF(ABS(OFFG0(I)) <= ONE)THEN ! Large Strain
