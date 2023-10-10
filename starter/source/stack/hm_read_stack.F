@@ -564,7 +564,9 @@ c-----------------------------------------------------------------------
      & 5X,'    PLY ',I3/,
      & 5X,'      PLY PID NUMBER  . . . . . . . . .=',I10/
      & 5X,'      ANGLE (DIR 1,PROJ(DIR 1 / SHELL).=',1PG20.13/,
-     & 5X,'      % OF PLY THICKNESS TO FAIL. . . .=',1PG20.13/,
+     & 5X,'      PLY FAILURE PARAMETER . . . . . .=',1PG20.13/,
+     & 5X,'        > 0.0 : FRACTION OF FAILED THICKNESS   ',/,
+     & 5X,'        < 0.0 : FRACTION OF FAILED INTG. POINTS',/,
      & 5X,'      WEIGHT FACTOR FOR PLY FAILURE . .=',1PG20.13/)
  3000 FORMAT(
      & 5X,' COMPOSITE SUBSTACK SHELL NUMBER . . . =',I10/ ) 
