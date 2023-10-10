@@ -1051,12 +1051,10 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
              ELSEIF (IFAIL(II) == 30) THEN                                      
 C  --- Biquadratic failure model                                  
               CALL FAIL_BIQUAD_S(
-     1         LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2         NPF      ,TF       ,TT       ,DT1      ,BUFMAT   ,
-     3         NGL      ,IPM      ,MAT      ,                   
-     4         S1       ,S2       ,S3       ,S4       ,S5       ,S6 ,
-     5         DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,OFF,IP   ,
-     6         DFMAX    ,TDELE    ,DELTAX)                   
+     1         LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,DELTAX   ,
+     2         NPF      ,TF       ,TT       ,BUFMAT   ,TDELE    ,
+     3         NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,                  
+     4         S1       ,S2       ,S3       ,S4       ,S5       ,S6       )                  
           ELSEIF (IFAIL(II) == 36) THEN                                           
 C  --- VISUAL failure model             
               CALL FAIL_VISUAL_S(

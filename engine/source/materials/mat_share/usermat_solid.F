@@ -1495,12 +1495,10 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
               CALL FAIL_BIQUAD_S(
-     1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2        NPF      ,TF       ,TT       ,DT1      ,UPARAMF   ,
-     3        NGL      ,IPM      ,MAT      ,                   
-     4        S1       ,S2       ,S3       ,S4       ,S5       ,S6 ,
-     5        DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,OFF,IP   ,
-     6        DFMAX    ,TDEL     ,EL_LEN   )    
+     1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
+     2        NPF      ,TF       ,TT       ,UPARAMF  ,TDEL     ,
+     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,                   
+     4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       )    
           ELSEIF (IRUPT == 33) THEN                                
 c  --- Mullins Ogden-Roxburgh damage model                                  
               CALL FAIL_MULLINS_OR_S(

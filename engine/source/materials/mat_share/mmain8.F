@@ -328,15 +328,12 @@ c ---   extended mohr coulomb failure model
      4         LBUF%PLA ,DPLA(J1) ,EPSP(J1) ,UVARF,
      5         OFF      ,IP       ,DFMAX    ,TDELE)
 c ---   Biquadratic failure
-              ELSEIF (IFAIL(II) == 30) THEN
-                CALL FAIL_BIQUAD_S(
-     1         NEL      ,NUPARAM,NVARF,NFUNC,IFUNC,
-     2         NPF      ,TF       ,TT       ,DT1      ,BUFMAT  ,
-     3         NGL      ,IPM      ,MAT      ,
-     4         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ     ,SZX,
-     5         DPLA(J1) ,EPSP(J1) ,TSTAR    ,
-     6         UVARF    ,OFF      ,IP       ,
-     7         DFMAX    ,TDELE    ,DELTAX)
+             ELSEIF (IFAIL(II) == 30) THEN
+               CALL FAIL_BIQUAD_S(
+     1         NEL      ,NUPARAM  ,NVARF    ,NFUNC    ,IFUNC    ,DELTAX   ,
+     2         NPF      ,TF       ,TT       ,BUFMAT   ,TDELE    ,
+     3         NGL      ,DPLA(J1) ,UVARF    ,OFF      ,DFMAX    ,
+     4         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      )
 c
               ELSEIF (IFAIL(II) == 37) THEN
 c ---       tabulated failure model (old, obsolete version)
