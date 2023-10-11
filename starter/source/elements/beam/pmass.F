@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   STI, E, G, AA, BB, DX,DY,DZ, ARI,INI,RYI,RZI,
      .   STIR, PHI, SHF, DSH, DMP, SL2I, FAC,LL
       my_real
-     .   RHO(MVSIZ), EMS(MVSIZ),
+     .   RHO(MVSIZ), EMS(MVSIZ),COEFI(MVSIZ),
      .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
       my_real
      .   FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX,PHMIN,FSH(MVSIZ)
@@ -128,14 +128,22 @@ C----------------------------------------------
         PHII(I) = MAX(ONE,PHII(I)) 
         FSH(I) = AL(I)/(FACDT(I)+CST)
         FSH(I) = MAX(ONE,FSH(I))
+        COEFI(I) =ONE_OVER_12 
       ENDDO
+      IF (IGTYP == 18) THEN
+         DO I=LFT,LLT
+           FSH(I) = ONE
+           KPHI(I) = MAX(ONE,TWELVE*FACDT(I))  
+           IF (KPHI(I) > TWELVE ) COEFI(I) =ONE 
+         ENDDO
+      END IF
 C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
       DO I=LFT,LLT
        LL = ONEP2*AL(I)
        EMS(I)=RHO(I)*AL(I)*AREA(I)* HALF
-       TIN(I)=ONEP2*EMS(I)*LL**2*ONE_OVER_12 + RHO(I)*(AL(I)*HALF)
+       TIN(I)=ONEP2*EMS(I)*LL**2*COEFI(I) + RHO(I)*(AL(I)*HALF)
      .       * MAX(TIYY(I),TIZZ(I))
        IF (FACDT(I)<ONE) TIN(I)=PHII(I)*TIN(I)
        TIN(I)= MAX(TIN(I),RHO(I)*AL(I)/TWO*TIXX(I))
