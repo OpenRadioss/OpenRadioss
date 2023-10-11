@@ -220,7 +220,8 @@ c vector
       ENDIF
       
       IF(KEY2 == "ELEM" .OR. KEY2 == 'SOLID' .OR. KEY2 == 'QUAD')THEN
-        IF (KEY3_GLOB == 'VECT/CONT') H3D_DATA%N_VECT_CONT  = 1      
+        IF (KEY3_GLOB == 'VECT/CONT') H3D_DATA%N_VECT_CONT  = 1   
+        IF (KEY3_GLOB == 'TENS/EPSDOT') IEPSDOT = 1   
       ENDIF
 c
       IF(KEY2 == 'SHELL') THEN
