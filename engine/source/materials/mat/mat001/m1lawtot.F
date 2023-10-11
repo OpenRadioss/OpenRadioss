@@ -28,9 +28,14 @@ Chd|-- calls ---------------
 Chd|        M1ISMSTR10_PON                source/materials/mat/mat001/m1ismstr10_pon.F
 Chd|        M1ISMSTR11                    source/materials/mat/mat001/m1ismstr11.F
 Chd|        M1TOT_STAB11                  source/elements/solid/solide8e/m1tot_stab11.F
+Chd|        M1TOT_STAB18                  source/elements/solid/solide8e/m1tot_stab18.F
+Chd|        M1TOT_STAB24                  source/elements/solid/solidez/m1tot_stab24.F
+Chd|        M1TOT_STAB_P                  source/elements/solid/solide10/m1tot_stab_p.F
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
+Chd|        NSVIS_STAB                    source/elements/solid/solide10/nsvis_stab.F
 Chd|        NSVIS_STAB11                  source/elements/solid/solidez/nsvis_stab11.F
+Chd|        NSVIS_STAB18                  source/elements/solid/solide8e/nsvis_stab18.F
 Chd|====================================================================
       SUBROUTINE M1LAWTOT(
      1   PM,      OFF,     SIG,     EINT,

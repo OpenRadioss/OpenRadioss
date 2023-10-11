@@ -38,6 +38,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        ENG_USERLIB_FLAW              source/user_interface/dyn_userlib.c
 Chd|        EPSF2U                        source/materials/mat/mat033/sigeps33.F
 Chd|        FAIL_BIQUAD_S                 source/materials/fail/biquad/fail_biquad_s.F
+Chd|        FAIL_CHANGCHANG_S             source/materials/fail/changchang/fail_changchang_s.F
 Chd|        FAIL_COCKROFT_S               source/materials/fail/cockroft_latham/fail_cockroft_s.F
 Chd|        FAIL_EMC                      source/materials/fail/emc/fail_emc.F
 Chd|        FAIL_ENERGY_S                 source/materials/fail/energy/fail_energy_s.F
