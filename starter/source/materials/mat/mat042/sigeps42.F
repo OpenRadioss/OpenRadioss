@@ -93,7 +93,7 @@ C  VARIABLES FOR FUNCTION INTERPOLATION
 C----------------------------------------------------------------
       INTEGER NPF(SNPC),NFUNC,IFUNC(NFUNC)
       my_real FINTER,TF(STF)
-      EXTERNAL FINTER,FINTTE
+      EXTERNAL FINTER
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
