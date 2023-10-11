@@ -259,7 +259,8 @@ C------- error out
      .                   I2=ITAB(NI))
             ENDIF
            ENDIF
-           IF (NS10E > 0.AND.ITAGND(NI)/=0) THEN
+           IF (NS10E > 0) THEN
+             IF(ITAGND(NI)/=0) THEN
 C------- error out      
              CALL ANCMSG(MSGID=1211,
      .               MSGTYPE=MSGERROR,
@@ -268,6 +269,7 @@ C------- error out
      .               C1='RBE3',
      .               I2=NUSER,
      .               C2='RBE3')
+             ENDIF
            END IF
            FRBE3(JJ,IAD+K) = WI(JJ,NI)
           ENDDO
