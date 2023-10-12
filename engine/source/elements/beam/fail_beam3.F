@@ -128,7 +128,7 @@ c-----------------------------------------
       IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF                                
 c-----------------------------------------            
       SELECT CASE (IRUPT)                                            
-c------------------------------------            
+c------------------------------------   
 c--------------- 
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
@@ -144,7 +144,7 @@ c---------------
           CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
      .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
      .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
-     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT     ,ISTDO    )
+     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO    )
 c---------------      
         CASE (10)     !    Tension Strain failure model
           IF (JTHE > 0) THEN
@@ -169,13 +169,21 @@ c---------------
         CASE (11)     ! Energy failure model                                        
           CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
      .                       TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
-     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,IFUNC   ,
+     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO  ,IFUNC   ,
      .                       AREA     ,F1       ,F2       ,F3       ,
-     .                       M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
-     .                       TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX      ,KYY     ,
+     .                       M1       ,M2       ,M3       ,SNPC     ,NPF    ,STF     ,
+     .                       TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
      .                       KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR)
 c--------------- 
-  
+
+        CASE (30)     !    BIQUAD                                                  
+          CALL FAIL_BIQUAD_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+     .                        TIME         ,SVM      ,PRESSURE ,
+     .                        DPLA         ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
+     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  , IFUNC   ,NFUNC,
+     .                        SNPC                            ,NPF     ,STF     ,TF,
+     .                        ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
+
  
 
 c-------------
