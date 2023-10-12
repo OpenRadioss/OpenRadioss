@@ -143,10 +143,14 @@ c-----------------------------------------------------------------------
               MTAG%G_DMG = 1
             ELSE IF (IRUP == 28) THEN  ! Alter
               MTAG%G_DMG = 2
+            ! -> Isotropic stress softening 
             ELSE IF (IRUP == 10 .OR. IRUP == 11 .OR. IRUP == 41 .OR. IRUP == 42 .OR.
      .               IRUP == 44 .OR. IRUP == 45 .OR. IRUP == 46 .OR. IRUP == 47 .OR. 
      .               IRUP == 13 ) THEN             
               MTAG%L_DMGSCL = 1
+            ! -> Orthotropic stress softening
+            ELSE IF (IRUP == 48) THEN 
+              MTAG%L_DMGSCL = 6
             ENDIF
           ENDDO
         ENDIF

@@ -116,7 +116,7 @@ Chd|====================================================================
      Z   EPSTH,    SVISC,    NEL,      ETOTSH,
      1   ISELECT,  TSTAR,    MUOLD,    AMU2,
      2   DPDM,     RHOREF,   RHOSP,    NLOC_DMG,
-     3   ITY,      JTUR  ,   MAT_ELEM  )
+     3   ITY,      JTUR  ,   MAT_ELEM, IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -148,6 +148,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITY
       INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER LFT ,LLT ,NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,
      .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
      .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
@@ -226,7 +227,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
       my_real, DIMENSION(:), POINTER  :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL,EL_TEMP, 
-     .                                   YLDFAC,DAM,EL_LEN,DMG_SCALE,EL_PLA,DAMINI
+     .                                   YLDFAC,DAM,EL_LEN,EL_PLA,DAMINI
       TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF      
@@ -632,15 +633,25 @@ c
 c--------------------------------------------------------
 c     COMPUTE UNDAMAGED EFFECTIVE STRESSES
 c---------------------------------------------------------
-      DMG_SCALE => LBUF%DMGSCL
+      ! -> Isotropic stress softening
       IF (DMG_FLAG > 0) THEN 
         DO I = 1,NEL
-          SO1(I) = SO1(I)/MAX(DMG_SCALE(I),EM20)
-          SO2(I) = SO2(I)/MAX(DMG_SCALE(I),EM20)
-          SO3(I) = SO3(I)/MAX(DMG_SCALE(I),EM20)
-          SO4(I) = SO4(I)/MAX(DMG_SCALE(I),EM20)
-          SO5(I) = SO5(I)/MAX(DMG_SCALE(I),EM20)
-          SO6(I) = SO6(I)/MAX(DMG_SCALE(I),EM20)
+          SO1(I) = SO1(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO2(I) = SO2(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO3(I) = SO3(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO4(I) = SO4(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO5(I) = SO5(I)/MAX(LBUF%DMGSCL(I),EM20)
+          SO6(I) = SO6(I)/MAX(LBUF%DMGSCL(I),EM20)
+        ENDDO
+      ! -> Orthotropic stress softening
+      ELSEIF (DMG_FLAG == 6) THEN 
+        DO I = 1,NEL
+          SO1(I) = SO1(I)/MAX(LBUF%DMGSCL(I+NEL*(1-1)),EM20)
+          SO2(I) = SO2(I)/MAX(LBUF%DMGSCL(I+NEL*(2-1)),EM20)
+          SO3(I) = SO3(I)/MAX(LBUF%DMGSCL(I+NEL*(3-1)),EM20)
+          SO4(I) = SO4(I)/MAX(LBUF%DMGSCL(I+NEL*(4-1)),EM20)
+          SO5(I) = SO5(I)/MAX(LBUF%DMGSCL(I+NEL*(5-1)),EM20)
+          SO6(I) = SO6(I)/MAX(LBUF%DMGSCL(I+NEL*(6-1)),EM20)
         ENDDO
       ENDIF
 c
@@ -1441,7 +1452,7 @@ C---- strain tension
      5             S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      6             EPSP1,UVARF,OFF ,IP   ,DFMAX,TDEL  ,
      7             MFXX   ,MFXY   ,MFXZ   ,MFYX    ,MFYY   ,MFYZ   ,                 
-     8             MFZX   ,MFZY   ,MFZZ   ,DMG_SCALE)
+     8             MFZX   ,MFZY   ,MFZZ   ,LBUF%DMGSCL)
           ELSEIF (IRUPT == 11)THEN                                        
 C---- energy failure  
               CALL FAIL_ENERGY_S(LLT ,NPAR,NUVARR,NFUNC,IFUNC       ,
@@ -1570,7 +1581,7 @@ C---- Tabulated failure model version 2
      2          NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
-     6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,DMG_SCALE,
+     6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,
      7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ) 
 c
           ELSEIF (IRUPT == 42) THEN                                      
@@ -1581,7 +1592,7 @@ C---- Inievo failure model
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,
-     7          TDEL     ,DMG_SCALE,GBUF%UELR,IPG      ,NPG      ,
+     7          TDEL     ,LBUF%DMGSCL,GBUF%UELR,IPG      ,NPG      ,
      8          LBUF%OFF ,DAMINI   ,GBUF%VOL ,INLOC    )  
 c
           ELSEIF (IRUPT == 43) THEN    
@@ -1598,7 +1609,7 @@ C---- Tsai-Wu failure model
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,  
-     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE) 
+     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL) 
 c      
           ELSEIF (IRUPT == 45) THEN                                      
 C---- Tsai-Hill failure model
@@ -1606,7 +1617,7 @@ C---- Tsai-Hill failure model
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,  
-     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE) 
+     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL) 
 c             
           ELSEIF (IRUPT == 46) THEN                                      
 C---- Hoffman failure model
@@ -1614,7 +1625,7 @@ C---- Hoffman failure model
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,  
-     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE) 
+     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL) 
 c
           ELSEIF (IRUPT == 47) THEN                                      
 C---- Maximum strain failure model
@@ -1622,8 +1633,17 @@ C---- Maximum strain failure model
      1          NEL      ,NVARF    ,IPG      ,ILAY     ,NPG      ,TT       ,         
      2          DT1      ,UPARAMF  ,NGL      ,OFF      ,LBUF%OFF ,GBUF%NOFF,
      3          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      , 
-     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,DMG_SCALE) 
-c                   
+     4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL) 
+c           
+          ELSEIF (IRUPT == 48) THEN    
+c---- Orthotropic energy failure
+              CALL FAIL_ORTHENERG_S(
+     1          NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,NGL      ,
+     2          NPG      ,IPG      ,ILAY     ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
+     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     6          TT       ,TDEL     ,DFMAX    ,DELTAX   ,LBUF%DMGSCL,IDEL7NOK)
+c         
           ENDIF
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL
@@ -1655,14 +1675,25 @@ C
 c--------------------------------------------------------
 c     DAMAGED STRESSES
 c---------------------------------------------------------
+      ! -> Isotropic stress softening
       IF (DMG_FLAG > 0) THEN 
         DO I = 1,NEL
-          S1(I) = S1(I)*DMG_SCALE(I)
-          S2(I) = S2(I)*DMG_SCALE(I)
-          S3(I) = S3(I)*DMG_SCALE(I)
-          S4(I) = S4(I)*DMG_SCALE(I)
-          S5(I) = S5(I)*DMG_SCALE(I)
-          S6(I) = S6(I)*DMG_SCALE(I)
+          S1(I) = S1(I)*LBUF%DMGSCL(I)
+          S2(I) = S2(I)*LBUF%DMGSCL(I)
+          S3(I) = S3(I)*LBUF%DMGSCL(I)
+          S4(I) = S4(I)*LBUF%DMGSCL(I)
+          S5(I) = S5(I)*LBUF%DMGSCL(I)
+          S6(I) = S6(I)*LBUF%DMGSCL(I)
+        ENDDO
+      ! -> Orthotropic stress softening
+      ELSEIF (DMG_FLAG == 6) THEN 
+        DO I = 1,NEL
+          S1(I) = S1(I)*LBUF%DMGSCL(I+NEL*(1-1))
+          S2(I) = S2(I)*LBUF%DMGSCL(I+NEL*(2-1))
+          S3(I) = S3(I)*LBUF%DMGSCL(I+NEL*(3-1))
+          S4(I) = S4(I)*LBUF%DMGSCL(I+NEL*(4-1))
+          S5(I) = S5(I)*LBUF%DMGSCL(I+NEL*(5-1))
+          S6(I) = S6(I)*LBUF%DMGSCL(I+NEL*(6-1))
         ENDDO
       ENDIF
 c---------------------------------------------------------
