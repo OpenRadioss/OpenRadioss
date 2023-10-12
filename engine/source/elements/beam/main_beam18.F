@@ -188,7 +188,7 @@ c---------------------------
         IF (IPLA > 0) THEN
           DO I = 1,NEL
             DO J=1,NPT
-              DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) - DPLA(I,J)
+              DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) -DPLA(I,J)
             ENDDO
           ENDDO
         END IF           
@@ -199,7 +199,7 @@ c
      .              NEL     ,NPT     ,IMAT    ,IPID    ,JTHE    ,
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
-     .              DPLA    ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
+     .              DPLA    ,TIME    ,IOUT    ,ISTDO   ,
      .              AL      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
      .              KXX     ,KYY     ,KZZ     )
       END IF

@@ -81,7 +81,7 @@ C-----------------------------------------------
       EXTERNAL FINTER
       my_real ,DIMENSION(NEL) :: DAMAGE,IE_SP
 C=======================================================================
-      NINDX = 0
+      NINDX   = 0
       NINDXD  = 0
       RIEF1    = UPARAM(1)             
       RIEF2    = UPARAM(2)           
@@ -113,7 +113,11 @@ c-----------------------------
             ENDIF  
            DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
            DAMSCL(I) = ONE - DAMAGE(I)
+
           ENDIF
+          DAMSCL(I) = ONE - DAMAGE(I)
+          
+
 
           IF (IE_SP(I) > R2 ) THEN
             NINDX = NINDX + 1
@@ -125,6 +129,7 @@ c-----------------------------
           ENDIF
         ENDIF 
       ENDDO         
+
 c------------------------
       IF (NINDXD > 0) THEN        
         DO J=1,NINDXD             

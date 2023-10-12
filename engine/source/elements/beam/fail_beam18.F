@@ -36,7 +36,7 @@ Chd|====================================================================
      .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,
      .                       TEMPEL   ,NGL      ,PM       ,IPM      ,GEO     ,
      .                       OFF      ,EPSD     ,BUFMAT   ,NPF      ,TF      ,
-     .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
+     .                       DPLA     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
      .                       KXX      ,KYY      ,KZZ      )
 C-----------------------------------------------
@@ -80,7 +80,6 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
-      my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EXX,EXY,EXZ,KXX,KYY,KZZ
@@ -106,11 +105,6 @@ C
       my_real, DIMENSION(:) ,POINTER :: UPARAMF,UVARF,DFMAX,TDEL
       INTEGER, DIMENSION(:), POINTER :: FOFF
 C=======================================================================
-c      to avoid compilation error with unused arguments
-c      they will be necessary for next development step
-      bidon = eint(1,1)
-      bidon = npf(1)
-      bidon = tf(1)
 c-----------------------------------------------------
       IPY  = 200        
       IPZ  = 300        
@@ -227,6 +221,19 @@ c---------------
      .          TF       ,IPT      ,FOFF     ,
      .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,
      .          DEPSXX   ,DEPSXY   ,DEPSXZ   )
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
+
+c--------------- 
+        CASE (30)     !    BIQUAD                                                  
+           CALL FAIL_BIQUAD_IB (
+     .          NEL       ,NGL      ,NPARAM   ,UPARAMF ,
+     .          TIME     ,OFF      ,DFMAX     , TDEL     ,                       
+     .          IOUT     ,ISTDO    ,NFUNC     ,IFUNC    ,LBUF%DMGSCL,
+     .          UVARF    ,NVARF    ,SNPC      ,NPF      ,
+     .          STF      ,TF       ,IPT       ,FOFF     ,
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ    ,DPLA     )
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
