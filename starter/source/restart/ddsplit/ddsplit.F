@@ -2166,9 +2166,9 @@ C--------------------------------------
         ! NRF ebcs
         IF(.NOT.EBCS_TAB%tab(ii)%poly%is_multifluid.AND.EBCS_TAB%tab(ii)%poly%type==10) THEN
             NEBCS_NRF = NEBCS_NRF + 1
-            DO JJ = 1, EBCS_TAB_LOC_2%tab(ii)%poly%nb_node
-                IF( NODLOCAL(EBCS_TAB_LOC_2%tab(ii)%poly%node_list(jj))>0.AND.
-     .              NODLOCAL(EBCS_TAB_LOC_2%tab(ii)%poly%node_list(jj))<=NUMNOD ) THEN
+            DO JJ = 1, EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%nb_node
+                IF( NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(jj)) > 0 .AND.
+     .              NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(jj)) <= NUMNOD ) THEN
                     EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(JJ) =
      .               NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(JJ))                
                 ENDIF
