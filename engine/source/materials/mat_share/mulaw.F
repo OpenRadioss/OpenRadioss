@@ -777,8 +777,8 @@ c
 c--------------------------------------------------------
 c     COMPUTE UNDAMAGED EFFECTIVE STRESSES
 c---------------------------------------------------------
-      !DMG_SCALE => LBUF%DMGSCL
-      IF (DMG_FLAG > 0) THEN 
+      ! -> Isotropic stress softening
+      IF (DMG_FLAG == 1) THEN 
         DO I = 1,NEL
           SO1(I) = SO1(I)/MAX(LBUF%DMGSCL(I),EM20)
           SO2(I) = SO2(I)/MAX(LBUF%DMGSCL(I),EM20)
@@ -786,6 +786,16 @@ c---------------------------------------------------------
           SO4(I) = SO4(I)/MAX(LBUF%DMGSCL(I),EM20)
           SO5(I) = SO5(I)/MAX(LBUF%DMGSCL(I),EM20)
           SO6(I) = SO6(I)/MAX(LBUF%DMGSCL(I),EM20)
+        ENDDO
+      ! -> Orthotropic stress softening
+      ELSEIF (DMG_FLAG == 6) THEN 
+        DO I = 1,NEL
+          SO1(I) = SO1(I)/MAX(LBUF%DMGSCL(I+NEL*(1-1)),EM20)
+          SO2(I) = SO2(I)/MAX(LBUF%DMGSCL(I+NEL*(2-1)),EM20)
+          SO3(I) = SO3(I)/MAX(LBUF%DMGSCL(I+NEL*(3-1)),EM20)
+          SO4(I) = SO4(I)/MAX(LBUF%DMGSCL(I+NEL*(4-1)),EM20)
+          SO5(I) = SO5(I)/MAX(LBUF%DMGSCL(I+NEL*(5-1)),EM20)
+          SO6(I) = SO6(I)/MAX(LBUF%DMGSCL(I+NEL*(6-1)),EM20)
         ENDDO
       ENDIF
 c
@@ -2202,6 +2212,15 @@ C---- Maximum strain failure model
      3          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,
      4          UVARF    ,NPAR     ,DFMAX    ,TDEL     ,LBUF%DMGSCL)
 c 
+          ELSEIF (IRUPT == 48) THEN    
+c---- Orthotropic energy failure
+              CALL FAIL_ORTHENERG_S(
+     1          NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,NGL      ,
+     2          NPG      ,IPG      ,ILAY     ,OFF      ,LBUF%OFF ,GBUF%NOFF,
+     3          DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
+     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     6          TT       ,TDEL     ,DFMAX    ,DELTAX   ,LBUF%DMGSCL,IDEL7NOK)
+c 
           ENDIF
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL
@@ -2236,7 +2255,8 @@ C=======================================================================
 c--------------------------------------------------------
 c     DAMAGED STRESSES
 c---------------------------------------------------------
-      IF (DMG_FLAG > 0) THEN 
+      ! -> Isotropic stress softening
+      IF (DMG_FLAG == 1) THEN 
         DO I = 1,NEL
           S1(I) = S1(I)*LBUF%DMGSCL(I)
           S2(I) = S2(I)*LBUF%DMGSCL(I)
@@ -2244,6 +2264,16 @@ c---------------------------------------------------------
           S4(I) = S4(I)*LBUF%DMGSCL(I)
           S5(I) = S5(I)*LBUF%DMGSCL(I)
           S6(I) = S6(I)*LBUF%DMGSCL(I)
+        ENDDO
+      ! -> Orthotropic stress softening
+      ELSEIF (DMG_FLAG == 6) THEN 
+        DO I = 1,NEL
+          S1(I) = S1(I)*LBUF%DMGSCL(I+NEL*(1-1))
+          S2(I) = S2(I)*LBUF%DMGSCL(I+NEL*(2-1))
+          S3(I) = S3(I)*LBUF%DMGSCL(I+NEL*(3-1))
+          S4(I) = S4(I)*LBUF%DMGSCL(I+NEL*(4-1))
+          S5(I) = S5(I)*LBUF%DMGSCL(I+NEL*(5-1))
+          S6(I) = S6(I)*LBUF%DMGSCL(I+NEL*(6-1))
         ENDDO
       ENDIF
 c---------------------------------------------------------

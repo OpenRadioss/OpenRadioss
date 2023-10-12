@@ -217,6 +217,7 @@ c
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,RATIO,VV,AA
       my_real COPY_PLA(MVSIZ)
       my_real, DIMENSION(MVSIZ) :: DT_INV
+      my_real, DIMENSION(NEL,5) :: DMG_ORTH_SCALE
       my_real  SCALE1(NEL)
       my_real ,DIMENSION(NEL), TARGET :: LE_MAX
       my_real TT_LOCAL
@@ -1218,6 +1219,7 @@ c
 C
             SIGOFF(1:NEL) = ONE
             DMG_LOC_SCALE(1:NEL) = ONE
+            DMG_ORTH_SCALE(1:NEL,1:5) = ONE
 c                                        
             MPT  = NPTTOT * MAX(1,NPG)
             FBUF => BUFLY%FAIL(IR,IS,IT)   
@@ -1775,6 +1777,15 @@ c
      3            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
      4            OFF       ,FOFF ,PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,
      5            DFMAX     ,TDEL      ,DT1C      )
+c
+              CASE (48)     !    Orthotropic energy failure model
+c               
+                CALL FAIL_ORTHENERG_C(
+     1            NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2            NGL       ,TT        ,IPG       ,ILAYER    ,IT        , 
+     3            DEPSXX    ,DEPSYY    ,DEPSXY    ,DMG_FLAG  ,DMG_ORTH_SCALE,
+     4            ALDT      ,PTHKF(ILAYER,IFL),FOFF,DFMAX    ,TDEL      ,
+     5            SIGNXX    ,SIGNYY    ,SIGNXY    ,IGTYP     ,PLY_ID    )
 c 
 c-------------
               END SELECT
@@ -1823,7 +1834,13 @@ C
                TENS(JFT:JLT,2) = (SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
                TENS(JFT:JLT,3) = (SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
                TENS(JFT:JLT,4) = (SIGNYZ(JFT:JLT)+SIGVYZ(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
-               TENS(JFT:JLT,5) = (SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
+               TENS(JFT:JLT,5) = (SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)  
+            CASE (2)                                                           
+               TENS(JFT:JLT,1) = (SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT))*DMG_ORTH_SCALE(JFT:JLT,1)                               
+               TENS(JFT:JLT,2) = (SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT))*DMG_ORTH_SCALE(JFT:JLT,2)                               
+               TENS(JFT:JLT,3) = (SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT))*DMG_ORTH_SCALE(JFT:JLT,3)                               
+               TENS(JFT:JLT,4) = (SIGNYZ(JFT:JLT)+SIGVYZ(JFT:JLT))*DMG_ORTH_SCALE(JFT:JLT,4)                               
+               TENS(JFT:JLT,5) = (SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT))*DMG_ORTH_SCALE(JFT:JLT,5)                 
             END SELECT
 c
             IF (IGTYP == 16) THEN                                                  
@@ -1893,7 +1910,16 @@ c
                 FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*(SIGNZX(1:NEL)+SIGVZX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL) *(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_LOC_SCALE(1:NEL)   
                 MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
-                MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_LOC_SCALE(1:NEL)   
+                MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_LOC_SCALE(1:NEL) 
+            CASE (3)  ! orthotropic softening with DMG_ORTH_SCALE from failure model          
+                FOR(1:NEL,1) = FOR(1:NEL,1) + THLY(1:NEL)*(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_ORTH_SCALE(1:NEL,1)   
+                FOR(1:NEL,2) = FOR(1:NEL,2) + THLY(1:NEL)*(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_ORTH_SCALE(1:NEL,2)   
+                FOR(1:NEL,3) = FOR(1:NEL,3) + THLY(1:NEL)*(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_ORTH_SCALE(1:NEL,3)   
+                FOR(1:NEL,4) = FOR(1:NEL,4) + THLY(1:NEL)*(SIGNYZ(1:NEL)+SIGVYZ(1:NEL))*DMG_ORTH_SCALE(1:NEL,4)   
+                FOR(1:NEL,5) = FOR(1:NEL,5) + THLY(1:NEL)*(SIGNZX(1:NEL)+SIGVZX(1:NEL))*DMG_ORTH_SCALE(1:NEL,5)   
+                MOM(1:NEL,1) = MOM(1:NEL,1) + WMC(1:NEL) *(SIGNXX(1:NEL)+SIGVXX(1:NEL))*DMG_ORTH_SCALE(1:NEL,1)   
+                MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *(SIGNYY(1:NEL)+SIGVYY(1:NEL))*DMG_ORTH_SCALE(1:NEL,2)   
+                MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *(SIGNXY(1:NEL)+SIGVXY(1:NEL))*DMG_ORTH_SCALE(1:NEL,3) 
             END SELECT                                                             
 c
           ENDIF   ! IGTYP                                                          

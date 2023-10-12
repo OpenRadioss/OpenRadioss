@@ -372,6 +372,9 @@ c--------------------------------------------
 c--------------------------------------------
         ELSEIF(KEY(1:9) == 'MAXSTRAIN')THEN
              IRUP= 47
+c--------------------------------------------
+        ELSEIF(KEY(1:9) == 'ORTHENERG')THEN
+             IRUP= 48
 c--------------------------------------------      
         ELSE  
              IRUP= 0
@@ -634,6 +637,11 @@ c---
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)
+c---
+            CASE(48)
+              CALL HM_READ_FAIL_ORTHENERG(
+     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR    ,NFUNC     ,
+     .             UNITAB   ,LSUBMODEL)
 c
 c--------------------------------------------      
             END SELECT
