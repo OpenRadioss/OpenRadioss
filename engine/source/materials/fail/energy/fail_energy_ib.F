@@ -33,7 +33,7 @@ Chd|====================================================================
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
      .           EINT     ,AREA     ,AL       , DAMSCL  ,
      .           SNPC     ,NPF      ,STF      , 
-     .           TF       ,IPT)
+     .           TF       ,IPT      ,FOFF)
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 18)
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
       INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
       INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
+      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real                     ,INTENT(IN)    :: AREA    ! AREA  of beam
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
@@ -87,7 +88,7 @@ C=======================================================================
       ENDDO
 c-----------------------------
       DO I=1,NEL
-        IF (OFF(I) == ONE ) THEN
+        IF (OFF(I) == ONE .AND. FOFF(I) == 1) THEN
           IF (IFUNC(1) /= 0) THEN
             RFAC = FINTER(IFUNC(1),EPSD(I)*XFAC,NPF,TF,DYDX)
             RFAC = MAX(RFAC,EM20)
@@ -105,23 +106,20 @@ c-----------------------------
               NINDXD = NINDXD + 1  
               INDXD(NINDXD) = I
             ENDIF  
-            DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
+           DFMAX(I)  = MAX(DFMAX(I) ,DAMAGE(I))
+           DAMSCL(I) = ONE - DAMAGE(I)
           ENDIF
 
-          IF (IE_SP(I) > R2) THEN
+          IF (IE_SP(I) > R2 .OR. DAMSCL(I) < EM12) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
             TDEL(I)     = TIME
             DFMAX(I)    = ONE
-            OFF(I)      = FOUR_OVER_5
+            DAMSCL(I)   = ZERO
+            FOFF(I)     = 0
           ENDIF
         ENDIF 
-      ENDDO     
-      DO I=1,NEL
-        IF(RIEF1 < RIEF2)THEN  
-          DAMSCL(I) = ONE - DAMAGE(I)
-        END IF
-      ENDDO      
+      ENDDO         
 c------------------------
       IF (NINDXD > 0) THEN        
         DO J=1,NINDXD             

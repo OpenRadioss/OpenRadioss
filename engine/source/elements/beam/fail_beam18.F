@@ -212,7 +212,10 @@ c---------------
      .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
      .          EINT     ,AREA     ,AL       ,LBUF%DMGSCL ,
      .          SNPC     ,NPF      ,STF     ,
-     .          TF,IPT)
+     .          TF       ,IPT      ,FOFF)
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
 c--------------- 
         CASE (34)     ! cockroft failure model                                        
                                      
