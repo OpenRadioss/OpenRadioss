@@ -354,8 +354,8 @@ c
             WRITE(ISTDO,3101) NGL(I),IPT,EPS_EQ(I)
 #include  "lockoff.inc"
           ELSE
-            WRITE(IOUT, 2002) NGL(I),IPT,EPS_EQ(I)
-            WRITE(ISTDO,2002) NGL(I),IPT,EPS_EQ(I)
+            WRITE(IOUT, 3101) NGL(I),IPT,EPS_EQ(I)
+            WRITE(ISTDO,3101) NGL(I),IPT,EPS_EQ(I)
           ENDIF
         END DO
       END IF              
