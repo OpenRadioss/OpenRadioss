@@ -127,6 +127,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+
+      TITR1 = REPEAT(" ",nchartitle)
+      TITR2 = REPEAT(" ",nchartitle)
+      TITR = REPEAT(" ",nchartitle)
+      LINE1 = REPEAT(" ",nchartitle)
+      CHAR_PROP = REPEAT(" ",5)
+      CHAR_MAT = REPEAT(" ",5)
+      CHAR_MAT_TYPE = REPEAT(" ",7)
+      CHAR_PROP_TYPE = REPEAT(" ",7)
+
+
       IS_ASSOCIATED_LAW51 = .FALSE.
       IS_AVAILABLE = .FALSE.
       SUB_INDEX = 0

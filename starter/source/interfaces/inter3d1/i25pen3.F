@@ -754,7 +754,13 @@ C
         I1=ITRIA(1,IT)
         I2=ITRIA(2,IT)
 C
-        IF(PENT(I,IT)==ZERO) CYCLE
+        NN1(I) = ZERO
+        NN2(I) = ZERO
+        NN3(I) = ZERO
+
+        IF(PENT(I,IT)==ZERO) THEN
+         CYCLE
+        ENDIF
 C
         IF(IX3(I) /= IX4(I))THEN
 C
@@ -840,8 +846,8 @@ C
 
             ELSE
 
-c              print *,' ** possible internal error wrt p1,p2 in i25pen3',ib1,ib2,
-c     .        itab(nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i)),p1,p2
+C              print *,' ** possible internal error wrt p1,p2 in i25pen3',ib1,ib2,
+C     .        itab(nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i)),p1,p2
 
             END IF
 

@@ -1678,6 +1678,7 @@ C--------------------------------------------
 C Open Restart FILE
 C--------------------------------------------
       LEN_IA = 0
+      LEN_AM = 0
       IR_ = P
       WRITE(CHRUN,'(I4.4)')IRUN
       WRITE(PROCNAM,'(I4.4)')P
@@ -2740,7 +2741,8 @@ C--------------------------------------------
       LEN_AM = LEN_AM + NPROPM*NUMMAT
 c
       CALL WRITE_MATPARAM(MAT_ELEM,LEN)
-      LEN_AM = LEN_AM + LEN
+C     LEN_AM = LEN_AM + LEN !LEN is corrupted by uninitialized variable
+C     in write_matparam
 C--------------------------------------
 C ELGROUP_PARAM
 C--------------------------------------
