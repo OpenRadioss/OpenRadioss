@@ -64,13 +64,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
+! NUMELS :
 #include      "com01_c.inc"
-! NUMELS      
 #include      "com04_c.inc"
 #include      "param_c.inc"
+! DTFAC1:
 #include      "mvsiz_p.inc"
-!     DTFAC1
-!     SNPC, STF
+#include      "units_c.inc"
       COMMON /TABLESIZF/ STF,SNPC
       INTEGER STF,SNPC
 C-----------------------------------------------
@@ -99,7 +99,7 @@ C-----------------------------------------------
       TYPE(L_BUFEL_), POINTER :: LBUF
       TYPE(BUF_EOS_), POINTER :: EBUF
 
-      INTEGER :: II, JJ, KFACE, I, J, KFACE2, NGJJ, NFTJJ, NELJJ, IFACE
+      INTEGER :: II, JJ, KFACE, I, J, KFACE2, NGJJ, NFTJJ, NELJJ, IFACE, KK, ID_OUT, IARRAY(2)
       INTEGER :: ITY, NFT, NEL
       INTEGER :: IMAT
       my_real :: X1(3), X2(3), X3(3), X4(3)
@@ -673,11 +673,24 @@ C     Submaterial fluxes
                      ENDDO
                   ENDIF     
                ELSE
-                  PRINT*, "SSPII", SSPII, "SSPJJ", SSPJJ, "NORMALVEL_II", NORMAL_VELII, 
-     .                 "NORMALVEL_JJ", NORMAL_VELJJ
-                  PRINT*, "SOUNDSPEEDII", MULTI_FVM%SOUND_SPEED(I), "SOUNDSPEEDJJ", MULTI_FVM%SOUND_SPEED(J)
+                  IARRAY(1:2)=(/IOUT,ISTDO/)
+                  DO KK=1,2
+                    ID_OUT=IARRAY(KK)
+                    WRITE(ID_OUT,*)"  **error : MUSCL FLUXES CALCULATION"
+                    WRITE(ID_OUT,*)"    potential instability with elem id = ", GLOBAL_ID_CURRENT_ELM(II)
+                    WRITE(ID_OUT,*)"                               face id = ", KFACE3
+                    WRITE(ID_OUT,*)"                           sound speed = ", SSPII
+                    WRITE(ID_OUT,*)"                  adjacent sound speed = ", SSPJJ
+                    WRITE(ID_OUT,*)"                       normal velocity = ", NORMAL_VELII
+                    WRITE(ID_OUT,*)"              adjacent normal velocity = ", NORMAL_VELJJ
+                    WRITE(ID_OUT,*)""
+                    WRITE(ID_OUT,*)"    recommendations :"
+                    WRITE(ID_OUT,*)"    -1- check EoS parameters and unit system"
+                    WRITE(ID_OUT,*)"    -2- check boundary conditions (type, parameters, and proximity from important gradients);"
+                    WRITE(ID_OUT,*)
+     .                     "    -3- update BETA parameters in /ALE/MUSCL option (find compromise between precision and stability)"
+                  ENDDO
                   CALL ARRET(2)
-C
                ENDIF
 
                IF (J_OLD  <=  NUMEL_SPMD) THEN
