@@ -322,7 +322,7 @@ c---------------------------------------------------
         MTAG => MLAW_TAG(MAT_NUMBER)
         MATPARAM => MAT_PARAM(MAT_NUMBER)
         MATPARAM%TITLE = ' '
-        MATPARAM%TITLE = TITR(1:LEN_TRIM(TITR)-1)
+        MATPARAM%TITLE = TITR(1:LEN_TRIM(TITR))
 c-----------------------------------------------------------------------
 c
         IF (LEN_TRIM(KEY2) == 0) THEN

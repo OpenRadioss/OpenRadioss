@@ -97,9 +97,13 @@ c
 c     write material title
 c
       DO IMAT = 1,NUMMAT      
-        DO I=1,NCHARTITLE
-          NAME(I) = ICHAR(MAT_ELEM%MAT_PARAM(IMAT)%TITLE(I:I))
-        END DO
+        IF(IMAT < NUMMAT) THEN
+          DO I=1,NCHARTITLE
+            NAME(I) = ICHAR(MAT_ELEM%MAT_PARAM(IMAT)%TITLE(I:I))
+          END DO
+        ELSE 
+          NAME = 0
+        ENDIF
         CALL WRITE_C_C(NAME,NCHARTITLE)
       END DO
 c           
