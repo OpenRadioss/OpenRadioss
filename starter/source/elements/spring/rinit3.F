@@ -354,7 +354,7 @@ c      CALL ANCNTS(IDS, CNT2)
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
      .                   C1=TITR,
-     .                   I2=IXR(NIXR,I))
+     .                   I2=IXR(NIXR,J))
           ENDIF
         ELSE
           XL(I)=ONE
