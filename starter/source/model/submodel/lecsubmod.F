@@ -100,8 +100,8 @@ C=======================================================================
         DO I=1,2*NUMNUSR
          INDEX(I)=I
         ENDDO
-        ALLOCATE( INDEX1(2*NUMNUSR) )
-        DO I=1,2*NUMNUSR
+        ALLOCATE( INDEX1(2*NUMNOD) )
+        DO I=1,2*NUMNOD
          INDEX1(I)=I
         ENDDO
         ALLOCATE( TAGNODSUB_TMP(NUMNUSR) )
