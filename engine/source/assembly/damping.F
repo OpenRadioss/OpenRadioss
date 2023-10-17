@@ -68,11 +68,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK
+      INTEGER I,J,N,ND,IGR,ISK,FL_VREL
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
 C     REAL
-      my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP
+      my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
+     .           V_REF(3),A_REF(3),MASS_TOT
 C-----------------------------------------------
 C     C = a M + b K
 C======================================================================|
@@ -88,9 +89,17 @@ C-----------------------------------------------
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
+        FL_VREL = NINT(DAMPR(21,ND))
+C
         IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
+C
             IF(ISK<=1)THEN
-C----- Damping sur dof rotation et seulement -----
+C-----------------------------------------------------------------------------------
+C---------- Damping in global coordinates system -----------------------------------
+C-----------------------------------------------------------------------------------
+C
+              IF (FL_VREL == 0) THEN
+C-------------Damping using global velocities 
                 IF (DAMPR(19,ND)==0) THEN
 C-------------------------------------------------
                     ! --------------
@@ -136,6 +145,7 @@ C-------------------------------------------------
                         ENDIF
                     ENDDO
                 ENDIF
+C
                 IF(IRODDL/=0)THEN
                     ! --------------
                     DAMP_A(1) = DAMPR(9,ND)
@@ -191,8 +201,93 @@ C----- Damping seulement pour les noeuds en contact avec temporisation -----
                         ENDIF
                     ENDDO
                 END IF
+C
+              ELSEIF (FL_VREL == 1) THEN
+C-------------Damping using local ref velocity - trans dof only ----
+C
+C---------------Computation of ref velocity as average velocity
+                MASS_TOT = 0
+                A_REF(1:3) = ZERO
+                V_REF(1:3) = ZERO
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  IF (TAGSLV_RBY(I)==0) THEN
+                    A_REF(1) = A_REF(1) + MS(I)*A(1,I)
+                    A_REF(2) = A_REF(2) + MS(I)*A(2,I)
+                    A_REF(3) = A_REF(3) + MS(I)*A(3,I)
+                    V_REF(1) = V_REF(1) + MS(I)*V(1,I)
+                    V_REF(2) = V_REF(2) + MS(I)*V(2,I)
+                    V_REF(3) = V_REF(3) + MS(I)*V(3,I)
+                    MASS_TOT = MASS_TOT + MS(I)
+                  ENDIF
+                ENDDO
+                DO J=1,3
+                  A_REF(J) = A_REF(J) / MASS_TOT
+                  V_REF(J) = V_REF(J) / MASS_TOT
+                ENDDO
+C---------------alpha = Cdamp_M / dt--------------
+                IF (DT1 > ZERO) THEN
+                  DAMP_A(1) = DAMPR(3,ND)/DT1
+                  DAMP_A(2) = DAMPR(5,ND)/DT1
+                  DAMP_A(3) = DAMPR(7,ND)/DT1    
+                ELSE      
+                  DAMP_A(1) = ZERO
+                  DAMP_A(2) = ZERO
+                  DAMP_A(3) = ZERO            
+                ENDIF
+                OMEGA_(1)  = ONE/ (ONE + HALF * DAMP_A(1) * DT1)
+                OMEGA_(2)  = ONE/ (ONE + HALF * DAMP_A(2) * DT1)
+                OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)   
+C-------------------------------------------------
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  IF(TAGSLV_RBY(I)==0) THEN
+                    DA_(1) = A(1,I)-DAMP_A(1)*(V(1,I)-V_REF(1))
+     .                       +HALF*DAMP_A(1)*DT1*A_REF(1)
+                    DA_(1) = DA_(1) * OMEGA_(1) - A(1,I)
+                    DAMP(1,I) = A(1,I)
+                    A(1,I)    = A(1,I) + DA_(1)   
+                    DW =DW+MS(I)*DA*(V(1,I)+HALF*A(1,I)*DT1)*DT12*WEIGHT(I)
+                  ENDIF
+                ENDDO
+C-------------------------------------------------
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  IF(TAGSLV_RBY(I)==0) THEN
+                    DA_(2) = A(2,I)-DAMP_A(2)*(V(2,I)-V_REF(2))
+     .                       +HALF*DAMP_A(2)*DT1*A_REF(2)  
+                    DA_(2) = DA_(2) * OMEGA_(2) - A(2,I)
+                    DAMP(2,I) = A(2,I)
+                    A(2,I)    = A(2,I) + DA_(2)
+                    DW =DW+MS(I)*DA*(V(2,I)+HALF*A(2,I)*DT1)*DT12*WEIGHT(I)
+                  ENDIF
+                ENDDO
+C-------------------------------------------------
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  IF(TAGSLV_RBY(I)==0) THEN
+                    DA_(3) = A(3,I)-DAMP_A(3)*(V(3,I)-V_REF(3))
+     .                       +HALF*DAMP_A(3)*DT1*A_REF(3)
+                    DA_(3) = DA_(3) * OMEGA_(3) - A(3,I)
+                    DAMP(3,I) = A(3,I)
+                    A(3,I)    = A(3,I) + DA_(3)
+                    DW =DW+MS(I)*DA*(V(3,I)+HALF*A(3,I)*DT1)*DT12*WEIGHT(I)
+                  ENDIF
+                ENDDO
+C-------------------------------------------------
+              ENDIF
+C
             ELSE
-C----- Damping sur dof rotation et seulement -----
+C-----------------------------------------------------------------------------------
+C---------- Damping in local coordinates system ------------------------------------
+C-----------------------------------------------------------------------------------
+C
+              IF (FL_VREL == 0) THEN
+C-------------Damping using global velocities 
                 IF (DAMPR(19,ND)==0) THEN
 C-------------------------------------------------
 #include "vectorize.inc"
@@ -332,21 +427,21 @@ C----- Damping seulement pour les noeuds en contact avec temporisation -----
 C--------------------------------------------------------
                             IF(NEED_COMPUTE) THEN
                                 DA_(1) = ASKW(1,I) - DAMP_A(1)*VSKW(1,I) 
-     .                             - BETASDT_(1) *(ASKW(1,I) - DAMPSKW(1,I))
+     .                          - BETASDT_(1) *(ASKW(1,I) - DAMPSKW(1,I))
                                 DA_(1) = DA_(1) * OMEGA_(1) - ASKW(1,I)
                                 DAMPSKW(1,I) = ASKW(1,I)
                                 ASKW(1,I)    = ASKW(1,I) + DA_(1)
                                 DW_LOCAL(1)=DA_(1)*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)
 
                                 DA_(2) = ASKW(2,I) - DAMP_A(2)*VSKW(2,I) 
-     .                             - BETASDT_(2) *(ASKW(2,I) - DAMPSKW(2,I))
+     .                          - BETASDT_(2) *(ASKW(2,I) - DAMPSKW(2,I))
                                 DA_(2) = DA_(2) * OMEGA_(2) - ASKW(2,I)
                                 DAMPSKW(2,I) = ASKW(2,I)
                                 ASKW(2,I)    = ASKW(2,I) + DA_(2)
                                 DW_LOCAL(2) =DA_(2)*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)
 
                                 DA_(3) = ASKW(3,I) - DAMP_A(3)*VSKW(3,I) 
-     .                             - BETASDT_(3) *(ASKW(3,I) - DAMPSKW(3,I))
+     .                          - BETASDT_(3) *(ASKW(3,I) - DAMPSKW(3,I))
                                 DA_(3) = DA_(3) * OMEGA_(3) - ASKW(3,I)
                                 DAMPSKW(3,I) = ASKW(3,I)
                                 ASKW(3,I)    = ASKW(3,I) + DA_(3)
@@ -380,7 +475,98 @@ C--------------------------------------------------------
      .                    +SKEW(6,ISK)*DAMPSKW(2,I)
      .                    +SKEW(9,ISK)*DAMPSKW(3,I)
                 END DO
-            END IF ! isk<=1
+C
+              ELSEIF (FL_VREL == 1) THEN
+C-------------Damping using local ref velocity - trans dof only ----
+C
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  VSKW(1,I)= SKEW(1,ISK)*V(1,I)+SKEW(2,ISK)*V(2,I)+SKEW(3,ISK)*V(3,I)
+                  VSKW(2,I)= SKEW(4,ISK)*V(1,I)+SKEW(5,ISK)*V(2,I)+SKEW(6,ISK)*V(3,I)
+                  VSKW(3,I)= SKEW(7,ISK)*V(1,I)+SKEW(8,ISK)*V(2,I)+SKEW(9,ISK)*V(3,I)
+                  ASKW(1,I)= SKEW(1,ISK)*A(1,I)+SKEW(2,ISK)*A(2,I)+SKEW(3,ISK)*A(3,I)
+                  ASKW(2,I)= SKEW(4,ISK)*A(1,I)+SKEW(5,ISK)*A(2,I)+SKEW(6,ISK)*A(3,I)
+                  ASKW(3,I)= SKEW(7,ISK)*A(1,I)+SKEW(8,ISK)*A(2,I)+SKEW(9,ISK)*A(3,I)
+                END DO
+C                    
+C---------------Computation of ref velocity as average velocity                    
+C
+                MASS_TOT = 0
+                A_REF(1:3) = ZERO
+                V_REF(1:3) = ZERO
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  IF (TAGSLV_RBY(I)==0) THEN
+                    A_REF(1) = A_REF(1) + MS(I)*ASKW(1,I)
+                    A_REF(2) = A_REF(2) + MS(I)*ASKW(2,I)
+                    A_REF(3) = A_REF(3) + MS(I)*ASKW(3,I)
+                    V_REF(1) = V_REF(1) + MS(I)*VSKW(1,I)
+                    V_REF(2) = V_REF(2) + MS(I)*VSKW(2,I)
+                    V_REF(3) = V_REF(3) + MS(I)*VSKW(3,I)
+                    MASS_TOT = MASS_TOT + MS(I)
+                  ENDIF
+                ENDDO
+                DO J=1,3
+                  A_REF(J) = A_REF(J) / MASS_TOT
+                  V_REF(J) = V_REF(J) / MASS_TOT
+                ENDDO
+C---------------alpha = Cdamp_M / dt--------------
+                IF (DT1 > ZERO) THEN
+                  DAMP_A(1) = DAMPR(3,ND)/DT1
+                  DAMP_A(2) = DAMPR(5,ND)/DT1
+                  DAMP_A(3) = DAMPR(7,ND)/DT1    
+                ELSE      
+                  DAMP_A(1) = ZERO
+                  DAMP_A(2) = ZERO
+                  DAMP_A(3) = ZERO            
+                ENDIF
+                OMEGA_(1)  = ONE/ (ONE + HALF * DAMP_A(1) * DT1)
+                OMEGA_(2)  = ONE/ (ONE + HALF * DAMP_A(2) * DT1)
+                OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)                            
+C-------------------------------------------------
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  IF(TAGSLV_RBY(I)==0) THEN
+                    DA_(1) = ASKW(1,I)-DAMP_A(1)*(VSKW(1,I)-V_REF(1))
+     .                       +HALF*DAMP_A(1)*DT1*A_REF(1)
+                    DA_(1) = DA_(1) * OMEGA_(1) - ASKW(1,I)
+                    ASKW(1,I) = ASKW(1,I) + DA_(1)
+                    DW_LOCAL(1)=DA_(1)*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)
+C
+                    DA_(2) = ASKW(2,I)-DAMP_A(2)*(VSKW(2,I)-V_REF(2))
+     .                       +HALF*DAMP_A(2)*DT1*A_REF(2)  
+                    DA_(2) = DA_(2) * OMEGA_(2) - ASKW(2,I)
+                    ASKW(2,I) = ASKW(2,I) + DA_(2)
+                    DW_LOCAL(2)=DA_(2)*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)
+C
+                    DA_(3) = ASKW(3,I)-DAMP_A(3)*(VSKW(3,I)-V_REF(3))
+     .                       +HALF*DAMP_A(3)*DT1*A_REF(3)
+                    DA_(3) = DA_(3) * OMEGA_(3) - ASKW(3,I)
+                    ASKW(3,I) = ASKW(3,I) + DA_(3)
+                    DW_LOCAL(3)=DA_(3)*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)
+C
+                    DW =DW +MS(I)*(DW_LOCAL(1)+DW_LOCAL(2)+DW_LOCAL(3))*DT12*WEIGHT(I)                                       
+                  ENDIF
+                ENDDO
+C-------------------------------------------------
+#include "vectorize.inc"
+                DO N=1,IGRNOD(IGR)%NENTITY
+                  I=IGRNOD(IGR)%ENTITY(N)
+                  A(1,I)= SKEW(1,ISK)*ASKW(1,I)+SKEW(4,ISK)*ASKW(2,I)
+     .                   +SKEW(7,ISK)*ASKW(3,I)
+                  A(2,I)= SKEW(2,ISK)*ASKW(1,I)+SKEW(5,ISK)*ASKW(2,I)
+     .                   +SKEW(8,ISK)*ASKW(3,I)
+                  A(3,I)= SKEW(3,ISK)*ASKW(1,I)+SKEW(6,ISK)*ASKW(2,I)
+     .                   +SKEW(9,ISK)*ASKW(3,I)
+                END DO
+C                                
+              ENDIF                    
+C                    
+           END IF ! isk<=1
+C                               
         ENDIF ! tt>tstart...
       ENDDO ! do nd=1,ndamp
 C
