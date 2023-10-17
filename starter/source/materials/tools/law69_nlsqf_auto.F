@@ -65,7 +65,7 @@ Chd|====================================================================
      .        CNT_HIT_EPS_LM,LMT_HIT_EPS_LM, LMSTOP,IFUNCS,
      .        NGUESS,NMUALS,ICURV,LOOP_ISTART ,ICHECK_GUESS,
      .        JCHECK, IFIT_SUCCESS,IEND_FINDING,IEND_ITER,
-     .        MU_INCR_GUESS,IRND1
+     .        MU_INCR_GUESS,IRND1,ISWITCH
       INTEGER NONZERO(MAXA)
       my_real GAMMA,ERRNOW,GASDEV,ERRPRE,ERRMIN, ERRMAX, 
      .        ERRAVE, ERRAVE_MIN,YOGD,XOGD,EPS_LM,MAX_ABS_YI,
@@ -107,6 +107,16 @@ Chd|====================================================================
       SMALL_FAC_ABS_YI = EM3 
       SMALL_ABS_YI = MAX_ABS_YI * SMALL_FAC_ABS_YI
       SPREADY=EM02
+      IF(ICOMP == 0) THEN
+         DO J=1,NPT
+           SIG(J)=SPREADY*max(SMALL_ABS_YI, ABS(Y(J)) )
+         ENDDO   
+      ELSE
+        DO J=1,NPT
+         SIG(J) = Y(J)
+         IF(SIG(J) == ZERO)  SIG(J) = EM15
+        ENDDO  
+      ENDIF     
 C=======================================================================           
       NPSAVED = 0
       AS(1:10) = ZERO
@@ -148,7 +158,7 @@ C=======================================================================
         IEND_ITER = 0
         ATRY(1:MAXA) = ZERO ! Initialization of ATRY
         DO WHILE ( ISTART < NSTART  )     !!! 111 continue
-      !!       get one guess point A0(1:NMUAL)        
+      !!       get one guess point A0(1:NMUAL)  
           CALL LAW69_GUESS1(
      $            LAWID, NMUAL, ICHECK_GUESS, MU_INCR_GUESS,IRND1,
      $            A0, NONZERO, MCOF_MIN, MCOF_MAX, NGUESS)
@@ -254,10 +264,11 @@ c       check convergence of LM optimization
               EXIT 
            ENDIF
           ENDIF ! NGUESS 
-        
+         ISWITCH = 0
          IF(IFIT_SUCCESS == 0 .AND. ISTART < NSTART ) THEN
            CYCLE 
-         ELSEIF(IFIT_SUCCESS == 0 .OR. (NGUESS == 0 .AND. IFIT_SUCCESS ==0)) THEN  
+         ELSEIF(IFIT_SUCCESS == 0 .OR. (NGUESS == 0 .AND. IFIT_SUCCESS ==0)) THEN 
+            ISWITCH = 1 
              IF (JCHECK == 2) THEN                                               
               JCHECK = 1                                                         
               IEND_ITER = 2                                                      
@@ -277,6 +288,24 @@ c       check convergence of LM optimization
              EXIT                                                                
          ENDIF ! IFIT_SUCCESS                                     
        ENDDO  ! WHILE ( ISTART < NSTART )
+          IF(ISWITCH == 0 .AND. IFIT_SUCCESS == 0 ) THEN
+            IF (JCHECK == 2) THEN                                               
+              JCHECK = 1                                                         
+              IEND_ITER = 2                                                      
+             ELSEIF(JCHECK == 1) THEN                                            
+               IF(LAWID == 2) THEN                                               
+                LAWID = 1                                                        
+                JCHECK = 2                                                       
+                IEND_ITER =1                                                     
+               ELSEIF(NMUAL < 10) THEN                                           
+                 NMUAL = MIN(10, NMUAL + 2)                                      
+                 JCHECK = 2                                                      
+                 IEND_ITER = 1                                                   
+               ELSE                                                              
+                  IEND_FINDING = 1                                               
+               ENDIF                                                             
+             ENDIF ! JCHECK  
+          ENDIF
        IF(IFIT_SUCCESS == 1 .OR. IEND_FINDING == 1) EXIT 
       ENDDO  ! IFIT_SUCCESS
       DEALLOCATE (SIG)

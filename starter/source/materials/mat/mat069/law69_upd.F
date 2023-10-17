@@ -87,7 +87,7 @@ C=======================================================================
 C      
        NMUAL = 2*UPARAM(18)
        IFLAG = NINT(UPARAM(13))
-       ICHECK = ABS(NINT(UPARAM(19)))
+       ICHECK = NINT(UPARAM(19))
        NSTART = NINT(UPARAM(20))
        ERRTOL = UPARAM(21)
        ERRTOL = FIVEEM3 
@@ -115,7 +115,6 @@ C
             JJ=JJ+1                                          
             STRETCH(JJ) = PLD(II) + ONE                       
             STRESS(JJ)  = PLD(II+1)
-            IF( PLD(II) < ZERO .AND. PLD(II+1) < 0) ICHECK = -ICHECK 
               IF(PLD(II) <=  -ONE) THEN
                 CALL ANCMSG(MSGID=1175,
      .                       MSGTYPE=MSGERROR,
