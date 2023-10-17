@@ -204,7 +204,7 @@ c
      7 'FABRIC    ','HC_DSSE   ','MULLINS   ','COCKCROFT ','GURSON    ',
      8 'VISUAL    ','TAB_OLD   ','ORTHBIQUAD','GENE1     ','RTCL      ',
      9 'TAB2      ','INIEVO    ','SYAZWAN   ','TSAIWU    ','TSAIHILL  ',
-     A 'HOFFMAN   ','MAXSTRAIN ','          ','          ','          '/
+     A 'HOFFMAN   ','MAXSTRAIN ','ORTHENERG ','          ','          '/
 C=========================================================================
       IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
       IF(H3D_DATA%TH3D_STOP0 /= EP20)  H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0      
