@@ -192,11 +192,12 @@ C
       IRECTMP_SAV(1:6,1:NRTM) =  IRECTMP(1:6,1:NRTM)
       DO I=1,NRTM
         IF(IRECTMP(5,I)==0.OR.IRECTMP(5,I)==1) THEN
+          IF(IRECTMP(4,I)==IRECTMP(3,I))  IRECTMP(4,I) = 0
           DO J=1,3
             IMIN = IRECTMP(J,I)
             IJ = J
             DO K=J+1,4
-              IF(IRECTMP(K,I)<IMIN) THEN 
+              IF(IRECTMP(K,I)<IMIN.AND.IRECTMP(K,I) /= 0) THEN 
                  IMIN = IRECTMP(K,I)
                  IJ = K
               ENDIF
@@ -231,7 +232,7 @@ C
         DO J=IDEB,NRTMP-1
           I1=INDEX(J)
           I2=INDEX(J+1)
-  
+
           IF(IRECTMP(1,I2)/=IRECTMP(1,I1).OR.
      .       IRECTMP(2,I2)/=IRECTMP(2,I1).OR.
      .       IRECTMP(3,I2)/=IRECTMP(3,I1).OR.

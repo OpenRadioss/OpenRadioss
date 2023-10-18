@@ -1205,6 +1205,11 @@ C-------------------------------------------------------------------------------
         LOGICAL :: GLOBAL_ACTIVE_ALE_ELEMENT
 
         INTEGER :: SIZE_NPBY
+
+        LOGICAL :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+        INTEGER :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
+
+        INTEGER :: CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -1983,6 +1988,9 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+      NEED_COMM_INT25_SOLID_EROSION = .FALSE.
+      COMM_INT25_SOLID_EROSION = 0
+
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK)
@@ -2059,7 +2067,8 @@ C
      3   IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
-     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT )
+     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT ,
+     7   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 
 
 !$OMP END PARALLEL
@@ -2280,10 +2289,12 @@ C Init var parallel SMP
 
           ! ---------------------
           ! check if a surface/edge must be deactivated and save the surface/edge id 
+
+          CHECK_NEIGH_FLAG = 0 !CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES
           IF(ITSK==0) THEN 
                 CALL FIND_SURFACE_INTER( ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS(L1)  ,IXC  ,
      .                                   IXTG  ,INTERFACES    ,INTBUF_TAB,SHOOT_STRUCT%SHIFT_INTERFACE,
-     .                                   NGROUP,NPARG,IGROUPS,IPARG )
+     .                                   NGROUP,NPARG         ,IGROUPS   ,IPARG    ,CHECK_NEIGH_FLAG )
                 CALL FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),
      1                                IXC,IXTG,IXQ,IXT,IXP,
      2                                IXR,GEO,NGROUP,IGROUPS,IPARG )
@@ -2299,7 +2310,7 @@ C Init var parallel SMP
      .                           IAD_ELEM ,ITABM1 ,SHOOT_STRUCT ,INTBUF_TAB ,NEWFRONT ,
      .                           IPARI    ,GEO    ,IXS          ,IXC        ,IXT      ,
      .                           IXP     ,IXR     ,IXTG         ,ADDCNEL    ,CNEL     ,
-     .                           WA(NWAFTSK),TAGEL,INTERFACES )
+     .                           WA(NWAFTSK),TAGEL,INTERFACES   ,CHECK_NEIGH_FLAG )
             CALL MY_BARRIER()
           ENDIF
           ! ---------------------
@@ -2311,7 +2322,7 @@ C Init var parallel SMP
      .                                                     SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI     ,GEO      ,IXS         ,IXC      ,IXT      ,
      .                              IXP        ,IXR     ,IXTG        ,ADDCNEL  ,CNEL     ,
-     .                              WA(NWAFTSK),TAGEL   ,SHOOT_STRUCT,INTERFACES )
+     .                              WA(NWAFTSK),TAGEL   ,SHOOT_STRUCT,INTERFACES,CHECK_NEIGH_FLAG )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -2331,15 +2342,19 @@ C Init var parallel SMP
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
             IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
-              IF(ITSK==0) CALL CHECK_NEIGHBOURS_SURFACE_STATE( 
+              IF(ITSK==0) THEN
+                 IF(NEED_COMM_INT25_SOLID_EROSION) THEN
+                    CALL SPMD_ALLREDUCE_INT_COMM(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,"MAX",COMM_INT25_SOLID_EROSION)
+                 ENDIF
+                 IF(CHECK_NEIGH_FLAG_RES > 0 ) CALL CHECK_NEIGHBOURS_SURFACE_STATE( 
      .                                                SHOOT_STRUCT%SAVE_SURFACE_NB_EXT ,SHOOT_STRUCT%SAVE_SURFACE_EXT,
      .                                                                        SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                IPARI     ,IAD_ELEM   ,SHOOT_STRUCT          ,X                ,
      .                                                IXS       ,ITAB       ,ITABM1                ,NBINTC           ,
      .                                                INTLIST   ,NEWFRONT   ,INTERFACES%SPMD_ARRAYS,NBDDEDGT         ,
      .                                                NBDDEDG_MAX )
-
-                    CALL MY_BARRIER()
+              ENDIF
+              CALL MY_BARRIER()
             ENDIF
           ENDIF
           ! ---------------------
@@ -5412,10 +5427,12 @@ C WA local  : utilise de 1 a NUMNOD
 
           ! ---------------------
           ! check if a surface/edge must be deactivated and save the surface/edge id 
+
+          CHECK_NEIGH_FLAG = 0
           IF(ITSK==0) THEN 
                 CALL FIND_SURFACE_INTER( ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS(L1)  ,IXC  ,
      .                                   IXTG  ,INTERFACES    ,INTBUF_TAB,SHOOT_STRUCT%SHIFT_INTERFACE,
-     .                                   NGROUP,NPARG,IGROUPS,IPARG )
+     .                                   NGROUP,NPARG,IGROUPS,IPARG      ,CHECK_NEIGH_FLAG)
                 CALL FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS(L1),
      1                                IXC,IXTG,IXQ,IXT,IXP,
      2                                IXR,GEO,NGROUP,IGROUPS,IPARG )
@@ -5431,7 +5448,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                           IAD_ELEM ,ITABM1 ,SHOOT_STRUCT ,INTBUF_TAB ,NEWFRONT ,
      .                           IPARI    ,GEO    ,IXS          ,IXC        ,IXT      ,
      .                           IXP     ,IXR     ,IXTG         ,ADDCNEL    ,CNEL     ,
-     .                           WA(NWAFTSK),TAGEL,INTERFACES )
+     .                           WA(NWAFTSK),TAGEL,INTERFACES   ,CHECK_NEIGH_FLAG )
             CALL MY_BARRIER()
           ENDIF
           ! ---------------------
@@ -5444,7 +5461,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                                                     SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI     ,GEO      ,IXS         ,IXC      ,IXT      ,
      .                              IXP        ,IXR     ,IXTG        ,ADDCNEL  ,CNEL     ,
-     .                              WA(NWAFTSK),TAGEL   ,SHOOT_STRUCT,INTERFACES )
+     .                              WA(NWAFTSK),TAGEL   ,SHOOT_STRUCT,INTERFACES,CHECK_NEIGH_FLAG )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -5464,15 +5481,20 @@ C WA local  : utilise de 1 a NUMNOD
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT  )
             CALL MY_BARRIER()
             IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
-                IF(ITSK==0) CALL CHECK_NEIGHBOURS_SURFACE_STATE( 
+              IF(ITSK==0) THEN
+                 IF(NEED_COMM_INT25_SOLID_EROSION) THEN
+                    CALL SPMD_ALLREDUCE_INT_COMM(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,"MAX",COMM_INT25_SOLID_EROSION)
+                 ENDIF
+                 IF(CHECK_NEIGH_FLAG_RES > 0 ) CALL CHECK_NEIGHBOURS_SURFACE_STATE( 
      .                                                SHOOT_STRUCT%SAVE_SURFACE_NB_EXT,SHOOT_STRUCT%SAVE_SURFACE_EXT,
      .                                                SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                IPARI,IAD_ELEM,SHOOT_STRUCT,X,IXS,ITAB,ITABM1,NBINTC,INTLIST,NEWFRONT,
      .                                                INTERFACES%SPMD_ARRAYS,NBDDEDGT,NBDDEDG_MAX )
 
-                ENDIF
-              CALL MY_BARRIER()
-            ENDIF
+                 ENDIF
+                 CALL MY_BARRIER()
+              ENDIF
+          ENDIF
           ! ---------------------
         ENDIF
 

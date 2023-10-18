@@ -264,8 +264,7 @@ C---------------------------------------------------------
                ITAGM(1:NRTM) = 0
                IDX(1:NRTM) = 0
                DO I=1,NRTM
-                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+1) <= NUMELS.AND.INTBUF_TAB(NIN)%STFM(I) > ZERO.AND.
-     .                     INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+2)>0) THEN
+                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+1) <= NUMELS.AND.INTBUF_TAB(NIN)%STFM(I) > ZERO) THEN
                     DO J=1,4
                         IF (INTBUF_TAB(NIN)%MVOISIN(4*(I-1)+J)==0) THEN
                           MVOISIN_CHANGE = 1 ! flag is ON if new Mvoisin is on another proc : need to update spmd arrays
@@ -339,6 +338,7 @@ C
                                    INTBUF_TAB(NIN)%PROC_MVOISIN(4*(ISURF-1)+IEDG) = ISPMD +1     
                                 ELSEIF(IEL <0) THEN ! Voisin remote : comm spmd  => Not possible 
 
+
                                     NB_PROC1 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(N1+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(N1)
                                     NB_PROC2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(N2+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(N2) 
 
@@ -395,7 +395,6 @@ c
                DEALLOCATE( ITAGM,IDX) 
             ENDIF
         ENDDO
-c        IF(NCYCLE==463) PAUSE
 
 
         IF(NSPMD>1) THEN
@@ -589,7 +588,7 @@ C---------------------------------------------------------
                   NBDDEDG = 0           
                   NI25=NI25+1           
                   DO I = 1, NRTM  
-                    IF(INTBUF_TAB(NIN)%STFM(I) /= ZERO ) THEN ! neighboor external surfaces      
+                    IF(INTBUF_TAB(NIN)%STFM(I) > ZERO ) THEN ! neighboor external surfaces      
                     DO J = 1,4
                        K = INTBUF_TAB(NIN)%MVOISIN(4*(I-1)+J)
                        IF(K/=0)THEN
@@ -625,7 +624,7 @@ C---------------------------------------------------------
                     NBDDEDG = 0           
                     NI25=NI25+1           
                     DO I = 1, NRTM  
-                      IF(INTBUF_TAB(NIN)%STFM(I) /= ZERO ) THEN ! neighboor external surfaces
+                      IF(INTBUF_TAB(NIN)%STFM(I) > ZERO ) THEN ! neighboor external surfaces
                         DO J = 1,4
                           K = INTBUF_TAB(NIN)%MVOISIN(4*(I-1)+J)
                           IF(K/=0)THEN

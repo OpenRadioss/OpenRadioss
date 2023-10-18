@@ -34,7 +34,7 @@ Chd|====================================================================
         SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,ITABM1,
      .                                           IPARI       ,GEO       ,IXS      ,IXC       ,IXT   ,
      .                                           IXP         ,IXR       ,IXTG     ,ADDCNEL   ,CNEL  ,
-     .                                           TAG_NODE    ,TAG_ELEM  ,INTERFACES)
+     .                                           TAG_NODE    ,TAG_ELEM  ,INTERFACES,CHECK_NEIGH_FLAG)
 !$COMMENT
 !       FIND_SURFACE_FROM_REMOTE_PROC description
 !           this routine finds the surface id from a list of remote node
@@ -81,6 +81,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
         INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
         TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures
+        INTEGER, INTENT(inout) :: CHECK_NEIGH_FLAG ! Flag for detecting if internal is activated
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -159,7 +160,7 @@ C-----------------------------------------------
         CALL CHECK_SURFACE_STATE( -1   ,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                            IPARI,GEO              ,IXS                ,IXC                         ,IXT       ,
      .                            IXP  ,IXR              ,IXTG               ,ADDCNEL                     ,CNEL      ,
-     .                            TAG_NODE,TAG_ELEM      ,SHOOT_STRUCT       ,INTERFACES )
+     .                            TAG_NODE,TAG_ELEM      ,SHOOT_STRUCT       ,INTERFACES                  ,CHECK_NEIGH_FLAG)
 
         DEALLOCATE( LIST_SURFACE_R_PROC )
         DEALLOCATE( RESULT_INTERSECT )
