@@ -606,6 +606,7 @@ Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd
 Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
 Chd|        LAW76_UPD                     source/materials/mat/mat076/law76_upd.F
 Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F

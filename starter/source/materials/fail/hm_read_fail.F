@@ -53,6 +53,7 @@ Chd|        HM_READ_FAIL_LADEVEZE         source/materials/fail/ladeveze/hm_read
 Chd|        HM_READ_FAIL_MAXSTRAIN        source/materials/fail/max_strain/hm_read_fail_maxstrain.F
 Chd|        HM_READ_FAIL_NXT              source/materials/fail/nxt/hm_read_fail_nxt.F
 Chd|        HM_READ_FAIL_ORTHBIQUAD       source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
+Chd|        HM_READ_FAIL_ORTHENERG        source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
 Chd|        HM_READ_FAIL_ORTHSTRAIN       source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 Chd|        HM_READ_FAIL_PUCK             source/materials/fail/puck/hm_read_fail_puck.F
 Chd|        HM_READ_FAIL_RTCL             source/materials/fail/rtcl/hm_read_fail_rtcl.F

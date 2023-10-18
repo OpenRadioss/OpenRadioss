@@ -33,7 +33,7 @@ Chd|====================================================================
 Chd|  MRQMIN                        source/materials/tools/nlsqf.F
 Chd|-- called by -----------
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
-Chd|        LAW69_NLSQF_AUTO              source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|-- calls ---------------
 Chd|        COVSRT                        source/materials/tools/nlsqf.F
 Chd|        INVERSION                     source/materials/tools/nlsqf.F
@@ -468,6 +468,7 @@ Chd|====================================================================
 Chd|  OGDEN0                        source/materials/tools/nlsqf.F
 Chd|-- called by -----------
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|        MRQCOF                        source/materials/tools/nlsqf.F
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -1099,6 +1100,7 @@ Chd|====================================================================
 Chd|  LAW69_GUESS1                  source/materials/tools/nlsqf.F
 Chd|-- called by -----------
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|-- calls ---------------
 Chd|        LAW69_CHECK                   source/materials/tools/nlsqf.F
 Chd|        ZERO2SMALL                    source/materials/tools/nlsqf.F
@@ -1172,6 +1174,7 @@ Chd|  LAW69_CHECK                   source/materials/tools/nlsqf.F
 Chd|-- called by -----------
 Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LAW69_CHECK(LAWID, A, NMUAL, 
@@ -1267,6 +1270,7 @@ Chd|====================================================================
 Chd|  LAW69_GUESS_BOUNDS            source/materials/tools/nlsqf.F
 Chd|-- called by -----------
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LAW69_GUESS_BOUNDS(LAWID, ICHECK, X, Y, NPT, 

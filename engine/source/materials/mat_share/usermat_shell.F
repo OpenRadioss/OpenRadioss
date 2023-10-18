@@ -51,6 +51,7 @@ Chd|        FAIL_JOHNSON_XFEM             source/materials/fail/johnson_cook/fai
 Chd|        FAIL_MAXSTRAIN_C              source/materials/fail/max_strain/fail_maxstrain_c.F
 Chd|        FAIL_NXT_C                    source/materials/fail/nxt/fail_nxt_c.F
 Chd|        FAIL_ORTHBIQUAD_C             source/materials/fail/orthbiquad/fail_orthbiquad_c.F
+Chd|        FAIL_ORTHENERG_C              source/materials/fail/orthenerg/fail_orthenerg_c.F
 Chd|        FAIL_ORTHSTRAIN_C             source/materials/fail/orthstrain/fail_orthstrain_c.F
 Chd|        FAIL_PUCK_C                   source/materials/fail/puck/fail_puck_c.F
 Chd|        FAIL_RTCL_C                   source/materials/fail/rtcl/fail_rtcl_c.F

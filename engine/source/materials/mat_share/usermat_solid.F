@@ -47,6 +47,7 @@ Chd|        FAIL_JOHNSON                  source/materials/fail/johnson_cook/fai
 Chd|        FAIL_MAXSTRAIN_S              source/materials/fail/max_strain/fail_maxstrain_s.F
 Chd|        FAIL_MULLINS_OR_S             source/materials/fail/mullins_or/fail_mullins_OR_s.F
 Chd|        FAIL_ORTHBIQUAD_S             source/materials/fail/orthbiquad/fail_orthbiquad_s.F
+Chd|        FAIL_ORTHENERG_S              source/materials/fail/orthenerg/fail_orthenerg_s.F
 Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
 Chd|        FAIL_RTCL_S                   source/materials/fail/rtcl/fail_rtcl_s.F
 Chd|        FAIL_SAHRAEI_S                source/materials/fail/sahraei/fail_sahraei_s.F

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LAW69_NLSQF_AUTO                   source/materials/tools/nlsqf.F
+Chd|  LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|-- called by -----------
 Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
 Chd|-- calls ---------------
@@ -30,7 +30,6 @@ Chd|        LAW69_CHECK                   source/materials/tools/nlsqf.F
 Chd|        LAW69_GUESS1                  source/materials/tools/nlsqf.F
 Chd|        LAW69_GUESS_BOUNDS            source/materials/tools/nlsqf.F
 Chd|        MRQMIN                        source/materials/tools/nlsqf.F
-Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        OGDEN0                        source/materials/tools/nlsqf.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

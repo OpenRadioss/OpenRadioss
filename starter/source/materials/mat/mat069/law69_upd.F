@@ -29,6 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
+Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
