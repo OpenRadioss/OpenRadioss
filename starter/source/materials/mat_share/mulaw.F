@@ -253,7 +253,6 @@ C ====================================================================
      6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
      7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
      8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      A                  SSP ,VIS ,UVAR,OFF  ,WXX  ,WYY ,
      .                  WZZ ,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
      .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)
