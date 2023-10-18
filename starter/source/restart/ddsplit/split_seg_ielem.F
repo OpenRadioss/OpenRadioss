@@ -79,6 +79,7 @@ C ----------------------------------------
           IEL1 = NUMELS+CEL(IE1)
         ENDIF
         IE2 = IELEM_M(2,K)
+        IEL2 = 0
         IF(IE2 > 0) THEN
           IEL2 = CEL(IE2)
         ENDIF

@@ -36,7 +36,7 @@ Chd|====================================================================
         SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM  ,ITABM1  ,SHOOT_STRUCT  ,INTBUF_TAB,  NEWFRONT  ,
      .                                          IPARI     ,GEO     ,IXS           ,IXC       ,  IXT       ,
      .                                          IXP       ,IXR     ,IXTG          ,ADDCNEL   ,  CNEL      ,
-     .                                          TAG_NODE   ,TAG_ELEM,INTERFACES   )
+     .                                          TAG_NODE   ,TAG_ELEM,INTERFACES   ,CHECK_NEIGH_FLAG)
 !$COMMENT
 !       SPMD_EXCH_DELETED_SURF_EDGE description
 !           exchange of edge/surface that need to be deactivated
@@ -89,6 +89,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
         INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
         TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES ! interfaces structure
+        INTEGER, INTENT(inout) :: CHECK_NEIGH_FLAG ! Flag for detecting if internal is activated
 #ifdef MPI
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -243,7 +244,7 @@ C-----------------------------------------------
             CALL FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT ,NB_SURFACE ,BUFFER_R(ADDRESS) ,INTBUF_TAB ,ITABM1 ,
      .                                         IPARI        ,GEO        ,IXS               ,IXC        ,IXT    ,
      .                                         IXP          ,IXR        ,IXTG              ,ADDCNEL    ,CNEL   ,
-     .                                         TAG_NODE     ,TAG_ELEM   ,INTERFACES )
+     .                                         TAG_NODE     ,TAG_ELEM   ,INTERFACES        ,CHECK_NEIGH_FLAG)
             NB_EDGE = REMOTE_SURF_PER_PROC_2(2,K)
             ADDRESS = INDEX_BUFFER_R_2(K)+4*NB_SURFACE  
             CALL FIND_EDGE_FROM_REMOTE_PROC( SHOOT_STRUCT,NB_EDGE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,

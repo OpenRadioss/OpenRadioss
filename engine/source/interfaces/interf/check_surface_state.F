@@ -34,7 +34,7 @@ Chd|====================================================================
         SUBROUTINE CHECK_SURFACE_STATE( ITASK ,SURFARCE_NB ,SURFACE_ID ,SHIFT_INTERFACE ,INTBUF_TAB ,
      .                                  IPARI ,GEO         ,IXS        ,IXC             ,IXT        ,
      .                                  IXP   ,IXR         ,IXTG       ,ADDCNEL         ,CNEL       ,
-     .                                  TAG_NODE,TAG_ELEM ,SHOOT_STRUCT,INTERFACES      )
+     .                                  TAG_NODE,TAG_ELEM ,SHOOT_STRUCT,INTERFACES      ,CHECK_NEIGH_FLAG)
 !$COMMENT
 !       CHECK_SURFACE_STATE description
 !           check the state of an surface (active or not)
@@ -82,7 +82,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo   
         TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures
-
+        INTEGER, INTENT(inout) :: CHECK_NEIGH_FLAG ! Flag for detecting if internal is activated
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -164,6 +164,7 @@ C-----------------------------------------------
                     NB_RESULT_INTERSECT_25 = NB_RESULT_INTERSECT_25 + 1 ! Other element is ON : Internal segment becoming external
                     RESULT_INTERSECT_25(NB_RESULT_INTERSECT_25) = SURFACE_ID(I)
                     DEACTIVATION=.FALSE.
+                    CHECK_NEIGH_FLAG = 1
                 ENDIF
             ENDIF
             ! check if the surface is active, if yes --> deactivate it

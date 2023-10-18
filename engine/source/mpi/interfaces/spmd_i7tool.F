@@ -3002,7 +3002,7 @@ Chd|====================================================================
      6   ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7   FR_RBY6 ,NPBY    ,IRBKIN_L,NRBYKIN_L,KINDRBY,
      8   NSENSOR ,SENSOR_TAB,LBUFIDEL24,INTBUF_TAB,
-     9   SORT_COMM)
+     9   SORT_COMM,NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3050,6 +3050,8 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------
@@ -3484,7 +3486,8 @@ C
       CALL SPMD_SPLIT_COMM(
      .  IRCVFROM(NINTER+1,ISPMD+1)+ISENDTO(NINTER+1,ISPMD+1),COMM_CONT)
 
-      IF(NINTER/=0) CALL SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM )
+      IF(NINTER/=0) CALL SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM,
+     .                                          NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 
 !     Create CJOINT communicator
       CALL SPMD_SPLIT_COMM_JOINT()

@@ -31,7 +31,7 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,
      .                                IXTG  ,INTERFACES    ,INTBUF_TAB,SHIFT_INTERFACE,
-     .                                NGROUP,NPARG,IGROUPS,IPARG )
+     .                                NGROUP,NPARG,IGROUPS ,IPARG     ,CHECK_NEIGH_FLAG)
 !$COMMENT
 !       FIND_EDGE_INTER description
 !           this routine finds the surface id and the interfaces id of a list of deleted elements
@@ -69,6 +69,7 @@ C-----------------------------------------------
         TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures  
         INTEGER, DIMENSION(NINTER+1,2), INTENT(in) :: SHIFT_INTERFACE ! interface shift   
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data     
+        INTEGER, INTENT(inout) :: CHECK_NEIGH_FLAG ! Flag for detecting if internal is activated
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -346,6 +347,7 @@ c                              ! 2 elements sharing the segment are local
                                   NB_RESULT_INTERSECT_25 = NB_RESULT_INTERSECT_25 + 1 ! Other element is ON : Internal segment becoming external
                                   RESULT_INTERSECT_25(NB_RESULT_INTERSECT_25) = ISURF_SHIFT
                                   INTBUF_TAB(NIN)%STFM(ISURF_NIN) = - INTBUF_TAB(NIN)%STFM(ISURF_NIN)
+                                  CHECK_NEIGH_FLAG = 1
                                   IF(TAGELEMS(IEL1)==1) THEN
                                     INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1) = IEL2
                                     INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2) = IEL1

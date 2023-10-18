@@ -30,7 +30,8 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM )
+      SUBROUTINE SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM ,
+     .                                  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 !$COMMENT
 !       SPMD_SPLIT_COMM_INTER :
 !              SPMD_SPLIT_COMM_INTER creates new communicators
@@ -74,6 +75,9 @@ C-----------------------------------------------
       integer, dimension(NPARI,NINTER), intent(in) :: IPARI
       integer,dimension(NINTER+1,NSPMD+1), intent(in) :: ISENDTO,IRCVFROM
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+
+      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
       
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -82,8 +86,9 @@ C-----------------------------------------------
 
       INTEGER :: KEY,CODE,I,P
       INTEGER :: NIN,KK,NTY
-      INTEGER :: COLOR_INACTI
+      INTEGER :: COLOR_INACTI,COLOR_INT25_SOLID_EROSION
       INTEGER :: INACTI,IFQ,ITIED
+      INTEGER :: IDEL,IDELKEEP,ITY,SOLID_EROSION
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -94,6 +99,7 @@ C-----------------------------------------------
         NB_INTER_7_INACTI = 0
         ALLOCATE( LIST_INTER_7_INACTI(NINTER) )
         LIST_INTER_7_INACTI(1:NINTER) = 0
+        NEED_COMM_INT25_SOLID_EROSION = .FALSE.
 !           -----------------------------
 !       loop over the interface        
         DO KK=1,NBINTC
@@ -154,6 +160,20 @@ C-----------------------------------------------
                 ENDIF
                 !   ------------------------------
             ENDIF
+
+           !   ------------------------------
+           ! communicator for interface type 25 with solid erosion
+            SOLID_EROSION = IPARI(100,NIN)
+            IDEL = IPARI(17,NIN)! idel option
+            IDELKEEP = IPARI(61,NIN)
+            IF(NTY==25.AND.IPARI(100,NIN)>0.AND.IDELKEEP/=1) THEN
+              ! ---------------
+              ! check if the proc has S or M node
+              IF(ISENDTO(NIN,ISPMD+1)>0.OR.IRCVFROM(NIN,ISPMD+1)>0) THEN 
+                        NEED_COMM_INT25_SOLID_EROSION = .TRUE.
+              ENDIF
+              ! ---------------
+            ENDIF
         ENDDO
 !           -----------------------------
 
@@ -168,6 +188,20 @@ C-----------------------------------------------
         ENDIF       
         !   create the communicator for the spmd_get_inacti communication
         CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOR_INACTI,KEY,COMM_INACTI,CODE)  
+!           -----------------------------
+
+!           -----------------------------
+        !   color the processor for interface type 25 + solid erosion option
+        IF(.NOT.NEED_COMM_INT25_SOLID_EROSION) THEN
+            COLOR_INT25_SOLID_EROSION = 0
+            KEY = 0
+        ELSE
+            COLOR_INT25_SOLID_EROSION = 1
+            KEY = 1
+        ENDIF       
+        !   create the communicator for the type25+solid erosion communication
+        CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOR_INT25_SOLID_EROSION,KEY,COMM_INT25_SOLID_EROSION,CODE)  
+c       write(*,*) 'need comm',ispmd,NEED_COMM_INT25_SOLID_EROSION
 !           -----------------------------
 #endif
       RETURN
