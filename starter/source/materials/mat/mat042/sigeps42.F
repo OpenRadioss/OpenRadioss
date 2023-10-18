@@ -38,7 +38,6 @@ Chd|====================================================================
      6      EPSXX    ,EPSYY    ,EPSZZ    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      7      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      8      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     9      SIGVXX   ,SIGVYY   ,SIGVZZ   ,SIGVXY   ,SIGVYZ   ,SIGVZX   ,
      A      SOUNDSP  ,VISCMAX  ,UVAR     ,OFF      ,WXXDT    ,WYYDT    ,
      B      WZZDT    ,ISMSTR   ,MFXX     ,MFXY     ,MFXZ     ,MFYX     ,    
      C      MFYY     ,MFYZ     ,MFZX     ,MFZY     ,MFZZ     )
@@ -80,8 +79,6 @@ C----------------------------------------------------------------
       my_real, INTENT(OUT) ::
      .      SIGNXX (NEL), SIGNYY (NEL), SIGNZZ(NEL),
      .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
-     .      SIGVXX (NEL), SIGVYY (NEL), SIGVZZ(NEL),
-     .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
      .      SOUNDSP(NEL), VISCMAX(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
