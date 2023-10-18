@@ -55,10 +55,10 @@ else()
 #Fortran source files
 file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/com/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F   )
 
-if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA OR precision STREQUAL "sp") 
 # remove files related to linear algebra
 file(GLOB_RECURSE remove_files ${source_directory}/com/eig/*.F  )
-list(REMOVE_ITEM source_files ${remove_source})
+list(REMOVE_ITEM source_files ${remove_files})
 endif()
 
 
