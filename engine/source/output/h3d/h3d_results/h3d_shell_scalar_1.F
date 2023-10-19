@@ -3365,100 +3365,192 @@ c NPT=IPT
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'DAMG/MEMB') THEN 
 C--------------------------------------------------
-              IF (GBUF%G_DMG > 0) THEN
 c
-                ! Number of integration points in the thickness
-                NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                NPGT = NPTR*NPTS
+              ! Output only if global damage flag is activated
+              IF (GBUF%G_DMG > 0) THEN
 c
                 ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
                 ENDDO
 c
-                ! Odd number of thickness integration points
-                IF ((MOD(NPTT,2)/=0).AND.(NPTT>1)) THEN
-                  DO I=1,NEL                                                              
-                    DO IR = 1,NPTR                                                       
-                      DO IS = 1,NPTS                                                     
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,CEILING(NPTT/TWO))     
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPGT                                                           
-                      ENDDO                                                               
-                    ENDDO                                                                 
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO 
-c
-                ! Even number of thickness integration points
-                ELSEIF ((MOD(NPTT,2)==0).AND.(NPTT>1)) THEN
-                  DO I=1,NEL                                                              
-                    DO IR = 1,NPTR                                                       
-                      DO IS = 1,NPTS                                                     
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NPTT/2)                       
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/(TWO*NPGT)                                                          
-                      ENDDO                                                               
+                ! Middle layer/integration point
+                IPT = IABS(NPT)/2 + 1        
+c              
+                ! Multilayer properties TYPE 10/11/16/17/51/52 
+                IF (NLAY > 1) THEN       
+                  IF (ELBUF_TAB(NG)%BUFLY(IPT)%L_DMG > 0) THEN
+                    NPTT = ELBUF_TAB(NG)%BUFLY(IPT)%NPTT
+                    DO I = 1,NEL                                                              
+                      DO IT = 1,NPTT
+                        DO IR = 1,NPTR                                                         
+                          DO IS = 1,NPTS                                                       
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,IT)   
+                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS*NPTT)                                                          
+                          ENDDO
+                        ENDDO                                                                 
+                      ENDDO
+                      IS_WRITTEN_VALUE(I) = 1 
                     ENDDO
-                  ENDDO 
-                  DO I=1,NEL                                                              
-                    DO IR = 1,NPTR                                                       
-                      DO IS = 1,NPTS                                                     
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,(NPTT/2)+1)                       
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/(TWO*NPGT)                                                          
-                      ENDDO                                                               
-                    ENDDO                                                                 
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO  
-                ! Number of thickness integration point = 1
-                ELSE
-                  DO I=1,NEL                                                              
-                    DO IR = 1,NPTR                                                       
-                      DO IS = 1,NPTS                                                     
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)                       
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPGT                                                           
-                      ENDDO                                                               
-                    ENDDO                                                                 
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ENDIF
+                  ENDIF
+                ! Single layer properties TYPE 1/9
+                ELSEIF (MPT > 0) THEN
+                  IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN                                                 
+                    DO I = 1,NEL                                                              
+                      DO IR = 1, NPTR                                                         
+                        DO IS = 1, NPTS                                                       
+                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)                                                                   
+                          VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS)                                                            
+                        ENDDO                                                                 
+                      ENDDO 
+                      IS_WRITTEN_VALUE(I) = 1                                                                   
+                    ENDDO
+                  ENDIF                                                   
+                ENDIF      
               ENDIF
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'DAMG') THEN 
 C--------------------------------------------------
-              IF (GBUF%G_DMG > 0) THEN
+c 
+              ! Output only if global damage flag is activated
+              IF (GBUF%G_DMG > 0) THEN 
 c
                 ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
                 ENDDO
 c
-                ! Mean value through all integration points in the thickness
-                IF (IPT == -1) THEN  
-                  NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                  NPGT = NPTR*NPTS*NPTT
-                  DO I=1,NEL                                                              
-                    DO IT = 1,NPTT
-                      DO IR = 1,NPTR                                                       
-                        DO IS = 1,NPTS                                                     
-                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)                       
-                          VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPGT                                                           
-                        ENDDO                                                               
-                      ENDDO                                                                 
-                    ENDDO
-                    IS_WRITTEN_VALUE(I) = 1
+                ! If no specific input PLY=null LAYER=null NPT=null
+                IF (ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN 
+                  ! Multilayer properties TYPE 10/11/16/17/51/52 
+                  ! -> Mean value among all layers and integration points
+                  IF (NLAY > 1) THEN    
+                    DO I = 1,NEL 
+                      DO N = 1,NLAY
+                        IF (ELBUF_TAB(NG)%BUFLY(N)%L_DMG > 0) THEN
+                          NPTT = ELBUF_TAB(NG)%BUFLY(N)%NPTT 
+                          DO IT = 1,NPTT
+                            DO IR = 1,NPTR     
+                              DO IS = 1,NPTS     
+                                LBUF => ELBUF_TAB(NG)%BUFLY(N)%LBUF(IR,IS,IT)
+                                VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTT*NPTR*NPTS) 
+                              ENDDO
+                            ENDDO  
+                          ENDDO
+                        ENDIF
+                      ENDDO
+                      VALUE(I) = VALUE(I) / NLAY
+                      IS_WRITTEN_VALUE(I) = 1  
+                    ENDDO    
+                  ! Single layer properties TYPE 1/9 
+                  ! -> Mean value among all layers and integration points                                                                 
+                  ELSEIF (MPT > 0) THEN
+                    IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN 
+                      NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
+                      DO I = 1,NEL
+                        DO IT = 1,NPTT
+                          DO IR = 1,NPTR 
+                            DO IS = 1,NPTS    
+                              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                              VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTT*NPTR*NPTS)
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                        IS_WRITTEN_VALUE(I) = 1
+                      ENDDO
+                    ENDIF
+                  ENDIF  
+c
+                ! If ply and int. point input: PLY=IPLY LAYER=null NPT=IPT
+                ! -> Properties type 17/51/52 only
+                ELSEIF (IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0) THEN
+                  DO J = 1,NLAY
+                    IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN 
+                      NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                      ID_PLY = 0
+                      IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                        ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                      ELSEIF (IGTYP == 52) THEN
+                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                      ENDIF 
+                      IF (ID_PLY == IPLY) THEN
+                        IF (IPT <= NPTT) THEN
+                          DO I = 1,NEL  
+                            DO IR = 1,NPTR  
+                              DO IS = 1,NPTS 
+                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                                VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS)
+                              ENDDO
+                            ENDDO
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
+                        ENDIF
+                      ENDIF
+                    ENDIF
                   ENDDO
-c
-                ! Value at a given integration point in the thickness
-                ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
-                  NPGT = NPTR*NPTS
-                  DO I=1,NEL                                                              
-                    DO IR = 1,NPTR                                                       
-                      DO IS = 1,NPTS                                                     
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)                       
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPGT                                                           
-                      ENDDO                                                               
-                    ENDDO                                                                 
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO              
-c
+c  
+                ! If ply input only: PLY=IPLY LAYER=null NPT=null
+                ! -> Properties type 17/51/52 only
+                ELSEIF (IPLY > 0 .AND. IPT == -1) THEN
+                  DO J = 1,NLAY
+                    IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN 
+                      NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                      ID_PLY = 0
+                      IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                        ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                      ELSEIF (IGTYP == 52) THEN
+                        ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                      ENDIF 
+                      IF (ID_PLY == IPLY) THEN
+                        DO I = 1,NEL
+                          DO IR = 1,NPTR
+                            DO IS = 1,NPTS
+                              DO IT = 1,NPTT
+                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS*NPTT)
+                              ENDDO
+                            ENDDO
+                          ENDDO 
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO 
+                      ENDIF
+                    ENDIF
+                  ENDDO
+c  
+                ! If layer input : PLY=null LAYER=ILAY NPT=null/IPT
+                ! -> Properties type 10/11/16 only
+                ELSEIF (ILAY <= NLAY .AND. ILAY > 0) THEN
+                  IPT = 1
+                  IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN 
+                    IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMG > 0) THEN
+                      DO I=1,NEL
+                        DO IR = 1,NPTR
+                          DO IS = 1,NPTS
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS) 
+                          ENDDO
+                        ENDDO  
+                        IS_WRITTEN_VALUE(I) = 1          
+                      ENDDO
+                    ENDIF
+                  ENDIF
+c  
+                ! If intg. point input : PLY=null LAYER=null NPT=IPT
+                ! -> Properties type 1/9 only
+                ELSEIF (IPT <= NPT .AND. IPT > 0) THEN
+                  IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+                    IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
+                      DO I=1,NEL       
+                        DO IR = 1,NPTR          
+                          DO IS = 1,NPTS          
+                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)  
+                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS)          
+                          ENDDO
+                        ENDDO   
+                        IS_WRITTEN_VALUE(I) = 1        
+                      ENDDO
+                    ENDIF
+                  ENDIF
                 ENDIF
               ENDIF
 C--------------------------------------------------

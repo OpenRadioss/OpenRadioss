@@ -436,7 +436,6 @@ c       local property variables
         IF (BUFLY%L_QVIS   == 0) BUFLY%L_QVIS   = PTAG%L_QVIS
         IF (BUFLY%L_FORTH  == 0) BUFLY%L_FORTH  = PTAG%L_FORTH
         IF (BUFLY%L_EINTTH == 0) BUFLY%L_EINTTH = PTAG%L_EINTTH 
-        IF (BUFLY%L_DMG    == 0) BUFLY%L_DMG    = PTAG%LY_DMG  
       ENDDO 
 C-----------------------------------------------
       RETURN

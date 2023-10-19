@@ -367,8 +367,12 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DAMG'
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
-      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Damage'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Damage variable for coupled damage models'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1 = 'Damage'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT = 'Damage variable for coupled damage models'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3    = 'DAMG/MEMB'
