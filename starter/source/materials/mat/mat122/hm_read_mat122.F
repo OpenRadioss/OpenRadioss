@@ -180,7 +180,7 @@ c     Check and default values
 c-----------------------------
       ! Poisson's ratio
       IF (NU12 < ZERO .OR. NU12 >= HALF) THEN
-        CALL ANCMSG(MSGID=3028,
+        CALL ANCMSG(MSGID=3032,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=NU12,
@@ -189,7 +189,7 @@ c-----------------------------
       ENDIF    
       NU21 = NU12*E2/E1
       IF (NU21 < ZERO .OR. NU21 >= HALF) THEN
-        CALL ANCMSG(MSGID=3029,
+        CALL ANCMSG(MSGID=3033,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=NU21,
@@ -197,7 +197,7 @@ c-----------------------------
      .              C1=TITR)   
       ENDIF
       IF (NU23 < ZERO .OR. NU23 >= HALF) THEN
-        CALL ANCMSG(MSGID=3030,
+        CALL ANCMSG(MSGID=3034,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=NU23,
@@ -206,7 +206,7 @@ c-----------------------------
       ENDIF
       NU32 = NU23*E3/E2
       IF (NU32 < ZERO .OR. NU32 >= HALF) THEN
-        CALL ANCMSG(MSGID=3031,
+        CALL ANCMSG(MSGID=3035,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=NU32,
@@ -214,7 +214,7 @@ c-----------------------------
      .              C1=TITR)
       ENDIF
       IF (NU31 < ZERO .OR. NU31 >= HALF) THEN
-        CALL ANCMSG(MSGID=3032,
+        CALL ANCMSG(MSGID=3036,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=NU31,
@@ -223,7 +223,7 @@ c-----------------------------
       ENDIF 
       NU13 = NU31*E1/E3
       IF (NU13 < ZERO .OR. NU13 >= HALF) THEN
-        CALL ANCMSG(MSGID=3033,
+        CALL ANCMSG(MSGID=3037,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=NU13,

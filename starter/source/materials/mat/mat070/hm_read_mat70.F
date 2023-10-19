@@ -235,7 +235,7 @@ C
       ENDDO
 C
       IF (EMAX< E0) THEN
-          CALL ANCMSG(MSGID=3027,
+          CALL ANCMSG(MSGID=3028,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND,
      .                I1=ID,
