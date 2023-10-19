@@ -145,7 +145,7 @@ c
               IF (NLAY == 1) THEN  
                 IF (((P_THICKFAIL > ZERO).AND.(P_THICKG < ZERO)).OR.
      .              ((P_THICKFAIL < ZERO).AND.(P_THICKG > ZERO))) THEN 
-                  CALL ANCMSG(MSGID=3027,
+                  CALL ANCMSG(MSGID=3029,
      .                        MSGTYPE=MSGWARNING,
      .                        ANMODE=ANINFO_BLIND_1,
      .                        I1=PROP_ID, 
@@ -157,7 +157,7 @@ c
               !   -> For multiple layer properties with 1 intg. point, check for failure criteria value
               ELSEIF (NLAY == NPTTOT) THEN
                 IF (P_THICKFAIL /= ZERO) THEN 
-                  CALL ANCMSG(MSGID=3028,
+                  CALL ANCMSG(MSGID=3030,
      .                        MSGTYPE=MSGWARNING,
      .                        ANMODE=ANINFO_BLIND_1,
      .                        I1=PROP_ID, 
@@ -168,7 +168,7 @@ c
               ELSE
                 IF (((P_THICKFAIL > ZERO).AND.(PTHKLY < ZERO)).OR.
      .              ((P_THICKFAIL < ZERO).AND.(PTHKLY > ZERO))) THEN 
-                  CALL ANCMSG(MSGID=3029,
+                  CALL ANCMSG(MSGID=3031,
      .                        MSGTYPE=MSGWARNING,
      .                        ANMODE=ANINFO_BLIND_1,
      .                        I1=PROP_ID, 
@@ -185,15 +185,15 @@ c
       ENDDO 
 c
       ! Printing out warning messages
-      CALL ANCMSG(MSGID=3027,
-     .            MSGTYPE=MSGWARNING,
-     .            ANMODE=ANINFO_BLIND_1,
-     .            PRMOD=MSG_PRINT)
-      CALL ANCMSG(MSGID=3028,
-     .            MSGTYPE=MSGWARNING,
-     .            ANMODE=ANINFO_BLIND_1,
-     .            PRMOD=MSG_PRINT)
       CALL ANCMSG(MSGID=3029,
+     .            MSGTYPE=MSGWARNING,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3030,
+     .            MSGTYPE=MSGWARNING,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3031,
      .            MSGTYPE=MSGWARNING,
      .            ANMODE=ANINFO_BLIND_1,
      .            PRMOD=MSG_PRINT)
