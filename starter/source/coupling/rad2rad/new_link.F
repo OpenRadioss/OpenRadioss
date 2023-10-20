@@ -25,15 +25,15 @@ Chd|  NEW_LINK                      source/coupling/rad2rad/new_link.F
 Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F
 Chd|====================================================================
       SUBROUTINE NEW_LINK(NUM,N,K)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE RESTMOD
-      USE R2R_MOD
+        USE RESTMOD
+        USE R2R_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,70 +46,70 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUM,N,K
+        INTEGER NUM,N,K
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NUM_LINK
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: IEX_TEMP        
-C-----------------------------------------------     
+        INTEGER I,J,NUM_LINK
+        INTEGER, DIMENSION(:,:), ALLOCATABLE :: IEX_TEMP
+C-----------------------------------------------
 
 C----- Storage of IEXLNK in IEX_TEMP---------------------------C
 
-       ALLOCATE(IEX_TEMP(5,NR2RLNK+1))
+        ALLOCATE(IEX_TEMP(5,NR2RLNK+1))
 
-       DO I=1,NR2RLNK
-         DO J=1,5
+        DO I=1,NR2RLNK
+          DO J=1,5
             IEX_TEMP(J,I)=IEXLNK(5*(I-1)+J)
-         END DO
-       END DO       
-       
+          END DO
+        END DO
+
 C----- Storage of new link information
 
-       IEX_TEMP(1,NR2RLNK+1) = NUM 
-       IEX_TEMP(3,NR2RLNK+1) = 0
-       IEX_TEMP(4,NR2RLNK+1) = N	    	    	                 
-       IEX_TEMP(5,NR2RLNK+1) = 4
-       IF (K == 2) THEN
-         IEX_TEMP(5,NR2RLNK+1) = 40
-       ELSEIF ((K == 3).OR.(K == 4)) THEN
-         IF (FLG_SWALE==0) THEN
+        IEX_TEMP(1,NR2RLNK+1) = NUM
+        IEX_TEMP(3,NR2RLNK+1) = 0
+        IEX_TEMP(4,NR2RLNK+1) = N
+        IEX_TEMP(5,NR2RLNK+1) = 4
+        IF (K == 2) THEN
+          IEX_TEMP(5,NR2RLNK+1) = 40
+        ELSEIF ((K == 3).OR.(K == 4)) THEN
+          IF (FLG_SWALE==0) THEN
 C--> contact with void elements in subdomain - order of domains is inverted
-           IEX_TEMP(3,NR2RLNK+1) = N
-           IEX_TEMP(4,NR2RLNK+1) = 0       
-           IEX_TEMP(5,NR2RLNK+1) = 5
-           IF (K == 4) IEX_TEMP(5,NR2RLNK+1) = 50
-         ELSE
-           IEX_TEMP(5,NR2RLNK+1) = 60
-         ENDIF
-       ELSEIF (K == 5) THEN
-         IEX_TEMP(5,NR2RLNK+1) = 70       
-       ENDIF
-                
+            IEX_TEMP(3,NR2RLNK+1) = N
+            IEX_TEMP(4,NR2RLNK+1) = 0
+            IEX_TEMP(5,NR2RLNK+1) = 5
+            IF (K == 4) IEX_TEMP(5,NR2RLNK+1) = 50
+          ELSE
+            IEX_TEMP(5,NR2RLNK+1) = 60
+          ENDIF
+        ELSEIF (K == 5) THEN
+          IEX_TEMP(5,NR2RLNK+1) = 70
+        ENDIF
+
 C----- Generation of a new link
 
-       NUM_LINK = 1
-       DO I=1,NR2RLNK
+        NUM_LINK = 1
+        DO I=1,NR2RLNK
           IF (NUM_LINK<=IEX_TEMP(2,I)) NUM_LINK = IEX_TEMP(2,I)+1
-       END DO
+        END DO
 
-       IEX_TEMP(2,NR2RLNK+1) = NUM_LINK 
-       
+        IEX_TEMP(2,NR2RLNK+1) = NUM_LINK
+
 C----- Storage of IEX_TEMP in IEXLNK---------------------------C
-       DEALLOCATE(IEXLNK)
-       ALLOCATE(IEXLNK(5*(NR2RLNK+1)))
-       NR2RLNK = NR2RLNK+1
-	
-       DO I=1,NR2RLNK
-         DO J=1,5
+        DEALLOCATE(IEXLNK)
+        ALLOCATE(IEXLNK(5*(NR2RLNK+1)))
+        NR2RLNK = NR2RLNK+1
+
+        DO I=1,NR2RLNK
+          DO J=1,5
             IEXLNK(5*(I-1)+J)=IEX_TEMP(J,I)
-         END DO
-       END DO
+          END DO
+        END DO
 
 C------------------------------------------------------------------
 
-       DEALLOCATE(IEX_TEMP)
+        DEALLOCATE(IEX_TEMP)
 
 C-----------
-      RETURN
-      END                             
+        RETURN
+      END SUBROUTINE NEW_LINK
