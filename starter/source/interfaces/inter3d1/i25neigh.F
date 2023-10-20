@@ -40,8 +40,7 @@ Chd|====================================================================
      5                         NEDGE  ,LEDGE   ,LBOUND ,EDG_COS,NISUB  ,
      6                         LISUB  ,ADDSUBM,LISUBM  ,INFLG_SUBM ,NISUBE,
      7                         ADDSUBE,LISUBE ,INFLG_SUBE,NOINT,NMN,MSR,
-     8                         NOM_OPT,ILEV   ,MBINFLG ,EBINFLG,IELEM_M,
-     9                         IDEL_SOLID)
+     8                         NOM_OPT,ILEV   ,MBINFLG ,EBINFLG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,8 +75,6 @@ C-----------------------------------------------
      .   X(3,*), EDG_COS
       CHARACTER*nchartitle,
      .   TITR
-      INTEGER  , INTENT(IN) :: IDEL_SOLID         ! solid erosion
-      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)    ! elements connected to the segment ( espacially solid)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,7 +88,7 @@ C-----------------------------------------------
      7        NISUBN, INFLG, MAXADD, STAT
       INTEGER IX1, IX2, IX3, IX4,
      ,        JX1, JX2, JX3, JX4,
-     .        NA, NB, EA, EB,JM,MJ
+     .        NA, NB, EA, EB
       INTEGER, DIMENSION(:),ALLOCATABLE :: MVOI
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: EIDNOD
       my_real
@@ -108,7 +105,6 @@ C-----------------------------------------------
       INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT
       INTEGER, DIMENSION(:), ALLOCATABLE :: MLOC,KAD,ADDSUBN,ADDSUBN_TMP,
      .                                      LISUBN,INFLG_SUBN,IXSUB
-      INTEGER, DIMENSION(:,:,:),ALLOCATABLE :: MNEIGH_SOLID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -125,28 +121,20 @@ C
       DO I=1,NRTM
         MSEGLO(I)=I      
       ENDDO
-C-------------------------------------------------------
-C     Neighbhoors researching
-C       shell segs have been duplicated w/ inverse order
-C       for the moment all antisymmetry surface will be stored at the end
-C       for Solids : searching of neighbhoors is only done for external segments
-C-----------------------------------------------
-C
+C-----------shell segs have been duplicated w/ inverse order
+C-----------for the moment all antisymmetry surface will be stored at the end
       DO I=1,NUMNOD
         ITAG(I)=0
       ENDDO
       DO I=1,NRTM
-        IF(IELEM_M(2,I) == 0) THEN
-
-          DO J=1,3
-            M=IRECT(J,I)
-            ITAG(M)=ITAG(M)+1
-          END DO
-          IF (IRECT(4,I)/=IRECT(3,I))THEN
-            M= IRECT(4,I)
-            ITAG(M)=ITAG(M)+1
-          END IF
-        ENDIF
+       DO J=1,3
+        M=IRECT(J,I)
+        ITAG(M)=ITAG(M)+1
+       END DO
+       IF (IRECT(4,I)/=IRECT(3,I))THEN
+         M= IRECT(4,I)
+         ITAG(M)=ITAG(M)+1
+       END IF
       END DO
 C-----MSEGTYP (> NRTM for i=NRTM0+1,NRTM0+NRTM_SH) -> IM2SH = MSEGTYP-NRTM---------
 C-----------max number of connected segment per node
@@ -160,19 +148,16 @@ C-----------max number of connected segment per node
       EIDNOD(1:NMAX,1:NUMNOD)=0
 C------------ini- E_ids of each node
       DO I=1,NRTM
-        IF(IELEM_M(2,I) == 0) THEN
-
-          DO J=1,3
-            M=IRECT(J,I)
-            ITAG(M)=ITAG(M)+1
-            EIDNOD(ITAG(M),M)=I
-          END DO
-          IF (IRECT(4,I)/=IRECT(3,I)) THEN
-            M= IRECT(4,I)
-            ITAG(M)=ITAG(M)+1
-            EIDNOD(ITAG(M),M)=I
-          END IF
-        ENDIF
+       DO J=1,3
+        M=IRECT(J,I)
+        ITAG(M)=ITAG(M)+1
+        EIDNOD(ITAG(M),M)=I
+       END DO
+       IF (IRECT(4,I)/=IRECT(3,I)) THEN
+        M= IRECT(4,I)
+        ITAG(M)=ITAG(M)+1
+        EIDNOD(ITAG(M),M)=I
+       END IF
       END DO
 C------------MVOISIN-(seg number) ---
       E_MAX=4
@@ -183,42 +168,39 @@ C------------MVOISIN-(seg number) ---
       END DO
 C
       DO I=1,NRTM
-        IF(IELEM_M(2,I) == 0) THEN
-          N_EI=0
+       N_EI=0
 C----seg 1-2------
-          I1 =IRECT(1,I)
-          I2 =IRECT(2,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
-     1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
-          IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
-C----seg 2-3------
-          I1 =IRECT(2,I)
-          I2 =IRECT(3,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
-     1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
-          IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
-C----seg 3-4------
-          I1 =IRECT(3,I)
-          I2 =IRECT(4,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+       I1 =IRECT(1,I)
+       I2 =IRECT(2,I)
+       CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
      1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR  )
-          IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+       IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+C----seg 2-3------
+       I1 =IRECT(2,I)
+       I2 =IRECT(3,I)
+       CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+     1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
+     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+       IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+C----seg 3-4------
+       I1 =IRECT(3,I)
+       I2 =IRECT(4,I)
+       CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+     1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
+     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+       IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
 C----seg 1-4------
-          I1 =IRECT(4,I)
-          I2 =IRECT(1,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
-     1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
-          IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+       I1 =IRECT(4,I)
+       I2 =IRECT(1,I)
+       CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+     1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
+     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+       IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
 C
-           MVOI(1:N_EI)=0 ! Reset MVOI
+       MVOI(1:N_EI)=0 ! Reset MVOI
 C
-        ENDIF
-      END DO !I=1,NRTM     
-C
+      END DO !I=1,NRTM
 C--------------------------------------------
       DO I=1,NRTM
         DO J=1,4
@@ -236,105 +218,6 @@ C--------------------------------------------
         END DO
       END DO !I=1,NRTM
 C--------------------------------------------
-      DEALLOCATE(MVOI,EIDNOD)
-C--------------------------------------------
-C------------------------------------------------------
-C        Solid erosion : 
-C        if internal segments of solids are defined : need to to buid ADMSR for all NRTM 
-C        Store all segments connected to the same edge for solid segments
-C-----------------------------------------------------
-      IF(IDEL_SOLID > 0) THEN  
-        DO I=1,NUMNOD
-          ITAG(I)=0
-        ENDDO
-        DO I=1,NRTM  
-          IF(IELEM_M(1,I) <= NUMELS) THEN
-
-            DO J=1,3
-              M=IRECT(J,I)
-              ITAG(M)=ITAG(M)+1
-            END DO
-            IF (IRECT(4,I)/=IRECT(3,I))THEN
-               M= IRECT(4,I)
-               ITAG(M)=ITAG(M)+1
-            END IF
-          ENDIF
-        END DO
-C        
-        NMAX=0
-        DO I=1,NUMNOD
-         NMAX=MAX(NMAX,ITAG(I))
-         ITAG(I)=0
-        ENDDO
-        ALLOCATE(EIDNOD(NMAX,NUMNOD))
-        EIDNOD(1:NMAX,1:NUMNOD)=0
-        ALLOCATE(MVOI(NMAX+10))
-        MVOI(1:NMAX+10)=0
-C
-        ALLOCATE(MNEIGH_SOLID(NMAX,4,NRTM))
-        MNEIGH_SOLID(1:NMAX,1:4,1:NRTM) = 0
-        DO I=1,NRTM
-          IF(IELEM_M(1,I) <= NUMELS) THEN
-
-            DO J=1,3
-              M=IRECT(J,I)
-              ITAG(M)=ITAG(M)+1
-              EIDNOD(ITAG(M),M)=I
-            END DO
-            IF (IRECT(4,I)/=IRECT(3,I)) THEN
-              M= IRECT(4,I)
-              ITAG(M)=ITAG(M)+1
-              EIDNOD(ITAG(M),M)=I
-            END IF
-          ENDIF
-        END DO
-C
-C-------------neighbour segments-----------       
-C
-        DO I=1,NRTM 
-          IF(IELEM_M(1,I) <= NUMELS) THEN
-            N_EI=0
-C----seg 1-2------
-            I1 =IRECT(1,I)
-            I2 =IRECT(2,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
-     .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,1,I) = MVOI(1:N_EI)
-            NE0 =N_EI
-C----seg 2-3------
-            I1 =IRECT(2,I)
-            I2 =IRECT(3,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
-     .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,2,I) = MVOI(NE0+1:N_EI)
-            NE0 =N_EI
-C----seg 3-4------
-            I1 =IRECT(3,I)
-            I2 =IRECT(4,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
-     .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,3,I) = MVOI(NE0+1:N_EI)
-            NE0 =N_EI
-C----seg 1-4------
-            I1 =IRECT(4,I)
-            I2 =IRECT(1,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
-     .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,4,I) = MVOI(NE0+1:N_EI)
-
-C
-            MVOI(1:N_EI)=0 ! Reset MVOI    
-          ENDIF      
-        ENDDO
-
-        DEALLOCATE(MVOI,EIDNOD)
-
-      ENDIF
-      DEALLOCATE(ITAG)
-
-C--------------------------------------------
-
-
       NVERTX=0
       DO I=1,NRTM
         DO J=1,3
@@ -358,12 +241,13 @@ C
         DO IEDG=1,4
 C
           IF(II(4)==II(3).AND.IEDG==3) CYCLE
-          I1=IEDG
-          I2=MOD(IEDG,4)+1
 C
           MI=MVOISIN(IEDG,I)
           IF(MI/=0)THEN
 C
+            I1=IEDG
+            I2=MOD(IEDG,4)+1
+
             JJ(1:4)=IRECT(1:4,MI)
 C
             IOK=0
@@ -399,51 +283,9 @@ C
      .                                        itab(jj(1)),itab(jj(2)),itab(jj(3)),itab(jj(4))
           END IF ! IF(MI/=0)THEN
 C
-          IF(IELEM_M(1,I) <= NUMELS.AND.IDEl_SOLID > 0) THEN
-            DO K=1,NMAX
-              MJ = MNEIGH_SOLID(K,IEDG,I)
-              IF(MJ/=0.AND.MJ/=MI) THEN
-C
-                JJ(1:4)=IRECT(1:4,MJ)
-C
-                IOK=0
-                DO JEDG=1,4
-C
-                  IF(JJ(4)==JJ(3).AND.JEDG==3) CYCLE
-C
-                  J1=JEDG
-                  J2=MOD(JEDG,4)+1
-                  IF(II(I2)==JJ(J1).AND.II(I1)==JJ(J2))THEN
-                      
-                    IVERTX=MIN(ROOT(ADMSR(I1,I)),ROOT(ADMSR(J2,MJ)))
-                    JVERTX=MAX(ROOT(ADMSR(I1,I)),ROOT(ADMSR(J2,MJ)))
-                    IF(JVERTX/=IVERTX) ROOT(JVERTX)=IVERTX
-      
-                    IVERTX=MIN(ROOT(ADMSR(I2,I)),ROOT(ADMSR(J1,MJ)))
-                    JVERTX=MAX(ROOT(ADMSR(I2,I)),ROOT(ADMSR(J1,MJ)))
-                    IF(JVERTX/=IVERTX) ROOT(JVERTX)=IVERTX
-      
-                    IOK=1
-            
-c                 ELSEIF(II(I1)==JJ(J1).AND.II(I2)==JJ(J2))THEN
-c                      print *,'i25inisu_nei - internal error : non-consistent neighboring segment'
-      
-                  END IF
-                END DO
-      
-c               IF(IOK==0)
-c           .        WRITE(ISTDO,*) 'i25inisu_nei - internal error : no common edge w/neighboring segment',
-c           .                                        itab(ii(1)),itab(ii(2)),itab(ii(3)),itab(ii(4)),
-c           .                                        itab(jj(1)),itab(jj(2)),itab(jj(3)),itab(jj(4))
-c                END IF ! IF(MJ/=0.AND.MJ/=MI)THEN
-              ENDIF
-            ENDDO
-          ENDIF
         END DO
 C
       END DO
-C
-      IF(IDEl_SOLID > 0) DEALLOCATE(MNEIGH_SOLID)
 C
       DO I=1,NVERTX
         J=I
@@ -524,7 +366,8 @@ C     Reset ADSKYN
         ADSKYN(N+1) = ADSKYN(N)+NTAG(N)
       END DO
 C      
-      DEALLOCATE(NTAG,ROOT)
+      DEALLOCATE(MVOI,EIDNOD)
+      DEALLOCATE(ITAG,NTAG,ROOT)
 C
       NRTM0=NRTM-NRTM_SH
 C
@@ -556,87 +399,86 @@ C-----------------------------------------------------------------------
       ALLOCATE(LEDGE_TMP1(NLEDGE,4*NRTM))
 C
       DO I=1,NRTM
-        IF(IELEM_M(2,I) == 0) THEN
-          IF(I <= NRTM0)THEN
-            IBASE=I
-          ELSE
-           IBASE=-MSEGTYP(I)
+
+        IF(I <= NRTM0)THEN
+          IBASE=I
+        ELSE
+          IBASE=-MSEGTYP(I)
           ! IF(IBASE > 0) THEN
-            IF(IBASE > NRTM)IBASE=IBASE-NRTM
+          IF(IBASE > NRTM)IBASE=IBASE-NRTM
           ! END IF
-          END IF
+        END IF
 
-          DO J=1,4
-            I1=IRECT(J,I)
-            I2=IRECT(MOD(J,4)+1,I)
+        DO J=1,4
+          I1=IRECT(J,I)
+          I2=IRECT(MOD(J,4)+1,I)
 C
-            K=MVOISIN(J,I)
+          K=MVOISIN(J,I)
 C
-            IF(K <= NRTM0)THEN
-              KBASE=K ! y-compris K=0
-            ELSE
-              KBASE=-MSEGTYP(K)
+          IF(K <= NRTM0)THEN
+            KBASE=K ! y-compris K=0
+          ELSE
+            KBASE=-MSEGTYP(K)
             ! IF(KBASE > 0) THEN
-              IF(KBASE > NRTM)KBASE=KBASE-NRTM
+            IF(KBASE > NRTM)KBASE=KBASE-NRTM
             ! END IF
-            END IF
+          END IF
 C    
-            IF(KBASE < IBASE)THEN
+          IF(KBASE < IBASE)THEN
 
-              IF(.NOT.(I1==I2.AND.J==3))THEN
+            IF(.NOT.(I1==I2.AND.J==3))THEN
 C
-                NEDGE=NEDGE+1
-                LEDGE_TMP1(1,NEDGE)=I
-                LEDGE_TMP1(2,NEDGE)=J
-                LEDGE_TMP1(3,NEDGE)=K
-                LEDGE_TMP1(4,NEDGE)=0
-                IF(ITAB(I1) < ITAB(I2))THEN
-                  LEDGE_TMP1(5,NEDGE)=I1
-                  LEDGE_TMP1(6,NEDGE)=I2
+              NEDGE=NEDGE+1
+              LEDGE_TMP1(1,NEDGE)=I
+              LEDGE_TMP1(2,NEDGE)=J
+              LEDGE_TMP1(3,NEDGE)=K
+              LEDGE_TMP1(4,NEDGE)=0
+              IF(ITAB(I1) < ITAB(I2))THEN
+                LEDGE_TMP1(5,NEDGE)=I1
+                LEDGE_TMP1(6,NEDGE)=I2
+              ELSE
+                LEDGE_TMP1(5,NEDGE)=I2
+                LEDGE_TMP1(6,NEDGE)=I1
+              END IF
+C
+              IF(K/=0)THEN 
+                IF(MSEGTYP(I)==0.AND.MSEGTYP(K)==0)THEN ! Solid only
+                  LEDGE_TMP1(7,NEDGE)=1 ! arete solide-solide
                 ELSE
-                  LEDGE_TMP1(5,NEDGE)=I2
-                  LEDGE_TMP1(6,NEDGE)=I1
+                  LEDGE_TMP1(7,NEDGE)=2 ! arete coque-coque ou coque-solide
                 END IF
+              ELSE ! Bord
+                LEDGE_TMP1(7,NEDGE)=2
+              END IF
 C
-                IF(K/=0)THEN 
-                  IF(MSEGTYP(I)==0.AND.MSEGTYP(K)==0)THEN ! Solid only
-                    LEDGE_TMP1(7,NEDGE)=1 ! arete solide-solide
-                  ELSE
-                    LEDGE_TMP1(7,NEDGE)=2 ! arete coque-coque ou coque-solide
+              IF(K/=0)THEN
+                DO L=1,4
+                  K1=IRECT(L,K)
+                  K2=IRECT(MOD(L,4)+1,K)
+                  IF(.NOT.(K1==K2.AND.L==3).AND.((K1==I1.AND.K2==I2).OR.(K2==I1.AND.K1==I2))) THEN
+                    LEDGE_TMP1(4,NEDGE)=L
                   END IF
-                ELSE ! Bord
-                  LEDGE_TMP1(7,NEDGE)=2
-                END IF
-C
-                IF(K/=0)THEN
-                  DO L=1,4
-                    K1=IRECT(L,K)
-                    K2=IRECT(MOD(L,4)+1,K)
-                    IF(.NOT.(K1==K2.AND.L==3).AND.((K1==I1.AND.K2==I2).OR.(K2==I1.AND.K1==I2))) THEN
-                      LEDGE_TMP1(4,NEDGE)=L
-                    END IF
-                  END DO
-                  IF(LEDGE_TMP1(4,NEDGE)==0)THEN
-                    WRITE(ISTDO,'(A)') 
+                END DO
+                IF(LEDGE_TMP1(4,NEDGE)==0)THEN
+                  WRITE(ISTDO,'(A)') 
      .                      'i25inisu_nei - internal error : could not find the edge on neighboring element'
-                  END IF
                 END IF
-C
               END IF
+C
+            END IF
 
 
+          END IF
+C
+          IF(K==0)THEN
+            IF(.NOT.(I1==I2.AND.J==3))THEN
+C
+              LBOUND(ADMSR(J,I))=1
+              LBOUND(ADMSR(MOD(J,4)+1,I))=1
+C
             END IF
-C
-            IF(K==0)THEN
-              IF(.NOT.(I1==I2.AND.J==3))THEN
-C
-                LBOUND(ADMSR(J,I))=1
-                LBOUND(ADMSR(MOD(J,4)+1,I))=1
-C
-              END IF
-            END IF
-          END DO
-        ENDIF
+          END IF
+        END DO
       END DO
 C-----------------------------------------------------------------------
 C

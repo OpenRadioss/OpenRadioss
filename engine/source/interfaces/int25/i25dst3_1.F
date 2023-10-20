@@ -128,7 +128,7 @@ C initialisation (cf triangles)
 C
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C    
         X0N(I,1) = XX(I,1) - XX(I,5)
         Y0N(I,1) = YY(I,1) - YY(I,5)
@@ -159,7 +159,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C
         XI0V(I) = XX(I,5) - XI(I)
         YI0V(I) = YY(I,5) - YI(I)
@@ -246,7 +246,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C
         AAA	 = ONE/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
         HLC(I,1) = LC(I,1)*ABS(LC(I,1))*AAA
@@ -277,7 +277,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C
         X12(I) = XX(I,I2) - XX(I,I1)
         Y12(I) = YY(I,I2) - YY(I,I1)
@@ -320,7 +320,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
 C          
-        IF (STIF(I) <= ZERO)CYCLE
+        IF (STIF(I) == ZERO)CYCLE
 C
         LAP  = ONE-LBP(I,IT)-LCP(I,IT)
 C
@@ -343,7 +343,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
 C          
-        IF (STIF(I) <= ZERO)CYCLE
+        IF (STIF(I) == ZERO)CYCLE
 C
 C       Projection en dehors du triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
@@ -564,7 +564,7 @@ C--------------------------------------------------------
       N4N=0
       DO I=1,JLT
 C
-       IF(STIF(I) <= ZERO)CYCLE
+       IF(STIF(I) == ZERO)CYCLE
 C
        IF(IX3(I)/=IX4(I))THEN
          N4N = N4N+1
@@ -727,7 +727,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I=1,JLT
 C          
-        IF (STIF(I) <= ZERO)CYCLE
+        IF (STIF(I) == ZERO)CYCLE
 C
         SUBTRIA_N(I)= SUBTRIA(I)
 C
@@ -768,7 +768,7 @@ C-----
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C
         ITOLD=SUBTRIA(I)
 C

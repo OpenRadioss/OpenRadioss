@@ -60,7 +60,7 @@ Chd|        SPH_MOD                       share/modules/sph_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TRIMAT_MOD                    share/modules/trimat.F        
 Chd|====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES)
+      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,7 +92,6 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
       USE ALE_MOD
-      USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -130,8 +129,6 @@ C-----------------------------------------------
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(t_SEGVAR) :: SEGVAR
-      TYPE(INTERFACES_) :: INTERFACES
-
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -559,13 +556,13 @@ C
         IF (IERR/=0) GOTO 1000
         IAD_FRNOR = 0
 C          
-        ALLOCATE (INTERFACES%SPMD_ARRAYS%FR_EDG(2*NBDDEDGT),STAT=IERR)
+        ALLOCATE (FR_EDG(2*NBDDEDGT),STAT=IERR)
         IF (IERR/=0) GOTO 1000
-        INTERFACES%SPMD_ARRAYS%FR_EDG = 0
+        FR_EDG = 0
 C          
-        ALLOCATE (INTERFACES%SPMD_ARRAYS%IAD_FREDG((NSPMD+1)*NINTER25),STAT=IERR)
+        ALLOCATE (IAD_FREDG((NSPMD+1)*NINTER25),STAT=IERR)
         IF (IERR/=0) GOTO 1000
-        INTERFACES%SPMD_ARRAYS%IAD_FREDG = 0
+        IAD_FREDG = 0
 C          
         ALLOCATE (FR_NOR(NBDDNORT),STAT=IERR)
         IF (IERR/=0) GOTO 1000

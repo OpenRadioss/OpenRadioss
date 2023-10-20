@@ -53,7 +53,7 @@ Chd|====================================================================
      I KNOD2EL1D ,NOD2EL1D   ,INTFRIC   ,TAGPRT_FRIC,IPARTFRICS,
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
      K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
-     J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
+     J IPARTP    ,IPARTR   )
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
@@ -103,9 +103,6 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      INTEGER  , INTENT(INOUT) :: IDEL_SOLID
-      INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT+NRT_SH)
-      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -422,7 +419,7 @@ C------------------------------------
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
-     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
+     J IVIS2)
 C---------------------------
 C     GAP
 C---------------------------
@@ -464,13 +461,13 @@ C SUP DES GAPS VARIABLES
         GAP = GAPS_MX+GAPM_MX
       END IF
 C---------------------------------------------
-C     INITIALIZATION TO ONE for NODAL SCALING  MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES
+C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES
 C---------------------------------------------
       DO 610 L=1,NSN
         STFN(L) = ONE
   610 CONTINUE
 C
-C Right Gap to be used in Sorting criteria
+C Calcul du gap reel a utiliser lors du critere de retri
 C
       BGAPSMX = ZERO
       GAPINF=EP30
@@ -498,7 +495,7 @@ C-------supposing only small segments (sub-triangles) for 10 nodes tetras ------
       END DO
       IF (INACTI/=0) THEN
         CALL I24NORMNS(
-     1  X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD,STF )
+     1  X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD)
       END IF
 C calcul du surface second. ---
       IF(INTTH > 0 .OR. IVIS2==-1) THEN
@@ -723,7 +720,7 @@ Chd|====================================================================
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
-     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
+     J IVIS2  )
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
@@ -767,43 +764,30 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRTT)
-      INTEGER  , INTENT(INOUT) :: IDEL_SOLID
-      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,IPL,IPG,ISOL,NINV,NSOL_INT,NELS2,MT2,OFC,OFTG
+     .   ISUBSTACK,IPL,IPG,ISOL,NINV
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
-      LOGICAL :: PRINT_ERROR
-      INTEGER, DIMENSION(4) :: NODE_ID
 C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX,
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC, STV, STC,STF2,STF1,VOL2
+     .   XL,STIFC, STV, STC
 C----------------------
       ISOL = 0
       NREV=0
       IPGMAT = 700
-C
-      OFC=NUMELS+NUMELQ
-      OFTG=OFC+NUMELC+NUMELT+NUMELP+NUMELR
-C
-
       IF(NUMELS > 0) THEN
         CALL MY_ALLOC(TAGELEMS,NUMELS)
         TAGELEMS = 0
         CALL MY_ALLOC(INDEXE,NUMELS)
         INDEXE = 0
       ENDIF
-
       NINV = 0
-      NSOL_INT = 0
-
       DO I=1,NRT
         STF(I)=ZERO
         IF(INTTH > 0 ) IELEM(I) = 0
@@ -814,28 +798,10 @@ C
 C----------------------
 C      ELEMENTS SOLIDES
 C----------------------
-        PRINT_ERROR = .FALSE.
         CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .             AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .             IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .             NINV ,IELEM_M(1,I),
-     .             ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR)
-
-        IF(PRINT_ERROR) THEN
-          NODE_ID(1:4) = ITAB(IRECT(1:4,I))
-          
-          CALL ANCMSG(MSGID=3031,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                I2=NODE_ID(1),
-     .                I3=NODE_ID(2),
-     .                I4=NODE_ID(3),
-     .                I5=NODE_ID(4),
-     .                C1=TITR ,
-     .                PRMOD=MSG_PRINT)
-        ENDIF
-
+     .             NINV )
         IF(NELS/=0) THEN
           MT=IXS(1,NELS)
           IF(INTTH > 0 ) IELEM(I) = MT
@@ -849,20 +815,6 @@ C----------------------
             ENDDO
             CALL VOLINT(VOL)
             STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
-            IF(IELEM_M(2,I) > 0) THEN ! If internal segment shared between 2 elements
-              NELS2 =IELEM_M(2,I) 
-              MT2=IXS(1,NELS2)
-              DO JJ=1,8
-                JJJ=IXS(JJ+1,NELS2 )
-                XC(JJ)=X(1,JJJ)
-                YC(JJ)=X(2,JJJ)
-                ZC(JJ)=X(3,JJJ)
-              ENDDO       
-              CALL VOLINT(VOL2)
-              STF2 = SLSFAC*FILLSOL(NELS2)*AREA*AREA*PM(32,MT2)/VOL2
-              STF1 = STF(I)
-              STF(I) = HALF*(STF2+STF1) ! Internal segment Stiff = Mean(STIFF)
-            ENDIF
           ELSE
             IF(NINT>=0) THEN
               CALL ANCMSG(MSGID=95,
@@ -887,8 +839,6 @@ C----------------------
           ENDIF
           ISOL = 1
           GAP_N(1,I)=VOL/AREA
-          IF(IELEM_M(2,I) > 0) GAP_N(1,I) = HALF*(GAP_N(1,I) + VOL2/AREA) ! Internal segment Gap = Mean(Gap)
-          IF(IELEM_M(2,I) > 0) NSOL_INT = NSOL_INT + 1
 C--------Correction for different elements
           IF(NELS>NUMELS8.AND.NELS<=NUMELS8+NUMELS10)THEN
             GAP_N(1,I) = THREE*ONE_OVER_8*GAP_N(1,I)
@@ -909,9 +859,6 @@ C -----Friction model ------
               IPARTSM(I) = IP
             ENDIF
           ENDIF
-C -----Case of internal segment : put stiffness to negative ------
-          IF(IELEM_M(2,I) > 0) STF(I) = - STF(I)
-
 C------------------------------------
         ENDIF
 C---------------------
@@ -927,8 +874,6 @@ C
           MG=IXTG(5,NELTG)
           IGTYP = IGEO(11,MG)
           IP = IPARTTG(NELTG)
-          IELEM_M(1,I) = OFTG+NELTG
-
           IF(INTTH > 0 ) IELEM(I) = MT
           IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
@@ -987,7 +932,6 @@ C
               GAP_M(J)= GAP_M(I)
               IF(INTTH > 0 ) IELEM(J) = IELEM(I)
               IF(INTFRIC > 0) IPARTFRICM(J)=IPARTFRICM(I)
-              IELEM_M(1,J) = IELEM_M(1,I)
             END IF
 C
           ELSE
@@ -1018,8 +962,6 @@ C
           IP = IPARTC(NELC)
           IGTYP = IGEO(11,MG)
           IGMAT = IGEO(98,MG)
-          IELEM_M(1,I) = OFC+NELC
-
           IF(INTTH > 0 ) IELEM(I) = MT
           IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
@@ -1078,7 +1020,6 @@ C
               GAP_M(J)= GAP_M(I)
               IF(INTTH > 0 ) IELEM(J) = IELEM(I)
               IF(INTFRIC > 0) IPARTFRICM(J)=IPARTFRICM(I)
-              IELEM_M(1,J) = IELEM_M(1,I)
             END IF
 C
           ELSE
@@ -1167,11 +1108,6 @@ C
       DO I=1,NRTT
         GAP_M(I)=MIN(GAP_M(I),GAPMAX_M)
       END DO
-C   Update option erosion solid : only if /SURF/PART/ALL is defined on solid parts
-      IF(NSOL_INT == 0) THEN
-        IDEL_SOLID = 0
-      ENDIF
-
 C-----------------------------------------------
       RETURN
  1400 FORMAT(I10,' MAIN SEGMENTS',' OF INTERFACE',I10,

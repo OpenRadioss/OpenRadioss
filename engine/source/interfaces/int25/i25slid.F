@@ -463,7 +463,7 @@ C                                |
                   IF(MSEGLO(ISH)==IRTLM(1,N)) CYCLE
                 END IF
 
-                IF(STFM(L)> ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
+                IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
      .             ITAGM(L) /= N.AND.TAGMSR(L)==0)THEN
                   IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
      .               NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
@@ -514,7 +514,7 @@ C                                |
                   IF(MSEGLO(ISH)==IRTLM(1,N)) CYCLE
                 END IF
 
-                IF(STFM(L)> ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
+                IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
      .             ITAGM(L) /= N)THEN
                   IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
      .               NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
@@ -551,7 +551,7 @@ C-----
                   IF(MSEGLO(ISH)==IRTLM_FI(NIN)%P(1,N)) CYCLE
                 END IF
 
-                IF(STFM(L)> ZERO.AND.MSEGLO(L)/=IRTLM_FI(NIN)%P(1,N).AND.
+                IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM_FI(NIN)%P(1,N).AND.
      .             ITAGM(L) /= N+NSN.AND.TAGMSR(L)==0)THEN
                   ITAGM(L)=N+NSN
                   K_STOK = K_STOK + 1
@@ -582,7 +582,7 @@ c
                   IF(MSEGLO(ISH)==IRTLM_FI(NIN)%P(1,N)) CYCLE
                 END IF
 
-                IF(STFM(L)> ZERO.AND.MSEGLO(L)/=IRTLM_FI(NIN)%P(1,N).AND.
+                IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM_FI(NIN)%P(1,N).AND.
      .             ITAGM(L) /= N+NSN)THEN
                   ITAGM(L)=N+NSN
                   K_STOK = K_STOK + 1

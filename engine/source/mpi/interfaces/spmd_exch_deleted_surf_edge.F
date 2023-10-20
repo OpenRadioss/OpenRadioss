@@ -34,10 +34,10 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
-        SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM  ,ITABM1  ,SHOOT_STRUCT  ,INTBUF_TAB,  NEWFRONT  ,
-     .                                          IPARI     ,GEO     ,IXS           ,IXC       ,  IXT       ,
-     .                                          IXP       ,IXR     ,IXTG          ,ADDCNEL   ,  CNEL      ,
-     .                                          TAG_NODE   ,TAG_ELEM,INTERFACES   )
+        SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
+     .                                          IPARI,GEO,
+     .                                          IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                          ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       SPMD_EXCH_DELETED_SURF_EDGE description
 !           exchange of edge/surface that need to be deactivated
@@ -50,7 +50,6 @@ Chd|====================================================================
         USE ARRAY_MOD
         USE SHOOTING_NODE_MOD
         USE INTBUFDEF_MOD 
-        USE INTERFACES_MOD       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +88,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_NODE
         INTEGER, DIMENSION(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG), INTENT(inout) :: TAG_ELEM
-        TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES ! interfaces structure
 #ifdef MPI
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -241,10 +239,10 @@ C-----------------------------------------------
             NB_SURFACE = REMOTE_SURF_PER_PROC_2(1,K)
             ADDRESS = INDEX_BUFFER_R_2(K)
 
-            CALL FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT ,NB_SURFACE ,BUFFER_R(ADDRESS) ,INTBUF_TAB ,ITABM1 ,
-     .                                         IPARI        ,GEO        ,IXS               ,IXC        ,IXT    ,
-     .                                         IXP          ,IXR        ,IXTG              ,ADDCNEL    ,CNEL   ,
-     .                                         TAG_NODE     ,TAG_ELEM   ,INTERFACES )
+            CALL FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,
+     .                                         IPARI,GEO,
+     .                                         IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                         ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
             NB_EDGE = REMOTE_SURF_PER_PROC_2(2,K)
             ADDRESS = INDEX_BUFFER_R_2(K)+4*NB_SURFACE  
             CALL FIND_EDGE_FROM_REMOTE_PROC( SHOOT_STRUCT,NB_EDGE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,

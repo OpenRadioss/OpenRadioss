@@ -183,7 +183,7 @@ C-----------------------------------------------
      .        IND_IMP(*),NUM_IMP(*),RENUM(*), NSNFIOLD(NSPMD),
      .        NODNX_SMS(NODNX_SMS_SIZ),IKINE(NUMNOD),I_MEM,COUNT_REMSLV(*),
      .        COUNT_REMSLVE(*), IXTG(NIXTG,*),DELTA_PMAX_GAP_NODE(*),
-     .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*), 
+     .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(*), FR_EDG(*), 
      .        NB25_CANDT(PARASIZ), NB25_IMPCT(PARASIZ), 
      .        NB25_DST1(PARASIZ), NB25_DST2(PARASIZ), IPARG(NPARG,*),
      .        INTLIST25(*), MAIN_PROC(*), NATIV_SMS(*), I_OPT_STOK(NINTER),

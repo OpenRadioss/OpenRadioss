@@ -154,7 +154,6 @@ C--------------------------------------------------
 C            HM READING INTER TYPE25 
 C--------------------------------------------------
               NTYP=25
-              NINTER25 = NINTER25 +1
               CALL HM_READ_INTER_TYPE25(
      1         IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2         IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,DEF_INTER  ,

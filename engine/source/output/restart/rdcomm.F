@@ -1779,10 +1779,6 @@ C
 C
       NEXT       = NEXT + 1
       INTER_PARAMETERS%INTCAREA   = TABVINT(NEXT)
-C
-      NEXT       = NEXT + 1
-      INTER_PARAMETERS%INT25_EROSION_SOLID   = TABVINT(NEXT)
-C
 C--------------------------------------
       RETURN
       END
