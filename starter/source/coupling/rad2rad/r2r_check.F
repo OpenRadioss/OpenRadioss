@@ -23,26 +23,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_CHECK                     source/coupling/rad2rad/r2r_check.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        GRFIND                        source/starter/freform.F      
+Chd|        GRFIND                        source/starter/freform.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F
 Chd|====================================================================
-      SUBROUTINE R2R_CHECK(IEXTER ,IGRNOD   ,IPARTL)    
+      SUBROUTINE R2R_CHECK(IEXTER ,IGRNOD   ,IPARTL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
-      USE MESSAGE_MOD
+        USE GROUPDEF_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE RESTMOD
-      USE R2R_MOD
+        USE RESTMOD
+        USE R2R_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,84 +57,84 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IEXTER(NR2R,*),IPARTL(LIPART1,*)        
+        INTEGER IEXTER(NR2R,*),IPARTL(LIPART1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER STAT,I,IGR,IGRS,N,K,ADD     
-      CHARACTER MESS*40
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGPART      
+        INTEGER STAT,I,IGR,IGRS,N,K,ADD
+        CHARACTER MESS*40
+        INTEGER, DIMENSION(:), ALLOCATABLE :: TAGPART
 C-----------------------------------------------
-      TYPE (GROUP_)  ,DIMENSION(NGRNOD)  :: IGRNOD
+        TYPE (GROUP_)  ,DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER GRFIND
+        INTEGER GRFIND
 C
-      DATA MESS/' ** ERROR EXTERNAL COUPLING DEFINITION '/      	
+        DATA MESS/' ** ERROR EXTERNAL COUPLING DEFINITION '/
 
 C----- Check if Id of subdomains-----------------------------------C
 
         IF (NSUBDOM>0) THEN
-         DO N=1,NSUBDOM-1
-           IGR = ISUBDOM(2,N)
-	       DO I=N+1,NSUBDOM
-	         IF (IGR==ISUBDOM(2,I)) THEN 
+          DO N=1,NSUBDOM-1
+            IGR = ISUBDOM(2,N)
+            DO I=N+1,NSUBDOM
+              IF (IGR==ISUBDOM(2,I)) THEN
                 CALL ANCMSG(MSGID=792,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    I1=IGR)
-                IERR=IERR+1	     
-             ENDIF
-           END DO
-         END DO
+                IERR=IERR+1
+              ENDIF
+            END DO
+          END DO
         ENDIF
 
 C----- Check of parts of subdomains-------------------------------C
 
         ALLOCATE(TAGPART(NPART))
         TAGPART = 0
-	
+
         DO N=1,NSUBDOM
-        ADD = ISUBDOM(3,N)
-        DO K=1,NPART                  
+          ADD = ISUBDOM(3,N)
+          DO K=1,NPART
             DO I=1,ISUBDOM(1,N)
               IF(K == ISUBDOM_PART(I+ADD))THEN
-                  TAGPART(K)=TAGPART(K)+1
-		    IF (TAGPART(K)>1) THEN 
-                   CALL ANCMSG(MSGID=827,
-     .                         MSGTYPE=MSGERROR,
-     .                         ANMODE=ANINFO,I1=ISUBDOM(1,N),
-     .                         I2=IPART(LIPART1*(K-1)+4))
-		      IERR=IERR+1
-		    ENDIF  	     		    	  		  
+                TAGPART(K)=TAGPART(K)+1
+                IF (TAGPART(K)>1) THEN
+                  CALL ANCMSG(MSGID=827,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO,I1=ISUBDOM(1,N),
+     .                        I2=IPART(LIPART1*(K-1)+4))
+                  IERR=IERR+1
+                ENDIF
               ENDIF
-            ENDDO	
-	  END DO
-	END DO
+            ENDDO
+          END DO
+        END DO
 
 C----- Check of common nodes between interfaces---------------------C
 
 !        DO N=1,NR2RLNK-1
 !	   DO I=N+1,NR2RLNK
-C                 CALL ANSTCKI(22)	   
+C                 CALL ANSTCKI(22)
 C                 CALL ANSTCKI(9)
 C                 CALL ANSTCKI(8)
 C    	         CALL ANCERR(792,ANINFO)
-C		 IERR=IERR+1	     
-!	   END DO  
+C		 IERR=IERR+1
+!	   END DO
 !	END DO
 
 C----- Check of multidomains node groups-----------------------------C
 
         DO N=1,NR2RLNK
-           IGR = IEXTER(1,N)
-           IGRS = GRFIND(IGR,IGRNOD,MESS)
-           IEXTER(1,N) = IGRS	   
-           IF (IGRS==0) IERR=IERR+1
-	END DO
+          IGR = IEXTER(1,N)
+          IGRS = GRFIND(IGR,IGRNOD,MESS)
+          IEXTER(1,N) = IGRS
+          IF (IGRS==0) IERR=IERR+1
+        END DO
 
 C--------------------------------------------------------------------C
-                            
-      RETURN
-      END
+
+        RETURN
+      END SUBROUTINE R2R_CHECK
