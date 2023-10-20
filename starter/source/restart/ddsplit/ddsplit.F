@@ -2348,7 +2348,7 @@ c       start CPU timer for SPLIT_INTERFACES
         CALL SPLIT_INTERFACES(INTBUF_TAB, IPARI   , P-1     , INTBUF_TAB_L,
      .                        IPARI_L   , INTERCEP, NODLOCAL,
      .                        ITAB      , ITABI2M , NBDDI2M , NUMNOD_L    ,
-     .                        CEP       , CEL     , IGRBRIC , T8, MULTI_FVM,
+     .                        LEN_CEP,CEP       , CEL     , IGRBRIC , T8, MULTI_FVM,
      .                        TAG_NM    ,NINDX_NM ,INDX_NM  ,TAG_SCRATCH,NINDX_SCRT,
      .                        INDX_SCRT ,FLAG_24_25,I24MAXNSNE,INTBUF_FRIC_TAB)
 
@@ -2574,7 +2574,7 @@ C--------------------------------------
 
         CALL W_FI(IPARI,P-1,LEN_IA,
      1            INTERCEP  ,INTBUF_TAB,ITAB,MULTI_FVM,TAG_SCRATCH,
-     2            NINDX_SCRT,INDX_SCRT ,NODLOCAL,NUMNOD_L)
+     2            NINDX_SCRT,INDX_SCRT ,NODLOCAL,NUMNOD_L,LEN_CEP,CEP)
 
 c       stop CPU timer for W_FI
         CALL STOPTIME(8,1)

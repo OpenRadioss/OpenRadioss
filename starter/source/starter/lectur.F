@@ -7273,7 +7273,10 @@ C
               ENDDO
            ENDDO
          ENDDO
-
+         ! -------------------
+         ! allocation of arrays for the interface 18 with law 151
+         CALL INT18_LAW151_ALLOC(NPARI,NINTER,NUMNOD,NUMELS,MULTI_FVM,IPARI)
+         ! -------------------
        END IF
 C
 C-----Allocation structures INTSTAMP
@@ -7402,7 +7405,11 @@ C read /INIBRI/FILL before interfaces stiffness
       IF(IDDLEVEL == 0) CALL STARTIME(12,1)
       IF(IDDLEVEL == 1) CALL STARTIME(13,1)
 
-
+        CALL INT18_LAW151_INIT(MULTI_FVM%S_APPEND_ARRAY,NINTER,NPARI,
+     1                         NUMNOD,NUMELS,NGRBRIC,
+     2                         MULTI_FVM,IGRBRIC,IPARI,IXS,
+     4                         X       ,V       ,MS         ,KINET       ,
+     5                         MULTI_FVM%X_APPEND,MULTI_FVM%V_APPEND,MULTI_FVM%MASS_APPEND,MULTI_FVM%KINET_APPEND)
 
 C
 C fill interface structure to be used by sorting
@@ -7425,7 +7432,7 @@ C
      E               NMNT_2   ,KXIG3D   ,IXIG3D  ,KNOD2ELQ ,NOD2ELQ  ,
      F               SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB ,IPARTT   ,
      G               IPARTP   ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
-     H               ICODE    ,ISKEW    )
+     H               ICODE    ,ISKEW    ,MULTI_FVM)
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 

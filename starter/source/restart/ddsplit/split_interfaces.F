@@ -99,7 +99,7 @@ Chd|====================================================================
       SUBROUTINE SPLIT_INTERFACES(INTBUF_TAB, IPARI   , PROC    , INTBUF_TAB_L,
      .                            IPARI_L   , INTERCEP, NODLOCAL,
      .                            ITAB      , ITABI2M , NBDDI2M , NUMNOD_L    ,
-     .                            CEP       , CEL     , IGRBRIC , T8, MULTI_FVM,
+     .                            LEN_CEP,CEP       , CEL     , IGRBRIC , T8, MULTI_FVM,
      .                            TAG_NM    ,NINDX_NM ,INDX_NM  ,TAG_SCRATCH,NINDX_SCRT,
      .                            INDX_SCRT ,FLAG_24_25,I24MAXNSNE,INTBUF_FRIC_TAB)  
 C-----------------------------------------------
@@ -139,10 +139,11 @@ C-----------------------------------------------
 !                allocated array in lectur and threadprivate array
 !       FLAG_24_25 : logical, flag for interface 24 or 25
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+      INTEGER, INTENT(in) :: LEN_CEP !< size of cep
       INTEGER 
      .         PROC,IPARI(NPARI,*),IPARI_L(NPARI,NINTER),
      .         NODLOCAL(*),ITAB(*),ITABI2M(*),
-     .         NBDDI2M,NUMNOD_L,CEP(*), CEL(*),I24MAXNSNE
+     .         NBDDI2M,NUMNOD_L,CEP(LEN_CEP), CEL(*),I24MAXNSNE
       LOGICAL, INTENT(IN) :: FLAG_24_25
       INTEGER, INTENT(INOUT) :: NINDX_NM,NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_NM,INDX_SCRT
@@ -208,7 +209,7 @@ c     .        RCONT
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_II_E2E
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_II_E2S
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_JJ_E2E,TAG_JJ_E2S 
-
+       LOGICAL :: TYPE18_LAW151
 C ----------------------------------------
 !      NODLOCAL24 is used for interface /TYPE24 or /TYPE25
 !      value of NODLOCAL24 : 1-->NUMNOD NODLOCAL24 = NODLOCAL
@@ -253,6 +254,7 @@ C
         NINDX_NM = 0
         NINDX_SCRT = 0
         NINDX_NDLOCAL24 = 0
+        TYPE18_LAW151 = .FALSE.
 
 !        print*,'=============SPLIT INTERFACE PROC NI======',PROC,NI
 
@@ -767,6 +769,7 @@ C=======================================================================
            TAG_NODE_MSR(1:NMN_FE_L) = 0
            TAG_II(1:II_STOK) = 0
            IF (MULTI_FVM%IS_USED .AND. INACTI==7) THEN
+            TYPE18_LAW151 = .TRUE.
 C     Interface type 18 for law151
 !prepare addition arrays used for split
               CALL PREPARE_SPLIT_I7(PROC          ,INTBUF_TAB(NI),IPARI(1,NI) ,
@@ -815,7 +818,7 @@ c     split candidates
      .             TAG_SEGM2, II_STOK       , MULTIMP  , NCONT       ,
      .             NOINT    , INACTI        , TAG_SCRATCH , 
      .             II_STOK_L, ITYP          ,NINDX_SCRT,INDX_SCRT,NODLOCAL,
-     .             NUMNOD_L )
+     .             NUMNOD_L,NUMNOD,NUMELS,LEN_CEP,CEP,TYPE18_LAW151)
               
               CALL COPY_IVAL(II_STOK_L,1,1)
               
@@ -944,7 +947,7 @@ c     split candidates
      .             TAG_SEGM2, II_STOK       , MULTIMP  , NCONT       ,
      .             NOINT    , INACTI        , TAG_SCRATCH , 
      .             II_STOK_L, ITYP          ,NINDX_SCRT,INDX_SCRT,NODLOCAL,
-     .             NUMNOD_L )
+     .             NUMNOD_L,NUMNOD,NUMELS,LEN_CEP,CEP,TYPE18_LAW151)
               
               CALL COPY_IVAL(II_STOK_L,1,1)
               
@@ -1262,7 +1265,7 @@ c split candidates
      .                       TAG_SEGM2, II_STOK       , MULTIMP  , NCONT       ,
      .                       NOINT    , INACTI        , TAG_SCRATCH , 
      .                       II_STOK_L, ITYP          ,NINDX_SCRT,INDX_SCRT,NODLOCAL,
-     .                       NUMNOD_L )
+     .                       NUMNOD_L,NUMNOD,NUMELS,LEN_CEP,CEP,TYPE18_LAW151)
 
           CALL COPY_IVAL(II_STOK_L,1,1)
 
@@ -2012,7 +2015,7 @@ c split candidates :
      .                       TAG_SEGM2, II_STOK       , MULTIMP  , NCONT       ,
      .                       NOINT    , INACTI        , TAG_SCRATCH , 
      .                       II_STOK_L, ITYP          ,NINDX_SCRT,INDX_SCRT,NODLOCAL,
-     .                       NUMNOD_L )
+     .                       NUMNOD_L,NUMNOD,NUMELS,LEN_CEP,CEP,TYPE18_LAW151)
 
           CALL COPY_IVAL(II_STOK_L,1,1)
 
@@ -2124,7 +2127,7 @@ c split candidates
      .                       TAG_SEGM2, II_STOK       , MULTIMP  , NCONT       ,
      .                       NOINT    , INACTI        , TAG_SCRATCH , 
      .                       II_STOK_L, ITYP          ,NINDX_SCRT,INDX_SCRT   ,NODLOCAL,
-     .                       NUMNOD_L )
+     .                       NUMNOD_L,NUMNOD,NUMELS,LEN_CEP,CEP,TYPE18_LAW151)
 
           CALL COPY_IVAL(II_STOK_L,1,1)
 

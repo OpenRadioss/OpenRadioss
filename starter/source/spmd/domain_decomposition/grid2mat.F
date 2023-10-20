@@ -3425,6 +3425,58 @@ C        IWCONT(1,N) = IWCONT(1,N)+1
 C
       RETURN
       END
+
+
+
+Chd|====================================================================
+Chd|  IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|-- called by -----------
+Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE IWCONTDD_151(BUFBRIC,NBRIC,MSR,NMN,IWCONT,NSNT,NMNT,NUMNOD,IXS,NUMELS,NALE)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Equivalent treatment than IWCONTDD() BUT FOR SPECIFIC CASE OF INTER18+LAW151 (COLLOCATED SCHEME)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NMN, NUMNOD,NUMELS
+      INTEGER,INTENT(IN) :: MSR(NMN),IXS(NIXS,NUMELS),NALE(NUMNOD)
+      INTEGER,INTENT(INOUT) :: IWCONT(5,NUMNOD),NSNT, NMNT
+      INTEGER,INTENT(IN) :: NBRIC
+      INTEGER,INTENT(IN) :: BUFBRIC(NBRIC)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I, N, IELEM, INOD, J
+C-----------------------------------------------
+
+      DO I = 1, NBRIC
+        IELEM = BUFBRIC(I)
+        DO J=2,9
+          INOD = IXS(J,IELEM)
+          IF(NALE(INOD) /= 0 .AND. INOD > 0)THEN
+            IWCONT(1,INOD) = IWCONT(1,INOD)+1
+            NSNT = NSNT + 1
+          ENDIF!NALE(node_i)==0 <=> lagrangian node_i
+        ENDDO
+      ENDDO
+
+      DO I = 1, NMN
+        N = MSR(I)
+        IWCONT(2,N) = IWCONT(2,N)+1
+        NMNT = NMNT + 1
+      ENDDO
+C
+      RETURN
+      END
+
 C
 Chd|====================================================================
 Chd|  I20WCONTDD                    source/spmd/domain_decomposition/grid2mat.F

@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
@@ -676,8 +677,10 @@ C--------------------------------------------
           IF(GRBRIC_ID > 0)THEN
             NBRIC = IGRBRIC(GRBRIC_ID)%NENTITY
             IF (MULTI_FVM%IS_USED)THEN
-              NSN_FE = NBRIC  
+              NSN_FE = NBRIC
+              IPARI(14,NI) = 151
             ELSE
+              IPARI(14,NI) = 0
               NBRIC=IGRBRIC(ISU1)%NENTITY
               CALL INGRBRIC_NODES(NSN_FE ,IGRBRIC(GRBRIC_ID)%ENTITY   ,ITAB   ,NSV   ,
      .                       IXS  , NBRIC, NALE ,IPM, BUFMAT,S_NSV)

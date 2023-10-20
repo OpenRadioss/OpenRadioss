@@ -1626,7 +1626,7 @@ Chd|====================================================================
      .                         TAG_SEGM2, II_STOK   , MULTIMP, NCONT       ,
      .                         NOINT    , INACTI    , TAG_SCRATCH ,
      .                         II_STOK_L, ITYP ,NINDX_SCRT,INDX_SCRT , NODLOCAL,
-     .                         NUMNOD_L)
+     .                         NUMNOD_L,NUMNOD,NUMELS,LEN_CEP,CEP,TYPE18_LAW151)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1646,11 +1646,15 @@ C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,
      .        TAG_SCRATCH(*) , II_STOK_L, ITYP   
-      INTEGER, INTENT(IN) :: NUMNOD_L
+      INTEGER, INTENT(IN) :: NUMNOD_L !< number of node of the current proc
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
       INTEGER, DIMENSION(*), INTENT(IN) :: NODLOCAL
-
+      INTEGER, INTENT(IN) :: NUMNOD !< total number of node
+      INTEGER, INTENT(in) :: NUMELS !< number of solid element
+      INTEGER, INTENT(in) :: LEN_CEP !< size of CEP array
+      INTEGER, DIMENSION(LEN_CEP), INTENT(in) :: CEP !< element -> proc connectivity array
+      LOGICAL, INTENT(in) :: TYPE18_LAW151
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_SCRT : size = NUMNOD + NUMELS + I24MAXNSNE2
@@ -1708,20 +1712,31 @@ C ----------------------------------------
 c          IF(N>NUMNOD) CYCLE
           NSNLOCAL(K) = 0
           IF(TAG_SCRATCH(N)==0) THEN 
-            SPLIST=0 
-            CALL PLIST_IFRONT(PLIST,N,SPLIST) 
-            DO I=1,SPLIST
-              P=PLIST(I)
+            SPLIST=0
+            ! ---------------------
+            ! law151 + interface type 18 : N is a brick id N € [1;NUMELS]
+            ! 
+            IF(TYPE18_LAW151) THEN
+              P = CEP(N) + 1
               NUMP(P) = NUMP(P)+1
-            ENDDO
-            IF( NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L ) THEN
-              NSNLOCAL(K) = NUMP(PROC+1)
-              CPULOCAL(K) = PROC+1
+              IF(P==PROC+1) THEN
+                NSNLOCAL(K) = NUMP(P)
+                CPULOCAL(K) = P
+              ENDIF
+            ! ---------------------
+            ! other kind of interface : N is a node id N € [1;NUMNOD]
             ELSE
-              P = PLIST(1)
-              NSNLOCAL(K) = NUMP(P)
-              CPULOCAL(K) = P
+                CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+                DO I=1,SPLIST
+                    P=PLIST(I)
+                    NUMP(P) = NUMP(P)+1
+                ENDDO
+                IF( NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L ) THEN
+                    NSNLOCAL(K) = NUMP(PROC+1)
+                    CPULOCAL(K) = PROC+1
+                ENDIF
             ENDIF
+            ! ---------------------
             TAG_SCRATCH(N) = 1
             NINDX_SCRT = NINDX_SCRT + 1
             INDX_SCRT(NINDX_SCRT) = N
@@ -1751,10 +1766,17 @@ C
               INDX_SCRT(NINDX_SCRT) = N
               MY_NODE = INTBUF_TAB%NSV(N)
 c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
-              IF( NODLOCAL( MY_NODE )==0.OR.NODLOCAL(MY_NODE)>NUMNOD_L ) THEN
-                C_NSNR = C_NSNR + 1
-                CANDR(C_NSNR) = N
-              END IF
+              IF(TYPE18_LAW151) THEN
+                  IF(CEP(MY_NODE)/=PROC) THEN
+                    C_NSNR = C_NSNR + 1
+                    CANDR(C_NSNR) = N
+                  ENDIF
+              ELSE
+                  IF( NODLOCAL( MY_NODE )==0.OR.NODLOCAL(MY_NODE)>NUMNOD_L ) THEN
+                    C_NSNR = C_NSNR + 1
+                    CANDR(C_NSNR) = N
+                  END IF
+              ENDIF
             END IF
           ENDIF
         ENDDO
