@@ -137,7 +137,8 @@ Chd|====================================================================
      D                  INTBUF_TAB ,FILLSOL     ,PM_STACK   ,IWORKSH   ,KXIG3D  ,
      E                  IXIG3D     ,TAGPRT_FRIC ,INTBUF_FRIC_TAB,IPARTT,IPARTP  ,
      F                  IPARTX     ,IPARTR      ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
-     G                  T2_CONNEC  ,NOM_OPT     ,ICODE     ,ISKEW      ,IREMNODE_EDG)
+     G                  T2_CONNEC  ,NOM_OPT     ,ICODE     ,ISKEW      ,IREMNODE_EDG,
+     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -172,9 +173,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMINT, IWRN, NSNT, NMNT, NSN2T, NMN2T,
      .   NSNET  ,NMNET ,RESORT,SIXINT
-      INTEGER INSCR(*), IXS(NIXS,*), IXC(NIXC,*),
-     .   IPARI(*), IXT(NIXT,*) ,IXP(NIXP,*) ,IXR(NIXR,*),
-     .   ITAB(*), MWA(*), IXTG(NIXTG,*), IKINE(*),
+      INTEGER INSCR(*), IXS(NIXS,NUMELS), IXC(NIXC,NUMELC),
+     .   IPARI(*), IXT(NIXT,NUMELT) ,IXP(NIXP,NUMELP) ,IXR(NIXR,NUMELR),
+     .   ITAB(NUMNOD), MWA(*), IXTG(NIXTG,NUMELTG), IKINE(*),
      .   NELEMINT,  IDDLEVEL,IFIEND,
      .   IWCONT(*), IWCIN2(*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
@@ -190,12 +191,15 @@ C-----------------------------------------------
      .   T2_NB_CONNEC(*),T2_CONNEC(*)
       INTEGER NOM_OPT(LNOPT1,*)
       my_real
-     .   PM(*), GEO(*), MS(*),RWA(6,*),
+     .   PM(*), GEO(*), RWA(6,*),
      .   THK(*),THK_PART(*), LELX(*), FILLSOL(*),
      .   PM_STACK(*)
-      my_real, TARGET ::  X(3*NUMNOD)
-      CHARACTER*nchartitle,
-     .   TITR
+      my_real, TARGET :: MS(NUMNOD)
+      my_real, TARGET :: X(3*NUMNOD)
+      INTEGER, INTENT(in) :: S_APPEND_ARRAY !< size of X/MASS _APPEND
+      my_real, DIMENSION(3*S_APPEND_ARRAY), TARGET :: X_APPEND !< extended position array for interface 18 + law 151
+      my_real, DIMENSION(S_APPEND_ARRAY), TARGET :: MASS_APPEND !< extended mass array for interface 18 + law 151
+      CHARACTER*nchartitle, TITR
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
@@ -217,23 +221,19 @@ C-----------------------------------------------
      .   NRTM_FE, NRTM_IGE,NMN_IGE,NMN_FE,NRTS_FE, NRTS_IGE,NSN_IGE,NSN_FE,L,IEDG4,IS1,
      .   IVIS2, ISHARP, IEDGE, INACTBID, ITHK25, IGAP0
       INTEGER
-     .   N1(MVSIZ),N2(MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),NRTM0,NRTM_SH,IWPENE0,IAD,NBRIC,II,IBRIC,IAD_IXINT,
+     .   N1(MVSIZ),N2(MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),NRTM0,NRTM_SH,IWPENE0,IAD,NBRIC,GRBRIC_ID,II,IBRIC,IAD_IXINT,
      .   NODEID, INOD, MVOISN(MVSIZ,4),IBOUND(4,MVSIZ)
       INTEGER ITASK, NEDGE_T, ESHIFT, NRTM_T, SSHIFT, MULNSNE, MULNSNS, MULTIMPE, MULTIMPS, NCONTE, 
      .        CAND_E_OLD(2), I_MEME(2),
      .        I_START, I_MEM_REM, NEW_SIZE
-      my_real
-     .        MARGE, GAP, VMAXDT, BMINMA(6), GAPM_MX, GAPS_MX, GAPM_L_MX,GAPS_L_MX
-      my_real
-     .   MAXBOX,MINBOX,GAP0,BID,TZINF,GAPINF,BIDON,FPENMAX,DRAD,PENMN,GAPSCALE,BGAPEMX_L
-      my_real
-     .   NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),GAPV(MVSIZ)
-      my_real
-     .   RDUM(1)  ,PENE_MAX,PENMAX,FACF
+      my_real MARGE, GAP, VMAXDT, BMINMA(6), GAPM_MX, GAPS_MX, GAPM_L_MX,GAPS_L_MX
+      my_real MAXBOX,MINBOX,GAP0,BID,TZINF,GAPINF,BIDON,FPENMAX,DRAD,PENMN,GAPSCALE,BGAPEMX_L
+      my_real NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),GAPV(MVSIZ)
+      my_real RDUM(1)  ,PENE_MAX,PENMAX,FACF
       my_real, DIMENSION(:),ALLOCATABLE :: PENMIN
       INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTNS,INOD2LIN,TAGSECND,NOD2LIN
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XE
-      my_real, DIMENSION(:),POINTER :: PTR_X
+      my_real, DIMENSION(:),POINTER :: PTR_X,PTR_MS
       INTEGER, POINTER :: pIXINT
       INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTSM
 C-----------------------------------------------
@@ -630,12 +630,17 @@ C       I_STOK = 0
        DRAD = INTBUF_TAB%VARIABLES(32)
 
        IF(INTBUF_TAB%S_NIGE/=0) THEN
-         ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB%S_NIGE)))
-         XE(1:3*NUMNOD) = X(1:3*NUMNOD)
-         XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) = INTBUF_TAB%XIGE(1:3*INTBUF_TAB%S_NIGE)
-         PTR_X => XE
+            ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB%S_NIGE)))
+            XE(1:3*NUMNOD) = X(1:3*NUMNOD)
+            XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) = INTBUF_TAB%XIGE(1:3*INTBUF_TAB%S_NIGE)
+            PTR_X(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) => XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE))
+            PTR_MS(1:NUMNOD) => MS(1:NUMNOD)
+       ELSEIF(TYPE18) THEN
+            PTR_X(1:NUMNOD+NUMELS) => X_APPEND(1:3*S_APPEND_ARRAY)
+            PTR_MS(1:NUMNOD+NUMELS) => MASS_APPEND(1:S_APPEND_ARRAY)
        ELSE
-         PTR_X => X
+            PTR_X(1:NUMNOD) => X(1:NUMNOD)
+            PTR_MS(1:NUMNOD) => MS(1:NUMNOD)
        ENDIF
 
        CALL I7ERR3(
@@ -654,7 +659,7 @@ C----------------
      1    PTR_X            ,INTBUF_TAB%IRECTM       , INTBUF_TAB%STFM ,    IXS          , PM              ,
      2    GEO              ,NRTM_FE                 , IXC             ,-NUMINT          , INTBUF_TAB%STFAC,
      3    NTY              ,INTBUF_TAB%VARIABLES(2) , NOINT           ,INTBUF_TAB%STFNS , NSN             ,
-     4    MS               ,INTBUF_TAB%NSV          , IXTG            ,IGAP             , RWA             ,
+     4    PTR_MS           ,INTBUF_TAB%NSV          , IXTG            ,IGAP             , RWA             ,
      5    INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M        ,INTBUF_TAB%VARIABLES(13),IXT       , IXP             ,
      6    INTBUF_TAB%VARIABLES(6),INTBUF_TAB%VARIABLES(16),INACTI     ,KNOD2ELS         , KNOD2ELC        ,
      7    KNOD2ELTG        ,NOD2ELS                 ,NOD2ELC          ,NOD2ELTG         , IGRSURF(ISU2)   ,
@@ -735,16 +740,22 @@ C
       ENDIF
 
       IF((IDDLEVEL==0).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
-C Appel routine poids noeuds interfaces
-          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN_FE,NMN_FE,
-     .         IWCONT,NSNT,NMNT)
-
+C Weighting interface nodes
+        IF(TYPE18 .AND. IPARI(14)==151)THEN
+          ! specific treatment with colocated scheme (/MAT/LAW151)
+          GRBRIC_ID  = IPARI(83)
+          NBRIC = IGRBRIC(ISU1)%NENTITY
+          CALL IWCONTDD_151(IGRBRIC(GRBRIC_ID)%ENTITY,NBRIC,INTBUF_TAB%MSR,NMN_FE,IWCONT,NSNT,NMNT,
+     .                      NUMNOD,IXS,NUMELS,ALE_CONNECTIVITY%NALE)
+        ELSE
+          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN_FE,NMN_FE,IWCONT,NSNT,NMNT)
+        ENDIF
       END IF
 cc     ENDIF
 C
-C     PUIS CALCULER LES PENETRATIONS INITIALES AVEC ONE I7PEN3
+C     INITIAL PENETRATION I7PEN3
 C
-      IF (IDDLEVEL>0)THEN      ! opti calcul pene initiale uniquement au second passage pour ne pas modifier les candidats
+      IF (IDDLEVEL>0)THEN      ! optim initial penetration (2nd passage only in order not to modify candidate list)
         NGROUS=1+(I_STOK-1)/NVSIZ
 C
        DO NG=1,NGROUS
@@ -797,17 +808,14 @@ C
          ENDIF
          IF(IWPENE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
-        CALL ANCMSG(MSGID=1164,
-     .          MSGTYPE=MSGWARNING,
-     .          ANMODE=ANINFO_BLIND_1,
-     .          I1=ID,
-     .          C1=TITR,
-     .          PRMOD=MSG_PRINT)
+        CALL ANCMSG(MSGID=1164,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .              I1=ID,
+     .              C1=TITR,
+     .              PRMOD=MSG_PRINT)
         DO I=1,NUMNOD+NUMFAKENODIGEO
          INPENE=INPENE+MIN(MWA(I),1)
         ENDDO
-        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))
-     .   IPARI(22) = -INACTI ! passage en negatif pour dimensionnenment
+        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))IPARI(22) = -INACTI ! passage en negatif pour dimensionnenment
         INTBUF_TAB%I_STOK(1)=ISTOK
        ENDIF
 C
@@ -919,7 +927,7 @@ C
      I            IPARI(63)  ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX,
      J            IPARTT     ,IPARTP                  ,IPARTR        )
 C
-C      IL FAUT ENCORE FAIRE ONE BUCKET SORT DANS LE STARTER
+C      REMAINING BUCKET SORT IN STARTER
 C
        MAXBOX = INTBUF_TAB%VARIABLES(9)
        MINBOX = INTBUF_TAB%VARIABLES(12)
@@ -947,7 +955,7 @@ C
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
 C
-C      PUIS CALCULER LES PENETRATIONS INITIALES AVEC ONE I7PEN3
+C      COMPUTE INITIAL PENETRATION WITH I7PEN3
 C
        NGROUS=1+(I_STOK-1)/NVSIZ
 C
@@ -993,12 +1001,7 @@ C
      9      N11,N21,N31,PENE)
         IF(IWPENE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
        ENDDO
-       CALL ANCMSG(MSGID=1164,
-     .          MSGTYPE=MSGWARNING,
-     .          ANMODE=ANINFO_BLIND_1,
-     .          I1=ID,
-     .          C1=TITR,
-     .          PRMOD=MSG_PRINT)
+       CALL ANCMSG(MSGID=1164,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,PRMOD=MSG_PRINT)
 
        DO I=1,NUMNOD
          INPENE=INPENE+MIN(MWA(I),1)
@@ -1012,12 +1015,12 @@ C Appel routine poids noeuds interfaces
 C-----------------------------------------------------------------------
       ELSEIF(NTY==11) THEN
 C-----------------------------------------------------------------------
-C      CALCUL DES RIGIDITES ELEMENTTAIRES 
+C      ELEMSTIFFNESS
 C
        GAP0 =INTBUF_TAB%VARIABLES(2)
        GAPINF = EP30
 C        cette initialisation est necessaire seulement apres l appel de i11edge
-C        dans lecins 
+C        dans lecins
 C        qui compacte sur deux emplacements les segments 
 C        ils sont sur quatre emplacements a la lecture : 
 C           [2 cases remplies puis deux cases vides]
@@ -1200,11 +1203,7 @@ C-----------------------------------------------------------------------
      3          IPARI(30),INTBUF_TAB%FCOUNT,ITIED, ITAB,KNOD2ELS,
      4          NOD2ELS,NTY,ID,TITR)
        IF(IPARI(30)==0)THEN
-          CALL ANCMSG(MSGID=1250,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND,
-     .                I1=ID,
-     .                C1=TITR)
+          CALL ANCMSG(MSGID=1250,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND,I1=ID,C1=TITR)
 
        ELSEIF(ITIED==3)THEN
          IPARI(30)=0
@@ -1459,12 +1458,7 @@ C
 
 C
        IF(IWPENE/=0) THEN
-          CALL ANCMSG(MSGID=499,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=IWPENE)
+          CALL ANCMSG(MSGID=499,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
        ENDIF
 C
        IF(IWPENE==0.AND.(INACTI==5.OR.INACTI==6))
@@ -1713,11 +1707,7 @@ C INTBUF_TAB%I_STOK(1)==II_STOK
 C-----cancel pressfit if no initial pene     
         IF (INACTI==-1.AND.IWPENE == 0) THEN
          IPARI(40) = 0
-         CALL ANCMSG(MSGID=1566,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR)
+         CALL ANCMSG(MSGID=1566,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR)
         END IF
        END IF !(IDDLEVEL == 1 ) THEN
 C------not to repeat the same mess       
@@ -2151,42 +2141,17 @@ C
 C
          END IF !(NGROUS>0) THEN
 C-------------------------------------------------------------
-         CALL ANCMSG(MSGID=1164,
-     .            MSGTYPE=MSGWARNING,
-     .            ANMODE=ANINFO_BLIND_1,
-     .            I1=ID,
-     .            C1=TITR,
-     .            PRMOD=MSG_PRINT)
+         CALL ANCMSG(MSGID=1164, MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,PRMOD=MSG_PRINT)
 C
          IF(IWPENE /= 0.AND. IDDLEVEL == 1)THEN
            IF(INACTI==0)THEN
-             CALL ANCMSG(MSGID=1166,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_1,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IWPENE)
+             CALL ANCMSG(MSGID=1166,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
            ELSEIF(INACTI==5.AND. IDDLEVEL == 1)THEN
-             CALL ANCMSG(MSGID=1167,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_1,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IWPENE)
+             CALL ANCMSG(MSGID=1167,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
            ELSEIF(INACTI==-1.AND. IDDLEVEL == 1)THEN
-             CALL ANCMSG(MSGID=1168,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_1,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IWPENE)
+             CALL ANCMSG(MSGID=1168,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
            ELSE
-             CALL ANCMSG(MSGID=1165,
-     .                   MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=INACTI)
+             CALL ANCMSG(MSGID=1165,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=INACTI)
            END IF
          END IF
 C
@@ -2295,42 +2260,15 @@ C
             INTBUF_TAB%I_STOK_E(2)=ISTOK
           END IF
 C------------------------------------------------------------
-          CALL ANCMSG(MSGID=1631,
-     .             MSGTYPE=MSGWARNING,
-     .             ANMODE=ANINFO_BLIND_1,
-     .             I1=ID,
-     .             C1=TITR,
-     .             PRMOD=MSG_PRINT)
+          CALL ANCMSG(MSGID=1631,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,PRMOD=MSG_PRINT)
 C
           IF(IWPENE /= 0 .AND. IDDLEVEL == 1)THEN
             IF(INACTI==0)THEN
-              CALL ANCMSG(MSGID=1632,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IWPENE)
+              CALL ANCMSG(MSGID=1632, MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID, C1=TITR, I2=IWPENE)
             ELSEIF(INACTI==5)THEN
-              CALL ANCMSG(MSGID=1633,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IWPENE)
+              CALL ANCMSG(MSGID=1633,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
             ELSEIF(INACTI==-1)THEN
-              CALL ANCMSG(MSGID=1634,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IWPENE)
-C           ELSE
-C             CALL ANCMSG(MSGID=1165,
-C     .                  MSGTYPE=MSGERROR,
-C     .                  ANMODE=ANINFO_BLIND_1,
-C     .                  I1=ID,
-C     .                  C1=TITR,
-C     .                  I2=INACTI)
+              CALL ANCMSG(MSGID=1634,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR, I2=IWPENE)
             END IF
           END IF
         END IF !(NGROUS>0) THEN
@@ -2342,53 +2280,22 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
       IF(IWPENE/=0) THEN
          IF(INPENE/=0 .AND. IDDLEVEL == 1)THEN
-          IF(.NOT.TYPE18)CALL ANCMSG(MSGID=343,
-     .                               MSGTYPE=MSGWARNING,
-     .                               ANMODE=ANINFO_BLIND_1,
-     .                               I1=ID,
-     .                               C1=TITR,
-     .                               I2=IWPENE,
-     .                               I3=INPENE)
+          IF(.NOT.TYPE18)CALL ANCMSG(MSGID=343,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE,I3=INPENE)
          ELSEIF (IDDLEVEL == 1.AND.NTY/=24) THEN
-          IF(.NOT.TYPE18)CALL ANCMSG(MSGID=499,
-     .                               MSGTYPE=MSGWARNING,
-     .                               ANMODE=ANINFO_BLIND_1,
-     .                               I1=ID,
-     .                               C1=TITR,I2=IWPENE)
+          IF(.NOT.TYPE18)CALL ANCMSG(MSGID=499, MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
          ENDIF
        IF(NTY==24.AND. IDDLEVEL == 1) THEN
          SELECT CASE (INACTI)
           CASE(0,1)
-           CALL ANCMSG(MSGID=1184,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IWPENE,
-     .                 I3=IWPENE0)
+           CALL ANCMSG(MSGID=1184, MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR, I2=IWPENE,I3=IWPENE0)
           CASE(-1)
-           CALL ANCMSG(MSGID=1185,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IWPENE,
-     .                 I3=IWPENE0)
+           CALL ANCMSG(MSGID=1185,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE,I3=IWPENE0)
           CASE(5)
-           CALL ANCMSG(MSGID=1186,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IWPENE,
-     .                 I3=IWPENE0)
+           CALL ANCMSG(MSGID=1186,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE,I3=IWPENE0)
          END SELECT
-       IF(IPRI>=5.AND. IDDLEVEL == 1) CALL ANCMSG(MSGID=1164,
-     .          MSGTYPE=MSGWARNING,
-     .          ANMODE=ANINFO_BLIND_1,
-     .          I1=ID,
-     .          C1=TITR,
-     .          PRMOD=MSG_PRINT)
+         IF(IPRI>=5.AND. IDDLEVEL == 1) THEN
+           CALL ANCMSG(MSGID=1164,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,PRMOD=MSG_PRINT)
+         ENDIF
        END IF
       ENDIF
 C

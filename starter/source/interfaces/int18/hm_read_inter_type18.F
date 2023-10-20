@@ -279,7 +279,7 @@ c          ENDIF
         IPARI(7)  = NTYP
         IPARI(12) = 0                
         IPARI(13) = IS1*10+IS2             
-        IPARI(14) = 0       !IVIS2
+        IPARI(14) = 0        ! tag for collocated scheme
         IPARI(17) = IDEL7N         
         IPARI(18) = INACTI 
         IPARI(20) = 0

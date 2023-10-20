@@ -38,7 +38,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|====================================================================
       SUBROUTINE W_FI(IPARI,PROC,LEN_IA,
      1                INTERCEP ,INTBUF_TAB,ITAB,MULTI_FVM,TAG,
-     2                NINDX_TAG,INDX_TAG  ,NODLOCAL,NUMNOD_L)
+     2                NINDX_TAG,INDX_TAG  ,NODLOCAL,NUMNOD_L,LEN_CEP,CEP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +89,8 @@ C-----------------------------------------------
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+      INTEGER, INTENT(in) :: LEN_CEP !< size of cep
+      INTEGER, DIMENSION(LEN_CEP), INTENT(in) :: CEP !< element -> proc connectivity array
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -119,12 +121,19 @@ C-----------------------------------------------
       INTEGER SPLIST
       INTEGER, DIMENSION(:),ALLOCATABLE :: TABZERO
       INTEGER, DIMENSION(:), ALLOCATABLE :: LEDGE_FIE
+      INTEGER :: INTER_LAW151
+      LOGICAL :: INTER18_LAW151
 C-----------------------------------------------
 C
 
       DO NI =1, NINTER
         NINDX_TAG = 0
         ITYP = IPARI(7,NI)
+        INACTI = IPARI(22,NI)
+        INTER_LAW151 = IPARI(14,NI)
+        INTER18_LAW151 = .FALSE.
+
+        IF(ITYP==7.AND.INACTI==7.AND.INTER_LAW151==151) INTER18_LAW151 = .TRUE.
 C
         IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
      .    (ITYP==17.AND.IPARI(33,NI)==0).OR.ITYP==20.OR.
@@ -135,7 +144,6 @@ C   ecriture nsnsi : 0
           END DO
           CALL WRITE_I_C(NSNFI,NSPMD) ! NSNSI at engine
           LEN_IA = LEN_IA + NSPMD
-          INACTI = IPARI(22,NI)
           IF(((INACTI/=5.AND.INACTI/=6.AND.INACTI/=7).OR.
      .        ITYP==10).AND.ITYP/=23.AND.INACTI/=-1) THEN
 C   ecriture nsnfi : 0 si inacti # 5, 6 et 7
@@ -197,17 +205,24 @@ C
                   NSNLOCAL(K) = 0
                   IF(TAG(N)==0) THEN 
                      SPLIST=0 
-                     IF(N<=NUMNOD) THEN
-                        CALL PLIST_IFRONT(PLIST,N,SPLIST) 
-                        PLOC = 0
-                        IF(NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L) PLOC = 1
+                     PLOC = 0
+                     IF(INTER18_LAW151) THEN
+                        IF(CEP(N)==PROC) PLOC = 1
+                        SPLIST = 1
+                        PLIST(1) = CEP(N) + 1
                      ELSE
+                         IF(N<=NUMNOD) THEN
+                            CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+                            PLOC = 0
+                            IF(NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L) PLOC = 1
+                         ELSE
 C     T24 E2E Fictive nodes are only on 1 domain (But they are not nodes
-                        PLOC = 0
-                        SE1 = INTBUF_TAB(NI)%IS2SE(2*(N-NUMNOD-1)+1)
-                        PLIST(1)=INTERCEP(2,NI)%P(SE1)
-                        SPLIST=1
-                        IF(PLIST(1)==PROC+1)PLOC=1
+                            PLOC = 0
+                            SE1 = INTBUF_TAB(NI)%IS2SE(2*(N-NUMNOD-1)+1)
+                            PLIST(1)=INTERCEP(2,NI)%P(SE1)
+                            SPLIST=1
+                            IF(PLIST(1)==PROC+1)PLOC=1
+                         ENDIF
                      ENDIF
                      DO I=1,SPLIST
                         P=PLIST(I)

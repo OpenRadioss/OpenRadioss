@@ -71,7 +71,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-            
       ALLOCATE(MSVTMP(1:NUMNOD))
       MSVTMP(1:NUMNOD)=0
 
@@ -92,16 +91,16 @@ C-----------------------------------------------
           IMAT = IXS(1,IELEM)
           ILAW = IPM(2,IMAT)
           IFORM = 0
-          IF(ILAW==51)THEN
+          IF(ILAW == 51)THEN
             NPAR   = IPM(9,IMAT)                
             IADBUF = IPM(7,IMAT)                
             IADBUF = MAX(1,IADBUF)                
             UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)  
             IFORM  = NINT(UPARAM(31))
             IF(IFORM>=2 .AND. IFORM<=6)IS_ELEM_A_BOUNDARY_MAT=.TRUE.
-          ELSEIF(IFORM==11)THEN   
+          ELSEIF(ILAW == 11)THEN
             IS_ELEM_A_BOUNDARY_MAT=.TRUE.
-          ENDIF  
+          ENDIF
           IF(IS_ELEM_A_BOUNDARY_MAT)THEN
             DO J=2,9
               INOD = IXS(J,IELEM)

@@ -283,10 +283,13 @@ C     Compression coefficient for phase advection
       ! INT18_LIST : integer, dimension = NUMBER_INT18, list of interface 18
       ! INT18_GLOBAL_LIST : boolean, dimension=NINTER, true if /INT18 + LAW151 for the NIN interface
       !                     used for the mpi comm spmd_i7fcom_poff/pon
+      ! S_APPEND_ARRAY : integer, size of X_APPEND,V_APPEND,MASS_APPEND and KINET_APPEND arrays
       LOGICAL :: IS_INT18_LAW151
       INTEGER :: NUMBER_INT18
       INTEGER, DIMENSION(:), ALLOCATABLE :: INT18_LIST
       LOGICAL, DIMENSION(:), ALLOCATABLE :: INT18_GLOBAL_LIST
+
+      INTEGER :: S_APPEND_ARRAY ! size of X_APPEND,V_APPEND,MASS_APPEND and KINET_APPEND arrays
       ! extended position/velocity/mass/kinet for /INT18 + LAW 151
       ! size : NUMNOD + NUMELS
       my_real, DIMENSION(:), ALLOCATABLE :: X_APPEND

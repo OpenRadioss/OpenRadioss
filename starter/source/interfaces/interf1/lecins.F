@@ -260,9 +260,11 @@ c            END IF
               !INTER18 + GRBRIC_ID
               NBRIC = IGRBRIC(GRBRIC_ID)%NENTITY              
               IF (MULTI_FVM%IS_USED)THEN
+               IPARI(14,NI) = 151
                CALL INGRBRIC_CENTROIDS(IGRBRIC(GRBRIC_ID)%ENTITY, INTBUF_TAB(NI)%NSV,
      .                       IXS, NBRIC)                            
               ELSE
+               IPARI(14,NI) = 0
                CALL INGRBRIC_NODES(NSN_FE, IGRBRIC(GRBRIC_ID)%ENTITY, ITAB, INTBUF_TAB(NI)%NSV,
      .                       IXS, NBRIC, NALE, IPM, BUFMAT, INTBUF_TAB(NI)%S_NSV)
               ENDIF

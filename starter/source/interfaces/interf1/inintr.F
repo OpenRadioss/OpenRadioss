@@ -58,7 +58,7 @@ Chd|====================================================================
      E                  NMNT      ,KXIG3D   ,IXIG3D  ,KNOD2ELQ ,NOD2ELQ  ,
      F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB  ,IPARTT   ,
      G                  IPARTP    ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     H                  ICODE     ,ISKEW    )
+     H                  ICODE     ,ISKEW    ,MULTI_FVM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,6 +120,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC)  :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -142,10 +144,12 @@ C-----------------------------------------------
       INTEGER :: MAIN_INTERFACE_SIZE  
       INTEGER :: ID_MAIN_INTERFACE
       INTEGER :: CPT,NODE_ID,J
+      INTEGER :: IPARI_14,INACTI
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG
       DOUBLE PRECISION :: avg_stiff(NINTER)
       DOUBLE PRECISION :: main_stiff
       DOUBLE PRECISION :: min_stiff
+      LOGICAL :: IS_INTER18_AND_LAW151
 
        
 C
@@ -278,7 +282,8 @@ c       END IF
      D              INTBUF_TAB(N),FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
      E              IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
      F              IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
-     F              T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG)
+     G              T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
+     H              MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND)
 
         IF (I_MEM /= 0) GOTO 200
        ELSE
@@ -338,6 +343,13 @@ C significantly different velocities between secnd and main
             NMN      = IPARI(6,N)
             NSN      = IPARI(5,N)
             NRTM     = IPARI(4,N)
+            INACTI   = IPARI(22,N)
+            IPARI_14 = IPARI(14,N)
+            IS_INTER18_AND_LAW151 = .FALSE.
+            IF(INACTI == 7)THEN
+              IF(IPARI_14 == 151)IS_INTER18_AND_LAW151 = .TRUE.
+            ENDIF
+            IF(IS_INTER18_AND_LAW151)CYCLE
             NS = 0
 C           CALL COUNT_SOLID_NODES(NOD2EL1D,KNOD2EL1D,INTBUF_TAB(N),NMN,NSN,NS)
 C ----------- Count solid nodes
@@ -375,24 +387,27 @@ C
                  ENDIF
               ENDIF
             ENDIF
-            CALL C_COMPUTE_VELOCITY(V, NUMNOD, INTBUF_TAB(N)%NSV, NSN, v1, f1)
-            CALL C_COMPUTE_VELOCITY(V, NUMNOD, INTBUF_TAB(N)%MSR, NMN, v2, f2)
-            displacement = (v1(1) - v2(1))**2 
-     +                   + (v1(2) - v2(2))**2
-     +                   + (v1(3) - v2(3))**2
-            IF(f1 > NSN / 2 .AND. f2 > NMN / 2) THEN
-              IF(displacement > displacement_max / 10.0 .AND.  
-     +           NMN + NSN > MAIN_INTERFACE_SIZE) THEN
-                IF( NMN + NSN > NUMNOD / 100 ) THEN
-C main interface = interface that has the maximum displacement velocity
-C between main and secnd, and that contains at least 1% of the nodes 
-                  MAIN_INTERFACE_SIZE = NMN + NSN
-                  ID_MAIN_INTERFACE = N
-C                 CONDITION(N) = .FALSE.
-                  displacement_max = displacement
-                ENDIF ! NMN+ NSN
-              ENDIF ! Displacement
-            ENDIF ! f1 & f2
+            INACTI = IPARI(22,N)
+            IPARI_14 = IPARI(14,N)
+            IS_INTER18_AND_LAW151 = .FALSE.
+            IF(INACTI == 7 .AND. IPARI_14 == 151) IS_INTER18_AND_LAW151 = .TRUE.
+            IF(.NOT. IS_INTER18_AND_LAW151)THEN
+             CALL C_COMPUTE_VELOCITY(V, NUMNOD, INTBUF_TAB(N)%NSV, NSN, v1, f1)
+             CALL C_COMPUTE_VELOCITY(V, NUMNOD, INTBUF_TAB(N)%MSR, NMN, v2, f2)
+             displacement = (v1(1) - v2(1))**2 + (v1(2) - v2(2))**2 + (v1(3) - v2(3))**2
+             IF(f1 > NSN / 2 .AND. f2 > NMN / 2) THEN
+               IF(displacement > displacement_max / 10.0 .AND. NMN + NSN > MAIN_INTERFACE_SIZE) THEN
+                 IF( NMN + NSN > NUMNOD / 100 ) THEN
+                   ! main interface = interface that has the maximum displacement velocity
+                   ! between main and secnd, and that contains at least 1% of the nodes
+                   MAIN_INTERFACE_SIZE = NMN + NSN
+                   ID_MAIN_INTERFACE = N
+C                  CONDITION(N) = .FALSE.
+                   displacement_max = displacement
+                 ENDIF ! NMN+ NSN
+               ENDIF ! Displacement
+             ENDIF ! f1 & f2
+            ENDIF
           ENDIF ! NTY
         ENDDO ! N
 
@@ -402,7 +417,7 @@ C                 CONDITION(N) = .FALSE.
           NRTM     = IPARI(4,ID_MAIN_INTERFACE)
           NMN      = IPARI(6,ID_MAIN_INTERFACE)
           main_stiff = 0.0D0
-          DO I = 1,NRTM 
+          DO I = 1,NRTM
             main_stiff = main_stiff + INTBUF_TAB(ID_MAIN_INTERFACE)%STFM(I) / dble(NRTM)
           ENDDO
           IF(main_stiff == 0) THEN
@@ -417,7 +432,7 @@ c         WRITE(,*) "main stiff=",main_stiff
           DO I = 1,NMN
             TAG(INTBUF_TAB(ID_MAIN_INTERFACE)%MSR(I)) = 1
           ENDDO
-          min_stiff = HUGE(0.0D0) 
+          min_stiff = HUGE(0.0D0)
           DO N=1,NINTER
             IPARI(69,N) = 0
             IF(CONDITION(N) .AND. N /= ID_MAIN_INTERFACE) THEN
@@ -448,13 +463,13 @@ C Appel   routine poids noeuds interfaces
 c               WRITE(6,*) "Interface",IPARI(15,N),"weight=",I 
 c               WRITE(6,*) "Stiff=",min_stiff,avg_stiff(N),main_stiff
                 IF(I > 0) THEN 
-                  WRITE(IOUT,*)"INFO: WEIGHT OF INTERFACE"
-     .          ,IPARI(15,N), "INCREASED"
+                  WRITE(IOUT,*)"INFO: WEIGHT OF INTERFACE",IPARI(15,N), "INCREASED"
                   CALL IWCONTDD_NEW(INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%MSR,NSN,NMN,IWCONT,I)
                 ENDIF
               ENDIF
             ENDIF ! CONDITION
           ENDDO ! NINTER
+
         ENDIF ! main interface
 
         DEALLOCATE(TAG)
