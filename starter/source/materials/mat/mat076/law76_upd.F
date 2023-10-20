@@ -40,7 +40,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD      
       USE MATPARAM_DEF_MOD
-      USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,11 +62,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NDIM,NPT,NEPSP,FUNC_ID,FUNC_T,FUNC_C,FUNC_S,ICAS,ICONV,
-     .           NPT_TRAC,NPT_COMP,NPT_SHEAR,NPTMAX,IFUN_NUP,IFX,IFY,STAT
+     .           NPT_TRAC,NPT_COMP,NPT_SHEAR,NPTMAX,IFUN_NUP,IFX,IFY,STAT,LEN2
       my_real :: XFAC,EPDT_MIN,EPDT_MAX,EPDC_MIN,EPDC_MAX,EPDS_MIN,EPDS_MAX,
      .           NUP,XINT,YINT
       my_real ,DIMENSION(:)  ,ALLOCATABLE :: X_COMP,Y_COMP
-      TYPE(TTABLE), DIMENSION(:) ,POINTER ::  TABLE_MAT
+      TYPE(TABLE_4D_), DIMENSION(:) ,POINTER ::  TABLE_MAT
 C=======================================================================
       FUNC_T = ITABLE(1)
       FUNC_C = ITABLE(2)
@@ -199,7 +198,6 @@ c
         NDIM = TABLE(FUNC_T)%NDIM
         TABLE_MAT(1)%NDIM  = NDIM
         ALLOCATE (TABLE_MAT(1)%X(NDIM)    ,STAT=stat)      
-        ALLOCATE (TABLE_MAT(1)%Y          ,STAT=stat)
 c        
         DO I = 1,NDIM
           NPT = SIZE(TABLE(FUNC_T)%X(I)%VALUES)
@@ -207,9 +205,20 @@ c
           TABLE_MAT(1)%X(I)%VALUES(1:NPT) = TABLE(FUNC_T)%X(I)%VALUES(1:NPT)
         END DO
 c
-        NPT = SIZE(TABLE(FUNC_T)%Y%VALUES)
-        ALLOCATE (TABLE_MAT(1)%Y%VALUES(NPT) ,STAT=stat)
-        TABLE_MAT(1)%Y%VALUES(1:NPT) = TABLE(FUNC_T)%Y%VALUES(1:NPT)
+        IF (NDIM == 1) THEN
+          NPT = SIZE(TABLE(FUNC_T)%X(1)%VALUES)
+          ALLOCATE (TABLE_MAT(1)%Y1D(NPT) ,STAT=stat)
+          TABLE_MAT(1)%Y1D(1:NPT) = TABLE(FUNC_T)%Y%VALUES(1:NPT)
+        ELSE IF (NDIM == 2) THEN
+          NPT  = SIZE(TABLE(FUNC_T)%X(1)%VALUES)
+          LEN2 = SIZE(TABLE(FUNC_T)%X(2)%VALUES)
+          ALLOCATE (TABLE_MAT(1)%Y2D(NPT,LEN2) ,STAT=stat)
+          DO I=1,NPT
+            DO J=1,LEN2
+              TABLE_MAT(1)%Y2D(I,J) = TABLE(FUNC_T)%Y%VALUES((J-1)*NPT+I)
+            END DO
+          END DO
+        END IF
       END IF
 c      
 c     copy compression table
@@ -220,7 +229,6 @@ c
         NDIM = TABLE(FUNC_C)%NDIM
         TABLE_MAT(2)%NDIM  = NDIM
         ALLOCATE (TABLE_MAT(2)%X(NDIM)    ,STAT=stat)      
-        ALLOCATE (TABLE_MAT(2)%Y          ,STAT=stat)
 c
         DO I = 1,NDIM
           NPT = SIZE(TABLE(FUNC_C)%X(I)%VALUES)
@@ -228,9 +236,20 @@ c
           TABLE_MAT(2)%X(I)%VALUES(1:NPT) = TABLE(FUNC_C)%X(I)%VALUES(1:NPT)
         END DO      
 c
-        NPT = SIZE(TABLE(FUNC_C)%Y%VALUES)
-        ALLOCATE (TABLE_MAT(2)%Y%VALUES(NPT)  ,STAT=stat)
-        TABLE_MAT(2)%Y%VALUES(1:NPT) = TABLE(FUNC_C)%Y%VALUES(1:NPT)
+        IF (NDIM == 1) THEN
+          NPT = SIZE(TABLE(FUNC_C)%X(1)%VALUES)
+          ALLOCATE (TABLE_MAT(2)%Y1D(NPT) ,STAT=stat)
+          TABLE_MAT(2)%Y1D(1:NPT) = TABLE(FUNC_C)%Y%VALUES(1:NPT)
+        ELSE IF (NDIM == 2) THEN
+          NPT  = SIZE(TABLE(FUNC_C)%X(1)%VALUES)
+          LEN2 = SIZE(TABLE(FUNC_C)%X(2)%VALUES)
+          ALLOCATE (TABLE_MAT(2)%Y2D(NPT,LEN2) ,STAT=stat)
+          DO I=1,NPT
+            DO J=1,LEN2
+              TABLE_MAT(2)%Y2D(I,J) = TABLE(FUNC_C)%Y%VALUES((J-1)*NPT+I)
+            END DO
+          END DO
+        END IF
       END IF      
 c
 c     copy shear table
@@ -241,7 +260,6 @@ c
         NDIM = TABLE(FUNC_S)%NDIM
         TABLE_MAT(3)%NDIM  = NDIM
         ALLOCATE (TABLE_MAT(3)%X(NDIM)    ,STAT=stat)      
-        ALLOCATE (TABLE_MAT(3)%Y          ,STAT=stat)
 c
         DO I = 1,NDIM
           NPT = SIZE(TABLE(FUNC_S)%X(I)%VALUES)
@@ -249,9 +267,20 @@ c
           TABLE_MAT(3)%X(I)%VALUES(1:NPT) = TABLE(FUNC_S)%X(I)%VALUES(1:NPT)
         END DO      
 c
-        NPT = SIZE(TABLE(FUNC_S)%Y%VALUES)
-        ALLOCATE (TABLE_MAT(3)%Y%VALUES(NPT)  ,STAT=stat)
-        TABLE_MAT(3)%Y%VALUES(1:NPT) = TABLE(FUNC_S)%Y%VALUES(1:NPT)
+        IF (NDIM == 1) THEN
+          NPT = SIZE(TABLE(FUNC_S)%X(1)%VALUES)
+          ALLOCATE (TABLE_MAT(3)%Y1D(NPT) ,STAT=stat)
+          TABLE_MAT(3)%Y1D(1:NPT) = TABLE(FUNC_S)%Y%VALUES(1:NPT)
+        ELSE IF (NDIM == 2) THEN
+          NPT  = SIZE(TABLE(FUNC_S)%X(1)%VALUES)
+          LEN2 = SIZE(TABLE(FUNC_S)%X(2)%VALUES)
+          ALLOCATE (TABLE_MAT(3)%Y2D(NPT,LEN2) ,STAT=stat)
+          DO I=1,NPT
+            DO J=1,LEN2
+              TABLE_MAT(3)%Y2D(I,J) = TABLE(FUNC_S)%Y%VALUES((J-1)*NPT+I)
+            END DO
+          END DO
+        END IF
       END IF      
 c--------------------------------------------------------
 c     Initialize plastic Poisson ratio if needed
@@ -266,7 +295,7 @@ c--------------------------------------------------------
       END IF
 c--------------------------------------------------------
       IF (ICAS == 2) THEN      
-        !     create new compression table
+        !     create new static compression table (1D)
         NDIM = 1
         TABLE_MAT(2)%NOTABLE = 2
         TABLE_MAT(2)%NDIM = NDIM
@@ -287,13 +316,10 @@ c
         NPT = NPT_COMP
         ALLOCATE (TABLE_MAT(2)%X(NDIM)          ,STAT=stat)      
         ALLOCATE (TABLE_MAT(2)%X(1)%VALUES(NPT) ,STAT=stat)
-        ALLOCATE (TABLE_MAT(2)%Y                ,STAT=stat)
-        ALLOCATE (TABLE_MAT(2)%Y%VALUES(NPT)    ,STAT=stat)
+        ALLOCATE (TABLE_MAT(2)%Y1D(NPT)         ,STAT=stat)
 c
-        DO I = 1,NPT
-          TABLE_MAT(2)%X(1)%VALUES(I) = X_COMP(I)
-          TABLE_MAT(2)%Y%VALUES(I)    = Y_COMP(I)
-        END DO
+        TABLE_MAT(2)%X(1)%VALUES(1:NPT) = X_COMP(1:NPT)
+        TABLE_MAT(2)%Y1D(1:NPT)         = Y_COMP(1:NPT)
               
         ICAS  =-1
         ICONV = 1
@@ -322,7 +348,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE TABLE_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -332,7 +357,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NTABLE,NPTMAX, NPT_TRAC,NPT_SHEAR,NPT_COMP
-      TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
+      TYPE(TABLE_4D_), DIMENSION(NTABLE) ::  TABLE
       my_real :: NUP
       my_real ,DIMENSION(NPTMAX) :: X_COMP,Y_COMP
 C-----------------------------------------------
@@ -363,32 +388,32 @@ C=======================================================================
           XJ = X_T_SHEAR(J) 
           IF (XI < XJ   ) THEN    
              X_COMP(K) = XI
-             Y_T(K)    = TABLE(FUNC_TRAC )%Y%VALUES(I)
+             Y_T(K)    = TABLE(FUNC_TRAC )%Y1D(I)
              IF (J ==1) THEN
-              Y_S(K)    = TABLE(FUNC_SHEAR)%Y%VALUES(1) +
+              Y_S(K)    = TABLE(FUNC_SHEAR)%Y1D(1) +
      .                   (XI - X_T_SHEAR(1) )*
-     .                   (TABLE(FUNC_SHEAR)%Y%VALUES(2)   - TABLE(FUNC_SHEAR)%Y%VALUES(1))/
+     .                   (TABLE(FUNC_SHEAR)%Y1D(2)   - TABLE(FUNC_SHEAR)%Y1D(1))/
      .                   (X_T_SHEAR(2)- X_T_SHEAR(1)) 
              ELSE
-              Y_S(K)    = TABLE(FUNC_SHEAR)%Y%VALUES(J-1) +
+              Y_S(K)    = TABLE(FUNC_SHEAR)%Y1D(J-1) +
      .                   (XI - X_T_SHEAR(J-1) )*
-     .                   (TABLE(FUNC_SHEAR)%Y%VALUES(J)   - TABLE(FUNC_SHEAR)%Y%VALUES(J-1))/
+     .                   (TABLE(FUNC_SHEAR)%Y1D(J)   - TABLE(FUNC_SHEAR)%Y1D(J-1))/
      .                   (X_T_SHEAR(J)- X_T_SHEAR(J-1)) 
              ENDIF
              I = I + 1
              K = K + 1     
           ELSEIF (XJ < XI    ) THEN                            
              X_COMP(K) = XJ
-             Y_S(K)    = TABLE(FUNC_SHEAR )%Y%VALUES(J)
+             Y_S(K)    = TABLE(FUNC_SHEAR )%Y1D(J)
              IF (I ==1) THEN
-              Y_T(K)    = TABLE(FUNC_TRAC)%Y%VALUES(1) +
+              Y_T(K)    = TABLE(FUNC_TRAC)%Y1D(1) +
      .                   (XJ - TABLE(FUNC_TRAC)%X(1)%VALUES(1) )*
-     .                   (TABLE(FUNC_TRAC)%Y%VALUES(2)   - TABLE(FUNC_TRAC)%Y%VALUES(1))/
+     .                   (TABLE(FUNC_TRAC)%Y1D(2)   - TABLE(FUNC_TRAC)%Y1D(1))/
      .                   (TABLE(FUNC_TRAC)%X(1)%VALUES(2)- TABLE(FUNC_TRAC)%X(1)%VALUES(1)) 
              ELSE
-              Y_T(K)    = TABLE(FUNC_TRAC)%Y%VALUES(I-1) +
+              Y_T(K)    = TABLE(FUNC_TRAC)%Y1D(I-1) +
      .                   (XJ - TABLE(FUNC_TRAC)%X(1)%VALUES(I-1) )*
-     .                   (TABLE(FUNC_TRAC)%Y%VALUES(I)   - TABLE(FUNC_TRAC)%Y%VALUES(I-1))/
+     .                   (TABLE(FUNC_TRAC)%Y1D(I)   - TABLE(FUNC_TRAC)%Y1D(I-1))/
      .                   (TABLE(FUNC_TRAC)%X(1)%VALUES(I)- TABLE(FUNC_TRAC)%X(1)%VALUES(I-1)) 
              ENDIF
 
@@ -396,8 +421,8 @@ C=======================================================================
              K = K + 1                             
           ELSEIF (XI == XJ ) THEN
              X_COMP(K) = XI
-             Y_T(K)    = TABLE(FUNC_TRAC  )%Y%VALUES(I)
-             Y_S(K)    = TABLE(FUNC_SHEAR )%Y%VALUES(J)
+             Y_T(K)    = TABLE(FUNC_TRAC  )%Y1D(I)
+             Y_S(K)    = TABLE(FUNC_SHEAR )%Y1D(J)
              I = I + 1
              J = J + 1
              K = K + 1                             
@@ -405,20 +430,20 @@ C=======================================================================
         ELSEIF (I > NPT_TRAC .AND. J <= NPT_SHEAR)THEN
              XJ=X_T_SHEAR(J) 
              X_COMP(K) = XJ
-             Y_S(K)    = TABLE(FUNC_SHEAR )%Y%VALUES(J)
-             Y_T(K)    = TABLE(FUNC_TRAC)%Y%VALUES(I-2) +
+             Y_S(K)    = TABLE(FUNC_SHEAR )%Y1D(J)
+             Y_T(K)    = TABLE(FUNC_TRAC)%Y1D(I-2) +
      .                  (XJ - TABLE(FUNC_TRAC)%X(1)%VALUES(I-2) )*
-     .                  (TABLE(FUNC_TRAC)%Y%VALUES(I-1)  - TABLE(FUNC_TRAC)%Y%VALUES(I-2))/
+     .                  (TABLE(FUNC_TRAC)%Y1D(I-1)  - TABLE(FUNC_TRAC)%Y1D(I-2))/
      .                  (TABLE(FUNC_TRAC)%X(1)%VALUES(I-1)- TABLE(FUNC_TRAC)%X(1)%VALUES(I-2)) 
              J = J + 1
              K = K + 1                             
         ELSEIF (I <= NPT_TRAC .AND. J > NPT_SHEAR)THEN
              XI=TABLE(FUNC_TRAC )%X(1)%VALUES(I) 
              X_COMP(K) = XI
-             Y_T(K)    = TABLE(FUNC_TRAC )%Y%VALUES(I)
-             Y_S(K)    = TABLE(FUNC_SHEAR)%Y%VALUES(J-2) +
+             Y_T(K)    = TABLE(FUNC_TRAC )%Y1D(I)
+             Y_S(K)    = TABLE(FUNC_SHEAR)%Y1D(J-2) +
      .                  (XI - X_T_SHEAR(J-2) )*
-     .                  (TABLE(FUNC_SHEAR)%Y%VALUES(J-1)  - TABLE(FUNC_SHEAR)%Y%VALUES(J-2))/
+     .                  (TABLE(FUNC_SHEAR)%Y1D(J-1)  - TABLE(FUNC_SHEAR)%Y1D(J-2))/
      .                  (X_T_SHEAR(J-1)- X_T_SHEAR(J-2)) 
              I = I + 1
              K = K + 1     

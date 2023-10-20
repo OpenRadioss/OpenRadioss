@@ -1407,7 +1407,7 @@ c              composite, visco-elastic laws don't separate spheric & deviatoric
 c-----------------------------------------------------------------
 c           orthotropy => include in hm_read_matxxx !!!            
             SELECT CASE (ILAW)
-             CASE(12,14,15,19,25,28,32,43,50,53,57,68,72,73,74,76,78,84,87,93,200)  
+             CASE(12,14,15,19,25,28,32,43,50,53,57,68,72,73,74,78,84,87,93,200)  
                CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
             END SELECT 
 C                       

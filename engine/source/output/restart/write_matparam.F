@@ -113,7 +113,7 @@ c
         END IF      
       END DO
 c
-c     write function tables
+c     write local 4D function tables
 c      
       DO IMAT = 1,NUMMAT
         NUMTABL = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE

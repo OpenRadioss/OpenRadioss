@@ -144,7 +144,7 @@ Chd|        VISC_PARAM_MOD                modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       MODULE MATPARAM_DEF_MOD
 c
-      USE TABLE_MOD
+      USE TABLE4D_MOD
       USE VISC_PARAM_MOD
       USE FAIL_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
@@ -212,12 +212,12 @@ c
         INTEGER     :: IFAILWAVE            ! failwave propagation flag
         INTEGER     :: IXFEM                ! XFEM flag
 c                        
-        my_real       ,DIMENSION(:) ,ALLOCATABLE :: UPARAM      ! NUPARAM
-        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IPARAM      ! NIPARAM
-        TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE       ! local function tables
+        my_real           ,DIMENSION(:) ,ALLOCATABLE :: UPARAM   ! NUPARAM
+        INTEGER           ,DIMENSION(:) ,ALLOCATABLE :: IPARAM   ! NIPARAM
+        TYPE (TABLE_4D_)  ,DIMENSION(:) ,ALLOCATABLE :: TABLE    ! local function tables
 c                
-        TYPE (FAIL_PARAM_) ,DIMENSION(:) ,ALLOCATABLE :: FAIL   ! failure models (NFAIL)
-        TYPE (VISC_PARAM_)                            :: VISC   ! viscosity model          
+        TYPE (FAIL_PARAM_),DIMENSION(:) ,ALLOCATABLE :: FAIL     ! failure models (NFAIL)
+        TYPE (VISC_PARAM_)                           :: VISC     ! viscosity model          
 
 c        TYPE (EOS_PARAM_)    :: EOS      ! to be defined      
 c        TYPE (THERM_PARAM_)  :: THERM    ! to be defined          

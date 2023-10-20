@@ -27,9 +27,7 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
 Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS76(
      1           NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NGL     ,
@@ -42,8 +40,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -73,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFORM,NUMTABL
-      TYPE(TTABLE), DIMENSION(:) , POINTER :: TABLE
+      TYPE(TABLE_4D_), DIMENSION(:) , POINTER :: TABLE
 C=======================================================================
 c
       IFORM = NINT(UPARAM(13)) ! Flag for plasticity 

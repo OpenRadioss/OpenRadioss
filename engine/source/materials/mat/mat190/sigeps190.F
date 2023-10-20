@@ -31,9 +31,7 @@ Chd|        PRODATA                       source/materials/tools/prodATA.F
 Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
 Chd|        CONDAMAGE_MOD                 source/materials/mat/mat190/condamage.F
 Chd|        CONVERSION_MOD                source/materials/mat/mat190/conversion.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS190(
      1     NEL    ,NUVAR   ,TIME   ,RHO   ,
@@ -43,15 +41,14 @@ Chd|====================================================================
      5     MFZX   ,MFZY    ,MFZZ   ,                            
      6     SOUNDSP,VISCMAX,UVAR    ,                          
      7     NUMTABL,MATPARAM,NVARTMP,VARTMP)
-C Material law for isotropic path dependent recoverable foam
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE CONVERSION_MOD
       USE CONDAMAGE_MOD
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
       USE MATPARAM_DEF_MOD
+C-----------------------------------------------
+C Material law for isotropic path dependent recoverable foam
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

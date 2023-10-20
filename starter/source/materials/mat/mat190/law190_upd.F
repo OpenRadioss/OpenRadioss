@@ -42,7 +42,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------      
       USE MATPARAM_DEF_MOD
-      USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -56,16 +55,16 @@ C-----------------------------------------------
       INTEGER  NUMTABL
       INTEGER ,DIMENSION(NUMTABL) :: ITABLE
       TYPE(MATPARAM_STRUCT_)  ,TARGET :: MATPARAM
-      TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(INOUT) ,TARGET ::  TABLE
+      TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(INOUT) ::  TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,KK,NDIM,NPT,FUN_1,FUNC_ID,FUNC_T,FUNC_C,FUNC_S,ICONV,
-     .           SIZETOZERO,NPTMAX,IFX,IFY,STAT
+     .           SIZETOZERO,NPTMAX,IFX,IFY,STAT,LEN2,LEN3
       my_real :: XFAC,EPDT_MIN,EPDT_MAX,EPDC_MIN,EPDC_MAX,EPDS_MIN,EPDS_MAX,
      .           XINT,YINT,X_I,X_II,Y_I,Y_II,ENER
       my_real ,DIMENSION(:)  ,ALLOCATABLE :: X_ENER,Y_ENER
-      TYPE(TTABLE), DIMENSION(:) ,POINTER ::  TABLE_MAT
+      TYPE(TABLE_4D_), DIMENSION(:) ,POINTER ::  TABLE_MAT
 C=======================================================================
       FUN_1    = ITABLE(1)
 c
@@ -78,26 +77,48 @@ c--------------------------------------------------------------------------
       ALLOCATE (MATPARAM%TABLE(NUMTABL))
       TABLE_MAT =>  MATPARAM%TABLE(1:NUMTABL)      
       TABLE_MAT(1:NUMTABL)%NOTABLE = 0
+c       
+c     copy original input table to matparam table structure      
+c       
       ! table (1)
       IF (FUN_1 > 0) THEN
         TABLE_MAT(1)%NOTABLE = FUN_1
         NDIM = TABLE(FUN_1)%NDIM
         TABLE_MAT(1)%NDIM  = NDIM
         ALLOCATE (TABLE_MAT(1)%X(NDIM)    ,STAT=stat)      
-        ALLOCATE (TABLE_MAT(1)%Y          ,STAT=stat)
 c        
         DO I = 1,NDIM
           NPT = SIZE(TABLE(FUN_1)%X(I)%VALUES)
           ALLOCATE (TABLE_MAT(1)%X(I)%VALUES(NPT) ,STAT=stat)
           TABLE_MAT(1)%X(I)%VALUES(1:NPT) = TABLE(FUN_1)%X(I)%VALUES(1:NPT)
         END DO
-c
-        NPT = SIZE(TABLE(FUN_1)%Y%VALUES)
-        ALLOCATE (TABLE_MAT(1)%Y%VALUES(NPT) ,STAT=stat)
-        TABLE_MAT(1)%Y%VALUES(1:NPT) = TABLE(FUN_1)%Y%VALUES(1:NPT)
+        IF (NDIM == 1) THEN
+          NPT = SIZE(TABLE(FUN_1)%X(1)%VALUES)
+          ALLOCATE (TABLE_MAT(1)%Y1D(NPT) ,STAT=stat)
+          TABLE_MAT(1)%Y1D(1:NPT) = TABLE(FUN_1)%Y%VALUES(1:NPT)
+        ELSE IF (NDIM == 2) THEN
+          NPT  = SIZE(TABLE(FUN_1)%X(1)%VALUES)
+          LEN2 = SIZE(TABLE(FUN_1)%X(2)%VALUES)
+          ALLOCATE (TABLE_MAT(1)%Y2D(NPT,LEN2) ,STAT=stat)
+          DO I=1,NPT
+            DO J=1,LEN2
+              TABLE_MAT(1)%Y2D(I,J) = TABLE(FUN_1)%Y%VALUES((J-1)*NPT+I)
+            END DO
+          END DO
+        ELSE IF (NDIM == 3) THEN
+          NPT  = SIZE(TABLE(FUN_1)%X(1)%VALUES)
+          LEN2 = SIZE(TABLE(FUN_1)%X(2)%VALUES)
+          LEN3 = SIZE(TABLE(FUN_1)%X(3)%VALUES)
+          ALLOCATE (TABLE_MAT(1)%Y3D(NPT,LEN2,LEN3) ,STAT=stat)
+          DO I=1,NPT
+            DO J=1,LEN2
+              DO K=1,LEN3
+                TABLE_MAT(1)%Y3D(I,J,K) = TABLE(FUN_1)%Y%VALUES((K-1)*NPT*LEN2+(J-1)*NPT+I)
+              END DO
+            END DO
+          END DO
+        END IF
       END IF
-
-      NDIM = TABLE(FUN_1)%NDIM  
 
 !     create energy function
 
@@ -131,7 +152,6 @@ c
           X_II =  TABLE(FUN_1)%X(1)%VALUES(K-1) 
           Y_I  =  TABLE(FUN_1 )%Y%VALUES(K)
           Y_II =  TABLE(FUN_1 )%Y%VALUES(K-1)
-
           ENER = (X_I-X_II)*(Y_I + Y_II)/TWO
           Y_ENER(K) = Y_ENER(K-1) + ENER
       ENDDO
@@ -139,19 +159,17 @@ c
           KK   = SIZETOZERO - K
           X_I  =  TABLE(FUN_1)%X(1)%VALUES(KK) 
           X_II =  TABLE(FUN_1)%X(1)%VALUES(KK+1) 
-          Y_I  =  TABLE(FUN_1 )%Y%VALUES(KK)
-          Y_II =  TABLE(FUN_1 )%Y%VALUES(K+1)
-
-          ENER      = (X_I-X_II)*(Y_I + Y_II)/TWO
+          Y_I  =  TABLE(FUN_1)%Y%VALUES(KK)
+          Y_II =  TABLE(FUN_1)%Y%VALUES(K+1)
+          ENER       = (X_I-X_II)*(Y_I + Y_II)/TWO
           Y_ENER(KK) = Y_ENER(KK+1) + ENER
       ENDDO
       ALLOCATE (TABLE_MAT(2)%X(NDIM)          ,STAT=stat)      
       ALLOCATE (TABLE_MAT(2)%X(1)%VALUES(NPT) ,STAT=stat)
-      ALLOCATE (TABLE_MAT(2)%Y                ,STAT=stat)
-      ALLOCATE (TABLE_MAT(2)%Y%VALUES(NPT)    ,STAT=stat)
+      ALLOCATE (TABLE_MAT(2)%Y1D(NPT)         ,STAT=stat)
       DO I = 1,NPT
           TABLE_MAT(2)%X(1)%VALUES(I) = X_ENER(I)
-          TABLE_MAT(2)%Y%VALUES(I)    = Y_ENER(I)
+          TABLE_MAT(2)%Y1D(I) = Y_ENER(I)
       END DO
       DEALLOCATE(X_ENER,Y_ENER)
 

@@ -25,10 +25,8 @@ Chd|  ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
 Chd|-- called by -----------
 Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
 Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        TABLE_MAT_VINTERP                 source/tools/curve/table_tools.F
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE ASSO_QPLAS76C(
      .     NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -40,8 +38,7 @@ Chd|====================================================================
      .     PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
 C-----------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
+      USE TABLE4D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +51,7 @@ C-----------------------------------------------
       my_real :: TIME,TIMESTEP
       my_real :: UPARAM(NUPARAM)
       my_real ,DIMENSION(NEL)   :: GS,RHO,SOUNDSP,DPLANL
+      TYPE(TABLE_4D_), DIMENSION(NUMTABL) ,INTENT(IN) :: TABLE
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -64,9 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real ,DIMENSION(NEL,NUVAR) :: UVAR
-      my_real ,DIMENSION(NEL)       :: OFF,YLD,PLA,EPSD
-      TYPE(TTABLE), DIMENSION(NUMTABL) , TARGET :: TABLE
+      my_real ,DIMENSION(NEL,NUVAR)    ,INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL)          ,INTENT(INOUT) :: OFF,YLD,PLA,EPSD
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -78,6 +75,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,KK,ITER,NITER,NXK,IPOSN(NFUNC),ID,NDIM,ICONV,ICAS,
      .   NINDX
+      INTEGER ,PARAMETER :: FUNC_TRAC  = 1
+      INTEGER ,PARAMETER :: FUNC_COMP  = 2
+      INTEGER ,PARAMETER :: FUNC_SHEAR = 3
       INTEGER, DIMENSION(NEL)   :: INDX
       INTEGER, DIMENSION(NEL,2) :: IPOS
       my_real R(NFUNC)
@@ -93,7 +93,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL,2)   :: XVEC
       my_real ,DIMENSION(NUMTABL) :: TFAC
       my_real ,DIMENSION(NFUNC)   :: YFAC
-      TYPE(TTABLE), POINTER :: FUNC_TRAC,FUNC_COMP,FUNC_SHEAR
       LOGICAL :: CONV(NEL)
       my_real, PARAMETER :: SFAC = 1.05D0 ! Security factor of ICONV
 c-----------------------------------------------
@@ -153,9 +152,6 @@ c
       TFAC(3) = UPARAM(27)
       YFAC(1) = UPARAM(28)
       YFAC(2) = UPARAM(29)
-      FUNC_TRAC  => TABLE(1)
-      FUNC_COMP  => TABLE(2)
-      FUNC_SHEAR => TABLE(3)
 c     Initialize plastic Poisson ratio
       IF (TIME == ZERO) THEN
         NUP(1:NEL)    = NUPC
@@ -175,25 +171,25 @@ c-----------------------------------------------
       IPOS(1:NEL,1) = 1
       IPOS(1:NEL,2) = 1
 c
-      CALL TABLE_VINTERP(FUNC_TRAC,NEL,IPOS,XVEC,SIGT,DFT)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,IPOS,XVEC,SIGT,DFT)
       SIGT(1:NEL) = SIGT(1:NEL) * TFAC(1) * DAM(1:NEL)
       DFT(1:NEL)  = DFT(1:NEL)  * TFAC(1) * DAM(1:NEL)
 c
       IPOS(1:NEL,1) = 1
       IPOS(1:NEL,2) = 1
-      IF (FUNC_COMP%NOTABLE  > 0) THEN
+      IF (TABLE(FUNC_COMP)%NOTABLE  > 0) THEN
         XVEC(1:NEL,1) = EPSPC(1:NEL)
         XVEC(1:NEL,2) = EPDC(1:NEL)
-        CALL TABLE_VINTERP(FUNC_COMP,NEL,IPOS,XVEC,SIGC,DFC)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,IPOS,XVEC,SIGC,DFC)
         SIGC(1:NEL) = SIGC(1:NEL) * TFAC(2) * DAM(1:NEL)
         DFC(1:NEL)  = DFC(1:NEL)  * TFAC(2) * DAM(1:NEL)
       END IF
       IPOS(1:NEL,1) = 1
       IPOS(1:NEL,2) = 1
-      IF (FUNC_SHEAR%NOTABLE > 0) THEN
+      IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN
         XVEC(1:NEL,1) = EPSPS(1:NEL)
         XVEC(1:NEL,2) = EPDS(1:NEL)
-        CALL TABLE_VINTERP(FUNC_SHEAR,NEL,IPOS,XVEC,SIGS,DFS)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,IPOS,XVEC,SIGS,DFS)
         SIGS(1:NEL) = SIGS(1:NEL) * TFAC(3) * DAM(1:NEL)
         DFS(1:NEL)  = DFS(1:NEL)  * TFAC(3) * DAM(1:NEL)
       END IF
@@ -278,8 +274,8 @@ c
             YLD_NORM = SVM(I)*NORM                                                             
             BB = THREE/(ONE + NUP(I))                                                                    
             DFT(I) = DFT(I) * YLD_NORM * BB
-            IF (FUNC_COMP%NOTABLE  > 0) DFC(I) = DFC(I) * YLD_NORM * BB
-            IF (FUNC_SHEAR%NOTABLE > 0) DFS(I) = DFS(I) * YLD_NORM * SQR3/TWO            
+            IF (TABLE(FUNC_COMP)%NOTABLE  > 0) DFC(I) = DFC(I) * YLD_NORM * BB
+            IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) DFS(I) = DFS(I) * YLD_NORM * SQR3/TWO            
             SELECT CASE(ICAS)
               CASE(0)
                 DFC(I) = DFT(I) 
@@ -345,25 +341,25 @@ c
           XVEC(1:NEL,2) = EPDT(1:NEL)
           IPOS(1:NEL,1) = 1
           IPOS(1:NEL,2) = 1
-          CALL TABLE_VINTERP(FUNC_TRAC,NEL,IPOS,XVEC,SIGT,DFT)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,IPOS,XVEC,SIGT,DFT)
           SIGT(1:NEL) = SIGT(1:NEL) * TFAC(1) * DAM(1:NEL)
           DFT(1:NEL)  = DFT(1:NEL)  * TFAC(1) * DAM(1:NEL)
 c
           IPOS(1:NEL,1) = 1
           IPOS(1:NEL,2) = 1
-          IF (FUNC_COMP%NOTABLE  > 0) THEN
+          IF (TABLE(FUNC_COMP)%NOTABLE  > 0) THEN
             XVEC(1:NEL,1) = EPSPC(1:NEL)
             XVEC(1:NEL,2) = EPDC(1:NEL)
-            CALL TABLE_VINTERP(FUNC_COMP,NEL,IPOS,XVEC,SIGC,DFC)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,IPOS,XVEC,SIGC,DFC)
             SIGC(1:NEL) = SIGC(1:NEL) * TFAC(2) * DAM(1:NEL)
             DFC(1:NEL)  = DFC(1:NEL)  * TFAC(2) * DAM(1:NEL)
           END IF
           IPOS(1:NEL,1) = 1
           IPOS(1:NEL,2) = 1
-          IF (FUNC_SHEAR%NOTABLE > 0) THEN
+          IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN
             XVEC(1:NEL,1) = EPSPS(1:NEL)
             XVEC(1:NEL,2) = EPDS(1:NEL)
-            CALL TABLE_VINTERP(FUNC_SHEAR,NEL,IPOS,XVEC,SIGS,DFS)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,IPOS,XVEC,SIGS,DFS)
             SIGS(1:NEL) = SIGS(1:NEL) * TFAC(3) * DAM(1:NEL)
             DFS(1:NEL)  = DFS(1:NEL)  * TFAC(3) * DAM(1:NEL)
           END IF
