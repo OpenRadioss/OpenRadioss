@@ -1775,6 +1775,13 @@ C
 C
       NEXT       = NEXT + 1
       INTER_PARAMETERS%INTCAREA   = TABVINT(NEXT)
+C
+C /LOAD/CLOAD
+      NEXT       = NEXT + 1
+      LOADS%NLOAD_CLOAD = TABVINT(NEXT)
+C /LOAD/PLOAD
+      NEXT       = NEXT + 1
+      LOADS%NLOAD_PLOAD = TABVINT(NEXT)
 C--------------------------------------
       RETURN
       END
