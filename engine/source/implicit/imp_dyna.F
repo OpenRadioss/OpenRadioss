@@ -734,7 +734,9 @@ Chd|====================================================================
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                    RBY   ,FR_ELEM,IAD_ELEM  ,NDDL  ,NNZK,
      7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP)
+     8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
+     9                    VEL0CLD,   D,  DR,  NUMNOD,NSURF,
+     A                    NFUNCT,NCONLD,NGRAV,NINVEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -751,7 +753,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "com08_c.inc"
 #include "impl1_c.inc"
 #include "param_c.inc"
@@ -760,7 +761,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NINVEL
       INTEGER ITASK,NPC(*), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),IDIV,
      .        CPTREAC,NODREAC(*)
@@ -775,6 +776,9 @@ C     REAL
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      my_real, INTENT(IN) :: 
+     .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD),
+     .   D(3,NUMNOD),DR(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -845,7 +849,8 @@ C---estimation a(t=0)----
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY,DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
-     6               NSEG_LOADP) 
+     6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
+     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT)
          IF (NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
@@ -980,7 +985,9 @@ Chd|====================================================================
      6                    RBY   ,IBFV  ,VEL   ,D      ,DR    ,
      7                    IKC   ,IDDL  ,IFRAME,XFRAME ,NDOF  ,
      8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
-     9                    TH_SURF ,FSAVSURF,NSEG_LOADP) 
+     9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
+     A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
+     B                    NGRAV,NFXVEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -996,7 +1003,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "com01_c.inc"
-#include "com04_c.inc"
 #include "com08_c.inc"
 #include "param_c.inc"
 #include "timeri_c.inc"
@@ -1004,7 +1010,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NFXVEL
       INTEGER ITASK,NPC(*), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),
      .        IFRAME(LISKN,*),IBFV(*),IKC(*) ,IDDL(*),NDOF(*),
@@ -1022,6 +1028,8 @@ C     REAL
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      my_real, INTENT(IN) :: 
+     .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1038,7 +1046,8 @@ C--------------------------------
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY, DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
-     6               NSEG_LOADP) 
+     6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
+     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT)
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
         IF(NGRAV/=0) THEN

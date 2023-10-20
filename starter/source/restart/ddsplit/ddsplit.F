@@ -74,6 +74,7 @@ Chd|        C_LLINK                       source/restart/ddsplit/c_llink.F
 Chd|        C_MAD                         source/restart/ddsplit/c_mad.F
 Chd|        C_MULTI_VEL                   source/restart/ddsplit/c_multi_vel.F
 Chd|        C_NCRKXFEM                    source/restart/ddsplit/c_ncrkxfem.F
+Chd|        C_NLOADS                      source/restart/ddsplit/c_nloads.F
 Chd|        C_NGROUP                      source/restart/ddsplit/c_ngroup.F
 Chd|        C_PON                         source/restart/ddsplit/c_pon.F
 Chd|        C_PORO                        source/restart/ddsplit/c_poro.F
@@ -136,6 +137,7 @@ Chd|        W_BUFBRIC_22                  source/interfaces/inter3d1/w_bufbric_2
 Chd|        W_BUFEL                       source/restart/ddsplit/w_bufel.F
 Chd|        W_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|        W_CRKXFEM                     source/restart/ddsplit/w_crkxfem.F
+Chd|        W_DISP0_VEL0_CLOAD            source/restart/ddsplit/w_disp0_vel0_cload.F
 Chd|        W_DRAPE                       source/restart/ddsplit/w_drape.F
 Chd|        W_ELBUF_STR                   source/restart/ddsplit/w_elbuf_str.F
 Chd|        W_ELIG3D                      source/restart/ddsplit/w_elig3d.F
@@ -356,7 +358,7 @@ Chd|====================================================================
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
-     F   LOADS_PER_PROC, PYTHON)
+     F   LOADS_PER_PROC, PYTHON,DPL0CLD,VEL0CLD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -545,6 +547,7 @@ C-----------------------------------------------
      .       DIAG_SMS(*),LOADP(*),GAUGE(*),DFLOW(*),VFLOW(*),WFLOW(*),
      .       RTHBUF(*),KNOT(*),WIGE(*),TAB_UMP(7,TAILLE),
      .       KNOTLOCPC(*),KNOTLOCEL(*)
+      my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
       TYPE (INTSTAMP_DATA) INTSTAMP(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -698,7 +701,7 @@ C-----------------------------------------------
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,
      .        LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NBCSCYC_L,LLBCSCYC_L,NS_DIFF,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,
-     .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L
+     .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L,NCLOAD_L,NPLOAD_L
       INTEGER IPARI_L(NPARI,MAX(1,NINTER))
       INTEGER NCONV_L,NFXTEMP_L,NRADIA_L,NFXFLUX_L
       INTEGER , DIMENSION(:), ALLOCATABLE:: NUMLOCGROUP,NUMLOCCLUSTER
@@ -1664,6 +1667,18 @@ C--------------------------------------------
      .                    NUMELTG,NUMSH3N_L)
          ENDIF
        ENDIF      
+C--------------------------------------
+C counts CLOAD
+C--------------------------------------
+       NCLOAD_L = 0
+       IF (LOADS%NLOAD_CLOAD>0)
+     .   CALL C_NLOADS(CEP,P-1,LOADS%NLOAD_CLOAD,NCLOAD_L)
+C--------------------------------------
+C counts PLOAD
+C--------------------------------------
+       NPLOAD_L = 0
+       IF (LOADS%NLOAD_PLOAD>0)
+     .   CALL C_NLOADS(CEP,P-1,LOADS%NLOAD_PLOAD,NPLOAD_L)
 C--------------------------------------------
 C Open Restart FILE
 C--------------------------------------------
@@ -1751,7 +1766,8 @@ C--------------------------------------------
      2   NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS,NBCSCYC_L,LLBCSCYC_L,
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
-     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL)
+     5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL,
+     6   NCLOAD_L,NPLOAD_L)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS)
@@ -3234,6 +3250,17 @@ C--------------------------------------------
       IF (LMAX_DIS>0)CALL W_R3NLOC(D,NODGLOB,NUMNOD_L,LEN_AM)
       IF (LMAX_VEL>0)CALL W_R3NLOC(V,NODGLOB,NUMNOD_L,LEN_AM)
       CALL W_OUTMAXN(NUMNOD_L,LEN_AM)
+C--------------------------------------------
+C Pressure & concentrated loads --> DISP & VEL saved
+C--------------------------------------------
+      IF (LOADS%NLOAD_CLOAD > 0) THEN
+        OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
+     .      + NUMELX
+        CALL W_DISP0_VEL0_CLOAD(DPL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
+     .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
+        CALL W_DISP0_VEL0_CLOAD(VEL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
+     .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
+      ENDIF
 C-----------------------------------------------
 C FLOW
 C-----------------------------------------------
@@ -3472,6 +3499,17 @@ C--------------------------------------------
       IF (NUMPLY>0)
      .  CALL W_PLY_INFO(PLY_INFO,NUMPLY)
 C
+C--------------------------------------------
+C Pressure & concentrated loads --> DISP & VEL saved
+C--------------------------------------------
+!      IF (LOADS%NLOAD_CLOAD > 0) THEN
+!        OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
+!     .      + NUMELX
+!        CALL W_DISP0_VEL0_CLOAD(DPL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
+!     .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
+!        CALL W_DISP0_VEL0_CLOAD(VEL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
+!     .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
+!      ENDIF
 ! -------------------------------------
 ! write the current elapsed time
 ! -------------------------------------
