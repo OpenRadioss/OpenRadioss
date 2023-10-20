@@ -169,7 +169,7 @@ C=======================================================================
           IIX(I)=0
           IIY(I)=0
           IIZ(I)=0
-          IF(STFN(I) <= ZERO)CYCLE
+          IF(STFN(I) == ZERO)CYCLE
           J=NSV(I)
 C Optimisation // recherche les noeuds compris dans xmin xmax des
 C elements du processeur
@@ -257,8 +257,8 @@ C
         ENDDO
 
         DO NE=1,NRTM
-C don't keep deleted segments
-          IF(STF(NE) <= ZERO)CYCLE
+C on ne retient pas les facettes detruites
+          IF(STF(NE) == ZERO)CYCLE
           K = KREMNOD(2*(NE-1)+1)+1
           L = KREMNOD(2*(NE-1)+2)
           DO I=K,L
@@ -452,8 +452,6 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 
       ELSE !FLAGREMNODE
         DO NE=1,NRTM
-C don't keep deleted segments
-          IF(STF(NE) <= ZERO)CYCLE
 c
           AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
      +

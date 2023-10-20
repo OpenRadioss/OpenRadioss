@@ -31,7 +31,7 @@ Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/in
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,
-     .                                IXTG  ,INTERFACES    ,INTBUF_TAB,SHIFT_INTERFACE,
+     .                                IXTG  ,
      .                                NGROUP,NPARG,IGROUPS,IPARG )
 !$COMMENT
 !       FIND_EDGE_INTER description
@@ -45,7 +45,6 @@ Chd|====================================================================
 !$ENDCOMMENT
         USE INTBUFDEF_MOD  
         USE SHOOTING_NODE_MOD
-        USE INTERFACES_MOD  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,14 +66,11 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMELS), INTENT(in) :: IGROUPS !< array to point to the element group
         INTEGER, DIMENSION(NPARG,NGROUP), INTENT(in) :: IPARG !< element group data
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
-        TYPE (INTERFACES_) ,INTENT(IN)  :: INTERFACES ! Interfaces structures  
-        INTEGER, DIMENSION(NINTER+1,2), INTENT(in) :: SHIFT_INTERFACE ! interface shift   
-        TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,J,K,N,IJK,NIN,IEL,IEL1,IEL2
-        INTEGER :: NODE_ID,ELEM_ID,N1,N2,N3,N4
+        INTEGER :: I,J,K,N,IJK
+        INTEGER :: NODE_ID,ELEM_ID
         INTEGER :: OFFSET_SOLID,OFFSET_QUAD,OFFSET_SHELL,OFFSET_TRUSS
         INTEGER :: OFFSET_BEAM,OFFSET_SPRING,OFFSET_TRIANGLE,OFFSET_UR
         INTEGER, DIMENSION(4,6), TARGET :: FACES ! definition of faces for solid
@@ -86,21 +82,19 @@ C-----------------------------------------------
 
         LOGICAL :: DO_COMPUTATION
         INTEGER :: SHIFT,SHIFT_ELM,OLD_SIZE
-        INTEGER :: SURFACE_NUMBER,NUMBER_INTER 
+        INTEGER :: SURFACE_NUMBER
         INTEGER :: NB_PROC_1,NB_PROC_2,NODE_SURF_NB,SEVERAL_PROC,SEVERAL_SURF
         INTEGER :: NB_RESULT_INTERSECT,NB_RESULT_INTERSECT_2,NB_SURFACE_1,NB_SURFACE_2
-        INTEGER :: ISURF_SHIFT,ID_INTER,ISURF_NIN,NB_RESULT_INTERSECT_25
         INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT_INTERSECT,INTERSECT_1,INTERSECT_2
         INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT_INTERSECT_2,INTERSECT_3,INTERSECT_4
         INTEGER, DIMENSION(:), ALLOCATABLE :: TMP_ARRAY
-        INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELEMS , RESULT_INTERSECT_25,RESULT_INTERSECT_SURF_2
         INTEGER, DIMENSION(4) :: LOCAL_NODE
         INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function
         INTEGER :: GROUP_NUMBER
         INTEGER :: KIND_SOLID,OLD_J,MERGED_NODE,ERROR
         INTEGER, DIMENSION(4) :: LIST_NODE_ID,PERM_LIST_NODE_ID,NB_APPAREANCE
         LOGICAL :: NEED_COMPUTE
-
+        INTEGER :: N1,N2,N3,N4
         DATA FACES_SHELL/1,2,3,4/
 
         DATA FACES/1,2,3,4,   
@@ -161,32 +155,14 @@ C-----------------------------------------------
         SHOOT_STRUCT%SAVE_PROC( 1:SHOOT_STRUCT%S_SAVE_PROC ) = 0 
         ! --------------------------
         ! working array : surface
-        ALLOCATE( RESULT_INTERSECT( MAX(SHOOT_STRUCT%MAX_SURF_NB,SHOOT_STRUCT%MAX_ELEM_SURF_NB )) )
-        ALLOCATE( INTERSECT_1( MAX(SHOOT_STRUCT%MAX_SURF_NB,SHOOT_STRUCT%MAX_ELEM_SURF_NB )) )
-        ALLOCATE( INTERSECT_2( MAX(SHOOT_STRUCT%MAX_SURF_NB,SHOOT_STRUCT%MAX_ELEM_SURF_NB )) )
+        ALLOCATE( RESULT_INTERSECT( SHOOT_STRUCT%MAX_SURF_NB ) )
+        ALLOCATE( INTERSECT_1( SHOOT_STRUCT%MAX_SURF_NB ) )
+        ALLOCATE( INTERSECT_2( SHOOT_STRUCT%MAX_SURF_NB ) )
         ! working array : processor
-        ALLOCATE( RESULT_INTERSECT_2( MAX(SHOOT_STRUCT%MAX_PROC_NB,1 ) ) )
+        ALLOCATE( RESULT_INTERSECT_2( SHOOT_STRUCT%MAX_PROC_NB ) )
         ALLOCATE( INTERSECT_3( SHOOT_STRUCT%MAX_PROC_NB ) )
         ALLOCATE( INTERSECT_4( SHOOT_STRUCT%MAX_PROC_NB ) )
-        ALLOCATE( RESULT_INTERSECT_25( SHOOT_STRUCT%MAX_ELEM_SURF_NB )) 
-        ALLOCATE( RESULT_INTERSECT_SURF_2( MAX(SHOOT_STRUCT%MAX_ELEM_SURF_NB,1 ) ) )
-
-
         ! --------------------------
-        SHOOT_STRUCT%S_SAVE_SURFACE_EXT  = 0
-        IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
-            ALLOCATE( TAGELEMS( NUMELS ) )
-            TAGELEMS(1:NUMELS ) =0
-            DO I=1,SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX
-                ELEM_ID = SHOOT_STRUCT%GLOBAL_ELEM_INDEX(I) ! get the id of the deleted element
-                IF(ELEM_ID <= NUMELS) TAGELEMS(ELEM_ID) = 1
-            ENDDO      
-            ! allocation of SAVE_SURFACE : index of activated surfaces : internal becoming external 
-            SHOOT_STRUCT%S_SAVE_SURFACE_EXT  = 4*SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX    ! size of SAVE_SURFACE_EXT array
-            ALLOCATE( SHOOT_STRUCT%SAVE_SURFACE_EXT( SHOOT_STRUCT%S_SAVE_SURFACE_EXT ) )
-            SHOOT_STRUCT%SAVE_SURFACE_NB_EXT = 0    ! number of deactivated surface 
-            SHOOT_STRUCT%SAVE_SURFACE_EXT( 1:SHOOT_STRUCT%S_SAVE_SURFACE_EXT ) = 0        
-        ENDIF 
         DO I=1,SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX
             ELEM_ID = SHOOT_STRUCT%GLOBAL_ELEM_INDEX(I) ! get the id of the deleted element
             DO_COMPUTATION = .TRUE.
@@ -313,135 +289,6 @@ C-----------------------------------------------
             ! ----------------------
             IF(DO_COMPUTATION) THEN
                 ! ----------------------
-
-                IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN 
-
-                    IF(ELEM_ID<=NUMELS) THEN
-                        NB_RESULT_INTERSECT = 0
-                        NB_RESULT_INTERSECT_2 = 0
-                        NB_RESULT_INTERSECT_25 = 0
-                        NUMBER_INTER = SHIFT_INTERFACE(NINTER+1,2)
-                        DO K=SHOOT_STRUCT%SHIFT_M_ELEM_SURF(ELEM_ID)+1,SHOOT_STRUCT%SHIFT_M_ELEM_SURF(ELEM_ID+1)
-                          ISURF_SHIFT = SHOOT_STRUCT%M_ELEM_SURF (K)
-                          ID_INTER = DICHOTOMIC_SEARCH_I_ASC(ISURF_SHIFT, SHIFT_INTERFACE(1,1), NUMBER_INTER+1) ! find the interface of the surface
-                          NIN = SHIFT_INTERFACE(ID_INTER,2)
-                          ISURF_NIN = ISURF_SHIFT - SHIFT_INTERFACE(ID_INTER,1) + 1 ! get the surface id in the NIN interface
-
-                          IF(INTBUF_TAB(NIN)%STFM(ISURF_NIN) > ZERO) THEN ! External segment on 1 elem : to be desactivated
-                             NB_RESULT_INTERSECT = NB_RESULT_INTERSECT + 1
-                             RESULT_INTERSECT(NB_RESULT_INTERSECT) = ISURF_SHIFT
-                            INTBUF_TAB(NIN)%STFM(ISURF_NIN) = ZERO
-
-                          ELSEIF (INTBUF_TAB(NIN)%STFM(ISURF_NIN) < ZERO) THEN ! Internal segment on 2 elems
-                            IF(INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1) > 0.AND.
-     .                               INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2) > 0) THEN  
-c                              ! 2 elements sharing the segment are local
-                               IEL1 = INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1)
-                               IEL2 = INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2)
-
-                               IF(TAGELEMS(IEL1)==1.AND.TAGELEMS(IEL2)==1) THEN
-                                  NB_RESULT_INTERSECT = NB_RESULT_INTERSECT + 1 ! 2 elements sharing the segment are deleted : to be desactivated
-                                  RESULT_INTERSECT(NB_RESULT_INTERSECT) = ISURF_SHIFT
-                                  INTBUF_TAB(NIN)%STFM(ISURF_NIN) = ZERO
-                               ELSE
-                                  NB_RESULT_INTERSECT_25 = NB_RESULT_INTERSECT_25 + 1 ! Other element is ON : Internal segment becoming external
-                                  RESULT_INTERSECT_25(NB_RESULT_INTERSECT_25) = ISURF_SHIFT
-                                  INTBUF_TAB(NIN)%STFM(ISURF_NIN) = - INTBUF_TAB(NIN)%STFM(ISURF_NIN)
-                                  IF(TAGELEMS(IEL1)==1) THEN
-                                    INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+1) = IEL2
-                                    INTBUF_TAB(NIN)%IELEM_M(2*(ISURF_NIN-1)+2) = IEL1
-                                  ENDIF
-                               ENDIF
-                            ELSE
-                               NB_RESULT_INTERSECT = NB_RESULT_INTERSECT + 1 
-                               RESULT_INTERSECT(NB_RESULT_INTERSECT) = ISURF_SHIFT
-                               INTBUF_TAB(NIN)%STFM(ISURF_NIN) = ZERO
-                               NB_RESULT_INTERSECT_2 =  NB_RESULT_INTERSECT_2 + 1
-                               RESULT_INTERSECT_2(NB_RESULT_INTERSECT_2) = INTBUF_TAB(NIN)%PROC_ELEM_M(2*(ISURF_NIN-1)+2)
-                               RESULT_INTERSECT_SURF_2(NB_RESULT_INTERSECT_2) = ISURF_NIN
-                            ENDIF 
-                          ENDIF                         
-                        ENDDO
-                        IF(NB_RESULT_INTERSECT>0) THEN ! segment Local
-                            ! Segment desactivated : one or several surface on the current processor
-                            ! save the surface id
-    
-                            IF( SHOOT_STRUCT%SAVE_SURFACE_NB+NB_RESULT_INTERSECT>SHOOT_STRUCT%S_SAVE_SURFACE) THEN
-                                ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_SURFACE) )
-                                TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_SURFACE) =
-     .                              SHOOT_STRUCT%SAVE_SURFACE(1:SHOOT_STRUCT%S_SAVE_SURFACE)
-    
-                                DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE )
-                                OLD_SIZE = SHOOT_STRUCT%S_SAVE_SURFACE
-                                SHOOT_STRUCT%S_SAVE_SURFACE = 1.20*(SHOOT_STRUCT%S_SAVE_SURFACE+5*NB_RESULT_INTERSECT)
-                                ALLOCATE( SHOOT_STRUCT%SAVE_SURFACE( SHOOT_STRUCT%S_SAVE_SURFACE ) )
-                                SHOOT_STRUCT%SAVE_SURFACE(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                                DEALLOCATE( TMP_ARRAY )
-                            ENDIF
-                            DO J=1,NB_RESULT_INTERSECT
-                                SHOOT_STRUCT%SAVE_SURFACE_NB = SHOOT_STRUCT%SAVE_SURFACE_NB + 1
-                                SHOOT_STRUCT%SAVE_SURFACE( SHOOT_STRUCT%SAVE_SURFACE_NB ) =  RESULT_INTERSECT(J)
-                            ENDDO
-                        ENDIF
-
-                        IF(NB_RESULT_INTERSECT_25>0) THEN ! segment Local
-                            ! Segment internal becoming external : one or several surface on the current processor
-                            ! save the surface id
-    
-                            IF( SHOOT_STRUCT%SAVE_SURFACE_NB_EXT+NB_RESULT_INTERSECT_25>SHOOT_STRUCT%S_SAVE_SURFACE_EXT) THEN
-                                ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_SURFACE_EXT) )
-                                TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_SURFACE_EXT) =
-     .                                SHOOT_STRUCT%SAVE_SURFACE_EXT(1:SHOOT_STRUCT%S_SAVE_SURFACE_EXT)
-    
-                                DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE_EXT )
-                                OLD_SIZE = SHOOT_STRUCT%S_SAVE_SURFACE_EXT
-                                SHOOT_STRUCT%S_SAVE_SURFACE_EXT = 1.20*(SHOOT_STRUCT%S_SAVE_SURFACE_EXT+5*NB_RESULT_INTERSECT_25)
-                                ALLOCATE( SHOOT_STRUCT%SAVE_SURFACE_EXT( SHOOT_STRUCT%S_SAVE_SURFACE_EXT ) )
-                                SHOOT_STRUCT%SAVE_SURFACE_EXT(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                                DEALLOCATE( TMP_ARRAY )
-                            ENDIF
-                            DO J=1,NB_RESULT_INTERSECT_25
-                                SHOOT_STRUCT%SAVE_SURFACE_NB_EXT = SHOOT_STRUCT%SAVE_SURFACE_NB_EXT + 1
-                                SHOOT_STRUCT%SAVE_SURFACE_EXT( SHOOT_STRUCT%SAVE_SURFACE_NB_EXT ) =  RESULT_INTERSECT_25(J)
-                            ENDDO
-                        ENDIF
-
-                        IF(NB_RESULT_INTERSECT_2>0) THEN ! remote 
-                            ! Remote segment : need comm to desactivate or Segment internal becoming external 
-                            ! save the surface id
-                            IF( SHOOT_STRUCT%SAVE_PROC_NB+5*NB_RESULT_INTERSECT_2>SHOOT_STRUCT%S_SAVE_PROC) THEN
-                                ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_PROC) )
-                                TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_PROC) =
-     .                               SHOOT_STRUCT%SAVE_PROC(1:SHOOT_STRUCT%S_SAVE_PROC)
-  
-                                DEALLOCATE( SHOOT_STRUCT%SAVE_PROC )
-                                OLD_SIZE = SHOOT_STRUCT%S_SAVE_PROC
-                                SHOOT_STRUCT%S_SAVE_PROC = 1.20*(SHOOT_STRUCT%SAVE_PROC_NB+5*NB_RESULT_INTERSECT_2)
-                                ALLOCATE( SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%S_SAVE_PROC ) )
-                                SHOOT_STRUCT%SAVE_PROC(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                                DEALLOCATE( TMP_ARRAY )
-                             ENDIF
-
-                             DO J=1,NB_RESULT_INTERSECT_2
-                                SHOOT_STRUCT%SAVE_PROC_NB = SHOOT_STRUCT%SAVE_PROC_NB + 1
-                                SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  RESULT_INTERSECT_2(J)    ! save the remote proc id
-                                ISURF_NIN = RESULT_INTERSECT_SURF_2(J) 
-                                LOCAL_NODE(1)= INTBUF_TAB(NIN)%IRECTM((ISURF_NIN-1)*4+1)
-                                LOCAL_NODE(2)= INTBUF_TAB(NIN)%IRECTM((ISURF_NIN-1)*4+2)
-                                LOCAL_NODE(3)= INTBUF_TAB(NIN)%IRECTM((ISURF_NIN-1)*4+3)
-                                LOCAL_NODE(4)= INTBUF_TAB(NIN)%IRECTM((ISURF_NIN-1)*4+4)
-                                DO IJK=1,4
-                                  SHOOT_STRUCT%SAVE_PROC_NB = SHOOT_STRUCT%SAVE_PROC_NB + 1
-                                  SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  ITAB(LOCAL_NODE(IJK))  ! convert local id to global id 
-                                ENDDO
-                              ENDDO
-                        ENDIF
-
-                      ENDIF
-
-                ENDIF
-                NB_RESULT_INTERSECT = 0
-                NB_RESULT_INTERSECT_2 = 0
                 ! loop over the surfaces of the element
                 DO K=1,SURFACE_NUMBER
                   SEVERAL_PROC = 0
@@ -497,6 +344,7 @@ c                              ! 2 elements sharing the segment are local
                     J = 1
                     N = POINTER_FACE(J,K)                ! get the node of the surfaces
                     NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID    
+
                     N1 =  NODE_ID
                     N = POINTER_FACE(2,K) 
                     N2 = IX(N+1,ELEM_ID-SHIFT_ELM) 
@@ -509,26 +357,24 @@ c                              ! 2 elements sharing the segment are local
                         N4 = N3
                     ENDIF
 
-                    IF( SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N1) ==0 .AND.SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N2) ==0
-     .                     .AND.SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N3) ==0 .AND.SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N4) ==0) THEN
-                      LOCAL_NODE(1) = NODE_ID     
+                    LOCAL_NODE(1) = NODE_ID     
          
-                      NB_RESULT_INTERSECT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node
-                      SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
-                      RESULT_INTERSECT(1:NB_RESULT_INTERSECT) = SHOOT_STRUCT%M_NODE_SURF( SHIFT+1:SHIFT+NB_RESULT_INTERSECT )
+                    NB_RESULT_INTERSECT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node
+                    SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
+                    RESULT_INTERSECT(1:NB_RESULT_INTERSECT) = SHOOT_STRUCT%M_NODE_SURF( SHIFT+1:SHIFT+NB_RESULT_INTERSECT )
 
-                      NB_RESULT_INTERSECT_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node 
-                      SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
-                      RESULT_INTERSECT_2(1:NB_RESULT_INTERSECT_2) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_RESULT_INTERSECT_2 )
+                    NB_RESULT_INTERSECT_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node 
+                    SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
+                    RESULT_INTERSECT_2(1:NB_RESULT_INTERSECT_2) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_RESULT_INTERSECT_2 )
  
-                      IF(NB_RESULT_INTERSECT_2>1) THEN
+                    IF(NB_RESULT_INTERSECT_2>1) THEN
                         SEVERAL_PROC = SEVERAL_PROC + 1
-                      ELSEIF(NB_RESULT_INTERSECT_2<1) THEN
+                    ELSEIF(NB_RESULT_INTERSECT_2<1) THEN
                         ! this case is not possible, i hope i'm not here :)
-                      ENDIF
+                    ENDIF
                     ! ------------------
 
-                      DO J=2,NODE_SURF_NB
+                    DO J=2,NODE_SURF_NB
                         NB_SURFACE_1 = NB_RESULT_INTERSECT
                         INTERSECT_1(1:NB_SURFACE_1) = RESULT_INTERSECT(1:NB_RESULT_INTERSECT)
 
@@ -553,7 +399,7 @@ c                              ! 2 elements sharing the segment are local
                         ! -----------------------         
                         ! intersection of processor 
                         NB_PROC_1 = NB_RESULT_INTERSECT_2
-                        IF(NB_PROC_1 > 0)  INTERSECT_3(1:NB_PROC_1) = RESULT_INTERSECT_2(1:NB_PROC_1)
+                        INTERSECT_3(1:NB_PROC_1) = RESULT_INTERSECT_2(1:NB_PROC_1)
 
                         NB_PROC_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node     
                         IF(NB_PROC_1>1.AND.NB_PROC_2>1) THEN
@@ -576,9 +422,9 @@ c                              ! 2 elements sharing the segment are local
 
                         ! end : intersection of processor 
                         ! -----------------------
-                      ENDDO
+                    ENDDO
 
-                      IF(NB_RESULT_INTERSECT>0) THEN ! segment Local
+                    IF(NB_RESULT_INTERSECT>0) THEN
                         ! one or several surface on the current processor
                         ! save the surface id
 
@@ -598,9 +444,8 @@ c                              ! 2 elements sharing the segment are local
                             SHOOT_STRUCT%SAVE_SURFACE_NB = SHOOT_STRUCT%SAVE_SURFACE_NB + 1
                             SHOOT_STRUCT%SAVE_SURFACE( SHOOT_STRUCT%SAVE_SURFACE_NB ) =  RESULT_INTERSECT(J)
                         ENDDO
-                      ENDIF
-
-                      IF(NB_RESULT_INTERSECT_2>1) THEN        !SEVERAL_PROC==NODE_SURF_NB) THEN  ! segment remote  potentially
+                    ENDIF
+                    IF(NB_RESULT_INTERSECT_2>1) THEN        !SEVERAL_PROC==NODE_SURF_NB) THEN
                         ! one or several surface on a remote processor : 
                         ! save the remote proc id & the node id
                         ! |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  10  |
@@ -629,12 +474,12 @@ c                              ! 2 elements sharing the segment are local
                                 DO IJK=1,4
                                     SHOOT_STRUCT%SAVE_PROC_NB = SHOOT_STRUCT%SAVE_PROC_NB + 1
                                     SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  ITAB(LOCAL_NODE(IJK))  ! convert local id to global id
+
                                 ENDDO
                             ENDIF
                         ENDDO
-                      ELSE
+                    ELSE
                         ! no surface on the current processor or on a remote processor
-                      ENDIF
                     ENDIF
                   ENDIF
                   ! ---------------------------

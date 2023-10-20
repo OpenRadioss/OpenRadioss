@@ -151,7 +151,7 @@ C-----------------------------------------------
      .        IV_LOC, NW_L, ILW, NIMP, ILP, NBE, NAD, NRTS, NRTM,
      .        NNG, IADD, NOD,
      .        ISHIFT, LSHIFT, NADMSR, NADMSR_L, NI, NTY, NI25, NBDDNOR,
-     .        LCSRECT_L, NBDDEDG, NRTM_L, IC, IK0, IKN, IK,IJK,NB
+     .        LCSRECT_L, NBDDEDG, NRTM_L, IC, IK0, IKN, IK,IJK
       LOGICAL PSEARCH
      
       INTEGER SPLIST
@@ -326,7 +326,7 @@ C---------------------------------------------------------------------
       ALLOCATE(NESDVOIS(NSPMD+1))
       ALLOCATE(NPORGEO(NUMGEO))
       ALLOCATE(NPSEGCOM(NSPMD+1))
-      ALLOCATE(PROCNOR(NBCCNOR))
+      ALLOCATE(PROCNOR(ADDCSRECT(NUMNOR+1)))
       ALLOCATE(PROC_REM(NBDDACC+NBDDKIN))
       ALLOCATE(PROC_REM1(NBDDNRBYM))
       ALLOCATE(RG_CUT(NNODL_L))
@@ -2471,30 +2471,6 @@ C     Frontiers vs vertices
                 TAG_SM(N4)=NADMSR_L
               END IF
             ENDIF
-            IF(INTERCEP(2,NI)%P(K) > 0.AND.INTERCEP(2,NI)%P(K)/=INTERCEP(1,NI)%P(K)) THEN
-              IF(INTERCEP(2,NI)%P(K)==PROC)THEN
-                N1 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+1)
-                N2 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+2)
-                N3 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+3)
-                N4 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+4) 
-                IF(TAG_SM(N1)==0)THEN
-                  NADMSR_L=NADMSR_L+1
-                  TAG_SM(N1)=NADMSR_L
-                END IF
-                IF(TAG_SM(N2)==0)THEN
-                  NADMSR_L=NADMSR_L+1
-                  TAG_SM(N2)=NADMSR_L
-                END IF
-                IF(TAG_SM(N3)==0)THEN
-                  NADMSR_L=NADMSR_L+1
-                  TAG_SM(N3)=NADMSR_L
-                END IF
-                IF(TAG_SM(N4)==0)THEN
-                  NADMSR_L=NADMSR_L+1
-                  TAG_SM(N4)=NADMSR_L
-                END IF
-              ENDIF 
-            ENDIF      
           ENDDO 
           
           
@@ -2508,7 +2484,9 @@ C     Frontiers vs vertices
           DO I = 1, NADMSR_L         
             N = TAG_MS(I) + ISHIFT
 
-            NB = 0
+            ADDCSRECT_L(NL+1)=ADDCSRECT_L(NL)+ADDCSRECT(N+1)-ADDCSRECT(N)
+            NL = NL + 1
+
             TAGP(1:NSPMD)=0
             DO J = ADDCSRECT(N), ADDCSRECT(N+1)-1
                K = CSRECT(J)
@@ -2521,23 +2499,7 @@ C     Frontiers vs vertices
                ENDIF
                LCSRECT_L = LCSRECT_L + 1
                PROCNOR(LCSRECT_L)=P
-               NB = NB +1
-C
-               P = INTERCEP(2,NI)%P(K)
-               IF(P /=0.AND.P /= INTERCEP(1,NI)%P(K)) THEN
-                 IF(P /= PROC.AND.TAGP(P)==0) THEN
-                   NBDDNOR = NBDDNOR + 1
-                   FR_NOR(LSHIFT+NBDDNOR) = TAG_MS(I)
-                   PROC_REM25(NBDDNOR) = P
-                   TAGP(P)=1
-                 ENDIF
-                 LCSRECT_L = LCSRECT_L + 1
-                 PROCNOR(LCSRECT_L)=P
-                 NB = NB +1
-                ENDIF
             ENDDO
-            ADDCSRECT_L(NL+1)=ADDCSRECT_L(NL)+NB
-            NL = NL + 1
           ENDDO
 C
           DO I = 1, NBDDNOR
@@ -2596,12 +2558,6 @@ C     Frontiers vs edges
               NRTM_L=NRTM_L+1
               TAG_SM(K)=NRTM_L
             ENDIF
-            IF(INTERCEP(2,NI)%P(K) > 0.AND.INTERCEP(2,NI)%P(K)/=INTERCEP(1,NI)%P(K)) THEN
-              IF(INTERCEP(2,NI)%P(K)==PROC)THEN
-                NRTM_L = NRTM_L + 1
-                TAG_SM(K) = NRTM_L
-              ENDIF 
-            ENDIF  
           ENDDO 
                     
           DO I = 1, NRTM 
@@ -2763,7 +2719,7 @@ C
       CALL WRITE_I_C(FR_EDG,2*NBDDEDGT)
       LEN_IA = LEN_IA + 2*NBDDEDGT
       CALL WRITE_I_C(IAD_FREDG,(NSPMD+1)*NINTER25)
-      LEN_IA = LEN_IA + (NSPMD+1)*NINTER25      
+      LEN_IA = LEN_IA + (NSPMD+1)*NINTER25
 C
       IF(NUMSKW>0)THEN
         CALL WRITE_I_C(ISKWP,NUMSKW+1)

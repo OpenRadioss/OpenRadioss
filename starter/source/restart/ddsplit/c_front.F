@@ -100,7 +100,7 @@ C-----------------------------------------------
      .        IFRLAG(NSPMD),CPT,
      .        NADMSR, NADMSR_L, NI, NTY, NI25, NBDDNOR, NRTM, ISHIFT,
      .        N1, N2, N3, N4, ISBOUND,
-     .        NRTM_L, NBDDEDG, II, NB
+     .        NRTM_L, NBDDEDG, II
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SM, TAG_MS, ITAG
       INTEGER TAGP(NSPMD)
 ! ------------------------------------------------------------
@@ -307,26 +307,6 @@ C ---------------------
                 TAG_SM(N4)=NADMSR_L
               END IF
             ENDIF
-            IF(INTERCEP(2,NI)%P(K) > 0.AND.INTERCEP(2,NI)%P(K)/=INTERCEP(1,NI)%P(K)) THEN
-              IF(INTERCEP(2,NI)%P(K)==PROC)THEN
-                  IF(TAG_SM(N1)==0)THEN
-                    NADMSR_L=NADMSR_L+1
-                    TAG_SM(N1)=NADMSR_L
-                  END IF
-                  IF(TAG_SM(N2)==0)THEN
-                    NADMSR_L=NADMSR_L+1
-                    TAG_SM(N2)=NADMSR_L
-                  END IF
-                  IF(TAG_SM(N3)==0)THEN
-                    NADMSR_L=NADMSR_L+1
-                    TAG_SM(N3)=NADMSR_L
-                  END IF
-                  IF(TAG_SM(N4)==0)THEN
-                    NADMSR_L=NADMSR_L+1
-                    TAG_SM(N4)=NADMSR_L
-                  END IF
-              ENDIF
-            ENDIF
           ENDDO 
           
           DO I = 1, NADMSR  
@@ -335,32 +315,22 @@ C ---------------------
                TAG_MS(K)=I
             END IF
           END DO
+
           DO I = 1, NADMSR_L         
             N = TAG_MS(I) + ISHIFT
             ISBOUND=0
             TAGP(1:NSPMD)=0
-            NB = 0
             DO J = ADDCSRECT(N), ADDCSRECT(N+1)-1
                K = CSRECT(J)
                P = INTERCEP(1,NI)%P(K)
-               NB = NB+1
                IF(P /= PROC.AND.TAGP(P)==0) THEN
                  NBDDNOR = NBDDNOR + 1
                  ISBOUND = 1
                  TAGP(P) = 1
                ENDIF
-               P = INTERCEP(2,NI)%P(K)
-               IF(P >0.AND.P/=INTERCEP(1,NI)%P(K)) THEN
-                 IF(P /= PROC.AND.TAGP(P)==0) THEN
-                   NBDDNOR = NBDDNOR + 1
-                   ISBOUND = 1
-                   TAGP(P) = 1
-                 ENDIF
-                 NB = NB+1
-                ENDIF
             ENDDO
-            NBCCFR25 = NBCCFR25 + NB*ISBOUND
-            NBCCNOR  = NBCCNOR + NB
+            NBCCFR25 = NBCCFR25 + (ADDCSRECT(N+1)- ADDCSRECT(N))*ISBOUND
+            NBCCNOR  = NBCCNOR + (ADDCSRECT(N+1)- ADDCSRECT(N))
           ENDDO
           ISHIFT=ISHIFT+NADMSR
 
@@ -403,12 +373,6 @@ C ---------------------
             IF(INTERCEP(1,NI)%P(K)==PROC)THEN
               NRTM_L=NRTM_L+1
               TAG_SM(K)=NRTM_L
-            ENDIF
-            IF(INTERCEP(2,NI)%P(K) > 0.AND.INTERCEP(2,NI)%P(K)/=INTERCEP(1,NI)%P(K)) THEN
-              IF(INTERCEP(2,NI)%P(K)==PROC)THEN
-                  NRTM_L=NRTM_L+1
-                  TAG_SM(K)=NRTM_L
-              ENDIF
             ENDIF
           ENDDO 
 

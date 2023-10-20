@@ -743,7 +743,7 @@ C--------------------------------------------------------------
         !get generic values
         ITY    = IPARI(7,NI)
         
-        IF ((FLAG==0.AND.(ITY==24.OR.(ITY==25.AND.IPARI(100,NI) == 0))).OR.
+        IF ((FLAG==0.AND.(ITY==24.OR.ITY==25)).OR.
      .      (FLAG==1.AND.(ITY==7.OR.ITY==10.OR.
      .      ITY==22.OR.ITY==23)) )THEN
      
@@ -752,15 +752,8 @@ C--------------------------------------------------------------
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
             ALLOCATE(INTERCEP(1,NI)%P(NRTM))
-            IF(ITY==25) ALLOCATE(INTERCEP(2,NI)%P(NRTM))
           ENDIF   
           INTERCEP(1,NI)%P(1:NRTM)=0
-          IF(ITY==25) THEN
-            IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
-                  ALLOCATE(INTERCEP(2,NI)%P(NRTM))
-            ENDIF
-            INTERCEP(2,NI)%P(1:NRTM) = 0
-          ENDIF
               
           DO K=1,NRTM
              N1=INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
@@ -774,29 +767,9 @@ C Allocate CEP INTERFACE
                !find first SPMD domain on which the 4 nodes of the surface are
                PROC = INTERSURFL(N1,N2,N3,N4)
                INTERCEP(1,NI)%P(K) = PROC       
-             ENDIF   
+             ENDIF     
           ENDDO
-        ELSEIF (FLAG==0.AND.ITY==25.AND.IPARI(100,NI) > 0)THEN ! in case of solid erosion : split interface according to element proc
-            NRTM   = IPARI(4,NI)
-C Allocate CEP INTERFACE
-            IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
-               ALLOCATE(INTERCEP(1,NI)%P(NRTM))
-               ALLOCATE(INTERCEP(2,NI)%P(NRTM))
-            ENDIF   
-            INTERCEP(1,NI)%P(1:NRTM)=0
-            DO K=1,NRTM
-               IE = INTBUF_TAB(NI)%IELEM_M(2*(K-1)+1)
-               IF(IE > 0) THEN
-                  INTERCEP(1,NI)%P(K) = CEP(IE) + 1
-               ENDIF
-            ENDDO
-            INTERCEP(2,NI)%P(1:NRTM)=0 ! internal segments are duplicated if segment is between 2 procs
-            DO K=1,NRTM
-               IE = INTBUF_TAB(NI)%IELEM_M(2*(K-1)+2)
-               IF(IE > 0) THEN
-                  INTERCEP(2,NI)%P(K) = CEP(IE) + 1
-               ENDIF
-            ENDDO
+
         ELSEIF(ITY==24.AND.FLAG==1.AND.IPARI(86,NI) > 0) THEN          
 
 C Allocate CEP INTERFACE

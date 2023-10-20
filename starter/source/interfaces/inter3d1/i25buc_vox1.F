@@ -44,7 +44,7 @@ Chd|====================================================================
      A   IPARTS,KNOD2ELS,NOD2ELS,
      B   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      C   IXS, IXS10, IXS16, IXS20,ICODE,ISKEW ,
-     D   DRAD ,PEN_OLD,DGAPLOAD,IELEM_M)
+     D   DRAD ,PEN_OLD,DGAPLOAD)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
@@ -73,7 +73,6 @@ C-----------------------------------------------
       INTEGER ITAB(*),NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
       INTEGER KREMNODE(*),REMNODE(*)
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
-      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)
 C     REAL
       my_real
      .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),PEN_OLD(5,NSN),
@@ -112,7 +111,6 @@ C     REAL
 C-----------------------------------------------
       GAPMAX=EP30
       GAPMIN=ZERO
-
 C-------use temporarily GAP_N(1,*)=V/A
 C       Not used :: MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
@@ -351,25 +349,23 @@ C--------------------------------
 
       IF(IDDLEVEL==1)THEN
         ! Looking for initial penetration (vs solids) if and only if IDDLEVEL=1
-C            
+
+C
         DO IE=1,NRTM
            ! looks for solid element supporting the segment (cf initial penetrations vs solids)
-           IF(IELEM_M(1,IE)<=NUMELS) THEN
-              IELEM(IE)= IELEM_M(1,IE)
-           ELSE
-             CALL INSOL25(IRECT    ,IXS     ,IXS10,IXS16,IXS20,
+           CALL INSOL25(IRECT    ,IXS     ,IXS10,IXS16,IXS20,
      .                  KNOD2ELS ,NOD2ELS ,NELS ,IE   )
-             IELEM(IE)=NELS
-           ENDIF
+           IELEM(IE)=NELS
         END DO
-C
+
+cccLEDGE removing 
         IF(INACTI==5.OR.INACTI==-1)THEN 
 
           ALLOCATE(EDGE_L2_TMP(NUMNOD))
           EDGE_L2_TMP(1:NUMNOD)=ZERO
           N_SOL = 0
           DO IE=1,NRTM
-            IF(STF(IE)> ZERO)THEN ! Solids only
+            IF(STF(IE)/=ZERO)THEN ! Solids only
               DO IL=1,4
                 N1=IRECT(IL,IE)
                 N2=IRECT(MOD(IL,4)+1,IE)
@@ -420,6 +416,8 @@ c              ENDIF
           DEALLOCATE(EDGE_L2_TMP)
 
         ENDIF
+
+cccLEDGE removing 
 
 c        IF(INACTI==5.OR.INACTI==-1)THEN ! Do it for all Inacti ( warnings initial penetrations)
           TAGP(1:NPART)   =0
@@ -505,7 +503,7 @@ C
      8   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9   IPARTS  ,NPARTNS ,LPARTNS ,IELEM   ,ICODE   ,
      A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES,
-     B   PEN_OLD ,DGAPLOAD,IELEM_M)
+     B   PEN_OLD ,DGAPLOAD)
 C
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C
@@ -532,7 +530,6 @@ C
 C
       RETURN
       END
-
 Chd|====================================================================
 Chd|  INSOL25                       source/interfaces/inter3d1/i25buc_vox1.F
 Chd|-- called by -----------

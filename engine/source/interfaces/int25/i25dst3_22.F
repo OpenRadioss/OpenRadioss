@@ -719,7 +719,7 @@ C--------------------------------------------------------
       SUBTRIX(1:JLT)=0
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C
         IF(IX3(I)/=IX4(I))THEN
 
@@ -801,7 +801,13 @@ C--------exclude high pene in case of ICONT_R
            TOLE =EPS02*AAA
            IF (GAP >ZERO) TOLE =MIN(TOLE,GAP*GAP)
            IF(PENA(I,IT)*PENA(I,IT) > TOLE) THEN
-              PENA(I,IT) = ZERO             
+              PENA(I,IT) = ZERO 
+              N = CAND_N(I)
+              IF(N <= NSN) THEN
+                 ICONT_I(N) = -CAND_E(I)
+              ELSE
+                 ICONT_I_FI(NIN)%P(N-NSN) = -CAND_E(I)
+              ENDIF              
            END IF
         END IF!(ICONT_R(I) >0)THEN
 C
@@ -1282,7 +1288,7 @@ C
 C--------------------------------------------------------
       DO I=1,JLT
 C
-        IF(STIF(I) <= ZERO)CYCLE
+        IF(STIF(I) == ZERO)CYCLE
 C
         IA    = SUBTRIA(I)
         PENAX = ZERO

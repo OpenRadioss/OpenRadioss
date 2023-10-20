@@ -62,7 +62,7 @@ Chd|====================================================================
      .                  IXS16   ,IXS20   ,DEF_INTER,MAXNSNE,
      .                  NPC1    ,MULTI_FVM,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      .                  IGRBRIC,IGRSH3N ,IGRTRUSS ,MAXRTM_T2,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     .                  IDDLEVEL,NALE   ,INTERFACES)
+     .                  IDDLEVEL,NALE)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,7 +73,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE ALE_MOD
-      USE INTERFACES_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,7 +121,6 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
       TYPE (SURF_)   , DIMENSION(NSURF) ,TARGET   :: IGRSURF
       TYPE (SURF_)   , DIMENSION(NSLIN) ,TARGET   :: IGRSLIN
-      TYPE (INTERFACES_) ,INTENT(INOUT):: INTERFACES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -439,7 +437,7 @@ C
      6      IXTG         ,KNOD2ELC     ,KNOD2ELTG   ,NOD2ELC      ,
      7      NOD2ELTG     ,KNOD2ELS     ,NOD2ELS     ,IXS          ,
      8      IXS10        ,IXS16        ,IXS20       ,IBID         ,
-     9      IBID         ,IBID         ,IBID        ,INTERFACES%PARAMETERS)
+     9      IBID         ,IBID         ,IBID        )
             IPARI(66,NI) = INTPLY
             IF(INTPLY > 0) INTPLYXFEM = 1          
 C----------NRTS,NRTM is calculated in I25SURFI     

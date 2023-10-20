@@ -958,7 +958,7 @@ C------------------------------------------------
 C     .rst file reading 2
 C------------------------------------------------
       CALL TRACE_IN(17,2,ZERO)
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES)
+      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR)
       ALLOCATE(T_MONVOL(NVOLU))
       IGEO = 0
       IPM = 0

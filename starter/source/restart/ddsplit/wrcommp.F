@@ -1922,9 +1922,6 @@ C
 C  
       LVARINT       = LVARINT + 1
       TABVINT(LVARINT) = INTER_PARAMETERS%INTCAREA
-C  
-      LVARINT       = LVARINT + 1
-      TABVINT(LVARINT) = INTER_PARAMETERS%INT25_EROSION_SOLID
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

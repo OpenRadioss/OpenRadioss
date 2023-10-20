@@ -110,7 +110,7 @@ Chd|====================================================================
      .      IAD_EDGE  ,FR_EDGE,  FR_NBEDGE,IGAUP      ,NGAUP,     NODLEVXF,WEIGHT_MD,
      .      NODGLOBXFE,ELCUTC,   NODENR,   KXFENOD2ELC,ENRTAG,
      .      TABSENSOR ,ADDCSRECT,FR_NOR,   IAD_FRNOR  , PROCNOR,    
-     .      IDRAPE,   NATIV0_SMS , SEGQUADFR,ISKWP_L, NE_NERCVOIS,  
+     .      FR_EDG,    IAD_FREDG,IDRAPE,   NATIV0_SMS , SEGQUADFR,ISKWP_L, NE_NERCVOIS,  
      .      NE_LERCVOIS,  NE_NESDVOIS, NE_LESDVOIS
 
         my_real , 

@@ -174,7 +174,7 @@ C   conserver LISTI et LIST pour optimiser le code genere (IA64)
           N  = CAND_N(I)
           MG = IRTLM(1,N)
           KLEAVE=IRTLM(3,N)
-          IF(STFN(N)/=ZERO.AND.STF(L)>ZERO.AND.MG==0.AND.KLEAVE/=-1)THEN
+          IF(STFN(N)/=ZERO.AND.STF(L)/=ZERO.AND.MG==0.AND.KLEAVE/=-1)THEN
 c else, keep only candidates wrt non impacted nodes
             IG(IS) = NSV(CAND_N(I))
             ZI = X(3,IG(IS))
@@ -279,7 +279,7 @@ C---------
             L  = CAND_E(I)
             MG = IRTLM_FI(NIN)%P(1,II)
             KLEAVE = IRTLM_FI(NIN)%P(3,II)
-            IF(STIFI(NIN)%P(II)/=ZERO.AND.STF(L)>ZERO.AND.MG==0.AND.KLEAVE/=-1)THEN
+            IF(STIFI(NIN)%P(II)/=ZERO.AND.STF(L)/=ZERO.AND.MG==0.AND.KLEAVE/=-1)THEN
               ZI = XFI(NIN)%P(3,II)                                     
               IX1(IS)=IRECT(1,L)                                        
               Z1=X(3,IX1(IS))                                           
