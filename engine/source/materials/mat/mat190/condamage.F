@@ -34,9 +34,7 @@ Chd|  CONDAMAGE                     source/materials/mat/mat190/condamage.F
 Chd|-- called by -----------
 Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|        TABLE_MAT_VINTERP                 source/tools/curve/table_tools.F
 Chd|====================================================================
         SUBROUTINE CONDAMAGE 
      .         (ZXX,ZYY,ZZZ,ZXY,ZZX,ZYZ,
@@ -49,8 +47,7 @@ c      ( new GL strains are used )
 c-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-       USE TABLE_MOD
-       USE INTERFACE_TABLE_MOD
+       USE TABLE4D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +63,7 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NEL ,NUMTABL,NVARTMP
         my_real ,INTENT(IN) ::  HU, SHAPE  
         my_real, INTENT(IN) ,DIMENSION(NEL):: ZXX ,ZYY ,ZZZ ,ZXY ,ZZX ,ZYZ 
-        TYPE (TTABLE), DIMENSION(NUMTABL) ,TARGET  ::  TABLE
+        TYPE (TABLE_4D_), DIMENSION(NUMTABL) ,TARGET  ::  TABLE
         my_real, INTENT(INOUT) ,DIMENSION(NEL) :: WHYSMAX
         my_real, INTENT(OUT)   ,DIMENSION(NEL) :: DAMAGE
         INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
@@ -82,7 +79,7 @@ c-----------------------------------------------
      .     AT2(NEL),AT3(NEL),AA3(NEL),AA2(NEL)
         INTEGER  IPOS(NEL,1)
         my_real, DIMENSION(NEL,1)   :: XVEC
-        TYPE(TTABLE), POINTER :: FUNC_ENER , FUNC_SIG
+        TYPE(TABLE_4D_), POINTER :: FUNC_ENER , FUNC_SIG
 c-----------------------------------------------
 c-----------------------------------------------
       FUNC_SIG   => TABLE(1)
@@ -150,17 +147,17 @@ C     INTERPOLATE ENERGIES FOR HYSTERESIS MODEL
 C
       XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
       IPOS(1:NEL,1)   = VARTMP(1:NEL,16)
-      CALL TABLE_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER1,DENER1)
+      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER1,DENER1)
       VARTMP(1:NEL,16) = IPOS(1:NEL,1)     
 
       XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
       IPOS(1:NEL,1)   = VARTMP(1:NEL,17)
-      CALL TABLE_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER2,DENER2)
+      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER2,DENER2)
       VARTMP(1:NEL,17) = IPOS(1:NEL,1)     
 
       XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
       IPOS(1:NEL,1)   = VARTMP(1:NEL,18)
-      CALL TABLE_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER3,DENER3)
+      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER3,DENER3)
       VARTMP(1:NEL,18) = IPOS(1:NEL,1)
 C
 C     COMPUTE DAMAGE FOR UNLOADING

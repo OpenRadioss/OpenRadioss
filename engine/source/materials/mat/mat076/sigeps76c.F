@@ -29,9 +29,7 @@ Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas
 Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
 Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS76C(
      1     NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -43,8 +41,6 @@ Chd|====================================================================
      7     SOUNDSP ,THK     ,THKLY   ,PLA     ,EPSP    ,
      8     ETSE    ,GS      ,YLD     ,INLOC   ,DPLANL  )
 C-----------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -123,7 +119,7 @@ C-----------------------------------------------
       INTEGER I,IFORM,IQUAD,ICONV,NDIM,NPT,NINDX,NUMTABL,INDX(NEL)
       my_real :: E,DF,EPSPF,EPSPR,YFAC2
       my_real ,DIMENSION(NEL) :: DEZZ,DPLA,H,PLA_DAM
-      TYPE(TTABLE), DIMENSION(:) , POINTER :: TABLE
+      TYPE(TABLE_4D_), DIMENSION(:) , POINTER :: TABLE
 c-----------------------------------------
 c     UVAR(1)  : EPSPT
 c     UVAR(2)  : EPSPC

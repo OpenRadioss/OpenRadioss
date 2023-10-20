@@ -34,7 +34,7 @@ Chd|  CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|-- called by -----------
 Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- calls ---------------
-Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        TABLE_MAT_VINTERP                 source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
@@ -44,11 +44,9 @@ Chd|====================================================================
 c           computation of coefficients to convert stiffness
 c           matrix from local to global reference system
 c===========================================================================
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
+      USE TABLE4D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +69,7 @@ C-----------------------------------------------
       my_real, INTENT(OUT) :: DFIRST(NEL,3,6),CIJKL(NEL,6,6), SLOPE(NEL,3)
       my_real, INTENT(INOUT) :: DRATE(NEL,3)
       my_real, EXTERNAL :: FINTER
-      TYPE (TTABLE), DIMENSION(NUMTABL) ,TARGET  ::  TABLE
+      TYPE (TABLE_4D_), DIMENSION(NUMTABL) ,TARGET  ::  TABLE
 c===========================================================================
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -119,7 +117,7 @@ C-----------------------------------------------
       ! TABLE
       INTEGER  IPOS(NEL,3)
       my_real, DIMENSION(NEL,3)   :: XVEC
-      TYPE(TTABLE), POINTER :: FUNC_ENER , FUNC_SIG
+      TYPE(TABLE_4D_), POINTER :: FUNC_ENER , FUNC_SIG
 C===========================================================================
 C===========================================================================
       FUNC_SIG   => TABLE(1)
@@ -772,7 +770,7 @@ C     THIS IS FROM THE QUASISTATIC LOAD CURVE ( LOWEST STRAIN RATE )
       IPOS(1:NEL,1) = VARTMP(1:NEL,1)
       IPOS(1:NEL,2) = 1
       IPOS(1:NEL,3) = VARTMP(1:NEL,2)            
-      CALL TABLE_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
+      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
       VARTMP(1:NEL,1) = IPOS(1:NEL,1)
       VARTMP(1:NEL,2) = IPOS(1:NEL,3)
 c
@@ -782,7 +780,7 @@ c
       IPOS(1:NEL,1) = VARTMP(1:NEL,3)
       IPOS(1:NEL,2) = 1
       IPOS(1:NEL,3) = VARTMP(1:NEL,4)             
-      CALL TABLE_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
+      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
       VARTMP(1:NEL,3) = IPOS(1:NEL,1)
       VARTMP(1:NEL,4) = IPOS(1:NEL,3)
 c
@@ -792,7 +790,7 @@ c
       IPOS(1:NEL,1) = VARTMP(1:NEL,5)
       IPOS(1:NEL,2) = 1
       IPOS(1:NEL,3) = VARTMP(1:NEL,6)             
-      CALL TABLE_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
+      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
       VARTMP(1:NEL,5) = IPOS(1:NEL,1)
       VARTMP(1:NEL,6) = IPOS(1:NEL,3)
 c
@@ -820,7 +818,7 @@ C     DIRECTION 1
       IPOS(1:NEL,1) = VARTMP(1:NEL,7)
       IPOS(1:NEL,2) = VARTMP(1:NEL,8)
       IPOS(1:NEL,3) = VARTMP(1:NEL,9)             
-      CALL TABLE_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
+      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
       VARTMP(1:NEL,7) = IPOS(1:NEL,1)
       VARTMP(1:NEL,8) = IPOS(1:NEL,2)
       VARTMP(1:NEL,9) = IPOS(1:NEL,3)
@@ -833,7 +831,7 @@ C     DIRECTION 2
       IPOS(1:NEL,1) = VARTMP(1:NEL,10)
       IPOS(1:NEL,2) = VARTMP(1:NEL,11)
       IPOS(1:NEL,3) = VARTMP(1:NEL,12)            
-      CALL TABLE_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
+      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
       VARTMP(1:NEL,10) = IPOS(1:NEL,1) 
       VARTMP(1:NEL,11) = IPOS(1:NEL,2) 
       VARTMP(1:NEL,12) = IPOS(1:NEL,3)
@@ -846,7 +844,7 @@ C     DIRECTION 3
       IPOS(1:NEL,1) = VARTMP(1:NEL,13)
       IPOS(1:NEL,2) = VARTMP(1:NEL,14)
       IPOS(1:NEL,3) = VARTMP(1:NEL,15)            
-      CALL TABLE_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
+      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
       VARTMP(1:NEL,13) = IPOS(1:NEL,1) 
       VARTMP(1:NEL,14) = IPOS(1:NEL,2) 
       VARTMP(1:NEL,15) = IPOS(1:NEL,3)

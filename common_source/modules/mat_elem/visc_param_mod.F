@@ -39,7 +39,7 @@ Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
 Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
 Chd|====================================================================
       MODULE VISC_PARAM_MOD
-      USE TABLE_MOD
+      USE TABLE4D_MOD
       USE NAMES_AND_TITLES_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
@@ -56,10 +56,10 @@ c=======================================================================
         INTEGER     :: NFUNC                  ! number of local functions in material
         INTEGER     :: NTABLE                 ! number of local function tables
         
-        my_real       ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
-        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
-        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: FUNC    ! NFUNC
-        TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! NTABLE
+        my_real        ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
+        INTEGER        ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
+        INTEGER        ,DIMENSION(:) ,ALLOCATABLE :: FUNC    ! NFUNC
+        TYPE(TABLE_4D_),DIMENSION(:) ,ALLOCATABLE :: TABLE   ! NTABLE
       
       END TYPE VISC_PARAM_   
 c
