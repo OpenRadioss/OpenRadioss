@@ -34,7 +34,7 @@ Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
 Chd|====================================================================
       MODULE FAIL_PARAM_MOD
 c
-      USE TABLE_MOD
+      USE TABLE4D_MOD
       USE NAMES_AND_TITLES_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
@@ -57,10 +57,10 @@ c=======================================================================
         my_real     :: PTHK
         
         character(len=nchartitle) ,DIMENSION(:) ,ALLOCATABLE :: MODE   ! size NMOD
-        my_real       ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
-        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
-        INTEGER       ,DIMENSION(:) ,ALLOCATABLE :: IFUNC   ! function adress table
-        TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! NTABLE
+        my_real        ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
+        INTEGER        ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
+        INTEGER        ,DIMENSION(:) ,ALLOCATABLE :: IFUNC   ! function adress table
+        TYPE(TABLE_4D_),DIMENSION(:) ,ALLOCATABLE :: TABLE   ! NTABLE
       
       END TYPE FAIL_PARAM_   
 c
