@@ -442,6 +442,7 @@ Chd|  MY_FLUSH                      source/system/machine.F
 Chd|-- called by -----------
 Chd|        ECRIT                         source/output/ecrit.F         
 Chd|        IMP_STOP                      source/implicit/imp_solv.F    
+Chd|        MULTI_MUSCL_FLUXES_COMPUTATIONsource/multifluid/multi_muscl_fluxes_computation.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MY_FLUSH(IUNIT)

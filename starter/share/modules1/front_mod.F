@@ -73,7 +73,6 @@ Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        SPLIT_REMNODE_I24             source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I25             source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_IELEM               source/restart/ddsplit/split_seg_ielem.F
 Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
 Chd|        W_FRONT                       source/restart/ddsplit/w_front.F
 Chd|        W_TYPE8                       source/restart/ddsplit/split_interfaces.F

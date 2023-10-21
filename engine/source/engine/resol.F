@@ -70,7 +70,6 @@ Chd|        CFIELD_1                      source/loads/general/load_centri/cfiel
 Chd|        CHECK_ALE_COMM                source/ale/check_ale_comm.F   
 Chd|        CHECK_EDGE_STATE              source/interfaces/interf/check_edge_state.F
 Chd|        CHECK_NAN_ACC                 source/output/outfile/check_nan_acc.F
-Chd|        CHECK_NEIGHBOURS_SURFACE_STATEsource/interfaces/interf/check_neighbours_surface_state.F
 Chd|        CHECK_NODAL_STATE             source/interfaces/interf/check_nodal_state.F
 Chd|        CHECK_REMOTE_SURFACE_STATE    source/interfaces/interf/check_remote_surface_state.F
 Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F

@@ -158,7 +158,6 @@ Chd|        SPLIT_REMNODE_I25_E2S         starter/source/restart/ddsplit/inter_t
 Chd|        SPLIT_REMNODE_I25_EDGE        starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I7              starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEGEDGE_NODLOC_I24      starter/source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_SEG_IELEM               starter/source/restart/ddsplit/split_seg_ielem.F
 Chd|        SPLIT_SEG_IVAL2               starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_IVAL_I20            starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_IVAL_I20_2          starter/source/restart/ddsplit/inter_tools.F
@@ -505,7 +504,6 @@ Chd|        WRITE_INTBUF                  engine/source/output/restart/write_int
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        IMP_INTBUF                    engine/share/modules/imp_mod_def.F
 Chd|        INTBUF_MOD                    engine/share/modules/restart_mod.F
-Chd|        CHECK_NEIGHBOURS_SURFACE_STATEengine/source/interfaces/interf/check_neighbours_surface_state.F
 Chd|-- calls ---------------
 Chd|        INT8_MOD                      modules/interfaces/int8_mod.F 
 Chd|        METRIC_MOD                    modules/metric_mod.F          
