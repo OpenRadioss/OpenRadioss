@@ -698,10 +698,10 @@ C     Submaterial fluxes
                   CALL MY_FLUSH(IOUT)
                   CALL MY_FLUSH(ISTDO)
                   CALL ARRET(2)
+#include "lockoff.inc"
                 ENDIF!ISPMD==0
 
                ENDIF
-#include "lockoff.inc"
 
                IF (J_OLD  <=  NUMEL_SPMD) THEN
 !                  KFACE2_OLD = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I_OLD - 1) + KFACE3)
