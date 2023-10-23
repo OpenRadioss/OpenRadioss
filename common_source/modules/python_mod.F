@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
-      module python_funct_mod
+      MODULE PYTHON_FUNCT_MOD
         use iso_c_binding
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
@@ -360,7 +360,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! ----------------------------------------------------------------------------------------------------------------------
 
           argin = dble(x)
-          call python_deriv_funct1D_dp(py, funct_id, argin, argout)                                                                  
+          call python_deriv_funct1D_dp(py, funct_id, argin, argout) 
           y = real(argout,kind(1.0))
         end subroutine
 
@@ -412,4 +412,4 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         end subroutine python_funct_test
 
 ! python_init
-      end module python_funct_mod
+      END MODULE PYTHON_FUNCT_MOD
