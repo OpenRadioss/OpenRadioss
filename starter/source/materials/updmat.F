@@ -148,6 +148,7 @@ c-----------------------------------------------------------------------
      .               IRUP == 44 .OR. IRUP == 45 .OR. IRUP == 46 .OR. IRUP == 47 .OR. 
      .               IRUP == 13 ) THEN             
               MTAG%L_DMGSCL = 1
+              MTAG%G_DMGSCL = 1
             ! -> Orthotropic stress softening
             ELSE IF (IRUP == 48) THEN 
               MTAG%L_DMGSCL = 6

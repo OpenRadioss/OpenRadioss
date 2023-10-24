@@ -295,7 +295,8 @@ C-----------------------------------------------
      .   ALOGEY(MVSIZ), POLD(MVSIZ),
      .   P01(MVSIZ), P02(MVSIZ), E01(MVSIZ), E02(MVSIZ),
      .   ER1V(MVSIZ), ER2V(MVSIZ), WDR1V(MVSIZ), WDR2V(MVSIZ),W1(MVSIZ),
-     .   HEAT_MECA_L,VOLG(MVSIZ)
+     .   HEAT_MECA_L,VOLG(MVSIZ),DE1(NEL),DE2(NEL),DE3(NEL),DE4(NEL),
+     .   DE5(NEL),DE6(NEL)
       my_real
      .   Q1,Q2,Q3,STR1,STR2,STR3,STR4,STR5,STR6,WXXF,WYYF,WZZF
       my_real, DIMENSION(NEL), TARGET :: LE_MAX
@@ -2066,6 +2067,14 @@ c----
           DO I=1,NFUNC
             IFUNC(I) = IPM(115+IP+I, MAT(1))         
           ENDDO  
+          DO I = 1,NEL
+            DE1(I) = DXX(I)*DT1
+            DE2(I) = DYY(I)*DT1
+            DE3(I) = DZZ(I)*DT1
+            DE4(I) = DXY(I)*DT1 
+            DE5(I) = DYZ(I)*DT1
+            DE6(I) = DZX(I)*DT1
+          ENDDO 
 c
           IF (IRUPT == 1)THEN                                            
 C  --- Johnson cook              
@@ -2192,12 +2201,12 @@ c---- strain tension
 c
           ELSEIF(IRUPT == 11)THEN                                                          
 c---- energy failure  
-              CALL FAIL_ENERGY_S(LLT ,NPARAM,NVARF,NFUNC,IFUNC      ,
-     2                    NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
-     3                    NGL ,IPM ,MAT ,
-     5                    SS1 ,SS2 ,SS3 ,SS4  ,SS5  ,SS6     ,
-     6                    VOLN,EINT,EPSP,UVARF,OFF  ,IP      ,
-     7                    DFMAX,TDEL ) 
+            CALL FAIL_ENERGY_S(
+     1        LLT      ,NPARAM   ,NVARF    ,NFUNC    ,IFUNC    ,NPF      ,
+     2        TF       ,TT       ,DT1      ,BUFMAT(IADBUF),NGL ,EPSP     ,
+     3        UVARF    ,OFF      ,IP       ,DFMAX    ,TDEL     ,LBUF%DMGSCL,            
+     4        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
+     5        DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      )
           ELSEIF (IRUPT == 13) THEN
 C---- chang - chang   
             CALL FAIL_CHANGCHANG_S(
@@ -2397,7 +2406,7 @@ c---- Orthotropic energy failure
             CALL FAIL_ORTHENERG_S(
      1          LLT      ,NPARAM   ,NVARF    ,BUFMAT(IADBUF),UVARF,NGL     ,
      2          NPG      ,IPG      ,ILAY     ,OFF      ,LBUF%OFF ,GBUF%NOFF,
-     3          DXX      ,DYY      ,DZZ      ,D4       ,D5       ,D6       ,
+     3          DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
      4          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
      5          TT       ,TDEL     ,DFMAX    ,DELTAX   ,LBUF%DMGSCL,IDEL7NOK)
 c--------- 

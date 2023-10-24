@@ -37,9 +37,10 @@ Chd|====================================================================
      .                  TEMPEL  ,NGL     ,PM      ,IPM     ,
      .                  OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .                  TIME    ,IOUT    ,ISTDO   ,
-     .                  SVM     ,PRESSURE,EINT    ,AREA    ,AL      ,
+     .                  SVM     ,PRESSURE,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
-     .                  M3      ,ISMSTR,EPSXX)
+     .                  M3      ,ISMSTR  ,EPSXX   ,EPSXY   ,EPSXZ   ,
+     .                  KXX     ,KYY     ,KZZ     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,12 +80,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SVM
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: PRESSURE
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
-      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSXX
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSXX,EPSXY,EPSXZ 
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: KXX,KYY,KZZ 
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: F1,F2,F3
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: M1,M2,M3
 
-      my_real ,DIMENSION(NEL,2)          ,INTENT(INOUT) :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
 C
@@ -161,20 +162,19 @@ c---------------
      .          NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
      .          TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,  
      .          ELBUF_STR%GBUF%FAIL(1)%TDEL,IOUT     ,ISTDO    ,IFUNC    ,
-     .          EPSXX    ,AL       ,
-     .          F1       ,F2       ,F3       ,
-     .          M1       ,M2       ,M3       ,TSTAR ,
+     .          EPSXX    ,AL       ,TSTAR    ,
      .          SNPC     ,NPF      ,STF      ,
      .          TF       ,ISMSTR   ,ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR)     
         
 c--------------- 
         CASE (11)     ! Energy failure model                                        
           CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
-     .                        TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
-     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,IFUNC   ,
-     .                        EINT     ,AREA     ,AL       , F1      ,F2       ,F3      ,
-     .                        M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
-     .                        TF)
+     .                       TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
+     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,IFUNC   ,
+     .                       AREA     ,F1       ,F2       ,F3       ,
+     .                       M1       ,M2       ,M3       ,SNPC     ,NPF      ,STF     ,
+     .                       TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX      ,KYY     ,
+     .                       KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR)
 c--------------- 
         CASE (34)     ! cockroft failure model                                        
                                      

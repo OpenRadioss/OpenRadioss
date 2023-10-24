@@ -238,7 +238,7 @@ C----
      1       NEL       ,NPT         ,MTN       ,MAT(1)   ,                
      2       PID       ,NGL         ,PM        ,IPM      ,                
      3       GEO       ,OFF         ,GBUF%FOR  ,GBUF%MOM ,                
-     4       GBUF%EINT ,GBUF%LENGTH ,GBUF%EPSD ,BUFMAT   ,NPF     ,       
+     4       GBUF%EINT ,AL          ,GBUF%EPSD ,BUFMAT   ,NPF     ,       
      5       TF        ,EXX         ,EXY       ,EXZ      ,KXX     ,       
      6       KYY       ,KZZ         ,F1        ,F2       ,F3      ,       
      7       M1        ,M2          ,M3        ,JTHE     ,TEMPEL  ,       

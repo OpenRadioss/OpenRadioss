@@ -37,7 +37,8 @@ Chd|====================================================================
      .                       TEMPEL   ,NGL      ,PM       ,IPM      ,GEO     ,
      .                       OFF      ,EPSD     ,BUFMAT   ,NPF      ,TF      ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
-     .                       AL       ,AREA     ,ISMSTR)
+     .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
+     .                       KXX      ,KYY      ,KZZ      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,11 +79,11 @@ C-----------------------------------------------
       my_real ,DIMENSION(SBUFMAT)        ,INTENT(IN)    :: BUFMAT
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
-      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AREA
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
       my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EXX,EXY,EXZ,KXX,KYY,KZZ
 
       my_real ,DIMENSION(NEL,NPT) ,INTENT(IN) :: DPLA
 C
@@ -97,7 +98,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
       my_real ,DIMENSION(NEL) :: SHFACT,G,E,ETSE,EPSXX,EPSXY,EPSXZ,
-     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR
+     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DEPSXX,DEPSXY,DEPSXZ
       my_real :: bidon
 C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -160,6 +161,14 @@ c---    Total strain
           EPSXY(I) = LBUF%STRA(II(2)+I)
           EPSXZ(I) = LBUF%STRA(II(3)+I)
         END DO
+c---    Incremental strain
+        DO I = 1,NEL
+          DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
+          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
+          DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
+          DEPSXY(I) = DEPSXY(I) / SHFACT(I)
+          DEPSXZ(I) = DEPSXZ(I) / SHFACT(I) 
+        ENDDO
 c
 c------------------------------------            
         SELECT CASE (IRUPT)                                            
@@ -203,16 +212,18 @@ c---------------
      .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
      .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
-     .          TF       ,IPT      ,FOFF   ,ISMSTR)
+     .          TF       ,IPT      ,FOFF     ,ISMSTR )
 c---------------  
         CASE (11)     ! Energy failure model                                           
           CALL FAIL_ENERGY_IB(
      .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
      .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
-     .          EINT     ,AREA     ,AL       ,LBUF%DMGSCL ,
-     .          SNPC     ,NPF      ,STF     ,
-     .          TF       ,IPT      ,FOFF)
+     .          LBUF%DMGSCL,UVARF  ,NVARF    ,
+     .          SNPC     ,NPF      ,STF      ,
+     .          TF       ,IPT      ,FOFF     ,
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+     .          DEPSXX   ,DEPSXY   ,DEPSXZ   )
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO

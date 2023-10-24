@@ -97,8 +97,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
-      my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI
-      my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE
+      my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
+      my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH
 c=======================================================================
       IPID = PID(1)
 c-------------------
@@ -119,21 +119,39 @@ c
 c-------------------
 c     STRAIN
 c-------------------
-      DO I=1,NEL       
+      DO I=1,NEL 
+        ! Strain increment      
         EXX(I) = EXX(I) * DTIME
         EXY(I) = EXY(I) * DTIME
         EXZ(I) = EXZ(I) * DTIME
         KXX(I) = KXX(I) * DTIME
         KYY(I) = KYY(I) * DTIME
         KZZ(I) = KZZ(I) * DTIME
+        ! Initialization of internal energy increment
+        DEGMB(I) = FOR(I,1)*EXX(I)
+        DEGSH(I) = FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
+        DEGFX(I) = MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I)
       ENDDO
 c
       IPLA = ELBUF_STR%GBUF%G_PLA
+      ! Cumulated plastic strain increment
       IF (IFAIL > 0 .and. IPLA > 0) THEN
         DO I = 1,NEL
           DPLA(I) = ELBUF_STR%GBUF%PLA(I)
         ENDDO
       ENDIF
+      ! Compute undamaged forces and internal energy increment
+      IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 
+        DO I = 1,NEL
+          FOR(I,1) = FOR(I,1)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+          FOR(I,2) = FOR(I,2)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+          FOR(I,3) = FOR(I,3)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+          MOM(I,1) = MOM(I,1)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+          MOM(I,2) = MOM(I,2)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+          MOM(I,3) = MOM(I,3)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+        ENDDO
+      ENDIF
+c
 c---------------------------
 c     material models
 c---------------------------
@@ -141,7 +159,7 @@ c---------------------------
 c
         CASE (1)
           CALL M1LAWP(
-     .         PM     ,FOR       ,MOM       ,EINT       ,GEO,
+     .         PM     ,FOR       ,MOM       ,GEO,
      .         OFF    ,EXX       ,EXY       ,EXZ        ,KXX,
      .         KYY    ,KZZ       ,AL        ,F1         ,F2 ,
      .         F3     ,M1        ,M2        ,M3         ,NEL,
@@ -164,8 +182,8 @@ c
             IFUNC(I) = IPM(10+I,IMAT)
           ENDDO
           CALL SIGEPS44P(
-     .         NEL      ,NGL      ,MAT      ,PID      ,NUPARAM  ,BUFMAT(IADBUF)   ,
-     .         GEO      ,OFF      ,ELBUF_STR%GBUF%PLA ,EINT     ,AL      ,
+     .         NEL      ,NGL      ,MAT      ,PID      ,NUPARAM  ,BUFMAT(IADBUF),
+     .         GEO      ,OFF      ,ELBUF_STR%GBUF%PLA ,AL       ,
      .         EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
      .         F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
      .         FOR      ,MOM      ,PM       ,NUVAR    ,UVAR     ,NFUNC   ,
@@ -201,9 +219,23 @@ c
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .              TIME    ,IOUT    ,ISTDO   ,
-     .              SVM     ,PRESSURE,EINT    ,AREA    ,AL      ,
+     .              SVM     ,PRESSURE,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
-     .              M3      ,ISMSTR  ,EXX      )
+     .              M3      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
+     .              KXX     ,KYY     ,KZZ     )
+c
+        ! Compute damaged forces
+        IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 
+          DO I = 1,NEL
+            F1(I) = F1(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+            F2(I) = F2(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+            F3(I) = F3(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+            M1(I) = M1(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+            M2(I) = M2(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+            M3(I) = M3(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))        
+          ENDDO
+        ENDIF
+c
       END IF
 C-------------------------------------
       DO I=1,NEL
@@ -222,7 +254,16 @@ C
         M1(I) =  MOM(I,1) 
         M2(I) =  MOM(I,2) 
         M3(I) =  MOM(I,3) 
-      ENDDO               
+      ENDDO   
+c
+      ! Update internal energy
+      DO I=1,NEL
+        DEGMB(I) = DEGMB(I) + FOR(I,1)*EXX(I)
+        DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
+        FACT = HALF*OFF(I)*AL(I)
+        EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
+        EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
+      ENDDO            
 C-----------------------------------------------
       RETURN
       END SUBROUTINE MAIN_BEAM3

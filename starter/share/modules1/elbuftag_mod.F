@@ -225,6 +225,7 @@ c
         INTEGER ::  G_DMG          ! 
         INTEGER ::  G_PLANL
         INTEGER ::  G_EPSDNL 
+        INTEGER ::  G_DMGSCL
         INTEGER ::  G_TSAIWU
 c for spring with mat
         INTEGER ::  G_TOTDEPL

@@ -277,7 +277,7 @@ C---
 c                                        other groups using old buffer
               IPARG(5,NGROUP) = 5
               IPARG(6,NGROUP) = NIP
-              IPARG(9,NGROUP) = ISSN
+              IPARG(9,NGROUP) = NINT(GEO(3,PID))
               IPARG(13,NGROUP) = JTHE  !beam : 0 or 1 only
               IPARG(38,NGROUP) = IGTYP
               !---reperage groupe/processeur

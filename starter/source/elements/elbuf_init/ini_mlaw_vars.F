@@ -82,6 +82,7 @@ c       global variables - scalars
         MTAG%G_MU     = 0 
         MTAG%G_PLANL  = 0 
         MTAG%G_EPSDNL = 0 
+        MTAG%G_DMGSCL = 0
         MTAG%G_TSAIWU = 0
         MTAG%G_MAXFRAC= 0   
         MTAG%G_MAXEPS = 0

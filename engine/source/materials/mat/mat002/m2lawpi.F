@@ -267,7 +267,7 @@ C-------------------
             SIGNXY(I) = SIGNXY(I)*R                                  
             SIGNXZ(I) = SIGNXZ(I)*R                                  
             UMR = ONE - R               
-            DPLA(I) =    SVM1*UMR/(THREE*G(I))                           
+            DPLA(I) =    SVM1*UMR/(E(I))                           
             LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)* DPLA(I) 
 c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I)) 
           ENDIF                                   

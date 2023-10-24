@@ -1016,12 +1016,12 @@ C----strain tension
 c
 C----        energy failure          
               ELSEIF(IFAIL(II) == 11)THEN
-               CALL FAIL_ENERGY_S(LLT ,NPAR,NVARF,NFUNC,IFUNC        ,
-     2                     NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
-     3                     NGL ,IPM ,MAT ,
-     5                     S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
-     6                     VOLN,EINT,EPSP1,UVARF     ,OFF,IP  ,
-     7                     DFMAX,TDELE)
+               CALL FAIL_ENERGY_S(
+     1          LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,NPF      ,
+     2          TF       ,TT       ,DT1      ,BUFMAT(IADBUF),NGL ,EPSP1    ,
+     3          UVARF    ,OFF      ,IP       ,DFMAX    ,TDELE    ,LBUF%DMGSCL,            
+     4          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     5          DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      )
               ELSEIF (IFAIL(II) == 23) THEN   
 C---- tabulated failure model
                 CALL FAIL_TAB_S(

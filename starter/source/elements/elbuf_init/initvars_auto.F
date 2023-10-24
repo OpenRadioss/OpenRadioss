@@ -124,11 +124,12 @@ c---------------------
           IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS
           IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
           IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL
-          IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU            
+          IF (GBUF%G_DMGSCL == 0) GBUF%G_DMGSCL = MTAG%G_DMGSCL                 
+          IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU      
           BUFLY%NVAR_MAT= MTAG%NUVAR
           BUFLY%NVARTMP = MTAG%NVARTMP
           IF(BUFLY%NVAR_EOS==0 .AND. IEOS>0 )BUFLY%NVAR_EOS=ETAG%NVAR
-        ENDDO                                      
+        ENDDO   
       ELSE
         IF (NLAY > 1) THEN
           DO ILAY = 1,NLAY  
@@ -159,7 +160,8 @@ c---------------------
             IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS    
             IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
             IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL  
-            IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU      
+            IF (GBUF%G_DMGSCL == 0) GBUF%G_DMGSCL = MTAG%G_DMGSCL    
+            IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU   
           ENDDO 
         ELSE IF (GMAT > 0) THEN
           MTAG  => MLAW_TAG(GMAT)
@@ -184,6 +186,7 @@ c---------------------
           IF (GBUF%G_MU     == 0) GBUF%G_MU     = MTAG%G_MU 
           IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
           IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL
+          IF (GBUF%G_DMGSCL == 0) GBUF%G_DMGSCL = MTAG%G_DMGSCL
           IF (GBUF%G_TSAIWU == 0) GBUF%G_TSAIWU = MTAG%G_TSAIWU
           IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC   
           IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS               

@@ -70,7 +70,7 @@ C-----------------------------------------------
      .   G_FORPGPINCH,G_MOMPGPINCH,G_EPGPINCHXZ,G_EPGPINCHYZ,G_EPGPINCHZZ,
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
-     .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU
+     .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL
 
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
@@ -1105,6 +1105,7 @@ C
           G_MU    = GBUF%G_MU
           G_PLANL = GBUF%G_PLANL
           G_EPSDNL = GBUF%G_EPSDNL
+          G_DMGSCL = GBUF%G_DMGSCL
           G_TSAIWU = GBUF%G_TSAIWU
           G_COR_NF = GBUF%G_COR_NF
           G_COR_FR = GBUF%G_COR_FR
@@ -1292,6 +1293,8 @@ C
              L_REL = L_REL + 1   
            RBUF_L(L_REL+1) =  G_EPSDNL       
              L_REL = L_REL + 1 
+           RBUF_L(L_REL+1) =  G_DMGSCL  
+             L_REL = L_REL + 1  
            RBUF_L(L_REL+1) =  G_TSAIWU     
              L_REL = L_REL + 1   
            RBUF_L(L_REL+1) =  G_TEMPG      

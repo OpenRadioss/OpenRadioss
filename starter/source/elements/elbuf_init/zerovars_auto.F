@@ -158,6 +158,8 @@ C
       IAD = IAD + 1
       GBUF%G_EPSDNL = 0  
       IAD = IAD + 1
+      GBUF%G_DMGSCL = 0  
+      IAD = IAD + 1
       GBUF%G_TSAIWU = 0  
       IAD = IAD + 1
       GBUF%G_TEMPG = 0 
