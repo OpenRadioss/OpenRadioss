@@ -23,9 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F
+Chd|        ALE_CHECK_LAG                 source/ale/ale_check_lag.F    
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CHK_FLG_FSI                   source/coupling/rad2rad/routines_r2r.F
 Chd|        NEW_LINK                      source/coupling/rad2rad/new_link.F
@@ -38,14 +38,14 @@ Chd|        TAGNOD_R2R_NL                 source/coupling/rad2rad/tagnod_r2r_nl.
 Chd|        TAGNOD_R2R_S                  source/coupling/rad2rad/tagnod_r2r.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        GROUP_MOD                     share/modules1/group_mod.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F
+Chd|        GROUP_MOD                     share/modules1/group_mod.F    
+Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE R2R_GROUP(
      1           NGROU,INNOD,FLAG,IPARTS,

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================
       SUBROUTINE TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      2           TYPE2,VAL,TAG,I,COMPT,PASSE,FLAG,IGRPP_R2R,

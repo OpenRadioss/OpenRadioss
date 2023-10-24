@@ -448,6 +448,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        ERROR_MOD                     share/modules/error_mod.F     
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
+Chd|        FORCE_MOD                     source/loads/general/force.F  
 Chd|        FORINT_MOD                    source/elements/forint.F      
 Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
@@ -480,6 +481,7 @@ Chd|        OUTPUT_MOD                    ../common_source/modules/output/output
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
+Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
 Chd|        RESOLSAV_MOD                  share/modules/resol_mod.F     

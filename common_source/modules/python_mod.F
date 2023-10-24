@@ -22,6 +22,31 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
+Chd|====================================================================
+Chd|  PYTHON_FUNCT_MOD              modules/python_mod.F          
+Chd|-- called by -----------
+Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+Chd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
+Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        DAASOLV                       engine/source/fluid/daasolv.F 
+Chd|        DAASOLVP                      engine/source/fluid/daasolvp.F
+Chd|        FIXVEL                        engine/source/constraints/general/impvel/fixvel.F
+Chd|        FLOW0                         engine/source/fluid/flow0.F   
+Chd|        FORCE                         engine/source/loads/general/force.F
+Chd|        GRAVIT                        engine/source/loads/general/grav/gravit.F
+Chd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
+Chd|        INCPFLOW                      engine/source/fluid/incpflow.F
+Chd|        LAG_FXV                       engine/source/tools/lagmul/lag_fxv.F
+Chd|        LAG_FXVP                      engine/source/tools/lagmul/lag_fxv.F
+Chd|        LAG_MULT                      engine/source/tools/lagmul/lag_mult.F
+Chd|        LAG_MULTP                     engine/source/tools/lagmul/lag_mult.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE PYTHON_FUNCT_MOD
         use iso_c_binding
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function

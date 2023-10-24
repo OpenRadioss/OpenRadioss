@@ -28,9 +28,9 @@ Chd|-- calls ---------------
 Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
 Chd|        INSOL3                        source/interfaces/inter3d1/insol3.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|====================================================================
       SUBROUTINE R2R_COUNT(PASSE,IPARTS,
      2           IPARTC,IPARTG,IGRPP_R2R ,PM_STACK , IWORKSH,

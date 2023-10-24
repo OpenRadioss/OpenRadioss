@@ -89,6 +89,7 @@ Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
+Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

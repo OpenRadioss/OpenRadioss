@@ -25,8 +25,8 @@ Chd|  NEW_LINK                      source/coupling/rad2rad/new_link.F
 Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|====================================================================
       SUBROUTINE NEW_LINK(NUM,N,K)
 C-----------------------------------------------

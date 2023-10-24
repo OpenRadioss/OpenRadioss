@@ -23,18 +23,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F
-Chd|        NLOCAL                        source/spmd/node/ddtools.F
-Chd|        USR2SYS                       source/system/sysfus.F
+Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
+Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
+Chd|        NLOCAL                        source/spmd/node/ddtools.F    
+Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|====================================================================
       SUBROUTINE R2R_DOMDEC(IEXTER,IGRNOD,FRONTB_R2R,DT_R2R,FLAG)
 C-----------------------------------------------
