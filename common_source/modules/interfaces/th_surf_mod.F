@@ -33,6 +33,7 @@ Chd|        W_TH_SURF_PLOAD               starter/source/restart/ddsplit/w_th_su
 Chd|        DYNA_INA                      engine/source/implicit/imp_dyna.F
 Chd|        DYNA_WEX                      engine/source/implicit/imp_dyna.F
 Chd|        FORCE                         engine/source/loads/general/force.F
+Chd|        FORCE_IMP                     engine/source/loads/general/force_imp.F
 Chd|        IMP_CHKM                      engine/source/implicit/imp_solv.F
 Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
 Chd|        LOAD_PRESSURE                 engine/source/loads/general/load_pressure/load_pressure.F

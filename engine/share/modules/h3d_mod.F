@@ -70,6 +70,7 @@ Chd|        FORANI3                       source/output/anim/generate/forani3.F
 Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
+Chd|        FORCE_IMP                     source/loads/general/force_imp.F
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FREFORM                       source/input/freform.F        
 Chd|        FVBAG0                        source/airbag/fvbag0.F        

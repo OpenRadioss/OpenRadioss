@@ -23,19 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       module read_funct_python_mod
       contains
 !! \details Read the python function defined by /FUNCT_PYTHON/
-Chd|====================================================================
-Chd|  HM_READ_PYTHON_FUNCT
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        ST_USERLIB_LECR               source/user_interface/dyn_userlib.c
-Chd|        USER_OUTPUT                   source/user_interface/user_output.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
-Chd|====================================================================
         subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,
      .                               lsubmodel,nbsubmod)
 ! ----------------------------------------------------------------------------------------------------------------------

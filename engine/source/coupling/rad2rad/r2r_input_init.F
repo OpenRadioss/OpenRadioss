@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_INPUT_INIT                source/coupling/rad2rad/r2r_input_init.F
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F
+Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        GET_SOCK_IBUF_C               source/coupling/rad2rad/rad2rad_c.c
 Chd|        GET_SOCK_RBUF_C               source/coupling/rad2rad/rad2rad_c.c
@@ -32,7 +32,7 @@ Chd|        SEND_SOCK_RBUF_C              source/coupling/rad2rad/rad2rad_c.c
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
-Chd|        RAD2R_MOD                     share/modules/rad2r.F
+Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|====================================================================
       SUBROUTINE R2R_INPUT_INIT(IRUNN,OUTPUT)
 C-----------------------------------------------

@@ -58,9 +58,9 @@ Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- calls ---------------
 Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|====================================================================
       SUBROUTINE TAG_ELEM_VOID_R2R(NB,IPARTS,IPARTC,IPARTG,
      2           IPARTSP,VAL,CONT,MODIF,ITAGL,F2,FLAG,EANI2,
@@ -244,9 +244,9 @@ Chd|-- calls ---------------
 Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
 Chd|        R2R_VOID_1D                   source/coupling/rad2rad/r2r_void.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F
-Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        RESTMOD                       share/modules1/restart_mod.F  
 Chd|====================================================================
       SUBROUTINE TAG_ELEM_VOID_R2R_LIN(NB,IPARTS,
      2           IPARTC,IPARTG,IPARTT,IPARTP,IPARTR,VAL,CONT,

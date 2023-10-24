@@ -61,6 +61,7 @@ Chd|        FLOW0                         source/fluid/flow0.F
 Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
+Chd|        FORCE_IMP                     source/loads/general/force_imp.F
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FORINTC                       source/elements/forintc.F     
 Chd|        FREANIM                       source/output/anim/reader/freanim.F

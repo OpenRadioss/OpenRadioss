@@ -31,6 +31,7 @@ Chd|        SPMD_FL_SUM                   source/mpi/generic/spmd_fl_sum.F
 Chd|        TRGRAD                        source/fluid/incpflow.F       
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
+Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE INCPFLOW(NNO   , NEL   , NINOUT , NNI    , IFLOW  ,

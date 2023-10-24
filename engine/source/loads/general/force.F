@@ -21,23 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  FORCE_MOD                     source/loads/general/force.F  
+Chd|-- called by -----------
+Chd|        FORCE_IMP                     source/loads/general/force_imp.F
+Chd|        RESOL                         source/engine/resol.F         
+Chd|-- calls ---------------
+Chd|====================================================================
+      MODULE FORCE_MOD
+      CONTAINS
+Chd|====================================================================
 Chd|  FORCE                         source/loads/general/force.F  
 Chd|-- called by -----------
-Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
-Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
+Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      MODULE FORCE_MOD
-      CONTAINS
       SUBROUTINE FORCE (IB      ,FAC       ,NPC     ,TF      ,A      ,
      2                  V       ,X         ,SKEW    ,AR      ,VR     ,
      3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,

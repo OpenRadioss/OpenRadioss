@@ -27,6 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        VINTERDP                      source/tools/curve/vinterdp.F 
 Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
+Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FIXVEL(IBFV  ,A    ,V     ,NPC    ,TF   ,
