@@ -3310,6 +3310,7 @@ c		  BUFIN_C=>IMPBUF_TAB%BUFIN_C
          ISETP = 1
          IMP_IW = 0
          IMP_IR = 0
+         RBID=ZERO
 C
          IF (IRREF>0.AND.IMCONV==1.AND.ILINE/=1) THEN
           IRFLAG=IRREF

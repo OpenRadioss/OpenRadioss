@@ -1028,6 +1028,8 @@ C-----------------------------------------------
       my_real
      .   TFEXC,RBID
 C--------------------------------
+       RBID=ZERO
+C--------------------------------
        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(NCONLD/=0) THEN
           CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,A     ,

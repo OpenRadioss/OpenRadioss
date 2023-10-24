@@ -424,7 +424,11 @@ extern "C"
                 }
                 //                std::cout << "Registering function: " << function_name << std::endl;
                 // copy function_name into argument name
-                strcpy(name, function_name.c_str());
+                #ifdef _WIN64
+                   strcpy_s(name,strlen(name), function_name.c_str());
+                #else
+                   strcpy(name, function_name.c_str());
+                #endif
                 // add the null char at the end of the string
                 name[function_name.size()] = '\0';
             }
