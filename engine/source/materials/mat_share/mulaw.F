@@ -2033,13 +2033,12 @@ C---- strain tension
      8             MFZX     ,MFZY     ,MFZZ     ,LBUF%DMGSCL)
           ELSEIF (IRUPT == 11) THEN                                        
 C---- energy failure  
-              CALL FAIL_ENERGY_S(NEL ,NPAR,NUVARR,NFUNC,IFUNC       ,
-     2                    NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3                    NGL ,IPM ,MAT ,
-     5                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
-     6                  VOLN,EINT,EPSP1,UVARF,OFF,IP,DFMAX   ,
-     7                   TDEL )   
-     c
+            CALL FAIL_ENERGY_S(
+     1        NEL      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,NPF      ,
+     2        TF       ,TT       ,DT1      ,UPARAMF  ,NGL      ,EPSP1    ,
+     3        UVARF    ,OFF      ,IP       ,DFMAX    ,TDEL     ,LBUF%DMGSCL,            
+     4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     5        DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      )
           ELSEIF (IRUPT == 13) THEN
 C---- chang - chang   
             CALL FAIL_CHANGCHANG_S(

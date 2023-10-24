@@ -200,7 +200,8 @@ c
      .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
      .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
      .              DPLA    ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
-     .              AL      ,AREA    ,ISMSTR)
+     .              AL      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
+     .              KXX     ,KYY     ,KZZ     )
       END IF
 C------------------------------------
 c     resultant force and moment

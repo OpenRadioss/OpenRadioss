@@ -739,6 +739,7 @@ C
         INTEGER  G_BETAORTH
         integer  G_AMU
         INTEGER  G_TSAIWU
+        INTEGER  G_DMGSCL
 c---
 C    - 1D - elem (TRUSS, BEAM, SPRING) 
         integer  G_AREA

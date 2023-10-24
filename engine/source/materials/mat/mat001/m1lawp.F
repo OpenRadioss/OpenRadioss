@@ -27,7 +27,7 @@ Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M1LAWP(
-     1              PM      ,FOR     ,MOM     ,EINT    ,GEO,
+     1              PM      ,FOR     ,MOM     ,GEO     ,
      2              OFF     ,EXX     ,EXY     ,EXZ     ,KXX,
      3              KYY     ,KZZ     ,AL      ,F1      ,F2 ,
      4              F3      ,M1      ,M2      ,M3      ,NEL,
@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER NEL,MAT(NEL),PID(NEL)
 C     REAL
       my_real
-     .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
+     .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), GEO(NPROPG,*),
      .   OFF(*),A1(NEL),
      .   AL(NEL),EXX(NEL),
      .   EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
@@ -90,11 +90,6 @@ C
       ENDDO
 C-----------------------------
 C
-      DO I=1,NEL
-        DEGMB(I) =(FOR(I,1)*EXX(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I))
-        DEGFX(I) =(MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I))
-      ENDDO
-C
 C     CISSAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
 C
       DO I=1,NEL
@@ -119,18 +114,6 @@ C
         MOM(I,1)=MOM(I,1)*OFF(I)
         MOM(I,2)=MOM(I,2)*OFF(I)
         MOM(I,3)=MOM(I,3)*OFF(I)
-      ENDDO
-C
-      DO I=1,NEL
-        DEGMB(I) = DEGMB(I)
-     +            +FOR(I,1)*EXX(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
-        DEGFX(I) = DEGFX(I)
-     +            +MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I)
-      ENDDO
-C
-      DO I=1,NEL
-        EINT(I,1) = EINT(I,1) + DEGMB(I)*AL(I)*HALF*OFF(I)
-        EINT(I,2) = EINT(I,2) + DEGFX(I)*AL(I)*HALF*OFF(I)
       ENDDO
 C
       DO I=1,NEL

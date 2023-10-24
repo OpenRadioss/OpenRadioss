@@ -351,7 +351,7 @@ c
           IF (S_FLAG == 3) THEN
 #include  "lockon.inc"
             WRITE(IOUT, 3001) NGL(I),IPT,EPSI(I)
-            WRITE(ISTDO,3101) NGL(I),IPT,EPS_EQ(I)
+            WRITE(ISTDO,3001) NGL(I),IPT,EPSI(I)
 #include  "lockoff.inc"
           ELSE
             WRITE(IOUT, 3101) NGL(I),IPT,EPS_EQ(I)

@@ -31,11 +31,9 @@ Chd|====================================================================
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           EPSXX    ,AL       ,
-     .           F1       ,F2       ,F3       ,
-     .           M1       ,M2       ,M3       ,TSTAR , 
-     .           SNPC     ,NPF      , STF     , 
-     .           TF       , ISMSTR  ,NUVAR    , UVAR )
+     .           EPSXX    ,AL       ,TSTAR    , 
+     .           SNPC     ,NPF      ,STF      , 
+     .           TF       ,ISMSTR   ,NUVAR    ,UVAR     )
 C-----------------------------------------------
 c    tens strain failure model for integrated beams (TYPE 18) !irup=10
 C-----------------------------------------------
@@ -66,8 +64,6 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR      
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: F1,F2,F3 !force
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: M1,M2,M3 !moment
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
@@ -323,18 +319,7 @@ c---  Maximum Damage for output : 0 < DFMAX < 1
       DO I=1,NEL
         DFMAX(I)     = MAX(DFMAX(I), DAMAGE(I))
       ENDDO           
-C-------------------
-C-------------------
-
-      DO I=1,NEL
-          F1(I) = (ONE - DAMAGE(I))*F1(I)
-          F2(I) = (ONE - DAMAGE(I))*F2(I)
-          F3(I) = (ONE - DAMAGE(I))*F3(I)
-          M1(I) = (ONE - DAMAGE(I))*M1(I)
-          M2(I) = (ONE - DAMAGE(I))*M2(I)
-          M3(I) = (ONE - DAMAGE(I))*M3(I)
-      END DO            
-         
+C-------------------       
 c------------------------
 c     print
 c------------------------
@@ -362,11 +347,11 @@ c
           IF (S_FLAG == 3) THEN
 #include  "lockon.inc"
             WRITE(IOUT, 3001) NGL(I),EPSI(I)
-            WRITE(ISTDO,3101) NGL(I), EPS_EQ(I)
+            WRITE(ISTDO,3001) NGL(I),EPSI(I)
 #include  "lockoff.inc"
           ELSE
-            WRITE(IOUT, 2002) NGL(I), EPS_EQ(I)
-            WRITE(ISTDO,2002) NGL(I), EPS_EQ(I)
+            WRITE(IOUT, 3101) NGL(I), EPS_EQ(I)
+            WRITE(ISTDO,3101) NGL(I), EPS_EQ(I)
           ENDIF
         END DO
       END IF              

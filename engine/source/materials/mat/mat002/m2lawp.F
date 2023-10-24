@@ -250,10 +250,6 @@ C
 C
       DO I=1,NEL
         DWPLA(I)= DEGMB(I)+DEGFX(I)-DWELM(I)-DWELF(I)
-        DEGSH(I)= DEGSH(I)+FOR(I,2)*EXY(I)+FOR(I,3)*EXZ(I)
-        FACT = HALF*OFF(I)*AL(I)
-        EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
-        EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
       ENDDO
 C-----------------------
 C     EPS PLASTIQUE

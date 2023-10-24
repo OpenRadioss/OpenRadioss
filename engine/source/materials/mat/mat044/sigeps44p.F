@@ -29,7 +29,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE SIGEPS44P(
      .    NEL     ,NGL     ,MAT     ,PID     ,NUPARAM ,UPARAM  ,
-     .    GEO     ,OFF     ,PLA     ,EINT    ,AL      ,
+     .    GEO     ,OFF     ,PLA     ,AL      ,
      .    EXX     ,EXY     ,EXZ     ,KXX     ,KYY     ,KZZ     ,
      .    FA1     ,FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
      .    FOR     ,MOM     ,PM      ,NUVAR   ,UVAR    ,NFUNC   , 
@@ -58,7 +58,6 @@ C-----------------------------------------------
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN) :: GEO
       my_real ,DIMENSION(NUPARAM)        ,INTENT(IN) :: UPARAM
       my_real ,DIMENSION(NEL,NUVAR) :: UVAR
-      my_real ,DIMENSION(NEL,2) :: EINT
       my_real ,DIMENSION(NEL,3) :: FOR,MOM
       my_real ,DIMENSION(NEL)   :: OFF,PLA,AL,EXX,EXY,EXZ,KXX,KYY,KZZ,
      .   FA1,FA2,FA3,MA1,MA2,MA3
@@ -251,8 +250,6 @@ C
         DWPLA(I) = DEGMB(I) + DEGFX(I) - DWELM(I) - DWELF(I)
         DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
         FACT = HALF*OFF(I)*AL(I)
-        EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
-        EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
       ENDDO
 C-----------------------
 C     EPS PLASTIQUE

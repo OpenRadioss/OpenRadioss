@@ -32,12 +32,11 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FAIL_ENERGY_S(
-     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2     NPF    ,TF     ,TIME   ,TIMESTEP ,UPARAM  ,
-     3     NGL    , IPM    ,MAT,
-     4     SIGNXX ,SIGNYY  ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX,
-     5     VOLUME ,EINT    ,EPSP  , UVAR    ,OFF    ,IP    ,
-     6     DFMAX  ,TDELE   )
+     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
+     2     TF       ,TIME     ,TIMESTEP ,UPARAM   ,NGL      ,EPSP     ,
+     3     UVAR     ,OFF      ,IP       ,DFMAX    ,TDELE    ,DMGSCL   ,
+     4     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     5     DEPSXX   ,DEPSYY   ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,31 +65,27 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
-#include "mvsiz_p.inc"
-#include "scr17_c.inc"
-#include "units_c.inc"
-#include "comlock.inc"
-#include "param_c.inc"
-#include      "impl1_c.inc"
+#include    "mvsiz_p.inc"
+#include    "scr17_c.inc"
+#include    "units_c.inc"
+#include    "comlock.inc"
+#include    "param_c.inc"
+#include    "impl1_c.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-C
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPM(NPROPMI,*),
-     .        MAT(NEL)
-      my_real TIME,TIMESTEP,UPARAM(*),
-     .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
-     .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .   EPSP(NEL),VOLUME(NEL),EINT(NEL)     
-C-----------------------------------------------
-C   O U T P U T   A r g u m e n t s
-C-----------------------------------------------
-cc      my_real
- 
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR
+      INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
+      my_real, INTENT(IN) :: TIME,TIMESTEP
+      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
+      my_real, DIMENSION(NEL), INTENT(IN) :: SIGNXX,SIGNYY,SIGNZZ,
+     .   SIGNXY,SIGNYZ,SIGNZX,DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,
+     .   DEPSZX,EPSP
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,DFMAX,DMGSCL,TDELE
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -123,6 +118,12 @@ C--------------------------------------------------------------
       !ISOLID = INT(UPARAM(4)) 
       DO I=1,NEL
         DAMAGE(I) = ZERO
+        UVAR(I,1) = UVAR(I,1) + SIGNXX(I)*DEPSXX(I) + 
+     .                          SIGNYY(I)*DEPSYY(I) + 
+     .                          SIGNZZ(I)*DEPSZZ(I) + 
+     .                          SIGNXY(I)*DEPSXY(I) + 
+     .                          SIGNYZ(I)*DEPSYZ(I) + 
+     .                          SIGNZX(I)*DEPSZX(I)
       ENDDO
 C-----------------------------------------------
       DO I=1,NEL
@@ -138,14 +139,14 @@ CC
           RFAC = MAX(RFAC,EM20)
         ENDIF  
         IF(OFF(I)==ONE)THEN
-          IE_SP = EINT(I)/VOLUME(I)
-          
+          IE_SP = UVAR(I,1)
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
          IF(IE_SP>R1.AND.R1<R2) THEN
           DAMAGE(I)= (IE_SP-R1)/(R2-R1)
           DAMAGE(I)= MIN(ONE,DAMAGE(I))
          ENDIF
+         DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))
          IF(IE_SP>R2) THEN
           DAMAGE(I)= ONE
           OFF(I)=FOUR_OVER_5
@@ -166,19 +167,8 @@ c
         END DO
       END IF         
       DO I=1,NEL
-        R1 = RIEF1
-        R2 = RIEF2
-        IF(R1 < R2)THEN         
-          SIGNXX(I) = (ONE - DAMAGE(I))*SIGNXX(I)
-          SIGNYY(I) = (ONE - DAMAGE(I))*SIGNYY(I)
-          SIGNZZ(I) = (ONE - DAMAGE(I))*SIGNZZ(I)
-          SIGNXY(I) = (ONE - DAMAGE(I))*SIGNXY(I)
-          SIGNYZ(I) = (ONE - DAMAGE(I))*SIGNYZ(I)
-          SIGNZX(I) = (ONE - DAMAGE(I))*SIGNZX(I)
-        END IF
-C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
-        DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))
-       ENDDO            
+        DMGSCL(I) = ONE - DFMAX(I)
+      ENDDO            
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10,

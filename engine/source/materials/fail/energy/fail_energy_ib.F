@@ -31,9 +31,11 @@ Chd|====================================================================
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           EINT     ,AREA     ,AL       , DAMSCL  ,
+     .           DAMSCL   ,UVAR     ,NVAR     ,
      .           SNPC     ,NPF      ,STF      , 
-     .           TF       ,IPT      ,FOFF)
+     .           TF       ,IPT      ,FOFF     ,
+     .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+     .           DEPSXX   ,DEPSXY   ,DEPSXZ   )
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 18)
 C-----------------------------------------------
@@ -54,21 +56,22 @@ C-----------------------------------------------
       INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit
       INTEGER                     ,INTENT(IN)    :: SNPC 
       INTEGER                     ,INTENT(IN)    :: STF       
+      INTEGER                     ,INTENT(IN)    :: NVAR     
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
       INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
       INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
       my_real                     ,INTENT(IN)    :: TIME    ! current time
-      my_real                     ,INTENT(IN)    :: AREA    ! AREA  of beam
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
-      my_real ,DIMENSION(NEL,2)   ,INTENT(INOUT) :: EINT    !internal energy
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX,SIGNXY,SIGNXZ 
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DEPSXX,DEPSXY,DEPSXZ 
+      my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -76,7 +79,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDX,INDXD
       my_real :: RFAC,R1,R2,DYDX,RIEF1,RIEF2,XFAC,FINTER
       EXTERNAL FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE,VOL,IE_SP
+      my_real ,DIMENSION(NEL) :: DAMAGE,IE_SP
 C=======================================================================
       NINDX = 0
       NINDXD  = 0
@@ -85,6 +88,9 @@ C=======================================================================
       XFAC     = UPARAM(4)           
       DO I=1,NEL
         DAMAGE(I) = ZERO
+        UVAR(I,1) = UVAR(I,1) + (SIGNXX(I)*DEPSXX(I) + 
+     .                           SIGNXY(I)*DEPSXY(I) + 
+     .                           SIGNXZ(I)*DEPSXZ(I))
       ENDDO
 c-----------------------------
       DO I=1,NEL
@@ -97,8 +103,7 @@ c-----------------------------
           ENDIF  
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
-          VOL(I) = AREA*AL(I)
-          IE_SP(I) = (EINT(I,1) + EINT(I,2))/VOL(I)
+          IE_SP(I) = UVAR(I,1)
           IF (IE_SP(I) > R1) THEN
             DAMAGE(I) = (IE_SP(I)-R1)/(R2-R1)
             DAMAGE(I) = MIN(ONE,DAMAGE(I))

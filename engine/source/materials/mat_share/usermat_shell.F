@@ -1495,12 +1495,14 @@ c
      6               DMG_FLAG  ,DMG_LOC_SCALE ,ALDT  ,TSTAR     ,ISMSTR    )                                
 c
               CASE (11)     !    Energy failure model
-                CALL FAIL_ENERGY_C(                                            
+                CALL FAIL_ENERGY_C(
      1               NEL       ,NUPAR     ,NVARF     ,NFUNC1   ,IFUNC1     , 
      2               UPARAMF   ,UVARF     ,NPF       ,TF       ,TT         , 
      3               NGL       ,IPG       ,ILAYER    ,IT       ,EPSPL      ,  
-     4               EINT      ,AREA      ,THKN ,PTHKF(ILAYER,IFL),DMG_FLAG, 
-     5               DMG_LOC_SCALE ,OFF       ,FOFF      ,DFMAX    ,TDEL       )
+     4               AREA      ,THKN      ,PTHKF(ILAYER,IFL)   ,DMG_FLAG   , 
+     5               DMG_LOC_SCALE ,OFF   ,FOFF      ,DFMAX    ,TDEL       ,
+     6               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ   ,SIGNZX     ,
+     7               DEPSXX    ,DEPSYY    ,DEPSXY    ,DEPSYZ   ,DEPSZX     )     
 c
               CASE (13)     !    Chang-Chang failure model
                 CALL FAIL_CHANGCHANG_C(

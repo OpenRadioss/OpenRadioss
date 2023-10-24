@@ -32,8 +32,10 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     , 
      3     NGL      ,IPG      ,ILAY     ,IPT      ,EPSP     ,
-     4     EINT     ,AREA     ,THK      ,PTHKF    ,DMG_FLAG ,
-     5     DMG_SCALE,OFF      ,FOFF     ,DFMAX    ,TDEL     )
+     4     AREA     ,THK      ,PTHKF    ,DMG_FLAG ,
+     5     DMG_SCALE,OFF      ,FOFF     ,DFMAX    ,TDEL     ,
+     6     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     7     DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )
 C-----------------------------------------------
 C    energy failure model
 C-----------------------------------------------
@@ -76,9 +78,10 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
-      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: AREA,THK,EPSP,OFF
+      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: AREA,THK,EPSP,OFF,
+     .  SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,DEPSXX,DEPSYY,DEPSXY,
+     .  DEPSYZ,DEPSZX
       my_real,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
-      my_real ,DIMENSION(NEL,2) ,INTENT(IN)  :: EINT
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -127,8 +130,12 @@ C-----------------------------------------------
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
 
-          IE_SP = (EINT(I,1) + EINT(I,2))/AREA(I)/THK(I)
-
+          UVAR(I,1) = UVAR(I,1) + SIGNXX(I)*DEPSXX(I) + 
+     .                            SIGNYY(I)*DEPSYY(I) +
+     .                            SIGNXY(I)*DEPSXY(I) + 
+     .                            SIGNYZ(I)*DEPSYZ(I) + 
+     .                            SIGNZX(I)*DEPSZX(I)
+          IE_SP = UVAR(I,1)
           IF (IE_SP > R1) THEN
             DAMAGE(I) = (IE_SP-R1)/(R2-R1)
             DAMAGE(I) = MIN(ONE,DAMAGE(I))

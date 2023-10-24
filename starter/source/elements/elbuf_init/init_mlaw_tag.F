@@ -68,6 +68,7 @@ C-----------------------------------------------
             MLAW_TAG(I)%G_MU = 0
             MLAW_TAG(I)%G_PLANL = 0
             MLAW_TAG(I)%G_EPSDNL = 0
+            MLAW_TAG(I)%G_DMGSCL = 0
             MLAW_TAG(I)%G_TSAIWU = 0
             MLAW_TAG(I)%G_MAXFRAC = 0
             MLAW_TAG(I)%G_MAXEPS = 0

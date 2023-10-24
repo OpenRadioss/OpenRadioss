@@ -176,8 +176,8 @@ c-------------------
           SIGNXX(I) = SIGNXX(I)*R                                  
           SIGNXY(I) = SIGNXY(I)*R                                  
           SIGNXZ(I) = SIGNXZ(I)*R   
-          DPLA(I) = OFF(I)*SVM*(ONE - R) / G3(I)                       
-          PLA(I) = PLA(I) + OFF(I)*SVM*(ONE - R) / G3(I)
+          DPLA(I) = OFF(I)*SVM*(ONE - R) / E(I)                    
+          PLA(I) = PLA(I) + OFF(I)*SVM*(ONE - R) / E(I)
         ENDIF                                   
       ENDDO     
 c--------------------------------

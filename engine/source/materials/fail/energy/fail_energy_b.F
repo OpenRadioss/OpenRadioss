@@ -31,10 +31,12 @@ Chd|====================================================================
      .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           EINT     ,AREA     ,AL       , F1      ,
+     .           AREA     ,F1       ,
      .           F2       ,F3       ,M1       ,M2       ,
-     .           M3       ,SNPC     ,NPF      , STF     , 
-     .           TF)
+     .           M3       ,SNPC     ,NPF      ,STF      , 
+     .           TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,
+     .           KXX      ,KYY      ,KZZ      ,NVAR     ,
+     .           UVAR     )
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 3)
 C-----------------------------------------------
@@ -57,26 +59,28 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
       INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
       INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
+      INTEGER                     ,INTENT(IN)    :: NVAR
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real                     ,INTENT(IN)    :: AREA
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
-      my_real ,DIMENSION(NEL,2)   ,INTENT(INOUT) :: EINT    !internal energy
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: F1,F2,F3 !force
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: M1,M2,M3 !moment
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: F1,F2,F3
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: M1,M2,M3
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX,EPSXY,EPSXZ
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: KXX,KYY,KZZ
+      my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR    ! User variable
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: RFAC,R1,R2,IE_SP,DYDX,RIEF1,RIEF2,XFAC,FINTER
+      my_real :: RFAC,R1,R2,IE_SP,DYDX,RIEF1,RIEF2,XFAC,FINTER,FACT
       EXTERNAL FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE,VOL
+      my_real ,DIMENSION(NEL) :: DAMAGE
 C=======================================================================
       NINDX = 0  
       RIEF1    = UPARAM(1)             
@@ -84,6 +88,9 @@ C=======================================================================
       XFAC     = UPARAM(4)           
       DO I=1,NEL
         DAMAGE(I) = ZERO
+        UVAR(I,1) = UVAR(I,1) + (
+     .              F1(I)*EPSXX(I) + F2(I)*EPSXY(I) + F3(I)*EPSXZ(I) + 
+     .              M1(I)*KXX(I)   + M2(I)*KYY(I)   + M3(I)*KZZ(I))
       ENDDO
 c-----------------------------
       DO I=1,NEL
@@ -96,8 +103,7 @@ c-----------------------------
           ENDIF  
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
-          VOL(I) = AREA*AL(I)
-          IE_SP = (EINT(I,1) + EINT(I,2))/VOL(I)
+          IE_SP = UVAR(I,1)/AREA
 
           IF (IE_SP > R1) THEN
             DAMAGE(I) = (IE_SP-R1)/(R2-R1)
@@ -113,17 +119,7 @@ c-----------------------------
             OFF(I)      = FOUR_OVER_5
           ENDIF
         ENDIF 
-      ENDDO     
-      DO I=1,NEL
-        IF(RIEF1 < RIEF2)THEN         
-          F1(I) = (ONE - DAMAGE(I))*F1(I)
-          F2(I) = (ONE - DAMAGE(I))*F2(I)
-          F3(I) = (ONE - DAMAGE(I))*F3(I)
-          M1(I) = (ONE - DAMAGE(I))*M1(I)
-          M2(I) = (ONE - DAMAGE(I))*M2(I)
-          M3(I) = (ONE - DAMAGE(I))*M3(I)
-        END IF
-      ENDDO      
+      ENDDO        
 c------------------------
       IF (NINDX > 0) THEN        
         DO J=1,NINDX             
