@@ -260,6 +260,7 @@ c
       DO I=1,NEL
         DEGMB(I) = DEGMB(I) + FOR(I,1)*EXX(I)
         DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
+        DEGFX(I) = DEGFX(I) + MOM(I,1)*KXX(I) + MOM(I,2)*KYY(I) + MOM(I,3)*KZZ(I)
         FACT = HALF*OFF(I)*AL(I)
         EINT(I,1) = EINT(I,1) + (DEGSH(I)+DEGMB(I))*FACT
         EINT(I,2) = EINT(I,2) +  FACT*DEGFX(I)
