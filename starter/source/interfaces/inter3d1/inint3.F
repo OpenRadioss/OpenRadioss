@@ -108,6 +108,7 @@ Chd|        ININT0_8                      source/interfaces/interf1/inint0_8.F
 Chd|        INVOI3                        source/interfaces/inter3d1/invoi3.F
 Chd|        ISPT2_INI                     source/interfaces/inter3d1/i24surfi.F
 Chd|        IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|        IWCONTDD_151                  source/spmd/domain_decomposition/grid2mat.F
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F

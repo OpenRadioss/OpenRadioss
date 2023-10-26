@@ -284,6 +284,8 @@ Chd|        INI_FVMINIVEL                 starter/source/elements/initia/ini_fvm
 Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        INI_INIMAP2D                  starter/stub/ini_inimap2d.F   
 Chd|        INSPCND                       starter/source/elements/sph/inspcnd.F
+Chd|        INT18_LAW151_ALLOC            starter/source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_LAW151_INIT             starter/source/interfaces/int18/int18_law151_init.F
 Chd|        IPARI_L_INI                   starter/source/restart/ddsplit/ipari_l_ini.F
 Chd|        ISLIN_INI                     starter/source/model/group/islin_ini.F
 Chd|        ISURF_INI                     starter/source/model/group/isurf_ini.F

@@ -265,6 +265,8 @@ Chd|        INIVEL                        source/initial_conditions/general/iniv
 Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F
 Chd|        INI_H3DTMAX_ENGINE            source/starter/contrl.F       
 Chd|        INI_IFRONT                    source/spmd/node/ddtools.F    
+Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_init.F
 Chd|        INT8_INI                      source/interfaces/intbuf/intbuf_ini_starter.F
 Chd|        INTBUF_FRIC_COPY              source/interfaces/interf1/intbuf_fric_copy.F
 Chd|        INTBUF_FRIC_INI_STARTER       source/interfaces/intbuf/intbufFric_ini_starter.F

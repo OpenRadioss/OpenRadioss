@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      

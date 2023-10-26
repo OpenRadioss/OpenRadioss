@@ -63,6 +63,7 @@ Chd|        HM_READ_PROPERTIES            starter/source/properties/hm_read_prop
 Chd|        INGRBRIC_DX                   starter/source/interfaces/interf1/ingrbric_dx.F
 Chd|        INIFILL                       starter/source/initial_conditions/inivol/inifill.F
 Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
+Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
 Chd|        INIPHASE                      starter/source/initial_conditions/inivol/iniphase.F
 Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INIVEL                        starter/source/initial_conditions/general/inivel/inivel.F
@@ -70,6 +71,8 @@ Chd|        INIVOL_SET                    starter/source/initial_conditions/iniv
 Chd|        INI_FVMINIVEL                 starter/source/elements/initia/ini_fvminivel.F
 Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        INI_INIMAP2D                  starter/stub/ini_inimap2d.F   
+Chd|        INT18_LAW151_ALLOC            starter/source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_LAW151_INIT             starter/source/interfaces/int18/int18_law151_init.F
 Chd|        IPARI_L_INI                   starter/source/restart/ddsplit/ipari_l_ini.F
 Chd|        LECINS                        starter/source/interfaces/interf1/lecins.F
 Chd|        LECINT                        starter/source/interfaces/interf1/lecint.F

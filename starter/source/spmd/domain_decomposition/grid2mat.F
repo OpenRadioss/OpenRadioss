@@ -3429,7 +3429,7 @@ C
 
 
 Chd|====================================================================
-Chd|  IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|  IWCONTDD_151                  source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
