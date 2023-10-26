@@ -1178,6 +1178,9 @@ C-----------------------------------------------
      *                  'Activation of nodal random noise with a [value] alea'
        WRITE(6,'(A,A)') '  -rseed [real value]                 : ',
      *                  'Optional value, set the seed value for nodal random noise'
+       WRITE(6,'(A,A)') '  -python                             : ',
+     *                  'Python function in model is safe and can be used'
+
        WRITE(6,'(A)') ' '
        WRITE(6,'(A)') ' '
        END

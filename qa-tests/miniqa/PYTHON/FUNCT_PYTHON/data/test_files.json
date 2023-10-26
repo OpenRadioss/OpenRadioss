@@ -1,0 +1,6 @@
+{
+	"enabled": 1,
+	"starter": "test_torsion_orthstrain_shell_0000.rad",
+	"engines": ["test_torsion_orthstrain_shell_0001.rad"],
+	"starter_argument": "-python"
+}

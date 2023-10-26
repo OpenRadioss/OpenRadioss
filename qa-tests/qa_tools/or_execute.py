@@ -61,6 +61,7 @@ if __name__ == "__main__":
   stdout = 0
   keep=0
   qa_type='default'
+  starter_arg=""
 
   # Parse command line arguments
   # -----------------------------
@@ -174,6 +175,9 @@ if __name__ == "__main__":
     # No Engine run
        run_engine=int( test_json['run_engine'])
 
+    if 'starter_argument' in test_json:
+       starter_arg=test_json['starter_argument']
+
   # Set -np 1 when run in SMP mode.
   if mpi == 'smp':
     np=1
@@ -274,7 +278,7 @@ if __name__ == "__main__":
 # Execute the Solver
 # ------------------
   os.chdir(exec_directory)
-  execute_solver.exec_openradioss(starter,run_starter,engine,run_engine,starter_deck,engine_deck,mpi,np,1,stdout)
+  execute_solver.exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_deck,engine_deck,mpi,np,1,stdout)
   print('')
 
 # Verify the results
