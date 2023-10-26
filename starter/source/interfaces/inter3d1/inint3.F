@@ -261,7 +261,7 @@ C-----------------------------------------------
      .   XXM1(4,MVSIZ), XXM2(4,MVSIZ), XYM1(4,MVSIZ), XYM2(4,MVSIZ), XZM1(4,MVSIZ), XZM2(4,MVSIZ),
      .   GAPVE(MVSIZ),
      .   EX(4,MVSIZ), EY(4,MVSIZ), EZ(4,MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
-      LOGICAL PRINT_WARNING,TYPE18_LAW151,TYPE18
+      LOGICAL PRINT_WARNING,LAW151_TYPE18,TYPE18
       CHARACTER FILNAM*100
 C=======================================================================
       INPENE   = 0
@@ -310,10 +310,10 @@ C=======================================================================
       NCONTE   = IPARI(88)
       IS1 = IPARI(13) / 10
       
-      TYPE18_LAW151=.FALSE.
+      LAW151_TYPE18=.FALSE.
       TYPE18=.FALSE.
       IF(NTY==7 .AND. INACTI==7) TYPE18=.TRUE.
-      IF(TYPE18.AND.IPARI(14)==151)TYPE18_LAW151=.TRUE.      
+      IF(TYPE18.AND.IPARI(14)==151)LAW151_TYPE18=.TRUE.      
       IF (IT19<=0) THEN
       INT_TYP = MAX(NTY,ABS(IT19)*19)
       IF (RESORT == 0)THEN
@@ -637,7 +637,7 @@ C       I_STOK = 0
             XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) = INTBUF_TAB%XIGE(1:3*INTBUF_TAB%S_NIGE)
             PTR_X(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) => XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE))
             PTR_MS(1:NUMNOD) => MS(1:NUMNOD)
-       ELSEIF(TYPE18_LAW151) THEN
+       ELSEIF(LAW151_TYPE18) THEN
             PTR_X(1:NUMNOD+NUMELS) => X_APPEND(1:3*S_APPEND_ARRAY)
             PTR_MS(1:NUMNOD+NUMELS) => MASS_APPEND(1:S_APPEND_ARRAY)
        ELSE
@@ -743,7 +743,7 @@ C
 
       IF((IDDLEVEL==0).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 C Weighting interface nodes
-        IF(TYPE18_LAW151)THEN
+        IF(LAW151_TYPE18)THEN
           ! specific treatment with colocated scheme (/MAT/LAW151)
           GRBRIC_ID  = IPARI(83)
           NBRIC = IGRBRIC(ISU1)%NENTITY
