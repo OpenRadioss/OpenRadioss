@@ -76,7 +76,7 @@ def extract_engine_results(input_deck,run_number):
     return[],-1
 
   last=len(result)
-  if len == 0:
+  if last == 0:
      # Engine started but no cycles were made
      print("    *** ERROR No Engine Results found")
      return[],-1

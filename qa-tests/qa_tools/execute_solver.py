@@ -172,7 +172,7 @@ def get_executables(mpi,prec,exec_arch):
   
   return executable
 
-def get_starter_command(starter,starter_input,np):
+def get_starter_command(starter,starter_input,np,starter_arg):
 # ------------------------------------------------------------------
 # Input : 
 #   starter : executable name
@@ -189,7 +189,7 @@ def get_starter_command(starter,starter_input,np):
   else:
      redirect=' > starter_output.log 2>&1'
   
-  starter_command=starter+' -i '+ starter_input +' -np '+str(np) + redirect
+  starter_command=starter+' -i '+ starter_input +' -np '+str(np) + ' ' + starter_arg + redirect
   return starter_command
 
 def get_engine_command(engine,mpi,engine_input,np):
@@ -223,7 +223,7 @@ def get_engine_command(engine,mpi,engine_input,np):
   return command
 
 
-def exec_openradioss(starter,run_starter,engine,run_engine,starter_deck,engine_decks,mpi,np,nt,stdout):
+def exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_deck,engine_decks,mpi,np,nt,stdout):
 # ------------------------------------------------------------------
 # Input : 
 #   starter      : Starter executable name
@@ -278,7 +278,7 @@ def exec_openradioss(starter,run_starter,engine,run_engine,starter_deck,engine_d
   print("")
   if run_starter == 1:
      print("--- Executing Starter")
-     starter_command=get_starter_command(starter,starter_deck,np)
+     starter_command=get_starter_command(starter,starter_deck,np,starter_arg)
      p_starter_command='    '+starter_command
      print(p_starter_command)
      os.system(starter_command)

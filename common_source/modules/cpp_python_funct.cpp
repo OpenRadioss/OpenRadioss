@@ -35,6 +35,14 @@
 #include <dlfcn.h>
 #include <dirent.h>
 #endif
+
+// the maximum length of a line of code of python function
+#define max_line_length 500 
+// the maximum number of lines of python function
+#define max_num_lines  1000
+#define max_code_length max_line_length*max_num_lines
+
+
 typedef void* PyObject;
 
 typedef PyObject (*T_PyDict_GetItemString)(PyObject *, const char*);
@@ -63,7 +71,7 @@ template<typename T>
 void load_function(HMODULE handle, const std::string& func_name, T& func_ptr, bool& python_initialized) {
     func_ptr = reinterpret_cast<T>(GetProcAddress(handle, func_name.c_str()));
     if (func_ptr == nullptr) {
-        std::cout << "Could not load " << func_name << ": " << GetLastError() << std::endl;
+        //std::cout << "Could not load " << func_name << ": " << GetLastError() << std::endl;
         python_initialized = false;
     }
 }
@@ -171,6 +179,7 @@ void python_load_library()
 {
     python_initialized = true;
     HMODULE handle = NULL;
+    HMODULE python_exec = NULL;
 
 
 
@@ -196,20 +205,33 @@ void python_load_library()
         }
     }
 
+
+
+
     if (!python_initialized)
     {
 
+        python_exec = LoadLibrary("python.exe");
 
-        path_size = GetEnvironmentVariable("PYTHONHOME", python_path, 20000);
-
-        if (path_size == 0)
+        if (python_exec == NULL)
         {
-            std::cout << "ERROR: Could not find any python library in PYTHONHOME= " << python_path << std::endl;
+            std::cout << "ERROR: No python installation found." << std::endl ;
+            std::cout << "       Set PATH to Python Installation or set RAD_PYTHON_PATH to the Python library" << std::endl;
             python_initialized = false;
             return;
         }
 
-        std::string dir_path = std::string(python_path) + "\\lib\\";
+        char python_filename[2048];
+        DWORD filelen =  GetModuleFileName(python_exec,python_filename,2048);
+        int i=filelen;
+        while (i>0 && python_filename[i-1]!='\\')
+           --i;
+        python_filename[i]='\0';
+        
+        strcpy_s(python_path,20000,python_filename);     
+        FreeLibrary(python_exec);
+
+        std::string dir_path = std::string(python_path);
 
         WIN32_FIND_DATA find_file_data;
         HANDLE hFind = FindFirstFile((dir_path + "python*.dll").c_str(), &find_file_data);
@@ -228,11 +250,11 @@ void python_load_library()
             if (handle)
             {
                 python_initialized = true;
-                std::cout << "Trying python library: " << full_dll_path << std::endl;
+                //std::cout << "Trying python library: " << full_dll_path << std::endl;
                 load_functions(handle, python_initialized);
                 if (python_initialized)
                 {
-                    std::cout << "Python library found at " << full_dll_path << std::endl;
+                    //std::cout << "Python library found at " << full_dll_path << std::endl;
                     FindClose(hFind);
                     Py_Initialize();
                     return;
@@ -425,7 +447,7 @@ extern "C"
                 //                std::cout << "Registering function: " << function_name << std::endl;
                 // copy function_name into argument name
                 #ifdef _WIN64
-                   strcpy_s(name,strlen(name), function_name.c_str());
+                   strcpy_s(name,max_line_length, function_name.c_str());
                 #else
                    strcpy(name, function_name.c_str());
                 #endif

@@ -154,3 +154,5 @@ add_test(NAME 1.87 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/
 
 add_test(NAME 1.88 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AMS/auto_element_selection -test_id 1.88 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP})
 
+add_test(NAME 1.89 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PYTHON/FUNCT_PYTHON -test_id 1.89 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP})
+
