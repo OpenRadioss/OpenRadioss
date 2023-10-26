@@ -1702,7 +1702,6 @@ C ----------------------------------------
           ALLOCATE(CPULOCAL(NSN))
           ALLOCATE(CANDR(NSN))
         END IF
-
         NUMP(1:NSPMD) = 0
 
         ALLOCATE(PLIST(NSPMD)) 
@@ -1734,7 +1733,11 @@ c          IF(N>NUMNOD) CYCLE
                 IF( NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L ) THEN
                     NSNLOCAL(K) = NUMP(PROC+1)
                     CPULOCAL(K) = PROC+1
-                ENDIF
+                ELSE
+                    P=PLIST(1)
+                    NSNLOCAL(K) = NUMP(P)
+                    CPULOCAL(K) = P
+                ENDIF              
             ENDIF
             ! ---------------------
             TAG_SCRATCH(N) = 1
