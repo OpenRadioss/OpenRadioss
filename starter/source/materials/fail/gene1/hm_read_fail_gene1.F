@@ -317,11 +317,18 @@ C===============================================================================
       PTHK = MAX(PTHK,-ONE)
       IF (NCS     == 0   ) NCS     = 1
       IF (NCS > NCRIT_MAX) THEN
-        CALL ANCMSG(MSGID=2043,MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,
-     .              C1=TITR,I2=NCS,I3=NCRIT_MAX,I4=NCRIT_MAX)   
-        NCS = NCRIT_MAX
+        IF (NCRIT_MAX > 0) THEN 
+          CALL ANCMSG(MSGID=2043,MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,I1=MAT_ID,
+     .                C1=TITR,I2=NCS,I3=NCRIT_MAX,I4=NCRIT_MAX)   
+          NCS = NCRIT_MAX
+        ELSE 
+          CALL ANCMSG(MSGID=3040,MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,I1=MAT_ID,
+     .                C1=TITR)             
+        ENDIF
       ENDIF 
+      NCS = MAX(1,NCS)
       IF (MAXTEMP == ZERO) MAXTEMP = INFINITY
       ! Card 7 
       IF (Fscale_el == ZERO) Fscale_el = ONE
