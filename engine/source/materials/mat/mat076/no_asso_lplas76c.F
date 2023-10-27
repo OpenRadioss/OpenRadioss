@@ -25,10 +25,9 @@ Chd|  NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c
 Chd|-- called by -----------
 Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
 Chd|-- calls ---------------
-Chd|        TABLE_MAT_VINTERP                 source/tools/curve/table_tools.F
+Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
       SUBROUTINE NO_ASSO_LPLAS76C(
      .     NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,

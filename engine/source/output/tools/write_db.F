@@ -58,7 +58,7 @@ Chd|        STACK_WREST                   source/output/restart/wrrest.F
 Chd|        STAT_INIMAP1D_FILE_SPMD       source/output/sta/stat_inimap1d_file_spmd.F
 Chd|        STAT_INIMAP2D_FILE_SPMD       source/output/sta/stat_inimap2d_file_spmd.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_WRESTR_MAT              source/materials/tools/table_wrestr_mat.F
 Chd|        THCWREST                      source/output/restart/wrrest.F
 Chd|        USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|        WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F

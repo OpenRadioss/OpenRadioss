@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
+Chd|  TABLE_WRESTI_MAT              source/materials/tools/table_wresti_mat.F
 Chd|-- called by -----------
 Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
       SUBROUTINE TABLE_WRESTI_MAT(TABLE, NUMTABL, LENI)
 C-----------------------------------------------

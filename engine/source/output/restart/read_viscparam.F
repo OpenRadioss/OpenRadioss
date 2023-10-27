@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        READ_C_C                      source/output/tools/sortie_c.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
-Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
-Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_RRESTI_MAT              source/materials/tools/table_rresti_mat.F
+Chd|        TABLE_RRESTR_MAT              source/materials/tools/table_rrestr_mat.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F

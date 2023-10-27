@@ -34,9 +34,8 @@ Chd|  CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|-- called by -----------
 Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- calls ---------------
-Chd|        TABLE_MAT_VINTERP                 source/tools/curve/table_tools.F
-Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
        SUBROUTINE CONVERSION (ZXX,  ZYY,  ZZZ,   ZXY,  ZYZ,  ZZX,   
      .                      CIJKL,DFIRST,DRATE,  SCAL, NEL,  JAC, 

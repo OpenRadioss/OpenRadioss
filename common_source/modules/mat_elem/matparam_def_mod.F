@@ -138,8 +138,7 @@ Chd|        THCOQ                         engine/source/output/th/thcoq.F
 Chd|-- calls ---------------
 Chd|        FAIL_PARAM_MOD                modules/mat_elem/fail_param_mod.F
 Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
-Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
-Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
+Chd|        TABLE4D_MOD                   modules/table4d_mod.F         
 Chd|        VISC_PARAM_MOD                modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       MODULE MATPARAM_DEF_MOD

@@ -23,16 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TABLE_MOD                     share/modules1/table_mod.F    
 Chd|-- called by -----------
-Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|        CALC_UNIAX                    source/materials/mat/mat098/lossfun_98.F
 Chd|        CALC_UNIAX_2                  source/materials/mat/mat098/lossfun_98.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        FCT_FIBER                     source/materials/mat/mat098/lossfun_98.F
 Chd|        FCT_FIBER_2                   source/materials/mat/mat098/lossfun_98.F
 Chd|        FSDCOD                        source/system/fsdcod.F        
-Chd|        FUNC_COMP                     source/materials/mat/mat076/law76_upd.F
 Chd|        FUNC_INTERS_C                 source/tools/curve/func_inters.F
 Chd|        FUNC_INTERS_SHEAR             source/tools/curve/func_inters.F
 Chd|        FUNC_MAXY                     source/tools/curve/func_maxy.F
@@ -68,13 +65,11 @@ Chd|        LAW114_UPD                    source/materials/mat/mat114/law114_upd
 Chd|        LAW119_UPD                    source/materials/mat/mat119/law119_upd.F
 Chd|        LAW120_UPD                    source/materials/mat/mat120/law120_upd.F
 Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
-Chd|        LAW190_UPD                    source/materials/mat/mat190/law190_upd.F
 Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW42_UPD                     source/materials/mat/mat042/law42_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        LAW62_UPD                     source/materials/mat/mat062/law62_upd.F
 Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
-Chd|        LAW76_UPD                     source/materials/mat/mat076/law76_upd.F
 Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
 Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
 Chd|        LAW90_UPD                     source/materials/mat/mat090/law90_upd.F
@@ -94,9 +89,7 @@ Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        TABLE_INTERS                  source/tools/curve/func_inters.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
 Chd|        UNIFY_X                       source/tools/curve/func_slope.F
 Chd|        UPDMAT                        source/materials/updmat.F     

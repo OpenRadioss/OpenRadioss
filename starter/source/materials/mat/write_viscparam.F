@@ -25,8 +25,8 @@ Chd|  WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- called by -----------
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|-- calls ---------------
-Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_WRESTI_MAT              source/materials/tools/table_wresti_mat.F
+Chd|        TABLE_WRESTR_MAT              source/materials/tools/table_wrestr_mat.F
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c

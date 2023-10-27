@@ -21,9 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE4D_MOD                     share/modules1/table_mod.F    
+Chd|  TABLE4D_MOD                   modules/table4d_mod.F         
 Chd|-- called by -----------
+Chd|        FAIL_PARAM_MOD                common_source/modules/mat_elem/fail_param_mod.F
+Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        VISC_PARAM_MOD                common_source/modules/mat_elem/visc_param_mod.F
+Chd|        TABLE_WRESTI_MAT              starter/source/materials/tools/table_wresti_mat.F
+Chd|        TABLE_WRESTR_MAT              starter/source/materials/tools/table_wrestr_mat.F
+Chd|        ASSO_PLAS76                   engine/source/materials/mat/mat076/asso_plas76.F
+Chd|        ASSO_QPLAS76C                 engine/source/materials/mat/mat076/asso_qplas76c.F
+Chd|        CONDAMAGE                     engine/source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION                    engine/source/materials/mat/mat190/conversion.F
+Chd|        NO_ASSO_LPLAS76C              engine/source/materials/mat/mat076/no_asso_lplas76c.F
+Chd|        NO_ASSO_PLAS76                engine/source/materials/mat/mat076/no_asso_plas76.F
+Chd|        NO_ASSO_QPLAS76C              engine/source/materials/mat/mat076/no_asso_qplas76c.F
+Chd|        TABLE_MAT_VINTERP             engine/source/materials/tools/table_mat_vinterp.F
+Chd|        TABLE_RRESTI_MAT              engine/source/materials/tools/table_rresti_mat.F
+Chd|        TABLE_RRESTR_MAT              engine/source/materials/tools/table_rrestr_mat.F
+Chd|        TABLE_WRESTI_MAT              engine/source/materials/tools/table_wresti_mat.F
+Chd|        TABLE_WRESTR_MAT              engine/source/materials/tools/table_wrestr_mat.F
 Chd|-- calls ---------------
+Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
+Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
 Chd|====================================================================
       MODULE TABLE4D_MOD
 c

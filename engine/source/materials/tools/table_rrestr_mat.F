@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
+Chd|  TABLE_RRESTR_MAT              source/materials/tools/table_rrestr_mat.F
 Chd|-- called by -----------
 Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
       SUBROUTINE TABLE_RRESTR_MAT(TABLE, NUMTABL)
 C-----------------------------------------------

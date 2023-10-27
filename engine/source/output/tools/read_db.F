@@ -68,7 +68,7 @@ Chd|        SPMD_INISPH                   source/mpi/sph/spmd_sptool.F
 Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        STACK_RREST                   source/output/restart/rdresb.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_RRESTR_MAT              source/materials/tools/table_rrestr_mat.F
 Chd|        THCRREST                      source/output/restart/rdresb.F
 Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F

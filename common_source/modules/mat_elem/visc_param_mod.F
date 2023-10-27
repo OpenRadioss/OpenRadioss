@@ -35,8 +35,7 @@ Chd|        VISC_PRONY_LSTRAIN            engine/source/materials/visc/visc_pron
 Chd|        WRITE_VISCPARAM               engine/source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
 Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
-Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
-Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
+Chd|        TABLE4D_MOD                   modules/table4d_mod.F         
 Chd|====================================================================
       MODULE VISC_PARAM_MOD
       USE TABLE4D_MOD

@@ -29,8 +29,7 @@ Chd|        READ_FAILPARAM                engine/source/output/restart/read_fail
 Chd|        WRITE_FAILPARAM               engine/source/output/restart/write_failparam.F
 Chd|-- calls ---------------
 Chd|        NAMES_AND_TITLES_MOD          modules/names_and_titles_mod.F
-Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
-Chd|        TABLE_MOD                     engine/share/modules/table_mod.F
+Chd|        TABLE4D_MOD                   modules/table4d_mod.F         
 Chd|====================================================================
       MODULE FAIL_PARAM_MOD
 c

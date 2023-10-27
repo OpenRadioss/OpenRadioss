@@ -486,8 +486,9 @@ Chd|        TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
+Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
-Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_RRESTI_MAT              source/materials/tools/table_rresti_mat.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TMAX_IPART                    source/output/tmax_ipart.F    
 Chd|        TRACE_PRINT                   source/system/trace_back.F    

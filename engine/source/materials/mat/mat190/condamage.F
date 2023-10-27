@@ -34,7 +34,8 @@ Chd|  CONDAMAGE                     source/materials/mat/mat190/condamage.F
 Chd|-- called by -----------
 Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- calls ---------------
-Chd|        TABLE_MAT_VINTERP                 source/tools/curve/table_tools.F
+Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
         SUBROUTINE CONDAMAGE 
      .         (ZXX,ZYY,ZZZ,ZXY,ZZX,ZYZ,

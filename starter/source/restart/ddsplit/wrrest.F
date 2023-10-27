@@ -53,7 +53,7 @@ Chd|        SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_XSAV                    source/restart/ddsplit/inter_tools.F
 Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
+Chd|        TABLE_WRESTR_MAT              source/materials/tools/table_wrestr_mat.F
 Chd|        THCWREST                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DB_DEBUG                source/output/tools/write_debug.F
 Chd|        WRITE_ELGROUP_PARAM           source/restart/ddsplit/write_elgroup_param.F

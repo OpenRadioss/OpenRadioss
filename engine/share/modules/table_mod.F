@@ -23,12 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TABLE_MOD                     share/modules/table_mod.F     
 Chd|-- called by -----------
-Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
-Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
-Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
 Chd|        BFORC2                        source/ale/bimat/bforc2.F     
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
@@ -39,8 +35,6 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
 Chd|        CMAIN3PINCH                   source/elements/shell/coqueba/cmain3pinch.F
-Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
-Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
@@ -78,9 +72,6 @@ Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F
 Chd|        MULAWGLCPINCH                 source/elements/shell/coqueba/mulawglcpinch.F
-Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
-Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
-Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
 Chd|        PRESSURE_CYL                  source/loads/general/load_pcyl/pressure_cyl.F
 Chd|        PRESS_SEG3                    source/loads/general/load_pcyl/press_seg3.F
 Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
@@ -122,14 +113,11 @@ Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_
 Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
-Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
 Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
 Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
 Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F
 Chd|        SIGEPS74                      source/materials/mat/mat074/sigeps74.F
-Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F
-Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
 Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
@@ -142,14 +130,10 @@ Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        TABLE_INTERP_DYDX             source/tools/curve/table_tools.F
 Chd|        TABLE_INTERP_LAW76            source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
-Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_RRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_WRESTR_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
@@ -181,10 +165,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|-- called by -----------
-Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
-Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
-Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
-Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
 Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
 Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
@@ -208,9 +188,6 @@ Chd|        MAT112C_XIA_NEWTON            source/materials/mat/mat112/mat112c_xi
 Chd|        MAT112C_XIA_NICE              source/materials/mat/mat112/mat112c_xia_nice.F
 Chd|        MAT112_XIA_NEWTON             source/materials/mat/mat112/mat112_xia_newton.F
 Chd|        MAT112_XIA_NICE               source/materials/mat/mat112/mat112_xia_nice.F
-Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
-Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
-Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
 Chd|        R3DEF3                        source/elements/spring/r3def3.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        SIGEPS107                     source/materials/mat/mat107/sigeps107.F
@@ -231,14 +208,11 @@ Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_
 Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
-Chd|        SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
 Chd|        SIGEPS52C                     source/materials/mat/mat052/sigeps52c.F
 Chd|        SIGEPS58C                     source/materials/mat/mat058/sigeps58c.F
 Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F
 Chd|        SIGEPS74                      source/materials/mat/mat074/sigeps74.F
-Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F
-Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
 Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
 Chd|-- calls ---------------

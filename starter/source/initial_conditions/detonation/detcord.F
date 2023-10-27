@@ -27,9 +27,9 @@ Chd|        M5IN2                         source/initial_conditions/detonation/m
 Chd|        M5IN2T                        source/initial_conditions/detonation/m5in2t.F
 Chd|        M5IN3                         source/initial_conditions/detonation/m5in3.F
 Chd|-- calls ---------------
-Chd|        CR_SPLINE_KNOTS               ../common_source/tools/interpolation/catmull-rom-splines/cr_spline_knots.F
-Chd|        CR_SPLINE_LENGTH              ../common_source/tools/interpolation/catmull-rom-splines/cr_spline_length.F
-Chd|        CR_SPLINE_POINT_PROJ          ../common_source/tools/interpolation/catmull-rom-splines/cr_spline_point_proj.F
+Chd|        CR_SPLINE_KNOTS               ../common_source/tools/interpolation/cr_spline_knots.F
+Chd|        CR_SPLINE_LENGTH              ../common_source/tools/interpolation/cr_spline_length.F
+Chd|        CR_SPLINE_POINT_PROJ          ../common_source/tools/interpolation/cr_spline_point_proj.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|====================================================================
       SUBROUTINE DETCORD(DETONATORS,N2,NP2,X,MTL,XC,YC,ZC,VDET,VDET2,ALT,BT,TB,JJ,IOPT,IX,NIX)
