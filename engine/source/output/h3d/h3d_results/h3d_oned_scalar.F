@@ -74,7 +74,7 @@ C     REAL
       my_real
      .   EVAR(MVSIZ), MASS(MVSIZ) ,
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE(MVSIZ),
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM, DAMMX,    
+     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM, DAMMX, VOL,   
      .   FOR, AREA, FEQ, EPLAS, RHO0, A0, XX1, YY1, ZZ1, AL0,EFRAC
       INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
@@ -366,6 +366,16 @@ ca mass a recalculer !!        VALUE(I) = (GBUF%EINT(I) + GBUF%EINT(I)) / MAX(EM
              IS_WRITTEN_VALUE(I) = 1
            
             ENDDO
+C--------------------------------------------------
+          ELSEIF(KEYWORD == 'EINTV')THEN
+C--------------------------------------------------
+            DO I=1,NEL
+              N  = I + NFT
+              IPID = IXP(5,N)
+              VOL = GEO(1,IPID)*GBUF%LENGTH(I)
+              VALUE(I) = (GBUF%EINT(I)+GBUF%EINT(I+NEL))/MAX(VOL,EM20)
+              IS_WRITTEN_VALUE(I) = 1             
+            ENDDO              
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'VONM')THEN
 C--------------------------------------------------
