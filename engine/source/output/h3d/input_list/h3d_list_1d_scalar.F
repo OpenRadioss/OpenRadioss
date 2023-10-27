@@ -169,5 +169,9 @@ c-----------------------------------------------
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1   = 'MAX DAMAGE'
       H3D_KEYWORD_ONED_SCALAR(I)%COMMENT = 'maximum damage over time'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_ONED_SCALAR(I)%KEY3  = 'EINTV'
+      H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Internal Energy per unit volume'
+c-----------------------------------------------
       NKEY=I
       END
