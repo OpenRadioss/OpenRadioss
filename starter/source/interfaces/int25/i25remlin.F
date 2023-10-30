@@ -362,9 +362,10 @@ C-----------------------------------------------
      .       COMPTEUR,I,L,L1,IS,IIS,NS,IADA,III,JJJ,NNOD_2,
      .       FIRST,LAST,NNREM_EDG_SAVE,
      .        OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED,
-     .        SIZE_INSERTED_EDG,OLDSIZE,MAX_INSERTED_EDG,
+     .        OLDSIZE,MAX_INSERTED_EDG,
      .        NREMOV_EDG,NEDGE,MAX_INSERTED_I2,ND_TAG,
      .        SOL_EDGE,SH_EDGE,IEDGE,NRTM
+       INTEGER(8) :: SIZE_INSERTED_EDG
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD_EDG
       INTEGER ID
       CHARACTER*nchartitle,
@@ -389,6 +390,8 @@ C-----------------------------------------------
 !       INSERTED_EDG : integer, dimension = SIZE_INSERTED_EDG, list inserted edges
 !       REMNODE_EDG : integer, dimension = NEDGE + TOTAL_INSERTED, new array with old and inserted edges
 !       -------------------------------
+
+      INTEGER :: LIMIT
 C-----------------------------------------------
 
         ID=NOM_OPT(1,N)
@@ -450,7 +453,7 @@ C--------------------------------------------------------------------
            ALLOCATE( NBR_INSERT_II(NRTM) )
            ALLOCATE( KREMNODE_EDG_SAVE(NRTM+1) )
            SIZE_INSERTED_EDG = MAX_INSERTED_EDG*IPARI(62,N)
-           CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG) 
+           ALLOCATE(INSERTED_EDG(SIZE_INSERTED_EDG)) 
            TAGD_EDG(1:NEDGE)=0
            KREMNODE_EDG_SAVE(1:NRTM+1) = 0
            NBR_INSERT_II(1:NRTM) = 0
@@ -553,13 +556,20 @@ C---------
             ENDDO
           ENDDO
 
-          SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 ! to check
-
-          IF(SIZE_INSERTED_EDG < 0 .OR. NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 > 1 000 000) THEN
-             SIZE_INSERTED_EDG =  8 * NEDGE
+          ! We need an overstimation of the size of INSERTED_EDG, the following code 
+          ! overestimate the required size, avoiding integer overflow
+          LIMIT = HUGE(NEDGE) / 8
+          IF( NEDGE > LIMIT ) THEN ! NEDGE cannot be multiplied by 8
+            SIZE_INSERTED_EDG =  HUGE(NEDGE)
+          ELSE IF ( MAX_INSERTED_EDG > LIMIT / (NEDGE)) THEN ! MAX_INSERTED_EDG cannot be multiplied by 8*NEDGE
+            SIZE_INSERTED_EDG = HUGE(NEDGE)
+          ELSE IF (MAX_INSERTED_I2 > LIMIT / (NEDGE*MAX_INSERTED_EDG)) THEN ! MAX_INSERTED_I2, cannot be multiplied by 8*NEDGE*MAX_INSERTED_EDG
+            SIZE_INSERTED_EDG = HUGE(NEDGE)                             
+          ELSE ! no integer overflow
+            SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 ! to check
           ENDIF
-C
-          CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG) 
+
+          ALLOCATE(INSERTED_EDG(SIZE_INSERTED_EDG)) 
 
           DO II=1,NEDGE
             NNREM_EDG_SAVE = NNREM_EDG
@@ -579,7 +589,7 @@ C
 C extend INSERTED_EDG if needed
                OLDSIZE = SIZE_INSERTED_EDG
                SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG*MAX_INSERTED_I2)
-               CALL MY_ALLOC(TMP_EDG,SIZE_INSERTED_EDG)
+               ALLOCATE(TMP_EDG(SIZE_INSERTED_EDG))
                TMP_EDG(1:OLDSIZE) = INSERTED_EDG(1:OLDSIZE)
 !              move_alloc deallocates TMP
                CALL MOVE_ALLOC(TMP_EDG,INSERTED_EDG)
@@ -587,24 +597,39 @@ C extend INSERTED_EDG if needed
 
             ND_TAG = 0
             DO J=5,6
-               NM = INTBUF_TAB(N)%LEDGE(J+(II-1)*NLEDGE)
+               NM = INTBUF_TAB(N)%LEDGE(J+(II-1)*NLEDGE) !first node of the edge
+!       Sort the I2NODE array :
+!               | NSM(1) | Inter(1) | SECONDARY(1)
+!               | NSM(1) | Inter(1) | SECONDARY(20)
+!               | NSM(1) | Inter(1) | SECONDARY(3)
+!               | NSM(1) | Inter(2) | SECONDARY(1)
+!               | NSM(2) | Inter(4) | SECONDARY(14)
+!               | NSM(2) | Inter(5) | SECONDARY(18)
+!               | NSM(3) | Inter(1) | SECONDARY(1)
+!               |  ...   |   ...    |   ...      
+!       Compute the pointer array POINT_I2NODE :
+!               | 0 | 0 | if 0,0 --> node not in type2 interface
+!               | 1 | 3 | 
+!               | 4 | 5 | 
+!               | 0 | 0 | 
+
                IF (POINTS_I2N(NM,1)/=0) THEN
-                DO I=POINTS_I2N(NM,1),POINTS_I2N(NM,2)
-                  N2 = I2NODE(I,2)
-                  IS = I2NODE(I,3)
-                  IF (IS >0) THEN
-                     NS = INTBUF_TAB(N2)%NSV(IS)
-                     IF (((INOD2LIN(NS+1)-INOD2LIN(NS))/=0).AND.(TAG_NDE(NS)==0)) THEN
-                       TAG_NDE(NS)=1
-                       DO IE=INOD2LIN(NS),INOD2LIN(NS+1)-1  
-                         IEDGS = NOD2LIN(IE)
-                         IF (TAGD_EDG(IEDGS)==0) THEN
+                DO I=POINTS_I2N(NM,1),POINTS_I2N(NM,2) ! size of the loop: number of type2 interface that have this node 
+                  N2 = I2NODE(I,2) !interface id
+                  IS = I2NODE(I,3) !node id 
+                  IF (IS >0) THEN ! secondary node?                                
+                     NS = INTBUF_TAB(N2)%NSV(IS) !secondary node of the type2 interface
+                     IF (((INOD2LIN(NS+1)-INOD2LIN(NS))/=0).AND.(TAG_NDE(NS)==0)) THEN ! What is NOD2LIN? 
+                       TAG_NDE(NS)=1 !thag the node for the first time it found (in what?) Nodes of type2 interface?
+                       DO IE=INOD2LIN(NS),INOD2LIN(NS+1)-1  !for all edges in what?
+                         IEDGS = NOD2LIN(IE) ! IEDGES = all the edges that have NS as node?
+                         IF (TAGD_EDG(IEDGS)==0) THEN  ! if not already tagged
                              NNREM_EDG = NNREM_EDG + 1  
                              TAGD_EDG(IEDGS)=1  
                              JJJ = JJJ + 1
-                             INSERTED_EDG(JJJ) = IEDGS      
+                             INSERTED_EDG(JJJ) = IEDGS  ! IEDG inserted 
                              NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE)
-                             TAG_ND(NES) = TAG_ND(NES) +1
+                             TAG_ND(NES) = TAG_ND(NES) +1 !Nodes of type25 Edge
                              ND_TAG = ND_TAG + 1
                              IDX_ND( ND_TAG)=NES
                              NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE)
@@ -614,27 +639,28 @@ C extend INSERTED_EDG if needed
                          END IF
                        ENDDO
                      ENDIF
-                  ELSEIF (IS <0) THEN
+                  ELSEIF (IS <0) THEN ! node is main?
                       IIS = -IS
                       L = INTBUF_TAB(N2)%IRTLM(IIS)
                       NNOD_2 = 4
+                      ! If triangle, NNOD_2 = 3, if quand NNOD_2 = 4
                       IF( INTBUF_TAB(N2)%IRECTM(4*(L-1)+4)==INTBUF_TAB(N2)%IRECTM(4*(L-1)+3) ) NNOD_2 = 3
-                      DO III = 1,NNOD_2
-                         NM2 = INTBUF_TAB(N2)%IRECTM(4*(L-1)+III)
+                      DO III = 1,NNOD_2 ! for all nodes of the surface
+                         NM2 = INTBUF_TAB(N2)%IRECTM(4*(L-1)+III)  ! NM2 is the id of the IIIth node of the surface
                          IF (((INOD2LIN(NM2+1)-INOD2LIN(NM2))/=0).AND.(TAG_NDE(NM2)==0)) THEN
                            TAG_NDE(NM2)=1
                            DO IE=INOD2LIN(NM2),INOD2LIN(NM2+1)-1  
-                            IEDGS = NOD2LIN(IE)   
-                            IF (TAGD_EDG(IEDGS)==0) THEN
+                            IEDGS = NOD2LIN(IE)  ! edge id to remove 
+                            IF (TAGD_EDG(IEDGS)==0) THEN !if not already removed
                                 NNREM_EDG = NNREM_EDG + 1  
-                                TAGD_EDG(IEDGS)=1  
-                                JJJ = JJJ + 1
+                                TAGD_EDG(IEDGS)=1          !remove
+                                JJJ = JJJ + 1              !increment the counter
                                 INSERTED_EDG(JJJ) = IEDGS     
-                                NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE)
-                                TAG_ND(NES) = TAG_ND(NES) +1
-                                ND_TAG = ND_TAG +1
-                                IDX_ND( ND_TAG)=NES
-                                NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE)
+                                NES = INTBUF_TAB(N)%LEDGE(5+(IEDGS-1)*NLEDGE) ! Node 1 of the edge IEDGS
+                                TAG_ND(NES) = TAG_ND(NES) +1 !TAG_ND(NES) = number of times that the node NES belongs to a removed edge?
+                                ND_TAG = ND_TAG +1 !nb entity to insert to node NM2
+                                IDX_ND( ND_TAG)=NES 
+                                NES = INTBUF_TAB(N)%LEDGE(6+(IEDGS-1)*NLEDGE) !Node 2 of the edge IEDGS
                                 TAG_ND(NES) = TAG_ND(NES) +1  
                                 ND_TAG = ND_TAG +1
                                 IDX_ND( ND_TAG)=NES 
@@ -645,20 +671,22 @@ C extend INSERTED_EDG if needed
                   END IF
                 ENDDO
                ENDIF
-            END DO
+            END DO ! 
             
            !   -------------------
            !   Adding edges where 2 nodes already tagged 
+           !  Two nodes of what? type25 or type2, which tag?
           
             DO ND = 1,ND_TAG
               NES = IDX_ND( ND)
-              IF(TAG_ND(NES) ==1)THEN
+              IF(TAG_ND(NES) ==1)THEN ! to double check, why ==1 and not > 0 ? if the nodes belongs exactly to one removed edge?
                  IF ((INOD2LIN(NES+1)-INOD2LIN(NES))/=0) THEN
-                  DO IE=INOD2LIN(NES),INOD2LIN(NES+1)-1  
+                  DO IE=INOD2LIN(NES),INOD2LIN(NES+1)-1 ! all the edges to remove that have node NES? 
                      IEDGS = NOD2LIN(IE) 
                      DO J=5,6
                         NM =INTBUF_TAB(N)%LEDGE(J+(IEDGS-1)*NLEDGE)
-                        IF(TAG_ND(NM)==1.AND.TAGD_EDG(IEDGS) ==0) THEN
+                        !to double check, why ==1 and not > 0 ?
+                        IF(TAG_ND(NM)==1.AND.TAGD_EDG(IEDGS) ==0) THEN ! if the node NM, but the edge was not taged 
                            NNREM_EDG = NNREM_EDG + 1  
                            TAGD_EDG(IEDGS)=1  
                            JJJ = JJJ + 1
@@ -669,6 +697,7 @@ C extend INSERTED_EDG if needed
                  ENDIF
               ENDIF
             ENDDO
+
             
            !   -------------------
            !   number of inserted edges
@@ -808,8 +837,8 @@ C
                 ENDIF
               ENDDO
             ENDIF
-         !       copy of the old edges for the LAST chunk
 
+         !       copy of the old edges for the LAST chunk
             IF( I<NREMOV_EDG ) THEN
                NBR_EXTRA = NREMOV_EDG - I
                REMNODE_EDG(OFFSET+1:OFFSET+NBR_EXTRA) = INTBUF_TAB(N)%REMNODE_EDG(I+1:NREMOV_EDG)
