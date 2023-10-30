@@ -68,8 +68,13 @@ if %debug%==2 ( set debug_suffix=_db2)
 
 if %cbuild%==0 (
   set starter=starter_%arch%%sp_suffix%%debug_suffix%
-) else (
+) 
+
+if %cbuild%==1 (
   call CMake_Compilers_c\cmake_st_version.bat
+)
+
+if %cbuild%==1 (
   set starter=s_%st_version%_%arch%%sp_suffix%%debug_suffix%
 )
 
@@ -81,7 +86,7 @@ if %clean%==1 (
   echo.
   echo Cleaning %build_directory%
   RMDIR /S /Q %build_directory%
-  goto END
+  goto END_STARTER
 )
 
 echo.
@@ -130,7 +135,7 @@ ninja %verbose% -j %jobs%
 
 cd ..
 
-GOTO END
+GOTO END_STARTER
 
 :ERROR
   echo.
@@ -151,7 +156,7 @@ GOTO END
   echo     -clean             : clean build directory
   echo.
 
-:END
+:END_STARTER
 echo.
 
 REM clean used variables
