@@ -20,6 +20,7 @@ set jobsv=1
 set debug_suffix=
 set build_type=
 set cbuild=0
+set la=
 
 IF (%1) == () GOTO ERROR
 
@@ -81,8 +82,13 @@ if %got_mpi%==1 ( set mpi_suffix=_%pmi%)
 
 if %cbuild%==0 (
    set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%
-) else (
+)
+
+if %cbuild%==1 (
    call CMake_Compilers_c\cmake_eng_version.bat
+)
+
+if %cbuild%==1 (
    set engine=e_%eng_version%_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%
 )
 
@@ -141,7 +147,7 @@ if %debug%==0 (
     set build_type=Debug
 )
 
-cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%engine% -Darch=%arch% -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%engine% -Darch=%arch% -Dprecision=%prec% %MPI% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% %la% ..
 ninja %verbose% -j %jobs%
 
 cd ..
@@ -193,6 +199,7 @@ set build_type=
 set dc=
 set dc_suf=
 set cbuild=
+set la=
 
 echo Terminating
 echo.
