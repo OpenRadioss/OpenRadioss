@@ -63,7 +63,7 @@ Chd|====================================================================
       INTEGER I,IDUM,ITER,ICOUNT,J,K,IRET ,ISTART, NPSAVED, 
      .        IVALID,ICOMP, MMAX,MINITER_LM, MAXITER_LM,
      .        CNT_HIT_EPS_LM,LMT_HIT_EPS_LM, LMSTOP,IFUNCS,
-     .        NGUESS,NMUALS,ICURV,LOOP_ISTART ,ICHECK_GUESS,
+     .        NGUESS,NMUALS,LOOP_ISTART ,ICHECK_GUESS,
      .        JCHECK, IFIT_SUCCESS,IEND_FINDING,IEND_ITER,
      .        MU_INCR_GUESS,IRND1,ISWITCH
       INTEGER NONZERO(MAXA)
@@ -280,7 +280,12 @@ c       check convergence of LM optimization
                ELSEIF(NMUAL < 10) THEN                                           
                  NMUAL = MIN(10, NMUAL + 2)                                      
                  JCHECK = 2                                                      
-                 IEND_ITER = 1                                                   
+                 IEND_ITER = 1 
+               ELSEIF(ICOMP == 0) THEN
+                 ICOMP   = 1
+                 JCHECK  = 2
+                 LAWID   = 2
+                 NMUAL   = 2                                                  
                ELSE                                                              
                   IEND_FINDING = 1                                               
                ENDIF                                                             
@@ -301,8 +306,13 @@ c       check convergence of LM optimization
                  NMUAL = MIN(10, NMUAL + 2)                                      
                  JCHECK = 2                                                      
                  IEND_ITER = 1                                                   
+               ELSEIF(ICOMP == 0) THEN
+                 ICOMP   = 1
+                 JCHECK  = 2
+                 LAWID   = 2
+                 NMUAL   = 2 
                ELSE                                                              
-                  IEND_FINDING = 1                                               
+                 IEND_FINDING = 1                                               
                ENDIF                                                             
              ENDIF ! JCHECK  
           ENDIF
@@ -339,10 +349,6 @@ C
         CALL OGDEN0(STRETCH(I), AS, YOGD, NMUALS)
         WRITE(IOUT, '(1F18.6, 3X,1F20.13, 6X, 1F20.13)')
      *   STRETCH(I)-ONE,Y(I),YOGD
-        IF (ICURV > 0) THEN
-           WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') 
-     .            STRETCH(I)-ONE,',',Y(I),',',YOGD
-        ENDIF
       ENDDO      
 
       WRITE(IOUT, '(A)') '-------------------------------------------'
