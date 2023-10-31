@@ -65,7 +65,7 @@ C-----------------------------------------------
 
 c
       INTEGER N_NETWORK,N,K,ITEST,ICHECK,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,
-     .        TAB,NMUAL,IFLAG,IS,I,INDX,LAWID
+     .        TAB,NMUAL,IFLAG,IS,I,INDX,LAWID, ITAG
       my_real
      .   MU(5),AL(5),LAM_MIN,LAM_MAX,STRAIN_MIN,STRAIN_MAX,
      .   D11,D22,D12,LAM1,LAM2,LAM3,LAM12,INVD1,INVD2
@@ -109,12 +109,14 @@ C
        RBULK=ZERO                                            
        GS=ZERO                                               
        LAM_MAX= ZERO                                         
-       LAM_MIN= ZERO      
+       LAM_MIN= ZERO   
+       ITAG  =  0   
        IS = IFUNC(2)                                   
        DO II = IC1,IC2-2,2                                   
             JJ=JJ+1                                          
             STRETCH(JJ) = PLD(II) + ONE                       
             STRESS(JJ)  = PLD(II+1)
+            IF(PLD(II) < ZERO .AND. STRESS(JJ) < ZERO ) ITAG = 1
               IF(PLD(II) <=  -ONE) THEN
                 CALL ANCMSG(MSGID=1175,
      .                       MSGTYPE=MSGERROR,
@@ -166,6 +168,7 @@ C  check if the curve is monotonic
      $                             ICHECK, NSTART, ERRTOL,MAT_ID,TITR)
        ELSEIF(IFLAG == -1) THEN
            LAWID = 2
+           IF(ITAG == 0) ICHECK = ABS(ICHECK)
            CALL LAW69_NLSQF_AUTO(LAWID,STRETCH,STRESS,10,NMUAL,NOGD,MUAL,
      $                             ICHECK, NSTART, ERRTOL,MAT_ID,TITR)
            UPARAM(18) = NMUAL / 2    
