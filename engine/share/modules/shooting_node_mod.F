@@ -73,8 +73,15 @@ C-----------------------------------------------
 
             INTEGER :: MAX_SURF_NB      ! mamimun number of surface
             INTEGER :: SIZE_M_NODE_SURF ! size of M_NODE_SURF
+            INTEGER :: MAX_ELEM_SURF_NB     ! maximun number of surfaces per element
             INTEGER, DIMENSION(:), ALLOCATABLE :: SHIFT_M_NODE_SURF ! shift to point to M_NODE_SURF array & number of surface per node
             INTEGER, DIMENSION(:), ALLOCATABLE :: M_NODE_SURF       ! list of surface per node
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SHIFT_M_ELEM_SURF! shift to point to M_SURF_ELEM array & number of surface per solid element
+            INTEGER, DIMENSION(:), ALLOCATABLE :: M_ELEM_SURF       ! list of surface per solid element
+c            INTEGER, DIMENSION(:), ALLOCATABLE :: M_INTER_SURF      ! list of interface per solid element
+            INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_M_NODE_DEL25_SOLID ! Tag of nodes of solids tagged for erosion solids
+
+
 
             INTEGER :: MAX_EDGE_NB      ! mamimun number of edge
             INTEGER :: SIZE_M_NODE_EDGE ! size of M_NODE_EDGE
@@ -100,6 +107,10 @@ C-----------------------------------------------
             INTEGER :: S_SAVE_SURFACE   ! size of SAVE_SURFACE array
             INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_SURFACE ! list of deactivated surface
             INTEGER :: SAVE_SURFACE_NB ! number of deactivated surface
+
+            INTEGER :: S_SAVE_SURFACE_EXT   ! size of SAVE_SURFACE array
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_SURFACE_EXT ! list of deactivated surface
+            INTEGER :: SAVE_SURFACE_NB_EXT ! number of deactivated surface
 
             INTEGER :: S_SAVE_PROC   ! size of SAVE_PROC array
             INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_PROC ! list of processor with a deactivated surface

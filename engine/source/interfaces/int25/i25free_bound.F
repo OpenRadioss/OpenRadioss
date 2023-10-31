@@ -62,7 +62,7 @@ C-----------------------------------------------
 
       NRTM_FREE= 0
       DO IRM=1,NRTM
-        IF(STIFM(IRM)==ZERO)CYCLE
+        IF(STIFM(IRM)<=ZERO)CYCLE
         FREE = .FALSE.
         DO IEDG=1,4
           IF( MVOISIN(IEDG,IRM)==0 )THEN

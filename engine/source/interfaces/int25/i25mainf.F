@@ -637,7 +637,7 @@ C
 C
 C       Needs to compute STIF_OLD even if PENE ==0 (cf INACTI=5)
 C          IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
-           IF(STIF(I)/=ZERO)THEN
+           IF(STIF(I)>ZERO)THEN
              IF(PENE(I)==ZERO)THEN
                N = CAND_N_N(I)
                IF(N <= NSN)THEN

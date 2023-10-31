@@ -37,7 +37,7 @@ Chd|====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                               ITAB,ITABM1,GEO,ADDCNEL,CNEL,
      .                               IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                               SIZE_ADDCNEL,SIZE_CNEL )
+     .                               SIZE_ADDCNEL,SIZE_CNEL ,INTERFACES)
 !$COMMENT
 !       INIT_NODAL_STATE description
 !           initialization of structures for the new shooting node algo    
@@ -59,6 +59,7 @@ Chd|====================================================================
         USE INTBUFDEF_MOD  
         USE SHOOTING_NODE_MOD
         USE ARRAY_MOD
+        USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +98,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
         INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        TYPE (INTERFACES_) ,INTENT(INOUT)  :: INTERFACES ! Interfaces structures
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -110,7 +112,7 @@ C-----------------------------------------------
         INTEGER :: CHUNK ! chunk size : 1-> interface id, 2-> surface id, 3:6-> node id (for type11, 5&6 values are equal to 0)
         INTEGER, DIMENSION(4) :: LIST_NODE_ID ! node id of surface
         INTEGER, DIMENSION(4) :: GLOBAL_NODE_ID ! node id of surface
-        INTEGER, DIMENSION(:), ALLOCATABLE :: WORK_ARRAY,WORK_ARRAY_2,WORK_ARRAY_3
+        INTEGER, DIMENSION(:), ALLOCATABLE :: WORK_ARRAY,WORK_ARRAY_2,WORK_ARRAY_3,WORK_ARRAY_4
         INTEGER, DIMENSION(:), ALLOCATABLE :: SORT_ARRAY,PERM
 
         TYPE(array_type), DIMENSION(:), ALLOCATABLE :: BUFFER_SECOND,BUFFER_MAIN
@@ -124,7 +126,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: REQUEST_S3,REQUEST_R3
 #endif
         INTEGER :: SIZ,OLD_SIZE
-        INTEGER :: PROC_ID
+        INTEGER :: PROC_ID,IEL
         INTEGER :: NB_PROC_1,NB_PROC_2,NB_RESULT_INTERSECT
         INTEGER, DIMENSION(:), ALLOCATABLE :: INTERSECT_1,INTERSECT_2,RESULT_INTERSECT
         INTEGER, DIMENSION(2,NSPMD) :: S_BUFFER_2_INT,R_BUFFER_2_INT
@@ -280,6 +282,14 @@ C-----------------------------------------------
         ALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NUMNOD+1) )
         SHOOT_STRUCT%SHIFT_S_NODE_EDGE(1:NUMNOD+1) = 0
 
+        ! If solid erosion int25 : compute the list of int surfs for each facet of solid 
+        IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN ! 
+            ALLOCATE( SHOOT_STRUCT%SHIFT_M_ELEM_SURF(NUMELS+1))
+            SHOOT_STRUCT%SHIFT_M_ELEM_SURF(1:NUMELS+1)=0
+        ENDIF
+        ALLOCATE( SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(NUMNOD))
+        SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(1:NUMNOD)=0
+
         DO NIN=1,NINTER
             ITY = IPARI(7,NIN)  ! interface id
             NMN = IPARI(6,NIN)  ! number of main nodes
@@ -287,7 +297,7 @@ C-----------------------------------------------
             NRTS = IPARI(3,NIN) ! number of secondary edges
             IDEL = IPARI(17,NIN)! idel option
             ! -----------------------------
-            IF((ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25).AND.IDEL>=1) THEN
+            IF((ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.(ITY==25.AND.IPARI(100,NIN)==0)).AND.IDEL>=1) THEN
                 ! loop over the M surface
                 DO I=1,NRTM
                     N1 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+1)
@@ -300,6 +310,52 @@ C-----------------------------------------------
                     IF(N3/=N4) SHOOT_STRUCT%SHIFT_M_NODE_SURF(N4+1) = SHOOT_STRUCT%SHIFT_M_NODE_SURF(N4+1) + 1
                 ENDDO
             ! -----------------------------
+            ELSEIF(ITY==25.AND.IPARI(100,NIN)>0) THEN ! Int25 + solid erosion
+                    ! loop over the M surface
+                DO I=1,NRTM
+                    N1 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+1)
+                    NB_PROC = SHOOT_STRUCT%SHIFT_M_NODE_PROC(N1+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(N1)
+                    IF(INTBUF_TAB(NIN)%IELEM_M((I-1)*2+1) > NUMELS.OR.NB_PROC > 1) THEN
+                       SHOOT_STRUCT%SHIFT_M_NODE_SURF(N1+1) = SHOOT_STRUCT%SHIFT_M_NODE_SURF(N1+1) + 1
+                    ENDIF
+                    IF(INTBUF_TAB(NIN)%IELEM_M((I-1)*2+1) <= NUMELS.AND.NB_PROC > 1) THEN
+                        SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N1) = 1
+                    ENDIF
+                    N2 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+2)
+                    NB_PROC = SHOOT_STRUCT%SHIFT_M_NODE_PROC(N2+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(N2)
+                    IF(INTBUF_TAB(NIN)%IELEM_M(((I-1)*2+1)) > NUMELS.OR.NB_PROC > 1) THEN
+                       SHOOT_STRUCT%SHIFT_M_NODE_SURF(N2+1) = SHOOT_STRUCT%SHIFT_M_NODE_SURF(N2+1) + 1
+                    ENDIF
+                    IF(INTBUF_TAB(NIN)%IELEM_M(((I-1)*2+1)) <= NUMELS.AND.NB_PROC > 1) THEN  
+                       SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N2) = 1
+                    ENDIF
+                    N3 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+3)
+                    NB_PROC = SHOOT_STRUCT%SHIFT_M_NODE_PROC(N3+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(N3)
+                    IF(INTBUF_TAB(NIN)%IELEM_M(((I-1)*2+1)) > NUMELS.OR.NB_PROC > 1) THEN  
+                        SHOOT_STRUCT%SHIFT_M_NODE_SURF(N3+1) = SHOOT_STRUCT%SHIFT_M_NODE_SURF(N3+1) + 1 
+                    ENDIF
+                    IF(INTBUF_TAB(NIN)%IELEM_M((I-1)*2+1) <= NUMELS.AND.NB_PROC > 1) THEN  
+                        SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N3) = 1   
+                    ENDIF  
+
+                    N4 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+4)  
+                    IF(N3/=N4) THEN
+                       NB_PROC = SHOOT_STRUCT%SHIFT_M_NODE_PROC(N4+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(N4) 
+                       IF(INTBUF_TAB(NIN)%IELEM_M(((I-1)*2+1)) > NUMELS.OR.NB_PROC > 1)  THEN
+                          SHOOT_STRUCT%SHIFT_M_NODE_SURF(N4+1) = SHOOT_STRUCT%SHIFT_M_NODE_SURF(N4+1) + 1
+                       ENDIF
+                       IF(INTBUF_TAB(NIN)%IELEM_M((I-1)*2+1) <= NUMELS.AND.NB_PROC > 1) THEN  
+                          SHOOT_STRUCT%TAG_M_NODE_DEL25_SOLID(N4) = 1
+                       ENDIF
+                    ENDIF
+                ENDDO
+                DO I=1,NRTM
+                   IEL = INTBUF_TAB(NIN)%IELEM_M((I-1)*2+1)
+                   IF(IEL <= NUMELS) SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL+1) = SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL+1) + 1
+                   IEL = INTBUF_TAB(NIN)%IELEM_M((I-1)*2+2)
+                   IF(IEL > 0 .AND. IEL <= NUMELS) SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL+1) = SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL+1) + 1
+                ENDDO
+
             ELSEIF(ITY == 11) THEN
                 ! loop over the M edge
                 IF(IDEL>=1) THEN
@@ -336,6 +392,15 @@ C-----------------------------------------------
 
         SHOOT_STRUCT%SIZE_S_NODE_EDGE = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NUMNOD+1)
         ALLOCATE( SHOOT_STRUCT%S_NODE_EDGE( SHOOT_STRUCT%SIZE_S_NODE_EDGE) )
+
+        IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
+           DO I=1,NUMELS
+            SHOOT_STRUCT%SHIFT_M_ELEM_SURF(I+1) = SHOOT_STRUCT%SHIFT_M_ELEM_SURF(I+1) +SHOOT_STRUCT%SHIFT_M_ELEM_SURF(I)
+           ENDDO
+            
+           ALLOCATE( SHOOT_STRUCT%M_ELEM_SURF( SHOOT_STRUCT%SHIFT_M_ELEM_SURF(NUMELS+1)) )
+c           ALLOCATE( SHOOT_STRUCT%M_INTER_SURF( SHOOT_STRUCT%SIZE_M_ELEM_SURF) )
+        ENDIF
         ! ---------------------
         ! compute the max number of surface/edge
         SHOOT_STRUCT%MAX_SURF_NB = 0
@@ -349,6 +414,13 @@ C-----------------------------------------------
             NB_EDGE = MAX(NB_EDGE,NB_EDGE_2)
             SHOOT_STRUCT%MAX_EDGE_NB = MAX(SHOOT_STRUCT%MAX_EDGE_NB,NB_EDGE)
         ENDDO
+        SHOOT_STRUCT%MAX_ELEM_SURF_NB = 0
+        IF(INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN ! 
+           DO I=1,NUMELS
+              NB_SURF = SHOOT_STRUCT%SHIFT_M_ELEM_SURF(I+1) - SHOOT_STRUCT%SHIFT_M_ELEM_SURF(I)
+              SHOOT_STRUCT%MAX_ELEM_SURF_NB = MAX(SHOOT_STRUCT%MAX_ELEM_SURF_NB,NB_SURF)
+           ENDDO
+        ENDIF
         ! ---------------------
         ! save the surface/edge ID for each node
         WORK_ARRAY(1:NUMNOD) = 0
@@ -356,6 +428,8 @@ C-----------------------------------------------
         WORK_ARRAY_2(1:NUMNOD) = 0
         ALLOCATE( WORK_ARRAY_3(NUMNOD) )
         WORK_ARRAY_3(1:NUMNOD) = 0
+        ALLOCATE( WORK_ARRAY_4(NUMELS) )
+        WORK_ARRAY_4(1:NUMELS) = 0
         ALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,2) )
         NEXT_INTER = 0
         SHIFT_INTER = 1
@@ -366,7 +440,7 @@ C-----------------------------------------------
             NRTS = IPARI(3,NIN) ! number of secondary edges
             IDEL = IPARI(17,NIN)! idel option
             ! ---------------------------
-            IF((ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25).AND.IDEL>=1) THEN
+            IF((ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.(ITY==25.AND.IPARI(100,NIN)==0)).AND.IDEL>=1) THEN
                 ! loop over the M surface
                 DO I=1,NRTM              
                     N3 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+3)
@@ -381,6 +455,39 @@ C-----------------------------------------------
                     ENDDO
                 ENDDO
             ! ---------------------------
+             ELSEIF(ITY==25.AND.IPARI(100,NIN)>0) THEN
+                    ! loop over the M surface :  the structure is only defined for external surface
+                DO I=1,NRTM
+                    N3 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+3)
+                    N4 = INTBUF_TAB(NIN)%IRECTM((I-1)*4+4)
+                    NB_NODE_SURF = 4
+                    IF(N3==N4) NB_NODE_SURF = 3
+                    DO J=1,NB_NODE_SURF
+                        NODE_ID = INTBUF_TAB(NIN)%IRECTM((I-1)*4+J)
+                        NB_PROC = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
+                        IF(INTBUF_TAB(NIN)%IELEM_M(((I-1)*2+1)) > NUMELS.OR.NB_PROC > 1) THEN
+                            WORK_ARRAY(NODE_ID) = WORK_ARRAY(NODE_ID) + 1
+                            SHIFT = WORK_ARRAY(NODE_ID) + SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID) ! index for M_NODE_SURF
+                            SHOOT_STRUCT%M_NODE_SURF( SHIFT ) = SHIFT_INTER  - 1 + I     ! save the surface ID
+                        ENDIF
+                    ENDDO
+                ENDDO
+                DO I=1,NRTM
+                    IEL = INTBUF_TAB(NIN)%IELEM_M((I-1)*2+1)
+                    IF(IEL <= NUMELS) THEN
+                        WORK_ARRAY_4(IEL) = WORK_ARRAY_4(IEL) + 1
+                        SHIFT =  WORK_ARRAY_4(IEL) + SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL) ! index for M_ELEM_SUR
+                        SHOOT_STRUCT%M_ELEM_SURF(SHIFT) =  SHIFT_INTER  - 1 + I
+c                        SHOOT_STRUCT%M_INTER_SURF(SHIFT) = NIN
+                    ENDIF
+                    IEL = INTBUF_TAB(NIN)%IELEM_M((I-1)*2+2)
+                    IF(IEL > 0 .AND. IEL <= NUMELS) THEN
+                        WORK_ARRAY_4(IEL) = WORK_ARRAY_4(IEL) + 1
+                        SHIFT =  WORK_ARRAY_4(IEL) + SHOOT_STRUCT%SHIFT_M_ELEM_SURF(IEL) ! index for M_ELEM_SUR
+                        SHOOT_STRUCT%M_ELEM_SURF(SHIFT) =  SHIFT_INTER  - 1 + I
+c                        SHOOT_STRUCT%M_INTER_SURF(SHIFT) = NIN
+                    ENDIF
+                 ENDDO
             ELSEIF(ITY==11) THEN
                 ! loop over the M edge
                 IF(IDEL>=1) THEN
@@ -416,7 +523,6 @@ C-----------------------------------------------
         SHOOT_STRUCT%SHIFT_INTERFACE(NEXT_INTER+1,1) = SHIFT_INTER + 1
         SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,1) = SHIFT_INTER + 1
         SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,2) = NEXT_INTER
-
 
         DEALLOCATE( WORK_ARRAY )
 
@@ -726,6 +832,7 @@ C-----------------------------------------------
 
         DEALLOCATE( WORK_ARRAY_2 )
         DEALLOCATE( WORK_ARRAY_3 )
+        DEALLOCATE( WORK_ARRAY_4 )
 
         DEALLOCATE( INTERSECT_1 )
         DEALLOCATE( INTERSECT_2 )

@@ -42,13 +42,14 @@ Chd|====================================================================
      5                    IXTG    ,KNOD2ELC,KNOD2ELTG,NOD2ELC,
      6                    NOD2ELTG,KNOD2ELS,NOD2ELS  ,IXS    ,
      7                    IXS10   ,IXS16   ,IXS20    ,IRTSE  ,
-     8                    IS2SE   ,IS2PT   ,IS2ID    )
+     8                    IS2SE   ,IS2PT   ,IS2ID    ,PARAMETERS)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,20 +77,23 @@ C-----------------------------------------------
       INTEGER MODE, WORK(70000), NRTMP, I1, I2
       INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IRECTMP
+      INTEGER, DIMENSION(:,:),ALLOCATABLE :: IRECTMP_SAV
       my_real
      .   X(3,*),FRIGAP(*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      TYPE (PARAMETERS_) ,INTENT(INOUT)   :: PARAMETERS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,LL,NL,ISU1,ISU2,NOD1,NRTM,NRTS,NSN,NMN,
      .        NLINSA,NLINMA,ILEV,NLN,ISYM,
-     .        NLINS,NLINM,LINE1,LINE2,STAT,IL,IG,N,II
+     .        NLINS,NLINM,LINE1,LINE2,STAT,IL,IG,N,II,IJ,IMIN
       INTEGER TAG(NUMNOD),TAGS(NUMNOD),
      .        NSU1,NLS1,NLS2,NRTM_SH,ETYP,NRTM0,
      .        IMBIN,IM,IDEB,ISN
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -181,9 +185,34 @@ C=======================================================================
 c     Filtre
       NRTMP=NRTM
 C
+      ALLOCATE(IRECTMP_SAV(6,NRTM),STAT=stat)
+
+        
+      IRECTMP_SAV(1:6,1:NRTM) =  IRECTMP(1:6,1:NRTM)
+      DO I=1,NRTM
+        IF(IRECTMP(5,I)==0.OR.IRECTMP(5,I)==1) THEN
+          DO J=1,3
+            IMIN = IRECTMP(J,I)
+            IJ = J
+            DO K=J+1,4
+              IF(IRECTMP(K,I)<IMIN) THEN 
+                 IMIN = IRECTMP(K,I)
+                 IJ = K
+              ENDIF
+            ENDDO
+            IF(IJ /=J ) THEN
+              IRECTMP(IJ,I) = IRECTMP(J,I)
+              IRECTMP(J,I) = IMIN
+            ENDIF
+          ENDDO
+        ENDIF
+      ENDDO     
+C
       MODE=0
       CALL MY_ORDERS( MODE, WORK, IRECTMP, INDEX, NRTM , 6)
 
+      ALLOCATE(TAGM(NUMNOD)) ! tag table to avoid duplicate segments for solids (/SURF/PART/ALL/)
+      TAGM(1:NUMNOD) = 0
       IF(IALLO==1)THEN
 
         NRTM_SH=0
@@ -201,6 +230,7 @@ C
         DO J=IDEB,NRTMP-1
           I1=INDEX(J)
           I2=INDEX(J+1)
+  
           IF(IRECTMP(1,I2)/=IRECTMP(1,I1).OR.
      .       IRECTMP(2,I2)/=IRECTMP(2,I1).OR.
      .       IRECTMP(3,I2)/=IRECTMP(3,I1).OR.
@@ -209,9 +239,9 @@ C
                                                  ! A regler
             NRTM=NRTM+1
             IF(IRECTMP(5,I2)/=0 .AND. IRECTMP(5,I2)/=1) NRTM_SH=NRTM_SH+1
+
           END IF
         END DO
-
       ELSE ! IF(IALLO==1)THEN
 
         IDEB=1
@@ -222,12 +252,12 @@ C
         END DO
 
         NRTM=1 ! recompute NRTM same as with IALLO=1 <=> Ipari(4)
-        IRECT(1,NRTM)=IRECTMP(1,I1)
-        IRECT(2,NRTM)=IRECTMP(2,I1)
-        IRECT(3,NRTM)=IRECTMP(3,I1)
-        IRECT(4,NRTM)=IRECTMP(4,I1)
-        MSEGTYP(NRTM)=IRECTMP(5,I1)
-        IF(IMBIN/=0) MBINFLG(NRTM)=IRECTMP(6,I1)
+        IRECT(1,NRTM)=IRECTMP_SAV(1,I1)
+        IRECT(2,NRTM)=IRECTMP_SAV(2,I1)
+        IRECT(3,NRTM)=IRECTMP_SAV(3,I1)
+        IRECT(4,NRTM)=IRECTMP_SAV(4,I1)
+        MSEGTYP(NRTM)=IRECTMP_SAV(5,I1)
+        IF(IMBIN/=0) MBINFLG(NRTM)=IRECTMP_SAV(6,I1)
 
         DO J=IDEB,NRTMP-1
           I1=INDEX(J)
@@ -239,21 +269,22 @@ C
      .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
                                                  ! A regler
             NRTM=NRTM+1
-            IRECT(1,NRTM)=IRECTMP(1,I2)
-            IRECT(2,NRTM)=IRECTMP(2,I2)
-            IRECT(3,NRTM)=IRECTMP(3,I2)
-            IRECT(4,NRTM)=IRECTMP(4,I2)
-            MSEGTYP(NRTM)=IRECTMP(5,I2)
-            IF(IMBIN/=0) MBINFLG(NRTM)=IRECTMP(6,I2)
+            IRECT(1,NRTM)=IRECTMP_SAV(1,I2)
+            IRECT(2,NRTM)=IRECTMP_SAV(2,I2)
+            IRECT(3,NRTM)=IRECTMP_SAV(3,I2)
+            IRECT(4,NRTM)=IRECTMP_SAV(4,I2)
+            MSEGTYP(NRTM)=IRECTMP_SAV(5,I2)
+            IF(IMBIN/=0) MBINFLG(NRTM)=IRECTMP_SAV(6,I2)
 
           ELSEIF(IRECTMP(6,I1)/=IRECTMP(6,I2))THEN ! le segment appartient aux 2 surfaces
             IF(IMBIN/=0) MBINFLG(NRTM)=1+2
           END IF
         END DO
-
       END IF
 
+
       DEALLOCATE(INDEX,IRECTMP)
+      IF(ALLOCATED(IRECTMP_SAV)) DEALLOCATE(IRECTMP_SAV)
 C=======================================================================
 c     NOEUDS
 C=======================================================================
@@ -411,6 +442,10 @@ C----------due the fact that NRTM is modified w/ shell seg
         IPARI(6)  = NMN
         IPARI(35) = NLN
         IPARI(42) = NRTM_SH
+        IF(NRTM>NRTM_SH.AND.IPARI(17)/= 0) THEN ! Solid erosion
+          IPARI(100) = 1
+          PARAMETERS%INT25_EROSION_SOLID = 1
+        ENDIF
       END IF
 C
       RETURN

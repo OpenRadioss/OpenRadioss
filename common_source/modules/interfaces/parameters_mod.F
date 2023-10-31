@@ -66,6 +66,7 @@ C---------------------------------------------
           TYPE PARAMETERS_
              integer  ISTIF_DT      ! stiffness based on Mass and DT computation flag
              integer  INTCAREA      ! flag for contact area computation for output
+             integer  INT25_EROSION_SOLID ! flag for considering erosion of solids for Inter25
              my_real  DT_STIFINT    ! time step for stiffness based on Mass and DT computation 
              my_real, DIMENSION(:) , ALLOCATABLE ::   INTAREAN ! nodal areas for total contact area output
           END TYPE PARAMETERS_

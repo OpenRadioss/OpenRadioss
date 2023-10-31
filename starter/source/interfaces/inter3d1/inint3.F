@@ -139,7 +139,7 @@ Chd|====================================================================
      E                  IXIG3D     ,TAGPRT_FRIC ,INTBUF_FRIC_TAB,IPARTT,IPARTP  ,
      F                  IPARTX     ,IPARTR      ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                  T2_CONNEC  ,NOM_OPT     ,ICODE     ,ISKEW      ,IREMNODE_EDG,
-     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND)
+     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND,ELEM_LINKED_TO_SEGMENT)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -208,6 +208,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC)  :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -674,7 +675,7 @@ C----------------
      G    IT19             ,KXIG3D                  ,IXIG3D           ,IPARI(72)        , IPARTS          ,
      H    TAGPRT_FRIC      ,INTBUF_TAB%IPARTFRICS   ,INTBUF_TAB%IPARTFRICM ,INTBUF_FRIC_TAB,NRTM_IGE      ,
      I    IPARI(63)        ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX        ,
-     J    IPARTT           ,IPARTP                  ,IPARTR           )
+     J    IPARTT           ,IPARTP                  ,IPARTR           ,ELEM_LINKED_TO_SEGMENT)
        IPARI(21) = IGAP 
 C
 C----------------
@@ -927,7 +928,7 @@ C
      G            IT19       ,BID                     ,BID              ,IBIDON          ,IPARTS  ,
      H            IBIDON     ,IBIDON                  ,IBIDON           ,IBIDON          ,IBIDON  ,
      I            IPARI(63)  ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX,
-     J            IPARTT     ,IPARTP                  ,IPARTR        )
+     J            IPARTT     ,IPARTP                  ,IPARTR        ,ELEM_LINKED_TO_SEGMENT)
 C
 C      REMAINING BUCKET SORT IN STARTER
 C
@@ -1510,7 +1511,7 @@ C----  INTBUF_TAB%CRIT V/A is used temporarily for sorting and Pen-max
      H PM_STACK  ,IWORKSH    ,IPARI(72)  ,TAGPRT_FRIC   , INTBUF_TAB%IPARTFRICS,
      G INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IPARI(86) , NRTS   ,INTBUF_TAB%IRECTS ,
      I INTBUF_TAB%IELNRTS,INTBUF_TAB%ADRECTS,INTBUF_TAB%FACNRTS,NMN,INTBUF_TAB%MSR ,
-     J IPARTT   ,IPARTP   ,IPARTR  )  
+     J IPARTT   ,IPARTP   ,IPARTR  ,ELEM_LINKED_TO_SEGMENT)  
        IPARI(21) = IGAP
 C---------GAP_S for fictive nodes       
         IF (NSNE >0) THEN
@@ -1881,9 +1882,9 @@ C-----------------------------------------------------------
      G INTBUF_TAB%PENE_OLD          ,IPARTS          ,IGEO           ,FILLSOL               ,
      H PM_STACK   ,IWORKSH          ,INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
      I KNOD2EL1D  ,NOD2EL1D         ,IPARI(72)       ,TAGPRT_FRIC    ,INTBUF_TAB%IPARTFRICS   ,
-     J INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
-     K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          ,IPARTT                 ,
-     J IPARTP     ,IPARTR   )
+     J INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX        , GAPS_MX               ,
+     K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD           ,IPARTT                 ,
+     J IPARTP     ,IPARTR           ,INTBUF_TAB%IELEM_M , IPARI(100),ELEM_LINKED_TO_SEGMENT)
        IPARI(21) = IGAP
 C-----------------------------------------------------------
 C      ELEMENT NEIGHBROURS & FREE EDGES
@@ -1904,7 +1905,8 @@ C
      6  INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBM,INTBUF_TAB%INFLG_SUBM,
      .                                                                        IPARI(90),
      7  INTBUF_TAB%ADDSUBE,INTBUF_TAB%LISUBE,INTBUF_TAB%INFLG_SUBE,NOINT,NMN,INTBUF_TAB%MSR,
-     8  NOM_OPT,ILEV,INTBUF_TAB%MBINFLG,INTBUF_TAB%EBINFLG)
+     8  NOM_OPT         ,ILEV       ,INTBUF_TAB%MBINFLG,INTBUF_TAB%EBINFLG,INTBUF_TAB%IELEM_M,
+     9  IPARI(100))
 
        IF(IEDGE/=0)THEN
          NCONTE   =IPARI(68) ! cf NCONTE=NEDGE cest a voir ...
@@ -1926,7 +1928,7 @@ C
      .              NSN,INTBUF_TAB%MSR,ITAB,NRTM0,INTBUF_TAB%MSEGTYP24,
      .              INTBUF_TAB%MVOISIN,INTBUF_TAB%EVOISIN,NEDGE,INTBUF_TAB%LEDGE,
      .              INTBUF_TAB%LBOUND,INTBUF_TAB%ADMSR,INTBUF_TAB%VTX_BISECTOR,
-     .              INTBUF_TAB%E2S_NOD_NORMAL,NADMSR,IEDGE)
+     .              INTBUF_TAB%E2S_NOD_NORMAL,NADMSR,IEDGE,INTBUF_TAB%IELEM_M)
 C-----------------------------------------------------------
 C      IGAP = 2 (IREM GAP)
 C-----------------------------------------------------------
@@ -1966,7 +1968,7 @@ C
      A IPARTS  ,KNOD2ELS ,NOD2ELS ,
      B IREMNODE,IPARI(63),INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,
      C IXS, IXS10, IXS16, IXS20,ICODE,ISKEW, 
-     D DRAD,INTBUF_TAB%PENE_OLD,INTBUF_TAB%VARIABLES(46))
+     D DRAD,INTBUF_TAB%PENE_OLD,INTBUF_TAB%VARIABLES(46),INTBUF_TAB%IELEM_M)
 
        IF (I_MEM == 2) RETURN
 C

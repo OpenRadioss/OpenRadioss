@@ -192,7 +192,7 @@ Chd|====================================================================
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
      .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE,
-     .                  NINV )
+     .                  NINV ,IELEM_M ,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -218,11 +218,16 @@ C-----------------------------------------------
       INTEGER  , INTENT(INOUT) :: TAGELEMS(NUMELS),INDEXE(NUMELS)
       my_real
      .   X(3,*)
+      INTEGER  , INTENT(INOUT) :: IELEM_M(2) ! ID of 1 or 2 solid elements attached to main segment
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT) :: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
+      LOGICAL, INTENT(INOUT) :: PRINT_ERROR !< flag : true if several elements seem to be duplicated
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM, NINDEXE
+     .        NUSER, NUSERM, NINDEXE, IELS
+      INTEGER :: IJK
+      INTEGER :: ELEM_ID
 C     REAL
       my_real
      .   N1, N2, N3, DDS
@@ -233,9 +238,9 @@ C-----------------------------------------------
 C
       NEL=0
       IC=0
-
+      PRINT_ERROR = .FALSE.
       IF(NUMELS==0) RETURN
-       IF(IRECT(1,I)>NUMNOD) RETURN
+      IF(IRECT(1,I)>NUMNOD) RETURN
 
        NINDEXE = 0
        NUSERM = -1
@@ -255,6 +260,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             ELEM_LINKED_TO_SEGMENT(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -277,6 +283,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             ELEM_LINKED_TO_SEGMENT(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -299,6 +306,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             ELEM_LINKED_TO_SEGMENT(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -321,6 +329,7 @@ C
              TAGELEMS(N) = 1
              NINDEXE = NINDEXE + 1
              INDEXE(NINDEXE) = N
+             ELEM_LINKED_TO_SEGMENT(IC) = N
              IF (NUSER>NUSERM) THEN
                 NEL = N
                 NUSERM = NUSER
@@ -337,6 +346,28 @@ C
        ENDDO
 
        IF (NUSERM==-1) RETURN
+       IF(IC==1) THEN 
+          IELEM_M(1) =   NEL
+          IELEM_M(2) =   0
+       ELSEIF(IC==2) THEN 
+          IELEM_M(1:2) = ELEM_LINKED_TO_SEGMENT(1:2)
+          IF(IELEM_M(1)/= NEL) THEN 
+            IELS = IELEM_M(1)
+            IELEM_M(1) = IELEM_M(2)
+            IELEM_M(2) = IELS
+          ENDIF
+       ELSE
+          IELEM_M(1:2) = ELEM_LINKED_TO_SEGMENT(1:2)
+          PRINT_ERROR = .TRUE.
+          DO IJK=1,IC
+            ELEM_ID = IXS(11,ELEM_LINKED_TO_SEGMENT(IJK))
+            CALL ANCMSG(MSGID=3031,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ELEM_ID ,
+     .                PRMOD=MSG_CUMU)
+          ENDDO
+       ENDIF
 C-----------------------------------------------
 C     SEGMENTS ORIENTATION CHECKING 
 C-----------------------------------------------
