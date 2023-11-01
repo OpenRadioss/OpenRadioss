@@ -218,6 +218,7 @@ Chd|        IMPL_SAV1                     source/interfaces/int24/i24main.F
 Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
 Chd|        IMP_STIF24                    source/implicit/imp_solv.F    
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
+Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
