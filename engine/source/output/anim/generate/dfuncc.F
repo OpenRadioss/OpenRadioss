@@ -1025,46 +1025,56 @@ c---
             ELSEIF (IFUNC == 1 .AND. (MLW /= 15 .AND. MLW /= 25)) THEN   ! plastic strain (mid layer : npt/2 + 1) 
 ! law15 and law25 it's the plastic work instead plastic strain. it can be outp using /ANIM/ELEM/WPLA ( ifunc=4*MX_PLY_ANIM +13245)           
               IF (GBUF%G_PLA > 0) THEN
-                IF (NLAY > 1) THEN
-                  IPT = IABS(NLAY)/2 + 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
-                  IF (BUFLY%L_PLA > 0)THEN
+                ILAY = 1
+                IF (NLAY > 1) ILAY = IABS(NLAY)/2 + 1
+                 BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                 IF (BUFLY%L_PLA > 0) THEN
                   IF (NPG > 1) THEN
-                    DO  I=LFT,LLT  
-                      EVAR(I) = ABS(BUFLY%PLAPT(I))
-                    ENDDO
+                    IF(ITY == 3) THEN
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                         NPTT = BUFLY%NPTT
+                         DO IS = 1,NPTS
+                           DO IR = 1,NPTR
+                             DO IPT = 1, NPTT
+                               DO  I=1,NEL  
+                                 EVAR(I) = EVAR(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
+                               ENDDO
+                             ENDDO
+                           ENDDO
+                         ENDDO     
+                      ELSE
+                         DO  I=1,NEL  
+                           EVAR(I) = FOURTH*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(2,1,1)%PLA(I) + 
+     .                                        BUFLY%LBUF(1,2,1)%PLA(I) + BUFLY%LBUF(2,2,1)%PLA(I))
+                         ENDDO
+                      ENDIF ! igtyp
+                    ELSE ! ITY == 7
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                        NPTT = BUFLY%NPTT
+                        DO IT = 1,NPTT
+                          DO IR =1,NPG
+                            DO  I=1,NEL  
+                              EVAR(I) =  EVAR(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
+                            ENDDO
+                           ENDDO
+                         ENDDO   
+                       ELSE
+                         DO I=1,NEL  
+                           EVAR(I) = THIRD*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(1,1,1)%PLA(I) +
+     .                                       BUFLY%LBUF(1,1,1)%PLA(I)) 
+                         ENDDO
+                       ENDIF ! igtyp 
+                     ENDIF  ! ity
                   ELSE
                     NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                    DO  I=LFT,LLT
-                      DO IT=1,NPTT
+                    DO IT=1,NPTT
+                      DO  I=1,NEL 
                         EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                      ENDDO
+                      ENDDO			
                     ENDDO
-                  ENDIF
-                 ENDIF
-                ELSEIF (NPG > 1) THEN   ! NLAY = 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                  IPT = IABS(NPTT)/2 + 1
-cc                  IPT = IABS(NPT)/2 + 1
-                  II = (IPT-1)*NEL  
-                  DO  I=LFT,LLT
-                    EVAR(I) = ABS(BUFLY%PLAPT(II+I))
-                  ENDDO
-                 ENDIF
-                ELSE   !  NLAY=1, NPG=1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-cc                  IPT = IABS(NPT)/2 + 1
-                  IPT = IABS(NPTT)/2 + 1
-                  DO  I=LFT,LLT
-                    EVAR(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I)) 
-                  ENDDO
-                 ENDIF
-                ENDIF
-              ENDIF  
+                  ENDIF ! npg
+                 ENDIF ! BUFLY%L_PLA 
+              ENDIF  ! GBUF
                           
 c---
             ELSEIF (IFUNC == 2) THEN
@@ -3953,46 +3963,56 @@ C
 ! it's the plastic work  /ANIM/ELEM/WPLA ( ifunc=4*MX_PLY_ANIM +13245)           
               IF (GBUF%G_PLA > 0) THEN
                 ! for law25, plastic work < 0 if the layer has reached failure-p !
-                IF (NLAY > 1) THEN
-                  IPT = IABS(NLAY)/2 + 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
-                  IF (BUFLY%L_PLA > 0)THEN
+                 ILAY = 1
+                IF (NLAY > 1) ILAY = IABS(NLAY)/2 + 1
+                 BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                 IF (BUFLY%L_PLA > 0) THEN
                   IF (NPG > 1) THEN
-                    DO  I=LFT,LLT  
-                      EVAR(I) = ABS(BUFLY%PLAPT(I))
-                    ENDDO
+                    IF(ITY == 3) THEN
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                         NPTT = BUFLY%NPTT
+                         DO IS = 1,NPTS
+                           DO IR = 1,NPTR
+                             DO IPT = 1, NPTT
+                               DO  I=1,NEL  
+                                 EVAR(I) = EVAR(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
+                               ENDDO
+                             ENDDO
+                           ENDDO
+                         ENDDO     
+                      ELSE
+                         DO  I=1,NEL  
+                           EVAR(I) = FOURTH*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(2,1,1)%PLA(I) + 
+     .                                        BUFLY%LBUF(1,2,1)%PLA(I) + BUFLY%LBUF(2,2,1)%PLA(I))
+                         ENDDO
+                      ENDIF ! igtyp
+                    ELSE ! ITY == 7
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                        NPTT = BUFLY%NPTT
+                        DO IT = 1,NPTT
+                          DO IR =1,NPG
+                            DO  I=1,NEL  
+                              EVAR(I) = EVAR(I)  + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
+                            ENDDO
+                           ENDDO
+                         ENDDO   
+                       ELSE
+                         DO I=1,NEL 
+                           EVAR(I) = THIRD*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(1,1,1)%PLA(I) +
+     .                                     BUFLY%LBUF(1,1,1)%PLA(I)) 
+                         ENDDO
+                       ENDIF ! igtyp 
+                     ENDIF  ! ity
                   ELSE
                     NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                    DO  I=LFT,LLT
-                      DO IT=1,NPTT
+                    DO IT=1,NPTT
+                      DO  I=1,NEL 
                         EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                      ENDDO
+                      ENDDO			
                     ENDDO
-                  ENDIF
-                 ENDIF
-                ELSEIF (NPG > 1) THEN   ! NLAY = 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                  IPT = IABS(NPTT)/2 + 1
-cc                  IPT = IABS(NPT)/2 + 1
-                  II = (IPT-1)*NEL  
-                  DO  I=LFT,LLT
-                    EVAR(I) = ABS(BUFLY%PLAPT(II+I))
-                  ENDDO
-                 ENDIF
-                ELSE   !  NLAY=1, NPG=1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-cc                  IPT = IABS(NPT)/2 + 1
-                  IPT = IABS(NPTT)/2 + 1
-                  DO  I=LFT,LLT
-                    EVAR(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I)) 
-                  ENDDO
-                 ENDIF
-                ENDIF
-              ENDIF  
+                  ENDIF ! npg
+                 ENDIF ! BUFLY%L_PLA 
+              ENDIF  ! gbuf
 c------------------------------------
             ELSEIF (IFUNC == 13246 + 4*MX_PLY_ANIM .AND. (MLW == 15 .OR. MLW == 25)) THEN  ! WPLA/UPPER
 c------------------------------------

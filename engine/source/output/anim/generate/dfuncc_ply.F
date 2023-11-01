@@ -236,18 +236,26 @@ c---------
             ENDDO
 c---------
           ELSEIF(IFUNC == 7)THEN   ! Von Mises
-c---------
+c---------available only for Batoz shell and TYPE17 PID
             DO I=LFT,LLT
                N = I + NFT 
                II = (I-1)*5
-              ILAYER = PLYELEMS(N)
-               BUFLY => ELBUF_TAB(NG)%BUFLY(ILAYER)
+               ILAYER = PLYELEMS(N)
+                S1  = ZERO
+                S2  = ZERO
+                S12 = ZERO
                IF(ILAYER > 0) THEN
-                 S1 = BUFLY%SIGPT(II + 1)
-                 S2 = BUFLY%SIGPT(II + 2)
-                 S12= BUFLY%SIGPT(II + 3)
-                 VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
-                 EVAR(I) = SQRT(VONM2)
+                 BUFLY => ELBUF_TAB(NG)%BUFLY(ILAYER)
+                 DO IR=1,NPTR                                                       
+                   DO IS=1,NPTS 
+                       LBUF => BUFLY%LBUF(IR,IS,1)
+                       S1 = S1  + LBUF%SIG(I        )/NPG
+                       S2 = S2  + LBUF%SIG(NEL   + I)/NPG
+                       S12= S12 + LBUF%SIG(2*NEL + I)/NPG
+                    ENDDO 
+                 ENDDO    
+                   VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
+                   EVAR(I) =  SQRT(VONM2) 
                ENDIF  
             ENDDO
 c---------
