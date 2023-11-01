@@ -175,8 +175,6 @@ c  indx utilise localement contrairement aux coques 4n
      :    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
      .  DIMENSION(:) ,POINTER  :: DIR_A,DIR_B,CRKDIR,DADV
-      my_real, 
-     .    ALLOCATABLE, DIMENSION(:,:,:) :: PLAPT_LAY,SIGPT_LAY
 C--- Variables pour le non-local
       INTEGER :: NDDL, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
@@ -298,15 +296,6 @@ c-------------------------------------
          DIR_B => DIRB(1:NLAY*NEL*L_DIRB)
       ENDIF ! IDRAPE
 C
-       IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-         ALLOCATE(PLAPT_LAY(NLAY,NPG,MVSIZ))
-         ALLOCATE(SIGPT_LAY(NLAY,NPG,5*MVSIZ))
-         PLAPT_LAY = ZERO
-         SIGPT_LAY = ZERO
-       ELSE
-         ALLOCATE(PLAPT_LAY(0,0,0))
-         ALLOCATE(SIGPT_LAY(0,0,0))
-       ENDIF
 c-------------------------------------
       IGTYP = IGEO(11,IXTG(5,1))
       IGMAT = IGEO(98 ,IXTG(5,1))
@@ -462,35 +451,6 @@ c--------------------------
 c-------------------------------
       ENDDO  !  NG = 1,NPG
 C----
-C temporary storage for mean PLAPT, SIGPT
-C----
-      IF ((IGTYP == 51.OR. IGTYP == 52) .AND. NLAY > 1) THEN
-        DO ILAY=1,NLAY
-          BUFLY => ELBUF_STR%BUFLY(ILAY)
-          NPTT = BUFLY%NPTT
-          DO IT = 1,NPTT
-            DO NG =1,NPG
-              IR = NG
-              IS = 1
-              DO I=JFT,JLT
-                IF (BUFLY%L_PLA > 0) THEN
-                  PLAPT_LAY(ILAY,NG,I) = PLAPT_LAY(ILAY,NG,I) + 
-     .                                   BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
-                ELSE
-                  PLAPT_LAY(ILAY,NG,I) = ZERO
-                ENDIF
-                II = (I-1)*5
-                DO J=1,5
-                  JJ = II+J
-                  SIGPT_LAY(ILAY,NG,JJ) = SIGPT_LAY(ILAY,NG,JJ) + 
-     .                                    BUFLY%LBUF(IR,IS,IT)%SIG(KK(J)+I)/NPTT
-                ENDDO
-              ENDDO ! DO I=JFT,JLT
-            ENDDO ! DO NG =1,NPG
-          ENDDO ! DO IT = 1,NPTT
-        ENDDO ! DO ILAY=1,NLAY
-      ENDIF  ! IF (IGTYP == 51) THEN
-C----
 C----------------------------------------------------------------------------
 C     FIN DE BOUCLE DE 3 POINTS DE INTEGRATION------------
 C----------------------------------------------------------------------------
@@ -518,94 +478,6 @@ C---
      .                             + GBUF%MOMPG(PT3+KK(J)+I))	
          ENDDO
       ENDDO
-C---
-C    = PLAPT =
-C---
-      IF (NLAY > 1) THEN
-        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-          DO IPT = 1,NLAY
-            BUFLY => ELBUF_STR%BUFLY(IPT)
-            IF (BUFLY%L_PLA > 0) THEN
-              DO I=JFT,JLT  
-                BUFLY%PLAPT(I) = THIRD*(PLAPT_LAY(IPT,1,I) + PLAPT_LAY(IPT,2,I) +
-     .                                  PLAPT_LAY(IPT,3,I))
-              ENDDO
-            ENDIF
-          ENDDO
-        ELSE  ! (IGTYP /= 51)
-          DO IPT = 1,NLAY
-            BUFLY => ELBUF_STR%BUFLY(IPT)
-            IF (BUFLY%L_PLA > 0) THEN
-              LBUF1 => ELBUF_STR%BUFLY(IPT)%LBUF(1,1,1)
-              LBUF2 => ELBUF_STR%BUFLY(IPT)%LBUF(2,1,1)
-              LBUF3 => ELBUF_STR%BUFLY(IPT)%LBUF(3,1,1)
-              DO I=JFT,JLT  
-                BUFLY%PLAPT(I) = THIRD*(LBUF1%PLA(I) + LBUF2%PLA(I) +
-     .                                  LBUF3%PLA(I))
-              ENDDO
-            ENDIF
-          ENDDO
-        ENDIF  !  IF (IGTYP == 51) THEN
-      ELSE  !  (NLAY == 1)
-        BUFLY => ELBUF_STR%BUFLY(1)
-        DO IPT = 1,BUFLY%NPTT
-          IF (BUFLY%L_PLA > 0) THEN
-            LBUF1 => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
-            LBUF2 => ELBUF_STR%BUFLY(1)%LBUF(2,1,IPT)
-            LBUF3 => ELBUF_STR%BUFLY(1)%LBUF(3,1,IPT)
-            II = (IPT-1)*NEL
-            DO I=JFT,JLT                                                 
-              BUFLY%PLAPT(II+I) = THIRD*(LBUF1%PLA(I) + LBUF2%PLA(I) +
-     .                                   LBUF3%PLA(I))
-            ENDDO
-          ENDIF
-        ENDDO
-      ENDIF !  IF (NLAY > 1) THEN
-C---
-C    = SIGPT =
-C---
-      IF (NLAY > 1) THEN
-        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-          DO IPT = 1,NLAY
-            BUFLY => ELBUF_STR%BUFLY(IPT)
-            DO I=JFT,JLT*5  
-              BUFLY%SIGPT(I) = THIRD*(SIGPT_LAY(IPT,1,I) + SIGPT_LAY(IPT,2,I) +
-     .                                SIGPT_LAY(IPT,3,I))
-            ENDDO
-          ENDDO
-        ELSE  ! (IGTYP /= 51)
-          DO IPT = 1,NLAY
-            BUFLY => ELBUF_STR%BUFLY(IPT)
-            LBUF1 => ELBUF_STR%BUFLY(IPT)%LBUF(1,1,1)
-            LBUF2 => ELBUF_STR%BUFLY(IPT)%LBUF(2,1,1)
-            LBUF3 => ELBUF_STR%BUFLY(IPT)%LBUF(3,1,1)
-            DO I=JFT,JLT
-              II = (I-1)*5
-              DO J=1,5
-               JJ = II+J
-               BUFLY%SIGPT(JJ) = THIRD*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I) +
-     .                                  LBUF3%SIG(KK(J)+I))
-              ENDDO
-            ENDDO
-          ENDDO
-        ENDIF  !  IF (IGTYP == 51) THEN
-      ELSE  !  (NLAY == 1)
-        BUFLY => ELBUF_STR%BUFLY(1)
-        DO IPT = 1,BUFLY%NPTT
-          LBUF1 => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
-          LBUF2 => ELBUF_STR%BUFLY(1)%LBUF(2,1,IPT)
-          LBUF3 => ELBUF_STR%BUFLY(1)%LBUF(3,1,IPT)
-          K = (IPT-1)*NEL*5
-          DO I=JFT,JLT
-            II = (I-1)*5
-            DO J=1,5
-              JJ = K+II+J
-              BUFLY%SIGPT(JJ) = THIRD*(LBUF1%SIG(KK(J)+I) + LBUF2%SIG(KK(J)+I)
-     .                               + LBUF3%SIG(KK(J)+I))
-            ENDDO
-          ENDDO
-        ENDDO
-      ENDIF !  IF (NLAY > 1) THEN
 C-------------------------
 C     ASSEMBLE
 C-------------------------
@@ -691,9 +563,7 @@ c
       ENDIF
 C------------
       IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
-      IF (ALLOCATED(PLAPT_LAY)) DEALLOCATE(PLAPT_LAY)
-      IF (ALLOCATED(SIGPT_LAY)) DEALLOCATE(SIGPT_LAY)
+      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
       IF (ALLOCATED(VAR_REG))    DEALLOCATE(VAR_REG)
 C------------
       RETURN

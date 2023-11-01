@@ -109,7 +109,7 @@ C-----------------------------------------------
      .        N,K,K1,K2,JTURB,
      .        OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
      .        ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
-     .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL
+     .        IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .        IPLY,
      .        IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
@@ -1792,15 +1792,50 @@ c ILAYER=NULL NPT=NULL
                 ENDIF
               ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1.and. GBUF%G_PLA > 0) THEN
                 ! for law25, plastic work < 0 if the layer has reached failure-p
-                IF (NLAY > 1) THEN
-                  IPT = IABS(NLAY)/2 + 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
+                ILAY0 = 1
+                IF (NLAY > 1) ILAY0 = IABS(NLAY)/2 + 1
+                 BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY0)
                  IF (BUFLY%L_PLA > 0) THEN
                   IF (NPG > 1) THEN
-                    DO  I=1,NEL  
-                      VALUE(I) = ABS(BUFLY%PLAPT(I))
-                      IS_WRITTEN_VALUE(I) = 1				
-                    ENDDO
+                    IF(ITY == 3) THEN
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                         NPTT = BUFLY%NPTT
+                         DO IS = 1,NPTS
+                           DO IR = 1,NPTR
+                             DO IPT = 1, NPTT
+                               DO  I=1,NEL  
+                                 VALUE(I) = VALUE(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
+                                 IS_WRITTEN_VALUE(I) = 1        
+                               ENDDO
+                             ENDDO
+                           ENDDO
+                         ENDDO     
+                      ELSE
+                         DO  I=1,NEL  
+                           VALUE(I) = FOURTH*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(2,1,1)%PLA(I) + 
+     .                                        BUFLY%LBUF(1,2,1)%PLA(I) + BUFLY%LBUF(2,2,1)%PLA(I))
+                           IS_WRITTEN_VALUE(I) = 1         
+                         ENDDO
+                      ENDIF ! igtyp
+                    ELSE ! ITY == 7
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                        NPTT = BUFLY%NPTT
+                        DO IT = 1,NPTT
+                          DO IR =1,NPG
+                            DO  I=1,NEL  
+                              VALUE(I) =  VALUE(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
+                              IS_WRITTEN_VALUE(I) = 1                   
+                            ENDDO
+                           ENDDO
+                         ENDDO   
+                       ELSE
+                         DO I=1,NEL  
+                           VALUE(I) = THIRD*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(1,1,1)%PLA(I) +
+     .                                      BUFLY%LBUF(1,1,1)%PLA(I)) 
+                           IS_WRITTEN_VALUE(I) = 1 
+                         ENDDO
+                       ENDIF ! igtyp 
+                     ENDIF  ! ity
                   ELSE
                     NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
                     DO IT=1,NPTT
@@ -1809,32 +1844,8 @@ c ILAYER=NULL NPT=NULL
                         IS_WRITTEN_VALUE(I) = 1	
                       ENDDO			
                     ENDDO
-                  ENDIF
-                 ENDIF
-                ELSEIF (NPG > 1) THEN   ! NLAY = 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                  IPT = IABS(NPTT)/2 + 1
-                  II = (IPT-1)*NEL
-                  DO  I=1,NEL
-                   VALUE(I) = ABS(BUFLY%PLAPT(II+I))
-                   IS_WRITTEN_VALUE(I) = 1				
-                  ENDDO
-                 ENDIF
-                ELSE   !  NLAY=1, NPG=1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-cc                  IPT = IABS(NPT)/2 + 1
-                  IPT = IABS(NPTT)/2 + 1
-                  DO  I=1,NEL
-                    VALUE(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I)) 
-                    IS_WRITTEN_VALUE(I) = 1				
-                  ENDDO
-                 ENDIF
-                ENDIF
-
+                  ENDIF ! npg
+                 ENDIF ! BUFLY%L_PLA 
 c PLY=IPLY NPT=IPT
               ELSEIF ( IPLY > 0 .AND. (IPT <= MPT .AND. IPT > 0 ) .AND. GBUF%G_PLA > 0) THEN
 c
@@ -2045,15 +2056,50 @@ C--------------------------------------------------
 c ILAYER=NULL NPT=NULL
               IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1.and. GBUF%G_PLA > 0) THEN
                 ! for law25, plastic work < 0 if the layer has reached failure-p
-                IF (NLAY > 1) THEN
-                  IPT = IABS(NLAY)/2 + 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
+                ILAY0 = 1
+                IF (NLAY > 1) ILAY0 = IABS(NLAY)/2 + 1
+                 BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY0)
                  IF (BUFLY%L_PLA > 0) THEN
                   IF (NPG > 1) THEN
-                    DO  I=1,NEL  
-                      VALUE(I) = ABS(BUFLY%PLAPT(I))
-                      IS_WRITTEN_VALUE(I) = 1				
-                    ENDDO
+                    IF(ITY == 3) THEN
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                         NPTT = BUFLY%NPTT
+                         DO IS = 1,NPTS
+                           DO IR = 1,NPTR
+                             DO IPT = 1, NPTT
+                               DO  I=1,NEL  
+                                 VALUE(I) = VALUE(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
+                                 IS_WRITTEN_VALUE(I) = 1        
+                               ENDDO
+                             ENDDO
+                           ENDDO
+                         ENDDO     
+                      ELSE
+                         DO  I=1,NEL  
+                           VALUE(I) = FOURTH*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(2,1,1)%PLA(I) + 
+     .                                        BUFLY%LBUF(1,2,1)%PLA(I) + BUFLY%LBUF(2,2,1)%PLA(I))
+                           IS_WRITTEN_VALUE(I) = 1         
+                         ENDDO
+                      ENDIF ! igtyp
+                    ELSE ! ITY == 7
+                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                        NPTT = BUFLY%NPTT
+                        DO IT = 1,NPTT
+                          DO IR =1,NPG
+                            DO  I=1,NEL  
+                              VALUE(I) =  VALUE(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
+                              IS_WRITTEN_VALUE(I) = 1                   
+                            ENDDO
+                           ENDDO
+                         ENDDO   
+                       ELSE
+                         DO I=1,NEL  
+                           VALUE(I) = THIRD*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(1,1,1)%PLA(I) +
+     .                                        BUFLY%LBUF(1,1,1)%PLA(I)) 
+                           IS_WRITTEN_VALUE(I) = 1 
+                         ENDDO
+                       ENDIF ! igtyp 
+                     ENDIF  ! ity
                   ELSE
                     NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
                     DO IT=1,NPTT
@@ -2062,32 +2108,8 @@ c ILAYER=NULL NPT=NULL
                         IS_WRITTEN_VALUE(I) = 1	
                       ENDDO			
                     ENDDO
-                  ENDIF
-                 ENDIF
-                ELSEIF (NPG > 1) THEN   ! NLAY = 1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                  IPT = IABS(NPTT)/2 + 1
-                  II = (IPT-1)*NEL
-                  DO  I=1,NEL
-                   VALUE(I) = ABS(BUFLY%PLAPT(II+I))
-                   IS_WRITTEN_VALUE(I) = 1				
-                  ENDDO
-                 ENDIF
-                ELSE   !  NLAY=1, NPG=1
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                 IF (BUFLY%L_PLA > 0) THEN
-                  NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-cc                  IPT = IABS(NPT)/2 + 1
-                  IPT = IABS(NPTT)/2 + 1
-                  DO  I=1,NEL
-                    VALUE(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I)) 
-                    IS_WRITTEN_VALUE(I) = 1				
-                  ENDDO
-                 ENDIF
-                ENDIF
-
+                  ENDIF ! npg
+                 ENDIF ! BUFLY%L_PLA 
 c PLY=IPLY NPT=IPT
               ELSEIF ( IPLY > 0 .AND. (IPT <= MPT .AND. IPT > 0 ) .AND. GBUF%G_PLA > 0) THEN
 c
