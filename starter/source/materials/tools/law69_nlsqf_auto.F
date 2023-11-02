@@ -285,7 +285,7 @@ c       check convergence of LM optimization
                  ICOMP   = 1
                  JCHECK  = 2
                  LAWID   = 2
-                 NMUAL   = 2                                                  
+                 NMUAL   = 4                                                  
                ELSE                                                              
                   IEND_FINDING = 1                                               
                ENDIF                                                             
@@ -310,7 +310,7 @@ c       check convergence of LM optimization
                  ICOMP   = 1
                  JCHECK  = 2
                  LAWID   = 2
-                 NMUAL   = 2 
+                 NMUAL   = 4 
                ELSE                                                              
                  IEND_FINDING = 1                                               
                ENDIF                                                             
