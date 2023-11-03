@@ -1035,7 +1035,7 @@ c---
                          NPTT = BUFLY%NPTT
                          DO IS = 1,NPTS
                            DO IR = 1,NPTR
-                             DO IPT = 1, NPTT
+                             DO IT = 1, NPTT
                                DO  I=1,NEL  
                                  EVAR(I) = EVAR(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
                                ENDDO
@@ -3973,7 +3973,7 @@ C
                          NPTT = BUFLY%NPTT
                          DO IS = 1,NPTS
                            DO IR = 1,NPTR
-                             DO IPT = 1, NPTT
+                             DO IT = 1, NPTT
                                DO  I=1,NEL  
                                  EVAR(I) = EVAR(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
                                ENDDO

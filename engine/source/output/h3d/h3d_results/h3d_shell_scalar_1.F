@@ -1802,7 +1802,7 @@ c ILAYER=NULL NPT=NULL
                          NPTT = BUFLY%NPTT
                          DO IS = 1,NPTS
                            DO IR = 1,NPTR
-                             DO IPT = 1, NPTT
+                             DO IT = 1, NPTT
                                DO  I=1,NEL  
                                  VALUE(I) = VALUE(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
                                  IS_WRITTEN_VALUE(I) = 1        
@@ -2066,7 +2066,7 @@ c ILAYER=NULL NPT=NULL
                          NPTT = BUFLY%NPTT
                          DO IS = 1,NPTS
                            DO IR = 1,NPTR
-                             DO IPT = 1, NPTT
+                             DO IT = 1, NPTT
                                DO  I=1,NEL  
                                  VALUE(I) = VALUE(I) + FOURTH*BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
                                  IS_WRITTEN_VALUE(I) = 1        
