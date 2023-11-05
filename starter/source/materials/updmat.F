@@ -71,7 +71,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
-      USE LAW190_UPD_MOD
+      USE LAW190_UPD_MOD  
+      USE VISC_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,6 +112,7 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_), POINTER :: MTAG
       CHARACTER*nchartitle, TITR
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
+      TYPE (VISC_PARAM_)     , POINTER :: VISC
 C=======================================================================
 c     TRAITEMENT OF MATERIAL PARAMETERS AND FUNCTIONS
 c-----------------------------------------------------------------------
@@ -175,18 +177,16 @@ c
         UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
         MATPARAM => MAT_PARAM(IMAT)
         !/visc/prony
-        ITYPE_VISC = IPM(222,IMAT)
+        ITYPE_VISC = MATPARAM%IVISC
         GAMA_INF = ONE
         IF(ITYPE_VISC == 2) THEN
-          IADD_VISC   = MAX(1,IPM(223,IMAT))
-          NPARAM_VISC = IPM(224 ,IMAT)
-          UPARAM_VISC   => BUFMAT(IADD_VISC:IADD_VISC + NPARAM_VISC-1)
-          NPRONY = UPARAM_VISC(1)
-          FORM  = UPARAM_VISC(2)
+          VISC  => MATPARAM%VISC  
+          NPRONY = VISC%IPARAM(1)
+          FORM   = VISC%IPARAM(2)
           IF(FORM == 1) THEN
             GAMA_INF = ONE 
             DO J=1,NPRONY
-              GAMA_INF = GAMA_INF - UPARAM_VISC(3 + J)
+              GAMA_INF = GAMA_INF - VISC%UPARAM(J)
             ENDDO
             GAMA_INF = MAX(EM20, GAMA_INF)
           ENDIF  
