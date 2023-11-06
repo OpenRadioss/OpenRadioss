@@ -250,7 +250,7 @@ C------- actualise V',D',(t) --V->v(t+dt)-------
          ADT1 = DY_G*DT2
 c         CALL IMP_DT2(DT3)
          DT1_IMP = DT_IMP
-	 DT3 = DT2
+         DT3 = DT2
          ADT = (ONE-DY_G)*DT3
          BDT = (HALF-DY_B)*DT3*DT3
          DO I=NODFT,NODLT
@@ -780,8 +780,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N, NCL_MAX,LBAND,NTMP,NODFT,NODLT,IER1,IER2
       my_real
-     .   TMP,ADT,BDT,BDTI,RBID
+     .   TMP,ADT,BDT,BDTI,DUMMY_FEXT(3,1)
 C--------------------------------
+       DUMMY_FEXT = ZERO
        NODFT = 1
        NODLT = NUMNOD
 C-----allocation supp----
@@ -810,7 +811,7 @@ C-----------divergence at first step--------
       ELSE
          ADT = (ONE-DY_G)
          BDT = (HALF-DY_B)*DT0_IMP
-	 BDTI =ONE/(BDT-ADT*DT0_IMP)
+         BDTI =ONE/(BDT-ADT*DT0_IMP)
          DO N=NODFT,NODLT
            DY_A(1,N) = ZERO
            DY_A(2,N) = ZERO
@@ -842,7 +843,7 @@ C---estimation a(t=0)----
           CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,DY_A  ,
      2               V     ,X     ,SKEW  ,DY_AR,VR    ,
      3               NSENSOR,SENSOR_TAB,TFEXC,
-     4               IADS_F,FSKY  ,FSKY,RBID,H3D_DATA,
+     4               IADS_F,FSKY  ,FSKY,DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
      6               NSEG_LOADP) 
          IF (NSPMD>1) THEN
@@ -1026,16 +1027,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,IBID,IW ,I,J,ND,J1
       my_real
-     .   TFEXC,RBID
+     .   TFEXC,DUMMY_FEXT(3,1)
 C--------------------------------
-       RBID=ZERO
+       DUMMY_FEXT=ZERO
 C--------------------------------
        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(NCONLD/=0) THEN
           CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,A     ,
      2               V     ,X     ,SKEW  ,AR  ,VR    ,
      3               NSENSOR,SENSOR_TAB,TFEXC,
-     4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,
+     4               IADS_F,FSKY  ,FSKY, DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
      6               NSEG_LOADP) 
           TFEXT = TFEXT + TFEXC*DT2
@@ -1056,14 +1057,14 @@ C--------------------------------
           TFEXT = TFEXT + TFEXC
         ENDIF
         IF(IDY_DAMP>0) THEN
-	 TFEXC = ZERO
+         TFEXC = ZERO
 C----------DY_DAM has been already condensed---
          DO I = 1 ,NUMNOD
-	  DO J=1,3
+          DO J=1,3
            ND = IDDL(I)+J
-	   IF (IKC(ND) == 0 )
+           IF (IKC(ND) == 0 )
      .      TFEXC = TFEXC +D(J,I)*(DY_DAM(J,I)+DY_DAM0(J,I))*HALF
-	  END DO
+          END DO
          ENDDO
          DO I = 1 ,NUMNOD
            DY_DAM0(1,I) = DY_DAM(1,I)
@@ -1072,10 +1073,10 @@ C----------DY_DAM has been already condensed---
          ENDDO
          IF (IRODDL/=0) THEN
           DO I = 1 ,NUMNOD
-	   DO J=4,NDOF(I)
+           DO J=4,NDOF(I)
             ND = IDDL(I)+J
-	    J1=J-3
-	    IF (IKC(ND) == 0 )
+            J1=J-3
+            IF (IKC(ND) == 0 )
      .      TFEXC = TFEXC +DR(J,I)*(DY_DAMR(J,I)+DY_DAMR0(J,I))*HALF
            ENDDO
           ENDDO
@@ -1143,7 +1144,7 @@ C
          ND = IDDL(I)+J
          ID = ND-NKC
           IF (J<=3) THEN
-	   MM = MKF
+           MM = MKF
           ELSE
            MM = MKM
           ENDIF
@@ -1163,7 +1164,7 @@ C
          ND = IDDL(I)+J
          ID = ND-NKC
           IF (J<=3) THEN
-	   MM = MKF
+           MM = MKF
           ELSE
            MM = MKM
           ENDIF
@@ -1635,7 +1636,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
          DT05=ZERO
-	 EN_K=ZERO
+         EN_K=ZERO
          DO I = NODFT ,NODLT
           MAS=MS(I)*WEIGHT(I)
           VX = DY_V(1,I) - DT05*DY_A(1,I)
@@ -1663,8 +1664,8 @@ C---------------------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-	EFAC = R_N2/MAX(EM20,EN_I)
-	EFAC = MIN(ONE,EFAC)
+        EFAC = R_N2/MAX(EM20,EN_I)
+        EFAC = MIN(ONE,EFAC)
 C--------------------------------------------
       RETURN
       END
@@ -1982,7 +1983,7 @@ C------- estimation of A(t+dt) w/ initial velocity------
         DO I=1,NDDL
          W(I)=ZERO
         ENDDO
-	NNZ=IADK(NDDL+1)-IADK(1)
+        NNZ=IADK(NDDL+1)-IADK(1)
        CALL MAV_LT(
      1             NDDL   ,NNZ   ,IADK,JDIK ,DIAG_K,
      2             LT_K   ,U     ,W     )
