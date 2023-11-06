@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
+Chd|  SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F
 Chd|-- called by -----------
 Chd|        DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
 Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
@@ -46,7 +46,7 @@ Chd|        STAT_S_STRSF                  source/output/sta/stat_s_strsf.F
 Chd|        STAT_T_FULL                   source/output/sta/stat_t_full.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE SPMD_STAT_PGATHER(PTV,PTLEN,PTV_P0,PTLEN_P0)
+      SUBROUTINE SPMD_STAT_PGATHER(PTV,PTLEN,PTV_P0,PTLEN_P0)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,18 +62,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER PTLEN,PTLEN_P0,PTV(PTLEN),PTV_P0(0:MAX(1,PTLEN_P0))
+        INTEGER PTLEN,PTLEN_P0,PTV(PTLEN),PTV_P0(0:MAX(1,PTLEN_P0))
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
-     .        MSGTYP,I,J,IAD,IDEB, POLD,
-     .        LENP(NSPMD),DISP(NSPMD)
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
+     .          MSGTYP,I,J,IAD,IDEB, POLD,
+     .          LENP(NSPMD),DISP(NSPMD)
 
 
 
-         
+
         CALL MPI_GATHER(
      S    PTLEN         ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
@@ -105,10 +105,10 @@ C         construit les pointeurs globaux de fin de zone
         END IF
 
 #endif
-       RETURN
-       END
+        RETURN
+      END
 Chd|====================================================================
-Chd|  SPMD_IGET_PARTN_STA           source/mpi/output/spmd_stat.F 
+Chd|  SPMD_IGET_PARTN_STA           source/mpi/output/spmd_stat.F
 Chd|-- called by -----------
 Chd|        DYNAIN_SHEL_SPMD              source/output/dynain/dynain_shel_spmd.F
 Chd|        STAT_BEAM_SPMD                source/output/sta/stat_beam_spmd.F
@@ -142,21 +142,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZE, STAT_NUMEL, STAT_LENELG, LENG, NP(*),
-     .        IADG(NSPMD,*),NPGLOB(*),STAT_INDX(*)
+        INTEGER SIZE, STAT_NUMEL, STAT_LENELG, LENG, NP(*),
+     .          IADG(NSPMD,*),NPGLOB(*),STAT_INDX(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,
-     .        NBF_L,NPT(SIZE*STAT_NUMEL)
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-      DATA MSGOFF/10001/
+        INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,
+     .          NBF_L,NPT(SIZE*STAT_NUMEL)
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+        DATA MSGOFF/10001/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      NBF_L = SIZE*STAT_NUMEL
-      IF (ISPMD/=0) THEN
+        NBF_L = SIZE*STAT_NUMEL
+        IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
 
 
@@ -166,43 +166,43 @@ C-----------------------------------------------
 
         STAT_LENELG=0
 
-      ELSE
+        ELSE
         DO K=1,NBF_L
-           NPGLOB(K) = NP(K)
+        NPGLOB(K) = NP(K)
         ENDDO
         IDEB = NBF_L +  1
 C
         DO K=2,NSPMD
-          MSGTYP=MSGOFF
+        MSGTYP=MSGOFF
 
-          CALL MPI_PROBE(IT_SPMD(K),MSGTYP,
-     .    		   MPI_COMM_WORLD,STATUS,ierror)
-          CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,NB_TMP,ierror)
+        CALL MPI_PROBE(IT_SPMD(K),MSGTYP,
+     .  MPI_COMM_WORLD,STATUS,ierror)
+        CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,NB_TMP,ierror)
 C                                                                     12
-          CALL MPI_RECV(NPGLOB(IDEB),NB_TMP,MPI_INTEGER,IT_SPMD(K),
-     .    		  MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
+        CALL MPI_RECV(NPGLOB(IDEB),NB_TMP,MPI_INTEGER,IT_SPMD(K),
+     .  MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
 
-          IDEB = IDEB + NB_TMP
+        IDEB = IDEB + NB_TMP
         END DO
 
         STAT_LENELG=IDEB/SIZE
-        
-      END IF
+
+        END IF
 C
 #endif
-      RETURN
+        RETURN
       END
 
 Chd|====================================================================
-Chd|  SPMD_DSTAT_VGATH              source/mpi/output/spmd_stat.F 
+Chd|  SPMD_DSTAT_VGATH              source/mpi/output/spmd_stat.F
 Chd|-- called by -----------
 Chd|        DYNAIN_NODE                   source/output/dynain/dynain_node.F
-Chd|        STAT_NODE                     source/output/sta/stat_node.F 
+Chd|        STAT_NODE                     source/output/sta/stat_node.F
 Chd|        STAT_N_VEL                    source/output/sta/state_n_vel.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE SPMD_DSTAT_VGATH(V,NODGLOB,WEIGHT,VGATH,NODTAG,
-     .                             NODTAGLOB)
+      SUBROUTINE SPMD_DSTAT_VGATH(V,NODGLOB,WEIGHT,VGATH,NODTAG,
+     .                            NODTAGLOB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -220,106 +220,106 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       my_real
-     .   V(3,*),VGATH(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
-     .         NODTAGLOB(*)
+        my_real
+     .    V(3,*),VGATH(3,*)
+        INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
+     .          NODTAGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      DATA MSGOFF/10002/
-      DATA MSGOFF2/10002/
-      my_real 
-     .       BUFSR(3,NUMNODM)
-      INTEGER IBUF(NUMNODM)
+        DATA MSGOFF/10002/
+        DATA MSGOFF2/10002/
+        my_real
+     .         BUFSR(3,NUMNODM)
+        INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
-         
-       IF (ISPMD/=0) THEN
 
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (NODTAG(I)/=0) THEN
-             SIZ = SIZ + 1
-             IBUF(SIZ) = NODGLOB(I)
-             BUFSR(1,SIZ) = V(1,I)
-             BUFSR(2,SIZ) = V(2,I) 
-             BUFSR(3,SIZ) = V(3,I) 
-           END IF
-         END DO
+        IF (ISPMD/=0) THEN
+
+        SIZ = 0
+        DO I=1,NUMNOD
+        IF (NODTAG(I)/=0) THEN
+        SIZ = SIZ + 1
+        IBUF(SIZ) = NODGLOB(I)
+        BUFSR(1,SIZ) = V(1,I)
+        BUFSR(2,SIZ) = V(2,I)
+        BUFSR(3,SIZ) = V(3,I)
+        END IF
+        END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+        MSGTYP = MSGOFF2
+        CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .    MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFSR,3*SIZ,REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
-
-          
-       ELSE
-
-          NODTAGLOB(1:NUMNODG)=0
-          DO I=1,NUMNOD
-            IF (NODTAG(I)/=0) THEN
-              NG = NODGLOB(I)
-              NODTAGLOB(NG)=1
-              VGATH(1,NG) = V(1,I)
-              VGATH(2,NG) = V(2,I)
-              VGATH(3,NG) = V(3,I)
-            ENDIF
-          ENDDO
+        MSGTYP = MSGOFF
+        CALL MPI_SEND(BUFSR,3*SIZ,REAL,IT_SPMD(1),MSGTYP,
+     .    MPI_COMM_WORLD,ierror)
 
 
-          DO I=2,NSPMD
+        ELSE
+
+        NODTAGLOB(1:NUMNODG)=0
+        DO I=1,NUMNOD
+        IF (NODTAG(I)/=0) THEN
+        NG = NODGLOB(I)
+        NODTAGLOB(NG)=1
+        VGATH(1,NG) = V(1,I)
+        VGATH(2,NG) = V(2,I)
+        VGATH(3,NG) = V(3,I)
+        ENDIF
+        ENDDO
+
+
+        DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF2 
+        MSGTYP = MSGOFF2
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
-            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+        CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
+     .                MPI_COMM_WORLD,STATUS,ierror)
+        CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+        CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     .              MPI_COMM_WORLD,STATUS,ierror)
 
 C   Reception du buffer flottant double des adresses NODGLOB
 
-            MSGTYP = MSGOFF 
-            CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
-         
-           NREC = SIZ
-           DO K = 1, NREC
-             NG = IBUF(K)
-             NODTAGLOB(NG)=1
-             VGATH(1,NG) = BUFSR(1,K)
-             VGATH(2,NG) = BUFSR(2,K)
-             VGATH(3,NG) = BUFSR(3,K)
-           ENDDO
-          ENDDO
+        MSGTYP = MSGOFF
+        CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
+     .              MPI_COMM_WORLD,STATUS,ierror)
+
+        NREC = SIZ
+        DO K = 1, NREC
+        NG = IBUF(K)
+        NODTAGLOB(NG)=1
+        VGATH(1,NG) = BUFSR(1,K)
+        VGATH(2,NG) = BUFSR(2,K)
+        VGATH(3,NG) = BUFSR(3,K)
+        ENDDO
+        ENDDO
 
 
-       ENDIF
+        ENDIF
 
 #endif
-       RETURN
-       END
+        RETURN
+      END
 Chd|====================================================================
-Chd|  SPMD_DSTAT_GATH               source/mpi/output/spmd_stat.F 
+Chd|  SPMD_DSTAT_GATH               source/mpi/output/spmd_stat.F
 Chd|-- called by -----------
 Chd|        STAT_N_TEMP                   source/output/sta/stat_n_temp.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE SPMD_DSTAT_GATH(V,NODGLOB,WEIGHT,VGATH,NODTAG,
-     .                             NODTAGLOB)
+      SUBROUTINE SPMD_DSTAT_GATH(V,NODGLOB,WEIGHT,VGATH,NODTAG,
+     .                            NODTAGLOB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -337,101 +337,101 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       my_real
-     .   V(*),VGATH(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
-     .         NODTAGLOB(*)
+        my_real
+     .    V(*),VGATH(*)
+        INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
+     .          NODTAGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      DATA MSGOFF/10003/
-      DATA MSGOFF2/10003/
-      my_real 
-     .       BUFSR(NUMNODM)
-      INTEGER IBUF(NUMNODM)
+        DATA MSGOFF/10003/
+        DATA MSGOFF2/10003/
+        my_real
+     .         BUFSR(NUMNODM)
+        INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
-         
-       IF (ISPMD/=0) THEN
 
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (NODTAG(I)/=0) THEN
-             SIZ = SIZ + 1
-             IBUF(SIZ) = NODGLOB(I)
-             BUFSR(SIZ) = V(I)
-           END IF
-         END DO
+        IF (ISPMD/=0) THEN
+
+        SIZ = 0
+        DO I=1,NUMNOD
+        IF (NODTAG(I)/=0) THEN
+        SIZ = SIZ + 1
+        IBUF(SIZ) = NODGLOB(I)
+        BUFSR(SIZ) = V(I)
+        END IF
+        END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+        MSGTYP = MSGOFF2
+        CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .    MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
-
-          
-       ELSE
-
-          NODTAGLOB(1:NUMNODG)=0
-          DO I=1,NUMNOD
-            IF (NODTAG(I)/=0) THEN
-              NG = NODGLOB(I)
-              NODTAGLOB(NG)=1
-              VGATH(NG) = V(I)
-            ENDIF
-          ENDDO
+        MSGTYP = MSGOFF
+        CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MSGTYP,
+     .    MPI_COMM_WORLD,ierror)
 
 
-          DO I=2,NSPMD
+        ELSE
+
+        NODTAGLOB(1:NUMNODG)=0
+        DO I=1,NUMNOD
+        IF (NODTAG(I)/=0) THEN
+        NG = NODGLOB(I)
+        NODTAGLOB(NG)=1
+        VGATH(NG) = V(I)
+        ENDIF
+        ENDDO
+
+
+        DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF2
+        MSGTYP = MSGOFF2
 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
-            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+        CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
+     .                MPI_COMM_WORLD,STATUS,ierror)
+        CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
-            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+        CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     .              MPI_COMM_WORLD,STATUS,ierror)
 
 C   Reception du buffer flottant double des adresses NODGLOB
 
-            MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
-         
-           NREC = SIZ
-           DO K = 1, NREC
-             NG = IBUF(K)
-             NODTAGLOB(NG)=1
-             VGATH(NG) = BUFSR(K)
-           ENDDO
-          ENDDO
+        MSGTYP = MSGOFF
+        CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
+     .              MPI_COMM_WORLD,STATUS,ierror)
+
+        NREC = SIZ
+        DO K = 1, NREC
+        NG = IBUF(K)
+        NODTAGLOB(NG)=1
+        VGATH(NG) = BUFSR(K)
+        ENDDO
+        ENDDO
 
 
-       ENDIF
+        ENDIF
 
 #endif
-       RETURN
-       END
+        RETURN
+      END
 
 
 Chd|====================================================================
-Chd|  SPMD_ISTAT_GATH               source/mpi/output/spmd_stat.F 
+Chd|  SPMD_ISTAT_GATH               source/mpi/output/spmd_stat.F
 Chd|-- called by -----------
 Chd|        STAT_N_BCS                    source/output/sta/stat_n_bcs.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE SPMD_ISTAT_GATH(VI,NODGLOB,VIGATH)
+      SUBROUTINE SPMD_ISTAT_GATH(VI,NODGLOB,VIGATH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -449,43 +449,43 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER  VI(*),VIGATH(*),NODGLOB(*)
+        INTEGER  VI(*),VIGATH(*),NODGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,MSGOFF2
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,MSGOFF2
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC
 
-      DATA MSGOFF/10003/
-      DATA MSGOFF2/10003/
-      INTEGER IBUFN(NUMNODM),IBUFM(NUMNODM)
+        DATA MSGOFF/10003/
+        DATA MSGOFF2/10003/
+        INTEGER IBUFN(NUMNODM),IBUFM(NUMNODM)
 C   Tableau utilise par proc 0
-         
-       IF (ISPMD/=0) THEN
 
-         SIZ = 0
-         DO I=1,NUMNOD
+        IF (ISPMD/=0) THEN
+
+          SIZ = 0
+          DO I=1,NUMNOD
             SIZ = SIZ + 1
             IBUFN(SIZ) = NODGLOB(I)
             IBUFM(SIZ) = VI(I)
-         END DO
+          END DO
 
 C
 
-         MSGTYP = MSGOFF
-         CALL MPI_SEND(IBUFN,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(IBUFN,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF2
-         CALL MPI_SEND(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF2
+          CALL MPI_SEND(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-        
-       ELSE
+
+        ELSE
           DO I=1,NUMNOD
-             NG = NODGLOB(I)
-             VIGATH(NG) = VI(I)
+            NG = NODGLOB(I)
+            VIGATH(NG) = VI(I)
           ENDDO
 
 
@@ -505,20 +505,20 @@ C Reception Integer Buffer of ICODE
             MSGTYP = MSGOFF2
             CALL MPI_RECV(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
-           NREC = SIZ
-           DO K = 1, NREC
-             NG = IBUFN(K)
-             VIGATH(NG) = IBUFM(K)
-           ENDDO
+
+            NREC = SIZ
+            DO K = 1, NREC
+              NG = IBUFN(K)
+              VIGATH(NG) = IBUFM(K)
+            ENDDO
           ENDDO
 
 
-       ENDIF
+        ENDIF
 
 #endif
-       RETURN
-       END
+        RETURN
+      END
 
 
 

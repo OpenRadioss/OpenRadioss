@@ -23,18 +23,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPLIT_JOINT                   source/constraints/general/cyl_joint/split_joint.F
 Chd|-- called by -----------
-Chd|        DOMDEC2                       source/spmd/domdec2.F         
+Chd|        DOMDEC2                       source/spmd/domdec2.F
 Chd|-- calls ---------------
-Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
-Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
+Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
+Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F
+Chd|        NLOCAL                        source/spmd/node/ddtools.F
+Chd|        JOINT_MOD                     share/modules1/joint_mod.F
 Chd|====================================================================
-        SUBROUTINE SPLIT_JOINT( )
+      SUBROUTINE SPLIT_JOINT( )
 !$COMMENT
 !       SPLIT_JOINT description
 !       split the node (secondary & main node) on the different processor
-!       
+!
 !       SPLIT_JOINT organization :
 !       loop over the joint :
 !           - for each joint, loop over the node to find where is the node
@@ -67,7 +67,7 @@ C-----------------------------------------------
 
         INTEGER :: PROC,PROC_NUMBER_1,PROC_NUMBER_2
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST_1,PROC_LIST_2
-        INTEGER, EXTERNAL :: NLOCAL  
+        INTEGER, EXTERNAL :: NLOCAL
 
         LOGICAL, DIMENSION(:), ALLOCATABLE :: CHECK_MAIN
         TYPE(joint_main_node), DIMENSION(:), ALLOCATABLE :: MAIN_AND_SECONDARY
@@ -80,33 +80,33 @@ C=======================================================================
         ALLOCATE( CHECK_MAIN(NUMNOD) )
         CHECK_MAIN(1:NUMNOD) = .false.
         DO I=1,NJOINT
-            DO J=1,2
-                N = CYL_JOIN(I)%MAIN_NODE(J)
-                CHECK_MAIN(N) = .true.
-            ENDDO
+          DO J=1,2
+            N = CYL_JOIN(I)%MAIN_NODE(J)
+            CHECK_MAIN(N) = .true.
+          ENDDO
         ENDDO
         ALLOCATE( MAIN_AND_SECONDARY(NUMNOD) )
-        
+
         MAIN_AND_SECONDARY(1:NUMNOD)%ID_JOINT = 0
         MAIN_AND_SECONDARY(1:NUMNOD)%NB_PROC = 0
 
-        DO I=1,NJOINT                
+        DO I=1,NJOINT
+          PROC_LIST(1:NSPMD) = -1
+          PROC_NUMBER = 0
+          ALLOCATE( CYL_JOIN(I)%PROC(NSPMD) )
+          CYL_JOIN(I)%NB_NODE(1:NSPMD) = 0
+          CYL_JOIN(I)%PROC(1:NSPMD)%NB_NODE_WEIGHT = 0
+          NS = CYL_JOIN(I)%NB_SECONDARY_NODE
+          DO LJ=1,NS
+            !   ----------------------
+            !   check where is the secondary node
             PROC_LIST(1:NSPMD) = -1
             PROC_NUMBER = 0
-            ALLOCATE( CYL_JOIN(I)%PROC(NSPMD) )
-            CYL_JOIN(I)%NB_NODE(1:NSPMD) = 0
-            CYL_JOIN(I)%PROC(1:NSPMD)%NB_NODE_WEIGHT = 0
-            NS = CYL_JOIN(I)%NB_SECONDARY_NODE
-            DO LJ=1,NS
-                !   ----------------------
-                !   check where is the secondary node 
-                    PROC_LIST(1:NSPMD) = -1
-                    PROC_NUMBER = 0
-                    NN = CYL_JOIN(I)%SECONDARY_NODE(LJ)
-	                CALL PLIST_IFRONT(PROC_LIST,NN,PROC_NUMBER)
-                    !returns in "PROC_LIST" array list of SPMD domains on which node I is sticked
-                    !PROC_NUMBER is the number of SPMD domains on which node I is sticked
-                    
+            NN = CYL_JOIN(I)%SECONDARY_NODE(LJ)
+            CALL PLIST_IFRONT(PROC_LIST,NN,PROC_NUMBER)
+            !returns in "PROC_LIST" array list of SPMD domains on which node I is sticked
+            !PROC_NUMBER is the number of SPMD domains on which node I is sticked
+
 !                    IF( CHECK_MAIN(NN) ) THEN
 !                        MAIN_AND_SECONDARY(NN)%ID_JOINT = I
 !                        MAIN_AND_SECONDARY(NN)%NB_PROC = PROC_NUMBER
@@ -114,105 +114,105 @@ C=======================================================================
 !                        MAIN_AND_SECONDARY(NN)%PROC_LIST(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
 !                    ENDIF
 
-                    ! add the secondary node to the CYL_JOINT structure for proc P
-                    ! for the restart writing
-                    DO II=1,PROC_NUMBER
-                        P = PROC_LIST(II)
-                        CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
-                        IF(.NOT.ALLOCATED(CYL_JOIN(I)%PROC(P)%NODE)) ALLOCATE( CYL_JOIN(I)%PROC(P)%NODE(NS) )
-                        CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(LJ)
-                        WEIGHT = 0
-                        IF(II==1) WEIGHT = 1
-                        IF(.NOT.ALLOCATED(CYL_JOIN(I)%PROC(P)%WEIGHT)) ALLOCATE( CYL_JOIN(I)%PROC(P)%WEIGHT(NS) )
-                        CYL_JOIN(I)%PROC(P)%WEIGHT( CYL_JOIN(I)%NB_NODE(P) ) = WEIGHT
-                        IF(WEIGHT==1) CYL_JOIN(I)%PROC(P)%NB_NODE_WEIGHT = CYL_JOIN(I)%PROC(P)%NB_NODE_WEIGHT + 1
-                    ENDDO
-                !   ----------------------
+            ! add the secondary node to the CYL_JOINT structure for proc P
+            ! for the restart writing
+            DO II=1,PROC_NUMBER
+              P = PROC_LIST(II)
+              CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
+              IF(.NOT.ALLOCATED(CYL_JOIN(I)%PROC(P)%NODE)) ALLOCATE( CYL_JOIN(I)%PROC(P)%NODE(NS) )
+              CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(LJ)
+              WEIGHT = 0
+              IF(II==1) WEIGHT = 1
+              IF(.NOT.ALLOCATED(CYL_JOIN(I)%PROC(P)%WEIGHT)) ALLOCATE( CYL_JOIN(I)%PROC(P)%WEIGHT(NS) )
+              CYL_JOIN(I)%PROC(P)%WEIGHT( CYL_JOIN(I)%NB_NODE(P) ) = WEIGHT
+              IF(WEIGHT==1) CYL_JOIN(I)%PROC(P)%NB_NODE_WEIGHT = CYL_JOIN(I)%PROC(P)%NB_NODE_WEIGHT + 1
             ENDDO
-            K=K+NS+1
+            !   ----------------------
+          ENDDO
+          K=K+NS+1
         ENDDO
 
         !   ----------------------
         ! loop over the CYL_JOINT in order to find the proc main
-        ! and add the main nodes to the processor where at least 1 
+        ! and add the main nodes to the processor where at least 1
         ! secondary node is present
         K = 0
-        DO I=1,NJOINT                
-            PROC_LIST(1:NSPMD) = -1
-            PROC_NUMBER = 0
-            NS = CYL_JOIN(I)%NB_SECONDARY_NODE
-            NB_NODE = 0
-            PROC_NUMBER = 0
-            CYL_JOIN(I)%PROC_MAIN = -1
-            PROC_LIST(1:NSPMD) = 0
-            DO P=1,NSPMD
-                IF(CYL_JOIN(I)%NB_NODE(P)>0) THEN
-                    PROC_NUMBER = PROC_NUMBER + 1
-                    PROC_LIST(PROC_NUMBER) = P
-                    NB_NODE = CYL_JOIN(I)%NB_NODE(P)
-                    !   add the 2 main nodes on each proc
-                    DO IJK = 1,2
-                        M1 = CYL_JOIN(I)%MAIN_NODE(IJK)
-                        IF(NLOCAL(M1,P)==0) THEN
-                            CALL IFRONTPLUS(M1,P)
-                            CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
-                            CYL_JOIN(I)%PROC(P)%WEIGHT( CYL_JOIN(I)%NB_NODE(P) ) = 0
-                            CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(IJK)
-                        ENDIF
-                    ENDDO
-                    IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MAIN = P
+        DO I=1,NJOINT
+          PROC_LIST(1:NSPMD) = -1
+          PROC_NUMBER = 0
+          NS = CYL_JOIN(I)%NB_SECONDARY_NODE
+          NB_NODE = 0
+          PROC_NUMBER = 0
+          CYL_JOIN(I)%PROC_MAIN = -1
+          PROC_LIST(1:NSPMD) = 0
+          DO P=1,NSPMD
+            IF(CYL_JOIN(I)%NB_NODE(P)>0) THEN
+              PROC_NUMBER = PROC_NUMBER + 1
+              PROC_LIST(PROC_NUMBER) = P
+              NB_NODE = CYL_JOIN(I)%NB_NODE(P)
+              !   add the 2 main nodes on each proc
+              DO IJK = 1,2
+                M1 = CYL_JOIN(I)%MAIN_NODE(IJK)
+                IF(NLOCAL(M1,P)==0) THEN
+                  CALL IFRONTPLUS(M1,P)
+                  CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
+                  CYL_JOIN(I)%PROC(P)%WEIGHT( CYL_JOIN(I)%NB_NODE(P) ) = 0
+                  CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(IJK)
                 ENDIF
+              ENDDO
+              IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MAIN = P
+            ENDIF
 !                M1 = CYL_JOIN(I)%MAIN_NODE(1)
 !                M2 = CYL_JOIN(I)%MAIN_NODE(2)
 !                IF(NLOCAL(M1,P)==1) CALL IFRONTPLUS(M2,P)
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
-            ENDDO
-            CYL_JOIN(I)%NUMBER_PROC = PROC_NUMBER
-            ALLOCATE( CYL_JOIN(I)%LIST_PROC( PROC_NUMBER ) )
-            CYL_JOIN(I)%LIST_PROC(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
-            K=K+NS+1
+          ENDDO
+          CYL_JOIN(I)%NUMBER_PROC = PROC_NUMBER
+          ALLOCATE( CYL_JOIN(I)%LIST_PROC( PROC_NUMBER ) )
+          CYL_JOIN(I)%LIST_PROC(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
+          K=K+NS+1
         ENDDO
 
 
 
-        DO I=NJOINT,1,-1         
-            PROC_LIST(1:NSPMD) = -1
-            PROC_NUMBER = 0
-            NS = CYL_JOIN(I)%NB_SECONDARY_NODE
-            NB_NODE = 0
-            PROC_NUMBER = 0
-            CYL_JOIN(I)%PROC_MAIN = -1
-            PROC_LIST(1:NSPMD) = 0
-            DO P=1,NSPMD
-                IF(CYL_JOIN(I)%NB_NODE(P)>0) THEN
-                    PROC_NUMBER = PROC_NUMBER + 1
-                    PROC_LIST(PROC_NUMBER) = P
-                    NB_NODE = CYL_JOIN(I)%NB_NODE(P)
-                    !   add the 2 main nodes on each proc
-                    DO IJK = 1,2
-                        M1 = CYL_JOIN(I)%MAIN_NODE(IJK)
-                        IF(NLOCAL(M1,P)==0) THEN
-                            CALL IFRONTPLUS(M1,P)
-                            CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
-                            CYL_JOIN(I)%PROC(P)%WEIGHT( CYL_JOIN(I)%NB_NODE(P) ) = 0
-                            CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(IJK)
-                        ENDIF
-                    ENDDO
-                    IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MAIN = P
+        DO I=NJOINT,1,-1
+          PROC_LIST(1:NSPMD) = -1
+          PROC_NUMBER = 0
+          NS = CYL_JOIN(I)%NB_SECONDARY_NODE
+          NB_NODE = 0
+          PROC_NUMBER = 0
+          CYL_JOIN(I)%PROC_MAIN = -1
+          PROC_LIST(1:NSPMD) = 0
+          DO P=1,NSPMD
+            IF(CYL_JOIN(I)%NB_NODE(P)>0) THEN
+              PROC_NUMBER = PROC_NUMBER + 1
+              PROC_LIST(PROC_NUMBER) = P
+              NB_NODE = CYL_JOIN(I)%NB_NODE(P)
+              !   add the 2 main nodes on each proc
+              DO IJK = 1,2
+                M1 = CYL_JOIN(I)%MAIN_NODE(IJK)
+                IF(NLOCAL(M1,P)==0) THEN
+                  CALL IFRONTPLUS(M1,P)
+                  CYL_JOIN(I)%NB_NODE(P) = CYL_JOIN(I)%NB_NODE(P) + 1
+                  CYL_JOIN(I)%PROC(P)%WEIGHT( CYL_JOIN(I)%NB_NODE(P) ) = 0
+                  CYL_JOIN(I)%PROC(P)%NODE( CYL_JOIN(I)%NB_NODE(P) ) = CYL_JOIN(I)%SECONDARY_NODE(IJK)
                 ENDIF
+              ENDDO
+              IF(CYL_JOIN(I)%NB_NODE(P)>=NB_NODE) CYL_JOIN(I)%PROC_MAIN = P
+            ENDIF
 !                M1 = CYL_JOIN(I)%MAIN_NODE(1)
 !                M2 = CYL_JOIN(I)%MAIN_NODE(2)
 !                IF(NLOCAL(M1,P)==1) CALL IFRONTPLUS(M2,P)
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
-            ENDDO
-            K=K+NS+1
+          ENDDO
+          K=K+NS+1
         ENDDO
 
 
         !   ----------------------
         ! check : if a main node is on a processor, need to add the other main node
 !        K = 0
-!        DO I=1,NJOINT                
+!        DO I=1,NJOINT
 !            PROC_LIST(1:NSPMD) = -1
 !            PROC_NUMBER = 0
 !            NS = CYL_JOIN(I)%NB_SECONDARY_NODE
@@ -239,7 +239,7 @@ C=======================================================================
         DEALLOCATE( MAIN_AND_SECONDARY )
 
         RETURN
-        END SUBROUTINE SPLIT_JOINT
+      END SUBROUTINE SPLIT_JOINT
 
 
 
@@ -248,10 +248,10 @@ Chd|====================================================================
 Chd|  print_JOINT                   source/constraints/general/cyl_joint/split_joint.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
-Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
+Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F
+Chd|        JOINT_MOD                     share/modules1/joint_mod.F
 Chd|====================================================================
-        SUBROUTINE print_JOINT(a)
+      SUBROUTINE print_JOINT(a)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -273,46 +273,46 @@ C-----------------------------------------------
         INTEGER :: WEIGHT,M1,M2
         INTEGER :: P,PROC_NUMBER,NB_NODE
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST
-      INTEGER, EXTERNAL :: NLOCAL  
+        INTEGER, EXTERNAL :: NLOCAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 
 C=======================================================================
         K = 0
-        DO I=1,NJOINT                
-            PROC_LIST(1:NSPMD) = -1
-            PROC_NUMBER = 0
-            NS = CYL_JOIN(I)%NB_SECONDARY_NODE
+        DO I=1,NJOINT
+          PROC_LIST(1:NSPMD) = -1
+          PROC_NUMBER = 0
+          NS = CYL_JOIN(I)%NB_SECONDARY_NODE
 
-            NB_NODE = 0
-            PROC_NUMBER = 0
-            CYL_JOIN(I)%PROC_MAIN = -1
-            PROC_LIST(1:NSPMD) = 0
-            DO P=1,NSPMD
-                M1 = CYL_JOIN(I)%MAIN_NODE(1)
-                M2 = CYL_JOIN(I)%MAIN_NODE(2)
+          NB_NODE = 0
+          PROC_NUMBER = 0
+          CYL_JOIN(I)%PROC_MAIN = -1
+          PROC_LIST(1:NSPMD) = 0
+          DO P=1,NSPMD
+            M1 = CYL_JOIN(I)%MAIN_NODE(1)
+            M2 = CYL_JOIN(I)%MAIN_NODE(2)
 !                IF(NLOCAL(M1,P)==1) CALL IFRONTPLUS(M2,P)
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
 !                print*,' split_joint :',p,NLOCAL(M1,P),NLOCAL(M2,P)
-            ENDDO
+          ENDDO
 !            CYL_JOIN(I)%NUMBER_PROC = PROC_NUMBER
 !            ALLOCATE( CYL_JOIN(I)%LIST_PROC( PROC_NUMBER ) )
 !            CYL_JOIN(I)%LIST_PROC(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
-            K=K+NS+1
+          K=K+NS+1
 
-                    PROC_NUMBER = 0
-        CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MAIN_NODE(1),PROC_NUMBER)
-        print*,' ------- '
-        print*,i,' M1:',a,PROC_LIST(1:PROC_NUMBER)
-                    PROC_NUMBER = 0
-        CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MAIN_NODE(2),PROC_NUMBER)
-        print*,i,' M2:',a,PROC_LIST(1:PROC_NUMBER)
-        print*,' ------- '
-        print*,' '
+          PROC_NUMBER = 0
+          CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MAIN_NODE(1),PROC_NUMBER)
+          print*,' ------- '
+          print*,i,' M1:',a,PROC_LIST(1:PROC_NUMBER)
+          PROC_NUMBER = 0
+          CALL PLIST_IFRONT(PROC_LIST,CYL_JOIN(I)%MAIN_NODE(2),PROC_NUMBER)
+          print*,i,' M2:',a,PROC_LIST(1:PROC_NUMBER)
+          print*,' ------- '
+          print*,' '
 
         ENDDO
 
 
         RETURN
-        END SUBROUTINE print_JOINT
+      END SUBROUTINE print_JOINT

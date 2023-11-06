@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_CHK_A                    source/mpi/ams/spmd_chk_a.F   
+Chd|  SPMD_CHK_A                    source/mpi/ams/spmd_chk_a.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -46,83 +46,83 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IAD_ELEM(2,*),FR_ELEM(*), LENR,ITAB(*)
-      my_real
-     .        A(3,*)
+        INTEGER IAD_ELEM(2,*),FR_ELEM(*), LENR,ITAB(*)
+        my_real
+     .          A(3,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, MSGOFF,
-     .        SIZ,J,K,L,NB_NOD,SIZE,N,INDEX,
-     .        STATUS(MPI_STATUS_SIZE),
-     .        REQ_R(NSPMD),REQ_S(NSPMD),IFIL,FILEN
-      DATA MSGOFF/1221/
+        INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, MSGOFF,
+     .          SIZ,J,K,L,NB_NOD,SIZE,N,INDEX,
+     .          STATUS(MPI_STATUS_SIZE),
+     .          REQ_R(NSPMD),REQ_S(NSPMD),IFIL,FILEN
+        DATA MSGOFF/1221/
 
-      DOUBLE PRECISION
-     .        RBUF(3*LENR,NSPMD-1), SBUF(3*LENR ),AX,AY,AZ
-      CHARACTER FILNAM*100,CYCLENUM*7
+        DOUBLE PRECISION
+     .          RBUF(3*LENR,NSPMD-1), SBUF(3*LENR ),AX,AY,AZ
+        CHARACTER FILNAM*100,CYCLENUM*7
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      SIZE = 3
-      LOC_PROC = ISPMD + 1
-      IF(ISPMD==0) THEN
+        SIZE = 3
+        LOC_PROC = ISPMD + 1
+        IF(ISPMD==0) THEN
         DO I = 2, NSPMD
-	  SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-          MSGTYP=MSGOFF 
-          CALL MPI_IRECV(RBUF(1,I-1),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     .                   MPI_COMM_WORLD,REQ_R(I-1),IERROR)
+        SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+        MSGTYP=MSGOFF
+        CALL MPI_IRECV(RBUF(1,I-1),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
+     .                 MPI_COMM_WORLD,REQ_R(I-1),IERROR)
         END DO
-	IFIL = IDBG5+2
+        IFIL = IDBG5+2
         WRITE(CYCLENUM,'(I7.7)')NCYCLE
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.dadb'
 
-       OPEN(UNIT=IFIL,FILE=FILNAM,ACCESS='SEQUENTIAL',
-     .                  FORM='FORMATTED',STATUS='UNKNOWN')
+        OPEN(UNIT=IFIL,FILE=FILNAM,ACCESS='SEQUENTIAL',
+     .                   FORM='FORMATTED',STATUS='UNKNOWN')
 
-       FILEN = ROOTLEN+18
+        FILEN = ROOTLEN+18
 C
         NB_NOD = 0
         DO N = 1, NSPMD-1
-          CALL MPI_WAITANY(NSPMD-1,REQ_R,INDEX,STATUS,IERROR)
-          I = INDEX+1
-	  L=1
-          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
-            NOD = FR_ELEM(J)
-            AX = RBUF(L,INDEX)  -A(1,NOD)
-            AY = RBUF(L+1,INDEX)-A(2,NOD)
-            AZ = RBUF(L+2,INDEX)-A(3,NOD)
-           IF (AX/=ZERO.OR.AY/=ZERO.OR.AZ/=ZERO) THEN
-            WRITE(IFIL,'(A,I10,I10,1P5E20.13)' ) '>',I,ITAB(NOD),AX,AY,AZ,RBUF(L,INDEX),A(1,NOD)
-             NB_NOD = NB_NOD + 1
-           ENDIF
-            L = L + SIZE
-          END DO
+        CALL MPI_WAITANY(NSPMD-1,REQ_R,INDEX,STATUS,IERROR)
+        I = INDEX+1
+        L=1
+        DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+        NOD = FR_ELEM(J)
+        AX = RBUF(L,INDEX)  -A(1,NOD)
+        AY = RBUF(L+1,INDEX)-A(2,NOD)
+        AZ = RBUF(L+2,INDEX)-A(3,NOD)
+        IF (AX/=ZERO.OR.AY/=ZERO.OR.AZ/=ZERO) THEN
+        WRITE(IFIL,'(A,I10,I10,1P5E20.13)' ) '>',I,ITAB(NOD),AX,AY,AZ,RBUF(L,INDEX),A(1,NOD)
+        NB_NOD = NB_NOD + 1
+        ENDIF
+        L = L + SIZE
+        END DO
         END DO
         WRITE (ISTDO,1300) FILNAM(1:FILEN),NB_NOD
         WRITE (IOUT,1300) FILNAM(1:FILEN),NB_NOD
         CLOSE(UNIT=IFIL)
 C
-      ELSE
+        ELSE
 C preparation envoi  partie fixe (elem) a proc I
-          I = 1
-	  SIZ = 0
-          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
-            NOD = FR_ELEM(J)
-            SBUF(SIZ+1  ) =  A(1,NOD)
-            SBUF(SIZ+2) =  A(2,NOD)
-            SBUF(SIZ+3) =  A(3,NOD)
-            SIZ = SIZ + SIZE
-          END DO
-        MSGTYP = MSGOFF 
+        I = 1
+        SIZ = 0
+        DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+        NOD = FR_ELEM(J)
+        SBUF(SIZ+1  ) =  A(1,NOD)
+        SBUF(SIZ+2) =  A(2,NOD)
+        SBUF(SIZ+3) =  A(3,NOD)
+        SIZ = SIZ + SIZE
+        END DO
+        MSGTYP = MSGOFF
         CALL MPI_SEND(SBUF,SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(1),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
-     
-      END IF
+
+        END IF
 C
 #endif
-      RETURN
+        RETURN
  1300   FORMAT (4X,' DEBUG FILE:',1X,A,' WRITTEN; ','W/ Num of Diff:',I8)
       END
 C

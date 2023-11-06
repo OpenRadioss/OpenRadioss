@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
+Chd|        RESOL_INIT                    source/engine/resol_init.F
 Chd|-- calls ---------------
 Chd|        CONNECTION_SOCK_C             source/coupling/rad2rad/rad2rad_c.c
 Chd|        GET_FBUF_C                    source/coupling/rad2rad/rad2rad_c.c
@@ -50,14 +50,14 @@ Chd|        SEND_MASS_RBY_SPMD            source/coupling/rad2rad/r2r_init.F
 Chd|        SEND_MASS_SPMD                source/coupling/rad2rad/r2r_init.F
 Chd|        SEND_SOCK_INIT_C              source/coupling/rad2rad/rad2rad_c.c
 Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
-Chd|        SPMD_EXCH_R2R                 source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_EXCH_R2R_RBY             source/mpi/r2r/spmd_r2r.F     
+Chd|        SPMD_EXCH_R2R                 source/mpi/r2r/spmd_r2r.F
+Chd|        SPMD_EXCH_R2R_RBY             source/mpi/r2r/spmd_r2r.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        SPMD_R2R_SYNC                 source/mpi/r2r/spmd_r2r.F     
+Chd|        SPMD_R2R_SYNC                 source/mpi/r2r/spmd_r2r.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
+Chd|        RAD2R_MOD                     share/modules/rad2r.F
 Chd|====================================================================
       SUBROUTINE R2R_INIT(IEXLNK  ,ITAB,IGRNOD,X      ,
      2                    MS      ,IN  ,DD_R2R,WEIGHT ,IAD_ELEM,
@@ -219,7 +219,7 @@ C
             GRNOD => IGRNOD(IDG)%ENTITY
 !
             IF (IDP>NBK) NBK = IDP
-C------	determination of the type of the interface
+C------  determination of the type of the interface
             CALL SEND_IBUF_C(IDP,1)
             CALL GET_IBUF_C(TYPLNK(IEX),1)
             CALL GET_IBUF_C(MAIN_SIDE,1)
@@ -432,7 +432,7 @@ C----- ----- ----- ----- ----- -----
             IDP  = IEXLNK(2,IEX)
             NNG  = IGRNOD(IDG)%NENTITY
             GRNOD => IGRNOD(IDG)%ENTITY
-C------	determination of the type of interface and link
+C------  determination of the type of interface and link
             IF (IDP>NBK) NBK = IDP
             IF(ISPMD==0) THEN
               CALL SEND_IBUF_C(IDP,1)
@@ -534,12 +534,12 @@ Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|-- calls ---------------
 Chd|        INIT_BUF_SPMD_C               source/coupling/rad2rad/rad2rad_c.c
 Chd|        INIT_LINK_SPMD_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_R2R_IDEF                 source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_R2R_IGET2                source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_R2R_IGET4                source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_R2R_RGET3                source/mpi/r2r/spmd_r2r.F     
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
+Chd|        SPMD_R2R_IDEF                 source/mpi/r2r/spmd_r2r.F
+Chd|        SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F
+Chd|        SPMD_R2R_IGET2                source/mpi/r2r/spmd_r2r.F
+Chd|        SPMD_R2R_IGET4                source/mpi/r2r/spmd_r2r.F
+Chd|        SPMD_R2R_RGET3                source/mpi/r2r/spmd_r2r.F
+Chd|        RAD2R_MOD                     share/modules/rad2r.F
 Chd|====================================================================
       SUBROUTINE INIT_LINK_SPMD(
      1   IDP   ,NNG   ,ITAB ,GRNOD,X,
@@ -609,8 +609,8 @@ C*******************************************************************************
 C      DO J = 1, NFXVEL
 C       DO K = 1, NNG
 C         IF ((IBFV(1,J)==GRNOD(K)).AND.(IBFV(2,J)>0)) THEN
-C	  BCS(K) =  BCS(K) +100 ;
-C	 ENDIF
+C    BCS(K) =  BCS(K) +100 ;
+C   ENDIF
 C       END DO
 C      END DO
 
@@ -702,7 +702,7 @@ Chd|-- called by -----------
 Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|-- calls ---------------
 Chd|        SEND_MASS_SPMD_C              source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_R2R_RGET                 source/mpi/r2r/spmd_r2r.F     
+Chd|        SPMD_R2R_RGET                 source/mpi/r2r/spmd_r2r.F
 Chd|====================================================================
       SUBROUTINE SEND_MASS_SPMD(
      1   IDP      ,NNG   ,GRNOD, MS, IN,
@@ -743,7 +743,7 @@ Chd|-- called by -----------
 Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|-- calls ---------------
 Chd|        GET_MASS_SPMD_C               source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_R2R_RSET4                source/mpi/r2r/spmd_r2r.F     
+Chd|        SPMD_R2R_RSET4                source/mpi/r2r/spmd_r2r.F
 Chd|====================================================================
       SUBROUTINE GET_MASS_SPMD(
      1   IDP      ,NNG   ,GRNOD,MS      ,IN,DD_R2R   ,
@@ -790,9 +790,9 @@ Chd|-- called by -----------
 Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|-- calls ---------------
 Chd|        SEND_MASS_RBY_SPMD_C          source/coupling/rad2rad/rad2rad_c.c
-Chd|        SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F     
-Chd|        SPMD_R2R_RGET                 source/mpi/r2r/spmd_r2r.F     
-Chd|        RAD2R_MOD                     share/modules/rad2r.F         
+Chd|        SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F
+Chd|        SPMD_R2R_RGET                 source/mpi/r2r/spmd_r2r.F
+Chd|        RAD2R_MOD                     share/modules/rad2r.F
 Chd|====================================================================
       SUBROUTINE SEND_MASS_RBY_SPMD(
      1   IDP      ,NNG   ,GRNOD, MS, IN,
@@ -875,7 +875,7 @@ Chd|-- calls ---------------
 Chd|        GET_MASS_RBY_SPMD_C           source/coupling/rad2rad/rad2rad_c.c
 Chd|        R2R_RBY                       source/coupling/rad2rad/r2r_init.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
-Chd|        SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F     
+Chd|        SPMD_R2R_IGET                 source/mpi/r2r/spmd_r2r.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|====================================================================
       SUBROUTINE GET_MASS_RBY_SPMD(

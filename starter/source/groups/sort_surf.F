@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SORT_SURF                     source/groups/sort_surf.F     
+Chd|  SORT_SURF                     source/groups/sort_surf.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,72 +45,72 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IXC(NIXC,*),IXTG(NIXTG,*),IXQ(NIXQ,*)
+        INTEGER IXS(NIXS,*),IXC(NIXC,*),IXTG(NIXTG,*),IXQ(NIXQ,*)
 !
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+        TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IAD_L,NN,ELEM,ELEM_G,N1,N2,N3,N4,ITYP,K,
-     *        IADG2,IADIBUF,IT,IAD
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFSSG_TRI,IWORK,INDEX
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
+        INTEGER I,J,IAD_L,NN,ELEM,ELEM_G,N1,N2,N3,N4,ITYP,K,
+     *          IADG2,IADIBUF,IT,IAD
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFSSG_TRI,IWORK,INDEX
+        INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
 
-      ALLOCATE (IWORK(80000))
-        
-      DO K=1,NSURF
-        NN  = IGRSURF(K)%NSEG
+        ALLOCATE (IWORK(80000))
 
-        ALLOCATE (IBUFSSG_TRI(NISX*NN))
-        ALLOCATE (ITRI(2,NN))
-        ALLOCATE (INDEX(3*NN))
+        DO K=1,NSURF
+          NN  = IGRSURF(K)%NSEG
 
-        DO I=1,NN
-          IBUFSSG_TRI(6*(I-1)+1) = IGRSURF(K)%NODES(I,1)
-          IBUFSSG_TRI(6*(I-1)+2) = IGRSURF(K)%NODES(I,2)
-          IBUFSSG_TRI(6*(I-1)+3) = IGRSURF(K)%NODES(I,3)
-          IBUFSSG_TRI(6*(I-1)+4) = IGRSURF(K)%NODES(I,4)
-          IBUFSSG_TRI(6*(I-1)+5) = IGRSURF(K)%ELTYP(I)
-          IBUFSSG_TRI(6*(I-1)+6) = IGRSURF(K)%ELEM(I)
+          ALLOCATE (IBUFSSG_TRI(NISX*NN))
+          ALLOCATE (ITRI(2,NN))
+          ALLOCATE (INDEX(3*NN))
 
-          ITYP = IGRSURF(K)%ELTYP(I)
-          ELEM = IGRSURF(K)%ELEM(I)
+          DO I=1,NN
+            IBUFSSG_TRI(6*(I-1)+1) = IGRSURF(K)%NODES(I,1)
+            IBUFSSG_TRI(6*(I-1)+2) = IGRSURF(K)%NODES(I,2)
+            IBUFSSG_TRI(6*(I-1)+3) = IGRSURF(K)%NODES(I,3)
+            IBUFSSG_TRI(6*(I-1)+4) = IGRSURF(K)%NODES(I,4)
+            IBUFSSG_TRI(6*(I-1)+5) = IGRSURF(K)%ELTYP(I)
+            IBUFSSG_TRI(6*(I-1)+6) = IGRSURF(K)%ELEM(I)
 
-          ITRI(1,I) = ITYP
-          SELECT CASE (ITYP)
-            CASE ( 0 ) 
-               ITRI(2,I) = 0
-            CASE ( 1 )
-               ITRI(2,I) = IXS(NIXS,ELEM)
-            CASE ( 2 )
-               ITRI(2,I) = IXQ(NIXQ,ELEM)
-            CASE ( 3 )
-               ITRI(2,I) = IXC(NIXC,ELEM)
-            CASE ( 7 )
-               ITRI(2,I) = IXTG(NIXTG,ELEM)
-          END SELECT
+            ITYP = IGRSURF(K)%ELTYP(I)
+            ELEM = IGRSURF(K)%ELEM(I)
 
-          INDEX(I) = I 
+            ITRI(1,I) = ITYP
+            SELECT CASE (ITYP)
+             CASE ( 0 )
+              ITRI(2,I) = 0
+             CASE ( 1 )
+              ITRI(2,I) = IXS(NIXS,ELEM)
+             CASE ( 2 )
+              ITRI(2,I) = IXQ(NIXQ,ELEM)
+             CASE ( 3 )
+              ITRI(2,I) = IXC(NIXC,ELEM)
+             CASE ( 7 )
+              ITRI(2,I) = IXTG(NIXTG,ELEM)
+            END SELECT
 
-         ENDDO 
+            INDEX(I) = I
 
-         CALL MY_ORDERS(0,IWORK,ITRI,INDEX,NN,2)
+          ENDDO
 
-         DO I=1,NN
-          IT = INDEX(I)
-          IGRSURF(K)%NODES(I,1) = IBUFSSG_TRI(6*(IT-1)+1)
-          IGRSURF(K)%NODES(I,2) = IBUFSSG_TRI(6*(IT-1)+2)
-          IGRSURF(K)%NODES(I,3) = IBUFSSG_TRI(6*(IT-1)+3)
-          IGRSURF(K)%NODES(I,4) = IBUFSSG_TRI(6*(IT-1)+4)
-          IGRSURF(K)%ELTYP(I)	= IBUFSSG_TRI(6*(IT-1)+5)
-          IGRSURF(K)%ELEM(I)	= IBUFSSG_TRI(6*(IT-1)+6)
-         ENDDO
+          CALL MY_ORDERS(0,IWORK,ITRI,INDEX,NN,2)
 
-         DEALLOCATE(IBUFSSG_TRI)
-         DEALLOCATE(ITRI)
-         DEALLOCATE(INDEX)
+          DO I=1,NN
+            IT = INDEX(I)
+            IGRSURF(K)%NODES(I,1) = IBUFSSG_TRI(6*(IT-1)+1)
+            IGRSURF(K)%NODES(I,2) = IBUFSSG_TRI(6*(IT-1)+2)
+            IGRSURF(K)%NODES(I,3) = IBUFSSG_TRI(6*(IT-1)+3)
+            IGRSURF(K)%NODES(I,4) = IBUFSSG_TRI(6*(IT-1)+4)
+            IGRSURF(K)%ELTYP(I)  = IBUFSSG_TRI(6*(IT-1)+5)
+            IGRSURF(K)%ELEM(I)  = IBUFSSG_TRI(6*(IT-1)+6)
+          ENDDO
 
-      ENDDO ! DO K=1,NSURF
+          DEALLOCATE(IBUFSSG_TRI)
+          DEALLOCATE(ITRI)
+          DEALLOCATE(INDEX)
+
+        ENDDO ! DO K=1,NSURF
 !---
-      RETURN
+        RETURN
       END

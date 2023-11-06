@@ -24,20 +24,20 @@ C
 Chd|====================================================================
 Chd|  SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
 Chd|-- called by -----------
-Chd|        FVSTATS                       source/airbag/fvstats.F       
+Chd|        FVSTATS                       source/airbag/fvstats.F
 Chd|        FXBYPID                       source/constraints/fxbody/fxbypid.F
-Chd|        LECTUR                        source/input/lectur.F         
+Chd|        LECTUR                        source/input/lectur.F
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|        SZ_PRINT                      source/output/restart/arralloc.F
 Chd|-- calls ---------------
-Chd|        IO_MOD                        share/modules/io_mod.F        
+Chd|        IO_MOD                        share/modules/io_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_WIOUT(IOUT,IWIOUT)
 C ecrit le buffer L01 sur p0
-      USE MESSAGE_MOD 
-      USE IO_MOD
+        USE MESSAGE_MOD
+        USE IO_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,90 +56,90 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IOUT, IWIOUT
+        INTEGER IOUT, IWIOUT
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,LOC_PROC,
-     .        BUFSIZ,MSGOFF,SIZ,I,P,LEN,N,II,
-     .        IOS,STATUS(MPI_STATUS_SIZE),IERROR,IBLANC,LNEW
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IWA
+        INTEGER MSGTYP,INFO,LOC_PROC,
+     .          BUFSIZ,MSGOFF,SIZ,I,P,LEN,N,II,
+     .          IOS,STATUS(MPI_STATUS_SIZE),IERROR,IBLANC,LNEW
+        INTEGER, DIMENSION(:),ALLOCATABLE :: IWA
 
 
-      INTEGER :: NINDX_PROC,SIZE_MESSAGE
-	  INTEGER, DIMENSION(NSPMD) :: IWIOUT_SPMD
-	  INTEGER, DIMENSION(NSPMD) :: PROC_RCV,DISPLACEMENT
-      INTEGER :: INDX,REQ_S
-      INTEGER, DIMENSION(NSPMD) :: REQ_R
+        INTEGER :: NINDX_PROC,SIZE_MESSAGE
+        INTEGER, DIMENSION(NSPMD) :: IWIOUT_SPMD
+        INTEGER, DIMENSION(NSPMD) :: PROC_RCV,DISPLACEMENT
+        INTEGER :: INDX,REQ_S
+        INTEGER, DIMENSION(NSPMD) :: REQ_R
 
-      DATA MSGOFF/105/
-      CHARACTER(LEN=NCHAROUT) :: LINE
+        DATA MSGOFF/105/
+        CHARACTER(LEN=NCHAROUT) :: LINE
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C IWIOUT est utilise pour connaitre le nb max de characteres a echanger
-      ! MPI comm : every proc sends its IWIOUT_SAVE to the main proc
-      IWIOUT_SPMD(1:NSPMD) = 0
-      CALL MPI_GATHER( IWIOUT_SAVE,1,MPI_INTEGER,
-     .                 IWIOUT_SPMD,1,MPI_INTEGER,
-     .                 0,MPI_COMM_WORLD,ierror)
+        ! MPI comm : every proc sends its IWIOUT_SAVE to the main proc
+        IWIOUT_SPMD(1:NSPMD) = 0
+        CALL MPI_GATHER( IWIOUT_SAVE,1,MPI_INTEGER,
+     .                   IWIOUT_SPMD,1,MPI_INTEGER,
+     .                   0,MPI_COMM_WORLD,ierror)
 
 
-      LOC_PROC = ISPMD + 1
-      LEN = NCHAROUT
-      IF(ISPMD/=0) ALLOCATE(IWA(IWIOUT+1))
+        LOC_PROC = ISPMD + 1
+        LEN = NCHAROUT
+        IF(ISPMD/=0) ALLOCATE(IWA(IWIOUT+1))
 !   ---------------------------------
 !   Main proc : receives the message from other proc and writes the message in the *.out file
-      IF(ISPMD==0) THEN
-        NINDX_PROC = 0
-        SIZE_MESSAGE = 0
-        !   ------------------
-        DISPLACEMENT(1:NSPMD) = 0
-        DO P = 2, NSPMD
+        IF(ISPMD==0) THEN
+          NINDX_PROC = 0
+          SIZE_MESSAGE = 0
+          !   ------------------
+          DISPLACEMENT(1:NSPMD) = 0
+          DO P = 2, NSPMD
             IF(IWIOUT_SPMD(P)/=0) THEN
-                NINDX_PROC = NINDX_PROC + 1 
-                PROC_RCV(NINDX_PROC) = P
-                DISPLACEMENT(NINDX_PROC) = SIZE_MESSAGE
-                SIZE_MESSAGE = SIZE_MESSAGE + IWIOUT_SPMD(P) + 1
+              NINDX_PROC = NINDX_PROC + 1
+              PROC_RCV(NINDX_PROC) = P
+              DISPLACEMENT(NINDX_PROC) = SIZE_MESSAGE
+              SIZE_MESSAGE = SIZE_MESSAGE + IWIOUT_SPMD(P) + 1
             ENDIF
-        ENDDO
-        ALLOCATE(IWA(SIZE_MESSAGE))
-        !   ------------------
-        DO I=1,NINDX_PROC
-          P = PROC_RCV(I)
-          MSGTYP = MSGOFF
-          CALL MPI_IRECV(IWA(1+DISPLACEMENT(I)),IWIOUT_SPMD(P)+1,MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,REQ_R(I),ierror)
+          ENDDO
+          ALLOCATE(IWA(SIZE_MESSAGE))
+          !   ------------------
+          DO I=1,NINDX_PROC
+            P = PROC_RCV(I)
+            MSGTYP = MSGOFF
+            CALL MPI_IRECV(IWA(1+DISPLACEMENT(I)),IWIOUT_SPMD(P)+1,MPI_INTEGER,IT_SPMD(P),
+     .                    MSGTYP,MPI_COMM_WORLD,REQ_R(I),ierror)
 
 
-        ENDDO
-        !   ------------------
-        DO II=1,NINDX_PROC
+          ENDDO
+          !   ------------------
+          DO II=1,NINDX_PROC
             CALL MPI_WAITANY(NINDX_PROC,REQ_R,INDX,STATUS,ierror)
             P = PROC_RCV(INDX)
             SIZ = IWIOUT_SPMD(P)
             DO N = 1, SIZ, LEN
 C   traitement special pour eliminer les blancs de fin de chaine
-                I = LEN
-                IBLANC = ICHAR(' ')
-                DO WHILE (IWA(DISPLACEMENT(INDX)+N+I)==IBLANC.AND.I>1)
-                    I = I-1
-                ENDDO
-                LNEW = I
+              I = LEN
+              IBLANC = ICHAR(' ')
+              DO WHILE (IWA(DISPLACEMENT(INDX)+N+I)==IBLANC.AND.I>1)
+                I = I-1
+              ENDDO
+              LNEW = I
 C
-                DO I = 1, LNEW
-                    LINE(I:I) = CHAR(IWA(DISPLACEMENT(INDX)+N+I))
-                ENDDO
-                WRITE(IOUT,FMT='(A)')LINE(1:LNEW)
+              DO I = 1, LNEW
+                LINE(I:I) = CHAR(IWA(DISPLACEMENT(INDX)+N+I))
+              ENDDO
+              WRITE(IOUT,FMT='(A)')LINE(1:LNEW)
             ENDDO
-        ENDDO
-        !   ------------------
+          ENDDO
+          !   ------------------
 !   ---------------------------------
-      ELSE
+        ELSE
 !   Secondary proc : sends the message to the main proc
 C rewind fait ds check        REWIND(UNIT=IOUT)
-        IF(IWIOUT_SAVE>0) THEN
+          IF(IWIOUT_SAVE>0) THEN
             IOS = 0
             SIZ = 1
             !   ------------------
@@ -162,12 +162,12 @@ C rewind fait ds check        REWIND(UNIT=IOUT)
 
             CALL MPI_WAIT(REQ_S,STATUS,IERROR)
             !   ------------------
+          ENDIF
         ENDIF
-      ENDIF
 !   ---------------------------------
-      DEALLOCATE(IWA)
+        DEALLOCATE(IWA)
 C
 
 #endif
-      RETURN
+        RETURN
       END SUBROUTINE SPMD_WIOUT

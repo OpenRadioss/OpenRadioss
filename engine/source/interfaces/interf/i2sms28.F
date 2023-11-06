@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,66 +51,66 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NOINT,
-     .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),
-     .        NODNX_SMS(*)
-      my_real
-     .    H(4,MVSIZ), STIF(MVSIZ), VIS(MVSIZ), STF_MOM(MVSIZ),
-     .    DMINT2(4,*), DTI
+        INTEGER JLT, NOINT,
+     .          IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),
+     .          NODNX_SMS(*)
+        my_real
+     .      H(4,MVSIZ), STIF(MVSIZ), VIS(MVSIZ), STF_MOM(MVSIZ),
+     .      DMINT2(4,*), DTI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN
-      my_real
-     .        MAS, DTS, MASM, FAC
+        INTEGER I, IG, NISKYL1, NISKYL, NN
+        my_real
+     .          MAS, DTS, MASM, FAC
 C
-      DO I=1,JLT
-       DMINT2(1,I)=ZERO
-       DMINT2(2,I)=ZERO
-       DMINT2(3,I)=ZERO
-       DMINT2(4,I)=ZERO
+        DO I=1,JLT
+          DMINT2(1,I)=ZERO
+          DMINT2(2,I)=ZERO
+          DMINT2(3,I)=ZERO
+          DMINT2(4,I)=ZERO
 C
-       IF(NSVG(I)<=0) CYCLE
-       IF((IDTMINS_INT==0.AND.NODNX_SMS(NSVG(I))+
-     .    			NODNX_SMS(IX1(I))+
-     .    			NODNX_SMS(IX2(I))+
-     .    			NODNX_SMS(IX3(I))+
-     .    			NODNX_SMS(IX4(I))==0) .OR.
-     .    STIF(I)==ZERO) THEN
-         CYCLE
-       END IF
+          IF(NSVG(I)<=0) CYCLE
+          IF((IDTMINS_INT==0.AND.NODNX_SMS(NSVG(I))+
+     .       NODNX_SMS(IX1(I))+
+     .       NODNX_SMS(IX2(I))+
+     .       NODNX_SMS(IX3(I))+
+     .       NODNX_SMS(IX4(I))==0) .OR.
+     .       STIF(I)==ZERO) THEN
+            CYCLE
+          END IF
 C
-       IF(IDTMINS_INT==0.AND.NODNX_SMS(NSVG(I))+
-     .    			NODNX_SMS(IX1(I))+
-     .    			NODNX_SMS(IX2(I))+
-     .    			NODNX_SMS(IX3(I))+
-     .    			NODNX_SMS(IX4(I))/=0)THEN
-         DTS = DTMINS/DTFACS
-         DTI=MIN(DTI,DTMINS)
-       ELSE
-         DTS = DTMINS_INT/DTFACS_INT
-         DTI=MIN(DTI,DTMINS_INT)
-       END IF
+          IF(IDTMINS_INT==0.AND.NODNX_SMS(NSVG(I))+
+     .       NODNX_SMS(IX1(I))+
+     .       NODNX_SMS(IX2(I))+
+     .       NODNX_SMS(IX3(I))+
+     .       NODNX_SMS(IX4(I))/=0)THEN
+            DTS = DTMINS/DTFACS
+            DTI=MIN(DTI,DTMINS)
+          ELSE
+            DTS = DTMINS_INT/DTFACS_INT
+            DTI=MIN(DTI,DTMINS_INT)
+          END IF
 C
-       IF(IX4(I)/=IX3(I)) THEN
-         MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
-         MASM= HALF * DTS * DTS *STF_MOM(I)
-         MAS = FOURTH*MAS+MASM
-         DMINT2(1,I)=MAS
-         DMINT2(2,I)=MAS
-         DMINT2(3,I)=MAS
-         DMINT2(4,I)=MAS
-       ELSE
-         MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
-         MASM= HALF * DTS * DTS *STF_MOM(I)
-         MAS = THIRD*MAS+MASM
-         DMINT2(1,I)=MAS
-         DMINT2(2,I)=MAS
-         DMINT2(3,I)=MAS
-       ENDIF
+          IF(IX4(I)/=IX3(I)) THEN
+            MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
+            MASM= HALF * DTS * DTS *STF_MOM(I)
+            MAS = FOURTH*MAS+MASM
+            DMINT2(1,I)=MAS
+            DMINT2(2,I)=MAS
+            DMINT2(3,I)=MAS
+            DMINT2(4,I)=MAS
+          ELSE
+            MAS = HALF * DTS * ( DTS * STIF(I) + VIS(I) )
+            MASM= HALF * DTS * DTS *STF_MOM(I)
+            MAS = THIRD*MAS+MASM
+            DMINT2(1,I)=MAS
+            DMINT2(2,I)=MAS
+            DMINT2(3,I)=MAS
+          ENDIF
 C
-      ENDDO                
-C      
-      RETURN
+        ENDDO
+C
+        RETURN
       END
 C

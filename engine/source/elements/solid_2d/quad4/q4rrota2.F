@@ -42,14 +42,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+        INTEGER, INTENT(IN) :: NEL
 C     REAL
-      my_real
-     .   R22(*), R23(*), R32(*), R33(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*),
-     .   Z1(*), Z2(*), Z3(*), Z4(*)
+        my_real
+     .     R22(*), R23(*), R32(*), R33(*),
+     .     Y1(*), Y2(*), Y3(*), Y4(*),
+     .     Z1(*), Z2(*), Z3(*), Z4(*)
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   R22(*)~R33(*)      - [Rij]
@@ -57,35 +57,35 @@ c  IO  Y1(*)~Z4(*)        - {X}-->{X'}
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C     REAL
-      my_real
-     .   Y,Z
+        my_real
+     .     Y,Z
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C     {X}=[R]{X'} <=> {X'}=T([R]){X}
 C     INPUT: [R], {X}
 C     OUTPUT: {X'}
-      DO I=1,NEL
-        Y=R22(I)*Y1(I)+R32(I)*Z1(I)
-        Z=R23(I)*Y1(I)+R33(I)*Z1(I)
-        Y1(I)=Y
-        Z1(I)=Z
-        Y=R22(I)*Y2(I)+R32(I)*Z2(I)
-        Z=R23(I)*Y2(I)+R33(I)*Z2(I)
-        Y2(I)=Y
-        Z2(I)=Z
-        Y=R22(I)*Y3(I)+R32(I)*Z3(I)
-        Z=R23(I)*Y3(I)+R33(I)*Z3(I)
-        Y3(I)=Y
-        Z3(I)=Z
-        Y=R22(I)*Y4(I)+R32(I)*Z4(I)
-        Z=R23(I)*Y4(I)+R33(I)*Z4(I)
-        Y4(I)=Y
-        Z4(I)=Z
-      ENDDO
+        DO I=1,NEL
+          Y=R22(I)*Y1(I)+R32(I)*Z1(I)
+          Z=R23(I)*Y1(I)+R33(I)*Z1(I)
+          Y1(I)=Y
+          Z1(I)=Z
+          Y=R22(I)*Y2(I)+R32(I)*Z2(I)
+          Z=R23(I)*Y2(I)+R33(I)*Z2(I)
+          Y2(I)=Y
+          Z2(I)=Z
+          Y=R22(I)*Y3(I)+R32(I)*Z3(I)
+          Z=R23(I)*Y3(I)+R33(I)*Z3(I)
+          Y3(I)=Y
+          Z3(I)=Z
+          Y=R22(I)*Y4(I)+R32(I)*Z4(I)
+          Z=R23(I)*Y4(I)+R33(I)*Z4(I)
+          Y4(I)=Y
+          Z4(I)=Z
+        ENDDO
 C
-      RETURN
+        RETURN
       END
-	  
+

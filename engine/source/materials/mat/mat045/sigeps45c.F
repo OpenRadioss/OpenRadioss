@@ -50,17 +50,17 @@ C-----------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
-C NEL0    |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL0 
+C NEL0    |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL0
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
 C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX 
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C NPT0    |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
-C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
-C IFLAG   |  *      | I | R | GEOMETRICAL FLAGS   
-C TF      |  *      | F | R | FUNCTION ARRAY 
+C IFUNC   | NFUNC   | I | R | FUNCTION INDEX
+C NPF     |  *      | I | R | FUNCTION ARRAY
+C NPT0    |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS
+C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER
+C IFLAG   |  *      | I | R | GEOMETRICAL FLAGS
+C TF      |  *      | F | R | FUNCTION ARRAY
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -78,9 +78,9 @@ C ...     |         |   |   |
 C EPSXX   | NEL0    | F | R | STRAIN XX
 C EPSYY   | NEL0    | F | R | STRAIN YY
 C ...     |         |   |   |
-C SIGOXX  | NEL0    | F | R | OLD ELASTO PLASTIC STRESS XX 
+C SIGOXX  | NEL0    | F | R | OLD ELASTO PLASTIC STRESS XX
 C SIGOYY  | NEL0    | F | R | OLD ELASTO PLASTIC STRESS YY
-C ...     |         |   |   |    
+C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C SIGNXX  | NEL0    | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL0    | F | W | NEW ELASTO PLASTIC STRESS YY
@@ -101,39 +101,39 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
 C
-      INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL0)
-      my_real 
-     .   TIME,TIMESTEP,UPARAM(NUPARAM),
-     .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
-     .   THKLY(NEL0),PLA(NEL0),
-     .   EPSPXX(NEL0),EPSPYY(NEL0),
-     .   EPSPXY(NEL0),EPSPYZ(NEL0),EPSPZX(NEL0),
-     .   DEPSXX(NEL0),DEPSYY(NEL0),
-     .   DEPSXY(NEL0),DEPSYZ(NEL0),DEPSZX(NEL0),
-     .   EPSXX(NEL0) ,EPSYY(NEL0) ,
-     .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
-     .   SIGOXX(NEL0),SIGOYY(NEL0),
-     .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0), SHF(*)
+        INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
+     .     NGL(NEL0)
+        my_real
+     .     TIME,TIMESTEP,UPARAM(NUPARAM),
+     .     AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
+     .     THKLY(NEL0),PLA(NEL0),
+     .     EPSPXX(NEL0),EPSPYY(NEL0),
+     .     EPSPXY(NEL0),EPSPYZ(NEL0),EPSPZX(NEL0),
+     .     DEPSXX(NEL0),DEPSYY(NEL0),
+     .     DEPSXY(NEL0),DEPSYZ(NEL0),DEPSZX(NEL0),
+     .     EPSXX(NEL0) ,EPSYY(NEL0) ,
+     .     EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
+     .     SIGOXX(NEL0),SIGOYY(NEL0),
+     .     SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0), SHF(*)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .    SIGNXX(NEL0),SIGNYY(NEL0),
-     .    SIGNXY(NEL0),SIGNYZ(NEL0),SIGNZX(NEL0),
-     .    SIGVXX(NEL0),SIGVYY(NEL0),
-     .    SIGVXY(NEL0),SIGVYZ(NEL0),SIGVZX(NEL0),
-     .    SOUNDSP(NEL0),VISCMAX(NEL0)
+        my_real
+     .      SIGNXX(NEL0),SIGNYY(NEL0),
+     .      SIGNXY(NEL0),SIGNYZ(NEL0),SIGNZX(NEL0),
+     .      SIGVXX(NEL0),SIGVYY(NEL0),
+     .      SIGVXY(NEL0),SIGVYZ(NEL0),SIGVZX(NEL0),
+     .      SOUNDSP(NEL0),VISCMAX(NEL0)
 C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
+C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0)
+        my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0)
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
+C   VARIABLES FOR FUNCTION INTERPOLATION
 C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
+        INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
+        my_real FINTER ,TF(*)
+        EXTERNAL FINTER
 C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
 C        Y       : y = f(x)
 C        X       : x
@@ -144,59 +144,59 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INDEX(MVSIZ),NINDX,NMAX,N
-      my_real 
-     .        YOUNG,ANU,G,CA,CB,CN,EPSM,SIGM,CC,CD,CM,EPS0,
-     .        CE,CK,C1,C14G3,A1,A2,G3,GS,
-     .        CH1,CH2,CH3,QH1,QH2,
-     .        NNU1,NU1,NU2,NU3,S1,S2,S3,
-     .        R,UMR,DEZZ,
-     .        P2,Q2,F,DF,YLD_I,
-     .        CUTFRE,BETA     
-      my_real 
-     .        SVM(MVSIZ),AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
-     .        DPLA_I(MVSIZ),DR(MVSIZ),PP(MVSIZ),QQ(MVSIZ)
+        INTEGER I,J,INDEX(MVSIZ),NINDX,NMAX,N
+        my_real
+     .          YOUNG,ANU,G,CA,CB,CN,EPSM,SIGM,CC,CD,CM,EPS0,
+     .          CE,CK,C1,C14G3,A1,A2,G3,GS,
+     .          CH1,CH2,CH3,QH1,QH2,
+     .          NNU1,NU1,NU2,NU3,S1,S2,S3,
+     .          R,UMR,DEZZ,
+     .          P2,Q2,F,DF,YLD_I,
+     .          CUTFRE,BETA
+        my_real
+     .          SVM(MVSIZ),AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
+     .          DPLA_I(MVSIZ),DR(MVSIZ),PP(MVSIZ),QQ(MVSIZ)
 C
-      DATA NMAX/3/
+        DATA NMAX/3/
 C=======================================================================
 C
-C     ZHAO CONSTITUTIVE LAW 
+C     ZHAO CONSTITUTIVE LAW
 C
 C=======================================================================
 C-----------------------------------------------
 C     PARAMETERS READING
 C-----------------------------------------------
-        YOUNG = UPARAM(1) 
+        YOUNG = UPARAM(1)
         ANU = UPARAM(2)
         G = UPARAM(3)
         CA = UPARAM(4)
         CB = UPARAM(5)
         CN = UPARAM(6)
         EPSM = UPARAM(7)
-        SIGM = UPARAM(8) 
-        CC = UPARAM(9) 
+        SIGM = UPARAM(8)
+        CC = UPARAM(9)
         CD = UPARAM(10)
         CM = UPARAM(11)
         EPS0 = UPARAM(12)
         CE = UPARAM(13)
         CK = UPARAM(14)
-        C1 = UPARAM(15) 
+        C1 = UPARAM(15)
         C14G3 = UPARAM(16)
-        A1 = UPARAM(17) 
-        A2 = UPARAM(18) 
-        CUTFRE = UPARAM(19) 
+        A1 = UPARAM(17)
+        A2 = UPARAM(18)
+        CUTFRE = UPARAM(19)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      IF(TIME==ZERO)THEN
-        DO I=1,NEL0
-           UVAR(I,1)=ZERO
-           UVAR(I,2)=ZERO
-           UVAR(I,3)=ZERO
-           UVAR(I,4)=ZERO
-           UVAR(I,5)=ZERO  
-        ENDDO
-      ENDIF
+        IF(TIME==ZERO)THEN
+          DO I=1,NEL0
+            UVAR(I,1)=ZERO
+            UVAR(I,2)=ZERO
+            UVAR(I,3)=ZERO
+            UVAR(I,4)=ZERO
+            UVAR(I,5)=ZERO
+          ENDDO
+        ENDIF
 C-----------------------------------------------
         BETA = TIMESTEP*2.*PI*CUTFRE
         BETA = MIN(ONE,BETA)
@@ -205,7 +205,7 @@ C-----------------------------------------------
         NNU1 = ANU / (ONE - ANU)
         NU1 = ONE/(ONE-ANU)
         NU2 = ONE/(ONE+ANU)
-        NU3 = ONE - NNU1	
+        NU3 = ONE - NNU1
 C        NNU2    = NNU1*NNU1
 C        NU4 = 1. + NNU2 + NNU1
 C        NU5 = 1. + NNU2 - 2.*NNU1
@@ -213,28 +213,28 @@ C        NU6 = 0.5- NNU2 + 0.5*NNU1
 C-----------------------------------------------
 C     ELASTIC SOLUTION
 C--------------------------------------------
-       DO I=1,NEL0
+        DO I=1,NEL0
 C
-         SIGNXX(I)=SIGOXX(I)+A1*DEPSXX(I)+A2*DEPSYY(I)
-         SIGNYY(I)=SIGOYY(I)+A2*DEPSXX(I)+A1*DEPSYY(I)
-         SIGNXY(I)=SIGOXY(I)+G *DEPSXY(I)
-         SIGNYZ(I)=SIGOYZ(I)+GS *DEPSYZ(I)
-         SIGNZX(I)=SIGOZX(I)+GS *DEPSZX(I)
+          SIGNXX(I)=SIGOXX(I)+A1*DEPSXX(I)+A2*DEPSYY(I)
+          SIGNYY(I)=SIGOYY(I)+A2*DEPSXX(I)+A1*DEPSYY(I)
+          SIGNXY(I)=SIGOXY(I)+G *DEPSXY(I)
+          SIGNYZ(I)=SIGOYZ(I)+GS *DEPSYZ(I)
+          SIGNZX(I)=SIGOZX(I)+GS *DEPSZX(I)
 C
-         SOUNDSP(I) = SQRT(A1/RHO0(I))
-         VISCMAX(I) = ZERO
+          SOUNDSP(I) = SQRT(A1/RHO0(I))
+          VISCMAX(I) = ZERO
 C         ETSE(I) = 1.
 C-------------------
 C     STRAIN RATE
 C-------------------
 C
-         UVAR(I,2) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
-     .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                 + EPSPXY(I)*EPSPXY(I) ) )
-         UVAR(I,2) = BETA*UVAR(I,2) + (1.-BETA)*UVAR(I,5)
-         UVAR(I,5) = UVAR(I,2)
+          UVAR(I,2) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .    + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .                  + EPSPXY(I)*EPSPXY(I) ) )
+          UVAR(I,2) = BETA*UVAR(I,2) + (1.-BETA)*UVAR(I,5)
+          UVAR(I,5) = UVAR(I,2)
 C-------------------
-C     STRAIN 
+C     STRAIN
 C-------------------
 C
 C         UVAR(I,1) = 0.5*( EPSXX(I)+EPSYY(I)
@@ -242,156 +242,156 @@ C     .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
 C     .                 + EPSXY(I)*EPSXY(I) ) )
 C         FAIL(I) = MAX(ZERO,MIN(ONE,(EPSR2(I)-EPST)/(EPSR2(I)-EPSR1(I))))
 C
-       ENDDO
+        ENDDO
 C-------------------
 C     CRITERIA
 C-------------------
-       DO I=1,NEL0
-        IF(UVAR(I,1)<=ZERO) THEN
-         CH1=CA
-        ELSEIF(UVAR(I,1)>EPSM) THEN
-         CH1=CA+CB*EPSM**CN
-        ELSE
-         CH1=CA+CB*UVAR(I,1)**CN
-        ENDIF
-        IF(UVAR(I,2)<=EPS0) THEN
-         CH2=0.
-        ELSEIF(UVAR(I,1)<=ZERO) THEN
-         CH2=CC*LOG(UVAR(I,2)/EPS0)
-        ELSE
-         CH2=(CC-CD*UVAR(I,1)**CM)*LOG(UVAR(I,2)/EPS0)
-        ENDIF
-        IF(UVAR(I,2)<=ZERO) THEN
-         CH3=ZERO
-        ELSE
-         CH3=CE*UVAR(I,2)**CK
-        ENDIF
+        DO I=1,NEL0
+          IF(UVAR(I,1)<=ZERO) THEN
+            CH1=CA
+          ELSEIF(UVAR(I,1)>EPSM) THEN
+            CH1=CA+CB*EPSM**CN
+          ELSE
+            CH1=CA+CB*UVAR(I,1)**CN
+          ENDIF
+          IF(UVAR(I,2)<=EPS0) THEN
+            CH2=0.
+          ELSEIF(UVAR(I,1)<=ZERO) THEN
+            CH2=CC*LOG(UVAR(I,2)/EPS0)
+          ELSE
+            CH2=(CC-CD*UVAR(I,1)**CM)*LOG(UVAR(I,2)/EPS0)
+          ENDIF
+          IF(UVAR(I,2)<=ZERO) THEN
+            CH3=ZERO
+          ELSE
+            CH3=CE*UVAR(I,2)**CK
+          ENDIF
 c jbm033        UVAR(I,3)=MIN(SIGM,CH1+CH2+CH3)
-        UVAR(I,3)=MIN(SIGM+CH3,CH1+CH2+CH3)
-       ENDDO
+          UVAR(I,3)=MIN(SIGM+CH3,CH1+CH2+CH3)
+        ENDDO
 C------------------------
 C     HARDENING MODULUS
 C------------------------
-       DO I=1,NEL0
-        IF(UVAR(I,1)>ZERO. AND .CN>=ONE) THEN
-         QH1= CB*CN*UVAR(I,1)**(CN-ONE)
-        ELSEIF(UVAR(I,1)>ZERO. AND .CN<ONE)THEN
-         QH1= CB*CN*UVAR(I,1)**(ONE - CN)
-        ELSE
-         QH1=ZERO
-        ENDIF
-        IF(UVAR(I,1)<=ZERO. OR .UVAR(I,2)<=EPS0) THEN
-         QH2=ZERO
-        ELSEIF(CM>=ONE) THEN
-         QH2=CD*CM*UVAR(I,1)**(CM- ONE)*LOG(UVAR(I,2)/EPS0)
-        ELSE
-         QH2=CD*CM*UVAR(I,1)**(ONE -CM)*LOG(UVAR(I,2)/EPS0)
-        ENDIF
-        UVAR(I,4)=QH1+QH2
-       ENDDO
+        DO I=1,NEL0
+          IF(UVAR(I,1)>ZERO. AND .CN>=ONE) THEN
+            QH1= CB*CN*UVAR(I,1)**(CN-ONE)
+          ELSEIF(UVAR(I,1)>ZERO. AND .CN<ONE)THEN
+            QH1= CB*CN*UVAR(I,1)**(ONE - CN)
+          ELSE
+            QH1=ZERO
+          ENDIF
+          IF(UVAR(I,1)<=ZERO. OR .UVAR(I,2)<=EPS0) THEN
+            QH2=ZERO
+          ELSEIF(CM>=ONE) THEN
+            QH2=CD*CM*UVAR(I,1)**(CM- ONE)*LOG(UVAR(I,2)/EPS0)
+          ELSE
+            QH2=CD*CM*UVAR(I,1)**(ONE -CM)*LOG(UVAR(I,2)/EPS0)
+          ENDIF
+          UVAR(I,4)=QH1+QH2
+        ENDDO
 C-------------------
 C     PROJECTION
 C-------------------
-       IF(IFLAG(1)==0)THEN
-C radial return 
-         DO I=1,NEL0
-           SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
-     .             +SIGNYY(I)*SIGNYY(I)
-     .             -SIGNXX(I)*SIGNYY(I)
-     .          +THREE*SIGNXY(I)*SIGNXY(I))
-           R  = MIN(ONE,UVAR(I,3)/MAX(EM20,SVM(I)))
-           SIGNXX(I)=SIGNXX(I)*R
-           SIGNYY(I)=SIGNYY(I)*R
-           SIGNXY(I)=SIGNXY(I)*R
-           UMR = ONE - R
-           DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G3+UVAR(I,4))
-           UVAR(I,1) = UVAR(I,1) + DPLA_I(I)
-           S1=HALF*(SIGNXX(I)+SIGNYY(I))
-           DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) /UVAR(I,3)
-           DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
-           THK(I) = THK(I) + DEZZ*THKLY(I)
+        IF(IFLAG(1)==0)THEN
+C radial return
+          DO I=1,NEL0
+            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
+     .              +SIGNYY(I)*SIGNYY(I)
+     .              -SIGNXX(I)*SIGNYY(I)
+     .           +THREE*SIGNXY(I)*SIGNXY(I))
+            R  = MIN(ONE,UVAR(I,3)/MAX(EM20,SVM(I)))
+            SIGNXX(I)=SIGNXX(I)*R
+            SIGNYY(I)=SIGNYY(I)*R
+            SIGNXY(I)=SIGNXY(I)*R
+            UMR = ONE - R
+            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G3+UVAR(I,4))
+            UVAR(I,1) = UVAR(I,1) + DPLA_I(I)
+            S1=HALF*(SIGNXX(I)+SIGNYY(I))
+            DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) /UVAR(I,3)
+            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
+            THK(I) = THK(I) + DEZZ*THKLY(I)
 C           IF(R<1.) ETSE(I)= H(I)/(H(I)+E(I))
-         ENDDO
+          ENDDO
 C
-       ELSEIF(IFLAG(1)==1)THEN
+        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
-         DO  I=1,NEL0
-           UVAR(I,4) = MAX(ZERO,UVAR(I,4))
-           S1=SIGNXX(I)+SIGNYY(I)
-           S2=SIGNXX(I)-SIGNYY(I)
-           S3=SIGNXY(I)
-           AA(I)=FOURTH*S1*S1
-           BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
-           DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
-           THK(I) = THK(I) + DEZZ*THKLY(I)
-         ENDDO
+          DO  I=1,NEL0
+            UVAR(I,4) = MAX(ZERO,UVAR(I,4))
+            S1=SIGNXX(I)+SIGNYY(I)
+            S2=SIGNXX(I)-SIGNYY(I)
+            S3=SIGNXY(I)
+            AA(I)=FOURTH*S1*S1
+            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
+            SVM(I)=SQRT(AA(I)+BB(I))
+            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
+            THK(I) = THK(I) + DEZZ*THKLY(I)
+          ENDDO
 C-------------------------
 C     GATHER PLASTIC FLOW
 C-------------------------
-         NINDX=0
-         DO I=1,NEL0
-           IF(SVM(I)>UVAR(I,3).AND.OFF(I)==ONE) THEN
-             NINDX=NINDX+1
-             INDEX(NINDX)=I
-           ENDIF
-         ENDDO
-         IF(NINDX==0) RETURN
+          NINDX=0
+          DO I=1,NEL0
+            IF(SVM(I)>UVAR(I,3).AND.OFF(I)==ONE) THEN
+              NINDX=NINDX+1
+              INDEX(NINDX)=I
+            ENDIF
+          ENDDO
+          IF(NINDX==0) RETURN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
-         DO J=1,NINDX
-           I=INDEX(J)
-           DPLA_J(I)=(SVM(I)-UVAR(I,3))/(G3+UVAR(I,4))
+          DO J=1,NINDX
+            I=INDEX(J)
+            DPLA_J(I)=(SVM(I)-UVAR(I,3))/(G3+UVAR(I,4))
 C           ETSE(I)= H(I)/(H(I)+E(I))
-         ENDDO
+          ENDDO
 C
-         DO N=1,NMAX
+          DO N=1,NMAX
 C#include "vectorize.inc"
-           DO J=1,NINDX
-             I=INDEX(J)
-             DPLA_I(I)=DPLA_J(I)
-             YLD_I =UVAR(I,3)+UVAR(I,4)*DPLA_I(I)
-             DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
-             PP(I)  =ONE/(ONE+DR(I)*NU1)
-             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)	     
-             P2    =PP(I)*PP(I)
-             Q2    =QQ(I)*QQ(I)
-             F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
-             DF    =-(AA(I)*NU1*P2*PP(I)+THREE*BB(I)*NU2*Q2*QQ(I))
-     .         *(YOUNG-TWO*DR(I)*UVAR(I,4))/YLD_I
-     .         -TWO*UVAR(I,4)*YLD_I
-             IF(DPLA_I(I)>ZERO) THEN
-               DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
-             ELSE
-               DPLA_J(I)=ZERO
-             ENDIF        
-           ENDDO
-         ENDDO
+            DO J=1,NINDX
+              I=INDEX(J)
+              DPLA_I(I)=DPLA_J(I)
+              YLD_I =UVAR(I,3)+UVAR(I,4)*DPLA_I(I)
+              DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
+              PP(I)  =ONE/(ONE+DR(I)*NU1)
+              QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)
+              P2    =PP(I)*PP(I)
+              Q2    =QQ(I)*QQ(I)
+              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
+              DF    =-(AA(I)*NU1*P2*PP(I)+THREE*BB(I)*NU2*Q2*QQ(I))
+     .          *(YOUNG-TWO*DR(I)*UVAR(I,4))/YLD_I
+     .          -TWO*UVAR(I,4)*YLD_I
+              IF(DPLA_I(I)>ZERO) THEN
+                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
+              ELSE
+                DPLA_J(I)=ZERO
+              ENDIF
+            ENDDO
+          ENDDO
 C------------------------------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
 C#include "vectorize.inc"
-         DO J=1,NINDX
-           I=INDEX(J)
-           UVAR(I,1) = UVAR(I,1) + DPLA_I(I)
-           S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
-           S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
-           SIGNXX(I)=HALF*(S1+S2)
-           SIGNYY(I)=HALF*(S1-S2)
-           SIGNXY(I)=SIGNXY(I)*QQ(I)
-           DEZZ = - NU3*DR(I)*S1/YOUNG
-           THK(I) = THK(I) + DEZZ*THKLY(I)
-         ENDDO
+          DO J=1,NINDX
+            I=INDEX(J)
+            UVAR(I,1) = UVAR(I,1) + DPLA_I(I)
+            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
+            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
+            SIGNXX(I)=HALF*(S1+S2)
+            SIGNYY(I)=HALF*(S1-S2)
+            SIGNXY(I)=SIGNXY(I)*QQ(I)
+            DEZZ = - NU3*DR(I)*S1/YOUNG
+            THK(I) = THK(I) + DEZZ*THKLY(I)
+          ENDDO
 C
-       ENDIF
+        ENDIF
 C
-       DO I=1,NEL0
-         IF(UVAR(I,1)>EPSM.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
-       ENDDO
+        DO I=1,NEL0
+          IF(UVAR(I,1)>EPSM.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
+        ENDDO
 C-------------------------
-      RETURN
+        RETURN
       END
 

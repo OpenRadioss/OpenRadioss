@@ -27,7 +27,7 @@ Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-       SUBROUTINE SPMD_GATHERITAB(V,WEIGHT,NODGLOB,NUM)
+      SUBROUTINE SPMD_GATHERITAB(V,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,44 +45,44 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER
-     .   V(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+        INTEGER
+     .    V(*)
+        INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      INTEGER, DIMENSION(:,:) , ALLOCATABLE :: BUFSR 
-      INTEGER, DIMENSION(:) , ALLOCATABLE :: XGLOB
+        INTEGER, DIMENSION(:,:) , ALLOCATABLE :: BUFSR
+        INTEGER, DIMENSION(:) , ALLOCATABLE :: XGLOB
 C-----------------------------------------------
-      DATA MSGOFF/7018/
-      DATA MSGOFF2/7019/
+        DATA MSGOFF/7018/
+        DATA MSGOFF2/7019/
 
 
 C-----------------------------------------------
-       ALLOCATE(BUFSR(2,NUMNODM))
-       ALLOCATE(XGLOB(NUM))
+        ALLOCATE(BUFSR(2,NUMNODM))
+        ALLOCATE(XGLOB(NUM))
 C-----------------------------------------------
-       IF (ISPMD/=0) THEN
+        IF (ISPMD/=0) THEN
 
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (WEIGHT(I)==1) THEN
-             SIZ = SIZ + 1
-             BUFSR(1,SIZ) = NODGLOB(I)
-             BUFSR(2,SIZ) = V(I) 
-           END IF
-         END DO
+          SIZ = 0
+          DO I=1,NUMNOD
+            IF (WEIGHT(I)==1) THEN
+              SIZ = SIZ + 1
+              BUFSR(1,SIZ) = NODGLOB(I)
+              BUFSR(2,SIZ) = V(I)
+            END IF
+          END DO
 
 
-         MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFSR,2*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(BUFSR,2*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-       ELSE
+        ELSE
           DO I=1,NUMNOD
             IF (WEIGHT(I)==1) THEN
               NG = NODGLOB(I)
@@ -97,13 +97,13 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(BUFSR,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ/2
- 
+
             DO K = 1, NREC
               NG = BUFSR(1,K)
               XGLOB(NG) = BUFSR(2,K)
@@ -111,10 +111,10 @@ C   Reception du buffer entier des adresses NODGLOB
           ENDDO
           CALL WRITE_I_C(XGLOB,NUMNODG)
 
-       ENDIF
-       DEALLOCATE(BUFSR)
-       DEALLOCATE(XGLOB)
+        ENDIF
+        DEALLOCATE(BUFSR)
+        DEALLOCATE(XGLOB)
 
 #endif
-       RETURN
-       END
+        RETURN
+      END

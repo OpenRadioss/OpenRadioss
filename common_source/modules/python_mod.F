@@ -23,15 +23,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
 Chd|====================================================================
-Chd|  PYTHON_FUNCT_MOD              modules/python_mod.F          
+Chd|  PYTHON_FUNCT_MOD              modules/python_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        DAASOLV                       engine/source/fluid/daasolv.F 
+Chd|        DAASOLV                       engine/source/fluid/daasolv.F
 Chd|        DAASOLVP                      engine/source/fluid/daasolvp.F
 Chd|        FIXVEL                        engine/source/constraints/general/impvel/fixvel.F
-Chd|        FLOW0                         engine/source/fluid/flow0.F   
+Chd|        FLOW0                         engine/source/fluid/flow0.F
 Chd|        FORCE                         engine/source/loads/general/force.F
 Chd|        GRAVIT                        engine/source/loads/general/grav/gravit.F
 Chd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
@@ -42,7 +42,7 @@ Chd|        LAG_MULT                      engine/source/tools/lagmul/lag_mult.F
 Chd|        LAG_MULTP                     engine/source/tools/lagmul/lag_mult.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL                         engine/source/engine/resol.F
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
@@ -53,7 +53,7 @@ Chd|====================================================================
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
         integer, parameter :: max_code_length = max_line_length*max_num_lines
 ! global variable
-        integer :: python_error !< true if the starter command line had the option "-python" 
+        integer :: python_error !< true if the starter command line had the option "-python"
 ! use iso_c_binding to bind python_init to cpp_python_init and python_finalize to cpp_python_finalize
         interface
           subroutine python_initialize(ok) bind(c, name="cpp_python_initialize")
@@ -90,7 +90,7 @@ Chd|====================================================================
         type :: python_function
           character(kind=c_char), dimension(:), allocatable :: name !< the name of the python function
           character(kind=c_char), dimension(:), allocatable :: code !< the code of the python function
-          integer :: len_name !< the length of the name 
+          integer :: len_name !< the length of the name
           integer :: len_code !< the length of the code
           integer :: num_lines !< the number of lines of the code
           integer :: num_args !< the number of arguments of the function (1 for 1D function)
@@ -98,7 +98,7 @@ Chd|====================================================================
           integer :: user_id !< the user id of the function
         end type python_function
 
-!! \brief the python structure: it contains the python functions 
+!! \brief the python structure: it contains the python functions
         type python_
           type(python_function), dimension(:), allocatable :: functs !< the python functions
           integer :: funct_offset !< the local id of the python function starts after the id of other kind of functions
@@ -259,12 +259,12 @@ Chd|====================================================================
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not avaiable
-                                ! i.e. starter without -python option
+          ! i.e. starter without -python option
           if(py%nb_functs>0) call python_initialize(ierror)
 
           if(py%nb_functs > 0 .and. ierror == 1) then
             ! stops the program if python_initialize failed and there are python functions
-            write(6,*) "ERROR: python_register: python_initialize failed" 
+            write(6,*) "ERROR: python_register: python_initialize failed"
             stop
           endif
           do n = 1, py%nb_functs
@@ -277,7 +277,7 @@ Chd|====================================================================
         end subroutine
 
 !! \brief Evaluate the python function
-!! \details the python function is called with one argument and one return value	(double precision version)
+!! \details the python function is called with one argument and one return value        (double precision version)
         subroutine python_call_funct1D_dp(py, funct_id, x, y)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -300,7 +300,7 @@ Chd|====================================================================
         end subroutine
 
 !! \brief Evaluate the python function
-!! \details the python function is called with one argument and one return value	(single precision version)
+!! \details the python function is called with one argument and one return value        (single precision version)
         subroutine python_call_funct1D_sp(py, funct_id, x, y)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -343,12 +343,12 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-       
+
           eps = epsilon(1.0D0)
           h = sqrt(eps) * max(1.0D0, abs(x))
           prev_derivative = 0.0D0
           derivative = 0.0D0
-       
+
           do i = 1, 10  ! Max 10 iterations
             argin(1) = x + h
             call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
@@ -360,7 +360,7 @@ Chd|====================================================================
             ! Break if the derivative has stabilized
             if (i > 1 .and. abs(derivative - prev_derivative) <= eps * abs(derivative)) exit
             prev_derivative = derivative
-            h = h / 2.0D0  
+            h = h / 2.0D0
             if( h == 0.0D0 ) exit
           end do
           y = derivative
@@ -385,7 +385,7 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
 
           argin = dble(x)
-          call python_deriv_funct1D_dp(py, funct_id, argin, argout) 
+          call python_deriv_funct1D_dp(py, funct_id, argin, argout)
           y = real(argout,kind(1.0))
         end subroutine
 

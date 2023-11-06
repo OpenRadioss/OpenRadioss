@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  VOLOUT                        source/airbag/volout.F        
+Chd|  VOLOUT                        source/airbag/volout.F
 Chd|-- called by -----------
-Chd|        MONVOL0                       source/airbag/monvol0.F       
+Chd|        MONVOL0                       source/airbag/monvol0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE VOLOUT(RVOLU,VOL,FSAV,PMAIN)
@@ -35,29 +35,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER PMAIN
-      my_real RVOLU(*),FSAV(*)
+        INTEGER PMAIN
+        my_real RVOLU(*),FSAV(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real VOL,AREA
+        my_real VOL,AREA
 C-----------------------------------------------
-      IF (ISPMD+1==PMAIN) THEN
-        AREA = RVOLU(18)
+        IF (ISPMD+1==PMAIN) THEN
+          AREA = RVOLU(18)
 C
-        FSAV(1)=ZERO
-        FSAV(2)=VOL
-        FSAV(3)=ZERO
-        FSAV(4)=AREA
-        FSAV(5)=ZERO
-        FSAV(6)=ZERO
-        FSAV(7)=ZERO
-        FSAV(8)=ZERO
-        FSAV(9)=ZERO
-        FSAV(10)=ZERO
-        FSAV(11)=ZERO
-        FSAV(12)=ZERO	
-      ENDIF
+          FSAV(1)=ZERO
+          FSAV(2)=VOL
+          FSAV(3)=ZERO
+          FSAV(4)=AREA
+          FSAV(5)=ZERO
+          FSAV(6)=ZERO
+          FSAV(7)=ZERO
+          FSAV(8)=ZERO
+          FSAV(9)=ZERO
+          FSAV(10)=ZERO
+          FSAV(11)=ZERO
+          FSAV(12)=ZERO
+        ENDIF
 C
-      RETURN
+        RETURN
       END

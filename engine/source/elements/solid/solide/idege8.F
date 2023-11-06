@@ -35,66 +35,66 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4,
-     .   Z1, Z2, Z3, Z4,AMAX,FAC
+        my_real
+     .     X1, X2, X3, X4, Y1, Y2, Y3, Y4,
+     .     Z1, Z2, Z3, Z4,AMAX,FAC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDE,IT
-      my_real
-     .   X12,Y12,Z12,X23,Y23,Z23,X34,Y34,Z34,X41,Y41,Z41,A,
-     .   RX,RY,RZ,SX,SY,SZ,NX,NY,NZ
+        INTEGER IDE,IT
+        my_real
+     .     X12,Y12,Z12,X23,Y23,Z23,X34,Y34,Z34,X41,Y41,Z41,A,
+     .     RX,RY,RZ,SX,SY,SZ,NX,NY,NZ
 C-----------------------------------------------
-       RX = X2+X3-X1-X4
-       RY = Y2+Y3-Y1-Y4
-       RZ = Z2+Z3-Z1-Z4
-       SX = X3+X4-X1-X2
-       SY = Y3+Y4-Y1-Y2
-       SZ = Z3+Z4-Z1-Z2
-       NX = RY * SZ - RZ * SY 
-       NY = RZ * SX - RX * SZ 
-       NZ = RX * SY - RY * SX 
-C--------A: (2*AREA)^2-----       
-       A = NX*NX+NY*NY+NZ*NZ
-       IDE = 0
-       X12 = X2 - X1
-       Y12 = Y2 - Y1
-       Z12 = Z2 - Z1
-       IF (X12==ZERO.AND.Y12==ZERO.AND.Z12==ZERO) THEN
-        IDE = 1
-	GOTO 10
-       ENDIF
-C       
-       X23 = X2 - X3
-       Y23 = Y2 - Y3
-       Z23 = Z2 - Z3
-       IF (X23==ZERO.AND.Y23==ZERO.AND.Z23==ZERO) THEN
-        IDE = 1
-	GOTO 10
-       ENDIF
-C       
-       X34 = X4 - X3
-       Y34 = Y4 - Y3
-       Z34 = Z4 - Z3
-       IF (X34==ZERO.AND.Y34==ZERO.AND.Z34==ZERO) THEN
-        IDE = 1
-	GOTO 10
-       ENDIF
-C       
-       X41 = X4 - X1
-       Y41 = Y4 - Y1
-       Z41 = Z4 - Z1
-       IF (X41==ZERO.AND.Y41==ZERO.AND.Z41==ZERO) THEN
-        IDE = 1
-	GOTO 10
-       ENDIF
-C       
+        RX = X2+X3-X1-X4
+        RY = Y2+Y3-Y1-Y4
+        RZ = Z2+Z3-Z1-Z4
+        SX = X3+X4-X1-X2
+        SY = Y3+Y4-Y1-Y2
+        SZ = Z3+Z4-Z1-Z2
+        NX = RY * SZ - RZ * SY
+        NY = RZ * SX - RX * SZ
+        NZ = RX * SY - RY * SX
+C--------A: (2*AREA)^2-----
+        A = NX*NX+NY*NY+NZ*NZ
+        IDE = 0
+        X12 = X2 - X1
+        Y12 = Y2 - Y1
+        Z12 = Z2 - Z1
+        IF (X12==ZERO.AND.Y12==ZERO.AND.Z12==ZERO) THEN
+          IDE = 1
+          GOTO 10
+        ENDIF
+C
+        X23 = X2 - X3
+        Y23 = Y2 - Y3
+        Z23 = Z2 - Z3
+        IF (X23==ZERO.AND.Y23==ZERO.AND.Z23==ZERO) THEN
+          IDE = 1
+          GOTO 10
+        ENDIF
+C
+        X34 = X4 - X3
+        Y34 = Y4 - Y3
+        Z34 = Z4 - Z3
+        IF (X34==ZERO.AND.Y34==ZERO.AND.Z34==ZERO) THEN
+          IDE = 1
+          GOTO 10
+        ENDIF
+C
+        X41 = X4 - X1
+        Y41 = Y4 - Y1
+        Z41 = Z4 - Z1
+        IF (X41==ZERO.AND.Y41==ZERO.AND.Z41==ZERO) THEN
+          IDE = 1
+          GOTO 10
+        ENDIF
+C
    10   CONTINUE
-C     
-       IF (A > AMAX )THEN
-	    IT=IDE
-		AMAX = A
-	   END IF
-      RETURN
+C
+        IF (A > AMAX )THEN
+          IT=IDE
+          AMAX = A
+        END IF
+        RETURN
       END

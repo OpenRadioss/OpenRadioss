@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SUM_6_FLOAT                   source/system/parit.F         
+Chd|  SUM_6_FLOAT                   source/system/parit.F
 Chd|-- called by -----------
-Chd|        AIRBAGB                       source/airbag/airbag2.F       
-Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
+Chd|        AIRBAGB                       source/airbag/airbag2.F
+Chd|        AIRBAGB1                      source/airbag/airbagb1.F
 Chd|        ASS18                         source/interfaces/int18/ass18.F
-Chd|        PORO                          source/ale/porous/poro.F      
+Chd|        PORO                          source/ale/porous/poro.F
 Chd|        RBYACT                        source/constraints/general/rbody/rbyact.F
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F
 Chd|        RGBODFP                       source/constraints/general/rbody/rgbodfp.F
@@ -42,21 +42,21 @@ Chd|        RLINK3                        source/constraints/general/rlink/rlink
 Chd|        RMATPON                       source/materials/mat/mat013/rmatpon.F
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
-Chd|        SMS_PRODUT_H                  source/ams/sms_proj.F         
-Chd|        SMS_RBE_1                     source/ams/sms_rbe2.F         
-Chd|        SMS_RBE_5                     source/ams/sms_rbe2.F         
-Chd|        SMS_RGWALC_BILAN              source/ams/sms_rgwalc.F       
-Chd|        SMS_RGWALL_BILAN              source/ams/sms_rgwall.F       
-Chd|        SMS_RGWALP_BILAN              source/ams/sms_rgwalp.F       
-Chd|        SMS_RGWALS_BILAN              source/ams/sms_rgwals.F       
-Chd|        SMS_RLINK1                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK2                    source/ams/sms_rlink.F        
-Chd|        SMS_RLINK3                    source/ams/sms_rlink.F        
-Chd|        SPGAUGE                       source/elements/sph/spgauge.F 
+Chd|        SMS_PCG                       source/ams/sms_pcg.F
+Chd|        SMS_PRODUT_H                  source/ams/sms_proj.F
+Chd|        SMS_RBE_1                     source/ams/sms_rbe2.F
+Chd|        SMS_RBE_5                     source/ams/sms_rbe2.F
+Chd|        SMS_RGWALC_BILAN              source/ams/sms_rgwalc.F
+Chd|        SMS_RGWALL_BILAN              source/ams/sms_rgwall.F
+Chd|        SMS_RGWALP_BILAN              source/ams/sms_rgwalp.F
+Chd|        SMS_RGWALS_BILAN              source/ams/sms_rgwals.F
+Chd|        SMS_RLINK1                    source/ams/sms_rlink.F
+Chd|        SMS_RLINK2                    source/ams/sms_rlink.F
+Chd|        SMS_RLINK3                    source/ams/sms_rlink.F
+Chd|        SPGAUGE                       source/elements/sph/spgauge.F
 Chd|        TELESC                        source/constraints/general/cyl_joint/telesc.F
-Chd|        VOLPVGB                       source/airbag/volpvg.F        
-Chd|        VOLUM0                        source/airbag/volum0.F        
+Chd|        VOLPVGB                       source/airbag/volpvg.F
+Chd|        VOLUM0                        source/airbag/volum0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SUM_6_FLOAT(JFT  ,JLT  ,F, F6, N)
@@ -67,10 +67,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, N
-      my_real
-     .   F(*)
-      DOUBLE PRECISION F6(N,6)
+        INTEGER JFT, JLT, N
+        my_real
+     .     F(*)
+        DOUBLE PRECISION F6(N,6)
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): nombre de bits pour la retenu
@@ -95,7 +95,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -108,8 +108,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -132,70 +132,70 @@ C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C Commun pour casser l optimisation et thread private pour multithread
 C
-      COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                  TEMP17,RESTE
+        COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                    TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                    TEMP17,RESTE
 !$OMP THREADPRIVATE(/PARIT_VAR/)
-      DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                 TEMP17,RESTE
+        DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                   TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                   TEMP17,RESTE
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
-      DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
-      DATA R8DEUXP89 /'4580000000000000'x/
-      DATA R8DEUXP62 /'43D0000000000000'x/
-      DATA R8DEUXP35 /'4220000000000000'x/
-      DATA R8TWOP8  /'4070000000000000'x/
-      DATA R8DEUXPM19/'3EC0000000000000'x/
-      DATA R8DEUXPM46/'3D10000000000000'x/
-    
-      DO I=JFT,JLT
+        INTEGER I
+        DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
+        DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
+        DATA R8DEUXP89 /'4580000000000000'x/
+        DATA R8DEUXP62 /'43D0000000000000'x/
+        DATA R8DEUXP35 /'4220000000000000'x/
+        DATA R8TWOP8  /'4070000000000000'x/
+        DATA R8DEUXPM19/'3EC0000000000000'x/
+        DATA R8DEUXPM46/'3D10000000000000'x/
 
-       RESTE  = F(I)
+        DO I=JFT,JLT
 
-       TEMP1  = RESTE + R8DEUXP89
-       TEMP11 = TEMP1 - R8DEUXP89
-       RESTE  = RESTE - TEMP11
+          RESTE  = F(I)
 
-       TEMP2  = RESTE + R8DEUXP62
-       TEMP12 = TEMP2 - R8DEUXP62
-       RESTE  = RESTE - TEMP12
+          TEMP1  = RESTE + R8DEUXP89
+          TEMP11 = TEMP1 - R8DEUXP89
+          RESTE  = RESTE - TEMP11
 
-       TEMP3  = RESTE + R8DEUXP35
-       TEMP13 = TEMP3 - R8DEUXP35
-       RESTE  = RESTE - TEMP13
+          TEMP2  = RESTE + R8DEUXP62
+          TEMP12 = TEMP2 - R8DEUXP62
+          RESTE  = RESTE - TEMP12
 
-       TEMP4  = RESTE + R8TWOP8
-       TEMP14 = TEMP4 - R8TWOP8
-       RESTE  = RESTE - TEMP14
+          TEMP3  = RESTE + R8DEUXP35
+          TEMP13 = TEMP3 - R8DEUXP35
+          RESTE  = RESTE - TEMP13
 
-       TEMP5  = RESTE + R8DEUXPM19
-       TEMP15 = TEMP5 - R8DEUXPM19
-       RESTE  = RESTE - TEMP15
+          TEMP4  = RESTE + R8TWOP8
+          TEMP14 = TEMP4 - R8TWOP8
+          RESTE  = RESTE - TEMP14
 
-       TEMP6  = RESTE + R8DEUXPM46
-       TEMP16 = TEMP6 - R8DEUXPM46
-       
-       F6(1,1)  = F6(1,1) + TEMP11
-       F6(1,2)  = F6(1,2) + TEMP12
-       F6(1,3)  = F6(1,3) + TEMP13
-       F6(1,4)  = F6(1,4) + TEMP14
-       F6(1,5)  = F6(1,5) + TEMP15
-       F6(1,6)  = F6(1,6) + TEMP16
+          TEMP5  = RESTE + R8DEUXPM19
+          TEMP15 = TEMP5 - R8DEUXPM19
+          RESTE  = RESTE - TEMP15
 
-      ENDDO
+          TEMP6  = RESTE + R8DEUXPM46
+          TEMP16 = TEMP6 - R8DEUXPM46
 
-      RETURN
+          F6(1,1)  = F6(1,1) + TEMP11
+          F6(1,2)  = F6(1,2) + TEMP12
+          F6(1,3)  = F6(1,3) + TEMP13
+          F6(1,4)  = F6(1,4) + TEMP14
+          F6(1,5)  = F6(1,5) + TEMP15
+          F6(1,6)  = F6(1,6) + TEMP16
+
+        ENDDO
+
+        RETURN
       END
 
 Chd|====================================================================
-Chd|  FOAT_TO_6_FLOAT               source/system/parit.F         
+Chd|  FOAT_TO_6_FLOAT               source/system/parit.F
 Chd|-- called by -----------
 Chd|        I20FOR3                       source/interfaces/int20/i20for3.F
 Chd|        I20FOR3E                      source/interfaces/int20/i20for3.F
@@ -210,14 +210,14 @@ Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4a
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
 Chd|        S4VOLNOD_SM                   source/elements/solid/solide4_sfem/s4volnod_sm.F
-Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   
-Chd|        SMS_MAV_LT                    source/ams/sms_pcg.F          
-Chd|        SMS_MAV_LT1                   source/ams/sms_pcg.F          
-Chd|        SMS_MAV_LT2                   source/ams/sms_pcg.F          
-Chd|        SMS_PRODUT3                   source/ams/sms_proj.F         
-Chd|        SMS_RBE3T1                    source/ams/sms_rbe3.F         
-Chd|        SMS_RBE3_PREC                 source/ams/sms_rbe3.F         
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
+Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F
+Chd|        SMS_MAV_LT                    source/ams/sms_pcg.F
+Chd|        SMS_MAV_LT1                   source/ams/sms_pcg.F
+Chd|        SMS_MAV_LT2                   source/ams/sms_pcg.F
+Chd|        SMS_PRODUT3                   source/ams/sms_proj.F
+Chd|        SMS_RBE3T1                    source/ams/sms_rbe3.F
+Chd|        SMS_RBE3_PREC                 source/ams/sms_rbe3.F
+Chd|        SPLISSV                       source/elements/sph/splissv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FOAT_TO_6_FLOAT(JFT  ,JLT  ,F, F6)
@@ -228,11 +228,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+        INTEGER JFT, JLT
 C     REAL
-      my_real
-     .   F(*)
-      DOUBLE PRECISION F6(6,*)
+        my_real
+     .     F(*)
+        DOUBLE PRECISION F6(6,*)
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): nombre de bits pour la retenu
@@ -257,7 +257,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -270,8 +270,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -294,67 +294,67 @@ C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C Commun pour casser l optimisation et thread private pour multithread
 C
-      COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                  TEMP17,RESTE
+        COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                    TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                    TEMP17,RESTE
 !$OMP THREADPRIVATE(/PARIT_VAR/)
-      DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                 TEMP17,RESTE
+        DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                   TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                   TEMP17,RESTE
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
-      DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
-      DATA R8DEUXP89 /'4580000000000000'x/
-      DATA R8DEUXP62 /'43D0000000000000'x/
-      DATA R8DEUXP35 /'4220000000000000'x/
-      DATA R8TWOP8  /'4070000000000000'x/
-      DATA R8DEUXPM19/'3EC0000000000000'x/
-      DATA R8DEUXPM46/'3D10000000000000'x/
-    
-      DO I=JFT,JLT
+        INTEGER I
+        DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
+        DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
+        DATA R8DEUXP89 /'4580000000000000'x/
+        DATA R8DEUXP62 /'43D0000000000000'x/
+        DATA R8DEUXP35 /'4220000000000000'x/
+        DATA R8TWOP8  /'4070000000000000'x/
+        DATA R8DEUXPM19/'3EC0000000000000'x/
+        DATA R8DEUXPM46/'3D10000000000000'x/
 
-       RESTE   = F(I)
+        DO I=JFT,JLT
 
-       TEMP1   = RESTE + R8DEUXP89
-       F6(1,I) = TEMP1 - R8DEUXP89
-       RESTE   = RESTE - F6(1,I)
+          RESTE   = F(I)
 
-       TEMP2   = RESTE + R8DEUXP62
-       F6(2,I) = TEMP2 - R8DEUXP62
-       RESTE   = RESTE - F6(2,I)
+          TEMP1   = RESTE + R8DEUXP89
+          F6(1,I) = TEMP1 - R8DEUXP89
+          RESTE   = RESTE - F6(1,I)
 
-       TEMP3   = RESTE + R8DEUXP35
-       F6(3,I) = TEMP3 - R8DEUXP35
-       RESTE   = RESTE - F6(3,I)
+          TEMP2   = RESTE + R8DEUXP62
+          F6(2,I) = TEMP2 - R8DEUXP62
+          RESTE   = RESTE - F6(2,I)
 
-       TEMP4   = RESTE + R8TWOP8
-       F6(4,I) = TEMP4 - R8TWOP8
-       RESTE   = RESTE - F6(4,I)
+          TEMP3   = RESTE + R8DEUXP35
+          F6(3,I) = TEMP3 - R8DEUXP35
+          RESTE   = RESTE - F6(3,I)
 
-       TEMP5   = RESTE + R8DEUXPM19
-       F6(5,I) = TEMP5 - R8DEUXPM19
-       RESTE   = RESTE - F6(5,I)
+          TEMP4   = RESTE + R8TWOP8
+          F6(4,I) = TEMP4 - R8TWOP8
+          RESTE   = RESTE - F6(4,I)
 
-       TEMP6   = RESTE + R8DEUXPM46
-       F6(6,I) = TEMP6 - R8DEUXPM46
+          TEMP5   = RESTE + R8DEUXPM19
+          F6(5,I) = TEMP5 - R8DEUXPM19
+          RESTE   = RESTE - F6(5,I)
 
-      ENDDO
+          TEMP6   = RESTE + R8DEUXPM46
+          F6(6,I) = TEMP6 - R8DEUXPM46
 
-      RETURN
+        ENDDO
+
+        RETURN
       END
 
 Chd|====================================================================
-Chd|  FOAT_TO_7_FLOAT               source/system/parit.F         
+Chd|  FOAT_TO_7_FLOAT               source/system/parit.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE FOAT_TO_7_FLOAT(F,F7)
+      SUBROUTINE FOAT_TO_7_FLOAT(F,F7)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -362,7 +362,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       DOUBLE PRECISION F,F7(7)
+        DOUBLE PRECISION F,F7(7)
 C-----------------------------------------------
 c
 c      r=29 (foat_to_7_float): nombre de bits pour la retenu
@@ -388,8 +388,8 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
-c          calcul 
+c--------- calcul de fmax, fmin
+c          calcul
 c      fmax avec 0 bits  zero = 2^m1
 c      fmax avec r bits  zero = 2^(m1-r)
 c
@@ -420,63 +420,63 @@ C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C Commun pour casser l optimisation et thread private pour multithread
 C
-      COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                  TEMP17,RESTE
+        COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                    TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                    TEMP17,RESTE
 !$OMP THREADPRIVATE(/PARIT_VAR/)
-      DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                 TEMP17,RESTE
+        DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                   TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                   TEMP17,RESTE
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       DOUBLE PRECISION PE,PS
-       DOUBLE PRECISION DEUXP92,DEUXP68,DEUXP44 ,DEUXP20,DEUXPM4,
-     .          DEUXPM28,DEUXPM52
-       DATA DEUXP92 /'45B0000000000000'X/
-       DATA DEUXP68 /'4430000000000000'X/
-       DATA DEUXP44 /'42B0000000000000'X/
-       DATA DEUXP20 /'4130000000000000'X/
-       DATA DEUXPM4 /'3FB0000000000000'X/
-       DATA DEUXPM28/'3E30000000000000'X/
-       DATA DEUXPM52/'3CB0000000000000'X/
+        DOUBLE PRECISION PE,PS
+        DOUBLE PRECISION DEUXP92,DEUXP68,DEUXP44 ,DEUXP20,DEUXPM4,
+     .           DEUXPM28,DEUXPM52
+        DATA DEUXP92 /'45B0000000000000'X/
+        DATA DEUXP68 /'4430000000000000'X/
+        DATA DEUXP44 /'42B0000000000000'X/
+        DATA DEUXP20 /'4130000000000000'X/
+        DATA DEUXPM4 /'3FB0000000000000'X/
+        DATA DEUXPM28/'3E30000000000000'X/
+        DATA DEUXPM52/'3CB0000000000000'X/
 
-       TEMP1 = F     + DEUXP92
-       F7(1) = TEMP1 - DEUXP92
-       RESTE = F     - F7(1)
+        TEMP1 = F     + DEUXP92
+        F7(1) = TEMP1 - DEUXP92
+        RESTE = F     - F7(1)
 
-       TEMP2 = RESTE + DEUXP68
-       F7(2) = TEMP2 - DEUXP68
-       RESTE = RESTE - F7(2)
+        TEMP2 = RESTE + DEUXP68
+        F7(2) = TEMP2 - DEUXP68
+        RESTE = RESTE - F7(2)
 
-       TEMP3 = RESTE + DEUXP44
-       F7(3) = TEMP3 - DEUXP44
-       RESTE = RESTE - F7(3)
+        TEMP3 = RESTE + DEUXP44
+        F7(3) = TEMP3 - DEUXP44
+        RESTE = RESTE - F7(3)
 
-       TEMP4 = RESTE + DEUXP20
-       F7(4) = TEMP4 - DEUXP20
-       RESTE = RESTE - F7(4)
+        TEMP4 = RESTE + DEUXP20
+        F7(4) = TEMP4 - DEUXP20
+        RESTE = RESTE - F7(4)
 
-       TEMP5 = RESTE + DEUXPM4
-       F7(5) = TEMP5 - DEUXPM4
-       RESTE = RESTE - F7(5)
+        TEMP5 = RESTE + DEUXPM4
+        F7(5) = TEMP5 - DEUXPM4
+        RESTE = RESTE - F7(5)
 
-       TEMP6 = RESTE + DEUXPM28
-       F7(6) = TEMP6 - DEUXPM28
-       RESTE = RESTE - F7(6)
+        TEMP6 = RESTE + DEUXPM28
+        F7(6) = TEMP6 - DEUXPM28
+        RESTE = RESTE - F7(6)
 
-       TEMP7 = RESTE + DEUXPM52
-       F7(7) = TEMP7 - DEUXPM52
+        TEMP7 = RESTE + DEUXPM52
+        F7(7) = TEMP7 - DEUXPM52
 
-       RETURN
-       END
+        RETURN
+      END
 
 
 Chd|====================================================================
-Chd|  DOUBLE_FLOT_IEEE              source/system/parit.F         
+Chd|  DOUBLE_FLOT_IEEE              source/system/parit.F
 Chd|-- called by -----------
 Chd|        CUPDT3F                       source/elements/shell/coque/cupdt3.F
 Chd|        I7ASS3                        source/interfaces/int07/i7ass3.F
@@ -495,25 +495,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
-      integer*8 I8(*),I8F(3,*)
-      my_real
-     .   R8(MVSIZ)
+        INTEGER JFT, JLT
+        integer*8 I8(*),I8F(3,*)
+        my_real
+     .     R8(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c___________________________________________________          
-      double precision
-     .    R8_LOCAL,R8_DEUXP43,AA
-      INTEGER*8 I8_DEUXP43
-      DATA I8_DEUXP43 /'80000000000'x/
-      DATA R8_DEUXP43 /'42A0000000000000'x/
-      INTEGER I
-c___________________________________________________          
+c___________________________________________________
+        double precision
+     .      R8_LOCAL,R8_DEUXP43,AA
+        INTEGER*8 I8_DEUXP43
+        DATA I8_DEUXP43 /'80000000000'x/
+        DATA R8_DEUXP43 /'42A0000000000000'x/
+        INTEGER I
+c___________________________________________________
 C-----------------------------------------------
 C
-      DO I=JFT,JLT
-c___________________________________________________          
+        DO I=JFT,JLT
+c___________________________________________________
           I8F(1,I)   = R8(I)
           AA         = I8F(1,I)
           R8_LOCAL   = (R8(I)    - AA) * R8_DEUXP43
@@ -521,12 +521,12 @@ c___________________________________________________
           AA         = I8F(2,I)
           R8_LOCAL   = (R8_LOCAL - AA) * R8_DEUXP43
           I8F(3,I)   = R8_LOCAL + 0.5
-      ENDDO
-c___________________________________________________          
-      RETURN
+        ENDDO
+c___________________________________________________
+        RETURN
       END
 Chd|====================================================================
-Chd|  SUM_6_FLOAT_SENS              source/system/parit.F         
+Chd|  SUM_6_FLOAT_SENS              source/system/parit.F
 Chd|-- called by -----------
 Chd|        I10MAINF                      source/interfaces/int10/i10mainf.F
 Chd|        I11MAINF                      source/interfaces/int11/i11mainf.F
@@ -551,11 +551,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, A, B, C, D, E, G, ISENSINT(*)
+        INTEGER JFT, JLT, A, B, C, D, E, G, ISENSINT(*)
 C     REAL
-      my_real
-     .   F(A,B,C)
-      DOUBLE PRECISION F6(D,E,G)
+        my_real
+     .     F(A,B,C)
+        DOUBLE PRECISION F6(D,E,G)
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): nombre de bits pour la retenu
@@ -580,7 +580,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -593,8 +593,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -617,86 +617,86 @@ C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C Commun pour casser l optimisation et thread private pour multithread
 C
-      COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                  TEMP17,RESTE
+        COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                    TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                    TEMP17,RESTE
 !$OMP THREADPRIVATE(/PARIT_VAR/)
-      DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                 TEMP17,RESTE
+        DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                   TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                   TEMP17,RESTE
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
-      DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
-      DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
-      DATA R8DEUXP89 /'4580000000000000'x/
-      DATA R8DEUXP62 /'43D0000000000000'x/
-      DATA R8DEUXP35 /'4220000000000000'x/
-      DATA R8TWOP8  /'4070000000000000'x/
-      DATA R8DEUXPM19/'3EC0000000000000'x/
-      DATA R8DEUXPM46/'3D10000000000000'x/
+        INTEGER I,J,K
+        DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
+        DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
+        DATA R8DEUXP89 /'4580000000000000'x/
+        DATA R8DEUXP62 /'43D0000000000000'x/
+        DATA R8DEUXP35 /'4220000000000000'x/
+        DATA R8TWOP8  /'4070000000000000'x/
+        DATA R8DEUXPM19/'3EC0000000000000'x/
+        DATA R8DEUXPM46/'3D10000000000000'x/
 
-      DO I= 1,A
-        IF(ISENSINT(I) /=0)THEN
-         DO J= 1,B
-   	    DO K=JFT,JLT
+        DO I= 1,A
+          IF(ISENSINT(I) /=0)THEN
+            DO J= 1,B
+              DO K=JFT,JLT
 
-   	     RESTE  = F(I,J,K)
+                RESTE  = F(I,J,K)
 
-   	     TEMP1  = RESTE + R8DEUXP89
-   	     TEMP11 = TEMP1 - R8DEUXP89
-   	     RESTE  = RESTE - TEMP11
+                TEMP1  = RESTE + R8DEUXP89
+                TEMP11 = TEMP1 - R8DEUXP89
+                RESTE  = RESTE - TEMP11
 
-   	     TEMP2  = RESTE + R8DEUXP62
-   	     TEMP12 = TEMP2 - R8DEUXP62
-   	     RESTE  = RESTE - TEMP12
+                TEMP2  = RESTE + R8DEUXP62
+                TEMP12 = TEMP2 - R8DEUXP62
+                RESTE  = RESTE - TEMP12
 
-   	     TEMP3  = RESTE + R8DEUXP35
-   	     TEMP13 = TEMP3 - R8DEUXP35
-   	     RESTE  = RESTE - TEMP13
+                TEMP3  = RESTE + R8DEUXP35
+                TEMP13 = TEMP3 - R8DEUXP35
+                RESTE  = RESTE - TEMP13
 
-   	     TEMP4  = RESTE + R8TWOP8
-   	     TEMP14 = TEMP4 - R8TWOP8
-   	     RESTE  = RESTE - TEMP14
+                TEMP4  = RESTE + R8TWOP8
+                TEMP14 = TEMP4 - R8TWOP8
+                RESTE  = RESTE - TEMP14
 
-   	     TEMP5  = RESTE + R8DEUXPM19
-   	     TEMP15 = TEMP5 - R8DEUXPM19
-   	     RESTE  = RESTE - TEMP15
+                TEMP5  = RESTE + R8DEUXPM19
+                TEMP15 = TEMP5 - R8DEUXPM19
+                RESTE  = RESTE - TEMP15
 
-   	     TEMP6  = RESTE + R8DEUXPM46
-   	     TEMP16 = TEMP6 - R8DEUXPM46
+                TEMP6  = RESTE + R8DEUXPM46
+                TEMP16 = TEMP6 - R8DEUXPM46
 
 #include "lockon.inc"
-   	     F6(J,1,ISENSINT(I))  = F6(J,1,ISENSINT(I)) + TEMP11
-   	     F6(J,2,ISENSINT(I))  = F6(J,2,ISENSINT(I)) + TEMP12
-   	     F6(J,3,ISENSINT(I))  = F6(J,3,ISENSINT(I)) + TEMP13
-   	     F6(J,4,ISENSINT(I))  = F6(J,4,ISENSINT(I)) + TEMP14
-   	     F6(J,5,ISENSINT(I))  = F6(J,5,ISENSINT(I)) + TEMP15
-   	     F6(J,6,ISENSINT(I))  = F6(J,6,ISENSINT(I)) + TEMP16 
+                F6(J,1,ISENSINT(I))  = F6(J,1,ISENSINT(I)) + TEMP11
+                F6(J,2,ISENSINT(I))  = F6(J,2,ISENSINT(I)) + TEMP12
+                F6(J,3,ISENSINT(I))  = F6(J,3,ISENSINT(I)) + TEMP13
+                F6(J,4,ISENSINT(I))  = F6(J,4,ISENSINT(I)) + TEMP14
+                F6(J,5,ISENSINT(I))  = F6(J,5,ISENSINT(I)) + TEMP15
+                F6(J,6,ISENSINT(I))  = F6(J,6,ISENSINT(I)) + TEMP16
 #include "lockoff.inc"
 
-   	    ENDDO
-         ENDDO
-        ENDIF
-      ENDDO
+              ENDDO
+            ENDDO
+          ENDIF
+        ENDDO
 
-      RETURN
+        RETURN
       END
 Chd|====================================================================
-Chd|  SUM_6_FLOAT_SECT              source/system/parit.F         
+Chd|  SUM_6_FLOAT_SECT              source/system/parit.F
 Chd|-- called by -----------
 Chd|        SECTION_3N                    source/tools/sect/section_3n.F
-Chd|        SECTION_C                     source/tools/sect/section_c.F 
-Chd|        SECTION_P                     source/tools/sect/section_p.F 
-Chd|        SECTION_R                     source/tools/sect/section_r.F 
-Chd|        SECTION_S                     source/tools/sect/section_s.F 
+Chd|        SECTION_C                     source/tools/sect/section_c.F
+Chd|        SECTION_P                     source/tools/sect/section_p.F
+Chd|        SECTION_R                     source/tools/sect/section_r.F
+Chd|        SECTION_S                     source/tools/sect/section_s.F
 Chd|        SECTION_S4                    source/tools/sect/section_s4.F
 Chd|        SECTION_S6                    source/tools/sect/section_s6.F
-Chd|        SECTION_T                     source/tools/sect/section_t.F 
+Chd|        SECTION_T                     source/tools/sect/section_t.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SUM_6_FLOAT_SECT(F, A, B, JFT  ,JLT  , F6, D, E)
@@ -711,9 +711,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, A, B, D, E
-      my_real F(A,B)
-      DOUBLE PRECISION F6(D,E)
+        INTEGER JFT, JLT, A, B, D, E
+        my_real F(A,B)
+        DOUBLE PRECISION F6(D,E)
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): nombre de bits pour la retenu
@@ -738,7 +738,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -751,8 +751,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -775,67 +775,67 @@ C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C Commun pour casser l optimisation et thread private pour multithread
 C
-      COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                  TEMP17,RESTE
+        COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                    TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                    TEMP17,RESTE
 !$OMP THREADPRIVATE(/PARIT_VAR/)
-      DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
-     .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
-     .                 TEMP17,RESTE
+        DOUBLE PRECISION TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
+     .                   TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
+     .                   TEMP17,RESTE
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
-      DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
-      DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
-      DATA R8DEUXP89 /'4580000000000000'x/
-      DATA R8DEUXP62 /'43D0000000000000'x/
-      DATA R8DEUXP35 /'4220000000000000'x/
-      DATA R8TWOP8  /'4070000000000000'x/
-      DATA R8DEUXPM19/'3EC0000000000000'x/
-      DATA R8DEUXPM46/'3D10000000000000'x/
-      DO I= 1,A
-   	DO J=JFT,JLT
+        INTEGER I,J,K
+        DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
+        DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
+        DATA R8DEUXP89 /'4580000000000000'x/
+        DATA R8DEUXP62 /'43D0000000000000'x/
+        DATA R8DEUXP35 /'4220000000000000'x/
+        DATA R8TWOP8  /'4070000000000000'x/
+        DATA R8DEUXPM19/'3EC0000000000000'x/
+        DATA R8DEUXPM46/'3D10000000000000'x/
+        DO I= 1,A
+          DO J=JFT,JLT
 
-   	 RESTE  = F(I,J)
+            RESTE  = F(I,J)
 
-   	 TEMP1  = RESTE + R8DEUXP89
-   	 TEMP11 = TEMP1 - R8DEUXP89
-   	 RESTE  = RESTE - TEMP11
+            TEMP1  = RESTE + R8DEUXP89
+            TEMP11 = TEMP1 - R8DEUXP89
+            RESTE  = RESTE - TEMP11
 
-   	 TEMP2  = RESTE + R8DEUXP62
-   	 TEMP12 = TEMP2 - R8DEUXP62
-   	 RESTE  = RESTE - TEMP12
+            TEMP2  = RESTE + R8DEUXP62
+            TEMP12 = TEMP2 - R8DEUXP62
+            RESTE  = RESTE - TEMP12
 
-   	 TEMP3  = RESTE + R8DEUXP35
-   	 TEMP13 = TEMP3 - R8DEUXP35
-   	 RESTE  = RESTE - TEMP13
+            TEMP3  = RESTE + R8DEUXP35
+            TEMP13 = TEMP3 - R8DEUXP35
+            RESTE  = RESTE - TEMP13
 
-   	 TEMP4  = RESTE + R8TWOP8
-   	 TEMP14 = TEMP4 - R8TWOP8
-   	 RESTE  = RESTE - TEMP14
+            TEMP4  = RESTE + R8TWOP8
+            TEMP14 = TEMP4 - R8TWOP8
+            RESTE  = RESTE - TEMP14
 
-   	 TEMP5  = RESTE + R8DEUXPM19
-   	 TEMP15 = TEMP5 - R8DEUXPM19
-   	 RESTE  = RESTE - TEMP15
+            TEMP5  = RESTE + R8DEUXPM19
+            TEMP15 = TEMP5 - R8DEUXPM19
+            RESTE  = RESTE - TEMP15
 
-   	 TEMP6  = RESTE + R8DEUXPM46
-   	 TEMP16 = TEMP6 - R8DEUXPM46
+            TEMP6  = RESTE + R8DEUXPM46
+            TEMP16 = TEMP6 - R8DEUXPM46
 
-#include "lockon.inc"   	 
-   	 F6(I,1)  = F6(I,1) + TEMP11
-   	 F6(I,2)  = F6(I,2) + TEMP12
-   	 F6(I,3)  = F6(I,3) + TEMP13
-   	 F6(I,4)  = F6(I,4) + TEMP14
-   	 F6(I,5)  = F6(I,5) + TEMP15
-   	 F6(I,6)  = F6(I,6) + TEMP16
+#include "lockon.inc"
+            F6(I,1)  = F6(I,1) + TEMP11
+            F6(I,2)  = F6(I,2) + TEMP12
+            F6(I,3)  = F6(I,3) + TEMP13
+            F6(I,4)  = F6(I,4) + TEMP14
+            F6(I,5)  = F6(I,5) + TEMP15
+            F6(I,6)  = F6(I,6) + TEMP16
 #include "lockoff.inc"
 
-   	ENDDO
-      ENDDO
+          ENDDO
+        ENDDO
 
-      RETURN
+        RETURN
       END

@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+        USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,34 +51,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPT
-      INTEGER NC(MVSIZ,10),NEL
-      DOUBLE PRECISION
-     .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
-     
+        INTEGER, INTENT(IN) :: NPT
+        INTEGER NC(MVSIZ,10),NEL
+        DOUBLE PRECISION
+     .    XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
+
 C     REAL
-      my_real
-     .  OFFG(*),OFFG0(*)
-      TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_TAB
+        my_real
+     .    OFFG(*),OFFG0(*)
+        TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NCH,INDEX(MVSIZ),J ,N   ,IP
+        INTEGER I ,NCH,INDEX(MVSIZ),J ,N   ,IP
 C     REAL
-      my_real
-     .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      DOUBLE PRECISION
-     .  XXD(MVSIZ,10), YYD(MVSIZ,10), ZZD(MVSIZ,10)
+        my_real
+     .     PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
+        TYPE(L_BUFEL_) ,POINTER :: LBUF
+        DOUBLE PRECISION
+     .    XXD(MVSIZ,10), YYD(MVSIZ,10), ZZD(MVSIZ,10)
 C-----------------------------------------------
         NCH=0
         DO I=1,NEL
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
-           NCH = NCH +1
-           INDEX(NCH) = I
-         END IF
-	END DO
-	IF (NCH==0) RETURN
+          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
+            NCH = NCH +1
+            INDEX(NCH) = I
+          END IF
+        END DO
+        IF (NCH==0) RETURN
         DO J=1,NCH
           I= INDEX(J)
           XXD(J,1:10)=XX(I,1:10)
@@ -87,11 +87,11 @@ C-----------------------------------------------
         END DO
         CALL S10PIJ12(NPT,XXD, YYD, ZZD, PX,PY,PZ ,NCH)
 C----
-       DO IP=1,NPT
-        LBUF => ELBUF_TAB%BUFLY(1)%LBUF(IP,1,1)
-        CALL S10PIJSAV12(PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
-     .                   LBUF%PIJ,LBUF%SIG,LBUF%SIGL,INDEX,NCH,NEL)
-       ENDDO
+        DO IP=1,NPT
+          LBUF => ELBUF_TAB%BUFLY(1)%LBUF(IP,1,1)
+          CALL S10PIJSAV12(PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
+     .                     LBUF%PIJ,LBUF%SIG,LBUF%SIGL,INDEX,NCH,NEL)
+        ENDDO
 C-----------
-      RETURN
+        RETURN
       END

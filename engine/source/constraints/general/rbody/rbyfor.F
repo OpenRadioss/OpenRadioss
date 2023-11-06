@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  RBYFOR                        source/constraints/general/rbody/rbyfor.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        RGBODFP                       source/constraints/general/rbody/rgbodfp.F
 Chd|        SPMD_EXCH_A_RB6               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|        SPMD_EXCH_A_RB6G              source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
+Chd|        STARTIME                      source/system/timer.F
+Chd|        STOPTIME                      source/system/timer.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE RBYFOR(
@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
+        USE GROUPDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,44 +62,44 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
-     .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
-     .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
-     .        NODREAC(*),CPTREAC
+        INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
+     .          KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
+     .          NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
+     .          NODREAC(*),CPTREAC
 C     REAL
-      my_real
-     .   RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
-     .   IN(*) ,STIFN(*),STIFR(*),FANI(3,*),MS(*),V(3,*) ,
-     .   BUFSF(*), SKEW(LSKEW,*),FTHREAC(6,*)
-      DOUBLE PRECISION RBY6(8,6,NRBYKIN)
-      DOUBLE PRECISION
-     .        FBSAV6(12,6,DIMFB),RBID(12,6)
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+        my_real
+     .     RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
+     .     IN(*) ,STIFN(*),STIFR(*),FANI(3,*),MS(*),V(3,*) ,
+     .     BUFSF(*), SKEW(LSKEW,*),FTHREAC(6,*)
+        DOUBLE PRECISION RBY6(8,6,NRBYKIN)
+        DOUBLE PRECISION
+     .          FBSAV6(12,6,DIMFB),RBID(12,6)
+        TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J,K,N,KK,N2,ILAGM,
-     .         ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT
+        INTEGER  J,K,N,KK,N2,ILAGM,
+     .           ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT
 C-------------------------------------
 C INIT RBY6 to ZERO for desactivated Rigid Bodies (non multi-thread)
 C-------------------------------------
 !$OMP SINGLE
-      RBID = ZERO
-      DO KK=1,NRBYKIN_L
-        N=IRBKIN_L(KK)
-        IF(NPBY(7,N)<=0) THEN
-          DO K = 1, 6
-            RBY6(1,K,N) = ZERO
-            RBY6(2,K,N) = ZERO
-            RBY6(3,K,N) = ZERO
-            RBY6(4,K,N) = ZERO
-            RBY6(5,K,N) = ZERO
-            RBY6(6,K,N) = ZERO
-            RBY6(7,K,N) = ZERO
-            RBY6(8,K,N) = ZERO          
-          ENDDO
-        ENDIF
-      ENDDO
+        RBID = ZERO
+        DO KK=1,NRBYKIN_L
+          N=IRBKIN_L(KK)
+          IF(NPBY(7,N)<=0) THEN
+            DO K = 1, 6
+              RBY6(1,K,N) = ZERO
+              RBY6(2,K,N) = ZERO
+              RBY6(3,K,N) = ZERO
+              RBY6(4,K,N) = ZERO
+              RBY6(5,K,N) = ZERO
+              RBY6(6,K,N) = ZERO
+              RBY6(7,K,N) = ZERO
+              RBY6(8,K,N) = ZERO
+            ENDDO
+          ENDIF
+        ENDDO
 !$OMP END SINGLE
 C-------------------------------------
 C CALCUL FORCE SUPER RIGID BODIES (non multi-thread)
@@ -107,12 +107,12 @@ C-------------------------------------
 
 !$OMP SINGLE
 
-      DO KK=1,NRBYKIN_L
-        N=IRBKIN_L(KK)
-        K  = KIND(N)
-        IF (NPBY(4,N)/=0) THEN
-          IF(NPBY(7,N)>0) THEN
-           N2 = NINTER+NRWALL+N
+        DO KK=1,NRBYKIN_L
+          N=IRBKIN_L(KK)
+          K  = KIND(N)
+          IF (NPBY(4,N)/=0) THEN
+            IF(NPBY(7,N)>0) THEN
+              N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
 C          A chaque instant (et a TT=0. dans le Starter),
 C          le Rigid Body transmet la position du noeud main
@@ -120,52 +120,52 @@ C          a la surface
 C          ET
 C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
 C          sont calcules en ce point !!!
-           ISU=NPBY(8,N)
-           IF(ISPMD==0.AND.ISU/=0) THEN
-            IM=NPBY(1,N)
-            ADRSRF=IGRSURF(ISU)%IAD_BUFR
-            A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
-            A(2,IM) =A(2,IM) +BUFSF(ADRSRF+26)
-            A(3,IM) =A(3,IM) +BUFSF(ADRSRF+27)
-            AR(1,IM)=AR(1,IM)+BUFSF(ADRSRF+28)
-            AR(2,IM)=AR(2,IM)+BUFSF(ADRSRF+29)
-            AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
-            STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
-            STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
+              ISU=NPBY(8,N)
+              IF(ISPMD==0.AND.ISU/=0) THEN
+                IM=NPBY(1,N)
+                ADRSRF=IGRSURF(ISU)%IAD_BUFR
+                A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
+                A(2,IM) =A(2,IM) +BUFSF(ADRSRF+26)
+                A(3,IM) =A(3,IM) +BUFSF(ADRSRF+27)
+                AR(1,IM)=AR(1,IM)+BUFSF(ADRSRF+28)
+                AR(2,IM)=AR(2,IM)+BUFSF(ADRSRF+29)
+                AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
+                STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
+                STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
 C           Sortie sur TH des forces d'interface.
-            FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
-            FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
-            FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1
-            FSAV(13,N2)=FSAV(13,N2)+BUFSF(ADRSRF+28)*DT1
-            FSAV(14,N2)=FSAV(14,N2)+BUFSF(ADRSRF+29)*DT1
-            FSAV(15,N2)=FSAV(15,N2)+BUFSF(ADRSRF+30)*DT1
-           END IF
+                FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
+                FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
+                FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1
+                FSAV(13,N2)=FSAV(13,N2)+BUFSF(ADRSRF+28)*DT1
+                FSAV(14,N2)=FSAV(14,N2)+BUFSF(ADRSRF+29)*DT1
+                FSAV(15,N2)=FSAV(15,N2)+BUFSF(ADRSRF+30)*DT1
+              END IF
 c
-           IPARSENS=0
-           ISECT=0
-           IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
-     .     			TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
-           IF(ISECT/=0) THEN
-             IPARSENS=1
-             CALL RGBODFP(
-     1         A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
-     2         LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
-     3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
-     4         1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
-     5         NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
-           ELSE
-             CALL RGBODFP(
-     1         A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
-     2         LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
-     3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
-     4         1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
-     5         NPBY(2,N),NATIV_SMS,RBID         , IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
-           ENDIF
+              IPARSENS=0
+              ISECT=0
+              IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
+     .        TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
+              IF(ISECT/=0) THEN
+                IPARSENS=1
+                CALL RGBODFP(
+     1            A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2            LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3            STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4            1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
+     5            NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
+     6            NODREAC,FTHREAC,CPTREAC)
+              ELSE
+                CALL RGBODFP(
+     1            A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2            LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3            STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4            1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
+     5            NPBY(2,N),NATIV_SMS,RBID         , IPARSENS,
+     6            NODREAC,FTHREAC,CPTREAC)
+              ENDIF
+            ENDIF
           ENDIF
-        ENDIF
-      ENDDO
+        ENDDO
 
 !$OMP END SINGLE
 
@@ -179,12 +179,12 @@ C-------------------------------------
 
 !$OMP DO SCHEDULE(DYNAMIC,1)
 
-      DO KK=1,NRBYKIN_L
-        N = IRBKIN_L(KK)
-        K  = KIND(N)
-        IF (NPBY(4,N)==0) THEN
-          IF(NPBY(7,N)>0) THEN
-           N2 = NINTER+NRWALL+N
+        DO KK=1,NRBYKIN_L
+          N = IRBKIN_L(KK)
+          K  = KIND(N)
+          IF (NPBY(4,N)==0) THEN
+            IF(NPBY(7,N)>0) THEN
+              N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
 C          A chaque instant (et a TT=0. dans le Starter),
 C          le Rigid Body transmet la position du noeud main
@@ -192,65 +192,65 @@ C          a la surface
 C          ET
 C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
 C          sont calcules en ce point !!!
-           ISU=NPBY(8,N)
-           IF(ISPMD==0.AND.ISU/=0) THEN
-            IM=NPBY(1,N)
-            ADRSRF=IGRSURF(ISU)%IAD_BUFR
-            A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
-            A(2,IM) =A(2,IM) +BUFSF(ADRSRF+26)
-            A(3,IM) =A(3,IM) +BUFSF(ADRSRF+27)
-            AR(1,IM)=AR(1,IM)+BUFSF(ADRSRF+28)
-            AR(2,IM)=AR(2,IM)+BUFSF(ADRSRF+29)
-            AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
-            STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
-            STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
+              ISU=NPBY(8,N)
+              IF(ISPMD==0.AND.ISU/=0) THEN
+                IM=NPBY(1,N)
+                ADRSRF=IGRSURF(ISU)%IAD_BUFR
+                A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
+                A(2,IM) =A(2,IM) +BUFSF(ADRSRF+26)
+                A(3,IM) =A(3,IM) +BUFSF(ADRSRF+27)
+                AR(1,IM)=AR(1,IM)+BUFSF(ADRSRF+28)
+                AR(2,IM)=AR(2,IM)+BUFSF(ADRSRF+29)
+                AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
+                STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
+                STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
 C           Sortie sur TH des forces d'interface.
-            FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
-            FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
-            FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1
-            FSAV(13,N2)=FSAV(13,N2)+BUFSF(ADRSRF+28)*DT1
-            FSAV(14,N2)=FSAV(14,N2)+BUFSF(ADRSRF+29)*DT1
-            FSAV(15,N2)=FSAV(15,N2)+BUFSF(ADRSRF+30)*DT1
-           END IF
+                FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
+                FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
+                FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1
+                FSAV(13,N2)=FSAV(13,N2)+BUFSF(ADRSRF+28)*DT1
+                FSAV(14,N2)=FSAV(14,N2)+BUFSF(ADRSRF+29)*DT1
+                FSAV(15,N2)=FSAV(15,N2)+BUFSF(ADRSRF+30)*DT1
+              END IF
 c
-           IPARSENS=0
-           ISECT=0
-           IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
-     .     			TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
-           IF(ISECT/=0) THEN
-             IPARSENS=1
-             CALL RGBODFP(
-     1         A        ,AR         ,X          ,FSAV(1,N2),RBY(1,N),
-     2         LPBY(K)  ,NPBY(1,N)  ,IN         ,VR        ,STIFN   ,
-     3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
-     4         1        ,ICODR      ,ISKEW      ,SKEW   ,RBY6(1,1,N),
-     5         NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
-           ELSE
-             CALL RGBODFP(
-     1         A        ,AR         ,X          ,FSAV(1,N2),RBY(1,N),
-     2         LPBY(K)  ,NPBY(1,N)  ,IN         ,VR        ,STIFN   ,
-     3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
-     4         1        ,ICODR      ,ISKEW      ,SKEW   ,RBY6(1,1,N),
-     5         NPBY(2,N),NATIV_SMS  ,RBID       ,IPARSENS   ,
-     6         NODREAC,FTHREAC,CPTREAC)
-           ENDIF
+              IPARSENS=0
+              ISECT=0
+              IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
+     .        TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
+              IF(ISECT/=0) THEN
+                IPARSENS=1
+                CALL RGBODFP(
+     1            A        ,AR         ,X          ,FSAV(1,N2),RBY(1,N),
+     2            LPBY(K)  ,NPBY(1,N)  ,IN         ,VR        ,STIFN   ,
+     3            STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4            1        ,ICODR      ,ISKEW      ,SKEW   ,RBY6(1,1,N),
+     5            NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
+     6            NODREAC,FTHREAC,CPTREAC)
+              ELSE
+                CALL RGBODFP(
+     1            A        ,AR         ,X          ,FSAV(1,N2),RBY(1,N),
+     2            LPBY(K)  ,NPBY(1,N)  ,IN         ,VR        ,STIFN   ,
+     3            STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4            1        ,ICODR      ,ISKEW      ,SKEW   ,RBY6(1,1,N),
+     5            NPBY(2,N),NATIV_SMS  ,RBID       ,IPARSENS   ,
+     6            NODREAC,FTHREAC,CPTREAC)
+              ENDIF
+            ENDIF
           ENDIF
-        ENDIF
-      ENDDO
+        ENDDO
 
 !$OMP END DO
 
-      IF (NSPMD > 1) THEN
+        IF (NSPMD > 1) THEN
 
 !$OMP SINGLE
 
-        IF (IMON>0) CALL STARTIME(11,1)
+          IF (IMON>0) CALL STARTIME(11,1)
 C
 C Comm non multi-thread
 C
 C flag to enable/disable all to all communication for RBY.
-           IF(NINTSTAMP == 0) THEN
+          IF(NINTSTAMP == 0) THEN
 C routine A2A de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
             NRBDIM=8
             CALL SPMD_EXCH_A_RB6(
@@ -260,49 +260,49 @@ C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
             CALL SPMD_EXCH_A_RB6G(NPBY,RBY6)
           END IF
 
-        IF (IMON>0) CALL STOPTIME(11,1)
+          IF (IMON>0) CALL STOPTIME(11,1)
 
 !$OMP END SINGLE
 
-      END IF
+        END IF
 C
 C Traitement fin parith/on multi-thread
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
 
-      DO KK=1,NRBYKIN_L
-        N = IRBKIN_L(KK)
-        K  = KIND(N)
-        N2 = NINTER+NRWALL+N
-        IF(NPBY(7,N)>0) THEN
+        DO KK=1,NRBYKIN_L
+          N = IRBKIN_L(KK)
+          K  = KIND(N)
+          N2 = NINTER+NRWALL+N
+          IF(NPBY(7,N)>0) THEN
 c
-           IPARSENS=0
-           ISECT=0
-           IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
-     .     			TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
-           IF(ISECT/=0) THEN
-             IPARSENS=1
-             CALL RGBODFP(
-     1         A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
-     2         LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
-     3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
-     4         2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
-     5         NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
-           ELSE
-             CALL RGBODFP(
-     1         A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
-     2         LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
-     3         STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
-     4         2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
-     5         NPBY(2,N),NATIV_SMS,RBID         ,IPARSENS,
-     6         NODREAC,FTHREAC,CPTREAC)
-           ENDIF
-        ENDIF
-      ENDDO
+            IPARSENS=0
+            ISECT=0
+            IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
+     .      TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
+            IF(ISECT/=0) THEN
+              IPARSENS=1
+              CALL RGBODFP(
+     1          A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2          LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3          STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4          2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
+     5          NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
+     6          NODREAC,FTHREAC,CPTREAC)
+            ELSE
+              CALL RGBODFP(
+     1          A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2          LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3          STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4          2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
+     5          NPBY(2,N),NATIV_SMS,RBID         ,IPARSENS,
+     6          NODREAC,FTHREAC,CPTREAC)
+            ENDIF
+          ENDIF
+        ENDDO
 
 !$OMP END DO
 
 C
-      RETURN
+        RETURN
       END

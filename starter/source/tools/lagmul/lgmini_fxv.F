@@ -26,12 +26,12 @@ Chd|-- called by -----------
 Chd|        LAGM_INI                      source/tools/lagmul/lagm_ini.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        FRETITL2                      source/starter/freform.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LGMINI_FXV(IADLL  ,JLL    ,LLL    ,IBFV   ,VEL    ,
      .                      NC, MASS, INER, ITAB   ,NOM_OPT)
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,85 +46,50 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, IADLL(*), JLL(*), LLL(*), IBFV(NIFV,*),
-     .        ITAB(*)
-      my_real
-     .        VEL(LFXVELR,*), MASS(*), INER(*)
-      INTEGER NOM_OPT(LNOPT1,*)
+        INTEGER NC, IADLL(*), JLL(*), LLL(*), IBFV(NIFV,*),
+     .          ITAB(*)
+        my_real
+     .          VEL(LFXVELR,*), MASS(*), INER(*)
+        INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IK, ISK, NNO
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
-C======================================================================| 
-      DO N=1,NFXVEL
-        ID=NOM_OPT(1,IBFV(12,N))
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,IBFV(12,N)),LTITR)
-        IF (IBFV(8,N)/=0) THEN
-          NNO = IABS(IBFV(1,N))
-          ISK = IBFV(2,N)/10
-          J=IBFV(2,N)-10*ISK
-          NC = NC + 1
-          IF(J<=3.AND.MASS(NNO)==0)THEN
-            CALL ANCMSG(MSGID=535,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  C1='FIXED TRANSLATIONAL VELOCITY',
-     .                  I1=ID,
-     .                  C2='FIXED TRANSLATIONAL VELOCITY',
-     .                  C3=TITR,C4=' ',
-     .                  I2=ITAB(IABS(IBFV(1,N))))
-	  ELSEIF(J>3.AND.MASS(NNO)==0)THEN
-            CALL ANCMSG(MSGID=535,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  C1='FIXED ROTATIONAL VELOCITY',
-     .                  I1=ID,
-     .                  C2='FIXED ROTATIONAL VELOCITY',
-     .                  C3=TITR,C4=' ',
-     .                  I2=ITAB(IABS(IBFV(1,N))))
-	  ENDIF
+        INTEGER I, J, N, IK, ISK, NNO
+        INTEGER ID
+        CHARACTER*nchartitle,
+     .     TITR
+C======================================================================|
+        DO N=1,NFXVEL
+          ID=NOM_OPT(1,IBFV(12,N))
+          CALL FRETITL2(TITR,
+     .         NOM_OPT(LNOPT1-LTITR+1,IBFV(12,N)),LTITR)
+          IF (IBFV(8,N)/=0) THEN
+            NNO = IABS(IBFV(1,N))
+            ISK = IBFV(2,N)/10
+            J=IBFV(2,N)-10*ISK
+            NC = NC + 1
+            IF(J<=3.AND.MASS(NNO)==0)THEN
+              CALL ANCMSG(MSGID=535,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    C1='FIXED TRANSLATIONAL VELOCITY',
+     .                    I1=ID,
+     .                    C2='FIXED TRANSLATIONAL VELOCITY',
+     .                    C3=TITR,C4=' ',
+     .                    I2=ITAB(IABS(IBFV(1,N))))
+            ELSEIF(J>3.AND.MASS(NNO)==0)THEN
+              CALL ANCMSG(MSGID=535,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    C1='FIXED ROTATIONAL VELOCITY',
+     .                    I1=ID,
+     .                    C2='FIXED ROTATIONAL VELOCITY',
+     .                    C3=TITR,C4=' ',
+     .                    I2=ITAB(IABS(IBFV(1,N))))
+            ENDIF
 Cm41u07---
-	  IF(NC>LAG_NCF)THEN
-            CALL ANCMSG(MSGID=468,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO,
-     .                  I1=ID,
-     .                  C1='IMPOSED VELOCITY',
-     .                  C2='IMPOSED VELOCITY',
-     .                  C3=TITR)
-          ENDIF
-          IF (ISK<=1) THEN
-            IADLL(NC+1)=IADLL(NC) + 1
-            IF(IADLL(NC+1)-1>LAG_NKF)THEN
-              CALL ANCMSG(MSGID=469,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO,
-     .                    C1='IMPOSED VELOCITY',
-     .                    I1=ID,
-     .                    C2='IMPOSED VELOCITY',
-     .                    C3=TITR)
-            ENDIF
-            IK = IADLL(NC)
-            LLL(IK) = NNO
-            JLL(IK) = J
-            IF(J>3.AND.INER(NNO)==0)THEN
-               CALL ANCMSG(MSGID=536,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     C1='FIXED ROTATIONAL VELOCITY',
-     .                     I1=ID,
-     .                     C2='FIXED ROTATIONAL VELOCITY',
-     .                     C3=TITR,
-     .                     I2=ITAB(IABS(IBFV(1,N))))
-	    ENDIF
-          ELSE
-            IADLL(NC+1)=IADLL(NC) + 3
-            IF(IADLL(NC+1)-1>LAG_NKF)THEN
-              CALL ANCMSG(MSGID=469,
+            IF(NC>LAG_NCF)THEN
+              CALL ANCMSG(MSGID=468,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    I1=ID,
@@ -132,40 +97,75 @@ Cm41u07---
      .                    C2='IMPOSED VELOCITY',
      .                    C3=TITR)
             ENDIF
-            IF(J<=3)THEN
+            IF (ISK<=1) THEN
+              IADLL(NC+1)=IADLL(NC) + 1
+              IF(IADLL(NC+1)-1>LAG_NKF)THEN
+                CALL ANCMSG(MSGID=469,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      C1='IMPOSED VELOCITY',
+     .                      I1=ID,
+     .                      C2='IMPOSED VELOCITY',
+     .                      C3=TITR)
+              ENDIF
               IK = IADLL(NC)
               LLL(IK) = NNO
-              JLL(IK) = 1
-              IK = IK + 1
-              LLL(IK) = NNO
-              JLL(IK) = 2
-              IK = IK + 1
-              LLL(IK) = NNO
-              JLL(IK) = 3
+              JLL(IK) = J
+              IF(J>3.AND.INER(NNO)==0)THEN
+                CALL ANCMSG(MSGID=536,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      C1='FIXED ROTATIONAL VELOCITY',
+     .                      I1=ID,
+     .                      C2='FIXED ROTATIONAL VELOCITY',
+     .                      C3=TITR,
+     .                      I2=ITAB(IABS(IBFV(1,N))))
+              ENDIF
             ELSE
-              IF(INER(NNO)==0)THEN
-               CALL ANCMSG(MSGID=536,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     C1='FIXED ROTATIONAL VELOCITY',
-     .                     I1=ID,
-     .                     C2='FIXED ROTATIONAL VELOCITY',
-     .                     C3=TITR,
-     .                     I2=ITAB(IABS(IBFV(1,N))))
-	      ENDIF
-              IK = IADLL(NC)
-              LLL(IK) = NNO
-              JLL(IK) = 4
-              IK = IK + 1
-              LLL(IK) = NNO
-              JLL(IK) = 5
-              IK = IK + 1
-              LLL(IK) = NNO
-              JLL(IK) = 6
+              IADLL(NC+1)=IADLL(NC) + 3
+              IF(IADLL(NC+1)-1>LAG_NKF)THEN
+                CALL ANCMSG(MSGID=469,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1=ID,
+     .                      C1='IMPOSED VELOCITY',
+     .                      C2='IMPOSED VELOCITY',
+     .                      C3=TITR)
+              ENDIF
+              IF(J<=3)THEN
+                IK = IADLL(NC)
+                LLL(IK) = NNO
+                JLL(IK) = 1
+                IK = IK + 1
+                LLL(IK) = NNO
+                JLL(IK) = 2
+                IK = IK + 1
+                LLL(IK) = NNO
+                JLL(IK) = 3
+              ELSE
+                IF(INER(NNO)==0)THEN
+                  CALL ANCMSG(MSGID=536,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        C1='FIXED ROTATIONAL VELOCITY',
+     .                        I1=ID,
+     .                        C2='FIXED ROTATIONAL VELOCITY',
+     .                        C3=TITR,
+     .                        I2=ITAB(IABS(IBFV(1,N))))
+                ENDIF
+                IK = IADLL(NC)
+                LLL(IK) = NNO
+                JLL(IK) = 4
+                IK = IK + 1
+                LLL(IK) = NNO
+                JLL(IK) = 5
+                IK = IK + 1
+                LLL(IK) = NNO
+                JLL(IK) = 6
+              ENDIF
             ENDIF
           ENDIF
-        ENDIF
-      ENDDO
+        ENDDO
 C---
-      RETURN
+        RETURN
       END

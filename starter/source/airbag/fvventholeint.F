@@ -21,19 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FVVENTHOLEINT                 source/airbag/fvventholeint.F 
+Chd|  FVVENTHOLEINT                 source/airbag/fvventholeint.F
 Chd|-- called by -----------
-Chd|        FVMESH0                       source/airbag/fvmesh0.F       
+Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE FVVENTHOLEINT(IBUF  , ELEM   , IBAGHOL,
      .                         NVENT , IGRSURF,
-     .                         ITAGEL, NN     , NEL, NB_NODE) 
+     .                         ITAGEL, NN     , NEL, NB_NODE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,34 +46,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBUF(*), ELEM(3,*), IBAGHOL(NIBHOL,*), 
-     .        NVENT,
-     .        ITAGEL(*), NN, NEL, NB_NODE
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+        INTEGER IBUF(*), ELEM(3,*), IBAGHOL(NIBHOL,*),
+     .          NVENT,
+     .          ITAGEL(*), NN, NEL, NB_NODE
+        TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, ITABINV(NB_NODE), ITAGVENT(NN),
-     .        ISU, NELSU, IEL, NG1, NG2, NG3, NG4, N1, N2, N3, N4,
-     .        IVENT, NALL, NN1, NN2, IVENTYP
+        INTEGER I, II, ITABINV(NB_NODE), ITAGVENT(NN),
+     .          ISU, NELSU, IEL, NG1, NG2, NG3, NG4, N1, N2, N3, N4,
+     .          IVENT, NALL, NN1, NN2, IVENTYP
 C----------------------------------------------------
-      DO I=1,NB_NODE
-         ITABINV(I)=0
-      ENDDO
+        DO I=1,NB_NODE
+          ITABINV(I)=0
+        ENDDO
 C
-      DO I=1,NN
-         II=IBUF(I)
-         ITABINV(II)=I
-         ITAGVENT(I)=0
-      ENDDO
-C     
-      DO IVENT=1,NVENT
-         ISU=IBAGHOL(2,IVENT)
-         IF(ISU == 0) CYCLE
-         IVENTYP=IBAGHOL(13,IVENT)
-         IF(IVENTYP == 0) CYCLE
-         NELSU=IGRSURF(ISU)%NSEG
-         DO I=1,NELSU
+        DO I=1,NN
+          II=IBUF(I)
+          ITABINV(II)=I
+          ITAGVENT(I)=0
+        ENDDO
+C
+        DO IVENT=1,NVENT
+          ISU=IBAGHOL(2,IVENT)
+          IF(ISU == 0) CYCLE
+          IVENTYP=IBAGHOL(13,IVENT)
+          IF(IVENTYP == 0) CYCLE
+          NELSU=IGRSURF(ISU)%NSEG
+          DO I=1,NELSU
             NG1 = IGRSURF(ISU)%NODES(I,1)
             NG2 = IGRSURF(ISU)%NODES(I,2)
             NG3 = IGRSURF(ISU)%NODES(I,3)
@@ -86,21 +86,21 @@ C
             ITAGVENT(N2)=IVENT
             ITAGVENT(N3)=IVENT
             ITAGVENT(N4)=IVENT
-         ENDDO
-      ENDDO
-C			
-      DO IEL=1,NEL
-         IF(ITAGEL(IEL) > 0) CYCLE   ! injecteur
-         N1=ELEM(1,IEL)
-         N2=ELEM(2,IEL)
-         N3=ELEM(3,IEL)
-         NALL=ITAGVENT(N1)*ITAGVENT(N2)*ITAGVENT(N3)
-         IF(NALL/=0) THEN
+          ENDDO
+        ENDDO
+C
+        DO IEL=1,NEL
+          IF(ITAGEL(IEL) > 0) CYCLE   ! injecteur
+          N1=ELEM(1,IEL)
+          N2=ELEM(2,IEL)
+          N3=ELEM(3,IEL)
+          NALL=ITAGVENT(N1)*ITAGVENT(N2)*ITAGVENT(N3)
+          IF(NALL/=0) THEN
             NN1=ITAGVENT(N2)-ITAGVENT(N1)
             NN2=ITAGVENT(N3)-ITAGVENT(N1)
-            IF (NN1 == 0 .AND. NN2 == 0) ITAGEL(IEL)=-ITAGVENT(N1)					
-         ENDIF 
-      ENDDO
+            IF (NN1 == 0 .AND. NN2 == 0) ITAGEL(IEL)=-ITAGVENT(N1)
+          ENDIF
+        ENDDO
 C
-      RETURN
+        RETURN
       END

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I25MAIN_OPT_TRI               source/interfaces/intsort/i25main_opt_tri.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25IRTLM(
      1                   IPARI   ,INTBUF_TAB ,ITAB   ,NIN      )
@@ -34,8 +34,8 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD
-      USE TRI7BOX
+        USE INTBUFDEF_MOD
+        USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,16 +50,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN
-      INTEGER IPARI(NPARI,NINTER), ITAB(*)
+        INTEGER NIN
+        INTEGER IPARI(NPARI,NINTER), ITAB(*)
 C     REAL
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     .        I, J, L, H, I_STOK_RTLM,
-     .        N, NSN, NSNR, IVIS2
+        INTEGER
+     .          I, J, L, H, I_STOK_RTLM,
+     .          N, NSN, NSNR, IVIS2
 C     REAL
 C-----------------------------------------------
 C     REAL
@@ -75,7 +75,7 @@ C
 c             if(itab(INTBUF_TAB%nsv(n))==10004284)
 c     .       print *,'nat',nin,ipari(15,nin),ispmd+1,INTBUF_TAB%IRTLM(4*(N-1)+1),INTBUF_TAB%IRTLM(4*(N-1)+4),
 c     .       INTBUF_TAB%PENE_OLD(5*(N-1)+5)
-            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
               IF(INTBUF_TAB%STFNS(N)==ZERO)THEN
 C
 C               Shooting Nodes
@@ -88,16 +88,16 @@ C                 Reset IRTLM when a Secnd node is in contact with a Main surfac
                   INTBUF_TAB%IRTLM(4*(N-1)+1)=0
                   INTBUF_TAB%IRTLM(4*(N-1)+2)=0
 C
-C                 The segment where the node was impacted has been deleted 
+C                 The segment where the node was impacted has been deleted
 C                 at the previous cycle => the node can not impact during THIS cycle, but the next cycle ONLY
                   INTBUF_TAB%IRTLM(4*(N-1)+3)  = -1
                   INTBUF_TAB%IRTLM(4*(N-1)+4)  =  0
                   INTBUF_TAB%TIME_S(2*(N-1)+1) =  EP20
                   INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
 C
-          	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
-          	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
-          	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
+                  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
+                  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
+                  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C
                 ELSE
 C
@@ -112,7 +112,7 @@ C set new friction forces at 0
                   INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
                   INTBUF_TAB%PENE_OLD(5*(N-1)+2) = INTBUF_TAB%PENE_OLD(5*(N-1)+1)
                   INTBUF_TAB%PENE_OLD(5*(N-1)+1) = ZERO
-                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1) 
+                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1)
                   INTBUF_TAB%STIF_OLD(2*(N-1)+1) = ZERO
 C
 C                 se prepare a quitter le contact
@@ -134,16 +134,16 @@ C               se prepare a quitter le contact
                 INTBUF_TAB%TIME_S(2*(N-1)+1) = EP20
                 INTBUF_TAB%TIME_S(2*(N-1)+2) = EP20
               END IF
-            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
 C reset all for future impact
 c              INTBUF_TAB%IRTLM(4*(N-1)+3)=0
 c              INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
 c              INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
 c              INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
-               INTBUF_TAB%PENE_OLD(5*(N-1)+3)  =ZERO
-               INTBUF_TAB%PENE_OLD(5*(N-1)+4)  =ZERO
-               INTBUF_TAB%TIME_S(2*(N-1)+1) = -EP20
-               INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
+              INTBUF_TAB%PENE_OLD(5*(N-1)+3)  =ZERO
+              INTBUF_TAB%PENE_OLD(5*(N-1)+4)  =ZERO
+              INTBUF_TAB%TIME_S(2*(N-1)+1) = -EP20
+              INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
             END IF
           END DO
 C
@@ -153,7 +153,7 @@ c     .       print *,'rem',nin,ipari(15,nin),ispmd+1,IRTLM_FI(NIN)%P(1,N),IRTLM
 c     .       PENE_OLDFI(NIN)%P(5,N)
             IF(IRTLM_FI(NIN)%P(1,N) > 0)THEN
               IF(STIFI(NIN)%P(N)==ZERO)THEN
-C  
+C
 C               Shooting Nodes
                 IRTLM_FI(NIN)%P(1:4,N)=0
               ELSEIF(IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
@@ -164,16 +164,16 @@ C                 Reset IRTLM when a Secnd node is in contact with a Main surfac
                   IRTLM_FI(NIN)%P(1,N)=0
                   IRTLM_FI(NIN)%P(2,N)=0
 C
-C                 The segment where the node was impacted has been deleted 
+C                 The segment where the node was impacted has been deleted
 C                 at the previous cycle => the node can not impact during THIS cycle, but the next cycle ONLY
                   IRTLM_FI(NIN)%P(3,N)  = -1
                   IRTLM_FI(NIN)%P(4,N)  =  0
                   TIME_SFI(NIN)%P(2*(N-1)+1) =  EP20
                   TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
 C
-          	  SECND_FRFI(NIN)%P (1:6,N)=ZERO
-          	  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
-          	  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
+                  SECND_FRFI(NIN)%P (1:6,N)=ZERO
+                  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
+                  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C
                 ELSE
                   I_STOK_RTLM=I_STOK_RTLM+1
@@ -214,10 +214,10 @@ c              IRTLM_FI(NIN)%P(3,N)=0
 c              SECND_FRFI(NIN)%P (1:6,N)=ZERO
 c              PENE_OLDFI(NIN)%P(1:5,N)=ZERO
 c              STIF_OLDFI(NIN)%P(1:2,N)=ZERO
-               PENE_OLDFI(NIN)%P(3,N)  =ZERO
-               PENE_OLDFI(NIN)%P(4,N)  =ZERO
-               TIME_SFI(NIN)%P(2*(N-1)+1) = -EP20
-               TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
+              PENE_OLDFI(NIN)%P(3,N)  =ZERO
+              PENE_OLDFI(NIN)%P(4,N)  =ZERO
+              TIME_SFI(NIN)%P(2*(N-1)+1) = -EP20
+              TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
             END IF
           END DO
 C
@@ -227,7 +227,7 @@ C
 c             if(itab(INTBUF_TAB%nsv(n))==10004284)
 c     .       print *,'nat',nin,ipari(15,nin),ispmd+1,INTBUF_TAB%IRTLM(4*(N-1)+1),INTBUF_TAB%IRTLM(4*(N-1)+4),
 c     .       INTBUF_TAB%PENE_OLD(5*(N-1)+5)
-            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
               IF(INTBUF_TAB%STFNS(N)==ZERO)THEN
 C
 C               Shooting Nodes
@@ -240,17 +240,17 @@ C                 Reset IRTLM when a Secnd node is in contact with a Main surfac
                   INTBUF_TAB%IRTLM(4*(N-1)+1)=0
                   INTBUF_TAB%IRTLM(4*(N-1)+2)=0
 C
-C                 The segment where the node was impacted has been deleted 
+C                 The segment where the node was impacted has been deleted
 C                 at the previous cycle => the node can not impact during THIS cycle, but the next cycle ONLY
                   INTBUF_TAB%IRTLM(4*(N-1)+3)  = -1
                   INTBUF_TAB%IRTLM(4*(N-1)+4)  =  0
                   INTBUF_TAB%TIME_S(2*(N-1)+1) =  EP20
                   INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
 C
-          	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
-          	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
-          	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
-                  INTBUF_TAB%IF_ADH(N) = 0    
+                  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
+                  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
+                  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
+                  INTBUF_TAB%IF_ADH(N) = 0
 C
                 ELSE
 C
@@ -265,7 +265,7 @@ C set new friction forces at 0
                   INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
                   INTBUF_TAB%PENE_OLD(5*(N-1)+2) = INTBUF_TAB%PENE_OLD(5*(N-1)+1)
                   INTBUF_TAB%PENE_OLD(5*(N-1)+1) = ZERO
-                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1) 
+                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1)
                   INTBUF_TAB%STIF_OLD(2*(N-1)+1) = ZERO
 C
 C                 se prepare a quitter le contact
@@ -288,14 +288,14 @@ C               se prepare a quitter le contact
                 INTBUF_TAB%TIME_S(2*(N-1)+1) = EP20
                 INTBUF_TAB%TIME_S(2*(N-1)+2) = EP20
               END IF
-            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
 C reset all for future impact
 c              INTBUF_TAB%IRTLM(4*(N-1)+3)=0
 c              INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
 c              INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
 c              INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
-               INTBUF_TAB%TIME_S(2*(N-1)+1) = -EP20
-               INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
+              INTBUF_TAB%TIME_S(2*(N-1)+1) = -EP20
+              INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
             END IF
           END DO
 C
@@ -305,7 +305,7 @@ c     .       print *,'rem',nin,ipari(15,nin),ispmd+1,IRTLM_FI(NIN)%P(1,N),IRTLM
 c     .       PENE_OLDFI(NIN)%P(5,N)
             IF(IRTLM_FI(NIN)%P(1,N) > 0)THEN
               IF(STIFI(NIN)%P(N)==ZERO)THEN
-C  
+C
 C               Shooting Nodes
                 IRTLM_FI(NIN)%P(1:4,N)=0
               ELSEIF(IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
@@ -316,16 +316,16 @@ C                 Reset IRTLM when a Secnd node is in contact with a Main surfac
                   IRTLM_FI(NIN)%P(1,N)=0
                   IRTLM_FI(NIN)%P(2,N)=0
 C
-C                 The segment where the node was impacted has been deleted 
+C                 The segment where the node was impacted has been deleted
 C                 at the previous cycle => the node can not impact during THIS cycle, but the next cycle ONLY
                   IRTLM_FI(NIN)%P(3,N)  = -1
                   IRTLM_FI(NIN)%P(4,N)  =  0
                   TIME_SFI(NIN)%P(2*(N-1)+1) =  EP20
                   TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
 C
-          	  SECND_FRFI(NIN)%P (1:6,N)=ZERO
-          	  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
-          	  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
+                  SECND_FRFI(NIN)%P (1:6,N)=ZERO
+                  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
+                  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                   IF_ADHFI(NIN)%P(N) = 0
 C
                 ELSE
@@ -368,17 +368,17 @@ c              IRTLM_FI(NIN)%P(3,N)=0
 c              SECND_FRFI(NIN)%P (1:6,N)=ZERO
 c              PENE_OLDFI(NIN)%P(1:5,N)=ZERO
 c              STIF_OLDFI(NIN)%P(1:2,N)=ZERO
-               TIME_SFI(NIN)%P(2*(N-1)+1) = -EP20
-               TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
+              TIME_SFI(NIN)%P(2*(N-1)+1) = -EP20
+              TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
             END IF
           END DO
 C
-        ENDIF ! IVIS2 if       
+        ENDIF ! IVIS2 if
 C
         INTBUF_TAB%I_STOK(3) = I_STOK_RTLM
         INTBUF_TAB%I_STOK(2) = I_STOK_RTLM
 C
 C-----------------------------------------------------------------------
-      RETURN
+        RETURN
       END
 

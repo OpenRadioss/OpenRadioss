@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  I10MAIN_OPT_TRI               source/interfaces/intsort/i10opt_opt_tri.F
 Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
+Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I10OPTCD                      source/interfaces/intsort/i10optcd.F
@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,47 +48,47 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(*), ITASK, NIN,COUNT_REMSLV(*)
+        INTEGER IPARI(*), ITASK, NIN,COUNT_REMSLV(*)
 C     REAL
-      my_real
-     .   X(*), V(3,*)
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        my_real
+     .     X(*), V(3,*)
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT, I_STOK,CT
+        INTEGER NOINT, I_STOK,CT
 C     REAL
-      my_real
-     .   STARTT, GAP, STOPT
+        my_real
+     .     STARTT, GAP, STOPT
 C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
-C	Calcul des adresses des buffers d'interfaces. 
-C	Les adresses des buffers J10-JFI et K10-KFI 
-C	sont remplaces systematiquement par des tableaux
-C	JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C	Les anciens adresses directs Jn, Kn sont modifies
-C	dans la routine sans commentaires additionnels habituels
+C  Calcul des adresses des buffers d'interfaces.
+C  Les adresses des buffers J10-JFI et K10-KFI
+C  sont remplaces systematiquement par des tableaux
+C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
+C  Les anciens adresses directs Jn, Kn sont modifies
+C  dans la routine sans commentaires additionnels habituels
 C----------------------------------------------------
-      NOINT  =IPARI(15)
+        NOINT  =IPARI(15)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      GAP   =INTBUF_TAB%VARIABLES(2)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        STOPT =INTBUF_TAB%VARIABLES(11)
+        GAP   =INTBUF_TAB%VARIABLES(2)
+        IF(STARTT>TT) RETURN
+        IF(TT>STOPT)  RETURN
 C
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
-       I_STOK = INTBUF_TAB%I_STOK(1)
-       CALL I10OPTCD(
-     1INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X	  ,I_STOK	,
-     2INTBUF_TAB%IRECTM,GAP      ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IPARI(21)    ,
-     3ITASK        ,NIN      ,IPARI(5)     ,INTBUF_TAB%STFNS,INTBUF_TAB%STFM,
-     4COUNT_REMSLV )
+        I_STOK = INTBUF_TAB%I_STOK(1)
+        CALL I10OPTCD(
+     1  INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X    ,I_STOK  ,
+     2  INTBUF_TAB%IRECTM,GAP      ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IPARI(21)    ,
+     3  ITASK        ,NIN      ,IPARI(5)     ,INTBUF_TAB%STFNS,INTBUF_TAB%STFM,
+     4  COUNT_REMSLV )
 C-----------------------------------------------------------
 C
-      RETURN
+        RETURN
       END

@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FVSTATS                       source/airbag/fvstats.F       
+Chd|  FVSTATS                       source/airbag/fvstats.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        FVSTATS1                      source/airbag/fvstats1.F      
+Chd|        FVSTATS1                      source/airbag/fvstats1.F
 Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
 Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
 Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|====================================================================
       SUBROUTINE FVSTATS(MONVOL)
 C-----------------------------------------------
-C   M o d u l e s 
+C   M o d u l e s
 C-----------------------------------------------
-      USE FVBAG_MOD
+        USE FVBAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,23 +49,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MONVOL(*)
+        INTEGER MONVOL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IWIOUT
+        INTEGER IWIOUT
 C
-      IF(NFVBAG == 0) RETURN
-	  
-      CALL FVSTATS1(IOUT,MONVOL,0)	  
-C	  
-      IF (NSPMD > 1) THEN
-        IWIOUT = 0
-        IF(ISPMD /= 0 ) CALL SPMD_CHKW(IWIOUT,IOUT)          
-        CALL SPMD_ALLGLOB_ISUM9(IWIOUT,1)
-        CALL SPMD_WIOUT(IOUT,IWIOUT)
-      ENDIF
+        IF(NFVBAG == 0) RETURN
+
+        CALL FVSTATS1(IOUT,MONVOL,0)
 C
-      RETURN
+        IF (NSPMD > 1) THEN
+          IWIOUT = 0
+          IF(ISPMD /= 0 ) CALL SPMD_CHKW(IWIOUT,IOUT)
+          CALL SPMD_ALLGLOB_ISUM9(IWIOUT,1)
+          CALL SPMD_WIOUT(IOUT,IWIOUT)
+        ENDIF
+C
+        RETURN
       END
 

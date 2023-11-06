@@ -27,9 +27,9 @@ Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
 Chd|-- calls ---------------
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        SUM_6_FLOAT                   source/system/parit.F         
+Chd|        SUM_6_FLOAT                   source/system/parit.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE ASS18(NRTM  ,IRECT,A    ,X   ,SURF   ,
      2                 PRES  ,FCONT,IBAG ,FSAV,FSAVBAG,
@@ -38,8 +38,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD
-      USE ANIM_MOD
+        USE H3D_MOD
+        USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,18 +61,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRTM,IBAG,IRECT(4,*),FR_I18(*),ISKY(*)
-      my_real A(3,*),X(3,*),SURF(3,*),PRES(*),FCONT(3,*),FSAV(*),
-     .        FSAVBAG(NTHVKI,*), FSKYI(LSKYI,*)
-      TYPE(H3D_DATABASE) :: H3D_DATA
+        INTEGER NRTM,IBAG,IRECT(4,*),FR_I18(*),ISKY(*)
+        my_real A(3,*),X(3,*),SURF(3,*),PRES(*),FCONT(3,*),FSAV(*),
+     .          FSAVBAG(NTHVKI,*), FSKYI(LSKYI,*)
+        TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ERROR,NSKYI18G,PMAIN,I,J,K,L,N,NN,NBAG,PERM(NRTM)
-      my_real PRESMED,PRESMOY,SURFACE,SURFLOC,AAA,BBB,PRESM,PRESVOL,
-     .        CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA,
-     .        F1(NRTM), F2(NRTM), F3(NRTM), F4(NRTM), F5(NRTM)
-       DOUBLE PRECISION I18F6(5,6), I18FB6(2,6)
+        INTEGER ERROR,NSKYI18G,PMAIN,I,J,K,L,N,NN,NBAG,PERM(NRTM)
+        my_real PRESMED,PRESMOY,SURFACE,SURFLOC,AAA,BBB,PRESM,PRESVOL,
+     .          CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA,
+     .          F1(NRTM), F2(NRTM), F3(NRTM), F4(NRTM), F5(NRTM)
+        DOUBLE PRECISION I18F6(5,6), I18FB6(2,6)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -84,118 +84,118 @@ c      PRESVOL = ZERO
 c      CDGX = ZERO
 c      CDGY = ZERO
 c      CDGZ = ZERO
-      NBAG = 1
+        NBAG = 1
 c      PBAG = FSAVBAG(3,NBAG)-101325.
-      DO I = 1, NRTM
-        SURF(1,I) = SURF(1,I)*HALF
-        SURF(2,I) = SURF(2,I)*HALF
-        SURF(3,I) = SURF(3,I)*HALF
-        SURFLOC = SQRT(SURF(1,I)*SURF(1,I)
-     .                +SURF(2,I)*SURF(2,I)
-     .                +SURF(3,I)*SURF(3,I))
-        NN = 4
-        IF(IRECT(3,I)==IRECT(4,I))NN=3
-        BBB = ONE/NN
-        AAA = SURFLOC*BBB
-        CDGX = ZERO
-        CDGY = ZERO
-        CDGZ = ZERO
-        DO J=1,NN
-          N = IRECT(J,I)
+        DO I = 1, NRTM
+          SURF(1,I) = SURF(1,I)*HALF
+          SURF(2,I) = SURF(2,I)*HALF
+          SURF(3,I) = SURF(3,I)*HALF
+          SURFLOC = SQRT(SURF(1,I)*SURF(1,I)
+     .                  +SURF(2,I)*SURF(2,I)
+     .                  +SURF(3,I)*SURF(3,I))
+          NN = 4
+          IF(IRECT(3,I)==IRECT(4,I))NN=3
+          BBB = ONE/NN
+          AAA = SURFLOC*BBB
+          CDGX = ZERO
+          CDGY = ZERO
+          CDGZ = ZERO
+          DO J=1,NN
+            N = IRECT(J,I)
 c          SURFN(N) = SURFN(N) + AAA
-          CDGX = CDGX + X(1,N)*AAA
-          CDGY = CDGY + X(2,N)*AAA
-          CDGZ = CDGZ + X(3,N)*AAA
-        ENDDO
-        F1(I) = SURFLOC
-        F2(I) = PRES(I)
-        F3(I) = CDGX
-        F4(I) = CDGY
-        F5(I) = CDGZ
+            CDGX = CDGX + X(1,N)*AAA
+            CDGY = CDGY + X(2,N)*AAA
+            CDGZ = CDGZ + X(3,N)*AAA
+          ENDDO
+          F1(I) = SURFLOC
+          F2(I) = PRES(I)
+          F3(I) = CDGX
+          F4(I) = CDGY
+          F5(I) = CDGZ
 c        SURFACE  = SURFACE  + SURFLOC
 c        PRESMOY  = PRESMOY + PRES(I)
-        PRES(I)  = PRES(I) / MAX(SURFLOC,EM20)
-        SURF(1,I) = SURF(1,I)*BBB
-        SURF(2,I) = SURF(2,I)*BBB
-        SURF(3,I) = SURF(3,I)*BBB
-      ENDDO
-C
-C Traitement Parith/ON avant echange
-C
-      DO K = 1, 6
-        I18F6(1,K) = ZERO
-        I18F6(2,K) = ZERO
-        I18F6(3,K) = ZERO
-        I18F6(4,K) = ZERO
-        I18F6(5,K) = ZERO
-      END DO
-
-      CALL SUM_6_FLOAT(1 ,NRTM ,F1, I18F6(1,1), 5)
-      CALL SUM_6_FLOAT(1 ,NRTM ,F2, I18F6(2,1), 5)
-      CALL SUM_6_FLOAT(1 ,NRTM ,F3, I18F6(3,1), 5)
-      CALL SUM_6_FLOAT(1 ,NRTM ,F4, I18F6(4,1), 5)
-      CALL SUM_6_FLOAT(1 ,NRTM ,F5, I18F6(5,1), 5)
-
-      IF(NSPMD>1) THEN
-        CALL SPMD_EXCH_FR6(FR_I18,I18F6,5*6)
-      ENDIF
-
-      SURFACE = I18F6(1,1)+I18F6(1,2)+I18F6(1,3)+
-     +  	I18F6(1,4)+I18F6(1,5)+I18F6(1,6)
-      PRESMOY = I18F6(2,1)+I18F6(2,2)+I18F6(2,3)+
-     +  	I18F6(2,4)+I18F6(2,5)+I18F6(2,6)
-      CDGX    = I18F6(3,1)+I18F6(3,2)+I18F6(3,3)+
-     +  	I18F6(3,4)+I18F6(3,5)+I18F6(3,6)
-      CDGY    = I18F6(4,1)+I18F6(4,2)+I18F6(4,3)+
-     +  	I18F6(4,4)+I18F6(4,5)+I18F6(4,6)
-      CDGZ    = I18F6(5,1)+I18F6(5,2)+I18F6(5,3)+
-     +  	I18F6(5,4)+I18F6(5,5)+I18F6(5,6)
-
-C
-      PRESMOY = PRESMOY / SURFACE
-C
-      CDGX = CDGX / SURFACE
-      CDGY = CDGY / SURFACE
-      CDGZ = CDGZ / SURFACE
-C
-      DO I = 1, NRTM
-        N = IRECT(1,I)
-        NN = 4
-        IF(IRECT(3,I)==IRECT(4,I))NN=3
-        VOLUME = ZERO
-        PRESVOL = ZERO
-        DO J=1,NN
-          N = IRECT(J,I)
-          AAA = SURF(1,I) * (X(1,N)-CDGX)
-     .        + SURF(2,I) * (X(2,N)-CDGY)
-     .        + SURF(3,I) * (X(3,N)-CDGZ) 
-          VOLUME  = VOLUME + AAA
-          PRESVOL = PRESVOL + PRES(I) * AAA
+          PRES(I)  = PRES(I) / MAX(SURFLOC,EM20)
+          SURF(1,I) = SURF(1,I)*BBB
+          SURF(2,I) = SURF(2,I)*BBB
+          SURF(3,I) = SURF(3,I)*BBB
         ENDDO
-        F1(I) = VOLUME
-        F2(I) = PRESVOL
-      ENDDO
 C
 C Traitement Parith/ON avant echange
 C
-      DO K = 1, 6
-        I18FB6(1,K) = ZERO
-        I18FB6(2,K) = ZERO
-      END DO
+        DO K = 1, 6
+          I18F6(1,K) = ZERO
+          I18F6(2,K) = ZERO
+          I18F6(3,K) = ZERO
+          I18F6(4,K) = ZERO
+          I18F6(5,K) = ZERO
+        END DO
 
-      CALL SUM_6_FLOAT(1 ,NRTM ,F1, I18FB6(1,1),2)
-      CALL SUM_6_FLOAT(1 ,NRTM ,F2, I18FB6(2,1),2)
+        CALL SUM_6_FLOAT(1 ,NRTM ,F1, I18F6(1,1), 5)
+        CALL SUM_6_FLOAT(1 ,NRTM ,F2, I18F6(2,1), 5)
+        CALL SUM_6_FLOAT(1 ,NRTM ,F3, I18F6(3,1), 5)
+        CALL SUM_6_FLOAT(1 ,NRTM ,F4, I18F6(4,1), 5)
+        CALL SUM_6_FLOAT(1 ,NRTM ,F5, I18F6(5,1), 5)
 
-      IF(NSPMD>1) THEN
-        CALL SPMD_EXCH_FR6(FR_I18,I18FB6,2*6)
-      ENDIF
+        IF(NSPMD>1) THEN
+          CALL SPMD_EXCH_FR6(FR_I18,I18F6,5*6)
+        ENDIF
+
+        SURFACE = I18F6(1,1)+I18F6(1,2)+I18F6(1,3)+
+     +    I18F6(1,4)+I18F6(1,5)+I18F6(1,6)
+        PRESMOY = I18F6(2,1)+I18F6(2,2)+I18F6(2,3)+
+     +    I18F6(2,4)+I18F6(2,5)+I18F6(2,6)
+        CDGX    = I18F6(3,1)+I18F6(3,2)+I18F6(3,3)+
+     +    I18F6(3,4)+I18F6(3,5)+I18F6(3,6)
+        CDGY    = I18F6(4,1)+I18F6(4,2)+I18F6(4,3)+
+     +    I18F6(4,4)+I18F6(4,5)+I18F6(4,6)
+        CDGZ    = I18F6(5,1)+I18F6(5,2)+I18F6(5,3)+
+     +    I18F6(5,4)+I18F6(5,5)+I18F6(5,6)
+
 C
-      VOLUME  = VOLUME / THREE
-      PRESVOL = PRESVOL / THREE
+        PRESMOY = PRESMOY / SURFACE
 C
-      PRESVOL = PRESVOL / VOLUME
+        CDGX = CDGX / SURFACE
+        CDGY = CDGY / SURFACE
+        CDGZ = CDGZ / SURFACE
 C
-      ALPHA = ONE
+        DO I = 1, NRTM
+          N = IRECT(1,I)
+          NN = 4
+          IF(IRECT(3,I)==IRECT(4,I))NN=3
+          VOLUME = ZERO
+          PRESVOL = ZERO
+          DO J=1,NN
+            N = IRECT(J,I)
+            AAA = SURF(1,I) * (X(1,N)-CDGX)
+     .          + SURF(2,I) * (X(2,N)-CDGY)
+     .          + SURF(3,I) * (X(3,N)-CDGZ)
+            VOLUME  = VOLUME + AAA
+            PRESVOL = PRESVOL + PRES(I) * AAA
+          ENDDO
+          F1(I) = VOLUME
+          F2(I) = PRESVOL
+        ENDDO
+C
+C Traitement Parith/ON avant echange
+C
+        DO K = 1, 6
+          I18FB6(1,K) = ZERO
+          I18FB6(2,K) = ZERO
+        END DO
+
+        CALL SUM_6_FLOAT(1 ,NRTM ,F1, I18FB6(1,1),2)
+        CALL SUM_6_FLOAT(1 ,NRTM ,F2, I18FB6(2,1),2)
+
+        IF(NSPMD>1) THEN
+          CALL SPMD_EXCH_FR6(FR_I18,I18FB6,2*6)
+        ENDIF
+C
+        VOLUME  = VOLUME / THREE
+        PRESVOL = PRESVOL / THREE
+C
+        PRESVOL = PRESVOL / VOLUME
+C
+        ALPHA = ONE
 c      IF(IBAG==5)THEN
 c        IF(PRESVOL>ZERO.AND.PBAG>PRESVOL)THEN
 c          ALPHA = PBAG/PRESVOL
@@ -212,7 +212,7 @@ c              A(3,N) = A(3,N) + AAA*SURF(3,I)
 c          ENDDO
 c        ENDDO
 c      ENDIF
-      
+
 c      IF(ANIM_V(4)+OUTP_V(4)>0.AND.
 c     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
 c     .              (MANIM>=4.AND.MANIM<=15)))THEN
@@ -229,16 +229,16 @@ c         ENDDO
 c       ENDDO
 c      ENDIF
 C
-      PRESMED = ZERO
+        PRESMED = ZERO
 C
-      IF(IBAG==1)THEN
-         CALL MYQSORT(NRTM,PRES,PERM,ERROR)
-         PRESMED = PRES((NRTM+1)/2)
-         PRESM = PRESMED
-      ELSEIF(IBAG==2)THEN
-         PRESM = PRESMOY
-      ELSEIF(IBAG==3)THEN
-         PRESM = PRESVOL
+        IF(IBAG==1)THEN
+          CALL MYQSORT(NRTM,PRES,PERM,ERROR)
+          PRESMED = PRES((NRTM+1)/2)
+          PRESM = PRESMED
+        ELSEIF(IBAG==2)THEN
+          PRESM = PRESMOY
+        ELSEIF(IBAG==3)THEN
+          PRESM = PRESVOL
 c     ELSEIF(IBAG==4)THEN
 c         IF(PRESMED<ZERO)THEN
 c           PRESM = PBAG
@@ -249,82 +249,82 @@ c           PRESM = PRESVOL
 c         ENDIF
 c     ELSEIF(IBAG==5)THEN
 c           PRESM = ALPHA
-      ENDIF
+        ENDIF
 C------------------------------------------------------
 c      IF(IBAG/=5)THEN
-      IF(IPARIT==0)THEN
-        DO I = 1, NRTM
-          NN = 4
-          IF(IRECT(3,I)==IRECT(4,I))NN=3
-          DO J=1,NN
-            N = IRECT(J,I)
-            A(1,N) = A(1,N) - PRESM*SURF(1,I)
-            A(2,N) = A(2,N) - PRESM*SURF(2,I)
-            A(3,N) = A(3,N) - PRESM*SURF(3,I)
+        IF(IPARIT==0)THEN
+          DO I = 1, NRTM
+            NN = 4
+            IF(IRECT(3,I)==IRECT(4,I))NN=3
+            DO J=1,NN
+              N = IRECT(J,I)
+              A(1,N) = A(1,N) - PRESM*SURF(1,I)
+              A(2,N) = A(2,N) - PRESM*SURF(2,I)
+              A(3,N) = A(3,N) - PRESM*SURF(3,I)
+            ENDDO
           ENDDO
-        ENDDO
-      ELSE
-        IF(KDTINT==0)THEN
-         DO I = 1, NRTM
-           NN = 4
-           IF(IRECT(3,I)==IRECT(4,I))NN=3
-           DO J=1,NN
-             N = IRECT(J,I)
-             NISKY = NISKY + 1
-             ISKY(NISKY) = N
-             FSKYI(NISKY,1)= -PRESM*SURF(1,I)	    ! addition en P/ON idem interface
-             FSKYI(NISKY,2)= -PRESM*SURF(2,I)
-             FSKYI(NISKY,3)= -PRESM*SURF(3,I)
-             FSKYI(NISKY,4)= ZERO
-           ENDDO
-         ENDDO
         ELSE
-         DO I = 1, NRTM
-           NN = 4
-           IF(IRECT(3,I)==IRECT(4,I))NN=3
-           DO J=1,NN
-             N = IRECT(J,I)
-             NISKY = NISKY + 1
-             ISKY(NISKY) = N
-             FSKYI(NISKY,1)= -PRESM*SURF(1,I)	    ! addition en P/ON idem interface
-             FSKYI(NISKY,2)= -PRESM*SURF(2,I)
-             FSKYI(NISKY,3)= -PRESM*SURF(3,I)
-             FSKYI(NISKY,4)= ZERO
-             FSKYI(NISKY,5)= ZERO
-           ENDDO
-         ENDDO
-        END IF
-      END IF
-C------------------------------------------------------
-C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .              ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
-     .                  (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
-C
-            DO I=1,NRTM
+          IF(KDTINT==0)THEN
+            DO I = 1, NRTM
               NN = 4
               IF(IRECT(3,I)==IRECT(4,I))NN=3
               DO J=1,NN
                 N = IRECT(J,I)
+                NISKY = NISKY + 1
+                ISKY(NISKY) = N
+                FSKYI(NISKY,1)= -PRESM*SURF(1,I)      ! addition en P/ON idem interface
+                FSKYI(NISKY,2)= -PRESM*SURF(2,I)
+                FSKYI(NISKY,3)= -PRESM*SURF(3,I)
+                FSKYI(NISKY,4)= ZERO
+              ENDDO
+            ENDDO
+          ELSE
+            DO I = 1, NRTM
+              NN = 4
+              IF(IRECT(3,I)==IRECT(4,I))NN=3
+              DO J=1,NN
+                N = IRECT(J,I)
+                NISKY = NISKY + 1
+                ISKY(NISKY) = N
+                FSKYI(NISKY,1)= -PRESM*SURF(1,I)      ! addition en P/ON idem interface
+                FSKYI(NISKY,2)= -PRESM*SURF(2,I)
+                FSKYI(NISKY,3)= -PRESM*SURF(3,I)
+                FSKYI(NISKY,4)= ZERO
+                FSKYI(NISKY,5)= ZERO
+              ENDDO
+            ENDDO
+          END IF
+        END IF
+C------------------------------------------------------
+C
+        IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .                ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .                    (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
+C
+          DO I=1,NRTM
+            NN = 4
+            IF(IRECT(3,I)==IRECT(4,I))NN=3
+            DO J=1,NN
+              N = IRECT(J,I)
 c                AAA = PRESM/MAX(SURFN(N),EM20)
 c                FCONT(1,N) = FCONT(1,N) - AAA*SURF(1,I)
 c                FCONT(2,N) = FCONT(2,N) - AAA*SURF(2,I)
 c                FCONT(3,N) = FCONT(3,N) - AAA*SURF(3,I)
-                FCONT(1,N) = FCONT(1,N) - PRESM*SURF(1,I)
-                FCONT(2,N) = FCONT(2,N) - PRESM*SURF(2,I)
-                FCONT(3,N) = FCONT(3,N) - PRESM*SURF(3,I)
-              ENDDO
+              FCONT(1,N) = FCONT(1,N) - PRESM*SURF(1,I)
+              FCONT(2,N) = FCONT(2,N) - PRESM*SURF(2,I)
+              FCONT(3,N) = FCONT(3,N) - PRESM*SURF(3,I)
             ENDDO
-      ENDIF
+          ENDDO
+        ENDIF
 C-------------------------------------------------------
-      IF(ISPMD==0)THEN
-        FSAV(16)=PRESVOL
-        FSAV(17)=PRESMOY
-        FSAV(18)=PRESMED
-        FSAV(19)=PRESM
-        FSAV(20)=VOLUME
-        FSAV(21)=SURFACE
-      END IF
+        IF(ISPMD==0)THEN
+          FSAV(16)=PRESVOL
+          FSAV(17)=PRESMOY
+          FSAV(18)=PRESMED
+          FSAV(19)=PRESM
+          FSAV(20)=VOLUME
+          FSAV(21)=SURFACE
+        END IF
 C
-      RETURN
+        RETURN
       END

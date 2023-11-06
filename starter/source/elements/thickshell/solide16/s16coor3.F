@@ -34,7 +34,7 @@ Chd|====================================================================
      4                    DTELEM ,STI   ,SIGG ,EINTG ,RHOG,
      5                    QG     ,TEMP0 ,TEMP ,NEL   )
 C-----------------------------------------------
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,148 +51,148 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
-      INTEGER NC(MVSIZ,16),MXT(*),NGL(*),NGEO(*),IXS(NIXS,*),IXS16(8,*)
+        INTEGER NEL
+        INTEGER NC(MVSIZ,16),MXT(*),NGL(*),NGEO(*),IXS(NIXS,*),IXS16(8,*)
 C     REAL
-      my_real
-     .   X(3,*), V(3,*), XX(MVSIZ,16), YY(MVSIZ,16), ZZ(MVSIZ,16),
-     .  VX(MVSIZ,16), VY(MVSIZ,16), VZ(MVSIZ,16),
-     .  MASS(MVSIZ),DTELEM(*),STI(*),
-     .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),TEMP0(*), TEMP(*)
+        my_real
+     .     X(3,*), V(3,*), XX(MVSIZ,16), YY(MVSIZ,16), ZZ(MVSIZ,16),
+     .    VX(MVSIZ,16), VY(MVSIZ,16), VZ(MVSIZ,16),
+     .    MASS(MVSIZ),DTELEM(*),STI(*),
+     .    SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),TEMP0(*), TEMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IPERM1(16),IPERM2(16),N,N1,N2,NN,IUN
+        INTEGER I, IPERM1(16),IPERM2(16),N,N1,N2,NN,IUN
 C     REAL
-      DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8/
-      DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,6,7,8,5/
+        DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8/
+        DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,6,7,8,5/
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
-      my_real
-     .    CHECKVOLUME_8N
+        my_real
+     .      CHECKVOLUME_8N
 C=======================================================================
-      IUN =1
+        IUN =1
 C
-      DO I=LFT,LLT
-        NGEO(I)=IXS(10,I)
-        NGL(I) =IXS(11,I)
-        MXT(I) =IXS(1,I)
-        NC(I,1)=IXS(2,I)
-        NC(I,2)=IXS(3,I)
-        NC(I,3)=IXS(4,I)
-        NC(I,4)=IXS(5,I)
-        NC(I,5)=IXS(6,I)
-        NC(I,6)=IXS(7,I)
-        NC(I,7)=IXS(8,I)
-        NC(I,8)=IXS(9,I)
-        NC(I,9)  =IXS16(1,I)
-        NC(I,10) =IXS16(2,I)
-        NC(I,11) =IXS16(3,I)
-        NC(I,12) =IXS16(4,I)
-        NC(I,13) =IXS16(5,I)
-        NC(I,14) =IXS16(6,I)
-        NC(I,15) =IXS16(7,I)
-        NC(I,16) =IXS16(8,I)
-        DTELEM(I)=EP30
-        STI(I)=ZERO
-        EINTG(I)=ZERO
-        RHOG(I)=ZERO
-        QG(I)=ZERO
-        SIGG(I,1)=ZERO
-        SIGG(I,2)=ZERO
-        SIGG(I,3)=ZERO
-        SIGG(I,4)=ZERO
-        SIGG(I,5)=ZERO
-        SIGG(I,6)=ZERO
-        IF (CHECKVOLUME_8N(X ,IXS(1,I)) < ZERO) THEN
+        DO I=LFT,LLT
+          NGEO(I)=IXS(10,I)
+          NGL(I) =IXS(11,I)
+          MXT(I) =IXS(1,I)
+          NC(I,1)=IXS(2,I)
+          NC(I,2)=IXS(3,I)
+          NC(I,3)=IXS(4,I)
+          NC(I,4)=IXS(5,I)
+          NC(I,5)=IXS(6,I)
+          NC(I,6)=IXS(7,I)
+          NC(I,7)=IXS(8,I)
+          NC(I,8)=IXS(9,I)
+          NC(I,9)  =IXS16(1,I)
+          NC(I,10) =IXS16(2,I)
+          NC(I,11) =IXS16(3,I)
+          NC(I,12) =IXS16(4,I)
+          NC(I,13) =IXS16(5,I)
+          NC(I,14) =IXS16(6,I)
+          NC(I,15) =IXS16(7,I)
+          NC(I,16) =IXS16(8,I)
+          DTELEM(I)=EP30
+          STI(I)=ZERO
+          EINTG(I)=ZERO
+          RHOG(I)=ZERO
+          QG(I)=ZERO
+          SIGG(I,1)=ZERO
+          SIGG(I,2)=ZERO
+          SIGG(I,3)=ZERO
+          SIGG(I,4)=ZERO
+          SIGG(I,5)=ZERO
+          SIGG(I,6)=ZERO
+          IF (CHECKVOLUME_8N(X ,IXS(1,I)) < ZERO) THEN
 C         renumber connectivity
-          NC(I,1) =IXS(6,I)    
-          NC(I,2) =IXS(7,I)    
-          NC(I,3) =IXS(8,I)    
-          NC(I,4) =IXS(9,I)    
-          NC(I,5) =IXS(2,I)    
-          NC(I,6) =IXS(3,I)    
-          NC(I,7) =IXS(4,I)    
-          NC(I,8) =IXS(5,I)    
-          NC(I,9) =IXS16(5,I)
-          NC(I,10)=IXS16(6,I)
-          NC(I,11)=IXS16(7,I)
-          NC(I,12)=IXS16(8,I)
-          NC(I,13)=IXS16(1,I)
-          NC(I,14)=IXS16(2,I)
-          NC(I,15)=IXS16(3,I)
-          NC(I,16)=IXS16(4,I)
-          IXS(2,I) = NC(I,1)
-          IXS(3,I) = NC(I,2)
-          IXS(4,I) = NC(I,3)
-          IXS(5,I) = NC(I,4)
-          IXS(6,I) = NC(I,5)
-          IXS(7,I) = NC(I,6)
-          IXS(8,I) = NC(I,7)
-          IXS(9,I) = NC(I,8)
-          IXS16(1,I) = NC(I,9) 
-          IXS16(2,I) = NC(I,10)
-          IXS16(3,I) = NC(I,11)
-          IXS16(4,I) = NC(I,12)
-          IXS16(5,I) = NC(I,13)
-          IXS16(6,I) = NC(I,14)
-          IXS16(7,I) = NC(I,15)
-          IXS16(8,I) = NC(I,16)
-        ENDIF
-      ENDDO
+            NC(I,1) =IXS(6,I)
+            NC(I,2) =IXS(7,I)
+            NC(I,3) =IXS(8,I)
+            NC(I,4) =IXS(9,I)
+            NC(I,5) =IXS(2,I)
+            NC(I,6) =IXS(3,I)
+            NC(I,7) =IXS(4,I)
+            NC(I,8) =IXS(5,I)
+            NC(I,9) =IXS16(5,I)
+            NC(I,10)=IXS16(6,I)
+            NC(I,11)=IXS16(7,I)
+            NC(I,12)=IXS16(8,I)
+            NC(I,13)=IXS16(1,I)
+            NC(I,14)=IXS16(2,I)
+            NC(I,15)=IXS16(3,I)
+            NC(I,16)=IXS16(4,I)
+            IXS(2,I) = NC(I,1)
+            IXS(3,I) = NC(I,2)
+            IXS(4,I) = NC(I,3)
+            IXS(5,I) = NC(I,4)
+            IXS(6,I) = NC(I,5)
+            IXS(7,I) = NC(I,6)
+            IXS(8,I) = NC(I,7)
+            IXS(9,I) = NC(I,8)
+            IXS16(1,I) = NC(I,9)
+            IXS16(2,I) = NC(I,10)
+            IXS16(3,I) = NC(I,11)
+            IXS16(4,I) = NC(I,12)
+            IXS16(5,I) = NC(I,13)
+            IXS16(6,I) = NC(I,14)
+            IXS16(7,I) = NC(I,15)
+            IXS16(8,I) = NC(I,16)
+          ENDIF
+        ENDDO
 C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO N=1,16
-        DO I=LFT,LLT               
-          NN = MAX(IUN,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-          VX(I,N)=V(1,NN)          
-          VY(I,N)=V(2,NN)          
-          VZ(I,N)=V(3,NN)          
-        ENDDO                      
-      ENDDO
-C
-      DO I=LFT,LLT
-        MASS(I)=ZERO
-      ENDDO
-C
-      DO N=9,16
-        N1=IPERM1(N)
-        N2=IPERM2(N)
-        DO I=LFT,LLT
-          IF(NC(I,N)==0)THEN
-            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
-            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
-            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
-          ENDIF
+        DO N=1,16
+          DO I=LFT,LLT
+            NN = MAX(IUN,NC(I,N))
+            XX(I,N)=X(1,NN)
+            YY(I,N)=X(2,NN)
+            ZZ(I,N)=X(3,NN)
+            VX(I,N)=V(1,NN)
+            VY(I,N)=V(2,NN)
+            VZ(I,N)=V(3,NN)
+          ENDDO
         ENDDO
-      ENDDO
-C      
-      IF(JTHE < 0 ) THEN
-        IF(NINTEMP > 0 ) THEN
-          DO N =1,16
-            DO I=LFT,LLT  
-              NN = MAX(IUN,NC(I,N))
-              IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
-            ENDDO
+C
+        DO I=LFT,LLT
+          MASS(I)=ZERO
+        ENDDO
+C
+        DO N=9,16
+          N1=IPERM1(N)
+          N2=IPERM2(N)
+          DO I=LFT,LLT
+            IF(NC(I,N)==0)THEN
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
+              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
+            ENDIF
           ENDDO
-        ELSE
-          DO N =1,16
-            DO I=LFT,LLT
-              NN = MAX(IUN,NC(I,N))
-              TEMP(NN) = TEMP0(I)
+        ENDDO
+C
+        IF(JTHE < 0 ) THEN
+          IF(NINTEMP > 0 ) THEN
+            DO N =1,16
+              DO I=LFT,LLT
+                NN = MAX(IUN,NC(I,N))
+                IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
+              ENDDO
             ENDDO
-          ENDDO
-        ENDIF   
-      ENDIF
+          ELSE
+            DO N =1,16
+              DO I=LFT,LLT
+                NN = MAX(IUN,NC(I,N))
+                TEMP(NN) = TEMP0(I)
+              ENDDO
+            ENDDO
+          ENDIF
+        ENDIF
 C-----------
-      RETURN
+        RETURN
       END

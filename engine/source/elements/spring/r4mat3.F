@@ -46,50 +46,50 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT    ,JLT, MGN(*),NPF(*),IGEO(NPROPGI,*)
-      my_real
-     .   GEO(NPROPG,*), KX(*),AL0(*),FX(*),DX(*),TF(*),POS(*)
+        INTEGER JFT    ,JLT, MGN(*),NPF(*),IGEO(NPROPGI,*)
+        my_real
+     .     GEO(NPROPG,*), KX(*),AL0(*),FX(*),DX(*),TF(*),POS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ILEN,ILENG
-      INTEGER IECROU(MVSIZ), IFUNC(MVSIZ),IFUNC2(MVSIZ)
-      my_real
-     .   A(MVSIZ)
+        INTEGER I,ILEN,ILENG
+        INTEGER IECROU(MVSIZ), IFUNC(MVSIZ),IFUNC2(MVSIZ)
+        my_real
+     .     A(MVSIZ)
 C-----------------------------------------------
 C
-      DO I=JFT,JLT
-       KX(I)=GEO(2,MGN(I))
-      ENDDO
-      ILEN = 0
-      DO I=JFT,JLT
-       A(I)   =GEO(10,MGN(I))
+        DO I=JFT,JLT
+          KX(I)=GEO(2,MGN(I))
+        ENDDO
+        ILEN = 0
+        DO I=JFT,JLT
+          A(I)   =GEO(10,MGN(I))
 C       KX(I)=A(I)*KX(I)
-       ILENG=NINT(GEO(93,MGN(I)))
-       IF(ILENG/=0) ILEN = 1
-      ENDDO
-      IF(ILEN/=0) THEN
-       DO I=JFT,JLT
-        ILENG=NINT(GEO(93,MGN(I)))
-        IF(ILENG/=0)THEN
-          KX(I)=KX(I)/AL0(I)
+          ILENG=NINT(GEO(93,MGN(I)))
+          IF(ILENG/=0) ILEN = 1
+        ENDDO
+        IF(ILEN/=0) THEN
+          DO I=JFT,JLT
+            ILENG=NINT(GEO(93,MGN(I)))
+            IF(ILENG/=0)THEN
+              KX(I)=KX(I)/AL0(I)
+            ENDIF
+          ENDDO
         ENDIF
-       ENDDO
-      ENDIF
-      IF (ISMDISP>0.OR.ISPRN==1) THEN
-       DO I=JFT,JLT
-        IECROU(I)=NINT(GEO(7,MGN(I)))
+        IF (ISMDISP>0.OR.ISPRN==1) THEN
+          DO I=JFT,JLT
+            IECROU(I)=NINT(GEO(7,MGN(I)))
 C        IFUNC(I) =NINT(GEO(4,MGN(I)))
 C        IFUNC2(I) =NINT(GEO(18,MGN(I)))
-        IFUNC(I) =IGEO(101,MGN(I))
-        IFUNC2(I)=IGEO(103,MGN(I))
-       ENDDO
-       CALL RKENONL(JFT    ,JLT    ,KX     ,FX     ,DX     ,
-     .              IECROU ,IFUNC  ,IFUNC2 ,A      ,TF     ,
-     .              NPF    ,POS    )
-      ENDIF
+            IFUNC(I) =IGEO(101,MGN(I))
+            IFUNC2(I)=IGEO(103,MGN(I))
+          ENDDO
+          CALL RKENONL(JFT    ,JLT    ,KX     ,FX     ,DX     ,
+     .                 IECROU ,IFUNC  ,IFUNC2 ,A      ,TF     ,
+     .                 NPF    ,POS    )
+        ENDIF
 C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RKENONL                       source/elements/spring/r4mat3.F
@@ -99,8 +99,8 @@ Chd|        R13MAT3                       source/elements/spring/r13mat3.F
 Chd|        R4MAT3                        source/elements/spring/r4mat3.F
 Chd|-- calls ---------------
 Chd|        ES_FUNC                       source/elements/spring/r4mat3.F
-Chd|        VINTER2                       source/tools/curve/vinter.F   
-Chd|        VINTER2DP                     source/tools/curve/vinter.F   
+Chd|        VINTER2                       source/tools/curve/vinter.F
+Chd|        VINTER2DP                     source/tools/curve/vinter.F
 Chd|====================================================================
       SUBROUTINE RKENONL(JFT    ,JLT    ,KX     ,FX     ,DX     ,
      .                   IECROU ,IFUNC  ,IFUNC2 ,A      ,TF     ,
@@ -119,74 +119,74 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NPF(*),IECROU(*), IFUNC(*),IFUNC2(*)
-      my_real
-     .   FX(*), KX(*), DX(*), TF(*), POS(4,*),A(*)
+        INTEGER JFT,JLT,NPF(*),IECROU(*), IFUNC(*),IFUNC2(*)
+        my_real
+     .     FX(*), KX(*), DX(*), TF(*), POS(4,*),A(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     . I, J,JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
-     . JPOS0(MVSIZ),JFUNC,JFUNC2,INDEX(MVSIZ),NC
-      my_real
-     .   XX(MVSIZ) ,DYDX(MVSIZ) ,YY(MVSIZ),E_SEG,E_T,E_MIN,
-     .   X0(MVSIZ),F0(MVSIZ)
+        INTEGER
+     .   I, J,JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
+     .   JPOS0(MVSIZ),JFUNC,JFUNC2,INDEX(MVSIZ),NC
+        my_real
+     .     XX(MVSIZ) ,DYDX(MVSIZ) ,YY(MVSIZ),E_SEG,E_T,E_MIN,
+     .     X0(MVSIZ),F0(MVSIZ)
 C-------------------------------------
 C        VECTOR INTERPOLATION (ADRESS)
 C-------------------------------------
-      NC = 0
-      IF (ILINE==1.OR.
-     .   (ISMDISP>0.AND.NCYCLE==1.AND.IMCONV==1)) THEN
-       DO I=JFT,JLT
-       IF (IFUNC(I)>0) THEN
-        NC = NC + 1
-        INDEX(NC) = I
-       ENDIF 
-       ENDDO
-       DO J=1,NC
-        I = INDEX(J)
-        CALL ES_FUNC(IFUNC(I),TF,NPF,E_SEG)
-        KX(I)= A(I)*MAX(EM6,ABS(E_SEG))
-       ENDDO
-      ELSE
-      DO I=JFT,JLT
-       IF (IFUNC(I)>0.AND.IECROU(I)==0.AND.ABS(DX(I))>EM20) THEN
-        NC = NC + 1
-        INDEX(NC) = I
-       ENDIF 
-      ENDDO
-      IF (NC==0) RETURN
+        NC = 0
+        IF (ILINE==1.OR.
+     .     (ISMDISP>0.AND.NCYCLE==1.AND.IMCONV==1)) THEN
+          DO I=JFT,JLT
+            IF (IFUNC(I)>0) THEN
+              NC = NC + 1
+              INDEX(NC) = I
+            ENDIF
+          ENDDO
+          DO J=1,NC
+            I = INDEX(J)
+            CALL ES_FUNC(IFUNC(I),TF,NPF,E_SEG)
+            KX(I)= A(I)*MAX(EM6,ABS(E_SEG))
+          ENDDO
+        ELSE
+          DO I=JFT,JLT
+            IF (IFUNC(I)>0.AND.IECROU(I)==0.AND.ABS(DX(I))>EM20) THEN
+              NC = NC + 1
+              INDEX(NC) = I
+            ENDIF
+          ENDDO
+          IF (NC==0) RETURN
 C
-      DO J=1,NC
-       I = INDEX(J)
-       JPOS(J) = 0
+          DO J=1,NC
+            I = INDEX(J)
+            JPOS(J) = 0
 C       JPOS(J) = NINT(POS(1,I))
-       JFUNC=MAX(1,IFUNC(I))
-       JAD(J)  = NPF(JFUNC) / 2  + 1
-       JLEN(J) = NPF(JFUNC+1) / 2  - JAD(J)  - JPOS(J)
-       XX(J)   = DX(I)
-       JPOS0(J) = JPOS(J)
-       X0(J)   = ZERO
-      ENDDO
+            JFUNC=MAX(1,IFUNC(I))
+            JAD(J)  = NPF(JFUNC) / 2  + 1
+            JLEN(J) = NPF(JFUNC+1) / 2  - JAD(J)  - JPOS(J)
+            XX(J)   = DX(I)
+            JPOS0(J) = JPOS(J)
+            X0(J)   = ZERO
+          ENDDO
 C
-      IF (IRESP==1) THEN
-        CALL VINTER2DP(TF,JAD ,JPOS0,JLEN ,NC,X0 ,DYDX ,F0)
-        CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,NC,XX ,DYDX ,YY)
-      ELSE
-        CALL VINTER2(TF,JAD ,JPOS0,JLEN ,NC,X0 ,DYDX ,F0 )
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NC,XX ,DYDX ,YY )
-      ENDIF 
+          IF (IRESP==1) THEN
+            CALL VINTER2DP(TF,JAD ,JPOS0,JLEN ,NC,X0 ,DYDX ,F0)
+            CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,NC,XX ,DYDX ,YY)
+          ELSE
+            CALL VINTER2(TF,JAD ,JPOS0,JLEN ,NC,X0 ,DYDX ,F0 )
+            CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NC,XX ,DYDX ,YY )
+          ENDIF
 C
-      DO J=1,NC
-       I = INDEX(J)
-       E_SEG = ABS((FX(I)-F0(J))/XX(J))
-       E_T = ABS(DYDX(J))
-       E_MIN = EM06*KX(I)
-       KX(I)= A(I)*MAX(E_MIN,E_SEG,E_T)
-      ENDDO
-      ENDIF 
+          DO J=1,NC
+            I = INDEX(J)
+            E_SEG = ABS((FX(I)-F0(J))/XX(J))
+            E_T = ABS(DYDX(J))
+            E_MIN = EM06*KX(I)
+            KX(I)= A(I)*MAX(E_MIN,E_SEG,E_T)
+          ENDDO
+        ENDIF
 C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  ES_FUNC                       source/elements/spring/r4mat3.F
@@ -202,81 +202,81 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPF(*),IFUNCT
+        INTEGER NPF(*),IFUNCT
 C     REAL
-      my_real
-     .   TF(*),E_S
+        my_real
+     .     TF(*),E_S
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     . J,J1,NPOINT,N0
-      my_real
-     .   X,Y,Y0,E1,E2,XN,YN
+        INTEGER
+     .   J,J1,NPOINT,N0
+        my_real
+     .     X,Y,Y0,E1,E2,XN,YN
 C-----------------------------------------------
-      E_S = ZERO 
-       NPOINT=(NPF(IFUNCT+1)-NPF(IFUNCT))/2+1
-       Y0 = ZERO
-       N0 = 0
-       IF (TF(NPF(IFUNCT))<ZERO) N0 = NPOINT+1
-       DO J=2,NPOINT
-        J1=2*(J-2)
-        X=TF(NPF(IFUNCT)+J1)
-        IF (X>=ZERO) THEN
-         IF (X==ZERO) Y0=TF(NPF(IFUNCT)+J1+1)
-         N0=J
-         GOTO 10
-        ENDIF
-       ENDDO
- 10    CONTINUE
+        E_S = ZERO
+        NPOINT=(NPF(IFUNCT+1)-NPF(IFUNCT))/2+1
+        Y0 = ZERO
+        N0 = 0
+        IF (TF(NPF(IFUNCT))<ZERO) N0 = NPOINT+1
+        DO J=2,NPOINT
+          J1=2*(J-2)
+          X=TF(NPF(IFUNCT)+J1)
+          IF (X>=ZERO) THEN
+            IF (X==ZERO) Y0=TF(NPF(IFUNCT)+J1+1)
+            N0=J
+            GOTO 10
+          ENDIF
+        ENDDO
+ 10     CONTINUE
 C------only traction--------
-       IF (N0<=2) THEN
-        X=TF(NPF(IFUNCT))
-        Y=TF(NPF(IFUNCT)+1)-Y0
-        IF (X==ZERO) THEN
-         X=TF(NPF(IFUNCT)+2)
-         Y=TF(NPF(IFUNCT)+3)-Y0
-	ELSE
-         X=TF(NPF(IFUNCT)+2)-X
-         Y=TF(NPF(IFUNCT)+3)-Y
-        ENDIF
-        IF (ABS(X)>ZERO) E_S= Y/X
+        IF (N0<=2) THEN
+          X=TF(NPF(IFUNCT))
+          Y=TF(NPF(IFUNCT)+1)-Y0
+          IF (X==ZERO) THEN
+            X=TF(NPF(IFUNCT)+2)
+            Y=TF(NPF(IFUNCT)+3)-Y0
+          ELSE
+            X=TF(NPF(IFUNCT)+2)-X
+            Y=TF(NPF(IFUNCT)+3)-Y
+          ENDIF
+          IF (ABS(X)>ZERO) E_S= Y/X
 C------only compression--------
-       ELSEIF (N0>=NPOINT) THEN
-        J1=2*(N0-3)
-        X=TF(NPF(IFUNCT)+J1)
-        Y=TF(NPF(IFUNCT)+J1+1)-Y0
-C------w/o zero point--------------	
-        IF (N0==(NPOINT+1)) THEN
-         J1=2*(N0-4)
-         X=TF(NPF(IFUNCT)+J1)-X
-         Y=TF(NPF(IFUNCT)+J1+1)-Y
-        ENDIF
-        IF (ABS(X)>ZERO) E_S= Y/X
-       ELSE
+        ELSEIF (N0>=NPOINT) THEN
+          J1=2*(N0-3)
+          X=TF(NPF(IFUNCT)+J1)
+          Y=TF(NPF(IFUNCT)+J1+1)-Y0
+C------w/o zero point--------------
+          IF (N0==(NPOINT+1)) THEN
+            J1=2*(N0-4)
+            X=TF(NPF(IFUNCT)+J1)-X
+            Y=TF(NPF(IFUNCT)+J1+1)-Y
+          ENDIF
+          IF (ABS(X)>ZERO) E_S= Y/X
+        ELSE
 C------compression 1er point
-        J1=2*(N0-3)
-        XN=TF(NPF(IFUNCT)+J1)
-        YN=TF(NPF(IFUNCT)+J1+1)-Y0
-        E1 = ZERO
-        IF (ABS(XN)>ZERO) E1= YN/XN
+          J1=2*(N0-3)
+          XN=TF(NPF(IFUNCT)+J1)
+          YN=TF(NPF(IFUNCT)+J1+1)-Y0
+          E1 = ZERO
+          IF (ABS(XN)>ZERO) E1= YN/XN
 C------traction 1er point
-        J1=2*(N0-2)
-        X=TF(NPF(IFUNCT)+J1)
-        IF (X==ZERO) THEN
-         J1=J1+2
-         X=TF(NPF(IFUNCT)+J1)
-         Y=TF(NPF(IFUNCT)+J1+1)-Y0
-         E2 = ZERO
-         IF (ABS(X)>ZERO) E2= Y/X
-         E_S= HALF*(E1+E2)
+          J1=2*(N0-2)
+          X=TF(NPF(IFUNCT)+J1)
+          IF (X==ZERO) THEN
+            J1=J1+2
+            X=TF(NPF(IFUNCT)+J1)
+            Y=TF(NPF(IFUNCT)+J1+1)-Y0
+            E2 = ZERO
+            IF (ABS(X)>ZERO) E2= Y/X
+            E_S= HALF*(E1+E2)
 C------w/o point (0,0)-----
-	ELSE
-         Y=TF(NPF(IFUNCT)+J1+1)-Y0
-         E_S= ZERO
-         IF (ABS(X-XN)>ZERO) E_S= (Y-YN)/(X-XN)
+          ELSE
+            Y=TF(NPF(IFUNCT)+J1+1)-Y0
+            E_S= ZERO
+            IF (ABS(X-XN)>ZERO) E_S= (Y-YN)/(X-XN)
+          ENDIF
         ENDIF
-       ENDIF
 C
-      RETURN
+        RETURN
       END

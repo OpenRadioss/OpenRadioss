@@ -27,7 +27,7 @@ Chd|        INTFOP1                       source/interfaces/interf/intfop1.F
 Chd|-- calls ---------------
 Chd|        I3FOR2                        source/interfaces/inter2d/i3for2.F
 Chd|        INVOI2                        source/interfaces/inter2d/invoi2.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTVO2(IPARI,INTBUF_TAB ,X   ,A    ,
@@ -35,9 +35,9 @@ Chd|====================================================================
      .                  FCONT,FNCONT    , FTCONT,H3D_DATA      )
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
-      USE H3D_MOD 
+C-----------------------------------------------
+        USE INTBUFDEF_MOD
+        USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,14 +45,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(*), ICODT(*), ISKY(*)
+        INTEGER IPARI(*), ICODT(*), ISKY(*)
 C     REAL
-      my_real
-     .   X(*), A(*), FSAV(*),FSKYI(*),
-     .   FCONT(3,*),FNCONT(3,*), FTCONT(3,*)
+        my_real
+     .     X(*), A(*), FSAV(*),FSKYI(*),
+     .     FCONT(3,*),FNCONT(3,*), FTCONT(3,*)
 
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
-      TYPE(H3D_DATABASE) :: H3D_DATA
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -61,45 +61,45 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   STARTT,PTMAX
+        my_real
+     .     STARTT,PTMAX
 
-      INTEGER IBC,NSN,NMN,NTY
+        INTEGER IBC,NSN,NMN,NTY
 C-----------------------------------------------
 C
-      NSN   =IPARI(5)
-      NMN   =IPARI(6)
-      NTY   =IPARI(7)
-      IBC   =IPARI(11)
+        NSN   =IPARI(5)
+        NMN   =IPARI(6)
+        NTY   =IPARI(7)
+        IBC   =IPARI(11)
 C
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      IF(STARTT>TT) RETURN
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        IF(STARTT>TT) RETURN
 C
-      PTMAX=INTBUF_TAB%VARIABLES(16)
-      IF(NTY==3) THEN
-         PTMAX = PTMAX*HALF
-      ENDIF
-      CALL INVOI2(X	  ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1  	INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,NSN	   )
-      IF(NTY==3)THEN
-       CALL INVOI2(X      ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,INTBUF_TAB%MSR,
-     1          INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%NSEGS,NMN       )
-      ENDIF
-      CALL I3FOR2(X      ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
-     1          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,NSN   ,
-     2          NMN       ,NTY       ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
-     3          INTBUF_TAB%VARIABLES(1),INTBUF_TAB%STFNS,IBC       ,ICODT     ,1         ,
-     4          FSAV      ,FSKYI     ,ISKY             ,PTMAX      , INTBUF_TAB%AREAS    ,
-     5          FCONT     ,FNCONT    , FTCONT, H3D_DATA          )
-      IF(NTY==3)THEN
-       CALL I3FOR2(X      ,A         ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
-     1          INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,NMN       ,
-     2          NSN       ,NTY       ,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
-     3          INTBUF_TAB%VARIABLES(1),INTBUF_TAB%STFNM,0         ,ICODT     ,-1        ,
-     4          FSAV      ,FSKYI       ,ISKY            ,PTMAX     ,INTBUF_TAB%AREAM     ,
-     5          FCONT     ,FNCONT    , FTCONT, H3D_DATA          )
-      ENDIF
+        PTMAX=INTBUF_TAB%VARIABLES(16)
+        IF(NTY==3) THEN
+          PTMAX = PTMAX*HALF
+        ENDIF
+        CALL INVOI2(X    ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
+     1    INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM,NSN     )
+        IF(NTY==3)THEN
+          CALL INVOI2(X      ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,INTBUF_TAB%MSR,
+     1             INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%NSEGS,NMN       )
+        ENDIF
+        CALL I3FOR2(X      ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
+     1            INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,NSN   ,
+     2            NMN       ,NTY       ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
+     3            INTBUF_TAB%VARIABLES(1),INTBUF_TAB%STFNS,IBC       ,ICODT     ,1         ,
+     4            FSAV      ,FSKYI     ,ISKY             ,PTMAX      , INTBUF_TAB%AREAS    ,
+     5            FCONT     ,FNCONT    , FTCONT, H3D_DATA          )
+        IF(NTY==3)THEN
+          CALL I3FOR2(X      ,A         ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
+     1             INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,NMN       ,
+     2             NSN       ,NTY       ,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
+     3             INTBUF_TAB%VARIABLES(1),INTBUF_TAB%STFNM,0         ,ICODT     ,-1        ,
+     4             FSAV      ,FSKYI       ,ISKY            ,PTMAX     ,INTBUF_TAB%AREAM     ,
+     5             FCONT     ,FNCONT    , FTCONT, H3D_DATA          )
+        ENDIF
 C
-      RETURN
+        RETURN
       END

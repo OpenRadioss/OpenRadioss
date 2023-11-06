@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPHRES44B                     source/elements/sph/sphres44b.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPHRES44B(
@@ -46,39 +46,39 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
-     .    KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
-     .    IPARG(NPARG,*)
+        INTEGER
+     .      KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
+     .      IPARG(NPARG,*)
 C     REAL
-      my_real
-     .   SPBUF(NSPBUF,*)
+        my_real
+     .     SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,IG,NG,I,OFFSET,NEL
+        INTEGER N,IG,NG,I,OFFSET,NEL
 C-----------------------------------------------
-C     Construit les Numeros d'appartenance aux groupes. 
+C     Construit les Numeros d'appartenance aux groupes.
 C-----------------------------------------------
-      DO NG=1,NGROUP
-      NEL=IPARG(2,NG)
-      NFT=IPARG(3,NG)
-      ITY=IPARG(5,NG)
-      DO IG= 1,NEL,MVSIZ
-        OFFSET = IG - 1
-        LFT=1
-        LLT=MIN(MVSIZ,NEL-OFFSET)  
-        IF(ITY==51)THEN
-         DO I=LFT,LLT
-          N =I+NFT
-          IF(SPBUF(9,N)>ZERO)THEN
-           KXSP(1,N) =0
-           KXSP(2,N) =NG
-           SPBUF(9,N)=ZERO	   
-          ENDIF
-         ENDDO
-        ENDIF
-      ENDDO
-      ENDDO
+        DO NG=1,NGROUP
+          NEL=IPARG(2,NG)
+          NFT=IPARG(3,NG)
+          ITY=IPARG(5,NG)
+          DO IG= 1,NEL,MVSIZ
+            OFFSET = IG - 1
+            LFT=1
+            LLT=MIN(MVSIZ,NEL-OFFSET)
+            IF(ITY==51)THEN
+              DO I=LFT,LLT
+                N =I+NFT
+                IF(SPBUF(9,N)>ZERO)THEN
+                  KXSP(1,N) =0
+                  KXSP(2,N) =NG
+                  SPBUF(9,N)=ZERO
+                ENDIF
+              ENDDO
+            ENDIF
+          ENDDO
+        ENDDO
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

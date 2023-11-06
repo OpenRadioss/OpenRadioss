@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD    
+        USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,88 +49,88 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER , INTENT(IN) :: JHBE,ILAY,MLWI,KCVT,IOR_TSH,
-     .                        NPTR,NPTS,ICSTR,NEL 
-      INTEGER ,DIMENSION(NIXS,NUMELS), INTENT(IN) ::  IXS
-      my_real , INTENT(IN) ::  F_EXP
-      my_real ,DIMENSION(3,MVSIZ), INTENT(OUT) ::  EVAR
-      my_real ,DIMENSION(3,NUMNOD), INTENT(IN) ::  X
-      TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
+        INTEGER , INTENT(IN) :: JHBE,ILAY,MLWI,KCVT,IOR_TSH,
+     .                          NPTR,NPTS,ICSTR,NEL
+        INTEGER ,DIMENSION(NIXS,NUMELS), INTENT(IN) ::  IXS
+        my_real , INTENT(IN) ::  F_EXP
+        my_real ,DIMENSION(3,MVSIZ), INTENT(OUT) ::  EVAR
+        my_real ,DIMENSION(3,NUMNOD), INTENT(IN) ::  X
+        TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C----------------------------------------------- 
-      my_real
-     .   DIR(MVSIZ,2),DIRB(MVSIZ,2)
-      INTEGER I,I1,II,J,IR,IS,IT,IL,JJ(4)
+C-----------------------------------------------
+        my_real
+     .     DIR(MVSIZ,2),DIRB(MVSIZ,2)
+        INTEGER I,I1,II,J,IR,IS,IT,IL,JJ(4)
 
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-C----------------------------------------------- 
-       EVAR(1:3,1:NEL) = ZERO
-       IT = 1
-       DO I=1,4
-         JJ(I) = NEL*(I-1)
-       ENDDO
+        TYPE(G_BUFEL_)  ,POINTER :: GBUF
+        TYPE(L_BUFEL_)  ,POINTER :: LBUF
+C-----------------------------------------------
+        EVAR(1:3,1:NEL) = ZERO
+        IT = 1
+        DO I=1,4
+          JJ(I) = NEL*(I-1)
+        ENDDO
         GBUF => ELBUF_TAB%GBUF
         IF (JHBE==15) THEN
-           IR = 1
-           IS = 1
-           LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
-            IF (MLWI == 12 .OR. MLWI == 14) THEN
-              DO I=1,NEL						   
-               EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
-               EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-              ENDDO						       
-            ELSEIF (MLWI /= 49 ) THEN                 
-              DO I=1,NEL						   
-               EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
-               EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-              ENDDO						       
-            END IF               
-C------      
+          IR = 1
+          IS = 1
+          LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
+          IF (MLWI == 12 .OR. MLWI == 14) THEN
+            DO I=1,NEL
+              EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)
+              EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
+            ENDDO
+          ELSEIF (MLWI /= 49 ) THEN
+            DO I=1,NEL
+              EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)
+              EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
+            ENDDO
+          END IF
+C------
         ELSE ! 14,16
           IF (MLWI == 12 .OR. MLWI == 14) THEN
             DO IR=1,NPTR
               DO IS=1,NPTS
-                 LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-                 DO I=1,NEL						   
-                  EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
+                LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                DO I=1,NEL
+                  EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)
                   EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
-              END DO 
-            END DO 
-          ELSEIF (MLWI /= 49 ) THEN                 
+                ENDDO
+              END DO
+            END DO
+          ELSEIF (MLWI /= 49 ) THEN
             DO IR=1,NPTR
               DO IS=1,NPTS
-                 LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-                 DO I=1,NEL						   
-                  EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
+                LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                DO I=1,NEL
+                  EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)
                   EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
-              ENDDO 
-            END DO 
-          END IF               
-        END IF               
+                ENDDO
+              ENDDO
+            END DO
+          END IF
+        END IF
         EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
-C------         
+C------
         IF (KCVT==2) THEN
-           IF(IOR_TSH==1)THEN
-             DO I=1,NEL
+          IF(IOR_TSH==1)THEN
+            DO I=1,NEL
               DIR(I,1:2)= GBUF%GAMA(JJ(1:2) + I)
-             ENDDO
-           ELSEIF(IOR_TSH==2)THEN
-             IF(JHBE==14)THEN
+            ENDDO
+          ELSEIF(IOR_TSH==2)THEN
+            IF(JHBE==14)THEN
               IR = 1
               IS = 1
-             END IF
-             LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-             DO I=1,NEL
+            END IF
+            LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
+            DO I=1,NEL
               DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
-             ENDDO
-           END IF
-           CALL TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
-           CALL ROTO_SIG2D(1,NEL,EVAR,DIRB)
+            ENDDO
+          END IF
+          CALL TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
+          CALL ROTO_SIG2D(1,NEL,EVAR,DIRB)
         END IF !(KCVT==2) THEN
 C
-      RETURN
+        RETURN
       END SUBROUTINE H3D_FLD_STRAIN

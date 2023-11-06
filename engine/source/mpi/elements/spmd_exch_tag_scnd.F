@@ -47,86 +47,86 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LCOMM, ITAGND(*), FR_CNDS(*), IAD_CNDS(*)
+        INTEGER LCOMM, ITAGND(*), FR_CNDS(*), IAD_CNDS(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,
-     .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,
-     .        STATUS(MPI_STATUS_SIZE),
-     .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
-      DATA MSGOFF/1179/
-      INTEGER
-     .        SBUF(LCOMM),RBUF(LCOMM)
+        INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,
+     .          NBINDEX,INDEX,MSGOFF,SIZ,IERROR,
+     .          STATUS(MPI_STATUS_SIZE),
+     .          REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
+        DATA MSGOFF/1179/
+        INTEGER
+     .          SBUF(LCOMM),RBUF(LCOMM)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      LOC_PROC = ISPMD + 1
-      DO I=1,NSPMD
-        SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
-        IF(SIZ>0)THEN
-         L = IAD_CNDS(I)
-          MSGTYP = MSGOFF 
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
-        ENDIF
-      END DO
+        LOC_PROC = ISPMD + 1
+        DO I=1,NSPMD
+          SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
+          IF(SIZ>0)THEN
+            L = IAD_CNDS(I)
+            MSGTYP = MSGOFF
+            CALL MPI_IRECV(
+     S        RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     G        MPI_COMM_WORLD,REQ_R(I),IERROR)
+          ENDIF
+        END DO
 C
 C preparation envoi  a proc I
 C--------------------------------------------------------------------
-      DO I=1,NSPMD
-       DO J=IAD_CNDS(I),IAD_CNDS(I+1)-1
-        NOD =  FR_CNDS(J)
-	IF (IABS(ITAGND(NOD))>NS10E) THEN
-         SBUF(J) = 1
-	ELSE
-         SBUF(J) = 0
-	END IF
-       ENDDO
-      ENDDO
+        DO I=1,NSPMD
+          DO J=IAD_CNDS(I),IAD_CNDS(I+1)-1
+            NOD =  FR_CNDS(J)
+            IF (IABS(ITAGND(NOD))>NS10E) THEN
+              SBUF(J) = 1
+            ELSE
+              SBUF(J) = 0
+            END IF
+          ENDDO
+        ENDDO
 C
 C   echange messages
 C--------------------------------------------------------------------
-      DO I=1,NSPMD
-        SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
-        IF(SIZ>0)THEN
-          L = IAD_CNDS(I)
-          MSGTYP = MSGOFF 
-          CALL MPI_ISEND(
-     +      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     +      MPI_COMM_WORLD,REQ_S(I),IERROR)
-        ENDIF        
-      ENDDO
+        DO I=1,NSPMD
+          SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
+          IF(SIZ>0)THEN
+            L = IAD_CNDS(I)
+            MSGTYP = MSGOFF
+            CALL MPI_ISEND(
+     +        SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     +        MPI_COMM_WORLD,REQ_S(I),IERROR)
+          ENDIF
+        ENDDO
 C
 C assemblage
 C--------------------------------------------------------------------
-      DO I=1,NSPMD
-        SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
-       IF(SIZ>0)THEN
-        CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
-        DO J=IAD_CNDS(I),IAD_CNDS(I+1)-1
-         NOD =  FR_CNDS(J)
-         IF (ITAGND(NOD)>0) THEN
-          IF (ITAGND(NOD)<=NS10E.AND.RBUF(J)==1)
-     +     ITAGND(NOD) = ITAGND(NOD) + NS10E
-         ELSEIF(ITAGND(NOD)<0) THEN
-          IF (ITAGND(NOD)>=-NS10E.AND.RBUF(J)==1)
-     +     ITAGND(NOD) = ITAGND(NOD) - NS10E
-         END IF
+        DO I=1,NSPMD
+          SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
+          IF(SIZ>0)THEN
+            CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+            DO J=IAD_CNDS(I),IAD_CNDS(I+1)-1
+              NOD =  FR_CNDS(J)
+              IF (ITAGND(NOD)>0) THEN
+                IF (ITAGND(NOD)<=NS10E.AND.RBUF(J)==1)
+     +           ITAGND(NOD) = ITAGND(NOD) + NS10E
+              ELSEIF(ITAGND(NOD)<0) THEN
+                IF (ITAGND(NOD)>=-NS10E.AND.RBUF(J)==1)
+     +           ITAGND(NOD) = ITAGND(NOD) - NS10E
+              END IF
+            ENDDO
+          ENDIF
         ENDDO
-       ENDIF
-      ENDDO
 C
 C--------------------------------------------------------------------
-      DO I = 1, NSPMD
-        IF((IAD_CNDS(I+1)-IAD_CNDS(I))>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
-        ENDIF
-      ENDDO
+        DO I = 1, NSPMD
+          IF((IAD_CNDS(I+1)-IAD_CNDS(I))>0)THEN
+            CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          ENDIF
+        ENDDO
 C
 #endif
-      RETURN
+        RETURN
       END SUBROUTINE
 

@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  NOISE                         source/general_controls/computation/noise.F
 Chd|-- called by -----------
-Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
+Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        INITNOISE                     source/general_controls/computation/initnoise.F
 Chd|        INITNOISE2                    source/general_controls/computation/initnoise.F
 Chd|        PNOISE                        source/general_controls/computation/pnoise.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        WRTDES                        source/output/th/wrtdes.F     
+Chd|        WRTDES                        source/output/th/wrtdes.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE NOISE(
@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+        USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,190 +59,190 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IN(*),J(*),IXS(*),IPARG(*), WEIGHT(*),IXQ(*)
-      my_real
-     . BUF(NCNOIS,*),V(3,*),DT2R ,A(3,*)
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+        INTEGER IN(*),J(*),IXS(*),IPARG(*), WEIGHT(*),IXQ(*)
+        my_real
+     .   BUF(NCNOIS,*),V(3,*),DT2R ,A(3,*)
+        TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER , DIMENSION(:), ALLOCATABLE :: ELNOI,ELG,NOIADD
-      my_real
-     &  ,DIMENSION(:),ALLOCATABLE ::  C
-      INTEGER IPELNOI,IPNOIADD,IPTC
-      INTEGER IFIRST,I,K,L,NE,NC,KK,IAD, LEN
-      my_real
-     . PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,    
-     . TRANS,XI,W,CC,TTN
-      INTEGER LENGTH, ITAG(0:NUMNOD)
-      SAVE IFIRST,TE,IPTC,C,NC,TO,IPELNOI,ELNOI,ELG,IPNOIADD,NOIADD
-      DATA IFIRST/0/
-      my_real
-     .     WA(NNOISE)
+        INTEGER , DIMENSION(:), ALLOCATABLE :: ELNOI,ELG,NOIADD
+        my_real
+     &    ,DIMENSION(:),ALLOCATABLE ::  C
+        INTEGER IPELNOI,IPNOIADD,IPTC
+        INTEGER IFIRST,I,K,L,NE,NC,KK,IAD, LEN
+        my_real
+     .   PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,
+     .   TRANS,XI,W,CC,TTN
+        INTEGER LENGTH, ITAG(0:NUMNOD)
+        SAVE IFIRST,TE,IPTC,C,NC,TO,IPELNOI,ELNOI,ELG,IPNOIADD,NOIADD
+        DATA IFIRST/0/
+        my_real
+     .       WA(NNOISE)
 C-----------------------------------------------
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
-      TOL=EM01
-      IF(IMACH/=3.OR.ISPMD==0) THEN
-        IUNIT=IUNOI
-        IF(ITFORM==3) CALL CUR_FIL_C(IUNIT)
-      ENDIF
-      IF(IFIRST==0)THEN
-        IFIRST=1
-        IF(RNOI==0)THEN
-C NE : NOMBRE D'ECHANTILLON ENTRE CHAQUE SORTIE
-        TE=DT2
-         DT2R=TE
-        NE=MAX(1,INT(DTNOISE/TE))
-         J(7)=NE
-        ELSEIF(RNOI==1)THEN
-         TE=DT2R
-         NE=J(7)
+        TOL=EM01
+        IF(IMACH/=3.OR.ISPMD==0) THEN
+          IUNIT=IUNOI
+          IF(ITFORM==3) CALL CUR_FIL_C(IUNIT)
         ENDIF
+        IF(IFIRST==0)THEN
+          IFIRST=1
+          IF(RNOI==0)THEN
+C NE : NOMBRE D'ECHANTILLON ENTRE CHAQUE SORTIE
+            TE=DT2
+            DT2R=TE
+            NE=MAX(1,INT(DTNOISE/TE))
+            J(7)=NE
+          ELSEIF(RNOI==1)THEN
+            TE=DT2R
+            NE=J(7)
+          ENDIF
 C
 C INITIALISATION DES TABLEAUX D'ELEMENTS PAR NOEUDS SAUVES
 C
-        IF(NOISEP/=0)THEN
-          ALLOCATE (NOIADD(NNOISE+1))
-          CALL INITNOISE(IN,NOIADD,IXS,ITAG(0),LENGTH,IXQ)
-          ALLOCATE(ELNOI(LENGTH))        
-          ALLOCATE(ELG(LENGTH))
-          CALL INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,ITAG(1),IPARG,IXQ)
-        ENDIF
-C TC PERIODE DE COUPURE
-        DTNOISE=FLOAT(NE)*TE
-        TC=2.*DTNOISE
-C NOMBRE DE COEFFICIENTS ET ALLOCATION ; TO DEPHASAGE
-        NC=6*NE
-        FAC=ONE/FLOAT(NE)
-        DEC=FLOAT(3*NE) - HALF
-        TO=FLOAT(3*NE)*TE
-        IF(NC>0)THEN
-          ALLOCATE(C(NC))
-        ENDIF
-C
-C COEFF. DU FILTRE PARFAIT AVEC FENETRE DE HAMMING 
-C
-        PI2 = TWO*PI
-        TRANS=0
-        DO 10 I=1,NC
-          XI=FLOAT(I-1)-DEC
-          W=0.54+0.46*COS(PI2*XI/FLOAT(NC))
-          IF(ABS(PI*FAC*XI)<TOL)THEN
-            C(I)=FAC
-          ELSE
-            C(I)=W*SIN(PI*XI*FAC)/PI/XI
+          IF(NOISEP/=0)THEN
+            ALLOCATE (NOIADD(NNOISE+1))
+            CALL INITNOISE(IN,NOIADD,IXS,ITAG(0),LENGTH,IXQ)
+            ALLOCATE(ELNOI(LENGTH))
+            ALLOCATE(ELG(LENGTH))
+            CALL INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,ITAG(1),IPARG,IXQ)
           ENDIF
-          TRANS=TRANS+C(I)
- 10     CONTINUE
+C TC PERIODE DE COUPURE
+          DTNOISE=FLOAT(NE)*TE
+          TC=2.*DTNOISE
+C NOMBRE DE COEFFICIENTS ET ALLOCATION ; TO DEPHASAGE
+          NC=6*NE
+          FAC=ONE/FLOAT(NE)
+          DEC=FLOAT(3*NE) - HALF
+          TO=FLOAT(3*NE)*TE
+          IF(NC>0)THEN
+            ALLOCATE(C(NC))
+          ENDIF
 C
+C COEFF. DU FILTRE PARFAIT AVEC FENETRE DE HAMMING
+C
+          PI2 = TWO*PI
+          TRANS=0
+          DO 10 I=1,NC
+            XI=FLOAT(I-1)-DEC
+            W=0.54+0.46*COS(PI2*XI/FLOAT(NC))
+            IF(ABS(PI*FAC*XI)<TOL)THEN
+              C(I)=FAC
+            ELSE
+              C(I)=W*SIN(PI*XI*FAC)/PI/XI
+            ENDIF
+            TRANS=TRANS+C(I)
+ 10       CONTINUE
+C
+          IF(IMACH/=3.OR.ISPMD==0) THEN
+            WRITE(IOUT,1000)ONE/DTNOISE,ONE/TC,NC,TRANS
+            WRITE(IOUT,'(1P8E10.3)')(C(I),I=1,NC)
+            WRITE(IOUT,'(//)')
+          ENDIF
+C
+          IF(RNOI==0)THEN
+            DO 20 K=1,6
+ 20         J(K)=(1-K)*NE-1
+            DO I=1,6*NNOISE
+              DO L=1,NCNOIS
+                BUF(L,I)=ZERO
+              ENDDO
+            ENDDO
+          ENDIF
+        ENDIF
         IF(IMACH/=3.OR.ISPMD==0) THEN
-          WRITE(IOUT,1000)ONE/DTNOISE,ONE/TC,NC,TRANS
-          WRITE(IOUT,'(1P8E10.3)')(C(I),I=1,NC)
-          WRITE(IOUT,'(//)')
+          IF(ABS(1.-DT2/TE)>TOL)THEN
+            WRITE(IOUT,1100)
+            WRITE(ISTDO,1100)
+          ENDIF
         ENDIF
-C           
-        IF(RNOI==0)THEN
-         DO 20 K=1,6
- 20       J(K)=(1-K)*NE-1
-         DO I=1,6*NNOISE
-          DO L=1,NCNOIS
-            BUF(L,I)=ZERO
-          ENDDO
-         ENDDO
-        ENDIF  
-      ENDIF
-      IF(IMACH/=3.OR.ISPMD==0) THEN
-        IF(ABS(1.-DT2/TE)>TOL)THEN
-          WRITE(IOUT,1100)
-          WRITE(ISTDO,1100)
-        ENDIF
-      ENDIF
-      IF(RNOI==0 .AND. TT-TO<TNOISE-NC*TE)RETURN
+        IF(RNOI==0 .AND. TT-TO<TNOISE-NC*TE)RETURN
 C-----------------------------------------------
 C PRESSION
 C-----------------------------------------------
-      IF(NOISEP/=0)
-     .  CALL PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
+        IF(NOISEP/=0)
+     .    CALL PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
 C-----------------------------------------------
 C FILTRAGE
 C-----------------------------------------------
 C
 C Anullation buffer noise sur pi, i<>0 en SPMD
 C
-      IF(IMACH==3.AND.ISPMD/=0) THEN
-        DO I=1,6*NNOISE
-          DO L=1,NCNOIS
-            BUF(L,I)=ZERO	 
+        IF(IMACH==3.AND.ISPMD/=0) THEN
+          DO I=1,6*NNOISE
+            DO L=1,NCNOIS
+              BUF(L,I)=ZERO
+            ENDDO
           ENDDO
-        ENDDO
-      ENDIF
+        ENDIF
 C
-      DO 100 K=1,6
-      J(K)=J(K)+1
-      IF(J(K)>0)THEN
-       CC=C(J(K))
-       KK=(K-1)*NNOISE
-       DO 110 I=1,NNOISE
-          KK=KK+1
-          IF(IN(I)/=0)THEN          ! test preliminaire necessaire en spmd (presence noeud sur proc)
-           IF(WEIGHT(IN(I))==1) THEN
-            IF(NOISEV/=0)THEN
-             BUF(1,KK)=BUF(1,KK)+CC *V(1,IN(I))
-             BUF(2,KK)=BUF(2,KK)+CC *V(2,IN(I))
-	            BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
-            ENDIF
-            IF(NOISEA/=0)THEN
-             IAD=3*NOISEV
-             BUF(IAD+1,KK)=BUF(IAD+1,KK)+CC *A(1,IN(I))
-             BUF(IAD+2,KK)=BUF(IAD+2,KK)+CC *A(2,IN(I))
-	            BUF(IAD+3,KK)=BUF(IAD+3,KK)+CC *A(3,IN(I))
-            ENDIF
-           ENDIF
-          END IF
-          IF(NOISEP/=0.AND.ISPMD==0)THEN
-            IAD=3*NOISEV+3*NOISEA+1
-            BUF(IAD,KK)=BUF(IAD,KK)-CC *WA(I)
+        DO 100 K=1,6
+          J(K)=J(K)+1
+          IF(J(K)>0)THEN
+            CC=C(J(K))
+            KK=(K-1)*NNOISE
+            DO 110 I=1,NNOISE
+              KK=KK+1
+              IF(IN(I)/=0)THEN          ! test preliminaire necessaire en spmd (presence noeud sur proc)
+                IF(WEIGHT(IN(I))==1) THEN
+                  IF(NOISEV/=0)THEN
+                    BUF(1,KK)=BUF(1,KK)+CC *V(1,IN(I))
+                    BUF(2,KK)=BUF(2,KK)+CC *V(2,IN(I))
+                    BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
+                  ENDIF
+                  IF(NOISEA/=0)THEN
+                    IAD=3*NOISEV
+                    BUF(IAD+1,KK)=BUF(IAD+1,KK)+CC *A(1,IN(I))
+                    BUF(IAD+2,KK)=BUF(IAD+2,KK)+CC *A(2,IN(I))
+                    BUF(IAD+3,KK)=BUF(IAD+3,KK)+CC *A(3,IN(I))
+                  ENDIF
+                ENDIF
+              END IF
+              IF(NOISEP/=0.AND.ISPMD==0)THEN
+                IAD=3*NOISEV+3*NOISEA+1
+                BUF(IAD,KK)=BUF(IAD,KK)-CC *WA(I)
+              ENDIF
+ 110        CONTINUE
           ENDIF
- 110    CONTINUE
-      ENDIF
- 100  CONTINUE
+ 100    CONTINUE
 C
 C GATHER SPMD BUF
 C
-      IF(IMACH==3.AND.NSPMD>1) THEN
-        LEN = 6*NNOISE*NCNOIS
-        CALL SPMD_GLOB_DSUM9(BUF,LEN)
-      ENDIF
+        IF(IMACH==3.AND.NSPMD>1) THEN
+          LEN = 6*NNOISE*NCNOIS
+          CALL SPMD_GLOB_DSUM9(BUF,LEN)
+        ENDIF
 C-----------------------------------------------------
 C INCREMENTATION DES INDICES ET ECRITURE DES RESULTATS
 C-----------------------------------------------------
-      DO 200 K=1,6
-        IF(J(K)==NC)THEN
-         J(K)=0
-         KK=(K-1)*NNOISE+1
-         TTN=TT-TO
-         IF(IMACH/=3.OR.ISPMD==0) THEN
-           CALL WRTDES(TTN,TTN,1,ITFORM,1)
-           CALL WRTDES(TTN,TTN,1,ITFORM,1)
-           CALL WRTDES(BUF(1,KK),BUF(1,KK),NCNOIS*NNOISE,ITFORM,1)
-         ENDIF
-         DO I=(K-1)*NNOISE+1,K*NNOISE
-          DO L=1,NCNOIS
-            BUF(L,I)=ZERO
-          ENDDO
-         ENDDO
-        ENDIF
- 200  CONTINUE
+        DO 200 K=1,6
+          IF(J(K)==NC)THEN
+            J(K)=0
+            KK=(K-1)*NNOISE+1
+            TTN=TT-TO
+            IF(IMACH/=3.OR.ISPMD==0) THEN
+              CALL WRTDES(TTN,TTN,1,ITFORM,1)
+              CALL WRTDES(TTN,TTN,1,ITFORM,1)
+              CALL WRTDES(BUF(1,KK),BUF(1,KK),NCNOIS*NNOISE,ITFORM,1)
+            ENDIF
+            DO I=(K-1)*NNOISE+1,K*NNOISE
+              DO L=1,NCNOIS
+                BUF(L,I)=ZERO
+              ENDDO
+            ENDDO
+          ENDIF
+ 200    CONTINUE
 c
 C-----------
-      RETURN
- 1000 FORMAT(///
-     .  ' OUTPUT OF SAMPLED VELOCITIES FOR NOISE AND VIBRATION  ',//
-     .  ' EFFECTIVE SAMPLING FREQUENCY . . . . . . . . . . ',1PE10.4/
-     .  ' HIGH FREQUENCY CUTOFF . . .  . . . . . . . . . . ',1PE10.4/
-     .  ' NUMBER OF COEFFICIENT USED FOR FILTERING . . . . ',I10/
-     .  ' STATIC TRANSMITANCE OF FILTER  . . . . . . . . . ',1PE10.4/
-     .  ' LIST OF COEFFICIENTS USED FOR FILTERING  . . . . ')
- 1100 FORMAT('*** WARNING STRUCTURAL TIME STEP MUST BE CONSTANT ***')
+        RETURN
+ 1000   FORMAT(///
+     .    ' OUTPUT OF SAMPLED VELOCITIES FOR NOISE AND VIBRATION  ',//
+     .    ' EFFECTIVE SAMPLING FREQUENCY . . . . . . . . . . ',1PE10.4/
+     .    ' HIGH FREQUENCY CUTOFF . . .  . . . . . . . . . . ',1PE10.4/
+     .    ' NUMBER OF COEFFICIENT USED FOR FILTERING . . . . ',I10/
+     .    ' STATIC TRANSMITANCE OF FILTER  . . . . . . . . . ',1PE10.4/
+     .    ' LIST OF COEFFICIENTS USED FOR FILTERING  . . . . ')
+ 1100   FORMAT('*** WARNING STRUCTURAL TIME STEP MUST BE CONSTANT ***')
       END

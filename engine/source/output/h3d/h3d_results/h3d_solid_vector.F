@@ -26,13 +26,13 @@ Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        H3D_WRITE_VECTOR              source/output/h3d/h3d_results/h3d_write_vector.F
-Chd|        INITBUF                       share/resol/initbuf.F         
+Chd|        INITBUF                       share/resol/initbuf.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INITBUF_MOD                   share/resol/initbuf.F         
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_SOLID_VECTOR(
      .                  ELBUF_TAB       ,SOLID_VECTOR ,IFUNC     ,IPARG       ,GEO         ,
@@ -49,12 +49,12 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD       
-      USE H3D_MOD  
-      USE MULTI_FVM_MOD
+        USE INITBUF_MOD
+        USE ELBUFDEF_MOD
+        USE SCHLIEREN_MOD
+        USE STACK_MOD
+        USE H3D_MOD
+        USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,137 +72,137 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   SOLID_VECTOR(3,*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
-     .   ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*)
-      INTEGER IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),EL2FA(*),
-     .   IXQ(NIXQ,NUMELQ),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
-     .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
-     .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
-     .   IUVAR_INPUT,SFANI_CELL
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE (STACK_PLY) :: STACK
-      CHARACTER*ncharline KEYWORD
-      my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
-      TYPE (H3D_DATABASE) :: H3D_DATA
-      TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+        my_real
+     .     SOLID_VECTOR(3,*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
+     .     ANIM(*),PM(NPROPM,NUMMAT),ERR_THK_SH4(*), ERR_THK_SH3(*)
+        INTEGER IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),EL2FA(*),
+     .     IXQ(NIXQ,NUMELQ),IFUNC,NBF,
+     .     IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
+     .     IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
+     .     H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
+     .     IUVAR_INPUT,SFANI_CELL
+        TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+        TYPE (STACK_PLY) :: STACK
+        CHARACTER*ncharline KEYWORD
+        my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
+        TYPE (H3D_DATABASE) :: H3D_DATA
+        TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real VALUE(3)
-      INTEGER I,NG,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,IR,IS,IT,MLW,OFFSET,
-     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IUVAR,IDX,ILEN,IPOS,
-     .        ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IOK_PART(MVSIZ),JJ(6),IS_WRITTEN_VALUE(MVSIZ)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
+        my_real VALUE(3)
+        INTEGER I,NG,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,IR,IS,IT,MLW,OFFSET,
+     .          NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IUVAR,IDX,ILEN,IPOS,
+     .          ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IOK_PART(MVSIZ),JJ(6),IS_WRITTEN_VALUE(MVSIZ)
+        TYPE(G_BUFEL_)  ,POINTER :: GBUF
+        TYPE(L_BUFEL_)  ,POINTER :: LBUF
+        TYPE(BUF_MAT_)  ,POINTER :: MBUF
 C-----------------------------------------------
-      DO I=1,NUMELS
-         IS_WRITTEN_SOLID(I) = 0
-      ENDDO
+        DO I=1,NUMELS
+          IS_WRITTEN_SOLID(I) = 0
+        ENDDO
 C
 c
-      DO NG=1,NGROUP
+        DO NG=1,NGROUP
 
-        CALL INITBUF(IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
-     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-       IF (MLW /= 13) THEN
-          NFT = IPARG(3,NG)
-          ISOLNOD = IPARG(28,NG)
-          IVISC = IPARG(61,NG)
-          IOK_PART(1:NEL) = 0 
-          LFT=1
-          LLT=NEL
+          CALL INITBUF(IPARG    ,NG      ,
+     2            MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+          IF (MLW /= 13) THEN
+            NFT = IPARG(3,NG)
+            ISOLNOD = IPARG(28,NG)
+            IVISC = IPARG(61,NG)
+            IOK_PART(1:NEL) = 0
+            LFT=1
+            LLT=NEL
 c
-          DO I=1,6
-            JJ(I) = NEL*(I-1)
-          ENDDO  
+            DO I=1,6
+              JJ(I) = NEL*(I-1)
+            ENDDO
 c
-          VALUE(1:3) = ZERO
-          DO I=1,NEL
-            IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+            VALUE(1:3) = ZERO
+            DO I=1,NEL
+              IS_WRITTEN_VALUE(I) = 0
+            ENDDO
 C-----------------------------------------------
-          IF (ITY == 1) THEN
+            IF (ITY == 1) THEN
 c           SOLID ELEMENTS
-            IF (JCVT==1.AND.ISORTH/=0) JCVT=2
+              IF (JCVT==1.AND.ISORTH/=0) JCVT=2
 C-----------------------------------------------
-            GBUF => ELBUF_TAB(NG)%GBUF
-            MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)       
-            NLAY = ELBUF_TAB(NG)%NLAY                    
-            NPTR = ELBUF_TAB(NG)%NPTR                     
-            NPTS = ELBUF_TAB(NG)%NPTS                     
-            NPTT = ELBUF_TAB(NG)%NPTT                     
-            NPTG = NPTT*NPTS*NPTR*NLAY
-            TSHELL  = 0                                             
-            TSH_ORT = 0  
-            IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
-            IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1               
-            IF (ITY == 1) OFFSET = 0
+              GBUF => ELBUF_TAB(NG)%GBUF
+              MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
+              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
+              NLAY = ELBUF_TAB(NG)%NLAY
+              NPTR = ELBUF_TAB(NG)%NPTR
+              NPTS = ELBUF_TAB(NG)%NPTS
+              NPTT = ELBUF_TAB(NG)%NPTT
+              NPTG = NPTT*NPTS*NPTR*NLAY
+              TSHELL  = 0
+              TSH_ORT = 0
+              IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1
+              IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1
+              IF (ITY == 1) OFFSET = 0
 c
-            DO  I=1,NEL 
-              IF (ITY == 1) THEN
-                ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
-                ITY_ELEM(OFFSET+NFT+I) = 1
-                IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
-              ENDIF
-            ENDDO  
+              DO  I=1,NEL
+                IF (ITY == 1) THEN
+                  ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
+                  ITY_ELEM(OFFSET+NFT+I) = 1
+                  IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
+                ENDIF
+              ENDDO
 c
-            ILAY = LAYER_INPUT
-            IUVAR = IUVAR_INPUT
-            IR = IR_INPUT
-            IS = IS_INPUT
-            IT = IT_INPUT
-            IF (ILAY == -2) ILAY = 1
-            IF (ILAY == -3) ILAY = NLAY
+              ILAY = LAYER_INPUT
+              IUVAR = IUVAR_INPUT
+              IR = IR_INPUT
+              IS = IS_INPUT
+              IT = IT_INPUT
+              IF (ILAY == -2) ILAY = 1
+              IF (ILAY == -3) ILAY = NLAY
 C--------------------------------------------------
-            IF (KEYWORD == 'VECT/VEL') THEN
+              IF (KEYWORD == 'VECT/VEL') THEN
 C--------------------------------------------------
-               IF (MLW == 151) THEN
+                IF (MLW == 151) THEN
                   DO I = 1, NEL
-                     VALUE(1) = MULTI_FVM%VEL(1, I + NFT)
-                     VALUE(2) = MULTI_FVM%VEL(2, I + NFT)
-                     VALUE(3) = MULTI_FVM%VEL(3, I + NFT)
-                     CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
+                    VALUE(1) = MULTI_FVM%VEL(1, I + NFT)
+                    VALUE(2) = MULTI_FVM%VEL(2, I + NFT)
+                    VALUE(3) = MULTI_FVM%VEL(3, I + NFT)
+                    CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
                   ENDDO
-               ELSE
+                ELSE
                   DO I=1,NEL
-                     IF(GBUF%G_MOM>0 )THEN
-                        VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
-                        VALUE(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
-                        VALUE(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
-                        CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
-                     ENDIF
+                    IF(GBUF%G_MOM>0 )THEN
+                      VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
+                      VALUE(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
+                      VALUE(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
+                      CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
+                    ENDIF
                   ENDDO
-               ENDIF
-            ENDIF
+                ENDIF
+              ENDIF
 C--------------------------------------------------
-            IF (KEYWORD == 'VECT/CONT') THEN
+              IF (KEYWORD == 'VECT/CONT') THEN
 C--------------------------------------------------
-               IF (MLW == 151) THEN
+                IF (MLW == 151) THEN
                   IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data
-                  ILEN=NUMELS+NUMELQ           
+                  ILEN=NUMELS+NUMELQ
                   DO I = 1, NEL
-                     IPOS = IDX+3*(NFT+I-1)
-                     VALUE(1) = FANI_CELL(IPOS+1)
-                     VALUE(2) = FANI_CELL(IPOS+2)
-                     VALUE(3) = FANI_CELL(IPOS+3)
-                     CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
+                    IPOS = IDX+3*(NFT+I-1)
+                    VALUE(1) = FANI_CELL(IPOS+1)
+                    VALUE(2) = FANI_CELL(IPOS+2)
+                    VALUE(3) = FANI_CELL(IPOS+3)
+                    CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
                   ENDDO
-               ENDIF
-            ENDIF
+                ENDIF
+              ENDIF
 C--------------------------------------------------
-         ENDIF
-       ENDIF
+            ENDIF
+          ENDIF
 
-      ENDDO!next NG
+        ENDDO!next NG
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

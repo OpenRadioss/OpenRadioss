@@ -49,21 +49,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
-     .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
-     .  IXS(NIXS,*),IADLL(*),NSV(*)  ,NELEM(*) 
+        INTEGER I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
+     .    LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
+     .    IXS(NIXS,*),IADLL(*),NSV(*)  ,NELEM(*)
 C     REAL
-      my_real
-     .  X(3,*),V(3,*),XLL(*),
-     .  EMINX(6,*),A(3,*)
+        my_real
+     .    X(3,*),V(3,*),XLL(*),
+     .    EMINX(6,*),A(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,9),LLT,NFT,LE,FIRST,LAST,
-     .        I8
-      my_real
-     .   XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9),
-     .   AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DIST
+        INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,9),LLT,NFT,LE,FIRST,LAST,
+     .          I8
+        my_real
+     .     XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9),
+     .     AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DIST
 C-----------------------------------------------
 C
 C
@@ -94,7 +94,7 @@ C        [L][M]-1[L]t la : HLA(NC)
 C        [L] ao - b      : B(NC)
 C        [M]-1[L]t la    : LTLA(NUMNOD)
 C
-C        NC : nombre de contact 
+C        NC : nombre de contact
 C        NK : nombre de noeud pour un contact (8+1,16+1,8+8,16+16)
 C
 C        IC : numero du contact (1,NC)
@@ -117,78 +117,78 @@ C-----------------------------------------------
 C                 b  = [L] vo+/dt   +   vout
 C-----------------------------------------------
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     boucle sur les candidats au contact
 C-----------------------------------------------------------------------
-      FIRST = 1 + I_STOK * ITASK / NTHREAD
-      LAST = I_STOK*(ITASK+1) / NTHREAD
-      LLT = 0
-      NFT=LLT+1
-      DO IC=FIRST,LAST
-       LE = CANDE(IC)
-       IE = NELEM(LE)
+        FIRST = 1 + I_STOK * ITASK / NTHREAD
+        LAST = I_STOK*(ITASK+1) / NTHREAD
+        LLT = 0
+        NFT=LLT+1
+        DO IC=FIRST,LAST
+          LE = CANDE(IC)
+          IE = NELEM(LE)
 C-----------------------------------------------------------------------
-C      test si shell 16  
+C      test si shell 16
 C-----------------------------------------------------------------------
-       IF(IE.GE .1.AND.IE.LE .NUMELS8)THEN
-        IS = NSV(CANDN(IC))
-        DIST = -EP30
-        DIST = MAX(EMINX(1,LE)-X(1,IS)-DT2*(V(1,IS)+DT12*A(1,IS)),
-     .             X(1,IS)+DT2*(V(1,IS)+DT12*A(1,IS))-EMINX(4,LE),DIST)
-        DIST = MAX(EMINX(2,LE)-X(2,IS)-DT2*(V(2,IS)+DT12*A(2,IS)),
-     .             X(2,IS)+DT2*(V(2,IS)+DT12*A(2,IS))-EMINX(5,LE),DIST)
-        DIST = MAX(EMINX(3,LE)-X(3,IS)-DT2*(V(3,IS)+DT12*A(3,IS)),
-     .             X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
+          IF(IE.GE .1.AND.IE.LE .NUMELS8)THEN
+            IS = NSV(CANDN(IC))
+            DIST = -EP30
+            DIST = MAX(EMINX(1,LE)-X(1,IS)-DT2*(V(1,IS)+DT12*A(1,IS)),
+     .                 X(1,IS)+DT2*(V(1,IS)+DT12*A(1,IS))-EMINX(4,LE),DIST)
+            DIST = MAX(EMINX(2,LE)-X(2,IS)-DT2*(V(2,IS)+DT12*A(2,IS)),
+     .                 X(2,IS)+DT2*(V(2,IS)+DT12*A(2,IS))-EMINX(5,LE),DIST)
+            DIST = MAX(EMINX(3,LE)-X(3,IS)-DT2*(V(3,IS)+DT12*A(3,IS)),
+     .                 X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test si dans la boite
 C-----------------------------------------------------------------------
-        IF(DIST.LE .ZERO)THEN
+            IF(DIST.LE .ZERO)THEN
 c
 c      print *, "dans la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
 c
-          LLT = LLT+1
-          III(LLT,9)=IS
-          XX(LLT,9)=X(1,IS)
-          YY(LLT,9)=X(2,IS)
-          ZZ(LLT,9)=X(3,IS)
-          DO K=1,8
-            III(LLT,K)=IXS(K+1,IE)
-            I = III(LLT,K)
-            XX(LLT,K)=X(1,I)
-            YY(LLT,K)=X(2,I)
-            ZZ(LLT,K)=X(3,I)
-          ENDDO
+              LLT = LLT+1
+              III(LLT,9)=IS
+              XX(LLT,9)=X(1,IS)
+              YY(LLT,9)=X(2,IS)
+              ZZ(LLT,9)=X(3,IS)
+              DO K=1,8
+                III(LLT,K)=IXS(K+1,IE)
+                I = III(LLT,K)
+                XX(LLT,K)=X(1,I)
+                YY(LLT,K)=X(2,I)
+                ZZ(LLT,K)=X(3,I)
+              ENDDO
 c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
 c
 C-----------------------------------------------------------------------
-C     calcul de  [L] par paquet de mvsiz   
+C     calcul de  [L] par paquet de mvsiz
 C-----------------------------------------------------------------------
-          IF(LLT==MVSIZ-1)THEN
-            CALL I8LLL(
-     1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
-     2       XX  ,YY        ,ZZ        ,III       ,IADLL   ,
-     3       N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
-     4       COMNTAG )
-            NFT=LLT+1
-            LLT = 0
-          ENDIF
-        ELSE
+              IF(LLT==MVSIZ-1)THEN
+                CALL I8LLL(
+     1           LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
+     2           XX  ,YY        ,ZZ        ,III       ,IADLL   ,
+     3           N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
+     4           COMNTAG )
+                NFT=LLT+1
+                LLT = 0
+              ENDIF
+            ELSE
 c debug
-          k=0
-        ENDIF
-       ENDIF
-      ENDDO
+              k=0
+            ENDIF
+          ENDIF
+        ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] pour dernier paquet   
+C     calcul de  [L] pour dernier paquet
 C-----------------------------------------------------------------------
-      IF(LLT/=0) CALL I8LLL(
-     1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
-     2       XX  ,YY        ,ZZ        ,III       ,IADLL   ,
-     3       N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
-     4       COMNTAG )
+        IF(LLT/=0) CALL I8LLL(
+     1         LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
+     2         XX  ,YY        ,ZZ        ,III       ,IADLL   ,
+     3         N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
+     4         COMNTAG )
 C
 C-----------------------------------------------
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  I8LLL                         source/interfaces/int16/i8lagm.F
@@ -196,7 +196,7 @@ Chd|-- called by -----------
 Chd|        I8LAGM                        source/interfaces/int16/i8lagm.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        I8RST                         source/interfaces/int16/i8lagm.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -207,7 +207,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -221,272 +221,272 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-      COMMON /LAGGLOB/N_MULT
-      INTEGER N_MULT
+        COMMON /LAGGLOB/N_MULT
+        INTEGER N_MULT
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX   
-      INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
-     .        III(MVSIZ,9),IADLL(*)
+        INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX
+        INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
+     .          III(MVSIZ,9),IADLL(*)
 C     REAL
-      my_real
-     .  XLL(*),V(3,*),A(3,*)
-      my_real
-     .   XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9),X(3,*)
+        my_real
+     .    XLL(*),V(3,*),A(3,*)
+        my_real
+     .     XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9),X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN
-      my_real
-     .   VX,VY,VZ,VN,AA
-      my_real
-     .   R(MVSIZ),S(MVSIZ),T(MVSIZ),
-     .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
-     .   NI(MVSIZ,9) 
+        INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN
+        my_real
+     .     VX,VY,VZ,VN,AA
+        my_real
+     .     R(MVSIZ),S(MVSIZ),T(MVSIZ),
+     .     NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
+     .     NI(MVSIZ,9)
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------
 c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
 c
-      CALL I8RST(LLT   ,R     ,S     ,T     ,NI    ,
-     2            NX    ,NY    ,NZ    ,XX    ,YY    ,ZZ    )
+        CALL I8RST(LLT   ,R     ,S     ,T     ,NI    ,
+     2              NX    ,NY    ,NZ    ,XX    ,YY    ,ZZ    )
 C-----------------------------------------------
 C      calcul de [L]
 C-----------------------------------------------
-      IF(ITIED==0)THEN
-       DO I=1,LLT
+        IF(ITIED==0)THEN
+          DO I=1,LLT
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
-     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
+            IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .         R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
-          NK = 9
-          VX = ZERO
-          VY = ZERO
-          VZ = ZERO
-          DO IK=1,NK
-            VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
-            VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
-            VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
-          ENDDO
+              NK = 9
+              VX = ZERO
+              VY = ZERO
+              VZ = ZERO
+              DO IK=1,NK
+                VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
+                VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
+                VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
+              ENDDO
 c
 c      print *, "vx,vy,vz s-m",vx,vy,vz
 c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
 c
-          VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
+              VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
 C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
-          IF(S(I)*VN<=ZERO)THEN
+              IF(S(I)*VN<=ZERO)THEN
 c
 c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
 c
 c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
-           AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
-           NX(I) = NX(I)*AA
-           NY(I) = NY(I)*AA
-           NZ(I) = NZ(I)*AA
+                AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
+                NX(I) = NX(I)*AA
+                NY(I) = NY(I)*AA
+                NZ(I) = NZ(I)*AA
 #include "lockon.inc"
-            N_MULT=N_MULT+1
-            IF(N_MULT>N_MUL_MX)THEN
+                N_MULT=N_MULT+1
+                IF(N_MULT>N_MUL_MX)THEN
 #include "lockoff.inc"
-              CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
-              CALL ARRET(2)
+                  CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
+                  CALL ARRET(2)
+                ENDIF
+                IADLL(N_MULT+1)=IADLL(N_MULT) + 27
+                IF(IADLL(N_MULT+1)-1>NKMAX)THEN
+#include "lockoff.inc"
+                  CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
+                  CALL ARRET(2)
+                ENDIF
+                IAD = IADLL(N_MULT) - 1
+                DO IK=1,9
+                  LLL(IAD+IK)    = III(I,IK)
+                  JLL(IAD+IK)    = 1
+                  SLL(IAD+IK)    = 0
+                  XLL(IAD+IK)    = NX(I)*NI(I,IK)
+                  LLL(IAD+IK+9) = III(I,IK)
+                  JLL(IAD+IK+9) = 2
+                  SLL(IAD+IK+9) = 0
+                  XLL(IAD+IK+9) = NY(I)*NI(I,IK)
+                  LLL(IAD+IK+18) = III(I,IK)
+                  JLL(IAD+IK+18) = 3
+                  SLL(IAD+IK+18) = 0
+                  XLL(IAD+IK+18) = NZ(I)*NI(I,IK)
+                  NN = LLL(IAD+IK)
+                  COMNTAG(NN) = COMNTAG(NN) + 1
+                ENDDO
+                SLL(IAD+9) = NINT
+                SLL(IAD+18) = NINT
+                SLL(IAD+27) = NINT
+#include "lockoff.inc"
+              ENDIF
             ENDIF
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 27
-            IF(IADLL(N_MULT+1)-1>NKMAX)THEN
-#include "lockoff.inc"
-              CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
-              CALL ARRET(2)
-            ENDIF
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
-                LLL(IAD+IK)    = III(I,IK)
-                JLL(IAD+IK)    = 1
-                SLL(IAD+IK)    = 0
-                XLL(IAD+IK)    = NX(I)*NI(I,IK)
-                LLL(IAD+IK+9) = III(I,IK)
-                JLL(IAD+IK+9) = 2
-                SLL(IAD+IK+9) = 0
-                XLL(IAD+IK+9) = NY(I)*NI(I,IK)
-                LLL(IAD+IK+18) = III(I,IK)
-                JLL(IAD+IK+18) = 3
-                SLL(IAD+IK+18) = 0
-                XLL(IAD+IK+18) = NZ(I)*NI(I,IK)
-                NN = LLL(IAD+IK)
-                COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
-            SLL(IAD+18) = NINT
-            SLL(IAD+27) = NINT
-#include "lockoff.inc"
-          ENDIF
-        ENDIF
-       ENDDO
-      ELSEIF(ITIED==1)THEN
+          ENDDO
+        ELSEIF(ITIED==1)THEN
 C-----------------------------------------------
 C      ITIED = 1
 C-----------------------------------------------
-       DO I=1,LLT
+          DO I=1,LLT
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
-     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
+            IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .         R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
-          NK = 9
-          VX = ZERO
-          VY = ZERO
-          VZ = ZERO	  
-          DO IK=1,NK
-            VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
-            VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
-            VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
-          ENDDO
+              NK = 9
+              VX = ZERO
+              VY = ZERO
+              VZ = ZERO
+              DO IK=1,NK
+                VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
+                VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
+                VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
+              ENDDO
 c
 c      print *, "vx,vy,vz s-m",vx,vy,vz
 c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
 c
-          VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
+              VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
 C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
-          IF(S(I)*VN<=0.0)THEN
+              IF(S(I)*VN<=0.0)THEN
 c
 c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
 c
 #include "lockon.inc"
-            IF(N_MULT+3>N_MUL_MX)THEN
+                IF(N_MULT+3>N_MUL_MX)THEN
 #include "lockoff.inc"
-              CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
-              CALL ARRET(2)
+                  CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
+                  CALL ARRET(2)
+                ENDIF
+                IF(IADLL(N_MULT+1)-1+9*3>NKMAX)THEN
+#include "lockoff.inc"
+                  CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
+                  CALL ARRET(2)
+                ENDIF
+C
+                N_MULT=N_MULT+1
+                IADLL(N_MULT+1)=IADLL(N_MULT) + 9
+                IAD = IADLL(N_MULT) - 1
+                DO IK=1,9
+                  LLL(IAD+IK) = III(I,IK)
+                  JLL(IAD+IK) = 1
+                  SLL(IAD+IK) = 0
+                  XLL(IAD+IK) = NI(I,IK)
+                  NN = LLL(IAD+IK)
+                  COMNTAG(NN) = COMNTAG(NN) + 1
+                ENDDO
+                SLL(IAD+9) = NINT
+C
+                N_MULT=N_MULT+1
+                IADLL(N_MULT+1)=IADLL(N_MULT) + 9
+                IAD = IADLL(N_MULT) - 1
+                DO IK=1,9
+                  LLL(IAD+IK) = III(I,IK)
+                  JLL(IAD+IK) = 2
+                  SLL(IAD+IK) = 0
+                  XLL(IAD+IK) = NI(I,IK)
+                  NN = LLL(IAD+IK)
+                  COMNTAG(NN) = COMNTAG(NN) + 1
+                ENDDO
+                SLL(IAD+9) = NINT
+C
+                N_MULT=N_MULT+1
+                IADLL(N_MULT+1)=IADLL(N_MULT) + 9
+                IAD = IADLL(N_MULT) - 1
+                DO IK=1,9
+                  LLL(IAD+IK) = III(I,IK)
+                  JLL(IAD+IK) = 3
+                  SLL(IAD+IK) = 0
+                  XLL(IAD+IK) = NI(I,IK)
+                  NN = LLL(IAD+IK)
+                  COMNTAG(NN) = COMNTAG(NN) + 1
+                ENDDO
+                SLL(IAD+9) = NINT
+#include "lockoff.inc"
+              ENDIF
             ENDIF
-            IF(IADLL(N_MULT+1)-1+9*3>NKMAX)THEN
-#include "lockoff.inc"
-              CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
-              CALL ARRET(2)
-            ENDIF
-C
-            N_MULT=N_MULT+1
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 9
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
-                LLL(IAD+IK) = III(I,IK)
-                JLL(IAD+IK) = 1
-                SLL(IAD+IK) = 0
-                XLL(IAD+IK) = NI(I,IK)
-                NN = LLL(IAD+IK)
-                COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
-C
-            N_MULT=N_MULT+1
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 9
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
-                LLL(IAD+IK) = III(I,IK)
-                JLL(IAD+IK) = 2
-                SLL(IAD+IK) = 0
-                XLL(IAD+IK) = NI(I,IK)
-                NN = LLL(IAD+IK)
-                COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
-C
-            N_MULT=N_MULT+1
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 9
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
-                LLL(IAD+IK) = III(I,IK)
-                JLL(IAD+IK) = 3
-                SLL(IAD+IK) = 0
-                XLL(IAD+IK) = NI(I,IK)
-                NN = LLL(IAD+IK)
-                COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
-#include "lockoff.inc"
-          ENDIF
-        ENDIF
-       ENDDO
-      ELSE
+          ENDDO
+        ELSE
 C-----------------------------------------------
 C      ITIED = 2
 C-----------------------------------------------
-       DO I=1,LLT
+          DO I=1,LLT
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
-     .     R(I)<=ONE.AND.S(I)<=ONE.AND.T(I)<=ONE)THEN
+            IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .         R(I)<=ONE.AND.S(I)<=ONE.AND.T(I)<=ONE)THEN
 C
-           NK = 9
+              NK = 9
 C-----------------------------------------------
 c      print *, "s = ",S(I)
 c
 #include "lockon.inc"
-            IF(N_MULT+3>N_MUL_MX)THEN
+              IF(N_MULT+3>N_MUL_MX)THEN
 #include "lockoff.inc"
-              CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
-              CALL ARRET(2)
-            ENDIF
-            IF(IADLL(N_MULT+1)-1+9*3>NKMAX)THEN
+                CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
+                CALL ARRET(2)
+              ENDIF
+              IF(IADLL(N_MULT+1)-1+9*3>NKMAX)THEN
 #include "lockoff.inc"
-              CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
-              CALL ARRET(2)
-            ENDIF
-            N_MULT=N_MULT+1
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 9
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
+                CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
+                CALL ARRET(2)
+              ENDIF
+              N_MULT=N_MULT+1
+              IADLL(N_MULT+1)=IADLL(N_MULT) + 9
+              IAD = IADLL(N_MULT) - 1
+              DO IK=1,9
                 LLL(IAD+IK) = III(I,IK)
                 JLL(IAD+IK) = 1
                 SLL(IAD+IK) = 0
                 XLL(IAD+IK) = NI(I,IK)
                 NN = LLL(IAD+IK)
                 COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
+              ENDDO
+              SLL(IAD+9) = NINT
 C
-            N_MULT=N_MULT+1
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 9
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
+              N_MULT=N_MULT+1
+              IADLL(N_MULT+1)=IADLL(N_MULT) + 9
+              IAD = IADLL(N_MULT) - 1
+              DO IK=1,9
                 LLL(IAD+IK) = III(I,IK)
                 JLL(IAD+IK) = 2
                 SLL(IAD+IK) = 0
                 XLL(IAD+IK) = NI(I,IK)
                 NN = LLL(IAD+IK)
                 COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
+              ENDDO
+              SLL(IAD+9) = NINT
 C
-            N_MULT=N_MULT+1
-            IADLL(N_MULT+1)=IADLL(N_MULT) + 9
-            IAD = IADLL(N_MULT) - 1
-            DO IK=1,9
+              N_MULT=N_MULT+1
+              IADLL(N_MULT+1)=IADLL(N_MULT) + 9
+              IAD = IADLL(N_MULT) - 1
+              DO IK=1,9
                 LLL(IAD+IK) = III(I,IK)
                 JLL(IAD+IK) = 3
                 SLL(IAD+IK) = 0
                 XLL(IAD+IK) = NI(I,IK)
                 NN = LLL(IAD+IK)
                 COMNTAG(NN) = COMNTAG(NN) + 1
-            ENDDO
-            SLL(IAD+9) = NINT
+              ENDDO
+              SLL(IAD+9) = NINT
 C
 #include "lockoff.inc"
+            ENDIF
+          ENDDO
         ENDIF
-       ENDDO
-      ENDIF
 c
 c      print *, "r,s,t",r(1),s(1),t(1)
 C
-      RETURN
+        RETURN
       END
 C
 Chd|====================================================================
@@ -511,91 +511,91 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT
+        INTEGER LLT
 C     REAL
-      my_real
-     .   XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9)
-      my_real
-     .   R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,9) ,
-     .   NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ)
+        my_real
+     .     XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9)
+        my_real
+     .     R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,9) ,
+     .     NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,ITER,NITERMAX,JTER,NJTERMAX,CONV
-      my_real
-     .   VX,VY,VZ,VN
-      my_real
-     .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
-     .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ),
-     .   DXDR(MVSIZ),DYDR(MVSIZ),DZDR(MVSIZ),
-     .   DXDT(MVSIZ),DYDT(MVSIZ),DZDT(MVSIZ),
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)     
+        INTEGER I,J,IK,NK,ITER,NITERMAX,JTER,NJTERMAX,CONV
+        my_real
+     .     VX,VY,VZ,VN
+        my_real
+     .     DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
+     .     DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
+     .     DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ),
+     .     DXDR(MVSIZ),DYDR(MVSIZ),DZDR(MVSIZ),
+     .     DXDT(MVSIZ),DYDT(MVSIZ),DZDT(MVSIZ),
+     .     RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)
 C-----------------------------------------------
 C
 C      r=s=t=0
 C
-C  +---> iter 
-C  |                  
-C  |     Ni(r,s,t) =  
-C  |     dNi/dr    =  
-C  |     ...         _ 
+C  +---> iter
+C  |
+C  |     Ni(r,s,t) =
+C  |     dNi/dr    =
+C  |     ...         _
 C  |                \
 C  |     dx/dr    = /_ (xi * dNi/dr)
-C  |     ...        
-C  | 
-C  |            [dx/dr dy/dr dz/dr]            
-C  |      [J] = |dx/ds dy/ds dz/ds|                
-C  |            [dx/dt dy/dt dz/dt]               
-C  | 
-C  | +--> jter                                 
-C  | |                  _ 
+C  |     ...
+C  |
+C  |            [dx/dr dy/dr dz/dr]
+C  |      [J] = |dx/ds dy/ds dz/ds|
+C  |            [dx/dt dy/dt dz/dt]
+C  |
+C  | +--> jter
+C  | |                  _
 C  | |                 \
 C  | |      x(r,s,t) = /_ (xi * Ni(r,s,t))
-C  | |      ...        
+C  | |      ...
 C  | |
 C  | |      |r|   |r|      -1  |xs-x(r,s,t)|
 C  | |      {s} = {s} + [J]    {ys-y(r,s,t)}
 C  | |      |t|   |t|          |zs-z(r,s,t)|
-C  | |                   
-C  | |      Ni(r,s,t) =  
+C  | |
+C  | |      Ni(r,s,t) =
 C  +-+---
 C-----------------------------------------------
-       NITERMAX = 3
-       NJTERMAX = 3
-       CONV = 0
+        NITERMAX = 3
+        NJTERMAX = 3
+        CONV = 0
 C
-       DO I=1,LLT
-         RR(I) = ZERO
-         SS(I) = ZERO
-         TT(I) = ZERO
-       ENDDO
+        DO I=1,LLT
+          RR(I) = ZERO
+          SS(I) = ZERO
+          TT(I) = ZERO
+        ENDDO
 C-----------------------------------------------
 C      calcul de r,s,t   et   Ni(r,s,t)
 C-----------------------------------------------
-       DO ITER=1,NITERMAX
+        DO ITER=1,NITERMAX
 c
 c      print *, "iter",iter
 c
 C-----------------------------------------------
 C          calcul de Ni(r,s,t); [J]; [J]-1
 C-----------------------------------------------
-           CALL I8DERI(LLT,RR ,SS    ,TT    ,NI    ,
-     2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
-     3            DTDX  ,DTDY  ,DTDZ  ,DXDR  ,DYDR  ,DZDR  ,
-     4            DXDT  ,DYDT  ,DZDT  ,XX    ,YY    ,ZZ    )
+          CALL I8DERI(LLT,RR ,SS    ,TT    ,NI    ,
+     2           DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
+     3           DTDX  ,DTDY  ,DTDZ  ,DXDR  ,DYDR  ,DZDR  ,
+     4           DXDT  ,DYDT  ,DZDT  ,XX    ,YY    ,ZZ    )
 C
-           DO JTER=1,NJTERMAX
+          DO JTER=1,NJTERMAX
 c
 c      print *, "jter",jter
 c
 C-----------------------------------------------
 C            calcul de r,s,t new
 C-----------------------------------------------
-             CALL I8RSTN(LLT,RR,SS   ,TT    ,NI    ,CONV  ,
-     2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
-     3            DTDX  ,DTDY  ,DTDZ  ,XX    ,YY    ,ZZ    ,
-     4            R     ,S     ,T     )
+            CALL I8RSTN(LLT,RR,SS   ,TT    ,NI    ,CONV  ,
+     2           DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
+     3           DTDX  ,DTDY  ,DTDZ  ,XX    ,YY    ,ZZ    ,
+     4           R     ,S     ,T     )
 c
 c      print *, "r,s,t",r(1),s(1),t(1)
 c      print *, "rr,ss,tt",rr(1),ss(1),tt(1)
@@ -603,20 +603,20 @@ c
 C-----------------------------------------------
 C            calcul de Ni(-1<r<1 , -1<s<1 , -1<t<1)
 C-----------------------------------------------
-             CALL I8NI(LLT,RR ,SS ,TT ,NI  )
+            CALL I8NI(LLT,RR ,SS ,TT ,NI  )
 C  pb de parith on si conv fonction de mvsiz !!!!!!!
 C             IF(CONV/=0)RETURN
 C
-           ENDDO
-      ENDDO
+          ENDDO
+        ENDDO
 C
-       DO I=1,LLT
-         NX(I) = DYDT(I)*DZDR(I) - DZDT(I)*DYDR(I)
-         NY(I) = DZDT(I)*DXDR(I) - DXDT(I)*DZDR(I)
-         NZ(I) = DXDT(I)*DYDR(I) - DYDT(I)*DXDR(I)
-       ENDDO
+        DO I=1,LLT
+          NX(I) = DYDT(I)*DZDR(I) - DZDT(I)*DYDR(I)
+          NY(I) = DZDT(I)*DXDR(I) - DXDT(I)*DZDR(I)
+          NZ(I) = DXDT(I)*DYDR(I) - DYDT(I)*DXDR(I)
+        ENDDO
 C
-      RETURN
+        RETURN
       END
 C
 Chd|====================================================================
@@ -637,56 +637,56 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT
-      my_real
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),NI(MVSIZ,9)  
+        INTEGER LLT
+        my_real
+     .     RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),NI(MVSIZ,9)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real
-     .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
-     .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
-     .  A,R05,S05,T05
+        INTEGER I
+        my_real
+     .    U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
+     .    UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
+     .    UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
+     .    UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
+     .    A,R05,S05,T05
 C-----------------------------------------------------------------------
 C     calcul de Ni
 C-----------------------------------------------------------------------
-      DO I=1,LLT
+        DO I=1,LLT
 C
-        R05 = HALF*RR(I)
-        S05 = HALF*SS(I)
-        T05 = HALF*TT(I)
+          R05 = HALF*RR(I)
+          S05 = HALF*SS(I)
+          T05 = HALF*TT(I)
 C
-        U_M_R = HALF - R05
-        U_P_R = HALF + R05
+          U_M_R = HALF - R05
+          U_P_R = HALF + R05
 C
-        U_M_S = HALF - S05
-        U_P_S = HALF + S05
+          U_M_S = HALF - S05
+          U_P_S = HALF + S05
 C
-        U_M_T = HALF - T05
-        U_P_T = HALF + T05
+          U_M_T = HALF - T05
+          U_P_T = HALF + T05
 C
-        UMS_UMT = U_M_S * U_M_T
-        UMS_UPT = U_M_S * U_P_T
-        UPS_UMT = U_P_S * U_M_T
-        UPS_UPT = U_P_S * U_P_T
+          UMS_UMT = U_M_S * U_M_T
+          UMS_UPT = U_M_S * U_P_T
+          UPS_UMT = U_P_S * U_M_T
+          UPS_UPT = U_P_S * U_P_T
 C
-        NI(I,1) = U_M_R * UMS_UMT
-        NI(I,5) = U_M_R * UPS_UMT
-        NI(I,2) = U_M_R * UMS_UPT
-        NI(I,6) = U_M_R * UPS_UPT
-        NI(I,3) = U_P_R * UMS_UPT
-        NI(I,7) = U_P_R * UPS_UPT
-        NI(I,4) = U_P_R * UMS_UMT 
-        NI(I,8) = U_P_R * UPS_UMT 
+          NI(I,1) = U_M_R * UMS_UMT
+          NI(I,5) = U_M_R * UPS_UMT
+          NI(I,2) = U_M_R * UMS_UPT
+          NI(I,6) = U_M_R * UPS_UPT
+          NI(I,3) = U_P_R * UMS_UPT
+          NI(I,7) = U_P_R * UPS_UPT
+          NI(I,4) = U_P_R * UMS_UMT
+          NI(I,8) = U_P_R * UPS_UMT
 C------------------------------------
-        NI(I,9) = -ONE
+          NI(I,9) = -ONE
 C------------------------------------
-      ENDDO
+        ENDDO
 C-----------------------------------------------
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  I8RSTN                        source/interfaces/int16/i8lagm.F
@@ -702,7 +702,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 c#include      "implicit_f.inc"
-      implicit none
+        implicit none
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -711,64 +711,64 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,CONV
-      my_real
-     .   R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,9) ,
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),
-     .   XX(MVSIZ,9) ,YY(MVSIZ,9) ,ZZ(MVSIZ,9) ,
-     .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
-     .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ)     
+        INTEGER LLT,CONV
+        my_real
+     .     R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,9) ,
+     .     RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),
+     .     XX(MVSIZ,9) ,YY(MVSIZ,9) ,ZZ(MVSIZ,9) ,
+     .     DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
+     .     DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
+     .     DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real
-     .   DX ,DY,DZ,DR ,DS,DT,ERR   
+        INTEGER I
+        my_real
+     .     DX ,DY,DZ,DR ,DS,DT,ERR
 C
-      ERR=ZERO
+        ERR=ZERO
 C-----------------------------------------------
-      DO I=1,LLT
+        DO I=1,LLT
 C
-        DX = XX(I,9)
-     +     - NI(I, 1)*XX(I, 1) - NI(I, 2)*XX(I, 2) - NI(I, 3)*XX(I, 3)
-     +     - NI(I, 4)*XX(I, 4) - NI(I, 5)*XX(I, 5) - NI(I, 6)*XX(I, 6)
-     +     - NI(I, 7)*XX(I, 7) - NI(I, 8)*XX(I, 8) 
-        DY = YY(I,9)
-     +     - NI(I, 1)*YY(I, 1) - NI(I, 2)*YY(I, 2) - NI(I, 3)*YY(I, 3)
-     +     - NI(I, 4)*YY(I, 4) - NI(I, 5)*YY(I, 5) - NI(I, 6)*YY(I, 6)
-     +     - NI(I, 7)*YY(I, 7) - NI(I, 8)*YY(I, 8) 
-        DZ = ZZ(I,9)
-     +     - NI(I, 1)*ZZ(I, 1) - NI(I, 2)*ZZ(I, 2) - NI(I, 3)*ZZ(I, 3)
-     +     - NI(I, 4)*ZZ(I, 4) - NI(I, 5)*ZZ(I, 5) - NI(I, 6)*ZZ(I, 6)
-     +     - NI(I, 7)*ZZ(I, 7) - NI(I, 8)*ZZ(I, 8) 
+          DX = XX(I,9)
+     +       - NI(I, 1)*XX(I, 1) - NI(I, 2)*XX(I, 2) - NI(I, 3)*XX(I, 3)
+     +       - NI(I, 4)*XX(I, 4) - NI(I, 5)*XX(I, 5) - NI(I, 6)*XX(I, 6)
+     +       - NI(I, 7)*XX(I, 7) - NI(I, 8)*XX(I, 8)
+          DY = YY(I,9)
+     +       - NI(I, 1)*YY(I, 1) - NI(I, 2)*YY(I, 2) - NI(I, 3)*YY(I, 3)
+     +       - NI(I, 4)*YY(I, 4) - NI(I, 5)*YY(I, 5) - NI(I, 6)*YY(I, 6)
+     +       - NI(I, 7)*YY(I, 7) - NI(I, 8)*YY(I, 8)
+          DZ = ZZ(I,9)
+     +       - NI(I, 1)*ZZ(I, 1) - NI(I, 2)*ZZ(I, 2) - NI(I, 3)*ZZ(I, 3)
+     +       - NI(I, 4)*ZZ(I, 4) - NI(I, 5)*ZZ(I, 5) - NI(I, 6)*ZZ(I, 6)
+     +       - NI(I, 7)*ZZ(I, 7) - NI(I, 8)*ZZ(I, 8)
 C
-        DR = DRDX(I)*DX + DRDY(I)*DY + DRDZ(I)*DZ
-        DS = DSDX(I)*DX + DSDY(I)*DY + DSDZ(I)*DZ 
-        DT = DTDX(I)*DX + DTDY(I)*DY + DTDZ(I)*DZ
+          DR = DRDX(I)*DX + DRDY(I)*DY + DRDZ(I)*DZ
+          DS = DSDX(I)*DX + DSDY(I)*DY + DSDZ(I)*DZ
+          DT = DTDX(I)*DX + DTDY(I)*DY + DTDZ(I)*DZ
 C
-        RR(I) = RR(I) + DR
-        SS(I) = SS(I) + DS
-        TT(I) = TT(I) + DT
+          RR(I) = RR(I) + DR
+          SS(I) = SS(I) + DS
+          TT(I) = TT(I) + DT
 C
-        R(I) = RR(I)
-        S(I) = SS(I)
-        T(I) = TT(I)
+          R(I) = RR(I)
+          S(I) = SS(I)
+          T(I) = TT(I)
 C
-        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
-     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
-          ERR = MAX(ERR,ABS(DR),ABS(DS),ABS(DT))
-        ELSE
-          RR(I) = MAX(MIN(RR(I),ONE),-ONE)
-          SS(I) = MAX(MIN(SS(I),ONE),-ONE)
-          TT(I) = MAX(MIN(TT(I),ONE),-ONE)
-        ENDIF
+          IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .       R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
+            ERR = MAX(ERR,ABS(DR),ABS(DS),ABS(DT))
+          ELSE
+            RR(I) = MAX(MIN(RR(I),ONE),-ONE)
+            SS(I) = MAX(MIN(SS(I),ONE),-ONE)
+            TT(I) = MAX(MIN(TT(I),ONE),-ONE)
+          ENDIF
 c
-      ENDDO
+        ENDDO
 C
-      IF(ERR<EM4) CONV = 1
+        IF(ERR<EM4) CONV = 1
 C-----------------------------------------------
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  I8DERI                        source/interfaces/int16/i8lagm.F
@@ -791,30 +791,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT
+        INTEGER LLT
 C     REAL
-      my_real
-     .   DXDR(MVSIZ), DYDR(MVSIZ), DZDR(MVSIZ),
-     .   DXDT(MVSIZ), DYDT(MVSIZ), DZDT(MVSIZ),
-     .   DRDX(MVSIZ), DSDX(MVSIZ), DTDX(MVSIZ),
-     .   DRDY(MVSIZ), DSDY(MVSIZ), DTDY(MVSIZ),
-     .   DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
-     .   XX(MVSIZ,9) ,YY(MVSIZ,9),ZZ(MVSIZ,9),
-     .   NI(MVSIZ,9) ,RR(MVSIZ) ,SS(MVSIZ) ,TT(MVSIZ)
+        my_real
+     .     DXDR(MVSIZ), DYDR(MVSIZ), DZDR(MVSIZ),
+     .     DXDT(MVSIZ), DYDT(MVSIZ), DZDT(MVSIZ),
+     .     DRDX(MVSIZ), DSDX(MVSIZ), DTDX(MVSIZ),
+     .     DRDY(MVSIZ), DSDY(MVSIZ), DTDY(MVSIZ),
+     .     DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
+     .     XX(MVSIZ,9) ,YY(MVSIZ,9),ZZ(MVSIZ,9),
+     .     NI(MVSIZ,9) ,RR(MVSIZ) ,SS(MVSIZ) ,TT(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N
-      my_real
-     .   DXDS(MVSIZ), DYDS(MVSIZ), DZDS(MVSIZ),
-     .   DNIDR(8),DNIDS(8),DNIDT(8),
-     .   D, AA, BB, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
-      my_real
-     .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
-     .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
-     .  A,R05,S05,T05
+        INTEGER I,N
+        my_real
+     .     DXDS(MVSIZ), DYDS(MVSIZ), DZDS(MVSIZ),
+     .     DNIDR(8),DNIDS(8),DNIDT(8),
+     .     D, AA, BB, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
+        my_real
+     .    U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
+     .    UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
+     .    UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
+     .    UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
+     .    A,R05,S05,T05
 C-----------------------------------------------
 C/*
 C
@@ -838,38 +838,38 @@ C     R <-------//- -+ - - - - - - - - -# - - - - - -//- -+  //
 C              //       /              /|           //      //
 C            ( 8)=================================( 5)     //
 C             ||      /              /  |          ||     //
-C             ||     /              /   +          ||    //    
+C             ||     /              /   +          ||    //
 C             ||    /              /               ||   //
 C             ||   /              +                ||  //
 C             ||  /                                || //
 C             || /                                 ||//
 C             ||/                                  ||/
-C            ( 4)=================================( 1)    
+C            ( 4)=================================( 1)
 C
 C
 C*/
 C-----------------------------------------------
 C
 C-----------------------------------------------
-C                _ 
+C                _
 C               \
 C    x(r,s,t) = /_ (xi * Ni(r,s,t))
-C                _ 
+C                _
 C               \
 C    y(r,s,t) = /_ (yi * Ni(r,s,t))
-C                _ 
+C                _
 C               \
 C    z(r,s,t) = /_ zi * Ni(r,s,t))
-C        
-C                _ 
+C
+C                _
 C               \
 C    dx/dr    = /_ (xi * dNi/dr)
-C    ...        
+C    ...
 C
-C          [dx/dr dy/dr dz/dr]            
-C    [J] = |dx/ds dy/ds dz/ds|                
-C          [dx/dt dy/dt dz/dt]               
-C                                     
+C          [dx/dr dy/dr dz/dr]
+C    [J] = |dx/ds dy/ds dz/ds|
+C          [dx/dt dy/dt dz/dt]
+C
 C    |r|   |r|      -1  |xs-x|
 C    {s} = {s} + [J]    {ys-y}
 C    |t|   |t|          |zs-z|
@@ -877,125 +877,125 @@ C
 C-----------------------------------------------------------------------
 C     Ni; dNi/dr; dNi/ds; dNi/dt
 C-----------------------------------------------------------------------
-      DO I=1,LLT
-        R05 = HALF*RR(I)
-        S05 = HALF*SS(I)
-        T05 = HALF*TT(I)
+        DO I=1,LLT
+          R05 = HALF*RR(I)
+          S05 = HALF*SS(I)
+          T05 = HALF*TT(I)
 C
-        U_M_R = HALF - R05
-        U_P_R = HALF + R05
+          U_M_R = HALF - R05
+          U_P_R = HALF + R05
 C
-        U_M_S = HALF - S05
-        U_P_S = HALF + S05
+          U_M_S = HALF - S05
+          U_P_S = HALF + S05
 C
-        U_M_T = HALF - T05
-        U_P_T = HALF + T05
+          U_M_T = HALF - T05
+          U_P_T = HALF + T05
 C
-        UMS_UMT = U_M_S * U_M_T
-        UMS_UPT = U_M_S * U_P_T
-        UPS_UMT = U_P_S * U_M_T
-        UPS_UPT = U_P_S * U_P_T
+          UMS_UMT = U_M_S * U_M_T
+          UMS_UPT = U_M_S * U_P_T
+          UPS_UMT = U_P_S * U_M_T
+          UPS_UPT = U_P_S * U_P_T
 C
-        NI(I,1) = U_M_R * UMS_UMT
-        NI(I,5) = U_M_R * UPS_UMT
-        NI(I,2) = U_M_R * UMS_UPT
-        NI(I,6) = U_M_R * UPS_UPT
-        NI(I,3) = U_P_R * UMS_UPT
-        NI(I,7) = U_P_R * UPS_UPT
-        NI(I,4) = U_P_R * UMS_UMT 
-        NI(I,8) = U_P_R * UPS_UMT 
+          NI(I,1) = U_M_R * UMS_UMT
+          NI(I,5) = U_M_R * UPS_UMT
+          NI(I,2) = U_M_R * UMS_UPT
+          NI(I,6) = U_M_R * UPS_UPT
+          NI(I,3) = U_P_R * UMS_UPT
+          NI(I,7) = U_P_R * UPS_UPT
+          NI(I,4) = U_P_R * UMS_UMT
+          NI(I,8) = U_P_R * UPS_UMT
 C
-        A = HALF
-        DNIDR(1) = -UMS_UMT * A 
-        DNIDR(2) = -UMS_UPT * A
-        DNIDR(3) = -DNIDR(2)
-        DNIDR(4) = -DNIDR(1)
-        DNIDR(5) = -UPS_UMT * A
-        DNIDR(6) = -UPS_UPT * A
-        DNIDR(7) = -DNIDR(6)
-        DNIDR(8) = -DNIDR(5)
+          A = HALF
+          DNIDR(1) = -UMS_UMT * A
+          DNIDR(2) = -UMS_UPT * A
+          DNIDR(3) = -DNIDR(2)
+          DNIDR(4) = -DNIDR(1)
+          DNIDR(5) = -UPS_UMT * A
+          DNIDR(6) = -UPS_UPT * A
+          DNIDR(7) = -DNIDR(6)
+          DNIDR(8) = -DNIDR(5)
 C
-        DNIDS(1) = -U_M_T * U_M_R * A
-        DNIDS(2) = -U_P_T * U_M_R * A
-        DNIDS(3) = -U_P_T * U_P_R * A
-        DNIDS(4) = -U_M_T * U_P_R * A
-        DNIDS(5) = -DNIDS(1)
-        DNIDS(6) = -DNIDS(2)
-        DNIDS(7) = -DNIDS(3)
-        DNIDS(8) = -DNIDS(4)
+          DNIDS(1) = -U_M_T * U_M_R * A
+          DNIDS(2) = -U_P_T * U_M_R * A
+          DNIDS(3) = -U_P_T * U_P_R * A
+          DNIDS(4) = -U_M_T * U_P_R * A
+          DNIDS(5) = -DNIDS(1)
+          DNIDS(6) = -DNIDS(2)
+          DNIDS(7) = -DNIDS(3)
+          DNIDS(8) = -DNIDS(4)
 C
-        DNIDT(1) = -U_M_R * U_M_S * A
-        DNIDT(2) = -DNIDT(1)
-        DNIDT(3) =  U_P_R * U_M_S * A
-        DNIDT(4) = -DNIDT(3)
-        DNIDT(5) = -U_M_R * U_P_S * A
-        DNIDT(6) = -DNIDT(5)
-        DNIDT(7) =  U_P_R * U_P_S * A
-        DNIDT(8) = -DNIDT(7)
+          DNIDT(1) = -U_M_R * U_M_S * A
+          DNIDT(2) = -DNIDT(1)
+          DNIDT(3) =  U_P_R * U_M_S * A
+          DNIDT(4) = -DNIDT(3)
+          DNIDT(5) = -U_M_R * U_P_S * A
+          DNIDT(6) = -DNIDT(5)
+          DNIDT(7) =  U_P_R * U_P_S * A
+          DNIDT(8) = -DNIDT(7)
 C------------------------------------
-        NI(I,9) = -ONE
+          NI(I,9) = -ONE
 C
 C-----------------------------------------------------------------------
 C     dx/dr; dx/ds; dx/dt
 C-----------------------------------------------------------------------
-        DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
-     +          + DNIDR(4)*XX(I,4) + DNIDR(5)*XX(I,5) + DNIDR(6)*XX(I,6)
-     +          + DNIDR(7)*XX(I,7) + DNIDR(8)*XX(I,8)  
-C  
-        DXDS(I) = DNIDS(1)*XX(I,1) + DNIDS(2)*XX(I,2) + DNIDS(3)*XX(I,3)
-     +          + DNIDS(4)*XX(I,4) + DNIDS(5)*XX(I,5) + DNIDS(6)*XX(I,6)
-     +          + DNIDS(7)*XX(I,7) + DNIDS(8)*XX(I,8)  
-C 
-        DXDT(I) = DNIDT(1)*XX(I,1) + DNIDT(2)*XX(I,2) + DNIDT(3)*XX(I,3)
-     +          + DNIDT(4)*XX(I,4) + DNIDT(5)*XX(I,5) + DNIDT(6)*XX(I,6)
-     +          + DNIDT(7)*XX(I,7) + DNIDT(8)*XX(I,8)  
+          DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
+     +            + DNIDR(4)*XX(I,4) + DNIDR(5)*XX(I,5) + DNIDR(6)*XX(I,6)
+     +            + DNIDR(7)*XX(I,7) + DNIDR(8)*XX(I,8)
+C
+          DXDS(I) = DNIDS(1)*XX(I,1) + DNIDS(2)*XX(I,2) + DNIDS(3)*XX(I,3)
+     +            + DNIDS(4)*XX(I,4) + DNIDS(5)*XX(I,5) + DNIDS(6)*XX(I,6)
+     +            + DNIDS(7)*XX(I,7) + DNIDS(8)*XX(I,8)
+C
+          DXDT(I) = DNIDT(1)*XX(I,1) + DNIDT(2)*XX(I,2) + DNIDT(3)*XX(I,3)
+     +            + DNIDT(4)*XX(I,4) + DNIDT(5)*XX(I,5) + DNIDT(6)*XX(I,6)
+     +            + DNIDT(7)*XX(I,7) + DNIDT(8)*XX(I,8)
 C-----------------------------------------------------------------------
 C     dy/dr; dy/ds; dy/dt
 C-----------------------------------------------------------------------
-        DYDR(I) = DNIDR(1)*YY(I,1) + DNIDR(2)*YY(I,2) + DNIDR(3)*YY(I,3)
-     +          + DNIDR(4)*YY(I,4) + DNIDR(5)*YY(I,5) + DNIDR(6)*YY(I,6)
-     +          + DNIDR(7)*YY(I,7) + DNIDR(8)*YY(I,8)  
-C  
-        DYDS(I) = DNIDS(1)*YY(I,1) + DNIDS(2)*YY(I,2) + DNIDS(3)*YY(I,3)
-     +          + DNIDS(4)*YY(I,4) + DNIDS(5)*YY(I,5) + DNIDS(6)*YY(I,6)
-     +          + DNIDS(7)*YY(I,7) + DNIDS(8)*YY(I,8)  
-C 
-        DYDT(I) = DNIDT(1)*YY(I,1) + DNIDT(2)*YY(I,2) + DNIDT(3)*YY(I,3)
-     +          + DNIDT(4)*YY(I,4) + DNIDT(5)*YY(I,5) + DNIDT(6)*YY(I,6)
-     +          + DNIDT(7)*YY(I,7) + DNIDT(8)*YY(I,8)  
+          DYDR(I) = DNIDR(1)*YY(I,1) + DNIDR(2)*YY(I,2) + DNIDR(3)*YY(I,3)
+     +            + DNIDR(4)*YY(I,4) + DNIDR(5)*YY(I,5) + DNIDR(6)*YY(I,6)
+     +            + DNIDR(7)*YY(I,7) + DNIDR(8)*YY(I,8)
+C
+          DYDS(I) = DNIDS(1)*YY(I,1) + DNIDS(2)*YY(I,2) + DNIDS(3)*YY(I,3)
+     +            + DNIDS(4)*YY(I,4) + DNIDS(5)*YY(I,5) + DNIDS(6)*YY(I,6)
+     +            + DNIDS(7)*YY(I,7) + DNIDS(8)*YY(I,8)
+C
+          DYDT(I) = DNIDT(1)*YY(I,1) + DNIDT(2)*YY(I,2) + DNIDT(3)*YY(I,3)
+     +            + DNIDT(4)*YY(I,4) + DNIDT(5)*YY(I,5) + DNIDT(6)*YY(I,6)
+     +            + DNIDT(7)*YY(I,7) + DNIDT(8)*YY(I,8)
 C-----------------------------------------------------------------------
 C     dz/dr; dz/ds; dz/dt
 C-----------------------------------------------------------------------
-        DZDR(I) = DNIDR(1)*ZZ(I,1) + DNIDR(2)*ZZ(I,2) + DNIDR(3)*ZZ(I,3)
-     +          + DNIDR(4)*ZZ(I,4) + DNIDR(5)*ZZ(I,5) + DNIDR(6)*ZZ(I,6)
-     +          + DNIDR(7)*ZZ(I,7) + DNIDR(8)*ZZ(I,8)  
-C  
-        DZDS(I) = DNIDS(1)*ZZ(I,1) + DNIDS(2)*ZZ(I,2) + DNIDS(3)*ZZ(I,3)
-     +          + DNIDS(4)*ZZ(I,4) + DNIDS(5)*ZZ(I,5) + DNIDS(6)*ZZ(I,6)
-     +          + DNIDS(7)*ZZ(I,7) + DNIDS(8)*ZZ(I,8)  
-C 
-        DZDT(I) = DNIDT(1)*ZZ(I,1) + DNIDT(2)*ZZ(I,2) + DNIDT(3)*ZZ(I,3)
-     +          + DNIDT(4)*ZZ(I,4) + DNIDT(5)*ZZ(I,5) + DNIDT(6)*ZZ(I,6)
-     +          + DNIDT(7)*ZZ(I,7) + DNIDT(8)*ZZ(I,8)  
+          DZDR(I) = DNIDR(1)*ZZ(I,1) + DNIDR(2)*ZZ(I,2) + DNIDR(3)*ZZ(I,3)
+     +            + DNIDR(4)*ZZ(I,4) + DNIDR(5)*ZZ(I,5) + DNIDR(6)*ZZ(I,6)
+     +            + DNIDR(7)*ZZ(I,7) + DNIDR(8)*ZZ(I,8)
+C
+          DZDS(I) = DNIDS(1)*ZZ(I,1) + DNIDS(2)*ZZ(I,2) + DNIDS(3)*ZZ(I,3)
+     +            + DNIDS(4)*ZZ(I,4) + DNIDS(5)*ZZ(I,5) + DNIDS(6)*ZZ(I,6)
+     +            + DNIDS(7)*ZZ(I,7) + DNIDS(8)*ZZ(I,8)
+C
+          DZDT(I) = DNIDT(1)*ZZ(I,1) + DNIDT(2)*ZZ(I,2) + DNIDT(3)*ZZ(I,3)
+     +            + DNIDT(4)*ZZ(I,4) + DNIDT(5)*ZZ(I,5) + DNIDT(6)*ZZ(I,6)
+     +            + DNIDT(7)*ZZ(I,7) + DNIDT(8)*ZZ(I,8)
 C-----------------------------------------------------------------------
 C          -1
 C       [J]          Inversion du jacobien
 C-----------------------------------------------------------------------
-        DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
-        DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
-        DRDZ(I)=DXDS(I)*DYDT(I)-DYDS(I)*DXDT(I)
+          DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
+          DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
+          DRDZ(I)=DXDS(I)*DYDT(I)-DYDS(I)*DXDT(I)
 C
-        DSDZ(I)=DXDT(I)*DYDR(I)-DYDT(I)*DXDR(I)
-        DSDY(I)=DZDT(I)*DXDR(I)-DXDT(I)*DZDR(I)
-        DSDX(I)=DYDT(I)*DZDR(I)-DZDT(I)*DYDR(I)
+          DSDZ(I)=DXDT(I)*DYDR(I)-DYDT(I)*DXDR(I)
+          DSDY(I)=DZDT(I)*DXDR(I)-DXDT(I)*DZDR(I)
+          DSDX(I)=DYDT(I)*DZDR(I)-DZDT(I)*DYDR(I)
 C
-        DTDX(I)=DYDR(I)*DZDS(I)-DZDR(I)*DYDS(I)
-        DTDY(I)=DZDR(I)*DXDS(I)-DXDR(I)*DZDS(I)
-        DTDZ(I)=DXDR(I)*DYDS(I)-DYDR(I)*DXDS(I)
+          DTDX(I)=DYDR(I)*DZDS(I)-DZDR(I)*DYDS(I)
+          DTDY(I)=DZDR(I)*DXDS(I)-DXDR(I)*DZDS(I)
+          DTDZ(I)=DXDR(I)*DYDS(I)-DYDR(I)*DXDS(I)
 C
-        DET(I) = DXDR(I) * DRDX(I)
-     .         + DYDR(I) * DRDY(I)
-     .         + DZDR(I) * DRDZ(I)
+          DET(I) = DXDR(I) * DRDX(I)
+     .           + DYDR(I) * DRDY(I)
+     .           + DZDR(I) * DRDZ(I)
 C
 c
 c      print *, "Det",DET(I)
@@ -1003,32 +1003,32 @@ c      print *, "DXDR(I),DYDR(I),DZDR(I)",DXDR(I),DYDR(I),DZDR(I)
 c      print *, "DXDs(I),DYDs(I),DZDs(I)",DXDs(I),DYDs(I),DZDs(I)
 c      print *, "DXDt(I),DYDt(I),DZDt(I)",DXDt(I),DYDt(I),DZDt(I)
 c
-      ENDDO
+        ENDDO
 C
-      DO I=1,LLT
+        DO I=1,LLT
 C-----------------------------------------------------------------------
-C          -1            
+C          -1
 C       [J]              Inversion du jacobien suite
 C-----------------------------------------------------------------------
-        D = ONE/DET(I)
-        DRDX(I)=D*DRDX(I)
-        DSDX(I)=D*DSDX(I)
-        DTDX(I)=D*DTDX(I)
+          D = ONE/DET(I)
+          DRDX(I)=D*DRDX(I)
+          DSDX(I)=D*DSDX(I)
+          DTDX(I)=D*DTDX(I)
 C
-        DRDY(I)=D*DRDY(I)
-        DSDY(I)=D*DSDY(I)
-        DTDY(I)=D*DTDY(I)
+          DRDY(I)=D*DRDY(I)
+          DSDY(I)=D*DSDY(I)
+          DTDY(I)=D*DTDY(I)
 C
-        DRDZ(I)=D*DRDZ(I)
-        DSDZ(I)=D*DSDZ(I)
-        DTDZ(I)=D*DTDZ(I)
+          DRDZ(I)=D*DRDZ(I)
+          DSDZ(I)=D*DSDZ(I)
+          DTDZ(I)=D*DTDZ(I)
 C
 c
 c      print *, "DRDX(I),DRDY(I),DRDZ(I)",DRDX(I),DRDY(I),DRDZ(I)
 c      print *, "DSDX(I),DSDY(I),DSDZ(I)",DSDX(I),DSDY(I),DSDZ(I)
 c      print *, "DTDX(I),DTDY(I),DTDZ(I)",DTDX(I),DTDY(I),DTDZ(I)
 c
-      ENDDO
+        ENDDO
 C-----------------------------------------------------------------------
-      RETURN
+        RETURN
       END

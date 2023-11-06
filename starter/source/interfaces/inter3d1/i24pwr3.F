@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
 #ifndef HYPERMESH_LIB
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 #endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -52,51 +52,51 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(2,*),
-     .        ICONT_I(*)
-      INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN,IWPENE0
+          INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(2,*),
+     .            ICONT_I(*)
+          INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN,IWPENE0
 C     REAL
-      my_real
-     .   PMIN(*),PENMIN,PENE_OLD(5,*)
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+          my_real
+     .       PMIN(*),PENMIN,PENE_OLD(5,*)
+          INTEGER ID
+          CHARACTER*nchartitle,
+     .       TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L,NI
-      INTEGER IX1, IX2, IX3, IX4, NSVG
-      my_real
-     .   PEN,TOL
+          INTEGER I, L,NI
+          INTEGER IX1, IX2, IX3, IX4, NSVG
+          my_real
+     .       PEN,TOL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
-      TOL = PENMIN
-C      
-       DO I=1,I_STOK
-         NI=CAND_N(I)
-         L=CAND_E(I)
-C---Cas INACTI=0,1----
-          PEN =ZERO
-         IF(ICONT_I(NI)==-L)THEN
-C-------Cas INACTI=-1,5	  
-	   PEN = PMIN(NI)
-         ELSEIF(IRTLM(1,NI)==L)THEN
-	   PEN = PENE_OLD(5,NI)
-	 ELSE
-	  CYCLE
-	 END IF
-           IX1=IRECT(1,L)
-           IX2=IRECT(2,L)
-           IX3=IRECT(3,L)
-           IX4=IRECT(4,L)
-           NSVG=NSV(NI)
+          IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
+          TOL = PENMIN
 C
-          IF(PEN/=ZERO)THEN
+          DO I=1,I_STOK
+            NI=CAND_N(I)
+            L=CAND_E(I)
+C---Cas INACTI=0,1----
+            PEN =ZERO
+            IF(ICONT_I(NI)==-L)THEN
+C-------Cas INACTI=-1,5
+              PEN = PMIN(NI)
+            ELSEIF(IRTLM(1,NI)==L)THEN
+              PEN = PENE_OLD(5,NI)
+            ELSE
+              CYCLE
+            END IF
+            IX1=IRECT(1,L)
+            IX2=IRECT(2,L)
+            IX3=IRECT(3,L)
+            IX4=IRECT(4,L)
+            NSVG=NSV(NI)
+C
+            IF(PEN/=ZERO)THEN
 C            True initial penetration
-             IWPENE=IWPENE+1
-             IF(IPRI>=5.AND.NSVG<=NUMNOD) THEN
+              IWPENE=IWPENE+1
+              IF(IPRI>=5.AND.NSVG<=NUMNOD) THEN
 #ifndef HYPERMESH_LIB
                 CALL ANCMSG(MSGID=1164,
      .                           MSGTYPE=MSGWARNING,
@@ -109,10 +109,10 @@ C            True initial penetration
      .                           R1=PEN      ,
      .                           PRMOD=MSG_CUMU)
 #endif
-             END IF
-            IF (PEN<=TOL)IWPENE0=IWPENE0+1
-          END IF
-       END DO !I=1,I_STOK
+              END IF
+              IF (PEN<=TOL)IWPENE0=IWPENE0+1
+            END IF
+          END DO !I=1,I_STOK
 C
-      RETURN
-      END
+          RETURN
+        END

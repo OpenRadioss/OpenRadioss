@@ -22,14 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  SPMD_VGATH                    source/mpi/anim/spmd_vgath.F  
+Chd|  SPMD_VGATH                    source/mpi/anim/spmd_vgath.F
 Chd|-- called by -----------
 Chd|        VELVEC                        source/output/anim/generate/velvec.F
 Chd|        VELVEC3                       source/output/anim/generate/velvec.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-       SUBROUTINE SPMD_VGATH(X,NODGLOB,WEIGHT,NUM)
+      SUBROUTINE SPMD_VGATH(X,NODGLOB,WEIGHT,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,52 +47,52 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       my_real
-     .   X(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+        my_real
+     .    X(3,*)
+        INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      DATA MSGOFF/7003/
-      DATA MSGOFF2/7004/
-      REAL, DIMENSION(:,:) , ALLOCATABLE :: BUFSR
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
+        DATA MSGOFF/7003/
+        DATA MSGOFF2/7004/
+        REAL, DIMENSION(:,:) , ALLOCATABLE :: BUFSR
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
 C   Tableau utilise par proc 0
-       REAL, DIMENSION(:,:), ALLOCATABLE :: XGLOB
+        REAL, DIMENSION(:,:), ALLOCATABLE :: XGLOB
 C=======================================================================
-       ALLOCATE(BUFSR(3,NUMNODM), IBUF(NUMNODM))
-       ALLOCATE(XGLOB(3,NUM))
-        
-       IF (ISPMD/=0) THEN
+        ALLOCATE(BUFSR(3,NUMNODM), IBUF(NUMNODM))
+        ALLOCATE(XGLOB(3,NUM))
 
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (WEIGHT(I)==1) THEN
-             SIZ = SIZ + 1
-             IBUF(SIZ) = NODGLOB(I)
-             BUFSR(1,SIZ) = X(1,I)
-             BUFSR(2,SIZ) = X(2,I) 
-             BUFSR(3,SIZ) = X(3,I) 
-           END IF
-         END DO
+        IF (ISPMD/=0) THEN
+
+          SIZ = 0
+          DO I=1,NUMNOD
+            IF (WEIGHT(I)==1) THEN
+              SIZ = SIZ + 1
+              IBUF(SIZ) = NODGLOB(I)
+              BUFSR(1,SIZ) = X(1,I)
+              BUFSR(2,SIZ) = X(2,I)
+              BUFSR(3,SIZ) = X(3,I)
+            END IF
+          END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF2
+          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF
-         CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-       ELSE
+        ELSE
           DO I=1,NUMNOD
             IF (WEIGHT(I)==1) THEN
               NG = NODGLOB(I)
@@ -109,7 +109,7 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
@@ -119,9 +119,9 @@ C   Reception du buffer flottant des adresses NODGLOB
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,3*SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ
- 
+
             DO K = 1, NREC
               NG = IBUF(K)
               XGLOB(1,NG) = BUFSR(1,K)
@@ -131,9 +131,9 @@ C   Reception du buffer flottant des adresses NODGLOB
           ENDDO
           CALL WRITE_R_C(XGLOB,3*NUMNODG)
 
-       ENDIF
-       DEALLOCATE (BUFSR,IBUF,XGLOB)
-       
+        ENDIF
+        DEALLOCATE (BUFSR,IBUF,XGLOB)
+
 #endif
-       RETURN
-       END
+        RETURN
+      END

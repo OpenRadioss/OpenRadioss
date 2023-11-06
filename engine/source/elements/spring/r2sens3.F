@@ -25,7 +25,7 @@ Chd|  R2SENS3                       source/elements/spring/r2sens3.F
 Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE R2SENS3(
      1   GEO,       OFF,       SENSOR_TAB,DX,
@@ -34,8 +34,8 @@ Chd|====================================================================
      4   IGEO,      MGN,       NEL,       NSENSOR)
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------  
-      USE SENSOR_MOD
+C-----------------------------------------------
+        USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,69 +49,69 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NSENSOR
-      INTEGER IGEO(NPROPGI,*),MGN(*)
-      my_real :: GEO(NPROPG,*), OFF(*),
-     .   DX(*),DY(*),DZ(*),X0(*),Y0(*),Z0(*),RX(*),RY(*),RZ(*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) , INTENT(IN) :: SENSOR_TAB
+        INTEGER, INTENT(IN) :: NEL,NSENSOR
+        INTEGER IGEO(NPROPGI,*),MGN(*)
+        my_real :: GEO(NPROPG,*), OFF(*),
+     .     DX(*),DY(*),DZ(*),X0(*),Y0(*),Z0(*),RX(*),RY(*),RZ(*)
+        TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) , INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ISENS,K,USENS,IFL
+        INTEGER I, ISENS,K,USENS,IFL
 C-----------------------------------------------
-      DO I=1,NEL
-        ISENS=0
-        USENS=IGEO(3,MGN(I))
-        IFL=NINT(GEO(80,MGN(I)))
-        DO K=1,NSENSOR
-          IF (ABS(USENS) == SENSOR_TAB(K)%SENS_ID) ISENS=K
-        ENDDO
-        IF (IFL == 2) THEN
+        DO I=1,NEL
+          ISENS=0
+          USENS=IGEO(3,MGN(I))
+          IFL=NINT(GEO(80,MGN(I)))
+          DO K=1,NSENSOR
+            IF (ABS(USENS) == SENSOR_TAB(K)%SENS_ID) ISENS=K
+          ENDDO
+          IF (IFL == 2) THEN
 C
 C                  _________           _________
-C       __________/         \_________/ 	\______
+C       __________/         \_________/   \______
 C
-C  OFF    -10.         1.       -10.       1.        
-C                        \_  rupture eventuelle du ressort => 0. 
+C  OFF    -10.         1.       -10.       1.
+C                        \_  rupture eventuelle du ressort => 0.
 C                            (pas de reactivation possible)
 C
-          IF (TT > SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == -TEN) THEN
-            OFF(I) = ONE
-            X0(I) = X0(I) + DX(I)
-            Y0(I) = Y0(I) + DY(I)
-            Z0(I) = Z0(I) + DZ(I)
-            DX(I) = ZERO
-            DY(I) = ZERO
-            DZ(I) = ZERO
-            RX(I) = ZERO
-            RY(I) = ZERO
-            RZ(I) = ZERO    
-          ELSEIF (TT < SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == ONE) THEN
-            OFF(I) = ZERO    
-          ENDIF
-        ELSEIF (USENS > 0) THEN
+            IF (TT > SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == -TEN) THEN
+              OFF(I) = ONE
+              X0(I) = X0(I) + DX(I)
+              Y0(I) = Y0(I) + DY(I)
+              Z0(I) = Z0(I) + DZ(I)
+              DX(I) = ZERO
+              DY(I) = ZERO
+              DZ(I) = ZERO
+              RX(I) = ZERO
+              RY(I) = ZERO
+              RZ(I) = ZERO
+            ELSEIF (TT < SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == ONE) THEN
+              OFF(I) = ZERO
+            ENDIF
+          ELSEIF (USENS > 0) THEN
 C
 C                  _________
-C       __________/         
+C       __________/
 C
-C  OFF    -10.         1.       
-C                        \_  rupture eventuelle du ressort => 0. 
+C  OFF    -10.         1.
+C                        \_  rupture eventuelle du ressort => 0.
 C                            (pas de reactivation possible)
 C
             IF (TT > SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == -TEN)
      .          OFF(I) = ONE
-        ELSEIF (USENS < 0) THEN
+          ELSEIF (USENS < 0) THEN
 C
-C        _________           
+C        _________
 C                  \_________
 C
-C  OFF     1.                       
-C            \_  rupture eventuelle du ressort => 0. 
+C  OFF     1.
+C            \_  rupture eventuelle du ressort => 0.
 C
 C
             IF (TT > SENSOR_TAB(ISENS)%TSTART) OFF(I) =ZERO
-        ENDIF
-      ENDDO
+          ENDIF
+        ENDDO
 C
-      RETURN
+        RETURN
       END

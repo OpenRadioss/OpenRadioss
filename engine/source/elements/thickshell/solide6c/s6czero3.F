@@ -44,59 +44,59 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  G_PLA,G_EPSD,NEL
+        INTEGER  G_PLA,G_EPSD,NEL
 C     REAL
-      my_real
-     .   FX1(*), FX2(*), FX3(*), FX4(*), FX5(*), FX6(*), 
-     .   FY1(*), FY2(*), FY3(*), FY4(*), FY5(*), FY6(*),
-     .   FZ1(*), FZ2(*), FZ3(*), FZ4(*), FZ5(*), FZ6(*), 
-     .   EINTM(*),RHOM(*),QM(*),EPSDM(*),EPLASM(*),SIGM(NEL,6)
+        my_real
+     .     FX1(*), FX2(*), FX3(*), FX4(*), FX5(*), FX6(*),
+     .     FY1(*), FY2(*), FY3(*), FY4(*), FY5(*), FY6(*),
+     .     FZ1(*), FZ2(*), FZ3(*), FZ4(*), FZ5(*), FZ6(*),
+     .     EINTM(*),RHOM(*),QM(*),EPSDM(*),EPLASM(*),SIGM(NEL,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I
+        INTEGER  I
 C=======================================================================
-      DO I=1,NEL
-        SIGM(I,1) = ZERO  
-        SIGM(I,2) = ZERO  
-        SIGM(I,3) = ZERO  
-        SIGM(I,4) = ZERO  
-        SIGM(I,5) = ZERO  
-        SIGM(I,6) = ZERO  
-        RHOM(I)   = ZERO  
-        EINTM(I)  = ZERO  
-        QM(I)     = ZERO	  
-      ENDDO
-      IF (G_EPSD > 0) THEN
         DO I=1,NEL
-          EPSDM(I) = ZERO
+          SIGM(I,1) = ZERO
+          SIGM(I,2) = ZERO
+          SIGM(I,3) = ZERO
+          SIGM(I,4) = ZERO
+          SIGM(I,5) = ZERO
+          SIGM(I,6) = ZERO
+          RHOM(I)   = ZERO
+          EINTM(I)  = ZERO
+          QM(I)     = ZERO
         ENDDO
-      ENDIF
-      IF (G_PLA > 0) THEN
+        IF (G_EPSD > 0) THEN
+          DO I=1,NEL
+            EPSDM(I) = ZERO
+          ENDDO
+        ENDIF
+        IF (G_PLA > 0) THEN
+          DO I=1,NEL
+            EPLASM(I)  = ZERO
+          ENDDO
+        ENDIF
         DO I=1,NEL
-          EPLASM(I)  = ZERO
+          FX1(I)=ZERO
+          FY1(I)=ZERO
+          FZ1(I)=ZERO
+          FX2(I)=ZERO
+          FY2(I)=ZERO
+          FZ2(I)=ZERO
+          FX3(I)=ZERO
+          FY3(I)=ZERO
+          FZ3(I)=ZERO
+          FX4(I)=ZERO
+          FY4(I)=ZERO
+          FZ4(I)=ZERO
+          FX5(I)=ZERO
+          FY5(I)=ZERO
+          FZ5(I)=ZERO
+          FX6(I)=ZERO
+          FY6(I)=ZERO
+          FZ6(I)=ZERO
         ENDDO
-      ENDIF
-      DO I=1,NEL
-       FX1(I)=ZERO
-       FY1(I)=ZERO
-       FZ1(I)=ZERO
-       FX2(I)=ZERO
-       FY2(I)=ZERO
-       FZ2(I)=ZERO
-       FX3(I)=ZERO
-       FY3(I)=ZERO
-       FZ3(I)=ZERO
-       FX4(I)=ZERO
-       FY4(I)=ZERO
-       FZ4(I)=ZERO
-       FX5(I)=ZERO
-       FY5(I)=ZERO
-       FZ5(I)=ZERO
-       FX6(I)=ZERO
-       FY6(I)=ZERO
-       FZ6(I)=ZERO      
-      ENDDO
 C-----------
-      RETURN
+        RETURN
       END

@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,47 +49,47 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
-     .        COUNT_REMSLV(*)
+        INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
+     .          COUNT_REMSLV(*)
 C     REAL
-      my_real 
-     .   X(3,*)
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        my_real
+     .     X(3,*)
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, I, INACTI, I_STOK, NSN
+        INTEGER KK, I, INACTI, I_STOK, NSN
 C     REAL
-      my_real
-     .   STARTT,GAP,STOPT, DX, DY, DZ, GAPMIN
+        my_real
+     .     STARTT,GAP,STOPT, DX, DY, DZ, GAPMIN
 C-----------------------------------------------
 C
-      NSN    =IPARI(5,NIN)
-      INACTI =IPARI(22,NIN)
+        NSN    =IPARI(5,NIN)
+        INACTI =IPARI(22,NIN)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) goto 999
-      IF(TT>STOPT)  goto 999
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        STOPT =INTBUF_TAB%VARIABLES(11)
+        IF(STARTT>TT) goto 999
+        IF(TT>STOPT)  goto 999
 C
-      GAP =INTBUF_TAB%VARIABLES(2)
-      GAPMIN =INTBUF_TAB%VARIABLES(13)
+        GAP =INTBUF_TAB%VARIABLES(2)
+        GAPMIN =INTBUF_TAB%VARIABLES(13)
 C
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
-       I_STOK = INTBUF_TAB%I_STOK(1)
-       CALL I23OPTCD(
-     1 INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X	   ,I_STOK,INTBUF_TAB%IRECTM,
-     2GAP      ,INTBUF_TAB%GAP_S,IPARI(21,NIN),IPARI(5,NIN) ,INTBUF_TAB%STFNS,
-     3ITASK	   ,INTBUF_TAB%STFM,INACTI   ,INTBUF_TAB%FTSAVX,
-     4INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,INTBUF_TAB%CAND_P,NIN   ,INTBUF_TAB%VARIABLES(16),
-     5IPARI(39,NIN),COUNT_REMSLV,INTBUF_TAB%GAP_M,
-     .  				    INTBUF_TAB%MSR,INTBUF_TAB%NSV,
-     .GAPMIN)
+        I_STOK = INTBUF_TAB%I_STOK(1)
+        CALL I23OPTCD(
+     1  INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X     ,I_STOK,INTBUF_TAB%IRECTM,
+     2  GAP      ,INTBUF_TAB%GAP_S,IPARI(21,NIN),IPARI(5,NIN) ,INTBUF_TAB%STFNS,
+     3  ITASK     ,INTBUF_TAB%STFM,INACTI   ,INTBUF_TAB%FTSAVX,
+     4  INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,INTBUF_TAB%CAND_P,NIN   ,INTBUF_TAB%VARIABLES(16),
+     5  IPARI(39,NIN),COUNT_REMSLV,INTBUF_TAB%GAP_M,
+     .   INTBUF_TAB%MSR,INTBUF_TAB%NSV,
+     .  GAPMIN)
 C-----------------------------------------------------------
 C
   999   continue
-      RETURN
+        RETURN
       END

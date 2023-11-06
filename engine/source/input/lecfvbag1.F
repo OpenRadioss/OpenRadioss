@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LECFVBAG1                     source/input/lecfvbag1.F      
+Chd|  LECFVBAG1                     source/input/lecfvbag1.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F         
+Chd|        LECTUR                        source/input/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE LECFVBAG1(NFVMODI, MONVOL, VOLMON)
@@ -41,36 +41,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NFVMODI, MONVOL(*)
-      my_real
-     .        VOLMON(*)
+        INTEGER NFVMODI, MONVOL(*)
+        my_real
+     .          VOLMON(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ID, K1, KK1, N, ITYP, IGMERG, ILVOUT, IFOUND
-      my_real
-     .        CGMERG, CNMERG
+        INTEGER I, ID, K1, KK1, N, ITYP, IGMERG, ILVOUT, IFOUND
+        my_real
+     .          CGMERG, CNMERG
 C
-      IF(ISPMD==0) WRITE (IOUT,1000)
-      DO I=1,NFVMODI
-         READ(IIN,'(I10)') ID
-         READ(IIN,'(I10,2F20.0,I10)') IGMERG, CGMERG, CNMERG,ILVOUT
+        IF(ISPMD==0) WRITE (IOUT,1000)
+        DO I=1,NFVMODI
+          READ(IIN,'(I10)') ID
+          READ(IIN,'(I10,2F20.0,I10)') IGMERG, CGMERG, CNMERG,ILVOUT
 C
-         IFOUND=0
-         K1=1
-         KK1=1
-         DO N=1,NVOLU
-           IF (MONVOL(K1) == ID) THEN
+          IFOUND=0
+          K1=1
+          KK1=1
+          DO N=1,NVOLU
+            IF (MONVOL(K1) == ID) THEN
               ITYP=MONVOL(K1-1+2)
               IFOUND=1
               IF (ITYP/=6.AND.ITYP/=8) THEN
                 IF(ISPMD==0)THEN
-                   WRITE(IOUT,'(A)')      ' '
-                   WRITE(IOUT,'(A)')      ' /FVMBAG/MODIF : '
-                   WRITE(IOUT,'(A,I10,A)')' MONITORED VOLUME ID ',ID,
-     .                                    ' IS NOT OF TYPE FVMBAG OR'
-                   WRITE(IOUT,'(A)')      ' FVMBAG1 INPUT IS IGNORED'
-                   WRITE(IOUT,'(A)')      ' '
+                  WRITE(IOUT,'(A)')      ' '
+                  WRITE(IOUT,'(A)')      ' /FVMBAG/MODIF : '
+                  WRITE(IOUT,'(A,I10,A)')' MONITORED VOLUME ID ',ID,
+     .                                   ' IS NOT OF TYPE FVMBAG OR'
+                  WRITE(IOUT,'(A)')      ' FVMBAG1 INPUT IS IGNORED'
+                  WRITE(IOUT,'(A)')      ' '
                 ENDIF
               ELSE
                 IF(IGMERG==1.OR.IGMERG==2) MONVOL(K1-1+60)=IGMERG
@@ -78,34 +78,34 @@ C
                 IF(CNMERG > ZERO ) VOLMON(KK1-1+34)=CNMERG
                 MONVOL(K1-1+44)=ILVOUT
                 IF(ISPMD==0)THEN
-                   WRITE(IOUT,1100)ID,MONVOL(K1-1+60),VOLMON(KK1-1+31),
-     .                             VOLMON(KK1-1+34),MONVOL(K1-1+44)
+                  WRITE(IOUT,1100)ID,MONVOL(K1-1+60),VOLMON(KK1-1+31),
+     .                            VOLMON(KK1-1+34),MONVOL(K1-1+44)
                 ENDIF
               ENDIF
-           GO TO 100
-           ENDIF
-           K1=K1+NIMV
-           KK1=KK1+NRVOLU
-         ENDDO
-         IF(IFOUND == 0) THEN
-	       IF(ISPMD==0)THEN
-	           WRITE(IOUT,'(A)')      ' '
-               WRITE(IOUT,'(A)')      ' /FVMBAG/MODIF : '                 
-		       WRITE(IOUT,'(A,I10,A)')' MONITORED VOLUME ID ',ID,
-     .                                ' DOES NOT EXIST '
-               WRITE(IOUT,'(A)')      ' INPUT IS IGNORED '
-               WRITE(IOUT,'(A)')      ' '
-           ENDIF
-        ENDIF
-  100 ENDDO
+              GO TO 100
+            ENDIF
+            K1=K1+NIMV
+            KK1=KK1+NRVOLU
+          ENDDO
+          IF(IFOUND == 0) THEN
+            IF(ISPMD==0)THEN
+              WRITE(IOUT,'(A)')      ' '
+              WRITE(IOUT,'(A)')      ' /FVMBAG/MODIF : '
+              WRITE(IOUT,'(A,I10,A)')' MONITORED VOLUME ID ',ID,
+     .                                        ' DOES NOT EXIST '
+              WRITE(IOUT,'(A)')      ' INPUT IS IGNORED '
+              WRITE(IOUT,'(A)')      ' '
+            ENDIF
+          ENDIF
+  100   ENDDO
 C
- 1000 FORMAT(/' NEW FVMBAG PARAMETERS ')
- 1100 FORMAT(/' FVMBAG ID. . . . . . . . . . . . . . .=',I10,
-     .       /'   GLOBAL MERGING TYPE. . . . . . . . .=',I10,
-     .       /'   GLOBAL MERGING COEFFICIENT . . . . .=',1PG20.13,
-     .       /'   NEIGHBORHOOD MERGING COEFFICIENT . .=',1PG20.13,
-     .       /'   OUTPUT LEVEL . . . . . . . . . . . .=',I10/)
+ 1000   FORMAT(/' NEW FVMBAG PARAMETERS ')
+ 1100   FORMAT(/' FVMBAG ID. . . . . . . . . . . . . . .=',I10,
+     .         /'   GLOBAL MERGING TYPE. . . . . . . . .=',I10,
+     .         /'   GLOBAL MERGING COEFFICIENT . . . . .=',1PG20.13,
+     .         /'   NEIGHBORHOOD MERGING COEFFICIENT . .=',1PG20.13,
+     .         /'   OUTPUT LEVEL . . . . . . . . . . . .=',I10/)
 
-      RETURN
+        RETURN
       END
-      
+

@@ -47,46 +47,46 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NSN,NSNROLD,IGAP
-      INTEGER J_STOK,MULNSN,NOINT,INACTI,ESHIFT
-      INTEGER IRECT(4,*),CAND_N(*),CAND_E(*),CAND_A(*),NSV(*),MSR(*)
-      INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IFPEN(*), OLDNUM(*),II_STOK
+        INTEGER I_MEM, NSN,NSNROLD,IGAP
+        INTEGER J_STOK,MULNSN,NOINT,INACTI,ESHIFT
+        INTEGER IRECT(4,*),CAND_N(*),CAND_E(*),CAND_A(*),NSV(*),MSR(*)
+        INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IFPEN(*), OLDNUM(*),II_STOK
 C     REAL
-      my_real
-     .        X(3,*), GAP_S(*), GAP_M(*),
-     .        MARGE, GAP, GAPMIN, GAPMAX, CURV_MAX(*),
-     .        CAND_P(*)
+        my_real
+     .          X(3,*), GAP_S(*), GAP_M(*),
+     .          MARGE, GAP, GAPMIN, GAPMAX, CURV_MAX(*),
+     .          CAND_P(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K_STOK,I_STOK,N,NE,J,
-     .        ME,N1,N2,N3,N4,M1,M2,M3,M4
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
+        INTEGER I,K_STOK,I_STOK,N,NE,J,
+     .          ME,N1,N2,N3,N4,M1,M2,M3,M4
+        INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C     REAL
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
-     .   NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
-     .   NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
-     .   NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
-     .   PENE(MVSIZ), GAPV(MVSIZ)
+        my_real
+     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
+     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
+     .     NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
+     .     NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
+     .     NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
+     .     PENE(MVSIZ), GAPV(MVSIZ)
 C-----------------------------------------------
         CALL I23COR3T(J_STOK ,X    ,IRECT ,PROV_E ,
      1               PROV_N  ,IGAP ,GAP   ,X1    ,X2     ,
-     2               X3      ,X4   ,Y1    ,Y2	 ,Y3	 ,
-     3               Y4      ,Z1   ,Z2    ,Z3	 ,Z4	 ,
-     4               XI      ,YI   ,ZI    ,IX1   ,IX2    ,  
+     2               X3      ,X4   ,Y1    ,Y2   ,Y3   ,
+     3               Y4      ,Z1   ,Z2    ,Z3   ,Z4   ,
+     4               XI      ,YI   ,ZI    ,IX1   ,IX2    ,
      5               IX3     ,IX4  ,NSN   ,GAP_S ,GAPV   ,
      6               GAPMAX  ,GAPMIN,CURV_MAX,NSV,MSR    ,
      7               GAP_M   )
 C-----------------------------------------------
-       CALL I7PEN3(J_STOK ,MARGE  ,X1    ,X2     ,X3   ,
-     .               X4    ,Y1     ,Y2    ,Y3     ,Y4   ,
-     .               Z1    ,Z2     ,Z3    ,Z4     ,XI   ,
-     .               YI    ,ZI     ,PENE  ,IX1    ,IX2  ,
-     .               IX3   ,IX4    ,IGAP  ,GAP    ,GAPV )
+        CALL I7PEN3(J_STOK ,MARGE  ,X1    ,X2     ,X3   ,
+     .                X4    ,Y1     ,Y2    ,Y3     ,Y4   ,
+     .                Z1    ,Z2     ,Z3    ,Z4     ,XI   ,
+     .                YI    ,ZI     ,PENE  ,IX1    ,IX2  ,
+     .                IX3   ,IX4    ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
 C-----------------------------------------------
@@ -102,10 +102,10 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
             J = CAND_A(N)
             DO WHILE(J<=CAND_A(N+1)-1)
               IF(CAND_E(J)==NE)THEN
-        	PENE(I)=ZERO
-        	J=CAND_A(N+1)
+                PENE(I)=ZERO
+                J=CAND_A(N+1)
               ELSE
-        	J=J+1
+                J=J+1
               ENDIF
             ENDDO
           ENDIF
@@ -118,13 +118,13 @@ C-----------------------------------------------
         IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
-          I_STOK = II_STOK
-          IF(I_STOK+K_STOK>MULNSN) THEN
-            I_MEM = 2
+        I_STOK = II_STOK
+        IF(I_STOK+K_STOK>MULNSN) THEN
+          I_MEM = 2
 #include "lockoff.inc"
-            RETURN
-          ENDIF
-          II_STOK   = I_STOK + K_STOK
+          RETURN
+        ENDIF
+        II_STOK   = I_STOK + K_STOK
 #include "lockoff.inc"
 C-----------------------------------------------
         DO I=1,J_STOK
@@ -151,10 +151,10 @@ c            N1 = IRECTG(1,NE)
 c            N2 = IRECTG(2,NE)
 c            N3 = IRECTG(3,NE)
 c            N4 = IRECTG(4,NE)
-c	    ITAGP(N1)=1
-c	    ITAGP(N2)=1
-c	    ITAGP(N3)=1
-c	    ITAGP(N4)=1
+c      ITAGP(N1)=1
+c      ITAGP(N2)=1
+c      ITAGP(N3)=1
+c      ITAGP(N4)=1
 c            IF(N>NSN) THEN
 cC numerotation tris precedent pour les noeuds non locaux (SPMD)
 c              N = OLDNUM(N-NSN)+NSN
@@ -185,7 +185,7 @@ c                    IFPEN(I_STOK)  = IFPEN(J)
 c                    CAND_P(I_STOK) = CAND_P(J)
 c                 END IF
 c                ENDIF
-c        	J=J+1
+c          J=J+1
 c              END IF
 c            ENDDO
 c            ITAGP(N1)=0
@@ -195,5 +195,5 @@ c            ITAGP(N4)=0
 c          ENDIF
 c        ENDDO
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

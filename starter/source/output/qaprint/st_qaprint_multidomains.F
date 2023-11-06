@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_MULTIDOMAINS(IPART,IEXLNK,IGRNOD)
 C-----------------------------------------------
@@ -49,29 +49,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IPART(LIPART1,*),IEXLNK(NR2R,*)
-      TYPE (GROUP_)  , INTENT(IN), DIMENSION(NGRNOD)  :: IGRNOD
+        INTEGER, INTENT(IN) :: IPART(LIPART1,*),IEXLNK(NR2R,*)
+        TYPE (GROUP_)  , INTENT(IN), DIMENSION(NGRNOD)  :: IGRNOD
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: OK_QA
-      CHARACTER (LEN=255) :: VARNAME
-      INTEGER :: I,J,ID,RLEN
-      DOUBLE PRECISION :: TMPVAL
+        LOGICAL :: OK_QA
+        CHARACTER (LEN=255) :: VARNAME
+        INTEGER :: I,J,ID,RLEN
+        DOUBLE PRECISION :: TMPVAL
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(NR2RLNK + NSUBDOM == 0) RETURN
+        IF(NR2RLNK + NSUBDOM == 0) RETURN
 C
-      OK_QA = MYQAKEY('/SUBDOMAIN')  
-C                                                         
-      IF (OK_QA) THEN   
-         DO I = 1, NSUBDOM
+        OK_QA = MYQAKEY('/SUBDOMAIN')
+C
+        IF (OK_QA) THEN
+          DO I = 1, NSUBDOM
 C
             CALL QAPRINT('NB_SUBDOMAIN',NSUBDOM,0.0_8)
             CALL QAPRINT('NB_PART_SUB',NB_PART_SUB,0.0_8)
 C
-	    RLEN = ISUBDOM(7,I)
+            RLEN = ISUBDOM(7,I)
             WRITE(VARNAME,'(A)') DOM_NAME(ISUBDOM(8,I):ISUBDOM(8,I)+RLEN-1)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISUBDOM(2,I), 0.0_8)
 C
@@ -80,21 +80,21 @@ C
               ID = IPART(4,ISUBDOM_PART(ISUBDOM(3,I)+J))
               CALL QAPRINT('SUBDOMAIN -> PART ID',ID,0.0_8)
             ENDDO
-         ENDDO 
-      ENDIF
-C        
-      OK_QA = MYQAKEY('/EXT/LINK')  
-C                                                         
-      IF (OK_QA) THEN   
-         DO I = 1, NR2RLNK
-           CALL QAPRINT('EXTLNK ID ',IEXLNK(2,I),0.0_8)
-           CALL QAPRINT('EXTLNK GROUP ID ',IGRNOD(IEXLNK(1,I))%ID,0.0_8)
-           CALL QAPRINT('EXTLNK ID DOM1 ',IEXLNK(2,I),0.0_8)
-           CALL QAPRINT('EXTLNK ID DOM2 ',IEXLNK(3,I),0.0_8)
-           CALL QAPRINT('EXTLNK TYPE '   ,IEXLNK(4,I),0.0_8)
-         ENDDO 
-      ENDIF                                                                        
+          ENDDO
+        ENDIF
+C
+        OK_QA = MYQAKEY('/EXT/LINK')
+C
+        IF (OK_QA) THEN
+          DO I = 1, NR2RLNK
+            CALL QAPRINT('EXTLNK ID ',IEXLNK(2,I),0.0_8)
+            CALL QAPRINT('EXTLNK GROUP ID ',IGRNOD(IEXLNK(1,I))%ID,0.0_8)
+            CALL QAPRINT('EXTLNK ID DOM1 ',IEXLNK(2,I),0.0_8)
+            CALL QAPRINT('EXTLNK ID DOM2 ',IEXLNK(3,I),0.0_8)
+            CALL QAPRINT('EXTLNK TYPE '   ,IEXLNK(4,I),0.0_8)
+          ENDDO
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END
 

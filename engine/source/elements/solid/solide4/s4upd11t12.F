@@ -47,36 +47,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JCVT
-      INTEGER NEL
+        INTEGER, INTENT(IN) :: JCVT
+        INTEGER NEL
 C     REAL
-      my_real
-     .   OFFG(*),OFFG0(*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
-      DOUBLE PRECISION 
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ)
+        my_real
+     .     OFFG(*),OFFG0(*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
+        DOUBLE PRECISION
+     .     XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
+     .     YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
+     .     ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NCH,INDEX(MVSIZ),J    
-      my_real
-     .   JAC_I(10,MVSIZ)
-      DOUBLE PRECISION 
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
+        INTEGER I ,NCH,INDEX(MVSIZ),J
+        my_real
+     .     JAC_I(10,MVSIZ)
+        DOUBLE PRECISION
+     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
 C=======================================================================
 C-----Always in global system and fixed then (not like Ismstr=11
 C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
         NCH=0
         DO I=1,NEL
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
-           NCH = NCH +1
-           INDEX(NCH) = I
-         END IF
-	END DO
-	IF (NCH==0) RETURN
+          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
+            NCH = NCH +1
+            INDEX(NCH) = I
+          END IF
+        END DO
+        IF (NCH==0) RETURN
         DO J=1,NCH
           I= INDEX(J)
           X1(J)=XD1(I)
@@ -92,18 +92,18 @@ C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
           Z3(J)=ZD3(I)
           Z4(J)=ZD4(I)
         END DO
-C	
-       CALL S4JAC_I(
-     .              X1   ,X2   ,X3   ,X4   ,
-     .              Y1   ,Y2   ,Y3   ,Y4   ,
-     .              Z1   ,Z2   ,Z3   ,Z4   ,
-     .              JAC_I ,NCH  )
+C
+        CALL S4JAC_I(
+     .               X1   ,X2   ,X3   ,X4   ,
+     .               Y1   ,Y2   ,Y3   ,Y4   ,
+     .               Z1   ,Z2   ,Z3   ,Z4   ,
+     .               JAC_I ,NCH  )
 #include "vectorize.inc"
         DO J=1,NCH
           I = INDEX(J)
           JAC_1(1:10,I) = JAC_I(1:10,J)
           SIGL(I,1:6) = SIG(I,1:6)
-        ENDDO      
+        ENDDO
 C-----------
-      RETURN
+        RETURN
       END

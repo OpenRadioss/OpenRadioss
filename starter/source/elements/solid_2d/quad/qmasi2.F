@@ -23,18 +23,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  QMASI2                        source/elements/solid_2d/quad/qmasi2.F
 Chd|-- called by -----------
-Chd|        BINIT2                        source/ale/bimat/binit2.F     
+Chd|        BINIT2                        source/ale/bimat/binit2.F
 Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2.F
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
-      SUBROUTINE QMASI2(PM,MAT,MS,VOL,MSQ,WMA,IPART,PARTSAV, 
+      SUBROUTINE QMASI2(PM,MAT,MS,VOL,MSQ,WMA,IPART,PARTSAV,
      .     IX1, IX2, IX3, IX4 ,X ,V)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALE_MOD
+        USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,10 +46,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   PM(NPROPM,*), MS(*), VOL(*),WMA(*), MSQ(*), PARTSAV(20, *),
-     .   X(3,*),V(3,*)
-      INTEGER MAT(*),IPART(*), IX1(*), IX2(*), IX3(*), IX4(*)
+        my_real
+     .     PM(NPROPM,*), MS(*), VOL(*),WMA(*), MSQ(*), PARTSAV(20, *),
+     .     X(3,*),V(3,*)
+        INTEGER MAT(*),IPART(*), IX1(*), IX2(*), IX3(*), IX4(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -58,30 +58,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP ,I1 ,I2 ,I3 ,I4
-      my_real
-     .   YY ,ZZ ,YZ ,
-     .   MASS(MVSIZ)
+        INTEGER I,IP ,I1 ,I2 ,I3 ,I4
+        my_real
+     .     YY ,ZZ ,YZ ,
+     .     MASS(MVSIZ)
 C-----------------------------------------------------------------------
-      DO I=LFT,LLT
-        MASS(I)=PM(89,MAT(I))*VOL(I)*FOURTH
-      ENDDO
+        DO I=LFT,LLT
+          MASS(I)=PM(89,MAT(I))*VOL(I)*FOURTH
+        ENDDO
 
 C calcul mass initiale en arithmetique // pour le spmd
         DO I=LFT,LLT
           MSQ(I)=MASS(I)
         ENDDO
-	
-      IF(JALE > 0 .AND. ALE%GRID%NWALE == 4)THEN
-        DO I=LFT,LLT
-          WMA(IX1(I))=WMA(IX1(I))+ONE
-          WMA(IX2(I))=WMA(IX2(I))+ONE
-          WMA(IX3(I))=WMA(IX3(I))+ONE
-          WMA(IX4(I))=WMA(IX4(I))+ONE
-        ENDDO
-      ENDIF
 
-      DO I=LFT,LLT
+        IF(JALE > 0 .AND. ALE%GRID%NWALE == 4)THEN
+          DO I=LFT,LLT
+            WMA(IX1(I))=WMA(IX1(I))+ONE
+            WMA(IX2(I))=WMA(IX2(I))+ONE
+            WMA(IX3(I))=WMA(IX3(I))+ONE
+            WMA(IX4(I))=WMA(IX4(I))+ONE
+          ENDDO
+        ENDIF
+
+        DO I=LFT,LLT
           IP = IPART(I)
           PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*MASS(I)
 C
@@ -111,8 +111,8 @@ C
      .     +V(2,I3)*V(2,I3)+V(3,I3)*V(3,I3)
      .     +V(2,I4)*V(2,I4)+V(3,I4)*V(3,I4))
 C
-      ENDDO
+        ENDDO
 
-      RETURN
-      
+        RETURN
+
       END

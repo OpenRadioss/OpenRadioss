@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|====================================================================
       SUBROUTINE EBCVIT4(V, A, LISTE, NOD, FV, RESO, LA, EBCS)
-      USE EBCS_MOD
+        USE EBCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,77 +40,77 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LISTE(*),NOD
-      my_real
-     .       V(3,*),A(3,*),LA(3,NOD),RESO(3,NOD),FV(*)
-      TYPE(t_ebcs_vel), INTENT(IN) :: EBCS
+        INTEGER LISTE(*),NOD
+        my_real
+     .         V(3,*),A(3,*),LA(3,NOD),RESO(3,NOD),FV(*)
+        TYPE(t_ebcs_vel), INTENT(IN) :: EBCS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,IVX,IVY,IVZ
-      my_real
-     .     C,LCAR,ALP,ALPDT,AX,AY,AZ,VIMP,VX,VY,VZ
+        INTEGER I,N,IVX,IVY,IVZ
+        my_real
+     .       C,LCAR,ALP,ALPDT,AX,AY,AZ,VIMP,VX,VY,VZ
 C
-      IVX = EBCS%ivx
-      IVY = EBCS%ivy
-      IVZ = EBCS%ivz
-      IF(IVX>0)THEN
-        VX=EBCS%vx*FV(IVX)
-      ELSE
-        VX=EBCS%vx
-      ENDIF
-      IF(IVY>0)THEN
-        VY=EBCS%vy*FV(IVY)
-      ELSE
-        VY=EBCS%vy
-      ENDIF
-      IF(IVZ>0)THEN
-        VZ=EBCS%vz*FV(IVZ)
-      ELSE
-        VZ=EBCS%vz
-      ENDIF
-      C=EBCS%c
-      LCAR=EBCS%lcar
-      ALP=ZERO
-      IF(LCAR>ZERO)ALP=C/LCAR
-      ALPDT=ALP*DT1
+        IVX = EBCS%ivx
+        IVY = EBCS%ivy
+        IVZ = EBCS%ivz
+        IF(IVX>0)THEN
+          VX=EBCS%vx*FV(IVX)
+        ELSE
+          VX=EBCS%vx
+        ENDIF
+        IF(IVY>0)THEN
+          VY=EBCS%vy*FV(IVY)
+        ELSE
+          VY=EBCS%vy
+        ENDIF
+        IF(IVZ>0)THEN
+          VZ=EBCS%vz*FV(IVZ)
+        ELSE
+          VZ=EBCS%vz
+        ENDIF
+        C=EBCS%c
+        LCAR=EBCS%lcar
+        ALP=ZERO
+        IF(LCAR>ZERO)ALP=C/LCAR
+        ALPDT=ALP*DT1
 C
-      IF(TT==ZERO)THEN
-     	  DO I=1,NOD
-	    N=LISTE(I)
-	    RESO(1,I)=A(1,N)
-	    RESO(2,I)=A(2,N)
-	    RESO(3,I)=A(3,N)
-     	  ENDDO
-      ENDIF
+        IF(TT==ZERO)THEN
+          DO I=1,NOD
+            N=LISTE(I)
+            RESO(1,I)=A(1,N)
+            RESO(2,I)=A(2,N)
+            RESO(3,I)=A(3,N)
+          ENDDO
+        ENDIF
 C
 c      write(6,*)'ebcvit4',VX,VY,VZ
-      IF(ALP>ZERO)THEN
-        DO I=1,NOD
-          N=LISTE(I)
+        IF(ALP>ZERO)THEN
+          DO I=1,NOD
+            N=LISTE(I)
 c          write(6,*)'ebcvit5 N',N,' RESO',RESO(3,I),'A',A(3,N)
-          AX=RESO(1,I)+ALPDT*(A(1,N)-RESO(1,I))
-          AY=RESO(2,I)+ALPDT*(A(2,N)-RESO(2,I))
-          AZ=RESO(3,I)+ALPDT*(A(3,N)-RESO(3,I))
+            AX=RESO(1,I)+ALPDT*(A(1,N)-RESO(1,I))
+            AY=RESO(2,I)+ALPDT*(A(2,N)-RESO(2,I))
+            AZ=RESO(3,I)+ALPDT*(A(3,N)-RESO(3,I))
 C memorisation de la reaction
-          RESO(1,I)=AX
-          RESO(2,I)=AY
-          RESO(3,I)=AZ
+            RESO(1,I)=AX
+            RESO(2,I)=AY
+            RESO(3,I)=AZ
 C
-          A(1,N)=A(1,N)-AX+ALP*(VX-V(1,N))
-          A(2,N)=A(2,N)-AY+ALP*(VY-V(2,N))
-          A(3,N)=A(3,N)-AZ+ALP*(VZ-V(3,N))
-        ENDDO
-      ELSE
-        DO I=1,NOD
-          N=LISTE(I)
-          A(1,N)=ZERO
-          A(2,N)=ZERO
-          A(3,N)=ZERO
-          V(1,N)=VX
-          V(2,N)=VY
-          V(3,N)=VZ
-        ENDDO      
-      ENDIF
-      RETURN
-      END       
+            A(1,N)=A(1,N)-AX+ALP*(VX-V(1,N))
+            A(2,N)=A(2,N)-AY+ALP*(VY-V(2,N))
+            A(3,N)=A(3,N)-AZ+ALP*(VZ-V(3,N))
+          ENDDO
+        ELSE
+          DO I=1,NOD
+            N=LISTE(I)
+            A(1,N)=ZERO
+            A(2,N)=ZERO
+            A(3,N)=ZERO
+            V(1,N)=VX
+            V(2,N)=VY
+            V(3,N)=VZ
+          ENDDO
+        ENDIF
+        RETURN
+      END

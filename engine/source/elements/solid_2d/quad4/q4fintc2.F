@@ -48,16 +48,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JHBE
-      INTEGER ICP,NEL
+        INTEGER, INTENT(IN) :: JHBE
+        INTEGER ICP,NEL
 C     REAL
-      my_real
-     .    PYC1(*),PYC2(*),PZC1(*),PZC2(*),AY(*),FAY(*),
-     .    FY1(*),FZ1(*),FY2(*),FZ2(*),
-     .    FY3(*),FZ3(*),FY4(*),FZ4(*),
-     .    AIRE(*),VOLU(*),SIGM(NEL,6),PP(*)
+        my_real
+     .      PYC1(*),PYC2(*),PZC1(*),PZC2(*),AY(*),FAY(*),
+     .      FY1(*),FZ1(*),FY2(*),FZ2(*),
+     .      FY3(*),FZ3(*),FY4(*),FZ4(*),
+     .      AIRE(*),VOLU(*),SIGM(NEL,6),PP(*)
 C-----------------------------------------------
-C FUNCTION: 
+C FUNCTION:
 C ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 C TYPE NAME                FUNCTION
 C  I   PYC1(*)~PZC2(*)    - SHAPE DERIVATIVES AT ELEMENT CENTER
@@ -70,59 +70,59 @@ C  I   ICP                - FLAG FOR CONSTANT PRESURE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C     REAL
-      my_real
-     .   SV,SY,SZ,FAC(MVSIZ)
+        my_real
+     .     SV,SY,SZ,FAC(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(N2D==1 .AND. JHBE==17) THEN
-        DO I=1,NEL
-          FAC(I) = AIRE(I)
-        ENDDO
-      ELSE
-        DO I=1,NEL
-          FAC(I) = VOLU(I)
-        ENDDO
-      ENDIF
+        IF(N2D==1 .AND. JHBE==17) THEN
+          DO I=1,NEL
+            FAC(I) = AIRE(I)
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            FAC(I) = VOLU(I)
+          ENDDO
+        ENDIF
 C
 C     FOR CONSTANT SHEAR STRAIN
-      DO I=1,NEL
-        SV = SIGM(I,4)*FAC(I)
-        SY = SV*PZC1(I)
-        SZ = SV*PYC1(I)
-        FY1(I) = FY1(I) - SY
-        FZ1(I) = FZ1(I) - SZ
-        FY3(I) = FY3(I) + SY
-        FZ3(I) = FZ3(I) + SZ
-        SY = SV*PZC2(I)
-        SZ = SV*PYC2(I)
-        FY2(I) = FY2(I) - SY
-        FZ2(I) = FZ2(I) - SZ
-        FY4(I) = FY4(I) + SY
-        FZ4(I) = FZ4(I) + SZ
-      ENDDO
-C
-C     FOR CONSTANT PRESSURE CASE
-      IF(ICP==1) THEN
         DO I=1,NEL
-          SV = PP(I)*FAC(I)
-          SY = SV*PYC1(I)
-          SZ = SV*PZC1(I)
+          SV = SIGM(I,4)*FAC(I)
+          SY = SV*PZC1(I)
+          SZ = SV*PYC1(I)
           FY1(I) = FY1(I) - SY
           FZ1(I) = FZ1(I) - SZ
           FY3(I) = FY3(I) + SY
           FZ3(I) = FZ3(I) + SZ
-          SY = SV*PYC2(I)
-          SZ = SV*PZC2(I)
+          SY = SV*PZC2(I)
+          SZ = SV*PYC2(I)
           FY2(I) = FY2(I) - SY
           FZ2(I) = FZ2(I) - SZ
           FY4(I) = FY4(I) + SY
           FZ4(I) = FZ4(I) + SZ
         ENDDO
-      ENDIF
 C
-      RETURN
+C     FOR CONSTANT PRESSURE CASE
+        IF(ICP==1) THEN
+          DO I=1,NEL
+            SV = PP(I)*FAC(I)
+            SY = SV*PYC1(I)
+            SZ = SV*PZC1(I)
+            FY1(I) = FY1(I) - SY
+            FZ1(I) = FZ1(I) - SZ
+            FY3(I) = FY3(I) + SY
+            FZ3(I) = FZ3(I) + SZ
+            SY = SV*PYC2(I)
+            SZ = SV*PZC2(I)
+            FY2(I) = FY2(I) - SY
+            FZ2(I) = FZ2(I) - SZ
+            FY4(I) = FY4(I) + SY
+            FZ4(I) = FZ4(I) + SZ
+          ENDDO
+        ENDIF
+C
+        RETURN
       END
-	  
+

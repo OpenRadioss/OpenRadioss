@@ -23,18 +23,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FIXTEMP                       source/constraints/thermic/fixtemp.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        VINTER                        source/tools/curve/vinter.F   
+Chd|        VINTER                        source/tools/curve/vinter.F
 Chd|        VINTER_SMOOTH                 source/tools/curve/vinter_smooth.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FIXTEMP(IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
      .                   NSENSOR,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------  
-      USE SENSOR_MOD
+C-----------------------------------------------
+        USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,123 +55,123 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
-      INTEGER NPC(*)
-      INTEGER IBFT(NIFT,*)
+        INTEGER ,INTENT(IN) :: NSENSOR
+        INTEGER NPC(*)
+        INTEGER IBFT(NIFT,*)
 C     REAL
-      my_real
-     .   TEMP(*),TF(*), VAL(LFACTHER,*)
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+        my_real
+     .     TEMP(*),TF(*), VAL(LFACTHER,*)
+        TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, J, K, L,ISENS,
-     .        II, IC, NN, IDEB,
-     .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
-     .        INDEX(MVSIZ), ISMOOTH
+        INTEGER N, I, J, K, L,ISENS,
+     .          II, IC, NN, IDEB,
+     .          ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
+     .          INDEX(MVSIZ), ISMOOTH
 C     REAL
-      my_real
-     .   FAC, FACX, STARTT, STOPT, TS,
-     .   YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ)
+        my_real
+     .     FAC, FACX, STARTT, STOPT, TS,
+     .     YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ)
 C-----------------------------------------------
-      IDEB = 0
-      ISMOOTH = 0
+        IDEB = 0
+        ISMOOTH = 0
 C
-      DO NN=1,NFXTEMP,NVSIZ
-        IC = 0
-        IF (NSENSOR > 0) THEN
-          DO II = 1, MIN(NFXTEMP - IDEB,NVSIZ)
-            N = II+IDEB
-            STARTT = VAL(1,N)
-            STOPT  = VAL(2,N)
+        DO NN=1,NFXTEMP,NVSIZ
+          IC = 0
+          IF (NSENSOR > 0) THEN
+            DO II = 1, MIN(NFXTEMP - IDEB,NVSIZ)
+              N = II+IDEB
+              STARTT = VAL(1,N)
+              STOPT  = VAL(2,N)
 C
-            ISENS = IBFT(3,N)
-            IF (ISENS == 0)THEN
-               TS = TT*THEACCFACT - STARTT
-            ELSE 
-               STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
-               STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART
-               TS = TT*THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)      
-            ENDIF       
+              ISENS = IBFT(3,N)
+              IF (ISENS == 0)THEN
+                TS = TT*THEACCFACT - STARTT
+              ELSE
+                STARTT = STARTT + SENSOR_TAB(ISENS)%TSTART
+                STOPT  = STOPT  + SENSOR_TAB(ISENS)%TSTART
+                TS = TT*THEACCFACT -(STARTT + SENSOR_TAB(ISENS)%TSTART)
+              ENDIF
 C
-            IF(TT*THEACCFACT < STARTT) CYCLE
-            IF(TT*THEACCFACT > STOPT)  CYCLE
-            FACX   = VAL(3,N)
-            I=IABS(IBFT(1,N))
-            IC = IC + 1
-            INDEX(IC)= N
-C            TSC(IC) = (TS+DT2)*FACX     
-            TSC(IC) = TS*FACX     
-          ENDDO
-        ELSE
+              IF(TT*THEACCFACT < STARTT) CYCLE
+              IF(TT*THEACCFACT > STOPT)  CYCLE
+              FACX   = VAL(3,N)
+              I=IABS(IBFT(1,N))
+              IC = IC + 1
+              INDEX(IC)= N
+C            TSC(IC) = (TS+DT2)*FACX
+              TSC(IC) = TS*FACX
+            ENDDO
+          ELSE
 C       sans aucun sensor
-          DO II = 1, MIN(NFXTEMP-IDEB,NVSIZ)
-            N = II+IDEB
-            STARTT = VAL(1,N)
-            STOPT  = VAL(2,N)
-            IF (TT*THEACCFACT < STARTT) CYCLE
-            IF (TT*THEACCFACT > STOPT)  CYCLE
-            FACX   = VAL(3,N)
-            I=IABS(IBFT(1,N))
-            IC = IC + 1
-            INDEX(IC) = N     
-            TS = TT*THEACCFACT - STARTT
-            TSC(IC) = TS*FACX          
-          ENDDO
-        ENDIF
+            DO II = 1, MIN(NFXTEMP-IDEB,NVSIZ)
+              N = II+IDEB
+              STARTT = VAL(1,N)
+              STOPT  = VAL(2,N)
+              IF (TT*THEACCFACT < STARTT) CYCLE
+              IF (TT*THEACCFACT > STOPT)  CYCLE
+              FACX   = VAL(3,N)
+              I=IABS(IBFT(1,N))
+              IC = IC + 1
+              INDEX(IC) = N
+              TS = TT*THEACCFACT - STARTT
+              TSC(IC) = TS*FACX
+            ENDDO
+          ENDIF
 C
-        IDEB = IDEB + MIN(NFXTEMP-IDEB,NVSIZ)
+          IDEB = IDEB + MIN(NFXTEMP-IDEB,NVSIZ)
 C
 
-        IF(NCYCLE == 0)THEN
-         DO II=1,IC
-          N = INDEX(II)
-          L = IBFT(2,N)
-          IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-          IPOSC(II) = 0
-          IADC(II)  = NPC(L) / 2 + 1
-          ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
-         ENDDO
-        ELSE
-         DO II=1,IC
-          N = INDEX(II)
-          L = IBFT(2,N)
-          IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-          IPOSC(II) = IBFT(4,N)
-          IADC(II)  = NPC(L) / 2 + 1
-          ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
-         ENDDO
-        ENDIF
+          IF(NCYCLE == 0)THEN
+            DO II=1,IC
+              N = INDEX(II)
+              L = IBFT(2,N)
+              IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
+              IPOSC(II) = 0
+              IADC(II)  = NPC(L) / 2 + 1
+              ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
+            ENDDO
+          ELSE
+            DO II=1,IC
+              N = INDEX(II)
+              L = IBFT(2,N)
+              IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
+              IPOSC(II) = IBFT(4,N)
+              IADC(II)  = NPC(L) / 2 + 1
+              ILENC(II) = NPC(L+1) / 2 - IADC(II) - IPOSC(II)
+            ENDDO
+          ENDIF
 !!        CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        IF (ISMOOTH == 0) THEN
-          CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        ELSE
-          CALL VINTER_SMOOTH(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        ENDIF ! IF (ISMOOTH == 0)
-C		
-        IF(IVECTOR == 0) THEN
-         DO II=1,IC
-          N = INDEX(II) 
-          IBFT(4,N) = IPOSC(II)
-          FAC  = VAL(4,N)
-          YC(II) = YC(II) * FAC
-          I=IABS(IBFT(1,N))
-          TEMP(I) = YC(II)
-         ENDDO 
-        ELSE
-C       partie vectorielle                  
+          IF (ISMOOTH == 0) THEN
+            CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
+          ELSE
+            CALL VINTER_SMOOTH(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
+          ENDIF ! IF (ISMOOTH == 0)
+C
+          IF(IVECTOR == 0) THEN
+            DO II=1,IC
+              N = INDEX(II)
+              IBFT(4,N) = IPOSC(II)
+              FAC  = VAL(4,N)
+              YC(II) = YC(II) * FAC
+              I=IABS(IBFT(1,N))
+              TEMP(I) = YC(II)
+            ENDDO
+          ELSE
+C       partie vectorielle
 #include "vectorize.inc"
-          DO II=1,IC
-           N = INDEX(II)
-           IBFT(4,N) = IPOSC(II)
-           FAC  = VAL(4,N)
-           YC(II) = YC(II) * FAC
-           I=IABS(IBFT(1,N))
-           TEMP(I) = YC(II) 
-          ENDDO
-        ENDIF
+            DO II=1,IC
+              N = INDEX(II)
+              IBFT(4,N) = IPOSC(II)
+              FAC  = VAL(4,N)
+              YC(II) = YC(II) * FAC
+              I=IABS(IBFT(1,N))
+              TEMP(I) = YC(II)
+            ENDDO
+          ENDIF
 C
-      ENDDO !NN=1,NFXTEMP
+        ENDDO !NN=1,NFXTEMP
 C
-      RETURN
+        RETURN
       END

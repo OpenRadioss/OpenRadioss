@@ -30,8 +30,8 @@ Chd|====================================================================
       SUBROUTINE C_ISLIN_STR(IGRSLIN ,PROC, LENISLIN_L)
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
-      USE GROUPDEF_MOD
+C-----------------------------------------------
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,28 +43,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER PROC,LENISLIN_L
+        INTEGER PROC,LENISLIN_L
 !
-      TYPE (SURF_) , DIMENSION(NSLIN) :: IGRSLIN
+        TYPE (SURF_) , DIMENSION(NSLIN) :: IGRSLIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU,I,J,K,NSEG,ELTYP,ELEM,
-     .        L_SLIN,ID,TYPE,LEVEL,TH_SURF,NSEG_R2R_ALL,
-     .        NSEG_R2R_SHARE,P
+        INTEGER ISU,I,J,K,NSEG,ELTYP,ELEM,
+     .          L_SLIN,ID,TYPE,LEVEL,TH_SURF,NSEG_R2R_ALL,
+     .          NSEG_R2R_SHARE,P
 C-----------------------------------------------
 !
 ! COUNT LOCAL SEGMENTS "NSEG_L"
 !
-      L_SLIN = 0
+        L_SLIN = 0
 !
-      DO ISU=1,NSLIN
-        ID          = IGRSLIN(ISU)%ID
-        NSEG        = IGRSLIN(ISU)%NSEG
-        TYPE        = IGRSLIN(ISU)%TYPE
-        LEVEL       = IGRSLIN(ISU)%LEVEL
-        NSEG_R2R_ALL   = IGRSLIN(ISU)%NSEG_R2R_ALL
-        NSEG_R2R_SHARE = IGRSLIN(ISU)%NSEG_R2R_SHARE
+        DO ISU=1,NSLIN
+          ID          = IGRSLIN(ISU)%ID
+          NSEG        = IGRSLIN(ISU)%NSEG
+          TYPE        = IGRSLIN(ISU)%TYPE
+          LEVEL       = IGRSLIN(ISU)%LEVEL
+          NSEG_R2R_ALL   = IGRSLIN(ISU)%NSEG_R2R_ALL
+          NSEG_R2R_SHARE = IGRSLIN(ISU)%NSEG_R2R_SHARE
 !
 ! surf storage
 !
@@ -83,27 +83,27 @@ C-----------------------------------------------
 !
 ! LINE ENTITIES (NODES, ELTYP, ELEM)
 !
-        DO J=1,NSEG
-          P = IGRSLIN(ISU)%PROC(J)
-          IF (P == PROC +1) THEN
-            DO K=1,2
+          DO J=1,NSEG
+            P = IGRSLIN(ISU)%PROC(J)
+            IF (P == PROC +1) THEN
+              DO K=1,2
 !              NOD = IGRSLIN(ISU)%NODES(J,K)
 !              IF(NOD > 0)THEN;IGRSLIN_L(L_SLIN+1) = NODLOCAL(NOD)
-!	      ELSE;           IGRSLIN_L(L_SLIN+1) = 0
-!	      ENDIF
-              L_SLIN = L_SLIN+1
-            ENDDO
+!        ELSE;           IGRSLIN_L(L_SLIN+1) = 0
+!        ENDIF
+                L_SLIN = L_SLIN+1
+              ENDDO
 !            IGRSLIN_L(L_SLIN+1) = PROC
-            L_SLIN = L_SLIN+1
+              L_SLIN = L_SLIN+1
 !            IGRSLIN_L(L_SLIN+1) = ELTYP
-            L_SLIN = L_SLIN+1
+              L_SLIN = L_SLIN+1
 !            IGRSLIN_L(L_SLIN+1) = CEL(ELEM)
-            L_SLIN = L_SLIN+1
-          ENDIF ! IF (P == PROC +1)
-        ENDDO ! DO J=1,NSEG
-      ENDDO ! DO ISU=1,NSLIN
+              L_SLIN = L_SLIN+1
+            ENDIF ! IF (P == PROC +1)
+          ENDDO ! DO J=1,NSEG
+        ENDDO ! DO ISU=1,NSLIN
 !---------
-      LENISLIN_L = L_SLIN
+        LENISLIN_L = L_SLIN
 !---------
-      RETURN
+        RETURN
       END

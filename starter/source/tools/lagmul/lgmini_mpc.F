@@ -26,13 +26,13 @@ Chd|-- called by -----------
 Chd|        LAGM_INI                      source/tools/lagmul/lagm_ini.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        FRETITL2                      source/starter/freform.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LGMINI_MPC(IADLL  ,JLL    ,LLL    ,IBUFNC ,IBUFNN ,
      .                      IBUFDL ,IBUFSK ,NC, MASS, INER, ITAB   ,
      .                      NOM_OPT)
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,12 +40,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, IADLL(*), JLL(*), LLL(*), 
-     .        IBUFNC(*),IBUFNN(*),IBUFDL(*),IBUFSK(*),
-     .        ITAB(*)
-      my_real
-     .        MASS(*), INER(*)         
-      INTEGER NOM_OPT(LNOPT1,*)
+        INTEGER NC, IADLL(*), JLL(*), LLL(*),
+     .          IBUFNC(*),IBUFNN(*),IBUFDL(*),IBUFSK(*),
+     .          ITAB(*)
+        my_real
+     .          MASS(*), INER(*)
+        INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -55,88 +55,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IK, KF, NK, ISK, NN, NDL, NUMC
-      my_real COEF
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+        INTEGER I, J, IK, KF, NK, ISK, NN, NDL, NUMC
+        my_real COEF
+        INTEGER ID
+        CHARACTER*nchartitle,
+     .     TITR
 C======================================================================|
-      KF = 0
-      DO I=1,NUMMPC
-        NC = NC + 1
-        IK = IADLL(NC)-1
-        NUMC = IBUFNC(I)
-        NK = 0
-        ID=NOM_OPT(1,I)
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-        IF(NC>LAG_NCF)THEN
-          CALL ANCMSG(MSGID=468,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID,
-     .                C1='MULTI-POINT CONSTRAINTS',
-     .                C2='MULTI-POINT CONSTRAINTS',
-     .                C3=TITR)
-        ENDIF
-        DO J=1,NUMC
-          KF  = KF+1
-          NN  = IBUFNN(KF)
-          NDL = IBUFDL(KF)
-          ISK = IBUFSK(KF)
-C---
-	  IF(MASS(NN)==0.)THEN
-	        CALL ANCMSG(MSGID=535,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  C1='MULTI-POINT CONSTRAINTS',
-     .                  I1=ID,
-     .                  C2='MULTI-POINT CONSTRAINTS',
-     .                  C3=TITR,C4=' ',
-     .                  I2=ITAB(NN))
-	  ENDIF
-          IF(ISK==1)THEN
-            NK = NK+1
-            IK = IK+1
-            LLL(IK) = NN
-            JLL(IK) = NDL
-          ELSE
-            NK = NK+3
-            IF (NDL<=3) THEN
-              IK = IK+1
-              LLL(IK) = NN
-              JLL(IK) = 1
-              IK = IK + 1
-              LLL(IK) = NN
-              JLL(IK) = 2
-              IK = IK + 1
-              LLL(IK) = NN
-              JLL(IK) = 3
-            ELSE
-              IK = IK+1
-              LLL(IK) = NN
-              JLL(IK) = 4
-              IK = IK + 1
-              LLL(IK) = NN
-              JLL(IK) = 5
-              IK = IK + 1
-              LLL(IK) = NN
-              JLL(IK) = 6
-            ENDIF
-          ENDIF
-	      IF(NDL>3.AND.INER(NN)==0.)THEN
-                CALL ANCMSG(MSGID=536,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      C1='MULTI-POINT CONSTRAINTS',
-     .                      I1=ID,
-     .                      C2='MULTI-POINT CONSTRAINTS',
-     .                      C3=TITR,
-     .                      I2=ITAB(NN))
-	      ENDIF
-          IADLL(NC+1)=IADLL(NC) + NK
-          IF(IADLL(NC+1)-1>LAG_NKF)THEN
-            CALL ANCMSG(MSGID=469,
+        KF = 0
+        DO I=1,NUMMPC
+          NC = NC + 1
+          IK = IADLL(NC)-1
+          NUMC = IBUFNC(I)
+          NK = 0
+          ID=NOM_OPT(1,I)
+          CALL FRETITL2(TITR,
+     .         NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+          IF(NC>LAG_NCF)THEN
+            CALL ANCMSG(MSGID=468,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  I1=ID,
@@ -144,9 +79,74 @@ C---
      .                  C2='MULTI-POINT CONSTRAINTS',
      .                  C3=TITR)
           ENDIF
-        ENDDO
-C
-      ENDDO
+          DO J=1,NUMC
+            KF  = KF+1
+            NN  = IBUFNN(KF)
+            NDL = IBUFDL(KF)
+            ISK = IBUFSK(KF)
 C---
-      RETURN
+            IF(MASS(NN)==0.)THEN
+              CALL ANCMSG(MSGID=535,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  C1='MULTI-POINT CONSTRAINTS',
+     .                  I1=ID,
+     .                  C2='MULTI-POINT CONSTRAINTS',
+     .                  C3=TITR,C4=' ',
+     .                  I2=ITAB(NN))
+            ENDIF
+            IF(ISK==1)THEN
+              NK = NK+1
+              IK = IK+1
+              LLL(IK) = NN
+              JLL(IK) = NDL
+            ELSE
+              NK = NK+3
+              IF (NDL<=3) THEN
+                IK = IK+1
+                LLL(IK) = NN
+                JLL(IK) = 1
+                IK = IK + 1
+                LLL(IK) = NN
+                JLL(IK) = 2
+                IK = IK + 1
+                LLL(IK) = NN
+                JLL(IK) = 3
+              ELSE
+                IK = IK+1
+                LLL(IK) = NN
+                JLL(IK) = 4
+                IK = IK + 1
+                LLL(IK) = NN
+                JLL(IK) = 5
+                IK = IK + 1
+                LLL(IK) = NN
+                JLL(IK) = 6
+              ENDIF
+            ENDIF
+            IF(NDL>3.AND.INER(NN)==0.)THEN
+              CALL ANCMSG(MSGID=536,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    C1='MULTI-POINT CONSTRAINTS',
+     .                    I1=ID,
+     .                    C2='MULTI-POINT CONSTRAINTS',
+     .                    C3=TITR,
+     .                    I2=ITAB(NN))
+            ENDIF
+            IADLL(NC+1)=IADLL(NC) + NK
+            IF(IADLL(NC+1)-1>LAG_NKF)THEN
+              CALL ANCMSG(MSGID=469,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID,
+     .                    C1='MULTI-POINT CONSTRAINTS',
+     .                    C2='MULTI-POINT CONSTRAINTS',
+     .                    C3=TITR)
+            ENDIF
+          ENDDO
+C
+        ENDDO
+C---
+        RETURN
       END

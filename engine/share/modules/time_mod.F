@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TIME_MOD                      share/modules/time_mod.F      
+Chd|  TIME_MOD                      share/modules/time_mod.F
 Chd|-- called by -----------
-Chd|        ADD_ELAPSED_TIME_MON_OFF      source/system/timer.F         
-Chd|        PRINTIME                      source/system/timer.F         
-Chd|        PRINT_RUNTIME                 source/system/timer.F         
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        ADD_ELAPSED_TIME_MON_OFF      source/system/timer.F
+Chd|        PRINTIME                      source/system/timer.F
+Chd|        PRINT_RUNTIME                 source/system/timer.F
+Chd|        RADIOSS2                      source/engine/radioss2.F
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE TIME_MOD
@@ -38,20 +38,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-      TYPE TIME_TYPE
+        TYPE TIME_TYPE
 !--------------------------------------------------------------------
-!	RST_NAME --> name of the restart
+!  RST_NAME --> name of the restart
 !       RUN_NBR --> number of engine run
 !       STARTER_TIME --> elapsed time of the starter
 !       ENGINE_TIME --> elapsed time of the engine
 !--------------------------------------------------------------------
-	CHARACTER(len=1000) :: RST_NAME
-        INTEGER :: RUN_NBR
-        REAL(kind=8) :: STARTER_TIME
-        REAL(kind=8), DIMENSION(:), ALLOCATABLE :: ENGINE_TIME
-           
-      END TYPE TIME_TYPE
+          CHARACTER(len=1000) :: RST_NAME
+          INTEGER :: RUN_NBR
+          REAL(kind=8) :: STARTER_TIME
+          REAL(kind=8), DIMENSION(:), ALLOCATABLE :: ENGINE_TIME
 
-      TYPE(TIME_TYPE) :: GLOBAL_COMP_TIME
+        END TYPE TIME_TYPE
+
+        TYPE(TIME_TYPE) :: GLOBAL_COMP_TIME
 C
       END MODULE TIME_MOD

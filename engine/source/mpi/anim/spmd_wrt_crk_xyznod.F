@@ -26,11 +26,11 @@ Chd|-- called by -----------
 Chd|        XYZNOD_CRK                    source/output/anim/generate/xyznod_crk.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
+Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
-       SUBROUTINE SPMD_WRT_CRK_XYZNOD(ICRK,NUM,NODGLOBXFE)
+      SUBROUTINE SPMD_WRT_CRK_XYZNOD(ICRK,NUM,NODGLOBXFE)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+        USE CRACKXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,50 +47,50 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER ICRK,NUM,NODGLOBXFE(*)
+        INTEGER ICRK,NUM,NODGLOBXFE(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,EMPL
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,MSGTYP2,SIZ0,STEP
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,EMPL
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,MSGTYP2,SIZ0,STEP
 C
-      REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  IBUF
+        REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
+        INTEGER, DIMENSION(:), ALLOCATABLE ::  IBUF
 C-----------------------------------------------
-      DATA MSGOFF/7064/
-      DATA MSGOFF2/7065/
+        DATA MSGOFF/7064/
+        DATA MSGOFF2/7065/
 C-----------------------------------------------
-       ALLOCATE(BUFSR(3,NCRKNODG))
-       ALLOCATE(IBUF(NCRKNODG))
-       ALLOCATE(XGLOB(3,NUM))
+        ALLOCATE(BUFSR(3,NCRKNODG))
+        ALLOCATE(IBUF(NCRKNODG))
+        ALLOCATE(XGLOB(3,NUM))
 C-----------------------------------------------
 
-       IF (ISPMD/=0) THEN
-         SIZ = 0
-         STEP = 0
-         DO I=1,CRKNOD(ICRK)%CRKNUMNODS
-           STEP = CRKNOD(ICRK)%CRKNUMNODS*(ICRK-1)
-           SIZ = SIZ + 1
-           IBUF(SIZ) = NODGLOBXFE(I+STEP)
-           BUFSR(1,SIZ) = CRKAVX(ICRK)%XX(1,I)
-           BUFSR(2,SIZ) = CRKAVX(ICRK)%XX(2,I)
-           BUFSR(3,SIZ) = CRKAVX(ICRK)%XX(3,I)
-         END DO
+        IF (ISPMD/=0) THEN
+          SIZ = 0
+          STEP = 0
+          DO I=1,CRKNOD(ICRK)%CRKNUMNODS
+            STEP = CRKNOD(ICRK)%CRKNUMNODS*(ICRK-1)
+            SIZ = SIZ + 1
+            IBUF(SIZ) = NODGLOBXFE(I+STEP)
+            BUFSR(1,SIZ) = CRKAVX(ICRK)%XX(1,I)
+            BUFSR(2,SIZ) = CRKAVX(ICRK)%XX(2,I)
+            BUFSR(3,SIZ) = CRKAVX(ICRK)%XX(3,I)
+          END DO
 C
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 C
-         MSGTYP = MSGOFF2 
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .                 MPI_COMM_WORLD,ierror)
-C  
-         MSGTYP = MSGOFF
-         CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
-     .                 MPI_COMM_WORLD,ierror)
-       ELSE
-           STEP = 0
+          MSGTYP = MSGOFF2
+          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .                  MPI_COMM_WORLD,ierror)
+C
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
+     .                  MPI_COMM_WORLD,ierror)
+        ELSE
+          STEP = 0
 C
 C proc 0
 C
@@ -111,7 +111,7 @@ C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF2
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                     MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
 c
@@ -122,7 +122,7 @@ c
             CALL MPI_RECV(BUFSR,SIZ*3,MPI_REAL4,IT_SPMD(I),MSGTYP2,
      .                    MPI_COMM_WORLD,STATUS,ierror)
 c
-            NREC = SIZ 
+            NREC = SIZ
 c
             DO K = 1, NREC
               NG = IBUF(K)
@@ -142,20 +142,20 @@ cc           CALL WRITE_R_C(XGLOB(2,I),1)
 cc           CALL WRITE_R_C(XGLOB(3,I),1)
 cc         END DO
 C
-        DO I=1,NCRKNODG
-          K=I+NCRKNODG*(ICRK-1)
-          CALL WRITE_R_C(XGLOB(1,K),1)
-          CALL WRITE_R_C(XGLOB(2,K),1)
-          CALL WRITE_R_C(XGLOB(3,K),1)
-        ENDDO
+          DO I=1,NCRKNODG
+            K=I+NCRKNODG*(ICRK-1)
+            CALL WRITE_R_C(XGLOB(1,K),1)
+            CALL WRITE_R_C(XGLOB(2,K),1)
+            CALL WRITE_R_C(XGLOB(3,K),1)
+          ENDDO
 C
         END IF
 C---
 C-----------------------------------------------
-       DEALLOCATE(BUFSR)
-       DEALLOCATE(IBUF)
-       DEALLOCATE(XGLOB)
+        DEALLOCATE(BUFSR)
+        DEALLOCATE(IBUF)
+        DEALLOCATE(XGLOB)
 C-----------------------------------------------
 #endif
-       RETURN
-       END
+        RETURN
+      END

@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  WEIGHT0                       source/elements/sph/weight.F  
+Chd|  WEIGHT0                       source/elements/sph/weight.F
 Chd|-- called by -----------
-Chd|        SPCOMPL                       source/elements/sph/spcompl.F 
-Chd|        SPGAUGE                       source/elements/sph/spgauge.F 
-Chd|        SPLISSV                       source/elements/sph/splissv.F 
+Chd|        SPCOMPL                       source/elements/sph/spcompl.F
+Chd|        SPGAUGE                       source/elements/sph/spgauge.F
+Chd|        SPLISSV                       source/elements/sph/splissv.F
 Chd|        SPMD_SPHGETD                  source/mpi/elements/spmd_sph.F
-Chd|        SPONFV                        source/elements/sph/sponfv.F  
-Chd|        SPSTABW                       source/elements/sph/spstab.F  
+Chd|        SPONFV                        source/elements/sph/sponfv.F
+Chd|        SPSTABW                       source/elements/sph/spstab.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,H,W)
@@ -40,41 +40,41 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      my_real
-     .   XI,YI,ZI,XJ,YJ,ZJ,H,W
+        my_real
+     .     XI,YI,ZI,XJ,YJ,ZJ,H,W
 C----------------------------------------------------------
-      my_real
-     .   R,RH,RH2,RH3,RHM,RHM3
+        my_real
+     .     R,RH,RH2,RH3,RHM,RHM3
 C=======================================================================
-      IF (H==ZERO) STOP
+        IF (H==ZERO) STOP
 C-----
-      R =SQRT((XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ))
+        R =SQRT((XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ))
 C-----
-      IF (R<=H) THEN
-        RH  =R/H
-        RH2 =RH*RH
-        RH3 =RH2*RH
-        W   =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*INVPI/(H*H*H)
-      ELSEIF (R<=TWO*H) THEN
-        RHM =TWO-R/H
-        RHM =RHM/H
-        RHM3=RHM*RHM*RHM
-        W   =FOURTH*RHM3*INVPI
-      ELSE
-        W   =ZERO
-      ENDIF
-      RETURN
+        IF (R<=H) THEN
+          RH  =R/H
+          RH2 =RH*RH
+          RH3 =RH2*RH
+          W   =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*INVPI/(H*H*H)
+        ELSEIF (R<=TWO*H) THEN
+          RHM =TWO-R/H
+          RHM =RHM/H
+          RHM3=RHM*RHM*RHM
+          W   =FOURTH*RHM3*INVPI
+        ELSE
+          W   =ZERO
+        ENDIF
+        RETURN
       END
 Chd|====================================================================
-Chd|  WEIGHT1                       source/elements/sph/weight.F  
+Chd|  WEIGHT1                       source/elements/sph/weight.F
 Chd|-- called by -----------
-Chd|        SPCOMPL                       source/elements/sph/spcompl.F 
-Chd|        SPDENS                        source/elements/sph/spdens.F  
-Chd|        SPFORCP                       source/elements/sph/spforcp.F 
-Chd|        SPGRADT                       source/elements/sph/sptemp.F  
-Chd|        SPLAPLT                       source/elements/sph/sptemp.F  
+Chd|        SPCOMPL                       source/elements/sph/spcompl.F
+Chd|        SPDENS                        source/elements/sph/spdens.F
+Chd|        SPFORCP                       source/elements/sph/spforcp.F
+Chd|        SPGRADT                       source/elements/sph/sptemp.F
+Chd|        SPLAPLT                       source/elements/sph/sptemp.F
 Chd|        SPMD_SPHGETD                  source/mpi/elements/spmd_sph.F
-Chd|        SPONFV                        source/elements/sph/sponfv.F  
+Chd|        SPONFV                        source/elements/sph/sponfv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WEIGHT1(XI,YI,ZI,XJ,YJ,ZJ,H,W,WGRAD)
@@ -86,37 +86,37 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      my_real
-     .   XI,YI,ZI,XJ,YJ,ZJ,H,W,WGRAD(3)
+        my_real
+     .     XI,YI,ZI,XJ,YJ,ZJ,H,W,WGRAD(3)
 C----------------------------------------------------------
-      my_real
-     .   R,RH,RH2,RH3,IH3,RHM,RHM2,RHM3,WPRIMR
+        my_real
+     .     R,RH,RH2,RH3,IH3,RHM,RHM2,RHM3,WPRIMR
 C=======================================================================
-      IF (H==ZERO) STOP
+        IF (H==ZERO) STOP
 C-----
-      R =SQRT((XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ))
+        R =SQRT((XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ))
 C-----
-      IF (R<=H) THEN
-        RH  =R/H
-        RH2 =RH*RH
-        RH3 =RH2*RH
-        IH3 =INVPI/(H*H*H)
-        W      =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*IH3
-        WPRIMR =(-THREE+TWOP25*RH)*IH3/(H*H)
-      ELSEIF (R<=TWO*H) THEN
-        RHM =TWO - R/H
-        RHM =RHM/H
-        RHM2=RHM*RHM*INVPI
-        RHM3=RHM2*RHM
-        W      = FOURTH*RHM3
-        WPRIMR =-THREE_OVER_4*RHM2/(H*H*R)
-      ELSE
-        W      =ZERO
-        WPRIMR =ZERO	
-      ENDIF
-      WGRAD(1)=WPRIMR*(XI-XJ)
-      WGRAD(2)=WPRIMR*(YI-YJ)
-      WGRAD(3)=WPRIMR*(ZI-ZJ)
-      RETURN
+        IF (R<=H) THEN
+          RH  =R/H
+          RH2 =RH*RH
+          RH3 =RH2*RH
+          IH3 =INVPI/(H*H*H)
+          W      =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*IH3
+          WPRIMR =(-THREE+TWOP25*RH)*IH3/(H*H)
+        ELSEIF (R<=TWO*H) THEN
+          RHM =TWO - R/H
+          RHM =RHM/H
+          RHM2=RHM*RHM*INVPI
+          RHM3=RHM2*RHM
+          W      = FOURTH*RHM3
+          WPRIMR =-THREE_OVER_4*RHM2/(H*H*R)
+        ELSE
+          W      =ZERO
+          WPRIMR =ZERO
+        ENDIF
+        WGRAD(1)=WPRIMR*(XI-XJ)
+        WGRAD(2)=WPRIMR*(YI-YJ)
+        WGRAD(3)=WPRIMR*(ZI-ZJ)
+        RETURN
       END
 

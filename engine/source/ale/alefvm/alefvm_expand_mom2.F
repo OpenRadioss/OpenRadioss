@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_EXPAND_MOM2 (
-     1                               X  , V   ,   IXS, NV46, 
+     1                               X  , V   ,   IXS, NV46,
      2                               MOM, VEUL, ITASK, NALE ,  NEL )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -42,7 +42,7 @@ C This subroutine is treating an uncut cell.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALEFVM_MOD
+        USE ALEFVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,68 +59,68 @@ C-----------------------------------------------
 #include      "comlock.inc"
 C-----------------------------------------------
 C   D e s c r i p t i o n
-C----------------------------------------------- 
-C This subroutines expand cell momentum to 
+C-----------------------------------------------
+C This subroutines expand cell momentum to
 C nodes for post-treatment purpose only
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*), NV46, ITASK,NALE(*),NEL
-      my_real :: MOM(NEL,3), X(3,*), V(3,*), VEUL(LVEUL,*)
+        INTEGER :: IXS(NIXS,*), NV46, ITASK,NALE(*),NEL
+        my_real :: MOM(NEL,3), X(3,*), V(3,*), VEUL(LVEUL,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IV, J, K, INOD, IBORDER(1:6), NF_BORDER, NF_INTERNAL, ICF(4,6)
-      INTEGER :: IN(8) , NnodALE
-      INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
-      my_real :: Qf(3,6), Qmean(3), dq(3), qn, N(3,6), Norm, dq_add(3)
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .   Qnode(3,8,MVSIZ),Qface(3,6,MVSIZ)
+        INTEGER :: I, II, IV, J, K, INOD, IBORDER(1:6), NF_BORDER, NF_INTERNAL, ICF(4,6)
+        INTEGER :: IN(8) , NnodALE
+        INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
+        my_real :: Qf(3,6), Qmean(3), dq(3), qn, N(3,6), Norm, dq_add(3)
+        my_real
+     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
+     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
+     .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
+     .     Qnode(3,8,MVSIZ),Qface(3,6,MVSIZ)
 
-      DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
+        DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
-C-----------------------------------------------      
-      IF(ALEFVM_Param%IEnabled==0)    RETURN    
 C-----------------------------------------------
-C   S o u r c e   L i n e s 
+        IF(ALEFVM_Param%IEnabled==0)    RETURN
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      !-------------------------------------------------------------!
-      ! EXPANDING CELL VALUE TO FACES AND NODES                     !
-      !   SPECIFIC TREATMENT IS DONE TO HAVE WALL BCS WITH NODES    !
-      !-------------------------------------------------------------!
-      DO I=1,NEL
-        !!---DETECT BORDER FACES---!
-        !IBORDER(1:6) = 0 !0=not a border face. 1:otherwise
-        !DO J=1,NV46
-        !  IV = IVOIS(J,II)
-        !  IF(IV==0)IBORDER(J) = 1
-        !ENDDO
-        !NF_BORDER    = SUM(IBORDER(:))   !number of border faces
-        !NF_INTERNAL  = NV46 - NF_BORDER  !number of internal face
-        !IF(NF_INTERNAL==0)CYCLE
-        II                = I + NFT
-        IN(1)             = IXS(2,II)        
-        IN(2)             = IXS(3,II)        
-        IN(3)             = IXS(4,II)        
-        IN(4)             = IXS(5,II)        
-        IN(5)             = IXS(6,II)        
-        IN(6)             = IXS(7,II)        
-        IN(7)             = IXS(8,II)        
-        IN(8)             = IXS(9,II)
-#include "lockon.inc"         
-        DO K=1,8
-          ALEFVM_Buffer%VERTEX(1,IN(K)) = ALEFVM_Buffer%VERTEX(1,IN(K)) + MOM(I,1)/EIGHT 
-          ALEFVM_Buffer%VERTEX(2,IN(K)) = ALEFVM_Buffer%VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
-          ALEFVM_Buffer%VERTEX(3,IN(K)) = ALEFVM_Buffer%VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		   
-          ALEFVM_Buffer%VERTEX(4,IN(K)) = ALEFVM_Buffer%VERTEX(4,IN(K)) + ONE
-        ENDDO
+        !-------------------------------------------------------------!
+        ! EXPANDING CELL VALUE TO FACES AND NODES                     !
+        !   SPECIFIC TREATMENT IS DONE TO HAVE WALL BCS WITH NODES    !
+        !-------------------------------------------------------------!
+        DO I=1,NEL
+          !!---DETECT BORDER FACES---!
+          !IBORDER(1:6) = 0 !0=not a border face. 1:otherwise
+          !DO J=1,NV46
+          !  IV = IVOIS(J,II)
+          !  IF(IV==0)IBORDER(J) = 1
+          !ENDDO
+          !NF_BORDER    = SUM(IBORDER(:))   !number of border faces
+          !NF_INTERNAL  = NV46 - NF_BORDER  !number of internal face
+          !IF(NF_INTERNAL==0)CYCLE
+          II                = I + NFT
+          IN(1)             = IXS(2,II)
+          IN(2)             = IXS(3,II)
+          IN(3)             = IXS(4,II)
+          IN(4)             = IXS(5,II)
+          IN(5)             = IXS(6,II)
+          IN(6)             = IXS(7,II)
+          IN(7)             = IXS(8,II)
+          IN(8)             = IXS(9,II)
+#include "lockon.inc"
+          DO K=1,8
+            ALEFVM_Buffer%VERTEX(1,IN(K)) = ALEFVM_Buffer%VERTEX(1,IN(K)) + MOM(I,1)/EIGHT
+            ALEFVM_Buffer%VERTEX(2,IN(K)) = ALEFVM_Buffer%VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
+            ALEFVM_Buffer%VERTEX(3,IN(K)) = ALEFVM_Buffer%VERTEX(3,IN(K)) + MOM(I,3)/EIGHT
+            ALEFVM_Buffer%VERTEX(4,IN(K)) = ALEFVM_Buffer%VERTEX(4,IN(K)) + ONE
+          ENDDO
 #include "lockoff.inc"
-      ENDDO        
-        
-      RETURN
+        ENDDO
+
+        RETURN
       END

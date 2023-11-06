@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  RBY_IMPD                      source/constraints/general/rbody/rby_impd.F
 Chd|-- called by -----------
-Chd|        RECUKIN                       source/implicit/recudis.F     
+Chd|        RECUKIN                       source/implicit/recudis.F
 Chd|-- calls ---------------
 Chd|        RBY_IMP2                      source/constraints/general/rbody/rby_impd.F
 Chd|        RBY_IMP5                      source/constraints/general/rbody/rby_impd.F
@@ -47,53 +47,53 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*)
-      INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(*)
+        INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*)
+        INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(*)
 C     REAL
-      my_real
-     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
-     .   IN(*),MS(*),D(3,*), DR(3,*)
+        my_real
+     .     X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
+     .     IN(*),MS(*),D(3,*), DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N,K
+        INTEGER I, N,K
 C-----------------------------------------------
-      IF( IMP_LR > 0 ) THEN
-        DO I=1,NRBYAC
-          N=IRBYAC(I)
-          K=IRBYAC(I+NRBYKIN)+1
-          CALL RBY_IMP7(X   ,RBY(1,N),LPBY(K),
-     1                NPBY(1,N),SKEW,ISKEW,ITAB,WEIGHT,
-     2                MS       ,IN  ,NDOF ,D   ,DR   )
-        END DO
-      ELSE
-       IF (ITRMAX==0) THEN
-        DO I=1,NRBYAC
-         N=IRBYAC(I)
-         K=IRBYAC(I+NRBYKIN)+1
-         CALL RBY_IMP2(X   ,RBY(1,N),LPBY(K),
-     1               NPBY(1,N),SKEW,ISKEW,ITAB,WEIGHT,
-     2               MS       ,IN  ,NDOF ,D   ,DR   )
-        ENDDO
-       ELSE
-        DO I=1,NRBYAC
-         N=IRBYAC(I)
-         K=IRBYAC(I+NRBYKIN)+1
-         CALL RBY_IMP5(X   ,RBY(1,N),LPBY(K),ITRMAX  ,
-     1               NPBY(1,N),SKEW,ISKEW,ITAB,WEIGHT,
-     2               MS       ,IN  ,NDOF ,D   ,DR   )
-        ENDDO
-       END IF
-      END IF
+        IF( IMP_LR > 0 ) THEN
+          DO I=1,NRBYAC
+            N=IRBYAC(I)
+            K=IRBYAC(I+NRBYKIN)+1
+            CALL RBY_IMP7(X   ,RBY(1,N),LPBY(K),
+     1                  NPBY(1,N),SKEW,ISKEW,ITAB,WEIGHT,
+     2                  MS       ,IN  ,NDOF ,D   ,DR   )
+          END DO
+        ELSE
+          IF (ITRMAX==0) THEN
+            DO I=1,NRBYAC
+              N=IRBYAC(I)
+              K=IRBYAC(I+NRBYKIN)+1
+              CALL RBY_IMP2(X   ,RBY(1,N),LPBY(K),
+     1                    NPBY(1,N),SKEW,ISKEW,ITAB,WEIGHT,
+     2                    MS       ,IN  ,NDOF ,D   ,DR   )
+            ENDDO
+          ELSE
+            DO I=1,NRBYAC
+              N=IRBYAC(I)
+              K=IRBYAC(I+NRBYKIN)+1
+              CALL RBY_IMP5(X   ,RBY(1,N),LPBY(K),ITRMAX  ,
+     1                    NPBY(1,N),SKEW,ISKEW,ITAB,WEIGHT,
+     2                    MS       ,IN  ,NDOF ,D   ,DR   )
+            ENDDO
+          END IF
+        END IF
 
-      IF (NUMELR>0) THEN
-       CALL RBY_IMRD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
-     1               NPBY,SKEW,ISKEW,ITAB,WEIGHT,
-     2               MS ,IN   ,NDOF ,D   ,
-     3               DR ,IXR )
-      ENDIF
+        IF (NUMELR>0) THEN
+          CALL RBY_IMRD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
+     1                  NPBY,SKEW,ISKEW,ITAB,WEIGHT,
+     2                  MS ,IN   ,NDOF ,D   ,
+     3                  DR ,IXR )
+        ENDIF
 
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBY_IMP2                      source/constraints/general/rbody/rby_impd.F
@@ -112,11 +112,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
-      INTEGER NDOF(*)
+        INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
+        INTEGER NDOF(*)
 C     REAL
-      my_real
-     .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
+        my_real
+     .     X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -125,37 +125,37 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, NSN,  I, N
+        INTEGER M, NSN,  I, N
 C     REAL
-      my_real
-     .   XS,YS,ZS
+        my_real
+     .     XS,YS,ZS
 C-----------------------------------------------
-      M    =NBY(1)
+        M    =NBY(1)
 C optimisation spmd
-      IF (IMACH==3.AND.M<0) RETURN
-      NSN  =NBY(2)
+        IF (IMACH==3.AND.M<0) RETURN
+        NSN  =NBY(2)
 C       IF (NDOF(M)<6) WRITE(*,*)'WARNING'
-       DO I=1,NSN
-        N = NOD(I)
-        XS=X(1,N)-X(1,M)
-        YS=X(2,N)-X(2,M)
-        ZS=X(3,N)-X(3,M)
-        D(1,N)=D(1,M)+DR(2,M)*ZS-DR(3,M)*YS
-        D(2,N)=D(2,M)-DR(1,M)*ZS+DR(3,M)*XS
-        D(3,N)=D(3,M)+DR(1,M)*YS-DR(2,M)*XS
-        IF (NDOF(N)>3) THEN
-         DR(1,N)= DR(1,M)
-         DR(2,N)= DR(2,M)
-         DR(3,N)= DR(3,M)
-        ENDIF
-       ENDDO
+        DO I=1,NSN
+          N = NOD(I)
+          XS=X(1,N)-X(1,M)
+          YS=X(2,N)-X(2,M)
+          ZS=X(3,N)-X(3,M)
+          D(1,N)=D(1,M)+DR(2,M)*ZS-DR(3,M)*YS
+          D(2,N)=D(2,M)-DR(1,M)*ZS+DR(3,M)*XS
+          D(3,N)=D(3,M)+DR(1,M)*YS-DR(2,M)*XS
+          IF (NDOF(N)>3) THEN
+            DR(1,N)= DR(1,M)
+            DR(2,N)= DR(2,M)
+            DR(3,N)= DR(3,M)
+          ENDIF
+        ENDDO
 C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBY_IMP3                      source/constraints/general/rbody/rby_impd.F
 Chd|-- called by -----------
-Chd|        FR_U2DD                       source/mpi/implicit/imp_fri.F 
+Chd|        FR_U2DD                       source/mpi/implicit/imp_fri.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RBY_IMP3(X   ,M   ,N   ,D   ,DR   ,
@@ -167,17 +167,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER M,N
-      my_real
-     .   X(3,*), D(3,*),DR(3,*), A(3,*), AR(3,*)
+        INTEGER M,N
+        my_real
+     .     X(3,*), D(3,*),DR(3,*), A(3,*), AR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   XS,YS,ZS
+        my_real
+     .     XS,YS,ZS
 C-----------------------------------------------
-      IF (M<0) RETURN
+        IF (M<0) RETURN
         XS=X(1,N)-X(1,M)
         YS=X(2,N)-X(2,M)
         ZS=X(3,N)-X(3,M)
@@ -194,7 +194,7 @@ C-----------------------------------------------
         AR(2,M)=ZERO
         AR(3,M)=ZERO
 C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBY_IMRD                      source/constraints/general/rbody/rby_impd.F
@@ -219,43 +219,43 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*)
-      INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(NIXR,*)
+        INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*)
+        INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(NIXR,*)
 C     REAL
-      my_real
-     .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
-     .   IN(*),MS(*),D(3,*), DR(3,*)
+        my_real
+     .     X(3,*), RBY(NRBY,*), SKEW(LSKEW,*),
+     .     IN(*),MS(*),D(3,*), DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,M, N,NSN,NS,K,ITAG(NUMNOD),N1,N2
+        INTEGER I,J,M, N,NSN,NS,K,ITAG(NUMNOD),N1,N2
 C-----------------------------------------------
-         DO I =1,NUMNOD
+        DO I =1,NUMNOD
           ITAG(I) =0
-         ENDDO
+        ENDDO
 C
         DO I=1,NRBYAC
-         N=IRBYAC(I)
-         K=IRBYAC(I+NRBYKIN)
-         M=NPBY(1,N)
-         NSN=NPBY(2,N)
-         IF (M>0) THEN
-          DO J=1,NSN
-           NS=LPBY(K+J)
-           ITAG(NS) =M
-          ENDDO
-         ENDIF
+          N=IRBYAC(I)
+          K=IRBYAC(I+NRBYKIN)
+          M=NPBY(1,N)
+          NSN=NPBY(2,N)
+          IF (M>0) THEN
+            DO J=1,NSN
+              NS=LPBY(K+J)
+              ITAG(NS) =M
+            ENDDO
+          ENDIF
         ENDDO
 C
         DO I=1,NUMELR
-         N1= IXR(2,I)
-         N2= IXR(3,I)
-         IF (ITAG(N1)>0.AND.ITAG(N1)==ITAG(N2)) THEN
-          CALL RBY_IMP4( X  ,N1 ,N2  ,ITAG(N1),D  ,DR )
-         ENDIF
+          N1= IXR(2,I)
+          N2= IXR(3,I)
+          IF (ITAG(N1)>0.AND.ITAG(N1)==ITAG(N2)) THEN
+            CALL RBY_IMP4( X  ,N1 ,N2  ,ITAG(N1),D  ,DR )
+          ENDIF
         ENDDO
 C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBY_IMP4                      source/constraints/general/rbody/rby_impd.F
@@ -271,74 +271,74 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N1,N2,M
-      my_real X(3,*),D(3,*),DR(3,*)
+        INTEGER N1,N2,M
+        my_real X(3,*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N ,K,IT,NP
-      my_real
-     .   XS,YS,ZS,X1(3),X2(3),DRX,DRY,DRZ,L0,L1,S
+        INTEGER I, N ,K,IT,NP
+        my_real
+     .     XS,YS,ZS,X1(3),X2(3),DRX,DRY,DRZ,L0,L1,S
 C-----------------------------------------------
-       NP =10
-       DRX = DR(1,M)/NP
-       DRY = DR(2,M)/NP
-       DRZ = DR(3,M)/NP
-       X1(1)=X(1,N1)
-       X1(2)=X(2,N1)
-       X1(3)=X(3,N1)
-       X2(1)=X(1,N2)
-       X2(2)=X(2,N2)
-       X2(3)=X(3,N2)
-       DO IT = 1,NP
-        XS=X1(1)-X(1,M)
-        YS=X1(2)-X(2,M)
-        ZS=X1(3)-X(3,M)
-        X1(1)=X1(1)+DRY*ZS-DRZ*YS
-        X1(2)=X1(2)-DRX*ZS+DRZ*XS
-        X1(3)=X1(3)+DRX*YS-DRY*XS
-        XS=X2(1)-X(1,M)
-        YS=X2(2)-X(2,M)
-        ZS=X2(3)-X(3,M)
-        X2(1)=X2(1)+DRY*ZS-DRZ*YS
-        X2(2)=X2(2)-DRX*ZS+DRZ*XS
-        X2(3)=X2(3)+DRX*YS-DRY*XS
-       ENDDO
-C
-       XS=X1(1)-X(1,N1)
-       YS=X1(2)-X(2,N1)
-       ZS=X1(3)-X(3,N1)
-       D(1,N1)=D(1,M)+XS
-       D(2,N1)=D(2,M)+YS
-       D(3,N1)=D(3,M)+ZS
-       XS=X2(1)-X(1,N2)
-       YS=X2(2)-X(2,N2)
-       ZS=X2(3)-X(3,N2)
-       D(1,N2)=D(1,M)+XS
-       D(2,N2)=D(2,M)+YS
-       D(3,N2)=D(3,M)+ZS
-C
-       XS=X(1,N2)-X(1,N1)
-       YS=X(2,N2)-X(2,N1)
-       ZS=X(3,N2)-X(3,N1)
-       L0 = SQRT(XS*XS+YS*YS+ZS*ZS)
-       IF (L0<EM10) THEN
-        D(1,N2)=D(1,N1)
-        D(2,N2)=D(2,N1)
-        D(3,N2)=D(3,N1)
-       ELSE
-        XS=XS+D(1,N2)-D(1,N1)
-        YS=YS+D(2,N2)-D(2,N1)
-        ZS=ZS+D(3,N2)-D(3,N1)
-        L1 = SQRT(XS*XS+YS*YS+ZS*ZS)
-        S = L0/L1
-        DO K =1,3
-         D(K,N1)=S*(X(K,N1)+D(K,N1))-X(K,N1)
-         D(K,N2)=S*(X(K,N2)+D(K,N2))-X(K,N2)
+        NP =10
+        DRX = DR(1,M)/NP
+        DRY = DR(2,M)/NP
+        DRZ = DR(3,M)/NP
+        X1(1)=X(1,N1)
+        X1(2)=X(2,N1)
+        X1(3)=X(3,N1)
+        X2(1)=X(1,N2)
+        X2(2)=X(2,N2)
+        X2(3)=X(3,N2)
+        DO IT = 1,NP
+          XS=X1(1)-X(1,M)
+          YS=X1(2)-X(2,M)
+          ZS=X1(3)-X(3,M)
+          X1(1)=X1(1)+DRY*ZS-DRZ*YS
+          X1(2)=X1(2)-DRX*ZS+DRZ*XS
+          X1(3)=X1(3)+DRX*YS-DRY*XS
+          XS=X2(1)-X(1,M)
+          YS=X2(2)-X(2,M)
+          ZS=X2(3)-X(3,M)
+          X2(1)=X2(1)+DRY*ZS-DRZ*YS
+          X2(2)=X2(2)-DRX*ZS+DRZ*XS
+          X2(3)=X2(3)+DRX*YS-DRY*XS
         ENDDO
-       ENDIF
 C
-      RETURN
+        XS=X1(1)-X(1,N1)
+        YS=X1(2)-X(2,N1)
+        ZS=X1(3)-X(3,N1)
+        D(1,N1)=D(1,M)+XS
+        D(2,N1)=D(2,M)+YS
+        D(3,N1)=D(3,M)+ZS
+        XS=X2(1)-X(1,N2)
+        YS=X2(2)-X(2,N2)
+        ZS=X2(3)-X(3,N2)
+        D(1,N2)=D(1,M)+XS
+        D(2,N2)=D(2,M)+YS
+        D(3,N2)=D(3,M)+ZS
+C
+        XS=X(1,N2)-X(1,N1)
+        YS=X(2,N2)-X(2,N1)
+        ZS=X(3,N2)-X(3,N1)
+        L0 = SQRT(XS*XS+YS*YS+ZS*ZS)
+        IF (L0<EM10) THEN
+          D(1,N2)=D(1,N1)
+          D(2,N2)=D(2,N1)
+          D(3,N2)=D(3,N1)
+        ELSE
+          XS=XS+D(1,N2)-D(1,N1)
+          YS=YS+D(2,N2)-D(2,N1)
+          ZS=ZS+D(3,N2)-D(3,N1)
+          L1 = SQRT(XS*XS+YS*YS+ZS*ZS)
+          S = L0/L1
+          DO K =1,3
+            D(K,N1)=S*(X(K,N1)+D(K,N1))-X(K,N1)
+            D(K,N2)=S*(X(K,N2)+D(K,N2))-X(K,N2)
+          ENDDO
+        ENDIF
+C
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBY_IMP5                      source/constraints/general/rbody/rby_impd.F
@@ -357,11 +357,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
-      INTEGER NDOF(*),ITRMAX
+        INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
+        INTEGER NDOF(*),ITRMAX
 C     REAL
-      my_real
-     .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
+        my_real
+     .     X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -370,99 +370,99 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, NSN,  I, N,NP,J
+        INTEGER M, NSN,  I, N,NP,J
 C     REAL
-      my_real
-     .   XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A,B
-      my_real,
-     .         DIMENSION(:),ALLOCATABLE :: LSM
+        my_real
+     .     XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A,B
+        my_real,
+     .           DIMENSION(:),ALLOCATABLE :: LSM
 C-----------------------------------------------
-      M    =NBY(1)
+        M    =NBY(1)
 C optimisation spmd
-      IF (IMACH==3.AND.M<0) RETURN
-      NSN  =NBY(2)
+        IF (IMACH==3.AND.M<0) RETURN
+        NSN  =NBY(2)
 C---determine iteration num.
-      LMAX = ZERO
-      RMAX = MAX(ABS(DR(1,M)),ABS(DR(2,M)),ABS(DR(3,M)))
-       ALLOCATE(LSM(NSN))
-       DO I=1,NSN
-        N = NOD(I)
-        XS=X(1,N)-X(1,M)
-        YS=X(2,N)-X(2,M)
-        ZS=X(3,N)-X(3,M)
-	LSM(I) = XS*XS+YS*YS+ZS*ZS
-        LMAX = MAX(LMAX,LSM(I))
-       ENDDO
-       NP = RMAX*SQRT(LMAX)*FIFTY
-       NP = MIN(ITRMAX,NP)
-      IF (NP<=1) THEN
-       DO I=1,NSN
-        N = NOD(I)
-        XS=X(1,N)-X(1,M)
-        YS=X(2,N)-X(2,M)
-        ZS=X(3,N)-X(3,M)
-        D(1,N)=D(1,M)+DR(2,M)*ZS-DR(3,M)*YS
-        D(2,N)=D(2,M)-DR(1,M)*ZS+DR(3,M)*XS
-        D(3,N)=D(3,M)+DR(1,M)*YS-DR(2,M)*XS
-        IF (NDOF(N)>3) THEN
-         DR(1,N)= DR(1,M)
-         DR(2,N)= DR(2,M)
-         DR(3,N)= DR(3,M)
-        ENDIF
-        XS=X(1,N)-X(1,M)+D(1,N)-D(1,M)
-        YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
-        ZS=X(3,N)-X(3,M)+D(3,N)-D(3,M)
-       ENDDO
-      ELSE
-        DO I=1,NSN
-         N = NOD(I)
-         D(1,N)=X(1,N)
-         D(2,N)=X(2,N)
-         D(3,N)=X(3,N)
-        ENDDO
-         DRX= DR(1,M)/NP
-         DRY= DR(2,M)/NP
-         DRZ= DR(3,M)/NP
-        DO J=1,NP
-         DO I=1,NSN
-          N = NOD(I)
-          XS=D(1,N)-X(1,M)
-          YS=D(2,N)-X(2,M)
-          ZS=D(3,N)-X(3,M)
-          D(1,N)=D(1,N)+DRY*ZS-DRZ*YS
-          D(2,N)=D(2,N)-DRX*ZS+DRZ*XS
-          D(3,N)=D(3,N)+DRX*YS-DRY*XS
-         ENDDO
-        ENDDO
+        LMAX = ZERO
+        RMAX = MAX(ABS(DR(1,M)),ABS(DR(2,M)),ABS(DR(3,M)))
+        ALLOCATE(LSM(NSN))
         DO I=1,NSN
           N = NOD(I)
-          D(1,N)=D(1,M)+D(1,N)-X(1,N)
-          D(2,N)=D(2,M)+D(2,N)-X(2,N)
-          D(3,N)=D(3,M)+D(3,N)-X(3,N)
-         IF (NDOF(N)>3) THEN
-          DR(1,N)= DR(1,M)
-          DR(2,N)= DR(2,M)
-          DR(3,N)= DR(3,M)
-         ENDIF
+          XS=X(1,N)-X(1,M)
+          YS=X(2,N)-X(2,M)
+          ZS=X(3,N)-X(3,M)
+          LSM(I) = XS*XS+YS*YS+ZS*ZS
+          LMAX = MAX(LMAX,LSM(I))
         ENDDO
-      END IF !(NP<=1) THEN
+        NP = RMAX*SQRT(LMAX)*FIFTY
+        NP = MIN(ITRMAX,NP)
+        IF (NP<=1) THEN
+          DO I=1,NSN
+            N = NOD(I)
+            XS=X(1,N)-X(1,M)
+            YS=X(2,N)-X(2,M)
+            ZS=X(3,N)-X(3,M)
+            D(1,N)=D(1,M)+DR(2,M)*ZS-DR(3,M)*YS
+            D(2,N)=D(2,M)-DR(1,M)*ZS+DR(3,M)*XS
+            D(3,N)=D(3,M)+DR(1,M)*YS-DR(2,M)*XS
+            IF (NDOF(N)>3) THEN
+              DR(1,N)= DR(1,M)
+              DR(2,N)= DR(2,M)
+              DR(3,N)= DR(3,M)
+            ENDIF
+            XS=X(1,N)-X(1,M)+D(1,N)-D(1,M)
+            YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
+            ZS=X(3,N)-X(3,M)+D(3,N)-D(3,M)
+          ENDDO
+        ELSE
+          DO I=1,NSN
+            N = NOD(I)
+            D(1,N)=X(1,N)
+            D(2,N)=X(2,N)
+            D(3,N)=X(3,N)
+          ENDDO
+          DRX= DR(1,M)/NP
+          DRY= DR(2,M)/NP
+          DRZ= DR(3,M)/NP
+          DO J=1,NP
+            DO I=1,NSN
+              N = NOD(I)
+              XS=D(1,N)-X(1,M)
+              YS=D(2,N)-X(2,M)
+              ZS=D(3,N)-X(3,M)
+              D(1,N)=D(1,N)+DRY*ZS-DRZ*YS
+              D(2,N)=D(2,N)-DRX*ZS+DRZ*XS
+              D(3,N)=D(3,N)+DRX*YS-DRY*XS
+            ENDDO
+          ENDDO
+          DO I=1,NSN
+            N = NOD(I)
+            D(1,N)=D(1,M)+D(1,N)-X(1,N)
+            D(2,N)=D(2,M)+D(2,N)-X(2,N)
+            D(3,N)=D(3,M)+D(3,N)-X(3,N)
+            IF (NDOF(N)>3) THEN
+              DR(1,N)= DR(1,M)
+              DR(2,N)= DR(2,M)
+              DR(3,N)= DR(3,M)
+            ENDIF
+          ENDDO
+        END IF !(NP<=1) THEN
 C
-       DO I=1,NSN
-        IF (LSM(I)>EM10) THEN
-         N = NOD(I)
-         XS=X(1,N)-X(1,M)+D(1,N)-D(1,M)
-         YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
-         ZS=X(3,N)-X(3,M)+D(3,N)-D(3,M)
-	 LSM1 =XS*XS+YS*YS+ZS*ZS
-	 A = SQRT(LSM(I)/LSM1)-ONE
-         D(1,N)=D(1,N)+A*XS
-         D(2,N)=D(2,N)+A*YS
-         D(3,N)=D(3,N)+A*ZS
-        ENDIF
-       ENDDO
+        DO I=1,NSN
+          IF (LSM(I)>EM10) THEN
+            N = NOD(I)
+            XS=X(1,N)-X(1,M)+D(1,N)-D(1,M)
+            YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
+            ZS=X(3,N)-X(3,M)+D(3,N)-D(3,M)
+            LSM1 =XS*XS+YS*YS+ZS*ZS
+            A = SQRT(LSM(I)/LSM1)-ONE
+            D(1,N)=D(1,N)+A*XS
+            D(2,N)=D(2,N)+A*YS
+            D(3,N)=D(3,N)+A*ZS
+          ENDIF
+        ENDDO
         DEALLOCATE(LSM)
 C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBY_IMP7                      source/constraints/general/rbody/rby_impd.F
@@ -482,11 +482,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
-      INTEGER NDOF(*),ITRMAX
+        INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
+        INTEGER NDOF(*),ITRMAX
 C     REAL
-      my_real
-     .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
+        my_real
+     .     X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -498,39 +498,39 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, NSN,  I, N,NP,J,K
+        INTEGER M, NSN,  I, N,NP,J,K
 C     REAL
-      DOUBLE PRECISION
-     . XS(3), DS(3), VRM(3)
+        DOUBLE PRECISION
+     .   XS(3), DS(3), VRM(3)
 C-----------------------------------------------
 
-      M = NBY(1)
+        M = NBY(1)
 C optimisation spmd
-      IF (IMACH==3.AND.M<0) RETURN
+        IF (IMACH==3.AND.M<0) RETURN
 
-      DO I = 1, 3
-        VRM(I) = DR(I,M)
-      END DO
-
-      NSN  =NBY(2)
-      DO I=1,NSN
-        N = NOD(I)
-        DO J = 1 , 3
-          XS(J) = X(J,N) - X(J,M)
-        END DO
-        CALL VELROT(VRM,XS,DS)
-        DO J = 1 , 3
-          D(J,N) = D(J,M) + DS(J)
+        DO I = 1, 3
+          VRM(I) = DR(I,M)
         END DO
 
-        IF (NDOF(N)>3) THEN
-         DR(1,N)= DR(1,M)
-         DR(2,N)= DR(2,M)
-         DR(3,N)= DR(3,M)
-        ENDIF
+        NSN  =NBY(2)
+        DO I=1,NSN
+          N = NOD(I)
+          DO J = 1 , 3
+            XS(J) = X(J,N) - X(J,M)
+          END DO
+          CALL VELROT(VRM,XS,DS)
+          DO J = 1 , 3
+            D(J,N) = D(J,M) + DS(J)
+          END DO
 
-      END DO ! I=1,NSN
+          IF (NDOF(N)>3) THEN
+            DR(1,N)= DR(1,M)
+            DR(2,N)= DR(2,M)
+            DR(3,N)= DR(3,M)
+          ENDIF
 
-      RETURN
+        END DO ! I=1,NSN
+
+        RETURN
 
       END

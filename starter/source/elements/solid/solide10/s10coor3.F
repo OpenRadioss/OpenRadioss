@@ -34,7 +34,7 @@ Chd|====================================================================
      4                    DTELEM ,STI   ,SIGG  ,EINTG ,RHOG,
      5                    QG     ,TEMP0 ,TEMP  ,SAV   ,NEL )
 C-----------------------------------------------
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,159 +51,159 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+        INTEGER NEL
 C     REAL
-      DOUBLE PRECISION
-     .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
+        DOUBLE PRECISION
+     .    XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
 
-      my_real
-     .  X(3,*), V(3,*),
-     .  VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
-     .  MASS(MVSIZ),DTELEM(*),STI(*),
-     .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),TEMP0(*), TEMP(*)
-      INTEGER NC(MVSIZ,10), MXT(*), NGL(*),NGEO(*)
-      INTEGER IXS(NIXS,*),IXS10(6,*)
+        my_real
+     .    X(3,*), V(3,*),
+     .    VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
+     .    MASS(MVSIZ),DTELEM(*),STI(*),
+     .    SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),TEMP0(*), TEMP(*)
+        INTEGER NC(MVSIZ,10), MXT(*), NGL(*),NGEO(*)
+        INTEGER IXS(NIXS,*),IXS10(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN
+        INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN
 C     REAL
-      DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
-      DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
+        DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
+        DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
-      my_real
-     .    CHECKVOLUME_4N
+        my_real
+     .      CHECKVOLUME_4N
 C=======================================================================
-      IUN = 1
+        IUN = 1
 C
-      DO I=LFT,LLT
-        NGEO(I) =IXS(10,I)
-        NGL(I)  =IXS(11,I)
-        MXT(I)  =IXS(1,I)
-        NC(I,1) =IXS(2,I)
-        NC(I,2) =IXS(4,I)
-        NC(I,3) =IXS(7,I)
-        NC(I,4) =IXS(6,I)
-        IF(ISROT /= 1)THEN
-         NC(I,5) =IXS10(1,I)
-         NC(I,6) =IXS10(2,I)
-         NC(I,7) =IXS10(3,I)
-         NC(I,8) =IXS10(4,I)
-         NC(I,9) =IXS10(5,I)
-         NC(I,10)=IXS10(6,I)
-        ELSE
-         NC(I,5) =ZERO
-         NC(I,6) =ZERO
-         NC(I,7) =ZERO
-         NC(I,8) =ZERO
-         NC(I,9) =ZERO
-         NC(I,10)=ZERO
-        ENDIF
-        DTELEM(I)=EP30
-        STI(I)=ZERO
-        EINTG(I)=ZERO
-        RHOG(I)=ZERO
-        QG(I)=ZERO
-        SIGG(I,1)=ZERO
-        SIGG(I,2)=ZERO
-        SIGG(I,3)=ZERO
-        SIGG(I,4)=ZERO
-        SIGG(I,5)=ZERO
-        SIGG(I,6)=ZERO
-        IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
-C         renumber connectivity
+        DO I=LFT,LLT
+          NGEO(I) =IXS(10,I)
+          NGL(I)  =IXS(11,I)
+          MXT(I)  =IXS(1,I)
           NC(I,1) =IXS(2,I)
-          NC(I,2) =IXS(6,I)
+          NC(I,2) =IXS(4,I)
           NC(I,3) =IXS(7,I)
-          NC(I,4) =IXS(4,I)
-          IXS(2,I) = NC(I,1)
-          IXS(4,I) = NC(I,2)
-          IXS(7,I) = NC(I,3)
-          IXS(6,I) = NC(I,4)
+          NC(I,4) =IXS(6,I)
           IF(ISROT /= 1)THEN
-            NC(I,5) =IXS10(4,I)
-            NC(I,6) =IXS10(6,I)
+            NC(I,5) =IXS10(1,I)
+            NC(I,6) =IXS10(2,I)
             NC(I,7) =IXS10(3,I)
-            NC(I,8) =IXS10(1,I)
+            NC(I,8) =IXS10(4,I)
             NC(I,9) =IXS10(5,I)
-            NC(I,10)=IXS10(2,I)
-            IXS10(1,I) = NC(I,5) 
-            IXS10(2,I) = NC(I,6) 
-            IXS10(3,I) = NC(I,7) 
-            IXS10(4,I) = NC(I,8) 
-            IXS10(5,I) = NC(I,9) 
-            IXS10(6,I) = NC(I,10)
+            NC(I,10)=IXS10(6,I)
+          ELSE
+            NC(I,5) =ZERO
+            NC(I,6) =ZERO
+            NC(I,7) =ZERO
+            NC(I,8) =ZERO
+            NC(I,9) =ZERO
+            NC(I,10)=ZERO
           ENDIF
-        ENDIF
-      ENDDO
+          DTELEM(I)=EP30
+          STI(I)=ZERO
+          EINTG(I)=ZERO
+          RHOG(I)=ZERO
+          QG(I)=ZERO
+          SIGG(I,1)=ZERO
+          SIGG(I,2)=ZERO
+          SIGG(I,3)=ZERO
+          SIGG(I,4)=ZERO
+          SIGG(I,5)=ZERO
+          SIGG(I,6)=ZERO
+          IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
+C         renumber connectivity
+            NC(I,1) =IXS(2,I)
+            NC(I,2) =IXS(6,I)
+            NC(I,3) =IXS(7,I)
+            NC(I,4) =IXS(4,I)
+            IXS(2,I) = NC(I,1)
+            IXS(4,I) = NC(I,2)
+            IXS(7,I) = NC(I,3)
+            IXS(6,I) = NC(I,4)
+            IF(ISROT /= 1)THEN
+              NC(I,5) =IXS10(4,I)
+              NC(I,6) =IXS10(6,I)
+              NC(I,7) =IXS10(3,I)
+              NC(I,8) =IXS10(1,I)
+              NC(I,9) =IXS10(5,I)
+              NC(I,10)=IXS10(2,I)
+              IXS10(1,I) = NC(I,5)
+              IXS10(2,I) = NC(I,6)
+              IXS10(3,I) = NC(I,7)
+              IXS10(4,I) = NC(I,8)
+              IXS10(5,I) = NC(I,9)
+              IXS10(6,I) = NC(I,10)
+            ENDIF
+          ENDIF
+        ENDDO
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(IUN,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-          VX(I,N)=V(1,NN)          
-          VY(I,N)=V(2,NN)          
-          VZ(I,N)=V(3,NN)          
-        ENDDO                      
-      ENDDO
-C
-      DO I=LFT,LLT
-        MASS(I)=ZERO
-      ENDDO
-C
-      DO N=5,10
-        N1=IPERM1(N)
-        N2=IPERM2(N)
-        DO I=LFT,LLT
-          IF(NC(I,N)==0)THEN
-            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
-            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
-            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
-          ENDIF
+        DO N=1,10
+          DO I=LFT,LLT
+            NN = MAX(IUN,NC(I,N))
+            XX(I,N)=X(1,NN)
+            YY(I,N)=X(2,NN)
+            ZZ(I,N)=X(3,NN)
+            VX(I,N)=V(1,NN)
+            VY(I,N)=V(2,NN)
+            VZ(I,N)=V(3,NN)
+          ENDDO
         ENDDO
-      ENDDO
+C
+        DO I=LFT,LLT
+          MASS(I)=ZERO
+        ENDDO
+C
+        DO N=5,10
+          N1=IPERM1(N)
+          N2=IPERM2(N)
+          DO I=LFT,LLT
+            IF(NC(I,N)==0)THEN
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
+              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
+            ENDIF
+          ENDDO
+        ENDDO
 C
 C   initial nodal temperature
 C
         IF(JTHE < 0 ) THEN
-         IF(NINTEMP > 0 ) THEN
-          DO N =1,10
-            DO I=LFT,LLT  
-              NN = MAX(IUN,NC(I,N))
-              IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
+          IF(NINTEMP > 0 ) THEN
+            DO N =1,10
+              DO I=LFT,LLT
+                NN = MAX(IUN,NC(I,N))
+                IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
+              ENDDO
             ENDDO
-          ENDDO
-         ELSE
-           DO N =1,10
-            DO I=LFT,LLT
-               NN = MAX(IUN,NC(I,N))
-               TEMP(NN) = TEMP0(I)
+          ELSE
+            DO N =1,10
+              DO I=LFT,LLT
+                NN = MAX(IUN,NC(I,N))
+                TEMP(NN) = TEMP0(I)
+              ENDDO
             ENDDO
-          ENDDO
-         ENDIF   
+          ENDIF
         ENDIF
-C	
+C
         IF(ISMSTR>=10.AND.ISMSTR<=12)THEN
           DO N=1,10
-           DO I=LFT,LLT
-            NN = NC(I,N)
-            SAV(I,N)   =XX(I,N)
-            SAV(I,N+10)=YY(I,N)
-            SAV(I,N+20)=ZZ(I,N)
-           ENDDO
-          END DO 
+            DO I=LFT,LLT
+              NN = NC(I,N)
+              SAV(I,N)   =XX(I,N)
+              SAV(I,N+10)=YY(I,N)
+              SAV(I,N+20)=ZZ(I,N)
+            ENDDO
+          END DO
         END IF
-CC        
-      RETURN
+CC
+        RETURN
       END
 Chd|====================================================================
 Chd|  S10COOR3_OLD                  source/elements/solid/solide10/s10coor3.F
@@ -218,7 +218,7 @@ Chd|====================================================================
      .   SIGG,EINTG,RHOG,QG, TEMP0,
      .   TEMP,NEL)
 C-----------------------------------------------
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -235,147 +235,147 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+        INTEGER NEL
 C     REAL
-      DOUBLE PRECISION
-     .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
+        DOUBLE PRECISION
+     .    XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
 
-      my_real
-     .  X(3,*), V(3,*),
-     .  VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
-     .  MASS(MVSIZ),DTELEM(*),STI(*),
-     .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),TEMP0(*), TEMP(*)
-      INTEGER NC(MVSIZ,10), MXT(*), NGL(*),NGEO(*)
-      INTEGER IXS(NIXS,*),IXS10(6,*)
+        my_real
+     .    X(3,*), V(3,*),
+     .    VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
+     .    MASS(MVSIZ),DTELEM(*),STI(*),
+     .    SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),TEMP0(*), TEMP(*)
+        INTEGER NC(MVSIZ,10), MXT(*), NGL(*),NGEO(*)
+        INTEGER IXS(NIXS,*),IXS10(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN
+        INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN
 C     REAL
-      DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
-      DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
+        DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
+        DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
-      my_real
-     .    CHECKVOLUME_4N
+        my_real
+     .      CHECKVOLUME_4N
 C=======================================================================
-      IUN = 1
+        IUN = 1
 C
-      DO I=LFT,LLT
-        NGEO(I) =IXS(10,I)
-        NGL(I)  =IXS(11,I)
-        MXT(I)  =IXS(1,I)
-        NC(I,1) =IXS(2,I)
-        NC(I,2) =IXS(4,I)
-        NC(I,3) =IXS(7,I)
-        NC(I,4) =IXS(6,I)
-        IF(ISROT /= 1)THEN
-         NC(I,5) =IXS10(1,I)
-         NC(I,6) =IXS10(2,I)
-         NC(I,7) =IXS10(3,I)
-         NC(I,8) =IXS10(4,I)
-         NC(I,9) =IXS10(5,I)
-         NC(I,10)=IXS10(6,I)
-        ELSE
-         NC(I,5) =ZERO
-         NC(I,6) =ZERO
-         NC(I,7) =ZERO
-         NC(I,8) =ZERO
-         NC(I,9) =ZERO
-         NC(I,10)=ZERO
-        ENDIF
-        DTELEM(I)=EP30
-        STI(I)=ZERO
-        EINTG(I)=ZERO
-        RHOG(I)=ZERO
-        QG(I)=ZERO
-        SIGG(I,1)=ZERO
-        SIGG(I,2)=ZERO
-        SIGG(I,3)=ZERO
-        SIGG(I,4)=ZERO
-        SIGG(I,5)=ZERO
-        SIGG(I,6)=ZERO
-        IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
-C         renumber connectivity
+        DO I=LFT,LLT
+          NGEO(I) =IXS(10,I)
+          NGL(I)  =IXS(11,I)
+          MXT(I)  =IXS(1,I)
           NC(I,1) =IXS(2,I)
-          NC(I,2) =IXS(6,I)
+          NC(I,2) =IXS(4,I)
           NC(I,3) =IXS(7,I)
-          NC(I,4) =IXS(4,I)
-          IXS(2,I) = NC(I,1)
-          IXS(4,I) = NC(I,2)
-          IXS(7,I) = NC(I,3)
-          IXS(6,I) = NC(I,4)
+          NC(I,4) =IXS(6,I)
           IF(ISROT /= 1)THEN
-            NC(I,5) =IXS10(4,I)
-            NC(I,6) =IXS10(6,I)
+            NC(I,5) =IXS10(1,I)
+            NC(I,6) =IXS10(2,I)
             NC(I,7) =IXS10(3,I)
-            NC(I,8) =IXS10(1,I)
+            NC(I,8) =IXS10(4,I)
             NC(I,9) =IXS10(5,I)
-            NC(I,10)=IXS10(2,I)
-            IXS10(1,I) = NC(I,5) 
-            IXS10(2,I) = NC(I,6) 
-            IXS10(3,I) = NC(I,7) 
-            IXS10(4,I) = NC(I,8) 
-            IXS10(5,I) = NC(I,9) 
-            IXS10(6,I) = NC(I,10)
+            NC(I,10)=IXS10(6,I)
+          ELSE
+            NC(I,5) =ZERO
+            NC(I,6) =ZERO
+            NC(I,7) =ZERO
+            NC(I,8) =ZERO
+            NC(I,9) =ZERO
+            NC(I,10)=ZERO
           ENDIF
-        ENDIF
-      ENDDO
+          DTELEM(I)=EP30
+          STI(I)=ZERO
+          EINTG(I)=ZERO
+          RHOG(I)=ZERO
+          QG(I)=ZERO
+          SIGG(I,1)=ZERO
+          SIGG(I,2)=ZERO
+          SIGG(I,3)=ZERO
+          SIGG(I,4)=ZERO
+          SIGG(I,5)=ZERO
+          SIGG(I,6)=ZERO
+          IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
+C         renumber connectivity
+            NC(I,1) =IXS(2,I)
+            NC(I,2) =IXS(6,I)
+            NC(I,3) =IXS(7,I)
+            NC(I,4) =IXS(4,I)
+            IXS(2,I) = NC(I,1)
+            IXS(4,I) = NC(I,2)
+            IXS(7,I) = NC(I,3)
+            IXS(6,I) = NC(I,4)
+            IF(ISROT /= 1)THEN
+              NC(I,5) =IXS10(4,I)
+              NC(I,6) =IXS10(6,I)
+              NC(I,7) =IXS10(3,I)
+              NC(I,8) =IXS10(1,I)
+              NC(I,9) =IXS10(5,I)
+              NC(I,10)=IXS10(2,I)
+              IXS10(1,I) = NC(I,5)
+              IXS10(2,I) = NC(I,6)
+              IXS10(3,I) = NC(I,7)
+              IXS10(4,I) = NC(I,8)
+              IXS10(5,I) = NC(I,9)
+              IXS10(6,I) = NC(I,10)
+            ENDIF
+          ENDIF
+        ENDDO
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(IUN,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-          VX(I,N)=V(1,NN)          
-          VY(I,N)=V(2,NN)          
-          VZ(I,N)=V(3,NN)          
-        ENDDO                      
-      ENDDO
-C
-      DO I=LFT,LLT
-        MASS(I)=ZERO
-      ENDDO
-C
-      DO N=5,10
-        N1=IPERM1(N)
-        N2=IPERM2(N)
-        DO I=LFT,LLT
-          IF(NC(I,N)==0)THEN
-            XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
-            YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
-            ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
-            VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
-            VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
-          ENDIF
+        DO N=1,10
+          DO I=LFT,LLT
+            NN = MAX(IUN,NC(I,N))
+            XX(I,N)=X(1,NN)
+            YY(I,N)=X(2,NN)
+            ZZ(I,N)=X(3,NN)
+            VX(I,N)=V(1,NN)
+            VY(I,N)=V(2,NN)
+            VZ(I,N)=V(3,NN)
+          ENDDO
         ENDDO
-      ENDDO
+C
+        DO I=LFT,LLT
+          MASS(I)=ZERO
+        ENDDO
+C
+        DO N=5,10
+          N1=IPERM1(N)
+          N2=IPERM2(N)
+          DO I=LFT,LLT
+            IF(NC(I,N)==0)THEN
+              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
+              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
+              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
+              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
+              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
+            ENDIF
+          ENDDO
+        ENDDO
 C
 C   initial nodal temperature
 C
         IF(JTHE < 0 ) THEN
-         IF(NINTEMP > 0 ) THEN
-          DO N =1,10
-            DO I=LFT,LLT  
-              NN = MAX(IUN,NC(I,N))
-              IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
+          IF(NINTEMP > 0 ) THEN
+            DO N =1,10
+              DO I=LFT,LLT
+                NN = MAX(IUN,NC(I,N))
+                IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
+              ENDDO
             ENDDO
-          ENDDO
-         ELSE
-           DO N =1,10
-            DO I=LFT,LLT
-               NN = MAX(IUN,NC(I,N))
-               TEMP(NN) = TEMP0(I)
+          ELSE
+            DO N =1,10
+              DO I=LFT,LLT
+                NN = MAX(IUN,NC(I,N))
+                TEMP(NN) = TEMP0(I)
+              ENDDO
             ENDDO
-          ENDDO
-         ENDIF   
+          ENDIF
         ENDIF
-CC        
-      RETURN
+CC
+        RETURN
       END
 

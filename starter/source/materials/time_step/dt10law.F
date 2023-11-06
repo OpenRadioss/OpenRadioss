@@ -50,47 +50,47 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*), DELTAX(*), AIRE(*), VOL(*), DTX(*)
-      INTEGER PID(*),MAT(*)
+        my_real
+     .     PM(NPROPM,*),GEO(NPROPG,*), DELTAX(*), AIRE(*), VOL(*), DTX(*)
+        INTEGER PID(*),MAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
+        INTEGER I, MX
 C     REAL
-      my_real
-     .     SSP(MVSIZ), DPDM(MVSIZ), RHO0(MVSIZ), G(MVSIZ), BULK(MVSIZ), C1(MVSIZ), 
-     .     G43(MVSIZ), P(MVSIZ), VIS(MVSIZ)
+        my_real
+     .       SSP(MVSIZ), DPDM(MVSIZ), RHO0(MVSIZ), G(MVSIZ), BULK(MVSIZ), C1(MVSIZ),
+     .       G43(MVSIZ), P(MVSIZ), VIS(MVSIZ)
 C=======================================================================
-      DO I=LFT,LLT
-      MX=MAT(I)
-      G(I)  =DT1*PM(22,MX)
-      G43(I)  =ONEP333*PM(22,MX)
-      C1(I) = PM(32,MX)
-      BULK(I) =PM(35,MX)
-      RHO0(I) =PM(1,MX)
-      END DO
+        DO I=LFT,LLT
+          MX=MAT(I)
+          G(I)  =DT1*PM(22,MX)
+          G43(I)  =ONEP333*PM(22,MX)
+          C1(I) = PM(32,MX)
+          BULK(I) =PM(35,MX)
+          RHO0(I) =PM(1,MX)
+        END DO
 
-      DO I=LFT,LLT
-        DPDM(I)=C1(I)
-      END DO
+        DO I=LFT,LLT
+          DPDM(I)=C1(I)
+        END DO
 
-      DO I=LFT,LLT
-      DPDM(I)= G43(I) + MAX(BULK(I),DPDM(I))
-      END DO
+        DO I=LFT,LLT
+          DPDM(I)= G43(I) + MAX(BULK(I),DPDM(I))
+        END DO
 
-      DO I=LFT,LLT
-        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
-      END DO	
+        DO I=LFT,LLT
+          SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
+        END DO
 C-----------------------
 C  CALCUL DES DTELEM
 C-----------------------
-      VIS(:) = ZERO
-      IF(JSPH==0)THEN
-         CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
-      ELSE
-         CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, VOL, DTX)
-      ENDIF
+        VIS(:) = ZERO
+        IF(JSPH==0)THEN
+          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
+        ELSE
+          CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, VOL, DTX)
+        ENDIF
 C-----------
-      RETURN
+        RETURN
       END

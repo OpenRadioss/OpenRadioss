@@ -25,7 +25,7 @@ Chd|  I21THERM                      source/interfaces/int21/i21therm.F
 Chd|-- called by -----------
 Chd|        I21MAINF                      source/interfaces/int21/i21mainf.F
 Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE I21THERM(JLT   ,XI    ,YI    ,ZI     ,KTHE   ,
      2                   TEMPI  ,PHI   ,AREAS ,NOINT  ,ASI    ,
@@ -34,11 +34,11 @@ Chd|====================================================================
      5                   PENRAD ,TEMPM ,FHEAT ,EFRICT ,CONDINT,
      6                   IFORM  ,H1    ,H2    ,H3     ,H4     ,
      7                   PHI1   ,PHI2  ,PHI3  ,PHI4   ,X1     ,
-     8                   Y1	,Z1    ,X2    ,Y2     ,Z2     ,
+     8                   Y1  ,Z1    ,X2    ,Y2     ,Z2     ,
      9                   X3     ,Y3    ,Z3    ,X4     ,Y4     ,
      A                   Z4     ,ITAB  ,NSV    ,MSR   ,IX1    ,
      B                   IX2    ,IX3   ,IX4    ,TEMP  ,FCOND  ,
-     C                   DCOND  )      
+     C                   DCOND  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,234 +55,234 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NOINT, IFUNCTK, FCOND, 
-     . NPC(*),IFORM,ITAB(*),
-     . NSV(*),MSR(*),IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
+        INTEGER JLT, NOINT, IFUNCTK, FCOND,
+     .   NPC(*),IFORM,ITAB(*),
+     .   NSV(*),MSR(*),IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C     REAL
-      my_real DCOND
-      my_real
-     .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
-     .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ),
-     .   ASI(MVSIZ), BSI(MVSIZ), GAPV(MVSIZ), PENE(MVSIZ),
-     .   KTHE, XTHE, FNI(MVSIZ), TF(*), FRAD, DRAD, 
-     .   PENRAD(MVSIZ), TEMPM(MVSIZ),FHEAT,EFRICT(MVSIZ),
-     .   CONDINT(MVSIZ),
-     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),
-     .   AX1,AY1,AZ1,AX2,AY2,AZ2,AX,AY,AZ,AREAC,PHIM,AREA,
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
-      my_real 
-     .   FINTER 
-      EXTERNAL FINTER
+        my_real DCOND
+        my_real
+     .     TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
+     .     ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ),
+     .     ASI(MVSIZ), BSI(MVSIZ), GAPV(MVSIZ), PENE(MVSIZ),
+     .     KTHE, XTHE, FNI(MVSIZ), TF(*), FRAD, DRAD,
+     .     PENRAD(MVSIZ), TEMPM(MVSIZ),FHEAT,EFRICT(MVSIZ),
+     .     CONDINT(MVSIZ),
+     .     H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
+     .     PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),
+     .     AX1,AY1,AZ1,AX2,AY2,AZ2,AX,AY,AZ,AREAC,PHIM,AREA,
+     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
+        my_real
+     .     FINTER
+        EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C     REAL
-      my_real
-     .   TS,  RSTIF, TSTIFM, TSTIFT, DIST, COND, P, DYDX,
-     .   TM, DDCOND, DD, HCOND
+        my_real
+     .     TS,  RSTIF, TSTIFM, TSTIFT, DIST, COND, P, DYDX,
+     .     TM, DDCOND, DD, HCOND
 C-----------------------------------------------
-      IF(IFUNCTK==0)THEN
-        RSTIF = ONE/MAX(EM30,KTHE)
-        DO I=1,JLT
-          TS = TEMPI(I)   
-          TM = TEMPM(I)
-          CONDINT(I) = ZERO
-          DDCOND = MAX(DCOND-GAPV(I),EM20)
+        IF(IFUNCTK==0)THEN
+          RSTIF = ONE/MAX(EM30,KTHE)
+          DO I=1,JLT
+            TS = TEMPI(I)
+            TM = TEMPM(I)
+            CONDINT(I) = ZERO
+            DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
-          IF(AREAS(I) == ZERO )THEN 
-C            
-            AX1 = X3(I) - X1(I) 
-            AY1 = Y3(I) - Y1(I)  
-            AZ1 = Z3(I) - Z1(I) 
-            AX2 = X4(I) - X2(I) 
-            AY2 = Y4(I) - Y2(I) 
-            AZ2 = Z4(I) - Z2(I)  
-            
-            AX  = AY1*AZ2 - AZ1*AY2
-            AY  = AZ1*AX2 - AX1*AZ2
-            AZ  = AX1*AY2 - AY1*AX2
-C                              
-            AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            IF(AREAS(I) == ZERO )THEN
 C
-            AREAC =AREA
+              AX1 = X3(I) - X1(I)
+              AY1 = Y3(I) - Y1(I)
+              AZ1 = Z3(I) - Z1(I)
+              AX2 = X4(I) - X2(I)
+              AY2 = Y4(I) - Y2(I)
+              AZ2 = Z4(I) - Z2(I)
+
+              AX  = AY1*AZ2 - AZ1*AY2
+              AY  = AZ1*AX2 - AX1*AZ2
+              AZ  = AX1*AY2 - AY1*AX2
 C
-          ELSE
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
 C
-            AREAC = AREAS(I)
-C          
-          ENDIF
+              AREAC =AREA
+C
+            ELSE
+C
+              AREAC = AREAS(I)
+C
+            ENDIF
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD SECOND. 
+C         DISTANCE ENTRE LE NOEUD SECOND.
 C             ET  LA  SURFACE(SURFFACE NODALE)
 C---------------------------------
 C-------------------------------------
 C         Conduction : close distance
 C-------------------------------------
-          IF(PENRAD(I) <= ZERO)THEN
+            IF(PENRAD(I) <= ZERO)THEN
 C Dist = Gapv - Penetration wrt Gapv
-            DIST = PENRAD(I)+ GAPV(I)
+              DIST = PENRAD(I)+ GAPV(I)
 C---------------------------------
 C           CALCUL DE LA CONDUCTIBILITE
 C---------------------------------
-            COND = ASI(I)+BSI(I)*TS
-            TSTIFM =   MAX(DIST,ZERO) / COND
-            TSTIFT = TSTIFM  + RSTIF
-            CONDINT(I) = AREAC * THEACCFACT /TSTIFT
+              COND = ASI(I)+BSI(I)*TS
+              TSTIFM =   MAX(DIST,ZERO) / COND
+              TSTIFT = TSTIFM  + RSTIF
+              CONDINT(I) = AREAC * THEACCFACT /TSTIFT
 C---------------------------------
-            PHI(I) =  AREAC*(TM - TS)*DT1*THEACCFACT / TSTIFT   
+              PHI(I) =  AREAC*(TM - TS)*DT1*THEACCFACT / TSTIFT
 C----------------------------------------------------------------------
 C         Conduction + Radiation : Heat exchange depending on distance
 C----------------------------------------------------------------------
-          ELSEIF(PENRAD(I) <= DDCOND)THEN
+            ELSEIF(PENRAD(I) <= DDCOND)THEN
 C---------------------------------
-            DIST = GAPV(I)
-            COND = ASI(I)+BSI(I)*TS
-            TSTIFM =   MAX(DIST,ZERO) / COND
-            TSTIFT = TSTIFM  + RSTIF
-            DD = PENRAD(I) /DDCOND
-            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
-            CONDINT(I) = AREAC*HCOND * THEACCFACT
+              DIST = GAPV(I)
+              COND = ASI(I)+BSI(I)*TS
+              TSTIFM =   MAX(DIST,ZERO) / COND
+              TSTIFT = TSTIFM  + RSTIF
+              DD = PENRAD(I) /DDCOND
+              HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT
+              CONDINT(I) = AREAC*HCOND * THEACCFACT
 
-            PHI(I) = AREAC * (TM - TS)*DT1* HCOND * THEACCFACT    
+              PHI(I) = AREAC * (TM - TS)*DT1* HCOND * THEACCFACT
 
-            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1 * THEACCFACT   
+              PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS)
+     .                      * (TM + TS) * (TM - TS) * DT1 * THEACCFACT
 C-------------------------------------
 C         Radiation :
 C-------------------------------------
-          ELSEIF(PENRAD(I) <= DRAD)THEN
+            ELSEIF(PENRAD(I) <= DRAD)THEN
 C---------------------------------
-            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1 * THEACCFACT
+              PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
+     .                      * (TM + TS) * (TM - TS) * DT1 * THEACCFACT
 
-          END IF  
+            END IF
 C
-         IF(IFORM == 1 )THEN 
+            IF(IFORM == 1 )THEN
 C
-            PHI1(I) = -PHI(I) *H1(I)
-            PHI2(I) = -PHI(I) *H2(I)
-            PHI3(I) = -PHI(I) *H3(I)
-            PHI4(I) = -PHI(I) *H4(I)
+              PHI1(I) = -PHI(I) *H1(I)
+              PHI2(I) = -PHI(I) *H2(I)
+              PHI3(I) = -PHI(I) *H3(I)
+              PHI4(I) = -PHI(I) *H4(I)
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            PHIM   = FHEAT * EFRICT(I) 
-            PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
-            PHI2(I) = PHI2(I) + PHIM*H2(I)
-            PHI3(I) = PHI3(I) + PHIM*H3(I)
-            PHI4(I) = PHI4(I) + PHIM*H4(I)
-         ENDIF
+              PHIM   = FHEAT * EFRICT(I)
+              PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
+              PHI2(I) = PHI2(I) + PHIM*H2(I)
+              PHI3(I) = PHI3(I) + PHIM*H3(I)
+              PHI4(I) = PHI4(I) + PHIM*H4(I)
+            ENDIF
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-         PHI(I) = PHI(I) + FHEAT * EFRICT(I) * THEACCFACT
-       ENDDO
+            PHI(I) = PHI(I) + FHEAT * EFRICT(I) * THEACCFACT
+          ENDDO
 C
-      ELSE
-        DO I=1,JLT
-          TS = TEMPI(I)  
-          TM = TEMPM(I)
-          CONDINT(I) = ZERO
-          DDCOND = MAX(DCOND-GAPV(I),EM20)
+        ELSE
+          DO I=1,JLT
+            TS = TEMPI(I)
+            TM = TEMPM(I)
+            CONDINT(I) = ZERO
+            DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
-          IF(AREAS(I) == ZERO )THEN 
-C            
-            AX1 = X3(I) - X1(I) 
-            AY1 = Y3(I) - Y1(I)  
-            AZ1 = Z3(I) - Z1(I) 
-            AX2 = X4(I) - X2(I) 
-            AY2 = Y4(I) - Y2(I) 
-            AZ2 = Z4(I) - Z2(I)  
-            
-            AX  = AY1*AZ2 - AZ1*AY2
-            AY  = AZ1*AX2 - AX1*AZ2
-            AZ  = AX1*AY2 - AY1*AX2
-C                              
-            AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            IF(AREAS(I) == ZERO )THEN
 C
-            AREAC =AREA
+              AX1 = X3(I) - X1(I)
+              AY1 = Y3(I) - Y1(I)
+              AZ1 = Z3(I) - Z1(I)
+              AX2 = X4(I) - X2(I)
+              AY2 = Y4(I) - Y2(I)
+              AZ2 = Z4(I) - Z2(I)
+
+              AX  = AY1*AZ2 - AZ1*AY2
+              AY  = AZ1*AX2 - AX1*AZ2
+              AZ  = AX1*AY2 - AY1*AX2
 C
-          ELSE
+              AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
 C
-            AREAC = AREAS(I)
-C          
-          ENDIF
+              AREAC =AREA
+C
+            ELSE
+C
+              AREAC = AREAS(I)
+C
+            ENDIF
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD SECOND. 
+C         DISTANCE ENTRE LE NOEUD SECOND.
 C             ET  LA  SURFACE(SURFFACE NODALE)
 C---------------------------------
 C-------------------------------------
 C         Conduction : close distance
 C-------------------------------------
-          IF(PENRAD(I) <= ZERO)THEN
+            IF(PENRAD(I) <= ZERO)THEN
 C Dist = Gapv - Penetration wrt Gapv
-            DIST = PENRAD(I) +GAPV(I)
+              DIST = PENRAD(I) +GAPV(I)
 C---------------------------------
 C           CALCUL DE LA CONDUCTIBILITE
 C---------------------------------
-            P      = XTHE * ABS(FNI(I)) / AREAS(I)
-            RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
-            COND   = ASI(I)+BSI(I)*TS
-            TSTIFM = MAX(DIST,ZERO) / COND
-            TSTIFT = TSTIFM  + RSTIF
-            CONDINT(I) = AREAC * THEACCFACT/TSTIFT
-C---------------------------------            
-            PHI(I) = AREAC * (TM- TS)*DT1*THEACCFACT / TSTIFT
+              P      = XTHE * ABS(FNI(I)) / AREAS(I)
+              RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
+              COND   = ASI(I)+BSI(I)*TS
+              TSTIFM = MAX(DIST,ZERO) / COND
+              TSTIFT = TSTIFM  + RSTIF
+              CONDINT(I) = AREAC * THEACCFACT/TSTIFT
+C---------------------------------
+              PHI(I) = AREAC * (TM- TS)*DT1*THEACCFACT / TSTIFT
 C---------------------------------
 C----------------------------------------------------------------------
 C         Conduction + Radiation : Heat exchange depending on distance
 C----------------------------------------------------------------------
-          ELSEIF(PENRAD(I) <= DDCOND)THEN
+            ELSEIF(PENRAD(I) <= DDCOND)THEN
 C---------------------------------
-            DIST = GAPV(I)
-            COND = ASI(I)+BSI(I)*TS
-            P      = ZERO
-            RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
-            TSTIFM =   MAX(DIST,ZERO) / COND
-            TSTIFT = TSTIFM  + RSTIF
-            DD = PENRAD(I) /DDCOND
-            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
-            CONDINT(I) = AREAC*HCOND*THEACCFACT
+              DIST = GAPV(I)
+              COND = ASI(I)+BSI(I)*TS
+              P      = ZERO
+              RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))
+              TSTIFM =   MAX(DIST,ZERO) / COND
+              TSTIFT = TSTIFM  + RSTIF
+              DD = PENRAD(I) /DDCOND
+              HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT
+              CONDINT(I) = AREAC*HCOND*THEACCFACT
 
-            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND *THEACCFACT        
+              PHI(I) = AREAC * (TM - TS)*DT1 * HCOND *THEACCFACT
 
-            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1  *THEACCFACT
+              PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS)
+     .                      * (TM + TS) * (TM - TS) * DT1  *THEACCFACT
 C-------------------------------------
 C         Radiation :
-C-------------------------------------   
+C-------------------------------------
 C---------------------------------
-          ELSEIF(PENRAD(I) <= DRAD)THEN
+            ELSEIF(PENRAD(I) <= DRAD)THEN
 C---------------------------------
-            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
-     .                 * (TM + TS) * (TM - TS) * DT1 *THEACCFACT
-          END IF
+              PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
+     .                   * (TM + TS) * (TM - TS) * DT1 *THEACCFACT
+            END IF
 C
-         IF(IFORM == 1 )THEN 
+            IF(IFORM == 1 )THEN
 C
-            PHI1(I) = -PHI(I) *H1(I)
-            PHI2(I) = -PHI(I) *H2(I)
-            PHI3(I) = -PHI(I) *H3(I)
-            PHI4(I) = -PHI(I) *H4(I)
+              PHI1(I) = -PHI(I) *H1(I)
+              PHI2(I) = -PHI(I) *H2(I)
+              PHI3(I) = -PHI(I) *H3(I)
+              PHI4(I) = -PHI(I) *H4(I)
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            PHIM   = FHEAT * EFRICT(I) 
-            PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
-            PHI2(I) = PHI2(I) + PHIM*H2(I)
-            PHI3(I) = PHI3(I) + PHIM*H3(I)
-            PHI4(I) = PHI4(I) + PHIM*H4(I)
-         ENDIF
+              PHIM   = FHEAT * EFRICT(I)
+              PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
+              PHI2(I) = PHI2(I) + PHIM*H2(I)
+              PHI3(I) = PHI3(I) + PHIM*H3(I)
+              PHI4(I) = PHI4(I) + PHIM*H4(I)
+            ENDIF
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-         PHI(I) = PHI(I) + FHEAT * EFRICT(I)*THEACCFACT
-       ENDDO
-      END IF
+            PHI(I) = PHI(I) + FHEAT * EFRICT(I)*THEACCFACT
+          ENDDO
+        END IF
 C
-      RETURN
+        RETURN
       END

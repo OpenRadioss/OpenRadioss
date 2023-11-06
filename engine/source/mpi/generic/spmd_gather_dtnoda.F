@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,NUM,DT2_L,STF_L,MS_L)
+      SUBROUTINE SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,NUM,DT2_L,STF_L,MS_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,77 +43,77 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       my_real
-     .   STIFN(*),MS(*),DT2_L(*),MS_L(*),STF_L(*)
-       INTEGER WEIGHT(*),NUM,TAGN(*)
+        my_real
+     .    STIFN(*),MS(*),DT2_L(*),MS_L(*),STF_L(*)
+        INTEGER WEIGHT(*),NUM,TAGN(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MS_LOFF,ID_G
-      INTEGER SIZ,MS_LTYP,I,K,NG,NREC,MS_LOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MS_LOFF,ID_G
+        INTEGER SIZ,MS_LTYP,I,K,NG,NREC,MS_LOFF2
 
-      DATA MS_LOFF/7014/
-       my_real, DIMENSION(:) , ALLOCATABLE :: BUFSR
+        DATA MS_LOFF/7014/
+        my_real, DIMENSION(:) , ALLOCATABLE :: BUFSR
 C
 C=======================================================================
-       ALLOCATE (BUFSR(3*NUM))     
-C  
-       IF (ISPMD/=0) THEN     
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (TAGN(I) > 0) THEN
-             SIZ = SIZ + 3
-             BUFSR(SIZ-2) = MS(I)/STIFN(I)
-             BUFSR(SIZ-1) = STIFN(I) 
-             BUFSR(SIZ  ) = MS(I)  
-           END IF
-         END DO 
+        ALLOCATE (BUFSR(3*NUM))
+C
+        IF (ISPMD/=0) THEN
+          SIZ = 0
+          DO I=1,NUMNOD
+            IF (TAGN(I) > 0) THEN
+              SIZ = SIZ + 3
+              BUFSR(SIZ-2) = MS(I)/STIFN(I)
+              BUFSR(SIZ-1) = STIFN(I)
+              BUFSR(SIZ  ) = MS(I)
+            END IF
+          END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MS_LTYP = MS_LOFF 
-         CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MS_LTYP = MS_LOFF
+          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-       ELSE
+        ELSE
           ID_G = 0
           DO I=1,NUMNOD
-           IF (TAGN(I) > 0) THEN
-              ID_G = ID_G + 1 
-              DT2_L(ID_G) = MS(I)/STIFN(I) 
-              STF_L(ID_G) = STIFN(I) 
-              MS_L(ID_G) = MS(I) 
+            IF (TAGN(I) > 0) THEN
+              ID_G = ID_G + 1
+              DT2_L(ID_G) = MS(I)/STIFN(I)
+              STF_L(ID_G) = STIFN(I)
+              MS_L(ID_G) = MS(I)
             ENDIF
           ENDDO
 
           DO I=2,NSPMD
 C-------------
-            MS_LTYP = MS_LOFF 
+            MS_LTYP = MS_LOFF
             CALL MPI_PROBE(IT_SPMD(I),MS_LTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
+            CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror)
 
 C------------ Reception du buffer flottant
 
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MS_LTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-     
+
             NREC = SIZ
             DO K = 1,NREC,3
               ID_G = ID_G + 1
               DT2_L(ID_G) = BUFSR(K)
               STF_L(ID_G) = BUFSR(K+1)
-              MS_L(ID_G) = BUFSR(K+2) 
+              MS_L(ID_G) = BUFSR(K+2)
             ENDDO
 C
           ENDDO
 
-       ENDIF
-       DEALLOCATE(BUFSR)
+        ENDIF
+        DEALLOCATE(BUFSR)
 
 #endif
-       RETURN
-       END
+        RETURN
+      END

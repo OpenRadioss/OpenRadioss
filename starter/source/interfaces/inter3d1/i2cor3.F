@@ -32,7 +32,7 @@ Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
 Chd|====================================================================
       SUBROUTINE I2COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
      2                  STF   ,STFN  ,GAPV  ,IGAP    ,GAP   ,
-     3                  GAP_S ,GAP_M ,ISTF  ,NINT    ,IXC   , 
+     3                  GAP_S ,GAP_M ,ISTF  ,NINT    ,IXC   ,
      4                  IXTG  ,THK_PART,IPARTC,GEO   , NOINT,
      5                  IXS   ,IXS10 ,PM    ,THK     ,KNOD2ELS,
      6                  KNOD2ELC,KNOD2ELTG,NOD2ELS,NOD2ELC,NOD2ELTG,
@@ -62,24 +62,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF,
-     .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,
-     .        IXS(NIXS,*), IXS10(*),KNOD2ELS(*), 
-     .        KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
-     .        NOD2ELTG(*),NINT,IGNORE,
-     .        IXS16(*), IXS20(*),IPARTTG(*),IGEO(NPROPGI,*),
-     .        IWORKSH(*)
-      INTEGER, INTENT(IN) :: IFLAG
+        INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF,
+     .          IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,
+     .          IXS(NIXS,*), IXS10(*),KNOD2ELS(*),
+     .          KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
+     .          NOD2ELTG(*),NINT,IGNORE,
+     .          IXS16(*), IXS20(*),IPARTTG(*),IGEO(NPROPGI,*),
+     .          IWORKSH(*)
+        INTEGER, INTENT(IN) :: IFLAG
 C     REAL
-      my_real
-     .   GAP, X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
-     .   GEO(NPROPG,*),THK(*),THK_PART(*),PM(*),DSEARCH,PM_STACK(*)
-      INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Z1,Z2,Z3,Z4
-      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: XI,YI,ZI
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
+        my_real
+     .     GAP, X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
+     .     GEO(NPROPG,*),THK(*),THK_PART(*),PM(*),DSEARCH,PM_STACK(*)
+        INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
+        my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
+        my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
+        my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Z1,Z2,Z3,Z4
+        my_real, DIMENSION(MVSIZ), INTENT(OUT) :: XI,YI,ZI
+        my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -91,178 +91,178 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IL, L, NN, IG,NODE1,NODE2,NODE3,NODE4,II,IAD,JJ,JJJ,
-     .        IEL,MG,IP,NELS,NELC,NELTG
+        INTEGER I, IL, L, NN, IG,NODE1,NODE2,NODE3,NODE4,II,IAD,JJ,JJJ,
+     .          IEL,MG,IP,NELS,NELC,NELTG
 C     REAL
-      my_real
-     .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA,GAPMIN,GAPMAX
+        my_real
+     .       THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA,GAPMIN,GAPMAX
 C-----------------------------------------------
 C
-      DO I=LFT,LLT
-       IG = NSV(CAND_N(I))
-       NSVG(I) = IG
-       XI(I) = X(1,IG)
-       YI(I) = X(2,IG)
-       ZI(I) = X(3,IG)
-      ENDDO
-C
-      GAPMIN = EP30
-      GAPMAX = ZERO
-      IF(IGAP==0 .AND. IGNORE <= 1)THEN
         DO I=LFT,LLT
-         GAPV(I) = GAP
-        ENDDO 
-        IF(IFLAG==1) WRITE(IOUT,2001) GAP
-      ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
-        DO I=LFT,LLT
-          GAPV(I) = GAP
+          IG = NSV(CAND_N(I))
+          NSVG(I) = IG
+          XI(I) = X(1,IG)
+          YI(I) = X(2,IG)
+          ZI(I) = X(3,IG)
         ENDDO
-        IF(IFLAG==1) WRITE(IOUT,2001) GAP
-      ELSEIF(IGNORE >= 2)THEN
-        DO I=LFT,LLT
-          THKSECND = ZERO
-          THKMAIN = ZERO
-          II=CAND_N(I)
-          DO IAD = KNOD2ELC(NSVG(I))+1,KNOD2ELC(NSVG(I)+1)
-            IEL  = NOD2ELC(IAD)
-            MG=IXC(6,IEL)
-	    IP = IPARTC(IEL)
-            IF ( THK_PART(IP) /= ZERO) THEN  
-              THKSECND = THK_PART(IP)
-	    ELSEIF ( THK(IEL) /= ZERO) THEN
-	      THKSECND = THK(IEL)
-	    ELSE
-              THKSECND = GEO(1,MG)
-	    ENDIF
-          ENDDO 
-C--         Cooques 3n
-          DO IAD = KNOD2ELTG(NSVG(I))+1,KNOD2ELTG(NSVG(I)+1)
-            IEL  = NOD2ELTG(IAD) 
-            MG=IXTG(5,IEL)
-	    IP = IPARTTG(IEL)
-            IF ( THK_PART(IP) /= ZERO) THEN  
-              THKSECND = THK_PART(IP)
-	    ELSEIF ( THK(NUMELC+IEL) /= ZERO) THEN
-	      THKSECND = THK(NUMELC+IEL)
-	    ELSE
-              THKSECND = GEO(1,MG)
-	    ENDIF
+C
+        GAPMIN = EP30
+        GAPMAX = ZERO
+        IF(IGAP==0 .AND. IGNORE <= 1)THEN
+          DO I=LFT,LLT
+            GAPV(I) = GAP
           ENDDO
-          NELS = 0
-          NELC = 0
-          NELTG = 0
-          CALL INSOL3(X,IRECT,IXS,NINT,NELS,CAND_E(I),
-     .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
-     .            IXS16,IXS20)
-          CALL INCOQ3(IRECT,IXC ,IXTG ,NINT   ,NELC     ,
-     .            NELTG,CAND_E(I),GEO  ,PM     ,KNOD2ELC ,
-     .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,2,IGEO,
-     .            PM_STACK , IWORKSH )
-          IF(NELTG/=0) THEN
-            MG=IXTG(5,NELTG)
-	    IP = IPARTTG(NELTG) 
-            IF ( THK_PART(IP) /= ZERO) THEN  
-              THKMAIN = THK_PART(IP)
-	    ELSEIF ( THK(NUMELC+NELTG) /= ZERO) THEN
-              THKMAIN = THK(NUMELC+NELTG)
-	    ELSE
-              THKMAIN = GEO(1,MG)
-	    ENDIF
-          ELSEIF(NELC/=0) THEN
-            MG=IXC(6,NELC)
-	    IP = IPARTC(NELC) 
-            IF ( THK_PART(IP) /= ZERO) THEN  
-              THKMAIN = THK_PART(IP)
-	    ELSEIF ( THK(NELC) /= ZERO) THEN
-              THKMAIN = THK(NELC)
-	    ELSE
-              THKMAIN = GEO(1,MG)
-	    ENDIF
-          ELSEIF(NELS/=0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
-            DO JJ=1,8
-              JJJ=IXS(JJ+1,NELS)
-              XC(JJ)=X(1,JJJ)
-              YC(JJ)=X(2,JJJ)
-              ZC(JJ)=X(3,JJJ)
-            END DO
-            CALL VOLINT(VOL)
+          IF(IFLAG==1) WRITE(IOUT,2001) GAP
+        ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
+          DO I=LFT,LLT
+            GAPV(I) = GAP
+          ENDDO
+          IF(IFLAG==1) WRITE(IOUT,2001) GAP
+        ELSEIF(IGNORE >= 2)THEN
+          DO I=LFT,LLT
+            THKSECND = ZERO
+            THKMAIN = ZERO
+            II=CAND_N(I)
+            DO IAD = KNOD2ELC(NSVG(I))+1,KNOD2ELC(NSVG(I)+1)
+              IEL  = NOD2ELC(IAD)
+              MG=IXC(6,IEL)
+              IP = IPARTC(IEL)
+              IF ( THK_PART(IP) /= ZERO) THEN
+                THKSECND = THK_PART(IP)
+              ELSEIF ( THK(IEL) /= ZERO) THEN
+                THKSECND = THK(IEL)
+              ELSE
+                THKSECND = GEO(1,MG)
+              ENDIF
+            ENDDO
+C--         Cooques 3n
+            DO IAD = KNOD2ELTG(NSVG(I))+1,KNOD2ELTG(NSVG(I)+1)
+              IEL  = NOD2ELTG(IAD)
+              MG=IXTG(5,IEL)
+              IP = IPARTTG(IEL)
+              IF ( THK_PART(IP) /= ZERO) THEN
+                THKSECND = THK_PART(IP)
+              ELSEIF ( THK(NUMELC+IEL) /= ZERO) THEN
+                THKSECND = THK(NUMELC+IEL)
+              ELSE
+                THKSECND = GEO(1,MG)
+              ENDIF
+            ENDDO
+            NELS = 0
+            NELC = 0
+            NELTG = 0
+            CALL INSOL3(X,IRECT,IXS,NINT,NELS,CAND_E(I),
+     .              AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
+     .              IXS16,IXS20)
+            CALL INCOQ3(IRECT,IXC ,IXTG ,NINT   ,NELC     ,
+     .              NELTG,CAND_E(I),GEO  ,PM     ,KNOD2ELC ,
+     .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,2,IGEO,
+     .              PM_STACK , IWORKSH )
+            IF(NELTG/=0) THEN
+              MG=IXTG(5,NELTG)
+              IP = IPARTTG(NELTG)
+              IF ( THK_PART(IP) /= ZERO) THEN
+                THKMAIN = THK_PART(IP)
+              ELSEIF ( THK(NUMELC+NELTG) /= ZERO) THEN
+                THKMAIN = THK(NUMELC+NELTG)
+              ELSE
+                THKMAIN = GEO(1,MG)
+              ENDIF
+            ELSEIF(NELC/=0) THEN
+              MG=IXC(6,NELC)
+              IP = IPARTC(NELC)
+              IF ( THK_PART(IP) /= ZERO) THEN
+                THKMAIN = THK_PART(IP)
+              ELSEIF ( THK(NELC) /= ZERO) THEN
+                THKMAIN = THK(NELC)
+              ELSE
+                THKMAIN = GEO(1,MG)
+              ENDIF
+            ELSEIF(NELS/=0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
+              DO JJ=1,8
+                JJJ=IXS(JJ+1,NELS)
+                XC(JJ)=X(1,JJJ)
+                YC(JJ)=X(2,JJJ)
+                ZC(JJ)=X(3,JJJ)
+              END DO
+              CALL VOLINT(VOL)
 C
-            THKMAIN = VOL/AREA
-          ENDIF
-          DD = ZERO
-          NODE1=IRECT(1,CAND_E(I))
-          NODE2=IRECT(2,CAND_E(I))
-          NODE3=IRECT(3,CAND_E(I))
-          NODE4=IRECT(4,CAND_E(I))
+              THKMAIN = VOL/AREA
+            ENDIF
+            DD = ZERO
+            NODE1=IRECT(1,CAND_E(I))
+            NODE2=IRECT(2,CAND_E(I))
+            NODE3=IRECT(3,CAND_E(I))
+            NODE4=IRECT(4,CAND_E(I))
 C         LONGUEUR DIAG 1
-          DX1=(X(1,NODE1)-X(1,NODE3))
-          DY1=(X(2,NODE1)-X(2,NODE3))
-          DZ1=(X(3,NODE1)-X(3,NODE3))
-          DD=SQRT(DX1**2+DY1**2+DZ1**2)
+            DX1=(X(1,NODE1)-X(1,NODE3))
+            DY1=(X(2,NODE1)-X(2,NODE3))
+            DZ1=(X(3,NODE1)-X(3,NODE3))
+            DD=SQRT(DX1**2+DY1**2+DZ1**2)
 C         LONGUEUR DIAG 2
-          DX3=(X(1,NODE2)-X(1,NODE4))
-          DY3=(X(2,NODE2)-X(2,NODE4))
-          DZ3=(X(3,NODE2)-X(3,NODE4))
-          DD=MIN(DD,SQRT(DX3**2+DY3**2+DZ3**2))
-          GAPV(I) = MAX(ZEP05*DD,ZEP6*(THKSECND+THKMAIN))
-          GAPMIN = MIN(GAPMIN,GAPV(I))
-          GAPMAX = MAX(GAPMAX,GAPV(I))
-        ENDDO
-        IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
-      ELSE
+            DX3=(X(1,NODE2)-X(1,NODE4))
+            DY3=(X(2,NODE2)-X(2,NODE4))
+            DZ3=(X(3,NODE2)-X(3,NODE4))
+            DD=MIN(DD,SQRT(DX3**2+DY3**2+DZ3**2))
+            GAPV(I) = MAX(ZEP05*DD,ZEP6*(THKSECND+THKMAIN))
+            GAPMIN = MIN(GAPMIN,GAPV(I))
+            GAPMAX = MAX(GAPMAX,GAPV(I))
+          ENDDO
+          IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
+        ELSE
+          DO I=LFT,LLT
+            GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
+            GAPV(I) = MAX(GAP,GAPV(I))
+            GAPMIN = MIN(GAPMIN,GAPV(I))
+            GAPMAX = MAX(GAPMAX,GAPV(I))
+          ENDDO
+          IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
+        ENDIF
+C
+        IF(ISTF/=0)THEN
+          DO I=LFT,LLT
+            STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
+          ENDDO
+        ENDIF
+C
         DO I=LFT,LLT
-         GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-         GAPV(I) = MAX(GAP,GAPV(I))
-          GAPMIN = MIN(GAPMIN,GAPV(I))
-          GAPMAX = MAX(GAPMAX,GAPV(I))
-        ENDDO
-        IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
-      ENDIF
 C
-      IF(ISTF/=0)THEN
+          L  = CAND_E(I)
+C
+          IX1(I)=IRECT(1,L)
+          IX2(I)=IRECT(2,L)
+          IX3(I)=IRECT(3,L)
+          IX4(I)=IRECT(4,L)
+C
+        ENDDO
+C
         DO I=LFT,LLT
-          STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
+C
+          NN=IX1(I)
+          X1(I)=X(1,NN)
+          Y1(I)=X(2,NN)
+          Z1(I)=X(3,NN)
+C
+          NN=IX2(I)
+          X2(I)=X(1,NN)
+          Y2(I)=X(2,NN)
+          Z2(I)=X(3,NN)
+C
+          NN=IX3(I)
+          X3(I)=X(1,NN)
+          Y3(I)=X(2,NN)
+          Z3(I)=X(3,NN)
+C
+          NN=IX4(I)
+          X4(I)=X(1,NN)
+          Y4(I)=X(2,NN)
+          Z4(I)=X(3,NN)
+C
         ENDDO
-      ENDIF
 C
-      DO I=LFT,LLT
-C
-        L  = CAND_E(I)
-C
-        IX1(I)=IRECT(1,L)
-        IX2(I)=IRECT(2,L)
-        IX3(I)=IRECT(3,L)
-        IX4(I)=IRECT(4,L)
-C
-      ENDDO
-C
-      DO I=LFT,LLT
-C
-        NN=IX1(I)
-        X1(I)=X(1,NN)
-        Y1(I)=X(2,NN)
-        Z1(I)=X(3,NN)
-C
-        NN=IX2(I)
-        X2(I)=X(1,NN)
-        Y2(I)=X(2,NN)
-        Z2(I)=X(3,NN)
-C
-        NN=IX3(I)
-        X3(I)=X(1,NN)
-        Y3(I)=X(2,NN)
-        Z3(I)=X(3,NN)
-C
-        NN=IX4(I)
-        X4(I)=X(1,NN)
-        Y4(I)=X(2,NN)
-        Z4(I)=X(3,NN)
-C
-      ENDDO
-C
-      RETURN
+        RETURN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
- 2001 FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .',1PG20.13/)
- 2002 FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .BETWEEN',1PG20.13,' AND ',1PG20.13/)
+ 2001   FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .',1PG20.13/)
+ 2002   FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .BETWEEN',1PG20.13,' AND ',1PG20.13/)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       END

@@ -34,26 +34,26 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NN
-      my_real
-     .   XYZ(3,*),X,Y,Z
+        INTEGER NN
+        my_real
+     .     XYZ(3,*),X,Y,Z
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
-      my_real
-     .   XIJ,YIJ,ZIJ
+        INTEGER I,J
+        my_real
+     .     XIJ,YIJ,ZIJ
 C----6---------------------------------------------------------------7---------8
-       DO J=1,NN
-	    XIJ=XYZ(1,J)-X
-	    YIJ=XYZ(2,J)-Y
-	    ZIJ=XYZ(3,J)-Z
-        IF (XIJ==ZERO.AND.YIJ==ZERO.AND.ZIJ==ZERO) RETURN
-       END DO !J=1,NN
-	     NN = NN + 1
-	     XYZ(1,NN)=X
-	     XYZ(2,NN)=Y
-	     XYZ(3,NN)=Z
+        DO J=1,NN
+          XIJ=XYZ(1,J)-X
+          YIJ=XYZ(2,J)-Y
+          ZIJ=XYZ(3,J)-Z
+          IF (XIJ==ZERO.AND.YIJ==ZERO.AND.ZIJ==ZERO) RETURN
+        END DO !J=1,NN
+        NN = NN + 1
+        XYZ(1,NN)=X
+        XYZ(2,NN)=Y
+        XYZ(3,NN)=Z
 C
-      RETURN
+        RETURN
       END

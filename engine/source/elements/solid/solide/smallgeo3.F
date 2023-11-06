@@ -31,7 +31,7 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        DT_MOD                        share/modules/dt_mod.F        
+Chd|        DT_MOD                        share/modules/dt_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SMALLGEO3(
@@ -40,8 +40,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE DT_MOD
+        USE MESSAGE_MOD
+        USE DT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,71 +55,71 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
-      INTEGER, INTENT(IN) :: ISMSTR
-      INTEGER ITET,NGL(*)
-      my_real
-     .   OFFG(*),VOLG(*),DELTAX(*), VOLG0(*)
-      TYPE(DT_), INTENT(INOUT) :: DT
+        INTEGER, INTENT(IN) :: NEL
+        INTEGER, INTENT(IN) :: ISMSTR
+        INTEGER ITET,NGL(*)
+        my_real
+     .     OFFG(*),VOLG(*),DELTAX(*), VOLG0(*)
+        TYPE(DT_), INTENT(INOUT) :: DT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ICOUNT,LIST(MVSIZ)
-      my_real
-     .   TET_COLLA(MVSIZ),COEF,DEF_V,AL,MIN_ASPECT,MIN_DEFV
+        INTEGER I,J,ICOUNT,LIST(MVSIZ)
+        my_real
+     .     TET_COLLA(MVSIZ),COEF,DEF_V,AL,MIN_ASPECT,MIN_DEFV
 C---------------------------------------------
-      MIN_ASPECT = DT%BRICK_CST_COL_MIN
-      MIN_DEFV = DT%BRICK_CST_DEFV_MIN
+        MIN_ASPECT = DT%BRICK_CST_COL_MIN
+        MIN_DEFV = DT%BRICK_CST_DEFV_MIN
 C-
-      IF(MIN_ASPECT==ZERO.AND.MIN_DEFV==ZERO) RETURN
-      IF(ISMSTR/=2.AND.ISMSTR/=12) RETURN
-      COEF = ONE
-      IF (ITET >0) COEF = ONE/1.24/SQR3
+        IF(MIN_ASPECT==ZERO.AND.MIN_DEFV==ZERO) RETURN
+        IF(ISMSTR/=2.AND.ISMSTR/=12) RETURN
+        COEF = ONE
+        IF (ITET >0) COEF = ONE/1.24/SQR3
 C
-      IF (MIN_DEFV >ZERO) THEN
-       DO I=1,NEL
-        IF (OFFG(I)>ONE.OR.OFFG(I)==ZERO) CYCLE
-        DEF_V = VOLG(I)/VOLG0(I)
-        IF (DEF_V < MIN_DEFV) THEN
-         OFFG(I) = TWO
+        IF (MIN_DEFV >ZERO) THEN
+          DO I=1,NEL
+            IF (OFFG(I)>ONE.OR.OFFG(I)==ZERO) CYCLE
+            DEF_V = VOLG(I)/VOLG0(I)
+            IF (DEF_V < MIN_DEFV) THEN
+              OFFG(I) = TWO
 #include "lockon.inc"
-         CALL ANCMSG(MSGID=267,ANMODE=ANINFO,
-     .                    I1=NGL(I),
-     .                    R1=DEF_V )
+              CALL ANCMSG(MSGID=267,ANMODE=ANINFO,
+     .                         I1=NGL(I),
+     .                         R1=DEF_V )
 #include "lockoff.inc"
-        END IF	
-       END DO
-      END IF !(MIN_DEFV)>ZERO) THEN
-C      
-      IF (MIN_ASPECT>ZERO) THEN
-       ICOUNT = 0
-       DO I=1,NEL
-        IF (OFFG(I)>ONE.OR.OFFG(I)==ZERO) CYCLE
+            END IF
+          END DO
+        END IF !(MIN_DEFV)>ZERO) THEN
+C
+        IF (MIN_ASPECT>ZERO) THEN
+          ICOUNT = 0
+          DO I=1,NEL
+            IF (OFFG(I)>ONE.OR.OFFG(I)==ZERO) CYCLE
 c       AL = VOLG(I)**(1.0D0/3.0D0)!  EXP(THIRD*LOG(VOLG(I)))
 c       TET_COLLA(I)= COEF* (DELTAX(I)/AL)**(3.0D0/2.0D0)!COEF*EXP(THREE_HALF*LOG(DELTAX(I)/AL))
-        TET_COLLA(I) = COEF * SQRT(DELTAX(I)**3 / VOLG(I))
-        IF (TET_COLLA(I) < MIN_ASPECT) THEN
-         OFFG(I) = TWO
-         ICOUNT=ICOUNT+1
-         LIST(ICOUNT)=I
-        END IF	
-       END DO
-       IF (ICOUNT > 0) THEN
+            TET_COLLA(I) = COEF * SQRT(DELTAX(I)**3 / VOLG(I))
+            IF (TET_COLLA(I) < MIN_ASPECT) THEN
+              OFFG(I) = TWO
+              ICOUNT=ICOUNT+1
+              LIST(ICOUNT)=I
+            END IF
+          END DO
+          IF (ICOUNT > 0) THEN
 #include "lockon.inc"
-          WRITE(IOUT,1000)
-          WRITE(ISTDO,1000)
-        DO J=1,ICOUNT
-          I=LIST(J)
-          WRITE(IOUT,'(6X,I10,1PG20.13)')NGL(I),TET_COLLA(I)
-          WRITE(ISTDO,'(6X,I10,1PG20.13)')NGL(I),TET_COLLA(I)
-        ENDDO
-         WRITE(IOUT,*)
-         WRITE(ISTDO,*)
+            WRITE(IOUT,1000)
+            WRITE(ISTDO,1000)
+            DO J=1,ICOUNT
+              I=LIST(J)
+              WRITE(IOUT,'(6X,I10,1PG20.13)')NGL(I),TET_COLLA(I)
+              WRITE(ISTDO,'(6X,I10,1PG20.13)')NGL(I),TET_COLLA(I)
+            ENDDO
+            WRITE(IOUT,*)
+            WRITE(ISTDO,*)
 #include "lockoff.inc"
-       END IF !(ICOUNT > 0) THEN
-      END IF !(MIN_ASPECT)>ZERO) THEN
+          END IF !(ICOUNT > 0) THEN
+        END IF !(MIN_ASPECT)>ZERO) THEN
 C
-      RETURN
- 1000 FORMAT(/
-     .    'THE FOLLOWING ELEMENTS WILL BE SWITCHED TO SMALL STRAIN DUE TO BAD ASPECT RATIO' /)
+        RETURN
+ 1000   FORMAT(/
+     .      'THE FOLLOWING ELEMENTS WILL BE SWITCHED TO SMALL STRAIN DUE TO BAD ASPECT RATIO' /)
       END

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CDKSTRA3(JFT,JLT,GSTR,EXX, EYY, EXY,KXX, KYY, KXY, 
+      SUBROUTINE CDKSTRA3(JFT,JLT,GSTR,EXX, EYY, EXY,KXX, KYY, KXY,
      .                    EPSDOT,NFT,ISTRAIN,DT1,GSTRPG,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -39,45 +39,45 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,NFT,ISTRAIN,NEL
-      my_real
-     .   GSTR(NEL,8), EXX(*), EYY(*), EXY(*),KXX(*), KYY(*), KXY(*),
-     .   EPSDOT(6,*),DT1,GSTRPG(NEL,8)
+        INTEGER JFT, JLT,NFT,ISTRAIN,NEL
+        my_real
+     .     GSTR(NEL,8), EXX(*), EYY(*), EXY(*),KXX(*), KYY(*), KXY(*),
+     .     EPSDOT(6,*),DT1,GSTRPG(NEL,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
-      my_real ONE_OVER_3
+        INTEGER I,J
+        my_real ONE_OVER_3
 C-----------------------------------------------
-      IF(IEPSDOT/=0)THEN
-       DO I=JFT,JLT
-        J = I + NFT
-        EPSDOT(4,J)=KXX(I)
-        EPSDOT(5,J)=KYY(I)
-        EPSDOT(6,J)=KXY(I)
-       ENDDO
-      ENDIF
+        IF(IEPSDOT/=0)THEN
+          DO I=JFT,JLT
+            J = I + NFT
+            EPSDOT(4,J)=KXX(I)
+            EPSDOT(5,J)=KYY(I)
+            EPSDOT(6,J)=KXY(I)
+          ENDDO
+        ENDIF
 C
-      DO I=JFT,JLT
-       KXX(I)=KXX(I)*DT1
-       KYY(I)=KYY(I)*DT1
-       KXY(I)=KXY(I)*DT1
-      ENDDO
-C
-      IF(ISTRAIN/=0)THEN
         DO I=JFT,JLT
-         GSTR(I,6)=GSTR(I,6)+KXX(I)*THIRD
-         GSTR(I,7)=GSTR(I,7)+KYY(I)*THIRD
-         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD	 
-C
-         GSTRPG(I,1)=GSTRPG(I,1)+EXX(I)
-         GSTRPG(I,2)=GSTRPG(I,2)+EYY(I)
-         GSTRPG(I,3)=GSTRPG(I,3)+EXY(I)
-         GSTRPG(I,6)=GSTRPG(I,6)+KXX(I)
-         GSTRPG(I,7)=GSTRPG(I,7)+KYY(I)
-         GSTRPG(I,8)=GSTRPG(I,8)+KXY(I)
+          KXX(I)=KXX(I)*DT1
+          KYY(I)=KYY(I)*DT1
+          KXY(I)=KXY(I)*DT1
         ENDDO
-      ENDIF
 C
-      RETURN
+        IF(ISTRAIN/=0)THEN
+          DO I=JFT,JLT
+            GSTR(I,6)=GSTR(I,6)+KXX(I)*THIRD
+            GSTR(I,7)=GSTR(I,7)+KYY(I)*THIRD
+            GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD
+C
+            GSTRPG(I,1)=GSTRPG(I,1)+EXX(I)
+            GSTRPG(I,2)=GSTRPG(I,2)+EYY(I)
+            GSTRPG(I,3)=GSTRPG(I,3)+EXY(I)
+            GSTRPG(I,6)=GSTRPG(I,6)+KXX(I)
+            GSTRPG(I,7)=GSTRPG(I,7)+KYY(I)
+            GSTRPG(I,8)=GSTRPG(I,8)+KXY(I)
+          ENDDO
+        ENDIF
+C
+        RETURN
       END

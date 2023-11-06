@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  RBE3V                         source/constraints/general/rbe3/rbe3v.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
 Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
@@ -44,87 +44,87 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRBE3(NRBE3L,*),LRBE3(*)
+        INTEGER IRBE3(NRBE3L,*),LRBE3(*)
 C     REAL
-      my_real
-     .   X(3,*), A(3,*), AR(3,*), FRBE3(*),SKEW(*),
-     .   V(3,*), VR(3,*)
+        my_real
+     .     X(3,*), A(3,*), AR(3,*), FRBE3(*),SKEW(*),
+     .     V(3,*), VR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
+        INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
+     .          JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
 C     REAL
-      my_real 
-     .        VS(3),VRS(3),AS(3),ARS(3)
-      my_real, 
-     .         DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
+        my_real
+     .          VS(3),VRS(3),AS(3),ARS(3)
+        my_real,
+     .           DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
 C======================================================================|
-      IADS = SLRBE3/2
-      CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
-      DO N= NRBE3,1,-1
-        IAD = IRBE3(1,N)
-        NS  = IRBE3(3,N)
-        NML = IRBE3(5,N)
-        IF (NS==0) CYCLE
-        IROT =MIN(IRBE3(6,N),IRODDL)
-        CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
-     .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
-     .              MDSTNB  ,IRBE3(2,N))
-        DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	 AS(J) = ZERO
-	 ARS(J) = ZERO
-	ENDDO
-        DO I=1,NML
-         M = LRBE3(IAD+I)
-         DO J = 1,3
-          DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*V(K,M)
-	   AS(J) = AS(J)+FDSTNB(K,J,I)*A(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*V(K,M)
-	   ARS(J) = ARS(J)+FDSTNB(K,J+3,I)*A(K,M)
-	  ENDDO
-	 ENDDO
-        ENDDO
-        IF (IROT>0) THEN
-         DO I=1,NML
-          M = LRBE3(IAD+I)
+        IADS = SLRBE3/2
+        CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
+        ALLOCATE(FDSTNB(3,6,MAX_M))
+        IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
+        DO N= NRBE3,1,-1
+          IAD = IRBE3(1,N)
+          NS  = IRBE3(3,N)
+          NML = IRBE3(5,N)
+          IF (NS==0) CYCLE
+          IROT =MIN(IRBE3(6,N),IRODDL)
+          CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
+     .                FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
+     .                MDSTNB  ,IRBE3(2,N))
           DO J = 1,3
-           DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*VR(K,M)
-	    AS(J) = AS(J)+MDSTNB(K,J,I)*AR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*VR(K,M)
-	    ARS(J) = ARS(J)+MDSTNB(K,J+3,I)*AR(K,M)
-	   ENDDO
-	  ENDDO
-         ENDDO
-        ENDIF 
-        DO J = 1,3
-	 V(J,NS) = VS(J) *JT(J,N)
-	 A(J,NS) = AS(J) *JT(J,N)
-	ENDDO
-        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
-         DO J = 1,3
-	  VR(J,NS) = VRS(J) *JR(J,N)
-	  AR(J,NS) = ARS(J) *JR(J,N)
-	 ENDDO
-        ENDIF 
-      ENDDO
-C      
-      DEALLOCATE(FDSTNB)
-      IF (IROTG>0) DEALLOCATE(MDSTNB)
+            VS(J) = ZERO
+            VRS(J) = ZERO
+            AS(J) = ZERO
+            ARS(J) = ZERO
+          ENDDO
+          DO I=1,NML
+            M = LRBE3(IAD+I)
+            DO J = 1,3
+              DO K = 1,3
+                VS(J) = VS(J)+FDSTNB(K,J,I)*V(K,M)
+                AS(J) = AS(J)+FDSTNB(K,J,I)*A(K,M)
+                VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*V(K,M)
+                ARS(J) = ARS(J)+FDSTNB(K,J+3,I)*A(K,M)
+              ENDDO
+            ENDDO
+          ENDDO
+          IF (IROT>0) THEN
+            DO I=1,NML
+              M = LRBE3(IAD+I)
+              DO J = 1,3
+                DO K = 1,3
+                  VS(J) = VS(J)+MDSTNB(K,J,I)*VR(K,M)
+                  AS(J) = AS(J)+MDSTNB(K,J,I)*AR(K,M)
+                  VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*VR(K,M)
+                  ARS(J) = ARS(J)+MDSTNB(K,J+3,I)*AR(K,M)
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDIF
+          DO J = 1,3
+            V(J,NS) = VS(J) *JT(J,N)
+            A(J,NS) = AS(J) *JT(J,N)
+          ENDDO
+          IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
+            DO J = 1,3
+              VR(J,NS) = VRS(J) *JR(J,N)
+              AR(J,NS) = ARS(J) *JR(J,N)
+            ENDDO
+          ENDIF
+        ENDDO
+C
+        DEALLOCATE(FDSTNB)
+        IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBE3_IMPD                     source/constraints/general/rbe3/rbe3v.F
 Chd|-- called by -----------
-Chd|        RECUKIN                       source/implicit/recudis.F     
+Chd|        RECUKIN                       source/implicit/recudis.F
 Chd|-- calls ---------------
 Chd|        PRERBE3                       source/constraints/general/rbe3/rbe3f.F
 Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
@@ -145,79 +145,79 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRBE3(NRBE3L,*),LRBE3(*)
+        INTEGER IRBE3(NRBE3L,*),LRBE3(*)
 C     REAL
-      my_real
-     .   X(3,*), D(3,*), DR(3,*),  FRBE3(*),SKEW(*)
+        my_real
+     .     X(3,*), D(3,*), DR(3,*),  FRBE3(*),SKEW(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
+        INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
+     .          JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
 C     REAL
-      my_real 
-     .        VS(3),VRS(3)
-      my_real, 
-     .         DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
+        my_real
+     .          VS(3),VRS(3)
+        my_real,
+     .           DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
 C======================================================================|
-      IADS = SLRBE3/2
-      CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
-      DO N=1,NRBE3
-        IAD = IRBE3(1,N)
-        NS  = IRBE3(3,N)
-        IF (NS==0) CYCLE
-        NML = IRBE3(5,N)
-	IROT =MIN(IRBE3(6,N),IRODDL)
-        CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
-     .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
-     .              MDSTNB  ,IRBE3(2,N))
-        DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	ENDDO
-        DO I=1,NML
-         M = LRBE3(IAD+I)
-         DO J = 1,3
-          DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
-	  ENDDO
-	 ENDDO
-        ENDDO
-        IF (IROT>0) THEN
-         DO I=1,NML
-          M = LRBE3(IAD+I)
+        IADS = SLRBE3/2
+        CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
+        ALLOCATE(FDSTNB(3,6,MAX_M))
+        IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
+        DO N=1,NRBE3
+          IAD = IRBE3(1,N)
+          NS  = IRBE3(3,N)
+          IF (NS==0) CYCLE
+          NML = IRBE3(5,N)
+          IROT =MIN(IRBE3(6,N),IRODDL)
+          CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
+     .                FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
+     .                MDSTNB  ,IRBE3(2,N))
           DO J = 1,3
-           DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
-	   ENDDO
-	  ENDDO
-         ENDDO
-        ENDIF 
-        DO J = 1,3
-	 D(J,NS) = VS(J) *JT(J,N)
-	ENDDO
-        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
-         DO J = 1,3
-	  DR(J,NS) = VRS(J) *JR(J,N)
-	 ENDDO
-        ENDIF 
-      ENDDO
-C      
-      DEALLOCATE(FDSTNB)
-      IF (IROTG>0) DEALLOCATE(MDSTNB)
+            VS(J) = ZERO
+            VRS(J) = ZERO
+          ENDDO
+          DO I=1,NML
+            M = LRBE3(IAD+I)
+            DO J = 1,3
+              DO K = 1,3
+                VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
+                VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
+              ENDDO
+            ENDDO
+          ENDDO
+          IF (IROT>0) THEN
+            DO I=1,NML
+              M = LRBE3(IAD+I)
+              DO J = 1,3
+                DO K = 1,3
+                  VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
+                  VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDIF
+          DO J = 1,3
+            D(J,NS) = VS(J) *JT(J,N)
+          ENDDO
+          IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
+            DO J = 1,3
+              DR(J,NS) = VRS(J) *JR(J,N)
+            ENDDO
+          ENDIF
+        ENDDO
+C
+        DEALLOCATE(FDSTNB)
+        IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  RBE3_FRD                      source/constraints/general/rbe3/rbe3v.F
 Chd|-- called by -----------
-Chd|        FR_U2DD                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP3_U2X                      source/airbag/monv_imp0.F     
+Chd|        FR_U2DD                       source/mpi/implicit/imp_fri.F
+Chd|        IMP3_U2X                      source/airbag/monv_imp0.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RBE3_FRD(NML    ,IML    ,NS    ,D     ,DR    ,
@@ -229,50 +229,50 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NML,IML(*),NS,IROT,JT(*),JR(*)
-      my_real
-     .   D(3,*), DR(3,*),  FDSTNB(3,6,*) ,MDSTNB(3,6,*)
+        INTEGER NML,IML(*),NS,IROT,JT(*),JR(*)
+        my_real
+     .     D(3,*), DR(3,*),  FDSTNB(3,6,*) ,MDSTNB(3,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, IAD,JJ,NM,NN,K
-      my_real 
-     .        VS(3),VRS(3)
+        INTEGER I, J, N, M, IAD,JJ,NM,NN,K
+        my_real
+     .          VS(3),VRS(3)
 
 C======================================================================|
         DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	ENDDO
-        DO I=1,NML
-         M = IML(I)
-         DO J = 1,3
-          DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
-	  ENDDO
-	 ENDDO
+          VS(J) = ZERO
+          VRS(J) = ZERO
         ENDDO
-        IF (IROT>0) THEN
-         DO I=1,NML
+        DO I=1,NML
           M = IML(I)
           DO J = 1,3
-           DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
-	   ENDDO
-	  ENDDO
-         ENDDO
-        ENDIF 
+            DO K = 1,3
+              VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
+              VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
+            ENDDO
+          ENDDO
+        ENDDO
+        IF (IROT>0) THEN
+          DO I=1,NML
+            M = IML(I)
+            DO J = 1,3
+              DO K = 1,3
+                VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
+                VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDIF
         DO J = 1,3
-	 D(J,NS) = VS(J) *JT(J)
-	ENDDO
+          D(J,NS) = VS(J) *JT(J)
+        ENDDO
         IF ((JR(1)+JR(2)+JR(3))>0) THEN
-         DO J = 1,3
-	  DR(J,NS) = VRS(J) *JR(J)
-	 ENDDO
-        ENDIF 
+          DO J = 1,3
+            DR(J,NS) = VRS(J) *JR(J)
+          ENDDO
+        ENDIF
 C---
-      RETURN
+        RETURN
       END
 

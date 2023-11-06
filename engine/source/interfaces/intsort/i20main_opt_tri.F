@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  I20MAIN_OPT_TRI               source/interfaces/intsort/i20main_opt_tri.F
 Chd|-- called by -----------
-Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
+Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I20OPTCD                      source/interfaces/intsort/i20optcd.F
@@ -36,8 +36,8 @@ Chd|====================================================================
      3                  INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------  
-      USE INTBUFDEF_MOD
+C-----------------------------------------------
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,57 +52,57 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
-     * COUNT_REMSLV(*), COUNT_REMSLVE(*)
+        INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
+     *   COUNT_REMSLV(*), COUNT_REMSLVE(*)
 C     REAL
-      my_real 
-     .   X(*), V(3,*)
+        my_real
+     .     X(*), V(3,*)
 
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, I, IFQ, I_STOK,NSNF,NSNL
+        INTEGER KK, I, IFQ, I_STOK,NSNF,NSNL
 C     REAL
-      my_real
-     .   STARTT,GAP,STOPT
+        my_real
+     .     STARTT,GAP,STOPT
 C=======================================================================
 C     ALLOCATABLE
 C=======================================================================
 C-----------------------------------------------
-      IFQ =IPARI(31,NIN) 
+        IFQ =IPARI(31,NIN)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        STOPT =INTBUF_TAB%VARIABLES(11)
+        IF(STARTT>TT) RETURN
+        IF(TT>STOPT)  RETURN
 
 C
-      GAP =INTBUF_TAB%VARIABLES(2)
+        GAP =INTBUF_TAB%VARIABLES(2)
 C
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
-      I_STOK = INTBUF_TAB%I_STOK(1)
-      CALL I20OPTCD(
-     1INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%XA,I_STOK   ,
-     2INTBUF_TAB%IRECTM,GAP      ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IPARI(21,NIN),
-     3INTBUF_TAB%STFA,ITASK	 ,INTBUF_TAB%STFM,IFQ	 ,INTBUF_TAB%IFPEN,
-     4INTBUF_TAB%CAND_FX,INTBUF_TAB%CAND_FY,INTBUF_TAB%CAND_FZ,NIN	 ,IPARI(5,NIN) ,
-     5INTBUF_TAB%VARIABLES(16),IPARI(39,NIN),COUNT_REMSLV )
+        I_STOK = INTBUF_TAB%I_STOK(1)
+        CALL I20OPTCD(
+     1  INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%XA,I_STOK   ,
+     2  INTBUF_TAB%IRECTM,GAP      ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IPARI(21,NIN),
+     3  INTBUF_TAB%STFA,ITASK   ,INTBUF_TAB%STFM,IFQ   ,INTBUF_TAB%IFPEN,
+     4  INTBUF_TAB%CAND_FX,INTBUF_TAB%CAND_FY,INTBUF_TAB%CAND_FZ,NIN   ,IPARI(5,NIN) ,
+     5  INTBUF_TAB%VARIABLES(16),IPARI(39,NIN),COUNT_REMSLV )
 
 C-----------------------------------------------------------
 C      EDGES
 C-----------------------------------------------------------
-      I_STOK = INTBUF_TAB%I_STOK_E(1)
-      CALL I20OPTCDE(
-     1  INTBUF_TAB%LCAND_N ,INTBUF_TAB%LCAND_S ,INTBUF_TAB%XA ,I_STOK        ,
-     2  INTBUF_TAB%IXLINS ,INTBUF_TAB%IXLINM ,GAP	    ,NIN	   ,
-     3  V	      ,INTBUF_TAB%GAP_SE ,INTBUF_TAB%GAP_ME ,IPARI(21,NIN) ,
-     4  INTBUF_TAB%STFS ,ITASK	     ,IPARI(53,NIN) ,INTBUF_TAB%STF ,
-     5  COUNT_REMSLVE )
+        I_STOK = INTBUF_TAB%I_STOK_E(1)
+        CALL I20OPTCDE(
+     1    INTBUF_TAB%LCAND_N ,INTBUF_TAB%LCAND_S ,INTBUF_TAB%XA ,I_STOK        ,
+     2    INTBUF_TAB%IXLINS ,INTBUF_TAB%IXLINM ,GAP      ,NIN     ,
+     3    V        ,INTBUF_TAB%GAP_SE ,INTBUF_TAB%GAP_ME ,IPARI(21,NIN) ,
+     4    INTBUF_TAB%STFS ,ITASK       ,IPARI(53,NIN) ,INTBUF_TAB%STF ,
+     5    COUNT_REMSLVE )
 C-----------------------------------------------------------
 C
-      RETURN
+        RETURN
       END

@@ -31,8 +31,8 @@ Chd|====================================================================
      1  IPARI  ,INTBUF_TAB  ,NIN    ,ITASK  )
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+C-----------------------------------------------
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,38 +46,38 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, ITASK, IPARI(NPARI,*)
+        INTEGER NIN, ITASK, IPARI(NPARI,*)
 
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, FIRST, LAST,
-     .        NSN
+        INTEGER N, FIRST, LAST,
+     .          NSN
 C     REAL
-      my_real
-     .   STARTT, STOPT, TOL
+        my_real
+     .     STARTT, STOPT, TOL
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-C---------------------------------------------------- 
-C	Calcul des adresses des buffers d'interfaces. 
+C----------------------------------------------------
+C  Calcul des adresses des buffers d'interfaces.
 C----------------------------------------------------
 C
-      NSN   =IPARI(5,NIN)
+        NSN   =IPARI(5,NIN)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        STOPT =INTBUF_TAB%VARIABLES(11)
+        IF(STARTT>TT) RETURN
+        IF(TT>STOPT)  RETURN
 C
-      FIRST = 1 + NSN*ITASK / NTHREAD
-      LAST = NSN*(ITASK+1) / NTHREAD
-      DO N=FIRST,LAST
-	INTBUF_TAB%IRTLM(2*(N-1)+1)=0
-	INTBUF_TAB%CSTS(2*(N-1)+1)  =-ONE
-	INTBUF_TAB%CSTS(2*(N-1)+2)=-ONE
-      END DO
+        FIRST = 1 + NSN*ITASK / NTHREAD
+        LAST = NSN*(ITASK+1) / NTHREAD
+        DO N=FIRST,LAST
+          INTBUF_TAB%IRTLM(2*(N-1)+1)=0
+          INTBUF_TAB%CSTS(2*(N-1)+1)  =-ONE
+          INTBUF_TAB%CSTS(2*(N-1)+2)=-ONE
+        END DO
 C
-      RETURN
+        RETURN
       END

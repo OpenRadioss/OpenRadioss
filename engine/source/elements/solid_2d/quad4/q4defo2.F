@@ -53,23 +53,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
-      INTEGER, INTENT(IN) :: JCVT
-      INTEGER ICP
+        INTEGER, INTENT(IN) :: NEL
+        INTEGER, INTENT(IN) :: JCVT
+        INTEGER ICP
 C     REAL
-      my_real
-     .    PY1(*),PY2(*),PY3(*),PY4(*),
-     .    PZ1(*),PZ2(*),PZ3(*),PZ4(*),
-     .    BYZ1(*),BYZ2(*),BYZ3(*),BYZ4(*),
-     .    BZY1(*),BZY2(*),BZY3(*),BZY4(*),
-     .    VY1(*),VY2(*),VY3(*),VY4(*),
-     .    VZ1(*),VZ2(*),VZ3(*),VZ4(*),
-     .    EYZ(*),EYY(*),EZZ(*),EXX(*),WXX(*),
-     .    R22(*),R23(*),
-     .    AY(*),OFF(*),OFFG(*),VOLO(*),
-     .    EINT(*),DSV(*),FAC(*)
+        my_real
+     .      PY1(*),PY2(*),PY3(*),PY4(*),
+     .      PZ1(*),PZ2(*),PZ3(*),PZ4(*),
+     .      BYZ1(*),BYZ2(*),BYZ3(*),BYZ4(*),
+     .      BZY1(*),BZY2(*),BZY3(*),BZY4(*),
+     .      VY1(*),VY2(*),VY3(*),VY4(*),
+     .      VZ1(*),VZ2(*),VZ3(*),VZ4(*),
+     .      EYZ(*),EYY(*),EZZ(*),EXX(*),WXX(*),
+     .      R22(*),R23(*),
+     .      AY(*),OFF(*),OFFG(*),VOLO(*),
+     .      EINT(*),DSV(*),FAC(*)
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PY1(*)~PZ4(*)      - SHAPE DERIVATIVES
@@ -88,49 +88,49 @@ c  I   R22(*)~R33(*)      - TRANSFORMATION MATRIX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C     REAL
-      my_real
-     .    DYZ(MVSIZ),DZY(MVSIZ),
-     .    DVC(MVSIZ),DV1,TOL,
-     .    DT1D2,VYG
+        my_real
+     .      DYZ(MVSIZ),DZY(MVSIZ),
+     .      DVC(MVSIZ),DV1,TOL,
+     .      DT1D2,VYG
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C     STRAIN RATE BEFORE CORRECTION
-      DO I=1,NEL
-        EYY(I)=PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)
-        EZZ(I)=PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
-        DYZ(I)=PZ1(I)*VY1(I)+PZ2(I)*VY2(I)+PZ3(I)*VY3(I)+PZ4(I)*VY4(I)
-        DZY(I)=PY1(I)*VZ1(I)+PY2(I)*VZ2(I)+PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
-      ENDDO
+        DO I=1,NEL
+          EYY(I)=PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)
+          EZZ(I)=PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
+          DYZ(I)=PZ1(I)*VY1(I)+PZ2(I)*VY2(I)+PZ3(I)*VY3(I)+PZ4(I)*VY4(I)
+          DZY(I)=PY1(I)*VZ1(I)+PY2(I)*VZ2(I)+PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
+        ENDDO
 C
 Ccw>>>
 C
 C     STRAIN RATE AFTER CORRECTION AND INTRINSIC ROTATION
-      DT1D2=HALF*DT1
-      IF(JCVT==0) THEN
-        DO I=1,NEL
-          WXX(I)=DT1D2*(DZY(I)-DYZ(I))
-        ENDDO
-      ELSE
-        DO I=1,NEL
-          WXX(I)=ZERO
-          EYY(I)=EYY(I)-DT1D2*(EYY(I)*EYY(I)+DZY(I)*DZY(I))
-          EZZ(I)=EZZ(I)-DT1D2*(EZZ(I)*EZZ(I)+DYZ(I)*DYZ(I))
-        ENDDO
-      ENDIF
+        DT1D2=HALF*DT1
+        IF(JCVT==0) THEN
+          DO I=1,NEL
+            WXX(I)=DT1D2*(DZY(I)-DYZ(I))
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            WXX(I)=ZERO
+            EYY(I)=EYY(I)-DT1D2*(EYY(I)*EYY(I)+DZY(I)*DZY(I))
+            EZZ(I)=EZZ(I)-DT1D2*(EZZ(I)*EZZ(I)+DYZ(I)*DYZ(I))
+          ENDDO
+        ENDIF
 C
 Ccw<<<
-      DO I=1,NEL
-        DVC(I)=EYY(I)+EZZ(I)+EXX(I)
-      ENDDO
+        DO I=1,NEL
+          DVC(I)=EYY(I)+EZZ(I)+EXX(I)
+        ENDDO
 Ccw>>> ----- only assumed strain
         DO I=1,NEL
-         EYY(I)=EYY(I)+
-     .     BYZ1(I)*VZ1(I)+BYZ2(I)*VZ2(I)+BYZ3(I)*VZ3(I)+BYZ4(I)*VZ4(I)
-         EZZ(I)=EZZ(I)+
-     .     BZY1(I)*VY1(I)+BZY2(I)*VY2(I)+BZY3(I)*VY3(I)+BZY4(I)*VY4(I)
+          EYY(I)=EYY(I)+
+     .      BYZ1(I)*VZ1(I)+BYZ2(I)*VZ2(I)+BYZ3(I)*VZ3(I)+BYZ4(I)*VZ4(I)
+          EZZ(I)=EZZ(I)+
+     .      BZY1(I)*VY1(I)+BZY2(I)*VY2(I)+BZY3(I)*VY3(I)+BZY4(I)*VY4(I)
         ENDDO
 C
 C
@@ -168,16 +168,16 @@ c            EZZ(I)=EZZ(I)+DVC(I)
 c          ENDDO
 c        ENDIF
 c       END IF!(N2D==1) THEN
-C----For hypoelastic laws-----       
+C----For hypoelastic laws-----
 c       DO I=1,NEL
 c        IF(OFFG(I)==TWO) CYCLE
-c	 DV1 = ONE- DVC(I)*DT1
+c   DV1 = ONE- DVC(I)*DT1
 c         VOLO(I) = VOLO(I)*DV1
 c         EINT(I) = EINT(I)/DV1
 c       ENDDO
 c      END IF!(ICP>0) THEN
 Ccw>>>
 C
-      RETURN
+        RETURN
       END
-	  
+

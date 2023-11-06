@@ -48,15 +48,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: ISRAT
-      INTEGER NPE,G_PLA,NEL
-      my_real
-     .  PX(MVSIZ,*),PY(MVSIZ,*),PZ(MVSIZ,*),SSP_EQ(*),
-     .  FX(MVSIZ,*), FY(MVSIZ,*), FZ(MVSIZ,*),
-     .  SIG(NEL,6),VOL(*),QVIS(*),EINT(*),RHO(*),Q(*),EPLASG(*),EPLAS(*),
-     .  SIGG(NEL,6),EINTG(NEL),RHOG(*),QG(*),WI,STIG(MVSIZ,*),EPSD(*),
-     .  EPSDG(*),STIN(MVSIZ,*),VOLG(*),VOL0(*),VOL0G(*),CONDE(MVSIZ),
-     .  DELTAX(MVSIZ), CONDEG(MVSIZ,*)
+        INTEGER, INTENT(IN) :: ISRAT
+        INTEGER NPE,G_PLA,NEL
+        my_real
+     .    PX(MVSIZ,*),PY(MVSIZ,*),PZ(MVSIZ,*),SSP_EQ(*),
+     .    FX(MVSIZ,*), FY(MVSIZ,*), FZ(MVSIZ,*),
+     .    SIG(NEL,6),VOL(*),QVIS(*),EINT(*),RHO(*),Q(*),EPLASG(*),EPLAS(*),
+     .    SIGG(NEL,6),EINTG(NEL),RHOG(*),QG(*),WI,STIG(MVSIZ,*),EPSD(*),
+     .    EPSDG(*),STIN(MVSIZ,*),VOLG(*),VOL0(*),VOL0G(*),CONDE(MVSIZ),
+     .    DELTAX(MVSIZ), CONDEG(MVSIZ,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -65,62 +65,62 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N
+        INTEGER I,N
 C     REAL
-      my_real
-     .   S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),S5(MVSIZ),S6(MVSIZ)
-      my_real
-     .   FINT,AA,WIP(MVSIZ)
+        my_real
+     .     S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),S5(MVSIZ),S6(MVSIZ)
+        my_real
+     .     FINT,AA,WIP(MVSIZ)
 C=======================================================================
-      DO I=1,NEL                                                 
-        WIP(I) = VOL(I)/VOLG(I)                                       
-        SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)		      
-        SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)		      
-        SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)		      
-        SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)		      
-        SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)		      
-        SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)		      
-        RHOG(I)   = RHOG(I)   + WIP(I) * RHO(I)                       
-        EINTG(I)  = EINTG(I)  + EINT(I) * VOL0(I)/VOL0G(I)         
-        QG(I)     = QG(I)     + WIP(I) * Q(I)                         
-        S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)		   
-        S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)		   
-        S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)		   
-        S4(I)=(SIG(I,4)+SVIS(I,4))*VOL(I)			   
-        S5(I)=(SIG(I,5)+SVIS(I,5))*VOL(I)			   
-        S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)			   
-      ENDDO                                                        
-      IF (ISRAT > 0) THEN                                                    
-        DO I=1,NEL                                                         
-          EPSDG(I) = EPSDG(I) + WIP(I) * EPSD(I)                                
-        ENDDO                                                                
-      ENDIF                                                                  
-      IF (G_PLA > 0) THEN                                                    
-        DO I=1,NEL                                                          
-          EPLASG(I)  = EPLASG(I)  + WIP(I) * EPLAS(I)                              
-        ENDDO                                                                 
-      ENDIF                                                                  
-C
-      DO N=1,NPE
         DO I=1,NEL
-          STIN(I,N)= VOL(I)*
-     .     (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
-          AA=RHO(I)*SSP_EQ(I)*SSP_EQ(I)
-          STIG(I,N)=STIG(I,N)+STIN(I,N)*AA
-          FX(I,N)=FX(I,N)-(S1(I)*PX(I,N)+S4(I)*PY(I,N)+S6(I)*PZ(I,N))
-          FY(I,N)=FY(I,N)-(S2(I)*PY(I,N)+S5(I)*PZ(I,N)+S4(I)*PX(I,N))
-          FZ(I,N)=FZ(I,N)-(S3(I)*PZ(I,N)+S6(I)*PX(I,N)+S5(I)*PY(I,N))
+          WIP(I) = VOL(I)/VOLG(I)
+          SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)
+          SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)
+          SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)
+          SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)
+          SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)
+          SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)
+          RHOG(I)   = RHOG(I)   + WIP(I) * RHO(I)
+          EINTG(I)  = EINTG(I)  + EINT(I) * VOL0(I)/VOL0G(I)
+          QG(I)     = QG(I)     + WIP(I) * Q(I)
+          S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)
+          S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)
+          S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)
+          S4(I)=(SIG(I,4)+SVIS(I,4))*VOL(I)
+          S5(I)=(SIG(I,5)+SVIS(I,5))*VOL(I)
+          S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)
         ENDDO
-      ENDDO
-      IF(NODADT_THERM == 1) THEN
+        IF (ISRAT > 0) THEN
+          DO I=1,NEL
+            EPSDG(I) = EPSDG(I) + WIP(I) * EPSD(I)
+          ENDDO
+        ENDIF
+        IF (G_PLA > 0) THEN
+          DO I=1,NEL
+            EPLASG(I)  = EPLASG(I)  + WIP(I) * EPLAS(I)
+          ENDDO
+        ENDIF
+C
         DO N=1,NPE
-           DO I=1,NEL
+          DO I=1,NEL
+            STIN(I,N)= VOL(I)*
+     .       (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
+            AA=RHO(I)*SSP_EQ(I)*SSP_EQ(I)
+            STIG(I,N)=STIG(I,N)+STIN(I,N)*AA
+            FX(I,N)=FX(I,N)-(S1(I)*PX(I,N)+S4(I)*PY(I,N)+S6(I)*PZ(I,N))
+            FY(I,N)=FY(I,N)-(S2(I)*PY(I,N)+S5(I)*PZ(I,N)+S4(I)*PX(I,N))
+            FZ(I,N)=FZ(I,N)-(S3(I)*PZ(I,N)+S6(I)*PX(I,N)+S5(I)*PY(I,N))
+          ENDDO
+        ENDDO
+        IF(NODADT_THERM == 1) THEN
+          DO N=1,NPE
+            DO I=1,NEL
               CONDE(I) = CONDE(I)*DELTAX(I)*DELTAX(I)/FOUR
               CONDEG(I,N)= CONDEG(I,N)+ CONDE(I)*
-     .     (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
-           ENDDO
-        ENDDO
-      ENDIF
+     .        (PX(I,N)*PX(I,N) + PY(I,N)*PY(I,N) + PZ(I,N)*PZ(I,N))
+            ENDDO
+          ENDDO
+        ENDIF
 C-----------
-      RETURN
+        RETURN
       END

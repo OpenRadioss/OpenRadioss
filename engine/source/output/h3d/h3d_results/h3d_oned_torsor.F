@@ -48,274 +48,274 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   EVAR(9,MVSIZ),TORS(15,*),ONED_TORSOR(9,*)
-      INTEGER IPARG(NPARG,*),IFUNC,INFO1 ,INFO2 ,
-     .   IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
-     .   IS_WRITTEN_ONED(*),ID_ELEM(*),ITY_ELEM(*),
-     .        IPARTT(*) ,IPARTP(*),IPARTR(*),H3D_PART(*)
-      CHARACTER*ncharline KEYWORD
+        my_real
+     .     EVAR(9,MVSIZ),TORS(15,*),ONED_TORSOR(9,*)
+        INTEGER IPARG(NPARG,*),IFUNC,INFO1 ,INFO2 ,
+     .     IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
+     .     IS_WRITTEN_ONED(*),ID_ELEM(*),ITY_ELEM(*),
+     .          IPARTT(*) ,IPARTP(*),IPARTR(*),H3D_PART(*)
+        CHARACTER*ncharline KEYWORD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF, FAC, A1, A2, A3, THK
-      REAL R4(18)
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IPT,M,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
-     .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, ISTRAIN,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        IHBE,BUF,IOK_PART(MVSIZ),OFFSET
+        my_real
+     .     OFF, FAC, A1, A2, A3, THK
+        REAL R4(18)
+        INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IPT,M,
+     .          IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,
+     .          NB6, NB7, NB8, NB9, NB10, NB11, NB12, ISTRAIN,
+     .          IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
+     .          NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
+     .          IHBE,BUF,IOK_PART(MVSIZ),OFFSET
 C-----------------------------------------------
 C
-       DO NG=1,NGROUP
+        DO NG=1,NGROUP
 C       IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
-        MLW   =IPARG(1,NG)
-        NEL   =IPARG(2,NG)
-        NFT   =IPARG(3,NG)
-        IAD   =IPARG(4,NG)
-        ITY   =IPARG(5,NG)
-        NB1   =IAD - 1
-        LFT=1
-        LLT=NEL
+          MLW   =IPARG(1,NG)
+          NEL   =IPARG(2,NG)
+          NFT   =IPARG(3,NG)
+          IAD   =IPARG(4,NG)
+          ITY   =IPARG(5,NG)
+          NB1   =IAD - 1
+          LFT=1
+          LLT=NEL
 
-        IF (ITY == 4) OFFSET = 0
-        IF (ITY == 5) OFFSET = NUMELT
-        IF (ITY == 6) OFFSET = NUMELT+NUMELP
+          IF (ITY == 4) OFFSET = 0
+          IF (ITY == 5) OFFSET = NUMELT
+          IF (ITY == 6) OFFSET = NUMELT+NUMELP
 c
-        DO  I=1,NEL 
-          IF (ITY == 4) THEN
-            ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)
-            ITY_ELEM(OFFSET+NFT+I) = 4
-            IF( H3D_PART(IPARTT(NFT+I)) == 1) IOK_PART(I) = 1
-          ELSEIF (ITY == 5) THEN 
-            ID_ELEM(OFFSET+NFT+I) = IXP(NIXP,NFT+I)
-            ITY_ELEM(OFFSET+NFT+I) = 5
-            IF( H3D_PART(IPARTP(NFT+I)) == 1) IOK_PART(I) = 1
-          ELSEIF (ITY == 6) THEN 
-            ID_ELEM(OFFSET+NFT+I) = IXR(NIXR,NFT+I)
-            ITY_ELEM(OFFSET+NFT+I) = 6
-            IF( H3D_PART(IPARTR(NFT+I)) == 1) IOK_PART(I) = 1
-          ENDIF
-        ENDDO 
-
-        IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
-          DO I=1,NEL
-            ONED_TORSOR(1:9,OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
+          DO  I=1,NEL
+            IF (ITY == 4) THEN
+              ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)
+              ITY_ELEM(OFFSET+NFT+I) = 4
+              IF( H3D_PART(IPARTT(NFT+I)) == 1) IOK_PART(I) = 1
+            ELSEIF (ITY == 5) THEN
+              ID_ELEM(OFFSET+NFT+I) = IXP(NIXP,NFT+I)
+              ITY_ELEM(OFFSET+NFT+I) = 5
+              IF( H3D_PART(IPARTP(NFT+I)) == 1) IOK_PART(I) = 1
+            ELSEIF (ITY == 6) THEN
+              ID_ELEM(OFFSET+NFT+I) = IXR(NIXR,NFT+I)
+              ITY_ELEM(OFFSET+NFT+I) = 6
+              IF( H3D_PART(IPARTR(NFT+I)) == 1) IOK_PART(I) = 1
+            ENDIF
           ENDDO
-        ENDIF
+
+          IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
+            DO I=1,NEL
+              ONED_TORSOR(1:9,OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
+            ENDDO
+          ENDIF
 c
-        IF(ITY==4)THEN
+          IF(ITY==4)THEN
 C-----------------------------------------------
-          IF (KEYWORD == 'F1') THEN
+            IF (KEYWORD == 'F1') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(1,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(1,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'F2') THEN
+            ELSEIF (KEYWORD == 'F2') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(2,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(2,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'F3') THEN
+            ELSEIF (KEYWORD == 'F3') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(3,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(3,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'M11') THEN
+            ELSEIF (KEYWORD == 'M11') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(4,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(4,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'M21') THEN
+            ELSEIF (KEYWORD == 'M21') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(5,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(5,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'M31') THEN
+            ELSEIF (KEYWORD == 'M31') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(6,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(6,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'M12') THEN
+            ELSEIF (KEYWORD == 'M12') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(7,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(7,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'M22') THEN
+            ELSEIF (KEYWORD == 'M22') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(8,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(8,M)
+              ENDDO
 C---------------------------------------------
-          ELSEIF (KEYWORD == 'M32') THEN
+            ELSEIF (KEYWORD == 'M32') THEN
 C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(9,M)
-            ENDDO
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(9,M)
+              ENDDO
+            ENDIF
+
+            CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
+     .            EVAR)
+
+          ELSEIF(ITY==5)THEN
+C-----------------------------------------------
+            IF (KEYWORD == 'F1') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(1,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'F2') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(2,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'F3') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(3,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M11') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(4,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M21') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(5,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M31') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(6,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M12') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(7,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M22') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(8,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M32') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(9,M)
+              ENDDO
+            ENDIF
+
+            CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
+     .            EVAR)
+          ELSEIF(ITY==6)THEN
+C-----------------------------------------------
+            IF (KEYWORD == 'F1') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(1,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'F2') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(2,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'F3') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(3,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M11') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(4,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M21') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(5,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M31') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(6,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M12') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(7,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M22') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(8,M)
+              ENDDO
+C---------------------------------------------
+            ELSEIF (KEYWORD == 'M32') THEN
+C------------------------------------------------
+              DO I=1,NEL
+                M = NFT+I+OFFSET
+                EVAR(1,I) = TORS(9,M)
+              ENDDO
+            ENDIF
+
+            CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
+     .            EVAR)
           ENDIF
-
-          CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
-     .          		   EVAR)
-
-        ELSEIF(ITY==5)THEN
 C-----------------------------------------------
-          IF (KEYWORD == 'F1') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(1,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'F2') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(2,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'F3') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(3,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M11') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(4,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M21') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(5,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M31') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(6,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M12') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(7,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M22') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(8,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M32') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(9,M)
-            ENDDO
-          ENDIF
-
-          CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
-     .          		   EVAR)
-        ELSEIF(ITY==6)THEN
-C-----------------------------------------------
-          IF (KEYWORD == 'F1') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(1,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'F2') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(2,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'F3') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(3,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M11') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(4,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M21') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(5,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M31') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(6,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M12') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(7,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M22') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(8,M)
-            ENDDO
-C---------------------------------------------
-          ELSEIF (KEYWORD == 'M32') THEN
-C------------------------------------------------
-            DO I=1,NEL
-              M = NFT+I+OFFSET
-              EVAR(1,I) = TORS(9,M)
-            ENDDO
-          ENDIF
-
-          CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
-     .          		   EVAR)
-        ENDIF
-C-----------------------------------------------
-      ENDDO
+        ENDDO
 C
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

@@ -33,7 +33,7 @@ Chd|====================================================================
      2                   N1       ,N2      ,M1      ,M2    ,
      3                   NOINT    ,NTY     ,IRECT   ,ID     ,TITR   ,
      4                   CAND_M_G ,CAND_S_G,CAND_P_G)
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,70 +46,70 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_M(*),CAND_S(*),IRECT(4,*), 
-     .        N1(*), N2(*), M1(4,*), M2(4,*),
-     .        CAND_M_G(*),CAND_S_G(*)
-      INTEGER LLT,IWPENE,INACTI,NOINT,NTY,NSN,ISTOK
+        INTEGER ITAB(*),CAND_M(*),CAND_S(*),IRECT(4,*),
+     .          N1(*), N2(*), M1(4,*), M2(4,*),
+     .          CAND_M_G(*),CAND_S_G(*)
+        INTEGER LLT,IWPENE,INACTI,NOINT,NTY,NSN,ISTOK
 C     REAL
-      my_real
-     .   PENE(4,*), CAND_P(4,*), CAND_P_G(4,*)
-      INTEGER ID, EJ
-      CHARACTER*nchartitle,
-     .   TITR
+        my_real
+     .     PENE(4,*), CAND_P(4,*), CAND_P_G(4,*)
+        INTEGER ID, EJ
+        CHARACTER*nchartitle,
+     .     TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, L, IKEEP
-      INTEGER IX1, IX2, IX3, IX4, NSVG
+        INTEGER I, J, L, IKEEP
+        INTEGER IX1, IX2, IX3, IX4, NSVG
 C     REAL
 C-----------------------------------------------
-       DO I=1,LLT
+        DO I=1,LLT
 
-         IKEEP=0
-         DO EJ=1,4
+          IKEEP=0
+          DO EJ=1,4
 
-           IF(EJ==3.AND.M1(EJ,I)==M2(EJ,I)) CYCLE
+            IF(EJ==3.AND.M1(EJ,I)==M2(EJ,I)) CYCLE
 
-           IF(PENE(EJ,I)/=ZERO)THEN
+            IF(PENE(EJ,I)/=ZERO)THEN
 C            True initial penetration
-             IWPENE=IWPENE+1
-             IF(IPRI>=5)
-     .    	 CALL ANCMSG(MSGID=1631,
-     .    			 MSGTYPE=MSGWARNING,
-     .    			 ANMODE=ANINFO_BLIND_1,
-     .    			 I1=ITAB(N1(I)),
-     .    			 I2=ITAB(N2(I)),
-     .    			 I3=ITAB(M1(EJ,I)),
-     .    			 I4=ITAB(M2(EJ,I)),
-     .    			 R1=PENE(EJ,I),
-     .    			 PRMOD=MSG_CUMU)
-             IF(INACTI==0)THEN
+              IWPENE=IWPENE+1
+              IF(IPRI>=5)
+     .        CALL ANCMSG(MSGID=1631,
+     .        MSGTYPE=MSGWARNING,
+     .        ANMODE=ANINFO_BLIND_1,
+     .        I1=ITAB(N1(I)),
+     .        I2=ITAB(N2(I)),
+     .        I3=ITAB(M1(EJ,I)),
+     .        I4=ITAB(M2(EJ,I)),
+     .        R1=PENE(EJ,I),
+     .        PRMOD=MSG_CUMU)
+              IF(INACTI==0)THEN
 C              Ignore initial penetrations
 C            ELSEIF(INACTI==1) THEN
 C              DESACTIVATION DES NOEUDS
 C              WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
 C              STFN(J) = ZERO
-             ELSE IF(INACTI==5) THEN
+              ELSE IF(INACTI==5) THEN
 C
 C              Reduction of PENE
 C              CAND_P(EJ,I)= PENE(EJ,I)
-               IKEEP=1
-             ELSE IF(INACTI==-1) THEN
+                IKEEP=1
+              ELSE IF(INACTI==-1) THEN
 C
 C              CAND_P < 0 <=> Initial penetration into the Starter & Initial forces
 C              CAND_P(EJ,I)= -PENE(EJ,I)
-               IKEEP=1
-             ENDIF
-           ELSE
-           END IF
+                IKEEP=1
+              ENDIF
+            ELSE
+            END IF
+          END DO
+          IF(IKEEP/=0)THEN
+            ISTOK=ISTOK+1
+            CAND_M_G(ISTOK)=CAND_M(I)
+            CAND_S_G(ISTOK)=CAND_S(I)
+            CAND_P_G(1:4,ISTOK)=-PENE(1:4,I)
+          END IF
         END DO
-        IF(IKEEP/=0)THEN
-          ISTOK=ISTOK+1
-          CAND_M_G(ISTOK)=CAND_M(I)
-          CAND_S_G(ISTOK)=CAND_S(I)
-          CAND_P_G(1:4,ISTOK)=-PENE(1:4,I)
-        END IF
-      END DO
 C
-      RETURN
+        RETURN
       END

@@ -46,105 +46,105 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL
-      INTEGER :: NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
-      my_real :: OFFG(*),OFFG0(*),X(3,*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
-      DOUBLE PRECISION :: XDP(3,*)
+        INTEGER :: NEL
+        INTEGER :: NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
+        my_real :: OFFG(*),OFFG0(*),X(3,*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
+        DOUBLE PRECISION :: XDP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I ,NCH,INDEX(MVSIZ),J    
-      my_real :: JAC_I(10,MVSIZ)
-      DOUBLE PRECISION 
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
-     .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
-     .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
+        INTEGER :: I ,NCH,INDEX(MVSIZ),J
+        my_real :: JAC_I(10,MVSIZ)
+        DOUBLE PRECISION
+     .     XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
+     .     XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
+     .     YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
+     .     YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
+     .     ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
+     .     ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C=======================================================================
 C Ismstr=12 :always in global system and fixed then (not like Ismstr=11)
-      NCH=0
-      DO I=1,NEL
-         IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
-           NCH = NCH +1
-           INDEX(NCH) = I
-         END IF
-      END DO
-      IF (NCH==0) RETURN
+        NCH=0
+        DO I=1,NEL
+          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
+            NCH = NCH +1
+            INDEX(NCH) = I
+          END IF
+        END DO
+        IF (NCH==0) RETURN
 C
-      IF(IRESP==1)THEN 
+        IF(IRESP==1)THEN
 #include "vectorize.inc"
-        DO J=1,NCH
-          I = INDEX(J)
-          XD1(J)=XDP(1,NC1(I))  
-          YD1(J)=XDP(2,NC1(I))  
-          ZD1(J)=XDP(3,NC1(I))  
-          XD2(J)=XDP(1,NC2(I))  
-          YD2(J)=XDP(2,NC2(I))  
-          ZD2(J)=XDP(3,NC2(I))  
-          XD3(J)=XDP(1,NC3(I))  
-          YD3(J)=XDP(2,NC3(I))  
-          ZD3(J)=XDP(3,NC3(I))  
-          XD4(J)=XDP(1,NC4(I))  
-          YD4(J)=XDP(2,NC4(I))  
-          ZD4(J)=XDP(3,NC4(I))  
-          XD5(J)=XDP(1,NC5(I))  
-          YD5(J)=XDP(2,NC5(I))  
-          ZD5(J)=XDP(3,NC5(I))  
-          XD6(J)=XDP(1,NC6(I))  
-          YD6(J)=XDP(2,NC6(I))  
-          ZD6(J)=XDP(3,NC6(I))  
-          XD7(J)=XDP(1,NC7(I))  
-          YD7(J)=XDP(2,NC7(I))  
-          ZD7(J)=XDP(3,NC7(I))  
-          XD8(J)=XDP(1,NC8(I))  
-          YD8(J)=XDP(2,NC8(I))  
-          ZD8(J)=XDP(3,NC8(I))  	  	  	  
-        ENDDO
-      ELSE	
+          DO J=1,NCH
+            I = INDEX(J)
+            XD1(J)=XDP(1,NC1(I))
+            YD1(J)=XDP(2,NC1(I))
+            ZD1(J)=XDP(3,NC1(I))
+            XD2(J)=XDP(1,NC2(I))
+            YD2(J)=XDP(2,NC2(I))
+            ZD2(J)=XDP(3,NC2(I))
+            XD3(J)=XDP(1,NC3(I))
+            YD3(J)=XDP(2,NC3(I))
+            ZD3(J)=XDP(3,NC3(I))
+            XD4(J)=XDP(1,NC4(I))
+            YD4(J)=XDP(2,NC4(I))
+            ZD4(J)=XDP(3,NC4(I))
+            XD5(J)=XDP(1,NC5(I))
+            YD5(J)=XDP(2,NC5(I))
+            ZD5(J)=XDP(3,NC5(I))
+            XD6(J)=XDP(1,NC6(I))
+            YD6(J)=XDP(2,NC6(I))
+            ZD6(J)=XDP(3,NC6(I))
+            XD7(J)=XDP(1,NC7(I))
+            YD7(J)=XDP(2,NC7(I))
+            ZD7(J)=XDP(3,NC7(I))
+            XD8(J)=XDP(1,NC8(I))
+            YD8(J)=XDP(2,NC8(I))
+            ZD8(J)=XDP(3,NC8(I))
+          ENDDO
+        ELSE
 #include "vectorize.inc"
-        DO J=1,NCH
-          I = INDEX(J)
-          XD1(J)=X(1,NC1(I))  
-          YD1(J)=X(2,NC1(I))  
-          ZD1(J)=X(3,NC1(I))  
-          XD2(J)=X(1,NC2(I))  
-          YD2(J)=X(2,NC2(I))  
-          ZD2(J)=X(3,NC2(I))  
-          XD3(J)=X(1,NC3(I))  
-          YD3(J)=X(2,NC3(I))  
-          ZD3(J)=X(3,NC3(I))  
-          XD4(J)=X(1,NC4(I))  
-          YD4(J)=X(2,NC4(I))  
-          ZD4(J)=X(3,NC4(I))  
-          XD5(J)=X(1,NC5(I))  
-          YD5(J)=X(2,NC5(I))  
-          ZD5(J)=X(3,NC5(I))  
-          XD6(J)=X(1,NC6(I))  
-          YD6(J)=X(2,NC6(I))  
-          ZD6(J)=X(3,NC6(I))  
-          XD7(J)=X(1,NC7(I))  
-          YD7(J)=X(2,NC7(I))  
-          ZD7(J)=X(3,NC7(I))  
-          XD8(J)=X(1,NC8(I))  
-          YD8(J)=X(2,NC8(I))  
-          ZD8(J)=X(3,NC8(I))  
-        ENDDO      
-      ENDIF
+          DO J=1,NCH
+            I = INDEX(J)
+            XD1(J)=X(1,NC1(I))
+            YD1(J)=X(2,NC1(I))
+            ZD1(J)=X(3,NC1(I))
+            XD2(J)=X(1,NC2(I))
+            YD2(J)=X(2,NC2(I))
+            ZD2(J)=X(3,NC2(I))
+            XD3(J)=X(1,NC3(I))
+            YD3(J)=X(2,NC3(I))
+            ZD3(J)=X(3,NC3(I))
+            XD4(J)=X(1,NC4(I))
+            YD4(J)=X(2,NC4(I))
+            ZD4(J)=X(3,NC4(I))
+            XD5(J)=X(1,NC5(I))
+            YD5(J)=X(2,NC5(I))
+            ZD5(J)=X(3,NC5(I))
+            XD6(J)=X(1,NC6(I))
+            YD6(J)=X(2,NC6(I))
+            ZD6(J)=X(3,NC6(I))
+            XD7(J)=X(1,NC7(I))
+            YD7(J)=X(2,NC7(I))
+            ZD7(J)=X(3,NC7(I))
+            XD8(J)=X(1,NC8(I))
+            YD8(J)=X(2,NC8(I))
+            ZD8(J)=X(3,NC8(I))
+          ENDDO
+        ENDIF
 C
-      CALL S8JAC_I(
-     .              XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
-     .              YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
-     .              ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
-     .              JAC_I ,NCH  )
+        CALL S8JAC_I(
+     .                XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
+     .                YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
+     .                ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
+     .                JAC_I ,NCH  )
 C
 #include "vectorize.inc"
         DO J=1,NCH
           I = INDEX(J)
           JAC_1(1:10,I) = JAC_I(1:10,J)
           SIGL(I,1:6) = SIG(I,1:6)
-        ENDDO      
+        ENDDO
 C
-      RETURN
+        RETURN
       END

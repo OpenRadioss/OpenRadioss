@@ -26,31 +26,31 @@ Chd|-- called by -----------
 Chd|        I11MAIN_TRI                   source/interfaces/intsort/i11main_tri.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        I11TRIVOX                     source/interfaces/intsort/i11trivox.F
-Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI11                         share/modules/tri11_mod.F     
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI11                         share/modules/tri11_mod.F
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
-       SUBROUTINE I11BUCE_VOX(
-     1   X      ,IRECTS  ,IRECTM ,NRTS    ,NMN     ,
-     2   NRTM   ,NSN     ,CAND_M ,CAND_S  ,MAXGAP  ,
-     3   NOINT  ,II_STOK ,TZINF  ,MAXBOX  ,MINBOX  ,
-     4   NB_N_B ,ESHIFT  ,ILD    ,BMINMA  ,NCONTACT,
-     6   ADDCM  ,CHAINE  ,NIN    ,ITAB    ,NRTSR   ,
-     7   NCONT  ,GAP_S  , STIFS  ,PENIS   ,IGAP    ,
-     8   STIFM  ,IAUTO  , I_MEM  ,ITASK   ,IFORM   ,
-     9   IFPEN  ,DRAD   , GAP_M  , GAP_S_L, 
-     1   GAP_M_L ,GAPMIN, BGAPSMX, GAP,
-     2   FLAGREMNODE,KREMNODE,REMNODE,DGAPLOAD)
+      SUBROUTINE I11BUCE_VOX(
+     1  X      ,IRECTS  ,IRECTM ,NRTS    ,NMN     ,
+     2  NRTM   ,NSN     ,CAND_M ,CAND_S  ,MAXGAP  ,
+     3  NOINT  ,II_STOK ,TZINF  ,MAXBOX  ,MINBOX  ,
+     4  NB_N_B ,ESHIFT  ,ILD    ,BMINMA  ,NCONTACT,
+     6  ADDCM  ,CHAINE  ,NIN    ,ITAB    ,NRTSR   ,
+     7  NCONT  ,GAP_S  , STIFS  ,PENIS   ,IGAP    ,
+     8  STIFM  ,IAUTO  , I_MEM  ,ITASK   ,IFORM   ,
+     9  IFPEN  ,DRAD   , GAP_M  , GAP_S_L,
+     1  GAP_M_L ,GAPMIN, BGAPSMX, GAP,
+     2  FLAGREMNODE,KREMNODE,REMNODE,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE TRI7BOX 
-      USE TRI11   
-      
+        USE MESSAGE_MOD
+        USE TRI7BOX
+        USE TRI11
+
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,46 +64,46 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,NRTS, NIN, NRTSR,
-     .        IGAP,IAUTO, I_MEM, ITASK
-      INTEGER IRECTS(2,*),IRECTM(2,*),ADDCM(*),CHAINE(2,*)
-      INTEGER CAND_M(*),CAND_S(*),IFPEN(*),FLAGREMNODE,KREMNODE(*),REMNODE(*)
-      INTEGER ESHIFT,ILD,NB_N_B, NCONTACT, NCONT, ITAB(*),
-     .        IFORM,II_STOK
+        INTEGER NMN, NRTM, NSN, NOINT,IDT,NRTS, NIN, NRTSR,
+     .          IGAP,IAUTO, I_MEM, ITASK
+        INTEGER IRECTS(2,*),IRECTM(2,*),ADDCM(*),CHAINE(2,*)
+        INTEGER CAND_M(*),CAND_S(*),IFPEN(*),FLAGREMNODE,KREMNODE(*),REMNODE(*)
+        INTEGER ESHIFT,ILD,NB_N_B, NCONTACT, NCONT, ITAB(*),
+     .          IFORM,II_STOK
 C     REAL
-      my_real
-     .   TZINF,MAXBOX,MINBOX,BMINMA(6),BGAPSMX
-      my_real
-     . MAXGAP,GAPMIN,GAP
-      my_real , INTENT(IN) :: DGAPLOAD,DRAD
-      my_real
-     .   X(3,*),STIFS(*),PENIS(2,*),STIFM(*),
-     .   GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
+        my_real
+     .     TZINF,MAXBOX,MINBOX,BMINMA(6),BGAPSMX
+        my_real
+     .   MAXGAP,GAPMIN,GAP
+        my_real , INTENT(IN) :: DGAPLOAD,DRAD
+        my_real
+     .     X(3,*),STIFS(*),PENIS(2,*),STIFM(*),
+     .     GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_ADD_MAX,ISZNSNR
-      PARAMETER (I_ADD_MAX = 1001)
+        INTEGER I_ADD_MAX,ISZNSNR
+        PARAMETER (I_ADD_MAX = 1001)
 C
-      INTEGER I, J, N1, N2, I_ADD, MAXSIZ,JJ,
-     .        ADD(2,I_ADD_MAX), N
-      my_real
-     .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
-      my_real 
-     . DD,DD1,MARGE_ST,DX1,DY1,DZ1
-      INTEGER :: L
-      INTEGER NB_OLD(2,I_ADD_MAX+1)
-      INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
+        INTEGER I, J, N1, N2, I_ADD, MAXSIZ,JJ,
+     .          ADD(2,I_ADD_MAX), N
+        my_real
+     .          XYZM(6,I_ADD_MAX-1), MARGE, AAA
+        my_real
+     .   DD,DD1,MARGE_ST,DX1,DY1,DZ1
+        INTEGER :: L
+        INTEGER NB_OLD(2,I_ADD_MAX+1)
+        INTEGER NBX,NBY,NBZ
+        INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 C-----------------------------------------------
 C   definition from TRI7BOX module
-C-----------------------------------------------      
-C              
+C-----------------------------------------------
+C
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES 
+C----- TRI PAR BOITES
 C
 C-----------------------------------------------
 C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
@@ -114,7 +114,7 @@ C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            3*NRTM
 C     P21.......Elt Bas Pile        NRTS
 C     P22.......Elt PILE            3*NRTS
-      MAXSIZ = 3*(MAX(NRTM,NRTS+NRTSR)+100)
+        MAXSIZ = 3*(MAX(NRTM,NRTS+NRTSR)+100)
 C
 C-----INITIALISATION DES ADRESSES ET X,Y,Z
 C
@@ -122,101 +122,101 @@ C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
 C     1        1        XMAX   YMAX   ZMAX
 C
-      ADD(1,1) = 0
-      ADD(2,1) = 0
-      ADD(1,2) = 0
-      ADD(2,2) = 0
-      I_ADD = 1
-      XYZM(1,I_ADD) = BMINMA(4)
-      XYZM(2,I_ADD) = BMINMA(5)
-      XYZM(3,I_ADD) = BMINMA(6)
-      XYZM(4,I_ADD) = BMINMA(1)
-      XYZM(5,I_ADD) = BMINMA(2)
-      XYZM(6,I_ADD) = BMINMA(3)
-      I_MEM = 0
+        ADD(1,1) = 0
+        ADD(2,1) = 0
+        ADD(1,2) = 0
+        ADD(2,2) = 0
+        I_ADD = 1
+        XYZM(1,I_ADD) = BMINMA(4)
+        XYZM(2,I_ADD) = BMINMA(5)
+        XYZM(3,I_ADD) = BMINMA(6)
+        XYZM(4,I_ADD) = BMINMA(1)
+        XYZM(5,I_ADD) = BMINMA(2)
+        XYZM(6,I_ADD) = BMINMA(3)
+        I_MEM = 0
 C
-      IF (IFORM /= 2) THEN
-        ISZNSNR = 0
-        DO I=1,NRTM
-          ADDCM(I)=0
-        ENDDO 
-      ELSE
-        ISZNSNR = NRTSR
-      ENDIF    
+        IF (IFORM /= 2) THEN
+          ISZNSNR = 0
+          DO I=1,NRTM
+            ADDCM(I)=0
+          ENDDO
+        ELSE
+          ISZNSNR = NRTSR
+        ENDIF
 C
 C
-C-----DEBUT DE LA PHASE DE TRI 
-   
-      MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
+C-----DEBUT DE LA PHASE DE TRI
 
-      IF( NMN /=  0 ) THEN
-        AAA = SQRT(NMN /
-     .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
-     .           +(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))
-     .           +(BMINMA(3)-BMINMA(6))*(BMINMA(1)-BMINMA(4))))
-      ELSE
-        AAA = 0
-      ENDIF
+        MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
 
-      AAA = 0.75*AAA
+        IF( NMN /=  0 ) THEN
+          AAA = SQRT(NMN /
+     .             ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
+     .             +(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))
+     .             +(BMINMA(3)-BMINMA(6))*(BMINMA(1)-BMINMA(4))))
+        ELSE
+          AAA = 0
+        ENDIF
 
-      NBX = NINT(AAA*(BMINMA(1)-BMINMA(4)))
-      NBY = NINT(AAA*(BMINMA(2)-BMINMA(5)))
-      NBZ = NINT(AAA*(BMINMA(3)-BMINMA(6)))
-      NBX = MAX(NBX,1)
-      NBY = MAX(NBY,1)
-      NBZ = MAX(NBZ,1)
+        AAA = 0.75*AAA
 
-      NBX8=NBX
-      NBY8=NBY
-      NBZ8=NBZ
-      RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
-
-      IF(RES8 > LVOXEL8)THEN
-        AAA = LVOXEL
-        AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
-        AAA = AAA**(THIRD)
-        NBX = INT((NBX+2)*AAA)-2
-        NBY = INT((NBY+2)*AAA)-2
-        NBZ = INT((NBZ+2)*AAA)-2
+        NBX = NINT(AAA*(BMINMA(1)-BMINMA(4)))
+        NBY = NINT(AAA*(BMINMA(2)-BMINMA(5)))
+        NBZ = NINT(AAA*(BMINMA(3)-BMINMA(6)))
         NBX = MAX(NBX,1)
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
-        NBX8 = NBX
-        NBY8 = NBY
-        NBZ8 = NBZ
+
+        NBX8=NBX
+        NBY8=NBY
+        NBZ8=NBZ
         RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      END IF
+        LVOXEL8 = LVOXEL
+
+        IF(RES8 > LVOXEL8)THEN
+          AAA = LVOXEL
+          AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
+          AAA = AAA**(THIRD)
+          NBX = INT((NBX+2)*AAA)-2
+          NBY = INT((NBY+2)*AAA)-2
+          NBZ = INT((NBZ+2)*AAA)-2
+          NBX = MAX(NBX,1)
+          NBY = MAX(NBY,1)
+          NBZ = MAX(NBZ,1)
+          NBX8 = NBX
+          NBY8 = NBY
+          NBZ8 = NBZ
+          RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
+        END IF
 C If still  too many voxels:
-C Reduction of the number of voxels 
-      IF(RES8 > LVOXEL8) THEN
-        NBX = MIN(100,MAX(NBX8,1))
-        NBY = MIN(100,MAX(NBY8,1))
-        NBZ = MIN(100,MAX(NBZ8,1))
-      END IF
-      
-      DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
-        VOXEL1(I)=0
-      ENDDO
-      INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
-      
-      !print *, "voxel search"
-      
+C Reduction of the number of voxels
+        IF(RES8 > LVOXEL8) THEN
+          NBX = MIN(100,MAX(NBX8,1))
+          NBY = MIN(100,MAX(NBY8,1))
+          NBZ = MIN(100,MAX(NBZ8,1))
+        END IF
+
+        DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
+          VOXEL1(I)=0
+        ENDDO
+        INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
+
+        !print *, "voxel search"
+
         CALL I11TRIVOX(
      1   IRECTS  ,IRECTM  ,X       ,NRTM    ,NRTSR   ,
      2   XYZM    ,II_STOK ,CAND_S  ,CAND_M  ,NCONTACT,
      3   NOINT   ,TZINF   ,I_MEM   ,ESHIFT  ,ADDCM   ,
      4   CHAINE  ,NRTS    ,ITAB    ,STIFS   ,STIFM   ,
      5   IAUTO   ,VOXEL1  ,NBX     ,NBY     ,NBZ     ,
-     6   ITASK   ,IFPEN   ,IFORM   ,GAPMIN  ,DRAD    , 
+     6   ITASK   ,IFPEN   ,IFORM   ,GAPMIN  ,DRAD    ,
      7   MARGE   ,GAP_S   ,GAP_M   ,GAP_S_L, GAP_M_L,
      8   BGAPSMX, IGAP    ,GAP     ,FLAGREMNODE,KREMNODE,
-     9   REMNODE,DGAPLOAD )    
+     9   REMNODE,DGAPLOAD )
 
         CALL MY_BARRIER
 
-  100 CONTINUE
+  100   CONTINUE
 
 C
 C     I_MEM = 1 ==> N/A
@@ -238,66 +238,66 @@ c      ENDDO
 c      CALL FLUSH(900+ISPMD)
 c      STOP
 c     ENDIF
-            
 
 
-      IF (I_MEM == 2) RETURN
 
-      IF(I_MEM==1)THEN
-        NB_N_B = NB_N_B + 1
-        IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
-          CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
-     .                I1=NOINT)
-          CALL ARRET(2)
-        ENDIF
-        ILD = 1
-      ELSEIF(I_MEM==2) THEN
-        IF(DEBUG(1)>=1) THEN
-          IWARN = IWARN+1
+        IF (I_MEM == 2) RETURN
+
+        IF(I_MEM==1)THEN
+          NB_N_B = NB_N_B + 1
+          IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
+            CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
+     .                  I1=NOINT)
+            CALL ARRET(2)
+          ENDIF
+          ILD = 1
+        ELSEIF(I_MEM==2) THEN
+          IF(DEBUG(1)>=1) THEN
+            IWARN = IWARN+1
 #include "lockon.inc"
-          WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
-          WRITE(IOUT,*)' **WARNING INTERFACE NB:',NOINT
-          WRITE(IOUT,*)'       TOO MANY POSSIBLE IMPACTS'
-          WRITE(IOUT,*)'       SIZE OF INFLUENCE ZONE IS'
-          WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
+            WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
+            WRITE(IOUT,*)' **WARNING INTERFACE NB:',NOINT
+            WRITE(IOUT,*)'       TOO MANY POSSIBLE IMPACTS'
+            WRITE(IOUT,*)'       SIZE OF INFLUENCE ZONE IS'
+            WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 #include "lockoff.inc"
-        ENDIF
-        TZINF = THREE_OVER_4*TZINF
+          ENDIF
+          TZINF = THREE_OVER_4*TZINF
 C ne pas dimunuer la taille des boite
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF<=MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
-          CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
-     .            I1=NOINT,C1='(I11BUCE)')
-          CALL ARRET(2)
+          IF( TZINF<=MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
+            CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
+     .              I1=NOINT,C1='(I11BUCE)')
+            CALL ARRET(2)
+          ENDIF
+          ILD = 1
+        ELSEIF(I_MEM==3)THEN
+          NB_N_B = NB_N_B + 1
+          IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
+            CALL ANCMSG(MSGID=99,ANMODE=ANINFO,
+     .              I1=NOINT,C1='(I11BUCE)')
+            CALL ARRET(2)
+          ENDIF
+          ILD = 1
         ENDIF
-        ILD = 1
-      ELSEIF(I_MEM==3)THEN
-        NB_N_B = NB_N_B + 1
-        IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
-          CALL ANCMSG(MSGID=99,ANMODE=ANINFO,
-     .            I1=NOINT,C1='(I11BUCE)')
-          CALL ARRET(2)
-        ENDIF
-        ILD = 1
-      ENDIF
 C
-      RETURN
+        RETURN
       END
 
 C --- --- --- Chd|====================================================================
-C --- --- --- Chd|  I11BUCE                       src/intsort/i11buce.F         
+C --- --- --- Chd|  I11BUCE                       src/intsort/i11buce.F
 C --- --- --- Chd|-- called by -----------
-C --- --- --- Chd|        I11MAIN_TRI                   src/intsort/i11main_tri.F     
+C --- --- --- Chd|        I11MAIN_TRI                   src/intsort/i11main_tri.F
 C --- --- --- Chd|-- calls ---------------
-C --- --- --- Chd|        ANCMSG                        src/message/message.F         
-C --- --- --- Chd|        ARRET                         src/sortie/arret.F            
-C --- --- --- Chd|        I11TRI                        src/intsort/i11tri.F          
-C --- --- --- Chd|        I11TRIVOX                     src/intsort/i11trivox.F       
-C --- --- --- Chd|        MY_BARRIER                    src/spe/machine.F             
+C --- --- --- Chd|        ANCMSG                        src/message/message.F
+C --- --- --- Chd|        ARRET                         src/sortie/arret.F
+C --- --- --- Chd|        I11TRI                        src/intsort/i11tri.F
+C --- --- --- Chd|        I11TRIVOX                     src/intsort/i11trivox.F
+C --- --- --- Chd|        MY_BARRIER                    src/spe/machine.F
 C --- --- --- Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-C --- --- --- Chd|        TRI11                         share/modules/tri11_mod.F     
-C --- --- --- Chd|        TRI7BOX                       share/modules/tri7box.F       
+C --- --- --- Chd|        TRI11                         share/modules/tri11_mod.F
+C --- --- --- Chd|        TRI7BOX                       share/modules/tri7box.F
 C --- --- --- Chd|====================================================================
 C --- --- ---        SUBROUTINE I11BUCE(
 C --- --- ---      1   X      ,IRECTS  ,IRECTM ,NRTS    ,NMN     ,
@@ -312,9 +312,9 @@ C --- --- --- C-----------------------------------------------
 C --- --- --- C   M o d u l e s
 C --- --- --- C-----------------------------------------------
 C --- --- ---       USE MESSAGE_MOD
-C --- --- ---       USE TRI7BOX 
-C --- --- ---       USE TRI11   
-C --- --- ---       
+C --- --- ---       USE TRI7BOX
+C --- --- ---       USE TRI11
+C --- --- ---
 C --- --- --- C============================================================================
 C --- --- --- C   I m p l i c i t   T y p e s
 C --- --- --- C-----------------------------------------------
@@ -361,17 +361,17 @@ C --- --- ---       my_real
 C --- --- ---      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
 C --- --- ---       INTEGER NB_OLD(2,I_ADD_MAX+1)
 C --- --- ---       INTEGER NBX,NBY,NBZ
-C --- --- ---       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
+C --- --- ---       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 C --- --- --- C-----------------------------------------------
 C --- --- --- C   definition from TRI7BOX module
-C --- --- --- C-----------------------------------------------      
-C --- --- --- C              
+C --- --- --- C-----------------------------------------------
+C --- --- --- C
 C --- --- --- C-----------------------------------------------
 C --- --- --- C   S o u r c e  L i n e s
 C --- --- --- C-----------------------------------------------
 C --- --- --- C-----------------------------------------------
 C --- --- --- C
-C --- --- --- C----- TRI PAR BOITES 
+C --- --- --- C----- TRI PAR BOITES
 C --- --- --- C
 C --- --- --- C-----------------------------------------------
 C --- --- --- C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
@@ -407,14 +407,14 @@ C --- --- ---       IF (IFORM /= 2) THEN
 C --- --- ---         ISZNSNR = 0
 C --- --- ---         DO I=1,NRTM
 C --- --- ---           ADDCM(I)=0
-C --- --- ---         ENDDO 
+C --- --- ---         ENDDO
 C --- --- ---       ELSE
 C --- --- ---         ISZNSNR = NRTSR
-C --- --- ---       ENDIF    
+C --- --- ---       ENDIF
 C --- --- --- C
 C --- --- --- C
-C --- --- --- C-----DEBUT DE LA PHASE DE TRI 
-C --- --- --- C 
+C --- --- --- C-----DEBUT DE LA PHASE DE TRI
+C --- --- --- C
 C --- --- ---       GOTO 50 !commenter pour debtrancher le tri voxel
 C --- --- ---       print *, "bucket search"
 C --- --- ---       CALL I11TRI(
@@ -425,35 +425,35 @@ C --- --- ---      4   CAND_M  ,NCONTACT,NOINT    ,TZINF    ,MAXBOX ,
 C --- --- ---      5   MINBOX  ,I_MEM   ,NB_N_B   ,I_ADD_MAX,ESHIFT ,
 C --- --- ---      6   ADDCM   ,CHAINE  ,NRTS     ,ITAB     ,NB_OLD ,
 C --- --- ---      7   STIFS   ,STIFM   ,IAUTO    ,NIN      ,IFPEN  ,
-C --- --- ---      8   IFORM) 
-C --- --- --- 
+C --- --- ---      8   IFORM)
+C --- --- ---
 C --- --- ---       !cts on debranche la routine de tri par voxel pour le moment
-C --- --- ---       GOTO 100    
-C --- --- ---        
+C --- --- ---       GOTO 100
+C --- --- ---
 C --- --- ---    50 CONTINUE
-C --- --- ---    
+C --- --- ---
 C --- --- ---       MARGE = TZINF - MAX(GAP,DRAD)
-C --- --- --- 
+C --- --- ---
 C --- --- ---       AAA = SQRT(NMN /
 C --- --- ---      .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
 C --- --- ---      .           +(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))
 C --- --- ---      .           +(BMINMA(3)-BMINMA(6))*(BMINMA(1)-BMINMA(4))))
-C --- --- --- 
+C --- --- ---
 C --- --- ---       AAA = 0.75*AAA
-C --- --- --- 
+C --- --- ---
 C --- --- ---       NBX = NINT(AAA*(BMINMA(1)-BMINMA(4)))
 C --- --- ---       NBY = NINT(AAA*(BMINMA(2)-BMINMA(5)))
 C --- --- ---       NBZ = NINT(AAA*(BMINMA(3)-BMINMA(6)))
 C --- --- ---       NBX = MAX(NBX,1)
 C --- --- ---       NBY = MAX(NBY,1)
 C --- --- ---       NBZ = MAX(NBZ,1)
-C --- --- --- 
+C --- --- ---
 C --- --- ---       NBX8=NBX
 C --- --- ---       NBY8=NBY
 C --- --- ---       NBZ8=NBZ
 C --- --- ---       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-C --- --- ---       LVOXEL8 = LVOXEL      
-C --- --- --- 
+C --- --- ---       LVOXEL8 = LVOXEL
+C --- --- ---
 C --- --- ---       IF(RES8 > LVOXEL8)THEN
 C --- --- ---         AAA = LVOXEL
 C --- --- ---         AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
@@ -464,40 +464,40 @@ C --- --- ---         NBZ = INT((NBZ+2)*AAA)-2
 C --- --- ---         NBX = MAX(NBX,1)
 C --- --- ---         NBY = MAX(NBY,1)
 C --- --- ---         NBZ = MAX(NBZ,1)
-C --- --- --- 	NBX8 = NBX
-C --- --- --- 	NBY8 = NBY
-C --- --- --- 	NBZ8 = NBZ
+C --- --- ---   NBX8 = NBX
+C --- --- ---   NBY8 = NBY
+C --- --- ---   NBZ8 = NBZ
 C --- --- ---         RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
 C --- --- ---       END IF
-C --- --- ---           
+C --- --- ---
 C --- --- ---       IF(RES8 > LVOXEL8) THEN
 C --- --- ---         stop 678
 C --- --- ---       END IF
-C --- --- ---       
+C --- --- ---
 C --- --- ---       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
 C --- --- ---         VOXEL1(I)=0
 C --- --- ---       ENDDO
 C --- --- ---       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
-C --- --- ---       
+C --- --- ---
 C --- --- ---       !print *, "voxel search"
-C --- --- ---       
+C --- --- ---
 C --- --- ---         CALL I11TRIVOX(
 C --- --- ---      1   IRECTS  ,IRECTM  ,X       ,NRTM    ,NRTSR   ,
 C --- --- ---      2   XYZM    ,II_STOK ,CAND_S  ,CAND_M  ,NCONTACT,
 C --- --- ---      3   NOINT   ,TZINF   ,I_MEM   ,ESHIFT  ,ADDCM   ,
 C --- --- ---      4   CHAINE  ,NRTS    ,ITAB    ,STIFS   ,STIFM   ,
 C --- --- ---      5   IAUTO   ,VOXEL1 ,NBX     ,NBY     ,NBZ     ,
-C --- --- ---      6   ITASK   ,IFPEN  ,IFORM   )    
-C --- --- --- 
+C --- --- ---      6   ITASK   ,IFPEN  ,IFORM   )
+C --- --- ---
 C --- --- ---         CALL MY_BARRIER
-C --- --- --- 
+C --- --- ---
 C --- --- ---   100 CONTINUE
-C --- --- --- 
+C --- --- ---
 C --- --- --- C
 C --- --- --- C     I_MEM = 1 ==> N/A
 C --- --- --- C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C --- --- --- C     I_MEM = 3 ==> N/A
-C --- --- --- 
+C --- --- ---
 C --- --- ---       IF (I_MEM == 2) RETURN
 C --- --- ---       IF(I_MEM==1)THEN
 C --- --- ---         NB_N_B = NB_N_B + 1

@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE SETDEF_MOD
+        USE SETDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,17 +53,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),KNOD2ELS(*),NOD2ELS(*),IXS10(6,*),
-     .        KNOD2ELC(*),NOD2ELC(*),KNOD2ELTG(*),NOD2ELTG(*),
-     .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTG(*),
-     .        BUFTMPSURF(*),IPARTS(*),SH4TREE(*),SH3TREE(*),
-     .        IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*)
-      INTEGER IEXT,NSEG,IAD_SURF,OPT_O
-      CHARACTER KEYSET*ncharfield
-      my_real
-     .   X(3,*)
+        INTEGER IXS(NIXS,*),KNOD2ELS(*),NOD2ELS(*),IXS10(6,*),
+     .          KNOD2ELC(*),NOD2ELC(*),KNOD2ELTG(*),NOD2ELTG(*),
+     .          IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTG(*),
+     .          BUFTMPSURF(*),IPARTS(*),SH4TREE(*),SH3TREE(*),
+     .          IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*)
+        INTEGER IEXT,NSEG,IAD_SURF,OPT_O
+        CHARACTER KEYSET*ncharfield
+        my_real
+     .     X(3,*)
 !
-      TYPE (SET_) ::  CLAUSE
+        TYPE (SET_) ::  CLAUSE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -73,39 +73,39 @@ C=======================================================================
 !---
 !
 !     ---  solid ---
-      IF ( CLAUSE%NB_SOLID > 0 ) CALL SOLID_SURFACE_BUFFER(
-     .                            IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
-     .                            KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
-     .                            NOD2ELTG ,NSEG     ,IEXT     ,BUFTMPSURF,IPARTS   ,
-     .                            IPARTC   ,IPARTG   ,IAD_SURF ,KEYSET)
+        IF ( CLAUSE%NB_SOLID > 0 ) CALL SOLID_SURFACE_BUFFER(
+     .                              IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
+     .                              KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
+     .                              NOD2ELTG ,NSEG     ,IEXT     ,BUFTMPSURF,IPARTS   ,
+     .                              IPARTC   ,IPARTG   ,IAD_SURF ,KEYSET)
 !
 !     ---  shell + sh3n ---
 !
-      IF (NADMESH == 0) THEN
-        IF ( CLAUSE%NB_SH4N > 0 ) CALL SHELL_SURFACE_BUFFER(
-     .                             IXC     ,NIXC      ,2         ,5         ,3     ,
-     .                             NSEG    ,IAD_SURF  ,OPT_O     ,BUFTMPSURF,CLAUSE)
-        IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0) 
-     .                            CALL SHELL_SURFACE_BUFFER(
-     .                             IXTG     ,NIXTG     ,2        ,4         ,7     ,
-     .                             NSEG     ,IAD_SURF  ,OPT_O    ,BUFTMPSURF,CLAUSE)
-      ELSE
-        IF ( CLAUSE%NB_SH4N > 0 ) CALL SHELL_SURFACE_BUFFER_REMESH(
-     .                             IXC     ,NIXC      ,2	 ,5	    ,3     ,
-     .                             NSEG    ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTC ,
-     .                             IPART   ,KSH4TREE  ,SH4TREE   )
-        IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0) 
-     .                            CALL SHELL_SURFACE_BUFFER_REMESH(
-     .                             IXTG     ,NIXTG     ,2         ,4         ,7     ,
-     .                             NSEG     ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTG,
-     .                             IPART    ,KSH3TREE  ,SH3TREE   )
-      ENDIF ! IF (NADMESH == 0)
+        IF (NADMESH == 0) THEN
+          IF ( CLAUSE%NB_SH4N > 0 ) CALL SHELL_SURFACE_BUFFER(
+     .                               IXC     ,NIXC      ,2         ,5         ,3     ,
+     .                               NSEG    ,IAD_SURF  ,OPT_O     ,BUFTMPSURF,CLAUSE)
+          IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0)
+     .                              CALL SHELL_SURFACE_BUFFER(
+     .                               IXTG     ,NIXTG     ,2        ,4         ,7     ,
+     .                               NSEG     ,IAD_SURF  ,OPT_O    ,BUFTMPSURF,CLAUSE)
+        ELSE
+          IF ( CLAUSE%NB_SH4N > 0 ) CALL SHELL_SURFACE_BUFFER_REMESH(
+     .                               IXC     ,NIXC      ,2   ,5      ,3     ,
+     .                               NSEG    ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTC ,
+     .                               IPART   ,KSH4TREE  ,SH4TREE   )
+          IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0)
+     .                              CALL SHELL_SURFACE_BUFFER_REMESH(
+     .                               IXTG     ,NIXTG     ,2         ,4         ,7     ,
+     .                               NSEG     ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTG,
+     .                               IPART    ,KSH3TREE  ,SH3TREE   )
+        ENDIF ! IF (NADMESH == 0)
 !
 !     ---  quad --- external surface only ( EXT )
 !
-      IF ( CLAUSE%NB_QUAD > 0 ) CALL QUAD_SURFACE_BUFFER(
-     .                           IXQ     ,IAD_SURF ,BUFTMPSURF ,NSEG  ,KNOD2ELQ ,
-     .                           NOD2ELQ ,IEXT     ,X          ,CLAUSE)
+        IF ( CLAUSE%NB_QUAD > 0 ) CALL QUAD_SURFACE_BUFFER(
+     .                             IXQ     ,IAD_SURF ,BUFTMPSURF ,NSEG  ,KNOD2ELQ ,
+     .                             NOD2ELQ ,IEXT     ,X          ,CLAUSE)
 !---
-      RETURN
+        RETURN
       END

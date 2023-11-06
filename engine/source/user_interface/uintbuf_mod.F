@@ -33,19 +33,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-      TYPE UINTBUF
-	INTEGER ISECND
-        my_real AREA
-        my_real DT
-        my_real DXN
-        my_real DXT
-        my_real SIGN
-        my_real SIGT
-        my_real RUPT
-        my_real FACN
-        my_real FACT
-      END TYPE UINTBUF
+        TYPE UINTBUF
+          INTEGER ISECND
+          my_real AREA
+          my_real DT
+          my_real DXN
+          my_real DXT
+          my_real SIGN
+          my_real SIGT
+          my_real RUPT
+          my_real FACN
+          my_real FACT
+        END TYPE UINTBUF
 C-----
 C
       END MODULE UINTBUF_MOD
-      
+

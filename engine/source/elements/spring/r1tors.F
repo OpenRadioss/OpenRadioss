@@ -25,14 +25,14 @@ Chd|  R1TORS                        source/elements/spring/r1tors.F
 Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE R1TORS(
      1   FOR,     TANI,    H3D_DATA,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD
+        USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,10 +40,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
-      my_real
-     .   FOR(*),TANI(15,*)
-      TYPE(H3D_DATABASE) :: H3D_DATA
+        INTEGER, INTENT(IN) :: NEL
+        my_real
+     .     FOR(*),TANI(15,*)
+        TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -51,21 +51,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C-----------------------------------------------
-      IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
-        DO I=1,NEL
-          TANI(1,I)= FOR(I)
-          TANI(2,I)= ZERO
-          TANI(3,I)= ZERO
-          TANI(4,I)= ZERO
-          TANI(5,I)= ZERO
-          TANI(6,I)= ZERO
-          TANI(7,I)= ZERO
-          TANI(8,I)= ZERO
-          TANI(9,I)= ZERO	
-        ENDDO
-      ENDIF
+        IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
+          DO I=1,NEL
+            TANI(1,I)= FOR(I)
+            TANI(2,I)= ZERO
+            TANI(3,I)= ZERO
+            TANI(4,I)= ZERO
+            TANI(5,I)= ZERO
+            TANI(6,I)= ZERO
+            TANI(7,I)= ZERO
+            TANI(8,I)= ZERO
+            TANI(9,I)= ZERO
+          ENDDO
+        ENDIF
 !
-      RETURN
+        RETURN
       END

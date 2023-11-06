@@ -45,29 +45,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       real
-     .   V(*)
-       INTEGER NUM,TV
+        real
+     .    V(*)
+        INTEGER NUM,TV
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      DATA MSGOFF/7034/
+        DATA MSGOFF/7034/
 
 C   Tableau utilise par proc 0
-       REAL, DIMENSION(:),ALLOCATABLE :: XGLOB
+        REAL, DIMENSION(:),ALLOCATABLE :: XGLOB
 C-----------------------------------------------
-       ALLOCATE(XGLOB(NUM))
-         
-       IF (ISPMD/=0) THEN
-         MSGTYP = MSGOFF
-         CALL MPI_SEND(V,3*TV,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+        ALLOCATE(XGLOB(NUM))
 
-       ELSE
+        IF (ISPMD/=0) THEN
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(V,3*TV,MPI_REAL,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
+
+        ELSE
 
           CALL WRITE_R_C(V,3*TV)
 
@@ -78,20 +78,20 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(XGLOB,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-C  
-           
+C
+
             CALL WRITE_R_C(XGLOB,SIZ)
           ENDDO
 
-       ENDIF
+        ENDIF
 
-       DEALLOCATE(XGLOB)
+        DEALLOCATE(XGLOB)
 
 #endif
-       RETURN
-       END
+        RETURN
+      END

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
+Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
@@ -35,21 +35,21 @@ Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_co
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        MODIF_TAG                     source/coupling/rad2rad/routines_r2r.F
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
+Chd|        PRELECSEC                     source/tools/sect/prelecsec.F
 Chd|        R2R_COUNT                     source/coupling/rad2rad/r2r_count.F
 Chd|        TAGINT_R2R                    source/coupling/rad2rad/tagint_r2r.F
 Chd|        TAG_ELEM_VOID_R2R             source/coupling/rad2rad/tagelem_r2r.F
 Chd|        TAG_ELEM_VOID_R2R_LIN         source/coupling/rad2rad/tagelem_r2r.F
-Chd|        USR2SYS                       source/system/sysfus.F        
+Chd|        USR2SYS                       source/system/sysfus.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
+Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE R2R_PRELEC(IPARTS,
      2           IPARTC,IPARTG,IPARTT,IPARTP,IPARTR,IPARTSP,COMPT_T2,
@@ -254,7 +254,7 @@ C--------------------------------------------------------------------C
             ELSEIF (KEY(1:3) == 'VEL' .OR. KEY(1:5) == 'TYPE9') THEN
 c          READ(IIN,REC=IREC,ERR=999,FMT=FMT_I_2F)N1,NUL,NUL
 c          N1 = USR2SYS(N1,ITABM1,MESS,NI)
-c	         CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)
+c           CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)
             ELSEIF (KEY(1:4) /='SENS'.AND.KEY(1:5)/='TYPE3'
      .          .AND.KEY(1:3)/='AND'.AND.KEY(1:5)/='TYPE4'
      .          .AND.KEY(1:2)/='OR'.AND.KEY(1:5)/='TYPE5'
@@ -1357,17 +1357,17 @@ Chd|  R2R_MONVOL                    source/coupling/rad2rad/r2r_prelec.F
 Chd|-- called by -----------
 Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F
 Chd|-- calls ---------------
-Chd|        FREERR                        source/starter/freform.F      
+Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
-Chd|        USR2SYS                       source/system/sysfus.F        
+Chd|        USR2SYS                       source/system/sysfus.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
-Chd|        RESTMOD                       share/modules1/restart_mod.F  
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        R2R_MOD                       share/modules1/r2r_mod.F
+Chd|        RESTMOD                       share/modules1/restart_mod.F
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE R2R_MONVOL(TAGPART,TAGPRO,IGRSURF,LSUBMODEL)
 C-----------------------------------------------
@@ -1452,10 +1452,10 @@ C             --> if all the nodes of the segment are in the subdomain -it's val
             IF (CPT_NOD==4) CPT_SEG=CPT_SEG+1
           END DO
 C--------MONVOL not allowed on multidomains interface--------------------------
-C	  IF (WARN>0) THEN
-C	        CALL ANSTCKC(LEN_TRIM(LINE),LINE)
+C    IF (WARN>0) THEN
+C          CALL ANSTCKC(LEN_TRIM(LINE),LINE)
 C                CALL ANCWARN(843,ANINFO_BLIND_1)
-C	  ENDIF
+C    ENDIF
 C-------Case AIRBAG1----------------------------------------
           IF ((TYPE==1).AND.(TAGMON(I)>0)) THEN
             CALL HM_GET_INTV('nb_jet', NJET, IS_AVAILABLE, LSUBMODEL)

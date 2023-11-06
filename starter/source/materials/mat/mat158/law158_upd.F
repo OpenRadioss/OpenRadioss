@@ -23,24 +23,24 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
 Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
+Chd|        UPDMAT                        source/materials/updmat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F
+Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
-      SUBROUTINE LAW158_UPD(TITR   ,UPARAM ,NPC    ,PLD    ,  
+      SUBROUTINE LAW158_UPD(TITR   ,UPARAM ,NPC    ,PLD    ,
      .                      NFUNC  ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
      .                      PM     ,NUPARAM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE TABLE_MOD
-      USE SENSOR_MOD
+        USE MESSAGE_MOD
+        USE TABLE_MOD
+        USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,141 +55,141 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle  ,INTENT(IN) :: TITR
-      INTEGER ,INTENT(IN) :: MAT_ID,NFUNC,NFUNL,NUPARAM
-      INTEGER ,DIMENSION(NFUNC) ,INTENT(IN) :: FUNC_ID
-      INTEGER ,DIMENSION(NFUNC+NFUNL) ,INTENT(IN) :: IFUNC
-      INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPC
-      my_real ,DIMENSION(STF)  ,INTENT(IN) :: PLD
-      my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
-      my_real ,DIMENSION(NPROPM)  ,INTENT(OUT)   :: PM
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+        CHARACTER*nchartitle  ,INTENT(IN) :: TITR
+        INTEGER ,INTENT(IN) :: MAT_ID,NFUNC,NFUNL,NUPARAM
+        INTEGER ,DIMENSION(NFUNC) ,INTENT(IN) :: FUNC_ID
+        INTEGER ,DIMENSION(NFUNC+NFUNL) ,INTENT(IN) :: IFUNC
+        INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPC
+        my_real ,DIMENSION(STF)  ,INTENT(IN) :: PLD
+        my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
+        my_real ,DIMENSION(NPROPM)  ,INTENT(OUT)   :: PM
+        TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISENS,SENS_ID,FUNC
-      my_real KCMAX,KTMAX,GMAX,STIFF,STIFFMIN,STIFFINI,STIFFMAX,STIFFAVG,
-     .  YFAC1,YFAC2,YFAC3,KFLEX1,KFLEX2
+        INTEGER I,ISENS,SENS_ID,FUNC
+        my_real KCMAX,KTMAX,GMAX,STIFF,STIFFMIN,STIFFINI,STIFFMAX,STIFFAVG,
+     .    YFAC1,YFAC2,YFAC3,KFLEX1,KFLEX2
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
 c     NFUNL = IPM(6)     :  LEAK_MAT functions
 c
-      IF (NFUNL > 0) THEN
-        CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNL,IFUNC(NFUNC+1),FUNC_ID  )
-      ENDIF
+        IF (NFUNL > 0) THEN
+          CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNL,IFUNC(NFUNC+1),FUNC_ID  )
+        ENDIF
 c
 c---------------------------------------------------------------
-      KFLEX1= UPARAM(6)
-      KFLEX2= UPARAM(7)
-      YFAC1 = UPARAM(12) 
-      YFAC2 = UPARAM(13) 
-      YFAC3 = UPARAM(14)
-     
-      SENS_ID = NINT(UPARAM(9))
+        KFLEX1= UPARAM(6)
+        KFLEX2= UPARAM(7)
+        YFAC1 = UPARAM(12)
+        YFAC2 = UPARAM(13)
+        YFAC3 = UPARAM(14)
+
+        SENS_ID = NINT(UPARAM(9))
 C----------------------------
 C     SENSOR NUMBERING CHECK
 C----------------------------
-      ISENS   = 0
-      IF (SENS_ID > 0 ) THEN
-        DO I=1,SENSORS%NSENSOR
-          IF (SENS_ID == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
-            ISENS = I
-            UPARAM(9) = ISENS
-            EXIT
-          END IF
-        ENDDO
-        IF (ISENS == 0)  
-     .    CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
-     .  	      I1=MAT_ID,C1=TITR,I2=ISENS) 
-      ENDIF
+        ISENS   = 0
+        IF (SENS_ID > 0 ) THEN
+          DO I=1,SENSORS%NSENSOR
+            IF (SENS_ID == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
+              ISENS = I
+              UPARAM(9) = ISENS
+              EXIT
+            END IF
+          ENDDO
+          IF (ISENS == 0)
+     .      CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
+     .    I1=MAT_ID,C1=TITR,I2=ISENS)
+        ENDIF
 c---------------------------------------------------------------
 c
-c     fiber stiffness dir1 (load) 
+c     fiber stiffness dir1 (load)
 c
-      FUNC = IFUNC(1)                                                            
-      IF (FUNC > 0 ) THEN       
-                                                  
-        CALL FUNC_SLOPE(FUNC,YFAC1,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
+        FUNC = IFUNC(1)
+        IF (FUNC > 0 ) THEN
+
+          CALL FUNC_SLOPE(FUNC,YFAC1,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 c
-        IF (STIFFMIN <= ZERO) THEN
-          CALL ANCMSG(MSGID=1581,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
-     .             I1=MAT_ID,
-     .             I2=FUNC_ID(IFUNC(1)),
-     .             C1=TITR)
+          IF (STIFFMIN <= ZERO) THEN
+            CALL ANCMSG(MSGID=1581,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               I2=FUNC_ID(IFUNC(1)),
+     .               C1=TITR)
+          ENDIF
+          KCMAX = STIFFMAX
+c
         ENDIF
-        KCMAX = STIFFMAX
-c        
-      ENDIF
 c
-c     fiber stiffness dir2 (load) 
+c     fiber stiffness dir2 (load)
 c
-      FUNC = IFUNC(2)                                                            
-      IF (FUNC > 0 ) THEN                                                         
-        CALL FUNC_SLOPE(FUNC,YFAC2,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
+        FUNC = IFUNC(2)
+        IF (FUNC > 0 ) THEN
+          CALL FUNC_SLOPE(FUNC,YFAC2,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 c
-        IF (STIFFMIN <= ZERO) THEN
-          CALL ANCMSG(MSGID=1582 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
-     .             I1=MAT_ID,
-     .             I2=FUNC_ID(IFUNC(2)),
-     .             C1=TITR)
+          IF (STIFFMIN <= ZERO) THEN
+            CALL ANCMSG(MSGID=1582 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               I2=FUNC_ID(IFUNC(2)),
+     .               C1=TITR)
+          ENDIF
+          KTMAX = STIFFMAX
         ENDIF
-        KTMAX = STIFFMAX
-      ENDIF
 c
-c     shear modulus  (load) 
+c     shear modulus  (load)
 c
-      FUNC = IFUNC(3)                                                            
-      IF (FUNC > 0 ) THEN                                                         
-        CALL FUNC_SLOPE(FUNC,YFAC3,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
+        FUNC = IFUNC(3)
+        IF (FUNC > 0 ) THEN
+          CALL FUNC_SLOPE(FUNC,YFAC3,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 c
-        IF (STIFFMIN <= ZERO) THEN
-          CALL ANCMSG(MSGID=1583 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
-     .             I1=MAT_ID,
-     .             I2=FUNC_ID(IFUNC(3)),
-     .             C1=TITR)
+          IF (STIFFMIN <= ZERO) THEN
+            CALL ANCMSG(MSGID=1583 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               I2=FUNC_ID(IFUNC(3)),
+     .               C1=TITR)
+          ENDIF
+          GMAX  = STIFFMAX
         ENDIF
-        GMAX  = STIFFMAX
-      ENDIF                                       
 c
 c-------------------------------------------------
 c     Flex stiffness dir1
 c
-      FUNC = IFUNC(4)                                                            
-      IF (FUNC > 0 )THEN                                                         
-                                                      
-        CALL FUNC_SLOPE(FUNC,KFLEX1,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
+        FUNC = IFUNC(4)
+        IF (FUNC > 0 )THEN
+
+          CALL FUNC_SLOPE(FUNC,KFLEX1,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 c
-        IF (STIFFMIN <= ZERO) THEN
-          CALL ANCMSG(MSGID=1581 , MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_2,
-     .             I1=MAT_ID,
-     .             I2=FUNC_ID(IFUNC(4)),
-     .             C1=TITR)
+          IF (STIFFMIN <= ZERO) THEN
+            CALL ANCMSG(MSGID=1581 , MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               I2=FUNC_ID(IFUNC(4)),
+     .               C1=TITR)
+          ENDIF
         ENDIF
-      ENDIF                                                                     
 c
 c     Flex stiffness dir2
 c
-      FUNC = IFUNC(5)                                                            
-      IF (FUNC > 0 )THEN                                                         
-        CALL FUNC_SLOPE(FUNC,KFLEX2,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
+        FUNC = IFUNC(5)
+        IF (FUNC > 0 )THEN
+          CALL FUNC_SLOPE(FUNC,KFLEX2,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 c
-        IF (STIFFMIN <= ZERO) THEN
-          CALL ANCMSG(MSGID=1582 , MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_2,
-     .             I1=MAT_ID,
-     .             I2=FUNC_ID(IFUNC(5)),
-     .             C1=TITR)
+          IF (STIFFMIN <= ZERO) THEN
+            CALL ANCMSG(MSGID=1582 , MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_2,
+     .               I1=MAT_ID,
+     .               I2=FUNC_ID(IFUNC(5)),
+     .               C1=TITR)
+          ENDIF
         ENDIF
-      ENDIF                                                                     
 c-----------
-      STIFF = MAX(KCMAX,KTMAX)
-      UPARAM(10) = STIFF
-      UPARAM(11) = GMAX
+        STIFF = MAX(KCMAX,KTMAX)
+        UPARAM(10) = STIFF
+        UPARAM(11) = GMAX
 c-----------
-      PM(20) = STIFF        ! Stiffness contact
-      PM(21) = ZERO         ! NU
-      PM(22) = STIFF*HALF   ! GMAX
-      PM(23) = EM01*STIFFAVG  ! Hourglass stiffness for QEPH
-      PM(24) = STIFF        ! Stiffness for time step computation
+        PM(20) = STIFF        ! Stiffness contact
+        PM(21) = ZERO         ! NU
+        PM(22) = STIFF*HALF   ! GMAX
+        PM(23) = EM01*STIFFAVG  ! Hourglass stiffness for QEPH
+        PM(24) = STIFF        ! Stiffness for time step computation
 c-----------
-      RETURN
+        RETURN
       END

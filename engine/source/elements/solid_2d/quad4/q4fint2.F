@@ -53,22 +53,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JHBE
-      INTEGER, INTENT(IN) :: JCVT
-      INTEGER ICP,NEL
+        INTEGER, INTENT(IN) :: JHBE
+        INTEGER, INTENT(IN) :: JCVT
+        INTEGER ICP,NEL
 C     REAL
-      my_real
-     .    SIG(NEL,6),AY(*),FAY(*),FAZ(*),
-     .    PY1(*),PY2(*),PY3(*),PY4(*),
-     .    PZ1(*),PZ2(*),PZ3(*),PZ4(*),
-     .    BYZ1(*),BYZ2(*),BYZ3(*),BYZ4(*),
-     .    BZY1(*),BZY2(*),BZY3(*),BZY4(*),
-     .    FY1(*),FZ1(*),FY2(*),FZ2(*),
-     .    FY3(*),FZ3(*),FY4(*),FZ4(*),
-     .    R22(*),R23(*),R32(*),R33(*),
-     .    AIR(*),VOL(*),QVIS(*)
+        my_real
+     .      SIG(NEL,6),AY(*),FAY(*),FAZ(*),
+     .      PY1(*),PY2(*),PY3(*),PY4(*),
+     .      PZ1(*),PZ2(*),PZ3(*),PZ4(*),
+     .      BYZ1(*),BYZ2(*),BYZ3(*),BYZ4(*),
+     .      BZY1(*),BZY2(*),BZY3(*),BZY4(*),
+     .      FY1(*),FZ1(*),FY2(*),FZ2(*),
+     .      FY3(*),FZ3(*),FY4(*),FZ4(*),
+     .      R22(*),R23(*),R32(*),R33(*),
+     .      AIR(*),VOL(*),QVIS(*)
 C-----------------------------------------------
-C FUNCTION: 
+C FUNCTION:
 C ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 C TYPE NAME                FUNCTION
 C  I   SIG(NEL,6)           - STRESS COMPONENTS
@@ -84,64 +84,64 @@ C  I   ICP                - FLAG FOR CONSTANT PRESURE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C     REAL
-      my_real
-     .    S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),
-     .    FAC(MVSIZ),P(MVSIZ),T1,T2,T3,T4
+        my_real
+     .      S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),
+     .      FAC(MVSIZ),P(MVSIZ),T1,T2,T3,T4
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(N2D==1 .AND. JHBE==17) THEN
-        DO I=1,NEL
-          FAC(I) = AIR(I)
-        ENDDO
-      ELSE
-        DO I=1,NEL
-          FAC(I) = VOL(I)
-        ENDDO
-      ENDIF
+        IF(N2D==1 .AND. JHBE==17) THEN
+          DO I=1,NEL
+            FAC(I) = AIR(I)
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            FAC(I) = VOL(I)
+          ENDDO
+        ENDIF
 C
 C     ADD VISCOUS STRESSES "SVIS" & "QVIS" INTO THE TOTAL ONES
 C     REMOVE PRESSURE FROM STRESSES FOR THE CONSTANT PRESSURE CASE
-      IF(ICP==1) THEN
-        DO I=1,NEL
-          P(I)=THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)+
-     .                SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
-          S1(I)=(SIG(I,1)+SVIS(I,1)-P(I))*FAC(I)
-          S2(I)=(SIG(I,2)+SVIS(I,2)-P(I))*FAC(I)
-        ENDDO
-      ELSE
-        DO I=1,NEL
-          S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*FAC(I)
-          S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*FAC(I)
-        ENDDO
-      ENDIF
-C
-      DO I=1,NEL
-        FY1(I) = FY1(I) - S1(I)*PY1(I)- S2(I)*BZY1(I)
-        FY2(I) = FY2(I) - S1(I)*PY2(I)- S2(I)*BZY2(I)
-        FY3(I) = FY3(I) - S1(I)*PY3(I)- S2(I)*BZY3(I)
-        FY4(I) = FY4(I) - S1(I)*PY4(I)- S2(I)*BZY4(I)
-        FZ1(I) = FZ1(I) - S2(I)*PZ1(I)- S1(I)*BYZ1(I)
-        FZ2(I) = FZ2(I) - S2(I)*PZ2(I)- S1(I)*BYZ2(I)
-        FZ3(I) = FZ3(I) - S2(I)*PZ3(I)- S1(I)*BYZ3(I)
-        FZ4(I) = FZ4(I) - S2(I)*PZ4(I)- S1(I)*BYZ4(I)
-      ENDDO
-C
-      IF(N2D==1.AND.JHBE==17) THEN
-         IF(ICP==1) THEN
+        IF(ICP==1) THEN
           DO I=1,NEL
-            S3(I)=(SIG(I,3)+SVIS(I,3)-P(I))*FAC(I)
-            S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
+            P(I)=THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)+
+     .                  SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
+            S1(I)=(SIG(I,1)+SVIS(I,1)-P(I))*FAC(I)
+            S2(I)=(SIG(I,2)+SVIS(I,2)-P(I))*FAC(I)
           ENDDO
-	 ELSE
+        ELSE
           DO I=1,NEL
-            S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*FAC(I)
-            S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
+            S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*FAC(I)
+            S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*FAC(I)
           ENDDO
-	 END IF
-         IF(JCVT/=0) THEN
+        ENDIF
+C
+        DO I=1,NEL
+          FY1(I) = FY1(I) - S1(I)*PY1(I)- S2(I)*BZY1(I)
+          FY2(I) = FY2(I) - S1(I)*PY2(I)- S2(I)*BZY2(I)
+          FY3(I) = FY3(I) - S1(I)*PY3(I)- S2(I)*BZY3(I)
+          FY4(I) = FY4(I) - S1(I)*PY4(I)- S2(I)*BZY4(I)
+          FZ1(I) = FZ1(I) - S2(I)*PZ1(I)- S1(I)*BYZ1(I)
+          FZ2(I) = FZ2(I) - S2(I)*PZ2(I)- S1(I)*BYZ2(I)
+          FZ3(I) = FZ3(I) - S2(I)*PZ3(I)- S1(I)*BYZ3(I)
+          FZ4(I) = FZ4(I) - S2(I)*PZ4(I)- S1(I)*BYZ4(I)
+        ENDDO
+C
+        IF(N2D==1.AND.JHBE==17) THEN
+          IF(ICP==1) THEN
+            DO I=1,NEL
+              S3(I)=(SIG(I,3)+SVIS(I,3)-P(I))*FAC(I)
+              S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
+            ENDDO
+          ELSE
+            DO I=1,NEL
+              S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*FAC(I)
+              S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
+            ENDDO
+          END IF
+          IF(JCVT/=0) THEN
             DO I=1,NEL
               T1=S1(I)*R22(I)+S4(I)*R23(I)
               T2=S4(I)*R32(I)+S2(I)*R33(I)
@@ -156,8 +156,8 @@ C
             FAY(I) = FAY(I) + (S1(I)-S3(I))*AY(I)
             FAZ(I) = FAZ(I) + S4(I)*AY(I)
           ENDDO
-      ENDIF
+        ENDIF
 C
-      RETURN
+        RETURN
       END
-	  
+

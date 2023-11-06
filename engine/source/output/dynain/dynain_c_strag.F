@@ -30,11 +30,11 @@ Chd|        GET_T3L                       source/output/sta/stat_c_strafg.F
 Chd|        LAYINI                        source/elements/shell/coque/layini.F
 Chd|        SHELL2G                       source/output/sta/stat_c_strafg.F
 Chd|        SPMD_RGATHER9_DP              source/mpi/interfaces/spmd_outp.F
-Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F 
-Chd|        STRS_TXT50                    source/output/sta/sta_txt.F   
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
+Chd|        SPMD_STAT_PGATHER             source/mpi/output/spmd_stat.F
+Chd|        STRS_TXT50                    source/output/sta/sta_txt.F
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE DYNAIN_C_STRAG(
@@ -46,10 +46,10 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD   
-      USE STACK_MOD
-      USE DRAPE_MOD      
-      USE STATE_MOD
+        USE ELBUFDEF_MOD
+        USE STACK_MOD
+        USE DRAPE_MOD
+        USE STATE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,759 +65,759 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
-      INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
-     .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
-     .        IPARTC(*), IPARTTG(*),DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
-      my_real   
-     .   GEO(NPROPG,*) , X(*) , THKE(*)
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE (DRAPEG_) :: DRAPEG
-      double precision WA(*),WAP0(*)
-      TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
+        INTEGER SIZLOC,SIZP0
+        INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
+     .          IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
+     .          IPARTC(*), IPARTTG(*),DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
+        my_real
+     .     GEO(NPROPG,*) , X(*) , THKE(*)
+        TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+        TYPE (STACK_PLY) :: STACK
+        TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
+        TYPE (DRAPEG_) :: DRAPEG
+        double precision WA(*),WAP0(*)
+        TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,II,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,NPT,
-     .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,
-     .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,
-     .   IGTYP,NPT_ALL,IL,KK(8),LARGE,IREP,IPID,IVISC,
-     .   IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
-     ,   LAYNPT_MAX,LAY_MAX,IERR,
-     .   JDIR,ILAY,J1,J2,IREL,G_STRA,IPT_ALL,SEDRAPE,NUMEL_DRAPE
-      PARAMETER (LAYNPT_MAX = 10)
-      PARAMETER (LAY_MAX = 100)
-      INTEGER ,  DIMENSION(:),ALLOCATABLE :: PTWA, PTWA_P0
-      INTEGER MATLY(MVSIZ*LAY_MAX),MAT(MVSIZ),PID(MVSIZ)
-      CHARACTER*80 DELIMIT
-      CHARACTER*100 LINE
-      my_real
-     .   SIG(6)
-      my_real
-     .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
-     .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
-      my_real, 
-     .   DIMENSION(:),POINTER  :: STRAIN    
-      my_real 
-     .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)   
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+        INTEGER I,J,K,N,II,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,NPT,
+     .     LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,
+     .     NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,
+     .     IGTYP,NPT_ALL,IL,KK(8),LARGE,IREP,IPID,IVISC,
+     .     IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
+     ,     LAYNPT_MAX,LAY_MAX,IERR,
+     .     JDIR,ILAY,J1,J2,IREL,G_STRA,IPT_ALL,SEDRAPE,NUMEL_DRAPE
+        PARAMETER (LAYNPT_MAX = 10)
+        PARAMETER (LAY_MAX = 100)
+        INTEGER ,  DIMENSION(:),ALLOCATABLE :: PTWA, PTWA_P0
+        INTEGER MATLY(MVSIZ*LAY_MAX),MAT(MVSIZ),PID(MVSIZ)
+        CHARACTER*80 DELIMIT
+        CHARACTER*100 LINE
+        my_real
+     .     SIG(6)
+        my_real
+     .     THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
+     .     THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+        my_real,
+     .     DIMENSION(:),POINTER  :: STRAIN
+        my_real
+     .     QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)
+        TYPE(G_BUFEL_)  ,POINTER :: GBUF
+        TYPE(L_BUFEL_)  ,POINTER :: LBUF
+        TYPE(BUF_LAY_)  ,POINTER :: BUFLY
 C-----------------------------------------------
 
-      DATA DELIMIT(1:48)
-     ./'$--1---|---2---|---3---|---4---|---5---|---6---|'/
-      DATA DELIMIT(49:80)
-     ./'---7---|---8---|---9---|---10--|'/
+        DATA DELIMIT(1:48)
+     .  /'$--1---|---2---|---3---|---4---|---5---|---6---|'/
+        DATA DELIMIT(49:80)
+     .  /'---7---|---8---|---9---|---10--|'/
 C=======================================================================
 
 C-----------------------
 C    Allocation Tabs
 C-----------------------
-      ALLOCATE(PTWA(MAX(DYNAIN_DATA%DYNAIN_NUMELC ,
-     .             DYNAIN_DATA%DYNAIN_NUMELTG)),STAT=IERR)
-      ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_DATA%DYNAIN_NUMELC_G,
-     .         DYNAIN_DATA%DYNAIN_NUMELTG_G)),STAT=IERR)
+        ALLOCATE(PTWA(MAX(DYNAIN_DATA%DYNAIN_NUMELC ,
+     .               DYNAIN_DATA%DYNAIN_NUMELTG)),STAT=IERR)
+        ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_DATA%DYNAIN_NUMELC_G,
+     .           DYNAIN_DATA%DYNAIN_NUMELTG_G)),STAT=IERR)
 C*********************************************
 C     4-NODE SHELLS
 C*********************************************
-      JJ = 0
+        JJ = 0
 C
-      IE=0
-      IF (DYNAIN_DATA%DYNAIN_NUMELC/=0) THEN
-       DO NG=1,NGROUP
-        ITY = IPARG(5,NG)
-        IF (ITY == 3) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
-          MLW  = IPARG(1,NG)
-          NEL  = IPARG(2,NG)
-          NFT  = IPARG(3,NG)
-          MPT  = IPARG(6,NG)
-          IHBE = IPARG(23,NG)
-          ITHK = IPARG(28,NG)
-          IGTYP= IPARG(38,NG)
-          IXFEM   = IPARG(54,NG)
-          ISUBSTACK=IPARG(71,NG)
-          IXLAY = 0 ! standard element
-          IPID = IXC(6,NFT+1)
-          IREP = IGEO(6,IPID)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
-          NLAY = ELBUF_TAB(NG)%NLAY
-          NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
-          IF (IHBE == 23 .AND. GBUF%G_STRPG>GBUF%G_STRA) NPG=4
-          IF (IHBE == 23 .AND. NPG/=4) CYCLE
-          LFT=1
-          LLT=NEL
+        IE=0
+        IF (DYNAIN_DATA%DYNAIN_NUMELC/=0) THEN
+          DO NG=1,NGROUP
+            ITY = IPARG(5,NG)
+            IF (ITY == 3) THEN
+              GBUF => ELBUF_TAB(NG)%GBUF
+              MLW  = IPARG(1,NG)
+              NEL  = IPARG(2,NG)
+              NFT  = IPARG(3,NG)
+              MPT  = IPARG(6,NG)
+              IHBE = IPARG(23,NG)
+              ITHK = IPARG(28,NG)
+              IGTYP= IPARG(38,NG)
+              IXFEM   = IPARG(54,NG)
+              ISUBSTACK=IPARG(71,NG)
+              IXLAY = 0 ! standard element
+              IPID = IXC(6,NFT+1)
+              IREP = IGEO(6,IPID)
+              NPTR = ELBUF_TAB(NG)%NPTR
+              NPTS = ELBUF_TAB(NG)%NPTS
+              NPTT = ELBUF_TAB(NG)%NPTT
+              NLAY = ELBUF_TAB(NG)%NLAY
+              NPG  = NPTR*NPTS
+              NPT  = NLAY*NPTT
+              IF (IHBE == 23 .AND. GBUF%G_STRPG>GBUF%G_STRA) NPG=4
+              IF (IHBE == 23 .AND. NPG/=4) CYCLE
+              LFT=1
+              LLT=NEL
 
-          G_STRA = GBUF%G_STRA
-        
+              G_STRA = GBUF%G_STRA
+
 !
-         DO J=1,8  ! length max of GBUF%G_STRA = 8
-           KK(J) = NEL*(J-1)
-         ENDDO
+              DO J=1,8  ! length max of GBUF%G_STRA = 8
+                KK(J) = NEL*(J-1)
+              ENDDO
 !
 C
 C pre counting of all NPTT (especially for PID_51)
 C
-          IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
-            NPT_ALL = 0
-            DO IL=1,NLAY
-              NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-            ENDDO
-            MPT  = MAX(1,NPT_ALL)
-          ENDIF
-          IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
+              IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
+                NPT_ALL = 0
+                DO IL=1,NLAY
+                  NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                ENDDO
+                MPT  = MAX(1,NPT_ALL)
+              ENDIF
+              IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
 
-          DO I=LFT,LLT
-             MAT(I)=IXC(1,NFT+I)
-             PID(I)=IXC(6,NFT+I)
-          ENDDO
+              DO I=LFT,LLT
+                MAT(I)=IXC(1,NFT+I)
+                PID(I)=IXC(6,NFT+I)
+              ENDDO
 
 C-------------------------------------------------
 C     RELATIVE POSITION OF INTEGRATION POINTS
 C         POSLY between -0.5, 0.5 : need to multiply by 2 for LSDYNA
 C------------------------------------------------
-          IF (ITHK >0 ) THEN
-             THK0(LFT:LLT) = GBUF%THK(LFT:LLT)
-          ELSE
-             THK0(LFT:LLT) = THKE(LFT:LLT)
-          END IF
-          NUMEL_DRAPE = NUMELC_DRAPE
-          SEDRAPE = SCDRAPE 
-          CALL LAYINI(
-     .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
-     .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
-     .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_SH4N   ,NFT      ,THKE      , 
-     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH4N,SEDRAPE,NUMEL_DRAPE)
+              IF (ITHK >0 ) THEN
+                THK0(LFT:LLT) = GBUF%THK(LFT:LLT)
+              ELSE
+                THK0(LFT:LLT) = THKE(LFT:LLT)
+              END IF
+              NUMEL_DRAPE = NUMELC_DRAPE
+              SEDRAPE = SCDRAPE
+              CALL LAYINI(
+     .               ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
+     .               MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
+     .               IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
+     .               ISUBSTACK  ,STACK      ,DRAPE_SH4N   ,NFT      ,THKE      ,
+     .               NEL        ,THK_LY     ,DRAPEG%INDX_SH4N,SEDRAPE,NUMEL_DRAPE)
 
 C-------------------------------------------------------
 C     ELEMENT LOCAL FRAME : for rotation local -> Global
 C-------------------------------------------------------
-          IF (IHBE>10.OR.IGTYP==16.OR.ISHFRAM ==0) THEN
-            IREL=0
-          ELSEIF (ISHFRAM ==1) THEN
-            IREL=2
-          ELSE
-            IREL=1
-          END IF
-          CALL GET_Q4L(LFT ,LLT ,IXC(1,NFT+1),X ,GBUF%OFF,IREL ,QT )
+              IF (IHBE>10.OR.IGTYP==16.OR.ISHFRAM ==0) THEN
+                IREL=0
+              ELSEIF (ISHFRAM ==1) THEN
+                IREL=2
+              ELSE
+                IREL=1
+              END IF
+              CALL GET_Q4L(LFT ,LLT ,IXC(1,NFT+1),X ,GBUF%OFF,IREL ,QT )
 
 C-------------------------------------------------------
 C-       Loop over 4 node shell elements
 C-------------------------------------------------------
-          DO I=LFT,LLT
-            N = I + NFT
-            IPRT=IPARTC(N)
-            IF (DYNAIN_DATA%IPART_DYNAIN(IPRT)==0) CYCLE
-            JJ = JJ + 1
-            IF (MLW /= 0 .AND. MLW /= 13) THEN
-              WA(JJ) = GBUF%OFF(I)
-            ELSE
-              WA(JJ) = ZERO
-            ENDIF
-            JJ = JJ + 1
-            WA(JJ) = IXC(NIXC,N)
-            JJ = JJ + 1
-            IF (MPT == 0) THEN  ! global integration
-               WA(JJ) = 3 ! Membrane - Lower - Upper
-            ELSE 
-               WA(JJ) = MPT  ! Integration points
-            ENDIF
-            JJ = JJ + 1
-            WA(JJ) = NPG  ! Gauss points
-            JJ = JJ + 1
-            WA(JJ) = ONE  ! LARGE
+              DO I=LFT,LLT
+                N = I + NFT
+                IPRT=IPARTC(N)
+                IF (DYNAIN_DATA%IPART_DYNAIN(IPRT)==0) CYCLE
+                JJ = JJ + 1
+                IF (MLW /= 0 .AND. MLW /= 13) THEN
+                  WA(JJ) = GBUF%OFF(I)
+                ELSE
+                  WA(JJ) = ZERO
+                ENDIF
+                JJ = JJ + 1
+                WA(JJ) = IXC(NIXC,N)
+                JJ = JJ + 1
+                IF (MPT == 0) THEN  ! global integration
+                  WA(JJ) = 3 ! Membrane - Lower - Upper
+                ELSE
+                  WA(JJ) = MPT  ! Integration points
+                ENDIF
+                JJ = JJ + 1
+                WA(JJ) = NPG  ! Gauss points
+                JJ = JJ + 1
+                WA(JJ) = ONE  ! LARGE
 
-            THKP = THK0(I)
+                THKP = THK0(I)
 c---------
 
-            IF (MLW == 0 .or. MLW == 13) THEN
-              DO IPG=1,NPG 
-                 JJ = JJ + 1
-                 WA(JJ) = ZERO
-                 DO J=1,7        ! STRAIN + POS           	
+                IF (MLW == 0 .or. MLW == 13) THEN
+                  DO IPG=1,NPG
                     JJ = JJ + 1
                     WA(JJ) = ZERO
-                ENDDO                                                               
-              ENDDO
-            ELSEIF (MPT==0 .AND. G_STRA /= 0) THEN
+                    DO J=1,7        ! STRAIN + POS
+                      JJ = JJ + 1
+                      WA(JJ) = ZERO
+                    ENDDO
+                  ENDDO
+                ELSEIF (MPT==0 .AND. G_STRA /= 0) THEN
 
-              IF (NPG > 1) THEN
-                 STRAIN => GBUF%STRPG
-              ELSE
-                 STRAIN => GBUF%STRA
-              ENDIF
+                  IF (NPG > 1) THEN
+                    STRAIN => GBUF%STRPG
+                  ELSE
+                    STRAIN => GBUF%STRA
+                  ENDIF
 
 ! LOWER
-              DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
-                 ZH = -HALF*THKP
+                  DO IPG=1,NPG
+                    K = (IPG-1)*NEL*G_STRA
+                    ZH = -HALF*THKP
 
-                 STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=HALF*STRAING(3)
-                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+                    STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
+                    STRAING(3)=HALF*STRAING(3)
+                    STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
-                 DO J=1,6
-                    JJ    = JJ + 1
-                    WA(JJ) = STRAING(J)
-                 END DO  
-                 JJ = JJ + 1
-                 WA(JJ) = -ONE
-              ENDDO
+                    CALL SHELL2G(STRAING,QT(1,I))
+
+                    DO J=1,6
+                      JJ    = JJ + 1
+                      WA(JJ) = STRAING(J)
+                    END DO
+                    JJ = JJ + 1
+                    WA(JJ) = -ONE
+                  ENDDO
 
 ! MEMBRANE
-              DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                  DO IPG=1,NPG
+                    K = (IPG-1)*NEL*G_STRA
 
-                 STRAING(1:2)=STRAIN(KK(1:2)+I+K)
-                 STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
+                    STRAING(1:2)=STRAIN(KK(1:2)+I+K)
+                    STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
-                 DO J=1,6
-                    JJ    = JJ + 1
-                    WA(JJ) = STRAING(J)
-                 END DO  
-                 JJ = JJ + 1
-                 WA(JJ) = ZERO
-              ENDDO
+                    CALL SHELL2G(STRAING,QT(1,I))
+
+                    DO J=1,6
+                      JJ    = JJ + 1
+                      WA(JJ) = STRAING(J)
+                    END DO
+                    JJ = JJ + 1
+                    WA(JJ) = ZERO
+                  ENDDO
 
 ! Upper
-              DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
-                 ZH = HALF*THKP
+                  DO IPG=1,NPG
+                    K = (IPG-1)*NEL*G_STRA
+                    ZH = HALF*THKP
 
-                 STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=HALF*STRAING(3)
-                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+                    STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
+                    STRAING(3)=HALF*STRAING(3)
+                    STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
-                 DO J=1,6
-                    JJ    = JJ + 1
-                    WA(JJ) = STRAING(J)
-                 END DO  
-                 JJ = JJ + 1
-                 WA(JJ) = ONE
-              ENDDO
+                    CALL SHELL2G(STRAING,QT(1,I))
 
-
-            ELSEIF (G_STRA /= 0) THEN
-
-              IF (NPG > 1) THEN
-                 STRAIN => GBUF%STRPG
-              ELSE
-                 STRAIN => GBUF%STRA
-              ENDIF
+                    DO J=1,6
+                      JJ    = JJ + 1
+                      WA(JJ) = STRAING(J)
+                    END DO
+                    JJ = JJ + 1
+                    WA(JJ) = ONE
+                  ENDDO
 
 
-              IPT_ALL = 0
-              DO ILAY =1,NLAY
-                 NPTT   = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
-                 DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
-C--   
-                    DO IPG=1,NPG
-                       K = (IPG-1)*NEL*G_STRA 
-                       ZH = POSLY(I,IPT)*THKP
-                       STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                       STRAING(3)=HALF*STRAING(3)
-                       STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+                ELSEIF (G_STRA /= 0) THEN
 
-                       CALL SHELL2G(STRAING,QT(1,I))             
-C               
-                       DO J=1,6
-                         JJ    = JJ + 1
-                         WA(JJ) = STRAING(J)
-                       END DO      
-                       JJ    = JJ + 1
-                       WA(JJ) = POSLY(I,IPT)*TWO
-                    END DO        
-                 END DO !IT=1,NPTT
-                 IPT_ALL = IPT_ALL + NPTT
-              END DO !ILAY =1,NLAY
-         
-            ENDIF
+                  IF (NPG > 1) THEN
+                    STRAIN => GBUF%STRPG
+                  ELSE
+                    STRAIN => GBUF%STRA
+                  ENDIF
+
+
+                  IPT_ALL = 0
+                  DO ILAY =1,NLAY
+                    NPTT   = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
+                    DO IT=1,NPTT
+                      IPT = IPT_ALL + IT
+C--
+                      DO IPG=1,NPG
+                        K = (IPG-1)*NEL*G_STRA
+                        ZH = POSLY(I,IPT)*THKP
+                        STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
+                        STRAING(3)=HALF*STRAING(3)
+                        STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+
+                        CALL SHELL2G(STRAING,QT(1,I))
 C
-            IE=IE+1
+                        DO J=1,6
+                          JJ    = JJ + 1
+                          WA(JJ) = STRAING(J)
+                        END DO
+                        JJ    = JJ + 1
+                        WA(JJ) = POSLY(I,IPT)*TWO
+                      END DO
+                    END DO !IT=1,NPTT
+                    IPT_ALL = IPT_ALL + NPTT
+                  END DO !ILAY =1,NLAY
+
+                ENDIF
+C
+                IE=IE+1
 C           Pointer last position of shell IE in WA
-            PTWA(IE)=JJ
-          ENDDO  !  DO I=LFT,LLT
+                PTWA(IE)=JJ
+              ENDDO  !  DO I=LFT,LLT
 
 c------- end loop over 4 node shell elements
-        ENDIF ! ITY == 3
-       ENDDO   ! NG = 1, NGROUP
-      ENDIF  ! DYNAIN_NUMEL /= 0
+            ENDIF ! ITY == 3
+          ENDDO   ! NG = 1, NGROUP
+        ENDIF  ! DYNAIN_NUMEL /= 0
 
 c-----------------------------------------------------------------------
 c     4N SHELLS - WRITE
 c-----------------------------------------------------------------------
-      IF (NSPMD == 1) THEN
+        IF (NSPMD == 1) THEN
 C       recopying for code simplification
-        PTWA_P0(0)=0
-        DO N=1,DYNAIN_DATA%DYNAIN_NUMELC
-          PTWA_P0(N)=PTWA(N)
-        ENDDO
-        LEN=JJ
-        DO J=1,LEN
-          WAP0(J)=WA(J)
-        ENDDO
-      ELSE
+          PTWA_P0(0)=0
+          DO N=1,DYNAIN_DATA%DYNAIN_NUMELC
+            PTWA_P0(N)=PTWA(N)
+          ENDDO
+          LEN=JJ
+          DO J=1,LEN
+            WAP0(J)=WA(J)
+          ENDDO
+        ELSE
 C      Global pointers WAP0
-        CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_DATA%DYNAIN_NUMELC,PTWA_P0,DYNAIN_DATA%DYNAIN_NUMELC_G)
-        LEN = 0
-        CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
-      ENDIF
+          CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_DATA%DYNAIN_NUMELC,PTWA_P0,DYNAIN_DATA%DYNAIN_NUMELC_G)
+          LEN = 0
+          CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
+        ENDIF
 c-------------------------------------
-      IS_WRITTEN = 0
-      IF (ISPMD == 0.AND.LEN > 0) THEN
-         IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
+        IS_WRITTEN = 0
+        IF (ISPMD == 0.AND.LEN > 0) THEN
+          IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
             WRITE(IUDYNAIN,'(A)') DELIMIT
             WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
             WRITE(IUDYNAIN,'(A)')
-     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
+     .      '$  SHELLID       NPG     NBINT     LARGE  '
             WRITE(IUDYNAIN,'(A)')
      .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
             WRITE(IUDYNAIN,'(A)')
-     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
             WRITE(IUDYNAIN,'(A)')
      .      '$    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX         T'
             WRITE(IUDYNAIN,'(A)') DELIMIT
-         ELSE
+          ELSE
             WRITE(LINE,'(A)') DELIMIT
             CALL STRS_TXT50(LINE,100)
             WRITE(LINE,'(A)')'*INITIAL_STRAIN_SHELL'
             CALL STRS_TXT50(LINE,100)
             WRITE(LINE,'(A)')
-     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
+     .      '$  SHELLID       NPG     NBINT     LARGE  '
             CALL STRS_TXT50(LINE,100)
             WRITE(LINE,'(A)')
      .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
             CALL STRS_TXT50(LINE,100)
             WRITE(LINE,'(A)')
-     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'     
-            CALL STRS_TXT50(LINE,100) 
+     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
+            CALL STRS_TXT50(LINE,100)
             WRITE(LINE,'(A)')
      .      '$    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX         T'
             CALL STRS_TXT50(LINE,100)
             WRITE(LINE,'(A)') DELIMIT
             CALL STRS_TXT50(LINE,100)
-         ENDIF
-         IS_WRITTEN = 1
-        DO N=1,DYNAIN_DATA%DYNAIN_NUMELC_G
-C         Retrieving shell ID in increasing order 
-          K=DYNAIN_INDXC(N)
+          ENDIF
+          IS_WRITTEN = 1
+          DO N=1,DYNAIN_DATA%DYNAIN_NUMELC_G
+C         Retrieving shell ID in increasing order
+            K=DYNAIN_INDXC(N)
 C         Adress in  WAP0
-          J=PTWA_P0(K-1)
+            J=PTWA_P0(K-1)
 
-          IOFF = NINT(WAP0(J + 1))
-          IF (IOFF >= 1) THEN
+            IOFF = NINT(WAP0(J + 1))
+            IF (IOFF >= 1) THEN
 c
-            ID  = NINT(WAP0(J + 2)) 
-            NPT = NINT(WAP0(J + 3)) 
-            NPG = NINT(WAP0(J + 4)) 
-            LARGE = NINT(WAP0(J + 5)) 
+              ID  = NINT(WAP0(J + 2))
+              NPT = NINT(WAP0(J + 3))
+              NPG = NINT(WAP0(J + 4))
+              LARGE = NINT(WAP0(J + 5))
 
-            J = J + 5
-            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-               WRITE(IUDYNAIN,'(4I8)')ID,NPG,NPT,LARGE
-            ELSE
-               WRITE(LINE,'(4I8)')ID,NPG,NPT,LARGE
-               CALL STRS_TXT50(LINE,100)
-            ENDIF
-            IF (NPT == 0) THEN
-              DO IPG=1,NPG
-                IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-                  WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
-                  WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
-                ELSE
-                  WRITE(LINE,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
-                  CALL STRS_TXT50(LINE,100)
-                  WRITE(LINE,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
-                  CALL STRS_TXT50(LINE,100)
-                ENDIF
-                J = J + 7
-              ENDDO
-            ELSE
-              DO IPT=1,NPT 
+              J = J + 5
+              IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                WRITE(IUDYNAIN,'(4I8)')ID,NPG,NPT,LARGE
+              ELSE
+                WRITE(LINE,'(4I8)')ID,NPG,NPT,LARGE
+                CALL STRS_TXT50(LINE,100)
+              ENDIF
+              IF (NPT == 0) THEN
                 DO IPG=1,NPG
-                   IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-                     WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
-                     WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
-                   ELSE
-                     WRITE(LINE,'(1P5G16.9)')(WAP0(J + K),K=1,5)
-                     CALL STRS_TXT50(LINE,100)
-                     WRITE(LINE,'(1P3G16.9)')(WAP0(J + K),K=6,7)
-                     CALL STRS_TXT50(LINE,100)
-                   ENDIF
-                   J = J + 7
+                  IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
+                    WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                  ELSE
+                    WRITE(LINE,'(1P5G16.9)')(WAP0(JJ + K),K=1,3)
+                    CALL STRS_TXT50(LINE,100)
+                    WRITE(LINE,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
+                    CALL STRS_TXT50(LINE,100)
+                  ENDIF
+                  J = J + 7
                 ENDDO
-              ENDDO
+              ELSE
+                DO IPT=1,NPT
+                  DO IPG=1,NPG
+                    IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                      WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                      WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                    ELSE
+                      WRITE(LINE,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                      CALL STRS_TXT50(LINE,100)
+                      WRITE(LINE,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                      CALL STRS_TXT50(LINE,100)
+                    ENDIF
+                    J = J + 7
+                  ENDDO
+                ENDDO
 
-            ENDIF  !  IF (NPT == 0)
-          ENDIF  !  IF (IOFF >= 1)
-        ENDDO  !  DO N=1,DYNAIN_NUMELC_G
-      ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
+              ENDIF  !  IF (NPT == 0)
+            ENDIF  !  IF (IOFF >= 1)
+          ENDDO  !  DO N=1,DYNAIN_NUMELC_G
+        ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 
 C***********************************************
 C     3-NODE SHELLS
 C***********************************************
 
-      JJ = 0
-      IE=0
+        JJ = 0
+        IE=0
 C
-      IF(DYNAIN_DATA%DYNAIN_NUMELTG/=0) THEN
-       DO NG=1,NGROUP
-        ITY = IPARG(5,NG)
-        IF (ITY == 7) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
-          MLW  = IPARG(1,NG)
-          NEL  = IPARG(2,NG)
-          NFT  = IPARG(3,NG)
-          MPT  = IPARG(6,NG)
-          IHBE = IPARG(23,NG)
-          ITHK = IPARG(28,NG)
-          IGTYP= IPARG(38,NG)
-          IPID = IXTG(5,NFT+1)
-          IREP = IGEO(6,IPID)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
-          NLAY = ELBUF_TAB(NG)%NLAY
-          NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
-          LFT=1
-          LLT=NEL
+        IF(DYNAIN_DATA%DYNAIN_NUMELTG/=0) THEN
+          DO NG=1,NGROUP
+            ITY = IPARG(5,NG)
+            IF (ITY == 7) THEN
+              GBUF => ELBUF_TAB(NG)%GBUF
+              MLW  = IPARG(1,NG)
+              NEL  = IPARG(2,NG)
+              NFT  = IPARG(3,NG)
+              MPT  = IPARG(6,NG)
+              IHBE = IPARG(23,NG)
+              ITHK = IPARG(28,NG)
+              IGTYP= IPARG(38,NG)
+              IPID = IXTG(5,NFT+1)
+              IREP = IGEO(6,IPID)
+              NPTR = ELBUF_TAB(NG)%NPTR
+              NPTS = ELBUF_TAB(NG)%NPTS
+              NPTT = ELBUF_TAB(NG)%NPTT
+              NLAY = ELBUF_TAB(NG)%NLAY
+              NPG  = NPTR*NPTS
+              NPT  = NLAY*NPTT
+              LFT=1
+              LLT=NEL
 
-          G_STRA = GBUF%G_STRA
+              G_STRA = GBUF%G_STRA
 !
-          DO J=1,8  ! length max of GBUF%G_STRA = 8
-            KK(J) = NEL*(J-1)
-          ENDDO
+              DO J=1,8  ! length max of GBUF%G_STRA = 8
+                KK(J) = NEL*(J-1)
+              ENDDO
 !
 C
 C pre counting of all NPTT (especially for PID_51)
 C
-          IF (IGTYP == 51 .OR. IGTYP == 52) THEN
-            NPT_ALL = 0
-            DO K=1,NLAY
-              NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(K)%NPTT
-            ENDDO
-            MPT  = MAX(1,NPT_ALL)
-          ENDIF
-          IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
+              IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+                NPT_ALL = 0
+                DO K=1,NLAY
+                  NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(K)%NPTT
+                ENDDO
+                MPT  = MAX(1,NPT_ALL)
+              ENDIF
+              IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
 
-          DO I=LFT,LLT
-             MAT(I)=IXTG(1,NFT+I)
-             PID(I)=IXTG(5,NFT+I)
-          ENDDO
+              DO I=LFT,LLT
+                MAT(I)=IXTG(1,NFT+I)
+                PID(I)=IXTG(5,NFT+I)
+              ENDDO
 C-------------------------------------------------
 C     RELATIVE POSITION OF INTEGRATION POINTS
 C         POSLY between -0.5, 0.5 : need to multiply by 2 for LSDYNA
 C------------------------------------------------
-          IF (ITHK >0 ) THEN
-             THK0(LFT:LLT) = GBUF%THK(LFT:LLT)
-          ELSE
-             THK0(LFT:LLT) = THKE(LFT:LLT)
-          END IF
-          NUMEL_DRAPE = NUMELTG_DRAPE
-          SEDRAPE = STDRAPE
-          CALL LAYINI(
-     .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
-     .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
-     .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_SH3N   ,NFT        ,THKE      , 
-     .           NEL        ,THK_LY     ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE)
+              IF (ITHK >0 ) THEN
+                THK0(LFT:LLT) = GBUF%THK(LFT:LLT)
+              ELSE
+                THK0(LFT:LLT) = THKE(LFT:LLT)
+              END IF
+              NUMEL_DRAPE = NUMELTG_DRAPE
+              SEDRAPE = STDRAPE
+              CALL LAYINI(
+     .               ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
+     .               MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
+     .               IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
+     .               ISUBSTACK  ,STACK      ,DRAPE_SH3N   ,NFT        ,THKE      ,
+     .               NEL        ,THK_LY     ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE)
 
 C-------------------------------------------------------
 C     ELEMENT LOCAL FRAME : for rotation local -> Global
 C-------------------------------------------------------
-          IF (IHBE>=30) THEN
-            IREL=0
-          ELSE
-            IREL=2
-          END IF
-          CALL GET_T3L(LFT    ,LLT    ,IXTG(1,NFT+1),X    ,GBUF%OFF,
-     .                IREL   ,QT     )
-  
+              IF (IHBE>=30) THEN
+                IREL=0
+              ELSE
+                IREL=2
+              END IF
+              CALL GET_T3L(LFT    ,LLT    ,IXTG(1,NFT+1),X    ,GBUF%OFF,
+     .                    IREL   ,QT     )
+
 C
 c------- loop over 3 node shell elements
 C
-          DO I=LFT,LLT
-            N = I + NFT
-            IPRT=IPARTTG(N)
-            IF (DYNAIN_DATA%IPART_DYNAIN(IPRT) == 0) CYCLE
-            JJ = JJ + 1
-            IF (MLW /= 0 .AND. MLW /= 13) THEN
-              WA(JJ) = GBUF%OFF(I)
-            ELSE
-              WA(JJ) = ZERO
-            ENDIF
-            JJ = JJ + 1
-            WA(JJ) = IXTG(NIXTG,N)
-            JJ = JJ + 1
-            IF (MPT == 0) THEN  ! global integration
-               WA(JJ) = 3 ! Membrane - Lower - Upper
-            ELSE 
-               WA(JJ) = MPT  ! Integration points
-            ENDIF
-            JJ = JJ + 1
-            WA(JJ) = NPG
-            JJ = JJ + 1
-            WA(JJ) = ONE  ! LARGE
+              DO I=LFT,LLT
+                N = I + NFT
+                IPRT=IPARTTG(N)
+                IF (DYNAIN_DATA%IPART_DYNAIN(IPRT) == 0) CYCLE
+                JJ = JJ + 1
+                IF (MLW /= 0 .AND. MLW /= 13) THEN
+                  WA(JJ) = GBUF%OFF(I)
+                ELSE
+                  WA(JJ) = ZERO
+                ENDIF
+                JJ = JJ + 1
+                WA(JJ) = IXTG(NIXTG,N)
+                JJ = JJ + 1
+                IF (MPT == 0) THEN  ! global integration
+                  WA(JJ) = 3 ! Membrane - Lower - Upper
+                ELSE
+                  WA(JJ) = MPT  ! Integration points
+                ENDIF
+                JJ = JJ + 1
+                WA(JJ) = NPG
+                JJ = JJ + 1
+                WA(JJ) = ONE  ! LARGE
 
-            IF (ITHK >0 ) THEN
-               THKP = GBUF%THK(I)
-            ELSE
-               THKP = THKE(I + NFT)
-            END IF
+                IF (ITHK >0 ) THEN
+                  THKP = GBUF%THK(I)
+                ELSE
+                  THKP = THKE(I + NFT)
+                END IF
 
 c---------
-            IF (MLW == 0 .or. MLW == 13) THEN
-              DO IPG=1,NPG 
-                 JJ = JJ + 1
-                 WA(JJ) = ZERO
-                 DO J=1,7        ! STRAIN + POS           	
+                IF (MLW == 0 .or. MLW == 13) THEN
+                  DO IPG=1,NPG
                     JJ = JJ + 1
                     WA(JJ) = ZERO
-                ENDDO                                                               
-              ENDDO
-            ELSEIF (MPT==0 .AND. G_STRA /= 0) THEN
+                    DO J=1,7        ! STRAIN + POS
+                      JJ = JJ + 1
+                      WA(JJ) = ZERO
+                    ENDDO
+                  ENDDO
+                ELSEIF (MPT==0 .AND. G_STRA /= 0) THEN
 
-              IF (NPG > 1) THEN
-                 STRAIN => GBUF%STRPG
-              ELSE
-                 STRAIN => GBUF%STRA
-              ENDIF
+                  IF (NPG > 1) THEN
+                    STRAIN => GBUF%STRPG
+                  ELSE
+                    STRAIN => GBUF%STRA
+                  ENDIF
 
 
 ! LOWER
-              DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
-                 ZH = -HALF*THKP
+                  DO IPG=1,NPG
+                    K = (IPG-1)*NEL*G_STRA
+                    ZH = -HALF*THKP
 
-                 STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=HALF*STRAING(3)
-                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+                    STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
+                    STRAING(3)=HALF*STRAING(3)
+                    STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
-                 DO J=1,6
-                    JJ    = JJ + 1
-                    WA(JJ) = STRAING(J)
-                 END DO  
-                 JJ = JJ + 1
-                 WA(JJ) = -ONE
-              ENDDO
+                    CALL SHELL2G(STRAING,QT(1,I))
+
+                    DO J=1,6
+                      JJ    = JJ + 1
+                      WA(JJ) = STRAING(J)
+                    END DO
+                    JJ = JJ + 1
+                    WA(JJ) = -ONE
+                  ENDDO
 
 ! MEMBRANE
-              DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                  DO IPG=1,NPG
+                    K = (IPG-1)*NEL*G_STRA
 
-                 STRAING(1:2)=STRAIN(KK(1:2)+I+K)
-                 STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
+                    STRAING(1:2)=STRAIN(KK(1:2)+I+K)
+                    STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
-                 DO J=1,6
-                    JJ    = JJ + 1
-                    WA(JJ) = STRAING(J)
-                 END DO  
-                 JJ = JJ + 1
-                 WA(JJ) = ZERO
-              ENDDO
+                    CALL SHELL2G(STRAING,QT(1,I))
+
+                    DO J=1,6
+                      JJ    = JJ + 1
+                      WA(JJ) = STRAING(J)
+                    END DO
+                    JJ = JJ + 1
+                    WA(JJ) = ZERO
+                  ENDDO
 
 ! Upper
-              DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
-                 ZH = HALF*THKP
+                  DO IPG=1,NPG
+                    K = (IPG-1)*NEL*G_STRA
+                    ZH = HALF*THKP
 
-                 STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                 STRAING(3)=HALF*STRAING(3)
-                 STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+                    STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
+                    STRAING(3)=HALF*STRAING(3)
+                    STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
-                 DO J=1,6
-                    JJ    = JJ + 1
-                    WA(JJ) = STRAING(J)
-                 END DO  
-                 JJ = JJ + 1
-                 WA(JJ) = ONE
-              ENDDO
+                    CALL SHELL2G(STRAING,QT(1,I))
+
+                    DO J=1,6
+                      JJ    = JJ + 1
+                      WA(JJ) = STRAING(J)
+                    END DO
+                    JJ = JJ + 1
+                    WA(JJ) = ONE
+                  ENDDO
 
 
-            ELSEIF (G_STRA /= 0) THEN
+                ELSEIF (G_STRA /= 0) THEN
 
-              IF (NPG > 1) THEN
-                 STRAIN => GBUF%STRPG
-              ELSE
-                 STRAIN => GBUF%STRA
-              ENDIF
+                  IF (NPG > 1) THEN
+                    STRAIN => GBUF%STRPG
+                  ELSE
+                    STRAIN => GBUF%STRA
+                  ENDIF
 
-              IPT_ALL = 0
-              DO ILAY =1,NLAY
-                 NPTT   = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
-                 DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
-C--   
-                    IF (ITHK >0 ) THEN
-                       THKP = GBUF%THK(I)
-                    ELSE
-                       THKP = THKE(I + NFT)
-                    END IF
+                  IPT_ALL = 0
+                  DO ILAY =1,NLAY
+                    NPTT   = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
+                    DO IT=1,NPTT
+                      IPT = IPT_ALL + IT
+C--
+                      IF (ITHK >0 ) THEN
+                        THKP = GBUF%THK(I)
+                      ELSE
+                        THKP = THKE(I + NFT)
+                      END IF
 
-                    DO IPG=1,NPG
-                       K = (IPG-1)*NEL*G_STRA 
-                       ZH = POSLY(I,IPT)*THKP
-                       STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
-                       STRAING(3)=HALF*STRAING(3)
-                       STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
+                      DO IPG=1,NPG
+                        K = (IPG-1)*NEL*G_STRA
+                        ZH = POSLY(I,IPT)*THKP
+                        STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
+                        STRAING(3)=HALF*STRAING(3)
+                        STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                       CALL SHELL2G(STRAING,QT(1,I))             
-C               
-                       DO J=1,6
-                         JJ    = JJ + 1
-                         WA(JJ) = STRAING(J)
-                       END DO      
-                       JJ    = JJ + 1
-                       WA(JJ) = POSLY(I,IPT)*TWO
-                    END DO        
-                 END DO !IT=1,NPTT
-                 IPT_ALL = IPT_ALL + NPTT
-              END DO !ILAY =1,NLAY
-         
-            ENDIF
+                        CALL SHELL2G(STRAING,QT(1,I))
 C
-            IE=IE+1
-C        pointer for last position for element IE
-            PTWA(IE)=JJ
-          ENDDO  !  DO I=LFT,LLT  
+                        DO J=1,6
+                          JJ    = JJ + 1
+                          WA(JJ) = STRAING(J)
+                        END DO
+                        JJ    = JJ + 1
+                        WA(JJ) = POSLY(I,IPT)*TWO
+                      END DO
+                    END DO !IT=1,NPTT
+                    IPT_ALL = IPT_ALL + NPTT
+                  END DO !ILAY =1,NLAY
 
-        ENDIF  !  IF (ITY == 7)
-       ENDDO  !  DO NG=1,NGROUP
-      ENDIF
+                ENDIF
+C
+                IE=IE+1
+C        pointer for last position for element IE
+                PTWA(IE)=JJ
+              ENDDO  !  DO I=LFT,LLT
+
+            ENDIF  !  IF (ITY == 7)
+          ENDDO  !  DO NG=1,NGROUP
+        ENDIF
 C
 c-----------------------------------------------------------------------
-      IF (NSPMD == 1) THEN
+        IF (NSPMD == 1) THEN
 C       recopying for code simplification
-        LEN=JJ
-        DO J=1,LEN
-          WAP0(J)=WA(J)
-        ENDDO
-        PTWA_P0(0)=0
-        DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG
-          PTWA_P0(N)=PTWA(N)
-        ENDDO
-      ELSE
+          LEN=JJ
+          DO J=1,LEN
+            WAP0(J)=WA(J)
+          ENDDO
+          PTWA_P0(0)=0
+          DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG
+            PTWA_P0(N)=PTWA(N)
+          ENDDO
+        ELSE
 C      Global pointers WAP0
-        CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_DATA%DYNAIN_NUMELTG,PTWA_P0,DYNAIN_DATA%DYNAIN_NUMELTG_G)
-        LEN = 0
-        CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
-      ENDIF
+          CALL SPMD_STAT_PGATHER(PTWA,DYNAIN_DATA%DYNAIN_NUMELTG,PTWA_P0,DYNAIN_DATA%DYNAIN_NUMELTG_G)
+          LEN = 0
+          CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
+        ENDIF
 
-      IF (ISPMD == 0.AND.LEN > 0) THEN
-        IF(IS_WRITTEN == 0 ) THEN
-          IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-            WRITE(IUDYNAIN,'(A)') DELIMIT
-            WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
-            WRITE(IUDYNAIN,'(A)')
-     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
-            WRITE(IUDYNAIN,'(A)')
-     .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
-            WRITE(IUDYNAIN,'(A)')
-     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
-            WRITE(IUDYNAIN,'(A)')
-     .      '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
-            WRITE(IUDYNAIN,'(A)') DELIMIT
-           ELSE
-            WRITE(LINE,'(A)') DELIMIT
-            CALL STRS_TXT50(LINE,100)
-            WRITE(LINE,'(A)')'*INITIAL_STRAIN_SHELL'
-            CALL STRS_TXT50(LINE,100)
-            WRITE(LINE,'(A)')
-     .      '$  SHELLID       NPG     NBINT     LARGE  ' 
-            CALL STRS_TXT50(LINE,100)
-            WRITE(LINE,'(A)')
-     .      '$ IF(NPT == 0), REPEAT I=1,NPG :'
-            CALL STRS_TXT50(LINE,100)
-            WRITE(LINE,'(A)')
-     .      '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'    
-            CALL STRS_TXT50(LINE,100)  
-            WRITE(LINE,'(A)')
-     .      '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
-            CALL STRS_TXT50(LINE,100)
-            WRITE(LINE,'(A)') DELIMIT
-            CALL STRS_TXT50(LINE,100)
-           ENDIF
-
-          IS_WRITTEN = 1
-
-         ENDIF
-
-        DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG_G
-C         Retrieving shell ID in increasing order 
-          K=DYNAIN_INDXTG(N)
-C         Adress in  WAP0
-          J=PTWA_P0(K-1)
-C
-          IOFF = NINT(WAP0(J + 1))
-          IF (IOFF >= 1) THEN
-            ID  = NINT(WAP0(J + 2)) 
-            NPT = NINT(WAP0(J + 3)) 
-            NPG = NINT(WAP0(J + 4)) 
-            LARGE = NINT(WAP0(J + 5)) 
-            J = J + 5
-
-            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-              WRITE(IUDYNAIN,'(4I8)')ID,NPG,NPT,LARGE
+        IF (ISPMD == 0.AND.LEN > 0) THEN
+          IF(IS_WRITTEN == 0 ) THEN
+            IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+              WRITE(IUDYNAIN,'(A)') DELIMIT
+              WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
+              WRITE(IUDYNAIN,'(A)')
+     .        '$  SHELLID       NPG     NBINT     LARGE  '
+              WRITE(IUDYNAIN,'(A)')
+     .        '$ IF(NPT == 0), REPEAT I=1,NPG :'
+              WRITE(IUDYNAIN,'(A)')
+     .        '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
+              WRITE(IUDYNAIN,'(A)')
+     .        '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
+              WRITE(IUDYNAIN,'(A)') DELIMIT
             ELSE
-              WRITE(LINE,'(4I8)')ID,NPG,NPT,LARGE
+              WRITE(LINE,'(A)') DELIMIT
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(A)')'*INITIAL_STRAIN_SHELL'
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(A)')
+     .        '$  SHELLID       NPG     NBINT     LARGE  '
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(A)')
+     .        '$ IF(NPT == 0), REPEAT I=1,NPG :'
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(A)')
+     .        '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(A)')
+     .        '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
+              CALL STRS_TXT50(LINE,100)
+              WRITE(LINE,'(A)') DELIMIT
               CALL STRS_TXT50(LINE,100)
             ENDIF
 
-            IF (NPT == 0) THEN
-              DO IPG=1,NPG
-                IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-                  WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
-                  WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
-                ELSE
-                  WRITE(LINE,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
-                  CALL STRS_TXT50(LINE,100)
-                  WRITE(LINE,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
-                  CALL STRS_TXT50(LINE,100)
-                ENDIF
-                J = J + 7
-              ENDDO
-            ELSE
-              DO IPT=1,NPT 
+            IS_WRITTEN = 1
+
+          ENDIF
+
+          DO N=1,DYNAIN_DATA%DYNAIN_NUMELTG_G
+C         Retrieving shell ID in increasing order
+            K=DYNAIN_INDXTG(N)
+C         Adress in  WAP0
+            J=PTWA_P0(K-1)
+C
+            IOFF = NINT(WAP0(J + 1))
+            IF (IOFF >= 1) THEN
+              ID  = NINT(WAP0(J + 2))
+              NPT = NINT(WAP0(J + 3))
+              NPG = NINT(WAP0(J + 4))
+              LARGE = NINT(WAP0(J + 5))
+              J = J + 5
+
+              IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                WRITE(IUDYNAIN,'(4I8)')ID,NPG,NPT,LARGE
+              ELSE
+                WRITE(LINE,'(4I8)')ID,NPG,NPT,LARGE
+                CALL STRS_TXT50(LINE,100)
+              ENDIF
+
+              IF (NPT == 0) THEN
                 DO IPG=1,NPG
-                  IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN       
-                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
-                    WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                  IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
+                    WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
                   ELSE
-                    WRITE(LINE,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                    WRITE(LINE,'(1P5G16.9)')(WAP0(JJ + K),K=1,5)
                     CALL STRS_TXT50(LINE,100)
-                    WRITE(LINE,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                    WRITE(LINE,'(1P3G16.9)')(WAP0(JJ + K),K=6,7)
                     CALL STRS_TXT50(LINE,100)
                   ENDIF
                   J = J + 7
                 ENDDO
-              ENDDO
-            ENDIF  !  IF (NPT == 0)
-          ENDIF  !  IF (IOFF >= 1)
-        ENDDO  !  DO N=1,DYNAIN_NUMELTG_G
-      ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
+              ELSE
+                DO IPT=1,NPT
+                  DO IPG=1,NPG
+                    IF(DYNAIN_DATA%ZIPDYNAIN==0) THEN
+                      WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                      WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                    ELSE
+                      WRITE(LINE,'(1P5G16.9)')(WAP0(J + K),K=1,5)
+                      CALL STRS_TXT50(LINE,100)
+                      WRITE(LINE,'(1P3G16.9)')(WAP0(J + K),K=6,7)
+                      CALL STRS_TXT50(LINE,100)
+                    ENDIF
+                    J = J + 7
+                  ENDDO
+                ENDDO
+              ENDIF  !  IF (NPT == 0)
+            ENDIF  !  IF (IOFF >= 1)
+          ENDDO  !  DO N=1,DYNAIN_NUMELTG_G
+        ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 C
-      DEALLOCATE(PTWA,PTWA_P0)
+        DEALLOCATE(PTWA,PTWA_P0)
 C
-      RETURN
+        RETURN
       END

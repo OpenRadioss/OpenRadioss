@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  ELEGROR                       source/groups/elegror.F       
+Chd|  ELEGROR                       source/groups/elegror.F
 Chd|-- called by -----------
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
@@ -35,8 +35,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD
-      USE GROUPDEF_MOD
+        USE MESSAGE_MOD
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,26 +48,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGU,NIB,NGRELE,NFRAM,
-     .        IBUF(NIB,*),TAGELEMS(*),ISTYP
-      INTEGER ID
+        INTEGER IGU,NIB,NGRELE,NFRAM,
+     .          IBUF(NIB,*),TAGELEMS(*),ISTYP
+        INTEGER ID
 C-----------------------------------------------
-      TYPE (GROUP_)  ,DIMENSION(NGRELE)   :: IGRELE
+        TYPE (GROUP_)  ,DIMENSION(NGRELE)   :: IGRELE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER MESS*40,MOT*4
-      INTEGER I,J,K,IG,L,IE,IADV
-      CHARACTER*nchartitle,
-     .   TITR
+        CHARACTER MESS*40,MOT*4
+        INTEGER I,J,K,IG,L,IE,IADV
+        CHARACTER*nchartitle,
+     .     TITR
 C-----------------------------------------------
-      ELEGROR=0
-      IF(IGU==0)RETURN
+        ELEGROR=0
+        IF(IGU==0)RETURN
 C
-      IG=0
-      DO I=1,NGRELE
-        IF(IGRELE(I)%ID==IGU)IG=I
-      ENDDO
+        IG=0
+        DO I=1,NGRELE
+          IF(IGRELE(I)%ID==IGU)IG=I
+        ENDDO
 C
 C     IF(IG==0)THEN
 C        CALL ANCMSG(MSGID=171,
@@ -81,27 +81,27 @@ C    .               I2=IGU)
 C           RETURN
 C     ENDIF
 C
-      IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
-        DO L=1,IGRELE(IG)%NENTITY
-          IE=IGRELE(IG)%ENTITY(L)
-          IF ( TAGELEMS(IE) /= 0 ) ELEGROR = ELEGROR + 1
-        ENDDO
-      ELSE
-        ELEGROR=IGRELE(IG)%NENTITY
-      ENDIF
-      J = 0
-      IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
-        DO I=1,IGRELE(IG)%NENTITY
-          IF (TAGELEMS(IGRELE(IG)%ENTITY(I)) == 1 ) THEN
-	    J = J + 1
-            IBUF(1,J)=IGRELE(IG)%ENTITY(I)
-	  ENDIF
-        ENDDO
-      ELSE
-        DO I=1,IGRELE(IG)%NENTITY
-          IBUF(1,I)=IGRELE(IG)%ENTITY(I)
-        ENDDO
-      ENDIF
+        IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
+          DO L=1,IGRELE(IG)%NENTITY
+            IE=IGRELE(IG)%ENTITY(L)
+            IF ( TAGELEMS(IE) /= 0 ) ELEGROR = ELEGROR + 1
+          ENDDO
+        ELSE
+          ELEGROR=IGRELE(IG)%NENTITY
+        ENDIF
+        J = 0
+        IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
+          DO I=1,IGRELE(IG)%NENTITY
+            IF (TAGELEMS(IGRELE(IG)%ENTITY(I)) == 1 ) THEN
+              J = J + 1
+              IBUF(1,J)=IGRELE(IG)%ENTITY(I)
+            ENDIF
+          ENDDO
+        ELSE
+          DO I=1,IGRELE(IG)%NENTITY
+            IBUF(1,I)=IGRELE(IG)%ENTITY(I)
+          ENDDO
+        ENDIF
 C
-      RETURN
+        RETURN
       END

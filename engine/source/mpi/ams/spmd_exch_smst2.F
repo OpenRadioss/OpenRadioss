@@ -25,22 +25,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
 Chd|-- called by -----------
-Chd|        SMS_INI_INT                   source/ams/sms_init.F         
+Chd|        SMS_INI_INT                   source/ams/sms_init.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_SMST2(IPARI,TAG,INTLIST,NBINTC,INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TRI7BOX
-      USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+        USE TRI7BOX
+        USE MESSAGE_MOD
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,11 +60,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NBINTC
-      INTEGER, DIMENSION(NPARI,*), INTENT(IN) :: IPARI
-      INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: TAG(NUMNOD)
-      INTEGER, DIMENSION(*), INTENT(IN) :: INTLIST(*)
-      TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
+        INTEGER, INTENT(IN) :: NBINTC
+        INTEGER, DIMENSION(NPARI,*), INTENT(IN) :: IPARI
+        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: TAG(NUMNOD)
+        INTEGER, DIMENSION(*), INTENT(IN) :: INTLIST(*)
+        TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
 ! ********************************************************
 ! *  variable  *  type  *  size   *  intent  *  feature
 ! *------------*--------*---------*----------*-------------
@@ -77,26 +77,26 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),
-     *        REQ_SI(PARASIZ),REQ_RI(PARASIZ),REQ_S(PARASIZ),
-     *        REQ_S2(PARASIZ),REQ_R(PARASIZ),REQ_R2(PARASIZ)
-      INTEGER P,LENSD,LENRV,IADS(PARASIZ+1),IADR(PARASIZ+1),IERROR,
-     *        SIZ,LOC_PROC,MSGTYP,IDEBS(NINTER),IDEBR(NINTER),IDB,PROC,
-     *        MSGOFF,MSGOFF2,LENSD_0,LENRV_0
-      INTEGER IADINT(NINTER,NSPMD)
+        INTEGER STATUS(MPI_STATUS_SIZE),
+     *          REQ_SI(PARASIZ),REQ_RI(PARASIZ),REQ_S(PARASIZ),
+     *          REQ_S2(PARASIZ),REQ_R(PARASIZ),REQ_R2(PARASIZ)
+        INTEGER P,LENSD,LENRV,IADS(PARASIZ+1),IADR(PARASIZ+1),IERROR,
+     *          SIZ,LOC_PROC,MSGTYP,IDEBS(NINTER),IDEBR(NINTER),IDB,PROC,
+     *          MSGOFF,MSGOFF2,LENSD_0,LENRV_0
+        INTEGER IADINT(NINTER,NSPMD)
 
-      INTEGER I,J,L,NB,NL,NN,K,N,LEN,ND,FLG,NIN,NTY,
-     *        NSN,SN,SSIZ,
-     *        IT,LEN_NSNSI,NSNR,NI,NP,ALEN,NOD,NOD1,NOD2,
-     *        SIZE_LOC, I_STOK,INACTI,IFQ,ITIED,NRTS
-!     Exchanged arrays for sent buffer 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAB_SEND,TAB_LOC
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFS, IBUFR
+        INTEGER I,J,L,NB,NL,NN,K,N,LEN,ND,FLG,NIN,NTY,
+     *          NSN,SN,SSIZ,
+     *          IT,LEN_NSNSI,NSNR,NI,NP,ALEN,NOD,NOD1,NOD2,
+     *          SIZE_LOC, I_STOK,INACTI,IFQ,ITIED,NRTS
+!     Exchanged arrays for sent buffer
+        INTEGER, DIMENSION(:), ALLOCATABLE :: TAB_SEND,TAB_LOC
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFS, IBUFR
 
-      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: TAG_LOC,TAB_NSVSI
+        TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: TAG_LOC,TAB_NSVSI
 C     REAL
-      DATA MSGOFF/240/
-      DATA MSGOFF2/241/
+        DATA MSGOFF/240/
+        DATA MSGOFF2/241/
 !       -----------------------------------------------
 !       at tt = 0 and with AMS, one must eliminate cand_a/e for
 !       type 2 interface and ilev/+25 or 26
@@ -108,105 +108,105 @@ C     REAL
 !
 !       1st comm : building of NSNSI array (for ispmd domain) with NSNFI array (located on p domain, p/=ispmd)
 !       2nd comm : building of NSVSI array (for ispmd domain) with NSVFI array (located on p domain, p/=ispmd) !
-!       3rd comm  : comm of tag array (each ispmd domain sends NSNSI values of tag arrays to p domain) 
-!       check the value of tag : if tag = -1, cand_a/e are deleted   
+!       3rd comm  : comm of tag array (each ispmd domain sends NSNSI values of tag arrays to p domain)
+!       check the value of tag : if tag = -1, cand_a/e are deleted
 !       -----------------------------------------------
         IF(NSPMD == 1)RETURN
-         
-        IERROR = 0       
+
+        IERROR = 0
         IF(NSPMD>1) THEN
-        ! -----------------------
-            ! FIRST COMM.
-            ! building of NSNSI
-            ! tab_loc : sent buffer (=NSNFI)
-            ! tab_send : recv. buffer (-->NSNSI) 
-            IF(NINTER>0) THEN
-             ALLOCATE(TAB_SEND(NINTER*NSPMD), STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
-             ALLOCATE(TAB_LOC(NINTER*NSPMD), STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
-             TAB_LOC(1:NINTER*NSPMD) = 0
-            ENDIF       ! ninter/=0
+          ! -----------------------
+          ! FIRST COMM.
+          ! building of NSNSI
+          ! tab_loc : sent buffer (=NSNFI)
+          ! tab_send : recv. buffer (-->NSNSI)
+          IF(NINTER>0) THEN
+            ALLOCATE(TAB_SEND(NINTER*NSPMD), STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+            ALLOCATE(TAB_LOC(NINTER*NSPMD), STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+            TAB_LOC(1:NINTER*NSPMD) = 0
+          ENDIF       ! ninter/=0
 !
-            LOC_PROC = ISPMD+1
-            IADS(1:NSPMD+1) = 0
-            IADR(1:NSPMD+1) = 0
-            LENSD_0 = 0
-            LENRV_0 = 0
+          LOC_PROC = ISPMD+1
+          IADS(1:NSPMD+1) = 0
+          IADR(1:NSPMD+1) = 0
+          LENSD_0 = 0
+          LENRV_0 = 0
 
-            ALEN = 1
-            DO P=1,NSPMD
-              IADS(P)=LENSD_0+1
-              DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
-                 NTY=IPARI(7,NIN)
-                 IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
-                    LENSD_0 = LENSD_0 + NSNFI(NIN)%P(P)*ALEN
-                    TAB_LOC(NIN+NINTER*(P-1)) = TAB_LOC(NIN+NINTER*(P-1)) + NSNFI(NIN)%P(P)
-                 ENDIF
-              ENDDO
+          ALEN = 1
+          DO P=1,NSPMD
+            IADS(P)=LENSD_0+1
+            DO NI=1,NBINTC
+              NIN = INTLIST(NI)
+              NTY=IPARI(7,NIN)
+              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
+                LENSD_0 = LENSD_0 + NSNFI(NIN)%P(P)*ALEN
+                TAB_LOC(NIN+NINTER*(P-1)) = TAB_LOC(NIN+NINTER*(P-1)) + NSNFI(NIN)%P(P)
+              ENDIF
             ENDDO
-            IADS(NSPMD+1)=LENSD_0+1
+          ENDDO
+          IADS(NSPMD+1)=LENSD_0+1
 
-            ! AlltoAll comm in order to know the sent buffer size
-            CALL MPI_ALLTOALL(TAB_LOC(1),NINTER,MPI_INTEGER,
-     .                        TAB_SEND(1),NINTER,MPI_INTEGER,
-     .                        MPI_COMM_WORLD,IERROR)
+          ! AlltoAll comm in order to know the sent buffer size
+          CALL MPI_ALLTOALL(TAB_LOC(1),NINTER,MPI_INTEGER,
+     .                      TAB_SEND(1),NINTER,MPI_INTEGER,
+     .                      MPI_COMM_WORLD,IERROR)
 
-        ! -----------------------
-            ! SECOND COMM.
-            ! building of NSVSI
-            ! IBUFS : sent buffer (=NSVFI)
-            ! IBUFR : recv. buffer (-->NSVSI)
-            ! TAB_NSVSI : NSVSI array 
-            DO P=1,NSPMD
-              IADR(P) = LENRV_0 + 1
-              DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
-                 NTY=IPARI(7,NIN)
-                 IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
-                    LENRV_0 = LENRV_0 + TAB_SEND(NIN+NINTER*(P-1))*ALEN
-                 ENDIF
-              ENDDO
+          ! -----------------------
+          ! SECOND COMM.
+          ! building of NSVSI
+          ! IBUFS : sent buffer (=NSVFI)
+          ! IBUFR : recv. buffer (-->NSVSI)
+          ! TAB_NSVSI : NSVSI array
+          DO P=1,NSPMD
+            IADR(P) = LENRV_0 + 1
+            DO NI=1,NBINTC
+              NIN = INTLIST(NI)
+              NTY=IPARI(7,NIN)
+              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
+                LENRV_0 = LENRV_0 + TAB_SEND(NIN+NINTER*(P-1))*ALEN
+              ENDIF
             ENDDO
-            IADR(NSPMD+1) = LENRV_0 + 1
+          ENDDO
+          IADR(NSPMD+1) = LENRV_0 + 1
 
-            ! Sent buffer allocation
-            IF(LENSD_0>0) THEN
-             ALLOCATE(IBUFS(LENSD_0),STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
+          ! Sent buffer allocation
+          IF(LENSD_0>0) THEN
+            ALLOCATE(IBUFS(LENSD_0),STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+          ENDIF
+
+          ! Received buffer allocation
+          IF(LENRV_0>0) THEN
+            ALLOCATE(IBUFR(LENRV_0),STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+            ALLOCATE(TAB_NSVSI(NINTER),STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
             ENDIF
 
-            ! Received buffer allocation
-            IF(LENRV_0>0) THEN
-             ALLOCATE(IBUFR(LENRV_0),STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
-             ALLOCATE(TAB_NSVSI(NINTER),STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
-
-             DO NI=1,NBINTC
-	      NIN = INTLIST(NI)
+            DO NI=1,NBINTC
+              NIN = INTLIST(NI)
               NTY = IPARI(7,NIN)
               IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                 NSNR = IPARI(24,NIN)
                 LENRV_0 = 0
                 DO P=1,NSPMD
-                 LENRV_0 = LENRV_0 + TAB_SEND(NIN+NINTER*(P-1))
+                  LENRV_0 = LENRV_0 + TAB_SEND(NIN+NINTER*(P-1))
                 ENDDO
                 ALLOCATE(TAB_NSVSI(NIN)%P(LENRV_0), STAT=IERROR)
                 IF(IERROR/=0) THEN
@@ -215,283 +215,283 @@ C     REAL
                 ENDIF
                 TAB_NSVSI(NIN)%P(1:LENRV_0) = 0
               ENDIF
-             ENDDO
-            ENDIF
-            ! -----------------
-            ! Received MPI comm
-            DO P=1, NSPMD
-              SIZ=IADR(P+1)-IADR(P)
-              IF (SIZ > 0) THEN
-                 MSGTYP = MSGOFF
-                 CALL MPI_IRECV( IBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                           MPI_COMM_WORLD,REQ_R(P),IERROR )
-              ENDIF
             ENDDO
-            ! -----------------
-            ! Sent MPI comm
-            L=1
-            IDEBS=0
-            DO P=1, NSPMD
-              IADS(P)=L
-              IF (P/= LOC_PROC) THEN
-                DO NI=1,NBINTC
-	          NIN = INTLIST(NI)
-                  NTY = IPARI(7,NIN)
-                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11) THEN
-                    NB = NSNFI(NIN)%P(P) ! size = nsnfi
-                    IF(NB>0) THEN
-                     DO NN=1,NB
+          ENDIF
+          ! -----------------
+          ! Received MPI comm
+          DO P=1, NSPMD
+            SIZ=IADR(P+1)-IADR(P)
+            IF (SIZ > 0) THEN
+              MSGTYP = MSGOFF
+              CALL MPI_IRECV( IBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
+     .                        MPI_COMM_WORLD,REQ_R(P),IERROR )
+            ENDIF
+          ENDDO
+          ! -----------------
+          ! Sent MPI comm
+          L=1
+          IDEBS=0
+          DO P=1, NSPMD
+            IADS(P)=L
+            IF (P/= LOC_PROC) THEN
+              DO NI=1,NBINTC
+                NIN = INTLIST(NI)
+                NTY = IPARI(7,NIN)
+                IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11) THEN
+                  NB = NSNFI(NIN)%P(P) ! size = nsnfi
+                  IF(NB>0) THEN
+                    DO NN=1,NB
                       IBUFS(L) = NSVFI(NIN)%P(IDEBS(NIN)+NN)
-                      L=L+ALEN                
-                     ENDDO
-                     IDEBS(NIN)=IDEBS(NIN)+NB
-                    ENDIF
+                      L=L+ALEN
+                    ENDDO
+                    IDEBS(NIN)=IDEBS(NIN)+NB
                   ENDIF
-                ENDDO  ! DO NIN=1,NINTER
-                SIZ = L-IADS(P)
-                IF(SIZ>0)THEN
-                  MSGTYP = MSGOFF
-                  CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                            MPI_COMM_WORLD,REQ_SI(P),IERROR )
                 ENDIF
-              ENDIF ! ENDIF P/= LOC_PROC
-            ENDDO  ! DO P=1, NSPMD
-            ! -----------------
-            ! Receive
-            L=0
-            IDEBR = 0                
-
-            DO P=1, NSPMD
-              L=0
-              SIZ=IADR(P+1)-IADR(P)
-              IF (SIZ > 0) THEN
+              ENDDO  ! DO NIN=1,NINTER
+              SIZ = L-IADS(P)
+              IF(SIZ>0)THEN
                 MSGTYP = MSGOFF
-                ! MPI WAIT
-                CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-                DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
-                 NTY = IPARI(7,NIN)
-                 IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
+                CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
+     .                          MPI_COMM_WORLD,REQ_SI(P),IERROR )
+              ENDIF
+            ENDIF ! ENDIF P/= LOC_PROC
+          ENDDO  ! DO P=1, NSPMD
+          ! -----------------
+          ! Receive
+          L=0
+          IDEBR = 0
+
+          DO P=1, NSPMD
+            L=0
+            SIZ=IADR(P+1)-IADR(P)
+            IF (SIZ > 0) THEN
+              MSGTYP = MSGOFF
+              ! MPI WAIT
+              CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+              DO NI=1,NBINTC
+                NIN = INTLIST(NI)
+                NTY = IPARI(7,NIN)
+                IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                   NB = TAB_SEND(NIN+NINTER*(P-1)) ! nsnfi becomes nsnsi on local proc
                   IF (NB > 0)THEN
-                   DO K=1,NB
-                     TAB_NSVSI(NIN)%P(IDEBR(NIN)+K) =  IBUFR(IADR(P)+L) ! nsvfi becomes nsvsi on local proc
-                     L=L+ALEN
+                    DO K=1,NB
+                      TAB_NSVSI(NIN)%P(IDEBR(NIN)+K) =  IBUFR(IADR(P)+L) ! nsvfi becomes nsvsi on local proc
+                      L=L+ALEN
                     ENDDO
                     IDEBR(NIN)=IDEBR(NIN)+NB
                   ENDIF
-                 ENDIF ! ity==7
-                ENDDO
-              ENDIF !  IF (NB > 0)
-!              L=L+SIZ
-            ENDDO   ! DO P=1, NSPMD
-
-            ! -----------------
-            ! Fin du send
-            DO P = 1, NSPMD
-              IF (P==NSPMD)THEN
-                SIZ=LENSD_0-IADS(P)
-              ELSE
-                SIZ=IADS(P+1)-IADS(P)
-              ENDIF
-              IF(SIZ>0) THEN
-               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
-              ENDIF
-            ENDDO
-            ! -----------------
-        ! -----------------------
-            ! THIRD COMM.
-            ! building of tag array
-            ! IBUFS : sent buffer
-            ! IBUFR : recv. buffer
-            ! TAG_LOC is used as tag array 
-            !    example for nspmd = 5,       TAG_LOC(nin)%P 
-            !         nin     |------*---*-----*-------------*-----|
-            !                   P1   * P2*  P3 *    P4       *  P5
-            IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)
-            IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
-            LENSD = 0
-            LENRV = 0
-            ALEN = 1
-            IADS(:) = 0
-            IADR(:) = 0
-            DO P=1,NSPMD
-              IADS(P)=LENSD+1
-              IADR(P)=LENRV+1
-              DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
-                 NTY=IPARI(7,NIN)
-                 IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
-                    LENSD = LENSD + TAB_SEND(NIN+NINTER*(P-1))*ALEN
-                    LENRV = LENRV + NSNFI(NIN)%P(P)*ALEN
-                 ENDIF
+                ENDIF ! ity==7
               ENDDO
-            ENDDO
-            IADS(NSPMD+1)=LENSD+1
-            IADR(NSPMD+1)=LENRV+1
-            ! -----------------
-            ! Sent buffer allocation
-            IF(LENSD>0) THEN
-             ALLOCATE(IBUFS(LENSD),STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
+            ENDIF !  IF (NB > 0)
+!              L=L+SIZ
+          ENDDO   ! DO P=1, NSPMD
+
+          ! -----------------
+          ! Fin du send
+          DO P = 1, NSPMD
+            IF (P==NSPMD)THEN
+              SIZ=LENSD_0-IADS(P)
+            ELSE
+              SIZ=IADS(P+1)-IADS(P)
             ENDIF
-            ! -----------------
-            ! Received buffer allocation
-            IF(LENRV>0) THEN
-             ALLOCATE(IBUFR(LENRV),STAT=IERROR)
-             IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-             ENDIF
-            ENDIF 
-            ! -----------------
-            ! Received MPI comm
-            DO P=1, NSPMD
-              SIZ=IADR(P+1)-IADR(P)
-              IF (SIZ > 0) THEN
-                 MSGTYP = MSGOFF2
-                 CALL MPI_IRECV( IBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                           MPI_COMM_WORLD,REQ_R(P),IERROR )
+            IF(SIZ>0) THEN
+              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            ENDIF
+          ENDDO
+          ! -----------------
+          ! -----------------------
+          ! THIRD COMM.
+          ! building of tag array
+          ! IBUFS : sent buffer
+          ! IBUFR : recv. buffer
+          ! TAG_LOC is used as tag array
+          !    example for nspmd = 5,       TAG_LOC(nin)%P
+          !         nin     |------*---*-----*-------------*-----|
+          !                   P1   * P2*  P3 *    P4       *  P5
+          IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)
+          IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
+          LENSD = 0
+          LENRV = 0
+          ALEN = 1
+          IADS(:) = 0
+          IADR(:) = 0
+          DO P=1,NSPMD
+            IADS(P)=LENSD+1
+            IADR(P)=LENRV+1
+            DO NI=1,NBINTC
+              NIN = INTLIST(NI)
+              NTY=IPARI(7,NIN)
+              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
+                LENSD = LENSD + TAB_SEND(NIN+NINTER*(P-1))*ALEN
+                LENRV = LENRV + NSNFI(NIN)%P(P)*ALEN
               ENDIF
             ENDDO
-            ! -----------------
-            ! Sent MPI comm
-            L=1
-            IDEBS = 0
-            DO P=1, NSPMD
-              IADS(P)=L
-              IF (P/= LOC_PROC) THEN
-                DO NI=1,NBINTC
-	          NIN = INTLIST(NI)
-                  NTY = IPARI(7,NIN)
-                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25) THEN
-                    NB = TAB_SEND(NIN+NINTER*(P-1)) ! size = nsnsi
-                    IF(NB>0) THEN
-                     DO NN=1,NB
+          ENDDO
+          IADS(NSPMD+1)=LENSD+1
+          IADR(NSPMD+1)=LENRV+1
+          ! -----------------
+          ! Sent buffer allocation
+          IF(LENSD>0) THEN
+            ALLOCATE(IBUFS(LENSD),STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+          ENDIF
+          ! -----------------
+          ! Received buffer allocation
+          IF(LENRV>0) THEN
+            ALLOCATE(IBUFR(LENRV),STAT=IERROR)
+            IF(IERROR/=0) THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+          ENDIF
+          ! -----------------
+          ! Received MPI comm
+          DO P=1, NSPMD
+            SIZ=IADR(P+1)-IADR(P)
+            IF (SIZ > 0) THEN
+              MSGTYP = MSGOFF2
+              CALL MPI_IRECV( IBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
+     .                        MPI_COMM_WORLD,REQ_R(P),IERROR )
+            ENDIF
+          ENDDO
+          ! -----------------
+          ! Sent MPI comm
+          L=1
+          IDEBS = 0
+          DO P=1, NSPMD
+            IADS(P)=L
+            IF (P/= LOC_PROC) THEN
+              DO NI=1,NBINTC
+                NIN = INTLIST(NI)
+                NTY = IPARI(7,NIN)
+                IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25) THEN
+                  NB = TAB_SEND(NIN+NINTER*(P-1)) ! size = nsnsi
+                  IF(NB>0) THEN
+                    DO NN=1,NB
                       ND = TAB_NSVSI(NIN)%P(IDEBS(NIN)+NN)      ! = nsvsi
                       NOD = INTBUF_TAB(NIN)%NSV(ND)
                       IBUFS(L)=  TAG(NOD)
                       L=L+ALEN
-                     ENDDO
-                     IDEBS(NIN)=IDEBS(NIN)+NB
-                    ENDIF
-                  ELSEIF (NTY == 11)THEN
-                    NB = TAB_SEND(NIN+NINTER*(P-1)) ! size = nsnsi
-                    IF(NB>0) THEN
-                     DO NN=1,NB
-                       ND = TAB_NSVSI(NIN)%P(IDEBS(NIN)+NN)      ! = nsvsi
-                       NOD1 = INTBUF_TAB(NIN)%IRECTS(2*(ND-1)+1)
-                       NOD2 = INTBUF_TAB(NIN)%IRECTS(2*(ND-1)+2)
-                       IF(TAG(NOD1)==1 .OR.TAG(NOD2)==1)THEN
-                          IBUFS(L)=  1
-                       ELSE
-                          IBUFS(L)=  0
-                       ENDIF
-                       L = L+ALEN
-                     ENDDO
-                     IDEBS(NIN)=IDEBS(NIN)+NB
-                    ENDIF
+                    ENDDO
+                    IDEBS(NIN)=IDEBS(NIN)+NB
                   ENDIF
-                ENDDO  ! DO NIN=1,NINTER
-                SIZ = L-IADS(P)
-                IF(SIZ>0)THEN
-                  MSGTYP = MSGOFF2
-                  CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                            MPI_COMM_WORLD,REQ_SI(P),IERROR )
+                ELSEIF (NTY == 11)THEN
+                  NB = TAB_SEND(NIN+NINTER*(P-1)) ! size = nsnsi
+                  IF(NB>0) THEN
+                    DO NN=1,NB
+                      ND = TAB_NSVSI(NIN)%P(IDEBS(NIN)+NN)      ! = nsvsi
+                      NOD1 = INTBUF_TAB(NIN)%IRECTS(2*(ND-1)+1)
+                      NOD2 = INTBUF_TAB(NIN)%IRECTS(2*(ND-1)+2)
+                      IF(TAG(NOD1)==1 .OR.TAG(NOD2)==1)THEN
+                        IBUFS(L)=  1
+                      ELSE
+                        IBUFS(L)=  0
+                      ENDIF
+                      L = L+ALEN
+                    ENDDO
+                    IDEBS(NIN)=IDEBS(NIN)+NB
+                  ENDIF
                 ENDIF
-              ENDIF ! ENDIF P/= LOC_PROC
-            ENDDO  ! DO P=1, NSPMD
-
-            ! -----------------
-            ! Recv. MPI comm
-            ALLOCATE( TAG_LOC(NINTER) )
-            DO NI=1,NBINTC
-	     NIN = INTLIST(NI)
-             NTY = IPARI(7,NIN)
-             IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
-               NSNR = IPARI(24,NIN)
-               ALLOCATE(TAG_LOC(NIN)%P(NSNR), STAT=IERROR)
-               IF(IERROR/=0) THEN
-                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                 CALL ARRET(2)
-               ENDIF
-               TAG_LOC(NIN)%P(1:NSNR) = 0
-             ENDIF
-            ENDDO
-            ! -----------------
-            ! building of tag array (TAG_LOC) as a structure 
-            L=0
-            IDEBR(:) = 0
-            DO P=1, NSPMD
-              L=0
-              SIZ=IADR(P+1)-IADR(P)
-              IF (SIZ > 0) THEN
+              ENDDO  ! DO NIN=1,NINTER
+              SIZ = L-IADS(P)
+              IF(SIZ>0)THEN
                 MSGTYP = MSGOFF2
-                ! MPI WAIT
-                CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-                
-                DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
-                 NTY = IPARI(7,NIN)
-                 IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
+                CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
+     .                          MPI_COMM_WORLD,REQ_SI(P),IERROR )
+              ENDIF
+            ENDIF ! ENDIF P/= LOC_PROC
+          ENDDO  ! DO P=1, NSPMD
+
+          ! -----------------
+          ! Recv. MPI comm
+          ALLOCATE( TAG_LOC(NINTER) )
+          DO NI=1,NBINTC
+            NIN = INTLIST(NI)
+            NTY = IPARI(7,NIN)
+            IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
+              NSNR = IPARI(24,NIN)
+              ALLOCATE(TAG_LOC(NIN)%P(NSNR), STAT=IERROR)
+              IF(IERROR/=0) THEN
+                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                CALL ARRET(2)
+              ENDIF
+              TAG_LOC(NIN)%P(1:NSNR) = 0
+            ENDIF
+          ENDDO
+          ! -----------------
+          ! building of tag array (TAG_LOC) as a structure
+          L=0
+          IDEBR(:) = 0
+          DO P=1, NSPMD
+            L=0
+            SIZ=IADR(P+1)-IADR(P)
+            IF (SIZ > 0) THEN
+              MSGTYP = MSGOFF2
+              ! MPI WAIT
+              CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+
+              DO NI=1,NBINTC
+                NIN = INTLIST(NI)
+                NTY = IPARI(7,NIN)
+                IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                   NB = NSNFI(NIN)%P(P) ! size = nsnfi
                   IF (NB > 0)THEN
-                   DO K=1,NB
-                     ND = IDEBR(NIN)+K
-                     TAG_LOC(NIN)%P(ND) = - IBUFR(IADR(P)+L)
-                     L=L+ALEN
-                   ENDDO
-                   IDEBR(NIN) = IDEBR(NIN) + NB
+                    DO K=1,NB
+                      ND = IDEBR(NIN)+K
+                      TAG_LOC(NIN)%P(ND) = - IBUFR(IADR(P)+L)
+                      L=L+ALEN
+                    ENDDO
+                    IDEBR(NIN) = IDEBR(NIN) + NB
                   ENDIF
-                 ENDIF ! ity==7
-                ENDDO
-              ENDIF !  IF (NB > 0)
-            ENDDO ! DO P=1, NSPMD
-            ! -----------------
-            ! Fin du send
-            DO P = 1, NSPMD
-              IF (P==NSPMD)THEN
-                SIZ=LENSD-IADS(P)
-              ELSE
-                SIZ=IADS(P+1)-IADS(P)
-              ENDIF
-              IF(SIZ>0) THEN
-               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
-              ENDIF
-            ENDDO
-        ! -----------------------
-            ! Check the value of tag and elimination of cand_a/e if tag = -1
-            DO NI=1,NBINTC
-	      NIN = INTLIST(NI)
-              NTY = IPARI(7,NIN)
-              NSN = IPARI(5,NIN)
-              NSNR = IPARI(24,NIN)
-              I_STOK = INTBUF_TAB(NIN)%I_STOK(1)
-              INACTI = IPARI(22,NIN)
-              IFQ    = IPARI(31,NIN)
-              ITIED  = IPARI(85,NIN)
-              NRTS = IPARI(3,NIN) 
-              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11) THEN
-                  CALL SPMD_CHECK_TAG(NIN,I_STOK,INTBUF_TAB(NIN),TAG_LOC(NIN)%P,
-     .                                 NSNR,NSN,NTY,INACTI,IFQ,ITIED,NRTS)
-              ENDIF
-              INTBUF_TAB(NIN)%I_STOK(1) = I_STOK  
-            ENDDO
+                ENDIF ! ity==7
+              ENDDO
+            ENDIF !  IF (NB > 0)
+          ENDDO ! DO P=1, NSPMD
+          ! -----------------
+          ! Fin du send
+          DO P = 1, NSPMD
+            IF (P==NSPMD)THEN
+              SIZ=LENSD-IADS(P)
+            ELSE
+              SIZ=IADS(P+1)-IADS(P)
+            ENDIF
+            IF(SIZ>0) THEN
+              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
+            ENDIF
+          ENDDO
+          ! -----------------------
+          ! Check the value of tag and elimination of cand_a/e if tag = -1
+          DO NI=1,NBINTC
+            NIN = INTLIST(NI)
+            NTY = IPARI(7,NIN)
+            NSN = IPARI(5,NIN)
+            NSNR = IPARI(24,NIN)
+            I_STOK = INTBUF_TAB(NIN)%I_STOK(1)
+            INACTI = IPARI(22,NIN)
+            IFQ    = IPARI(31,NIN)
+            ITIED  = IPARI(85,NIN)
+            NRTS = IPARI(3,NIN)
+            IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11) THEN
+              CALL SPMD_CHECK_TAG(NIN,I_STOK,INTBUF_TAB(NIN),TAG_LOC(NIN)%P,
+     .                             NSNR,NSN,NTY,INACTI,IFQ,ITIED,NRTS)
+            ENDIF
+            INTBUF_TAB(NIN)%I_STOK(1) = I_STOK
+          ENDDO
 
-            IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)
-            IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
-            IF(ALLOCATED(TAB_NSVSI)) DEALLOCATE(TAB_NSVSI)
-            IF(ALLOCATED(TAB_LOC)) DEALLOCATE(TAB_LOC)
-            IF(ALLOCATED(TAB_SEND)) DEALLOCATE(TAB_SEND)
-            DEALLOCATE( TAG_LOC )
-        ! -----------------------
+          IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)
+          IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
+          IF(ALLOCATED(TAB_NSVSI)) DEALLOCATE(TAB_NSVSI)
+          IF(ALLOCATED(TAB_LOC)) DEALLOCATE(TAB_LOC)
+          IF(ALLOCATED(TAB_SEND)) DEALLOCATE(TAB_SEND)
+          DEALLOCATE( TAG_LOC )
+          ! -----------------------
         ENDIF ! NSPMD > 1
 #endif
         RETURN
-        END SUBROUTINE
+      END SUBROUTINE
 
 
 

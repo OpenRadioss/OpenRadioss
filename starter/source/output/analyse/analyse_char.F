@@ -37,37 +37,37 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LEN
-      CHARACTER STR*ncharline
+        INTEGER LEN
+        CHARACTER STR*ncharline
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, B, E, LENGTH
+        INTEGER  I, B, E, LENGTH
 C
 C-----------------------------------------------
-      LENGTH = LEN
-      B = 1
-      E = LENGTH
-      I = 1 
-      
-      DO WHILE ((I<=LENGTH).AND.(STR(I:I) == ' '))
-	    I = I+1
-	    B = I
-      END DO
-      
-      I = 1      
-      DO WHILE( (I<LENGTH) 
-     .         .AND.
-     .          (STR((LENGTH-I+1):(LENGTH-I+1)) == ' ') )
-            E =  LENGTH-I
-	    I = I+1
-      END DO
-               
-      LENGTH=E-B+1
+        LENGTH = LEN
+        B = 1
+        E = LENGTH
+        I = 1
 
-      IF (LENGTH > 0) THEN   
-        DO I=B, E
-        ENDDO
-      END IF
+        DO WHILE ((I<=LENGTH).AND.(STR(I:I) == ' '))
+          I = I+1
+          B = I
+        END DO
+
+        I = 1
+        DO WHILE( (I<LENGTH)
+     .           .AND.
+     .            (STR((LENGTH-I+1):(LENGTH-I+1)) == ' ') )
+          E =  LENGTH-I
+          I = I+1
+        END DO
+
+        LENGTH=E-B+1
+
+        IF (LENGTH > 0) THEN
+          DO I=B, E
+          ENDDO
+        END IF
 
       END

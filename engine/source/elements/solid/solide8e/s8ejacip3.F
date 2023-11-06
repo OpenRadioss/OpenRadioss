@@ -48,165 +48,165 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+        INTEGER, INTENT(IN) :: NEL
 C     REAL
-      my_real
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
-     .   CJ1(*),CJ2(*),CJ3(*),
-     .   CJ4(*),CJ5(*),CJ6(*),
-     .   CJ7(*),CJ8(*),CJ9(*),
-     .   AJ1(MVSIZ,8),AJ2(MVSIZ,8),AJ3(MVSIZ,8),
-     .   AJ4(MVSIZ,8),AJ5(MVSIZ,8),AJ6(MVSIZ,8),
-     .   AJ7(MVSIZ,8),AJ8(MVSIZ,8),AJ9(MVSIZ,8)
+        my_real
+     .     HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
+     .     CJ1(*),CJ2(*),CJ3(*),
+     .     CJ4(*),CJ5(*),CJ6(*),
+     .     CJ7(*),CJ8(*),CJ9(*),
+     .     AJ1(MVSIZ,8),AJ2(MVSIZ,8),AJ3(MVSIZ,8),
+     .     AJ4(MVSIZ,8),AJ5(MVSIZ,8),AJ6(MVSIZ,8),
+     .     AJ7(MVSIZ,8),AJ8(MVSIZ,8),AJ9(MVSIZ,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,IP
+        INTEGER I, J ,IP
 C     REAL
 C                                                                     12
-      my_real
-     .   HX1PG(MVSIZ), HX2PG(MVSIZ), HX3PG(MVSIZ),HX4PG2(MVSIZ),
-     .   HY1PG(MVSIZ), HY2PG(MVSIZ), HY3PG(MVSIZ),HY4PG2(MVSIZ),
-     .   HZ1PG(MVSIZ), HZ2PG(MVSIZ), HZ3PG(MVSIZ),HZ4PG2(MVSIZ),
-     .   PG2,PG
-       PARAMETER (PG=.577350269189625D0)
+        my_real
+     .     HX1PG(MVSIZ), HX2PG(MVSIZ), HX3PG(MVSIZ),HX4PG2(MVSIZ),
+     .     HY1PG(MVSIZ), HY2PG(MVSIZ), HY3PG(MVSIZ),HY4PG2(MVSIZ),
+     .     HZ1PG(MVSIZ), HZ2PG(MVSIZ), HZ3PG(MVSIZ),HZ4PG2(MVSIZ),
+     .     PG2,PG
+        PARAMETER (PG=.577350269189625D0)
 C-----------------------------------------------
-      PG2=PG*PG
+        PG2=PG*PG
 C
-      DO I=1,NEL
-       HX1PG(I)=HX(I,1)*PG
-       HX2PG(I)=HX(I,2)*PG
-       HX3PG(I)=HX(I,3)*PG
-       HX4PG2(I)=HX(I,4)*PG2
-       HY1PG(I)=HY(I,1)*PG
-       HY2PG(I)=HY(I,2)*PG
-       HY3PG(I)=HY(I,3)*PG
-       HY4PG2(I)=HY(I,4)*PG2
-       HZ1PG(I)=HZ(I,1)*PG
-       HZ2PG(I)=HZ(I,2)*PG
-       HZ3PG(I)=HZ(I,3)*PG
-       HZ4PG2(I)=HZ(I,4)*PG2
-      ENDDO
-      IP=1
-C - - -	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
+        DO I=1,NEL
+          HX1PG(I)=HX(I,1)*PG
+          HX2PG(I)=HX(I,2)*PG
+          HX3PG(I)=HX(I,3)*PG
+          HX4PG2(I)=HX(I,4)*PG2
+          HY1PG(I)=HY(I,1)*PG
+          HY2PG(I)=HY(I,2)*PG
+          HY3PG(I)=HY(I,3)*PG
+          HY4PG2(I)=HY(I,4)*PG2
+          HZ1PG(I)=HZ(I,1)*PG
+          HZ2PG(I)=HZ(I,2)*PG
+          HZ3PG(I)=HZ(I,3)*PG
+          HZ4PG2(I)=HZ(I,4)*PG2
+        ENDDO
+        IP=1
+C - - -
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
-      ENDDO
-      IP=2	  
-C + - -	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
+        ENDDO
+        IP=2
+C + - -
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
-      ENDDO
-      IP=3	  
-C - + -	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
+        ENDDO
+        IP=3
+C - + -
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
-      ENDDO
-      IP=4	  
-C + + -	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
+        ENDDO
+        IP=4
+C + + -
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
-      ENDDO
-      IP=5	  
-C - - +	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
+        ENDDO
+        IP=5
+C - - +
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
-      ENDDO
-      IP=6	  
-C + - +	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
+        ENDDO
+        IP=6
+C + - +
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
-      ENDDO
-      IP=7	  
-C - + +	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
+        ENDDO
+        IP=7
+C - + +
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
-      ENDDO
-      IP=8	  
-C + + +	  
-      DO I=1,NEL
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
+          AJ7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
+        ENDDO
+        IP=8
+C + + +
+        DO I=1,NEL
+          AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
+          AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
+          AJ3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
+          AJ4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
+          AJ5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
+          AJ6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
-      ENDDO
+          AJ7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
+          AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
+          AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
+        ENDDO
 C
-      RETURN
+        RETURN
       END

@@ -28,7 +28,7 @@ Chd|        XYZNOD                        source/output/anim/generate/xyznod.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-       SUBROUTINE SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUM)
+      SUBROUTINE SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,56 +46,56 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       my_real
-     .   X(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+        my_real
+     .    X(3,*)
+        INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,SI,MSGTYP2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,SI,MSGTYP2
 
-      REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
+        REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
+        INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
 
-      DATA MSGOFF/7026/
-      DATA MSGOFF2/7027/
-       
+        DATA MSGOFF/7026/
+        DATA MSGOFF2/7027/
+
 C-----------------------------------------------
 
-       ALLOCATE(BUFSR(3,NUMNODM))
-       ALLOCATE(XGLOB(3,NUM))
-       ALLOCATE(IBUF(NUMNODM))
-        
-       IF (ISPMD/=0) THEN
+        ALLOCATE(BUFSR(3,NUMNODM))
+        ALLOCATE(XGLOB(3,NUM))
+        ALLOCATE(IBUF(NUMNODM))
 
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (WEIGHT(I)==1) THEN
-             SIZ = SIZ + 1
-             IBUF(SIZ) = NODGLOB(I)
-             BUFSR(1,SIZ) = X(1,I)
-             BUFSR(2,SIZ) = X(2,I) 
-             BUFSR(3,SIZ) = X(3,I) 
-           END IF
-         END DO
+        IF (ISPMD/=0) THEN
+
+          SIZ = 0
+          DO I=1,NUMNOD
+            IF (WEIGHT(I)==1) THEN
+              SIZ = SIZ + 1
+              IBUF(SIZ) = NODGLOB(I)
+              BUFSR(1,SIZ) = X(1,I)
+              BUFSR(2,SIZ) = X(2,I)
+              BUFSR(3,SIZ) = X(3,I)
+            END IF
+          END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF2
+          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-C  
-         MSGTYP = MSGOFF
-         CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+C
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
 
-       ELSE
+        ELSE
 
           DO I=1,NUMNOD
             IF (WEIGHT(I)==1) THEN
@@ -114,19 +114,19 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
 C   Reception du buffer flottant des adresses NODGLOB
 
-            MSGTYP2 = MSGOFF 
+            MSGTYP2 = MSGOFF
 
             CALL MPI_RECV(BUFSR,SIZ*3,MPI_REAL4,IT_SPMD(I),MSGTYP2,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
-            NREC = SIZ 
+
+            NREC = SIZ
 
 
             DO K = 1, NREC
@@ -136,20 +136,20 @@ C   Reception du buffer flottant des adresses NODGLOB
               XGLOB(3,NG) = BUFSR(3,K)
             ENDDO
           ENDDO
-C  
-C   
+C
+C
           DO I=1,NUMNODG
-           CALL WRITE_R_C(XGLOB(1,I),1)
-           CALL WRITE_R_C(XGLOB(2,I),1)
-           CALL WRITE_R_C(XGLOB(3,I),1)
-         END DO
+            CALL WRITE_R_C(XGLOB(1,I),1)
+            CALL WRITE_R_C(XGLOB(2,I),1)
+            CALL WRITE_R_C(XGLOB(3,I),1)
+          END DO
         END IF
 
 
-       DEALLOCATE(BUFSR)
-       DEALLOCATE(XGLOB)
-       DEALLOCATE(IBUF)
+        DEALLOCATE(BUFSR)
+        DEALLOCATE(XGLOB)
+        DEALLOCATE(IBUF)
 
 #endif
-       RETURN
-       END
+        RETURN
+      END

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I11TRIVOX                     source/interfaces/intsort/i11trivox.F
 Chd|-- calls ---------------
 Chd|        I11PEN3_VOX                   source/interfaces/intsort/i11pen3.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I11STO_VOX(
      1      J_STOK,IRECTS,IRECTM,X     ,II_STOK,
@@ -40,7 +40,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TRI7BOX
+        USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,30 +53,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NRTS, NIN, ITAB(*)
-      INTEGER J_STOK,NSN4,NOINT,IFORM,IGAP
-      INTEGER IRECTS(2,*),IRECTM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
-     .        CHAINE(2,*),IFPEN(*),II_STOK
-      INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),ESHIFT
+        INTEGER I_MEM, NRTS, NIN, ITAB(*)
+        INTEGER J_STOK,NSN4,NOINT,IFORM,IGAP
+        INTEGER IRECTS(2,*),IRECTM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
+     .          CHAINE(2,*),IFPEN(*),II_STOK
+        INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),ESHIFT
 C     REAL
-      my_real
-     .   X(3,*), GAPMIN, MARGE, 
-     .   GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
-      my_real , INTENT(IN) :: DGAPLOAD,DRAD
+        my_real
+     .     X(3,*), GAPMIN, MARGE,
+     .     GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
+        my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN
-      INTEGER I_STOK_FIRST 
+        INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN
+        INTEGER I_STOK_FIRST
 C     REAL
-      my_real
-     .   PENE(MVSIZ)
+        my_real
+     .     PENE(MVSIZ)
 C-----------------------------------------------
         K_STOK=0
 
 c       CALL I11PEN3(J_STOK ,PROV_S,PROV_M,TZINF ,X     ,
 c    .               IRECTS ,IRECTM,PENE  ,NRTS    )
-        CALL I11PEN3_VOX(J_STOK ,PROV_S ,PROV_M ,GAPMIN ,DRAD    , 
+        CALL I11PEN3_VOX(J_STOK ,PROV_S ,PROV_M ,GAPMIN ,DRAD    ,
      .                    MARGE  ,GAP_S ,GAP_M   ,GAP_S_L,GAP_M_L ,
      .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE   ,
      .                    NRTS   ,DGAPLOAD)
@@ -98,7 +98,7 @@ C-----------------------------------------------
             DO WHILE(IAD/=0.AND.J<NSN4)
               J=J+1
               IF(CHAINE(1,IAD)==PROV_S(I))THEN
-                PENE(I) = ZERO 
+                PENE(I) = ZERO
                 IAD=0
               ELSE
                 IAD0=IAD
@@ -107,13 +107,13 @@ C-----------------------------------------------
             ENDDO
             IF(PENE(I)>ZERO)THEN
               K_STOK = K_STOK + 1
-                IADFIN=II_STOK+1
-                IF(IADFIN>NSN4) THEN
-                  I_MEM = 2
+              IADFIN=II_STOK+1
+              IF(IADFIN>NSN4) THEN
+                I_MEM = 2
 #include "lockoff.inc"
-                  RETURN
-                ENDIF
-                II_STOK   = IADFIN 
+                RETURN
+              ENDIF
+              II_STOK   = IADFIN
               CHAINE(1,IADFIN)=PROV_S(I)
               CHAINE(2,IADFIN)=0
               IF(ADDCM(PROV_M(I))==0)THEN
@@ -125,38 +125,38 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         IF(K_STOK==0) THEN
-#include "lockoff.inc"         
+#include "lockoff.inc"
           RETURN
         ENDIF
 
-          I_STOK_FIRST = I_STOK
-          DO I=1,J_STOK
-            IF(PENE(I)>ZERO)THEN 
-              I_STOK = I_STOK + 1    
-              CAND_S(I_STOK) = PROV_S(I)    
-              CAND_M(I_STOK) = PROV_M(I)+ESHIFT   
+        I_STOK_FIRST = I_STOK
+        DO I=1,J_STOK
+          IF(PENE(I)>ZERO)THEN
+            I_STOK = I_STOK + 1
+            CAND_S(I_STOK) = PROV_S(I)
+            CAND_M(I_STOK) = PROV_M(I)+ESHIFT
 c             IFPEN(I_STOK) = 0
-            ENDIF
-          END DO
+          ENDIF
+        END DO
 
         IF (IFORM==2 .AND. I_STOK > I_STOK_FIRST) IFPEN(I_STOK_FIRST+1:I_STOK)=0
 
 C-----------------------------------------------
-#include "lockoff.inc"	
-      RETURN
+#include "lockoff.inc"
+        RETURN
       END
 
 
 
 
-C            OLD ROUTINE 
+C            OLD ROUTINE
 Chd|====================================================================
 Chd|  I11STO                        source/interfaces/intsort/i11sto.F
 Chd|-- called by -----------
 Chd|        I11TRI                        source/interfaces/intsort/i11tri.F
 Chd|-- calls ---------------
 Chd|        I11PEN3                       source/interfaces/intsort/i11pen3.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE  I11STO(
      1     J_STOK,IRECTS,IRECTM,X     ,II_STOK,
@@ -167,7 +167,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TRI7BOX
+        USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -180,22 +180,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NRTS, NIN, ITAB(*)
-      INTEGER J_STOK,NSN4,NOINT,IFORM
-      INTEGER IRECTS(2,*),IRECTM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
-     .        CHAINE(2,*),IFPEN(*),II_STOK
-      INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),ESHIFT
+        INTEGER I_MEM, NRTS, NIN, ITAB(*)
+        INTEGER J_STOK,NSN4,NOINT,IFORM
+        INTEGER IRECTS(2,*),IRECTM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
+     .          CHAINE(2,*),IFPEN(*),II_STOK
+        INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),ESHIFT
 C     REAL
-      my_real
-     .   X(3,*),TZINF
+        my_real
+     .     X(3,*),TZINF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN
-      INTEGER I_STOK_FIRST 
+        INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN
+        INTEGER I_STOK_FIRST
 C     REAL
-      my_real
-     .   PENE(MVSIZ)
+        my_real
+     .     PENE(MVSIZ)
 C-----------------------------------------------
         K_STOK=0
 
@@ -218,7 +218,7 @@ C-----------------------------------------------
             DO WHILE(IAD/=0.AND.J<NSN4)
               J=J+1
               IF(CHAINE(1,IAD)==PROV_S(I))THEN
-                PENE(I) = ZERO 
+                PENE(I) = ZERO
                 IAD=0
               ELSE
                 IAD0=IAD
@@ -227,13 +227,13 @@ C-----------------------------------------------
             ENDDO
             IF(PENE(I)>ZERO)THEN
               K_STOK = K_STOK + 1
-                IADFIN=II_STOK+1
-                IF(IADFIN>NSN4) THEN
-                  I_MEM = 2
+              IADFIN=II_STOK+1
+              IF(IADFIN>NSN4) THEN
+                I_MEM = 2
 #include "lockoff.inc"
-                  RETURN
-                ENDIF
-                II_STOK   = IADFIN 
+                RETURN
+              ENDIF
+              II_STOK   = IADFIN
               CHAINE(1,IADFIN)=PROV_S(I)
               CHAINE(2,IADFIN)=0
               IF(ADDCM(PROV_M(I))==0)THEN
@@ -244,27 +244,27 @@ C-----------------------------------------------
             ENDIF
           ENDIF
         ENDDO
-	
+
         IF(K_STOK==0) THEN
-#include "lockoff.inc"         
+#include "lockoff.inc"
           RETURN
         ENDIF
 
-          I_STOK_FIRST = I_STOK
-          DO I=1,J_STOK
-            IF(PENE(I)>ZERO)THEN 
-              I_STOK = I_STOK + 1    
-              CAND_S(I_STOK) = PROV_S(I)    
-              CAND_M(I_STOK) = PROV_M(I)+ESHIFT   
+        I_STOK_FIRST = I_STOK
+        DO I=1,J_STOK
+          IF(PENE(I)>ZERO)THEN
+            I_STOK = I_STOK + 1
+            CAND_S(I_STOK) = PROV_S(I)
+            CAND_M(I_STOK) = PROV_M(I)+ESHIFT
 c             IFPEN(I_STOK) = 0
-            ENDIF
-          END DO
+          ENDIF
+        END DO
 
         IF (IFORM==2 .AND. I_STOK > I_STOK_FIRST) IFPEN(I_STOK_FIRST+1:I_STOK)=0
 
 C-----------------------------------------------
-#include "lockoff.inc"	
-      RETURN
+#include "lockoff.inc"
+        RETURN
       END
 
 

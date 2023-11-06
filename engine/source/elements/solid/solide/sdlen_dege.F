@@ -56,64 +56,64 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
-      INTEGER IXS(NIXS,*), IDEGE(*)
-      my_real
-     .   VOLG(*),LAT(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
+        INTEGER, INTENT(IN) :: NEL
+        INTEGER IXS(NIXS,*), IDEGE(*)
+        my_real
+     .     VOLG(*),LAT(*),
+     .     X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
+     .     Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .     Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----------DELTAX crrection for degenerated element
-      INTEGER I,IT
-      my_real
-     .   AREAM(MVSIZ), ATAX,FAC,V_G
+        INTEGER I,IT
+        my_real
+     .     AREAM(MVSIZ), ATAX,FAC,V_G
 C-----------------------------------------------
-      CALL DEGENES8(
-     1   IXS,     IDEGE,   NEL)
+        CALL DEGENES8(
+     1     IXS,     IDEGE,   NEL)
 C
-      DO I=1,NEL
+        DO I=1,NEL
 C-------due to the fact that AREA_Max*L is far from V for Dege---
-       IF(IDEGE(I) > 0) THEN
-        AREAM(I) =EM20
-C----tetra 4  ,pyrami     
-        IF (IDEGE(I)>2) THEN
-         FAC=ONE_OVER_9
-        ELSEIF (IDEGE(I)>1) THEN
-         FAC=FOURTH
-        ELSE
-         FAC=ONE
-        END IF
-		IT = 0
-        CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
-     .             Z1(I),Z2(I),Z3(I),Z4(I),AREAM(I),FAC,IT)
-        CALL IDEGE8(X5(I),X6(I),X7(I),X8(I),Y5(I),Y6(I),Y7(I),Y8(I),
-     .             Z5(I),Z6(I),Z7(I),Z8(I),AREAM(I),FAC,IT)
-        CALL IDEGE8(X1(I),X2(I),X6(I),X5(I),Y1(I),Y2(I),Y6(I),Y5(I),
-     .             Z1(I),Z2(I),Z6(I),Z5(I),AREAM(I),FAC,IT)
-        CALL IDEGE8(X2(I),X3(I),X7(I),X6(I),Y2(I),Y3(I),Y7(I),Y6(I),
-     .             Z2(I),Z3(I),Z7(I),Z6(I),AREAM(I),FAC,IT)
-        CALL IDEGE8(X3(I),X4(I),X8(I),X7(I),Y3(I),Y4(I),Y8(I),Y7(I),
-     .             Z3(I),Z4(I),Z8(I),Z7(I),AREAM(I),FAC,IT)
-        CALL IDEGE8(X4(I),X1(I),X5(I),X8(I),Y4(I),Y1(I),Y5(I),Y8(I),
-     .             Z4(I),Z1(I),Z5(I),Z8(I),AREAM(I),FAC,IT)
-C----tetra 4       
-        IF (IT ==0  ) AREAM(I)=FAC*AREAM(I)
-        IF (IDEGE(I)>3 ) THEN
-		 AREAM(I)=AREAM(I)*FAC
-         CALL DEGES4V(V_G,
-     .   X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
-     .   Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
-     .   Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
-		ELSE
-		 V_G=VOLG(I)
-		END IF
-        LAT(I) = FOUR*V_G/SQRT(AREAM(I))
+          IF(IDEGE(I) > 0) THEN
+            AREAM(I) =EM20
+C----tetra 4  ,pyrami
+            IF (IDEGE(I)>2) THEN
+              FAC=ONE_OVER_9
+            ELSEIF (IDEGE(I)>1) THEN
+              FAC=FOURTH
+            ELSE
+              FAC=ONE
+            END IF
+            IT = 0
+            CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
+     .                 Z1(I),Z2(I),Z3(I),Z4(I),AREAM(I),FAC,IT)
+            CALL IDEGE8(X5(I),X6(I),X7(I),X8(I),Y5(I),Y6(I),Y7(I),Y8(I),
+     .                 Z5(I),Z6(I),Z7(I),Z8(I),AREAM(I),FAC,IT)
+            CALL IDEGE8(X1(I),X2(I),X6(I),X5(I),Y1(I),Y2(I),Y6(I),Y5(I),
+     .                 Z1(I),Z2(I),Z6(I),Z5(I),AREAM(I),FAC,IT)
+            CALL IDEGE8(X2(I),X3(I),X7(I),X6(I),Y2(I),Y3(I),Y7(I),Y6(I),
+     .                 Z2(I),Z3(I),Z7(I),Z6(I),AREAM(I),FAC,IT)
+            CALL IDEGE8(X3(I),X4(I),X8(I),X7(I),Y3(I),Y4(I),Y8(I),Y7(I),
+     .                 Z3(I),Z4(I),Z8(I),Z7(I),AREAM(I),FAC,IT)
+            CALL IDEGE8(X4(I),X1(I),X5(I),X8(I),Y4(I),Y1(I),Y5(I),Y8(I),
+     .                 Z4(I),Z1(I),Z5(I),Z8(I),AREAM(I),FAC,IT)
+C----tetra 4
+            IF (IT ==0  ) AREAM(I)=FAC*AREAM(I)
+            IF (IDEGE(I)>3 ) THEN
+              AREAM(I)=AREAM(I)*FAC
+              CALL DEGES4V(V_G,
+     .        X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
+     .        Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
+     .        Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
+            ELSE
+              V_G=VOLG(I)
+            END IF
+            LAT(I) = FOUR*V_G/SQRT(AREAM(I))
 
-       ENDIF
-      ENDDO
-C      
-      RETURN
+          ENDIF
+        ENDDO
+C
+        RETURN
       END

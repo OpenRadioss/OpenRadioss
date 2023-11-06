@@ -35,10 +35,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
 C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
-C           ENTREE : 
+C           ENTREE :
 C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
-C           SORTIE : 
-C                    IRECT 
+C           SORTIE :
+C                    IRECT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,33 +54,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NOINT, IR, MSN, NRTNEW
-      INTEGER IRECT(4,*), ITAB(*), MSV(*),SURF_NODES(NRT,4)
-      INTEGER, DIMENSION(2*NUMNOD+1), INTENT(INOUT) ::  NTAG
-      my_real
-     .       X(3,*)
+        INTEGER NRT, NOINT, IR, MSN, NRTNEW
+        INTEGER IRECT(4,*), ITAB(*), MSV(*),SURF_NODES(NRT,4)
+        INTEGER, DIMENSION(2*NUMNOD+1), INTENT(INOUT) ::  NTAG
+        my_real
+     .         X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N23, IT, J, NSGOLD,ITG,K,IR1,K4,
-     .        N1,N2,N3,N4
-      my_real
-     .   X13,Y13,Z13,X24,Y24,Z24,D1,D2
+        INTEGER I, N23, IT, J, NSGOLD,ITG,K,IR1,K4,
+     .          N1,N2,N3,N4
+        my_real
+     .     X13,Y13,Z13,X24,Y24,Z24,D1,D2
 C=======================================================================
-      NRTNEW=0
+        NRTNEW=0
 
-      I=1                                                   
-      DO J=1,NRT
-        N1=SURF_NODES(J,1)
-        N2=SURF_NODES(J,2)
-        N3=SURF_NODES(J,3)
-        N4=SURF_NODES(J,4)
-C       IF(N4==0.OR.N4==N3)THEN 
-         NRTNEW=NRTNEW+1
-         IRECT(1,NRTNEW)=N1			     
-         IRECT(2,NRTNEW)=N2			     
-         IRECT(3,NRTNEW)=N3			     
-         IRECT(4,NRTNEW)=N4			     
+        I=1
+        DO J=1,NRT
+          N1=SURF_NODES(J,1)
+          N2=SURF_NODES(J,2)
+          N3=SURF_NODES(J,3)
+          N4=SURF_NODES(J,4)
+C       IF(N4==0.OR.N4==N3)THEN
+          NRTNEW=NRTNEW+1
+          IRECT(1,NRTNEW)=N1
+          IRECT(2,NRTNEW)=N2
+          IRECT(3,NRTNEW)=N3
+          IRECT(4,NRTNEW)=N4
 C       ELSE
 C         X13=X(1,N1)-X(1,N3)
 C         Y13=X(2,N1)-X(2,N3)
@@ -92,40 +92,40 @@ C         Z24=X(3,N2)-X(3,N4)
 C         D2=X24*X24+Y24*Y24+Z24*Z24
 C         IF(D1 <= D2)THEN
 C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N1  			
-C           IRECT(2,NRTNEW)=N2  			
-C           IRECT(3,NRTNEW)=N3  			
-C           IRECT(4,NRTNEW)=N3  			
+C           IRECT(1,NRTNEW)=N1
+C           IRECT(2,NRTNEW)=N2
+C           IRECT(3,NRTNEW)=N3
+C           IRECT(4,NRTNEW)=N3
 C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N1  			
-C           IRECT(2,NRTNEW)=N3  			
-C           IRECT(3,NRTNEW)=N3  			
-C           IRECT(4,NRTNEW)=N4  			
+C           IRECT(1,NRTNEW)=N1
+C           IRECT(2,NRTNEW)=N3
+C           IRECT(3,NRTNEW)=N3
+C           IRECT(4,NRTNEW)=N4
 C         ELSE
 C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N1  			
-C           IRECT(2,NRTNEW)=N2  			
-C           IRECT(3,NRTNEW)=N4  			
-C           IRECT(4,NRTNEW)=N4  			
+C           IRECT(1,NRTNEW)=N1
+C           IRECT(2,NRTNEW)=N2
+C           IRECT(3,NRTNEW)=N4
+C           IRECT(4,NRTNEW)=N4
 C           NRTNEW=NRTNEW+1
-C           IRECT(1,NRTNEW)=N2  			
-C           IRECT(2,NRTNEW)=N3  			
-C           IRECT(3,NRTNEW)=N4  			
-C           IRECT(4,NRTNEW)=N4  			
+C           IRECT(1,NRTNEW)=N2
+C           IRECT(2,NRTNEW)=N3
+C           IRECT(3,NRTNEW)=N4
+C           IRECT(4,NRTNEW)=N4
 C         END IF
-c       END IF                                          
-      ENDDO                                                 
-C-------          
-      IF(IPRI>=1) THEN                                              
-        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'  
-        K=1                                                           
-        K4=4                                                          
-        IF(N2D/=0)K4=2                                              
-        DO I=1,NRTNEW                                                    
-          WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)             
-        ENDDO                                                         
-      ENDIF                                                           
-      IF (NRTNEW/=0) CALL COUNT3(IRECT,MSV,MSN,NRTNEW,NTAG)                         
+c       END IF
+        ENDDO
+C-------
+        IF(IPRI>=1) THEN
+          WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'
+          K=1
+          K4=4
+          IF(N2D/=0)K4=2
+          DO I=1,NRTNEW
+            WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)
+          ENDDO
+        ENDIF
+        IF (NRTNEW/=0) CALL COUNT3(IRECT,MSV,MSN,NRTNEW,NTAG)
 C------------------------------------------------------------
-      RETURN
+        RETURN
       END

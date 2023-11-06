@@ -27,9 +27,9 @@ Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_e
 Chd|-- calls ---------------
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
-        SUBROUTINE SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)
+      SUBROUTINE SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)
 !$COMMENT
 !       SPMD_CELL_SIZE_EXCHANGE_INIT description :
 !       initialization of buffer size + allocation
@@ -63,8 +63,8 @@ C-----------------------------------------------
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C----------------------------------------------- 
-#ifdef MPI        
+C-----------------------------------------------
+#ifdef MPI
         INTEGER :: I,J,NOD,L,L2,KK,IJK,KJI
         INTEGER :: P,P_LOC
         INTEGER :: ADRESS,SHIFT_
@@ -72,7 +72,7 @@ C-----------------------------------------------
         INTEGER :: NSN,NMN,IGAP,INTTH,INTFRIC,ITYP,ITIED
         INTEGER :: IFQ,INACTI
         INTEGER :: LOC_PROC
-!   --------------------------------------------------------------------     
+!   --------------------------------------------------------------------
 
         LOC_PROC = ISPMD + 1
         SORT_COMM(NIN)%RSIZ = 0
@@ -89,73 +89,73 @@ C-----------------------------------------------
         IFQ =IPARI(31,NIN)
 
         IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.ITIED/=0) THEN
-            IF(.NOT.ALLOCATED(INTER_STRUCT(NIN)%NSNFIOLD) ) THEN
-                ALLOCATE(INTER_STRUCT(NIN)%NSNFIOLD(NSPMD))
-                INTER_STRUCT(NIN)%NSNFIOLD(1:NSPMD) = 0
-            ENDIF
-            DO P = 1, NSPMD
-                INTER_STRUCT(NIN)%NSNFIOLD(P) = NSNFI(NIN)%P(P)
-            END DO
+          IF(.NOT.ALLOCATED(INTER_STRUCT(NIN)%NSNFIOLD) ) THEN
+            ALLOCATE(INTER_STRUCT(NIN)%NSNFIOLD(NSPMD))
+            INTER_STRUCT(NIN)%NSNFIOLD(1:NSPMD) = 0
+          ENDIF
+          DO P = 1, NSPMD
+            INTER_STRUCT(NIN)%NSNFIOLD(P) = NSNFI(NIN)%P(P)
+          END DO
         END IF
         SORT_COMM(NIN)%NBSEND_NB = 0
         SORT_COMM(NIN)%NBRECV_NB = 0
 
         IF(IRCVFROM(NIN,LOC_PROC)/=0.OR.ISENDTO(NIN,LOC_PROC)/=0) THEN
 
-            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_NB_R)) THEN
-                ALLOCATE(SORT_COMM(NIN)%REQUEST_NB_R(NSPMD) )
-            ENDIF
-            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_NB_S)) THEN
-                ALLOCATE(SORT_COMM(NIN)%REQUEST_NB_S(NSPMD) )
-            ENDIF
-            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%NB)) THEN
-                ALLOCATE(SORT_COMM(NIN)%NB(NSPMD) )
-                SORT_COMM(NIN)%NB(1:NSPMD) = 0
-            ENDIF
-            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%INDEX_RCV)) THEN
-                ALLOCATE( SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%PROC_NUMBER) )
-            ENDIF
-        
-            RSIZ = 8    
-            ISIZ = 6
+          IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_NB_R)) THEN
+            ALLOCATE(SORT_COMM(NIN)%REQUEST_NB_R(NSPMD) )
+          ENDIF
+          IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_NB_S)) THEN
+            ALLOCATE(SORT_COMM(NIN)%REQUEST_NB_S(NSPMD) )
+          ENDIF
+          IF(.NOT.ALLOCATED(SORT_COMM(NIN)%NB)) THEN
+            ALLOCATE(SORT_COMM(NIN)%NB(NSPMD) )
+            SORT_COMM(NIN)%NB(1:NSPMD) = 0
+          ENDIF
+          IF(.NOT.ALLOCATED(SORT_COMM(NIN)%INDEX_RCV)) THEN
+            ALLOCATE( SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%PROC_NUMBER) )
+          ENDIF
 
-c specific cases 
+          RSIZ = 8
+          ISIZ = 6
+
+c specific cases
 c IGAP=1 or IGAP=2
-            IF(IGAP==1 .OR. IGAP==2)THEN
-                RSIZ = RSIZ + 1
-c IGAP=3	
-            ELSEIF(IGAP==3)THEN
-                RSIZ = RSIZ + 2
-            ENDIF
+          IF(IGAP==1 .OR. IGAP==2)THEN
+            RSIZ = RSIZ + 1
+c IGAP=3
+          ELSEIF(IGAP==3)THEN
+            RSIZ = RSIZ + 2
+          ENDIF
 
-C thermic      
-            IF(INTTH > 0 ) THEN    
-                RSIZ = RSIZ + 2
-	            ISIZ = ISIZ + 1
-            ENDIF
-C Friction      
-            IF(INTFRIC > 0 ) THEN    
-	            ISIZ = ISIZ + 1
-            ENDIF
+C thermic
+          IF(INTTH > 0 ) THEN
+            RSIZ = RSIZ + 2
+            ISIZ = ISIZ + 1
+          ENDIF
+C Friction
+          IF(INTFRIC > 0 ) THEN
+            ISIZ = ISIZ + 1
+          ENDIF
 
-C -- IDTMINS==2      
-            IF(IDTMINS == 2)THEN     
-                ISIZ = ISIZ + 2
-C -- IDTMINS_INT /= 0		
-            ELSEIF(IDTMINS_INT/=0)THEN    
-                ISIZ = ISIZ + 1
-            END IF
+C -- IDTMINS==2
+          IF(IDTMINS == 2)THEN
+            ISIZ = ISIZ + 2
+C -- IDTMINS_INT /= 0
+          ELSEIF(IDTMINS_INT/=0)THEN
+            ISIZ = ISIZ + 1
+          END IF
 
-            SORT_COMM(NIN)%RSIZ = RSIZ
-            SORT_COMM(NIN)%ISIZ = ISIZ
+          SORT_COMM(NIN)%RSIZ = RSIZ
+          SORT_COMM(NIN)%ISIZ = ISIZ
 
-            IF(ISENDTO(NIN,LOC_PROC)>0) THEN
-                IF(.NOT.ALLOCATED(SORT_COMM(NIN)%SEND_NB)) ALLOCATE(SORT_COMM(NIN)%SEND_NB(NSPMD))
-            ENDIF
-            IF(IRCVFROM(NIN,LOC_PROC)>0) THEN
-                IF(.NOT.ALLOCATED(SORT_COMM(NIN)%RECV_NB)) ALLOCATE(SORT_COMM(NIN)%RECV_NB(NSPMD))
-            ENDIF
+          IF(ISENDTO(NIN,LOC_PROC)>0) THEN
+            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%SEND_NB)) ALLOCATE(SORT_COMM(NIN)%SEND_NB(NSPMD))
+          ENDIF
+          IF(IRCVFROM(NIN,LOC_PROC)>0) THEN
+            IF(.NOT.ALLOCATED(SORT_COMM(NIN)%RECV_NB)) ALLOCATE(SORT_COMM(NIN)%RECV_NB(NSPMD))
+          ENDIF
         ENDIF
 #endif
         RETURN
-        END SUBROUTINE SPMD_CELL_SIZE_EXCHANGE_INIT
+      END SUBROUTINE SPMD_CELL_SIZE_EXCHANGE_INIT

@@ -28,11 +28,11 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE Q4VOLI2(VOLU,IXQ, 
-     .     NGL, AIRE, 
-     .     Y1, Y2, Y3, Y4, 
+      SUBROUTINE Q4VOLI2(VOLU,IXQ,
+     .     NGL, AIRE,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4,Y234,Y124)
-      USE MESSAGE_MOD
+        USE MESSAGE_MOD
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,66 +50,66 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXQ(NIXQ,*), NGL(*)
-      my_real
-     .   VOLU(*), AIRE(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*),
-     .   Z1(*), Z2(*), Z3(*), Z4(*),Y234(*),Y124(*)
+        INTEGER IXQ(NIXQ,*), NGL(*)
+        my_real
+     .     VOLU(*), AIRE(*),
+     .     Y1(*), Y2(*), Y3(*), Y4(*),
+     .     Z1(*), Z2(*), Z3(*), Z4(*),Y234(*),Y124(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real
-     .   A1(MVSIZ), A2(MVSIZ)
+        INTEGER I
+        my_real
+     .     A1(MVSIZ), A2(MVSIZ)
 C----------------------------------------------------------------------
-      DO I=LFT,LLT
-        A1(I) =Y2(I)*(Z3(I)-Z4(I))+
-     .         Y3(I)*(Z4(I)-Z2(I))+Y4(I)*(Z2(I)-Z3(I))
-        A2(I) =Y2(I)*(Z4(I)-Z1(I))+
-     .         Y4(I)*(Z1(I)-Z2(I))+Y1(I)*(Z2(I)-Z4(I))
-        AIRE(I)=(A1(I)+A2(I))* HALF
-        IF (AIRE(I)==ZERO) THEN
-           CALL ANCMSG(MSGID=227,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=IXQ(NIXQ,I))
-        ELSEIF(AIRE(I)<ZERO.AND.N2D==1) THEN
-                     CALL ANCMSG(MSGID=1228,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=NGL(I),
-     .                 PRMOD=MSG_CUMU)
-         AIRE(I) = -AIRE(I)
+        DO I=LFT,LLT
+          A1(I) =Y2(I)*(Z3(I)-Z4(I))+
+     .           Y3(I)*(Z4(I)-Z2(I))+Y4(I)*(Z2(I)-Z3(I))
+          A2(I) =Y2(I)*(Z4(I)-Z1(I))+
+     .           Y4(I)*(Z1(I)-Z2(I))+Y1(I)*(Z2(I)-Z4(I))
+          AIRE(I)=(A1(I)+A2(I))* HALF
+          IF (AIRE(I)==ZERO) THEN
+            CALL ANCMSG(MSGID=227,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=IXQ(NIXQ,I))
+          ELSEIF(AIRE(I)<ZERO.AND.N2D==1) THEN
+            CALL ANCMSG(MSGID=1228,
+     .        MSGTYPE=MSGERROR,
+     .        ANMODE=ANINFO_BLIND_1,
+     .        I1=NGL(I),
+     .        PRMOD=MSG_CUMU)
+            AIRE(I) = -AIRE(I)
+          ENDIF
+        END DO
+
+        IF(N2D==1) THEN
+          IF(JCVT==0)THEN
+            DO I=LFT,LLT
+              VOLU(I)=((Y2(I)+Y3(I)+Y4(I))*A1(I)
+     .                      +(Y1(I)+Y2(I)+Y4(I))*A2(I))*ONE_OVER_6
+            END DO
+          ELSE
+            DO I=LFT,LLT
+              VOLU(I)=(Y234(I)*A1(I)+Y124(I)*A2(I))*ONE_OVER_6
+            END DO
+          END IF
+        ELSE
+          DO I=LFT,LLT
+            VOLU(I)=AIRE(I)
+          END DO
         ENDIF
-      END DO
 
-      IF(N2D==1) THEN
-       IF(JCVT==0)THEN
         DO I=LFT,LLT
-         VOLU(I)=((Y2(I)+Y3(I)+Y4(I))*A1(I)
-     .                 +(Y1(I)+Y2(I)+Y4(I))*A2(I))*ONE_OVER_6
+          IF(VOLU(I)<=0.0)THEN
+            CALL ANCMSG(MSGID=228,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=NGL(I))
+            EXIT
+          END IF
         END DO
-       ELSE
-        DO I=LFT,LLT
-         VOLU(I)=(Y234(I)*A1(I)+Y124(I)*A2(I))*ONE_OVER_6
-        END DO
-       END IF
-      ELSE
-        DO I=LFT,LLT
-          VOLU(I)=AIRE(I)
-	END DO
-      ENDIF
 
-      DO I=LFT,LLT
-        IF(VOLU(I)<=0.0)THEN
-          CALL ANCMSG(MSGID=228,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=NGL(I))
-	  EXIT	
-        END IF
-      END DO
-
-      RETURN
+        RETURN
 
       END

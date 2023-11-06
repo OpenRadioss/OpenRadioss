@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FVBAG0                        source/airbag/fvbag0.F        
+Chd|  FVBAG0                        source/airbag/fvbag0.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        FVBAG1                        source/airbag/fvbag1.F        
-Chd|        FVBAG2                        source/airbag/fvbag2.F        
-Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
+Chd|        FVBAG1                        source/airbag/fvbag1.F
+Chd|        FVBAG2                        source/airbag/fvbag2.F
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE FVBAG0(MONVOL,  VOLMON  , X        , SENSOR_TAB, V      ,
-     .                  A     ,  NPC     , TF       , NSENSOR   ,  
+     .                  A     ,  NPC     , TF       , NSENSOR   ,
      .                  FSAV  ,  IFVMESH , ICONTACT , LGAUGE    ,
      .                  GAUGE ,  IGEO    , GEO      , PM        , IPM,
      .                  IPARG ,  IGROUPTG, IGROUPC  , ELBUF_TAB , FEXT,
@@ -51,11 +51,11 @@ C  FLAG = 2 : Scatter information from PMAIN (inc. switch to UP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE FVBAG_MOD
-      USE ELBUFDEF_MOD
-      USE FVMBAG_MESHCONTROL_MOD
-      USE H3D_MOD
-      USE SENSOR_MOD
+        USE FVBAG_MOD
+        USE ELBUFDEF_MOD
+        USE FVMBAG_MESHCONTROL_MOD
+        USE H3D_MOD
+        USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,109 +72,109 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NSENSOR
-      INTEGER, INTENT(IN) :: FLAG ! 1: gather + computations
-                   ! 2: scatter      
-      INTEGER MONVOL(SMONVOL), NPC(SNPC),IFVMESH,ICONTACT(*), LGAUGE(3,NBGAUGE), IGEO(NPROPGI,NUMGEO)
-      INTEGER IPM(NPROPMI,NUMMAT), IPARG(NPARG,NGROUP)
-      INTEGER IGROUPTG(NUMELTG), IGROUPC(NUMELC)
-      my_real VOLMON(SVOLMON), X(3,NUMNOD),V(3,NUMNOD), A(3,NUMNOD), 
-     .        TF(STF), FSAV(NTHVKI,SFSAV/NTHVKI), GAUGE(LLGAUGE,NBGAUGE), GEO(NPROPG,NUMGEO),
-     .        PM(NPROPM,NUMMAT), FEXT(3*NUMNOD)
-      TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB 
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD)   
+        INTEGER,INTENT(IN) :: NSENSOR
+        INTEGER, INTENT(IN) :: FLAG ! 1: gather + computations
+        ! 2: scatter
+        INTEGER MONVOL(SMONVOL), NPC(SNPC),IFVMESH,ICONTACT(*), LGAUGE(3,NBGAUGE), IGEO(NPROPGI,NUMGEO)
+        INTEGER IPM(NPROPMI,NUMMAT), IPARG(NPARG,NGROUP)
+        INTEGER IGROUPTG(NUMELTG), IGROUPC(NUMELC)
+        my_real VOLMON(SVOLMON), X(3,NUMNOD),V(3,NUMNOD), A(3,NUMNOD),
+     .          TF(STF), FSAV(NTHVKI,SFSAV/NTHVKI), GAUGE(LLGAUGE,NBGAUGE), GEO(NPROPG,NUMGEO),
+     .          PM(NPROPM,NUMMAT), FEXT(3*NUMNOD)
+        TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+        TYPE(H3D_DATABASE) :: H3D_DATA
+        TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+        INTEGER,INTENT(IN) :: ITAB(NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADPOLH, N, ITYP, NNFV, NTRFV, NPOLH, IFV, INFO, IDONE
-      INTEGER NJET, IADJET, RADJET, NVENT, IADHOL, RADHOL
-      INTEGER K1,  K2,  KIBJET, KIBHOL, KIBALE
-      INTEGER KK1, KK2, KRBJET, KRBHOL, KRBALE,IERR
-      INTEGER NNS, NTG, NBA, NTGA, NNA, NNI, NTGI, NNT, NTGT
-      INTEGER KI1, KI2, KI3, KI4, KI5
-      INTEGER KR1, KR2, KR3, KR4, KR5, KR6, KR7, KR8, KR9
-      INTEGER KIA1, KIA2, KIA3, KIA4, KIA5, KIA6, KIA7, KIA8
-      INTEGER KRA1, KRA2, KRA3, KRA4, KRA5, KRA6, KRA7, KRA8
-      INTEGER NSKIP, IEQUI
-      my_real CFL_COEF
+        INTEGER IADPOLH, N, ITYP, NNFV, NTRFV, NPOLH, IFV, INFO, IDONE
+        INTEGER NJET, IADJET, RADJET, NVENT, IADHOL, RADHOL
+        INTEGER K1,  K2,  KIBJET, KIBHOL, KIBALE
+        INTEGER KK1, KK2, KRBJET, KRBHOL, KRBALE,IERR
+        INTEGER NNS, NTG, NBA, NTGA, NNA, NNI, NTGI, NNT, NTGT
+        INTEGER KI1, KI2, KI3, KI4, KI5
+        INTEGER KR1, KR2, KR3, KR4, KR5, KR6, KR7, KR8, KR9
+        INTEGER KIA1, KIA2, KIA3, KIA4, KIA5, KIA6, KIA7, KIA8
+        INTEGER KRA1, KRA2, KRA3, KRA4, KRA5, KRA6, KRA7, KRA8
+        INTEGER NSKIP, IEQUI
+        my_real CFL_COEF
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 c     GAUGE(3,*)
-c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge
+c 1:  -Isolid           -(NUMELS_G+1) if SPH gauge
 c 2:  GaugeId
 c 3:  +Node or -Shell
 c
 c     => GAUGE(LLGAUGE,*), LLGAUGE = 37
-c 1:  Dist (distance from Shell)	   Dist (distance from Shell)
-c 2:  XG				   XG
-c 3:  YG				   YG
-c 4:  ZG				   ZG
-c 5:  Alpha (Solid penetration ratio)	   not yet used
-c 6:    				   XSAV (SPH sorting)
-c 7:    				   YSAV (SPH sorting)
-c 8:    				   ZSAV (SPH sorting)
-c 9:    				   FF (sph only)
-c 10:   				   intantaneous Pressure
-c 11:   				   intantaneous PA
-c 12:   				   intantaneous Rho
-c 13:   				   intantaneous E
-c 14:   				   ! Butterworth !
-c 15:   				   ! Butterworth !
-c 16:   				   ! Butterworth !
-c 17:   				   ! Butterworth !
-c 18:   				   ! Butterworth !
-c 19:   				   ! Butterworth !
-c 20:   			           ! Butterworth !
-c 21: 				           ! Butterworth !
-c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !
-c 24:   				   ! Butterworth !
-c 25:   				   ! Butterworth !
-c 26:   				   ! Butterworth !
-c 27:   				   ! Butterworth !
-c 28:   				   ! Butterworth !
-c 29:   				   ! Butterworth !
-c 30:  Pressure      		  	   filtered Pressure
-c 31:  PA            			   filtered PA
-c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E
-c 34:   				   ! Butterworth !
-c 35:   				   ! Butterworth !
-c 36:   				   ! Butterworth !
-c 37:   				   ! Butterworth !
+c 1:  Dist (distance from Shell)     Dist (distance from Shell)
+c 2:  XG           XG
+c 3:  YG           YG
+c 4:  ZG           ZG
+c 5:  Alpha (Solid penetration ratio)     not yet used
+c 6:               XSAV (SPH sorting)
+c 7:               YSAV (SPH sorting)
+c 8:               ZSAV (SPH sorting)
+c 9:               FF (sph only)
+c 10:              intantaneous Pressure
+c 11:              intantaneous PA
+c 12:              intantaneous Rho
+c 13:              intantaneous E
+c 14:              ! Butterworth !
+c 15:              ! Butterworth !
+c 16:              ! Butterworth !
+c 17:              ! Butterworth !
+c 18:              ! Butterworth !
+c 19:              ! Butterworth !
+c 20:                    ! Butterworth !
+c 21:                    ! Butterworth !
+c 22:                    ! Butterworth !
+c 23:                    ! Butterworth !
+c 24:              ! Butterworth !
+c 25:              ! Butterworth !
+c 26:              ! Butterworth !
+c 27:              ! Butterworth !
+c 28:              ! Butterworth !
+c 29:              ! Butterworth !
+c 30:  Pressure                 filtered Pressure
+c 31:  PA                     filtered PA
+c 32:  Rho                    filtered Rho
+c 33:  E                      filtered E
+c 34:              ! Butterworth !
+c 35:              ! Butterworth !
+c 36:              ! Butterworth !
+c 37:              ! Butterworth !
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      K1=1
-      K2=1+NIMV*NVOLU
-      KIBJET=K2+LICBAG
-      KIBHOL=KIBJET+LIBAGJET
-      KIBALE=KIBHOL+LIBAGHOL
-      KK1=1
-      KK2=1+NRVOLU*NVOLU
-      KRBJET=KK2+LRCBAG
-      KRBHOL=KRBJET+LRBAGJET
-      KRBALE=KRBHOL+LRBAGHOL
-      IFV=0
-      IFVMESH=0
+        K1=1
+        K2=1+NIMV*NVOLU
+        KIBJET=K2+LICBAG
+        KIBHOL=KIBJET+LIBAGJET
+        KIBALE=KIBHOL+LIBAGHOL
+        KK1=1
+        KK2=1+NRVOLU*NVOLU
+        KRBJET=KK2+LRCBAG
+        KRBHOL=KRBJET+LRBAGJET
+        KRBALE=KRBHOL+LRBAGHOL
+        IFV=0
+        IFVMESH=0
 C
-      DO N=1,NVOLU
-         ITYP=MONVOL(K1-1+2)
-         IF (ITYP == 6.OR.ITYP == 8) THEN
+        DO N=1,NVOLU
+          ITYP=MONVOL(K1-1+2)
+          IF (ITYP == 6.OR.ITYP == 8) THEN
             IFV = MONVOL(K1 -1 +45)
 C
-           IEQUI=MONVOL(K1-1+15)
-           IF(TT < VOLMON(KK1-1+49).AND.IEQUI >= 1) THEN
+            IEQUI=MONVOL(K1-1+15)
+            IF(TT < VOLMON(KK1-1+49).AND.IEQUI >= 1) THEN
               MONVOL(K1-1+39)=0
               NSKIP=MOD(NCYCLE,IEQUI)
-           ELSE
+            ELSE
               MONVOL(K1-1+39)=1
               NSKIP=0
-           ENDIF
-           IF(NSKIP >= 1 .AND. KMESH(IFV) > 1) GO TO 100
+            ENDIF
+            IF(NSKIP >= 1 .AND. KMESH(IFV) > 1) GO TO 100
 C
             IDONE=MONVOL(K1-1+57)
             IF(IDONE == 1) GO TO 100
@@ -235,9 +235,9 @@ C
             KRA8=KRA7+NTGI
 
             IF (ITYP  ==  8) THEN
-               CFL_COEF = FVDATA(IFV)%CFL_COEF
+              CFL_COEF = FVDATA(IFV)%CFL_COEF
             ELSE
-               CFL_COEF = DTFAC1(52)
+              CFL_COEF = DTFAC1(52)
             ENDIF
             IF(FLAG == 1 .AND. NSKIP < 1) THEN
               IF (MONVOL(K1+74-1) >= 0) THEN
@@ -292,19 +292,19 @@ C
      N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP)
               ENDIF
             ELSEIF (FLAG == 2) THEN
-              CALL FVBAG2(IFV       , ITYP          , NNA           , NVENT       , NJET          , 
+              CALL FVBAG2(IFV       , ITYP          , NNA           , NVENT       , NJET          ,
      .                    MONVOL(K1), MONVOL(IADHOL), VOLMON(RADHOL),
      .                    X         , VOLMON(KK1)   , VOLMON(KRA5)  , MONVOL(KIA8), VOLMON(RADJET),
      .                    A         , LGAUGE        , GAUGE         , NNT         , FEXT          ,
      .                    NSKIP     , H3D_DATA )
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-               MONVOL(K1-1+57)=1
+              MONVOL(K1-1+57)=1
             ENDIF
-         ENDIF
-  100    K1=K1+NIMV
-         KK1=KK1+NRVOLU
-      ENDDO
+          ENDIF
+  100     K1=K1+NIMV
+          KK1=KK1+NRVOLU
+        ENDDO
 C
-      RETURN
-      END 
+        RETURN
+      END

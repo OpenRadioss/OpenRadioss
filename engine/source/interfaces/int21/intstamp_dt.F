@@ -23,9 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INTSTAMP_DT                   source/interfaces/int21/intstamp_dt.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
+Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|====================================================================
       SUBROUTINE INTSTAMP_DT(
      1           INTSTAMP ,IPARI, NELTST ,ITYPTST ,DT2T,
@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTSTAMP_MOD
+        USE INTSTAMP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,106 +48,54 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), NELTST, ITYPTST, NODNX_SMS(*)
+        INTEGER IPARI(NPARI,*), NELTST, ITYPTST, NODNX_SMS(*)
 C     REAL
-      my_real
-     .   DT2T, DIAG_SMS(*), MS(*), V(3,*), STIFN(*), STIFR(*)
-      TYPE(INTSTAMP_DATA) INTSTAMP(*)
+        my_real
+     .     DT2T, DIAG_SMS(*), MS(*), V(3,*), STIFN(*), STIFR(*)
+        TYPE(INTSTAMP_DATA) INTSTAMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KDIR, NN, K, IROT, MAIN, INTDAMP
+        INTEGER KDIR, NN, K, IROT, MAIN, INTDAMP
 C     REAL
-      my_real
-     .   MASS, STF, INM, STR, ALPHA, VIS, 
-     .   C, CVIS(NINTSTAMP), CVISR(NINTSTAMP)
+        my_real
+     .     MASS, STF, INM, STR, ALPHA, VIS,
+     .     C, CVIS(NINTSTAMP), CVISR(NINTSTAMP)
 C-----------------------------------------------
-      IF(IDTMINS/=2.AND.IDTMINS_INT==0)THEN
-        DO NN=1,NINTSTAMP
-          CVIS(NN) =ZERO
-          CVISR(NN)=ZERO
-        ENDDO
-        DO NN=1,NINTSTAMP
-          INTDAMP=INTSTAMP(NN)%INTDAMP
-          MASS =INTSTAMP(NN)%MASS
-          ALPHA=INTSTAMP(NN)%DAMP
-          STF  =INTSTAMP(NN)%STF
-          C    =ALPHA*SQRT(FOUR*MASS*STF)
-          CVIS(NN)=CVIS(NN)+C
-          IF(INTDAMP/=0)THEN
-            CVIS(INTDAMP)=CVIS(INTDAMP)+C
-          END IF
-          IROT=INTSTAMP(NN)%IROT
-          IF(IROT/=0)THEN
-            INM=MIN(INTSTAMP(NN)%IN(1),
-     .              INTSTAMP(NN)%IN(2),
-     .              INTSTAMP(NN)%IN(3))
-            STR  =INTSTAMP(NN)%STR
-            ALPHA=INTSTAMP(NN)%DAMPR
-            C    =ALPHA*SQRT(FOUR*INM*STR)
-            CVISR(NN)=CVISR(NN)+C
+        IF(IDTMINS/=2.AND.IDTMINS_INT==0)THEN
+          DO NN=1,NINTSTAMP
+            CVIS(NN) =ZERO
+            CVISR(NN)=ZERO
+          ENDDO
+          DO NN=1,NINTSTAMP
+            INTDAMP=INTSTAMP(NN)%INTDAMP
+            MASS =INTSTAMP(NN)%MASS
+            ALPHA=INTSTAMP(NN)%DAMP
+            STF  =INTSTAMP(NN)%STF
+            C    =ALPHA*SQRT(FOUR*MASS*STF)
+            CVIS(NN)=CVIS(NN)+C
             IF(INTDAMP/=0)THEN
-              CVISR(INTDAMP)=CVISR(INTDAMP)+C
+              CVIS(INTDAMP)=CVIS(INTDAMP)+C
             END IF
-          END IF
-        ENDDO
-        DO NN=1,NINTSTAMP
-          INTDAMP=INTSTAMP(NN)%INTDAMP
-          MASS =INTSTAMP(NN)%MASS
-          STF  =INTSTAMP(NN)%STF
-          main =INTSTAMP(NN)%MSR
-          IF(STF/=ZERO)THEN
-            ALPHA=CVIS(NN)/SQRT(FOUR*MASS*STF)
-            STF  =STF*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
-            STIFN(MAIN)=STIFN(MAIN)+STF
-          END IF
-          IROT=INTSTAMP(NN)%IROT
-          IF(IROT/=0)THEN
-            INM=MIN(INTSTAMP(NN)%IN(1),
-     .              INTSTAMP(NN)%IN(2),
-     .              INTSTAMP(NN)%IN(3))
-            STR =INTSTAMP(NN)%STR
-            IF(STR/=ZERO)THEN
-              ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
-              STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
-              STIFR(MAIN)=STIFR(MAIN)+STR
+            IROT=INTSTAMP(NN)%IROT
+            IF(IROT/=0)THEN
+              INM=MIN(INTSTAMP(NN)%IN(1),
+     .                INTSTAMP(NN)%IN(2),
+     .                INTSTAMP(NN)%IN(3))
+              STR  =INTSTAMP(NN)%STR
+              ALPHA=INTSTAMP(NN)%DAMPR
+              C    =ALPHA*SQRT(FOUR*INM*STR)
+              CVISR(NN)=CVISR(NN)+C
+              IF(INTDAMP/=0)THEN
+                CVISR(INTDAMP)=CVISR(INTDAMP)+C
+              END IF
             END IF
-          END IF
-        ENDDO
-      ELSE
-        DO NN=1,NINTSTAMP
-          CVIS(NN) =ZERO
-          CVISR(NN)=ZERO
-        ENDDO
-        DO NN=1,NINTSTAMP
-          INTDAMP=INTSTAMP(NN)%INTDAMP
-          MASS =INTSTAMP(NN)%MASS
-          ALPHA=INTSTAMP(NN)%DAMP
-          STF  =INTSTAMP(NN)%STF
-          C    =ALPHA*SQRT(FOUR*MASS*STF)
-          CVIS(NN)=CVIS(NN)+C
-          IF(INTDAMP/=0)THEN
-            CVIS(INTDAMP)=CVIS(INTDAMP)+C
-          END IF
-          IROT=INTSTAMP(NN)%IROT
-          IF(IROT/=0)THEN
-            INM=MIN(INTSTAMP(NN)%IN(1),
-     .              INTSTAMP(NN)%IN(2),
-     .              INTSTAMP(NN)%IN(3))
-            STR  =INTSTAMP(NN)%STR
-            ALPHA=INTSTAMP(NN)%DAMPR
-            C    =ALPHA*SQRT(FOUR*INM*STR)
-            CVISR(NN)=CVISR(NN)+C
-            IF(INTDAMP/=0)THEN
-              CVISR(INTDAMP)=CVISR(INTDAMP)+C
-            END IF
-          END IF
-        ENDDO
-        DO NN=1,NINTSTAMP
-          MAIN=INTSTAMP(NN)%MSR
-          IF(NODNX_SMS(MAIN)==0)THEN
-            MASS=INTSTAMP(NN)%MASS
-            STF =INTSTAMP(NN)%STF
+          ENDDO
+          DO NN=1,NINTSTAMP
+            INTDAMP=INTSTAMP(NN)%INTDAMP
+            MASS =INTSTAMP(NN)%MASS
+            STF  =INTSTAMP(NN)%STF
+            main =INTSTAMP(NN)%MSR
             IF(STF/=ZERO)THEN
               ALPHA=CVIS(NN)/SQRT(FOUR*MASS*STF)
               STF  =STF*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
@@ -160,36 +108,88 @@ C-----------------------------------------------
      .                INTSTAMP(NN)%IN(3))
               STR =INTSTAMP(NN)%STR
               IF(STR/=ZERO)THEN
-             	ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
-             	STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
+                ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+                STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
                 STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF
-          ELSE
-C
+          ENDDO
+        ELSE
+          DO NN=1,NINTSTAMP
+            CVIS(NN) =ZERO
+            CVISR(NN)=ZERO
+          ENDDO
+          DO NN=1,NINTSTAMP
+            INTDAMP=INTSTAMP(NN)%INTDAMP
             MASS =INTSTAMP(NN)%MASS
+            ALPHA=INTSTAMP(NN)%DAMP
             STF  =INTSTAMP(NN)%STF
-            VIS  =CVIS(NN)
-C
-C stabilite des amortisseurs (masse augment e)::
-C DM=HALF*C*DTMINS/DTFACS <=> 2*DM/C=DTMINS/DTFACS 
-            DIAG_SMS(MAIN)=DIAG_SMS(MAIN)+HALF*VIS*DTMINS/DTFACS
-C
+            C    =ALPHA*SQRT(FOUR*MASS*STF)
+            CVIS(NN)=CVIS(NN)+C
+            IF(INTDAMP/=0)THEN
+              CVIS(INTDAMP)=CVIS(INTDAMP)+C
+            END IF
             IROT=INTSTAMP(NN)%IROT
             IF(IROT/=0)THEN
               INM=MIN(INTSTAMP(NN)%IN(1),
      .                INTSTAMP(NN)%IN(2),
      .                INTSTAMP(NN)%IN(3))
-              STR =INTSTAMP(NN)%STR
-              IF(STR/=ZERO)THEN
-             	ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
-             	STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
-                STIFR(MAIN)=STIFR(MAIN)+STR
+              STR  =INTSTAMP(NN)%STR
+              ALPHA=INTSTAMP(NN)%DAMPR
+              C    =ALPHA*SQRT(FOUR*INM*STR)
+              CVISR(NN)=CVISR(NN)+C
+              IF(INTDAMP/=0)THEN
+                CVISR(INTDAMP)=CVISR(INTDAMP)+C
               END IF
             END IF
-          END IF
-        ENDDO
-      END IF
+          ENDDO
+          DO NN=1,NINTSTAMP
+            MAIN=INTSTAMP(NN)%MSR
+            IF(NODNX_SMS(MAIN)==0)THEN
+              MASS=INTSTAMP(NN)%MASS
+              STF =INTSTAMP(NN)%STF
+              IF(STF/=ZERO)THEN
+                ALPHA=CVIS(NN)/SQRT(FOUR*MASS*STF)
+                STF  =STF*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
+                STIFN(MAIN)=STIFN(MAIN)+STF
+              END IF
+              IROT=INTSTAMP(NN)%IROT
+              IF(IROT/=0)THEN
+                INM=MIN(INTSTAMP(NN)%IN(1),
+     .                  INTSTAMP(NN)%IN(2),
+     .                  INTSTAMP(NN)%IN(3))
+                STR =INTSTAMP(NN)%STR
+                IF(STR/=ZERO)THEN
+                  ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+                  STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
+                  STIFR(MAIN)=STIFR(MAIN)+STR
+                END IF
+              END IF
+            ELSE
 C
-      RETURN
+              MASS =INTSTAMP(NN)%MASS
+              STF  =INTSTAMP(NN)%STF
+              VIS  =CVIS(NN)
+C
+C stabilite des amortisseurs (masse augment e)::
+C DM=HALF*C*DTMINS/DTFACS <=> 2*DM/C=DTMINS/DTFACS
+              DIAG_SMS(MAIN)=DIAG_SMS(MAIN)+HALF*VIS*DTMINS/DTFACS
+C
+              IROT=INTSTAMP(NN)%IROT
+              IF(IROT/=0)THEN
+                INM=MIN(INTSTAMP(NN)%IN(1),
+     .                  INTSTAMP(NN)%IN(2),
+     .                  INTSTAMP(NN)%IN(3))
+                STR =INTSTAMP(NN)%STR
+                IF(STR/=ZERO)THEN
+                  ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+                  STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
+                  STIFR(MAIN)=STIFR(MAIN)+STR
+                END IF
+              END IF
+            END IF
+          ENDDO
+        END IF
+C
+        RETURN
       END

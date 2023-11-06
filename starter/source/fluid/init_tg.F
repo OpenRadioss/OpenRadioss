@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INIT_TG                       source/fluid/init_tg.F        
+Chd|  INIT_TG                       source/fluid/init_tg.F
 Chd|-- called by -----------
 Chd|        HM_READ_BEM                   source/loads/bem/hm_read_bem.F
 Chd|-- calls ---------------
@@ -39,106 +39,106 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFLOW(*), IBUF(*), ELEM(3,*)
-      my_real X(3,*), AF(*), RFLOW(*), NORMAL(3,*), TA(*), COSG(*), DCP(*)
-      my_real XS, YS, ZS, XD, YD, ZD
+        INTEGER IFLOW(*), IBUF(*), ELEM(3,*)
+        my_real X(3,*), AF(*), RFLOW(*), NORMAL(3,*), TA(*), COSG(*), DCP(*)
+        my_real XS, YS, ZS, XD, YD, ZD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILVOUT, NEL, IWAVE, FREESURF
-      INTEGER N1, N2, N3, NN1, NN2, NN3, IEL, JEL
-      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
-     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,	  
-     .        NRX, NRY, NRZ, AREA2, DCS, SSP,
-     .        XC, YC, ZC, DIRX, DIRY, DIRZ
+        INTEGER ILVOUT, NEL, IWAVE, FREESURF
+        INTEGER N1, N2, N3, NN1, NN2, NN3, IEL, JEL
+        my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
+     .          XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,
+     .          NRX, NRY, NRZ, AREA2, DCS, SSP,
+     .          XC, YC, ZC, DIRX, DIRY, DIRZ
 C
-      ILVOUT  = IFLOW(17)
-      NEL     = IFLOW(6)
-      IWAVE   = IFLOW(22)
-      FREESURF= IFLOW(25)
+        ILVOUT  = IFLOW(17)
+        NEL     = IFLOW(6)
+        IWAVE   = IFLOW(22)
+        FREESURF= IFLOW(25)
 C-------------------------------------------------------------------
 C Compute Area Normal and Arrival Time
 C-------------------------------------------------------------------
-      SSP=RFLOW(2)	  
-      IF(IWAVE==1) THEN
-        XC =RFLOW(9)	  
-        YC =RFLOW(10)	  
-        ZC =RFLOW(11)
-        DCS=RFLOW(12)
-      ELSEIF(IWAVE==2) THEN
-        DIRX=RFLOW(9)
-        DIRY=RFLOW(10)
-        DIRZ=RFLOW(11)
-      ENDIF
-      DO IEL=1,NEL
-         N1=ELEM(1,IEL)
-         N2=ELEM(2,IEL)
-         N3=ELEM(3,IEL)
-         NN1=IBUF(N1)
-         NN2=IBUF(N2)
-         NN3=IBUF(N3)
-         X1=X(1,NN1)
-         X2=X(1,NN2)
-         X3=X(1,NN3)
-         Y1=X(2,NN1)
-         Y2=X(2,NN2)
-         Y3=X(2,NN3)
-         Z1=X(3,NN1)
-         Z2=X(3,NN2)
-         Z3=X(3,NN3)
+        SSP=RFLOW(2)
+        IF(IWAVE==1) THEN
+          XC =RFLOW(9)
+          YC =RFLOW(10)
+          ZC =RFLOW(11)
+          DCS=RFLOW(12)
+        ELSEIF(IWAVE==2) THEN
+          DIRX=RFLOW(9)
+          DIRY=RFLOW(10)
+          DIRZ=RFLOW(11)
+        ENDIF
+        DO IEL=1,NEL
+          N1=ELEM(1,IEL)
+          N2=ELEM(2,IEL)
+          N3=ELEM(3,IEL)
+          NN1=IBUF(N1)
+          NN2=IBUF(N2)
+          NN3=IBUF(N3)
+          X1=X(1,NN1)
+          X2=X(1,NN2)
+          X3=X(1,NN3)
+          Y1=X(2,NN1)
+          Y2=X(2,NN2)
+          Y3=X(2,NN3)
+          Z1=X(3,NN1)
+          Z2=X(3,NN2)
+          Z3=X(3,NN3)
 C  Normale
-         X12=X2-X1
-         Y12=Y2-Y1
-         Z12=Z2-Z1
-         X13=X3-X1
-         Y13=Y3-Y1
-         Z13=Z3-Z1
-         NRX=Y12*Z13-Z12*Y13
-         NRY=Z12*X13-X12*Z13
-         NRZ=X12*Y13-Y12*X13
-         AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
-         NORMAL(1,IEL)=NRX/AREA2
-         NORMAL(2,IEL)=NRY/AREA2
-         NORMAL(3,IEL)=NRZ/AREA2
-         AF(IEL)=HALF*AREA2
+          X12=X2-X1
+          Y12=Y2-Y1
+          Z12=Z2-Z1
+          X13=X3-X1
+          Y13=Y3-Y1
+          Z13=Z3-Z1
+          NRX=Y12*Z13-Z12*Y13
+          NRY=Z12*X13-X12*Z13
+          NRZ=X12*Y13-Y12*X13
+          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
+          NORMAL(1,IEL)=NRX/AREA2
+          NORMAL(2,IEL)=NRY/AREA2
+          NORMAL(3,IEL)=NRZ/AREA2
+          AF(IEL)=HALF*AREA2
 C Centroid
-         XP=THIRD*(X1+X2+X3)
-         YP=THIRD*(Y1+Y2+Y3)    
-         ZP=THIRD*(Z1+Z2+Z3)
+          XP=THIRD*(X1+X2+X3)
+          YP=THIRD*(Y1+Y2+Y3)
+          ZP=THIRD*(Z1+Z2+Z3)
 C  Arrival time
-         IF(IWAVE==1) THEN
+          IF(IWAVE==1) THEN
             DCP(IEL) = SQRT((XP-XC)**2+(YP-YC)**2+(ZP-ZC)**2)
             TA(IEL)  = (DCP(IEL)-DCS)/SSP
             COSG(IEL)= (NRX*(XP-XC)+NRY*(YP-YC)+NRZ*(ZP-ZC))/(AREA2*DCP(IEL))
             IF(FREESURF == 2) THEN
-               JEL=IEL+NEL
-               DCP(JEL) = SQRT((XP-XD)**2+(YP-YD)**2+(ZP-ZD)**2)
-               TA(JEL)  = (DCP(JEL)-DCS)/SSP
-               COSG(JEL)= (NRX*(XP-XD)+NRY*(YP-YD)+NRZ*(ZP-ZD))/(AREA2*DCP(JEL))
+              JEL=IEL+NEL
+              DCP(JEL) = SQRT((XP-XD)**2+(YP-YD)**2+(ZP-ZD)**2)
+              TA(JEL)  = (DCP(JEL)-DCS)/SSP
+              COSG(JEL)= (NRX*(XP-XD)+NRY*(YP-YD)+NRZ*(ZP-ZD))/(AREA2*DCP(JEL))
             ENDIF
-         ELSEIF(IWAVE==2) THEN
+          ELSEIF(IWAVE==2) THEN
             DCP(IEL) = (XP-XS)*DIRX+(YP-XS)*DIRY+(ZP-ZS)*DIRZ
             TA(IEL)  = DCP(IEL)/SSP
             COSG(IEL)= (NRX*DIRX+NRY*DIRY+NRZ*DIRZ)/AREA2
-         ENDIF
-      ENDDO 	  
+          ENDIF
+        ENDDO
 
-      IF(ILVOUT>=2) THEN
+        IF(ILVOUT>=2) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----1----+----2----+----3--
-         WRITE (IOUT,'(//7X,2A)') 'ELEMENT   ARRIVAL TIME        AREA     DISTANCE   DIR.COSINE     ',
-     .                            'NORMAL-X     NORMAL-Y     NORMAL-Z'
-         DO IEL = 1,NEL
+          WRITE (IOUT,'(//7X,2A)') 'ELEMENT   ARRIVAL TIME        AREA     DISTANCE   DIR.COSINE     ',
+     .                             'NORMAL-X     NORMAL-Y     NORMAL-Z'
+          DO IEL = 1,NEL
             WRITE (IOUT,'(5X,I10,7E13.5)')IEL,TA(IEL),AF(IEL),DCP(IEL),COSG(IEL),NORMAL(1,IEL),NORMAL(2,IEL),NORMAL(3,IEL)
-         ENDDO
-         IF(FREESURF == 2) THEN
+          ENDDO
+          IF(FREESURF == 2) THEN
             WRITE (IOUT,'(//7X,2A)') 'ELEMENT   ARRIVAL TIME        AREA     DISTANCE   DIR.COSINE     '
             DO IEL = 1,NEL
-               JEL=IEL+NEL
-               WRITE (IOUT,'(5X,I10,7E13.5)')IEL,TA(JEL),AF(IEL),DCP(JEL),COSG(JEL)
+              JEL=IEL+NEL
+              WRITE (IOUT,'(5X,I10,7E13.5)')IEL,TA(JEL),AF(IEL),DCP(JEL),COSG(JEL)
             ENDDO
-         ENDIF
-      ENDIF
-      RETURN
+          ENDIF
+        ENDIF
+        RETURN
       END
 
-      
+

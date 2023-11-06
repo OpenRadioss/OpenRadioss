@@ -56,108 +56,108 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NINT, NEL, IS, NELTG,NTY
-      INTEGER IRECT(4,*), IXC(NIXC,*), IXTG(NIXTG,*),
-     .        KNOD2ELC(*) ,KNOD2ELTG(*) ,NOD2ELC(*) ,NOD2ELTG(*),
-     .        IGEO(NPROPGI,*),IWORKSH(3,*)
+        INTEGER NINT, NEL, IS, NELTG,NTY
+        INTEGER IRECT(4,*), IXC(NIXC,*), IXTG(NIXTG,*),
+     .          KNOD2ELC(*) ,KNOD2ELTG(*) ,NOD2ELC(*) ,NOD2ELTG(*),
+     .          IGEO(NPROPGI,*),IWORKSH(3,*)
 C     REAL
-      my_real
-     .   GEO(NPROPG,*), PM(NPROPM,*),THK(*),PM_STACK(20,*)
+        my_real
+     .     GEO(NPROPG,*), PM(NPROPM,*),THK(*),PM_STACK(20,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, J, II, K, IAD,IGTYP, IPGMAT,IGMAT,ISUBSTACK
+        INTEGER N, J, II, K, IAD,IGTYP, IPGMAT,IGMAT,ISUBSTACK
 C     REAL
-      my_real
-     .   DXM, STM, DX, ST
+        my_real
+     .     DXM, STM, DX, ST
 C-----------------------------------------------
-      NEL=0
-      NELTG=0
-      DXM = ZERO
-      STM = ZERO
-      IPGMAT = 700
-      IF(IRECT(3,IS)==IRECT(4,IS).AND.NUMELTG/=0)THEN
-       IF(IRECT(1,IS)>NUMNOD) RETURN
-       DO 230 IAD=KNOD2ELTG(IRECT(1,IS))+1,KNOD2ELTG(IRECT(1,IS)+1)
-        N = NOD2ELTG(IAD)
-        DO 220 J=1,3
-          II=IRECT(J,IS)
-          DO 210 K=1,3
-            IF(IXTG(K+1,N)==II) GOTO 220
-  210     CONTINUE
-          GOTO 230
-  220   CONTINUE
-	IGTYP = IGEO(11,IXTG(5,N)) 
-	IF ( THK(NUMELC+N) /= ZERO .AND. IINTTHICK == 0 .AND.
-     .       (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
-	  DX=THK(NUMELC+N)
-	ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP ==52) THEN
-           DX=THK(NUMELC+N) 
-        ELSE
-          DX = GEO(1,IXTG(5,N))
+        NEL=0
+        NELTG=0
+        DXM = ZERO
+        STM = ZERO
+        IPGMAT = 700
+        IF(IRECT(3,IS)==IRECT(4,IS).AND.NUMELTG/=0)THEN
+          IF(IRECT(1,IS)>NUMNOD) RETURN
+          DO 230 IAD=KNOD2ELTG(IRECT(1,IS))+1,KNOD2ELTG(IRECT(1,IS)+1)
+            N = NOD2ELTG(IAD)
+            DO 220 J=1,3
+              II=IRECT(J,IS)
+              DO 210 K=1,3
+                IF(IXTG(K+1,N)==II) GOTO 220
+  210         CONTINUE
+              GOTO 230
+  220       CONTINUE
+            IGTYP = IGEO(11,IXTG(5,N))
+            IF ( THK(NUMELC+N) /= ZERO .AND. IINTTHICK == 0 .AND.
+     .             (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
+              DX=THK(NUMELC+N)
+            ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP ==52) THEN
+              DX=THK(NUMELC+N)
+            ELSE
+              DX = GEO(1,IXTG(5,N))
+            ENDIF
+            IGMAT = IGEO(98,IXTG(5,N))
+            IF (IXTG(1,N)>0) THEN
+              IF(IGTYP == 11 .AND. IGMAT > 0) THEN
+                ST = GEO(IPGMAT + 2 ,IXTG(5,N))
+              ELSEIF(IGTYP ==52 .OR.
+     .              ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
+                ISUBSTACK = IWORKSH(3,NUMELC + N)
+                ST = PM_STACK(2 ,ISUBSTACK)
+              ELSE
+                ST = PM(20,IXTG(1,N))
+              ENDIF
+            ELSE
+              ST = 0.
+            ENDIF
+            IF (DX>DXM) THEN
+              DXM = DX
+              NELTG = N
+              STM = ST
+            ELSEIF(DX==DXM) THEN
+              IF ((ST>=STM).OR.(STM==0.)) THEN
+                NELTG = N
+                STM = ST
+              ENDIF
+            ENDIF
+  230     CONTINUE
         ENDIF
-        IGMAT = IGEO(98,IXTG(5,N))
-        IF (IXTG(1,N)>0) THEN
-          IF(IGTYP == 11 .AND. IGMAT > 0) THEN
-            ST = GEO(IPGMAT + 2 ,IXTG(5,N)) 
-          ELSEIF(IGTYP ==52 .OR.
-     .          ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
-            ISUBSTACK = IWORKSH(3,NUMELC + N)
-             ST = PM_STACK(2 ,ISUBSTACK) 
-          ELSE
-            ST = PM(20,IXTG(1,N))
-          ENDIF  
-        ELSE
-          ST = 0.
-        ENDIF
-        IF (DX>DXM) THEN
-          DXM = DX
-          NELTG = N
-          STM = ST
-        ELSEIF(DX==DXM) THEN
-          IF ((ST>=STM).OR.(STM==0.)) THEN
-            NELTG = N
-            STM = ST
-          ENDIF
-        ENDIF	     
-  230  CONTINUE
-      ENDIF
 C
-      IF(NUMELC/=0) THEN
-       DO 430 IAD=KNOD2ELC(IRECT(1,IS))+1,KNOD2ELC(IRECT(1,IS)+1)
-        N = NOD2ELC(IAD)
-        DO 420 J=1,4
-          II=IRECT(J,IS)
-          DO 410 K=1,4
-            IF(IXC(K+1,N)==II) GOTO 420
-  410     CONTINUE
-          GOTO 430
-  420   CONTINUE
-        IGTYP = IGEO(11,IXC(6,N))
-	IF ( THK(N) /= ZERO .AND. IINTTHICK == 0 .AND.
-     .       (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
-	  DX=THK(N)
-	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP ==52) THEN
-	  DX=THK(N)
-        ELSE 
-          DX = GEO(1,IXC(6,N))
-	ENDIF
-        IF (IXC(1,N)>0) THEN
-          ST = PM(20,IXC(1,N))
-        ELSE
-          ST = ZERO
+        IF(NUMELC/=0) THEN
+          DO 430 IAD=KNOD2ELC(IRECT(1,IS))+1,KNOD2ELC(IRECT(1,IS)+1)
+            N = NOD2ELC(IAD)
+            DO 420 J=1,4
+              II=IRECT(J,IS)
+              DO 410 K=1,4
+                IF(IXC(K+1,N)==II) GOTO 420
+  410         CONTINUE
+              GOTO 430
+  420       CONTINUE
+            IGTYP = IGEO(11,IXC(6,N))
+            IF ( THK(N) /= ZERO .AND. IINTTHICK == 0 .AND.
+     .             (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
+              DX=THK(N)
+            ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP ==52) THEN
+              DX=THK(N)
+            ELSE
+              DX = GEO(1,IXC(6,N))
+            ENDIF
+            IF (IXC(1,N)>0) THEN
+              ST = PM(20,IXC(1,N))
+            ELSE
+              ST = ZERO
+            ENDIF
+            IF (DX>DXM) THEN
+              DXM = DX
+              NEL = N
+              STM = ST
+            ELSEIF(DX==DXM) THEN
+              IF ((ST>STM).OR.(STM==ZERO)) THEN
+                NEL = N
+                STM = ST
+              ENDIF
+            ENDIF
+  430     CONTINUE
         ENDIF
-        IF (DX>DXM) THEN
-          DXM = DX
-          NEL = N
-          STM = ST
-        ELSEIF(DX==DXM) THEN
-          IF ((ST>STM).OR.(STM==ZERO)) THEN
-            NEL = N
-            STM = ST
-          ENDIF
-        ENDIF	     
-  430  CONTINUE
-      ENDIF
-      RETURN
+        RETURN
       END

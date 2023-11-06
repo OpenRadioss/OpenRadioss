@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DTNODARAYL                    source/time_step/dtnodarayl.F 
+Chd|  DTNODARAYL                    source/time_step/dtnodarayl.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,35 +52,35 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      my_real , INTENT(IN) :: DT2T 
-      my_real , DIMENSION(NUMNOD), INTENT(IN) ::MS 
-      my_real , DIMENSION(NUMNOD*IRODDL), INTENT(IN) ::IN 
-      my_real , DIMENSION(NUMNOD), INTENT(INOUT) ::STIFN 
-      my_real , DIMENSION(NUMNOD*IRODDL), INTENT(INOUT) ::STIFR 
-      my_real , DIMENSION(NRDAMP,NDAMP), INTENT(IN) ::DAMPR 
+        my_real , INTENT(IN) :: DT2T
+        my_real , DIMENSION(NUMNOD), INTENT(IN) ::MS
+        my_real , DIMENSION(NUMNOD*IRODDL), INTENT(IN) ::IN
+        my_real , DIMENSION(NUMNOD), INTENT(INOUT) ::STIFN
+        my_real , DIMENSION(NUMNOD*IRODDL), INTENT(INOUT) ::STIFR
+        my_real , DIMENSION(NRDAMP,NDAMP), INTENT(IN) ::DAMPR
 C-----------------------------------------------
-      TYPE (GROUP_)  , DIMENSION(NGRNOD), INTENT(IN) :: IGRNOD
+        TYPE (GROUP_)  , DIMENSION(NGRNOD), INTENT(IN) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,ISK,IGR,ND,K,L,LL
-      my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
-     .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI     
+        INTEGER N,I,J,ISK,IGR,ND,K,L,LL
+        my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
+     .     DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
+     .     ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI
 C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
         DT0 = DTMAX
         IF (DT1>ZERO) THEN
           DT0=MIN(DT0,DT1)
-        ELSE          
-          IF (DTMI1>ZERO) DT0=MIN(DT0,DTMI1) 
+        ELSE
+          IF (DTMI1>ZERO) DT0=MIN(DT0,DTMI1)
         END IF
         DTMI2 = DTMI1/DTFAC1(11)
-c--    
+c--
         DO I=1,NDAMP
-C--       
-          IF (DAMPR(19,I)/=0) CYCLE	   	        	      	      	              
+C--
+          IF (DAMPR(19,I)/=0) CYCLE
           D_TSTART = DAMPR(17,I)
           D_TSTOP  = DAMPR(18,I)
           IF ((TT<D_TSTART).OR.(TT>D_TSTOP)) CYCLE
@@ -90,11 +90,11 @@ C--
             ND=IGRNOD(IGR)%ENTITY(J)
             DT2N(ND) = DTMAX
             IF(STIFN(ND)>EM20 .AND. MS(ND)>ZERO)THEN
-              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))		
-              DT2N(ND) = MIN(DTMAX,DT2N(ND))		
-              DTN = MIN(DT2N(ND),DTN)		
-            END IF      	       	      	      
-          END DO	    
+              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))
+              DT2N(ND) = MIN(DTMAX,DT2N(ND))
+              DTN = MIN(DT2N(ND),DTN)
+            END IF
+          END DO
           DAMPAI = MAX(DAMPR(3,I),DAMPR(5,I),DAMPR(7,I))
           DAMPAI = MAX(DAMPAI,DAMPR(9,I),DAMPR(11,I),DAMPR(13,I))
           DAMPBI = MAX(DAMPR(4,I),DAMPR(6,I),DAMPR(8,I))
@@ -107,7 +107,7 @@ C--
             DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
             BBI = DAMPBI/DTN2+HALF*DAMPAI*DTN2
             FACI = SQRT(BBI*BBI+ONE) -BBI
-          END IF      	       	      	      
+          END IF
           DO J=1,IGRNOD(IGR)%NENTITY
             ND=IGRNOD(IGR)%ENTITY(J)
             BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
@@ -117,35 +117,35 @@ C--
             END IF
             COEFF =ONE/FAC**2
             IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
-              STIFN(ND) =STIFN(ND)*COEFF		
-            END IF      	       	      	      
+              STIFN(ND) =STIFN(ND)*COEFF
+            END IF
           END DO
           IF (IRODDL/=0) THEN
             DO J=1,IGRNOD(IGR)%NENTITY
               ND=IGRNOD(IGR)%ENTITY(J)
               IF(STIFR(ND)>EM20 .AND. IN(ND)>ZERO)THEN
-                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))		
-                DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))
+                DT2N(ND) = MIN(DTMAX,DT2N(ND))
                 BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
                 FAC = SQRT(BB*BB+ONE) -BB
                 IF (FAC*DT2N(ND) < DTMI2) THEN
                   FAC = MAX(FAC,FACI)
                 END IF
                 COEFF =ONE/FAC**2
-                STIFR(ND) =STIFR(ND)*COEFF		
-              END IF      	       	      	      
-            END DO	    
-          END IF      	       	      	      
+                STIFR(ND) =STIFR(ND)*COEFF
+              END IF
+            END DO
+          END IF
         END DO !I=1,NDAMP
 C----------global damping
         IF(IDAMP>0.OR.ISTAT==3)THEN
           IF (ISTAT==3 .AND.TT > ZERO) THEN
-           DAMPA3 = TWO*BETATE/(ONE + BETATE * DT12)
+            DAMPA3 = TWO*BETATE/(ONE + BETATE * DT12)
           ELSE
-           DAMPA3 = ZERO
-          END IF 
+            DAMPA3 = ZERO
+          END IF
           DTN2 = DTMAX
-C------- still factor HALF* in another program          
+C------- still factor HALF* in another program
           ALPHA05 = HALF*(DAMPA+DAMPA3)
           BETA1 = MIN(DAMPB,DT0)
           IF (DTMI2 > ZERO) THEN
@@ -153,38 +153,38 @@ C------- still factor HALF* in another program
             DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
             BBI = BETA1/DTN2+ALPHA05*DTN2
             FACI = SQRT(BBI*BBI+ONE) -BBI
-          END IF      	       	      	      
+          END IF
           DO ND=1,NUMNOD
             COEFF =ONE
             IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
-              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))		
-              DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))
+              DT2N(ND) = MIN(DTMAX,DT2N(ND))
               BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
               FAC = SQRT(BB*BB+ONE) -BB
               IF (FAC*DT2N(ND) < DTMI2) THEN
                 FAC = MAX(FAC,FACI)
               END IF
               COEFF =ONE/FAC**2
-              STIFN(ND) =STIFN(ND)*COEFF		
-            END IF      	       	      	      
-          END DO	    
+              STIFN(ND) =STIFN(ND)*COEFF
+            END IF
+          END DO
           IF (IRODDL/=0) THEN
             DO ND=1,NUMNOD
               COEFF =ONE
               IF(STIFR(ND)>ZERO .AND. IN(ND)>ZERO)THEN
-                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))		
-                DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))
+                DT2N(ND) = MIN(DTMAX,DT2N(ND))
                 BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
                 FAC = SQRT(BB*BB+ONE) -BB
                 IF (FAC*DT2N(ND) < DTMI2) THEN
                   FAC = MAX(FAC,FACI)
                 END IF
                 COEFF =ONE/FAC**2
-                STIFR(ND) =STIFR(ND)*COEFF		
-              END IF      	       	      	      
-            END DO	    
-          END IF      	       	      	      
-        END IF 
-C        
-      RETURN 
+                STIFR(ND) =STIFR(ND)*COEFF
+              END IF
+            END DO
+          END IF
+        END IF
+C
+        RETURN
       END SUBROUTINE DTNODARAYL

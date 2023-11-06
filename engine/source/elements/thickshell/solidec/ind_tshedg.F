@@ -23,13 +23,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  IND_TSHEDG                    source/elements/thickshell/solidec/ind_tshedg.F
 Chd|-- called by -----------
-Chd|        RESOL_INIT                    source/engine/resol_init.F    
+Chd|        RESOL_INIT                    source/engine/resol_init.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_TSHEDG(ELBUF_STR,IENUNL,IXS ,IPARG )
 C=======================================================================
-      USE ELBUFDEF_MOD     
+        USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,8 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IENUNL(2,*),IXS(NIXS,*),IPARG(NPARG,NGROUP)
-      TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP), TARGET :: ELBUF_STR
+        INTEGER IENUNL(2,*),IXS(NIXS,*),IPARG(NPARG,NGROUP)
+        TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP), TARGET :: ELBUF_STR
 C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -53,234 +53,234 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
-      INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ),NEDG
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+        INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
+        INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ),NEDG
+        TYPE(G_BUFEL_) ,POINTER :: GBUF
 C     REAL
 C------ -
-      ITAG(1:NUMNOD)=0
-      NEDG = 0
-      DO NG=1,NGROUP
-       NEL=IPARG(2,NG)
-       NFT=IPARG(3,NG)
-       ITY=IPARG(5,NG)
-       ICSTR= IPARG(17,NG)
-       JHBE = IPARG(23,NG)
-       IGTYP  = IPARG(38,NG)
-       ISOLNOD= IPARG(28,NG)
-       IF (IPARG(8,NG)==1) CYCLE                                 
-       IF (ITY /= 1) CYCLE
-       IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
-         GBUF => ELBUF_STR(NG)%GBUF
-C--------only linear for the moment       
-        IF(ISOLNOD==6)THEN
-          DO I=1,NEL
- 	        N = NFT+I
-            NC(1:3,I)=IXS(2:4,N)
-            NC(4:6,I)=IXS(6:8,N)
-          ENDDO
-           DO I=1,NEL
-             IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	         N1 = NC(1,I)
- 	         N2 = NC(4,I)
-	         IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	           NEDG = NEDG + 1
-               IENUNL(1,NEDG) = N1
-               IENUNL(2,NEDG) = N2
-	           ITAG(N1)=NEDG
-	           ITAG(N2)=NEDG
-             END IF
- 	         N1 = NC(2,I)
- 	         N2 = NC(5,I)
-	         IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	           NEDG = NEDG + 1
-               IENUNL(1,NEDG) = N1
-               IENUNL(2,NEDG) = N2
-	           ITAG(N1)=NEDG
-	           ITAG(N2)=NEDG
-             END IF
- 	         N1 = NC(3,I)
- 	         N2 = NC(6,I)
-	         IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	           NEDG = NEDG + 1
-               IENUNL(1,NEDG) = N1
-               IENUNL(2,NEDG) = N2
-	           ITAG(N1)=NEDG
-	           ITAG(N2)=NEDG
-             END IF
-           ENDDO
-        ELSEIF(ISOLNOD==8)THEN
-          DO I=1,NEL
- 	        N = NFT+I
-            NC(1:8,I)=IXS(2:9,N)
-          ENDDO
-          IF (JHBE==14) THEN
-             SELECT CASE (ICSTR)
-              CASE(100)                                             
+        ITAG(1:NUMNOD)=0
+        NEDG = 0
+        DO NG=1,NGROUP
+          NEL=IPARG(2,NG)
+          NFT=IPARG(3,NG)
+          ITY=IPARG(5,NG)
+          ICSTR= IPARG(17,NG)
+          JHBE = IPARG(23,NG)
+          IGTYP  = IPARG(38,NG)
+          ISOLNOD= IPARG(28,NG)
+          IF (IPARG(8,NG)==1) CYCLE
+          IF (ITY /= 1) CYCLE
+          IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
+            GBUF => ELBUF_STR(NG)%GBUF
+C--------only linear for the moment
+            IF(ISOLNOD==6)THEN
+              DO I=1,NEL
+                N = NFT+I
+                NC(1:3,I)=IXS(2:4,N)
+                NC(4:6,I)=IXS(6:8,N)
+              ENDDO
+              DO I=1,NEL
+                IF (GBUF%IDT_TSH(I)<=0) CYCLE
+                N1 = NC(1,I)
+                N2 = NC(4,I)
+                IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                  NEDG = NEDG + 1
+                  IENUNL(1,NEDG) = N1
+                  IENUNL(2,NEDG) = N2
+                  ITAG(N1)=NEDG
+                  ITAG(N2)=NEDG
+                END IF
+                N1 = NC(2,I)
+                N2 = NC(5,I)
+                IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                  NEDG = NEDG + 1
+                  IENUNL(1,NEDG) = N1
+                  IENUNL(2,NEDG) = N2
+                  ITAG(N1)=NEDG
+                  ITAG(N2)=NEDG
+                END IF
+                N1 = NC(3,I)
+                N2 = NC(6,I)
+                IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                  NEDG = NEDG + 1
+                  IENUNL(1,NEDG) = N1
+                  IENUNL(2,NEDG) = N2
+                  ITAG(N1)=NEDG
+                  ITAG(N2)=NEDG
+                END IF
+              ENDDO
+            ELSEIF(ISOLNOD==8)THEN
+              DO I=1,NEL
+                N = NFT+I
+                NC(1:8,I)=IXS(2:9,N)
+              ENDDO
+              IF (JHBE==14) THEN
+                SELECT CASE (ICSTR)
+                 CASE(100)
+                  DO I=1,NEL
+                    IF (GBUF%IDT_TSH(I)<=0) CYCLE
+                    N1 = NC(1,I)
+                    N2 = NC(4,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(2,I)
+                    N2 = NC(3,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(5,I)
+                    N2 = NC(8,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(6,I)
+                    N2 = NC(7,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                  ENDDO
+                 CASE(10)
+                  DO I=1,NEL
+                    IF (GBUF%IDT_TSH(I)<=0) CYCLE
+                    N1 = NC(1,I)
+                    N2 = NC(5,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(2,I)
+                    N2 = NC(6,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(3,I)
+                    N2 = NC(7,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(4,I)
+                    N2 = NC(8,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                  ENDDO
+                 CASE(1)
+                  DO I=1,NEL
+                    IF (GBUF%IDT_TSH(I)<=0) CYCLE
+                    N1 = NC(1,I)
+                    N2 = NC(2,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(4,I)
+                    N2 = NC(3,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(5,I)
+                    N2 = NC(6,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                    N1 = NC(8,I)
+                    N2 = NC(7,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      IENUNL(1,NEDG) = N1
+                      IENUNL(2,NEDG) = N2
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
+                    END IF
+                  ENDDO
+                END SELECT
+              ELSEIF (JHBE==15) THEN
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	              N1 = NC(1,I)
- 	              N2 = NC(4,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
+                  N1 = NC(1,I)
+                  N2 = NC(5,I)
+                  IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                    NEDG = NEDG + 1
                     IENUNL(1,NEDG) = N1
                     IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                    ITAG(N1)=NEDG
+                    ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(2,I)
- 	              N2 = NC(3,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
+                  N1 = NC(2,I)
+                  N2 = NC(6,I)
+                  IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                    NEDG = NEDG + 1
                     IENUNL(1,NEDG) = N1
                     IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                    ITAG(N1)=NEDG
+                    ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(5,I)
- 	              N2 = NC(8,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
+                  N1 = NC(3,I)
+                  N2 = NC(7,I)
+                  IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                    NEDG = NEDG + 1
                     IENUNL(1,NEDG) = N1
                     IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                    ITAG(N1)=NEDG
+                    ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(6,I)
- 	              N2 = NC(7,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
+                  N1 = NC(4,I)
+                  N2 = NC(8,I)
+                  IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                    NEDG = NEDG + 1
                     IENUNL(1,NEDG) = N1
                     IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
-                ENDDO
-              CASE(10)                                          
-                DO I=1,NEL
-                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	              N1 = NC(1,I)
- 	              N2 = NC(5,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
- 	              N1 = NC(2,I)
- 	              N2 = NC(6,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
- 	              N1 = NC(3,I)
- 	              N2 = NC(7,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
- 	              N1 = NC(4,I)
- 	              N2 = NC(8,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                    ITAG(N1)=NEDG
+                    ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(1)                                          
-                DO I=1,NEL
-                  IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	              N1 = NC(1,I)
- 	              N2 = NC(2,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
- 	              N1 = NC(4,I)
- 	              N2 = NC(3,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
- 	              N1 = NC(5,I)
- 	              N2 = NC(6,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
- 	              N1 = NC(8,I)
- 	              N2 = NC(7,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-                    IENUNL(1,NEDG) = N1
-                    IENUNL(2,NEDG) = N2
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
-                  END IF
-                ENDDO
-             END SELECT 
-          ELSEIF (JHBE==15) THEN
-            DO I=1,NEL
-              IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	          N1 = NC(1,I)
- 	          N2 = NC(5,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-                IENUNL(1,NEDG) = N1
-                IENUNL(2,NEDG) = N2
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(2,I)
- 	          N2 = NC(6,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-                IENUNL(1,NEDG) = N1
-                IENUNL(2,NEDG) = N2
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
-              END IF
- 	          N1 = NC(3,I)
- 	          N2 = NC(7,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-                IENUNL(1,NEDG) = N1
-                IENUNL(2,NEDG) = N2
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
-              END IF
- 	          N1 = NC(4,I)
- 	          N2 = NC(8,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-                IENUNL(1,NEDG) = N1
-                IENUNL(2,NEDG) = N2
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
-              END IF
-            ENDDO
+            END IF
           END IF
-        END IF
-       END IF
-      ENDDO 
+        ENDDO
 C
-      RETURN
+        RETURN
       END

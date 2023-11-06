@@ -39,131 +39,131 @@ C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
 C   TRI sur N de CAND_N CAND_E CAND_F
-C   et elimination des noeuds en rebond 
+C   et elimination des noeuds en rebond
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_STOK,NSN,NUM_IMP,IND_IMP(*)
-      INTEGER CAND_N(*),CAND_E(*),CAND_A(*),
-     .        CAND_T
+        INTEGER I_STOK,NSN,NUM_IMP,IND_IMP(*)
+        INTEGER CAND_N(*),CAND_E(*),CAND_A(*),
+     .          CAND_T
 C     REAL
-      my_real
-     .        CAND_F(6,*),CAND_TF
+        my_real
+     .          CAND_F(6,*),CAND_TF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_ST0,N,NN,K,
-     .        IGET(I_STOK), IPUT(I_STOK)
+        INTEGER I, I_ST0,N,NN,K,
+     .          IGET(I_STOK), IPUT(I_STOK)
 C=======================================================================
 C
-      DO 100 N=1,NSN+3
- 100  CAND_A(N) = 0
+        DO 100 N=1,NSN+3
+ 100    CAND_A(N) = 0
 C=======================================================================
-C     LES NOEUDS DELETES DEVIENNENT NSN+1 
+C     LES NOEUDS DELETES DEVIENNENT NSN+1
 C=======================================================================
-      IF(NUM_IMP>0)THEN
-        DO I=1,I_STOK
-         IPUT(I)=0
-        END DO
-        DO N=1,NUM_IMP
-	  I= IND_IMP(N)
-          IPUT(I)=1
-        END DO
-        DO I=1,I_STOK
-         IF(CAND_F(1,I)==ZERO.AND.IPUT(I)==0)THEN
-          CAND_N(I) = NSN+1
-         ENDIF
-        END DO
-      ELSE
-      DO 200 I=1,I_STOK
-      IF(CAND_F(1,I)==ZERO .OR. CAND_N(I) == 0)THEN
-        CAND_N(I) = NSN+1
-      ENDIF
- 200  CONTINUE
-      ENDIF !IF(NUM_IMP>0)
+        IF(NUM_IMP>0)THEN
+          DO I=1,I_STOK
+            IPUT(I)=0
+          END DO
+          DO N=1,NUM_IMP
+            I= IND_IMP(N)
+            IPUT(I)=1
+          END DO
+          DO I=1,I_STOK
+            IF(CAND_F(1,I)==ZERO.AND.IPUT(I)==0)THEN
+              CAND_N(I) = NSN+1
+            ENDIF
+          END DO
+        ELSE
+          DO 200 I=1,I_STOK
+            IF(CAND_F(1,I)==ZERO .OR. CAND_N(I) == 0)THEN
+              CAND_N(I) = NSN+1
+            ENDIF
+ 200      CONTINUE
+        ENDIF !IF(NUM_IMP>0)
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD
+C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1]
 C=======================================================================
-      DO 300 I=1,I_STOK
-        NN = CAND_N(I) + 2
-        CAND_A(NN) = CAND_A(NN) + 1
- 300  CONTINUE
+        DO 300 I=1,I_STOK
+          NN = CAND_N(I) + 2
+          CAND_A(NN) = CAND_A(NN) + 1
+ 300    CONTINUE
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     CAND_A : ADRESSE DE CHAQUE NOEUD
+C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1]
 C=======================================================================
-      CAND_A(1) = 1
-      CAND_A(2) = 1
-      DO 400 N=3,NSN+2
- 400  CAND_A(N) = CAND_A(N) + CAND_A(N-1)
+        CAND_A(1) = 1
+        CAND_A(2) = 1
+        DO 400 N=3,NSN+2
+ 400    CAND_A(N) = CAND_A(N) + CAND_A(N-1)
 C=======================================================================
 C     IPUT(I) ADRESSE OU DOIT ALLER I
 C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NSN+1] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     APRES 500 CAND_A[1:NSN+1] : ADRESSE DES NOEUDS [1:NSN+1]
 C=======================================================================
-      DO 500 I=1,I_STOK
-        NN = CAND_N(I) + 1
-        K = CAND_A(NN)
-        IPUT(I) = K
-        IGET(K) = I
-        CAND_A(NN) = CAND_A(NN) + 1
- 500  CONTINUE
+        DO 500 I=1,I_STOK
+          NN = CAND_N(I) + 1
+          K = CAND_A(NN)
+          IPUT(I) = K
+          IGET(K) = I
+          CAND_A(NN) = CAND_A(NN) + 1
+ 500    CONTINUE
 C=======================================================================
 C     TRI DE CAND_N CAND_E CAND_F
 C     SUR N CROISSANT
 C     PERMUTATION 1 PASSE
 C=======================================================================
-      DO N=1,NUM_IMP
-       K=IND_IMP(N)
-       I = IPUT(K)
-       IND_IMP(N)=I
-      END DO
-C      
-      DO 600 K=1,I_STOK
-        I = IGET(K)
+        DO N=1,NUM_IMP
+          K=IND_IMP(N)
+          I = IPUT(K)
+          IND_IMP(N)=I
+        END DO
 C
-        CAND_T = CAND_N(K)
-        CAND_N(K) = CAND_N(I)
-        CAND_N(I) = CAND_T
+        DO 600 K=1,I_STOK
+          I = IGET(K)
 C
-        CAND_T = CAND_E(K)
-        CAND_E(K) = CAND_E(I)
-        CAND_E(I) = CAND_T
+          CAND_T = CAND_N(K)
+          CAND_N(K) = CAND_N(I)
+          CAND_N(I) = CAND_T
 C
-        CAND_TF = CAND_F(1,K)
-        CAND_F(1,K) = CAND_F(1,I)
-        CAND_F(1,I) = CAND_TF
+          CAND_T = CAND_E(K)
+          CAND_E(K) = CAND_E(I)
+          CAND_E(I) = CAND_T
 C
-        CAND_TF = CAND_F(2,K)
-        CAND_F(2,K) = CAND_F(2,I)
-        CAND_F(2,I) = CAND_TF
+          CAND_TF = CAND_F(1,K)
+          CAND_F(1,K) = CAND_F(1,I)
+          CAND_F(1,I) = CAND_TF
 C
-        CAND_TF = CAND_F(3,K)
-        CAND_F(3,K) = CAND_F(3,I)
-        CAND_F(3,I) = CAND_TF
+          CAND_TF = CAND_F(2,K)
+          CAND_F(2,K) = CAND_F(2,I)
+          CAND_F(2,I) = CAND_TF
 C
-        CAND_TF = CAND_F(4,K)
-        CAND_F(4,K) = CAND_F(4,I)
-        CAND_F(4,I) = CAND_TF
+          CAND_TF = CAND_F(3,K)
+          CAND_F(3,K) = CAND_F(3,I)
+          CAND_F(3,I) = CAND_TF
 C
-        CAND_TF = CAND_F(5,K)
-        CAND_F(5,K) = CAND_F(5,I)
-        CAND_F(5,I) = CAND_TF
+          CAND_TF = CAND_F(4,K)
+          CAND_F(4,K) = CAND_F(4,I)
+          CAND_F(4,I) = CAND_TF
 C
-        CAND_TF = CAND_F(6,K)
-        CAND_F(6,K) = CAND_F(6,I)
-        CAND_F(6,I) = CAND_TF
+          CAND_TF = CAND_F(5,K)
+          CAND_F(5,K) = CAND_F(5,I)
+          CAND_F(5,I) = CAND_TF
 C
-        IPUT(I) = IPUT(K)
-        IGET(IPUT(I)) = I
- 600  CONTINUE
+          CAND_TF = CAND_F(6,K)
+          CAND_F(6,K) = CAND_F(6,I)
+          CAND_F(6,I) = CAND_TF
+C
+          IPUT(I) = IPUT(K)
+          IGET(IPUT(I)) = I
+ 600    CONTINUE
 C=======================================================================
-C     CAND_A[NSN+1] : ADRESSE DE NSN+1 
+C     CAND_A[NSN+1] : ADRESSE DE NSN+1
 C=======================================================================
-      I_STOK = CAND_A(NSN+1) - 1
-      CAND_A(NSN+2) = CAND_A(NSN+1)
+        I_STOK = CAND_A(NSN+1) - 1
+        CAND_A(NSN+2) = CAND_A(NSN+1)
 C
 
-      RETURN
+        RETURN
       END

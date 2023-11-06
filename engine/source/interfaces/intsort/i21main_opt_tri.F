@@ -27,7 +27,7 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I21OPTCD                      source/interfaces/int21/i21optcd.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
+Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|====================================================================
       SUBROUTINE I21MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB ,NIN     ,ITASK ,
@@ -35,8 +35,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+        USE INTSTAMP_MOD
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,52 +51,52 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
-     .     NB_STOK_N(*),NB_JLT(*)
-      TYPE(INTSTAMP_DATA) INTSTAMP
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
+     .       NB_STOK_N(*),NB_JLT(*)
+        TYPE(INTSTAMP_DATA) INTSTAMP
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, I, INACTI, I_STOK, NSN, ADXLOC
+        INTEGER KK, I, INACTI, I_STOK, NSN, ADXLOC
 C     REAL
-      my_real
-     .   STARTT,GAP,STOPT, DX, DY, DZ
+        my_real
+     .     STARTT,GAP,STOPT, DX, DY, DZ
 C-----------------------------------------------
 C
-      NSN    =IPARI(5,NIN)
-      INACTI =IPARI(22,NIN)
+        NSN    =IPARI(5,NIN)
+        INACTI =IPARI(22,NIN)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        STOPT =INTBUF_TAB%VARIABLES(11)
 
-      IF(STARTT>TT) goto 999
-      IF(TT>STOPT)  goto 999
+        IF(STARTT>TT) goto 999
+        IF(TT>STOPT)  goto 999
 C
-      GAP =INTBUF_TAB%VARIABLES(2)
+        GAP =INTBUF_TAB%VARIABLES(2)
 C
-      IF(NSN > 0) THEN
-         ADXLOC = 1+3*(NSN+2)
-      ELSE
-         ADXLOC = 1
-      ENDIF
+        IF(NSN > 0) THEN
+          ADXLOC = 1+3*(NSN+2)
+        ELSE
+          ADXLOC = 1
+        ENDIF
 C
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
-       I_STOK = INTBUF_TAB%I_STOK(1)
-       CALL I21OPTCD(
-     1 INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%XSAV(ADXLOC),
-     .                                    I_STOK     ,INTBUF_TAB%IRECTM,
-     2GAP      ,INTBUF_TAB%GAP_S,IPARI(21,NIN),IPARI(5,NIN) ,INTBUF_TAB%STFNS,
-     3ITASK	   ,INTBUF_TAB%STF,INACTI   ,INTBUF_TAB%IFPEN,INTBUF_TAB%FTSAVX,
-     4INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,INTBUF_TAB%PENIS,NIN   ,INTBUF_TAB%VARIABLES(16),
-     5IPARI(39,NIN),INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%VARIABLES(23),
-     .  					  INTBUF_TAB%NOD_NORMAL,
-     6INTBUF_TAB%XM0,INTBUF_TAB%VARIABLES(32),NB_STOK_N,NB_JLT,INTBUF_TAB%VARIABLES(46))
+        I_STOK = INTBUF_TAB%I_STOK(1)
+        CALL I21OPTCD(
+     1  INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%XSAV(ADXLOC),
+     .                                     I_STOK     ,INTBUF_TAB%IRECTM,
+     2  GAP      ,INTBUF_TAB%GAP_S,IPARI(21,NIN),IPARI(5,NIN) ,INTBUF_TAB%STFNS,
+     3  ITASK     ,INTBUF_TAB%STF,INACTI   ,INTBUF_TAB%IFPEN,INTBUF_TAB%FTSAVX,
+     4  INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,INTBUF_TAB%PENIS,NIN   ,INTBUF_TAB%VARIABLES(16),
+     5  IPARI(39,NIN),INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%VARIABLES(23),
+     .   INTBUF_TAB%NOD_NORMAL,
+     6  INTBUF_TAB%XM0,INTBUF_TAB%VARIABLES(32),NB_STOK_N,NB_JLT,INTBUF_TAB%VARIABLES(46))
 C-----------------------------------------------------------
 C
   999   continue
-      RETURN
+        RETURN
       END

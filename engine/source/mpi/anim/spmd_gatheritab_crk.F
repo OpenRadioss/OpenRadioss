@@ -26,11 +26,11 @@ Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
+Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
-       SUBROUTINE SPMD_GATHERITAB_CRK(ICRK,NUM,IDMAXNOD,NODGLOBXFE)
+      SUBROUTINE SPMD_GATHERITAB_CRK(ICRK,NUM,IDMAXNOD,NODGLOBXFE)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+        USE CRACKXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,73 +47,73 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER ICRK,NUM,IDMAXNOD,NODGLOBXFE(*)
+        INTEGER ICRK,NUM,IDMAXNOD,NODGLOBXFE(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,STEP
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,STEP
 
 C   Tableau utilise par proc 0
-       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IBUF
-       INTEGER, DIMENSION(:),ALLOCATABLE :: XGLOB
+        INTEGER, DIMENSION(:,:),ALLOCATABLE :: IBUF
+        INTEGER, DIMENSION(:),ALLOCATABLE :: XGLOB
 C-----------------------------------------------
-      DATA MSGOFF/7068/
+        DATA MSGOFF/7068/
 C-----------------------------------------------
-       ALLOCATE(IBUF(2,NCRKNODG))
-       ALLOCATE(XGLOB(NUM))
+        ALLOCATE(IBUF(2,NCRKNODG))
+        ALLOCATE(XGLOB(NUM))
 
-       IF(ISPMD /= 0)THEN
-         SIZ = 0
-         STEP = 0
-         DO I=1,CRKNOD(ICRK)%CRKNUMNODS
-           SIZ = SIZ + 1
-           STEP = CRKNOD(ICRK)%CRKNUMNODS*(ICRK-1)
-           IBUF(1,SIZ) = NODGLOBXFE(I+STEP)
-           IBUF(2,SIZ) = CRKNOD(ICRK)%XFECRKNODID(I)+IDMAXNOD
-         END DO
+        IF(ISPMD /= 0)THEN
+          SIZ = 0
+          STEP = 0
+          DO I=1,CRKNOD(ICRK)%CRKNUMNODS
+            SIZ = SIZ + 1
+            STEP = CRKNOD(ICRK)%CRKNUMNODS*(ICRK-1)
+            IBUF(1,SIZ) = NODGLOBXFE(I+STEP)
+            IBUF(2,SIZ) = CRKNOD(ICRK)%XFECRKNODID(I)+IDMAXNOD
+          END DO
 C
-         MSGTYP = MSGOFF
-         CALL MPI_SEND(IBUF,2*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .                 MPI_COMM_WORLD,ierror)
-       ELSE
-C proc 0 
-       STEP = 0
-        DO I=1,CRKNOD(ICRK)%CRKNUMNODS
-          STEP = CRKNOD(ICRK)%CRKNUMNODS*(ICRK-1)
-          NG = NODGLOBXFE(I+STEP)
-          XGLOB(NG) = CRKNOD(ICRK)%XFECRKNODID(I)+IDMAXNOD
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(IBUF,2*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .                  MPI_COMM_WORLD,ierror)
+        ELSE
+C proc 0
+          STEP = 0
+          DO I=1,CRKNOD(ICRK)%CRKNUMNODS
+            STEP = CRKNOD(ICRK)%CRKNUMNODS*(ICRK-1)
+            NG = NODGLOBXFE(I+STEP)
+            XGLOB(NG) = CRKNOD(ICRK)%XFECRKNODID(I)+IDMAXNOD
 cc          CALL WRITE_I_C(XGLOB(NG),1)
-        ENDDO
-C all the rest procs
-        DO I=2,NSPMD
-C   Reception du buffer entier des adresses NODGLOB
-          MSGTYP = MSGOFF 
-          CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                   MPI_COMM_WORLD,STATUS,ierror)
-	  CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
-          CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
-C         
-          NREC = SIZ/2
-          DO K = 1, NREC
-            NG = IBUF(1,K)
-            XGLOB(NG) = IBUF(2,K)
-cc            CALL WRITE_I_C(XGLOB(NG),1)
           ENDDO
-        ENDDO ! DO I=2,NSPMD
+C all the rest procs
+          DO I=2,NSPMD
+C   Reception du buffer entier des adresses NODGLOB
+            MSGTYP = MSGOFF
+            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
+     .                     MPI_COMM_WORLD,STATUS,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     .                    MPI_COMM_WORLD,STATUS,ierror)
+C
+            NREC = SIZ/2
+            DO K = 1, NREC
+              NG = IBUF(1,K)
+              XGLOB(NG) = IBUF(2,K)
+cc            CALL WRITE_I_C(XGLOB(NG),1)
+            ENDDO
+          ENDDO ! DO I=2,NSPMD
 cc          CALL WRITE_I_C(XGLOB,NUM)
 C
-        DO I=1,NCRKNODG
-          K=I+NCRKNODG*(ICRK-1)
-          CALL WRITE_I_C(XGLOB(K),1)
-        ENDDO
+          DO I=1,NCRKNODG
+            K=I+NCRKNODG*(ICRK-1)
+            CALL WRITE_I_C(XGLOB(K),1)
+          ENDDO
 C
-       ENDIF
+        ENDIF
 C
-       DEALLOCATE(IBUF)
-       DEALLOCATE(XGLOB)
+        DEALLOCATE(IBUF)
+        DEALLOCATE(XGLOB)
 #endif
-       RETURN
-       END
+        RETURN
+      END

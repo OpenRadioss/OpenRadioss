@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  THERMEXPPI                    source/elements/beam/thermexpp.F
 Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
+Chd|        PFORC3                        source/elements/beam/pforc3.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
@@ -33,7 +33,7 @@ Chd|====================================================================
      2                  OFF    ,FOR    ,EINT       )
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+        USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,75 +50,75 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPT,NEL
-      INTEGER MAT(MVSIZ),PID(MVSIZ)
+        INTEGER NPT,NEL
+        INTEGER MAT(MVSIZ),PID(MVSIZ)
 C     REAL
-      my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*),FOR(NEL,3), EINT(NEL,2),
-     .   OFF(*), AL(*),ETH(NEL)
+        my_real
+     .     PM(NPROPM,*), GEO(NPROPG,*),FOR(NEL,3), EINT(NEL,2),
+     .     OFF(*), AL(*),ETH(NEL)
 C
-      TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+        TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
-      INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
-     .        IR,IS,ILAYER,II(3)
+        INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
+        INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
+     .          IR,IS,ILAYER,II(3)
 C     REAL
-      my_real
-     .  E, SIGNXX,DFXX,APT
+        my_real
+     .    E, SIGNXX,DFXX,APT
 C
-      TYPE(L_BUFEL_),POINTER :: LBUF  
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+        TYPE(L_BUFEL_),POINTER :: LBUF
+        TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================
-!   
-   
+!
+
 C-------------------------------------
 C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
 C--------------------------------------
-C             
-      IPA  = 400  
-      DO I=1,3
-        II(I) = NEL*(I-1)
-      ENDDO 
-      DO IPT= 1,NPT
-        ILAYER=1
-        IR = 1
-        IS = 1
-        LBUF => ELBUF_STR%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
-        BUFLY => ELBUF_STR%BUFLY(ILAYER)
+C
+        IPA  = 400
+        DO I=1,3
+          II(I) = NEL*(I-1)
+        ENDDO
+        DO IPT= 1,NPT
+          ILAYER=1
+          IR = 1
+          IS = 1
+          LBUF => ELBUF_STR%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
+          BUFLY => ELBUF_STR%BUFLY(ILAYER)
 c---    Total strain
-C 
-        IF (BUFLY%L_STRA > 0) THEN
-          DO I= 1,NEL
-            LBUF%STRA(II(1)+I) = LBUF%STRA(II(1)+I) + ETH(I)
-          ENDDO
-        ENDIF        
+C
+          IF (BUFLY%L_STRA > 0) THEN
+            DO I= 1,NEL
+              LBUF%STRA(II(1)+I) = LBUF%STRA(II(1)+I) + ETH(I)
+            ENDDO
+          ENDIF
 C
 C---    Contraintes elastiques
 C
-        DO I =1 ,NEL             
-          MX = MAT(I)                            
-          E    = PM(20,MX)                         
-          SIGNXX =  -E*ETH(I)  
+          DO I =1 ,NEL
+            MX = MAT(I)
+            E    = PM(20,MX)
+            SIGNXX =  -E*ETH(I)
 C       FORCES ET MOMENTS
-          APT = GEO(IPA+IPT,PID(I)) 
-          DFXX = APT*SIGNXX
-          FOR(I,1) = FOR(I,1) + DFXX		 
-C                                                    
-          LBUF%SIG(II(1)+I) = LBUF%SIG(II(1)+I) + SIGNXX
-        ENDDO                                                       
+            APT = GEO(IPA+IPT,PID(I))
+            DFXX = APT*SIGNXX
+            FOR(I,1) = FOR(I,1) + DFXX
+C
+            LBUF%SIG(II(1)+I) = LBUF%SIG(II(1)+I) + SIGNXX
+          ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION
 C-------------------------------------
-       ENDDO   
+        ENDDO
 C-----------
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  THERMEXPPG                    source/elements/beam/thermexpp.F
 Chd|-- called by -----------
-Chd|        PFORC3                        source/elements/beam/pforc3.F 
+Chd|        PFORC3                        source/elements/beam/pforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE THERMEXPPG(
@@ -139,25 +139,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,MAT(MVSIZ),PID(MVSIZ)
+        INTEGER NEL,MAT(MVSIZ),PID(MVSIZ)
 C     REAL
-      my_real
-     .   PM(NPROPM,*), FOR(NEL,3),  EINT(NEL,2), GEO(NPROPG,*),
-     .   OFF(*),AL(MVSIZ),ETH(NEL)
+        my_real
+     .     PM(NPROPM,*), FOR(NEL,3),  EINT(NEL,2), GEO(NPROPG,*),
+     .     OFF(*),AL(MVSIZ),ETH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+        INTEGER I, J
 C     REAL
-      my_real
-     .   YM,A1
+        my_real
+     .     YM,A1
 C-----------------------------------------------
-      DO I=1,NEL
-        YM  =PM(20,MAT(I))
-        A1  =GEO(1,PID(I))
-        FOR(I,1) = (FOR(I,1)  - ETH(I)*A1*YM )*OFF(I)   
+        DO I=1,NEL
+          YM  =PM(20,MAT(I))
+          A1  =GEO(1,PID(I))
+          FOR(I,1) = (FOR(I,1)  - ETH(I)*A1*YM )*OFF(I)
 !!        EINT(I,1) = EINT(I,1) - FOR(I,1)*ETH(I)*AL(I)*HALF*OFF(I)
-      ENDDO             
+        ENDDO
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

@@ -27,7 +27,7 @@ Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-       SUBROUTINE SPMD_GATHERF(V,WEIGHT,NODGLOB,NUM)
+      SUBROUTINE SPMD_GATHERF(V,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,55 +45,55 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       REAL
-     .   V(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+        REAL
+     .    V(*)
+        INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
+        INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      DATA MSGOFF/7014/
-      DATA MSGOFF2/7015/
-       REAL, DIMENSION(:) , ALLOCATABLE :: BUFSR
-       INTEGER, DIMENSION(:) , ALLOCATABLE :: IBUF
+        DATA MSGOFF/7014/
+        DATA MSGOFF2/7015/
+        REAL, DIMENSION(:) , ALLOCATABLE :: BUFSR
+        INTEGER, DIMENSION(:) , ALLOCATABLE :: IBUF
 C   Tableau utilise par proc 0
-       REAL, DIMENSION(:) , ALLOCATABLE :: XGLOB
+        REAL, DIMENSION(:) , ALLOCATABLE :: XGLOB
 C=======================================================================
-       ALLOCATE(BUFSR(NUMNODM), IBUF(NUMNODM))
-       ALLOCATE(XGLOB(NUM))
-  
-          XGLOB = 1000000
-          bufsr = 100000      
-  
-       IF (ISPMD/=0) THEN     
-         SIZ = 0
-         DO I=1,NUMNOD
-           IF (WEIGHT(I)==1) THEN
-             SIZ = SIZ + 1
-             IBUF(SIZ) = NODGLOB(I)
-             BUFSR(SIZ) = V(I) 
-           END IF
-         END DO 
+        ALLOCATE(BUFSR(NUMNODM), IBUF(NUMNODM))
+        ALLOCATE(XGLOB(NUM))
+
+        XGLOB = 1000000
+        bufsr = 100000
+
+        IF (ISPMD/=0) THEN
+          SIZ = 0
+          DO I=1,NUMNOD
+            IF (WEIGHT(I)==1) THEN
+              SIZ = SIZ + 1
+              IBUF(SIZ) = NODGLOB(I)
+              BUFSR(SIZ) = V(I)
+            END IF
+          END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2
-         CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF2
+          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFSR,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+          MSGTYP = MSGOFF
+          CALL MPI_SEND(BUFSR,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
+     .      MPI_COMM_WORLD,ierror)
 
-       ELSE
+        ELSE
           siz = 0
           DO I=1,NUMNOD
-            IF (WEIGHT(I)==1) THEN 
+            IF (WEIGHT(I)==1) THEN
               siz = siz +1
               NG = NODGLOB(I)
               XGLOB(NG) = V(I)
@@ -103,23 +103,23 @@ C   de noeuds au max
           DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
+            CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
 C   Reception du buffer flottant des adresses NODGLOB
 
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ
- 
+
             DO K = 1, NREC
               NG = IBUF(K)
               XGLOB(NG) = BUFSR(K)
@@ -127,9 +127,9 @@ C   Reception du buffer flottant des adresses NODGLOB
           ENDDO
           CALL WRITE_R_C(XGLOB,NUMNODG)
 
-       ENDIF
-       DEALLOCATE(BUFSR,IBUF,XGLOB)
+        ENDIF
+        DEALLOCATE(BUFSR,IBUF,XGLOB)
 
 #endif
-       RETURN
-       END
+        RETURN
+      END

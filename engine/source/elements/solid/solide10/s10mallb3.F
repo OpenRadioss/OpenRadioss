@@ -40,54 +40,54 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: ISMSTR
-      INTEGER, INTENT(IN) :: JLAG
-      INTEGER NEL
-      my_real
-     .   OFFG(*),WXX(*),WYY(*),WZZ(*)
-      DOUBLE PRECISION 
-     .   SAV(NEL,30)
+        INTEGER, INTENT(IN) :: ISMSTR
+        INTEGER, INTENT(IN) :: JLAG
+        INTEGER NEL
+        my_real
+     .     OFFG(*),WXX(*),WYY(*),WZZ(*)
+        DOUBLE PRECISION
+     .     SAV(NEL,30)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N
+        INTEGER I, N
 C     REAL
-      DOUBLE PRECISION 
-     .   X , Y, Z 
+        DOUBLE PRECISION
+     .     X , Y, Z
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
 C-----------------------------
 C-----------------implicit sm disp option---
-      IF (ISMDISP>0) THEN
-      ELSEIF(ISMSTR<=4.AND.ISMSTR/=3.AND.JLAG>0)THEN
-        DO I=1,NEL
-         IF(OFFG(I)>ONE)THEN
+        IF (ISMDISP>0) THEN
+        ELSEIF(ISMSTR<=4.AND.ISMSTR/=3.AND.JLAG>0)THEN
+          DO I=1,NEL
+            IF(OFFG(I)>ONE)THEN
 C-----------------------------------------------
-          DO N=1,10
-            X=SAV(I,N)
-            Y=SAV(I,N+10)
-            Z=SAV(I,N+20)
-            SAV(I,N)	= X - Y*WZZ(I) + Z*WYY(I)
-            SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
-            SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I) 
+              DO N=1,10
+                X=SAV(I,N)
+                Y=SAV(I,N+10)
+                Z=SAV(I,N+20)
+                SAV(I,N)  = X - Y*WZZ(I) + Z*WYY(I)
+                SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
+                SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I)
+              END DO
+            ENDIF
           END DO
-         ENDIF
-        END DO
-      ELSEIF(ISMSTR==11)THEN
-        DO I=1,NEL
-         IF(OFFG(I)>ZERO) THEN
-          DO N=1,10
-            X=SAV(I,N)
-            Y=SAV(I,N+10)
-            Z=SAV(I,N+20)
-            SAV(I,N)	= X - Y*WZZ(I) + Z*WYY(I)
-            SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
-            SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I) 
+        ELSEIF(ISMSTR==11)THEN
+          DO I=1,NEL
+            IF(OFFG(I)>ZERO) THEN
+              DO N=1,10
+                X=SAV(I,N)
+                Y=SAV(I,N+10)
+                Z=SAV(I,N+20)
+                SAV(I,N)  = X - Y*WZZ(I) + Z*WYY(I)
+                SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
+                SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I)
+              END DO
+            END IF!(OFFG(I)>ZERO) THEN
           END DO
-         END IF!(OFFG(I)>ZERO) THEN
-        END DO
-      ENDIF
+        ENDIF
 C
-      RETURN
+        RETURN
       END

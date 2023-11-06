@@ -25,7 +25,7 @@ Chd|  FXBSYS                        source/constraints/fxbody/fxbsys.F
 Chd|-- called by -----------
 Chd|        FXBODVP1                      source/constraints/fxbody/fxbodvp.F
 Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
+Chd|        ARRET                         source/system/arret.F
 Chd|====================================================================
       SUBROUTINE FXBSYS(MT, ST, N)
 C-----------------------------------------------
@@ -35,33 +35,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N
-      my_real
-     .   MT(N,*), ST(*)
+        INTEGER N
+        my_real
+     .     MT(N,*), ST(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,I1,M,K,INFO,IPIV(N)
+        INTEGER I,II,I1,M,K,INFO,IPIV(N)
 #ifndef MYREAL8
-          DOUBLE PRECISION :: MTDB(N,N)
-          DOUBLE PRECISION :: STDB(N)
+        DOUBLE PRECISION :: MTDB(N,N)
+        DOUBLE PRECISION :: STDB(N)
 #endif
 C
 #ifdef WITHOUT_LINALG
-      WRITE(6,*) "Error: Lapack needed for Flexible bodies"
-      CALL FLUSH(6)
-	  CALL ARRET(5)
+        WRITE(6,*) "Error: Lapack needed for Flexible bodies"
+        CALL FLUSH(6)
+        CALL ARRET(5)
 #else
 #ifdef MYREAL8
-      CALL DGETRF(N,N,MT,N,IPIV,INFO)
-      CALL DGETRS('N',N,1,MT,N,IPIV,ST,N,INFO)
+        CALL DGETRF(N,N,MT,N,IPIV,INFO)
+        CALL DGETRS('N',N,1,MT,N,IPIV,ST,N,INFO)
 #else
-      MTDB(1:N,1:N) = MT(1:N,1:N)
-      CALL DGETRF(N,N,MTDB,N,IPIV,INFO)
-      STDB(1:N) = ST(1:N)
-      CALL DGETRS('N',N,1,MTDB,N,IPIV,STDB,N,INFO)
-      ST(1:N) = STDB(1:N)
+        MTDB(1:N,1:N) = MT(1:N,1:N)
+        CALL DGETRF(N,N,MTDB,N,IPIV,INFO)
+        STDB(1:N) = ST(1:N)
+        CALL DGETRS('N',N,1,MTDB,N,IPIV,STDB,N,INFO)
+        ST(1:N) = STDB(1:N)
 #endif
 #endif
-C      
+C
       END

@@ -39,24 +39,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
+        INTEGER NEL
 C     REAL
-      my_real
-     .  MB(NEL,6),BXX(*),BYY(*),BZZ(*),
-     .  BXY(*),BXZ(*),BYZ(*)
+        my_real
+     .    MB(NEL,6),BXX(*),BYY(*),BZZ(*),
+     .    BXY(*),BXZ(*),BYZ(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C
         DO I=1,NEL
-	  MB(I,1) = BXX(I)
-	  MB(I,2) = BYY(I)
-	  MB(I,3) = BZZ(I)
-	  MB(I,4) = BXY(I)
-	  MB(I,5) = BYZ(I)
-	  MB(I,6) = BXZ(I)
+          MB(I,1) = BXX(I)
+          MB(I,2) = BYY(I)
+          MB(I,3) = BZZ(I)
+          MB(I,4) = BXY(I)
+          MB(I,5) = BYZ(I)
+          MB(I,6) = BXZ(I)
         END DO
-C       
-      RETURN
-       END
+C
+        RETURN
+      END

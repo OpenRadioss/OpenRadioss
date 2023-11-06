@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,47 +50,47 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK,
-     .        IPARI(NPARI,NINTER),DELTA_PMAX_GAP_NODE,ITAB(*)
+        INTEGER NIN,ITASK,
+     .          IPARI(NPARI,NINTER),DELTA_PMAX_GAP_NODE,ITAB(*)
 C     REAL
-      my_real 
-     .   X(3,*), V(3,*),DELTA_PMAX_GAP,PMAX_GAP,
-     .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
-     .   DELTA_PMAX_DGAP
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        my_real
+     .     X(3,*), V(3,*),DELTA_PMAX_GAP,PMAX_GAP,
+     .     XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
+     .     DELTA_PMAX_DGAP
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEDGE,INTPLY
+        INTEGER IEDGE,INTPLY
 C     REAL
-      my_real
-     .   STARTT, STOPT, BID(1)
-      INTEGER :: NMN,NSN
+        my_real
+     .     STARTT, STOPT, BID(1)
+        INTEGER :: NMN,NSN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
-      NSN   =IPARI(5,NIN)
-      NMN   =IPARI(6,NIN)
-      IEDGE =IPARI(58,NIN)
-      INTPLY =IPARI(66,NIN)
+        NSN   =IPARI(5,NIN)
+        NMN   =IPARI(6,NIN)
+        IEDGE =IPARI(58,NIN)
+        INTPLY =IPARI(66,NIN)
 C
 C OW CALCUL DU CRITERE DE TRI : OPTIMISER avec NSN = IPARI(5,NIN) - NSNE
 
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
+        STARTT=INTBUF_TAB%VARIABLES(3)
+        STOPT =INTBUF_TAB%VARIABLES(11)
+        IF(STARTT>TT) RETURN
+        IF(TT>STOPT)  RETURN
 C
 C test temporaire pour assurer la compatibilite restart en 51d et 51e
-       IF(INTBUF_TAB%VARIABLES(16)==ZERO)INTBUF_TAB%VARIABLES(16)=EP30
-       CALL I24BUCE_CRIT(
-     1 X	    ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN	    ,NMN      ,
-     2 ITASK	    ,INTBUF_TAB%XSAV,NIN      ,INTBUF_TAB%STFNS,V     ,
-     3 XSLV_L	    ,XMSR_L	  ,VSLV_L     ,VMSR_L	,INTBUF_TAB%PENE_OLD,
-     4 INTBUF_TAB%GAP_S,INTBUF_TAB%GAPN_M,DELTA_PMAX_GAP,INTBUF_TAB%VARIABLES(23),
-     5 INTBUF_TAB%EDGE8L2,INTBUF_TAB%ISEADD,INTBUF_TAB%ISEDGE,IEDGE,INTBUF_TAB%DGAP_M,
-     6 INTBUF_TAB%DELTA_PMAX_DGAP,INTPLY  ,DELTA_PMAX_GAP_NODE,ITAB    )
+        IF(INTBUF_TAB%VARIABLES(16)==ZERO)INTBUF_TAB%VARIABLES(16)=EP30
+        CALL I24BUCE_CRIT(
+     1  X      ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN      ,NMN      ,
+     2  ITASK      ,INTBUF_TAB%XSAV,NIN      ,INTBUF_TAB%STFNS,V     ,
+     3  XSLV_L      ,XMSR_L    ,VSLV_L     ,VMSR_L  ,INTBUF_TAB%PENE_OLD,
+     4  INTBUF_TAB%GAP_S,INTBUF_TAB%GAPN_M,DELTA_PMAX_GAP,INTBUF_TAB%VARIABLES(23),
+     5  INTBUF_TAB%EDGE8L2,INTBUF_TAB%ISEADD,INTBUF_TAB%ISEDGE,IEDGE,INTBUF_TAB%DGAP_M,
+     6  INTBUF_TAB%DELTA_PMAX_DGAP,INTPLY  ,DELTA_PMAX_GAP_NODE,ITAB    )
 C
-      RETURN
+        RETURN
       END

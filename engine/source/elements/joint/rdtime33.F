@@ -51,76 +51,76 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JSMS
-      INTEGER JFT, JLT, IXR(NIXR,*), NELTST, ITYPTST,
-     .   NUVAR,JNTYP
-      my_real DT2T, STI(3,*), STIR(3,*), OFF(*), EINT(*) ,  
-     .   XKM(*),XKR(*),XCM(*),XCR(*),UMAS(*),UINER(*),
-     .   FX(*), FY(*), FZ(*), XMOM(*), YMOM(*),ZMOM(*),
-     .   ROT1(*), ROT2(*), MSRT(*), DMELRT(*),
-     .   UVAR(NUVAR,*)
+        INTEGER, INTENT(IN) :: JSMS
+        INTEGER JFT, JLT, IXR(NIXR,*), NELTST, ITYPTST,
+     .     NUVAR,JNTYP
+        my_real DT2T, STI(3,*), STIR(3,*), OFF(*), EINT(*) ,
+     .     XKM(*),XKR(*),XCM(*),XCR(*),UMAS(*),UINER(*),
+     .     FX(*), FY(*), FZ(*), XMOM(*), YMOM(*),ZMOM(*),
+     .     ROT1(*), ROT2(*), MSRT(*), DMELRT(*),
+     .     UVAR(NUVAR,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+        INTEGER I
 C     REAL
-      my_real DX(3),THETA(3),E0(MVSIZ),TH1,TH2,TH3,
-     .   DT(JLT-JFT+1), DTC(1), DTINV,  A, MASS2, IN2, DTA, DTB, MX2,
-     .   MS, IN	 
+        my_real DX(3),THETA(3),E0(MVSIZ),TH1,TH2,TH3,
+     .     DT(JLT-JFT+1), DTC(1), DTINV,  A, MASS2, IN2, DTA, DTB, MX2,
+     .     MS, IN
 C=======================================================================
 C     nodal time step
 C--------------------------------------------
-      IF((IDTMINS/=2).AND.(JNTYP==33)) NODADT = 1
+        IF((IDTMINS/=2).AND.(JNTYP==33)) NODADT = 1
 C
-      DO I=JFT,JLT
-        STI(1,I) = XKM(I) 
-        STIR(1,I) = XKR(I)
-        STI(2,I) = STI(1,I) 
-        STIR(2,I) = STIR(1,I)
-	
-C-------- Masse harmonique --------------
-        MS = (UVAR(34,I)*UVAR(35,I))/MAX(EM20,UVAR(34,I)+UVAR(35,I))
-        IN = (UVAR(36,I)*UVAR(37,I))/MAX(EM20,UVAR(36,I)+UVAR(37,I))
-				
-C-------- Node 1--------------
-	IF (MS>EM15)
-     .    STI(1,I) = ((XCM(I)+SQRT(XCM(I)**2+XKM(I)*MS))**2)/MS		
-	IF (IN>EM15)
-     .    STIR(1,I) = ((XCR(I)+SQRT(XCR(I)**2+XKR(I)*IN))**2)/IN
-     
-C-------- Node 2--------------					
-        STI(2,I) = STI(1,I) 
-        STIR(2,I) = STIR(1,I)
-	 
-      ENDDO
-C
-      IF(IDTMINS==2.AND.JSMS/=0)THEN
-C
-        DTA=DTMINS/DTFACS
-        DTB=DTA*DTA
         DO I=JFT,JLT
-         IF(OFF(I)<=ZERO) CYCLE
-          XKM(I)   = MAX(EM15,XKM(I))
-          DMELRT(I)=MAX(DMELRT(I),
-     .      XCM(I)*DTA+HALF*XKM(I)*DTB-HALF*MSRT(I))
+          STI(1,I) = XKM(I)
+          STIR(1,I) = XKR(I)
+          STI(2,I) = STI(1,I)
+          STIR(2,I) = STIR(1,I)
+
+C-------- Masse harmonique --------------
+          MS = (UVAR(34,I)*UVAR(35,I))/MAX(EM20,UVAR(34,I)+UVAR(35,I))
+          IN = (UVAR(36,I)*UVAR(37,I))/MAX(EM20,UVAR(36,I)+UVAR(37,I))
+
+C-------- Node 1--------------
+          IF (MS>EM15)
+     .        STI(1,I) = ((XCM(I)+SQRT(XCM(I)**2+XKM(I)*MS))**2)/MS
+          IF (IN>EM15)
+     .        STIR(1,I) = ((XCR(I)+SQRT(XCR(I)**2+XKR(I)*IN))**2)/IN
+
+C-------- Node 2--------------
+          STI(2,I) = STI(1,I)
+          STIR(2,I) = STIR(1,I)
+
+        ENDDO
+C
+        IF(IDTMINS==2.AND.JSMS/=0)THEN
+C
+          DTA=DTMINS/DTFACS
+          DTB=DTA*DTA
+          DO I=JFT,JLT
+            IF(OFF(I)<=ZERO) CYCLE
+            XKM(I)   = MAX(EM15,XKM(I))
+            DMELRT(I)=MAX(DMELRT(I),
+     .        XCM(I)*DTA+HALF*XKM(I)*DTB-HALF*MSRT(I))
 C
 C         MX2 = 2*(Mn+2*DeltaM)
-          MX2 =MSRT(I)+TWO*DMELRT(I)
-          DT(I)=DTFACS*
-     .      MX2 /MAX(EM15,SQRT(XCM(I)*XCM(I)+MX2*XKM(I))+XCM(I))
-          DT(I)=DTMINS
-        ENDDO
+            MX2 =MSRT(I)+TWO*DMELRT(I)
+            DT(I)=DTFACS*
+     .        MX2 /MAX(EM15,SQRT(XCM(I)*XCM(I)+MX2*XKM(I))+XCM(I))
+            DT(I)=DTMINS
+          ENDDO
 C
-        DO I=JFT,JLT
-         IF(OFF(I)<=ZERO) CYCLE
-         IF(DT(I)<DT2T) THEN
-          DT2T=DT(I)
-          NELTST =IXR(NIXR,I)
-          ITYPTST=6
-         ENDIF
-        ENDDO
+          DO I=JFT,JLT
+            IF(OFF(I)<=ZERO) CYCLE
+            IF(DT(I)<DT2T) THEN
+              DT2T=DT(I)
+              NELTST =IXR(NIXR,I)
+              ITYPTST=6
+            ENDIF
+          ENDDO
 C
-      ENDIF
+        ENDIF
 C-----------------------------------------------
-      RETURN
+        RETURN
       END

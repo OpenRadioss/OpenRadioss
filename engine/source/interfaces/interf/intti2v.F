@@ -42,7 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,13 +50,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(*), WEIGHT(*)
+        INTEGER IPARI(*), WEIGHT(*)
 C     REAL
-      my_real
-     .   X(*), V(*), A(*),
-     .   MS(*),IN(*),AR(*),VR(*)
+        my_real
+     .     X(*), V(*), A(*),
+     .     MS(*),IN(*),AR(*),VR(*)
 
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -64,98 +64,98 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSN,NMN,NRTS,NRTM,ILEV,IDEL2
+        INTEGER NSN,NMN,NRTS,NRTM,ILEV,IDEL2
 C=======================================================================
-      NRTS  = IPARI(3)
-      NRTM  = IPARI(4)
-      NSN   = IPARI(5)
-      NMN   = IPARI(6)
-      ILEV  = IPARI(20)
-      IDEL2 = IPARI(17)
+        NRTS  = IPARI(3)
+        NRTM  = IPARI(4)
+        NSN   = IPARI(5)
+        NMN   = IPARI(6)
+        ILEV  = IPARI(20)
+        IDEL2 = IPARI(17)
 C
-      IF (ILEV == 25 .or. ILEV == 26) THEN
-        CONTINUE
-      ELSEIF (ILEV == 27) THEN
-        CALL I2VIT27(INTBUF_TAB,IPARI,WEIGHT,NSN     ,
-     .                   X    ,V   ,A    ,VR   ,AR   ,
-     .                   MS  ,IN   )
+        IF (ILEV == 25 .or. ILEV == 26) THEN
+          CONTINUE
+        ELSEIF (ILEV == 27) THEN
+          CALL I2VIT27(INTBUF_TAB,IPARI,WEIGHT,NSN     ,
+     .                     X    ,V   ,A    ,VR   ,AR   ,
+     .                     MS  ,IN   )
 c
-      ELSEIF (ILEV == 28) THEN
-        CALL I2VIT28(INTBUF_TAB,IPARI,WEIGHT,NSN     ,
-     .                   X    ,V   ,A    ,VR   ,AR   ,
-     .                   MS  ,IN   )
-c            
-      ELSEIF (ILEV == 1.AND.IRODDL /= 0) THEN
+        ELSEIF (ILEV == 28) THEN
+          CALL I2VIT28(INTBUF_TAB,IPARI,WEIGHT,NSN     ,
+     .                     X    ,V   ,A    ,VR   ,AR   ,
+     .                     MS  ,IN   )
+c
+        ELSEIF (ILEV == 1.AND.IRODDL /= 0) THEN
 C
 C       FORMULATION SANS MOMENT SUR MAIN
 C
-        CALL I2VIROT3(NSN       ,NMN       ,
-     2 A         ,INTBUF_TAB%IRECTM,
-     3 INTBUF_TAB%DPARA,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     4 V         ,MS        ,AR        ,VR        ,
-     5 X         ,WEIGHT)
-      ELSEIF(ILEV == 2)THEN
+          CALL I2VIROT3(NSN       ,NMN       ,
+     2    A         ,INTBUF_TAB%IRECTM,
+     3    INTBUF_TAB%DPARA,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
+     4    V         ,MS        ,AR        ,VR        ,
+     5    X         ,WEIGHT)
+        ELSEIF(ILEV == 2)THEN
 C
 C       FORMULATION AVEC MOMENT SUR MAIN
 C
-        CALL I2VIT3(NSN       ,NMN       ,
-     2 A         ,INTBUF_TAB%IRECTM,
-     3 INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     4 V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
+          CALL I2VIT3(NSN       ,NMN       ,
+     2    A         ,INTBUF_TAB%IRECTM,
+     3    INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
+     4    V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
 C
-        IF(IRODDL /= 0)THEN
-          CALL I2ROT3(NSN       ,NMN       ,
-     2   AR        ,INTBUF_TAB%IRECTM,
-     3   INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     4   VR        ,IN        ,A         ,V         ,
-     5   X         )
-        ENDIF
+          IF(IRODDL /= 0)THEN
+            CALL I2ROT3(NSN       ,NMN       ,
+     2      AR        ,INTBUF_TAB%IRECTM,
+     3      INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
+     4      VR        ,IN        ,A         ,V         ,
+     5      X         )
+          ENDIF
 C
-      ELSEIF(ILEV == 4)THEN
+        ELSEIF(ILEV == 4)THEN
 C
 C       FORMULATION decouplant les ddl rot
 C
-        CALL I2VIT3(NSN       ,NMN       ,
-     2 A         ,INTBUF_TAB%IRECTM,
-     3 INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     4 V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
+          CALL I2VIT3(NSN       ,NMN       ,
+     2    A         ,INTBUF_TAB%IRECTM,
+     3    INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
+     4    V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
 C
-      ELSEIF (ILEV >= 10 .AND. ILEV < 23) THEN       
+        ELSEIF (ILEV >= 10 .AND. ILEV < 23) THEN
 C       FORMULATION AVEC RUPTURE
 C
-         CALL I2VIT10(                                                  
-     1       NSN       ,NMN       ,MS        ,V         ,A         ,     
-     2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
-     3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT	 )
-         IF(IRODDL /= 0) THEN                                          
-           CALL I2ROT10(                                                
-     1        NSN       ,NMN       ,MS        ,V         ,A         ,   
-     2        AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,   
-     3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT ) 
-         ENDIF                                                         
-      ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN       
-C       Formulation avec courbure du main 
-         CALL I2CURVV(                                                  
-     1       NSN       ,NMN       ,MS        ,V         ,A         ,     
-     2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
-     3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,WEIGHT    )   
+          CALL I2VIT10(
+     1        NSN       ,NMN       ,MS        ,V         ,A         ,
+     2        AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
+     3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT   )
+          IF(IRODDL /= 0) THEN
+            CALL I2ROT10(
+     1         NSN       ,NMN       ,MS        ,V         ,A         ,
+     2         AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
+     3         INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT )
+          ENDIF
+        ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN
+C       Formulation avec courbure du main
+          CALL I2CURVV(
+     1        NSN       ,NMN       ,MS        ,V         ,A         ,
+     2        AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
+     3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,WEIGHT    )
 C
-      ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
+        ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
 C       FORMULATION AVEC MOMENT SUR MAIN
 C
-        CALL I2VIT3N(NSN       ,NMN       ,
-     2 A         ,INTBUF_TAB%IRECTM,
-     3 INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     4 V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
+          CALL I2VIT3N(NSN       ,NMN       ,
+     2    A         ,INTBUF_TAB%IRECTM,
+     3    INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
+     4    V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
 C
-        IF(IRODDL /= 0)THEN
-          CALL I2ROT3(NSN       ,NMN       ,
-     2   AR        ,INTBUF_TAB%IRECTM,
-     3   INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
-     4   VR        ,IN        ,A         ,V         ,
-     5   X         )
+          IF(IRODDL /= 0)THEN
+            CALL I2ROT3(NSN       ,NMN       ,
+     2      AR        ,INTBUF_TAB%IRECTM,
+     3      INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
+     4      VR        ,IN        ,A         ,V         ,
+     5      X         )
+          ENDIF
         ENDIF
-      ENDIF
 C-----------
-      RETURN
+        RETURN
       END

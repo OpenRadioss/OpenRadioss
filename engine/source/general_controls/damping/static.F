@@ -23,16 +23,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  STATIC                        source/general_controls/damping/static.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        NGR2USR                       source/input/freform.F        
+Chd|        NGR2USR                       source/input/freform.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE STATIC(V,VR,A,AR,MS,IN,IGRNOD,WEIGHT_MD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUPDEF_MOD
+        USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,161 +53,161 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER
-     .   WEIGHT_MD(*)
-      my_real
-     .   V(3,*), VR(3,*), A(3,*), AR(3,*),MS(*),IN(*)
+        INTEGER
+     .     WEIGHT_MD(*)
+        my_real
+     .     V(3,*), VR(3,*), A(3,*), AR(3,*),MS(*),IN(*)
 C-----------------------------------------------
-      TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
+        TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I,LAST,N,NGR2USR,ISTAT2,ISTAT3
+        INTEGER J, I,LAST,N,NGR2USR,ISTAT2,ISTAT3
 C     REAL
-      my_real
-     .   ENCINO, OMEGA, UOMEGA, DOMEGA, OMEGA2, ENCINT, ENCINN,
-     .   ENCGRP,ENCGRPN, ENCGRPR,ENCGRPRN
-      EXTERNAL NGR2USR
+        my_real
+     .     ENCINO, OMEGA, UOMEGA, DOMEGA, OMEGA2, ENCINT, ENCINN,
+     .     ENCGRP,ENCGRPN, ENCGRPR,ENCGRPRN
+        EXTERNAL NGR2USR
 C-----------------------------------------------
-      DATA ENCINO /0.0/
-      DATA LAST /0/
-      SAVE ENCINO,LAST
+        DATA ENCINO /0.0/
+        DATA LAST /0/
+        SAVE ENCINO,LAST
 C
-      IF(ISTATG<0)THEN
-        ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
-      ENDIF
-      ISTAT2=0
-      ISTAT3=0
-      IF (NCYCLE==0) THEN
-       IF ((ISTAT==2.OR.ISTAT==3).AND.TST_STOP==ZERO) TST_STOP=TSTOP
-      END IF
-      IF (ISTAT==2.AND.TT>=TST_START.AND.TT<=TST_STOP) ISTAT2=1
-      IF (ISTAT==3.AND.TT>=TST_START.AND.TT<=TST_STOP) ISTAT3=1
-      IF((ISTAT==1.OR.ISTAT3==1).AND.ISTATG==0)THEN
+        IF(ISTATG<0)THEN
+          ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
+        ENDIF
+        ISTAT2=0
+        ISTAT3=0
+        IF (NCYCLE==0) THEN
+          IF ((ISTAT==2.OR.ISTAT==3).AND.TST_STOP==ZERO) TST_STOP=TSTOP
+        END IF
+        IF (ISTAT==2.AND.TT>=TST_START.AND.TT<=TST_STOP) ISTAT2=1
+        IF (ISTAT==3.AND.TT>=TST_START.AND.TT<=TST_STOP) ISTAT3=1
+        IF((ISTAT==1.OR.ISTAT3==1).AND.ISTATG==0)THEN
 C
-       OMEGA  = BETATE * DT12
-       UOMEGA = ONE - OMEGA
-       DOMEGA = TWO*BETATE
-       OMEGA2 = (ONE-TWO*OMEGA)**2
-       ENCINT = ENCIN
+          OMEGA  = BETATE * DT12
+          UOMEGA = ONE - OMEGA
+          DOMEGA = TWO*BETATE
+          OMEGA2 = (ONE-TWO*OMEGA)**2
+          ENCINT = ENCIN
 C       ENCINT = ENCIN+ENROT
-       ENCINN = ENCINT * OMEGA2
+          ENCINN = ENCINT * OMEGA2
 C
-       IF(IDTMINS==0) THEN
-        DO I = 1, NUMNOD
-           A(1,I)  = -DOMEGA*V(1,I)  + UOMEGA*A(1,I)
-           A(2,I)  = -DOMEGA*V(2,I)  + UOMEGA*A(2,I)
-           A(3,I)  = -DOMEGA*V(3,I)  + UOMEGA*A(3,I)
-        ENDDO
-        IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
-       END IF !(IDTMINS==0) THEN
-C	   
-        IF(IRODDL/=0)THEN
-         ENCINT = ENROT
-         ENCINN = ENCINT * OMEGA2
-          DO I = 1, NUMNOD
-           AR(1,I) = -DOMEGA*VR(1,I) + UOMEGA*AR(1,I)
-           AR(2,I) = -DOMEGA*VR(2,I) + UOMEGA*AR(2,I)
-           AR(3,I) = -DOMEGA*VR(3,I) + UOMEGA*AR(3,I)
-          ENDDO
-         IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
+          IF(IDTMINS==0) THEN
+            DO I = 1, NUMNOD
+              A(1,I)  = -DOMEGA*V(1,I)  + UOMEGA*A(1,I)
+              A(2,I)  = -DOMEGA*V(2,I)  + UOMEGA*A(2,I)
+              A(3,I)  = -DOMEGA*V(3,I)  + UOMEGA*A(3,I)
+            ENDDO
+            IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
+          END IF !(IDTMINS==0) THEN
+C
+          IF(IRODDL/=0)THEN
+            ENCINT = ENROT
+            ENCINN = ENCINT * OMEGA2
+            DO I = 1, NUMNOD
+              AR(1,I) = -DOMEGA*VR(1,I) + UOMEGA*AR(1,I)
+              AR(2,I) = -DOMEGA*VR(2,I) + UOMEGA*AR(2,I)
+              AR(3,I) = -DOMEGA*VR(3,I) + UOMEGA*AR(3,I)
+            ENDDO
+            IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
+          ENDIF
+C
+        ELSEIF(ISTAT2==1.AND.ISTATG==0)THEN
+C
+          LAST = LAST+1
+          ENCINT = ENCIN+ENROT
+          IF(ENCINT<ENCINO)THEN
+            IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
+     .       TFEXT = TFEXT - ENCINT
+            ENCINO=ZERO
+            LAST=0
+C
+            DO J=1,3
+              DO I = 1, NUMNOD
+                V(J,I) = ZERO
+              ENDDO
+              IF(IRODDL/=0)THEN
+                DO I = 1, NUMNOD
+                  VR(J,I) = ZERO
+                ENDDO
+              ENDIF
+            ENDDO
+          ELSE
+            ENCINO = ENCINT
+          ENDIF
+        ELSEIF((ISTAT==1.OR.ISTAT3==1).AND.ISTATG/=0)THEN
+C
+          OMEGA  = BETATE * DT12
+          UOMEGA = ONE - OMEGA
+          DOMEGA = TWO*BETATE
+          OMEGA2 = (ONE-TWO*OMEGA)**2
+          ENCINT = ENCIN+ENROT
+          ENCINN = ENCINT * OMEGA2
+          ENCGRP = ZERO
+          ENCGRPR = ZERO
+C
+          IF(IDTMINS==0) THEN
+            DO J=1,3
+#include "vectorize.inc"
+              DO N=1,IGRNOD(ISTATG)%NENTITY
+                I=IGRNOD(ISTATG)%ENTITY(N)
+                ENCGRP = ENCGRP + MS(I)*WEIGHT_MD(I)*
+     .                   V(J,I)*V(J,I)
+                A(J,I)  = -DOMEGA*V(J,I)  + UOMEGA*A(J,I)
+              ENDDO
+            ENDDO
+          END IF !(IDTMINS==0) THEN
+C
+          IF(IRODDL/=0)THEN
+            DO J=1,3
+#include "vectorize.inc"
+              DO N=1,IGRNOD(ISTATG)%NENTITY
+                I=IGRNOD(ISTATG)%ENTITY(N)
+                ENCGRPR = ENCGRPR + MS(I)*WEIGHT_MD(I)*
+     .                   VR(J,I)*VR(J,I)
+                AR(J,I) = -DOMEGA*VR(J,I) + UOMEGA*AR(J,I)
+              ENDDO
+            ENDDO
+          ENDIF
+C
+          ENCGRP = HALF*ENCGRP
+          ENCGRPR = HALF*ENCGRPR
+          ENCGRPN = ENCGRP * OMEGA2
+          ENCGRPRN = ENCGRPR * OMEGA2
+          IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
+     .     TFEXT = TFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
+C
+        ELSEIF(ISTAT2==1.AND.ISTATG/=0)THEN
+C
+          LAST = LAST+1
+          ENCINT = ENCIN+ENROT
+          IF(ENCINT<ENCINO)THEN
+            IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
+     .       TFEXT = TFEXT - ENCINT
+            ENCINO=ZERO
+            LAST=0
+C
+            DO J=1,3
+#include "vectorize.inc"
+              DO N=1,IGRNOD(ISTATG)%NENTITY
+                I=IGRNOD(ISTATG)%ENTITY(N)
+                V(J,I) = ZERO
+              ENDDO
+              IF(IRODDL/=0)THEN
+#include "vectorize.inc"
+                DO N=1,IGRNOD(ISTATG)%NENTITY
+                  I=IGRNOD(ISTATG)%ENTITY(N)
+                  VR(J,I) = ZERO
+                ENDDO
+              ENDIF
+            ENDDO
+          ELSE
+            ENCINO = ENCINT
+          ENDIF
         ENDIF
 C
-      ELSEIF(ISTAT2==1.AND.ISTATG==0)THEN
-C
-       LAST = LAST+1
-       ENCINT = ENCIN+ENROT
-       IF(ENCINT<ENCINO)THEN
-        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   TFEXT = TFEXT - ENCINT 
-        ENCINO=ZERO
-        LAST=0
-C
-        DO J=1,3
-         DO I = 1, NUMNOD
-           V(J,I) = ZERO
-         ENDDO
-         IF(IRODDL/=0)THEN
-           DO I = 1, NUMNOD
-             VR(J,I) = ZERO
-           ENDDO
-         ENDIF
-        ENDDO
-       ELSE
-        ENCINO = ENCINT
-       ENDIF
-      ELSEIF((ISTAT==1.OR.ISTAT3==1).AND.ISTATG/=0)THEN
-C
-       OMEGA  = BETATE * DT12
-       UOMEGA = ONE - OMEGA
-       DOMEGA = TWO*BETATE
-       OMEGA2 = (ONE-TWO*OMEGA)**2
-       ENCINT = ENCIN+ENROT
-       ENCINN = ENCINT * OMEGA2
-       ENCGRP = ZERO
-       ENCGRPR = ZERO
-C
-       IF(IDTMINS==0) THEN
-       DO J=1,3
-#include "vectorize.inc"
-        DO N=1,IGRNOD(ISTATG)%NENTITY
-           I=IGRNOD(ISTATG)%ENTITY(N)
-           ENCGRP = ENCGRP + MS(I)*WEIGHT_MD(I)*
-     .              V(J,I)*V(J,I)
-           A(J,I)  = -DOMEGA*V(J,I)  + UOMEGA*A(J,I)
-        ENDDO
-       ENDDO
-       END IF !(IDTMINS==0) THEN
-C	   
-        IF(IRODDL/=0)THEN
-         DO J=1,3
-#include "vectorize.inc"
-          DO N=1,IGRNOD(ISTATG)%NENTITY
-           I=IGRNOD(ISTATG)%ENTITY(N)
-           ENCGRPR = ENCGRPR + MS(I)*WEIGHT_MD(I)*
-     .              VR(J,I)*VR(J,I)
-           AR(J,I) = -DOMEGA*VR(J,I) + UOMEGA*AR(J,I)
-          ENDDO
-         ENDDO
-        ENDIF
-C
-       ENCGRP = HALF*ENCGRP
-       ENCGRPR = HALF*ENCGRPR
-       ENCGRPN = ENCGRP * OMEGA2
-       ENCGRPRN = ENCGRPR * OMEGA2
-       IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .  TFEXT = TFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
-C
-      ELSEIF(ISTAT2==1.AND.ISTATG/=0)THEN
-C
-       LAST = LAST+1
-       ENCINT = ENCIN+ENROT
-       IF(ENCINT<ENCINO)THEN
-        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   TFEXT = TFEXT - ENCINT 
-        ENCINO=ZERO
-        LAST=0
-C
-        DO J=1,3
-#include "vectorize.inc"
-         DO N=1,IGRNOD(ISTATG)%NENTITY
-           I=IGRNOD(ISTATG)%ENTITY(N)
-           V(J,I) = ZERO
-         ENDDO
-         IF(IRODDL/=0)THEN
-#include "vectorize.inc"
-           DO N=1,IGRNOD(ISTATG)%NENTITY
-            I=IGRNOD(ISTATG)%ENTITY(N)
-            VR(J,I) = ZERO
-           ENDDO
-         ENDIF
-        ENDDO
-       ELSE
-        ENCINO = ENCINT
-       ENDIF
-      ENDIF
-C
-      RETURN
+        RETURN
       END
 Chd|====================================================================
 Chd|  E_PERIOD                      source/general_controls/damping/static.F
@@ -224,10 +224,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPI,IPC
+        INTEGER IPI,IPC
 C
-      my_real
-     .   F_FIL
+        my_real
+     .     F_FIL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -237,83 +237,83 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I , IDF
+        INTEGER J, I , IDF
 C     REAL
-      my_real
-     .   ENCINT, EINT,VV1,VV2,FV1,FV2,FV,FF
+        my_real
+     .     ENCINT, EINT,VV1,VV2,FV1,FV2,FV,FF
 C-----------------------------------------------
-       IF (TT == ZERO) THEN
-        FF= ENCIN+ENROT
-        FIL_KE(1) = FF                               
-        FIL_KE(2) = FF                              
-        FIL_KE(3) = FF                              
-        FIL_KE(4) = FF
-        FF= ENINT
-        FIL_IE(1) = FF                               
-        FIL_IE(2) = FF                              
-        FIL_IE(3) = FF                              
-        FIL_IE(4) = FF
-       END IF       
-       IF (F_FIL>ZERO) THEN
+        IF (TT == ZERO) THEN
+          FF= ENCIN+ENROT
+          FIL_KE(1) = FF
+          FIL_KE(2) = FF
+          FIL_KE(3) = FF
+          FIL_KE(4) = FF
+          FF= ENINT
+          FIL_IE(1) = FF
+          FIL_IE(2) = FF
+          FIL_IE(3) = FF
+          FIL_IE(4) = FF
+        END IF
+        IF (F_FIL>ZERO) THEN
           FF = ENCIN+ENROT
-    	     VV1 = FIL_KE(1)                                
-    	     VV2 = FIL_KE(2)                               
-    	     FV1 = FIL_KE(3)                                
-    	     FV2 = FIL_KE(4)                                
-    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
-    	       FIL_KE(1)= FF                               
-    	       FIL_KE(2)= VV1                              
-    	       FIL_KE(3)= FV                              
-    	       FIL_KE(4)= FV1                              
-              ENCINT = FV
-C         
-          FF = ENINT
-    	     VV1 = FIL_IE(1)                                
-    	     VV2 = FIL_IE(2)                               
-    	     FV1 = FIL_IE(3)                                
-    	     FV2 = FIL_IE(4)                                
-    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
-    	       FIL_IE(1) = FF                                
-    	       FIL_IE(2) = VV1                              
-    	       FIL_IE(3) = FV                               
-    	       FIL_IE(4) = FV1
-              EINT = FV
-C 
-       ELSE      
-        ENCINT = ENCIN+ENROT
-        EINT = ENINT
-       END IF
-       PCIN = PCIN +DT1
-       PINT = PINT +DT1
-       PIMAX = MAX(PIMAX,PINT)
-       PCMAX = MAX(PCMAX,PCIN)
-       IF(ENCINT<ENCIN_0.AND.ENCINT>=ZERO)THEN
-        ENCIN_0=ZERO
-        PCIN = ZERO
-        IPC = 1
-       ELSE
-        IPC = 0
-        ENCIN_0 = ENCINT
-       ENDIF
-       IF(EINT<ZERO) THEN
-        EINT_0=ZERO
-        PINT = ZERO
-        IPI = -2
-       ELSEIF(EINT<EINT_0.AND.EINT>=ZERO)THEN
-        EINT_0=ZERO
-        PINT = ZERO
-        IPI = 1
-       ELSE
-        EINT_0 = EINT
-        IPI = 0
-       ENDIF
+          VV1 = FIL_KE(1)
+          VV2 = FIL_KE(2)
+          FV1 = FIL_KE(3)
+          FV2 = FIL_KE(4)
+          CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV)
+          FIL_KE(1)= FF
+          FIL_KE(2)= VV1
+          FIL_KE(3)= FV
+          FIL_KE(4)= FV1
+          ENCINT = FV
 C
-      RETURN
+          FF = ENINT
+          VV1 = FIL_IE(1)
+          VV2 = FIL_IE(2)
+          FV1 = FIL_IE(3)
+          FV2 = FIL_IE(4)
+          CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV)
+          FIL_IE(1) = FF
+          FIL_IE(2) = VV1
+          FIL_IE(3) = FV
+          FIL_IE(4) = FV1
+          EINT = FV
+C
+        ELSE
+          ENCINT = ENCIN+ENROT
+          EINT = ENINT
+        END IF
+        PCIN = PCIN +DT1
+        PINT = PINT +DT1
+        PIMAX = MAX(PIMAX,PINT)
+        PCMAX = MAX(PCMAX,PCIN)
+        IF(ENCINT<ENCIN_0.AND.ENCINT>=ZERO)THEN
+          ENCIN_0=ZERO
+          PCIN = ZERO
+          IPC = 1
+        ELSE
+          IPC = 0
+          ENCIN_0 = ENCINT
+        ENDIF
+        IF(EINT<ZERO) THEN
+          EINT_0=ZERO
+          PINT = ZERO
+          IPI = -2
+        ELSEIF(EINT<EINT_0.AND.EINT>=ZERO)THEN
+          EINT_0=ZERO
+          PINT = ZERO
+          IPI = 1
+        ELSE
+          EINT_0 = EINT
+          IPI = 0
+        ENDIF
+C
+        RETURN
       END
 Chd|====================================================================
 Chd|  ENER_W0                       source/general_controls/damping/static.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        E_PERIOD                      source/general_controls/damping/static.F
 Chd|====================================================================
@@ -334,110 +334,110 @@ C-----------------------------------------------
 #include      "statr_c.inc"
 #include      "task_c.inc"
 #include      "sms_c.inc"
-#include      "warn_c.inc"   
+#include      "warn_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I,FREQ,IDF,IPI,IPC,NC_ACT,IFIRST
-      PARAMETER (NC_ACT = 200)
+        INTEGER J, I,FREQ,IDF,IPI,IPC,NC_ACT,IFIRST
+        PARAMETER (NC_ACT = 200)
 C     REAL
-      my_real
-     .   Q_ES,BETATE_N,FC,FI,BETATE_M
-      my_real
-     .   F_MAX,F_MIN,F_0,EI_TOL
+        my_real
+     .     Q_ES,BETATE_N,FC,FI,BETATE_M
+        my_real
+     .     F_MAX,F_MIN,F_0,EI_TOL
 C     REAL
-      CHARACTER*8 FILNAME
+        CHARACTER*8 FILNAME
 C-----------------------------------------------
-      CALL E_PERIOD(IPI,IPC,FREQ_C)
-      IF (NCYCLE==0) THEN
-       BETATE = BETATE_0
-       IF (DEBUG(11)==1.AND.ISPMD==0) THEN
-        IDF = 251  
-         FILNAME='P_ES.TMP'
-         OPEN(UNIT=IDF,FILE=FILNAME,STATUS='UNKNOWN',FORM='FORMATTED')
-         write(IDF,*)
-     .  '# NCYCLE OMEGA(Retenu)IFIRST           OMEGA_N(new)   P_Eint         P_Kin'
-       END IF
-C--to avoid division by zero /DT1   
-       RETURN
-      END IF
+        CALL E_PERIOD(IPI,IPC,FREQ_C)
+        IF (NCYCLE==0) THEN
+          BETATE = BETATE_0
+          IF (DEBUG(11)==1.AND.ISPMD==0) THEN
+            IDF = 251
+            FILNAME='P_ES.TMP'
+            OPEN(UNIT=IDF,FILE=FILNAME,STATUS='UNKNOWN',FORM='FORMATTED')
+            write(IDF,*)
+     .      '# NCYCLE OMEGA(Retenu)IFIRST           OMEGA_N(new)   P_Eint         P_Kin'
+          END IF
+C--to avoid division by zero /DT1
+          RETURN
+        END IF
 C-------      /DEBUG/ADYREL for periods print out
-      IF (DEBUG(11)==1.AND.ISPMD==0) THEN
-       IDF = 251
-      ELSE
-       IDF = 0
-      END IF 
-      IFIRST = NINT(NFIRST)
-      EI_TOL=EM12
-      IF (IRESP==1) EI_TOL=EM07        
-C-----0.5%w_max 5*0.5 for AMS     
-      IF(IDTMINS==0) THEN
-       F_MAX=EM02/DT1
-      ELSE
-       F_MAX=ZEP05/DT1
-      END IF
-      IF(FREQ_C<ZERO) FREQ_C = -FREQ_C*F_MAX
-      F_0=EM02*F_MAX
-      BETATE_N = F_MAX
-      IF (IPI==1) THEN
-       FI = ONE/PIMAX
-       BETATE_N = MIN(F_MAX,FI)
-       IF (BETATE==ZERO.AND.EINT_0>EI_TOL) THEN
-        IF (NCYCLE>=NC_ACT) THEN
-         BETATE = MIN(F_0,BETATE_N)
-         IFIRST = 1
+        IF (DEBUG(11)==1.AND.ISPMD==0) THEN
+          IDF = 251
+        ELSE
+          IDF = 0
         END IF
-C------exception for increasing----        
-       ELSEIF (IFIRST==1) THEN
-        BETATE = BETATE_N
-        IFIRST = IFIRST+1
-       ELSE
-        BETATE = MIN(BETATE,BETATE_N)
-       END IF
-        IF (IDF>0) write(IDF,1000)-NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
-      END IF
-      IF (IPC==1) THEN
-       FC = ONE/PCMAX
-       BETATE_N = MIN(F_MAX,FC)
-       IF (BETATE==ZERO.AND.EINT_0>EI_TOL) THEN
-        IF (NCYCLE>=NC_ACT) THEN
-         BETATE = MIN(F_0,BETATE_N)
-         IFIRST = 1
+        IFIRST = NINT(NFIRST)
+        EI_TOL=EM12
+        IF (IRESP==1) EI_TOL=EM07
+C-----0.5%w_max 5*0.5 for AMS
+        IF(IDTMINS==0) THEN
+          F_MAX=EM02/DT1
+        ELSE
+          F_MAX=ZEP05/DT1
         END IF
-       ELSEIF (IFIRST==1) THEN
-        BETATE = BETATE_N
-        IFIRST = IFIRST+1
-       ELSE
-C----limiting the using of PCMAX not take it if Ke/Eint is very small       
-        IF (ENCIN_0/MAX(EM20,EINT_0)>EM03.AND.BETATE<BETATE_N*THREE_HALF) THEN
-         BETATE_M = HALF*BETATE
-         BETATE = MIN(BETATE,BETATE_N)
-         BETATE = MAX(BETATE,BETATE_M)
+        IF(FREQ_C<ZERO) FREQ_C = -FREQ_C*F_MAX
+        F_0=EM02*F_MAX
+        BETATE_N = F_MAX
+        IF (IPI==1) THEN
+          FI = ONE/PIMAX
+          BETATE_N = MIN(F_MAX,FI)
+          IF (BETATE==ZERO.AND.EINT_0>EI_TOL) THEN
+            IF (NCYCLE>=NC_ACT) THEN
+              BETATE = MIN(F_0,BETATE_N)
+              IFIRST = 1
+            END IF
+C------exception for increasing----
+          ELSEIF (IFIRST==1) THEN
+            BETATE = BETATE_N
+            IFIRST = IFIRST+1
+          ELSE
+            BETATE = MIN(BETATE,BETATE_N)
+          END IF
+          IF (IDF>0) write(IDF,1000)-NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
         END IF
-       END IF
-        IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,IFIRST,FC,PIMAX ,PCMAX
-      END IF
-C--Case high periods for both Eint and Ke    
-      IF (BETATE==ZERO.AND.EINT_0>EI_TOL.AND.NCYCLE>=NC_ACT) THEN
-C------initial frequency is 1% of F_MAX otherwise damping too high especially w/ gravity    
-       BETATE=F_0
-       FI = ONE/PIMAX
-       IFIRST = 1
-       IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
-      END IF
-C--Case BETATE too high w/ large periods for both Eint and Ke    
-      IF (IFIRST>=1.AND.(IPC+IPI)==0) THEN 
-       FI = ONE/MAX(PIMAX,PCMAX)
-       IF (BETATE>1.1*FI) THEN
-        BETATE=FI
-        IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,-IFIRST,FI,PIMAX ,PCMAX
-       END IF
-      END IF      
-      IF (IFIRST==1.AND.IRUN>1.AND.MCHECK==0) IFIRST = 2
-      NFIRST = IFIRST
+        IF (IPC==1) THEN
+          FC = ONE/PCMAX
+          BETATE_N = MIN(F_MAX,FC)
+          IF (BETATE==ZERO.AND.EINT_0>EI_TOL) THEN
+            IF (NCYCLE>=NC_ACT) THEN
+              BETATE = MIN(F_0,BETATE_N)
+              IFIRST = 1
+            END IF
+          ELSEIF (IFIRST==1) THEN
+            BETATE = BETATE_N
+            IFIRST = IFIRST+1
+          ELSE
+C----limiting the using of PCMAX not take it if Ke/Eint is very small
+            IF (ENCIN_0/MAX(EM20,EINT_0)>EM03.AND.BETATE<BETATE_N*THREE_HALF) THEN
+              BETATE_M = HALF*BETATE
+              BETATE = MIN(BETATE,BETATE_N)
+              BETATE = MAX(BETATE,BETATE_M)
+            END IF
+          END IF
+          IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,IFIRST,FC,PIMAX ,PCMAX
+        END IF
+C--Case high periods for both Eint and Ke
+        IF (BETATE==ZERO.AND.EINT_0>EI_TOL.AND.NCYCLE>=NC_ACT) THEN
+C------initial frequency is 1% of F_MAX otherwise damping too high especially w/ gravity
+          BETATE=F_0
+          FI = ONE/PIMAX
+          IFIRST = 1
+          IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
+        END IF
+C--Case BETATE too high w/ large periods for both Eint and Ke
+        IF (IFIRST>=1.AND.(IPC+IPI)==0) THEN
+          FI = ONE/MAX(PIMAX,PCMAX)
+          IF (BETATE>1.1*FI) THEN
+            BETATE=FI
+            IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,-IFIRST,FI,PIMAX ,PCMAX
+          END IF
+        END IF
+        IF (IFIRST==1.AND.IRUN>1.AND.MCHECK==0) IFIRST = 2
+        NFIRST = IFIRST
 C
-      RETURN
- 1000 FORMAT(I8,5(G14.7)/)
+        RETURN
+ 1000   FORMAT(I8,5(G14.7)/)
       END
