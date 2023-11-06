@@ -91,6 +91,8 @@ C-----------------------------------------------
       INTEGER :: IFUNC(4),IFUNC_LOC(4),NFRAM,ISHELL,GR_NOD,GR_SHEL1,GR_SHEL2,GRN_LOC,GRS1_LOC,GRS2_LOC
       INTEGER :: N_FIRST,N_LAST,NJ,NODE,IPOS,IERROR,NJ_NEXT,MID,MTYP
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAGNO,ELEM1_NOD,ELEM2_NOD,CORES1,CORES2,IPOS1_NOD,IPOS2_NOD,JPERM
+      INTEGER :: SIZE_COM_NOD,CPT_COM_NOD
+      INTEGER , DIMENSION(:), ALLOCATABLE:: COM_NOD
       my_real :: DISTN,DIST1,DIST2,DIST3,A,ED_FACTOR,FRICD,XSCALE1,YSCALE2,XSCALE2,FRICS,XSCALE3,YSCALE4,XSCALE4
       my_real :: XSCALE1_UNIT,XSCALE2_UNIT,NN(3),NORM,N1(3),N2(3),N3(3),SCAL,ALEA_MAX,TOLE_2,NORMJ
       my_real :: DIST_MIN,VECT(3),VECTJ(3)
@@ -521,6 +523,8 @@ C--------   Check of distance between anchorage nodes (sorting by distance to fi
 C
 C--------   Identification of node 2 for each frame
 C
+            SIZE_COM_NOD = 4*(IGRSH4N(GRS1_LOC)%NENTITY
+     .                       +IGRSH4N(GRS2_LOC)%NENTITY)
             CALL MY_ALLOC(ELEM1_NOD,NFRAM)
             CALL MY_ALLOC(ELEM2_NOD,NFRAM)
             CALL MY_ALLOC(IPOS1_NOD,NFRAM)
@@ -528,6 +532,7 @@ C
             CALL MY_ALLOC(CORES1,NFRAM)
             CALL MY_ALLOC(CORES2,NFRAM)
             CALL MY_ALLOC(TAGNO,NUMNOD)
+            CALL MY_ALLOC(COM_NOD,SIZE_COM_NOD)
             CORES1(1:NFRAM) = 0
             CORES1(1:NFRAM) = 0
             IPOS1_NOD(1:NFRAM) = 0
@@ -535,7 +540,31 @@ C
             IPOS2_NOD(1:NFRAM) = 0
             ELEM2_NOD(1:NFRAM) = 0
             TAGNO(1:NUMNOD) = 0
+            COM_NOD(1:SIZE_COM_NOD) = 0
 C
+C--         Tag and identification of common nodes between GRS1 and GRS2
+            DO K=1,IGRSH4N(GRS1_LOC)%NENTITY
+              ISHELL = IGRSH4N(GRS1_LOC)%ENTITY(K)
+              DO L = 1,4
+                NODE = IXC(1+L,ISHELL)
+                TAGNO(NODE)=1
+              ENDDO    
+            ENDDO
+            CPT_COM_NOD = 0
+            DO K=1,IGRSH4N(GRS2_LOC)%NENTITY
+              ISHELL = IGRSH4N(GRS2_LOC)%ENTITY(K)
+              DO L = 1,4
+                NODE = IXC(1+L,ISHELL)
+                IF (TAGNO(NODE)==1) THEN
+                  CPT_COM_NOD = CPT_COM_NOD+1
+                  COM_NOD(CPT_COM_NOD) = NODE
+                ENDIF                  
+              ENDDO    
+            ENDDO        
+C
+C---------- Check that all nodes of 2d slipring are on location of common nodes of gr1 and gr2
+C
+            TAGNO(1:NUMNOD) = 0
             DO J=1,NFRAM
               NJ = IGRNOD(GRN_LOC)%ENTITY(J)
 C--           Search for closest node on element set 1 for each anchorage node 
@@ -600,7 +629,25 @@ C
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,
-     .                  PRMOD=MSG_PRINT)     
+     .                  PRMOD=MSG_PRINT)
+C
+C---------- Check that all common nodes of gr1 and gr2 are on location of slipring nodes
+C          
+            DO J=1,CPT_COM_NOD
+              IF (TAGNO(COM_NOD(J))==0) THEN
+                CALL ANCMSG(MSGID=3041,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=ITAB(COM_NOD(J)),
+     .                      PRMOD=MSG_CUMU)
+              ENDIF  
+            ENDDO
+C        
+            CALL ANCMSG(MSGID=3041,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  PRMOD=MSG_PRINT)  
 C
 C---------- Fill of fram structure
 C
@@ -659,7 +706,8 @@ C
 C
             ENDDO
 C
-            DEALLOCATE(ELEM1_NOD,IPOS1_NOD,ELEM2_NOD,IPOS2_NOD,CORES1,CORES2,TAGNO)   
+            DEALLOCATE(ELEM1_NOD,IPOS1_NOD,ELEM2_NOD,IPOS2_NOD,CORES1,CORES2,
+     .                 TAGNO,COM_NOD)   
 C
           ENDIF
 C
