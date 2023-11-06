@@ -466,7 +466,11 @@ c------------------------------------------------------
           ELSEIF (ITY == 100) THEN  ! MULTIBRIN
             IPID = KXX(2,NFT+1)
           ENDIF
-          IGTYP = IGEO(11,IPID)
+
+          IGTYP = 0
+          IF(IPID > 0)THEN
+            IGTYP = IGEO(11,IPID)
+          ENDIF
 C----
           GBUF  => ELBUF_TAB(NG)%GBUF 
                                                
