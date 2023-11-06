@@ -1411,7 +1411,7 @@ C-----------------------------------------------
         INTEGER :: III,JJJ,NNOD_2
         INTEGER :: FIRST,LAST,NNREM_SAVE,FLAGREMNODE_SAV
         INTEGER :: OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED
-        INTEGER :: SIZE_INSERTED_NODE,OLDSIZE,MAX_INSERTED_NODE
+        INTEGER :: SIZE_INSERTED_NODE,OLDSIZE,MAX_INSERTED_NODE,LIMIT
         INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
         INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_SAVE,INSERTED_NODE,REMNODE,TMP
 !       -------------------------------
@@ -1561,7 +1561,7 @@ C-------tag int2 nodes------
 !           else insert the remaining old nodes 
 !           1 | 2 | iad1(3) | iad1(2) | iad1(1) | 3 | iad2(1) | 4 | 5 | iad3(6) | ... | iad3(2) | iad3(1) | 6 | 7 | 8 | 9
 !   ------------------------------------------------
-
+        LIMIT = HUGE(N)
 
 C---------
         DO N=1,NINTER
@@ -1615,7 +1615,7 @@ C--------dim first
                                 ENDDO
                             ENDDO
 
-                            IF(4*MAX_INSERTED_NODE * NRTM < 0 .OR. MAX_INSERTED_NODE * NRTM > 1 000 000) THEN
+                            IF( MAX_INSERTED_NODE > LIMIT / (4*NRTM) .OR. MAX_INSERTED_NODE > 1000000 / NRTM  )  THEN
                               SIZE_INSERTED_NODE =  4 * NRTM
                             ELSE
                               SIZE_INSERTED_NODE =  4 * NRTM *MAX_INSERTED_NODE
