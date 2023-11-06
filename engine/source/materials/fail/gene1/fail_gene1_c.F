@@ -34,20 +34,17 @@ Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_GENE1_C (
-     1     NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,LOFF     ,
+     1     NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,
      2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,IPG      ,
-     3     NGL      ,DT       ,EPSP     ,UVAR     ,OFF      ,NPG      ,
-     4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,AREA     ,
-     5     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,THKN     ,
-     6     TEMP     ,DFMAX    ,TDELE    ,ALDT     ,TABLE    ,IRUPT    ,
-     7     THK0     ,ELBUF_TAB,IPT      ,MPT      ,PTHKF    ,FOFF     ,
-     8     IGTYP    ,THKLYL   ,ILAY1    )
+     3     NGL      ,DT       ,EPSP     ,UVAR     ,OFF      ,
+     4     EPSXX    ,EPSYY    ,EPSXY    ,AREA     ,THKN     ,
+     5     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     6     TEMP     ,DFMAX    ,ALDT     ,TABLE    ,TDELE    ,
+     7     THK0     ,IPT      ,PTHKF    ,FOFF     ,THKLYL   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE INTERFACE_TABLE_MOD
-      USE ELBUFDEF_MOD 
 C!-----------------------------------------------
 C!   I m p l i c i t   T y p e s
 C!-----------------------------------------------
@@ -55,43 +52,37 @@ C!-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "com01_c.inc"
 #include      "scr18_c.inc"
+#include      "tabsiz_c.inc"
 C!-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPG,
-     .        NPG,IRUPT,IPT,MPT,IGTYP,ILAY1
-      my_real TIME,TIMESTEP,UPARAM(*),
-     .   EPSXX(NEL),EPSYY(NEL),EPSXY(NEL),
-     .   EPSYZ(NEL),EPSZX(NEL),SIGNXX(NEL),
-     .   SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),
-     .   SIGNZX(NEL),UVAR(NEL,NUVAR),DT(NEL),
-     .   EPSP(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL),
-     .   ALDT(NEL),TEMP(NEL),LOFF(NEL),AREA(NEL),
-     .   THKN(NEL),THK0(NEL),THKLYL(NEL),PTHKF
-      TYPE (TTABLE), DIMENSION(NTABLE) :: TABLE
-      TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,IPT,MFUNC
+      INTEGER, DIMENSION(MFUNC), INTENT(IN) :: KFUNC
+      INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
+      my_real, INTENT(IN) :: TIME,TIMESTEP
+      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
+      my_real, DIMENSION(NEL), INTENT(IN) :: EPSXX,EPSYY,EPSXY,
+     .   DT,EPSP,OFF,ALDT,TEMP,AREA,THKN,THK0,THKLYL
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: FOFF
+      my_real, INTENT(INOUT) :: PTHKF
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,
+     .   SIGNYZ,SIGNZX,DFMAX,TDELE
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
+      TYPE (TTABLE), DIMENSION(NTABLE), INTENT(IN) :: TABLE 
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
-      INTEGER NPF(*), MFUNC, KFUNC(MFUNC)
-      my_real FINTER ,TF(*)
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
+      my_real  FINTER 
       EXTERNAL FINTER
-C!        Y = FINTER(IFUNC(J),X,NPF,TF,DF)
-C!        Y       : y = f(x)
-C!        X       : x
-C!        DF      : f'(x) = dy/dx
-C!        IFUNC(J): FUNCTION INDEX
-C!              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C!        NPF,TF  : FUNCTION PARAMETER
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX1(NEL),NINDX1,INDX2(NEL),NINDX2,IREG,NSTEP,
+      INTEGER I,K,J,INDX1(NEL),NINDX1,IREG,NSTEP,
      .        ISM,IPS,IG12,IG13,IE1C,fct_IDg12,fct_IDg13,fct_IDe1c,
      .        NCRIT(NEL),fct_IDel,IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,
      .        tab_IDfld,Itab,NCS,IPMAX(NEL),IPMIN(NEL),IS1MAX(NEL),ILAY,
@@ -101,14 +92,13 @@ C!-----------------------------------------------
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
-     .        THIN,VOLFRAC,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
+     .        THIN,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
       my_real 
      .        E12,P(NEL),SXX,SYY,SZZ,SVM(NEL),SH12(NEL),SH13(NEL),E1C(NEL),
      .        XVEC(NEL,2),Q,R,R_INTER,E11(NEL),E22(NEL),VOL_STRAIN(NEL),DAV,
      .        E1D,E2D,E3D,E4D,S11(NEL),S22(NEL),EFF_STRAIN(NEL),S1,S2,
-     .        EPSMAX(NEL),SIGMAX(NEL),FACL(NEL),VFAIL(NEL),E1FLD(NEL),
-     .        DFLD(NEL),HARDR(NEL),VTOT,VDAM,DENOM,TRIAX(NEL)
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF
+     .        EPSMAX(NEL),SIGMAX(NEL),FACL(NEL),E1FLD(NEL),
+     .        DFLD(NEL),HARDR(NEL),DENOM,TRIAX(NEL)
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -134,7 +124,6 @@ C!--------------------------------------------------------------
       EPSDOT_FLD = UPARAM(18)
       NSTEP      = NINT(UPARAM(19))
       THIN       = UPARAM(20)
-      VOLFRAC    = UPARAM(21)
       PTHKF      = UPARAM(22)
       NCS        = NINT(UPARAM(23))
       MAXTEMP    = UPARAM(24)
@@ -149,10 +138,7 @@ C!--------------------------------------------------------------
 c
       ! Initialization of variable
       NINDX1 = 0
-      NINDX2 = 0
       INDX1(1:NEL)    = 0
-      INDX2(1:NEL)    = 0
-      VFAIL(1:NEL)    = ZERO
       IPMAX(1:NEL)    = 0
       IPMIN(1:NEL)    = 0
       IS1MAX(1:NEL)   = 0
@@ -242,11 +228,6 @@ c
        SIGNZX(I) = SIGNZX(I)*UVAR(I,5)
        ! Regularization factors for length, surface and volume
        FACL(I)   = UVAR(I,1)
-       ! Storage of integration point volume
-       IF (NPG > 1) THEN
-         UVAR(I,3) = THKLYL(I)*AREA(I)
-         IF (UVAR(I,5) == ZERO) UVAR(I,4) = THKLYL(I)*AREA(I)
-       ENDIF
       ENDDO
 c      
       !====================================================================
@@ -522,55 +503,15 @@ c
 c
       !====================================================================
       ! - LOOKING FOR ELEMENT DELETION
-      !====================================================================  
-      ! Case of under-integrated shells
-      IF ((ELBUF_TAB%NPTR == 1).AND.(ELBUF_TAB%NPTS == 1)) THEN       
-        DO I = 1,NEL
-          ! Checking element failure using global damage
-          IF ((UVAR(I,5) == ZERO).AND.(FOFF(I) /= 0)) THEN
-            FOFF(I)  = 0 
-            DFMAX(I) = ONE
-          ENDIF
-        ENDDO
-      ! Case of fully integrated shells
-      ELSE
-        DO I = 1,NEL
-          IF ((IPG == NPG).AND.(IPT == ELBUF_TAB%NPTT)
-     .         .AND.(OFF(I) /= ZERO).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN  
-            ! Initialization of volumes computation
-            VTOT = ZERO
-            VDAM = ZERO
-            ! Loop over integration points
-            DO ILAY = 1, ELBUF_TAB%NLAY
-              DO IR = 1, ELBUF_TAB%NPTR
-                DO IS = 1, ELBUF_TAB%NPTS
-                  DO IT = 1, ELBUF_TAB%NPTT
-                    FBUF => ELBUF_TAB%BUFLY(ILAY)%FAIL(IR,IS,IT)
-                    ! Compute total volume of the element
-                    VTOT = VTOT + FBUF%FLOC(IRUPT)%VAR(2*NEL+I)
-                    ! Compute damaged volume of the element
-                    VDAM = VDAM + FBUF%FLOC(IRUPT)%VAR(3*NEL+I)
-                  ENDDO
-                ENDDO
-              ENDDO
-            ENDDO
-            ! Checking volume fraction criterion
-            IF (((VDAM/VTOT) >= VOLFRAC)) THEN
-              TDELE(I)      = TIME
-              OFF(I)        = ZERO
-              IDEL7NOK      = 1
-              NINDX2        = NINDX2 + 1
-              INDX2(NINDX2) = I 
-              VFAIL(I)      = VDAM/VTOT
-              SIGNXX(I)     = ZERO
-              SIGNYY(I)     = ZERO
-              SIGNXY(I)     = ZERO
-              SIGNYZ(I)     = ZERO
-              SIGNZX(I)     = ZERO
-            ENDIF
-          ENDIF
-        ENDDO
-      ENDIF
+      !====================================================================
+      ! Checking element failure using global damage       
+      DO I = 1,NEL
+        IF ((UVAR(I,5) == ZERO).AND.(FOFF(I) /= 0)) THEN
+          FOFF(I)  = 0 
+          DFMAX(I) = ONE
+          TDELE(I) = TIME
+        ENDIF
+      ENDDO
 c
 c------------------------
 c------------------------
@@ -670,18 +611,7 @@ c------------------------
           ENDIF
 #include "lockoff.inc"
         END DO
-      END IF          
-      IF (NINDX2 > 0) THEN
-        DO J = 1,NINDX2
-          I = INDX2(J)
-#include "lockon.inc"          
-          WRITE(IOUT, 3000) NGL(I),TIME
-          WRITE(ISTDO,3000) NGL(I),TIME
-          WRITE(IOUT, 4000) VFAIL(I),VOLFRAC
-          WRITE(ISTDO,4000) VFAIL(I),VOLFRAC
-#include "lockoff.inc"
-        END DO
-      END IF         
+      END IF     
 c------------------------
  1000 FORMAT(1X,'>> FOR SHELL ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT #',I3,
      .          ', LAYER #',I3,', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERION HAS BEEN REACHED:')
@@ -706,7 +636,5 @@ c------------------------
  1018 FORMAT(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > FORMING LIMIT VALUE : ',1PE12.4)
  1019 FORMAT(1X,'AVERAGE THINNING VALUE:      ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
  1021 FORMAT(1X,'LAYER THINNING VALUE:        ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
- 1020 FORMAT(1X,'TEMPERATURE VALUE:           ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)  
- 3000 FORMAT(1X,'-- RUPTURE OF SHELL ELEMENT : ',I10,' AT TIME :',1PE12.4)
- 4000 FORMAT(1X,'DAMAGED VOLUME FRACTION : ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)  
+ 1020 FORMAT(1X,'TEMPERATURE VALUE:           ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
       END

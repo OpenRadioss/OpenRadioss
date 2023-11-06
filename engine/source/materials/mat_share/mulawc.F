@@ -2235,14 +2235,13 @@ c
               CASE (39)     !    GENE1
 c
                 CALL FAIL_GENE1_C(
-     1            JLT      ,NUPAR    ,NVARF    ,NFUNC1   ,IFUNC1   ,LBUF%OFF ,
+     1            JLT      ,NUPAR    ,NVARF    ,NFUNC1   ,IFUNC1   ,
      2            NPF      ,TF       ,TT       ,DT1C     ,UPARAMF  ,IPG      ,
-     3            NGL      ,GBUF%DT  ,EPSPL    ,UVARF    ,OFF      ,NPG      ,     
-     4            EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,AREA     ,            
-     5            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,THKN     , 
-     6            EL_TEMP  ,DFMAX    ,TDEL     ,ALDT     ,TABLE    ,IFL      ,
-     7            THK0     ,ELBUF_STR,IPT      ,MPT      ,PTHKF(ILAYER,IFL),FOFF,
-     8            IGTYP    ,THKLYL   ,ILAY     )
+     3            NGL      ,GBUF%DT  ,EPSPL    ,UVARF    ,OFF      ,    
+     4            EPSXX    ,EPSYY    ,EPSXY    ,AREA     ,THKN     ,            
+     5            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   , 
+     6            EL_TEMP  ,DFMAX    ,ALDT     ,TABLE    ,TDEL     ,
+     7            THK0     ,IPT      ,PTHKF(ILAYER,IFL)  ,FOFF     ,THKLYL   )
 c
               CASE (40)     !    RTCL
 c
