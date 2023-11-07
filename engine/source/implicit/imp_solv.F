@@ -3124,12 +3124,6 @@ Chd|====================================================================
      B  WA            ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
      D  TFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
-c     D  TFEXT  ,NRBYAC ,IRBYAC ,NSC    ,NMC    ,NINT2  ,IINT2  ,NODFT  ,
-c     E  NODLT  ,NDDL0  ,IDDL   ,NDOF   ,IKC    ,NNZK0  ,IADK   ,JDIK   ,
-c     F  IADM   ,JDIM   ,IKINW  ,D_IMP  ,DR_IMP ,DD     ,DDR    ,DIAG_K ,
-c     I  LT_K   ,DIAG_M ,LT_M   ,LB     ,LB0    ,X_C    ,BUFMAT_C,
-c     J  NDDL   ,NNZK   ,INLOC  ,LSIZE  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,
-c     K  IND_IMP,NDOFI  ,IDDLI  ,NKUD   ,IKUD   ,BKUD   ,I_IMP  ,R_IMP  ,
      L  IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,FOPT   ,RWSAV  ,
      M  FSAVD  ,DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
@@ -3232,7 +3226,7 @@ C      INTEGER, DIMENSION(:),ALLOCATABLE :: IADI,JDII,ITOK
         INTEGER  NNOD,IFDIS,N1,N2,N3
         INTEGER LBAND,NCL_MAX,IRFLAG,IBID
         my_real
-     .    TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,RBID,WE_IMP,LAMDA
+     .  TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,RBID,WE_IMP,LAMDA,DUMMY_FEXT(3,1)
 C      my_real,
 C     .         DIMENSION(:),ALLOCATABLE :: DIAG_I,LT_I
         INTEGER, POINTER     :: NDDL,NNZK,NRBYAC,NINT2,NMC,NMC2,NMONV
@@ -3249,6 +3243,7 @@ C     .         DIMENSION(:),ALLOCATABLE :: DIAG_I,LT_I
 C------------------------------
 C        Initialisation
 C-----------------------------------------------
+        DUMMY_FEXT = ZERO
         NDDL => IMPBUF_TAB%NDDL
         NNZK => IMPBUF_TAB%NNZK
         NRBYAC => IMPBUF_TAB%NRBYAC
