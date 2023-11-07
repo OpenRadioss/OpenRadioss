@@ -497,8 +497,8 @@ c
      .                         + FIVE*(ECC**2) - FOUR*ECC)))
             DR_DCOSTH = (UPRIM*V - U*VPRIM)/(V**2)
             DFP_DTH = M0*(QH1(I)**2)*(QH2(I))*(RHOB(I)/(SQR6*FC(I)))*DR_DCOSTH*(-SINTH(I))
-            DTH_DJ2 = THREE*SQR3*J3(I)/(FOUR*(J2(I)**2)*SQRT(J2(I))*MAX(SQRT(ONE - (COS3TH(I))**2),EM20))
-            DTH_DJ3 = -SQR3/(TWO*J2(I)*SQRT(J2(I))*MAX(SQRT(ONE - (COS3TH(I))**2),EM20))
+            DTH_DJ2 = THREE*SQR3*J3(I)/(FOUR*(J2(I)**2)*SQRT(J2(I))*MAX(SQRT(ONE - (COS3TH(I))**2),EM08))
+            DTH_DJ3 = -SQR3/(TWO*J2(I)*SQRT(J2(I))*MAX(SQRT(ONE - (COS3TH(I))**2),EM08))
 c
             ! Derivative of third deviatoric invariant with respect to stresses
             DJ3DSXX = TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)
