@@ -1141,6 +1141,7 @@ c         check if outside side AB
           ELSEIF(LC(I)<AAA)THEN
               ISTEP(I)=3
               SUBTRIA_N(I)=IT0(3,ITQ)
+              SUBTRIA  (I)=IT0(3,ITQ)
               XXL(1:17)=XX(I,1:17)
               YYL(1:17)=YY(I,1:17)
               ZZL(1:17)=ZZ(I,1:17)
