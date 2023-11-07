@@ -32,9 +32,9 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE FAIL_SAHRAEI_S(
      1     NEL   ,NFUNC ,IFUNC ,NPF   ,TF     ,
-     2     TIME  ,NGL   ,IPM   ,MAT   ,UPARAM ,
+     2     TIME  ,NGL   ,UPARAM ,
      3     EPSXX ,EPSYY ,EPSZZ ,EPSXY ,EPSYZ  ,
-     4     EPSZX ,OFF   ,IP    ,DFMAX ,TDELE  , 
+     4     EPSZX ,OFF   ,DFMAX ,TDELE  , 
      5     DELTAX,NUVAR ,UVAR  )
 C-----------------------------------------------
 C   MIT Wierzbicki Sahraei electric battery failure
@@ -75,8 +75,8 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM,IP,NUVAR
-      INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
+      INTEGER NEL, NUPARAM,NUVAR
+      INTEGER NGL(NEL)
       INTEGER, INTENT(IN) :: NFUNC 
       INTEGER, DIMENSION(NFUNC), INTENT(IN) ::  IFUNC    
       my_real TIME,UPARAM(*),

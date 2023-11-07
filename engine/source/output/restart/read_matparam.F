@@ -141,7 +141,7 @@ c
         IF (NFAIL > 0) THEN
           ALLOCATE (MAT_ELEM%MAT_PARAM(IMAT)%FAIL(NFAIL))
           DO I = 1,NFAIL
-            CALL READ_FAILPARAM(MAT_ELEM%MAT_PARAM(IMAT)%FAIL)
+            CALL READ_FAILPARAM(MAT_ELEM%MAT_PARAM(IMAT)%FAIL(I))
           END DO      
         END IF
       END DO      

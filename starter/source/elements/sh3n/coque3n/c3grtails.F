@@ -47,7 +47,7 @@ Chd|====================================================================
      6       IPART   ,SH3TREE,NOD2ELTG,ITRIOFF,
      7       SH3TRIM,TAGPRT_SMS,IWORKSH, STACK,
      8       DRAPE  ,RNOISE,
-     9       MATPARAM_TAB, SH3ANG,DRAPEG,PRINT_FLAG,PTSH3N)
+     9       MAT_PARAM, SH3ANG,DRAPEG,PRINT_FLAG,PTSH3N)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,8 +57,8 @@ C-----------------------------------------------
       USE STACK_MOD
       USE REORDER_MOD
       USE GROUPDEF_MOD
-      USE MATPARAM_DEF_MOD
       USE DRAPE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSH3N)  :: IGRSH3N
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
-      TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -134,7 +134,6 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH
-      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       my_real :: ANGLE(NUMELTG)
 C
 C-----------------------------------------------
@@ -569,7 +568,7 @@ c          IF (ICRACK3D > 0) THEN
             IF (IGTYP == 11 .or. IGTYP == 16) THEN
               DO IPT = 1, NPN                                    
                 IMATLY  = IGEO(100+IPT,PID)                      
-                IF (IPM(220,IMATLY) > 0) IXFEM = IPM(236,IMATLY)
+                IF (MAT_PARAM(IMATLY)%NFAIL > 0) IXFEM = MAT_PARAM(IMATLY)%IXFEM
               ENDDO                                              
               IF (IXFEM  > 0) IXFEM = 1
               IF (IXFEM == 1) NLEVXF = NXEL*NPN
@@ -578,12 +577,12 @@ c          IF (ICRACK3D > 0) THEN
                IPMAT   = IPPID + NPN
                DO IPT = 1, NPN
                  IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
-                 IF (IPM(220,IMATLY) > 0) IXFEM = IPM(236,IMATLY)
+                 IF (MAT_PARAM(IMATLY)%NFAIL > 0) IXFEM = MAT_PARAM(IMATLY)%IXFEM
                  IF (IXFEM  > 0) IXFEM = 1
                  IF (IXFEM == 1) NLEVXF = NXEL*NPN
                ENDDO
             ELSEIF (IGTYP == 1 .or. IGTYP == 9 .or. IGTYP == 10 .or. IGTYP == 17) THEN
-              IXFEM = IPM(236,MID)
+              IXFEM = MAT_PARAM(MID)%IXFEM
               IF (IXFEM == 1) THEN
                 IXFEM  = 2
                 NLEVXF = NXEL 
@@ -630,11 +629,10 @@ C--------------------
 C-   ISMSTR IPLAST,ITHICK Automatic           
 C-----------------all shell prop
           IF (IGTYP > 0)  THEN
-           MATPARAM => MATPARAM_TAB(MID)
 C----- fixed to 1 excepting small strain case          
            IF (ITHK<0) THEN
             ITHK = 1 
-            IF (MATPARAM%SMSTR==1 .OR. MLN == 1) ITHK = 0
+            IF (MAT_PARAM(MID)%SMSTR==1 .OR. MLN == 1) ITHK = 0
 C--------message out       
             ISM0 = ITHK
             IF (ITHK == 0) ISM0=2
@@ -660,15 +658,15 @@ C--------message out
            END IF 
 C------ --           
            IF (ISMST<0) THEN
-C---  MATPARAM%SMSTR : 2 large, 1: small  ;   MATPARAM%STRAIN_FORMULATION : 1 inc, 2 total     
+C---  MAT_PARAM(MID)%SMSTR : 2 large, 1: small  ;   MAT_PARAM(MID)%STRAIN_FORMULATION : 1 inc, 2 total     
 c       there is no recommended total strain for shell for the moment
-              IF (MATPARAM%SMSTR==1) THEN
+              IF (MAT_PARAM(MID)%SMSTR==1) THEN
                 ISMST = 1
 C--in c3init3  :IF (ISMSTR == 1 .AND. MTN==19) IPARG(9)=11 -> Ismstr=11 for law19
               ELSE
                 ISMST = 2
 C----certain laws to use 4 to see one by one
-                IF (MATPARAM%STRAIN_FORMULATION==2) ISMST =4             
+                IF (MAT_PARAM(MID)%STRAIN_FORMULATION==2) ISMST =4             
                 IF (MLN == 58 ) ISMST =4
                 IF (MLN == 19 .AND. NPN==1) ISMST =11
               END IF
@@ -813,8 +811,8 @@ C-------------
           IF (IGTYP == 11)THEN
             DO IPT = 1, NPN
               IMATLY  = IGEO(100+IPT,PID)
-              IF (IPM(220 ,IMATLY) > 0) IPARG(43,NGROUP) = 1
-              IF (IPM(254 ,IMATLY) > 0) IFWV = 1                         
+              IF (MAT_PARAM(IMATLY)%NFAIL > 0) IPARG(43,NGROUP) = 1
+              IF (MAT_PARAM(IMATLY)%IFAILWAVE > 0) IFWV = 1                         
             ENDDO 
 c--------
           ELSEIF(IGTYP == 17) THEN
@@ -822,7 +820,7 @@ c--------
             IPMAT   = IPPID + NPN
             DO IPT = 1, NPN
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
-              IF(IPM(220,IMATLY) >  0)THEN
+              IF (MAT_PARAM(IMATLY)%NFAIL >  0)THEN
                 IPARG(43,NGROUP) = 1
               ENDIF       
             ENDDO 
@@ -836,10 +834,10 @@ C---
             IPMAT   = IPPID + NPN
             DO IPT = 1, NPN
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
-              IF(IPM(220,IMATLY) >  0)THEN
+              IF (MAT_PARAM(IMATLY)%NFAIL >  0)THEN
                 IPARG(43,NGROUP) = 1
               ENDIF       
-              IF (IPM(254 ,IMATLY) > 0) IFWV = 1                         
+              IF (MAT_PARAM(IMATLY)%IFAILWAVE > 0) IFWV = 1                         
 C --- PID 51 combined with LAW58 ---
               IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
             ENDDO
@@ -851,10 +849,10 @@ C --- set new IREP for groups:
             ENDIF
 c--------
           ELSE ! IGTYP == 1
-            IF(IPM(220 ,MID) > 0.AND.MLN /= 0 .AND. MLN /= 13)THEN
+            IF(MAT_PARAM(MID)%NFAIL > 0.AND.MLN /= 0 .AND. MLN /= 13)THEN
               IPARG(43,NGROUP) = 1
             ENDIF
-            IF (IPM(254 ,MID) > 0) IFWV = 1                         
+            IF (MAT_PARAM(MID)%IFAILWAVE > 0) IFWV = 1                         
          ENDIF ! IGTYP
 C-------------
          IF(MLN == 13) IRIGID_MAT = 1 
@@ -884,7 +882,7 @@ C         flag for group of duplicated elements in multidomains
           IPARG(41,NGROUP)= IDROT1
           IPARG(62,NGROUP)= PID
 c         non-local variable regularization flag for failure models
-          IPARG(78,NGROUP)= IPM(253,MID)   ! NLOC_FAIL 
+          IPARG(78,NGROUP)= MAT_PARAM(MID)%NLOC   ! NLOC_FAIL 
           IPARG(79,NGROUP)= IFWV
 c
 C     Multifluid law, setting NLAY

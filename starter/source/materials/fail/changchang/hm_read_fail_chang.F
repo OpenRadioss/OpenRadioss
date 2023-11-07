@@ -32,29 +32,18 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_CHANG(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,IXFEM    ,ID     ,FAIL_ID  ,
+      SUBROUTINE HM_READ_FAIL_CHANG(FAIL , 
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
      .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   READ FAILURE CHANG (replace LECR13)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+C   READ FAILURE CHANG
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
 C-----------------------------------------------
@@ -68,20 +57,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,IXFEM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*) 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISHELL,FAILIP
-      my_real 
-     .    SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,BETA,TMAX
+      INTEGER :: IFAIL_SH,FAILIP
+      my_real :: SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,BETA,TMAX,PTHKF
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C--------------------------------------------------
 C   S o u r c e   L i n e s
@@ -99,8 +85,9 @@ C--------------------------------------------------
 
       CALL HM_GET_FLOATV    ('Beta'       ,BETA       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Tau_max'    ,TMAX       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV      ('Ifail_sh'   ,ISHELL     ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV      ('Ifail_sh'   ,IFAIL_SH     ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV      ('Failip'     ,FAILIP     ,IS_AVAILABLE,LSUBMODEL)
+c---------------------------
             
       IF (SIGT1  == ZERO) SIGT1  = INFINITY
       IF (SIGT2  == ZERO) SIGT2  = INFINITY
@@ -108,30 +95,52 @@ C--------------------------------------------------
       IF (SIGC1  == ZERO) SIGC1  = INFINITY
       IF (SIGC2  == ZERO) SIGC2  = INFINITY
       IF (TMAX   == ZERO) TMAX   = INFINITY
-      IF (ISHELL == 0)    ISHELL = 1    
+      IF (IFAIL_SH == 0)    IFAIL_SH = 1    
       IF (FAILIP == 0)    FAILIP = 1           
-
-      UPARAM(1) = SIGT1
-      UPARAM(2) = SIGT2
-      UPARAM(3) = SIGT12
-      UPARAM(4) = SIGC1
-      UPARAM(5) = SIGC2
-      UPARAM(6) = BETA
-      UPARAM(7) = TMAX
-      UPARAM(8) = ISHELL
-      UPARAM(9) = FAILIP
-
-      NUPARAM = 9
-      NUVAR   = 1
-      NFUNC   = 0
-
+c
+      IF (IFAIL_SH == 1) THEN        ! matrix or fiber failure
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN    ! matrix or fiber failure
+        PTHKF = ONE
+      ELSEIF (IFAIL_SH == 3) THEN    ! fiber only failure
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 4) THEN    ! fiber only failure
+        PTHKF = ONE
+      END IF                  
+c---------------------------
+      FAIL%KEYWORD = 'CHANG' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 9
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 1
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = SIGT1
+      FAIL%UPARAM(2) = SIGT2
+      FAIL%UPARAM(3) = SIGT12
+      FAIL%UPARAM(4) = SIGC1
+      FAIL%UPARAM(5) = SIGC2
+      FAIL%UPARAM(6) = BETA
+      FAIL%UPARAM(7) = TMAX
+      FAIL%UPARAM(8) = IFAIL_SH
+      FAIL%UPARAM(9) = FAILIP
+c---------------------------
       IF(IS_ENCRYPTED)THEN
       
       ELSE
        WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,BETA,TMAX    
-       IF(ISHELL==1)THEN
+       IF(IFAIL_SH==1)THEN
         WRITE(IOUT, 1100)
-       ELSEIF(ISHELL==2)THEN
+       ELSEIF(IFAIL_SH==2)THEN
         WRITE(IOUT, 1200)
        ENDIF   
        WRITE(IOUT,1300) FAILIP    

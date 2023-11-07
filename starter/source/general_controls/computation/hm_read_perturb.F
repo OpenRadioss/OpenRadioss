@@ -35,7 +35,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PERTURB(
+      SUBROUTINE HM_READ_PERTURB(MAT_PARAM,
      1      IPART   ,RNOISE  ,IPARTC   ,IPARTG    ,IPARTSP  ,
      2      IGRPART ,IPM     ,IPARTS   ,PERTURB   ,QP_IPERTURB,
      3      QP_RPERTURB      ,LSUBMODEL,UNITAB  )
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE MAT_ELEM_MOD    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +70,7 @@ c     . RNOISE(*)
       INTEGER IPART(LIPART1,*),IPARTC(*),IPARTSP(*),IPARTG(*),IPARTS(*),
      .   IPM(NPROPMI,*),PERTURB(NPERTURB),QP_IPERTURB(NPERTURB,6)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRPART)  :: IGRPART
 C-----------------------------------------------
@@ -134,9 +136,9 @@ c
 c
 c     /PERTURB/FAIL/BIQUAD
 c
-      CALL HM_READ_PERTURB_FAIL(
+      CALL HM_READ_PERTURB_FAIL(MAT_PARAM,
      .     IPART    ,RNOISE   ,IPARTC ,IPARTG    ,IPARTSP  ,
-     .     IGRPART  ,IPARTS   ,IPM    ,PERTURB   ,IDPERTURB,
+     .     IGRPART  ,IPARTS   ,PERTURB   ,IDPERTURB,
      .     INDEX   ,INDEX_ITYP,NPART_SHELL,OFFS ,QP_IPERTURB,
      .     QP_RPERTURB,LSUBMODEL,UNITAB)
 c

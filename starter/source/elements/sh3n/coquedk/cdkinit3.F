@@ -64,7 +64,7 @@ Chd|====================================================================
      C                   SH3TRIM,ISUBSTACK,STACK,RNOISE ,DRAPE,
      D                   SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
      E                   PERTURB,IYLDINI,ELE_AREA,NLOC_DMG,
-     G                   IDRAPE ,DRAPEG)
+     G                   IDRAPE ,DRAPEG,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE GROUP_PARAM_MOD
       USE NLOCAL_REG_MOD   
       USE DRAPE_MOD           
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,6 +113,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE (DRAPE_)  :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -337,12 +339,9 @@ C-----------------------------------------------------------------------
 C----------------------------------------
 c Failure model initialisation
 C----------------------------------------
-c       IF ( NPERTURB /= 0 .OR. NVSHELL1 /= 0) THEN
-                 CALL CFAILINI4(ELBUF_STR,IXTG    ,NIXTG   ,NPTR    ,NPTS    ,
-     .                 NPTT     ,NLAY    ,IPM     ,SIGSH   ,NSIGSH  ,
-     .                 NUMELTG  ,PTSH3N  ,RNOISE  ,PERTURB ,BUFMAT  ,
-     .                 ALDT     ,THK     )
-c       ENDIF
+	       CALL CFAILINI4(ELBUF_STR,NPTR    ,NPTS    ,NPTT    ,NLAY    ,
+     .                 SIGSH    ,NSIGSH  ,PTSH3N  ,RNOISE  ,PERTURB ,
+     .                 MAT_PARAM,ALDT    ,THK     )
 C-----------------------------------------------------------------------
 C     CALCUL DES DEFORMATIONS INITIALES (MEMBRANE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

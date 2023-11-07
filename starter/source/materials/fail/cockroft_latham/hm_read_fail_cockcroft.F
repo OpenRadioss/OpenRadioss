@@ -29,12 +29,16 @@ Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_float
 Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_COCKCROFT(UPARAM, MAXUPARAM, NUPARAM,
-     .     NUVAR, IFUNC, MAXFUNC, NFUNC, FAIL_ID, 
-     .     LSUBMODEL, UNITAB)
+      SUBROUTINE HM_READ_FAIL_COCKCROFT(
+     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           LSUBMODEL,UNITAB   )
+C-----------------------------------------------
+c    ROUTINE DESCRIPTION :
+c    Read Cockroft-Latham failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE SUBMODEL_MOD
 C---------------------------------------------------------------------
@@ -44,47 +48,54 @@ C---------------------------------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C     IOUT
 #include "units_c.inc"
 C-----------------------------------------------
 C     D u m m y  A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: MAXUPARAM, MAXFUNC
-      INTEGER, INTENT(INOUT) :: NUPARAM, NUVAR, NFUNC, 
-     .     IFUNC(MAXFUNC)
-      my_real, INTENT(INOUT) ::  UPARAM(MAXUPARAM)
-      INTEGER, INTENT(INOUT) :: FAIL_ID
-      TYPE (UNIT_TYPE_), INTENT(IN) ::UNITAB
-      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C     L o c a l  V a r i a b l e s
 C-----------------------------------------------
       my_real :: C0, EMA
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
-C-------------------------------------------------
-C     B e g i n n i n g   o f  S u b r o u t i n e
-C-------------------------------------------------
-!     =================================    !
-!     COCKROFT-LATHAM Rupture Criterion    !
-!     =================================    !
+c=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 !     Initializations
-      NFUNC  = 0
-      NUPARAM = 2
-      NUVAR = 3
+
       C0  = ZERO
 !     Encryption flag
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)      
+
 !     Line 1
       CALL HM_GET_FLOATV('C0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('ALPHA', EMA, IS_AVAILABLE, LSUBMODEL, UNITAB)  
 !     Default values
       IF (EMA == ZERO) EMA = ONE
-
-      UPARAM(1) = C0
-      UPARAM(2) = EMA
-
+c----------------------------------
+      FAIL%KEYWORD = 'COCKROFT-LATHAM' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 2
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 3
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = C0
+      FAIL%UPARAM(2) = EMA
+c----------------------------------
       IF (IS_ENCRYPTED) THEN
          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -94,8 +105,8 @@ C-------------------------------------------------
          ELSE
             WRITE(IOUT, 1200)       
          ENDIF       
-      ENDIF  
-      
+      ENDIF        
+c-----------------------------------------------------------
  1000 FORMAT(
      &     5X,40H    COCKROFT-LATHAM FAILURE CRITERIA          /,
      &     5X,40H    --------------------------------          /,
@@ -108,5 +119,6 @@ C-------------------------------------------------
  1200 FORMAT(
      &     5X,' PLASTIC STRAIN INCTEMENT USED',/
      &     5X,' --------------------------------------------------------- ',//)
+C-----------
       RETURN
       END

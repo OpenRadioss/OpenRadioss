@@ -116,7 +116,7 @@ Chd|====================================================================
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
      7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
-     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MATPARAM_TAB,
+     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MAT_PARAM,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
      C                  IPARTR   ,IPARTUR  ,IPARTTG     ,
@@ -277,7 +277,7 @@ C-----------------------------------------------
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
       TYPE (LOADS_)   , INTENT(IN) :: LOADS
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       my_real , INTENT(IN) :: AR(SAR)
       my_real , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                        CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
@@ -2655,7 +2655,7 @@ c         IF(ISPMD == 0)   print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPU
      .                 IGEO     ,IXTG  ,IPM   ,STACK ,SHELL_ID   ,SHELL_ITY    ,INFO1,
      .                 INFO2    ,IS_WRITEN_SHELL ,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                 ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD,D    ,
-     .                 OBJECT_ID  ,BUFMAT    ,MATPARAM_TAB)
+     .                 OBJECT_ID  ,BUFMAT    ,MAT_PARAM)
 
 c
           IF (NSPMD > 1 ) THEN
@@ -3096,7 +3096,7 @@ c-----
      6                    IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                    NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                    NSENSOR,SENSORS%SENSOR_TAB,TAGNCONT,LOADP_HYD_INTER,XFRAME,FORC  ,
-     9                    NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME)
+     9                    NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME,MAT_PARAM)
 c
           IF (NSPMD > 1 ) THEN
             CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

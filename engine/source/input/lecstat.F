@@ -31,12 +31,12 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LECSTAT(IPART ,IPART_STATE,ELBUF_TAB,IPM,IPARG,
-     .                   IPARTS,IPARTC     ,IPARTG)
+     .                   IPARTS,IPARTC     ,IPARTG,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: IPM(NPROPMI,NUMMAT),IPARG(NPARG,*)
 C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -103,7 +104,7 @@ C-----------------------------------------------
                   IF (MAT_CHECKED(IMAT) == 0 ) THEN
                     MAT_CHECKED(IMAT) = 1
                     DO IFAIL = 1,NFAIL 
-                      FAIL_ID = IPM(236+IFAIL,IMAT)
+                      FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID  
                       IF (FAIL_ID == 0)
      .                  CALL ANCMSG(MSGID=297,ANMODE=ANINFO,I1=MAT_ID)
                     ENDDO ! DO IFAIL

@@ -194,9 +194,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NV46, NUMEL, INLOC, JSMS
-      INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,ISRATE,SIZNUL,MX,IPG,NPTR,NPTS,
+      INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,NTABL_FAIL,ISRATE,SIZNUL,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
-     .  NVARF,NVARVIS,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV
+     .  NVARF,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID2,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      .SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -234,6 +234,7 @@ C----
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF      
       LOGICAL :: LOGICAL_USERL_AVAIL
       my_real  USER_UELR(MVSIZ)
+      INTEGER, DIMENSION(:) ,POINTER  :: ITABL_FAIL
       INTEGER, DIMENSION(:) ,POINTER  :: FLD_IDX,FOFF,IFUNC,ITABLE
       INTEGER                         :: DMG_FLAG
       my_real, DIMENSION(:,:) , ALLOCATABLE :: ISMSTR10_FP
@@ -1259,11 +1260,7 @@ C for all plastic law
           ENDDO
         ENDIF
 c        
-c        NUMBER_FAILURE = IPM(220, MX)
-c        NUVARR = IPM(221, MX)
-c
         DO IR = 1,NFAIL
-          IP=(IR -1)*15         
 C------
           DO I=LFT,LLT 
             DAV = (EP1(I)+EP2(I)+EP3(I))*THIRD
@@ -1293,40 +1290,36 @@ c----
           DFMAX   => FBUF%FLOC(IR)%DAMMX  
           DAMINI  => FBUF%FLOC(IR)%DAMINI    
           TDEL    => FBUF%FLOC(IR)%TDEL   
-          NPAR    =  IPM(112+IP, MX)   
-          IADBUF  =  IPM(114+IP ,MX)
-          UPARAMF => BUFMAT(IADBUF:IADBUF+NPAR) 
-          NFUNC   =  IPM(115+IP, MX)             
           FLD_IDX => FBUF%FLOC(IR)%INDX
           FOFF    => FBUF%FLOC(IR)%OFF
           DAM     => FBUF%FLOC(IR)%DAM
-          IFUNC   => IPM(115+IP+1:115+IP+NFUNC, MX)         
-c          DO I=1,NFUNC
-c            IFUNC(I) = IPM(115+IP+I, MX)         
-c          ENDDO
+c
+          NPAR    =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NUPARAM 
+          UPARAMF => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%UPARAM(1:NPAR) 
+          NFUNC   =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NFUNC         
+          IFUNC   => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%IFUNC(1:NFUNC)
+          NTABL_FAIL =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NTABLE
+          ITABL_FAIL => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%TABLE(1:NTABL_FAIL)
 c----  
           IF (IRUPT == 1)THEN                                            
 C---- Johnson cook            
-              CALL FAIL_JOHNSON(LLT ,NPAR,NVARF,NFUNC,IFUNC,
-     2                    NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3                    NGL ,IPM ,MAT ,
+              CALL FAIL_JOHNSON(LLT ,NPAR,NVARF,
+     2                    TT  ,DT1  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6,
-     5                    DPLA,EPSP1,TSTAR,UVARF,OFF,IP,
+     5                    DPLA,EPSP1,TSTAR,UVARF,OFF,
      6                    DFMAX,TDEL )                   
           ELSEIF (IRUPT == 2) THEN                                        
 C           Tuler Butcher                                                
-               CALL FAIL_TBUTCHER_S(LLT ,NPAR,NVARF,NFUNC,IFUNC,
-     2                    NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3                    NGL ,IPM ,MAT ,
+               CALL FAIL_TBUTCHER_S(LLT ,NPAR,NVARF,
+     2                    TT  ,DT1  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6,
-     5                   UVARF,OFF ,IP  ,DFMAX,TDEL )                                    
+     5                    UVARF,OFF ,DFMAX,TDEL )                                    
           ELSEIF (IRUPT == 3) THEN                                        
 C   wilkins          
-               CALL FAIL_WILKINS_S(LLT ,NPAR,NUVARR,NFUNC,IFUNC,
-     2                    NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3                    NGL ,IPM ,MAT ,
+               CALL FAIL_WILKINS_S(LLT ,NPAR,NUVARR,
+     2                    TT  ,DT1  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6,
-     5                    DPLA,UVARF,OFF,IP   ,DFMAX,TDEL )                               
+     5                    DPLA,UVARF,OFF,DFMAX,TDEL )                               
           ELSEIF (IRUPT == 4)THEN                                         
 C   user1         
             IF (LOGICAL_USERL_AVAIL)THEN
@@ -1430,17 +1423,15 @@ C   user3
           ELSEIF (IRUPT == 7)THEN                                        
           ELSEIF (IRUPT == 8)THEN                                         
 C---- Johnson cook + spalling          
-              CALL FAIL_SPALLING_S(LLT ,NPAR,NVARF,NFUNC,IFUNC,
-     2                    NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3                    NGL ,IPM ,MAT ,
+              CALL FAIL_SPALLING_S(LLT ,NPAR,NVARF,
+     2                    TT  ,DT1  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      5                    DPLA,EPSP1,TSTAR,UVARF,OFF         ,
      6                    DFMAX,TDEL ,OFFG)                   
           ELSEIF (IRUPT == 9)THEN                                         
 C---- wierzbicki
-              CALL FAIL_WIERZBICKI_S(LLT ,NPAR,NUVARR,NFUNC,IFUNC,
-     2                    NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3                    NGL ,IPM ,MAT ,
+              CALL FAIL_WIERZBICKI_S(LLT ,NPAR,NUVARR,
+     2                    TT  ,DT1  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6,
      5                    DPLA,DEFP,UVARF,OFF ,DFMAX,
      6                    TDEL )                          
@@ -1448,10 +1439,10 @@ C---- wierzbicki
 C---- strain tension            
               CALL FAIL_TENSSTRAIN_S(LLT ,NPAR,NVARF,NFUNC,IFUNC       ,
      2             NPF ,TF  ,TT  ,DT1  ,UPARAMF,
-     3             NGL ,IPM ,MAT ,DELTAX   ,TSTAR ,ISMSTR, 
+     3             NGL ,DELTAX   ,TSTAR ,ISMSTR, 
      4             ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6     ,
      5             S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
-     6             EPSP1,UVARF,OFF ,IP   ,DFMAX,TDEL  ,
+     6             EPSP1,UVARF,OFF ,DFMAX,TDEL  ,
      7             MFXX   ,MFXY   ,MFXZ   ,MFYX    ,MFYY   ,MFYZ   ,                 
      8             MFZX   ,MFZY   ,MFZZ   ,LBUF%DMGSCL)
           ELSEIF (IRUPT == 11)THEN                                        
@@ -1459,7 +1450,7 @@ C---- energy failure
             CALL FAIL_ENERGY_S(
      1        NEL      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,NPF      ,
      2        TF       ,TT       ,DT1      ,UPARAMF  ,NGL      ,EPSP1    ,
-     3        UVARF    ,OFF      ,IP       ,DFMAX    ,TDEL     ,LBUF%DMGSCL,            
+     3        UVARF    ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,            
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      5        DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      )
           ELSEIF (IRUPT == 13) THEN
@@ -1476,9 +1467,8 @@ C---- tabulated failure model
      1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
      2         UPARAMF  ,NGL      ,EL_LEN   ,        
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
-     4         DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
-     5         OFF      ,TABLE    ,DFMAX    ,TDEL  ,
-     6         NFUNC    ,IFUNC )                                      
+     4         DPLA     ,EPSP1    ,TSTAR    ,UVARF ,NTABL_FAIL,ITABL_FAIL,             
+     5         OFF      ,TABLE    ,DFMAX    ,TDEL  ,NFUNC    ,IFUNC )                                      
           ELSEIF (IRUPT == 24) THEN                                      
 c   --- Orthotropic strain failure
               CALL FAIL_ORTHSTRAIN(
@@ -1492,18 +1482,18 @@ c   --- Orthotropic strain failure
           ELSEIF (IRUPT == 27) THEN                                      
 c ---   extended mohr coulomb failure model                                             
               CALL FAIL_EMC(
-     1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         DT1      ,UPARAMF     ,NGL      ,IPM      ,MAT      ,        
+     1         LLT      ,NVARF    ,TT       ,        
+     2         DT1      ,UPARAMF  ,NGL      ,    
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
      4         DEFP     ,DPLA     ,EPSP1    ,UVARF ,             
-     5         OFF      ,IP       ,DFMAX    ,TDEL    )                                      
+     5         OFF      ,DFMAX    ,TDEL    )                                      
           ELSEIF (IRUPT == 29) THEN                                      
 c ---   MIT Wierzbicki Sahraei electric battery failure                                               
               CALL FAIL_SAHRAEI_S(
      1        LLT      ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
-     2        TT       ,NGL      ,IPM      ,MAT      ,UPARAMF  ,
+     2        TT       ,NGL      ,UPARAMF  ,
      3        ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      , 
-     4        OFF      ,IP       ,DFMAX    ,TDEL     ,DELTAX   ,
+     4        OFF      ,DFMAX    ,TDEL     ,DELTAX   ,
      5        NVARF    ,UVARF    ) 
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
@@ -1515,16 +1505,15 @@ c  --- Biquadratic failure model
           ELSEIF (IRUPT == 33) THEN                                
 c  --- Mullins Ogden-Roxburgh damage model                                  
               CALL FAIL_MULLINS_OR_S(
-     1        LLT      ,NPAR     ,NVARF    ,NPF      ,TF       ,
-     2        TT       ,DT1      ,UPARAMF,NGL , 
-     3        MAT      ,S1       ,S2       ,S3       ,S4       ,
-     4        S5       ,S6       ,UVARF    ,OFF      ,IP       ,
+     1        LLT      ,NPAR     ,NVARF    ,
+     2        TT       ,DT1      ,UPARAMF  ,NGL      , 
+     3        S1       ,S2       ,S3       ,S4       ,
+     4        S5       ,S6       ,UVARF    ,OFF      ,
      5        DFMAX    ,LBUF%EPSA) 
           ELSEIF (IRUPT == 34) THEN                                           
 C  --- Cockroft-Latham failure model             
               CALL FAIL_COCKROFT_S(LLT    ,NPAR     ,NVARF,
-     1        TT      ,DT1       ,UPARAMF,
-     2        NGL     ,
+     1        TT      ,DT1       ,UPARAMF ,NGL     ,
      3        EP1     ,EP2       ,EP3      ,EP4      ,EP5           ,EP6 ,
      4        ES1     ,ES2       ,ES3      ,ES4      ,ES5           ,ES6 ,
      5        S1      ,S2        ,S3       ,S4       ,S5            ,S6  ,
@@ -1542,10 +1531,10 @@ c
 c ---       tabulated failure model (old, obsolete version)
               CALL FAIL_TAB_OLD_S(
      1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         UPARAMF  ,NGL      ,IPM      ,MAT      ,EL_LEN   ,        
+     2         UPARAMF  ,NGL      ,EL_LEN   ,        
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
      4         DEFP     ,DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
-     5         OFF      ,IP       ,DFMAX    ,TDEL     ,
+     5         OFF      ,DFMAX    ,TDEL     ,
      6         NFUNC    ,IFUNC ) 
 c
           ELSEIF (IRUPT == 38) THEN                                      
@@ -1566,7 +1555,7 @@ c  --- GENE1 failure model
      4          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,           
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      6          TEMPEL   ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
-     7          IR       ,ELBUF_TAB(NG),ILAY )
+     7          IR       ,ELBUF_TAB(NG),ILAY ,NTABL_FAIL,ITABL_FAIL)
 c
           ELSEIF (IRUPT == 40) THEN                                      
 c  --- RTCL failure model                                  
@@ -1583,13 +1572,13 @@ C---- Tabulated failure model version 2
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,
-     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ) 
+     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,NTABL_FAIL,ITABL_FAIL) 
 c
           ELSEIF (IRUPT == 42) THEN                                      
 C---- Inievo failure model
               CALL FAIL_INIEVO_S(
-     1          NEL      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2          NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
+     1          NEL      ,NPAR     ,NVARF    ,
+     2          TABLE    ,NTABL_FAIL,ITABL_FAIL,TT       ,UPARAMF  , 
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,

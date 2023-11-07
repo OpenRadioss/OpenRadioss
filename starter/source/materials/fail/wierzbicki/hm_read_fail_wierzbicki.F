@@ -32,29 +32,16 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_WIERZBICKI(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL)
+      SUBROUTINE HM_READ_FAIL_WIERZBICKI(FAIL , 
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE WIRZBICKI (REPLACE LECR09)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c    ROUTINE DESCRIPTION :
+c    Read Wierzbicki-Xue failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
 C-----------------------------------------------
@@ -68,72 +55,90 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)          ::NUPARAM,NUVAR
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISHELL, ISOLID,IMOY
-      my_real C1,C2,C3,C4,CM,CN
-      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
+      INTEGER IFAIL_SH, IFAIL_SO,IMOY
+      my_real C1,C2,C3,C4,CM,CN,PTHKF
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-      CALL HM_GET_FLOATV         ('C1_WIERZBICKI',C1     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C2_WIERZBICKI',C2     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C3_WIERZBICKI',C3     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('C4_WIERZBICKI',C4     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('m'            ,CM     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV  ('C1_WIERZBICKI',C1       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV  ('C2_WIERZBICKI',C2       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV  ('C3_WIERZBICKI',C3       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV  ('C4_WIERZBICKI',C4       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV  ('m'            ,CM       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      CALL HM_GET_FLOATV         ('n_WIERZBICKI' ,CN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('Ifail_sh'     ,ISHELL ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV           ('Imoy'         ,IMOY   ,IS_AVAILABLE,LSUBMODEL) 
-
-      IF(ISHELL==0)ISHELL=1
-      IF(ISOLID==0)ISOLID=1
-      UPARAM(1) = C1
-      UPARAM(2) = C2
-      UPARAM(3) = C3
-      UPARAM(4) = C4
-      UPARAM(5) = CM
-      UPARAM(6) = CN
-      UPARAM(7) = ISHELL
-      UPARAM(8) = ISOLID
-      UPARAM(9) = IMOY 
-      NUPARAM = 9
-      NUVAR   = 2
-      NFUNC = 0
-
+      CALL HM_GET_FLOATV  ('n_WIERZBICKI' ,CN       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV    ('Ifail_sh'     ,IFAIL_SH ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV    ('Ifail_so'     ,IFAIL_SO ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV    ('Imoy'         ,IMOY     ,IS_AVAILABLE,LSUBMODEL) 
+C--------------------------------------------------
+      IF (IFAIL_SH==0) IFAIL_SH=1
+      IF (IFAIL_SO==0) IFAIL_SO=1
+c
+      IF (IFAIL_SH == 1) THEN
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN
+        PTHKF = ONE
+      ENDIF
+c
+      FAIL%KEYWORD = 'WIERZBICKI' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 9
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 2
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = C1
+      FAIL%UPARAM(2) = C2
+      FAIL%UPARAM(3) = C3
+      FAIL%UPARAM(4) = C4
+      FAIL%UPARAM(5) = CM
+      FAIL%UPARAM(6) = CN
+      FAIL%UPARAM(7) = IFAIL_SH
+      FAIL%UPARAM(8) = IFAIL_SO
+      FAIL%UPARAM(9) = IMOY 
+c--------------------------------------------------
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE       
        WRITE(IOUT, 1000)C1,C2,C3,C4,CM,CN,IMOY     
-       IF(ISHELL==1)THEN
+       IF(IFAIL_SH==1)THEN
         WRITE(IOUT, 1100)
-       ELSEIF(ISHELL==2)THEN
+       ELSEIF(IFAIL_SH==2)THEN
         WRITE(IOUT, 1200)
        ENDIF    
-       IF(ISOLID==1)THEN
+       IF(IFAIL_SO==1)THEN
         WRITE(IOUT, 2100)
-       ELSEIF(ISOLID==2)THEN
+       ELSEIF(IFAIL_SO==2)THEN
          WRITE(IOUT, 2200)
        ENDIF
-      ENDIF   
-                  
+      ENDIF                   
+c--------------------------------------------------
  1000 FORMAT(
      & 5X,40H  Xue-WIERZBICKI FAILURE MODEL          ,/,
      & 5X,40H  -----------------------------         ,/,
@@ -148,11 +153,10 @@ C--------------------------------------------------
      & 5X,'   SHELL ELEMENT DELETION ') 
  2100 FORMAT(
      & 5X,'   SOLID ELEMENT  DELETION ') 
-
  1200 FORMAT(
      & 5X,'    SHELL TENSOR STRESS OF LAYER WILL BE VANISHED ')    
  2200 FORMAT(
      & 5X,'    DEVIATORIC STRESS WILL BE VANISHED ')    
-
+c-----------
       RETURN
       END

@@ -32,29 +32,17 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_PUCK(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,IXFEM    ,ID     ,FAIL_ID  ,
+      SUBROUTINE HM_READ_FAIL_PUCK(FAIL ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
      .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE PUCK (replace LECR16)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c    ROUTINE DESCRIPTION :
+c    Read Puck failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
 C-----------------------------------------------
@@ -68,30 +56,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,IXFEM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISHELL ,ISOLID
+      INTEGER IFAIL_SH ,ISOLID
       my_real 
      .    SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,
-     .    PN12,PP12,PN22,TMAX,FCUT
+     .    PN12,PP12,PN22,TMAX,FCUT,PTHKF
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C--------------------------------------------------
 C   S o u r c e   L i n e s
 C--------------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
+c---------------------------
       CALL HM_GET_FLOATV    ('Sigma_1t'   ,SIGT1      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Sigma_2t'   ,SIGT2      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Sigma_12'   ,SIGT12     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -102,45 +89,63 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV    ('p12_Negative' ,PN12     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('p22_Negative' ,PN22     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Tau_max'      ,TMAX     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV      ('Ifail_sh'     ,ISHELL   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV      ('Ifail_sh'     ,IFAIL_SH   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV      ('Ifail_so'     ,ISOLID   ,IS_AVAILABLE,LSUBMODEL)
 
       CALL HM_GET_FLOATV    ('Fcut'         ,FCUT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      
-      IF (SIGT1 == ZERO) SIGT1 = EP30
-      IF (SIGT2 == ZERO) SIGT2 = EP30
-      IF (SIGT12 == ZERO) SIGT12 = EP30
-      IF (SIGC1 == ZERO) SIGC1 = EP30
-      IF (SIGC2 == ZERO) SIGC2 = EP30
-      IF(TMAX == ZERO) TMAX=EP30
-      IF(ISHELL == 0) ISHELL = 1 
-      IF(ISOLID == 0) ISOLID = 1   
+c---------------------------
+      IF (SIGT1 == ZERO)  SIGT1  = EP20
+      IF (SIGT2 == ZERO)  SIGT2  = EP20
+      IF (SIGT12 == ZERO) SIGT12 = EP20
+      IF (SIGC1 == ZERO)  SIGC1  = EP20
+      IF (SIGC2 == ZERO)  SIGC2  = EP20
+      IF (TMAX == ZERO)   TMAX   = EP20
+      IF (IFAIL_SH == 0)    IFAIL_SH = 1 
+      IF (ISOLID == 0)    ISOLID = 1   
+c
+      IF (IFAIL_SH == 1) THEN
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN
+        PTHKF = ONE
+      ENDIF
       FCUT = MAX(ZERO,FCUT)           
-C  
-      UPARAM(1) = SIGT1
-      UPARAM(2) = SIGT2
-      UPARAM(3) = SIGC1
-      UPARAM(4) = SIGC2
-      UPARAM(5) = SIGT12
-      UPARAM(6) = PP12
-      UPARAM(7) = PN12
-      UPARAM(8) = PN22
-      UPARAM(9) = TMAX
-      UPARAM(10) = ISHELL
-      UPARAM(11) = ISOLID  
-      UPARAM(12) = FCUT    
-C
-      NUPARAM = 12
-      NUVAR   = 14
-      NFUNC   = 0
-C
+c---------------------------
+      FAIL%KEYWORD = 'PUCK' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 12
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 14
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1)  = SIGT1
+      FAIL%UPARAM(2)  = SIGT2
+      FAIL%UPARAM(3)  = SIGC1
+      FAIL%UPARAM(4)  = SIGC2
+      FAIL%UPARAM(5)  = SIGT12
+      FAIL%UPARAM(6)  = PP12
+      FAIL%UPARAM(7)  = PN12
+      FAIL%UPARAM(8)  = PN22
+      FAIL%UPARAM(9)  = TMAX
+      FAIL%UPARAM(10) = IFAIL_SH
+      FAIL%UPARAM(11) = ISOLID  
+      FAIL%UPARAM(12) = FCUT    
+c---------------------------
       IF(IS_ENCRYPTED)THEN
       
       ELSE
        WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,PP12,PN12,PN22,TMAX,FCUT  
-       IF(ISHELL==1)THEN
+       IF(IFAIL_SH==1)THEN
         WRITE(IOUT, 1100)
-       ELSEIF(ISHELL==2)THEN
+       ELSEIF(IFAIL_SH==2)THEN
         WRITE(IOUT, 1200)
        ENDIF       
       ENDIF

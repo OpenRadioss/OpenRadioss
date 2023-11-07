@@ -38,9 +38,8 @@ Chd|====================================================================
      1     NEL     ,NUVAR   ,NPF     ,TF      ,TIME    ,
      2     UPARAM  ,NGL     ,ALDT    ,
      4     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
-     5     DPLA    ,EPSP    ,TSTAR   ,UVAR    ,
-     6     OFF     ,TABLE   ,DFMAX   ,TDELE   ,
-     7     NFUNC   ,IFUNC )
+     5     DPLA    ,EPSP    ,TSTAR   ,UVAR    ,NTABLF  ,ITABLF   ,
+     6     OFF     ,TABLE   ,DFMAX   ,TDELE   ,NFUNC   ,IFUNC    )
 C---------+---------+---+---+--------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -84,16 +83,14 @@ C-----------------------------------------------
       INTEGER NEL,NUVAR
       INTEGER NGL(NEL)
       INTEGER, INTENT(IN) :: NFUNC
-      INTEGER, DIMENSION(NFUNC), INTENT(IN) ::  IFUNC
+      INTEGER, INTENT(IN) :: NTABLF
+      INTEGER, DIMENSION(NFUNC)  ,INTENT(IN) :: IFUNC
+      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
 c
       my_real TIME,UPARAM(*),ALDT(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   DPLA(NEL),EPSP(NEL),TSTAR(NEL)     
-C-----------------------------------------------
-C   O U T P U T   A r g u m e n t s
-C-----------------------------------------------
-cc      my_real
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -118,7 +115,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,NINDX,
-     .  IFUN_EL,IFUN_TEMP,ID_DD ,ITABLE
+     .  IFUN_EL,IFUN_TEMP,ID_DD ,ITAB_EPSF
       INTEGER :: SFLAG
       INTEGER, DIMENSION(MVSIZ) :: INDX
       INTEGER :: NINDX_2
@@ -142,7 +139,6 @@ C-----------------------------------------------
         EL_REF  = UPARAM(9)
         Y1SCALE = UPARAM(12) 
         X1SCALE = UPARAM(13)
-        ITABLE  = UPARAM(23)
 c---
         IDEL = 0
         IDEV = 0
@@ -182,8 +178,9 @@ C----
             XX0(I,2)=EPSP(I) *X1SCALE
             XX0(I,3)=THETA
         ENDDO
+        ITAB_EPSF = ITABLF(1)
 
-        CALL TABLE_VINTERP(TABLE(ITABLE),NEL,NEL,IPOS,XX0,YY,DYDX)
+        CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,IPOS,XX0,YY,DYDX)
         EPSF(1:NEL) = YY(1:NEL)*Y1SCALE
 
 

@@ -28,11 +28,11 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_PUCK_S(
-     1     NEL     ,NUVAR   ,IP      ,ILAY    ,NPT0    ,
-     2     NPF     ,TF      ,TIME    ,TIMESTEP,UPARAM  ,
-     3     MAT     ,NGL     ,OFF     ,NOFF    ,SIGNXX  ,
+     1     NEL     ,NUVAR   ,ILAY    ,NPT0    ,
+     2     TIME    ,TIMESTEP,UPARAM  ,
+     3     NGL     ,OFF     ,NOFF    ,SIGNXX  ,
      4     SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     5     UVAR    ,IPM     ,NUPARAM ,DFMAX   ,TDELE   )
+     5     UVAR    ,NUPARAM ,DFMAX   ,TDELE   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,9 +42,6 @@ C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -82,8 +79,8 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM, NUVAR,ILAY,IP,NPT0
-      INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
+      INTEGER NEL,NUPARAM, NUVAR,ILAY,NPT0
+      INTEGER NGL(NEL)
       my_real 
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
@@ -93,11 +90,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOFF(NEL)
       my_real UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real TF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

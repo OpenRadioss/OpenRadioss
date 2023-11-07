@@ -2281,7 +2281,7 @@ C-----------------------------------------------------
       ALLOCATE(THK_PART(NPART)    ,STAT=stat)
 C
       CALL HM_READ_PART(IPART  ,PM      ,GEO       ,IPM     ,IGEO ,IWORK ,THK_PART,
-     .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG)
+     .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG,MAT_ELEM%MAT_PARAM)
 
       CALL TRACE_OUT1()
       
@@ -3808,7 +3808,7 @@ C---  Premiere Passe -> comptage
      6        IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7        IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
      8        NLOC_DMG ,DETONATORS,SENSORS%NSENSOR,SEATBELT_SHELL_TO_SPRING,
-     9        NB_SEATBELT_SHELLS)
+     9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
          IF(STAT /= 0) THEN
@@ -3836,7 +3836,7 @@ C---  Deuxieme Passe -> creation des interfaces
      6        IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7        IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
      8        NLOC_DMG ,DETONATORS,SENSORS%NSENSOR,SEATBELT_SHELL_TO_SPRING,
-     9        NB_SEATBELT_SHELLS)
+     9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM)
 C--------------------------------------------
 C     MULTIDOMAINS - SPLIT DES TABLEAUX
 C--------------------------------------------
@@ -5329,9 +5329,10 @@ C-----------------------------------------------------
         QP_IPERTURB(1:NPERTURB,1:6) = 0
         ALLOCATE(QP_RPERTURB(NPERTURB,4))
         QP_RPERTURB(1:NPERTURB,1:4) = ZERO
-        CALL HM_READ_PERTURB(IPART   ,RNOISE   ,IPARTC   ,IPARTG  ,IPARTSP  ,
-     .                  IGRPART ,IPM      ,IPARTS   ,PERTURB ,QP_IPERTURB,
-     .                  QP_RPERTURB       ,LSUBMODEL,UNITAB  )
+        CALL HM_READ_PERTURB(MAT_ELEM%MAT_PARAM,
+     .                       IPART   ,RNOISE   ,IPARTC   ,IPARTG  ,IPARTSP  ,
+     .                       IGRPART ,IPM      ,IPARTS   ,PERTURB ,QP_IPERTURB,
+     .                       QP_RPERTURB       ,LSUBMODEL,UNITAB  )
       ELSE
         SRNOISE1=1
         SRNOISE2=1
@@ -5382,6 +5383,8 @@ c------------------------------------------------------------------------
       CALL UPDMAT(BUFMAT   ,PM      ,IPM       ,TABLE    ,NPC1     ,
      .            NPC      ,TF      ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,
      .            MAT_ELEM%MAT_PARAM)
+c
+      CALL UPDFAIL(MAT_ELEM%MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,NPC1 ,TABLE )
 C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------
@@ -5724,7 +5727,7 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
      5     ITAB      ,IPART    ,IPARTC   ,IPARTG   ,IPARTS,
      6     POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
-     8     EBCS_TAG_CELL_SPMD,NPBY,LPBY)
+     8     EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_ELEM%MAT_PARAM)
 
       DEALLOCATE(IWORK)
 C---------------------------
@@ -5828,7 +5831,7 @@ C
      3       ND      ,IGRSURF,IGRBRIC,EANI   ,
      4       CEP(OFF),ITRI3  ,IXS10  ,IXS20  ,IXS16   ,
      5       IGEO   ,IPM    ,NOD2ELS,ISOLOFF ,
-     6       TAGPRT_SMS,SPH2SOL,SOL2SPH,
+     6       TAGPRT_SMS,SPH2SOL,SOL2SPH,MAT_ELEM%MAT_PARAM,
      7       SOL2SPH_TYP    ,IFLAG_BPRELOAD, CLUSTERS ,
      8       RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
 C---------------------------------
@@ -5898,7 +5901,7 @@ C
           CALL QGRHEAD(
      1      IXQ       ,PM       ,GEO       ,INUM     ,BID13    ,
      2      ITR1      ,EADD     ,INDEX1    ,ITRI1    ,IPARTQ   ,
-     4      ND        ,IGRSURF  ,IGRQUAD   ,CEP(OFF) ,
+     4      ND        ,IGRSURF  ,IGRQUAD   ,CEP(OFF) ,MAT_ELEM%MAT_PARAM,
      5      XEP       ,IGEO      ,IPM      ,IQUAOFF  )
 C---------------------------------
 C-  GROUPAGE SPMD
@@ -5921,7 +5924,7 @@ C
      1      IXQ       ,PM       ,IPARGTMP   ,GEO     ,
      2      EADD      ,ND       ,DD_TMP(IDX),IDX     ,
      3      INUM      ,INDEX1   ,CEP(OFF)   ,IPARTQ  ,
-     4      ITR1      ,IGRSURF  ,IGRQUAD    ,
+     4      ITR1      ,IGRSURF  ,IGRQUAD    ,MAT_ELEM%MAT_PARAM,
      5      IGEO      ,IPM      ,IQUAOFF    ,USER_INIVOL, IPRI)
           OFF = OFF + NUMELQ
        ENDIF
@@ -5959,7 +5962,7 @@ C
      3   IPARTC  ,ND      ,THKE    ,IGRSURF ,IGRSH4N ,
      4   CEP(OFF),XEP     ,IGEO    ,IPM     ,
      5   IPART   ,SH4TREE ,NOD2ELC ,ISHEOFF ,SH4TRIM ,
-     6   TAGPRT_SMS,LGAUGE,IWORKSH ,
+     6   TAGPRT_SMS,LGAUGE,IWORKSH ,MAT_ELEM%MAT_PARAM,
      7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG, PTSHEL)
 C---------------------------------
 C-  GROUPAGE SPMD
@@ -6089,7 +6092,7 @@ C test non depassement de LDD_IAD
             DEALLOCATE(DD_TMP2)
           END IF
 C
-          CALL PGRTAILS(
+          CALL PGRTAILS(MAT_ELEM%MAT_PARAM,
      1      IXP    ,IPARGTMP,PM         ,GEO     ,
      2      EADD   ,ND      ,DD_TMP     ,IDX     ,
      3      INUM   ,INDEX1  ,CEP(OFF)   ,IPARTP  ,
@@ -6187,7 +6190,7 @@ C---------------------------------
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM , SH3ANG,DRAPEG,PTSH3N)
+     8     MULTI_FVM , SH3ANG,DRAPEG,PTSH3N,MAT_ELEM%MAT_PARAM)
        ELSE
          CALL T3GRHEAD(
      1     IXTG    ,PM      ,GEO      ,INUM    ,BID13   ,
@@ -6195,7 +6198,7 @@ C---------------------------------
      3     IPARTG  ,ND      ,THKEC    ,IGRSURF ,IGRSH3N ,
      4     CEP(OFF),XEP     ,IXTG1    ,EANIT   ,
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
-     6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
+     6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,MAT_ELEM%MAT_PARAM,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
      8     MULTI_FVM ,SH3ANG,DRAPEG,PTSH3N)
        ENDIF
@@ -6237,7 +6240,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,USER_INIVOL,
-     9          SH3ANG ,DRAPEG,IPRI,PTSH3N)
+     9          MAT_ELEM%MAT_PARAM,SH3ANG ,DRAPEG,IPRI,PTSH3N)
          ENDIF
          OFF = OFF + NUMELTG
          DO I=1,NUMELTG
@@ -6261,8 +6264,8 @@ C---------------------------------
           EADD   => IWORK(1:NUMSPH+1)
           CALL SPGRHEAD(KXSP    ,IXSP    ,IPARGTMP,PM     ,IPART  ,
      2                  IPARTSP ,EADD    ,CEPSP   ,ND     ,IPM    ,
-     3                  IGEO    ,SPBUF  ,SPH2SOL,
-     4                  SOL2SPH ,IRST    )
+     3                  IGEO    ,SPBUF   ,SPH2SOL,
+     4                  SOL2SPH ,IRST    ,MAT_ELEM%MAT_PARAM)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6284,7 +6287,7 @@ C
      2                   IPARTSP ,EADD    ,ND      ,CEPSP,DD_TMP     ,
      3                   IDX     ,IXSP    ,IPM  , IGEO      ,
      4                   SPBUF   ,SPH2SOL,SOL2SPH  ,
-     5                   IRST    ,NOD2SP  ,IPRI)
+     5                   IRST    ,NOD2SP  ,IPRI    ,MAT_ELEM%MAT_PARAM)
         ENDIF
 C---------------------------------
       IF(NUMELX>0) THEN
@@ -8099,7 +8102,7 @@ c
 C--------------------------------------------
 C     WARNING FOR PTHICKFAIL
 C--------------------------------------------
-      CALL CHECK_PTHICKFAIL(ELBUF_TAB,IPARG    ,GEO      ,BUFMAT   ,SBUFMAT  ,
+      CALL CHECK_PTHICKFAIL(ELBUF_TAB,MAT_ELEM%MAT_PARAM ,IPARG    ,GEO      ,
      .                      IPM      ,STACK    ,IGEO     ,NUMMAT   ,NUMGEO   ,
      .                      NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,NPROPG   )
 C--------------------------------------------
@@ -8384,7 +8387,8 @@ C
      8            SIGI    ,SIGSH   ,SIGSP   ,SIGSPH  ,SIGRS   ,
      9            SIGBEAM ,SIGTRUSS,STRSGLOB,STRAGLOB,ORTHOGLOB,
      A            ISIGSH  ,IYLDINI ,KSIGSH3 ,FAIL_INI,IUSOLYLD,
-     B            IUSERL  ,IGRBRIC ,MAP_TABLES,IPARG ,STACK ,IWORKSH)
+     B            IUSERL  ,IGRBRIC ,MAP_TABLES,IPARG ,STACK ,IWORKSH,
+     C            MAT_ELEM%MAT_PARAM)
 C
 C----------------------------------
 C -- ELEMENT INITIALIZATION

@@ -34,15 +34,15 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR(
      .                   ELBUF_TAB,SKIN_SCALAR, IPARG   ,IXS     ,X     ,PM  ,
-     4                   IPARTS  ,IPM     ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
+     4                   IPARTS  ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
      5                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,NSKIN ,
      6                   IAD_ELEM        ,FR_ELEM     , WEIGHT  , TAG_SKINS6,
-     7                   NPF  ,TF   ,BUFMAT)
+     7                   NPF  ,TF   ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE MAT_ELEM_MOD    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,14 +59,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   SKIN_SCALAR(*),PM(NPROPM,*), X(3,*),TF(*)  ,BUFMAT(*)
+     .   SKIN_SCALAR(*),PM(NPROPM,*), X(3,*),TF(*)
       INTEGER IPARG(NPARG,*), 
-     .   IXS(NIXS,*),IPM(NPROPMI,*),IPARTS(*),
+     .   IXS(NIXS,*),IPARTS(*),
      .   IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,
      .   IGEO(NPROPGI,*),IS_WRITTEN_SKIN(*),NPF(*),
      .   H3D_PART(*),INFO1,NSKIN,TAG_SKINS6(*),IAD_ELEM(2,*),FR_ELEM(*),WEIGHT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER*ncharline KEYWORD
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
@@ -127,8 +128,8 @@ C------------change shear to eij
 C       
       CALL H3D_SOL_SKIN_SCALAR1(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                          SKIN_SCALAR,TAG_SKINS6,T6GPS,X  ,
-     .                          NPF,TF,BUFMAT,H3D_PART,IS_WRITTEN_SKIN,
-     .                          IPM,KEYWORD,NSKIN )
+     .                          NPF,TF,H3D_PART,IS_WRITTEN_SKIN,
+     .                          KEYWORD,NSKIN,MAT_PARAM)
 C
        DEALLOCATE(AFLU,VFLU,T6GPS,ITAGPS,TAG_SKIN_ND)
 C-----------

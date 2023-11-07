@@ -65,7 +65,7 @@ Chd|====================================================================
      5  ITAB  ,IPART  ,IPARTC  ,IPARTG ,IPARTS  ,
      6  POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7  MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
-     8  EBCS_TAG_CELL_SPMD,NPBY,LPBY)
+     8  EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,6 +80,7 @@ C-----------------------------------------------
       USE MID_PID_MOD
       USE MONVOL_STRUCT_MOD
       USE INTER_CAND_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -138,6 +139,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NNPBY,*), INTENT(in) :: NPBY
       INTEGER, DIMENSION(*), INTENT(in) :: LPBY
       TYPE(INTER_CAND_), INTENT(in) :: INTER_CAND
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -954,7 +956,8 @@ C   optimisation des poids par defaut
      .             TAB_UMP,POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      .             TABMP_L,IPART,IPARTC,IPARTG,
      .             IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
-     .             MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL)
+     .             MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL,
+     .             MAT_PARAM)
 C
       IF(NSUBDOM>0)THEN
         COST_R2R = ZERO

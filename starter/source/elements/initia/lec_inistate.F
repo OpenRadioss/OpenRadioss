@@ -45,7 +45,7 @@ Chd|====================================================================
      9                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB,
      A                  ISIGSH     ,IYLDINI      ,KSIGSH3      ,FAIL_INI     ,IUSOLYLD ,
      B                  IUSER      ,IGRBRIC      ,MAP_TABLES   ,IPARG        ,STACK    ,
-     C                  IWORKSH )
+     C                  IWORKSH    ,MAT_PARAM    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MAPPING_OPTION_MOD
       USE STACK_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +93,7 @@ C
       TYPE(MAPPING_STRUCT_) :: MAP_TABLES
       TYPE (STACK_PLY) :: STACK
       INTEGER,  INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -207,7 +209,7 @@ C-----------------------------------------
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
      D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
-     E                  STACK      ,IWORKSH      ,IOUT         )
+     E                  STACK      ,IWORKSH      ,IOUT         ,MAT_PARAM    )
       ENDIF
 C------------------------------------------------------------------------------------------
          CALL LEC_INISTATE_TRI(

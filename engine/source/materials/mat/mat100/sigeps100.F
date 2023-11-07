@@ -20,7 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C PRF : parallel rheological framework
+Chd|====================================================================
+      MODULE SIGEPS100_MOD
+      CONTAINS
 Chd|====================================================================
 Chd|  SIGEPS100                     source/materials/mat/mat100/sigeps100.F
 Chd|-- called by -----------
@@ -52,7 +54,7 @@ Chd|====================================================================
      A      MFXX   ,MFXY    ,MFXZ,MFYX, MFYY  , MFYZ  ,  
      B      MFZX   ,MFZY    ,MFZZ     , TEMPEL,                 
      C      SOUNDSP, VISCMAX, UVAR    , OFF   , ISMSTR, ET  ,
-     D      IHET   ,OFFG    , EPSTH   , IEXPAN    ,
+     D      IHET   ,OFFG    , EPSTH   , IEXPAN,NPARF  ,
      E      UPARAMF,UVARF   ,NVARF    ,JCVT   ,GAMA_R)
 C
 C-----------------------------------------------
@@ -66,9 +68,11 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,  JCVT, NVARF,   NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN
+      INTEGER ,INTENT(IN) ::  NPARF
+      INTEGER ,INTENT(IN) ::  NEL,JCVT,NVARF,NUPARAM,NUVAR,ISMSTR,IHET,IEXPAN
+      INTEGER ,INTENT(IN) ::  NGL(NEL)
       my_real
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NUPARAM),
+     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NPARF),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
      .      DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL),
      .      DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
@@ -139,7 +143,8 @@ C
       my_real
      .    COEFR,BETAF ,COEFM
 C----------------------------------------------------------------
-C----------------------------------------------------------------
+C     Material model : PRF : parallel rheological framework
+c=======================================================================
       IFORM = 1
       COEFR = ONE
       BETAF = ZERO
@@ -770,7 +775,7 @@ c
 
      
 C-------------------------------
-C cauchy to glabale
+C cauchy to global
 C-------------------------------
       DO I=1,NEL
         DSIG = SQRT((SIGNXX(I)-SIGOXX(I))**2+(SIGNYY(I)-SIGOYY(I))**2+(SIGNZZ(I)-SIGOZZ(I))**2
@@ -792,7 +797,8 @@ C
          ET(I)= MAX(ONE,STIFF(I))
        ENDDO
       ENDIF
-C   
+C-----------   
       RETURN
       END
-
+c
+      END MODULE

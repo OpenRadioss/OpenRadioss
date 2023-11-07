@@ -44,7 +44,8 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PART(IPART,PM,GEO,IPM,IGEO,IWA,THK_PART,
-     .                        UNITAB,LSUBMODEL,MULTI_FVM,MLAW_TAG)
+     .                        UNITAB,LSUBMODEL,MULTI_FVM,MLAW_TAG,
+     .                        MAT_PARAM)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -74,6 +75,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ELBUFTAG_MOD 
       USE ALE_MOD
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,6 +106,7 @@ C MODIFIED ARGUMENT
       my_real,INTENT(INOUT)::PM(NPROPM,NUMMAT)
       TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM     
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT) , INTENT(INOUT) :: MLAW_TAG      
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -241,7 +244,7 @@ C--------------------------------------------------
            ILAW=0
          ELSE
            ILAW  = IPM(2,IMID)
-           IXFEM = IPM(236,IMID)
+           IXFEM = MAT_PARAM(IMID)%IXFEM
            CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,IMID),LTITR)
          ENDIF
          !check if law151 is used

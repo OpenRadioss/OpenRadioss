@@ -36,8 +36,7 @@ Chd|====================================================================
      3           TIME     ,NGL      ,IPG      ,ILAY     ,IPT      ,
      4           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5           DPLA     ,EPSP     ,THK      ,ALDT     ,TEMP     ,
-     6           PTHKF    ,OFF      ,FOFF     ,
-     7           DFMAX    ,TDEL     ,IGTYP    )
+     6           OFF      ,FOFF     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C    tabulated failure model
 C-----------------------------------------------
@@ -54,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,IGTYP
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: OFF,THK,ALDT,DPLA,EPSP,
@@ -64,7 +63,6 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -97,7 +95,6 @@ C=======================================================================
       ENDIF
 c---------------------------
       IFAIL_SH  = INT(UPARAM(2))
-      PTHKF     = UPARAM(3)
       P_THICK   = UPARAM(3)
       DCRIT     = UPARAM(4)
       DD        = UPARAM(5)
@@ -114,14 +111,6 @@ c---- Failure strain functions
 c---- Scale functions       
       IFUN_EL   = IFUNC(NRATE+1)
       IFUN_TEMP = IFUNC(NRATE+2)
-c---------------------------
-      IF (P_THICK > ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
-        PTHKF = P_THICK
-      ELSEIF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE - EM06
-      ENDIF
 C---------
       NINDXF = 0  
       NINDX  = 0  

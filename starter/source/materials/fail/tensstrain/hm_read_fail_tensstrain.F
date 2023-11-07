@@ -34,27 +34,16 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_TENSSTRAIN(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,UNIT_ID)
+      SUBROUTINE HM_READ_FAIL_TENSSTRAIN(FAIL , 
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE TENSSTRAIN (REPLACE LECR10)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c    ROUTINE DESCRIPTION :
+c    Read tensile strain failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
@@ -70,23 +59,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      INTEGER,INTENT(IN)             :: ID,FAIL_ID,UNIT_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)          :: NUPARAM,NUVAR
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: UNIT_ID       ! 
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER    ::  ISHELL,ISOLID,IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF
-      my_real    ::  RF1   ,RF2  ,EPSP1, EPSP2, SCALE_EL,
-     .               EL_REF,SCALE_TEMP,FSCAL_UNIT, UNIT_T
+      my_real    ::  RF1,RF2,EPSP1,EPSP2,SCALE_EL,PTHKF,
+     .               EL_REF,SCALE_TEMP,FSCAL_UNIT,UNIT_T
       LOGICAL    ::  IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C
@@ -149,28 +137,40 @@ c
 C
       IF (RF1 > RF2) THEN
         CALL ANCMSG(MSGID=617, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
-     .              I1=ID)
+     .              I1=MAT_ID)
       ENDIF     
+      PTHKF = EM06      ! % of thickness to fail <=> 1 integration point
+c---------------------------
+      FAIL%KEYWORD = 'TENS_STRAIN' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 10
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 2
+      FAIL%NFUNC   = 3
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
 c-----------------------
-      NFUNC     = 3
-      NUPARAM   = 10
-      NUVAR     = 2
-c-----------------------
-      UPARAM(1) = RF1 
-      UPARAM(2) = RF2
-      UPARAM(3) = EPSP1
-      UPARAM(4) = EPSP2
-      UPARAM(5) = SCALE_EL
-      UPARAM(6) = EL_REF    
-      UPARAM(7) = SCALE_TEMP
-      UPARAM(8) = S_FLAG
-      UPARAM(9) = UNIT_T
-      UPARAM(10)= STRDEF
-c
-       
-      IFUNC(1)  = IRFUN
-      IFUNC(2)  = FUNC_ID
-      IFUNC(3)  = FUNC_ID2
+      FAIL%UPARAM(1) = RF1 
+      FAIL%UPARAM(2) = RF2
+      FAIL%UPARAM(3) = EPSP1
+      FAIL%UPARAM(4) = EPSP2
+      FAIL%UPARAM(5) = SCALE_EL
+      FAIL%UPARAM(6) = EL_REF    
+      FAIL%UPARAM(7) = SCALE_TEMP
+      FAIL%UPARAM(8) = S_FLAG
+      FAIL%UPARAM(9) = UNIT_T
+      FAIL%UPARAM(10)= STRDEF
+c       
+      FAIL%IFUNC(1)  = IRFUN
+      FAIL%IFUNC(2)  = FUNC_ID
+      FAIL%IFUNC(3)  = FUNC_ID2
 C--------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)

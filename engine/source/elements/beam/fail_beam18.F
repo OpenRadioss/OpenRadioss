@@ -32,18 +32,18 @@ Chd|        FAIL_JOHNSON_IB               source/materials/fail/johnson_cook/fai
 Chd|        FAIL_TENSSTRAIN_IB            source/materials/fail/tensstrain/fail_tensstrain_ib.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE FAIL_BEAM18(ELBUF_STR,NUMMAT   ,NUMGEO   ,NPROPM   ,
-     .                       NPROPMI  ,NPROPG   ,SBUFMAT  ,SNPC     ,STF     ,
+      SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,NUMMAT   ,NUMGEO   ,
+     .                       NPROPM   ,NPROPG   ,SNPC     ,STF      ,
      .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,
-     .                       TEMPEL   ,NGL      ,PM       ,IPM      ,GEO     ,
-     .                       OFF      ,EPSD     ,BUFMAT   ,NPF      ,TF      ,
-     .                       DPLA     ,TIME     ,IOUT     ,ISTDO   ,
+     .                       TEMPEL   ,NGL      ,PM       ,GEO      ,
+     .                       OFF      ,EPSD     ,NPF      ,TF       ,
+     .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
      .                       KXX      ,KYY      ,KZZ      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,9 +63,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT     ! number of defined materials
       INTEGER ,INTENT(IN) :: NUMGEO     ! number of defined properties   
       INTEGER ,INTENT(IN) :: NPROPM     ! size of real material parameter table
-      INTEGER ,INTENT(IN) :: NPROPMI    ! size of int  material parameter table 
       INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table   
-      INTEGER ,INTENT(IN) :: SBUFMAT    ! size of material parameter array
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
@@ -73,27 +71,25 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISMSTR 
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN)    :: IPM
       my_real                            ,INTENT(IN)    :: TIME
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN)    :: GEO
-      my_real ,DIMENSION(SBUFMAT)        ,INTENT(IN)    :: BUFMAT
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: TEMPEL
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EXX,EXY,EXZ,KXX,KYY,KZZ
-
-      my_real ,DIMENSION(NEL,NPT) ,INTENT(IN) :: DPLA
+      my_real ,DIMENSION(NEL,NPT)        ,INTENT(IN)    :: DPLA
+      my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
+      my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
 C
-      TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
-      TARGET :: BUFMAT,ELBUF_STR
+      TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
+      TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
+      TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IFL,IADBUF,IPT,NFUNC,IPY,IPZ,IPA,NVARF,NPARAM,IRUPT
-      INTEGER :: IFUNC(100)
       INTEGER :: II(3)
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
@@ -103,9 +99,12 @@ C-----------------------------------------------
 C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_FAIL_),POINTER :: FBUF
-      my_real, DIMENSION(:) ,POINTER :: UPARAMF,UVARF,DFMAX,TDEL
+      my_real, DIMENSION(:) ,POINTER :: UVARF,DFMAX,TDEL
       INTEGER, DIMENSION(:), POINTER :: FOFF
 C=======================================================================
+c      to avoid compilation error with unused arguments
+c      they will be necessary for next development step
+      bidon = eint(1,1)
 c-----------------------------------------------------
       IPY  = 200        
       IPZ  = 300        
@@ -117,13 +116,7 @@ C--------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
       COUNT(1:NEL) = 0
-      NPARAM  = IPM(112, IMAT)
-      NFUNC   = IPM(115, IMAT)
-      IADBUF  = IPM(114 ,IMAT)
-      UPARAMF => BUFMAT(IADBUF:IADBUF+NPARAM)
-      DO I=1,NFUNC                
-        IFUNC(I) = IPM(115 + I,IMAT)
-      ENDDO 
+      NPARAM  = FAIL%NUPARAM
 C---------------------------------------
 C     START LOOP OVER INTEGRATION POINTS
 C---------------------------------------
@@ -182,7 +175,7 @@ c---------------
             TSTAR(1:NEL) = ZERO
           ENDIF
           CALL FAIL_JOHNSON_IB(
-     .         NEL       ,NGL       ,IPT       ,NPARAM    ,UPARAMF   ,
+     .         NEL       ,NGL       ,IPT       ,NPARAM    ,FAIL%UPARAM   ,
      .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
      .         DPLA      ,EPSD      ,OFF       ,FOFF      ,DFMAX     ,
      .         TDEL      ,IOUT      ,ISTDO     )
@@ -202,9 +195,9 @@ c---------------
           ENDIF
 
           CALL FAIL_TENSSTRAIN_IB(                                         
-     .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
+     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM ,
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
-     .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
+     .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
      .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
      .          TF       ,IPT      ,FOFF     ,ISMSTR )
@@ -214,9 +207,9 @@ c---------------
 c---------------  
         CASE (11)     ! Energy failure model                                           
           CALL FAIL_ENERGY_IB(
-     .          NEL      ,NGL      ,NPARAM   ,UPARAMF ,
+     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM ,
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
-     .          TDEL     ,IOUT     ,ISTDO    ,IFUNC   ,
+     .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
      .          LBUF%DMGSCL,UVARF  ,NVARF    ,
      .          SNPC     ,NPF      ,STF      ,
      .          TF       ,IPT      ,FOFF     ,
@@ -229,12 +222,12 @@ c---------------
 c--------------- 
         CASE (30)     !    BIQUAD                                                  
           CALL FAIL_BIQUAD_IB (
-     .          NEL       ,NGL      ,NPARAM   ,UPARAMF ,
-     .          TIME     ,OFF      ,DFMAX     , TDEL     ,                       
-     .          IOUT     ,ISTDO    ,NFUNC     ,IFUNC    ,LBUF%DMGSCL,
-     .          UVARF    ,NVARF    ,SNPC      ,NPF      ,
-     .          STF      ,TF       ,IPT       ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ    ,DPLA     ,AL)
+     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+     .          TIME     ,OFF      ,DFMAX    ,TDEL     ,                       
+     .          IOUT     ,ISTDO    ,NFUNC    ,FAIL%IFUNC,LBUF%DMGSCL,
+     .          UVARF    ,NVARF    ,SNPC     ,NPF      ,
+     .          STF      ,TF       ,IPT      ,FOFF     ,
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA     ,AL)
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
@@ -242,7 +235,7 @@ c---------------
         CASE (34)     ! cockroft failure model                                        
                                      
          CALL FAIL_COCKROFT_IB(                                         
-     .          NEL      ,NGL      ,NPARAM   ,UPARAMF  ,
+     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM  ,
      .          TIME     ,DPLA     ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
      .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,

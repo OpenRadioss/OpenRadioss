@@ -33,7 +33,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE MATTAB_USR2SYS(TITR,MAT_ID, TABLE ,NTABL  ,ITABLE  )
+      SUBROUTINE MATTAB_USR2SYS(TITR,MAT_ID, NTABLE ,TABLE ,NTABL ,ITABLE  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,12 +46,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN)  :: MAT_ID,NTABL
+      INTEGER ,INTENT(IN)  :: MAT_ID
+      INTEGER ,INTENT(IN)  :: NTABLE  ! total number of function tables
+      INTEGER ,INTENT(IN)  :: NTABL   ! number of function tables in material/failure law
       INTEGER      ,DIMENSION(NTABL)   :: ITABLE    ! Table IDs in material law
       TYPE(TTABLE) ,DIMENSION(NTABLE)  :: TABLE
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
@@ -60,9 +61,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,TABL_ID,OK
 C=======================================================================
-        ! NTABL  =  IPM(226,IMAT)
-        ! ITABLE => IPM(226+1:226+NTABL,IMAT) in updmat.f
-c-----------------------------------------------------
       DO I=1,NTABL          ! number of tables in material                 
         TABL_ID = ITABLE(I)
         IF (TABL_ID > 0) THEN

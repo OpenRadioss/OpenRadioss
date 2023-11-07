@@ -35,12 +35,12 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|====================================================================
       SUBROUTINE STAT_S_FAIL(ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
-     3                        STAT_INDXS,IPART,SIZP0)
+     3                        STAT_INDXS,IPART,SIZP0,NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE MAT_ELEM_MOD         
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,11 +59,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER SIZLOC,SIZP0
       INTEGER IXS(NIXS,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTS(*), IPART_STATE(*), STAT_INDXS(*),IPART(LIPART1,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       double precision WA(*),WAP0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -145,10 +147,10 @@ c
              WA(JJ+1) = IPM(1,IMAT)                       
              JJ = JJ + 1    
              DO IUS = 1,NFAIL 
-              IRUPT = IPM(236+IUS,IMAT)                             
+              IRUPT = MAT_PARAM(IMAT)%FAIL(IUS)%FAIL_ID                           
               WA(JJ+1) = IRUPT                       
               JJ = JJ + 1    
-              IRUPT_TYPE = IPM(241+IUS,IMAT)                            
+              IRUPT_TYPE = MAT_PARAM(IMAT)%FAIL(IUS)%IRUPT                           
               WA(JJ+1) = IRUPT_TYPE                       
               JJ = JJ + 1                    
               FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)       

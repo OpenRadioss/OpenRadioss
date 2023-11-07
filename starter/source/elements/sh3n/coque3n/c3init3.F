@@ -74,11 +74,11 @@ Chd|====================================================================
      D                   STACK   ,RNOISE ,DRAPE ,SH3ANG  ,
      E                   GEO_STACK,IGEO_STACK,STRTG,PERTURB ,ISH3N,
      F                   IYLDINI ,ELE_AREA,NLOC_DMG,NG,GROUP_PARAM,
-     G                   IDRAPE , DRAPEG)
+     G                   IDRAPE , DRAPEG,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD          
       USE STACK_MOD
       USE GROUPDEF_MOD
@@ -130,6 +130,7 @@ C     REAL
       TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -511,16 +512,15 @@ c Failure model initialisation
 C----------------------------------------
 c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
       IF (IFAIL > 0) THEN
-        CALL FAIL_WINDSHIELD_INIT(
-     .       ELBUF_STR,NEL      ,NFT      ,ITY      ,NGL      ,
-     .       IPM      ,BUFMAT   ,IGRSH4N  ,IGRSH3N  )
+        CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
+     .        NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
       ENDIF
 c
 C to be checked for IGTYP = 51
 c      IF(NPERTURB /= 0 .OR. NVSHELL1 /= 0) THEN
-        CALL CFAILINI(ELBUF_STR,IXTG    ,NIXTG  ,NPTT    ,NLAY     ,
-     .                IPM      ,SIGSH   ,NSIGSH ,NUMELTG ,PTSH3N   ,
-     .                RNOISE   ,PERTURB ,BUFMAT ,ALDT    ,THK      )
+        CALL CFAILINI(ELBUF_STR,MAT_PARAM,
+     .                NPTT     ,NLAY     ,SIGSH   ,NSIGSH ,PTSH3N   ,
+     .                RNOISE   ,PERTURB  ,ALDT    ,THK      )
 c      ENDIF
 C-----------------------------------------------------------------------
 C     CALCUL DES DEFORMATIONS INITIALES (MEMBRANE)

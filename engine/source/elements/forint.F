@@ -946,7 +946,7 @@ C-------------------------
      2           PM      ,GEO     ,IPM     ,IGEO    ,X        ,
      3           A       ,AR      ,V       ,VR      ,W        ,
      4           D       ,MS      ,IN      ,TF      ,NPC      ,
-     5           BUFMAT  ,IPARG   ,IPARTS(NF1),PARTSAV ,
+     5           BUFMAT  ,IPARG   ,IPARTS(NF1),PARTSAV ,MAT_ELEM%MAT_PARAM,
      6           FSKY    ,FR_WAVE ,IADS    ,EANI    ,STIFN    ,
      7           STIFR   ,FX      ,FY      ,FZ      ,IFAILURE ,
      8           MTN     ,IGTYP   ,NPT     ,JSMS    ,MSSA(NF1),
@@ -1058,8 +1058,7 @@ C-------------------------
      5      STIFN        ,FSKY     ,IADS     ,OFFSET    ,IPARTS(NF1),           
      6      NEL          ,DT2T     ,NELTST   ,ITYPTST   ,IPM        ,           
      7      ITASK        ,GRESAV   ,GRTH     ,IGRTH(NF1),MSSA(NF1)  ,           
-     8      DMELS(NF1)   ,TABLE,IPRI     ,
-     9      NG           )     
+     8      DMELS(NF1)   ,TABLE,IPRI     ,MAT_ELEM,NG           )     
                                                  
             IF (NSECT > 0)THEN
                K0=NSTRF(25)
@@ -1199,7 +1198,7 @@ c
      F         JSMS         ,IGRE                ,NFT           ,IFAIL      ,
      G         SBUFMAT      ,SNPC                ,STF           ,NUMMAT     ,
      H         NUMGEO       ,IOUT                ,ISTDO         ,IDEL7NOK   ,
-     I         IDYNA        ,IMCONV              ,IMPL_S        )
+     I         IDYNA        ,IMCONV              ,IMPL_S        ,MAT_ELEM%MAT_PARAM)
 C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)

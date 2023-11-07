@@ -75,7 +75,8 @@ Chd|====================================================================
      C           NPF      ,TF       ,XFEM_STR ,ISUBSTACK,STACK  ,
      D           RNOISE   ,DRAPE    ,SH4ANG  ,GEO_STACK,
      E           IGEO_STACK,STRC    ,PERTURB  ,IYLDINI ,ELE_AREA,
-     F           NLOC_DMG ,NG       ,GROUP_PARAM, IDRAPE , DRAPEG)
+     F           NLOC_DMG ,NG       ,GROUP_PARAM, IDRAPE , DRAPEG,
+     G           MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE GROUP_PARAM_MOD      
       USE DRAPE_MOD        
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,6 +133,7 @@ C-----------------------------------------------
       TYPE (GROUP_PARAM_)  :: GROUP_PARAM
       TYPE (DRAPE_)  ::  DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) ::  DRAPEG
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -396,22 +399,20 @@ c
 c-----------------------------------------------------------------------
 c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
       IF (IFAIL > 0 .and. IHBE > 20 .AND. IHBE < 29) THEN
-        CALL FAIL_WINDSHIELD_INIT(
-     .       ELBUF_STR,NEL      ,NFT      ,ITY      ,NGL      ,
-     .       IPM      ,BUFMAT   ,IGRSH4N  ,IGRSH3N  )
+        CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
+     .       NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
       ENDIF
 c
       IF (IHBE == 11) THEN
 C to be checked for IGTYP = 51
-        CALL CFAILINI4(ELBUF_STR,IXC     ,NIXC    ,NPTR    ,NPTS    ,
-     .                 NPTT     ,NLAY    ,IPM     ,SIGSH   ,NSIGSH  ,
-     .                 NUMELC   ,PTSHEL  ,RNOISE  ,PERTURB ,BUFMAT  ,
-     .                 ALDT    ,THKE    )
+        CALL CFAILINI4(ELBUF_STR,NPTR    ,NPTS    ,NPTT    ,NLAY    ,
+     .                 SIGSH    ,NSIGSH  ,PTSHEL  ,RNOISE  ,PERTURB ,
+     .                 MAT_PARAM,ALDT    ,THKE    )
       ELSEIF (IHBE > 20 .AND. IHBE < 29) THEN
 C to be checked for IGTYP = 51
-        CALL CFAILINI(ELBUF_STR,IXC     ,NIXC    ,NPTT    ,NLAY    ,
-     .                IPM      ,SIGSH   ,NSIGSH  ,NUMELC  ,PTSHEL  ,
-     .                RNOISE   ,PERTURB ,BUFMAT  ,ALDT    ,THKE    )
+        CALL CFAILINI(ELBUF_STR,MAT_PARAM,
+     .                NPTT     ,NLAY     ,SIGSH   ,NSIGSH  ,PTSHEL  ,
+     .                RNOISE   ,PERTURB  ,ALDT    ,THKE    )
       ENDIF
 c
 C-----------------------------------------------------------------------

@@ -113,9 +113,6 @@ c
       EPSP0   = UPARAM(6)
       DADV    = UPARAM(10)
       ISHELL  = INT(UPARAM(7))
-      LAYXFEM = INT(UPARAM(11))
-c-----------------------------
-      IF (LAYXFEM == 0) RETURN
 c-----------------------------
       LAYXFEM = IXFEM
       IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL=2

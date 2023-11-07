@@ -35,7 +35,7 @@ Chd|====================================================================
      3     TIME     ,TIMESTEP ,IPG      ,ILAY     ,IPT      ,   
      4     EPSXX    ,EPSYY    ,EPSXY    ,DMG_FLAG ,DMG_SCALE,
      5     EPSPXX   ,EPSPYY   ,EPSPXY   ,ALDT     ,ISMSTR   ,
-     6     SIGNXX   ,SIGNYY   ,SIGNXY   ,PTHKF    ,
+     6     SIGNXX   ,SIGNYY   ,SIGNXY   ,
      7     OFF      ,OFFLY    ,FOFF     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C    Orthotropic strain failure model
@@ -74,7 +74,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -97,7 +96,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) :: DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: OFFLY,FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX,SIGNXX,SIGNYY,SIGNXY
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -135,7 +133,6 @@ C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       DMG_FLAG   = INT(UPARAM(1))
-      PTHKF      = UPARAM(2)
       ALPHA      = MIN(TWO*PI*UPARAM(16)*TIMESTEP,ONE)
       EPSPREF    = UPARAM(17)
       FSCALE_SIZ = UPARAM(26)

@@ -32,7 +32,7 @@ Chd|====================================================================
      2           TIME      ,TIMESTEP  ,IPG       ,ILAY      ,IPT       , 
      3           NGL       ,DMG_FLAG  ,DMG_SCALE ,DFMAX     ,TDEL      ,
      4           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     5           OFF       ,FOFF      ,PTHKF     ,IGTYP     ,PLY_ID    ,
+     5           OFF       ,FOFF      ,PLY_ID    ,
      6           EPSP      ,FWAVE_EL  ,DADV      )                               
 C-----------------------------------------------
 c    Hashin failure model 
@@ -62,7 +62,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C DMG_FLAG|  1      | I | W | STRESS REDUCTION FLAG DUE TO DAMAGE
@@ -75,7 +74,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,IGTYP,PLY_ID
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,PLY_ID
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,TIMESTEP
@@ -86,7 +85,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(*) :: FWAVE_EL
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX,DADV,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,EPSP
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
@@ -126,14 +124,6 @@ C
       FILT    = UPARAM(21)
       KM      = UPARAM(22)                 
       IFRWAVE = NINT(UPARAM(23))
-c
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = RATIO
-      ELSE   !  IFAIL_SH = 3
-        PTHKF = ONE - EM06
-      ENDIF
 c-------------------------------
       MODE(1,1:NEL) = 0
       MODE(2,1:NEL) = 0

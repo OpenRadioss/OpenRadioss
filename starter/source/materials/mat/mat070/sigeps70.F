@@ -40,7 +40,7 @@ Chd|====================================================================
      7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      8     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      9     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
-     A     PM     ,IPM    ,MAT     ,MATPARAM)
+     A     PM     ,IPM    ,IMAT    ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
 C
-      INTEGER ,INTENT(IN) :: NVARTMP
+      INTEGER ,INTENT(IN)    :: NVARTMP,IMAT
       INTEGER ,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
       INTEGER NEL, NUPARAM, NUVAR,IPT,
      .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
@@ -165,14 +165,14 @@ C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
 C
+      NFUNC  = IPM(10,IMAT)
       DO I= 1, NEL
-        NFUNC  = IPM(10,MAT(I))
         DO J=1,NFUNC
-         IFUNC(I,J)=IPM(10+J,MAT(I))
+         IFUNC(I,J)=IPM(10+J,IMAT)
         ENDDO
       ENDDO
 C     
-      IADBUF  = IPM(7,MAT(1))-1
+      IADBUF  = IPM(7,IMAT)-1
       NLOAD   = UPARAM(IADBUF+7)
       NUNLOAD = UPARAM(IADBUF+8)
       INTER_0 = UPARAM(2*NFUNC + 15)

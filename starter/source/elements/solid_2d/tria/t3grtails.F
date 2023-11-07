@@ -47,7 +47,7 @@ Chd|====================================================================
      5       ICNOD   ,IGEO    ,IPM    ,IXTG1  ,
      6       IPART   ,SH3TREE,NOD2ELTG,ITRIOFF,
      7       SH3TRIM,TAGPRT_SMS,IWORKSH, STACK,
-     8       DRAPE  ,RNOISE,INIVOL,
+     8       DRAPE  ,RNOISE,INIVOL,MAT_PARAM,
      9       SH3ANG,DRAPEG,PRINT_FLAG, PTSH3N)
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE INIVOL_DEF_MOD
       USE INIVOL_ARRAY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -117,6 +118,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
       TYPE (DRAPEG_) ,               ALLOCATABLE :: XNUM_DRAPEG
       TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSH3N)  :: IGRSH3N
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
@@ -554,7 +556,7 @@ c-------- xfem
             IF (IGTYP == 11) THEN
               DO IPT = 1, NPN                                    
                 IMATLY  = IGEO(100+IPT,PID)                      
-                IF (IPM(220,IMATLY) > 0) IXFEM = IPM(236,IMATLY)
+                IF (MAT_PARAM(IMATLY)%NFAIL > 0) IXFEM = MAT_PARAM(IMATLY)%IXFEM
               ENDDO                                              
               IF (IXFEM  > 0) IXFEM = 1
               IF (IXFEM == 1) NLEVXF = NXEL*NPN
@@ -563,12 +565,12 @@ c-------- xfem
                IPMAT   = IPPID + NPN
                DO IPT = 1, NPN
                  IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
-                 IF (IPM(220,IMATLY) > 0) IXFEM = IPM(236,IMATLY)
+                 IF (MAT_PARAM(IMATLY)%NFAIL > 0) IXFEM = MAT_PARAM(IMATLY)%IXFEM
                  IF (IXFEM  > 0) IXFEM = 1
                  IF (IXFEM == 1) NLEVXF = NXEL*NPN
                ENDDO
             ELSEIF (IGTYP == 1) THEN
-              IXFEM = IPM(236,MID)
+              IXFEM = MAT_PARAM(MID)%IXFEM
               IF (IXFEM == 1) THEN
                 IXFEM  = 2
                 NLEVXF = NXEL 
@@ -690,7 +692,7 @@ C-------------
           IF (IGTYP == 11)THEN
             DO IPT = 1, NPN
              IMATLY  = IGEO(100+IPT,PID)
-             IF(IPM(220 ,IMATLY) >  0)THEN
+             IF(MAT_PARAM(IMATLY)%NFAIL >  0)THEN
               IPARG(43,NGROUP) = 1
              ENDIF       
             ENDDO 
@@ -705,7 +707,7 @@ c--------
 !!              IPID = IGEO(100+IPT,PID)
 !!              IMATLY  = IGEO(101,IPID)
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
-              IF(IPM(220,IMATLY) >  0)THEN
+              IF(MAT_PARAM(IMATLY)%NFAIL >  0)THEN
                 IPARG(43,NGROUP) = 1
               ENDIF       
             ENDDO 
@@ -719,7 +721,7 @@ C---
             IPMAT   = IPPID + NPN
             DO IPT = 1, NPN
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
-              IF(IPM(220,IMATLY) >  0)THEN
+              IF(MAT_PARAM(IMATLY)%NFAIL >  0)THEN
                 IPARG(43,NGROUP) = 1
               ENDIF       
 C --- PID 51 combined with LAW58 ---
@@ -733,7 +735,7 @@ C --- set new IREP for groups:
             ENDIF
 c--------
           ELSE ! IGTYP == 1
-            IF(IPM(220 ,MID) > 0.AND.MLN /= 0 .AND. MLN /= 13)THEN
+            IF(MAT_PARAM(MID)%NFAIL > 0.AND.MLN /= 0 .AND. MLN /= 13)THEN
               IPARG(43,NGROUP) = 1
             ENDIF
          ENDIF ! IGTYP

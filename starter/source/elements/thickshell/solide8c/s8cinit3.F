@@ -57,7 +57,7 @@ Chd|====================================================================
      .                      BNS      ,WMA     ,PTSOL   ,BUFMAT   ,MCP      ,
      .                    MCPS     ,TEMP    ,NPF     ,TF       ,XREFS    ,
      .                    MSSA     ,STRSGLOB,STRAGLOB,ORTHOGLOB,FAIL_INI ,
-     .                    ILOADP   ,FACLOAD ,RNOISE  ,PERTURB  )
+     .                    ILOADP   ,FACLOAD ,RNOISE  ,PERTURB  ,MAT_PARAM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Initialize 8-nodes thick shell HA8
@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD  
       USE DETONATORS_MOD                
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,6 +107,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -470,7 +472,7 @@ C
 C Failure model initialization
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
-     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
+     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,MAT_PARAM)
 C
 C Element time step
         AIRE(:) = ZERO

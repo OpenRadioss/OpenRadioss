@@ -36,26 +36,20 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_BIQUAD(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,LSUBMODEL,
-     .           TITR     )
+     .            FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .            TITR     ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ TABULATED FAILURE MODEL  (/FAIL/BIQUAD)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     MAT_ID          MATERIAL ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c    ROUTINE DESCRIPTION :
+c    Read read double parabolic analytical failure model parameters
+c-----------------------------------------------
+c     UVAR1   = damage due to instability (triax between 1/3 and 2/3)
+c     UVAR2   = integration point
+c     UVAR3-8 = perturbated parameter
+c     UVAR3   (if perturbation is not used) or UVAR9 (if used) = initial element length
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
@@ -73,19 +67,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)  :: MAT_ID,MAXFUNC,MAXUPARAM
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-C OUTPUT ARGUMENTS
-      INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
-      INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC)
-      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
-      CHARACTER, INTENT(IN) :: TITR*nchartitle
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      CHARACTER          ,INTENT(IN) :: TITR*nchartitle ! material model title
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP
+      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP,NFUNC,NUVAR,NUPARAM
       my_real   :: C1,C2,C3,C4,C5,E1,E2,E3,E4,PTHK,INST,REF_LEN,REF_SIZ_UNIT
       my_real   :: X_1(2)
       my_real   :: X_2(3)
@@ -173,20 +165,16 @@ c
       ENDIF
 c---------------------------------------------------
 c
-      CALL BIQUAD_COEFFICIENTS(C1,C2,C3,C4,C5,PTHK,MFLAG,X_1,X_2,E1,E2,E3,E4)
+      CALL BIQUAD_COEFFICIENTS(C1,C2,C3,C4,C5,MFLAG,X_1,X_2,E1,E2,E3,E4)
 c
       ! Check necking instability parameters
       IF (SFLAG == 3 .AND. INST <= ZERO) THEN
-        CALL ANCMSG(MSGID=3042,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,
+        CALL ANCMSG(MSGID=3042, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .              I1=MAT_ID,
      .              C1=TITR) 
         SFLAG = 2
       ELSEIF (SFLAG == 3 .AND. INST >= c4) THEN
-        CALL ANCMSG(MSGID=3043,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,
+        CALL ANCMSG(MSGID=3043, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .              I1=MAT_ID,
      .              C1=TITR) 
         SFLAG = 2
@@ -197,11 +185,9 @@ c
       DCRIT = MAX(DCRIT,ZERO)
       EXP = ABS(EXP)
       IF (EXP == ZERO) EXP = ONE
-      IF ((DCRIT /= ZERO).AND.(ICOUP == 0)) ICOUP = 1
+      IF (DCRIT /= ZERO .AND. ICOUP == 0) ICOUP = 1
       IF (SFLAG /= 3 .AND. ICOUP == 2) THEN 
-        CALL ANCMSG(MSGID=3044,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,
+        CALL ANCMSG(MSGID=3044, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .              I1=MAT_ID,
      .              C1=TITR)         
         ICOUP = 0
@@ -211,9 +197,7 @@ c
       XMIN = -X_1(1)/(TWO*X_1(2))
       YMIN = X_1(2)*(XMIN**2) + X_1(1)*XMIN + C2
       IF (YMIN < ZERO) THEN 
-        CALL ANCMSG(MSGID=3004,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,
+        CALL ANCMSG(MSGID=3004, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .              I1=MAT_ID,
      .              C1=TITR)          
       ENDIF
@@ -222,48 +206,59 @@ c
         XMIN = -X_2(2)/(TWO*X_2(3))
         YMIN = X_2(3)*(XMIN**2) + X_2(2)*XMIN + X_2(1)
         IF (YMIN < ZERO) THEN 
-          CALL ANCMSG(MSGID=3005,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1,
+          CALL ANCMSG(MSGID=3005, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
      .                C1=TITR)          
         ENDIF
       ENDIF
 c
 c---------------------------------------------------
-      UPARAM(1)  = C2
-      UPARAM(2)  = X_1(1)
-      UPARAM(3)  = X_1(2)
-      UPARAM(4)  = X_2(1)
-      UPARAM(5)  = X_2(2)
-      UPARAM(6)  = X_2(3)
-      UPARAM(7)  = PTHK
-      UPARAM(8)  = 0
-      UPARAM(11) = SFLAG
-      UPARAM(12) = INST
-      UPARAM(9)  = C3
-      UPARAM(10) = MFLAG
-      UPARAM(13) = REF_LEN  
-      UPARAM(14) = ICOUP
-      UPARAM(15) = DCRIT 
-      UPARAM(16) = EXP  
-c-------------------------
       NUPARAM = 16
-c
       IF (REG_FUNC == 0) THEN
+        NFUNC = 0
         NUVAR = 2
         IF (NPERTURB /= 0) NUVAR = 8
       ELSE
-        IFUNC(1) = REG_FUNC
         NFUNC = 1
         NUVAR = 3
         IF (NPERTURB /= 0) NUVAR = 9
       ENDIF
-c-----------------------------------------------
-c     UVAR1   = damage due to instability (triax between 1/3 and 2/3)
-c     UVAR2   = integration point
-c     UVAR3-8 = perturbated parameter
-c     UVAR3   (if perturbation is not used) or UVAR9 (if used) = initial element length
+c-------------------------
+      FAIL%KEYWORD = 'BIQUAD' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = NUPARAM
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = NUVAR
+      FAIL%NFUNC   = NFUNC
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      FAIL%PTHK    = PTHK
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      
+      IF (NFUNC == 1) FAIL%IFUNC(1) = REG_FUNC
+
+      FAIL%UPARAM(1)  = C2
+      FAIL%UPARAM(2)  = X_1(1)
+      FAIL%UPARAM(3)  = X_1(2)
+      FAIL%UPARAM(4)  = X_2(1)
+      FAIL%UPARAM(5)  = X_2(2)
+      FAIL%UPARAM(6)  = X_2(3)
+      FAIL%UPARAM(7)  = PTHK
+      FAIL%UPARAM(8)  = 0
+      FAIL%UPARAM(9)  = C3
+      FAIL%UPARAM(10) = MFLAG
+      FAIL%UPARAM(11) = SFLAG
+      FAIL%UPARAM(12) = INST
+      FAIL%UPARAM(13) = REF_LEN  
+      FAIL%UPARAM(14) = ICOUP
+      FAIL%UPARAM(15) = DCRIT 
+      FAIL%UPARAM(16) = EXP  
 c---------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'

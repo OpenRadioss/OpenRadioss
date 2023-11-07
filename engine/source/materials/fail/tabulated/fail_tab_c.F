@@ -38,10 +38,10 @@ Chd|====================================================================
      1           NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2           NFUNC    ,IFUNC    ,TABLE    ,NPF      ,TF       ,
      3           TIME     ,NGL      ,IPG      ,ILAY     ,IPT      ,
-     4           SIGNXX   ,SIGNYY   ,SIGNXY   ,
+     4           SIGNXX   ,SIGNYY   ,SIGNXY   ,NTABLF   ,ITABLF   ,
      5           DPLA     ,EPSP     ,THK      ,ALDT     ,TEMP     ,
-     6           PTHKF    ,DMG_FLAG ,DMG_SCALE,OFF      ,FOFF     ,
-     7           DFMAX    ,TDEL     ,IGTYP    ,INLOC    )
+     6           DMG_FLAG ,DMG_SCALE,OFF      ,FOFF     ,
+     7           DFMAX    ,TDEL     ,INLOC    )
 C-----------------------------------------------
 C    tabulated failure model
 C-----------------------------------------------
@@ -79,7 +79,6 @@ C TEMP    | NEL     | F | R | ELEMENT TEMPERATURE
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C DMG_FLAG|  1      | I | W | STRESS REDUCTION FLAG DUE TO DAMAGE
@@ -92,8 +91,9 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,IGTYP,INLOC
-      INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,INLOC,NTABLF
+      INTEGER ,DIMENSION(NEL)    ,INTENT(IN) :: NGL
+      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,THK,ALDT,DPLA,EPSP,
      .   TEMP,SIGNXX,SIGNYY,SIGNXY
@@ -103,7 +103,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -124,8 +123,8 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,J,NINDX,NINDXF,NINSTAB,IFAIL_SH,NDIM,
-     .  ITABLE,IFUN_EL,IFUN_TEMP,INSTABIL,ID_DD,INST_FLAG,SIZE_FLAG
+      INTEGER  :: I,J,NINDX,NINDXF,NINSTAB,IFAIL_SH,NDIM,INST_FLAG,SIZE_FLAG,
+     .  ITAB_EPSF,ITAB_INST,IFUN_EL,IFUN_TEMP,IFUN_DMG,IFUN_FAD
       INTEGER, DIMENSION(MVSIZ) :: INDX,INDXF,INDSTAB,IPOSV,IADP,ILENP
       INTEGER IPOST1(NEL,1),IPOST2(NEL,2),IPOST3(NEL,3)
 C
@@ -145,7 +144,7 @@ C-----------------------------------------------
 C Storage of initial thickness in UVAR(x,2) at time = 0.0
 C 1 = DAMAGE
 C 2 = initial shell thickness
-C 3 = DCrit_NS --> Instability starts
+C 3 = DCrit_NS --> instability starts
 C 4 = percent from instability to failure
 C 5 = initial characteristic el. length
 C 6 = IPOS1 for TABLE_VINTERP
@@ -153,7 +152,6 @@ C 7 = IPOS2 for TABLE_VINTERP
 C 8 = IPOS1 for VINTER
 C=======================================================================
       IFAIL_SH  = INT(UPARAM(2))
-      PTHKF     = UPARAM(3)
       P_THICK   = UPARAM(3)
       DCRIT     = UPARAM(4)
       DD        = UPARAM(5)
@@ -178,22 +176,15 @@ C=======================================================================
         SIZE_FLAG = 1
       END IF
 C-------------------------------------------------------------------
-c     Failure strain value - function interpolation
-C-------------------------------------------------------------------
-      ITABLE    = UPARAM(23)
+c---- Failure strain
+      ITAB_EPSF  = ITABLF(1)
+c---- Instability
+      ITAB_INST  = ITABLF(2)
 c---- Scale functions       
-      IFUN_EL   = IFUNC(1)
-      IFUN_TEMP = IFUNC(2)
-c---- Instability function
-      INSTABIL  = UPARAM(24)
-c---------------------------
-      IF (P_THICK > ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
-        PTHKF = P_THICK
-      ELSEIF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE - EM06
-      ENDIF
+      IFUN_EL   = IFUNC(1)    ! element size
+      IFUN_TEMP = IFUNC(2)    ! temperature
+      IFUN_DMG  = IFUNC(3)    ! damage
+      IFUN_FAD  = IFUNC(4)    ! fading exponent
 C---------
       NINDXF  = 0  
       NINDX   = 0  
@@ -210,7 +201,7 @@ c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
 c
 c---  failure strain interpolation
-      NDIM = TABLE(ITABLE)%NDIM
+      NDIM = TABLE(ITAB_EPSF)%NDIM
 #include "vectorize.inc"
       DO J=1,NINDX                           
         I = INDX(J)  
@@ -227,8 +218,8 @@ C----
           XXV3(J,1) = SIGM(I)
           XXV3(J,2) = EPSP(I)*X1SCALE
           XXV3(J,3) = ZERO
-          IPOST3(J,1)= UVAR(I,6)
-          IPOST3(J,2)= UVAR(I,7)
+          IPOST3(J,1)= NINT(UVAR(I,6))
+          IPOST3(J,2)= NINT(UVAR(I,7))
           IPOST3(J,3)= 0
         ENDDO
       ELSE IF (NDIM == 2) THEN
@@ -237,8 +228,8 @@ C----
           I = INDX(J)  
           XXV2(J,1) = SIGM(I)
           XXV2(J,2) = EPSP(I)*X1SCALE
-          IPOST2(J,1)= UVAR(I,6)
-          IPOST2(J,2)= UVAR(I,7)
+          IPOST2(J,1)=  NINT(UVAR(I,6))
+          IPOST2(J,2)=  NINT(UVAR(I,7))
         ENDDO
       ELSE IF (NDIM == 1) THEN
 #include "vectorize.inc"
@@ -263,19 +254,19 @@ c     check elements with triaxiality between SHRF and BIAXF) in case of SIZE_FL
 c
       IF (NDIM == 3) THEN
 c
-        CALL TABLE_VINTERP (TABLE(ITABLE),NEL,NINDX,IPOST3,XXV3,YYV,DXDYV)
+        CALL TABLE_VINTERP (TABLE(ITAB_EPSF),NEL,NINDX,IPOST3,XXV3,YYV,DXDYV)
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           EPSF(I) = YYV(J) * Y1SCALE     
-          UVAR(I,6)=IPOST3(J,1)
-          UVAR(I,7)=IPOST3(J,2)
+          UVAR(I,6)= IPOST3(J,1)
+          UVAR(I,7)= IPOST3(J,2)
         ENDDO
 c
       ELSE IF (NDIM == 2) THEN
 c
-        CALL TABLE_VINTERP (TABLE(ITABLE),NEL,NINDX,IPOST2,XXV2,YYV,DXDYV)
+        CALL TABLE_VINTERP (TABLE(ITAB_EPSF),NEL,NINDX,IPOST2,XXV2,YYV,DXDYV)
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           
@@ -287,7 +278,7 @@ c
 c
       ELSE IF (NDIM == 1) THEN
 c
-        CALL TABLE_VINTERP (TABLE(ITABLE),NEL,NINDX,IPOST1,XXV1,YYV,DXDYV)
+        CALL TABLE_VINTERP (TABLE(ITAB_EPSF),NEL,NINDX,IPOST1,XXV1,YYV,DXDYV)
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           
@@ -343,16 +334,16 @@ c
         END IF          
       ENDIF  
 
-c----   Instability function
+c----   instability function
 c
-      IF (INSTABIL > 0) THEN
+      IF (ITAB_INST > 0) THEN
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
           XX2(1) = SIGM(I)
           XX2(2) = EPSP(I) *X2SCALE
-          CALL TABLE_INTERP (TABLE(INSTABIL),XX2,YY_N)            
+          CALL TABLE_INTERP (TABLE(ITAB_INST),XX2,YY_N)            
           EPSF_N(I) = YY_N * Y2SCALE
         ENDDO
 c       apply element scale factor
@@ -406,20 +397,19 @@ c----   Fading exponent
         DO J=1,NINDX                           
           I = INDX(J)  
           LAMBDA = UVAR(I,5) / EL_REF
-          FADE_EXPO = FINTER(IFUNC(4),LAMBDA,NPF,TF,DF) 
+          FADE_EXPO = FINTER(IFUN_FAD,LAMBDA,NPF,TF,DF) 
         ENDDO
       ENDIF
 c-----------------------------------------------------------------------------
       NINDX_2 = 0
-      ID_DD = IFUNC(3)
-      IF (ID_DD /= 0 ) THEN
+      IF (IFUN_DMG > 0 ) THEN
 #include "vectorize.inc"
         DO J=1,NINDX                           
             I = INDX(J)  
             IF (UVAR(I,1) < DCRIT) THEN
                 NINDX_2 = NINDX_2 + 1
                 INDX_2(NINDX_2) = I
-                DP(I) = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
+                DP(I) = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
             ENDIF
         ENDDO
       ELSE
@@ -445,7 +435,7 @@ c-----------------------------------------------------------------------------
               UVAR(I,1) = DCRIT     
               FOFF(I)   = 0
               TDEL(I)   = TIME
-              PTHKF     = EM06
+!              PTHKF     = EM06
             ENDIF
 c-----
 c           Damage accumulation

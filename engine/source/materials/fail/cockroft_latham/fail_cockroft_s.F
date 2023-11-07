@@ -30,8 +30,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE FAIL_COCKROFT_S(
      1     NEL ,NUPARAM ,NUVAR ,
-     2     TIME ,TIMESTEP ,UPARAM ,
-     3     NGL ,
+     2     TIME ,TIMESTEP ,UPARAM ,NGL ,
      4     EPSPXX ,EPSPYY ,EPSPZZ ,EPSPXY ,EPSPYZ ,EPSPZX ,
      5     EPSXX ,EPSYY ,EPSZZ ,EPSXY ,EPSYZ ,EPSZX ,
      6     SIGNXX ,SIGNYY ,SIGNZZ ,SIGNXY ,SIGNYZ ,SIGNZX ,
@@ -53,15 +52,9 @@ C NEL | 1 | I | R | SIZE OF THE ELEMENT GROUP NEL
 C NUPARAM | 1 | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR | 1 | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
 C---------+--------+--+--+-------------------------------------------
-C NFUNC | 1 | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
-C IFUNC | NFUNC | I | R | FUNCTION INDEX
-C NPF | * | I | R | FUNCTION ARRAY
-C TF | * | F | R | FUNCTION ARRAY
-C---------+--------+--+--+-------------------------------------------
 C TIME | 1 | F | R | CURRENT TIME
 C TIMESTEP| 1 | F | R | CURRENT TIME STEP
 C UPARAM | NUPARAM | F | R | USER FAILURE PARAMETER ARRAY
-C---------+--------+--+--+-------------------------------------------
 C---------+--------+--+--+-------------------------------------------
 C EPSPXX | NEL | F | R | STRAIN RATE XX
 C EPSPYY | NEL | F | R | STRAIN RATE YY

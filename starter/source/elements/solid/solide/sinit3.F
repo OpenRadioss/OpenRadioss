@@ -73,7 +73,7 @@ Chd|====================================================================
      .                  XREFS    ,NPF      ,TF     ,MSSA    ,STRSGLOB,
      .                  STRAGLOB ,FAIL_INI ,SPBUF  ,KXSP    ,IPARTSP ,
      .                  NOD2SP   ,SOL2SPH  ,IRST   ,ILOADP  ,FACLOAD ,
-     .                  RNOISE   ,PERTURB  )
+     .                  RNOISE   ,PERTURB  ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,6 +83,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,6 +128,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -433,7 +435,7 @@ c Failure model initialization
 C----------------------------------------
         CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
      .               IPM,SIGSP,NSIGI,FAIL_INI ,
-     .               SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
+     .               SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,MAT_PARAM)
 C--------------------------------------------------------------------
 C Compute nodal volumes and moduli for contact stiffness
 C Note : IX1, IX2 ... IX8 are in NC(MVSIZ,8)

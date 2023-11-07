@@ -43,9 +43,13 @@ Chd|====================================================================
      1  POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      2  TABMP_L,IPART,IPARTC,IPARTG,
      3  IPARTS ,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
-     4  MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL)
+     4  MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,MAT_PARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE MID_PID_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +81,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(2,NPART,7), INTENT(IN) :: POIN_PART_SOL
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT), INTENT(IN) :: MID_PID_SHELL,MID_PID_TRI
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT,7), INTENT(IN) :: MID_PID_SOL
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -234,7 +239,8 @@ C optimisation des poids par defaut
      .            TAB_UMP,POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      .            TABMP_L,IPART,IPARTC,IPARTG,
      .            IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
-     .            MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL)
+     .            MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL,
+     .            MAT_PARAM)
       DO I=1,NUMELS
         DO K=1,8
           N = IXS(K+1,I)

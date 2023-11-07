@@ -35,26 +35,15 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_SYAZWAN(
-     .           UPARAM    ,MAXUPARAM ,NUPARAM ,NUVAR  ,IFUNC  ,
-     .           MAXFUNC   ,NFUNC     ,UNITAB  ,MAT_ID ,FAIL_ID,
-     .           TITR      ,LSUBMODEL )
+     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           TITR    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE SYAZWAN
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE   
+c    ROUTINE DESCRIPTION :
+c    Syazwan failure model
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -64,32 +53,19 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C----------+---------+---+---+--------------------------------------------
-C VAR      | SIZE    |TYP| RW| DEFINITION
+C   C o m m o n   B l o c k s
 C----------+---------+---+---+--------------------------------------------
-C UPARAM   | NUPARAM | F | W | USER FAILURE MODEL PARAMETER ARRAY
-C MAXUPARAM|  1      | I | R | MAXIMUM SIZE OF UPARAM 
-C NUPARAM  |  1      | I | W | SIZE OF UPARAM =< MAXUPARAM
-C NUVAR    |  1      | I | W | NUMBER OF USER  VARIABLES
-C----------+---------+---+---+--------------------------------------------
-C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
-C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
-C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
-C FAIL_ID  |  1      | I | W | ID OF FAILURE CRITERIA
-C----------+---------+---+---+--------------------------------------------
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
-      INTEGER,INTENT(IN) :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-      CHARACTER TITR*nchartitle
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)   :: NUPARAM,NUVAR
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      CHARACTER          ,INTENT(IN) :: TITR*500        ! material model title
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -264,9 +240,7 @@ C--------------------------------------------------
         TRIAX = TRIAX + (TWO*TWO_THIRD)/EP03
       ENDDO
       IF (NEGATIVE) THEN 
-        CALL ANCMSG(MSGID=2091,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,
+        CALL ANCMSG(MSGID=2091, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .              I1=MAT_ID,
      .              C1=TITR,
      .              R1=EPFMIN)
@@ -276,30 +250,40 @@ C--------------------------------------------------
 C--------------------------------------------------
 C SAVE PARAMETERS
 C--------------------------------------------------
-      ! Number of functions
-      NFUNC      = 1
-      IFUNC(1)   = REG_FUNC
-      ! Number of parameters
-      NUPARAM    = 17
-      UPARAM(1)  = C1
-      UPARAM(2)  = C2
-      UPARAM(3)  = C3
-      UPARAM(4)  = C4
-      UPARAM(5)  = C5
-      UPARAM(6)  = C6
-      UPARAM(7)  = IFORM
-      UPARAM(8)  = DINIT
-      UPARAM(9)  = DAM_SF
-      UPARAM(10) = MAX_DAM
-      UPARAM(11) = INST
-      UPARAM(12) = N_VAL
-      UPARAM(13) = SOFTEXP
-      UPARAM(14) = REF_LEN
-      UPARAM(15) = REG_SCALE
-      UPARAM(16) = EPFMIN
-      UPARAM(17) = FAILIP
-      ! Number of internal variables
-      NUVAR      = 3
+      FAIL%KEYWORD = 'SYAZWAN' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 17
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 3
+      FAIL%NFUNC   = 1
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%IFUNC(1) = REG_FUNC
+c
+      FAIL%UPARAM(1)  = C1
+      FAIL%UPARAM(2)  = C2
+      FAIL%UPARAM(3)  = C3
+      FAIL%UPARAM(4)  = C4
+      FAIL%UPARAM(5)  = C5
+      FAIL%UPARAM(6)  = C6
+      FAIL%UPARAM(7)  = IFORM
+      FAIL%UPARAM(8)  = DINIT
+      FAIL%UPARAM(9)  = DAM_SF
+      FAIL%UPARAM(10) = MAX_DAM
+      FAIL%UPARAM(11) = INST
+      FAIL%UPARAM(12) = N_VAL
+      FAIL%UPARAM(13) = SOFTEXP
+      FAIL%UPARAM(14) = REF_LEN
+      FAIL%UPARAM(15) = REG_SCALE
+      FAIL%UPARAM(16) = EPFMIN
+      FAIL%UPARAM(17) = FAILIP
 C--------------------------------------------------
 C PRINT OUT PARAMETERS
 C--------------------------------------------------

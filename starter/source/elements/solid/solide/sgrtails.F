@@ -637,10 +637,10 @@ C
             NLAY = IGEO(30,PID)                 
             DO IL=1,NLAY                        
               IMAT  = IGEO(100+IL,PID)           
-              NFAIL = MAX(NFAIL,IPM(220, IMAT))
+              NFAIL = MAX(NFAIL,MATPARAM_TAB(IMAT)%NFAIL)
             ENDDO
           ELSE
-            NFAIL = IPM(220,MID)
+            NFAIL = MATPARAM_TAB(MID)%NFAIL
           ENDIF        
 c
           IF (NFAIL > 0)THEN
@@ -1478,7 +1478,7 @@ C         Formulation level for the solid elements time step computation
           IPARG(73,NGROUP)=IPM(252,MID)
           IPARG(74,NGROUP)=ITET10
 c         non-local variable regularization flag for failure models
-          IPARG(78,NGROUP) = IPM(253,MID)   ! NLOC_FAIL
+          IPARG(78,NGROUP) = MATPARAM%NLOC   ! NLOC_FAIL
 C------------------------------------------------------
 C LONGUEUR BUFFER
 C------------------------------------------------------

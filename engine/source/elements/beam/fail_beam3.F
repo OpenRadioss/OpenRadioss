@@ -31,11 +31,11 @@ Chd|        FAIL_JOHNSON_B                source/materials/fail/johnson_cook/fai
 Chd|        FAIL_TENSSTRAIN_B             source/materials/fail/tensstrain/fail_tensstrain_b.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,NUMMAT  ,NPROPM  ,
-     .                  NPROPMI ,SBUFMAT ,SNPC    ,STF     ,
+      SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,FAIL    ,NUMMAT  ,
+     .                  NPROPM  ,SNPC    ,STF     ,
      .                  NEL     ,IMAT    ,JTHE    ,DPLA    ,
-     .                  TEMPEL  ,NGL     ,PM      ,IPM     ,
-     .                  OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
+     .                  TEMPEL  ,NGL     ,PM      ,
+     .                  OFF     ,EPSD    ,NPF     ,TF      ,
      .                  TIME    ,IOUT    ,ISTDO   ,
      .                  SVM     ,PRESSURE,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,8 +61,6 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
       INTEGER ,INTENT(IN) :: NUMMAT     ! number of defined materials
       INTEGER ,INTENT(IN) :: NPROPM     ! size of real material parameter table
-      INTEGER ,INTENT(IN) :: NPROPMI    ! size of int  material parameter table 
-      INTEGER ,INTENT(IN) :: SBUFMAT    ! size of material parameter array
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
@@ -70,11 +68,9 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISMSTR
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN)    :: IPM
       my_real                            ,INTENT(IN)    :: TIME
       my_real                            ,INTENT(IN)    :: AREA
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
-      my_real ,DIMENSION(SBUFMAT)        ,INTENT(IN)    :: BUFMAT
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: DPLA
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SVM
@@ -90,12 +86,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
 C
       TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
+      TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IFUNC(100)
-      INTEGER :: I,IFL,IADBUF,NFUNC,NPARAM,IRUPT
-      INTEGER :: II(3)
+      INTEGER :: I,IFL,NFUNC,NPARAM,IRUPT
       my_real :: T0,TM
       my_real ,DIMENSION(NEL) :: TSTAR
       my_real :: bidon
@@ -107,17 +103,7 @@ c      they will be necessary for next development step
 c-----------------------------------------------------
       IFL  = 1              ! only one failure model for beams      
 C--------------------------------------   
-      DO I=1,3
-        II(I) = NEL*(I-1)
-      ENDDO
-      NPARAM  = IPM(112, IMAT)
-      NFUNC   = IPM(115, IMAT)
-      IADBUF  = IPM(114 ,IMAT)
-      IRUPT   = IPM(242 ,IMAT)                           
-c      UPARAMF => BUFMAT(IADBUF:IADBUF+NPARAM)
-      DO I=1,NFUNC                
-        IFUNC(I) = IPM(115 + I,IMAT)
-      ENDDO 
+      NPARAM  = FAIL%NUPARAM
 c-------------------------------------
 c     progressive element erosion      
 c
@@ -142,7 +128,7 @@ c---------------
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
-          CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+          CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
      .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
      .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO    )
@@ -159,18 +145,18 @@ c---------------
           ENDIF
           
           CALL FAIL_TENSSTRAIN_B(                                         
-     .          NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .          TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,  
-     .          ELBUF_STR%GBUF%FAIL(1)%TDEL,IOUT     ,ISTDO    ,IFUNC    ,
+     .          ELBUF_STR%GBUF%FAIL(1)%TDEL,IOUT     ,ISTDO    ,FAIL%IFUNC    ,
      .          EPSXX    ,AL       ,TSTAR    ,
      .          SNPC     ,NPF      ,STF      ,
      .          TF       ,ISMSTR   ,ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR)     
         
 c--------------- 
         CASE (11)     ! Energy failure model                                        
-          CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
+          CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .                       TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
-     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO  ,IFUNC   ,
+     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
      .                       AREA     ,F1       ,F2       ,F3       ,
      .                       M1       ,M2       ,M3       ,SNPC     ,NPF    ,STF     ,
      .                       TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
@@ -178,12 +164,12 @@ c---------------
 c--------------- 
 
         CASE (30)     !    BIQUAD                                                  
-          CALL FAIL_BIQUAD_B(NEL      ,NGL      ,NPARAM   ,BUFMAT(IADBUF)  ,
-     .                        TIME         ,SVM      ,PRESSURE ,
-     .                        DPLA         ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
-     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  , IFUNC   ,NFUNC,
-     .                        SNPC                            ,NPF     ,STF     ,TF,
-     .                        ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
+          CALL FAIL_BIQUAD_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+     .                       TIME         ,SVM      ,PRESSURE ,
+     .                       DPLA         ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
+     .                       ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  ,FAIL%IFUNC   ,
+     .                       SNPC     ,NPF     ,STF     ,TF,
+     .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
 
  
 

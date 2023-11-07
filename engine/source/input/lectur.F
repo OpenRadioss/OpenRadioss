@@ -92,13 +92,14 @@ Chd|====================================================================
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES)
+     I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
+     J                  MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE INTBUFDEF_MOD
       USE STACK_MOD
       USE H3D_MOD
@@ -201,6 +202,7 @@ C-----------------------------------------------
       TYPE (LOADS_), INTENT(IN)              :: LOADS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2590,7 +2592,8 @@ C-------------------------------------------
         K7=K6+NUMELR
         K8=K7
         K9=K8+NUMELTG
-        CALL LECSTAT(IPART,IPART_STATE,ELBUF_STR,IPM,IPARG,IPART(K1),IPART(K3),IPART(K8))
+        CALL LECSTAT(IPART,IPART_STATE,ELBUF_STR,IPM,IPARG,IPART(K1),
+     .               IPART(K3),IPART(K8),MAT_PARAM)
       END IF
 C-------------------------------------------
 C     .dynain files

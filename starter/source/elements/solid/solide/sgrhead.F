@@ -39,7 +39,7 @@ Chd|====================================================================
      3       ND         ,IGRSURF       ,IGRBRIC   ,ISOLNOD ,
      4       CEP        ,XEP           ,IXS10     ,IXS20   ,IXS16  ,
      5       IGEO       ,IPM           ,NOD2ELS   ,ISOLOFF ,
-     6       TAGPRT_SMS ,SPH2SOL       ,SOL2SPH   ,
+     6       TAGPRT_SMS ,SPH2SOL       ,SOL2SPH   ,MAT_PARAM,
      7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE)
 C-----------------------------------------------
 C            A R G U M E N T S
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE REORDER_MOD
       USE GROUPDEF_MOD
       USE CLUSTER_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -104,6 +105,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
+      TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -203,8 +205,8 @@ C
         ICSTR = 0
         IREP = 0
         ISTRAIN = 0        
-        NFAIL0    = IPM(220 , MID)
-        NLOC_FAIL = IPM(253 , MID)
+        NFAIL0    = MAT_PARAM(MID)%NFAIL
+        NLOC_FAIL = MAT_PARAM(MID)%NLOC
         IEOS = 0
         IVISC0 = 0
         NLAY  = 1
@@ -227,10 +229,10 @@ C
             NLAY = IGEO(30,PID)                 
             DO IL=1,NLAY                        
               IMAT = IGEO(100+IL,PID)           
-              NFAIL0 = MAX(NFAIL0,IPM(220, IMAT))
-              IF (IPM(222,IMAT) > 0) IVISC0 = 1
+              NFAIL0 = MAX(NFAIL0,MAT_PARAM(IMAT)%NFAIL)
+              IF (MAT_PARAM(IMAT)%IVISC > 0) IVISC0 = 1
             ENDDO
-          ELSEIF (IPM(222,MID) > 0) THEN
+          ELSEIF (MAT_PARAM(MID)%IVISC > 0) THEN
             IVISC0 = 1
           ENDIF
 C IVISCO0 cannot put in the PID because is for MID (it can be used in IGEO)

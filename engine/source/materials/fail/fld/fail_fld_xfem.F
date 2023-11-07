@@ -35,7 +35,7 @@ Chd|====================================================================
      3     NGL      ,IPT      ,NPTOT    ,SSP      ,TENS     ,
      4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,  
-     6     UVAR     ,NOFF     ,OFF      ,IP       ,
+     6     UVAR     ,NOFF     ,OFF      ,
      7     ELCRKINI ,IXFEM    ,IXEL     ,ILAY     ,IPTT     ,  
      8     OFFL     ,NPTT     ,NPTTF    ,DFMAX    ,TDEL     ,   
      9     DAM      ,FLD_IDX  )
@@ -78,7 +78,7 @@ C IPTT                        CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,NFUNC,IP,IPT,IPTT,NPTOT,IXFEM,IXEL,ILAY,NPTT
+      INTEGER NEL,NUPARAM,NUVAR,NFUNC,IPT,IPTT,NPTOT,IXFEM,IXEL,ILAY,NPTT
       INTEGER ELCRKINI(NXLAYMAX,NEL),NOFF(NEL),IFUNC(NFUNC),NGL(NEL),FLD_IDX(NEL)
       my_real 
      .   TIME,UPARAM(NUPARAM),SIGNXX(NEL),SIGNYY(NEL),
@@ -127,14 +127,12 @@ C=======================================================================
       NINDXP = 0  
 c---
       ISHELL  = INT(UPARAM(1))
-      LAYXFEM = INT(UPARAM(4))   ! Ixfem flag of layer material
       DADV    = UPARAM(5)
       IENG    = INT(UPARAM(6))
       RANI    = UPARAM(7)
 c
-      IF (LAYXFEM == 0) RETURN
       LAYXFEM = IXFEM
-      IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL=2
+      IF (IXFEM == 1 .and. ISHELL == 1) ISHELL=2
 c
       DO I=1,NEL
         EM_DCRIT(I)= ZERO

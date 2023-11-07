@@ -39,60 +39,41 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
        SUBROUTINE HM_READ_FAIL_INIEVO(
-     .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR   ,IFUNC    ,
-     .            MAXFUNC ,NFUNC     ,UNITAB  ,FAIL_ID ,MAT_ID   ,
-     .            TABLE   ,TITR      ,LSUBMODEL )
+     .           FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           TITR     ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C----------+---------+---+---+--------------------------------------------
-C VAR      | SIZE    |TYP| RW| DEFINITION
-C----------+---------+---+---+--------------------------------------------
-C UPARAM   | NUPARAM | F | W | USER FAILURE MODEL PARAMETER ARRAY
-C MAXUPARAM|  1      | I | R | MAXIMUM SIZE OF UPARAM 
-C NUPARAM  |  1      | I | W | SIZE OF UPARAM =< MAXUPARAM
-C NUVAR    |  1      | I | W | NUMBER OF USER  VARIABLES
-C----------+---------+---+---+--------------------------------------------
-C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
-C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
-C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
-C----------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            :: NUPARAM,NUVAR
-      CHARACTER TITR*nchartitle
-      TYPE(TTABLE) TABLE(NTABLE)   
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      CHARACTER          ,INTENT(IN) :: TITR*500        ! material model title
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,NINIEVO,FAILIP,ISHEAR,ILEN
+      INTEGER I,J,NINIEVO,FAILIP,ISHEAR,ILEN,NUPARAM,NUVAR,NTABLE
       INTEGER,DIMENSION(:), ALLOCATABLE :: 
-     .    INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL,
-     .    INT_TAB_ID,INT_TAB_EL
-      my_real 
-     .    PTHK,LENGTH_UNIT,RATE_UNIT
+     .    INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL
+      my_real :: PTHK,LENGTH_UNIT,RATE_UNIT
       my_real, DIMENSION(:), ALLOCATABLE :: 
      .    SR_REF,FSCALE,INI_P1,EL_REF,ELSCAL,DISP,ENER,ALPHA
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -135,15 +116,12 @@ C===============================================================================
       ALLOCATE(TAB_ID(NINIEVO) ,SR_REF(NINIEVO) ,FSCALE(NINIEVO) ,INI_P1(NINIEVO))
       ALLOCATE(TAB_EL(NINIEVO) ,EL_REF(NINIEVO) ,ELSCAL(NINIEVO) )
       ALLOCATE(DISP(NINIEVO)   ,ENER(NINIEVO)   ,ALPHA(NINIEVO)  )
-      ALLOCATE(INT_TAB_ID(NINIEVO),INT_TAB_EL(NINIEVO))
       INITYPE(1:NINIEVO) = 0
       EVOTYPE(1:NINIEVO) = 0
       EVOSHAP(1:NINIEVO) = 0
       COMPTYP(1:NINIEVO) = 0
       TAB_ID(1:NINIEVO)  = 0
       TAB_EL(1:NINIEVO)  = 0
-      INT_TAB_ID(1:NINIEVO) = 0
-      INT_TAB_EL(1:NINIEVO) = 0
       SR_REF(1:NINIEVO)  = ZERO
       FSCALE(1:NINIEVO)  = ZERO
       INI_P1(1:NINIEVO)  = ZERO
@@ -170,9 +148,7 @@ C===============================================================================
         ! Second line
         CALL HM_GET_INT_ARRAY_INDEX  ('TAB_ID',TAB_ID(J),J,IS_AVAILABLE,LSUBMODEL)
         IF (TAB_ID(J) == 0) THEN
-          CALL ANCMSG(MSGID=2088,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND,
+          CALL ANCMSG(MSGID=2088, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                I2=J)
         ENDIF
@@ -196,9 +172,7 @@ C===============================================================================
         ! Fourth line
         CALL HM_GET_FLOAT_ARRAY_INDEX('DISP'  ,DISP(J) ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (EVOTYPE(J) == 1 .AND. DISP(J) == ZERO) THEN 
-          CALL ANCMSG(MSGID=2089,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND,
+          CALL ANCMSG(MSGID=2089, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                I2=J)
         ENDIF
@@ -206,9 +180,7 @@ C===============================================================================
         IF (ALPHA(J) == ZERO) ALPHA(J) = ONE
         CALL HM_GET_FLOAT_ARRAY_INDEX('ENER'  ,ENER(J) ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF (EVOTYPE(J) == 2 .AND. ENER(J) == ZERO) THEN 
-          CALL ANCMSG(MSGID=2090,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND,
+          CALL ANCMSG(MSGID=2090, MSGTYPE=MSGERROR,  ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                I2=J)
         ENDIF
@@ -217,45 +189,54 @@ c
 C======================================================================================
 c     Filling buffer tables
 C======================================================================================
-      ! -> Number of parameters
-      NUPARAM = 5 + NINIEVO*14
-      ! -> Number of functions
-      NFUNC   = 0
-      ! -> Table internal identifier
-      DO J = 1,NINIEVO
-        INT_TAB_ID(J) = TAB_ID(J)
-        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_TAB_ID(J))
-        INT_TAB_EL(J) = TAB_EL(J)
-        IF (INT_TAB_EL(J) > 0) THEN
-          CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_TAB_EL(J))
-        ENDIF
-      ENDDO  
+      NTABLE = NINIEVO*2
       ! -> Number of user variables
       NUVAR = 2 + 3*NINIEVO   
+      ! -> Number of parameters
+      NUPARAM = 5 + NINIEVO*14
 c-----------------------------------------------------    
-      UPARAM(1) = NINIEVO
-      UPARAM(2) = ISHEAR
-      UPARAM(3) = ILEN
-      UPARAM(4) = FAILIP
-      UPARAM(5) = PTHK
+      FAIL%KEYWORD = 'INIEVO' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = NUPARAM
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = NUVAR
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = NTABLE
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHK
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+
+      FAIL%UPARAM(1) = NINIEVO
+      FAIL%UPARAM(2) = ISHEAR
+      FAIL%UPARAM(3) = ILEN
+      FAIL%UPARAM(4) = FAILIP
+      FAIL%UPARAM(5) = PTHK
+c
+      FAIL%TABLE(1:NINIEVO)           = TAB_ID(1:NINIEVO)
+      FAIL%TABLE(NINIEVO+1:NINIEVO*2) = TAB_EL(1:NINIEVO)
+c      
       DO J = 1,NINIEVO
-        UPARAM(6  + 14*(J-1)) = INITYPE(J)
-        UPARAM(7  + 14*(J-1)) = EVOTYPE(J)
-        UPARAM(8  + 14*(J-1)) = EVOSHAP(J)
-        UPARAM(9  + 14*(J-1)) = COMPTYP(J)
-        UPARAM(10 + 14*(J-1)) = INT_TAB_ID(J)
-        UPARAM(11 + 14*(J-1)) = SR_REF(J)
-        UPARAM(12 + 14*(J-1)) = FSCALE(J)
-        UPARAM(13 + 14*(J-1)) = INI_P1(J)
-        UPARAM(14 + 14*(J-1)) = INT_TAB_EL(J)
-        UPARAM(15 + 14*(J-1)) = EL_REF(J) 
-        UPARAM(16 + 14*(J-1)) = ELSCAL(J)  
-        UPARAM(17 + 14*(J-1)) = DISP(J) 
-        UPARAM(18 + 14*(J-1)) = ALPHA(J)
-        UPARAM(19 + 14*(J-1)) = ENER(J)
+        FAIL%UPARAM(6  + 14*(J-1)) = INITYPE(J)
+        FAIL%UPARAM(7  + 14*(J-1)) = EVOTYPE(J)
+        FAIL%UPARAM(8  + 14*(J-1)) = EVOSHAP(J)
+        FAIL%UPARAM(9  + 14*(J-1)) = COMPTYP(J)
+        FAIL%UPARAM(10 + 14*(J-1)) = 0              !  INT_TAB_ID(J)
+        FAIL%UPARAM(11 + 14*(J-1)) = SR_REF(J)
+        FAIL%UPARAM(12 + 14*(J-1)) = FSCALE(J)
+        FAIL%UPARAM(13 + 14*(J-1)) = INI_P1(J)
+        FAIL%UPARAM(14 + 14*(J-1)) = 0              ! INT_TAB_EL(J)
+        FAIL%UPARAM(15 + 14*(J-1)) = EL_REF(J) 
+        FAIL%UPARAM(16 + 14*(J-1)) = ELSCAL(J)  
+        FAIL%UPARAM(17 + 14*(J-1)) = DISP(J) 
+        FAIL%UPARAM(18 + 14*(J-1)) = ALPHA(J)
+        FAIL%UPARAM(19 + 14*(J-1)) = ENER(J)
       ENDDO    
 c-----------------------------------------------------
-c--------------------------
 c     Printout data
 c-------------------------- 
       IF (IS_ENCRYPTED) THEN

@@ -36,14 +36,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_GURSON(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,    
-     .                               NFUNC    ,FAIL_ID  ,MAT_ID   ,LSUBMODEL,
-     .                               UNITAB   ,NLOC_MOD ,TITR     )
+      SUBROUTINE HM_READ_FAIL_GURSON(
+     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,NLOC_MOD   ,
+     .           TITR    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-c   Gurson damage model (irup = 35)
+c    ROUTINE DESCRIPTION :
+c    Read Gurson damage model parameters (irup = 35)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -61,23 +63,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      INTEGER MAXUPARAM,NUPARAM,NUVAR,NFUNC,NLOC_MOD,FAIL_ID,MAT_ID
-      my_real UPARAM(MAXUPARAM) 
-      CHARACTER TITR*nchartitle
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      CHARACTER          ,INTENT(IN) :: TITR*nchartitle ! material model title
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      INTEGER            ,INTENT(INOUT) :: NLOC_MOD     ! non-local variable regularization flag
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILOC
-      my_real 
-     .    Q1,Q2,Q3,EPN,AS,KW,FC,FR,F0,RLEN,HKHI,LE_MAX
+      INTEGER :: ILOC
+      my_real :: Q1,Q2,Q3,EPN,AS,KW,FC,FR,F0,RLEN,HKHI,LE_MAX
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-C=======================================================================
 C-----------------------------------------------
 C   S o u r c e   L i n e s
-C-----------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+C=======================================================================
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -144,24 +147,33 @@ c
         HKHI = ZERO    ! only used for micromorphic
       ENDIF
 c-----------------------------------------------------------------------
-      NFUNC   = 0
-      NUVAR   = 0
-      NUPARAM = 12
-c-----------------------------------------------------------------------
-c     UPARAM : transfer parameters to engine
-c-----------------------------------------------------------------------
-      UPARAM(1) = NLOC_MOD  ! non-local variable regularization flag
-      UPARAM(2) = Q1        ! Gurson yield criterion 1st parameter
-      UPARAM(3) = Q2        ! Gurson yield criterion 2nd parameter
-      UPARAM(4) = Q3        ! Gurson yield criterion 3rd parameter
-      UPARAM(5) = EPN       ! Trigger plastic strain for nucleation
-      UPARAM(6) = AS        ! Nucleation rate
-      UPARAM(7) = KW        ! Nahshon-Hutchinson shear parameter
-      UPARAM(8) = FR        ! Failure void volume fraction
-      UPARAM(9) = FC        ! Critical void volume fraction
-      UPARAM(10)= F0        ! Initial void volume fraction
-      UPARAM(11)= RLEN      ! Non-local internal length
-      UPARAM(12)= HKHI      ! Micromorphic penalty parameter
+      FAIL%KEYWORD = 'GURSON' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 12
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 0
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = NLOC_MOD  ! non-local variable regularization flag
+      FAIL%UPARAM(2) = Q1        ! Gurson yield criterion 1st parameter
+      FAIL%UPARAM(3) = Q2        ! Gurson yield criterion 2nd parameter
+      FAIL%UPARAM(4) = Q3        ! Gurson yield criterion 3rd parameter
+      FAIL%UPARAM(5) = EPN       ! Trigger plastic strain for nucleation
+      FAIL%UPARAM(6) = AS        ! Nucleation rate
+      FAIL%UPARAM(7) = KW        ! Nahshon-Hutchinson shear parameter
+      FAIL%UPARAM(8) = FR        ! Failure void volume fraction
+      FAIL%UPARAM(9) = FC        ! Critical void volume fraction
+      FAIL%UPARAM(10)= F0        ! Initial void volume fraction
+      FAIL%UPARAM(11)= RLEN      ! Non-local internal length
+      FAIL%UPARAM(12)= HKHI      ! Micromorphic penalty parameter
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'

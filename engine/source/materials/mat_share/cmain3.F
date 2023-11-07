@@ -253,7 +253,7 @@ c
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THKE      ,
      .              NEL      ,THK_LY   ,INDX_DRAPE,SEDRAPE ,NUMEL_DRAPE)
 c
-        CALL USERMAT_SHELL (ELBUF_STR ,
+        CALL USERMAT_SHELL (ELBUF_STR  ,MAT_ELEM,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
      2       GSTR    ,THK     ,EINT    ,OFF     ,DIR_A   ,DIR_B   ,
      3       MAT     ,AREA    ,EXX     ,EYY     ,EXY     ,EXZ     ,
@@ -343,7 +343,7 @@ C-----------------------------------------------
           EPSZX(I)= GSTR(I,5)
         ENDDO
 c----------
-       CALL DELAMINATION(ELBUF_STR,
+       CALL DELAMINATION(ELBUF_STR,MAT_ELEM%MAT_PARAM,
      .                   JFT      ,JLT      ,IR      ,IS      ,NPT     ,
      .                   MAT_IPLY ,IPM      ,PM      ,BUFMAT  ,NPF     ,
      .                   TF       ,DT1C     ,NGL     ,OFF     ,TH_IPLY ,
@@ -351,7 +351,8 @@ c----------
      .                   MOM      ,PLY_F    ,THK0    ,SHF     ,EPSZX   ,
      .                   EPSYZ    ,AREA     ,PID     ,GEO     ,SSP     ,
      .                   POSLY    ,THKLY    ,KXX     ,KYY     ,KXY     ,
-     .                   EXZ      ,EYZ      ,EINT    ,GSTR    ,NEL     ) 
+     .                   EXZ      ,EYZ      ,EINT    ,GSTR    ,NEL     ,
+     .                   NUMMAT   ) 
      
       ENDIF ! PLYXFEM 
 C---------------------------------------------------------             

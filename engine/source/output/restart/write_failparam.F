@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
-      LENI = 9
+      LENI = 10
       ALLOCATE (IBUF(LENI))
 c
       IBUF(1) = FAIL%IRUPT
@@ -66,6 +66,7 @@ c
       IBUF(7) = FAIL%NTABLE
       IBUF(8) = FAIL%NMOD
       IBUF(9) = FAIL%FAIL_IP
+      IBUF(10)= FAIL%PTHK
 c
       CALL WRITE_I_C(IBUF,LENI)
       DEALLOCATE(IBUF)
@@ -73,6 +74,7 @@ c
       LENR = 1
       ALLOCATE (RBUF(LENR))
       RBUF(1) = FAIL%PTHK
+      CALL WRITE_DB(RBUF ,LENR)
       DEALLOCATE(RBUF)
 c
 c     write law keyword and keywords of failure modes
@@ -104,19 +106,14 @@ c     write function adresses
 c
       NFUNC = FAIL%NFUNC
       IF (NFUNC > 0) THEN
-        ALLOCATE (IBUF(NFUNC))
-        DO I = 1,NFUNC
-          IBUF(I) = FAIL%IFUNC(I)
-        END DO
-        CALL WRITE_I_C(IBUF,NFUNC)
-        DEALLOCATE(IBUF)
+        CALL WRITE_I_C(FAIL%IFUNC,NFUNC)
       END IF
 c      
 c     write function tables
 c
       NUMTABL  = FAIL%NTABLE
       IF (NUMTABL > 0) THEN
-        CALL WRITE_MAT_TABLE(FAIL%TABLE, NUMTABL)
+        CALL WRITE_I_C(FAIL%TABLE,NUMTABL)
       END IF
 c-----------
       RETURN

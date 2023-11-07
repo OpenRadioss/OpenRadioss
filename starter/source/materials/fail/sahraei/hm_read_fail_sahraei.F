@@ -33,14 +33,16 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_SAHRAEI(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,    
-     .                                NFUNC    ,IFUNC    ,MAXFUNC  ,FAIL_ID  ,
-     .                                MAT_ID   ,LSUBMODEL,UNITAB   ,TITR     )
+      SUBROUTINE HM_READ_FAIL_SAHRAEI(    
+     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-c   Sahraei failure criterion (irup = 29)
+c    ROUTINE DESCRIPTION :
+c    Sahraei failure criterion (irup = 29)
 C-----------------------------------------------
-C   M o d u l e s
+C    M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -57,29 +59,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-      INTEGER MAXUPARAM,NUPARAM,NUVAR,NFUNC,FAIL_ID,
-     .        MAT_ID,MAXFUNC,IFUNC(MAXFUNC)
-      my_real UPARAM(MAXUPARAM) 
-      CHARACTER TITR*nchartitle
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUM,DEN,ORDI,COMP_DIR,IDEL
-      my_real 
-     .    VOL_STRAIN,MAX_COMP_STRAIN,RATIO,EL_REF,EL_REF_UNIT
+      INTEGER :: NUM,DEN,ORDI,COMP_DIR,IDEL,NUPARAM,NUVAR,NFUNC
+      INTEGER ,PARAMETER :: NSIZE = 2
+      INTEGER ,DIMENSION(NSIZE) :: IFUNC
+      my_real :: VOL_STRAIN,MAX_COMP_STRAIN,RATIO,EL_REF,EL_REF_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-C=======================================================================
 C-----------------------------------------------
 C   S o u r c e   L i n e s
-C-----------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+C=======================================================================
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-C-----
-c!#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
+c
 c!#
 c!# NUMERATOR    =  1  ==> Eps_xx 
 c!# NUMERATOR    =  2  ==> Eps_yy 
@@ -151,19 +152,36 @@ C===============================================================================
 C===================================================================================
 C STORING PARAMETERS
 C===================================================================================
-      UPARAM(1) = VOL_STRAIN
-      UPARAM(2) = NUM
-      UPARAM(3) = DEN
-      UPARAM(4) = ORDI
+      FAIL%KEYWORD = 'SAHRAEI' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = NUPARAM
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = NUVAR
+      FAIL%NFUNC   = NFUNC
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      
+      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
+c
+      FAIL%UPARAM(1) = VOL_STRAIN
+      FAIL%UPARAM(2) = NUM
+      FAIL%UPARAM(3) = DEN
+      FAIL%UPARAM(4) = ORDI
       IF (COMP_DIR == ZERO) THEN
-        UPARAM(5) = ZERO
+        FAIL%UPARAM(5) = ZERO
       ELSE
-        UPARAM(5) = COMP_DIR
+        FAIL%UPARAM(5) = COMP_DIR
       ENDIF
-      UPARAM(6) = MAX_COMP_STRAIN
-      UPARAM(7) = RATIO
-      UPARAM(8) = IDEL
-      UPARAM(9) = EL_REF
+      FAIL%UPARAM(6) = MAX_COMP_STRAIN
+      FAIL%UPARAM(7) = RATIO
+      FAIL%UPARAM(8) = IDEL
+      FAIL%UPARAM(9) = EL_REF
 C===================================================================================
 C PRINTING OUT DATA
 C===================================================================================
@@ -200,6 +218,5 @@ C===============================================================================
      & 5X,'IN-PLANE COMPRESSION FAILURE STRAIN  . . . . . . .=',1PG20.13/,
      & 5X,'RATIO FOR IN-PLANE 2ND DIRECTION FAILURE STRAIN . =',1PG20.13/)
 C-----------
-C-----------       
       RETURN
       END

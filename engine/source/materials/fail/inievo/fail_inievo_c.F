@@ -33,13 +33,13 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_INIEVO_C (
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 
+     1     NEL      ,NUPARAM  ,NUVAR    ,
+     2     TABLE    ,NTABLF   ,ITABLF   ,TIME     ,UPARAM   , 
      3     NGL      ,ALDT     ,DPLA     ,EPSP     ,UVAR     ,     
      4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,            
      5     PLA      ,TEMP     ,SIGY     ,FOFF     ,DFMAX    ,
      6     TDELE    ,IPT      ,IPG      ,DMG_FLAG ,DMG_SCALE,
-     7     PTHKF    ,DAMINI   ,AREA     ,INLOC    ,NPG      )   
+     7     DAMINI   ,AREA     ,INLOC    ,NPG      )   
 C---------+---------+---+---+--------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -59,8 +59,9 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: 
-     .        NEL,NUPARAM,NUVAR,NGL(NEL),IPT,IPG,
+     .        NEL,NUPARAM,NUVAR,NGL(NEL),IPT,IPG,NTABLF,
      .        INLOC,NPG
+      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
       INTEGER, INTENT(INOUT) :: 
      .        DMG_FLAG,FOFF(NEL)
       my_real, INTENT(IN) :: 
@@ -71,20 +72,12 @@ C-----------------------------------------------
      .        SIGY(NEL),AREA(NEL)
       my_real, INTENT(INOUT) :: 
      .        UVAR(NEL,NUVAR),DFMAX(NEL),TDELE(NEL),
-     .        DMG_SCALE(NEL),PTHKF,DAMINI(NEL)
+     .        DMG_SCALE(NEL),DAMINI(NEL)
       TYPE (TTABLE), INTENT(IN), DIMENSION(NTABLE) :: TABLE 
-C!-----------------------------------------------
-C!   VARIABLES FOR FUNCTION INTERPOLATION 
-C!-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPF(SNPC),NFUNC,IFUNC(NFUNC)
-      my_real, INTENT(IN) :: TF(STF)
-      my_real
-     .         FINTER
-      EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INDX(NEL),NINDX,FAILIP,IPOS(NEL,2),
+      INTEGER I,J,INDX(NEL),NINDX,IPOS(NEL,2),
      .        NINIEVO,ISHEAR,ILEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: 
      .        INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,
@@ -111,7 +104,6 @@ C!--------------------------------------------------------------
       ISHEAR  = INT(UPARAM(2))
       ILEN    = INT(UPARAM(3))
       IF (INLOC > 0) ILEN = 1
-      PTHKF   = UPARAM(5)
       ALLOCATE(INITYPE(NINIEVO))
       ALLOCATE(EVOTYPE(NINIEVO))
       ALLOCATE(EVOSHAP(NINIEVO))
@@ -126,16 +118,19 @@ C!--------------------------------------------------------------
       ALLOCATE(DISP   (NINIEVO))
       ALLOCATE(ENER   (NINIEVO))
       ALLOCATE(ALPHA2 (NINIEVO))   
+      TAB_ID(1:NINIEVO) = ITABLF(1:NINIEVO)
+      TAB_EL(1:NINIEVO) = ITABLF(NINIEVO+1:NINIEVO*2)
+c
       DO J = 1,NINIEVO
         INITYPE(J) = UPARAM(6  + 14*(J-1))
         EVOTYPE(J) = UPARAM(7  + 14*(J-1))
         EVOSHAP(J) = UPARAM(8  + 14*(J-1))
         COMPTYP(J) = UPARAM(9  + 14*(J-1))
-        TAB_ID(J)  = NINT(UPARAM(10 + 14*(J-1)))
+c        TAB_ID(J)  = NINT(UPARAM(10 + 14*(J-1)))
         SR_REF(J)  = UPARAM(11 + 14*(J-1))
         FSCALE(J)  = UPARAM(12 + 14*(J-1))
         INI_P1(J)  = UPARAM(13 + 14*(J-1))
-        TAB_EL(J)  = NINT(UPARAM(14 + 14*(J-1)))
+c        TAB_EL(J)  = NINT(UPARAM(14 + 14*(J-1)))
         EL_REF(J)  = UPARAM(15 + 14*(J-1))
         ELSCAL(J)  = UPARAM(16 + 14*(J-1)) 
         DISP(J)    = UPARAM(17 + 14*(J-1))

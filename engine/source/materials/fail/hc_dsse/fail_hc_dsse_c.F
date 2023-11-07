@@ -31,10 +31,9 @@ Chd|====================================================================
      1           NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2           TIME     ,NGL      ,IPT      ,ILAY     ,IPTT     ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4           DPLA     ,OFF      ,FOFF     ,PTHKF    ,
-     5           DFMAX    ,TDEL     ,UEL      ,NPTOT    ,IGTYP    ,
+     4           DPLA     ,OFF      ,FOFF     ,
+     5           DFMAX    ,TDEL     ,UEL      ,NPTOT    ,
      6           FLD_IDX  ,DAM      ,PLA      )
-
 C-----------------------------------------------
 C I m p l i c i t T y p e s
 C-----------------------------------------------
@@ -61,7 +60,6 @@ C! NGL     | NEL    | I | R | ELEMENT NUMBER
 C! IPG     |        |   |   | CURRENT GAUSS POINT (in plane)
 C! ILAY    |        |   |   | CURRENT LAYER
 C! FOFF    | NEL    | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C! PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C! DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C! TDEL    | NEL     | F | W | FAILURE TIME
 C!---------+--------+---+---+-------------------------------------------
@@ -86,7 +84,7 @@ C! OFF     | NEL    | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C!---------+--------+--+--+-------------------------------------------
 C! I N P U T A r g u m e n t s
 C!-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,ILAY,IPT,NPTOT,IPTT,IGTYP
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,ILAY,IPT,NPTOT,IPTT
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
        my_real ,DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
        my_real ,DIMENSION(NEL), INTENT(IN)  :: DPLA,PLA
@@ -98,7 +96,6 @@ C-----------------------------------------------
        INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF,FLD_IDX
        my_real, INTENT(IN) :: TIME
        my_real ,DIMENSION(NEL), INTENT(IN)  :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-       my_real :: PTHKF
        my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX, UEL,OFF,DAM
        my_real ,DIMENSION(NEL), INTENT(OUT)   :: TDEL
        my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
@@ -125,20 +122,11 @@ C-----------------------------------------------
        CFRAC        = UPARAM(3)
        NFRAC        = UPARAM(4)
        INST         = UPARAM(5)
-       P_THICKFAIL  = UPARAM(6)
        IFAIL_SH     = UPARAM(7)
-       CONDITION1(1:NEL)   = 0
-       CONDITION2(1:NEL)   = 0
-       CONDITION3(1:NEL)   = 0
+       CONDITION1(1:NEL) = 0
+       CONDITION2(1:NEL) = 0
+       CONDITION3(1:NEL) = 0
        NINDX        = 0  
-c---------------------------
-       IF (P_THICKFAIL /= ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
-         PTHKF = P_THICKFAIL
-       ELSEIF (IFAIL_SH == 1) THEN
-         PTHKF = EM06
-       ELSEIF (IFAIL_SH == 2 .OR. IFAIL_SH == 3) THEN
-         PTHKF = ONE - EM06
-       ENDIF
 c-----------------------------
 C USER VARIABLES INITIALIZATION
 C-----------------------------------------------

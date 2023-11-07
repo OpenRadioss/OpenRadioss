@@ -32,7 +32,7 @@ Chd|====================================================================
      2           TIME      ,TIMESTEP  ,IPG       ,ILAY      ,IPT       , 
      3           NGL       ,DMG_FLAG  ,DMG_SCALE ,DFMAX     ,TDEL      ,  
      4           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,    
-     5           OFF       ,FOFF      ,PTHKF     )                               
+     5           OFF       ,FOFF      )                               
 C-----------------------------------------------
 C    chang-chang failure model
 C-----------------------------------------------
@@ -61,7 +61,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C DMG_FLAG|  1      | I | W | STRESS REDUCTION FLAG DUE TO DAMAGE
@@ -85,7 +84,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -111,16 +109,12 @@ c-----------------
       IDEL_FM  = 0
       IF (IFAIL_SH == 1) THEN        ! matrix or fiber failure
         IDEL_FM = 1           
-        PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN    ! matrix or fiber failure
         IDEL_FM = 1          
-        PTHKF = ONE
       ELSEIF (IFAIL_SH == 3) THEN    ! fiber only failure
         IDEL_F = 1            
-        PTHKF = EM06
       ELSEIF (IFAIL_SH == 4) THEN    ! fiber only failure
         IDEL_F = 1           
-        PTHKF = ONE
       END IF                  
 c-----------------
       NINDX  = 0

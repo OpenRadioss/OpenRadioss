@@ -27,11 +27,12 @@ Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,IXS16,TAG_NLOCAL,IPM)
+      SUBROUTINE TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,IXS16,TAG_NLOCAL,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE MESSAGE_MOD
+      USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,8 +46,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(IN)    :: IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),IXS(NIXS,NUMELS),IXS10(6,NUMELS10),
-     .                            IXS20(12,NUMELS20),IXS16(8,NUMELS16),IPM(NPROPMI,NUMMAT)
+     .                            IXS20(12,NUMELS20),IXS16(8,NUMELS16)
         INTEGER, INTENT(INOUT) :: TAG_NLOCAL(NUMNOD)
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,7 +62,7 @@ C
 C-----------------------------------------------------------------------------------------------
         DO J=1,NUMELC
           MID = IXC(1,J)
-          IF (IPM(253,MID) > 0)THEN
+          IF (MAT_PARAM(MID)%NLOC > 0)THEN
             DO L=2,5
               TAG_NLOCAL(IXC(L,J))=1
             ENDDO
@@ -69,7 +71,7 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------------------
         DO J=1,NUMELTG
           MID = IXTG(1,J)
-          IF (IPM(253,MID) > 0)THEN
+          IF (MAT_PARAM(MID)%NLOC > 0)THEN
             DO L=2,4
               TAG_NLOCAL(IXTG(L,J))=1
             ENDDO
@@ -78,7 +80,7 @@ C-------------------------------------------------------------------------------
 C-----------
         DO J=1,NUMELS8
           MID = IXS(1,J)
-          IF (IPM(253,MID) > 0)THEN
+          IF (MAT_PARAM(MID)%NLOC > 0)THEN
             DO L=2,9
               TAG_NLOCAL(IXS(L,J))=1
             ENDDO
@@ -88,7 +90,7 @@ C-----------
         DO I=1,NUMELS10
           J = I + NUMELS8
           MID = IXS(1,J)
-          IF (IPM(253,MID) > 0)THEN
+          IF (MAT_PARAM(MID)%NLOC > 0)THEN
             DO L=2,9
               TAG_NLOCAL(IXS(L,J))=1
             ENDDO
@@ -103,7 +105,7 @@ C-----------
         DO I=1,NUMELS20
           J = I + NUMELS8 + NUMELS10
           MID = IXS(1,J)
-          IF (IPM(253,MID) > 0)THEN
+          IF (MAT_PARAM(MID)%NLOC > 0)THEN
             DO L=2,9
               TAG_NLOCAL(IXS(L,J))=1
             ENDDO
@@ -118,7 +120,7 @@ C-----------
         DO I=1,NUMELS16
           J = I + NUMELS8 + NUMELS10 + NUMELS20
           MID = IXS(1,J)
-          IF (IPM(253,MID) > 0)THEN
+          IF (MAT_PARAM(MID)%NLOC > 0)THEN
             DO L=2,9
               TAG_NLOCAL(IXS(L,J))=0
             ENDDO

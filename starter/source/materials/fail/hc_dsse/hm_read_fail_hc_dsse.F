@@ -33,32 +33,22 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_HC_DSSE(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,UNITAB   )
+      SUBROUTINE HM_READ_FAIL_HC_DSSE(FAIL    ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE TENSSTRAIN (REPLACE LECR10)
+c    ROUTINE DESCRIPTION :
+c    Read HC-DSSE failure model parameters
 C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c!   UVAR 1 = damage value flag for IP at DSSE instability 
+c!   UVAR 2 = damage value for DSSE 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
-C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,27 +60,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER     ::     ISHELL,IFLAG,I
-      my_real     ::     P_THICKFAIL,AFRAC,BFRAC,CFRAC,NFRAC,INST,
-     .                   AFRAC2,BFRAC2,CFRAC2,INST2,
-     .                   B16,B17,B18,B19,B21,
-     .                   F05,G12,I12,SMALL,
-     .                   TAB(1201),LX(1201),Y
-C-----------------------------------------------
-       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
+      INTEGER  :: I,IFAIL_SH,IFLAG,NUVAR,NUPARAM
+      my_real  :: PTHKF,AFRAC,BFRAC,CFRAC,NFRAC,INST,INST2,
+     .            AFRAC2,BFRAC2,CFRAC2,Y,
+     .            B16,B17,B18,B19,B21,F05,G12,I12,SMALL,
+     .            TAB(1201),LX(1201)
+       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
@@ -99,8 +85,6 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS  
 C--------------------------------------------------
-
-
        LX( 1 )= 1.000000000000d0
        LX( 2 )= 1.000043653485d0
        LX( 3 )= 1.000087406030d0
@@ -2504,36 +2488,52 @@ C--------------------------------------------------
        TAB( 1199 )= 0.802000000000d0
        TAB( 1200 )= 0.801000000000d0
        TAB( 1201 )= 0.800000000000d0
-
 C=======================================================================
 c     HC_DSSE Rupture Criterion
 C=======================================================================
       INST  = ZERO
 CARD1     
-      CALL HM_GET_INTV           ('Ifail_sh'     ,ISHELL       ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV         ('P_thickfail'  ,P_THICKFAIL  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('I_Flag'       ,IFLAG        ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Ifail_sh'  ,IFAIL_SH ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV ('PTHKF'     ,PTHKF    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV   ('I_Flag'    ,IFLAG    ,IS_AVAILABLE,LSUBMODEL)
 CARD2 
-      CALL HM_GET_FLOATV         ('a_HC_DSSE'  ,AFRAC  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('b_HC_DSSE'  ,BFRAC  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('c_HC_DSSE'  ,CFRAC  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('d_HC_DSSE'  ,INST   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('n_f'        ,NFRAC  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('a_HC_DSSE' ,AFRAC    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('b_HC_DSSE' ,BFRAC    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('c_HC_DSSE' ,CFRAC    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('d_HC_DSSE' ,INST     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('n_f'       ,NFRAC    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C=======================================================================
       IF (NFRAC  == ZERO) NFRAC  = ONE
-      IF (ISHELL == 0)    ISHELL = 1
-      ISHELL = MIN(ISHELL,3)
-      IF (P_THICKFAIL == ZERO) P_THICKFAIL = ONE - EM06
-      P_THICKFAIL = MIN(P_THICKFAIL, ONE)
-      P_THICKFAIL = MAX(P_THICKFAIL,-ONE)
+      IF (IFAIL_SH == 0) IFAIL_SH = 1
+      IFAIL_SH = MIN(IFAIL_SH,3)
+      IF (PTHKF == ZERO) PTHKF = ONE - EM06
+      PTHKF = MIN(PTHKF, ONE)
+      PTHKF = MAX(PTHKF,-ONE)
+       IF (PTHKF /= ZERO .and. IFAIL_SH > 1) THEN
+         PTHKF = PTHKF
+       ELSEIF (IFAIL_SH == 1) THEN
+         PTHKF = EM06
+       ELSEIF (IFAIL_SH == 2) THEN
+         PTHKF = ONE - EM06
+       ENDIF
+c---------------------------
+c
+      FAIL%KEYWORD = 'HC_DSSE' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 7
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 2
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
 
-      NUPARAM = 7
-      NUVAR   = 2
-      NFUNC   = 0
-c! 
-c!   UVAR 1 = damage value flag for IP at DSSE instability 
-c!   UVAR 2 = damage value for DSSE 
-c!       
 C=======================================================================
 C
 C pre definition for user-input data when only 
@@ -2541,14 +2541,14 @@ C tension test data are provided
 C
 C=============================================  
       IF (IFLAG == 0) THEN    ! NO parameter fitting
-        UPARAM(1) = AFRAC
-        UPARAM(2) = BFRAC
-        UPARAM(3) = CFRAC
-        UPARAM(4) = NFRAC
-        UPARAM(5) = INST
-        UPARAM(6) = P_THICKFAIL
-        UPARAM(7) = ISHELL
-      ELSE                      ! parameter fitting
+        FAIL%UPARAM(1) = AFRAC
+        FAIL%UPARAM(2) = BFRAC
+        FAIL%UPARAM(3) = CFRAC
+        FAIL%UPARAM(4) = NFRAC
+        FAIL%UPARAM(5) = INST
+        FAIL%UPARAM(6) = 0    !    PTHKF - no more used
+        FAIL%UPARAM(7) = IFAIL_SH
+      ELSE                    ! parameter fitting
         BFRAC2 = BFRAC
         B16    = (AFRAC / BFRAC)**0.1
         B17    = (CFRAC / BFRAC)**0.1          
@@ -2569,13 +2569,13 @@ C=============================================
      .             ((1.0+2.0**(INST2-SMALL-1.0))**(1.0/(INST2-SMALL)) - F05)**2)/(TWO*SMALL)
           INST2  = INST2 - G12/I12
         ENDDO
-        UPARAM(1) = AFRAC2
-        UPARAM(2) = BFRAC2
-        UPARAM(3) = CFRAC2
-        UPARAM(4) = NFRAC
-        UPARAM(5) = INST2
-        UPARAM(6) = P_THICKFAIL
-        UPARAM(7) = ISHELL
+        FAIL%UPARAM(1) = AFRAC2
+        FAIL%UPARAM(2) = BFRAC2
+        FAIL%UPARAM(3) = CFRAC2
+        FAIL%UPARAM(4) = NFRAC
+        FAIL%UPARAM(5) = INST2
+        FAIL%UPARAM(6) = 0    !     PTHKF - no more used
+        FAIL%UPARAM(7) = IFAIL_SH
       ENDIF
 
 C--------------------------------------------------
@@ -2588,7 +2588,7 @@ C--------------------------------------------------
         ELSE
           WRITE(IOUT,1050) AFRAC,BFRAC,CFRAC,AFRAC2,BFRAC2,CFRAC2,INST2,NFRAC,INST
         ENDIF  
-        WRITE(IOUT,1100) ISHELL,P_THICKFAIL     
+        WRITE(IOUT,1100) IFAIL_SH,PTHKF   
       ENDIF          
 C--------------------------------------------------
       RETURN

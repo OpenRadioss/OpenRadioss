@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
 Chd|====================================================================
-      SUBROUTINE PGRTAILS(
+      SUBROUTINE PGRTAILS(MAT_PARAM,
      1    IXP    ,IPARG  ,PM       ,GEO      ,
      2    EADD   ,ND     ,DD_IAD   ,IDX      ,
      3    INUM   ,INDEX  ,CEP      ,IPARTP   ,
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE MESSAGE_MOD
       USE REORDER_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -87,6 +88,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM)  :: IGRBEAM
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
@@ -290,7 +292,7 @@ C             thermal material expansion
                 IPARG(49,NGROUP) = 1
               ENDIF
               ! check failure models
-              IF (IPM(220,MID) >  0) THEN                                
+              IF (MAT_PARAM(MID)%NFAIL >  0) THEN                                
                 IPARG(43,NGROUP) = 1   ! IFAIL flag                      
               ENDIF
               ! Property internal ID

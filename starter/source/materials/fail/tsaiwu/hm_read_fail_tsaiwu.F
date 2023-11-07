@@ -33,12 +33,15 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_TSAIWU(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,FAIL_ID,MAT_ID   ,
-     .           TITR     ,LSUBMODEL)
+     .           FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           LSUBMODEL,UNITAB   )
+C-----------------------------------------------
+c    ROUTINE DESCRIPTION :
+c    Read Tsai-Wu failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
@@ -50,25 +53,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)   ::UNITAB 
-      INTEGER,INTENT(IN)             ::MAT_ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      CHARACTER,INTENT(IN)           ::TITR*nchartitle
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            ::NUPARAM,NUVAR
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IFAIL_SH,IFAIL_SO
-      my_real 
-     .    SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,
-     .    ALPHA,TMAX,FCUT,F1,F2,F11,F22,F66,F12
+      INTEGER :: IFAIL_SH,IFAIL_SO,NUVAR
+      my_real :: SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,ALPHA,TMAX,FCUT,PTHKF,
+     .           F1,F2,F11,F22,F66,F12
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C--------------------------------------------------
 C   S o u r c e   L i n e s
@@ -104,7 +104,14 @@ C--------------------------------------------------
       IFAIL_SO = MIN(IFAIL_SO,2)
       IFAIL_SO = MAX(0,IFAIL_SO)
       FCUT = MAX(ZERO,FCUT)  
-C
+c
+      ! Shell element deletion flag
+      IF (IFAIL_SH == 1) THEN
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN 
+        PTHKF = ONE
+      ENDIF
+c
       ! Compute Tsai-Wu criterion parameters
       F1  = ONE/SIGT1-(ONE/SIGC1)
       F2  = ONE/SIGT2-(ONE/SIGC2)
@@ -112,27 +119,40 @@ C
       F22 = ONE/(SIGT2*SIGC2)
       F66 = ONE/(SIGT12**2)
       F12 = -ALPHA*HALF*SQRT(F11*F22)
-C  
-      ! Number of parameters and save in UPARAM table
-      NUPARAM    = 10
-      UPARAM(1)  = F1
-      UPARAM(2)  = F2
-      UPARAM(3)  = F11
-      UPARAM(4)  = F22
-      UPARAM(5)  = F66
-      UPARAM(6)  = F12
-      UPARAM(7)  = TMAX
-      UPARAM(8)  = FCUT  
-      UPARAM(9)  = IFAIL_SH
-      UPARAM(10) = IFAIL_SO
-C
-      ! Number of user variables and functions
+c---------------------------
       IF (FCUT > ZERO) THEN 
         NUVAR = 7
       ELSE
         NUVAR = 1
       ENDIF
-      NFUNC = 0
+c---------------------------
+      FAIL%KEYWORD = 'TSAI-WU' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 10
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = NUVAR
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+
+      FAIL%UPARAM(1)  = F1
+      FAIL%UPARAM(2)  = F2
+      FAIL%UPARAM(3)  = F11
+      FAIL%UPARAM(4)  = F22
+      FAIL%UPARAM(5)  = F66
+      FAIL%UPARAM(6)  = F12
+      FAIL%UPARAM(7)  = TMAX
+      FAIL%UPARAM(8)  = FCUT  
+      FAIL%UPARAM(9)  = IFAIL_SH
+      FAIL%UPARAM(10) = IFAIL_SO
+c---------------------------
 C
       ! Print parameter in 0.out file
       IF (IS_ENCRYPTED) THEN

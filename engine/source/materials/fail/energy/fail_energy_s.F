@@ -34,7 +34,7 @@ Chd|====================================================================
       SUBROUTINE FAIL_ENERGY_S(
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
      2     TF       ,TIME     ,TIMESTEP ,UPARAM   ,NGL      ,EPSP     ,
-     3     UVAR     ,OFF      ,IP       ,DFMAX    ,TDELE    ,DMGSCL   ,
+     3     UVAR     ,OFF      ,DFMAX    ,TDELE    ,DMGSCL   ,
      4     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5     DEPSXX   ,DEPSYY   ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )    
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC),IP
+      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
       my_real FINTER ,TF(*)
       EXTERNAL FINTER
 C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)

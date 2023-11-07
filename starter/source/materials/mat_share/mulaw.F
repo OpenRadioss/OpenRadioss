@@ -35,22 +35,20 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|====================================================================
       SUBROUTINE MULAW(LFT   ,LLT   ,NFT    ,MTN   ,JCVT   ,
      2                 PM    ,OFF   ,SIG    ,EINT  ,RHO    ,
-     3                        VOL   ,STRAIN ,       GAMA   ,
+     3                 VOL   ,STRAIN,GAMA   ,
      4                 UVAR  ,BUFMAT,TF     ,NPF   ,
-     5                 MAT   ,NGL   ,NUVAR  ,NVARTMP,VARTMP,
-     6                               GEO    ,PID   ,EPSD   ,
-     8                                              WXX    ,
-     9                 WYY   ,WZZ   ,JSPH   ,       SSP    ,
-     A                        VOLN  ,               VIS    ,
-     B                 D1    ,D2    ,D3     ,D4    ,D5     ,
-     C                 D6    ,
-     D                 DVOL  ,SOLD1 ,SOLD2  ,SOLD3 ,SOLD4  ,
-     E                 SOLD5 ,SOLD6 ,RX     ,RY    ,RZ     ,
-     F                 SX    ,SY    ,SZ     ,TX    ,TY     ,
-     G                 TZ    ,                      ISMSTR ,
-     H                 MFXX  ,MFXY  ,MFXZ   ,MFYX  ,MFYY   , 
-     I                 MFYZ  ,MFZX  ,MFZY   ,MFZZ  ,IPM    ,
-     J                 ISORTH,NEL   ,MATPARAM)
+     5                 IMAT  ,NGL   ,NUVAR  ,NVARTMP,VARTMP,
+     6                 GEO   ,PID   ,EPSD   ,
+     8                 WXX   ,WYY   ,WZZ    ,JSPH   ,SSP    ,
+     9                 VOLN  ,VIS   ,D1    ,
+     A                 D2    ,D3     ,D4    ,D5     ,D6    ,                      
+     B                 DVOL  ,SOLD1 ,SOLD2  ,SOLD3 ,SOLD4  ,
+     C                 SOLD5 ,SOLD6 ,RX     ,RY    ,RZ     ,
+     D                 SX    ,SY    ,SZ     ,TX    ,TY     ,
+     E                 TZ    ,ISMSTR,
+     F                 MFXX  ,MFXY  ,MFXZ   ,MFYX  ,MFYY   , 
+     G                 MFYZ  ,MFZX  ,MFZY   ,MFZZ  ,IPM    ,
+     H                 ISORTH,NEL   ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,10 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN)    :: NVARTMP
-      INTEGER ,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
-      INTEGER LFT,LLT,NFT,MTN,NUVAR,JCVT,ISORTH,JSPH,ISMSTR,NEL
-      INTEGER NPF(*), MAT(MVSIZ), NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT)
+      INTEGER LFT,LLT,NFT,MTN,NUVAR,JCVT,ISORTH,JSPH,ISMSTR,NEL,IMAT,NVARTMP
+      INTEGER NPF(*), NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT)
 C 
       my_real 
      .   PM(NPROPM,NUMMAT), GAMA(*), 
@@ -93,11 +89,12 @@ C
      .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)   ,
      .   MFXX(*)  ,MFXY(*)  ,MFXZ(*)  ,MFYX(*) ,MFYY(*)   ,MFYZ(*)   ,
      .   MFZX(*)  ,MFZY(*)  ,MFZZ(*)
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT):: VARTMP
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IMAT,NVPHAS, N0PHAS, NPH, IFLG,NPAR, 
+      INTEGER I,J,NVPHAS, N0PHAS, NPH, IFLG,NPAR, 
      .   IADBUF, NFUNC, IFUNC(100) 
       my_real
      . EP1(MVSIZ), EP2(MVSIZ), EP3(MVSIZ),E7(MVSIZ),
@@ -118,7 +115,6 @@ C=======================================================================
       TIME    =ZERO
       TIMESTEP=ONE/FLOAT(NITRS)
 C---------------------------
-      IMAT   = MAT(1)
       NPAR   = IPM(9,IMAT)
       IADBUF = IPM(7,IMAT)
       NFUNC  = IPM(10,IMAT)
@@ -276,7 +272,7 @@ C ====================================================================
      7                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
      8                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      9                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
-     A                  PM  ,IPM ,MAT ,MATPARAM(IMAT))
+     A                  PM  ,IPM ,IMAT ,MATPARAM(IMAT))
       ELSEIF(MTN==90)THEN
         CALL SIGEPS90(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,

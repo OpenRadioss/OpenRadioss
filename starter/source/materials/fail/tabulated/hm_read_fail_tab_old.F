@@ -36,10 +36,9 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_TAB_OLD(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,IXFEM    )
+      SUBROUTINE HM_READ_FAIL_TAB_OLD(FAIL  ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -47,6 +46,7 @@ C   TABULATED FAILURE MODEL  (/FAIL/TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
@@ -62,27 +62,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)  :: ID,FAIL_ID,MAXFUNC,MAXUPARAM
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-C OUTPUT ARGUMENTS
-      INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC,IXFEM
-      INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC)
-      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
+      INTEGER            ,INTENT(INOUT) :: IXFEM      ! XFEM activation flag
+      TYPE (FAIL_PARAM_) ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,ISHELL,ISOLID,NRATE,IFUN_SIZE,IFUN_TEMP
-      my_real  :: P_THICKFAIL,SCALE_TEMP,SCALE_EL,EL_REF,DCRIT,DD,DN,DADV,
+      INTEGER  :: I,IFAIL_SH,ISOLID,NRATE,IFUN_SIZE,IFUN_TEMP
+      my_real  :: P_THICK,SCALE_TEMP,SCALE_EL,EL_REF,DCRIT,DD,DN,DADV,
      .            FSCAL_UNIT
+      INTEGER  ,PARAMETER :: MAXFUNC = 100
+      INTEGER, DIMENSION(MAXFUNC)  :: IFUNC
       my_real, DIMENSION(MAXFUNC)  :: YFAC,RATE
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      DADV     = ZERO
+      DADV = ZERO
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -91,10 +92,10 @@ C--------------------------------------------------
 C EXTRACT INPUT DATA
 C--------------------------------------------------
 Card1
-      CALL HM_GET_INTV   ('Ifail_sh'    ,ISHELL      ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Ifail_sh'    ,IFAIL_SH      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Ifail_so'    ,ISOLID      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('N_rate'      ,NRATE       ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('P_thickfail' ,P_THICKFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('P_THICK'     ,P_THICK    ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_INTV   ('Ixfem'       ,IXFEM       ,IS_AVAILABLE,LSUBMODEL)
 Card2
       CALL HM_GET_FLOATV ('Dcrit'       ,DCRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -121,10 +122,8 @@ c-----------------------------------------------------------------------
       IF (DADV   == ZERO) DADV  = DCRIT
       IF (DADV > DCRIT) THEN
          DADV = DCRIT
-         CALL ANCMSG(MSGID=974,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO,
-     .               I1=ID)
+         CALL ANCMSG(MSGID=974, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
+     .               I1=MAT_ID)
       ENDIF
       IF (EL_REF == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('EI_ref'  ,FSCAL_UNIT ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
@@ -132,55 +131,76 @@ c-----------------------------------------------------------------------
       END IF
       IF (DD == ONE  ) DD = 0.999
       IF (DN == ZERO) DN = ONE
-      IF (ISHELL == 0) ISHELL = 1
+      IF (IFAIL_SH == 0) IFAIL_SH = 1
       IF (ISOLID == 0) ISOLID = 1
       IF (IXFEM /= 1 .AND. IXFEM /= 2) IXFEM = 0
       IF (IXFEM > 0) ISOLID = 0
       IF (SCALE_EL   == ZERO) SCALE_EL   = ONE
       IF (SCALE_TEMP == ZERO) SCALE_TEMP = ONE
 c
-      IF (P_THICKFAIL == ONE  ) P_THICKFAIL = P_THICKFAIL - EM06
+      IF (P_THICK == ONE) P_THICK = P_THICK - EM06
+c---------------------------
+      IF (P_THICK > ZERO .and. IFAIL_SH > 1) THEN
+        CONTINUE
+      ELSEIF (IFAIL_SH == 1) THEN
+        P_THICK = EM06
+      ELSEIF (IFAIL_SH == 2) THEN
+        P_THICK = ONE - EM06
+      ENDIF
 c-----------------------------------------------------------------------
 c     UPARAM
 c-----------------------------------------------------------------------
-      UPARAM(1) = ISOLID
-      UPARAM(2) = ISHELL
-      UPARAM(3) = P_THICKFAIL
-      UPARAM(4) = DCRIT
-      UPARAM(5) = DD
-      UPARAM(6) = DN
-      UPARAM(7) = SCALE_TEMP
-      UPARAM(8) = SCALE_EL
-      UPARAM(9) = EL_REF
-      UPARAM(10)= IXFEM
-      UPARAM(11)= DADV
+      FAIL%KEYWORD = 'FAIL_TAB' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 11 + NRATE * 2
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 3
+      FAIL%NFUNC   = NRATE + 2 
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = P_THICK
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = ISOLID
+      FAIL%UPARAM(2) = IFAIL_SH
+      FAIL%UPARAM(3) = 0 !   P_THICK
+      FAIL%UPARAM(4) = DCRIT
+      FAIL%UPARAM(5) = DD
+      FAIL%UPARAM(6) = DN
+      FAIL%UPARAM(7) = SCALE_TEMP
+      FAIL%UPARAM(8) = SCALE_EL
+      FAIL%UPARAM(9) = EL_REF
+      FAIL%UPARAM(10)= IXFEM
+      FAIL%UPARAM(11)= DADV
       DO I = 1,NRATE
-        UPARAM(11 + I) = YFAC(I)
-        UPARAM(11 + I + NRATE) = RATE(I)
+        FAIL%UPARAM(11 + I) = YFAC(I)
+        FAIL%UPARAM(11 + I + NRATE) = RATE(I)
       ENDDO
-c-----------------------------------------------------------------------
-      IFUNC(NRATE+1) = IFUN_SIZE
-      IFUNC(NRATE+2) = IFUN_TEMP
-c-----------------------------------------------------------------------
-      NFUNC   = NRATE + 2
-      NUPARAM = 11 + NRATE * 2
-      NUVAR   = 3
+c
+      FAIL%IFUNC(1:NRATE) = IFUNC(1:NRATE)
+      FAIL%IFUNC(NRATE+1) = IFUN_SIZE
+      FAIL%IFUNC(NRATE+2) = IFUN_TEMP
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT, 1000) FAIL_ID
-        WRITE(IOUT, 1001)(IFUNC(I),YFAC(I),RATE(I),I=1,NRATE)
-        WRITE(IOUT, 1002) IXFEM,DADV,UPARAM(3)
+        WRITE(IOUT, 1001)(FAIL%IFUNC(I),YFAC(I),RATE(I),I=1,NRATE)
+        WRITE(IOUT, 1002) IXFEM,DADV,FAIL%UPARAM(3)
         WRITE(IOUT, 1003) DCRIT,DD,DN
         WRITE(IOUT, 1004) IFUN_SIZE,SCALE_TEMP,IFUN_TEMP,SCALE_EL,EL_REF
 c       for shell
         IF (IXFEM == 0) THEN
-          IF(ISHELL == 1) THEN
+          IF(IFAIL_SH == 1) THEN
             WRITE(IOUT, 1100)
-          ELSEIF (ISHELL == 2) THEN
+          ELSEIF (IFAIL_SH == 2) THEN
             WRITE(IOUT, 1200)
-          ELSEIF (ISHELL == 3) THEN
+          ELSEIF (IFAIL_SH == 3) THEN
             WRITE(IOUT, 1300)
           ENDIF
         ELSE IF (IXFEM == 1) THEN      

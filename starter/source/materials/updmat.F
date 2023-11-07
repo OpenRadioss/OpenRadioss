@@ -105,7 +105,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
-     .        NPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO,
+     .        NPARAM,NUPARF,NFAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO,
      .        IADD_VISC , NPARAM_VISC,IVISC,NPRONY,J,ITYPE_VISC,FORM
       my_real :: GAMA_INF,EMAX
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
@@ -119,16 +119,15 @@ C-----------------------------------------------
 C=======================================================================
 c     TRAITEMENT OF MATERIAL PARAMETERS AND FUNCTIONS
 c-----------------------------------------------------------------------
-
       MULLINS(1:NUMMAT) = 0
       GURSON (1:NUMMAT) = 0
       DO IMAT=1,NUMMAT
-        ILAW     = NINT(PM(19,IMAT))
-        NUM_FAIL = IPM(220,IMAT)
-        IF (NUM_FAIL > 0) THEN
+        ILAW  = MAT_PARAM(IMAT)%ILAW
+        NFAIL = MAT_PARAM(IMAT)%NFAIL
+        IF (NFAIL > 0) THEN
           MTAG => MLAW_TAG(IMAT)
-          DO IR = 1,NUM_FAIL
-            IRUP = IPM(111 + 15*(IR-1),IMAT)
+          DO IR = 1,NFAIL
+            IRUP = MAT_PARAM(IMAT)%FAIL(IR)%IRUPT
             IF (IRUP == 33 .AND. ILAW /=100 .AND. ILAW /=95 .AND. ILAW/=92) THEN
                 CALL ANCMSG(MSGID=1769, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .               I1=IMAT,
@@ -212,7 +211,7 @@ c
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
           IF (NUMTABL > 0 ) THEN
             TABLE_ID(1:NUMTABL) = IPM(226+1:226+NUMTABL,IMAT)
-            CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,NUMTABL,ITABLE)
+            CALL MATTAB_USR2SYS(TITR,MAT_ID,NTABLE,TABLE,NUMTABL,ITABLE)
           ENDIF 
         ENDIF 
 c
@@ -334,11 +333,8 @@ c
             IR = GURSON(IMAT)
             IF (IR > 0) THEN
               IFAILG = 1
-              II     = 112 + 15*(IR-1)
-              NUPARF = IPM(II,IMAT)
-              II     = 114 + 15*(IR-1)
-              IADD   = IPM(II,IMAT)
-              UPARF => BUFMAT(IADD:IADD+NUPARF-1) 
+              NUPARF = MAT_PARAM(IMAT)%FAIL(IR)%NUPARAM
+              UPARF => MAT_PARAM(IMAT)%FAIL(IR)%UPARAM(1:NUPARF)
 c
               CALL LAW104_UPD(IFAILG  ,NPARAM,NUPARF,UPARAM,UPARF   ,
      .                        NLOC_DMG,IMAT   ,MLAW_TAG(IMAT),IPM    ,
@@ -351,7 +347,7 @@ c------------------
      .                     PM(1,IMAT))     
 c------------------
           CASE (109)    ! ------------------  
-            IF (IPM(253,IMAT) > 0) THEN 
+            IF (MAT_PARAM(IMAT)%NLOC > 0) THEN 
               MLAW_TAG(IMAT)%NUVAR = 1
             ENDIF            
 c------------------

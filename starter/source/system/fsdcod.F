@@ -90,10 +90,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISERV(18), IFLAG1, IFLAG2, IFLAG3, I,II,ILAW,J,JJ,K,I1,
      .  IS,IGTYP,NF,NOSKEW,ND,IUN,IFAIL,IADD,NFUNC,NFUND,IEXPAN,IFUNC,
-     .  IERR1,IERR2,INUM_FAIL,IP,IR, KDIR, ICOND, IFUNCT, OK, ITABLE,
+     .  IERR1,IERR2,IP,IR, KDIR, ICOND, IFUNCT, OK, ITABLE,
      .  ISK,IFC,IFD,IC1,IC2,ID1,ID2,NMUAL,NOGD,NC,IFLAG,ITENS,
      .  ICHK, IFLAG0, NI,EFUNC,IE,IE2,IFE,NRATE,ERRF,H,NP1,NP2,J1,K1,
-     .  LOAD,UNLOAD, NTY, IRUP,IDN,IDT,PN1,PN2,PT1,PT2,KK,
+     .  LOAD,UNLOAD, NTY,IDN,IDT,PN1,PN2,PT1,PT2,KK,
      .  IFRIC1,IFRIC2,IDAMP1,IDAMP2,LOAD0,UNLOAD0,NF2,FUNC,FUND,IOK,ISENS,IMAT,IEOS,
      .  A_FUNC, B_FUNC
      
@@ -625,93 +625,6 @@ C
             ENDDO
           ENDIF
         ENDIF
-C------------
-         INUM_FAIL = IPM(220,I)
-         IF(INUM_FAIL > 0) THEN
-           DO IR = 1,INUM_FAIL
-            IRUP = IPM(111 + 15*(IR-1),I)
-c
-            IF (IRUP == 23 ) THEN
-               IP = (IR -1)*15
-               !numbering for ifunc(1) in lecr23.F
-               ITABLE=IPM(115 + IP + 1,I)
-               IF(ITABLE /= 0)THEN
-                DO J=1,NTABLE
-                  IF(ITABLE == TABLE(J)%NOTABLE)  THEN
-                   IPM(115 + IP + 1,I)=J
-                   GOTO 923
-                  ENDIF
-                ENDDO
-                CALL ANCMSG(MSGID=779,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=ITABLE)
-               ENDIF
- 923           CONTINUE
-
-               !numbering for ifunc(5) in lecr23.F
-               ITABLE=IPM(115 + IP + 5,I)
-               IF(ITABLE /= 0)THEN
-                DO J=1,NTABLE
-                  IF(ITABLE == TABLE(J)%NOTABLE)  THEN
-                   IPM(115 + IP + 5,I)=J
-                   GOTO 823
-                  ENDIF
-                ENDDO
-                CALL ANCMSG(MSGID=779,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=ITABLE)
-               ENDIF
- 823           CONTINUE
-
-               !numbering for ifunc(2-3-6)
-               NF=IPM(115 +IP ,I)
-               DO 223 K=2,NF
-                 IS=IPM(115 + IP + K,I)
-                 IF(IS /= 0.AND. K /= 5)THEN
-                   DO 323 J=1,NFUNCT
-                    IF(IS == NPC1(J))  THEN
-                     IPM(115+ IP + K ,I)=J
-                     GOTO 223
-                    ENDIF
- 323                CONTINUE
-                    CALL ANCMSG(MSGID=126,
-     .                        MSGTYPE=MSGERROR,
-     .                        ANMODE=ANINFO_BLIND_1,
-     .                        I1=ID,
-     .                        C1=TITR,
-     .                        I2=IS)
-                 ENDIF
- 223           CONTINUE
-c
-            ELSE ! IRUP /= 23
-            IP = (IR -1)*15
-              NF=IPM(115 +IP ,I)
-              DO 291 K=1,NF
-                IS=IPM(115 + IP + K,I)
-                IF(IS/=0)THEN
-                  DO 292 J=1,NFUNCT
-                    IF(IS == NPC1(J))  THEN
-                     IPM(115+ IP + K ,I)=J
-                      GOTO 291
-                    ENDIF
- 292              CONTINUE
-                  CALL ANCMSG(MSGID=126,
-     .                        MSGTYPE=MSGERROR,
-     .                        ANMODE=ANINFO_BLIND_1,
-     .                        I1=ID,
-     .                        C1=TITR,
-     .                        I2=IS)
-                ENDIF
- 291          CONTINUE
-            ENDIF
-           ENDDO
-         ENDIF
 C------------
 183         IEXPAN =  IPM(218,I)
          IF(IEXPAN > 0)THEN

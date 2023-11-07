@@ -34,7 +34,7 @@ Chd|====================================================================
      2     NPF      ,TF       ,TIME     ,UPARAM   ,
      3     NGL      ,IPG      ,ILAY     ,IPTT     ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,
-     5     ZT       ,OFF      ,FOFF     ,PTHKF    ,TDEL     ,
+     5     ZT       ,OFF      ,FOFF     ,TDEL     ,
      6     FLD_IDX  ,DAM      ,DFMAX    )
 C-----------------------------------------------
 c    FLD failure model
@@ -64,7 +64,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -86,7 +85,6 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF,FLD_IDX
-      my_real, INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: DAM,TDEL
 C-----------------------------------------------
@@ -118,21 +116,17 @@ C=======================================================================
       IENG     = INT(UPARAM(6))
       RANI     = UPARAM(7)
       IMARGIN  = NINT(UPARAM(2))
-      FACT_MARGIN     = UPARAM(3) 
+      FACT_MARGIN     = UPARAM(3)
       FACT_LOOSEMETAL = UPARAM(8)
 c-----------------------------
       ISTRESS = 0
       IF (IFAIL_SH == 1) THEN
-        PTHKF   = EM06
         ISTRESS = 0
       ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF   = ONE
         ISTRESS = 0
       ELSEIF (IFAIL_SH == 3) THEN  ! membrane criterion only
-        PTHKF   = EM06
         ISTRESS = 0
       ELSEIF (IFAIL_SH == 4) THEN  ! no element suppression
-        PTHKF   = EM06
         ISTRESS = -1
       ENDIF
 c-----------------------------
