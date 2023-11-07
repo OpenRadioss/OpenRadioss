@@ -61,9 +61,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr14_c.inc" !ANIM_V
-#include      "scr16_c.inc" !OUTP_V
-#include      "parit_c.inc" !IPARIT
+!ANIM_V
+#include      "scr14_c.inc"
+!OUTP_V
+#include      "scr16_c.inc"
+!IPARIT
+#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

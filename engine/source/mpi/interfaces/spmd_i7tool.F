@@ -3537,7 +3537,6 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "spmd_c.inc"
 #include      "sms_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

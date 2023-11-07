@@ -45,7 +45,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "my_allocate.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

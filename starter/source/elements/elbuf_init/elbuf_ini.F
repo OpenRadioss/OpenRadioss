@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "sphcom.inc"
 #include      "tablen_c.inc"
-#include      "my_allocate.inc"
 #include      "sms_c.inc"
 #include      "boltpr_c.inc"
 C-----------------------------------------------

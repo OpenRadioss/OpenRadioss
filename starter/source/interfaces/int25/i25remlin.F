@@ -453,7 +453,7 @@ C--------------------------------------------------------------------
            ALLOCATE( NBR_INSERT_II(NRTM) )
            ALLOCATE( KREMNODE_EDG_SAVE(NRTM+1) )
            SIZE_INSERTED_EDG = MAX_INSERTED_EDG*IPARI(62,N)
-           ALLOCATE(INSERTED_EDG(SIZE_INSERTED_EDG)) 
+           CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG)
            TAGD_EDG(1:NEDGE)=0
            KREMNODE_EDG_SAVE(1:NRTM+1) = 0
            NBR_INSERT_II(1:NRTM) = 0
@@ -566,10 +566,10 @@ C---------
           ELSE IF (MAX_INSERTED_I2 > LIMIT / (NEDGE*MAX_INSERTED_EDG)) THEN ! MAX_INSERTED_I2, cannot be multiplied by 8*NEDGE*MAX_INSERTED_EDG
             SIZE_INSERTED_EDG = HUGE(NEDGE)                             
           ELSE ! no integer overflow
-            SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2 ! to check
+            SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2
           ENDIF
 
-          ALLOCATE(INSERTED_EDG(SIZE_INSERTED_EDG)) 
+          CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG) 
 
           DO II=1,NEDGE
             NNREM_EDG_SAVE = NNREM_EDG
@@ -589,7 +589,7 @@ C
 C extend INSERTED_EDG if needed
                OLDSIZE = SIZE_INSERTED_EDG
                SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG*MAX_INSERTED_I2)
-               ALLOCATE(TMP_EDG(SIZE_INSERTED_EDG))
+               CALL MY_ALLOC(TMP_EDG,SIZE_INSERTED_EDG)
                TMP_EDG(1:OLDSIZE) = INSERTED_EDG(1:OLDSIZE)
 !              move_alloc deallocates TMP
                CALL MOVE_ALLOC(TMP_EDG,INSERTED_EDG)

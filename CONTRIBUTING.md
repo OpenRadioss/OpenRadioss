@@ -89,7 +89,7 @@ It is not recommended to push commits directly into your `main` branch. This bra
 | Use bounds for arrays operations | `A = B + C` when A,B,C are arrays     |
 | Use the `MY_REAL` type for real numbers  | use `DOUBLE PRECISION` systematically |
 | Use `ALLOCATABLE` arrays |use pointers when allocatable is possible |
-| use `MY_ALLOCATE` or check the status of the allocation | use large automatic arrays |
+| use `MY_ALLOC or check the status of the allocation | use large automatic arrays |
 | Deallocate arrays as soon as possible | use automatic deallocation |
 
 
