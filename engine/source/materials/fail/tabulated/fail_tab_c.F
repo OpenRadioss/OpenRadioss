@@ -310,7 +310,7 @@ c----       element length scale function
             ILENP(J) = NPF(IFUN_EL + 1) / 2 -IADP (J) - IPOSV(J)
           ENDDO
 c
-          CALL VINTER(TF,IADP,IPOSV,ILENP,NINDX,LAMBDAV,DXDYV,YYV)
+          CALL VINTER2(TF,IADP,IPOSV,ILENP,NINDX,LAMBDAV,DXDYV,YYV)
 c
 #include   "vectorize.inc"
           DO J=1,NINDX                           
@@ -331,7 +331,7 @@ c----       element length scale function
             ILENP(J) = NPF(IFUN_EL + 1) / 2 -IADP (J) - IPOSV(J)
           ENDDO
 c
-          CALL VINTER(TF,IADP,IPOSV,ILENP,NINSTAB,LAMBDAV,DXDYV,YYV)
+          CALL VINTER2(TF,IADP,IPOSV,ILENP,NINSTAB,LAMBDAV,DXDYV,YYV)
 c
 #include   "vectorize.inc"
           DO J=1,NINSTAB                           
